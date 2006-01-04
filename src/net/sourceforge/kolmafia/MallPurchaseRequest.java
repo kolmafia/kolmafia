@@ -360,6 +360,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 
 			return;
@@ -392,6 +394,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			// run call, for future reference.
 
 			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 			return;
 		}
 

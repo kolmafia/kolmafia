@@ -124,10 +124,15 @@ public class KoLRequest implements Runnable, KoLConstants
 			else
 			{
 				try
-				{	System.setProperty( "http.proxyHost", InetAddress.getByName( proxyHost ).getHostAddress() );
+				{
+					System.setProperty( "http.proxyHost", InetAddress.getByName( proxyHost ).getHostAddress() );
 				}
 				catch ( UnknownHostException e )
-				{	System.setProperty( "http.proxyHost", proxyHost );
+				{
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+
+					System.setProperty( "http.proxyHost", proxyHost );
 				}
 
 				System.setProperty( "http.proxyPort", GLOBAL_SETTINGS.getProperty( "http.proxyPort" ) );
@@ -159,6 +164,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			// server failed or the attempt to set the login server failed.
 			// Because these result in default values, pretend nothing
 			// happened and carry on with business.
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 
@@ -279,6 +287,10 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			KoLmafia.getLogStream().println( "Could not encode: " + name + "=" + value );
 			data.add( name + "=" + value );
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return;
 		}
 
@@ -423,6 +435,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( InterruptedException e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 
@@ -457,6 +471,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		catch ( MalformedURLException e )
 		{
 			updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLString );
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			KoLRequest.delay();
 			return false;
 		}
@@ -477,6 +495,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
 				KoLmafia.getLogStream().println( "Error opening connection.  Retrying..." );
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 
 			KoLRequest.delay();
 			return false;
@@ -551,11 +572,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
 				KoLmafia.getLogStream().println( "Connection timed out during post.  Retrying..." );
 
-			if ( client != null )
-			{
-				KoLmafia.getLogStream().println( e );
-				e.printStackTrace( KoLmafia.getLogStream() );
-			}
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 
 			KoLRequest.delay();
 			return false;
@@ -625,11 +643,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			KoLmafia.getLogStream().println( "Connection timed out during response.  Retrying..." );
 
-			if ( client != null )
-			{
-				KoLmafia.getLogStream().println( e );
-				e.printStackTrace( KoLmafia.getLogStream() );
-			}
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 
 			// Add in an extra delay in the event of a time-out in order
 			// to be nicer on the KoL servers.
@@ -769,14 +784,11 @@ public class KoLRequest implements Runnable, KoLConstants
 					// An Exception is clearly an error; here it will be reported
 					// to the client, but another attempt will be made
 
-					if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
+					if ( formURLString.indexOf( "chat" ) == -1 )
 						KoLmafia.getLogStream().println( "Error reading server reply.  Retrying..." );
 
-					if ( client != null )
-					{
-						KoLmafia.getLogStream().println( e );
-						e.printStackTrace( KoLmafia.getLogStream() );
-					}
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
 				}
 
 				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
@@ -799,6 +811,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// Errors equate to an input stream that
 			// has already been closed.
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 
 		// Null the pointer to help the garbage collector

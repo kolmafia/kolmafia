@@ -128,7 +128,9 @@ public class KoLmafiaCLI extends KoLmafia
 			// If an exception occurs, exit with an error code
 			// to notify the user that something happened.
 
+			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
+
 			System.exit(-1);
 		}
 	}
@@ -249,7 +251,9 @@ public class KoLmafiaCLI extends KoLmafia
 			// Or rather, print the stack trace and exit
 			// with an error state.
 
+			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
+
 			System.exit(-1);
 		}
 	}
@@ -316,6 +320,8 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			catch ( IOException e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 	}
@@ -343,7 +349,9 @@ public class KoLmafiaCLI extends KoLmafia
 			// command, you should exit from the command with an
 			// error state after printing the stack trace.
 
+			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
+
 			return null;
 		}
 	}
@@ -397,6 +405,8 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 
 			updateDisplay( NORMAL_STATE, "Waiting completed." );
@@ -536,6 +546,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 				updateDisplay( ERROR_STATE, parameters + " is not a number." );
 				scriptRequestor.cancelRequest();
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return;
 			}
 		}
@@ -562,6 +576,9 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				// Should not happen - you're having the parser
 				// parse something that it formatted.
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 
 			String [] holidayPredictions = MoonPhaseDatabase.getHolidayPredictions( today );
@@ -629,6 +646,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 					updateDisplay( ERROR_STATE, "I/O error in opening file \"" + parameters + "\"" );
 					scriptRequestor.cancelRequest();
+
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+
 					return;
 				}
 			}
@@ -1211,6 +1232,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 			updateDisplay( ERROR_STATE, "Script file \"" + parameters + "\" could not be found." );
 			scriptRequestor.cancelRequest();
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return;
 		}
 	}
@@ -1270,6 +1295,9 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return false;
 		}
 
@@ -1333,6 +1361,7 @@ public class KoLmafiaCLI extends KoLmafia
 		catch ( NumberFormatException e )
 		{
 			// Items first for one reason: Knob Goblin perfume
+
 			AdventureResult item = itemParameter( right );
 
 			if ( item != null )
@@ -1465,6 +1494,9 @@ public class KoLmafiaCLI extends KoLmafia
 					// In the event that some exception occurred in
 					// parsing, return a null result.
 
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+
 					condition = null;
 				}
 			}
@@ -1510,6 +1542,9 @@ public class KoLmafiaCLI extends KoLmafia
 					// In the event that some exception occurred in
 					// parsing, return a null result.
 
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+
 					condition = null;
 				}
 			}
@@ -1547,6 +1582,9 @@ public class KoLmafiaCLI extends KoLmafia
 				{
 					// In the event that some exception occurred in
 					// parsing, return a null result.
+
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
 
 					condition = null;
 				}
@@ -1606,6 +1644,10 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			updateDisplay( ERROR_STATE, parameterList[1] + " is not a number." );
 			scriptRequestor.cancelRequest();
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return;
 		}
 	}
@@ -1667,6 +1709,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 				updateDisplay( ERROR_STATE, firstParameter + " is not a number." );
 				scriptRequestor.cancelRequest();
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return;
 			}
 
@@ -1727,6 +1773,10 @@ public class KoLmafiaCLI extends KoLmafia
 				updateDisplay( ERROR_STATE, parameterList[2] + " is not a number." );
 
 			scriptRequestor.cancelRequest();
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return;
 		}
 
@@ -1797,6 +1847,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 				updateDisplay( ERROR_STATE, "I/O error in opening file \"" + parameterList[1] + "\"" );
 				scriptRequestor.cancelRequest();
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return;
 			}
 		}
@@ -1965,6 +2019,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 				updateDisplay( ERROR_STATE, durationString + " is not a number." );
 				scriptRequestor.cancelRequest();
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return null;
 			}
 		}
@@ -2026,6 +2084,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 				updateDisplay( ERROR_STATE, itemCountString + " is not a number." );
 				scriptRequestor.cancelRequest();
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return null;
 			}
 		}
@@ -2134,6 +2196,9 @@ public class KoLmafiaCLI extends KoLmafia
 		catch ( Exception e )
 		{
 			updateDisplay( ERROR_STATE, "Invalid setting for device." );
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 
@@ -2202,6 +2267,10 @@ public class KoLmafiaCLI extends KoLmafia
 			catch  ( Exception e )
 			{
 				updateDisplay( ERROR_STATE, squareString + " is not a number." );
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return;
 			}
 
@@ -2237,6 +2306,10 @@ public class KoLmafiaCLI extends KoLmafia
 			catch  ( Exception e )
 			{
 				updateDisplay( ERROR_STATE, squareString + " is not a number." );
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return;
 			}
 		}
@@ -2338,6 +2411,11 @@ public class KoLmafiaCLI extends KoLmafia
 		catch ( Exception e )
 		{
 			updateDisplay( ERROR_STATE, "Invalid price/limit for automall request." );
+			scriptRequestor.cancelRequest();
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return;
 		}
 	}
@@ -2460,6 +2538,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 				updateDisplay( ERROR_STATE, adventureCountString + " is not a number." );
 				scriptRequestor.cancelRequest();
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return;
 			}
 		}
@@ -2529,6 +2611,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 			updateDisplay( ERROR_STATE, parameters + " is not a number." );
 			scriptRequestor.cancelRequest();
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return;
 		}
 	}
@@ -2626,6 +2712,8 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 

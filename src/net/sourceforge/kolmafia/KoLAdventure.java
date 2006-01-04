@@ -183,6 +183,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 						client.updateDisplay( ERROR_STATE, "Unexpected error in between-battle script." );
 						client.cancelRequest();
+
+						e.printStackTrace( KoLmafia.getLogStream() );
+						e.printStackTrace();
 					}
 				}
 				else

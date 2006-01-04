@@ -298,8 +298,8 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 		catch ( RuntimeException e )
 		{
-			KoLmafia.getLogStream().println( e );
 			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 
@@ -349,6 +349,8 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 
@@ -393,8 +395,8 @@ public class EquipmentRequest extends PasswordHashRequest
 				// continue after notifying the KoLmafia.getLogStream() of the
 				// error.  This could be handled better, but not now.
 
-				KoLmafia.getLogStream().println( e );
 				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 	}

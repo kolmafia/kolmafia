@@ -123,6 +123,9 @@ public abstract class StoreManager extends StaticEntity
 			{
 				// Because of the way the regular expressions are
 				// set up, this should not happen.
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 		else
@@ -157,6 +160,9 @@ public abstract class StoreManager extends StaticEntity
 			{
 				// Because of the way the regular expressions are
 				// set up, this should not happen.
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 	}

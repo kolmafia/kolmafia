@@ -200,6 +200,8 @@ public class RequestFrame extends KoLFrame
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 
 			functionSelect.setSelectedIndex( 0 );

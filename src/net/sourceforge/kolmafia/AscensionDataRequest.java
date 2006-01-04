@@ -112,7 +112,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	{
 		ascensionData.clear();
 		Matcher fieldMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( responseText );
-		
+
 		JFileChooser filechooser = new JFileChooser();
 		FileSystemView fileview = filechooser.getFileSystemView();
 		File dir = new File("clan" + File.separator);
@@ -124,14 +124,14 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		int currentMonth;
 		int currentWeek;
 		StringBuffer ascensionString;
-		
+
 		for(int i = 0; i < Array.getLength(results); i++)
 		{
 			if(!results[i].isDirectory())
 				continue;
-			
+
 			File[] ascensionFolders = fileview.getFiles(results[i], false);
-			
+
 			for(int j = 0; j < Array.getLength(ascensionFolders); j++)
 			{
 				if(!ascensionFolders[j].getName().substring(0,4).equals("2005"))
@@ -148,12 +148,12 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 					; //current file is best yet
 				else
 					continue; //current file is not as good as bestFile
-				
+
 				bestFile = ascensionFolders[j];
 				bestMonth = currentMonth;
 				bestWeek = currentWeek;
 			}
-			
+
 			if(bestFile != null)
 			{
 				//try to find own charID
@@ -169,13 +169,13 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				}
 			}
 		}
-		
-		
-		
+
+
+
 		int lastFindIndex = 0;
 		AscensionDataField lastField;
-		
-		
+
+
 		if(charFile != null)
 		{
 			try
@@ -193,16 +193,17 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			}
 			catch ( Exception e )
 			{
-				KoLmafia.getLogStream().println( e );
 				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return;
 			}
-			
+
 			int oldFindIndex = 0;
 			boolean inconsistency = false;
 			boolean newDataAvailable = true;
 			String [] columnsNew = null;
-			
+
 			Matcher oldDataMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( ascensionString );
 			if(!fieldMatcher.find( lastFindIndex ))
 				{
@@ -213,23 +214,23 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				lastFindIndex = fieldMatcher.end() - 5;
 				columnsNew = fieldMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
 				}
-			
+
 			while ( oldDataMatcher.find( oldFindIndex ) )
 			{
 				oldFindIndex = oldDataMatcher.end() - 5;
-				
+
 				String [] columnsOld = oldDataMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
 				if(!newDataAvailable)
 					{
 					lastField = new AscensionDataField( playerName, playerID, columnsOld );
 					ascensionData.add( lastField );
-				
+
 					if ( lastField.isSoftcore )
 						++softcoreCount;
 					else
 						++hardcoreCount;
 					}
-				
+
 				else if(columnsNew != null && columnsNew[1].equals(columnsOld[1]))
 				{
 					if(!fieldMatcher.find( lastFindIndex ))
@@ -241,12 +242,12 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 						lastFindIndex = fieldMatcher.end() - 5;
 						columnsNew = fieldMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
 						}
-					
-					
-					
+
+
+
 					lastField = new AscensionDataField( playerName, playerID, columnsOld );
 					ascensionData.add( lastField );
-				
+
 					if ( lastField.isSoftcore )
 						++softcoreCount;
 					else
@@ -256,25 +257,25 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				{
 					lastField = new AscensionDataField( playerName, playerID, columnsOld );
 					ascensionData.add( lastField );
-					
+
 					if ( lastField.isSoftcore )
 						++softcoreCount;
 					else
 						++hardcoreCount;
-					
+
 					try
 					{
 						//subtract columns[turns] from columnsNew[turns] [5]
 						//subtract columns[days] from columnsNew[days] [6]
 						inconsistency = true;
 						columnsNew[5] = Integer.toString(df.parse( columnsNew[5] ).intValue() - df.parse( columnsOld[5] ).intValue());
-						
+
 						//I'm not sure exactly what the day amount on multiple ascension runs added together means.
 						//It's not the exact difference between the dates + 1, but it doesn't seem to be exactly the ascension day counts
 						//added up.
 						//columnsNew[6] = Integer.toString(df.parse( columnsNew[6] ).intValue() - df.parse( columnsOld[6] ).intValue());
-						
-						
+
+
 						//So let's just calculate the correct day count from the two dates
 						long oldDate = new java.util.GregorianCalendar(
 							Integer.parseInt(columnsOld[1].substring(6,8)) + 2000, //'05' stands for 2005.
@@ -295,12 +296,15 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 					{
 						// Because the data is properly structured,
 						// this exception should never be thrown.
+
+						e.printStackTrace( KoLmafia.getLogStream() );
+						e.printStackTrace();
 					}
 				}
 				/*
 				lastField = new AscensionDataField( playerName, playerID, columns );
 				ascensionData.add( lastField );
-				
+
 				if ( lastField.isSoftcore )
 					++softcoreCount;
 				else
@@ -309,33 +313,33 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			}
 			if(inconsistency)
 			{
-				
-				
+
+
 				lastField = new AscensionDataField( playerName, playerID, columnsNew );
 				ascensionData.add( lastField );
-				
+
 				if ( lastField.isSoftcore )
 					++softcoreCount;
 				else
 					++hardcoreCount;
-				
+
 				lastFindIndex = fieldMatcher.end() - 5;
-				
+
 			}
-			
+
 
 		}
-		
-		
+
+
 		while ( fieldMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = fieldMatcher.end() - 5;
-			
+
 			String [] columns = fieldMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
-			
+
 			lastField = new AscensionDataField( playerName, playerID, columns );
 			ascensionData.add( lastField );
-			
+
 			if ( lastField.isSoftcore )
 				++softcoreCount;
 			else
@@ -392,17 +396,17 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 		public AscensionDataField( String playerName, String playerID, String rowData )
 		{
-			
+
 			String [] columns = rowData.replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
 			setData( playerName, playerID, columns );
-			
+
 		}
-		
+
 		public AscensionDataField( String playerName, String playerID, String[] columns )
 		{
 			setData( playerName, playerID, columns );
 		}
-		
+
 		private void setData( String playerName, String playerID, String[] columns )
 		{
 			this.playerName = playerName;
@@ -438,6 +442,9 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			{
 				// Because the data is properly structured,
 				// this exception should never be thrown.
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 
 			stringForm = new StringBuffer();

@@ -39,6 +39,7 @@ import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -69,11 +70,11 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 				{
 					BrowserLauncher.openURL( location );
 				}
-				catch ( java.io.IOException e1 )
+				catch ( IOException e1 )
 				{
 					KoLmafia.getLogStream().println( "Failed to open browser:" );
-					KoLmafia.getLogStream().print( e1 );
 					e1.printStackTrace( KoLmafia.getLogStream() );
+					e1.printStackTrace();
 				}
 			}
 			else if ( location.startsWith( "javascript:" ) && (location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1) )
@@ -182,6 +183,8 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 					}
 					catch ( Exception e2 )
 					{
+						e2.printStackTrace( KoLmafia.getLogStream() );
+						e2.printStackTrace();
 					}
 				}
 

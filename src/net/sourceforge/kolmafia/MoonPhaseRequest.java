@@ -88,8 +88,8 @@ public class MoonPhaseRequest extends KoLRequest
 				// of the error.  This could be handled better,
 				// but not now.
 
-				KoLmafia.getLogStream().println( e );
 				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 	}

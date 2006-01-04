@@ -464,6 +464,8 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 

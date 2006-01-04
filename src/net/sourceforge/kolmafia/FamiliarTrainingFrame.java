@@ -187,6 +187,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 			catch ( Exception ex )
 			{
+				ex.printStackTrace( KoLmafia.getLogStream() );
+				ex.printStackTrace();
 			}
 		}
 	}

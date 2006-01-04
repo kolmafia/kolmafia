@@ -515,10 +515,13 @@ public abstract class KoLMessenger extends StaticEntity
 
 		for ( int i = 0; i < lines.length; ++i )
 		{
-			if ( lines[i].startsWith( "[haiku]" ) )
+			if ( lines[i] == null )
+				continue;
+
+			else if ( lines[i].startsWith( "[haiku]" ) )
 				processChatMessage( lines[i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() );
 
-			else if ( !currentChannel.equals( "" ) && currentChannel.equals( "/haiku" ) && lines[i].indexOf( "[" ) == -1 && lines[i].indexOf( ":" ) != -1 )
+			else if ( currentChannel.equals( "/haiku" ) && lines[i].indexOf( "[" ) == -1 && lines[i].indexOf( ":" ) != -1 )
 				processChatMessage( lines[i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() );
 
 			else
@@ -609,77 +612,65 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void processChatMessage( String message )
 	{
-		try
+		// Empty messages do not need to be processed; therefore,
+		// return if one was retrieved.
+
+		if ( message == null || message.length() == 0 )
+			return;
+
+		if ( message.startsWith( "[" ) )
 		{
-			// Empty messages do not need to be processed; therefore,
-			// return if one was retrieved.
+			// If the message is coming from a listen channel, you
+			// need to place it in that channel.  Otherwise, place
+			// it in the current channel.
 
-			if ( message == null || message.length() == 0 )
-				return;
+			int startIndex = message.indexOf( "]" ) + 2;
+			String channel = "/" + message.substring( 1, startIndex - 2 );
 
-			if ( message.startsWith( "[" ) )
-			{
-				// If the message is coming from a listen channel, you
-				// need to place it in that channel.  Otherwise, place
-				// it in the current channel.
-
-				int startIndex = message.indexOf( "]" ) + 2;
-				String channel = "/" + message.substring( 1, startIndex - 2 );
-
-				processChatMessage( channel, message.substring( startIndex ) );
-				setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (listening)" );
-			}
-			else if ( message.startsWith( "No longer listening to channel: " ) )
-			{
-				int startIndex = message.indexOf( ":" ) + 2;
-				String channel = "/" + message.substring( startIndex );
-
-				processChatMessage( channel, message );
-				setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (inactive)" );
-			}
-			else if ( message.startsWith( "Now listening to channel: " ) )
-			{
-				int startIndex = message.indexOf( ":" ) + 2;
-				String channel = "/" + message.substring( startIndex );
-
-				processChatMessage( channel, message );
-				setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (listening)" );
-			}
-			else if ( message.startsWith( "You are now talking in channel: " ) )
-			{
-				int startIndex = message.indexOf( ":" ) + 2;
-				currentChannel = "/" + message.substring( startIndex ).replaceAll( "\\.", "" );
-				processChatMessage( currentChannel, message );
-			}
-			else if ( message.indexOf( "(private)</b></a>:" ) != -1 )
-			{
-				String sender = message.substring( 0, message.indexOf( " (" ) ).replaceAll( "<.*?>", "" );
-				String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=blue>" +
-					sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
-				processChatMessage( sender, cleanHTML );
-			}
-			else if ( message.startsWith( "<b>private to" ) )
-			{
-				String sender = KoLCharacter.getUsername();
-				String recipient = message.substring( 0, message.indexOf( ":" ) ).replaceAll( "<.*?>", "" ).substring( 11 );
-
-				String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=red>" +
-					sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
-				processChatMessage( recipient, cleanHTML );
-			}
-			else
-			{
-				processChatMessage( currentChannel, message );
-			}
+			processChatMessage( channel, message.substring( startIndex ) );
+			setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (listening)" );
 		}
-		catch ( Exception e )
+		else if ( message.startsWith( "No longer listening to channel: " ) )
 		{
-			// If an error occurs somewhere in all of this, KoLmafia will
-			// stop refreshing.  So, to make things easier, print the
-			// error message to the main window. :D
+			int startIndex = message.indexOf( ":" ) + 2;
+			String channel = "/" + message.substring( startIndex );
 
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			processChatMessage( channel, message );
+			setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (inactive)" );
+		}
+		else if ( message.startsWith( "Now listening to channel: " ) )
+		{
+			int startIndex = message.indexOf( ":" ) + 2;
+			String channel = "/" + message.substring( startIndex );
+
+			processChatMessage( channel, message );
+			setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (listening)" );
+		}
+		else if ( message.startsWith( "You are now talking in channel: " ) )
+		{
+			int startIndex = message.indexOf( ":" ) + 2;
+			currentChannel = "/" + message.substring( startIndex ).replaceAll( "\\.", "" );
+			processChatMessage( currentChannel, message );
+		}
+		else if ( message.indexOf( "(private)</b></a>:" ) != -1 )
+		{
+			String sender = message.substring( 0, message.indexOf( " (" ) ).replaceAll( "<.*?>", "" );
+			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=blue>" +
+				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
+			processChatMessage( sender, cleanHTML );
+		}
+		else if ( message.startsWith( "<b>private to" ) )
+		{
+			String sender = KoLCharacter.getUsername();
+			String recipient = message.substring( 0, message.indexOf( ":" ) ).replaceAll( "<.*?>", "" ).substring( 11 );
+
+			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=red>" +
+				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
+			processChatMessage( recipient, cleanHTML );
+		}
+		else
+		{
+			processChatMessage( currentChannel, message );
 		}
 	}
 
@@ -691,10 +682,10 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static void processChatMessage( String channel, String message )
 	{
-		if ( message == null )
+		if ( channel == null || message == null || channel.length() == 0 || message.length() == 0 )
 			return;
 
-		if ( message != null && message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( getBufferKey( channel ) ) )
+		if ( message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( getBufferKey( channel ) ) )
 			return;
 
 		LimitedSizeChatBuffer buffer = getChatBuffer( channel );
@@ -703,7 +694,7 @@ public abstract class KoLMessenger extends StaticEntity
 		// first, based on who sent the message and whether or not
 		// there are supposed to be italics.
 
-		String displayHTML = null;
+		String displayHTML = "";
 
 		String eSoluConfiguration = getProperty( "eSoluScript" );
 		if ( !eSoluConfiguration.equals( "" ) )
@@ -805,7 +796,7 @@ public abstract class KoLMessenger extends StaticEntity
 		// doing their chatting, then make sure to append the
 		// channel with the appropriate color.
 
-		if ( getBufferKey( channel ).startsWith( "[" ) )
+		if ( getBufferKey( channel ).startsWith( "[" ) && channel.startsWith( "/" ) )
 			displayHTML = "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " + displayHTML;
 
 		// Now that everything has been properly formatted,
@@ -863,6 +854,9 @@ public abstract class KoLMessenger extends StaticEntity
 			// Unless the Swing thread is interrupted for some
 			// reason (which should never happen), this will
 			// not happen.
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 
@@ -884,34 +878,46 @@ public abstract class KoLMessenger extends StaticEntity
 
 		public void run()
 		{
-			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(), true );
-			instantMessageBuffers.put( channel, buffer );
-			ChatFrame frame = new ChatFrame( client, channel );
-
-			if ( useTabbedFrame )
+			try
 			{
-				frame.setVisible( false );
-				ChatFrame.ChatPanel panel = tabbedFrame.addTab( channel );
-				buffer.setChatDisplay( panel.getChatDisplay() );
-				buffer.setScrollPane( panel.getScrollPane() );
+				LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(), true );
+				instantMessageBuffers.put( channel, buffer );
+				ChatFrame frame = new ChatFrame( client, channel );
+
+				if ( useTabbedFrame )
+				{
+					frame.setVisible( false );
+					ChatFrame.ChatPanel panel = tabbedFrame.addTab( channel );
+					buffer.setChatDisplay( panel.getChatDisplay() );
+					buffer.setScrollPane( panel.getScrollPane() );
+				}
+				else
+				{
+					frame.setVisible( true );
+					buffer.setChatDisplay( frame.getChatDisplay() );
+					buffer.setScrollPane( frame.getScrollPane() );
+				}
+
+				instantMessageFrames.put( channel, frame );
+
+				if ( CHATLOG_BASENAME != null )
+				{
+					String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) : client.getPlayerID( channel )) + ".html";
+					buffer.setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() + " (" + Calendar.getInstance().getTime().toString() + ")" );
+				}
+
+				if ( highlighting && !channel.equals( "[highs]" ) )
+					buffer.applyHighlights();
 			}
-			else
+			catch ( Exception e )
 			{
-				frame.setVisible( true );
-				buffer.setChatDisplay( frame.getChatDisplay() );
-				buffer.setScrollPane( frame.getScrollPane() );
+				// If any exceptions happen along the way, they should
+				// not disturb the Swing thread.  Go ahead and ignore
+				// the exception, but print debug information.
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
-
-			instantMessageFrames.put( channel, frame );
-
-			if ( CHATLOG_BASENAME != null )
-			{
-				String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) : client.getPlayerID( channel )) + ".html";
-				buffer.setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() + " (" + Calendar.getInstance().getTime().toString() + ")" );
-			}
-
-			if ( highlighting && !channel.equals( "[highs]" ) )
-				buffer.applyHighlights();
 		}
 	}
 

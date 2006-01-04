@@ -123,7 +123,10 @@ public class HermitRequest extends KoLRequest
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
+
 			return;
 		}
 

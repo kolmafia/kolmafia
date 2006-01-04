@@ -124,6 +124,10 @@ public class BuffBotDatabase extends KoLDatabase
 				catch ( Exception e )
 				{
 					System.out.println( "Bad price: " + data[2] );
+
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+
 					continue;
 				}
 
@@ -135,6 +139,10 @@ public class BuffBotDatabase extends KoLDatabase
 				catch ( Exception e )
 				{
 					System.out.println( "Bad turns: " + data[3] );
+
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+
 					continue;
 				}
 
@@ -146,6 +154,10 @@ public class BuffBotDatabase extends KoLDatabase
 				catch ( Exception e )
 				{
 					System.out.println( "Bad free: " + data[2] );
+
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+
 					continue;
 				}
 
@@ -326,6 +338,9 @@ public class BuffBotDatabase extends KoLDatabase
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				continue;
 			}
 		}

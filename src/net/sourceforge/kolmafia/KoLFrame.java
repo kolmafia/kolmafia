@@ -695,8 +695,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// file specified could not be loaded
 
 				client.updateDisplay( ERROR_STATE, "Script \"" + executePath + "\" could not be loaded." );
-				KoLmafia.getLogStream().println( e );
+
 				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 
 			client.enableDisplay();
@@ -984,8 +985,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			catch ( java.io.IOException e1 )
 			{
 				KoLmafia.getLogStream().println( "Failed to open browser:" );
-				KoLmafia.getLogStream().print( e1 );
+
 				e1.printStackTrace( KoLmafia.getLogStream() );
+				e1.printStackTrace();
 			}
 		}
 	}
@@ -1092,6 +1094,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 
@@ -1113,6 +1117,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 	}
@@ -1152,6 +1158,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 
@@ -1174,6 +1182,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 	}
@@ -1418,6 +1428,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return null;
 			}
 
@@ -1574,6 +1587,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			// If something's wrong with the parsing, assume
 			// that the person wanted the default value.
 
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return defaultValue;
 		}
 	}
@@ -1598,6 +1614,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return 0;
 		}
 	}

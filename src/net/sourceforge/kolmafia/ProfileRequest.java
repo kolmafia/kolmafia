@@ -173,6 +173,8 @@ public class ProfileRequest extends KoLRequest
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 
@@ -250,6 +252,9 @@ public class ProfileRequest extends KoLRequest
 		{
 			// If an exception occurred, the fields will
 			// be blank.
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 
 		return instance;

@@ -213,8 +213,8 @@ public class AutoSellRequest extends SendMessageRequest
 				// currently handled by the parser.  Report it to the KoLmafia.getLogStream()
 				// and continue on.
 
-				KoLmafia.getLogStream().println( e );
 				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 		else

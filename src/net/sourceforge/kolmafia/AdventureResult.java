@@ -398,6 +398,9 @@ public class AdventureResult implements Comparable, KoLConstants
 			// should never occur (like all other parsed exceptions),
 			// but is caught as a matter of formality.
 
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return null;
 		}
 	}

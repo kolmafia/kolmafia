@@ -87,6 +87,8 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 

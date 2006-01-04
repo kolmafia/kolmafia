@@ -113,8 +113,8 @@ public class CharpaneRequest extends KoLRequest
 		}
 		catch ( Exception e )
 		{
-			KoLmafia.getLogStream().println( e );
 			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 

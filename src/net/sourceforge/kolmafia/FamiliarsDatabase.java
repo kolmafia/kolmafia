@@ -99,8 +99,10 @@ public class FamiliarsDatabase extends KoLDatabase
 				}
 				catch ( Exception e )
 				{
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
 				}
-                        }
+			}
 		}
 	}
 

@@ -77,6 +77,10 @@ public class KoLMailMessage
 		{
 			// Initialize the date to the current time,
 			// since that's about as close as it gets
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			this.messageDate = sdf.format( new Date() );
 		}
 	}

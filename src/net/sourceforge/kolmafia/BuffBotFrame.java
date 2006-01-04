@@ -257,6 +257,8 @@ public class BuffBotFrame extends KoLFrame
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 

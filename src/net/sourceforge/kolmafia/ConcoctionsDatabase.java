@@ -120,6 +120,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 			{
 				// If an exception is thrown, then something bad
 				// happened, so do absolutely nothing.
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 
@@ -156,6 +159,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return null;
 		}
 	}

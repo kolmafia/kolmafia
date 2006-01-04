@@ -343,8 +343,8 @@ public class CharsheetRequest extends KoLRequest
 		}
 		catch ( RuntimeException e )
 		{
-			KoLmafia.getLogStream().println( e );
 			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 

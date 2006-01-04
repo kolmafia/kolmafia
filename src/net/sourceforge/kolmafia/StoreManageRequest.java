@@ -93,6 +93,9 @@ public class StoreManageRequest extends KoLRequest
 			{
 				// Because of the way the regular expression is compiled,
 				// this should not happen.
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 

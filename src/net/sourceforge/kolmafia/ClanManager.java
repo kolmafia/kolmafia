@@ -296,8 +296,9 @@ public class ClanManager extends StaticEntity
 			}
 			catch ( Exception e )
 			{
-				KoLmafia.getLogStream().println( e );
 				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return;
 			}
 		}
@@ -324,8 +325,8 @@ public class ClanManager extends StaticEntity
 			{
 				client.updateDisplay( ERROR_STATE, "Failed to load cached profile." );
 
-				KoLmafia.getLogStream().println( e );
 				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 
 				return;
 			}
@@ -358,8 +359,9 @@ public class ClanManager extends StaticEntity
 			}
 			catch ( Exception e )
 			{
-				KoLmafia.getLogStream().println( e );
 				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return;
 			}
 		}
@@ -386,8 +388,9 @@ public class ClanManager extends StaticEntity
 			{
 				client.updateDisplay( ERROR_STATE, "Failed to load cached ascension." );
 
-				KoLmafia.getLogStream().println( e );
 				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return;
 			}
 
@@ -492,8 +495,9 @@ public class ClanManager extends StaticEntity
 		{
 			client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
 
-			KoLmafia.getLogStream().println( e );
 			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return;
 		}
 
@@ -517,8 +521,9 @@ public class ClanManager extends StaticEntity
 		{
 			client.updateDisplay( ERROR_STATE, "Clan snapshot generation failed." );
 
-			KoLmafia.getLogStream().println( e );
 			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return;
 		}
 
@@ -633,7 +638,9 @@ public class ClanManager extends StaticEntity
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( System.err );
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			throw new RuntimeException( "The file <" + file.getAbsolutePath() + "> could not be opened for writing" );
 		}
 	}
@@ -666,6 +673,9 @@ public class ClanManager extends StaticEntity
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				this.timestamp = new Date();
 			}
 
@@ -772,7 +782,7 @@ public class ClanManager extends StaticEntity
 					// Should not happen, but catching the exception
 					// anyway, just in case it does.
 
-					System.out.println( e );
+					e.printStackTrace( KoLmafia.getLogStream() );
 					e.printStackTrace();
 				}
 			}
@@ -808,7 +818,7 @@ public class ClanManager extends StaticEntity
 					// Should not happen, but catching the exception
 					// anyway, just in case it does.
 
-					System.out.println( e );
+					e.printStackTrace( KoLmafia.getLogStream() );
 					e.printStackTrace();
 				}
 			}
@@ -847,7 +857,7 @@ public class ClanManager extends StaticEntity
 					// Should not happen, but catching the exception
 					// anyway, just in case it does.
 
-					System.out.println( e );
+					e.printStackTrace( KoLmafia.getLogStream() );
 					e.printStackTrace();
 				}
 			}

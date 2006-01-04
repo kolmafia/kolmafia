@@ -225,6 +225,8 @@ public class CakeArenaFrame extends KoLFrame
 			}
 			catch ( Exception e1 )
 			{
+				e1.printStackTrace( KoLmafia.getLogStream() );
+				e1.printStackTrace();
 			}
 		}
 

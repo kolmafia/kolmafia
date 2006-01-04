@@ -155,6 +155,9 @@ public class ClanSnapshotTable extends KoLDatabase
 			// process, unless the user did not enter a valid
 			// numeric string.  In this case, nothing is added,
 			// which is exactly what's wanted.
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 
 		client.updateDisplay( DISABLE_STATE, "Rendering list (KoLmafia may temporary lock)..." );
@@ -245,6 +248,8 @@ public class ClanSnapshotTable extends KoLDatabase
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 
 		return compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;

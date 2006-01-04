@@ -554,6 +554,9 @@ public class AdventureDatabase extends KoLDatabase
 				{
 					// This should not happen, so go
 					// ahead and ignore it.
+
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
 				}
 			}
 		}
@@ -580,6 +583,9 @@ public class AdventureDatabase extends KoLDatabase
 			{
 				// This should not happen, so go
 				// ahead and ignore it.
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 
@@ -622,6 +628,9 @@ public class AdventureDatabase extends KoLDatabase
 				{
 					// This should not happen, so go
 					// ahead and ignore it.
+
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
 				}
 			}
 

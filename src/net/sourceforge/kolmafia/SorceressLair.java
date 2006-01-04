@@ -1008,7 +1008,8 @@ public abstract class SorceressLair extends StaticEntity
 			}
 			catch ( Exception e )
 			{
-				// Ignore parse error
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 

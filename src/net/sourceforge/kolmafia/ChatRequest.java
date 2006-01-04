@@ -145,16 +145,19 @@ public class ChatRequest extends KoLRequest
 		{
 			if ( index != -1 )
 				lastSeen = df.parse( responseText.substring( index + 13, index + 23 ) ).intValue();
+
+			if ( !(client instanceof KoLmafiaCLI) )
+				KoLMessenger.updateChat( responseText );
 		}
 		catch ( Exception e )
 		{
 			// If any exception is thrown, it's possible that there is no
 			// value for the last seen - in this case, just leave the old
 			// last seen value.
-		}
 
-		if ( !(client instanceof KoLmafiaCLI) )
-			KoLMessenger.updateChat( responseText );
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
 	}
 
 	/**

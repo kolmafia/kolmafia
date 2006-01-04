@@ -231,6 +231,9 @@ public class ItemStorageRequest extends SendMessageRequest
 				// This really should not happen, since the numbers
 				// are getting grouped properly.  But, just in case,
 				// the exception is caught and nothing changes.
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 
@@ -276,8 +279,8 @@ public class ItemStorageRequest extends SendMessageRequest
 				// continue after notifying the KoLmafia.getLogStream() of the
 				// error.  This could be handled better, but not now.
 
-				KoLmafia.getLogStream().println( e );
 				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 	}

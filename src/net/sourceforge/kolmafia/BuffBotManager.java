@@ -367,6 +367,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				// the message processing, go ahead
 				// and ignore it.
 
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 
@@ -456,6 +458,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 					}
 					catch ( Exception e )
 					{
+						e.printStackTrace( KoLmafia.getLogStream() );
+						e.printStackTrace();
 					}
 				}
 				else

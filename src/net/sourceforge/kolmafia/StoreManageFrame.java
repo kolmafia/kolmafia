@@ -392,20 +392,30 @@ public class StoreManageFrame extends KoLFrame
 		public int getPrice()
 		{
 			try
-			{	return df.parse( itemPrice.getText() ).intValue();
+			{
+				return df.parse( itemPrice.getText() ).intValue();
 			}
 			catch ( Exception e )
-			{	return 0;
+			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
+				return 0;
 			}
 		}
 
 		public int getLimit()
 		{
 			try
-			{	return df.parse( itemLimit.getText() ).intValue();
+			{
+				return df.parse( itemLimit.getText() ).intValue();
 			}
 			catch ( Exception e )
-			{	return 0;
+			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
+				return 0;
 			}
 		}
 

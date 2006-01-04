@@ -216,6 +216,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				client.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
 
 			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return;
 		}
 	}

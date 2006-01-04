@@ -154,6 +154,9 @@ public class MailboxRequest extends KoLRequest
 			// If an exception is caught, then something bad
 			// probably happened.  Return. :D
 
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			updateDisplay( ERROR_STATE, "Error occurred in mail retrieval." );
 			client.cancelRequest();
 			isRequesting = false;

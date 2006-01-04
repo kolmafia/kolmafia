@@ -168,6 +168,8 @@ public class BuffBotHome extends StaticEntity
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 

@@ -155,6 +155,9 @@ public class AdventureFrame extends KoLFrame
 		{
 			// Should not happen - you're having the parser
 			// parse something that it formatted.
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 
 		// If the user wishes to add toolbars, go ahead
@@ -434,6 +437,10 @@ public class AdventureFrame extends KoLFrame
 					// the initialization process.
 
 					client.updateDisplay( ERROR_STATE, "Unexpected error." );
+
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+
 					return;
 				}
 
@@ -984,6 +991,8 @@ public class AdventureFrame extends KoLFrame
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 	}

@@ -79,6 +79,9 @@ public class FamiliarData implements KoLConstants, Comparable
 			// possible to parse the kills.  Set the weight to
 			// zero pounds in this case.
 
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			this.weight = 0;
 		}
 

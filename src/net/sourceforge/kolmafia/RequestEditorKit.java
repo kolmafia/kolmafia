@@ -155,6 +155,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// attempt to retrieve the image, report the exception
 			// to the console and return null;
 
+			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 			return null;
 		}

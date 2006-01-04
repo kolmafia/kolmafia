@@ -446,7 +446,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Because of the simplified parsing, there's a chance that
 		// the "gain" acquired wasn't a subpoint (in other words, it
 		// includes the word "a" or "some"), which causes a NFE or
-		// possibly a ParseException to be thrown.  Catch them and
+		// possibly a ParseException to be thrown.  catch them and
 		// do nothing (eventhough it's technically bad style).
 
 		if ( trimResult.startsWith( "You gain a" ) || trimResult.startsWith( "You gain some" ) )
@@ -461,8 +461,8 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			logStream.println( e );
 			e.printStackTrace( logStream );
+			e.printStackTrace();
 		}
 	}
 
@@ -481,8 +481,8 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			logStream.println( e );
 			e.printStackTrace( logStream );
+			e.printStackTrace();
 		}
 	}
 
@@ -501,8 +501,8 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			logStream.println( e );
 			e.printStackTrace( logStream );
+			e.printStackTrace();
 		}
 	}
 
@@ -876,9 +876,11 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			logStream.println( e );
-			e.printStackTrace( logStream );
 			cancelRequest();
+
+			e.printStackTrace( logStream );
+			e.printStackTrace();
+
 			return false;
 		}
 	}
@@ -1269,8 +1271,9 @@ public abstract class KoLmafia implements KoLConstants
 			// the logger (whatever it may be), and notify the
 			// user that an error was encountered.
 
-			logStream.println( e );
 			e.printStackTrace( logStream );
+			e.printStackTrace();
+
 			updateDisplay( ERROR_STATE, "Unexpected error." );
 		}
 	}
@@ -1417,6 +1420,9 @@ public abstract class KoLmafia implements KoLConstants
 			// security settings are too high to allow
 			// programs to write output; therefore,
 			// pretend for now that everything works.
+
+			e.printStackTrace( logStream );
+			e.printStackTrace();
 		}
 	}
 
@@ -1483,6 +1489,9 @@ public abstract class KoLmafia implements KoLConstants
 			// security settings are too high to allow
 			// programs to write output; therefore,
 			// pretend for now that everything works.
+
+			e.printStackTrace( logStream );
+			e.printStackTrace();
 		}
 	}
 
@@ -1564,6 +1573,9 @@ public abstract class KoLmafia implements KoLConstants
 			// exception should never be thrown.  But if it
 			// is, just ignore it for now.  Better exception
 			// handling when it becomes necessary.
+
+			e.printStackTrace( logStream );
+			e.printStackTrace();
 		}
 	}
 
@@ -1659,6 +1671,9 @@ public abstract class KoLmafia implements KoLConstants
 			// exception should never be thrown.  But if it
 			// is, just ignore it for now.  Better exception
 			// handling when it becomes necessary.
+
+			e.printStackTrace( logStream );
+			e.printStackTrace();
 
 			return null;
 		}
@@ -2091,6 +2106,10 @@ public abstract class KoLmafia implements KoLConstants
 		catch ( IOException e )
 		{
 			updateDisplay( ERROR_STATE, "Error occurred in download attempt.  Update failed." );
+
+			e.printStackTrace( logStream );
+			e.printStackTrace();
+
 			return;
 		}
 

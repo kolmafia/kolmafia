@@ -148,12 +148,18 @@ public class KoLSettings extends Properties implements UtilityConstants
 			// always be possible.  Therefore, no handling
 			// will take place at the current time unless a
 			// pressing need arises for it.
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 		catch ( Exception e2 )
 		{
 			// Somehow, the settings were corrupted; this
 			// means that they will have to be created after
 			// the current file is deleted.
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 
 			source.delete();
 			loadSettings( source );
@@ -378,6 +384,9 @@ public class KoLSettings extends Properties implements UtilityConstants
 			// always be possible.  Therefore, no handling
 			// will take place at the current time unless a
 			// pressing need arises for it.
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 

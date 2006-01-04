@@ -70,6 +70,9 @@ public class KoLDatabase extends StaticEntity
 			// If an exception is caught while attempting
 			// to retrieve the next tokenizer, return null.
 
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
 			return null;
 		}
 	}

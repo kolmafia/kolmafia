@@ -104,6 +104,9 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		{
 			// Should not happen - you're having the parser
 			// parse something that it formatted.
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 
 		calculatePhases( selectedDate );
@@ -171,6 +174,9 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				// process, that means it didn't get to the
 				// HTML updating stage.  In that case, you
 				// have nothing to do.
+
+				e1.printStackTrace( KoLmafia.getLogStream() );
+				e1.printStackTrace();
 			}
 		}
 	}
@@ -225,6 +231,8 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 
@@ -480,6 +488,8 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			}
 			catch ( Exception e )
 			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 
 			return normalRenderer;

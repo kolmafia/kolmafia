@@ -65,6 +65,9 @@ public class MoonPhaseDatabase extends StaticEntity
 		{
 			// Because the date string was manually
 			// constructed, this error will not happen.
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 
@@ -83,6 +86,8 @@ public class MoonPhaseDatabase extends StaticEntity
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 
@@ -189,7 +194,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 		RONALD_PHASE = ronaldPhase;
 		GRIMACE_PHASE = grimacePhase;
-			
+
 		phaseError -= getPhaseStep();
 
 		// Adjust the new year by the appropriate
@@ -197,11 +202,11 @@ public class MoonPhaseDatabase extends StaticEntity
 
 		NEWYEAR += ((long)phaseError) * 86400000L;
 	}
-	
+
 	public static final int getRonaldPhase()
 	{	return RONALD_PHASE + 1;
 	}
-	
+
 	public static final int getGrimacePhase()
 	{	return GRIMACE_PHASE + 1;
 	}

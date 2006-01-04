@@ -83,6 +83,8 @@ public class CommandDisplayFrame extends KoLFrame
 		}
 		catch ( Exception e )
 		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 
 		addCompactPane();

@@ -191,6 +191,8 @@ public class SearchMallRequest extends KoLRequest
 				}
 				catch ( Exception e )
 				{
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
 				}
 			}
 		}

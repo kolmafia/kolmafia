@@ -249,8 +249,8 @@ public class GearChangeFrame extends KoLFrame
 			}
 			catch ( Exception e )
 			{
-				KoLmafia.getLogStream().println( e );
 				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 
 			this.parameters = new Object[ parameterTypes.length ];
@@ -321,8 +321,10 @@ public class GearChangeFrame extends KoLFrame
 			}
 			catch ( Exception e )
 			{
-				setEnabled( false );
-				refreshEquipPanel();
+				client.enableDisplay();
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 	}
