@@ -192,6 +192,13 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "dead guys' watches" ) )
 			return 230;
 
+		// A little sump'm sump'm loses the "a" and pluralizes
+		// itself -- therefore, it also must be handled in a
+		// different way.
+
+		if ( canonicalName.equals( "little sump'm sump'ms" ) )
+			return 682;
+
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.
 
