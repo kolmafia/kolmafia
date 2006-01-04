@@ -161,6 +161,13 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "chewing gums on strings" ) )
 			return SewerRequest.GUM.getItemID();
 
+		// If it's the plural form of boxed wine, which
+		// looks nothing like boxed wine, then return
+		// the ID for boxed wine.
+
+		if ( canonicalName.equals( "boxes of wine" ) )
+			return 1005;
+
 		// Mr. Accessory Jrs. are also pluralized in an
 		// unconventional manner (slightly, anyway)
 
