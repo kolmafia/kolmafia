@@ -74,7 +74,7 @@ public abstract class LabeledScrollPanel extends ActionPanel
 		centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 
-		JComponentUtilities.setComponentSize( centerPanel, 560, 400 );
+		centerPanel.setMaximumSize( new java.awt.Dimension( 560, 400 ) );
 
 		if ( confirmedText != null )
 		{
