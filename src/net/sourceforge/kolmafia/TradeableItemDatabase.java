@@ -177,10 +177,8 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Mr. Accessory Jrs. are also pluralized in an
 		// unconventional manner (slightly, anyway)
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "s\\.", "\\." ) );
-
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		if ( canonicalName.equals( "mr. Accessory jrs." ) )
+			return 896;
 
 		// Fedoras are pluralized 1337-style, so make sure
 		// they are recognized as well.
@@ -188,13 +186,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "f3d0r45" ) )
 			return 538;
 
-		// Possessive pluralization = tricky, and was not
-		// noticed until now.
+		// The dead guy's watch has a double plural -- so
+		// it's not just as easy as doing a possessive.
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "'s", "s'" ) );
-
-		if ( itemID != null )
-			return ((Integer)itemID).intValue();
+		if ( canonicalName.equals( "dead guys' watches" ) )
+			return 230;
 
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.
