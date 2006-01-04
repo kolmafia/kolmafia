@@ -1871,6 +1871,8 @@ public abstract class KoLmafia implements KoLConstants
 				// you run the purchase request
 
 				int oldResultCount = result.getCount( KoLCharacter.getInventory() );
+				int previousLimit = currentRequest.getLimit();
+
 				currentRequest.setLimit( maxPurchases - purchaseCount );
 				currentRequest.run();
 
@@ -1885,10 +1887,12 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( permitsContinue() )
 				{
-					if ( currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
-						results.remove( purchases[i] );
-					else
+					if ( currentRequest.getQuantity() == currentRequest.getLimit() )
+						results.remove( currentRequest );
+					else if ( currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
 						currentRequest.setLimit( MallPurchaseRequest.MAX_QUANTITY );
+					else if ( currentRequest.getLimit() == previousLimit )
+						currentRequest.setCanPurchase( false );
 				}
 			}
 		}

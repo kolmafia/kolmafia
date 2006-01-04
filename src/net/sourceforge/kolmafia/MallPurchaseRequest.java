@@ -259,6 +259,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		return buffer.toString();
 	}
 
+	public void setCanPurchase( boolean canPurchase )
+	{	this.canPurchase = canPurchase;
+	}
+
 	/**
 	 * Executes the purchase request.  This calculates the number
 	 * of items which will be purchased and adds it to the list.
