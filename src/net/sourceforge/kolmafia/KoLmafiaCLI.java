@@ -1241,23 +1241,45 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * Utility method to handle an if-statement.
+	 * Utility method to handle an if-statement.  You can now
+	 * nest if-statements.
 	 */
 
 	private void executeIfStatement( String parameters )
 	{
 		String statement = getNextLine();
+
+		if ( statement == null )
+			return;
+
 		if ( testConditional( parameters ) )
+		{
 			executeLine( statement );
+			return;
+		}
+
+		// Skip over every other statement which looks
+		// like an if-statement.  In addition to that,
+		// skip over the statement which is executed
+		// after all of the nesting.
+
+		statement = statement.toLowerCase();
+		while ( statement != null && (statement.startsWith( "if" ) || statement.startsWith( "while" )) )
+			statement = getNextLine().toLowerCase();
 	}
 
 	/**
-	 * Utility method to handle a while-statement.
+	 * Utility method to handle a while-statement.  While
+	 * statements cannot be nested.
 	 */
 
 	private void executeWhileStatement( String parameters )
 	{
 		String statement = getNextLine();
+
+		if ( statement == null )
+			return;
+
 		while ( testConditional( parameters ) )
 			executeLine( statement );
 	}
