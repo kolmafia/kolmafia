@@ -256,7 +256,7 @@ public class ClanManager extends StaticEntity
 
 		for ( int i = 0; i < names.length && client.permitsContinue(); ++i )
 		{
-			client.updateDisplay( DISABLE_STATE, "Examining member " + i + " of " + profileMap.size() + "..." );
+			client.updateDisplay( DISABLE_STATE, "Examining member " + (i+1) + " of " + names.length + "..." );
 
 			currentProfile = (String) profileMap.get( names[i] );
 			currentAscensionData = (String) ascensionMap.get( names[i] );
