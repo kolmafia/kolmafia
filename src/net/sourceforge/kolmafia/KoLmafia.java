@@ -377,7 +377,7 @@ public abstract class KoLmafia implements KoLConstants
 		resetContinueState();
 
 		if ( KoLCharacter.canSummonNoodles() )
-			getBreakfast( "Pastamancery", 3 );
+			getBreakfast( "Pastamastery", 3 );
 
 		resetContinueState();
 
@@ -396,7 +396,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void getBreakfast( String skillname, int standardCast )
 	{
 		int consumptionPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillname ) );
-		if ( consumptionPerCast <= KoLCharacter.getCurrentMP() )
+		if ( consumptionPerCast != 0 && consumptionPerCast <= KoLCharacter.getCurrentMP() )
 			(new UseSkillRequest( this, skillname, "", Math.min( standardCast, KoLCharacter.getCurrentMP() / consumptionPerCast ) )).run();
 	}
 
