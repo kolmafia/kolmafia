@@ -397,6 +397,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 				int alreadyPurchased = df.parse( quantityMatcher.group(2) ).intValue();
 
 				(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit, true )).run();
+				canPurchase = false;
 				return;
 			}
 		}
