@@ -372,25 +372,32 @@ public abstract class KoLmafia implements KoLConstants
 		resetContinueState();
 
 		if ( KoLCharacter.canSummonReagent() )
-			(new UseSkillRequest( this, "Advanced Saucecrafting", "", 3 )).run();
+			getBreakfast( "Advanced Saucecrafting", 3 );
 
 		resetContinueState();
 
 		if ( KoLCharacter.canSummonNoodles() )
-			(new UseSkillRequest( this, "Pastamastery", "", 3 )).run();
+			getBreakfast( "Pastamancery", 3 );
 
 		resetContinueState();
 
 		if ( KoLCharacter.canSummonShore() )
-			(new UseSkillRequest( this, "Advanced Cocktailcrafting", "", 3 )).run();
+			getBreakfast( "Advanced Cocktailcrafting", 3 );
 
 		resetContinueState();
 
 		if ( KoLCharacter.canSummonSnowcones() )
-			(new UseSkillRequest( this, "Summon Snowcone", "", 1 )).run();
+			getBreakfast( "Summon Snowcone", 1 );
 
 		resetContinueState();
 		updateDisplay( ENABLE_STATE, "Breakfast retrieved." );
+	}
+	
+	public void getBreakfast( String skillname, int standardCast )
+	{
+		int consumptionPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillname ) );
+		if ( consumptionPerCast <= KoLCharacter.getCurrentMP() )
+			(new UseSkillRequest( this, skillname, "", Math.min( standardCast, KoLCharacter.getCurrentMP() / consumptionPerCast ) )).run();
 	}
 
 	/**

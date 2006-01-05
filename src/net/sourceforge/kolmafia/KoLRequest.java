@@ -391,14 +391,17 @@ public class KoLRequest implements Runnable, KoLConstants
 		// If the user wants to show all the requests in the browser, then
 		// make sure it's updated.
 
-		if ( responseCode == 200 && !isDelayExempt() )
+		if ( responseCode == 200 )
 		{
 			processResults();
 
 			// Synchronize if requested
 
-			client.setCurrentRequest( this );
-			showInBrowser( false );
+			if ( !isDelayExempt() )
+			{
+				client.setCurrentRequest( this );
+				showInBrowser( false );
+			}
 		}
 	}
 
