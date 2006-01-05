@@ -1965,6 +1965,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void refreshCalculatedLists()
 	{
+		if ( username.equals( "" ) )
+			return;
+
 		KoLCharacter.updateEquipmentLists();
 		ConcoctionsDatabase.refreshConcoctions();
 
