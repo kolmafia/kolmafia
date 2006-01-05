@@ -1042,18 +1042,28 @@ public class KoLRequest implements Runnable, KoLConstants
 		// we automatically select it.  Otherwise, we use
 		// whatever decision was set by the user.
 
-		String [] possibleDecisions = null;
-
-		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
-			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
-				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][2];
-
-		if ( possibleDecisions != null )
+		if ( !client.getConditions().isEmpty() )
 		{
-			for ( int i = 0; i < possibleDecisions.length; ++i )
+			String [] possibleDecisions = null;
+
+			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+				if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
+					possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][2];
+
+			if ( possibleDecisions != null )
 			{
-				if ( TradeableItemDatabase.contains( possibleDecisions[i] ) && client.getConditions().contains( new AdventureResult( possibleDecisions[i], 1, false ) ) )
-					decision = String.valueOf( i + 1 );
+				// Only change the decision if the user-specified option
+				// will not satisfy something on the conditions list.
+
+				if ( !TradeableItemDatabase.contains( possibleDecisions[ Integer.parseInt( decision ) - 1 ] ) ||
+					!client.getConditions().contains( new AdventureResult( possibleDecisions[ Integer.parseInt( decision ) - 1 ], 1, false ) ) )
+				{
+					for ( int i = 0; i < possibleDecisions.length; ++i )
+					{
+						if ( TradeableItemDatabase.contains( possibleDecisions[i] ) && client.getConditions().contains( new AdventureResult( possibleDecisions[i], 1, false ) ) )
+							decision = String.valueOf( i + 1 );
+					}
+				}
 			}
 		}
 
