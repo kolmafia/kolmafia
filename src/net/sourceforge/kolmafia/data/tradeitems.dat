@@ -1367,8 +1367,8 @@
 1377	tiny plastic Crimbo elf	8	30
 1378	tiny plastic sweet nutcracker	8	30
 1379	tiny plastic Crimbo reindeer	8	30
-1381	aspirin	3	0
-1382	fancy chocolate	3	0
+1381	aspirin	3	-1
+1382	fancy chocolate	3	-1
 1383	length of string	0	13
 1384	googly eye	0	14
 1385	stuffing	0	15
