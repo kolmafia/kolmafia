@@ -137,18 +137,22 @@ public class ChatBuffer
 	 */
 
 	public void setActiveLogFile( String filename, String title )
-	{
-		setActiveLogFile( filename, title, false );
+	{	setActiveLogFile( filename, title, false );
 	}
 
 	public void setActiveLogFile( String filename, String title, boolean toAppend )
 	{
+		if ( filename == null || title == null )
+			return;
+
 		try
 		{
 			File file = new File( filename );
-			file.getParentFile().mkdirs();
+			if ( file.getParentFile() != null )
+				file.getParentFile().mkdirs();
 
 			activeLogWriter = new PrintWriter( new FileOutputStream( file, toAppend ), true );
+
 			updateLogFile( header );
 			updateLogFile( "<style>" );
 			updateLogFile( BUFFER_STYLE );
