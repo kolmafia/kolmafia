@@ -1037,6 +1037,26 @@ public class KoLRequest implements Runnable, KoLConstants
 			return false;
 		}
 
+		// Now, we check to see if there is a choice which
+		// satisfies an existing condition.  If there is,
+		// we automatically select it.  Otherwise, we use
+		// whatever decision was set by the user.
+
+		String [] possibleDecisions = null;
+
+		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
+				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][2];
+
+		if ( possibleDecisions != null )
+		{
+			for ( int i = 0; i < possibleDecisions.length; ++i )
+			{
+				if ( TradeableItemDatabase.contains( possibleDecisions[i] ) && client.getConditions().contains( new AdventureResult( possibleDecisions[i], 1, false ) ) )
+					decision = String.valueOf( i + 1 );
+			}
+		}
+
 		// If there is currently a setting which determines the
 		// decision, make that decision and submit the form.
 
