@@ -643,7 +643,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			double mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( buffID );
 			double maximumMP = KoLCharacter.getMaximumMP();
 
-			double currentMP;
 			int currentCast, mpPerEvent;
 
 			BuffBotHome.update( BuffBotHome.BUFFCOLOR, "Casting " + buffName + ", " + castCount + " times on " +
@@ -651,8 +650,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			while ( castsRemaining > 0 )
 			{
-				currentMP = (double) KoLCharacter.getCurrentMP();
-				currentCast = Math.min( castsRemaining, (int) (maximumMP / mpPerCast) );
+				currentCast = (int) Math.min( castsRemaining, Math.floor( maximumMP / mpPerCast ) );
 				mpPerEvent = (int) (mpPerCast * currentCast);
 
 				// If you're unable to recover your mana, then return

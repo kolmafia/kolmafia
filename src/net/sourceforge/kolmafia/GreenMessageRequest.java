@@ -44,13 +44,17 @@ public class GreenMessageRequest extends SendMessageRequest
 	private String recipient, message;
 
 	public GreenMessageRequest( KoLmafia client, String recipient, String message, AdventureResult attachment )
+	{	this( client, recipient, message, attachment, !BuffBotHome.isBuffBotActive() );
+	}
+
+	public GreenMessageRequest( KoLmafia client, String recipient, String message, AdventureResult attachment, boolean saveMessage )
 	{
 		super( client, "sendmessage.php", attachment );
 		addFormField( "action", "send" );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "towho", recipient );
 
-		if ( !BuffBotHome.isBuffBotActive() )
+		if ( saveMessage )
 			addFormField( "savecopy", "on" );
 
 		addFormField( "message", message );
