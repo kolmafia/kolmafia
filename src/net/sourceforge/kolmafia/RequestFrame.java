@@ -302,7 +302,7 @@ public class RequestFrame extends KoLFrame
 
 		String location = request.getURLString();
 
-		if ( parent == null )
+		if ( parent == null || location.startsWith( "search" ) || location.startsWith( "desc" ) )
 		{
 			setCombatRound( request );
 			currentRequest = request;
