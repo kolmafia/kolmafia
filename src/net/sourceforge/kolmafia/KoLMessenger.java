@@ -900,7 +900,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 				instantMessageFrames.put( channel, frame );
 
-				if ( CHATLOG_BASENAME != null )
+				if ( CHATLOG_BASENAME != null && !CHATLOG_BASENAME.equals( "" ) )
 				{
 					String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) : client.getPlayerID( channel )) + ".html";
 					buffer.setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() + " (" + Calendar.getInstance().getTime().toString() + ")" );
