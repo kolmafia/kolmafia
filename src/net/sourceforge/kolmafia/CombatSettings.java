@@ -261,7 +261,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public static String getSetting( String encounter, int roundCount )
 	{
-		if ( encounter.equals( "" ) )
+		if ( encounter == null || encounter.equals( "" ) )
 			return getSetting( "default", roundCount );
 
 		// Allow for longer matches (closer to exact matches)
@@ -296,7 +296,7 @@ public abstract class CombatSettings implements UtilityConstants
 		CombatActionNode setting = (CombatActionNode) match.getChildAt(
 			roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
 
-		return setting.startsWith( "abort" ) || setting.startsWith( "attack" ) || setting.startsWith( "item" ) ||
+		return setting.startsWith( "abort" ) || setting.startsWith( "attack" ) || setting.startsWith( "moxman" ) || setting.startsWith( "item" ) ||
 			setting.startsWith( "skill" ) ? setting.toString() : getSetting( setting.toString(), roundCount - match.getChildCount() + 1 );
 	}
 

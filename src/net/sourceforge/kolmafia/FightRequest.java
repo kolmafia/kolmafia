@@ -51,7 +51,7 @@ public class FightRequest extends KoLRequest
 
 	private String action;
 	private int roundCount;
-	private String encounter;
+	private static String encounter;
 
 	/**
 	 * Constructs a new <code>FightRequest</code>.  The client provided will
@@ -83,9 +83,9 @@ public class FightRequest extends KoLRequest
 
 		action = getProperty( "battleAction" );
 		
-		if ( action.equals( "custom" ) )
+		if ( roundCount > 1 && action.equals( "custom" ) )
 		{
-			action = CombatSettings.getSetting( encounter, roundCount - 1 );
+			action = CombatSettings.getSetting( encounter, roundCount - 2 );
 			if ( action.startsWith( "item" ) )
 				action = "item" + TradeableItemDatabase.getItemID( action.substring(4).trim() );
 			else if ( action.startsWith( "skill" ) )
@@ -195,7 +195,7 @@ public class FightRequest extends KoLRequest
 
 				if ( encounterMatcher.find() )
 				{
-					this.encounter = encounterMatcher.group(1);
+					FightRequest.encounter = encounterMatcher.group(1);
 					client.registerEncounter( encounter );
 				}
 			}
