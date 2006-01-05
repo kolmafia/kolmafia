@@ -227,7 +227,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// The outer loop goes until user cancels, or
 		// for however many iterations are needed.
 
-		for ( int i = 1; BuffBotHome.isBuffBotActive() && i <= iterations; ++i )
+		for ( int i = iterations; BuffBotHome.isBuffBotActive() && i > 0; --i )
 		{
 			BuffBotManager.runOnce();
 
@@ -235,7 +235,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// away for more than 1 second at a time to avoid
 			// automatic re-enabling problems).
 
-			if ( i < iterations )
+			if ( i != 1 )
 			{
 				for ( int j = 0; j < 75; ++j )
 					if ( BuffBotHome.isBuffBotActive() )
@@ -273,7 +273,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		if ( !saveList.isEmpty() )
 			saveMessages( saveList.toArray() );
 
-		if ( !deleteList.isEmpty() )
+		if ( !deleteList.isEmpty() || !saveList.isEmpty() )
 		{
 			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
 			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
@@ -281,18 +281,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		deleteList.clear();  saveList.clear();
 		client.updateDisplay( DISABLE_STATE, "Buffbot is sleeping." );
-	}
-
-	/**
-	 * Notifies the person that they sent a message that did not
-	 * contain anything for the buffbot.  This should only be sent
-	 * if the buffbot is not giving away free buffs.
-	 */
-
-	private static void sendEmptyMessageNotice( KoLMailMessage message )
-	{
-		BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Sending empty message notice to [" + message.getSenderName() + "]" );
-		queueOutgoingMessage( message.getSenderName(), "Your message contained no meat or items.", new AdventureResult( AdventureResult.MEAT, 0 ) );
 	}
 
 	/**
@@ -331,49 +319,47 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	public static boolean addMessage( String boxname, String message )
 	{
-		boolean success = KoLMailManager.addMessage( boxname, message );
-		if ( success && boxname.equals( "Inbox" ) )
+		try
 		{
-			client.resetContinueState();
+			boolean success = KoLMailManager.addMessage( boxname, message );
+
+			if ( !success || !BuffBotHome.isBuffBotActive() || !boxname.equals( "Inbox" ) )
+				return success;
+
 			LockableListModel messages = getMessages( "Inbox" );
+			processMessage( (KoLMailMessage) messages.get( messages.size() - 1 ) );
 
-			try
+			// Abort the buffbot only when you run out of MP
+			// restores -- otherwise, it's always okay to
+			// continue using the buffbot.
+
+			if ( client.getRestoreCount() == 0 )
 			{
-				processMessage( (KoLMailMessage) messages.get( messages.size() - 1 ) );
-
-				// Abort the buffbot only when you run out of MP
-				// restores -- otherwise, it's always okay to
-				// continue using the buffbot.
-
-				if ( client.getRestoreCount() == 0 )
-				{
-					client.updateDisplay( NORMAL_STATE, "Unable to continue BuffBot!" );
-					BuffBotHome.setBuffBotActive( false );
-					BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to process a buff message." );
-				}
-
-				if ( !sendList.isEmpty() )
-				{
-					GreenMessageRequest sending = (GreenMessageRequest) sendList.get(0);
-					BuffBotHome.update( BuffBotHome.NOCOLOR, "Sending queued message to " + client.getPlayerName( sending.getRecipient() ) + "..." );
-					sending.run();
-
-					sendList.clear();
-				}
+				client.updateDisplay( NORMAL_STATE, "Unable to continue BuffBot!" );
+				BuffBotHome.setBuffBotActive( false );
+				BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to process a buff message." );
 			}
-			catch ( Exception e )
-			{
-				// If an exception occurs during
-				// the message processing, go ahead
-				// and ignore it.
 
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+			if ( !sendList.isEmpty() )
+			{
+				GreenMessageRequest sending = (GreenMessageRequest) sendList.get(0);
+				BuffBotHome.update( BuffBotHome.NOCOLOR, "Sending queued message to " + client.getPlayerName( sending.getRecipient() ) + "..." );
+				sending.run();
+
+				sendList.clear();
 			}
 		}
+		catch ( Exception e )
+		{
+			// If an exception occurs during
+			// the message processing, go ahead
+			// and ignore it.
 
-		client.resetContinueState();
-		return success;
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
+
+		return true;
 	}
 
 	/**
@@ -425,57 +411,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			queueOutgoingMessage( recipient, reason, new AdventureResult( AdventureResult.MEAT, 0 ) );
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Queued thank you for [" + recipient + "]" );
-		}
-	}
-
-	/**
-	 * Utility method called inbetween commands.  This method
-	 * checks to see if the character's MP has dropped below
-	 * the tolerance value, and autorecovers if it has (if
-	 * the user has specified this in their settings).
-	 */
-
-	private static void stockRestores()
-	{
-		int currentRestores = -1;
-		int calculatedRestores = client.getRestoreCount();
-
-		if ( calculatedRestores == 0 )
-		{
-			while ( BuffBotHome.isBuffBotActive() && calculatedRestores == 0 && currentRestores != calculatedRestores )
-			{
-				currentRestores = calculatedRestores;
-				client.updateDisplay( DISABLE_STATE, "Executing auto-stocking script..." );
-
-				String scriptPath = getProperty( "autoStockScript" ) ;
-				File autoStockScript = new File( scriptPath );
-
-				if ( autoStockScript.exists() )
-				{
-					try
-					{
-						(new KoLmafiaCLI( client, new FileInputStream( autoStockScript ) )).listenForCommands();
-					}
-					catch ( Exception e )
-					{
-						e.printStackTrace( KoLmafia.getLogStream() );
-						e.printStackTrace();
-					}
-				}
-				else
-				{
-					client.updateDisplay( ERROR_STATE, "Could not find auto-stocking script." );
-					return;
-				}
-
-				calculatedRestores = client.getRestoreCount();
-			}
-
-			if ( currentRestores == 0 )
-			{
-				client.updateDisplay( ERROR_STATE, "Auto-stocking script failed to buy restores." );
-				return;
-			}
 		}
 	}
 
@@ -536,7 +471,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			switch ( messageDisposalSetting )
 			{
 				case SAVEBOX:
-					queueIncomingMessage( message, false );
+					queueIncomingMessage( message, message.getMessageHTML().trim().length() == 0 );
 					BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Saving non-buff message from [" + message.getSenderName() + "]" );
 					break;
 
@@ -564,13 +499,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		for ( int i = 0; client.permitsContinue() && i < castList.size(); ++i )
 		{
-			// Check to see if the user should autobuy MP restores
-			// in order to restock.
-
-			stockRestores();
-
-			// If you are allowed to continue, then proceed
-
 			currentBuff = (BuffBotCaster) castList.get(i);
 			receivedBuffs |= executeBuff( currentBuff, message, meatSent );
 			gavePhilanthropicBuff |= currentBuff.philanthropic;
@@ -610,14 +538,12 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Philanthropy limit exceeded for " + message.getSenderName() );
 			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + message.getSenderName() );
 			UseSkillRequest.lastUpdate = "This buff may only be requested once per day.";
-
 			return false;
 		}
 
 		// Under all other circumstances, you go ahead and
 		// process the buff request.
 
-		client.resetContinueState();
 		return buff.castOnTarget( message.getSenderName() );
 	}
 
@@ -732,7 +658,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				// If you're unable to recover your mana, then return
 				// whether or not at least one buff was cast.
 
-				stockRestores();
 				if ( !client.recoverMP( mpPerEvent ) )
 					return castsRemaining < castCount;
 

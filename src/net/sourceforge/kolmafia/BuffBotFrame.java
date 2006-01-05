@@ -293,7 +293,6 @@ public class BuffBotFrame extends KoLFrame
 	private class MainSettingsPanel extends KoLPanel
 	{
 		private JComboBox messageDisposalSelect;
-		private JTextField autoStockScriptField;
 		private JTextArea whiteListEntry, invalidPriceMessage, thanksMessage;
 
 		public MainSettingsPanel()
@@ -309,12 +308,9 @@ public class BuffBotFrame extends KoLFrame
 			messageDisposalChoices.add( "Do nothing to non-requests" );
 			messageDisposalSelect = new JComboBox( messageDisposalChoices );
 
-			autoStockScriptField = new JTextField();
-
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Message disposal: ", messageDisposalSelect );
-			elements[1] = new VerifiableElement( "Autostocking script: ", new ScriptSelectPanel( autoStockScriptField ) );
-			elements[2] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
+			elements[1] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
 
 			setContent( elements );
 			actionCancelled();
@@ -376,8 +372,6 @@ public class BuffBotFrame extends KoLFrame
 			super.setEnabled( isEnabled );
 
 			messageDisposalSelect.setEnabled( isEnabled );
-			autoStockScriptField.setEnabled( isEnabled );
-
 			whiteListEntry.setEnabled( isEnabled );
 			invalidPriceMessage.setEnabled( isEnabled );
 			thanksMessage.setEnabled( isEnabled );
@@ -386,7 +380,6 @@ public class BuffBotFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
-			setProperty( "autoStockScript", autoStockScriptField.getText() );
 			MPRestoreItemList.setProperty();
 
 			setProperty( "whiteList", whiteListEntry.getText() );
@@ -396,7 +389,6 @@ public class BuffBotFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			autoStockScriptField.setText( getProperty( "autoStockScript" ) );
 			messageDisposalSelect.setSelectedIndex( Integer.parseInt( getProperty( "buffBotMessageDisposal" ) ) );
 
 			whiteListEntry.setText( getProperty( "whiteList" ) );
