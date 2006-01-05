@@ -589,7 +589,7 @@ public class ClanManageFrame extends KoLFrame
 
 			public SelectAllForBootButton()
 			{
-				super( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
+				super( JComponentUtilities.getSharedImage( "icon_plus.gif" ) );
 				addActionListener( this );
 				setToolTipText( "Boot" );
 				shouldSelect = true;
