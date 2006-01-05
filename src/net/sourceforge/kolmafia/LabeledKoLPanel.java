@@ -78,8 +78,12 @@ public abstract class LabeledKoLPanel extends KoLPanel
 	}
 
 	protected void setContent( VerifiableElement [] elements, boolean isLabelPreceeding, boolean bothDisabledOnClick )
+	{	setContent( elements, null, null, isLabelPreceeding, bothDisabledOnClick );
+	}
+
+	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean isLabelPreceeding, boolean bothDisabledOnClick )
 	{
-		super.setContent( elements, null, null, isLabelPreceeding, bothDisabledOnClick );
+		super.setContent( elements, mainPanel, eastPanel, isLabelPreceeding, bothDisabledOnClick );
 
 		if ( panelTitle != null )
 			add( JComponentUtilities.createLabel( panelTitle, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );

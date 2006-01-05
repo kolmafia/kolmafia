@@ -39,6 +39,7 @@ import java.awt.Dimension;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 
+import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -60,7 +61,7 @@ import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
-public class StoreManageFrame extends KoLFrame
+public class StoreManageFrame extends KoLPanelFrame
 {
 	private JLabel searchLabel;
 	private LockableListModel priceSummary;
@@ -72,13 +73,12 @@ public class StoreManageFrame extends KoLFrame
 
 	public StoreManageFrame( KoLmafia client )
 	{
-		super( client, "Dropkicking Prices" );
+		super( client, "Store Manager" );
 
 		if ( client != null )
 			(new RequestThread( new StoreManageRequest( client ) )).start();
 
-		storeManager = new StoreManagePanel();
-		framePanel.add( storeManager, BorderLayout.CENTER );
+		setContentPanel( new StoreManagePanel() );
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -97,44 +97,43 @@ public class StoreManageFrame extends KoLFrame
 	{
 		public StoreManagePanel()
 		{
-			super( "Manage Your Store", "apply new prices", "refresh store", new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
+			super( "Manage Your Store", "apply prices", "refresh store", new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
 
 			priceSummary = new LockableListModel();
-			JPanel elementsPanel = new JPanel();
-			elementsPanel.setLayout( new BoxLayout( elementsPanel, BoxLayout.Y_AXIS ) );
+			JPanel headerPanel = new JPanel();
+			headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.Y_AXIS ) );
 
 			JPanel labelPanel1 = new JPanel();
 			labelPanel1.setLayout( new BorderLayout() );
 			labelPanel1.add( JComponentUtilities.createLabel( "Add to Your Store", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.CENTER );
 
-			elementsPanel.add( labelPanel1 );
+			headerPanel.add( labelPanel1 );
 			addItem = new AddItemPanel();
-			elementsPanel.add( addItem );
+			headerPanel.add( addItem );
 
-			elementsPanel.add( Box.createVerticalStrut( 20 ) );
+			headerPanel.add( Box.createVerticalStrut( 20 ) );
 
 			JPanel labelPanel2 = new JPanel();
 			labelPanel2.setLayout( new BorderLayout() );
 			labelPanel2.add( JComponentUtilities.createLabel( "Price Management", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.CENTER );
 
-			elementsPanel.add( labelPanel2 );
+			headerPanel.add( labelPanel2 );
 
 			storeItemList = new StoreItemPanelList();
 			JScrollPane storeItemScrollArea = new JScrollPane( storeItemList,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
+			JPanel elementsPanel = new JPanel( new BorderLayout() );
+			elementsPanel.add( headerPanel, BorderLayout.NORTH );
 			elementsPanel.add( storeItemScrollArea );
 
-			JScrollPane scrollArea = new JScrollPane( elementsPanel,
-				JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "", scrollArea );
-
+			VerifiableElement [] elements = new VerifiableElement[0];
 			searchResults = new SearchResultsPanel();
-			setContent( elements, null, searchResults, true, true );
+
+			setContent( elements, null, searchResults, true, true );	
+			container.add( elementsPanel, BorderLayout.CENTER );
 		}
 
 		public void actionConfirmed()
@@ -159,7 +158,9 @@ public class StoreManageFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	(new RequestThread( new StoreManageRequest( client ) )).start();
+		{
+			StoreManager.reset();
+			(new RequestThread( new StoreManageRequest( client ) )).start();
 		}
 	}
 
@@ -179,7 +180,6 @@ public class StoreManageFrame extends KoLFrame
 			searchLabel = JComponentUtilities.createLabel( "Mall Prices", JLabel.CENTER,
 				Color.black, Color.white );
 
-			JComponentUtilities.setComponentSize( searchLabel, 150, 16 );
 			add( searchLabel, BorderLayout.NORTH );
 
 			JList resultsDisplay = new JList( priceSummary );
@@ -187,7 +187,6 @@ public class StoreManageFrame extends KoLFrame
 			JScrollPane scrollArea = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			JComponentUtilities.setComponentSize( scrollArea, 150, 160 );
 			add( scrollArea, BorderLayout.CENTER );
 		}
 	}
@@ -276,6 +275,12 @@ public class StoreManageFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				if ( !KoLCharacter.hasStore() )
+				{
+					JOptionPane.showMessageDialog( null, "Sorry, you don't have a store." );
+					return;
+				}
+
 				AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
 				if ( soldItem == null )
 					return;

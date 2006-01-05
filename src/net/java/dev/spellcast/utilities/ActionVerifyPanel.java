@@ -65,12 +65,14 @@ import javax.swing.JComboBox;
 
 public abstract class ActionVerifyPanel extends ActionPanel implements ActionListener, FocusListener
 {
+	protected JPanel container;
+
 	private boolean contentSet;
 	private boolean isCenterPanel;
 	private JComponent eastContainer;
 	private VerifyButtonPanel buttonPanel;
 	private Dimension labelSize, fieldSize;
-
+	
 	private static final Dimension DEFAULT_LABEL_SIZE = new Dimension( 100, 20 );
 	private static final Dimension DEFAULT_FIELD_SIZE = new Dimension( 165, 20 );
 
@@ -132,7 +134,7 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 		if ( contentSet )
 			return;
 
-		JPanel container = new JPanel();
+		container = new JPanel();
 
 		container.setLayout( new BorderLayout( 10, 10 ) );
 		container.add( Box.createVerticalStrut( 2 ), BorderLayout.NORTH );

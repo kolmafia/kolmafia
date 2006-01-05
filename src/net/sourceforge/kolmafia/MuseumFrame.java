@@ -154,6 +154,12 @@ public class MuseumFrame extends KoLFrame
 
 			protected void actionConfirmed()
 			{
+				if ( !KoLCharacter.hasDisplayCase() )
+				{
+					JOptionPane.showMessageDialog( null, "Sorry, you don't have a display case." );
+					return;
+				}
+
 				Runnable [] parameters = new Runnable[2];
 				parameters[0] = new MuseumRequest( client, elementList.getSelectedValues(), true );
 				parameters[1] = new MuseumRequest( client );

@@ -44,10 +44,13 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class StoreManager extends StaticEntity
 {
+	private static long potentialEarnings = 0;
 	private static LockableListModel soldItemList = new LockableListModel();
 
 	public static void reset()
-	{	soldItemList.clear();
+	{
+		potentialEarnings = 0;
+		soldItemList.clear();
 	}
 
 	/**
@@ -57,9 +60,23 @@ public abstract class StoreManager extends StaticEntity
 	 */
 
 	public static void registerItem( int itemID, int quantity, int price, int limit, int lowest )
-	{	soldItemList.add( new SoldItem( itemID, quantity, price, limit, lowest ) );
-	}
+	{
+		if ( price != 999999999 )
+			potentialEarnings += price * quantity;
 
+		soldItemList.add( new SoldItem( itemID, quantity, price, limit, lowest ) );
+
+		// Now, update the title of the store manage
+		// frame to reflect the new price.
+		
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		for ( int i = 0; i < frames.length; ++i )
+			if ( frames[i] instanceof StoreManageFrame )
+				frames[i].setTitle( "Store Manager (potential earnings: " + df.format( potentialEarnings ) + " meat)" );
+	}
+	
 	/**
 	 * Returns the current price of the item with the given
 	 * item ID.  This is useful for auto-adding at the
