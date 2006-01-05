@@ -67,7 +67,6 @@ public abstract class CombatSettings implements UtilityConstants
 {
 	private static String [] keys;
 	private static File settingsFile;
-	private static String characterName = "";
 	private static TreeMap reference = new TreeMap();
 	private static CombatSettingNode root = new CombatSettingNode();
 
@@ -75,15 +74,17 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public static final void reset()
 	{
-		CombatSettings.characterName = KoLCharacter.getUsername();
-		String noExtensionName = characterName.replaceAll( "\\/q", "" ).replaceAll( " ", "_" ).toLowerCase();
-		CombatSettings.settingsFile = new File( DATA_DIRECTORY + "~" + noExtensionName + ".ccs" );
+		CombatSettings.settingsFile = new File( DATA_DIRECTORY + settingsFileName() );
 
 		root.removeAllChildren();
 		reference.clear();
 
 		loadSettings();
 		saveSettings();
+	}
+
+	public static final String settingsFileName()
+	{	return "~" + KoLCharacter.getUsername().replaceAll( "\\/q", "" ).replaceAll( " ", "_" ).toLowerCase() + ".ccs";
 	}
 
 	public static final TreeNode getRoot()
@@ -119,7 +120,12 @@ public abstract class CombatSettings implements UtilityConstants
 			{
 				settingsFile.getParentFile().mkdirs();
 				settingsFile.createNewFile();
+
 				ensureDefaults();
+
+				keys = new String[ reference.keySet().size() ];
+				reference.keySet().toArray( keys );
+
 				return;
 			}
 
@@ -182,10 +188,10 @@ public abstract class CombatSettings implements UtilityConstants
 
 	private static void ensureDefaults()
 	{
-		// The remaining settings are not related to choice
-		// adventures and require no special handling.
-
 		ensureProperty( "default", "attack" );
+
+		// let the player manually battle the monsters guarding
+		// ultra-rare items.
 
 		ensureProperty( "baiowulf", "abort" );
 		ensureProperty( "crazy bastard", "abort" );

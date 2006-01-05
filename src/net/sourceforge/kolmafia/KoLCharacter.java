@@ -1614,7 +1614,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// the user's current setting.
 
 		KoLCharacter.battleSkillIDs.add( "custom" );
-		KoLCharacter.battleSkillNames.add( "Custom Combat Settings file" );
+		KoLCharacter.battleSkillNames.add( "Custom: Use Combat Script" );
 
 		battleSkillIDs.setSelectedItem( getProperty( "battleAction" ) );
 		if ( battleSkillIDs.getSelectedIndex() != -1 )

@@ -739,7 +739,7 @@ public class OptionsFrame extends KoLFrame
 
 			try
 			{
-				BufferedReader reader = KoLDatabase.getReader( "~" + KoLCharacter.getUsername() + ".ccs" );
+				BufferedReader reader = KoLDatabase.getReader( CombatSettings.settingsFileName() );
 				StringBuffer buffer = new StringBuffer();
 
 				String line;
@@ -766,7 +766,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			try
 			{
-				PrintStream writer = new PrintStream( new FileOutputStream( "data" + File.separator + "~" + KoLCharacter.getUsername() + ".ccs" ) );
+				PrintStream writer = new PrintStream( new FileOutputStream( DATA_DIRECTORY + CombatSettings.settingsFileName() ) );
 				writer.println( ((JTextArea)scrollComponent).getText() );
 				writer.close();
 			}
