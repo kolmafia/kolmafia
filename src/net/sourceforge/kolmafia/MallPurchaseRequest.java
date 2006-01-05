@@ -191,6 +191,15 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	}
 
 	/**
+	 * Sets the quantity of the item available in the store.
+	 * @param	quantity	The quantity of the item available in the store.
+	 */
+
+	public void setQuantity( int quantity )
+	{	this.quantity = quantity;
+	}
+
+	/**
 	 * Retrieves the quantity of the item being purchased.
 	 * @return	The quantity of the item being purchased
 	 */

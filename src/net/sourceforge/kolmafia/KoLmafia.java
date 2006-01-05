@@ -1891,8 +1891,14 @@ public abstract class KoLmafia implements KoLConstants
 						results.remove( currentRequest );
 					else if ( currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
 						currentRequest.setLimit( MallPurchaseRequest.MAX_QUANTITY );
-					else if ( currentRequest.getLimit() == previousLimit )
-						currentRequest.setCanPurchase( false );
+					else
+					{
+						if ( currentRequest.getLimit() == previousLimit )
+							currentRequest.setCanPurchase( false );
+
+						currentRequest.setQuantity( currentRequest.getQuantity() - currentRequest.getLimit() );
+						currentRequest.setLimit( previousLimit );
+					}
 				}
 			}
 		}
