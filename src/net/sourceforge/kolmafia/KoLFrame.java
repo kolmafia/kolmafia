@@ -195,7 +195,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			default:
 
 				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
-				if ( this instanceof LoginFrame )
+				if ( this instanceof LoginFrame || this instanceof ChatFrame )
 				{
 					getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 					break;
