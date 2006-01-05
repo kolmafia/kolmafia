@@ -1075,16 +1075,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public InvocationMenuItem( String title, Class c, String methodName )
-		{	this( title, null, c, methodName );
-		}
-
-		public InvocationMenuItem( String title, String icon, Class c, String methodName )
 		{
 			super( title );
-			if ( icon != null )
-				setIcon( JComponentUtilities.getSharedImage( icon ) );
-
 			addActionListener( this );
+
+			if ( c == null )
+				return;
 
 			try
 			{
