@@ -52,6 +52,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.JComponent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -66,13 +67,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JOptionPane;
 import javax.swing.AbstractButton;
 import javax.swing.Box;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
 
 // utilities
 import java.util.List;
-import javax.swing.JTree;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.StringTokenizer;
+
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.PrintStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -102,6 +110,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class OptionsFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
+	private JTree displayTree;
+	private DefaultTreeModel displayModel;
 
 	/**
 	 * Constructs a new <code>OptionsFrame</code> that will be
@@ -133,9 +143,19 @@ public class OptionsFrame extends KoLFrame
 		addTab( "Chat Options", chatContainer );
 
 		JPanel customContainer = new JPanel( new BorderLayout() );
-		customContainer.add( new CustomCombatPanel(), BorderLayout.CENTER );
-		addTab( "Custom Combat", customContainer );
+		JTabbedPane customTabs = new JTabbedPane();
 
+		displayTree = new JTree();
+		displayModel = (DefaultTreeModel) displayTree.getModel();
+		
+		JScrollPane treeScroller = new JScrollPane( displayTree, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		customTabs.add( "View", treeScroller );
+		customTabs.add( "Modify", new CustomCombatPanel() );
+
+		customContainer.add( customTabs, BorderLayout.CENTER );
+		tabs.add( "Custom Combat", customContainer );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -244,8 +264,6 @@ public class OptionsFrame extends KoLFrame
 			{ "forceReconnect", "Automatically time-in on time-out" },
 
 			{ "cloverProtectActive", "Guard against accidental clover usage" },
-			{ "autoAbortMechaMech", "Auto-abort battles with the MagiMechaMech" },
-
 			{ "useClockworkBoxes", "Use clockwork box servants in item creation" },
 			{ "createWithoutBoxServants", "Allow cooking/mixing without box servants" },
 
@@ -703,23 +721,69 @@ public class OptionsFrame extends KoLFrame
 
 	/**
 	 * Internal class used to handle everything related to
-	 * operating the buffbot.
+	 * displaying custom combat.
 	 */
+
+	private void refreshCombatTree()
+	{
+		CombatSettings.reset();
+		displayModel.setRoot( CombatSettings.getRoot() );
+		displayTree.setRootVisible( false );
+	}
 
 	private class CustomCombatPanel extends LabeledScrollPanel
 	{
 		public CustomCombatPanel()
 		{
-			super( "Custom Combat", new JTree( CombatSettings.getCurrent() ) );
-			actionCancelled();
+			super( "Custom Combat", "save", "help", new JTextArea() );
+
+			try
+			{
+				BufferedReader reader = KoLDatabase.getReader( "~" + KoLCharacter.getUsername() + ".ccs" );
+				StringBuffer buffer = new StringBuffer();
+
+				String line;
+
+				while ( (line = reader.readLine()) != null )
+				{
+					buffer.append( line );
+					buffer.append( System.getProperty( "line.separator" ) );
+				}
+
+				reader.close();
+				((JTextArea)scrollComponent).setText( buffer.toString() );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+			}
+
+			refreshCombatTree();
 		}
 
 		protected void actionConfirmed()
 		{
+			try
+			{
+				PrintStream writer = new PrintStream( new FileOutputStream( "data" + File.separator + "~" + KoLCharacter.getUsername() + ".ccs" ) );
+				writer.println( ((JTextArea)scrollComponent).getText() );
+				writer.close();
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+			}
+			
+			// After storing all the data on disk, go ahead
+			// and reload the data inside of the tree.
+
+			refreshCombatTree();
 		}
 
 		protected void actionCancelled()
-		{
+		{	openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
 		}
 	}
 

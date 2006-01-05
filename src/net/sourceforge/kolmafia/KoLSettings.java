@@ -177,7 +177,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// The remaining settings are not related to choice
 		// adventures and require no special handling.
 
-		ensureProperty( "autoAbortMechaMech", "false" );
 		ensureProperty( "autoSatisfyChecks", "false" );
 		ensureProperty( "autoLogChat", "false" );
 		ensureProperty( "autoLogin", "" );

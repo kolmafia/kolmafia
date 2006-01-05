@@ -977,18 +977,22 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			try
-			{
-				BrowserLauncher.openURL( location );
-			}
-			catch ( java.io.IOException e1 )
-			{
-				KoLmafia.getLogStream().println( "Failed to open browser:" );
+		{	openSystemBrowser( location );
+		}
+	}
 
-				e1.printStackTrace( KoLmafia.getLogStream() );
-				e1.printStackTrace();
-			}
+	protected static void openSystemBrowser( String location )
+	{
+		try
+		{
+			BrowserLauncher.openURL( location );
+		}
+		catch ( java.io.IOException e )
+		{
+			KoLmafia.getLogStream().println( "Failed to open browser:" );
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 

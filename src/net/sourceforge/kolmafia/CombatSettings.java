@@ -43,10 +43,12 @@ import java.io.PrintStream;
 import java.io.InputStreamReader;
 
 import java.util.Vector;
-import java.util.Hashtable;
+import java.util.TreeMap;
 import java.util.Collections;
 import java.util.Enumeration;
+
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
@@ -61,44 +63,30 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
  * are stored in <code>~.kcs</code>.
  */
 
-public class CombatSettings extends Hashtable implements UtilityConstants
+public abstract class CombatSettings implements UtilityConstants
 {
 	private static String [] keys;
 	private static File settingsFile;
 	private static String characterName = "";
-	private static CombatSettings INSTANCE = null;
-	private final CombatSettingNode root = new CombatSettingNode();
+	private static TreeMap reference = new TreeMap();
+	private static CombatSettingNode root = new CombatSettingNode();
 
-	public static final CombatSettings getCurrent()
+	static { CombatSettings.reset(); }
+
+	public static final void reset()
 	{
-		if ( characterName.equals( "" ) || !characterName.equals( KoLCharacter.getUsername() ) )
-			INSTANCE = new CombatSettings();
-
-		return INSTANCE;
-	}
-
-
-	/**
-	 * Constructs a settings file for a character with the specified name.
-	 * Note that in the data file created, all spaces in the character name
-	 * will be replaced with an underscore, and all other punctuation will
-	 * be removed.
-	 *
-	 * @param	characterName	The name of the character this settings file represents
-	 */
-
-	private CombatSettings()
-	{
-		this.characterName = KoLCharacter.getUsername();
+		CombatSettings.characterName = KoLCharacter.getUsername();
 		String noExtensionName = characterName.replaceAll( "\\/q", "" ).replaceAll( " ", "_" ).toLowerCase();
-		this.settingsFile = new File( DATA_DIRECTORY + "~" + noExtensionName + ".ccs" );
+		CombatSettings.settingsFile = new File( DATA_DIRECTORY + "~" + noExtensionName + ".ccs" );
 
-		ensureDefaults();
+		root.removeAllChildren();
+		reference.clear();
+
 		loadSettings();
 		saveSettings();
 	}
 
-	public final TreeNode getRoot()
+	public static final TreeNode getRoot()
 	{	return root;
 	}
 
@@ -107,7 +95,7 @@ public class CombatSettings extends Hashtable implements UtilityConstants
 	 * object to disk for later retrieval.
 	 */
 
-	public void saveSettings()
+	public static void saveSettings()
 	{	storeSettings( settingsFile );
 	}
 
@@ -120,20 +108,22 @@ public class CombatSettings extends Hashtable implements UtilityConstants
 	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
-	private void loadSettings()
+	private static void loadSettings()
 	{
 		try
 		{
 			// First guarantee that a settings file exists with
 			// the appropriate Properties data.
 
-			if ( !this.settingsFile.exists() )
+			if ( !settingsFile.exists() )
 			{
-				this.settingsFile.getParentFile().mkdirs();
-				this.settingsFile.createNewFile();
+				settingsFile.getParentFile().mkdirs();
+				settingsFile.createNewFile();
+				ensureDefaults();
+				return;
 			}
 
-			BufferedReader reader = new BufferedReader( new InputStreamReader( new FileInputStream( this.settingsFile ) ) );
+			BufferedReader reader = new BufferedReader( new InputStreamReader( new FileInputStream( settingsFile ) ) );
 
 			String line;
 			String currentKey = "";
@@ -147,18 +137,18 @@ public class CombatSettings extends Hashtable implements UtilityConstants
 					currentKey = line.substring( 1, line.length() - 2 ).trim().toLowerCase();
 					currentList = new CombatSettingNode( currentKey );
 
-					put( currentKey, currentList );
+					reference.put( currentKey, currentList );
 					root.add( currentList );
 				}
 				else if ( line.length() != 0 )
-					currentList.add( new CombatActionNode( currentList, line ) );
+					currentList.add( new CombatActionNode( line ) );
 			}
 
 			reader.close();
 			reader = null;
 
-			keys = new String[ keySet().size() ];
-			keySet().toArray( keys );
+			keys = new String[ reference.keySet().size() ];
+			reference.keySet().toArray( keys );
 		}
 		catch ( IOException e1 )
 		{
@@ -179,7 +169,7 @@ public class CombatSettings extends Hashtable implements UtilityConstants
 			e2.printStackTrace( KoLmafia.getLogStream() );
 			e2.printStackTrace();
 
-			this.settingsFile.delete();
+			settingsFile.delete();
 			loadSettings();
 		}
 	}
@@ -190,7 +180,7 @@ public class CombatSettings extends Hashtable implements UtilityConstants
 	 * key is loaded.
 	 */
 
-	private void ensureDefaults()
+	private static void ensureDefaults()
 	{
 		// The remaining settings are not related to choice
 		// adventures and require no special handling.
@@ -209,16 +199,16 @@ public class CombatSettings extends Hashtable implements UtilityConstants
 	 * initializes it to the given value.
 	 */
 
-	private void ensureProperty( String key, String defaultValue )
+	private static void ensureProperty( String key, String defaultValue )
 	{
-		if ( !containsKey( key ) )
+		if ( !reference.containsKey( key ) )
 		{
 			CombatSettingNode defaultList = new CombatSettingNode( key );
 			String [] elements = defaultValue.split( "\\s*;\\s*" );
 			for ( int i = 0; i < elements.length; ++i )
-				defaultList.add( new CombatActionNode( defaultList, elements[i] ) );
+				defaultList.add( new CombatActionNode( elements[i] ) );
 
-			put( key, defaultList );
+			reference.put( key, defaultList );
 			root.add( defaultList );
 		}
 	}
@@ -231,24 +221,20 @@ public class CombatSettings extends Hashtable implements UtilityConstants
 	 * @param	destination	The file to which the settings will be stored.
 	 */
 
-	private void storeSettings( File destination )
+	private static void storeSettings( File destination )
 	{
 		try
 		{
 			PrintStream writer = new PrintStream( new FileOutputStream( destination ) );
 
 			CombatSettingNode combatOptions;
-			CombatActionNode [] combatOptionsArray;
 			for ( int i = 0; i < keys.length; ++i )
 			{
 				writer.println( "[ " + keys[i] + " ]" );
 
-				combatOptions = (CombatSettingNode) get( keys[i] );
-				combatOptionsArray = new CombatActionNode[ combatOptions.size() ];
-				combatOptions.toArray( combatOptionsArray );
-
-				for ( int j = 0; j < combatOptionsArray.length; ++j )
-					writer.println( combatOptionsArray[j] );
+				combatOptions = (CombatSettingNode) reference.get( keys[i] );
+				for ( int j = 0; j < combatOptions.getChildCount(); ++j )
+					writer.println( combatOptions.getChildAt(j) );
 
 				writer.println();
 			}
@@ -267,7 +253,7 @@ public class CombatSettings extends Hashtable implements UtilityConstants
 		}
 	}
 
-	public String getSetting( String encounter, int roundCount )
+	public static String getSetting( String encounter, int roundCount )
 	{
 		if ( encounter.equals( "" ) )
 			return getSetting( "default", roundCount );
@@ -300,51 +286,26 @@ public class CombatSettings extends Hashtable implements UtilityConstants
 		// Otherwise, you have a tactic for this round against
 		// the given monster.  Return that tactic.
 
-		CombatSettingNode match = (CombatSettingNode) get( keys[ longestMatch ] );
-		CombatActionNode setting = (CombatActionNode) match.get( roundCount < match.size() ? roundCount : match.size() - 1 );
+		CombatSettingNode match = (CombatSettingNode) reference.get( keys[ longestMatch ] );
+		CombatActionNode setting = (CombatActionNode) match.getChildAt(
+			roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
 
 		return setting.startsWith( "abort" ) || setting.startsWith( "attack" ) || setting.startsWith( "item" ) ||
-			setting.startsWith( "skill" ) ? setting.toString() : getSetting( setting.toString(), roundCount - match.size() + 1 );
+			setting.startsWith( "skill" ) ? setting.toString() : getSetting( setting.toString(), roundCount - match.getChildCount() + 1 );
 	}
 
-	private class CombatSettingNode extends Vector implements TreeNode
+	private static class CombatSettingNode extends DefaultMutableTreeNode
 	{
 		private String name;
 
 		public CombatSettingNode()
-		{	this.name = "";
+		{	this( "" );
 		}
 
 		public CombatSettingNode( String name )
-		{	this.name = name;
-		}
-
-		public Enumeration children()
-		{	return elements();
-		}
-
-		public boolean getAllowsChildren()
-		{	return true;
-		}
-
-		public int getChildCount()
-		{	return size();
-		}
-
-		public TreeNode getChildAt( int childIndex )
-		{	return (TreeNode) get( childIndex );
-		}
-
-		public int getIndex( TreeNode node )
-		{	return indexOf( node );
-		}
-
-		public TreeNode getParent()
-		{	return root;
-		}
-
-		public boolean isLeaf()
-		{	return false;
+		{
+			super( name, true );
+			this.name = name;
 		}
 
 		public String toString()
@@ -352,43 +313,14 @@ public class CombatSettings extends Hashtable implements UtilityConstants
 		}
 	}
 
-	private class CombatActionNode implements TreeNode
+	private static class CombatActionNode extends DefaultMutableTreeNode
 	{
-		private TreeNode parent;
 		private String action;
 
-		public CombatActionNode( TreeNode parent, String action )
+		public CombatActionNode( String action )
 		{
-			this.parent = parent;
+			super( action, false );
 			this.action = action;
-		}
-
-		public Enumeration children()
-		{	return null;
-		}
-
-		public boolean getAllowsChildren()
-		{	return false;
-		}
-
-		public TreeNode getChildAt( int childIndex )
-		{	return null;
-		}
-
-		public int getChildCount()
-		{	return 0;
-		}
-
-		public int getIndex( TreeNode node )
-		{	return -1;
-		}
-
-		public TreeNode getParent()
-		{	return parent;
-		}
-
-		public boolean isLeaf()
-		{	return true;
 		}
 
 		public boolean startsWith( String prefix )

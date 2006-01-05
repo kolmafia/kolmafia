@@ -85,7 +85,7 @@ public class FightRequest extends KoLRequest
 		
 		if ( action.equals( "custom" ) )
 		{
-			action = CombatSettings.getCurrent().getSetting( encounter, roundCount - 1 );
+			action = CombatSettings.getSetting( encounter, roundCount - 1 );
 			if ( action.startsWith( "item" ) )
 				action = "item" + TradeableItemDatabase.getItemID( action.substring(4).trim() );
 			else if ( action.startsWith( "skill" ) )
@@ -197,19 +197,6 @@ public class FightRequest extends KoLRequest
 				{
 					this.encounter = encounterMatcher.group(1);
 					client.registerEncounter( encounter );
-
-					if ( encounter.equals( "a MagiMechTech MechaMech" ) && getProperty( "autoAbortMechaMech" ).equals( "true" ) )
-					{
-						client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
-						client.cancelRequest();
-
-						// Finish in browser if requested
-
-						if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
-							showInBrowser( true );
-
-						return;
-					}
 				}
 			}
 
