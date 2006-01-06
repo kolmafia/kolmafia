@@ -87,9 +87,9 @@ public class FightRequest extends KoLRequest
 		{
 			action = CombatSettings.getSetting( encounter, roundCount - 2 );
 			if ( action.startsWith( "item" ) )
-				action = "item" + TradeableItemDatabase.getItemID( action.substring(4).trim() );
+				action = "item" + TradeableItemDatabase.getMatchingNames( action.substring(4).trim() ).get(0);
 			else if ( action.startsWith( "skill" ) )
-				action = String.valueOf( ClassSkillsDatabase.getSkillID( action.substring(5).trim() ) );
+				action = String.valueOf( ClassSkillsDatabase.getSkillID( KoLmafiaCLI.getSkillName( action.substring(5).trim() ) ) );
 		}
 
 		if ( roundCount == 1 )

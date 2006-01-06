@@ -42,6 +42,7 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.io.InputStreamReader;
 
+import java.util.List;
 import java.util.Vector;
 import java.util.TreeMap;
 import java.util.Collections;
@@ -305,8 +306,21 @@ public abstract class CombatSettings implements UtilityConstants
 		CombatActionNode setting = (CombatActionNode) match.getChildAt(
 			roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
 
-		return setting.startsWith( "abort" ) || setting.startsWith( "attack" ) || setting.startsWith( "moxman" ) || setting.startsWith( "item" ) ||
-			setting.startsWith( "skill" ) ? setting.toString() : getSetting( setting.toString(), roundCount - match.getChildCount() + 1 );
+		if ( setting.startsWith( "abort" )  || setting.startsWith( "attack" ) || setting.startsWith( "moxman" ) || setting.startsWith( "item" ) || setting.startsWith( "skill" ) )
+			return setting.toString();
+
+		// Well, it's either a standard skill, or it's an item,
+		// or it's something you need to lookup in the tables.
+		
+		String potentialSkill = KoLmafiaCLI.getSkillName( setting.toString() );
+		if ( potentialSkill != null )
+			return "skill " + potentialSkill;
+		
+		List items = TradeableItemDatabase.getMatchingNames( setting.toString() );
+		if ( !items.isEmpty() )
+			return "item " + items.get(0);
+		
+		return getSetting( setting.toString(), roundCount - match.getChildCount() + 1 );
 	}
 
 	private static class CombatSettingNode extends DefaultMutableTreeNode

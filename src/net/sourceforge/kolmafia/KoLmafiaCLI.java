@@ -67,10 +67,10 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class KoLmafiaCLI extends KoLmafia
 {
-	private static final int NOWHERE = 1;
-	private static final int INVENTORY = 2;
-	private static final int CREATION = 3;
-	private static final int CLOSET = 4;
+	public static final int NOWHERE = 1;
+	public static final int INVENTORY = 2;
+	public static final int CREATION = 3;
+	public static final int CLOSET = 4;
 
 	protected String previousCommand;
 	private PrintStream outputStream;
@@ -1748,12 +1748,14 @@ public class KoLmafiaCLI extends KoLmafia
 	 * given a substring representing it.
 	 */
 
-	private String getSkillName( String substring )
+	public static String getSkillName( String substring )
 	{
-		List skills = KoLCharacter.getUsableSkills();
-		for ( int i = 0; i < skills.size(); ++i )
-			if ( ((UseSkillRequest)skills.get(i)).getSkillName().toLowerCase().indexOf( substring ) != -1 )
-				return ((UseSkillRequest) skills.get(i)).getSkillName();
+		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getUsableSkills().size() ];
+		KoLCharacter.getUsableSkills().toArray( skills );
+
+		for ( int i = 0; i < skills.length; ++i )
+			if ( skills[i].getSkillName().toLowerCase().indexOf( substring ) != -1 )
+				return skills[i].getSkillName();
 
 		return null;
 	}
@@ -2065,7 +2067,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * specify an item quantity before the string.
 	 */
 
-	private AdventureResult getFirstMatchingItem( String parameters, int matchType, int def )
+	public AdventureResult getFirstMatchingItem( String parameters, int matchType, int def )
 	{
 		int itemID = -1;
 		int itemCount = 0;
