@@ -84,6 +84,7 @@ import javax.swing.ListSelectionModel;
 
 // basic utilities
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
 
@@ -126,6 +127,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	};
 
 	protected static LockableListModel scripts = new LockableListModel();
+
+	protected static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
+	{
+		public boolean accept( File dir, String name )
+		{	return !name.endsWith( "~" ) && !name.endsWith( ".bak" );
+		}
+	};
 
 	protected static SortedListModel bookmarks = new SortedListModel( String.class );
 	private static boolean bookmarksCompiled = false;
@@ -1826,7 +1834,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		File directory = new File( "scripts" );
 
 		// Get the list of files in the current directory
-		File [] scriptList = directory.listFiles();
+		File [] scriptList = directory.listFiles( BACKUP_FILTER );
 
 		// Iterate through the files.  Do this in two
 		// passes to make sure that directories start
