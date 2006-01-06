@@ -327,6 +327,9 @@ public class AdventureFrame extends KoLFrame
 
 			setContent( elements );
 
+			int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( getProperty( "battleAction" ) );
+			actionSelect.setSelectedIndex( actionIndex == -1 ? 0 : actionIndex );
+
 			String lastAdventure = getProperty( "lastAdventure" );
 
 			for ( int i = 0; i < adventureList.size(); ++i )
