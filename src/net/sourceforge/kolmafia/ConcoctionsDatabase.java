@@ -407,6 +407,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 		if ( servantID == BARTENDER && KoLCharacter.hasBartender() )
 			return true;
 
+		// If the user did not wish to repair their boxes
+		// on explosion, then the box servant is not available
+
+		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
+			return false;
+
 		// Otherwise, return whether or not the quantity possible for
 		// the given box servants is non-zero.	This works because
 		// cooking tests are made after item creation tests.

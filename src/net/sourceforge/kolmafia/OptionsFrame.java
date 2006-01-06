@@ -149,7 +149,7 @@ public class OptionsFrame extends KoLFrame
 
 			displayTree = new JTree();
 			displayModel = (DefaultTreeModel) displayTree.getModel();
-		
+
 			JScrollPane treeScroller = new JScrollPane( displayTree, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
@@ -267,7 +267,9 @@ public class OptionsFrame extends KoLFrame
 			{ "forceReconnect", "Automatically time-in on time-out" },
 
 			{ "cloverProtectActive", "Guard against accidental clover usage" },
-			{ "useClockworkBoxes", "Use clockwork box servants in item creation" },
+
+			{ "autoRepairBoxes", "Automatically repair box servants on explosion" },
+			{ "useClockworkBoxes", "Use clockwork box servants when auto-repairing" },
 			{ "createWithoutBoxServants", "Allow cooking/mixing without box servants" },
 
 			{ "invokeStrangeMagic", "Invoke magic words in strange leaflet" },
@@ -778,7 +780,7 @@ public class OptionsFrame extends KoLFrame
 				e.printStackTrace( KoLmafia.getLogStream() );
 				e.printStackTrace();
 			}
-			
+
 			// After storing all the data on disk, go ahead
 			// and reload the data inside of the tree.
 

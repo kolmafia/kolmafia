@@ -489,6 +489,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return true;
 		}
 
+		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
+		{
+			updateDisplay( ERROR_STATE, "Box servant explosion!" );
+			return false;
+		}
+
 		// If they do want to auto-repair, make sure that
 		// the appropriate item is available in their inventory
 
