@@ -545,7 +545,7 @@ public class AdventureDatabase extends KoLDatabase
 			}
 
 			missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
-			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+			if ( missingCount > 0 && getProperty( "autoSatisfyChecks" ).equals( "true" ) )
 				retrieveItem( purchaser, "buy " + missingCount + " " + item.getName() );
 
 			missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
