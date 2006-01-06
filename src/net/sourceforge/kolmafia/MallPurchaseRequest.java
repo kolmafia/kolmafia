@@ -239,7 +239,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		buffer.append( itemName );
 		buffer.append( " (" );
 
-		if ( limit == MAX_QUANTITY )
+		if ( quantity == MAX_QUANTITY )
 			buffer.append( "unlimited" );
 		else
 		{
