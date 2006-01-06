@@ -2385,17 +2385,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		String [] tokens = parameters.split( " " );
-		StringBuffer itemName = new StringBuffer();
-
-		itemName.append( '*' );
-		for ( int i = 1; i < tokens.length; ++i )
-		{
-			itemName.append( ' ' );
-			itemName.append( tokens[i] );
-		}
-
-		AdventureResult firstMatch = getFirstMatchingItem( itemName.toString(), parameters.startsWith( "take" ) ? CLOSET : INVENTORY );
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, parameters.startsWith( "take" ) ? CLOSET : INVENTORY );
 		if ( firstMatch == null )
 			return;
 
