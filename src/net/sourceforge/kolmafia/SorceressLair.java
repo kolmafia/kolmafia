@@ -372,7 +372,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		requirements.add( pickOne( new AdventureResult [] { STONE_BANJO, HEAVY_METAL_GUITAR, ACOUSTIC_GUITAR, DISCO_BANJO } ) );
 		requirements.add( pickOne( new AdventureResult [] { BONE_RATTLE, TAMBOURINE } ) );
-		requirements.add( pickOne( new AdventureResult [] { ROCKNROLL_LEGEND, ACCORDION } ) );
+		requirements.add( pickOne( new AdventureResult [] { ACCORDION, ROCKNROLL_LEGEND } ) );
 
 		// Now that the array's initialized, issue the checks
 		// on the items needed to finish the entryway.
