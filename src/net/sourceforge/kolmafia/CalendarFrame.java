@@ -163,7 +163,13 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			{
 				selectedRow = oracleTable.getSelectedRow();
 				selectedColumn = oracleTable.getSelectedColumn();
-				selectedDate = sdf.parse( constructDateString( calendar.getModel(), selectedRow, selectedColumn ) );
+
+				String selectedDateString = constructDateString( calendar.getModel(), selectedRow, selectedColumn );
+
+				if ( selectedDateString.equals( "" ) )
+					return;
+
+				selectedDate = sdf.parse( selectedDateString );
 
 				calculatePhases( selectedDate );
 				(new UpdateTabsThread()).start();
@@ -190,9 +196,13 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	private static String constructDateString( CalendarTableModel model, int selectedRow, int selectedColumn )
 	{
+		String dayString = (String) model.getValueAt( selectedRow, selectedColumn );
+		if ( dayString.equals( "" ) )
+			return "";
+
 		int year = model.getCurrentYear();
 		int month = model.getCurrentMonth() + 1;
-		int day = Integer.parseInt( (String) model.getValueAt( selectedRow, selectedColumn ) );
+		int day = Integer.parseInt( dayString );
 
 		StringBuffer dateString = new StringBuffer();
 		dateString.append( year );
@@ -464,6 +474,9 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 				String todayDateString = sdf.format( new Date() );
 				String cellDateString = constructDateString( model, row, column );
+
+				if ( cellDateString.equals( "" ) )
+					return normalRenderer;
 
 				if ( todayDateString.equals( cellDateString ) )
 					return todayRenderer;
