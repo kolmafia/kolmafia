@@ -1693,7 +1693,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
 			headers[2] = new JSeparator();
 
-			headers[3] = new DisplayFrameMenuItem( "Seaside Council", CouncilFrame.class );
+			if ( KoLFrame.this instanceof RequestFrame )
+				headers[3] = new DisplayRequestMenuItem( "Seaside Council", "council.php" );
+			else
+				headers[3] = new DisplayFrameMenuItem( "Seaside Council", CouncilFrame.class );
+
 			headers[4] = new DisplayRequestMenuItem( "Weird Records", "records.php?which=0" );
 			headers[5] = new DisplayRequestMenuItem( "View Store Log", "storelog.php" );
 

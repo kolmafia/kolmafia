@@ -215,20 +215,20 @@ public class RequestFrame extends KoLFrame
 
 			// Add toolbar pieces so that people can quickly
 			// go to locations they like.
-
-			toolbarPanel.add( new BackButton() );
-			toolbarPanel.add( new ForwardButton() );
-			toolbarPanel.add( new HomeButton() );
-			toolbarPanel.add( new ReloadButton() );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-			toolbarPanel.add( locationField );
-			toolbarPanel.add( new JToolBar.Separator() );
-
-			GoButton button = new GoButton();
-			toolbarPanel.add( button );
-			getRootPane().setDefaultButton( button );
 		}
+
+		toolbarPanel.add( new BackButton() );
+		toolbarPanel.add( new ForwardButton() );
+		toolbarPanel.add( new HomeButton() );
+		toolbarPanel.add( new ReloadButton() );
+
+		toolbarPanel.add( new JToolBar.Separator() );
+		toolbarPanel.add( locationField );
+		toolbarPanel.add( new JToolBar.Separator() );
+
+		GoButton button = new GoButton();
+		toolbarPanel.add( button );
+		getRootPane().setDefaultButton( button );
 
 		(new DisplayRequestThread()).start();
 	}
