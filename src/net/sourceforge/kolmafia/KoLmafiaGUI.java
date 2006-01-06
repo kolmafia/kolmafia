@@ -74,6 +74,10 @@ public class KoLmafiaGUI extends KoLmafia
 	public static void main( String [] args )
 	{
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
+
+		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) && GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) )
+			SystemTrayFrame.addTrayIcon();
+
 		KoLmafiaGUI session = new KoLmafiaGUI();
 
 		StaticEntity.setClient( session );
@@ -120,11 +124,9 @@ public class KoLmafiaGUI extends KoLmafia
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
 
+		SystemTrayFrame.updateTooltip();
 		for ( int i = 0; i < frames.length; ++i )
 			frames[i].updateTitle();
-
-		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) && GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) )
-			SystemTrayFrame.addTrayIcon();
 
 		// If you've already loaded an adventure frame,
 		// or the login failed, then there's nothing left

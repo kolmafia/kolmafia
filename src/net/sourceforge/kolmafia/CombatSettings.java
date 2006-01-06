@@ -67,6 +67,7 @@ public abstract class CombatSettings implements UtilityConstants
 {
 	private static String [] keys;
 	private static File settingsFile;
+	private static String characterName = "";
 	private static TreeMap reference = new TreeMap();
 	private static CombatSettingNode root = new CombatSettingNode();
 
@@ -74,6 +75,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public static final void reset()
 	{
+		CombatSettings.characterName = KoLCharacter.getUsername();
 		CombatSettings.settingsFile = new File( DATA_DIRECTORY + settingsFileName() );
 
 		root.removeAllChildren();
@@ -88,7 +90,11 @@ public abstract class CombatSettings implements UtilityConstants
 	}
 
 	public static final TreeNode getRoot()
-	{	return root;
+	{
+		if ( !characterName.equals( KoLCharacter.getUsername() ) )
+			CombatSettings.reset();
+
+		return root;
 	}
 
 	/**
@@ -261,6 +267,9 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public static String getSetting( String encounter, int roundCount )
 	{
+		if ( !characterName.equals( KoLCharacter.getUsername() ) )
+			CombatSettings.reset();
+
 		if ( encounter == null || encounter.equals( "" ) )
 			return getSetting( "default", roundCount );
 

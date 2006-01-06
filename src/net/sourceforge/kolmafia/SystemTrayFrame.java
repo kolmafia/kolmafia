@@ -13,6 +13,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class SystemTrayFrame extends KoLFrame implements Runnable
 {
+	private static int icon;
 	private static SystemTrayIconManager manager = null;
 
 	private SystemTrayFrame()
@@ -27,6 +28,12 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 		for ( int i = 0; i < frames.length; ++i )
 			if ( !frames[i].isVisible() )
 				frames[i].setVisible( isVisible );
+	}
+	
+	public static void updateTooltip()
+	{
+		if ( manager != null )
+			manager.update( icon, VERSION_NAME + ": " + KoLCharacter.getUsername() );
 	}
 
 	public void run()
@@ -74,8 +81,9 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 			// to make use of the system tray.
 
 			System.load( library.getAbsolutePath() );
-			SystemTrayFrame.manager = new SystemTrayIconManager( SystemTrayIconManager.loadImage( trayicon.getAbsolutePath() ),
-				VERSION_NAME + ": " + KoLCharacter.getUsername() );
+			icon = SystemTrayIconManager.loadImage( trayicon.getAbsolutePath() );
+
+			SystemTrayFrame.manager = new SystemTrayIconManager( icon, VERSION_NAME + ": " + KoLCharacter.getUsername() );
 
 			JPopupMenu popup = new JPopupMenu();
 			constructMenus( popup );
@@ -94,8 +102,11 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 
 	public void dispose()
 	{
-		super.dispose();
-		removeTrayIcon();
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		for ( int i = 0; i < frames.length; ++i )
+			frames[i].dispose();
 	}
 
 	public static void addTrayIcon()
@@ -106,8 +117,6 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 	{
 		if ( manager != null )
 		{
-			manager.setVisible( false );
-
 			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 			existingFrames.toArray( frames );
 
@@ -115,6 +124,7 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 				frames[i].dispose();
 
 			manager.setVisible( false );
+			manager = null;
 		}
 	}
 }

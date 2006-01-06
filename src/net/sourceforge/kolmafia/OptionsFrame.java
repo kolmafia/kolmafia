@@ -142,20 +142,23 @@ public class OptionsFrame extends KoLFrame
 
 		addTab( "Chat Options", chatContainer );
 
-		JPanel customContainer = new JPanel( new BorderLayout() );
-		JTabbedPane customTabs = new JTabbedPane();
+		if ( !client.inLoginState() )
+		{
+			JPanel customContainer = new JPanel( new BorderLayout() );
+			JTabbedPane customTabs = new JTabbedPane();
 
-		displayTree = new JTree();
-		displayModel = (DefaultTreeModel) displayTree.getModel();
+			displayTree = new JTree();
+			displayModel = (DefaultTreeModel) displayTree.getModel();
 		
-		JScrollPane treeScroller = new JScrollPane( displayTree, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			JScrollPane treeScroller = new JScrollPane( displayTree, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-		customTabs.add( "View", treeScroller );
-		customTabs.add( "Modify", new CustomCombatPanel() );
+			customTabs.add( "View", treeScroller );
+			customTabs.add( "Modify", new CustomCombatPanel() );
 
-		customContainer.add( customTabs, BorderLayout.CENTER );
-		tabs.add( "Custom Combat", customContainer );
+			customContainer.add( customTabs, BorderLayout.CENTER );
+			tabs.add( "Custom Combat", customContainer );
+		}
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );

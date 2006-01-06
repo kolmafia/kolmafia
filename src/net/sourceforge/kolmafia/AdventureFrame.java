@@ -329,12 +329,22 @@ public class AdventureFrame extends KoLFrame
 
 			int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( getProperty( "battleAction" ) );
 			actionSelect.setSelectedIndex( actionIndex == -1 ? 0 : actionIndex );
+			actionSelect.addActionListener( new BattleActionListener() );
 
 			String lastAdventure = getProperty( "lastAdventure" );
 
 			for ( int i = 0; i < adventureList.size(); ++i )
 				if ( adventureList.get(i).toString().equals( lastAdventure ) )
 					locationSelect.setSelectedItem( adventureList.get(i) );
+		}
+		
+		private class BattleActionListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( actionSelect.getSelectedIndex() != -1 )
+					setProperty( "battleAction", (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() ) );
+			}
 		}
 
 		protected void setContent( VerifiableElement [] elements )
@@ -394,7 +404,6 @@ public class AdventureFrame extends KoLFrame
 			super.setEnabled( isEnabled );
 			locationSelect.setEnabled( isEnabled );
 			countField.setEnabled( isEnabled );
-			actionSelect.setEnabled( isEnabled );
 			conditionField.setEnabled( isEnabled );
 		}
 
@@ -412,7 +421,6 @@ public class AdventureFrame extends KoLFrame
 				return;
 			}
 
-			setProperty( "battleAction", (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() ) );
 			Runnable request = (Runnable) locationSelect.getSelectedItem();
 			setProperty( "lastAdventure", request.toString() );
 
