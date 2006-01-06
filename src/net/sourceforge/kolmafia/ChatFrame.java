@@ -134,6 +134,7 @@ public class ChatFrame extends KoLFrame
 		nameClickSelect.addItem( "Name click opens green message" );
 		nameClickSelect.addItem( "Name click opens gift message" );
 		nameClickSelect.addItem( "Name click opens trade message" );
+		nameClickSelect.addItem( "Name click baleets the player" );
 
 		toolbarPanel.add( nameClickSelect );
 		nameClickSelect.setSelectedIndex(0);
@@ -414,9 +415,6 @@ public class ChatFrame extends KoLFrame
 	 * a browser if you're clicking something other than the username.
 	 */
 
-	private static final String [] CHAT_OPTIONS =
-		{ "Open blue message", "Open green message", "Open purple message", "Open player profile" };
-
 	private class ChatLinkClickedListener extends KoLHyperlinkAdapter
 	{
 		protected void handleInternalLink( String location )
@@ -461,6 +459,10 @@ public class ChatFrame extends KoLFrame
 				case 4:
 					frameClass = ProposeTradeFrame.class;
 					break;
+				
+				case 5:
+					(new RequestThread( new ChatRequest( client, "/baleet", (String) parameters[1] ) )).start();
+					return;
 
 				default:
 					frameClass = ProfileFrame.class;

@@ -65,7 +65,8 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static final String [] ESOLU_OPTIONS =
 	{
-		"Use gray links instead of color links", "Add blue message link", "Add green message link", "Add gift message link", "Add trade message link"
+		"Use gray links instead of color links", "Add blue message link", "Add green message link",
+		"Add gift message link", "Add trade message link", "Add baleet player link"
 	};
 
 	private static boolean isRunning = false;
@@ -733,6 +734,12 @@ public abstract class KoLMessenger extends StaticEntity
 					linkBuffer.append( "<a href=\"" + link + "_4\">" );
 					linkBuffer.append( useColors ? "<font color=orange>" : "<font color=gray>" );
 					linkBuffer.append( "[t]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "5" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_5\">" );
+					linkBuffer.append( useColors ? "<font color=red>" : "<font color=gray>" );
+					linkBuffer.append( "[x]</font></a>" );
 				}
 
 				message = message.replaceFirst( "</b>", linkBuffer.toString() );
