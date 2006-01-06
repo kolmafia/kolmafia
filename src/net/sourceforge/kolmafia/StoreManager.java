@@ -105,7 +105,7 @@ public abstract class StoreManager extends StaticEntity
 
 	public static synchronized void update( String storeText, boolean isPriceManagement )
 	{
-		soldItemList.clear();
+		reset();
 
 		// Now that the item list has been cleared, begin
 		// parsing the store text.
