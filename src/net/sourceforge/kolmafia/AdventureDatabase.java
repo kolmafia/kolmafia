@@ -538,7 +538,6 @@ public class AdventureDatabase extends KoLDatabase
 				return;
 
 			KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
-			ItemCreationRequest creator = ItemCreationRequest.getInstance( client, item.getItemID(), item.getCount() );
 
 			// First, attempt to pull the item from the closet.
 			// If this is successful, return from the method.
@@ -551,6 +550,7 @@ public class AdventureDatabase extends KoLDatabase
 			// Next, attempt to create the item from existing
 			// ingredients (if possible).
 
+			ItemCreationRequest creator = ItemCreationRequest.getInstance( client, item.getItemID(), item.getCount() );
 			if ( creator != null )
 			{
 				retrieveItem( purchaser, creator, true, missingCount );
