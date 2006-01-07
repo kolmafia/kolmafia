@@ -514,7 +514,7 @@ public class AdventureDatabase extends KoLDatabase
 	 * appropriate CLI command.
 	 */
 
-	private static final int retrieveItem( KoLmafiaCLI purchaser, ItemCreationRequest item, boolean validate, int missingCount )
+	private static final int retrieveItem( ItemCreationRequest item, boolean validate, int missingCount )
 	{
 		int createCount = missingCount;
 
@@ -523,7 +523,11 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( createCount > 0 )
 		{
-			retrieveItem( purchaser, "make " + createCount + " " + item.getName() );
+			int quantityNeeded = item.getQuantityNeeded();
+			item.setQuantityNeeded( createCount );
+			item.run();
+
+			item.setQuantityNeeded( quantityNeeded );
 			return item.getQuantityNeeded() - item.getCount( KoLCharacter.getInventory() );
 		}
 		
@@ -557,7 +561,7 @@ public class AdventureDatabase extends KoLDatabase
 			// ingredients (if possible).
 
 			if ( creator != null )
-				missingCount = retrieveItem( purchaser, creator, true, missingCount );
+				missingCount = retrieveItem( creator, true, missingCount );
 
 			if ( missingCount <= 0 )
 				return;
@@ -577,7 +581,7 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( creator != null )
 			{
-				retrieveItem( purchaser, creator, false, missingCount );
+				retrieveItem( creator, false, missingCount );
 				return;
 			}
 
