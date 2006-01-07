@@ -1117,7 +1117,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			resetContinueState();
 			macroStream.print( KoLmafiaCLI.deriveCommand( request, iterations ) );
 
 			// Handle the gym, which is the only adventure type

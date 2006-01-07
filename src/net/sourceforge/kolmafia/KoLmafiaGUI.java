@@ -264,11 +264,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( tradeCount == 0 )
 			return;
 
-		makeRequest( new HermitRequest( this, selected, tradeCount ), 1 );
-		enableDisplay();
-
-		// We might have traded for a craftable item
-		KoLCharacter.refreshCalculatedLists();
+		(new RequestThread( new HermitRequest( this, selected, tradeCount ) )).start();
 	}
 
 	/**
@@ -310,7 +306,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( tradeCount == 0 )
 			return;
 
-		makeRequest( new TrapperRequest( this, selected, tradeCount ), 1 );
+		(new RequestThread( new TrapperRequest( this, selected, tradeCount ) )).start();
 		enableDisplay();
 
 		// We might have traded for a craftable item
@@ -355,17 +351,16 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			Object [] items = new Object[1];
 			items[0] = selected.getInstance( available - tradeCount );
-			makeRequest( new ItemStorageRequest( this, ItemStorageRequest.INVENTORY_TO_CLOSET, items ), 1 );
-			makeRequest( new BountyHunterRequest( this, selected.getItemID() ), 1 );
-			makeRequest( new ItemStorageRequest( this, ItemStorageRequest.CLOSET_TO_INVENTORY, items ), 1 );
+
+			Runnable [] sequence = new Runnable[3];
+			sequence[0] = new ItemStorageRequest( this, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+			sequence[1] = new BountyHunterRequest( this, selected.getItemID() );
+			sequence[2] = new ItemStorageRequest( this, ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+
+			(new RequestThread( sequence )).start();
 		}
 		else
-			makeRequest( new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) ), 1 );
-
-		enableDisplay();
-
-		// We might have sold a craftable item
-		KoLCharacter.refreshCalculatedLists();
+			(new RequestThread( new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) ) )).start();
 	}
 
 	/**
@@ -397,8 +392,7 @@ public class KoLmafiaGUI extends KoLmafia
 		else
 			return;
 
-		makeRequest( new GalaktikRequest( this, type ), 1 );
-		enableDisplay();
+		(new RequestThread( new GalaktikRequest( this, type ) )).start();
 	}
 
 	/**
@@ -435,7 +429,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedValue == null )
 			return;
 
-		makeRequest( new UntinkerRequest( this, selectedValue.getItemID() ), 1 );
+		(new RequestThread( new UntinkerRequest( this, selectedValue.getItemID() ) )).start();
 		enableDisplay();
 
 		// Recalculate recipes
@@ -463,8 +457,7 @@ public class KoLmafiaGUI extends KoLmafia
 				null, "Set the device to what level?", "Change mind control device from level " + KoLCharacter.getMindControlLevel(),
 					JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ KoLCharacter.getMindControlLevel() ] );
 
-			makeRequest( new MindControlRequest( this, df.parse( selectedLevel.split( " " )[1] ).intValue() ), 1 );
-			enableDisplay();
+			(new RequestThread( new MindControlRequest( this, df.parse( selectedLevel.split( " " )[1] ).intValue() ) )).start();
 		}
 		catch ( Exception e )
 		{

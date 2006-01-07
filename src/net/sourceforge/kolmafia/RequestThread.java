@@ -112,6 +112,9 @@ public class RequestThread extends Thread implements KoLConstants
 
 	public void run()
 	{
+		if ( client != null && ((requests[0] instanceof KoLRequest && !(requests[0] instanceof ChatRequest)) || requests[0] instanceof KoLAdventure) )
+			client.resetContinueState();
+
 		for ( int i = 0; i < requests.length; ++i )
 		{
 			// Chat requests are only run once, no matter what
@@ -124,13 +127,13 @@ public class RequestThread extends Thread implements KoLConstants
 			// Standard KoL requests are handled through the
 			// client.makeRequest() method.
 
-			else if ( requests[i] instanceof KoLRequest && !client.inLoginState() )
+			else if ( requests[i] instanceof KoLRequest && !client.inLoginState() && client.permitsContinue() )
 				client.makeRequest( requests[i], repeatCount[i] );
 
 			// Standard KoL adventures are handled through the
 			// client.makeRequest() method.
 
-			else if ( requests[i] instanceof KoLAdventure )
+			else if ( requests[i] instanceof KoLAdventure && client.permitsContinue() )
 				client.makeRequest( requests[i], repeatCount[i] );
 
 			// All other runnables are run, as expected, with

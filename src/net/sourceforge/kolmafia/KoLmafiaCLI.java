@@ -177,8 +177,6 @@ public class KoLmafiaCLI extends KoLmafia
 	public KoLmafiaCLI( KoLmafia scriptRequestor, InputStream inputStream ) throws IOException
 	{
 		this.scriptRequestor = (scriptRequestor == null) ? this : scriptRequestor;
-		this.scriptRequestor.resetContinueState();
-
 		outputStream = this.scriptRequestor instanceof KoLmafiaCLI ? System.out : NullStream.INSTANCE;
 		commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
 		mirrorStream = NullStream.INSTANCE;
@@ -194,6 +192,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
+			scriptRequestor.resetContinueState();
 			String username = scriptRequestor.getSettings().getProperty( "autoLogin" );
 
 			if ( username == null || username.equals( "" ) )
@@ -287,6 +286,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void listenForCommands()
 	{
+		scriptRequestor.resetContinueState();
+
 		if ( scriptRequestor == this )
 			outputStream.print( " > " );
 

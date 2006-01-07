@@ -499,13 +499,13 @@ public class AdventureDatabase extends KoLDatabase
 	private static final int retrieveItem( KoLmafiaCLI purchaser, String command, LockableListModel source, AdventureResult item, int missingCount )
 	{
 		int retrieveCount = source == null ? missingCount : Math.min( missingCount, item.getCount( source ) );
-		
+
 		if ( retrieveCount > 0 )
 		{
 			retrieveItem( purchaser, command + " " + retrieveCount + " " + item.getName() );
 			return item.getCount() - item.getCount( KoLCharacter.getInventory() );
 		}
-		
+
 		return missingCount;
 	}
 
@@ -514,30 +514,22 @@ public class AdventureDatabase extends KoLDatabase
 	 * appropriate CLI command.
 	 */
 
-	private static final int retrieveItem( ItemCreationRequest item, boolean validate, int missingCount )
+	private static final void retrieveItem( KoLmafiaCLI purchaser, ItemCreationRequest item, boolean validate, int missingCount )
 	{
-		int createCount = missingCount;
-
-		if ( validate )
-			createCount = Math.min( createCount, item.getCount( ConcoctionsDatabase.getConcoctions() ) );
+		int createCount = Math.min( missingCount, validate ? item.getCount( ConcoctionsDatabase.getConcoctions() ) : Integer.MAX_VALUE );
 
 		if ( createCount > 0 )
 		{
-			int quantityNeeded = item.getQuantityNeeded();
-			item.setQuantityNeeded( createCount );
-			item.run();
-
-			item.setQuantityNeeded( quantityNeeded );
-			return item.getQuantityNeeded() - item.getCount( KoLCharacter.getInventory() );
+			retrieveItem( purchaser, "make " + createCount + " " + item.getName() );
+			return;
 		}
-		
-		return missingCount;
 	}
 
-	public static final void retrieveItem( AdventureResult item )
+	public static synchronized final void retrieveItem( AdventureResult item )
 	{
 		try
 		{
+System.out.println( "START: " + item + ", " + client.permitsContinue() );
 			int missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 			// If you already have enough of the given item, then
@@ -545,7 +537,7 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( missingCount <= 0 )
 				return;
-		
+
 			KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
 			ItemCreationRequest creator = ItemCreationRequest.getInstance( client, item.getItemID(), item.getCount() );
 
@@ -561,10 +553,13 @@ public class AdventureDatabase extends KoLDatabase
 			// ingredients (if possible).
 
 			if ( creator != null )
-				missingCount = retrieveItem( creator, true, missingCount );
+			{
+				retrieveItem( purchaser, creator, true, missingCount );
+				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
-			if ( missingCount <= 0 )
-				return;
+				if ( missingCount <= 0 )
+					return;
+			}
 
 			// Next, attempt to pull the items out of storage,
 			// if you are out of ronin.
@@ -581,12 +576,10 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( creator != null )
 			{
-				retrieveItem( creator, false, missingCount );
+				retrieveItem( purchaser, creator, false, missingCount );
+System.out.println( "STOP: " + item + ", " + client.permitsContinue() );
 				return;
 			}
-
-			if ( missingCount <= 0 )
-				return;
 
 			// If it's not creatable, then attempt to purchase
 			// the missing item from the mall.
@@ -603,13 +596,14 @@ public class AdventureDatabase extends KoLDatabase
 
 			client.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 			client.cancelRequest();
+System.out.println( "STOP: " + item + ", " + client.permitsContinue() );
 		}
 		catch ( Exception e )
 		{
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 		}
-	} 
+	}
 
 	public static String ignoreChoiceOption( String choice )
 	{

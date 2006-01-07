@@ -543,6 +543,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	protected void makeIngredients()
 	{
+		boolean hadFailure = false;
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
 		for ( int i = 0; i < ingredients.length; ++i )
@@ -565,7 +566,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If this is a combining request, you will need
 		// to make meat paste as well.
 
-		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
+		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() && client.permitsContinue() )
 			AdventureDatabase.retrieveItem( new AdventureResult( MEAT_PASTE, quantityNeeded ) );
 	}
 

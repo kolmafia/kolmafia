@@ -164,7 +164,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		}
 		else
 		{
-			client.resetContinueState();
 			lastUpdate = "";
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount) ) );
 			client.applyRecentEffects();
