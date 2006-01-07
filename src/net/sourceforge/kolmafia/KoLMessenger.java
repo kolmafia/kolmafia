@@ -619,6 +619,13 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( message == null || message.length() == 0 )
 			return;
 
+		if ( message.startsWith( "Invalid password submitted." ) )
+		{
+			message = message.replaceFirst( "Invalid password submitted\\.", "" ).trim();
+			if ( message.length() == 0 )
+				return;
+		}
+
 		if ( message.startsWith( "[" ) )
 		{
 			// If the message is coming from a listen channel, you
