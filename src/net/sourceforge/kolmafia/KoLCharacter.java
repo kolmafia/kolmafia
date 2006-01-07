@@ -1592,6 +1592,18 @@ public abstract class KoLCharacter extends StaticEntity
 
 		addDictionary();
 
+		// Add the three permanent starting items
+		// which can be used to attack.
+
+		KoLCharacter.battleSkillIDs.add( "item0002" );
+		KoLCharacter.battleSkillNames.add( "Item: Use a Seal Tooth" );
+
+		KoLCharacter.battleSkillIDs.add( "item0004" );
+		KoLCharacter.battleSkillNames.add( "Item: Use a Scroll of Turtle Summoning" );
+
+		KoLCharacter.battleSkillIDs.add( "item0008" );
+		KoLCharacter.battleSkillNames.add( "Item: Use Spices" );
+
 		// Add in moxious maneuver if the player
 		// is of the appropriate class.
 
