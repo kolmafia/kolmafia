@@ -496,11 +496,17 @@ public class AdventureDatabase extends KoLDatabase
 	 * command, which is constructed based on the parameters.
 	 */
 
-	private static final void retrieveItem( KoLmafiaCLI purchaser, String command, LockableListModel source, AdventureResult item )
+	private static final int retrieveItem( KoLmafiaCLI purchaser, String command, LockableListModel source, AdventureResult item, int missingCount )
 	{
-		int retrieveCount = Math.min( item.getCount() - item.getCount( KoLCharacter.getInventory() ), item.getCount( source ) );
+		int retrieveCount = source == null ? missingCount : Math.min( missingCount, item.getCount( source ) );
+		
 		if ( retrieveCount > 0 )
+		{
 			retrieveItem( purchaser, command + " " + retrieveCount + " " + item.getName() );
+			return item.getCount() - item.getCount( KoLCharacter.getInventory() );
+		}
+		
+		return missingCount;
 	}
 
 	/**
@@ -508,57 +514,91 @@ public class AdventureDatabase extends KoLDatabase
 	 * appropriate CLI command.
 	 */
 
-	private static final void retrieveItem( KoLmafiaCLI purchaser, ItemCreationRequest item, boolean validate )
+	private static final int retrieveItem( KoLmafiaCLI purchaser, ItemCreationRequest item, boolean validate, int missingCount )
 	{
-		int createCount = item.getQuantityNeeded() - item.getCount( KoLCharacter.getInventory() );
+		int createCount = missingCount;
 
 		if ( validate )
 			createCount = Math.min( createCount, item.getCount( ConcoctionsDatabase.getConcoctions() ) );
 
 		if ( createCount > 0 )
+		{
 			retrieveItem( purchaser, "make " + createCount + " " + item.getName() );
+			return item.getQuantityNeeded() - item.getCount( KoLCharacter.getInventory() );
+		}
+		
+		return missingCount;
 	}
 
 	public static final void retrieveItem( AdventureResult item )
 	{
 		try
 		{
+			int missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+
+			// If you already have enough of the given item, then
+			// return from this method.
+
+			if ( missingCount <= 0 )
+				return;
+		
 			KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
 			ItemCreationRequest creator = ItemCreationRequest.getInstance( client, item.getItemID(), item.getCount() );
 
-			retrieveItem( purchaser, "closet take", KoLCharacter.getCloset(), item );
+			// First, attempt to pull the item from the closet.
+			// If this is successful, return from the method.
+
+			missingCount = retrieveItem( purchaser, "closet take", KoLCharacter.getCloset(), item, missingCount );
+
+			if ( missingCount <= 0 )
+				return;
+
+			// Next, attempt to create the item from existing
+			// ingredients (if possible).
 
 			if ( creator != null )
-				retrieveItem( purchaser, creator, true );
+				missingCount = retrieveItem( purchaser, creator, true, missingCount );
+
+			if ( missingCount <= 0 )
+				return;
+
+			// Next, attempt to pull the items out of storage,
+			// if you are out of ronin.
 
 			if ( KoLCharacter.canInteract() )
-				retrieveItem( purchaser, "hagnk", KoLCharacter.getStorage(), item );
+				missingCount = retrieveItem( purchaser, "hagnk", KoLCharacter.getStorage(), item, missingCount );
 
-			int missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
-			if ( missingCount > 0 && NPCStoreDatabase.contains( item.getName() ) )
-				retrieveItem( purchaser, "buy " + missingCount + " " + item.getName() );
+			if ( missingCount <= 0 )
+				return;
+
+			// Finally, if it's creatable, rather than seeing
+			// what main ingredient is missing, show what
+			// sub-ingredients are missing.
 
 			if ( creator != null )
 			{
-				retrieveItem( purchaser, creator, false );
+				retrieveItem( purchaser, creator, false, missingCount );
 				return;
 			}
 
-			missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
-			if ( missingCount > 0 && getProperty( "autoSatisfyChecks" ).equals( "true" ) )
-				retrieveItem( purchaser, "buy " + missingCount + " " + item.getName() );
+			if ( missingCount <= 0 )
+				return;
 
-			missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+			// If it's not creatable, then attempt to purchase
+			// the missing item from the mall.
+
+			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+				missingCount = retrieveItem( purchaser, "buy", null, item, missingCount );
+
+			if ( missingCount <= 0 )
+				return;
 
 			// If the item does not exist in sufficient quantities,
 			// then notify the client that there aren't enough items
-			// available to continue adventuring.
+			// available to continue and cancel the request.
 
-			if ( missingCount > 0 )
-			{
-				client.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
-				client.cancelRequest();
-			}
+			client.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+			client.cancelRequest();
 		}
 		catch ( Exception e )
 		{
