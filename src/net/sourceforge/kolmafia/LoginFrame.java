@@ -153,6 +153,7 @@ public class LoginFrame extends KoLFrame
 		private JPasswordField passwordField;
 		private JCheckBox savePasswordCheckBox;
 		private JCheckBox autoLoginCheckBox;
+		private JCheckBox getBreakfastCheckBox;
 
 		/**
 		 * Constructs a new <code>LoginPanel</code>, containing a place
@@ -178,6 +179,7 @@ public class LoginFrame extends KoLFrame
 			savePasswordCheckBox.addActionListener( this );
 
 			autoLoginCheckBox = new JCheckBox();
+			getBreakfastCheckBox = new JCheckBox();
 
 			JPanel checkBoxPanels = new JPanel();
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
@@ -186,6 +188,9 @@ public class LoginFrame extends KoLFrame
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
 			checkBoxPanels.add( new JLabel( "Auto-Login: " ), "" );
 			checkBoxPanels.add( autoLoginCheckBox );
+			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
+			checkBoxPanels.add( new JLabel( "Get Breakfast: " ), "" );
+			checkBoxPanels.add( getBreakfastCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
 
 			JPanel southPanel = new JPanel();
@@ -216,6 +221,8 @@ public class LoginFrame extends KoLFrame
 					savePasswordCheckBox.setSelected( true );
 					autoLoginCheckBox.setSelected( true );
 				}
+
+				getBreakfastCheckBox.setSelected( true );
 			}
 
 			setDefaultButton( confirmedButton );
@@ -258,7 +265,7 @@ public class LoginFrame extends KoLFrame
 				loginname += "/q";
 
 			client.updateDisplay( DISABLE_STATE, "Determining login settings..." );
-			(new LoginRequest( client, loginname, password, savePasswordCheckBox.isSelected() )).run();
+			(new LoginRequest( client, loginname, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected() )).run();
 		}
 
 		protected void actionCancelled()

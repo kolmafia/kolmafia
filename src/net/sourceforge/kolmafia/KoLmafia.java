@@ -210,7 +210,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID )
+	public void initialize( String loginname, String sessionID, boolean getBreakfast )
 	{
 		// Initialize the variables to their initial
 		// states to avoid null pointers getting thrown
@@ -334,7 +334,8 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve breakfast if the option to retrieve breakfast
 		// was previously selected.
 
-		getBreakfast();
+		if ( getBreakfast )
+			getBreakfast();
 
 		if ( !permitsContinue() )
 		{
@@ -392,7 +393,7 @@ public abstract class KoLmafia implements KoLConstants
 		resetContinueState();
 		updateDisplay( ENABLE_STATE, "Breakfast retrieved." );
 	}
-	
+
 	public void getBreakfast( String skillname, int standardCast )
 	{
 		int consumptionPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillname ) );

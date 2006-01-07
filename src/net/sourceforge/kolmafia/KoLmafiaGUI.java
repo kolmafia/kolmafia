@@ -87,7 +87,7 @@ public class KoLmafiaGUI extends KoLmafia
 			String password = session.getSaveState( login );
 
 			if ( password != null )
-				(new LoginRequest( session, login, password, true )).run();
+				(new LoginRequest( session, login, password, true, true )).run();
 		}
 	}
 
@@ -117,9 +117,9 @@ public class KoLmafiaGUI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID )
+	public void initialize( String loginname, String sessionID, boolean getBreakfast )
 	{
-		super.initialize( loginname, sessionID );
+		super.initialize( loginname, sessionID, getBreakfast );
 
 		// Reset all the titles on all existing frames.
 
