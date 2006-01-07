@@ -2172,14 +2172,51 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeStashRequest( String parameters )
 	{
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, INVENTORY );
-		if ( firstMatch == null )
-			return;
+		synchronized ( ClanStashRequest.class )
+		{
+			boolean isWithdraw = parameters.startsWith( "take" );
+			AdventureResult firstMatch = getFirstMatchingItem( parameters, isWithdraw ? NOWHERE : INVENTORY );
+			if ( firstMatch == null )
+				return;
 
-		Object [] items = new Object[1];
-		items[0] = firstMatch;
+			if ( isWithdraw )
+			{
+				parameters = parameters.substring( 4 ).trim();
 
-		scriptRequestor.makeRequest( new ClanStashRequest( scriptRequestor, items, ClanStashRequest.ITEMS_TO_STASH ), 1 );
+				// To prevent the potential for stash looting, only
+				// people who have administrative privileges can take
+				// stuff from the stash using a script with no penalty.
+
+				if ( ClanManager.getRankList().isEmpty() )
+				{
+					// This makes it so there's no advantage to scripting it
+					// over accessing it directly in a browser or through the
+					// standard KoLmafia interface.
+
+					if ( !TradeableItemDatabase.isUsable( firstMatch.getName() ) )
+					{
+						updateDisplay( DISABLE_STATE, "KoLmafia is now wasting some time before accessing the stash..." );
+						KoLRequest.delay( 300000 );
+					}
+				}
+			}
+
+			Object [] items = new Object[1];
+			items[0] = firstMatch;
+
+			int initialCount = firstMatch.getCount( KoLCharacter.getInventory() );
+			scriptRequestor.makeRequest( new ClanStashRequest( scriptRequestor, items, isWithdraw ?
+				ClanStashRequest.STASH_TO_ITEMS : ClanStashRequest.ITEMS_TO_STASH ), 1 );
+
+			// If the item amount doesn't match the desired, then cancel
+			// script execution.
+
+			if ( isWithdraw && firstMatch.getCount( KoLCharacter.getInventory() ) - initialCount != firstMatch.getCount() )
+			{
+				updateDisplay( ERROR_STATE, "Unable to acquire " + firstMatch.getCount() + " " + firstMatch.getName() );
+				scriptRequestor.cancelRequest();
+			}
+		}
 	}
 
 	/**
