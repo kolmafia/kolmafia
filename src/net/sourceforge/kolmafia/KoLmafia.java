@@ -223,6 +223,8 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		this.sessionID = sessionID;
+
+		String oldname = KoLCharacter.getUsername();
 		KoLCharacter.reset( loginname );
 
 		FamiliarData.reset();
@@ -233,8 +235,14 @@ public abstract class KoLmafia implements KoLConstants
 		MuseumManager.reset();
 		ClanManager.reset();
 
-		this.conditions.clear();
-		this.missingItems.clear();
+		if ( !loginname.equals( oldname ) )
+		{
+			this.conditions.clear();
+			this.missingItems.clear();
+
+			this.encounterList.clear();
+			this.adventureList.clear();
+		}
 
 		this.hunterItems.clear();
 		this.restaurantItems.clear();
@@ -423,8 +431,6 @@ public abstract class KoLmafia implements KoLConstants
 	public void resetSession()
 	{
 		tally.clear();
-		encounterList.clear();
-		adventureList.clear();
 
 		initialStats[0] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() );
 		initialStats[1] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() );
