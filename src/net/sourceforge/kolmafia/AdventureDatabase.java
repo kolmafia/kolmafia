@@ -529,7 +529,6 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		try
 		{
-System.out.println( "START: " + item + ", " + client.permitsContinue() );
 			int missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 			// If you already have enough of the given item, then
