@@ -161,6 +161,13 @@ public class ClanStashRequest extends SendMessageRequest
 
 			case ITEMS_TO_STASH:
 			case STASH_TO_ITEMS:
+
+				if ( !KoLCharacter.canInteract() )
+				{
+					updateDisplay( ERROR_STATE, "KoLmafia cannot access your clan stash at this time." );
+					client.cancelRequest();
+				}
+
 				updateDisplay( DISABLE_STATE, "Moving items..." );
 				super.run();
 				if ( !client.permitsContinue() )

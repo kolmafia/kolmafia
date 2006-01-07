@@ -2175,14 +2175,16 @@ public class KoLmafiaCLI extends KoLmafia
 		synchronized ( ClanStashRequest.class )
 		{
 			boolean isWithdraw = parameters.startsWith( "take" );
+
+			if ( isWithdraw )
+				parameters = parameters.substring( 4 ).trim();
+
 			AdventureResult firstMatch = getFirstMatchingItem( parameters, isWithdraw ? NOWHERE : INVENTORY );
 			if ( firstMatch == null )
 				return;
 
 			if ( isWithdraw )
 			{
-				parameters = parameters.substring( 4 ).trim();
-
 				// To prevent the potential for stash looting, only
 				// people who have administrative privileges can take
 				// stuff from the stash using a script with no penalty.
