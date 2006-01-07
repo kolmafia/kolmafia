@@ -79,14 +79,16 @@ public class KoLmafiaGUI extends KoLmafia
 			SystemTrayFrame.addTrayIcon();
 
 		KoLmafiaGUI session = new KoLmafiaGUI();
-
 		StaticEntity.setClient( session );
 
-		String login = session.settings.getProperty( "autoLogin" );
-		String password = session.getSaveState( login );
+		if ( args.length == 0 )
+		{
+			String login = session.settings.getProperty( "autoLogin" );
+			String password = session.getSaveState( login );
 
-		if ( password != null )
-			(new LoginRequest( session, login, password, true )).run();
+			if ( password != null )
+				(new LoginRequest( session, login, password, true )).run();
+		}
 	}
 
 	/**

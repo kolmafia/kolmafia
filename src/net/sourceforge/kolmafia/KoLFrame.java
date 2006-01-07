@@ -257,7 +257,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				System.exit(0);
 			}
 			else
-				KoLmafiaGUI.main( new String[0] );
+				KoLmafiaGUI.main( new String[1] );
 		}
 	}
 
