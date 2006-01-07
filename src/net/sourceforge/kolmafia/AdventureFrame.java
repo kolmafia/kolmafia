@@ -178,8 +178,9 @@ public class AdventureFrame extends KoLFrame
 			toolbarPanel.add( new JToolBar.Separator() );
 
 			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", StoreManageFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", HagnkStorageFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Equipment", "equipment.gif", GearChangeFrame.class ) );
-			toolbarPanel.add( new KoLPanelFrameButton( "Cast a Buff", "buff.gif", new SkillBuffPanel() ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
@@ -337,7 +338,7 @@ public class AdventureFrame extends KoLFrame
 				if ( adventureList.get(i).toString().equals( lastAdventure ) )
 					locationSelect.setSelectedItem( adventureList.get(i) );
 		}
-		
+
 		private class BattleActionListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
