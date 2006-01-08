@@ -33,7 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class AutoSellRequest extends SendMessageRequest
 {
@@ -197,22 +198,14 @@ public class AutoSellRequest extends SendMessageRequest
 
 		if ( sellType == AUTOSELL )
 		{
-			String plainTextResult = responseText.replaceAll( "<.*?>", "" );
-			StringTokenizer parsedResults = new StringTokenizer( plainTextResult, " " );
-
 			try
 			{
-				while ( !parsedResults.nextToken().equals( "for" ) );
-
-				int amount = df.parse( parsedResults.nextToken() ).intValue();
-				client.processResult( new AdventureResult( AdventureResult.MEAT, amount ) );
+				Matcher matcher = Pattern.compile( "for (\\d*) meat" ).matcher( responseText );
+				if ( matcher.find() )
+					client.processResult( new AdventureResult( AdventureResult.MEAT, df.parse( matcher.group(1) ).intValue() ) );
 			}
 			catch ( Exception e )
 			{
-				// If an exception is caught, then this is a situation that isn't
-				// currently handled by the parser.  Report it to the KoLmafia.getLogStream()
-				// and continue on.
-
 				e.printStackTrace( KoLmafia.getLogStream() );
 				e.printStackTrace();
 			}
