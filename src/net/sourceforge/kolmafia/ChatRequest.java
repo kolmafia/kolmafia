@@ -87,7 +87,7 @@ public class ChatRequest extends KoLRequest
 		else if ( message.startsWith( "/" ) )
 			actualMessage = message;
 		else
-			actualMessage = "/msg " + contactID + " " + message;
+			actualMessage = "/msg " + contactID.replaceAll( " ", "_" ) + " " + message;
 
 		addFormField( "graf", actualMessage );
 

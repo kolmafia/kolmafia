@@ -684,7 +684,7 @@ public abstract class KoLmafia implements KoLConstants
 			return null;
 
 		String playerID = (String) seenPlayerIDs.get( playerName.toLowerCase() );
-		return playerID != null ? playerID : playerName.replaceAll( " ", "_" );
+		return playerID != null ? playerID : playerName;
 	}
 
 	/**
