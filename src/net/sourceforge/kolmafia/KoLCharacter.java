@@ -223,6 +223,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static LockableListModel activeEffects = new LockableListModel();
 	private static SortedListModel usableSkills = new SortedListModel( UseSkillRequest.class );
 	private static LockableListModel availableSkills = new LockableListModel();
+	private static LockableListModel combatSkills = new LockableListModel();
 
 	private static LockableListModel battleSkillIDs = new LockableListModel();
 	private static LockableListModel battleSkillNames = new LockableListModel();
@@ -1578,6 +1579,7 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		KoLCharacter.availableSkills.clear();
 		KoLCharacter.usableSkills.clear();
+		KoLCharacter.combatSkills.clear();
 		KoLCharacter.battleSkillIDs.clear();
 		KoLCharacter.battleSkillNames.clear();
 
@@ -1690,6 +1692,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( ClassSkillsDatabase.isCombat( id ) )
 		{
+			combatSkills.add( skill );
 			battleSkillIDs.add( String.valueOf( id ) );
 			battleSkillNames.add( "Skill: " + skill.getSkillName() );
 		}
@@ -1716,8 +1719,17 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to look up the list of combat skills.
+	 * @return	A list of UseSkillRequests of combat skills
+	 */
+
+	public static LockableListModel getCombatSkills()
+	{	return combatSkills;
+	}
+
+	/**
 	 * Accessor method to look up the list of usable skills.
-	 * @return	A list of the names of usable skills
+	 * @return	A list of UseSkillRequests of usable skills
 	 */
 
 	public static LockableListModel getUsableSkills()

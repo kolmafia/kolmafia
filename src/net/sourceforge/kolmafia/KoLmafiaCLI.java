@@ -1749,16 +1749,38 @@ public class KoLmafiaCLI extends KoLmafia
 	 * given a substring representing it.
 	 */
 
-	public static String getSkillName( String substring )
+	public static String getSkillName( String substring, LockableListModel list )
 	{
-		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getUsableSkills().size() ];
-		KoLCharacter.getUsableSkills().toArray( skills );
+		UseSkillRequest [] skills = new UseSkillRequest[ list.size() ];
+		list.toArray( skills );
 
+		String name = substring.toLowerCase();
 		for ( int i = 0; i < skills.length; ++i )
-			if ( skills[i].getSkillName().toLowerCase().indexOf( substring ) != -1 )
-				return skills[i].getSkillName();
+		{
+			String skill = skills[i].getSkillName();
+			if ( skill.toLowerCase().indexOf( name ) != -1 )
+				return skill;
+		}
 
 		return null;
+	}
+
+	/**
+	 * Utility method used to retrieve the full name of a skill,
+	 * given a substring representing it.
+	 */
+
+	public static String getSkillName( String substring )
+	{	return getSkillName( substring, KoLCharacter.getUsableSkills() );
+	}
+
+	/**
+	 * Utility method used to retrieve the full name of a combat skill,
+	 * given a substring representing it.
+	 */
+
+	public static String getCombatSkillName( String substring )
+	{	return getSkillName( substring, KoLCharacter.getCombatSkills() );
 	}
 
 	/**
