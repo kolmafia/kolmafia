@@ -863,7 +863,7 @@ public class AdventureFrame extends KoLFrame
 
 		public RestoreOptionsPanel()
 		{
-			super( new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+			super( "save", "reload", new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
 
 			battleStopSelect = new JComboBox();
 			battleStopSelect.addItem( "Never stop combat" );
