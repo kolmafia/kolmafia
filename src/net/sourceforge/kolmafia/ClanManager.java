@@ -877,6 +877,7 @@ public class ClanManager extends StaticEntity
 
 		StringBuffer clanCDL = new StringBuffer();
 		String [] members = new String[ profileMap.keySet().size() ];
+		profileMap.keySet().toArray( members );
 
 		if ( members.length > 0 )
 			clanCDL.append( members[0] );
