@@ -569,6 +569,16 @@ public class AdventureDatabase extends KoLDatabase
 			if ( missingCount <= 0 )
 				return;
 
+			// Try to purchase the item from the mall, if the
+			// user wishes to autosatisfy through purchases,
+			// and the item is not made through combination.
+
+			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) && (creator == null || ConcoctionsDatabase.getMixingMethod( creator.getItemID() ) != ItemCreationRequest.COMBINE) )
+				missingCount = retrieveItem( purchaser, "buy", null, item, missingCount );
+
+			if ( missingCount <= 0 )
+				return;
+
 			// Finally, if it's creatable, rather than seeing
 			// what main ingredient is missing, show what
 			// sub-ingredients are missing.
@@ -576,12 +586,11 @@ public class AdventureDatabase extends KoLDatabase
 			if ( creator != null )
 			{
 				retrieveItem( purchaser, creator, false, missingCount );
-System.out.println( "STOP: " + item + ", " + client.permitsContinue() );
 				return;
 			}
 
-			// If it's not creatable, then attempt to purchase
-			// the missing item from the mall.
+			// Try to purchase the item from the mall, if the
+			// user wishes to autosatisfy through purchases.
 
 			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) )
 				missingCount = retrieveItem( purchaser, "buy", null, item, missingCount );
@@ -595,7 +604,6 @@ System.out.println( "STOP: " + item + ", " + client.permitsContinue() );
 
 			client.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 			client.cancelRequest();
-System.out.println( "STOP: " + item + ", " + client.permitsContinue() );
 		}
 		catch ( Exception e )
 		{
