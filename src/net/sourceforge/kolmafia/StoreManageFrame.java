@@ -132,7 +132,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			VerifiableElement [] elements = new VerifiableElement[0];
 			searchResults = new SearchResultsPanel();
 
-			setContent( elements, null, searchResults, true, true );	
+			setContent( elements, null, searchResults, true, true );
 			container.add( elementsPanel, BorderLayout.CENTER );
 		}
 
@@ -181,8 +181,10 @@ public class StoreManageFrame extends KoLPanelFrame
 				Color.black, Color.white );
 
 			add( searchLabel, BorderLayout.NORTH );
+			JComponentUtilities.setComponentSize( searchLabel, 150, 16 );
 
 			JList resultsDisplay = new JList( priceSummary );
+			resultsDisplay.setPrototypeCellValue( "1234567890ABCDEF" );
 			resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			JScrollPane scrollArea = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );

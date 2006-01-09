@@ -68,7 +68,7 @@ public abstract class StoreManager extends StaticEntity
 
 		// Now, update the title of the store manage
 		// frame to reflect the new price.
-		
+
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
 
@@ -76,7 +76,7 @@ public abstract class StoreManager extends StaticEntity
 			if ( frames[i] instanceof StoreManageFrame )
 				frames[i].setTitle( "Store Manager (potential earnings: " + df.format( potentialEarnings ) + " meat)" );
 	}
-	
+
 	/**
 	 * Returns the current price of the item with the given
 	 * item ID.  This is useful for auto-adding at the
@@ -257,7 +257,7 @@ public abstract class StoreManager extends StaticEntity
 				if ( resultsArray[i].getQuantity() == resultsArray[i].getLimit() )
 					priceSummary.add( "  " + df.format( resultsArray[i].getQuantity() ) + " @ " + df.format( resultsArray[i].getPrice() ) + " meat" );
 				else
-					priceSummary.add( "  " + df.format( resultsArray[i].getQuantity() ) + "(limit " + df.format( resultsArray[i].getLimit() ) + ") @ " + df.format( resultsArray[i].getPrice() ) );
+					priceSummary.add( "  " + df.format( resultsArray[i].getQuantity() ) + " limit " + df.format( resultsArray[i].getLimit() ) + " @ " + df.format( resultsArray[i].getPrice() ) );
 			}
 
 			client.updateDisplay( ENABLE_STATE, "" );
