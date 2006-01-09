@@ -2130,4 +2130,19 @@ public abstract class KoLCharacter extends StaticEntity
 		// No wand
 		return null;
 	}
+
+	public static boolean hasItem( AdventureResult item, boolean shouldCreate )
+	{
+		if ( item.getCount( KoLCharacter.getInventory() ) > 0 || item.getCount( KoLCharacter.getCloset() ) > 0 )
+			return true;
+
+		if ( shouldCreate )
+		{
+			ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), 1 );
+			if ( creation != null )
+				return creation.getCount( ConcoctionsDatabase.getConcoctions() ) > 0;
+		}
+
+		return false;
+	}
 }

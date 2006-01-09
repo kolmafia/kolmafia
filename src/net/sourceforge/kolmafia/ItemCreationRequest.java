@@ -481,31 +481,31 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !client.permitsContinue() )
 			return false;
 
-		boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
-
-		switch ( mixingMethod )
-		{
-			case COOK:
-			case COOK_REAGENT:
-			case COOK_PASTA:
-
-				if ( KoLCharacter.hasChef() || ( noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) ) )
-					return true;
-				break;
-
-			case MIX:
-			case MIX_SPECIAL:
-
-				if ( KoLCharacter.hasBartender() || ( noServantNeeded && KoLCharacter.getInventory().contains( KIT ) ) )
-					return true;
-				break;
-
-			default:
-				return true;
-		}
-
 		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
 		{
+			boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
+
+			switch ( mixingMethod )
+			{
+				case COOK:
+				case COOK_REAGENT:
+				case COOK_PASTA:
+
+					if ( KoLCharacter.hasChef() || ( noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) ) )
+						return true;
+					break;
+
+				case MIX:
+				case MIX_SPECIAL:
+
+					if ( KoLCharacter.hasBartender() || ( noServantNeeded && KoLCharacter.getInventory().contains( KIT ) ) )
+						return true;
+					break;
+
+				default:
+					return true;
+			}
+
 			updateDisplay( ERROR_STATE, "Box servant explosion!" );
 			return false;
 		}
@@ -521,25 +521,32 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_REAGENT:
 			case COOK_PASTA:
 
-				return useBoxServant( CHEF ) || ( useClockwork && useBoxServant( CLOCKWORK_CHEF ) );
+				return useBoxServant( CHEF, CLOCKWORK_CHEF, useClockwork );
 
 			case MIX:
 			case MIX_SPECIAL:
 
-				return useBoxServant( BARTENDER ) || ( useClockwork && useBoxServant( CLOCKWORK_BARTENDER ) );
+				return useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, useClockwork );
 		}
 
 		return false;
 	}
 
-	private boolean useBoxServant( AdventureResult servant )
+	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant, boolean useClockwork )
 	{
 		// First, check to see if a box servant is available
 		// for usage, either normally, or through some form
 		// of creation.  This can be done by consulting the
 		// creation table.
 
-		AdventureDatabase.retrieveItem( servant );
+		if ( KoLCharacter.hasItem( servant, false ) )
+			AdventureDatabase.retrieveItem( servant );
+		else if ( useClockwork && KoLCharacter.hasItem( clockworkServant, false ) )
+			AdventureDatabase.retrieveItem( clockworkServant );
+		else if ( KoLCharacter.hasItem( servant, true ) )
+			AdventureDatabase.retrieveItem( servant );
+		else if ( useClockwork && KoLCharacter.hasItem( clockworkServant, true ) )
+			AdventureDatabase.retrieveItem( clockworkServant );
 
 		if ( servant.getCount( KoLCharacter.getInventory() ) < 1 )
 		{

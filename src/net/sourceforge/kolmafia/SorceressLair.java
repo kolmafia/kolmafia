@@ -213,22 +213,7 @@ public abstract class SorceressLair extends StaticEntity
 	}
 
 	private static boolean hasItem( AdventureResult item )
-	{	return hasItem( item, true );
-	}
-
-	private static boolean hasItem( AdventureResult item, boolean shouldCreate )
-	{
-		if ( item.getCount( KoLCharacter.getInventory() ) > 0 || item.getCount( KoLCharacter.getCloset() ) > 0 )
-			return true;
-
-		if ( shouldCreate )
-		{
-			ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), 1 );
-			if ( creation != null )
-				return creation.getCount( ConcoctionsDatabase.getConcoctions() ) > 0;
-		}
-
-		return false;
+	{	return KoLCharacter.hasItem( item, true );
 	}
 
 	public static void completeEntryway()
@@ -300,9 +285,9 @@ public abstract class SorceressLair extends StaticEntity
 
 			// See which ones are available
 
-			boolean hasSword = hasItem( STAR_SWORD, false );
-			boolean hasStaff = hasItem( STAR_STAFF, false );
-			boolean hasCrossbow = hasItem( STAR_CROSSBOW, false );
+			boolean hasSword = KoLCharacter.hasItem( STAR_SWORD, false );
+			boolean hasStaff = KoLCharacter.hasItem( STAR_STAFF, false );
+			boolean hasCrossbow = KoLCharacter.hasItem( STAR_CROSSBOW, false );
 
 			// See which ones he can use
 
