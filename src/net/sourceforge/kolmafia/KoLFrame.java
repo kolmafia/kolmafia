@@ -598,13 +598,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				KoLmafia.openDebugLog();
 				for ( int i = 0; i < frames.length; ++i )
-					frames[i].debugMenuItem.setText( "Stop recording debug" );
+					if ( frames[i] != null && frames[i].debugMenuItem != null )
+						frames[i].debugMenuItem.setText( "Stop recording debug" );
 			}
-			else if ( client != null )
+			else
 			{
-				client.closeDebugLog();
+				KoLmafia.closeDebugLog();
 				for ( int i = 0; i < frames.length; ++i )
-					frames[i].debugMenuItem.setText( "Begin recording debug..." );
+					if ( frames[i] != null && frames[i].debugMenuItem != null )
+						frames[i].debugMenuItem.setText( "Begin recording debug..." );
 			}
 		}
 	}
