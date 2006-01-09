@@ -740,7 +740,7 @@ public class OptionsFrame extends KoLFrame
 	{
 		public CustomCombatPanel()
 		{
-			super( "Custom Combat", "save", "help", new JTextArea() );
+			super( "Custom Combat", "save", "help", new JTextArea( 12, 40 ) );
 
 			try
 			{
