@@ -1240,11 +1240,6 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( shouldRefreshStatus )
 					(new CharpaneRequest( this )).run();
-
-				// With all that information parsed out, every request
-				// should end with the special lists refreshing.
-
-				KoLCharacter.refreshCalculatedLists();
 			}
 
 			// If you've completed the requests, make sure to update
@@ -1268,6 +1263,11 @@ public abstract class KoLmafia implements KoLConstants
 				updateDisplay( NORMAL_STATE, "Requests completed!  (Conditions not yet met)" );
 			else if ( permitsContinue() && currentState != ERROR_STATE && currentIteration >= iterations )
 				updateDisplay( NORMAL_STATE, "Requests completed!" );
+
+			// With all that information parsed out, end the
+			// request sequence with the lists refreshing.
+
+			KoLCharacter.refreshCalculatedLists();
 		}
 		catch ( RuntimeException e )
 		{
