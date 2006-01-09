@@ -145,6 +145,13 @@ public class MutableComboBox extends JComboBox implements FocusListener
 		{
 			if ( e.getKeyChar() != KeyEvent.CHAR_UNDEFINED )
 				findMatch( e.getKeyCode() );
+
+			if ( !model.contains( currentName ) )
+			{
+				model.add( currentName );
+				currentMatch = currentName;
+				setSelectedItem( currentMatch );
+			}
 		}
 	}
 }
