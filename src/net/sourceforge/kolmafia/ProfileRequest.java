@@ -60,6 +60,9 @@ public class ProfileRequest extends KoLRequest
 	private Integer muscle, mysticism, moxie;
 	private String title, rank;
 
+	private String clanName;
+	private int equipmentPower;
+
 	public ProfileRequest( KoLmafia client, String playerName )
 	{
 		super( client, "showplayer.php" );
@@ -170,6 +173,17 @@ public class ProfileRequest extends KoLRequest
 			}
 			else
 				this.pvpRank = new Integer( 0 );
+
+			this.equipmentPower = 0;
+			if ( cleanHTML.indexOf( "\nEquipment" ) != -1 )
+			{
+				while ( !st.nextToken().startsWith( "Equipment" ) );
+
+				String currentItem;
+				while ( EquipmentDatabase.contains( currentItem = st.nextToken() ) )
+					if ( EquipmentDatabase.getHands( currentItem ) == 0 )
+						this.equipmentPower += EquipmentDatabase.getPower( currentItem );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -268,6 +282,14 @@ public class ProfileRequest extends KoLRequest
 	{	return playerID;
 	}
 
+	public void setClanName( String clanName )
+	{	this.clanName = clanName == null ? "" : clanName;
+	}
+
+	public String getClanName()
+	{	return clanName;
+	}
+
 	public void initialize()
 	{
 		if ( responseText == null )
@@ -352,6 +374,10 @@ public class ProfileRequest extends KoLRequest
 
 	public Integer getPower()
 	{	return new Integer( muscle.intValue() + mysticism.intValue() + moxie.intValue() );
+	}
+
+	public int getEquipmentPower()
+	{	return equipmentPower;
 	}
 
 	public String getTitle()

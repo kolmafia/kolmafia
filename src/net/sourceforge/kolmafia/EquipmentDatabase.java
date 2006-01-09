@@ -67,10 +67,17 @@ public class EquipmentDatabase extends KoLDatabase
 				{
 					power[ itemID ] = Integer.parseInt( data[1] );
 					requirement[ itemID ] = data[2];
-					hands[ itemID ] = ( data.length >= 4 ) ? Integer.parseInt( data[3] ) : 1;
+					hands[ itemID ] = ( data.length >= 4 ) ? Integer.parseInt( data[3] ) :
+						TradeableItemDatabase.getConsumptionType( itemID ) == ConsumeItemRequest.EQUIP_WEAPON ? 1 : 0;
 				}
 			}
 		}
+	}
+
+	public static boolean contains( String itemName )
+	{
+		int itemID = TradeableItemDatabase.getItemID( itemName );
+		return itemID != -1 && requirement[ itemID ] != null;
 	}
 
 	public static boolean canEquip( String itemName )
