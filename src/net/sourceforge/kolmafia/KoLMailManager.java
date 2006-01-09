@@ -44,6 +44,7 @@ public abstract class KoLMailManager extends StaticEntity
 	static
 	{
 		mailboxes.put( "Inbox", new LockableListModel() );
+		mailboxes.put( "PvP", new LockableListModel() );
 		mailboxes.put( "Outbox", new LockableListModel() );
 		mailboxes.put( "Saved", new LockableListModel() );
 	}
@@ -51,6 +52,7 @@ public abstract class KoLMailManager extends StaticEntity
 	public static void reset()
 	{
 		getMessages( "Inbox" ).clear();
+		getMessages( "PvP" ).clear();
 		getMessages( "Outbox" ).clear();
 		getMessages( "Saved" ).clear();
 	}
@@ -76,7 +78,9 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static boolean addMessage( String boxname, String message )
 	{
-		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
+		LockableListModel mailbox = (LockableListModel) mailboxes.get(
+			boxname.equals( "Inbox" ) && message.indexOf( "Here's a play-by-play report on how it went down" ) != -1 ? "PvP" : boxname );
+
 		KoLMailMessage toadd = new KoLMailMessage( message );
 
 		if ( mailbox.contains( toadd ) )
@@ -89,7 +93,7 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static void deleteMessage( String boxname, KoLMailMessage message )
 	{
-		(new RequestThread( new MailboxRequest( client, boxname, message, "delete" ) )).start();
+		(new RequestThread( new MailboxRequest( client, boxname.equals( "PvP" ) ? "Inbox" : boxname, message, "delete" ) )).start();
 
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
 		int messageIndex = mailbox.indexOf( message );
@@ -102,7 +106,7 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( messages.length == 0 )
 			return;
 
-		(new MailboxRequest( client, boxname, messages, "delete" )).run();
+		(new MailboxRequest( client, boxname.equals( "PvP" ) ? "Inbox" : boxname, messages, "delete" )).run();
 
 		int messageIndex;
 		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );

@@ -224,19 +224,19 @@ public abstract class KoLmafia implements KoLConstants
 
 		this.sessionID = sessionID;
 
-		String oldname = KoLCharacter.getUsername();
-		KoLCharacter.reset( loginname );
-
-		FamiliarData.reset();
-		CharpaneRequest.reset();
-		MushroomPlot.reset();
-		StoreManager.reset();
-		CakeArenaManager.reset();
-		MuseumManager.reset();
-		ClanManager.reset();
-
-		if ( !loginname.equals( oldname ) )
+		if ( !loginname.equals( KoLCharacter.getUsername() ) )
 		{
+			KoLCharacter.reset( loginname );
+			KoLMailManager.reset();
+			FamiliarData.reset();
+			CharpaneRequest.reset();
+			MushroomPlot.reset();
+			StoreManager.reset();
+			CakeArenaManager.reset();
+			MuseumManager.reset();
+			ClanManager.reset();
+
+			this.recentEffects.clear();
 			this.conditions.clear();
 			this.missingItems.clear();
 
@@ -248,9 +248,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.restaurantItems.clear();
 		this.microbreweryItems.clear();
 		this.galaktikCures.clear();
-		this.recentEffects.clear();
 
-		this.tally.clear();
 		resetSession();
 
 		if ( !permitsContinue() )

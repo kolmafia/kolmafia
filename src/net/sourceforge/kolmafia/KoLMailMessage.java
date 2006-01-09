@@ -51,7 +51,8 @@ public class KoLMailMessage
 
 	public KoLMailMessage( String message )
 	{
-		this.messageHTML = message.substring( message.indexOf( "\">" ) + 2 );
+		this.messageHTML = message.substring( message.indexOf( "\">" ) + 2 ).replaceAll( "(<[pP]>)+", "<br><br>" );
+
 		this.messageID = message.substring( message.indexOf( "name=" ) + 6, message.indexOf( "\">" ) );
 		StringTokenizer messageParser = new StringTokenizer( message, "<>" );
 
