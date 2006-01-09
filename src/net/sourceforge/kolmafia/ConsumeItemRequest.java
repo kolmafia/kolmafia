@@ -170,6 +170,12 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
+		if ( itemUsed.getName().startsWith( "64735" ) && !KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) )
+		{
+			KoLCharacter.addAccomplishment( KoLCharacter.BARON );
+			client.processResult( FightRequest.DICTIONARY1.getNegation() );
+		}
+
 		super.run();
 
 		if ( responseCode == 302 && !redirectLocation.equals( "maint.php" ) )
@@ -323,24 +329,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 		else if ( itemUsed.getName().equals( "Jumbo Dr. Lucifer" ) )
 			client.processResult( new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
-
-		// If you successfully use a 64735 scroll, you lose the
-		// dictionary you untinkered from the abridged dictionary, but
-		// gain another, just as usable in combat, but also smithable
-		// and sellable.
-
-		else if ( itemUsed.getName().startsWith( "64735" ) )
-		{
-			if ( responseText.indexOf( "You are magically transported" ) != -1 )
-			{
-				KoLCharacter.addAccomplishment( KoLCharacter.BARON );
-
-				client.processResult( itemUsed.getNegation() );
-				client.processResult( FightRequest.DICTIONARY1.getNegation() );
-			}
-
-			return;
-		}
 
 		// Successfully using the "Feng Shui for Big Dumb Idiots" uses
 		// up the decorative fountain and windchimes
