@@ -115,7 +115,9 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 		else
 		{
-			tabbedFrame.dispose();
+			if ( tabbedFrame != null )
+				tabbedFrame.dispose();
+
 			tabbedFrame = null;
 		}
 
