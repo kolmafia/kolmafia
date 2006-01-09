@@ -222,7 +222,7 @@ public class LoginFrame extends KoLFrame
 					autoLoginCheckBox.setSelected( true );
 				}
 
-				getBreakfastCheckBox.setSelected( true );
+				getBreakfastCheckBox.setSelected( getProperty( "alwaysGetBreakfast" ).equals( "true" ) );
 			}
 
 			setDefaultButton( confirmedButton );
@@ -245,6 +245,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
+			setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 			String loginname = ((String)(loginnameField instanceof JComboBox ?
 				((JComboBox)loginnameField).getSelectedItem() : ((JTextField)loginnameField).getText() ));
 

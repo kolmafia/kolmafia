@@ -177,6 +177,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// The remaining settings are not related to choice
 		// adventures and require no special handling.
 
+		ensureProperty( "alwaysGetBreakfast", "true" );
 		ensureProperty( "autoRepairBoxes", "false" );
 		ensureProperty( "autoSatisfyChecks", "false" );
 		ensureProperty( "autoLogChat", "false" );
