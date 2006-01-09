@@ -202,7 +202,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		return true;
 	}
-	
+
 	private static AdventureResult pickOne( AdventureResult [] itemOptions )
 	{
 		for ( int i = 0; i < itemOptions.length; ++i )
@@ -211,16 +211,23 @@ public abstract class SorceressLair extends StaticEntity
 
 		return itemOptions[0];
 	}
-	
+
 	private static boolean hasItem( AdventureResult item )
+	{	return hasItem( item, true );
+	}
+
+	private static boolean hasItem( AdventureResult item, boolean shouldCreate )
 	{
 		if ( item.getCount( KoLCharacter.getInventory() ) > 0 || item.getCount( KoLCharacter.getCloset() ) > 0 )
 			return true;
 
-		ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), 1 );
-		if ( creation != null )
-			return creation.getCount( ConcoctionsDatabase.getConcoctions() ) > 0;
-		
+		if ( shouldCreate )
+		{
+			ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), 1 );
+			if ( creation != null )
+				return creation.getCount( ConcoctionsDatabase.getConcoctions() ) > 0;
+		}
+
 		return false;
 	}
 
@@ -293,9 +300,9 @@ public abstract class SorceressLair extends StaticEntity
 
 			// See which ones are available
 
-			boolean hasSword = hasItem( STAR_SWORD );
-			boolean hasStaff = hasItem( STAR_STAFF );
-			boolean hasCrossbow = hasItem( STAR_CROSSBOW );
+			boolean hasSword = hasItem( STAR_SWORD, false );
+			boolean hasStaff = hasItem( STAR_STAFF, false );
+			boolean hasCrossbow = hasItem( STAR_CROSSBOW, false );
 
 			// See which ones he can use
 
@@ -310,6 +317,16 @@ public abstract class SorceressLair extends StaticEntity
 			else if ( hasStaff && canUseStaff )
 				starWeapon = STAR_STAFF;
 			else if ( hasCrossbow && canUseCrossbow )
+				starWeapon = STAR_CROSSBOW;
+
+			// Otherwise, pick one that he can
+			// create and use
+
+			else if ( canUseSword && hasItem( STAR_SWORD ) )
+				starWeapon = STAR_SWORD;
+			else if ( canUseStaff && hasItem( STAR_SWORD ) )
+				starWeapon = STAR_STAFF;
+			else if ( canUseCrossbow && hasItem( STAR_SWORD ) )
 				starWeapon = STAR_CROSSBOW;
 
 			// At least pick one that he can use
@@ -653,7 +670,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( hasItem( BALLOON ) )
 		{
 			AdventureDatabase.retrieveItem( BALLOON );
-		
+
 			request = new KoLRequest( client, "lair2.php" );
 			request.addFormField( "preaction", "key" );
 			request.addFormField( "whichkey", String.valueOf( BALLOON.getItemID() ) );
