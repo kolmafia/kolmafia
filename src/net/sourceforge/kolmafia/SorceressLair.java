@@ -80,7 +80,8 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult SNEAKY_PETE = new AdventureResult( 284, 1 );
 	private static final AdventureResult BALLOON = new AdventureResult( 436, 1 );
 
-        // Results of key puzzles
+	// Results of key puzzles
+
 	private static final AdventureResult STRUMMING = new AdventureResult( 736, 1 );
 	private static final AdventureResult SQUEEZINGS = new AdventureResult( 737, 1 );
 	private static final AdventureResult RHYTHM = new AdventureResult( 738, 1 );
@@ -90,6 +91,11 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static final AdventureResult PUZZLE_PIECE = new AdventureResult( 727, 1 );
 	private static final AdventureResult HEDGE_KEY = new AdventureResult( 728, 1 );
+
+	private static final AdventureResult BANJO_STRING = new AdventureResult( 52, 1 );
+	private static final AdventureResult [] CLOVER_WEAPONS = { new AdventureResult( 32, 1 ), new AdventureResult( 50, 1 ), new AdventureResult( 57, 1 ), new AdventureResult( 60, 1 ), new AdventureResult( 68, 1 ) };
+
+	private static final AdventureResult HEART_ROCK = new AdventureResult( 48, 1 );
 
 	// Guardians and the items that defeat them
 
@@ -223,6 +229,10 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !checkPrerequisites( 1, 2 ) )
 			return;
 
+		// Remove his weapon so that everything is easier for
+		// the rest of the script.
+
+		client.makeRequest( new EquipmentRequest( client, EquipmentRequest.UNEQUIP, KoLCharacter.WEAPON ), 1 );
 		List requirements = new ArrayList();
 
 		// Make sure the character has some candy, or at least
@@ -266,77 +276,61 @@ public abstract class SorceressLair extends StaticEntity
 		// Decide on which star weapon should be available for
 		// this whole process.
 
-		String currentWeapon = KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON );
 		AdventureResult starWeapon;
 
-		boolean needsWeapon;
+		// See which ones are available
 
-		// If he's currently wielding a star weapon, use that one.
+		boolean hasSword = KoLCharacter.hasItem( STAR_SWORD, false );
+		boolean hasStaff = KoLCharacter.hasItem( STAR_STAFF, false );
+		boolean hasCrossbow = KoLCharacter.hasItem( STAR_CROSSBOW, false );
 
-		if ( currentWeapon != null && currentWeapon.startsWith( "star" ) )
-		{
-			starWeapon = new AdventureResult( currentWeapon );
-			needsWeapon = false;
-		}
+		// See which ones he can use
+
+		boolean canUseSword = EquipmentDatabase.canEquip( STAR_SWORD.getName() );
+		boolean canUseStaff = EquipmentDatabase.canEquip( STAR_STAFF.getName() );
+		boolean canUseCrossbow = EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() );
+
+		// Pick one that he has and can use
+
+		if ( hasSword && canUseSword )
+			starWeapon = STAR_SWORD;
+		else if ( hasStaff && canUseStaff )
+			starWeapon = STAR_STAFF;
+		else if ( hasCrossbow && canUseCrossbow )
+			starWeapon = STAR_CROSSBOW;
+
+		// Otherwise, pick one that he can
+		// create and use
+
+		else if ( canUseSword && hasItem( STAR_SWORD ) )
+			starWeapon = STAR_SWORD;
+		else if ( canUseStaff && hasItem( STAR_SWORD ) )
+			starWeapon = STAR_STAFF;
+		else if ( canUseCrossbow && hasItem( STAR_SWORD ) )
+			starWeapon = STAR_CROSSBOW;
+
+		// At least pick one that he can use
+
+		else if ( canUseSword )
+			starWeapon = STAR_SWORD;
+		else if ( canUseStaff )
+			starWeapon = STAR_STAFF;
+		else if ( canUseCrossbow )
+			starWeapon = STAR_CROSSBOW;
+
+		// Otherwise, pick one that he has
+
+		else if ( hasSword )
+			starWeapon = STAR_SWORD;
+		else if ( hasStaff )
+			starWeapon = STAR_STAFF;
+		else if ( hasCrossbow )
+			starWeapon = STAR_CROSSBOW;
+
+		// What a wimp!
+
 		else
-		{
-			// Otherwise, he'll need to equip one
-			needsWeapon = true;
-
-			// See which ones are available
-
-			boolean hasSword = KoLCharacter.hasItem( STAR_SWORD, false );
-			boolean hasStaff = KoLCharacter.hasItem( STAR_STAFF, false );
-			boolean hasCrossbow = KoLCharacter.hasItem( STAR_CROSSBOW, false );
-
-			// See which ones he can use
-
-			boolean canUseSword = EquipmentDatabase.canEquip( STAR_SWORD.getName() );
-			boolean canUseStaff = EquipmentDatabase.canEquip( STAR_STAFF.getName() );
-			boolean canUseCrossbow = EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() );
-
-			// Pick one that he has and can use
-
-			if ( hasSword && canUseSword )
-				starWeapon = STAR_SWORD;
-			else if ( hasStaff && canUseStaff )
-				starWeapon = STAR_STAFF;
-			else if ( hasCrossbow && canUseCrossbow )
-				starWeapon = STAR_CROSSBOW;
-
-			// Otherwise, pick one that he can
-			// create and use
-
-			else if ( canUseSword && hasItem( STAR_SWORD ) )
-				starWeapon = STAR_SWORD;
-			else if ( canUseStaff && hasItem( STAR_SWORD ) )
-				starWeapon = STAR_STAFF;
-			else if ( canUseCrossbow && hasItem( STAR_SWORD ) )
-				starWeapon = STAR_CROSSBOW;
-
-			// At least pick one that he can use
-
-			else if ( canUseSword )
-				starWeapon = STAR_SWORD;
-			else if ( canUseStaff )
-				starWeapon = STAR_STAFF;
-			else if ( canUseCrossbow )
-				starWeapon = STAR_CROSSBOW;
-
-			// Otherwise, pick one that he has
-
-			else if ( hasSword )
-				starWeapon = STAR_SWORD;
-			else if ( hasStaff )
-				starWeapon = STAR_STAFF;
-			else if ( hasCrossbow )
-				starWeapon = STAR_CROSSBOW;
-
-			// What a wimp!
-
-			else
-				starWeapon = STAR_SWORD;
-		}
+			starWeapon = STAR_SWORD;
 
 		boolean needsBuckler = !KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).startsWith( "star" ) &&
 			!KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).startsWith( "star" ) && !KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).startsWith( "star" );
@@ -345,9 +339,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( !hasItem( STRUMMING ) )
 		{
-			if ( needsWeapon )
-				requirements.add( starWeapon );
-
+			requirements.add( starWeapon );
 			if ( needsBuckler )
 				requirements.add( STAR_BUCKLER );
 
@@ -361,16 +353,29 @@ public abstract class SorceressLair extends StaticEntity
 			requirements.add( BORIS );
 			requirements.add( JARLSBERG );
 			requirements.add( SNEAKY_PETE );
-
-			// It's possible that meat paste is also required, if
-			// the person is not in a muscle sign.
-
-			if ( !KoLCharacter.inMuscleSign() )
-				requirements.add( new AdventureResult( ItemCreationRequest.MEAT_PASTE, 2 ) );
 		}
 
 		// Next, figure out which instruments are needed for the final
-		// stage of the entryway.
+		// stage of the entryway. If the person has a clover weapon,
+		// but no stringed instrument, but they have a banjo string,
+		// then dismantle the legend and construct the stone banjo.
+
+		AdventureResult cloverWeapon = null;
+		boolean untinkerCloverWeapon = !hasItem( STONE_BANJO ) && !hasItem( HEAVY_METAL_GUITAR ) && !hasItem( ACOUSTIC_GUITAR ) && !hasItem( DISCO_BANJO );
+
+		if ( untinkerCloverWeapon )
+		{
+			cloverWeapon = pickOne( CLOVER_WEAPONS );
+			String cloverWeaponName = cloverWeapon.getName();
+
+			if ( hasItem( BANJO_STRING ) && hasItem( cloverWeapon ) )
+			{
+				client.makeRequest( new UntinkerRequest( client, cloverWeapon.getItemID() ), 1 );
+				client.makeRequest( new UntinkerRequest( client, cloverWeapon.getItemID() == ROCKNROLL_LEGEND.getItemID() ? 48 :
+					cloverWeapon.getItemID() - 1 ), 1 );
+				client.makeRequest( ItemCreationRequest.getInstance( client, STONE_BANJO ), 1 );
+			}
+		}
 
 		requirements.add( pickOne( new AdventureResult [] { STONE_BANJO, HEAVY_METAL_GUITAR, ACOUSTIC_GUITAR, DISCO_BANJO } ) );
 		requirements.add( pickOne( new AdventureResult [] { BONE_RATTLE, TAMBOURINE } ) );
@@ -456,9 +461,9 @@ public abstract class SorceressLair extends StaticEntity
 		{
 			(new FamiliarRequest( client, FamiliarData.NO_FAMILIAR )).run();
 			(new EquipmentRequest( client, SpecialOutfit.BIRTHDAY_SUIT )).run();
+
 			// We will need to re-equip
 
-			needsWeapon = true;
 			needsBuckler = true;
 
 			client.updateDisplay( DISABLE_STATE, "Crossing mirror puzzle..." );
@@ -507,8 +512,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( !hasItem( STRUMMING ) )
 		{
-			if ( needsWeapon )
-				(new EquipmentRequest( client, starWeapon.getName() )).run();
+			(new EquipmentRequest( client, starWeapon.getName() )).run();
 
 			if ( needsBuckler )
 				(new EquipmentRequest( client, STAR_BUCKLER.getName() )).run();
@@ -698,9 +702,19 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		// This consumes the tablets
+
 		client.processResult( RHYTHM.getNegation() );
 		client.processResult( STRUMMING.getNegation() );
 		client.processResult( SQUEEZINGS.getNegation() );
+
+		// If you untinkered the rock and roll legend at the very
+		// beginning, go ahead and re-create it at the end.
+
+		if ( untinkerCloverWeapon )
+		{
+			(new UntinkerRequest( client, STONE_BANJO.getItemID() )).run();
+			ItemCreationRequest.getInstance( client, cloverWeapon ).run();
+		}
 
 		client.updateDisplay( ENABLE_STATE, "Sorceress entryway complete." );
 	}
