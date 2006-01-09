@@ -977,9 +977,12 @@ public class KoLmafiaCLI extends KoLmafia
 				// the specified name.
 
 				for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
-					if ( KoLCharacter.getCurrentEquipmentName( i ).equals( item ) )
-					     scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, EquipmentRequest.UNEQUIP, i ), 1 );
+				{
+					if ( KoLCharacter.getCurrentEquipmentName( i ) != null && KoLCharacter.getCurrentEquipmentName( i ).equals( item ) )
+						scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, EquipmentRequest.UNEQUIP, i ), 1 );
+				}
 			}
+
 			return;
 		}
 
