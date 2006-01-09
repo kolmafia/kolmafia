@@ -53,11 +53,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 {
 	public static final SortedListModel concoctionsList = new SortedListModel();
 	public static final int ITEM_COUNT = TradeableItemDatabase.ITEM_COUNT;
+	public static final int METHOD_COUNT = ItemCreationRequest.METHOD_COUNT;
 
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
 
-	private static boolean [] PERMIT_METHOD = new boolean[16];
-	private static int [] ADVENTURE_USAGE = new int[16];
+	private static boolean [] PERMIT_METHOD = new boolean[ METHOD_COUNT ];
+	private static int [] ADVENTURE_USAGE = new int[ METHOD_COUNT ];
 
 	private static final int CHEF = 438;
 	private static final int CLOCKWORK_CHEF = 1112;
@@ -90,7 +91,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			try
 			{
-				if ( data.length > 3 )
+				if ( data.length > 2 )
 				{
 					AdventureResult item = AdventureResult.parseResult( data[0] );
 					int itemID = item.getItemID();
@@ -98,11 +99,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 					if ( itemID != -1 )
 					{
 						int mixingMethod = Integer.parseInt( data[1] );
-						boolean ascensionRecipe = ( Integer.parseInt( data[2] ) != 0);
-						Concoction concoction = new Concoction( item, mixingMethod, ascensionRecipe );
+						Concoction concoction = new Concoction( item, mixingMethod );
 
-
-						for ( int i = 3; i < data.length; ++i )
+						for ( int i = 2; i < data.length; ++i )
 							concoction.addIngredient( parseIngredient( data[i] ) );
 
 						if ( !concoction.isBadRecipe() )
@@ -128,7 +127,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 			if ( concoctions[i] == null )
-				concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE, false );
+				concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE );
 	}
 
 	public static final boolean isPermittedMethod( int method )
@@ -297,6 +296,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.COMBINE ] = true;
 		ADVENTURE_USAGE[ ItemCreationRequest.COMBINE ] = 0;
 
+		PERMIT_METHOD[ ItemCreationRequest.CLOVER ] = true;
+		ADVENTURE_USAGE[ ItemCreationRequest.CLOVER ] = 0;
+
 		// Cooking is permitted, so long as the person has a chef
 		// or they don't need a box servant and have an oven.
 
@@ -452,7 +454,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{
 		private AdventureResult concoction;
 		private int mixingMethod;
-		private boolean isAscensionRecipe;
 
 		private List ingredients;
 		private AdventureResult [] ingredientArray;
@@ -460,11 +461,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 		private int modifier, multiplier;
 		private int initial, creatable, total;
 
-		public Concoction( AdventureResult concoction, int mixingMethod, boolean isAscensionRecipe )
+		public Concoction( AdventureResult concoction, int mixingMethod )
 		{
 			this.concoction = concoction;
 			this.mixingMethod = mixingMethod;
-			this.isAscensionRecipe = isAscensionRecipe;
 
 			this.ingredients = new ArrayList();
 			this.ingredientArray = new AdventureResult[0];
@@ -546,33 +546,35 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			boolean inMuscleSign = KoLCharacter.inMuscleSign();
 
-			// Next, preprocess the ingredients again by marking
-			// them with the equation variables.  This can be
-			// done by marking this item with a zero modifier
-			// and a multiplier of one.
-
-			this.mark( 0, 1, inMuscleSign );
-
 			// With all of the data preprocessed, calculate
 			// the quantity creatable by solving the set of
 			// linear inequalities.
 
-			int itemID, quantity;
-			this.total = Integer.MAX_VALUE;
+			if ( ingredientArray.length == 1 )
+			{
+				// If there's only one ingredient, then the
+				// quantity depends entirely on it.
 
-			for ( int i = 0; i < ingredientArray.length; ++i )
-				this.total = Math.min( this.total, concoctions[ ingredientArray[i].getItemID() ].quantity( inMuscleSign ) );
+				this.creatable = concoctions[ ingredientArray[0].getItemID() ].initial;
+				this.total = this.initial + this.creatable;
+			}
+			else
+			{
+				this.total = Integer.MAX_VALUE;
+				for ( int i = 0; i < ingredientArray.length; ++i )
+					this.total = Math.min( this.total, concoctions[ ingredientArray[i].getItemID() ].quantity( inMuscleSign ) );
+
+				// The total available for other creations is equal
+				// to the total, less the initial.
+
+				this.creatable = this.total - this.initial;
+			}
 
 			// Now that all the calculations are complete, unmark
 			// the ingredients so that later calculations can make
 			// the correct calculations.
 
 			this.unmark();
-
-			// The total available for other creations is equal
-			// to the total, less the initial.
-
-			this.creatable = this.total - this.initial;
 		}
 
 		/**
@@ -583,11 +585,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		private int quantity( boolean inMuscleSign )
 		{
-			// If there is no multiplier, assume that an infinite
-			// number is available.
+			// If there is no multiplier, assume that the marking
+			// method needs to be called.
 
-			if ( this.multiplier == 0 )
-				return Integer.MAX_VALUE;
+			if ( this.multiplier == 0 && this.modifier == 0 )
+				this.mark( 0, 1, inMuscleSign );
 
 			// The maximum value is equivalent to the total, plus
 			// the modifier, divided by the multiplier, if the
@@ -595,9 +597,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			int quantity = (this.total + this.modifier) / this.multiplier;
 
-			// Avoid mutual recursion
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN )
-				return Math.min( quantity, concoctions[0].quantity( inMuscleSign ) );
+			// Avoid mutual recursion.
+
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER )
+				return quantity;
 
 			// The true value is affected by the maximum value for
 			// the ingredients.  Therefore, calculate the quantity
@@ -639,7 +642,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.multiplier += multiplier;
 
 			// Avoid mutual recursion
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN )
+
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER )
 				return;
 
 			// Mark all the ingredients, being sure to multiply
@@ -684,7 +688,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// sure to multiply by the number of adventures
 			// which are required for this mixture.
 
-			if ( this != concoctions[0] )
+			if ( this != concoctions[0] && ADVENTURE_USAGE[ mixingMethod ] != 0 )
 				concoctions[0].mark( (this.modifier + this.initial) * ADVENTURE_USAGE[ mixingMethod ],
 					this.multiplier * ADVENTURE_USAGE[ mixingMethod ], inMuscleSign );
 
@@ -703,12 +707,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		private void unmark()
 		{
+			if ( this.modifier == 0 && this.multiplier == 0 )
+				return;
+
 			this.modifier = 0;
 			this.multiplier = 0;
-
-			// Avoid mutual recursion
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN )
-				return;
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
 				concoctions[ ingredientArray[i].getItemID() ].unmark();

@@ -51,6 +51,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int MEAT_STACK = 88;
 	public static final int DENSE_STACK = 258;
 
+	public static final int METHOD_COUNT = 17;
 	public static final int SUBCLASS = Integer.MAX_VALUE;
 
 	public static final int NOCREATE = 0;
@@ -69,6 +70,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int SMITH_WEAPON = 13;
 	public static final int SMITH_ARMOR = 14;
 	public static final int TOY = 15;
+	public static final int CLOVER = 16;
 
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
@@ -127,10 +129,17 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( client != null )
 			addFormField( "pwd", client.getPasswordHash() );
 
-		if ( mixingMethod != SUBCLASS && client != null && !(KoLCharacter.inMuscleSign() && mixingMethod == SMITH) )
-			addFormField( "action", "combine" );
-		else if ( client != null && KoLCharacter.inMuscleSign() && mixingMethod == SMITH )
+		if ( KoLCharacter.inMuscleSign() && mixingMethod == SMITH )
 			addFormField( "action", "smith" );
+
+		else if ( mixingMethod == CLOVER )
+		{
+			addFormField( "whichitem", String.valueOf( itemID == 24 ? 196 : 24 ) );
+			addFormField( "action", "useitem" );
+		}
+
+		else if ( mixingMethod != SUBCLASS )
+			addFormField( "action", "combine" );
 	}
 
 	/**
@@ -206,6 +215,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case TOY:
 				return new ToyRequest( client, itemID, quantityNeeded );
+
+			case CLOVER:
+				return new ItemCreationRequest( client, "multiuse.php", itemID, mixingMethod, quantityNeeded );
 
 			default:
 				return null;
@@ -331,7 +343,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// First, make all the required ingredients for
 		// this concoction.
 
-		makeIngredients();
+		if ( mixingMethod != CLOVER )
+			makeIngredients();
 
 		// If the request has been cancelled midway, be
 		// sure to return from here.
@@ -343,8 +356,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// do the request!
 
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
-		for ( int i = 0; i < ingredients.length; ++i )
-			addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemID() ) );
+
+		if ( mixingMethod != CLOVER )
+			for ( int i = 0; i < ingredients.length; ++i )
+				addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemID() ) );
 
 		addFormField( "quantity", String.valueOf( quantityNeeded ) );
 
