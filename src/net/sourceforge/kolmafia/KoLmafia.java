@@ -942,19 +942,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	private final void recoverOnce( String scriptPath ) throws IOException
-	{
-		updateDisplay( DISABLE_STATE, "Executing auto-recovery script..." );
-		File recoveryScript = new File( scriptPath );
-
-		if ( recoveryScript.exists() )
-		{
-			(new KoLmafiaCLI( this, new FileInputStream( recoveryScript ) )).listenForCommands();
-		}
-		else
-		{
-			updateDisplay( ERROR_STATE, "Could not find auto-recovery script." );
-			cancelRequest();
-		}
+	{	(new KoLmafiaCLI( this, new FileInputStream( scriptPath ) )).listenForCommands();
 	}
 
 	/**
