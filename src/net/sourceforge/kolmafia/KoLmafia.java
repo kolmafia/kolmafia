@@ -829,44 +829,36 @@ public abstract class KoLmafia implements KoLConstants
 					recoverOnce( scriptProperty );
 				}
 			}
-
-			// If the recovery script was successful, then report success
-			// and return from the method.
-
-			if ( ((Number)currentMethod.invoke( null, empty )).intValue() >= needed )
+			else
 			{
-				updateDisplay( DISABLE_STATE, "Recovery complete.  Resuming requests..." );
-				resetContinueState();
-				return true;
-			}
+				// If it gets this far, then you should attempt to recover
+				// using the selected items.  This involves a few extra
+				// reflection methods.
 
-			// If it gets this far, then you should attempt to recover
-			// using the selected items.  This involves a few extra
-			// reflection methods.
+				String restoreSetting = settings.getProperty( listProperty );
 
-			String restoreSetting = settings.getProperty( listProperty );
+				int totalRestores = ((Number)techniqueList.getMethod( "size", new Class[0] ).invoke( null, empty )).intValue();
+				Method getMethod = techniqueList.getMethod( "get", new Class [] { Integer.TYPE } );
 
-			int totalRestores = ((Number)techniqueList.getMethod( "size", new Class[0] ).invoke( null, empty )).intValue();
-			Method getMethod = techniqueList.getMethod( "get", new Class [] { Integer.TYPE } );
+				// Iterate through every single restore item, checking to
+				// see if the settings wish to use this item.  If so, go ahead
+				// and process the item's usage.
 
-			// Iterate through every single restore item, checking to
-			// see if the settings wish to use this item.  If so, go ahead
-			// and process the item's usage.
+				Object currentTechnique;
 
-			Object currentTechnique;
-
-			for ( int i = 0; i < totalRestores; ++i )
-			{
-				currentTechnique = getMethod.invoke( null, new Integer [] { new Integer(i) } );
-				if ( restoreSetting.indexOf( currentTechnique.toString() ) != -1 )
+				for ( int i = 0; i < totalRestores; ++i )
 				{
-					current = -1;
-					while ( ((Number)currentMethod.invoke( null, empty )).intValue() < needed &&
-						current != ((Number)currentMethod.invoke( null, empty )).intValue() )
+					currentTechnique = getMethod.invoke( null, new Integer [] { new Integer(i) } );
+					if ( restoreSetting.indexOf( currentTechnique.toString() ) != -1 )
 					{
-						current = ((Number)currentMethod.invoke( null, empty )).intValue();
-						resetContinueState();
-						recoverOnce( currentTechnique );
+						current = -1;
+						while ( ((Number)currentMethod.invoke( null, empty )).intValue() < needed &&
+							current != ((Number)currentMethod.invoke( null, empty )).intValue() )
+						{
+							current = ((Number)currentMethod.invoke( null, empty )).intValue();
+							resetContinueState();
+							recoverOnce( currentTechnique );
+						}
 					}
 				}
 			}
