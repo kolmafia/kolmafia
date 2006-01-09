@@ -2447,7 +2447,8 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, parameters.startsWith( "take" ) ? CLOSET : INVENTORY );
+		String item = parameters.substring(4).trim();
+		AdventureResult firstMatch = getFirstMatchingItem( item, parameters.startsWith( "take" ) ? CLOSET : INVENTORY );
 		if ( firstMatch == null )
 			return;
 
