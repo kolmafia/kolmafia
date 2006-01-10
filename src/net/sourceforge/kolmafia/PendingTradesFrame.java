@@ -67,10 +67,12 @@ public class PendingTradesFrame extends RequestFrame
 			// so that the person can respond properly to the
 			// trade request.
 
+			String offerID = location.substring( location.lastIndexOf( "=" ) + 1 );
+
 			Object [] parameters = new Object[3];
 			parameters[0] = client;
-			parameters[1] = "";
-			parameters[2] = location.substring( location.lastIndexOf( "=" ) + 1 );
+			parameters[1] = "Offer ID # " + offerID;
+			parameters[2] = offerID;
 
 			(new CreateFrameRunnable( ProposeTradeFrame.class, parameters )).run();
 			dispose();
