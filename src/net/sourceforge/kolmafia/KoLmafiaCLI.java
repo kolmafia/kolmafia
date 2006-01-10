@@ -442,6 +442,16 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Adding another undocumented property setting command
+		// so people can configure variables in scripts.
+
+		if ( command.equals( "set" ) )
+		{
+			int splitIndex = parameters.indexOf( "=" );
+			StaticEntity.setProperty( parameters.substring( 0, splitIndex ).trim(), parameters.substring( splitIndex + 1 ).trim() );
+			return;
+		}
+
 		// Handle the if-statement and the while-statement.
 		// The while-statement will not get a separate comment
 		// because it is unloved.
