@@ -393,7 +393,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( responseCode == 200 )
 		{
-			processResults();
+			if( !ProfileRequest.class.isInstance(this)) //Don't try to process any results from a Player Profile
+				processResults();
 
 			// Synchronize if requested
 
