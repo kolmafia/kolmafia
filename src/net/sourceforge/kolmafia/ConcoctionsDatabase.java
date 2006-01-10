@@ -545,6 +545,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				concoctions[ ingredientArray[i].getItemID() ].calculate( availableIngredients );
 
 			boolean inMuscleSign = KoLCharacter.inMuscleSign();
+			this.mark( 0, 1, inMuscleSign );
 
 			// With all of the data preprocessed, calculate
 			// the quantity creatable by solving the set of
