@@ -48,14 +48,13 @@ public class ProposeTradeFrame extends SendMessageFrame
 	{	this( client, "", null );
 	}
 
-	public ProposeTradeFrame( KoLmafia client, String target )
-	{
-		this( client, target, null );
+	public ProposeTradeFrame( KoLmafia client, String recipient )
+	{	this( client, recipient, null );
 	}
 
-	public ProposeTradeFrame( KoLmafia client, String target, String offerID )
+	public ProposeTradeFrame( KoLmafia client, String recipient, String offerID )
 	{
-		super( client, "Send a Trade Proposal", target );
+		super( client, "Send a Trade Proposal", recipient );
 		this.offerID = offerID;
 
 		if ( this.offerID != null )
@@ -75,12 +74,23 @@ public class ProposeTradeFrame extends SendMessageFrame
 
 	protected boolean sendMessage( String recipient, String [] messages )
 	{
-		if ( offerID != null )
-			(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messages[0], getAttachedItems(), getAttachedMeat() )).run();
-
 		Object [] parameters = new Object[2];
 		parameters[0] = client;
-		parameters[1] = new ProposeTradeRequest( client, recipient, messages[0], getAttachedItems(), getAttachedMeat() );
+		parameters[1] = offerID == null ? new ProposeTradeRequest( client, recipient, messages[0], getAttachedItems(), getAttachedMeat() ) :
+			new ProposeTradeRequest( client, Integer.parseInt( offerID ), messages[0], getAttachedItems(), getAttachedMeat() );
+
+		// First, check to see if there is a pending
+		// trades frame which you can refresh.
+
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		for ( int i = 0; i < frames.length; ++i )
+			if ( frames[i] instanceof PendingTradesFrame )
+			{
+				((PendingTradesFrame)frames[i]).refresh( (KoLRequest) parameters[1] );
+				return true;
+			}
 
 		(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
 		return true;
