@@ -318,20 +318,20 @@ public class ItemStorageRequest extends SendMessageRequest
 			switch ( moveType )
 			{
 				case ItemStorageRequest.INVENTORY_TO_CLOSET:
-					commandString.append( "closet put " );
+					commandString.append( "closet put *" );
 					break;
 
 				case ItemStorageRequest.CLOSET_TO_INVENTORY:
-					commandString.append( "closet take" );
+					commandString.append( "closet take *" );
 					break;
 
 				case ItemStorageRequest.STORAGE_TO_INVENTORY:
 					commandString.append( "hagnk " );
+					commandString.append( items[i].getCount() );
 					break;
 			}
 
-
-			commandString.append( '\"' );
+			commandString.append( " \"" );
 			commandString.append( items[i].getName() );
 			commandString.append( '\"' );
 		}
