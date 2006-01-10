@@ -1924,7 +1924,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			skillSelect = new JComboBox( client == null ? new LockableListModel() : KoLCharacter.getUsableSkills() );
-			targetSelect = new MutableComboBox( client == null ? new SortedListModel() : client.getContactList() );
+			targetSelect = new MutableComboBox( client == null ? new SortedListModel() : (SortedListModel) client.getContactList().clone() );
 
 			countField = new JTextField();
 
