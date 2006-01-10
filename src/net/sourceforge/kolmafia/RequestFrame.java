@@ -538,6 +538,19 @@ public class RequestFrame extends KoLFrame
 			if ( learnedMatcher.find() )
 				KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
 
+			// Unfortunately, if you learn a new skill from Frank
+			// the Regnaissance Gnome at the Gnomish Gnomads
+			// Camp, it doesn't tell you the name of the skill.
+			// It simply says:
+			//
+			// "You leargn a new skill. Whee!"
+
+			if ( currentRequest.responseText.indexOf( "You leargn a new skill." ) != -1 )
+			{
+			     (new CharsheetRequest( client )).run();
+			     client.enableDisplay();
+			}
+
 			// Update the mushroom plot, if applicable.
 
 			if ( location.indexOf( "mushroom" ) != -1 )
