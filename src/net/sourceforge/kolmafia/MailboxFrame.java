@@ -371,7 +371,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		public void actionPerformed( ActionEvent e )
 		{
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
-			(new RequestMailboxThread( currentTabName.equals( "PvP" ) ? "Inbox" : boxname )).start();
+			(new RequestMailboxThread( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName )).start();
 		}
 	}
 
