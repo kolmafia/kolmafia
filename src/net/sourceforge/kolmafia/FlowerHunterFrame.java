@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
@@ -42,14 +43,16 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 
+import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.ToolTipManager;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import java.util.Vector;
 import com.sun.java.forums.TableSorter;
@@ -93,7 +96,7 @@ public class FlowerHunterFrame extends KoLFrame
 			stanceSelect.setSelectedIndex( 2 );
 	}
 
-	public abstract class FlowerHunterPanel extends KoLPanel
+	private abstract class FlowerHunterPanel extends KoLPanel
 	{
 		private JTextField nameEntry;
 		private JTextField levelEntry;
@@ -109,23 +112,23 @@ public class FlowerHunterFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Maximum Rank: ", rankEntry = new JTextField() );
 
 			setContent( elements );
-			resultsTableModel = new DefaultTableModel( getHeaders(), 0 );
 
+			resultsTableModel = new SearchResultsTableModel( getHeaders() );
 			JTable resultsTable = new JTable( resultsTableModel );
 			resultsTable.setModel( new TableSorter( resultsTable.getModel(), resultsTable.getTableHeader() ) );
-			resultsTable.setCellEditor( null );
 
 			JScrollPane resultsScroller = new JScrollPane( resultsTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			add( resultsScroller, BorderLayout.CENTER );
 			ToolTipManager.sharedInstance().unregisterComponent( resultsTable );
+			setDefaultButton( confirmedButton );
 		}
 
 		public void actionConfirmed()
 		{
 			client.resetContinueState();
-			client.updateDisplay( DISABLE_STATE, "Conducting detail search..." );
+			client.updateDisplay( DISABLE_STATE, "Conducting search..." );
 
 			while ( !resultsTableModel.getDataVector().isEmpty() )
 				resultsTableModel.removeRow( 0 );
@@ -140,7 +143,7 @@ public class FlowerHunterFrame extends KoLFrame
 				resultsTableModel.addRow( getRow( results[i] ) );
 
 			if ( client.permitsContinue() )
-				client.updateDisplay( ENABLE_STATE, "Detail search completed." );
+				client.updateDisplay( ENABLE_STATE, "Search completed." );
 			else
 				client.updateDisplay( ERROR_STATE, "Search halted." );
 		}
@@ -153,31 +156,46 @@ public class FlowerHunterFrame extends KoLFrame
 		protected abstract Object [] getRow( ProfileRequest result );
 	}
 
-	public class SimpleFlowerHunterPanel extends FlowerHunterPanel
+	private class SimpleFlowerHunterPanel extends FlowerHunterPanel
 	{
 		protected String [] getHeaders()
-		{	return new String [] { "Name", "Clan", "Class", "Level", "Rank" };
+		{	return new String [] { "Name", "Clan", "Class", "Level", "Rank", "Atk!" };
 		}
 
 		protected Object [] getRow( ProfileRequest result )
 		{
 			return new Object [] { result.getPlayerName(), result.getClanName(), result.getClassType(),
-				result.getPlayerLevel(), result.getPvpRank() };
+				result.getPlayerLevel(), result.getPvpRank(), new Boolean( false ) };
 		}
 	}
 
-	public class DetailFlowerHunterPanel extends FlowerHunterPanel
+	private class DetailFlowerHunterPanel extends FlowerHunterPanel
 	{
 		protected String [] getHeaders()
-		{	return new String [] { "Name", "Class", "Level", "Drink", "Fashion", "Login" };
+		{	return new String [] { "Name", "Class", "Level", "Drink", "Fashion", "Login", "Atk!" };
 		}
 
 
 		protected Object [] getRow( ProfileRequest result )
 		{
 			KoLRequest.delay();
-			return new Object [] { result.getPlayerName(), result.getClassType(),
-				result.getPlayerLevel(), result.getDrink(), result.getEquipmentPower(), result.getLastLoginAsString() };
+			return new Object [] { result.getPlayerName(), result.getClassType(), result.getPlayerLevel(),
+				result.getDrink(), result.getEquipmentPower(), result.getLastLoginAsString(), new Boolean( false ) };
+		}
+	}
+
+	private class SearchResultsTableModel extends DefaultTableModel
+	{
+		public SearchResultsTableModel( Object [] headers )
+		{	super( headers, 0 );
+		}
+
+		public Class getColumnClass( int c )
+		{	return getValueAt( 0, c ).getClass();
+		}
+
+		public boolean isCellEditable( int row, int col )
+		{	return col == getColumnCount() - 1;
 		}
 	}
 
