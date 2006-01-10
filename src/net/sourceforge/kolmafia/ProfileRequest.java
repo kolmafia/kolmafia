@@ -127,6 +127,7 @@ public class ProfileRequest extends KoLRequest
 				return;
 			}
 
+			this.playerLevel = Integer.valueOf( token.substring(5).trim() );
 			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
 
 			while ( !st.nextToken().startsWith( "Meat" ) );
@@ -200,7 +201,7 @@ public class ProfileRequest extends KoLRequest
 
 	public static ProfileRequest getInstance( String playerName, String playerID, String playerLevel, String responseText, String rosterRow )
 	{
-		ProfileRequest instance = new ProfileRequest( null, playerName );
+		ProfileRequest instance = new ProfileRequest( StaticEntity.getClient(), playerName );
 		instance.playerID = playerID;
 
 		// First, initialize the level field for the
@@ -274,16 +275,30 @@ public class ProfileRequest extends KoLRequest
 		return instance;
 	}
 
+	/**
+	 * Static method used by the flower hunter in order to
+	 * get an instance of a profile request based on the
+	 * data already known.
+	 */
+
+	public static ProfileRequest getInstance( String playerName, String playerID, String clanName, Integer playerLevel, String classType, Integer pvpRank )
+	{
+		ProfileRequest instance = new ProfileRequest( StaticEntity.getClient(), playerName );
+		instance.playerID = playerID;
+		instance.playerLevel = playerLevel;
+		instance.clanName = clanName == null ? "" : clanName;
+		instance.classType = classType;
+		instance.pvpRank = pvpRank;
+
+		return instance;
+	}
+
 	public String getPlayerName()
 	{	return playerName;
 	}
 
 	public String getPlayerID()
 	{	return playerID;
-	}
-
-	public void setClanName( String clanName )
-	{	this.clanName = clanName == null ? "" : clanName;
 	}
 
 	public String getClanName()
@@ -298,12 +313,18 @@ public class ProfileRequest extends KoLRequest
 
 	public String getClassType()
 	{
-		initialize();
+		if ( classType == null )
+			initialize();
+
 		return classType;
 	}
 
 	public Integer getPlayerLevel()
-	{	return playerLevel;
+	{
+		if ( playerLevel == null || playerLevel.intValue() == 0 )
+			initialize();
+
+		return playerLevel;
 	}
 
 	public Integer getCurrentMeat()
@@ -356,7 +377,9 @@ public class ProfileRequest extends KoLRequest
 
 	public Integer getPvpRank()
 	{
-		initialize();
+		if ( pvpRank == null || pvpRank.intValue() == 0 )
+			initialize();
+
 		return pvpRank;
 	}
 
@@ -376,8 +399,8 @@ public class ProfileRequest extends KoLRequest
 	{	return new Integer( muscle.intValue() + mysticism.intValue() + moxie.intValue() );
 	}
 
-	public int getEquipmentPower()
-	{	return equipmentPower;
+	public Integer getEquipmentPower()
+	{	return new Integer( equipmentPower );
 	}
 
 	public String getTitle()

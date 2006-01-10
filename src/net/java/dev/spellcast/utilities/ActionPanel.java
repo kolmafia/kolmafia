@@ -71,7 +71,7 @@ public abstract class ActionPanel extends JRootPane
  			this.cancelledText1 = cancelledText1;
  			this.cancelledText2 = cancelledText2;
 
-			JPanel containerPanel = new JPanel( new GridLayout( 2, 1, 5, 5 ) );
+			JPanel containerPanel = new JPanel( new GridLayout( cancelledText1 == null ? 1 : 2, 1, 5, 5 ) );
 			add( containerPanel, BorderLayout.NORTH );
 
 			// add the "confirmed" button

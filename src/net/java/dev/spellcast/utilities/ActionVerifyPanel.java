@@ -72,12 +72,16 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	private JComponent eastContainer;
 	private VerifyButtonPanel buttonPanel;
 	private Dimension labelSize, fieldSize;
-	
+
 	private static final Dimension DEFAULT_LABEL_SIZE = new Dimension( 100, 20 );
 	private static final Dimension DEFAULT_FIELD_SIZE = new Dimension( 165, 20 );
 
 	public ActionVerifyPanel()
 	{	this( null, null, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
+	}
+
+	public ActionVerifyPanel( String confirmedText )
+	{	this( confirmedText, null, null, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
 	}
 
 	public ActionVerifyPanel( Dimension labelSize, Dimension fieldSize )

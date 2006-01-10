@@ -42,7 +42,7 @@ import java.util.regex.Matcher;
 public class FlowerHunterRequest extends KoLRequest
 {
 	private static final Pattern TARGET_MATCH =
-		Pattern.compile( "showplayer\\.php\\?who=(\\d+)\">(.*?)</a></b>  \\(PvP\\)(<br>\\(<a target=mainpane href=\"showclan\\.php\\?whichclan=\\d+\">(.*?)</a>)?" );
+		Pattern.compile( "showplayer\\.php\\?who=(\\d+)\">(.*?)</a></b>  \\(PvP\\)(<br>\\(<a target=mainpane href=\"showclan\\.php\\?whichclan=\\d+\">(.*?)</a>)?.*?<td.*?><td.*?>(\\d+)</td><td.*?>(.*?)</td><td.*?>(\\d+)" );
 
 	private boolean isAttack;
 	private List searchResults;
@@ -50,10 +50,12 @@ public class FlowerHunterRequest extends KoLRequest
 	public FlowerHunterRequest( KoLmafia client, String level, String rank )
 	{
 		super( client, "searchplayer.php" );
+		this.searchResults = new ArrayList();
 
 		addFormField( "searching", "Yep." );
+		addFormField( "searchstring", "" );
 		addFormField( "searchlevel", level );
-		addFormField( "searchrank", rank );
+		addFormField( "searchranking", rank );
 
 		addFormField( "pvponly", "on" );
 		if ( !KoLCharacter.canInteract() )
@@ -77,8 +79,11 @@ public class FlowerHunterRequest extends KoLRequest
 		while ( playerMatcher.find() )
 		{
 			client.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
-			currentPlayer = new ProfileRequest( client, playerMatcher.group(2) );
-			currentPlayer.setClanName( playerMatcher.group(4) );
+			currentPlayer = ProfileRequest.getInstance( playerMatcher.group(2), playerMatcher.group(1),
+				playerMatcher.group(4), Integer.valueOf( playerMatcher.group(5) ), playerMatcher.group(6),
+				Integer.valueOf( playerMatcher.group(7) ) );
+
+			searchResults.add( currentPlayer );
 		}
 	}
 }
