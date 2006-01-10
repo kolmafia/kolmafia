@@ -167,7 +167,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	{
 		String [] entryHeaders = getEntryHeaders();
 
-		recipientEntry = new MutableComboBox( client == null ? new SortedListModel() : client.getContactList() );
+		recipientEntry = new MutableComboBox( client == null ? new SortedListModel() : (SortedListModel) client.getContactList().clone() );
 		recipientEntry.setEditable( true );
 
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
@@ -187,7 +187,15 @@ public abstract class SendMessageFrame extends KoLFrame
 		recipientPanel.setLayout( new BoxLayout( recipientPanel, BoxLayout.Y_AXIS ) );
 		recipientPanel.add( getLabelPanel( "Send to this person:" ) );
 		recipientPanel.add( Box.createVerticalStrut( 4 ) );
-		recipientPanel.add( recipientEntry );
+
+		JPanel contactsPanel = new JPanel();
+		contactsPanel.setLayout( new BorderLayout() );
+		contactsPanel.add( recipientEntry, BorderLayout.CENTER );
+
+		JButton refreshButton = new InvocationButton( "Refresh contact list", "reload.gif", this, "refreshContactList" );
+		JComponentUtilities.setComponentSize( refreshButton, 20, 20 );
+		contactsPanel.add( refreshButton, BorderLayout.EAST );
+		recipientPanel.add( contactsPanel );
 		recipientPanel.add( Box.createVerticalStrut( 20 ) );
 
 		String [] westHeaders = getWestHeaders();
@@ -281,6 +289,7 @@ public abstract class SendMessageFrame extends KoLFrame
 				if ( !sendMessage( recipients[i], messages ) )
 					return;
 
+			recipientEntry.setSelectedIndex( -1 );
 			dispose();
 		}
 	}
@@ -327,6 +336,12 @@ public abstract class SendMessageFrame extends KoLFrame
 		for ( int i = frames.length - 1; i >= 0; --i )
 			if ( frames[i] instanceof AttachmentFrame && ((AttachmentFrame)frames[i]).attachments == attachments )
 				((AttachmentFrame)frames[i]).dispose();
+	}
+
+	public void refreshContactList()
+	{
+		(new ContactListRequest( client )).run();
+		recipientEntry.setModel( (SortedListModel) client.getContactList().clone() );
 	}
 
 	/**
