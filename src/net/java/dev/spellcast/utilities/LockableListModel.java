@@ -125,7 +125,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		}
 	}
 
-	protected void fireContentsChanged( Object source, int index0, int index1 )
+	protected synchronized void fireContentsChanged( Object source, int index0, int index1 )
 	{
 		Runnable runner = new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 );
 
@@ -143,7 +143,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		}
 	}
 
-	protected void fireIntervalAdded( Object source, int index0, int index1 )
+	protected synchronized void fireIntervalAdded( Object source, int index0, int index1 )
 	{
 		Runnable runner = new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 );
 
@@ -161,7 +161,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		}
 	}
 
-	protected void fireIntervalRemoved( Object source, int index0, int index1 )
+	protected synchronized void fireIntervalRemoved( Object source, int index0, int index1 )
 	{
 		Runnable runner = new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 );
 
