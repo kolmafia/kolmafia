@@ -45,12 +45,12 @@ public class FlowerHunterRequest extends KoLRequest
 		Pattern.compile( "showplayer\\.php\\?who=(\\d+)\">(.*?)</a></b>  \\(PvP\\)(<br>\\(<a target=mainpane href=\"showclan\\.php\\?whichclan=\\d+\">(.*?)</a>)?.*?<td.*?><td.*?>(\\d+)</td><td.*?>(.*?)</td><td.*?>(\\d+)" );
 
 	private boolean isAttack;
-	private List searchResults;
+	private List searchResults = new ArrayList();
 
 	public FlowerHunterRequest( KoLmafia client, String level, String rank )
 	{
 		super( client, "searchplayer.php" );
-		this.searchResults = new ArrayList();
+		this.isAttack = false;
 
 		addFormField( "searching", "Yep." );
 		addFormField( "searchstring", "" );
@@ -62,6 +62,20 @@ public class FlowerHunterRequest extends KoLRequest
 			addFormField( "hardcoreonly", "on" );
 	}
 
+	public FlowerHunterRequest( KoLmafia client, String opponent, int stance, boolean isForFlowers )
+	{
+		super( client, "pvp.php" );
+		this.isAttack = true;
+
+		addFormField( "action", "Yep." );
+		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "who", opponent );
+		addFormField( "stance", String.valueOf( stance ) );
+		addFormField( "attacktype", isForFlowers ? "flowers" : "rank" );
+		addFormField( "winmessage", "" );
+		addFormField( "losemessage", "" );
+	}
+
 	public List getSearchResults()
 	{	return searchResults;
 	}
@@ -70,6 +84,14 @@ public class FlowerHunterRequest extends KoLRequest
 	{
 		super.run();
 
+		if ( isAttack )
+			parseAttack();
+		else
+			parseSearch();
+	}
+
+	private void parseSearch()
+	{
 		if ( responseText.indexOf( "<br>No players found.</center>" ) != -1 )
 			return;
 
@@ -85,5 +107,9 @@ public class FlowerHunterRequest extends KoLRequest
 
 			searchResults.add( currentPlayer );
 		}
+	}
+
+	private void parseAttack()
+	{
 	}
 }

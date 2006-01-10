@@ -34,20 +34,32 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JComboBox;
+import javax.swing.JToolBar;
+import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 
-import java.util.Vector;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ToolTipManager;
 import javax.swing.table.DefaultTableModel;
+
+import java.util.Vector;
 import com.sun.java.forums.TableSorter;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class FlowerHunterFrame extends KoLFrame
 {
+	private JComboBox stanceSelect;
+	private JComboBox victorySelect;
+
 	public FlowerHunterFrame( KoLmafia client )
 	{
 		super( client, "Hardcore Flower Hunter" );
@@ -59,6 +71,26 @@ public class FlowerHunterFrame extends KoLFrame
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
+
+		stanceSelect = new JComboBox();
+		stanceSelect.addItem( "Bully your opponent" );
+		stanceSelect.addItem( "Burninate your opponent" );
+		stanceSelect.addItem( "Backstab your opponent" );
+
+		victorySelect = new JComboBox();
+		victorySelect.addItem( "Attack for flowers" );
+		victorySelect.addItem( "Attack for rank" );
+
+		toolbarPanel.add( stanceSelect );
+		toolbarPanel.add( new JToolBar.Separator() );
+		toolbarPanel.add( victorySelect );
+
+		if ( KoLCharacter.getClassType().startsWith( "Se" ) || KoLCharacter.getClassType().startsWith( "Tu" ) )
+			stanceSelect.setSelectedIndex( 0 );
+		else if ( KoLCharacter.getClassType().startsWith( "Sa" ) || KoLCharacter.getClassType().startsWith( "Pa" ) )
+			stanceSelect.setSelectedIndex( 1 );
+		else
+			stanceSelect.setSelectedIndex( 2 );
 	}
 
 	public abstract class FlowerHunterPanel extends KoLPanel
@@ -124,7 +156,7 @@ public class FlowerHunterFrame extends KoLFrame
 	public class SimpleFlowerHunterPanel extends FlowerHunterPanel
 	{
 		protected String [] getHeaders()
-		{	return new String [] { "Name", "Clan", "Class", "Level", "PvP Rank" };
+		{	return new String [] { "Name", "Clan", "Class", "Level", "Rank" };
 		}
 
 		protected Object [] getRow( ProfileRequest result )
@@ -137,7 +169,7 @@ public class FlowerHunterFrame extends KoLFrame
 	public class DetailFlowerHunterPanel extends FlowerHunterPanel
 	{
 		protected String [] getHeaders()
-		{	return new String [] { "Name", "Class", "Level", "Drink", "Outfit Power", "Last Login" };
+		{	return new String [] { "Name", "Class", "Level", "Drink", "Fashion", "Login" };
 		}
 
 
