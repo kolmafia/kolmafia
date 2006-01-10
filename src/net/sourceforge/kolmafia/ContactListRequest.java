@@ -52,6 +52,7 @@ public class ContactListRequest extends KoLRequest
 		if ( responseCode != 200 )
 			return;
 
+		client.getContactList().clear();
 		Matcher listMatcher = LIST_PATTERN.matcher( responseText );
 		if ( listMatcher.find() )
 		{
