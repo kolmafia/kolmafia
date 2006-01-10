@@ -312,7 +312,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		while ( (scriptRequestor.permitsContinue() || scriptRequestor == this) );
 
-		if ( line == null || line.trim().length() == 0 || !(scriptRequestor instanceof KoLmafiaCLI) )
+		if ( line == null || line.trim().length() == 0 )
 		{
 			try
 			{
