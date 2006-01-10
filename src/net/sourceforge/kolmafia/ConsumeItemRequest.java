@@ -174,6 +174,9 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			KoLCharacter.addAccomplishment( KoLCharacter.BARON );
 			client.processResult( FightRequest.DICTIONARY1.getNegation() );
+
+			if ( getProperty( "battleAction" ).equals( "item0536" ) )
+				setProperty( "battleAction", "item1316" );
 		}
 
 		super.run();
@@ -224,6 +227,27 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseCode != 200 )
 			return;
+
+		// Refresh your dictionary state after you've
+		// handled the 64375.
+
+		if ( itemUsed.getName().startsWith( "64735" ) )
+		{
+			int originalIndex = KoLCharacter.getBattleSkillIDs().indexOf( "item0536" );
+			int selectedIndex = KoLCharacter.getBattleSkillNames().getSelectedIndex();
+			if ( originalIndex != -1 )
+			{
+				KoLCharacter.getBattleSkillIDs().remove( originalIndex );
+				KoLCharacter.getBattleSkillNames().remove( originalIndex );
+				KoLCharacter.addDictionary();
+
+				if ( originalIndex == selectedIndex )
+				{
+					originalIndex = KoLCharacter.getBattleSkillIDs().indexOf( "item1316" );
+					KoLCharacter.getBattleSkillNames().setSelectedIndex( originalIndex );
+				}
+			}
+		}
 
 		if ( responseText.indexOf( "You may not" ) != -1 )
 		{
