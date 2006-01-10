@@ -308,9 +308,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 		(new RequestThread( new TrapperRequest( this, selected, tradeCount ) )).start();
 		enableDisplay();
-
-		// We might have traded for a craftable item
-		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**
@@ -431,9 +428,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 		(new RequestThread( new UntinkerRequest( this, selectedValue.getItemID() ) )).start();
 		enableDisplay();
-
-		// Recalculate recipes
-		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**
