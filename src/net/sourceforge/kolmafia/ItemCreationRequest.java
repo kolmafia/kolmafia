@@ -475,20 +475,29 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private boolean autoRepairBoxServant()
 	{
-		// If the request has been cancelled midway, be
-		// sure to return from here.
+		// If we are not cooking or mixing, or if we already have the
+		// appropriate servant installed, we don't need to repair
 
-		if ( !client.permitsContinue() )
-			return false;
+		switch ( mixingMethod )
+		{
+			case COOK:
+			case COOK_REAGENT:
+			case COOK_PASTA:
 
-		// If we are not cooking or mixing, we don't need to repair
+				if ( KoLCharacter.hasChef() )
+					return true;
+				break;
 
-		if ( mixingMethod != COOK &&
-		     mixingMethod != COOK_REAGENT &&
-		     mixingMethod != COOK_PASTA &&
-		     mixingMethod != MIX &&
-		     mixingMethod != MIX_SPECIAL )
-			return true;
+			case MIX:
+			case MIX_SPECIAL:
+
+				if ( KoLCharacter.hasBartender() )
+					return true;
+				break;
+
+			default:
+				return true;
+		}
 
 		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
 		{
@@ -500,14 +509,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				case COOK_REAGENT:
 				case COOK_PASTA:
 
-					if ( KoLCharacter.hasChef() || ( noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) ) )
+					if ( noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) )
 						return true;
 					break;
 
 				case MIX:
 				case MIX_SPECIAL:
 
-					if ( KoLCharacter.hasBartender() || ( noServantNeeded && KoLCharacter.getInventory().contains( KIT ) ) )
+					if ( noServantNeeded && KoLCharacter.getInventory().contains( KIT ) )
 						return true;
 					break;
 			}
