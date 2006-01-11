@@ -245,20 +245,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		cachePermitted();
 
-		// Flat dough and wads of dough can be created from each other.
-		// Calculate manually to prevent mutual recursion
-
-		int dough = concoctions[ DOUGH ].concoction.getCount( availableIngredients );
-		int flat_dough = concoctions[ FLAT_DOUGH ].concoction.getCount( availableIngredients );
-
-		concoctions[ DOUGH ].initial = dough;
-		concoctions[ DOUGH ].creatable = flat_dough;
-		concoctions[ DOUGH ].total = dough + flat_dough;
-
-		concoctions[ FLAT_DOUGH ].initial = flat_dough;
-		concoctions[ FLAT_DOUGH ].creatable = dough;
-		concoctions[ FLAT_DOUGH ].total = dough + flat_dough;
-
 		// Finally, increment through all of the things which are
 		// created any other way, making sure that it's a permitted
 		// mixture before doing the calculation.

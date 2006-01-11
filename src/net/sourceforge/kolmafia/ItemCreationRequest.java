@@ -481,6 +481,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !client.permitsContinue() )
 			return false;
 
+		// If we are not cooking or mixing, we don't need to repair
+
+		if ( mixingMethod != COOK &&
+		     mixingMethod != COOK_REAGENT &&
+		     mixingMethod != COOK_PASTA &&
+		     mixingMethod != MIX &&
+		     mixingMethod != MIX_SPECIAL )
+			return true;
+
 		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
 		{
 			boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
@@ -501,9 +510,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					if ( KoLCharacter.hasBartender() || ( noServantNeeded && KoLCharacter.getInventory().contains( KIT ) ) )
 						return true;
 					break;
-
-				default:
-					return true;
 			}
 
 			updateDisplay( ERROR_STATE, "Box servant explosion!" );
@@ -513,27 +519,26 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If they do want to auto-repair, make sure that
 		// the appropriate item is available in their inventory
 
-		boolean useClockwork = getProperty( "useClockworkBoxes" ).equals( "true" );
-
 		switch ( mixingMethod )
 		{
 			case COOK:
 			case COOK_REAGENT:
 			case COOK_PASTA:
 
-				return useBoxServant( CHEF, CLOCKWORK_CHEF, useClockwork );
+				return useBoxServant( CHEF, CLOCKWORK_CHEF );
 
 			case MIX:
 			case MIX_SPECIAL:
 
-				return useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, useClockwork );
+				return useBoxServant( BARTENDER, CLOCKWORK_BARTENDER );
 		}
 
 		return false;
 	}
 
-	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant, boolean useClockwork )
+	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant )
 	{
+		boolean useClockwork = getProperty( "useClockworkBoxes" ).equals( "true" );
 		// First, check to see if a box servant is available
 		// for usage, either normally, or through some form
 		// of creation.  This can be done by consulting the
