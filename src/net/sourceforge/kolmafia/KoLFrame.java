@@ -877,7 +877,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
 		{
 			Point p = getLocationOnScreen();
-			setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+
+			if ( isVisible() )
+				setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 		}
 
 		super.processWindowEvent( e );
