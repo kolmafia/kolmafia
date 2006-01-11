@@ -94,16 +94,14 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 		loadSettings( this.settingsFile );
 		ensureDefaults();
-		saveSettings();
+		storeSettings( settingsFile );
 	}
 
-	/**
-	 * Stores the settings maintained in this <code>KoLSettings</code>
-	 * object to disk for later retrieval.
-	 */
-
-	public void saveSettings()
-	{	storeSettings( settingsFile );
+	public Object setProperty( String name, String value )
+	{
+		Object returnValue = super.setProperty( name, value );
+		storeSettings( settingsFile );
+		return returnValue;
 	}
 
 	/**
@@ -322,7 +320,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	private void ensureProperty( String key, String defaultValue )
 	{
 		if ( !containsKey( key ) )
-			setProperty( key, defaultValue );
+			super.setProperty( key, defaultValue );
 	}
 
 	/**
@@ -334,7 +332,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	private void ensureNonZeroProperty( String key, String defaultValue )
 	{
 		if ( !containsKey( key ) || ( get( key).equals( "0" ) ) )
-			setProperty( key, defaultValue );
+			super.setProperty( key, defaultValue );
 	}
 
 	/**

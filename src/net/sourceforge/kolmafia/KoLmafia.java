@@ -1556,7 +1556,6 @@ public abstract class KoLmafia implements KoLConstants
 			}
 
 			GLOBAL_SETTINGS.setProperty( "saveState." + loginname.toLowerCase(), (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
-			GLOBAL_SETTINGS.saveSettings();
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
@@ -1616,8 +1615,6 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int i = 0; i < settingsArray.length; ++i )
 			if ( settingsArray[i].startsWith( "saveState." ) && !lowerCaseNames.contains( settingsArray[i].substring( 10 ) ) )
 				GLOBAL_SETTINGS.remove( settingsArray[i] );
-
-		GLOBAL_SETTINGS.saveSettings();
 	}
 
 	/**

@@ -763,7 +763,6 @@ public class ClanManageFrame extends KoLFrame
 					tableHeaderSetting.append( options[i][0] );
 
 			client.getSettings().setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
-			client.getSettings().saveSettings();
 
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.

@@ -1903,7 +1903,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		GLOBAL_SETTINGS.setProperty( "browserBookmarks", bookmarkData.toString() );
-		GLOBAL_SETTINGS.saveSettings();
 	}
 
 	/**

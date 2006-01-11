@@ -79,15 +79,9 @@ public abstract class StaticEntity implements KoLConstants
 	protected static final void setProperty( String name, String value )
 	{
 		if ( client != null )
-		{
 			client.getSettings().setProperty( name, value );
-			client.getSettings().saveSettings();
-		}
 		else
-		{
 			GLOBAL_SETTINGS.setProperty( name, value );
-			GLOBAL_SETTINGS.saveSettings();
-		}
 	}
 
 	protected static final String getProperty( String name )
