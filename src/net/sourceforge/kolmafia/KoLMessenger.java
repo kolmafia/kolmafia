@@ -166,7 +166,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		LimitedSizeChatBuffer.clearHighlights();
 
-		String [] highlights = getProperty( "highlightList" ).split( "\n" );
+		String [] highlights = GLOBAL_SETTINGS.getProperty( "highlightList" ).split( "\n" );
 
 		if ( highlights.length != 1 )
 		{
@@ -311,9 +311,6 @@ public abstract class KoLMessenger extends StaticEntity
 		// If this key does not exist, then go ahead and try
 		// to remove the key.
 
-		if ( !instantMessageFrames.containsKey( contact ) )
-			return;
-
 		ChatFrame removedFrame = (ChatFrame) instantMessageFrames.remove( contact );
 		LimitedSizeChatBuffer removedBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.remove( contact );
 
@@ -321,9 +318,14 @@ public abstract class KoLMessenger extends StaticEntity
 		// as well as dispose of the frame so that KoLmafia can
 		// return to the login screen properly.
 
-		removedBuffer.closeActiveLogFile();
-		removedFrame.setVisible( false );
-		removedFrame.dispose();
+		if ( removedBuffer != null )
+			removedBuffer.closeActiveLogFile();
+
+		if ( removedFrame != null )
+		{
+			removedFrame.setVisible( false );
+			removedFrame.dispose();
+		}
 
 		// If chat is no longer running, you don't have to do
 		// anything more.
@@ -339,14 +341,13 @@ public abstract class KoLMessenger extends StaticEntity
 			// When you exit chat, you go ahead and remove all
 			// of the chat pannels from the listener lists.
 
-			KoLMessenger.dispose();
-
 			String [] channels = new String[ instantMessageFrames.keySet().size() ];
 			instantMessageFrames.keySet().toArray( channels );
 
 			for ( int i = 0; i < channels.length; ++i )
 				removeChat( channels[i] );
 
+			KoLMessenger.dispose();
 			return;
 		}
 
@@ -898,23 +899,22 @@ public abstract class KoLMessenger extends StaticEntity
 			{
 				LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(), true );
 				instantMessageBuffers.put( channel, buffer );
-				ChatFrame frame = new ChatFrame( client, channel );
 
 				if ( useTabbedFrame )
 				{
-					frame.setVisible( false );
 					ChatFrame.ChatPanel panel = tabbedFrame.addTab( channel );
 					buffer.setChatDisplay( panel.getChatDisplay() );
 					buffer.setScrollPane( panel.getScrollPane() );
 				}
 				else
 				{
+					ChatFrame frame = new ChatFrame( client, channel );
 					frame.setVisible( true );
+
 					buffer.setChatDisplay( frame.getChatDisplay() );
 					buffer.setScrollPane( frame.getScrollPane() );
+					instantMessageFrames.put( channel, frame );
 				}
-
-				instantMessageFrames.put( channel, frame );
 
 				if ( CHATLOG_BASENAME != null && !CHATLOG_BASENAME.equals( "" ) )
 				{
@@ -999,7 +999,7 @@ public abstract class KoLMessenger extends StaticEntity
 		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
 		String settingString = LimitedSizeChatBuffer.addHighlight( highlight, color );
-		setProperty( "highlightList", getProperty( "highlightList" ) + "\n" + settingString );
+		GLOBAL_SETTINGS.setProperty( "highlightList", GLOBAL_SETTINGS.getProperty( "highlightList" ) + "\n" + settingString );
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
@@ -1037,7 +1037,7 @@ public abstract class KoLMessenger extends StaticEntity
 				String settingString = LimitedSizeChatBuffer.removeHighlight(i);
 				LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
-				setProperty( "highlightList", getProperty( "highlightList" ).replaceAll( settingString, "" ) );
+				GLOBAL_SETTINGS.setProperty( "highlightList", GLOBAL_SETTINGS.getProperty( "highlightList" ).replaceAll( "\n" + settingString, "" ) );
 
 				Object [] keys = instantMessageBuffers.keySet().toArray();
 				for ( int j = 0; j < keys.length; ++j )
