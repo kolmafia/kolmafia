@@ -572,11 +572,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		private int quantity( boolean inMuscleSign )
 		{
-			// If there is no multiplier, assume that the marking
-			// method needs to be called.
+			// If there is no multiplier, assume that an infinite
+			// number is available.
 
-			if ( this.multiplier == 0 && this.modifier == 0 )
-				this.mark( 0, 1, inMuscleSign );
+			if ( this.multiplier == 0 )
+				return Integer.MAX_VALUE;
 
 			// The maximum value is equivalent to the total, plus
 			// the modifier, divided by the multiplier, if the
