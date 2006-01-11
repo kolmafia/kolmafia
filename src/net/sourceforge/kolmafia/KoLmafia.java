@@ -334,7 +334,9 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		resetSession();
+		if ( !loginname.equals( KoLCharacter.getUsername() ) )
+			resetSession();
+
 		applyRecentEffects();
 
 		// Retrieve breakfast if the option to retrieve breakfast
