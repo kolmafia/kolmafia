@@ -370,12 +370,19 @@ public class KoLSettings extends Properties implements UtilityConstants
 			reader.close();
 			Collections.sort( contents );
 
-			PrintStream writer = new PrintStream( new FileOutputStream( destination ) );
+			File temporary = new File( DATA_DIRECTORY + "~" + characterName + ".tmp" );
+			temporary.createNewFile();
+			temporary.deleteOnExit();
+
+			PrintStream writer = new PrintStream( new FileOutputStream( temporary ) );
 			for ( int i = 0; i < contents.size(); ++i )
 				if ( !((String) contents.get(i)).startsWith( "saveState" ) || characterName.equals( "" ) )
 					writer.println( (String) contents.get(i) );
 
 			writer.close();
+			destination.delete();
+			temporary.renameTo( destination );
+
 			ostream = null;
 		}
 		catch ( IOException e )
