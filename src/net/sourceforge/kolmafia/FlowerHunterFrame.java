@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JToolBar;
@@ -49,6 +50,8 @@ import java.awt.CardLayout;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import javax.swing.ToolTipManager;
 import javax.swing.table.DefaultTableModel;
@@ -96,13 +99,17 @@ public class FlowerHunterFrame extends KoLFrame
 			stanceSelect.setSelectedIndex( 2 );
 	}
 
-	private abstract class FlowerHunterPanel extends KoLPanel
+	private abstract class FlowerHunterPanel extends KoLPanel implements ListSelectionListener
 	{
 		private JTextField nameEntry;
 		private JTextField levelEntry;
 		private JTextField rankEntry;
 
-		private DefaultTableModel resultsTableModel;
+		private JEditorPane preview;
+		private JTable resultsTable;
+		private TableSorter sortedModel;
+		private DefaultTableModel resultsModel;
+		private ProfileRequest [] results;
 
 		public FlowerHunterPanel()
 		{
@@ -113,14 +120,32 @@ public class FlowerHunterFrame extends KoLFrame
 
 			setContent( elements );
 
-			resultsTableModel = new SearchResultsTableModel( getHeaders() );
-			JTable resultsTable = new JTable( resultsTableModel );
-			resultsTable.setModel( new TableSorter( resultsTable.getModel(), resultsTable.getTableHeader() ) );
+			results = new ProfileRequest[0];
+			resultsModel = new SearchResultsTableModel( getHeaders() );
+			resultsTable = new JTable( resultsModel );
+			sortedModel = new TableSorter( resultsTable.getModel(), resultsTable.getTableHeader() );
+
+			resultsTable.setModel( resultsModel );
+			resultsTable.getSelectionModel().addListSelectionListener( this );
 
 			JScrollPane resultsScroller = new JScrollPane( resultsTable, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			add( resultsScroller, BorderLayout.CENTER );
+			preview = new JEditorPane();
+			preview.setContentType( "text/html" );
+			preview.setEditable( false );
+
+			JScrollPane previewScroller = new JScrollPane( preview, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			JComponentUtilities.setComponentSize( resultsScroller, 450, 120 );
+			JComponentUtilities.setComponentSize( previewScroller, 450, 300 );
+
+			JPanel southPanel = new JPanel( new BorderLayout() );
+			southPanel.add( resultsScroller, BorderLayout.NORTH );
+			southPanel.add( previewScroller, BorderLayout.CENTER );
+
+			add( southPanel, BorderLayout.CENTER );
 			ToolTipManager.sharedInstance().unregisterComponent( resultsTable );
 			setDefaultButton( confirmedButton );
 		}
@@ -130,17 +155,17 @@ public class FlowerHunterFrame extends KoLFrame
 			client.resetContinueState();
 			client.updateDisplay( DISABLE_STATE, "Conducting search..." );
 
-			while ( !resultsTableModel.getDataVector().isEmpty() )
-				resultsTableModel.removeRow( 0 );
+			while ( !resultsModel.getDataVector().isEmpty() )
+				resultsModel.removeRow( 0 );
 
 			FlowerHunterRequest search = new FlowerHunterRequest( client, levelEntry.getText(), rankEntry.getText() );
 			search.run();
 
-			ProfileRequest [] results = new ProfileRequest[ search.getSearchResults().size() ];
+			results = new ProfileRequest[ search.getSearchResults().size() ];
 			search.getSearchResults().toArray( results );
 
 			for ( int i = 0; i < results.length && client.permitsContinue(); ++i )
-				resultsTableModel.addRow( getRow( results[i] ) );
+				resultsModel.addRow( getRow( results[i] ) );
 
 			if ( client.permitsContinue() )
 				client.updateDisplay( ENABLE_STATE, "Search completed." );
@@ -152,6 +177,23 @@ public class FlowerHunterFrame extends KoLFrame
 		{	client.cancelRequest();
 		}
 
+		public void valueChanged( ListSelectionEvent e )
+		{
+			if ( e != null && e.getValueIsAdjusting() )
+				return;
+
+			int row = resultsTable.getSelectionModel().getMinSelectionIndex();
+			if ( row >= 0 )
+			{
+				row = sortedModel.modelIndex( row );
+
+				preview.setText( "Loading..." );
+				results[ row ].initialize();
+				preview.setText( RequestEditorKit.getDisplayHTML( results[ row ].responseText ) );
+				preview.setCaretPosition(0);
+			}
+		}
+
 		protected abstract String [] getHeaders();
 		protected abstract Object [] getRow( ProfileRequest result );
 	}
@@ -159,20 +201,20 @@ public class FlowerHunterFrame extends KoLFrame
 	private class SimpleFlowerHunterPanel extends FlowerHunterPanel
 	{
 		protected String [] getHeaders()
-		{	return new String [] { "Name", "Clan", "Class", "Level", "Rank", "Atk!" };
+		{	return new String [] { "Name", "Clan", "Class", "Level", "Rank" };
 		}
 
 		protected Object [] getRow( ProfileRequest result )
 		{
 			return new Object [] { result.getPlayerName(), result.getClanName(), result.getClassType(),
-				result.getPlayerLevel(), result.getPvpRank(), new Boolean( false ) };
+				result.getPlayerLevel(), result.getPvpRank() };
 		}
 	}
 
 	private class DetailFlowerHunterPanel extends FlowerHunterPanel
 	{
 		protected String [] getHeaders()
-		{	return new String [] { "Name", "Class", "Level", "Drink", "Fashion", "Login", "Atk!" };
+		{	return new String [] { "Name", "Class", "Level", "Drink", "Fashion", "Login" };
 		}
 
 
@@ -180,7 +222,7 @@ public class FlowerHunterFrame extends KoLFrame
 		{
 			KoLRequest.delay();
 			return new Object [] { result.getPlayerName(), result.getClassType(), result.getPlayerLevel(),
-				result.getDrink(), result.getEquipmentPower(), result.getLastLoginAsString(), new Boolean( false ) };
+				result.getDrink(), result.getEquipmentPower(), result.getLastLoginAsString() };
 		}
 	}
 
