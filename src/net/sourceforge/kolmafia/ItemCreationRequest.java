@@ -328,6 +328,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private void combineItems()
 	{
+		// If the request has been cancelled midway, be
+		// sure to return from here.
+
+		if ( !client.permitsContinue() )
+			return;
+
 		// Auto-create chef or bartender if one doesn't
 		// exist and the user has opted to repair.
 
