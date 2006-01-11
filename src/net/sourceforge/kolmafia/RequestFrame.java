@@ -349,68 +349,8 @@ public class RequestFrame extends KoLFrame
 		isRefreshing = false;
 	}
 
-	/**
-	 * Utility method which converts the given text into a form which
-	 * can be displayed properly in a <code>JEditorPane</code>.  This
-	 * method is necessary primarily due to the bad HTML which is used
-	 * but can still be properly rendered by post-3.2 browsers.
-	 */
-
 	protected String getDisplayHTML( String responseText )
-	{
-		// Switch all the <BR> tags that are not understood
-		// by the default Java browser to an understood form,
-		// and remove all <HR> tags.
-
-		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
-
-		// Fix all the super-small font displays used in the
-		// various KoL panes.
-
-		displayHTML = displayHTML.replaceAll( "font-size: .8em;", "" ).replaceAll( "<font size=[12]>", "" ).replaceAll(
-			" class=small", "" ).replaceAll( " class=tiny", "" );
-
-		// This is to replace all the rows with a black background
-		// because they are not properly rendered.
-
-		displayHTML = displayHTML.replaceAll( "<tr><td([^>]*?) bgcolor=black([^>]*?)>((</td>)?)</tr>", "<tr><td$1$2></td></tr>" );
-
-		// The default browser doesn't understand the table directive
-		// style="border: 1px solid black"; turn it into a simple "border=1"
-
-		displayHTML = displayHTML.replaceAll( "style=\"border: 1px solid black\"", "border=1" );
-
-		// turn:  <form...><td...>...</td></form>
-		// into:  <td...><form...>...</form></td>
-
-		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)(<td[^>]*>)", "$4$1$2" );
-		displayHTML = displayHTML.replaceAll( "</td></form>", "</form></td>" );
-
-		// turn:  <form...><tr...><td...>...</td></tr></form>
-		// into:  <tr...><td...><form...>...</form></td></tr>
-
-		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)<tr>(<td[^>]*>)", "<tr>$4$1$2" );
-		displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
-
-		// KoL also has really crazy nested Javascript links, and
-		// since the default browser doesn't recognize these, be
-		// sure to convert them to standard <A> tags linking to
-		// the correct document.
-
-		displayHTML = displayHTML.replaceAll( "<a[^>]*?\\([\'\"](.*?)[\'\"].*?>", "<a href=\"$1\">" );
-		displayHTML = displayHTML.replaceAll( "<img([^>]*?) onClick=\'window.open\\(\"(.*?)\".*?\'(.*?)>", "<a href=\"$2\"><img$1 $3 border=0></a>" );
-
-		// The search form for viewing players has an </html>
-		// tag appearing right after </style>, which may confuse
-		// the HTML parser.
-
-		displayHTML = displayHTML.replaceAll( "</style></html>" , "</style>" );
-
-		// For some reason, character entitites are not properly
-		// handled by the mini browser.
-
-		displayHTML = displayHTML.replaceAll( "&ntilde;", "n" ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&infin;", "**" );
-		return displayHTML;
+	{	return RequestEditorKit.getDisplayHTML( responseText );
 	}
 
 	/**
