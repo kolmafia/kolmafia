@@ -88,6 +88,10 @@ public class ProfileRequest extends KoLRequest
 		refreshFields();
 	}
 
+	public void processResults()
+	{	return;
+	}
+
 	/**
 	 * Internal method used to refresh the fields of the profile
 	 * request based on the response text.  This should be called
