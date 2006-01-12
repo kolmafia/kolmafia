@@ -342,11 +342,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 			else
 			{
-				String imageLocation = id == 18 ? "itemimages/hat2.gif" : "itemimages/familiar" + id + ".gif";
-				RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/" + imageLocation );
-
-				ImageIcon image = JComponentUtilities.getSharedImage( imageLocation );
-				familiarLabel.setIcon( image );
+				FamiliarsDatabase.downloadFamiliarImage( id );
+				familiarLabel.setIcon( FamiliarsDatabase.getFamiliarImage( id ) );
 				weightLabel.setText( familiar.getModifiedWeight() + " lbs." );
 			}
 		}

@@ -186,8 +186,12 @@ public class FamiliarsDatabase extends KoLDatabase
 		return familiarID == null ? -1 : ((Integer)familiarID).intValue();
 	}
 
+	public static String familiarImageName( int familiarID )
+	{	return familiarID == 18 ? "itemimages/hat2.gif" : ( "itemimages/familiar" + familiarID + ".gif" );
+	}
+
 	public static void downloadFamiliarImage( int familiarID )
-	{	RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/familiar" + familiarID + ".gif" );
+	{	RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/" + familiarImageName( familiarID ) );
 	}
 
 	public static void downloadFamiliarImage( String name )
@@ -195,7 +199,7 @@ public class FamiliarsDatabase extends KoLDatabase
 	}
 
 	public static ImageIcon getFamiliarImage( int familiarID )
-	{	return JComponentUtilities.getSharedImage( "itemimages/familiar" + familiarID + ".gif" );
+	{	return JComponentUtilities.getSharedImage( familiarImageName( familiarID ) );
 	}
 
 	public static ImageIcon getFamiliarImage( String name )
