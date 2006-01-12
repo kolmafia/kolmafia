@@ -158,7 +158,18 @@ public class ItemStorageRequest extends SendMessageRequest
 	}
 
 	protected String getSuccessMessage()
-	{	return "";
+	{
+		switch ( moveType )
+		{
+			case STORAGE_TO_INVENTORY:
+				return "moved from storage to inventory";
+			case INVENTORY_TO_CLOSET:
+				return "moved from inventory to closet";
+			case CLOSET_TO_INVENTORY:
+				return "moved from closet to inventory";
+		}
+
+		return "";
 	}
 
 	/**
