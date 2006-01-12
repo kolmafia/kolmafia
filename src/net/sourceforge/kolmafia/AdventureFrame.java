@@ -174,6 +174,7 @@ public class AdventureFrame extends KoLFrame
 			toolbarPanel.add( new DisplayFrameButton( "Mail", "mail.gif", MailboxFrame.class ) );
 			toolbarPanel.add( new InvocationButton( "Chat", "chat.gif", KoLMessenger.class, "initialize" ) );
 			toolbarPanel.add( new DisplayFrameButton( "Clan", "clan.gif", ClanManageFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "PvP", "flower.gif", FlowerHunterFrame.class ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
