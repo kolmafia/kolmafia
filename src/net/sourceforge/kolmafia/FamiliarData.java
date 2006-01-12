@@ -64,6 +64,9 @@ public class FamiliarData implements KoLConstants, Comparable
 
 		this.weight = weight;
 		this.item = item;
+
+		if ( this.id > 0 )
+			FamiliarsDatabase.downloadFamiliarImage( this.id );
 	}
 
 	private FamiliarData( KoLmafia client, Matcher dataMatcher )
@@ -88,8 +91,8 @@ public class FamiliarData implements KoLConstants, Comparable
 		this.name = dataMatcher.group(1);
 		this.race = dataMatcher.group(2);
 		this.id = FamiliarsDatabase.getFamiliarID( this.race );
-		FamiliarsDatabase.downloadFamiliarImage( this.id );
 
+		FamiliarsDatabase.downloadFamiliarImage( this.id );
 		if ( !FamiliarsDatabase.contains( this.race ) )
 			FamiliarsDatabase.registerFamiliar( this.id, this.race );
 
