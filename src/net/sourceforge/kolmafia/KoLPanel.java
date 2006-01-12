@@ -45,6 +45,9 @@ import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
 public abstract class KoLPanel extends ActionVerifyPanel
 {
+	private JPanel actionStatusPanel;
+	private JLabel actionStatusLabel;
+
 	protected KoLPanel( Dimension labelSize, Dimension fieldSize )
 	{	super( labelSize, fieldSize );
 	}
@@ -86,7 +89,26 @@ public abstract class KoLPanel extends ActionVerifyPanel
 		super( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize, isCenterPanel );
 	}
 
+	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean isLabelPreceeding, boolean bothDisabledOnClick )
+	{
+		super.setContent( elements, mainPanel, eastPanel, isLabelPreceeding, bothDisabledOnClick );
+
+		if ( elements.length != 0 )
+		{
+			actionStatusPanel = new JPanel();
+			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+
+			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusPanel.add( actionStatusLabel );
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+
+			add( actionStatusPanel, BorderLayout.SOUTH );
+		}
+	}
+
 	public void setStatusMessage( int displayState, String s )
 	{
+		if ( actionStatusLabel != null && !s.equals( "" ) )
+			actionStatusLabel.setText( s );
 	}
 }

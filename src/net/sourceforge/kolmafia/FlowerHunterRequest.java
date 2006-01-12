@@ -41,16 +41,23 @@ import java.util.regex.Matcher;
 
 public class FlowerHunterRequest extends KoLRequest
 {
+	private static final int ATTACK = 1;
+	private static final int PLAYER_SEARCH = 2;
+	private static final int CLAN_PROFILER = 3;
+
 	private static final Pattern TARGET_MATCH =
 		Pattern.compile( "showplayer\\.php\\?who=(\\d+)\">(.*?)</a></b>  \\(PvP\\)(<br>\\(<a target=mainpane href=\"showclan\\.php\\?whichclan=\\d+\">(.*?)</a>)?.*?<td.*?><td.*?>(\\d+)</td><td.*?>(.*?)</td><td.*?>(\\d+)" );
 
-	private boolean isAttack;
+	private static final Pattern CLAN_MATCH =
+		Pattern.compile( "showplayer\\.php\\?who=(\\d+)\">([^<]*?)</a></b>[^<]*?</td><td class=small>[^<]*?</td><td class=small>\\d+ \\(H\\)" );
+
+	private int hunterType;
 	private List searchResults = new ArrayList();
 
 	public FlowerHunterRequest( KoLmafia client, String level, String rank )
 	{
 		super( client, "searchplayer.php" );
-		this.isAttack = false;
+		this.hunterType = PLAYER_SEARCH;
 
 		addFormField( "searching", "Yep." );
 		addFormField( "searchstring", "" );
@@ -65,7 +72,7 @@ public class FlowerHunterRequest extends KoLRequest
 	public FlowerHunterRequest( KoLmafia client, String opponent, int stance, boolean isForFlowers, String message )
 	{
 		super( client, "pvp.php" );
-		this.isAttack = true;
+		this.hunterType = ATTACK;
 
 		addFormField( "action", "Yep." );
 		addFormField( "pwd", client.getPasswordHash() );
@@ -76,6 +83,14 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "losemessage", message );
 	}
 
+	public FlowerHunterRequest( KoLmafia client, String clanID )
+	{
+		super( client, "showclan.php" );
+		this.hunterType = CLAN_PROFILER;
+		
+		addFormField( "whichclan", clanID );
+	}
+
 	public List getSearchResults()
 	{	return searchResults;
 	}
@@ -84,10 +99,36 @@ public class FlowerHunterRequest extends KoLRequest
 	{
 		super.run();
 
-		if ( isAttack )
-			parseAttack();
-		else
-			parseSearch();
+		switch ( hunterType )
+		{
+			case ATTACK:
+				parseAttack();
+				break;
+			
+			case PLAYER_SEARCH:
+				parseSearch();
+				break;
+			
+			case CLAN_PROFILER:
+				parseClan();
+				break;
+		}
+	}
+
+	private void parseClan()
+	{
+		ProfileRequest currentPlayer;
+		Matcher playerMatcher = CLAN_MATCH.matcher( responseText );
+
+		while ( playerMatcher.find() )
+		{
+			client.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
+			currentPlayer = new ProfileRequest( client, playerMatcher.group(2) );
+			
+			client.updateDisplay( NORMAL_STATE, "Retrieving profile for " + playerMatcher.group(2) + "..." );
+			if ( currentPlayer.getPvpRank().intValue() != 0 )
+				searchResults.add( currentPlayer );
+		}
 	}
 
 	private void parseSearch()

@@ -83,6 +83,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		tabs = new JTabbedPane();
 		tabs.add( "Search", new SearchPanel() );
 		tabs.add( "Attack", new AttackPanel() );
+		tabs.add( "Profiler", new ClanPanel() );
 
 		framePanel.setLayout( new BorderLayout() );
 		framePanel.add( tabs, BorderLayout.NORTH );
@@ -95,7 +96,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		resultsTable[0].setModel( sortedModel[0] );
 		resultsTable[0].getSelectionModel().addListSelectionListener( this );
 
-		resultsModel[1] = new SearchResultsTableModel( new String [] { "Name", "Class", "Level", "Drink", "Fashion", "Login" } );
+		resultsModel[1] = new SearchResultsTableModel( new String [] { "Name", "Class", "Level", "Rank", "Drink", "Fashion" } );
 		resultsTable[1] = new JTable( resultsModel[1] );
 		sortedModel[1] = new TableSorter( resultsTable[1].getModel(), resultsTable[1].getTableHeader() );
 		resultsTable[1].setModel( sortedModel[1] );
@@ -198,8 +199,67 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				return new Object [] { result.getPlayerName(), result.getClanName(), result.getClassType(),
 					result.getPlayerLevel(), result.getPvpRank() };
 
+			client.updateDisplay( NORMAL_STATE, "Retrieving profile for " + result.getPlayerName() + "..." );
 			return new Object [] { result.getPlayerName(), result.getClassType(), result.getPlayerLevel(),
-				result.getDrink(), result.getEquipmentPower(), result.getLastLoginAsString() };
+				result.getPvpRank(), result.getDrink(), result.getEquipmentPower() };
+		}
+	}
+
+	private class ClanPanel extends KoLPanel
+	{
+		private JTextField clanID;
+
+		public ClanPanel()
+		{
+			super( "profile" );
+
+			clanID = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "Clan ID: ", clanID );
+
+			setContent( elements, null, null, true, true );
+			setDefaultButton( confirmedButton );
+		}
+		
+		public void actionCancelled()
+		{
+		}
+
+		public void actionConfirmed()
+		{
+			resultCards.show( resultCardPanel, "1" );
+			client.resetContinueState();
+			client.updateDisplay( DISABLE_STATE, "Conducting search..." );
+
+			while ( !resultsModel[1].getDataVector().isEmpty() )
+			{
+				resultsModel[1].removeRow( 0 );
+				resultsModel[1].fireTableRowsDeleted( 0, 0 );
+			}
+
+			FlowerHunterRequest search = new FlowerHunterRequest( client, clanID.getText() );
+			search.run();
+
+			results = new ProfileRequest[ search.getSearchResults().size() ];
+			search.getSearchResults().toArray( results );
+
+			for ( int i = 0; i < results.length && client.permitsContinue(); ++i )
+			{
+				resultsModel[1].addRow( getRow( results[i] ) );
+				resultsModel[1].fireTableRowsInserted( i - 1, i - 1 );
+			}
+
+			if ( client.permitsContinue() )
+				client.updateDisplay( ENABLE_STATE, "Search completed." );
+			else
+				client.updateDisplay( ERROR_STATE, "Search halted." );
+		}
+
+		public Object [] getRow( ProfileRequest result )
+		{
+			return new Object [] { result.getPlayerName(), result.getClassType(), result.getPlayerLevel(),
+				result.getPvpRank(), result.getDrink(), result.getEquipmentPower() };
 		}
 	}
 
