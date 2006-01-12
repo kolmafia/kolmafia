@@ -82,6 +82,13 @@ public class HermitRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( quantity <= 0 )
+		{
+			updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
+			client.cancelRequest();
+			return;
+		}
+
 		updateDisplay( DISABLE_STATE, "Robbing the hermit..." );
 		super.run();
 
@@ -98,8 +105,18 @@ public class HermitRequest extends KoLRequest
 			// Figure out how many you do have.
 
 			int permits = PERMIT.getCount( KoLCharacter.getInventory() );
-			(new HermitRequest( client, itemID, permits )).run();
-			return;
+
+			if ( permits > 0 )
+			{
+				(new HermitRequest( client, itemID, permits )).run();
+				return;
+			}
+			else
+			{
+				updateDisplay( ERROR_STATE, "You need a hermit permit." );
+				client.cancelRequest();
+				return;
+			}
 		}
 
 		// If you don't have enough worthless items, scale back.
