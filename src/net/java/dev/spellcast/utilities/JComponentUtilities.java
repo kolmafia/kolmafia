@@ -138,6 +138,8 @@ public class JComponentUtilities implements UtilityConstants
 		}
 		catch ( FileNotFoundException e )
 		{
+System.out.println( e );
+e.printStackTrace();
 			System.err.println( "Shared image <" + filename + "> could not be found" );
 			return null;
 		}
@@ -164,9 +166,9 @@ public class JComponentUtilities implements UtilityConstants
 		if ( subdirectory.length() > 0 && (!subdirectory.endsWith( File.separator ) && !subdirectory.endsWith( "/" )) )
 			subdirectory += File.separator;
 
-		ImageIcon override = new ImageIcon( subdirectory + filename );
-		if ( override.getImageLoadStatus() == java.awt.MediaTracker.COMPLETE )
-			return override;
+		File override = new File( subdirectory + filename );
+		if ( override.exists() )
+			return new ImageIcon( subdirectory + filename );
 
 		java.net.URL filenameAsURL;
 		String fullname = directory + subdirectory + filename;
