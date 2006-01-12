@@ -241,6 +241,7 @@ public class LoginFrame extends KoLFrame
 			passwordField.setEnabled( isEnabled );
 			savePasswordCheckBox.setEnabled( isEnabled );
 			autoLoginCheckBox.setEnabled( isEnabled );
+			getBreakfastCheckBox.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
