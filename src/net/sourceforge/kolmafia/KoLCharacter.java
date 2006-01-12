@@ -405,7 +405,9 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static String getAvatar()
-	{	return avatar;
+	{
+		RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/" + avatar );
+		return avatar;
 	}
 
 	/**
