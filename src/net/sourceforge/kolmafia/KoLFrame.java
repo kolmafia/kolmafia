@@ -342,7 +342,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 			else
 			{
-				FamiliarsDatabase.downloadFamiliarImage( id );
 				familiarLabel.setIcon( FamiliarsDatabase.getFamiliarImage( id ) );
 				weightLabel.setText( familiar.getModifiedWeight() + " lbs." );
 			}
