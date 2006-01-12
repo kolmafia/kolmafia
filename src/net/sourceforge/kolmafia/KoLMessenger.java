@@ -166,14 +166,14 @@ public abstract class KoLMessenger extends StaticEntity
 
 		LimitedSizeChatBuffer.clearHighlights();
 
-		String [] highlights = GLOBAL_SETTINGS.getProperty( "highlightList" ).split( "\n" );
+		String [] highlights = GLOBAL_SETTINGS.getProperty( "highlightList" ).replaceAll( "\n\n+", "\n" ).trim().split( "\n" );
 
 		if ( highlights.length > 1 )
 		{
 			LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
 			LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
-			for ( int i = 1; i < highlights.length; ++i )
+			for ( int i = 0; i < highlights.length; ++i )
 				LimitedSizeChatBuffer.addHighlight( highlights[i], DataUtilities.toColor( highlights[++i] ) );
 		}
 	}
