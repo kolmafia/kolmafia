@@ -144,12 +144,15 @@ public class AdventureFrame extends KoLFrame
 
 		try
 		{
-			String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
+			if ( client != null )
+			{
+				String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
 
-			if ( holiday.startsWith( "No" ) )
-				client.updateDisplay( NORMAL_STATE, MoonPhaseDatabase.getMoonEffect() );
-			else
-				client.updateDisplay( NORMAL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+				if ( holiday.startsWith( "No" ) )
+					client.updateDisplay( NORMAL_STATE, MoonPhaseDatabase.getMoonEffect() );
+				else
+					client.updateDisplay( NORMAL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -330,7 +333,10 @@ public class AdventureFrame extends KoLFrame
 			setContent( elements );
 
 			int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( getProperty( "battleAction" ) );
-			actionSelect.setSelectedIndex( actionIndex == -1 ? 0 : actionIndex );
+
+			if ( KoLCharacter.getBattleSkillIDs().size() > 0 )
+				actionSelect.setSelectedIndex( actionIndex == -1 ? 0 : actionIndex );
+
 			actionSelect.addActionListener( new BattleActionListener() );
 
 			String lastAdventure = getProperty( "lastAdventure" );

@@ -77,7 +77,7 @@ public class AdventureRequest extends KoLRequest
 		// posting it in the form sent to adventure.php will handle
 		// everything for you.
 
-		if ( client != null )
+		if ( client != null && client.getPasswordHash() != null )
 		{
 			// Almost all requests use one adventure
 			this.adventuresUsed = 1;
