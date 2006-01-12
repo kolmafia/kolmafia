@@ -62,7 +62,7 @@ public class FlowerHunterRequest extends KoLRequest
 			addFormField( "hardcoreonly", "on" );
 	}
 
-	public FlowerHunterRequest( KoLmafia client, String opponent, int stance, boolean isForFlowers )
+	public FlowerHunterRequest( KoLmafia client, String opponent, int stance, boolean isForFlowers, String message )
 	{
 		super( client, "pvp.php" );
 		this.isAttack = true;
@@ -72,8 +72,8 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "who", opponent );
 		addFormField( "stance", String.valueOf( stance ) );
 		addFormField( "attacktype", isForFlowers ? "flowers" : "rank" );
-		addFormField( "winmessage", "" );
-		addFormField( "losemessage", "" );
+		addFormField( "winmessage", message );
+		addFormField( "losemessage", message );
 	}
 
 	public List getSearchResults()
@@ -111,5 +111,10 @@ public class FlowerHunterRequest extends KoLRequest
 
 	private void parseAttack()
 	{
+		// Trim down the response text so it only includes
+		// the information related to the fight.
+
+		int index = responseText.indexOf( "<p>Player to attack" );
+		responseText = responseText.substring( 0, index == -1 ? responseText.length() : index );
 	}
 }
