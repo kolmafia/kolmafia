@@ -166,7 +166,11 @@ public class CharpaneRequest extends KoLRequest
 			KoLCharacter.setMP( df.parse( miscMatcher.group(5) ).intValue(), df.parse( miscMatcher.group(6) ).intValue(), df.parse( miscMatcher.group(6) ).intValue() );
 
 			KoLCharacter.setAvailableMeat( df.parse( miscMatcher.group(9) ).intValue() );
-			KoLCharacter.setAdventuresLeft( df.parse( miscMatcher.group(12) ).intValue() );
+
+			int oldAdventures = KoLCharacter.getAdventuresLeft();
+			int newAdventures = df.parse( miscMatcher.group(12) ).intValue();
+
+			KoLCharacter.processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
 		}
 	}
 
