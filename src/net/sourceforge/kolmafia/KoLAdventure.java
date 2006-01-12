@@ -206,7 +206,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Make sure there are enough adventures to run the request
 		// so that you don't spam the server unnecessarily.
 
-		if ( KoLCharacter.getAdventuresLeft() < request.getAdventuresUsed() )
+		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getAdventuresLeft() < request.getAdventuresUsed() )
 		{
 			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "Insufficient adventures to continue." );
