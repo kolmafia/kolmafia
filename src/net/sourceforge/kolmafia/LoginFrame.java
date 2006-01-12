@@ -418,6 +418,8 @@ public class LoginFrame extends KoLFrame
 
 	private class ProxyOptionsPanel extends LabeledKoLPanel
 	{
+		private ProxySettingsCheckBox proxySet;
+
 		private JTextField proxyHost;
 		private JTextField proxyPort;
 		private JTextField proxyLogin;
@@ -433,16 +435,19 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "Proxy Setup", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
+			proxySet = new ProxySettingsCheckBox();
+
 			proxyHost = new JTextField();
 			proxyPort = new JTextField();
 			proxyLogin = new JTextField();
 			proxyPassword = new JPasswordField();
 
-			VerifiableElement [] elements = new VerifiableElement[4];
-			elements[0] = new VerifiableElement( "Host: ", proxyHost );
-			elements[1] = new VerifiableElement( "Port: ", proxyPort );
-			elements[2] = new VerifiableElement( "Login: ", proxyLogin );
-			elements[3] = new VerifiableElement( "Password: ", proxyPassword );
+			VerifiableElement [] elements = new VerifiableElement[5];
+			elements[0] = new VerifiableElement( "Use Proxy: ", proxySet );
+			elements[1] = new VerifiableElement( "Proxy Host: ", proxyHost );
+			elements[2] = new VerifiableElement( "Proxy Port: ", proxyPort );
+			elements[3] = new VerifiableElement( "Proxy Login: ", proxyLogin );
+			elements[4] = new VerifiableElement( "Proxy Pass: ", proxyPassword );
 
 			setContent( elements, true );
 			actionCancelled();
@@ -450,7 +455,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() != 0 ) );
+			setProperty( "proxySet", String.valueOf( proxySet.isSelected() && proxyHost.getText().trim().length() > 0 ) );
 			setProperty( "http.proxyHost", proxyHost.getText() );
 			setProperty( "http.proxyPort", proxyPort.getText() );
 			setProperty( "http.proxyUser", proxyLogin.getText() );
@@ -464,10 +469,28 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
+			proxySet.setSelected( getProperty( "proxySet" ).equals( "true" ) );
 			proxyHost.setText( getProperty( "http.proxyHost" ) );
 			proxyPort.setText( getProperty( "http.proxyPort" ) );
 			proxyLogin.setText( getProperty( "http.proxyUser" ) );
 			proxyPassword.setText( getProperty( "http.proxyPassword" ) );
+
+			proxySet.actionPerformed( null );
+		}
+
+		private class ProxySettingsCheckBox extends JCheckBox implements ActionListener
+		{
+			public ProxySettingsCheckBox()
+			{	addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				proxyHost.setEnabled( isSelected() );
+				proxyPort.setEnabled( isSelected() );
+				proxyLogin.setEnabled( isSelected() );
+				proxyPassword.setEnabled( isSelected() );
+			}
 		}
 	}
 
