@@ -80,7 +80,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	public static String removeHighlight( int index )
 	{
 		String removedColor = (String) colors.remove( index );
-		String removedPattern = ((Pattern) highlights.remove( index )).toString();
+		String removedPattern = ((Pattern) highlights.remove( index )).pattern();
 		dehighlights.remove( index );
 
 		return removedPattern + "\n" + removedColor;

@@ -168,7 +168,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		String [] highlights = GLOBAL_SETTINGS.getProperty( "highlightList" ).split( "\n" );
 
-		if ( highlights.length != 1 )
+		if ( highlights.length > 1 )
 		{
 			LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
 			LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
@@ -984,7 +984,6 @@ public abstract class KoLMessenger extends StaticEntity
 	public static void addHighlighting()
 	{
 		String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", KoLCharacter.getUsername() );
-
 		if ( highlight == null )
 			return;
 
@@ -998,12 +997,16 @@ public abstract class KoLMessenger extends StaticEntity
 		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
 		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
-		String settingString = LimitedSizeChatBuffer.addHighlight( highlight, color );
-		GLOBAL_SETTINGS.setProperty( "highlightList", GLOBAL_SETTINGS.getProperty( "highlightList" ) + "\n" + settingString );
+		StringBuffer newSetting = new StringBuffer();
+		newSetting.append( GLOBAL_SETTINGS.getProperty( "highlightList" ) );
+		newSetting.append( "\n" );
+		newSetting.append( LimitedSizeChatBuffer.addHighlight( highlight, color ) );
+		GLOBAL_SETTINGS.setProperty( "highlightList", newSetting.toString().trim() );
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
-			getChatBuffer( (String) keys[i] ).applyHighlights();
+			if ( !keys[i].equals( "[highs]" ) )
+				getChatBuffer( (String) keys[i] ).applyHighlights();
 	}
 
 	/**
@@ -1019,30 +1022,46 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( patterns.length == 0 )
 		{
 			JOptionPane.showMessageDialog( null, "No active highlights." );
+			highlighting = false;
 			return;
 		}
 
 		for ( int i = 0; i < patterns.length; ++i )
 			patterns[i] = ((Pattern)patterns[i]).pattern();
 
-		Object selectedValue = JOptionPane.showInputDialog( null, "Currently highlighting the following terms:",
-				"Chat highlights!", JOptionPane.INFORMATION_MESSAGE, null, patterns, patterns[0] );
+		String selectedValue = (String) JOptionPane.showInputDialog( null, "Currently highlighting the following terms:",
+			"Chat highlights!", JOptionPane.INFORMATION_MESSAGE, null, patterns, patterns[0] );
 
 		if ( selectedValue == null )
 			return;
 
+		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
+		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
+
 		for ( int i = 0; i < patterns.length; ++i )
+		{
 			if ( patterns[i].equals( selectedValue ) )
 			{
 				String settingString = LimitedSizeChatBuffer.removeHighlight(i);
 				LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
-				GLOBAL_SETTINGS.setProperty( "highlightList", GLOBAL_SETTINGS.getProperty( "highlightList" ).replaceAll( "\n" + settingString, "" ) );
+				String oldSetting = GLOBAL_SETTINGS.getProperty( "highlightList" );
+				int startIndex = oldSetting.indexOf( settingString );
+				int endIndex = startIndex + settingString.length();
 
-				Object [] keys = instantMessageBuffers.keySet().toArray();
-				for ( int j = 0; j < keys.length; ++j )
-					getChatBuffer( (String) keys[j] ).applyHighlights();
+				StringBuffer newSetting = new StringBuffer();
+				newSetting.append( oldSetting.substring( 0, startIndex ) );
 
+				if ( endIndex < oldSetting.length() )
+					newSetting.append( oldSetting.substring( endIndex ) );
+
+				GLOBAL_SETTINGS.setProperty( "highlightList", newSetting.toString().replaceAll( "\n\n+", "\n" ).trim() );
 			}
+		}
+
+		Object [] keys = instantMessageBuffers.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+			if ( !keys[i].equals( "[highs]" ) )
+				getChatBuffer( (String) keys[i] ).applyHighlights();
 	}
 }
