@@ -41,7 +41,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
 	private static final Pattern SEARCH_PATTERN =
-		Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/familiar(\\d+).*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) kills?\\)(.*?)<(/tr|form)" );
+		Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) kills?\\)(.*?)<(/tr|form)" );
 
 	private static int weightModifier;
 	private static int dodecaModifier;
@@ -70,7 +70,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	{
 		try
 		{
-			int kills = df.parse( dataMatcher.group(4) ).intValue();
+			int kills = df.parse( dataMatcher.group(3) ).intValue();
 			this.weight = Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
 		}
 		catch ( Exception e )
@@ -85,19 +85,15 @@ public class FamiliarData implements KoLConstants, Comparable
 			this.weight = 0;
 		}
 
-		this.id = Integer.parseInt( dataMatcher.group(1) );
+		this.name = dataMatcher.group(1);
+		this.race = dataMatcher.group(2);
+		this.id = FamiliarsDatabase.getFamiliarID( this.race );
 		FamiliarsDatabase.downloadFamiliarImage( this.id );
-
-		this.name = dataMatcher.group(2);
-
-		this.race = dataMatcher.group(3);
 
 		if ( !FamiliarsDatabase.contains( this.race ) )
 			FamiliarsDatabase.registerFamiliar( this.id, this.race );
 
-		this.id = FamiliarsDatabase.getFamiliarID( this.race );
-
-		String itemData = dataMatcher.group(5);
+		String itemData = dataMatcher.group(4);
 
 		this.item = itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
 			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky tam o'shanter" :
