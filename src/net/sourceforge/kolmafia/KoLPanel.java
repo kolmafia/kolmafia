@@ -34,7 +34,11 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JPanel;
+import javax.swing.JLabel;
 import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
 /**
