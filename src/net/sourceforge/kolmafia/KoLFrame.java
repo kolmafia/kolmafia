@@ -553,6 +553,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		helperMenu.add( new DisplayPageMenuItem( "Moxie Survival Lookup", "http://kol.network-forums.com/cgi-bin/moxie.cgi" ) );
 	}
 
+	public void setEnabled( boolean isEnabled )
+	{	this.isEnabled = isEnabled;
+	}
+
 	/**
 	 * Overrides the default isEnabled() method, because the setEnabled()
 	 * method does not call the superclass's version.
