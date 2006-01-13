@@ -537,7 +537,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// the quantity creatable by solving the set of
 			// linear inequalities.
 
-			if ( ingredientArray.length == 1 )
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER )
 			{
 				// If there's only one ingredient, then the
 				// quantity depends entirely on it.
