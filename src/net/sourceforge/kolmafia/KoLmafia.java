@@ -799,6 +799,14 @@ public abstract class KoLmafia implements KoLConstants
 
 	private final boolean recover( int needed, String currentName, String maximumName, String scriptProperty, String listProperty, Class techniqueList )
 	{
+		// Do not attempt recovery if the person has an
+		// auto-halting script and they are below the
+		// needed health.
+
+		int haltTolerance = (int)( Double.parseDouble( StaticEntity.getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
+		if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
+			return false;
+
 		try
 		{
 			Object [] empty = new Object[0];
