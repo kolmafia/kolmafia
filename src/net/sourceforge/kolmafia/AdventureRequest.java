@@ -175,25 +175,24 @@ public class AdventureRequest extends KoLRequest
 			{
 				updateDisplay( ERROR_STATE, "Encountered haiku subquest." );
 				client.cancelRequest();
-				return;
-			}
-
-			// Otherwise, the only redirect we understand is
-			// fight.php and choice.php.  If it's neither of
-			// those, report an error.
-
-			if ( !redirectLocation.equals( "fight.php" ) && !redirectLocation.equals( "choice.php" ) )
-			{
-				updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
-				client.cancelRequest();
-				return;
 			}
 
 			// Make sure that the daily dungeon allows continues
 			// even after a fight.
 
-			if ( formSource.equals( "dungeon.php" ) )
+			else if ( formSource.equals( "dungeon.php" ) )
 				client.resetContinueState();
+
+			// Otherwise, the only redirect we understand is
+			// fight.php and choice.php.  If it's neither of
+			// those, report an error.
+
+			else if ( !redirectLocation.equals( "fight.php" ) && !redirectLocation.equals( "choice.php" ) )
+			{
+				updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
+				client.cancelRequest();
+				return;
+			}
 
 			// We're back from a fight, or we completed a choice
 			// adventure -- in both cases, adventure usage is zero.
@@ -265,6 +264,7 @@ public class AdventureRequest extends KoLRequest
 
 					client.cancelRequest();
 					updateDisplay( ERROR_STATE, "You can't get to that area." );
+					this.adventuresUsed = 0;
 					return;
 				}
 
@@ -275,7 +275,7 @@ public class AdventureRequest extends KoLRequest
 
 					client.cancelRequest();
 					updateDisplay( NORMAL_STATE, "Nothing more to do here." );
-					adventuresUsed = 0;
+					this.adventuresUsed = 0;
 					return;
 				}
 
@@ -289,6 +289,7 @@ public class AdventureRequest extends KoLRequest
 				if ( responseText.indexOf( "You acquire an item" ) == -1 && responseText.indexOf( "You gain" ) == -1 )
 				{
 					updateDisplay( ERROR_STATE, "Adventures aborted!" );
+					this.adventuresUsed = 0;
 					return;
 				}
 			}
@@ -316,6 +317,7 @@ public class AdventureRequest extends KoLRequest
 			}
 			else
 				updateDisplay( ERROR_STATE, "You've already crossed the Orc Chasm." );
+
 			client.cancelRequest();
 			return;
 		}
@@ -330,6 +332,7 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( DODECAGRAM );
 				client.processResult( CANDLES );
 				client.processResult( BUTTERKNIFE );
+
 				KoLCharacter.addAccomplishment( KoLCharacter.FRIARS );
 				updateDisplay( NORMAL_STATE, "Taint cleansed." );
 			}
@@ -339,6 +342,7 @@ public class AdventureRequest extends KoLRequest
 				//   "You don't appear to have all of the
 				//   elements necessary to perform the ritual."
 				// Detect completion via accomplishments.
+
 				updateDisplay( ERROR_STATE, "You can't perform the ritual." );
 			}
 
@@ -351,6 +355,7 @@ public class AdventureRequest extends KoLRequest
 			{
 				updateDisplay( ERROR_STATE, "Put on a costume and try again!" );
 				client.cancelRequest();
+				this.adventuresUsed = 0;
 				return;
 			}
 		}
@@ -364,6 +369,7 @@ public class AdventureRequest extends KoLRequest
 			// Friendly error messages to come later.
 
 			client.cancelRequest();
+			this.adventuresUsed = 0;
 			updateDisplay( ERROR_STATE, "Turn usage aborted!" );
 			return;
 		}
