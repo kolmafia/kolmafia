@@ -819,6 +819,8 @@ public class AdventureFrame extends KoLFrame
 			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
 			MPRestoreItemList.setProperty();
+
+			JOptionPane.showMessageDialog( null, "Settings have been saved." );
 		}
 
 		protected void actionCancelled()
