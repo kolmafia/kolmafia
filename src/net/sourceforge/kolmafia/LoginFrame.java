@@ -146,9 +146,6 @@ public class LoginFrame extends KoLFrame
 
 	private class LoginPanel extends KoLPanel implements ActionListener
 	{
-		private JPanel actionStatusPanel;
-		private JLabel actionStatusLabel;
-
 		private JComponent loginnameField;
 		private JPasswordField passwordField;
 		private JCheckBox savePasswordCheckBox;
