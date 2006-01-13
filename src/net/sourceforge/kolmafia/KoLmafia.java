@@ -834,7 +834,7 @@ public abstract class KoLmafia implements KoLConstants
 					current != ((Number)currentMethod.invoke( null, empty )).intValue() )
 				{
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
-					recoverOnce( scriptProperty );
+					recoverOnce( scriptPath );
 				}
 			}
 			else
@@ -906,14 +906,14 @@ public abstract class KoLmafia implements KoLConstants
 	 * the user has specified this in their settings).
 	 */
 
-	protected final void recoverHP()
+	protected final boolean recoverHP()
 	{
 		double recover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) KoLCharacter.getMaximumHP();
-		recoverHP( (int) recover );
+		return recoverHP( (int) recover );
 	}
 
-	public final void recoverHP( int recover )
-	{	recover( recover, "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestoreItems", HPRestoreItemList.class );
+	public final boolean recoverHP( int recover )
+	{	return recover( recover, "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestoreItems", HPRestoreItemList.class );
 	}
 
 	/**
@@ -977,10 +977,10 @@ public abstract class KoLmafia implements KoLConstants
 	 * the user has specified this in their settings).
 	 */
 
-	protected final void recoverMP()
+	protected final boolean recoverMP()
 	{
 		double mpNeeded = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) KoLCharacter.getMaximumMP();
-		recoverMP( (int) mpNeeded );
+		return recoverMP( (int) mpNeeded );
 	}
 
 	/**

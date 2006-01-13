@@ -162,9 +162,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( !formSource.equals( "campground.php" ) )
 		{
-			client.recoverHP();
-			client.recoverMP();
-
 			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 			if ( !scriptPath.equals( "" ) )
 			{
@@ -184,6 +181,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 					e.printStackTrace();
 				}
 			}
+
+			if ( !client.recoverHP() || !client.recoverMP() )
+				return;
 		}
 
 		// If auto-recovery failed, return from the run attempt.
@@ -237,11 +237,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// mana and health to continue so you don't get an abort
 		// when the user has a good script already there.
 
-		if ( !formSource.equals( "campground.php" ) )
-		{
-			client.recoverHP();
-			client.recoverMP();
-		}
+		if ( !formSource.equals( "campground.php" ) && !client.recoverHP() || !client.recoverMP() )
+			return;
 	}
 
 	/**
