@@ -165,33 +165,23 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			client.recoverHP();
 			client.recoverMP();
 
-			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" ) ;
+			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 			if ( !scriptPath.equals( "" ) )
 			{
-				File betweenBattleScript = new File( scriptPath );
-
-				if ( betweenBattleScript.exists() )
+				try
 				{
-					try
-					{
-						(new KoLmafiaCLI( client, new FileInputStream( betweenBattleScript ) )).listenForCommands();
-					}
-					catch ( Exception e )
-					{
-						// If an exception is thrown, then cancel the request
-						// and echo an error message.
-
-						client.updateDisplay( ERROR_STATE, "Unexpected error in between-battle script." );
-						client.cancelRequest();
-
-						e.printStackTrace( KoLmafia.getLogStream() );
-						e.printStackTrace();
-					}
+					(new KoLmafiaCLI( client, new FileInputStream( scriptPath ) )).listenForCommands();
 				}
-				else
+				catch ( Exception e )
 				{
-					client.updateDisplay( ERROR_STATE, "Could not find between-battle script." );
+					// If an exception is thrown, then cancel the request
+					// and echo an error message.
+
+					client.updateDisplay( ERROR_STATE, "Unexpected error in between-battle script." );
 					client.cancelRequest();
+
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
 				}
 			}
 		}
