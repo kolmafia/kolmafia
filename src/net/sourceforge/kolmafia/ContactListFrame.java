@@ -85,14 +85,6 @@ public class ContactListFrame extends KoLFrame
 		pack();
 	}
 
-	public void setEnabled( boolean isEnabled )
-	{
-	}
-
-	public boolean isEnabled()
-	{	return true;
-	}
-
 	public Object [] getSelectedPlayers()
 	{
 		Object [] selectedPlayers = contactsDisplay.getSelectedValues();

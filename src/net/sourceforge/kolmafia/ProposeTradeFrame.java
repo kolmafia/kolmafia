@@ -68,6 +68,7 @@ public class ProposeTradeFrame extends SendMessageFrame
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
+
 		if ( this.offerID != null )
 			recipientEntry.setEnabled( false );
 	}

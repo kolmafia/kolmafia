@@ -54,6 +54,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings();
 
 	public static final List existingFrames = new ArrayList();
+	public static final List existingPanels = new ArrayList();
 
 	public static final DecimalFormat df = new DecimalFormat(
 		"#,##0", new DecimalFormatSymbols( Locale.US ) );

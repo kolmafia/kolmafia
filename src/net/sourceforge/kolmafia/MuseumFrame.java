@@ -108,16 +108,6 @@ public class MuseumFrame extends KoLFrame
 		framePanel.add( tabs, "" );
 	}
 
-	public void setEnabled( boolean isEnabled )
-	{
-		if ( ordering != null )
-		{
-			general.setEnabled( isEnabled );
-			shelves.setEnabled( isEnabled );
-			ordering.setEnabled( isEnabled );
-		}
-	}
-
 	/**
 	 * Internal class used to handle everything related to
 	 * placing items into the display and taking items from

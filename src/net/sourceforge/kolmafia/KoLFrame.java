@@ -113,7 +113,12 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
+	private static final Color ERROR_COLOR = new Color( 255, 128, 128 );
+	private static final Color ENABLED_COLOR = new Color( 128, 255, 128 );
+	private static final Color DISABLED_COLOR = null;
+
 	private String lastTitle;
+	protected boolean isEnabled;
 	protected static KoLmafia client;
 
 	static
@@ -143,8 +148,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher", "Sun Graphics", "System Tray" };
 
 	private String frameName;
-	protected boolean isEnabled;
-
 	protected JPanel framePanel;
 	protected JToolBar toolbarPanel;
 	protected KoLPanel contentPanel;
@@ -167,9 +170,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			KoLCharacter.getUsername() + ": " + title + " (" + KoLRequest.getRootHostName() + ")" );
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
-		this.lastTitle = title;
 
 		this.isEnabled = true;
+		this.lastTitle = title;
 		KoLFrame.client = client;
 
 		this.framePanel = new JPanel();
@@ -365,29 +368,31 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	}
 
-	/**
-	 * Updates the display to reflect the given display state and
-	 * to contain the given message.  Note that if there is no
-	 * content panel, this method does nothing.
-	 */
-
-	public void updateDisplay( int displayState, String message )
+	public void updateDisplayState( int displayState )
 	{
-		if ( contentPanel != null )
-			contentPanel.setStatusMessage( displayState, message );
+		// Change the background of the frame based on
+		// the current display state -- but only if the
+		// compact pane has already been constructed.
 
-		switch ( displayState )
+		if ( compactPane != null )
 		{
-			case DISABLE_STATE:
-				setEnabled( false );
-				break;
+			switch ( displayState )
+			{
+				case ERROR_STATE:
+					compactPane.setBackground( ERROR_COLOR );
+					setEnabled( true );
+					break;
 
-			case NORMAL_STATE:
-				break;
+				case ENABLE_STATE:
+					compactPane.setBackground( ENABLED_COLOR );
+					setEnabled( true );
+					break;
 
-			default:
-				setEnabled( true );
-				break;
+				case DISABLE_STATE:
+					compactPane.setBackground( DISABLED_COLOR );
+					setEnabled( false );
+					break;
+			}
 		}
 	}
 
@@ -549,31 +554,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
-	 * Auxiliary method used to enable and disable a frame.  By default,
-	 * this attempts to toggle the enable/disable status on the core
-	 * content panel.  It is advised that descendants override this
-	 * behavior whenever necessary.
-	 *
-	 * @param	isEnabled	<code>true</code> if the frame is to be re-enabled
-	 */
-
-	public void setEnabled( boolean isEnabled )
-	{
-		this.isEnabled = isEnabled;
-
-		if ( contentPanel != null )
-			contentPanel.setEnabled( isEnabled );
-
-	}
-
-	/**
 	 * Overrides the default isEnabled() method, because the setEnabled()
 	 * method does not call the superclass's version.
 	 *
 	 * @return	<code>true</code>
 	 */
 
-	public boolean isEnabled()
+	public final boolean isEnabled()
 	{	return true;
 	}
 
@@ -756,6 +743,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public MultiButtonPanel( String title, LockableListModel elementModel, boolean showMovers )
 		{
+			existingPanels.add( this );
 			this.showMovers = showMovers;
 			this.optionPanel = new JPanel();
 

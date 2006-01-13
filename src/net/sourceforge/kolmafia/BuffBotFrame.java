@@ -86,9 +86,12 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffBotFrame extends KoLFrame
 {
+	private JList buffListDisplay;
 	private MainBuffPanel mainBuff;
 	private BuffOptionsPanel buffOptions;
 	private MainSettingsPanel mainSettings;
+
+	private JTextArea whiteListEntry, invalidPriceMessage, thanksMessage;
 
 	/**
 	 * Constructs a new <code>BuffBotFrame</code> and inserts all
@@ -110,38 +113,76 @@ public class BuffBotFrame extends KoLFrame
 		// Initialize the display log buffer and the file log
 
 		JTabbedPane tabs = new JTabbedPane();
-		mainBuff = new MainBuffPanel();
 
-		JPanel containerPanel = new JPanel();
-		containerPanel.setLayout( new BorderLayout() );
-		containerPanel.add( mainBuff, BorderLayout.CENTER );
+		mainBuff = new MainBuffPanel();
+		JPanel mainContainer = new JPanel();
+		mainContainer.setLayout( new BorderLayout() );
+		mainContainer.add( mainBuff, BorderLayout.CENTER );
+
+		tabs.addTab( "Run Buffbot", mainContainer );
 
 		buffOptions = new BuffOptionsPanel();
+		JPanel optionsContainer = new JPanel( new BorderLayout( 10, 10 ) );
+		optionsContainer.add( buffOptions, BorderLayout.NORTH );
+		optionsContainer.add( new BuffListPanel(), BorderLayout.CENTER );
+
+		tabs.addTab( "Edit Bufflist", optionsContainer );
+
+		whiteListEntry = new JTextArea();
+		invalidPriceMessage = new JTextArea();
+		thanksMessage = new JTextArea();
+
+		whiteListEntry.setLineWrap( true );
+		whiteListEntry.setWrapStyleWord( true );
+
+		invalidPriceMessage.setLineWrap( true );
+		invalidPriceMessage.setWrapStyleWord( true );
+
+		thanksMessage.setLineWrap( true );
+		thanksMessage.setWrapStyleWord( true );
+
+		JPanel settingsTopPanel = new JPanel( new BorderLayout() );
+		settingsTopPanel.add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
+			Color.black, Color.white ), BorderLayout.NORTH );
+		settingsTopPanel.add( new JScrollPane( whiteListEntry, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+		JPanel settingsMiddlePanel = new JPanel( new BorderLayout() );
+		settingsMiddlePanel.add( JComponentUtilities.createLabel( "Invalid Buff Price Message", JLabel.CENTER,
+			Color.black, Color.white ), BorderLayout.NORTH );
+		settingsMiddlePanel.add( new JScrollPane( invalidPriceMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+		JPanel settingsBottomPanel = new JPanel( new BorderLayout() );
+		settingsBottomPanel.add( JComponentUtilities.createLabel( "Donation Thanks Message", JLabel.CENTER,
+			Color.black, Color.white ), BorderLayout.NORTH );
+		settingsBottomPanel.add( new JScrollPane( thanksMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+		JPanel settingsPanel = new JPanel( new GridLayout( 3, 1, 10, 10 ) );
+
+		JComponentUtilities.setComponentSize( settingsTopPanel, 300, 120 );
+		JComponentUtilities.setComponentSize( settingsMiddlePanel, 300, 120 );
+		JComponentUtilities.setComponentSize( settingsBottomPanel, 300, 120 );
+
+		settingsPanel.add( settingsTopPanel );
+		settingsPanel.add( settingsMiddlePanel );
+		settingsPanel.add( settingsBottomPanel );
+
+		JPanel settingsContainer = new JPanel( new BorderLayout( 10, 10 ) );
 		mainSettings = new MainSettingsPanel();
 
-		tabs.addTab( "Run Buffbot", containerPanel );
-		tabs.addTab( "Edit Bufflist", buffOptions );
-		tabs.addTab( "Main Settings", mainSettings );
+		whiteListEntry.addFocusListener( mainSettings );
+		invalidPriceMessage.addFocusListener( mainSettings );
+		thanksMessage.addFocusListener( mainSettings );
+
+		settingsContainer.add( mainSettings, BorderLayout.NORTH );
+		settingsContainer.add( settingsPanel, BorderLayout.CENTER );
+
+		tabs.addTab( "Main Settings", settingsContainer );
 
 		addCompactPane();
 		framePanel.add( tabs, BorderLayout.CENTER );
-	}
-
-	/**
-	 * Auxiliary method used to enable and disable a frame.  By default,
-	 * this attempts to toggle the enable/disable status on all tabs.
-	 *
-	 * @param	isEnabled	<code>true</code> if the frame is to be re-enabled
-	 */
-
-	public void setEnabled( boolean isEnabled )
-	{
-		if ( mainBuff != null )
-			mainBuff.setEnabled( isEnabled );
-		if ( buffOptions != null )
-			buffOptions.setEnabled( isEnabled );
-		if ( mainSettings != null )
-			mainSettings.setEnabled( isEnabled );
 	}
 
 	/**
@@ -197,7 +238,6 @@ public class BuffBotFrame extends KoLFrame
 		private JCheckBox restrictBox;
 		private JCheckBox singletonBox;
 		private JComboBox skillSelect;
-		private JList buffListDisplay;
 		private JTextField priceField, countField;
 
 		public BuffOptionsPanel()
@@ -227,17 +267,6 @@ public class BuffBotFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		public void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements, null, null, true, true );
-
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );
-			centerPanel.add( Box.createVerticalStrut( 10 ) );
-			centerPanel.add( new BuffListPanel() );
-			add( centerPanel, BorderLayout.CENTER );
-		}
-
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
@@ -265,23 +294,23 @@ public class BuffBotFrame extends KoLFrame
 		public void actionCancelled()
 		{	BuffBotManager.removeBuffs( buffListDisplay.getSelectedValues() );
 		}
+	}
 
-		private class BuffListPanel extends JPanel
+	private class BuffListPanel extends JPanel
+	{
+		public BuffListPanel()
 		{
-			public BuffListPanel()
-			{
-				setLayout( new BorderLayout() );
-				setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-				add( JComponentUtilities.createLabel( "Active Buffing List", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
+			setLayout( new BorderLayout() );
+			setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+			add( JComponentUtilities.createLabel( "Active Buffing List", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
 
-				buffListDisplay = new JList( BuffBotManager.getBuffCostTable() );
-				buffListDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-				buffListDisplay.setVisibleRowCount( 5 );
+			buffListDisplay = new JList( BuffBotManager.getBuffCostTable() );
+			buffListDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+			buffListDisplay.setVisibleRowCount( 5 );
 
-				add( new JScrollPane( buffListDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-			}
+			add( new JScrollPane( buffListDisplay, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 		}
 	}
 
@@ -293,7 +322,6 @@ public class BuffBotFrame extends KoLFrame
 	private class MainSettingsPanel extends KoLPanel
 	{
 		private JComboBox messageDisposalSelect;
-		private JTextArea whiteListEntry, invalidPriceMessage, thanksMessage;
 
 		public MainSettingsPanel()
 		{
@@ -314,57 +342,6 @@ public class BuffBotFrame extends KoLFrame
 
 			setContent( elements );
 			actionCancelled();
-		}
-
-		public void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements );
-
-			whiteListEntry = new JTextArea();
-			invalidPriceMessage = new JTextArea();
-			thanksMessage = new JTextArea();
-
-			whiteListEntry.setLineWrap( true );
-			whiteListEntry.setWrapStyleWord( true );
-			whiteListEntry.addFocusListener( this );
-
-			invalidPriceMessage.setLineWrap( true );
-			invalidPriceMessage.setWrapStyleWord( true );
-			invalidPriceMessage.addFocusListener( this );
-
-			thanksMessage.setLineWrap( true );
-			thanksMessage.setWrapStyleWord( true );
-			thanksMessage.addFocusListener( this );
-
-			JPanel centerTopPanel = new JPanel( new BorderLayout() );
-			centerTopPanel.add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
-			centerTopPanel.add( new JScrollPane( whiteListEntry, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
-			JPanel centerMiddlePanel = new JPanel( new BorderLayout() );
-			centerMiddlePanel.add( JComponentUtilities.createLabel( "Invalid Buff Price Message", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
-			centerMiddlePanel.add( new JScrollPane( invalidPriceMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
-			JPanel centerBottomPanel = new JPanel( new BorderLayout() );
-			centerBottomPanel.add( JComponentUtilities.createLabel( "Donation Thanks Message", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
-			centerBottomPanel.add( new JScrollPane( thanksMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
-			JPanel centerPanel = new JPanel( new GridLayout( 3, 1, 10, 10 ) );
-
-			JComponentUtilities.setComponentSize( centerTopPanel, 300, 120 );
-			JComponentUtilities.setComponentSize( centerMiddlePanel, 300, 120 );
-			JComponentUtilities.setComponentSize( centerBottomPanel, 300, 120 );
-
-			centerPanel.add( centerTopPanel );
-			centerPanel.add( centerMiddlePanel );
-			centerPanel.add( centerBottomPanel );
-
-			add( centerPanel, BorderLayout.CENTER );
 		}
 
 		public void setEnabled( boolean isEnabled )

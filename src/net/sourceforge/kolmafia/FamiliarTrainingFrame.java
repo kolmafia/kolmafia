@@ -139,14 +139,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 			client.enableDisplay();
 	}
 
-	public void setEnabled( boolean isEnabled )
-	{
-		super.setEnabled( isEnabled );
-
-		if ( training != null )
-			training.setEnabled( isEnabled );
-	}
-
 	/**
 	 * Internal class to handle de-initializing the chat when
 	 * the window is closed.  This helps stop constantly
@@ -207,6 +199,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		public FamiliarTrainingPanel()
 		{
+			existingPanels.add( this );
 			setLayout( new BorderLayout( 10, 10 ) );
 
 			// Get current familiar & base weight

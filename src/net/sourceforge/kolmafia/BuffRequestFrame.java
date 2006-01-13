@@ -69,7 +69,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffRequestFrame extends KoLFrame
 {
-	BuffRequestPanel buffs;
+	private BuffRequestPanel buffs;
 
 	public BuffRequestFrame( KoLmafia client )
 	{
@@ -91,14 +91,6 @@ public class BuffRequestFrame extends KoLFrame
 			client.enableDisplay();
 	}
 
-	public void setEnabled( boolean isEnabled )
-	{
-		super.setEnabled( isEnabled );
-
-		if ( buffs != null )
-			buffs.setEnabled( isEnabled );
-	}
-
 	private class BuffRequestPanel extends JPanel
 	{
 		BuffRequestBox [] boxes;
@@ -106,6 +98,7 @@ public class BuffRequestFrame extends KoLFrame
 		public BuffRequestPanel()
 		{
 			super( new SpringLayout() );
+			existingPanels.add( this );
 
 			// Add a panel for each available buff
 			int buffCount = BuffBotDatabase.buffCount();

@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import java.awt.Component;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -103,11 +104,40 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( BuffBotHome.isBuffBotActive() )
 			BuffBotHome.updateStatus( message );
 
+		// Next, update all of the panels with the
+		// desired update message.
+
+		Component [] panels = new Component[ existingPanels.size() ];
+		existingPanels.toArray( panels );
+
+		for ( int i = 0; i < panels.length; ++i )
+		{
+			if ( panels[i] instanceof KoLPanel )
+				((KoLPanel) panels[i]).setStatusMessage( state, message );
+
+			switch ( state )
+			{
+				case DISABLE_STATE:
+					panels[i].setEnabled( false );
+					break;
+
+				case NORMAL_STATE:
+					break;
+
+				default:
+					panels[i].setEnabled( true );
+					break;
+			}
+		}
+
+		// Finally, update all of the existing frames
+		// with the appropriate state.
+
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
 
 		for ( int i = 0; i < frames.length; ++i )
-			frames[i].updateDisplay( state, message );
+			frames[i].updateDisplayState( state );
 	}
 
 	/**

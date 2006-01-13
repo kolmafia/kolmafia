@@ -150,33 +150,6 @@ public class ItemManageFrame extends KoLFrame
 		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
 	}
 
-	/**
-	 * Auxiliary method used to enable and disable a frame.  By default,
-	 * this attempts to toggle the enable/disable status on all tabs.
-	 *
-	 * @param	isEnabled	<code>true</code> if the frame is to be re-enabled
-	 */
-
-	public void setEnabled( boolean isEnabled )
-	{
-		super.setEnabled( isEnabled );
-
-		if ( consume != null )
-			consume.setEnabled( isEnabled );
-
-		if ( create != null )
-			create.setEnabled( isEnabled );
-
-		if ( inventory != null )
-			inventory.setEnabled( isEnabled );
-
-		if ( closet != null )
-			closet.setEnabled( isEnabled );
-
-		if ( special != null )
-			special.setEnabled( isEnabled );
-	}
-
 	private class ConsumePanel extends MultiButtonPanel
 	{
 		public ConsumePanel()

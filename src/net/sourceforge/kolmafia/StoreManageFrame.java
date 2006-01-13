@@ -83,9 +83,6 @@ public class StoreManageFrame extends KoLPanelFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( storeManager != null )
-			storeManager.setEnabled( isEnabled );
-
 		if ( addItem != null )
 			addItem.setEnabled( isEnabled );
 

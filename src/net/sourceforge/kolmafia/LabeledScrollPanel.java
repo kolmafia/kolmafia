@@ -53,14 +53,16 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
  * the Spellcast package.
  */
 
-public abstract class LabeledScrollPanel extends ActionPanel
+public abstract class LabeledScrollPanel extends ActionPanel implements KoLConstants
 {
 	protected JPanel actualPanel;
 	protected VerifyButtonPanel buttonPanel;
 	protected JComponent scrollComponent;
 
 	public LabeledScrollPanel( String title, JComponent scrollComponent )
-	{	this( title, null, null, scrollComponent );
+	{
+		this( title, null, null, scrollComponent );
+		existingPanels.add( this );
 	}
 
 	public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent )

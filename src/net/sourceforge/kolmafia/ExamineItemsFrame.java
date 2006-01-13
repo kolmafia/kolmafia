@@ -112,10 +112,6 @@ public class ExamineItemsFrame extends KoLFrame
 		framePanel.add( tabs, "" );
 	}
 
-	public boolean isEnabled()
-	{	return true;
-	}
-
 	private class ItemLookupPanel extends ItemManagePanel
 	{
 		private LockableListModel list;

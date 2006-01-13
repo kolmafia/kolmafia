@@ -36,6 +36,8 @@ package net.sourceforge.kolmafia;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
@@ -47,62 +49,79 @@ import net.java.dev.spellcast.utilities.ActionVerifyPanel;
  * a <code>setStatusMessage()</code> method.
  */
 
-public abstract class KoLPanel extends ActionVerifyPanel
+public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 {
-	private JPanel actionStatusPanel;
-	private JLabel actionStatusLabel;
+	protected JPanel actionStatusPanel;
+	protected StatusLabel actionStatusLabel;
 
 	protected KoLPanel( Dimension labelSize, Dimension fieldSize )
-	{	super( labelSize, fieldSize );
+	{
+		super( labelSize, fieldSize );
+		existingPanels.add( this );
 	}
 
 	protected KoLPanel( Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
-	{	super( labelSize, fieldSize, isCenterPanel );
+	{
+		super( labelSize, fieldSize, isCenterPanel );
+		existingPanels.add( this );
 	}
 
 	protected KoLPanel( String confirmedText )
-	{	super( confirmedText );
+	{
+		super( confirmedText );
+		existingPanels.add( this );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText )
-	{	super( confirmedText, cancelledText );
+	{
+		super( confirmedText, cancelledText );
+		existingPanels.add( this );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2 )
 	{
 		super( confirmedText, cancelledText1, cancelledText2 );
+		existingPanels.add( this );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
 	{
 		super( confirmedText, cancelledText, labelSize, fieldSize );
+		existingPanels.add( this );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize );
+		existingPanels.add( this );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText, labelSize, fieldSize, isCenterPanel );
+		existingPanels.add( this );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize, isCenterPanel );
+		existingPanels.add( this );
 	}
 
 	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean isLabelPreceeding, boolean bothDisabledOnClick )
 	{
 		super.setContent( elements, mainPanel, eastPanel, isLabelPreceeding, bothDisabledOnClick );
 
-		if ( elements.length != 0 )
+		boolean shouldAddStatusLabel = elements.length != 0;
+		for ( int i = 0; i < elements.length; ++i )
+			shouldAddStatusLabel &= !(elements[i].getInputField() instanceof JScrollPane);
+
+		if ( shouldAddStatusLabel )
 		{
 			actionStatusPanel = new JPanel();
 			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
 
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
+			actionStatusLabel = new StatusLabel();
 			actionStatusPanel.add( actionStatusLabel );
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
@@ -110,9 +129,41 @@ public abstract class KoLPanel extends ActionVerifyPanel
 		}
 	}
 
+	private class StatusLabel extends JLabel
+	{
+		public StatusLabel()
+		{	super( " ", JLabel.CENTER );
+		}
+
+		public void setStatusMessage( int displayState, String s )
+		{
+			String label = getText();
+
+			// If the current text or the string you're using is
+			// null, then do nothing.
+
+			if ( s == null || label == null )
+				return;
+
+			// If you're not attempting to time-in the session, but
+			// the session has timed out, then ignore all changes
+			// to the attempt to time-in the session.
+
+			if ( label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." ) )
+				if ( displayState == NORMAL_STATE || displayState == DISABLE_STATE )
+					return;
+
+			// If the string which you're trying to set is blank,
+			// then you don't have to update the status message.
+
+			if ( !s.equals( "" ) )
+				setText( s );
+		}
+	}
+
 	public void setStatusMessage( int displayState, String s )
 	{
 		if ( actionStatusLabel != null && !s.equals( "" ) )
-			actionStatusLabel.setText( s );
+			actionStatusLabel.setStatusMessage( displayState, s );
 	}
 }

@@ -166,13 +166,6 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "login", "cancel" );
 
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
-
 			loginnameField = GLOBAL_SETTINGS.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 			passwordField = new JPasswordField();
 			savePasswordCheckBox = new JCheckBox();
@@ -193,18 +186,12 @@ public class LoginFrame extends KoLFrame
 			checkBoxPanels.add( getBreakfastCheckBox );
 			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
 
-			JPanel southPanel = new JPanel();
-			southPanel.setLayout( new BorderLayout( 10, 10 ) );
-			southPanel.add( checkBoxPanels, BorderLayout.NORTH );
-			southPanel.add( new JPanel(), BorderLayout.CENTER );
-			southPanel.add( actionStatusPanel, BorderLayout.SOUTH );
-
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Login: ", loginnameField );
 			elements[1] = new VerifiableElement( "Password: ", passwordField );
 
 			setContent( elements );
-			add( southPanel, BorderLayout.SOUTH );
+			actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
 
 			if ( client != null )
 			{
@@ -226,12 +213,6 @@ public class LoginFrame extends KoLFrame
 			}
 
 			setDefaultButton( confirmedButton );
-		}
-
-		public void setStatusMessage( int displayState, String s )
-		{
-			if ( !s.equals( "" ) )
-				actionStatusLabel.setText( s );
 		}
 
 		public void setEnabled( boolean isEnabled )

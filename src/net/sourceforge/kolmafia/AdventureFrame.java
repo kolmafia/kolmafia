@@ -92,9 +92,12 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
-	private static final Color ERROR_COLOR = new Color( 255, 128, 128 );
-	private static final Color ENABLED_COLOR = new Color( 128, 255, 128 );
-	private static final Color DISABLED_COLOR = null;
+	private JComboBox resultSelect;
+	private JPanel resultPanel;
+	private CardLayout resultCards;
+
+	private LockableListModel results;
+	private JList resultsList;
 
 	private JTabbedPane tabs;
 	private AdventureSelectPanel adventureSelect;
@@ -114,25 +117,74 @@ public class AdventureFrame extends KoLFrame
 	public AdventureFrame( KoLmafia client )
 	{
 		super( client, "Main" );
-
-		this.isEnabled = true;
 		this.tabs = new JTabbedPane();
 
+		// Construct the adventure select container
+		// to hold everything related to adventuring.
+
+		JPanel adventureContainer = new JPanel( new BorderLayout( 10, 10 ) );
+
 		this.adventureSelect = new AdventureSelectPanel();
+		JPanel southPanel = new JPanel( new BorderLayout() );
+
+		resultPanel = new JPanel();
+		resultCards = new CardLayout( 0, 0 );
+		resultPanel.setLayout( resultCards );
+		resultSelect = new JComboBox();
+
+		resultSelect.addItem( "Session Results" );
+		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
+
+		resultSelect.addItem( "Conditions Left" );
+		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ), "1" );
+
+		resultSelect.addItem( "Active Effects" );
+		resultPanel.add( new AdventureResultsPanel( KoLCharacter.getEffects() ), "2" );
+
+		resultSelect.addItem( "Visited Locations" );
+		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getAdventureList() ), "3" );
+
+		resultSelect.addItem( "Encounter Listing" );
+		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getEncounterList() ), "4" );
+
+		resultSelect.addActionListener( new ResultSelectListener() );
+
+		southPanel.add( resultSelect, BorderLayout.NORTH );
+		southPanel.add( resultPanel, BorderLayout.CENTER );
+
+		adventureContainer.add( adventureSelect, BorderLayout.NORTH );
+		adventureContainer.add( southPanel, BorderLayout.CENTER );
+
+		tabs.addTab( "Adventure", adventureContainer );
+
+		// Construct the store purchasing container
+		// to hold everything related to purchases.
+
+		JPanel mallContainer = new JPanel( new BorderLayout( 10, 10 ) );
 		this.mallSearch = new MallSearchPanel();
+
+		mallContainer.add( mallSearch, BorderLayout.NORTH );
+		mallContainer.add( new SearchResultsPanel(), BorderLayout.CENTER );
+
+		tabs.addTab( "Purchases", mallContainer );
+
+		// Construct the panel which holds other
+		// commonly-accessed simple features.
+
 		this.meatStorage = new MeatStoragePanel();
 		this.skillBuff = new SkillBuffPanel();
 		this.heroDonation = new HeroDonationPanel();
-
-		tabs.addTab( "Adventure", adventureSelect );
-		tabs.addTab( "Purchases", mallSearch );
 
 		JPanel otherPanel = new JPanel();
 		otherPanel.setLayout( new BoxLayout( otherPanel, BoxLayout.Y_AXIS ) );
 		otherPanel.add( meatStorage );
 		otherPanel.add( skillBuff );
 		otherPanel.add( heroDonation );
+
 		tabs.addTab( "Other Activities", otherPanel );
+
+		// Add the automatic restoration and
+		// script customization tab.
 
 		JScrollPane restoreScroller = new JScrollPane( new RestoreOptionsPanel(), JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
@@ -202,86 +254,10 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
-	public void updateDisplay( int displayState, String message )
+	private class ResultSelectListener implements ActionListener
 	{
-		super.updateDisplay( displayState, message );
-
-		if ( contentPanel != adventureSelect )
-			adventureSelect.setStatusMessage( displayState, message );
-	}
-
-	/**
-	 * Auxiliary method used to enable and disable a frame.  By default,
-	 * this attempts to toggle the enable/disable status on all tabs
-	 * and the view menu item, as well as the item manager if it's
-	 * currently visible.
-	 *
-	 * @param	isEnabled	<code>true</code> if the frame is to be re-enabled
-	 */
-
-	public void setEnabled( boolean isEnabled )
-	{
-		this.isEnabled = isEnabled && (client == null || !BuffBotHome.isBuffBotActive());
-
-		if ( heroDonation != null )
-		{
-			adventureSelect.setEnabled( this.isEnabled );
-			mallSearch.setEnabled( this.isEnabled );
-			meatStorage.setEnabled( this.isEnabled );
-			skillBuff.setEnabled( this.isEnabled );
-			heroDonation.setEnabled( this.isEnabled );
-		}
-	}
-
-	private class StatusLabel extends JLabel
-	{
-		public StatusLabel()
-		{	super( " ", JLabel.CENTER );
-		}
-
-		public void setStatusMessage( int displayState, String s )
-		{
-			String label = getText();
-
-			// If the current text or the string you're using is
-			// null, then do nothing.
-
-			if ( s == null || label == null )
-				return;
-
-			// If you're not attempting to time-in the session, but
-			// the session has timed out, then ignore all changes
-			// to the attempt to time-in the session.
-
-			if ( label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." ) )
-				if ( client.inLoginState() && !s.equals( "Timing in session..." ) && (displayState == NORMAL_STATE || displayState == DISABLE_STATE) )
-					return;
-
-			// If the string which you're trying to set is blank,
-			// then you don't have to update the status message.
-
-			if ( !s.equals( "" ) )
-				setText( s );
-
-			// Now, change the background of the frame based on
-			// the current display state -- but only if the
-			// compact pane has already been constructed.
-
-			if ( compactPane != null )
-			{
-				switch ( displayState )
-				{
-					case ERROR_STATE:
-						compactPane.setBackground( ERROR_COLOR );
-						break;
-					case ENABLE_STATE:
-						compactPane.setBackground( ENABLED_COLOR );
-						break;
-					case DISABLE_STATE:
-						compactPane.setBackground( DISABLED_COLOR );
-						break;
-				}
-			}
+		public void actionPerformed( ActionEvent e )
+		{	resultCards.show( resultPanel, String.valueOf( resultSelect.getSelectedIndex() ) );
 		}
 	}
 
@@ -294,30 +270,15 @@ public class AdventureFrame extends KoLFrame
 	{
 		private JComboBox actionSelect;
 
-		private JPanel actionStatusPanel;
-		private StatusLabel actionStatusLabel;
-
 		private JComboBox locationSelect;
 		private JTextField countField;
 		private JTextField conditionField;
-
-		private JComboBox resultSelect;
-		private JPanel resultPanel;
-		private CardLayout resultCards;
 
 		public AdventureSelectPanel()
 		{
 			super( "begin advs", "win game", "stop all", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
 
 			actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new StatusLabel();
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
-
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 
 			locationSelect = new JComboBox( adventureList );
@@ -358,53 +319,7 @@ public class AdventureFrame extends KoLFrame
 		protected void setContent( VerifiableElement [] elements )
 		{
 			super.setContent( elements );
-
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new BorderLayout( 10, 10 ) );
-			centerPanel.add( actionStatusPanel, BorderLayout.NORTH );
-
-			JPanel southPanel = new JPanel();
-			southPanel.setLayout( new BorderLayout() );
-
-			resultPanel = new JPanel();
-			resultCards = new CardLayout( 0, 0 );
-			resultPanel.setLayout( resultCards );
-			resultSelect = new JComboBox();
-
-			resultSelect.addItem( "Session Results" );
-			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
-
-			resultSelect.addItem( "Conditions Left" );
-			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ), "1" );
-
-			resultSelect.addItem( "Active Effects" );
-			resultPanel.add( new AdventureResultsPanel( KoLCharacter.getEffects() ), "2" );
-
-			resultSelect.addItem( "Visited Locations" );
-			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getAdventureList() ), "3" );
-
-			resultSelect.addItem( "Encounter Listing" );
-			resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getEncounterList() ), "4" );
-
-			resultSelect.addActionListener( new ResultSelectListener() );
-
-			southPanel.add( resultSelect, BorderLayout.NORTH );
-			southPanel.add( resultPanel, BorderLayout.CENTER );
-
-			centerPanel.add( southPanel, BorderLayout.CENTER );
-			add( centerPanel, BorderLayout.CENTER );
 			setDefaultButton( confirmedButton );
-		}
-
-		private class ResultSelectListener implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{	resultCards.show( resultPanel, String.valueOf( resultSelect.getSelectedIndex() ) );
-			}
-		}
-
-		public void setStatusMessage( int displayState, String s )
-		{	actionStatusLabel.setStatusMessage( displayState, s );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -527,8 +442,10 @@ public class AdventureFrame extends KoLFrame
 
 			contentPanel = this;
 
-			if ( confirmedButton.isEnabled() )
+			if ( isEnabled )
+			{
 				(new WinGameThread()).start();
+			}
 			else
 			{
 				if ( client.getCurrentRequest() instanceof FightRequest )
@@ -617,28 +534,28 @@ public class AdventureFrame extends KoLFrame
 		public void requestFocus()
 		{	locationSelect.requestFocus();
 		}
+	}
 
-		/**
-		 * An internal class which represents the panel used for tallying the
-		 * results in the <code>AdventureFrame</code>.  Note that all of the
-		 * tallying functionality is handled by the <code>LockableListModel</code>
-		 * provided, so this functions as a container for that list model.
-		 */
+	/**
+	 * An internal class which represents the panel used for tallying the
+	 * results in the <code>AdventureFrame</code>.  Note that all of the
+	 * tallying functionality is handled by the <code>LockableListModel</code>
+	 * provided, so this functions as a container for that list model.
+	 */
 
-		private class AdventureResultsPanel extends JPanel
+	private class AdventureResultsPanel extends JPanel
+	{
+		public AdventureResultsPanel( LockableListModel resultList )
 		{
-			public AdventureResultsPanel( LockableListModel resultList )
-			{
-				setLayout( new BorderLayout() );
+			setLayout( new BorderLayout() );
 
-				ShowDescriptionList tallyDisplay = new ShowDescriptionList( resultList );
-				tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-				tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-				tallyDisplay.setVisibleRowCount( 11 );
+			ShowDescriptionList tallyDisplay = new ShowDescriptionList( resultList );
+			tallyDisplay.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			tallyDisplay.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+			tallyDisplay.setVisibleRowCount( 11 );
 
-				add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-			}
+			add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 		}
 	}
 
@@ -651,29 +568,16 @@ public class AdventureFrame extends KoLFrame
 	{
 		private boolean currentlyBuying;
 
-		private JPanel actionStatusPanel;
-		private StatusLabel actionStatusLabel;
-
 		private JTextField searchField;
 		private JTextField countField;
 
 		private JCheckBox limitPurchasesCheckBox;
 		private JCheckBox forceSortingCheckBox;
 
-		private LockableListModel results;
-		private JList resultsList;
-
 		public MallSearchPanel()
 		{
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
 			setDefaultButton( confirmedButton );
-
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-			actionStatusLabel = new StatusLabel();
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
 
 			searchField = new JTextField();
 			countField = new JTextField();
@@ -690,24 +594,10 @@ public class AdventureFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Force Sort: ", forceSortingCheckBox );
 
 			setContent( elements );
+
 			currentlyBuying = false;
-		}
-
-		protected void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements, null, null, true, true );
 			countField.setText( getProperty( "defaultLimit" ) );
-
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new BorderLayout( 10, 10 ) );
-			centerPanel.add( actionStatusPanel, BorderLayout.NORTH );
-			centerPanel.add( new SearchResultsPanel(), BorderLayout.CENTER );
-			add( centerPanel, BorderLayout.CENTER );
 			setDefaultButton( confirmedButton );
-		}
-
-		public void setStatusMessage( int displayState, String s )
-		{	actionStatusLabel.setStatusMessage( displayState, s );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -718,8 +608,6 @@ public class AdventureFrame extends KoLFrame
 
 			limitPurchasesCheckBox.setEnabled( isEnabled );
 			forceSortingCheckBox.setEnabled( isEnabled );
-
-			resultsList.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
@@ -774,74 +662,75 @@ public class AdventureFrame extends KoLFrame
 			client.enableDisplay();
 		}
 
-		private String getPurchaseSummary( Object [] purchases )
-		{
-			if ( purchases == null || purchases.length == 0 )
-				return "";
-
-			long totalPrice = 0;
-			int totalPurchases = 0;
-			MallPurchaseRequest currentPurchase = null;
-
-			for ( int i = 0; i < purchases.length; ++i )
-			{
-				currentPurchase = (MallPurchaseRequest) purchases[i];
-				totalPurchases += currentPurchase.getLimit();
-				totalPrice += ((long)currentPurchase.getLimit()) * ((long)currentPurchase.getPrice());
-			}
-
-			return df.format( totalPurchases ) + " " + currentPurchase.getItemName() + " for " + df.format( totalPrice ) + " meat";
-		}
-
 		public void requestFocus()
 		{	searchField.requestFocus();
 		}
+	}
+
+	private String getPurchaseSummary( Object [] purchases )
+	{
+		if ( purchases == null || purchases.length == 0 )
+			return "";
+
+		long totalPrice = 0;
+		int totalPurchases = 0;
+		MallPurchaseRequest currentPurchase = null;
+
+		for ( int i = 0; i < purchases.length; ++i )
+		{
+			currentPurchase = (MallPurchaseRequest) purchases[i];
+			totalPurchases += currentPurchase.getLimit();
+			totalPrice += ((long)currentPurchase.getLimit()) * ((long)currentPurchase.getPrice());
+		}
+
+		return df.format( totalPurchases ) + " " + currentPurchase.getItemName() + " for " + df.format( totalPrice ) + " meat";
+	}
+
+	/**
+	 * An internal class which represents the panel used for tallying the
+	 * results of the mall search request.  Note that all of the tallying
+	 * functionality is handled by the <code>LockableListModel</code>
+	 * provided, so this functions as a container for that list model.
+	 */
+
+	private class SearchResultsPanel extends JPanel
+	{
+		public SearchResultsPanel()
+		{
+			setLayout( new BorderLayout() );
+			setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+			add( JComponentUtilities.createLabel( "Search Results", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+
+			resultsList = new JList( results );
+			resultsList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+			resultsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
+			resultsList.setVisibleRowCount( 11 );
+
+			resultsList.addListSelectionListener( new PurchaseSelectListener() );
+
+			add( new JScrollPane( resultsList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+		}
 
 		/**
-		 * An internal class which represents the panel used for tallying the
-		 * results of the mall search request.  Note that all of the tallying
-		 * functionality is handled by the <code>LockableListModel</code>
-		 * provided, so this functions as a container for that list model.
+		 * An internal listener class which detects which values are selected
+		 * in the search results panel.
 		 */
 
-		private class SearchResultsPanel extends JPanel
+		private class PurchaseSelectListener implements ListSelectionListener
 		{
-			public SearchResultsPanel()
+			public void valueChanged( ListSelectionEvent e )
 			{
-				setLayout( new BorderLayout() );
-				setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-				add( JComponentUtilities.createLabel( "Search Results", JLabel.CENTER,
-					Color.black, Color.white ), BorderLayout.NORTH );
+				if ( e.getValueIsAdjusting() )
+					return;
 
-				resultsList = new JList( results );
-				resultsList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-				resultsList.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-				resultsList.setVisibleRowCount( 11 );
+				// Reset the status message on this panel to
+				// show what the current state of the selections
+				// is at this time.
 
-				resultsList.addListSelectionListener( new PurchaseSelectListener() );
-
-				add( new JScrollPane( resultsList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-					JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-			}
-
-			/**
-			 * An internal listener class which detects which values are selected
-			 * in the search results panel.
-			 */
-
-			private class PurchaseSelectListener implements ListSelectionListener
-			{
-				public void valueChanged( ListSelectionEvent e )
-				{
-					if ( e.getValueIsAdjusting() )
-						return;
-
-					// Reset the status message on this panel to
-					// show what the current state of the selections
-					// is at this time.
-
-					setStatusMessage( NORMAL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
-				}
+				contentPanel = mallSearch;
+				client.updateDisplay( NORMAL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
 			}
 		}
 	}

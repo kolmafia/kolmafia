@@ -171,10 +171,6 @@ public class OptionsFrame extends KoLFrame
 		tabs.add( name, scroller );
 	}
 
-	public boolean isEnabled()
-	{	return true;
-	}
-
 	private class AreaOptionsPanel extends OptionsPanel
 	{
 		private String [] zones;

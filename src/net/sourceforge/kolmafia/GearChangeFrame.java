@@ -103,6 +103,7 @@ public class GearChangeFrame extends KoLFrame
 	public void setEnabled( boolean isEnabled )
 	{
 		if ( equipment != null )
+		{
 			for ( int i = 0; i < equipment.length; ++i )
 			{
 				if ( isEnabled )
@@ -117,8 +118,10 @@ public class GearChangeFrame extends KoLFrame
 					if ( i == KoLCharacter.SHIRT && !KoLCharacter.hasSkill( "Torso Awaregness" ) )
 						continue;
 				}
+
 				equipment[i].setEnabled( isEnabled );
 			}
+		}
 
 		if ( outfitSelect != null )
 			outfitSelect.setEnabled( isEnabled );

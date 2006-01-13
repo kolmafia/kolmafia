@@ -86,14 +86,6 @@ public class HagnkStorageFrame extends KoLFrame
 		tabs.add( name, wrapperPanel );
 	}
 
-	public void setEnabled( boolean isEnabled )
-	{
-		if ( all != null )
-			all.setEnabled( isEnabled );
-		if ( equip != null )
-			equip.setEnabled( isEnabled );
-	}
-
 	private class HagnkStoragePanel extends MultiButtonPanel
 	{
 		private FilterRadioButton [] filters;

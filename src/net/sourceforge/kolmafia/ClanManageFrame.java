@@ -145,21 +145,6 @@ public class ClanManageFrame extends KoLFrame
 			(new RequestThread( new ClanStashRequest( client ) )).start();
 	}
 
-	public void setEnabled( boolean isEnabled )
-	{
-		if ( search != null )
-		{
-			clanBuff.setEnabled( isEnabled );
-			storing.setEnabled( isEnabled );
-			withdrawal.setEnabled( isEnabled );
-			donation.setEnabled( isEnabled );
-			attacks.setEnabled( isEnabled );
-			warfare.setEnabled( isEnabled );
-			snapshot.setEnabled( isEnabled );
-			search.setEnabled( isEnabled );
-		}
-	}
-
 	/**
 	 * An internal class which represents the panel used for clan
 	 * buffs in the <code>ClanManageFrame</code>.

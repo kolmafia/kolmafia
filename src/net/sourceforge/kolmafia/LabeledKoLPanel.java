@@ -87,21 +87,6 @@ public abstract class LabeledKoLPanel extends KoLPanel
 
 		if ( panelTitle != null )
 			add( JComponentUtilities.createLabel( panelTitle, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
-
-		actionStatusPanel = new JPanel();
-		actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
-
-		actionStatusLabel = new JLabel( " ", JLabel.CENTER );
-		actionStatusPanel.add( actionStatusLabel );
-		actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
-
-		add( actionStatusPanel, BorderLayout.SOUTH );
-	}
-
-	public void setStatusMessage( int displayState, String s )
-	{
-		if ( !s.equals( "" ) )
-			actionStatusLabel.setText( s );
 	}
 
 	protected void actionCancelled()
