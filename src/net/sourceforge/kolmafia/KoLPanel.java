@@ -34,8 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 
 import java.awt.Dimension;
@@ -118,14 +120,17 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		if ( shouldAddStatusLabel )
 		{
-			actionStatusPanel = new JPanel();
-			actionStatusPanel.setLayout( new GridLayout( 2, 1 ) );
+			JPanel statusContainer = new JPanel();
+			statusContainer.setLayout( new BoxLayout( statusContainer, BoxLayout.Y_AXIS ) );
 
+			actionStatusPanel = new JPanel( new BorderLayout() );
 			actionStatusLabel = new StatusLabel();
-			actionStatusPanel.add( actionStatusLabel );
-			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ) );
+			actionStatusPanel.add( actionStatusLabel, BorderLayout.SOUTH );
 
-			add( actionStatusPanel, BorderLayout.SOUTH );
+			statusContainer.add( actionStatusPanel );
+			statusContainer.add( Box.createVerticalStrut( 20 ) );
+
+			add( statusContainer, BorderLayout.SOUTH );
 		}
 	}
 

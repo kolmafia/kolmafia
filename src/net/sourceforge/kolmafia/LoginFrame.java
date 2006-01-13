@@ -188,6 +188,8 @@ public class LoginFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Password: ", passwordField );
 
 			setContent( elements );
+
+			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ), BorderLayout.CENTER );
 			actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
 
 			if ( client != null )
