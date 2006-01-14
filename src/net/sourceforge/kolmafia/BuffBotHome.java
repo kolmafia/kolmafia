@@ -268,7 +268,7 @@ public class BuffBotHome extends StaticEntity
 	public static void recordBuff( String name, String buff, int casts, int meatSent )
 	{
 		textLogStream.println( TIMESTAMP_FORMAT.format( new Date() ) + "," + name + "," +
-			client.getPlayerID( name ) + "," + buff + "," + casts + "," + meatSent );
+			KoLmafia.getPlayerID( name ) + "," + buff + "," + casts + "," + meatSent );
 	}
 
 	/**

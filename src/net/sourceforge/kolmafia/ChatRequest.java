@@ -71,7 +71,7 @@ public class ChatRequest extends KoLRequest
 		addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
 		addFormField( "pwd", client.getPasswordHash() );
 
-		String contactID = client.getPlayerID( contact );
+		String contactID = KoLmafia.getPlayerID( contact );
 		String actualMessage = null;
 
 		if ( contact == null || (message != null && message.equals( "/exit" )) )

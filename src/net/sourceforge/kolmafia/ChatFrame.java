@@ -135,6 +135,10 @@ public class ChatFrame extends KoLFrame
 		nameClickSelect.addItem( "Name click opens gift message" );
 		nameClickSelect.addItem( "Name click opens trade message" );
 		nameClickSelect.addItem( "Name click baleets the player" );
+		nameClickSelect.addItem( "Name click performs /whois" );
+		nameClickSelect.addItem( "Name click searches store" );
+		nameClickSelect.addItem( "Name click shows display case" );
+		nameClickSelect.addItem( "Name click shows familiars" );
 
 		toolbarPanel.add( nameClickSelect );
 		nameClickSelect.setSelectedIndex(0);
@@ -459,9 +463,41 @@ public class ChatFrame extends KoLFrame
 				case 4:
 					frameClass = ProposeTradeFrame.class;
 					break;
-				
+
 				case 5:
 					(new RequestThread( new ChatRequest( client, "/baleet", (String) parameters[1] ) )).start();
+					return;
+
+				case 6:
+					(new RequestThread( new ChatRequest( client, "/whois", (String) parameters[1] ) )).start();
+					return;
+
+				case 7:
+
+					AdventureFrame mall = null;
+					KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+					existingFrames.toArray( frames );
+
+					for ( int i = 0; i < frames.length; ++i )
+						if ( frames[i] instanceof AdventureFrame )
+							mall = (AdventureFrame) frames[i];
+
+					if ( mall == null )
+					{
+						CreateFrameRunnable creator = new CreateFrameRunnable( AdventureFrame.class );
+						creator.run();
+						mall = (AdventureFrame) creator.getCreation();
+					}
+
+					mall.searchMall( new SearchMallRequest( client, Integer.parseInt( KoLmafia.getPlayerID( (String) parameters[1] ) ) ) );
+					return;
+
+				case 8:
+					openRequestFrame( "displaycollection.php?who=" + KoLmafia.getPlayerID( (String) parameters[1] ) );
+					return;
+
+				case 9:
+					openRequestFrame( "showfamiliars.php?who=" + KoLmafia.getPlayerID( (String) parameters[1] ) );
 					return;
 
 				default:

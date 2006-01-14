@@ -61,15 +61,15 @@ public class ClanMembersRequest extends KoLRequest
 		addFormField( "begin", "0" );
 
 		for ( int i = 0; i < rankChange.length; ++i )
-			addFormField( "level" + client.getPlayerID( (String) rankChange[i] ), (String) newRanks[i] );
+			addFormField( "level" + KoLmafia.getPlayerID( (String) rankChange[i] ), (String) newRanks[i] );
 
 		for ( int i = 0; i < titleChange.length; ++i )
-			addFormField( "title" + client.getPlayerID( (String) titleChange[i] ), (String) newTitles[i] );
+			addFormField( "title" + KoLmafia.getPlayerID( (String) titleChange[i] ), (String) newTitles[i] );
 
 		for ( int i = 0; i < boots.length; ++i )
 		{
 			ClanManager.unregisterMember( client.getPlayerID( (String) boots[i] ) );
-			addFormField( "boot" + client.getPlayerID( (String) boots[i] ), "on" );
+			addFormField( "boot" + KoLmafia.getPlayerID( (String) boots[i] ), "on" );
 		}
 	}
 
@@ -123,7 +123,7 @@ public class ClanMembersRequest extends KoLRequest
 			String playerName = memberMatcher.group(2);
 			String playerLevel = memberMatcher.group(3);
 
-			client.registerPlayer( playerName, playerID );
+			KoLmafia.registerPlayer( playerName, playerID );
 			ClanManager.registerMember( playerName, playerLevel );
 		}
 	}

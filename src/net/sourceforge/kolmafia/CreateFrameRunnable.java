@@ -144,8 +144,16 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		if ( !SwingUtilities.isEventDispatchThread() )
 		{
-			SwingUtilities.invokeLater( this );
-			return;
+			try
+			{
+				SwingUtilities.invokeAndWait( this );
+				return;
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+			}
 		}
 
 		// Check to see if this is a frame that should

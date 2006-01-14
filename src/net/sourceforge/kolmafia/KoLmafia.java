@@ -105,8 +105,8 @@ public abstract class KoLmafia implements KoLConstants
 	protected SortedListModel saveStateNames = new SortedListModel();
 	protected List recentEffects = new ArrayList();
 
-	private TreeMap seenPlayerIDs = new TreeMap();
-	private TreeMap seenPlayerNames = new TreeMap();
+	private static TreeMap seenPlayerIDs = new TreeMap();
+	private static TreeMap seenPlayerNames = new TreeMap();
 	protected SortedListModel contactList = new SortedListModel();
 
 	protected SortedListModel tally = new SortedListModel();
@@ -664,7 +664,7 @@ public abstract class KoLmafia implements KoLConstants
 	 *          yet appeared in the chat (not likely, but possible).
 	 */
 
-	public String getPlayerName( String playerID )
+	public static String getPlayerName( String playerID )
 	{	return (String) seenPlayerNames.get( playerID );
 	}
 
@@ -678,7 +678,7 @@ public abstract class KoLmafia implements KoLConstants
 	 *			if the player's ID has not been seen.
 	 */
 
-	public String getPlayerID( String playerName )
+	public static String getPlayerID( String playerName )
 	{
 		if ( playerName == null )
 			return null;
@@ -695,7 +695,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @param	playerID	The player ID associated with this player
 	 */
 
-	public void registerPlayer( String playerName, String playerID )
+	public static void registerPlayer( String playerName, String playerID )
 	{
 		if ( !seenPlayerIDs.containsKey( playerName.toLowerCase() ) )
 		{

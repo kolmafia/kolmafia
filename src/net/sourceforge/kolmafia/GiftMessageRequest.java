@@ -96,7 +96,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		addFormField( "note", message );
 		addFormField( "insidenote", message );
 
-		this.recipient = client.getPlayerID( recipient );
+		this.recipient = KoLmafia.getPlayerID( recipient );
 		this.outsideMessage = message;
 		this.insideMessage = message;
 
@@ -121,7 +121,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		addFormField( "note", outsideMessage );
 		addFormField( "insidenote", insideMessage );
 
-		this.recipient = client.getPlayerID( recipient );
+		this.recipient = KoLmafia.getPlayerID( recipient );
 		this.outsideMessage = outsideMessage;
 		this.insideMessage = insideMessage;
 

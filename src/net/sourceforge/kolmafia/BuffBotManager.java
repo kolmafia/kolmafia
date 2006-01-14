@@ -343,7 +343,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			if ( !sendList.isEmpty() )
 			{
 				GreenMessageRequest sending = (GreenMessageRequest) sendList.get(0);
-				BuffBotHome.update( BuffBotHome.NOCOLOR, "Sending queued message to " + client.getPlayerName( sending.getRecipient() ) + "..." );
+				BuffBotHome.update( BuffBotHome.NOCOLOR, "Sending queued message to " + KoLmafia.getPlayerName( sending.getRecipient() ) + "..." );
 				sending.run();
 
 				sendList.clear();

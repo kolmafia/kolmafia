@@ -87,7 +87,7 @@ public class FlowerHunterRequest extends KoLRequest
 	{
 		super( client, "showclan.php" );
 		this.hunterType = CLAN_PROFILER;
-		
+
 		addFormField( "whichclan", clanID );
 	}
 
@@ -104,11 +104,11 @@ public class FlowerHunterRequest extends KoLRequest
 			case ATTACK:
 				parseAttack();
 				break;
-			
+
 			case PLAYER_SEARCH:
 				parseSearch();
 				break;
-			
+
 			case CLAN_PROFILER:
 				parseClan();
 				break;
@@ -122,9 +122,9 @@ public class FlowerHunterRequest extends KoLRequest
 
 		while ( playerMatcher.find() )
 		{
-			client.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
+			KoLmafia.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
 			currentPlayer = new ProfileRequest( client, playerMatcher.group(2) );
-			
+
 			client.updateDisplay( NORMAL_STATE, "Retrieving profile for " + playerMatcher.group(2) + "..." );
 			if ( currentPlayer.getPvpRank().intValue() != 0 )
 				searchResults.add( currentPlayer );
@@ -141,7 +141,7 @@ public class FlowerHunterRequest extends KoLRequest
 
 		while ( playerMatcher.find() )
 		{
-			client.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
+			KoLmafia.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
 			currentPlayer = ProfileRequest.getInstance( playerMatcher.group(2), playerMatcher.group(1),
 				playerMatcher.group(4), Integer.valueOf( playerMatcher.group(5) ), playerMatcher.group(6),
 				Integer.valueOf( playerMatcher.group(7) ) );

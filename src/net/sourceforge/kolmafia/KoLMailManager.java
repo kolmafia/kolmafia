@@ -86,7 +86,7 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( mailbox.contains( toadd ) )
 			return false;
 
-		client.registerPlayer( toadd.getSenderName(), toadd.getSenderID() );
+		KoLmafia.registerPlayer( toadd.getSenderName(), toadd.getSenderID() );
 		mailbox.add( toadd );
 		return true;
 	}

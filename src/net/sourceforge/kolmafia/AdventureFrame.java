@@ -612,15 +612,13 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			contentPanel = this;
-
 			int searchCount = getValue( countField, -1 );
 			setProperty( "defaultLimit", countField.getText() );
 
 			if ( searchCount == -1 )
-				(new SearchMallRequest( client, searchField.getText(), results )).run();
+				searchMall( new SearchMallRequest( client, searchField.getText(), results ) );
 			else
-				(new SearchMallRequest( client, searchField.getText(), searchCount, results )).run();
+				searchMall( new SearchMallRequest( client, searchField.getText(), searchCount, results ) );
 
 			if ( results.size() > 0 )
 			{
@@ -628,8 +626,6 @@ public class AdventureFrame extends KoLFrame
 				if ( forceSortingCheckBox.isSelected() )
 					java.util.Collections.sort( results );
 			}
-
-			client.enableDisplay();
 		}
 
 		protected void actionCancelled()
@@ -665,6 +661,19 @@ public class AdventureFrame extends KoLFrame
 		public void requestFocus()
 		{	searchField.requestFocus();
 		}
+	}
+
+	public void searchMall( SearchMallRequest request )
+	{
+		contentPanel = mallSearch;
+
+		request.run();
+		if ( results != request.getResults() )
+			results.addAll( request.getResults() );
+
+		client.updateDisplay( ENABLE_STATE, results.size() == 0 ? "No results found." : "Search complete." );
+		tabs.setSelectedIndex(1);
+		requestFocus();
 	}
 
 	private String getPurchaseSummary( Object [] purchases )

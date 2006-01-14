@@ -199,10 +199,10 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 			}
 		}
 
-		super.append( highlightMessage.replaceAll( "<br>", "<br>" + LINE_BREAK ) );
+		super.append( highlightMessage.replaceAll( "(<br>)+", "<br>" + LINE_BREAK ) );
 
 		if ( affectsHighlightBuffer && message.compareToIgnoreCase( highlightMessage ) != 0 )
-			highlightBuffer.append( highlightMessage.replaceAll( "<br>", "<br>" + LINE_BREAK + "<br>" ) );
+			highlightBuffer.append( highlightMessage.replaceAll( "(<br>)+", "<br>" + LINE_BREAK + "<br>" ) );
 
 		previousFontSize = fontSize;
 	}

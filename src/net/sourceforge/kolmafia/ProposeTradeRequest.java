@@ -59,7 +59,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 
 		this.message = message;
 		this.isCounterOffer = true;
-		this.recipient = client.getPlayerID( recipient );
+		this.recipient = KoLmafia.getPlayerID( recipient );
 	}
 
 	public ProposeTradeRequest( KoLmafia client, String recipient, String message, Object [] attachments, int meatAttachment )
@@ -73,7 +73,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 
 		this.message = message;
 		this.isCounterOffer = false;
-		this.recipient = client.getPlayerID( recipient );
+		this.recipient = KoLmafia.getPlayerID( recipient );
 	}
 
 	protected int getCapacity()

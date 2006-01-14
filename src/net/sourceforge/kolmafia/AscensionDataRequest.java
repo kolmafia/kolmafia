@@ -66,7 +66,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		addFormField( "back", "self" );
 
 		if ( client != null )
-			addFormField( "who", client.getPlayerID( playerName ) );
+			addFormField( "who", KoLmafia.getPlayerID( playerName ) );
 
 		this.playerName = playerName;
 		this.playerID = playerID;

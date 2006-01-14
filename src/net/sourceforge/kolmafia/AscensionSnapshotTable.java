@@ -87,7 +87,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 	public static void unregisterMember( String playerID )
 	{
-		String lowerCaseName = client.getPlayerName( playerID ).toLowerCase();
+		String lowerCaseName = KoLmafia.getPlayerName( playerID ).toLowerCase();
 		ascensionMap.remove( lowerCaseName );
 	}
 
@@ -363,7 +363,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 		for ( int i = 0; i < names.length; ++i )
 		{
-			request = AscensionDataRequest.getInstance( names[i], client.getPlayerID( names[i] ), (String) ascensionMap.get( names[i] ) );
+			request = AscensionDataRequest.getInstance( names[i], KoLmafia.getPlayerID( names[i] ), (String) ascensionMap.get( names[i] ) );
 			ascensionDataList.add( request );
 
 			fields = new AscensionDataRequest.AscensionDataField[ request.getAscensionData().size() ];

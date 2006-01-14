@@ -195,8 +195,8 @@ public class ClanManager extends StaticEntity
 			currentProfile = (String) profileMap.get( names[i] );
 			currentAscensionData = (String) ascensionMap.get( names[i] );
 
-			profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + client.getPlayerID( names[i] ) + ".htm" );
-			ascensionData = new File( SNAPSHOT_DIRECTORY + "ascensions" + File.separator + client.getPlayerID( names[i] ) + ".htm" );
+			profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + KoLmafia.getPlayerID( names[i] ) + ".htm" );
+			ascensionData = new File( SNAPSHOT_DIRECTORY + "ascensions" + File.separator + KoLmafia.getPlayerID( names[i] ) + ".htm" );
 
 			if ( retrieveProfileData )
 			{
@@ -273,7 +273,7 @@ public class ClanManager extends StaticEntity
 
 	private static void initializeProfile( String name )
 	{
-		File profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + client.getPlayerID( name ) + ".htm" );
+		File profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + KoLmafia.getPlayerID( name ) + ".htm" );
 
 		if ( profile.exists() )
 		{
@@ -336,7 +336,7 @@ public class ClanManager extends StaticEntity
 
 	private static void initializeAscensionData( String name )
 	{
-		File ascension = new File( SNAPSHOT_DIRECTORY + "ascensions" + File.separator + client.getPlayerID( name ) + ".htm" );
+		File ascension = new File( SNAPSHOT_DIRECTORY + "ascensions" + File.separator + KoLmafia.getPlayerID( name ) + ".htm" );
 
 		if ( ascension.exists() )
 		{
@@ -370,7 +370,7 @@ public class ClanManager extends StaticEntity
 			// Otherwise, run the request and pull the data from the
 			// web server.
 
-			AscensionDataRequest request = new AscensionDataRequest( client, name, client.getPlayerID( name ) );
+			AscensionDataRequest request = new AscensionDataRequest( client, name, KoLmafia.getPlayerID( name ) );
 			request.initialize();
 			ascensionMap.put( name, request.responseText );
 

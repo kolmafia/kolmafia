@@ -66,7 +66,8 @@ public abstract class KoLMessenger extends StaticEntity
 	public static final String [] ESOLU_OPTIONS =
 	{
 		"Use gray links instead of color links", "Add blue message link", "Add green message link",
-		"Add gift message link", "Add trade message link", "Add baleet player link"
+		"Add gift message link", "Add trade message link", "Add baleet player link",
+		"Add /whois player link", "Add store search link", "Add display case link", "Add terrarium link"
 	};
 
 	private static boolean isRunning = false;
@@ -501,7 +502,7 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			playerName = playerMatcher.group(2).replaceAll( "<.*?>", "" ).replaceAll( " \\(.*?\\)", "" ).replaceAll( ":" , "" );
 			playerID = playerMatcher.group(1);
-			client.registerPlayer( playerName, playerID );
+			KoLmafia.registerPlayer( playerName, playerID );
 		}
 	}
 
@@ -666,7 +667,7 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( message.indexOf( "(private)</b></a>:" ) != -1 )
 		{
 			String sender = message.substring( 0, message.indexOf( " (" ) ).replaceAll( "<.*?>", "" );
-			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=blue>" +
+			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerID( sender ) + "\"><b><font color=blue>" +
 				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
 			processChatMessage( sender, cleanHTML );
 		}
@@ -675,7 +676,7 @@ public abstract class KoLMessenger extends StaticEntity
 			String sender = KoLCharacter.getUsername();
 			String recipient = message.substring( 0, message.indexOf( ":" ) ).replaceAll( "<.*?>", "" ).substring( 11 );
 
-			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + client.getPlayerID( sender ) + "\"><b><font color=red>" +
+			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerID( sender ) + "\"><b><font color=red>" +
 				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
 			processChatMessage( recipient, cleanHTML );
 		}
@@ -706,55 +707,6 @@ public abstract class KoLMessenger extends StaticEntity
 		// there are supposed to be italics.
 
 		String displayHTML = "";
-
-		String eSoluConfiguration = getProperty( "eSoluScript" );
-		if ( !eSoluConfiguration.equals( "" ) )
-		{
-			Matcher whoMatcher = Pattern.compile( "showplayer.php\\?who=[\\d]+" ).matcher( message );
-			if ( whoMatcher.find() )
-			{
-				String link = whoMatcher.group();
-
-				boolean useColors = getProperty( "eSoluScript" ).indexOf( "0" ) != -1;
-
-				StringBuffer linkBuffer = new StringBuffer();
-
-				linkBuffer.append( "</b> " );
-
-				if ( eSoluConfiguration.indexOf( "1" ) != -1 )
-				{
-					linkBuffer.append( "<a href=\"" + link + "_1\">" );
-					linkBuffer.append( useColors ? "<font color=blue>" : "<font color=gray>" );
-					linkBuffer.append( "[p]</font></a>" );
-				}
-				if ( eSoluConfiguration.indexOf( "2" ) != -1 )
-				{
-					linkBuffer.append( "<a href=\"" + link + "_2\">" );
-					linkBuffer.append( useColors ? "<font color=green>" : "<font color=gray>" );
-					linkBuffer.append( "[k]</font></a>" );
-				}
-				if ( eSoluConfiguration.indexOf( "3" ) != -1 )
-				{
-					linkBuffer.append( "<a href=\"" + link + "_3\">" );
-					linkBuffer.append( useColors ? "<font color=purple>" : "<font color=gray>" );
-					linkBuffer.append( "[g]</font></a>" );
-				}
-				if ( eSoluConfiguration.indexOf( "4" ) != -1 )
-				{
-					linkBuffer.append( "<a href=\"" + link + "_4\">" );
-					linkBuffer.append( useColors ? "<font color=orange>" : "<font color=gray>" );
-					linkBuffer.append( "[t]</font></a>" );
-				}
-				if ( eSoluConfiguration.indexOf( "5" ) != -1 )
-				{
-					linkBuffer.append( "<a href=\"" + link + "_5\">" );
-					linkBuffer.append( useColors ? "<font color=red>" : "<font color=gray>" );
-					linkBuffer.append( "[x]</font></a>" );
-				}
-
-				message = message.replaceFirst( "</b>", linkBuffer.toString() );
-			}
-		}
 
 		// There are a bunch of messages that are supposed to be
 		// formatted in green.  These are all handled first.
@@ -808,6 +760,78 @@ public abstract class KoLMessenger extends StaticEntity
 
 		else
 			displayHTML = message;
+
+		String eSoluConfiguration = getProperty( "eSoluScript" );
+		if ( displayHTML.indexOf( "<font" ) == -1 && !eSoluConfiguration.equals( "" ) )
+		{
+			Matcher whoMatcher = Pattern.compile( "showplayer.php\\?who=[\\d]+" ).matcher( message );
+			if ( whoMatcher.find() )
+			{
+				String link = whoMatcher.group();
+				boolean useColors = getProperty( "eSoluScript" ).indexOf( "0" ) == -1;
+
+				StringBuffer linkBuffer = new StringBuffer();
+
+				linkBuffer.append( "</b><code>  " );
+
+				if ( eSoluConfiguration.indexOf( "7" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_7\">" );
+					linkBuffer.append( useColors ? "<font color=maroon>" : "<font color=gray>" );
+					linkBuffer.append( "[m]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "1" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_1\">" );
+					linkBuffer.append( useColors ? "<font color=blue>" : "<font color=gray>" );
+					linkBuffer.append( "[p]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "2" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_2\">" );
+					linkBuffer.append( useColors ? "<font color=green>" : "<font color=gray>" );
+					linkBuffer.append( "[k]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "3" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_3\">" );
+					linkBuffer.append( useColors ? "<font color=purple>" : "<font color=gray>" );
+					linkBuffer.append( "[g]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "4" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_4\">" );
+					linkBuffer.append( useColors ? "<font color=teal>" : "<font color=gray>" );
+					linkBuffer.append( "[t]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "8" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_8\">" );
+					linkBuffer.append( useColors ? "<font color=olive>" : "<font color=gray>" );
+					linkBuffer.append( "[d]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "9" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_9\">" );
+					linkBuffer.append( useColors ? "<font color=fuchsia>" : "<font color=gray>" );
+					linkBuffer.append( "[f]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "5" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_5\">" );
+					linkBuffer.append( useColors ? "<font color=red>" : "<font color=gray>" );
+					linkBuffer.append( "[x]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "6" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_6\">" );
+					linkBuffer.append( useColors ? "<font color=black>" : "<font color=gray>" );
+					linkBuffer.append( "[?]</font></a>" );
+				}
+
+				displayHTML = "<br>" + displayHTML.replaceFirst( "</b>:", linkBuffer.toString() + ":</code><br>&nbsp;&nbsp;&nbsp;&nbsp;" );
+			}
+		}
 
 		// Now, if the person is using LoathingChat style for
 		// doing their chatting, then make sure to append the
@@ -918,7 +942,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 				if ( CHATLOG_BASENAME != null && !CHATLOG_BASENAME.equals( "" ) )
 				{
-					String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) : client.getPlayerID( channel )) + ".html";
+					String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) : KoLmafia.getPlayerID( channel )) + ".html";
 					buffer.setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() + " (" + Calendar.getInstance().getTime().toString() + ")" );
 				}
 
@@ -955,7 +979,7 @@ public abstract class KoLMessenger extends StaticEntity
 		for ( int i = 0; i < keys.length; ++i )
 		{
 			currentKey = (String) keys[i];
-			filename = CHATLOG_BASENAME + (currentKey.startsWith( "/" ) ? currentKey.substring( 1 ) : client.getPlayerID( currentKey )) + ".html";
+			filename = CHATLOG_BASENAME + (currentKey.startsWith( "/" ) ? currentKey.substring( 1 ) : KoLmafia.getPlayerID( currentKey )) + ".html";
 			getChatBuffer( currentKey ).setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() + " (" + currentTime + ")" );
 		}
 	}

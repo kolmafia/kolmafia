@@ -60,7 +60,7 @@ public class SearchMallRequest extends KoLRequest
 	 * @param	client	The client to be notified in case of error
 	 */
 
-	private SearchMallRequest( KoLmafia client, int storeID )
+	public SearchMallRequest( KoLmafia client, int storeID )
 	{
 		super( client, "mallstore.php" );
 		addFormField( "whichstore", String.valueOf( storeID ) );
@@ -126,6 +126,10 @@ public class SearchMallRequest extends KoLRequest
 		this.searchString = searchString;
 		this.results = results;
 		this.retainAll = retainAll;
+	}
+
+	public List getResults()
+	{	return results;
 	}
 
 	/**
@@ -360,7 +364,5 @@ public class SearchMallRequest extends KoLRequest
 		for ( int i = 0; i < names.length; ++i )
 			if ( NPCStoreDatabase.contains( names[i] ) )
 				results.add( NPCStoreDatabase.getPurchaseRequest( names[i] ) );
-
-		updateDisplay( NORMAL_STATE, results.size() == 0 ? "No results found." : "Search complete." );
 	}
 }

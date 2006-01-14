@@ -167,7 +167,7 @@ public class ClanSnapshotTable extends KoLDatabase
 
 	private static ProfileRequest getProfile( String name )
 	{
-		return ProfileRequest.getInstance( name, client.getPlayerID( name ), (String) levelMap.get(name),
+		return ProfileRequest.getInstance( name, KoLmafia.getPlayerID( name ), (String) levelMap.get(name),
 			(String) profileMap.get(name), (String) rosterMap.get(name) );
 	}
 
@@ -509,11 +509,11 @@ public class ClanSnapshotTable extends KoLDatabase
 		// to print the player's name first.
 
 		strbuf.append( "<tr><td><a href=\"profiles/" );
-		strbuf.append( client.getPlayerID( memberName ) );
+		strbuf.append( KoLmafia.getPlayerID( memberName ) );
 		strbuf.append( ".htm\">" );
-		strbuf.append( client.getPlayerName( client.getPlayerID( memberName ) ) );
+		strbuf.append( KoLmafia.getPlayerName( client.getPlayerID( memberName ) ) );
 		strbuf.append( "</a></td><td>" );
-		strbuf.append( client.getPlayerID( memberName ) );
+		strbuf.append( KoLmafia.getPlayerID( memberName ) );
 
 		// Each of these are printed, pending on what
 		// fields are desired in this particular table.
