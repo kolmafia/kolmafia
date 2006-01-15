@@ -446,16 +446,6 @@ public class ChatFrame extends KoLFrame
 
 			Class frameClass;
 
-		nameClickSelect.addItem( "Name click opens blue message" );
-		nameClickSelect.addItem( "Name click opens green message" );
-		nameClickSelect.addItem( "Name click opens gift message" );
-		nameClickSelect.addItem( "Name click opens trade message" );
-		nameClickSelect.addItem( "Name click searches mall store" );
-		nameClickSelect.addItem( "Name click shows display case" );
-		nameClickSelect.addItem( "Name click shows ascension history" );
-		nameClickSelect.addItem( "Name click performs /whois" );
-		nameClickSelect.addItem( "Name click baleets the player" );
-
 			switch ( linkOption )
 			{
 				case 1:
