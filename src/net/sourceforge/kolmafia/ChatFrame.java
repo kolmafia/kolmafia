@@ -134,11 +134,11 @@ public class ChatFrame extends KoLFrame
 		nameClickSelect.addItem( "Name click opens green message" );
 		nameClickSelect.addItem( "Name click opens gift message" );
 		nameClickSelect.addItem( "Name click opens trade message" );
-		nameClickSelect.addItem( "Name click baleets the player" );
-		nameClickSelect.addItem( "Name click performs /whois" );
-		nameClickSelect.addItem( "Name click searches store" );
+		nameClickSelect.addItem( "Name click searches mall store" );
 		nameClickSelect.addItem( "Name click shows display case" );
-		nameClickSelect.addItem( "Name click shows familiars" );
+		nameClickSelect.addItem( "Name click shows ascension history" );
+		nameClickSelect.addItem( "Name click performs /whois" );
+		nameClickSelect.addItem( "Name click baleets the player" );
 
 		toolbarPanel.add( nameClickSelect );
 		nameClickSelect.setSelectedIndex(0);
@@ -446,6 +446,16 @@ public class ChatFrame extends KoLFrame
 
 			Class frameClass;
 
+		nameClickSelect.addItem( "Name click opens blue message" );
+		nameClickSelect.addItem( "Name click opens green message" );
+		nameClickSelect.addItem( "Name click opens gift message" );
+		nameClickSelect.addItem( "Name click opens trade message" );
+		nameClickSelect.addItem( "Name click searches mall store" );
+		nameClickSelect.addItem( "Name click shows display case" );
+		nameClickSelect.addItem( "Name click shows ascension history" );
+		nameClickSelect.addItem( "Name click performs /whois" );
+		nameClickSelect.addItem( "Name click baleets the player" );
+
 			switch ( linkOption )
 			{
 				case 1:
@@ -465,14 +475,6 @@ public class ChatFrame extends KoLFrame
 					break;
 
 				case 5:
-					(new RequestThread( new ChatRequest( client, "/baleet", (String) parameters[1] ) )).start();
-					return;
-
-				case 6:
-					(new RequestThread( new ChatRequest( client, "/whois", (String) parameters[1] ) )).start();
-					return;
-
-				case 7:
 
 					AdventureFrame mall = null;
 					KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
@@ -492,14 +494,22 @@ public class ChatFrame extends KoLFrame
 					mall.searchMall( new SearchMallRequest( client, Integer.parseInt( KoLmafia.getPlayerID( (String) parameters[1] ) ) ) );
 					return;
 
-				case 8:
+				case 6:
 					openRequestFrame( "displaycollection.php?who=" + KoLmafia.getPlayerID( (String) parameters[1] ) );
 					return;
 
-				case 9:
-					openRequestFrame( "showfamiliars.php?who=" + KoLmafia.getPlayerID( (String) parameters[1] ) );
+				case 7:
+					openRequestFrame( "ascensionhistory.php?who=" + KoLmafia.getPlayerID( (String) parameters[1] ) );
 					return;
 
+				case 8:
+					(new RequestThread( new ChatRequest( client, "/whois", (String) parameters[1] ) )).start();
+					return;
+
+				case 9:
+					(new RequestThread( new ChatRequest( client, "/baleet", (String) parameters[1] ) )).start();
+					return;
+			
 				default:
 					frameClass = ProfileFrame.class;
 					break;

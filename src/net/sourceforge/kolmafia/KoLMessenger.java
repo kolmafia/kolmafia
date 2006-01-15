@@ -774,12 +774,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 				linkBuffer.append( "</b><code>  " );
 
-				if ( eSoluConfiguration.indexOf( "7" ) != -1 )
-				{
-					linkBuffer.append( "<a href=\"" + link + "_7\">" );
-					linkBuffer.append( useColors ? "<font color=maroon>" : "<font color=gray>" );
-					linkBuffer.append( "[m]</font></a>" );
-				}
 				if ( eSoluConfiguration.indexOf( "1" ) != -1 )
 				{
 					linkBuffer.append( "<a href=\"" + link + "_1\">" );
@@ -804,29 +798,35 @@ public abstract class KoLMessenger extends StaticEntity
 					linkBuffer.append( useColors ? "<font color=teal>" : "<font color=gray>" );
 					linkBuffer.append( "[t]</font></a>" );
 				}
-				if ( eSoluConfiguration.indexOf( "8" ) != -1 )
-				{
-					linkBuffer.append( "<a href=\"" + link + "_8\">" );
-					linkBuffer.append( useColors ? "<font color=olive>" : "<font color=gray>" );
-					linkBuffer.append( "[d]</font></a>" );
-				}
-				if ( eSoluConfiguration.indexOf( "9" ) != -1 )
-				{
-					linkBuffer.append( "<a href=\"" + link + "_9\">" );
-					linkBuffer.append( useColors ? "<font color=fuchsia>" : "<font color=gray>" );
-					linkBuffer.append( "[f]</font></a>" );
-				}
 				if ( eSoluConfiguration.indexOf( "5" ) != -1 )
 				{
 					linkBuffer.append( "<a href=\"" + link + "_5\">" );
-					linkBuffer.append( useColors ? "<font color=red>" : "<font color=gray>" );
-					linkBuffer.append( "[x]</font></a>" );
+					linkBuffer.append( useColors ? "<font color=maroon>" : "<font color=gray>" );
+					linkBuffer.append( "[m]</font></a>" );
 				}
 				if ( eSoluConfiguration.indexOf( "6" ) != -1 )
 				{
 					linkBuffer.append( "<a href=\"" + link + "_6\">" );
+					linkBuffer.append( useColors ? "<font color=olive>" : "<font color=gray>" );
+					linkBuffer.append( "[d]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "7" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_7\">" );
+					linkBuffer.append( useColors ? "<font color=fuchsia>" : "<font color=gray>" );
+					linkBuffer.append( "[a]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "8" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_9\">" );
 					linkBuffer.append( useColors ? "<font color=black>" : "<font color=gray>" );
 					linkBuffer.append( "[?]</font></a>" );
+				}
+				if ( eSoluConfiguration.indexOf( "9" ) != -1 )
+				{
+					linkBuffer.append( "<a href=\"" + link + "_9\">" );
+					linkBuffer.append( useColors ? "<font color=red>" : "<font color=gray>" );
+					linkBuffer.append( "[x]</font></a>" );
 				}
 
 				displayHTML = "<br>" + displayHTML.replaceFirst( "</b>:", linkBuffer.toString() + ":</code><br>&nbsp;&nbsp;&nbsp;&nbsp;" );
