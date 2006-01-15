@@ -978,21 +978,19 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "unequip" ) )
 		{
-			AdventureResult match = getFirstMatchingItem( parameters, NOWHERE );
-			if ( match != null )
+			// The following loop removes the first item with
+			// the specified name.
+
+			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 			{
-				String item = match.getName();
-
-				// The following loop removes ALL items with
-				// the specified name.
-
-				for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
+				if ( KoLCharacter.getCurrentEquipmentName( i ) != null && KoLCharacter.getCurrentEquipmentName( i ).indexOf( parameters ) != -1 )
 				{
-					if ( KoLCharacter.getCurrentEquipmentName( i ) != null && KoLCharacter.getCurrentEquipmentName( i ).equals( item ) )
-						scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, EquipmentRequest.UNEQUIP, i ), 1 );
+					scriptRequestor.makeRequest( new EquipmentRequest( scriptRequestor, EquipmentRequest.UNEQUIP, i ), 1 );
+					return;
 				}
 			}
 
+			scriptRequestor.updateDisplay( ERROR_STATE, "No equipment found matching string \"" + parameters + "\"" );
 			return;
 		}
 
