@@ -981,6 +981,8 @@ public class KoLmafiaCLI extends KoLmafia
 			// The following loop removes the first item with
 			// the specified name.
 
+			parameters = parameters.toLowerCase();
+
 			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 			{
 				if ( KoLCharacter.getCurrentEquipmentName( i ) != null && KoLCharacter.getCurrentEquipmentName( i ).indexOf( parameters ) != -1 )
