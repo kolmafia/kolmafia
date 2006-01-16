@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.Calendar;
 import java.util.Date;
@@ -68,6 +69,7 @@ public abstract class KoLMessenger extends StaticEntity
 	private static ContactListFrame contactsFrame = null;
 	private static TabbedChatFrame tabbedFrame = null;
 
+	private static ArrayList currentlyActive = new ArrayList();
 	private static TreeMap instantMessageFrames = new TreeMap();
 	private static TreeMap instantMessageBuffers = new TreeMap();
 	private static SortedListModel onlineContacts = new SortedListModel();
@@ -153,7 +155,7 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 
 		reset();  isRunning = true;
-		(new RequestThread( new ChatRequest( client, null, "/channel" ) )).start();
+		(new RequestThread( new ChatRequest( client, null, "/listen" ) )).start();
 
 		// Clear the highlights and add all the ones which
 		// were saved from the last session.
@@ -345,8 +347,11 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 		}
 
-		else if ( contact.startsWith( "/" ) && !removedFrame.getTitle().endsWith( "(inactive)" ) )
+		else if ( contact.startsWith( "/" ) && currentlyActive.contains( contact ) )
+		{
 			(new RequestThread( new ChatRequest( client, contact, "/listen " + contact.substring(1) ) )).start();
+			currentlyActive.remove( contact );
+		}
 	}
 
 	/**
@@ -501,6 +506,29 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static void handleChatData( String content )
 	{
+		// First, if it's the initial content that lets you
+		// know which channels you're listening to, handle it.
+
+		if ( content.startsWith( "<font color=green>Currently listening to channels:" ) )
+		{
+			String channel, channelKey;
+			Matcher channelMatcher = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" ).matcher( content );
+
+			while ( channelMatcher.find() )
+			{
+				channel = channelMatcher.group(1);
+				channelKey = "/" + channel.replaceAll( "<.*?>", "" );
+				openInstantMessage( getBufferKey( channelKey ) );
+
+				if ( channel.indexOf( "<" ) == -1 )
+					setChatFrameTitle( channel, "KoLmafia Chat: " + channelKey + " (listening)" );
+				else
+					currentChannel = channelKey;
+			}
+
+			return;
+		}
+
 		// Now that you know that there was no intent to exit
 		// chat, go ahead and split up the lines in chat.
 
@@ -588,7 +616,10 @@ public abstract class KoLMessenger extends StaticEntity
 	public static void stopConversation()
 	{
 		if ( !currentChannel.equals( "" ) )
+		{
 			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (inactive)" );
+			currentlyActive.remove( currentChannel );
+		}
 	}
 
 	/**
@@ -642,6 +673,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			processChatMessage( channel, message );
 			setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (inactive)" );
+			currentlyActive.remove( channel );
 		}
 		else if ( message.startsWith( "Now listening to channel: " ) )
 		{
@@ -876,6 +908,9 @@ public abstract class KoLMessenger extends StaticEntity
 			{
 				LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(), true );
 				instantMessageBuffers.put( channel, buffer );
+
+				if ( channel.startsWith( "/" ) )
+					currentlyActive.add( channel );
 
 				if ( useTabbedFrame )
 				{
