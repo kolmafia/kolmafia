@@ -113,16 +113,7 @@ public class MutableComboBox extends JComboBox implements FocusListener
 					if ( ((String)currentNames[i]).toLowerCase().equals( currentName.toLowerCase() ) )
 						setSelectedIndex(i);
 
-					if ( keycode == KeyEvent.VK_BACK_SPACE || keycode == KeyEvent.VK_DELETE )
-					{
-						// If this was an undefined character, then it
-						// was a backspace or a delete - in this case,
-						// you retain the original name after selecting
-						// the index.
-
-						getEditor().setItem( currentName );
-					}
-					else
+					if ( keycode != KeyEvent.VK_BACK_SPACE && keycode != KeyEvent.VK_DELETE )
 					{
 						// If this wasn't an undefined character, then
 						// the user wants autocompletion!  Highlight
@@ -133,6 +124,7 @@ public class MutableComboBox extends JComboBox implements FocusListener
 						JTextComponent editor = (JTextComponent) getEditor().getEditorComponent();
 						editor.setSelectionStart( currentName.length() );
 						editor.setSelectionEnd( currentMatch.length() );
+						return;
 					}
 				}
 			}
@@ -145,13 +137,6 @@ public class MutableComboBox extends JComboBox implements FocusListener
 		{
 			if ( e.getKeyChar() != KeyEvent.CHAR_UNDEFINED )
 				findMatch( e.getKeyCode() );
-
-			if ( !model.contains( currentName ) )
-			{
-				model.add( currentName );
-				currentMatch = currentName;
-				setSelectedItem( currentMatch );
-			}
 		}
 	}
 }
