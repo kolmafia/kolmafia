@@ -79,7 +79,7 @@ public abstract class KoLMailManager extends StaticEntity
 	public static boolean addMessage( String boxname, String message )
 	{
 		LockableListModel mailbox = (LockableListModel) mailboxes.get(
-			boxname.equals( "Inbox" ) && message.indexOf( "Here's a play-by-play report on how it went down" ) != -1 ? "PvP" : boxname );
+			boxname.equals( "Inbox" ) && message.indexOf( "initiated a PvP attack against you" ) != -1 ? "PvP" : boxname );
 
 		KoLMailMessage toadd = new KoLMailMessage( message );
 
