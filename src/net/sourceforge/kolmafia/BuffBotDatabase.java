@@ -312,7 +312,7 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( !Character.isDigit( line.charAt( 0 ) ) )
 			{
 				// Look up abbreviated buff name
-				current = buffs.findAbbreviation( line );
+				current = buffs.findAbbreviation( line.trim() );
 				continue;
 			}
 
@@ -334,6 +334,7 @@ public class BuffBotDatabase extends KoLDatabase
 			{
 				int turns = Integer.parseInt( num1 );
 				int price = Integer.parseInt( num2 );
+
 				current.addOffering( new Offering( name, price, turns, star > 0 ) );
 			}
 			catch ( Exception e )
