@@ -1614,6 +1614,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			if ( currentValue == null )
 				return 0;
 
+			if ( currentValue.equals( "*" ) )
+				return maximumValue;
+
 			int desiredValue = df.parse( currentValue ).intValue();
 			return Math.max( 0, Math.min( desiredValue, maximumValue ) );
 		}
