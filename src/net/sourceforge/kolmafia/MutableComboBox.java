@@ -92,7 +92,7 @@ public class MutableComboBox extends JComboBox implements FocusListener
 		// then make sure that the current name is stored
 		// before the key typed event is fired
 
-		currentName = ((String) getEditor().getItem()).trim();
+		currentName = (String) getEditor().getItem();
 		currentMatch = null;
 
 		// Autohighlight and popup - note that this
