@@ -82,14 +82,20 @@ public class FightRequest extends KoLRequest
 		// a moxious maneuver, or run away.
 
 		action = getProperty( "battleAction" );
-		
+
 		if ( roundCount > 1 && action.equals( "custom" ) )
 		{
 			action = CombatSettings.getSetting( encounter, roundCount - 2 );
 			if ( action.startsWith( "item" ) )
-				action = "item" + TradeableItemDatabase.getItemID( (String)TradeableItemDatabase.getMatchingNames( action.substring(4).trim() ).get(0) );
+			{
+				String name = (String) TradeableItemDatabase.getMatchingNames( action.substring(4).trim() ).get(0);
+				action = name == null ? "attack" : "item" + TradeableItemDatabase.getItemID( name );
+			}
 			else if ( action.startsWith( "skill" ) )
-				action = String.valueOf( ClassSkillsDatabase.getSkillID( KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() ) ) );
+			{
+				String name = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
+				action = name == null ? "attack" : String.valueOf( ClassSkillsDatabase.getSkillID( name ) );
+			}
 		}
 
 		if ( roundCount == 1 )
@@ -104,7 +110,7 @@ public class FightRequest extends KoLRequest
 		{
 			// If the user has chosen to abort
 			// combat, flag it.
-			
+
 			action = "...";
 		}
 		else if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
