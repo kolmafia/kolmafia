@@ -110,6 +110,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class OptionsFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
+	private JTabbedPane customTabs;
+
 	private JTree displayTree;
 	private DefaultTreeModel displayModel;
 
@@ -144,7 +146,7 @@ public class OptionsFrame extends KoLFrame
 		if ( !client.inLoginState() )
 		{
 			JPanel customContainer = new JPanel( new BorderLayout() );
-			JTabbedPane customTabs = new JTabbedPane();
+			customTabs = new JTabbedPane();
 
 			displayTree = new JTree();
 			displayModel = (DefaultTreeModel) displayTree.getModel();
@@ -153,7 +155,11 @@ public class OptionsFrame extends KoLFrame
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			customTabs.add( "View", treeScroller );
-			customTabs.add( "Modify", new CustomCombatPanel() );
+
+			JPanel modifyPanel = new JPanel( new CardLayout() );
+			modifyPanel.add( new CustomCombatPanel(), "" );
+
+			customTabs.add( "Modify", modifyPanel );
 
 			customContainer.add( customTabs, BorderLayout.CENTER );
 			tabs.add( "Custom Combat", customContainer );
@@ -743,6 +749,7 @@ public class OptionsFrame extends KoLFrame
 			// and reload the data inside of the tree.
 
 			refreshCombatTree();
+			customTabs.setSelectedIndex(0);
 		}
 
 		protected void actionCancelled()
