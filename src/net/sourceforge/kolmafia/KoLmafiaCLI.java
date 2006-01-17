@@ -475,6 +475,12 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( scriptRequestor.getSaveState( parameters ) != null )
 			{
+				if ( !scriptRequestor.inLoginState() )
+				{
+					updateDisplay( DISABLE_STATE, "Logging out..." );
+					(new LogoutRequest( scriptRequestor )).run();
+				}
+
 				scriptRequestor.deinitialize();
 				(new LoginRequest( scriptRequestor, parameters, scriptRequestor.getSaveState( parameters ), true, true )).run();
 			}
