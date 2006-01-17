@@ -60,6 +60,7 @@ import javax.swing.JScrollPane;
 
 // utilities
 import java.util.ArrayList;
+import java.lang.ref.WeakReference;
 import com.sun.java.forums.SpringUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -104,7 +105,7 @@ public class BuffRequestFrame extends KoLFrame
 		public BuffRequestPanel()
 		{
 			super( new SpringLayout() );
-			existingPanels.add( this );
+			existingPanels.add( new WeakReference( this ) );
 
 			// Add a panel for each available buff
 			int buffCount = BuffBotDatabase.buffCount();

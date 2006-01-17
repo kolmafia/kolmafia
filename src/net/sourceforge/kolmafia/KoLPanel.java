@@ -43,6 +43,8 @@ import javax.swing.JScrollPane;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+
+import java.lang.ref.WeakReference;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
 /**
@@ -59,55 +61,55 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	protected KoLPanel( Dimension labelSize, Dimension fieldSize )
 	{
 		super( labelSize, fieldSize );
-		existingPanels.add( this );
+		existingPanels.add( new WeakReference( this ) );
 	}
 
 	protected KoLPanel( Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
 	{
 		super( labelSize, fieldSize, isCenterPanel );
-		existingPanels.add( this );
+		existingPanels.add( new WeakReference( this ) );
 	}
 
 	protected KoLPanel( String confirmedText )
 	{
 		super( confirmedText );
-		existingPanels.add( this );
+		existingPanels.add( new WeakReference( this ) );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText )
 	{
 		super( confirmedText, cancelledText );
-		existingPanels.add( this );
+		existingPanels.add( new WeakReference( this ) );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2 )
 	{
 		super( confirmedText, cancelledText1, cancelledText2 );
-		existingPanels.add( this );
+		existingPanels.add( new WeakReference( this ) );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize )
 	{
 		super( confirmedText, cancelledText, labelSize, fieldSize );
-		existingPanels.add( this );
+		existingPanels.add( new WeakReference( this ) );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize );
-		existingPanels.add( this );
+		existingPanels.add( new WeakReference( this ) );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText, labelSize, fieldSize, isCenterPanel );
-		existingPanels.add( this );
+		existingPanels.add( new WeakReference( this ) );
 	}
 
 	protected KoLPanel( String confirmedText, String cancelledText1, String cancelledText2, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
 	{
 		super( confirmedText, cancelledText1, cancelledText2, labelSize, fieldSize, isCenterPanel );
-		existingPanels.add( this );
+		existingPanels.add( new WeakReference( this ) );
 	}
 
 	protected void setContent( VerifiableElement [] elements, JPanel mainPanel, JPanel eastPanel, boolean isLabelPreceeding, boolean bothDisabledOnClick )

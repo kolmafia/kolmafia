@@ -76,6 +76,7 @@ import java.io.PrintWriter;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import java.lang.ref.WeakReference;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.ChatBuffer;
@@ -199,7 +200,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		public FamiliarTrainingPanel()
 		{
-			existingPanels.add( this );
+			existingPanels.add( new WeakReference( this ) );
 			setLayout( new BorderLayout( 10, 10 ) );
 
 			// Get current familiar & base weight

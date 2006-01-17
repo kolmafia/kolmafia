@@ -96,6 +96,7 @@ import java.util.StringTokenizer;
 
 // other stuff
 import javax.swing.SwingUtilities;
+import java.lang.ref.WeakReference;
 import edu.stanford.ejalbert.BrowserLauncher;
 
 // spellcast imports
@@ -765,7 +766,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public MultiButtonPanel( String title, LockableListModel elementModel, boolean showMovers )
 		{
-			existingPanels.add( this );
+			existingPanels.add( new WeakReference( this ) );
 			this.showMovers = showMovers;
 			this.optionPanel = new JPanel();
 

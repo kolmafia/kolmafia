@@ -43,6 +43,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import java.lang.ref.WeakReference;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -62,7 +63,7 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 	public LabeledScrollPanel( String title, JComponent scrollComponent )
 	{
 		this( title, null, null, scrollComponent );
-		existingPanels.add( this );
+		existingPanels.add( new WeakReference( this ) );
 	}
 
 	public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent )

@@ -42,6 +42,7 @@ import java.awt.Component;
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import java.lang.ref.WeakReference;
 
 /**
  * The main class for the <code>KoLmafia</code> package.  This
@@ -107,25 +108,25 @@ public class KoLmafiaGUI extends KoLmafia
 		// Next, update all of the panels with the
 		// desired update message.
 
-		Component [] panels = new Component[ existingPanels.size() ];
-		existingPanels.toArray( panels );
+		WeakReference [] references = new WeakReference[ existingPanels.size() ];
+		existingPanels.toArray( references );
 
-		for ( int i = 0; i < panels.length; ++i )
+		for ( int i = 0; i < references.length; ++i )
 		{
-			if ( panels[i] instanceof KoLPanel )
-				((KoLPanel) panels[i]).setStatusMessage( state, message );
+			if ( references[i].get() instanceof KoLPanel )
+				((KoLPanel) references[i].get()).setStatusMessage( state, message );
 
 			switch ( state )
 			{
 				case DISABLE_STATE:
-					panels[i].setEnabled( false );
+					((Component)references[i].get()).setEnabled( false );
 					break;
 
 				case NORMAL_STATE:
 					break;
 
 				default:
-					panels[i].setEnabled( true );
+					((Component)references[i].get()).setEnabled( true );
 					break;
 			}
 		}
