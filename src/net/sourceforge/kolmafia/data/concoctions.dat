@@ -137,9 +137,9 @@ Wand of Nagamar	1	WA	ND
 wang	1	WA	NG
 
 
-"# Burritos, pizza and statue lime pies.  These are a class all their own"
-"# because of their popularity.  Other really popular items, like spectral"
-"# pickles, are also included."
+# Burritos, pizza and statue lime pies.  These are a class all their own
+# because of their popularity.  Other really popular items, like spectral
+# pickles, are also included.
 
 bean burrito	2	flat dough	beans
 Boris's key lime	2	Boris's key	lime
@@ -196,7 +196,7 @@ tofu casserole	2	wad of tofu	Gnollish casserole dish
 white chocolate chip cookies	2	white chocolate chips	wad of dough
 
 
-"# Standard, tier 1 and tier 2 beverages.  Nothing special about"
+# Standard, tier 1 and tier 2 beverages.  Nothing special about
 # these mixtures except everyone can make them.
 
 bloody beer	3	tomato	ice-cold beer
@@ -237,8 +237,8 @@ white Canadian	3	bottle of vodka	glass of goat's milk
 wine spritzer	3	boxed wine	soda water
 
 
-"# Tier 3, 4 and 5 beverages which can only be made by DBs."
-"# These include the popular umbrella, coconut and ice drinks."
+# Tier 3, 4 and 5 beverages which can only be made by DBs.
+# These include the popular umbrella, coconut and ice drinks.
 
 a little sump'm sump'm	7	martini	little paper umbrella
 horizontal tango	7	wine spritzer	little paper umbrella
@@ -337,7 +337,7 @@ yak whip	13	yak skin	whip kit
 gnauga hide whip	13	gnauga hide	whip kit
 
 
-"# Meat-smithing armor pieces.  These items are helmets, pants,"
+# Meat-smithing armor pieces.  These items are helmets, pants,
 # and sometimes accessories which are created in smithing.
 
 meaty helmet turtle	14	helmet turtle	dense meat stack
@@ -395,7 +395,7 @@ gnauga hide buckler	14	gnauga hide	buckler buckle
 eXtreme nose ring	4	stone of eXtreme power	piercing post
 spooky glove	2	spooky fairy gravy	small leather glove
 
-"# Time Trappings, smithable by anyone."
+# Time Trappings, smithable by anyone.
 
 time helmet	4	petrified time	helmet recipe
 time trousers	4	petrified time	pants kit
@@ -420,7 +420,7 @@ tomato smoothie	5	tomato	scrumptious reagent
 wrath serum	5	grapes	scrumptious reagent
 
 
-"# Simple pastamancer recipes.  Available to pastamancers only, and"
+# Simple pastamancer recipes.  Available to pastamancers only, and
 # creates pasta if you don't have finer ingredients.
 
 boring spaghetti	6	dry noodles	tomato
@@ -462,7 +462,7 @@ tofu stir-fry	2	wad of tofu	asparagus stir-fry
 
 
 # Easily the most popular food items in the game (next to spectral
-"# pickles), these are the stir-fry chow meins in the game."
+# pickles), these are the stir-fry chow meins in the game.
 
 bat wing chow mein	6	bat wing stir-fry	dry noodles
 Knob sausage chow mein	6	Knob sausage stir-fry	dry noodles
