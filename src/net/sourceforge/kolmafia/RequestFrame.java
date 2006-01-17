@@ -577,6 +577,26 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
+	public void dispose()
+	{
+		super.dispose();
+
+		visitedLocations.clear();
+		visitedLocations = null;
+
+		parent = null;
+		lastResponseText = null;
+
+		currentRequest = null;
+		sidePaneRequest = null;
+
+		mainBuffer = null;
+		sideBuffer = null;
+
+		locationField = null;
+		sideDisplay = null;
+		mainDisplay = null;
+	}
 
 	/**
 	 * The main method used in the event of testing the way the

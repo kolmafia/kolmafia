@@ -29,7 +29,7 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 			if ( !frames[i].isVisible() )
 				frames[i].setVisible( isVisible );
 	}
-	
+
 	public static void updateTooltip()
 	{
 		if ( manager != null )
@@ -110,7 +110,11 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 	}
 
 	public static void addTrayIcon()
-	{	(new Thread( new SystemTrayFrame() )).start();
+	{
+		if ( manager == null )
+			(new Thread( new SystemTrayFrame() )).start();
+		else
+			updateTooltip();
 	}
 
 	public static void removeTrayIcon()

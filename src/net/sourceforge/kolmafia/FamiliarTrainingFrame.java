@@ -227,7 +227,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			add( changePanel, BorderLayout.SOUTH );
 
 			// Register a listener to keep it updated
-			KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new FamiliarRefresh() ) );
+			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new FamiliarRefresh() ) );
 		}
 
 		public void setEnabled( boolean isEnabled )

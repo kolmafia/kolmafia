@@ -81,8 +81,5 @@ public class KoLPanelFrame extends KoLFrame
 	{
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( panel, "" );
-
-		if ( panel instanceof KoLPanel )
-			this.contentPanel = (KoLPanel) panel;
 	}
 }

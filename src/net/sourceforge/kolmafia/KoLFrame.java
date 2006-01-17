@@ -150,13 +150,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	private String frameName;
 	protected JPanel framePanel;
 	protected JToolBar toolbarPanel;
-	protected KoLPanel contentPanel;
 
 	protected JPanel compactPane;
 	protected JLabel hpLabel, mpLabel, advLabel;
 	protected JLabel meatLabel, drunkLabel;
 	protected JLabel familiarLabel, weightLabel;
 
+	protected KoLCharacterAdapter refreshListener;
 	protected JMenuItem debugMenuItem, macroMenuItem;
 
 	/**
@@ -243,11 +243,36 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		super.dispose();
 
-		Object [] frames = existingFrames.toArray();
+		// Null out all references so the garbage collector
+		// knows what to discard when it sweeps through.
 
-		for ( int i = frames.length - 1; i >= 0; --i )
-			if ( frames[i] == this )
-				existingFrames.remove(i);
+		frameName = null;
+		framePanel = null;
+		toolbarPanel = null;
+
+		compactPane = null;
+		hpLabel = null;
+		mpLabel = null;
+		advLabel = null;
+		meatLabel = null;
+		drunkLabel = null;
+		familiarLabel = null;
+		weightLabel = null;
+
+		debugMenuItem = null;
+		macroMenuItem = null;
+
+		// Determine which frame needs to be removed from
+		// the maintained list of frames.
+
+		KoLCharacter.removeCharacterListener( refreshListener );
+		existingFrames.remove( this );
+
+		// If the list of frames is now empty, make sure
+		// you end the session.  Ending the session for
+		// a login frame involves exiting, and ending the
+		// session for all other frames is restarting the
+		// initial client.
 
 		if ( existingFrames.isEmpty() )
 		{
@@ -324,7 +349,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		framePanel.add( this.compactPane, BorderLayout.WEST );
 		(new StatusRefresher()).run();
 
-		KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefresher() ) );
+		this.refreshListener = new KoLCharacterAdapter( new StatusRefresher() );
+		KoLCharacter.addCharacterListener( refreshListener );
 	}
 
 	protected class StatusRefresher implements Runnable
@@ -394,19 +420,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					break;
 			}
 		}
-	}
-
-	/**
-	 * Utility method used to give the content panel for this
-	 * <code>KoLFrame</code> focus.  Note that if the content
-	 * panel is <code>null</code>< this method does nothing.
-	 */
-
-	public void requestFocus()
-	{
-		super.requestFocus();
-		if ( contentPanel != null )
-			contentPanel.requestFocus();
 	}
 
 	/**

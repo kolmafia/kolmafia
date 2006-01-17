@@ -192,7 +192,6 @@ public class AdventureFrame extends KoLFrame
 
 		addCompactPane();
 		framePanel.add( tabs, BorderLayout.CENTER );
-		contentPanel = adventureSelect;
 
 		try
 		{
@@ -336,8 +335,6 @@ public class AdventureFrame extends KoLFrame
 			// client to begin adventuring based on the values
 			// placed in the input fields.
 
-			contentPanel = this;
-
 			if ( actionSelect.getSelectedItem() == null )
 			{
 				client.updateDisplay( ERROR_STATE, "Please select a combat option." );
@@ -439,8 +436,6 @@ public class AdventureFrame extends KoLFrame
 			// Once the stubs are finished, this will notify the
 			// client to terminate the loop early.  For now, since
 			// there's no actual functionality, simply request focus
-
-			contentPanel = this;
 
 			if ( isEnabled )
 			{
@@ -636,8 +631,6 @@ public class AdventureFrame extends KoLFrame
 				return;
 			}
 
-			contentPanel = this;
-
 			int defaultPurchases = 0;
 			for ( int i = 0; i < purchases.length; ++i )
 				defaultPurchases += ((MallPurchaseRequest) purchases[i]).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ? 1 :
@@ -662,8 +655,6 @@ public class AdventureFrame extends KoLFrame
 
 	public void searchMall( SearchMallRequest request )
 	{
-		contentPanel = mallSearch;
-
 		request.run();
 		if ( results != request.getResults() )
 			results.addAll( request.getResults() );
@@ -735,7 +726,6 @@ public class AdventureFrame extends KoLFrame
 				// show what the current state of the selections
 				// is at this time.
 
-				contentPanel = mallSearch;
 				client.updateDisplay( NORMAL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
 			}
 		}
@@ -880,7 +870,6 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			contentPanel = this;
 			if ( heroField.getSelectedIndex() != -1 )
 				(new RequestThread( new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, getValue( amountField ) ) )).start();
 
@@ -890,7 +879,6 @@ public class AdventureFrame extends KoLFrame
 		{
 			try
 			{
-				contentPanel = this;
 				int increments = df.parse( JOptionPane.showInputDialog( "How many increments?" ) ).intValue();
 
 				if ( increments == 0 )
@@ -941,7 +929,7 @@ public class AdventureFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "In Closet: ", closetField );
 			setContent( elements, true, true );
 
-			KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new ClosetUpdater() ) );
+			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new ClosetUpdater() ) );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -953,7 +941,6 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			contentPanel = this;
 			switch ( fundSource.getSelectedIndex() )
 			{
 				case 0:
@@ -968,7 +955,6 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			contentPanel = this;
 			switch ( fundSource.getSelectedIndex() )
 			{
 				case 0:

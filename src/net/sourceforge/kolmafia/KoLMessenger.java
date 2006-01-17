@@ -87,22 +87,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		chattingStyle = Integer.parseInt( getProperty( "chatStyle" ) );
 		contactsFrame = new ContactListFrame( client, onlineContacts );
-		setTabbedFrameSetting( getProperty( "useTabbedChat" ).equals( "1" ) );
-
-		if ( getProperty( "autoLogChat" ).equals( "true" ) )
-			initializeChatLogs();
-	}
-
-	/**
-	 * Notifies the messenger that you should be able to use
-	 * tabbed chat (or undo it) by consolidating existing
-	 * frames into a single frame or splitting it, as desired.
-	 */
-
-	public static void setTabbedFrameSetting( boolean useTabbedFrame )
-	{
-		Object [] keys = instantMessageBuffers.keySet().toArray();
-		String currentKey;  LimitedSizeChatBuffer currentBuffer;  ChatFrame currentFrame;
+		useTabbedFrame = getProperty( "useTabbedChat" ).equals( "1" );
 
 		if ( useTabbedFrame )
 		{
@@ -117,29 +102,18 @@ public abstract class KoLMessenger extends StaticEntity
 			tabbedFrame = null;
 		}
 
-		for ( int i = 0; i < keys.length; ++i )
-		{
-			currentKey = (String) keys[i];
-			currentBuffer = getChatBuffer( currentKey );
-			currentFrame = getChatFrame( currentKey );
+		if ( getProperty( "autoLogChat" ).equals( "true" ) )
+			initializeChatLogs();
+	}
 
-			if ( useTabbedFrame )
-			{
-				ChatFrame.ChatPanel panel = tabbedFrame.addTab( currentKey );
-				currentBuffer.setChatDisplay( panel.getChatDisplay() );
-				currentBuffer.setScrollPane( panel.getScrollPane() );
-				currentFrame.setVisible( false );
-			}
-			else
-			{
-				currentBuffer.setChatDisplay( currentFrame.getChatDisplay() );
-				currentBuffer.setScrollPane( currentFrame.getScrollPane() );
-				currentFrame.setVisible( true );
-			}
+	/**
+	 * Notifies the messenger that you should be able to use
+	 * tabbed chat (or undo it) by consolidating existing
+	 * frames into a single frame or splitting it, as desired.
+	 */
 
-		}
-
-		KoLMessenger.useTabbedFrame = useTabbedFrame;
+	public static void setTabbedFrameSetting( boolean useTabbedFrame )
+	{
 	}
 
 	/**
@@ -184,34 +158,6 @@ public abstract class KoLMessenger extends StaticEntity
 		LimitedSizeChatBuffer bufferToClear = getChatBuffer( contact );
 		if ( bufferToClear != null )
 			bufferToClear.clearBuffer();
-	}
-
-	/**
-	 * Returns the name of the currently active frame.  This is
-	 * used to ensure that messages either (a) get delivered to
-	 * the currently active frame, or (b) ensure that focus is
-	 * returned to the currently active frame at a later time.
-	 */
-
-	public static String getNameOfActiveFrame()
-	{
-		Object [] names = instantMessageBuffers.keySet().toArray();
-		String currentName;  ChatFrame currentFrame;
-		for ( int i = 0; i < names.length; ++i )
-		{
-			currentName = (String) names[i];
-			if ( currentName == null )
-				continue;
-
-			currentFrame = getChatFrame( currentName );
-			if ( currentFrame == null )
-				continue;
-
-			if ( currentFrame.isShowing() && currentFrame.hasFocus() )
-				return currentName;
-		}
-
-		return null;
 	}
 
 	public static void checkFriends()
@@ -575,15 +521,10 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void updateChat( String content )
 	{
-		// First, retrieve the currently active window - that way, the
-		// focus can be returned once the chat's been updated.
-
-		String nameOfActiveFrame = getNameOfActiveFrame();
-
 		// Now, extract the contact list and update KoLMessenger to indicate
 		// the contact list found in the last /friends update
 
-		handleTableContent( content, nameOfActiveFrame );
+		handleTableContent( content, currentChannel );
 
 		// Extract player IDs from the most recent chat content, since it
 		// can prove useful at a later time.
@@ -594,17 +535,6 @@ public abstract class KoLMessenger extends StaticEntity
 		// all of the individual chat data.
 
 		handleChatData( content );
-
-		// Now that all the messages have been processed, return
-		// the focus to the originally active window (if the window
-		// lost focus during any of this).
-
-		if ( nameOfActiveFrame != null )
-		{
-			ChatFrame activeFrame = getChatFrame( nameOfActiveFrame );
-			if ( activeFrame != null && !activeFrame.hasFocus() )
-				activeFrame.requestFocus();
-		}
 	}
 
 	/**
@@ -957,7 +887,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static void initializeChatLogs()
 	{
-
 		Date currentTime = new Date();
 		CHATLOG_BASENAME = "chats" + File.separator + sdf.format( currentTime ) + "_";
 

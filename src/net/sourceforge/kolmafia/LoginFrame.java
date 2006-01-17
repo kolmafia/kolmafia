@@ -126,8 +126,6 @@ public class LoginFrame extends KoLFrame
 
 	public JPanel constructLoginPanel()
 	{
-		contentPanel = new LoginPanel();
-
 		JPanel imagePanel = new JPanel();
 		imagePanel.setLayout( new BorderLayout( 0, 0 ) );
 		imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
@@ -135,7 +133,7 @@ public class LoginFrame extends KoLFrame
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );
 		containerPanel.add( imagePanel, BorderLayout.NORTH );
-		containerPanel.add( contentPanel, BorderLayout.CENTER );
+		containerPanel.add( new LoginPanel(), BorderLayout.CENTER );
 		return containerPanel;
 	}
 

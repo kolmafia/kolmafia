@@ -1977,10 +1977,22 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	listener	The listener to be added to the listener list
 	 */
 
-	public static void addKoLCharacterListener( KoLCharacterListener listener )
+	public static void addCharacterListener( KoLCharacterListener listener )
 	{
 		if ( listener != null && listener.isStatusListener() && !listenerList.contains( listener ) )
 			listenerList.add( listener );
+	}
+
+	/**
+	 * Removes an existing <code>KoLCharacterListener</code> from the
+	 * list of listeners listening to this <code>KoLCharacter</code>.
+	 * @param	listener	The listener to be removed from the listener list
+	 */
+
+	public static void removeCharacterListener( KoLCharacterListener listener )
+	{
+		if ( listener != null )
+			listenerList.remove( listener );
 	}
 
 	/**

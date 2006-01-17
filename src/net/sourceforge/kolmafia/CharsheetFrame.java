@@ -92,10 +92,6 @@ public class CharsheetFrame extends KoLFrame
 	{
 		super( client, "Character Sheet" );
 
-		// For now, because character listeners haven't been implemented
-		// yet, re-request the character sheet from the server
-
-		contentPanel = null;
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );
 
@@ -114,7 +110,7 @@ public class CharsheetFrame extends KoLFrame
 		refreshStatus();
 
 		framePanel.add( entirePanel, "" );
-		KoLCharacter.addKoLCharacterListener( new KoLCharacterAdapter( new StatusRefreshRunnable() ) );
+		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new StatusRefreshRunnable() ) );
 	}
 
 	/**

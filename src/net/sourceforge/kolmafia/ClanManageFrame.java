@@ -179,16 +179,13 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{
-			contentPanel = clanBuff;
-			(new RequestThread( (Runnable) buffField.getSelectedItem(), getValue( countField ) )).start();
+		{	(new RequestThread( (Runnable) buffField.getSelectedItem(), getValue( countField ) )).start();
 		}
 
 		protected void actionCancelled()
 		{
 			if ( isBuffing )
 			{
-				contentPanel = clanBuff;
 				client.cancelRequest();
 				client.updateDisplay( NORMAL_STATE, "Purchase attempts cancelled." );
 			}
@@ -221,15 +218,11 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{
-			contentPanel = attacks;
-			(new RequestThread( (Runnable) enemyList.getSelectedItem() )).start();
+		{	(new RequestThread( (Runnable) enemyList.getSelectedItem() )).start();
 		}
 
 		protected void actionCancelled()
-		{
-			contentPanel = attacks;
-			(new RequestThread( new ClanListRequest( client ) )).start();
+		{	(new RequestThread( new ClanListRequest( client ) )).start();
 		}
 	}
 

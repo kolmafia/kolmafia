@@ -83,10 +83,6 @@ public class GearChangeFrame extends KoLFrame
 	{
 		super( client, "Changing Gears" );
 
-		// For now, because character listeners haven't been implemented
-		// yet, re-request the character sheet from the server
-
-		contentPanel = null;
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );
 
