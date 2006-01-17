@@ -518,21 +518,21 @@ porquoise ring	8	porquoise	ring setting
 
 # Familiars.  These are familiars which are only available after
 # ascension (not including the ones which are available through
-"# post-ascension methods, like supertinkering)."
+# post-ascension methods, like supertinkering).
 
 maple leaf	1	leaf	maple syrup
 unwound clockwork grapefruit	2	clockwork endoskeleton	grapefruit
 deactivated MicroMechaMech	12	clockwork spine	clockwork claws	clockwork key
 
 
-"# These are item-combinations which are only available post-ascension,"
+# These are item-combinations which are only available post-ascension,
 # and does not fall into any other categories.
 
 leaf	1	leaflet	leaflet
 wholeberd	1	halfberd	halfberd
 
 
-"# Foods.  These are foods which are only available post-ascension,"
+# Foods.  These are foods which are only available post-ascension,
 # and include the mushroom recipes.
 
 spicy mushroom quesadilla	2	warm mushroom	flat dough
@@ -540,7 +540,7 @@ cool mushroom casserole	2	cool mushroom	Gnollish casserole dish
 cream of pointy mushroom soup	2	pointy mushroom	glass of goat's milk
 
 
-"# Drinks.  These are drinks which are only available post-ascension,"
+# Drinks.  These are drinks which are only available post-ascension,
 # and include the lumberjack and the mushroom wines.
 
 lumbering jack	3	bottle of whiskey	Blatantly Canadian
