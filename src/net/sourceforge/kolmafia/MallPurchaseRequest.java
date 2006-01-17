@@ -216,7 +216,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public void setLimit( int limit )
-	{	this.limit = Math.min( limit, this.quantity == MAX_QUANTITY ? MAX_QUANTITY : this.limit );
+	{	this.limit = limit;
 	}
 
 	/**

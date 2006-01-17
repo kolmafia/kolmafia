@@ -1871,7 +1871,7 @@ public abstract class KoLmafia implements KoLConstants
 				int oldResultCount = result.getCount( KoLCharacter.getInventory() );
 				int previousLimit = currentRequest.getLimit();
 
-				currentRequest.setLimit( maxPurchases - purchaseCount );
+				currentRequest.setLimit( Math.min( previousLimit, maxPurchases - purchaseCount ) );
 				currentRequest.run();
 
 				// Calculate how many of the item you have now after
