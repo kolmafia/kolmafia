@@ -650,8 +650,8 @@ public class AdventureFrame extends KoLFrame
 
 			int defaultPurchases = 0;
 			for ( int i = 0; i < purchases.length; ++i )
-				defaultPurchases += ((MallPurchaseRequest) purchases[i]).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ? 1 :
-					((MallPurchaseRequest) purchases[i]).getLimit();
+				defaultPurchases += ((MallPurchaseRequest) purchases[i]).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ?
+					MallPurchaseRequest.MAX_QUANTITY : ((MallPurchaseRequest) purchases[i]).getLimit();
 
 			int count = getQuantity( "Maximum number of items to purchase?", defaultPurchases, 1 );
 
