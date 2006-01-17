@@ -59,6 +59,14 @@ public class GiftMessageFrame extends SendMessageFrame
 	{	super( client, "Send a Purple Message", recipient );
 	}
 
+	public void dispose()
+	{
+		GiftMessageRequest.PACKAGES.removeListDataListener( packageSelect );
+
+		packageSelect = null;
+		super.dispose();
+	}
+
 	protected String [] getEntryHeaders()
 	{	return HEADERS;
 	}

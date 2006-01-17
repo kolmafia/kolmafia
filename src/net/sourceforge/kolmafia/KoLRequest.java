@@ -449,7 +449,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		return client == null || client.inLoginState() ||
 			this instanceof LoginRequest || this instanceof ChatRequest || this instanceof CharpaneRequest;
 	}
-
 	/**
 	 * Utility method used to prepare the connection for input and output
 	 * (if output is necessary).  The method attempts to open the connection,
@@ -464,6 +463,17 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( client != null )
 			this.sessionID = client.getSessionID();
+
+		// Make sure that all variables are reset before you reopen
+		// the connection.  Invoke the garbage collector to minimize
+		// memory consumption.
+
+		formURL = null;
+		responseText = null;
+		redirectLocation = null;
+		formConnection = null;
+
+		System.gc();
 
 		// With that taken care of, determine the actual URL that you
 		// are about to request.
@@ -569,6 +579,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			ostream = null;
 
 			KoLmafia.getLogStream().println( "Posting data posted." );
+
+			System.gc();
 			return true;
 		}
 		catch ( Exception e )
@@ -580,6 +592,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			e.printStackTrace();
 
 			KoLRequest.delay();
+
+			System.gc();
 			return false;
 		}
 	}
@@ -727,7 +741,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 					FightRequest battle = new FightRequest( client );
 					battle.run();
-					
+
 					return this instanceof AdventureRequest;
 				}
 				else if ( redirectLocation.equals( "choice.php" ) )
@@ -827,6 +841,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// from the function call.
 
 		istream = null;
+		System.gc();
 		return shouldStop;
 	}
 

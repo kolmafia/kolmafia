@@ -106,6 +106,23 @@ public class AdventureFrame extends KoLFrame
 	private SkillBuffPanel skillBuff;
 	private HeroDonationPanel heroDonation;
 
+	public void dispose()
+	{
+		resultSelect = null;
+		resultPanel = null;
+		results = null;
+		resultsList = null;
+
+		tabs = null;
+		adventureSelect = null;
+		mallSearch = null;
+		meatStorage = null;
+		skillBuff = null;
+		heroDonation = null;
+
+		super.dispose();
+	}
+
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
 	 * are placed into their corresponding tabs, with the content panel being

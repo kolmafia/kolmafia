@@ -169,6 +169,16 @@ public class OptionsFrame extends KoLFrame
 		framePanel.add( tabs, "" );
 	}
 
+	public void dispose()
+	{
+		tabs = null;
+		customTabs = null;
+		displayTree = null;
+		displayModel = null;
+
+		super.dispose();
+	}
+
 	private void addTab( String name, JComponent panel )
 	{
 		JScrollPane scroller = new JScrollPane( panel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -720,6 +730,7 @@ public class OptionsFrame extends KoLFrame
 				}
 
 				reader.close();
+				reader = null;
 				((JTextArea)scrollComponent).setText( buffer.toString() );
 			}
 			catch ( Exception e )
@@ -738,6 +749,7 @@ public class OptionsFrame extends KoLFrame
 				PrintStream writer = new PrintStream( new FileOutputStream( DATA_DIRECTORY + CombatSettings.settingsFileName() ) );
 				writer.println( ((JTextArea)scrollComponent).getText() );
 				writer.close();
+				writer = null;
 			}
 			catch ( Exception e )
 			{

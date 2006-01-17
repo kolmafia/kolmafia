@@ -124,6 +124,12 @@ public class LoginFrame extends KoLFrame
 		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
 	}
 
+	public void dispose()
+	{
+		saveStateNames = null;
+		super.dispose();
+	}
+
 	public JPanel constructLoginPanel()
 	{
 		JPanel imagePanel = new JPanel();

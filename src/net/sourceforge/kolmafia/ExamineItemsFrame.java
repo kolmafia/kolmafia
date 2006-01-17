@@ -112,6 +112,18 @@ public class ExamineItemsFrame extends KoLFrame
 		framePanel.add( tabs, "" );
 	}
 
+	public void dispose()
+	{
+		tabs = null;
+		items = null;
+
+		familiars = null;
+		skills = null;
+		effects = null;
+
+		super.dispose();
+	}
+
 	private class ItemLookupPanel extends ItemManagePanel
 	{
 		private LockableListModel list;

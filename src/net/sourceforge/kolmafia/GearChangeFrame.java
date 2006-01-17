@@ -69,7 +69,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class GearChangeFrame extends KoLFrame
 {
 	private boolean isChanging = false;
+
 	private JComboBox [] equipment;
+	private LockableListModel [] equipmentLists;
 	private JComboBox outfitSelect, familiarSelect;
 
 	/**
@@ -88,6 +90,22 @@ public class GearChangeFrame extends KoLFrame
 
 		framePanel.add( createEquipPanel(), "" );
 		refreshEquipPanel();
+	}
+
+	public void dispose()
+	{
+		for ( int i = 0; i < equipment.length; ++i )
+			equipmentLists[i].removeListDataListener( equipment[i] );
+
+		KoLCharacter.getOutfits().removeListDataListener( outfitSelect );
+		KoLCharacter.getFamiliarList().removeListDataListener( familiarSelect );
+
+		equipment = null;
+		equipmentLists = null;
+		outfitSelect = null;
+		familiarSelect = null;
+
+		super.dispose();
 	}
 
 	/**
@@ -160,7 +178,7 @@ public class GearChangeFrame extends KoLFrame
 		valuePanel.add( new JLabel( " " ) );
 
 		equipment = new JComboBox[9];
-		LockableListModel [] equipmentLists = KoLCharacter.getEquipmentLists();
+		equipmentLists = KoLCharacter.getEquipmentLists();
 
 		for ( int i = 0; i < 5; ++i )
 		{

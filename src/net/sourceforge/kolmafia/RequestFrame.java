@@ -579,8 +579,6 @@ public class RequestFrame extends KoLFrame
 
 	public void dispose()
 	{
-		super.dispose();
-
 		visitedLocations.clear();
 		visitedLocations = null;
 
@@ -596,6 +594,8 @@ public class RequestFrame extends KoLFrame
 		locationField = null;
 		sideDisplay = null;
 		mainDisplay = null;
+
+		super.dispose();
 	}
 
 	/**

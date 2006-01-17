@@ -135,6 +135,21 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			(new RequestMailboxThread( "Inbox" )).start();
 	}
 
+	public void dispose()
+	{
+		displayed = null;
+		messageContent = null;
+		tabbedListDisplay = null;
+		mailBuffer = null;
+
+		messageListInbox = null;
+		messageListPvp = null;
+		messageListOutbox = null;
+		messageListSaved = null;
+
+		super.dispose();
+	}
+
 	public void setEnabled( boolean isEnabled )
 	{
 		refreshMailManager();

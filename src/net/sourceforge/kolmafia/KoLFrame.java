@@ -268,6 +268,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		KoLCharacter.removeCharacterListener( refreshListener );
 		existingFrames.remove( this );
 
+		// Before anything else happens, invoke the garbage
+		// collector manually.
+
+		System.gc();
+
 		// If the list of frames is now empty, make sure
 		// you end the session.  Ending the session for
 		// a login frame involves exiting, and ending the

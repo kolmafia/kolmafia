@@ -88,6 +88,16 @@ public class MushroomFrame extends KoLFrame
 		(new UpdateMushroomThread()).start();
 	}
 
+	public void dispose()
+	{
+		currentDisplay = null;
+		forecastDisplay = null;
+		currentBuffer = null;
+		forecastBuffer = null;
+
+		super.dispose();
+	}
+
 	public JPanel constructPanel( String label, Component c )
 	{
 		JPanel panel = new JPanel();

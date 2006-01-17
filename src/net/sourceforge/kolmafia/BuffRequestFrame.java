@@ -91,6 +91,12 @@ public class BuffRequestFrame extends KoLFrame
 			client.enableDisplay();
 	}
 
+	public void dispose()
+	{
+		buffs = null;
+		super.dispose();
+	}
+
 	private class BuffRequestPanel extends JPanel
 	{
 		BuffRequestBox [] boxes;

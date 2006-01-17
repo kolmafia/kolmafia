@@ -150,6 +150,19 @@ public class ItemManageFrame extends KoLFrame
 		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
 	}
 
+	public void dispose()
+	{
+		tabs = null;
+		inventory = null;
+		closet = null;
+
+		consume = null;
+		create = null;
+		special = null;
+
+		super.dispose();
+	}
+
 	private class ConsumePanel extends MultiButtonPanel
 	{
 		public ConsumePanel()

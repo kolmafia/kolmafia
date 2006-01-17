@@ -69,6 +69,12 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 		tabs.addChangeListener( this );
 	}
 
+	public void dispose()
+	{
+		this.tabs = null;
+		super.dispose();
+	}
+
 	public void stateChanged( ChangeEvent e )
 	{
 		if ( tabs.getSelectedIndex() != -1 )

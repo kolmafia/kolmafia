@@ -76,6 +76,12 @@ public class CakeArenaFrame extends KoLFrame
 		client.enableDisplay();
 	}
 
+	public void dispose()
+	{
+		opponents = null;
+		super.dispose();
+	}
+
 	private class CakeArenaPanel extends JPanel
 	{
 		private JComboBox opponentSelect;

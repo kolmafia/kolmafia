@@ -120,6 +120,20 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		ToolTipManager.sharedInstance().unregisterComponent( resultsTable[1] );
 	}
 
+	public void dispose()
+	{
+		tabs = null;
+		resultCards = null;
+		resultCardPanel = null;
+
+		resultsTable = null;
+		sortedModel = null;
+		resultsModel = null;
+
+		results = null;
+		super.dispose();
+	}
+
 	public void valueChanged( ListSelectionEvent e )
 	{	tabs.setSelectedIndex( resultsTable[ isSimple ? 0 : 1 ].getSelectionModel().isSelectionEmpty() ? 0 : 1 );
 	}
@@ -221,7 +235,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			setContent( elements, null, null, true, true );
 			setDefaultButton( confirmedButton );
 		}
-		
+
 		public void actionCancelled()
 		{
 		}
@@ -307,7 +321,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			{
 				FightFrame.showRequest( new FlowerHunterRequest( client, selection[i].getPlayerID(),
 					stanceSelect.getSelectedIndex() + 1, victorySelect.getSelectedIndex() == 0, message.getText() ) );
-				
+
 				KoLRequest.delay( 10000 );
 			}
 		}

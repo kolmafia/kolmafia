@@ -61,6 +61,12 @@ public class ProposeTradeFrame extends SendMessageFrame
 			recipientEntry.setEnabled( false );
 	}
 
+	public void dispose()
+	{
+		offerID = null;
+		super.dispose();
+	}
+
 	protected String [] getEntryHeaders()
 	{	return HEADERS;
 	}

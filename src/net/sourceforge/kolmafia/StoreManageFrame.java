@@ -66,7 +66,6 @@ public class StoreManageFrame extends KoLPanelFrame
 	private JLabel searchLabel;
 	private LockableListModel priceSummary;
 
-	private StoreManagePanel storeManager;
 	private AddItemPanel addItem;
 	private StoreItemPanelList storeItemList;
 	private JPanel searchResults;
@@ -79,6 +78,17 @@ public class StoreManageFrame extends KoLPanelFrame
 			(new RequestThread( new StoreManageRequest( client ) )).start();
 
 		setContentPanel( new StoreManagePanel() );
+	}
+
+	public void dispose()
+	{
+		searchLabel = null;
+		priceSummary = null;
+		addItem = null;
+		storeItemList = null;
+		searchResults = null;
+
+		super.dispose();
 	}
 
 	public void setEnabled( boolean isEnabled )

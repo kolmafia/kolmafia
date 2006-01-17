@@ -145,6 +145,22 @@ public class ClanManageFrame extends KoLFrame
 			(new RequestThread( new ClanStashRequest( client ) )).start();
 	}
 
+	public void dispose()
+	{
+		rankList = null;
+		tabs = null;
+		clanBuff = null;
+		storing = null;
+		withdrawal = null;
+		donation = null;
+		attacks = null;
+		warfare = null;
+		snapshot = null;
+		search = null;
+
+		super.dispose();
+	}
+
 	/**
 	 * An internal class which represents the panel used for clan
 	 * buffs in the <code>ClanManageFrame</code>.

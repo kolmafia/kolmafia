@@ -91,6 +91,14 @@ public class CommandDisplayFrame extends KoLFrame
 		framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
 	}
 
+	public void dispose()
+	{
+		instance = null;
+		commandBuffer = null;
+
+		super.dispose();
+	}
+
 	private class CommandDisplayPanel extends JPanel
 	{
 		private JTextField entryField;

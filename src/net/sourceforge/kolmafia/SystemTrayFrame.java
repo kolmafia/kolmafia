@@ -107,6 +107,13 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 
 		for ( int i = 0; i < frames.length; ++i )
 			frames[i].dispose();
+
+		// Ordinarily, you might invoke the garbage collector
+		// immediately after this -- for convenience, null the
+		// frames pointer before doing so.
+
+		frames = null;
+		System.gc();
 	}
 
 	public static void addTrayIcon()

@@ -376,11 +376,17 @@ public class BuffBotFrame extends KoLFrame
 
 	public void dispose()
 	{
-		super.dispose();
+		buffListDisplay = null;
+		mainBuff = null;
+		buffOptions = null;
+		mainSettings = null;
+
 		BuffBotHome.deinitialize();
 
 		if ( client != null )
 			client.updateDisplay( ENABLE_STATE, "Buffbot deactivated." );
+
+		super.dispose();
 	}
 
 	/**

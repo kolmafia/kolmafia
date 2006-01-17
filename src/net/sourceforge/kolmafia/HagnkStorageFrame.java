@@ -78,6 +78,14 @@ public class HagnkStorageFrame extends KoLFrame
 		framePanel.add( tabs, "" );
 	}
 
+	public void dispose()
+	{
+		tabs = null;
+		all = null;
+		equip = null;
+		super.dispose();
+	}
+
 	private void addTab( String name, HagnkStoragePanel panel )
 	{
 		JPanel wrapperPanel = new JPanel();

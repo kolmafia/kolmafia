@@ -157,6 +157,14 @@ public class ChatFrame extends KoLFrame
 		}
 	}
 
+	public void dispose()
+	{
+		mainPanel = null;
+		nameClickSelect = null;
+
+		super.dispose();
+	}
+
 	/**
 	 * Utility method called to initialize the frame.  This
 	 * method should be overridden, should a different means
@@ -499,7 +507,7 @@ public class ChatFrame extends KoLFrame
 				case 9:
 					(new RequestThread( new ChatRequest( client, "/baleet", (String) parameters[1] ) )).start();
 					return;
-			
+
 				default:
 					frameClass = ProfileFrame.class;
 					break;

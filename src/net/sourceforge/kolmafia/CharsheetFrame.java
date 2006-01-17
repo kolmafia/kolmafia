@@ -75,11 +75,12 @@ public class CharsheetFrame extends KoLFrame
 	private JPanel levelPanel;
 	private JLabel levelLabel;
 
-	private JProgressBar levelMeter, hpMeter, mpMeter;
 	private JLabel avatar;
 	private JLabel [] statusLabel;
 	private JProgressBar [] tnpDisplay;
+	private JProgressBar levelMeter, hpMeter, mpMeter;
 
+	private KoLCharacterAdapter statusRefresher;
 
 	/**
 	 * Constructs a new character sheet, using the data located
@@ -110,7 +111,26 @@ public class CharsheetFrame extends KoLFrame
 		refreshStatus();
 
 		framePanel.add( entirePanel, "" );
-		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new StatusRefreshRunnable() ) );
+		statusRefresher = new KoLCharacterAdapter( new StatusRefreshRunnable() );
+		KoLCharacter.addCharacterListener( statusRefresher );
+	}
+
+	public void dispose()
+	{
+		KoLCharacter.removeCharacterListener( statusRefresher );
+
+		levelPanel = null;
+		levelLabel = null;
+
+		levelMeter = null;
+		hpMeter = null;
+		mpMeter = null;
+		avatar = null;
+		statusLabel = null;
+		tnpDisplay = null;
+
+		statusRefresher = null;
+		super.dispose();
 	}
 
 	/**

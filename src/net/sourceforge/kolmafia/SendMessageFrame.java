@@ -76,8 +76,6 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	protected ShowDescriptionList attachmentList;
 	protected LockableListModel inventory;
-	protected AttachmentFrame attachFrame;
-
 	protected JTextField attachedMeat;
 	protected LockableListModel attachments;
 
@@ -329,13 +327,28 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	public void dispose()
 	{
-		super.dispose();
+		messagePanel = null;
+		recipientEntry = null;
+		messageEntry = null;
+		sendMessageButton = null;
+
+		attachmentList = null;
+		inventory = null;
+		attachedMeat = null;
+		attachments = null;
+
+		// Search out the attachment frame which is
+		// associated with this send message frame
+		// and make sure it gets disposed.
 
 		Object [] frames = existingFrames.toArray();
 
 		for ( int i = frames.length - 1; i >= 0; --i )
 			if ( frames[i] instanceof AttachmentFrame && ((AttachmentFrame)frames[i]).attachments == attachments )
 				((AttachmentFrame)frames[i]).dispose();
+
+		frames = null;
+		super.dispose();
 	}
 
 	public void refreshContactList()
