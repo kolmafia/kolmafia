@@ -231,7 +231,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 						++hardcoreCount;
 					}
 
-				else if(columnsNew != null && columnsNew[1].equals(columnsOld[1]))
+				else if(columnsNew != null && columnsNew[0].equals(columnsOld[0]))
 				{
 					if(!fieldMatcher.find( lastFindIndex ))
 						{
