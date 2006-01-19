@@ -2794,23 +2794,36 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeHermitRequest()
 	{
-		try
+		if ( scriptRequestor.hermitItems.isEmpty() )
 		{
-			String [] command = previousCommand.split( " " );
-
-			int tradeCount = df.parse( command[1] ).intValue();
-			String item = command[2];
-			int itemNumber = -1;
-
-			for ( int i = 0; itemNumber == -1 && i < hermitItemNames.length; ++i )
-				if ( hermitItemNames[i].indexOf( item ) != -1 )
-					(new HermitRequest( scriptRequestor, hermitItemNumbers[i], tradeCount )).run();
+			(new HermitRequest( scriptRequestor )).run();
+			if ( !scriptRequestor.permitsContinue() )
+				return;
 		}
-		catch ( Exception e )
+
+		if ( previousCommand.indexOf( " " ) == -1 )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			boolean clovers = scriptRequestor.hermitItems.contains( "ten-leaf clover" );
+			updateDisplay( ENABLE_STATE, "Today is " + ( clovers ? "" : "not " ) + "a clover day." );
+			return;
 		}
+
+		String command = previousCommand.split( " " )[0];
+		String parameters = previousCommand.substring( command.length() ).trim();
+		AdventureResult item = getFirstMatchingItem( parameters, NOWHERE, 1 );
+		if ( item == null )
+			return;
+
+		String name = item.getName();
+		if ( !scriptRequestor.hermitItems.contains( name ) )
+		{
+			updateDisplay( ERROR_STATE, "You can't get a " + name + " from the hermit today." );
+			return;
+		}
+
+		int itemID = item.getItemID();
+		int tradeCount = item.getCount();
+		(new HermitRequest( scriptRequestor, itemID, tradeCount )).run();
 	}
 
 	/**

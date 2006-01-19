@@ -35,7 +35,8 @@
 package net.sourceforge.kolmafia;
 
 import java.util.List;
-import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * An extension of the generic <code>KoLRequest</code> class which handles
@@ -60,6 +61,14 @@ public class HermitRequest extends KoLRequest
 	 * @param	client	The client to which this request will report errors/results
 	 */
 
+	public HermitRequest( KoLmafia client )
+	{
+		super( client, "hermit.php" );
+
+		this.itemID = -1;
+		this.quantity = 0;
+	}
+
 	public HermitRequest( KoLmafia client, int itemID, int quantity )
 	{
 		super( client, "hermit.php" );
@@ -82,6 +91,40 @@ public class HermitRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( itemID == -1 )
+		{
+			super.run();
+
+			if ( responseCode != 200 )
+				return;
+
+			// "The Hermit rummages through your sack, and with a
+			// disappointed look on his face, he sends you
+			// packing."
+
+			if ( responseText.indexOf( "sends you packing" ) != -1 )
+			{
+				updateDisplay( ERROR_STATE, "The Hermit won't show you his stuff." );
+				client.cancelRequest();
+				return;
+			}
+
+			// Parse response and build list of items
+			List items = client.getHermitItems();
+			items.clear();
+
+			int index = 0;
+			Matcher matcher = Pattern.compile( "<tr><td.*?><input.*?value=(\\d*)>.*?<b>(.*?)</b></td></tr>" ).matcher( responseText );
+
+			while ( matcher.find( index ) )
+			{
+				index = matcher.end();
+				items.add( matcher.group(2) );
+			}
+
+			return;
+		}
+
 		if ( quantity <= 0 )
 		{
 			updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );

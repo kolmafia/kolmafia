@@ -78,10 +78,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected static PrintStream logStream = NullStream.INSTANCE;
 	protected static LimitedSizeChatBuffer commandBuffer = null;
 
-	protected static final String [] hermitItemNames = { "ten-leaf clover", "wooden figurine", "hot buttered roll", "banjo strings",
-		"jabanero pepper", "fortune cookie", "golden twig", "ketchup", "catsup", "sweet rims", "dingy planks", "volleyball" };
-	protected static final int [] hermitItemNumbers = { 24, 46, 47, 52, 55, 61, 66, 106, 107, 135, 140, 527 };
-
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
 	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
 
@@ -111,6 +107,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected SortedListModel tally = new SortedListModel();
 	protected SortedListModel missingItems = new SortedListModel();
+	protected SortedListModel hermitItems = new SortedListModel();
 	protected SortedListModel hunterItems = new SortedListModel();
 	protected LockableListModel restaurantItems = new LockableListModel();
 	protected LockableListModel microbreweryItems = new LockableListModel();
@@ -244,6 +241,7 @@ public abstract class KoLmafia implements KoLConstants
 			this.adventureList.clear();
 		}
 
+		this.hermitItems.clear();
 		this.hunterItems.clear();
 		this.restaurantItems.clear();
 		this.microbreweryItems.clear();
@@ -741,6 +739,14 @@ public abstract class KoLmafia implements KoLConstants
 
 	public SortedListModel getContactList()
 	{	return contactList;
+	}
+
+	/**
+	 * Returns the list of items which are available from the hermit today.
+	 */
+
+	public SortedListModel getHermitItems()
+	{	return hermitItems;
 	}
 
 	/**

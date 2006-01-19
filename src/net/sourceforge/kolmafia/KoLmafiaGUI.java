@@ -275,18 +275,21 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void makeHermitRequest()
 	{
+		if ( hermitItems.isEmpty() )
+			(new HermitRequest( this )).run();
+
+		if ( !permitsContinue() )
+			return;
+
+		Object [] hermitItemArray = hermitItems.toArray();
 		Object selectedValue = JOptionPane.showInputDialog(
 			null, "I want this from the hermit...", "Mugging Hermit for...", JOptionPane.INFORMATION_MESSAGE, null,
-			hermitItemNames, hermitItemNames[0] );
+			hermitItemArray, null );
 
 		if ( selectedValue == null )
 			return;
 
-		int selected = -1;
-		for ( int i = 0; selected == -1 && i < hermitItemNames.length; ++i )
-			if ( selectedValue.equals( hermitItemNames[i] ) )
-				selected = hermitItemNumbers[i];
-
+		int selected = TradeableItemDatabase.getItemID( (String)selectedValue );
 		int trinkets = HermitRequest.TRINKET.getCount( KoLCharacter.getInventory() ) +
 			HermitRequest.GEWGAW.getCount( KoLCharacter.getInventory() ) +
 			HermitRequest.KNICK_KNACK.getCount( KoLCharacter.getInventory() );
