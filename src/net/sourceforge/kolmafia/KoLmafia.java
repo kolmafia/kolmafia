@@ -249,8 +249,6 @@ public abstract class KoLmafia implements KoLConstants
 		this.microbreweryItems.clear();
 		this.galaktikCures.clear();
 
-		resetSession();
-
 		if ( !permitsContinue() )
 		{
 			deinitialize();
@@ -334,8 +332,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		if ( !loginname.equals( KoLCharacter.getUsername() ) )
-			resetSession();
+		resetSession();
 
 		applyRecentEffects();
 
