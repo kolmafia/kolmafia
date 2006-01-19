@@ -96,9 +96,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 	public static final int BUFFED = 2;
 	public static final int TURNS = 3;
 
-	// Familiar buffing skills
+	// Familiar buffing skills and effects
 	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0, true );
 	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0, true );
+	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0, true );
+	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0, true );
 
 	// Familiar buffing items
 	private static final AdventureResult PITH_HELMET = new AdventureResult( "plexiglass pith helmet", 0, false );
@@ -904,6 +906,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Active effects which affect weight
 		int leashActive;
 		int empathyActive;
+		int greenTongueActive;
+		int blackTongueActive;
 
 		// Currently equipped gear which affects weight
 		AdventureResult hat;
@@ -992,6 +996,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			this.empathyAvailable = empathyAvailable;
 			this.leashActive = leashActive;
 			this.empathyActive = empathyActive;
+			this.greenTongueActive = 0;
+			this.blackTongueActive = 0;
 
 			// Check current equipment
 			checkCurrentEquipment( hat, item, acc1, acc2, acc3 );
@@ -1021,6 +1027,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			LockableListModel active = KoLCharacter.getEffects();
 			empathyActive = EMPATHY.getCount( active );
 			leashActive = LEASH.getCount( active );
+			greenTongueActive = GREEN_TONGUE.getCount( active );
+			blackTongueActive = BLACK_TONGUE.getCount( active );
 		}
 
 		private void checkCurrentEquipment()
@@ -1230,6 +1238,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( empathyActive > 0 )
 				weight += 5;
 			if ( leashActive > 0 )
+				weight += 5;
+
+			// One snowcone effect at a time
+			if ( greenTongueActive > 0 || blackTongueActive > 0 )
 				weight += 5;
 
 			// Start with buffs
@@ -1701,6 +1713,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 				leashActive--;
 			if ( empathyActive > 0 )
 				empathyActive--;
+			if ( greenTongueActive > 0 )
+				greenTongueActive--;
+			if ( blackTongueActive > 0 )
+				blackTongueActive--;
 
 			text.append( "<br>" );
 			return text.toString();
@@ -1774,7 +1790,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 				text.append( " Empathy (+5 for " + empathyActive + " turns)" );
 			if ( leashActive > 0 )
 				text.append( " Leash (+5 for " + leashActive + " turns)" );
-			if ( !sympathyAvailable && empathyActive == 0 && leashActive == 0 )
+			if ( greenTongueActive > 0 )
+				text.append( " Green Tongue (+5 for " + greenTongueActive + " turns)" );
+			if ( blackTongueActive > 0 )
+				text.append( " Black Tongue (+5 for " + blackTongueActive + " turns)" );
+			if ( !sympathyAvailable && empathyActive == 0 && leashActive == 0 && greenTongueActive == 0 && blackTongueActive == 0 )
 				text.append( " None" );
 			text.append( "<br>" );
 
