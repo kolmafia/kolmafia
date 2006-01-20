@@ -98,6 +98,16 @@ public class HermitRequest extends KoLRequest
 			if ( responseCode != 200 )
 				return;
 
+			// "You don't have a Hermit Permit, so you're not
+			// allowed to visit the Hermit."
+
+			if ( responseText.indexOf( "you're not allowed to visit" ) != -1 )
+			{
+				updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
+				client.cancelRequest();
+				return;
+			}
+
 			// "The Hermit rummages through your sack, and with a
 			// disappointed look on his face, he sends you
 			// packing."
