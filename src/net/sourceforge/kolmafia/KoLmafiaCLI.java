@@ -2216,14 +2216,20 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		synchronized ( ClanStashRequest.class )
 		{
+			boolean isWithdraw = false;
+
 			int space = parameters.indexOf( " " );
-			if ( space == -1 )
-				return;
-
-			String command = parameters.substring( 0, space );
-			boolean isWithdraw = command.equals( "take" );
-
-			parameters = parameters.substring( command.length() ).trim();
+			if ( space != -1 )
+			{
+				String command = parameters.substring( 0, space );
+				if ( command.equals( "take" ) )
+                                {
+					isWithdraw = true;
+                                        parameters = parameters.substring( 4 ).trim();
+                                }
+				else if ( command.equals( "put" ) )
+                                        parameters = parameters.substring( 3 ).trim();
+			}
 
 			AdventureResult firstMatch = getFirstMatchingItem( parameters, isWithdraw ? NOWHERE : INVENTORY );
 			if ( firstMatch == null )
