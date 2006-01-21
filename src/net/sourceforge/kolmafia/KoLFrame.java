@@ -133,6 +133,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	};
 
 	protected static LockableListModel scripts = new LockableListModel();
+	protected ScriptMenu scriptMenu;
 
 	protected static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
 	{
@@ -143,7 +144,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected static SortedListModel bookmarks = new SortedListModel( String.class );
 	private static boolean bookmarksCompiled = false;
-	protected JMenu bookmarkMenu;
+	protected BookmarkMenu bookmarkMenu;
 
 	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm", "sungraphics-license.txt", "systray-license.txt" };
 	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher", "Sun Graphics", "System Tray" };
@@ -266,13 +267,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Determine which frame needs to be removed from
 		// the maintained list of frames.
 
-		KoLCharacter.removeCharacterListener( refreshListener );
 		existingFrames.remove( this );
 
-		// Before anything else happens, invoke the garbage
-		// collector manually.
-
-		System.gc();
+		if ( refreshListener != null )
+			KoLCharacter.removeCharacterListener( refreshListener );
 
 		// If the list of frames is now empty, make sure
 		// you end the session.  Ending the session for
@@ -535,7 +533,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// Add script and bookmark menus, which use the
 		// listener-driven static lists.
 
-		JMenu scriptMenu = new ScriptMenu();
+		scriptMenu = new ScriptMenu();
 		container.add( scriptMenu );
 
 		if ( container instanceof JMenuBar )

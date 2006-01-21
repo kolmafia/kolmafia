@@ -113,21 +113,24 @@ public class KoLmafiaGUI extends KoLmafia
 
 		for ( int i = 0; i < references.length; ++i )
 		{
-			if ( references[i].get() instanceof KoLPanel )
-				((KoLPanel) references[i].get()).setStatusMessage( state, message );
-
-			switch ( state )
+			if ( references[i].get() != null )
 			{
-				case DISABLE_STATE:
-					((Component)references[i].get()).setEnabled( false );
-					break;
+				if ( references[i].get() instanceof KoLPanel )
+					((KoLPanel) references[i].get()).setStatusMessage( state, message );
 
-				case NORMAL_STATE:
-					break;
+				switch ( state )
+				{
+					case DISABLE_STATE:
+						((Component)references[i].get()).setEnabled( false );
+						break;
 
-				default:
-					((Component)references[i].get()).setEnabled( true );
-					break;
+					case NORMAL_STATE:
+						break;
+
+					default:
+						((Component)references[i].get()).setEnabled( true );
+						break;
+				}
 			}
 		}
 

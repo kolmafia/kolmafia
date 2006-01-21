@@ -43,7 +43,9 @@ import java.util.Iterator;
 
 // update components
 import javax.swing.SwingUtilities;
+import org.openide.util.WeakListeners;
 import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 /**
  * <p>Lockable aspects of this class have been removed due to incompatibilities with Swing;
@@ -814,6 +816,9 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		}
 	}
 
+	public void addListDataListener( ListDataListener l )
+	{	listenerList.add( ListDataListener.class, WeakListeners.create( ListDataListener.class, l, this ) );
+	}
 
 	/**
 	 * Returns a mirror image of this <code>LockableListModel</code>.  In essence,
@@ -840,7 +845,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 * mirror image(s) of the <code>LockableListModel</code>.
 	 */
 
-	private class MirrorImageListener implements javax.swing.event.ListDataListener
+	private class MirrorImageListener implements ListDataListener
 	{
 		private LockableListModel mirrorImage;
 

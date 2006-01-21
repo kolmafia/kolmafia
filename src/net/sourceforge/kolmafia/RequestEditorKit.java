@@ -69,8 +69,6 @@ import java.io.BufferedInputStream;
 public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 {
 	private static TreeMap images = new TreeMap();
-	private static KoLmafia client;
-
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
 	/**

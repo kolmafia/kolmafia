@@ -89,12 +89,39 @@ public class AdventureResult implements Comparable, KoLConstants
 	private static List MYS_SUBSTAT = new ArrayList();
 	private static List MOX_SUBSTAT = new ArrayList();
 
+	private static final AutoSellCellRenderer AUTO_SELL_RENDERER = new AutoSellCellRenderer();
+	private static final ConsumableCellRenderer CONSUMABLE_RENDERER = new ConsumableCellRenderer();
+	private static final EquipmentCellRenderer EQUIPMENT_RENDERER = new EquipmentCellRenderer();
+
 	static
 	{
 		MUS_SUBSTAT.add( "Beefiness" );  MUS_SUBSTAT.add( "Fortitude" );  MUS_SUBSTAT.add( "Muscleboundness" );  MUS_SUBSTAT.add( "Strengthliness" );  MUS_SUBSTAT.add( "Strongness" );
 		MYS_SUBSTAT.add( "Enchantedness" );  MYS_SUBSTAT.add( "Magicalness" );  MYS_SUBSTAT.add( "Mysteriousness" );  MYS_SUBSTAT.add( "Wizardliness" );
 		MOX_SUBSTAT.add( "Cheek" );  MOX_SUBSTAT.add( "Chutzpah" );  MOX_SUBSTAT.add( "Roguishness" );  MOX_SUBSTAT.add( "Sarcasm" );  MOX_SUBSTAT.add( "Smarm" );
 	}
+
+	private static final Comparator COUNT_COMPARATOR = new Comparator()
+	{
+		public int compare( Object o1, Object o2 )
+		{
+			if ( !(o1 instanceof AdventureResult ) ||
+			     !(o2 instanceof AdventureResult ) )
+				throw new ClassCastException();
+
+			AdventureResult ar1 = (AdventureResult)o1;
+			AdventureResult ar2 = (AdventureResult)o2;
+
+			// Order first by count
+			int count1 = ar1.getCount();
+			int count2 = ar2.getCount();
+
+			if ( count1 != count2 )
+				return count1 - count2;
+
+			// Order second by name
+			return ar1.name.compareTo( ar2.name );
+		}
+	};
 
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name.
@@ -550,41 +577,11 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public static void sortListByCount( List list )
-	{	 java.util.Collections.sort( list, new CountComparator() );
-	}
-
-	private static class CountComparator implements Comparator
-	{
-		public int compare( Object o1, Object o2 )
-		{
-			if ( !(o1 instanceof AdventureResult ) ||
-			     !(o2 instanceof AdventureResult ) )
-				throw new ClassCastException();
-
-			AdventureResult ar1 = (AdventureResult)o1;
-			AdventureResult ar2 = (AdventureResult)o2;
-
-			// Order first by count
-			int count1 = ar1.getCount();
-			int count2 = ar2.getCount();
-			if ( count1 != count2 )
-				return count1 - count2;
-
-			// Order second by name
-			return ar1.name.compareTo( ar2.name );
-		}
+	{	 java.util.Collections.sort( list, COUNT_COMPARATOR );
 	}
 
 	public static DefaultListCellRenderer getAutoSellCellRenderer()
-	{	return new AutoSellCellRenderer();
-	}
-
-	public static DefaultListCellRenderer getConsumableCellRenderer( boolean food, boolean booze, boolean other )
-	{	return new ConsumableCellRenderer( food, booze, other );
-	}
-
-	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean offhand, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
-	{	return new EquipmentCellRenderer( weapon, offhand, hat, shirt, pants, accessory, familiar );
+	{	return AUTO_SELL_RENDERER;
 	}
 
 	private static class AutoSellCellRenderer extends DefaultListCellRenderer
@@ -628,17 +625,30 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 	}
 
+	public static DefaultListCellRenderer getConsumableCellRenderer( boolean food, boolean booze, boolean other )
+	{
+		CONSUMABLE_RENDERER.setFilter( food, booze, other );
+		return CONSUMABLE_RENDERER;
+	}
+
 	private static class ConsumableCellRenderer extends DefaultListCellRenderer
 	{
 		protected boolean food, booze, other;
 
-		public ConsumableCellRenderer( boolean food, boolean booze, boolean other )
+		public ConsumableCellRenderer()
+		{
+			setOpaque( true );
+
+			this.food = true;
+			this.booze = true;
+			this.other = true;
+		}
+
+		public void setFilter( boolean food, boolean booze, boolean other )
 		{
 			this.food = food;
 			this.booze = booze;
 			this.other = other;
-
-			setOpaque( true );
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
@@ -664,17 +674,17 @@ public class AdventureResult implements Comparable, KoLConstants
 			{
 				case ConsumeItemRequest.CONSUME_EAT:
 					if ( !food )
-						return new JLabel();
+						return BLANK_LABEL;
 					break;
 
 				case ConsumeItemRequest.CONSUME_DRINK:
 					if ( !booze )
-						return new JLabel();
+						return BLANK_LABEL;
 					break;
 
 				default:
 					if ( !other )
-						return new JLabel();
+						return BLANK_LABEL;
 					break;
 			}
 
@@ -684,13 +694,30 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 	}
 
+	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean offhand, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
+	{
+		EQUIPMENT_RENDERER.setFilter( weapon, offhand, hat, shirt, pants, accessory, familiar );
+		return EQUIPMENT_RENDERER;
+	}
+
 	private static class EquipmentCellRenderer extends DefaultListCellRenderer
 	{
 		private boolean weapon, offhand, hat, shirt, pants, accessory, familiar;
 
-		public EquipmentCellRenderer( boolean weapon, boolean offhand, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
+		public EquipmentCellRenderer()
 		{
 			setOpaque( true );
+			this.weapon = true;
+			this.offhand = true;
+			this.hat = true;
+			this.shirt = true;
+			this.pants = true;
+			this.accessory = true;
+			this.familiar = true;
+		}
+
+		public void setFilter( boolean weapon, boolean offhand, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
+		{
 			this.weapon = weapon;
 			this.offhand = offhand;
 			this.hat = hat;
@@ -702,10 +729,8 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 		{
-			Component defaultComponent = super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-
 			if ( value == null || !(value instanceof AdventureResult) )
-				return defaultComponent;
+				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
 			AdventureResult ar = (AdventureResult) value;
 
@@ -713,47 +738,50 @@ public class AdventureResult implements Comparable, KoLConstants
 			{
 				case ConsumeItemRequest.EQUIP_WEAPON:
 					if ( !weapon )
-						return new JLabel();
+						return BLANK_LABEL;
 					break;
 
 				case ConsumeItemRequest.EQUIP_OFFHAND:
 					if ( !offhand )
-						return new JLabel();
+						return BLANK_LABEL;
 					break;
 
 				case ConsumeItemRequest.EQUIP_HAT:
 					if ( !hat )
-						return new JLabel();
+						return BLANK_LABEL;
 					break;
 
 				case ConsumeItemRequest.EQUIP_SHIRT:
 					if ( !shirt )
-						return new JLabel();
+						return BLANK_LABEL;
 					break;
 
 				case ConsumeItemRequest.EQUIP_PANTS:
 					if ( !pants )
-						return new JLabel();
+						return BLANK_LABEL;
 					break;
 
 				case ConsumeItemRequest.EQUIP_ACCESSORY:
 					if ( !accessory )
-						return new JLabel();
+						return BLANK_LABEL;
 					break;
 
 				case ConsumeItemRequest.EQUIP_FAMILIAR:
 					if ( !familiar )
-						return new JLabel();
+						return BLANK_LABEL;
 					break;
 
 				default:
-					return new JLabel();
+					return BLANK_LABEL;
 			}
 
 			int power = EquipmentDatabase.getPower( ar.getName() );
 
 			String stringForm = ar.getName() + " (+" + df.format(power) + ")";
-			((JLabel) defaultComponent).setText( stringForm );
+
+			JLabel defaultComponent = (JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+			defaultComponent.setText( stringForm );
+
 			return defaultComponent;
 		}
 	}

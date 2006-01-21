@@ -579,8 +579,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			ostream = null;
 
 			KoLmafia.getLogStream().println( "Posting data posted." );
-
-			System.gc();
 			return true;
 		}
 		catch ( Exception e )
@@ -592,8 +590,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			e.printStackTrace();
 
 			KoLRequest.delay();
-
-			System.gc();
 			return false;
 		}
 	}
@@ -841,7 +837,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		// from the function call.
 
 		istream = null;
-		System.gc();
 		return shouldStop;
 	}
 
