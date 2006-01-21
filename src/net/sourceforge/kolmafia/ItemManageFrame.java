@@ -504,7 +504,9 @@ public class ItemManageFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+		{
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+			elementList.updateUI();
 		}
 	}
 
