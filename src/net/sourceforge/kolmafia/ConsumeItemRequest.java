@@ -54,16 +54,30 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int EQUIP_OFFHAND = 13;
 	public static final int CONSUME_RESTORE = 14;
 
+	private static final int ENCHANTED_BEAN = 186;
+	private static final int FENG_SHUI = 210;
 	private static final int CHEF = 438;
 	private static final int BARTENDER = 440;
+	private static final int KETCHUP_HOUND = 493;
+	private static final int RAFFLE_TICKET = 500;
 	private static final int ARCHES = 504;
+	private static final int GATES_SCROLL = 552;
+	private static final int LUCIFER = 571;
+	private static final int TINY_HOUSE = 592;
+	private static final int DRASTIC_HEALING = 595;
+	private static final int WARM_SUBJECT = 621;
 	private static final int TOASTER = 637;
+	private static final int YETI_PROTEST_SIGN = 775;
+	private static final int ROLLING_PIN = 873;
+	private static final int UNROLLING_PIN = 874;
 	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final int CLOCKWORK_CHEF = 1112;
 
 	private static final int FIRST_PACKAGE = 1167;
 	private static final int LAST_PACKAGE = 1177;
 
+	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
+	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
 	private static final AdventureResult AXE = new AdventureResult( 555, 1 );
 	private static final AdventureResult NUTS = new AdventureResult( 509, -1 );
 	private static final AdventureResult PLAN = new AdventureResult( 502, -1 );
@@ -170,15 +184,6 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
-		if ( itemUsed.getName().startsWith( "64735" ) && !KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) )
-		{
-			KoLCharacter.addAccomplishment( KoLCharacter.BARON );
-			client.processResult( FightRequest.DICTIONARY1.getNegation() );
-
-			if ( getProperty( "battleAction" ).equals( "item0536" ) )
-				setProperty( "battleAction", "item1316" );
-		}
-
 		super.run();
 
 		if ( responseCode == 302 && !redirectLocation.equals( "maint.php" ) )
@@ -220,6 +225,7 @@ public class ConsumeItemRequest extends KoLRequest
 				// Pop up a window showing what was in the gift.
 				client.showHTML( text, title );
 			}
+			return;
 		}
 
 		// If an error state occurred, return from this
@@ -227,40 +233,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseCode != 200 )
 			return;
-
-		// Refresh your dictionary state after you've
-		// handled the 64375.
-
-		if ( itemUsed.getName().startsWith( "64735" ) )
-		{
-			int originalIndex = KoLCharacter.getBattleSkillIDs().indexOf( "item0536" );
-			int selectedIndex = KoLCharacter.getBattleSkillNames().getSelectedIndex();
-			if ( originalIndex != -1 )
-			{
-				KoLCharacter.getBattleSkillIDs().remove( originalIndex );
-				KoLCharacter.getBattleSkillNames().remove( originalIndex );
-				KoLCharacter.addDictionary();
-
-				if ( originalIndex == selectedIndex )
-				{
-					originalIndex = KoLCharacter.getBattleSkillIDs().indexOf( "item1316" );
-					KoLCharacter.getBattleSkillNames().setSelectedIndex( originalIndex );
-				}
-			}
-		}
-
-		if ( responseText.indexOf( "You may not" ) != -1 )
-		{
-			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "Pathed ascension." );
-		}
-
-		if ( responseText.indexOf( "Too much" ) != -1 )
-		{
-			client.cancelRequest();
-			updateDisplay( ERROR_STATE, "Your spleen might go kabooie." );
-			return;
-		}
 
 		// Check for familiar growth - if a familiar is added,
 		// make sure to update the client.
@@ -275,22 +247,72 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 
 			KoLCharacter.addFamiliar( FamiliarsDatabase.growFamiliarLarva( itemUsed.getItemID() ) );
+
+			// Use up the familiar larva
+			client.processResult( itemUsed.getInstance( -1 ) );
+			return;
 		}
+
+		if ( responseText.indexOf( "You may not" ) != -1 )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Pathed ascension." );
+			return;
+		}
+
+		if ( responseText.indexOf( "Too much" ) != -1 )
+		{
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Your spleen might go kabooie." );
+			return;
+		}
+
 		// Check to make sure that it wasn't a food or drink
 		// that was consumed that resulted in nothing.
 
-		else if ( responseText.indexOf( "too full" ) != -1 || responseText.indexOf( "too drunk" ) != -1 )
+		if ( responseText.indexOf( "too full" ) != -1 || responseText.indexOf( "too drunk" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Consumption limit reached." );
 			return;
 		}
 
-		// If a beanstalk grows out of an enchanted bean, visit it.
-
-		else if ( itemUsed.getName().equals( "enchanted bean" ) )
+		// Perform item-specific processing
+		switch ( itemUsed.getItemID() )
 		{
-			// There are three possibilities.
+		case GATES_SCROLL:
+			// You can only use a 64375 scroll once
+			if ( KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) )
+				return;
+
+			// Get the accomplishment and remove the old dictionary
+			KoLCharacter.addAccomplishment( KoLCharacter.BARON );
+			client.processResult( FightRequest.DICTIONARY1.getNegation() );
+
+			// If he was fighting with the old dictionary, switch
+			// to use the new one
+			if ( getProperty( "battleAction" ).equals( "item0536" ) )
+				setProperty( "battleAction", "item1316" );
+
+			// Adjust battle skills
+			int originalIndex = KoLCharacter.getBattleSkillIDs().indexOf( "item0536" );
+			int selectedIndex = KoLCharacter.getBattleSkillNames().getSelectedIndex();
+			if ( originalIndex != -1 )
+			{
+				KoLCharacter.getBattleSkillIDs().remove( originalIndex );
+				KoLCharacter.getBattleSkillNames().remove( originalIndex );
+				KoLCharacter.addDictionary();
+
+				if ( originalIndex == selectedIndex )
+				{
+					originalIndex = KoLCharacter.getBattleSkillIDs().indexOf( "item1316" );
+					KoLCharacter.getBattleSkillNames().setSelectedIndex( originalIndex );
+				}
+			}
+			break;
+
+		case ENCHANTED_BEAN:
+			// There are three possibilities:
 
 			// If you haven't been give the quest, "you can't find
 			// anywhere that looks like a good place to plant the
@@ -300,111 +322,126 @@ public class ConsumeItemRequest extends KoLRequest
 			// beanstalk in the Nearby Plains." In either case, the
 			// bean is not consumed.
 
-			// Otherwise, "it immediately grows into an enormous beanstalk".
+			// Otherwise, "it immediately grows into an enormous
+			// beanstalk".
 
 			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
 				return;
 
 			KoLCharacter.addAccomplishment( KoLCharacter.BEANSTALK );
-		}
+			break;
 
-		// If a scroll of drastic healing was used and didn't dissolve,
-		// it is not consumed
+		case DRASTIC_HEALING:
+			// If a scroll of drastic healing was used and didn't
+			// crumble, it is not consumed
 
-		else if ( itemUsed.getName().equals( "scroll of drastic healing" ) )
-		{
 			client.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
 			if ( responseText.indexOf( "crumble" ) == -1 )
 				return;
-		}
+			break;
 
-		// Tiny houses also have an added bonus - they will remove
-		// lots of different effects.  Therefore, process it.
-
-		else if ( itemUsed.getName().equals( "tiny house" ) )
+		case TINY_HOUSE:
+			// Tiny houses remove lots of different effects.
 			client.applyTinyHouseEffect();
+			break;
 
-		// The first time you use an Elf Farm Raffle ticket with a
-		// ten-leaf clover in your inventory, the clover disappears in
-		// a puff of smoke and you get pagoda plans.
-		//
-		// Subsequent raffle tickets don't consume clovers.
+		case RAFFLE_TICKET:
+			// The first time you use an Elf Farm Raffle ticket
+			// with a ten-leaf clover in your inventory, the clover
+			// disappears in a puff of smoke and you get pagoda
+			// plans.
+			//
+			// Subsequent raffle tickets don't consume clovers.
+			if ( responseText.indexOf( "puff of smoke" ) != -1 )
+				client.processResult( SewerRequest.CLOVER );
+			break;
 
-		else if ( itemUsed.getName().equals( "Elf Farm Raffle ticket" ) && responseText.indexOf( "puff of smoke" ) != -1 )
-			client.processResult( SewerRequest.CLOVER );
-
-		// Successfully using a ketchup hound uses up the Hey Deze nuts
-		// and pagoda plan.
-
-		else if ( itemUsed.getName().equals( "ketchup hound" ) )
-		{
+		case KETCHUP_HOUND:
+			// Successfully using a ketchup hound uses up the Hey
+			// Deze nuts and pagoda plan.
 			if ( responseText.indexOf( "pagoda" ) != -1 )
 			{
 				client.processResult( NUTS );
 				client.processResult( PLAN );
 			}
-
 			// The ketchup hound does not go away...
 			return;
-		}
 
-		// Check to see if you were using a Jumbo Dr. Lucifer, which
-		// reduces your hit points to 1.
-
-		else if ( itemUsed.getName().equals( "Jumbo Dr. Lucifer" ) )
+		case LUCIFER:
+			// Jumbo Dr. Lucifer reduces your hit points to 1.
 			client.processResult( new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
+			break;
 
-		// Successfully using the "Feng Shui for Big Dumb Idiots" uses
-		// up the decorative fountain and windchimes
+		case FENG_SHUI:
+			// Successfully using "Feng Shui for Big Dumb Idiots"
+			// consumes the decorative fountain and windchimes.
 
-		else if ( itemUsed.getName().startsWith( "Feng Shui" ) )
-		{
 			// Only used up once
 			if ( responseText.indexOf( "Feng Shui goodness" ) == -1 )
 				return;
 
 			client.processResult( FOUNTAIN );
 			client.processResult( WINDCHIMES );
+			break;
+
+		case WARM_SUBJECT:
+			// The first time Warm Subject gift certificate you use
+			// when you have the Torso Awaregness skill, uses only
+			// one, even if you tried to multi-use the item.
+
+			// "You go to Warm Subject and browse the shirts for a
+			// while. You find one that you wouldn't mind wearing
+			// ironically. There seems to be only one in the store,
+			// though."
+
+			if ( responseText.indexOf( "ironically" ) != -1 )
+			{
+				client.processResult( itemUsed.getInstance( -1 ) );
+				return;
+			}
+			break;
+
+		case ROLLING_PIN:
+			// Rolling pins remove dough from your inventory
+			// They are not consumed by being used
+			client.processResult( DOUGH.getInstance( DOUGH.getCount( KoLCharacter.getInventory() ) ).getNegation() );
+
+			return;
+
+		case UNROLLING_PIN:
+			// Unrolling pins remove flat dough from your inventory
+			// They are not consumed by being used
+			client.processResult( FLAT_DOUGH.getInstance( FLAT_DOUGH.getCount( KoLCharacter.getInventory() ) ).getNegation() );
+			return;
+
+		case YETI_PROTEST_SIGN:
+			// You don't use up a Yeti Protest Sign by protesting
+			return;
+
+		// Campground items which change character state
+		case CHEF:
+		case CLOCKWORK_CHEF:
+			KoLCharacter.setChef( true );
+			break;
+
+		case BARTENDER:
+		case CLOCKWORK_BARTENDER:
+			KoLCharacter.setBartender( true );
+			break;
+
+		case TOASTER:
+			KoLCharacter.setToaster( true );
+			break;
+
+		case ARCHES:
+			KoLCharacter.setArches( true );
+			break;
 		}
 
-		// Parse the reply, which can be found before the
-		// word "Inventory".  In theory, this could've caused
-		// problems in the inventory screen, but since Jick
-		// is probably smarter with error-checking after so
-		// long, the output/input's probably just fine.
+		// If we get here, we know that the item is consumed by being
+		// used. Do so.
 
-		if ( itemUsed.getName().indexOf( "rolling" ) == -1 && itemUsed.getName().indexOf( "Protest" ) == -1 )
-			client.processResult( itemUsed.getNegation() );
-
-		// Handle rolling and unrolling pins removing your
-		// dough from the inventory.
-
-		if ( itemUsed.getName().indexOf( "rolling" ) != -1 )
-		{
-			AdventureResult consumedItem = new AdventureResult( itemUsed.getName().startsWith( "r" ) ? "wad of dough" : "flat dough", 0 );
-			client.processResult( consumedItem.getInstance( consumedItem.getCount( KoLCharacter.getInventory() ) ).getNegation() );
-		}
-
-		// Handle campground items which change the state
-		// of something related to the character.
-
-		switch ( itemUsed.getItemID() )
-		{
-			case CHEF:
-			case CLOCKWORK_CHEF:
-				KoLCharacter.setChef( true );
-				break;
-			case BARTENDER:
-			case CLOCKWORK_BARTENDER:
-				KoLCharacter.setBartender( true );
-				break;
-			case TOASTER:
-				KoLCharacter.setToaster( true );
-				break;
-			case ARCHES:
-				KoLCharacter.setArches( true );
-				break;
-		}
+		client.processResult( itemUsed.getNegation() );
 	}
 
 	public String getCommandForm( int iterations )
