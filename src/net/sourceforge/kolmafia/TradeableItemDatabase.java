@@ -168,6 +168,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "boxes of wine" ) )
 			return 1005;
 
+		// Black Lotuses are KoL-pluralized as Black Loti
+		// Not that you are likely to have lots of them.
+
+		if ( canonicalName.equals( "black loti" ) )
+			return 1188;
+
 		// Yo-yos are pluralized in a very strange way as
 		// well, and require special handling.
 
