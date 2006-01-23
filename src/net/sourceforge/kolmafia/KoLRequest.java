@@ -473,8 +473,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		redirectLocation = null;
 		formConnection = null;
 
-		System.gc();
-
 		// With that taken care of, determine the actual URL that you
 		// are about to request.
 
