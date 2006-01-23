@@ -1180,7 +1180,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			try
 			{
-				updateDisplay( NORMAL_STATE, advancedHandler.execute( parameters ));
+				updateDisplay( NORMAL_STATE, advancedHandler.execute( parameters, scriptRequestor ));
 			}
 			catch( Exception e )
 			{
