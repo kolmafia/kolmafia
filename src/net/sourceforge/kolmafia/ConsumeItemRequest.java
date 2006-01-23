@@ -207,8 +207,14 @@ public class ConsumeItemRequest extends KoLRequest
 			// If we got a successful response, trim text
 			if ( responseCode == 200 )
 			{
+				// Get rid of first row of first table: the
+				// "Results" line
+				Matcher matcher = Pattern.compile( "<tr>.*?</tr>" ).matcher( text );
+				if ( matcher.find() )
+					text = matcher.replaceFirst( "" );
+
 				// Get rid of inventory listing
-				Matcher matcher = Pattern.compile( "</table><table.*?</body>" ).matcher( text );
+				matcher = Pattern.compile( "</table><table.*?</body>" ).matcher( text );
 				if ( matcher.find() )
 					text = matcher.replaceFirst( "</table></body>" );
 			}
@@ -293,20 +299,12 @@ public class ConsumeItemRequest extends KoLRequest
 				return;
 			}
 
-			// Trim response for display
-			String text = responseText;
-
-			// Get rid of first row of first table
-			Matcher matcher = Pattern.compile( "<tr>.*?</tr>" ).matcher( text );
-			if ( matcher.find() )
-				text = matcher.replaceFirst( "" );
-
 			// Find out who sent it
-			matcher = Pattern.compile( "From: <b>(.*?)</b>" ).matcher( text );
+			Matcher matcher = Pattern.compile( "From: <b>(.*?)</b>" ).matcher( responseText );
 			String title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
 
 			// Pop up a window showing what was in the gift.
-			client.showHTML( text, title );
+			client.showHTML( responseText, title );
 			break;
 
 		case GATES_SCROLL:
