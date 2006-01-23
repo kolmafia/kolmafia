@@ -308,7 +308,7 @@ public class ConsumeItemRequest extends KoLRequest
 			break;
 
 		case GATES_SCROLL:
-			// You can only use a 64375 scroll if you have the
+			// You can only use a 64735 scroll if you have the
 			// original dictionary in your inventory
 
 			// "Even though your name isn't Lee, you're flattered
@@ -333,9 +333,9 @@ public class ConsumeItemRequest extends KoLRequest
 
 			// Adjust battle skills
 			int originalIndex = KoLCharacter.getBattleSkillIDs().indexOf( "item0536" );
-			int selectedIndex = KoLCharacter.getBattleSkillNames().getSelectedIndex();
 			if ( originalIndex != -1 )
 			{
+				int selectedIndex = KoLCharacter.getBattleSkillNames().getSelectedIndex();
 				KoLCharacter.getBattleSkillIDs().remove( originalIndex );
 				KoLCharacter.getBattleSkillNames().remove( originalIndex );
 				KoLCharacter.addDictionary();
@@ -422,9 +422,10 @@ public class ConsumeItemRequest extends KoLRequest
 			break;
 
 		case WARM_SUBJECT:
-			// The first time Warm Subject gift certificate you use
-			// when you have the Torso Awaregness skill, uses only
-			// one, even if you tried to multi-use the item.
+			// The first time you use Warm Subject gift
+			// certificates when you have the Torso Awaregness
+			// skill consumes only one, even if you tried to
+			// multi-use the item.
 
 			// "You go to Warm Subject and browse the shirts for a
 			// while. You find one that you wouldn't mind wearing
