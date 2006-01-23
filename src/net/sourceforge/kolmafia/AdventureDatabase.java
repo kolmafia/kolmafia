@@ -38,6 +38,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -70,6 +74,18 @@ public class AdventureDatabase extends KoLDatabase
 				ZONE_DESCRIPTIONS.put( data[0], data[2] );
 			}
 		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
+
+		AdventureDatabase.refreshTable();
 	}
 
 	public static final String [] CLOVER_ADVS =
@@ -232,9 +248,28 @@ public class AdventureDatabase extends KoLDatabase
 
 	private static List [] adventureTable;
 
-	static
+	public static final void refreshTable()
 	{
-		BufferedReader reader = getReader( "adventures.dat" );
+		File override = new File( "data/adventures.dat" );
+		BufferedReader reader = null;
+
+		if ( override.exists() )
+		{
+			try
+			{
+				reader = new BufferedReader( new InputStreamReader( new FileInputStream( override ) ) );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+			}
+		}
+
+		if ( reader == null )
+			reader = getReader( "adventures.dat" );
+
+
 		adventureTable = new ArrayList[4];
 		for ( int i = 0; i < 4; ++i )
 			adventureTable[i] = new ArrayList();
@@ -258,6 +293,16 @@ public class AdventureDatabase extends KoLDatabase
 				for ( int i = 1; i < 4; ++i )
 					adventureTable[i].add( data[i] );
 			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 

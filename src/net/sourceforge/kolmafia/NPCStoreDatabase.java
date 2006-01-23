@@ -67,6 +67,16 @@ public class NPCStoreDatabase extends KoLDatabase
 				npcstoreTable[4].add( Integer.valueOf( data[2] ) );
 			}
 		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
 	}
 
 	public static final MallPurchaseRequest getPurchaseRequest( String itemName )

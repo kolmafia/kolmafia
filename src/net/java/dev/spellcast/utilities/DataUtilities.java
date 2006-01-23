@@ -110,17 +110,6 @@ public class DataUtilities implements UtilityConstants
 		if ( subdirectory.length() > 0 && (!subdirectory.endsWith( File.separator ) && !subdirectory.endsWith( "/" )) )
 			subdirectory += File.separator;
 
-		File override = new File( subdirectory + filename );
-		if ( override.exists() )
-			try { return new FileInputStream( override ); }
-			catch ( FileNotFoundException e )
-			{
-				  // should not happen unless the file was deleted in the short time
-				  // between its discovery and the creation of the input stream; in
-				  // the event that this happens, one should fall back on the one
-				  // found in the class tree, rather than throwing an exception
-			}
-
 		InputStream locationAsInputStream;
 		String fullname = directory + subdirectory + filename;
 		String jarname = fullname.replaceAll( java.io.File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );

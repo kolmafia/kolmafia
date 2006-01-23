@@ -126,6 +126,16 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 		}
 
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
+
 		for ( int i = 0; i < ITEM_COUNT; ++i )
 		{
 			wasPossible[i] = false;

@@ -89,6 +89,16 @@ public class ClassSkillsDatabase extends KoLDatabase
 				skillTypeByID.put( skillID, skillType );
 			}
 		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
 	}
 
 	/**

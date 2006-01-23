@@ -104,6 +104,16 @@ public class FamiliarsDatabase extends KoLDatabase
 				}
 			}
 		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
 	}
 
 	/**

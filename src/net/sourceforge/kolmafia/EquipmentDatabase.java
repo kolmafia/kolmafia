@@ -72,6 +72,16 @@ public class EquipmentDatabase extends KoLDatabase
 				}
 			}
 		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
 	}
 
 	public static boolean contains( String itemName )

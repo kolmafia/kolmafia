@@ -88,6 +88,16 @@ public class StatusEffectDatabase extends KoLDatabase
 					tinyHouseByName.put( name, data[1] );
 			}
 		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
 	}
 
 	/**

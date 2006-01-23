@@ -165,6 +165,16 @@ public class BuffBotDatabase extends KoLDatabase
 				buff.addOffering( new Offering( bot, price, turns, free != 0 ) );
 			}
 		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
 	}
 
 	// List of supported buffbots with parsable display cases

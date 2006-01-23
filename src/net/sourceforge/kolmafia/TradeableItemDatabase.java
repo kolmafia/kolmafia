@@ -88,6 +88,16 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Next, retrieve the description IDs using the data
 		// table present in MaxDemian's database.
 
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
+
 		reader = getReader( "itemdescs.dat" );
 
 		while ( (data = readData( reader )) != null )
@@ -103,6 +113,16 @@ public class TradeableItemDatabase extends KoLDatabase
 				if ( isDescriptionID )
 					descByID[ Integer.parseInt( data[0].trim() ) ] = data[1];
 			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 	}
 

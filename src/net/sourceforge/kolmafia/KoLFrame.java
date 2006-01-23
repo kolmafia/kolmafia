@@ -552,7 +552,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		container.add( helperMenu );
 
 		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", LicenseDisplay.class ) );
-		helperMenu.add( new InvocationMenuItem( "Download Overrides", client, "downloadOverrideFiles" ) );
+		helperMenu.add( new InvocationMenuItem( "Download Override", client, "downloadAdventureOverride" ) );
 		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", CalendarFrame.class ) );
 		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
 
