@@ -73,8 +73,17 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final int CLOCKWORK_CHEF = 1112;
 
-	private static final int FIRST_PACKAGE = 1167;
-	private static final int LAST_PACKAGE = 1177;
+	private static final int GIFT1 = 1167;
+	private static final int GIFT2 = 1168;
+	private static final int GIFT3 = 1169;
+	private static final int GIFT4 = 1170;
+	private static final int GIFT5 = 1171;
+	private static final int GIFT6 = 1172;
+	private static final int GIFT7 = 1173;
+	private static final int GIFT8 = 1174;
+	private static final int GIFT9 = 1175;
+	private static final int GIFT10 = 1176;
+	private static final int GIFT11 = 1177;
 
 	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
 	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
@@ -186,52 +195,19 @@ public class ConsumeItemRequest extends KoLRequest
 
 		super.run();
 
-		if ( responseCode == 302 && !redirectLocation.equals( "maint.php" ) )
+		if ( responseCode == 302 && redirectLocation.startsWith( "inventory.php" ) )
 		{
+			// Follow the redirection and get the message
 			KoLRequest message = new KoLRequest( client, redirectLocation );
 			message.run();
 
 			responseCode = message.responseCode;
 			responseText = message.responseText;
-
-			// If it's a gift package, get the inner message
-			if ( itemUsed.getItemID() >= FIRST_PACKAGE && itemUsed.getItemID() <= LAST_PACKAGE )
-			{
-				// "You can't receive things from other players
-				// right now."
-				if ( responseText.indexOf( "You can't receive things" ) != -1 )
-				{
-					client.cancelRequest();
-					updateDisplay( ERROR_STATE, "You can't open that package yet." );
-					return;
-				}
-
-				// Trim copy of responseText
-				String text = responseText;
-
-				// Get rid of first row of first table
-				Matcher matcher = Pattern.compile( "<tr>.*?</tr>" ).matcher( text );
-				if ( matcher.find() )
-					text = matcher.replaceFirst( "" );
-
-				// Get rid of inventory listing
-				matcher = Pattern.compile( "</table><table.*?</body>" ).matcher( text );
-				if ( matcher.find() )
-					text = matcher.replaceFirst( "</table></body>" );
-				// Find out who sent it
-				matcher = Pattern.compile( "From: <b>(.*?)</b>" ).matcher( text );
-				String title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
-
-				// Pop up a window showing what was in the gift.
-				client.showHTML( text, title );
-			}
-			return;
 		}
 
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
+		else if ( responseCode != 200 )
 			return;
 
 		// Check for familiar growth - if a familiar is added,
@@ -280,6 +256,48 @@ public class ConsumeItemRequest extends KoLRequest
 		// Perform item-specific processing
 		switch ( itemUsed.getItemID() )
 		{
+		case GIFT1:
+		case GIFT2:
+		case GIFT3:
+		case GIFT4:
+		case GIFT5:
+		case GIFT6:
+		case GIFT7:
+		case GIFT8:
+		case GIFT9:
+		case GIFT10:
+		case GIFT11:
+			// If it's a gift package, get the inner message
+
+			// "You can't receive things from other players
+			// right now."
+			if ( responseText.indexOf( "You can't receive things" ) != -1 )
+			{
+				client.cancelRequest();
+				updateDisplay( ERROR_STATE, "You can't open that package yet." );
+				return;
+			}
+
+			// Trim copy of responseText
+			String text = responseText;
+
+			// Get rid of first row of first table
+			Matcher matcher = Pattern.compile( "<tr>.*?</tr>" ).matcher( text );
+			if ( matcher.find() )
+				text = matcher.replaceFirst( "" );
+
+			// Get rid of inventory listing
+			matcher = Pattern.compile( "</table><table.*?</body>" ).matcher( text );
+			if ( matcher.find() )
+				text = matcher.replaceFirst( "</table></body>" );
+			// Find out who sent it
+			matcher = Pattern.compile( "From: <b>(.*?)</b>" ).matcher( text );
+			String title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
+
+			// Pop up a window showing what was in the gift.
+			client.showHTML( text, title );
+			break;
+
 		case GATES_SCROLL:
 			// You can only use a 64375 scroll once
 			if ( KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) )
@@ -442,6 +460,18 @@ public class ConsumeItemRequest extends KoLRequest
 		// used. Do so.
 
 		client.processResult( itemUsed.getNegation() );
+	}
+
+	protected void processResults()
+	{
+		// The 64735 scroll might generate a dictionary, which we will
+		// process incorrectly, since we don't have the Baron's quest
+		// as an accomplishment.
+		if ( itemUsed.getItemID() == GATES_SCROLL)
+			return;
+
+		// Otherwise, process results as normal
+		super.processResults();
 	}
 
 	public String getCommandForm( int iterations )
