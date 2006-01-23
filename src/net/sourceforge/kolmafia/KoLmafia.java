@@ -1124,6 +1124,7 @@ public abstract class KoLmafia implements KoLConstants
 			}
 
 			int currentEffectCount = KoLCharacter.getEffects().size();
+
 			boolean pulledOver = false;
 			boolean shouldRefreshStatus;
 
@@ -1143,7 +1144,8 @@ public abstract class KoLmafia implements KoLConstants
 			// there are conditions, be sure that they are checked
 			// during the iterations.
 
-			int remainingConditions = conditions.size();
+			int initialConditions = conditions.size();
+			int remainingConditions = initialConditions;
 
 			// If this is an adventure request, make sure that it
 			// gets validated before running.
@@ -1168,11 +1170,9 @@ public abstract class KoLmafia implements KoLConstants
 				{
 					if ( conditions.size() == 0 || useDisjunction )
 					{
-						updateDisplay( NORMAL_STATE, "Conditions satisfied after " + (currentIteration - 1) +
-							((currentIteration == 2) ? " request." : " requests.") );
-
 						conditions.clear();
-						return;
+						remainingConditions = 0;
+						break;
 					}
 				}
 
@@ -1244,24 +1244,32 @@ public abstract class KoLmafia implements KoLConstants
 			// If you've completed the requests, make sure to update
 			// the display.
 
-			if ( !permitsContinue() && currentState != ERROR_STATE )
+			if ( currentState != ERROR_STATE )
 			{
-				// Special processing for adventures.
-
-				if ( request instanceof KoLAdventure )
+				if ( !permitsContinue() )
 				{
-					// If we canceled the iteration without
-					// generating a real error, permit
-					// scripts to continue.
+					// Special processing for adventures.
 
-					resetContinueState();
-					updateDisplay( NORMAL_STATE, "Nothing more to do here." );
+					if ( request instanceof KoLAdventure )
+					{
+						// If we canceled the iteration without
+						// generating a real error, permit
+						// scripts to continue.
+
+						resetContinueState();
+						updateDisplay( NORMAL_STATE, "Nothing more to do here." );
+					}
 				}
+				else if ( remainingConditions != 0 )
+					updateDisplay( NORMAL_STATE, "Requests completed!  (Conditions not yet met)" );
+
+				else if ( initialConditions != 0 )
+					updateDisplay( NORMAL_STATE, "Conditions satisfied after " + (currentIteration - 1) +
+						((currentIteration == 2) ? " request." : " requests.") );
+
+				else if ( currentIteration >= iterations )
+					updateDisplay( NORMAL_STATE, "Requests completed!" );
 			}
-			else if ( currentIteration >= iterations && conditions.size() != 0 )
-				updateDisplay( NORMAL_STATE, "Requests completed!  (Conditions not yet met)" );
-			else if ( permitsContinue() && currentState != ERROR_STATE && currentIteration >= iterations )
-				updateDisplay( NORMAL_STATE, "Requests completed!" );
 
 			// With all that information parsed out, end the
 			// request sequence with the lists refreshing.
@@ -1767,6 +1775,8 @@ public abstract class KoLmafia implements KoLConstants
 		// successful login.
 
 		(new CharsheetRequest( KoLmafia.this )).run();
+
+		resetContinueState();
 		updateDisplay( ENABLE_STATE, "Session timed in." );
 	}
 
