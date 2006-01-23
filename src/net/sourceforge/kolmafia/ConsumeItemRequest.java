@@ -299,13 +299,23 @@ public class ConsumeItemRequest extends KoLRequest
 			break;
 
 		case GATES_SCROLL:
-			// You can only use a 64375 scroll once
-			if ( KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) )
+			// You can only use a 64375 scroll if you have the
+			// original dictionary in your inventory
+
+			// "Even though your name isn't Lee, you're flattered
+			// and hand over your dictionary."
+
+			if ( responseText.indexOf( "you're flattered" ) == -1 )
 				return;
 
-			// Get the accomplishment and remove the old dictionary
+			// Get the accomplishment
 			KoLCharacter.addAccomplishment( KoLCharacter.BARON );
+
+			// Remove the old dictionary
 			client.processResult( FightRequest.DICTIONARY1.getNegation() );
+
+			// Get the new dictionary and drywall axe
+			client.processResults( responseText );
 
 			// If he was fighting with the old dictionary, switch
 			// to use the new one
