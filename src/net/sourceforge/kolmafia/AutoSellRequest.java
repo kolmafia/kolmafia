@@ -200,7 +200,7 @@ public class AutoSellRequest extends SendMessageRequest
 		{
 			try
 			{
-				Matcher matcher = Pattern.compile( "for (\\d*) meat" ).matcher( responseText );
+				Matcher matcher = Pattern.compile( "for ([\\d,]+) [Mm]eat" ).matcher( responseText );
 				if ( matcher.find() )
 					client.processResult( new AdventureResult( AdventureResult.MEAT, df.parse( matcher.group(1) ).intValue() ) );
 			}
