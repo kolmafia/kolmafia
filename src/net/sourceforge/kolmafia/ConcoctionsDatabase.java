@@ -55,6 +55,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static final int ITEM_COUNT = TradeableItemDatabase.ITEM_COUNT;
 	public static final int METHOD_COUNT = ItemCreationRequest.METHOD_COUNT;
 
+	private static boolean [] wasPossible = new boolean[ ITEM_COUNT ];
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
 
 	private static boolean [] PERMIT_METHOD = new boolean[ METHOD_COUNT ];
@@ -126,8 +127,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		for ( int i = 0; i < ITEM_COUNT; ++i )
+		{
+			wasPossible[i] = false;
 			if ( concoctions[i] == null )
 				concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE );
+		}
 	}
 
 	public static final boolean isPermittedMethod( int method )
@@ -177,12 +181,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static synchronized void refreshConcoctions()
 	{
-		if ( client == null || KoLCharacter.getInventory() == null )
-		{
-			concoctionsList.clear();
-			return;
-		}
-
 		List availableIngredients = new ArrayList();
 		availableIngredients.addAll( KoLCharacter.getInventory() );
 
@@ -253,14 +251,41 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			if ( concoctions[i].concoction.getName() == null )
 				continue;
+
 			concoctions[i].calculate( availableIngredients );
 		}
 
-		concoctionsList.clear();
+		// Now, to update the list of creatables without removing
+		// all creatable items.  We do this by determining the
+		// number of items inside of the old list.
 
+		ItemCreationRequest currentCreation;
 		for ( int i = 1; i < ITEM_COUNT; ++i )
-			if ( concoctions[i].creatable > 0 )
-				concoctionsList.add( ItemCreationRequest.getInstance( client, i, concoctions[i].creatable ) );
+		{
+			if ( concoctions[i].getMixingMethod() != ItemCreationRequest.NOCREATE )
+			{
+				if ( wasPossible[i] )
+				{
+					currentCreation = ItemCreationRequest.getInstance( client, i, concoctions[i].creatable );
+
+					if ( concoctions[i].creatable > 0 && currentCreation.getCount( concoctionsList ) != concoctions[i].creatable )
+					{
+						concoctionsList.set( concoctionsList.indexOf( currentCreation ), currentCreation );
+						wasPossible[i] = true;
+					}
+					else if ( concoctions[i].creatable == 0 )
+					{
+						concoctionsList.remove( currentCreation );
+						wasPossible[i] = false;
+					}
+				}
+				else if ( concoctions[i].creatable > 0 )
+				{
+					concoctionsList.add( ItemCreationRequest.getInstance( client, i, concoctions[i].creatable ) );
+					wasPossible[i] = true;
+				}
+			}
+		}
 	}
 
 	/**
