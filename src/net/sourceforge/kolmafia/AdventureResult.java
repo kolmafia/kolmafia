@@ -629,17 +629,11 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private static class ConsumableCellRenderer extends DefaultListCellRenderer
 	{
-		private WeakHashMap [] rendered;
-
 		private boolean food, booze, other;
 
 		public ConsumableCellRenderer( boolean food, boolean booze, boolean other )
 		{
 			setOpaque( true );
-
-			this.rendered = new WeakHashMap[2];
-			this.rendered[0] = new WeakHashMap();
-			this.rendered[1] = new WeakHashMap();
 
 			this.food = food;
 			this.booze = booze;
@@ -648,16 +642,11 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
 		{
-			int renderedIndex = isSelected ? 1 : 0;
-
-			Component defaultComponent = rendered[ renderedIndex ].containsKey( value ) ? (Component) rendered[ renderedIndex ].get( value ) :
-				super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-
-			rendered[ renderedIndex ].put( value, defaultComponent );
+			JLabel defaultComponent = (JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
 			return value == null ? defaultComponent : value instanceof AdventureResult ?
-				getRendererComponent( (JLabel) defaultComponent, (AdventureResult) value ) : value instanceof ItemCreationRequest ?
-				getRendererComponent( (JLabel) defaultComponent, (ItemCreationRequest) value ) : defaultComponent;
+				getRendererComponent( defaultComponent, (AdventureResult) value ) : value instanceof ItemCreationRequest ?
+				getRendererComponent( defaultComponent, (ItemCreationRequest) value ) : defaultComponent;
 		}
 
 		public Component getRendererComponent( JLabel defaultComponent, AdventureResult value )
@@ -700,16 +689,11 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	private static class EquipmentCellRenderer extends DefaultListCellRenderer
 	{
-		private WeakHashMap [] rendered;
 		private boolean weapon, offhand, hat, shirt, pants, accessory, familiar;
 
 		public EquipmentCellRenderer( boolean weapon, boolean offhand, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
 		{
 			setOpaque( true );
-
-			this.rendered = new WeakHashMap[2];
-			this.rendered[0] = new WeakHashMap();
-			this.rendered[1] = new WeakHashMap();
 
 			this.weapon = weapon;
 			this.offhand = offhand;
@@ -772,11 +756,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			String stringForm = ar.getName() + " (+" + df.format(power) + ")";
 
-			int renderedIndex = isSelected ? 1 : 0;
-			JLabel defaultComponent = rendered[ renderedIndex ].containsKey( ar.getName() ) ? (JLabel) rendered[ renderedIndex ].get( ar.getName() ) :
-				(JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
-
-			rendered[ renderedIndex ].put( ar.getName(), defaultComponent );
+			JLabel defaultComponent = (JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			defaultComponent.setText( stringForm );
 			return defaultComponent;
 		}
