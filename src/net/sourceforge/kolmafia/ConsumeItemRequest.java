@@ -202,12 +202,23 @@ public class ConsumeItemRequest extends KoLRequest
 			message.run();
 
 			responseCode = message.responseCode;
-			responseText = message.responseText;
+			String text = message.responseText;
+
+			// If we got a successful response, trim text
+			if ( responseCode == 200 )
+			{
+				// Get rid of inventory listing
+				Matcher matcher = Pattern.compile( "</table><table.*?</body>" ).matcher( text );
+				if ( matcher.find() )
+					text = matcher.replaceFirst( "</table></body>" );
+			}
+
+			responseText = text;
 		}
 
 		// If an error state occurred, return from this
 		// request, since there's no content to parse
-		else if ( responseCode != 200 )
+		if ( responseCode != 200 )
 			return;
 
 		// Check for familiar growth - if a familiar is added,
@@ -226,6 +237,10 @@ public class ConsumeItemRequest extends KoLRequest
 
 			// Use up the familiar larva
 			client.processResult( itemUsed.getInstance( -1 ) );
+
+			// Pop up a window showing the result
+			client.showHTML( responseText, "Your new familiar" );
+
 			return;
 		}
 
@@ -278,7 +293,7 @@ public class ConsumeItemRequest extends KoLRequest
 				return;
 			}
 
-			// Trim copy of responseText
+			// Trim response for display
 			String text = responseText;
 
 			// Get rid of first row of first table
@@ -286,10 +301,6 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( matcher.find() )
 				text = matcher.replaceFirst( "" );
 
-			// Get rid of inventory listing
-			matcher = Pattern.compile( "</table><table.*?</body>" ).matcher( text );
-			if ( matcher.find() )
-				text = matcher.replaceFirst( "</table></body>" );
 			// Find out who sent it
 			matcher = Pattern.compile( "From: <b>(.*?)</b>" ).matcher( text );
 			String title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
