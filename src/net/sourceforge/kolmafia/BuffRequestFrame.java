@@ -173,7 +173,9 @@ public class BuffRequestFrame extends KoLFrame
 			private class BuyBuffListener implements ActionListener, Runnable
 			{
 				public void actionPerformed( ActionEvent e )
-				{	(new DaemonThread( this )).start();
+				{
+					selects.requestFocus();
+					(new DaemonThread( this )).start();
 				}
 
 				public void run()
