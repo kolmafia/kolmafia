@@ -164,6 +164,8 @@ public class BuffRequestFrame extends KoLFrame
 
 			public void setEnabled( boolean isEnabled )
 			{
+				if ( selects != null )
+					selects.setEnabled( isEnabled );
 				if ( button != null )
 					button.setEnabled( isEnabled );
 			}
