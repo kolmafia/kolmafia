@@ -37,7 +37,6 @@ package net.sourceforge.kolmafia;
 public abstract class StrangeLeaflet extends StaticEntity
 {
 	private static final AdventureResult LEAFLET = new AdventureResult( 520, 1 );
-	private static final AdventureResult FROBOZZ = new AdventureResult( 526, 1 );
 
 	// There are five locations within the Strange Leaflet:
 
@@ -233,14 +232,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		killSerpent();
 
 		if ( !chest )
-		{
 			executeCommand( "open chest" );
-
-			// Can't parse "Frobozz Real-Estate Company Instant House (TM)"
-			// because it contains parentheses. Do it manually.
-
-			client.processResult( FROBOZZ );
-		}
 	}
 
 	private static void robHole()

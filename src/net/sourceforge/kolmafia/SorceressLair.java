@@ -501,8 +501,6 @@ public abstract class SorceressLair extends StaticEntity
 				request.addFormField( "seq10", "a" );
 				request.run();
 			}
-
-			client.processResult( SQUEEZINGS );
 		}
 
 		// Now handle the form for the star key to get
@@ -564,18 +562,6 @@ public abstract class SorceressLair extends StaticEntity
 					client.updateDisplay( ERROR_STATE, "Failed to equip star starfish." );
 					return;
 				}
-
-				// "Gron crawls toward the pedestal, picks it
-				// up, and brings it back to you."
-
-				if ( request.responseText.indexOf( "brings it back to you" ) != -1 )
-				{
-					// Result "stone tablet (Sinister
-					// Strumming)" doesn't parse
-					// correctly...
-
-					client.processResult( STRUMMING );
-				}
 			}
 		}
 
@@ -598,7 +584,6 @@ public abstract class SorceressLair extends StaticEntity
 				request.addFormField( "prepreaction", "skel" );
 				request.run();
 
-				client.processResult( RHYTHM );
 				client.processResult( CLOVER.getNegation() );
 			}
 		}
