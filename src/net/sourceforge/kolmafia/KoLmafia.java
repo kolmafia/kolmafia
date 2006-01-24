@@ -480,19 +480,43 @@ public abstract class KoLmafia implements KoLConstants
 		if ( logStream != null )
 			logStream.println( "Parsing item: " + result );
 
-		StringTokenizer parsedItem = new StringTokenizer( result, "()" );
-		String parsedItemName = parsedItem.nextToken().trim();
-		String parsedCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
+		// We do the following in order to not get confused by:
+		//
+		// Frobozz Real-Estate Company Instant House (TM)
+		// stone tablet (Sinister Strumming)
+		// stone tablet (Squeezings of Woe)
+		// stone tablet (Really Evil Rhythm)
+		//
+		// which otherwise cause an exception and a stack trace
 
-		try
+		// Look for a verbatim match
+		int itemID = TradeableItemDatabase.getItemID( result.trim() );
+		if ( itemID != -1 )
 		{
-			processResult( new AdventureResult( parsedItemName, df.parse( parsedCount ).intValue(), false ) );
-		}
-		catch ( Exception e )
+			processResult( new AdventureResult( itemID, 1 ) );
+			return;
+		 }
+
+		// Remove parenthesized number and match again.
+		StringTokenizer parsedItem = new StringTokenizer( result, "()" );
+		String name = parsedItem.nextToken().trim();
+		int count = 1;
+
+		if ( parsedItem.hasMoreTokens() )
 		{
-			e.printStackTrace( logStream );
-			e.printStackTrace();
+			try
+			{
+				count = df.parse( parsedItem.nextToken() ).intValue();
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( logStream );
+				e.printStackTrace();
+				return;
+			}
 		}
+
+		processResult( new AdventureResult( name, count, false ) );
 	}
 
 	public void parseEffect( String result )
@@ -1067,7 +1091,12 @@ public abstract class KoLmafia implements KoLConstants
 						for ( int i = 0; isNumeric && i < countString.length(); ++i )
 							isNumeric &= Character.isDigit( countString.charAt(i) ) || countString.charAt(i) == ',';
 
-						parseItem( itemName + " (" + ( isNumeric ? countString : "1" ) + ")" );
+						if ( !isNumeric )
+							countString = "1";
+						else if ( itemName.equals( "evil golden arches" ) )
+							itemName = "evil golden arch";
+
+						parseItem( itemName + " (" + countString + ")" );
 					}
 				}
 				else

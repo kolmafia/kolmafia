@@ -228,7 +228,7 @@ public class AdventureResult implements Comparable, KoLConstants
 		else if ( isItem() )
 		{
 			if ( this.itemID == 0 || this.itemID == -1 )
-				this.itemID = TradeableItemDatabase.getItemID( name );
+				this.itemID = TradeableItemDatabase.getItemID( name, this.count[0] );
 
 			this.name = TradeableItemDatabase.getItemName( this.itemID );
 		}

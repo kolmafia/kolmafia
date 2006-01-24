@@ -150,6 +150,17 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final int getItemID( String itemName )
+	{	return getItemID( itemName, 1 );
+	}
+
+	/**
+	 * Returns the ID number for an item, given its name.
+	 * @param	itemName	The name of the item to lookup
+	 * @param	count		How many there are
+	 * @return	The ID number of the corresponding item
+	 */
+
+	public static final int getItemID( String itemName, int count )
 	{
 		if ( itemName == null || itemName.length() == 0 )
 			return -1;
@@ -174,6 +185,10 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
+
+		// If there's no more than one, don't deal with pluralization
+		if ( count < 2 )
+			return -1;
 
 		// If this is the pluralized version of chewing
 		// gum, then return the ID for chewing gum.
@@ -356,7 +371,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// this recursively for best results.
 
 		int lastSpaceIndex = canonicalName.indexOf( " " );
-		return lastSpaceIndex != -1 ? getItemID( canonicalName.substring( lastSpaceIndex ).trim() ) : -1;
+		return lastSpaceIndex != -1 ? getItemID( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
 	}
 
 	/**
