@@ -437,7 +437,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "update" ) )
 		{
-			downloadOverrideFiles();
+			downloadAdventureOverride();
 			return;
 		}
 
@@ -1177,20 +1177,20 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "namespace" ) )
 		{
-
 			try
 			{
-				updateDisplay( NORMAL_STATE, advancedHandler.execute( parameters, scriptRequestor ));
+				advancedHandler.execute( parameters, scriptRequestor );
+				return;
 			}
-			catch( Exception e )
+			catch( IOException e)
 			{
-				updateDisplay( ERROR_STATE, e.getMessage() );
-				scriptRequestor.cancelRequest();
+				updateDisplay( KoLmafia.ERROR_STATE, e.getMessage() );
+				cancelRequest();
 
 				e.printStackTrace( KoLmafia.getLogStream() );
 				e.printStackTrace();
+				return;
 			}
-			return;
 		}
 
 		// If all else fails, then assume that the
