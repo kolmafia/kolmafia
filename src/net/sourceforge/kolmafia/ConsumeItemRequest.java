@@ -202,24 +202,7 @@ public class ConsumeItemRequest extends KoLRequest
 			message.run();
 
 			responseCode = message.responseCode;
-			String text = message.responseText;
-
-			// If we got a successful response, trim text
-			if ( responseCode == 200 )
-			{
-				// Get rid of first row of first table: the
-				// "Results" line
-				Matcher matcher = Pattern.compile( "<tr>.*?</tr>" ).matcher( text );
-				if ( matcher.find() )
-					text = matcher.replaceFirst( "" );
-
-				// Get rid of inventory listing
-				matcher = Pattern.compile( "</table><table.*?</body>" ).matcher( text );
-				if ( matcher.find() )
-					text = matcher.replaceFirst( "</table></body>" );
-			}
-
-			responseText = text;
+			responseText = message.responseText;
 		}
 
 		// If an error state occurred, return from this
@@ -245,7 +228,7 @@ public class ConsumeItemRequest extends KoLRequest
 			client.processResult( itemUsed.getInstance( -1 ) );
 
 			// Pop up a window showing the result
-			client.showHTML( responseText, "Your new familiar" );
+			client.showHTML( trimInventoryText( responseText ), "Your new familiar" );
 
 			return;
 		}
@@ -304,7 +287,7 @@ public class ConsumeItemRequest extends KoLRequest
 			String title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
 
 			// Pop up a window showing what was in the gift.
-			client.showHTML( responseText, title );
+			client.showHTML( trimInventoryText( responseText ), title );
 			break;
 
 		case GATES_SCROLL:
@@ -480,6 +463,21 @@ public class ConsumeItemRequest extends KoLRequest
 		// used. Do so.
 
 		client.processResult( itemUsed.getNegation() );
+	}
+
+	private String trimInventoryText( String text )
+	{
+		// Get rid of first row of first table: the "Results" line
+		Matcher matcher = Pattern.compile( "<tr>.*?</tr>" ).matcher( text );
+		if ( matcher.find() )
+			text = matcher.replaceFirst( "" );
+
+		// Get rid of inventory listing
+		matcher = Pattern.compile( "</table><table.*?</body>" ).matcher( text );
+		if ( matcher.find() )
+			text = matcher.replaceFirst( "</table></body>" );
+
+		return text;
 	}
 
 	protected void processResults()
