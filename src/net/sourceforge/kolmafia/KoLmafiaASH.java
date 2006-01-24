@@ -82,6 +82,7 @@ public class KoLmafiaASH
 	public static final int TYPE_ITEM = 100;
 	public static final int TYPE_ZODIAC = 101;
 	public static final int TYPE_LOCATION = 102;
+	public static final int TYPE_CLASS = 103;
 
 	public static final int ZODIAC_WALLABY = 1;
 	public static final int ZODIAC_MONGOOSE = 2;
@@ -92,6 +93,14 @@ public class KoLmafiaASH
 	public static final int ZODIAC_WOMBAT = 7;
 	public static final int ZODIAC_BLENDER = 8;
 	public static final int ZODIAC_PACKRAT = 9;
+	public static final int ZODIAC_NONE = 10;
+
+	public static final int CLASS_SEALCLUBBER = 1;
+	public static final int CLASS_TURTLETAMER = 2;
+	public static final int CLASS_PASTAMANCER = 3;
+	public static final int CLASS_SAUCEROR = 4;
+	public static final int CLASS_DISCOBANDIT = 5;
+	public static final int CLASS_ACCORDIONTHIEF = 6;
 
 	public static final int COMMAND_BREAK = 1;
 	public static final int COMMAND_CONTINUE = 2;
@@ -100,6 +109,7 @@ public class KoLmafiaASH
 	public static final int STATE_RETURN = 2;
 	public static final int STATE_BREAK = 3;
 	public static final int STATE_CONTINUE = 4;
+	public static final int STATE_EXIT = 5;
 
 	public static int currentState = STATE_NORMAL;
 
@@ -229,11 +239,13 @@ public class KoLmafiaASH
 			}
 			if(( f = parseFunction( t, result)) != null)
 			{
-				result.addFunction( f);
+				if( !result.addFunction( f))
+					throw new AdvancedScriptException( "Function " + f.getName() + " already defined at line " + commandStream.getLineNumber());
 			}
 			else if(( v = parseVariable( t)) != null)
 			{
-				result.addVariable( v);
+				if( !result.addVariable( v))
+					throw new AdvancedScriptException( "Variable " + v.getName() + " already defined at line " + commandStream.getLineNumber());
 				if( currentToken().equals(";"))
 					readToken(); //read ;
 				else
@@ -289,7 +301,8 @@ public class KoLmafiaASH
 				}
 			paramRef = new ScriptVariableReference( param);
 			result.addVariableReference( paramRef);
-			paramList.addElement( param);
+			if( !paramList.addElement( param))
+				throw new AdvancedScriptException( "Variable " + param.getName() + " already defined at line " + commandStream.getLineNumber());
 			}
 		readToken(); //read )
 		if( !currentToken().equals( "{")) //Scope is a single call
@@ -299,7 +312,8 @@ public class KoLmafiaASH
 				{
 				paramNext = paramList.getNextVariable( param);
 				lastParam = param.getName().toString();
-				result.getScope().addVariable( param);
+				if( !result.getScope().addVariable( param))
+					throw new AdvancedScriptException( "Variable " + param.getName() + " already defined at line " + commandStream.getLineNumber());
 				}
 			if( !result.getScope().assertReturn())
 				throw new AdvancedScriptException( "Missing return value at line " + commandStream.getLineNumber());
@@ -390,6 +404,8 @@ public class KoLmafiaASH
 			type = TYPE_ZODIAC;
 		else if( typeString.equals( "location"))
 			type = TYPE_LOCATION;
+		else if( typeString.equals( "class"))
+			type = TYPE_CLASS;
 		else
 			return null;
 		readToken();
@@ -1081,14 +1097,14 @@ class ScriptScope extends ScriptListNode
 		this.parentScope = parentScope;
 	}
 
-	public void addFunction( ScriptFunction f)
+	public boolean addFunction( ScriptFunction f)
 	{
-		functions.addElement( f);
+		return functions.addElement( f);
 	}
 
-	public void addVariable( ScriptVariable v)
+	public boolean addVariable( ScriptVariable v)
 	{
-		variables.addElement( v);
+		return variables.addElement( v);
 	}
 
 	public void addCommand( ScriptCommand c)
@@ -1200,6 +1216,10 @@ class ScriptScope extends ScriptListNode
 			{
 				throw new RuntimeException( "Internal error: continue outside of loop");
 			}
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+			{
+				return null;
+			}
 		}
 		try
 		{
@@ -1215,9 +1235,9 @@ class ScriptScope extends ScriptListNode
 
 class ScriptScopeList extends ScriptList
 {
-	public void addElement( ScriptListNode n)
+	public boolean addElement( ScriptListNode n)
 	{
-		addElementSerial( n);
+		return addElementSerial( n);
 	}
 }
 
@@ -1349,6 +1369,26 @@ class ScriptExistingFunction extends ScriptFunction
 		params[0] = new ScriptType( KoLmafiaASH.TYPE_STRING);
 		result.addFunction( new ScriptExistingFunction( "print", new ScriptType( KoLmafiaASH.TYPE_VOID), params, scriptRequestor));
 
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_zodiac", new ScriptType( KoLmafiaASH.TYPE_ZODIAC), params, scriptRequestor));
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_class", new ScriptType( KoLmafiaASH.TYPE_CLASS), params, scriptRequestor));
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_level", new ScriptType( KoLmafiaASH.TYPE_INT), params, scriptRequestor));
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_hp", new ScriptType( KoLmafiaASH.TYPE_INT), params, scriptRequestor));
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_maxhp", new ScriptType( KoLmafiaASH.TYPE_INT), params, scriptRequestor));
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_mp", new ScriptType( KoLmafiaASH.TYPE_INT), params, scriptRequestor));
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_maxmp", new ScriptType( KoLmafiaASH.TYPE_INT), params, scriptRequestor));
 
 		return result;
 
@@ -1356,6 +1396,13 @@ class ScriptExistingFunction extends ScriptFunction
 
 	public ScriptValue execute()
 	{
+
+		if( !scriptRequestor.permitsContinue())
+		{
+			KoLmafiaASH.currentState = KoLmafiaASH.STATE_EXIT;
+			return null;
+		}
+
 		try
 		{
 			if( name.equals( "adventure"))
@@ -1370,8 +1417,22 @@ class ScriptExistingFunction extends ScriptFunction
 				return executeItemAmountRequest( variables[0].getIntValue());
 			else if( name.equals( "print"))
 				return executePrintRequest( variables[0].getStringValue());
+			else if( name.equals( "my_zodiac"))
+				return executeZodiacRequest();
+			else if( name.equals( "my_class"))
+				return executeClassRequest();
+			else if( name.equals( "my_level"))
+				return executeLevelRequest();
+			else if( name.equals( "my_hp"))
+				return executeHPRequest();
+			else if( name.equals( "my_maxhp"))
+				return executeMaxHPRequest();
+			else if( name.equals( "my_mp"))
+				return executeMPRequest();
+			else if( name.equals( "my_maxmp"))
+				return executeMaxMPRequest();
 			else
-				throw new RuntimeException( "Internal error: unknown global function " + name);
+				throw new RuntimeException( "Internal error: unknown library function " + name);
 		}
 		catch( AdvancedScriptException e)
 		{
@@ -1454,6 +1515,43 @@ class ScriptExistingFunction extends ScriptFunction
 
 		return new ScriptValue( KoLmafiaASH.TYPE_VOID);
 	}
+
+	public ScriptValue executeZodiacRequest() throws AdvancedScriptException
+	{
+		return new ScriptValue( KoLmafiaASH.TYPE_ZODIAC, KoLCharacter.getSign());
+	}
+
+	public ScriptValue executeClassRequest() throws AdvancedScriptException
+	{
+		return new ScriptValue( KoLmafiaASH.TYPE_CLASS, KoLCharacter.getClassType());
+	}
+
+	public ScriptValue executeLevelRequest() throws AdvancedScriptException
+	{
+		return new ScriptValue( KoLmafiaASH.TYPE_INT, KoLCharacter.getLevel());
+	}
+
+	public ScriptValue executeHPRequest() throws AdvancedScriptException
+	{
+		return new ScriptValue( KoLmafiaASH.TYPE_INT, KoLCharacter.getCurrentHP());
+	}
+
+	public ScriptValue executeMaxHPRequest() throws AdvancedScriptException
+	{
+		return new ScriptValue( KoLmafiaASH.TYPE_INT, KoLCharacter.getMaximumHP());
+	}
+
+	public ScriptValue executeMPRequest() throws AdvancedScriptException
+	{
+		return new ScriptValue( KoLmafiaASH.TYPE_INT, KoLCharacter.getCurrentMP());
+	}
+
+	public ScriptValue executeMaxMPRequest() throws AdvancedScriptException
+	{
+		return new ScriptValue( KoLmafiaASH.TYPE_INT, KoLCharacter.getMaximumMP());
+	}
+
+
 }
 
 class ScriptFunctionList extends ScriptList
@@ -1606,9 +1704,9 @@ class ScriptVariableReference extends ScriptValue
 
 class ScriptVariableReferenceList extends ScriptList
 {
-	public void addElement( ScriptListNode n)
+	public boolean addElement( ScriptListNode n)
 	{
-		addElementSerial( n);
+		return addElementSerial( n);
 	}
 }
 
@@ -1684,9 +1782,9 @@ class ScriptCommandList extends ScriptList
 		super( c);
 		}
 
-	public void addElement( ScriptListNode n) //Command List has to remain in original order, so override addElement
+	public boolean addElement( ScriptListNode n) //Command List has to remain in original order, so override addElement
 	{
-		addElementSerial( n);
+		return addElementSerial( n);
 	}
 }
 
@@ -1716,7 +1814,8 @@ class ScriptReturn extends ScriptCommand
 		ScriptValue result;
 
 		result = returnValue.execute();
-		KoLmafiaASH.currentState = KoLmafiaASH.STATE_RETURN;
+		if( KoLmafiaASH.currentState != KoLmafiaASH.STATE_EXIT)
+			KoLmafiaASH.currentState = KoLmafiaASH.STATE_RETURN;
 		return result;
 	}
 }
@@ -1799,11 +1898,19 @@ class ScriptLoop extends ScriptCommand
 			{
 				return result;
 			}
-			if( repeat == false)
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+			{
+				return null;
+			}
+			if( !repeat)
 				break;
 		}
 		for( ScriptLoop elseLoop = elseLoops.getFirstScriptLoop(); elseLoop != null; elseLoop = elseLoops.getNextScriptLoop( elseLoop))
+			{
 			result = elseLoop.execute();
+			if( KoLmafiaASH.currentState != KoLmafiaASH.STATE_NORMAL)
+				return result;
+			}
 		return null;
 	}
 }
@@ -1821,9 +1928,9 @@ class ScriptLoopList extends ScriptList
 		return ( ScriptLoop) getNextElement( current);
 	}
 
-	public void addElement( ScriptListNode n)
+	public boolean addElement( ScriptListNode n)
 	{
-		addElementSerial( n);
+		return addElementSerial( n);
 	}
 }
 
@@ -1881,6 +1988,8 @@ class ScriptCall extends ScriptValue
 			if( paramVarRef == null)
 				throw new RuntimeException( "Internal error: illegal arguments.");
 			paramVarRef.setValue( paramValue.execute());
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
 		}
 		if( paramValue != null)
 			throw new RuntimeException( "Internal error: illegal arguments.");
@@ -1964,6 +2073,8 @@ class ScriptType
 			return "zodiac";
 		if( type == KoLmafiaASH.TYPE_LOCATION)
 			return "location";
+		if( type == KoLmafiaASH.TYPE_CLASS)
+			return "class";
 		return "<unknown type>";
 	}
 
@@ -2076,7 +2187,7 @@ class ScriptValue extends ScriptExpression
 			if(( contentInt = TradeableItemDatabase.getItemID( contentString)) == -1)
 				throw new AdvancedScriptException( "Item" + contentString + " not found in database at line " + KoLmafiaASH.commandStream.getLineNumber());
 		}
-		if( type.equals( KoLmafiaASH.TYPE_ZODIAC))
+		else if( type.equals( KoLmafiaASH.TYPE_ZODIAC))
 			{
 			if( contentString.equalsIgnoreCase( "wallaby"))
 				contentInt = KoLmafiaASH.ZODIAC_WALLABY;
@@ -2096,13 +2207,32 @@ class ScriptValue extends ScriptExpression
 				contentInt = KoLmafiaASH.ZODIAC_BLENDER;
 			else if( contentString.equalsIgnoreCase( "packrat"))
 				contentInt = KoLmafiaASH.ZODIAC_PACKRAT;
+			else if( contentString.equalsIgnoreCase( "none"))
+				contentInt = KoLmafiaASH.ZODIAC_NONE;
 			else
 				throw new AdvancedScriptException( "Unknown zodiac " + contentString + " at line " + KoLmafiaASH.commandStream.getLineNumber());
 			}
-		if( type.equals( KoLmafiaASH.TYPE_LOCATION))
+		else if( type.equals( KoLmafiaASH.TYPE_LOCATION))
 		{
 			if(( content = AdventureDatabase.getAdventure( contentString)) == null)
 				throw new AdvancedScriptException( "Location " + contentString + " not found in database at line " + KoLmafiaASH.commandStream.getLineNumber());
+		}
+		else if( type.equals( KoLmafiaASH.TYPE_CLASS))
+		{
+			if( contentString.equalsIgnoreCase( "sealclubber") || contentString.equalsIgnoreCase( "seal clubber"))
+				contentInt = KoLmafiaASH.CLASS_SEALCLUBBER;
+			else if( contentString.equalsIgnoreCase( "turtletamer") || contentString.equalsIgnoreCase( "turtle tamer"))
+				contentInt = KoLmafiaASH.CLASS_TURTLETAMER;
+			else if( contentString.equalsIgnoreCase( "pastamancer"))
+				contentInt = KoLmafiaASH.CLASS_PASTAMANCER;
+			else if( contentString.equalsIgnoreCase( "sauceror"))
+				contentInt = KoLmafiaASH.CLASS_SAUCEROR;
+			else if( contentString.equalsIgnoreCase( "discobandit") || contentString.equalsIgnoreCase( "disco bandit"))
+				contentInt = KoLmafiaASH.CLASS_DISCOBANDIT;
+			else if( contentString.equalsIgnoreCase( "accordionthief") || contentString.equalsIgnoreCase( "accordion thief"))
+				contentInt = KoLmafiaASH.CLASS_ACCORDIONTHIEF;
+			else
+				throw new AdvancedScriptException( "Unknown class " + contentString + " at line " + KoLmafiaASH.commandStream.getLineNumber());
 		}
 	}
 
@@ -2188,9 +2318,9 @@ class ScriptExpressionList extends ScriptList
 	}
 	
 
-	public void addElement( ScriptListNode n) //Expression List has to remain in original order, so override addElement
+	public boolean addElement( ScriptListNode n) //Expression List has to remain in original order, so override addElement
 	{
-		addElementSerial( n);
+		return addElementSerial( n);
 	}
 }
 
@@ -2250,6 +2380,10 @@ class ScriptOperator
 	{
 
 		ScriptValue leftResult = lhs.execute();
+		ScriptValue rightResult;
+
+		if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+			return null;
 
 		if(( rhs != null) && ( !rhs.getType().equals( lhs.getType()))) //double-check values
 		{
@@ -2264,60 +2398,98 @@ class ScriptOperator
 				return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);
 		}
 		if( operString.equals( "*"))
-			return new ScriptValue( KoLmafiaASH.TYPE_INT, leftResult.getIntValue() * rhs.execute().getIntValue());
+		{
+			rightResult = rhs.execute();
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
+			return new ScriptValue( KoLmafiaASH.TYPE_INT, leftResult.getIntValue() * rightResult.getIntValue());
+		}
 		if( operString.equals( "/"))
-			return new ScriptValue( KoLmafiaASH.TYPE_INT, leftResult.getIntValue() / rhs.execute().getIntValue());
+		{
+			rightResult = rhs.execute();
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
+			return new ScriptValue( KoLmafiaASH.TYPE_INT, leftResult.getIntValue() / rightResult.getIntValue());
+		}
 		if( operString.equals( "%"))
-			return new ScriptValue( KoLmafiaASH.TYPE_INT, leftResult.getIntValue() % rhs.execute().getIntValue());
+		{
+			rightResult = rhs.execute();
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
+			return new ScriptValue( KoLmafiaASH.TYPE_INT, leftResult.getIntValue() % rightResult.getIntValue());
+		}
 		if( operString.equals( "+"))
 		{
+			rightResult = rhs.execute();
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
 			if( lhs.getType().equals(KoLmafiaASH.TYPE_STRING))
-				return new ScriptValue( KoLmafiaASH.TYPE_STRING, leftResult.getStringValue() + rhs.execute().getStringValue());
+				return new ScriptValue( KoLmafiaASH.TYPE_STRING, leftResult.getStringValue() + rightResult.getStringValue());
 			else
-				return new ScriptValue( KoLmafiaASH.TYPE_INT, leftResult.getIntValue() + rhs.execute().getIntValue());
+				return new ScriptValue( KoLmafiaASH.TYPE_INT, leftResult.getIntValue() + rightResult.getIntValue());
 		}
 		if( operString.equals( "-"))
-			return new ScriptValue( KoLmafiaASH.TYPE_INT, leftResult.getIntValue() - rhs.execute().getIntValue());
+		{
+			rightResult = rhs.execute();
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
+			return new ScriptValue( KoLmafiaASH.TYPE_INT, leftResult.getIntValue() - rightResult.getIntValue());
+		}
 		if( operString.equals( "<"))
 		{
-			if( leftResult.getIntValue() < rhs.execute().getIntValue())
+			rightResult = rhs.execute();
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
+			if( leftResult.getIntValue() < rightResult.getIntValue())
 				return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 1);
 			else
 				return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);
 		}
 		if( operString.equals( ">"))
 		{
-			if( leftResult.getIntValue() > rhs.execute().getIntValue())
+			rightResult = rhs.execute();
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
+			if( leftResult.getIntValue() > rightResult.getIntValue())
 				return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 1);
 			else
 				return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);
 		}
 		if( operString.equals( "<="))
 		{
-			if( leftResult.getIntValue() <= rhs.execute().getIntValue())
+			rightResult = rhs.execute();
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
+			if( leftResult.getIntValue() <= rightResult.getIntValue())
 				return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 1);
 			else
 				return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);
 		}
 		if( operString.equals( ">="))
 		{
-			if( leftResult.getIntValue() >= rhs.execute().getIntValue())
+			rightResult = rhs.execute();
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
+			if( leftResult.getIntValue() >= rightResult.getIntValue())
 				return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 1);
 			else
 				return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);
 		}
 		if( operString.equals( "=="))
 		{
+			rightResult = rhs.execute();
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
 			if( lhs.getType().equals(KoLmafiaASH.TYPE_INT) || lhs.getType().equals(KoLmafiaASH.TYPE_BOOLEAN))
 			{
-				if( leftResult.getIntValue() == rhs.execute().getIntValue())
+				if( leftResult.getIntValue() == rightResult.getIntValue())
 					return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 1);
 				else
 					return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);
 			}
 			else
 			{
-				if( leftResult.getStringValue().equals( rhs.execute().getStringValue()))
+				if( leftResult.getStringValue().equals( rightResult.getStringValue()))
 					return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 1);
 				else
 					return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);		
@@ -2325,16 +2497,19 @@ class ScriptOperator
 		}
 		if( operString.equals( "!="))
 		{
+			rightResult = rhs.execute();
+			if( KoLmafiaASH.currentState == KoLmafiaASH.STATE_EXIT)
+				return null;
 			if( lhs.getType().equals(KoLmafiaASH.TYPE_INT) || lhs.getType().equals(KoLmafiaASH.TYPE_BOOLEAN))
 			{
-				if( leftResult.getIntValue() != rhs.execute().getIntValue())
+				if( leftResult.getIntValue() != rightResult.getIntValue())
 					return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 1);
 				else
 					return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);
 			}
 			else
 			{
-				if( !leftResult.getStringValue().equals( rhs.execute().getStringValue()))
+				if( !leftResult.getStringValue().equals( rightResult.getStringValue()))
 					return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 1);
 				else
 					return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);		
@@ -2401,7 +2576,7 @@ class ScriptList
 		firstNode = node;
 	}
 
-	public void addElement( ScriptListNode n)
+	public boolean addElement( ScriptListNode n)
 	{
 		ScriptListNode current;
 		ScriptListNode previous = null;
@@ -2412,36 +2587,31 @@ class ScriptList
 		if( firstNode == null)
 			{
 			firstNode = n;
-			return;
+			return true;
 			}
 		for( current = firstNode; current != null; previous = current, current = current.getNext())
 		{
 			if( current.compareTo( n) <= 0)
 				break;
 		}
-		if( current == null)
-			{
-			if( previous == null) //Insert in front of very first element
-				firstNode = n;
-			else
-				previous.setNext( n);
-			}
+		if(( current != null) && ( current.compareTo( n) == 0))
+		{
+			return false;
+		}
+		if( previous == null) //Insert in front of very first element
+		{
+			firstNode = n;
+			firstNode.setNext( current);
+		}
 		else
 		{
-			if( previous == null) //Insert in front of very first element
-			{
-				firstNode = n;
-				firstNode.setNext( current);
-			}
-			else
-			{
-				previous.setNext( n);
-				n.setNext( current);
-			}
+			previous.setNext( n);
+			n.setNext( current);
 		}
+		return true;
 	}
 
-	public void addElementSerial( ScriptListNode n) //Function for subclasses to override addElement with
+	public boolean addElementSerial( ScriptListNode n) //Function for subclasses to override addElement with
 	{
 		ScriptListNode current;
 		ScriptListNode previous = null;
@@ -2452,13 +2622,14 @@ class ScriptList
 		if( firstNode == null)
 			{
 			firstNode = n;
-			return;
+			return true;
 			}
 
 		for( current = firstNode; current != null; previous = current, current = current.getNext())
 			;
 
 		previous.setNext( n);
+		return true;
 	}
 
 
