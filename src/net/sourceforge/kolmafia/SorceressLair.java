@@ -361,7 +361,7 @@ public abstract class SorceressLair extends StaticEntity
 		// then dismantle the legend and construct the stone banjo.
 
 		AdventureResult cloverWeapon = null;
-		boolean untinkerCloverWeapon = !hasItem( STONE_BANJO ) && !hasItem( HEAVY_METAL_GUITAR ) && !hasItem( ACOUSTIC_GUITAR ) && !hasItem( DISCO_BANJO );
+		boolean untinkerCloverWeapon = !hasItem( ACOUSTIC_GUITAR ) && !hasItem( HEAVY_METAL_GUITAR ) && !hasItem( STONE_BANJO ) && !hasItem( DISCO_BANJO );
 
 		if ( untinkerCloverWeapon )
 		{
@@ -377,7 +377,7 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		requirements.add( pickOne( new AdventureResult [] { STONE_BANJO, HEAVY_METAL_GUITAR, ACOUSTIC_GUITAR, DISCO_BANJO } ) );
+		requirements.add( pickOne( new AdventureResult [] { ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, STONE_BANJO, DISCO_BANJO } ) );
 		requirements.add( pickOne( new AdventureResult [] { BONE_RATTLE, TAMBOURINE } ) );
 		requirements.add( pickOne( new AdventureResult [] { ACCORDION, ROCKNROLL_LEGEND } ) );
 
