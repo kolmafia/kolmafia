@@ -111,46 +111,60 @@ public class KoLmafiaASH
 
 	public static LineNumberReader commandStream;
 
-	public String execute( String parameters, KoLmafia scriptRequestor) throws IOException
+	public void execute( String parameters, KoLmafia scriptRequestor) throws IOException
 	{
 		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( parameters ) ) );
-
-if( scriptRequestor == null)
 
 		line = getNextLine();
 		nextLine = getNextLine();
 
-		global = parseScope( null, new ScriptVariableList(), ScriptExistingFunction.getExistingFunctionScope( scriptRequestor), false);
-
-		if ( line != null )
-			throw new RuntimeException( "Script parsing error at line " + commandStream.getLineNumber());
-
-		commandStream.close();
-
-		printScope( global, 0 );
-
-		currentState = STATE_NORMAL;
-		ScriptValue result = executeGlobalScope( global);
-		if(( result.getType().equals(TYPE_BOOLEAN)))
+		try
 		{
+			global = parseScope( null, new ScriptVariableList(), ScriptExistingFunction.getExistingFunctionScope( scriptRequestor), false);
+			if ( line != null )
+				throw new AdvancedScriptException( "Script parsing error at line " + commandStream.getLineNumber());
 
-			if( result.getIntValue() == 0)
-				{
-				KoLmafia.getLogStream().println( "Script failed!"); //failed
-				return "Script failed!";
-				}
+
+			commandStream.close();
+
+			printScope( global, 0 );
+
+			currentState = STATE_NORMAL;
+			ScriptValue result = executeGlobalScope( global);
+			if(( result.getType().equals(TYPE_BOOLEAN)))
+			{
+
+				if( result.getIntValue() == 0)
+					{
+					KoLmafia.getLogStream().println( "Script failed!"); //failed
+					scriptRequestor.updateDisplay( KoLmafia.NORMAL_STATE,  "Script failed!");
+					return;
+					}
+				else
+					{
+					KoLmafia.getLogStream().println( "Script succeeded!"); //succes
+					scriptRequestor.updateDisplay( KoLmafia.NORMAL_STATE,  "Script succeeded!");
+					return;
+					}
+			}
 			else
-				{
-				KoLmafia.getLogStream().println( "Script succeeded!"); //succes
-				return "Script succeeded!";
-				}
+			{
+				KoLmafia.getLogStream().println( "Script returned message " + result.toString());
+				scriptRequestor.updateDisplay( KoLmafia.NORMAL_STATE,  "Script returned value " + result.toString());
+				return;
+			}
+
 		}
-		else
+		catch( AdvancedScriptException e)
 		{
-			KoLmafia.getLogStream().println( "Script returned value " + result.toString());
-			return "Script returned value " + result.toString();
+			commandStream.close();
+			scriptRequestor.updateDisplay( KoLmafia.ERROR_STATE, e.getMessage() );
+			scriptRequestor.cancelRequest();
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+			return;
 		}
-		//"Script returned message " + result.toString();
 	}
 
 
@@ -191,7 +205,7 @@ if( scriptRequestor == null)
 
 
 
-	private ScriptScope parseScope( ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop)
+	private ScriptScope parseScope( ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop) throws AdvancedScriptException
 	{
 		ScriptFunction f = null;
 		ScriptVariable v = null;
@@ -223,21 +237,21 @@ if( scriptRequestor == null)
 				if( currentToken().equals(";"))
 					readToken(); //read ;
 				else
-					throw new RuntimeException( "';' Expected at line " + commandStream.getLineNumber());
+					throw new AdvancedScriptException( "';' Expected at line " + commandStream.getLineNumber());
 			}
 			else
 				//Found a type but no function or variable to tie it to
-				throw new RuntimeException( "Script parse error at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "Script parse error at line " + commandStream.getLineNumber());
 		}
 		if( !result.assertReturn())
 			{
 			if( !( expectedType == null) && !expectedType.equals( TYPE_VOID) && !expectedType.equals(TYPE_BOOLEAN))
-				throw new RuntimeException( "Missing return value at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "Missing return value at line " + commandStream.getLineNumber());
 			}
 		return result;
 	}
 
-	private ScriptFunction parseFunction( ScriptType t, ScriptScope parentScope)
+	private ScriptFunction parseFunction( ScriptType t, ScriptScope parentScope) throws AdvancedScriptException
 	{
 		String				functionName;
 		ScriptFunction			result;
@@ -264,13 +278,13 @@ if( scriptRequestor == null)
 		while( !currentToken().equals( ")"))
 			{
 			if(( paramType = parseType()) == null)
-				throw new RuntimeException( " ')' Expected at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( " ')' Expected at line " + commandStream.getLineNumber());
 			if(( param = parseVariable( paramType)) == null)
-				throw new RuntimeException( " Identifier expected at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( " Identifier expected at line " + commandStream.getLineNumber());
 			if( !currentToken().equals( ")"))
 				{
 				if( !currentToken().equals( ","))
-					throw new RuntimeException( " ')' Expected at line " + commandStream.getLineNumber());
+					throw new AdvancedScriptException( " ')' Expected at line " + commandStream.getLineNumber());
 				readToken(); //read comma
 				}
 			paramRef = new ScriptVariableReference( param);
@@ -288,14 +302,14 @@ if( scriptRequestor == null)
 				result.getScope().addVariable( param);
 				}
 			if( !result.getScope().assertReturn())
-				throw new RuntimeException( "Missing return value at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "Missing return value at line " + commandStream.getLineNumber());
 			}
 		else
 			{
 			readToken(); //read {
 			result.setScope( parseScope( t, paramList, parentScope, false));
 			if( !currentToken().equals( "}"))
-				throw new RuntimeException( " '}' Expected at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( " '}' Expected at line " + commandStream.getLineNumber());
 			readToken(); //read }
 			}
 
@@ -314,14 +328,14 @@ if( scriptRequestor == null)
 		return result;
 	}
 
-	private ScriptCommand parseCommand( ScriptType functionType, ScriptScope scope, boolean noElse, boolean whileLoop)
+	private ScriptCommand parseCommand( ScriptType functionType, ScriptScope scope, boolean noElse, boolean whileLoop) throws AdvancedScriptException
 	{
 		ScriptCommand result;
 
 		if(( currentToken() != null) && ( currentToken().equals( "break")))
 			{
 			if( !whileLoop)
-				throw new RuntimeException( "break outside of loop at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "break outside of loop at line " + commandStream.getLineNumber());
 			result = new ScriptCommand( COMMAND_BREAK);
 			readToken(); //break
 			}
@@ -329,7 +343,7 @@ if( scriptRequestor == null)
 		else if(( currentToken() != null) && ( currentToken().equals( "continue")))
 			{
 			if( !whileLoop)
-				throw new RuntimeException( "break outside of loop at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "break outside of loop at line " + commandStream.getLineNumber());
 			result = new ScriptCommand( COMMAND_CONTINUE);
 			readToken(); //continue
 			}
@@ -348,7 +362,7 @@ if( scriptRequestor == null)
 			return null;
 
 		if(( currentToken() == null) || ( !currentToken().equals(";")))
-			throw new RuntimeException( "';' Expected at line " + commandStream.getLineNumber());
+			throw new AdvancedScriptException( "';' Expected at line " + commandStream.getLineNumber());
 		readToken(); // ;
 
 		return result;
@@ -402,7 +416,7 @@ if( scriptRequestor == null)
 
 
 
-	private ScriptReturn parseReturn( ScriptType expectedType, ScriptScope parentScope)
+	private ScriptReturn parseReturn( ScriptType expectedType, ScriptScope parentScope) throws AdvancedScriptException
 	{
 			
 		ScriptExpression expression = null;
@@ -417,18 +431,18 @@ if( scriptRequestor == null)
 				return new ScriptReturn( null, new ScriptType( TYPE_VOID));
 			}
 			else
-				throw new RuntimeException( "Return needs value at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "Return needs value at line " + commandStream.getLineNumber());
 		}
 		else
 		{
 			if(( expression = parseExpression( parentScope)) == null)
-				throw new RuntimeException( "Expression expected at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "Expression expected at line " + commandStream.getLineNumber());
 			return new ScriptReturn( expression, expectedType);
 		}
 	}
 
 
-	private ScriptLoop parseLoop( ScriptType functionType, ScriptScope parentScope, boolean noElse, boolean loop)
+	private ScriptLoop parseLoop( ScriptType functionType, ScriptScope parentScope, boolean noElse, boolean loop) throws AdvancedScriptException
 	{
 		ScriptScope		scope;
 		ScriptExpression	expression;
@@ -446,12 +460,12 @@ if( scriptRequestor == null)
 		{
 
 			if(( nextToken() == null) || ( !nextToken().equals("(")))
-				throw new RuntimeException( "'(' Expected at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "'(' Expected at line " + commandStream.getLineNumber());
 			readToken(); //if or while
 			readToken(); //(
 			expression = parseExpression( parentScope);
 			if(( currentToken() == null) || ( !currentToken().equals(")")))
-				throw new RuntimeException( "')' Expected at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "')' Expected at line " + commandStream.getLineNumber());
 			readToken(); //)
 
 			do
@@ -470,7 +484,7 @@ if( scriptRequestor == null)
 					readToken(); //read {
 					scope = parseScope( functionType, null, parentScope, (repeat || loop));
 					if(( currentToken() == null) || ( !currentToken().equals( "}")))
-						throw new RuntimeException( " '}' Expected at line " + commandStream.getLineNumber());
+						throw new AdvancedScriptException( " '}' Expected at line " + commandStream.getLineNumber());
 					readToken(); //read }
 					if( result == null)
 						result = new ScriptLoop( scope, expression, repeat);
@@ -481,18 +495,18 @@ if( scriptRequestor == null)
 				{
 
 					if( finalElse)
-						throw new RuntimeException( "Else without if at line " + commandStream.getLineNumber());
+						throw new AdvancedScriptException( "Else without if at line " + commandStream.getLineNumber());
 
 					if(( nextToken() != null) && nextToken().equals( "if"))
 					{
 						readToken(); //else
 					readToken(); //if
 						if(( currentToken() == null) || ( !currentToken().equals("(")))
-							throw new RuntimeException( "'(' Expected at line " + commandStream.getLineNumber());
+							throw new AdvancedScriptException( "'(' Expected at line " + commandStream.getLineNumber());
 						readToken(); //(
 						expression = parseExpression( parentScope);
 						if(( currentToken() == null) || ( !currentToken().equals(")")))
-							throw new RuntimeException( "')' Expected at line " + commandStream.getLineNumber());
+							throw new AdvancedScriptException( "')' Expected at line " + commandStream.getLineNumber());
 						readToken(); //)
 					}
 					else //else without condition
@@ -512,7 +526,7 @@ if( scriptRequestor == null)
 		return result;
 	}
 
-	private ScriptCall parseCall( ScriptScope scope)
+	private ScriptCall parseCall( ScriptScope scope) throws AdvancedScriptException
 	{
 		String				name = null;
 		String				varName;
@@ -540,24 +554,24 @@ if( scriptRequestor == null)
 			if( !currentToken().equals( ","))
 			{
 				if( !currentToken().equals( ")"))
-					throw new RuntimeException( "')' Expected at line " + commandStream.getLineNumber());
+					throw new AdvancedScriptException( "')' Expected at line " + commandStream.getLineNumber());
 			}
 			else
 			{
 				readToken();
 				if( currentToken().equals( ")"))
-					throw new RuntimeException( "Parameter expected at line " + commandStream.getLineNumber());
+					throw new AdvancedScriptException( "Parameter expected at line " + commandStream.getLineNumber());
 			}
 		}
 		if( !currentToken().equals( ")"))
-			throw new RuntimeException( "')' Expected at line " + commandStream.getLineNumber());
+			throw new AdvancedScriptException( "')' Expected at line " + commandStream.getLineNumber());
 		readToken(); //)
 		result = new ScriptCall( name, scope, params);
 
 		return result;
 	}
 
-	private ScriptAssignment parseAssignment( ScriptScope scope)
+	private ScriptAssignment parseAssignment( ScriptScope scope) throws AdvancedScriptException
 	{
 		String				name;
 		ScriptVariableReference		leftHandSide;
@@ -577,11 +591,11 @@ if( scriptRequestor == null)
 		return new ScriptAssignment( leftHandSide, rightHandSide);
 	}
 
-	private ScriptExpression parseExpression( ScriptScope scope)
+	private ScriptExpression parseExpression( ScriptScope scope) throws AdvancedScriptException
 	{
 		return parseExpression( scope, null);
 	}
-	private ScriptExpression parseExpression( ScriptScope scope, ScriptOperator previousOper)
+	private ScriptExpression parseExpression( ScriptScope scope, ScriptOperator previousOper) throws AdvancedScriptException
 	{
 		ScriptExpression	lhs = null;
 		ScriptExpression	rhs = null;
@@ -594,7 +608,7 @@ if( scriptRequestor == null)
 			{
 			readToken(); // !
 			if(( lhs = parseValue( scope)) == null)
-				throw new RuntimeException( "Value expected at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "Value expected at line " + commandStream.getLineNumber());
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( "!"));
 			}
 		else
@@ -627,7 +641,7 @@ if( scriptRequestor == null)
 		
 	}
 
-	private ScriptExpression parseValue( ScriptScope scope)
+	private ScriptExpression parseValue( ScriptScope scope) throws AdvancedScriptException
 	{
 		ScriptExpression	result;
 		int			i;
@@ -641,7 +655,7 @@ if( scriptRequestor == null)
 			readToken();// (
 			result = parseExpression( scope);
 			if(( currentToken() == null) || (!currentToken().equals(")")))
-				throw new RuntimeException( "')' Expected at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "')' Expected at line " + commandStream.getLineNumber());
 			readToken();// )
 			return result;
 			}
@@ -672,7 +686,7 @@ if( scriptRequestor == null)
 			for( resultInt = 0, i = 0; i < currentToken().length(); i++)
 				{
 				if( !(( currentToken().charAt(i) >= '0') && ( currentToken().charAt(i) <= '9')))
-					throw new RuntimeException( "Digits followed by non-digits at " + commandStream.getLineNumber());
+					throw new AdvancedScriptException( "Digits followed by non-digits at " + commandStream.getLineNumber());
 				resultInt += ( resultInt * 10) + ( currentToken().charAt(i) - '0');
 				}
 			readToken(); //integer
@@ -685,7 +699,7 @@ if( scriptRequestor == null)
 			{
 				if( i == line.length())
 				{
-					throw new RuntimeException( "No closing '\"' found at line " + commandStream.getLineNumber());
+					throw new AdvancedScriptException( "No closing '\"' found at line " + commandStream.getLineNumber());
 				}
 				if( line.charAt(i) == '"')
 				{
@@ -703,14 +717,14 @@ if( scriptRequestor == null)
 				type = parseType();
 			
 			if( type == null)
-				throw new RuntimeException( "Unknown type " + currentToken() + " at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "Unknown type " + currentToken() + " at line " + commandStream.getLineNumber());
 			if( !currentToken().equals("["))
-				throw new RuntimeException( "'[' Expected at line " + commandStream.getLineNumber());
+				throw new AdvancedScriptException( "'[' Expected at line " + commandStream.getLineNumber());
 			for( i = 1; ; i++)
 			{
 				if( i == line.length())
 				{
-					throw new RuntimeException( "No closing ']' found at line " + commandStream.getLineNumber());
+					throw new AdvancedScriptException( "No closing ']' found at line " + commandStream.getLineNumber());
 				}
 				if( line.charAt(i) == ']')
 				{
@@ -743,7 +757,7 @@ if( scriptRequestor == null)
 			return null;
 	}
 
-	private ScriptVariableReference parseVariableReference( ScriptScope scope)
+	private ScriptVariableReference parseVariableReference( ScriptScope scope) throws AdvancedScriptException
 	{
 		ScriptVariableReference result = null;
 
@@ -1009,7 +1023,7 @@ if( scriptRequestor == null)
 	}
 
 
-	private ScriptValue executeGlobalScope( ScriptScope globalScope)
+	private ScriptValue executeGlobalScope( ScriptScope globalScope) throws AdvancedScriptException
 	{
 		ScriptFunction	main;
 		ScriptValue	result = null;
@@ -1020,7 +1034,7 @@ if( scriptRequestor == null)
 		if( main == null)
 		{
 			if( globalScope.getFirstCommand() == null)
-				throw new RuntimeException( "No function main or command found.");
+				throw new AdvancedScriptException( "No function main or command found.");
 			result = globalScope.execute();
 		}
 		else
@@ -1130,7 +1144,7 @@ class ScriptScope extends ScriptListNode
 		return true;
 	}
 
-	public ScriptFunction findFunction( String name, ScriptExpressionList params)
+	public ScriptFunction findFunction( String name, ScriptExpressionList params) throws AdvancedScriptException
 	{
 
 
@@ -1153,10 +1167,10 @@ class ScriptScope extends ScriptListNode
 				)
 				{
 					if( !currentParam.getType().equals( currentValue.getType()))
-						throw new RuntimeException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+						throw new AdvancedScriptException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " at line " + KoLmafiaASH.commandStream.getLineNumber());
 				}
 				if(( currentParam != null) || ( currentValue != null))
-					throw new RuntimeException( "Illegal amount of parameters for function " + name + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+					throw new AdvancedScriptException( "Illegal amount of parameters for function " + name + " at line " + KoLmafiaASH.commandStream.getLineNumber());
 				return current;
 			}
 		}
@@ -1187,7 +1201,14 @@ class ScriptScope extends ScriptListNode
 				throw new RuntimeException( "Internal error: continue outside of loop");
 			}
 		}
-		return new ScriptValue( KoLmafiaASH.TYPE_VOID, 0);
+		try
+		{
+			return new ScriptValue( KoLmafiaASH.TYPE_VOID, 0);
+		}
+		catch( AdvancedScriptException e)
+		{
+			throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing.");
+		}
 	}
 
 }
@@ -1335,24 +1356,31 @@ class ScriptExistingFunction extends ScriptFunction
 
 	public ScriptValue execute()
 	{
-		if( name.equals( "adventure"))
-			return executeAdventureRequest( variables[0].getIntValue(), variables[1].getLocation());
-		else if( name.equals( "buy"))
-			return executeBuyRequest( variables[0].getIntValue(), variables[1].getIntValue());
-		else if( name.equals( "create"))
-			return executeCreateRequest( variables[0].getIntValue(), variables[1].getIntValue());
-		else if( name.equals( "use") || name.equals( "eat"))
-			return executeUseRequest( variables[0].getIntValue(), variables[1].getIntValue());
-		else if( name.equals( "item_amount"))
-			return executeItemAmountRequest( variables[0].getIntValue());
-		else if( name.equals( "print"))
-			return executePrintRequest( variables[0].getStringValue());
-		else
-			throw new RuntimeException( "Internal error: unknown global function " + name);
+		try
+		{
+			if( name.equals( "adventure"))
+				return executeAdventureRequest( variables[0].getIntValue(), variables[1].getLocation());
+			else if( name.equals( "buy"))
+				return executeBuyRequest( variables[0].getIntValue(), variables[1].getIntValue());
+			else if( name.equals( "create"))
+				return executeCreateRequest( variables[0].getIntValue(), variables[1].getIntValue());
+			else if( name.equals( "use") || name.equals( "eat"))
+				return executeUseRequest( variables[0].getIntValue(), variables[1].getIntValue());
+			else if( name.equals( "item_amount"))
+				return executeItemAmountRequest( variables[0].getIntValue());
+			else if( name.equals( "print"))
+				return executePrintRequest( variables[0].getStringValue());
+			else
+				throw new RuntimeException( "Internal error: unknown global function " + name);
+		}
+		catch( AdvancedScriptException e)
+		{
+			throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing.");
+		}
 	}
 
 
-	public ScriptValue executeAdventureRequest( int amount, KoLAdventure location)
+	public ScriptValue executeAdventureRequest( int amount, KoLAdventure location) throws AdvancedScriptException
 	{
 		scriptRequestor.updateDisplay( KoLmafia.DISABLE_STATE, "Beginning " + amount + " turnips to " + location.toString() + "..." );
 		scriptRequestor.makeRequest( location, amount );
@@ -1363,7 +1391,7 @@ class ScriptExistingFunction extends ScriptFunction
 			return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);
 	}
 
-	public ScriptValue executeBuyRequest( int amount, int itemID)
+	public ScriptValue executeBuyRequest( int amount, int itemID) throws AdvancedScriptException
 	{
 		ArrayList results;
 
@@ -1378,7 +1406,7 @@ class ScriptExistingFunction extends ScriptFunction
 			return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);
 	}
 
-	public ScriptValue executeCreateRequest( int amount, int itemID)
+	public ScriptValue executeCreateRequest( int amount, int itemID) throws AdvancedScriptException
 	{
 		ItemCreationRequest irequest = ItemCreationRequest.getInstance( scriptRequestor, itemID, amount );
 		scriptRequestor.makeRequest( irequest, 1 );
@@ -1392,7 +1420,7 @@ class ScriptExistingFunction extends ScriptFunction
 			return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);		
 	}
 
-	public ScriptValue executeUseRequest( int amount, int itemID)
+	public ScriptValue executeUseRequest( int amount, int itemID) throws AdvancedScriptException
 	{
 		String itemName;
 		int consumptionType;
@@ -1411,7 +1439,7 @@ class ScriptExistingFunction extends ScriptFunction
 			return new ScriptValue( KoLmafiaASH.TYPE_BOOLEAN, 0);
 	}
 
-	public ScriptValue executeItemAmountRequest( int itemID)
+	public ScriptValue executeItemAmountRequest( int itemID) throws AdvancedScriptException
 	{
 		AdventureResult item;
 
@@ -1420,7 +1448,7 @@ class ScriptExistingFunction extends ScriptFunction
 		return new ScriptValue( KoLmafiaASH.TYPE_INT, item.getCount( KoLCharacter.getInventory()));
 	}
 
-	public ScriptValue executePrintRequest( String message)
+	public ScriptValue executePrintRequest( String message) throws AdvancedScriptException
 	{
 		scriptRequestor.updateDisplay( KoLmafia.DISABLE_STATE, message );
 
@@ -1522,12 +1550,12 @@ class ScriptVariableReference extends ScriptValue
 		this.target = target;
 	}
 
-	public ScriptVariableReference( String varName, ScriptScope scope)
+	public ScriptVariableReference( String varName, ScriptScope scope) throws AdvancedScriptException
 	{
 		target = findVariable( varName, scope);
 	}
 
-	private ScriptVariable findVariable( String name, ScriptScope scope)
+	private ScriptVariable findVariable( String name, ScriptScope scope) throws AdvancedScriptException
 	{
 		ScriptVariable current;
 
@@ -1543,7 +1571,7 @@ class ScriptVariableReference extends ScriptValue
 			scope = scope.getParentScope();
 		} while( scope != null);
 		
-		throw new RuntimeException( "Undefined variable " + name + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+		throw new AdvancedScriptException( "Undefined variable " + name + " at line " + KoLmafiaASH.commandStream.getLineNumber());
 	}
 
 	public ScriptType getType()
@@ -1594,14 +1622,14 @@ class ScriptCommand extends ScriptListNode
 		
 	}
 
-	public ScriptCommand( String command)
+	public ScriptCommand( String command) throws AdvancedScriptException
 	{
 		if( command.equals( "break"))
 			this.command = KoLmafiaASH.COMMAND_BREAK;
 		else if( command.equals( "continue"))
 			this.command = KoLmafiaASH.COMMAND_CONTINUE;
 		else
-			throw new RuntimeException( command + " is not a command at line " + KoLmafiaASH.commandStream.getLineNumber());
+			throw new AdvancedScriptException( command + " is not a command at line " + KoLmafiaASH.commandStream.getLineNumber());
 	}
 
 	public ScriptCommand( int command)
@@ -1666,11 +1694,11 @@ class ScriptReturn extends ScriptCommand
 {
 	private ScriptExpression returnValue;
 
-	public ScriptReturn( ScriptExpression returnValue, ScriptType expectedType)
+	public ScriptReturn( ScriptExpression returnValue, ScriptType expectedType) throws AdvancedScriptException
 	{
 		this.returnValue = returnValue;
 		if( !( expectedType == null) && !returnValue.getType().equals( expectedType))
-			throw new RuntimeException( "Cannot apply " + returnValue.getType().toString() + " to " + expectedType.toString() + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+			throw new AdvancedScriptException( "Cannot apply " + returnValue.getType().toString() + " to " + expectedType.toString() + " at line " + KoLmafiaASH.commandStream.getLineNumber());
 	}
 
 	public ScriptType getType()
@@ -1701,12 +1729,12 @@ class ScriptLoop extends ScriptCommand
 	private ScriptScope		scope;
 	private ScriptLoopList		elseLoops;
 
-	public ScriptLoop( ScriptScope scope, ScriptExpression condition, boolean repeat)
+	public ScriptLoop( ScriptScope scope, ScriptExpression condition, boolean repeat) throws AdvancedScriptException
 	{
 		this.scope = scope;
 		this.condition = condition;
 		if( !( condition.getType().equals( KoLmafiaASH.TYPE_BOOLEAN)))
-			throw new RuntimeException( "Cannot apply " + condition.getType().toString() + " to boolean at line " + KoLmafiaASH.commandStream.getLineNumber());
+			throw new AdvancedScriptException( "Cannot apply " + condition.getType().toString() + " to boolean at line " + KoLmafiaASH.commandStream.getLineNumber());
 		this.repeat = repeat;
 		elseLoops = new ScriptLoopList();
 	}
@@ -1737,10 +1765,10 @@ class ScriptLoop extends ScriptCommand
 	}
 
 
-	public void addElseLoop( ScriptLoop elseLoop)
+	public void addElseLoop( ScriptLoop elseLoop) throws AdvancedScriptException
 	{
 		if( repeat == true)
-			throw new RuntimeException( "Else without if at line " + KoLmafiaASH.commandStream.getLineNumber());
+			throw new AdvancedScriptException( "Else without if at line " + KoLmafiaASH.commandStream.getLineNumber());
 		elseLoops.addElement( elseLoop);
 	}
 
@@ -1804,15 +1832,15 @@ class ScriptCall extends ScriptValue
 	private ScriptFunction				target;
 	private ScriptExpressionList			params;
 
-	public ScriptCall( String functionName, ScriptScope scope, ScriptExpressionList params)
+	public ScriptCall( String functionName, ScriptScope scope, ScriptExpressionList params) throws AdvancedScriptException
 	{
 		target = findFunction( functionName, scope, params);
 		if( target == null)
-			throw new RuntimeException( "Undefined reference " + functionName + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+			throw new AdvancedScriptException( "Undefined reference " + functionName + " at line " + KoLmafiaASH.commandStream.getLineNumber());
 		this.params = params;
 	}
 
-	private ScriptFunction findFunction( String name, ScriptScope scope, ScriptExpressionList params)
+	private ScriptFunction findFunction( String name, ScriptScope scope, ScriptExpressionList params) throws AdvancedScriptException
 	{
 		if( scope == null)
 			return null;
@@ -1866,12 +1894,12 @@ class ScriptAssignment extends ScriptCommand
 	private ScriptVariableReference	leftHandSide;
 	private ScriptExpression	rightHandSide;
 
-	public ScriptAssignment( ScriptVariableReference leftHandSide, ScriptExpression rightHandSide)
+	public ScriptAssignment( ScriptVariableReference leftHandSide, ScriptExpression rightHandSide) throws AdvancedScriptException
 	{
 		this.leftHandSide = leftHandSide;
 		this.rightHandSide = rightHandSide;
 		if( !leftHandSide.getType().equals( rightHandSide.getType()))
-			throw new RuntimeException( "Cannot apply " + rightHandSide.getType().toString() + " to " + leftHandSide.toString() + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+			throw new AdvancedScriptException( "Cannot apply " + rightHandSide.getType().toString() + " to " + leftHandSide.toString() + " at line " + KoLmafiaASH.commandStream.getLineNumber());
 	}
 
 	public ScriptVariableReference getLeftHandSide()
@@ -1955,7 +1983,7 @@ class ScriptValue extends ScriptExpression
 		//should not be called
 	}
 
-	public ScriptValue( int type)
+	public ScriptValue( int type) throws AdvancedScriptException
 	{
 		this.type = new ScriptType( type);
 		fillContent();
@@ -1966,7 +1994,7 @@ class ScriptValue extends ScriptExpression
 		this.type = type;
 	}
 
-	public ScriptValue( int type, int contentInt)
+	public ScriptValue( int type, int contentInt) throws AdvancedScriptException
 	{
 		this.type = new ScriptType( type);
 		this.contentInt = contentInt;
@@ -1974,7 +2002,7 @@ class ScriptValue extends ScriptExpression
 	}
 
 
-	public ScriptValue( ScriptType type, int contentInt)
+	public ScriptValue( ScriptType type, int contentInt) throws AdvancedScriptException
 	{
 		this.type = type;
 		this.contentInt = contentInt;
@@ -1982,14 +2010,14 @@ class ScriptValue extends ScriptExpression
 	}
 
 
-	public ScriptValue( int type, String contentString)
+	public ScriptValue( int type, String contentString) throws AdvancedScriptException
 	{
 		this.type = new ScriptType( type);
 		this.contentString = contentString;
 		fillContent();
 	}
 
-	public ScriptValue( ScriptType type, String contentString)
+	public ScriptValue( ScriptType type, String contentString) throws AdvancedScriptException
 	{
 		this.type = type;
 		this.contentString = contentString;
@@ -2041,12 +2069,12 @@ class ScriptValue extends ScriptExpression
 		return this;
 	}
 
-	public void fillContent()
+	public void fillContent() throws AdvancedScriptException
 	{
 		if( type.equals( KoLmafiaASH.TYPE_ITEM))
 		{
 			if(( contentInt = TradeableItemDatabase.getItemID( contentString)) == -1)
-				throw new RuntimeException( "Item" + contentString + " not found in database at line " + KoLmafiaASH.commandStream.getLineNumber());
+				throw new AdvancedScriptException( "Item" + contentString + " not found in database at line " + KoLmafiaASH.commandStream.getLineNumber());
 		}
 		if( type.equals( KoLmafiaASH.TYPE_ZODIAC))
 			{
@@ -2069,12 +2097,12 @@ class ScriptValue extends ScriptExpression
 			else if( contentString.equalsIgnoreCase( "packrat"))
 				contentInt = KoLmafiaASH.ZODIAC_PACKRAT;
 			else
-				throw new RuntimeException( "Unknown zodiac " + contentString + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+				throw new AdvancedScriptException( "Unknown zodiac " + contentString + " at line " + KoLmafiaASH.commandStream.getLineNumber());
 			}
 		if( type.equals( KoLmafiaASH.TYPE_LOCATION))
 		{
 			if(( content = AdventureDatabase.getAdventure( contentString)) == null)
-				throw new RuntimeException( "Location " + contentString + " not found in database at line " + KoLmafiaASH.commandStream.getLineNumber());
+				throw new AdvancedScriptException( "Location " + contentString + " not found in database at line " + KoLmafiaASH.commandStream.getLineNumber());
 		}
 	}
 
@@ -2093,12 +2121,12 @@ class ScriptExpression extends ScriptCommand
 	ScriptExpression	rhs;
 	ScriptOperator		oper;
 
-	public ScriptExpression(ScriptExpression lhs, ScriptExpression rhs, ScriptOperator oper)
+	public ScriptExpression(ScriptExpression lhs, ScriptExpression rhs, ScriptOperator oper) throws AdvancedScriptException
 	{
 		this.lhs = lhs;
 		this.rhs = rhs;
 		if(( rhs != null) && !lhs.getType().equals( rhs.getType()))
-			throw new RuntimeException( "Cannot apply " + lhs.getType().toString() + " to " + rhs.getType().toString() + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+			throw new AdvancedScriptException( "Cannot apply " + lhs.getType().toString() + " to " + rhs.getType().toString() + " at line " + KoLmafiaASH.commandStream.getLineNumber());
 		this.oper = oper;
 	}
 
@@ -2135,7 +2163,14 @@ class ScriptExpression extends ScriptCommand
 
 	public ScriptValue execute()
 	{
-		return oper.applyTo(lhs, rhs);
+		try
+		{
+			return oper.applyTo(lhs, rhs);
+		}
+		catch( AdvancedScriptException e)
+		{
+			throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing.");
+		}
 	}
 
 }
@@ -2211,7 +2246,7 @@ class ScriptOperator
 		return operString;
 	}
 
-	public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs)
+	public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs) throws AdvancedScriptException
 	{
 
 		ScriptValue leftResult = lhs.execute();
@@ -2437,4 +2472,12 @@ class ScriptList
 		return n.getNext();
 	}
 
+}
+
+class AdvancedScriptException extends Exception
+{
+	AdvancedScriptException( String s)
+	{
+		super( s);
+	}
 }
