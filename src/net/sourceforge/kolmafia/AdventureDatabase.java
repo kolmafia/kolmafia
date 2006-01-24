@@ -39,9 +39,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -250,25 +247,7 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final void refreshTable()
 	{
-		File override = new File( "data/adventures.dat" );
-		BufferedReader reader = null;
-
-		if ( override.exists() )
-		{
-			try
-			{
-				reader = new BufferedReader( new InputStreamReader( new FileInputStream( override ) ) );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-			}
-		}
-
-		if ( reader == null )
-			reader = getReader( "adventures.dat" );
-
+		BufferedReader reader = getReader( "adventures.dat", true );
 
 		adventureTable = new ArrayList[4];
 		for ( int i = 0; i < 4; ++i )

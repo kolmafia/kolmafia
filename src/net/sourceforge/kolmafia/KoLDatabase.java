@@ -37,15 +37,42 @@ package net.sourceforge.kolmafia;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.io.BufferedReader;
+
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class KoLDatabase extends StaticEntity
 {
 	static { System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" ); };
 
-	protected static BufferedReader getReader( String file )
-	{	return DataUtilities.getReaderForSharedDataFile( file );
+	protected static BufferedReader getReader( String filename )
+	{	return getReader( filename, false );
+	}
+
+	protected static BufferedReader getReader( String file, boolean allowOverride )
+	{
+		if ( allowOverride )
+		{
+			File override = new File( "data/adventures.dat" );
+			if ( override.exists() )
+			{
+				try
+				{
+					return new BufferedReader( new InputStreamReader( new FileInputStream( override ) ) );
+				}
+				catch ( Exception e )
+				{
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return DataUtilities.getReaderForSharedDataFile( file );
 	}
 
 	protected static String [] readData( BufferedReader reader )
