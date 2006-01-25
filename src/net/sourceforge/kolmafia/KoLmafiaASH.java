@@ -57,6 +57,13 @@ import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
+
+//Parameter value requests
+import javax.swing.JOptionPane;
+
+//Arrays
+import java.lang.reflect.Array;
+
 /**
  * The main class for the <code>KoLmafia</code> package.  This
  * class encapsulates most of the data relevant to any given
@@ -84,23 +91,9 @@ public class KoLmafiaASH
 	public static final int TYPE_LOCATION = 102;
 	public static final int TYPE_CLASS = 103;
 
-	public static final int ZODIAC_WALLABY = 1;
-	public static final int ZODIAC_MONGOOSE = 2;
-	public static final int ZODIAC_VOLE = 3;
-	public static final int ZODIAC_PLATYPUS = 4;
-	public static final int ZODIAC_OPOSSUM = 5;
-	public static final int ZODIAC_MARMOT = 6;
-	public static final int ZODIAC_WOMBAT = 7;
-	public static final int ZODIAC_BLENDER = 8;
-	public static final int ZODIAC_PACKRAT = 9;
-	public static final int ZODIAC_NONE = 10;
-
-	public static final int CLASS_SEALCLUBBER = 1;
-	public static final int CLASS_TURTLETAMER = 2;
-	public static final int CLASS_PASTAMANCER = 3;
-	public static final int CLASS_SAUCEROR = 4;
-	public static final int CLASS_DISCOBANDIT = 5;
-	public static final int CLASS_ACCORDIONTHIEF = 6;
+	public static final String[] zodiacs = {"none", "wallably", "mongoose", "vole", "platypus", "opossum", "marmot", "wombat", "blender", "packrat"};
+	public static final String[] classes = {"seal clubber", "turtle tamer", "pastamancer", "sauceror", "disco bandit", "accordion thief"};
+	public static final String[] booleans = {"true", "false"};
 
 	public static final int COMMAND_BREAK = 1;
 	public static final int COMMAND_CONTINUE = 2;
@@ -273,8 +266,6 @@ public class KoLmafiaASH
 		ScriptVariableList		paramList = null;
 		ScriptVariableReference		paramRef = null;
 
-		String lastParam = null;
-
 		if( parseIdentifier( currentToken()))
 			functionName = currentToken();
 		else
@@ -311,7 +302,6 @@ public class KoLmafiaASH
 			for( param = paramList.getFirstVariable(); param != null; param = paramNext)
 				{
 				paramNext = paramList.getNextVariable( param);
-				lastParam = param.getName().toString();
 				if( !result.getScope().addVariable( param))
 					throw new AdvancedScriptException( "Variable " + param.getName() + " already defined at line " + commandStream.getLineNumber());
 				}
@@ -695,16 +685,27 @@ public class KoLmafiaASH
 		else if(( result = parseVariableReference( scope)) != null)
 			return result;
 
-		else if(( currentToken().charAt( 0) >= '0') && ( currentToken().charAt( 0) <= '9'))
+		else if((( currentToken().charAt( 0) >= '0') && ( currentToken().charAt( 0) <= '9')) || (currentToken().charAt( 0) == '-'))
 		{
 			int resultInt;
+			boolean negative = false;
 
-			for( resultInt = 0, i = 0; i < currentToken().length(); i++)
-				{
+			i = 0;
+
+			if( currentToken().charAt( 0) == '-')
+			{
+				negative = true;
+				i = 1;
+			}
+
+			for( resultInt = 0; i < currentToken().length(); i++)
+			{
 				if( !(( currentToken().charAt(i) >= '0') && ( currentToken().charAt(i) <= '9')))
 					throw new AdvancedScriptException( "Digits followed by non-digits at " + commandStream.getLineNumber());
 				resultInt += ( resultInt * 10) + ( currentToken().charAt(i) - '0');
-				}
+			}
+			if( negative)
+				resultInt = resultInt * -1;
 			readToken(); //integer
 			return new ScriptValue( new ScriptType( TYPE_INT), resultInt);
 		}
@@ -1041,11 +1042,89 @@ public class KoLmafiaASH
 
 	private ScriptValue executeGlobalScope( ScriptScope globalScope) throws AdvancedScriptException
 	{
-		ScriptFunction	main;
-		ScriptValue	result = null;
-		String		functionName;
+		ScriptFunction		main;
+		ScriptVariableReference	mainParam;
+		ScriptValue		result = null;
+		String			functionName;
+		String			resultString;
 
 		main = globalScope.findFunction( "main", null);
+		for( mainParam = main.getFirstParam(); mainParam != null; mainParam = main.getNextParam( mainParam))
+		{
+			if( mainParam.getType().equals( TYPE_ZODIAC))
+			{
+				resultString = ( String) JOptionPane.showInputDialog
+				(
+					null,
+					"Please input a value for " + mainParam.getType().toString() + " " + mainParam.getName(),
+					"Input Variable",
+					JOptionPane.INFORMATION_MESSAGE,
+					null,
+					zodiacs,
+					zodiacs[0]
+				);
+				mainParam.setValue( new ScriptValue( TYPE_ZODIAC, resultString));
+			}
+			else if( mainParam.getType().equals( TYPE_CLASS))
+			{
+				resultString = ( String) JOptionPane.showInputDialog
+				(
+					null,
+					"Please input a value for " + mainParam.getType().toString() + " " + mainParam.getName(),
+					"Input Variable",
+					JOptionPane.INFORMATION_MESSAGE,
+					null,
+					classes,
+					classes[0]
+				);
+				mainParam.setValue( new ScriptValue( TYPE_CLASS, resultString));
+			}
+			else if( mainParam.getType().equals( TYPE_ITEM) || mainParam.getType().equals( TYPE_LOCATION) || mainParam.getType().equals( TYPE_STRING))
+			{
+				resultString = JOptionPane.showInputDialog( "Please input a value for " + mainParam.getType().toString() + " " + mainParam.getName());
+				mainParam.setValue( new ScriptValue( mainParam.getType(), resultString));
+			}
+			else if( mainParam.getType().equals( TYPE_INT))
+			{
+				int resultInt;
+
+				resultString = JOptionPane.showInputDialog( "Please input a value for " + mainParam.getType().toString() + " " + mainParam.getName());
+				try
+				{
+					resultInt = Integer.parseInt( resultString);
+				}
+				catch( NumberFormatException e)
+				{
+					throw new AdvancedScriptException( "Incorrect value for integer.");
+				}
+				mainParam.setValue( new ScriptValue( TYPE_INT, Integer.parseInt( resultString)));
+			}
+			else if( mainParam.getType().equals( TYPE_BOOLEAN))
+			{
+				resultString = ( String) JOptionPane.showInputDialog
+				(
+					null,
+					"Please input a value for " + mainParam.getType().toString() + " " + mainParam.getName(),
+					"Input Variable",
+					JOptionPane.INFORMATION_MESSAGE,
+					null,
+					booleans,
+					booleans[0]
+				);
+				if( resultString.equals( "true"))
+					mainParam.setValue( new ScriptValue( TYPE_BOOLEAN, 1));
+				else if ( resultString.equals( "false"))
+					mainParam.setValue( new ScriptValue( TYPE_BOOLEAN, 0));
+				else
+					throw new AdvancedScriptException( "Internal error: Illegal value for boolean");
+			}
+			else if( mainParam.getType().equals( TYPE_VOID))
+			{
+				mainParam.setValue( new ScriptValue( TYPE_VOID));
+			}
+			else
+				throw new AdvancedScriptException( "Internal error: Illegal type for main() parameter");	
+		}
 
 		if( main == null)
 		{
@@ -2188,30 +2267,18 @@ class ScriptValue extends ScriptExpression
 				throw new AdvancedScriptException( "Item" + contentString + " not found in database at line " + KoLmafiaASH.commandStream.getLineNumber());
 		}
 		else if( type.equals( KoLmafiaASH.TYPE_ZODIAC))
+		{
+			for( int i = 0; ; i++)
 			{
-			if( contentString.equalsIgnoreCase( "wallaby"))
-				contentInt = KoLmafiaASH.ZODIAC_WALLABY;
-			else if( contentString.equalsIgnoreCase( "mongoose"))
-				contentInt = KoLmafiaASH.ZODIAC_MONGOOSE;
-			else if( contentString.equalsIgnoreCase( "vole"))
-				contentInt = KoLmafiaASH.ZODIAC_VOLE;
-			else if( contentString.equalsIgnoreCase( "platypus"))
-				contentInt = KoLmafiaASH.ZODIAC_PLATYPUS;
-			else if( contentString.equalsIgnoreCase( "opossum"))
-				contentInt = KoLmafiaASH.ZODIAC_OPOSSUM;
-			else if( contentString.equalsIgnoreCase( "marmot"))
-				contentInt = KoLmafiaASH.ZODIAC_MARMOT;
-			else if( contentString.equalsIgnoreCase( "wombat"))
-				contentInt = KoLmafiaASH.ZODIAC_WOMBAT;
-			else if( contentString.equalsIgnoreCase( "blender"))
-				contentInt = KoLmafiaASH.ZODIAC_BLENDER;
-			else if( contentString.equalsIgnoreCase( "packrat"))
-				contentInt = KoLmafiaASH.ZODIAC_PACKRAT;
-			else if( contentString.equalsIgnoreCase( "none"))
-				contentInt = KoLmafiaASH.ZODIAC_NONE;
-			else
-				throw new AdvancedScriptException( "Unknown zodiac " + contentString + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+				if( i == Array.getLength( KoLmafiaASH.zodiacs))
+					throw new AdvancedScriptException( "Unknown zodiac " + contentString + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+				if( contentString.equalsIgnoreCase( KoLmafiaASH.zodiacs[i]))
+				{
+					contentInt = i;
+					break;
+				}
 			}
+		}
 		else if( type.equals( KoLmafiaASH.TYPE_LOCATION))
 		{
 			if(( content = AdventureDatabase.getAdventure( contentString)) == null)
@@ -2219,20 +2286,16 @@ class ScriptValue extends ScriptExpression
 		}
 		else if( type.equals( KoLmafiaASH.TYPE_CLASS))
 		{
-			if( contentString.equalsIgnoreCase( "sealclubber") || contentString.equalsIgnoreCase( "seal clubber"))
-				contentInt = KoLmafiaASH.CLASS_SEALCLUBBER;
-			else if( contentString.equalsIgnoreCase( "turtletamer") || contentString.equalsIgnoreCase( "turtle tamer"))
-				contentInt = KoLmafiaASH.CLASS_TURTLETAMER;
-			else if( contentString.equalsIgnoreCase( "pastamancer"))
-				contentInt = KoLmafiaASH.CLASS_PASTAMANCER;
-			else if( contentString.equalsIgnoreCase( "sauceror"))
-				contentInt = KoLmafiaASH.CLASS_SAUCEROR;
-			else if( contentString.equalsIgnoreCase( "discobandit") || contentString.equalsIgnoreCase( "disco bandit"))
-				contentInt = KoLmafiaASH.CLASS_DISCOBANDIT;
-			else if( contentString.equalsIgnoreCase( "accordionthief") || contentString.equalsIgnoreCase( "accordion thief"))
-				contentInt = KoLmafiaASH.CLASS_ACCORDIONTHIEF;
-			else
-				throw new AdvancedScriptException( "Unknown class " + contentString + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+			for( int i = 0; ; i++)
+			{
+				if( i == Array.getLength( KoLmafiaASH.classes))
+					throw new AdvancedScriptException( "Unknown class " + contentString + " at line " + KoLmafiaASH.commandStream.getLineNumber());
+				if( contentString.equalsIgnoreCase( KoLmafiaASH.classes[i]))
+				{
+					contentInt = i;
+					break;
+				}
+			}
 		}
 	}
 
@@ -2581,12 +2644,10 @@ class ScriptList
 		ScriptListNode current;
 		ScriptListNode previous = null;
 
-		if( n.getNext() != null)
-			throw new RuntimeException( "Internal error: Element already in list.");
-
 		if( firstNode == null)
 			{
 			firstNode = n;
+			n.setNext( null);
 			return true;
 			}
 		for( current = firstNode; current != null; previous = current, current = current.getNext())
@@ -2615,9 +2676,6 @@ class ScriptList
 	{
 		ScriptListNode current;
 		ScriptListNode previous = null;
-
-		if( n.getNext() != null)
-			throw new RuntimeException( "Internal error: Element already in list.");
 
 		if( firstNode == null)
 			{
