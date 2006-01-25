@@ -95,7 +95,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 	{	return ascensionMap;
 	}
 
-	public static String getAscensionData( boolean isSoftcore )
+	public static String getAscensionData( boolean isSoftcore, int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, boolean playerMoreThanOnce )
 	{
 		initializeAscensionData();
 		StringBuffer strbuf = new StringBuffer();
@@ -151,7 +151,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		AscensionDataRequest.setComparator( isSoftcore );
 		Collections.sort( ascensionDataList );
 
-		for ( int i = 0; i < ascensionDataList.size() && i < 20; ++i )
+		for ( int i = 0; i < ascensionDataList.size() && ( ( mostAscensionsBoardSize == 0) ? (i < 20) : ( i < mostAscensionsBoardSize)); ++i )
 		{
 			strbuf.append( ascensionDataList.get(i).toString() );
 			strbuf.append( LINE_BREAK );
@@ -163,27 +163,27 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// Finally, the ascension leaderboards for fastest
 		// ascension speed.  Do this for all paths individually.
 
-		strbuf.append( getAscensionData( isSoftcore, OXYGENARIAN ) );
+		strbuf.append( _getAscensionData( isSoftcore, OXYGENARIAN, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, TEETOTALER ) );
+		strbuf.append( _getAscensionData( isSoftcore, TEETOTALER, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, BOOZETAFARIAN ) );
+		strbuf.append( _getAscensionData( isSoftcore, BOOZETAFARIAN, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, NOPATH ) );
+		strbuf.append( _getAscensionData( isSoftcore, NOPATH, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 
 		strbuf.append( "</center>" );
 		return strbuf.toString();
 	}
 
-	public static String getAscensionData( boolean isSoftcore, int pathFilter )
+	public static String _getAscensionData( boolean isSoftcore, int pathFilter, int mainBoardSize, int classBoardSize, boolean playerMoreThanOnce )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
 		// First, print the table showing the top ascenders
 		// without a class-based filter.
 
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, NO_FILTER ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, NO_FILTER, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 
 		// Next, print the nifty disappearing link bar that
 		// is used in the KoL leaderboard frame.
@@ -202,27 +202,27 @@ public class AscensionSnapshotTable extends KoLDatabase
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "<table><tr><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, SEAL_CLUBBER ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, SEAL_CLUBBER, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, SAUCEROR ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, SAUCEROR, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td></tr><tr><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, TURTLE_TAMER ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, TURTLE_TAMER, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, DISCO_BANDIT ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, DISCO_BANDIT, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td></tr><tr><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, PASTAMANCER ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, PASTAMANCER, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, ACCORDION_THIEF ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, ACCORDION_THIEF, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td></tr></table>" );
 
@@ -233,7 +233,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	public static String getAscensionData( boolean isSoftcore, int pathFilter, int classFilter )
+	public static String getAscensionData( boolean isSoftcore, int pathFilter, int classFilter, int mainBoardSize, int classBoardSize, boolean playerMoreThanOnce )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
@@ -264,14 +264,14 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// a maximum of ten elements are printed.
 
 		List leaderList = new ArrayList();
-		int leaderListSize = classFilter == NO_FILTER ? 10 : 5;
+		int leaderListSize = classFilter == NO_FILTER ? ( mainBoardSize == 0 ? 10 : mainBoardSize) : ( classBoardSize == 0 ? 5 : classBoardSize);
 
 		fields = new AscensionDataRequest.AscensionDataField[ resultsList.size() ];
 		resultsList.toArray( fields );
 
 		for ( int i = 0; i < fields.length && leaderList.size() < leaderListSize; ++i )
-			if ( !leaderList.contains( fields[i] ) )
-				leaderList.add( fields[i] );
+			if ( !leaderList.contains( fields[i] ) || playerMoreThanOnce )
+				leaderList.add( fields[i] );	
 
 		// Now that the data has been retrieved, go ahead
 		// and print the table header data.

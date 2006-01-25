@@ -726,17 +726,32 @@ public class ClanManageFrame extends KoLFrame
 			{ "<td>Ascensions</td>", "Ascension breakdown" }
 		};
 
+		private JTextField mostAscensionsBoardSizeField;
+		private JTextField mainBoardSizeField;
+		private JTextField classBoardSizeField;
+		private JCheckBox playerMoreThanOnceOption;
+
 		public SnapshotPanel()
 		{
 			super( "snapshot", "logshot", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+			VerifiableElement [] elements = new VerifiableElement[ options.length + 4 ];
 
 			optionBoxes = new JCheckBox[ options.length ];
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i] = new JCheckBox();
 
+			mostAscensionsBoardSizeField = new JTextField( 2);
+			mainBoardSizeField = new JTextField( 2);
+			classBoardSizeField = new JTextField( 2);
+			playerMoreThanOnceOption = new JCheckBox();
+
 			for ( int i = 0; i < options.length; ++i )
 				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+			elements[ options.length] = new VerifiableElement( "Most Ascensions Board Size (default 20)", JLabel.LEFT, mostAscensionsBoardSizeField);
+			elements[ options.length + 1] = new VerifiableElement( "Fastest Ascensions Board Size (default 10)", JLabel.LEFT, mainBoardSizeField);
+			elements[ options.length + 2] = new VerifiableElement( "Class Ascensions Board Size (default 5)", JLabel.LEFT, classBoardSizeField);
+			elements[ options.length + 3] = new VerifiableElement( "Let one player occurr multiple times per board", JLabel.LEFT, playerMoreThanOnceOption);
 
 			setContent( elements, null, null, true, true );
 
@@ -750,6 +765,29 @@ public class ClanManageFrame extends KoLFrame
 			// Apply all the settings before generating the
 			// needed clan ClanSnapshotTable.
 
+			int mostAscensionsBoardSize;
+			int mainBoardSize;
+			int classBoardSize;
+			boolean playerMoreThanOnce;
+
+			if( mostAscensionsBoardSizeField.getText().equals( ""))
+				mostAscensionsBoardSize = 0;
+			else
+				mostAscensionsBoardSize = Integer.parseInt( mostAscensionsBoardSizeField.getText());
+
+			if( mainBoardSizeField.getText().equals( ""))
+				mainBoardSize = 0;
+			else
+				mainBoardSize = Integer.parseInt( mainBoardSizeField.getText());
+
+			if( classBoardSizeField.getText().equals( ""))
+				classBoardSize = 0;
+			else
+				classBoardSize = Integer.parseInt( classBoardSizeField.getText());
+
+			playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
+
+
 			StringBuffer tableHeaderSetting = new StringBuffer();
 
 			for ( int i = 0; i < options.length; ++i )
@@ -761,7 +799,7 @@ public class ClanManageFrame extends KoLFrame
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.
 
-			ClanManager.takeSnapshot();
+			ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, playerMoreThanOnce);
 		}
 
 		protected void actionCancelled()

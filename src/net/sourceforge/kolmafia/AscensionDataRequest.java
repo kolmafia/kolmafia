@@ -288,18 +288,9 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 							Integer.parseInt(columnsNew[1].substring(3,5))
 							).getTime().getTime();
 						double difference = newDate - oldDate;
-						if( difference > 0)  //Dates of old ascensions have been re-calculated or something, causing inconsistencies with legacy ascension data. These inconsistencies produce negative values.
-							{
-							int days = (int)(Math.round((difference/(1000*60*60*24))));
-							days++;	//Ascensions count both first day and last day
-							columnsNew[6] = Integer.toString(days);
-							}
-						else
-							{
-							columnsNew[6] = "999";	//This is the best "easy" fix to the clan leaderboards I can think of. A much harder fix would match all legacy data to the new data, but this could be a daunting task.
-										//Matching each ascension is simple for people, but automating it is hard since the date is off, and that is what I have been using as the key value
-										//updating legacy ascension data to be the same as the currently available data fixes the problem as well.
-							}
+						int days = (int)(Math.round((difference/(1000*60*60*24))));
+						days++;	//Ascensions count both first day and last day
+						columnsNew[6] = Integer.toString(days);
 					}
 					catch ( Exception e )
 					{

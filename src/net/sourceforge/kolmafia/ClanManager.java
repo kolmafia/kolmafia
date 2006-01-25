@@ -417,7 +417,7 @@ public class ClanManager extends StaticEntity
 	 * initialized, this method will also initialize that list.
 	 */
 
-	public static void takeSnapshot()
+	public static void takeSnapshot( int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, boolean playerMoreThanOnce )
 	{
 		retrieveClanData();
 
@@ -483,11 +483,11 @@ public class ClanManager extends StaticEntity
 				client.updateDisplay( DISABLE_STATE, "Storing ascension snapshot..." );
 
 				ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
-				ostream.println( AscensionSnapshotTable.getAscensionData( true ) );
+				ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 				ostream.close();
 
 				ostream = new PrintStream( new FileOutputStream( hardcoreFile, true ), true );
-				ostream.println( AscensionSnapshotTable.getAscensionData( false ) );
+				ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
 				ostream.close();
 			}
 		}
