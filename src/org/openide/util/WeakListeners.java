@@ -24,47 +24,50 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentListener;
 
 
-/** A generic weak listener factory.
- * Creates a weak implementation of a listener of type lType.
+/**
+ * <p>A generic weak listener factory.</p>
  *
- * In the following examples, I'll use following naming:
- * There are four objects involved in weak listener usage:
- *  The event source object
- *  The observer - object that wants to listen on source
- *  The listener - the implementation of the corresponding
- *     *Listener interface, sometimes the observer itself but
+ * <p>Creates a weak implementation of a listener of type lType.</p>
+ *
+ * <p>In the following examples, I'll use following naming:</p>
+ *
+ * <p>There are four objects involved in weak listener usage:</p>
+ *
+ *  <ul><li>The event source object
+ *  <li>The observer - object that wants to listen on source
+ *  <li>The listener - the implementation of the corresponding
+ *     Listener interface, sometimes the observer itself but
  *     often some observer's inner class delegating the events to the observer.
- *  The weak listener implementation.
+ *  <li>The weak listener implementation.</ul>
  *
- * The examples are written for ChangeListener. The Utilities
+ * <p>The examples are written for ChangeListener. The Utilities
  * have factory methods for the most common listeners used in NetBeans
- * and also one universal factory method you can use for other listeners.
+ * and also one universal factory method you can use for other listeners.</p>
  *
- * How to use it:
- * Here is an example how to write a listener/observer and make it listen
- * on some source:
- *  *  public class ListenerObserver implements ChangeListener {
+ * <p>How to use it:</p>
+ *
+ * <p>Here is an example how to write a listener/observer and make it listen
+ * on some source:</p>
+ *
+ * <pre>public class ListenerObserver implements ChangeListener {
  *      private void registerTo(Source source) {
- *          source.addChangeListener({@link
-                #change(javax.swing.event.ChangeListener, java.lang.Object)
- *              WeakListeners.changeListener} (this, source));
+ *          source.addChangeListener( this, source );
  *      }
  *
  *      public void stateChanged(ChangeEvent e) {
  *          doSomething();
  *      }
- *  }
+ *  }</pre>
  *
- * You can also factor out the listener implementation to some other class
- * if you don't want to expose the stateChanged method (better technique):
- *  *  public class Observer {
+ * <p>You can also factor out the listener implementation to some other class
+ * if you don't want to expose the stateChanged method (better technique):</p>
+ *
+ * <pre>public class Observer {
  *      private Listener listener;
  *
  *      private void registerTo(Source source) {
  *          listener = new Listener();
- *          source.addChangeListener({@link
-                #change(javax.swing.event.ChangeListener, java.lang.Object)
- *              WeakListeners.change} (listener, source));
+ *          source.addChangeListener( listener, source );
  *      }
  *
  *      private class Listener implements ChangeListener {
@@ -72,29 +75,30 @@ import javax.swing.event.DocumentListener;
  *              doSomething();
  *          }
  *      }
- *  }
+ *  }</pre>
  *
- * Note: The observer keeps the reference to the listener, it won't work
- * otherwise, see below.
+ * <p>Note: The observer keeps the reference to the listener, it won't work
+ * otherwise, see below.</p>
  *
- * You can also use the universal factory for other listeners:
- *  *  public class Observer implements SomeListener {
+ * <p>You can also use the universal factory for other listeners:</p>
+ *
+ * <pre>public class Observer implements SomeListener {
  *      private void registerTo(Source source) {
- *          source.addSomeListener((SomeListener){@link
- *              #create(java.lang.Class, java.util.EventListener, java.lang.Object)
- *              WeakListeners.create} (
- *                  SomeListener.class, this, source));
+ *          source.addSomeListener((SomeListener)(
+ *                  SomeListener.class, this, source );
  *      }
  *
  *      public void someEventHappened(SomeEvent e) {
  *          doSomething();
  *      }
- *  }
+ *  }</pre>
  *
  *
- * How to not use it:
- * Here are examples of a common mistakes done when using weak listener:
- *  *  public class Observer {
+ * <p>How to not use it:</p>
+ *
+ * <p>Here are examples of a common mistakes done when using weak listener:</p>
+ *
+ * <pre>public class Observer {
  *      private void registerTo(Source source) {
  *          source.addChangeListener(WeakListeners.change(new Listener(), source));
  *      }
@@ -104,12 +108,12 @@ import javax.swing.event.DocumentListener;
  *              doSomething();
  *          }
  *      }
- *  }
+ *  }</pre>
  *
- * Mistake: There is nobody holding strong reference to the Listener instance,
- * so it may be freed on the next GC cycle.
+ * <p>Mistake: There is nobody holding strong reference to the Listener instance,
+ * so it may be freed on the next GC cycle.</p>
  *
- *  *  public class ListenerObserver implements ChangeListener {
+ * <pre>public class ListenerObserver implements ChangeListener {
  *      private void registerTo(Source source) {
  *          source.addChangeListener(WeakListeners.change(this, null));
  *      }
@@ -117,49 +121,53 @@ import javax.swing.event.DocumentListener;
  *      public void stateChanged(ChangeEvent e) {
  *          doSomething();
  *      }
- *  }
+ *  }</pre>
  *
- * Mistake: The weak listener is unable to unregister itself from the source
- * once the listener is freed. For explanation, read below.
+ * <p>Mistake: The weak listener is unable to unregister itself from the source
+ * once the listener is freed. For explanation, read below.</p>
  *
- How does it work:
- * The weak listener is used as a reference-weakening wrapper
+ * <p>How does it work:</p>
+ *
+ * <p>The weak listener is used as a reference-weakening wrapper
  *  around the listener. It is itself strongly referenced from the implementation
  *  of the source (e.g. from its EventListenerList) but it references
  *  the listener only through WeakReference. It also weak-references
  *  the source. Listener, on the other hand, usually strongly references
- *  the observer (typically through the outer class reference).
+ *  the observer (typically through the outer class reference).</p>
  *
- * This means that:
- * If the listener is not strong-referenced from elsewhere, it can be
+ * <p>This means that:</p>
+ *
+ * <p>If the listener is not strong-referenced from elsewhere, it can be
  *  thrown away on the next GC cycle. This is why you can't use
  *  WeakListeners.change(new MyListener(), ..) as the only reference
- *  to the listener will be the weak one from the weak listener.
- * If the listener-observer pair is not strong-referenced from elsewhere
+ *  to the listener will be the weak one from the weak listener.</p>
+ *
+ * <p>If the listener-observer pair is not strong-referenced from elsewhere
  *  it can be thrown away on the next GC cycle. This is what the
- *  weak listener was invented for.
- * If the source is not strong-referenced from anywhere, it can be
+ *  weak listener was invented for.</p>
+ *
+ * <p>If the source is not strong-referenced from anywhere, it can be
  *  thrown away on the next GC cycle taking the weak listener with it,
  *  but not the listener and the observer if they are still strong-referenced
- *  (unusual case, but possible).
+ *  (unusual case, but possible).</p>
  *
  *
- * Now what happens when the listener/observer is removed from memory:
- * The weak listener is notified that the reference to the listener was cleared.
- * It tries to unregister itself from the source. This is why it needs
+ * <p>Now what happens when the listener/observer is removed from memory:</p>
+ *
+ * <p>The weak listener is notified that the reference to the listener was cleared.</p>
+ * <p>It tries to unregister itself from the source. This is why it needs
  *  the reference to the source for the registration. The unregistration
  *  is done using reflection, usually looking up the method
- *  remove<listenerType> of the source and calling it.
+ *  remove<listenerType> of the source and calling it.</p>
  *
- *
- *  This may fail if the source don't have the expected remove*
+ *  <p>This may fail if the source don't have the expected remove
  *  method and/or if you provide wrong reference to source. In that case
  *  the weak listener instance will stay in memory and registered by the source,
- *  while the listener and observer will be freed.
+ *  while the listener and observer will be freed.</p>
  *
- *  There is still one fallback method - if some event come to a weak listener
+ *  <p>There is still one fallback method - if some event come to a weak listener
  *  and the listener is already freed, the weak listener tries to unregister
- *  itself from the object the event came from.
+ *  itself from the object the event came from.</p>
  *
  * @since 4.10
  */
@@ -189,27 +197,28 @@ public final class WeakListeners {
         return WeakListenerImpl.create (lType, lType, l, source);
     }
 
-    /** The most generic factory method to create weak listener for any listener
+    /**
+     * <p>The most generic factory method to create weak listener for any listener
      * interface that moreover behaves like a listener of another type.
      * This can be useful to correctly remove listeners from a source when
-     * hierarchies of listeners are used.
+     * hierarchies of listeners are used.</p>
      *
-     * For example {@link javax.naming.event.EventContext} allows to add an
+     * <p>For example {@link javax.naming.event.EventContext} allows to add an
      * instance of {@link javax.naming.event.ObjectChangeListener} but using
      * method addNamingListener. Method removeNamingListener
      * is then used to remove it. To help the weak listener support to correctly
-     * find the right method one have to use:
-     *      * ObjectChangeListener l = (ObjectChangeListener)WeakListeners.create (
+     * find the right method one have to use:</p>
+     *
+     * <pre>ObjectChangeListener l = (ObjectChangeListener)WeakListeners.create (
      *   ObjectChangeListener.class, // the actual class of the returned listener
      *   NamingListener.class, // but it always will be used as NamingListener
      *   yourObjectListener,
      *   someContext
      * );
-     * someContext.addNamingListener ("", 0, l);
+     * someContext.addNamingListener ("", 0, l);</pre>
      *
-     * This will correctly create ObjectChangeListener
-     * and unregister it by
-     * calling removeNamingListener.
+     * <p>This will correctly create ObjectChangeListener
+     * and unregister it by calling removeNamingListener.</p>
      *
      * @param lType the type the listener shall implement. It can be any interface,
      *     but only interfaces are allowed.
