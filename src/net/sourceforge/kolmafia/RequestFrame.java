@@ -178,7 +178,9 @@ public class RequestFrame extends KoLFrame
 			gotoSelect.addItem( new BrowserComboBoxItem( "Clan Hall", "clan_hall.php" ) );
 			gotoSelect.addItem( new BrowserComboBoxItem( "Campground", "campground.php" ) );
 			gotoSelect.addItem( new BrowserComboBoxItem( "Big Mountains", "mountains.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Mt. McLargeHuge", "mclargehuge.php" ) );
 			gotoSelect.addItem( new BrowserComboBoxItem( "Nearby Plains", "plains.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "Above Beanstalk", "beanstalk.php" ) );
 			gotoSelect.addItem( new BrowserComboBoxItem( "Sorceress' Lair", "lair.php" ) );
 			gotoSelect.addItem( new BrowserComboBoxItem( "Desert Beach", "beach.php" ) );
 			gotoSelect.addItem( new BrowserComboBoxItem( "Distant Woods", "woods.php" ) );
