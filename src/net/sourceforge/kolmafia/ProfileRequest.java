@@ -100,6 +100,10 @@ public class ProfileRequest extends KoLRequest
 
 	private void refreshFields()
 	{
+		// Nothing to refresh if no text
+		if  ( responseText.length() == 0 )
+			return;
+
 		try
 		{
 			// This is a massive replace which makes the profile easier to
