@@ -1613,13 +1613,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 		catch ( Exception e )
 		{
-			// If something's wrong with the parsing, assume
-			// that the person wanted the default value.
-
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 
-			return defaultValue;
+			return 0;
 		}
 	}
 
