@@ -171,7 +171,7 @@ public class RequestFrame extends KoLFrame
 			// place it all inside of a "travel" menu.
 
 			BrowserComboBox gotoSelect = new BrowserComboBox();
-			gotoSelect.addItem( new BrowserComboBoxItem( " - Goto - ", "" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( " - Goto (Maki) - ", "" ) );
 
 			gotoSelect.addItem( new BrowserComboBoxItem( "Main Map", "main.php" ) );
 			gotoSelect.addItem( new BrowserComboBoxItem( "Seaside Town", "town.php" ) );
@@ -582,20 +582,7 @@ public class RequestFrame extends KoLFrame
 	public void dispose()
 	{
 		visitedLocations.clear();
-		visitedLocations = null;
-
 		parent = null;
-		lastResponseText = null;
-
-		currentRequest = null;
-		sidePaneRequest = null;
-
-		mainBuffer = null;
-		sideBuffer = null;
-
-		locationField = null;
-		sideDisplay = null;
-		mainDisplay = null;
 
 		super.dispose();
 	}
