@@ -76,6 +76,12 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		existingPanels.add( new WeakReference( this ) );
 	}
 
+	protected KoLPanel( String confirmedText, boolean isCenterPanel )
+	{
+		super( confirmedText, isCenterPanel );
+		existingPanels.add( new WeakReference( this ) );
+	}
+
 	protected KoLPanel( String confirmedText, String cancelledText )
 	{
 		super( confirmedText, cancelledText );

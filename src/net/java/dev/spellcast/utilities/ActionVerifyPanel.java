@@ -84,6 +84,10 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	{	this( confirmedText, null, null, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, false );
 	}
 
+	public ActionVerifyPanel( String confirmedText, boolean isCenterPanel )
+	{	this( confirmedText, null, null, DEFAULT_LABEL_SIZE, DEFAULT_FIELD_SIZE, isCenterPanel );
+	}
+
 	public ActionVerifyPanel( Dimension labelSize, Dimension fieldSize )
 	{	this( null, null, labelSize, fieldSize, false );
 	}
