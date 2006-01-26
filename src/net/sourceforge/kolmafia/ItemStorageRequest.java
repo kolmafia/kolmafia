@@ -84,11 +84,11 @@ public class ItemStorageRequest extends SendMessageRequest
 	}
 
 	/**
-	 * A tribute to the "Closet Your Clovers" speech:
+	 * Should only be used to closet clovers.  A tribute to the "Closet Your Clovers" speech:
 	 * http://forums.kingdomofloathing.com/viewtopic.php?t=33250
 	 *
 	 * @param	client	The client to be notified of the results
-	 * @param	client	Whether or not clovers are being closeted
+	 * @param	moveType	Whether or not clovers are being closeted
 	 */
 
 	public ItemStorageRequest( KoLmafia client, int moveType )

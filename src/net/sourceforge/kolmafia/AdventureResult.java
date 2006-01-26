@@ -571,7 +571,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	/**
 	 * Utility method used to sort a list of AdventureResults by count
 	 *
-	 * @param	tally	The list of <code>AdventureResult</code>s
+	 * @param	list	The list of <code>AdventureResult</code>s
 	 */
 
 	public static void sortListByCount( List list )

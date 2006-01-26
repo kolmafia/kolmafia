@@ -45,7 +45,7 @@ public class FamiliarTool
 {
 	// Array of current opponents
 	private Opponent [] opponents;
-	
+
 	// Index of best opponent to fight
 	private int bestOpponent;
 
@@ -60,8 +60,7 @@ public class FamiliarTool
 
 	/**
 	 * Initializes Familiar Tool with all Arena Data
-	 * @param	opponents	size 5 array with IDs of all opponents. The index of each opponent will be re-used as a return value
-	 * @param	opponentWeights	size 5 array with the Weights of all opponents. Indexing corresponds with opponents parameter
+	 * @param	opponents	Array with IDs of all opponents. The index of each opponent will be re-used as a return value
 	 */
 	public FamiliarTool( List opponents )
 	{
@@ -148,7 +147,7 @@ public class FamiliarTool
 	public int bestWeight()
 	{	return bestWeight;
 	}
-		
+
 	/**
 	 * Retrieves difference from perfect weight for matchup. Will only supply relevant data for last call to bestOpponent()
 	 * @return	Difference from the perfect weight. 0 = perfect, +X = X pounds too heavy, -X is X pounds too light.
@@ -156,7 +155,7 @@ public class FamiliarTool
 	public int difference()
 	{	return difference;
 	}
-	
+
 	private boolean betterWeightDifference( int newVal, int oldVal )
 	{
 		//I am assuming priority to flow as follows: 0/+1/-1/+2/-2/+3/+4/+5/etc

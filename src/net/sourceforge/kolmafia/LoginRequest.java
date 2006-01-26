@@ -56,7 +56,6 @@ public class LoginRequest extends KoLRequest
 	 * @param	loginname	The name of the player to be logged in
 	 * @param	password	The password to be used in the login attempt
 	 * @param	getBreakfast	Whether or not the client should retrieve breakfast after login
-	 * @param	isQuickLogin	Whether or not this is a quick login attempt
 	 */
 
 	public LoginRequest( KoLmafia client, String loginname, String password, boolean savePassword, boolean getBreakfast )
