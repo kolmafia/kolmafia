@@ -229,7 +229,7 @@ public class ClanSnapshotTable extends KoLDatabase
 					break;
 
 				case TURN_FILTER:
-					compareValue = request.getTurnsPlayed().intValue() - df.parse( filter ).intValue();
+					compareValue = request.getCurrentRun().intValue() - df.parse( filter ).intValue();
 					break;
 
 				case LOGIN_FILTER:
@@ -358,7 +358,7 @@ public class ClanSnapshotTable extends KoLDatabase
 				meatList.add( memberLookup.getCurrentMeat() );
 
 			if ( header.indexOf( "<td>Turns</td>" ) != -1 )
-				turnsList.add( memberLookup.getTurnsPlayed() );
+				turnsList.add( memberLookup.getCurrentRun() );
 
 			if ( header.indexOf( "<td>PVP</td>" ) != -1 )
 				pvpList.add( memberLookup.getPvpRank() );
@@ -518,108 +518,117 @@ public class ClanSnapshotTable extends KoLDatabase
 		// Each of these are printed, pending on what
 		// fields are desired in this particular table.
 
-		String header = getRosterHeader();
+		String [] header = getRosterHeader().split( "(</?td>)+" );
 
-		if ( header.indexOf( "<td>Lv</td>" ) != -1 )
+		for ( int i = 0; i < header.length; ++i )
 		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getPlayerLevel() );
-		}
+			if ( header[i].equals( "Lv" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( memberLookup.getPlayerLevel() );
+			}
 
-		if ( header.indexOf( "<td>Mus</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( df.format( memberLookup.getMuscle().intValue() ) );
-		}
+			if ( header[i].equals( "Mus" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( df.format( memberLookup.getMuscle().intValue() ) );
+			}
 
-		if ( header.indexOf( "<td>Mys</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( df.format( memberLookup.getMysticism().intValue() ) );
-		}
+			if ( header[i].equals( "Mys" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( df.format( memberLookup.getMysticism().intValue() ) );
+			}
 
-		if ( header.indexOf( "<td>Mox</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( df.format( memberLookup.getMoxie().intValue() ) );
-		}
+			if ( header[i].equals( "Mox" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( df.format( memberLookup.getMoxie().intValue() ) );
+			}
 
-		if ( header.indexOf( "<td>Total</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( df.format( memberLookup.getPower().intValue() ) );
-		}
+			if ( header[i].equals( "Total" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( df.format( memberLookup.getPower().intValue() ) );
+			}
 
-		if ( header.indexOf( "<td>Title</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getTitle() );
-		}
+			if ( header[i].equals( "Title" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( memberLookup.getTitle() );
+			}
 
-		if ( header.indexOf( "<td>Rank</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getRank() );
-		}
+			if ( header[i].equals( "Rank" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( memberLookup.getRank() );
+			}
 
-		if ( header.indexOf( "<td>Karma</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( df.format( memberLookup.getKarma().intValue() ) );
-		}
+			if ( header[i].equals( "Karma" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( df.format( memberLookup.getKarma().intValue() ) );
+			}
 
-		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( df.format( memberLookup.getPvpRank().intValue() ) );
-		}
+			if ( header[i].equals( "PVP" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( df.format( memberLookup.getPvpRank().intValue() ) );
+			}
 
-		if ( header.indexOf( "<td>Class</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getClassType() );
-		}
+			if ( header[i].equals( "Class" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( memberLookup.getClassType() );
+			}
 
-		if ( header.indexOf( "<td>Meat</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( df.format( memberLookup.getCurrentMeat().intValue() ) );
-		}
+			if ( header[i].equals( "Meat" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( df.format( memberLookup.getCurrentMeat().intValue() ) );
+			}
 
-		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( df.format( memberLookup.getTurnsPlayed().intValue() ) );
-		}
+			if ( header[i].equals( "Turns" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( df.format( memberLookup.getCurrentRun().intValue() ) );
+			}
 
-		if ( header.indexOf( "<td>Food</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getFood() );
-		}
+			if ( header[i].equals( "Food" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( memberLookup.getFood() );
+			}
 
-		if ( header.indexOf( "<td>Drink</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getDrink() );
-		}
+			if ( header[i].equals( "Drink" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( memberLookup.getDrink() );
+			}
 
-		if ( header.indexOf( "<td>Created</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getCreationAsString() );
-		}
+			if ( header[i].equals( "Created" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( memberLookup.getCreationAsString() );
+			}
 
-		if ( header.indexOf( "<td>Last Login</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( memberLookup.getLastLoginAsString() );
-		}
+			if ( header[i].equals( "Last Login" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( memberLookup.getLastLoginAsString() );
+			}
 
-		if ( header.indexOf( "<td>Ascensions</td>" ) != -1 )
-		{
-			strbuf.append( "</td><td>" );
-			strbuf.append( df.format( memberLookup.getAscensionCount().intValue() ) );
+			if ( header[i].equals( "Ascensions" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( df.format( memberLookup.getAscensionCount().intValue() ) );
+			}
+
+			if ( header[i].equals( "Path" ) )
+			{
+				strbuf.append( "</td><td>" );
+				strbuf.append( memberLookup.getRestriction() );
+			}
 		}
 
 		strbuf.append( "</td></tr>" );
@@ -633,8 +642,9 @@ public class ClanSnapshotTable extends KoLDatabase
 	public static final String getDefaultHeader()
 	{
 		return "<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>" +
-			"<td>Title</td><td>Rank</td><td>Karma</td><td>PVP</td><td>Class</td>" +
-				"<td>Food</td><td>Drink</td><td>Last Login</td>";
+			"<td>Title</td><td>Rank</td><td>Karma</td>" +
+			"<td>Class</td><td>Path</td><td>Turns</td><td>Meat</td>" +
+			"<td>Created</td><td>Last Login</td>";
 	}
 
 	private static class DetailRosterRequest extends KoLRequest
