@@ -84,7 +84,7 @@ public class DataUtilities implements UtilityConstants
 		}
 		catch ( FileNotFoundException e )
 		{
-			System.err.println( "Shared image <" + filename + "> could not be found" );
+			System.err.println( "Shared file <" + filename + "> could not be found" );
 			return null;
 		}
 	}
