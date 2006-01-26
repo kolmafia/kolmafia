@@ -293,10 +293,12 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		int selected = TradeableItemDatabase.getItemID( (String)selectedValue );
-		int trinkets = HermitRequest.TRINKET.getCount( KoLCharacter.getInventory() ) +
+
+		int worthlessItems = HermitRequest.TRINKET.getCount( KoLCharacter.getInventory() ) +
 			HermitRequest.GEWGAW.getCount( KoLCharacter.getInventory() ) +
 			HermitRequest.KNICK_KNACK.getCount( KoLCharacter.getInventory() );
-		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", trinkets );
+
+		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", worthlessItems );
 
 		if ( tradeCount == 0 )
 			return;
