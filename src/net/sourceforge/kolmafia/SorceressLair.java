@@ -33,10 +33,12 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import javax.swing.JOptionPane;
 
 public abstract class SorceressLair extends StaticEntity
 {
@@ -85,6 +87,12 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult STRUMMING = new AdventureResult( 736, 1 );
 	private static final AdventureResult SQUEEZINGS = new AdventureResult( 737, 1 );
 	private static final AdventureResult RHYTHM = new AdventureResult( 738, 1 );
+
+	private static final AdventureResult BOWL = new AdventureResult( 729, 1 );
+	private static final AdventureResult TANK = new AdventureResult( 730, 1 );
+	private static final AdventureResult HOSE = new AdventureResult( 731, 1 );
+	private static final AdventureResult HOSE_TANK = new AdventureResult( 732, 1 );
+	private static final AdventureResult HOSE_BOWL = new AdventureResult( 733, 1 );
 	private static final AdventureResult SCUBA = new AdventureResult( 734, 1 );
 
 	// Items for the hedge maze
@@ -229,130 +237,20 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !checkPrerequisites( 1, 2 ) )
 			return;
 
-		// Remove his weapon so that everything is easier for
-		// the rest of the script.
+		// If you couldn't complete the gateway, then return
+		// from this method call.
 
-		client.makeRequest( new EquipmentRequest( client, EquipmentRequest.UNEQUIP, KoLCharacter.WEAPON ), 1 );
 		List requirements = new ArrayList();
+		requirements.addAll( completeGateway() );
 
-		// Make sure the character has some candy, or at least
-		// the appropriate status effect.
-
-		AdventureResult candy = pickOne( new AdventureResult [] { RICE_CANDY, MARZIPAN, FARMER_CANDY } );
-
-		// Check to see if the person has crossed through the
-		// gates already.  If they haven't, then that's the
-		// only time you need the special effects.
-
-		KoLRequest request = new KoLRequest( client, "lair1.php" );
-		request.run();
-
-		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
+		if ( !requirements.isEmpty() )
 		{
-			if ( !KoLCharacter.getEffects().contains( SUGAR ) )
-				requirements.add( candy );
+			requirements.addAll( retrieveRhythm( true ) );
+			requirements.addAll( retrieveStrumming( true ) );
+			requirements.addAll( retrieveSqueezings( true ) );
+			client.checkRequirements( requirements );
 
-			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) )
-				requirements.add( WUSSY_POTION );
-
-			if ( !KoLCharacter.getEffects().contains( MIASMA ) )
-				requirements.add( BLACK_CANDLE );
-		}
-
-		// Digital key unless you already have the Squeezings of Woe
-
-		if ( !hasItem( SQUEEZINGS ) )
-			requirements.add( DIGITAL );
-
-		// Skeleton key and a clover unless you already have the
-		// Really Evil Rhythms
-
-		if ( !hasItem( RHYTHM ) )
-		{
-			requirements.add( SKELETON );
-			requirements.add( CLOVER );
-		}
-
-		// Decide on which star weapon should be available for
-		// this whole process.
-
-		AdventureResult starWeapon;
-
-		// See which ones are available
-
-		boolean hasSword = KoLCharacter.hasItem( STAR_SWORD, false );
-		boolean hasStaff = KoLCharacter.hasItem( STAR_STAFF, false );
-		boolean hasCrossbow = KoLCharacter.hasItem( STAR_CROSSBOW, false );
-
-		// See which ones he can use
-
-		boolean canUseSword = EquipmentDatabase.canEquip( STAR_SWORD.getName() );
-		boolean canUseStaff = EquipmentDatabase.canEquip( STAR_STAFF.getName() );
-		boolean canUseCrossbow = EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() );
-
-		// Pick one that he has and can use
-
-		if ( hasSword && canUseSword )
-			starWeapon = STAR_SWORD;
-		else if ( hasStaff && canUseStaff )
-			starWeapon = STAR_STAFF;
-		else if ( hasCrossbow && canUseCrossbow )
-			starWeapon = STAR_CROSSBOW;
-
-		// Otherwise, pick one that he can
-		// create and use
-
-		else if ( canUseSword && hasItem( STAR_SWORD ) )
-			starWeapon = STAR_SWORD;
-		else if ( canUseStaff && hasItem( STAR_SWORD ) )
-			starWeapon = STAR_STAFF;
-		else if ( canUseCrossbow && hasItem( STAR_SWORD ) )
-			starWeapon = STAR_CROSSBOW;
-
-		// At least pick one that he can use
-
-		else if ( canUseSword )
-			starWeapon = STAR_SWORD;
-		else if ( canUseStaff )
-			starWeapon = STAR_STAFF;
-		else if ( canUseCrossbow )
-			starWeapon = STAR_CROSSBOW;
-
-		// Otherwise, pick one that he has
-
-		else if ( hasSword )
-			starWeapon = STAR_SWORD;
-		else if ( hasStaff )
-			starWeapon = STAR_STAFF;
-		else if ( hasCrossbow )
-			starWeapon = STAR_CROSSBOW;
-
-		// What a wimp!
-
-		else
-			starWeapon = STAR_SWORD;
-
-		boolean needsBuckler = !KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).startsWith( "star" ) &&
-			!KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).startsWith( "star" ) && !KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).startsWith( "star" );
-
-		// Star equipment unless you already have Sinister Strummings
-
-		if ( !hasItem( STRUMMING ) )
-		{
-			requirements.add( starWeapon );
-			if ( needsBuckler )
-				requirements.add( STAR_BUCKLER );
-
-			requirements.add( RICHARD );
-		}
-
-		// The three hero keys are needed to get the SCUBA gear
-
-		if ( !hasItem( SCUBA ) )
-		{
-			requirements.add( BORIS );
-			requirements.add( JARLSBERG );
-			requirements.add( SNEAKY_PETE );
+			return;
 		}
 
 		// Next, figure out which instruments are needed for the final
@@ -381,284 +279,30 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.add( pickOne( new AdventureResult [] { BONE_RATTLE, TAMBOURINE } ) );
 		requirements.add( pickOne( new AdventureResult [] { ACCORDION, ROCKNROLL_LEGEND } ) );
 
-		// Now that the array's initialized, issue the checks
-		// on the items needed to finish the entryway.
-
-		if ( !client.checkRequirements( requirements ) )
-			return;
-
-		if ( !hasItem( RHYTHM ) )
-		{
-			// The character needs to have at least 50 HP, or 25% of
-			// maximum HP (whichever is greater) in order to play
-			// the skeleton dice game
-
-			int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
-			client.recoverHP( healthNeeded );
-
-			// Verify that you have enough HP to proceed with the
-			// skeleton dice game.
-
-			if ( KoLCharacter.getCurrentHP() < healthNeeded )
-			{
-				client.updateDisplay( ERROR_STATE, "You must have more than " + healthNeeded + " HP to proceed." );
-				return;
-			}
-		}
-
-		// If you can't equip the appropriate weapon and buckler,
-		// then tell the player they lack the required stats.
-
-		if ( !hasItem( STRUMMING ) )
-		{
-			if ( !EquipmentDatabase.canEquip( starWeapon.getName() ) )
-			{
-				client.updateDisplay( ERROR_STATE, "Stats too low to equip a star weapon." );
-				return;
-			}
-
-			if ( !EquipmentDatabase.canEquip( STAR_BUCKLER.getName() ) )
-			{
-				client.updateDisplay( ERROR_STATE, "Stats too low to equip a star buckler." );
-				return;
-			}
-		}
-
-		// Use the rice candy, wussiness potion, and black candle
-		// and then cross through the first door.
-
-		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
-		{
-			if ( !KoLCharacter.getEffects().contains( SUGAR ) )
-			{
-				client.updateDisplay( DISABLE_STATE, "Getting jittery..." );
-				(new ConsumeItemRequest( client, candy )).run();
-			}
-
-			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) )
-			{
-				client.updateDisplay( DISABLE_STATE, "Becoming a pansy..." );
-				(new ConsumeItemRequest( client, WUSSY_POTION )).run();
-			}
-
-			if ( !KoLCharacter.getEffects().contains( MIASMA ) )
-			{
-				client.updateDisplay( DISABLE_STATE, "Inverting anime smileyness..." );
-				(new ConsumeItemRequest( client, BLACK_CANDLE )).run();
-			}
-
-			client.updateDisplay( DISABLE_STATE, "Crossing three door puzzle..." );
-
-			request = new KoLRequest( client, "lair1.php" );
-			request.addFormField( "action", "gates" );
-			request.run();
-		}
-
-		// Now, unequip all of your equipment and cross through
-		// the mirror. Process the mirror shard that results.
-
-		if ( request.responseText.indexOf( "lair2.php" ) == -1 )
-		{
-			(new FamiliarRequest( client, FamiliarData.NO_FAMILIAR )).run();
-			(new EquipmentRequest( client, SpecialOutfit.BIRTHDAY_SUIT )).run();
-
-			// We will need to re-equip
-
-			needsBuckler = true;
-
-			client.updateDisplay( DISABLE_STATE, "Crossing mirror puzzle..." );
-
-			request = new KoLRequest( client, "lair1.php" );
-			request.addFormField( "action", "mirror" );
-			request.run();
-		}
-
-		// Now handle the form for the digital key to get
-		// the Squeezings of Woe.
-
-		if ( !hasItem( SQUEEZINGS ) )
-		{
-			client.updateDisplay( DISABLE_STATE, "Inserting digital key..." );
-
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "preaction", "key" );
-			request.addFormField( "whichkey", String.valueOf( DIGITAL.getItemID() ) );
-			request.run();
-
-			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
-			{
-				request = new KoLRequest( client, "lair2.php" );
-				request.addFormField( "prepreaction", "sequence" );
-				request.addFormField( "seq1", "up" );
-				request.addFormField( "seq2", "up" );
-				request.addFormField( "seq3", "down" );
-				request.addFormField( "seq4", "down" );
-				request.addFormField( "seq5", "left" );
-				request.addFormField( "seq6", "right" );
-				request.addFormField( "seq7", "left" );
-				request.addFormField( "seq8", "right" );
-				request.addFormField( "seq9", "b" );
-				request.addFormField( "seq10", "a" );
-				request.run();
-			}
-		}
-
-		// Now handle the form for the star key to get
-		// the Sinister Strumming.  Note that this will
-		// require you to re-equip your star weapon and
-		// a star buckler and switch to a starfish first.
-
-		if ( !hasItem( STRUMMING ) )
-		{
-			(new EquipmentRequest( client, starWeapon.getName() )).run();
-
-			if ( needsBuckler )
-				(new EquipmentRequest( client, STAR_BUCKLER.getName() )).run();
-
-			(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
-
-			client.updateDisplay( DISABLE_STATE, "Inserting Richard's star key..." );
-
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "preaction", "key" );
-			request.addFormField( "whichkey", String.valueOf( RICHARD.getItemID() ) );
-			request.run();
-
-			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
-			{
-				request = new KoLRequest( client, "lair2.php" );
-				request.addFormField( "prepreaction", "starcage" );
-				request.run();
-
-				// For unknown reasons, this doesn't always work
-				// Error check the possibilities
-
-				// "You beat on the cage with your weapon, but
-				// to no avail.	 It doesn't appear to be made
-				// out of the right stuff."
-
-				if ( request.responseText.indexOf( "right stuff" ) != -1 )
-				{
-					client.updateDisplay( ERROR_STATE, "Failed to equip a star weapon." );
-					return;
-				}
-
-				// "A fragment of a line hits you really hard
-				// on the arm, and it knocks you back into the
-				// main cavern."
-
-				if ( request.responseText.indexOf( "knocks you back" ) != -1 )
-				{
-					client.updateDisplay( ERROR_STATE, "Failed to equip star buckler." );
-					return;
-				}
-
-				// "Trog creeps toward the pedestal, but is
-				// blown backwards.  You give up, and go back
-				// out to the main cavern."
-
-				if ( request.responseText.indexOf( "You give up" ) != -1 )
-				{
-					client.updateDisplay( ERROR_STATE, "Failed to equip star starfish." );
-					return;
-				}
-			}
-		}
-
-		// Next, handle the form for the skeleton key to
-		// get the Really Evil Rhythm. This uses up the
-		// clover you had, so process it.
-
-		if ( !hasItem( RHYTHM ) )
-		{
-			client.updateDisplay( DISABLE_STATE, "Inserting skeleton key..." );
-
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "preaction", "key" );
-			request.addFormField( "whichkey", String.valueOf( SKELETON.getItemID() ) );
-			request.run();
-
-			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
-			{
-				request = new KoLRequest( client, "lair2.php" );
-				request.addFormField( "prepreaction", "skel" );
-				request.run();
-
-				client.processResult( CLOVER.getNegation() );
-			}
-		}
-
-		// Next, handle the three hero keys, which involve
-		// answering the riddles with the forms of fish.
-
-		if ( !hasItem( SCUBA ) )
-		{
-			client.updateDisplay( DISABLE_STATE, "Inserting Boris's key..." );
-
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "preaction", "key" );
-			request.addFormField( "whichkey", String.valueOf( BORIS.getItemID() ) );
-			request.run();
-
-			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
-			{
-				request = new KoLRequest( client, "lair2.php" );
-				request.addFormField( "prepreaction", "sorcriddle1" );
-				request.addFormField( "answer", "fish" );
-				request.run();
-			}
-
-			client.updateDisplay( DISABLE_STATE, "Inserting Jarlsberg's key..." );
-
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "preaction", "key" );
-			request.addFormField( "whichkey", String.valueOf( JARLSBERG.getItemID() ) );
-			request.run();
-
-			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
-			{
-				request = new KoLRequest( client, "lair2.php" );
-				request.addFormField( "prepreaction", "sorcriddle2" );
-				request.addFormField( "answer", "phish" );
-				request.run();
-			}
-
-			client.updateDisplay( DISABLE_STATE, "Inserting Sneaky Pete's key..." );
-
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "preaction", "key" );
-			request.addFormField( "whichkey", String.valueOf( SNEAKY_PETE.getItemID() ) );
-			request.run();
-
-			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
-			{
-				request = new KoLRequest( client, "lair2.php" );
-				request.addFormField( "prepreaction", "sorcriddle3" );
-				request.addFormField( "answer", "fsh" );
-				request.run();
-			}
-		}
-
 		// If he brought a balloon monkey, get him an easter egg
+
+		KoLRequest request;
 
 		if ( hasItem( BALLOON ) )
 		{
 			AdventureDatabase.retrieveItem( BALLOON );
-
 			request = new KoLRequest( client, "lair2.php" );
 			request.addFormField( "preaction", "key" );
 			request.addFormField( "whichkey", String.valueOf( BALLOON.getItemID() ) );
 			request.run();
 		}
 
-		// Equip the SCUBA gear.  Attempting to retrieve it
-		// will automatically create it.
+		// Now, iterate through each of the completion steps;
+		// at the end, check to make sure you've completed
+		// all the needed requirements.
 
-		AdventureDatabase.retrieveItem( SCUBA );
-		(new EquipmentRequest( client, "makeshift SCUBA gear" )).run();
+		requirements.addAll( retrieveRhythm( false ) );
+		requirements.addAll( retrieveStrumming( false ) );
+		requirements.addAll( retrieveSqueezings( false ) );
+		requirements.addAll( retrieveScubaGear( false ) );
 
-		client.updateDisplay( DISABLE_STATE, "Pressing switch beyond odor..." );
-		(new KoLRequest( client, "lair2.php?action=odor" )).run();
+		if ( !client.checkRequirements( requirements ) || !client.permitsContinue() )
+			return;
 
 		// Finally, arm the stone mariachis with their
 		// appropriate instruments.
@@ -702,6 +346,477 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		client.updateDisplay( ENABLE_STATE, "Sorceress entryway complete." );
+	}
+
+	private static List completeGateway()
+	{
+		// Remove his weapon so that everything is easier for
+		// the rest of the script.
+
+		List requirements = new ArrayList();
+
+		// Make sure the character has some candy, or at least
+		// the appropriate status effect.
+
+		AdventureResult candy = pickOne( new AdventureResult [] { RICE_CANDY, MARZIPAN, FARMER_CANDY } );
+
+		// Check to see if the person has crossed through the
+		// gates already.  If they haven't, then that's the
+		// only time you need the special effects.
+
+		KoLRequest request = new KoLRequest( client, "lair1.php" );
+		request.run();
+
+		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
+		{
+			if ( !KoLCharacter.getEffects().contains( SUGAR ) && !hasItem( candy ) )
+				requirements.add( candy );
+
+			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) && !hasItem( WUSSY_POTION ) )
+				requirements.add( WUSSY_POTION );
+
+			if ( !KoLCharacter.getEffects().contains( MIASMA ) && !hasItem( BLACK_CANDLE ) )
+				requirements.add( BLACK_CANDLE );
+		}
+
+		if ( !requirements.isEmpty() )
+			return requirements;
+
+		// Use the rice candy, wussiness potion, and black candle
+		// and then cross through the first door.
+
+		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
+		{
+			if ( !KoLCharacter.getEffects().contains( SUGAR ) )
+			{
+				AdventureDatabase.retrieveItem( candy );
+				client.updateDisplay( DISABLE_STATE, "Getting jittery..." );
+				(new ConsumeItemRequest( client, candy )).run();
+			}
+
+			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) )
+			{
+				AdventureDatabase.retrieveItem( WUSSY_POTION );
+				client.updateDisplay( DISABLE_STATE, "Becoming a pansy..." );
+				(new ConsumeItemRequest( client, WUSSY_POTION )).run();
+			}
+
+			if ( !KoLCharacter.getEffects().contains( MIASMA ) )
+			{
+				AdventureDatabase.retrieveItem( BLACK_CANDLE );
+				client.updateDisplay( DISABLE_STATE, "Inverting anime smileyness..." );
+				(new ConsumeItemRequest( client, BLACK_CANDLE )).run();
+			}
+
+			client.updateDisplay( DISABLE_STATE, "Crossing three door puzzle..." );
+
+			request = new KoLRequest( client, "lair1.php" );
+			request.addFormField( "action", "gates" );
+			request.run();
+		}
+
+		// Now, unequip all of your equipment and cross through
+		// the mirror. Process the mirror shard that results.
+
+		if ( request.responseText.indexOf( "lair2.php" ) == -1 )
+		{
+			(new FamiliarRequest( client, FamiliarData.NO_FAMILIAR )).run();
+			(new EquipmentRequest( client, SpecialOutfit.BIRTHDAY_SUIT )).run();
+
+			// We will need to re-equip
+
+			client.updateDisplay( DISABLE_STATE, "Crossing mirror puzzle..." );
+
+			request = new KoLRequest( client, "lair1.php" );
+			request.addFormField( "action", "mirror" );
+			request.run();
+		}
+
+		return requirements;
+	}
+
+	private static List retrieveRhythm( boolean isCheckOnly )
+	{
+		// Skeleton key and a clover unless you already have the
+		// Really Evil Rhythms
+
+		List requirements = new ArrayList();
+
+		if ( !hasItem( SKELETON ) )
+			requirements.add( SKELETON );
+
+		if ( isCheckOnly && !hasItem( CLOVER ) )
+			requirements.add( CLOVER );
+
+		if ( isCheckOnly || hasItem( RHYTHM ) || !requirements.isEmpty() )
+			return requirements;
+
+		if ( !hasItem( CLOVER ) )
+		{
+			if ( client instanceof KoLmafiaCLI )
+			{
+				requirements.add( CLOVER );
+				return requirements;
+			}
+
+			boolean shouldContinue = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+				"You do not have a ten-leaf clover.\nAre you sure you wish to challenge the skeleton?",
+				"Do ya feel lucky, punk?", JOptionPane.YES_NO_OPTION );
+
+			if ( !shouldContinue )
+			{
+				requirements.add( CLOVER );
+				return requirements;
+			}
+		}
+
+		while ( !hasItem( RHYTHM ) )
+		{
+			// The character needs to have at least 50 HP, or 25% of
+			// maximum HP (whichever is greater) in order to play
+			// the skeleton dice game
+
+			int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
+			client.recoverHP( healthNeeded );
+
+			// Verify that you have enough HP to proceed with the
+			// skeleton dice game.
+
+			if ( KoLCharacter.getCurrentHP() < healthNeeded )
+			{
+				client.cancelRequest();
+				client.updateDisplay( ERROR_STATE, "You must have more than " + healthNeeded + " HP to proceed." );
+				return requirements;
+			}
+
+			// Next, handle the form for the skeleton key to
+			// get the Really Evil Rhythm. This uses up the
+			// clover you had, so process it.
+
+			AdventureDatabase.retrieveItem( SKELETON );
+			client.updateDisplay( DISABLE_STATE, "Inserting skeleton key..." );
+
+			KoLRequest request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "preaction", "key" );
+			request.addFormField( "whichkey", String.valueOf( SKELETON.getItemID() ) );
+			request.run();
+
+			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+			{
+				if ( hasItem( CLOVER ) )
+					AdventureDatabase.retrieveItem( CLOVER );
+
+				request = new KoLRequest( client, "lair2.php" );
+				request.addFormField( "prepreaction", "skel" );
+				request.run();
+
+				if ( hasItem( CLOVER ) )
+					client.processResult( CLOVER.getNegation() );
+			}
+		}
+
+		return requirements;
+	}
+
+	private static List retrieveStrumming( boolean isCheckOnly )
+	{
+		// Decide on which star weapon should be available for
+		// this whole process.
+
+		List requirements = new ArrayList();
+		AdventureResult starWeapon;
+
+		// See which ones are available
+
+		boolean hasSword = KoLCharacter.hasItem( STAR_SWORD, false );
+		boolean hasStaff = KoLCharacter.hasItem( STAR_STAFF, false );
+		boolean hasCrossbow = KoLCharacter.hasItem( STAR_CROSSBOW, false );
+
+		// See which ones he can use
+
+		boolean canUseSword = EquipmentDatabase.canEquip( STAR_SWORD.getName() );
+		boolean canUseStaff = EquipmentDatabase.canEquip( STAR_STAFF.getName() );
+		boolean canUseCrossbow = EquipmentDatabase.canEquip( STAR_CROSSBOW.getName() );
+
+		// Pick one that he has and can use
+
+		if ( hasSword && canUseSword )
+			starWeapon = STAR_SWORD;
+		else if ( hasStaff && canUseStaff )
+			starWeapon = STAR_STAFF;
+		else if ( hasCrossbow && canUseCrossbow )
+			starWeapon = STAR_CROSSBOW;
+
+		// Otherwise, pick one that he can
+		// create and use
+
+		else if ( canUseSword && hasItem( STAR_SWORD ) )
+			starWeapon = STAR_SWORD;
+
+		else if ( canUseStaff && hasItem( STAR_SWORD ) )
+			starWeapon = STAR_STAFF;
+		else if ( canUseCrossbow && hasItem( STAR_SWORD ) )
+			starWeapon = STAR_CROSSBOW;
+
+		// At least pick one that he can use
+
+		else if ( canUseSword )
+			starWeapon = STAR_SWORD;
+		else if ( canUseStaff )
+			starWeapon = STAR_STAFF;
+		else if ( canUseCrossbow )
+			starWeapon = STAR_CROSSBOW;
+
+		// Otherwise, pick one that he has
+
+		else if ( hasSword )
+			starWeapon = STAR_SWORD;
+		else if ( hasStaff )
+			starWeapon = STAR_STAFF;
+		else if ( hasCrossbow )
+			starWeapon = STAR_CROSSBOW;
+
+		// What a wimp!
+
+		else
+			starWeapon = STAR_SWORD;
+
+		// Star equipment unless you already have Sinister Strummings
+
+		if ( !hasItem( STRUMMING ) )
+		{
+			if ( !hasItem( starWeapon ) )
+				requirements.add( starWeapon );
+
+			if ( !hasItem( STAR_BUCKLER ) )
+				requirements.add( STAR_BUCKLER );
+
+			if ( !hasItem( RICHARD ) )
+				requirements.add( RICHARD );
+		}
+
+		if ( isCheckOnly || hasItem( STRUMMING ) || requirements.isEmpty() )
+			return requirements;
+
+		// If you can't equip the appropriate weapon and buckler,
+		// then tell the player they lack the required stats.
+
+		if ( !EquipmentDatabase.canEquip( starWeapon.getName() ) )
+		{
+			client.cancelRequest();
+			client.updateDisplay( ERROR_STATE, "Stats too low to equip a star weapon." );
+			return requirements;
+		}
+
+		if ( !EquipmentDatabase.canEquip( STAR_BUCKLER.getName() ) )
+		{
+			client.cancelRequest();
+			client.updateDisplay( ERROR_STATE, "Stats too low to equip a star buckler." );
+			return requirements;
+		}
+
+		// Now handle the form for the star key to get
+		// the Sinister Strumming.  Note that this will
+		// require you to re-equip your star weapon and
+		// a star buckler and switch to a starfish first.
+
+		AdventureDatabase.retrieveItem( starWeapon );
+		(new EquipmentRequest( client, starWeapon.getName() )).run();
+
+		AdventureDatabase.retrieveItem( STAR_BUCKLER );
+		(new EquipmentRequest( client, STAR_BUCKLER.getName() )).run();
+
+		(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
+
+		AdventureDatabase.retrieveItem( RICHARD );
+		client.updateDisplay( DISABLE_STATE, "Inserting Richard's star key..." );
+
+		KoLRequest request = new KoLRequest( client, "lair2.php" );
+		request.addFormField( "preaction", "key" );
+		request.addFormField( "whichkey", String.valueOf( RICHARD.getItemID() ) );
+		request.run();
+
+		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		{
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "prepreaction", "starcage" );
+			request.run();
+
+			// For unknown reasons, this doesn't always work
+			// Error check the possibilities
+
+			// "You beat on the cage with your weapon, but
+			// to no avail.	 It doesn't appear to be made
+			// out of the right stuff."
+
+			if ( request.responseText.indexOf( "right stuff" ) != -1 )
+			{
+				client.cancelRequest();
+				client.updateDisplay( ERROR_STATE, "Failed to equip a star weapon." );
+			}
+
+			// "A fragment of a line hits you really hard
+			// on the arm, and it knocks you back into the
+			// main cavern."
+
+			if ( request.responseText.indexOf( "knocks you back" ) != -1 )
+			{
+				client.cancelRequest();
+				client.updateDisplay( ERROR_STATE, "Failed to equip star buckler." );
+			}
+
+			// "Trog creeps toward the pedestal, but is
+			// blown backwards.  You give up, and go back
+			// out to the main cavern."
+
+			if ( request.responseText.indexOf( "You give up" ) != -1 )
+			{
+				client.cancelRequest();
+				client.updateDisplay( ERROR_STATE, "Failed to equip star starfish." );
+			}
+		}
+
+		return requirements;
+	}
+
+	private static List retrieveSqueezings( boolean isCheckOnly )
+	{
+		// Digital key unless you already have the Squeezings of Woe
+
+		List requirements = new ArrayList();
+
+		if ( !hasItem( SQUEEZINGS ) && !hasItem( DIGITAL ) )
+			requirements.add( DIGITAL );
+
+		if ( isCheckOnly || hasItem( SQUEEZINGS ) || !requirements.isEmpty() )
+			return requirements;
+
+		// Now handle the form for the digital key to get
+		// the Squeezings of Woe.
+
+		AdventureDatabase.retrieveItem( DIGITAL );
+		client.updateDisplay( DISABLE_STATE, "Inserting digital key..." );
+
+		KoLRequest request = new KoLRequest( client, "lair2.php" );
+		request.addFormField( "preaction", "key" );
+		request.addFormField( "whichkey", String.valueOf( DIGITAL.getItemID() ) );
+		request.run();
+
+		if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+		{
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "prepreaction", "sequence" );
+			request.addFormField( "seq1", "up" );
+			request.addFormField( "seq2", "up" );
+			request.addFormField( "seq3", "down" );
+			request.addFormField( "seq4", "down" );
+			request.addFormField( "seq5", "left" );
+			request.addFormField( "seq6", "right" );
+			request.addFormField( "seq7", "left" );
+			request.addFormField( "seq8", "right" );
+			request.addFormField( "seq9", "b" );
+			request.addFormField( "seq10", "a" );
+			request.run();
+		}
+
+		return requirements;
+	}
+
+	private static List retrieveScubaGear( boolean isCheckOnly )
+	{
+		List requirements = new ArrayList();
+		KoLRequest request;
+
+		// The three hero keys are needed to get the SCUBA gear
+
+		if ( !hasItem( SCUBA ) )
+		{
+			if ( !hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
+				requirements.add( BORIS );
+
+			if ( !hasItem( JARLSBERG ) && !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
+				requirements.add( JARLSBERG );
+
+			if ( !hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
+				requirements.add( SNEAKY_PETE );
+		}
+
+		if ( isCheckOnly || hasItem( SCUBA ) )
+			return requirements;
+
+		// Next, handle the three hero keys, which involve
+		// answering the riddles with the forms of fish.
+
+		if ( hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
+		{
+			AdventureDatabase.retrieveItem( BORIS );
+			client.updateDisplay( DISABLE_STATE, "Inserting Boris's key..." );
+
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "preaction", "key" );
+			request.addFormField( "whichkey", String.valueOf( BORIS.getItemID() ) );
+			request.run();
+
+			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+			{
+				request = new KoLRequest( client, "lair2.php" );
+				request.addFormField( "prepreaction", "sorcriddle1" );
+				request.addFormField( "answer", "fish" );
+				request.run();
+			}
+		}
+
+		if ( hasItem( JARLSBERG ) && !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
+		{
+			AdventureDatabase.retrieveItem( JARLSBERG );
+			client.updateDisplay( DISABLE_STATE, "Inserting Jarlsberg's key..." );
+
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "preaction", "key" );
+			request.addFormField( "whichkey", String.valueOf( JARLSBERG.getItemID() ) );
+			request.run();
+
+			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+			{
+				request = new KoLRequest( client, "lair2.php" );
+				request.addFormField( "prepreaction", "sorcriddle2" );
+				request.addFormField( "answer", "phish" );
+				request.run();
+			}
+		}
+
+		if ( hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
+		{
+			AdventureDatabase.retrieveItem( SNEAKY_PETE );
+			client.updateDisplay( DISABLE_STATE, "Inserting Sneaky Pete's key..." );
+
+			request = new KoLRequest( client, "lair2.php" );
+			request.addFormField( "preaction", "key" );
+			request.addFormField( "whichkey", String.valueOf( SNEAKY_PETE.getItemID() ) );
+			request.run();
+
+			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+			{
+				request = new KoLRequest( client, "lair2.php" );
+				request.addFormField( "prepreaction", "sorcriddle3" );
+				request.addFormField( "answer", "fsh" );
+				request.run();
+			}
+		}
+
+		// Equip the SCUBA gear.  Attempting to retrieve it
+		// will automatically create it.
+
+		if ( hasItem( SCUBA ) )
+		{
+			AdventureDatabase.retrieveItem( SCUBA );
+			(new EquipmentRequest( client, "makeshift SCUBA gear" )).run();
+
+			client.updateDisplay( DISABLE_STATE, "Pressing switch beyond odor..." );
+			(new KoLRequest( client, "lair2.php?action=odor" )).run();
+		}
+
+		return requirements;
 	}
 
 	public static void completeHedgeMaze()
