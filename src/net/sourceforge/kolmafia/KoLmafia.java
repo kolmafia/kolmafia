@@ -977,7 +977,12 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	private final void recoverOnce( String scriptPath ) throws IOException
-	{	(new KoLmafiaCLI( this, new FileInputStream( scriptPath ) )).listenForCommands();
+	{
+		// Take advantage of scripts automatically being
+		// looked up whenever a command doesn't exist.
+
+		KoLmafiaCLI script = new KoLmafiaCLI( this, System.in );
+		script.executeLine( scriptPath );
 	}
 
 	/**
