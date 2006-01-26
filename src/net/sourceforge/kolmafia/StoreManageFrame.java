@@ -100,11 +100,11 @@ public class StoreManageFrame extends KoLPanelFrame
 			storeItemList.setEnabled( isEnabled );
 	}
 
-	private class StoreManagePanel extends LabeledKoLPanel
+	private class StoreManagePanel extends KoLPanel
 	{
 		public StoreManagePanel()
 		{
-			super( "Manage Your Store", "apply prices", "refresh store", new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
+			super( "apply prices", "refresh store", new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
 
 			priceSummary = new LockableListModel();
 			JPanel headerPanel = new JPanel();
