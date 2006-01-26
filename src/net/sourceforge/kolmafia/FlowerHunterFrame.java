@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JCheckBox;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
@@ -75,6 +76,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	private DefaultTableModel [] resultsModel = new DefaultTableModel[2];
 
 	private ProfileRequest [] results;
+	private JCheckBox [] detailOptions;
 
 	public FlowerHunterFrame( KoLmafia client )
 	{
@@ -90,17 +92,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		results = new ProfileRequest[0];
 
-		resultsModel[0] = new SearchResultsTableModel( new String [] { "Name", "Clan", "Class", "Level", "Rank" } );
-		resultsTable[0] = new JTable( resultsModel[0] );
-		sortedModel[0] = new TableSorter( resultsTable[0].getModel(), resultsTable[0].getTableHeader() );
-		resultsTable[0].setModel( sortedModel[0] );
-		resultsTable[0].getSelectionModel().addListSelectionListener( this );
-
-		resultsModel[1] = new SearchResultsTableModel( new String [] { "Name", "Class", "Level", "Rank", "Drink", "Fashion" } );
-		resultsTable[1] = new JTable( resultsModel[1] );
-		sortedModel[1] = new TableSorter( resultsTable[1].getModel(), resultsTable[1].getTableHeader() );
-		resultsTable[1].setModel( sortedModel[1] );
-		resultsTable[1].getSelectionModel().addListSelectionListener( this );
+		constructTableModel( 0, new String [] { "Name", "Clan", "Class", "Level", "Rank" } );
+		constructTableModel( 1, new String [] { "Name", "Class", "Path", "Level", "Rank", "Drink", "Fashion", "Turns", "Login" } );
 
 		JScrollPane [] resultsScroller = new JScrollPane[2];
 		resultsScroller[0] = new JScrollPane( resultsTable[0], JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -118,6 +111,20 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		ToolTipManager.sharedInstance().unregisterComponent( resultsTable[0] );
 		ToolTipManager.sharedInstance().unregisterComponent( resultsTable[1] );
+	}
+
+	private void constructTableModel( int index, String [] headers )
+	{
+		resultsModel[ index ] = new SearchResultsTableModel( headers );
+
+		if ( resultsTable[ index ] == null )
+			resultsTable[ index ] = new JTable( resultsModel[ index ] );
+		else
+			resultsTable[ index ].setModel( resultsModel[ index ] );
+
+		sortedModel[ index ] = new TableSorter( resultsModel[ index ], resultsTable[ index ].getTableHeader() );
+		resultsTable[ index ].setModel( sortedModel[ index ] );
+		resultsTable[ index ].getSelectionModel().addListSelectionListener( this );
 	}
 
 	public void dispose()
@@ -214,8 +221,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 					result.getPlayerLevel(), result.getPvpRank() };
 
 			client.updateDisplay( NORMAL_STATE, "Retrieving profile for " + result.getPlayerName() + "..." );
-			return new Object [] { result.getPlayerName(), result.getClassType(), result.getPlayerLevel(),
-				result.getPvpRank(), result.getDrink(), result.getEquipmentPower() };
+
+			return new Object [] { result.getPlayerName(), result.getClassType(), result.getRestriction(), result.getPlayerLevel(),
+				result.getPvpRank(), result.getDrink(), result.getEquipmentPower(), result.getCurrentRun(), result.getLastLogin() };
 		}
 	}
 
@@ -225,7 +233,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public ClanPanel()
 		{
-			super( "profile" );
+			super( "profile", true );
 
 			clanID = new JTextField();
 
@@ -242,6 +250,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public void actionConfirmed()
 		{
+			isSimple = false;
+
 			resultCards.show( resultCardPanel, "1" );
 			client.resetContinueState();
 			client.updateDisplay( DISABLE_STATE, "Conducting search..." );
@@ -272,8 +282,10 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public Object [] getRow( ProfileRequest result )
 		{
-			return new Object [] { result.getPlayerName(), result.getClassType(), result.getPlayerLevel(),
-				result.getPvpRank(), result.getDrink(), result.getEquipmentPower() };
+			client.updateDisplay( NORMAL_STATE, "Retrieving profile for " + result.getPlayerName() + "..." );
+
+			return new Object [] { result.getPlayerName(), result.getClassType(), result.getRestriction(), result.getPlayerLevel(),
+				result.getPvpRank(), result.getDrink(), result.getEquipmentPower(), result.getCurrentRun(), result.getLastLogin() };
 		}
 	}
 

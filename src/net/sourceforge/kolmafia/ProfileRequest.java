@@ -49,8 +49,9 @@ public class ProfileRequest extends KoLRequest
 	private String playerName;
 	private String playerID;
 	private Integer playerLevel;
+	private String restriction;
 	private Integer currentMeat;
-	private Integer turnsPlayed;
+	private Integer turnsPlayed, currentRun;
 	private String classType;
 
 	private Date created, lastLogin;
@@ -138,6 +139,14 @@ public class ProfileRequest extends KoLRequest
 			this.playerLevel = Integer.valueOf( token.substring(5).trim() );
 			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
 
+			if ( cleanHTML.indexOf( "\nAscensions" ) != -1 && cleanHTML.indexOf( "\nPath" ) != -1 )
+			{
+				while ( !st.nextToken().startsWith( "Path" ) );
+				this.restriction = st.nextToken().trim();
+			}
+			else
+				this.restriction = "No-Path";
+
 			while ( !st.nextToken().startsWith( "Meat" ) );
 			this.currentMeat = new Integer( df.parse( st.nextToken().trim() ).intValue() );
 
@@ -152,6 +161,14 @@ public class ProfileRequest extends KoLRequest
 
 			while ( !st.nextToken().startsWith( "Turns" ) );
 			this.turnsPlayed = new Integer( df.parse( st.nextToken().trim() ).intValue() );
+
+			if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
+			{
+				while ( !st.nextToken().startsWith( "Turns" ) );
+				this.currentRun = new Integer( df.parse( st.nextToken().trim() ).intValue() );
+			}
+			else
+				this.currentRun = turnsPlayed;
 
 			while ( !st.nextToken().startsWith( "Account" ) );
 			this.created = INPUT_FORMAT.parse( st.nextToken().trim() );
@@ -190,8 +207,16 @@ public class ProfileRequest extends KoLRequest
 
 				String currentItem;
 				while ( EquipmentDatabase.contains( currentItem = st.nextToken() ) )
-					if ( EquipmentDatabase.getHands( currentItem ) == 0 )
-						this.equipmentPower += EquipmentDatabase.getPower( currentItem );
+				{
+					switch ( TradeableItemDatabase.getConsumptionType( currentItem ) )
+					{
+						case ConsumeItemRequest.EQUIP_HAT:
+						case ConsumeItemRequest.EQUIP_PANTS:
+
+							this.equipmentPower += EquipmentDatabase.getPower( currentItem );
+							break;
+					}
+				}
 			}
 		}
 		catch ( Exception e )
@@ -319,6 +344,12 @@ public class ProfileRequest extends KoLRequest
 			this.run();
 	}
 
+	public String getRestriction()
+	{
+		initialize();
+		return restriction;
+	}
+
 	public String getClassType()
 	{
 		if ( classType == null )
@@ -345,6 +376,12 @@ public class ProfileRequest extends KoLRequest
 	{
 		initialize();
 		return turnsPlayed;
+	}
+
+	public Integer getCurrentRun()
+	{
+		initialize();
+		return currentRun;
 	}
 
 	public Date getLastLogin()

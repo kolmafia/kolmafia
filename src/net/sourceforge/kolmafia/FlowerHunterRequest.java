@@ -123,11 +123,7 @@ public class FlowerHunterRequest extends KoLRequest
 		while ( playerMatcher.find() )
 		{
 			KoLmafia.registerPlayer( playerMatcher.group(2), playerMatcher.group(1) );
-			currentPlayer = new ProfileRequest( client, playerMatcher.group(2) );
-
-			client.updateDisplay( NORMAL_STATE, "Retrieving profile for " + playerMatcher.group(2) + "..." );
-			if ( currentPlayer.getPvpRank().intValue() != 0 )
-				searchResults.add( currentPlayer );
+			searchResults.add( new ProfileRequest( client, playerMatcher.group(2) ) );
 		}
 	}
 
