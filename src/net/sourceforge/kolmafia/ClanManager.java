@@ -424,23 +424,58 @@ public class ClanManager extends StaticEntity
 		// If the file already exists, a ClanSnapshotTable cannot be taken.
 		// Therefore, notify the user of this. :)
 
-		File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
-		File softcoreFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
-		File hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
-		File sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
+		File standardFile;
+		File softcoreFile;
+		File hardcoreFile;
+		File sortingScript;
 
-		if ( standardFile.exists() || softcoreFile.exists() || hardcoreFile.exists() )
-		{
-			JOptionPane.showMessageDialog( null, "You already created a snapshot this week." );
-			return;
-		}
-
-		// If initialization was unsuccessful, then there isn't
-		// enough data to create a clan ClanSnapshotTable.
 
 		String header = getProperty( "clanRosterHeader" ).toString();
 
 		boolean generateSnapshot = !header.equals( "" ) && !header.equals( "<td>Ascensions</td>" );
+
+
+
+		if( mostAscensionsBoardSize == 0 && mainBoardSize == 0 && classBoardSize == 0 && playerMoreThanOnce == false)
+		{
+			standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
+			softcoreFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
+			hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
+			sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
+
+			if (standardFile.exists() || softcoreFile.exists() || hardcoreFile.exists() )
+			{
+				JOptionPane.showMessageDialog( null, "You already created a snapshot this week." );
+				return;
+			}
+
+		}
+		else
+		{
+			standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
+			if( playerMoreThanOnce)
+			{
+				softcoreFile = new File( SNAPSHOT_DIRECTORY + "s" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "y.htm" );
+				hardcoreFile = new File( SNAPSHOT_DIRECTORY + "h" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "y.htm" );
+			}
+			else
+			{
+				softcoreFile = new File( SNAPSHOT_DIRECTORY + "s" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "n.htm" );
+				hardcoreFile = new File( SNAPSHOT_DIRECTORY + "h" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "n.htm" );
+			}
+			sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
+
+			if (softcoreFile.exists() || hardcoreFile.exists() )
+			{
+				JOptionPane.showMessageDialog( null, "You already created such a snapshot this week." );
+				return;
+			}
+			generateSnapshot = false;
+
+		}
+
+		// If initialization was unsuccessful, then there isn't
+		// enough data to create a clan ClanSnapshotTable.
 
 		boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Path</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
 			header.indexOf( "<td>Meat</td>" ) != -1 || header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Last Login</td>" ) != -1;
@@ -452,8 +487,9 @@ public class ClanManager extends StaticEntity
 			client.updateDisplay( ERROR_STATE, "Initialization failed." );
 			return;
 		}
+		if( standardFile != null)
+			standardFile.getParentFile().mkdirs();
 
-		standardFile.getParentFile().mkdirs();
 
 		// Now, store the clan snapshot into the appropriate
 		// data folder.
