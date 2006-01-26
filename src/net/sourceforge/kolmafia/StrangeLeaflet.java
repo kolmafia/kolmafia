@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+import javax.swing.JOptionPane;
 
 public abstract class StrangeLeaflet extends StaticEntity
 {
@@ -85,10 +86,10 @@ public abstract class StrangeLeaflet extends StaticEntity
 	private static boolean chest;
 
 	public static void robStrangeLeaflet()
-	{	robStrangeLeaflet( client.getSettings().getProperty( "invokeStrangeMagic" ).equals( "true" ) );
+	{	robStrangeLeaflet( false );
 	}
 
-	public static void robStrangeLeaflet( boolean magic )
+	public static void robStrangeLeaflet( boolean invokeMagic )
 	{
 
 		// If the player has never ascended, then they're going
@@ -134,12 +135,16 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		openChest();
 		robHole();
-		if ( magic )
+
+		if ( client instanceof KoLmafiaGUI )
+			invokeMagic = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+				"Would you like to invoke the \"magic words\" today?", "You know you want to!", JOptionPane.YES_NO_OPTION );
+
+		if ( invokeMagic )
 			invokeMagic();
 
 		// Add new items to "Usable" list
 		KoLCharacter.refreshCalculatedLists();
-
 		client.updateDisplay( ENABLE_STATE, "Strange Leaflet robbed." );
 	}
 

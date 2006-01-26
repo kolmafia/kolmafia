@@ -283,7 +283,6 @@ public class OptionsFrame extends KoLFrame
 			{ "useClockworkBoxes", "Use clockwork box servants when auto-repairing" },
 			{ "createWithoutBoxServants", "Allow cooking/mixing without box servants" },
 
-			{ "invokeStrangeMagic", "Invoke magic words in strange leaflet" },
 			{ "autoSatisfyChecks", "Automatically satisfy conditions on check" }
 		};
 
