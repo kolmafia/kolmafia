@@ -309,10 +309,12 @@ public class AdventureFrame extends KoLFrame
 
 			setContent( elements );
 
-			int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( getProperty( "battleAction" ) );
-
 			if ( KoLCharacter.getBattleSkillIDs().size() > 0 )
+			{
+				int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( getProperty( "battleAction" ) );
+
 				actionSelect.setSelectedIndex( actionIndex == -1 ? 0 : actionIndex );
+			}
 
 			actionSelect.addActionListener( new BattleActionListener() );
 

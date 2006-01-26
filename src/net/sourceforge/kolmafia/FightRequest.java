@@ -77,10 +77,6 @@ public class FightRequest extends KoLRequest
 
 		int haltTolerance = (int)( Double.parseDouble( getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
 
-		// For now, there will not be any attempts to handle
-		// special skills - the user will simply attack, use
-		// a moxious maneuver, or run away.
-
 		action = getProperty( "battleAction" );
 
 		if ( roundCount > 1 && action.equals( "custom" ) )
@@ -120,6 +116,13 @@ public class FightRequest extends KoLRequest
 
 			action = "...";
 		}
+		else if ( action.equals( "attack" ) )
+		{
+			action = "attack";
+			addFormField( "action", action );
+		}
+
+		// If the player wants to use an item, make sure he has one
 		else if ( action.startsWith( "item" ) )
 		{
 			int itemID = Integer.parseInt( action.substring( 4 ) );
@@ -135,7 +138,9 @@ public class FightRequest extends KoLRequest
 				addFormField( "whichitem", String.valueOf( itemID ) );
 			}
 		}
-		else if ( KoLCharacter.getCurrentMP() < 0 - getMPCost() )
+
+		// Skills use MP. Make sure the character has enough
+		else if ( KoLCharacter.getCurrentMP() < getActionCost() )
 		{
 			action = "attack";
 			addFormField( "action", action );
@@ -145,15 +150,22 @@ public class FightRequest extends KoLRequest
 			action = "moxman";
 			addFormField( "action", action );
 		}
-		else if ( action.equals( "attack" ) )
-		{
-			action = "attack";
-			addFormField( "action", action );
-		}
+
+		// If the player wants to use a skill, make sure he knows it
 		else
 		{
-			addFormField( "action", "skill" );
-			addFormField( "whichskill", action );
+			String skillName = ClassSkillsDatabase.getSkillName( Integer.parseInt( action ) );
+
+			if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
+			{
+				action = "attack";
+				addFormField( "action", action );
+			}
+			else
+			{
+				addFormField( "action", "skill" );
+				addFormField( "whichskill", action );
+			}
 		}
 	}
 
@@ -188,9 +200,8 @@ public class FightRequest extends KoLRequest
 
 		if ( responseCode == 200 )
 		{
-			int mpUsed = getMPCost();
-			if ( mpUsed != 0 )
-				client.processResult( new AdventureResult( AdventureResult.MP, mpUsed ) );
+			// Spend MP and consume items
+			payActionCost();
 
 			// If this is the first round, then register the opponent
 			// you are fighting against.
@@ -259,25 +270,53 @@ public class FightRequest extends KoLRequest
 	{	return roundCount;
 	}
 
-	private int getMPCost()
+	private int getActionCost()
 	{
 		if ( action.equals( "attack" ) )
 			return 0;
 
 		if ( action.startsWith( "item" ) )
+			return 0;
+
+		if ( action.equals( "moxman" ) )
+			return KoLCharacter.getLevel();
+
+		return ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action ) );
+	}
+
+	private void payActionCost()
+	{
+		if ( action.equals( "attack" ) )
+			return;
+
+		if ( action.startsWith( "item" ) )
 		{
 			int itemID = Integer.parseInt( action.substring( 4 ) );
 
-			// Dictionaries are not consumed when used in combat
-			if ( itemID != 536 && itemID != 1316 )
-				client.processResult( new AdventureResult( itemID, -1 ) );
+			switch ( itemID)
+			{
+			case 2:		// Seal Tooth
+			case 4:		// Scroll of Turtle Summoning
+			case 8:		// Spices
+			case 536:	// Dictionary 1
+			case 1316:	// Dictionary 2
+				return;
+			}
 
-			return 0;
+			// Everything else is consumed
+			client.processResult( new AdventureResult( itemID, -1 ) );
+			return;
 		}
 
-		if ( action.equals( "moxman" ) )
-			return 0 - KoLCharacter.getLevel();
+		int mp = 0;
 
-		return 0 - ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action ) );
+		if ( action.equals( "moxman" ) )
+			mp = KoLCharacter.getLevel();
+		else
+			mp = ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action ) );
+
+		if ( mp > 0 )
+
+			client.processResult( new AdventureResult( AdventureResult.MP, 0 - mp ) );
 	}
 }
