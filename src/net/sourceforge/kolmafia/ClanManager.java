@@ -440,7 +440,9 @@ public class ClanManager extends StaticEntity
 
 		String header = getProperty( "clanRosterHeader" ).toString();
 
-		boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
+		boolean generateSnapshot = !header.equals( "" ) && !header.equals( "<td>Ascensions</td>" );
+
+		boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Path</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
 			header.indexOf( "<td>Meat</td>" ) != -1 || header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Last Login</td>" ) != -1;
 
 		boolean retrieveAscensionData = header.indexOf( "<td>Ascensions</td>" ) != -1;
@@ -460,7 +462,7 @@ public class ClanManager extends StaticEntity
 		{
 			PrintStream ostream;
 
-			if ( !header.equals( "<td>Ascensions</td>" ) && !header.equals( "" ) )
+			if ( generateSnapshot )
 			{
 				client.updateDisplay( DISABLE_STATE, "Storing clan snapshot..." );
 
@@ -508,7 +510,7 @@ public class ClanManager extends StaticEntity
 			// To make things less confusing, load the summary
 			// file inside of the default browser after completion.
 
-			if ( !header.equals( "<td>Ascensions</td>" ) && !header.equals( "" ) )
+			if ( generateSnapshot )
 				BrowserLauncher.openURL( standardFile.toURL().toString() );
 
 			if ( retrieveAscensionData )
