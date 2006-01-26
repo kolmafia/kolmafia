@@ -57,7 +57,7 @@ public class KoLDatabase extends StaticEntity
 	{
 		if ( allowOverride )
 		{
-			File override = new File( "data/adventures.dat" );
+			File override = new File( "data/" + file );
 			if ( override.exists() )
 			{
 				try
