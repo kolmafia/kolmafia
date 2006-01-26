@@ -129,7 +129,7 @@ public class HermitRequest extends KoLRequest
 			while ( matcher.find( index ) )
 			{
 				index = matcher.end();
-				items.add( matcher.group(2) );
+				items.add( KoLDatabase.getDisplayName( matcher.group(2) ) );
 			}
 
 			return;
