@@ -73,6 +73,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int CLOSET = 4;
 
 	protected String previousCommand;
+	public static final ArrayList unrepeatableCommands = new ArrayList();
 
 	private PrintStream outputStream;
 	private PrintStream mirrorStream;
@@ -375,7 +376,21 @@ public class KoLmafiaCLI extends KoLmafia
 	public synchronized void executeLine( String line )
 	{
 		scriptRequestor.resetContinueState();
-		if ( line.trim().length() == 0 )
+
+		// Trim the line, replace all double spaces with
+		// single spaces and compare the result against
+		// commands which are no longer allowed.
+
+		line = line.replaceAll( "\\s+", " " ).trim();
+		if ( unrepeatableCommands.equals( line ) )
+		{
+			scriptRequestor.cancelRequest();
+			updateDisplay( ERROR_STATE, "Sorry.  You can only do that once per session." );
+			return;
+		}
+
+
+		if ( line.length() == 0 )
 			return;
 
 		String command = line.trim().split( " " )[0].toLowerCase().trim();
@@ -1107,11 +1122,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Finally, handle command abbreviations - in
-		// other words, commands that look like they're
-		// their own commands, but are actually commands
-		// which are derived from other commands.
-
 		if ( command.equals( "hermit" ) )
 		{
 			makeHermitRequest();
@@ -1148,9 +1158,54 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Campground commands, like retrieving toast, relaxing
+		// at the beanbag, resting at your house/tent, and visiting
+		// the evil golden arches.
+
 		if ( command.equals( "toast" ) || command.equals( "rest" ) || command.equals( "relax" ) || command.equals( "arches" ) )
 		{
 			executeCampgroundRequest( command + " " + parameters );
+			return;
+		}
+
+		// Because it makes sense to add this command as-is,
+		// you now have the ability to request buffs.
+
+		if ( command.equals( "send" ) )
+		{
+			String [] splitParameters = parameters.split( " [tT][oO] " );
+
+			if ( splitParameters.length != 2 )
+			{
+				scriptRequestor.cancelRequest();
+				updateDisplay( ERROR_STATE, "Invalid send request." );
+				return;
+			}
+
+			AdventureResult sending = null;
+			if ( splitParameters[0].toLowerCase().endsWith( "meat" ) )
+			{
+				try
+				{
+					int amount = df.parse( splitParameters[0].split( " " )[0] ).intValue();
+					sending = new AdventureResult( AdventureResult.MEAT, amount );
+				}
+				catch ( Exception e )
+				{
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+
+					scriptRequestor.cancelRequest();
+					return;
+				}
+			}
+			else
+			{
+				sending = getFirstMatchingItem( parameters, INVENTORY );
+			}
+
+			(new GreenMessageRequest( scriptRequestor, splitParameters[1], "You are awesome.", sending )).run();
+			unrepeatableCommands.add( "send " + parameters );
 			return;
 		}
 
@@ -1167,6 +1222,11 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( NORMAL_STATE, "Status refreshed." );
 			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
 		}
+
+		// Finally, handle command abbreviations - in
+		// other words, commands that look like they're
+		// their own commands, but are actually commands
+		// which are derived from other commands.
 
 		if ( command.startsWith( "inv" ) || command.equals( "session" ) || command.equals( "summary" ) ||
 			command.equals( "effects" ) || command.startsWith( "status" ) || command.equals( "encounters" ) )
@@ -1204,14 +1264,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void showHTML( String text, String title )
 	{
-		updateDisplay( NORMAL_STATE,
-			       text.
-			       replaceAll( "<(br|p|blockquote)>", LINE_BREAK ).
-			       replaceAll( "<.*?>", "" ).
-			       replaceAll( "&nbsp;", " " ).
-			       replaceAll( "&trade;", " [tm]" ).
-			       replaceAll( "&ntilde;", "n" ).
-			       replaceAll( "&quot;", "\"" ) );
+		updateDisplay( NORMAL_STATE, text.replaceAll( "<(br|p|blockquote)>", LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll(
+			"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "n" ).replaceAll( "&quot;", "\"" ) );
 	}
 
 	/**
@@ -1734,14 +1788,22 @@ public class KoLmafiaCLI extends KoLmafia
 		String skillName;
 		int buffCount;
 
-		if ( parameters.startsWith( "\"" ) )
+		String [] splitParameters = parameters.split( " [oO][nN] " );
+		if ( splitParameters.length == 1 )
 		{
-			skillName = parameters.substring( 1, parameters.length() - 1 );
+			splitParameters = new String[2];
+			splitParameters[0] = parameters;
+			splitParameters[1] = null;
+		}
+
+		if ( splitParameters[0].startsWith( "\"" ) )
+		{
+			skillName = splitParameters[0].substring( 1, splitParameters[0].length() - 1 );
 			buffCount = 1;
 		}
 		else
 		{
-			skillName = getSkillName( parameters.toLowerCase() );
+			skillName = getSkillName( splitParameters[0].toLowerCase() );
 
 			if ( skillName != null )
 			{
@@ -1749,8 +1811,8 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			String firstParameter = parameters.split( " " )[0].toLowerCase();
-			String skillNameString = parameters.substring( firstParameter.length() ).trim().toLowerCase();
+			String firstParameter = splitParameters[0].split( " " )[0].toLowerCase();
+			String skillNameString = splitParameters[0].substring( firstParameter.length() ).trim().toLowerCase();
 
 			if ( skillNameString.startsWith( "\"" ) )
 			{
@@ -1789,7 +1851,11 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			if ( buffCount > 0 )
-				scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, null, buffCount ), 1 );
+			{
+				scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, splitParameters[0], splitParameters[1], buffCount ), 1 );
+				if ( splitParameters[1] != null )
+					unrepeatableCommands.add( "cast " + parameters );
+			}
 		}
 	}
 
