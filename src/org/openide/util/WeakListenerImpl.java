@@ -13,7 +13,7 @@
  * THIS CODE HAS BEEN MODIFIED TO REMOVE ALL REFERENCES TO THE
  * ErrorManager CLASS IN THE org.openide PACKAGE.  THIS IS TO
  * MINIMIZE THE NUMBER OF IMPORTS REQUIRED IN ORDER TO MAKE USE
- * OF THIS MODULE.
+ * OF THIS MODULE.  ALL DEPRECATED CLASSES HAVE ALSO BEEN REMOVED.
  */
 
 package org.openide.util;
@@ -27,8 +27,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
 
 import javax.swing.event.*;
-
-// import org.openide.ErrorManager;
 
 /**
  * A listener wrapper that delegates to another listener but hold
@@ -107,164 +105,6 @@ abstract class WeakListenerImpl implements java.util.EventListener {
         Object listener = ref.get();
         return getClass().getName() + "[" + (listener == null ? "null" : listener.getClass().getName() + "]");
     }
-    /** Weak property change listener
-    * @deprecated use appropriate method instead
-    */
-    static class PropertyChange extends WeakListenerImpl
-        implements PropertyChangeListener {
-        /** Constructor.
-        * @param l listener to delegate to
-        */
-        public PropertyChange (PropertyChangeListener l) {
-            super (PropertyChangeListener.class, l);
-        }
-
-        /** Constructor.
-        * @param clazz required class
-        * @param l listener to delegate to
-        */
-        PropertyChange (Class clazz, PropertyChangeListener l) {
-            super (clazz, l);
-        }
-
-        /** Tests if the object we reference to still exists and
-        * if so, delegate to it. Otherwise remove from the source
-        * if it has removePropertyChangeListener method.
-        */
-        public void propertyChange (PropertyChangeEvent ev) {
-            PropertyChangeListener l = (PropertyChangeListener)super.get (ev);
-            if (l != null) l.propertyChange (ev);
-        }
-
-        /** Method name to use for removing the listener.
-        * @return name of method of the source object that should be used
-        *   to remove the listener from listening on source of events
-        */
-        protected String removeMethodName () {
-            return "removePropertyChangeListener"; // NOI18N
-        }
-    }
-
-    /** Weak vetoable change listener
-    * @deprecated use appropriate method instead
-    */
-    static class VetoableChange extends WeakListenerImpl
-        implements VetoableChangeListener {
-        /** Constructor.
-        * @param l listener to delegate to
-        */
-        public VetoableChange (VetoableChangeListener l) {
-            super (VetoableChangeListener.class, l);
-        }
-
-        /** Tests if the object we reference to still exists and
-        * if so, delegate to it. Otherwise remove from the source
-        * if it has removePropertyChangeListener method.
-        */
-        public void vetoableChange (PropertyChangeEvent ev) throws PropertyVetoException {
-            VetoableChangeListener l = (VetoableChangeListener)super.get (ev);
-            if (l != null) l.vetoableChange (ev);
-        }
-
-        /** Method name to use for removing the listener.
-        * @return name of method of the source object that should be used
-        *   to remove the listener from listening on source of events
-        */
-        protected String removeMethodName () {
-            return "removeVetoableChangeListener"; // NOI18N
-        }
-    }
-
-    /** Weak document modifications listener.
-    * This class if final only for performance reasons,
-    * can be happily unfinaled if desired.
-    * @deprecated use appropriate method instead
-    */
-    static final class Document extends WeakListenerImpl
-        implements DocumentListener {
-        /** Constructor.
-        * @param l listener to delegate to
-        */
-        public Document (final DocumentListener l) {
-            super (DocumentListener.class, l);
-        }
-
-        /** Gives notification that an attribute or set of attributes changed.
-        * @param ev event describing the action
-        */
-        public void changedUpdate(DocumentEvent ev) {
-            final DocumentListener l = docGet(ev);
-            if (l != null) l.changedUpdate(ev);
-        }
-
-        /** Gives notification that there was an insert into the document.
-        * @param ev event describing the action
-        */
-        public void insertUpdate(DocumentEvent ev) {
-            final DocumentListener l = docGet(ev);
-            if (l != null) l.insertUpdate(ev);
-        }
-
-        /** Gives notification that a portion of the document has been removed.
-        * @param ev event describing the action
-        */
-        public void removeUpdate(DocumentEvent ev) {
-            final DocumentListener l = docGet(ev);
-            if (l != null) l.removeUpdate(ev);
-        }
-
-        /** Method name to use for removing the listener.
-        * @return name of method of the source object that should be used
-        *   to remove the listener from listening on source of events
-        */
-        protected String removeMethodName () {
-            return "removeDocumentListener"; // NOI18N
-        }
-
-        /** Getter for the target listener.
-        * @param event the event the we want to distribute
-        * @return null if there is no listener because it has been finalized
-        */
-        private DocumentListener docGet (DocumentEvent ev) {
-            DocumentListener l = (DocumentListener)super.ref.get ();
-            if (l == null) {
-                super.ref.requestCleanUp (ev.getDocument());
-            }
-            return l;
-        }
-    } // end of Document inner class
-
-    /** Weak swing change listener.
-    * This class if final only for performance reasons,
-    * can be happily unfinaled if desired.
-    * @deprecated use appropriate method instead
-    */
-    static final class Change extends WeakListenerImpl
-        implements ChangeListener {
-        /** Constructor.
-        * @param l listener to delegate to
-        */
-        public Change (ChangeListener l) {
-            super (ChangeListener.class, l);
-        }
-
-        /** Called when new file system is added to the pool.
-        * @param ev event describing the action
-        */
-        public void stateChanged (final ChangeEvent ev) {
-            ChangeListener l = (ChangeListener)super.get(ev);
-            if (l != null) l.stateChanged (ev);
-        }
-
-        /** Method name to use for removing the listener.
-        * @return name of method of the source object that should be used
-        *   to remove the listener from listening on source of events
-        */
-        protected String removeMethodName () {
-            return "removeChangeListener"; // NOI18N
-        }
-
-    }
 
     public static EventListener create (Class lType, Class apiType, EventListener l, Object source) {
         ProxyListener pl = new ProxyListener (lType, apiType, l);
@@ -272,49 +112,9 @@ abstract class WeakListenerImpl implements java.util.EventListener {
         return (EventListener)pl.proxy;
     }
 
-
-    /** Weak version of focus listener.
-    * This class if final only for performance reasons,
-    * can be happily unfinaled if desired.
-    * @deprecated use appropriate method instead
+	/** Proxy interface that delegates to listeners.
     */
-    static final class Focus extends WeakListenerImpl
-        implements FocusListener {
-        /** Constructor.
-        * @param l listener to delegate to
-        */
-        public Focus (FocusListener l) {
-            super (FocusListener.class, l);
-        }
-
-        /** Delegates to the original listener.
-        */
-        public void focusGained(FocusEvent ev) {
-            FocusListener l = (FocusListener)super.get (ev);
-            if (l != null) l.focusGained (ev);
-        }
-
-        /** Delegates to the original listener.
-        */
-        public void focusLost(FocusEvent ev) {
-            FocusListener l = (FocusListener)super.get (ev);
-            if (l != null) l.focusLost (ev);
-        }
-
-        /** Method name to use for removing the listener.
-        * @return name of method of the source object that should be used
-        *   to remove the listener from listening on source of events
-        */
-        protected String removeMethodName () {
-            return "removeFocusListener"; // NOI18N
-        }
-
-    }
-
-
-        /** Proxy interface that delegates to listeners.
-    */
-    private static class ProxyListener extends WeakListenerImpl implements InvocationHandler {
+    public static class ProxyListener extends WeakListenerImpl implements InvocationHandler {
         /** proxy generated for this listener */
         public final Object proxy;
 
@@ -361,7 +161,6 @@ abstract class WeakListenerImpl implements java.util.EventListener {
                 proxy = p;
             } catch (Exception ex) {
                 IllegalStateException e = new IllegalStateException (ex.getMessage ());
-//                ErrorManager.getDefault ().annotate (e, ex);
                 throw e;
             }
         }
@@ -443,9 +242,7 @@ abstract class WeakListenerImpl implements java.util.EventListener {
             Object ref,
             WeakListenerImpl weakListener
         ) {
-//            super (ref, Utilities.activeReferenceQueue());
-super( ref );
-
+			super( ref );
             this.weakListener = weakListener;
         }
 
@@ -499,10 +296,6 @@ super( ref );
                 types[0] = ref.listenerClass;
                 remove = getRemoveMethod(methodClass, methodName, types[0]);
                 if (remove == null) {
-//                    ErrorManager.getDefault().log (ErrorManager.WARNING,
-//                        "Can't remove " + ref.listenerClass.getName() + //NOI18N
-//                        " using method " + methodName + //NOI18N
-//                        " from " + src); //NOI18N
                     return;
                 } else {
                     synchronized (LOCK) {
@@ -517,8 +310,6 @@ super( ref );
             try {
                 remove.invoke (src, params);
             } catch (Exception ex) { // from invoke(), should not happen
-//                ErrorManager.getDefault().annotate(ex, "Problem encountered while calling " + methodClass + "." + methodName + "(...) on " + src); // NOI18N
-//                ErrorManager.getDefault().notify(ErrorManager.INFORMATIONAL, ex);
             }
         }
 
