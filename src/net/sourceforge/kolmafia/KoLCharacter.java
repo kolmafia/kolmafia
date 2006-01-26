@@ -2157,6 +2157,22 @@ public abstract class KoLCharacter extends StaticEntity
 				return creation.getCount( ConcoctionsDatabase.getConcoctions() ) > 0;
 		}
 
+		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
+		{
+			case ConsumeItemRequest.EQUIP_WEAPON:
+				return getEquipment( WEAPON ).startsWith( item.getName() );
+
+			case ConsumeItemRequest.EQUIP_HAT:
+				return getEquipment( HAT ).startsWith( item.getName() );
+
+			case ConsumeItemRequest.EQUIP_PANTS:
+				return getEquipment( PANTS ).startsWith( item.getName() );
+
+			case ConsumeItemRequest.EQUIP_ACCESSORY:
+				return getEquipment( ACCESSORY1 ).startsWith( item.getName() ) ||
+					getEquipment( ACCESSORY2 ).startsWith( item.getName() ) || getEquipment( ACCESSORY3 ).startsWith( item.getName() );
+		}
+
 		return false;
 	}
 }
