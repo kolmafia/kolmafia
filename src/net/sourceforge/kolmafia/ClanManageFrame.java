@@ -97,6 +97,7 @@ public class ClanManageFrame extends KoLFrame
 	private AttackPanel attacks;
 	private WarfarePanel warfare;
 	private SnapshotPanel snapshot;
+	private AscensionPanel ascension;
 	private MemberSearchPanel search;
 
 	public ClanManageFrame( KoLmafia client )
@@ -112,6 +113,7 @@ public class ClanManageFrame extends KoLFrame
 		this.attacks = new AttackPanel();
 		this.warfare = new WarfarePanel();
 		this.snapshot = new SnapshotPanel();
+		this.ascension = new AscensionPanel();
 		this.search = new MemberSearchPanel();
 
 		this.tabs = new JTabbedPane();
@@ -136,7 +138,13 @@ public class ClanManageFrame extends KoLFrame
 
 		tabs.addTab( "Warfare & Buffs", purchasePanel );
 		tabs.addTab( "Member Search", search );
-		tabs.addTab( "Clan Snapshot", snapshot );
+
+		JPanel snapPanel = new JPanel();
+		snapPanel.setLayout( new BoxLayout( snapPanel, BoxLayout.Y_AXIS ) );
+		snapPanel.add( snapshot );
+		snapPanel.add( ascension );
+
+		tabs.addTab( "Clan Snapshot", snapPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -709,52 +717,32 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class SnapshotPanel extends KoLPanel
+	private class SnapshotPanel extends LabeledKoLPanel
 	{
 		private JCheckBox [] optionBoxes;
 		private final String [][] options =
 		{
-			{ "<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>", "Stat points and power" },
-			{ "<td>Title</td><td>Rank</td><td>Karma</td>", "Clan (title, rank, karma)" },
-			{ "<td>PVP</td>", "Current PVP rankings" },
-			{ "<td>Class</td>", "Current class" },
-			{ "<td>Meat</td>", "Wealth accumulated" },
-			{ "<td>Turns</td>", "Total turns used" },
-			{ "<td>Food</td><td>Drink</td>", "Favorites (food, booze)" },
-			{ "<td>Created</td>", "Account creation date" },
-			{ "<td>Last Login</td>", "Last login date" },
-			{ "<td>Ascensions</td>", "Ascension breakdown" }
+			{ "<td>Lv</td><td>Mus</td><td>Mys</td><td>Mox</td><td>Total</td>", "Progression statistics (level, power, class)" },
+			{ "<td>Title</td><td>Rank</td><td>Karma</td>", "Internal clan statistics (title, rank, karma)" },
+			{ "<td>Class</td><td>Path</td><td>Turns</td><td>Meat</td>", "Leaderboard statistics (class, path, turns this run, wealth)" },
+			{ "<td>PVP</td><td>Food</td><td>Drink</td>", "Miscellaneous statistics (pvp rank, favorite food, favorite booze)" },
+			{ "<td>Created</td><td>Last Login</td>", "Creation and last login dates" },
 		};
-
-		private JTextField mostAscensionsBoardSizeField;
-		private JTextField mainBoardSizeField;
-		private JTextField classBoardSizeField;
-		private JCheckBox playerMoreThanOnceOption;
 
 		public SnapshotPanel()
 		{
-			super( "snapshot", "logshot", new Dimension( 340, 16 ), new Dimension( 20, 16 ) );
-			VerifiableElement [] elements = new VerifiableElement[ options.length + 4 ];
+			super( "Clan Snapshot", "snapshot", "logshot", new Dimension( 420, 16 ), new Dimension( 20, 16 ) );
+
+			VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
 			optionBoxes = new JCheckBox[ options.length ];
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i] = new JCheckBox();
 
-			mostAscensionsBoardSizeField = new JTextField( 2);
-			mainBoardSizeField = new JTextField( 2);
-			classBoardSizeField = new JTextField( 2);
-			playerMoreThanOnceOption = new JCheckBox();
-
 			for ( int i = 0; i < options.length; ++i )
 				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
-			elements[ options.length] = new VerifiableElement( "Most Ascensions Board Size (default 20)", JLabel.LEFT, mostAscensionsBoardSizeField);
-			elements[ options.length + 1] = new VerifiableElement( "Fastest Ascensions Board Size (default 10)", JLabel.LEFT, mainBoardSizeField);
-			elements[ options.length + 2] = new VerifiableElement( "Class Ascensions Board Size (default 5)", JLabel.LEFT, classBoardSizeField);
-			elements[ options.length + 3] = new VerifiableElement( "Let one player occurr multiple times per board", JLabel.LEFT, playerMoreThanOnceOption);
-
-			setContent( elements, null, null, true, true );
-
+			setContent( elements, false );
 			String tableHeaderSetting = getProperty( "clanRosterHeader" );
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( options[i][0] ) != -1 );
@@ -765,41 +753,66 @@ public class ClanManageFrame extends KoLFrame
 			// Apply all the settings before generating the
 			// needed clan ClanSnapshotTable.
 
-			int mostAscensionsBoardSize;
-			int mainBoardSize;
-			int classBoardSize;
-			boolean playerMoreThanOnce;
-
-			if( mostAscensionsBoardSizeField.getText().equals( ""))
-				mostAscensionsBoardSize = 0;
-			else
-				mostAscensionsBoardSize = Integer.parseInt( mostAscensionsBoardSizeField.getText());
-
-			if( mainBoardSizeField.getText().equals( ""))
-				mainBoardSize = 0;
-			else
-				mainBoardSize = Integer.parseInt( mainBoardSizeField.getText());
-
-			if( classBoardSizeField.getText().equals( ""))
-				classBoardSize = 0;
-			else
-				classBoardSize = Integer.parseInt( classBoardSizeField.getText());
-
-			playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
-
-
 			StringBuffer tableHeaderSetting = new StringBuffer();
 
 			for ( int i = 0; i < options.length; ++i )
 				if ( optionBoxes[i].isSelected() )
 					tableHeaderSetting.append( options[i][0] );
 
-			client.getSettings().setProperty( "clanRosterHeader", tableHeaderSetting.toString() );
+			setProperty( "clanRosterHeader", tableHeaderSetting.toString() + "<td>Ascensions</td>" );
 
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.
 
-			ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, playerMoreThanOnce);
+			ClanManager.takeSnapshot( 0, 0, 0, false );
+		}
+
+		protected void actionCancelled()
+		{
+			ClanManager.saveStashLog();
+		}
+	}
+
+	private class AscensionPanel extends LabeledKoLPanel
+	{
+		private JTextField mostAscensionsBoardSizeField;
+		private JTextField mainBoardSizeField;
+		private JTextField classBoardSizeField;
+		private JCheckBox playerMoreThanOnceOption;
+
+		public AscensionPanel()
+		{
+			super( "Clan Leaderboards", "snapshot", "blahblah", new Dimension( 240, 20 ), new Dimension( 80, 20 ) );
+
+			mostAscensionsBoardSizeField = new JTextField( "20" );
+			mainBoardSizeField = new JTextField( "10" );
+			classBoardSizeField = new JTextField( "5" );
+			playerMoreThanOnceOption = new JCheckBox();
+
+			VerifiableElement [] elements = new VerifiableElement[4];
+			elements[0] = new VerifiableElement( "Most Ascensions Board Size:  ", mostAscensionsBoardSizeField );
+			elements[1] = new VerifiableElement( "Fastest Ascensions Board Size:  ", mainBoardSizeField );
+			elements[2] = new VerifiableElement( "Class Breakdown Board Size:  ", classBoardSizeField );
+			elements[3] = new VerifiableElement( "Allow Multiple Appearances:  ", playerMoreThanOnceOption );
+
+			setContent( elements );
+		}
+
+		protected void actionConfirmed()
+		{
+			int mostAscensionsBoardSize = mostAscensionsBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : Integer.parseInt( mostAscensionsBoardSizeField.getText() );
+			int mainBoardSize = mainBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : Integer.parseInt( mainBoardSizeField.getText() );
+			int classBoardSize = classBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : Integer.parseInt( classBoardSizeField.getText() );
+			boolean playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
+
+			String oldSetting = getProperty( "clanRosterHeader" );
+			setProperty( "clanRosterHeader", "<td>Ascensions</td>" );
+
+			// Now that you've got everything, go ahead and
+			// generate the snapshot.
+
+			ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, playerMoreThanOnce );
+			setProperty( "clanRosterHeader", oldSetting );
 		}
 
 		protected void actionCancelled()
