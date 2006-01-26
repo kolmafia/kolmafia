@@ -104,9 +104,20 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			// until you are in the Swing thread before making
 			// the object to avoid deadlocks.
 
-			if ( !SwingUtilities.isEventDispatchThread() )
+			try
 			{
-				SwingUtilities.invokeLater( this );
+				if ( !SwingUtilities.isEventDispatchThread() )
+				{
+					SwingUtilities.invokeAndWait( this );
+					return;
+				}
+			}
+			catch ( Exception e )
+			{
+				// The only exception thrown is an interrupted
+				// exception, which means you should do nothing,
+				// because you're no longer in the Swing thread.
+
 				return;
 			}
 
@@ -128,57 +139,15 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	}
 
 	protected synchronized void fireContentsChanged( Object source, int index0, int index1 )
-	{
-		Runnable runner = new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 );
-
-		try
-		{
-			if ( SwingUtilities.isEventDispatchThread() )
-				runner.run();
-			else
-				SwingUtilities.invokeAndWait( runner );
-		}
-		catch ( Exception e )
-		{
-			// The only exception thrown is an interrupted
-			// exception, which is fine.
-		}
+	{	(new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 )).run();
 	}
 
 	protected synchronized void fireIntervalAdded( Object source, int index0, int index1 )
-	{
-		Runnable runner = new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 );
-
-		try
-		{
-			if ( SwingUtilities.isEventDispatchThread() )
-				runner.run();
-			else
-				SwingUtilities.invokeAndWait( runner );
-		}
-		catch ( Exception e )
-		{
-			// The only exception thrown is an interrupted
-			// exception, which is fine.
-		}
+	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 )).run();
 	}
 
 	protected synchronized void fireIntervalRemoved( Object source, int index0, int index1 )
-	{
-		Runnable runner = new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 );
-
-		try
-		{
-			if ( SwingUtilities.isEventDispatchThread() )
-				runner.run();
-			else
-				SwingUtilities.invokeAndWait( runner );
-		}
-		catch ( Exception e )
-		{
-			// The only exception thrown is an interrupted
-			// exception, which is fine.
-		}
+	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 )).run();
 	}
 
 	/**
@@ -591,7 +560,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	}
 
     /**
-     * Please refer to {@link javax.swing.MutableComboBoxModel#removeElementAt(Object,int)} for more
+     * Please refer to {@link javax.swing.MutableComboBoxModel#removeElementAt(int)} for more
      * information regarding this function.
      */
 
@@ -814,10 +783,6 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			lock = null;
 			return true;
 		}
-	}
-
-	public void addListDataListener( ListDataListener l )
-	{	listenerList.add( ListDataListener.class, WeakListeners.create( ListDataListener.class, l, this ) );
 	}
 
 	/**
