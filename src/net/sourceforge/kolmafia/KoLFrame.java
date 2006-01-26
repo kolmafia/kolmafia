@@ -1603,7 +1603,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			String currentValue = field.getText();
 
-			if ( currentValue == null || field.getText().length() == 0 )
+			if ( currentValue == null || currentValue.length() == 0 )
 				return defaultValue;
 
 			if ( currentValue.equals( "*" ) )
