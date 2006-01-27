@@ -597,7 +597,7 @@ public class AdventureDatabase extends KoLDatabase
 			// user wishes to autosatisfy through purchases,
 			// and the item is not made through combination.
 
-			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) && (creator == null || ConcoctionsDatabase.getMixingMethod( creator.getItemID() ) != ItemCreationRequest.COMBINE) )
+			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) && (creator == null || ConcoctionsDatabase.getMixingMethod( creator.getItemID() ) != ItemCreationRequest.COMBINE) )
 				missingCount = retrieveItem( purchaser, "buy", null, item, missingCount );
 
 			if ( missingCount <= 0 )
@@ -616,7 +616,7 @@ public class AdventureDatabase extends KoLDatabase
 			// Try to purchase the item from the mall, if the
 			// user wishes to autosatisfy through purchases.
 
-			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) )
 				missingCount = retrieveItem( purchaser, "buy", null, item, missingCount );
 
 			if ( missingCount <= 0 )
