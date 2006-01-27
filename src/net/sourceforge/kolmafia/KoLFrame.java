@@ -156,7 +156,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected JPanel compactPane;
 	protected JLabel hpLabel, mpLabel, advLabel;
 	protected JLabel meatLabel, drunkLabel;
-	protected JLabel familiarLabel, weightLabel;
+	protected JLabel familiarLabel;
 
 	protected KoLCharacterAdapter refreshListener;
 	protected JMenuItem debugMenuItem, macroMenuItem;
@@ -245,25 +245,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		super.dispose();
 
-		// Null out all references so the garbage collector
-		// knows what to discard when it sweeps through.
-
-		frameName = null;
-		framePanel = null;
-		toolbarPanel = null;
-
-		compactPane = null;
-		hpLabel = null;
-		mpLabel = null;
-		advLabel = null;
-		meatLabel = null;
-		drunkLabel = null;
-		familiarLabel = null;
-		weightLabel = null;
-
-		debugMenuItem = null;
-		macroMenuItem = null;
-
 		// Determine which frame needs to be removed from
 		// the maintained list of frames.
 
@@ -319,35 +300,24 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( framePanel.getComponentCount() != 0 )
 			return;
 
-		JPanel compactPane = new JPanel();
+		JPanel compactPane = new JPanel( new GridLayout( 7, 1, 0, 20 ) );
 		compactPane.setOpaque( false );
-		compactPane.setLayout( new GridLayout( 14, 1 ) );
 
-		compactPane.add( Box.createHorizontalStrut( 80 ) );
+		compactPane.add( hpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
+		compactPane.add( mpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
 
-		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
-		compactPane.add( hpLabel = new JLabel( " ", JLabel.CENTER ) );
+		compactPane.add( familiarLabel = new JLabel( " ", null, JLabel.CENTER ) );
 
-		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
-		compactPane.add( mpLabel = new JLabel( " ", JLabel.CENTER ) );
-
-		compactPane.add( familiarLabel = new JLabel( " ", JLabel.CENTER ) );
-		compactPane.add( weightLabel = new JLabel( " ", JLabel.CENTER ) );
-
-		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
-		compactPane.add( meatLabel = new JLabel( " ", JLabel.CENTER ) );
-
-		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
-		compactPane.add( advLabel = new JLabel( " ",  JLabel.CENTER) );
-
-		compactPane.add( new JLabel( JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER ) );
-		compactPane.add( drunkLabel = new JLabel( " ",  JLabel.CENTER) );
+		compactPane.add( meatLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
+		compactPane.add( advLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
+		compactPane.add( drunkLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER) );
 
 		compactPane.add( Box.createHorizontalStrut( 80 ) );
 
 		this.compactPane = new JPanel();
-		this.compactPane.setLayout( new BorderLayout() );
-		this.compactPane.add( compactPane, BorderLayout.NORTH );
+		this.compactPane.setLayout( new BoxLayout( this.compactPane, BoxLayout.Y_AXIS ) );
+		this.compactPane.add( Box.createVerticalStrut( 20 ) );
+		this.compactPane.add( compactPane );
 
 		framePanel.setLayout( new BorderLayout() );
 		framePanel.add( this.compactPane, BorderLayout.WEST );
@@ -362,21 +332,40 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		public void run()
 		{
 			hpLabel.setText( KoLCharacter.getCurrentHP() + " / " + KoLCharacter.getMaximumHP() );
+			hpLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			hpLabel.setHorizontalTextPosition( JLabel.CENTER );
+
 			mpLabel.setText( KoLCharacter.getCurrentMP() + " / " + KoLCharacter.getMaximumMP() );
+			mpLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			mpLabel.setHorizontalTextPosition( JLabel.CENTER );
+
 			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
+			meatLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			meatLabel.setHorizontalTextPosition( JLabel.CENTER );
+
 			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+			advLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			advLabel.setHorizontalTextPosition( JLabel.CENTER );
+
 			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
+			drunkLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			drunkLabel.setHorizontalTextPosition( JLabel.CENTER );
+
 			FamiliarData familiar = KoLCharacter.getFamiliar();
 			int id = familiar == null ? -1 : familiar.getID();
 			if ( id == -1 )
 			{
-				familiarLabel.setIcon( null );
-				weightLabel.setText( "" );
+				familiarLabel.setIcon( JComponentUtilities.getSharedImage( "debug.gif" ) );
+				familiarLabel.setText( "0 lbs." );
+				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
+				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
 			}
 			else
 			{
 				familiarLabel.setIcon( FamiliarsDatabase.getFamiliarImage( id ) );
-				weightLabel.setText( familiar.getModifiedWeight() + " lbs." );
+				familiarLabel.setText( familiar.getModifiedWeight() + (familiar.getModifiedWeight() == 1 ? "lb." : " lbs.") );
+				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
+				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
 			}
 		}
 	}
