@@ -1304,11 +1304,6 @@ public abstract class KoLmafia implements KoLConstants
 				else if ( currentIteration >= iterations )
 					updateDisplay( NORMAL_STATE, "Requests completed!" );
 			}
-
-			// With all that information parsed out, end the
-			// request sequence with the lists refreshing.
-
-			KoLCharacter.refreshCalculatedLists();
 		}
 		catch ( RuntimeException e )
 		{

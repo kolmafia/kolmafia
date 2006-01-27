@@ -2103,6 +2103,9 @@ public abstract class KoLCharacter extends StaticEntity
 			for ( int i = 0; i < listenerArray.length; ++i )
 				listenerArray[i].statusPointsChanged();
 		}
+
+		// Refresh after every result processing.
+		refreshCalculatedLists();
 	}
 
 	/**
