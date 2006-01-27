@@ -511,9 +511,16 @@ public class EquipmentRequest extends PasswordHashRequest
 	public String getCommandForm( int iterations )
 	{
 		String outfitName = getOutfitName();
+
 		if ( outfitName != null )
 			return "outfit " + outfitName;
 
-		return "";
+		if ( changeItemName == null )
+			return "";
+
+		if ( changeItemName.equals( UNEQUIP ) )
+			return "unequip " + changeItemName;
+
+		return "equip " + changeItemName;
 	}
 }
