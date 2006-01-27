@@ -96,9 +96,8 @@ public class AutoSellRequest extends SendMessageRequest
 			}
 			else
 			{
-				addFormField( "price" + index, String.valueOf(
-					Math.max( Math.max( TradeableItemDatabase.getPriceByID( item.getItemID() ), 100 ), prices[ index - 1 ] ) ) );
-				addFormField( "limit" + index, String.valueOf( limits[ index - 1 ] ) );
+				addFormField( "price" + index, prices[ index - 1 ] == 0 ? "" : String.valueOf( prices[ index - 1 ] ) );
+				addFormField( "limit" + index, limits[ index - 1 ] == 0 ? "" : String.valueOf( limits[ index - 1 ] ) );
 			}
 		}
 		else
