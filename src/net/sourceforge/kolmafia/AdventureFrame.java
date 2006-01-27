@@ -239,30 +239,20 @@ public class AdventureFrame extends KoLFrame
 			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", CouncilFrame.class ) );
 			toolbarPanel.add( new MiniBrowserButton() );
 			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-
-			toolbarPanel.add( new DisplayFrameButton( "Mail", "mail.gif", MailboxFrame.class ) );
-			toolbarPanel.add( new InvocationButton( "Chat", "chat.gif", KoLMessenger.class, "initialize" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Clan", "clan.gif", ClanManageFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "PvP", "flower.gif", FlowerHunterFrame.class ) );
+			toolbarPanel.add( new InvocationButton( "KoLmafia Chat", "chat.gif", KoLMessenger.class, "initialize" ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
 			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", StoreManageFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", HagnkStorageFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Equipment", "equipment.gif", GearChangeFrame.class ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
+			toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", ClanManageFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Run a Buffbot", "buff.gif", FamiliarTrainingFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", FamiliarTrainingFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", MushroomFrame.class ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-
-			toolbarPanel.add( new DisplayFrameButton( "KoL Almanac", "calendar.gif", CalendarFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "KoL Encyclopedia", "encyclopedia.gif", ExamineItemsFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Player vs. Player", "flower.gif", FlowerHunterFrame.class ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
