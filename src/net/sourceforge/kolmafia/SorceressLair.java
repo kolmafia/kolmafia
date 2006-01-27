@@ -595,7 +595,7 @@ public abstract class SorceressLair extends StaticEntity
 				requirements.add( RICHARD );
 		}
 
-		if ( isCheckOnly || hasItem( STRUMMING ) || requirements.isEmpty() )
+		if ( isCheckOnly || hasItem( STRUMMING ) )
 			return requirements;
 
 		// If you can't equip the appropriate weapon and buckler,
