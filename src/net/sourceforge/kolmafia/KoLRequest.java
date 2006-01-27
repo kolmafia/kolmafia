@@ -271,6 +271,12 @@ public class KoLRequest implements Runnable, KoLConstants
 		String [] existingData = new String[ data.size() ];
 		data.toArray( existingData );
 
+		if ( name.startsWith( "pwd" ) )
+		{
+			data.add( name );
+			return;
+		}
+
 		String encodedName = null;
 		String encodedValue = null;
 
@@ -342,6 +348,12 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			dataBuffer.append( '&' );
 			dataBuffer.append( elements[i] );
+
+			if ( elements[i].startsWith( "pwd" ) )
+			{
+				dataBuffer.append( "=" );
+				dataBuffer.append( client.getPasswordHash() );
+			}
 		}
 
 		return dataBuffer.toString();
