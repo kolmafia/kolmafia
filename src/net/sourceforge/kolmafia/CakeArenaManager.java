@@ -40,13 +40,10 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class CakeArenaManager extends StaticEntity
 {
-	private static LimitedSizeChatBuffer results = new LimitedSizeChatBuffer( "Arena Tracker", false );
 	private static LockableListModel opponentList = new LockableListModel();
 
 	public static void reset()
-	{
-		results.clearBuffer();
-		opponentList.clear();
+	{	opponentList.clear();
 	}
 
 	/**
@@ -99,44 +96,16 @@ public class CakeArenaManager extends StaticEntity
 
 		public void run()
 		{
-			results.clearBuffer();
-
-			Matcher victoryMatcher;
-			Pattern victoryPattern = Pattern.compile( "is the winner, and gains (\\d+) experience" );
 			client.resetContinueState();
 
 			for ( int j = 1; client.permitsContinue() && j <= battleCount; ++j )
 			{
 				client.updateDisplay( DISABLE_STATE, "Arena battle, round " + j + " in progress..." );
 				client.makeRequest( request, 1 );
-
-				victoryMatcher = victoryPattern.matcher( request.responseText );
-
-				StringBuffer text = new StringBuffer();
-
-				if ( victoryMatcher.find() )
-					text.append( "<font color=green><b>Round " + j + " of " + battleCount + "</b></font>: " );
-				else
-					text.append( "<font color=red><b>Round " + j + " of " + battleCount + "</b></font>: " );
-
-				text.append( request.responseText.substring( 0, request.responseText.indexOf( "</table>" ) ).replaceAll(
-					"><" , "" ).replaceAll( "<.*?>", " " ) );
-
-				text.append( "<br><br>" );
-
-				results.append( text.toString() );
 			}
+
 			client.updateDisplay( ENABLE_STATE, "Arena battles complete." );
 		}
-	}
-
-	/**
-	 * Returns the chat buffer being used to update the
-	 * arena results.
-	 */
-
-	public static LimitedSizeChatBuffer getResults()
-	{	return results;
 	}
 
 	/**

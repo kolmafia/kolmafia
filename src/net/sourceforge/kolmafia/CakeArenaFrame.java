@@ -144,26 +144,11 @@ public class CakeArenaFrame extends KoLFrame
 			opponentPanel.add( opponentTable.getTableHeader(), BorderLayout.NORTH );
 			opponentPanel.add( opponentTable, BorderLayout.CENTER );
 
-			JEditorPane resultsDisplay = new JEditorPane();
-			resultsDisplay.setEditable( false );
+			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 
-			CakeArenaManager.getResults().setChatDisplay( resultsDisplay );
-
-			JScrollPane scroller = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-			JComponentUtilities.setComponentSize( scroller, 600, 300 );
-
-			setLayout( new BorderLayout() );
-
-			JPanel summaryPanel = new JPanel();
-			summaryPanel.setLayout( new BoxLayout( summaryPanel, BoxLayout.Y_AXIS ) );
-
-			summaryPanel.add( familiarPanel );
-			summaryPanel.add( Box.createVerticalStrut( 20 ) );
-			summaryPanel.add( opponentPanel );
-
-			add( summaryPanel, BorderLayout.NORTH );
-			add( scroller, BorderLayout.CENTER );
+			add( familiarPanel );
+			add( Box.createVerticalStrut( 20 ) );
+			add( opponentPanel );
 		}
 	}
 
