@@ -595,7 +595,7 @@ public abstract class SorceressLair extends StaticEntity
 				requirements.add( RICHARD );
 		}
 
-		if ( isCheckOnly || hasItem( STRUMMING ) )
+		if ( isCheckOnly || hasItem( STRUMMING ) || !requirements.isEmpty() )
 			return requirements;
 
 		// If you can't equip the appropriate weapon and buckler,
@@ -725,7 +725,7 @@ public abstract class SorceressLair extends StaticEntity
 	private static List retrieveScubaGear( boolean isCheckOnly )
 	{
 		List requirements = new ArrayList();
-		KoLRequest request;
+		KoLRequest request = null;
 
 		// The three hero keys are needed to get the SCUBA gear
 
@@ -741,7 +741,7 @@ public abstract class SorceressLair extends StaticEntity
 				requirements.add( SNEAKY_PETE );
 		}
 
-		if ( isCheckOnly || hasItem( SCUBA ) )
+		if ( isCheckOnly )
 			return requirements;
 
 		// Next, handle the three hero keys, which involve
