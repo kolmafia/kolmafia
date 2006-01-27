@@ -1632,6 +1632,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( sympathyAvailable )
 				weight += 5;
 
+			// One snowcone effect at a time
+			if ( greenTongueActive > 0 || blackTongueActive > 0 )
+				weight += 5;
+
 			if ( hat == PITH_HELMET )
 				weight += 5;
 
