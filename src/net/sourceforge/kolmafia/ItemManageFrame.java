@@ -351,8 +351,13 @@ public class ItemManageFrame extends KoLFrame
 					return;
 				}
 
-				if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+				if ( sellType == AutoSellRequest.AUTOSELL && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 					"Are you sure you would like to sell the selected items?",
+						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
+							return;
+
+				if ( sellType == AutoSellRequest.AUTOMALL && JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+					"Are you sure you would like to place the selected items in your store?",
 						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 							return;
 
