@@ -100,11 +100,6 @@ public class GearChangeFrame extends KoLFrame
 		KoLCharacter.getOutfits().removeListDataListener( outfitSelect );
 		KoLCharacter.getFamiliarList().removeListDataListener( familiarSelect );
 
-		equipment = null;
-		equipmentLists = null;
-		outfitSelect = null;
-		familiarSelect = null;
-
 		super.dispose();
 	}
 
