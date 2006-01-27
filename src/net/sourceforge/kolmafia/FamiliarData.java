@@ -33,8 +33,16 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import java.awt.Component;
+import javax.swing.JList;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.DefaultListCellRenderer;
+
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class FamiliarData implements KoLConstants, Comparable
 {
@@ -322,6 +330,38 @@ public class FamiliarData implements KoLConstants, Comparable
 		{
 			weightModifier += 5;
 			dodecaModifier -= 5;
+		}
+	}
+
+	public static DefaultListCellRenderer getRenderer()
+	{	return new FamiliarRenderer();
+	}
+
+	private static class FamiliarRenderer extends DefaultListCellRenderer
+	{
+		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
+		{
+			JLabel defaultComponent = (JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+
+			if ( value == null || !(value instanceof FamiliarData) || ((FamiliarData)value).id == -1 )
+			{
+				defaultComponent.setIcon( JComponentUtilities.getSharedImage( "debug.gif" ) );
+				defaultComponent.setText( VERSION_NAME + ", the 0 lb. \"No Familiar Plz\" Placeholder" );
+
+				defaultComponent.setVerticalTextPosition( JLabel.CENTER );
+				defaultComponent.setHorizontalTextPosition( JLabel.RIGHT );
+				return defaultComponent;
+			}
+
+			FamiliarData familiar = (FamiliarData) value;
+
+			defaultComponent.setIcon( FamiliarsDatabase.getFamiliarImage( familiar.id ) );
+			defaultComponent.setText( familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace() );
+
+			defaultComponent.setVerticalTextPosition( JLabel.CENTER );
+			defaultComponent.setHorizontalTextPosition( JLabel.RIGHT );
+
+			return defaultComponent;
 		}
 	}
 }

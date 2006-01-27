@@ -190,28 +190,34 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private class FamiliarTrainingPanel extends JPanel
 	{
-		FamiliarData familiar;
-		int weight;
+		private FamiliarData familiar;
+		private JComboBox familiars;
+		private int weight;
 
-		// Components
-		FamiliarPanel familiarPanel;
-		OpponentsPanel opponentsPanel;
-		ButtonPanel buttonPanel;
-		ResultsPanel resultsPanel;
-		ChangePanel changePanel;
+		private OpponentsPanel opponentsPanel;
+		private ButtonPanel buttonPanel;
+		private ResultsPanel resultsPanel;
 
 		public FamiliarTrainingPanel()
 		{
+			super( new BorderLayout( 10, 10 ) );
 			existingPanels.add( new WeakReference( this ) );
-			setLayout( new BorderLayout( 10, 10 ) );
+
+			JPanel container = new JPanel( new BorderLayout( 10, 10 ) );
 
 			// Get current familiar & base weight
 			familiar = KoLCharacter.getFamiliar();
 			weight = familiar.getWeight();
 
-			// Put current familiar on top
-			familiarPanel = new FamiliarPanel();
-			add( familiarPanel, BorderLayout.NORTH );
+			// Put familiar changer on top
+			familiars = new ChangeComboBox( KoLCharacter.getFamiliarList() );
+			familiars.setRenderer( FamiliarData.getRenderer() );
+			container.add( familiars, BorderLayout.NORTH );
+
+			// Put results in center
+			resultsPanel = new ResultsPanel();
+			container.add( resultsPanel, BorderLayout.CENTER );
+			add( container, BorderLayout.CENTER );
 
 			// Put opponents on left
 			opponentsPanel = new OpponentsPanel();
@@ -220,17 +226,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Put buttons on right
 			buttonPanel = new ButtonPanel();
 			add( buttonPanel, BorderLayout.EAST );
-
-			// Put results in center
-			resultsPanel = new ResultsPanel();
-			add( resultsPanel, BorderLayout.CENTER );
-
-			// Put familiar changer on bottom
-			changePanel = new ChangePanel();
-			add( changePanel, BorderLayout.SOUTH );
-
-			// Register a listener to keep it updated
-			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new FamiliarRefresh() ) );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -239,85 +234,33 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( buttonPanel != null )
 				buttonPanel.setEnabled( isEnabled );
-			if ( changePanel != null )
-				changePanel.setEnabled( isEnabled );
-		}
-
-		private class FamiliarPanel extends JPanel
-		{
-			private JLabel familiarIcon;
-			private JLabel familiarLabel;
-
-			public FamiliarPanel()
-			{
-				familiarIcon = new JLabel( "", JLabel.LEFT );
-				add( familiarIcon );
-
-				familiarLabel = new JLabel( "", JLabel.CENTER );
-				add( familiarLabel );
-
-				// Set the icon and label
-				refreshFamiliar();
-			}
-
-			private void refreshFamiliar()
-			{
-				if ( familiar == FamiliarData.NO_FAMILIAR )
-				{
-					familiarIcon.setIcon( null );
-					familiarLabel.setText( "(no familiar)" );
-				}
-				else
-				{
-					familiarIcon.setIcon( FamiliarsDatabase.getFamiliarImage( familiar.getID() ) );
-
-					String label = familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace();
-					familiarLabel.setText( label );
-				}
-			}
+			if ( familiars != null )
+				familiars.setEnabled( isEnabled );
 		}
 
 		private class OpponentsPanel extends JPanel
 		{
 			public OpponentsPanel()
 			{
-				setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 				// Get current opponents
 				LockableListModel opponents = CakeArenaManager.getOpponentList( client );
-
 				int opponentCount = opponents.size();
+
+				setLayout( new GridLayout( opponentCount, 1, 0, 20 ) );
+
 				for ( int i = 0; i < opponentCount; ++i )
-				{
-					CakeArenaManager.ArenaOpponent opponent = (CakeArenaManager.ArenaOpponent)opponents.get( i );
-					add( new OpponentLabel( opponent ) );
-				}
+					add( new OpponentLabel( (CakeArenaManager.ArenaOpponent) opponents.get(i) ) );
 			}
 
-			private class OpponentLabel extends JPanel
+			private class OpponentLabel extends JLabel
 			{
-				private JLabel familiarIcon;
-				private JPanel familiarLabel;
-
 				public OpponentLabel( CakeArenaManager.ArenaOpponent opponent )
 				{
-					setLayout( new BorderLayout( 10, 10 ) );
+					super( "<html><center>" + opponent.getName() + "<br>" + "(" + opponent.getWeight() + " lbs)</center></html>",
+						FamiliarsDatabase.getFamiliarImage( opponent.getRace() ), JLabel.CENTER );
 
-					familiarLabel = new JPanel();
-					familiarLabel.setLayout( new BoxLayout( familiarLabel, BoxLayout.Y_AXIS ) );
-
-					String name = opponent.getName();
-					familiarLabel.add( new JLabel( name, JLabel.LEFT ) );
-
-					String race = opponent.getRace();
-					familiarLabel.add( new JLabel( race, JLabel.LEFT ) );
-
-					int weight = opponent.getWeight();
-					familiarLabel.add( new JLabel( "(" + String.valueOf( weight ) + " lbs)", JLabel.LEFT ) );
-
-					add( familiarLabel, BorderLayout.WEST );
-
-					familiarIcon = new JLabel( FamiliarsDatabase.getFamiliarImage( opponent.getRace() ) );
-					add( familiarIcon, BorderLayout.EAST );
+					setVerticalTextPosition( JLabel.BOTTOM );
+					setHorizontalTextPosition( JLabel.CENTER );
 				}
 			}
 		}
@@ -473,86 +416,53 @@ public class FamiliarTrainingFrame extends KoLFrame
 			}
 		}
 
-		private class ChangePanel extends JPanel
+		private class ChangeComboBox extends JComboBox implements Runnable
 		{
-			private JComboBox familiars;
 			private boolean isChanging = false;
-
-			public ChangePanel()
+			public ChangeComboBox( LockableListModel selector )
 			{
-				familiars = new ChangeComboBox( KoLCharacter.getFamiliarList() );
-				add( familiars );
+				super( selector );
+				addActionListener( this );
 			}
 
-			public void setEnabled( boolean isEnabled )
+			public synchronized void actionPerformed( ActionEvent e )
 			{
-				super.setEnabled( isEnabled );
+				if ( !isShowing() || isChanging || !isEnabled() )
+					return;
 
-				if ( familiars != null )
-					familiars.setEnabled( isEnabled );
+				if ( e.paramString().endsWith( "=" ) )
+					return;
+
+				executeChange();
 			}
 
-			private class ChangeComboBox extends JComboBox implements Runnable
+			public synchronized void firePopupMenuWillBecomeInvisible()
 			{
-				public ChangeComboBox( LockableListModel selector )
-				{
-					super( selector );
-					addActionListener( this );
-				}
+				super.firePopupMenuWillBecomeInvisible();
 
-				public synchronized void actionPerformed( ActionEvent e )
-				{
-					if ( !isShowing() || isChanging || !isEnabled() )
-						return;
+				if ( !isShowing() || isChanging || !isEnabled() )
+					return;
 
-					if ( e.paramString().endsWith( "=" ) )
-						return;
-
-					executeChange();
-				}
-
-				public synchronized void firePopupMenuWillBecomeInvisible()
-				{
-					super.firePopupMenuWillBecomeInvisible();
-
-					if ( !isShowing() || isChanging || !isEnabled() )
-						return;
-
-					executeChange();
-				}
-
-				public synchronized void executeChange()
-				{
-					FamiliarData selection = (FamiliarData)getSelectedItem();
-
-					if ( selection == null || selection == familiar )
-						return;
-
-					isChanging = true;
-					(new DaemonThread( this )).start();
-				}
-
-				public void run()
-				{
-					FamiliarData selection = (FamiliarData)getSelectedItem();
-					(new FamiliarRequest( client, selection )).run();
-					isChanging = false;
-					client.enableDisplay();
-				}
+				executeChange();
 			}
-		}
 
-		private class FamiliarRefresh implements Runnable
-		{
+			public synchronized void executeChange()
+			{
+				FamiliarData selection = (FamiliarData)getSelectedItem();
+
+				if ( selection == null || selection == familiar )
+					return;
+
+				isChanging = true;
+				(new DaemonThread( this )).start();
+			}
+
 			public void run()
 			{
-				FamiliarData data = KoLCharacter.getFamiliar();
-				if ( data != familiar || weight != data.getWeight() )
-				{
-					familiar = data;
-					weight = familiar.getWeight();
-					familiarPanel.refreshFamiliar();
-				}
+				FamiliarData selection = (FamiliarData)getSelectedItem();
+				(new FamiliarRequest( client, selection )).run();
+				isChanging = false;
+				client.enableDisplay();
 			}
 		}
 	}
