@@ -96,6 +96,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 	public static final int BUFFED = 2;
 	public static final int TURNS = 3;
 
+	// Familiars
+	private static final int DODECAPEDE = 38;
+
 	// Familiar buffing skills and effects
 	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0, true );
 	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0, true );
@@ -1143,8 +1146,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Calculate base weight
 			int weight = familiar.getWeight();
+
+			// Sympathy adds 5 lbs. except to a dodecapede, for
+			// which it subtracts 5 lbs.
 			if ( sympathyAvailable )
-				weight += 5;
+				weight += ( familiar.getID() == DODECAPEDE ) ? -5 : 5;
 			if ( empathyActive > 0 )
 				weight += 5;
 			if ( leashActive > 0 )
@@ -1191,7 +1197,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			// If familiar specific item adds weight, calculate
 			if ( specWeight != 0 )
-				getAccessoryWeights( Math.max( 1, weight + specWeight ) );
+				getAccessoryWeights( weight + specWeight );
 
 			// If we have a lead necklace, use it
 			if ( leadNecklace != null )
@@ -1199,7 +1205,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If we have a rat head balloon, use it
 			if ( ratHeadBalloon != null )
-				getAccessoryWeights( Math.max( 1, weight -3) );
+				getAccessoryWeights( weight - 3 );
 
 			// Calculate Accessory Weights with no Familiar Items
 			getAccessoryWeights( weight );
@@ -1219,7 +1225,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			// Add weight with helmet
 			if ( pithHelmet != null )
-				weights.add( new Integer( weight + 5 ) );
+				weights.add( new Integer( Math.max( weight + 5, 1 ) ) );
 
 			// Add weight with no helmet
 			weights.add( new Integer( Math.max( weight, 1 ) ) );
@@ -1540,7 +1546,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			int weight = familiar.getWeight();
 
 			if ( sympathyAvailable )
-				weight += 5;
+				weight += ( familiar.getID() == DODECAPEDE ) ? -5 : 5;
 
 			// One snowcone effect at a time
 			if ( greenTongueActive > 0 || blackTongueActive > 0 )
@@ -1655,7 +1661,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Add possible skills
 			if ( sympathyAvailable )
-				weight += 5;
+				weight += ( familiar.getID() == DODECAPEDE ) ? -5 : 5;
 			if ( leashAvailable )
 				weight += 5;
 			if ( empathyAvailable )
@@ -1674,7 +1680,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( pithHelmet != null )
 				weight += 5;
 
-			return weight;
+			return Math.max( weight, 1 );
 		}
 
 		public String printAvailableBuffs()
@@ -1699,7 +1705,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			text.append( "Current buffs:" );
 			if ( sympathyAvailable )
-				text.append( " Sympathy (+5 permanent)" );
+				text.append( " Sympathy (" + ( (familiar.getID() == DODECAPEDE) ? "-" : "+" ) + "5 permanent)" );
 			if ( empathyActive > 0 )
 				text.append( " Empathy (+5 for " + empathyActive + " turns)" );
 			if ( leashActive > 0 )
