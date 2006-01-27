@@ -233,7 +233,7 @@ public class SearchMallRequest extends KoLRequest
 		for ( int i = 0; i < itemNames.size(); ++i )
 			npcStoreExists &= NPCStoreDatabase.contains( (String) itemNames.get(i) );
 
-		if ( KoLCharacter.getLevel() < 5 || npcStoreExists )
+		if ( KoLCharacter.getLevel() < 5 || (!KoLCharacter.canInteract() && npcStoreExists) )
 		{
 			finalizeList( itemNames );
 			return;
