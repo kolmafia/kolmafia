@@ -344,6 +344,12 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( elements.length > 0 )
 			dataBuffer.append( elements[0] );
 
+		if ( elements[0].startsWith( "pwd" ) )
+		{
+			dataBuffer.append( "=" );
+			dataBuffer.append( client.getPasswordHash() );
+		}
+
 		for ( int i = 1; i < elements.length; ++i )
 		{
 			dataBuffer.append( '&' );
