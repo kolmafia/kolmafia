@@ -363,7 +363,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			else
 			{
 				familiarLabel.setIcon( FamiliarsDatabase.getFamiliarImage( id ) );
-				familiarLabel.setText( familiar.getModifiedWeight() + (familiar.getModifiedWeight() == 1 ? "lb." : " lbs.") );
+				familiarLabel.setText( familiar.getModifiedWeight() + (familiar.getModifiedWeight() == 1 ? " lb." : " lbs.") );
 				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
 				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
 			}
