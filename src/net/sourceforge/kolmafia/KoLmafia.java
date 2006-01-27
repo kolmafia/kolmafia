@@ -1368,7 +1368,6 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public abstract void makeTrapperRequest();
-
 	/**
 	 * Makes a request to the hunter to trade today's bounty
 	 * items in for meat.
@@ -1398,6 +1397,107 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	protected abstract boolean confirmDrunkenRequest();
+
+	/**
+	 * Hosts a massive sale on the items currently in your store.
+	 * Utilizes the "minimum meat" principle.
+	 */
+
+	public void makeEndOfRunSaleRequest()
+	{
+		if ( !KoLCharacter.canInteract() )
+		{
+			updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
+			return;
+		}
+
+		// Find all tradeable items.  Tradeable items
+		// are marked by an autosell value of nonzero.
+
+		AdventureResult [] items = new AdventureResult[ KoLCharacter.getInventory().size() ];
+		KoLCharacter.getInventory().toArray( items );
+
+		ArrayList autosell = new ArrayList();
+		ArrayList automall = new ArrayList();
+
+		// Only place items in the mall which are not
+		// sold in NPC stores -- everything else, make
+		// sure you autosell.
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			if ( TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 )
+			{
+				if ( NPCStoreDatabase.contains( items[i].getName() ) )
+					autosell.add( items[i] );
+				else
+					automall.add( items[i] );
+			}
+		}
+
+		// Now, place all the items in the mall at the
+		// maximum possible price.  This allows KoLmafia
+		// to determine the minimum price.
+
+		if ( autosell.size() > 0 )
+			(new AutoSellRequest( this, autosell.toArray(), AutoSellRequest.AUTOSELL )).run();
+
+		if ( automall.size() > 0 )
+			(new AutoSellRequest( this, automall.toArray(), AutoSellRequest.AUTOMALL )).run();
+
+		(new StoreManageRequest( this )).run();
+
+		// Now determine the desired prices on items.
+		// If the value of an item is currently 100,
+		// then remove the item from the store.
+
+		StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
+		StoreManager.getSoldItemList().toArray( sold );
+
+		ArrayList remove = new ArrayList();
+
+		int [] itemID = new int[ sold.length ];
+		int [] prices = new int[ sold.length ];
+		int [] limits = new int[ sold.length ];
+
+		for ( int i = 0; i < sold.length; ++i )
+		{
+			itemID[i] = sold[i].getItemID();
+
+			if ( sold[i].getLowest() == 100 || sold[i].getLowest() == TradeableItemDatabase.getPriceByID( itemID[i] ) * 2 )
+			{
+				prices[i] = sold[i].getPrice();
+				remove.add( sold[i] );
+			}
+			else
+			{
+				// Because prices that don't end in 00 are
+				// seen as undercutting, make sure that the
+				// price ends in 00, but is still lower than
+				// the current lowest price.
+
+				prices[i] = sold[i].getLowest() - (sold[i].getLowest() % 100);
+			}
+
+			limits[i] = 0;
+		}
+
+		(new StoreManageRequest( this, itemID, prices, limits )).run();
+
+		// Now, remove all the items that you intended
+		// to remove from the store due to pricing issues.
+
+		for ( int i = 0; i < remove.size(); ++i )
+			StoreManager.takeItem( ((StoreManager.SoldItem) remove.get(i)).getItemID() );
+
+		// Now notify the user that everything has been
+		// completed to specification.
+
+		if ( remove.isEmpty() )
+			updateDisplay( ENABLE_STATE, "Undercutting sale complete." );
+		else
+			updateDisplay( ENABLE_STATE, "Items available at min-meat removed.  Sale complete." );
+	}
 
 	/**
 	 * Show an HTML string to the user

@@ -1158,6 +1158,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "undercut" ) )
+		{
+			scriptRequestor.makeEndOfRunSaleRequest();
+			return;
+		}
+
 		// Campground commands, like retrieving toast, relaxing
 		// at the beanbag, resting at your house/tent, and visiting
 		// the evil golden arches.
