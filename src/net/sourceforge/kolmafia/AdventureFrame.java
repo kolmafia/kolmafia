@@ -309,12 +309,17 @@ public class AdventureFrame extends KoLFrame
 
 			setContent( elements );
 
-			if ( KoLCharacter.getBattleSkillIDs().size() > 0 )
-			{
-				int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( getProperty( "battleAction" ) );
+			int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( getProperty( "battleAction" ) );
 
-				actionSelect.setSelectedIndex( actionIndex == -1 ? 0 : actionIndex );
+			if ( actionIndex == -1 )
+			{
+				// The character no longer knows this skill
+				setProperty( "battleAction", "attack" );
+				actionIndex = 0;
 			}
+
+			if ( KoLCharacter.getBattleSkillIDs().size() > 0 )
+				actionSelect.setSelectedIndex( actionIndex );
 
 			actionSelect.addActionListener( new BattleActionListener() );
 
