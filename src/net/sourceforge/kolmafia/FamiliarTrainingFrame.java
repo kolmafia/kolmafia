@@ -270,24 +270,31 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private class ButtonPanel extends JPanel
 		{
-			JButton base;
-			JButton buffed;
-			JButton turns;
-			JButton stop;
+			private JButton matchup;
+			private JButton base;
+			private JButton buffed;
+			private JButton turns;
+
+			private JButton stop;
+
 			// JButton debug;
 
 			public ButtonPanel()
 			{
-				JPanel containerPanel = new JPanel( new GridLayout( 4, 1, 5, 5 ) );
-				base = new JButton( "Base" );
+				JPanel containerPanel = new JPanel( new GridLayout( 5, 1, 5, 5 ) );
+
+				matchup = new DisplayFrameButton( "View Matchup", CakeArenaFrame.class );
+				containerPanel.add( matchup );
+
+				base = new JButton( "Train Base Weight" );
 				base.addActionListener( new BaseListener() );
 				containerPanel.add( base );
 
-				buffed = new JButton( "Buffed" );
+				buffed = new JButton( "Train Buffed Weight" );
 				buffed.addActionListener( new BuffedListener() );
 				containerPanel.add( buffed );
 
-				turns = new JButton( "Turns" );
+				turns = new JButton( "Train for Set Turns" );
 				turns.addActionListener( new TurnsListener() );
 				containerPanel.add( turns );
 
@@ -572,7 +579,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( opponent == null )
 			{
-				statusMessage( client, ERROR_STATE, "Don't know how to train a " + familiar.getRace() + " yet." );
+				statusMessage( client, ERROR_STATE, "Don't know how to train your " + familiar.getRace() + " yet." );
 				client.cancelRequest();
 				return false;
 			}
@@ -673,7 +680,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private static void statusMessage( KoLmafia client, int state, String message )
 	{
-		results.append( message + "<br>" );
+		if ( state == ERROR_STATE || message.endsWith( "lost." ) )
+			results.append( "<font color=red>" + message + "</font><br>" );
+		else if ( message.indexOf( "experience" ) != -1 )
+			results.append( "<font color=green>" + message + "</font><br>" );
+		else if ( message.indexOf( "prize" ) != -1 )
+			results.append( "<font color=blue>" + message + "</font><br>" );
+		else
+			results.append( message + "<br>" );
+
 		client.updateDisplay( state, message );
 	}
 
@@ -1596,6 +1611,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			else
 				message = familiar.getName() + " lost.";
+
 			statusMessage( client, NORMAL_STATE, message );
 
 			// If a prize was won, report it
