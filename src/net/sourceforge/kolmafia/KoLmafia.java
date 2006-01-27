@@ -1166,9 +1166,9 @@ public abstract class KoLmafia implements KoLConstants
 			// sure to check to see if you're allowed to continue
 			// after drunkenness.
 
-			if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && !((KoLAdventure)request).getZone().equals( "Camp" ) )
+			if ( KoLCharacter.isFallingDown() ) )
 			{
-				if ( !confirmDrunkenRequest() )
+				if ( request instanceof KoLAdventure && !(((KoLAdventure)request).getRequest() instanceof CampgroundRequest) && !confirmDrunkenRequest() )
 					cancelRequest();
 
 				pulledOver = true;
