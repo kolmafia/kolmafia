@@ -1900,6 +1900,9 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void makePurchases( List results, Object [] purchases, int maxPurchases )
 	{
+		if ( purchases.length > 0 && purchases[0] instanceof MallPurchaseRequest )
+			macroStream.print( "buy " + maxPurchases + " " + ((MallPurchaseRequest)purchases[0]).getItemName() );
+
 		MallPurchaseRequest currentRequest;
 		resetContinueState();
 
