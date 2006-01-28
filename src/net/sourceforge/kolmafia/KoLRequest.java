@@ -268,9 +268,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void addFormField( String name, String value, boolean allowDuplicates )
 	{
-		String [] existingData = new String[ data.size() ];
-		data.toArray( existingData );
-
 		if ( name.startsWith( "pwd" ) )
 		{
 			data.add( name );
@@ -306,6 +303,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( !allowDuplicates )
 		{
+			String [] existingData = new String[ data.size() ];
+			data.toArray( existingData );
+
 			for ( int i = 0; i < existingData.length; ++i )
 			{
 				if ( existingData[i].startsWith( encodedName ) )
@@ -341,25 +341,22 @@ public class KoLRequest implements Runnable, KoLConstants
 		String [] elements = new String[ data.size() ];
 		data.toArray( elements );
 
-		if ( elements.length > 0 )
-			dataBuffer.append( elements[0] );
-
-		if ( elements[0].startsWith( "pwd" ) )
+		for ( int i = 0; i < elements.length; ++i )
 		{
-			dataBuffer.append( "=" );
-			dataBuffer.append( client.getPasswordHash() );
-		}
-
-		for ( int i = 1; i < elements.length; ++i )
-		{
-			dataBuffer.append( '&' );
-			dataBuffer.append( elements[i] );
+			if ( i > 0 )
+				dataBuffer.append( '&' );
 
 			if ( elements[i].startsWith( "pwd" ) )
 			{
+				String pwd = elements[i];
+				int index = pwd.indexOf( "=" );
+				dataBuffer.append( index == -1 ? pwd : pwd.substring( 0, index ) );
 				dataBuffer.append( "=" );
 				dataBuffer.append( client.getPasswordHash() );
 			}
+			else
+				dataBuffer.append( elements[i] );
+
 		}
 
 		return dataBuffer.toString();
