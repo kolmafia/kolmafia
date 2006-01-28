@@ -1440,6 +1440,25 @@ public abstract class KoLmafia implements KoLConstants
 		if ( automall.size() > 0 )
 			(new AutoSellRequest( this, automall.toArray(), AutoSellRequest.AUTOMALL )).run();
 
+		// Now, remove all the items that you intended
+		// to remove from the store due to pricing issues.
+
+		List remove = priceItemsAtLowestPrice();
+
+		for ( int i = 0; i < remove.size(); ++i )
+			StoreManager.takeItem( ((StoreManager.SoldItem) remove.get(i)).getItemID() );
+
+		// Now notify the user that everything has been
+		// completed to specification.
+
+		if ( remove.isEmpty() )
+			updateDisplay( ENABLE_STATE, "Undercutting sale complete." );
+		else
+			updateDisplay( ENABLE_STATE, "Items available at min-meat removed.  Sale complete." );
+	}
+
+	public List priceItemsAtLowestPrice()
+	{
 		(new StoreManageRequest( this )).run();
 
 		// Now determine the desired prices on items.
@@ -1478,20 +1497,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		(new StoreManageRequest( this, itemID, prices, limits )).run();
-
-		// Now, remove all the items that you intended
-		// to remove from the store due to pricing issues.
-
-		for ( int i = 0; i < remove.size(); ++i )
-			StoreManager.takeItem( ((StoreManager.SoldItem) remove.get(i)).getItemID() );
-
-		// Now notify the user that everything has been
-		// completed to specification.
-
-		if ( remove.isEmpty() )
-			updateDisplay( ENABLE_STATE, "Undercutting sale complete." );
-		else
-			updateDisplay( ENABLE_STATE, "Items available at min-meat removed.  Sale complete." );
+		return remove;
 	}
 
 	/**

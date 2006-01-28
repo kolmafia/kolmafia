@@ -945,6 +945,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "reprice" ) )
+		{
+			scriptRequestor.priceItemsAtLowestPrice();
+			return;
+		}
+
 		// Setting the Canadian mind control machine
 
 		if ( command.equals( "mind-control" ) )
@@ -1211,9 +1217,6 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			unrepeatableCommands.add( "send " + parameters );
-			updateDisplay( DISABLE_STATE, "Intentional pause before sending your message to " + splitParameters[1] + "..." );
-			KoLRequest.delay( 300000 );
-
 			(new GreenMessageRequest( scriptRequestor, splitParameters[1], "You are awesome.", sending )).run();
 			return;
 		}
@@ -1797,7 +1800,8 @@ public class KoLmafiaCLI extends KoLmafia
 		String skillName;
 		int buffCount;
 
-		String [] splitParameters = parameters.split( " [oO][nN] " );
+		String [] splitParameters = parameters.replaceFirst( " [oO][nN] ", "\n" ).split( "\n" );
+
 		if ( splitParameters.length == 1 )
 		{
 			splitParameters = new String[2];
@@ -1810,16 +1814,13 @@ public class KoLmafiaCLI extends KoLmafia
 			skillName = splitParameters[0].substring( 1, splitParameters[0].length() - 1 );
 			buffCount = 1;
 		}
-		else
+		else if ( getSkillName( splitParameters[0].toLowerCase() ) != null )
 		{
 			skillName = getSkillName( splitParameters[0].toLowerCase() );
-
-			if ( skillName != null )
-			{
-				scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, null, 1 ), 1 );
-				return;
-			}
-
+			buffCount = 1;
+		}
+		else
+		{
 			String firstParameter = splitParameters[0].split( " " )[0].toLowerCase();
 			String skillNameString = splitParameters[0].substring( firstParameter.length() ).trim().toLowerCase();
 
@@ -1858,18 +1859,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 				return;
 			}
+		}
 
-			if ( buffCount > 0 )
-			{
-				if ( splitParameters[1] != null )
-				{
-					unrepeatableCommands.add( "cast " + parameters );
-					updateDisplay( DISABLE_STATE, "Intentional pause before buffing " + splitParameters[1] + "..." );
-					KoLRequest.delay( 300000 );
-				}
+		if ( buffCount > 0 )
+		{
+			if ( splitParameters[1] != null )
+				unrepeatableCommands.add( "cast " + parameters );
 
-				scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, splitParameters[0], splitParameters[1], buffCount ), 1 );
-			}
+			scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, splitParameters[0], splitParameters[1], buffCount ), 1 );
 		}
 	}
 
@@ -2325,62 +2322,39 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeStashRequest( String parameters )
 	{
-		synchronized ( ClanStashRequest.class )
+		boolean isWithdraw = false;
+
+		int space = parameters.indexOf( " " );
+		if ( space != -1 )
 		{
-			boolean isWithdraw = false;
-
-			int space = parameters.indexOf( " " );
-			if ( space != -1 )
+			String command = parameters.substring( 0, space );
+			if ( command.equals( "take" ) )
 			{
-				String command = parameters.substring( 0, space );
-				if ( command.equals( "take" ) )
-				{
-					isWithdraw = true;
-					parameters = parameters.substring( 4 ).trim();
-				}
-				else if ( command.equals( "put" ) )
-					parameters = parameters.substring( 3 ).trim();
+				isWithdraw = true;
+				parameters = parameters.substring( 4 ).trim();
 			}
+			else if ( command.equals( "put" ) )
+				parameters = parameters.substring( 3 ).trim();
+		}
 
-			AdventureResult firstMatch = getFirstMatchingItem( parameters, isWithdraw ? NOWHERE : INVENTORY );
-			if ( firstMatch == null )
-				return;
+		AdventureResult firstMatch = getFirstMatchingItem( parameters, isWithdraw ? NOWHERE : INVENTORY );
+		if ( firstMatch == null )
+			return;
 
-			if ( isWithdraw )
-			{
-				// To prevent the potential for stash looting, only
-				// people who have administrative privileges can take
-				// stuff from the stash using a script with no penalty.
+		Object [] items = new Object[1];
+		items[0] = firstMatch;
 
-				if ( ClanManager.getRankList().isEmpty() )
-				{
-					// This makes it so there's no advantage to scripting it
-					// over accessing it directly in a browser or through the
-					// standard KoLmafia interface.
+		int initialCount = firstMatch.getCount( KoLCharacter.getInventory() );
+		scriptRequestor.makeRequest( new ClanStashRequest( scriptRequestor, items, isWithdraw ?
+			ClanStashRequest.STASH_TO_ITEMS : ClanStashRequest.ITEMS_TO_STASH ), 1 );
 
-					if ( !TradeableItemDatabase.isUsable( firstMatch.getName() ) )
-					{
-						updateDisplay( DISABLE_STATE, "Intentional pause before accessing the clan stash..." );
-						KoLRequest.delay( 300000 );
-					}
-				}
-			}
+		// If the item amount doesn't match the desired, then cancel
+		// script execution.
 
-			Object [] items = new Object[1];
-			items[0] = firstMatch;
-
-			int initialCount = firstMatch.getCount( KoLCharacter.getInventory() );
-			scriptRequestor.makeRequest( new ClanStashRequest( scriptRequestor, items, isWithdraw ?
-				ClanStashRequest.STASH_TO_ITEMS : ClanStashRequest.ITEMS_TO_STASH ), 1 );
-
-			// If the item amount doesn't match the desired, then cancel
-			// script execution.
-
-			if ( isWithdraw && firstMatch.getCount( KoLCharacter.getInventory() ) - initialCount != firstMatch.getCount() )
-			{
-				updateDisplay( ERROR_STATE, "Unable to acquire " + firstMatch.getCount() + " " + firstMatch.getName() );
-				scriptRequestor.cancelRequest();
-			}
+		if ( isWithdraw && firstMatch.getCount( KoLCharacter.getInventory() ) - initialCount != firstMatch.getCount() )
+		{
+			updateDisplay( ERROR_STATE, "Unable to acquire " + firstMatch.getCount() + " " + firstMatch.getName() );
+			scriptRequestor.cancelRequest();
 		}
 	}
 
