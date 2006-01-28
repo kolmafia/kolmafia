@@ -118,6 +118,13 @@ public class ClanManageFrame extends KoLFrame
 
 		this.tabs = new JTabbedPane();
 
+		JPanel snapPanel = new JPanel();
+		snapPanel.setLayout( new BoxLayout( snapPanel, BoxLayout.Y_AXIS ) );
+		snapPanel.add( snapshot );
+		snapPanel.add( ascension );
+
+		tabs.addTab( "Clan Snapshot", snapPanel );
+
 		JPanel karmaPanel = new JPanel();
 		karmaPanel.setLayout( new BorderLayout() );
 		karmaPanel.add( donation, BorderLayout.NORTH );
@@ -138,13 +145,6 @@ public class ClanManageFrame extends KoLFrame
 
 		tabs.addTab( "Warfare & Buffs", purchasePanel );
 		tabs.addTab( "Member Search", search );
-
-		JPanel snapPanel = new JPanel();
-		snapPanel.setLayout( new BoxLayout( snapPanel, BoxLayout.Y_AXIS ) );
-		snapPanel.add( snapshot );
-		snapPanel.add( ascension );
-
-		tabs.addTab( "Clan Snapshot", snapPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -782,7 +782,7 @@ public class ClanManageFrame extends KoLFrame
 
 		public AscensionPanel()
 		{
-			super( "Clan Leaderboards", "snapshot", "blahblah", new Dimension( 240, 20 ), new Dimension( 80, 20 ) );
+			super( "Clan Leaderboards", "snapshot", new Dimension( 240, 20 ), new Dimension( 200, 20 ) );
 
 			mostAscensionsBoardSizeField = new JTextField( "20" );
 			mainBoardSizeField = new JTextField( "10" );

@@ -63,6 +63,12 @@ public abstract class LabeledKoLPanel extends KoLPanel
 		this.panelTitle = panelTitle;
 	}
 
+	public LabeledKoLPanel( String panelTitle, String confirmButton, Dimension left, Dimension right )
+	{
+		super( confirmButton, left, right, true );
+		this.panelTitle = panelTitle;
+	}
+
 	public LabeledKoLPanel( String panelTitle, String confirmButton, String cancelButton, Dimension left, Dimension right )
 	{
 		super( confirmButton, cancelButton, left, right, true );

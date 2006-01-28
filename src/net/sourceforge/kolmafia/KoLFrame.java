@@ -432,33 +432,56 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		generalMenu.add( new DisplayFrameMenuItem( "Main Interface", AdventureFrame.class ) );
 		generalMenu.add( new DisplayRequestMenuItem( "Mini-Browser", "main.php" ) );
 		generalMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
-		generalMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
 
 		generalMenu.add( new JSeparator() );
 
-		generalMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
 		generalMenu.add( new DisplayFrameMenuItem( "Player Status", CharsheetFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Inventory", ItemManageFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Equipment", GearChangeFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Store Manager", StoreManageFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Cannon Museum", MuseumFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", HagnkStorageFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Flower Hunter", FlowerHunterFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Mail Reader", MailboxFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Green Message", GreenMessageFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Purple Message", GiftMessageFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Accept Trades", PendingTradesFrame.class ) );
-		generalMenu.add( new InvocationMenuItem( "Doc Galaktik", client, "makeGalaktikRequest" ) );
-		generalMenu.add( new InvocationMenuItem( "Mind Control", client, "makeMindControlRequest" ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
-		generalMenu.add( new InvocationMenuItem( "Loot the Hermit", client, "makeHermitRequest" ) );
-		generalMenu.add( new InvocationMenuItem( "Skin the Trapper", client, "makeTrapperRequest" ) );
-		generalMenu.add( new InvocationMenuItem( "Claim a Bounty", client, "makeHunterRequest" ) );
-		generalMenu.add( new InvocationMenuItem( "Untinker Items", client, "makeUntinkerRequest" ) );
+		generalMenu.add( new DisplayFrameMenuItem( "Item Manager", ItemManageFrame.class ) );
+		generalMenu.add( new DisplayFrameMenuItem( "Gear Manager", GearChangeFrame.class ) );
+		generalMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", HagnkStorageFrame.class ) );
+
+		generalMenu.add( new JSeparator() );
+
+		JMenu toolsMenu = new JMenu( "Tools" );
+		container.add( toolsMenu );
+
+		toolsMenu.add( new DisplayFrameMenuItem( "Store Manager", StoreManageFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Shelf Manager", MuseumFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
+
+		toolsMenu.add( new JSeparator() );
+
+		toolsMenu.add( new DisplayFrameMenuItem( "Flower Hunter", FlowerHunterFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Buffbot Module", BuffBotFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
+
+		JMenu messageMenu = new JMenu( "Messages" );
+		container.add( messageMenu );
+
+		messageMenu.add( new DisplayFrameMenuItem( "Read KoLmail", MailboxFrame.class ) );
+		messageMenu.add( new DisplayFrameMenuItem( "Purchase Buff", BuffRequestFrame.class ) );
+		messageMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
+
+		messageMenu.add( new JSeparator() );
+
+		messageMenu.add( new DisplayFrameMenuItem( "Send KoLmail", GreenMessageFrame.class ) );
+		messageMenu.add( new DisplayFrameMenuItem( "Send Package", GiftMessageFrame.class ) );
+		messageMenu.add( new DisplayFrameMenuItem( "Pending Trades", PendingTradesFrame.class ) );
+
+		JMenu travelMenu = new JMenu( "Travel" );
+		container.add( travelMenu );
+
+		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", client, "makeGalaktikRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Mind Control", client, "makeMindControlRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Get Breakfast", client, "getBreakfast" ) );
+
+		travelMenu.add( new JSeparator() );
+
+		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", client, "makeHermitRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Skin the Trapper", client, "makeTrapperRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Claim a Bounty", client, "makeHunterRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Untinker Items", client, "makeUntinkerRequest" ) );
 
 		// Add script and bookmark menus, which use the
 		// listener-driven static lists.
@@ -476,6 +499,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			toggleMenu.add( new InvocationMenuItem( "Clear session results", client, "resetSession" ) );
 			toggleMenu.add( new InvocationMenuItem( "Execute session time-in", client, "executeTimeInRequest" ) );
+
+			toggleMenu.add( new JSeparator() );
+
+			toggleMenu.add( new DisplayFrameMenuItem( "Change user preferences", OptionsFrame.class ) );
 
 			toggleMenu.add( new JSeparator() );
 
@@ -1484,7 +1511,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			JMenu otherMenu = new JMenu( "Other built-ins" );
 			headers[5] = otherMenu;
 
-			otherMenu.add( new InvocationMenuItem( "Get Breakfast", client, "getBreakfast" ) );
 			otherMenu.add( new InvocationMenuItem( "End-of-Run Sale", client, "makeEndOfRunSaleRequest" ) );
 
 			return headers;
