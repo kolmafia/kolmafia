@@ -239,11 +239,17 @@ public class AdventureFrame extends KoLFrame
 			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", CouncilFrame.class ) );
 			toolbarPanel.add( new MiniBrowserButton() );
 			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
+
+			toolbarPanel.add( new JToolBar.Separator() );
+
+			toolbarPanel.add( new DisplayFrameButton( "IcePenguin Express", "mail.gif", MailboxFrame.class ) );
 			toolbarPanel.add( new InvocationButton( "KoLmafia Chat", "chat.gif", KoLMessenger.class, "initialize" ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
+			toolbarPanel.add( new DisplayFrameButton( "Player Status", "hp.gif", CharsheetFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Equipment Manager", "equipment.gif", ItemManageFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", StoreManageFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", HagnkStorageFrame.class ) );
 
