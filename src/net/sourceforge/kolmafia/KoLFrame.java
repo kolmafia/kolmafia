@@ -393,25 +393,31 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// the current display state -- but only if the
 		// compact pane has already been constructed.
 
-		if ( compactPane != null )
+		switch ( displayState )
 		{
-			switch ( displayState )
-			{
-				case ERROR_STATE:
+			case ERROR_STATE:
+
+				if ( compactPane != null )
 					compactPane.setBackground( ERROR_COLOR );
-					setEnabled( true );
-					break;
 
-				case ENABLE_STATE:
+				setEnabled( true );
+				break;
+
+			case ENABLE_STATE:
+
+				if ( compactPane != null )
 					compactPane.setBackground( ENABLED_COLOR );
-					setEnabled( true );
-					break;
 
-				case DISABLE_STATE:
+				setEnabled( true );
+				break;
+
+			case DISABLE_STATE:
+
+				if ( compactPane != null )
 					compactPane.setBackground( DISABLED_COLOR );
-					setEnabled( false );
-					break;
-			}
+
+				setEnabled( false );
+				break;
 		}
 	}
 
@@ -439,8 +445,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		generalMenu.add( new DisplayFrameMenuItem( "Item Manager", ItemManageFrame.class ) );
 		generalMenu.add( new DisplayFrameMenuItem( "Gear Manager", GearChangeFrame.class ) );
 		generalMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", HagnkStorageFrame.class ) );
-
-		generalMenu.add( new JSeparator() );
 
 		JMenu toolsMenu = new JMenu( "Tools" );
 		container.add( toolsMenu );
