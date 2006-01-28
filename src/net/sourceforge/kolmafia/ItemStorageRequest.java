@@ -258,9 +258,11 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		List storageContents = KoLCharacter.getStorage();
 
+		if ( !storageContents.isEmpty() )
+			return;
+
 		// Start with an empty list
 
-		storageContents.clear();
 		Matcher storageMatcher = Pattern.compile( "name=\"whichitem1\".*?</select>" ).matcher( responseText );
 
 		// If there's nothing inside storage, return
