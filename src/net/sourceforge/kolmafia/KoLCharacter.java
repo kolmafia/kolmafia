@@ -1820,6 +1820,11 @@ public abstract class KoLCharacter extends StaticEntity
 	 * has a skill of the given name.
 	 */
 
+	public static boolean hasSkill( int skillID )
+	{
+		return hasSkill( ClassSkillsDatabase.getSkillName( skillID));
+	}
+
 	public static boolean hasSkill( String skillName )
 	{
 		for ( int i = 0; i < availableSkills.size(); ++i )

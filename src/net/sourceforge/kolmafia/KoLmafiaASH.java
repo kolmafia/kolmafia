@@ -89,6 +89,7 @@ public class KoLmafiaASH
 	public static final int TYPE_LOCATION = 102;
 	public static final int TYPE_CLASS = 103;
 	public static final int TYPE_STAT = 104;
+	public static final int TYPE_SKILL = 105;
 
 	public static final String[] zodiacs = {"none", "wallably", "mongoose", "vole", "platypus", "opossum", "marmot", "wombat", "blender", "packrat"};
 	public static final String[] classes = {"seal clubber", "turtle tamer", "pastamancer", "sauceror", "disco bandit", "accordion thief"};
@@ -483,6 +484,8 @@ public class KoLmafiaASH
 			type = TYPE_CLASS;
 		else if( typeString.equals( "stat"))
 			type = TYPE_STAT;
+		else if( typeString.equals( "skill"))
+			type = TYPE_SKILL;
 		else
 			return null;
 		readToken();
@@ -1236,7 +1239,7 @@ public class KoLmafiaASH
 				);
 				param.setValue( new ScriptValue( TYPE_STAT, resultString));
 			}
-			else if( param.getType().equals( TYPE_ITEM) || param.getType().equals( TYPE_LOCATION) || param.getType().equals( TYPE_STRING))
+			else if( param.getType().equals( TYPE_ITEM) || param.getType().equals( TYPE_LOCATION) || param.getType().equals( TYPE_STRING) || param.getType().equals( TYPE_SKILL))
 			{
 				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType().toString() + " " + param.getName());
 				param.setValue( new ScriptValue( param.getType(), resultString));
@@ -1359,6 +1362,27 @@ public class KoLmafiaASH
 		params = new ScriptType[1];
 		params[0] = new ScriptType( TYPE_STAT);
 		result.addFunction( new ScriptExistingFunction( "my_buffedstat", new ScriptType( TYPE_INT), params, scriptRequestor));
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_meat", new ScriptType( TYPE_INT), params, scriptRequestor));
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_closetmeat", new ScriptType( TYPE_INT), params, scriptRequestor));
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_adventures", new ScriptType( TYPE_INT), params, scriptRequestor));
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_inebriety", new ScriptType( TYPE_INT), params, scriptRequestor));
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_SKILL);
+		result.addFunction( new ScriptExistingFunction( "have_skill", new ScriptType( TYPE_BOOLEAN), params, scriptRequestor));
+
+		params = new ScriptType[2];
+		params[0] = new ScriptType( TYPE_INT);
+		params[1] = new ScriptType( TYPE_SKILL);
+		result.addFunction( new ScriptExistingFunction( "use_skill", new ScriptType( TYPE_BOOLEAN), params, scriptRequestor));
 
 		return result;
 	}
@@ -1674,6 +1698,18 @@ public class KoLmafiaASH
 					return executeBaseStatRequest( variables[0].getIntValue());
 				else if( name.equals( "my_buffedstat"))
 					return executeBuffedStatRequest( variables[0].getIntValue());
+				else if( name.equals( "my_meat"))
+					return executeMeatRequest();
+				else if( name.equals( "my_closetmeat"))
+					return executeClosetMeatRequest();
+				else if( name.equals( "my_adventures"))
+					return executeAdventuresRequest();
+				else if( name.equals( "my_inebriety"))
+					return executeInebrietyRequest();
+				else if( name.equals( "have_skill"))
+					return executeHaveSkillRequest( variables[0].getIntValue());
+				else if( name.equals( "use_skill"))
+					return executeUseSkillRequest( variables[0].getIntValue(), variables[1].getIntValue());
 				else
 					throw new RuntimeException( "Internal error: unknown library function " + name);
 			}
@@ -1817,6 +1853,46 @@ public class KoLmafiaASH
 			else
 				throw new RuntimeException( "Internal Error: unknown stat");
 		}
+
+		public ScriptValue executeMeatRequest() throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_INT, KoLCharacter.getAvailableMeat());
+		}
+
+		public ScriptValue executeClosetMeatRequest() throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_INT, KoLCharacter.getClosetMeat());
+		}
+
+		public ScriptValue executeAdventuresRequest() throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_INT, KoLCharacter.getAdventuresLeft());
+		}
+
+		public ScriptValue executeInebrietyRequest() throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_INT, KoLCharacter.getInebriety());
+		}
+
+		public ScriptValue executeHaveSkillRequest( int skillID) throws AdvancedScriptException
+		{
+			if( KoLCharacter.hasSkill( skillID))
+				return new ScriptValue( TYPE_BOOLEAN, 1);
+			else
+				return new ScriptValue( TYPE_BOOLEAN, 0);
+		}
+
+		public ScriptValue executeUseSkillRequest( int amount, int skillID) throws AdvancedScriptException
+		{
+			scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, ClassSkillsDatabase.getSkillName( skillID), null, amount ), 1 );
+	
+			if ( scriptRequestor.permitsContinue())
+				return new ScriptValue( TYPE_BOOLEAN, 1);
+			else
+				return new ScriptValue( TYPE_BOOLEAN, 0);
+		}
+
+
 	}
 	
 	class ScriptFunctionList extends ScriptList
@@ -2351,7 +2427,9 @@ public class KoLmafiaASH
 				return "class";
 			if( type == TYPE_STAT)
 				return "stat";
-			return "<unknown type>";
+			if( type == TYPE_SKILL)
+				return "skill";
+			return "unknown type";
 		}
 	
 	}
@@ -2461,7 +2539,7 @@ public class KoLmafiaASH
 			if( type.equals( TYPE_ITEM))
 			{
 				if(( contentInt = TradeableItemDatabase.getItemID( contentString)) == -1)
-					throw new AdvancedScriptException( "Item" + contentString + " not found in database " + getLineAndFile());
+					throw new AdvancedScriptException( "Item " + contentString + " not found in database " + getLineAndFile());
 			}
 			else if( type.equals( TYPE_ZODIAC))
 			{
@@ -2506,6 +2584,11 @@ public class KoLmafiaASH
 						break;
 					}
 				}
+			}
+			else if( type.equals( TYPE_SKILL))
+			{
+				if(( contentInt = ClassSkillsDatabase.getSkillID( contentString)) == -1)
+					throw new AdvancedScriptException( "Skill " + contentString + " not found in database " + getLineAndFile());
 			}
 		}
 	
