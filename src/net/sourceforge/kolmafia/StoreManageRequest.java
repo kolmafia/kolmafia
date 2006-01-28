@@ -72,7 +72,10 @@ public class StoreManageRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( DISABLE_STATE, "Requesting store inventory..." );
+		if ( this.takenItemID > 0 )
+			updateDisplay( DISABLE_STATE, "Removing " + TradeableItemDatabase.getItemName( this.takenItemID ) + " from store..." );
+		else
+			updateDisplay( DISABLE_STATE, "Requesting store inventory..." );
 
 		super.run();
 
@@ -80,7 +83,7 @@ public class StoreManageRequest extends KoLRequest
 		{
 			try
 			{
-				Matcher takenItemMatcher = Pattern.compile( "<option value=" + takenItemID + ">.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
+				Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + takenItemID + "\">.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
 
 				if ( takenItemMatcher.find() )
 				{
@@ -100,6 +103,10 @@ public class StoreManageRequest extends KoLRequest
 		}
 
 		StoreManager.update( responseText, isPriceManagement );
-		updateDisplay( NORMAL_STATE, "Store inventory request complete." );
+
+		if ( this.takenItemID > 0 )
+			updateDisplay( NORMAL_STATE, this.takenItemID + " removed from your store." );
+		else
+			updateDisplay( NORMAL_STATE, "Store inventory request complete." );
 	}
 }

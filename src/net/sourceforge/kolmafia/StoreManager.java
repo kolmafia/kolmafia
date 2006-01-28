@@ -41,11 +41,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class StoreManager extends StaticEntity
 {
 	private static long potentialEarnings = 0;
-	private static LockableListModel soldItemList = new LockableListModel();
+	private static LockableListModel soldItemList = new SortedListModel();
 
 	public static void reset()
 	{
@@ -59,22 +60,34 @@ public abstract class StoreManager extends StaticEntity
 	 * limit which is used to sell the item.
 	 */
 
-	public static void registerItem( int itemID, int quantity, int price, int limit, int lowest )
+	public static SoldItem registerItem( int itemID, int quantity, int price, int limit, int lowest )
 	{
 		if ( price != 999999999 )
 			potentialEarnings += price * quantity;
 
-		soldItemList.add( new SoldItem( itemID, quantity, price, limit, lowest ) );
+		SoldItem newItem = new SoldItem( itemID, quantity, price, limit, lowest );
+		int itemIndex = soldItemList.indexOf( newItem );
 
-		// Now, update the title of the store manage
-		// frame to reflect the new price.
+		// If the item is brand-new, just add it to the
+		// list of sold items.
 
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
+		if ( itemIndex == -1 )
+		{
+			soldItemList.add( newItem );
+		}
+		else
+		{
+			// If the item already exists, check it against the
+			// one which already exists in the list.  If there
+			// are any changes, update.
 
-		for ( int i = 0; i < frames.length; ++i )
-			if ( frames[i] instanceof StoreManageFrame )
-				frames[i].setTitle( "Store Manager (potential earnings: " + df.format( potentialEarnings ) + " meat)" );
+			SoldItem oldItem = (SoldItem) soldItemList.get( itemIndex );
+
+			if ( oldItem.getQuantity() != newItem.getQuantity() || oldItem.getPrice() != newItem.getPrice() || oldItem.getLimit() != newItem.getLimit() || oldItem.getLowest() != newItem.getLowest() )
+				soldItemList.set( itemIndex, newItem );
+		}
+
+		return newItem;
 	}
 
 	/**
@@ -105,10 +118,12 @@ public abstract class StoreManager extends StaticEntity
 
 	public static synchronized void update( String storeText, boolean isPriceManagement )
 	{
-		reset();
+		potentialEarnings = 0;
 
 		// Now that the item list has been cleared, begin
 		// parsing the store text.
+
+		ArrayList newItems = new ArrayList();
 
 		if ( isPriceManagement )
 		{
@@ -133,7 +148,7 @@ public abstract class StoreManager extends StaticEntity
 					// Now that all the data has been retrieved, register
 					// the item that was discovered.
 
-					registerItem( itemID, quantity, price, limit, lowest );
+					newItems.add( registerItem( itemID, quantity, price, limit, lowest ) );
 				}
 			}
 			catch ( Exception e )
@@ -170,7 +185,7 @@ public abstract class StoreManager extends StaticEntity
 					// Now that all the data has been retrieved, register
 					// the item that was discovered.
 
-					registerItem( item.getItemID(), item.getCount(), price, limit, 0 );
+					newItems.add( registerItem( item.getItemID(), item.getCount(), price, limit, 0 ) );
 				}
 			}
 			catch ( Exception e )
@@ -182,6 +197,23 @@ public abstract class StoreManager extends StaticEntity
 				e.printStackTrace();
 			}
 		}
+
+		// Only keep the elements which were added to the new
+		// item list -- make use of retainAll for this.  This
+		// is slightly better than constantly clearing and then
+		// re-adding the items to your store.
+
+		soldItemList.retainAll( newItems );
+
+		// Now, update the title of the store manage
+		// frame to reflect the new price.
+
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		for ( int i = 0; i < frames.length; ++i )
+			if ( frames[i] instanceof StoreManageFrame )
+				frames[i].setTitle( "Store Manager (potential earnings: " + df.format( potentialEarnings ) + " meat)" );
 	}
 
 	/**
@@ -278,7 +310,7 @@ public abstract class StoreManager extends StaticEntity
 	 * of an item sold in a player's store.
 	 */
 
-	public static class SoldItem
+	public static class SoldItem implements Comparable
 	{
 		private int itemID;
 		private int quantity;
@@ -313,6 +345,16 @@ public abstract class StoreManager extends StaticEntity
 
 		public int getLowest()
 		{	return lowest;
+		}
+
+		public boolean equals( Object o )
+		{	return o != null && o instanceof SoldItem && ((SoldItem)o).itemID == itemID;
+		}
+
+		public int compareTo( Object o )
+		{
+			return o == null || !(o instanceof SoldItem) ? -1 :
+				TradeableItemDatabase.getItemName( itemID ).compareToIgnoreCase( TradeableItemDatabase.getItemName( ((SoldItem)o).itemID ) );
 		}
 	}
 }

@@ -78,6 +78,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			(new RequestThread( new StoreManageRequest( client ) )).start();
 
 		setContentPanel( new StoreManagePanel() );
+		setResizable( false );
 	}
 
 	public void dispose()
@@ -104,7 +105,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreManagePanel()
 		{
-			super( "apply prices", "refresh store", new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
+			super( "manual reprice", "price at lowest", new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
 
 			priceSummary = new LockableListModel();
 			JPanel headerPanel = new JPanel();
@@ -166,8 +167,8 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{
-			StoreManager.reset();
-			(new RequestThread( new StoreManageRequest( client ) )).start();
+			if ( client != null )
+				client.priceItemsAtLowestPrice();
 		}
 	}
 
@@ -321,7 +322,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 12, 680, 30, StoreManager.getSoldItemList() );
+		{	super( 16, 680, 30, StoreManager.getSoldItemList() );
 		}
 
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
