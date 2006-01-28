@@ -1179,7 +1179,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "send" ) )
 		{
-			String [] splitParameters = parameters.split( " [tT][oO] " );
+			String [] splitParameters = parameters.replaceFirst( " [tT][oO] ", "\n" ).split( "\n" );
 
 			if ( splitParameters.length != 2 )
 			{
@@ -1210,8 +1210,11 @@ public class KoLmafiaCLI extends KoLmafia
 				sending = getFirstMatchingItem( parameters, INVENTORY );
 			}
 
-			(new GreenMessageRequest( scriptRequestor, splitParameters[1], "You are awesome.", sending )).run();
 			unrepeatableCommands.add( "send " + parameters );
+			updateDisplay( DISABLE_STATE, "Intentional pause before sending your message to " + splitParameters[1] + "..." );
+			KoLRequest.delay( 300000 );
+
+			(new GreenMessageRequest( scriptRequestor, splitParameters[1], "You are awesome.", sending )).run();
 			return;
 		}
 
@@ -1858,9 +1861,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( buffCount > 0 )
 			{
-				scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, splitParameters[0], splitParameters[1], buffCount ), 1 );
 				if ( splitParameters[1] != null )
+				{
 					unrepeatableCommands.add( "cast " + parameters );
+					updateDisplay( DISABLE_STATE, "Intentional pause before buffing " + splitParameters[1] + "..." );
+					KoLRequest.delay( 300000 );
+				}
+
+				scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, splitParameters[0], splitParameters[1], buffCount ), 1 );
 			}
 		}
 	}
@@ -2326,12 +2334,12 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				String command = parameters.substring( 0, space );
 				if ( command.equals( "take" ) )
-                                {
+				{
 					isWithdraw = true;
-                                        parameters = parameters.substring( 4 ).trim();
-                                }
+					parameters = parameters.substring( 4 ).trim();
+				}
 				else if ( command.equals( "put" ) )
-                                        parameters = parameters.substring( 3 ).trim();
+					parameters = parameters.substring( 3 ).trim();
 			}
 
 			AdventureResult firstMatch = getFirstMatchingItem( parameters, isWithdraw ? NOWHERE : INVENTORY );
@@ -2352,7 +2360,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 					if ( !TradeableItemDatabase.isUsable( firstMatch.getName() ) )
 					{
-						updateDisplay( DISABLE_STATE, "KoLmafia is now wasting some time before accessing the stash..." );
+						updateDisplay( DISABLE_STATE, "Intentional pause before accessing the clan stash..." );
 						KoLRequest.delay( 300000 );
 					}
 				}
