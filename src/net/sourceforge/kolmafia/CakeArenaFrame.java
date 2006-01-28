@@ -67,18 +67,34 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CakeArenaFrame extends KoLFrame
 {
+	private JTable familiarTable;
 	private LockableListModel opponents;
 
 	public CakeArenaFrame( KoLmafia client )
 	{
 		super( client, "Susie's Secret Bedroom!" );
+
+		framePanel.setLayout( new BorderLayout() );
 		framePanel.add( new CakeArenaPanel(), BorderLayout.CENTER );
 		client.enableDisplay();
+
+		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new FamiliarRefresher() ) );
+	}
+
+	private class FamiliarRefresher implements Runnable
+	{
+		public void run()
+		{
+			if ( familiarTable != null )
+				familiarTable.updateUI();
+		}
 	}
 
 	public void dispose()
 	{
 		opponents = null;
+		familiarTable = null;
+
 		super.dispose();
 	}
 
@@ -90,6 +106,7 @@ public class CakeArenaFrame extends KoLFrame
 
 		public CakeArenaPanel()
 		{
+			super( new BorderLayout( 0, 10 ) );
 			opponents = CakeArenaManager.getOpponentList( client );
 
 			String opponentRace;
@@ -100,7 +117,7 @@ public class CakeArenaFrame extends KoLFrame
 
 			Object [][] familiarData = new Object[1][5];
 
-			JTable familiarTable = new JTable( familiarData, columnNames );
+			familiarTable = new JTable( familiarData, columnNames );
 			familiarTable.setRowHeight( 40 );
 
 			for ( int i = 0; i < 5; ++i )
@@ -109,8 +126,7 @@ public class CakeArenaFrame extends KoLFrame
 				familiarTable.setDefaultRenderer( familiarTable.getColumnClass(i), new OpponentRenderer() );
 			}
 
-			JPanel familiarPanel = new JPanel();
-			familiarPanel.setLayout( new BorderLayout() );
+			JPanel familiarPanel = new JPanel( new BorderLayout() );
 			familiarPanel.add( familiarTable.getTableHeader(), BorderLayout.NORTH );
 			familiarPanel.add( familiarTable, BorderLayout.CENTER );
 
@@ -139,16 +155,12 @@ public class CakeArenaFrame extends KoLFrame
 				opponentTable.setDefaultRenderer( opponentTable.getColumnClass(i), new OpponentRenderer() );
 			}
 
-			JPanel opponentPanel = new JPanel();
-			opponentPanel.setLayout( new BorderLayout() );
+			JPanel opponentPanel = new JPanel( new BorderLayout() );
 			opponentPanel.add( opponentTable.getTableHeader(), BorderLayout.NORTH );
 			opponentPanel.add( opponentTable, BorderLayout.CENTER );
 
-			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-
-			add( familiarPanel );
-			add( Box.createVerticalStrut( 20 ) );
-			add( opponentPanel );
+			add( familiarPanel, BorderLayout.NORTH );
+			add( opponentPanel, BorderLayout.CENTER );
 		}
 	}
 

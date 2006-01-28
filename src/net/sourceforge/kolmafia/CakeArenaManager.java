@@ -96,12 +96,32 @@ public class CakeArenaManager extends StaticEntity
 
 		public void run()
 		{
+			FamiliarTrainingFrame.getResults().clearBuffer();
 			client.resetContinueState();
+
+			Matcher victoryMatcher;
+			Pattern victoryPattern = Pattern.compile( "is the winner, and gains (\\d+) experience" );
 
 			for ( int j = 1; client.permitsContinue() && j <= battleCount; ++j )
 			{
 				client.updateDisplay( DISABLE_STATE, "Arena battle, round " + j + " in progress..." );
 				client.makeRequest( request, 1 );
+
+				victoryMatcher = victoryPattern.matcher( request.responseText );
+
+				StringBuffer text = new StringBuffer();
+
+				if ( victoryMatcher.find() )
+					text.append( "<font color=green><b>Round " + j + " of " + battleCount + "</b></font>: " );
+				else
+					text.append( "<font color=red><b>Round " + j + " of " + battleCount + "</b></font>: " );
+
+				text.append( request.responseText.substring( 0, request.responseText.indexOf( "</table>" ) ).replaceAll(
+					"><" , "" ).replaceAll( "<.*?>", " " ) );
+
+				text.append( "<br><br>" );
+
+				FamiliarTrainingFrame.getResults().append( text.toString() );
 			}
 
 			client.updateDisplay( ENABLE_STATE, "Arena battles complete." );

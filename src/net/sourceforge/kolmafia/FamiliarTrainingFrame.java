@@ -159,6 +159,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 	}
 
+	public static final ChatBuffer getResults()
+	{	return results;
+	}
+
 	private class FileMenuItem extends JMenuItem implements ActionListener
 	{
 		public FileMenuItem()
