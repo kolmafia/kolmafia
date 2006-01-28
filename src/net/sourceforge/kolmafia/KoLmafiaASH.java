@@ -132,9 +132,6 @@ public class KoLmafiaASH
 			global = parseScope( null, new ScriptVariableList(), getExistingFunctionScope( scriptRequestor), false);
 			if ( line != null )
 				{
-				System.out.println( "["+line+"]");
-				if( nextLine != null)
-					System.out.println( "["+nextLine+"]");
 				throw new AdvancedScriptException( "Script parsing error " + getLineAndFile());
 				}
 
@@ -246,9 +243,6 @@ public class KoLmafiaASH
 
 		if ( line != null )
 			{
-			System.out.println( "["+line+"]");
-			if( nextLine != null)
-				System.out.println( "["+nextLine+"]");
 			throw new AdvancedScriptException( "Script parsing error " + getLineAndFile());
 			}
 		return result;
@@ -290,10 +284,8 @@ public class KoLmafiaASH
 
 		}
 
-		System.out.println( "Now im really gunna parse it up a notch!");
 		while( true)
 		{
-			System.out.println( "Now im really parsin it up a notch!" + line);
 			if(( t = parseType()) == null)
 			{
 				if(( c = parseCommand( expectedType, result, false, whileLoop)) != null)
