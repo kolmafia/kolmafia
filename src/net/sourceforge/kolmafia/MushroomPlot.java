@@ -99,6 +99,12 @@ public abstract class MushroomPlot extends StaticEntity
 		{ new Integer( STINKY ), "stinkshroo.gif", "St", new Integer( 0 ) }
 	};
 
+	static
+	{
+		for ( int i = 0; i < MUSHROOMS.length; ++i )
+			RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MUSHROOMS[i][1] );
+	}
+
 	public static final int [][] BREEDING =
 	{
 		// EMPTY,   KNOB,    KNOLL,   SPOOKY,  WARM,    COOL,    POINTY
@@ -132,7 +138,7 @@ public abstract class MushroomPlot extends StaticEntity
 	 * array showing the arrangement of the plot.
 	 */
 
-	public static String getMushroomPlot( boolean isHypertext )
+	public static String getMushroomPlot( boolean isDataOnly )
 	{
 		// If for some reason, the plot was invalid, then
 		// the flag would have been set on the client.  In
@@ -141,7 +147,7 @@ public abstract class MushroomPlot extends StaticEntity
 		if ( !initialize() )
 			return "Your plot is unavailable.";
 
-		return getMushroomPlot( isHypertext, actualPlot );
+		return getMushroomPlot( isDataOnly, actualPlot );
 	}
 
 	/**
@@ -150,11 +156,11 @@ public abstract class MushroomPlot extends StaticEntity
 	 * plot (ie: what the plot will look like tomorrow).
 	 */
 
-	public static String getForecastedPlot( boolean isHypertext )
-	{	return getForecastedPlot( isHypertext, actualPlot );
+	public static String getForecastedPlot( boolean isDataOnly )
+	{	return getForecastedPlot( isDataOnly, actualPlot );
 	}
 
-	public static String getForecastedPlot( boolean isHypertext, int [][] plot )
+	public static String getForecastedPlot( boolean isDataOnly, int [][] plot )
 	{
 		// If for some reason, the plot was invalid, then
 		// the flag would have been set on the client.  In
@@ -184,7 +190,7 @@ public abstract class MushroomPlot extends StaticEntity
 					if ( col != 3 )  forecastPlot[ row ][ col + 1 ] = EMPTY;
 				}
 
-		return getMushroomPlot( isHypertext, forecastPlot );
+		return getMushroomPlot( isDataOnly, forecastPlot );
 	}
 
 	private static int getForecastSquare( int row, int col, int [][] plot )
@@ -225,7 +231,7 @@ public abstract class MushroomPlot extends StaticEntity
 		return touchCount == 2 ? BREEDING[ touchIndex[0] ][ touchIndex[1] ] : plot[ row ][ col ];
 	}
 
-	private static String getMushroomPlot( boolean isHypertext, int [][] plot )
+	private static String getMushroomPlot( boolean isDataOnly, int [][] plot )
 	{
 		// Otherwise, you need to construct the string form
 		// of the mushroom plot.  Shorthand and hpertext are
@@ -233,7 +239,8 @@ public abstract class MushroomPlot extends StaticEntity
 
 		StringBuffer buffer = new StringBuffer();
 
-		buffer.append( isHypertext ? "<center><table cellspacing=4 cellpadding=4>" : LINE_BREAK );
+		if ( !isDataOnly )
+			buffer.append( LINE_BREAK );
 
 		for ( int row = 0; row < 4; ++row )
 		{
@@ -241,57 +248,31 @@ public abstract class MushroomPlot extends StaticEntity
 			// row in the table before you start appending
 			// the squares.
 
-			if ( isHypertext )
-				buffer.append( "<tr>" );
-
 			for ( int col = 0; col < 4; ++col )
 			{
 				// Hypertext documents need to have their cells opened before
 				// the cell can be printed.
 
-				buffer.append( isHypertext ? "<td>" : "  " );
+				if ( !isDataOnly )
+					buffer.append( "  " );
+
 				int square = plot[ row ][ col ];
-
-				String description = MushroomPlot.mushroomDescription( square );
-
-				// If a description is available, and you're creating a
-				// hypertext document, print the hyperlink showing the
-				// description.
-
-				if ( isHypertext && description != null )
-					buffer.append( description );
 
 				// Mushroom images are used in hypertext documents, while
 				// shorthand notation is used in non-hypertext documents.
 
-				buffer.append( isHypertext ? mushroomImage( square ) : mushroomShorthand( square ) );
-
-				// If a description is available, and you're creating a
-				// hypertext document, close the hyperlink showing the
-				// description.
-
-				if ( isHypertext && description != null )
-					buffer.append( "</a>" );
+				buffer.append( isDataOnly ? mushroomImage( square ) : mushroomShorthand( square ) );
 
 				// Hypertext documents need to have their cells closed before
 				// another cell can be printed.
 
-				if ( isHypertext )
-					buffer.append( "</td>" );
+				if ( isDataOnly )
+					buffer.append( ";" );
 			}
 
-			// In a hypertext document, you need to close the row before
-			// continuing.  Note that both documents can have a full
-			// line break at the end.
-
-			if ( isHypertext )
-				buffer.append( "</tr>" );
-
-			buffer.append( LINE_BREAK );
+			if ( !isDataOnly )
+				buffer.append( LINE_BREAK );
 		}
-
-		if ( isHypertext )
-			buffer.append( "</table></center>" );
 
 		// Now that the appropriate string has been constructed,
 		// return it to the calling method.
@@ -304,13 +285,27 @@ public abstract class MushroomPlot extends StaticEntity
 	 * with the given mushroom type.
 	 */
 
-	private static String mushroomImage( int mushroomType )
+	public static String mushroomImage( int mushroomType )
 	{
 		for ( int i = 0; i < MUSHROOMS.length; ++i )
 			if ( mushroomType == ((Integer) MUSHROOMS[i][0]).intValue() )
-				return "<img src=\"http://images.kingdomofloathing.com/itemimages/" + MUSHROOMS[i][1] + "\" width=30 height=30 border=0>";
+				return "itemimages/" + MUSHROOMS[i][1];
 
-		return "<img src=\"http://images.kingdomofloathing.com/itemimages/dirt1.gif\" width=30 height=30 border=0>";
+		return "itemimages/dirt1.gif";
+	}
+
+	/**
+	 * Utility method which retrieves the mushroom which is
+	 * associated with the given image.
+	 */
+
+	public static int mushroomType( String mushroomImage )
+	{
+		for ( int i = 0; i < MUSHROOMS.length; ++i )
+			if ( mushroomImage.endsWith( "/" + MUSHROOMS[i][1] ) )
+				return ((Integer) MUSHROOMS[i][0]).intValue();
+
+		return EMPTY;
 	}
 
 	/**
@@ -318,24 +313,13 @@ public abstract class MushroomPlot extends StaticEntity
 	 * for the given mushroom type.
 	 */
 
-	private static String mushroomShorthand( int mushroomType )
+	public static String mushroomShorthand( int mushroomType )
 	{
 		for ( int i = 0; i < MUSHROOMS.length; ++i )
 			if ( mushroomType == ((Integer) MUSHROOMS[i][0]).intValue() )
 				return (String) MUSHROOMS[i][2];
 
 		return "??";
-	}
-
-	/**
-	 * Utility method which retrieves the hyperlink description
-	 * for the given mushroom type.
-	 */
-
-	private static String mushroomDescription( int mushroomType )
-	{
-		return mushroomType == EMPTY || mushroomType == SPROUT ? null :
-			"<a href=\"desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( mushroomType ) + "\">";
 	}
 
 	/**

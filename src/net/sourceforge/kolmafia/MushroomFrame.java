@@ -39,63 +39,57 @@ import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
+
 import javax.swing.JLabel;
-import javax.swing.JTable;
+import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JEditorPane;
-import javax.swing.table.TableCellRenderer;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MushroomFrame extends KoLFrame
 {
-	private JEditorPane currentDisplay, forecastDisplay;
-	private LimitedSizeChatBuffer currentBuffer, forecastBuffer;
-	private boolean updating = true;
+	private static final Object [] EMPTY_HEADER = { " ", " ", " ", " " };
+
+	private String [] currentData;
+	private final MushroomButton [][] currentButtons;
+	private final MushroomButton [][] forecastButtons;
+
 
 	public MushroomFrame( KoLmafia client )
 	{
 		super( client, "Mushroom Fields" );
 
-		currentBuffer = new LimitedSizeChatBuffer( "Current Plot", false );
+		JPanel currentPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
+		JPanel forecastPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
 
-		currentDisplay = new JEditorPane();
-		JComponentUtilities.setComponentSize( currentDisplay, 200, 200 );
+		currentButtons = new MushroomButton[4][4];
+		forecastButtons = new MushroomButton[4][4];
 
-		currentDisplay.setEditable( false );
-		currentDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
-		currentBuffer.setChatDisplay( currentDisplay );
+		for ( int i = 0; i < 4; ++i )
+		{
+			for ( int j = 0; j < 4; ++j )
+			{
+				currentButtons[i][j] = new MushroomButton( i * 4 + j, true );
+				forecastButtons[i][j] = new MushroomButton( i * 4 + j, false );
 
-		forecastBuffer = new LimitedSizeChatBuffer( "Forecast Plot", false );
-
-		forecastDisplay = new JEditorPane();
-		JComponentUtilities.setComponentSize( forecastDisplay, 200, 200 );
-
-		forecastDisplay.setEditable( false );
-		forecastDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
-		forecastBuffer.setChatDisplay( forecastDisplay );
+				currentPlot.add( currentButtons[i][j] );
+				forecastPlot.add( forecastButtons[i][j] );
+			}
+		}
 
 		JPanel centerPanel = new JPanel();
 		centerPanel.setLayout( new GridLayout( 1, 2, 20, 20 ) );
-		centerPanel.add( constructPanel( "Current Plot", currentDisplay ) );
-		centerPanel.add( constructPanel( "Forecasted Plot", forecastDisplay ) );
+		centerPanel.add( constructPanel( "Current Plot", currentPlot ) );
+		centerPanel.add( constructPanel( "Forecasted Plot", forecastPlot ) );
 
 		framePanel.setLayout( new BorderLayout() );
 		framePanel.add( centerPanel, BorderLayout.CENTER );
 
-		updating = false;
-
-		(new UpdateMushroomThread()).start();
-	}
-
-	public void dispose()
-	{
-		currentDisplay = null;
-		forecastDisplay = null;
-		currentBuffer = null;
-		forecastBuffer = null;
-
-		super.dispose();
+		plotChanged();
+		setResizable( false );
 	}
 
 	public JPanel constructPanel( String label, Component c )
@@ -112,6 +106,7 @@ public class MushroomFrame extends KoLFrame
 	/*
 	 * Method invoked by MushroomPlot when the field has changed
 	 */
+
 	public void plotChanged()
 	{
 		// Get the current state of the field and update
@@ -128,25 +123,121 @@ public class MushroomFrame extends KoLFrame
 	{
 		public void run()
 		{
-			if ( client != null && !updating )
+			synchronized( MushroomFrame.class )
 			{
-				updating = true;
-				currentBuffer.clearBuffer();
-				currentBuffer.append( MushroomPlot.getMushroomPlot( true ) );
-				currentDisplay.setCaretPosition( 0 );
-
-				forecastBuffer.clearBuffer();
-				forecastBuffer.append( MushroomPlot.getForecastedPlot( true ) );
-				forecastDisplay.setCaretPosition( 0 );
-				updating = false;
+				currentData = MushroomPlot.getMushroomPlot( true ).split( ";" );
+				refresh();
 			}
 		}
 	}
 
-	private class MushroomButtonRenderer implements TableCellRenderer
+	public void refresh()
 	{
-		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
-		{	return value == null ? null : value instanceof Component ? (Component) value : new JLabel( value.toString() );
+		// Convert each piece of current data into the appropriate
+		// mushroom plot data.
+
+		int [][] currentArray = new int[4][4];
+		for ( int i = 0; i < 4; ++i )
+			for ( int j = 0; j < 4; ++j )
+				currentArray[i][j] = MushroomPlot.mushroomType( currentData[ i * 4 + j ] );
+
+		String [] forecastData = MushroomPlot.getForecastedPlot( true, currentArray ).split( ";" );
+
+		// What you do is you update each mushroom button based on
+		// what is contained in each of the data fields.
+
+		for ( int i = 0; i < 4; ++i )
+		{
+			for ( int j = 0; j < 4; ++j )
+			{
+				currentButtons[i][j].setIcon( JComponentUtilities.getSharedImage( currentData[ i * 4 + j ] ) );
+				forecastButtons[i][j].setIcon( JComponentUtilities.getSharedImage( forecastData[ i * 4 + j ] ) );
+			}
+		}
+	}
+
+	private class MushroomButton extends JButton implements ActionListener
+	{
+		private int index;
+		private boolean canModify;
+
+		public MushroomButton( int index, boolean canModify )
+		{
+			this.index = index;
+			this.canModify = canModify;
+
+			JComponentUtilities.setComponentSize( this, 30, 30 );
+
+			setOpaque( true );
+			setBackground( Color.white );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( !canModify )
+				return;
+
+			// Sprouts transform into dirt because all you can
+			// do is pick them.
+
+			if ( currentData[ index ].endsWith( "/mushsprout.gif" ) )
+			{
+				currentData[ index ] = "itemimages/dirt1.gif";
+				refresh();
+				return;
+			}
+
+			// Second generation mushrooms transform into dirt
+			// because all you can do is pick them.
+
+			if ( currentData[ index ].endsWith( "/flatshroom.gif" ) || currentData[ index ].endsWith( "/plaidroom.gif" ) || currentData[ index ].endsWith( "/tallshroom.gif" ) )
+			{
+				currentData[ index ] = "itemimages/dirt1.gif";
+				refresh();
+				return;
+			}
+
+			// Third generation mushrooms transform into dirt
+			// because all you can do is pick them.
+
+			if ( currentData[ index ].endsWith( "/fireshroom.gif" ) || currentData[ index ].endsWith( "/iceshroom.gif" ) || currentData[ index ].endsWith( "/stinkshroo.gif" ) )
+			{
+				currentData[ index ] = "itemimages/dirt1.gif";
+				refresh();
+				return;
+			}
+
+			// Everything else rotates based on what was there
+			// when you clicked on the image.
+
+			if ( currentData[ index ].endsWith( "/dirt1.gif" ) )
+			{
+				currentData[ index ] = "itemimages/mushroom.gif";
+				refresh();
+				return;
+			}
+
+			if ( currentData[ index ].endsWith( "/mushroom.gif" ) )
+			{
+				currentData[ index ] = "itemimages/bmushroom.gif";
+				refresh();
+				return;
+			}
+
+			if ( currentData[ index ].endsWith( "/bmushroom.gif" ) )
+			{
+				currentData[ index ] = "itemimages/spooshroom.gif";
+				refresh();
+				return;
+			}
+
+			if ( currentData[ index ].endsWith( "/spooshroom.gif" ) )
+			{
+				currentData[ index ] = "itemimages/dirt1.gif";
+				refresh();
+				return;
+			}
 		}
 	}
 
