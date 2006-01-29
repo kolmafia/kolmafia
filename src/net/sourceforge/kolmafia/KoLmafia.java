@@ -380,12 +380,12 @@ public abstract class KoLmafia implements KoLConstants
 
 		resetContinueState();
 
-		if ( KoLCharacter.canSummonNoodles() )
+		if ( KoLCharacter.canEat() && KoLCharacter.canSummonNoodles() )
 			getBreakfast( "Pastamastery", 3 );
 
 		resetContinueState();
 
-		if ( KoLCharacter.canSummonShore() )
+		if ( KoLCharacter.canDrink() && KoLCharacter.canSummonShore() )
 			getBreakfast( "Advanced Cocktailcrafting", 3 );
 
 		resetContinueState();
