@@ -846,7 +846,6 @@ public abstract class KoLMessenger extends StaticEntity
 				{
 					ChatFrame.ChatPanel panel = tabbedFrame.addTab( channel );
 					buffer.setChatDisplay( panel.getChatDisplay() );
-					buffer.setScrollPane( panel.getScrollPane() );
 				}
 				else
 				{
@@ -854,7 +853,6 @@ public abstract class KoLMessenger extends StaticEntity
 					frame.setVisible( true );
 
 					buffer.setChatDisplay( frame.getChatDisplay() );
-					buffer.setScrollPane( frame.getScrollPane() );
 					instantMessageFrames.put( channel, frame );
 				}
 

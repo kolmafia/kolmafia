@@ -63,7 +63,6 @@ public class ChatBuffer
 	private String header;
 
 	protected JEditorPane displayPane;
-	protected JScrollBar verticalScrollBar;
 	protected Runnable scrollBarResizer;
 	protected PrintWriter activeLogWriter;
 
@@ -124,10 +123,6 @@ public class ChatBuffer
 		displayPane = display;
 		displayPane.setContentType( "text/html" );
 		fireBufferChanged( DISPLAY_CHANGE, null );
-	}
-
-	public void setScrollPane( JScrollPane scrollPane )
-	{	this.verticalScrollBar = scrollPane.getVerticalScrollBar();
 	}
 
 	/**
@@ -278,10 +273,6 @@ public class ChatBuffer
 			{
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 				displayPane.validate();
-
-				if ( verticalScrollBar != null )
-					verticalScrollBar.setValue( verticalScrollBar.getMaximum() );
-
 				return;
 			}
 
@@ -295,9 +286,7 @@ public class ChatBuffer
 
 				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
 				displayPane.validate();
-
-				if ( verticalScrollBar != null )
-					verticalScrollBar.setValue( verticalScrollBar.getMaximum() );
+				displayPane.setCaretPosition( displayPane.getDocument().getLength() );
 			}
 			catch ( Exception e )
 			{

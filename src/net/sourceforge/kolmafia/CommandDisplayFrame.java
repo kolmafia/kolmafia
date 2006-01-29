@@ -114,9 +114,6 @@ public class CommandDisplayFrame extends KoLFrame
 			JScrollPane scrollPane = new JScrollPane( outputDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			scrollPane.setVerticalScrollBar( new CommandScrollBar() );
-			commandBuffer.setScrollPane( scrollPane );
-
 			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 
 			JPanel entryPanel = new JPanel();
@@ -132,40 +129,6 @@ public class CommandDisplayFrame extends KoLFrame
 			setLayout( new BorderLayout( 1, 1 ) );
 			add( scrollPane, BorderLayout.CENTER );
 			add( entryPanel, BorderLayout.SOUTH );
-		}
-
-		private class CommandScrollBar extends JScrollBar
-		{
-			private boolean autoscroll;
-
-			public CommandScrollBar()
-			{
-				super( VERTICAL );
-				this.autoscroll = true;
-			}
-
-			public void setValue( int value )
-			{
-				if ( getValueIsAdjusting() )
-					autoscroll = getMaximum() - getVisibleAmount() - getValue() < 10;
-
-				if ( autoscroll || getValueIsAdjusting() )
-					super.setValue( value );
-			}
-
-			protected void fireAdjustmentValueChanged( int id, int type, int value )
-			{
-				if ( autoscroll || getValueIsAdjusting() )
-					super.fireAdjustmentValueChanged( id, type, value );
-			}
-
-			public void setValues( int newValue, int newExtent, int newMin, int newMax )
-			{
-				if ( autoscroll || getValueIsAdjusting() )
-					super.setValues( newValue, newExtent, newMin, newMax );
-				else
-					super.setValues( getValue(), newExtent, newMin, newMax );
-			}
 		}
 
 		/**

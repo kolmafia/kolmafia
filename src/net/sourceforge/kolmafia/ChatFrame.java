@@ -187,7 +187,6 @@ public class ChatFrame extends KoLFrame
 	public class ChatPanel extends JPanel
 	{
 		private JTextField entryField;
-		private JScrollPane scrollPane;
 		private JEditorPane chatDisplay;
 		private String associatedContact;
 
@@ -199,10 +198,8 @@ public class ChatFrame extends KoLFrame
 
 			chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
 
-			scrollPane = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane scrollPane = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			scrollPane.setVerticalScrollBar( new ChatScrollBar() );
 
 			JPanel entryPanel = new JPanel();
 			entryField = new JTextField();
@@ -217,44 +214,6 @@ public class ChatFrame extends KoLFrame
 			setLayout( new BorderLayout( 1, 1 ) );
 			add( scrollPane, BorderLayout.CENTER );
 			add( entryPanel, BorderLayout.SOUTH );
-		}
-
-		private class ChatScrollBar extends JScrollBar
-		{
-			private boolean autoscroll;
-
-			public ChatScrollBar()
-			{
-				super( VERTICAL );
-				this.autoscroll = true;
-			}
-
-			public void setValue( int value )
-			{
-				if ( getValueIsAdjusting() )
-					autoscroll = getMaximum() - getVisibleAmount() - getValue() < 100;
-
-				if ( autoscroll || getValueIsAdjusting() )
-					super.setValue( value );
-			}
-
-			protected void fireAdjustmentValueChanged( int id, int type, int value )
-			{
-				if ( autoscroll || getValueIsAdjusting() )
-					super.fireAdjustmentValueChanged( id, type, value );
-			}
-
-			public void setValues( int newValue, int newExtent, int newMin, int newMax )
-			{
-				if ( autoscroll || getValueIsAdjusting() )
-					super.setValues( newValue, newExtent, newMin, newMax );
-				else
-					super.setValues( getValue(), newExtent, newMin, newMax );
-			}
-		}
-
-		public JScrollPane getScrollPane()
-		{	return scrollPane;
 		}
 
 		public JEditorPane getChatDisplay()
@@ -408,17 +367,6 @@ public class ChatFrame extends KoLFrame
 
 	public JEditorPane getChatDisplay()
 	{	return mainPanel == null ? null : mainPanel.getChatDisplay();
-	}
-
-	/**
-	 * Returns the <code>JScrollPane</code> being used to display
-	 * the chat contents.
-	 *
-	 * @return	The <code>JScrollPane</code> used to display the chat
-	 */
-
-	public JScrollPane getScrollPane()
-	{	return mainPanel == null ? null : mainPanel.getScrollPane();
 	}
 
 	/**
