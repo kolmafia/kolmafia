@@ -1497,6 +1497,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		(new StoreManageRequest( this, itemID, prices, limits )).run();
+		updateDisplay( ENABLE_STATE, "Repricing complete." );
 		return remove;
 	}
 
