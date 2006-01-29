@@ -1384,6 +1384,50 @@ public abstract class KoLmafia implements KoLConstants
 	public abstract void makeMindControlRequest();
 
 	/**
+	 * Completes the infamous tavern quest.
+	 */
+
+	public void locateTavernFaucet()
+	{
+		if ( KoLCharacter.getLevel() < 3 )
+		{
+			updateDisplay( ERROR_STATE, "You need to level up first." );
+			return;
+		}
+
+		// Make sure that you have the quest, and once you
+		// do, go ahead and search for the faucet.
+
+		if ( KoLCharacter.hasAccomplishment( KoLCharacter.TAVERN ) )
+		{
+			updateDisplay( ERROR_STATE, "You have already completed this quest." );
+			return;
+		}
+
+		(new KoLRequest( this, "council.php", true )).run();
+		updateDisplay( DISABLE_STATE, "Searching for faucet..." );
+
+		KoLRequest request = new KoLRequest( this, "rats.php" );
+		request.run();
+
+		int searchIndex = 0;
+		while ( permitsContinue() && request.responseText.indexOf( "faucetoff" ) != -1 )
+		{
+			request.addFormField( "where", String.valueOf( ++searchIndex ) );
+			request.run();
+
+			KoLCharacter.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+		}
+
+		if ( permitsContinue() )
+		{
+			KoLCharacter.processResult( new AdventureResult( AdventureResult.ADV, 1 ) );
+			updateDisplay( ENABLE_STATE, "Faucet found in row " + ((int)Math.ceil( searchIndex / 5 )) + ", column " +
+				(searchIndex % 5 == 0 ? 5 : searchIndex % 5) + "." );
+		}
+	}
+
+	/**
 	 * Confirms whether or not the user wants to make a drunken
 	 * request.  This should be called before doing requests when
 	 * the user is in an inebrieted state.

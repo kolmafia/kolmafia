@@ -268,6 +268,7 @@ public abstract class KoLCharacter extends StaticEntity
 	// Interesting accomplishments
 
 	private static LockableListModel accomplishments = new LockableListModel();
+	public static final String TAVERN = "You have taken care of the rat problem at the Typical Tavern.";
 	public static final String UNTINKER = "You have found the Untinker's screwdriver.";
 	public static final String MEATCAR = "You have built your own Bitchin' Meat Car.";
 	public static final String FRIARS = "You have cleansed the taint for the Deep Fat Friars.";
