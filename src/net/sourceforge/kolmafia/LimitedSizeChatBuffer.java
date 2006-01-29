@@ -213,7 +213,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 		colors.add( colorString );
 		highlights.add( Pattern.compile( highlight, Pattern.CASE_INSENSITIVE ) );
-		dehighlights.add( Pattern.compile( "href=\"([^\"]*)<font color=\"" + colorString + "\">" + highlight + "</font>", Pattern.CASE_INSENSITIVE ) );
+		dehighlights.add( Pattern.compile( "(<[^>]*?)<font color=\"" + colorString + "\">" + highlight + "</font>", Pattern.CASE_INSENSITIVE ) );
 
 		return highlight + "\n" + colorString;
 	}
@@ -255,6 +255,9 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 	private String applyHighlight( String message, String colorString, Pattern highlight, Pattern dehighlight )
 	{
+		if ( message.indexOf( "<html>" ) != -1 )
+			return message;
+
 		Matcher matching = highlight.matcher( message );
 		String highlightMessage = matching.replaceAll( "<font color=\"" + colorString + "\">" + highlight.pattern() + "</font>" );
 
@@ -262,11 +265,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		// HTML tags don't get saved.
 
 		if ( !message.equals( highlightMessage ) )
-		{
-			Pattern nestedPattern = Pattern.compile( "(<[^>]*)<font color=\"" + colorString + "\">" + highlight.pattern() + "</font>([^<]*>)" );
-			Matcher nestedMatcher = nestedPattern.matcher( highlightMessage );
-			highlightMessage = nestedMatcher.replaceAll( "$1" + highlight.pattern() + "$2" );
-		}
+			highlightMessage = dehighlight.matcher( highlightMessage ).replaceAll( "$1" + highlight.pattern() );
 
 		// Now that everything is properly replaced, go ahead
 		// and return the finalized string.
