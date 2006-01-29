@@ -429,23 +429,32 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected void constructMenus( JComponent container )
 	{
-		// Add general features. These are features which
-		// are likely to be accessed on a daily basis.
+		// Add general features.
 
-		JMenu generalMenu = new JMenu( "General" );
-		container.add( generalMenu );
+		JMenu statusMenu = new JMenu( "General" );
+		container.add( statusMenu );
 
-		generalMenu.add( new DisplayFrameMenuItem( "Main Interface", AdventureFrame.class ) );
-		generalMenu.add( new DisplayRequestMenuItem( "Mini-Browser", "main.php" ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
+		// Add the refresh menu, which holds the ability to refresh
+		// everything in the session.
 
-		generalMenu.add( new JSeparator() );
+		statusMenu.add( new DisplayFrameMenuItem( "Main Interface", AdventureFrame.class ) );
+		statusMenu.add( new DisplayRequestMenuItem( "Mini-Browser", "main.php" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
 
-		generalMenu.add( new DisplayFrameMenuItem( "Player Status", CharsheetFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Item Manager", ItemManageFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Gear Manager", GearChangeFrame.class ) );
-		generalMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", HagnkStorageFrame.class ) );
+		statusMenu.add( new JSeparator() );
+
+		statusMenu.add( new DisplayFrameMenuItem( "Player Status", CharsheetFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", ItemManageFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", GearChangeFrame.class ) );
+
+		statusMenu.add( new JSeparator() );
+
+		statusMenu.add( new DisplayFrameMenuItem( "Mall Manager", StoreManageFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Museum Display", MuseumFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", HagnkStorageFrame.class ) );
+
+		// Add specialized tools.
 
 		JMenu toolsMenu = new JMenu( "Tools" );
 		container.add( toolsMenu );
@@ -455,34 +464,34 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new DisplayFrameMenuItem( "Store Manager", StoreManageFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Shelf Manager", MuseumFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
+		toolsMenu.add( new KoLPanelFrameMenuItem( "Manual Buffings", new SkillBuffPanel() ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
 
 		toolsMenu.add( new JSeparator() );
 
 		toolsMenu.add( new DisplayFrameMenuItem( "Flower Hunter", FlowerHunterFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Buffbot Module", BuffBotFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
-
-		toolsMenu.add( new JSeparator() );
-
 		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
 		toolsMenu.add( new InvocationMenuItem( "End-of-Run Sale", client, "makeEndOfRunSaleRequest" ) );
 
-		JMenu messageMenu = new JMenu( "Messages" );
-		container.add( messageMenu );
+		// Add the old-school people menu.
 
-		messageMenu.add( new DisplayFrameMenuItem( "Read KoLmail", MailboxFrame.class ) );
-		messageMenu.add( new DisplayFrameMenuItem( "Purchase Buff", BuffRequestFrame.class ) );
-		messageMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
+		JMenu peopleMenu = new JMenu( "People" );
+		container.add( peopleMenu );
 
-		messageMenu.add( new JSeparator() );
+		peopleMenu.add( new DisplayFrameMenuItem( "Mail Manager", MailboxFrame.class ) );
+		peopleMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
 
-		messageMenu.add( new DisplayFrameMenuItem( "Send KoLmail", GreenMessageFrame.class ) );
-		messageMenu.add( new DisplayFrameMenuItem( "Send Package", GiftMessageFrame.class ) );
-		messageMenu.add( new DisplayFrameMenuItem( "Propose Trade", ProposeTradeFrame.class ) );
-		messageMenu.add( new DisplayFrameMenuItem( "Pending Trades", PendingTradesFrame.class ) );
+		peopleMenu.add( new JSeparator() );
+
+		peopleMenu.add( new DisplayFrameMenuItem( "Green Message", GreenMessageFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Purple Message", GiftMessageFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Propose Trade", ProposeTradeFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Accept Trades", PendingTradesFrame.class ) );
+
+		// Add in common tasks menu
 
 		JMenu travelMenu = new JMenu( "Travel" );
 		container.add( travelMenu );
@@ -495,14 +504,39 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", client, "makeHermitRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Skin the Trapper", client, "makeTrapperRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Claim a Bounty", client, "makeHunterRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Trading Hunters", client, "makeHunterRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Untinker Items", client, "makeUntinkerRequest" ) );
 
-		// Add script and bookmark menus, which use the
-		// listener-driven static lists.
+		travelMenu.add( new JSeparator() );
+
+		if ( this instanceof RequestFrame )
+			travelMenu.add( new DisplayRequestMenuItem( "Seaside Council", "council.php" ) );
+		else
+			travelMenu.add( new DisplayFrameMenuItem( "Seaside Council", CouncilFrame.class ) );
+
+		travelMenu.add( new DisplayRequestMenuItem( "Weird Records", "records.php?which=0" ) );
+		travelMenu.add( new DisplayRequestMenuItem( "View Store Log", "storelog.php" ) );
+
+		// Add in automatic quest completion scripts.
+
+		JMenu questsMenu = new JMenu( "Quests" );
+		container.add( questsMenu );
+
+		questsMenu.add( new InvocationMenuItem( "Face Nemesis", Nemesis.class, "faceNemesis" ) );
+		questsMenu.add( new InvocationMenuItem( "Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
+
+		questsMenu.add( new JSeparator() );
+
+		questsMenu.add( new InvocationMenuItem( "Lair Entryway", SorceressLair.class, "completeEntryway" ) );
+		questsMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLair.class, "completeHedgeMaze" ) );
+		questsMenu.add( new InvocationMenuItem( "Tower Guardians", SorceressLair.class, "fightTowerGuardians" ) );
+		questsMenu.add( new InvocationMenuItem( "Final Chamber", SorceressLair.class, "completeSorceressChamber" ) );
 
 		JMenu bookmarkMenu = new BookmarkMenu();
 		container.add( bookmarkMenu );
+
+		// Add script and bookmark menus, which use the
+		// listener-driven static lists.
 
 		scriptMenu = new ScriptMenu();
 		container.add( scriptMenu );
@@ -523,6 +557,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		container.add( helperMenu );
 
 		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", LicenseDisplay.class ) );
+		helperMenu.add( new InvocationMenuItem( "Download Override", client, "downloadAdventureOverride" ) );
 		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", CalendarFrame.class ) );
 		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
 
@@ -1493,26 +1528,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[5];
+			JComponent [] headers = new JComponent[2];
 
 			headers[0] = new LoadScriptMenuItem();
 			headers[1] = new InvocationMenuItem( "Refresh menu", KoLFrame.this, "compileScripts" );
-
-			headers[2] = new JSeparator();
-
-			JMenu optionalMenu = new JMenu( "Side quests" );
-			headers[3] = optionalMenu;
-
-			optionalMenu.add( new InvocationMenuItem( "Nemesis Quest", Nemesis.class, "faceNemesis" ) );
-			optionalMenu.add( new InvocationMenuItem( "Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
-
-			JMenu lairMenu = new JMenu( "Sorceress lair" );
-			headers[4] = lairMenu;
-
-			lairMenu.add( new InvocationMenuItem( "Lair Entryway", SorceressLair.class, "completeEntryway" ) );
-			lairMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLair.class, "completeHedgeMaze" ) );
-			lairMenu.add( new InvocationMenuItem( "Tower Guardians", SorceressLair.class, "fightTowerGuardians" ) );
-			lairMenu.add( new InvocationMenuItem( "Final Chamber", SorceressLair.class, "completeSorceressChamber" ) );
 
 			return headers;
 		}
@@ -1721,21 +1740,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[6];
+			JComponent [] headers = new JComponent[2];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
-			headers[2] = new JSeparator();
-
-			if ( KoLFrame.this instanceof RequestFrame )
-				headers[3] = new DisplayRequestMenuItem( "Seaside Council", "council.php" );
-			else
-				headers[3] = new DisplayFrameMenuItem( "Seaside Council", CouncilFrame.class );
-
-			headers[4] = new DisplayRequestMenuItem( "Weird Records", "records.php?which=0" );
-			headers[5] = new DisplayRequestMenuItem( "View Store Log", "storelog.php" );
-
-			// Bookmark headers complete.
 
 			return headers;
 		}
