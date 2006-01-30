@@ -926,20 +926,18 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( highlight == null )
 			return;
 
-		Color color = JColorChooser.showDialog( null, "Choose highlight color for \"" + highlight + "\"...", DEFAULT_HIGHLIGHT );
-
-		if ( color == null )
-			return;
-
+		Color color = new Color( 64 + RNG.nextInt( 128 ), 64 + RNG.nextInt( 128 ), 64 + RNG.nextInt( 128 ) );
 		highlighting = true;
 
 		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
 		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
 		StringBuffer newSetting = new StringBuffer();
+
 		newSetting.append( GLOBAL_SETTINGS.getProperty( "highlightList" ) );
 		newSetting.append( "\n" );
 		newSetting.append( LimitedSizeChatBuffer.addHighlight( highlight, color ) );
+
 		GLOBAL_SETTINGS.setProperty( "highlightList", newSetting.toString().trim() );
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
