@@ -222,6 +222,20 @@ public class FamiliarData implements KoLConstants, Comparable
 	{	return race;
 	}
 
+	public boolean trainable()
+	{
+		if ( id == -1)
+			return false;
+
+		int skills[] = FamiliarsDatabase.getFamiliarSkills( id );
+
+		// If any skill is greater than 0, we can train in that event
+		for ( int i = 0; i < skills.length; ++i )
+			if ( skills[1] > 0 )
+				return true;
+		return false;
+	}
+
 	public String toString()
 	{	return id == -1 ? EquipmentRequest.UNEQUIP : race + " (" + getModifiedWeight() + " lbs)";
 	}

@@ -518,6 +518,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return false;
 		}
 
+		if ( !familiar.trainable() )
+		{
+			statusMessage( client, ERROR_STATE, "Don't know how to train a " + familiar.getRace() + " yet." );
+			client.cancelRequest();
+			return false;
+		}
+
 		// Get the status of current familiar
 		FamiliarStatus status = new FamiliarStatus( client );
 
@@ -583,7 +590,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( opponent == null )
 			{
-				statusMessage( client, ERROR_STATE, "Don't know how to train your " + familiar.getRace() + " yet." );
+				statusMessage( client, ERROR_STATE, "Couldn't choose a suitable opponent." );
 				client.cancelRequest();
 				return false;
 			}
