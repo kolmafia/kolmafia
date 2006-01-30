@@ -1428,6 +1428,53 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
+	 * Trades items with the guardian of the goud.
+	 */
+
+	public void tradeGourdItems()
+	{
+		updateDisplay( DISABLE_STATE, "Determining items needed..." );
+		KoLRequest request = new KoLRequest( this, "town_right.php?place=gourd", true );
+		request.run();
+
+		// For every class, it's the same -- the message reads, "Bring back"
+		// and then the number of the item needed.  Compare how many you need
+		// with how many you have.
+
+		Matcher neededMatcher = Pattern.compile( "Bring back (\\d+)" ).matcher( request.responseText );
+		AdventureResult item;
+
+		switch ( KoLCharacter.getPrimeIndex() )
+		{
+			case 0:
+				item = new AdventureResult( 747, 5 );
+				break;
+			case 1:
+				item = new AdventureResult( 559, 5 );
+				break;
+			default:
+				item = new AdventureResult( 27, 5 );
+		}
+
+		int neededCount = neededMatcher.find() ? Integer.parseInt( neededMatcher.group(1) ) : 26;
+
+		while ( neededCount <= 25 && neededCount <= item.getCount( KoLCharacter.getInventory() ) )
+		{
+			updateDisplay( DISABLE_STATE, "Giving up " + neededCount + " " + item.getName() + "s..." );
+			request = new KoLRequest( this, "town_right.php?place=gourd&action=gourd", true );
+			request.run();
+
+			processResult( item.getInstance( 0 - neededCount++ ) );
+		}
+
+		int totalProvided = 0;
+		for ( int i = 5; i < neededCount; ++i )
+			totalProvided += i;
+
+		updateDisplay( ENABLE_STATE, "Gourd trading complete (" + totalProvided + " " + item.getName() + "s given so far)." );
+	}
+
+	/**
 	 * Confirms whether or not the user wants to make a drunken
 	 * request.  This should be called before doing requests when
 	 * the user is in an inebrieted state.
