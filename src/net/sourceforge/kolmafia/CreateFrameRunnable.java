@@ -203,7 +203,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 					int yLocation = Integer.parseInt( location[1] );
 
 					Dimension screenSize = TOOLKIT.getScreenSize();
-					if ( xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
+					if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
 						frame.setLocation( xLocation, yLocation );
 				}
 				else
