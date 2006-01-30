@@ -315,6 +315,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		String name = output.getName();
 		ConsumeItemRequest request = new ConsumeItemRequest( client, input );
+		AdventureDatabase.retrieveItem( input.getInstance( quantityNeeded ) );
+
 		for ( int i = 1; client.permitsContinue() && i <= quantityNeeded; ++i )
 		{
 			updateDisplay( DISABLE_STATE, "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );

@@ -185,13 +185,9 @@ public class ConsumeItemRequest extends KoLRequest
 		// inventory first - if not, report the error message and
 		// return from the method.
 
-		int itemCount = itemUsed.getCount( KoLCharacter.getInventory() );
-		if ( itemCount == 0 || itemUsed.getCount() > itemCount )
-		{
-			updateDisplay( ERROR_STATE, "You do not have enough " + itemUsed.getName() + "." );
-			client.cancelRequest();
+		AdventureDatabase.retrieveItem( itemUsed );
+		if ( !client.permitsContinue() )
 			return;
-		}
 
 		super.run();
 
