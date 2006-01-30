@@ -41,15 +41,19 @@ import java.util.Locale;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormatSymbols;
+
 import javax.swing.JLabel;
+import java.awt.Toolkit;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public interface KoLConstants extends UtilityConstants
 {
 	public static final Random RNG = new Random();
-	public static final JLabel BLANK_LABEL = new JLabel();
 	public static final String LINE_BREAK = System.getProperty( "line.separator" );
+
+	public static final JLabel BLANK_LABEL = new JLabel();
+	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
 
 	public static final String VERSION_NAME = "KoLmafia v6.4";
 	public static final String VERSION_DATE = "Released January 13, 2006";

@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.lang.reflect.Constructor;
@@ -195,10 +196,15 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				KoLFrame frame = (KoLFrame) this.creation;
 				String frameName = frame.getFrameName();
 
-				if ( StaticEntity.getSettings().containsKey( frameName ) )
+				if ( GLOBAL_SETTINGS.containsKey( frameName ) )
 				{
 					String [] location = StaticEntity.getProperty( frameName ).split( "," );
-					frame.setLocation( Integer.parseInt( location[0] ), Integer.parseInt( location[1] ) );
+					int xLocation = Integer.parseInt( location[0] );
+					int yLocation = Integer.parseInt( location[1] );
+
+					Dimension screenSize = TOOLKIT.getScreenSize();
+					if ( xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
+						frame.setLocation( xLocation, yLocation );
 				}
 				else
 					frame.setLocationRelativeTo( null );
