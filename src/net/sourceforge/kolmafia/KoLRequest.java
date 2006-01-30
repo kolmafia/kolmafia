@@ -969,12 +969,14 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void processResults()
 	{
+		int previousHP = KoLCharacter.getCurrentHP();
+
 		client.processResults( responseText );
 
 		// If the character's health drops below zero, make sure
 		// that beaten up is added to the effects.
 
-		if ( KoLCharacter.getCurrentHP() == 0 )
+		if ( previousHP != 0 && KoLCharacter.getCurrentHP() == 0 )
 			client.processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 
 	}
