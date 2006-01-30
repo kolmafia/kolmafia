@@ -199,7 +199,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 	{
 		private FamiliarData familiar;
 		private JComboBox familiars;
-		private int weight;
 
 		private OpponentsPanel opponentsPanel;
 		private ButtonPanel buttonPanel;
@@ -212,9 +211,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			JPanel container = new JPanel( new BorderLayout( 10, 10 ) );
 
-			// Get current familiar & base weight
+			// Get current familiar
 			familiar = KoLCharacter.getFamiliar();
-			weight = familiar.getWeight();
 
 			// Put familiar changer on top
 			familiars = new ChangeComboBox( KoLCharacter.getFamiliarList() );
@@ -474,7 +472,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public void run()
 			{
 				FamiliarData selection = (FamiliarData)getSelectedItem();
+				client.resetContinueState();
 				(new FamiliarRequest( client, selection )).run();
+				familiar = KoLCharacter.getFamiliar();
 				isChanging = false;
 				client.enableDisplay();
 			}
