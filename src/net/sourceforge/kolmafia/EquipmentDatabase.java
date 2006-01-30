@@ -90,7 +90,7 @@ public class EquipmentDatabase extends KoLDatabase
 
 	static
 	{
-		BufferedReader reader = getReader( "outfits.dat", true );
+		BufferedReader reader = getReader( "outfits.dat" );
 
 		String [] data;
 		int outfitID;
