@@ -48,7 +48,7 @@ public class EquipmentDatabase extends KoLDatabase
 {
 	private static int [] power = new int[ TradeableItemDatabase.ITEM_COUNT ];
 	private static int [] hands = new int[ TradeableItemDatabase.ITEM_COUNT ];
-	private static String [] requirement =  new String[ TradeableItemDatabase.ITEM_COUNT ];
+	private static String [] requirement = new String[ TradeableItemDatabase.ITEM_COUNT ];
 
 	static
 	{
@@ -81,6 +81,33 @@ public class EquipmentDatabase extends KoLDatabase
 		{
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
+		}
+	}
+
+	public static final int OUTFIT_COUNT = 30;
+	private static SpecialOutfit [] outfits = new SpecialOutfit[ OUTFIT_COUNT ];
+	private static AdventureResult [][] outfitPieces = new AdventureResult[ OUTFIT_COUNT ][];
+
+	static
+	{
+		BufferedReader reader = getReader( "outfits.dat", true );
+
+		String [] data;
+		int outfitID;
+
+		while ( (data = readData( reader )) != null )
+		{
+			if ( data.length == 3 )
+			{
+				outfitID = Integer.parseInt( data[0] );
+				outfits[ outfitID ] = new SpecialOutfit( outfitID, data[1] );
+
+				String [] pieces = data[2].split( "\\s*,\\s*" );
+				outfitPieces[ outfitID ] = new AdventureResult[ pieces.length ];
+
+				for ( int i = 0; i < pieces.length; ++i )
+					outfitPieces[ outfitID ][i] = new AdventureResult( pieces[i], 1 );
+			}
 		}
 	}
 
@@ -127,5 +154,32 @@ public class EquipmentDatabase extends KoLDatabase
 			return 0;
 
 		return hands[ itemID ];
+	}
+
+	public static void updateOutfits()
+	{
+		LockableListModel available = KoLCharacter.getOutfits();
+
+		for ( int i = 0; i < OUTFIT_COUNT; ++i )
+		{
+			if ( outfits[i] != null )
+			{
+				boolean hasAllPieces = true;
+				for ( int j = 0; j < outfitPieces[i].length; ++j )
+					hasAllPieces &= KoLCharacter.hasItem( outfitPieces[i][j], true );
+
+				// If the player has all the pieces, but it's not on the
+				// list, then add it to the list of available outfits.
+
+				if ( hasAllPieces && !available.contains( outfits[i] ) )
+					available.add( outfits[i] );
+
+				// If the player does not have all the pieces, but it is
+				// on the list, then remove it from the list.
+
+				if ( !hasAllPieces && available.contains( outfits[i] ) )
+					available.remove( outfits[i] );
+			}
+		}
 	}
 }

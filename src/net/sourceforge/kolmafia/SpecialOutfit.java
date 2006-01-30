@@ -59,20 +59,10 @@ public class SpecialOutfit
 
 	public static final String NO_CHANGE = " - No Change - ";
 
-	/**
-	 * Constructs a new <code>SpecialOutfit</code> from the given
-	 * HTML.  The HTML should include the option value as well
-	 * as the name, enclosed within <code><option></option></code>
-	 * tags, as they are displayed on the equipment page.
-	 */
-
-	private SpecialOutfit( String optionHTML )
+	public SpecialOutfit( int outfitID, String outfitName )
 	{
-		StringTokenizer parsedOutfit = new StringTokenizer( optionHTML, "<>=" );
-		parsedOutfit.nextToken();
-
-		this.outfitID = Integer.parseInt( parsedOutfit.nextToken() );
-		this.outfitName = parsedOutfit.nextToken();
+		this.outfitID = outfitID;
+		this.outfitName = outfitName;
 	}
 
 	public String toString()
@@ -81,6 +71,10 @@ public class SpecialOutfit
 
 	public int getOutfitID()
 	{	return outfitID;
+	}
+
+	public boolean equals( Object o )
+	{	return o != null && o instanceof SpecialOutfit && outfitID == ((SpecialOutfit)o).outfitID;
 	}
 
 	/**
@@ -93,22 +87,17 @@ public class SpecialOutfit
 	public static LockableListModel parseOutfits( String selectHTML )
 	{
 		Matcher singleOutfitMatcher = Pattern.compile(
-			"<option value=.*?>.*?</option>" ).matcher( selectHTML );
-		int lastFindIndex = 0;
+			"<option value=(.*?)>(.*?)</option>" ).matcher( selectHTML );
 
+		int outfitID;
 		LockableListModel outfits = new LockableListModel();
 
-		while ( singleOutfitMatcher.find( lastFindIndex ) )
+		while ( singleOutfitMatcher.find() )
 		{
-			lastFindIndex = singleOutfitMatcher.end();
-			outfits.add( new SpecialOutfit( singleOutfitMatcher.group() ) );
+			outfitID = Integer.parseInt( singleOutfitMatcher.group(1) );
+			if ( outfitID < 0 )
+				outfits.add( new SpecialOutfit( outfitID, singleOutfitMatcher.group(2) ) );
 		}
-
-		// The first outfit is always "select an outfit"; to make
-		// things easier, just remove it from the list.
-
-		if ( !outfits.isEmpty() )
-			outfits.remove(0);
 
 		return outfits;
 	}

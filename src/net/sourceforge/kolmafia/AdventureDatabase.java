@@ -584,6 +584,18 @@ public class AdventureDatabase extends KoLDatabase
 					return;
 			}
 
+			// Next, if you have a piece of equipment, then attempt to
+			// remove it.
+
+			if ( KoLCharacter.hasEquipped( item ) )
+			{
+				retrieveItem( purchaser, "unequip " + item.getName() );
+				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+
+				if ( missingCount <= 0 )
+					return;
+			}
+
 			// Next, attempt to pull the items out of storage,
 			// if you are out of ronin.
 
