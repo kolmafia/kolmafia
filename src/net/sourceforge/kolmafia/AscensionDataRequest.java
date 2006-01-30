@@ -484,12 +484,31 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			stringForm.append( "</td></tr>" );
 		}
 
+		public int getAge()
+		{
+			Date today = new Date();
+
+			long todayDate = today.getTime();
+			long ascensionDate = timestamp.getTime();
+			double difference = todayDate - ascensionDate;
+			int days = (int)(Math.round((difference/(1000*60*60*24))));
+			return days;
+		}
+
+
 		public String toString()
 		{	return stringForm.toString();
 		}
 
 		public boolean equals( Object o )
 		{	return o != null && o instanceof AscensionDataField && playerName.equals( ((AscensionDataField)o).playerName );
+		}
+
+		public boolean matchesFilter( boolean isSoftcore, int pathFilter, int classFilter, int maxAge )
+		{
+			return isSoftcore == this.isSoftcore && (pathFilter == AscensionSnapshotTable.NO_FILTER || pathFilter == this.pathID) &&
+				(classFilter == AscensionSnapshotTable.NO_FILTER || classFilter == this.classID) &&
+				(maxAge == 0 || maxAge >= getAge());
 		}
 
 		public boolean matchesFilter( boolean isSoftcore, int pathFilter, int classFilter )

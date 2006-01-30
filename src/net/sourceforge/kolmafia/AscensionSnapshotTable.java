@@ -95,7 +95,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 	{	return ascensionMap;
 	}
 
-	public static String getAscensionData( boolean isSoftcore, int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, boolean playerMoreThanOnce )
+	public static String getAscensionData( boolean isSoftcore, int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce )
 	{
 		initializeAscensionData();
 		StringBuffer strbuf = new StringBuffer();
@@ -163,27 +163,27 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// Finally, the ascension leaderboards for fastest
 		// ascension speed.  Do this for all paths individually.
 
-		strbuf.append( _getAscensionData( isSoftcore, OXYGENARIAN, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+		strbuf.append( _getAscensionData( isSoftcore, OXYGENARIAN, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( _getAscensionData( isSoftcore, TEETOTALER, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+		strbuf.append( _getAscensionData( isSoftcore, TEETOTALER, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( _getAscensionData( isSoftcore, BOOZETAFARIAN, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+		strbuf.append( _getAscensionData( isSoftcore, BOOZETAFARIAN, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( _getAscensionData( isSoftcore, NOPATH, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+		strbuf.append( _getAscensionData( isSoftcore, NOPATH, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 
 		strbuf.append( "</center>" );
 		return strbuf.toString();
 	}
 
-	public static String _getAscensionData( boolean isSoftcore, int pathFilter, int mainBoardSize, int classBoardSize, boolean playerMoreThanOnce )
+	public static String _getAscensionData( boolean isSoftcore, int pathFilter, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
 		// First, print the table showing the top ascenders
 		// without a class-based filter.
 
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, NO_FILTER, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, NO_FILTER, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 
 		// Next, print the nifty disappearing link bar that
 		// is used in the KoL leaderboard frame.
@@ -202,27 +202,27 @@ public class AscensionSnapshotTable extends KoLDatabase
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "<table><tr><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, SEAL_CLUBBER, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, SEAL_CLUBBER, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, SAUCEROR, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, SAUCEROR, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td></tr><tr><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, TURTLE_TAMER, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, TURTLE_TAMER, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, DISCO_BANDIT, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, DISCO_BANDIT, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td></tr><tr><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, PASTAMANCER, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, PASTAMANCER, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td><td valign=top>" );
 		strbuf.append( LINE_BREAK );
-		strbuf.append( getAscensionData( isSoftcore, pathFilter, ACCORDION_THIEF, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+		strbuf.append( getAscensionData( isSoftcore, pathFilter, ACCORDION_THIEF, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 		strbuf.append( LINE_BREAK );
 		strbuf.append( "</td></tr></table>" );
 
@@ -233,7 +233,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		return strbuf.toString();
 	}
 
-	public static String getAscensionData( boolean isSoftcore, int pathFilter, int classFilter, int mainBoardSize, int classBoardSize, boolean playerMoreThanOnce )
+	public static String getAscensionData( boolean isSoftcore, int pathFilter, int classFilter, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce )
 	{
 		StringBuffer strbuf = new StringBuffer();
 
@@ -257,7 +257,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		List resultsList = new ArrayList();
 
 		for ( int i = 0; i < fields.length; ++i )
-			if ( fields[i].matchesFilter( isSoftcore, pathFilter, classFilter ) )
+			if ( fields[i].matchesFilter( isSoftcore, pathFilter, classFilter, maxAge ) )
 				resultsList.add( fields[i] );
 
 		// Next, retrieve only the top ten list so that
@@ -371,7 +371,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 			for ( int j = 0; j < fields.length; ++j )
 			{
-				if ( fields[j].matchesFilter( true, NO_FILTER, NO_FILTER ) )
+				if ( fields[j].matchesFilter( true, NO_FILTER, NO_FILTER, 0 ) )
 					softcoreAscensionList.add( fields[j] );
 				else
 					hardcoreAscensionList.add( fields[j] );

@@ -417,7 +417,7 @@ public class ClanManager extends StaticEntity
 	 * initialized, this method will also initialize that list.
 	 */
 
-	public static void takeSnapshot( int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, boolean playerMoreThanOnce )
+	public static void takeSnapshot( int mostAscensionsBoardSize, int mainBoardSize, int classBoardSize, int maxAge, boolean playerMoreThanOnce )
 	{
 		retrieveClanData();
 
@@ -436,7 +436,7 @@ public class ClanManager extends StaticEntity
 
 
 
-		if( mostAscensionsBoardSize == 0 && mainBoardSize == 0 && classBoardSize == 0 && playerMoreThanOnce == false)
+		if( mostAscensionsBoardSize == 0 && mainBoardSize == 0 && classBoardSize == 0 && maxAge == 0 && playerMoreThanOnce == false)
 		{
 			standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
 			softcoreFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
@@ -455,13 +455,13 @@ public class ClanManager extends StaticEntity
 			standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
 			if( playerMoreThanOnce)
 			{
-				softcoreFile = new File( SNAPSHOT_DIRECTORY + "s" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "y.htm" );
-				hardcoreFile = new File( SNAPSHOT_DIRECTORY + "h" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "y.htm" );
+				softcoreFile = new File( SNAPSHOT_DIRECTORY + "s" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "-" + maxAge + "y.htm" );
+				hardcoreFile = new File( SNAPSHOT_DIRECTORY + "h" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "-" + maxAge + "y.htm" );
 			}
 			else
 			{
-				softcoreFile = new File( SNAPSHOT_DIRECTORY + "s" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "n.htm" );
-				hardcoreFile = new File( SNAPSHOT_DIRECTORY + "h" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "n.htm" );
+				softcoreFile = new File( SNAPSHOT_DIRECTORY + "s" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "-" + maxAge + "n.htm" );
+				hardcoreFile = new File( SNAPSHOT_DIRECTORY + "h" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "-" + maxAge + "n.htm" );
 			}
 			sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
 
@@ -521,11 +521,11 @@ public class ClanManager extends StaticEntity
 				client.updateDisplay( DISABLE_STATE, "Storing ascension snapshot..." );
 
 				ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
-				ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+				ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 				ostream.close();
 
 				ostream = new PrintStream( new FileOutputStream( hardcoreFile, true ), true );
-				ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, playerMoreThanOnce ) );
+				ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 				ostream.close();
 			}
 		}

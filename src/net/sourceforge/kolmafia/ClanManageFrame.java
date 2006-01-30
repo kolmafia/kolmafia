@@ -764,7 +764,7 @@ public class ClanManageFrame extends KoLFrame
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.
 
-			ClanManager.takeSnapshot( 0, 0, 0, false );
+			ClanManager.takeSnapshot( 0, 0, 0, 0, false );
 		}
 
 		protected void actionCancelled()
@@ -778,6 +778,7 @@ public class ClanManageFrame extends KoLFrame
 		private JTextField mostAscensionsBoardSizeField;
 		private JTextField mainBoardSizeField;
 		private JTextField classBoardSizeField;
+		private JTextField maxAgeField;
 		private JCheckBox playerMoreThanOnceOption;
 
 		public AscensionPanel()
@@ -787,13 +788,15 @@ public class ClanManageFrame extends KoLFrame
 			mostAscensionsBoardSizeField = new JTextField( "20" );
 			mainBoardSizeField = new JTextField( "10" );
 			classBoardSizeField = new JTextField( "5" );
+			maxAgeField = new JTextField( "0" );
 			playerMoreThanOnceOption = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[4];
+			VerifiableElement [] elements = new VerifiableElement[5];
 			elements[0] = new VerifiableElement( "Most Ascensions Board Size:  ", mostAscensionsBoardSizeField );
 			elements[1] = new VerifiableElement( "Fastest Ascensions Board Size:  ", mainBoardSizeField );
 			elements[2] = new VerifiableElement( "Class Breakdown Board Size:  ", classBoardSizeField );
-			elements[3] = new VerifiableElement( "Allow Multiple Appearances:  ", playerMoreThanOnceOption );
+			elements[3] = new VerifiableElement( "Maximum Ascension Age (in days):  ", maxAgeField );
+			elements[4] = new VerifiableElement( "Allow Multiple Appearances:  ", playerMoreThanOnceOption );
 
 			setContent( elements );
 		}
@@ -803,6 +806,7 @@ public class ClanManageFrame extends KoLFrame
 			int mostAscensionsBoardSize = mostAscensionsBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : Integer.parseInt( mostAscensionsBoardSizeField.getText() );
 			int mainBoardSize = mainBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : Integer.parseInt( mainBoardSizeField.getText() );
 			int classBoardSize = classBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : Integer.parseInt( classBoardSizeField.getText() );
+			int maxAge = maxAgeField.getText().equals( "" ) ? Integer.MAX_VALUE : Integer.parseInt( maxAgeField.getText() );
 			boolean playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
 
 			String oldSetting = getProperty( "clanRosterHeader" );
@@ -811,7 +815,7 @@ public class ClanManageFrame extends KoLFrame
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.
 
-			ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, playerMoreThanOnce );
+			ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce );
 			setProperty( "clanRosterHeader", oldSetting );
 		}
 
