@@ -749,6 +749,11 @@ public class OptionsFrame extends KoLFrame
 				writer.println( ((JTextArea)scrollComponent).getText() );
 				writer.close();
 				writer = null;
+
+				int customIndex = KoLCharacter.getBattleSkillIDs().indexOf( "custom" );
+				KoLCharacter.getBattleSkillIDs().setSelectedIndex( customIndex );
+				KoLCharacter.getBattleSkillNames().setSelectedIndex( customIndex );
+				setProperty( "battleAction", "custom" );
 			}
 			catch ( Exception e )
 			{
