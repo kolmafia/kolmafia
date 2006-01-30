@@ -1650,33 +1650,45 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		switch ( dictionary.getItemID() )
 		{
-		case 536:
-			// We have the first dictionary. Add attack method to list
-			if ( dictionary.getCount() > 0 )
-			{
-				battleSkillIDs.add( 1, "item0536" );
-				battleSkillNames.add( 1, "Item: Use a Dictionary" );
-				return;
-			}
-			break;
+			case 536:
 
-		case 1316:
-			// We have the second dictionary. Add attack method to list
-			if ( dictionary.getCount() > 0 )
-			{
-				battleSkillIDs.add( 1, "item1316" );
-				battleSkillNames.add( 1, "Item: Use a Dictionary" );
-				return;
-			}
-			break;
+				// We have the first dictionary.
 
-		default:
-			return;
+				if ( dictionary.getCount() > 0 )
+				{
+					battleSkillIDs.add( 1, "item0536" );
+					battleSkillNames.add( 1, "Item: Use a Dictionary" );
+					return;
+				}
+				else if ( dictionary.getCount() == -1 )
+				{
+					battleSkillIDs.remove( 1 );
+					battleSkillNames.remove( 1 );
+				}
+
+				break;
+
+			case 1316:
+
+				// We have the second dictionary.
+
+				if ( dictionary.getCount() > 0 )
+				{
+					battleSkillIDs.add( 1, "item1316" );
+					battleSkillNames.add( 1, "Item: Use a Dictionary" );
+					return;
+				}
+				else if ( dictionary.getCount() == -1 )
+				{
+					battleSkillIDs.remove( 1 );
+					battleSkillNames.remove( 1 );
+				}
+
+				break;
+
+			default:
+				return;
 		}
-
-		// We are removing a dictionary from the inventory. Remove tactic.
-		battleSkillIDs.remove( 1 );
-		battleSkillNames.remove( 1 );
 	}
 
 	/**

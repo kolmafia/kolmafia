@@ -304,31 +304,19 @@ public class ConsumeItemRequest extends KoLRequest
 			KoLCharacter.addAccomplishment( KoLCharacter.BARON );
 
 			// Remove the old dictionary
+
 			client.processResult( FightRequest.DICTIONARY1.getNegation() );
 
 			// Get the new dictionary and drywall axe
+
 			client.processResults( responseText );
 
 			// If he was fighting with the old dictionary, switch
 			// to use the new one
+
 			if ( getProperty( "battleAction" ).equals( "item0536" ) )
 				setProperty( "battleAction", "item1316" );
 
-			// Adjust battle skills
-			int originalIndex = KoLCharacter.getBattleSkillIDs().indexOf( "item0536" );
-			if ( originalIndex != -1 )
-			{
-				int selectedIndex = KoLCharacter.getBattleSkillNames().getSelectedIndex();
-				KoLCharacter.getBattleSkillIDs().remove( originalIndex );
-				KoLCharacter.getBattleSkillNames().remove( originalIndex );
-				KoLCharacter.addDictionary();
-
-				if ( originalIndex == selectedIndex )
-				{
-					originalIndex = KoLCharacter.getBattleSkillIDs().indexOf( "item1316" );
-					KoLCharacter.getBattleSkillNames().setSelectedIndex( originalIndex );
-				}
-			}
 			break;
 
 		case ENCHANTED_BEAN:
