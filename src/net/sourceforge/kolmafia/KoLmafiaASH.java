@@ -1376,6 +1376,11 @@ public class KoLmafiaASH
 		params[1] = new ScriptType( TYPE_SKILL);
 		result.addFunction( new ScriptExistingFunction( "use_skill", new ScriptType( TYPE_BOOLEAN), params, scriptRequestor));
 
+		params = new ScriptType[2];
+		params[0] = new ScriptType( TYPE_INT);
+		params[1] = new ScriptType( TYPE_ITEM);
+		result.addFunction( new ScriptExistingFunction( "add_item_condition", new ScriptType( TYPE_VOID), params, scriptRequestor));
+
 		return result;
 	}
 
@@ -1702,6 +1707,8 @@ public class KoLmafiaASH
 					return executeHaveSkillRequest( variables[0].getIntValue());
 				else if( name.equals( "use_skill"))
 					return executeUseSkillRequest( variables[0].getIntValue(), variables[1].getIntValue());
+				else if( name.equals( "add_item_condition"))
+					return executeItemConditionRequest( variables[0].getIntValue(), variables[1].getIntValue());
 				else
 					throw new RuntimeException( "Internal error: unknown library function " + name);
 			}
@@ -1712,7 +1719,7 @@ public class KoLmafiaASH
 		}
 	
 	
-		public ScriptValue executeAdventureRequest( int amount, KoLAdventure location) throws AdvancedScriptException
+		private ScriptValue executeAdventureRequest( int amount, KoLAdventure location) throws AdvancedScriptException
 		{
 			scriptRequestor.updateDisplay( KoLmafia.DISABLE_STATE, "Beginning " + amount + " turnips to " + location.toString() + "..." );
 			scriptRequestor.makeRequest( location, amount );
@@ -1723,7 +1730,7 @@ public class KoLmafiaASH
 				return new ScriptValue( TYPE_BOOLEAN, 0);
 		}
 	
-		public ScriptValue executeBuyRequest( int amount, int itemID) throws AdvancedScriptException
+		private ScriptValue executeBuyRequest( int amount, int itemID) throws AdvancedScriptException
 		{
 			ArrayList results;
 	
@@ -1738,7 +1745,7 @@ public class KoLmafiaASH
 				return new ScriptValue( TYPE_BOOLEAN, 0);
 		}
 	
-		public ScriptValue executeCreateRequest( int amount, int itemID) throws AdvancedScriptException
+		private ScriptValue executeCreateRequest( int amount, int itemID) throws AdvancedScriptException
 		{
 			ItemCreationRequest irequest = ItemCreationRequest.getInstance( scriptRequestor, itemID, amount );
 			scriptRequestor.makeRequest( irequest, 1 );
@@ -1752,7 +1759,7 @@ public class KoLmafiaASH
 				return new ScriptValue( TYPE_BOOLEAN, 0);		
 		}
 	
-		public ScriptValue executeUseRequest( int amount, int itemID) throws AdvancedScriptException
+		private ScriptValue executeUseRequest( int amount, int itemID) throws AdvancedScriptException
 		{
 			String itemName;
 			int consumptionType;
@@ -1771,7 +1778,7 @@ public class KoLmafiaASH
 				return new ScriptValue( TYPE_BOOLEAN, 0);
 		}
 	
-		public ScriptValue executeItemAmountRequest( int itemID) throws AdvancedScriptException
+		private ScriptValue executeItemAmountRequest( int itemID) throws AdvancedScriptException
 		{
 			AdventureResult item;
 	
@@ -1780,49 +1787,49 @@ public class KoLmafiaASH
 			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getInventory()));
 		}
 	
-		public ScriptValue executePrintRequest( String message) throws AdvancedScriptException
+		private ScriptValue executePrintRequest( String message) throws AdvancedScriptException
 		{
 			scriptRequestor.updateDisplay( KoLmafia.DISABLE_STATE, message );
 	
 			return new ScriptValue( TYPE_VOID);
 		}
 	
-		public ScriptValue executeZodiacRequest() throws AdvancedScriptException
+		private ScriptValue executeZodiacRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_ZODIAC, KoLCharacter.getSign());
 		}
 	
-		public ScriptValue executeClassRequest() throws AdvancedScriptException
+		private ScriptValue executeClassRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_CLASS, KoLCharacter.getClassType());
 		}
 	
-		public ScriptValue executeLevelRequest() throws AdvancedScriptException
+		private ScriptValue executeLevelRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getLevel());
 		}
 	
-		public ScriptValue executeHPRequest() throws AdvancedScriptException
+		private ScriptValue executeHPRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentHP());
 		}
 	
-		public ScriptValue executeMaxHPRequest() throws AdvancedScriptException
+		private ScriptValue executeMaxHPRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumHP());
 		}
 	
-		public ScriptValue executeMPRequest() throws AdvancedScriptException
+		private ScriptValue executeMPRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentMP());
 		}
 	
-		public ScriptValue executeMaxMPRequest() throws AdvancedScriptException
+		private ScriptValue executeMaxMPRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumMP());
 		}
 	
-		public ScriptValue executeBaseStatRequest( int stat) throws AdvancedScriptException
+		private ScriptValue executeBaseStatRequest( int stat) throws AdvancedScriptException
 		{
 			if( stats[stat].equals( "muscle"))
 				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMuscle());
@@ -1834,7 +1841,7 @@ public class KoLmafiaASH
 				throw new RuntimeException( "Internal Error: unknown stat");
 		}
 	
-		public ScriptValue executeBuffedStatRequest( int stat) throws AdvancedScriptException
+		private ScriptValue executeBuffedStatRequest( int stat) throws AdvancedScriptException
 		{
 			if( stats[stat].equals( "muscle"))
 				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMuscle());
@@ -1846,27 +1853,27 @@ public class KoLmafiaASH
 				throw new RuntimeException( "Internal Error: unknown stat");
 		}
 
-		public ScriptValue executeMeatRequest() throws AdvancedScriptException
+		private ScriptValue executeMeatRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getAvailableMeat());
 		}
 
-		public ScriptValue executeClosetMeatRequest() throws AdvancedScriptException
+		private ScriptValue executeClosetMeatRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getClosetMeat());
 		}
 
-		public ScriptValue executeAdventuresRequest() throws AdvancedScriptException
+		private ScriptValue executeAdventuresRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getAdventuresLeft());
 		}
 
-		public ScriptValue executeInebrietyRequest() throws AdvancedScriptException
+		private ScriptValue executeInebrietyRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getInebriety());
 		}
 
-		public ScriptValue executeHaveSkillRequest( int skillID) throws AdvancedScriptException
+		private ScriptValue executeHaveSkillRequest( int skillID) throws AdvancedScriptException
 		{
 			if( KoLCharacter.hasSkill( skillID))
 				return new ScriptValue( TYPE_BOOLEAN, 1);
@@ -1874,7 +1881,7 @@ public class KoLmafiaASH
 				return new ScriptValue( TYPE_BOOLEAN, 0);
 		}
 
-		public ScriptValue executeUseSkillRequest( int amount, int skillID) throws AdvancedScriptException
+		private ScriptValue executeUseSkillRequest( int amount, int skillID) throws AdvancedScriptException
 		{
 			scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, ClassSkillsDatabase.getSkillName( skillID), null, amount ), 1 );
 	
@@ -1882,6 +1889,17 @@ public class KoLmafiaASH
 				return new ScriptValue( TYPE_BOOLEAN, 1);
 			else
 				return new ScriptValue( TYPE_BOOLEAN, 0);
+		}
+
+		private ScriptValue executeItemConditionRequest( int amount, int itemID) throws AdvancedScriptException
+		{
+			AdventureResult condition;
+
+			condition = new AdventureResult( TradeableItemDatabase.getItemName( itemID), amount, false );
+			AdventureResult.addResultToList( scriptRequestor.conditions, condition );
+			scriptRequestor.updateDisplay( KoLmafia.NORMAL_STATE, "Condition added." );
+
+			return new ScriptValue( TYPE_VOID);
 		}
 
 
