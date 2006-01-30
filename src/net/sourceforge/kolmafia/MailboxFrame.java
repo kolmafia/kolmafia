@@ -112,13 +112,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		this.messageContent = new JEditorPane();
 		messageContent.setEditable( false );
 		messageContent.addHyperlinkListener( new MailLinkClickedListener() );
-		JScrollPane messageContentDisplay = new JScrollPane( messageContent,
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		messageContentDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 
 		this.mailBuffer = new LimitedSizeChatBuffer( "KoL Mail Message", false );
-		mailBuffer.setChatDisplay( messageContent );
+		JScrollPane messageContentDisplay = mailBuffer.setChatDisplay( messageContent );
+		messageContentDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 
 		JSplitPane splitPane = new JSplitPane( JSplitPane.VERTICAL_SPLIT, true,
 			tabbedListDisplay, messageContentDisplay );

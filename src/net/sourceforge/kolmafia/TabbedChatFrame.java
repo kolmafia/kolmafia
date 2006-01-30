@@ -37,20 +37,12 @@ package net.sourceforge.kolmafia;
 import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
-import javax.swing.JOptionPane;
-import javax.swing.JComponent;
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import com.sun.java.forums.CloseableTabbedPane;
 import com.sun.java.forums.CloseableTabbedPaneListener;
-
-import java.util.Calendar;
 
 /**
  * An extension of <code>ChatFrame</code> used to display the current

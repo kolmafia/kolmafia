@@ -33,12 +33,6 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JEditorPane;
-
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ProfileFrame extends RequestFrame
 {

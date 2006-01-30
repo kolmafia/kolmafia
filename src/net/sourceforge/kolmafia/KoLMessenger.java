@@ -46,9 +46,7 @@ import java.util.StringTokenizer;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JEditorPane;
 import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -845,14 +843,11 @@ public abstract class KoLMessenger extends StaticEntity
 				if ( useTabbedFrame )
 				{
 					ChatFrame.ChatPanel panel = tabbedFrame.addTab( channel );
-					buffer.setChatDisplay( panel.getChatDisplay() );
 				}
 				else
 				{
 					ChatFrame frame = new ChatFrame( client, channel );
 					frame.setVisible( true );
-
-					buffer.setChatDisplay( frame.getChatDisplay() );
 					instantMessageFrames.put( channel, frame );
 				}
 

@@ -35,10 +35,6 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
-
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * A class which displays what the council currently has to say to you.

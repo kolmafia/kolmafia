@@ -35,7 +35,6 @@
 package net.sourceforge.kolmafia;
 
 import javax.swing.JCheckBox;
-import javax.swing.JEditorPane;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
 import javax.swing.JToolBar;

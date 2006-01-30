@@ -196,11 +196,6 @@ public class ChatFrame extends KoLFrame
 			chatDisplay.setEditable( false );
 			this.associatedContact = associatedContact;
 
-			chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
-
-			JScrollPane scrollPane = new JScrollPane( chatDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
 			JPanel entryPanel = new JPanel();
 			entryField = new JTextField();
 			entryField.addKeyListener( new ChatEntryListener() );
@@ -212,12 +207,8 @@ public class ChatFrame extends KoLFrame
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
 			setLayout( new BorderLayout( 1, 1 ) );
-			add( scrollPane, BorderLayout.CENTER );
+			add( KoLMessenger.getChatBuffer( associatedContact ).setChatDisplay( chatDisplay ), BorderLayout.CENTER );
 			add( entryPanel, BorderLayout.SOUTH );
-		}
-
-		public JEditorPane getChatDisplay()
-		{	return chatDisplay;
 		}
 
 		public String getAssociatedContact()
@@ -356,17 +347,6 @@ public class ChatFrame extends KoLFrame
 		super.requestFocus();
 		if ( mainPanel != null )
 			mainPanel.requestFocus();
-	}
-
-	/**
-	 * Returns the <code>JEditorPane</code> being used to display
-	 * the chat contents.
-	 *
-	 * @return	The <code>JEditorPane</code> used to display the chat
-	 */
-
-	public JEditorPane getChatDisplay()
-	{	return mainPanel == null ? null : mainPanel.getChatDisplay();
 	}
 
 	/**

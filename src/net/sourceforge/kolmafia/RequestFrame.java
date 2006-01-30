@@ -119,9 +119,7 @@ public class RequestFrame extends KoLFrame
 			this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
 		this.mainBuffer = new LimitedSizeChatBuffer( "Mini-Browser", false );
-		this.mainBuffer.setChatDisplay( this.mainDisplay );
-
-		JScrollPane mainScroller = new JScrollPane( this.mainDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+		JScrollPane mainScroller = this.mainBuffer.setChatDisplay( this.mainDisplay );
 
 		// Game text descriptions and player searches should not add
 		// extra requests to the server by having a side panel.
@@ -141,9 +139,7 @@ public class RequestFrame extends KoLFrame
 			this.sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
 			this.sideBuffer = new LimitedSizeChatBuffer( "", false );
-			this.sideBuffer.setChatDisplay( sideDisplay );
-
-			JScrollPane sideScroller = new JScrollPane( this.sideDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS );
+			JScrollPane sideScroller = this.sideBuffer.setChatDisplay( sideDisplay );
 			JComponentUtilities.setComponentSize( sideScroller, 150, 450 );
 
 			JSplitPane horizontalSplit = new JSplitPane( JSplitPane.HORIZONTAL_SPLIT, true, sideScroller, mainScroller );

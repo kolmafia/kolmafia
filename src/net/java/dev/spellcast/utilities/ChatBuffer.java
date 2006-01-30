@@ -32,12 +32,47 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * Copyright (c) 2005, KoLmafia development team
+ * http://kolmafia.sourceforge.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *		notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *		notice, this list of conditions and the following disclaimer in
+ *		the documentation and/or other materials provided with the
+ *		distribution.
+ *  [3] Neither the name "KoLmafia development team" nor the names of
+ *		its contributors may be used to endorse or promote products
+ *		derived from this software without specific prior written
+ *		permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
 package net.java.dev.spellcast.utilities;
 
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
 import javax.swing.text.Element;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.SwingUtilities;
 
@@ -67,6 +102,7 @@ public class ChatBuffer
 	protected PrintWriter activeLogWriter;
 
 	protected StringBuffer displayBuffer;
+	protected VerticalAutoScrollBar verticalScroller;
 
 	protected static final String EMPTY_STRING = "";
 	protected static final String NEW_LINE = System.getProperty( "line.separator" );
@@ -118,12 +154,22 @@ public class ChatBuffer
 	 * @param	display	The chat display to be used to display incoming messages.
 	 */
 
-	public void setChatDisplay( JEditorPane display )
+	public JScrollPane setChatDisplay( JEditorPane display )
 	{
 		displayPane = display;
 		displayPane.setContentType( "text/html" );
 		fireBufferChanged( DISPLAY_CHANGE, null );
+
+		JScrollPane scroller = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		verticalScroller = new VerticalAutoScrollBar();
+		scroller.setVerticalScrollBar( verticalScroller );
+		return scroller;
 	}
+
+	/**
+	 * Sets the vertical scrollbar for the chat display.  Returns the
+	 * appropriate display buffer.
+	 */
 
 	/**
 	 * Sets the log file used to actively record messages that are being
@@ -286,7 +332,7 @@ public class ChatBuffer
 
 				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
 				displayPane.validate();
-				displayPane.setCaretPosition( displayPane.getDocument().getLength() );
+				verticalScroller.setValue( verticalScroller.getMaximum() );
 			}
 			catch ( Exception e )
 			{
@@ -296,6 +342,49 @@ public class ChatBuffer
 				e.printStackTrace();
 				return;
 			}
+		}
+	}
+
+	/**
+	 * Special implementation of a vertical scrollbar which
+	 * allows for scrollback reading.
+	 */
+
+	protected class VerticalAutoScrollBar extends JScrollBar
+	{
+		private boolean autoscroll;
+
+		public VerticalAutoScrollBar()
+		{
+			super( VERTICAL );
+			this.autoscroll = true;
+		}
+
+		public void setValue( int value )
+		{
+			if ( getValueIsAdjusting() )
+				autoscroll = getMaximum() - getVisibleAmount() - getValue() < 100;
+
+			if ( autoscroll || getValueIsAdjusting() )
+			{
+				super.setValue( value );
+				if ( value == getMaximum() )
+					displayPane.setCaretPosition( displayPane.getDocument().getLength() );
+			}
+		}
+
+		protected void fireAdjustmentValueChanged( int id, int type, int value )
+		{
+			if ( autoscroll || getValueIsAdjusting() )
+				super.fireAdjustmentValueChanged( id, type, value );
+		}
+
+		public void setValues( int newValue, int newExtent, int newMin, int newMax )
+		{
+			if ( autoscroll || getValueIsAdjusting() )
+				super.setValues( newValue, newExtent, newMin, newMax );
+			else
+				super.setValues( getValue(), newExtent, newMin, newMax );
 		}
 	}
 }

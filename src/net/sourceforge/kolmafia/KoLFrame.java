@@ -55,7 +55,6 @@ import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JEditorPane;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;

@@ -35,8 +35,6 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.BorderLayout;
-import javax.swing.JEditorPane;
-import javax.swing.JScrollPane;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
