@@ -167,7 +167,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			{
 				try
 				{
-					(new KoLmafiaCLI( client, new FileInputStream( scriptPath ) )).listenForCommands();
+					KoLmafiaCLI script = new KoLmafiaCLI( client, System.in );
+					script.executeLine( scriptPath );
 				}
 				catch ( Exception e )
 				{
