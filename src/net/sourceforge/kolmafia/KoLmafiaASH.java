@@ -82,7 +82,8 @@ public class KoLmafiaASH
 	public static final int TYPE_VOID = 0;
 	public static final int TYPE_BOOLEAN = 1;
 	public static final int TYPE_INT = 2;
-	public static final int TYPE_STRING = 3;
+	public static final int TYPE_FLOAT = 3;
+	public static final int TYPE_STRING = 4;
 
 	public static final int TYPE_ITEM = 100;
 	public static final int TYPE_ZODIAC = 101;
@@ -464,6 +465,8 @@ public class KoLmafiaASH
 			type = TYPE_BOOLEAN;
 		else if( typeString.equals( "int"))
 			type = TYPE_INT;
+		else if( typeString.equals( "float"))
+			type = TYPE_FLOAT;
 		else if( typeString.equals( "string"))
 			type = TYPE_STRING;
 		else if( typeString.equals( "item"))
@@ -770,6 +773,7 @@ public class KoLmafiaASH
 		else if((( currentToken().charAt( 0) >= '0') && ( currentToken().charAt( 0) <= '9')) || (currentToken().charAt( 0) == '-'))
 		{
 			int resultInt;
+
 			boolean negative = false;
 
 			i = 0;
@@ -783,7 +787,14 @@ public class KoLmafiaASH
 			for( resultInt = 0; i < currentToken().length(); i++)
 			{
 				if( !(( currentToken().charAt(i) >= '0') && ( currentToken().charAt(i) <= '9')))
-					throw new AdvancedScriptException( "Digits followed by non-digits at " + getLineAndFile());
+				{
+					if( currentToken().charAt(i) == '.')
+					{
+						return parseDouble();
+					}
+					else
+						throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile());
+				}
 				resultInt += ( resultInt * 10) + ( currentToken().charAt(i) - '0');
 			}
 			if( negative)
@@ -852,6 +863,22 @@ public class KoLmafiaASH
 			}
 		}
 		return null;
+	}
+
+	private ScriptValue parseDouble() throws AdvancedScriptException
+	{
+		try
+		{
+			double result;
+
+			result = Double.parseDouble( currentToken());
+			readToken(); //double
+			return new ScriptValue( TYPE_FLOAT, result);
+		}
+		catch( NumberFormatException e)
+		{
+			throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile());
+		}
 	}
 
 	private ScriptOperator parseOperator( String oper)
@@ -1256,18 +1283,27 @@ public class KoLmafiaASH
 			}
 			else if( param.getType().equals( TYPE_INT))
 			{
-				int resultInt;
-
 				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType().toString() + " " + param.getName());
 				try
 				{
-					resultInt = Integer.parseInt( resultString);
+					param.setValue( new ScriptValue( TYPE_INT, Integer.parseInt( resultString)));
 				}
 				catch( NumberFormatException e)
 				{
 					throw new AdvancedScriptException( "Incorrect value for integer.");
 				}
-				param.setValue( new ScriptValue( TYPE_INT, Integer.parseInt( resultString)));
+			}
+			else if( param.getType().equals( TYPE_FLOAT))
+			{
+				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType().toString() + " " + param.getName());
+				try
+				{
+					param.setValue( new ScriptValue( TYPE_FLOAT, Double.parseDouble( resultString)));
+				}
+				catch( NumberFormatException e)
+				{
+					throw new AdvancedScriptException( "Incorrect value for double.");
+				}
 			}
 			else if( param.getType().equals( TYPE_BOOLEAN))
 			{
@@ -1525,7 +1561,14 @@ public class KoLmafiaASH
 					)
 					{
 						if( !currentParam.getType().equals( currentValue.getType()))
-							throw new AdvancedScriptException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile());
+						{
+							if( currentParam.getType().equals( TYPE_FLOAT) && currentValue.getType().equals( TYPE_INT))
+								; //do nothing
+							else if( currentParam.getType().equals( TYPE_INT) && currentValue.getType().equals( TYPE_FLOAT))
+								; //do nothing
+							else
+								throw new AdvancedScriptException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile());
+						}
 					}
 					if(( currentParam != null) || ( currentValue != null))
 						throw new AdvancedScriptException( "Illegal amount of parameters for function " + name + " " + getLineAndFile());
@@ -1537,7 +1580,7 @@ public class KoLmafiaASH
 			return null;
 		}
 	
-		public ScriptValue execute()
+		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptCommand	current;
 			ScriptValue	result;
@@ -1644,7 +1687,7 @@ public class KoLmafiaASH
 			return type;
 		}
 	
-		public ScriptValue execute()
+		public ScriptValue execute() throws AdvancedScriptException
 		{
 			return scope.execute();
 		}
@@ -1987,10 +2030,21 @@ public class KoLmafiaASH
 			return content.getLocation();
 		}
 	
-		public void setValue( ScriptValue targetValue)
+		public void setValue( ScriptValue targetValue) throws AdvancedScriptException
 		{
 			if( !getType().equals( targetValue.getType()))
-				throw new RuntimeException( "Internal error: Cannot assign " + targetValue.getType().toString() + " to " + getType().toString());
+			{
+				if( getType().equals( TYPE_INT) && targetValue.getType().equals( TYPE_FLOAT))
+				{
+					content = targetValue.toInt();
+				}
+				else if( getType().equals( TYPE_FLOAT) && targetValue.getType().equals( TYPE_INT))
+				{
+					content = targetValue.toDouble();
+				}
+				else
+					throw new RuntimeException( "Internal error: Cannot assign " + targetValue.getType().toString() + " to " + getType().toString());
+			}
 			content = targetValue;
 		}
 	}
@@ -2065,7 +2119,7 @@ public class KoLmafiaASH
 			return target.getValue();
 		}
 	
-		public void setValue( ScriptValue targetValue)
+		public void setValue( ScriptValue targetValue) throws AdvancedScriptException
 		{
 			target.setValue( targetValue);
 		}
@@ -2125,7 +2179,7 @@ public class KoLmafiaASH
 			return "<unknown command>";
 		}
 	
-		public ScriptValue execute()
+		public ScriptValue execute() throws AdvancedScriptException
 		{
 			if( this.command == COMMAND_BREAK)
 				{
@@ -2168,17 +2222,30 @@ public class KoLmafiaASH
 	
 	class ScriptReturn extends ScriptCommand
 	{
-		private ScriptExpression returnValue;
+		private ScriptExpression	returnValue;
+		private ScriptType		expectedType;
 	
 		public ScriptReturn( ScriptExpression returnValue, ScriptType expectedType) throws AdvancedScriptException
 		{
 			this.returnValue = returnValue;
-			if( !( expectedType == null) && !returnValue.getType().equals( expectedType))
-				throw new AdvancedScriptException( "Cannot apply " + returnValue.getType().toString() + " to " + expectedType.toString() + " " + getLineAndFile());
+			if( !( expectedType == null) && !(returnValue == null) && !returnValue.getType().equals( expectedType))
+			{
+				if( returnValue.getType().equals( TYPE_INT) && expectedType.equals( TYPE_FLOAT))
+					;
+				else if( returnValue.getType().equals( TYPE_FLOAT) && expectedType.equals( TYPE_INT))
+					;
+				else
+					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType().toString() + " to " + expectedType.toString() + " " + getLineAndFile());
+			}
+			this.expectedType = expectedType;
 		}
 	
 		public ScriptType getType()
 		{
+			if( expectedType != null)
+				return expectedType;
+			if( returnValue == null)
+				return new ScriptType( TYPE_VOID);
 			return returnValue.getType();
 		}
 	
@@ -2187,13 +2254,22 @@ public class KoLmafiaASH
 			return returnValue;
 		}
 	
-		public ScriptValue execute()
+		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptValue result;
-	
+
+			if( returnValue == null)
+				return null;
+			
 			result = returnValue.execute();
+			if( result == null)
+				return null;
 			if( currentState != STATE_EXIT)
 				currentState = STATE_RETURN;
+			if( returnValue.getType().equals( TYPE_INT) && expectedType != null && expectedType.equals( TYPE_FLOAT))
+				return result.toDouble();
+			if( returnValue.getType().equals( TYPE_FLOAT) && expectedType != null && expectedType.equals( TYPE_INT))
+				return result.toInt();
 			return result;
 		}
 	}
@@ -2249,7 +2325,7 @@ public class KoLmafiaASH
 			elseLoops.addElement( elseLoop);
 		}
 	
-		public ScriptValue execute()
+		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptValue result;
 			boolean conditionMet = (condition.execute().getIntValue() == 1);
@@ -2357,7 +2433,7 @@ public class KoLmafiaASH
 			return target.getType();
 		}
 	
-		public ScriptValue execute()
+		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptVariableReference		paramVarRef;
 			ScriptExpression		paramValue;
@@ -2391,7 +2467,14 @@ public class KoLmafiaASH
 			this.leftHandSide = leftHandSide;
 			this.rightHandSide = rightHandSide;
 			if( !leftHandSide.getType().equals( rightHandSide.getType()))
-				throw new AdvancedScriptException( "Cannot apply " + rightHandSide.getType().toString() + " to " + leftHandSide.toString() + " " + getLineAndFile());
+			{
+				if( leftHandSide.getType().equals( TYPE_INT) && rightHandSide.getType().equals( TYPE_FLOAT))
+					;
+				else if( leftHandSide.getType().equals( TYPE_FLOAT) && rightHandSide.getType().equals( TYPE_INT))
+					;
+				else
+					throw new AdvancedScriptException( "Cannot apply " + rightHandSide.getType().toString() + " to " + leftHandSide.toString() + " " + getLineAndFile());
+			}
 		}
 	
 		public ScriptVariableReference getLeftHandSide()
@@ -2409,9 +2492,14 @@ public class KoLmafiaASH
 			return leftHandSide.getType();
 		}
 	
-		public ScriptValue execute()
+		public ScriptValue execute() throws AdvancedScriptException
 		{
-			leftHandSide.setValue( rightHandSide.execute());
+			if( leftHandSide.getType().equals( TYPE_INT) && rightHandSide.getType().equals( TYPE_FLOAT))
+				leftHandSide.setValue( rightHandSide.execute().toInt());
+			else if( leftHandSide.getType().equals( TYPE_FLOAT) && rightHandSide.getType().equals( TYPE_INT))
+				leftHandSide.setValue( rightHandSide.execute().toDouble());
+			else
+				leftHandSide.setValue( rightHandSide.execute());
 			return null;
 		}
 	
@@ -2448,6 +2536,8 @@ public class KoLmafiaASH
 				return "boolean";
 			if( type == TYPE_INT)
 				return "int";
+			if( type == TYPE_FLOAT)
+				return "float";
 			if( type == TYPE_STRING)
 				return "string";
 			if( type == TYPE_ITEM)
@@ -2472,6 +2562,7 @@ public class KoLmafiaASH
 		ScriptType type;
 	
 		int contentInt = 0;
+		double contentDouble = 0.0;
 		String contentString = null;
 		Object content = null;
 	
@@ -2521,7 +2612,15 @@ public class KoLmafiaASH
 			this.contentString = contentString;
 			fillContent();
 		}
-	
+
+		public ScriptValue( int type, double content) throws AdvancedScriptException
+		{
+			if( type != TYPE_FLOAT)
+				throw new AdvancedScriptException( "Internal error: cannot assign double value to non-float");
+			this.type = new ScriptType( TYPE_FLOAT);
+			this.contentDouble = content;
+		}
+
 		public ScriptValue( ScriptValue original)
 		{
 			this.type = original.type;
@@ -2529,8 +2628,7 @@ public class KoLmafiaASH
 			this.contentString = original.contentString;
 			this.content = original.content;
 		}
-	
-	
+
 		public int compareTo( Object o) throws ClassCastException
 		{
 			if(!(o instanceof ScriptValue))
@@ -2539,11 +2637,27 @@ public class KoLmafiaASH
 	
 		}
 	
+		public ScriptValue toDouble() throws AdvancedScriptException
+		{
+			if( type.equals( TYPE_FLOAT))
+				return this;
+			else
+				return new ScriptValue( TYPE_FLOAT, (double) contentInt);
+		}
+
+		public ScriptValue toInt() throws AdvancedScriptException
+		{
+			if( type.equals( TYPE_INT))
+				return this;
+			else
+				return new ScriptValue( TYPE_INT, (int) contentDouble);			
+		}
+
 		public ScriptType getType()
 		{
 			return type;
 		}
-	
+
 		public String toString()
 		{
 			if( contentString != null)
@@ -2561,8 +2675,13 @@ public class KoLmafiaASH
 		{
 			return contentString;
 		}
+
+		public double getDoubleValue()
+		{
+			return contentDouble;
+		}
 	
-		public ScriptValue execute()
+		public ScriptValue execute() throws AdvancedScriptException
 		{
 			return this;
 		}
@@ -2645,7 +2764,14 @@ public class KoLmafiaASH
 			this.lhs = lhs;
 			this.rhs = rhs;
 			if(( rhs != null) && !lhs.getType().equals( rhs.getType()))
-				throw new AdvancedScriptException( "Cannot apply " + lhs.getType().toString() + " to " + rhs.getType().toString() + " " + getLineAndFile());
+			{
+				if( lhs.getType().equals( TYPE_INT) && rhs.getType().equals( TYPE_FLOAT))
+					;
+				else if( lhs.getType().equals( TYPE_FLOAT) && rhs.getType().equals( TYPE_INT))
+					;
+				else
+					throw new AdvancedScriptException( "Cannot apply " + lhs.getType().toString() + " to " + rhs.getType().toString() + " " + getLineAndFile());
+			}
 			this.oper = oper;
 		}
 	
@@ -2660,8 +2786,9 @@ public class KoLmafiaASH
 		{
 			if( oper.isBool())
 				return new ScriptType( TYPE_BOOLEAN);
-			else
+			if( lhs.getType().equals( TYPE_FLOAT)) // int (oper) double evaluates to double.
 				return lhs.getType();
+			return rhs.getType();
 			
 		}
 	
@@ -2680,7 +2807,7 @@ public class KoLmafiaASH
 			return oper;
 		}
 	
-		public ScriptValue execute()
+		public ScriptValue execute() throws AdvancedScriptException
 		{
 			try
 			{
@@ -2776,7 +2903,12 @@ public class KoLmafiaASH
 	
 			if(( rhs != null) && ( !rhs.getType().equals( lhs.getType()))) //double-check values
 			{
-				throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond");
+				if( lhs.getType().equals( TYPE_INT) && rhs.getType().equals( TYPE_FLOAT))
+					;
+				else if( lhs.getType().equals( TYPE_FLOAT) && rhs.getType().equals( TYPE_INT))
+					;
+				else
+					throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond");
 			}
 	
 			if( operString.equals( "!"))
@@ -2791,21 +2923,40 @@ public class KoLmafiaASH
 				rightResult = rhs.execute();
 				if( currentState == STATE_EXIT)
 					return null;
-				return new ScriptValue( TYPE_INT, leftResult.getIntValue() * rightResult.getIntValue());
+				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+					return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() * rightResult.toDouble().getDoubleValue());
+				else
+					return new ScriptValue( TYPE_INT, leftResult.getIntValue() * rightResult.getIntValue());
 			}
 			if( operString.equals( "/"))
 			{
 				rightResult = rhs.execute();
 				if( currentState == STATE_EXIT)
 					return null;
-				return new ScriptValue( TYPE_INT, leftResult.getIntValue() / rightResult.getIntValue());
+				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+				{
+					System.out.println( "float????????");
+					return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() / rightResult.toDouble().getDoubleValue());
+				}
+				else
+				{
+					System.out.println( "yeah. " + leftResult.getIntValue() + " -" + rightResult.getIntValue() + " =" + leftResult.getIntValue() / rightResult.getIntValue());
+					return new ScriptValue( TYPE_INT, leftResult.getIntValue() / rightResult.getIntValue());
+				}
+//				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+	//				return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() / rightResult.toDouble().getDoubleValue());
+		//		else
+			//		return new ScriptValue( TYPE_INT, leftResult.getIntValue() / rightResult.getIntValue());
 			}
 			if( operString.equals( "%"))
 			{
 				rightResult = rhs.execute();
 				if( currentState == STATE_EXIT)
 					return null;
-				return new ScriptValue( TYPE_INT, leftResult.getIntValue() % rightResult.getIntValue());
+				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+					return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() % rightResult.toDouble().getDoubleValue());
+				else
+					return new ScriptValue( TYPE_INT, leftResult.getIntValue() % rightResult.getIntValue());
 			}
 			if( operString.equals( "+"))
 			{
@@ -2815,54 +2966,102 @@ public class KoLmafiaASH
 				if( lhs.getType().equals(TYPE_STRING))
 					return new ScriptValue( TYPE_STRING, leftResult.getStringValue() + rightResult.getStringValue());
 				else
-					return new ScriptValue( TYPE_INT, leftResult.getIntValue() + rightResult.getIntValue());
+				{
+					if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+						return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() + rightResult.toDouble().getDoubleValue());
+					else
+						return new ScriptValue( TYPE_INT, leftResult.getIntValue() + rightResult.getIntValue());
+				}
 			}
 			if( operString.equals( "-"))
 			{
 				rightResult = rhs.execute();
 				if( currentState == STATE_EXIT)
 					return null;
-				return new ScriptValue( TYPE_INT, leftResult.getIntValue() - rightResult.getIntValue());
+				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+					return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() - rightResult.toDouble().getDoubleValue());
+				else
+					return new ScriptValue( TYPE_INT, leftResult.getIntValue() - rightResult.getIntValue());
 			}
 			if( operString.equals( "<"))
 			{
 				rightResult = rhs.execute();
 				if( currentState == STATE_EXIT)
 					return null;
-				if( leftResult.getIntValue() < rightResult.getIntValue())
-					return new ScriptValue( TYPE_BOOLEAN, 1);
+				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+				{
+					if( leftResult.toDouble().getDoubleValue() < rightResult.toDouble().getDoubleValue())
+						return new ScriptValue( TYPE_BOOLEAN, 1);
+					else
+						return new ScriptValue( TYPE_BOOLEAN, 0);
+				}
 				else
-					return new ScriptValue( TYPE_BOOLEAN, 0);
+				{
+					if( leftResult.getIntValue() < rightResult.getIntValue())
+						return new ScriptValue( TYPE_BOOLEAN, 1);
+					else
+						return new ScriptValue( TYPE_BOOLEAN, 0);
+				}
 			}
 			if( operString.equals( ">"))
 			{
 				rightResult = rhs.execute();
 				if( currentState == STATE_EXIT)
 					return null;
-				if( leftResult.getIntValue() > rightResult.getIntValue())
-					return new ScriptValue( TYPE_BOOLEAN, 1);
+				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+				{
+					if( leftResult.toDouble().getDoubleValue() > rightResult.toDouble().getDoubleValue())
+						return new ScriptValue( TYPE_BOOLEAN, 1);
+					else
+						return new ScriptValue( TYPE_BOOLEAN, 0);
+				}
 				else
-					return new ScriptValue( TYPE_BOOLEAN, 0);
+				{
+					if( leftResult.getIntValue() > rightResult.getIntValue())
+						return new ScriptValue( TYPE_BOOLEAN, 1);
+					else
+						return new ScriptValue( TYPE_BOOLEAN, 0);
+				}
 			}
 			if( operString.equals( "<="))
 			{
 				rightResult = rhs.execute();
 				if( currentState == STATE_EXIT)
 					return null;
-				if( leftResult.getIntValue() <= rightResult.getIntValue())
-					return new ScriptValue( TYPE_BOOLEAN, 1);
+				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+				{
+					if( leftResult.toDouble().getDoubleValue() <= rightResult.toDouble().getDoubleValue())
+						return new ScriptValue( TYPE_BOOLEAN, 1);
+					else
+						return new ScriptValue( TYPE_BOOLEAN, 0);
+				}
 				else
-					return new ScriptValue( TYPE_BOOLEAN, 0);
+				{
+					if( leftResult.getIntValue() <= rightResult.getIntValue())
+						return new ScriptValue( TYPE_BOOLEAN, 1);
+					else
+						return new ScriptValue( TYPE_BOOLEAN, 0);
+				}
 			}
 			if( operString.equals( ">="))
 			{
 				rightResult = rhs.execute();
 				if( currentState == STATE_EXIT)
 					return null;
-				if( leftResult.getIntValue() >= rightResult.getIntValue())
-					return new ScriptValue( TYPE_BOOLEAN, 1);
+				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+				{
+					if( leftResult.toDouble().getDoubleValue() >= rightResult.toDouble().getDoubleValue())
+						return new ScriptValue( TYPE_BOOLEAN, 1);
+					else
+						return new ScriptValue( TYPE_BOOLEAN, 0);
+				}
 				else
-					return new ScriptValue( TYPE_BOOLEAN, 0);
+				{
+					if( leftResult.getIntValue() >= rightResult.getIntValue())
+						return new ScriptValue( TYPE_BOOLEAN, 1);
+					else
+						return new ScriptValue( TYPE_BOOLEAN, 0);
+				}
 			}
 			if( operString.equals( "=="))
 			{
@@ -2872,6 +3071,7 @@ public class KoLmafiaASH
 				if
 				(
 					lhs.getType().equals(TYPE_INT) ||
+					lhs.getType().equals(TYPE_FLOAT) ||
 					lhs.getType().equals(TYPE_BOOLEAN) ||
 					lhs.getType().equals(TYPE_ITEM) ||
 					lhs.getType().equals(TYPE_ZODIAC) ||
@@ -2880,10 +3080,20 @@ public class KoLmafiaASH
 					lhs.getType().equals(TYPE_STAT)
 				)
 				{
-					if( leftResult.getIntValue() == rightResult.getIntValue())
-						return new ScriptValue( TYPE_BOOLEAN, 1);
+					if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+					{
+						if( leftResult.toDouble().getDoubleValue() == rightResult.toDouble().getDoubleValue())
+							return new ScriptValue( TYPE_BOOLEAN, 1);
+						else
+							return new ScriptValue( TYPE_BOOLEAN, 0);
+					}
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
+					{
+						if( leftResult.getIntValue() == rightResult.getIntValue())
+							return new ScriptValue( TYPE_BOOLEAN, 1);
+						else
+							return new ScriptValue( TYPE_BOOLEAN, 0);
+					}
 				}
 				else
 				{
@@ -2898,12 +3108,32 @@ public class KoLmafiaASH
 				rightResult = rhs.execute();
 				if( currentState == STATE_EXIT)
 					return null;
-				if( lhs.getType().equals(TYPE_INT) || lhs.getType().equals(TYPE_BOOLEAN))
+				if
+				(
+					lhs.getType().equals(TYPE_INT) ||
+					lhs.getType().equals(TYPE_FLOAT) ||
+					lhs.getType().equals(TYPE_BOOLEAN) ||
+					lhs.getType().equals(TYPE_ITEM) ||
+					lhs.getType().equals(TYPE_ZODIAC) ||
+					lhs.getType().equals(TYPE_CLASS) ||
+					lhs.getType().equals(TYPE_SKILL) ||
+					lhs.getType().equals(TYPE_STAT)
+				)
 				{
-					if( leftResult.getIntValue() != rightResult.getIntValue())
-						return new ScriptValue( TYPE_BOOLEAN, 1);
+					if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+					{
+						if( leftResult.toDouble().getDoubleValue() != rightResult.toDouble().getDoubleValue())
+							return new ScriptValue( TYPE_BOOLEAN, 1);
+						else
+							return new ScriptValue( TYPE_BOOLEAN, 0);
+					}
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
+					{
+						if( leftResult.getIntValue() != rightResult.getIntValue())
+							return new ScriptValue( TYPE_BOOLEAN, 1);
+						else
+							return new ScriptValue( TYPE_BOOLEAN, 0);
+					}
 				}
 				else
 				{
