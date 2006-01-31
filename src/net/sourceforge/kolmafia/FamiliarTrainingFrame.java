@@ -199,6 +199,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	{
 		private FamiliarData familiar;
 		private JComboBox familiars;
+		private JLabel totalWeight;
 
 		private OpponentsPanel opponentsPanel;
 		private ButtonPanel buttonPanel;
@@ -215,12 +216,20 @@ public class FamiliarTrainingFrame extends KoLFrame
 			familiar = KoLCharacter.getFamiliar();
 
 			// Put familiar changer on top
+			JPanel header = new JPanel( new BorderLayout() );
 			familiars = new ChangeComboBox( KoLCharacter.getFamiliarList() );
 			familiars.setRenderer( FamiliarData.getRenderer() );
-			container.add( familiars, BorderLayout.NORTH );
+			header.add( familiars, BorderLayout.NORTH );
+
+			// Put the total familiar weight next
+			totalWeight = new JLabel( "", JLabel.CENTER );
+			TotalWeightRefresher runnable = new TotalWeightRefresher();
+			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( runnable ) );
+			header.add( totalWeight, BorderLayout.SOUTH );
 
 			// Put results in center
 			resultsPanel = new ResultsPanel();
+			container.add( header, BorderLayout.NORTH );
 			container.add( resultsPanel, BorderLayout.CENTER );
 			add( container, BorderLayout.CENTER );
 
@@ -231,6 +240,27 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Put buttons on right
 			buttonPanel = new ButtonPanel();
 			add( buttonPanel, BorderLayout.EAST );
+		}
+		
+		private class TotalWeightRefresher implements Runnable
+		{
+			public TotalWeightRefresher()
+			{	this.run();
+			}
+		
+			public void run()
+			{
+				int totalTerrariumWeight = 0;
+
+				FamiliarData [] familiarArray = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
+				KoLCharacter.getFamiliarList().toArray( familiarArray );
+
+				for ( int i = 0; i < familiarArray.length; ++i )
+					if ( familiarArray[i].getWeight() != 1 )
+						totalTerrariumWeight += familiarArray[i].getWeight();
+				
+				totalWeight.setText( "Effective Terrarium Weight: " + totalTerrariumWeight + " lbs." );
+			}
 		}
 
 		public void setEnabled( boolean isEnabled )
