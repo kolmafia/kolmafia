@@ -377,6 +377,15 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		scriptRequestor.resetContinueState();
 
+		String [] separateLines = line.split( "\\s*;\\s*" );
+		if ( separateLines.length > 1 )
+		{
+			for ( int i = 0; i < separateLines.length; ++i )
+				executeLine( separateLines[i] );
+
+			return;
+		}
+
 		// Trim the line, replace all double spaces with
 		// single spaces and compare the result against
 		// commands which are no longer allowed.
@@ -1895,7 +1904,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( splitParameters[1] != null )
 				unrepeatableCommands.add( "cast " + parameters );
 
-			scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, splitParameters[0], splitParameters[1], buffCount ), 1 );
+			scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, skillName, splitParameters[1], buffCount ), 1 );
 		}
 	}
 
