@@ -269,12 +269,20 @@ public class AdventureRequest extends KoLRequest
 				}
 
 				if ( responseText.indexOf( "This part of the cyrpt is already undefiled" ) != -1 ||
-				     responseText.indexOf( "You can't repeat an adventure here." ) != -1)
+				     responseText.indexOf( "You can't repeat an adventure here." ) != -1 )
 				{
 					// Nothing more to do in this area
 
 					client.cancelRequest();
 					updateDisplay( NORMAL_STATE, "Nothing more to do here." );
+					this.adventuresUsed = 0;
+					return;
+				}
+
+				if ( responseText.indexOf( "You must have at least" ) != -1 )
+				{
+					client.cancelRequest();
+					updateDisplay( ERROR_STATE, "Your stats are too low for this location." );
 					this.adventuresUsed = 0;
 					return;
 				}
