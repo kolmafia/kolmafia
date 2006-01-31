@@ -1424,8 +1424,8 @@ public class KoLmafiaCLI extends KoLmafia
 		// Check if the person has a specific skill
 		// in their available skills list.
 
-		if ( parameters.startsWith( "has skill " ) )
-			return KoLCharacter.hasSkill( getSkillName( parameters.substring(10).trim().toLowerCase() ) );
+		if ( parameters.startsWith( "skill list contains " ) )
+			return KoLCharacter.hasSkill( getSkillName( parameters.substring(20).trim().toLowerCase() ) );
 
 		// Generic tests for numerical comparisons
 		// involving left and right values.

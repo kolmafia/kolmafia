@@ -43,7 +43,6 @@ import java.util.Iterator;
 
 // update components
 import javax.swing.SwingUtilities;
-import org.openide.util.WeakListeners;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 
