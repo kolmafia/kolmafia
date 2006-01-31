@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
@@ -51,12 +52,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MushroomFrame extends KoLFrame
 {
-	private static final Object [] EMPTY_HEADER = { " ", " ", " ", " " };
-
 	private String [] currentData;
 	private final MushroomButton [][] currentButtons;
 	private final MushroomButton [][] forecastButtons;
-
 
 	public MushroomFrame( KoLmafia client )
 	{
@@ -85,8 +83,8 @@ public class MushroomFrame extends KoLFrame
 		centerPanel.add( constructPanel( "Current Plot", currentPlot ) );
 		centerPanel.add( constructPanel( "Forecasted Plot", forecastPlot ) );
 
-		framePanel.setLayout( new BorderLayout() );
-		framePanel.add( centerPanel, BorderLayout.CENTER );
+		framePanel.setLayout( new CardLayout( 40, 40 ) );
+		framePanel.add( centerPanel, "" );
 
 		plotChanged();
 		setResizable( false );

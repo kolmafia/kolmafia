@@ -52,10 +52,6 @@ import javax.swing.SwingUtilities;
 
 // containers
 import javax.swing.JComponent;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -126,14 +122,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );
 
-		JMenuBar menuBar = getJMenuBar();
-
-		JMenu optionsMenu = new JMenu( "Trainer" );
-		optionsMenu.add( new FileMenuItem() );
-		optionsMenu.add( new LocalSettingChangeMenuItem( client, "Cast buffs during training", "castBuffsWhileTraining" ) );
-		// optionsMenu.add( new LocalSettingChangeMenuItem( client, "Debug", "debugFamiliarTraining" ) );
-		menuBar.add( optionsMenu, 0 );
-
 		training = new FamiliarTrainingPanel();
 		framePanel.add( training, "" );
 
@@ -163,38 +151,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 	{	return results;
 	}
 
-	private class FileMenuItem extends JMenuItem implements ActionListener
-	{
-		public FileMenuItem()
-		{
-			super( "Save transcript" );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			JFileChooser chooser = new JFileChooser( "data" );
-			int returnVal = chooser.showSaveDialog( FamiliarTrainingFrame.this );
-
-			File output = chooser.getSelectedFile();
-
-			if ( output == null )
-				return;
-
-			try
-			{
-				PrintWriter ostream = new PrintWriter( new FileOutputStream( output, true ), true );
-				ostream.println( results.getBuffer().replaceAll( "<br>", LINE_BREAK) );
-				ostream.close();
-			}
-			catch ( Exception ex )
-			{
-				ex.printStackTrace( KoLmafia.getLogStream() );
-				ex.printStackTrace();
-			}
-		}
-	}
-
 	private class FamiliarTrainingPanel extends JPanel
 	{
 		private FamiliarData familiar;
@@ -216,20 +172,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 			familiar = KoLCharacter.getFamiliar();
 
 			// Put familiar changer on top
-			JPanel header = new JPanel( new BorderLayout() );
 			familiars = new ChangeComboBox( KoLCharacter.getFamiliarList() );
 			familiars.setRenderer( FamiliarData.getRenderer() );
-			header.add( familiars, BorderLayout.NORTH );
-
-			// Put the total familiar weight next
-			totalWeight = new JLabel( "", JLabel.CENTER );
-			TotalWeightRefresher runnable = new TotalWeightRefresher();
-			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( runnable ) );
-			header.add( totalWeight, BorderLayout.SOUTH );
+			container.add( familiars, BorderLayout.NORTH );
 
 			// Put results in center
 			resultsPanel = new ResultsPanel();
-			container.add( header, BorderLayout.NORTH );
 			container.add( resultsPanel, BorderLayout.CENTER );
 			add( container, BorderLayout.CENTER );
 
@@ -238,8 +186,18 @@ public class FamiliarTrainingFrame extends KoLFrame
 			add( opponentsPanel, BorderLayout.WEST );
 
 			// Put buttons on right
+			JPanel buttonContainer = new JPanel( new BorderLayout() );
+
 			buttonPanel = new ButtonPanel();
-			add( buttonPanel, BorderLayout.EAST );
+			buttonContainer.add( buttonPanel, BorderLayout.NORTH );
+
+			// Put the total familiar weight next
+			totalWeight = new JLabel( "", JLabel.CENTER );
+			TotalWeightRefresher runnable = new TotalWeightRefresher();
+			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( runnable ) );
+			buttonContainer.add( totalWeight, BorderLayout.SOUTH );
+			
+			add( buttonContainer, BorderLayout.EAST );
 		}
 		
 		private class TotalWeightRefresher implements Runnable
@@ -259,7 +217,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					if ( familiarArray[i].getWeight() != 1 )
 						totalTerrariumWeight += familiarArray[i].getWeight();
 				
-				totalWeight.setText( "Effective Terrarium Weight: " + totalTerrariumWeight + " lbs." );
+				totalWeight.setText( totalTerrariumWeight + " lb. terrarium" );
 			}
 		}
 
@@ -302,21 +260,20 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private class ButtonPanel extends JPanel
 		{
-			private JButton matchup;
-			private JButton base;
-			private JButton buffed;
-			private JButton turns;
-
-			private JButton stop;
-
-			// JButton debug;
+			private JButton matchup, base, buffed, turns, stop, save, changer;
+			// private JButton debug;
 
 			public ButtonPanel()
 			{
-				JPanel containerPanel = new JPanel( new GridLayout( 5, 1, 5, 5 ) );
+				JPanel containerPanel = new JPanel( new GridLayout( 9, 1, 5, 5 ) );
 
 				matchup = new DisplayFrameButton( "View Matchup", CakeArenaFrame.class );
 				containerPanel.add( matchup );
+
+				changer = new LocalSettingChanger( client, "Buff-Casting", "castBuffsWhileTraining" );
+				containerPanel.add( changer );
+
+				containerPanel.add( new JLabel() );
 
 				base = new JButton( "Train Base Weight" );
 				base.addActionListener( new BaseListener() );
@@ -330,9 +287,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 				turns.addActionListener( new TurnsListener() );
 				containerPanel.add( turns );
 
+				containerPanel.add( new JLabel() );
+
 				stop = new JButton( "Stop Training" );
 				stop.addActionListener( new StopListener() );
 				containerPanel.add( stop );
+
+				save = new JButton( "Save Transcript" );
+				stop.addActionListener( new SaveListener() );
+				containerPanel.add( save );
 
 				// debug = new JButton( "Debug" );
 				// debug.addActionListener( new DebugListener() );
@@ -351,6 +314,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 					buffed.setEnabled( isEnabled );
 				if ( turns != null )
 					turns.setEnabled( isEnabled );
+				if ( save != null )
+					save.setEnabled( isEnabled );
+				if ( changer != null )
+					changer.setEnabled( isEnabled );
 			}
 
 			private class BaseListener implements ActionListener, Runnable
@@ -426,6 +393,32 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				public void actionPerformed( ActionEvent e )
 				{	FamiliarTrainingFrame.stop = true;
+				}
+			}
+
+			private class SaveListener implements ActionListener
+			{
+				public void actionPerformed( ActionEvent e )
+				{
+					JFileChooser chooser = new JFileChooser( "data" );
+					int returnVal = chooser.showSaveDialog( FamiliarTrainingFrame.this );
+
+					File output = chooser.getSelectedFile();
+
+					if ( output == null )
+						return;
+
+					try
+					{
+						PrintWriter ostream = new PrintWriter( new FileOutputStream( output, true ), true );
+						ostream.println( results.getBuffer().replaceAll( "<br>", LINE_BREAK) );
+						ostream.close();
+					}
+					catch ( Exception ex )
+					{
+						ex.printStackTrace( KoLmafia.getLogStream() );
+						ex.printStackTrace();
+					}
 				}
 			}
 
@@ -1992,21 +1985,31 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * for the duration of the current session.
 	 */
 
-	protected class LocalSettingChangeMenuItem extends JCheckBoxMenuItem implements ActionListener
+	protected class LocalSettingChanger extends JButton implements ActionListener
 	{
+		private String title;
 		private String property;
 
-		public LocalSettingChangeMenuItem( KoLmafia client, String title, String property )
+		public LocalSettingChanger( KoLmafia client, String title, String property )
 		{
-			super( title );
-			setSelected( client == null || client.getLocalBooleanProperty( property ) );
-
+			this.title = title;
 			this.property = property;
 			addActionListener( this );
+			actionPerformed( null );
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	client.setLocalProperty( property, isSelected() );
+		{
+			if ( client == null )
+				return;
+		
+			boolean toggleValue = !client.getLocalBooleanProperty( property );
+			client.setLocalProperty( property, toggleValue );
+
+			if ( toggleValue )
+				setText( "Turn Off " + title );
+			else
+				setText( "Turn On " +  title );
 		}
 	}
 
