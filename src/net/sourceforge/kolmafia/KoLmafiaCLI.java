@@ -1411,6 +1411,25 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !scriptRequestor.permitsContinue() )
 			return false;
 
+		// Check if the person is looking for whether or
+		// not they are a certain class.
+
+		if ( parameters.startsWith( "class is " ) )
+		{
+			String className = parameters.substring(9).trim().toLowerCase();
+			String actualClassName = KoLCharacter.getClassType().toLowerCase();
+			return actualClassName.indexOf( className ) != -1;
+		}
+
+		// Check if the person has a specific skill
+		// in their available skills list.
+
+		if ( parameters.startsWith( "has skill " ) )
+			return KoLCharacter.hasSkill( getSkillName( parameters.substring(10).trim().toLowerCase() ) );
+
+		// Generic tests for numerical comparisons
+		// involving left and right values.
+
 		String operator = parameters.indexOf( "==" ) != -1 ? "==" : parameters.indexOf( "!=" ) != -1 ? "!=" :
 			parameters.indexOf( ">=" ) != -1 ? ">=" : parameters.indexOf( "<=" ) != -1 ? "<=" :
 			parameters.indexOf( ">" ) != -1 ? ">" : parameters.indexOf( "<" ) != -1 ? "<" : parameters.indexOf( "=" ) != -1 ? "==" : null;
