@@ -1404,26 +1404,32 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		resetContinueState();
 		(new KoLRequest( this, "council.php", true )).run();
 		updateDisplay( DISABLE_STATE, "Searching for faucet..." );
 
-		KoLRequest request = new KoLRequest( this, "rats.php" );
-		request.run();
+		KoLAdventure adventure = new KoLAdventure( this, "", "rats.php", "", "Typical Tavern (Pre-Rat)" );
+		adventure.run();
 
 		int searchIndex = 0;
-		while ( permitsContinue() && request.responseText.indexOf( "faucetoff" ) != -1 )
+		while ( searchIndex <= 25 && KoLCharacter.getCurrentHP() > 0 &&
+			(adventure.getRequest().responseText == null || adventure.getRequest().responseText.indexOf( "faucetoff" ) == -1) )
 		{
-			request.addFormField( "where", String.valueOf( ++searchIndex ) );
-			request.run();
-
-			KoLCharacter.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			adventure.getRequest().addFormField( "where", String.valueOf( ++searchIndex ) );
+			adventure.run();
+			resetContinueState();
 		}
 
-		if ( permitsContinue() )
+		if ( KoLCharacter.getCurrentHP() > 0 )
 		{
 			KoLCharacter.processResult( new AdventureResult( AdventureResult.ADV, 1 ) );
-			updateDisplay( ENABLE_STATE, "Faucet found in row " + ((int)Math.ceil( searchIndex / 5 )) + ", column " +
-				(searchIndex % 5 == 0 ? 5 : searchIndex % 5) + "." );
+			int row = (int) ((searchIndex - 1) / 5) + 1;
+			int column = searchIndex % 5;
+
+			if ( column == 0 )
+				column = 5;
+
+			updateDisplay( ENABLE_STATE, "Faucet found in row " + row + ", column " + column );
 		}
 	}
 

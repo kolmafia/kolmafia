@@ -120,7 +120,7 @@ public class AdventureRequest extends KoLRequest
 				addFormField( "action", "ritual" );
 				this.adventuresUsed = 0;
 			}
-			else
+			else if ( !formSource.equals( "rats.php" ) )
 				addFormField( "action", adventureID );
 		}
 
