@@ -209,7 +209,7 @@ public class GearChangeFrame extends KoLFrame
 
 		JPanel equipPanel = new JPanel( new BorderLayout() );
 		equipPanel.add( fieldPanel, BorderLayout.WEST );
-		equipPanel.add( valuePanel, BorderLayout.EAST );
+		equipPanel.add( valuePanel, BorderLayout.CENTER );
 
 		return equipPanel;
 	}
