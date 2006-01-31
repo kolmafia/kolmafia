@@ -404,6 +404,17 @@ public abstract class MushroomPlot extends StaticEntity
 	}
 
 	/**
+	 * Picks all the mushrooms in all squares.  This is equivalent
+	 * to harvesting your mushroom crop, hence the name.
+	 */
+
+	public static void harvestMushrooms()
+	{
+		for ( int i = 1; i <= 16; ++i )
+			pickMushroom( i, false );
+	}
+
+	/**
 	 * One of the major functions of the mushroom plot handler,
 	 * this method picks the mushroom located in the given square.
 	 */

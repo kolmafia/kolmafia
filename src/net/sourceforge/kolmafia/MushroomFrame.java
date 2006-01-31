@@ -53,7 +53,10 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class MushroomFrame extends KoLFrame
 {
 	private String [] currentData;
+	private String [] layoutData;
+
 	private final MushroomButton [][] currentButtons;
+	private final MushroomButton [][] layoutButtons;
 	private final MushroomButton [][] forecastButtons;
 
 	public MushroomFrame( KoLmafia client )
@@ -61,33 +64,59 @@ public class MushroomFrame extends KoLFrame
 		super( client, "Mushroom Fields" );
 
 		JPanel currentPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
+		JPanel layoutPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
 		JPanel forecastPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
 
 		currentButtons = new MushroomButton[4][4];
+		layoutButtons = new MushroomButton[4][4];
 		forecastButtons = new MushroomButton[4][4];
 
 		for ( int i = 0; i < 4; ++i )
 		{
 			for ( int j = 0; j < 4; ++j )
 			{
-				currentButtons[i][j] = new MushroomButton( i * 4 + j, true );
+				currentButtons[i][j] = new MushroomButton( i * 4 + j, false );
+				layoutButtons[i][j] = new MushroomButton( i * 4 + j, true );
 				forecastButtons[i][j] = new MushroomButton( i * 4 + j, false );
 
 				currentPlot.add( currentButtons[i][j] );
+				layoutPlot.add( layoutButtons[i][j] );
 				forecastPlot.add( forecastButtons[i][j] );
 			}
 		}
 
 		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout( new GridLayout( 1, 2, 20, 20 ) );
+		centerPanel.setLayout( new GridLayout( 1, 3, 20, 20 ) );
 		centerPanel.add( constructPanel( "Current Plot", currentPlot ) );
+		centerPanel.add( constructPanel( "Layout Plot", layoutPlot ) );
 		centerPanel.add( constructPanel( "Forecasted Plot", forecastPlot ) );
 
+		JPanel completePanel = new JPanel( new BorderLayout( 20, 20 ) );
+		completePanel.add( centerPanel, BorderLayout.CENTER );
+
+		// Dummy buttons for the mushroom plot (just for layout
+		// viewing purposes.  To be replaced with real functionality
+		// at a later date.
+
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.add( new InvocationButton( "Harvest All", MushroomFrame.class, "harvestMushrooms" ) );
+		buttonPanel.add( new InvocationButton( "Do Layout", this, "executeLayout" ) );
+		buttonPanel.add( new InvocationButton( "Script Layout", this, "scriptLayout" ) );
+		completePanel.add( buttonPanel, BorderLayout.SOUTH );
+
 		framePanel.setLayout( new CardLayout( 40, 40 ) );
-		framePanel.add( centerPanel, "" );
+		framePanel.add( completePanel, "" );
 
 		plotChanged();
 		setResizable( false );
+	}
+
+	public void executeLayout()
+	{
+	}
+
+	public void scriptLayout()
+	{
 	}
 
 	public JPanel constructPanel( String label, Component c )
@@ -107,12 +136,12 @@ public class MushroomFrame extends KoLFrame
 
 	public void plotChanged()
 	{
-		// Get the current state of the field and update
+		// Get the layout state of the field and update
 		(new UpdateMushroomThread()).start();
 	}
 
 	/**
-	 * Special thread which allows the current page to be updated outside
+	 * Special thread which allows the layout page to be updated outside
 	 * of the Swing thread -- this means images can be downloaded without
 	 * locking the UI.
 	 */
@@ -124,6 +153,7 @@ public class MushroomFrame extends KoLFrame
 			synchronized( MushroomFrame.class )
 			{
 				currentData = MushroomPlot.getMushroomPlot( true ).split( ";" );
+				layoutData = MushroomPlot.getMushroomPlot( true ).split( ";" );
 				refresh();
 			}
 		}
@@ -131,15 +161,15 @@ public class MushroomFrame extends KoLFrame
 
 	public void refresh()
 	{
-		// Convert each piece of current data into the appropriate
+		// Convert each piece of layout data into the appropriate
 		// mushroom plot data.
 
-		int [][] currentArray = new int[4][4];
+		int [][] layoutArray = new int[4][4];
 		for ( int i = 0; i < 4; ++i )
 			for ( int j = 0; j < 4; ++j )
-				currentArray[i][j] = MushroomPlot.mushroomType( currentData[ i * 4 + j ] );
+				layoutArray[i][j] = MushroomPlot.mushroomType( layoutData[ i * 4 + j ] );
 
-		String [] forecastData = MushroomPlot.getForecastedPlot( true, currentArray ).split( ";" );
+		String [] forecastData = MushroomPlot.getForecastedPlot( true, layoutArray ).split( ";" );
 
 		// What you do is you update each mushroom button based on
 		// what is contained in each of the data fields.
@@ -149,6 +179,7 @@ public class MushroomFrame extends KoLFrame
 			for ( int j = 0; j < 4; ++j )
 			{
 				currentButtons[i][j].setIcon( JComponentUtilities.getSharedImage( currentData[ i * 4 + j ] ) );
+				layoutButtons[i][j].setIcon( JComponentUtilities.getSharedImage( layoutData[ i * 4 + j ] ) );
 				forecastButtons[i][j].setIcon( JComponentUtilities.getSharedImage( forecastData[ i * 4 + j ] ) );
 			}
 		}
@@ -179,9 +210,9 @@ public class MushroomFrame extends KoLFrame
 			// Sprouts transform into dirt because all you can
 			// do is pick them.
 
-			if ( currentData[ index ].endsWith( "/mushsprout.gif" ) )
+			if ( layoutData[ index ].endsWith( "/mushsprout.gif" ) )
 			{
-				currentData[ index ] = "itemimages/dirt1.gif";
+				layoutData[ index ] = "itemimages/dirt1.gif";
 				refresh();
 				return;
 			}
@@ -189,9 +220,9 @@ public class MushroomFrame extends KoLFrame
 			// Second generation mushrooms transform into dirt
 			// because all you can do is pick them.
 
-			if ( currentData[ index ].endsWith( "/flatshroom.gif" ) || currentData[ index ].endsWith( "/plaidroom.gif" ) || currentData[ index ].endsWith( "/tallshroom.gif" ) )
+			if ( layoutData[ index ].endsWith( "/flatshroom.gif" ) || layoutData[ index ].endsWith( "/plaidroom.gif" ) || layoutData[ index ].endsWith( "/tallshroom.gif" ) )
 			{
-				currentData[ index ] = "itemimages/dirt1.gif";
+				layoutData[ index ] = "itemimages/dirt1.gif";
 				refresh();
 				return;
 			}
@@ -199,9 +230,9 @@ public class MushroomFrame extends KoLFrame
 			// Third generation mushrooms transform into dirt
 			// because all you can do is pick them.
 
-			if ( currentData[ index ].endsWith( "/fireshroom.gif" ) || currentData[ index ].endsWith( "/iceshroom.gif" ) || currentData[ index ].endsWith( "/stinkshroo.gif" ) )
+			if ( layoutData[ index ].endsWith( "/fireshroom.gif" ) || layoutData[ index ].endsWith( "/iceshroom.gif" ) || layoutData[ index ].endsWith( "/stinkshroo.gif" ) )
 			{
-				currentData[ index ] = "itemimages/dirt1.gif";
+				layoutData[ index ] = "itemimages/dirt1.gif";
 				refresh();
 				return;
 			}
@@ -209,30 +240,30 @@ public class MushroomFrame extends KoLFrame
 			// Everything else rotates based on what was there
 			// when you clicked on the image.
 
-			if ( currentData[ index ].endsWith( "/dirt1.gif" ) )
+			if ( layoutData[ index ].endsWith( "/dirt1.gif" ) )
 			{
-				currentData[ index ] = "itemimages/mushroom.gif";
+				layoutData[ index ] = "itemimages/mushroom.gif";
 				refresh();
 				return;
 			}
 
-			if ( currentData[ index ].endsWith( "/mushroom.gif" ) )
+			if ( layoutData[ index ].endsWith( "/mushroom.gif" ) )
 			{
-				currentData[ index ] = "itemimages/bmushroom.gif";
+				layoutData[ index ] = "itemimages/bmushroom.gif";
 				refresh();
 				return;
 			}
 
-			if ( currentData[ index ].endsWith( "/bmushroom.gif" ) )
+			if ( layoutData[ index ].endsWith( "/bmushroom.gif" ) )
 			{
-				currentData[ index ] = "itemimages/spooshroom.gif";
+				layoutData[ index ] = "itemimages/spooshroom.gif";
 				refresh();
 				return;
 			}
 
-			if ( currentData[ index ].endsWith( "/spooshroom.gif" ) )
+			if ( layoutData[ index ].endsWith( "/spooshroom.gif" ) )
 			{
-				currentData[ index ] = "itemimages/dirt1.gif";
+				layoutData[ index ] = currentData[ index ];
 				refresh();
 				return;
 			}

@@ -1190,6 +1190,20 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private Method method;
 		private boolean disableAfterClick;
 
+		public InvocationButton( String text, Object object, String methodName )
+		{
+			this( text, object == null ? null : object.getClass(), methodName );
+			this.object = object;
+		}
+
+		public InvocationButton( String text, Class c, String methodName )
+		{
+			super( text );
+			this.object = c;
+
+			completeConstruction( c, methodName );
+		}
+
 		public InvocationButton( String tooltip, String icon, Object object, String methodName )
 		{
 			this( tooltip, icon, object == null ? null : object.getClass(), methodName );
@@ -1200,14 +1214,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			super( JComponentUtilities.getSharedImage( icon ) );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
-			addActionListener( this );
+
+			this.object = c;
 			setToolTipText( tooltip );
+			completeConstruction( c, methodName );
+		}
+
+		private void completeConstruction( Class c, String methodName )
+		{
+			addActionListener( this );
 
 			try
 			{
-				this.object = object;
 				this.method = c.getMethod( methodName, NOPARAMS );
-
 				this.disableAfterClick = methodName.equals( "openDebugLog" );
 			}
 			catch ( Exception e )

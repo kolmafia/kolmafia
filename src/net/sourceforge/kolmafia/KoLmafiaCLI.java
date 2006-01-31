@@ -2563,10 +2563,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 		else if ( command.equals( "harvest" ) )
-		{
-			for ( int i = 1; i <= 16; ++i )
-				MushroomPlot.pickMushroom( i, false );
-		}
+			MushroomPlot.harvestMushrooms();
 
 		String plot = MushroomPlot.getMushroomPlot( false );
 
