@@ -256,7 +256,7 @@ public class AdventureFrame extends KoLFrame
 			toolbarPanel.add( new JToolBar.Separator() );
 
 			toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", ClanManageFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Run a Buffbot", "buff.gif", FamiliarTrainingFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Run a Buffbot", "buff.gif", BuffBotFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", FamiliarTrainingFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Player vs. Player", "flower.gif", FlowerHunterFrame.class ) );
 

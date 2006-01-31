@@ -269,10 +269,14 @@ public class BuffBotFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			skillSelect.setEnabled( isEnabled );
-			buffListDisplay.setEnabled( isEnabled );
-			priceField.setEnabled( isEnabled );
-			countField.setEnabled( isEnabled );
+			if ( skillSelect != null )
+				skillSelect.setEnabled( isEnabled );
+			if ( buffListDisplay != null )
+				buffListDisplay.setEnabled( isEnabled );
+			if ( priceField != null )
+				priceField.setEnabled( isEnabled );
+			if ( countField != null )
+				countField.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
