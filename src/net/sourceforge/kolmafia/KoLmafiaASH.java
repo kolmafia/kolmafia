@@ -2252,43 +2252,48 @@ public class KoLmafiaASH
 		public ScriptValue execute()
 		{
 			ScriptValue result;
-			while( condition.execute().getIntValue() == 1)
+			boolean conditionMet = (condition.execute().getIntValue() == 1);
+			if( conditionMet)
 			{
-				result = scope.execute();
-				if( currentState == STATE_BREAK)
+				do 
 				{
-					if( repeat)
+					result = scope.execute();
+					if( currentState == STATE_BREAK)
 					{
-						currentState = STATE_NORMAL;
+						if( repeat)
+						{
+							currentState = STATE_NORMAL;
+							return null;
+						}
+						else
+							return null;
+					}				
+					if( currentState == STATE_CONTINUE)
+					{
+						if( !repeat)
+							return null;
+						else
+							currentState = STATE_NORMAL;
+					}
+					if( currentState == STATE_RETURN)
+					{
+						return result;
+					}
+					if( currentState == STATE_EXIT)
+					{
 						return null;
 					}
-					else
-						return null;
-				}				
-				if( currentState == STATE_CONTINUE)
-				{
 					if( !repeat)
-						return null;
-					else
-						currentState = STATE_NORMAL;
-				}
-				if( currentState == STATE_RETURN)
-				{
-					return result;
-				}
-				if( currentState == STATE_EXIT)
-				{
-					return null;
-				}
-				if( !repeat)
-					break;
+						break;
+				} while( condition.execute().getIntValue() == 1);
 			}
-			for( ScriptLoop elseLoop = elseLoops.getFirstScriptLoop(); elseLoop != null; elseLoop = elseLoops.getNextScriptLoop( elseLoop))
-				{
-				result = elseLoop.execute();
-				if( currentState != STATE_NORMAL)
-					return result;
-				}
+			else
+				for( ScriptLoop elseLoop = elseLoops.getFirstScriptLoop(); elseLoop != null; elseLoop = elseLoops.getNextScriptLoop( elseLoop))
+					{
+					result = elseLoop.execute();
+					if( currentState != STATE_NORMAL)
+						return result;
+					}
 			return null;
 		}
 	}
@@ -2864,7 +2869,16 @@ public class KoLmafiaASH
 				rightResult = rhs.execute();
 				if( currentState == STATE_EXIT)
 					return null;
-				if( lhs.getType().equals(TYPE_INT) || lhs.getType().equals(TYPE_BOOLEAN))
+				if
+				(
+					lhs.getType().equals(TYPE_INT) ||
+					lhs.getType().equals(TYPE_BOOLEAN) ||
+					lhs.getType().equals(TYPE_ITEM) ||
+					lhs.getType().equals(TYPE_ZODIAC) ||
+					lhs.getType().equals(TYPE_CLASS) ||
+					lhs.getType().equals(TYPE_SKILL) ||
+					lhs.getType().equals(TYPE_STAT)
+				)
 				{
 					if( leftResult.getIntValue() == rightResult.getIntValue())
 						return new ScriptValue( TYPE_BOOLEAN, 1);
