@@ -1256,24 +1256,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "namespace" ) )
-		{
-			try
-			{
-				advancedHandler.execute( parameters, scriptRequestor );
-				return;
-			}
-			catch( IOException e)
-			{
-				updateDisplay( KoLmafia.ERROR_STATE, e.getMessage() );
-				cancelRequest();
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-				return;
-			}
-		}
-
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
@@ -1315,6 +1297,8 @@ public class KoLmafiaCLI extends KoLmafia
 				scriptFile = new File( parameters );
 			if ( !scriptFile.exists() )
 				scriptFile = new File( parameters + ".txt" );
+			if ( !scriptFile.exists() )
+				scriptFile = new File( parameters + ".ash" );
 
 			if ( !scriptFile.exists() )
 			{
@@ -1328,6 +1312,8 @@ public class KoLmafiaCLI extends KoLmafia
 					scriptFile = new File( scriptName );
 				if ( !scriptFile.exists() )
 					scriptFile = new File( scriptName + ".txt" );
+				if ( !scriptFile.exists() )
+					scriptFile = new File( scriptName + ".ash" );
 			}
 
 			if ( !scriptFile.exists() )
@@ -1341,13 +1327,21 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			for ( int i = 0; i < runCount && scriptRequestor.permitsContinue(); ++i )
+			if ( scriptFile.getPath().indexOf( ".ash" ) != -1 )
 			{
-				lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
-				lastScript.commandBuffer = commandBuffer;
-				lastScript.listenForCommands();
-				if ( lastScript.previousCommand == null )
-					lastScript = null;
+				for ( int i = 0; i < runCount && scriptRequestor.permitsContinue(); ++i )
+					advancedHandler.execute( parameters, scriptRequestor );
+			}
+			else
+			{
+				for ( int i = 0; i < runCount && scriptRequestor.permitsContinue(); ++i )
+				{
+					lastScript = new KoLmafiaCLI( scriptRequestor, new FileInputStream( scriptFile ) );
+					lastScript.commandBuffer = commandBuffer;
+					lastScript.listenForCommands();
+					if ( lastScript.previousCommand == null )
+						lastScript = null;
+				}
 			}
 		}
 		catch ( Exception e )
@@ -1355,7 +1349,7 @@ public class KoLmafiaCLI extends KoLmafia
 			// Because everything is checked for consistency
 			// before being loaded, this should not happen.
 
-			updateDisplay( ERROR_STATE, "Script file \"" + parameters + "\" could not be found." );
+			updateDisplay( ERROR_STATE, e.getMessage() );
 			scriptRequestor.cancelRequest();
 
 			e.printStackTrace( KoLmafia.getLogStream() );
