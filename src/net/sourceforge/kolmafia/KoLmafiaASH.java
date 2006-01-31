@@ -2934,19 +2934,9 @@ public class KoLmafiaASH
 				if( currentState == STATE_EXIT)
 					return null;
 				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
-				{
-					System.out.println( "float????????");
 					return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() / rightResult.toDouble().getDoubleValue());
-				}
 				else
-				{
-					System.out.println( "yeah. " + leftResult.getIntValue() + " -" + rightResult.getIntValue() + " =" + leftResult.getIntValue() / rightResult.getIntValue());
 					return new ScriptValue( TYPE_INT, leftResult.getIntValue() / rightResult.getIntValue());
-				}
-//				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
-	//				return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() / rightResult.toDouble().getDoubleValue());
-		//		else
-			//		return new ScriptValue( TYPE_INT, leftResult.getIntValue() / rightResult.getIntValue());
 			}
 			if( operString.equals( "%"))
 			{
