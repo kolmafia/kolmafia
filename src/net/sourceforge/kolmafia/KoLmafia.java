@@ -375,6 +375,11 @@ public abstract class KoLmafia implements KoLConstants
 
 		resetContinueState();
 
+		if ( KoLCharacter.canSummonSnowcones() )
+			getBreakfast( "Summon Snowcone", 1 );
+
+		resetContinueState();
+
 		if ( KoLCharacter.canSummonReagent() )
 			getBreakfast( "Advanced Saucecrafting", 3 );
 
@@ -390,10 +395,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		resetContinueState();
 
-		if ( KoLCharacter.canSummonSnowcones() )
-			getBreakfast( "Summon Snowcone", 1 );
-
-		resetContinueState();
 		updateDisplay( ENABLE_STATE, "Breakfast retrieved." );
 	}
 
