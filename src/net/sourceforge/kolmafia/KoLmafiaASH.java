@@ -794,17 +794,25 @@ public class KoLmafiaASH
 		else if( currentToken().equals("\""))
 		{
 			//Directly work with line - ignore any "tokens" you meet until the string is closed
+			String resultString = "";
 			for( i = 1; ; i++)
 			{
 				if( i == line.length())
 				{
 					throw new AdvancedScriptException( "No closing '\"' found " + getLineAndFile());
 				}
-				if( line.charAt(i) == '"')
+				else if( line.charAt(i) == '\\')
 				{
-					String resultString = line.substring( 1, i);
+					resultString = resultString + line.charAt( ++i);
+				}
+				else if( line.charAt(i) == '"')
+				{
 					line = line.substring( i + 1); //+ 1 to get rid of '"' token
 					return new ScriptValue( new ScriptType( TYPE_STRING), resultString);
+				}
+				else
+				{
+					resultString = resultString + line.charAt( i);
 				}
 			}
 		
@@ -819,18 +827,28 @@ public class KoLmafiaASH
 				throw new AdvancedScriptException( "Unknown type " + currentToken() + " " + getLineAndFile());
 			if( !currentToken().equals("["))
 				throw new AdvancedScriptException( "'[' Expected " + getLineAndFile());
+
+			String resultString = "";
 			for( i = 1; ; i++)
 			{
 				if( i == line.length())
 				{
 					throw new AdvancedScriptException( "No closing ']' found " + getLineAndFile());
 				}
-				if( line.charAt(i) == ']')
+				else if( line.charAt(i) == '\\')
 				{
-					String resultString = line.substring( 1, i);
+					resultString = resultString + line.charAt( ++i);
+				}
+				else if( line.charAt(i) == ']')
+				{
 					line = line.substring( i + 1); //+1 to get rid of ']' token
 					return new ScriptValue( type, resultString);
 				}
+				else
+				{
+					resultString = resultString + line.charAt( i);
+				}
+
 			}
 		}
 		return null;
