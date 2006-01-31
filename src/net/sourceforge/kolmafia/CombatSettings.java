@@ -303,6 +303,9 @@ public abstract class CombatSettings implements UtilityConstants
 		// the given monster.  Return that tactic.
 
 		CombatSettingNode match = (CombatSettingNode) reference.get( keys[ longestMatch ] );
+		if ( match.getChildCount() == 0 )
+			return "attack";
+
 		CombatActionNode setting = (CombatActionNode) match.getChildAt(
 			roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
 
@@ -311,15 +314,15 @@ public abstract class CombatSettings implements UtilityConstants
 
 		// Well, it's either a standard skill, or it's an item,
 		// or it's something you need to lookup in the tables.
-		
+
 		String potentialSkill = KoLmafiaCLI.getCombatSkillName( setting.toString() );
 		if ( potentialSkill != null )
 			return "skill " + potentialSkill;
-		
+
 		List items = TradeableItemDatabase.getMatchingNames( setting.toString() );
 		if ( !items.isEmpty() )
 			return "item " + items.get(0);
-		
+
 		return getSetting( setting.toString(), roundCount - match.getChildCount() + 1 );
 	}
 
