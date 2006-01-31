@@ -198,7 +198,7 @@ public class KoLmafiaCLI extends KoLmafia
 		try
 		{
 			scriptRequestor.resetContinueState();
-			String username = scriptRequestor.getSettings().getProperty( "autoLogin" );
+			String username = StaticEntity.getProperty( "autoLogin" );
 
 			if ( username == null || username.equals( "" ) )
 			{
@@ -2707,6 +2707,43 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 		ItemCreationRequest irequest = ItemCreationRequest.getInstance( scriptRequestor, firstMatch );
+		if ( irequest == null )
+		{
+			boolean needServant = StaticEntity.getProperty( "createWithoutBoxServants" ).equals( "false" );
+
+			switch ( ConcoctionsDatabase.getMixingMethod( firstMatch.getItemID() ) )
+			{
+				case ItemCreationRequest.COOK:
+				case ItemCreationRequest.COOK_REAGENT:
+				case ItemCreationRequest.COOK_PASTA:
+
+					if ( needServant )
+						updateDisplay( ERROR_STATE, "You cannot cook without a chef-in-the-box." );
+					else
+						updateDisplay( ERROR_STATE, "You cannot cook without an oven." );
+
+					break;
+
+				case ItemCreationRequest.MIX:
+				case ItemCreationRequest.MIX_SPECIAL:
+
+					if ( needServant )
+						updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );
+					else
+						updateDisplay( ERROR_STATE, "You cannot mix without a cocktail crafting kit." );
+
+					break;
+
+				default:
+
+					updateDisplay( ERROR_STATE, "That item cannot be created." );
+					break;
+			}
+
+			scriptRequestor.cancelRequest();
+			return;
+		}
+
 		scriptRequestor.makeRequest( irequest, 1 );
 
 		if ( scriptRequestor.permitsContinue() )
