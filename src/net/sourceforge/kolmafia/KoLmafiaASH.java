@@ -121,7 +121,7 @@ public class KoLmafiaASH
 
 	public void execute( String parameters, KoLmafia scriptRequestor) throws IOException
 	{
-		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( "scripts" + java.io.File.separator + parameters ) ) );
+		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( parameters ) ) );
 		fileName = parameters;
 
 		line = getNextLine();
