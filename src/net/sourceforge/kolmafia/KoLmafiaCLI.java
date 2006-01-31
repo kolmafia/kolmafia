@@ -2325,19 +2325,33 @@ public class KoLmafiaCLI extends KoLmafia
 		// quantity, be sure to update the item count.
 
 		if ( itemCount <= 0 )
+		{
 			itemCount = matchCount + itemCount;
+			firstMatch = firstMatch.getInstance( itemCount );
+		}
+
+		// Allow for attempts to purchase missing items as well as
+		// attempts to create missing items, if the desired location
+		// is the player's inventory.
+
+		if ( matchType == INVENTORY )
+		{
+			AdventureDatabase.retrieveItem( firstMatch );
+			if ( !scriptRequestor.permitsContinue() )
+				return null;
+		}
 
 		// If the number matching is less than the quantity desired,
-		// then be sure to throw an exception.
+		// then be sure to create an error state.
 
-		if ( matchType != NOWHERE && matchType != CREATION && itemCount > matchCount )
+		else if ( matchType == CLOSET && matchCount < itemCount )
 		{
 			updateDisplay( ERROR_STATE, "Insufficient " + TradeableItemDatabase.getItemName( itemID ) + " to continue." );
 			scriptRequestor.cancelRequest();
 			return null;
 		}
 
-		return itemCount == 0 ? null : firstMatch.getInstance( itemCount );
+		return itemCount == 0 ? null : firstMatch;
 	}
 
 	private AdventureResult getFirstMatchingItem( String parameters, int matchType )
