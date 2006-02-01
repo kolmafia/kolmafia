@@ -597,9 +597,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
 				KoLmafia.getLogStream().println( "Connection timed out during post.  Retrying..." );
 
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
 			KoLRequest.delay();
 			return false;
 		}
@@ -667,9 +664,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			KoLmafia.getLogStream().println( "Connection timed out during response.  Retrying..." );
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
 
 			// Add in an extra delay in the event of a time-out in order
 			// to be nicer on the KoL servers.
