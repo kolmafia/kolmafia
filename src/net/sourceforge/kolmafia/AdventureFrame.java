@@ -375,27 +375,7 @@ public class AdventureFrame extends KoLFrame
 
 			if ( conditionField.getText().trim().length() > 0 )
 			{
-				KoLmafiaCLI conditioner = null;
-
-				try
-				{
-					conditioner = new KoLmafiaCLI( client, System.in );
-				}
-				catch ( Exception e )
-				{
-					// While this should not happen, return from the
-					// call in the event that there was an error in
-					// the initialization process.
-
-					client.updateDisplay( ERROR_STATE, "Unexpected error." );
-
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-
-					return;
-				}
-
-				conditioner.executeLine( "conditions clear" );
+				DEFAULT_SHELL.executeLine( "conditions clear" );
 
 				boolean verifyConditions = false;
 				boolean useDisjunction = false;
@@ -420,7 +400,7 @@ public class AdventureFrame extends KoLFrame
 					}
 					else
 					{
-						if ( !conditioner.executeConditionsCommand( "add " + conditions[i] ) )
+						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + conditions[i] ) )
 						{
 							client.updateDisplay( ERROR_STATE, "Invalid condition: " + conditions[i] );
 							return;
@@ -436,7 +416,7 @@ public class AdventureFrame extends KoLFrame
 
 				if ( verifyConditions )
 				{
-					conditioner.executeConditionsCommand( "check" );
+					DEFAULT_SHELL.executeConditionsCommand( "check" );
 					if ( client.getConditions().isEmpty() )
 					{
 						client.updateDisplay( NORMAL_STATE, "Conditions already satisfied." );
@@ -445,7 +425,7 @@ public class AdventureFrame extends KoLFrame
 				}
 
 				conditionField.setText( "" );
-				conditioner.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
+				DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 			}
 
 			(new RequestThread( request, getValue( countField ) )).start();

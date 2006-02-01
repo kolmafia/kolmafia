@@ -57,7 +57,9 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final String VERSION_NAME = "KoLmafia v6.4";
 	public static final String VERSION_DATE = "Released January 13, 2006";
+
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings();
+	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
 
 	public static final List existingFrames = new ArrayList();
 	public static final List existingPanels = new ArrayList();

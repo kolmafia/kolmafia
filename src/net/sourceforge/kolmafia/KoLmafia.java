@@ -862,7 +862,7 @@ public abstract class KoLmafia implements KoLConstants
 					current != ((Number)currentMethod.invoke( null, empty )).intValue() )
 				{
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
-					recoverOnce( scriptPath );
+					DEFAULT_SHELL.executeLine( scriptPath );
 				}
 			}
 			else
@@ -970,20 +970,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
 			((MPRestoreItemList.MPRestoreItem)technique).recoverMP();
-	}
-
-	/**
-	 * Utility method which attempts to recover once
-	 * using the provided string property.
-	 */
-
-	private final void recoverOnce( String scriptPath ) throws IOException
-	{
-		// Take advantage of scripts automatically being
-		// looked up whenever a command doesn't exist.
-
-		KoLmafiaCLI script = new KoLmafiaCLI( this, System.in );
-		script.executeLine( scriptPath );
 	}
 
 	/**

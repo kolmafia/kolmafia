@@ -65,38 +65,16 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CommandDisplayFrame extends KoLFrame
 {
-	private KoLmafiaCLI instance;
-	private LimitedSizeChatBuffer commandBuffer;
-
 	private static int lastCommandIndex = 0;
 	private static ArrayList recentCommands = new ArrayList();
 
 	public CommandDisplayFrame( KoLmafia client )
 	{
 		super( client, "Graphical CLI" );
-
-		try
-		{
-			commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", false );
-			if ( client != null )
-				instance = new KoLmafiaCLI( client, commandBuffer );
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-		}
+		KoLmafia.commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", false );;
 
 		addCompactPane();
 		framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
-	}
-
-	public void dispose()
-	{
-		instance = null;
-		commandBuffer = null;
-
-		super.dispose();
 	}
 
 	private class CommandDisplayPanel extends JPanel
@@ -109,7 +87,7 @@ public class CommandDisplayFrame extends KoLFrame
 			JEditorPane outputDisplay = new JEditorPane();
 			outputDisplay.setEditable( false );
 
-			JScrollPane scrollPane = commandBuffer.setChatDisplay( outputDisplay );
+			JScrollPane scrollPane = KoLmafia.commandBuffer.setChatDisplay( outputDisplay );
 			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 
 			JPanel entryPanel = new JPanel();
@@ -176,9 +154,9 @@ public class CommandDisplayFrame extends KoLFrame
 
 			public void run()
 			{
-				commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
-				instance.executeLine( command );
-				commandBuffer.append( "<br>" );
+				KoLmafia.commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
+				DEFAULT_SHELL.executeLine( command );
+				KoLmafia.commandBuffer.append( "<br>" );
 				client.enableDisplay();
 			}
 		}

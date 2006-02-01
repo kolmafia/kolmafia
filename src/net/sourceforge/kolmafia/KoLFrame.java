@@ -708,8 +708,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				if ( executePath == null )
 					return;
 
-				KoLmafiaCLI script = new KoLmafiaCLI( client, System.in );
-				script.executeLine( executePath );
+				DEFAULT_SHELL.executeLine( executePath );
 			}
 			catch ( Exception e )
 			{

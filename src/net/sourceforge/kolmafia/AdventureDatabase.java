@@ -506,10 +506,10 @@ public class AdventureDatabase extends KoLDatabase
 	 * given CLI command.
 	 */
 
-	private static final void retrieveItem( KoLmafiaCLI purchaser, String command )
+	private static final void retrieveItem( String command )
 	{
 		boolean shouldContinue = client.permitsContinue();
-		purchaser.executeLine( command );
+		DEFAULT_SHELL.executeLine( command );
 
 		if ( !shouldContinue )
 			client.cancelRequest();
@@ -520,13 +520,13 @@ public class AdventureDatabase extends KoLDatabase
 	 * command, which is constructed based on the parameters.
 	 */
 
-	private static final int retrieveItem( KoLmafiaCLI purchaser, String command, LockableListModel source, AdventureResult item, int missingCount )
+	private static final int retrieveItem( String command, LockableListModel source, AdventureResult item, int missingCount )
 	{
 		int retrieveCount = source == null ? missingCount : Math.min( missingCount, item.getCount( source ) );
 
 		if ( retrieveCount > 0 )
 		{
-			retrieveItem( purchaser, command + " " + retrieveCount + " " + item.getName() );
+			retrieveItem( command + " " + retrieveCount + " " + item.getName() );
 			return item.getCount() - item.getCount( KoLCharacter.getInventory() );
 		}
 
@@ -538,13 +538,13 @@ public class AdventureDatabase extends KoLDatabase
 	 * appropriate CLI command.
 	 */
 
-	private static final void retrieveItem( KoLmafiaCLI purchaser, ItemCreationRequest item, boolean validate, int missingCount )
+	private static final void retrieveItem( ItemCreationRequest item, boolean validate, int missingCount )
 	{
 		int createCount = Math.min( missingCount, validate ? item.getCount( ConcoctionsDatabase.getConcoctions() ) : Integer.MAX_VALUE );
 
 		if ( createCount > 0 )
 		{
-			retrieveItem( purchaser, "make " + createCount + " " + item.getName() );
+			retrieveItem( "make " + createCount + " " + item.getName() );
 			return;
 		}
 	}
@@ -561,12 +561,10 @@ public class AdventureDatabase extends KoLDatabase
 			if ( missingCount <= 0 )
 				return;
 
-			KoLmafiaCLI purchaser = new KoLmafiaCLI( client, System.in );
-
 			// First, attempt to pull the item from the closet.
 			// If this is successful, return from the method.
 
-			missingCount = retrieveItem( purchaser, "closet take", KoLCharacter.getCloset(), item, missingCount );
+			missingCount = retrieveItem( "closet take", KoLCharacter.getCloset(), item, missingCount );
 
 			if ( missingCount <= 0 )
 				return;
@@ -577,7 +575,7 @@ public class AdventureDatabase extends KoLDatabase
 			ItemCreationRequest creator = ItemCreationRequest.getInstance( client, item.getItemID(), item.getCount() );
 			if ( creator != null )
 			{
-				retrieveItem( purchaser, creator, true, missingCount );
+				retrieveItem( creator, true, missingCount );
 				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 				if ( missingCount <= 0 )
@@ -589,7 +587,7 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( KoLCharacter.hasEquipped( item ) )
 			{
-				retrieveItem( purchaser, "unequip " + item.getName() );
+				retrieveItem( "unequip " + item.getName() );
 				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 				if ( missingCount <= 0 )
@@ -600,7 +598,7 @@ public class AdventureDatabase extends KoLDatabase
 			// if you are out of ronin.
 
 			if ( KoLCharacter.canInteract() )
-				missingCount = retrieveItem( purchaser, "hagnk", KoLCharacter.getStorage(), item, missingCount );
+				missingCount = retrieveItem( "hagnk", KoLCharacter.getStorage(), item, missingCount );
 
 			if ( missingCount <= 0 )
 				return;
@@ -610,7 +608,7 @@ public class AdventureDatabase extends KoLDatabase
 			// and the item is not made through combination.
 
 			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) && (creator == null || ConcoctionsDatabase.getMixingMethod( creator.getItemID() ) != ItemCreationRequest.COMBINE) )
-				missingCount = retrieveItem( purchaser, "buy", null, item, missingCount );
+				missingCount = retrieveItem( "buy", null, item, missingCount );
 
 			if ( missingCount <= 0 )
 				return;
@@ -621,7 +619,7 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( creator != null )
 			{
-				retrieveItem( purchaser, creator, false, missingCount );
+				retrieveItem( creator, false, missingCount );
 				return;
 			}
 
@@ -629,7 +627,7 @@ public class AdventureDatabase extends KoLDatabase
 			// user wishes to autosatisfy through purchases.
 
 			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) )
-				missingCount = retrieveItem( purchaser, "buy", null, item, missingCount );
+				missingCount = retrieveItem( "buy", null, item, missingCount );
 
 			if ( missingCount <= 0 )
 				return;

@@ -73,7 +73,7 @@ import java.lang.reflect.Array;
  * of the interactions.
  */
 
-public class KoLmafiaASH
+public class KoLmafiaASH implements KoLConstants
 {
 	/* Variables for Advanced Scripting */
 	public final static char[] tokenList = {' ', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '/', '%', '[', ']', '!', ';', '<', '>'};
@@ -119,10 +119,10 @@ public class KoLmafiaASH
 	public LineNumberReader commandStream;
 	public String		fileName;
 
-	public void execute( String parameters, KoLmafia scriptRequestor) throws IOException
+	public void execute( File scriptFile) throws IOException
 	{
-		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( parameters ) ) );
-		fileName = parameters;
+		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
+		fileName = scriptFile.getPath();
 
 		line = getNextLine();
 		lineNumber = commandStream.getLineNumber();
@@ -130,7 +130,7 @@ public class KoLmafiaASH
 
 		try
 		{
-			global = parseScope( null, new ScriptVariableList(), getExistingFunctionScope( scriptRequestor), false);
+			global = parseScope( null, new ScriptVariableList(), getExistingFunctionScope(), false);
 			if ( line != null )
 				{
 				throw new AdvancedScriptException( "Script parsing error " + getLineAndFile());
@@ -149,20 +149,20 @@ public class KoLmafiaASH
 				if( result.getIntValue() == 0)
 					{
 					KoLmafia.getLogStream().println( "Script failed!"); //failed
-					scriptRequestor.updateDisplay( KoLmafia.NORMAL_STATE,  "Script failed!");
+					StaticEntity.getClient().updateDisplay( KoLmafia.NORMAL_STATE,  "Script failed!");
 					return;
 					}
 				else
 					{
 					KoLmafia.getLogStream().println( "Script succeeded!"); //succes
-					scriptRequestor.updateDisplay( KoLmafia.NORMAL_STATE,  "Script succeeded!");
+					StaticEntity.getClient().updateDisplay( KoLmafia.NORMAL_STATE,  "Script succeeded!");
 					return;
 					}
 			}
 			else
 			{
 				KoLmafia.getLogStream().println( "Script returned message " + result.toString());
-				scriptRequestor.updateDisplay( KoLmafia.NORMAL_STATE,  "Script returned value " + result.toString());
+				StaticEntity.getClient().updateDisplay( KoLmafia.NORMAL_STATE,  "Script returned value " + result.toString());
 				return;
 			}
 
@@ -170,8 +170,8 @@ public class KoLmafiaASH
 		catch( AdvancedScriptException e)
 		{
 			commandStream.close();
-			scriptRequestor.updateDisplay( KoLmafia.ERROR_STATE, e.getMessage() );
-			scriptRequestor.cancelRequest();
+			StaticEntity.getClient().updateDisplay( KoLmafia.ERROR_STATE, e.getMessage() );
+			StaticEntity.getClient().cancelRequest();
 
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
@@ -509,7 +509,7 @@ public class KoLmafiaASH
 
 	private ScriptReturn parseReturn( ScriptType expectedType, ScriptScope parentScope) throws AdvancedScriptException
 	{
-			
+
 		ScriptExpression expression = null;
 
 		if(( currentToken() == null) || !( currentToken().equals( "return")))
@@ -561,7 +561,7 @@ public class KoLmafiaASH
 
 			do
 			{
-					
+
 
 				if(( currentToken() == null) || ( !currentToken().equals( "{"))) //Scope is a single call
 				{
@@ -711,7 +711,7 @@ public class KoLmafiaASH
 		do
 		{
 			oper = parseOperator( currentToken());
-			
+
 			if( oper == null)
 			{
 				return lhs;
@@ -727,9 +727,9 @@ public class KoLmafiaASH
 			rhs = parseExpression( scope, oper);
 			lhs = new ScriptExpression( lhs, rhs, oper);
 		} while( true);
-		
 
-		
+
+
 	}
 
 	private ScriptExpression parseValue( ScriptScope scope) throws AdvancedScriptException
@@ -826,14 +826,14 @@ public class KoLmafiaASH
 					resultString = resultString + line.charAt( i);
 				}
 			}
-		
+
 		}
 		else if( currentToken().equals( "$"))
 		{
 			ScriptType type;
 			readToken();
 			type = parseType();
-			
+
 			if( type == null)
 				throw new AdvancedScriptException( "Unknown type " + currentToken() + " " + getLineAndFile());
 			if( !currentToken().equals("["))
@@ -891,7 +891,7 @@ public class KoLmafiaASH
 			oper.equals( "*") || oper.equals( "/") || oper.equals( "%") ||
 			oper.equals( "+") || oper.equals( "-") ||
 			oper.equals( "<") || oper.equals( ">") || oper.equals( "<=") || oper.equals( ">=") ||
-			oper.equals( "==") || oper.equals( "!=") || 
+			oper.equals( "==") || oper.equals( "!=") ||
 			oper.equals( "||") || oper.equals( "&&")
 		)
 		{
@@ -1054,7 +1054,7 @@ public class KoLmafiaASH
 			return false;
 			}
 	}
-	
+
 
 	private void printScope( ScriptScope scope, int indent)
 	{
@@ -1065,7 +1065,7 @@ public class KoLmafiaASH
 
 		indentLine( indent);
 		KoLmafia.getLogStream().println( "<SCOPE>");
-		
+
 		indentLine( indent + 1);
 		KoLmafia.getLogStream().println( "<VARIABLES>");
 		for( currentVar = scope.getFirstVariable(); currentVar != null; currentVar = scope.getNextVariable( currentVar))
@@ -1146,7 +1146,7 @@ public class KoLmafiaASH
 		indentLine( indent);
 		KoLmafia.getLogStream().println( "<ASSIGN " + assignment.getLeftHandSide().getName().toString() + ">");
 		printExpression( assignment.getRightHandSide(), indent + 1);
-		
+
 	}
 
 	private void printExpression( ScriptExpression expression, int indent)
@@ -1329,7 +1329,7 @@ public class KoLmafiaASH
 				param.setValue( new ScriptValue( TYPE_VOID));
 			}
 			else
-				throw new RuntimeException( "Internal error: Illegal type for main() parameter");	
+				throw new RuntimeException( "Internal error: Illegal type for main() parameter");
 		}
 	}
 
@@ -1338,9 +1338,9 @@ public class KoLmafiaASH
 	{
 		return "at line " + lineNumber + " in file " + fileName;
 	}
-	
 
-	public ScriptScope getExistingFunctionScope( KoLmafia scriptRequestor)
+
+	public ScriptScope getExistingFunctionScope()
 	{
 		ScriptScope result;
 		ScriptType[] params;
@@ -1350,90 +1350,90 @@ public class KoLmafiaASH
 		params = new ScriptType[2];
 		params[0] = new ScriptType( TYPE_INT);
 		params[1] = new ScriptType( TYPE_LOCATION);
-		result.addFunction( new ScriptExistingFunction( "adventure", new ScriptType( TYPE_BOOLEAN), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "adventure", new ScriptType( TYPE_BOOLEAN), params));
 
 		params = new ScriptType[2];
 		params[0] = new ScriptType( TYPE_INT);
 		params[1] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "buy", new ScriptType( TYPE_BOOLEAN), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "buy", new ScriptType( TYPE_BOOLEAN), params));
 
 		params = new ScriptType[2];
 		params[0] = new ScriptType( TYPE_INT);
 		params[1] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "create", new ScriptType( TYPE_BOOLEAN), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "create", new ScriptType( TYPE_BOOLEAN), params));
 
 		params = new ScriptType[2];
 		params[0] = new ScriptType( TYPE_INT);
 		params[1] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "use", new ScriptType( TYPE_BOOLEAN), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "use", new ScriptType( TYPE_BOOLEAN), params));
 
 		params = new ScriptType[2];
 		params[0] = new ScriptType( TYPE_INT);
 		params[1] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "eat", new ScriptType( TYPE_BOOLEAN), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "eat", new ScriptType( TYPE_BOOLEAN), params));
 
 		params = new ScriptType[1];
 		params[0] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "item_amount", new ScriptType( TYPE_INT), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "item_amount", new ScriptType( TYPE_INT), params));
 
 		params = new ScriptType[1];
 		params[0] = new ScriptType( TYPE_STRING);
-		result.addFunction( new ScriptExistingFunction( "print", new ScriptType( TYPE_VOID), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "print", new ScriptType( TYPE_VOID), params));
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_zodiac", new ScriptType( TYPE_ZODIAC), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "my_zodiac", new ScriptType( TYPE_ZODIAC), params));
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_class", new ScriptType( TYPE_CLASS), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "my_class", new ScriptType( TYPE_CLASS), params));
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_level", new ScriptType( TYPE_INT), params, scriptRequestor));
-	
+		result.addFunction( new ScriptExistingFunction( "my_level", new ScriptType( TYPE_INT), params));
+
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_hp", new ScriptType( TYPE_INT), params, scriptRequestor));
-	
+		result.addFunction( new ScriptExistingFunction( "my_hp", new ScriptType( TYPE_INT), params));
+
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_maxhp", new ScriptType( TYPE_INT), params, scriptRequestor));
-	
+		result.addFunction( new ScriptExistingFunction( "my_maxhp", new ScriptType( TYPE_INT), params));
+
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_mp", new ScriptType( TYPE_INT), params, scriptRequestor));
-	
+		result.addFunction( new ScriptExistingFunction( "my_mp", new ScriptType( TYPE_INT), params));
+
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_maxmp", new ScriptType( TYPE_INT), params, scriptRequestor));
-	
+		result.addFunction( new ScriptExistingFunction( "my_maxmp", new ScriptType( TYPE_INT), params));
+
 		params = new ScriptType[1];
 		params[0] = new ScriptType( TYPE_STAT);
-		result.addFunction( new ScriptExistingFunction( "my_basestat", new ScriptType( TYPE_INT), params, scriptRequestor));
-	
+		result.addFunction( new ScriptExistingFunction( "my_basestat", new ScriptType( TYPE_INT), params));
+
 		params = new ScriptType[1];
 		params[0] = new ScriptType( TYPE_STAT);
-		result.addFunction( new ScriptExistingFunction( "my_buffedstat", new ScriptType( TYPE_INT), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "my_buffedstat", new ScriptType( TYPE_INT), params));
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_meat", new ScriptType( TYPE_INT), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "my_meat", new ScriptType( TYPE_INT), params));
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_closetmeat", new ScriptType( TYPE_INT), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "my_closetmeat", new ScriptType( TYPE_INT), params));
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_adventures", new ScriptType( TYPE_INT), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "my_adventures", new ScriptType( TYPE_INT), params));
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_inebriety", new ScriptType( TYPE_INT), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "my_inebriety", new ScriptType( TYPE_INT), params));
 
 		params = new ScriptType[1];
 		params[0] = new ScriptType( TYPE_SKILL);
-		result.addFunction( new ScriptExistingFunction( "have_skill", new ScriptType( TYPE_BOOLEAN), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "have_skill", new ScriptType( TYPE_BOOLEAN), params));
 
 		params = new ScriptType[2];
 		params[0] = new ScriptType( TYPE_INT);
 		params[1] = new ScriptType( TYPE_SKILL);
-		result.addFunction( new ScriptExistingFunction( "use_skill", new ScriptType( TYPE_BOOLEAN), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "use_skill", new ScriptType( TYPE_BOOLEAN), params));
 
 		params = new ScriptType[2];
 		params[0] = new ScriptType( TYPE_INT);
 		params[1] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "add_item_condition", new ScriptType( TYPE_VOID), params, scriptRequestor));
+		result.addFunction( new ScriptExistingFunction( "add_item_condition", new ScriptType( TYPE_VOID), params));
 
 		return result;
 	}
@@ -1448,7 +1448,7 @@ public class KoLmafiaASH
 		ScriptVariableList	variables;
 		ScriptCommandList	commands;
 		ScriptScope		parentScope;
-	
+
 		public ScriptScope( ScriptScope parentScope)
 		{
 			functions = new ScriptFunctionList();
@@ -1456,7 +1456,7 @@ public class KoLmafiaASH
 			commands = new ScriptCommandList();
 			this.parentScope = parentScope;
 		}
-	
+
 		public ScriptScope( ScriptCommand command, ScriptScope parentScope)
 		{
 			functions = new ScriptFunctionList();
@@ -1464,7 +1464,7 @@ public class KoLmafiaASH
 			commands = new ScriptCommandList( command);
 			this.parentScope = parentScope;
 		}
-	
+
 		public ScriptScope( ScriptVariableList variables, ScriptScope parentScope)
 		{
 			functions = new ScriptFunctionList();
@@ -1474,61 +1474,61 @@ public class KoLmafiaASH
 			commands = new ScriptCommandList();
 			this.parentScope = parentScope;
 		}
-	
+
 		public boolean addFunction( ScriptFunction f)
 		{
 			return functions.addElement( f);
 		}
-	
+
 		public boolean addVariable( ScriptVariable v)
 		{
 			return variables.addElement( v);
 		}
-	
+
 		public void addCommand( ScriptCommand c)
 		{
 			commands.addElement( c);
 		}
-	
+
 		public ScriptScope getParentScope()
 		{
 			return parentScope;
 		}
-	
+
 		public ScriptFunction getFirstFunction()
 		{
 			return ( ScriptFunction) functions.getFirstElement();
 		}
-	
+
 		public ScriptFunction getNextFunction( ScriptFunction current)
 		{
 			return ( ScriptFunction) functions.getNextElement( current);
 		}
-	
+
 		public ScriptVariable getFirstVariable()
 		{
 			return ( ScriptVariable) variables.getFirstElement();
 		}
-	
+
 		public ScriptVariable getNextVariable( ScriptVariable current)
 		{
 			return ( ScriptVariable) variables.getNextElement( current);
 		}
-	
+
 		public ScriptCommand getFirstCommand()
 		{
 			return ( ScriptCommand) commands.getFirstElement();
 		}
-	
+
 		public ScriptCommand getNextCommand( ScriptCommand current)
 		{
 			return ( ScriptCommand) commands.getNextElement( current);
 		}
-	
+
 		public boolean assertReturn()
 		{
 			ScriptCommand current, previous = null;
-	
+
 			for( current = getFirstCommand(); current != null; previous = current, current = getNextCommand( current))
 				;
 			if( previous == null)
@@ -1537,16 +1537,16 @@ public class KoLmafiaASH
 				return false;
 			return true;
 		}
-	
+
 		public ScriptFunction findFunction( String name, ScriptExpressionList params) throws AdvancedScriptException
 		{
-	
-	
+
+
 			ScriptFunction		current;
 			ScriptVariableReference	currentParam;
 			ScriptExpression	currentValue;
 			int			paramIndex;
-	
+
 			for( current = getFirstFunction(); current != null; current = getNextFunction( current))
 			{
 				if( current.getName().equals( name))
@@ -1579,12 +1579,12 @@ public class KoLmafiaASH
 				return parentScope.findFunction( name, params);
 			return null;
 		}
-	
+
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptCommand	current;
 			ScriptValue	result;
-	
+
 			for( current = getFirstCommand(); current != null; current = getNextCommand( current))
 			{
 				result = current.execute();
@@ -1615,9 +1615,9 @@ public class KoLmafiaASH
 				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing.");
 			}
 		}
-	
+
 	}
-	
+
 	class ScriptScopeList extends ScriptList
 	{
 		public boolean addElement( ScriptListNode n)
@@ -1625,18 +1625,18 @@ public class KoLmafiaASH
 			return addElementSerial( n);
 		}
 	}
-	
+
 	class ScriptFunction extends ScriptListNode
 	{
 		String					name;
 		ScriptType				type;
 		ScriptVariableReferenceList		variableReferences;
 		ScriptScope				scope;
-	
+
 		public ScriptFunction()
 		{
 		}
-	
+
 		public ScriptFunction( String name, ScriptType type)
 		{
 			this.name = name;
@@ -1644,86 +1644,83 @@ public class KoLmafiaASH
 			this.variableReferences = new ScriptVariableReferenceList();
 			this.scope = null;
 		}
-	
+
 		public void addVariableReference( ScriptVariableReference v)
 		{
 			variableReferences.addElement( v);
 		}
-	
+
 		public void setScope( ScriptScope s)
 		{
 			scope = s;
 		}
-	
+
 		public ScriptScope getScope()
 		{
 			return scope;
 		}
-	
+
 		public int compareTo( Object o) throws ClassCastException
 		{
 			if(!(o instanceof ScriptFunction))
 				throw new ClassCastException();
 			return name.compareTo( (( ScriptFunction) o).name);
 		}
-	
+
 		public String getName()
 		{
 			return name;
 		}
-	
+
 		public ScriptVariableReference getFirstParam()
 		{
 			return (ScriptVariableReference) variableReferences.getFirstElement();
 		}
-	
+
 		public ScriptVariableReference getNextParam( ScriptVariableReference current)
 		{
 			return (ScriptVariableReference) variableReferences.getNextElement( current);
 		}
-	
+
 		public ScriptType getType()
 		{
 			return type;
 		}
-	
+
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			return scope.execute();
 		}
 	}
-	
-	
+
+
 	class ScriptExistingFunction extends ScriptFunction
 	{
-		KoLmafia		scriptRequestor;
 		ScriptVariable[]	variables;
-	
-		public ScriptExistingFunction( String name, ScriptType type, ScriptType[] params, KoLmafia scriptRequestor)
+
+		public ScriptExistingFunction( String name, ScriptType type, ScriptType[] params)
 		{
 			super( name, type);
-	
-			this.scriptRequestor = scriptRequestor;
-	
+
 			variables = new ScriptVariable[ java.lang.reflect.Array.getLength( params)];
-	
+
 			for( int position = 0; position < java.lang.reflect.Array.getLength( params); position++)
 			{
 				variables[position] = new ScriptVariable( params[position]);
 				variableReferences.addElement( new ScriptVariableReference( variables[position]));
 			}
 		}
-	
-	
+
+
 		public ScriptValue execute()
 		{
-	
-			if( !scriptRequestor.permitsContinue())
+
+			if( !StaticEntity.getClient().permitsContinue())
 			{
 				currentState = STATE_EXIT;
 				return null;
 			}
-	
+
 			try
 			{
 				if( name.equals( "adventure"))
@@ -1778,118 +1775,83 @@ public class KoLmafiaASH
 				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing.");
 			}
 		}
-	
-	
+
+
 		private ScriptValue executeAdventureRequest( int amount, KoLAdventure location) throws AdvancedScriptException
 		{
-			scriptRequestor.updateDisplay( KoLmafia.DISABLE_STATE, "Beginning " + amount + " turnips to " + location.toString() + "..." );
-			scriptRequestor.makeRequest( location, amount );
-	
-			if ( scriptRequestor.permitsContinue())
-				return new ScriptValue( TYPE_BOOLEAN, 1);
-			else
-				return new ScriptValue( TYPE_BOOLEAN, 0);
+			DEFAULT_SHELL.executeLine( "adventure " + amount + " " + location.getAdventureName() );
+			return new ScriptValue( TYPE_BOOLEAN, StaticEntity.getClient().permitsContinue() ? 1 : 0 );
 		}
-	
+
 		private ScriptValue executeBuyRequest( int amount, int itemID) throws AdvancedScriptException
 		{
-			ArrayList results;
-	
-			results = new ArrayList();
-	
-			(new SearchMallRequest( scriptRequestor, '\"' + TradeableItemDatabase.getItemName( itemID) + '\"', 0, results )).run();
-			scriptRequestor.makePurchases( results, results.toArray(), amount );
-	
-			if ( scriptRequestor.permitsContinue())
-				return new ScriptValue( TYPE_BOOLEAN, 1);
-			else
-				return new ScriptValue( TYPE_BOOLEAN, 0);
+			DEFAULT_SHELL.executeLine( "buy " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			return new ScriptValue( TYPE_BOOLEAN, StaticEntity.getClient().permitsContinue() ? 1 : 0 );
 		}
-	
+
 		private ScriptValue executeCreateRequest( int amount, int itemID) throws AdvancedScriptException
 		{
-			ItemCreationRequest irequest = ItemCreationRequest.getInstance( scriptRequestor, itemID, amount );
-			scriptRequestor.makeRequest( irequest, 1 );
-	
-			if ( scriptRequestor.permitsContinue() )
-				{
-				scriptRequestor.updateDisplay( KoLmafia.NORMAL_STATE, "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName());
-				return new ScriptValue( TYPE_BOOLEAN, 1);
-				}
-			else
-				return new ScriptValue( TYPE_BOOLEAN, 0);		
+			DEFAULT_SHELL.executeLine( "create " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			return new ScriptValue( TYPE_BOOLEAN, StaticEntity.getClient().permitsContinue() ? 1 : 0 );
 		}
-	
+
 		private ScriptValue executeUseRequest( int amount, int itemID) throws AdvancedScriptException
 		{
-			String itemName;
-			int consumptionType;
-	
-			itemName = TradeableItemDatabase.getItemName( itemID);
-			consumptionType = TradeableItemDatabase.getConsumptionType( itemID );
-	
-			if( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE || consumptionType == ConsumeItemRequest.CONSUME_RESTORE)
-				scriptRequestor.makeRequest( new ConsumeItemRequest( scriptRequestor, new AdventureResult( itemName, amount, false ) ), 1 );
-			else
-				scriptRequestor.makeRequest( new ConsumeItemRequest( scriptRequestor, new AdventureResult( itemName, 1, false ) ), amount );
-	
-			if ( scriptRequestor.permitsContinue())
-				return new ScriptValue( TYPE_BOOLEAN, 1);
-			else
-				return new ScriptValue( TYPE_BOOLEAN, 0);
+			DEFAULT_SHELL.executeLine( "use " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			return new ScriptValue( TYPE_BOOLEAN, StaticEntity.getClient().permitsContinue() ? 1 : 0 );
 		}
-	
+
 		private ScriptValue executeItemAmountRequest( int itemID) throws AdvancedScriptException
 		{
 			AdventureResult item;
-	
+
 			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID), 0, false );
-	
+
 			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getInventory()));
 		}
-	
+
 		private ScriptValue executePrintRequest( String message) throws AdvancedScriptException
 		{
-			scriptRequestor.updateDisplay( KoLmafia.DISABLE_STATE, message );
-	
+			StaticEntity.getClient().updateDisplay( KoLmafia.DISABLE_STATE, message );
+
 			return new ScriptValue( TYPE_VOID);
 		}
-	
+
 		private ScriptValue executeZodiacRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_ZODIAC, KoLCharacter.getSign());
 		}
-	
+
 		private ScriptValue executeClassRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_CLASS, KoLCharacter.getClassType());
 		}
-	
+
 		private ScriptValue executeLevelRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getLevel());
 		}
-	
+
 		private ScriptValue executeHPRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentHP());
 		}
-	
+
 		private ScriptValue executeMaxHPRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumHP());
 		}
-	
+
 		private ScriptValue executeMPRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentMP());
 		}
-	
+
 		private ScriptValue executeMaxMPRequest() throws AdvancedScriptException
 		{
 			return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumMP());
 		}
-	
+
 		private ScriptValue executeBaseStatRequest( int stat) throws AdvancedScriptException
 		{
 			if( stats[stat].equals( "muscle"))
@@ -1901,7 +1863,7 @@ public class KoLmafiaASH
 			else
 				throw new RuntimeException( "Internal Error: unknown stat");
 		}
-	
+
 		private ScriptValue executeBuffedStatRequest( int stat) throws AdvancedScriptException
 		{
 			if( stats[stat].equals( "muscle"))
@@ -1944,52 +1906,41 @@ public class KoLmafiaASH
 
 		private ScriptValue executeUseSkillRequest( int amount, int skillID) throws AdvancedScriptException
 		{
-			scriptRequestor.makeRequest( new UseSkillRequest( scriptRequestor, ClassSkillsDatabase.getSkillName( skillID), null, amount ), 1 );
-	
-			if ( scriptRequestor.permitsContinue())
-				return new ScriptValue( TYPE_BOOLEAN, 1);
-			else
-				return new ScriptValue( TYPE_BOOLEAN, 0);
+			DEFAULT_SHELL.executeLine( "cast " + amount + " " + ClassSkillsDatabase.getSkillName( skillID ) );
+			return new ScriptValue( TYPE_BOOLEAN, StaticEntity.getClient().permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executeItemConditionRequest( int amount, int itemID) throws AdvancedScriptException
 		{
-			AdventureResult condition;
-
-			condition = new AdventureResult( TradeableItemDatabase.getItemName( itemID), amount, false );
-			AdventureResult.addResultToList( scriptRequestor.conditions, condition );
-			scriptRequestor.updateDisplay( KoLmafia.NORMAL_STATE, "Condition added." );
-
-			return new ScriptValue( TYPE_VOID);
+			DEFAULT_SHELL.executeLine( "conditions add " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			return new ScriptValue( TYPE_VOID );
 		}
-
-
 	}
-	
+
 	class ScriptFunctionList extends ScriptList
 	{
-	
+
 	}
-	
+
 	class ScriptVariable extends ScriptListNode
 	{
 		String		name;
-	
+
 		ScriptValue	content;
-	
+
 		public ScriptVariable( ScriptType type)
 		{
 			this.name = null;
 			content = new ScriptValue( type);
 		}
-	
-	
+
+
 		public ScriptVariable( String name, ScriptType type)
 		{
 			this.name = name;
 			content = new ScriptValue( type);
 		}
-	
+
 		public int compareTo( Object o) throws ClassCastException
 		{
 			if(!(o instanceof ScriptVariable))
@@ -1997,39 +1948,39 @@ public class KoLmafiaASH
 			if( name == null)
 				return 1;
 			return name.compareTo( (( ScriptVariable) o).name);
-	
+
 		}
-	
+
 		public ScriptType getType()
 		{
 			return content.getType();
 		}
-	
+
 		public String getName()
 		{
 			return name;
 		}
-	
+
 		public ScriptValue getValue()
 		{
 			return content;
 		}
-	
+
 		public int getIntValue()
 		{
 			return content.getIntValue();
 		}
-	
+
 		public String getStringValue()
 		{
 			return content.getStringValue();
 		}
-	
+
 		public KoLAdventure getLocation()
 		{
 			return content.getLocation();
 		}
-	
+
 		public void setValue( ScriptValue targetValue) throws AdvancedScriptException
 		{
 			if( !getType().equals( targetValue.getType()))
@@ -2048,38 +1999,38 @@ public class KoLmafiaASH
 			content = targetValue;
 		}
 	}
-	
+
 	class ScriptVariableList extends ScriptList
 	{
 		public ScriptVariable getFirstVariable()
 		{
 			return ( ScriptVariable) getFirstElement();
 		}
-	
+
 		public ScriptVariable getNextVariable( ScriptVariable current)
 		{
 			return ( ScriptVariable) getNextElement( current);
 		}
 	}
-	
+
 	class ScriptVariableReference extends ScriptValue
 	{
 		ScriptVariable target;
-	
+
 		public ScriptVariableReference( ScriptVariable target)
 		{
 			this.target = target;
 		}
-	
+
 		public ScriptVariableReference( String varName, ScriptScope scope) throws AdvancedScriptException
 		{
 			target = findVariable( varName, scope);
 		}
-	
+
 		private ScriptVariable findVariable( String name, ScriptScope scope) throws AdvancedScriptException
 		{
 			ScriptVariable current;
-	
+
 			do
 			{
 				for(current = scope.getFirstVariable(); current != null; current = scope.getNextVariable( current))
@@ -2091,40 +2042,40 @@ public class KoLmafiaASH
 				}
 				scope = scope.getParentScope();
 			} while( scope != null);
-			
+
 			throw new AdvancedScriptException( "Undefined variable " + name + " " + getLineAndFile());
 		}
-	
+
 		public ScriptType getType()
 		{
 			return target.getType();
 		}
-	
+
 		public String getName()
 		{
 			return target.getName();
 		}
-	
-	
+
+
 		public int compareTo( Object o) throws ClassCastException
 		{
 			if(!(o instanceof ScriptVariableReference))
 				throw new ClassCastException();
 			return target.getName().compareTo( (( ScriptVariableReference) o).target.getName());
-	
+
 		}
-	
+
 		public ScriptValue execute()
 		{
 			return target.getValue();
 		}
-	
+
 		public void setValue( ScriptValue targetValue) throws AdvancedScriptException
 		{
 			target.setValue( targetValue);
 		}
 	}
-	
+
 	class ScriptVariableReferenceList extends ScriptList
 	{
 		public boolean addElement( ScriptListNode n)
@@ -2132,17 +2083,17 @@ public class KoLmafiaASH
 			return addElementSerial( n);
 		}
 	}
-	
+
 	class ScriptCommand extends ScriptListNode
 	{
 		int command;
-	
-	
+
+
 		public ScriptCommand()
 		{
-			
+
 		}
-	
+
 		public ScriptCommand( String command) throws AdvancedScriptException
 		{
 			if( command.equals( "break"))
@@ -2154,20 +2105,20 @@ public class KoLmafiaASH
 			else
 				throw new AdvancedScriptException( command + " is not a command " + getLineAndFile());
 		}
-	
+
 		public ScriptCommand( int command)
 		{
 			this.command = command;
 		}
-	
+
 		public int compareTo( Object o) throws ClassCastException
 		{
 			if(!(o instanceof ScriptCommand))
 				throw new ClassCastException();
 			return 0;
-	
+
 		}
-	
+
 		public String toString()
 		{
 			if( this.command == COMMAND_BREAK)
@@ -2178,7 +2129,7 @@ public class KoLmafiaASH
 				return "exit";
 			return "<unknown command>";
 		}
-	
+
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			if( this.command == COMMAND_BREAK)
@@ -2197,34 +2148,34 @@ public class KoLmafiaASH
 				return null;
 				}
 			throw new RuntimeException( "Internal error: unknown ScriptCommand type");
-			
+
 		}
 	}
-	
+
 	class ScriptCommandList extends ScriptList
 	{
-	
+
 		public ScriptCommandList()
 			{
 			super();
 			}
-	
+
 		public ScriptCommandList( ScriptCommand c)
 			{
 			super( c);
 			}
-	
+
 		public boolean addElement( ScriptListNode n) //Command List has to remain in original order, so override addElement
 		{
 			return addElementSerial( n);
 		}
 	}
-	
+
 	class ScriptReturn extends ScriptCommand
 	{
 		private ScriptExpression	returnValue;
 		private ScriptType		expectedType;
-	
+
 		public ScriptReturn( ScriptExpression returnValue, ScriptType expectedType) throws AdvancedScriptException
 		{
 			this.returnValue = returnValue;
@@ -2239,7 +2190,7 @@ public class KoLmafiaASH
 			}
 			this.expectedType = expectedType;
 		}
-	
+
 		public ScriptType getType()
 		{
 			if( expectedType != null)
@@ -2248,19 +2199,19 @@ public class KoLmafiaASH
 				return new ScriptType( TYPE_VOID);
 			return returnValue.getType();
 		}
-	
+
 		public ScriptExpression getExpression()
 		{
 			return returnValue;
 		}
-	
+
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptValue result;
 
 			if( returnValue == null)
 				return null;
-			
+
 			result = returnValue.execute();
 			if( result == null)
 				return null;
@@ -2273,15 +2224,15 @@ public class KoLmafiaASH
 			return result;
 		}
 	}
-	
-	
+
+
 	class ScriptLoop extends ScriptCommand
 	{
 		private boolean			repeat;
 		private ScriptExpression	condition;
 		private ScriptScope		scope;
 		private ScriptLoopList		elseLoops;
-	
+
 		public ScriptLoop( ScriptScope scope, ScriptExpression condition, boolean repeat) throws AdvancedScriptException
 		{
 			this.scope = scope;
@@ -2291,47 +2242,47 @@ public class KoLmafiaASH
 			this.repeat = repeat;
 			elseLoops = new ScriptLoopList();
 		}
-	
+
 		public boolean repeats()
 		{
 			return repeat;
 		}
-	
+
 		public ScriptExpression getCondition()
 		{
 			return condition;
 		}
-	
+
 		public ScriptScope getScope()
 		{
 			return scope;
 		}
-	
+
 		public ScriptLoop getFirstElseLoop()
 		{
 			return ( ScriptLoop) elseLoops.getFirstElement();
 		}
-	
+
 		public ScriptLoop getNextElseLoop( ScriptLoop current)
 		{
 			return ( ScriptLoop) elseLoops.getNextElement( current);
 		}
-	
-	
+
+
 		public void addElseLoop( ScriptLoop elseLoop) throws AdvancedScriptException
 		{
 			if( repeat == true)
 				throw new AdvancedScriptException( "Else without if " + getLineAndFile());
 			elseLoops.addElement( elseLoop);
 		}
-	
+
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptValue result;
 			boolean conditionMet = (condition.execute().getIntValue() == 1);
 			if( conditionMet)
 			{
-				do 
+				do
 				{
 					result = scope.execute();
 					if( currentState == STATE_BREAK)
@@ -2343,7 +2294,7 @@ public class KoLmafiaASH
 						}
 						else
 							return null;
-					}				
+					}
 					if( currentState == STATE_CONTINUE)
 					{
 						if( !repeat)
@@ -2373,31 +2324,31 @@ public class KoLmafiaASH
 			return null;
 		}
 	}
-	
-	
+
+
 	class ScriptLoopList extends ScriptList
 	{
 		public ScriptLoop getFirstScriptLoop()
 		{
 			return ( ScriptLoop) getFirstElement();
 		}
-	
+
 		public ScriptLoop getNextScriptLoop( ScriptLoop current)
 		{
 			return ( ScriptLoop) getNextElement( current);
 		}
-	
+
 		public boolean addElement( ScriptListNode n)
 		{
 			return addElementSerial( n);
 		}
 	}
-	
+
 	class ScriptCall extends ScriptValue
 	{
 		private ScriptFunction				target;
 		private ScriptExpressionList			params;
-	
+
 		public ScriptCall( String functionName, ScriptScope scope, ScriptExpressionList params) throws AdvancedScriptException
 		{
 			target = findFunction( functionName, scope, params);
@@ -2405,34 +2356,34 @@ public class KoLmafiaASH
 				throw new AdvancedScriptException( "Undefined reference " + functionName + " " + getLineAndFile());
 			this.params = params;
 		}
-	
+
 		private ScriptFunction findFunction( String name, ScriptScope scope, ScriptExpressionList params) throws AdvancedScriptException
 		{
 			if( scope == null)
 				return null;
 			return scope.findFunction( name, params);
 		}
-	
+
 		public ScriptFunction getTarget()
 		{
 			return target;
 		}
-	
+
 		public ScriptExpression getFirstParam()
 		{
 			return ( ScriptExpression) params.getFirstElement();
 		}
-	
+
 		public ScriptExpression getNextParam( ScriptExpression current)
 		{
 			return ( ScriptExpression) params.getNextElement( current);
 		}
-	
+
 		public ScriptType getType()
 		{
 			return target.getType();
 		}
-	
+
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptVariableReference		paramVarRef;
@@ -2452,16 +2403,16 @@ public class KoLmafiaASH
 			}
 			if( paramValue != null)
 				throw new RuntimeException( "Internal error: illegal arguments.");
-	
+
 			return target.execute();
 		}
 	}
-	
+
 	class ScriptAssignment extends ScriptCommand
 	{
 		private ScriptVariableReference	leftHandSide;
 		private ScriptExpression	rightHandSide;
-	
+
 		public ScriptAssignment( ScriptVariableReference leftHandSide, ScriptExpression rightHandSide) throws AdvancedScriptException
 		{
 			this.leftHandSide = leftHandSide;
@@ -2476,22 +2427,22 @@ public class KoLmafiaASH
 					throw new AdvancedScriptException( "Cannot apply " + rightHandSide.getType().toString() + " to " + leftHandSide.toString() + " " + getLineAndFile());
 			}
 		}
-	
+
 		public ScriptVariableReference getLeftHandSide()
 		{
 			return leftHandSide;
 		}
-	
+
 		public ScriptExpression getRightHandSide()
 		{
 			return rightHandSide;
 		}
-	
+
 		public ScriptType getType()
 		{
 			return leftHandSide.getType();
 		}
-	
+
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			if( leftHandSide.getType().equals( TYPE_INT) && rightHandSide.getType().equals( TYPE_FLOAT))
@@ -2502,32 +2453,32 @@ public class KoLmafiaASH
 				leftHandSide.setValue( rightHandSide.execute());
 			return null;
 		}
-	
+
 	}
-	
+
 	class ScriptType
 	{
 		int type;
-	
+
 		public ScriptType( int type)
 		{
 			this.type = type;
 		}
-	
+
 		public boolean equals( ScriptType type)
 		{
 			if( this.type == type.type)
 				return true;
 			return false;
 		}
-	
+
 		public boolean equals( int type)
 		{
 			if( this.type == type)
 				return true;
 			return false;
 		}
-	
+
 		public String toString()
 		{
 			if( type == TYPE_VOID)
@@ -2554,58 +2505,58 @@ public class KoLmafiaASH
 				return "skill";
 			return "unknown type";
 		}
-	
+
 	}
-	
+
 	class ScriptValue extends ScriptExpression
 	{
 		ScriptType type;
-	
+
 		int contentInt = 0;
 		double contentDouble = 0.0;
 		String contentString = null;
 		Object content = null;
-	
+
 		public ScriptValue()
 		{
 			//stub constructor for subclasses
 			//should not be called
 		}
-	
+
 		public ScriptValue( int type) throws AdvancedScriptException
 		{
 			this.type = new ScriptType( type);
 			fillContent();
 		}
-	
+
 		public ScriptValue( ScriptType type)
 		{
 			this.type = type;
 		}
-	
+
 		public ScriptValue( int type, int contentInt) throws AdvancedScriptException
 		{
 			this.type = new ScriptType( type);
 			this.contentInt = contentInt;
 			fillContent();
 		}
-	
-	
+
+
 		public ScriptValue( ScriptType type, int contentInt) throws AdvancedScriptException
 		{
 			this.type = type;
 			this.contentInt = contentInt;
 			fillContent();
 		}
-	
-	
+
+
 		public ScriptValue( int type, String contentString) throws AdvancedScriptException
 		{
 			this.type = new ScriptType( type);
 			this.contentString = contentString;
 			fillContent();
 		}
-	
+
 		public ScriptValue( ScriptType type, String contentString) throws AdvancedScriptException
 		{
 			this.type = type;
@@ -2634,9 +2585,9 @@ public class KoLmafiaASH
 			if(!(o instanceof ScriptValue))
 				throw new ClassCastException();
 			return 0;
-	
+
 		}
-	
+
 		public ScriptValue toDouble() throws AdvancedScriptException
 		{
 			if( type.equals( TYPE_FLOAT))
@@ -2650,7 +2601,7 @@ public class KoLmafiaASH
 			if( type.equals( TYPE_INT))
 				return this;
 			else
-				return new ScriptValue( TYPE_INT, (int) contentDouble);			
+				return new ScriptValue( TYPE_INT, (int) contentDouble);
 		}
 
 		public ScriptType getType()
@@ -2665,12 +2616,12 @@ public class KoLmafiaASH
 			else
 				return Integer.toString( contentInt);
 		}
-	
+
 		public int getIntValue()
 		{
 			return contentInt;
 		}
-	
+
 		public String getStringValue()
 		{
 			return contentString;
@@ -2680,12 +2631,12 @@ public class KoLmafiaASH
 		{
 			return contentDouble;
 		}
-	
+
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			return this;
 		}
-	
+
 		public void fillContent() throws AdvancedScriptException
 		{
 			if( type.equals( TYPE_ITEM))
@@ -2743,7 +2694,7 @@ public class KoLmafiaASH
 					throw new AdvancedScriptException( "Skill " + contentString + " not found in database " + getLineAndFile());
 			}
 		}
-	
+
 		public KoLAdventure getLocation()
 		{
 			if( !type.equals( TYPE_LOCATION))
@@ -2752,13 +2703,13 @@ public class KoLmafiaASH
 				return ( KoLAdventure) content;
 		}
 	}
-	
+
 	class ScriptExpression extends ScriptCommand
 	{
 		ScriptExpression	lhs;
 		ScriptExpression	rhs;
 		ScriptOperator		oper;
-	
+
 		public ScriptExpression(ScriptExpression lhs, ScriptExpression rhs, ScriptOperator oper) throws AdvancedScriptException
 		{
 			this.lhs = lhs;
@@ -2774,14 +2725,14 @@ public class KoLmafiaASH
 			}
 			this.oper = oper;
 		}
-	
-	
+
+
 		public ScriptExpression()
 		{
 			//stub constructor for subclasses
 			//should not be called
 		}
-	
+
 		public ScriptType getType()
 		{
 			if( oper.isBool())
@@ -2789,24 +2740,24 @@ public class KoLmafiaASH
 			if( lhs.getType().equals( TYPE_FLOAT)) // int (oper) double evaluates to double.
 				return lhs.getType();
 			return rhs.getType();
-			
+
 		}
-	
+
 		public ScriptExpression getLeftHandSide()
 		{
 			return lhs;
 		}
-	
+
 		public ScriptExpression getRightHandSide()
 		{
 			return rhs;
 		}
-	
+
 		public ScriptOperator getOperator()
 		{
 			return oper;
 		}
-	
+
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			try
@@ -2818,44 +2769,44 @@ public class KoLmafiaASH
 				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing.");
 			}
 		}
-	
+
 	}
-	
+
 	class ScriptExpressionList extends ScriptList
 	{
 		public ScriptExpression getFirstExpression()
 		{
 			return ( ScriptExpression) getFirstElement();
 		}
-	
+
 		public ScriptExpression getNextExpression( ScriptExpression current)
 		{
 			return ( ScriptExpression) getNextElement( current);
 		}
-		
-	
+
+
 		public boolean addElement( ScriptListNode n) //Expression List has to remain in original order, so override addElement
 		{
 			return addElementSerial( n);
 		}
 	}
-	
+
 	class ScriptOperator
 	{
 		String operString;
-	
+
 		public ScriptOperator( String oper)
 		{
 			if( oper == null)
 				throw new RuntimeException( "Internal error in ScriptOperator()");
 			operString = oper;
 		}
-	
+
 		public boolean precedes( ScriptOperator oper)
 		{
 			return operStrength() > oper.operStrength();
 		}
-	
+
 		private int operStrength()
 		{
 			if( operString.equals( "!"))
@@ -2873,7 +2824,7 @@ public class KoLmafiaASH
 			else
 				return -1;
 		}
-	
+
 		public boolean isBool()
 		{
 			if
@@ -2884,23 +2835,23 @@ public class KoLmafiaASH
 				return false;
 			else
 				return true;
-		
+
 		}
-	
+
 		public String toString()
 		{
 			return operString;
 		}
-	
+
 		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs) throws AdvancedScriptException
 		{
-	
+
 			ScriptValue leftResult = lhs.execute();
 			ScriptValue rightResult;
-	
+
 			if( currentState == STATE_EXIT)
 				return null;
-	
+
 			if(( rhs != null) && ( !rhs.getType().equals( lhs.getType()))) //double-check values
 			{
 				if( lhs.getType().equals( TYPE_INT) && rhs.getType().equals( TYPE_FLOAT))
@@ -2910,7 +2861,7 @@ public class KoLmafiaASH
 				else
 					throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond");
 			}
-	
+
 			if( operString.equals( "!"))
 			{
 				if( leftResult.getIntValue() == 0)
@@ -3090,7 +3041,7 @@ public class KoLmafiaASH
 					if( leftResult.getStringValue().equals( rightResult.getStringValue()))
 						return new ScriptValue( TYPE_BOOLEAN, 1);
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);		
+						return new ScriptValue( TYPE_BOOLEAN, 0);
 				}
 			}
 			if( operString.equals( "!="))
@@ -3130,7 +3081,7 @@ public class KoLmafiaASH
 					if( !leftResult.getStringValue().equals( rightResult.getStringValue()))
 						return new ScriptValue( TYPE_BOOLEAN, 1);
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);		
+						return new ScriptValue( TYPE_BOOLEAN, 0);
 				}
 			}
 			if( operString.equals( "||"))
@@ -3150,55 +3101,55 @@ public class KoLmafiaASH
 			throw new RuntimeException( "Internal error: illegal operator.");
 		}
 	}
-	
-	
+
+
 	class ScriptListNode implements Comparable
 	{
 		ScriptListNode next = null;
-	
+
 		public ScriptListNode()
 		{
 		}
-	
+
 		public ScriptListNode getNext()
 		{
 			return next;
 		}
-	
+
 		public void setNext( ScriptListNode node)
 		{
 			next = node;
 		}
-	
+
 		public int compareTo( Object o) throws ClassCastException
 		{
 			if(!(o instanceof ScriptListNode))
 				throw new ClassCastException();
 			return 0; //This should not happen since each extending class overrides this function
-	
+
 		}
-	
+
 	}
-	
+
 	class ScriptList
 	{
 		ScriptListNode firstNode;
-	
+
 		public ScriptList()
 		{
 			firstNode = null;
 		}
-	
+
 		public ScriptList( ScriptListNode node)
 		{
 			firstNode = node;
 		}
-	
+
 		public boolean addElement( ScriptListNode n)
 		{
 			ScriptListNode current;
 			ScriptListNode previous = null;
-	
+
 			if( firstNode == null)
 				{
 				firstNode = n;
@@ -3226,38 +3177,38 @@ public class KoLmafiaASH
 			}
 			return true;
 		}
-	
+
 		public boolean addElementSerial( ScriptListNode n) //Function for subclasses to override addElement with
 		{
 			ScriptListNode current;
 			ScriptListNode previous = null;
-	
+
 			if( firstNode == null)
 				{
 				firstNode = n;
 				return true;
 				}
-	
+
 			for( current = firstNode; current != null; previous = current, current = current.getNext())
 				;
-	
+
 			previous.setNext( n);
 			return true;
 		}
-	
-	
+
+
 		public ScriptListNode getFirstElement()
 		{
 			return firstNode;
 		}
-	
+
 		public ScriptListNode getNextElement( ScriptListNode n)
 		{
 			return n.getNext();
 		}
-	
+
 	}
-	
+
 	class AdvancedScriptException extends Exception
 	{
 		AdvancedScriptException( String s)
