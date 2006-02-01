@@ -266,31 +266,37 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// all creatable items.  We do this by determining the
 		// number of items inside of the old list.
 
-		ItemCreationRequest currentCreation;
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 		{
-			if ( concoctions[i].getMixingMethod() != ItemCreationRequest.NOCREATE )
+			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.NOCREATE )
+				continue;
+
+			// We can't make this concoction now
+			if ( concoctions[i].creatable <= 0 )
 			{
 				if ( wasPossible[i] )
 				{
-					currentCreation = ItemCreationRequest.getInstance( client, i, concoctions[i].creatable );
+					concoctionsList.remove( ItemCreationRequest.getInstance( client, i, 0 ) );
+					wasPossible[i] = false;
+				}
+				continue;
+			}
 
-					if ( concoctions[i].creatable > 0 && currentCreation.getCount( concoctionsList ) != concoctions[i].creatable )
-					{
-						concoctionsList.set( concoctionsList.indexOf( currentCreation ), currentCreation );
-						wasPossible[i] = true;
-					}
-					else if ( concoctions[i].creatable == 0 )
-					{
-						concoctionsList.remove( currentCreation );
-						wasPossible[i] = false;
-					}
-				}
-				else if ( concoctions[i].creatable > 0 )
+			// We can make the concoction now
+			ItemCreationRequest currentCreation = ItemCreationRequest.getInstance( client, i, concoctions[i].creatable );
+
+			if ( wasPossible[i] )
+			{
+				if ( currentCreation.getCount( concoctionsList ) != concoctions[i].creatable )
 				{
-					concoctionsList.add( ItemCreationRequest.getInstance( client, i, concoctions[i].creatable ) );
-					wasPossible[i] = true;
+					concoctionsList.remove( currentCreation );
+					concoctionsList.add( currentCreation );
 				}
+			}
+			else
+			{
+				concoctionsList.add( currentCreation );
+				wasPossible[i] = true;
 			}
 		}
 	}
