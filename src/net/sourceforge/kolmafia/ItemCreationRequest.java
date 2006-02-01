@@ -254,6 +254,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				makeDough();
 				break;
 
+			case CLOVER:
+
+				ConsumeItemRequest cloverUser = new ConsumeItemRequest( client,
+					ConcoctionsDatabase.getIngredients( itemID )[0].getInstance( quantityNeeded ) );
+				cloverUser.run();
+				return;
+
 			default:
 
 				combineItems();
@@ -351,8 +358,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// First, make all the required ingredients for
 		// this concoction.
 
-		if ( mixingMethod != CLOVER )
-			makeIngredients();
+		makeIngredients();
 
 		// If the request has been cancelled midway, be
 		// sure to return from here.
@@ -365,9 +371,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
-		if ( mixingMethod != CLOVER )
-			for ( int i = 0; i < ingredients.length; ++i )
-				addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemID() ) );
+		for ( int i = 0; i < ingredients.length; ++i )
+			addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemID() ) );
 
 		addFormField( "quantity", String.valueOf( quantityNeeded ) );
 
