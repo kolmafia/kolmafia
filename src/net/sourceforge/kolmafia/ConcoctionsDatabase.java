@@ -268,9 +268,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 		{
-			if ( concoctions[i].getMixingMethod() == ItemCreationRequest.NOCREATE )
-				continue;
-
 			// We can't make this concoction now
 			if ( concoctions[i].creatable <= 0 )
 			{
