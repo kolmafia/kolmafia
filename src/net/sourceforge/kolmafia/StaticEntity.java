@@ -65,6 +65,7 @@ public abstract class StaticEntity implements KoLConstants
 		for ( int i = 0; i < frames.length; ++i )
 			((KoLFrame)frames[i]).dispose();
 
+		ConcoctionsDatabase.getConcoctions().clear();
 		BuffBotHome.setBuffBotActive( false );
 		client.closeMacroStream();
 

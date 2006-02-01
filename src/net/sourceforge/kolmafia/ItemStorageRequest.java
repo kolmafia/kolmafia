@@ -210,6 +210,8 @@ public class ItemStorageRequest extends SendMessageRequest
 				updateDisplay( NORMAL_STATE, "" );
 				break;
 		}
+
+		KoLCharacter.refreshCalculatedLists();
 	}
 
 	private void meat()

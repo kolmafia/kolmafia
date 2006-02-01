@@ -370,6 +370,8 @@ public class EquipmentRequest extends PasswordHashRequest
 			closet.clear();
 			parseCloset( closetMatcher.group(), closet, false );
 		}
+
+		KoLCharacter.refreshCalculatedLists();
 	}
 
 	private void parseCloset( String content, List resultList, boolean updateUsableList )
