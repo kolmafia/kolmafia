@@ -25,9 +25,9 @@
  * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
  * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
  * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION ) HOWEVER
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE ) ARISING IN
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
@@ -73,11 +73,11 @@ import java.lang.reflect.Array;
  * of the interactions.
  */
 
-public class KoLmafiaASH implements KoLConstants
+public class KoLmafiaASH extends StaticEntity
 {
 	/* Variables for Advanced Scripting */
-	public final static char[] tokenList = {' ', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '/', '%', '[', ']', '!', ';', '<', '>'};
-	public final static String[] multiCharTokenList = {"==", "!=", "<=", ">=", "||", "&&"};
+	public final static char [] tokenList = { ' ', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '/', '%', '[', ']', '!', ';', '<', '>' };
+	public final static String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&" };
 
 	public static final int TYPE_VOID = 0;
 	public static final int TYPE_BOOLEAN = 1;
@@ -92,10 +92,10 @@ public class KoLmafiaASH implements KoLConstants
 	public static final int TYPE_STAT = 104;
 	public static final int TYPE_SKILL = 105;
 
-	public static final String[] zodiacs = {"none", "wallably", "mongoose", "vole", "platypus", "opossum", "marmot", "wombat", "blender", "packrat"};
-	public static final String[] classes = {"seal clubber", "turtle tamer", "pastamancer", "sauceror", "disco bandit", "accordion thief"};
-	public static final String[] stats = {"muscle", "mysticality", "moxie"};
-	public static final String[] booleans = {"true", "false"};
+	public static final String [] zodiacs = { "none", "wallably", "mongoose", "vole", "platypus", "opossum", "marmot", "wombat", "blender", "packrat" };
+	public static final String [] classes = { "seal clubber", "turtle tamer", "pastamancer", "sauceror", "disco bandit", "accordion thief" };
+	public static final String [] stats = { "muscle", "mysticality", "moxie" };
+	public static final String [] booleans = { "true", "false" };
 
 	public static final int COMMAND_BREAK = 1;
 	public static final int COMMAND_CONTINUE = 2;
@@ -116,13 +116,13 @@ public class KoLmafiaASH implements KoLConstants
 	private String nextLine;
 	private int lineNumber;
 
+	public String fileName;
 	public LineNumberReader commandStream;
-	public String		fileName;
 
-	public void execute( File scriptFile) throws IOException
+	public void execute( File scriptFile ) throws IOException
 	{
 		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
-		fileName = scriptFile.getPath();
+		this.fileName = scriptFile.getPath();
 
 		line = getNextLine();
 		lineNumber = commandStream.getLineNumber();
@@ -130,48 +130,45 @@ public class KoLmafiaASH implements KoLConstants
 
 		try
 		{
-			global = parseScope( null, new ScriptVariableList(), getExistingFunctionScope(), false);
-			if ( line != null )
-				{
-				throw new AdvancedScriptException( "Script parsing error " + getLineAndFile());
-				}
+			global = parseScope( null, new ScriptVariableList(), getExistingFunctionScope(), false );
 
+			if ( line != null )
+				throw new AdvancedScriptException( "Script parsing error " + getLineAndFile() );
 
 			commandStream.close();
-
 			printScope( global, 0 );
 
 			currentState = STATE_NORMAL;
-			ScriptValue result = executeGlobalScope( global);
-			if(( result.getType().equals(TYPE_BOOLEAN)))
+			ScriptValue result = executeGlobalScope( global );
+			if ( result.getType().equals( TYPE_BOOLEAN ) )
 			{
 
-				if( result.getIntValue() == 0)
-					{
-					KoLmafia.getLogStream().println( "Script failed!"); //failed
-					StaticEntity.getClient().updateDisplay( KoLmafia.NORMAL_STATE,  "Script failed!");
+				if ( result.getIntValue() == 0 )
+				{
+					KoLmafia.getLogStream().println( "Script failed!" ); //failed
+					client.updateDisplay( KoLmafia.NORMAL_STATE,  "Script failed!" );
 					return;
-					}
+				}
 				else
-					{
-					KoLmafia.getLogStream().println( "Script succeeded!"); //succes
-					StaticEntity.getClient().updateDisplay( KoLmafia.NORMAL_STATE,  "Script succeeded!");
+				{
+					KoLmafia.getLogStream().println( "Script succeeded!" ); //succes
+					client.updateDisplay( KoLmafia.NORMAL_STATE,  "Script succeeded!" );
 					return;
-					}
+				}
 			}
 			else
 			{
-				KoLmafia.getLogStream().println( "Script returned message " + result.toString());
-				StaticEntity.getClient().updateDisplay( KoLmafia.NORMAL_STATE,  "Script returned value " + result.toString());
+				KoLmafia.getLogStream().println( "Script returned message " + result.toString() );
+				client.updateDisplay( KoLmafia.NORMAL_STATE,  "Script returned value " + result.toString() );
 				return;
 			}
 
 		}
-		catch( AdvancedScriptException e)
+		catch( AdvancedScriptException e )
 		{
 			commandStream.close();
-			StaticEntity.getClient().updateDisplay( KoLmafia.ERROR_STATE, e.getMessage() );
-			StaticEntity.getClient().cancelRequest();
+			client.updateDisplay( KoLmafia.ERROR_STATE, e.getMessage() );
+			client.cancelRequest();
 
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
@@ -190,7 +187,7 @@ public class KoLmafiaASH implements KoLConstants
 			{
 				// Read a line from input, and break out of the do-while
 				// loop when you've read a valid line (which is a non-comment
-				// and a non-blank line) or when you've reached EOF.
+				// and a non-blank line ) or when you've reached EOF.
 
 				line = commandStream.readLine();
 			}
@@ -215,239 +212,250 @@ public class KoLmafiaASH implements KoLConstants
 	}
 
 
-	private ScriptScope parseScope( ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop) throws AdvancedScriptException
+	private ScriptScope parseScope( ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop ) throws AdvancedScriptException
 	{
-		return parseScope( null, expectedType, variables, parentScope, whileLoop);
+		return parseScope( null, expectedType, variables, parentScope, whileLoop );
 	}
 
-	private ScriptScope parseFile( String fileName, ScriptScope startScope, ScriptScope parentScope) throws AdvancedScriptException, java.io.FileNotFoundException
+	private ScriptScope parseFile( String fileName, ScriptScope startScope, ScriptScope parentScope ) throws AdvancedScriptException, java.io.FileNotFoundException
 	{
 		ScriptScope result;
-
 		this.fileName = fileName;
 
-		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( "scripts" + java.io.File.separator + fileName ) ) );
+		File scriptFile = new File( "scripts" + File.separator + fileName );
+		if ( !scriptFile.exists() )
+			scriptFile = new File( fileName );
+		if ( !scriptFile.exists() )
+			scriptFile = new File( fileName + ".ash" );
+
+		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 
 		line = getNextLine();
 		lineNumber = commandStream.getLineNumber();
 		nextLine = getNextLine();
 
-		result = parseScope( startScope, null, new ScriptVariableList(), parentScope, false);
+		result = parseScope( startScope, null, new ScriptVariableList(), parentScope, false );
+
 		try
 		{
 			commandStream.close();
 		}
-		catch( IOException e)
+		catch( IOException e )
 		{
-			throw new RuntimeException( "Internal Error: IOException occurred on attempt to close file.");
+			throw new RuntimeException( "Internal Error: IOException occurred on attempt to close file." );
 		}
 
 		if ( line != null )
-			{
-			throw new AdvancedScriptException( "Script parsing error " + getLineAndFile());
-			}
+			throw new AdvancedScriptException( "Script parsing error " + getLineAndFile() );
+
 		return result;
 	}
 
-	private ScriptScope parseScope( ScriptScope startScope, ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop) throws AdvancedScriptException
+	private ScriptScope parseScope( ScriptScope startScope, ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop ) throws AdvancedScriptException
 	{
-		ScriptFunction	f = null;
-		ScriptVariable	v = null;
-		ScriptCommand 	c = null;
-		ScriptType	t = null;
-		ScriptScope	result;
-		String		importString;
+		ScriptFunction f = null;
+		ScriptVariable v = null;
+		ScriptCommand c = null;
+		ScriptType t = null;
+		ScriptScope result;
+		String importString;
 
-		if( startScope == null)
-		{
-			result = new ScriptScope( variables, parentScope);
-		}
-		else
-		{
-			result = startScope;
+		result = startScope == null ? new ScriptScope( variables, parentScope ) : startScope;
 
-		}
-
-		while(( importString = parseImport()) != null)
+		while ( (importString = parseImport()) != null )
 		{
-			if( currentToken().equals(";"))
+			if ( currentToken().equals( ";" ) )
 				readToken(); //read ;
 			else
-				throw new AdvancedScriptException( "';' Expected " + getLineAndFile());
+				throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
 			try
 			{
-				result = new KoLmafiaASH().parseFile( importString, result, parentScope);
+				result = new KoLmafiaASH().parseFile( importString, result, parentScope );
 			}
-			catch( java.io.FileNotFoundException e)
+			catch( java.io.FileNotFoundException e )
 			{
-				throw new AdvancedScriptException( "File " + importString + " not found " + getLineAndFile());
+				throw new AdvancedScriptException( "File " + importString + " not found " + getLineAndFile() );
 			}
-
 		}
 
-		while( true)
+		while ( true )
 		{
-			if(( t = parseType()) == null)
+			if ( (t = parseType()) == null )
 			{
-				if(( c = parseCommand( expectedType, result, false, whileLoop)) != null)
+				if ( (c = parseCommand( expectedType, result, false, whileLoop )) != null )
 				{
-					if( startScope == null) //only upper level scope may be directly executed.
-						result.addCommand( c);
+					if ( startScope == null ) //only upper level scope may be directly executed.
+						result.addCommand( c );
+
 					continue;
 				}
 				else
 				//No type and no command -> done.
 					break;
 			}
-			if(( f = parseFunction( t, result)) != null)
+			if ( (f = parseFunction( t, result )) != null )
 			{
-				if( !f.getName().equals( "main") || startScope == null) //only upper level scope may define main.
-					if( !result.addFunction( f))
-						throw new AdvancedScriptException( "Function " + f.getName() + " already defined " + getLineAndFile());
+				if ( !f.getName().equals( "main" ) || startScope == null ) //only upper level scope may define main.
+					if ( !result.addFunction( f ) )
+						throw new AdvancedScriptException( "Function " + f.getName() + " already defined " + getLineAndFile() );
 			}
-			else if(( v = parseVariable( t)) != null)
+			else if ( (v = parseVariable( t )) != null )
 			{
-				if( !result.addVariable( v))
-					throw new AdvancedScriptException( "Variable " + v.getName() + " already defined " + getLineAndFile());
-				if( currentToken().equals(";"))
+				if ( !result.addVariable( v ) )
+					throw new AdvancedScriptException( "Variable " + v.getName() + " already defined " + getLineAndFile() );
+				if ( currentToken().equals( ";" ) )
 					readToken(); //read ;
 				else
-					throw new AdvancedScriptException( "';' Expected " + getLineAndFile());
+					throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
 			}
 			else
 				//Found a type but no function or variable to tie it to
-				throw new AdvancedScriptException( "Script parse error " + getLineAndFile());
+				throw new AdvancedScriptException( "Script parse error " + getLineAndFile() );
 		}
-		if( !result.assertReturn())
-			{
-			if( !( expectedType == null) && !expectedType.equals( TYPE_VOID) && !expectedType.equals(TYPE_BOOLEAN))
-				throw new AdvancedScriptException( "Missing return value " + getLineAndFile());
-			}
+
+		if ( !result.assertReturn() )
+		{
+			if ( !( expectedType == null ) && !expectedType.equals( TYPE_VOID ) && !expectedType.equals( TYPE_BOOLEAN ) )
+				throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
+		}
+
 		return result;
 	}
 
-	private ScriptFunction parseFunction( ScriptType t, ScriptScope parentScope) throws AdvancedScriptException
+	private ScriptFunction parseFunction( ScriptType t, ScriptScope parentScope ) throws AdvancedScriptException
 	{
-		String				functionName;
-		ScriptFunction			result;
-		ScriptType			paramType = null;
-		ScriptVariable			param = null;
-		ScriptVariable			paramNext = null;
-		ScriptVariableList		paramList = null;
-		ScriptVariableReference		paramRef = null;
+		String functionName;
+		ScriptFunction result;
+		ScriptType paramType = null;
+		ScriptVariable param = null;
+		ScriptVariable paramNext = null;
+		ScriptVariableList paramList = null;
+		ScriptVariableReference paramRef = null;
 
-		if( parseIdentifier( currentToken()))
+		if ( parseIdentifier( currentToken() ) )
 			functionName = currentToken();
 		else
 			return null;
-		if(( nextToken() == null) || (!nextToken().equals( "(")))
+
+		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
+
 		readToken(); //read Function name
 		readToken(); //read (
 
 		paramList = new ScriptVariableList();
 
-		result = new ScriptFunction( functionName, t);
-		while( !currentToken().equals( ")"))
+		result = new ScriptFunction( functionName, t );
+		while ( !currentToken().equals( ")" ) )
+		{
+			if ( (paramType = parseType()) == null )
+				throw new AdvancedScriptException( " ')' Expected " + getLineAndFile() );
+
+			if ( (param = parseVariable( paramType )) == null )
+				throw new AdvancedScriptException( " Identifier expected " + getLineAndFile() );
+
+			if ( !currentToken().equals( ")" ) )
 			{
-			if(( paramType = parseType()) == null)
-				throw new AdvancedScriptException( " ')' Expected " + getLineAndFile());
-			if(( param = parseVariable( paramType)) == null)
-				throw new AdvancedScriptException( " Identifier expected " + getLineAndFile());
-			if( !currentToken().equals( ")"))
-				{
-				if( !currentToken().equals( ","))
-					throw new AdvancedScriptException( " ')' Expected " + getLineAndFile());
+				if ( !currentToken().equals( "," ) )
+					throw new AdvancedScriptException( " ')' Expected " + getLineAndFile() );
+
 				readToken(); //read comma
-				}
-			paramRef = new ScriptVariableReference( param);
-			result.addVariableReference( paramRef);
-			if( !paramList.addElement( param))
-				throw new AdvancedScriptException( "Variable " + param.getName() + " already defined " + getLineAndFile());
 			}
+			paramRef = new ScriptVariableReference( param );
+			result.addVariableReference( paramRef );
+			if ( !paramList.addElement( param ) )
+				throw new AdvancedScriptException( "Variable " + param.getName() + " already defined " + getLineAndFile() );
+		}
+
 		readToken(); //read )
-		if( !currentToken().equals( "{")) //Scope is a single call
+
+		if ( !currentToken().equals( "{" ) ) //Scope is a single call
+		{
+			result.setScope( new ScriptScope( parseCommand( t, parentScope, false, false ), parentScope ) );
+
+			for ( param = paramList.getFirstVariable(); param != null; param = paramNext )
 			{
-			result.setScope( new ScriptScope( parseCommand( t, parentScope, false, false), parentScope));
-			for( param = paramList.getFirstVariable(); param != null; param = paramNext)
-				{
-				paramNext = paramList.getNextVariable( param);
-				if( !result.getScope().addVariable( param))
-					throw new AdvancedScriptException( "Variable " + param.getName() + " already defined " + getLineAndFile());
-				}
-			if( !result.getScope().assertReturn())
-				throw new AdvancedScriptException( "Missing return value " + getLineAndFile());
+				paramNext = paramList.getNextVariable( param );
+				if ( !result.getScope().addVariable( param ) )
+					throw new AdvancedScriptException( "Variable " + param.getName() + " already defined " + getLineAndFile() );
 			}
+
+			if ( !result.getScope().assertReturn() )
+				throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
+		}
 		else
-			{
+		{
 			readToken(); //read {
-			result.setScope( parseScope( t, paramList, parentScope, false));
-			if( !currentToken().equals( "}"))
-				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile());
+			result.setScope( parseScope( t, paramList, parentScope, false ) );
+			if ( !currentToken().equals( "}" ) )
+				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
 			readToken(); //read }
-			}
+		}
 
 		return result;
 	}
 
-	private ScriptVariable parseVariable( ScriptType t)
+	private ScriptVariable parseVariable( ScriptType t )
 	{
 		ScriptVariable result;
 
-		if( parseIdentifier( currentToken()))
-			result = new ScriptVariable( currentToken(), t);
+		if ( parseIdentifier( currentToken() ) )
+			result = new ScriptVariable( currentToken(), t );
 		else
 			return null;
-		readToken(); //If parsing of Identifier succeeded, go to next token.
+
+		readToken(); // If parsing of Identifier succeeded, go to next token.
 		return result;
 	}
 
-	private ScriptCommand parseCommand( ScriptType functionType, ScriptScope scope, boolean noElse, boolean whileLoop) throws AdvancedScriptException
+	private ScriptCommand parseCommand( ScriptType functionType, ScriptScope scope, boolean noElse, boolean whileLoop ) throws AdvancedScriptException
 	{
 		ScriptCommand result;
 
-		if( currentToken() == null)
+		if ( currentToken() == null )
 			return null;
 
-		if( currentToken().equals( "break"))
-			{
-			if( !whileLoop)
-				throw new AdvancedScriptException( "break outside of loop " + getLineAndFile());
-			result = new ScriptCommand( COMMAND_BREAK);
+		if ( currentToken().equals( "break" ) )
+		{
+			if ( !whileLoop )
+				throw new AdvancedScriptException( "break outside of loop " + getLineAndFile() );
+
+			result = new ScriptCommand( COMMAND_BREAK );
 			readToken(); //break
-			}
+		}
 
-		else if( currentToken().equals( "continue"))
-			{
-			if( !whileLoop)
-				throw new AdvancedScriptException( "break outside of loop " + getLineAndFile());
-			result = new ScriptCommand( COMMAND_CONTINUE);
+		else if ( currentToken().equals( "continue" ) )
+		{
+			if ( !whileLoop )
+				throw new AdvancedScriptException( "break outside of loop " + getLineAndFile() );
+
+			result = new ScriptCommand( COMMAND_CONTINUE );
 			readToken(); //continue
-			}
+		}
 
-		else if( currentToken().equals( "exit"))
-			{
-			result = new ScriptCommand( COMMAND_EXIT);
+		else if ( currentToken().equals( "exit" ) )
+		{
+			result = new ScriptCommand( COMMAND_EXIT );
 			readToken(); //exit
-			}
+		}
 
 
-		else if(( result = parseReturn( functionType, scope)) != null)
+		else if ( (result = parseReturn( functionType, scope )) != null )
 			;
-		else if(( result = parseLoop( functionType, scope, noElse, whileLoop)) != null)
+		else if ( (result = parseLoop( functionType, scope, noElse, whileLoop )) != null )
 			//loop doesn't have a ; token
 			return result;
-		else if(( result = parseCall( scope)) != null)
+		else if ( (result = parseCall( scope )) != null )
 			;
-		else if(( result = parseAssignment( scope)) != null)
+		else if ( (result = parseAssignment( scope )) != null )
 			;
 		else
 			return null;
 
-		if(( currentToken() == null) || ( !currentToken().equals(";")))
-			throw new AdvancedScriptException( "';' Expected " + getLineAndFile());
-		readToken(); // ;
+		if ( currentToken() == null || !currentToken().equals( ";" ) )
+			throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
 
+		readToken(); // ;
 		return result;
 	}
 
@@ -455,322 +463,329 @@ public class KoLmafiaASH implements KoLConstants
 	{
 		int type;
 
-		if( currentToken() == null)
+		if ( currentToken() == null )
 			return null;
+
 		String typeString = currentToken();
 
-		if( typeString.equals( "void"))
+		if ( typeString.equals( "void" ) )
 			type = TYPE_VOID;
-		else if( typeString.equals( "boolean"))
+		else if ( typeString.equals( "boolean" ) )
 			type = TYPE_BOOLEAN;
-		else if( typeString.equals( "int"))
+		else if ( typeString.equals( "int" ) )
 			type = TYPE_INT;
-		else if( typeString.equals( "float"))
+		else if ( typeString.equals( "float" ) )
 			type = TYPE_FLOAT;
-		else if( typeString.equals( "string"))
+		else if ( typeString.equals( "string" ) )
 			type = TYPE_STRING;
-		else if( typeString.equals( "item"))
+		else if ( typeString.equals( "item" ) )
 			type = TYPE_ITEM;
-		else if( typeString.equals( "zodiac"))
+		else if ( typeString.equals( "zodiac" ) )
 			type = TYPE_ZODIAC;
-		else if( typeString.equals( "location"))
+		else if ( typeString.equals( "location" ) )
 			type = TYPE_LOCATION;
-		else if( typeString.equals( "class"))
+		else if ( typeString.equals( "class" ) )
 			type = TYPE_CLASS;
-		else if( typeString.equals( "stat"))
+		else if ( typeString.equals( "stat" ) )
 			type = TYPE_STAT;
-		else if( typeString.equals( "skill"))
+		else if ( typeString.equals( "skill" ) )
 			type = TYPE_SKILL;
 		else
 			return null;
+
 		readToken();
-		return new ScriptType( type);
+		return new ScriptType( type );
 	}
 
-	private boolean parseIdentifier( String identifier)
+	private boolean parseIdentifier( String identifier )
 	{
-		if( !Character.isLetter( identifier.charAt( 0)) && (identifier.charAt( 0) != '_'))
-	    	{
+		if ( !Character.isLetter( identifier.charAt( 0 ) ) && (identifier.charAt( 0 ) != '_' ) )
 			return false;
-		}
-		for( int i = 1; i < identifier.length(); i++)
-		{
-			if( !Character.isLetterOrDigit( identifier.charAt( i)) && (identifier.charAt( i) != '_'))
-    			{
-				return false;
-			}
-		}
 
+		for ( int i = 1; i < identifier.length(); i++ )
+			if ( !Character.isLetterOrDigit( identifier.charAt( i ) ) && (identifier.charAt( i ) != '_' ) )
+				return false;
 
 		return true;
 	}
 
-
-
-	private ScriptReturn parseReturn( ScriptType expectedType, ScriptScope parentScope) throws AdvancedScriptException
+	private ScriptReturn parseReturn( ScriptType expectedType, ScriptScope parentScope ) throws AdvancedScriptException
 	{
 
 		ScriptExpression expression = null;
 
-		if(( currentToken() == null) || !( currentToken().equals( "return")))
+		if ( currentToken() == null || !currentToken().equals( "return" ) )
 			return null;
+
 		readToken(); //return
-		if(( currentToken() != null) && ( currentToken().equals(";")))
+
+		if ( currentToken() != null && currentToken().equals( ";" ) )
 		{
-			if(( expectedType != null) && expectedType.equals(TYPE_VOID))
-			{
-				return new ScriptReturn( null, new ScriptType( TYPE_VOID));
-			}
-			else
-				throw new AdvancedScriptException( "Return needs value " + getLineAndFile());
+			if ( expectedType != null && expectedType.equals( TYPE_VOID ) )
+				return new ScriptReturn( null, new ScriptType( TYPE_VOID ) );
+
+			throw new AdvancedScriptException( "Return needs value " + getLineAndFile() );
 		}
 		else
 		{
-			if(( expression = parseExpression( parentScope)) == null)
-				throw new AdvancedScriptException( "Expression expected " + getLineAndFile());
-			return new ScriptReturn( expression, expectedType);
+			if ( (expression = parseExpression( parentScope )) == null )
+				throw new AdvancedScriptException( "Expression expected " + getLineAndFile() );
+
+			return new ScriptReturn( expression, expectedType );
 		}
 	}
 
 
-	private ScriptLoop parseLoop( ScriptType functionType, ScriptScope parentScope, boolean noElse, boolean loop) throws AdvancedScriptException
+	private ScriptLoop parseLoop( ScriptType functionType, ScriptScope parentScope, boolean noElse, boolean loop ) throws AdvancedScriptException
 	{
-		ScriptScope		scope;
-		ScriptExpression	expression;
-		ScriptLoop		result = null;
-		ScriptLoop		currentLoop = null;
-		ScriptCommand		command = null;
-		boolean			repeat = false;
-		boolean			elseFound = false;
-		boolean			finalElse = false;
+		ScriptScope scope;
+		ScriptExpression expression;
+		ScriptLoop result = null;
+		ScriptLoop currentLoop = null;
+		ScriptCommand command = null;
+		boolean repeat = false;
+		boolean elseFound = false;
+		boolean finalElse = false;
 
-		if( currentToken() == null)
+		if ( currentToken() == null )
 			return null;
 
-		if( (currentToken().equals( "while") && ( repeat = true)) || currentToken().equals("if"))
+		if ( (currentToken().equals( "while" ) && ( repeat = true )) || currentToken().equals( "if" ) )
 		{
+			if ( nextToken() == null || !nextToken().equals( "(" ) )
+				throw new AdvancedScriptException( "'(' Expected " + getLineAndFile() );
 
-			if(( nextToken() == null) || ( !nextToken().equals("(")))
-				throw new AdvancedScriptException( "'(' Expected " + getLineAndFile());
 			readToken(); //if or while
 			readToken(); //(
-			expression = parseExpression( parentScope);
-			if(( currentToken() == null) || ( !currentToken().equals(")")))
-				throw new AdvancedScriptException( "')' Expected " + getLineAndFile());
-			readToken(); //)
+
+			expression = parseExpression( parentScope );
+			if ( currentToken() == null || !currentToken().equals( ")" ) )
+				throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
+
+			readToken(); // )
 
 			do
 			{
-
-
-				if(( currentToken() == null) || ( !currentToken().equals( "{"))) //Scope is a single call
+				if ( currentToken() == null || !currentToken().equals( "{" ) ) //Scope is a single call
 				{
-					command = parseCommand( functionType, parentScope, !elseFound, (repeat || loop));
-					scope = new ScriptScope( command, parentScope);
-					if( result == null)
-						result = new ScriptLoop( scope, expression, repeat);
+					command = parseCommand( functionType, parentScope, !elseFound, (repeat || loop) );
+					scope = new ScriptScope( command, parentScope );
+					if ( result == null )
+						result = new ScriptLoop( scope, expression, repeat );
 				}
 				else
 				{
 					readToken(); //read {
-					scope = parseScope( functionType, null, parentScope, (repeat || loop));
-					if(( currentToken() == null) || ( !currentToken().equals( "}")))
-						throw new AdvancedScriptException( " '}' Expected " + getLineAndFile());
+					scope = parseScope( functionType, null, parentScope, (repeat || loop ) );
+
+					if ( currentToken() == null || !currentToken().equals( "}" ) )
+						throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
+
 					readToken(); //read }
-					if( result == null)
-						result = new ScriptLoop( scope, expression, repeat);
+					if ( result == null )
+						result = new ScriptLoop( scope, expression, repeat );
 					else
-						result.addElseLoop( new ScriptLoop( scope, expression, false));
+						result.addElseLoop( new ScriptLoop( scope, expression, false ) );
 				}
-				if( !repeat && !noElse && ( currentToken() != null) && currentToken().equals( "else"))
+				if ( !repeat && !noElse && currentToken() != null && currentToken().equals( "else" ) )
 				{
 
-					if( finalElse)
-						throw new AdvancedScriptException( "Else without if " + getLineAndFile());
+					if ( finalElse )
+						throw new AdvancedScriptException( "Else without if " + getLineAndFile() );
 
-					if(( nextToken() != null) && nextToken().equals( "if"))
+					if ( nextToken() != null && nextToken().equals( "if" ) )
 					{
 						readToken(); //else
-					readToken(); //if
-						if(( currentToken() == null) || ( !currentToken().equals("(")))
-							throw new AdvancedScriptException( "'(' Expected " + getLineAndFile());
+						readToken(); //if
+
+						if ( currentToken() == null || !currentToken().equals( "(" ) )
+							throw new AdvancedScriptException( "'(' Expected " + getLineAndFile() );
+
 						readToken(); //(
-						expression = parseExpression( parentScope);
-						if(( currentToken() == null) || ( !currentToken().equals(")")))
-							throw new AdvancedScriptException( "')' Expected " + getLineAndFile());
-						readToken(); //)
+						expression = parseExpression( parentScope );
+
+						if ( currentToken() == null || !currentToken().equals( ")" ) )
+							throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
+
+						readToken(); // )
 					}
 					else //else without condition
 					{
 						readToken(); //else
-						expression = new ScriptValue( new ScriptType( TYPE_BOOLEAN), 1);
+						expression = new ScriptValue( new ScriptType( TYPE_BOOLEAN ), 1 );
 						finalElse = true;
 					}
+
 					elseFound = true;
 					continue;
 				}
+
 				elseFound = false;
-			} while( elseFound);
+			}
+			while ( elseFound );
 		}
 		else
 			return null;
+
 		return result;
 	}
 
-	private ScriptCall parseCall( ScriptScope scope) throws AdvancedScriptException
+	private ScriptCall parseCall( ScriptScope scope ) throws AdvancedScriptException
 	{
-		String				name = null;
-		String				varName;
-		ScriptCall			result;
-		ScriptExpressionList		params;
-		ScriptExpression		val;
+		String name = null;
+		String varName;
+		ScriptCall result;
+		ScriptExpressionList params;
+		ScriptExpression val;
 
-		if(( nextToken() == null) || !nextToken().equals( "("))
+		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
 
-		if( parseIdentifier( currentToken()))
+		if ( parseIdentifier( currentToken() ) )
 			name = currentToken();
 		else
 			return null;
+
 		readToken(); //name
 		readToken(); //(
 
 		params = new ScriptExpressionList();
-		while(( currentToken() != null) && (!currentToken().equals( ")")))
+		while ( currentToken() != null && !currentToken().equals( ")" ) )
 		{
-			if(( val = parseExpression( scope)) != null)
+			if ( (val = parseExpression( scope )) != null )
 			{
-				params.addElement( val);
+				params.addElement( val );
 			}
-			if( !currentToken().equals( ","))
+			if ( !currentToken().equals( "," ) )
 			{
-				if( !currentToken().equals( ")"))
-					throw new AdvancedScriptException( "')' Expected " + getLineAndFile());
+				if ( !currentToken().equals( ")" ) )
+				{
+					throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
+				}
 			}
 			else
 			{
 				readToken();
-				if( currentToken().equals( ")"))
-					throw new AdvancedScriptException( "Parameter expected " + getLineAndFile());
+				if ( currentToken().equals( ")" ) )
+					throw new AdvancedScriptException( "Parameter expected " + getLineAndFile() );
 			}
 		}
-		if( !currentToken().equals( ")"))
-			throw new AdvancedScriptException( "')' Expected " + getLineAndFile());
-		readToken(); //)
-		result = new ScriptCall( name, scope, params);
+
+		if ( !currentToken().equals( ")" ) )
+			throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
+
+		readToken(); // )
+		result = new ScriptCall( name, scope, params );
 
 		return result;
 	}
 
-	private ScriptAssignment parseAssignment( ScriptScope scope) throws AdvancedScriptException
+	private ScriptAssignment parseAssignment( ScriptScope scope ) throws AdvancedScriptException
 	{
-		String				name;
-		ScriptVariableReference		leftHandSide;
-		ScriptExpression		rightHandSide;
+		String name;
+		ScriptVariableReference leftHandSide;
+		ScriptExpression rightHandSide;
 
-		if(( nextToken() == null) || ( !nextToken().equals( "=")))
+		if ( nextToken() == null || !nextToken().equals( "=" ) )
 			return null;
 
-		if( parseIdentifier( currentToken()))
+		if ( parseIdentifier( currentToken() ) )
 			name = currentToken();
 		else
 			return null;
+
 		readToken(); //name
 		readToken(); //=
-		leftHandSide = new ScriptVariableReference( name, scope);
-		rightHandSide = parseExpression( scope);
-		return new ScriptAssignment( leftHandSide, rightHandSide);
+
+		leftHandSide = new ScriptVariableReference( name, scope );
+		rightHandSide = parseExpression( scope );
+		return new ScriptAssignment( leftHandSide, rightHandSide );
 	}
 
-	private ScriptExpression parseExpression( ScriptScope scope) throws AdvancedScriptException
+	private ScriptExpression parseExpression( ScriptScope scope ) throws AdvancedScriptException
 	{
-		return parseExpression( scope, null);
+		return parseExpression( scope, null );
 	}
-	private ScriptExpression parseExpression( ScriptScope scope, ScriptOperator previousOper) throws AdvancedScriptException
-	{
-		ScriptExpression	lhs = null;
-		ScriptExpression	rhs = null;
-		ScriptOperator		oper = null;
 
-		if( currentToken() == null)
+	private ScriptExpression parseExpression( ScriptScope scope, ScriptOperator previousOper ) throws AdvancedScriptException
+	{
+		ScriptExpression lhs = null;
+		ScriptExpression rhs = null;
+		ScriptOperator oper = null;
+
+		if ( currentToken() == null )
 			return null;
 
-		if(( !( currentToken() == null)) && currentToken().equals("!"))
-			{
+		if ( currentToken() != null && currentToken().equals( "!" ) )
+		{
 			readToken(); // !
-			if(( lhs = parseValue( scope)) == null)
-				throw new AdvancedScriptException( "Value expected " + getLineAndFile());
-			lhs = new ScriptExpression( lhs, null, new ScriptOperator( "!"));
-			}
+			if ( (lhs = parseValue( scope )) == null )
+				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
+			lhs = new ScriptExpression( lhs, null, new ScriptOperator( "!" ) );
+		}
 		else
-			{
-			if(( lhs = parseValue( scope)) == null)
+		{
+			if ( (lhs = parseValue( scope )) == null )
 				return null;
-			}
+		}
 
 		do
 		{
-			oper = parseOperator( currentToken());
+			oper = parseOperator( currentToken() );
 
-			if( oper == null)
-			{
+			if ( oper == null )
 				return lhs;
-			}
 
-			if(( previousOper != null) && ( !oper.precedes( previousOper)))
-			{
+			if ( previousOper != null && !oper.precedes( previousOper ) )
 				return lhs;
-			}
 
 			readToken(); //operator
 
-			rhs = parseExpression( scope, oper);
-			lhs = new ScriptExpression( lhs, rhs, oper);
-		} while( true);
-
-
-
+			rhs = parseExpression( scope, oper );
+			lhs = new ScriptExpression( lhs, rhs, oper );
+		}
+		while ( true );
 	}
 
-	private ScriptExpression parseValue( ScriptScope scope) throws AdvancedScriptException
+	private ScriptExpression parseValue( ScriptScope scope ) throws AdvancedScriptException
 	{
-		ScriptExpression	result;
-		int			i;
+		ScriptExpression result;
+		int i;
 
-		if( currentToken() == null)
+		if ( currentToken() == null )
 			return null;
 
 
-		if( currentToken().equals("("))
-			{
+		if ( currentToken().equals( "(" ) )
+		{
 			readToken();// (
-			result = parseExpression( scope);
-			if(( currentToken() == null) || (!currentToken().equals(")")))
-				throw new AdvancedScriptException( "')' Expected " + getLineAndFile());
+			result = parseExpression( scope );
+			if ( currentToken() == null || !currentToken().equals( ")" ) )
+				throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
+
 			readToken();// )
 			return result;
-			}
-
+		}
 
 		//Parse true and false first since they are reserved words.
-		if( currentToken().equals( "true"))
-			{
+		if ( currentToken().equals( "true" ) )
+		{
 			readToken();
-			return new ScriptValue( new ScriptType( TYPE_BOOLEAN), 1);
-			}
-		else if( currentToken().equals( "false"))
-			{
+			return new ScriptValue( new ScriptType( TYPE_BOOLEAN ), 1 );
+		}
+		else if ( currentToken().equals( "false" ) )
+		{
 			readToken();
-			return new ScriptValue( new ScriptType( TYPE_BOOLEAN), 0);
-			}
+			return new ScriptValue( new ScriptType( TYPE_BOOLEAN ), 0 );
+		}
 
-		else if(( result = parseCall( scope)) != null)
+		else if ( (result = parseCall( scope )) != null )
 			return result;
 
-		else if(( result = parseVariableReference( scope)) != null)
+		else if ( (result = parseVariableReference( scope )) != null )
 			return result;
 
-		else if((( currentToken().charAt( 0) >= '0') && ( currentToken().charAt( 0) <= '9')) || (currentToken().charAt( 0) == '-'))
+		else if ( Character.isDigit( currentToken().charAt( 0 ) ) || currentToken().charAt( 0 ) == '-' )
 		{
 			int resultInt;
 
@@ -778,86 +793,87 @@ public class KoLmafiaASH implements KoLConstants
 
 			i = 0;
 
-			if( currentToken().charAt( 0) == '-')
+			if ( currentToken().charAt( 0 ) == '-' )
 			{
 				negative = true;
 				i = 1;
 			}
 
-			for( resultInt = 0; i < currentToken().length(); i++)
+			for ( resultInt = 0; i < currentToken().length(); i++ )
 			{
-				if( !(( currentToken().charAt(i) >= '0') && ( currentToken().charAt(i) <= '9')))
+				if ( !Character.isDigit( currentToken().charAt(i) ) )
 				{
-					if( currentToken().charAt(i) == '.')
+					if ( currentToken().charAt(i) == '.' )
 					{
-						return parseDouble();
+						return parseFloat();
 					}
 					else
-						throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile());
+						throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile() );
 				}
-				resultInt += ( resultInt * 10) + ( currentToken().charAt(i) - '0');
+				resultInt += ( resultInt * 10 ) + ( currentToken().charAt(i ) - '0' );
 			}
-			if( negative)
+			if ( negative )
 				resultInt = resultInt * -1;
+
 			readToken(); //integer
-			return new ScriptValue( new ScriptType( TYPE_INT), resultInt);
+			return new ScriptValue( new ScriptType( TYPE_INT ), resultInt );
 		}
-		else if( currentToken().equals("\""))
+		else if ( currentToken().equals( "\"" ) )
 		{
 			//Directly work with line - ignore any "tokens" you meet until the string is closed
 			String resultString = "";
-			for( i = 1; ; i++)
+			for ( i = 1; ; i++ )
 			{
-				if( i == line.length())
+				if ( i == line.length() )
 				{
-					throw new AdvancedScriptException( "No closing '\"' found " + getLineAndFile());
+					throw new AdvancedScriptException( "No closing '\"' found " + getLineAndFile() );
 				}
-				else if( line.charAt(i) == '\\')
+				else if ( line.charAt(i ) == '\\' )
 				{
-					resultString = resultString + line.charAt( ++i);
+					resultString = resultString + line.charAt( ++i );
 				}
-				else if( line.charAt(i) == '"')
+				else if ( line.charAt(i ) == '"' )
 				{
-					line = line.substring( i + 1); //+ 1 to get rid of '"' token
-					return new ScriptValue( new ScriptType( TYPE_STRING), resultString);
+					line = line.substring( i + 1 ); //+ 1 to get rid of '"' token
+					return new ScriptValue( new ScriptType( TYPE_STRING ), resultString );
 				}
 				else
 				{
-					resultString = resultString + line.charAt( i);
+					resultString = resultString + line.charAt( i );
 				}
 			}
 
 		}
-		else if( currentToken().equals( "$"))
+		else if ( currentToken().equals( "$" ) )
 		{
 			ScriptType type;
 			readToken();
 			type = parseType();
 
-			if( type == null)
-				throw new AdvancedScriptException( "Unknown type " + currentToken() + " " + getLineAndFile());
-			if( !currentToken().equals("["))
-				throw new AdvancedScriptException( "'[' Expected " + getLineAndFile());
+			if ( type == null )
+				throw new AdvancedScriptException( "Unknown type " + currentToken() + " " + getLineAndFile() );
+			if ( !currentToken().equals( "[" ) )
+				throw new AdvancedScriptException( "'[' Expected " + getLineAndFile() );
 
 			String resultString = "";
-			for( i = 1; ; i++)
+			for ( i = 1; ; i++ )
 			{
-				if( i == line.length())
+				if ( i == line.length() )
 				{
-					throw new AdvancedScriptException( "No closing ']' found " + getLineAndFile());
+					throw new AdvancedScriptException( "No closing ']' found " + getLineAndFile() );
 				}
-				else if( line.charAt(i) == '\\')
+				else if ( line.charAt(i ) == '\\' )
 				{
-					resultString = resultString + line.charAt( ++i);
+					resultString = resultString + line.charAt( ++i );
 				}
-				else if( line.charAt(i) == ']')
+				else if ( line.charAt(i ) == ']' )
 				{
-					line = line.substring( i + 1); //+1 to get rid of ']' token
-					return new ScriptValue( type, resultString);
+					line = line.substring( i + 1 ); //+1 to get rid of ']' token
+					return new ScriptValue( type, resultString );
 				}
 				else
 				{
-					resultString = resultString + line.charAt( i);
+					resultString = resultString + line.charAt( i );
 				}
 
 			}
@@ -865,50 +881,50 @@ public class KoLmafiaASH implements KoLConstants
 		return null;
 	}
 
-	private ScriptValue parseDouble() throws AdvancedScriptException
+	private ScriptValue parseFloat() throws AdvancedScriptException
 	{
 		try
 		{
-			double result;
+			float result;
 
-			result = Double.parseDouble( currentToken());
-			readToken(); //double
-			return new ScriptValue( TYPE_FLOAT, result);
+			result = Float.parseFloat( currentToken() );
+			readToken(); //float
+			return new ScriptValue( TYPE_FLOAT, result );
 		}
-		catch( NumberFormatException e)
+		catch( NumberFormatException e )
 		{
-			throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile());
+			throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile() );
 		}
 	}
 
-	private ScriptOperator parseOperator( String oper)
+	private ScriptOperator parseOperator( String oper )
 	{
-		if( oper == null)
+		if ( oper == null )
 			return null;
 		if
 		(
-			oper.equals( "!") ||
-			oper.equals( "*") || oper.equals( "/") || oper.equals( "%") ||
-			oper.equals( "+") || oper.equals( "-") ||
-			oper.equals( "<") || oper.equals( ">") || oper.equals( "<=") || oper.equals( ">=") ||
-			oper.equals( "==") || oper.equals( "!=") ||
-			oper.equals( "||") || oper.equals( "&&")
-		)
+			oper.equals( "!" ) ||
+			oper.equals( "*" ) || oper.equals( "/" ) || oper.equals( "%" ) ||
+			oper.equals( "+" ) || oper.equals( "-" ) ||
+			oper.equals( "<" ) || oper.equals( ">" ) || oper.equals( "<=" ) || oper.equals( ">=" ) ||
+			oper.equals( "==" ) || oper.equals( "!=" ) ||
+			oper.equals( "||" ) || oper.equals( "&&" )
+		 )
 		{
-			return new ScriptOperator( oper);
+			return new ScriptOperator( oper );
 		}
 		else
 			return null;
 	}
 
-	private ScriptVariableReference parseVariableReference( ScriptScope scope) throws AdvancedScriptException
+	private ScriptVariableReference parseVariableReference( ScriptScope scope ) throws AdvancedScriptException
 	{
 		ScriptVariableReference result = null;
 
-		if( parseIdentifier( currentToken()))
+		if ( parseIdentifier( currentToken() ) )
 		{
 			String name = currentToken();
-			result = new ScriptVariableReference( name, scope);
+			result = new ScriptVariableReference( name, scope );
 
 			readToken(); //name
 			return result;
@@ -921,22 +937,22 @@ public class KoLmafiaASH implements KoLConstants
 	{
 		int i;
 
-		if( !currentToken().equals( "import"))
+		if ( !currentToken().equals( "import" ) )
 			return null;
 		readToken(); //import
 
-		if( !currentToken().equals("<"))
-			throw new AdvancedScriptException( "'<' Expected " + getLineAndFile());
-		for( i = 1; ; i++)
+		if ( !currentToken().equals( "<" ) )
+			throw new AdvancedScriptException( "'<' Expected " + getLineAndFile() );
+		for ( i = 1; ; i++ )
 		{
-			if( i == line.length())
+			if ( i == line.length() )
 			{
-				throw new AdvancedScriptException( "No closing '>' found " + getLineAndFile());
+				throw new AdvancedScriptException( "No closing '>' found " + getLineAndFile() );
 			}
-			if( line.charAt(i) == '>')
+			if ( line.charAt(i ) == '>' )
 			{
-				String resultString = line.substring( 1, i);
-				line = line.substring( i + 1); //+1 to get rid of '>' token
+				String resultString = line.substring( 1, i );
+				line = line.substring( i + 1 ); //+1 to get rid of '>' token
 				return resultString;
 			}
 		}
@@ -946,273 +962,271 @@ public class KoLmafiaASH implements KoLConstants
 	private String currentToken()
 	{
 		fixLines();
-		if( line == null)
+		if ( line == null )
 			return null;
-		return line.substring(0, tokenLength(line));
+		return line.substring( 0, tokenLength( line ) );
 	}
 
 	private String nextToken()
 	{
-		String result;
-
 		fixLines();
 
-		if( line == null)
+		if ( line == null )
 			return null;
-		if( tokenLength( line) < line.length())
-			result = line.substring( tokenLength( line));
-		else
-			{
-			if( nextLine == null)
-				return null;
-			return nextLine.substring(0, tokenLength(nextLine));
-			}
-		if( result.equals( ""))
-			{
-			if( nextLine == null)
-				return null;
-			return nextLine.substring(0, tokenLength(nextLine));
-			}
-		if( result.charAt(0) == ' ')
-			result = result.substring( 1);
 
-		return result.substring( 0, tokenLength( result));
+		if ( tokenLength( line ) >= line.length() )
+		{
+			if ( nextLine == null )
+				return null;
+
+			return nextLine.substring( 0, tokenLength( nextLine ) ).trim();
+		}
+
+		String result = line.substring( tokenLength( line ) ).trim();
+
+		if ( result.equals( "" ) )
+		{
+			if ( nextLine == null )
+				return null;
+
+			return nextLine.substring( 0, tokenLength( nextLine ) );
+		}
+
+		return result.substring( 0, tokenLength( result ) );
 	}
 
 	private void readToken()
 	{
-		if( line == null)
+		if ( line == null )
 			return;
 
 		fixLines();
-
-		line = line.substring( tokenLength( line));
-
+		line = line.substring( tokenLength( line ) );
 	}
 
-	private int tokenLength( String s)
+	private int tokenLength( String s )
 	{
 		int result;
-		if( s == null)
+		if ( s == null )
 			return 0;
 
-		for( result = 0; result < s.length(); result++)
+		for ( result = 0; result < s.length(); result++ )
 		{
-			if(( result + 1 < s.length()) && tokenString( s.substring( result, result + 2)))
-				{
+			if ( result + 1 < s.length() && tokenString( s.substring( result, result + 2 ) ) )
 				return result == 0 ? 2 : result;
-				}
 
-			if(( result < s.length()) && tokenString( s.substring( result, result + 1)))
-				{
+			if ( result < s.length() && tokenString( s.substring( result, result + 1 ) ) )
 				return result == 0 ? 1 : result;
-				}
 		}
+
 		return result; //== s.length()
 	}
 
 	private void fixLines()
 	{
-		if( line == null)
+		if ( line == null )
 			return;
 
-		while( line.equals( ""))
+		while ( line.equals( "" ) )
 		{
 			line = nextLine;
 			lineNumber = commandStream.getLineNumber();
 			nextLine = getNextLine();
-			if( line == null)
+
+			if ( line == null )
 				return;
 		}
-		while( line.charAt( 0) == ' ')
-			line = line.substring( 1);
 
-		if( nextLine == null)
+		line = line.trim();
+
+		if ( nextLine == null )
 			return;
-		while( nextLine.equals( ""))
+
+		while ( nextLine.equals( "" ) )
 		{
 			nextLine = getNextLine();
-			if( nextLine == null)
+			if ( nextLine == null )
 				return;
 		}
+
+		nextLine = nextLine.trim();
 	}
 
-	private boolean tokenString( String s)
+	private boolean tokenString( String s )
 	{
-		if(s.length() == 1)
-			{
-			for(int i = 0; i < java.lang.reflect.Array.getLength( tokenList); i++)
-				if( s.charAt( 0) == tokenList[i])
+		if ( s.length() == 1 )
+		{
+			for ( int i = 0; i < java.lang.reflect.Array.getLength( tokenList ); i++ )
+				if ( s.charAt( 0 ) == tokenList[i] )
 					return true;
 			return false;
-			}
+		}
 		else
-			{
-			for(int i = 0; i < java.lang.reflect.Array.getLength( multiCharTokenList); i++)
-				if( s.equals(multiCharTokenList[i]))
+		{
+			for ( int i = 0; i < java.lang.reflect.Array.getLength( multiCharTokenList ); i++ )
+				if ( s.equals( multiCharTokenList[i] ) )
 					return true;
 			return false;
-			}
-	}
-
-
-	private void printScope( ScriptScope scope, int indent)
-	{
-		ScriptVariable	currentVar;
-		ScriptFunction	currentFunc;
-		ScriptCommand	currentCommand;
-
-
-		indentLine( indent);
-		KoLmafia.getLogStream().println( "<SCOPE>");
-
-		indentLine( indent + 1);
-		KoLmafia.getLogStream().println( "<VARIABLES>");
-		for( currentVar = scope.getFirstVariable(); currentVar != null; currentVar = scope.getNextVariable( currentVar))
-			printVariable( currentVar, indent + 2);
-		indentLine( indent + 1);
-		KoLmafia.getLogStream().println( "<FUNCTIONS>");
-		for( currentFunc = scope.getFirstFunction(); currentFunc != null; currentFunc = scope.getNextFunction( currentFunc))
-			printFunction( currentFunc, indent + 2);
-		indentLine( indent + 1);
-		KoLmafia.getLogStream().println( "<COMMANDS>");
-		for( currentCommand = scope.getFirstCommand(); currentCommand != null; currentCommand = scope.getNextCommand( currentCommand))
-			printCommand( currentCommand, indent + 2);
-	}
-
-	private void printVariable( ScriptVariable var, int indent)
-	{
-		indentLine( indent);
-		KoLmafia.getLogStream().println( "<VAR " + var.getType().toString() + " " + var.getName().toString() + ">");
-	}
-
-	private void printFunction( ScriptFunction func, int indent)
-	{
-		indentLine( indent);
-		KoLmafia.getLogStream().println( "<FUNC " + func.getType().toString() + " " + func.getName().toString() + ">");
-		for( ScriptVariableReference current = func.getFirstParam(); current != null; current = func.getNextParam( current))
-			printVariableReference( current, indent + 1);
-		printScope( func.getScope(), indent + 1);
-	}
-
-	private void printCommand( ScriptCommand command, int indent)
-	{
-		if( command instanceof ScriptReturn)
-			printReturn( ( ScriptReturn) command, indent);
-		else if( command instanceof ScriptLoop)
-			printLoop( ( ScriptLoop) command, indent);
-		else if( command instanceof ScriptCall)
-			printCall( ( ScriptCall) command, indent);
-		else if( command instanceof ScriptAssignment)
-			printAssignment( ( ScriptAssignment) command, indent);
-		else
-		{
-			indentLine( indent);
-			KoLmafia.getLogStream().println( "<COMMAND " + command.toString() + ">");
 		}
 	}
 
-	private void printReturn( ScriptReturn ret, int indent)
+
+	private void printScope( ScriptScope scope, int indent )
 	{
-		indentLine( indent);
-		KoLmafia.getLogStream().println( "<RETURN " + ret.getType().toString() + ">");
-		if( !ret.getType().equals(TYPE_VOID))
-			printExpression( ret.getExpression(), indent + 1);
+		ScriptVariable currentVar;
+		ScriptFunction currentFunc;
+		ScriptCommand currentCommand;
+
+		indentLine( indent );
+		KoLmafia.getLogStream().println( "<SCOPE>" );
+
+		indentLine( indent + 1 );
+		KoLmafia.getLogStream().println( "<VARIABLES>" );
+		for ( currentVar = scope.getFirstVariable(); currentVar != null; currentVar = scope.getNextVariable( currentVar ) )
+			printVariable( currentVar, indent + 2 );
+		indentLine( indent + 1 );
+		KoLmafia.getLogStream().println( "<FUNCTIONS>" );
+		for ( currentFunc = scope.getFirstFunction(); currentFunc != null; currentFunc = scope.getNextFunction( currentFunc ) )
+			printFunction( currentFunc, indent + 2 );
+		indentLine( indent + 1 );
+		KoLmafia.getLogStream().println( "<COMMANDS>" );
+		for ( currentCommand = scope.getFirstCommand(); currentCommand != null; currentCommand = scope.getNextCommand( currentCommand ) )
+			printCommand( currentCommand, indent + 2 );
 	}
 
-	private void printLoop( ScriptLoop loop, int indent)
+	private void printVariable( ScriptVariable var, int indent )
 	{
-		indentLine( indent);
-		if( loop.repeats())
-			KoLmafia.getLogStream().println( "<WHILE>");
-		else
-			KoLmafia.getLogStream().println( "<IF>");
-		printExpression( loop.getCondition(), indent + 1);
-		printScope( loop.getScope(), indent + 1);
-		for( ScriptLoop currentElse = loop.getFirstElseLoop(); currentElse != null; currentElse = loop.getNextElseLoop( currentElse))
-			printLoop( currentElse, indent + 1);
+		indentLine( indent );
+		KoLmafia.getLogStream().println( "<VAR " + var.getType().toString() + " " + var.getName().toString() + ">" );
 	}
 
-	private void printCall( ScriptCall call, int indent)
+	private void printFunction( ScriptFunction func, int indent )
 	{
-		indentLine( indent);
-		KoLmafia.getLogStream().println( "<CALL " + call.getTarget().getName().toString() + ">");
-		for( ScriptExpression current = call.getFirstParam(); current != null; current = call.getNextParam( current))
-			printExpression( current, indent + 1);
+		indentLine( indent );
+		KoLmafia.getLogStream().println( "<FUNC " + func.getType().toString() + " " + func.getName().toString() + ">" );
+		for ( ScriptVariableReference current = func.getFirstParam(); current != null; current = func.getNextParam( current ) )
+			printVariableReference( current, indent + 1 );
+		printScope( func.getScope(), indent + 1 );
 	}
 
-	private void printAssignment( ScriptAssignment assignment, int indent)
+	private void printCommand( ScriptCommand command, int indent )
 	{
-		indentLine( indent);
-		KoLmafia.getLogStream().println( "<ASSIGN " + assignment.getLeftHandSide().getName().toString() + ">");
-		printExpression( assignment.getRightHandSide(), indent + 1);
-
-	}
-
-	private void printExpression( ScriptExpression expression, int indent)
-	{
-		if( expression instanceof ScriptValue)
-			printValue(( ScriptValue) expression, indent);
+		if ( command instanceof ScriptReturn )
+			printReturn( ( ScriptReturn ) command, indent );
+		else if ( command instanceof ScriptLoop )
+			printLoop( ( ScriptLoop ) command, indent );
+		else if ( command instanceof ScriptCall )
+			printCall( ( ScriptCall ) command, indent );
+		else if ( command instanceof ScriptAssignment )
+			printAssignment( ( ScriptAssignment ) command, indent );
 		else
 		{
-			printOperator( expression.getOperator(), indent);
-			printExpression( expression.getLeftHandSide(), indent + 1);
-			if( expression.getRightHandSide() != null) // ! operator
-				printExpression( expression.getRightHandSide(), indent + 1);
+			indentLine( indent );
+			KoLmafia.getLogStream().println( "<COMMAND " + command.toString() + ">" );
 		}
 	}
 
-	public void printValue( ScriptValue value, int indent)
+	private void printReturn( ScriptReturn ret, int indent )
 	{
-		if( value instanceof ScriptVariableReference)
-			printVariableReference((ScriptVariableReference) value, indent);
-		else if( value instanceof ScriptCall)
-			printCall((ScriptCall) value, indent);
+		indentLine( indent );
+		KoLmafia.getLogStream().println( "<RETURN " + ret.getType().toString() + ">" );
+		if ( !ret.getType().equals( TYPE_VOID ) )
+			printExpression( ret.getExpression(), indent + 1 );
+	}
+
+	private void printLoop( ScriptLoop loop, int indent )
+	{
+		indentLine( indent );
+		if ( loop.repeats() )
+			KoLmafia.getLogStream().println( "<WHILE>" );
+		else
+			KoLmafia.getLogStream().println( "<IF>" );
+		printExpression( loop.getCondition(), indent + 1 );
+		printScope( loop.getScope(), indent + 1 );
+		for ( ScriptLoop currentElse = loop.getFirstElseLoop(); currentElse != null; currentElse = loop.getNextElseLoop( currentElse ) )
+			printLoop( currentElse, indent + 1 );
+	}
+
+	private void printCall( ScriptCall call, int indent )
+	{
+		indentLine( indent );
+		KoLmafia.getLogStream().println( "<CALL " + call.getTarget().getName().toString() + ">" );
+		for ( ScriptExpression current = call.getFirstParam(); current != null; current = call.getNextParam( current ) )
+			printExpression( current, indent + 1 );
+	}
+
+	private void printAssignment( ScriptAssignment assignment, int indent )
+	{
+		indentLine( indent );
+		KoLmafia.getLogStream().println( "<ASSIGN " + assignment.getLeftHandSide().getName().toString() + ">" );
+		printExpression( assignment.getRightHandSide(), indent + 1 );
+
+	}
+
+	private void printExpression( ScriptExpression expression, int indent )
+	{
+		if ( expression instanceof ScriptValue )
+			printValue( (ScriptValue) expression, indent );
 		else
 		{
-			indentLine( indent);
-			KoLmafia.getLogStream().println( "<VALUE " + value.getType().toString() + " [" + value.toString() + "]>");
+			printOperator( expression.getOperator(), indent );
+			printExpression( expression.getLeftHandSide(), indent + 1 );
+			if ( expression.getRightHandSide() != null ) // ! operator
+				printExpression( expression.getRightHandSide(), indent + 1 );
 		}
 	}
 
-	public void printOperator( ScriptOperator oper, int indent)
+	public void printValue( ScriptValue value, int indent )
 	{
-		indentLine( indent);
-		KoLmafia.getLogStream().println( "<OPER " + oper.toString() + ">");
+		if ( value instanceof ScriptVariableReference )
+			printVariableReference( (ScriptVariableReference) value, indent );
+		else if ( value instanceof ScriptCall )
+			printCall( (ScriptCall) value, indent );
+		else
+		{
+			indentLine( indent );
+			KoLmafia.getLogStream().println( "<VALUE " + value.getType().toString() + " [" + value.toString() + "]>" );
+		}
 	}
 
-	public void printVariableReference( ScriptVariableReference varRef, int indent)
+	public void printOperator( ScriptOperator oper, int indent )
 	{
-		indentLine( indent);
-		KoLmafia.getLogStream().println( "<VARREF> " + varRef.getName().toString());
+		indentLine( indent );
+		KoLmafia.getLogStream().println( "<OPER " + oper.toString() + ">" );
 	}
 
-	private void indentLine( int indent)
+	public void printVariableReference( ScriptVariableReference varRef, int indent )
 	{
-		for(int i = 0; i < indent; i++)
-			KoLmafia.getLogStream().print( "   ");
+		indentLine( indent );
+		KoLmafia.getLogStream().println( "<VARREF> " + varRef.getName().toString() );
+	}
+
+	private void indentLine( int indent )
+	{
+		for (int i = 0; i < indent; i++ )
+			KoLmafia.getLogStream().print( "   " );
 	}
 
 
-	private ScriptValue executeGlobalScope( ScriptScope globalScope) throws AdvancedScriptException
+	private ScriptValue executeGlobalScope( ScriptScope globalScope ) throws AdvancedScriptException
 	{
 		ScriptFunction		main;
 		ScriptValue		result = null;
 		String			resultString;
 
-		main = globalScope.findFunction( "main", null);
+		main = globalScope.findFunction( "main", null );
 
 
 
-		if( main == null)
+		if ( main == null )
 		{
-			if( globalScope.getFirstCommand() == null)
-				throw new AdvancedScriptException( "No function main or command found.");
+			if ( globalScope.getFirstCommand() == null )
+				throw new AdvancedScriptException( "No function main or command found." );
 			result = globalScope.execute();
 		}
 		else
 		{
-			requestUserParams( main);
+			requestUserParams( main );
 			result = main.execute();
 		}
 
@@ -1226,17 +1240,17 @@ public class KoLmafiaASH implements KoLConstants
 
 
 
-	private void requestUserParams( ScriptFunction targetFunction) throws AdvancedScriptException
+	private void requestUserParams( ScriptFunction targetFunction ) throws AdvancedScriptException
 	{
 		ScriptVariableReference	param;
 		String			resultString;
 
 
-		for( param = targetFunction.getFirstParam(); param != null; param = targetFunction.getNextParam( param))
+		for ( param = targetFunction.getFirstParam(); param != null; param = targetFunction.getNextParam( param ) )
 		{
-			if( param.getType().equals( TYPE_ZODIAC))
+			if ( param.getType().equals( TYPE_ZODIAC ) )
 			{
-				resultString = ( String) JOptionPane.showInputDialog
+				resultString = ( String ) JOptionPane.showInputDialog
 				(
 					null,
 					"Please input a value for " + param.getType().toString() + " " + param.getName(),
@@ -1245,12 +1259,12 @@ public class KoLmafiaASH implements KoLConstants
 					null,
 					zodiacs,
 					zodiacs[0]
-				);
-				param.setValue( new ScriptValue( TYPE_ZODIAC, resultString));
+				 );
+				param.setValue( new ScriptValue( TYPE_ZODIAC, resultString ) );
 			}
-			else if( param.getType().equals( TYPE_CLASS))
+			else if ( param.getType().equals( TYPE_CLASS ) )
 			{
-				resultString = ( String) JOptionPane.showInputDialog
+				resultString = ( String ) JOptionPane.showInputDialog
 				(
 					null,
 					"Please input a value for " + param.getType().toString() + " " + param.getName(),
@@ -1259,12 +1273,12 @@ public class KoLmafiaASH implements KoLConstants
 					null,
 					classes,
 					classes[0]
-				);
-				param.setValue( new ScriptValue( TYPE_CLASS, resultString));
+				 );
+				param.setValue( new ScriptValue( TYPE_CLASS, resultString ) );
 			}
-			else if( param.getType().equals( TYPE_STAT))
+			else if ( param.getType().equals( TYPE_STAT ) )
 			{
-				resultString = ( String) JOptionPane.showInputDialog
+				resultString = ( String ) JOptionPane.showInputDialog
 				(
 					null,
 					"Please input a value for " + param.getType().toString() + " " + param.getName(),
@@ -1273,41 +1287,41 @@ public class KoLmafiaASH implements KoLConstants
 					null,
 					stats,
 					stats[0]
-				);
-				param.setValue( new ScriptValue( TYPE_STAT, resultString));
+				 );
+				param.setValue( new ScriptValue( TYPE_STAT, resultString ) );
 			}
-			else if( param.getType().equals( TYPE_ITEM) || param.getType().equals( TYPE_LOCATION) || param.getType().equals( TYPE_STRING) || param.getType().equals( TYPE_SKILL))
+			else if ( param.getType().equals( TYPE_ITEM ) || param.getType().equals( TYPE_LOCATION ) || param.getType().equals( TYPE_STRING ) || param.getType().equals( TYPE_SKILL ) )
 			{
-				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType().toString() + " " + param.getName());
-				param.setValue( new ScriptValue( param.getType(), resultString));
+				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType().toString() + " " + param.getName() );
+				param.setValue( new ScriptValue( param.getType(), resultString ) );
 			}
-			else if( param.getType().equals( TYPE_INT))
+			else if ( param.getType().equals( TYPE_INT ) )
 			{
-				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType().toString() + " " + param.getName());
+				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType().toString() + " " + param.getName() );
 				try
 				{
-					param.setValue( new ScriptValue( TYPE_INT, Integer.parseInt( resultString)));
+					param.setValue( new ScriptValue( TYPE_INT, Integer.parseInt( resultString ) ) );
 				}
-				catch( NumberFormatException e)
+				catch( NumberFormatException e )
 				{
-					throw new AdvancedScriptException( "Incorrect value for integer.");
+					throw new AdvancedScriptException( "Incorrect value for integer." );
 				}
 			}
-			else if( param.getType().equals( TYPE_FLOAT))
+			else if ( param.getType().equals( TYPE_FLOAT ) )
 			{
-				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType().toString() + " " + param.getName());
+				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType().toString() + " " + param.getName() );
 				try
 				{
-					param.setValue( new ScriptValue( TYPE_FLOAT, Double.parseDouble( resultString)));
+					param.setValue( new ScriptValue( TYPE_FLOAT, Float.parseFloat( resultString ) ) );
 				}
-				catch( NumberFormatException e)
+				catch( NumberFormatException e )
 				{
-					throw new AdvancedScriptException( "Incorrect value for double.");
+					throw new AdvancedScriptException( "Incorrect value for float." );
 				}
 			}
-			else if( param.getType().equals( TYPE_BOOLEAN))
+			else if ( param.getType().equals( TYPE_BOOLEAN ) )
 			{
-				resultString = ( String) JOptionPane.showInputDialog
+				resultString = ( String ) JOptionPane.showInputDialog
 				(
 					null,
 					"Please input a value for " + param.getType().toString() + " " + param.getName(),
@@ -1316,20 +1330,20 @@ public class KoLmafiaASH implements KoLConstants
 					null,
 					booleans,
 					booleans[0]
-				);
-				if( resultString.equals( "true"))
-					param.setValue( new ScriptValue( TYPE_BOOLEAN, 1));
-				else if ( resultString.equals( "false"))
-					param.setValue( new ScriptValue( TYPE_BOOLEAN, 0));
+				 );
+				if ( resultString.equals( "true" ) )
+					param.setValue( new ScriptValue( TYPE_BOOLEAN, 1 ) );
+				else if ( resultString.equals( "false" ) )
+					param.setValue( new ScriptValue( TYPE_BOOLEAN, 0 ) );
 				else
-					throw new RuntimeException( "Internal error: Illegal value for boolean");
+					throw new RuntimeException( "Internal error: Illegal value for boolean" );
 			}
-			else if( param.getType().equals( TYPE_VOID))
+			else if ( param.getType().equals( TYPE_VOID ) )
 			{
-				param.setValue( new ScriptValue( TYPE_VOID));
+				param.setValue( new ScriptValue( TYPE_VOID ) );
 			}
 			else
-				throw new RuntimeException( "Internal error: Illegal type for main() parameter");
+				throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
 		}
 	}
 
@@ -1343,104 +1357,100 @@ public class KoLmafiaASH implements KoLConstants
 	public ScriptScope getExistingFunctionScope()
 	{
 		ScriptScope result;
-		ScriptType[] params;
+		ScriptType [] params;
 
-		result = new ScriptScope( null);
-
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT);
-		params[1] = new ScriptType( TYPE_LOCATION);
-		result.addFunction( new ScriptExistingFunction( "adventure", new ScriptType( TYPE_BOOLEAN), params));
+		result = new ScriptScope( null );
 
 		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT);
-		params[1] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "buy", new ScriptType( TYPE_BOOLEAN), params));
+		params[0] = new ScriptType( TYPE_INT );
+		params[1] = new ScriptType( TYPE_LOCATION );
+		result.addFunction( new ScriptExistingFunction( "adventure", new ScriptType( TYPE_BOOLEAN ), params ) );
 
 		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT);
-		params[1] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "create", new ScriptType( TYPE_BOOLEAN), params));
+		params[0] = new ScriptType( TYPE_INT );
+		params[1] = new ScriptType( TYPE_ITEM );
+		result.addFunction( new ScriptExistingFunction( "buy", new ScriptType( TYPE_BOOLEAN ), params ) );
 
 		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT);
-		params[1] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "use", new ScriptType( TYPE_BOOLEAN), params));
+		params[0] = new ScriptType( TYPE_INT );
+		params[1] = new ScriptType( TYPE_ITEM );
+		result.addFunction( new ScriptExistingFunction( "create", new ScriptType( TYPE_BOOLEAN ), params ) );
 
 		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT);
-		params[1] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "eat", new ScriptType( TYPE_BOOLEAN), params));
+		params[0] = new ScriptType( TYPE_INT );
+		params[1] = new ScriptType( TYPE_ITEM );
+		result.addFunction( new ScriptExistingFunction( "use", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[2];
+		params[0] = new ScriptType( TYPE_INT );
+		params[1] = new ScriptType( TYPE_ITEM );
+		result.addFunction( new ScriptExistingFunction( "eat", new ScriptType( TYPE_BOOLEAN ), params ) );
 
 		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "item_amount", new ScriptType( TYPE_INT), params));
+		params[0] = new ScriptType( TYPE_ITEM );
+		result.addFunction( new ScriptExistingFunction( "item_amount", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_STRING);
-		result.addFunction( new ScriptExistingFunction( "print", new ScriptType( TYPE_VOID), params));
+		params[0] = new ScriptType( TYPE_STRING );
+		result.addFunction( new ScriptExistingFunction( "print", new ScriptType( TYPE_VOID ), params ) );
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_zodiac", new ScriptType( TYPE_ZODIAC), params));
+		result.addFunction( new ScriptExistingFunction( "my_zodiac", new ScriptType( TYPE_ZODIAC ), params ) );
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_class", new ScriptType( TYPE_CLASS), params));
+		result.addFunction( new ScriptExistingFunction( "my_class", new ScriptType( TYPE_CLASS ), params ) );
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_level", new ScriptType( TYPE_INT), params));
+		result.addFunction( new ScriptExistingFunction( "my_level", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_hp", new ScriptType( TYPE_INT), params));
+		result.addFunction( new ScriptExistingFunction( "my_hp", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_maxhp", new ScriptType( TYPE_INT), params));
+		result.addFunction( new ScriptExistingFunction( "my_maxhp", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_mp", new ScriptType( TYPE_INT), params));
+		result.addFunction( new ScriptExistingFunction( "my_mp", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_maxmp", new ScriptType( TYPE_INT), params));
+		result.addFunction( new ScriptExistingFunction( "my_maxmp", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_STAT);
-		result.addFunction( new ScriptExistingFunction( "my_basestat", new ScriptType( TYPE_INT), params));
+		params[0] = new ScriptType( TYPE_STAT );
+		result.addFunction( new ScriptExistingFunction( "my_basestat", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_STAT);
-		result.addFunction( new ScriptExistingFunction( "my_buffedstat", new ScriptType( TYPE_INT), params));
+		params[0] = new ScriptType( TYPE_STAT );
+		result.addFunction( new ScriptExistingFunction( "my_buffedstat", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_meat", new ScriptType( TYPE_INT), params));
+		result.addFunction( new ScriptExistingFunction( "my_meat", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_closetmeat", new ScriptType( TYPE_INT), params));
+		result.addFunction( new ScriptExistingFunction( "my_closetmeat", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_adventures", new ScriptType( TYPE_INT), params));
+		result.addFunction( new ScriptExistingFunction( "my_adventures", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "my_inebriety", new ScriptType( TYPE_INT), params));
+		result.addFunction( new ScriptExistingFunction( "my_inebriety", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_SKILL);
-		result.addFunction( new ScriptExistingFunction( "have_skill", new ScriptType( TYPE_BOOLEAN), params));
+		params[0] = new ScriptType( TYPE_SKILL );
+		result.addFunction( new ScriptExistingFunction( "have_skill", new ScriptType( TYPE_BOOLEAN ), params ) );
 
 		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT);
-		params[1] = new ScriptType( TYPE_SKILL);
-		result.addFunction( new ScriptExistingFunction( "use_skill", new ScriptType( TYPE_BOOLEAN), params));
+		params[0] = new ScriptType( TYPE_INT );
+		params[1] = new ScriptType( TYPE_SKILL );
+		result.addFunction( new ScriptExistingFunction( "use_skill", new ScriptType( TYPE_BOOLEAN ), params ) );
 
 		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT);
-		params[1] = new ScriptType( TYPE_ITEM);
-		result.addFunction( new ScriptExistingFunction( "add_item_condition", new ScriptType( TYPE_VOID), params));
+		params[0] = new ScriptType( TYPE_INT );
+		params[1] = new ScriptType( TYPE_ITEM );
+		result.addFunction( new ScriptExistingFunction( "add_item_condition", new ScriptType( TYPE_VOID ), params ) );
 
 		return result;
 	}
-
-
-
-
 
 	class ScriptScope extends ScriptListNode
 	{
@@ -1449,7 +1459,7 @@ public class KoLmafiaASH implements KoLConstants
 		ScriptCommandList	commands;
 		ScriptScope		parentScope;
 
-		public ScriptScope( ScriptScope parentScope)
+		public ScriptScope( ScriptScope parentScope )
 		{
 			functions = new ScriptFunctionList();
 			variables = new ScriptVariableList();
@@ -1457,37 +1467,37 @@ public class KoLmafiaASH implements KoLConstants
 			this.parentScope = parentScope;
 		}
 
-		public ScriptScope( ScriptCommand command, ScriptScope parentScope)
+		public ScriptScope( ScriptCommand command, ScriptScope parentScope )
 		{
 			functions = new ScriptFunctionList();
 			variables = new ScriptVariableList();
-			commands = new ScriptCommandList( command);
+			commands = new ScriptCommandList( command );
 			this.parentScope = parentScope;
 		}
 
-		public ScriptScope( ScriptVariableList variables, ScriptScope parentScope)
+		public ScriptScope( ScriptVariableList variables, ScriptScope parentScope )
 		{
 			functions = new ScriptFunctionList();
-			if( variables == null)
+			if ( variables == null )
 				variables = new ScriptVariableList();
 			this.variables = variables;
 			commands = new ScriptCommandList();
 			this.parentScope = parentScope;
 		}
 
-		public boolean addFunction( ScriptFunction f)
+		public boolean addFunction( ScriptFunction f )
 		{
-			return functions.addElement( f);
+			return functions.addElement( f );
 		}
 
-		public boolean addVariable( ScriptVariable v)
+		public boolean addVariable( ScriptVariable v )
 		{
-			return variables.addElement( v);
+			return variables.addElement( v );
 		}
 
-		public void addCommand( ScriptCommand c)
+		public void addCommand( ScriptCommand c )
 		{
-			commands.addElement( c);
+			commands.addElement( c );
 		}
 
 		public ScriptScope getParentScope()
@@ -1497,122 +1507,122 @@ public class KoLmafiaASH implements KoLConstants
 
 		public ScriptFunction getFirstFunction()
 		{
-			return ( ScriptFunction) functions.getFirstElement();
+			return ( ScriptFunction ) functions.getFirstElement();
 		}
 
-		public ScriptFunction getNextFunction( ScriptFunction current)
+		public ScriptFunction getNextFunction( ScriptFunction current )
 		{
-			return ( ScriptFunction) functions.getNextElement( current);
+			return ( ScriptFunction ) functions.getNextElement( current );
 		}
 
 		public ScriptVariable getFirstVariable()
 		{
-			return ( ScriptVariable) variables.getFirstElement();
+			return ( ScriptVariable ) variables.getFirstElement();
 		}
 
-		public ScriptVariable getNextVariable( ScriptVariable current)
+		public ScriptVariable getNextVariable( ScriptVariable current )
 		{
-			return ( ScriptVariable) variables.getNextElement( current);
+			return ( ScriptVariable ) variables.getNextElement( current );
 		}
 
 		public ScriptCommand getFirstCommand()
 		{
-			return ( ScriptCommand) commands.getFirstElement();
+			return ( ScriptCommand ) commands.getFirstElement();
 		}
 
-		public ScriptCommand getNextCommand( ScriptCommand current)
+		public ScriptCommand getNextCommand( ScriptCommand current )
 		{
-			return ( ScriptCommand) commands.getNextElement( current);
+			return ( ScriptCommand ) commands.getNextElement( current );
 		}
 
 		public boolean assertReturn()
 		{
 			ScriptCommand current, previous = null;
 
-			for( current = getFirstCommand(); current != null; previous = current, current = getNextCommand( current))
+			for ( current = getFirstCommand(); current != null; previous = current, current = getNextCommand( current ) )
 				;
-			if( previous == null)
+			if ( previous == null )
 				return false;
-			if( !( previous instanceof ScriptReturn))
+			if ( !( previous instanceof ScriptReturn ) )
 				return false;
 			return true;
 		}
 
-		public ScriptFunction findFunction( String name, ScriptExpressionList params) throws AdvancedScriptException
+		public ScriptFunction findFunction( String name, ScriptExpressionList params ) throws AdvancedScriptException
 		{
+			ScriptFunction current;
+			ScriptVariableReference currentParam;
+			ScriptExpression currentValue;
+			int paramIndex;
 
-
-			ScriptFunction		current;
-			ScriptVariableReference	currentParam;
-			ScriptExpression	currentValue;
-			int			paramIndex;
-
-			for( current = getFirstFunction(); current != null; current = getNextFunction( current))
+			for ( current = getFirstFunction(); current != null; current = getNextFunction( current ) )
 			{
-				if( current.getName().equals( name))
+				if ( current.getName().equals( name ) )
 				{
-					if( params == null)
+					if ( params == null )
 						return current;
 					for
 					(
-						paramIndex = 1, currentParam = current.getFirstParam(), currentValue = (ScriptExpression) params.getFirstElement();
-						(currentParam != null) && (currentValue != null);
-						paramIndex++, currentParam = current.getNextParam( currentParam), currentValue = ( ScriptExpression) params.getNextElement( currentValue)
-					)
+						paramIndex = 1, currentParam = current.getFirstParam(), currentValue = (ScriptExpression ) params.getFirstElement();
+						(currentParam != null ) && (currentValue != null );
+						paramIndex++, currentParam = current.getNextParam( currentParam ), currentValue = ( ScriptExpression ) params.getNextElement( currentValue )
+					 )
 					{
-						if( !currentParam.getType().equals( currentValue.getType()))
+						if ( !currentParam.getType().equals( currentValue.getType() ) )
 						{
-							if( currentParam.getType().equals( TYPE_FLOAT) && currentValue.getType().equals( TYPE_INT))
+							if ( currentParam.getType().equals( TYPE_FLOAT ) && currentValue.getType().equals( TYPE_INT ) )
 								; //do nothing
-							else if( currentParam.getType().equals( TYPE_INT) && currentValue.getType().equals( TYPE_FLOAT))
+							else if ( currentParam.getType().equals( TYPE_INT ) && currentValue.getType().equals( TYPE_FLOAT ) )
 								; //do nothing
 							else
-								throw new AdvancedScriptException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile());
+								throw new AdvancedScriptException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile() );
 						}
 					}
-					if(( currentParam != null) || ( currentValue != null))
-						throw new AdvancedScriptException( "Illegal amount of parameters for function " + name + " " + getLineAndFile());
+
+					if ( currentParam != null || currentValue != null )
+						throw new AdvancedScriptException( "Illegal amount of parameters for function " + name + " " + getLineAndFile() );
+
 					return current;
 				}
 			}
-			if( parentScope != null)
-				return parentScope.findFunction( name, params);
+			if ( parentScope != null )
+				return parentScope.findFunction( name, params );
 			return null;
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			ScriptCommand	current;
-			ScriptValue	result;
+			ScriptCommand current;
+			ScriptValue result;
 
-			for( current = getFirstCommand(); current != null; current = getNextCommand( current))
+			for ( current = getFirstCommand(); current != null; current = getNextCommand( current ) )
 			{
 				result = current.execute();
-				if( currentState == STATE_RETURN)
+				if ( currentState == STATE_RETURN )
 				{
 					currentState = STATE_NORMAL;
 					return result;
 				}
-				if( currentState == STATE_BREAK)
+				if ( currentState == STATE_BREAK )
 				{
-					throw new RuntimeException( "Internal error: break outside of loop");
+					return null;
 				}
-				if( currentState == STATE_CONTINUE)
+				if ( currentState == STATE_CONTINUE )
 				{
-					throw new RuntimeException( "Internal error: continue outside of loop");
+					return null;
 				}
-				if( currentState == STATE_EXIT)
+				if ( currentState == STATE_EXIT )
 				{
 					return null;
 				}
 			}
 			try
 			{
-				return new ScriptValue( TYPE_VOID, 0);
+				return new ScriptValue( TYPE_VOID, 0 );
 			}
-			catch( AdvancedScriptException e)
+			catch( AdvancedScriptException e )
 			{
-				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing.");
+				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing." );
 			}
 		}
 
@@ -1620,24 +1630,24 @@ public class KoLmafiaASH implements KoLConstants
 
 	class ScriptScopeList extends ScriptList
 	{
-		public boolean addElement( ScriptListNode n)
+		public boolean addElement( ScriptListNode n )
 		{
-			return addElementSerial( n);
+			return addElementSerial( n );
 		}
 	}
 
 	class ScriptFunction extends ScriptListNode
 	{
-		String					name;
-		ScriptType				type;
-		ScriptVariableReferenceList		variableReferences;
-		ScriptScope				scope;
+		String name;
+		ScriptType type;
+		ScriptVariableReferenceList variableReferences;
+		ScriptScope scope;
 
 		public ScriptFunction()
 		{
 		}
 
-		public ScriptFunction( String name, ScriptType type)
+		public ScriptFunction( String name, ScriptType type )
 		{
 			this.name = name;
 			this.type = type;
@@ -1645,12 +1655,12 @@ public class KoLmafiaASH implements KoLConstants
 			this.scope = null;
 		}
 
-		public void addVariableReference( ScriptVariableReference v)
+		public void addVariableReference( ScriptVariableReference v )
 		{
-			variableReferences.addElement( v);
+			variableReferences.addElement( v );
 		}
 
-		public void setScope( ScriptScope s)
+		public void setScope( ScriptScope s )
 		{
 			scope = s;
 		}
@@ -1660,11 +1670,11 @@ public class KoLmafiaASH implements KoLConstants
 			return scope;
 		}
 
-		public int compareTo( Object o) throws ClassCastException
+		public int compareTo( Object o ) throws ClassCastException
 		{
-			if(!(o instanceof ScriptFunction))
+			if (!(o instanceof ScriptFunction ) )
 				throw new ClassCastException();
-			return name.compareTo( (( ScriptFunction) o).name);
+			return name.compareTo( ((ScriptFunction)o).name );
 		}
 
 		public String getName()
@@ -1674,12 +1684,12 @@ public class KoLmafiaASH implements KoLConstants
 
 		public ScriptVariableReference getFirstParam()
 		{
-			return (ScriptVariableReference) variableReferences.getFirstElement();
+			return (ScriptVariableReference ) variableReferences.getFirstElement();
 		}
 
-		public ScriptVariableReference getNextParam( ScriptVariableReference current)
+		public ScriptVariableReference getNextParam( ScriptVariableReference current )
 		{
-			return (ScriptVariableReference) variableReferences.getNextElement( current);
+			return (ScriptVariableReference ) variableReferences.getNextElement( current );
 		}
 
 		public ScriptType getType()
@@ -1696,26 +1706,25 @@ public class KoLmafiaASH implements KoLConstants
 
 	class ScriptExistingFunction extends ScriptFunction
 	{
-		ScriptVariable[]	variables;
+		ScriptVariable [] variables;
 
-		public ScriptExistingFunction( String name, ScriptType type, ScriptType[] params)
+		public ScriptExistingFunction( String name, ScriptType type, ScriptType [] params )
 		{
-			super( name, type);
+			super( name, type );
 
-			variables = new ScriptVariable[ java.lang.reflect.Array.getLength( params)];
+			variables = new ScriptVariable[ java.lang.reflect.Array.getLength( params )];
 
-			for( int position = 0; position < java.lang.reflect.Array.getLength( params); position++)
+			for ( int position = 0; position < java.lang.reflect.Array.getLength( params ); position++ )
 			{
-				variables[position] = new ScriptVariable( params[position]);
-				variableReferences.addElement( new ScriptVariableReference( variables[position]));
+				variables[position] = new ScriptVariable( params[position] );
+				variableReferences.addElement( new ScriptVariableReference( variables[position] ) );
 			}
 		}
 
 
 		public ScriptValue execute()
 		{
-
-			if( !StaticEntity.getClient().permitsContinue())
+			if ( !client.permitsContinue() )
 			{
 				currentState = STATE_EXIT;
 				return null;
@@ -1723,231 +1732,231 @@ public class KoLmafiaASH implements KoLConstants
 
 			try
 			{
-				if( name.equals( "adventure"))
-					return executeAdventureRequest( variables[0].getIntValue(), variables[1].getLocation());
-				else if( name.equals( "buy"))
-					return executeBuyRequest( variables[0].getIntValue(), variables[1].getIntValue());
-				else if( name.equals( "create"))
-					return executeCreateRequest( variables[0].getIntValue(), variables[1].getIntValue());
-				else if( name.equals( "use") || name.equals( "eat"))
-					return executeUseRequest( variables[0].getIntValue(), variables[1].getIntValue());
-				else if( name.equals( "item_amount"))
-					return executeItemAmountRequest( variables[0].getIntValue());
-				else if( name.equals( "print"))
-					return executePrintRequest( variables[0].getStringValue());
-				else if( name.equals( "my_zodiac"))
+				if ( name.equals( "adventure" ) )
+					return executeAdventureRequest( variables[0].getIntValue(), variables[1].getLocation() );
+				else if ( name.equals( "buy" ) )
+					return executeBuyRequest( variables[0].getIntValue(), variables[1].getIntValue() );
+				else if ( name.equals( "create" ) )
+					return executeCreateRequest( variables[0].getIntValue(), variables[1].getIntValue() );
+				else if ( name.equals( "use" ) || name.equals( "eat" ) )
+					return executeUseRequest( variables[0].getIntValue(), variables[1].getIntValue() );
+				else if ( name.equals( "item_amount" ) )
+					return executeItemAmountRequest( variables[0].getIntValue() );
+				else if ( name.equals( "print" ) )
+					return executePrintRequest( variables[0].getStringValue() );
+				else if ( name.equals( "my_zodiac" ) )
 					return executeZodiacRequest();
-				else if( name.equals( "my_class"))
+				else if ( name.equals( "my_class" ) )
 					return executeClassRequest();
-				else if( name.equals( "my_level"))
+				else if ( name.equals( "my_level" ) )
 					return executeLevelRequest();
-				else if( name.equals( "my_hp"))
+				else if ( name.equals( "my_hp" ) )
 					return executeHPRequest();
-				else if( name.equals( "my_maxhp"))
+				else if ( name.equals( "my_maxhp" ) )
 					return executeMaxHPRequest();
-				else if( name.equals( "my_mp"))
+				else if ( name.equals( "my_mp" ) )
 					return executeMPRequest();
-				else if( name.equals( "my_maxmp"))
+				else if ( name.equals( "my_maxmp" ) )
 					return executeMaxMPRequest();
-				else if( name.equals( "my_basestat"))
-					return executeBaseStatRequest( variables[0].getIntValue());
-				else if( name.equals( "my_buffedstat"))
-					return executeBuffedStatRequest( variables[0].getIntValue());
-				else if( name.equals( "my_meat"))
+				else if ( name.equals( "my_basestat" ) )
+					return executeBaseStatRequest( variables[0].getIntValue() );
+				else if ( name.equals( "my_buffedstat" ) )
+					return executeBuffedStatRequest( variables[0].getIntValue() );
+				else if ( name.equals( "my_meat" ) )
 					return executeMeatRequest();
-				else if( name.equals( "my_closetmeat"))
+				else if ( name.equals( "my_closetmeat" ) )
 					return executeClosetMeatRequest();
-				else if( name.equals( "my_adventures"))
+				else if ( name.equals( "my_adventures" ) )
 					return executeAdventuresRequest();
-				else if( name.equals( "my_inebriety"))
+				else if ( name.equals( "my_inebriety" ) )
 					return executeInebrietyRequest();
-				else if( name.equals( "have_skill"))
-					return executeHaveSkillRequest( variables[0].getIntValue());
-				else if( name.equals( "use_skill"))
-					return executeUseSkillRequest( variables[0].getIntValue(), variables[1].getIntValue());
-				else if( name.equals( "add_item_condition"))
-					return executeItemConditionRequest( variables[0].getIntValue(), variables[1].getIntValue());
+				else if ( name.equals( "have_skill" ) )
+					return executeHaveSkillRequest( variables[0].getIntValue() );
+				else if ( name.equals( "use_skill" ) )
+					return executeUseSkillRequest( variables[0].getIntValue(), variables[1].getIntValue() );
+				else if ( name.equals( "add_item_condition" ) )
+					return executeItemConditionRequest( variables[0].getIntValue(), variables[1].getIntValue() );
 				else
-					throw new RuntimeException( "Internal error: unknown library function " + name);
+					throw new RuntimeException( "Internal error: unknown library function " + name );
 			}
-			catch( AdvancedScriptException e)
+			catch( AdvancedScriptException e )
 			{
-				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing.");
+				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing." );
 			}
 		}
 
 
-		private ScriptValue executeAdventureRequest( int amount, KoLAdventure location) throws AdvancedScriptException
+		private ScriptValue executeAdventureRequest( int amount, KoLAdventure location ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "adventure " + amount + " " + location.getAdventureName() );
-			return new ScriptValue( TYPE_BOOLEAN, StaticEntity.getClient().permitsContinue() ? 1 : 0 );
+			client.updateDisplay( KoLmafia.DISABLE_STATE, "Beginning " + amount + " turnips to " + location.toString() + "..." );
+			client.makeRequest( location, amount );
+
+			if ( client.permitsContinue() )
+				return new ScriptValue( TYPE_BOOLEAN, 1 );
+			else
+				return new ScriptValue( TYPE_BOOLEAN, 0 );
 		}
 
-		private ScriptValue executeBuyRequest( int amount, int itemID) throws AdvancedScriptException
+		private ScriptValue executeBuyRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
 			DEFAULT_SHELL.executeLine( "buy " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, StaticEntity.getClient().permitsContinue() ? 1 : 0 );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
-		private ScriptValue executeCreateRequest( int amount, int itemID) throws AdvancedScriptException
+		private ScriptValue executeCreateRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
 			DEFAULT_SHELL.executeLine( "create " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, StaticEntity.getClient().permitsContinue() ? 1 : 0 );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
-		private ScriptValue executeUseRequest( int amount, int itemID) throws AdvancedScriptException
+		private ScriptValue executeUseRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
 			DEFAULT_SHELL.executeLine( "use " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, StaticEntity.getClient().permitsContinue() ? 1 : 0 );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
-		private ScriptValue executeItemAmountRequest( int itemID) throws AdvancedScriptException
+		private ScriptValue executeItemAmountRequest( int itemID ) throws AdvancedScriptException
 		{
 			AdventureResult item;
 
-			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID), 0, false );
+			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
 
-			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getInventory()));
+			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getInventory() ) );
 		}
 
-		private ScriptValue executePrintRequest( String message) throws AdvancedScriptException
+		private ScriptValue executePrintRequest( String message ) throws AdvancedScriptException
 		{
-			StaticEntity.getClient().updateDisplay( KoLmafia.DISABLE_STATE, message );
-
-			return new ScriptValue( TYPE_VOID);
+			client.updateDisplay( NORMAL_STATE, message );
+			return new ScriptValue( TYPE_VOID );
 		}
 
 		private ScriptValue executeZodiacRequest() throws AdvancedScriptException
 		{
-			return new ScriptValue( TYPE_ZODIAC, KoLCharacter.getSign());
+			return new ScriptValue( TYPE_ZODIAC, KoLCharacter.getSign() );
 		}
 
 		private ScriptValue executeClassRequest() throws AdvancedScriptException
 		{
-			return new ScriptValue( TYPE_CLASS, KoLCharacter.getClassType());
+			return new ScriptValue( TYPE_CLASS, KoLCharacter.getClassType() );
 		}
 
 		private ScriptValue executeLevelRequest() throws AdvancedScriptException
 		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getLevel());
+			return new ScriptValue( TYPE_INT, KoLCharacter.getLevel() );
 		}
 
 		private ScriptValue executeHPRequest() throws AdvancedScriptException
 		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentHP());
+			return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentHP() );
 		}
 
 		private ScriptValue executeMaxHPRequest() throws AdvancedScriptException
 		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumHP());
+			return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumHP() );
 		}
 
 		private ScriptValue executeMPRequest() throws AdvancedScriptException
 		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentMP());
+			return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentMP() );
 		}
 
 		private ScriptValue executeMaxMPRequest() throws AdvancedScriptException
 		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumMP());
+			return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumMP() );
 		}
 
-		private ScriptValue executeBaseStatRequest( int stat) throws AdvancedScriptException
+		private ScriptValue executeBaseStatRequest( int stat ) throws AdvancedScriptException
 		{
-			if( stats[stat].equals( "muscle"))
-				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMuscle());
-			else if( stats[stat].equals( "mysticality"))
-				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMysticality());
-			else if( stats[stat].equals( "moxie"))
-				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMoxie());
+			if ( stats[stat].equals( "muscle" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMuscle() );
+			else if ( stats[stat].equals( "mysticality" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMysticality() );
+			else if ( stats[stat].equals( "moxie" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMoxie() );
 			else
-				throw new RuntimeException( "Internal Error: unknown stat");
+				throw new RuntimeException( "Internal Error: unknown stat" );
 		}
 
-		private ScriptValue executeBuffedStatRequest( int stat) throws AdvancedScriptException
+		private ScriptValue executeBuffedStatRequest( int stat ) throws AdvancedScriptException
 		{
-			if( stats[stat].equals( "muscle"))
-				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMuscle());
-			else if( stats[stat].equals( "mysticality"))
-				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMysticality());
-			else if( stats[stat].equals( "moxie"))
-				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMoxie());
+			if ( stats[stat].equals( "muscle" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMuscle() );
+			else if ( stats[stat].equals( "mysticality" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMysticality() );
+			else if ( stats[stat].equals( "moxie" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMoxie() );
 			else
-				throw new RuntimeException( "Internal Error: unknown stat");
+				throw new RuntimeException( "Internal Error: unknown stat" );
 		}
 
 		private ScriptValue executeMeatRequest() throws AdvancedScriptException
 		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getAvailableMeat());
+			return new ScriptValue( TYPE_INT, KoLCharacter.getAvailableMeat() );
 		}
 
 		private ScriptValue executeClosetMeatRequest() throws AdvancedScriptException
 		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getClosetMeat());
+			return new ScriptValue( TYPE_INT, KoLCharacter.getClosetMeat() );
 		}
 
 		private ScriptValue executeAdventuresRequest() throws AdvancedScriptException
 		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getAdventuresLeft());
+			return new ScriptValue( TYPE_INT, KoLCharacter.getAdventuresLeft() );
 		}
 
 		private ScriptValue executeInebrietyRequest() throws AdvancedScriptException
 		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getInebriety());
+			return new ScriptValue( TYPE_INT, KoLCharacter.getInebriety() );
 		}
 
-		private ScriptValue executeHaveSkillRequest( int skillID) throws AdvancedScriptException
+		private ScriptValue executeHaveSkillRequest( int skillID ) throws AdvancedScriptException
 		{
-			if( KoLCharacter.hasSkill( skillID))
-				return new ScriptValue( TYPE_BOOLEAN, 1);
-			else
-				return new ScriptValue( TYPE_BOOLEAN, 0);
+			return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.hasSkill( skillID ) ? 1 : 0 );
 		}
 
-		private ScriptValue executeUseSkillRequest( int amount, int skillID) throws AdvancedScriptException
+		private ScriptValue executeUseSkillRequest( int amount, int skillID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "cast " + amount + " " + ClassSkillsDatabase.getSkillName( skillID ) );
-			return new ScriptValue( TYPE_BOOLEAN, StaticEntity.getClient().permitsContinue() ? 1 : 0 );
+			client.makeRequest( new UseSkillRequest( client, ClassSkillsDatabase.getSkillName( skillID ), null, amount ), 1 );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
-		private ScriptValue executeItemConditionRequest( int amount, int itemID) throws AdvancedScriptException
+		private ScriptValue executeItemConditionRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "conditions add " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			DEFAULT_SHELL.executeConditionsCommand( "add " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_VOID );
 		}
 	}
 
 	class ScriptFunctionList extends ScriptList
 	{
-
 	}
 
 	class ScriptVariable extends ScriptListNode
 	{
-		String		name;
+		String name;
 
 		ScriptValue	content;
 
-		public ScriptVariable( ScriptType type)
+		public ScriptVariable( ScriptType type )
 		{
 			this.name = null;
-			content = new ScriptValue( type);
+			content = new ScriptValue( type );
 		}
 
 
-		public ScriptVariable( String name, ScriptType type)
+		public ScriptVariable( String name, ScriptType type )
 		{
 			this.name = name;
-			content = new ScriptValue( type);
+			content = new ScriptValue( type );
 		}
 
-		public int compareTo( Object o) throws ClassCastException
+		public int compareTo( Object o ) throws ClassCastException
 		{
-			if(!(o instanceof ScriptVariable))
+			if (!(o instanceof ScriptVariable ) )
 				throw new ClassCastException();
-			if( name == null)
+			if ( name == null )
 				return 1;
-			return name.compareTo( (( ScriptVariable) o).name);
+			return name.compareTo( ((ScriptVariable)o).name );
 
 		}
 
@@ -1981,20 +1990,20 @@ public class KoLmafiaASH implements KoLConstants
 			return content.getLocation();
 		}
 
-		public void setValue( ScriptValue targetValue) throws AdvancedScriptException
+		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
 		{
-			if( !getType().equals( targetValue.getType()))
+			if ( !getType().equals( targetValue.getType() ) )
 			{
-				if( getType().equals( TYPE_INT) && targetValue.getType().equals( TYPE_FLOAT))
+				if ( getType().equals( TYPE_INT ) && targetValue.getType().equals( TYPE_FLOAT ) )
 				{
 					content = targetValue.toInt();
 				}
-				else if( getType().equals( TYPE_FLOAT) && targetValue.getType().equals( TYPE_INT))
+				else if ( getType().equals( TYPE_FLOAT ) && targetValue.getType().equals( TYPE_INT ) )
 				{
-					content = targetValue.toDouble();
+					content = targetValue.toFloat();
 				}
 				else
-					throw new RuntimeException( "Internal error: Cannot assign " + targetValue.getType().toString() + " to " + getType().toString());
+					throw new RuntimeException( "Internal error: Cannot assign " + targetValue.getType().toString() + " to " + getType().toString() );
 			}
 			content = targetValue;
 		}
@@ -2004,12 +2013,12 @@ public class KoLmafiaASH implements KoLConstants
 	{
 		public ScriptVariable getFirstVariable()
 		{
-			return ( ScriptVariable) getFirstElement();
+			return ( ScriptVariable ) getFirstElement();
 		}
 
-		public ScriptVariable getNextVariable( ScriptVariable current)
+		public ScriptVariable getNextVariable( ScriptVariable current )
 		{
-			return ( ScriptVariable) getNextElement( current);
+			return ( ScriptVariable ) getNextElement( current );
 		}
 	}
 
@@ -2017,33 +2026,33 @@ public class KoLmafiaASH implements KoLConstants
 	{
 		ScriptVariable target;
 
-		public ScriptVariableReference( ScriptVariable target)
+		public ScriptVariableReference( ScriptVariable target )
 		{
 			this.target = target;
 		}
 
-		public ScriptVariableReference( String varName, ScriptScope scope) throws AdvancedScriptException
+		public ScriptVariableReference( String varName, ScriptScope scope ) throws AdvancedScriptException
 		{
-			target = findVariable( varName, scope);
+			target = findVariable( varName, scope );
 		}
 
-		private ScriptVariable findVariable( String name, ScriptScope scope) throws AdvancedScriptException
+		private ScriptVariable findVariable( String name, ScriptScope scope ) throws AdvancedScriptException
 		{
 			ScriptVariable current;
 
 			do
 			{
-				for(current = scope.getFirstVariable(); current != null; current = scope.getNextVariable( current))
+				for (current = scope.getFirstVariable(); current != null; current = scope.getNextVariable( current ) )
 				{
-					if( current.getName().equals( name))
+					if ( current.getName().equals( name ) )
 						{
 						return current;
 						}
 				}
 				scope = scope.getParentScope();
-			} while( scope != null);
+			} while ( scope != null );
 
-			throw new AdvancedScriptException( "Undefined variable " + name + " " + getLineAndFile());
+			throw new AdvancedScriptException( "Undefined variable " + name + " " + getLineAndFile() );
 		}
 
 		public ScriptType getType()
@@ -2057,11 +2066,11 @@ public class KoLmafiaASH implements KoLConstants
 		}
 
 
-		public int compareTo( Object o) throws ClassCastException
+		public int compareTo( Object o ) throws ClassCastException
 		{
-			if(!(o instanceof ScriptVariableReference))
+			if (!(o instanceof ScriptVariableReference ) )
 				throw new ClassCastException();
-			return target.getName().compareTo( (( ScriptVariableReference) o).target.getName());
+			return target.getName().compareTo( ((ScriptVariableReference)o).target.getName() );
 
 		}
 
@@ -2070,17 +2079,17 @@ public class KoLmafiaASH implements KoLConstants
 			return target.getValue();
 		}
 
-		public void setValue( ScriptValue targetValue) throws AdvancedScriptException
+		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
 		{
-			target.setValue( targetValue);
+			target.setValue( targetValue );
 		}
 	}
 
 	class ScriptVariableReferenceList extends ScriptList
 	{
-		public boolean addElement( ScriptListNode n)
+		public boolean addElement( ScriptListNode n )
 		{
-			return addElementSerial( n);
+			return addElementSerial( n );
 		}
 	}
 
@@ -2088,32 +2097,30 @@ public class KoLmafiaASH implements KoLConstants
 	{
 		int command;
 
-
 		public ScriptCommand()
 		{
-
 		}
 
-		public ScriptCommand( String command) throws AdvancedScriptException
+		public ScriptCommand( String command ) throws AdvancedScriptException
 		{
-			if( command.equals( "break"))
+			if ( command.equals( "break" ) )
 				this.command = COMMAND_BREAK;
-			else if( command.equals( "continue"))
+			else if ( command.equals( "continue" ) )
 				this.command = COMMAND_CONTINUE;
-			else if( command.equals( "exit"))
+			else if ( command.equals( "exit" ) )
 				this.command = COMMAND_EXIT;
 			else
-				throw new AdvancedScriptException( command + " is not a command " + getLineAndFile());
+				throw new AdvancedScriptException( command + " is not a command " + getLineAndFile() );
 		}
 
-		public ScriptCommand( int command)
+		public ScriptCommand( int command )
 		{
 			this.command = command;
 		}
 
-		public int compareTo( Object o) throws ClassCastException
+		public int compareTo( Object o ) throws ClassCastException
 		{
-			if(!(o instanceof ScriptCommand))
+			if (!(o instanceof ScriptCommand ) )
 				throw new ClassCastException();
 			return 0;
 
@@ -2121,33 +2128,33 @@ public class KoLmafiaASH implements KoLConstants
 
 		public String toString()
 		{
-			if( this.command == COMMAND_BREAK)
+			if ( this.command == COMMAND_BREAK )
 				return "break";
-			else if( this.command == COMMAND_CONTINUE)
+			else if ( this.command == COMMAND_CONTINUE )
 				return "continue";
-			else if( this.command == COMMAND_EXIT)
+			else if ( this.command == COMMAND_EXIT )
 				return "exit";
 			return "<unknown command>";
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if( this.command == COMMAND_BREAK)
-				{
+			if ( this.command == COMMAND_BREAK )
+			{
 				currentState = STATE_BREAK;
 				return null;
-				}
-			else if( this.command == COMMAND_CONTINUE)
-				{
+			}
+			else if ( this.command == COMMAND_CONTINUE )
+			{
 				currentState = STATE_CONTINUE;
 				return null;
-				}
-			else if( this.command == COMMAND_EXIT)
-				{
+			}
+			else if ( this.command == COMMAND_EXIT )
+			{
 				currentState = STATE_EXIT;
 				return null;
-				}
-			throw new RuntimeException( "Internal error: unknown ScriptCommand type");
+			}
+			throw new RuntimeException( "Internal error: unknown ScriptCommand type" );
 
 		}
 	}
@@ -2156,47 +2163,46 @@ public class KoLmafiaASH implements KoLConstants
 	{
 
 		public ScriptCommandList()
-			{
-			super();
-			}
-
-		public ScriptCommandList( ScriptCommand c)
-			{
-			super( c);
-			}
-
-		public boolean addElement( ScriptListNode n) //Command List has to remain in original order, so override addElement
 		{
-			return addElementSerial( n);
+		}
+
+		public ScriptCommandList( ScriptCommand c )
+		{
+			super( c );
+		}
+
+		public boolean addElement( ScriptListNode n ) //Command List has to remain in original order, so override addElement
+		{
+			return addElementSerial( n );
 		}
 	}
 
 	class ScriptReturn extends ScriptCommand
 	{
-		private ScriptExpression	returnValue;
-		private ScriptType		expectedType;
+		private ScriptExpression returnValue;
+		private ScriptType expectedType;
 
-		public ScriptReturn( ScriptExpression returnValue, ScriptType expectedType) throws AdvancedScriptException
+		public ScriptReturn( ScriptExpression returnValue, ScriptType expectedType ) throws AdvancedScriptException
 		{
 			this.returnValue = returnValue;
-			if( !( expectedType == null) && !(returnValue == null) && !returnValue.getType().equals( expectedType))
+			if ( !( expectedType == null ) && !(returnValue == null ) && !returnValue.getType().equals( expectedType ) )
 			{
-				if( returnValue.getType().equals( TYPE_INT) && expectedType.equals( TYPE_FLOAT))
+				if ( returnValue.getType().equals( TYPE_INT ) && expectedType.equals( TYPE_FLOAT ) )
 					;
-				else if( returnValue.getType().equals( TYPE_FLOAT) && expectedType.equals( TYPE_INT))
+				else if ( returnValue.getType().equals( TYPE_FLOAT ) && expectedType.equals( TYPE_INT ) )
 					;
 				else
-					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType().toString() + " to " + expectedType.toString() + " " + getLineAndFile());
+					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType().toString() + " to " + expectedType.toString() + " " + getLineAndFile() );
 			}
 			this.expectedType = expectedType;
 		}
 
 		public ScriptType getType()
 		{
-			if( expectedType != null)
+			if ( expectedType != null )
 				return expectedType;
-			if( returnValue == null)
-				return new ScriptType( TYPE_VOID);
+			if ( returnValue == null )
+				return new ScriptType( TYPE_VOID );
 			return returnValue.getType();
 		}
 
@@ -2209,17 +2215,17 @@ public class KoLmafiaASH implements KoLConstants
 		{
 			ScriptValue result;
 
-			if( returnValue == null)
+			if ( returnValue == null )
 				return null;
 
 			result = returnValue.execute();
-			if( result == null)
+			if ( result == null )
 				return null;
-			if( currentState != STATE_EXIT)
+			if ( currentState != STATE_EXIT )
 				currentState = STATE_RETURN;
-			if( returnValue.getType().equals( TYPE_INT) && expectedType != null && expectedType.equals( TYPE_FLOAT))
-				return result.toDouble();
-			if( returnValue.getType().equals( TYPE_FLOAT) && expectedType != null && expectedType.equals( TYPE_INT))
+			if ( returnValue.getType().equals( TYPE_INT ) && expectedType != null && expectedType.equals( TYPE_FLOAT ) )
+				return result.toFloat();
+			if ( returnValue.getType().equals( TYPE_FLOAT ) && expectedType != null && expectedType.equals( TYPE_INT ) )
 				return result.toInt();
 			return result;
 		}
@@ -2228,17 +2234,17 @@ public class KoLmafiaASH implements KoLConstants
 
 	class ScriptLoop extends ScriptCommand
 	{
-		private boolean			repeat;
-		private ScriptExpression	condition;
-		private ScriptScope		scope;
-		private ScriptLoopList		elseLoops;
+		private boolean repeat;
+		private ScriptExpression condition;
+		private ScriptScope scope;
+		private ScriptLoopList elseLoops;
 
-		public ScriptLoop( ScriptScope scope, ScriptExpression condition, boolean repeat) throws AdvancedScriptException
+		public ScriptLoop( ScriptScope scope, ScriptExpression condition, boolean repeat ) throws AdvancedScriptException
 		{
 			this.scope = scope;
 			this.condition = condition;
-			if( !( condition.getType().equals( TYPE_BOOLEAN)))
-				throw new AdvancedScriptException( "Cannot apply " + condition.getType().toString() + " to boolean " + getLineAndFile());
+			if ( !( condition.getType().equals( TYPE_BOOLEAN ) ) )
+				throw new AdvancedScriptException( "Cannot apply " + condition.getType().toString() + " to boolean " + getLineAndFile() );
 			this.repeat = repeat;
 			elseLoops = new ScriptLoopList();
 		}
@@ -2260,67 +2266,68 @@ public class KoLmafiaASH implements KoLConstants
 
 		public ScriptLoop getFirstElseLoop()
 		{
-			return ( ScriptLoop) elseLoops.getFirstElement();
+			return ( ScriptLoop ) elseLoops.getFirstElement();
 		}
 
-		public ScriptLoop getNextElseLoop( ScriptLoop current)
+		public ScriptLoop getNextElseLoop( ScriptLoop current )
 		{
-			return ( ScriptLoop) elseLoops.getNextElement( current);
+			return ( ScriptLoop ) elseLoops.getNextElement( current );
 		}
 
 
-		public void addElseLoop( ScriptLoop elseLoop) throws AdvancedScriptException
+		public void addElseLoop( ScriptLoop elseLoop ) throws AdvancedScriptException
 		{
-			if( repeat == true)
-				throw new AdvancedScriptException( "Else without if " + getLineAndFile());
-			elseLoops.addElement( elseLoop);
+			if ( repeat == true )
+				throw new AdvancedScriptException( "Else without if " + getLineAndFile() );
+			elseLoops.addElement( elseLoop );
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptValue result;
-			boolean conditionMet = (condition.execute().getIntValue() == 1);
-			if( conditionMet)
+			boolean conditionMet = (condition.execute().getIntValue() == 1 );
+			if ( conditionMet )
 			{
 				do
 				{
 					result = scope.execute();
-					if( currentState == STATE_BREAK)
+					if ( currentState == STATE_BREAK )
 					{
-						if( repeat)
-						{
+						if ( repeat )
 							currentState = STATE_NORMAL;
-							return null;
-						}
-						else
-							return null;
+
+						return null;
 					}
-					if( currentState == STATE_CONTINUE)
+					if ( currentState == STATE_CONTINUE )
 					{
-						if( !repeat)
+						if ( !repeat )
 							return null;
-						else
-							currentState = STATE_NORMAL;
+
+						currentState = STATE_NORMAL;
 					}
-					if( currentState == STATE_RETURN)
+					if ( currentState == STATE_RETURN )
 					{
 						return result;
 					}
-					if( currentState == STATE_EXIT)
+					if ( currentState == STATE_EXIT )
 					{
 						return null;
 					}
-					if( !repeat)
+					if ( !repeat )
 						break;
-				} while( condition.execute().getIntValue() == 1);
+				}
+				while ( condition.execute().getIntValue() == 1 );
 			}
 			else
-				for( ScriptLoop elseLoop = elseLoops.getFirstScriptLoop(); elseLoop != null; elseLoop = elseLoops.getNextScriptLoop( elseLoop))
-					{
+			{
+				for ( ScriptLoop elseLoop = elseLoops.getFirstScriptLoop(); elseLoop != null; elseLoop = elseLoops.getNextScriptLoop( elseLoop ) )
+				{
 					result = elseLoop.execute();
-					if( currentState != STATE_NORMAL)
+					if ( currentState != STATE_NORMAL )
 						return result;
-					}
+				}
+			}
+
 			return null;
 		}
 	}
@@ -2330,38 +2337,38 @@ public class KoLmafiaASH implements KoLConstants
 	{
 		public ScriptLoop getFirstScriptLoop()
 		{
-			return ( ScriptLoop) getFirstElement();
+			return ( ScriptLoop ) getFirstElement();
 		}
 
-		public ScriptLoop getNextScriptLoop( ScriptLoop current)
+		public ScriptLoop getNextScriptLoop( ScriptLoop current )
 		{
-			return ( ScriptLoop) getNextElement( current);
+			return ( ScriptLoop ) getNextElement( current );
 		}
 
-		public boolean addElement( ScriptListNode n)
+		public boolean addElement( ScriptListNode n )
 		{
-			return addElementSerial( n);
+			return addElementSerial( n );
 		}
 	}
 
 	class ScriptCall extends ScriptValue
 	{
-		private ScriptFunction				target;
-		private ScriptExpressionList			params;
+		private ScriptFunction target;
+		private ScriptExpressionList params;
 
-		public ScriptCall( String functionName, ScriptScope scope, ScriptExpressionList params) throws AdvancedScriptException
+		public ScriptCall( String functionName, ScriptScope scope, ScriptExpressionList params ) throws AdvancedScriptException
 		{
-			target = findFunction( functionName, scope, params);
-			if( target == null)
-				throw new AdvancedScriptException( "Undefined reference " + functionName + " " + getLineAndFile());
+			target = findFunction( functionName, scope, params );
+			if ( target == null )
+				throw new AdvancedScriptException( "Undefined reference " + functionName + " " + getLineAndFile() );
 			this.params = params;
 		}
 
-		private ScriptFunction findFunction( String name, ScriptScope scope, ScriptExpressionList params) throws AdvancedScriptException
+		private ScriptFunction findFunction( String name, ScriptScope scope, ScriptExpressionList params ) throws AdvancedScriptException
 		{
-			if( scope == null)
+			if ( scope == null )
 				return null;
-			return scope.findFunction( name, params);
+			return scope.findFunction( name, params );
 		}
 
 		public ScriptFunction getTarget()
@@ -2371,12 +2378,12 @@ public class KoLmafiaASH implements KoLConstants
 
 		public ScriptExpression getFirstParam()
 		{
-			return ( ScriptExpression) params.getFirstElement();
+			return ( ScriptExpression ) params.getFirstElement();
 		}
 
-		public ScriptExpression getNextParam( ScriptExpression current)
+		public ScriptExpression getNextParam( ScriptExpression current )
 		{
-			return ( ScriptExpression) params.getNextElement( current);
+			return ( ScriptExpression ) params.getNextElement( current );
 		}
 
 		public ScriptType getType()
@@ -2392,17 +2399,17 @@ public class KoLmafiaASH implements KoLConstants
 			(
 				paramVarRef = target.getFirstParam(), paramValue = params.getFirstExpression();
 				paramVarRef != null;
-				paramVarRef = target.getNextParam( paramVarRef), paramValue = params.getNextExpression( paramValue)
-			)
+				paramVarRef = target.getNextParam( paramVarRef ), paramValue = params.getNextExpression( paramValue )
+			 )
 			{
-				if( paramVarRef == null)
-					throw new RuntimeException( "Internal error: illegal arguments.");
-				paramVarRef.setValue( paramValue.execute());
-				if( currentState == STATE_EXIT)
+				if ( paramVarRef == null )
+					throw new RuntimeException( "Internal error: illegal arguments." );
+				paramVarRef.setValue( paramValue.execute() );
+				if ( currentState == STATE_EXIT )
 					return null;
 			}
-			if( paramValue != null)
-				throw new RuntimeException( "Internal error: illegal arguments.");
+			if ( paramValue != null )
+				throw new RuntimeException( "Internal error: illegal arguments." );
 
 			return target.execute();
 		}
@@ -2410,21 +2417,21 @@ public class KoLmafiaASH implements KoLConstants
 
 	class ScriptAssignment extends ScriptCommand
 	{
-		private ScriptVariableReference	leftHandSide;
-		private ScriptExpression	rightHandSide;
+		private ScriptVariableReference leftHandSide;
+		private ScriptExpression rightHandSide;
 
-		public ScriptAssignment( ScriptVariableReference leftHandSide, ScriptExpression rightHandSide) throws AdvancedScriptException
+		public ScriptAssignment( ScriptVariableReference leftHandSide, ScriptExpression rightHandSide ) throws AdvancedScriptException
 		{
 			this.leftHandSide = leftHandSide;
 			this.rightHandSide = rightHandSide;
-			if( !leftHandSide.getType().equals( rightHandSide.getType()))
+			if ( !leftHandSide.getType().equals( rightHandSide.getType() ) )
 			{
-				if( leftHandSide.getType().equals( TYPE_INT) && rightHandSide.getType().equals( TYPE_FLOAT))
+				if ( leftHandSide.getType().equals( TYPE_INT ) && rightHandSide.getType().equals( TYPE_FLOAT ) )
 					;
-				else if( leftHandSide.getType().equals( TYPE_FLOAT) && rightHandSide.getType().equals( TYPE_INT))
+				else if ( leftHandSide.getType().equals( TYPE_FLOAT ) && rightHandSide.getType().equals( TYPE_INT ) )
 					;
 				else
-					throw new AdvancedScriptException( "Cannot apply " + rightHandSide.getType().toString() + " to " + leftHandSide.toString() + " " + getLineAndFile());
+					throw new AdvancedScriptException( "Cannot apply " + rightHandSide.getType().toString() + " to " + leftHandSide.toString() + " " + getLineAndFile() );
 			}
 		}
 
@@ -2445,12 +2452,12 @@ public class KoLmafiaASH implements KoLConstants
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if( leftHandSide.getType().equals( TYPE_INT) && rightHandSide.getType().equals( TYPE_FLOAT))
-				leftHandSide.setValue( rightHandSide.execute().toInt());
-			else if( leftHandSide.getType().equals( TYPE_FLOAT) && rightHandSide.getType().equals( TYPE_INT))
-				leftHandSide.setValue( rightHandSide.execute().toDouble());
+			if ( leftHandSide.getType().equals( TYPE_INT ) && rightHandSide.getType().equals( TYPE_FLOAT ) )
+				leftHandSide.setValue( rightHandSide.execute().toInt() );
+			else if ( leftHandSide.getType().equals( TYPE_FLOAT ) && rightHandSide.getType().equals( TYPE_INT ) )
+				leftHandSide.setValue( rightHandSide.execute().toFloat() );
 			else
-				leftHandSide.setValue( rightHandSide.execute());
+				leftHandSide.setValue( rightHandSide.execute() );
 			return null;
 		}
 
@@ -2460,48 +2467,48 @@ public class KoLmafiaASH implements KoLConstants
 	{
 		int type;
 
-		public ScriptType( int type)
+		public ScriptType( int type )
 		{
 			this.type = type;
 		}
 
-		public boolean equals( ScriptType type)
+		public boolean equals( ScriptType type )
 		{
-			if( this.type == type.type)
+			if ( this.type == type.type )
 				return true;
 			return false;
 		}
 
-		public boolean equals( int type)
+		public boolean equals( int type )
 		{
-			if( this.type == type)
+			if ( this.type == type )
 				return true;
 			return false;
 		}
 
 		public String toString()
 		{
-			if( type == TYPE_VOID)
+			if ( type == TYPE_VOID )
 				return "void";
-			if( type == TYPE_BOOLEAN)
+			if ( type == TYPE_BOOLEAN )
 				return "boolean";
-			if( type == TYPE_INT)
+			if ( type == TYPE_INT )
 				return "int";
-			if( type == TYPE_FLOAT)
+			if ( type == TYPE_FLOAT )
 				return "float";
-			if( type == TYPE_STRING)
+			if ( type == TYPE_STRING )
 				return "string";
-			if( type == TYPE_ITEM)
+			if ( type == TYPE_ITEM )
 				return "item";
-			if( type == TYPE_ZODIAC)
+			if ( type == TYPE_ZODIAC )
 				return "zodiac";
-			if( type == TYPE_LOCATION)
+			if ( type == TYPE_LOCATION )
 				return "location";
-			if( type == TYPE_CLASS)
+			if ( type == TYPE_CLASS )
 				return "class";
-			if( type == TYPE_STAT)
+			if ( type == TYPE_STAT )
 				return "stat";
-			if( type == TYPE_SKILL)
+			if ( type == TYPE_SKILL )
 				return "skill";
 			return "unknown type";
 		}
@@ -2513,7 +2520,7 @@ public class KoLmafiaASH implements KoLConstants
 		ScriptType type;
 
 		int contentInt = 0;
-		double contentDouble = 0.0;
+		float contentFloat = 0.0f;
 		String contentString = null;
 		Object content = null;
 
@@ -2523,26 +2530,26 @@ public class KoLmafiaASH implements KoLConstants
 			//should not be called
 		}
 
-		public ScriptValue( int type) throws AdvancedScriptException
+		public ScriptValue( int type ) throws AdvancedScriptException
 		{
-			this.type = new ScriptType( type);
+			this.type = new ScriptType( type );
 			fillContent();
 		}
 
-		public ScriptValue( ScriptType type)
+		public ScriptValue( ScriptType type )
 		{
 			this.type = type;
 		}
 
-		public ScriptValue( int type, int contentInt) throws AdvancedScriptException
+		public ScriptValue( int type, int contentInt ) throws AdvancedScriptException
 		{
-			this.type = new ScriptType( type);
+			this.type = new ScriptType( type );
 			this.contentInt = contentInt;
 			fillContent();
 		}
 
 
-		public ScriptValue( ScriptType type, int contentInt) throws AdvancedScriptException
+		public ScriptValue( ScriptType type, int contentInt ) throws AdvancedScriptException
 		{
 			this.type = type;
 			this.contentInt = contentInt;
@@ -2550,29 +2557,29 @@ public class KoLmafiaASH implements KoLConstants
 		}
 
 
-		public ScriptValue( int type, String contentString) throws AdvancedScriptException
+		public ScriptValue( int type, String contentString ) throws AdvancedScriptException
 		{
-			this.type = new ScriptType( type);
+			this.type = new ScriptType( type );
 			this.contentString = contentString;
 			fillContent();
 		}
 
-		public ScriptValue( ScriptType type, String contentString) throws AdvancedScriptException
+		public ScriptValue( ScriptType type, String contentString ) throws AdvancedScriptException
 		{
 			this.type = type;
 			this.contentString = contentString;
 			fillContent();
 		}
 
-		public ScriptValue( int type, double content) throws AdvancedScriptException
+		public ScriptValue( int type, float content ) throws AdvancedScriptException
 		{
-			if( type != TYPE_FLOAT)
-				throw new AdvancedScriptException( "Internal error: cannot assign double value to non-float");
-			this.type = new ScriptType( TYPE_FLOAT);
-			this.contentDouble = content;
+			if ( type != TYPE_FLOAT )
+				throw new AdvancedScriptException( "Internal error: cannot assign float value to non-float" );
+			this.type = new ScriptType( TYPE_FLOAT );
+			this.contentFloat = content;
 		}
 
-		public ScriptValue( ScriptValue original)
+		public ScriptValue( ScriptValue original )
 		{
 			this.type = original.type;
 			this.contentInt = original.contentInt;
@@ -2580,28 +2587,28 @@ public class KoLmafiaASH implements KoLConstants
 			this.content = original.content;
 		}
 
-		public int compareTo( Object o) throws ClassCastException
+		public int compareTo( Object o ) throws ClassCastException
 		{
-			if(!(o instanceof ScriptValue))
+			if (!(o instanceof ScriptValue ) )
 				throw new ClassCastException();
 			return 0;
 
 		}
 
-		public ScriptValue toDouble() throws AdvancedScriptException
+		public ScriptValue toFloat() throws AdvancedScriptException
 		{
-			if( type.equals( TYPE_FLOAT))
+			if ( type.equals( TYPE_FLOAT ) )
 				return this;
 			else
-				return new ScriptValue( TYPE_FLOAT, (double) contentInt);
+				return new ScriptValue( TYPE_FLOAT, (float ) contentInt );
 		}
 
 		public ScriptValue toInt() throws AdvancedScriptException
 		{
-			if( type.equals( TYPE_INT))
+			if ( type.equals( TYPE_INT ) )
 				return this;
 			else
-				return new ScriptValue( TYPE_INT, (int) contentDouble);
+				return new ScriptValue( TYPE_INT, (int ) contentFloat );
 		}
 
 		public ScriptType getType()
@@ -2611,10 +2618,10 @@ public class KoLmafiaASH implements KoLConstants
 
 		public String toString()
 		{
-			if( contentString != null)
+			if ( contentString != null )
 				return contentString;
 			else
-				return Integer.toString( contentInt);
+				return Integer.toString( contentInt );
 		}
 
 		public int getIntValue()
@@ -2627,9 +2634,9 @@ public class KoLmafiaASH implements KoLConstants
 			return contentString;
 		}
 
-		public double getDoubleValue()
+		public float getFloatValue()
 		{
-			return contentDouble;
+			return contentFloat;
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
@@ -2639,89 +2646,90 @@ public class KoLmafiaASH implements KoLConstants
 
 		public void fillContent() throws AdvancedScriptException
 		{
-			if( type.equals( TYPE_ITEM))
+			if ( type.equals( TYPE_ITEM ) )
 			{
-				if(( contentInt = TradeableItemDatabase.getItemID( contentString)) == -1)
-					throw new AdvancedScriptException( "Item " + contentString + " not found in database " + getLineAndFile());
+				if ( (contentInt = TradeableItemDatabase.getItemID( contentString )) == -1 )
+					throw new AdvancedScriptException( "Item " + contentString + " not found in database " + getLineAndFile() );
 			}
-			else if( type.equals( TYPE_ZODIAC))
+			else if ( type.equals( TYPE_ZODIAC ) )
 			{
-				for( int i = 0; ; i++)
+				for ( int i = 0; ; i++ )
 				{
-					if( i == Array.getLength( zodiacs))
-						throw new AdvancedScriptException( "Unknown zodiac " + contentString + " " + getLineAndFile());
-					if( contentString.equalsIgnoreCase( zodiacs[i]))
+					if ( i == Array.getLength( zodiacs ) )
+						throw new AdvancedScriptException( "Unknown zodiac " + contentString + " " + getLineAndFile() );
+					if ( contentString.equalsIgnoreCase( zodiacs[i] ) )
 					{
 						contentInt = i;
 						break;
 					}
 				}
 			}
-			else if( type.equals( TYPE_LOCATION))
+			else if ( type.equals( TYPE_LOCATION ) )
 			{
-				if(( content = AdventureDatabase.getAdventure( contentString)) == null)
-					throw new AdvancedScriptException( "Location " + contentString + " not found in database " + getLineAndFile());
+				if ( (content = AdventureDatabase.getAdventure( contentString )) == null )
+					throw new AdvancedScriptException( "Location " + contentString + " not found in database " + getLineAndFile() );
 			}
-			else if( type.equals( TYPE_CLASS))
+			else if ( type.equals( TYPE_CLASS ) )
 			{
-				for( int i = 0; ; i++)
+				for ( int i = 0; ; i++ )
 				{
-					if( i == Array.getLength( classes))
-						throw new AdvancedScriptException( "Unknown class " + contentString + " " + getLineAndFile());
-					if( contentString.equalsIgnoreCase( classes[i]))
+					if ( i == Array.getLength( classes ) )
+						throw new AdvancedScriptException( "Unknown class " + contentString + " " + getLineAndFile() );
+
+					if ( contentString.equalsIgnoreCase( classes[i] ) )
 					{
 						contentInt = i;
 						break;
 					}
 				}
 			}
-			else if( type.equals( TYPE_STAT))
+			else if ( type.equals( TYPE_STAT ) )
 			{
-				for( int i = 0; ; i++)
+				for ( int i = 0; ; i++ )
 				{
-					if( i == Array.getLength( stats))
-						throw new AdvancedScriptException( "Unknown stat " + contentString + " " + getLineAndFile());
-					if( contentString.equalsIgnoreCase( stats[i]))
+					if ( i == Array.getLength( stats ) )
+						throw new AdvancedScriptException( "Unknown stat " + contentString + " " + getLineAndFile() );
+					if ( contentString.equalsIgnoreCase( stats[i] ) )
 					{
 						contentInt = i;
 						break;
 					}
 				}
 			}
-			else if( type.equals( TYPE_SKILL))
+			else if ( type.equals( TYPE_SKILL ) )
 			{
-				if(( contentInt = ClassSkillsDatabase.getSkillID( contentString)) == -1)
-					throw new AdvancedScriptException( "Skill " + contentString + " not found in database " + getLineAndFile());
+				if ( (contentInt = ClassSkillsDatabase.getSkillID( contentString )) == -1 )
+					throw new AdvancedScriptException( "Skill " + contentString + " not found in database " + getLineAndFile() );
 			}
 		}
 
 		public KoLAdventure getLocation()
 		{
-			if( !type.equals( TYPE_LOCATION))
-				throw new RuntimeException( "Internal error: getLocation() called on non-location");
+			if ( !type.equals( TYPE_LOCATION ) )
+				throw new RuntimeException( "Internal error: getLocation() called on non-location" );
 			else
-				return ( KoLAdventure) content;
+				return ( KoLAdventure ) content;
 		}
 	}
 
 	class ScriptExpression extends ScriptCommand
 	{
-		ScriptExpression	lhs;
-		ScriptExpression	rhs;
-		ScriptOperator		oper;
+		ScriptExpression lhs;
+		ScriptExpression rhs;
+		ScriptOperator oper;
 
-		public ScriptExpression(ScriptExpression lhs, ScriptExpression rhs, ScriptOperator oper) throws AdvancedScriptException
+		public ScriptExpression(ScriptExpression lhs, ScriptExpression rhs, ScriptOperator oper ) throws AdvancedScriptException
 		{
 			this.lhs = lhs;
 			this.rhs = rhs;
-			if(( rhs != null) && !lhs.getType().equals( rhs.getType()))
+			if (( rhs != null ) && !lhs.getType().equals( rhs.getType() ) )
 			{
-				if( lhs.getType().equals( TYPE_INT) && rhs.getType().equals( TYPE_FLOAT))
+				if ( lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT ) )
 					;
-				else if( lhs.getType().equals( TYPE_FLOAT) && rhs.getType().equals( TYPE_INT))
+				else if ( lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT ) )
 					;
 				else
-					throw new AdvancedScriptException( "Cannot apply " + lhs.getType().toString() + " to " + rhs.getType().toString() + " " + getLineAndFile());
+					throw new AdvancedScriptException( "Cannot apply " + lhs.getType().toString() + " to " + rhs.getType().toString() + " " + getLineAndFile() );
 			}
 			this.oper = oper;
 		}
@@ -2735,9 +2743,9 @@ public class KoLmafiaASH implements KoLConstants
 
 		public ScriptType getType()
 		{
-			if( oper.isBool())
-				return new ScriptType( TYPE_BOOLEAN);
-			if( lhs.getType().equals( TYPE_FLOAT)) // int (oper) double evaluates to double.
+			if ( oper.isBool() )
+				return new ScriptType( TYPE_BOOLEAN );
+			if ( lhs.getType().equals( TYPE_FLOAT ) ) // int (oper ) float evaluates to float.
 				return lhs.getType();
 			return rhs.getType();
 
@@ -2762,11 +2770,11 @@ public class KoLmafiaASH implements KoLConstants
 		{
 			try
 			{
-				return oper.applyTo(lhs, rhs);
+				return oper.applyTo(lhs, rhs );
 			}
-			catch( AdvancedScriptException e)
+			catch( AdvancedScriptException e )
 			{
-				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing.");
+				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing." );
 			}
 		}
 
@@ -2776,18 +2784,18 @@ public class KoLmafiaASH implements KoLConstants
 	{
 		public ScriptExpression getFirstExpression()
 		{
-			return ( ScriptExpression) getFirstElement();
+			return (ScriptExpression) getFirstElement();
 		}
 
-		public ScriptExpression getNextExpression( ScriptExpression current)
+		public ScriptExpression getNextExpression( ScriptExpression current )
 		{
-			return ( ScriptExpression) getNextElement( current);
+			return (ScriptExpression) getNextElement( current );
 		}
 
 
-		public boolean addElement( ScriptListNode n) //Expression List has to remain in original order, so override addElement
+		public boolean addElement( ScriptListNode n ) //Expression List has to remain in original order, so override addElement
 		{
-			return addElementSerial( n);
+			return addElementSerial( n );
 		}
 	}
 
@@ -2795,31 +2803,31 @@ public class KoLmafiaASH implements KoLConstants
 	{
 		String operString;
 
-		public ScriptOperator( String oper)
+		public ScriptOperator( String oper )
 		{
-			if( oper == null)
-				throw new RuntimeException( "Internal error in ScriptOperator()");
+			if ( oper == null )
+				throw new RuntimeException( "Internal error in ScriptOperator()" );
 			operString = oper;
 		}
 
-		public boolean precedes( ScriptOperator oper)
+		public boolean precedes( ScriptOperator oper )
 		{
 			return operStrength() > oper.operStrength();
 		}
 
 		private int operStrength()
 		{
-			if( operString.equals( "!"))
+			if ( operString.equals( "!" ) )
 				return 6;
-			if( operString.equals( "*") || operString.equals( "/") || operString.equals( "%"))
+			if ( operString.equals( "*" ) || operString.equals( "/" ) || operString.equals( "%" ) )
 				return 5;
-			else if( operString.equals( "+") || operString.equals( "-"))
+			else if ( operString.equals( "+" ) || operString.equals( "-" ) )
 				return 4;
-			else if( operString.equals( "<") || operString.equals( ">") || operString.equals( "<=") || operString.equals( ">="))
+			else if ( operString.equals( "<" ) || operString.equals( ">" ) || operString.equals( "<=" ) || operString.equals( ">=" ) )
 				return 3;
-			else if( operString.equals( "==") || operString.equals( "!="))
+			else if ( operString.equals( "==" ) || operString.equals( "!=" ) )
 				return 2;
-			else if( operString.equals( "||") || operString.equals( "&&"))
+			else if ( operString.equals( "||" ) || operString.equals( "&&" ) )
 				return 1;
 			else
 				return -1;
@@ -2829,9 +2837,9 @@ public class KoLmafiaASH implements KoLConstants
 		{
 			if
 			(
-				operString.equals( "*") || operString.equals( "/") || operString.equals( "%") ||
-				operString.equals( "+") || operString.equals( "-")
-			)
+				operString.equals( "*" ) || operString.equals( "/" ) || operString.equals( "%" ) ||
+				operString.equals( "+" ) || operString.equals( "-" )
+			 )
 				return false;
 			else
 				return true;
@@ -2843,262 +2851,262 @@ public class KoLmafiaASH implements KoLConstants
 			return operString;
 		}
 
-		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs) throws AdvancedScriptException
+		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs ) throws AdvancedScriptException
 		{
 
 			ScriptValue leftResult = lhs.execute();
 			ScriptValue rightResult;
 
-			if( currentState == STATE_EXIT)
+			if ( currentState == STATE_EXIT )
 				return null;
 
-			if(( rhs != null) && ( !rhs.getType().equals( lhs.getType()))) //double-check values
+			if ( rhs != null && !rhs.getType().equals( lhs.getType() ) ) //float-check values
 			{
-				if( lhs.getType().equals( TYPE_INT) && rhs.getType().equals( TYPE_FLOAT))
+				if ( lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT ) )
 					;
-				else if( lhs.getType().equals( TYPE_FLOAT) && rhs.getType().equals( TYPE_INT))
+				else if ( lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT ) )
 					;
 				else
-					throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond");
+					throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond" );
 			}
 
-			if( operString.equals( "!"))
+			if ( operString.equals( "!" ) )
 			{
-				if( leftResult.getIntValue() == 0)
-					return new ScriptValue( TYPE_BOOLEAN, 1);
+				if ( leftResult.getIntValue() == 0 )
+					return new ScriptValue( TYPE_BOOLEAN, 1 );
 				else
-					return new ScriptValue( TYPE_BOOLEAN, 0);
+					return new ScriptValue( TYPE_BOOLEAN, 0 );
 			}
-			if( operString.equals( "*"))
+			if ( operString.equals( "*" ) )
 			{
 				rightResult = rhs.execute();
-				if( currentState == STATE_EXIT)
+				if ( currentState == STATE_EXIT )
 					return null;
-				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
-					return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() * rightResult.toDouble().getDoubleValue());
+				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
+					return new ScriptValue( TYPE_FLOAT, leftResult.toFloat().getFloatValue() * rightResult.toFloat().getFloatValue() );
 				else
-					return new ScriptValue( TYPE_INT, leftResult.getIntValue() * rightResult.getIntValue());
+					return new ScriptValue( TYPE_INT, leftResult.getIntValue() * rightResult.getIntValue() );
 			}
-			if( operString.equals( "/"))
+			if ( operString.equals( "/" ) )
 			{
 				rightResult = rhs.execute();
-				if( currentState == STATE_EXIT)
+				if ( currentState == STATE_EXIT )
 					return null;
-				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
-					return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() / rightResult.toDouble().getDoubleValue());
+				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
+					return new ScriptValue( TYPE_FLOAT, leftResult.toFloat().getFloatValue() / rightResult.toFloat().getFloatValue() );
 				else
-					return new ScriptValue( TYPE_INT, leftResult.getIntValue() / rightResult.getIntValue());
+					return new ScriptValue( TYPE_INT, leftResult.getIntValue() / rightResult.getIntValue() );
 			}
-			if( operString.equals( "%"))
+			if ( operString.equals( "%" ) )
 			{
 				rightResult = rhs.execute();
-				if( currentState == STATE_EXIT)
+				if ( currentState == STATE_EXIT )
 					return null;
-				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
-					return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() % rightResult.toDouble().getDoubleValue());
+				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
+					return new ScriptValue( TYPE_FLOAT, leftResult.toFloat().getFloatValue() % rightResult.toFloat().getFloatValue() );
 				else
-					return new ScriptValue( TYPE_INT, leftResult.getIntValue() % rightResult.getIntValue());
+					return new ScriptValue( TYPE_INT, leftResult.getIntValue() % rightResult.getIntValue() );
 			}
-			if( operString.equals( "+"))
+			if ( operString.equals( "+" ) )
 			{
 				rightResult = rhs.execute();
-				if( currentState == STATE_EXIT)
+				if ( currentState == STATE_EXIT )
 					return null;
-				if( lhs.getType().equals(TYPE_STRING))
-					return new ScriptValue( TYPE_STRING, leftResult.getStringValue() + rightResult.getStringValue());
+				if ( lhs.getType().equals( TYPE_STRING ) )
+					return new ScriptValue( TYPE_STRING, leftResult.getStringValue() + rightResult.getStringValue() );
 				else
 				{
-					if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
-						return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() + rightResult.toDouble().getDoubleValue());
+					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
+						return new ScriptValue( TYPE_FLOAT, leftResult.toFloat().getFloatValue() + rightResult.toFloat().getFloatValue() );
 					else
-						return new ScriptValue( TYPE_INT, leftResult.getIntValue() + rightResult.getIntValue());
+						return new ScriptValue( TYPE_INT, leftResult.getIntValue() + rightResult.getIntValue() );
 				}
 			}
-			if( operString.equals( "-"))
+			if ( operString.equals( "-" ) )
 			{
 				rightResult = rhs.execute();
-				if( currentState == STATE_EXIT)
+				if ( currentState == STATE_EXIT )
 					return null;
-				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
-					return new ScriptValue( TYPE_FLOAT, leftResult.toDouble().getDoubleValue() - rightResult.toDouble().getDoubleValue());
+				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
+					return new ScriptValue( TYPE_FLOAT, leftResult.toFloat().getFloatValue() - rightResult.toFloat().getFloatValue() );
 				else
-					return new ScriptValue( TYPE_INT, leftResult.getIntValue() - rightResult.getIntValue());
+					return new ScriptValue( TYPE_INT, leftResult.getIntValue() - rightResult.getIntValue() );
 			}
-			if( operString.equals( "<"))
+			if ( operString.equals( "<" ) )
 			{
 				rightResult = rhs.execute();
-				if( currentState == STATE_EXIT)
+				if ( currentState == STATE_EXIT )
 					return null;
-				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 				{
-					if( leftResult.toDouble().getDoubleValue() < rightResult.toDouble().getDoubleValue())
-						return new ScriptValue( TYPE_BOOLEAN, 1);
+					if ( leftResult.toFloat().getFloatValue() < rightResult.toFloat().getFloatValue() )
+						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
+						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 				else
 				{
-					if( leftResult.getIntValue() < rightResult.getIntValue())
-						return new ScriptValue( TYPE_BOOLEAN, 1);
+					if ( leftResult.getIntValue() < rightResult.getIntValue() )
+						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
+						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 			}
-			if( operString.equals( ">"))
+			if ( operString.equals( ">" ) )
 			{
 				rightResult = rhs.execute();
-				if( currentState == STATE_EXIT)
+				if ( currentState == STATE_EXIT )
 					return null;
-				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 				{
-					if( leftResult.toDouble().getDoubleValue() > rightResult.toDouble().getDoubleValue())
-						return new ScriptValue( TYPE_BOOLEAN, 1);
+					if ( leftResult.toFloat().getFloatValue() > rightResult.toFloat().getFloatValue() )
+						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
+						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 				else
 				{
-					if( leftResult.getIntValue() > rightResult.getIntValue())
-						return new ScriptValue( TYPE_BOOLEAN, 1);
+					if ( leftResult.getIntValue() > rightResult.getIntValue() )
+						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
+						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 			}
-			if( operString.equals( "<="))
+			if ( operString.equals( "<=" ) )
 			{
 				rightResult = rhs.execute();
-				if( currentState == STATE_EXIT)
+				if ( currentState == STATE_EXIT )
 					return null;
-				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 				{
-					if( leftResult.toDouble().getDoubleValue() <= rightResult.toDouble().getDoubleValue())
-						return new ScriptValue( TYPE_BOOLEAN, 1);
+					if ( leftResult.toFloat().getFloatValue() <= rightResult.toFloat().getFloatValue() )
+						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
+						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 				else
 				{
-					if( leftResult.getIntValue() <= rightResult.getIntValue())
-						return new ScriptValue( TYPE_BOOLEAN, 1);
+					if ( leftResult.getIntValue() <= rightResult.getIntValue() )
+						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
+						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 			}
-			if( operString.equals( ">="))
+			if ( operString.equals( ">=" ) )
 			{
 				rightResult = rhs.execute();
-				if( currentState == STATE_EXIT)
+				if ( currentState == STATE_EXIT )
 					return null;
-				if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 				{
-					if( leftResult.toDouble().getDoubleValue() >= rightResult.toDouble().getDoubleValue())
-						return new ScriptValue( TYPE_BOOLEAN, 1);
+					if ( leftResult.toFloat().getFloatValue() >= rightResult.toFloat().getFloatValue() )
+						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
+						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 				else
 				{
-					if( leftResult.getIntValue() >= rightResult.getIntValue())
-						return new ScriptValue( TYPE_BOOLEAN, 1);
+					if ( leftResult.getIntValue() >= rightResult.getIntValue() )
+						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
+						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 			}
-			if( operString.equals( "=="))
+			if ( operString.equals( "==" ) )
 			{
 				rightResult = rhs.execute();
-				if( currentState == STATE_EXIT)
-					return null;
-				if
-				(
-					lhs.getType().equals(TYPE_INT) ||
-					lhs.getType().equals(TYPE_FLOAT) ||
-					lhs.getType().equals(TYPE_BOOLEAN) ||
-					lhs.getType().equals(TYPE_ITEM) ||
-					lhs.getType().equals(TYPE_ZODIAC) ||
-					lhs.getType().equals(TYPE_CLASS) ||
-					lhs.getType().equals(TYPE_SKILL) ||
-					lhs.getType().equals(TYPE_STAT)
-				)
-				{
-					if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
-					{
-						if( leftResult.toDouble().getDoubleValue() == rightResult.toDouble().getDoubleValue())
-							return new ScriptValue( TYPE_BOOLEAN, 1);
-						else
-							return new ScriptValue( TYPE_BOOLEAN, 0);
-					}
-					else
-					{
-						if( leftResult.getIntValue() == rightResult.getIntValue())
-							return new ScriptValue( TYPE_BOOLEAN, 1);
-						else
-							return new ScriptValue( TYPE_BOOLEAN, 0);
-					}
-				}
-				else
-				{
-					if( leftResult.getStringValue().equals( rightResult.getStringValue()))
-						return new ScriptValue( TYPE_BOOLEAN, 1);
-					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
-				}
-			}
-			if( operString.equals( "!="))
-			{
-				rightResult = rhs.execute();
-				if( currentState == STATE_EXIT)
+				if ( currentState == STATE_EXIT )
 					return null;
 				if
 				(
-					lhs.getType().equals(TYPE_INT) ||
-					lhs.getType().equals(TYPE_FLOAT) ||
-					lhs.getType().equals(TYPE_BOOLEAN) ||
-					lhs.getType().equals(TYPE_ITEM) ||
-					lhs.getType().equals(TYPE_ZODIAC) ||
-					lhs.getType().equals(TYPE_CLASS) ||
-					lhs.getType().equals(TYPE_SKILL) ||
-					lhs.getType().equals(TYPE_STAT)
-				)
+					lhs.getType().equals( TYPE_INT ) ||
+					lhs.getType().equals( TYPE_FLOAT ) ||
+					lhs.getType().equals( TYPE_BOOLEAN ) ||
+					lhs.getType().equals( TYPE_ITEM ) ||
+					lhs.getType().equals( TYPE_ZODIAC ) ||
+					lhs.getType().equals( TYPE_CLASS ) ||
+					lhs.getType().equals( TYPE_SKILL ) ||
+					lhs.getType().equals( TYPE_STAT )
+				 )
 				{
-					if( lhs.getType().equals( TYPE_FLOAT) || rhs.getType().equals( TYPE_FLOAT))
+					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 					{
-						if( leftResult.toDouble().getDoubleValue() != rightResult.toDouble().getDoubleValue())
-							return new ScriptValue( TYPE_BOOLEAN, 1);
+						if ( leftResult.toFloat().getFloatValue() == rightResult.toFloat().getFloatValue() )
+							return new ScriptValue( TYPE_BOOLEAN, 1 );
 						else
-							return new ScriptValue( TYPE_BOOLEAN, 0);
+							return new ScriptValue( TYPE_BOOLEAN, 0 );
 					}
 					else
 					{
-						if( leftResult.getIntValue() != rightResult.getIntValue())
-							return new ScriptValue( TYPE_BOOLEAN, 1);
+						if ( leftResult.getIntValue() == rightResult.getIntValue() )
+							return new ScriptValue( TYPE_BOOLEAN, 1 );
 						else
-							return new ScriptValue( TYPE_BOOLEAN, 0);
+							return new ScriptValue( TYPE_BOOLEAN, 0 );
 					}
 				}
 				else
 				{
-					if( !leftResult.getStringValue().equals( rightResult.getStringValue()))
-						return new ScriptValue( TYPE_BOOLEAN, 1);
+					if ( leftResult.getStringValue().equals( rightResult.getStringValue() ) )
+						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
-						return new ScriptValue( TYPE_BOOLEAN, 0);
+						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 			}
-			if( operString.equals( "||"))
+			if ( operString.equals( "!=" ) )
 			{
-				if( leftResult.getIntValue() == 1)
-					return new ScriptValue( TYPE_BOOLEAN, 1);
+				rightResult = rhs.execute();
+				if ( currentState == STATE_EXIT )
+					return null;
+				if
+				(
+					lhs.getType().equals( TYPE_INT ) ||
+					lhs.getType().equals( TYPE_FLOAT ) ||
+					lhs.getType().equals( TYPE_BOOLEAN ) ||
+					lhs.getType().equals( TYPE_ITEM ) ||
+					lhs.getType().equals( TYPE_ZODIAC ) ||
+					lhs.getType().equals( TYPE_CLASS ) ||
+					lhs.getType().equals( TYPE_SKILL ) ||
+					lhs.getType().equals( TYPE_STAT )
+				 )
+				{
+					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
+					{
+						if ( leftResult.toFloat().getFloatValue() != rightResult.toFloat().getFloatValue() )
+							return new ScriptValue( TYPE_BOOLEAN, 1 );
+						else
+							return new ScriptValue( TYPE_BOOLEAN, 0 );
+					}
+					else
+					{
+						if ( leftResult.getIntValue() != rightResult.getIntValue() )
+							return new ScriptValue( TYPE_BOOLEAN, 1 );
+						else
+							return new ScriptValue( TYPE_BOOLEAN, 0 );
+					}
+				}
+				else
+				{
+					if ( !leftResult.getStringValue().equals( rightResult.getStringValue() ) )
+						return new ScriptValue( TYPE_BOOLEAN, 1 );
+					else
+						return new ScriptValue( TYPE_BOOLEAN, 0 );
+				}
+			}
+			if ( operString.equals( "||" ) )
+			{
+				if ( leftResult.getIntValue() == 1 )
+					return new ScriptValue( TYPE_BOOLEAN, 1 );
 				else
 					return rhs.execute();
 			}
-			if( operString.equals( "&&"))
+			if ( operString.equals( "&&" ) )
 			{
-				if( leftResult.getIntValue() == 0)
-					return new ScriptValue( TYPE_BOOLEAN, 0);
+				if ( leftResult.getIntValue() == 0 )
+					return new ScriptValue( TYPE_BOOLEAN, 0 );
 				else
 					return rhs.execute();
 			}
-			throw new RuntimeException( "Internal error: illegal operator.");
+			throw new RuntimeException( "Internal error: illegal operator." );
 		}
 	}
 
@@ -3116,15 +3124,16 @@ public class KoLmafiaASH implements KoLConstants
 			return next;
 		}
 
-		public void setNext( ScriptListNode node)
+		public void setNext( ScriptListNode node )
 		{
 			next = node;
 		}
 
-		public int compareTo( Object o) throws ClassCastException
+		public int compareTo( Object o ) throws ClassCastException
 		{
-			if(!(o instanceof ScriptListNode))
+			if (!(o instanceof ScriptListNode ) )
 				throw new ClassCastException();
+
 			return 0; //This should not happen since each extending class overrides this function
 
 		}
@@ -3140,59 +3149,59 @@ public class KoLmafiaASH implements KoLConstants
 			firstNode = null;
 		}
 
-		public ScriptList( ScriptListNode node)
+		public ScriptList( ScriptListNode node )
 		{
 			firstNode = node;
 		}
 
-		public boolean addElement( ScriptListNode n)
+		public boolean addElement( ScriptListNode n )
 		{
 			ScriptListNode current;
 			ScriptListNode previous = null;
 
-			if( firstNode == null)
+			if ( firstNode == null )
 				{
 				firstNode = n;
-				n.setNext( null);
+				n.setNext( null );
 				return true;
 				}
-			for( current = firstNode; current != null; previous = current, current = current.getNext())
+			for ( current = firstNode; current != null; previous = current, current = current.getNext() )
 			{
-				if( current.compareTo( n) <= 0)
+				if ( current.compareTo( n ) <= 0 )
 					break;
 			}
-			if(( current != null) && ( current.compareTo( n) == 0))
+			if ( current != null && current.compareTo( n ) == 0 )
 			{
 				return false;
 			}
-			if( previous == null) //Insert in front of very first element
+			if ( previous == null ) //Insert in front of very first element
 			{
 				firstNode = n;
-				firstNode.setNext( current);
+				firstNode.setNext( current );
 			}
 			else
 			{
-				previous.setNext( n);
-				n.setNext( current);
+				previous.setNext( n );
+				n.setNext( current );
 			}
 			return true;
 		}
 
-		public boolean addElementSerial( ScriptListNode n) //Function for subclasses to override addElement with
+		public boolean addElementSerial( ScriptListNode n ) //Function for subclasses to override addElement with
 		{
 			ScriptListNode current;
 			ScriptListNode previous = null;
 
-			if( firstNode == null)
-				{
+			if ( firstNode == null )
+			{
 				firstNode = n;
 				return true;
-				}
+			}
 
-			for( current = firstNode; current != null; previous = current, current = current.getNext())
+			for ( current = firstNode; current != null; previous = current, current = current.getNext() )
 				;
 
-			previous.setNext( n);
+			previous.setNext( n );
 			return true;
 		}
 
@@ -3202,7 +3211,7 @@ public class KoLmafiaASH implements KoLConstants
 			return firstNode;
 		}
 
-		public ScriptListNode getNextElement( ScriptListNode n)
+		public ScriptListNode getNextElement( ScriptListNode n )
 		{
 			return n.getNext();
 		}
@@ -3211,9 +3220,9 @@ public class KoLmafiaASH implements KoLConstants
 
 	class AdvancedScriptException extends Exception
 	{
-		AdvancedScriptException( String s)
+		AdvancedScriptException( String s )
 		{
-			super( s);
+			super( s );
 		}
 	}
 }
