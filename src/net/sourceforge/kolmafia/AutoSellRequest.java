@@ -104,22 +104,21 @@ public class AutoSellRequest extends SendMessageRequest
 		{
 			addFormField( "action", "sell" );
 
-			// If you only have a capacity of 1, then
-			// you need to add the quantity field.
-			// Otherwise, no quantity field is needed.
-
 			if ( getCapacity() == 1 )
 			{
+				// If we are doing the requests one at a time,
+				// specify the item quantity
 				addFormField( "type", "quant" );
-
-				// For type "quant", all items use the same
-				// number.
-
 				addFormField( "howmany", String.valueOf( item.getCount() ) );
 			}
-                        else
-				// Otherwise, we are selling all
+			else
+			{
+				// Otherwise, we are selling all.  As of
+				// 2/1/2006, must specify a quantity field even
+				// for this - but the value is ignored
 				addFormField( "type", "all" );
+				addFormField( "howmany", "1" );
+			}
 
 			// This is a multiple selection input field.
 			// Therefore, you can give it multiple items.
