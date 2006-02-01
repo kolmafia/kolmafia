@@ -707,8 +707,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( StaticEntity.getClient().inLoginState() )
 		{
-			executeScriptCommand( command );
-//			updateDisplay( ERROR_STATE, "You have not yet logged in." );
+			updateDisplay( ERROR_STATE, "You have not yet logged in." );
 			StaticEntity.getClient().cancelRequest();
 			return;
 		}
@@ -964,7 +963,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-                // Commands to manipulate the mushroom plot
+		// Commands to manipulate the mushroom plot
 
 		if ( command.equals( "field" ) )
 		{
@@ -1249,6 +1248,18 @@ public class KoLmafiaCLI extends KoLmafia
 			command.equals( "effects" ) || command.startsWith( "status" ) || command.equals( "encounters" ) )
 		{
 			executePrintCommand( command + " " + parameters );
+			return;
+		}
+
+		// Maybe the person is trying to load a raw URL
+		// to test something without creating a brand new
+		// KoLRequest object to handle it yet?
+
+		if ( command.indexOf( ".php" ) != -1 )
+		{
+			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), command, true );
+			StaticEntity.getClient().makeRequest( desired, 1 );
+			StaticEntity.getClient().enableDisplay();
 			return;
 		}
 
