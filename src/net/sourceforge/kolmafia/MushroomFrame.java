@@ -44,10 +44,14 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JFileChooser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MushroomFrame extends KoLFrame
@@ -99,7 +103,7 @@ public class MushroomFrame extends KoLFrame
 		// at a later date.
 
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.add( new InvocationButton( "Harvest All", MushroomFrame.class, "harvestMushrooms" ) );
+		buttonPanel.add( new InvocationButton( "Harvest All", this, "harvestMushrooms" ) );
 		buttonPanel.add( new InvocationButton( "Do Layout", this, "executeLayout" ) );
 		buttonPanel.add( new InvocationButton( "Script Layout", this, "scriptLayout" ) );
 		completePanel.add( buttonPanel, BorderLayout.SOUTH );
@@ -111,12 +115,70 @@ public class MushroomFrame extends KoLFrame
 		setResizable( false );
 	}
 
+	public void harvestMushrooms()
+	{
+		MushroomPlot.harvestMushrooms();
+		client.enableDisplay();
+	}
+
 	public void executeLayout()
 	{
+		// Change any mushrooms which no longer
+		// match the existing plot.
+
+		for ( int i = 0; i < 16; ++i )
+		{
+			if ( !currentData[i].equals( layoutData[i] ) )
+			{
+				MushroomPlot.pickMushroom( i + 1, false );
+				if ( !layoutData[i].endsWith( "/dirt1.gif" ) && !layoutData[i].endsWith( "/mushsprout.gif" ) )
+					MushroomPlot.plantMushroom( i + 1, MushroomPlot.mushroomType( layoutData[i] ) );
+			}
+		}
+
+		client.enableDisplay();
 	}
 
 	public void scriptLayout()
 	{
+		JFileChooser chooser = new JFileChooser( "scripts" );
+		int returnVal = chooser.showSaveDialog( this );
+
+		File output = chooser.getSelectedFile();
+
+		if ( output == null )
+			return;
+
+		try
+		{
+			PrintWriter ostream = new PrintWriter( new FileOutputStream( output, false ), false );
+			ostream.println( "field harvest" );
+
+			for ( int i = 0; i < 16; ++i )
+			{
+				int mushroomType = MushroomPlot.mushroomType( layoutData[i] );
+				switch ( mushroomType )
+				{
+					case MushroomPlot.SPOOKY:
+					case MushroomPlot.KNOB:
+					case MushroomPlot.KNOLL:
+						ostream.println( "field pick " + (i + 1) );
+						ostream.println( "field plant " + (i + 1) + " " + TradeableItemDatabase.getItemName( mushroomType ) );
+						break;
+
+					case MushroomPlot.EMPTY:
+						ostream.println( "field pick " + (i + 1) );
+						break;
+				}
+			}
+
+			ostream.close();
+		}
+		catch ( Exception ex )
+		{
+			ex.printStackTrace( KoLmafia.getLogStream() );
+			ex.printStackTrace();
+		}
 	}
 
 	public JPanel constructPanel( String label, Component c )
