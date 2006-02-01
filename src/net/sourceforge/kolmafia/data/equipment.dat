@@ -41,6 +41,7 @@ gasmask	50	Mox: 10
 goat beard	60	Mox: 15
 green traffic cone	60	Mox: 15
 helmet turtle	10	none
+ice pick	100	none
 irate sombrero	45	Mus: 7
 Kentucky-style derby	20	none
 Knob Goblin elite helm	60	Mox: 15
@@ -71,6 +72,7 @@ red traffic cone	60	Mox: 15
 safarrri hat	90	Mox: 30
 sequined fez	80	Mox: 25
 snorkel	10	none
+Sombrero De Vida	50	Mox: 10
 spooky hockey mask	100	Mox: 35
 stainless steel skullcap	90	Mox: 30
 star hat	165	Mox: 67
@@ -230,6 +232,7 @@ heteroerotic frat-paddle	150	Mus: 60
 hippo whip	20	none
 homoerotic frat-paddle	70	Mus: 20
 huge mirror shard	30	none
+ice sickle	100	none	1
 icy-hot katana	90	Mus: 30	2
 iron pasta spoon	110	Mus: 40
 Kentucky-fried meat crossbow	80	Mox: 25	2
@@ -291,6 +294,7 @@ yak whip	20	none
 # Off-hand section.  This section includes all the items
 # which go in the "off-hand" slot of the equipment menu.
 
+ice baby	0	none
 marionette	0	Mys: 40
 rag doll	0	Mys: 40
 sock monkey	0	Mys: 40
@@ -358,6 +362,7 @@ hemp bracelet	0	Mys: 20
 hippo skin buckler	0	Mys: 30
 hockey stick of furious angry rage	0	Mys: 35
 hypnodisk	0	none
+ice skates	0	none
 imitation nice watch	0	Mys: 35
 incredibly dense meat gem	0	none
 infernal insoles	0	Mys: 15
