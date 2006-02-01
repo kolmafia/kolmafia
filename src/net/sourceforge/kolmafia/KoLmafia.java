@@ -2099,6 +2099,13 @@ public abstract class KoLmafia implements KoLConstants
 			if ( purchases[i] instanceof MallPurchaseRequest )
 			{
 				currentRequest = (MallPurchaseRequest) purchases[i];
+
+				if ( !KoLCharacter.canInteract() && currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
+				{
+					updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
+					return;
+				}
+
 				AdventureResult result = new AdventureResult( currentRequest.getItemName(), 0, false );
 
 				// Keep track of how many of the item you had before
