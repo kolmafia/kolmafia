@@ -1171,7 +1171,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "undercut" ) )
 		{
-			StaticEntity.getClient().makeEndOfRunSaleRequest();
+			StaticEntity.getClient().priceItemsAtLowestPrice();
 			return;
 		}
 
