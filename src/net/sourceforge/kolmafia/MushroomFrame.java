@@ -223,6 +223,10 @@ public class MushroomFrame extends KoLFrame
 
 	public void refresh()
 	{
+		// Do nothing if you don't have a plot
+		if ( layoutData[0].equals( "Your plot is unavailable." ) )
+			return;
+
 		// Convert each piece of layout data into the appropriate
 		// mushroom plot data.
 
@@ -267,6 +271,10 @@ public class MushroomFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			if ( !canModify )
+				return;
+
+			// No mushroom plot
+			if ( layoutData.length == 1 )
 				return;
 
 			// Sprouts transform into dirt because all you can
