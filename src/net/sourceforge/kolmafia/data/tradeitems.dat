@@ -1409,8 +1409,8 @@
 1420	green traffic cone	9	100
 1421	Scandalously Skimpy Bikini	8	0
 1422	Sombrero De Vida	9	0
-1423	iceberglet	0	0
-1424	ice sickle	12	0
-1425	ice baby	13	0
-1426	ice pick	9	0
-1427	ice skates	8	0
+1423	iceberglet	0	-1
+1424	ice sickle	12	-1
+1425	ice baby	13	-1
+1426	ice pick	9	-1
+1427	ice skates	8	-1
