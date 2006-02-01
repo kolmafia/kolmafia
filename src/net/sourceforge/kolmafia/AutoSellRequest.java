@@ -104,6 +104,30 @@ public class AutoSellRequest extends SendMessageRequest
 		{
 			addFormField( "action", "sell" );
 
+			// "Compact" autosell mode: sellstuff.php:
+
+			//    type=all
+			//    howmany=1
+			//    whichitem[]=<i1>
+			//    whichitem[]=<i2>
+			//    ...
+
+			//    type=quant
+			//    howmany=<n>
+			//    whichitem[]=<i1>
+
+			// "Detailed" autosell mode: sellstuff_ugly.php:
+
+			//    mode=1
+			//    quantity=1
+			//    item<i1>=<i1>
+			//    item<i2>=<i2>
+			//    ...
+
+			//    mode=3
+			//    quantity=<n>
+			//    item<i1>=<i1>
+
 			if ( getCapacity() == 1 )
 			{
 				// If we are doing the requests one at a time,
