@@ -460,6 +460,13 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "abort" ) )
+		{
+			updateDisplay( ERROR_STATE, "Script abort." );
+			StaticEntity.getClient().cancelRequest();
+			return;
+		}
+
 		// Adding the requested echo command.  I guess this is
 		// useful for people who want to echo things...
 
