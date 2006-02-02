@@ -198,6 +198,7 @@ public class EquipmentRequest extends PasswordHashRequest
 						{
 							if ( familiars[i].getItem() != null && familiars[i].getItem().equals( changeItemName ) )
 							{
+								updateDisplay( DISABLE_STATE, "Stealing " + changeItemName + " from " + familiars[i].getRace() + "..." );
 								KoLRequest unequip = new KoLRequest( client, "familiar.php", true );
 								unequip.addFormField( "pwd", client.getPasswordHash() );
 								unequip.addFormField( "action", "unequip" );
