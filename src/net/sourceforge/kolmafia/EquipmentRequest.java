@@ -193,6 +193,7 @@ public class EquipmentRequest extends PasswordHashRequest
 					{
 						// Find first familiar with item
 						FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
+						KoLCharacter.getFamiliarList().toArray( familiars );
 						for ( int i = 0; i < familiars.length; ++i )
 						{
 							if ( familiars[i].getItem() != null && familiars[i].getItem().equals( changeItemName ) )
@@ -201,6 +202,9 @@ public class EquipmentRequest extends PasswordHashRequest
 								unequip.addFormField( "pwd", client.getPasswordHash() );
 								unequip.addFormField( "action", "unequip" );
 								unequip.addFormField( "famid", String.valueOf( familiars[i].getID() ) );
+								unequip.run();
+								familiars[i].setItem( UNEQUIP );
+								client.processResult( new AdventureResult( changeItemName, 1 ), false );
 								break;
 							}
 						}
