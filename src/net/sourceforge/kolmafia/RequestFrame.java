@@ -563,7 +563,10 @@ public class RequestFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			KoLAdventure adventure = AdventureDatabase.getAdventure( locationField.getText() );
-			refresh( new KoLRequest( client, adventure == null ? locationField.getText() : adventure.getRequest().getURLString(), true ) );
+			KoLRequest request = new KoLRequest( client, adventure == null ? locationField.getText() : adventure.getRequest().getURLString(), true );
+
+			client.getMacroStream().println( request.getURLString() );
+			refresh( request );
 		}
 	}
 
