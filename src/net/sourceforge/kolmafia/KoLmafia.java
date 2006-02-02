@@ -1407,24 +1407,35 @@ public abstract class KoLmafia implements KoLConstants
 		KoLAdventure adventure = new KoLAdventure( this, "", "rats.php", "", "Typical Tavern (Pre-Rat)" );
 		adventure.run();
 
-		int searchIndex = 0;
-		while ( searchIndex <= 25 && KoLCharacter.getCurrentHP() > 0 &&
+		ArrayList searchList = new ArrayList();
+		for ( int i = 1; i <= 25; ++i )
+			searchList.add( new Integer(i) );
+
+		Integer searchIndex = new Integer(0);
+
+		// Random guess instead of straightforward search
+		// for the location of the faucet (lowers the chance
+		// of bad results if the faucet is near the end).
+
+		while ( !searchList.isEmpty() && KoLCharacter.getCurrentHP() > 0 &&
 			(adventure.getRequest().responseText == null || adventure.getRequest().responseText.indexOf( "faucetoff" ) == -1) )
 		{
-			adventure.getRequest().addFormField( "where", String.valueOf( ++searchIndex ) );
+			searchIndex = (Integer) searchList.get( RNG.nextInt( searchList.size() ) );
+			searchList.remove( searchIndex );
+
+			adventure.getRequest().addFormField( "where", searchIndex.toString() );
 			adventure.run();
 			resetContinueState();
 		}
 
+		// If you successfully find the location of the
+		// rat faucet, then you've got it.
+
 		if ( KoLCharacter.getCurrentHP() > 0 )
 		{
 			KoLCharacter.processResult( new AdventureResult( AdventureResult.ADV, 1 ) );
-			int row = (int) ((searchIndex - 1) / 5) + 1;
-			int column = searchIndex % 5;
-
-			if ( column == 0 )
-				column = 5;
-
+			int row = (int) ((searchIndex.intValue() - 1) / 5) + 1;
+			int column = (searchIndex.intValue() - 1) % 5 + 1;
 			updateDisplay( ENABLE_STATE, "Faucet found in row " + row + ", column " + column );
 		}
 	}
