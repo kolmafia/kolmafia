@@ -52,6 +52,7 @@ public class AdventureRequest extends KoLRequest
 	private boolean hasLuckyVersion;
 	protected int adventuresUsed;
 
+	public static final AdventureResult ABRIDGED = new AdventureResult( 534, -1 );
 	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
 	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
 	public static final AdventureResult CANDLES = new AdventureResult( 480, -1 );
@@ -316,8 +317,24 @@ public class AdventureRequest extends KoLRequest
 		}
 		else if ( formSource.equals( "mountains.php" ) )
 		{
-			if ( responseText.indexOf( "see no way to cross it" ) != -1 )
+			if ( responseText.indexOf( "value=80" ) == -1 )
+			{
+				// Check to see if you have an unabridged dictionary
+				// sitting in your inventory.  If you do, then visit
+				// the untinkerer automatically and repeat the request.
+
+				if ( ABRIDGED.getCount( KoLCharacter.getInventory() ) > 0 )
+				{
+					(new UntinkerRequest( client, ABRIDGED.getItemID() )).run();
+					this.run();
+					return;
+				}
+
+				// Otherwise, the player is unable to cross the orc
+				// chasm at this time.
+
 				updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
+			}
 			else if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
 			{
 				updateDisplay( NORMAL_STATE, "You can now cross the Orc Chasm." );
