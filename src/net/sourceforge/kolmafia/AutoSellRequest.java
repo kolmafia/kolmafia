@@ -55,13 +55,12 @@ public class AutoSellRequest extends SendMessageRequest
 	}
 
 	public AutoSellRequest( KoLmafia client, Object [] items, int sellType )
-	{
-		this( client, items, new int[0], new int[0], sellType );
+	{	this( client, items, new int[0], new int[0], sellType );
 	}
 
 	public AutoSellRequest( KoLmafia client, Object [] items, int [] prices, int [] limits, int sellType )
 	{
-		super( client, sellPage( sellType ), items, 0 );
+		super( client, getSellPage( sellType ), items, 0 );
 		addFormField( "pwd", client.getPasswordHash() );
 
 		this.sellType = sellType;
@@ -82,7 +81,7 @@ public class AutoSellRequest extends SendMessageRequest
 		}
 	}
 
-	private static String sellPage ( int sellType )
+	private static String getSellPage( int sellType )
 	{
 		if ( sellType == AUTOMALL )
 			return "managestore.php";
@@ -124,14 +123,8 @@ public class AutoSellRequest extends SendMessageRequest
 			{
 				// If we are doing the requests one at a time,
 				// specify the item quantity
-				addFormField( "mode", "3" );
+
 				addFormField( "quantity", String.valueOf( item.getCount() ) );
-			}
-			else
-			{
-				// Otherwise, we are selling all.
-				addFormField( "mode", "1" );
-				addFormField( "howmany", "1" );
 			}
 
 			String itemID = String.valueOf( item.getItemID() );
@@ -143,6 +136,7 @@ public class AutoSellRequest extends SendMessageRequest
 			{
 				// If we are doing the requests one at a time,
 				// specify the item quantity
+
 				addFormField( "type", "quant" );
 				addFormField( "howmany", String.valueOf( item.getCount() ) );
 			}
@@ -151,6 +145,7 @@ public class AutoSellRequest extends SendMessageRequest
 				// Otherwise, we are selling all.  As of
 				// 2/1/2006, must specify a quantity field even
 				// for this - but the value is ignored
+
 				addFormField( "type", "all" );
 				addFormField( "howmany", "1" );
 			}
@@ -158,7 +153,7 @@ public class AutoSellRequest extends SendMessageRequest
 			// This is a multiple selection input field.
 			// Therefore, you can give it multiple items.
 
-			addFormField( "whichitem[]", String.valueOf( item.getItemID() ), true );
+			addFormField( "item" + String.valueOf( item.getItemID() ), String.valueOf( item.getItemID() ) );
 		}
 	}
 
@@ -171,16 +166,69 @@ public class AutoSellRequest extends SendMessageRequest
 			return 11;
 
 		// Otherwise, if you are autoselling multiple items,
-		// but for one of them, you're not selling the maximum
-		// amount, then set the capacity to 1.
+		// then it depends on which mode you are using.
+
+		int mode = KoLCharacter.getAutosellMode().equals( "detailed" ) ? 1 : 0;
 
 		AdventureResult currentAttachment;
+		int inventoryCount, attachmentCount;
 
 		for ( int i = 0; i < attachments.length; ++i )
 		{
 			currentAttachment = (AdventureResult) attachments[i];
-			if ( currentAttachment.getCount( KoLCharacter.getInventory() ) != currentAttachment.getCount() )
+
+			inventoryCount = currentAttachment.getCount( KoLCharacter.getInventory() );
+			attachmentCount = currentAttachment.getCount();
+
+			// Your main concern occurs when there is no match between the
+			// item you're attaching and how many you actually have.
+
+			if ( attachmentCount != inventoryCount )
+			{
+				switch ( mode )
+				{
+					// For non-detail mode, this equates to having to do
+					// one item at a time, because there is no middle ground.
+
+					case 0:
+
+						return 1;
+
+					// In detail mode, it's possible that the person is
+					// opting to sell "all but one".  Take advantage of
+					// the new server optimization.
+
+					case 1:
+
+						if ( i == 0 && attachmentCount == inventoryCount - 1 )
+						{
+							mode = 2;
+							addFormField( "mode", "2" );
+						}
+
+						return 1;
+
+					// If you're in all-but one mode, but the difference
+					// is more than one, then you have to do quantity mode.
+
+					case 2:
+
+						if ( attachmentCount != inventoryCount - 1 )
+						{
+							addFormField( "mode", "3" );
+							return 1;
+						}
+				}
+			}
+
+			// If you're using "all but one" mode, and the quantities are
+			// actually equal, you'll have to resort to quantity mode.
+
+			else if ( mode == 2 )
+			{
+				addFormField( "mode", "3" );
 				return 1;
+			}
 		}
 
 		// Otherwise, if all items are the maximum amount,
