@@ -76,6 +76,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final int ERROR_STATE    = 1;
 	public static final int DISABLE_STATE  = 2;
 	public static final int ENABLE_STATE   = 3;
+	public static final int ABORT_STATE    = 4;
 
 	public static final Class [] INTERFACE_MODES =
 		{ AdventureFrame.class, BuffBotFrame.class, ChatFrame.class, ClanManageFrame.class, RequestFrame.class };

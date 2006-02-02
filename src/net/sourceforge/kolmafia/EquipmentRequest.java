@@ -198,7 +198,7 @@ public class EquipmentRequest extends PasswordHashRequest
 						{
 							if ( familiars[i].getItem() != null && familiars[i].getItem().indexOf( changeItemName ) != -1 )
 							{
-								updateDisplay( DISABLE_STATE, "Stealing " + changeItemName + " from " + familiars[i].getRace() + "..." );
+								updateDisplay( NORMAL_STATE, "Stealing " + changeItemName + " from " + familiars[i].getRace() + "..." );
 								KoLRequest unequip = new KoLRequest( client, "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID(), true );
 								unequip.run();
 
@@ -226,27 +226,27 @@ public class EquipmentRequest extends PasswordHashRequest
 		switch ( requestType )
 		{
 			case EQUIPMENT:
-				updateDisplay( DISABLE_STATE, "Updating equipment..." );
+				updateDisplay( NORMAL_STATE, "Updating equipment..." );
 				break;
 
 			case CLOSET:
-				updateDisplay( DISABLE_STATE, "Refreshing closet..." );
+				updateDisplay( NORMAL_STATE, "Refreshing closet..." );
 				break;
 
 			case CHANGE_OUTFIT:
-				updateDisplay( DISABLE_STATE, "Putting on " + outfit + "..." );
+				updateDisplay( NORMAL_STATE, "Putting on " + outfit + "..." );
 				break;
 
 			case CHANGE_ITEM:
-				updateDisplay( DISABLE_STATE, "Putting on " + changeItemName + "..." );
+				updateDisplay( NORMAL_STATE, "Putting on " + changeItemName + "..." );
 				break;
 
 			case REMOVE_ITEM:
-				updateDisplay( DISABLE_STATE, "Taking off " + KoLCharacter.getCurrentEquipmentName( equipmentSlot) + "..." );
+				updateDisplay( NORMAL_STATE, "Taking off " + KoLCharacter.getCurrentEquipmentName( equipmentSlot) + "..." );
 				break;
 
 			case UNEQUIP_ALL:
-				updateDisplay( DISABLE_STATE, "Taking off everything..." );
+				updateDisplay( NORMAL_STATE, "Taking off everything..." );
 				break;
 		}
 

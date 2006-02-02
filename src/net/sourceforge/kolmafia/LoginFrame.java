@@ -256,7 +256,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			client.updateDisplay( ERROR_STATE, "Login cancelled." );
+			client.updateDisplay( ABORT_STATE, "Login cancelled." );
 			client.cancelRequest();
 			requestFocus();
 		}

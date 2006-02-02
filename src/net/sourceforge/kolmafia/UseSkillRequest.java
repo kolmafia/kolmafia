@@ -33,7 +33,6 @@
  */
 
 package net.sourceforge.kolmafia;
-
 import java.util.regex.Pattern;
 
 public class UseSkillRequest extends KoLRequest implements Comparable
@@ -113,9 +112,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		client.recoverMP();
 
 		if ( target == null || target.trim().length() == 0 )
-			updateDisplay( DISABLE_STATE, "Casting " + skillName + "..." );
+			updateDisplay( NORMAL_STATE, "Casting " + skillName + "..." );
 		else
-			updateDisplay( DISABLE_STATE, "Casting " + skillName + " on " + target );
+			updateDisplay( NORMAL_STATE, "Casting " + skillName + " on " + target );
 
 		super.run();
 

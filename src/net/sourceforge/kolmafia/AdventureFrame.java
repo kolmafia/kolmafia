@@ -445,9 +445,9 @@ public class AdventureFrame extends KoLFrame
 			else
 			{
 				if ( client.getCurrentRequest() instanceof FightRequest )
-					client.updateDisplay( DISABLE_STATE, "Completing combat round..." );
+					client.updateDisplay( ABORT_STATE, "Completing combat round..." );
 				else
-					client.updateDisplay( ERROR_STATE, "Adventuring terminated." );
+					client.updateDisplay( ABORT_STATE, "Adventuring terminated." );
 
 				client.cancelRequest();
 				requestFocus();
@@ -509,6 +509,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				if ( client != null )
 				{
+					client.disableDisplay();
 					client.resetContinueState();
 					displayMessages( WIN_GAME_TEXT[ RNG.nextInt( WIN_GAME_TEXT.length ) ] );
 				}
@@ -518,7 +519,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				for ( int i = 0; i < messages.length - 1 && client.permitsContinue(); ++i )
 				{
-					client.updateDisplay( DISABLE_STATE, messages[i] );
+					client.updateDisplay( NORMAL_STATE, messages[i] );
 					KoLRequest.delay( 3000 );
 				}
 

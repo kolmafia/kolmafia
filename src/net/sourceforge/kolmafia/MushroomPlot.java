@@ -387,7 +387,7 @@ public abstract class MushroomPlot extends StaticEntity
 		// Plant the requested spore.
 
 		MushroomPlotRequest request = new MushroomPlotRequest( square, sporeIndex );
-		client.updateDisplay( DISABLE_STATE, "Planting " + TradeableItemDatabase.getItemName( spore ) + " spore..." );
+		client.updateDisplay( NORMAL_STATE, "Planting " + TradeableItemDatabase.getItemName( spore ) + " spore..." );
 		request.run();
 
 		// If it failed, bail.
@@ -448,7 +448,7 @@ public abstract class MushroomPlot extends StaticEntity
 			if ( actualPlot[ row ][ col ] != SPROUT || pickSpores )
 			{
 				MushroomPlotRequest request = new MushroomPlotRequest( square );
-				client.updateDisplay( DISABLE_STATE, "Picking square " + square + "..." );
+				client.updateDisplay( NORMAL_STATE, "Picking square " + square + "..." );
 				request.run();
 				client.updateDisplay( NORMAL_STATE, "Square picked." );
 			}

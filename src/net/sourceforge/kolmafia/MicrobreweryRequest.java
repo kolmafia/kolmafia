@@ -111,7 +111,7 @@ public class MicrobreweryRequest extends KoLRequest
 			}
 		}
 
-		client.updateDisplay( DISABLE_STATE, "Visiting the micromicrobrewery..." );
+		client.updateDisplay( NORMAL_STATE, "Visiting the micromicrobrewery..." );
 
 		super.run();
 

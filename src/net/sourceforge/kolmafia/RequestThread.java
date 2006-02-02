@@ -128,13 +128,19 @@ public class RequestThread extends Thread implements KoLConstants
 			// client.makeRequest() method.
 
 			else if ( requests[i] instanceof KoLRequest && !client.inLoginState() && client.permitsContinue() )
+			{
+				client.disableDisplay();
 				client.makeRequest( requests[i], repeatCount[i] );
+			}
 
 			// Standard KoL adventures are handled through the
 			// client.makeRequest() method.
 
 			else if ( requests[i] instanceof KoLAdventure && client.permitsContinue() )
+			{
+				client.disableDisplay();
 				client.makeRequest( requests[i], repeatCount[i] );
+			}
 
 			// All other runnables are run, as expected, with
 			// no updates to the client.

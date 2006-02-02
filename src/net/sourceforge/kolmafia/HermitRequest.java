@@ -142,7 +142,7 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( DISABLE_STATE, "Robbing the hermit..." );
+		updateDisplay( NORMAL_STATE, "Robbing the hermit..." );
 		super.run();
 
 		// If an error state occurred, return from this

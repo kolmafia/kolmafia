@@ -286,6 +286,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void listenForCommands()
 	{
+		StaticEntity.getClient().disableDisplay();
 		StaticEntity.getClient().resetContinueState();
 
 		if ( StaticEntity.getClient() == this )
@@ -426,7 +427,7 @@ public class KoLmafiaCLI extends KoLmafia
 				{
 					KoLRequest.delay( 1000 );
 					if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-						updateDisplay( DISABLE_STATE, "Countdown: " + (seconds - i) + " seconds remaining..." );
+						updateDisplay( NORMAL_STATE, "Countdown: " + (seconds - i) + " seconds remaining..." );
 					else
 						outputStream.print( seconds - i + ", " );
 				}
@@ -511,7 +512,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				if ( !StaticEntity.getClient().inLoginState() )
 				{
-					updateDisplay( DISABLE_STATE, "Logging out..." );
+					updateDisplay( NORMAL_STATE, "Logging out..." );
 					(new LogoutRequest( StaticEntity.getClient() )).run();
 				}
 
@@ -533,11 +534,11 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( !StaticEntity.getClient().inLoginState() )
 			{
-				updateDisplay( DISABLE_STATE, "Logging out..." );
+				updateDisplay( NORMAL_STATE, "Logging out..." );
 				(new LogoutRequest( StaticEntity.getClient() )).run();
 			}
 
-			updateDisplay( DISABLE_STATE, "Exiting KoLmafia..." );
+			updateDisplay( NORMAL_STATE, "Exiting KoLmafia..." );
 			System.exit(0);
 		}
 
@@ -1298,7 +1299,6 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), command, true );
 			StaticEntity.getClient().makeRequest( desired, 1 );
-			StaticEntity.getClient().enableDisplay();
 			return;
 		}
 
@@ -2038,13 +2038,13 @@ public class KoLmafiaCLI extends KoLmafia
 		int amountRemaining = amount;
 		int eachAmount = amountRemaining / increments;
 
-		updateDisplay( DISABLE_STATE, "Donating " + amount + " to the shrine..." );
+		updateDisplay( NORMAL_STATE, "Donating " + amount + " to the shrine..." );
 		StaticEntity.getClient().makeRequest( new HeroDonationRequest( StaticEntity.getClient(), heroID, eachAmount ), increments - 1 );
 		amountRemaining -= eachAmount * (increments - 1);
 
 		if ( StaticEntity.getClient().permitsContinue() )
 		{
-			updateDisplay( DISABLE_STATE, "Request " + increments + " in progress..." );
+			updateDisplay( NORMAL_STATE, "Request " + increments + " in progress..." );
 			StaticEntity.getClient().makeRequest( new HeroDonationRequest( StaticEntity.getClient(), heroID, amountRemaining ), 1 );
 
 			if ( StaticEntity.getClient().permitsContinue() )
@@ -2867,7 +2867,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		updateDisplay( DISABLE_STATE, "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
+		updateDisplay( NORMAL_STATE, "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
 		StaticEntity.getClient().makeRequest( adventure, adventureCount );
 	}
 
@@ -3029,7 +3029,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( previousCommand.indexOf( " " ) == -1 )
 		{
 			boolean clovers = StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
-			updateDisplay( ENABLE_STATE, "Today is " + ( clovers ? "" : "not " ) + "a clover day." );
+			updateDisplay( NORMAL_STATE, "Today is " + ( clovers ? "" : "not " ) + "a clover day." );
 			return;
 		}
 

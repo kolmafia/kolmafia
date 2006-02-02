@@ -65,7 +65,7 @@ public class UneffectRequest extends KoLRequest
 			return;
 		}
 
-		client.updateDisplay( DISABLE_STATE, "Using soft green whatever..." );
+		client.updateDisplay( NORMAL_STATE, "Using soft green whatever..." );
 		super.run();
 
 		// If it notifies you that the effect was removed, delete it

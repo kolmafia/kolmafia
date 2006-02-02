@@ -280,7 +280,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 
 		deleteList.clear();  saveList.clear();
-		client.updateDisplay( DISABLE_STATE, "Buffbot is sleeping." );
+		client.updateDisplay( NORMAL_STATE, "Buffbot is sleeping." );
 	}
 
 	/**

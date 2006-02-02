@@ -59,7 +59,7 @@ public class ToyRequest extends ItemCreationRequest
 		int quantity = getQuantityNeeded();
 
 		// Disable controls
-		updateDisplay( DISABLE_STATE, "Creating " + quantity + " " + getName() + "..." );
+		updateDisplay( NORMAL_STATE, "Creating " + quantity + " " + getName() + "..." );
 		addFormField( "quantity", String.valueOf( quantity ) );
 
 		// Run the request

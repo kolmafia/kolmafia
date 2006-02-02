@@ -86,10 +86,6 @@ public class BuffRequestFrame extends KoLFrame
 		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		JComponentUtilities.setComponentSize( scroller, 640, 600 );
 		framePanel.add( scroller, "" );
-
-		// Enable the display after fetching buffs
-		if ( client != null )
-			client.enableDisplay();
 	}
 
 	public void dispose()

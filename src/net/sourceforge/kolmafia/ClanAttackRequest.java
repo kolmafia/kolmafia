@@ -50,14 +50,14 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		client.updateDisplay( DISABLE_STATE, "Attacking " + name + "..." );
+		client.updateDisplay( NORMAL_STATE, "Attacking " + name + "..." );
 
 		super.run();
 
 		// Theoretically, there should be a test for error state,
 		// but because I'm lazy, that's not happening.
 
-		client.updateDisplay( ENABLE_STATE, "Attack request processed." );
+		client.updateDisplay( NORMAL_STATE, "Attack request processed." );
 	}
 
 	public String toString()

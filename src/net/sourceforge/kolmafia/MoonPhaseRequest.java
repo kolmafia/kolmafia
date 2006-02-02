@@ -62,7 +62,7 @@ public class MoonPhaseRequest extends KoLRequest
 
 	public void run()
 	{
-		client.updateDisplay( DISABLE_STATE, "Synchronizing moon data..." );
+		client.updateDisplay( NORMAL_STATE, "Synchronizing moon data..." );
 		super.run();
 
 		// If an error state occurred, return from this

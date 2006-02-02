@@ -300,7 +300,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( tool.getCount( KoLCharacter.getInventory() ) > 0 )
 		{
-			updateDisplay( DISABLE_STATE, "Using " + tool.getName() + "..." );
+			updateDisplay( NORMAL_STATE, "Using " + tool.getName() + "..." );
 			(new ConsumeItemRequest( client, tool )).run();
 			return;
 		}
@@ -326,7 +326,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		for ( int i = 1; client.permitsContinue() && i <= quantityNeeded; ++i )
 		{
-			updateDisplay( DISABLE_STATE, "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
+			updateDisplay( NORMAL_STATE, "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
 			request.run();
 		}
 	}
@@ -382,7 +382,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !client.permitsContinue() )
 			return;
 
-		updateDisplay( DISABLE_STATE, "Creating " + toString() + "..." );
+		updateDisplay( NORMAL_STATE, "Creating " + toString() + "..." );
 		AdventureResult createdItem = new AdventureResult( itemID, 0 );
 		int beforeQuantity = createdItem.getCount( KoLCharacter.getInventory() );
 
@@ -585,7 +585,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// have the servant in your inventory, so attempt
 		// to repair the box servant.
 
-		updateDisplay( DISABLE_STATE, "Repairing " + servant.getName() + "..." );
+		updateDisplay( NORMAL_STATE, "Repairing " + servant.getName() + "..." );
 		(new ConsumeItemRequest( client, servant )).run();
 		return true;
 	}

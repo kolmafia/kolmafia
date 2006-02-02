@@ -395,6 +395,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		switch ( displayState )
 		{
 			case ERROR_STATE:
+			case ABORT_STATE:
 
 				if ( compactPane != null )
 					compactPane.setBackground( ERROR_COLOR );

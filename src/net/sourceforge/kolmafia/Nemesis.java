@@ -57,7 +57,7 @@ public abstract class Nemesis extends StaticEntity
 		if ( client == null )
 			return false;
 
-		client.updateDisplay( DISABLE_STATE, "Checking prerequisites..." );
+		client.updateDisplay( NORMAL_STATE, "Checking prerequisites..." );
 
 		// If the player has never ascended, then they're going
 		// to have to do it all by hand.
@@ -185,19 +185,19 @@ public abstract class Nemesis extends StaticEntity
 					}
 
 					action = "flies";
-					client.updateDisplay( DISABLE_STATE, "Swatting flies..." );
+					client.updateDisplay( NORMAL_STATE, "Swatting flies..." );
 					break;
 
 				case 5: // A Stone Door
 
 					action = "door1";
-					client.updateDisplay( DISABLE_STATE, "Passing Stone Door..." );
+					client.updateDisplay( NORMAL_STATE, "Passing Stone Door..." );
 					break;
 
 				case 6: // Lavatory Troll 1
 
 					action = "troll1";
-					client.updateDisplay( DISABLE_STATE, "Feeding first troll..." );
+					client.updateDisplay( NORMAL_STATE, "Feeding first troll..." );
 					break;
 
 				case 7:	// Salad-Covered Door
@@ -212,13 +212,13 @@ public abstract class Nemesis extends StaticEntity
 					}
 
 					action = "door2";
-					client.updateDisplay( DISABLE_STATE, "Plucking Salad..." );
+					client.updateDisplay( NORMAL_STATE, "Plucking Salad..." );
 					break;
 
 				case 8: // Lavatory Troll 2
 
 					action = "troll2";
-					client.updateDisplay( DISABLE_STATE, "Feeding second troll..." );
+					client.updateDisplay( NORMAL_STATE, "Feeding second troll..." );
 					break;
 
 				case 9: // Chamber of Epic Conflict
@@ -230,7 +230,7 @@ public abstract class Nemesis extends StaticEntity
 						(new EquipmentRequest( client, weapon )).run();
 
 					action = "end";
-					client.updateDisplay( DISABLE_STATE, "Fighting your nemesis..." );
+					client.updateDisplay( NORMAL_STATE, "Fighting your nemesis..." );
 					break;
 			}
 

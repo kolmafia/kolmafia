@@ -240,7 +240,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				return new Object [] { result.getPlayerName(), result.getClanName(), result.getClassType(),
 					result.getPlayerLevel(), result.getPvpRank() };
 
-			client.updateDisplay( NORMAL_STATE, "Retrieving profile for " + result.getPlayerName() + "..." );
+			client.updateDisplay( DISABLE_STATE, "Retrieving profile for " + result.getPlayerName() + "..." );
 
 			return new Object [] { result.getPlayerName(), result.getClassType(), result.getRestriction(), result.getPlayerLevel(),
 				result.getPvpRank(), result.getDrink(), result.getEquipmentPower(), result.getCurrentRun(), result.getLastLogin() };
@@ -302,7 +302,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public Object [] getRow( ProfileRequest result )
 		{
-			client.updateDisplay( NORMAL_STATE, "Retrieving profile for " + result.getPlayerName() + "..." );
+			client.updateDisplay( DISABLE_STATE, "Retrieving profile for " + result.getPlayerName() + "..." );
 
 			return new Object [] { result.getPlayerName(), result.getClassType(), result.getRestriction(), result.getPlayerLevel(),
 				result.getPvpRank(), result.getDrink(), result.getEquipmentPower(), result.getCurrentRun(), result.getLastLogin() };

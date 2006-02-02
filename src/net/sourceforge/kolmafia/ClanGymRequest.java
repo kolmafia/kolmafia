@@ -133,7 +133,7 @@ public class ClanGymRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( DISABLE_STATE, "Beginning workout..." );
+		updateDisplay( NORMAL_STATE, "Beginning workout..." );
 		super.run();
 
 		// All the gains will be found before the first </center> tag;

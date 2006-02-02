@@ -83,7 +83,7 @@ public class GalaktikRequest extends KoLRequest
 		{
 			// Ask Doc Galaktik for his available cures.
 
-			client.updateDisplay( DISABLE_STATE, "Visiting Doc Galaktik..." );
+			client.updateDisplay( NORMAL_STATE, "Visiting Doc Galaktik..." );
 			super.run();
 
 			int lastMatchIndex = 0;
@@ -114,7 +114,7 @@ public class GalaktikRequest extends KoLRequest
 			return;
 		}
 
-		client.updateDisplay( DISABLE_STATE, "Visiting Doc Galaktik..." );
+		client.updateDisplay( NORMAL_STATE, "Visiting Doc Galaktik..." );
 
 		super.run();
 

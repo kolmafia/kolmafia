@@ -231,7 +231,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( chest )
 			return;
 
-		client.updateDisplay( DISABLE_STATE, "Looking for treasure..." );
+		client.updateDisplay( NORMAL_STATE, "Looking for treasure..." );
 
 		goTo( CAVE );
 		killSerpent();
@@ -242,14 +242,14 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	private static void robHole()
 	{
-		client.updateDisplay( DISABLE_STATE, "Hunting eggs..." );
+		client.updateDisplay( NORMAL_STATE, "Hunting eggs..." );
 		executeCommand( "look behind chest" );
 		executeCommand( "look in hole" );
 	}
 
 	private static void invokeMagic()
 	{
-		client.updateDisplay( DISABLE_STATE, "Invoking magic..." );
+		client.updateDisplay( NORMAL_STATE, "Invoking magic..." );
 		executeCommand( "plugh" );
 	}
 

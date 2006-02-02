@@ -179,12 +179,12 @@ public class ItemStorageRequest extends SendMessageRequest
 	public void run()
 	{
 		if ( moveType == RETRIEVE_STORAGE )
-			updateDisplay( DISABLE_STATE, "Retrieving list of items in storage..." );
+			updateDisplay( NORMAL_STATE, "Retrieving list of items in storage..." );
 
 		switch ( moveType )
 		{
 			case STORAGE_TO_INVENTORY:
-				updateDisplay( DISABLE_STATE, "Moving items..." );
+				updateDisplay( NORMAL_STATE, "Moving items..." );
 
 			case RETRIEVE_STORAGE:
 				parseStorage();
@@ -193,19 +193,19 @@ public class ItemStorageRequest extends SendMessageRequest
 
 			case INVENTORY_TO_CLOSET:
 			case CLOSET_TO_INVENTORY:
-				updateDisplay( DISABLE_STATE, "Moving items..." );
+				updateDisplay( NORMAL_STATE, "Moving items..." );
 				super.run();
 				break;
 
 			case CLOSET_YOUR_CLOVERS:
-				updateDisplay( DISABLE_STATE, "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
+				updateDisplay( NORMAL_STATE, "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
 				super.run();
 				break;
 
 			case MEAT_TO_CLOSET:
 			case MEAT_TO_INVENTORY:
 			case PULL_MEAT_FROM_STORAGE:
-				updateDisplay( DISABLE_STATE, "Executing transaction..." );
+				updateDisplay( NORMAL_STATE, "Executing transaction..." );
 				meat();
 				updateDisplay( NORMAL_STATE, "" );
 				break;

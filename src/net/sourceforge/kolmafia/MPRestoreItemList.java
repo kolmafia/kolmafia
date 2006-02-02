@@ -181,7 +181,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			if ( this == BEANBAG )
 			{
-				client.updateDisplay( DISABLE_STATE, "Relaxing in beanbag chair..." );
+				client.updateDisplay( NORMAL_STATE, "Relaxing in beanbag chair..." );
 				(new CampgroundRequest( client, "relax" )).run();
 				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				return;
@@ -189,7 +189,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			if ( this == HOUSE )
 			{
-				client.updateDisplay( DISABLE_STATE, "Resting at campground..." );
+				client.updateDisplay( NORMAL_STATE, "Resting at campground..." );
 				(new CampgroundRequest( client, "rest" )).run();
 				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				return;
@@ -212,7 +212,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			else
 				numberToUse = 1;
 
-			client.updateDisplay( DISABLE_STATE, "Consuming " + numberToUse + " " + itemName + "s..." );
+			client.updateDisplay( NORMAL_STATE, "Consuming " + numberToUse + " " + itemName + "s..." );
 			(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
 		}
 

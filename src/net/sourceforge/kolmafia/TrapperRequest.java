@@ -88,7 +88,7 @@ public class TrapperRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( DISABLE_STATE, "Robbing the trapper..." );
+		updateDisplay( NORMAL_STATE, "Robbing the trapper..." );
 		super.run();
 
 		// If an error state occurred, return from this

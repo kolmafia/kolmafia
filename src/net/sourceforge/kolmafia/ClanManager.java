@@ -141,7 +141,7 @@ public class ClanManager extends StaticEntity
 
 		public void run()
 		{
-			updateDisplay( DISABLE_STATE, "Retrieving list of ranks..." );
+			updateDisplay( NORMAL_STATE, "Retrieving list of ranks..." );
 			super.run();
 
 			rankList.clear();
@@ -248,7 +248,7 @@ public class ClanManager extends StaticEntity
 		// Now that it's known what the user wishes to continue,
 		// you begin initializing all the data.
 
-		client.updateDisplay( DISABLE_STATE, "Processing request..." );
+		client.updateDisplay( NORMAL_STATE, "Processing request..." );
 
 		// Create a special HTML file for each of the
 		// players in the ClanSnapshotTable so that it can be
@@ -256,7 +256,7 @@ public class ClanManager extends StaticEntity
 
 		for ( int i = 0; i < names.length && client.permitsContinue(); ++i )
 		{
-			client.updateDisplay( DISABLE_STATE, "Examining member " + (i+1) + " of " + names.length + "..." );
+			client.updateDisplay( NORMAL_STATE, "Examining member " + (i+1) + " of " + names.length + "..." );
 
 			currentProfile = (String) profileMap.get( names[i] );
 			currentAscensionData = (String) ascensionMap.get( names[i] );
@@ -500,7 +500,7 @@ public class ClanManager extends StaticEntity
 
 			if ( generateSnapshot )
 			{
-				client.updateDisplay( DISABLE_STATE, "Storing clan snapshot..." );
+				client.updateDisplay( NORMAL_STATE, "Storing clan snapshot..." );
 
 				ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
 				ostream.println( ClanSnapshotTable.getStandardData() );
@@ -518,7 +518,7 @@ public class ClanManager extends StaticEntity
 
 			if ( retrieveAscensionData )
 			{
-				client.updateDisplay( DISABLE_STATE, "Storing ascension snapshot..." );
+				client.updateDisplay( NORMAL_STATE, "Storing ascension snapshot..." );
 
 				ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
 				ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
@@ -621,7 +621,7 @@ public class ClanManager extends StaticEntity
 				file.delete();
 			}
 
-			client.updateDisplay( DISABLE_STATE, "Retrieving clan stash log..." );
+			client.updateDisplay( NORMAL_STATE, "Retrieving clan stash log..." );
 			(new StashLogRequest( client )).run();
 			client.updateDisplay( ENABLE_STATE, "Stash log retrieved." );
 

@@ -196,16 +196,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 			TotalWeightRefresher runnable = new TotalWeightRefresher();
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( runnable ) );
 			buttonContainer.add( totalWeight, BorderLayout.SOUTH );
-			
+
 			add( buttonContainer, BorderLayout.EAST );
 		}
-		
+
 		private class TotalWeightRefresher implements Runnable
 		{
 			public TotalWeightRefresher()
 			{	this.run();
 			}
-		
+
 			public void run()
 			{
 				int totalTerrariumWeight = 0;
@@ -216,7 +216,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				for ( int i = 0; i < familiarArray.length; ++i )
 					if ( familiarArray[i].getWeight() != 1 )
 						totalTerrariumWeight += familiarArray[i].getWeight();
-				
+
 				totalWeight.setText( totalTerrariumWeight + " lb. terrarium" );
 			}
 		}
@@ -492,6 +492,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			public void run()
 			{
+				client.disableDisplay();
 				FamiliarData selection = (FamiliarData)getSelectedItem();
 				client.resetContinueState();
 				(new FamiliarRequest( client, selection )).run();
@@ -814,7 +815,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		results.append( text.toString() );
 
-		client.updateDisplay( DISABLE_STATE, "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
+		client.updateDisplay( NORMAL_STATE, "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
 	private static void fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )
@@ -2002,7 +2003,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			if ( client == null )
 				return;
-		
+
 			boolean toggleValue = !client.getLocalBooleanProperty( property );
 			client.setLocalProperty( property, toggleValue );
 

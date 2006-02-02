@@ -73,7 +73,7 @@ public class BountyHunterRequest extends KoLRequest
 				return;
 
 			itemTraded = (AdventureResult) KoLCharacter.getInventory().get( index );
-			updateDisplay( DISABLE_STATE, "Hunting rabbits (or something)..." );
+			updateDisplay( NORMAL_STATE, "Hunting rabbits (or something)..." );
 		}
 
 		super.run();

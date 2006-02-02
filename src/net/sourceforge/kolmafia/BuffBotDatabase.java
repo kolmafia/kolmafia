@@ -261,7 +261,7 @@ public class BuffBotDatabase extends KoLDatabase
 		if ( client == null )
 			return;
 
-		client.updateDisplay( DISABLE_STATE, "Configuring dynamic buff prices..." );
+		client.updateDisplay( NORMAL_STATE, "Configuring dynamic buff prices..." );
 
 		// Iterate over list of bots and configure each one
 		int botCount = bots.size();

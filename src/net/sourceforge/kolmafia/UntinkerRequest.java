@@ -68,7 +68,7 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( itemID == -1 )
 		{
-			updateDisplay( DISABLE_STATE, "Visiting the Untinker..." );
+			updateDisplay( NORMAL_STATE, "Visiting the Untinker..." );
 			super.run();
 			updateDisplay( NORMAL_STATE, "Back from Untinker." );
 			return;
@@ -155,7 +155,7 @@ public class UntinkerRequest extends KoLRequest
 			KoLCharacter.processResult( SCREWDRIVER );
 		}
 
-		updateDisplay( DISABLE_STATE, "Untinkering an item..." );
+		updateDisplay( NORMAL_STATE, "Untinkering an item..." );
 
 		super.run();
 

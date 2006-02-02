@@ -220,7 +220,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.trim().length() == 0 )
 		{
-			updateDisplay( DISABLE_STATE, "Empty response from server.  Retrying..." );
+			updateDisplay( NORMAL_STATE, "Empty response from server.  Retrying..." );
 			this.run();
 			return;
 		}

@@ -1296,7 +1296,7 @@ public class KoLmafiaASH extends StaticEntity
 				 );
 				param.setValue( new ScriptValue( TYPE_STAT, resultString ) );
 			}
-			else if 
+			else if
 			(
 				param.getType().equals( TYPE_ITEM ) ||
 				param.getType().equals( TYPE_LOCATION ) ||
@@ -1938,7 +1938,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executeAdventureRequest( int amount, KoLAdventure location ) throws AdvancedScriptException
 		{
-			client.updateDisplay( KoLmafia.DISABLE_STATE, "Beginning " + amount + " turnips to " + location.toString() + "..." );
+			client.updateDisplay( KoLmafia.NORMAL_STATE, "Beginning " + amount + " turnips to " + location.toString() + "..." );
 			client.makeRequest( location, amount );
 
 			if ( client.permitsContinue() )
@@ -2204,7 +2204,7 @@ public class KoLmafiaASH extends StaticEntity
 			DEFAULT_SHELL.executeLine( "trapper " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
-		
+
 		private ScriptValue executeEquipRequest( int itemID ) throws AdvancedScriptException
 		{
 			DEFAULT_SHELL.executeLine( "equip " + TradeableItemDatabase.getItemName( itemID ) );

@@ -70,15 +70,15 @@ public class FamiliarRequest extends KoLRequest
 	public void run()
 	{
 		if ( changeTo == null)
-			updateDisplay( DISABLE_STATE, "Retrieving familiar data..." );
+			updateDisplay( NORMAL_STATE, "Retrieving familiar data..." );
 		else
 		{
 			FamiliarData familiar = KoLCharacter.getFamiliar();
 			if ( familiar != FamiliarData.NO_FAMILIAR )
-				updateDisplay( DISABLE_STATE, "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
+				updateDisplay( NORMAL_STATE, "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
 
 			if (changeTo != FamiliarData.NO_FAMILIAR )
-				updateDisplay( DISABLE_STATE, "Taking " + changeTo.getName() + " the " + changeTo.getRace() + " out of terrarium..." );
+				updateDisplay( NORMAL_STATE, "Taking " + changeTo.getName() + " the " + changeTo.getRace() + " out of terrarium..." );
 		}
 
 		super.run();

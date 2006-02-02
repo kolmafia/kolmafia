@@ -476,10 +476,7 @@ public class RequestFrame extends KoLFrame
 			// "You leargn a new skill. Whee!"
 
 			if ( currentRequest.responseText.indexOf( "You leargn a new skill." ) != -1 )
-			{
 			     (new CharsheetRequest( client )).run();
-			     client.enableDisplay();
-			}
 
 			// Update the mushroom plot, if applicable.
 

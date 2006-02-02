@@ -74,8 +74,6 @@ public class CakeArenaFrame extends KoLFrame
 
 		framePanel.setLayout( new BorderLayout() );
 		framePanel.add( new CakeArenaPanel(), BorderLayout.CENTER );
-		client.enableDisplay();
-
 		KoLCharacter.addCharacterListener( new KoLCharacterAdapter( new FamiliarRefresher() ) );
 	}
 

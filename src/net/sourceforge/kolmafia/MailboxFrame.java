@@ -282,6 +282,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
+						client.disableDisplay();
 						KoLMailManager.deleteMessages( mailboxName, getSelectedValues() );
 						client.enableDisplay();
 					}
@@ -293,6 +294,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
+						client.disableDisplay();
 						KoLMailManager.saveMessages( getSelectedValues() );
 						client.enableDisplay();
 					}
@@ -335,6 +337,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 				{
+					client.disableDisplay();
 					KoLMailManager.saveMessages( messageListInbox.getSelectedValues() );
 					client.enableDisplay();
 				}
@@ -361,6 +364,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					return;
 
+			client.disableDisplay();
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
 
 			if ( currentTabName.equals( "Inbox" ) )

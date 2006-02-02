@@ -95,7 +95,7 @@ public class HeroDonationRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( DISABLE_STATE, "Donating " + amount + " to the shrine..." );
+		updateDisplay( NORMAL_STATE, "Donating " + amount + " to the shrine..." );
 		super.run();
 
 		// If an error state occurred, return from this

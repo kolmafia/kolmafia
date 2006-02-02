@@ -211,7 +211,7 @@ public class ClanManageFrame extends KoLFrame
 			if ( isBuffing )
 			{
 				client.cancelRequest();
-				client.updateDisplay( NORMAL_STATE, "Purchase attempts cancelled." );
+				client.updateDisplay( ERROR_STATE, "Purchase attempts cancelled." );
 			}
 		}
 	}
@@ -318,7 +318,7 @@ public class ClanManageFrame extends KoLFrame
 
 			public void run()
 			{
-				client.updateDisplay( DISABLE_STATE, "Purchasing clan materials..." );
+				client.updateDisplay( NORMAL_STATE, "Purchasing clan materials..." );
 
 				super.run();
 
@@ -535,6 +535,7 @@ public class ClanManageFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
+			client.disableDisplay();
 			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, paramKeys[ parameterSelect.getSelectedIndex() ], valueField.getText() );
 			client.updateDisplay( ENABLE_STATE, "Search results retrieved." );
 		}

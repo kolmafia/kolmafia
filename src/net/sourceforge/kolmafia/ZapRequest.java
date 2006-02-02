@@ -71,7 +71,7 @@ public class ZapRequest extends KoLRequest
 			return;
 		}
 
-		client.updateDisplay( DISABLE_STATE, "Zapping item..." );
+		client.updateDisplay( NORMAL_STATE, "Zapping item..." );
 		super.run();
 
 		//" The Crown of the Goblin King shudders for a moment, but

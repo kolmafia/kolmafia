@@ -181,7 +181,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( commandBuffer != null )
 		{
 			StringBuffer colorBuffer = new StringBuffer();
-			if ( state == ERROR_STATE )
+			if ( state == ERROR_STATE || state == ABORT_STATE )
 				colorBuffer.append( "<font color=red>" );
 			else
 				colorBuffer.append( "<font color=black>" );
@@ -194,10 +194,12 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	public void disableDisplay()
+	{	updateDisplay( DISABLE_STATE, "" );
+	}
+
 	public void enableDisplay()
-	{
-		int state =  permitsContinue() ? ENABLE_STATE : ERROR_STATE;
-		updateDisplay( state, "" );
+	{	updateDisplay( permitsContinue() ? ENABLE_STATE : ERROR_STATE, "" );
 	}
 
 	/**
@@ -286,7 +288,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve campground data to see if the user is able to
 		// cook, make drinks or make toast.
 
-		updateDisplay( DISABLE_STATE, "Retrieving campground data..." );
+		updateDisplay( NORMAL_STATE, "Retrieving campground data..." );
 		(new CampgroundRequest( this )).run();
 
 		if ( !permitsContinue() )
@@ -306,7 +308,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		updateDisplay( DISABLE_STATE, "Retrieving account options..." );
+		updateDisplay( NORMAL_STATE, "Retrieving account options..." );
 		(new AccountRequest( this )).run();
 
 		if ( !permitsContinue() )
@@ -315,7 +317,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		updateDisplay( DISABLE_STATE, "Retrieving contact list..." );
+		updateDisplay( NORMAL_STATE, "Retrieving contact list..." );
 		(new ContactListRequest( this )).run();
 
 		if ( !permitsContinue() )
@@ -368,7 +370,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void getBreakfast()
 	{
-		updateDisplay( DISABLE_STATE, "Retrieving breakfast..." );
+		updateDisplay( NORMAL_STATE, "Retrieving breakfast..." );
 
 		if ( KoLCharacter.hasToaster() )
 			for ( int i = 0; i < 3 && permitsContinue(); ++i )
@@ -401,7 +403,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		resetContinueState();
 
-		updateDisplay( ENABLE_STATE, "Breakfast retrieved." );
+		updateDisplay( NORMAL_STATE, "Breakfast retrieved." );
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
@@ -423,6 +425,7 @@ public abstract class KoLmafia implements KoLConstants
 		cachedLogin = null;
 
 		cancelRequest();
+		enableDisplay();
 		closeMacroStream();
 	}
 
@@ -865,7 +868,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( !scriptPath.trim().equals( "" ) )
 			{
 				while ( permitsContinue() && ((Number)currentMethod.invoke( null, empty )).intValue() < needed &&
-					current != ((Number)currentMethod.invoke( null, empty )).intValue() )
+					current != ((Number)currentMethod.invoke( null, empty )).intValue() && currentState != ABORT_STATE )
 				{
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 					DEFAULT_SHELL.executeLine( scriptPath );
@@ -895,7 +898,7 @@ public abstract class KoLmafia implements KoLConstants
 					{
 						current = -1;
 						while ( ((Number)currentMethod.invoke( null, empty )).intValue() < needed &&
-							current != ((Number)currentMethod.invoke( null, empty )).intValue() )
+							current != ((Number)currentMethod.invoke( null, empty )).intValue() && currentState != ABORT_STATE )
 						{
 							current = ((Number)currentMethod.invoke( null, empty )).intValue();
 							resetContinueState();
@@ -908,9 +911,9 @@ public abstract class KoLmafia implements KoLConstants
 			// Fall-through check, just in case you've reached the
 			// desired value.
 
-			if ( ((Number)currentMethod.invoke( null, empty )).intValue() >= needed )
+			if ( ((Number)currentMethod.invoke( null, empty )).intValue() >= needed && currentState != ABORT_STATE )
 			{
-				updateDisplay( DISABLE_STATE, "Recovery complete.  Resuming requests..." );
+				updateDisplay( NORMAL_STATE, "Recovery complete.  Resuming requests..." );
 				resetContinueState();
 				return true;
 			}
@@ -1210,7 +1213,7 @@ public abstract class KoLmafia implements KoLConstants
 				// have different displays.  They are handled here.
 
 				if ( request instanceof KoLAdventure )
-					updateDisplay( DISABLE_STATE, "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress..." );
+					updateDisplay( NORMAL_STATE, "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress..." );
 
 				else if ( request instanceof ConsumeItemRequest )
 				{
@@ -1219,9 +1222,9 @@ public abstract class KoLmafia implements KoLConstants
 						(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
 
 					if ( iterations == 1 )
-						updateDisplay( DISABLE_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().toString() + "..." );
+						updateDisplay( NORMAL_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().toString() + "..." );
 					else
-						updateDisplay( DISABLE_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getName() + " (" + currentIteration + " of " + iterations + ")..." );
+						updateDisplay( NORMAL_STATE, useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getName() + " (" + currentIteration + " of " + iterations + ")..." );
 				}
 
 				request.run();
@@ -1399,7 +1402,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		resetContinueState();
 		(new KoLRequest( this, "council.php", true )).run();
-		updateDisplay( DISABLE_STATE, "Searching for faucet..." );
+		updateDisplay( NORMAL_STATE, "Searching for faucet..." );
 
 		KoLAdventure adventure = new KoLAdventure( this, "", "rats.php", "", "Typical Tavern (Pre-Rat)" );
 		adventure.run();
@@ -1443,7 +1446,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void tradeGourdItems()
 	{
-		updateDisplay( DISABLE_STATE, "Determining items needed..." );
+		updateDisplay( NORMAL_STATE, "Determining items needed..." );
 		KoLRequest request = new KoLRequest( this, "town_right.php?place=gourd", true );
 		request.run();
 
@@ -1470,7 +1473,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		while ( neededCount <= 25 && neededCount <= item.getCount( KoLCharacter.getInventory() ) )
 		{
-			updateDisplay( DISABLE_STATE, "Giving up " + neededCount + " " + item.getName() + "s..." );
+			updateDisplay( NORMAL_STATE, "Giving up " + neededCount + " " + item.getName() + "s..." );
 			request = new KoLRequest( this, "town_right.php?place=gourd&action=gourd", true );
 			request.run();
 
@@ -1517,13 +1520,13 @@ public abstract class KoLmafia implements KoLConstants
 		// the person to attempt to unlock their store, regardless of
 		// their current stats.
 
-		updateDisplay( DISABLE_STATE, "Entering guild challenge area..." );
+		updateDisplay( NORMAL_STATE, "Entering guild challenge area..." );
 		KoLRequest request = new KoLRequest( this, "guild.php?place=challenge", true );
 		request.run();
 
 		for ( int i = 1; i <= 4; ++i )
 		{
-			updateDisplay( DISABLE_STATE, "Completing guild task " + i + "..." );
+			updateDisplay( NORMAL_STATE, "Completing guild task " + i + "..." );
 			request = new KoLRequest( this, "guild.php?action=chal", true );
 			request.run();
 		}
@@ -1682,7 +1685,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public boolean permitsContinue()
-	{	return permitContinue;
+	{	return permitContinue && currentState != ABORT_STATE;
 	}
 
 	/**
@@ -2010,7 +2013,7 @@ public abstract class KoLmafia implements KoLConstants
 		LoginRequest cachedLogin = this.cachedLogin;
 
 		deinitialize();
-		updateDisplay( DISABLE_STATE, "Timing in session..." );
+		updateDisplay( NORMAL_STATE, "Timing in session..." );
 
 		// Two quick login attempts to force
 		// a timeout of the other session and
@@ -2035,7 +2038,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			for ( int i = 300; i > 0; --i )
 			{
-				updateDisplay( DISABLE_STATE, i + " second" + (i == 1 ? "" : "s") + " before next retry attempt..." );
+				updateDisplay( NORMAL_STATE, i + " second" + (i == 1 ? "" : "s") + " before next retry attempt..." );
 				KoLRequest.delay( 1000 );
 			}
 
@@ -2158,6 +2161,7 @@ public abstract class KoLmafia implements KoLConstants
 		resetContinueState();
 
 		int purchaseCount = 0;
+		disableDisplay();
 
 		for ( int i = 0; i < purchases.length && purchaseCount != maxPurchases && permitsContinue(); ++i )
 		{
@@ -2392,7 +2396,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void downloadAdventureOverride()
 	{
-		updateDisplay( DISABLE_STATE, "Downloading adventure data file patch..." );
+		updateDisplay( NORMAL_STATE, "Downloading adventure data file patch..." );
 
 		try
 		{

@@ -83,7 +83,7 @@ public class LoginRequest extends KoLRequest
 		KoLRequest.applySettings();
 		client.resetContinueState();
 
-		updateDisplay( DISABLE_STATE, "Sending login..." );
+		updateDisplay( NORMAL_STATE, "Sending login..." );
 		super.run();
 
 		if ( responseCode == 302 )

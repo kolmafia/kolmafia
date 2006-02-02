@@ -111,7 +111,7 @@ public class RestaurantRequest extends KoLRequest
 			}
 		}
 
-		client.updateDisplay( DISABLE_STATE, "Visiting the restaurant..." );
+		client.updateDisplay( NORMAL_STATE, "Visiting the restaurant..." );
 
 		super.run();
 

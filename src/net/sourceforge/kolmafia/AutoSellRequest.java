@@ -263,7 +263,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 	public void run()
 	{
-		updateDisplay( DISABLE_STATE, ( sellType == AUTOSELL ) ? "Autoselling items..." : "Placing items in the mall..." );
+		updateDisplay( NORMAL_STATE, ( sellType == AUTOSELL ) ? "Autoselling items..." : "Placing items in the mall..." );
 
 		super.run();
 

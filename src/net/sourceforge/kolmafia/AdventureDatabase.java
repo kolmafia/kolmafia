@@ -362,7 +362,7 @@ public class AdventureDatabase extends KoLDatabase
 				// and visited the council -- check the main map to
 				// see if the beach is unlocked.
 
-				client.updateDisplay( DISABLE_STATE, "Validating map location..." );
+				client.updateDisplay( NORMAL_STATE, "Validating map location..." );
 				request = new KoLRequest( client, "main.php" );
 				request.run();
 
@@ -388,7 +388,7 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( !KoLCharacter.hasAccomplishment( KoLCharacter.ICY_PEAK ) )
 			{
-				client.updateDisplay( DISABLE_STATE, "Validating map location..." );
+				client.updateDisplay( NORMAL_STATE, "Validating map location..." );
 
 				request = new KoLRequest( client, "trapper.php" );
 				request.run();
@@ -460,7 +460,7 @@ public class AdventureDatabase extends KoLDatabase
 					// is available, go ahead and update
 					// the accomplishments.
 
-					client.updateDisplay( DISABLE_STATE, "Validating map location..." );
+					client.updateDisplay( NORMAL_STATE, "Validating map location..." );
 					request = new KoLRequest( client, "plains.php" );
 					request.run();
 
@@ -485,7 +485,7 @@ public class AdventureDatabase extends KoLDatabase
 		if ( request == null )
 			return;
 
-		client.updateDisplay( DISABLE_STATE, "Validating map location..." );
+		client.updateDisplay( NORMAL_STATE, "Validating map location..." );
 		request.run();
 
 		// Now that the zone is armed, check to see

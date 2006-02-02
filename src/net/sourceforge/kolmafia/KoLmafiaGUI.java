@@ -346,7 +346,6 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		(new RequestThread( new TrapperRequest( this, selected, tradeCount ) )).start();
-		enableDisplay();
 	}
 
 	/**
@@ -466,7 +465,6 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		(new RequestThread( new UntinkerRequest( this, selectedValue.getItemID() ) )).start();
-		enableDisplay();
 	}
 
 	/**

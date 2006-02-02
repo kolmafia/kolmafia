@@ -98,9 +98,9 @@ public class MailboxRequest extends KoLRequest
 		// reset the variable (to avoid concurrent requests).
 
 		if ( action == null )
-			updateDisplay( DISABLE_STATE, "Retrieving mail from " + boxname + "..." );
+			updateDisplay( NORMAL_STATE, "Retrieving mail from " + boxname + "..." );
 		else
-			updateDisplay( DISABLE_STATE, "Executing " + action + " request for " + boxname + "..." );
+			updateDisplay( NORMAL_STATE, "Executing " + action + " request for " + boxname + "..." );
 
 		lastRequest = System.currentTimeMillis();
 		isRequesting = true;
