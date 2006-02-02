@@ -175,6 +175,12 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( requestType == CHANGE_ITEM )
 		{
+			// Do not submit a request if the item matches what you want
+			// to equip on the character.
+
+			if ( KoLCharacter.getEquipment( equipmentSlot ).equals( changeItemName ) )
+				return;
+
 			switch ( equipmentSlot )
 			{
 				case KoLCharacter.FAMILIAR:
@@ -186,22 +192,15 @@ public class EquipmentRequest extends PasswordHashRequest
 					if ( !KoLCharacter.getInventory().contains( result ) )
 					{
 						// Find first familiar with item
-						LockableListModel familiars = KoLCharacter.getFamiliarList();
-						for ( int i = 0; i < familiars.size(); ++i )
+						FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
+						for ( int i = 0; i < familiars.length; ++i )
 						{
-							FamiliarData familiar = (FamiliarData)familiars.get(i);
-							String item = familiar.getItem();
-							if ( item != null && item.equals(changeItemName) )
+							if ( familiars[i].getItem() != null && familiars[i].getItem().equals( changeItemName ) )
 							{
-								FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
-								// Switch to it
-								(new FamiliarRequest( client, familiar )).run();
-
-								// Unequip item
-								(new EquipmentRequest( client, UNEQUIP, KoLCharacter.FAMILIAR )).run();
-
-								// Equip original familiar
-								(new FamiliarRequest( client, currentFamiliar )).run();
+								KoLRequest unequip = new KoLRequest( client, "familiar.php", true );
+								unequip.addFormField( "pwd", client.getPasswordHash() );
+								unequip.addFormField( "action", "unequip" );
+								unequip.addFormField( "famid", String.valueOf( familiars[i].getID() ) );
 								break;
 							}
 						}
