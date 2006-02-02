@@ -233,7 +233,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public SpecialPanel( LockableListModel items )
 		{
-			super( "Sign-Specific Stuffs", items, true );
+			super( "Sign-Specific Stuffs", items, false );
 			setButtons( new String [] { "buy one", "buy multiple" },
 				new ActionListener [] { new BuyListener( false ), new BuyListener( true ) } );
 		}
