@@ -2206,6 +2206,8 @@ public abstract class KoLmafia implements KoLConstants
 						currentRequest.setLimit( previousLimit );
 					}
 				}
+				else
+					currentRequest.setLimit( previousLimit );
 			}
 		}
 
