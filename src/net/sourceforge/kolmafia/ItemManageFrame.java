@@ -169,7 +169,7 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Usable Items", KoLCharacter.getUsables(), false );
 			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
-			setButtons( new String [] { "use one", "use multiple", "refresh list" },
+			setButtons( new String [] { "use one", "use multiple", "refresh" },
 				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
 
@@ -417,13 +417,22 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Inside Inventory", KoLCharacter.getInventory(), false );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
-			setButtons( new String [] { "closet", "autosell", "automall", "museum", "stash" },
+			setButtons( new String [] { "closet", "sell", "mall", "museum", "clan", "refresh" },
 				new ActionListener [] {
 					new PutInClosetListener( false, elementList ),
 					new AutoSellListener( false, AutoSellRequest.AUTOSELL, elementList ),
 					new AutoSellListener( false, AutoSellRequest.AUTOMALL, elementList ),
 					new PutOnDisplayListener( false, elementList ),
-					new GiveToClanListener( false, elementList ) } );
+					new GiveToClanListener( false, elementList ),
+					new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
+
+			JCheckBox [] filters = new JCheckBox[3];
+			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
+			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show other", true );
+
+			for ( int i = 0; i < 3; ++i )
+				optionPanel.add( filters[i] );
 		}
 	}
 
@@ -433,13 +442,22 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Inside Closet", KoLCharacter.getCloset(), false );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
-			setButtons( new String [] { "backpack", "autosell", "automall", "museum", "stash" },
+			setButtons( new String [] { "backpack", "sell", "mall", "museum", "clan", "refresh" },
 				new ActionListener [] {
 					new PutInClosetListener( true, elementList ),
 					new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ),
 					new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ),
 					new PutOnDisplayListener( true, elementList ),
-					new GiveToClanListener( true, elementList ) } );
+					new GiveToClanListener( true, elementList ),
+					new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
+
+			JCheckBox [] filters = new JCheckBox[3];
+			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
+			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show other", true );
+
+			for ( int i = 0; i < 3; ++i )
+				optionPanel.add( filters[i] );
 		}
 	}
 
@@ -457,7 +475,7 @@ public class ItemManageFrame extends KoLFrame
 
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
-			setButtons( new String [] { "create one", "create multiple", "refresh list" },
+			setButtons( new String [] { "create one", "create multiple", "refresh" },
 				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
 

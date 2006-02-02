@@ -794,6 +794,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				buttonPanel.add( buttons[i] );
 			}
 
+			JPanel moverPanel = new JPanel();
+
 			movers = new JRadioButton[4];
 			movers[0] = new JRadioButton( "Move all", true );
 			movers[1] = new JRadioButton( "Move all but one" );
@@ -805,14 +807,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				moverGroup.add( movers[i] );
 				if ( showMovers )
-					optionPanel.add( movers[i] );
+					moverPanel.add( movers[i] );
 			}
 
-			JPanel southPanel = new JPanel( new BorderLayout() );
-			southPanel.add( buttonPanel, BorderLayout.SOUTH );
-			southPanel.add( optionPanel, BorderLayout.NORTH );
+			JPanel northPanel = new JPanel( new BorderLayout() );
+			northPanel.add( buttonPanel, BorderLayout.SOUTH );
+			northPanel.add( moverPanel, BorderLayout.CENTER );
+			northPanel.add( optionPanel, BorderLayout.NORTH );
 
-			enclosingPanel.add( southPanel, BorderLayout.NORTH );
+			enclosingPanel.add( northPanel, BorderLayout.NORTH );
 		}
 
 		public void setEnabled( boolean isEnabled )
