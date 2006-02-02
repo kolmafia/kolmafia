@@ -221,25 +221,22 @@ public abstract class KoLmafia implements KoLConstants
 
 		this.sessionID = sessionID;
 
-		if ( !loginname.equals( KoLCharacter.getUsername() ) )
-		{
-			KoLCharacter.reset( loginname );
-			KoLMailManager.reset();
-			FamiliarData.reset();
-			CharpaneRequest.reset();
-			MushroomPlot.reset();
-			StoreManager.reset();
-			CakeArenaManager.reset();
-			MuseumManager.reset();
-			ClanManager.reset();
+		KoLCharacter.reset( loginname );
+		KoLMailManager.reset();
+		FamiliarData.reset();
+		CharpaneRequest.reset();
+		MushroomPlot.reset();
+		StoreManager.reset();
+		CakeArenaManager.reset();
+		MuseumManager.reset();
+		ClanManager.reset();
 
-			this.recentEffects.clear();
-			this.conditions.clear();
-			this.missingItems.clear();
+		this.recentEffects.clear();
+		this.conditions.clear();
+		this.missingItems.clear();
 
-			this.encounterList.clear();
-			this.adventureList.clear();
-		}
+		this.encounterList.clear();
+		this.adventureList.clear();
 
 		this.hermitItems.clear();
 		this.hunterItems.clear();
