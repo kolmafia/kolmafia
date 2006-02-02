@@ -61,6 +61,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import java.util.Vector;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import com.sun.java.forums.TableSorter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -88,6 +90,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		tabs.add( "Attack", new AttackPanel() );
 		tabs.add( "Profiler", new ClanPanel() );
 
+		updateRank();
 		framePanel.setLayout( new BorderLayout() );
 		framePanel.add( tabs, BorderLayout.NORTH );
 
@@ -149,7 +152,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	private JPanel getRankLabel()
 	{
 		JPanel rankPanel = new JPanel( new BorderLayout() );
-		JLabel rankLabel = new JLabel( "Rank: " + KoLCharacter.getPvpRank(), JLabel.CENTER );
+		JLabel rankLabel = new JLabel( " ", JLabel.CENTER );
 
 		rankLabels.add( rankLabel );
 		rankPanel.add( rankLabel, BorderLayout.SOUTH );
@@ -158,11 +161,21 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 	private void updateRank()
 	{
+		int equipmentPower = 0;
+
+		Matcher powerMatcher = Pattern.compile( "\\+(\\d+)" ).matcher( KoLCharacter.getEquipment( KoLCharacter.HAT ) );
+		if ( powerMatcher.find() )
+			equipmentPower += Integer.parseInt( powerMatcher.group(1) );
+
+		powerMatcher = Pattern.compile( "\\+(\\d+)" ).matcher( KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
+		if ( powerMatcher.find() )
+			equipmentPower += Integer.parseInt( powerMatcher.group(1) );
+
 		JLabel [] rankLabels = new JLabel[ this.rankLabels.size() ];
 		this.rankLabels.toArray( rankLabels );
 
 		for ( int i = 0; i < rankLabels.length; ++i )
-			rankLabels[i].setText( "Rank: " + KoLCharacter.getPvpRank() );
+			rankLabels[i].setText( "<html><center>Rank " + KoLCharacter.getPvpRank() + "<br>Fashion " + equipmentPower + "</center></html>" );
 	}
 
 	private class SearchPanel extends KoLPanel
