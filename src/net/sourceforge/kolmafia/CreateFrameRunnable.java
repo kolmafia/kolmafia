@@ -205,6 +205,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 					Dimension screenSize = TOOLKIT.getScreenSize();
 					if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
 						frame.setLocation( xLocation, yLocation );
+					else
+						frame.setLocationRelativeTo( null );
 				}
 				else
 					frame.setLocationRelativeTo( null );
