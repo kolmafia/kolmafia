@@ -118,6 +118,7 @@ public class KoLmafiaCLI extends KoLmafia
 				{
 					DEFAULT_SHELL.lastScript = new KoLmafiaCLI( new FileInputStream( script ) );
 					DEFAULT_SHELL.lastScript.listenForCommands();
+
 					if ( DEFAULT_SHELL.lastScript.previousCommand == null )
 						DEFAULT_SHELL.lastScript = null;
 				}
@@ -166,7 +167,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public KoLmafiaCLI( InputStream inputStream )
 	{
-		outputStream = StaticEntity.getClient() instanceof KoLmafiaCLI ? System.out : NullStream.INSTANCE;
+		outputStream = System.out;
 
 		try
 		{
@@ -195,21 +196,14 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.getClient().resetContinueState();
 			String username = StaticEntity.getProperty( "autoLogin" );
 
-			if ( username == null || username.equals( "" ) )
+			if ( username == null || username.length() == 0 )
 			{
-				if ( StaticEntity.getClient() == this )
-				{
-					outputStream.println();
-					outputStream.print( "username: " );
-				}
-
+				outputStream.println();
+				outputStream.print( "username: " );
 				username = commandStream.readLine();
 			}
 
-			if ( username == null )
-				return;
-
-			if ( username.length() == 0 )
+			if ( username == null || username.length() == 0 )
 			{
 				outputStream.println( "Invalid login." );
 				return;
@@ -220,27 +214,19 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( !username.endsWith( "/q" ) )
 				username += "/q";
 
-
 			if ( password == null )
 			{
-				if ( StaticEntity.getClient() == this )
-					outputStream.print( "password: " );
-
+				outputStream.print( "password: " );
 				password = commandStream.readLine();
 			}
 
-			if ( password == null )
-				return;
-
-			if ( password.length() == 0 )
+			if ( password == null || password.length() == 0 )
 			{
 				outputStream.println( "Invalid password." );
 				return;
 			}
 
-			if ( StaticEntity.getClient() == this )
-				outputStream.println();
-
+			outputStream.println();
 			StaticEntity.getClient().deinitialize();
 			(new LoginRequest( StaticEntity.getClient(), username, password, true, true )).run();
 		}
@@ -1386,6 +1372,7 @@ public class KoLmafiaCLI extends KoLmafia
 					lastScript = new KoLmafiaCLI( new FileInputStream( scriptFile ) );
 					lastScript.commandBuffer = commandBuffer;
 					lastScript.listenForCommands();
+
 					if ( lastScript.previousCommand == null )
 						lastScript = null;
 				}
@@ -1396,7 +1383,7 @@ public class KoLmafiaCLI extends KoLmafia
 			// Because everything is checked for consistency
 			// before being loaded, this should not happen.
 
-			updateDisplay( ERROR_STATE, e.getMessage() );
+			updateDisplay( ERROR_STATE, e.getMessage() == null ? "" : e.getMessage() );
 			StaticEntity.getClient().cancelRequest();
 
 			e.printStackTrace( KoLmafia.getLogStream() );
@@ -2950,8 +2937,15 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( StaticEntity.getClient() == null )
 			return;
 
-		outputStream.println( message );
-		mirrorStream.println( message );
+		// If it's the enableDisplay() called from the KoLmafia
+		// initializer, then outputStream and mirrorStream will
+		// be null -- check this before attempting to print.
+
+		if ( outputStream != null )
+			outputStream.println( message );
+
+		if ( mirrorStream != null )
+			mirrorStream.println( message );
 
 		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
 			StaticEntity.getClient().updateDisplay( state, message );
