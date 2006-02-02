@@ -178,7 +178,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			// Do not submit a request if the item matches what you want
 			// to equip on the character.
 
-			if ( KoLCharacter.getEquipment( equipmentSlot ).equals( changeItemName ) )
+			if ( KoLCharacter.getEquipment( equipmentSlot ).indexOf( changeItemName ) != -1 )
 				return;
 
 			switch ( equipmentSlot )
@@ -196,16 +196,15 @@ public class EquipmentRequest extends PasswordHashRequest
 						KoLCharacter.getFamiliarList().toArray( familiars );
 						for ( int i = 0; i < familiars.length; ++i )
 						{
-							if ( familiars[i].getItem() != null && familiars[i].getItem().equals( changeItemName ) )
+							if ( familiars[i].getItem() != null && familiars[i].getItem().indexOf( changeItemName ) != -1 )
 							{
 								updateDisplay( DISABLE_STATE, "Stealing " + changeItemName + " from " + familiars[i].getRace() + "..." );
-								KoLRequest unequip = new KoLRequest( client, "familiar.php", true );
-								unequip.addFormField( "pwd", client.getPasswordHash() );
-								unequip.addFormField( "action", "unequip" );
-								unequip.addFormField( "famid", String.valueOf( familiars[i].getID() ) );
+								KoLRequest unequip = new KoLRequest( client, "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID(), true );
 								unequip.run();
+
 								familiars[i].setItem( UNEQUIP );
 								client.processResult( new AdventureResult( changeItemName, 1 ), false );
+
 								break;
 							}
 						}
@@ -217,7 +216,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				case KoLCharacter.ACCESSORY2:
 				case KoLCharacter.ACCESSORY3:
 
-					if ( !KoLCharacter.getEquipment(equipmentSlot).equals( UNEQUIP ) )
+					if ( !KoLCharacter.getEquipment( equipmentSlot ).equals( UNEQUIP ) )
 						(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
 
 					 break;
