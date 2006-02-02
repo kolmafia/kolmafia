@@ -507,13 +507,31 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		if ( receivedBuffs && gavePhilanthropicBuff )
 			BuffBotHome.addToRecipientList( meatSent, message.getSenderName() );
 
-		// If the person sent something and received no buffs,
-		// then make sure they're refunded.
-
 		if ( !receivedBuffs )
 		{
-			sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
-				"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
+			// Record the inability to buff inside of a separate
+			// file which stores how many refunds were sent that day.
+
+			BuffBotHome.addToRecipientList( 0, message.getSenderName() );
+			int failureCount = BuffBotHome.getInstanceCount( 0, message.getSenderName() );
+
+			if ( failureCount == 9 )
+			{
+				// Nine refunds in a single day is pretty bad.  So,
+				// send a notification that they will no longer be
+				// refunded for buffs cast today.
+
+				sendRefund( message.getSenderName(), "This is a message to notify you that you have sent 9 requests which were refunded.  " +
+					"To prevent the possibility of intentional sabatoge, this will be the last refund you will receive today.  Thanks for understanding.", meatSent );
+			}
+			else if ( failureCount < 9 )
+			{
+				// If the person sent something and received no buffs,
+				// then make sure they're refunded.
+
+				sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
+					"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
+			}
 		}
 	}
 
