@@ -218,6 +218,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
+			enableDisplay();
 			return;
 		}
 
@@ -249,6 +250,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
+			enableDisplay();
 			return;
 		}
 
@@ -260,6 +262,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
+			enableDisplay();
 			return;
 		}
 
@@ -270,6 +273,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
+			enableDisplay();
 			return;
 		}
 
@@ -282,6 +286,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
+			enableDisplay();
 			return;
 		}
 
@@ -294,6 +299,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
+			enableDisplay();
 			return;
 		}
 
@@ -305,6 +311,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
+			enableDisplay();
 			return;
 		}
 
@@ -314,6 +321,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
+			enableDisplay();
 			return;
 		}
 
@@ -323,6 +331,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
+			enableDisplay();
 			return;
 		}
 
@@ -335,6 +344,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
+			enableDisplay();
 			return;
 		}
 
@@ -351,6 +361,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
+			enableDisplay();
 			return;
 		}
 
@@ -402,7 +413,6 @@ public abstract class KoLmafia implements KoLConstants
 			getBreakfast( "Advanced Cocktailcrafting", 3 );
 
 		resetContinueState();
-
 		updateDisplay( NORMAL_STATE, "Breakfast retrieved." );
 	}
 
@@ -425,7 +435,6 @@ public abstract class KoLmafia implements KoLConstants
 		cachedLogin = null;
 
 		cancelRequest();
-		enableDisplay();
 		closeMacroStream();
 	}
 
@@ -1664,7 +1673,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * method, this method is used to reset the continue state.
 	 */
 
-	public void resetContinueState()
+	public final void resetContinueState()
 	{	this.permitContinue = true;
 	}
 
@@ -1673,7 +1682,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * no requests running, this method does nothing.
 	 */
 
-	public void cancelRequest()
+	public final void cancelRequest()
 	{	this.permitContinue = false;
 	}
 
@@ -1684,7 +1693,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @return	<code>true</code> if requests are allowed to continue
 	 */
 
-	public boolean permitsContinue()
+	public final boolean permitsContinue()
 	{	return permitContinue && currentState != ABORT_STATE;
 	}
 
@@ -1696,7 +1705,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * assist in beta testing because the output is VERY verbose.
 	 */
 
-	public static void openDebugLog()
+	public static final void openDebugLog()
 	{
 		// First, ensure that a log stream has not already been
 		// initialized - this can be checked by observing what
@@ -1726,7 +1735,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public static void closeDebugLog()
+	public static final void closeDebugLog()
 	{
 		logStream.close();
 		logStream = NullStream.INSTANCE;
@@ -1740,7 +1749,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @return	The settings for the current session
 	 */
 
-	public KoLSettings getSettings()
+	public final KoLSettings getSettings()
 	{	return settings;
 	}
 
@@ -1749,7 +1758,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @return	The stream used for debug output
 	 */
 
-	public static PrintStream getLogStream()
+	public static final PrintStream getLogStream()
 	{	return logStream;
 	}
 
@@ -1762,7 +1771,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @param	filename	The name of the file to be created
 	 */
 
-	public void openMacroStream( String filename )
+	public final void openMacroStream( String filename )
 	{
 		// First, ensure that a macro stream has not already been
 		// initialized - this can be checked by observing what
@@ -1800,7 +1809,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @return	The macro stream associated with this client
 	 */
 
-	public PrintStream getMacroStream()
+	public final PrintStream getMacroStream()
 	{	return macroStream;
 	}
 
@@ -1808,7 +1817,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * Deinitializes the macro stream.
 	 */
 
-	public void closeMacroStream()
+	public final void closeMacroStream()
 	{
 		macroStream.close();
 		macroStream = NullStream.INSTANCE;
@@ -1820,7 +1829,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * activities should be permitted.
 	 */
 
-	public boolean inLoginState()
+	public final boolean inLoginState()
 	{	return isLoggingIn;
 	}
 
@@ -1830,7 +1839,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * intends to be stored in the global file.
 	 */
 
-	public void addSaveState( String loginname, String password )
+	public final void addSaveState( String loginname, String password )
 	{
 		try
 		{
@@ -1892,7 +1901,7 @@ public abstract class KoLmafia implements KoLConstants
 			}
 	}
 
-	private void storeSaveStates()
+	private final void storeSaveStates()
 	{
 		StringBuffer saveStateBuffer = new StringBuffer();
 		String [] names = new String[ saveStateNames.size() ];
@@ -1932,7 +1941,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * intends to be stored in the global file.
 	 */
 
-	public String getSaveState( String loginname )
+	public final String getSaveState( String loginname )
 	{
 		try
 		{
