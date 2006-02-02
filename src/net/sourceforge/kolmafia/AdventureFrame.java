@@ -647,6 +647,7 @@ public class AdventureFrame extends KoLFrame
 			currentlyBuying = false;
 
 			client.enableDisplay();
+			resultsList.updateUI();
 		}
 
 		public void requestFocus()
