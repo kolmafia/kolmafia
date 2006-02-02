@@ -61,7 +61,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 	public AutoSellRequest( KoLmafia client, Object [] items, int [] prices, int [] limits, int sellType )
 	{
-		super( client, sellType == AUTOSELL ? "sellstuff.php" : "managestore.php", items, 0 );
+		super( client, sellPage( sellType ), items, 0 );
 		addFormField( "pwd", client.getPasswordHash() );
 
 		this.sellType = sellType;
@@ -82,6 +82,17 @@ public class AutoSellRequest extends SendMessageRequest
 		}
 	}
 
+	private static String sellPage ( int sellType )
+	{
+		if ( sellType == AUTOMALL )
+			return "managestore.php";
+
+		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
+			return "sellstuff_ugly.php";
+
+		return "sellstuff.php";
+	}
+
 	protected void attachItem( AdventureResult item, int index )
 	{
 		if ( sellType == AUTOMALL )
@@ -99,35 +110,35 @@ public class AutoSellRequest extends SendMessageRequest
 				addFormField( "price" + index, prices[ index - 1 ] == 0 ? "" : String.valueOf( prices[ index - 1 ] ) );
 				addFormField( "limit" + index, limits[ index - 1 ] == 0 ? "" : String.valueOf( limits[ index - 1 ] ) );
 			}
+
+			return;
+		}
+
+		// Autosell: "compact" or "detailed" mode
+
+		addFormField( "action", "sell" );
+
+		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
+		{
+			if ( getCapacity() == 1 )
+			{
+				// If we are doing the requests one at a time,
+				// specify the item quantity
+				addFormField( "mode", "3" );
+				addFormField( "quantity", String.valueOf( item.getCount() ) );
+			}
+			else
+			{
+				// Otherwise, we are selling all.
+				addFormField( "mode", "1" );
+				addFormField( "howmany", "1" );
+			}
+
+			String itemID = String.valueOf( item.getItemID() );
+			addFormField( "item" + itemID, itemID );
 		}
 		else
 		{
-			addFormField( "action", "sell" );
-
-			// "Compact" autosell mode: sellstuff.php:
-
-			//    type=all
-			//    howmany=1
-			//    whichitem[]=<i1>
-			//    whichitem[]=<i2>
-			//    ...
-
-			//    type=quant
-			//    howmany=<n>
-			//    whichitem[]=<i1>
-
-			// "Detailed" autosell mode: sellstuff_ugly.php:
-
-			//    mode=1
-			//    quantity=1
-			//    item<i1>=<i1>
-			//    item<i2>=<i2>
-			//    ...
-
-			//    mode=3
-			//    quantity=<n>
-			//    item<i1>=<i1>
-
 			if ( getCapacity() == 1 )
 			{
 				// If we are doing the requests one at a time,

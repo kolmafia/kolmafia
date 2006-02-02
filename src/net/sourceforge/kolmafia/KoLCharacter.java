@@ -287,6 +287,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int consumptionRestriction = AscensionSnapshotTable.NOPATH;
 	private static int mindControlLevel = 0;
 
+	private static String autosellMode;
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
@@ -346,6 +347,8 @@ public abstract class KoLCharacter extends StaticEntity
 		ascensionSignType = NONE;
 
 		mindControlLevel = 0;
+
+		autosellMode = "detailed";
 
 		// Initialize the equipment lists inside
 		// of the character data
@@ -1478,7 +1481,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	/**
 	 * Accessor method for the current mind control setting
-	 * @return	String
+	 * @return	int
 	 */
 
 	public static int getMindControlLevel()
@@ -1493,6 +1496,25 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setMindControlLevel( int level )
 	{
 		KoLCharacter.mindControlLevel = level;
+	}
+
+	/**
+	 * Accessor method for the current autosell mode
+	 * @return	String
+	 */
+
+	public static String getAutosellMode()
+	{	return autosellMode;
+	}
+
+	/**
+	 * Accessor method to set the autosellmode
+	 * @param	mode	the new mode
+	 */
+
+	public static void setAutosellMode( String mode )
+	{
+		KoLCharacter.autosellMode = mode;
 	}
 
 	/**

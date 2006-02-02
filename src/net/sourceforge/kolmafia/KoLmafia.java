@@ -309,6 +309,15 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		updateDisplay( DISABLE_STATE, "Retrieving account options..." );
+		(new AccountRequest( this )).run();
+
+		if ( !permitsContinue() )
+		{
+			deinitialize();
+			return;
+		}
+
 		updateDisplay( DISABLE_STATE, "Retrieving contact list..." );
 		(new ContactListRequest( this )).run();
 
