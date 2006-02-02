@@ -1006,9 +1006,23 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			AdventureResult match = getFirstMatchingItem( parameters, INVENTORY );
+			AdventureResult match = getFirstMatchingItem( parameters, NOWHERE );
 			if ( match != null )
+			{
+				// Take advantage of KoLmafia's built-in
+				// familiar item switching.
+
 				StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), match.getName() ), 1 );
+			}
+			else
+			{
+				// No item exists which matches the given
+				// substring - error out.
+
+				updateDisplay( ERROR_STATE, "No item matching substring \"" + match + "\"" );
+				StaticEntity.getClient().cancelRequest();
+			}
+
 			return;
 		}
 
