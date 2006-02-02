@@ -150,11 +150,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		catch ( Exception e )
 		{
 			// If an IOException occurs at any time during the
-			// attempt to retrieve the image, report the exception
-			// to the console and return null;
+			// attempt to retrieve the image, this means that
+			// it's an HTML parse error because of malformed
+			// HTML -- ignore the error and return null.
 
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
 			return null;
 		}
 	}
