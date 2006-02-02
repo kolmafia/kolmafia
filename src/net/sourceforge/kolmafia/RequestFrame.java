@@ -190,19 +190,11 @@ public class RequestFrame extends KoLFrame
 			topMenu.add( gotoSelect );
 			topMenu.add( Box.createHorizontalStrut( 20 ) );
 
-			try
-			{
-				topMenu.add( new JLabel( new ImageIcon(
-					new URL( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" ) ) ) );
+			RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" );
+			RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" );
 
-				topMenu.add( new JLabel( new ImageIcon(
-					new URL( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) ) );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-			}
+			topMenu.add( new JLabel( JComponentUtilities.getSharedImage( "itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" ) ) );
+			topMenu.add( new JLabel( JComponentUtilities.getSharedImage( "itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) );
 
 			functionSelect.setSelectedIndex( 0 );
 			gotoSelect.setSelectedIndex( 0 );
