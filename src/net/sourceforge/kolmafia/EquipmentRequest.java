@@ -118,8 +118,8 @@ public class EquipmentRequest extends PasswordHashRequest
 		{
 			if ( change.indexOf( "(" ) != -1 )
 				change = change.substring( 0, change.indexOf( "(" ) - 1 );
-                        changeItemName = change;
 
+			changeItemName = change.toLowerCase();
 			addFormField( "action", "equip" );
 			addFormField( "whichitem", String.valueOf( TradeableItemDatabase.getItemID( change ) ) );
 			addFormField( "pwd", client.getPasswordHash() );
