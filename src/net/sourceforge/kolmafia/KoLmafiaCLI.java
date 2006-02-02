@@ -811,6 +811,24 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "guild" ) )
+		{
+			StaticEntity.getClient().unlockGuildStore();
+			return;
+		}
+
+		if ( command.equals( "gourd" ) )
+		{
+			StaticEntity.getClient().tradeGourdItems();
+			return;
+		}
+
+		if ( command.equals( "tavern" ) )
+		{
+			StaticEntity.getClient().locateTavernFaucet();
+			return;
+		}
+
 		// Next is the command to handle the retrieval
 		// of breakfast, which is not yet documented.
 

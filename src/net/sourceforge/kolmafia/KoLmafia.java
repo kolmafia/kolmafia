@@ -1484,6 +1484,54 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( ENABLE_STATE, "Gourd trading complete (" + totalProvided + " " + item.getName() + "s given so far)." );
 	}
 
+	public void unlockGuildStore()
+	{
+		// Refresh the player's stats in order to get current
+		// stat values to see if the quests can be completed.
+
+		(new CharsheetRequest( this )).run();
+
+		int baseStatValue = 0;
+		int totalStatValue = 0;
+
+		switch ( KoLCharacter.getPrimeIndex() )
+		{
+			case 0:
+				baseStatValue = KoLCharacter.getBaseMuscle();
+				totalStatValue = baseStatValue + KoLCharacter.getAdjustedMuscle();
+				break;
+
+			case 1:
+				baseStatValue = KoLCharacter.getBaseMysticality();
+				totalStatValue = baseStatValue + KoLCharacter.getAdjustedMysticality();
+				break;
+
+			case 2:
+				baseStatValue = KoLCharacter.getBaseMoxie();
+				totalStatValue = baseStatValue + KoLCharacter.getAdjustedMoxie();
+				break;
+		}
+
+		// The wiki claims that your prime stats are somehow connected,
+		// but the exact procedure is uncertain.  Therefore, just allow
+		// the person to attempt to unlock their store, regardless of
+		// their current stats.
+
+		updateDisplay( DISABLE_STATE, "Entering guild challenge area..." );
+		KoLRequest request = new KoLRequest( this, "guild.php?place=challenge", true );
+		request.run();
+
+		for ( int i = 1; i <= 4; ++i )
+		{
+			updateDisplay( DISABLE_STATE, "Completing guild task " + i + "..." );
+			request = new KoLRequest( this, "guild.php?action=chal", true );
+			request.run();
+		}
+
+		processResult( new AdventureResult( AdventureResult.ADV, -4 ) );
+		updateDisplay( ENABLE_STATE, "Guild store unlocked (maybe)." );
+	}
+
 	/**
 	 * Confirms whether or not the user wants to make a drunken
 	 * request.  This should be called before doing requests when

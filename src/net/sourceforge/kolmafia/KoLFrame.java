@@ -521,9 +521,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JMenu questsMenu = new JMenu( "Quests" );
 		container.add( questsMenu );
 
+		questsMenu.add( new InvocationMenuItem( "Unlock Guild", client, "unlockGuildStore" ) );
 		questsMenu.add( new InvocationMenuItem( "Face Nemesis", Nemesis.class, "faceNemesis" ) );
 		questsMenu.add( new InvocationMenuItem( "Find Rat Faucet", client, "locateTavernFaucet" ) );
-		questsMenu.add( new InvocationMenuItem( "The Gourd Tower", client, "tradeGourdItems" ) );
+		questsMenu.add( new InvocationMenuItem( "Gourd Trading", client, "tradeGourdItems" ) );
 		questsMenu.add( new InvocationMenuItem( "Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
 
 		questsMenu.add( new JSeparator() );
