@@ -238,13 +238,15 @@ public abstract class KoLCharacter extends StaticEntity
 	// Status pane data which is rendered whenever
 	// the user issues a "status" type command.
 
+	private static int pvpRank = 0;
 	private static int availableMeat = 0;
 	private static int closetMeat = 0;
 	private static int inebriety = 0;
 	private static int adventuresLeft = 0;
 	private static int totalTurnsUsed = 0;
 
-        // Travel information
+	// Travel information
+
 	private static boolean hasStore = false;
 	private static boolean hasDisplayCase = false;
 	private static boolean hasClan = false;
@@ -308,6 +310,7 @@ public abstract class KoLCharacter extends StaticEntity
 		classname = "";
 		classtype = "";
 
+		pvpRank = 0;
 		adjustedStats = new int[3];
 		totalSubpoints = new int[3];
 
@@ -432,6 +435,13 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return (int) Math.sqrt( calculateBasePoints( getTotalPrime() ) - 4 ) + 1;
 	}
 
+	public static int getPvpRank()
+	{	return pvpRank;
+	}
+
+	public static void setPvpRank( int pvpRank )
+	{	KoLCharacter.pvpRank = pvpRank;
+	}
 
 	/**
 	 * Accessor method to set the character's class.

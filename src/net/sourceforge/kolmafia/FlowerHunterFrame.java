@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
@@ -70,6 +71,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	private CardLayout resultCards;
 	private JPanel resultCardPanel;
 
+	private Vector rankLabels = new Vector();
 	private JTable [] resultsTable = new JTable[2];
 	private TableSorter [] sortedModel = new TableSorter[2];
 	private DefaultTableModel [] resultsModel = new DefaultTableModel[2];
@@ -144,6 +146,25 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	{	tabs.setSelectedIndex( resultsTable[ isSimple ? 0 : 1 ].getSelectionModel().isSelectionEmpty() ? 0 : 1 );
 	}
 
+	private JPanel getRankLabel()
+	{
+		JPanel rankPanel = new JPanel( new BorderLayout() );
+		JLabel rankLabel = new JLabel( "Rank: " + KoLCharacter.getPvpRank(), JLabel.CENTER );
+
+		rankLabels.add( rankLabel );
+		rankPanel.add( rankLabel, BorderLayout.SOUTH );
+		return rankPanel;
+	}
+
+	private void updateRank()
+	{
+		JLabel [] rankLabels = new JLabel[ this.rankLabels.size() ];
+		this.rankLabels.toArray( rankLabels );
+
+		for ( int i = 0; i < rankLabels.length; ++i )
+			rankLabels[i].setText( "Rank: " + KoLCharacter.getPvpRank() );
+	}
+
 	private class SearchPanel extends KoLPanel
 	{
 		private JTextField levelEntry;
@@ -163,7 +184,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			elements[1] = new VerifiableElement( "Rank: ", rankEntry );
 			elements[2] = new VerifiableElement( "Limit: ", limitEntry );
 
-			setContent( elements, null, null, true, true );
+			setContent( elements, null, getRankLabel(), true, true );
 			setDefaultButton( confirmedButton );
 		}
 
@@ -239,7 +260,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Clan ID: ", clanID );
 
-			setContent( elements, null, null, true, true );
+			setContent( elements, null, getRankLabel(), true, true );
 			setDefaultButton( confirmedButton );
 		}
 
@@ -314,7 +335,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			elements[1] = new VerifiableElement( "Mission: ", victorySelect );
 			elements[2] = new VerifiableElement( "Message: ", message );
 
-			setContent( elements );
+			setContent( elements, null, getRankLabel(), true, true );
 
 			if ( KoLCharacter.getClassType().startsWith( "Se" ) || KoLCharacter.getClassType().startsWith( "Tu" ) )
 				stanceSelect.setSelectedIndex( 0 );
@@ -333,7 +354,10 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				FightFrame.showRequest( new FlowerHunterRequest( client, selection[i].getPlayerID(),
 					stanceSelect.getSelectedIndex() + 1, victorySelect.getSelectedIndex() == 0, message.getText() ) );
 
-				KoLRequest.delay( 10000 );
+				updateRank();
+
+				if ( i != selection.length - 1 )
+					KoLRequest.delay( 10000 );
 			}
 		}
 

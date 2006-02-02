@@ -148,6 +148,12 @@ public class FlowerHunterRequest extends KoLRequest
 
 	private void parseAttack()
 	{
+		// Reset the player's current PvP ranking
+
+		Matcher rankMatcher = Pattern.compile( "Your current PvP Ranking is (\\d+)" ).matcher( responseText );
+		if ( rankMatcher.find() )
+			KoLCharacter.setPvpRank( Integer.parseInt( rankMatcher.group(1) ) );
+
 		// Trim down the response text so it only includes
 		// the information related to the fight.
 

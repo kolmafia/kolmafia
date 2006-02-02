@@ -68,6 +68,9 @@ public class FightFrame extends RequestFrame
 
 	public static void showRequest( KoLRequest request )
 	{
+		if ( request.responseText == null )
+			request.run();
+
 		// If there's a currently open mini-browser window
 		// that has a sidebar, then use it instead.
 
