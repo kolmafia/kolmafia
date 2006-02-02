@@ -190,7 +190,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "channelColors", "" );
 		ensureProperty( "chatStyle", "0" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
-		ensureProperty( "cloverProtectActive", "true" );
+		ensureProperty( "cloverProtectActive", "false" );
 		ensureProperty( "createWithoutBoxServants", "false" );
 		ensureProperty( "defaultLimit", "13" );
 		ensureProperty( "eSoluScriptType", "0" );
