@@ -50,7 +50,7 @@ public class AccountRequest extends KoLRequest
 			return;
 
 		// Parse response text
-		Matcher matcher = Pattern.compile( "Switch to (.*?) Autosale Mode" ).matcher( responseText );
+		Matcher matcher = Pattern.compile( "Switch to (\\S*?) Autosale Mode" ).matcher( responseText );
 
 		if ( matcher.find() )
 		{
