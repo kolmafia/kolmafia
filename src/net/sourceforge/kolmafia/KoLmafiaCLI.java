@@ -2947,6 +2947,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public synchronized void updateDisplay( int state, String message )
 	{
+		if ( StaticEntity.getClient() == null )
+			return;
+
 		outputStream.println( message );
 		mirrorStream.println( message );
 
