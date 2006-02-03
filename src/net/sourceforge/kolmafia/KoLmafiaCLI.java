@@ -229,7 +229,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 			outputStream.println();
 			StaticEntity.getClient().deinitialize();
-			(new LoginRequest( StaticEntity.getClient(), username, password, true, true )).run();
+			(new LoginRequest( StaticEntity.getClient(), username, password, true,
+				GLOBAL_SETTINGS.getProperty( "alwaysGetBreakfast" ).equals( "true" ) )).run();
 		}
 		catch ( IOException e )
 		{
@@ -504,7 +505,8 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 
 				StaticEntity.getClient().deinitialize();
-				(new LoginRequest( StaticEntity.getClient(), parameters, StaticEntity.getClient().getSaveState( parameters ), true, true )).run();
+				(new LoginRequest( StaticEntity.getClient(), parameters, StaticEntity.getClient().getSaveState( parameters ), true,
+					GLOBAL_SETTINGS.getProperty( "alwaysGetBreakfast" ).equals( "true" ) )).run();
 			}
 			else
 				updateDisplay( ERROR_STATE, "No password saved for that username." );
