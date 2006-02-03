@@ -212,7 +212,7 @@ public class LoginFrame extends KoLFrame
 					autoLoginCheckBox.setSelected( true );
 				}
 
-				getBreakfastCheckBox.setSelected( getProperty( "alwaysGetBreakfast" ).equals( "true" ) );
+				getBreakfastCheckBox.setSelected( GLOBAL_SETTINGS.getProperty( "alwaysGetBreakfast" ).equals( "true" ) );
 			}
 
 			setDefaultButton( confirmedButton );
@@ -230,7 +230,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
+			GLOBAL_SETTINGS.setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 			String loginname = ((String)(loginnameField instanceof JComboBox ?
 				((JComboBox)loginnameField).getSelectedItem() : ((JTextField)loginnameField).getText() ));
 
@@ -243,9 +243,9 @@ public class LoginFrame extends KoLFrame
 			}
 
 			if ( autoLoginCheckBox.isSelected() )
-				setProperty( "autoLogin", loginname );
+				GLOBAL_SETTINGS.setProperty( "autoLogin", loginname );
 			else
-				setProperty( "autoLogin", "" );
+				GLOBAL_SETTINGS.setProperty( "autoLogin", "" );
 
 			if ( !loginname.endsWith( "/q" ) )
 				loginname += "/q";
@@ -440,11 +440,11 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "proxySet", String.valueOf( proxySet.isSelected() && proxyHost.getText().trim().length() > 0 ) );
-			setProperty( "http.proxyHost", proxyHost.getText() );
-			setProperty( "http.proxyPort", proxyPort.getText() );
-			setProperty( "http.proxyUser", proxyLogin.getText() );
-			setProperty( "http.proxyPassword", proxyPassword.getText() );
+			GLOBAL_SETTINGS.setProperty( "proxySet", String.valueOf( proxySet.isSelected() && proxyHost.getText().trim().length() > 0 ) );
+			GLOBAL_SETTINGS.setProperty( "http.proxyHost", proxyHost.getText() );
+			GLOBAL_SETTINGS.setProperty( "http.proxyPort", proxyPort.getText() );
+			GLOBAL_SETTINGS.setProperty( "http.proxyUser", proxyLogin.getText() );
+			GLOBAL_SETTINGS.setProperty( "http.proxyPassword", proxyPassword.getText() );
 
 			// Save the settings that were just set; that way,
 			// the next login can use them.
@@ -454,11 +454,11 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			proxySet.setSelected( getProperty( "proxySet" ).equals( "true" ) );
-			proxyHost.setText( getProperty( "http.proxyHost" ) );
-			proxyPort.setText( getProperty( "http.proxyPort" ) );
-			proxyLogin.setText( getProperty( "http.proxyUser" ) );
-			proxyPassword.setText( getProperty( "http.proxyPassword" ) );
+			proxySet.setSelected( GLOBAL_SETTINGS.getProperty( "proxySet" ).equals( "true" ) );
+			proxyHost.setText( GLOBAL_SETTINGS.getProperty( "http.proxyHost" ) );
+			proxyPort.setText( GLOBAL_SETTINGS.getProperty( "http.proxyPort" ) );
+			proxyLogin.setText( GLOBAL_SETTINGS.getProperty( "http.proxyUser" ) );
+			proxyPassword.setText( GLOBAL_SETTINGS.getProperty( "http.proxyPassword" ) );
 
 			proxySet.actionPerformed( null );
 		}
