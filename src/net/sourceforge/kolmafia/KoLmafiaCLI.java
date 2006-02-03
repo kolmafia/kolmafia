@@ -104,6 +104,7 @@ public class KoLmafiaCLI extends KoLmafia
 			System.out.println();
 
 			StaticEntity.setClient( DEFAULT_SHELL );
+			DEFAULT_SHELL.outputStream = System.out;
 
 			if ( initialScript == null )
 			{
@@ -167,7 +168,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public KoLmafiaCLI( InputStream inputStream )
 	{
-		outputStream = System.out;
+		outputStream = StaticEntity.getClient() instanceof KoLmafiaCLI ? System.out : NullStream.INSTANCE;
 
 		try
 		{
@@ -2605,9 +2606,10 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			updateDisplay( NORMAL_STATE, "Current:" );
 			updateDisplay( NORMAL_STATE, plot );
-			updateDisplay( NORMAL_STATE, "" );
+			updateDisplay( NORMAL_STATE, " " );
 			updateDisplay( NORMAL_STATE, "Forecast:" );
 			updateDisplay( NORMAL_STATE, MushroomPlot.getForecastedPlot( false ) );
+			updateDisplay( NORMAL_STATE, " " );
 		}
 	}
 
