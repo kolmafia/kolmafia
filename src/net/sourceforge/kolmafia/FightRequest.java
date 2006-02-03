@@ -182,7 +182,7 @@ public class FightRequest extends KoLRequest
 	{
 		if ( action.equals( "..." ) || !client.permitsContinue() )
 		{
-			client.updateDisplay( ERROR_STATE, "Battle stopped.  Please finish in-browser." );
+			client.updateDisplay( ABORT_STATE, "Battle stopped.  Please finish in-browser." );
 			client.cancelRequest();
 
 			// Finish in browser if requested

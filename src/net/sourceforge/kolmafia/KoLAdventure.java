@@ -170,6 +170,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				return;
 		}
 
+		int haltTolerance = (int)( Double.parseDouble( StaticEntity.getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
+		if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
+		{
+			client.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
+			client.cancelRequest();
+			return;
+		}
+
 		// If auto-recovery failed, return from the run attempt.
 		// This prevents other messages from overriding the actual
 		// error message.
@@ -217,6 +225,13 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( !formSource.equals( "campground.php" ) && !client.recoverHP() || !client.recoverMP() )
 			return;
+
+		if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
+		{
+			client.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
+			client.cancelRequest();
+			return;
+		}
 	}
 
 	/**
