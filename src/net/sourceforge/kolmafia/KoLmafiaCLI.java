@@ -2391,7 +2391,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return null;
 		}
 
-		return itemCount == 0 ? null : firstMatch;
+		return itemCount <= 0 ? null : firstMatch;
 	}
 
 	private AdventureResult getFirstMatchingItem( String parameters, int matchType )
