@@ -153,7 +153,7 @@ public class AutoSellRequest extends SendMessageRequest
 			// This is a multiple selection input field.
 			// Therefore, you can give it multiple items.
 
-			addFormField( "item" + String.valueOf( item.getItemID() ), String.valueOf( item.getItemID() ) );
+			addFormField( "whichitem[]", String.valueOf( item.getItemID() ) );
 		}
 	}
 
