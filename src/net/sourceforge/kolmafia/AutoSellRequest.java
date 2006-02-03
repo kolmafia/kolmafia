@@ -180,59 +180,57 @@ public class AutoSellRequest extends SendMessageRequest
 			inventoryCount = currentAttachment.getCount( KoLCharacter.getInventory() );
 			attachmentCount = currentAttachment.getCount();
 
-			// Your main concern occurs when there is no match between the
-			// item you're attaching and how many you actually have.
-
-			if ( attachmentCount != inventoryCount )
+			if ( mode == 0 )
 			{
-				switch ( mode )
-				{
-					// For non-detail mode, this equates to having to do
-					// one item at a time, because there is no middle ground.
+				// We are in compact mode. If we are not
+				// selling everything, we must do it one item
+				// at a time
+				if ( attachmentCount != inventoryCount )
+					return 1;
 
-					case 0:
-
-						return 1;
-
-					// In detail mode, it's possible that the person is
-					// opting to sell "all but one".  Take advantage of
-					// the new server optimization.
-
-					case 1:
-
-						if ( i == 0 && attachmentCount == inventoryCount - 1 )
-						{
-							mode = 2;
-							addFormField( "mode", "2" );
-						}
-
-						return 1;
-
-					// If you're in all-but one mode, but the difference
-					// is more than one, then you have to do quantity mode.
-
-					case 2:
-
-						if ( attachmentCount != inventoryCount - 1 )
-						{
-							addFormField( "mode", "3" );
-							return 1;
-						}
-				}
+				// Otherwise, look at remaining items
+				continue;
 			}
 
-			// If you're using "all but one" mode, and the quantities are
-			// actually equal, you'll have to resort to quantity mode.
-
-			else if ( mode == 2 )
+			if ( mode == 1 )
 			{
+				// We are in detailed "sell all" mode.
+				if ( attachmentCount == inventoryCount )
+					continue;
+
+				// ...but no longer
+				if ( i == 0 && attachmentCount == inventoryCount - 1 )
+
+				{
+					// First item and we're selling one
+					// less than max. Switch to detailed
+					// "all but one" mode
+					mode = 2;
+					continue;
+				}
+
+				// Switch to "quantity" mode
 				addFormField( "mode", "3" );
 				return 1;
 			}
+
+			// We are in detailed "all but one" mode. This item had
+			// better also be "all but one"
+
+			if ( attachmentCount != inventoryCount - 1 )
+			{
+				// Nope. Switch to "quantity" mode
+				addFormField( "mode", "3" );
+				return 1;
+			}
+
+			// We continue in "all but one" mode
 		}
 
-		// Otherwise, if all items are the maximum amount,
-		// then autosell everything in one request.
+		// We can sell all the items with the same mode.
+		if ( mode > 0 )
+			// Add detailed "mode" field
+			addFormField( "mode", String.valueOf( mode ) );
 
 		return Integer.MAX_VALUE;
 	}
