@@ -284,13 +284,25 @@ public abstract class StoreManager extends StaticEntity
 			MallPurchaseRequest [] resultsArray = new MallPurchaseRequest[ results.size() ];
 			results.toArray( resultsArray );
 
+			TreeMap prices = new TreeMap();
+			Integer currentQuantity, currentPrice;
+
 			for ( int i = 0; i < resultsArray.length; ++i )
 			{
-				if ( resultsArray[i].getQuantity() == resultsArray[i].getLimit() )
-					priceSummary.add( "  " + df.format( resultsArray[i].getQuantity() ) + " @ " + df.format( resultsArray[i].getPrice() ) + " meat" );
+				currentPrice = new Integer( resultsArray[i].getPrice() );
+				currentQuantity = (Integer) prices.get( currentPrice );
+
+				if ( currentQuantity == null )
+					prices.put( currentPrice, new Integer( resultsArray[i].getLimit() ) );
 				else
-					priceSummary.add( "  " + df.format( resultsArray[i].getQuantity() ) + " limit " + df.format( resultsArray[i].getLimit() ) + " @ " + df.format( resultsArray[i].getPrice() ) );
+					prices.put( currentPrice, new Integer( currentQuantity.intValue() + resultsArray[i].getQuantity() ) );
 			}
+
+			Integer [] priceArray = new Integer[ prices.keySet().size() ];
+			prices.keySet().toArray( priceArray );
+
+			for ( int i = 0; i < priceArray.length; ++i )
+				priceSummary.add( "  " + df.format( ((Integer)prices.get( priceArray[i] )).intValue() ) + " @ " + df.format( priceArray[i].intValue() ) + " meat" );
 
 			client.enableDisplay();
 		}
