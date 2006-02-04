@@ -1823,7 +1823,8 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptValue result = scope.execute();
-			currentState = STATE_NORMAL;
+			if( currentState != STATE_EXIT)
+				currentState = STATE_NORMAL;
 			return result;
 		}
 
@@ -2599,14 +2600,15 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptValue result;
 
+			if ( currentState != STATE_EXIT )
+				currentState = STATE_RETURN;
+
 			if ( returnValue == null )
 				return null;
 
 			result = returnValue.execute();
 			if ( result == null )
 				return null;
-			if ( currentState != STATE_EXIT )
-				currentState = STATE_RETURN;
 			if ( returnValue.getType().equals( TYPE_INT ) && expectedType != null && expectedType.equals( TYPE_FLOAT ) )
 				return result.toFloat();
 			if ( returnValue.getType().equals( TYPE_FLOAT ) && expectedType != null && expectedType.equals( TYPE_INT ) )
