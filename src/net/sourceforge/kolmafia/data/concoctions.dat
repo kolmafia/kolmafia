@@ -106,6 +106,10 @@ rewinged stab bat	1	bat wing	one-winged stab bat
 sabre-toothed lime cub	1	lime	sabre teeth
 ghost pickle on a stick	2	spectral pickle	skewer
 
+clockwork pirate skull	1	clockwork sphere	enchanted eyepatch
+pirate zombie head	1	clockwork pirate skull	zombie pineal gland
+pirate zombie robot head	1	pirate zombie head	glowing red eye
+ninja pirate zombie robot head	1	pirate zombie robot head	cold ninja mask
 
 # Box parts and things that go into boxes or become boxes or are involved
 # in some way with boxes and the things that become/go into them.
