@@ -658,6 +658,7 @@ public class AdventureFrame extends KoLFrame
 
 	public void searchMall( SearchMallRequest request )
 	{
+		client.disableDisplay();
 		request.run();
 		if ( results != request.getResults() )
 			results.addAll( request.getResults() );
@@ -665,6 +666,7 @@ public class AdventureFrame extends KoLFrame
 		client.updateDisplay( ENABLE_STATE, results.size() == 0 ? "No results found." : "Search complete." );
 		tabs.setSelectedIndex(1);
 		requestFocus();
+		client.enableDisplay();
 	}
 
 	private String getPurchaseSummary( Object [] purchases )
