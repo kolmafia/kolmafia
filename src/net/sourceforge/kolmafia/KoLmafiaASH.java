@@ -313,12 +313,6 @@ public class KoLmafiaASH extends StaticEntity
 				throw new AdvancedScriptException( "Script parse error " + getLineAndFile() );
 		}
 
-		if ( !result.assertReturn() )
-		{
-			if ( !( expectedType == null ) && !expectedType.equals( TYPE_VOID ) && !expectedType.equals( TYPE_BOOLEAN ) )
-				throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
-		}
-
 		return result;
 	}
 
@@ -390,6 +384,12 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !currentToken().equals( "}" ) )
 				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
 			readToken(); //read }
+		}
+
+		if ( !result.assertReturn() )
+		{
+			if ( !( expectedType == null ) && !expectedType.equals( TYPE_VOID ) && !expectedType.equals( TYPE_BOOLEAN ) )
+				throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
 		}
 
 		return result;
@@ -1824,6 +1824,11 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			return scope.execute();
+		}
+
+		public boolean assertReturn()
+		{
+			return scope.assertReturn();
 		}
 	}
 
