@@ -1969,7 +1969,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	public static String getSkillName( String substring )
-	{	return getSkillName( substring, KoLCharacter.getUsableSkills() );
+	{	return getSkillName( substring, KoLCharacter.getAvailableSkills() );
 	}
 
 	/**

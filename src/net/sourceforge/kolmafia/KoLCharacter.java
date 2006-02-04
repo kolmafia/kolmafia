@@ -1869,7 +1869,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasSkill( int skillID )
 	{
-		return hasSkill( ClassSkillsDatabase.getSkillName( skillID));
+		return hasSkill( ClassSkillsDatabase.getSkillName( skillID ) );
 	}
 
 	public static boolean hasSkill( String skillName )
@@ -1878,6 +1878,10 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( skillName ) )
 				return true;
 		return false;
+	}
+
+	public static LockableListModel getAvailableSkills()
+	{	return availableSkills;
 	}
 
 	/**
