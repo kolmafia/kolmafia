@@ -388,7 +388,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( !result.assertReturn() )
 		{
-			if ( !( expectedType == null ) && !expectedType.equals( TYPE_VOID ) && !expectedType.equals( TYPE_BOOLEAN ) )
+			if ( !( t == null ) && !t.equals( TYPE_VOID ) && !t.equals( TYPE_BOOLEAN ) )
 				throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
 		}
 
