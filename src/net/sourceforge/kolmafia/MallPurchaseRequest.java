@@ -216,7 +216,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	 */
 
 	public void setLimit( int limit )
-	{	this.limit = limit;
+	{	this.limit = Math.min( quantity, limit );
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		{
 			buffer.append( df.format( quantity ) );
 
-			if ( limit != quantity )
+			if ( limit < quantity )
 			{
 				buffer.append( " limit " );
 				buffer.append( df.format( limit ) );
