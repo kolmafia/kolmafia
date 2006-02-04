@@ -1724,7 +1724,6 @@ public class KoLmafiaASH extends StaticEntity
 				result = current.execute();
 				if ( currentState == STATE_RETURN )
 				{
-					currentState = STATE_NORMAL;
 					return result;
 				}
 				if ( currentState == STATE_BREAK )
@@ -1823,7 +1822,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			return scope.execute();
+			ScriptValue result = scope.execute();
+			currentState = STATE_NORMAL;
+			return result;
 		}
 
 		public boolean assertReturn()
