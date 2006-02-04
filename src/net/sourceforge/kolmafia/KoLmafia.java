@@ -1604,21 +1604,11 @@ public abstract class KoLmafia implements KoLConstants
 		// Now, remove all the items that you intended
 		// to remove from the store due to pricing issues.
 
-		List remove = priceItemsAtLowestPrice();
-
-		for ( int i = 0; i < remove.size(); ++i )
-			StoreManager.takeItem( ((StoreManager.SoldItem) remove.get(i)).getItemID() );
-
-		// Now notify the user that everything has been
-		// completed to specification.
-
-		if ( remove.isEmpty() )
-			updateDisplay( ENABLE_STATE, "Undercutting sale complete." );
-		else
-			updateDisplay( ENABLE_STATE, "Items available at min-meat removed.  Sale complete." );
+		priceItemsAtLowestPrice();
+		updateDisplay( ENABLE_STATE, "Undercutting sale complete." );
 	}
 
-	public List priceItemsAtLowestPrice()
+	public void priceItemsAtLowestPrice()
 	{
 		(new StoreManageRequest( this )).run();
 
@@ -1629,37 +1619,23 @@ public abstract class KoLmafia implements KoLConstants
 		StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
 		StoreManager.getSoldItemList().toArray( sold );
 
-		ArrayList remove = new ArrayList();
-
 		int [] itemID = new int[ sold.length ];
 		int [] prices = new int[ sold.length ];
 		int [] limits = new int[ sold.length ];
 
 		for ( int i = 0; i < sold.length; ++i )
 		{
+			limits[i] = sold[i].getLimit();
 			itemID[i] = sold[i].getItemID();
 
-			if ( sold[i].getLowest() == 100 || sold[i].getLowest() == TradeableItemDatabase.getPriceByID( itemID[i] ) * 2 )
-			{
-				prices[i] = sold[i].getPrice();
-				remove.add( sold[i] );
-			}
+			if ( sold[i].getPrice() == 999999999 )
+				prices[i] = sold[i].getLowest();
 			else
-			{
-				// Because prices that don't end in 00 are
-				// seen as undercutting, make sure that the
-				// price ends in 00, but is still lower than
-				// the current lowest price.
-
-				prices[i] = sold[i].getLowest() - (sold[i].getLowest() % 100);
-			}
-
-			limits[i] = 0;
+				prices[i] = sold[i].getPrice();
 		}
 
 		(new StoreManageRequest( this, itemID, prices, limits )).run();
 		updateDisplay( ENABLE_STATE, "Repricing complete." );
-		return remove;
 	}
 
 	/**
