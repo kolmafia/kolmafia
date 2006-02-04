@@ -94,7 +94,7 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int TYPE_EFFECT = 106;
 	public static final int TYPE_FAMILIAR = 107;
 
-	public static final String [] zodiacs = { "none", "wallably", "mongoose", "vole", "platypus", "opossum", "marmot", "wombat", "blender", "packrat" };
+	public static final String [] zodiacs = { "none", "wallaby", "mongoose", "vole", "platypus", "opossum", "marmot", "wombat", "blender", "packrat" };
 	public static final String [] classes = { "seal clubber", "turtle tamer", "pastamancer", "sauceror", "disco bandit", "accordion thief" };
 	public static final String [] stats = { "muscle", "mysticality", "moxie" };
 	public static final String [] booleans = { "true", "false" };
