@@ -1979,7 +1979,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public SkillBuffPanel( String initialRecipient )
 		{
-			super( "Got Skills?", "cast buff", "maxbuff", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "Got Skills?", "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			skillSelect = new JComboBox( client == null ? new LockableListModel() : KoLCharacter.getUsableSkills() );
 			targetSelect = new MutableComboBox( client == null ? new SortedListModel() : (SortedListModel) client.getContactList().clone() );
