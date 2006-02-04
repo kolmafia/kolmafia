@@ -375,7 +375,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// commands which are no longer allowed.
 
 		line = line.replaceAll( "\\s+", " " ).trim();
-		if ( unrepeatableCommands.equals( line ) )
+		if ( unrepeatableCommands.contains( line ) )
 		{
 			StaticEntity.getClient().cancelRequest();
 			updateDisplay( ERROR_STATE, "Sorry.  You can only do that once per session." );
