@@ -2205,7 +2205,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executeItemConditionRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "add " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			DEFAULT_SHELL.executeLine( "conditions add " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_VOID );
 		}
 
