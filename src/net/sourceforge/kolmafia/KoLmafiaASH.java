@@ -226,9 +226,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		File scriptFile = new File( "scripts" + File.separator + fileName );
 		if ( !scriptFile.exists() )
-			scriptFile = new File( fileName );
-		if ( !scriptFile.exists() )
-			scriptFile = new File( fileName + ".ash" );
+			scriptFile = new File( "scripts" + File.separator + fileName + ".ash" );
 
 		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 
@@ -1555,6 +1553,26 @@ public class KoLmafiaASH extends StaticEntity
 		params[0] = new ScriptType( TYPE_FAMILIAR );
 		result.addFunction( new ScriptExistingFunction( "equip_familiar", new ScriptType( TYPE_BOOLEAN ), params ) );
 
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "council", new ScriptType( TYPE_VOID ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_INT );
+		result.addFunction( new ScriptExistingFunction( "mind_control", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "my_name", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "have_chef", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "have_bartender", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_STRING );
+		result.addFunction( new ScriptExistingFunction( "cli_execute", new ScriptType( TYPE_BOOLEAN ), params ) );
+
 		return result;
 	}
 
@@ -1926,6 +1944,18 @@ public class KoLmafiaASH extends StaticEntity
 					return executeMyFamiliarRequest();
 				else if ( name.equals( "equip_familiar" ) )
 					return executeEquipFamiliarRequest( variables[0].getIntValue() );
+				else if( name.equals( "council" ) )
+					return executeCouncilRequest();
+				else if( name.equals( "mind_control" ) )
+					return executeMindControlRequest( variables[0].getIntValue() );
+				else if( name.equals( "my_name" ) )
+					return executeNameRequest();
+				else if( name.equals( "have_chef" ) )
+					return executeChefRequest();
+				else if( name.equals( "have_bartender" ) )
+					return executeBartenderRequest();
+				else if( name.equals( "cli_execute" ) )
+					return executeCLIExecuteRequest( variables[0].getStringValue() );
 				else
 					throw new RuntimeException( "Internal error: unknown library function " + name );
 			}
@@ -2237,6 +2267,40 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 
+		}
+
+		private ScriptValue executeCouncilRequest() throws AdvancedScriptException
+		{
+			DEFAULT_SHELL.executeLine( "council" );
+			return new ScriptValue( TYPE_VOID );
+		}
+
+		private ScriptValue executeMindControlRequest( int setting ) throws AdvancedScriptException
+		{
+			DEFAULT_SHELL.executeLine( "mind-control " + setting );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+		}
+
+		private ScriptValue executeNameRequest() throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, KoLCharacter.getUsername());
+		}
+
+		private ScriptValue executeChefRequest() throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.hasChef() ? 1 : 0);
+		}
+
+		private ScriptValue executeBartenderRequest() throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.hasBartender() ? 1 : 0);
+		}
+
+		private ScriptValue executeCLIExecuteRequest( String s ) throws AdvancedScriptException
+		{
+			DEFAULT_SHELL.executeLine( s );
+
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 	}
