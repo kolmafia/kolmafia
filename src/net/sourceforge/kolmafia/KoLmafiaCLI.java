@@ -1246,7 +1246,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else
 			{
-				sending = getFirstMatchingItem( parameters, INVENTORY );
+				sending = getFirstMatchingItem( splitParameters[0], INVENTORY );
 			}
 
 			unrepeatableCommands.add( "send " + parameters );
