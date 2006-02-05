@@ -57,6 +57,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static boolean [] wasPossible = new boolean[ ITEM_COUNT ];
 	private static Concoction [] concoctions = new Concoction[ ITEM_COUNT ];
+	private static SortedListModel [] knownUses = new SortedListModel[ ITEM_COUNT ];
 
 	private static boolean [] PERMIT_METHOD = new boolean[ METHOD_COUNT ];
 	private static int [] ADVENTURE_USAGE = new int[ METHOD_COUNT ];
@@ -80,6 +81,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	static
 	{
+		for ( int i = 0; i < ITEM_COUNT; ++i )
+			knownUses[i] = new SortedListModel();
+
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
 		// examined and double-referenced: once in the name-lookup,
@@ -142,6 +146,46 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( concoctions[i] == null )
 				concoctions[i] = new Concoction( new AdventureResult( i, 0 ), ItemCreationRequest.NOCREATE );
 		}
+	}
+
+	public static final boolean isKnownCombination( AdventureResult [] ingredients )
+	{
+		int [] ingredientTestIDs;
+		AdventureResult [] ingredientTest;
+
+		for ( int i = 0; i < concoctions.length; ++i )
+		{
+			if ( concoctions[i] != null )
+			{
+				ingredientTest = concoctions[i].getIngredients();
+				if ( ingredientTest.length != ingredients.length )
+					continue;
+
+				ingredientTestIDs = new int[ ingredients.length ];
+				for ( int j = 0; j < ingredientTestIDs.length; ++j )
+					ingredientTestIDs[j] = ingredientTest[j].getItemID();
+
+				boolean foundMatch = true;
+				for ( int j = 0; j < ingredients.length && foundMatch; ++j )
+				{
+					foundMatch = false;
+					for ( int k = 0; k < ingredientTestIDs.length && !foundMatch; ++k )
+					{
+						foundMatch |= ingredients[j].getItemID() == ingredientTestIDs[k];
+						if ( foundMatch )  ingredientTestIDs[k] = -1;
+					}
+				}
+
+				if ( foundMatch )
+					return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static final SortedListModel getKnownUses( AdventureResult item )
+	{	return knownUses[ item.getItemID() ];
 	}
 
 	public static final boolean isPermittedMethod( int method )
@@ -503,6 +547,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		public void addIngredient( AdventureResult ingredient )
 		{
+			knownUses[ ingredient.getItemID() ].add( concoction );
+
 			ingredients.add( ingredient );
 			ingredientArray = new AdventureResult[ ingredients.size() ];
 			ingredients.toArray( ingredientArray );

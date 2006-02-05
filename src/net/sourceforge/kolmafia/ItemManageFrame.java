@@ -65,6 +65,9 @@ import javax.swing.JToolBar;
 
 // other imports
 import java.util.List;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import java.text.ParseException;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -81,7 +84,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class ItemManageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
-	private MultiButtonPanel inventory, closet, consume, create, special;
+	private MultiButtonPanel bruteforcer, inventory, closet, consume, create, special;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
@@ -96,6 +99,7 @@ public class ItemManageFrame extends KoLFrame
 
 		tabs = new JTabbedPane();
 		consume = new ConsumePanel();
+		bruteforcer = new InventPanel();
 		create = new CreateItemPanel();
 		inventory = new OutsideClosetPanel();
 		closet = new InsideClosetPanel();
@@ -134,6 +138,7 @@ public class ItemManageFrame extends KoLFrame
 			}
 		}
 
+//		tabs.addTab( "Find Recipe", bruteforcer );
 		tabs.addTab( "Create", create );
 		tabs.addTab( "Inventory", inventory );
 		tabs.addTab( "Closet", closet );
@@ -148,19 +153,6 @@ public class ItemManageFrame extends KoLFrame
 		toolbarPanel.add( new JToolBar.Separator() );
 
 		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
-	}
-
-	public void dispose()
-	{
-		tabs = null;
-		inventory = null;
-		closet = null;
-
-		consume = null;
-		create = null;
-		special = null;
-
-		super.dispose();
 	}
 
 	private class ConsumePanel extends MultiButtonPanel
@@ -433,6 +425,229 @@ public class ItemManageFrame extends KoLFrame
 
 			for ( int i = 0; i < 3; ++i )
 				optionPanel.add( filters[i] );
+		}
+	}
+
+	private class InventPanel extends MultiButtonPanel
+	{
+		public InventPanel()
+		{
+			super( "bruteforcer an Item", KoLCharacter.getInventory(), false );
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( true, true, true ) );
+
+			setButtons( new String [] { "combine", "cook", "mix", "smith", "pliers", "tinker" },
+				new ActionListener [] { new SearchListener( "combine.php" ), new SearchListener( "cook.php" ),
+					new SearchListener( "cocktail.php" ), new SearchListener( "smith.php" ), new SearchListener( "jewelry.php" ),
+					new SearchListener( "gnomes.php" ) } );
+		}
+
+		private final int NORMAL = 1;
+		private final int GNOMES = 2;
+
+		private class SearchListener implements ActionListener, Runnable
+		{
+			private int searchType;
+			private KoLRequest request;
+
+			public SearchListener( String location )
+			{
+				request = new KoLRequest( client, location, true );
+				request.addFormField( "pwd", client.getPasswordHash() );
+
+				if ( location.equals( "gnomes.php" ) )
+				{
+					searchType = GNOMES;
+					request.addFormField( "place", "tinker" );
+					request.addFormField( "action", "tinksomething" );
+					request.addFormField( "qty", "1" );
+				}
+				else
+				{
+					searchType = NORMAL;
+					request.addFormField( "action", "combine" );
+					request.addFormField( "quantity", "1" );
+				}
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	(new DaemonThread( this )).start();
+			}
+
+			public void run()
+			{
+				switch ( searchType )
+				{
+					case NORMAL:
+						combineTwoItems();
+						break;
+
+					case GNOMES:
+						combineThreeItems();
+						break;
+				}
+			}
+
+			private void combineTwoItems()
+			{
+				client.disableDisplay();
+				AdventureDatabase.retrieveItem( new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 ) );
+				request.run();
+
+				// In order to ensure that you do not test items which
+				// are not available in the drop downs, go to the page
+				// first and find out which ones are available.
+
+				List availableItems = new ArrayList();
+				Matcher selectMatcher = Pattern.compile( "<select.*?</select>" ).matcher( request.responseText );
+				if ( !selectMatcher.find() )
+				{
+					client.updateDisplay( ERROR_STATE, "Method not currently available." );
+					return;
+				}
+
+				int itemID = 0;
+				Matcher optionMatcher = Pattern.compile( "<option value=\"?(\\d+)" ).matcher( selectMatcher.group() );
+				while ( optionMatcher.find() )
+				{
+					itemID = Integer.parseInt( optionMatcher.group(1) );
+					if ( itemID >= 1 )  availableItems.add( new AdventureResult( itemID, 1 ) );
+				}
+
+				// Determine which items are available at the "core"
+				// of the tests -- in other words, items which are
+				// actually being tested against all other items.
+
+				List coreItems = new ArrayList();
+				coreItems.addAll( availableItems );
+
+				Object [] selection = elementList.getSelectedValues();
+				List selectedItems = new ArrayList();
+				for ( int i = 0; i < selection.length; ++i )
+					selectedItems.add( selection[i] );
+				coreItems.retainAll( selectedItems );
+
+				// Convert everything into arrays so that you can
+				// iterate through them without problems.
+
+				AdventureResult [] coreArray = new AdventureResult[ coreItems.size() ];
+				coreItems.toArray( coreArray );
+
+				AdventureResult [] availableArray = new AdventureResult[ availableItems.size() ];
+				availableItems.toArray( availableArray );
+
+				// Begin testing every single possible combination.
+
+				AdventureResult [] currentTest = new AdventureResult[2];
+				for ( int i = 0; i < coreArray.length && client.permitsContinue(); ++i )
+				{
+					for ( int j = 0; j < availableArray.length && client.permitsContinue(); ++j )
+					{
+						currentTest[0] = coreArray[i];
+						currentTest[1] = availableArray[j];
+
+						if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
+						{
+							client.updateDisplay( NORMAL_STATE, "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
+							request.addFormField( "item1", String.valueOf( currentTest[0].getItemID() ) );
+							request.addFormField( "item2", String.valueOf( currentTest[1].getItemID() ) );
+
+							request.run();
+
+							if ( request.responseText.indexOf( "You acquire" ) != -1 )
+							{
+								client.updateDisplay( ENABLE_STATE, "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
+								return;
+							}
+						}
+					}
+				}
+
+				client.updateDisplay( ERROR_STATE, "No new item combinations were found." );
+				return;
+			}
+
+			private void combineThreeItems()
+			{
+				client.disableDisplay();
+				request.run();
+
+				// In order to ensure that you do not test items which
+				// are not available in the drop downs, go to the page
+				// first and find out which ones are available.
+
+				List availableItems = new ArrayList();
+				Matcher selectMatcher = Pattern.compile( "<select.*?</select>" ).matcher( request.responseText );
+				if ( !selectMatcher.find() )
+				{
+					client.updateDisplay( ERROR_STATE, "Method not currently available." );
+					return;
+				}
+
+				int itemID = 0;
+				Matcher optionMatcher = Pattern.compile( "<option value=\"?(\\d+)" ).matcher( selectMatcher.group() );
+				while ( optionMatcher.find() )
+				{
+					itemID = Integer.parseInt( optionMatcher.group(1) );
+					if ( itemID >= 1 )  availableItems.add( new AdventureResult( itemID, 1 ) );
+				}
+
+				// Determine which items are available at the "core"
+				// of the tests -- in other words, items which are
+				// actually being tested against all other items.
+
+				List coreItems = new ArrayList();
+				coreItems.addAll( availableItems );
+
+				Object [] selection = elementList.getSelectedValues();
+				List selectedItems = new ArrayList();
+				for ( int i = 0; i < selection.length; ++i )
+					selectedItems.add( selection[i] );
+				coreItems.retainAll( selectedItems );
+
+				// Convert everything into arrays so that you can
+				// iterate through them without problems.
+
+				AdventureResult [] coreArray = new AdventureResult[ coreItems.size() ];
+				coreItems.toArray( coreArray );
+
+				AdventureResult [] availableArray = new AdventureResult[ availableItems.size() ];
+				availableItems.toArray( availableArray );
+
+				// Begin testing every single possible combination.
+
+				AdventureResult [] currentTest = new AdventureResult[3];
+				for ( int i = 0; i < coreArray.length && client.permitsContinue(); ++i )
+				{
+					for ( int j = 0; j < availableArray.length && client.permitsContinue(); ++j )
+					{
+						for ( int k = j; k < availableArray.length && client.permitsContinue(); ++k )
+						{
+							currentTest[0] = coreArray[i];
+							currentTest[1] = availableArray[j];
+							currentTest[2] = availableArray[k];
+
+							if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
+							{
+								client.updateDisplay( NORMAL_STATE, "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
+								request.addFormField( "item1", String.valueOf( currentTest[0].getItemID() ) );
+								request.addFormField( "item2", String.valueOf( currentTest[1].getItemID() ) );
+								request.addFormField( "item3", String.valueOf( currentTest[1].getItemID() ) );
+
+								request.run();
+
+								if ( request.responseText.indexOf( "You acquire" ) != -1 )
+								{
+									client.updateDisplay( ENABLE_STATE, "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
+									return;
+								}
+							}
+						}
+					}
+				}
+
+				client.updateDisplay( ERROR_STATE, "No new item combinations were found." );
+				return;
+			}
 		}
 	}
 
