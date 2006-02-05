@@ -814,7 +814,7 @@ public class KoLmafiaASH extends StaticEntity
 					else
 						throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile() );
 				}
-				resultInt += ( resultInt * 10 ) + ( currentToken().charAt(i ) - '0' );
+				resultInt = ( resultInt * 10 ) + ( currentToken().charAt(i ) - '0' );
 			}
 			if ( negative )
 				resultInt = resultInt * -1;
