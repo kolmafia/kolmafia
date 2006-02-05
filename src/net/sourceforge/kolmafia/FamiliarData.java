@@ -231,7 +231,7 @@ public class FamiliarData implements KoLConstants, Comparable
 
 		// If any skill is greater than 0, we can train in that event
 		for ( int i = 0; i < skills.length; ++i )
-			if ( skills[1] > 0 )
+			if ( skills[i] > 0 )
 				return true;
 		return false;
 	}
