@@ -94,6 +94,34 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	/**
+	 * Utility method to parse an individual adventuring result.
+	 * This method determines what the result actually was and
+	 * adds it to the tally.  Note that at the current time, it
+	 * will ignore anything with the word "points".
+	 *
+	 * @param	result	String to parse for the result
+	 */
+
+	public void parseResult( String result )
+	{
+		if ( StaticEntity.getClient() == this )
+		{
+			super.parseResult( result );
+			if ( commandBuffer != null )
+			{
+				StringBuffer colorBuffer = new StringBuffer();
+				colorBuffer.append( "<font color=black>" );
+				colorBuffer.append( (result.startsWith( "You" ) ? " - " : " - Adventure result: ") + result );
+				colorBuffer.append( "</font><br>" );
+				colorBuffer.append( LINE_BREAK );
+				commandBuffer.append( colorBuffer.toString() );
+			}
+		}
+		else
+			StaticEntity.getClient().parseResult( result );
+	}
+
+	/**
 	 * Updates the currently active display in the <code>KoLmafia</code>
 	 * session.
 	 */
