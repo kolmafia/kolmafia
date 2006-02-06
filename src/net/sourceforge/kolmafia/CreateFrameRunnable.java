@@ -198,7 +198,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 				if ( GLOBAL_SETTINGS.containsKey( frameName ) )
 				{
-					String [] location = StaticEntity.getProperty( frameName ).split( "," );
+					String [] location = GLOBAL_SETTINGS.getProperty( frameName ).split( "," );
 					int xLocation = Integer.parseInt( location[0] );
 					int yLocation = Integer.parseInt( location[1] );
 
