@@ -209,16 +209,14 @@ public class FamiliarsDatabase extends KoLDatabase
 		}
 	}
 
-	public static void downloadFamiliarImage( int familiarID )
+	private static void downloadFamiliarImage( int familiarID )
 	{	RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/" + getFamiliarImageLocation( familiarID ) );
 	}
 
-	public static void downloadFamiliarImage( String name )
-	{	downloadFamiliarImage( getFamiliarID( name ) );
-	}
-
 	public static ImageIcon getFamiliarImage( int familiarID )
-	{	return JComponentUtilities.getSharedImage( getFamiliarImageLocation( familiarID ) );
+	{
+		downloadFamiliarImage( familiarID );
+		return JComponentUtilities.getSharedImage( getFamiliarImageLocation( familiarID ) );
 	}
 
 	public static ImageIcon getFamiliarImage( String name )

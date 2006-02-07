@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 // containers
+import java.awt.Image;
 import javax.swing.JDialog;
 import javax.swing.JToolBar;
 import javax.swing.JRadioButton;
@@ -71,6 +72,7 @@ import javax.swing.BoxLayout;
 import javax.swing.table.TableColumnModel;
 
 // event listeners
+import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -305,7 +307,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		compactPane.add( hpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
 		compactPane.add( mpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
 
-		compactPane.add( familiarLabel = new JLabel( " ", null, JLabel.CENTER ) );
+		compactPane.add( familiarLabel = new UnanimatedLabel() );
 
 		compactPane.add( meatLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
 		compactPane.add( advLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
@@ -352,6 +354,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			FamiliarData familiar = KoLCharacter.getFamiliar();
 			int id = familiar == null ? -1 : familiar.getID();
+
 			if ( id == -1 )
 			{
 				familiarLabel.setIcon( JComponentUtilities.getSharedImage( "debug.gif" ) );
@@ -361,7 +364,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 			else
 			{
-				familiarLabel.setIcon( FamiliarsDatabase.getFamiliarImage( id ) );
+				ImageIcon familiarIcon = FamiliarsDatabase.getFamiliarImage( id );
+				familiarLabel.setIcon( familiarIcon );
 				familiarLabel.setText( familiar.getModifiedWeight() + (familiar.getModifiedWeight() == 1 ? " lb." : " lbs.") );
 				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
 				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
@@ -2044,6 +2048,22 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 
 			(new RequestThread( requests )).start();
+		}
+	}
+
+	private class UnanimatedLabel extends JLabel
+	{
+		public UnanimatedLabel()
+		{	super( " ", null, CENTER );
+		}
+
+		public boolean imageUpdate( Image img, int infoflags, int x, int y, int width, int height )
+		{
+			if ( infoflags == FRAMEBITS )
+				return true;
+
+			super.imageUpdate( img, infoflags, x, y, width, height );
+			return true;
 		}
 	}
 }

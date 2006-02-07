@@ -178,7 +178,6 @@ public class CakeArenaManager extends StaticEntity
 			this.race = race;
 			this.weight = weight;
 			this.description = race + " (" + weight + " lbs)";
-			FamiliarsDatabase.downloadFamiliarImage( this.race );
 		}
 
 		public int getID()

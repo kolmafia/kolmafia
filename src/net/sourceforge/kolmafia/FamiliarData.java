@@ -38,6 +38,7 @@ import java.awt.Component;
 import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 import javax.swing.DefaultListCellRenderer;
 
 import java.util.regex.Pattern;
@@ -74,9 +75,6 @@ public class FamiliarData implements KoLConstants, Comparable
 
 		this.weight = weight;
 		this.item = item;
-
-		if ( this.id > 0 )
-			FamiliarsDatabase.downloadFamiliarImage( this.id );
 	}
 
 	private FamiliarData( KoLmafia client, Matcher dataMatcher )
@@ -106,7 +104,6 @@ public class FamiliarData implements KoLConstants, Comparable
 		if ( this.id < 0 && dataMatcher.group(1).startsWith( "familiar" ) )
 			this.id = Integer.parseInt( dataMatcher.group(1).substring( 8 ) );
 
-		FamiliarsDatabase.downloadFamiliarImage( this.id );
 		if ( !FamiliarsDatabase.contains( this.race ) )
 			FamiliarsDatabase.registerFamiliar( this.id, this.race );
 
@@ -368,7 +365,6 @@ public class FamiliarData implements KoLConstants, Comparable
 			}
 
 			FamiliarData familiar = (FamiliarData) value;
-
 			defaultComponent.setIcon( FamiliarsDatabase.getFamiliarImage( familiar.id ) );
 			defaultComponent.setText( familiar.getName() + ", the " + familiar.getWeight() + " lb. " + familiar.getRace() );
 
