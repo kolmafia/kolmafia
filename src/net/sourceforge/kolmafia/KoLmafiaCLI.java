@@ -698,17 +698,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// If there's any commands which suggest that the
-		// StaticEntity.getClient() is in a login state, you should not do
-		// any commands listed beyond this point
-
-		if ( StaticEntity.getClient().inLoginState() )
-		{
-			updateDisplay( ERROR_STATE, "You have not yet logged in." );
-			StaticEntity.getClient().cancelRequest();
-			return;
-		}
-
 		// Then, the description lookup command so that
 		// people can see what the description is for a
 		// particular item.
