@@ -70,9 +70,7 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 	{
 		this.scrollComponent = scrollComponent;
 
-		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout( new BorderLayout() );
-
+		JPanel centerPanel = new JPanel( new BorderLayout() );
 		centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 		centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
@@ -90,8 +88,8 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 		if ( buttonPanel != null )
 			actualPanel.add( buttonPanel, BorderLayout.EAST );
 
-		setLayout( new CardLayout( 10, 10 ) );
-		add( actualPanel, "" );
+		getContentPane().setLayout( new CardLayout( 10, 10 ) );
+		getContentPane().add( actualPanel, "" );
 
 		if ( buttonPanel != null )
 			buttonPanel.setBothDisabledOnClick( true );

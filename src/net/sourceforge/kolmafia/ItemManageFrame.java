@@ -452,7 +452,7 @@ public class ItemManageFrame extends KoLFrame
 			public SearchListener( String location )
 			{
 				request = new KoLRequest( client, location, true );
-				request.addFormField( "pwd", client.getPasswordHash() );
+				request.addFormField( "pwd", client == null ? "" : client.getPasswordHash() );
 
 				if ( location.equals( "gnomes.php" ) )
 				{

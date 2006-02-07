@@ -85,28 +85,16 @@ public class ExamineItemsFrame extends KoLFrame
 		tabs = new JTabbedPane();
 
 		items = new ExamineItemsPanel( allItems );
-		JPanel itemsContainer = new JPanel();
-		itemsContainer.setLayout( new BorderLayout() );
-		itemsContainer.add( items, BorderLayout.CENTER );
-		tabs.addTab( "Items", itemsContainer );
+		tabs.addTab( "Items", items );
 
 		familiars = new ItemLookupPanel( allFamiliars, "Familiars", "familiar", "which" );
-		JPanel familiarsContainer = new JPanel();
-		familiarsContainer.setLayout( new BorderLayout() );
-		familiarsContainer.add( familiars, BorderLayout.CENTER );
-		tabs.addTab( "Familiars", familiarsContainer );
+		tabs.addTab( "Familiars", familiars );
 
 		skills = new ItemLookupPanel( allSkills, "Skills", "skill", "whichskill" );
-		JPanel skillsContainer = new JPanel();
-		skillsContainer.setLayout( new BorderLayout() );
-		skillsContainer.add( skills, BorderLayout.CENTER );
-		tabs.addTab( "Skills", skillsContainer );
+		tabs.addTab( "Skills", skills );
 
 		effects = new ItemLookupPanel( allEffects, "Effects", "effect", "whicheffect" );
-		JPanel effectsContainer = new JPanel();
-		effectsContainer.setLayout( new BorderLayout() );
-		effectsContainer.add( effects, BorderLayout.CENTER );
-		tabs.addTab( "Effects", effectsContainer );
+		tabs.addTab( "Effects", effects );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );

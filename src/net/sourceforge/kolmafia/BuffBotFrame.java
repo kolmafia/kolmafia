@@ -112,13 +112,7 @@ public class BuffBotFrame extends KoLFrame
 		// Initialize the display log buffer and the file log
 
 		JTabbedPane tabs = new JTabbedPane();
-
-		mainBuff = new MainBuffPanel();
-		JPanel mainContainer = new JPanel();
-		mainContainer.setLayout( new BorderLayout() );
-		mainContainer.add( mainBuff, BorderLayout.CENTER );
-
-		tabs.addTab( "Run Buffbot", mainContainer );
+		tabs.addTab( "Run Buffbot", new MainBuffPanel() );
 
 		buffOptions = new BuffOptionsPanel();
 		JPanel optionsContainer = new JPanel( new BorderLayout( 10, 10 ) );

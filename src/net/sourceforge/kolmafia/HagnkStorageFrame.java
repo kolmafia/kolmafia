@@ -71,27 +71,11 @@ public class HagnkStorageFrame extends KoLFrame
 		all = new HagnkStoragePanel( false );
 		equip = new HagnkStoragePanel( true );
 
-		addTab( "All Items", all );
-		addTab( "Equipment", equip );
+		tabs.addTab( "All Items", all );
+		tabs.addTab( "Equipment", equip );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
-	}
-
-	public void dispose()
-	{
-		tabs = null;
-		all = null;
-		equip = null;
-		super.dispose();
-	}
-
-	private void addTab( String name, HagnkStoragePanel panel )
-	{
-		JPanel wrapperPanel = new JPanel();
-		wrapperPanel.setLayout( new CardLayout( 10, 10 ) );
-		wrapperPanel.add( panel, "" );
-		tabs.add( name, wrapperPanel );
 	}
 
 	private class HagnkStoragePanel extends MultiButtonPanel

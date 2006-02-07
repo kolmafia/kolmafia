@@ -148,11 +148,7 @@ public class OptionsFrame extends KoLFrame
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			customTabs.add( "View", treeScroller );
-
-			JPanel modifyPanel = new JPanel( new CardLayout() );
-			modifyPanel.add( new CustomCombatPanel(), "" );
-
-			customTabs.add( "Modify", modifyPanel );
+			customTabs.add( "Modify", new CustomCombatPanel() );
 
 			customContainer.add( customTabs, BorderLayout.CENTER );
 			tabs.add( "Custom Combat", customContainer );
