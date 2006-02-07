@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 
@@ -105,7 +106,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreManagePanel()
 		{
-			super( "manual reprice", "price at lowest", new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
+			super( new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
 
 			priceSummary = new LockableListModel();
 			JPanel headerPanel = new JPanel();
@@ -146,29 +147,10 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionConfirmed()
 		{
-			client.updateDisplay( DISABLE_STATE, "Compiling reprice data..." );
-
-			java.awt.Component [] components = storeItemList.getComponents();
-			int [] itemID = new int[ components.length ];
-			int [] prices = new int[ components.length ];
-			int [] limits = new int[ components.length ];
-
-			StoreItemPanel currentPanel;
-			for ( int i = 0; i < components.length; ++i )
-			{
-				currentPanel = (StoreItemPanel) components[i];
-				itemID[i] = currentPanel.getItemID();
-				prices[i] = currentPanel.getPrice();
-				limits[i] = currentPanel.getLimit();
-			}
-
-			(new RequestThread( new StoreManageRequest( client, itemID, prices, limits ) )).start();
 		}
 
 		public void actionCancelled()
 		{
-			if ( client != null )
-				client.priceItemsAtLowestPrice();
 		}
 	}
 
@@ -183,12 +165,33 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public SearchResultsPanel()
 		{
-			setLayout( new BorderLayout() );
-			setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+			setLayout( new BorderLayout( 0, 20 ) );
+
+			JPanel buttonPanel = new JPanel( new GridLayout( 4, 1, 5, 5 ) );
+			buttonPanel.add( new RepriceButton() );
+
+			if ( client == null )
+			{
+				buttonPanel.add( new JButton( "undercut competition" ) );
+				buttonPanel.add( new JButton( "end-of-run sale" ) );
+				buttonPanel.add( new JButton( "empty out store" ) );
+			}
+			else
+			{
+				buttonPanel.add( new InvocationButton( "undercut competition", client, "priceItemsAtLowestPrice" ) );
+				buttonPanel.add( new InvocationButton( "end-of-run sale", client, "makeEndOfRunSale" ) );
+				buttonPanel.add( new InvocationButton( "empty out store", client, "removeAllItemsFromStore" ) );
+			}
+
+
+			add( buttonPanel, BorderLayout.NORTH );
+
+			JPanel resultsPanel = new JPanel( new BorderLayout() );
+			resultsPanel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
 			searchLabel = JComponentUtilities.createLabel( "Mall Prices", JLabel.CENTER,
 				Color.black, Color.white );
 
-			add( searchLabel, BorderLayout.NORTH );
+			resultsPanel.add( searchLabel, BorderLayout.NORTH );
 			JComponentUtilities.setComponentSize( searchLabel, 150, 16 );
 
 			JList resultsDisplay = new JList( priceSummary );
@@ -197,7 +200,38 @@ public class StoreManageFrame extends KoLPanelFrame
 			JScrollPane scrollArea = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			add( scrollArea, BorderLayout.CENTER );
+			resultsPanel.add( scrollArea, BorderLayout.CENTER );
+			add( resultsPanel, BorderLayout.CENTER );
+		}
+
+		private class RepriceButton extends JButton implements ActionListener
+		{
+			public RepriceButton()
+			{
+				super( "apply new prices" );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				client.updateDisplay( DISABLE_STATE, "Compiling reprice data..." );
+
+				java.awt.Component [] components = storeItemList.getComponents();
+				int [] itemID = new int[ components.length ];
+				int [] prices = new int[ components.length ];
+				int [] limits = new int[ components.length ];
+
+				StoreItemPanel currentPanel;
+				for ( int i = 0; i < components.length; ++i )
+				{
+					currentPanel = (StoreItemPanel) components[i];
+					itemID[i] = currentPanel.getItemID();
+					prices[i] = currentPanel.getPrice();
+					limits[i] = currentPanel.getLimit();
+				}
+
+				(new RequestThread( new StoreManageRequest( client, itemID, prices, limits ) )).start();
+			}
 		}
 	}
 

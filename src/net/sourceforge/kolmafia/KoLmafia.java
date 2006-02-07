@@ -1554,60 +1554,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected abstract boolean confirmDrunkenRequest();
 
-	/**
-	 * Hosts a massive sale on the items currently in your store.
-	 * Utilizes the "minimum meat" principle.
-	 */
-
-	public void makeEndOfRunSaleRequest()
-	{
-		if ( !KoLCharacter.canInteract() )
-		{
-			updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
-			return;
-		}
-
-		// Find all tradeable items.  Tradeable items
-		// are marked by an autosell value of nonzero.
-
-		AdventureResult [] items = new AdventureResult[ KoLCharacter.getInventory().size() ];
-		KoLCharacter.getInventory().toArray( items );
-
-		ArrayList autosell = new ArrayList();
-		ArrayList automall = new ArrayList();
-
-		// Only place items in the mall which are not
-		// sold in NPC stores -- everything else, make
-		// sure you autosell.
-
-		for ( int i = 0; i < items.length; ++i )
-		{
-			if ( TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 )
-			{
-				if ( NPCStoreDatabase.contains( items[i].getName() ) )
-					autosell.add( items[i] );
-				else
-					automall.add( items[i] );
-			}
-		}
-
-		// Now, place all the items in the mall at the
-		// maximum possible price.  This allows KoLmafia
-		// to determine the minimum price.
-
-		if ( autosell.size() > 0 )
-			(new AutoSellRequest( this, autosell.toArray(), AutoSellRequest.AUTOSELL )).run();
-
-		if ( automall.size() > 0 )
-			(new AutoSellRequest( this, automall.toArray(), AutoSellRequest.AUTOMALL )).run();
-
-		// Now, remove all the items that you intended
-		// to remove from the store due to pricing issues.
-
-		priceItemsAtLowestPrice();
-		updateDisplay( ENABLE_STATE, "Undercutting sale complete." );
-	}
-
 	public void priceItemsAtLowestPrice()
 	{
 		(new StoreManageRequest( this )).run();

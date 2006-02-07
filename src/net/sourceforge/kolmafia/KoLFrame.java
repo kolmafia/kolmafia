@@ -473,7 +473,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		toolsMenu.add( new DisplayFrameMenuItem( "Flower Hunter", FlowerHunterFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
-		toolsMenu.add( new InvocationMenuItem( "End-of-Run Sale", client, "makeEndOfRunSaleRequest" ) );
 
 		// Add the old-school people menu.
 
