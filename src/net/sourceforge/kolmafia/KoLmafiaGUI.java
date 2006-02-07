@@ -552,7 +552,7 @@ public class KoLmafiaGUI extends KoLmafia
 		StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
 		StoreManager.getSoldItemList().toArray( sold );
 
-		for ( int i = 0; i < sold.length; ++i )
+		for ( int i = 0; i < sold.length && client.permitsContinue(); ++i )
 			StoreManager.takeItem( sold[i].getItemID() );
 
 		updateDisplay( ENABLE_STATE, "Store emptying complete." );
@@ -603,16 +603,18 @@ public class KoLmafiaGUI extends KoLmafia
 		// maximum possible price.  This allows KoLmafia
 		// to determine the minimum price.
 
-		if ( autosell.size() > 0 )
+		if ( autosell.size() > 0 && client.permitsContinue() )
 			(new AutoSellRequest( this, autosell.toArray(), AutoSellRequest.AUTOSELL )).run();
 
-		if ( automall.size() > 0 )
+		if ( automall.size() > 0 && client.permitsContinue() )
 			(new AutoSellRequest( this, automall.toArray(), AutoSellRequest.AUTOMALL )).run();
 
 		// Now, remove all the items that you intended
 		// to remove from the store due to pricing issues.
 
-		priceItemsAtLowestPrice();
+		if ( client.permitsContinue() )
+			priceItemsAtLowestPrice();
+
 		updateDisplay( ENABLE_STATE, "Undercutting sale complete." );
 	}
 
