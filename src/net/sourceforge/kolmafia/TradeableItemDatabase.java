@@ -190,6 +190,10 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( count < 2 )
 			return -1;
 
+		// If it's a snowcone, then reverse the word order
+		if ( canonicalName.startsWith( "snowcones" ) )
+			return getItemID( canonicalName.split( " " )[1] + " snowcone", count );
+
 		// If this is the pluralized version of chewing
 		// gum, then return the ID for chewing gum.
 
