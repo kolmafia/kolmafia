@@ -199,7 +199,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// person is not adventuring at the chasm.
 
 		if ( !adventureID.equals( "80" ) && request instanceof AdventureRequest &&
-			request.getAdventuresUsed() != 0 && (action.equals( "item0536" ) || action.equals( "item1316" )) )
+			request.getAdventuresUsed() == 1 && (action.equals( "item0536" ) || action.equals( "item1316" )) &&
+			KoLCharacter.getFamiliar().getID() != 16 && KoLCharacter.getFamiliar().getID() != 17 && KoLCharacter.getFamiliar().getID() != 48 )
 		{
 			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
