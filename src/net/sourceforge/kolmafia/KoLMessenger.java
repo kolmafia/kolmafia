@@ -765,9 +765,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 			if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
 				displayHTML = "<i>" + displayHTML + "</i>";
-
-System.out.println( contactName + ", " + getColor( contactName ) );
-System.out.println( displayHTML );
 		}
 
 		// Add the appropriate eSolu scriptlet additions to the
