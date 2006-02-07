@@ -134,14 +134,7 @@ public class OptionsFrame extends KoLFrame
 		addTab( "General", new GeneralOptionsPanel() );
 		addTab( "Area List", new AreaOptionsPanel() );
 		addTab( "Choice Handling", new ChoiceOptionsPanel() );
-
-		JPanel chatContainer = new JPanel();
-		chatContainer.setLayout( new BoxLayout( chatContainer, BoxLayout.Y_AXIS ) );
-		chatContainer.add( new ChatOptionsPanel() );
-		chatContainer.add( new ChatColorsPanel() );
-		chatContainer.add( new JPanel() );
-
-		addTab( "Chat Options", chatContainer );
+		addTab( "Chat Options", new ChatOptionsPanel() );
 
 		if ( !client.inLoginState() )
 		{
@@ -569,96 +562,6 @@ public class OptionsFrame extends KoLFrame
 				case 4:		// Ignore this adventure
 					castleWheelSelect.setSelectedIndex(4);
 					break;
-			}
-		}
-	}
-
-	/**
-	 * Internal class which represents the color being used
-	 * for a channel in chat.
-	 */
-
-	private class ChatColorsPanel extends JPanel
-	{
-		private Color [] selectedColors;
-		private JPanel [] colorSelectors;
-		private JLabel [] channelNameLabels;
-
-		public ChatColorsPanel()
-		{
-			JPanel colorPanel = new JPanel( new GridLayout( (int) Math.ceil( KoLMessenger.ROOMS.length / 4 ), 4, 5, 5 ) );
-
-			selectedColors = new Color[ KoLMessenger.ROOMS.length ];
-			colorSelectors = new JPanel[ KoLMessenger.ROOMS.length ];
-			channelNameLabels = new JLabel[ KoLMessenger.ROOMS.length ];
-
-			String [] colors = getProperty( "channelColors" ).split( "," );
-
-			if ( colors.length == 1 && colors[0].length() == 0 )
-				colors = new String[0];
-
-			for ( int i = 0; i < KoLMessenger.ROOMS.length; ++i )
-			{
-				selectedColors[i] = i < colors.length ? DataUtilities.toColor( colors[i] ) : Color.black;
-
-				channelNameLabels[i] = new JLabel( KoLMessenger.ROOMS[i], JLabel.LEFT );
-				channelNameLabels[i].setForeground( selectedColors[i] );
-
-				colorSelectors[i] = new JPanel();
-				colorSelectors[i].setOpaque( true );
-				colorSelectors[i].setBackground( selectedColors[i] );
-				colorSelectors[i].addMouseListener( new ChatColorChanger(i) );
-
-				JComponentUtilities.setComponentSize( colorSelectors[i], 24, 24 );
-
-				JPanel containerPanel = new JPanel( new BorderLayout( 5, 5 ) );
-				containerPanel.add( colorSelectors[i], BorderLayout.WEST );
-				containerPanel.add( channelNameLabels[i], BorderLayout.CENTER );
-
-				colorPanel.add( containerPanel );
-			}
-
-			this.setLayout( new BorderLayout( 10, 10 ) );
-			this.add( JComponentUtilities.createLabel( "Channel Color", JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
-
-			JPanel colorContainer = new JPanel();
-			colorContainer.add( colorPanel );
-			this.add( colorContainer, BorderLayout.CENTER );
-		}
-
-		/**
-		 * An internal class that processes all the information related to
-		 * changing the color of the names for players in chat.
-		 */
-
-		private class ChatColorChanger extends MouseAdapter
-		{
-			private int index;
-
-			public ChatColorChanger( int index )
-			{	this.index = index;
-			}
-
-			public void mousePressed( MouseEvent e )
-			{
-				Color selectedColor = JColorChooser.showDialog( OptionsFrame.this,
-					"Choose color for channel /" + channelNameLabels[ index ].getText() + "...", selectedColors[ index ] );
-
-				if ( selectedColor != null )
-				{
-					selectedColors[ index ] = selectedColor;
-					colorSelectors[ index ].setBackground( selectedColor );
-					channelNameLabels[ index ].setForeground( selectedColor );
-				}
-
-				StringBuffer colors = new StringBuffer();
-				for ( int i = 0; i < selectedColors.length; ++i )
-				{
-					colors.append( DataUtilities.toHexString( selectedColors[i] ) );
-					colors.append( ',' );
-				}
-
-				setProperty( "channelColors", colors.toString() );
 			}
 		}
 	}

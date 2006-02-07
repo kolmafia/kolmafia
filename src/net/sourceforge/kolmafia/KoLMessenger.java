@@ -54,12 +54,33 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public abstract class KoLMessenger extends StaticEntity
 {
+	private static TreeMap colors = new TreeMap();
 	private static String CHATLOG_BASENAME = "";
 	private static final Color DEFAULT_HIGHLIGHT = new Color( 128, 0, 128 );
 
-	public static final String [] ROOMS =
+	private static final String [] AVAILABLE_COLORS =
 	{
-		"newbie", "normal", "trade", "clan", "games", "villa", "radio", "pvp", "haiku", "foodcourt", "valhalla", "hardcore", "veteran"
+		"#000000", // default (0)
+		"#CC9900", // brown (1)
+		"#FFCC00", // gold (2)
+		"#CC3300", // dark red (3)
+		"#FF0033", // red (4)
+		"#FF33CC", // hot pink (5)
+		"#FF99FF", // soft pink (6)
+		"#663399", // dark purple (7)
+		"#9933CC", // purple (8)
+		"#CC99FF", // light purple (9)
+		"#000066", // dark blue (10)
+		"#0000CC", // blue (11)
+		"#9999FF", // light blue (12)
+		"#336600", // dark green (13)
+		"#339966", // green (14)
+		"#66CC99", // light green (15)
+		"#EAEA9A", // mustard (16)
+		"#FF9900", // orange (17)
+		"#000000", // black (18)
+		"#666666", // dark grey (19)
+		"#CCCCCC"  // light grey (20)
 	};
 
 	private static boolean isRunning = false;
@@ -104,14 +125,39 @@ public abstract class KoLMessenger extends StaticEntity
 			initializeChatLogs();
 	}
 
-	/**
-	 * Notifies the messenger that you should be able to use
-	 * tabbed chat (or undo it) by consolidating existing
-	 * frames into a single frame or splitting it, as desired.
-	 */
-
-	public static void setTabbedFrameSetting( boolean useTabbedFrame )
+	private static class ChannelColorsRequest extends KoLRequest
 	{
+		public ChannelColorsRequest()
+		{	super( KoLMessenger.client, "account_chatcolors.php", true );
+		}
+
+		public void run()
+		{
+			super.run();
+
+			// First, add in all the colors for all of the
+			// channel tags (for people using standard KoL
+			// chatting mode).
+
+			Matcher colorMatcher = Pattern.compile( "<td>(.*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			while ( colorMatcher.find() )
+				colors.put( colorMatcher.group(1).toLowerCase(), AVAILABLE_COLORS[ Integer.parseInt( colorMatcher.group(2) ) ] );
+
+			// Add in other custom colors which are available
+			// in the chat options.
+
+			colorMatcher = Pattern.compile( "<select name=chatcolorself>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			if ( colorMatcher.find() )
+				colors.put( "chatcolorself", AVAILABLE_COLORS[ Integer.parseInt( colorMatcher.group(1) ) ] );
+
+			colorMatcher = Pattern.compile( "<select name=chatcolorcontacts>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			if ( colorMatcher.find() )
+				colors.put( "chatcolorcontacts", AVAILABLE_COLORS[ Integer.parseInt( colorMatcher.group(1) ) ] );
+
+			colorMatcher = Pattern.compile( "<select name=chatcolorothers>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			if ( colorMatcher.find() )
+				colors.put( "chatcolorothers", AVAILABLE_COLORS[ Integer.parseInt( colorMatcher.group(1) ) ] );
+		}
 	}
 
 	/**
@@ -127,7 +173,11 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 
 		reset();  isRunning = true;
-		(new RequestThread( new ChatRequest( client, null, "/listen" ) )).start();
+
+		KoLRequest [] requests = new KoLRequest[2];
+		requests[0] = new ChannelColorsRequest();
+		requests[1] = new ChatRequest( client, null, "/listen" );
+		(new RequestThread( requests )).start();
 
 		// Clear the highlights and add all the ones which
 		// were saved from the last session.
@@ -701,20 +751,29 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( message.indexOf( ">Mod Warning<" ) != -1 || message.indexOf( ">System Message<" ) != -1 )
 			displayHTML = "<font color=red>" + message + "</font>";
 
-		// All messages which don't have a colon following the name
-		// are italicized messages from actions.
-
-		else if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
-			displayHTML = "<i>" + message + "</i>";
-
-		// Finally, all other messages are treated normally, with
-		// no special formatting needed, except for the additional
-		// eSolu-style additions.
-
 		else
-			displayHTML = message;
+		{
+			// Finally, all other messages are treated normally, with
+			// no special formatting needed.
 
-		if ( displayHTML.indexOf( "<font" ) == -1 && !getProperty( "eSoluScriptType" ).equals( "0" ) )
+			Matcher nameMatcher = Pattern.compile( "<a.*?>(.*?)</a>" ).matcher( message );
+			String contactName = nameMatcher.find() ? nameMatcher.group(1).replaceAll( "<.*?>", "" ) : message;
+			displayHTML = message.replaceFirst( contactName, "<font color=\"" + getColor( contactName ) + "\">" + contactName + "</font>" );
+
+			// All messages which don't have a colon following the name
+			// are italicized messages from actions.
+
+			if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
+				displayHTML = "<i>" + displayHTML + "</i>";
+
+System.out.println( contactName + ", " + getColor( contactName ) );
+System.out.println( displayHTML );
+		}
+
+		// Add the appropriate eSolu scriptlet additions to the
+		// processed chat message.
+
+		if ( !getProperty( "eSoluScriptType" ).equals( "0" ) )
 		{
 			Matcher whoMatcher = Pattern.compile( "showplayer.php\\?who=[\\d]+" ).matcher( message );
 			if ( whoMatcher.find() )
@@ -770,13 +829,18 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static String getColor( String channel )
 	{
-		String [] colors = getProperty( "channelColors" ).split( "," );
+		String lowercase = channel.toLowerCase();
 
-		for ( int i = 0; i < ROOMS.length; ++i )
-			if ( ROOMS[i].equals( channel ) )
-				return i < colors.length ? colors[i] : "black";
+		if ( colors.containsKey( lowercase ) )
+			return (String) colors.get( lowercase );
 
-		return "black";
+		if ( lowercase.equals( KoLCharacter.getUsername().toLowerCase() ) )
+			return (String) colors.get( "chatcolorself" );
+
+		if ( client.getContactList().contains( lowercase ) )
+			return (String) colors.get( "chatcolorcontacts" );
+
+		return (String) colors.get( "chatcolorothers" );
 	}
 
 	/**
