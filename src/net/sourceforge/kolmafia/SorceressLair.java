@@ -58,7 +58,7 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult STAR_SWORD = new AdventureResult( 657, 1 );
 	private static final AdventureResult STAR_CROSSBOW = new AdventureResult( 658, 1 );
 	private static final AdventureResult STAR_STAFF = new AdventureResult( 659, 1 );
-	private static final AdventureResult STAR_BUCKLER = new AdventureResult( 662, 1 );
+	private static final AdventureResult STAR_HAT = new AdventureResult( 661, 1 );
 
 	private static final AdventureResult STONE_BANJO = new AdventureResult( 53, 1 );
 	private static final AdventureResult DISCO_BANJO = new AdventureResult( 54, 1 );
@@ -588,8 +588,8 @@ public abstract class SorceressLair extends StaticEntity
 			if ( !hasItem( starWeapon ) )
 				requirements.add( starWeapon );
 
-			if ( !hasItem( STAR_BUCKLER ) )
-				requirements.add( STAR_BUCKLER );
+			if ( !hasItem( STAR_HAT ) )
+				requirements.add( STAR_HAT );
 
 			if ( !hasItem( RICHARD ) )
 				requirements.add( RICHARD );
@@ -608,10 +608,10 @@ public abstract class SorceressLair extends StaticEntity
 			return requirements;
 		}
 
-		if ( !EquipmentDatabase.canEquip( STAR_BUCKLER.getName() ) )
+		if ( !EquipmentDatabase.canEquip( STAR_HAT.getName() ) )
 		{
 			client.cancelRequest();
-			client.updateDisplay( ERROR_STATE, "Stats too low to equip a star buckler." );
+			client.updateDisplay( ERROR_STATE, "Stats too low to equip a star hat." );
 			return requirements;
 		}
 
@@ -623,8 +623,8 @@ public abstract class SorceressLair extends StaticEntity
 		AdventureDatabase.retrieveItem( starWeapon );
 		(new EquipmentRequest( client, starWeapon.getName() )).run();
 
-		AdventureDatabase.retrieveItem( STAR_BUCKLER );
-		(new EquipmentRequest( client, STAR_BUCKLER.getName() )).run();
+		AdventureDatabase.retrieveItem( STAR_HAT );
+		(new EquipmentRequest( client, STAR_HAT.getName() )).run();
 
 		(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
 
