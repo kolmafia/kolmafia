@@ -451,7 +451,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "abort" ) )
 		{
-			updateDisplay( ERROR_STATE, "Script abort." );
+			updateDisplay( ERROR_STATE, parameters.length() == 0 ? "Script abort." : parameters );
 			StaticEntity.getClient().cancelRequest();
 			return;
 		}
