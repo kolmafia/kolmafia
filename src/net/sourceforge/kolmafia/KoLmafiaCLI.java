@@ -1240,6 +1240,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 			unrepeatableCommands.add( "send " + parameters );
 			(new GreenMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", sending )).run();
+
+			if ( StaticEntity.getClient().permitsContinue() )
+				updateDisplay( ENABLE_STATE, "Message sent to " + splitParameters[1] );
+			else
+				updateDisplay( ERROR_STATE, "Failed to send message to " + splitParameters[1] );
+
 			return;
 		}
 
