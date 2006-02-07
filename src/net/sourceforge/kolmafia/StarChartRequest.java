@@ -87,6 +87,19 @@ public class StarChartRequest extends ItemCreationRequest
 			// Run the request
 			super.run();
 
+			// It's possible to fail. For example, you can't make a
+			// shirt without the Torso Awaregness skill.
+
+			// "You can't seem to make a reasonable picture out of
+			// that number of stars and lines."
+
+			if ( responseText.indexOf( "reasonable picture" ) != -1 )
+			{
+				updateDisplay( ERROR_STATE, "You can't make that item." );
+				client.cancelRequest();
+				return;
+			}
+
 			// Account for the results
 			client.processResult( usedCharts );
 			client.processResult( usedStars );
