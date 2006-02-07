@@ -414,6 +414,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				if ( isServerFriendly )
 					KoLRequest.delay();
+				else if ( !followRedirects )
+					KoLRequest.delay( 800 );
 			}
 		}
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
