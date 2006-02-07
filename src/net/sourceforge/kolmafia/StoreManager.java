@@ -368,5 +368,28 @@ public abstract class StoreManager extends StaticEntity
 			return o == null || !(o instanceof SoldItem) ? -1 :
 				TradeableItemDatabase.getItemName( itemID ).compareToIgnoreCase( TradeableItemDatabase.getItemName( ((SoldItem)o).itemID ) );
 		}
+
+		public String toString()
+		{
+			StringBuffer buffer = new StringBuffer();
+
+			buffer.append( TradeableItemDatabase.getItemName( itemID ) );
+			buffer.append( " (" );
+
+			buffer.append( df.format( quantity ) );
+
+			if ( limit < quantity )
+			{
+				buffer.append( " limit " );
+				buffer.append( df.format( limit ) );
+			}
+
+			buffer.append( " @ " );
+			buffer.append( df.format( price ) );
+			buffer.append( ")" );
+
+			return buffer.toString();
+
+		}
 	}
 }

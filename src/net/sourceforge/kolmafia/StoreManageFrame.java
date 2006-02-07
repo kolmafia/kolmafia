@@ -78,19 +78,57 @@ public class StoreManageFrame extends KoLPanelFrame
 		if ( client != null )
 			(new RequestThread( new StoreManageRequest( client ) )).start();
 
-		setContentPanel( new StoreManagePanel() );
 		setResizable( false );
+
+		JTabbedPane tabs = new JTabbedPane();
+		tabs.add( "Price Setup", new StoreManagePanel() );
+		tabs.add( "Bulk Additions", new StoreAddPanel() );
+		tabs.add( "Bulk Removals", new StoreRemovePanel() );
+
+		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
-	public void dispose()
+	private class StoreAddPanel extends ItemManagePanel
 	{
-		searchLabel = null;
-		priceSummary = null;
-		addItem = null;
-		storeItemList = null;
-		searchResults = null;
+		 public StoreAddPanel()
+		 {	 super( "On-Hand Inventory", "add selected", "end of run sale", KoLCharacter.getInventory() );
+		 }
 
-		super.dispose();
+		 public void actionConfirmed()
+		 {
+			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+				"Are you sure you would like to place the selected items in your store?",
+					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
+						return;
+
+			 (new AutoSellRequest( client, elementList.getSelectedValues(), AutoSellRequest.AUTOMALL )).run();
+		 }
+
+		 public void actionCancelled()
+		 {
+			if ( client != null && client instanceof KoLmafiaGUI )
+				((KoLmafiaGUI)client).makeEndOfRunSaleRequest();
+		 }
+	}
+
+	private class StoreRemovePanel extends ItemManagePanel
+	{
+		 public StoreRemovePanel()
+		 {	 super( "Store's Inventory", "remove selected", "empty out store", StoreManager.getSoldItemList() );
+		 }
+
+		 public void actionConfirmed()
+		 {
+			 Object [] items = elementList.getSelectedValues();
+			 for ( int i = 0; i < items.length; ++i )
+			 	StoreManager.takeItem( ((StoreManager.SoldItem)items[i]).getItemID() );
+		 }
+
+		 public void actionCancelled()
+		 {
+			if ( client != null && client instanceof KoLmafiaGUI )
+				((KoLmafiaGUI)client).removeAllItemsFromStore();
+		 }
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -106,7 +144,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreManagePanel()
 		{
-			super( new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
+			super( "save changes", "auto-undercut", new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
 
 			priceSummary = new LockableListModel();
 			JPanel headerPanel = new JPanel();
@@ -147,10 +185,29 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionConfirmed()
 		{
+			client.updateDisplay( DISABLE_STATE, "Compiling reprice data..." );
+
+			java.awt.Component [] components = storeItemList.getComponents();
+			int [] itemID = new int[ components.length ];
+			int [] prices = new int[ components.length ];
+			int [] limits = new int[ components.length ];
+
+			StoreItemPanel currentPanel;
+			for ( int i = 0; i < components.length; ++i )
+			{
+				currentPanel = (StoreItemPanel) components[i];
+				itemID[i] = currentPanel.getItemID();
+				prices[i] = currentPanel.getPrice();
+				limits[i] = currentPanel.getLimit();
+			}
+
+			(new RequestThread( new StoreManageRequest( client, itemID, prices, limits ) )).start();
 		}
 
 		public void actionCancelled()
 		{
+			if ( client != null && client instanceof KoLmafiaGUI )
+				((KoLmafiaGUI)client).priceItemsAtLowestPrice();
 		}
 	}
 
@@ -165,33 +222,12 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public SearchResultsPanel()
 		{
-			setLayout( new BorderLayout( 0, 20 ) );
-
-			JPanel buttonPanel = new JPanel( new GridLayout( 4, 1, 5, 5 ) );
-			buttonPanel.add( new RepriceButton() );
-
-			if ( client == null )
-			{
-				buttonPanel.add( new JButton( "undercut competition" ) );
-				buttonPanel.add( new JButton( "end-of-run sale" ) );
-				buttonPanel.add( new JButton( "empty out store" ) );
-			}
-			else
-			{
-				buttonPanel.add( new InvocationButton( "undercut competition", client, "priceItemsAtLowestPrice" ) );
-				buttonPanel.add( new InvocationButton( "end-of-run sale", client, "makeEndOfRunSale" ) );
-				buttonPanel.add( new InvocationButton( "empty out store", client, "removeAllItemsFromStore" ) );
-			}
-
-
-			add( buttonPanel, BorderLayout.NORTH );
-
-			JPanel resultsPanel = new JPanel( new BorderLayout() );
-			resultsPanel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
+			super( new BorderLayout() );
+			setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
 			searchLabel = JComponentUtilities.createLabel( "Mall Prices", JLabel.CENTER,
 				Color.black, Color.white );
 
-			resultsPanel.add( searchLabel, BorderLayout.NORTH );
+			add( searchLabel, BorderLayout.NORTH );
 			JComponentUtilities.setComponentSize( searchLabel, 150, 16 );
 
 			JList resultsDisplay = new JList( priceSummary );
@@ -200,38 +236,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			JScrollPane scrollArea = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			resultsPanel.add( scrollArea, BorderLayout.CENTER );
-			add( resultsPanel, BorderLayout.CENTER );
-		}
-
-		private class RepriceButton extends JButton implements ActionListener
-		{
-			public RepriceButton()
-			{
-				super( "apply new prices" );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				client.updateDisplay( DISABLE_STATE, "Compiling reprice data..." );
-
-				java.awt.Component [] components = storeItemList.getComponents();
-				int [] itemID = new int[ components.length ];
-				int [] prices = new int[ components.length ];
-				int [] limits = new int[ components.length ];
-
-				StoreItemPanel currentPanel;
-				for ( int i = 0; i < components.length; ++i )
-				{
-					currentPanel = (StoreItemPanel) components[i];
-					itemID[i] = currentPanel.getItemID();
-					prices[i] = currentPanel.getPrice();
-					limits[i] = currentPanel.getLimit();
-				}
-
-				(new RequestThread( new StoreManageRequest( client, itemID, prices, limits ) )).start();
-			}
+			add( scrollArea, BorderLayout.CENTER );
 		}
 	}
 
