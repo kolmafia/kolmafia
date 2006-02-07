@@ -276,13 +276,25 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		private class MailboxKeyListener extends KeyAdapter
 		{
 			public void keyPressed( KeyEvent e )
+			{	(new DaemonThread( new MailboxEventProcessor( e ) )).start();
+			}
+		}
+
+		private class MailboxEventProcessor implements Runnable
+		{
+			private KeyEvent e;
+
+			public MailboxEventProcessor( KeyEvent e )
+			{	this.e = e;
+			}
+
+			public void run()
 			{
 				if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE )
 				{
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
-						client.disableDisplay();
 						KoLMailManager.deleteMessages( mailboxName, getSelectedValues() );
 						client.enableDisplay();
 					}
@@ -294,7 +306,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
-						client.disableDisplay();
 						KoLMailManager.saveMessages( getSelectedValues() );
 						client.enableDisplay();
 					}
@@ -320,7 +331,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	private class SaveAllButton extends JButton implements ActionListener
+	private class SaveAllButton extends JButton implements ActionListener, Runnable
 	{
 		public SaveAllButton()
 		{
@@ -330,6 +341,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void actionPerformed( ActionEvent e )
+		{	(new DaemonThread( this )).start();
+		}
+
+		public void run()
 		{
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
 			if ( currentTabName.equals( "Inbox" ) || currentTabName.equals( "PvP" ) )
@@ -337,7 +352,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 				{
-					client.disableDisplay();
 					KoLMailManager.saveMessages( messageListInbox.getSelectedValues() );
 					client.enableDisplay();
 				}
@@ -349,7 +363,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	private class DeleteButton extends JButton implements ActionListener
+	private class DeleteButton extends JButton implements ActionListener, Runnable
 	{
 		public DeleteButton()
 		{
@@ -359,12 +373,15 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void actionPerformed( ActionEvent e )
+		{	(new DaemonThread( this )).start();
+		}
+
+		public void run()
 		{
 			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 				"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					return;
 
-			client.disableDisplay();
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
 
 			if ( currentTabName.equals( "Inbox" ) )
@@ -378,7 +395,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 	}
 
-	private class RefreshButton extends JButton implements ActionListener
+	private class RefreshButton extends JButton implements ActionListener, Runnable
 	{
 		public RefreshButton()
 		{
@@ -388,6 +405,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void actionPerformed( ActionEvent e )
+		{	(new DaemonThread( this )).start();
+		}
+
+		public void run()
 		{
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
 			(new RequestMailboxThread( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName )).start();
