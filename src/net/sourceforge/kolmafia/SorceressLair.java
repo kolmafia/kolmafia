@@ -132,8 +132,6 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static boolean checkPrerequisites( int min, int max )
 	{
-		KoLRequest request;
-
 		// If the client has not yet been set, then there is
 		// no entryway to complete.
 
@@ -142,19 +140,9 @@ public abstract class SorceressLair extends StaticEntity
 
 		client.updateDisplay( NORMAL_STATE, "Checking prerequisites..." );
 
-		// If the player has never ascended, then they're going
-		// to have to do it all by hand.
-
-		if ( KoLCharacter.getAscensions() < 1 )
-		{
-			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
-			client.cancelRequest();
-			return false;
-		}
-
 		// Make sure he's been given the quest
 
-		request = new KoLRequest( client, "main.php", true );
+		KoLRequest request = new KoLRequest( client, "main.php", true );
 		request.run();
 
 		if ( request.responseText.indexOf( "lair.php" ) == -1 )

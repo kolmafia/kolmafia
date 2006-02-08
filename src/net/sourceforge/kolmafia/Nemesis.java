@@ -59,16 +59,6 @@ public abstract class Nemesis extends StaticEntity
 
 		client.updateDisplay( NORMAL_STATE, "Checking prerequisites..." );
 
-		// If the player has never ascended, then they're going
-		// to have to do it all by hand.
-
-		if ( KoLCharacter.getAscensions() < 0 )
-		{
-			client.updateDisplay( ERROR_STATE, "Sorry, you've never ascended." );
-			client.cancelRequest();
-			return false;
-		}
-
 		// Make sure the player has been given the quest
 
 		request = new KoLRequest( client, "mountains.php", true );
