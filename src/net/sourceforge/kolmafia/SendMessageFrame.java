@@ -283,7 +283,7 @@ public abstract class SendMessageFrame extends KoLFrame
 			// If one of them fails, however, immediately stop
 			// and notify the user that there was failure.
 
-			for ( int i = 0; i < recipients.length; ++i )
+			for ( int i = 0; i < recipients.length && client.permitsContinue(); ++i )
 				if ( !sendMessage( recipients[i], messages ) )
 					return;
 
