@@ -99,6 +99,7 @@ public class ClanManageFrame extends KoLFrame
 	private SnapshotPanel snapshot;
 	private AscensionPanel ascension;
 	private MemberSearchPanel search;
+	private ClanMemberPanelList results;
 
 	public ClanManageFrame( KoLmafia client )
 	{
@@ -115,7 +116,6 @@ public class ClanManageFrame extends KoLFrame
 		this.snapshot = new SnapshotPanel();
 		this.ascension = new AscensionPanel();
 		this.search = new MemberSearchPanel();
-
 		this.tabs = new JTabbedPane();
 
 		JPanel snapPanel = new JPanel();
@@ -125,12 +125,10 @@ public class ClanManageFrame extends KoLFrame
 
 		tabs.addTab( "Clan Snapshot", snapPanel );
 
-		JPanel karmaPanel = new JPanel();
-		karmaPanel.setLayout( new BorderLayout() );
+		JPanel karmaPanel = new JPanel( new BorderLayout() );
 		karmaPanel.add( donation, BorderLayout.NORTH );
 
-		JPanel stashPanel = new JPanel();
-		stashPanel.setLayout( new GridLayout( 2, 1, 10, 10 ) );
+		JPanel stashPanel = new JPanel( new GridLayout( 2, 1, 10, 10 ) );
 		stashPanel.add( storing );
 		stashPanel.add( withdrawal );
 		karmaPanel.add( stashPanel, BorderLayout.CENTER );
@@ -144,29 +142,48 @@ public class ClanManageFrame extends KoLFrame
 		purchasePanel.add( warfare );
 
 		tabs.addTab( "Warfare & Buffs", purchasePanel );
-		tabs.addTab( "Member Search", search );
+
+		results = new ClanMemberPanelList();
+		JComponent [] header = new JComponent[5];
+		header[0] = new JLabel( "Member Name", JLabel.LEFT );
+		header[1] = new JLabel( "Clan Rank", JLabel.LEFT );
+		header[2] = new JLabel( "Clan Title", JLabel.LEFT );
+		header[3] = new JLabel( "Karma", JLabel.LEFT );
+		header[4] = new SelectAllForBootButton();
+
+		JComponentUtilities.setComponentSize( header[0], 120, 20 );
+		JComponentUtilities.setComponentSize( header[1], 150, 20 );
+		JComponentUtilities.setComponentSize( header[2], 150, 20 );
+		JComponentUtilities.setComponentSize( header[3], 80, 20 );
+		JComponentUtilities.setComponentSize( header[4], 20, 20 );
+
+		JPanel headerPanel = new JPanel();
+		headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.X_AXIS ) );
+		headerPanel.add( Box.createHorizontalStrut( 25 ) );
+
+		for ( int i = 0; i < header.length; ++i )
+		{
+			headerPanel.add( Box.createHorizontalStrut( 10 ) );
+			headerPanel.add( header[i] );
+		}
+
+		headerPanel.add( Box.createHorizontalStrut( 5 ) );
+
+		JPanel resultsPanel = new JPanel( new BorderLayout() );
+		resultsPanel.add( headerPanel, BorderLayout.NORTH );
+		resultsPanel.add( new JScrollPane( results, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ), BorderLayout.CENTER );
+
+		JPanel searchPanel = new JPanel( new BorderLayout() );
+		searchPanel.add( search, BorderLayout.NORTH );
+		searchPanel.add( resultsPanel, BorderLayout.CENTER );
+		tabs.addTab( "Member Search", searchPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
 
 		if ( client != null )
 			(new RequestThread( new ClanStashRequest( client ) )).start();
-	}
-
-	public void dispose()
-	{
-		rankList = null;
-		tabs = null;
-		clanBuff = null;
-		storing = null;
-		withdrawal = null;
-		donation = null;
-		attacks = null;
-		warfare = null;
-		snapshot = null;
-		search = null;
-
-		super.dispose();
 	}
 
 	/**
@@ -463,7 +480,6 @@ public class ClanManageFrame extends KoLFrame
 		private JComboBox parameterSelect;
 		private JComboBox matchSelect;
 		private JTextField valueField;
-		private ClanMemberPanelList results;
 
 		public MemberSearchPanel()
 		{
@@ -486,42 +502,6 @@ public class ClanManageFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "Value:", valueField );
 
 			setContent( elements, null, null, true, true );
-
-			results = new ClanMemberPanelList();
-
-			JComponent [] header = new JComponent[5];
-			header[0] = new JLabel( "Member Name", JLabel.LEFT );
-			header[1] = new JLabel( "Clan Rank", JLabel.LEFT );
-			header[2] = new JLabel( "Clan Title", JLabel.LEFT );
-			header[3] = new JLabel( "Karma", JLabel.LEFT );
-			header[4] = new SelectAllForBootButton();
-
-			JComponentUtilities.setComponentSize( header[0], 120, 20 );
-			JComponentUtilities.setComponentSize( header[1], 150, 20 );
-			JComponentUtilities.setComponentSize( header[2], 150, 20 );
-			JComponentUtilities.setComponentSize( header[3], 80, 20 );
-			JComponentUtilities.setComponentSize( header[4], 20, 20 );
-
-			JPanel headerPanel = new JPanel();
-			headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.X_AXIS ) );
-			headerPanel.add( Box.createHorizontalStrut( 25 ) );
-
-			for ( int i = 0; i < header.length; ++i )
-			{
-				headerPanel.add( Box.createHorizontalStrut( 10 ) );
-				headerPanel.add( header[i] );
-			}
-
-			headerPanel.add( Box.createHorizontalStrut( 5 ) );
-
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new BorderLayout( 0, 0 ) );
-
-			centerPanel.add( headerPanel, BorderLayout.NORTH );
-			centerPanel.add( new JScrollPane( results, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ), BorderLayout.CENTER );
-
-			add( centerPanel, BorderLayout.CENTER );
 			setDefaultButton( confirmedButton );
 		}
 
@@ -585,36 +565,36 @@ public class ClanManageFrame extends KoLFrame
 			(new ClanMembersRequest( client, rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
 			client.updateDisplay( ENABLE_STATE, "Changes have been applied." );
 		}
+	}
 
-		private class SelectAllForBootButton extends JButton implements ActionListener
+	private class SelectAllForBootButton extends JButton implements ActionListener
+	{
+		private boolean shouldSelect;
+
+		public SelectAllForBootButton()
 		{
-			private boolean shouldSelect;
+			super( JComponentUtilities.getSharedImage( "preferences.gif" ) );
+			addActionListener( this );
+			setToolTipText( "Boot" );
+			shouldSelect = true;
+		}
 
-			public SelectAllForBootButton()
+		public void actionPerformed( ActionEvent e )
+		{
+			Object currentComponent;
+			ClanMemberPanel currentMember;
+
+			for ( int i = 0; i < results.getComponentCount(); ++i )
 			{
-				super( JComponentUtilities.getSharedImage( "icon_plus.gif" ) );
-				addActionListener( this );
-				setToolTipText( "Boot" );
-				shouldSelect = true;
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				Object currentComponent;
-				ClanMemberPanel currentMember;
-
-				for ( int i = 0; i < results.getComponentCount(); ++i )
+				currentComponent = results.getComponent(i);
+				if ( currentComponent instanceof ClanMemberPanel )
 				{
-					currentComponent = results.getComponent(i);
-					if ( currentComponent instanceof ClanMemberPanel )
-					{
-						currentMember = (ClanMemberPanel) currentComponent;
-						currentMember.bootCheckBox.setSelected( shouldSelect );
-					}
+					currentMember = (ClanMemberPanel) currentComponent;
+					currentMember.bootCheckBox.setSelected( shouldSelect );
 				}
-
-				shouldSelect = !shouldSelect;
 			}
+
+			shouldSelect = !shouldSelect;
 		}
 	}
 
