@@ -190,8 +190,8 @@ public class ClanStashRequest extends SendMessageRequest
 			return;
 
 		// Start with an empty list
-		SortedListModel stashContents = ClanManager.getStash();
 
+		SortedListModel stashContents = ClanManager.getStash();
 		Matcher stashMatcher = Pattern.compile( "<form name=takegoodies.*?</select>" ).matcher( responseText );
 
 		// If there's nothing inside the goodies hoard,
@@ -206,6 +206,8 @@ public class ClanStashRequest extends SendMessageRequest
 		int lastFindIndex = 0;
 		Pattern qtyPattern = Pattern.compile( "\\(([\\d,]+)\\)" );
 		Matcher optionMatcher = Pattern.compile( "<option value=([\\d]+)>(.*?)</option>" ).matcher( stashMatcher.group() );
+
+		ArrayList intermediateList = new ArrayList();
 
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
@@ -222,7 +224,7 @@ public class ClanStashRequest extends SendMessageRequest
 						itemString.substring( 0, itemString.indexOf( "(" ) ).trim() );
 				}
 
-				// How many are actually in the stash 
+				// How many are actually in the stash
 				int quantity = 1;
 
 				if ( itemString.indexOf( "(" ) != -1 )
@@ -231,21 +233,7 @@ public class ClanStashRequest extends SendMessageRequest
 					quantity = qtyMatcher.find() ? df.parse( qtyMatcher.group(1) ).intValue() : 1;
 				}
 
-				AdventureResult result = new AdventureResult( itemID, quantity );
-
-				// How many do we think are in the stash
-				int current = result.getCount( stashContents );
-
-				// No change
-				if ( quantity == current )
-					continue;
-
-				// Remove existing adventure result
-				if ( current > 0 )
-					stashContents.remove( result );
-
-				// Add new one
-				stashContents.add( result );
+				intermediateList.add( new AdventureResult( itemID, quantity ) );
 			}
 			catch ( Exception e )
 			{
@@ -255,6 +243,26 @@ public class ClanStashRequest extends SendMessageRequest
 
 				e.printStackTrace( KoLmafia.getLogStream() );
 				e.printStackTrace();
+			}
+		}
+
+		// Remove everything that is no longer in the
+		// clan stash, and THEN update the quantities
+		// of items which are still there.
+
+		stashContents.retainAll( intermediateList );
+		AdventureResult [] intermediateArray = new AdventureResult[ intermediateList.size() ];
+		intermediateList.toArray( intermediateArray );
+
+		for ( int i = 0; i < intermediateArray.length; ++i )
+		{
+			int currentCount = intermediateArray[i].getCount( stashContents );
+			if ( currentCount != intermediateArray[i].getCount() )
+			{
+				if ( currentCount > 0 )
+					stashContents.remove( intermediateArray[i] );
+
+				stashContents.add( intermediateArray[i] );
 			}
 		}
 	}
