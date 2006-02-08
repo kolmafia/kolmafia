@@ -465,18 +465,6 @@ public class ClanManageFrame extends KoLFrame
 
 	private class MemberSearchPanel extends KoLPanel
 	{
-		private final int [] paramKeys = { ClanSnapshotTable.NAME_FILTER, ClanSnapshotTable.ID_FILTER,
-			ClanSnapshotTable.LV_FILTER, ClanSnapshotTable.PVP_FILTER, ClanSnapshotTable.MUS_FILTER,
-			ClanSnapshotTable.MYS_FILTER, ClanSnapshotTable.MOX_FILTER, ClanSnapshotTable.POWER_FILTER,
-			ClanSnapshotTable.CLASS_FILTER, ClanSnapshotTable.RANK_FILTER, ClanSnapshotTable.KARMA_FILTER,
-			ClanSnapshotTable.MEAT_FILTER, ClanSnapshotTable.TURN_FILTER, ClanSnapshotTable.LOGIN_FILTER,
-			ClanSnapshotTable.ASCENSION_FILTER };
-
-		private final String [] paramNames = { "Player name", "KoL User ID", "Player level",
-			"PVP Ranking", "Muscle points", "Mysticality points", "Moxie points",
-			"Total power points", "Player class", "Rank within clan", "Accumulated karma",
-			"Meat on hand", "Turns played", "Number of days idle", "Number of ascensions" };
-
 		private JComboBox parameterSelect;
 		private JComboBox matchSelect;
 		private JTextField valueField;
@@ -486,8 +474,8 @@ public class ClanManageFrame extends KoLFrame
 			super( "search clan", "apply changes", new Dimension( 80, 20 ), new Dimension( 360, 20 ) );
 
 			parameterSelect = new JComboBox();
-			for ( int i = 0; i < paramNames.length; ++i )
-				parameterSelect.addItem( paramNames[i] );
+			for ( int i = 0; i < ClanSnapshotTable.FILTER_NAMES.length; ++i )
+				parameterSelect.addItem( ClanSnapshotTable.FILTER_NAMES[i] );
 
 			matchSelect = new JComboBox();
 			matchSelect.addItem( "Less than..." );
@@ -516,7 +504,7 @@ public class ClanManageFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			client.disableDisplay();
-			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, paramKeys[ parameterSelect.getSelectedIndex() ], valueField.getText() );
+			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, parameterSelect.getSelectedIndex(), valueField.getText() );
 			client.updateDisplay( ENABLE_STATE, "Search results retrieved." );
 		}
 

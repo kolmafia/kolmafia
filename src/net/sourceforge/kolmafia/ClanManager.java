@@ -156,7 +156,7 @@ public class ClanManager extends StaticEntity
 				while ( rankMatcher.find( lastMatchIndex ) )
 				{
 					lastMatchIndex = rankMatcher.end();
-					rankList.add( rankMatcher.group(1) );
+					rankList.add( rankMatcher.group(1).toLowerCase() );
 				}
 			}
 
@@ -941,8 +941,7 @@ public class ClanManager extends StaticEntity
 		switch ( filterType )
 		{
 			case ClanSnapshotTable.NAME_FILTER:
-			case ClanSnapshotTable.ID_FILTER:
-			case ClanSnapshotTable.LV_FILTER:
+			case ClanSnapshotTable.LEVEL_FILTER:
 			case ClanSnapshotTable.RANK_FILTER:
 			case ClanSnapshotTable.KARMA_FILTER:
 

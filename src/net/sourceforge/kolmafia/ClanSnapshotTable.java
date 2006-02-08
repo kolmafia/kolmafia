@@ -51,21 +51,17 @@ public class ClanSnapshotTable extends KoLDatabase
 	public static final int BELOW_MATCH = -1;
 	public static final int ABOVE_MATCH = 1;
 
-	public static final int NAME_FILTER = 1;
-	public static final int ID_FILTER = 2;
-	public static final int LV_FILTER = 3;
-	public static final int MUS_FILTER = 4;
-	public static final int MYS_FILTER = 5;
-	public static final int MOX_FILTER = 6;
-	public static final int POWER_FILTER = 7;
-	public static final int PVP_FILTER = 8;
-	public static final int CLASS_FILTER = 9;
-	public static final int RANK_FILTER = 10;
-	public static final int KARMA_FILTER = 11;
-	public static final int MEAT_FILTER = 12;
-	public static final int TURN_FILTER = 13;
-	public static final int LOGIN_FILTER = 14;
-	public static final int ASCENSION_FILTER = 15;
+	public static final int NAME_FILTER = 0;
+	public static final int LEVEL_FILTER = 1;
+	public static final int PVP_FILTER = 2;
+	public static final int CLASS_FILTER = 3;
+	public static final int RANK_FILTER = 4;
+	public static final int KARMA_FILTER = 5;
+	public static final int LOGIN_FILTER = 6;
+
+	public static final String [] FILTER_NAMES =
+	{	"Player name", "Current level", "Antihippy rank", "Character class", "Clan ranking", "Accumulated karma", "Number of days idle"
+	};
 
 	private static Map levelMap = new TreeMap();
 	private static Map profileMap = new TreeMap();
@@ -184,28 +180,8 @@ public class ClanSnapshotTable extends KoLDatabase
 					compareValue = request.getPlayerName().compareToIgnoreCase( filter );
 					break;
 
-				case ID_FILTER:
-					compareValue = Integer.parseInt( request.getPlayerID() ) - df.parse( filter ).intValue();
-					break;
-
-				case LV_FILTER:
+				case LEVEL_FILTER:
 					compareValue = request.getPlayerLevel().intValue() - df.parse( filter ).intValue();
-					break;
-
-				case MUS_FILTER:
-					compareValue = request.getMuscle().intValue() - df.parse( filter ).intValue();
-					break;
-
-				case MYS_FILTER:
-					compareValue = request.getMysticism().intValue() - df.parse( filter ).intValue();
-					break;
-
-				case MOX_FILTER:
-					compareValue = request.getMoxie().intValue() - df.parse( filter ).intValue();
-					break;
-
-				case POWER_FILTER:
-					compareValue = request.getPower().intValue() - df.parse( filter ).intValue();
 					break;
 
 				case PVP_FILTER:
@@ -217,19 +193,18 @@ public class ClanSnapshotTable extends KoLDatabase
 					break;
 
 				case RANK_FILTER:
-					compareValue = request.getRank().compareToIgnoreCase( filter );
+
+					// Clan ranks actually work in reverse -- a "higher" rank occurs
+					// higher up in the list than a lower rank.  Therefore, reverse
+					// the order of the operands in the subtraction.
+
+					compareValue = ClanManager.getRankList().indexOf( filter.toLowerCase() ) -
+						ClanManager.getRankList().indexOf( request.getRank().toLowerCase() );
+
 					break;
 
 				case KARMA_FILTER:
 					compareValue = request.getKarma().intValue() - df.parse( filter ).intValue();
-					break;
-
-				case MEAT_FILTER:
-					compareValue = request.getCurrentMeat().intValue() - df.parse( filter ).intValue();
-					break;
-
-				case TURN_FILTER:
-					compareValue = request.getCurrentRun().intValue() - df.parse( filter ).intValue();
 					break;
 
 				case LOGIN_FILTER:
@@ -239,10 +214,6 @@ public class ClanSnapshotTable extends KoLDatabase
 					Date cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
 
 					compareValue = request.getLastLogin().after( cutoffDate ) ? -1 : request.getLastLogin().before( cutoffDate ) ? 1 : 0;
-					break;
-
-				case ASCENSION_FILTER:
-					compareValue = request.getAscensionCount().intValue() - df.parse( filter ).intValue();
 					break;
 			}
 		}
