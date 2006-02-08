@@ -1573,6 +1573,54 @@ public class KoLmafiaASH extends StaticEntity
 		params[0] = new ScriptType( TYPE_STRING );
 		result.addFunction( new ScriptExistingFunction( "cli_execute", new ScriptType( TYPE_BOOLEAN ), params ) );
 
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_ITEM );
+		result.addFunction( new ScriptExistingFunction( "bounty_hunter_wants", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_BOOLEAN );
+		result.addFunction( new ScriptExistingFunction( "boolean_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_INT );
+		result.addFunction( new ScriptExistingFunction( "int_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_FLOAT );
+		result.addFunction( new ScriptExistingFunction( "float_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_ITEM );
+		result.addFunction( new ScriptExistingFunction( "item_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_ZODIAC );
+		result.addFunction( new ScriptExistingFunction( "zodiac_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_LOCATION );
+		result.addFunction( new ScriptExistingFunction( "location_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_CLASS );
+		result.addFunction( new ScriptExistingFunction( "class_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_STAT );
+		result.addFunction( new ScriptExistingFunction( "stat_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_SKILL );
+		result.addFunction( new ScriptExistingFunction( "skill_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_EFFECT );
+		result.addFunction( new ScriptExistingFunction( "effect_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_FAMILIAR );
+		result.addFunction( new ScriptExistingFunction( "familiar_to_string", new ScriptType( TYPE_STRING ), params ) );
+
 		return result;
 	}
 
@@ -1963,6 +2011,30 @@ public class KoLmafiaASH extends StaticEntity
 					return executeBartenderRequest();
 				else if( name.equals( "cli_execute" ) )
 					return executeCLIExecuteRequest( variables[0].getStringValue() );
+				else if( name.equals( "bounty_hunter_wants" ) )
+					return executeBountyHunterWantsRequest( variables[0].getIntValue() );
+				else if( name.equals( "boolean_to_string" ) )
+					return executeBooleanToStringRequest( variables[0].getIntValue() );
+				else if( name.equals( "int_to_string" ) )
+					return executeIntToStringRequest( variables[0].getIntValue() );
+				else if( name.equals( "float_to_string" ) )
+					return executeFloatToStringRequest( variables[0].getFloatValue() );
+				else if( name.equals( "item_to_string" ) )
+					return executeItemToStringRequest( variables[0].getIntValue() );
+				else if( name.equals( "zodiac_to_string" ) )
+					return executeZodiacToStringRequest( variables[0].getIntValue() );
+				else if( name.equals( "location_to_string" ) )
+					return executeLocationToStringRequest( variables[0].getLocation() );
+				else if( name.equals( "class_to_string" ) )
+					return executeClassToStringRequest( variables[0].getIntValue() );
+				else if( name.equals( "stat_to_string" ) )
+					return executeStatToStringRequest( variables[0].getIntValue() );
+				else if( name.equals( "skill_to_string" ) )
+					return executeSkillToStringRequest( variables[0].getIntValue() );
+				else if( name.equals( "effect_to_string" ) )
+					return executeEffectToStringRequest( variables[0].getIntValue() );
+				else if( name.equals( "familiar_to_string" ) )
+					return executeFamiliarToStringRequest( variables[0].getIntValue() );
 				else
 					throw new RuntimeException( "Internal error: unknown library function " + name );
 			}
@@ -2310,6 +2382,72 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
+		private ScriptValue executeBountyHunterWantsRequest( int itemID ) throws AdvancedScriptException
+		{
+			if ( StaticEntity.getClient().hunterItems.isEmpty() )
+				(new BountyHunterRequest( StaticEntity.getClient() )).run();
+
+			for ( int i = 0; i < StaticEntity.getClient().hunterItems.size(); ++i )
+				if ( ((String)StaticEntity.getClient().hunterItems.get(i)).equals( TradeableItemDatabase.getItemName( itemID ) ))
+					return new ScriptValue( TYPE_BOOLEAN, 1 );
+
+			return new ScriptValue( TYPE_BOOLEAN, 0 );
+		}
+
+		private ScriptValue executeBooleanToStringRequest( int value ) throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, value == 1 ? "true" : "false" );
+		}
+
+		private ScriptValue executeIntToStringRequest( int value ) throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, Integer.toString( value ) );
+		}
+
+		private ScriptValue executeFloatToStringRequest( double value ) throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, Double.toString( value ) );
+		}
+
+		private ScriptValue executeItemToStringRequest( int itemID ) throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, TradeableItemDatabase.getItemName( itemID ) );
+		}
+
+		private ScriptValue executeZodiacToStringRequest( int zodiacID ) throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, zodiacs[zodiacID] );
+		}
+
+		private ScriptValue executeLocationToStringRequest( KoLAdventure location ) throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, location.toString() );
+		}
+
+		private ScriptValue executeClassToStringRequest( int classID ) throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, classes[classID] );
+		}
+
+		private ScriptValue executeStatToStringRequest( int statID ) throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, stats[statID] );
+		}
+
+		private ScriptValue executeSkillToStringRequest( int skillID ) throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, ClassSkillsDatabase.getSkillName( skillID ) );
+		}
+
+		private ScriptValue executeEffectToStringRequest( int effectID ) throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, StatusEffectDatabase.getEffectName( effectID ) );
+		}
+
+		private ScriptValue executeFamiliarToStringRequest( int familiarID ) throws AdvancedScriptException
+		{
+			return new ScriptValue( TYPE_STRING, FamiliarsDatabase.getFamiliarName( familiarID ) );
+		}
 	}
 
 	class ScriptFunctionList extends ScriptList
@@ -2373,6 +2511,11 @@ public class KoLmafiaASH extends StaticEntity
 		public KoLAdventure getLocation()
 		{
 			return content.getLocation();
+		}
+
+		public double getFloatValue()
+		{
+			return content.getFloatValue();
 		}
 
 		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
