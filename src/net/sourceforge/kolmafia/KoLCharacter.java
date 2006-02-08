@@ -1583,14 +1583,6 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to clear the list of active effects.
-	 */
-
-	public static void clearEffects()
-	{	activeEffects.clear();
-	}
-
-	/**
 	 * Accessor method to add a listing of the current effects.
 	 * @return	A list of current effects
 	 */

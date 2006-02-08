@@ -237,7 +237,7 @@ public class CharsheetRequest extends KoLRequest
 			// Determine whether or not the player has any
 			// active effects - if so, retrieve them.
 
-			KoLCharacter.clearEffects();
+			KoLCharacter.getEffects().clear();
 			if ( responseText.indexOf( "Effects:" ) != -1 )
 			{
 				while ( !parsedContent.nextToken().startsWith( "Eff" ) );
@@ -250,6 +250,11 @@ public class CharsheetRequest extends KoLRequest
 					skipTokens( parsedContent, 7 );
 					token = parsedContent.nextToken();
 				}
+
+				// Ensure that the effects are refreshed
+				// against the current list.
+
+				client.applyRecentEffects();
 			}
 
 			if ( responseText.indexOf( "Skills:" ) != -1 )
