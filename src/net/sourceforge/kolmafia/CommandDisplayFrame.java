@@ -190,11 +190,15 @@ public class CommandDisplayFrame extends KoLFrame
 
 			public void run()
 			{
+				boolean wasEnabled = client.currentState != DISABLE_STATE;
+
 				client.disableDisplay();
 				KoLmafia.commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
 				DEFAULT_SHELL.executeLine( command );
 				KoLmafia.commandBuffer.append( "<br>" );
-				client.enableDisplay();
+
+				if ( wasEnabled )
+					client.enableDisplay();
 			}
 		}
 	}
