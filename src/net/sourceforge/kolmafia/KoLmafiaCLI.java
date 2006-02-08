@@ -1220,9 +1220,6 @@ public class KoLmafiaCLI extends KoLmafia
 			for ( int i = 0; i < itemNames.length; ++i )
 				itemNames[i] = itemNames[i].toLowerCase();
 
-			int meatAmount = 0;
-			AdventureResult sending = null;
-
 			int meatAttachment = 0;
 			ArrayList attachments = new ArrayList();
 
