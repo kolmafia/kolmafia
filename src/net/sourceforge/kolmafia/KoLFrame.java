@@ -2042,7 +2042,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			else
 			{
 				requests = new Runnable[ targets.length ];
-				for ( int i = 0; i < requests.length; ++i )
+				for ( int i = 0; i < requests.length && client.permitsContinue(); ++i )
 					if ( targets[i] != null )
 						requests[i] = new UseSkillRequest( client, buffName, targets[i], buffCount );
 			}
