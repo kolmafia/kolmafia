@@ -146,7 +146,7 @@ public class ClanManager extends StaticEntity
 			super.run();
 
 			rankList.clear();
-			Matcher ranklistMatcher = Pattern.compile( "<select.*?</select>" ).matcher( responseText );
+			Matcher ranklistMatcher = Pattern.compile( "<select name=level.*?</select>" ).matcher( responseText );
 
 			if ( ranklistMatcher.find() )
 			{
