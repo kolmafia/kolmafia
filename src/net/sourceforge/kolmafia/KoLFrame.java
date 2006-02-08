@@ -178,8 +178,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		this.lastTitle = title;
 		KoLFrame.client = client;
 
-		this.framePanel = new JPanel();
-		getContentPane().setLayout( new BorderLayout( 0, 0 ) );
+		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
 		getContentPane().add( this.framePanel, BorderLayout.CENTER );
 
 		this.toolbarPanel = null;
@@ -1444,14 +1443,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public VersionDataPanel()
 		{
-			JPanel versionPanel = new JPanel();
-			versionPanel.setLayout( new BorderLayout( 20, 20 ) );
-
+			JPanel versionPanel = new JPanel( new BorderLayout( 20, 20 ) );
 			versionPanel.add( new JLabel( JComponentUtilities.getSharedImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.NORTH );
 
-			JPanel labelPanel = new JPanel();
-			labelPanel.setLayout( new GridLayout( versionData.length, 1 ) );
-
+			JPanel labelPanel = new JPanel( new GridLayout( versionData.length, 1 ) );
 			for ( int i = 0; i < versionData.length; ++i )
 				labelPanel.add( new JLabel( versionData[i], JLabel.CENTER ) );
 
@@ -1462,11 +1457,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			donateButton.addActionListener( new DisplayPageMenuItem( "", "http://sourceforge.net/donate/index.php?user_id=813949" ) );
 
 			JPanel donatePanel = new JPanel();
-			donatePanel.setLayout( new FlowLayout() );
 			donatePanel.add( donateButton );
 
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new BorderLayout( 20, 20 ) );
+			JPanel centerPanel = new JPanel( new BorderLayout( 20, 20 ) );
 			centerPanel.add( versionPanel, BorderLayout.CENTER );
 			centerPanel.add( donatePanel, BorderLayout.SOUTH );
 

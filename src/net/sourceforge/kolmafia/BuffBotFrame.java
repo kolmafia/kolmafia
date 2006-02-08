@@ -324,9 +324,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			super( new Dimension( 120, 20 ),  new Dimension( 300, 20 ));
 
-			JPanel panel = new JPanel();
-			panel.setLayout( new BorderLayout() );
-
+			JPanel panel = new JPanel( new BorderLayout() );
 			LockableListModel messageDisposalChoices = new LockableListModel();
 			messageDisposalChoices.add( "Auto-save non-requests" );
 			messageDisposalChoices.add( "Auto-delete non-requests" );

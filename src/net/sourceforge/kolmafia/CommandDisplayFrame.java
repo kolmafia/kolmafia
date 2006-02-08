@@ -126,13 +126,12 @@ public class CommandDisplayFrame extends KoLFrame
 			JScrollPane scrollPane = KoLmafia.commandBuffer.setChatDisplay( outputDisplay );
 			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 
-			JPanel entryPanel = new JPanel();
+			JPanel entryPanel = new JPanel( new BorderLayout() );
 			entryField = new JTextField();
 			entryField.addKeyListener( new CommandEntryListener() );
 
 			entryButton = new JButton( "exec" );
 			entryButton.addActionListener( new CommandEntryListener() );
-			entryPanel.setLayout( new BoxLayout( entryPanel, BoxLayout.X_AXIS ) );
 			entryPanel.add( entryField, BorderLayout.CENTER );
 			entryPanel.add( entryButton, BorderLayout.EAST );
 

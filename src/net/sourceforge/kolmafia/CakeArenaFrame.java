@@ -271,8 +271,7 @@ public class CakeArenaFrame extends KoLFrame
 
 			String name = value.toString();
 
-			JPanel component = new JPanel();
-			component.setLayout( new BorderLayout() );
+			JPanel component = new JPanel( new BorderLayout() );
 			component.add( new JLabel( name.substring( 0, name.indexOf( "(" ) - 1 ), JLabel.CENTER ), BorderLayout.CENTER );
 			component.add( new JLabel( name.substring( name.indexOf( "(" ) ), JLabel.CENTER ), BorderLayout.SOUTH );
 

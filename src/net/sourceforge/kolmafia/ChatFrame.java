@@ -203,7 +203,6 @@ public class ChatFrame extends KoLFrame
 
 			JButton entryButton = new JButton( "chat" );
 			entryButton.addActionListener( new ChatEntryListener() );
-			entryPanel.setLayout( new BoxLayout( entryPanel, BoxLayout.X_AXIS ) );
 			entryPanel.add( entryField, BorderLayout.CENTER );
 			entryPanel.add( entryButton, BorderLayout.EAST );
 

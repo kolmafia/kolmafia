@@ -148,9 +148,7 @@ public class GearChangeFrame extends KoLFrame
 
 	private JPanel createEquipPanel()
 	{
-		JPanel fieldPanel = new JPanel();
-		fieldPanel.setLayout( new GridLayout( 16, 1 ) );
-
+		JPanel fieldPanel = new JPanel( new GridLayout( 16, 1 ) );
 		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Hat:  ", JLabel.RIGHT ) );
 		fieldPanel.add( new JLabel( "Weapon:  ", JLabel.RIGHT ) );
@@ -167,9 +165,7 @@ public class GearChangeFrame extends KoLFrame
 		fieldPanel.add( new JLabel( " " ) );
 		fieldPanel.add( new JLabel( "Outfit:  ", JLabel.RIGHT ) );
 
-		JPanel valuePanel = new JPanel();
-		valuePanel.setLayout( new GridLayout( 16, 1 ) );
-
+		JPanel valuePanel = new JPanel( new GridLayout( 16, 1 ) );
 		valuePanel.add( new JLabel( " " ) );
 
 		equipment = new JComboBox[9];

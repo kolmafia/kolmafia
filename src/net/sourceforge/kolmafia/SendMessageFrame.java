@@ -92,8 +92,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout( new BoxLayout( mainPanel, BoxLayout.Y_AXIS ) );
 
-		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout( new BorderLayout( 5, 5 ) );
+		JPanel centerPanel = new JPanel( new BorderLayout( 5, 5 ) );
 		centerPanel.add( Box.createHorizontalStrut( 40 ), BorderLayout.CENTER );
 
 		centerPanel.add( constructWestPanel(), BorderLayout.WEST );
@@ -105,11 +104,8 @@ public abstract class SendMessageFrame extends KoLFrame
 			recipientEntry.setSelectedItem( recipient );
 		}
 
-		JPanel attachmentPanel = new JPanel();
-		attachmentPanel.setLayout( new BorderLayout( 10, 10 ) );
-
-		JPanel enclosePanel = new JPanel();
-		enclosePanel.setLayout( new BorderLayout() );
+		JPanel attachmentPanel = new JPanel( new BorderLayout( 10, 10 ) );
+		JPanel enclosePanel = new JPanel( new BorderLayout() );
 		enclosePanel.add( new JLabel( "Enclose these items:    " ), BorderLayout.WEST );
 
 		JButton attachButton = new JButton( JComponentUtilities.getSharedImage( "icon_plus.gif" ) );
@@ -152,8 +148,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		mainPanel.add( sendMessageButtonPanel );
 		mainPanel.add( Box.createVerticalStrut( 4 ) );
 
-		messagePanel = new JPanel();
-		messagePanel.setLayout( new BorderLayout() );
+		messagePanel = new JPanel( new BorderLayout() );
 		messagePanel.add( mainPanel, BorderLayout.CENTER );
 
 		this.framePanel.setLayout( new CardLayout( 20, 20 ) );
@@ -186,8 +181,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		recipientPanel.add( getLabelPanel( "Send to this person:" ) );
 		recipientPanel.add( Box.createVerticalStrut( 4 ) );
 
-		JPanel contactsPanel = new JPanel();
-		contactsPanel.setLayout( new BorderLayout() );
+		JPanel contactsPanel = new JPanel( new BorderLayout() );
 		contactsPanel.add( recipientEntry, BorderLayout.CENTER );
 
 		JButton refreshButton = new InvocationButton( "Refresh contact list", "reload.gif", this, "refreshContactList" );
@@ -207,22 +201,19 @@ public abstract class SendMessageFrame extends KoLFrame
 			recipientPanel.add( Box.createVerticalStrut( 20 ) );
 		}
 
-		JPanel entryPanel = new JPanel();
-		entryPanel.setLayout( new GridLayout( entryHeaders.length, 1 ) );
+		JPanel entryPanel = new JPanel( new GridLayout( entryHeaders.length, 1 ) );
 
 		JPanel holderPanel;
 		for ( int i = 0; i < entryHeaders.length; ++i )
 		{
-			holderPanel = new JPanel();
-			holderPanel.setLayout( new BorderLayout( 5, 5 ) );
+			holderPanel = new JPanel( new BorderLayout( 5, 5 ) );
 			holderPanel.add( getLabelPanel( entryHeaders[i] ), BorderLayout.NORTH );
 			holderPanel.add( scrollArea[i], BorderLayout.CENTER );
 
 			entryPanel.add( holderPanel );
 		}
 
-		JPanel westPanel = new JPanel();
-		westPanel.setLayout( new BorderLayout() );
+		JPanel westPanel = new JPanel( new BorderLayout() );
 		westPanel.add( recipientPanel, BorderLayout.NORTH );
 		westPanel.add( entryPanel, BorderLayout.CENTER );
 
@@ -243,10 +234,8 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	protected JPanel getLabelPanel( String text )
 	{
-		JPanel label = new JPanel();
-		label.setLayout( new GridLayout( 1, 1 ) );
+		JPanel label = new JPanel( new GridLayout( 1, 1 ) );
 		label.add( new JLabel( text, JLabel.LEFT ) );
-
 		return label;
 	}
 
@@ -379,13 +368,11 @@ public abstract class SendMessageFrame extends KoLFrame
 
 			JScrollPane attachmentArea = new JScrollPane( newAttachments, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-			JPanel labeledArea = new JPanel();
-			labeledArea.setLayout( new BorderLayout() );
+			JPanel labeledArea = new JPanel( new BorderLayout() );
 			labeledArea.add( JComponentUtilities.createLabel( "Currently Attached", JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 			labeledArea.add( attachmentArea, BorderLayout.CENTER );
 
-			JPanel eastPanel = new JPanel();
-			eastPanel.setLayout( new CardLayout( 10, 10 ) );
+			JPanel eastPanel = new JPanel( new CardLayout( 10, 10 ) );
 			eastPanel.add( labeledArea, "" );
 
 			framePanel.setLayout( new BorderLayout() );

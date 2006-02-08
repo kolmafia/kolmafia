@@ -150,8 +150,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			JPanel headerPanel = new JPanel();
 			headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.Y_AXIS ) );
 
-			JPanel labelPanel1 = new JPanel();
-			labelPanel1.setLayout( new BorderLayout() );
+			JPanel labelPanel1 = new JPanel( new BorderLayout() );
 			labelPanel1.add( JComponentUtilities.createLabel( "Add to Your Store", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.CENTER );
 
@@ -161,8 +160,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			headerPanel.add( Box.createVerticalStrut( 20 ) );
 
-			JPanel labelPanel2 = new JPanel();
-			labelPanel2.setLayout( new BorderLayout() );
+			JPanel labelPanel2 = new JPanel( new BorderLayout() );
 			labelPanel2.add( JComponentUtilities.createLabel( "Price Management", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.CENTER );
 

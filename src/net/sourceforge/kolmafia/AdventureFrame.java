@@ -144,9 +144,8 @@ public class AdventureFrame extends KoLFrame
 		this.adventureSelect = new AdventureSelectPanel();
 		JPanel southPanel = new JPanel( new BorderLayout() );
 
-		resultPanel = new JPanel();
 		resultCards = new CardLayout( 0, 0 );
-		resultPanel.setLayout( resultCards );
+		resultPanel = new JPanel( resultCards );
 		resultSelect = new JComboBox();
 
 		resultSelect.addItem( "Session Results" );

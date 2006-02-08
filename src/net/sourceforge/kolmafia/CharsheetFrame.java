@@ -142,18 +142,14 @@ public class CharsheetFrame extends KoLFrame
 
 	private JPanel createImagePanel()
 	{
-		JPanel imagePanel = new JPanel();
-		imagePanel.setLayout( new BorderLayout( 10, 10 ) );
-
-		JPanel namePanel = new JPanel();
-		namePanel.setLayout( new GridLayout( 2, 1 ) );
+		JPanel imagePanel = new JPanel( new BorderLayout( 10, 10 ) );
+		JPanel namePanel = new JPanel( new GridLayout( 2, 1 ) );
 		namePanel.add( new JLabel( KoLCharacter.getUsername() + " (#" + KoLCharacter.getUserID() + ")", JLabel.CENTER ) );
 
 		this.levelLabel = new JLabel( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassType(), JLabel.CENTER );
 		namePanel.add( levelLabel );
 
-		this.levelPanel = new JPanel();
-		levelPanel.setLayout( new BorderLayout() );
+		this.levelPanel = new JPanel( new BorderLayout() );
 		levelPanel.add( namePanel, BorderLayout.CENTER );
 
 		this.levelMeter = new JProgressBar();
@@ -193,9 +189,7 @@ public class CharsheetFrame extends KoLFrame
 		headerPanel.add( statusLabel[ index1 ] );
 		headerPanel.add( statusLabel[ index2 ] );
 
-		JPanel valuePanel = new JPanel();
-		valuePanel.setLayout( new BorderLayout( 2, 2 ) );
-
+		JPanel valuePanel = new JPanel( new BorderLayout( 2, 2 ) );
 		valuePanel.add( headerPanel, BorderLayout.EAST );
 		valuePanel.add( tnpDisplay[ displayIndex ], BorderLayout.SOUTH );
 
@@ -276,8 +270,7 @@ public class CharsheetFrame extends KoLFrame
 			tnpDisplay[i].setStringPainted( true );
 		}
 
-		JPanel primeStatPanel = new JPanel();
-		primeStatPanel.setLayout( new GridLayout( 3, 1, 5, 5 ) );
+		JPanel primeStatPanel = new JPanel( new GridLayout( 3, 1, 5, 5 ) );
 		primeStatPanel.add( createValuePanel( "Muscle", 0 ) );
 		primeStatPanel.add( createValuePanel( "Mysticality", 1 ) );
 		primeStatPanel.add( createValuePanel( "Moxie", 2 ) );

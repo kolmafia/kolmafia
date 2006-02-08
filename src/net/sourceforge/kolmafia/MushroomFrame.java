@@ -89,8 +89,7 @@ public class MushroomFrame extends KoLFrame
 			}
 		}
 
-		JPanel centerPanel = new JPanel();
-		centerPanel.setLayout( new GridLayout( 1, 3, 20, 20 ) );
+		JPanel centerPanel = new JPanel( new GridLayout( 1, 3, 20, 20 ) );
 		centerPanel.add( constructPanel( "Current Plot", currentPlot ) );
 		centerPanel.add( constructPanel( "Layout Plot", layoutPlot ) );
 		centerPanel.add( constructPanel( "Forecasted Plot", forecastPlot ) );
@@ -183,8 +182,7 @@ public class MushroomFrame extends KoLFrame
 
 	public JPanel constructPanel( String label, Component c )
 	{
-		JPanel panel = new JPanel();
-		panel.setLayout( new BorderLayout() );
+		JPanel panel = new JPanel( new BorderLayout() );
 		panel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
 		panel.add( new JLabel( label, JLabel.CENTER ), BorderLayout.NORTH );
 		panel.add( c, BorderLayout.CENTER );
