@@ -464,6 +464,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		container.add( toolsMenu );
 
 		toolsMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
+		toolsMenu.add( new StopEverythingItem() );
 		toolsMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
 
 		toolsMenu.add( new JSeparator() );
@@ -2048,6 +2049,21 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 
 			(new RequestThread( requests )).start();
+		}
+	}
+
+	private class StopEverythingItem extends JMenuItem implements ActionListener
+	{
+		public StopEverythingItem()
+		{
+			super( "Stop Everything" );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( client != null )
+				client.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
 		}
 	}
 
