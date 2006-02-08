@@ -590,12 +590,15 @@ public class KoLmafiaGUI extends KoLmafia
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			if ( TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 )
+			if ( items[i].getCount() < 100 )
 			{
-				if ( NPCStoreDatabase.contains( items[i].getName() ) )
-					autosell.add( items[i] );
-				else
-					automall.add( items[i] );
+				if ( TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 )
+				{
+					if ( NPCStoreDatabase.contains( items[i].getName() ) )
+						autosell.add( items[i] );
+					else
+						automall.add( items[i] );
+				}
 			}
 		}
 
