@@ -160,6 +160,7 @@ public class RequestFrame extends KoLFrame
 			functionSelect.addItem( new BrowserComboBoxItem( "Terrarium", "familiar.php" ) );
 			functionSelect.addItem( new BrowserComboBoxItem( "Usable Skills", "skills.php" ) );
 			functionSelect.addItem( new BrowserComboBoxItem( "Read Messages", "messages.php" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Quest Log", "questlog.php" ) );
 			functionSelect.addItem( new BrowserComboBoxItem( "Account Menu", "account.php" ) );
 
 			// Add the browser "goto" menu, because people

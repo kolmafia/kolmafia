@@ -363,29 +363,37 @@ public class AdventureDatabase extends KoLDatabase
 			// Make sure the car is in the inventory
 			retrieveItem( ConcoctionsDatabase.CAR );
 
-			if ( client.permitsContinue() )
+			if ( !client.permitsContinue() )
+				return;
+
+			// Obviate following request by checking accomplishment:
+			// questlog.php?which=3
+			// "You have built your own Bitchin' Meat Car."
+
+			// Sometimes, the player has just built the meatcar and
+			// visited the council -- check the main map to see if
+			// the beach is unlocked.
+
+			client.updateDisplay( NORMAL_STATE, "Validating map location..." );
+			request = new KoLRequest( client, "main.php" );
+			request.run();
+
+			if ( request.responseText.indexOf( "beach.php" ) == -1 )
 			{
-				// Sometimes, the player has just built the meatcar
-				// and visited the council -- check the main map to
-				// see if the beach is unlocked.
-
-				client.updateDisplay( NORMAL_STATE, "Validating map location..." );
-				request = new KoLRequest( client, "main.php" );
-				request.run();
-
-				if ( request.responseText.indexOf( "beach.php" ) == -1 )
-				{
-					client.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
-					client.cancelRequest();
-					return;
-				}
-
-				request = null;
+				client.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
+				client.cancelRequest();
+				return;
 			}
+			return;
 		}
 
 		else if ( zone.equals( "McLarge" ) )
 		{
+			// Obviate following request by checking accomplishment:
+			// questlog.php?which=2
+			// "You have learned how to hunt Yetis from the L337
+			// Tr4pz0r."
+
 			client.updateDisplay( NORMAL_STATE, "Validating map location..." );
 			// See if we can get to the location already
 			request = new KoLRequest( client, "mclargehuge.php" );
@@ -407,6 +415,7 @@ public class AdventureDatabase extends KoLDatabase
 		else if ( zone.equals( "Casino" ) )
 		{
 			retrieveItem( CASINO );
+			return;
 		}
 
 		// The island is unlocked provided the player
@@ -415,6 +424,7 @@ public class AdventureDatabase extends KoLDatabase
 		else if ( zone.equals( "Island" ) )
 		{
 			retrieveItem( DINGHY );
+			return;
 		}
 
 		// The Castle in the Clouds in the Sky is unlocked provided the
@@ -423,11 +433,10 @@ public class AdventureDatabase extends KoLDatabase
 		else if ( adventureID.equals( "82" ) )
 		{
 			if ( KoLCharacter.hasItem( ROWBOAT, false ) )
-			{
 				retrieveItem( ROWBOAT );
-				return;
-			}
-			retrieveItem( SOCK );
+			else
+				retrieveItem( SOCK );
+			return;
 		}
 
 		// The Hole in the Sky is unlocked provided the player has an
@@ -436,6 +445,7 @@ public class AdventureDatabase extends KoLDatabase
 		else if ( adventureID.equals( "83" ) )
 		{
 			retrieveItem( ROWBOAT );
+			return;
 		}
 
 		// The beanstalk is unlocked when the player
@@ -448,6 +458,10 @@ public class AdventureDatabase extends KoLDatabase
 			// rowboat, they can get to the airship
 			if ( KoLCharacter.hasItem( SOCK, false ) || KoLCharacter.hasItem( ROWBOAT, false ) )
 				return;
+
+			// Obviate following request by checking accomplishment:
+			// questlog.php?which=3
+			// "You have planted a Beanstalk in the Nearby Plains."
 
 			request = new KoLRequest( client, "plains.php" );
 			request.run();
