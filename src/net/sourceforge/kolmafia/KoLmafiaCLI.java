@@ -1216,30 +1216,39 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			AdventureResult sending = null;
-			if ( splitParameters[0].toLowerCase().endsWith( "meat" ) )
-			{
-				try
-				{
-					int amount = df.parse( splitParameters[0].split( " " )[0] ).intValue();
-					sending = new AdventureResult( AdventureResult.MEAT, amount );
-				}
-				catch ( Exception e )
-				{
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
+			String [] itemNames = splitParameters[0].split( "\\s*,\\s*" );
+			for ( int i = 0; i < itemNames.length; ++i )
+				itemNames[i] = itemNames[i].toLowerCase();
 
-					StaticEntity.getClient().cancelRequest();
-					return;
+			int meatAmount = 0;
+			AdventureResult sending = null;
+
+			int meatAttachment = 0;
+			ArrayList attachments = new ArrayList();
+
+			try
+			{
+				for ( int i = 0; i < itemNames.length; ++i )
+				{
+					if ( itemNames[i].endsWith( "meat" ) )
+						meatAttachment += df.parse( itemNames[i].split( " " )[0] ).intValue();
+					else
+						AdventureResult.addResultToList( attachments, getFirstMatchingItem( itemNames[i], INVENTORY ) );
 				}
 			}
-			else
+			catch ( Exception e )
 			{
-				sending = getFirstMatchingItem( splitParameters[0], INVENTORY );
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
+				StaticEntity.getClient().cancelRequest();
+				return;
 			}
 
 			unrepeatableCommands.add( "send " + parameters );
-			(new GreenMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", sending )).run();
+
+			(new GreenMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.",
+				attachments.toArray(), meatAttachment, false )).run();
 
 			if ( StaticEntity.getClient().permitsContinue() )
 				updateDisplay( ENABLE_STATE, "Message sent to " + splitParameters[1] );
@@ -2623,6 +2632,26 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 	}
 
+	public Object [] getMatchingItemList( String itemList, int location )
+	{
+		String [] itemNames = itemList.split( "\\s*,\\s*" );
+
+		AdventureResult firstMatch = null;
+		ArrayList items = new ArrayList();
+
+		for ( int i = 0; i < itemNames.length; ++i )
+		{
+			firstMatch = getFirstMatchingItem( itemNames[i], location );
+
+			if ( firstMatch == null )
+				continue;
+
+			AdventureResult.addResultToList( items, firstMatch );
+		}
+
+		return items.toArray();
+	}
+
 	/**
 	 * A special module used specifically for properly instantiating
 	 * ItemStorageRequests which pulls things from Hagnk's.
@@ -2630,14 +2659,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeHagnkRequest( String parameters )
 	{
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, NOWHERE );
-		if ( firstMatch == null )
+		Object [] items = getMatchingItemList( parameters, NOWHERE );
+		if ( items.length == 0 )
 			return;
 
-		Object [] items = new Object[1];
-		items[0] = firstMatch;
-
-		StaticEntity.getClient().makeRequest( new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.STORAGE_TO_INVENTORY, items ), 1 );
+		StaticEntity.getClient().makeRequest( new ItemStorageRequest( StaticEntity.getClient(),
+			ItemStorageRequest.STORAGE_TO_INVENTORY, items ), 1 );
 	}
 
 	/**
@@ -2653,13 +2680,9 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		String item = parameters.substring(4).trim();
-		AdventureResult firstMatch = getFirstMatchingItem( item, parameters.startsWith( "take" ) ? CLOSET : INVENTORY );
-		if ( firstMatch == null )
+		Object [] items = getMatchingItemList( parameters.substring(4).trim(), parameters.startsWith( "take" ) ? CLOSET : INVENTORY );
+		if ( items.length == 0 )
 			return;
-
-		Object [] items = new Object[1];
-		items[0] = firstMatch;
 
 		StaticEntity.getClient().makeRequest( new ItemStorageRequest( StaticEntity.getClient(),
 			parameters.startsWith( "take" ) ? ItemStorageRequest.CLOSET_TO_INVENTORY : ItemStorageRequest.INVENTORY_TO_CLOSET, items ), 1 );

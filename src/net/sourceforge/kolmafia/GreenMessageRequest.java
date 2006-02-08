@@ -66,13 +66,17 @@ public class GreenMessageRequest extends SendMessageRequest
 	}
 
 	public GreenMessageRequest( KoLmafia client, String recipient, String message, Object [] attachments, int meatAttachment )
+	{	this( client, recipient, message, attachments, meatAttachment, !BuffBotHome.isBuffBotActive() );
+	}
+
+	public GreenMessageRequest( KoLmafia client, String recipient, String message, Object [] attachments, int meatAttachment, boolean saveMessage )
 	{
 		super( client, "sendmessage.php", attachments, meatAttachment );
 		addFormField( "action", "send" );
 		addFormField( "pwd", client.getPasswordHash() );
 		addFormField( "towho", recipient );
 
-		if ( !BuffBotHome.isBuffBotActive() )
+		if ( saveMessage )
 			addFormField( "savecopy", "on" );
 
 		addFormField( "message", message );
