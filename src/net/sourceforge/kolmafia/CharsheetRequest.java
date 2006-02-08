@@ -334,14 +334,6 @@ public class CharsheetRequest extends KoLRequest
 
 			KoLCharacter.setEquipment( equipment, KoLCharacter.getOutfits() );
 
-			// Now, parse out the player's accomplishments, if any
-			// exist.  These are found in the "Accomplishments"
-			// section of the KoLCharacter sheet.
-
-			Matcher accomplishMatcher = Pattern.compile( "Accomplishments:(.*?)</table>" ).matcher( responseText );
-			if ( accomplishMatcher.find() )
-				KoLCharacter.setAccomplishments( accomplishMatcher.group(1).split( "(<.*?>)+" ) );
-
 			// Parsing of the KoLCharacter sheet is now complete.
 			// Report this to the log stream and return.
 

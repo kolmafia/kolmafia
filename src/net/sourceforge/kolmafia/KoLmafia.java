@@ -315,16 +315,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		updateDisplay( NORMAL_STATE, "Retrieving account options..." );
-		(new AccountRequest( this )).run();
-
-		if ( !permitsContinue() )
-		{
-			deinitialize();
-			enableDisplay();
-			return;
-		}
-
 		updateDisplay( NORMAL_STATE, "Retrieving contact list..." );
 		(new ContactListRequest( this )).run();
 
@@ -1397,15 +1387,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.getLevel() < 3 )
 		{
 			updateDisplay( ERROR_STATE, "You need to level up first." );
-			return;
-		}
-
-		// Make sure that you have the quest, and once you
-		// do, go ahead and search for the faucet.
-
-		if ( KoLCharacter.hasAccomplishment( KoLCharacter.TAVERN ) )
-		{
-			updateDisplay( ERROR_STATE, "You have already completed this quest." );
 			return;
 		}
 

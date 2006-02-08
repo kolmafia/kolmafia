@@ -88,73 +88,68 @@ public class UntinkerRequest extends KoLRequest
 		// Check to see if the person has the untinkering accomplishment
 		// before starting.
 
-		if ( !KoLCharacter.hasAccomplishment( KoLCharacter.UNTINKER ) )
+		if ( KoLCharacter.getLevel() < 4 )
 		{
-			if ( KoLCharacter.getLevel() < 4 )
-			{
-				client.cancelRequest();
-				updateDisplay( ERROR_STATE, "You cannot untinker items yet." );
-			}
-
-			// If the person does not have the accomplishment, visit
-			// the untinker to ensure that they get the quest.
-
-			KoLRequest questCompleter = new UntinkerRequest( client );
-			questCompleter.run();
-
-			// If they do not have a screwdriver, tell them they
-			// need to complete the untinker quest.
-
-			if ( !KoLCharacter.getInventory().contains( SCREWDRIVER ) )
-			{
-				// If the are in a muscle sign, this is a trivial task;
-				// just have them visit Innabox.
-
-				if ( KoLCharacter.inMuscleSign() )
-				{
-					KoLRequest retrieve = new KoLRequest( client, "knoll.php?place=smith", true );
-					retrieve.run();
-				}
-				else
-				{
-					// Okay, so they don't have one yet. Complete the
-					// untinkerer's quest automatically.
-
-					ArrayList temporary = new ArrayList();
-					temporary.addAll( client.getConditions() );
-
-					client.getConditions().clear();
-					client.getConditions().add( SCREWDRIVER );
-
-					KoLAdventure adventure = AdventureDatabase.getAdventure( "degrassi" );
-					client.makeRequest( adventure, KoLCharacter.getAdventuresLeft() );
-
-					if ( !client.getConditions().isEmpty() )
-					{
-						updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
-						client.getConditions().clear();
-						client.getConditions().addAll( temporary );
-						return;
-					}
-
-					client.getConditions().clear();
-					client.getConditions().addAll( temporary );
-				}
-
-				// You should now have a screwdriver in your inventory.
-				// Go ahead and rerun the untinker request and you will
-				// have the needed accomplishment.
-
-				questCompleter.run();
-			}
-
-			// Visiting the untinker automatically deducts a
-			// screwdriver from the inventory.
-
-			KoLCharacter.addAccomplishment( KoLCharacter.UNTINKER );
-			KoLCharacter.processResult( SCREWDRIVER );
+			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "You cannot untinker items yet." );
 		}
 
+		// If the person does not have the accomplishment, visit
+		// the untinker to ensure that they get the quest.
+
+		KoLRequest questCompleter = new UntinkerRequest( client );
+		questCompleter.run();
+
+		// If they do not have a screwdriver, tell them they
+		// need to complete the untinker quest.
+
+		if ( responseText.indexOf( "action" ) == -1 && !KoLCharacter.getInventory().contains( SCREWDRIVER ) )
+		{
+			// If the are in a muscle sign, this is a trivial task;
+			// just have them visit Innabox.
+
+			if ( KoLCharacter.inMuscleSign() )
+			{
+				KoLRequest retrieve = new KoLRequest( client, "knoll.php?place=smith", true );
+				retrieve.run();
+			}
+			else
+			{
+				// Okay, so they don't have one yet. Complete the
+				// untinkerer's quest automatically.
+
+				ArrayList temporary = new ArrayList();
+				temporary.addAll( client.getConditions() );
+
+				client.getConditions().clear();
+				client.getConditions().add( SCREWDRIVER );
+
+				KoLAdventure adventure = AdventureDatabase.getAdventure( "degrassi" );
+				client.makeRequest( adventure, KoLCharacter.getAdventuresLeft() );
+
+				if ( !client.getConditions().isEmpty() )
+				{
+					updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
+					client.getConditions().clear();
+					client.getConditions().addAll( temporary );
+					return;
+				}
+
+				client.getConditions().clear();
+				client.getConditions().addAll( temporary );
+			}
+
+			// You should now have a screwdriver in your inventory.
+			// Go ahead and rerun the untinker request and you will
+			// have the needed accomplishment.
+
+			questCompleter.run();
+		}
+
+		// Visiting the untinker automatically deducts a
+		// screwdriver from the inventory.
+
+		KoLCharacter.processResult( SCREWDRIVER );
 		updateDisplay( NORMAL_STATE, "Untinkering an item..." );
 
 		super.run();

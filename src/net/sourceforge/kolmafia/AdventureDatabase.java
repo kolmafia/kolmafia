@@ -356,7 +356,10 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( zone.equals( "Beach" ) )
 		{
-			if ( !KoLCharacter.hasAccomplishment( KoLCharacter.MEATCAR ) )
+			// Make sure the car is in the inventory
+			retrieveItem( ConcoctionsDatabase.CAR );
+
+			if ( client.permitsContinue() )
 			{
 				// Sometimes, the player has just built the meatcar
 				// and visited the council -- check the main map to
@@ -373,12 +376,8 @@ public class AdventureDatabase extends KoLDatabase
 					return;
 				}
 
-				KoLCharacter.addAccomplishment( KoLCharacter.MEATCAR );
 				request = null;
 			}
-
-			// Make sure the car is in the inventory
-			retrieveItem( ConcoctionsDatabase.CAR );
 		}
 
 		else if ( zone.equals( "McLarge" ) )
@@ -386,10 +385,11 @@ public class AdventureDatabase extends KoLDatabase
 			// For Mt. McLargeHuge, all you need to do is visit
 			// the trapper in order to arm the location.
 
-			if ( !KoLCharacter.hasAccomplishment( KoLCharacter.ICY_PEAK ) )
-			{
-				client.updateDisplay( NORMAL_STATE, "Validating map location..." );
+			client.updateDisplay( NORMAL_STATE, "Validating map location..." );
+			request = new KoLRequest( client, "mclargehuge.php" );
 
+			if ( request.responseText.indexOf( adventureID ) == -1 )
+			{
 				request = new KoLRequest( client, "trapper.php" );
 				request.run();
 
@@ -446,37 +446,10 @@ public class AdventureDatabase extends KoLDatabase
 			// If the player has either the S.O.C.K. or the
 			// rowboat, we deduce that the beanstalk is unlocked
 
-			if ( ROWBOAT.getCount( KoLCharacter.getInventory() ) == 0 &&
-			     ROWBOAT.getCount( KoLCharacter.getCloset() ) == 0 &&
-			     SOCK.getCount( KoLCharacter.getInventory() ) == 0 &&
-			     SOCK.getCount( KoLCharacter.getCloset() ) == 0 )
-			{
-				if ( !KoLCharacter.hasAccomplishment( KoLCharacter.BEANSTALK ) )
-				{
-					// Sometimes, the player has just used
-					// the enchanted bean, and therefore
-					// does not have the accomplishment.
-					// Check the map, and if the beanstalk
-					// is available, go ahead and update
-					// the accomplishments.
+			request = new KoLRequest( client, "beanstalk.php" );
+			KoLCharacter.armBeanstalk();
 
-					client.updateDisplay( NORMAL_STATE, "Validating map location..." );
-					request = new KoLRequest( client, "plains.php" );
-					request.run();
-
-					if ( request.responseText.indexOf( "beanstalk.php" ) == -1 )
-					{
-						client.updateDisplay( ERROR_STATE, "Beanstalk is not yet unlocked." );
-						client.cancelRequest();
-						return;
-					}
-
-					KoLCharacter.addAccomplishment( KoLCharacter.BEANSTALK );
-				}
-
-				request = new KoLRequest( client, "beanstalk.php" );
-				KoLCharacter.armBeanstalk();
-			}
+			retrieveItem( ROWBOAT );
 		}
 
 		// If you do not need to arm anything, then

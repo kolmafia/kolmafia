@@ -266,18 +266,6 @@ public abstract class KoLCharacter extends StaticEntity
 	// Listener-driven container items
 
 	private static List listenerList = new ArrayList();
-
-	// Interesting accomplishments
-
-	private static LockableListModel accomplishments = new LockableListModel();
-	public static final String TAVERN = "You have taken care of the rat problem at the Typical Tavern.";
-	public static final String UNTINKER = "You have found the Untinker's screwdriver.";
-	public static final String MEATCAR = "You have built your own Bitchin' Meat Car.";
-	public static final String FRIARS = "You have cleansed the taint for the Deep Fat Friars.";
-	public static final String BARON = "You have helped the Baron Rof L'm Fao.";
-	public static final String ICY_PEAK = "You have helped the L337 Tr4pz0r clear the way to the Icy Peak.";
-	public static final String BEANSTALK = "You have planted a Beanstalk in the Nearby Plains.";
-
 	private static boolean beanstalkArmed;
 
 	// Ascension-related variables
@@ -289,7 +277,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int consumptionRestriction = AscensionSnapshotTable.NOPATH;
 	private static int mindControlLevel = 0;
 
-	private static String autosellMode;
+	private static String autosellMode = "";
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
@@ -341,8 +329,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		familiars.clear();
 		familiars.add( FamiliarData.NO_FAMILIAR );
-
-		accomplishments.clear();
 		beanstalkArmed = false;
 
 		ascensions = 0;
@@ -351,7 +337,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		mindControlLevel = 0;
 
-		autosellMode = "detailed";
+		autosellMode = "";
 
 		// Initialize the equipment lists inside
 		// of the character data
@@ -1514,7 +1500,11 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static String getAutosellMode()
-	{	return autosellMode;
+	{
+		if ( autosellMode.equals( "" ) )
+			(new AccountRequest( StaticEntity.getClient() )).run();
+
+		return autosellMode;
 	}
 
 	/**
@@ -1983,40 +1973,6 @@ public abstract class KoLCharacter extends StaticEntity
 		int level = getLevel();
 		return df.format( level * level + 4 - calculateBasePoints( getTotalPrime() ) ) + " " + AdventureResult.STAT_NAMES[ getPrimeIndex() ] +
 			" until level " + (level + 1);
-	}
-
-	/**
-	 * Sets the list of accomplishments that the player has
-	 * completed.  This value is provided as a complete
-	 * string array, where each index is a new accomplishment.
-	 *
-	 * @param	accomplishments	The accomplishments of this player
-	 */
-
-	public static void setAccomplishments( String [] accomplishments )
-	{
-		KoLCharacter.accomplishments.clear();
-		for ( int i = 0; i < accomplishments.length; ++i )
-			KoLCharacter.accomplishments.add( accomplishments[i] );
-	}
-
-	/**
-	 * Adds the given accomplishment to the list of accomplishments.
-	 */
-
-	public static void addAccomplishment( String accomplishment )
-	{	KoLCharacter.accomplishments.add( accomplishment );
-	}
-
-	/**
-	 * Returns whether or not the player has the given accomplishment
-	 * (the accomplishment being an entire string of text).
-	 *
-	 * @return	<code>true</code> if the accomplishment exists
-	 */
-
-	public static boolean hasAccomplishment( String accomplishment )
-	{	return accomplishments.contains( accomplishment );
 	}
 
 	/**

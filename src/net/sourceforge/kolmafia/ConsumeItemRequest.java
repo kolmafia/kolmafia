@@ -296,19 +296,15 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "you're flattered" ) == -1 )
 				return;
 
-			// Get the accomplishment
-			KoLCharacter.addAccomplishment( KoLCharacter.BARON );
-
 			// Remove the old dictionary
-
 			client.processResult( FightRequest.DICTIONARY1.getNegation() );
 
 			// Get the new dictionary and drywall axe
-
-			client.processResults( responseText );
+			client.processResult( new AdventureResult( 555, 1 ) );
+			client.processResult( FightRequest.DICTIONARY2 );
 
 			// If he was fighting with the old dictionary, switch
-			// to use the new one
+			// to use the new one.
 
 			if ( getProperty( "battleAction" ).equals( "item0536" ) )
 				setProperty( "battleAction", "item1316" );
@@ -332,7 +328,6 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
 				return;
 
-			KoLCharacter.addAccomplishment( KoLCharacter.BEANSTALK );
 			break;
 
 		case DRASTIC_HEALING:

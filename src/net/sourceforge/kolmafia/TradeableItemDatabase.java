@@ -171,8 +171,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemName.equals( "ice-cold beer (Willer)" ) )
 			return 81;
 
+		// Only the quest dictionary is processed non-manually
+		// (unless the person bought it from the mall, which
+		// we will temporarily assume is unlikely).
+
 		if ( itemName.equals( "dictionary" ) )
-			return KoLCharacter.hasAccomplishment( KoLCharacter.BARON ) ? 1316 : 536;
+			return 536;
 
 		// Get the canonical name of the item, and attempt
 		// to parse based on that.

@@ -358,10 +358,9 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( CANDLES );
 				client.processResult( BUTTERKNIFE );
 
-				KoLCharacter.addAccomplishment( KoLCharacter.FRIARS );
 				updateDisplay( NORMAL_STATE, "Taint cleansed." );
 			}
-			else if ( !KoLCharacter.hasAccomplishment( KoLCharacter.FRIARS ) )
+			else
 			{
 				// Even after you've performed the ritual:
 				//   "You don't appear to have all of the
