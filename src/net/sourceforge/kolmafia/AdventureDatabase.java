@@ -386,19 +386,19 @@ public class AdventureDatabase extends KoLDatabase
 
 		else if ( zone.equals( "McLarge" ) )
 		{
-			// For Mt. McLargeHuge, all you need to do is visit
-			// the trapper in order to arm the location.
-
 			client.updateDisplay( NORMAL_STATE, "Validating map location..." );
+			// See if we can get to the location already
 			request = new KoLRequest( client, "mclargehuge.php" );
+			request.run();
+			if ( request.responseText.indexOf( adventureID ) != -1 )
+				return;
 
-			if ( request.responseText.indexOf( adventureID ) == -1 )
-			{
-				request = new KoLRequest( client, "trapper.php" );
-				request.run();
+			// No. See if the trapper will give it to us
+			request = new KoLRequest( client, "trapper.php" );
+			request.run();
 
-				request = new KoLRequest( client, "mclargehuge.php" );
-			}
+			// See if we can now get to the location
+			request = new KoLRequest( client, "mclargehuge.php" );
 		}
 
 		// The casino is unlocked provided the player
@@ -418,12 +418,16 @@ public class AdventureDatabase extends KoLDatabase
 		}
 
 		// The Castle in the Clouds in the Sky is unlocked provided the
-		// beanstalk shows it as an available area.
+		// character has either a S.O.C.K. or an intragalactic rowboat
 
 		else if ( adventureID.equals( "82" ) )
 		{
-			if ( !KoLCharacter.hasItem( ROWBOAT, true ) && !KoLCharacter.hasItem( SOCK, false ) )
-				request = new KoLRequest( client, "beanstalk.php" );
+			if ( KoLCharacter.hasItem( ROWBOAT, false ) )
+			{
+				retrieveItem( ROWBOAT );
+				return;
+			}
+			retrieveItem( SOCK );
 		}
 
 		// The Hole in the Sky is unlocked provided the player has an
@@ -440,7 +444,12 @@ public class AdventureDatabase extends KoLDatabase
 
 		else if ( adventureID.equals( "81" ) && !KoLCharacter.beanstalkArmed() )
 		{
-			request = new KoLRequest( client, "main.php" );
+			// If the character has a S.O.C.K. or an intragalactic
+			// rowboat, they can get to the airship
+			if ( KoLCharacter.hasItem( SOCK, false ) || KoLCharacter.hasItem( ROWBOAT, false ) )
+				return;
+
+			request = new KoLRequest( client, "plains.php" );
 			request.run();
 
 			if ( request.responseText.indexOf( "beanstalk.php" ) == -1 )
