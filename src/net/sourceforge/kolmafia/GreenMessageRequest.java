@@ -44,7 +44,7 @@ public class GreenMessageRequest extends SendMessageRequest
 	private String recipient, message;
 
 	public GreenMessageRequest( KoLmafia client, String recipient, String message, AdventureResult attachment )
-	{	this( client, recipient, message, attachment, !BuffBotHome.isBuffBotActive() );
+	{	this( client, recipient, message, attachment, false );
 	}
 
 	public GreenMessageRequest( KoLmafia client, String recipient, String message, AdventureResult attachment, boolean saveMessage )
