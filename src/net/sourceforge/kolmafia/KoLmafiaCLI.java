@@ -1449,6 +1449,19 @@ public class KoLmafiaCLI extends KoLmafia
 		// Check if the person is looking for whether or
 		// not they are a certain class.
 
+		if ( parameters.startsWith( "bounty hunter wants " ) )
+		{
+			if ( StaticEntity.getClient().hunterItems.isEmpty() )
+				(new BountyHunterRequest( StaticEntity.getClient() )).run();
+
+			String item = parameters.substring(20).trim().toLowerCase();
+			for ( int i = 0; i < StaticEntity.getClient().hunterItems.size(); ++i )
+				if ( ((String)StaticEntity.getClient().hunterItems.get(i)).indexOf( item ) != -1 )
+					return true;
+
+			return false;
+		}
+
 		if ( parameters.startsWith( "class is not " ) )
 		{
 			String className = parameters.substring(13).trim().toLowerCase();
