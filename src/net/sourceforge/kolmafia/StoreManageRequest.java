@@ -88,8 +88,7 @@ public class StoreManageRequest extends KoLRequest
 				if ( takenItemMatcher.find() )
 				{
 					AdventureResult takenItem = new AdventureResult( takenItemID, 0 );
-					client.processResult( takenItem.getInstance( 0 - takenItem.getCount( KoLCharacter.getInventory() ) ) );
-					client.processResult( takenItem.getInstance( df.parse( takenItemMatcher.group(1) ).intValue() ) );
+					client.processResult( takenItem.getInstance( df.parse( takenItemMatcher.group(1) ).intValue() - takenItem.getCount( KoLCharacter.getInventory() ) ) );
 				}
 			}
 			catch ( Exception e )
