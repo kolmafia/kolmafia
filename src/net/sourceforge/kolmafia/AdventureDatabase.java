@@ -448,8 +448,6 @@ public class AdventureDatabase extends KoLDatabase
 
 			request = new KoLRequest( client, "beanstalk.php" );
 			KoLCharacter.armBeanstalk();
-
-			retrieveItem( ROWBOAT );
 		}
 
 		// If you do not need to arm anything, then
