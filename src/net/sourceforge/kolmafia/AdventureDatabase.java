@@ -50,10 +50,12 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class AdventureDatabase extends KoLDatabase
 {
 	private static LockableListModel adventures = new LockableListModel();
+
 	private static final AdventureResult CASINO = new AdventureResult( 40, 1 );
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 	private static final AdventureResult SOCK = new AdventureResult( 609, 1 );
 	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
+	private static final AdventureResult BEAN = new AdventureResult( 186, 1 );
 
 	public static final Map ZONE_NAMES = new TreeMap();
 	public static final Map ZONE_DESCRIPTIONS = new TreeMap();
@@ -414,19 +416,12 @@ public class AdventureDatabase extends KoLDatabase
 		}
 
 		// The Castle in the Clouds in the Sky is unlocked provided the
-		// player has a S.O.C.K. or intragalactic rowboat in their
-		// inventory.
+		// beanstalk shows it as an available area.
 
 		else if ( adventureID.equals( "82" ) )
 		{
-			// If he has a rowboat in the closet, fetch it.
-			if ( ROWBOAT.getCount( KoLCharacter.getCloset() ) > 0 )
-				retrieveItem( ROWBOAT );
-
-			// If he doesn't have a rowboat in inventory, he must
-			// have a S.O.C.K.
-			else if ( ROWBOAT.getCount( KoLCharacter.getInventory() ) == 0 )
-				retrieveItem( SOCK );
+			if ( !KoLCharacter.hasItem( ROWBOAT, true ) && !KoLCharacter.hasItem( SOCK, false ) )
+				request = new KoLRequest( client, "beanstalk.php" );
 		}
 
 		// The Hole in the Sky is unlocked provided the player has an
@@ -443,8 +438,45 @@ public class AdventureDatabase extends KoLDatabase
 
 		else if ( adventureID.equals( "81" ) && !KoLCharacter.beanstalkArmed() )
 		{
-			// If the player has either the S.O.C.K. or the
-			// rowboat, we deduce that the beanstalk is unlocked
+			request = new KoLRequest( client, "main.php" );
+			request.run();
+
+			if ( request.responseText.indexOf( "beanstalk.php" ) == -1 )
+			{
+				// If not, check to see if the player has an enchanted
+				// bean which can be used.  If they don't, then try to
+				// find one through adventuring.
+
+				if ( !KoLCharacter.hasItem( BEAN, false ) )
+				{
+					ArrayList temporary = new ArrayList();
+					temporary.addAll( client.getConditions() );
+
+					client.getConditions().clear();
+					client.getConditions().add( BEAN );
+
+					KoLAdventure beanbat = AdventureDatabase.getAdventure( "beanbat" );
+					client.makeRequest( beanbat, KoLCharacter.getAdventuresLeft() );
+
+					if ( !client.getConditions().isEmpty() )
+					{
+						client.updateDisplay( ERROR_STATE, "Unable to complete enchanted bean quest." );
+						client.getConditions().clear();
+						client.getConditions().addAll( temporary );
+						return;
+					}
+
+					client.getConditions().clear();
+					client.getConditions().addAll( temporary );
+				}
+
+				// Now that you've retrieved the bean, ensure that
+				// it is in your inventory, and then use it.  Take
+				// advantage of item consumption automatically doing
+				// what's needed in grabbing the item.
+
+				(new ConsumeItemRequest( client, BEAN )).run();
+			}
 
 			request = new KoLRequest( client, "beanstalk.php" );
 			KoLCharacter.armBeanstalk();
