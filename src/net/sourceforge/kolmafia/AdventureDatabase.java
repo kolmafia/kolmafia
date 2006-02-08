@@ -97,11 +97,13 @@ public class AdventureDatabase extends KoLDatabase
 		"10",  // The Haunted Pantry
 		"19",  // The Limerick Dungeon
 		"70",  // The Casino Roulette Wheel
-		"72",  // The Casino Money Making Game
 		"9",   // The Sleazy Back Alley
 		"15",  // The Spooky Forest
 		"17",  // The Hidden Temple
-		"29"   // The Orcish Frat House (in disguise)
+		"27",  // The Orcish Frat House (no disguise)
+		"29",  // The Orcish Frat House (in disguise)
+		"26",  // Hippy Camp (no disguise)
+		"65",  // Hippy Camp (in disguise)
 	};
 
 	public static final String [][][] CHOICE_ADVS =
