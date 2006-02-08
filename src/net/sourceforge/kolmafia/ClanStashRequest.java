@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ClanStashRequest extends SendMessageRequest
 {
@@ -188,17 +189,19 @@ public class ClanStashRequest extends SendMessageRequest
 		if ( responseText == null || responseText.length() == 0 )
 			return;
 
-		List stashContents = ClanManager.getStash();
-
 		// Start with an empty list
-		stashContents.clear();
+		SortedListModel stashContents = ClanManager.getStash();
+
 		Matcher stashMatcher = Pattern.compile( "<form name=takegoodies.*?</select>" ).matcher( responseText );
 
 		// If there's nothing inside the goodies hoard,
 		// return because there's nothing to parse
 
 		if ( !stashMatcher.find() )
+		{
+			stashContents.clear();
 			return;
+		}
 
 		int lastFindIndex = 0;
 		Pattern qtyPattern = Pattern.compile( "\\(([\\d,]+)\\)" );
@@ -219,16 +222,30 @@ public class ClanStashRequest extends SendMessageRequest
 						itemString.substring( 0, itemString.indexOf( "(" ) ).trim() );
 				}
 
-				AdventureResult result;
-				if ( itemString.indexOf( "(" ) == -1 )
-					result = new AdventureResult( itemID, 1 );
-				else
+				// How many are actually in the stash 
+				int quantity = 1;
+
+				if ( itemString.indexOf( "(" ) != -1 )
 				{
 					Matcher qtyMatcher = qtyPattern.matcher( itemString.substring( itemString.indexOf( "(" ) ) );
-					result = new AdventureResult( itemID, qtyMatcher.find() ? df.parse( qtyMatcher.group(1) ).intValue() : 1 );
+					quantity = qtyMatcher.find() ? df.parse( qtyMatcher.group(1) ).intValue() : 1;
 				}
 
-				AdventureResult.addResultToList( stashContents, result );
+				AdventureResult result = new AdventureResult( itemID, quantity );
+
+				// How many do we think are in the stash
+				int current = result.getCount( stashContents );
+
+				// No change
+				if ( quantity == current )
+					continue;
+
+				// Remove existing adventure result
+				if ( current > 0 )
+					stashContents.remove( result );
+
+				// Add new one
+				stashContents.add( result );
 			}
 			catch ( Exception e )
 			{

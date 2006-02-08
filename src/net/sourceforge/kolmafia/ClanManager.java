@@ -65,6 +65,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 
 import edu.stanford.ejalbert.BrowserLauncher;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ClanManager extends StaticEntity
@@ -94,7 +95,7 @@ public class ClanManager extends StaticEntity
 	private static List battleList = new ArrayList();
 
 	private static LockableListModel rankList = new LockableListModel();
-	private static LockableListModel stashContents = new LockableListModel();
+	private static SortedListModel stashContents = new SortedListModel( AdventureResult.class );
 
 	public static void reset()
 	{
@@ -118,7 +119,7 @@ public class ClanManager extends StaticEntity
 	{	return clanName;
 	}
 
-	public static LockableListModel getStash()
+	public static SortedListModel getStash()
 	{	return stashContents;
 	}
 
