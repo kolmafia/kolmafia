@@ -989,7 +989,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// that beaten up is added to the effects.
 
 		if ( previousHP != 0 && KoLCharacter.getCurrentHP() == 0 )
-			client.processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
+			client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 
 	}
 
