@@ -206,7 +206,6 @@ public class MuseumFrame extends KoLFrame
 		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
 		{
 			MuseumShelfPanel toConstruct = new MuseumShelfPanel( index, (SortedListModel) value );
-			toConstruct.updateDisplay( this, value, index );
 			return toConstruct;
 		}
 	}
@@ -217,7 +216,7 @@ public class MuseumFrame extends KoLFrame
 
 		public MuseumShelfPanel( int index, SortedListModel value )
 		{
-			super( MuseumManager.getHeader( index ), "move", "remove", value );
+			super( MuseumManager.getHeader( index ), "move", "remove", value, false );
 			this.index = index;
 		}
 
@@ -245,8 +244,6 @@ public class MuseumFrame extends KoLFrame
 
 		public synchronized void updateDisplay( PanelList list, Object value, int index )
 		{
-			elementList.setModel( (SortedListModel) value );
-			this.index = index;
 		}
 	}
 

@@ -742,8 +742,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		protected ShowDescriptionList elementList;
 
 		public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
+		{	this( title, confirmedText, cancelledText, elements, true );
+		}
+
+		public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements, boolean isRootPane )
 		{
-			super( title, confirmedText, cancelledText, new ShowDescriptionList( elements ) );
+			super( title, confirmedText, cancelledText, new ShowDescriptionList( elements ), isRootPane );
 
 			elementList = (ShowDescriptionList) scrollComponent;
 			elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
