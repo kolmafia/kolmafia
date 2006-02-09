@@ -239,9 +239,6 @@ public class FightRequest extends KoLRequest
 			}
 			else if ( roundCount > 30 )
 			{
-				updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-				client.cancelRequest();
 			}
 			else if ( responseText.indexOf( "You lose." ) != -1 )
 			{
@@ -250,9 +247,21 @@ public class FightRequest extends KoLRequest
 				// also notify the client that an adventure was completed,
 				// but that the loop should be halted.
 
-				updateDisplay( ERROR_STATE, "You were defeated!" );
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-				client.cancelRequest();
+				if ( roundCount < 30 )
+				{
+					updateDisplay( ERROR_STATE, "You were defeated!" );
+					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+					client.cancelRequest();
+				}
+				else
+				{
+					// Sometimes you hit the thirty round limit.  Here, report
+					// the error and then continue adventuring (if the user
+					// still wishes to continue).
+
+					updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
+					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+				}
 			}
 			else
 			{
