@@ -192,12 +192,13 @@ public class ChatFrame extends KoLFrame
 
 		public ChatPanel( String associatedContact )
 		{
+			super( new BorderLayout() );
 			chatDisplay = new JEditorPane();
 			chatDisplay.setEditable( false );
 			chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
 			this.associatedContact = associatedContact;
 
-			JPanel entryPanel = new JPanel();
+			JPanel entryPanel = new JPanel( new BorderLayout() );
 			entryField = new JTextField();
 			entryField.addKeyListener( new ChatEntryListener() );
 
@@ -206,7 +207,6 @@ public class ChatFrame extends KoLFrame
 			entryPanel.add( entryField, BorderLayout.CENTER );
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
-			setLayout( new BorderLayout( 1, 1 ) );
 			add( KoLMessenger.getChatBuffer( associatedContact ).setChatDisplay( chatDisplay ), BorderLayout.CENTER );
 			add( entryPanel, BorderLayout.SOUTH );
 		}
