@@ -1478,7 +1478,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		String operator = parameters.indexOf( "==" ) != -1 ? "==" : parameters.indexOf( "!=" ) != -1 ? "!=" :
 			parameters.indexOf( ">=" ) != -1 ? ">=" : parameters.indexOf( "<=" ) != -1 ? "<=" :
-			parameters.indexOf( ">" ) != -1 ? ">" : parameters.indexOf( "<" ) != -1 ? "<" : parameters.indexOf( "=" ) != -1 ? "==" : null;
+			parameters.indexOf( "<>" ) != -1 ? "!=" : parameters.indexOf( "=" ) != -1 ? "==" :
+			parameters.indexOf( ">" ) != -1 ? ">" : parameters.indexOf( "<" ) != -1 ? "<" : null;
 
 		if ( operator == null )
 			return false;
@@ -1504,7 +1505,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return false;
 		}
 
-		return	operator.equals( "==" ) ? leftValue == rightValue :
+		return operator.equals( "==" ) ? leftValue == rightValue :
 			operator.equals( "!=" ) ? leftValue != rightValue :
 			operator.equals( ">=" ) ? leftValue >= rightValue :
 			operator.equals( ">" ) ? leftValue > rightValue :
