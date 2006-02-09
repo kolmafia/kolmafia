@@ -912,7 +912,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( ((Number)currentMethod.invoke( null, empty )).intValue() >= needed && currentState != ABORT_STATE )
 			{
-				updateDisplay( NORMAL_STATE, "Recovery complete.  Resuming requests..." );
+				updateDisplay( NORMAL_STATE, "Auto-recovery complete." );
 				resetContinueState();
 				return true;
 			}

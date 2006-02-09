@@ -573,12 +573,15 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( !hasItem( STRUMMING ) )
 		{
+			AdventureDatabase.retrieveItem( starWeapon );
 			if ( !hasItem( starWeapon ) )
 				requirements.add( starWeapon );
 
+			AdventureDatabase.retrieveItem( STAR_HAT );
 			if ( !hasItem( STAR_HAT ) )
 				requirements.add( STAR_HAT );
 
+			AdventureDatabase.retrieveItem( RICHARD );
 			if ( !hasItem( RICHARD ) )
 				requirements.add( RICHARD );
 		}
@@ -608,15 +611,10 @@ public abstract class SorceressLair extends StaticEntity
 		// require you to re-equip your star weapon and
 		// a star buckler and switch to a starfish first.
 
-		AdventureDatabase.retrieveItem( starWeapon );
 		(new EquipmentRequest( client, starWeapon.getName() )).run();
-
-		AdventureDatabase.retrieveItem( STAR_HAT );
 		(new EquipmentRequest( client, STAR_HAT.getName() )).run();
-
 		(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
 
-		AdventureDatabase.retrieveItem( RICHARD );
 		client.updateDisplay( NORMAL_STATE, "Inserting Richard's star key..." );
 
 		KoLRequest request = new KoLRequest( client, "lair2.php" );
@@ -717,7 +715,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// The three hero keys are needed to get the SCUBA gear
 
-		if ( !hasItem( SCUBA ) )
+		if ( isCheckOnly && !hasItem( SCUBA ) )
 		{
 			if ( !hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
 				requirements.add( BORIS );
@@ -727,17 +725,19 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( !hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
 				requirements.add( SNEAKY_PETE );
-		}
 
-		if ( isCheckOnly )
 			return requirements;
+		}
 
 		// Next, handle the three hero keys, which involve
 		// answering the riddles with the forms of fish.
 
+		AdventureDatabase.retrieveItem( BORIS );
+		if ( !hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
+			requirements.add( BORIS );
+
 		if ( hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
 		{
-			AdventureDatabase.retrieveItem( BORIS );
 			client.updateDisplay( NORMAL_STATE, "Inserting Boris's key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
@@ -754,9 +754,12 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
+		AdventureDatabase.retrieveItem( JARLSBERG );
+		if ( !hasItem( JARLSBERG ) && !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
+			requirements.add( JARLSBERG );
+
 		if ( hasItem( JARLSBERG ) && !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
 		{
-			AdventureDatabase.retrieveItem( JARLSBERG );
 			client.updateDisplay( NORMAL_STATE, "Inserting Jarlsberg's key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
@@ -773,9 +776,12 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
+		AdventureDatabase.retrieveItem( SNEAKY_PETE );
+		if ( !hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
+			requirements.add( SNEAKY_PETE );
+
 		if ( hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
 		{
-			AdventureDatabase.retrieveItem( SNEAKY_PETE );
 			client.updateDisplay( NORMAL_STATE, "Inserting Sneaky Pete's key..." );
 
 			request = new KoLRequest( client, "lair2.php" );

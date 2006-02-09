@@ -1,18 +1,21 @@
-00	Camp	campground resting
-01	Beach	the desert beach areas
-02	Sewer	market sewer
-03	Casino	Seaside Town's casino games
-04	Town	Seaside Town Areas
-05	Plains	general plains areas
-06	Knob	Cobb's knob areas
-07	Bat	Bat Hole areas
-08	Cyrpt	the defiled cyrpt quest
-09	Woods	general woods areas
+00	Camp	campground and resting
+01	Beach	Desert Beach
+02	Sewer	Seaside Town (sewer)
+03	Casino	Seaside Town (casino)
+04	Town	Seaside Town (general)
+05	Plains	Nearby Plains
+06	Knob	Cobb's knob quest
+07	Bat	The Bat Hole quest
+08	Cyrpt	The Defiled cyrpt
+09	Woods	Distant Woods
 10	Friars	Deep Fat Friar's quest
-11	Mount	general mountain areas
-12	McLarge	Mt. McLargeHuge areas
-13	Island	the mysterious island areas
-14	Stalk	areas above the beanstalk
-15	Signed	sign-restricted areas
-16	Special	special areas
-17	Rift	areas through temporal rifts
+11	Mount	Big Mountains
+12	McLarge	Mt. McLargeHuge
+13	Island	Mysterious Island
+14	Stalk	Above the Beanstalk
+15	Signed	Post-Ascension Areas
+16	Clan	Clan Gym equipment
+17	Lair	Sorceress Lair areas
+18	Rift	Areas through Temporal rifts
+19	Holiday	special holiday areas
+20	Discontinued	areas which are no longer in-game

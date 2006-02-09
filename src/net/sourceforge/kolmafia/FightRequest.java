@@ -217,9 +217,12 @@ public class FightRequest extends KoLRequest
 				}
 			}
 
-			int winmsgIndex = responseText.indexOf( "WINWINWIN" );
-
-			if ( winmsgIndex != -1 )
+			if ( responseText.indexOf( "fight.php" ) != -1 )
+			{
+				nextRound();
+				run();
+			}
+			else if ( responseText.indexOf( "WINWINWIN" ) != -1 )
 			{
 				// The battle was won!  If the user canceled, say
 				// it's complete.
@@ -236,9 +239,6 @@ public class FightRequest extends KoLRequest
 					client.cancelRequest();
 
 				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-			}
-			else if ( roundCount > 30 )
-			{
 			}
 			else if ( responseText.indexOf( "You lose." ) != -1 )
 			{
@@ -262,6 +262,11 @@ public class FightRequest extends KoLRequest
 					updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
 					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				}
+			}
+			else if ( responseText.indexOf( "<input" ) == -1 )
+			{
+				updateDisplay( ENABLE_STATE, "Final battle completed." );
+				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 			}
 			else
 			{

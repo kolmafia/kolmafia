@@ -94,22 +94,31 @@
 15	adventure.php	47	Bugbear Pens
 15	adventure.php	48	Spooky Gravy Barrow
 
-# Special Locations - Pre-Rift
-
 16	clan_gym.php	1	Hobo-Flex Workout Machine
 16	clan_gym.php	2	Big Book of Magicalness
 16	clan_gym.php	3	Tan-U-Lots Tanning Bed
-16	lair3.php	hedge	Sorceress' Hedge Maze
-16	adventure.php	37	Spectral Pickle Factory
-16	trickortreat.php	Yep.	Trick-or-Treating
-16	adventure.php	93	Crimbo Town Toy Factory
 
-# Special Locations - Post-Rift
+# Sorceress Lair
 
-17	adventure.php	85	Battlefield (No Uniform)
-17	adventure.php	86	Battlefield (Cloaca Uniform)
-17	adventure.php	87	Battlefield (Dyspepsi Uniform)
-17	adventure.php	59	Icy Peak (Past)
-17	adventure.php	88	Market Square (Future)
-17	adventure.php	89	The Mall (Future)
-17	adventure.php	90	Wrong Side of the Tracks (Future)
+17	lair3.php	hedge	Sorceress' Hedge Maze
+17	lair6.php	5	Fight the Naughty Sorceress
+
+# Rift Locations
+
+18	adventure.php	85	Battlefield (No Uniform)
+18	adventure.php	86	Battlefield (Cloaca Uniform)
+18	adventure.php	87	Battlefield (Dyspepsi Uniform)
+18	adventure.php	59	Icy Peak (Past)
+
+# Holiday Locations
+
+19	adventure.php	37	Spectral Pickle Factory
+19	trickortreat.php	Yep.	Trick-or-Treating
+19	adventure.php	84	St. Sneaky Pete's Day Stupor
+
+# Discontinued Locations
+
+20	adventure.php	93	Crimbo Town Toy Factory
+20	adventure.php	88	Market Square (Future)
+20	adventure.php	89	The Mall (Future)
+20	adventure.php	90	Wrong Side of the Tracks (Future)

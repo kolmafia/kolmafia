@@ -48,6 +48,7 @@ import java.io.FileInputStream;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
+	private static final AdventureResult WAND = new AdventureResult( 626, 1 );
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1 );
 
 	protected KoLmafia client;
@@ -207,6 +208,21 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
+		// If you're fighting the naughty sorceress, be sure to
+		// equip the wand first.
+
+		if ( formSource.equals( "lair6.php" ) )
+		{
+			if ( !KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "wand" ) )
+			{
+				AdventureDatabase.retrieveItem( WAND );
+				if ( !client.permitsContinue() )
+					return;
+
+				(new EquipmentRequest( client, WAND.getName() )).run();
+			}
+		}
+
 		// If the test is successful, then it is safe to run the
 		// request (without spamming the server).
 
@@ -224,8 +240,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// mana and health to continue so you don't get an abort
 		// when the user has a good script already there.
 
-		if ( !formSource.equals( "campground.php" ) && !client.recoverHP() || !client.recoverMP() )
-			return;
+		if ( !formSource.equals( "campground.php" ) )
+		{
+			if ( !client.permitsContinue() )
+			{
+				client.recoverHP();
+				client.recoverMP();
+			}
+		}
 
 		if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 		{
