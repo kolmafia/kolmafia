@@ -49,26 +49,19 @@ public class KoLDatabase extends StaticEntity
 {
 	static { System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" ); };
 
-	protected static BufferedReader getReader( String filename )
-	{	return getReader( filename, false );
-	}
-
-	protected static BufferedReader getReader( String file, boolean allowOverride )
+	protected static BufferedReader getReader( String file )
 	{
-		if ( allowOverride )
+		File override = new File( "data/" + file );
+		if ( override.exists() )
 		{
-			File override = new File( "data/" + file );
-			if ( override.exists() )
+			try
 			{
-				try
-				{
-					return new BufferedReader( new InputStreamReader( new FileInputStream( override ) ) );
-				}
-				catch ( Exception e )
-				{
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-				}
+				return new BufferedReader( new InputStreamReader( new FileInputStream( override ) ) );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
 			}
 		}
 

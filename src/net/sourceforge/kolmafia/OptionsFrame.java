@@ -616,7 +616,7 @@ public class OptionsFrame extends KoLFrame
 
 			try
 			{
-				BufferedReader reader = KoLDatabase.getReader( CombatSettings.settingsFileName(), true );
+				BufferedReader reader = KoLDatabase.getReader( CombatSettings.settingsFileName() );
 				StringBuffer buffer = new StringBuffer();
 
 				String line;

@@ -251,7 +251,7 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final void refreshTable()
 	{
-		BufferedReader reader = getReader( "adventures.dat", true );
+		BufferedReader reader = getReader( "adventures.dat" );
 
 		adventureTable = new ArrayList[4];
 		for ( int i = 0; i < 4; ++i )

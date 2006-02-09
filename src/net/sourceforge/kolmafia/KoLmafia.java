@@ -2314,36 +2314,45 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void downloadAdventureOverride()
 	{
-		updateDisplay( NORMAL_STATE, "Downloading adventure data file patch..." );
+		updateDisplay( DISABLE_STATE, "Downloading override data files..." );
+
+		String [] files =
+		{
+			"adventures.dat", "buffbots.dat", "buffs.dat", "classskills.dat", "concoctions.dat",
+			"equipment.dat", "familiars.dat", "itemdescs.dat", "npcstores.dat", "outfits.dat",
+			"packages.dat", "tradeitems.dat", "zonelist.dat"
+		};
 
 		try
 		{
-			BufferedReader reader = new BufferedReader( new InputStreamReader(
-				(InputStream) (new URL( "http://kolmafia.sourceforge.net/data/adventures.dat" )).getContent() ) );
+			for ( int i = 0; i < files.length; ++i )
+			{
+				BufferedReader reader = new BufferedReader( new InputStreamReader(
+					(InputStream) (new URL( "http://kolmafia.sourceforge.net/data/" + files[i] )).getContent() ) );
 
-			File output = new File( "data/adventures.dat" );
-			if ( output.exists() )
-				output.delete();
+				File output = new File( "data/" + files[i] );
+				if ( output.exists() )
+					output.delete();
 
-			String line;
-			PrintStream writer = new PrintStream( new FileOutputStream( output ) );
+				String line;
+				PrintStream writer = new PrintStream( new FileOutputStream( output ) );
 
-			while ( (line = reader.readLine()) != null )
-				writer.println( line );
+				while ( (line = reader.readLine()) != null )
+					writer.println( line );
 
-			writer.close();
+				writer.close();
+			}
 		}
 		catch ( IOException e )
 		{
-			updateDisplay( ERROR_STATE, "Error occurred in download attempt." );
+			updateDisplay( ERROR_STATE, "Error occurred in download attempt.  Update failed." );
 
 			e.printStackTrace( logStream );
 			e.printStackTrace();
+
 			return;
 		}
 
-		AdventureDatabase.refreshTable();
-		AdventureDatabase.getAsLockableListModel();
-		updateDisplay( ENABLE_STATE, "Adventure table updated." );
+		updateDisplay( ENABLE_STATE, "Download completed.  KoLmafia successfully updated." );
 	}
 }
