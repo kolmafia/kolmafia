@@ -84,58 +84,35 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static void main( String [] args )
 	{
-		try
+		String initialScript = null;
+		for ( int i = 0; i < args.length; ++i )
+			if ( args[i].startsWith( "script=" ) )
+				initialScript = args[i].substring( 7 );
+
+		System.out.println();
+		System.out.println( " **************************" );
+		System.out.println( " *     " + VERSION_NAME + "      *" );
+		System.out.println( " * Command Line Interface *" );
+		System.out.println( " **************************" );
+		System.out.println();
+
+		System.out.println( "Determining server..." );
+		KoLRequest.applySettings();
+		System.out.println( KoLRequest.getRootHostName() + " selected." );
+		System.out.println();
+
+		StaticEntity.setClient( DEFAULT_SHELL );
+		DEFAULT_SHELL.outputStream = System.out;
+
+		if ( initialScript == null )
 		{
-			String initialScript = null;
-			for ( int i = 0; i < args.length; ++i )
-				if ( args[i].startsWith( "script=" ) )
-					initialScript = args[i].substring( 7 );
-
-			System.out.println();
-			System.out.println( " **************************" );
-			System.out.println( " *     " + VERSION_NAME + "      *" );
-			System.out.println( " * Command Line Interface *" );
-			System.out.println( " **************************" );
-			System.out.println();
-
-			System.out.println( "Determining server..." );
-			KoLRequest.applySettings();
-			System.out.println( KoLRequest.getRootHostName() + " selected." );
-			System.out.println();
-
-			StaticEntity.setClient( DEFAULT_SHELL );
-			DEFAULT_SHELL.outputStream = System.out;
-
-			if ( initialScript == null )
-			{
-				DEFAULT_SHELL.attemptLogin();
-				DEFAULT_SHELL.listenForCommands();
-			}
-			else
-			{
-				File script = new File( initialScript );
-
-				if ( script.exists() )
-				{
-					DEFAULT_SHELL.lastScript = new KoLmafiaCLI( new FileInputStream( script ) );
-					DEFAULT_SHELL.lastScript.listenForCommands();
-
-					if ( DEFAULT_SHELL.lastScript.previousCommand == null )
-						DEFAULT_SHELL.lastScript = null;
-				}
-
-				DEFAULT_SHELL.listenForCommands();
-			}
+			DEFAULT_SHELL.attemptLogin();
+			DEFAULT_SHELL.listenForCommands();
 		}
-		catch ( IOException e )
+		else
 		{
-			// If an exception occurs, exit with an error code
-			// to notify the user that something happened.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
-			System.exit(-1);
+			DEFAULT_SHELL.executeLine( "call " + initialScript );
+			DEFAULT_SHELL.listenForCommands();
 		}
 	}
 
