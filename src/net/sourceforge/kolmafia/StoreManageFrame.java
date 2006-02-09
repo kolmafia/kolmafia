@@ -101,11 +101,12 @@ public class StoreManageFrame extends KoLPanelFrame
 					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 						return;
 
-			 (new AutoSellRequest( client, elementList.getSelectedValues(), AutoSellRequest.AUTOMALL )).run();
+			(new RequestThread( new AutoSellRequest( client, elementList.getSelectedValues(), AutoSellRequest.AUTOMALL ) )).start();
 		 }
 
 		 public void actionCancelled()
 		 {
+			client.disableDisplay();
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).makeEndOfRunSaleRequest();
 		 }
@@ -120,12 +121,17 @@ public class StoreManageFrame extends KoLPanelFrame
 		 public void actionConfirmed()
 		 {
 			 Object [] items = elementList.getSelectedValues();
+			 StoreManageRequest [] requests = new StoreManageRequest[ items.length ];
+
 			 for ( int i = 0; i < items.length; ++i )
-			 	StoreManager.takeItem( ((StoreManager.SoldItem)items[i]).getItemID() );
+			 	requests[i] = new StoreManageRequest( client, ((StoreManager.SoldItem)items[i]).getItemID() );
+
+			(new RequestThread( requests )).start();
 		 }
 
 		 public void actionCancelled()
 		 {
+			client.disableDisplay();
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).removeAllItemsFromStore();
 		 }
@@ -350,8 +356,10 @@ public class StoreManageFrame extends KoLPanelFrame
 				if ( sellingList.getSelectedItem() == null )
 					return;
 
+				client.disableDisplay();
 				StoreManager.searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary );
 				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
+				client.enableDisplay();
 			}
 		}
 	}
@@ -474,7 +482,9 @@ public class StoreManageFrame extends KoLPanelFrame
 		private class TakeButtonListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
-			{	StoreManager.takeItem( itemID );
+			{
+				client.disableDisplay();
+				StoreManager.takeItem( itemID );
 			}
 		}
 
@@ -482,6 +492,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				client.disableDisplay();
 				StoreManager.searchMall( TradeableItemDatabase.getItemName( itemID ), priceSummary );
 				searchLabel.setText( itemName.getText() );
 			}
