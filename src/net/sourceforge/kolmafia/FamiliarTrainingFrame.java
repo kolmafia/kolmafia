@@ -294,7 +294,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				containerPanel.add( stop );
 
 				save = new JButton( "Save Transcript" );
-				stop.addActionListener( new SaveListener() );
+				save.addActionListener( new SaveListener() );
 				containerPanel.add( save );
 
 				// debug = new JButton( "Debug" );
