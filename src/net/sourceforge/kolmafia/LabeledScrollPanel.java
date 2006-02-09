@@ -61,12 +61,14 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 	protected JComponent scrollComponent;
 
 	public LabeledScrollPanel( String title, JComponent scrollComponent )
-	{
-		this( title, null, null, scrollComponent );
-		existingPanels.add( new WeakReference( this ) );
+	{	this( title, null, null, scrollComponent );
 	}
 
 	public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent )
+	{	this( title, confirmedText, cancelledText, scrollComponent, true );
+	}
+
+	public LabeledScrollPanel( String title, String confirmedText, String cancelledText, JComponent scrollComponent, boolean isRootPane )
 	{
 		this.scrollComponent = scrollComponent;
 
@@ -75,24 +77,28 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 		centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 
+		actualPanel = new JPanel( new BorderLayout( 20, 10 ) );
+		actualPanel.add( centerPanel, BorderLayout.CENTER );
+
 		if ( confirmedText != null )
 		{
 			buttonPanel = new VerifyButtonPanel( confirmedText, cancelledText, cancelledText );
 			buttonPanel.setBothDisabledOnClick( true );
+			actualPanel.add( buttonPanel, BorderLayout.EAST );
 		}
 
-		actualPanel = new JPanel();
-		actualPanel.setLayout( new BorderLayout( 20, 10 ) );
-		actualPanel.add( centerPanel, BorderLayout.CENTER );
+		if ( isRootPane )
+		{
+			getContentPane().setLayout( new CardLayout( 10, 10 ) );
+			getContentPane().add( actualPanel, "" );
+		}
+		else
+		{
+			setLayout( new CardLayout( 10, 10 ) );
+			add( actualPanel, "" );
+		}
 
-		if ( buttonPanel != null )
-			actualPanel.add( buttonPanel, BorderLayout.EAST );
-
-		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( actualPanel, "" );
-
-		if ( buttonPanel != null )
-			buttonPanel.setBothDisabledOnClick( true );
+		existingPanels.add( new WeakReference( this ) );
 	}
 
 	protected abstract void actionConfirmed();
@@ -101,6 +107,7 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 	public void setEnabled( boolean isEnabled )
 	{
 		scrollComponent.setEnabled( isEnabled );
-		buttonPanel.setEnabled( isEnabled );
+		if ( buttonPanel != null )
+			buttonPanel.setEnabled( isEnabled );
 	}
 }
