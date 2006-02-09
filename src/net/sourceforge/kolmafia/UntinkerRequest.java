@@ -122,7 +122,7 @@ public class UntinkerRequest extends KoLRequest
 				temporary.addAll( client.getConditions() );
 
 				client.getConditions().clear();
-				client.getConditions().add( SCREWDRIVER );
+				client.getConditions().add( SCREWDRIVER.getNegation() );
 
 				KoLAdventure adventure = AdventureDatabase.getAdventure( "degrassi" );
 				client.makeRequest( adventure, KoLCharacter.getAdventuresLeft() );
