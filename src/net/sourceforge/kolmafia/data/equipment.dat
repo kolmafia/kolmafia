@@ -270,7 +270,6 @@ stainless steel shillelagh	90	Mus: 30
 star crossbow	165	Mox: 67	2
 star staff	165	Mus: 67	2
 star sword	165	Mus: 67	2
-steaming evil	180	Mus: 75
 stolen accordion	10	none	2
 stone banjo	25	none	2
 sweet ninja sword	20	none
@@ -293,12 +292,13 @@ yak whip	20	none
 # which go in the "off-hand" slot of the equipment menu.
 
 anniversary balloon	0	none
+apathetic lizardman doll	0	none
 box	0	none
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
-continuum transfunctioner	0	none
 Cloaca-Cola shield	0	none
 clockwork detective skull	0	Mox: 25
+continuum transfunctioner	0	none
 detective skull	0	Mox: 15
 Dyspepsi-Cola shield	0	none
 easter egg balloon	0	Mys: 35
@@ -322,6 +322,7 @@ moxie magnet	0	none
 Mr. Balloon	0	none
 Mylar balloon	0	none
 oyster basket	0	none
+off-hand balloon	0	none
 penguin skin buckler	0	Mys: 30
 pirate hook	0	none
 rag doll	0	Mys: 40
@@ -335,7 +336,7 @@ stuffed dodecapede	0	none
 stuffed ghuol whelp	0	none
 stuffed Mob Penguin	0	none
 stuffed sabre-toothed lime	0	none
-stuffed stab ba	0	nonet
+stuffed stab bat	0	none
 stuffed yeti	0	none
 stuffed zmobie	0	none
 thought balloon	0	none

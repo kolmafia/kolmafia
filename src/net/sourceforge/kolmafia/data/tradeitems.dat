@@ -1195,7 +1195,7 @@
 1195	apathetic lizardman doll	13	2500
 1196	stuffed yeti	13	5000
 1197	stuffed Mob Penguin	13	10000
-1198	stuffed sabre toothed lime	13	25000
+1198	stuffed sabre-toothed lime	13	25000
 1199	giant stuffed bugbear	13	50000
 1200	mugcake	1	25
 1201	urinal cake	1	50
@@ -1215,7 +1215,7 @@
 1215	Mylar balloon	13	500
 1216	Kevlar balloon	13	1000
 1217	thought balloon	13	2500
-1218	rat head balloon	13	5000
+1218	rat head balloon	7	5000
 1219	mini-zeppelin	13	10000
 1220	Mr. Balloon	13	25000
 1221	red balloon	13	50000
@@ -1391,7 +1391,7 @@
 1391	ball	0	31
 1392	kite	0	29
 1393	pet rock	5	31
-1394	stuffed doppelshifter	13	29
+1394	stuffed doppelshifter	0	29
 1395	teddy bear	5	120
 1396	duck-on-a-string	12	111
 1397	toy soldier	0	79
