@@ -574,8 +574,6 @@ public class RequestFrame extends KoLFrame
 	public void dispose()
 	{
 		visitedLocations.clear();
-		parent = null;
-
 		super.dispose();
 	}
 
