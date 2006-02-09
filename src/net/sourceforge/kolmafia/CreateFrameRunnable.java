@@ -218,7 +218,9 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// to disable it (if necessary), ensure the frame's
 			// visibility on screen and request focus.
 
-			this.creation.setEnabled( isEnabled );
+			if ( this.creation instanceof KoLFrame )
+				this.creation.setEnabled( isEnabled );
+
 			this.creation.setVisible( true );
 			this.creation.requestFocus();
 		}
