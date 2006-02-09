@@ -423,12 +423,12 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "update" ) )
 		{
 			downloadAdventureOverride();
-			return;
+			updateDisplay( ENABLE_STATE, "You will need to restart KoLmafia for the changes to take effect." );
 		}
 
 		if ( command.equals( "abort" ) )
 		{
-			updateDisplay( ERROR_STATE, parameters.length() == 0 ? "Script abort." : parameters );
+			updateDisplay( ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );
 			StaticEntity.getClient().cancelRequest();
 			return;
 		}
@@ -930,7 +930,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "reprice" ) )
+		if ( command.equals( "reprice" ) || command.equals( "undercut" ) )
 		{
 			StaticEntity.getClient().priceItemsAtLowestPrice();
 			return;
@@ -1163,12 +1163,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "undercut" ) )
-		{
-			StaticEntity.getClient().priceItemsAtLowestPrice();
-			return;
-		}
-
 		// Campground commands, like retrieving toast, relaxing
 		// at the beanbag, resting at your house/tent, and visiting
 		// the evil golden arches.
@@ -1227,7 +1221,18 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( StaticEntity.getClient().permitsContinue() )
 				updateDisplay( ENABLE_STATE, "Message sent to " + splitParameters[1] );
 			else
-				updateDisplay( ERROR_STATE, "Failed to send message to " + splitParameters[1] );
+			{
+				StaticEntity.getClient().resetContinueState();
+				int desiredPackageIndex = Math.min( GiftMessageRequest.PACKAGES.size() - 1, attachments.size() );
+
+				(new GiftMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", "You are awesome.",
+					GiftMessageRequest.PACKAGES.get( desiredPackageIndex ), attachments.toArray(), meatAttachment )).run();
+
+				if ( StaticEntity.getClient().permitsContinue() )
+					updateDisplay( ENABLE_STATE, "Gift sent to " + splitParameters[1] );
+				else
+					updateDisplay( ERROR_STATE, "Failed to send message to " + splitParameters[1] );
+			}
 
 			return;
 		}
