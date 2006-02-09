@@ -16,14 +16,12 @@ bum cheek	20	none
 chef's hat	30	none
 chrome helmet turtle	120	Mox: 45
 Cloaca-Cola helmet	30	none
-clockwork detective skull	80	Mox: 25
 clockwork hat	80	Mox: 25
 coconut shell	30	none
 cold ninja mask	80	Mox: 25
 cornuthaum	85	Mox: 27
 Crimbo hat	100	Mox: 35
 Crown of the Goblin King	70	Mox: 20
-detective skull	60	Mox: 15
 Disco 'Fro Pick	50	Mox: 10
 disco mask	10	none
 draggin' ball hat	100	Mox: 35
@@ -294,10 +292,56 @@ yak whip	20	none
 # Off-hand section.  This section includes all the items
 # which go in the "off-hand" slot of the equipment menu.
 
+anniversary balloon	0	none
+box	0	none
+box-in-the-box	0	none
+box-in-the-box-in-the-box	0	none
+continuum transfunctioner	0	none
+Cloaca-Cola shield	0	none
+clockwork detective skull	0	Mox: 25
+detective skull	0	Mox: 15
+Dyspepsi-Cola shield	0	none
+easter egg balloon	0	Mys: 35
+enchanted brass knuckles	0	Mys: 10
+flaming talons	0	Mys: 30
+giant stuffed bugbear	0	none
+Glass Balls of the Goblin King	0	Mys: 20
+gnauga hide buckler	0	Mys: 30
+green balloon	0	none
+heart-shaped balloon	0	none
+hippo skin buckler	0	Mys: 30
+hypnodisk	0	none
 ice baby	0	none
+Kevlar balloon	0	none
+kickback cookbook	0	none
+magic lamp	0	none
+magical ice cubes	0	none
 marionette	0	Mys: 40
+mini-zeppelin	0	none
+moxie magnet	0	none
+Mr. Balloon	0	none
+Mylar balloon	0	none
+oyster basket	0	none
+penguin skin buckler	0	Mys: 30
+pirate hook	0	none
 rag doll	0	Mys: 40
+Raggedy Hippy doll	0	none
+red balloon	0	none
 sock monkey	0	Mys: 40
+star buckler	0	Mys: 67
+steaming evil	0	Mus: 75
+stuffed can of asparagus	0	none
+stuffed dodecapede	0	none
+stuffed ghuol whelp	0	none
+stuffed Mob Penguin	0	none
+stuffed sabre-toothed lime	0	none
+stuffed stab ba	0	nonet
+stuffed yeti	0	none
+stuffed zmobie	0	none
+thought balloon	0	none
+voodoo doll	0	none
+white balloon	0	none
+yak skin buckler	0	Mys: 30
 
 # Accessories section.  While Coldfront lists an item
 # power for each item, I have no idea where those values
@@ -306,7 +350,6 @@ sock monkey	0	Mys: 40
 
 acid-squirting flower	0	Mys: 10
 amulet of extreme plot significance	0	Mys: 35
-anniversary balloon	0	none
 arrrgyle socks	0	Mys: 20
 baconstone bracelet	0	Mys: 10
 baconstone earring	0	Mys: 10
@@ -322,47 +365,32 @@ bling-bling	0	Mys: 7
 Bonerdagon necklace	0	Mys: 25
 Boris's ring	0	Mys: 25
 Boss Bat bling	0	Mys: 17
-box	0	none
-box-in-the-box	0	none
-box-in-the-box-in-the-box	0	none
 Cape of the Goblin King	0	Mys: 20
 cement shoes	0	Mys: 35
 charrrm bracelet	0	Mys: 20
-Cloaca-Cola shield	0	none
 clown shoes	0	Mys: 10
 colored-light "necklace"	0	Mys: 35
 consolation ribbon	0	none
-continuum transfunctioner	0	none
 dead guy's watch	0	Mys: 10
 dirty hobo gloves	0	none
 disbelief suspenders	0	Mys: 10
 disembodied smile	0	none
 Dyspepsi-Cola-issue canteen	0	none
-Dyspepsi-Cola shield	0	none
-easter egg balloon	0	Mys: 35
-enchanted brass knuckles	0	Mys: 10
 enchanted toothpick	0	Mys: 25
 exclusive ultra-rare item	0	none
 eXtreme mittens	0	Mys: 40
 eXtreme nose ring	0	Mys: 10
-flaming talons	0	Mys: 30
 fuzzy bracelets	0	none
-Glass Balls of the Goblin King	0	Mys: 20
 glowing red eye	0	Mys: 60
 gnatwing earring	0	Mys: 20
-gnauga hide buckler	0	Mys: 30
 gnoll-tooth necklace	0	Mys: 25
 Golden Mr. Accessory	0	none
-green balloon	0	none
 hamethyst bracelet	0	Mys: 10
 hamethyst earring	0	Mys: 10
 hamethyst necklace	0	Mys: 10
 hamethyst ring	0	Mys: 10
-heart-shaped balloon	0	none
 hemp bracelet	0	Mys: 20
-hippo skin buckler	0	Mys: 30
 hockey stick of furious angry rage	0	Mys: 35
-hypnodisk	0	none
 ice skates	0	none
 imitation nice watch	0	Mys: 35
 incredibly dense meat gem	0	none
@@ -371,25 +399,18 @@ intergalactic pom poms	0	none
 Item #13	0	none
 Jarlsberg's earring	0	Mys: 25
 Jekyllin hide belt	0	none
-Kevlar balloon	0	none
-kickback cookbook	0	none
 ladle of mystery	0	none
 Mafia bow tie	0	Mys: 35
 Mafia stogie	0	Mys: 35
 makeshift SCUBA gear	0	none
-moxie magnet	0	none
 Mr. Accessory	0	none
 Mr. Accessory Jr.	0	none
 Mr. Eh?	0	none
 Mr. Exploiter	0	none
 monster bait	0	none
 Ms. Accessory	0	none
-Mylar balloon	0	none
-oyster basket	0	none
-penguin skin buckler	0	Mys: 30
 phat turquoise bracelet	0	Mys: 20
 Pine-Fresh air freshener	0	Mys: 10
-pirate hook	0	none
 plexiglass pendant	0	Mys: 75
 plexiglass pinky ring	0	Mys: 75
 plexiglass pocketwatch	0	Mys: 75
@@ -415,7 +436,6 @@ spooky glove	0	none
 stainless steel scarf	0	Mys: 30
 stainless steel solitaire	0	Mys: 30
 stainless steel suspenders	0	Mys: 30
-star buckler	0	Mys: 67
 string of blue beads	0	none
 string of green beads	0	none
 string of red beads	0	none
@@ -461,10 +481,7 @@ tiny plastic sweet nutcracker	0	none
 tiny plastic turtle tamer	0	none
 tiny plastic Uncle Crimbo	0	none
 toy train	0	none
-voodoo doll	0	none
 walrus-tusk earring	0	Mys: 10
 Warehouse 23 bling	0	none
-white balloon	0	none
 Xlyinia's notebook	0	none
-yak skin buckler	0	Mys: 30
 ye olde golde frontes	0	none
