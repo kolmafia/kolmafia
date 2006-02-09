@@ -270,6 +270,7 @@ stainless steel shillelagh	90	Mus: 30
 star crossbow	165	Mox: 67	2
 star staff	165	Mus: 67	2
 star sword	165	Mus: 67	2
+steaming evil	180	Mus: 75
 stolen accordion	10	none	2
 stone banjo	25	none	2
 sweet ninja sword	20	none
@@ -292,7 +293,6 @@ yak whip	20	none
 # which go in the "off-hand" slot of the equipment menu.
 
 anniversary balloon	0	none
-apathetic lizardman doll	0	none
 box	0	none
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
@@ -330,7 +330,6 @@ Raggedy Hippy doll	0	none
 red balloon	0	none
 sock monkey	0	Mys: 40
 star buckler	0	Mys: 67
-steaming evil	0	Mus: 75
 stuffed can of asparagus	0	none
 stuffed dodecapede	0	none
 stuffed ghuol whelp	0	none

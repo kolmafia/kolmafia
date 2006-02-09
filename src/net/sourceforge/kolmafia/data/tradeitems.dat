@@ -663,7 +663,7 @@
 663	star throwing star	0	100
 664	star starfish	5	100
 665	Richard's star key	0	100
-666	steaming evil	13	-1
+666	steaming evil	12	-1
 667	giant castle map	3	0
 668	spiked femur	12	105
 669	ghuol guolash	1	29
@@ -1192,7 +1192,7 @@
 1192	stuffed zmobie	13	250
 1193	Raggedy Hippy doll	13	500
 1194	stuffed stab bat	13	1000
-1195	apathetic lizardman doll	13	2500
+1195	apathetic lizardman doll	0	2500
 1196	stuffed yeti	13	5000
 1197	stuffed Mob Penguin	13	10000
 1198	stuffed sabre-toothed lime	13	25000
