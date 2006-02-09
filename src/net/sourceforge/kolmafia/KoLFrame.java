@@ -1172,6 +1172,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					if ( requiresCancel )
 						client.cancelRequest();
 
+					client.disableDisplay();
 					method.invoke( object, null );
 				}
 			}
@@ -1250,14 +1251,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			try
 			{
+				client.disableDisplay();
 				if ( method != null )
 					method.invoke( object, null );
-
-				if ( disableAfterClick )
-				{
-					setEnabled( false );
-					setToolTipText( "Debug log already started." );
-				}
 			}
 			catch ( Exception e )
 			{
