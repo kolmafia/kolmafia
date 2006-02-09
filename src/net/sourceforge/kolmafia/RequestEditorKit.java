@@ -235,7 +235,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// For some reason, character entitites are not properly
 		// handled by the mini browser.
 
-		displayHTML = displayHTML.replaceAll( "&ntilde;", "n" ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&infin;", "**" );
+		displayHTML = displayHTML.replaceAll( "&ntilde;", "\u00f1" ).replaceAll( "&eacute;", "\u00e9" ).replaceAll( "&trade;", "\u2122" ).replaceAll( "&infin;", "\u221e" );
+
+		// The last thing to worry about is the problems in
+		// submits that appear before the rest of the form data.
+		// The only known instance is the familiar page, so for
+		// now, just handle this case.
+
+		displayHTML = displayHTML.replaceFirst( "<input class=button type=submit value=\"Take this one with you\">", "" );
+
+		// All HTML is now properly rendered!  Return the
+		// compiled string.
+
 		return displayHTML;
 	}
 
