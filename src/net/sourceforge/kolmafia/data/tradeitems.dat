@@ -175,7 +175,7 @@
 175	uncooked chorizo	1	18
 176	disembodied brain	0	19
 177	brainy skull	0	32
-178	detective skull	9	50
+178	detective skull	13	50
 179	chorizo taco	1	52
 180	ice-cold fotie	2	40
 181	baseball	0	11
@@ -424,7 +424,7 @@
 424	cosmic lemonade	4	36
 425	equilibrium juice	4	36
 426	potion of temporary gr8tness	4	36
-427	box	8	19
+427	box	13	19
 428	nothing-in-the-box	0	26
 429	beanbag chair	3	48
 430	acid-squirting flower	8	60
@@ -442,7 +442,7 @@
 442	bartender-skull-in-the-box	0	78
 443	beer lens	0	31
 444	beer goggles	8	57
-445	box-in-the-box	8	38
+445	box-in-the-box	13	38
 446	nothing-in-the-box-in-the-box	0	41
 447	box-in-the-box-in-the-box	8	54
 448	foolscap fool's cap	9	45
@@ -455,7 +455,7 @@
 455	jumbo olive	1	60
 456	dry martini	2	90
 457	ye olde golde frontes	8	750
-458	continuum transfunctioner	8	0
+458	continuum transfunctioner	13	0
 459	white pixel	0	25
 460	black pixel	0	25
 461	red pixel	0	25
@@ -516,9 +516,9 @@
 516	Hey Deze map	3	0
 517	bejeweled accordion strap	8	1000
 518	magical mystery juice	14	50
-519	moxie magnet	8	1500
+519	moxie magnet	13	1500
 520	strange leaflet	0	0
-521	kickback cookbook	8	2000
+521	kickback cookbook	13	2000
 522	one-winged stab bat	0	140
 523	rewinged stab bat	5	148
 524	papaya sling	2	57
@@ -541,7 +541,7 @@
 541	draggin' ball hat	9	120
 542	1337 7r0uZ0RZ	10	130
 543	Trollhouse cookies	1	58
-544	flaming talons	8	100
+544	flaming talons	13	100
 545	Spam Witch sammich	1	58
 546	meat vortex	0	57
 547	334 scroll	0	51
@@ -659,11 +659,11 @@
 659	star staff	12	225
 660	star pants	10	225
 661	star hat	9	225
-662	star buckler	8	100
+662	star buckler	13	100
 663	star throwing star	0	100
 664	star starfish	5	100
 665	Richard's star key	0	100
-666	steaming evil	12	-1
+666	steaming evil	13	-1
 667	giant castle map	3	0
 668	spiked femur	12	105
 669	ghuol guolash	1	29
@@ -683,7 +683,7 @@
 683	horizontal tango	2	115
 684	pink pony	2	115
 685	Mr. Shirt	11	35
-686	enchanted brass knuckles	8	500
+686	enchanted brass knuckles	13	500
 687	blood of the Wereseal	4	250
 688	pixel hat	9	45
 689	pixel pants	10	45
@@ -732,7 +732,7 @@
 732	hosed tank	0	0
 733	hosed fishbowl	0	0
 734	makeshift SCUBA gear	8	0
-735	easter egg balloon	8	0
+735	easter egg balloon	13	0
 736	stone tablet (Sinister Strumming)	0	0
 737	stone tablet (Squeezings of Woe)	0	0
 738	stone tablet (Really Evil Rhythm)	0	0
@@ -766,7 +766,7 @@
 766	ghost pickle on a stick	5	450
 767	dill potion	4	77
 768	spork	12	35
-769	voodoo doll	8	25
+769	voodoo doll	13	25
 770	basic meat fez	9	140
 771	tassel	0	25
 772	foon	12	35
@@ -875,7 +875,7 @@
 875	crazy bastard sword	12	-1
 876	incredibly dense meat gem	8	-1
 877	Talisman of Baio	8	-1
-878	hypnodisk	8	-1
+878	hypnodisk	13	-1
 879	goofballs	0	0
 880	disbelief suspenders	0	95
 881	supportive bra	11	55
@@ -1005,7 +1005,7 @@
 1005	boxed wine	2	35
 1006	cherry	1	60
 1007	coconut shell	0	35
-1008	magical ice cubes	0	35
+1008	magical ice cubes	13	35
 1009	vodka martini	2	65
 1010	whiskey and soda	2	65
 1011	monkey wrench	2	65
@@ -1031,10 +1031,10 @@
 1031	yak whip	12	141
 1032	gnauga hide whip	12	120
 1033	gnauga hide	0	60
-1034	hippo skin buckler	8	144
-1035	penguin skin buckler	8	142
-1036	yak skin buckler	8	142
-1037	gnauga hide buckler	8	140
+1034	hippo skin buckler	13	144
+1035	penguin skin buckler	13	142
+1036	yak skin buckler	13	142
+1037	gnauga hide buckler	13	140
 1038	maraschino moxiosity potion	4	38
 1039
 1040	lucky Tam O'Shanter	7	-1
@@ -1077,7 +1077,7 @@
 1077	yellow polka-dot oyster egg	3	50
 1078	yellow paisley oyster egg	3	50
 1079	yellow plastic oyster egg	0	50
-1080	oyster basket	8	150
+1080	oyster basket	13	150
 1081	emo roe	5	-1
 1082	gazing shoes	7	70
 1083	personal raindrop	5	-1
@@ -1105,7 +1105,7 @@
 1105	clockwork bartender head	0	245
 1106	clockwork chef head	0	220
 1107	clockwork maid head	0	225
-1108	clockwork detective skull	9	195
+1108	clockwork detective skull	13	195
 1109	clockwork bartender-head-in-the-box	0	255
 1110	clockwork chef-head-in-the-box	0	225
 1111	clockwork bartender-in-the-box	3	710
@@ -1186,17 +1186,17 @@
 1186	gilded lily	0	10000
 1187	deadly nightshade	0	25000
 1188	black lotus	0	50000
-1189	stuffed can of asparagus	0	25
-1190	stuffed dodecapede	0	50
-1191	stuffed ghuol whelp	0	100
-1192	stuffed zmobie	0	250
-1193	Raggedy Hippy doll	0	500
-1194	stuffed stab bat	0	1000
-1195	apathetic lizardman doll	0	2500
-1196	stuffed yeti	0	5000
-1197	stuffed Mob Penguin	0	10000
-1198	stuffed sabre toothed lime	0	25000
-1199	giant stuffed bugbear	0	50000
+1189	stuffed can of asparagus	13	25
+1190	stuffed dodecapede	13	50
+1191	stuffed ghuol whelp	13	100
+1192	stuffed zmobie	13	250
+1193	Raggedy Hippy doll	13	500
+1194	stuffed stab bat	13	1000
+1195	apathetic lizardman doll	13	2500
+1196	stuffed yeti	13	5000
+1197	stuffed Mob Penguin	13	10000
+1198	stuffed sabre toothed lime	13	25000
+1199	giant stuffed bugbear	13	50000
 1200	mugcake	1	25
 1201	urinal cake	1	50
 1202	Happy Birthday, Claude! cake	1	100
@@ -1208,17 +1208,17 @@
 1208	angel-food cake	1	10000
 1209	devil's-food cake	1	25000
 1210	birthday party jellybean cheesecake	1	50000
-1211	white balloon	8	25
-1212	green balloon	8	50
-1213	heart-shaped balloon	8	100
-1214	anniversary balloon	8	250
-1215	Mylar balloon	8	500
-1216	Kevlar balloon	8	1000
-1217	thought balloon	8	2500
-1218	rat head balloon	7	5000
-1219	mini-zeppelin	8	10000
-1220	Mr. Balloon	8	25000
-1221	red balloon	8	50000
+1211	white balloon	13	25
+1212	green balloon	13	50
+1213	heart-shaped balloon	13	100
+1214	anniversary balloon	13	250
+1215	Mylar balloon	13	500
+1216	Kevlar balloon	13	1000
+1217	thought balloon	13	2500
+1218	rat head balloon	13	5000
+1219	mini-zeppelin	13	10000
+1220	Mr. Balloon	13	25000
+1221	red balloon	13	50000
 1222	Mr. Eh?	8	-1
 1223
 1224	stainless steel shillelagh	12	0
@@ -1241,7 +1241,7 @@
 1241
 1242	deflated inflatable dodecapede	5	-1
 1243	toy six-seater hovercraft	7	70
-1244	Glass Balls of the Goblin King	8	0
+1244	Glass Balls of the Goblin King	13	0
 1245	Cape of the Goblin King	8	0
 1246	rib of the Bonerdagon	12	0
 1247	vertebra of the Bonerdagon	0	0
@@ -1259,7 +1259,7 @@
 1259	yellow traffic cone	9	100
 1260	wax lips	7	-1
 1261	Hatorade	3	250
-1262	off-hand balloon	0	50
+1262	off-hand balloon	13	50
 1263	pygmy bugbear shaman	5	-1
 1264	tiny nose-bone fetish	7	75
 1265	box of sunshine	3	0
@@ -1270,7 +1270,7 @@
 1270	hexagonal wand	6	0
 1271	aluminum wand	6	0
 1272	marble wand	6	0
-1273	magic lamp	8	0
+1273	magic lamp	13	0
 1274	Medicinal Herb's medicinal herbs	3	50
 1275	basic meat skirt	10	140
 1276	Otorian Battle Scar	0	-1
@@ -1296,7 +1296,7 @@
 1296	ring of cold resistance	8	90
 1297	ring of fire resistance	8	90
 1298	ring of conflict	8	90
-1299	pirate hook	8	0
+1299	pirate hook	13	0
 1300	monster bait	8	50
 1301	deodorant	4	65
 1302	reodorant	4	65
@@ -1324,9 +1324,9 @@
 1324	time trousers	10	-1
 1325	time sword	12	-1
 1326	Dyspepsi-Cola helmet	9	35
-1327	Cloaca-Cola shield	8	35
+1327	Cloaca-Cola shield	13	35
 1328	Cloaca-Cola fatigues	10	35
-1329	Dyspepsi-Cola shield	8	35
+1329	Dyspepsi-Cola shield	13	35
 1330	Dyspepsi-Cola fatigues	10	35
 1331	Cloaca-Cola helmet	9	35
 1332	Cloaca-Cola knapsack	3	200
@@ -1334,6 +1334,7 @@
 1334	Cloaca-Cola	4	52
 1335	Dyspepsi grenade	0	150
 1336	Cloaca grenade	0	150
+1337
 1338	Dyspepsi-Cola d-rations	3	132
 1339	Cloaca-Cola c-rations	3	132
 1340	Cloaca-Cola-issue combat knife	12	35
@@ -1347,7 +1348,9 @@
 1348	empty blowgun	0	-1
 1349	miniscule temporal rip	5	-1
 1350	1.21 jigawatts	7	75
+1351
 1352	redrum	2	35
+1353
 1354	pile of shiny pebbles	0	0
 1355	bowl of oriole's nest soup	1	0
 1356	bunny liver	0	0
@@ -1374,6 +1377,7 @@
 1377	tiny plastic Crimbo elf	8	30
 1378	tiny plastic sweet nutcracker	8	30
 1379	tiny plastic Crimbo reindeer	8	30
+1380
 1381	aspirin	3	-1
 1382	fancy chocolate	3	-1
 1383	length of string	0	13
@@ -1387,7 +1391,7 @@
 1391	ball	0	31
 1392	kite	0	29
 1393	pet rock	5	31
-1394	stuffed doppelshifter	0	29
+1394	stuffed doppelshifter	13	29
 1395	teddy bear	5	120
 1396	duck-on-a-string	12	111
 1397	toy soldier	0	79
@@ -1421,6 +1425,10 @@
 1425	ice baby	13	-1
 1426	ice pick	9	-1
 1427	ice skates	8	-1
+1428
 1429	roll of drink tickets	4	90
+1430
+1431
+1432
 1433	fruit bowl	4	200
 1434	fruit basket	4	400
