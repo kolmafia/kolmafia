@@ -590,7 +590,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			if ( items[i].getCount() < 100 )
+			if ( items[i].getCount() < 100 && TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != -1 )
 			{
 				if ( TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 )
 				{
