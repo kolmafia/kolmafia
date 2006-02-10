@@ -38,25 +38,9 @@ import java.util.regex.Matcher;
 
 public class MailboxRequest extends KoLRequest
 {
-	private static boolean hasMoreMessages = false;
-	private static boolean isRequesting = false;
-	private static long lastRequest = System.currentTimeMillis();
-
 	private String boxname;
 	private int beginIndex;
 	private String action;
-
-	public static boolean isRequesting()
-	{	return isRequesting;
-	}
-
-	public static boolean hasMoreMessages()
-	{	return hasMoreMessages;
-	}
-
-	public static long getLastRequest()
-	{	return lastRequest;
-	}
 
 	public MailboxRequest( KoLmafia client, String boxname, KoLMailMessage message, String action )
 	{	this( client, boxname, new Object[] { message }, action );
@@ -88,8 +72,6 @@ public class MailboxRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		if ( boxname.equals( "Inbox" ) )
-			super.processResults();
 	}
 
 	public void run()
@@ -102,15 +84,11 @@ public class MailboxRequest extends KoLRequest
 		else
 			updateDisplay( NORMAL_STATE, "Executing " + action + " request for " + boxname + "..." );
 
-		lastRequest = System.currentTimeMillis();
-		isRequesting = true;
-
 		super.run();
 
 		if ( action != null )
 		{
 			updateDisplay( NORMAL_STATE, "Selected mail successfully " + action + "d" );
-			isRequesting = false;
 			return;
 		}
 
@@ -123,7 +101,6 @@ public class MailboxRequest extends KoLRequest
 		if ( responseText.indexOf( "There are no messages in this mailbox." ) != -1 )
 		{
 			updateDisplay( NORMAL_STATE, "Your mailbox is empty." );
-			isRequesting = false;
 			return;
 		}
 
@@ -159,7 +136,6 @@ public class MailboxRequest extends KoLRequest
 
 			updateDisplay( ERROR_STATE, "Error occurred in mail retrieval." );
 			client.cancelRequest();
-			isRequesting = false;
 			return;
 		}
 
@@ -168,13 +144,10 @@ public class MailboxRequest extends KoLRequest
 		if ( nextMessageIndex == -1 )
 		{
 			updateDisplay( NORMAL_STATE, "Your mailbox is empty." );
-			isRequesting = false;
 			return;
 		}
 
 		nextMessageIndex = processMessages( nextMessageIndex );
-		isRequesting = false;
-
 		updateDisplay( NORMAL_STATE, "Mail retrieved from page 1 of " + boxname );
 	}
 
