@@ -2059,6 +2059,27 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
+	protected class FilterCheckBox extends JCheckBox implements ActionListener
+	{
+		private JCheckBox [] filters;
+		private ShowDescriptionList elementList;
+
+		public FilterCheckBox( JCheckBox [] filters, ShowDescriptionList elementList, String label, boolean isSelected )
+		{
+			super( label, isSelected );
+			addActionListener( this );
+
+			this.filters = filters;
+			this.elementList = elementList;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+			elementList.updateUI();
+		}
+	}
+
 	private class UnanimatedLabel extends JLabel
 	{
 		public UnanimatedLabel()

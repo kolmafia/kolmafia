@@ -162,7 +162,6 @@ public class ItemManageFrame extends KoLFrame
 			super( "Usable Items", KoLCharacter.getUsables(), false );
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
-			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 			setButtons( new String [] { "use one", "use multiple", "refresh" },
 				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
@@ -174,6 +173,8 @@ public class ItemManageFrame extends KoLFrame
 
 			for ( int i = 0; i < 3; ++i )
 				optionPanel.add( filters[i] );
+
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
 		private class ConsumeListener implements ActionListener
@@ -286,6 +287,8 @@ public class ItemManageFrame extends KoLFrame
 
 			for ( int i = 0; i < 3; ++i )
 				optionPanel.add( filters[i] );
+
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
 		protected Object [] getDesiredItems( String message )
@@ -723,7 +726,6 @@ public class ItemManageFrame extends KoLFrame
 			super( "Create an Item", ConcoctionsDatabase.getConcoctions(), false );
 
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 			setButtons( new String [] { "create one", "create multiple", "refresh" },
 				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
@@ -735,6 +737,8 @@ public class ItemManageFrame extends KoLFrame
 
 			for ( int i = 0; i < 3; ++i )
 				optionPanel.add( filters[i] );
+
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
 		private class CreateListener implements ActionListener
@@ -758,27 +762,6 @@ public class ItemManageFrame extends KoLFrame
 
 				(new RequestThread( selection )).start();
 			}
-		}
-	}
-
-	protected class FilterCheckBox extends JCheckBox implements ActionListener
-	{
-		private JCheckBox [] filters;
-		private ShowDescriptionList elementList;
-
-		public FilterCheckBox( JCheckBox [] filters, ShowDescriptionList elementList, String label, boolean isSelected )
-		{
-			super( label, isSelected );
-			addActionListener( this );
-
-			this.filters = filters;
-			this.elementList = elementList;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
-			elementList.updateUI();
 		}
 	}
 
