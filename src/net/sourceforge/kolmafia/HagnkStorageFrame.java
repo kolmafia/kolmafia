@@ -43,6 +43,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
+import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -80,7 +81,9 @@ public class HagnkStorageFrame extends KoLFrame
 
 	private class HagnkStoragePanel extends MultiButtonPanel
 	{
-		private FilterRadioButton [] filters;
+		private boolean isEquipment;
+		private FilterCheckBox [] consumeFilters;
+		private FilterRadioButton [] equipmentFilters;
 
 		public HagnkStoragePanel( boolean isEquipment )
 		{
@@ -89,27 +92,82 @@ public class HagnkStorageFrame extends KoLFrame
 				new ActionListener [] { new PullFromStorageListener( false ), new PullFromStorageListener( true ) } );
 
 			movers[2].setSelected( true );
+			this.isEquipment = isEquipment;
 
 			if ( isEquipment )
 			{
-				filters = new FilterRadioButton[7];
-				filters[0] = new FilterRadioButton( "weapons", true );
-				filters[1] = new FilterRadioButton( "offhand" );
-				filters[2] = new FilterRadioButton( "hats" );
-				filters[3] = new FilterRadioButton( "shirts" );
-				filters[4] = new FilterRadioButton( "pants" );
-				filters[5] = new FilterRadioButton( "accessories" );
-				filters[6] = new FilterRadioButton( "familiar" );
+				elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+
+				equipmentFilters = new FilterRadioButton[7];
+				equipmentFilters[0] = new FilterRadioButton( "weapons", true );
+				equipmentFilters[1] = new FilterRadioButton( "offhand" );
+				equipmentFilters[2] = new FilterRadioButton( "hats" );
+				equipmentFilters[3] = new FilterRadioButton( "shirts" );
+				equipmentFilters[4] = new FilterRadioButton( "pants" );
+				equipmentFilters[5] = new FilterRadioButton( "accessories" );
+				equipmentFilters[6] = new FilterRadioButton( "familiar" );
 
 				ButtonGroup filterGroup = new ButtonGroup();
 				for ( int i = 0; i < 7; ++i )
 				{
-					filterGroup.add( filters[i] );
-					optionPanel.add( filters[i] );
+					filterGroup.add( equipmentFilters[i] );
+					optionPanel.add( equipmentFilters[i] );
 				}
 
 				elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer( true, false, false, false, false, false, false ) );
 			}
+			else
+			{
+				consumeFilters = new FilterCheckBox[3];
+				consumeFilters[0] = new FilterCheckBox( consumeFilters, elementList, "Show food", KoLCharacter.canEat() );
+				consumeFilters[1] = new FilterCheckBox( consumeFilters, elementList, "Show drink", KoLCharacter.canDrink() );
+				consumeFilters[2] = new FilterCheckBox( consumeFilters, elementList, "Show other", true );
+
+				for ( int i = 0; i < 3; ++i )
+					optionPanel.add( consumeFilters[i] );
+
+				elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			}
+		}
+
+		protected Object [] getDesiredItems( String message )
+		{
+			// Ensure that the selection interval does not include
+			// anything that was filtered out by the checkboxes.
+
+			if ( isEquipment )
+			{
+				Object [] elements = elementList.getSelectedValues();
+				for ( int i = 0; i < elements.length; ++i )
+				{
+					int actualIndex = ((LockableListModel)elementList.getModel()).indexOf( elements[i] );
+					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)elements[i]).getName() ) )
+					{
+						case ConsumeItemRequest.CONSUME_EAT:
+
+							if ( !consumeFilters[0].isSelected() )
+								elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+							break;
+
+						case ConsumeItemRequest.CONSUME_DRINK:
+
+							if ( !consumeFilters[1].isSelected() )
+								elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+							break;
+
+						default:
+
+							if ( !consumeFilters[2].isSelected() )
+								elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+							break;
+					}
+				}
+			}
+
+			return super.getDesiredItems( message );
 		}
 
 		private class FilterRadioButton extends JRadioButton implements ActionListener
@@ -127,8 +185,8 @@ public class HagnkStorageFrame extends KoLFrame
 			public void actionPerformed( ActionEvent e )
 			{
 				elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer(
-					filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(),
-					filters[4].isSelected(), filters[5].isSelected(), filters[6].isSelected() ) );
+					equipmentFilters[0].isSelected(), equipmentFilters[1].isSelected(), equipmentFilters[2].isSelected(), equipmentFilters[3].isSelected(),
+					equipmentFilters[4].isSelected(), equipmentFilters[5].isSelected(), equipmentFilters[6].isSelected() ) );
 				elementList.updateUI();
 			}
 		}
