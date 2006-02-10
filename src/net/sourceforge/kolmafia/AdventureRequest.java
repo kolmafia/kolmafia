@@ -325,10 +325,12 @@ public class AdventureRequest extends KoLRequest
 				// sitting in your inventory.  If you do, then visit
 				// the untinkerer automatically and repeat the request.
 
-				if ( ABRIDGED.getCount( KoLCharacter.getInventory() ) > 0 )
+				if ( KoLCharacter.hasItem( ABRIDGED, false ) )
 				{
+					AdventureDatabase.retrieveItem( ABRIDGED.getNegation() );
 					(new UntinkerRequest( client, ABRIDGED.getItemID() )).run();
 					this.run();
+
 					return;
 				}
 
