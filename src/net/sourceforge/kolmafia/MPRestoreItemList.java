@@ -52,8 +52,10 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class MPRestoreItemList extends StaticEntity
 {
-	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in beanbag", 1, -2 );
-	public static final MPRestoreItem HOUSE = new MPRestoreItem( "rest at campsite", 1, -1 );
+	public static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in beanbag", 1, -3 );
+	public static final MPRestoreItem HOUSE = new MPRestoreItem( "rest at campsite", 1, -2 );
+	public static final MPRestoreItem MYSTERY = new MPRestoreItem( "magical mystery juice", 1, -1 );
+
 	public static final MPRestoreItem GALAKTIK = new MPRestoreItem( "doc galaktik", 1, 20 );
 
 	private static Object [] restoreName = new Object[0];
@@ -66,11 +68,11 @@ public abstract class MPRestoreItemList extends StaticEntity
 		list.add( GALAKTIK );
 		list.add( BEANBAG );
 		list.add( HOUSE );
+		list.add( MYSTERY );
 
 		// These MP restores come from NPCs, so they have a
 		// constant market value
 
-		list.add( new MPRestoreItem( "magical mystery juice", (int) (KoLCharacter.getLevel() * 1.5 + 4.0), 100 ) );
 		list.add( new MPRestoreItem( "soda water", 4, 70 ) );
 
 		// On the other hand, these MP restores have a fairly
@@ -193,6 +195,14 @@ public abstract class MPRestoreItemList extends StaticEntity
 				(new CampgroundRequest( client, "rest" )).run();
 				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				return;
+			}
+
+			if ( this == MYSTERY )
+			{
+				// The restore rate on magical mystery juice changes
+				// based on your current level.
+
+				this.mpPerUse = (int) (KoLCharacter.getLevel() * 1.5 + 4.0);
 			}
 
 			int currentMP = KoLCharacter.getCurrentMP();
