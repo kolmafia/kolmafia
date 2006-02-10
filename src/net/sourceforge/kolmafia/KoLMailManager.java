@@ -34,19 +34,20 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
-import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLMailManager extends StaticEntity
 {
 	protected static Map mailboxes = new TreeMap();
 	static
 	{
-		mailboxes.put( "Inbox", new LockableListModel() );
-		mailboxes.put( "PvP", new LockableListModel() );
-		mailboxes.put( "Outbox", new LockableListModel() );
-		mailboxes.put( "Saved", new LockableListModel() );
+		mailboxes.put( "Inbox", new SortedListModel() );
+		mailboxes.put( "PvP", new SortedListModel() );
+		mailboxes.put( "Outbox", new SortedListModel() );
+		mailboxes.put( "Saved", new SortedListModel() );
 	}
 
 	public static void reset()
@@ -62,8 +63,8 @@ public abstract class KoLMailManager extends StaticEntity
 	 * specified mailbox.
 	 */
 
-	public static LockableListModel getMessages( String mailbox )
-	{	return (LockableListModel) mailboxes.get( mailbox );
+	public static SortedListModel getMessages( String mailbox )
+	{	return (SortedListModel) mailboxes.get( mailbox );
 	}
 
 	/**
@@ -78,7 +79,7 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static boolean addMessage( String boxname, String message )
 	{
-		LockableListModel mailbox = (LockableListModel) mailboxes.get(
+		SortedListModel mailbox = (SortedListModel) mailboxes.get(
 			boxname.equals( "Inbox" ) && message.indexOf( "initiated a PvP attack against you" ) != -1 ? "PvP" : boxname );
 
 		KoLMailMessage toadd = new KoLMailMessage( message );
@@ -96,7 +97,7 @@ public abstract class KoLMailManager extends StaticEntity
 		client.disableDisplay();
 		(new RequestThread( new MailboxRequest( client, boxname.equals( "PvP" ) ? "Inbox" : boxname, message, "delete" ) )).start();
 
-		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
+		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
 		int messageIndex = mailbox.indexOf( message );
 		if ( messageIndex != -1 )
 			mailbox.remove( messageIndex );
@@ -111,7 +112,7 @@ public abstract class KoLMailManager extends StaticEntity
 		(new MailboxRequest( client, boxname.equals( "PvP" ) ? "Inbox" : boxname, messages, "delete" )).run();
 
 		int messageIndex;
-		LockableListModel mailbox = (LockableListModel) mailboxes.get( boxname );
+		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
 		for ( int i = 0; i < messages.length; ++i )
 		{
 			messageIndex = mailbox.indexOf( messages[i] );
@@ -125,7 +126,7 @@ public abstract class KoLMailManager extends StaticEntity
 		client.disableDisplay();
 		(new MailboxRequest( client, "Inbox", message, "save" )).run();
 
-		LockableListModel mailbox = (LockableListModel) mailboxes.get( "Inbox" );
+		SortedListModel mailbox = (SortedListModel) mailboxes.get( "Inbox" );
 		int messageIndex = mailbox.indexOf( message );
 		if ( messageIndex != -1 )
 			mailbox.remove( messageIndex );
@@ -140,7 +141,7 @@ public abstract class KoLMailManager extends StaticEntity
 		(new MailboxRequest( client, "Inbox", messages, "save" )).run();
 
 		int messageIndex;
-		LockableListModel mailbox = (LockableListModel) mailboxes.get( "Inbox" );
+		SortedListModel mailbox = (SortedListModel) mailboxes.get( "Inbox" );
 		for ( int i = 0; i < messages.length; ++i )
 		{
 			messageIndex = mailbox.indexOf( messages[i] );

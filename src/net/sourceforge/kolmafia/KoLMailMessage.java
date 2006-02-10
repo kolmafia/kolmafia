@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.text.SimpleDateFormat;
 
-public class KoLMailMessage
+public class KoLMailMessage implements Comparable
 {
 	private static SimpleDateFormat sdf = new SimpleDateFormat( "EEEE, MMMM d, hh:mmaa", Locale.US );
 
@@ -48,6 +48,7 @@ public class KoLMailMessage
 	private String senderID;
 	private String senderName;
 	private String messageDate;
+	private Date timestamp;
 
 	public KoLMailMessage( String message )
 	{
@@ -73,6 +74,7 @@ public class KoLMailMessage
 			// an exception (but probably not)
 
 			this.messageDate = messageParser.nextToken().trim();
+			this.timestamp = sdf.parse( messageDate );
 		}
 		catch ( Exception e )
 		{
@@ -82,7 +84,8 @@ public class KoLMailMessage
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 
-			this.messageDate = sdf.format( new Date() );
+			this.timestamp = new Date();
+			this.messageDate = sdf.format( timestamp );
 		}
 	}
 
@@ -90,14 +93,16 @@ public class KoLMailMessage
 	{	return senderName + " @ " + messageDate;
 	}
 
+	public int compareTo( Object o )
+	{
+		return o == null || !(o instanceof KoLMailMessage) ? -1 :
+			timestamp.after( ((KoLMailMessage)o).timestamp ) ? -1 : timestamp.before( ((KoLMailMessage)o).timestamp ) ? 1 : 0;
+	}
+
 	public boolean equals( Object o )
 	{
 		return o == null ? false :
-			o instanceof KoLMailMessage ? equals( (KoLMailMessage)o ) : false;
-	}
-
-	public boolean equals( KoLMailMessage kmm )
-	{	return messageID.equals( kmm.messageID );
+			o instanceof KoLMailMessage ? messageID.equals( ((KoLMailMessage)o).messageID ) : false;
 	}
 
 	public String getMessageID()
