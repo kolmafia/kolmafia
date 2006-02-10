@@ -65,7 +65,7 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "searchranking", rank );
 
 		addFormField( "pvponly", "on" );
-		if ( !KoLCharacter.canInteract() )
+		if ( KoLCharacter.isHardcore() )
 			addFormField( "hardcoreonly", "on" );
 	}
 

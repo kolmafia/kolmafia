@@ -57,5 +57,7 @@ public class AccountRequest extends KoLRequest
 			String autosellMode = matcher.group(1).equals( "Compact" ) ? "detailed" : "compact";
 			KoLCharacter.setAutosellMode( autosellMode );
 		}
+
+		KoLCharacter.setHardcore( responseText.indexOf( "<input class=button type=submit value=\"Drop Hardcore\">" ) != -1 );
 	}
 }

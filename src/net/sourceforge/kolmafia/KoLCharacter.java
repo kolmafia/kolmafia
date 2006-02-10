@@ -270,7 +270,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 	// Ascension-related variables
 
-	private static boolean canInteract = false;
+	private static boolean isHardcore = false;
+	private static boolean canInteract = true;
 	private static int ascensions = 0;
 	private static String ascensionSign = "None";
 	private static int ascensionSignType = NONE;
@@ -317,6 +318,7 @@ public abstract class KoLCharacter extends StaticEntity
 		usableSkills.clear();
 		availableSkills.clear();
 
+		isHardcore = false;
 		canInteract = true;
 		hasStore = false;
 		hasDisplayCase = false;
@@ -1399,6 +1401,24 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void setInteraction( boolean canInteract )
 	{	KoLCharacter.canInteract = canInteract;
+	}
+
+
+	/**
+	 * Returns whether or not the character is currently in hardcore.
+	 */
+
+	public static boolean isHardcore()
+	{	return isHardcore;
+	}
+
+	/**
+	 * Accessor method which sets whether or not the player is currently
+	 * in hardcore.
+	 */
+
+	public static void setHardcore( boolean isHardcore )
+	{	KoLCharacter.isHardcore = isHardcore;
 	}
 
 	/**
