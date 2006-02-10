@@ -160,6 +160,8 @@ public class ItemManageFrame extends KoLFrame
 		public ConsumePanel()
 		{
 			super( "Usable Items", KoLCharacter.getUsables(), false );
+			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+
 			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 			setButtons( new String [] { "use one", "use multiple", "refresh" },
 				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
@@ -271,8 +273,56 @@ public class ItemManageFrame extends KoLFrame
 
 	private class ClosetManagePanel extends MultiButtonPanel
 	{
-		public ClosetManagePanel( String title, LockableListModel elementModel, boolean useFilters )
-		{	super( title, elementModel, true );
+		private JCheckBox [] filters;
+
+		public ClosetManagePanel( String title, LockableListModel elementModel )
+		{
+			super( title, elementModel, true );
+
+			filters = new JCheckBox[3];
+			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
+			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show other", true );
+
+			for ( int i = 0; i < 3; ++i )
+				optionPanel.add( filters[i] );
+		}
+
+		protected Object [] getDesiredItems( String message )
+		{
+			// Ensure that the selection interval does not include
+			// anything that was filtered out by the checkboxes.
+
+			Object [] elements = elementList.getSelectedValues();
+			for ( int i = 0; i < elements.length; ++i )
+			{
+				int actualIndex = ((LockableListModel)elementList.getModel()).indexOf( elements[i] );
+				switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)elements[i]).getName() ) )
+				{
+					case ConsumeItemRequest.CONSUME_EAT:
+
+						if ( !filters[0].isSelected() )
+							elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+						break;
+
+					case ConsumeItemRequest.CONSUME_DRINK:
+
+						if ( !filters[1].isSelected() )
+							elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+						break;
+
+					default:
+
+						if ( !filters[2].isSelected() )
+							elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+						break;
+				}
+			}
+
+			return super.getDesiredItems( message );
 		}
 
 		protected abstract class TransferListener implements ActionListener
@@ -407,7 +457,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public OutsideClosetPanel()
 		{
-			super( "Inside Inventory", KoLCharacter.getInventory(), false );
+			super( "Inside Inventory", KoLCharacter.getInventory() );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			setButtons( new String [] { "closet", "sell", "mall", "museum", "clan", "refresh" },
 				new ActionListener [] {
@@ -417,14 +467,23 @@ public class ItemManageFrame extends KoLFrame
 					new PutOnDisplayListener( false, elementList ),
 					new GiveToClanListener( false, elementList ),
 					new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
+		}
+	}
 
-			JCheckBox [] filters = new JCheckBox[3];
-			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
-			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
-			filters[2] = new FilterCheckBox( filters, elementList, "Show other", true );
-
-			for ( int i = 0; i < 3; ++i )
-				optionPanel.add( filters[i] );
+	private class InsideClosetPanel extends ClosetManagePanel
+	{
+		public InsideClosetPanel()
+		{
+			super( "Inside Closet", KoLCharacter.getCloset() );
+			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
+			setButtons( new String [] { "backpack", "sell", "mall", "museum", "clan", "refresh" },
+				new ActionListener [] {
+					new PutInClosetListener( true, elementList ),
+					new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ),
+					new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ),
+					new PutOnDisplayListener( true, elementList ),
+					new GiveToClanListener( true, elementList ),
+					new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
 		}
 	}
 
@@ -648,31 +707,6 @@ public class ItemManageFrame extends KoLFrame
 				client.updateDisplay( ERROR_STATE, "No new item combinations were found." );
 				return;
 			}
-		}
-	}
-
-	private class InsideClosetPanel extends ClosetManagePanel
-	{
-		public InsideClosetPanel()
-		{
-			super( "Inside Closet", KoLCharacter.getCloset(), false );
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
-			setButtons( new String [] { "backpack", "sell", "mall", "museum", "clan", "refresh" },
-				new ActionListener [] {
-					new PutInClosetListener( true, elementList ),
-					new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ),
-					new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ),
-					new PutOnDisplayListener( true, elementList ),
-					new GiveToClanListener( true, elementList ),
-					new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
-
-			JCheckBox [] filters = new JCheckBox[3];
-			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
-			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
-			filters[2] = new FilterCheckBox( filters, elementList, "Show other", true );
-
-			for ( int i = 0; i < 3; ++i )
-				optionPanel.add( filters[i] );
 		}
 	}
 
