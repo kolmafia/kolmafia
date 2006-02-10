@@ -49,8 +49,10 @@ public class AccountRequest extends KoLRequest
 		if ( responseCode != 200 )
 			return;
 
-		// Parse response text
-		Matcher matcher = Pattern.compile( "Switch to (\\S*?) Autosale Mode" ).matcher( responseText );
+		// Parse response text -- make sure you
+		// aren't accidentally parsing profiles.
+
+		Matcher matcher = Pattern.compile( "action=sellstuff\">Switch to (\\S*?) Autosale Mode</a>" ).matcher( responseText );
 
 		if ( matcher.find() )
 		{
@@ -58,6 +60,39 @@ public class AccountRequest extends KoLRequest
 			KoLCharacter.setAutosellMode( autosellMode );
 		}
 
+		// Consumption restrictions are also found
+		// here through the presence of buttons.
+
+		KoLCharacter.setConsumptionRestriction(
+			responseText.indexOf( "<input class=button type=submit value=\"Drop Oxygenarian\">" ) != -1 ? AscensionSnapshotTable.OXYGENARIAN :
+			responseText.indexOf( "<input class=button type=submit value=\"Drop Boozetafarian\">" ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
+			responseText.indexOf( "<input class=button type=submit value=\"Drop Teetotaler\">" ) != -1 ? AscensionSnapshotTable.TEETOTALER :
+			AscensionSnapshotTable.NOPATH );
+
+		// Whether or not a player is currently in
+		// hardcore is also found here through the
+		// presence of buttons.
+
 		KoLCharacter.setHardcore( responseText.indexOf( "<input class=button type=submit value=\"Drop Hardcore\">" ) != -1 );
+
+		// Also parse out the player's current time
+		// zone in the process.
+
+		matcher = Pattern.compile( "<select name=timezone>.*?</select>" ).matcher( responseText );
+
+		if ( matcher.find() )
+		{
+			matcher = Pattern.compile( "selected>(.*?)</option>" ).matcher( matcher.group() );
+			if ( matcher.find() )
+			{
+				// You now have the current integer offset
+				// for the player's time.  Now, the question
+				// is, what should be done with it to actually
+				// synchronize timestamps with the server so
+				// that all kmail can be processed?
+
+				int timeOffset = Integer.parseInt( matcher.group(1) );
+			}
+		}
 	}
 }

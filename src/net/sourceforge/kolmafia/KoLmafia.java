@@ -266,6 +266,17 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		// Update the player's account settings
+
+		(new AccountRequest( StaticEntity.getClient() )).run();
+
+		if ( !permitsContinue() )
+		{
+			deinitialize();
+			enableDisplay();
+			return;
+		}
+
 		// Get current moon phases
 
 		(new MoonPhaseRequest( this )).run();

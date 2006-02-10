@@ -1520,11 +1520,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static String getAutosellMode()
-	{
-		if ( autosellMode.equals( "" ) )
-			(new AccountRequest( StaticEntity.getClient() )).run();
-
-		return autosellMode;
+	{	return autosellMode;
 	}
 
 	/**
