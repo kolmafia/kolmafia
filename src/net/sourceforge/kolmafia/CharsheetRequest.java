@@ -208,6 +208,7 @@ public class CharsheetRequest extends KoLRequest
 				KoLCharacter.setSign( parsedContent.nextToken() );
 			}
 
+			KoLCharacter.setHardcore( responseText.indexOf( "You are in Hardcore mode" ) != -1 );
 			KoLCharacter.setInteraction( responseText.indexOf( "You may not receive items from other players" ) == -1 &&
 				responseText.indexOf( "You are in Hardcore mode" ) == -1 );
 
