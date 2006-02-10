@@ -157,4 +157,17 @@ public class UntinkerRequest extends KoLRequest
 		client.processResult( new AdventureResult( itemID, -1 ) );
 		updateDisplay( NORMAL_STATE, "Untinkering complete" );
 	}
+
+	protected void processResults()
+	{
+		if ( itemID != AdventureRequest.ABRIDGED.getItemID() )
+		{
+			super.processResults();
+			return;
+		}
+
+		KoLCharacter.processResult( AdventureRequest.ABRIDGED );
+		KoLCharacter.processResult( FightRequest.DICTIONARY1 );
+		KoLCharacter.processResult( AdventureRequest.BRIDGE.getNegation() );
+	}
 }

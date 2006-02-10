@@ -300,8 +300,7 @@ public class ConsumeItemRequest extends KoLRequest
 			client.processResult( FightRequest.DICTIONARY1.getNegation() );
 
 			// Get the new dictionary and drywall axe
-			client.processResult( new AdventureResult( 555, 1 ) );
-			client.processResult( FightRequest.DICTIONARY2 );
+			client.processResults( responseText );
 
 			// If he was fighting with the old dictionary, switch
 			// to use the new one.
