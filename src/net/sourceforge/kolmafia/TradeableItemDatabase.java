@@ -176,7 +176,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// one way -- all others must be the other dictionary.
 
 		if ( itemName.equals( "dictionary" ) )
-			return FightRequest.DICTIONARY2.getItemID();
+			return 1316;
 
 		// Get the canonical name of the item, and attempt
 		// to parse based on that.
