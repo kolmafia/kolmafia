@@ -199,7 +199,9 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void enableDisplay()
-	{	updateDisplay( permitsContinue() ? ENABLE_STATE : ERROR_STATE, "" );
+	{
+		updateDisplay( permitsContinue() ? ENABLE_STATE : ERROR_STATE, "" );
+		resetContinueState();
 	}
 
 	/**
