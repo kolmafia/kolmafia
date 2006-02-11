@@ -103,7 +103,7 @@ public class UntinkerRequest extends KoLRequest
 		// If they do not have a screwdriver, tell them they
 		// need to complete the untinker quest.
 
-		if ( responseText.indexOf( "action" ) == -1 && !KoLCharacter.getInventory().contains( SCREWDRIVER ) )
+		if ( questCompleter.responseText.indexOf( "action" ) == -1 && !KoLCharacter.getInventory().contains( SCREWDRIVER ) )
 		{
 			// If the are in a muscle sign, this is a trivial task;
 			// just have them visit Innabox.
