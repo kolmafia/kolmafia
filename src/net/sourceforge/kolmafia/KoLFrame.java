@@ -1198,7 +1198,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		private Object object;
 		private Method method;
-		private boolean disableAfterClick;
 
 		public InvocationButton( String text, Object object, String methodName )
 		{
@@ -1237,7 +1236,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			try
 			{
 				this.method = c.getMethod( methodName, NOPARAMS );
-				this.disableAfterClick = methodName.equals( "openDebugLog" );
 			}
 			catch ( Exception e )
 			{
@@ -1254,7 +1252,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			try
 			{
-				client.disableDisplay();
 				if ( method != null )
 					method.invoke( object, null );
 			}
