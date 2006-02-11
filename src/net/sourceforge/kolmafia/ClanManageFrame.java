@@ -631,7 +631,7 @@ public class ClanManageFrame extends KoLFrame
 
 			initialRank = value.getRank();
 			initialTitle = value.getTitle();
-			rankSelect.setSelectedItem( initialRank );
+			rankSelect.setSelectedItem( initialRank.toLowerCase() );
 
 			titleField = new JTextField();
 			bootCheckBox = new JCheckBox();
