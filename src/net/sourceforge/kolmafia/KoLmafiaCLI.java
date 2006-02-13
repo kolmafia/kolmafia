@@ -331,6 +331,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public synchronized void executeLine( String line )
 	{
+		boolean shouldEnable = StaticEntity.getClient().currentState != DISABLE_STATE;
+
+		StaticEntity.getClient().disableDisplay();
 		StaticEntity.getClient().resetContinueState();
 
 		String [] separateLines = line.split( "\\s*;\\s*" );
@@ -354,17 +357,19 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( line.length() != 0 )
+		{
+			String command = line.trim().split( " " )[0].toLowerCase().trim();
+			String parameters = line.substring( command.length() ).trim();
 
-		if ( line.length() == 0 )
-			return;
+			if ( !command.equals( "repeat" ) )
+				previousCommand = line;
 
-		String command = line.trim().split( " " )[0].toLowerCase().trim();
-		String parameters = line.substring( command.length() ).trim();
+			executeCommand( command, parameters );
+		}
 
-		if ( !command.equals( "repeat" ) )
-			previousCommand = line;
-
-		executeCommand( command, parameters );
+		if ( shouldEnable )
+			StaticEntity.getClient().enableDisplay();
 	}
 
 	/**
