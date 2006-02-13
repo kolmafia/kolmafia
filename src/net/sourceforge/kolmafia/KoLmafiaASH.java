@@ -1903,11 +1903,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute()
 		{
-			if ( !client.permitsContinue() )
-			{
-				currentState = STATE_EXIT;
-				return null;
-			}
+			client.resetContinueState();
 
 			try
 			{
