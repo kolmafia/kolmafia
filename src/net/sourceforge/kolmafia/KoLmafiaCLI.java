@@ -1643,6 +1643,9 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			String conditionString = parameters.substring( option.length() ).trim();
 
+			if ( conditionString.length() == 0 )
+				return true;
+
 			if ( conditionString.endsWith( "choiceadv" ) )
 			{
 				// If it's a choice adventure condition, parse out the
@@ -2730,9 +2733,11 @@ public class KoLmafiaCLI extends KoLmafia
 	public void executeBuyCommand( String parameters )
 	{
 		AdventureResult firstMatch = getFirstMatchingItem( parameters, NOWHERE );
+		if ( firstMatch == null )
+			updateDisplay( NORMAL_STATE, "No item specified for purchase." );
+
 		ArrayList results = new ArrayList();
 		(new SearchMallRequest( StaticEntity.getClient(), '\"' + firstMatch.getName() + '\"', 0, results )).run();
-
 		StaticEntity.getClient().makePurchases( results, results.toArray(), firstMatch.getCount() );
 	}
 
