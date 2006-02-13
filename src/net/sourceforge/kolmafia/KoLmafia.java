@@ -226,6 +226,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		this.sessionID = sessionID;
 
+		KoLmafiaCLI.reset();
 		KoLCharacter.reset( loginname );
 		KoLMailManager.reset();
 		FamiliarData.reset();

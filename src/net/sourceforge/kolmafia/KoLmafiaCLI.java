@@ -67,13 +67,14 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class KoLmafiaCLI extends KoLmafia
 {
+	private static final ArrayList unrepeatableCommands = new ArrayList();
+
 	public static final int NOWHERE = 1;
 	public static final int INVENTORY = 2;
 	public static final int CREATION = 3;
 	public static final int CLOSET = 4;
 
 	protected String previousCommand;
-	public static final ArrayList unrepeatableCommands = new ArrayList();
 
 	private PrintStream outputStream;
 	private PrintStream mirrorStream;
@@ -117,27 +118,6 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * Utility method to parse an individual adventuring result.
-	 * This method determines what the result actually was and
-	 * adds it to the tally.  Note that at the current time, it
-	 * will ignore anything with the word "points".
-	 *
-	 * @param	result	String to parse for the result
-	 */
-
-	public void parseResult( String result )
-	{
-		if ( StaticEntity.getClient() == this )
-		{
-			super.parseResult( result );
-			if ( !inLoginState() )
-				updateDisplay( NORMAL_STATE, (result.startsWith( "You" ) ? " - " : " - Adventure result: ") + result );
-		}
-		else
-			StaticEntity.getClient().parseResult( result );
-	}
-
-	/**
 	 * Constructs a new <code>KoLmafiaCLI</code> object.  All data fields
 	 * are initialized to their default values, the global settings
 	 * are loaded from disk.
@@ -159,6 +139,31 @@ public class KoLmafiaCLI extends KoLmafia
 
 		mirrorStream = NullStream.INSTANCE;
 		advancedHandler = new KoLmafiaASH();
+	}
+
+	/**
+	 * Utility method to parse an individual adventuring result.
+	 * This method determines what the result actually was and
+	 * adds it to the tally.  Note that at the current time, it
+	 * will ignore anything with the word "points".
+	 *
+	 * @param	result	String to parse for the result
+	 */
+
+	public void parseResult( String result )
+	{
+		if ( StaticEntity.getClient() == this )
+		{
+			super.parseResult( result );
+			if ( !inLoginState() )
+				updateDisplay( NORMAL_STATE, (result.startsWith( "You" ) ? " - " : " - Adventure result: ") + result );
+		}
+		else
+			StaticEntity.getClient().parseResult( result );
+	}
+
+	public static void reset()
+	{	unrepeatableCommands.clear();
 	}
 
 	/**
