@@ -56,6 +56,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MushroomFrame extends KoLFrame
 {
+	private boolean doingLayout = false;
 	private String [] currentData;
 	private String [] layoutData;
 
@@ -125,6 +126,7 @@ public class MushroomFrame extends KoLFrame
 		// Change any mushrooms which no longer
 		// match the existing plot.
 
+		doingLayout = true;
 		for ( int i = 0; i < 16; ++i )
 		{
 			if ( !currentData[i].equals( layoutData[i] ) )
@@ -135,6 +137,7 @@ public class MushroomFrame extends KoLFrame
 			}
 		}
 
+		doingLayout = false;
 		client.enableDisplay();
 	}
 
@@ -213,7 +216,16 @@ public class MushroomFrame extends KoLFrame
 			synchronized( MushroomFrame.class )
 			{
 				currentData = MushroomPlot.getMushroomPlot( true ).split( ";" );
-				layoutData = MushroomPlot.getMushroomPlot( true ).split( ";" );
+
+				// Only update the layout data if you're
+				// not currently doing any layouts.
+
+				if ( !doingLayout )
+					layoutData = MushroomPlot.getMushroomPlot( true ).split( ";" );
+
+				// With everything that you need updated,
+				// feel free to refresh the layout.
+
 				refresh();
 			}
 		}
