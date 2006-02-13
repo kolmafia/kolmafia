@@ -226,48 +226,47 @@ public class ItemManageFrame extends KoLFrame
 
 	private class SpecialPanel extends MultiButtonPanel
 	{
+		private final int PURCHASE_ONE = 1;
+		private final int PURCHASE_MULTIPLE = 2;
+		private final int PURCHASE_MAX = 3;
+
 		public SpecialPanel( LockableListModel items )
 		{
 			super( "Sign-Specific Stuffs", items, false );
-			setButtons( new String [] { "buy one", "buy multiple" },
-				new ActionListener [] { new BuyListener( false ), new BuyListener( true ) } );
+
+			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			setButtons( new String [] { "buy one", "buy multiple", "buy maximum" },
+				new ActionListener [] {
+					new BuyListener( PURCHASE_ONE ),
+					new BuyListener( PURCHASE_MULTIPLE ),
+					new BuyListener( PURCHASE_MAX )
+				} );
 		}
 
 		private class BuyListener implements ActionListener
 		{
-			private boolean purchaseMultiple;
+			private int purchaseType;
 
-			public BuyListener( boolean purchaseMultiple )
-			{	this.purchaseMultiple = purchaseMultiple;
+			public BuyListener( int purchaseType )
+			{	this.purchaseType = purchaseType;
 			}
 
 			public void actionPerformed( ActionEvent e )
 			{
-				Object [] items = elementList.getSelectedValues();
-				if ( items.length == 0 )
+				String item = (String) elementList.getSelectedValue();
+				if ( item == null )
 					return;
 
-				String currentItem;
-				int consumptionCount;
+				int consumptionCount = purchaseType == PURCHASE_MULTIPLE ? getQuantity( "Buying multiple " + item + "...", Integer.MAX_VALUE, 1 ) :
+					purchaseType == PURCHASE_ONE ? 1 : 30;
 
-				Runnable [] requests = new Runnable[ items.length ];
-				int [] repeatCount = new int[ items.length ];
+				if ( consumptionCount == 0 )
+					return;
 
-				for ( int i = 0; i < items.length; ++i )
-				{
-					currentItem = (String) items[i];
-					consumptionCount = purchaseMultiple ? getQuantity( "Buying multiple " + currentItem + "...", Integer.MAX_VALUE, 1 ) : 1;
+				Runnable request = elementList.getModel() == client.getRestaurantItems() ?
+					(KoLRequest) (new RestaurantRequest( client, item )) : (KoLRequest) (new MicrobreweryRequest( client, item ));
 
-					if ( consumptionCount == 0 )
-						return;
-
-					requests[i] = elementList.getModel() == client.getRestaurantItems() ?
-						(KoLRequest) (new RestaurantRequest( client, currentItem )) : (KoLRequest) (new MicrobreweryRequest( client, currentItem ));
-
-					repeatCount[i] = consumptionCount;
-				}
-
-				(new RequestThread( requests, repeatCount )).start();
+				(new RequestThread( request, consumptionCount )).start();
 			}
 		}
 	}
@@ -760,6 +759,7 @@ public class ItemManageFrame extends KoLFrame
 				ItemCreationRequest selection = (ItemCreationRequest) selected;
 				selection.setQuantityNeeded( createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1 );
 
+				client.enableDisplay();
 				(new RequestThread( selection )).start();
 			}
 		}
