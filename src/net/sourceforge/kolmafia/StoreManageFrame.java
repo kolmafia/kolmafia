@@ -90,36 +90,37 @@ public class StoreManageFrame extends KoLPanelFrame
 
 	private class StoreAddPanel extends ItemManagePanel
 	{
-		 public StoreAddPanel()
-		 {	 super( "On-Hand Inventory", "add selected", "end of run sale", KoLCharacter.getInventory() );
-		 }
+		public StoreAddPanel()
+		{	 super( "On-Hand Inventory", "add selected", "end of run sale", KoLCharacter.getInventory() );
+		}
 
-		 public void actionConfirmed()
-		 {
+		public void actionConfirmed()
+		{
 			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 				"Are you sure you would like to place the selected items in your store?",
 					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 						return;
 
 			(new RequestThread( new AutoSellRequest( client, elementList.getSelectedValues(), AutoSellRequest.AUTOMALL ) )).start();
-		 }
+		}
 
-		 public void actionCancelled()
-		 {
+		public void actionCancelled()
+		{
 			client.disableDisplay();
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).makeEndOfRunSaleRequest();
-		 }
+			client.enableDisplay();
+		}
 	}
 
 	private class StoreRemovePanel extends ItemManagePanel
 	{
-		 public StoreRemovePanel()
-		 {	 super( "Store's Inventory", "remove selected", "empty out store", StoreManager.getSoldItemList() );
-		 }
+		public StoreRemovePanel()
+		{	 super( "Store's Inventory", "remove selected", "empty out store", StoreManager.getSoldItemList() );
+		}
 
-		 public void actionConfirmed()
-		 {
+		public void actionConfirmed()
+		{
 			 Object [] items = elementList.getSelectedValues();
 			 StoreManageRequest [] requests = new StoreManageRequest[ items.length ];
 
@@ -127,14 +128,15 @@ public class StoreManageFrame extends KoLPanelFrame
 			 	requests[i] = new StoreManageRequest( client, ((StoreManager.SoldItem)items[i]).getItemID() );
 
 			(new RequestThread( requests )).start();
-		 }
+		}
 
-		 public void actionCancelled()
-		 {
+		public void actionCancelled()
+		{
 			client.disableDisplay();
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).removeAllItemsFromStore();
-		 }
+			client.enableDisplay();
+		}
 	}
 
 	public void setEnabled( boolean isEnabled )
@@ -485,6 +487,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			{
 				client.disableDisplay();
 				StoreManager.takeItem( itemID );
+				client.enableDisplay();
 			}
 		}
 
@@ -495,6 +498,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				client.disableDisplay();
 				StoreManager.searchMall( TradeableItemDatabase.getItemName( itemID ), priceSummary );
 				searchLabel.setText( itemName.getText() );
+				client.enableDisplay();
 			}
 		}
 	}

@@ -251,7 +251,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void listenForCommands()
 	{
-		StaticEntity.getClient().disableDisplay();
 		StaticEntity.getClient().resetContinueState();
 
 		if ( StaticEntity.getClient() == this )

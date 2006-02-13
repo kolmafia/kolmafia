@@ -240,6 +240,6 @@ public class HermitRequest extends KoLRequest
 	{
 		int count = 0 - Math.min( total, item.getCount( inventory ) );
 		client.processResult( item.getInstance( count ) );
-		return count;
+		return 0 - count;
 	}
 }

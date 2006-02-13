@@ -1171,7 +1171,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				if ( method != null )
 				{
-					boolean wasEnabled = KoLFrame.this.isEnabled;
+					boolean wasEnabled = client.currentState != DISABLE_STATE;
 
 					client.disableDisplay();
 					client.resetContinueState();
