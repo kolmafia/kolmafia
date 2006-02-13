@@ -259,12 +259,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		String line = null;
 
-		do
+		while ( (line = getNextLine()) != null && (StaticEntity.getClient().permitsContinue() || StaticEntity.getClient() == this) )
 		{
-			line = getNextLine();
-			if ( line == null )
-				return;
-
 			if ( StaticEntity.getClient() == this )
 				updateDisplay( NORMAL_STATE, "" );
 
@@ -276,7 +272,6 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( StaticEntity.getClient() == this )
 				outputStream.print( " > " );
 		}
-		while ( (StaticEntity.getClient().permitsContinue() || StaticEntity.getClient() == this) );
 
 		if ( line == null || line.trim().length() == 0 )
 		{
