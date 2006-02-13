@@ -130,6 +130,9 @@ public abstract class SorceressLair extends StaticEntity
 		{ "potato", "Barrrnacle" }
 	};
 
+	//Item ID for return value to ASH
+	private static int requiredItemID;
+
 	private static boolean checkPrerequisites( int min, int max )
 	{
 		// If the client has not yet been set, then there is
@@ -992,6 +995,12 @@ public abstract class SorceressLair extends StaticEntity
 		return responseText;
 	}
 
+	public static int fightTowerGuardiansASH()
+	{
+		fightTowerGuardians();
+		return requiredItemID;
+	}
+
 	public static void fightTowerGuardians()
 	{
 		if ( !checkPrerequisites( 4, 5 ) )
@@ -1088,6 +1097,7 @@ public abstract class SorceressLair extends StaticEntity
 			return fightGuardian( towerLevel );
 
 		client.updateDisplay( ERROR_STATE, "You need an additional " + guardianItem.getName() + " to continue." );
+		requiredItemID = guardianItem.getItemID();
 		return false;
 	}
 

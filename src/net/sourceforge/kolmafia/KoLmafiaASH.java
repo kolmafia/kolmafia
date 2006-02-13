@@ -1621,6 +1621,39 @@ public class KoLmafiaASH extends StaticEntity
 		params[0] = new ScriptType( TYPE_FAMILIAR );
 		result.addFunction( new ScriptExistingFunction( "familiar_to_string", new ScriptType( TYPE_STRING ), params ) );
 
+		params = new ScriptType[1];
+		params[0] = new ScriptType( TYPE_INT );
+		result.addFunction( new ScriptExistingFunction( "wait", new ScriptType( TYPE_VOID ), params ) );
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "entryway", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "hedgemaze", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "guardians", new ScriptType( TYPE_ITEM ), params ) );
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "chamber", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "nemesis", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "guild", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "gourd", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "tavern", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[2];
+		params[0] = new ScriptType( TYPE_INT );
+		params[1] = new ScriptType( TYPE_STRING );
+		result.addFunction( new ScriptExistingFunction( "train_familiar", new ScriptType( TYPE_BOOLEAN ), params ) );
+
 		return result;
 	}
 
@@ -2031,6 +2064,26 @@ public class KoLmafiaASH extends StaticEntity
 					return executeEffectToStringRequest( variables[0].getIntValue() );
 				else if( name.equals( "familiar_to_string" ) )
 					return executeFamiliarToStringRequest( variables[0].getIntValue() );
+				else if( name.equals( "wait" ) )
+					return executeWaitRequest( variables[0].getIntValue() );
+				else if( name.equals( "entryway" ) )
+					return executeEntrywayRequest();
+				else if( name.equals( "hedgemaze" ) )
+					return executeHedgemazeRequest();
+				else if( name.equals( "guardians" ) )
+					return executeGuardiansRequest();
+				else if( name.equals( "chamber" ) )
+					return executeChamberRequest();
+				else if( name.equals( "nemesis" ) )
+					return executeNemesisRequest();
+				else if( name.equals( "guild" ) )
+					return executeGuildRequest();
+				else if( name.equals( "gourd" ) )
+					return executeGourdRequest();
+				else if( name.equals( "tavern" ) )
+					return executeTavernRequest();
+				else if( name.equals( "train_familiar" ) )
+					return executeTrainFamiliarRequest( variables[0].getIntValue(), variables[1].getStringValue() );
 				else
 					throw new RuntimeException( "Internal error: unknown library function " + name );
 			}
@@ -2054,19 +2107,22 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executeBuyRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "buy " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "buy " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executeCreateRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "create " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "create " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executeUseRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "use " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "use " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
@@ -2074,6 +2130,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			AdventureResult item;
 
+			if( (itemID == -1))
+				return new ScriptValue( TYPE_INT, 0);
 			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
 
 			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getInventory() ) );
@@ -2083,6 +2141,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			AdventureResult item;
 
+			if( (itemID == -1))
+				return new ScriptValue( TYPE_INT, 0);
 			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
 
 			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCloset() ) );
@@ -2092,6 +2152,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			AdventureResult item;
 
+			if( (itemID == -1))
+				return new ScriptValue( TYPE_INT, 0);
 			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
 
 			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCollection() ) );
@@ -2101,6 +2163,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			AdventureResult item;
 
+			if( (itemID == -1))
+				return new ScriptValue( TYPE_INT, 0);
 			new StoreManageRequest( client ).run(); //refresh store inventory
 			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
 
@@ -2111,6 +2175,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			AdventureResult item;
 
+			if( (itemID == -1))
+				return new ScriptValue( TYPE_INT, 0);
 			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
 
 			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getStorage() ) );
@@ -2120,6 +2186,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			AdventureResult item;
 
+			if( (itemID == -1))
+				return new ScriptValue( TYPE_INT, 0);
 			new ClanStashRequest( client ).run(); //refresh clan stash
 			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
 
@@ -2128,37 +2196,43 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executePutClosetRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "closet put " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "closet put " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executePutShopRequest( int price, int limit, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "mallsell " + TradeableItemDatabase.getItemName( itemID ) + " " + price + " " + limit );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "mallsell " + TradeableItemDatabase.getItemName( itemID ) + " " + price + " " + limit );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executePutStashRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "stash put " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "stash put " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executeTakeClosetRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "closet take " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "closet take " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executeTakeStorageRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "hagnk " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "hagnk " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executeSellItemRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "sell " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "sell " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
@@ -2273,7 +2347,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executeItemConditionRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "conditions add " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "conditions add " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_VOID );
 		}
 
@@ -2294,31 +2369,36 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executeHermitRequest( int amount, int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "hermit " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "hermit " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executeBountyHunterRequest( int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "hunter " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "hunter " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executeTrapperRequest( int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "trapper " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "trapper " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executeEquipRequest( int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "equip " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "equip " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
 		private ScriptValue executeUnequipRequest( int itemID ) throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.executeLine( "unequip " + TradeableItemDatabase.getItemName( itemID ) );
+			if( !(itemID == -1))
+				DEFAULT_SHELL.executeLine( "unequip " + TradeableItemDatabase.getItemName( itemID ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 
@@ -2380,6 +2460,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executeBountyHunterWantsRequest( int itemID ) throws AdvancedScriptException
 		{
+			if( ( itemID == -1 ) )
+				return new ScriptValue( TYPE_BOOLEAN, 1 );
 			if ( StaticEntity.getClient().hunterItems.isEmpty() )
 				(new BountyHunterRequest( StaticEntity.getClient() )).run();
 
@@ -2407,6 +2489,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executeItemToStringRequest( int itemID ) throws AdvancedScriptException
 		{
+			if( itemID == -1)
+				return new ScriptValue( TYPE_STRING, "none" );
 			return new ScriptValue( TYPE_STRING, TradeableItemDatabase.getItemName( itemID ) );
 		}
 
@@ -2444,6 +2528,71 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			return new ScriptValue( TYPE_STRING, FamiliarsDatabase.getFamiliarName( familiarID ) );
 		}
+
+		private ScriptValue executeWaitRequest( int seconds ) throws AdvancedScriptException
+		{
+			DEFAULT_SHELL.executeLine( "wait " + seconds );
+			return new ScriptValue( TYPE_VOID );
+		}
+
+		private ScriptValue executeEntrywayRequest() throws AdvancedScriptException
+		{
+			DEFAULT_SHELL.executeLine( "entryway" );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+		}
+
+		private ScriptValue executeHedgemazeRequest() throws AdvancedScriptException
+		{
+			DEFAULT_SHELL.executeLine( "hedgemaze" );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+		}
+
+		private ScriptValue executeGuardiansRequest() throws AdvancedScriptException
+		{
+			int itemID;
+
+			itemID = SorceressLair.fightTowerGuardiansASH();
+			return new ScriptValue( TYPE_ITEM, itemID == -1 ? "none" : TradeableItemDatabase.getItemName( itemID ) );
+		}
+
+		private ScriptValue executeChamberRequest() throws AdvancedScriptException
+		{
+			DEFAULT_SHELL.executeLine( "chamber" );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+		}
+
+		private ScriptValue executeNemesisRequest() throws AdvancedScriptException
+		{
+			DEFAULT_SHELL.executeLine( "nemesis" );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+		}
+
+		private ScriptValue executeGuildRequest() throws AdvancedScriptException
+		{
+			DEFAULT_SHELL.executeLine( "guild" );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+		}
+
+		private ScriptValue executeGourdRequest() throws AdvancedScriptException
+		{
+			DEFAULT_SHELL.executeLine( "gourd" );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+		}
+
+		private ScriptValue executeTavernRequest() throws AdvancedScriptException
+		{
+			int result;
+
+			result = StaticEntity.getClient().locateTavernFaucetASH();
+			return new ScriptValue( TYPE_INT, client.permitsContinue() ? result : -1 );
+		}
+
+		private ScriptValue executeTrainFamiliarRequest( int amount, String trainType ) throws AdvancedScriptException
+		{
+			DEFAULT_SHELL.executeLine( "train " + trainType + " " + amount );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+		}
+
 	}
 
 	class ScriptFunctionList extends ScriptList
@@ -3177,6 +3326,11 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( type.equals( TYPE_ITEM ) )
 			{
+				if( contentString.equals( "none"))
+				{
+					contentInt = -1;
+					return;
+				}
 				if ( (contentInt = TradeableItemDatabase.getItemID( contentString )) == -1 )
 					throw new AdvancedScriptException( "Item " + contentString + " not found in database " + getLineAndFile() );
 			}

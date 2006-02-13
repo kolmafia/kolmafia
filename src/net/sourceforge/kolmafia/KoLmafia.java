@@ -118,6 +118,9 @@ public abstract class KoLmafia implements KoLConstants
 	protected LockableListModel adventureList = new LockableListModel();
 	protected LockableListModel encounterList = new LockableListModel();
 
+	private int faucetRow;
+	private int faucetColumn;
+
 	/**
 	 * The main method.  Currently, it instantiates a single instance
 	 * of the <code>KoLmafiaGUI</code>.
@@ -1400,6 +1403,15 @@ public abstract class KoLmafia implements KoLConstants
 	 * Completes the infamous tavern quest.
 	 */
 
+	public int locateTavernFaucetASH()
+	{
+		faucetRow = 0;
+		faucetColumn = 0;
+
+		locateTavernFaucet();
+		return ( faucetRow - 1 ) * 5 + (faucetColumn - 1);
+	}
+
 	public void locateTavernFaucet()
 	{
 		if ( KoLCharacter.getLevel() < 3 )
@@ -1442,9 +1454,9 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.getCurrentHP() > 0 )
 		{
 			KoLCharacter.processResult( new AdventureResult( AdventureResult.ADV, 1 ) );
-			int row = (int) ((searchIndex.intValue() - 1) / 5) + 1;
-			int column = (searchIndex.intValue() - 1) % 5 + 1;
-			updateDisplay( ENABLE_STATE, "Faucet found in row " + row + ", column " + column );
+			faucetRow = (int) ((searchIndex.intValue() - 1) / 5) + 1;
+			faucetColumn = (searchIndex.intValue() - 1) % 5 + 1;
+			updateDisplay( ENABLE_STATE, "Faucet found in row " + faucetRow + ", column " + faucetColumn );
 		}
 	}
 
