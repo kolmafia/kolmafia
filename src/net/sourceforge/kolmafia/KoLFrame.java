@@ -139,7 +139,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
 	{
 		public boolean accept( File dir, String name )
-		{	return !name.endsWith( "~" ) && !name.endsWith( ".bak" );
+		{	return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" );
 		}
 	};
 
