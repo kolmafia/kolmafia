@@ -962,7 +962,9 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public final boolean recoverHP( int recover )
-	{	return recover( recover, "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestoreItems", HPRestoreItemList.class );
+	{
+		disableDisplay();
+		return recover( recover, "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestoreItems", HPRestoreItemList.class );
 	}
 
 	/**
@@ -1029,7 +1031,9 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean recoverMP( int mpNeeded )
-	{	return recover( mpNeeded, "getCurrentMP", "getMaximumMP", "mpRecoveryScript", "buffBotMPRestore", MPRestoreItemList.class );
+	{
+		disableDisplay();
+		return recover( mpNeeded, "getCurrentMP", "getMaximumMP", "mpRecoveryScript", "buffBotMPRestore", MPRestoreItemList.class );
 	}
 
 	/**
