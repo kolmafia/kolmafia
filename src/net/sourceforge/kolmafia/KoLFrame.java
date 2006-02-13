@@ -712,6 +712,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				if ( executePath == null )
 					return;
 
+				client.resetContinueState();
 				DEFAULT_SHELL.executeLine( executePath );
 			}
 			catch ( Exception e )
@@ -1173,6 +1174,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					boolean wasEnabled = KoLFrame.this.isEnabled;
 
 					client.disableDisplay();
+					client.resetContinueState();
 					method.invoke( object, null );
 
 					if ( wasEnabled )
