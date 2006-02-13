@@ -1928,17 +1928,8 @@ public abstract class KoLmafia implements KoLConstants
 		// If you're already trying to login, then
 		// don't continue.
 
-		if ( isLoggingIn )
+		if ( isLoggingIn || this.cachedLogin == null )
 			return;
-
-		// If the client is permitted to continue,
-		// then the session has already timed in.
-
-		if ( permitsContinue() )
-		{
-			updateDisplay( ERROR_STATE, "No timeout detected." );
-			return;
-		}
 
 		isLoggingIn = true;
 		LoginRequest cachedLogin = this.cachedLogin;
@@ -1963,9 +1954,7 @@ public abstract class KoLmafia implements KoLConstants
 		// because if the above two failed, that
 		// means it's nightly maintenance.
 
-		int retryCount = 0;
-
-		while ( isLoggingIn && ++retryCount < 10 )
+		while ( isLoggingIn )
 		{
 			for ( int i = 300; i > 0; --i )
 			{
@@ -1976,24 +1965,6 @@ public abstract class KoLmafia implements KoLConstants
 			resetContinueState();
 			cachedLogin.run();
 		}
-
-		// If it took more than four retries, then
-		// go ahead and stop.  If the time-in was
-		// automated retry, then it will repeat
-		// these four retries four more times
-		// before completely stopping.
-
-		if ( retryCount == 10 )
-		{
-			updateDisplay( ERROR_STATE, "Session time-in failed." );
-			cancelRequest();
-			return;
-		}
-
-		// Refresh the character data after a
-		// successful login.
-
-		(new CharsheetRequest( KoLmafia.this )).run();
 
 		resetContinueState();
 		updateDisplay( ENABLE_STATE, "Session timed in." );
