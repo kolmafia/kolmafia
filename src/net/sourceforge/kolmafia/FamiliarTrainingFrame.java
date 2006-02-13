@@ -1378,7 +1378,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == leadNecklace && leadNecklaceOwner != null && leadNecklaceOwner != familiar )
 			{
 				results.append( "Stealing lead necklace from " + leadNecklaceOwner.getName() + " the " + leadNecklaceOwner.getRace() + "<br>" );
-				stealFamiliarItem( leadNecklaceOwner );
+				(new EquipmentRequest( client, "lead necklace", KoLCharacter.FAMILIAR )).run();
 				leadNecklaceOwner = familiar;
 			}
 
@@ -1386,7 +1386,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == ratHeadBalloon && ratHeadBalloonOwner != null && ratHeadBalloonOwner != familiar )
 			{
 				results.append( "Stealing rat head balloon from " + ratHeadBalloonOwner.getName() + " the " + ratHeadBalloonOwner.getRace() + "<br>" );
-				stealFamiliarItem( ratHeadBalloonOwner );
+				(new EquipmentRequest( client, "rat head balloon", KoLCharacter.FAMILIAR )).run();
 				ratHeadBalloonOwner = familiar;
 			}
 
@@ -1412,18 +1412,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 				acc[1] = item;
 			else if ( slot == KoLCharacter.ACCESSORY3 )
 				acc[2] = item;
-		}
-
-		private void stealFamiliarItem( FamiliarData owner )
-		{
-			// Switch to other familiar
-			(new FamiliarRequest( client, owner )).run();
-
-			// Unequip item
-			(new EquipmentRequest( client, EquipmentRequest.UNEQUIP, KoLCharacter.FAMILIAR )).run();
-
-			// Equip original familiar
-			(new FamiliarRequest( client, familiar )).run();
 		}
 
 		private void castNeededBuffs( GearSet current, GearSet next )
