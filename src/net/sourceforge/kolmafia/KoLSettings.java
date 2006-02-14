@@ -211,7 +211,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "mpAutoRecover", "-0.1" );
 		ensureProperty( "mpRecoveryScript", "" );
 		ensureProperty( "proxySet", "false" );
-		ensureProperty( "reloadFrames", "" );
+		ensureProperty( "reloadWindowPositions", "true" );
 		ensureProperty( "saveState", "" );
 		ensureProperty( "serverFriendly", "false" );
 		ensureProperty( "synchronizeFightFrame", "false" );

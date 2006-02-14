@@ -262,6 +262,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "synchronizeFightFrame", "Show requests in mini-browser" },
 			{ "finishInBrowser", "Open browser window to finish aborted battles" },
+			{ "reloadWindowPositions", "Reload windows where they were closed" },
 
 			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "forceReconnect", "Automatically time-in on time-out" },

@@ -191,7 +191,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// on the screen now that the frame has been packed
 			// to the appropriate size.
 
-			if ( this.creation instanceof KoLFrame )
+			if ( this.creation instanceof KoLFrame && StaticEntity.getProperty( "reloadWindowPositions" ).equals( "true" ) )
 			{
 				KoLFrame frame = (KoLFrame) this.creation;
 				String frameName = frame.getFrameName();
