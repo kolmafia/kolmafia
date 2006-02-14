@@ -807,6 +807,10 @@ public class AdventureFrame extends KoLFrame
 			actionCancelled();
 		}
 
+		public void setEnabled( boolean isEnabled )
+		{
+		}
+
 		protected void actionConfirmed()
 		{
 			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex()) / 10.0) ) );
