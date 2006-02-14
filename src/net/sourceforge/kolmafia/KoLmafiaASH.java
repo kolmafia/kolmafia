@@ -1654,6 +1654,9 @@ public class KoLmafiaASH extends StaticEntity
 		params[1] = new ScriptType( TYPE_STRING );
 		result.addFunction( new ScriptExistingFunction( "train_familiar", new ScriptType( TYPE_BOOLEAN ), params ) );
 
+		params = new ScriptType[0];
+		result.addFunction( new ScriptExistingFunction( "previous_statement_failed", new ScriptType( TYPE_BOOLEAN ), params ) );
+
 		return result;
 	}
 
@@ -1936,6 +1939,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute()
 		{
+			if( name.equals( "previous_statement_failed" ) )
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+
+
 			client.resetContinueState();
 
 			try
@@ -2592,7 +2599,6 @@ public class KoLmafiaASH extends StaticEntity
 			DEFAULT_SHELL.executeLine( "train " + trainType + " " + amount );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
-
 	}
 
 	class ScriptFunctionList extends ScriptList
