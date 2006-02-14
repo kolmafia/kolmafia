@@ -1944,10 +1944,6 @@ public class KoLmafiaASH extends StaticEntity
 				if( name.equals( "previous_function_failed" ) )
 					return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 
-
-				client.resetContinueState();
-
-
 				if ( name.equals( "adventure" ) )
 					return executeAdventureRequest( variables[0].getIntValue(), variables[1].getLocation() );
 				else if ( name.equals( "buy" ) )
@@ -2967,6 +2963,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptValue result;
 			boolean conditionMet = (condition.execute().getIntValue() == 1 );
+			client.resetContinueState();
+
 			if ( conditionMet )
 			{
 				do
