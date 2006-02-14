@@ -81,8 +81,19 @@ public class FamiliarTool
 	 */
 	public CakeArenaManager.ArenaOpponent bestOpponent( int ownFamiliar, int [] possibleOwnWeights )
 	{
-		int opponentCount = opponents.length;
 		int [] ownSkills = FamiliarsDatabase.getFamiliarSkills( ownFamiliar );
+		return bestOpponent( ownSkills, possibleOwnWeights );
+	}
+
+	/**
+	 * Runs all the calculation to determine the best matchup for a familiar
+	 * @param	ownSkills		our familiar's skills
+	 * @param	possibleOwnWeights	Array with all possibilities for familiar weight
+	 * @return	The ID number of the best opponent. Further information can be collected through other functions
+	 */
+	public CakeArenaManager.ArenaOpponent bestOpponent( int [] ownSkills, int [] possibleOwnWeights )
+	{
+		int opponentCount = opponents.length;
 		int possibleWeights = possibleOwnWeights.length;
 
 		bestMatch = bestOpponent = bestWeight = -1;

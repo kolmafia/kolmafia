@@ -58,6 +58,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
 import javax.swing.ImageIcon;
@@ -91,6 +92,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	public static final int BASE = 1;
 	public static final int BUFFED = 2;
 	public static final int TURNS = 3;
+	public static final int LEARN = 4;
 
 	// Familiars
 	private static final int DODECAPEDE = 38;
@@ -260,12 +262,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private class ButtonPanel extends JPanel
 		{
-			private JButton matchup, base, buffed, turns, stop, save, changer;
+			private JButton matchup, base, buffed, turns, stop, save, changer, learn;
 			// private JButton debug;
 
 			public ButtonPanel()
 			{
-				JPanel containerPanel = new JPanel( new GridLayout( 9, 1, 5, 5 ) );
+				JPanel containerPanel = new JPanel( new GridLayout( 11, 1, 5, 5 ) );
 
 				matchup = new DisplayFrameButton( "View Matchup", CakeArenaFrame.class );
 				containerPanel.add( matchup );
@@ -296,6 +298,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 				save = new JButton( "Save Transcript" );
 				save.addActionListener( new SaveListener() );
 				containerPanel.add( save );
+
+				containerPanel.add( new JLabel() );
+
+				learn = new JButton( "Learn Familiar Strengths" );
+				learn.addActionListener( new LearnListener() );
+				containerPanel.add( learn );
 
 				// debug = new JButton( "Debug" );
 				// debug.addActionListener( new DebugListener() );
@@ -419,6 +427,46 @@ public class FamiliarTrainingFrame extends KoLFrame
 						ex.printStackTrace( KoLmafia.getLogStream() );
 						ex.printStackTrace();
 					}
+				}
+			}
+
+			private class LearnListener implements ActionListener, Runnable
+			{
+				public void actionPerformed( ActionEvent e )
+				{	(new DaemonThread( this )).start();
+				}
+
+				public void run()
+				{
+					if ( familiar == FamiliarData.NO_FAMILIAR )
+						return;
+
+					// Prompt for trials
+					int trials = getQuantity( "How many trials per event per rank?", 20, 3 );
+
+					// Quit if canceled
+					if ( trials == 0 )
+						return;
+
+					// Nag dialog
+					int turns = trials * 12;
+					if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+						"This will take up to " + turns + " adventures and cost up to " + df.format( turns * 100 ) + " meat. Are you sure?",
+						"Familiar strength learner nag screen", JOptionPane.YES_NO_OPTION ) )
+						return;
+
+					// Learn familiar parameters
+					int [] skills = learnFamiliarParameters( client, trials );
+
+					// Save familiar parameters
+					if ( skills != null &&
+					     JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+						"Save arena parameters for the " + familiar.getRace() + "?",
+						"Save arena skills?", JOptionPane.YES_NO_OPTION ) )
+						FamiliarsDatabase.setFamiliarSkills( familiar.getRace(), skills );
+
+					// Re-enable the display
+					client.enableDisplay();
 				}
 			}
 
@@ -646,6 +694,173 @@ public class FamiliarTrainingFrame extends KoLFrame
 	}
 
 	/**
+	 * Utility method to derive the arena parameters of the current
+	 * familiar
+	 *
+	 * @param	client	KoLmafia client
+	 * @param	trials	How many trials per event
+	 */
+
+	private static int [] learnFamiliarParameters( KoLmafia client, int trials )
+	{
+		// Clear the output
+		results.clearBuffer();
+
+		// Permit training session to proceed
+		stop = false;
+		client.resetContinueState();
+
+		// Get current familiar
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+
+		if ( familiar == FamiliarData.NO_FAMILIAR )
+		{
+			statusMessage( client, ERROR_STATE, "No familiar selected to train." );
+			client.cancelRequest();
+			return null;
+		}
+
+		// Get the status of current familiar
+		FamiliarStatus status = new FamiliarStatus( client );
+
+		// Identify the familiar we are training
+		printFamiliar( status, 0, LEARN );
+		results.append( "<br>" );
+
+		// Print available buffs and items and current buffs
+		results.append( status.printCurrentBuffs() );
+		results.append( status.printAvailableBuffs() );
+		results.append( status.printCurrentEquipment() );
+		results.append( status.printAvailableEquipment() );
+		results.append( "<br>" );
+
+		// Get opponent list
+		LockableListModel opponents = CakeArenaManager.getOpponentList( client );
+
+		// Print the opponents
+		printOpponents( opponents );
+		results.append( "<br>" );
+
+		// Make a Familiar Tool
+		FamiliarTool tool = new FamiliarTool( opponents );
+
+		// Let the battles begin!
+		client.updateDisplay( DISABLE_STATE, "Starting training session." );
+
+		// No skills learned yet
+		int skills [] = new int[4];
+		skills[0] = skills[1] =	skills[2] = skills[3] = 0;
+
+		// Array of skills to test with
+		int test [] = new int[4];
+
+		// Try all the contests
+		for ( int contest = 0; contest < 4; ++contest )
+		{
+			int bestRank = 0;
+			int bestXP = 0;
+			boolean done = false;
+
+			for ( int rank = 1; !done && rank <= 3; ++rank )
+			{
+				// Initialize test parameters
+				for ( int i = 0; i < 4; ++i)
+					test[i] = ( i == contest ) ? rank : 0;
+
+				// No XP earned yet
+				int XP = 0;
+
+				// Try the specified number of trials
+				for ( int i = 0; i < trials; ++i )
+				{
+					// If user canceled, bail now
+					if ( stop || !client.permitsContinue() )
+					{
+						statusMessage( client, ERROR_STATE, "Training session aborted." );
+						client.cancelRequest();
+						return null;
+					}
+
+					// Make sure you have an adventure left
+					if ( KoLCharacter.getAdventuresLeft() < 1 )
+					{
+						statusMessage( client, ERROR_STATE, "Training stopped: out of adventures." );
+						client.cancelRequest();
+						return null;
+					}
+
+					// Make sure you have enough meat to pay for the contest
+					if ( KoLCharacter.getAvailableMeat() < 100 )
+					{
+						statusMessage( client, ERROR_STATE, "Training stopped: out of meat." );
+						client.cancelRequest();
+						return null;
+					}
+
+					statusMessage( client, NORMAL_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + rank + ": trial " + ( i + 1 ) );
+
+					// Choose possible weights
+					int [] weights = status.getWeights( false );
+
+					// Choose next opponent
+					CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( test, weights );
+
+					if ( opponent == null )
+					{
+						statusMessage( client, ERROR_STATE, "Couldn't choose a suitable opponent." );
+						client.cancelRequest();
+						return null;
+					}
+
+					// Change into appropriate gear
+					status.changeGear( tool.bestWeight(), false );
+					if ( !client.permitsContinue() )
+					{
+						statusMessage( client, ERROR_STATE, "Training stopped: internal error." );
+						client.cancelRequest();
+						return null;
+					}
+
+					// Enter the contest
+					int trialXP = fightMatch( client, status, tool, opponent );
+					if ( trialXP < 0 )
+					{
+						// familiar sucks at this contest
+						bestRank = 0;
+						done = true;
+						break;
+					}
+
+					XP += trialXP;
+				}
+
+				if ( done )
+					break;
+
+				statusMessage( client, NORMAL_STATE, CakeArenaManager.getEvent( contest + 1) + ": rank " + rank + " earned " + XP + " xp.");
+
+				// See if this was a good rank
+				if ( XP > bestXP )
+				{
+					bestRank = rank;
+					bestXP = XP;
+				}
+			}
+
+			// Save the best rank for this contest
+			statusMessage( client, NORMAL_STATE, CakeArenaManager.getEvent( contest + 1) + ": final rank = " + bestRank);
+			skills[contest] = bestRank;
+		}
+
+		results.append( "<br>Final results:<br>" );
+		int [] original = FamiliarsDatabase.getFamiliarSkills( familiar.getID() );
+		for ( int contest = 0; contest < 4; ++contest )
+			results.append( CakeArenaManager.getEvent( contest + 1) + ": original rank " + original[contest] + " derived rank = " + skills[contest] + "<br>" );
+
+		return skills;
+	}
+
+	/**
 	 * Utility method to buff the current familiar to the specified weight
 	 * or higher.
 	 *
@@ -739,6 +954,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			hope = " to " + goal + " lbs. buffed weight";
 		else if ( type == TURNS )
 			hope = " for " + goal + " turns";
+		else if ( type == LEARN )
+			hope = " to learn arena strengths";
 
 		results.append( "Training " + name + " the " + weight + " lb. " + race + hope +	 ".<br>" );
 	}
@@ -818,23 +1035,74 @@ public class FamiliarTrainingFrame extends KoLFrame
 		client.updateDisplay( NORMAL_STATE, "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
-	private static void fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )
+	private static int fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )
 	{
 		// If user aborted, bail now
 		if ( !client.permitsContinue())
-			return;
+			return 0;
 
 		// Tell the user about the match
 		printMatch( status, opponent, tool );
 
 		// Run the match
-		KoLRequest request = new CakeArenaRequest( client, opponent.getID(), tool.bestMatch() );
+		int match = tool.bestMatch();
+		KoLRequest request = new CakeArenaRequest( client, opponent.getID(), match );
 		request.run();
 
 		// Pass the response text to the FamiliarStatus to
 		// add familiar items and deduct a turn.
-		String text = status.processMatchResult( request.responseText );
-		results.append( text );
+		int xp = earnedXP( request.responseText, match );
+		status.processMatchResult( request.responseText, xp );
+
+		// Return the amount of XP the familiar earned
+		return xp;
+	}
+
+	private static int earnedXP( String response, int match )
+	{
+		Matcher matcher = Pattern.compile( "gains (\\d+) experience" ).matcher( response );
+		if ( matcher.find() )
+			return Integer.valueOf( matcher.group(1) ).intValue();
+
+		// We lost. Look for special "this familiar sucks" message
+		switch ( match )
+		{
+		case 1: // "You enter Tort against Dirty Pair in an Ultimate
+			// Cage Match.<p>Tort is a lover, not a
+			// fighter.<p>Well, not really -- potatoes just suck at
+			// this event.<p>Tort struggles for 3 rounds, but is
+			// eventually knocked out.<p>Tort lost."
+			matcher = Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>(.*?\\.)<p>\\1 struggles for" ).matcher( response );
+			break;
+		case 2: // "You enter Trot against Vine Vidi Vici in a
+			// Scavenger Hunt.<p>Trot keeps getting distracted from
+			// the hunt and randomly ramming into things.<p>Trot
+			// finds 12 items from the list.<p>Vine Vidi Vici finds
+			// 17 items.<p>Trot lost."
+			matcher = Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>(.*?\\.)<p>\\1 finds" ).matcher( response );
+			break;
+		case 3: // "You enter Gort against Pork Soda in an Obstacle
+			// Course race.<p>Gort is too short to get over most of
+			// the obstacles.<p>Gort makes it through the obstacle
+			// course in 49 seconds.<p>Pork Soda takes 29
+			// seconds. <p>Gort lost."
+			matcher = Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>(.*?\\.)<p>\\1 makes it through the obstacle course" ).matcher( response );
+			break;
+		case 4: // "You enter Tot against Pork Soda in a game of Hide
+			// and Seek.<p>Tot buzzes incessantly, making it very
+			// difficult to remain concealed.<p>Tot manages to stay
+			// hidden for 28 seconds.<p>Pork Soda stays hidden for
+			// 53 seconds.<p>Tot lost."
+			matcher = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\.)<p>\\1 manages to stay hidden" ).matcher( response );
+			break;
+		default:
+			return 0;
+		}
+
+		if ( matcher.find() )
+			return -1;
+
+		return 0;
 	}
 
 	/**
@@ -1615,20 +1883,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		/**************************************************************/
 
-		public String processMatchResult( String response )
+		public void processMatchResult( String response, int xp )
 		{
 			// If the contest did not take place, bail now
 			if ( response.indexOf( "You enter" ) == -1 )
-				return "";
-
-			Matcher matcher;
-			StringBuffer text = new StringBuffer();
+				return;
 
 			// Find and report how much experience was gained
-			matcher = Pattern.compile( "gains (\\d+) experience" ).matcher( response );
 			String message;
-			if ( matcher.find() )
-				message = familiar.getName() + " gains " + matcher.group(1) + " experience" + ( response.indexOf( "gains a pound" ) != -1 ? " and a pound." : "." );
+			if ( xp > 0 )
+				message = familiar.getName() + " gains " + xp + " experience" + ( response.indexOf( "gains a pound" ) != -1 ? " and a pound." : "." );
 
 			else
 				message = familiar.getName() + " lost.";
@@ -1636,7 +1900,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			statusMessage( client, NORMAL_STATE, message );
 
 			// If a prize was won, report it
-			matcher = Pattern.compile( "You acquire an item: <b>(.*?)</b>" ).matcher( response );
+			Matcher matcher = Pattern.compile( "You acquire an item: <b>(.*?)</b>" ).matcher( response );
 			if ( matcher.find() )
 			{
 				String prize = matcher.group(1);
@@ -1674,9 +1938,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 				greenTongueActive--;
 			if ( blackTongueActive > 0 )
 				blackTongueActive--;
-
-			text.append( "<br>" );
-			return text.toString();
 		}
 
 		public FamiliarData getFamiliar()

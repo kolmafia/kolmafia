@@ -249,6 +249,12 @@ public class FamiliarsDatabase extends KoLDatabase
 		return skills;
 	}
 
+	public static void setFamiliarSkills( String name, int [] skills )
+	{
+		for ( int i = 0; i < 4; ++i )
+			eventSkillByName[i].put( getCanonicalName ( name ), new Integer( skills[i] ) );
+	}
+
 	/**
 	 * Returns the set of familiars keyed by name
 	 * @return	The set of familiars keyed by name
