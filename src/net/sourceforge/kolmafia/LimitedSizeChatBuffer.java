@@ -50,7 +50,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	protected static List dehighlights;
 	protected static LimitedSizeChatBuffer highlightBuffer;
 
-	private static final int BUFFER_LIMIT = 30000;
 	private int previousFontSize;
 	private boolean affectsHighlightBuffer;
 
@@ -158,26 +157,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 			requiresUpdate = true;
 		}
-
-		// Now a test to see if you've already overflowed.
-		// The scrollback option, when compared to the
-		// alternative of obsessive memory usage, is a
-		// trivial addition.  Therefore, when it hits
-		// the buffer limit, trim it down to 5% of its
-		// existing length.
-
-		if ( displayBuffer.length() > BUFFER_LIMIT )
-		{
-			int trimIndex = displayBuffer.indexOf( "<br>" );
-			while ( displayBuffer.length() - trimIndex > 10000 )
-				trimIndex = displayBuffer.indexOf( "<br>", trimIndex + 1 );
-
-			displayBuffer.delete( 0, trimIndex );
-			requiresUpdate = true;
-		}
-
-		if ( requiresUpdate )
-			fireBufferChanged( CONTENT_CHANGE, null );
 
 		String highlightMessage = message;
 
