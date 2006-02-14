@@ -292,6 +292,7 @@ yak whip	20	none
 # which go in the "off-hand" slot of the equipment menu.
 
 anniversary balloon	0	none
+arrow'd heart balloon	0	none
 box	0	none
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
@@ -317,6 +318,7 @@ magic lamp	0	none
 magical ice cubes	0	none
 marionette	0	Mys: 40
 mini-zeppelin	0	none
+miniature stuffed Goth Giant	0	none
 moxie magnet	0	none
 Mr. Balloon	0	none
 Mylar balloon	0	none
