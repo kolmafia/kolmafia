@@ -304,25 +304,23 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		if ( !existingFrames.isEmpty() )
 		{
+			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+			existingFrames.toArray( frames );
+
+			KoLFrame desiredFrame = null;
+				for ( int i = 0; i < frames.length; ++i )
+					if ( frames[i] instanceof HagnkStorageFrame )
+						desiredFrame = frames[i];
+
 			storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
 			if ( storageMatcher.find() )
-			{
-				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-				existingFrames.toArray( frames );
-
-				for ( int i = 0; i < frames.length; ++i )
-				{
-					if ( frames[i] instanceof HagnkStorageFrame )
-					{
-						if ( KoLCharacter.canInteract() )
-							frames[i].setTitle( "Unlimited pulls remaining" );
-						else if ( KoLCharacter.isHardcore() )
-							frames[i].setTitle( "You are not out of Hardcore" );
-						else
-							frames[i].setTitle( storageMatcher.group() + " more pull(s) remaining" );
-					}
-				}
-			}
+				desiredFrame.setTitle( storageMatcher.group() + " more pulls remaining" );
+			else if ( KoLCharacter.canInteract() )
+				desiredFrame.setTitle( "Unlimited pulls remaining" );
+			else if ( KoLCharacter.isHardcore() )
+				desiredFrame.setTitle( "You are not yet done with hardcore" );
+			else
+				desiredFrame.setTitle( "No more pulls remaining" );
 		}
 	}
 
