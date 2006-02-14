@@ -298,6 +298,32 @@ public class ItemStorageRequest extends SendMessageRequest
 				e.printStackTrace();
 			}
 		}
+
+		// Compute the number of pulls remaining based
+		// on the response text.
+
+		if ( !existingFrames.isEmpty() )
+		{
+			storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
+			if ( storageMatcher.find() )
+			{
+				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+				existingFrames.toArray( frames );
+
+				for ( int i = 0; i < frames.length; ++i )
+				{
+					if ( frames[i] instanceof HagnkStorageFrame )
+					{
+						if ( KoLCharacter.canInteract() )
+							frames[i].setTitle( "Unlimited pulls remaining" );
+						else if ( KoLCharacter.isHardcore() )
+							frames[i].setTitle( "You are not out of Hardcore" );
+						else
+							frames[i].setTitle( storageMatcher.group() + " more pull(s) remaining" );
+					}
+				}
+			}
+		}
 	}
 
 	public String getCommandForm( int iterations )
