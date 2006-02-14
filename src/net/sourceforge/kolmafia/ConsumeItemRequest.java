@@ -84,6 +84,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int GIFT9 = 1175;
 	private static final int GIFT10 = 1176;
 	private static final int GIFT11 = 1177;
+	private static final int GIFTV = 1460;
 
 	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
 	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
@@ -267,6 +268,7 @@ public class ConsumeItemRequest extends KoLRequest
 		case GIFT9:
 		case GIFT10:
 		case GIFT11:
+		case GIFTV:
 			// If it's a gift package, get the inner message
 
 			// "You can't receive things from other players
