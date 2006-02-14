@@ -1654,9 +1654,6 @@ public class KoLmafiaASH extends StaticEntity
 		params[1] = new ScriptType( TYPE_STRING );
 		result.addFunction( new ScriptExistingFunction( "train_familiar", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
-		result.addFunction( new ScriptExistingFunction( "previous_function_failed", new ScriptType( TYPE_BOOLEAN ), params ) );
-
 		return result;
 	}
 
@@ -1941,8 +1938,11 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			try
 			{
-				if( name.equals( "previous_function_failed" ) )
-					return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+				if ( !client.permitsContinue() )
+				{
+					currentState = STATE_EXIT;
+					return null;
+				}
 
 				if ( name.equals( "adventure" ) )
 					return executeAdventureRequest( variables[0].getIntValue(), variables[1].getLocation() );
