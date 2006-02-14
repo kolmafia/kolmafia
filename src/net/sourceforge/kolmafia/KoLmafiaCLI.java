@@ -271,10 +271,21 @@ public class KoLmafiaCLI extends KoLmafia
 			executeLine( line );
 
 			if ( StaticEntity.getClient() == this )
+			{
 				updateDisplay( NORMAL_STATE, "" );
-
-			if ( StaticEntity.getClient() == this )
 				outputStream.print( " > " );
+			}
+			else if ( StaticEntity.getClient() instanceof KoLmafiaCLI && !StaticEntity.getClient().permitsContinue() )
+			{
+				outputStream.print( "Continue? [Y/N] > " );
+				line = ((KoLmafiaCLI)StaticEntity.getClient()).getNextLine();
+
+				if ( line.startsWith( "y" ) || line.startsWith( "Y" ) )
+				{
+					StaticEntity.getClient().enableDisplay();
+					StaticEntity.getClient().resetContinueState();
+				}
+			}
 		}
 
 		if ( line == null || line.trim().length() == 0 )
