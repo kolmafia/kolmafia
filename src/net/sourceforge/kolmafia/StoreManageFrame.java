@@ -207,13 +207,16 @@ public class StoreManageFrame extends KoLPanelFrame
 				limits[i] = currentPanel.getLimit();
 			}
 
+			client.enableDisplay();
 			(new RequestThread( new StoreManageRequest( client, itemID, prices, limits ) )).start();
 		}
 
 		public void actionCancelled()
 		{
+			client.disableDisplay();
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).priceItemsAtLowestPrice();
+			client.enableDisplay();
 		}
 	}
 
