@@ -249,6 +249,7 @@ public class LoginFrame extends KoLFrame
 			if ( !loginname.endsWith( "/q" ) )
 				loginname += "/q";
 
+			client.disableDisplay();
 			(new LoginRequest( client, loginname, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected() )).run();
 		}
 
