@@ -336,7 +336,7 @@ public class LoginFrame extends KoLFrame
 
 	private class ServerSelectPanel extends LabeledKoLPanel
 	{
-		private JComboBox servers, uimodes, toolbars, trayicon;
+		private JComboBox servers, uimodes, positions, toolbars, trayicon;
 
 		public ServerSelectPanel()
 		{
@@ -354,6 +354,11 @@ public class LoginFrame extends KoLFrame
 			uimodes.addItem( "Clan manager" );
 			uimodes.addItem( "Mini-browser" );
 
+			positions = new JComboBox();
+			positions.addItem( "Always load windows in center" );
+			positions.addItem( "Save window positions (global)" );
+			positions.addItem( "Save window positions (personalized)" );
+
 			toolbars = new JComboBox();
 			toolbars.addItem( "Show global menus only" );
 			toolbars.addItem( "Put toolbar along top of panel" );
@@ -365,13 +370,14 @@ public class LoginFrame extends KoLFrame
 			trayicon.addItem( "Minimize KoLmafia to taskbar" );
 			trayicon.addItem( "Minimize KoLmafia to system tray" );
 
-			VerifiableElement [] elements = new VerifiableElement[ System.getProperty( "os.name" ).startsWith( "Windows" ) ? 4 : 3 ];
+			VerifiableElement [] elements = new VerifiableElement[ System.getProperty( "os.name" ).startsWith( "Windows" ) ? 5 : 4 ];
 			elements[0] = new VerifiableElement( "Server: ", servers );
 			elements[1] = new VerifiableElement( "Startup: ", uimodes );
-			elements[2] = new VerifiableElement( "Toolbars: ", toolbars );
+			elements[2] = new VerifiableElement( "Windows: ", positions );
+			elements[3] = new VerifiableElement( "Toolbars: ", toolbars );
 
 			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-				elements[3] = new VerifiableElement( "SysTray: ", trayicon );
+				elements[4] = new VerifiableElement( "SysTray: ", trayicon );
 
 			setContent( elements );
 			actionCancelled();
@@ -381,6 +387,7 @@ public class LoginFrame extends KoLFrame
 		{
 			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "userInterfaceMode", String.valueOf( uimodes.getSelectedIndex() ) );
+			GLOBAL_SETTINGS.getProperty( "windowPositions", String.valueOf( positions.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "useSystemTrayIcon", String.valueOf( trayicon.getSelectedIndex() == 1 ) );
@@ -390,6 +397,7 @@ public class LoginFrame extends KoLFrame
 		{
 			servers.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) );
 			uimodes.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) );
+			positions.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "windowPositions" ) ) );
 			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
 			trayicon.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 0 );
 		}

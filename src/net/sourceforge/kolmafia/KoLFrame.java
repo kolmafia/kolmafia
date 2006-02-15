@@ -509,16 +509,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		travelMenu.add( new InvocationMenuItem( "Skin the Trapper", client, "makeTrapperRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Trading Hunters", client, "makeHunterRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Untinker Items", client, "makeUntinkerRequest" ) );
-
-		travelMenu.add( new JSeparator() );
-
-		if ( this instanceof RequestFrame )
-			travelMenu.add( new DisplayRequestMenuItem( "Seaside Council", "council.php" ) );
-		else
-			travelMenu.add( new DisplayFrameMenuItem( "Seaside Council", CouncilFrame.class ) );
-
-		travelMenu.add( new DisplayRequestMenuItem( "Weird Records", "records.php?which=0" ) );
-		travelMenu.add( new DisplayRequestMenuItem( "View Store Log", "storelog.php" ) );
+		travelMenu.add( new InvocationMenuItem( "Gourd Trading", client, "tradeGourdItems" ) );
 
 		// Add in automatic quest completion scripts.
 
@@ -526,9 +517,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		container.add( questsMenu );
 
 		questsMenu.add( new InvocationMenuItem( "Unlock Guild", client, "unlockGuildStore" ) );
-		questsMenu.add( new InvocationMenuItem( "Face Nemesis", Nemesis.class, "faceNemesis" ) );
-		questsMenu.add( new InvocationMenuItem( "Find Rat Faucet", client, "locateTavernFaucet" ) );
-		questsMenu.add( new InvocationMenuItem( "Gourd Trading", client, "tradeGourdItems" ) );
+		questsMenu.add( new InvocationMenuItem( "Tavern Faucet", client, "locateTavernFaucet" ) );
+
+		questsMenu.add( new JSeparator() );
+
+		questsMenu.add( new InvocationMenuItem( "Nemesis Quest", Nemesis.class, "faceNemesis" ) );
 		questsMenu.add( new InvocationMenuItem( "Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
 
 		questsMenu.add( new JSeparator() );
@@ -900,7 +893,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			Dimension screenSize = TOOLKIT.getScreenSize();
 
 			if ( p.getX() > 0 && p.getY() > 0 && p.getX() + getWidth() < screenSize.getWidth() && p.getY() + getHeight() < screenSize.getHeight() )
-				GLOBAL_SETTINGS.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+			{
+				KoLSettings settings = GLOBAL_SETTINGS.getProperty( "windowPositions" ).equals( "1" ) ? GLOBAL_SETTINGS : StaticEntity.getSettings();
+				settings.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+			}
 		}
 
 		super.processWindowEvent( e );
@@ -1760,10 +1756,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[2];
+			JComponent [] headers = new JComponent[6];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
+			headers[2] = new JSeparator();
+
+			if ( KoLFrame.this instanceof RequestFrame )
+				headers[3] = new DisplayRequestMenuItem( "Council of Loathing", "council.php" );
+			else
+				headers[3] = new DisplayFrameMenuItem( "Council of Loathing", CouncilFrame.class );
+
+			headers[4] = new DisplayRequestMenuItem( "Weird Records Board", "records.php?which=0" );
+			headers[5] = new DisplayRequestMenuItem( "View Mall Store Log", "storelog.php" );
 
 			return headers;
 		}

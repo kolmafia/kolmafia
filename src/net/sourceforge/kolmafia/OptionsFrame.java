@@ -262,18 +262,16 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "synchronizeFightFrame", "Show requests in mini-browser" },
 			{ "finishInBrowser", "Open browser window to finish aborted battles" },
-			{ "reloadWindowPositions", "Reload windows where they were closed" },
 
 			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "forceReconnect", "Automatically time-in on time-out" },
 
 			{ "cloverProtectActive", "Guard against accidental clover usage" },
+			{ "autoSatisfyChecks", "Automatically satisfy conditions on check" },
 
 			{ "autoRepairBoxes", "Automatically repair box servants on explosion" },
 			{ "useClockworkBoxes", "Use clockwork box servants when auto-repairing" },
-			{ "createWithoutBoxServants", "Allow cooking/mixing without box servants" },
-
-			{ "autoSatisfyChecks", "Automatically satisfy conditions on check" }
+			{ "createWithoutBoxServants", "Allow cooking/mixing without box servants" }
 		};
 
 		/**
@@ -326,7 +324,6 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox chatStyleSelect;
 		private JComboBox useTabsSelect;
 		private JComboBox eSoluSelect;
-		private JPanel colorPanel;
 
 		public ChatOptionsPanel()
 		{

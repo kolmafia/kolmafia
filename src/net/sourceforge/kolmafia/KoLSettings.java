@@ -211,7 +211,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "mpAutoRecover", "-0.1" );
 		ensureProperty( "mpRecoveryScript", "" );
 		ensureProperty( "proxySet", "false" );
-		ensureProperty( "reloadWindowPositions", "true" );
 		ensureProperty( "saveState", "" );
 		ensureProperty( "serverFriendly", "false" );
 		ensureProperty( "synchronizeFightFrame", "false" );
@@ -225,6 +224,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "useTabbedChat", "1" );
 		ensureProperty( "useToolbars", "true" );
 		ensureProperty( "whiteList", "" );
+		ensureProperty( "windowPositions", "1" );
 		ensureProperty( "zoneExcludeList", "" );
 
 		// These are settings related to choice adventures.

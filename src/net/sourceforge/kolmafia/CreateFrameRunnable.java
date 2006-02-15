@@ -191,14 +191,16 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// on the screen now that the frame has been packed
 			// to the appropriate size.
 
-			if ( this.creation instanceof KoLFrame && StaticEntity.getProperty( "reloadWindowPositions" ).equals( "true" ) )
+			if ( this.creation instanceof KoLFrame && !StaticEntity.getProperty( "windowPositions" ).equals( "0" ) )
 			{
 				KoLFrame frame = (KoLFrame) this.creation;
 				String frameName = frame.getFrameName();
 
-				if ( GLOBAL_SETTINGS.containsKey( frameName ) )
+				KoLSettings settings = StaticEntity.getProperty( "windowPositions" ).equals( "1" ) ? GLOBAL_SETTINGS : StaticEntity.getSettings();
+
+				if ( settings.containsKey( frameName ) )
 				{
-					String [] location = GLOBAL_SETTINGS.getProperty( frameName ).split( "," );
+					String [] location = settings.getProperty( frameName ).split( "," );
 					int xLocation = Integer.parseInt( location[0] );
 					int yLocation = Integer.parseInt( location[1] );
 
