@@ -193,7 +193,7 @@ public class KoLmafiaASH extends StaticEntity
 
 				line = commandStream.readLine();
 			}
-			while ( line != null && (line.trim().length() == 0 || line.startsWith( escapeString )) );
+			while ( line != null && (line.trim().length() == 0 || line.trim().startsWith( "#" ) || line.trim().startsWith( "//" ) || line.trim().startsWith( "\'" )) );
 
 			// You will either have reached the end of file, or you will
 			// have a valid line -- return it.
