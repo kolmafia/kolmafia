@@ -79,6 +79,11 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class LoginFrame extends KoLFrame
 {
 	private SortedListModel saveStateNames;
+	private JComponent loginnameField;
+	private JPasswordField passwordField;
+	private JCheckBox savePasswordCheckBox;
+	private JCheckBox autoLoginCheckBox;
+	private JCheckBox getBreakfastCheckBox;
 
 	public LoginFrame( KoLmafia client )
 	{	this( client, new SortedListModel() );
@@ -124,6 +129,12 @@ public class LoginFrame extends KoLFrame
 		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
 	}
 
+	public void requestFocus()
+	{
+		super.requestFocus();
+		loginnameField.requestFocus();
+	}
+
 	public void dispose()
 	{
 		saveStateNames = null;
@@ -149,12 +160,6 @@ public class LoginFrame extends KoLFrame
 
 	private class LoginPanel extends KoLPanel implements ActionListener
 	{
-		private JComponent loginnameField;
-		private JPasswordField passwordField;
-		private JCheckBox savePasswordCheckBox;
-		private JCheckBox autoLoginCheckBox;
-		private JCheckBox getBreakfastCheckBox;
-
 		/**
 		 * Constructs a new <code>LoginPanel</code>, containing a place
 		 * for the users to input their login name and password.  This
@@ -257,11 +262,7 @@ public class LoginFrame extends KoLFrame
 		{
 			client.updateDisplay( ABORT_STATE, "Login cancelled." );
 			client.cancelRequest();
-			requestFocus();
-		}
-
-		public void requestFocus()
-		{	loginnameField.requestFocus();
+			loginnameField.requestFocus();
 		}
 
 		public void actionPerformed( ActionEvent e )

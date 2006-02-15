@@ -107,6 +107,7 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 		// chat tab larger and easier to click.
 
 		tabs.addTab( "  " + tabName + "           ", createdPanel );
+		createdPanel.requestFocus();
 		return createdPanel;
 	}
 

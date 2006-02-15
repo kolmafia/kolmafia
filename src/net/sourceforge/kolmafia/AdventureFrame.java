@@ -92,6 +92,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
+	private JComboBox locationSelect;
 	private JComboBox resultSelect;
 	private JPanel resultPanel;
 	private CardLayout resultCards;
@@ -105,23 +106,6 @@ public class AdventureFrame extends KoLFrame
 	private MeatStoragePanel meatStorage;
 	private SkillBuffPanel skillBuff;
 	private HeroDonationPanel heroDonation;
-
-	public void dispose()
-	{
-		resultSelect = null;
-		resultPanel = null;
-		results = null;
-		resultsList = null;
-
-		tabs = null;
-		adventureSelect = null;
-		mallSearch = null;
-		meatStorage = null;
-		skillBuff = null;
-		heroDonation = null;
-
-		super.dispose();
-	}
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -266,6 +250,12 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
+	public void requestFocus()
+	{
+		super.requestFocus();
+		locationSelect.requestFocus();
+	}
+
 	private class ResultSelectListener implements ActionListener
 	{
 		public void actionPerformed( ActionEvent e )
@@ -281,8 +271,6 @@ public class AdventureFrame extends KoLFrame
 	private class AdventureSelectPanel extends KoLPanel
 	{
 		private JComboBox actionSelect;
-
-		private JComboBox locationSelect;
 		private JTextField countField;
 		private JTextField conditionField;
 
@@ -443,13 +431,9 @@ public class AdventureFrame extends KoLFrame
 			}
 			else
 			{
-				if ( client.getCurrentRequest() instanceof FightRequest )
-					client.updateDisplay( ABORT_STATE, "Completing combat round..." );
-				else
-					client.updateDisplay( ABORT_STATE, "Adventuring terminated." );
-
+				client.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
 				client.cancelRequest();
-				requestFocus();
+				locationSelect.requestFocus();
 			}
 		}
 
@@ -664,7 +648,7 @@ public class AdventureFrame extends KoLFrame
 
 		client.updateDisplay( ENABLE_STATE, results.size() == 0 ? "No results found." : "Search complete." );
 		tabs.setSelectedIndex(1);
-		requestFocus();
+		resultSelect.requestFocus();
 		client.enableDisplay();
 	}
 

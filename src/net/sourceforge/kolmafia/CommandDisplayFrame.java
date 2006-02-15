@@ -66,6 +66,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class CommandDisplayFrame extends KoLFrame
 {
+	private JTextField entryField;
 	private static int lastCommandIndex = 0;
 	private static ArrayList recentCommands = new ArrayList();
 
@@ -113,9 +114,14 @@ public class CommandDisplayFrame extends KoLFrame
 		}
 	}
 
+	public void requestFocus()
+	{
+		super.requestFocus();
+		entryField.requestFocus();
+	}
+
 	private class CommandDisplayPanel extends JPanel
 	{
-		private JTextField entryField;
 		private JButton entryButton;
 
 		public CommandDisplayPanel()
@@ -150,8 +156,6 @@ public class CommandDisplayFrame extends KoLFrame
 
 		private class CommandEntryListener extends KeyAdapter implements ActionListener, Runnable
 		{
-			private String command;
-
 			public void actionPerformed( ActionEvent e )
 			{	submitCommand();
 			}
@@ -178,21 +182,32 @@ public class CommandDisplayFrame extends KoLFrame
 
 			private void submitCommand()
 			{
-				this.command = entryField.getText().trim();
-
-				recentCommands.add( command );
-				lastCommandIndex = recentCommands.size();
-
-				(new DaemonThread( this )).start();
+				(new DaemonThread( new CommandRunnable( entryField.getText() ) )).start();
 				entryField.setText( "" );
 			}
 
 			public void run()
 			{
-				KoLmafia.commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
-				DEFAULT_SHELL.executeLine( command );
-				DEFAULT_SHELL.printBlankLine();
 			}
+		}
+	}
+
+	private class CommandRunnable implements Runnable
+	{
+		private String command;
+
+		public CommandRunnable( String command )
+		{
+			this.command = command.trim();
+			recentCommands.add( command );
+			lastCommandIndex = recentCommands.size();
+		}
+
+		public void run()
+		{
+			KoLmafia.commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
+			DEFAULT_SHELL.executeLine( command );
+			DEFAULT_SHELL.printBlankLine();
 		}
 	}
 
