@@ -1314,6 +1314,7 @@ public abstract class KoLmafia implements KoLConstants
 						updateDisplay( NORMAL_STATE, "Nothing more to do here." );
 					}
 				}
+
 				else if ( remainingConditions != 0 && request instanceof KoLAdventure )
 					updateDisplay( NORMAL_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
@@ -1321,6 +1322,20 @@ public abstract class KoLmafia implements KoLConstants
 				else if ( initialConditions != 0 )
 					updateDisplay( NORMAL_STATE, "Conditions satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
+
+				else if ( request instanceof ConsumeItemRequest )
+				{
+					int consumptionType = ((ConsumeItemRequest)request).getConsumptionType();
+					String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "ate" :
+						(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "drunk" : "used";
+
+					updateDisplay( NORMAL_STATE, "Successfuly " + useTypeAsString + " " +
+						((ConsumeItemRequest)request).getItemUsed().getName() + " (" + (currentIteration - 1) + ")..." );
+				}
+
+				else if ( request instanceof KoLAdventure )
+					updateDisplay( NORMAL_STATE, "Requests completed." );
+
 			}
 		}
 		catch ( RuntimeException e )
