@@ -43,6 +43,7 @@ public class ItemStorageRequest extends SendMessageRequest
 {
 	private int moveType;
 
+	public static final int EMPTY_STORAGE = -2;
 	public static final int CLOSET_YOUR_CLOVERS = -1;
 	public static final int RETRIEVE_STORAGE = 0;
 	public static final int INVENTORY_TO_CLOSET = 1;
@@ -93,7 +94,8 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	public ItemStorageRequest( KoLmafia client, int moveType )
 	{
-		this( client, INVENTORY_TO_CLOSET, new Object [] {
+		this( client, moveType == EMPTY_STORAGE ? EMPTY_STORAGE : INVENTORY_TO_CLOSET,
+			moveType == EMPTY_STORAGE ? new Object[0] : new Object [] {
 			SewerRequest.CLOVER.getInstance( SewerRequest.CLOVER.getCount( KoLCharacter.getInventory() ) ) } );
 
 		this.moveType = moveType;
@@ -108,10 +110,10 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	public ItemStorageRequest( KoLmafia client, int moveType, Object [] attachments )
 	{
-		super( client, moveType == STORAGE_TO_INVENTORY ? "storage.php" : "closet.php", attachments, 0 );
+		super( client, moveType == STORAGE_TO_INVENTORY || moveType == EMPTY_STORAGE ? "storage.php" : "closet.php", attachments, 0 );
 
 		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "action", moveType == INVENTORY_TO_CLOSET ? "put" : "take" );
+		addFormField( "action", moveType == EMPTY_STORAGE ? "takeall" : moveType == INVENTORY_TO_CLOSET ? "put" : "take" );
 
 		this.moveType = moveType;
 
@@ -178,17 +180,25 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	public void run()
 	{
-		if ( moveType == RETRIEVE_STORAGE )
-			updateDisplay( NORMAL_STATE, "Retrieving list of items in storage..." );
-
 		switch ( moveType )
 		{
+			case EMPTY_STORAGE:
+				updateDisplay( NORMAL_STATE, "Emptying storage..." );
+				super.run();
+
+				while ( !KoLCharacter.getStorage().isEmpty() )
+					KoLCharacter.processResult( (AdventureResult) KoLCharacter.getStorage().remove(0) );
+
+				break;
+
 			case STORAGE_TO_INVENTORY:
 				updateDisplay( NORMAL_STATE, "Moving items..." );
+				parseStorage();
+				break;
 
 			case RETRIEVE_STORAGE:
+				updateDisplay( NORMAL_STATE, "Retrieving storage contents..." );
 				parseStorage();
-				updateDisplay( NORMAL_STATE, "Item list retrieved." );
 				break;
 
 			case INVENTORY_TO_CLOSET:
@@ -207,7 +217,6 @@ public class ItemStorageRequest extends SendMessageRequest
 			case PULL_MEAT_FROM_STORAGE:
 				updateDisplay( NORMAL_STATE, "Executing transaction..." );
 				meat();
-				updateDisplay( NORMAL_STATE, "" );
 				break;
 		}
 

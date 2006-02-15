@@ -88,8 +88,8 @@ public class HagnkStorageFrame extends KoLFrame
 		public HagnkStoragePanel( boolean isEquipment )
 		{
 			super( "Inside Storage", KoLCharacter.getStorage(), !isEquipment );
-			setButtons( new String [] { "put in backpack", "put in closet" },
-				new ActionListener [] { new PullFromStorageListener( false ), new PullFromStorageListener( true ) } );
+			setButtons( new String [] { "put in bag", "put in closet", "take it all" },
+				new ActionListener [] { new PullFromStorageListener( false ), new PullFromStorageListener( true ), new EmptyStorageListener() } );
 
 			movers[2].setSelected( true );
 			this.isEquipment = isEquipment;
@@ -213,6 +213,19 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 		}
 
+		private class EmptyStorageListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( !KoLCharacter.canInteract() )
+				{
+					client.updateDisplay( ERROR_STATE, "You are not yet out of Ronin." );
+					return;
+				}
+
+				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.EMPTY_STORAGE ) )).start();
+			}
+		}
 	}
 
 	public static void main( String [] args )
