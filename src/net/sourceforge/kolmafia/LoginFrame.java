@@ -249,7 +249,6 @@ public class LoginFrame extends KoLFrame
 			if ( !loginname.endsWith( "/q" ) )
 				loginname += "/q";
 
-			client.updateDisplay( DISABLE_STATE, "Determining login settings..." );
 			(new LoginRequest( client, loginname, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected() )).run();
 		}
 
@@ -452,11 +451,6 @@ public class LoginFrame extends KoLFrame
 			GLOBAL_SETTINGS.setProperty( "http.proxyPort", proxyPort.getText() );
 			GLOBAL_SETTINGS.setProperty( "http.proxyUser", proxyLogin.getText() );
 			GLOBAL_SETTINGS.setProperty( "http.proxyPassword", proxyPassword.getText() );
-
-			// Save the settings that were just set; that way,
-			// the next login can use them.
-
-			KoLRequest.applySettings();
 		}
 
 		protected void actionCancelled()

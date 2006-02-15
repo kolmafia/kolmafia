@@ -97,11 +97,6 @@ public class KoLmafiaCLI extends KoLmafia
 		System.out.println( " **************************" );
 		System.out.println();
 
-		System.out.println( "Determining server..." );
-		KoLRequest.applySettings();
-		System.out.println( KoLRequest.getRootHostName() + " selected." );
-		System.out.println();
-
 		StaticEntity.setClient( DEFAULT_SHELL );
 		DEFAULT_SHELL.outputStream = System.out;
 
