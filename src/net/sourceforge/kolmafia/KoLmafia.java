@@ -179,9 +179,10 @@ public abstract class KoLmafia implements KoLConstants
 		if ( state != NORMAL_STATE )
 			this.currentState = state;
 
-		logStream.println( message );
+		if ( !message.equals( "" ) )
+			logStream.println( message );
 
-		if ( commandBuffer != null )
+		if ( commandBuffer != null && !message.equals( "" ) )
 		{
 			StringBuffer colorBuffer = new StringBuffer();
 			if ( state == ERROR_STATE || state == ABORT_STATE )
@@ -477,6 +478,9 @@ public abstract class KoLmafia implements KoLConstants
 	public void parseResult( String result )
 	{
 		String trimResult = result.trim();
+
+		if ( this instanceof KoLmafiaCLI || commandBuffer != null )
+			updateDisplay( NORMAL_STATE, trimResult );
 
 		// Because of the simplified parsing, there's a chance that
 		// the "gain" acquired wasn't a subpoint (in other words, it
@@ -1310,15 +1314,13 @@ public abstract class KoLmafia implements KoLConstants
 						updateDisplay( NORMAL_STATE, "Nothing more to do here." );
 					}
 				}
-				else if ( remainingConditions != 0 )
-					updateDisplay( NORMAL_STATE, "Requests completed!  (Conditions not yet met)" );
+				else if ( remainingConditions != 0 && request instanceof KoLAdventure )
+					updateDisplay( NORMAL_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
+						((currentIteration == 2) ? " request." : " requests.") );
 
 				else if ( initialConditions != 0 )
 					updateDisplay( NORMAL_STATE, "Conditions satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
-
-				else if ( currentIteration >= iterations )
-					updateDisplay( NORMAL_STATE, "Requests completed!" );
 			}
 		}
 		catch ( RuntimeException e )
