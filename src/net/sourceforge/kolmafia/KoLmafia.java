@@ -1333,7 +1333,7 @@ public abstract class KoLmafia implements KoLConstants
 						((ConsumeItemRequest)request).getItemUsed().getName() + " (" + (currentIteration - 1) + ")..." );
 				}
 
-				else if ( request instanceof KoLAdventure )
+				else if ( currentState != ENABLE_STATE )
 					updateDisplay( NORMAL_STATE, "Requests completed." );
 
 			}
