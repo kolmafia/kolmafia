@@ -458,9 +458,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( CAR );
 		ADVENTURE_USAGE[ ItemCreationRequest.TINKER ] = 0;
 
-		// It's always possible to ask Uncle Crimbo to make toys
+		// It's not possible to ask Uncle Crimbo to make toys
 
-		PERMIT_METHOD[ ItemCreationRequest.TOY ] = true;
+		PERMIT_METHOD[ ItemCreationRequest.TOY ] = false;
 		ADVENTURE_USAGE[ ItemCreationRequest.TOY ] = 0;
 	}
 
