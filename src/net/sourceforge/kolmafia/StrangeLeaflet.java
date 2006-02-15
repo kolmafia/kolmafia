@@ -86,10 +86,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 	private static boolean chest;
 
 	public static void robStrangeLeaflet()
-	{	robStrangeLeaflet( false );
-	}
-
-	public static void robStrangeLeaflet( boolean invokeMagic )
 	{
 		// Make sure the player has the Strange Leaflet.
 		// The item will be located inside of the inventory
@@ -124,13 +120,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		openChest();
 		robHole();
-
-		if ( client instanceof KoLmafiaGUI )
-			invokeMagic = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-				"Would you like to invoke the \"magic words\" today?", "You know you want to!", JOptionPane.YES_NO_OPTION );
-
-		if ( invokeMagic )
-			invokeMagic();
 
 		// Add new items to "Usable" list
 		KoLCharacter.refreshCalculatedLists();
@@ -234,12 +223,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 		client.updateDisplay( NORMAL_STATE, "Hunting eggs..." );
 		executeCommand( "look behind chest" );
 		executeCommand( "look in hole" );
-	}
-
-	private static void invokeMagic()
-	{
-		client.updateDisplay( NORMAL_STATE, "Invoking magic..." );
-		executeCommand( "plugh" );
 	}
 
 	private static void goTo( int destination )

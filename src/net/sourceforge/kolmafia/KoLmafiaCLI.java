@@ -742,7 +742,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "leaflet" ) )
 		{
-			StrangeLeaflet.robStrangeLeaflet( parameters.equals( "magic" ) );
+			StrangeLeaflet.robStrangeLeaflet();
 			return;
 		}
 
