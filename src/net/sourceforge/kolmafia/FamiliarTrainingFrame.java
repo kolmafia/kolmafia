@@ -720,6 +720,23 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return null;
 		}
 
+		int events = 12 * trials;
+		// Make sure you have enough adventures left
+		if ( KoLCharacter.getAdventuresLeft() < events )
+		{
+			statusMessage( client, ERROR_STATE, "You need to have at least " + events + " adventures available." );
+			client.cancelRequest();
+			return null;
+		}
+
+		// Make sure you have enough meat to pay for the contests
+		if ( KoLCharacter.getAvailableMeat() < ( 100 * events ) )
+		{
+			statusMessage( client, ERROR_STATE, "You need to have at least " + df.format( 100 * events ) + " meat available." );
+			client.cancelRequest();
+			return null;
+		}
+
 		// Get the status of current familiar
 		FamiliarStatus status = new FamiliarStatus( client );
 
@@ -777,22 +794,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 					if ( stop || !client.permitsContinue() )
 					{
 						statusMessage( client, ERROR_STATE, "Training session aborted." );
-						client.cancelRequest();
-						return null;
-					}
-
-					// Make sure you have an adventure left
-					if ( KoLCharacter.getAdventuresLeft() < 1 )
-					{
-						statusMessage( client, ERROR_STATE, "Training stopped: out of adventures." );
-						client.cancelRequest();
-						return null;
-					}
-
-					// Make sure you have enough meat to pay for the contest
-					if ( KoLCharacter.getAvailableMeat() < 100 )
-					{
-						statusMessage( client, ERROR_STATE, "Training stopped: out of meat." );
 						client.cancelRequest();
 						return null;
 					}
