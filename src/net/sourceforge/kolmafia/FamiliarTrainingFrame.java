@@ -764,32 +764,32 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Let the battles begin!
 		client.updateDisplay( DISABLE_STATE, "Starting training session." );
 
-		// No skills learned yet
-		int skills [] = new int[4];
-		skills[0] = skills[1] =	skills[2] = skills[3] = 0;
+		// XP earned indexed by [event][rank]
+		int [][] xp = new int[4][3];
 
 		// Array of skills to test with
 		int test [] = new int[4];
 
-		// Try all the contests
-		for ( int contest = 0; contest < 4; ++contest )
-		{
-			int bestRank = 0;
-			int bestXP = 0;
-			boolean done = false;
+		// Array of contest suckage
+		boolean suckage [] = new boolean[4];
 
-			for ( int rank = 1; !done && rank <= 3; ++rank )
+		// Iterate for the specified number of trials
+		for ( int trial = 0; trial < trials; ++trial )
+		{
+			// Iterate through the contests
+			for ( int contest = 0; contest < 4; ++contest )
 			{
 				// Initialize test parameters
-				for ( int i = 0; i < 4; ++i)
-					test[i] = ( i == contest ) ? rank : 0;
+				test[0] = test[1] = test[2] = test[3] = 0;
 
-				// No XP earned yet
-				int XP = 0;
-
-				// Try the specified number of trials
-				for ( int i = 0; i < trials; ++i )
+				// Iterate through the ranks
+				for ( int rank = 0; rank < 3; ++rank )
 				{
+					// Skip contests in which the familiar
+					// sucks
+					if ( suckage[contest] )
+						continue;
+
 					// If user canceled, bail now
 					if ( stop || !client.permitsContinue() )
 					{
@@ -798,7 +798,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 						return null;
 					}
 
-					statusMessage( client, NORMAL_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + rank + ": trial " + ( i + 1 ) );
+					// Initialize test parameters
+					test[contest] = rank + 1;
+
+					statusMessage( client, NORMAL_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + ( rank + 1 ) + ": trial " + ( trial + 1 ) );
 
 					// Choose possible weights
 					int [] weights = status.getWeights( false );
@@ -824,40 +827,64 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Enter the contest
 					int trialXP = fightMatch( client, status, tool, opponent );
+
 					if ( trialXP < 0 )
-					{
-						// familiar sucks at this contest
-						bestRank = 0;
-						done = true;
-						break;
-					}
-
-					XP += trialXP;
-				}
-
-				if ( done )
-					break;
-
-				statusMessage( client, NORMAL_STATE, CakeArenaManager.getEvent( contest + 1) + ": rank " + rank + " earned " + XP + " xp.");
-
-				// See if this was a good rank
-				if ( XP > bestXP )
-				{
-					bestRank = rank;
-					bestXP = XP;
+						suckage[contest] = true;
+					else
+						xp[contest][rank] += trialXP;
 				}
 			}
-
-			// Save the best rank for this contest
-			statusMessage( client, NORMAL_STATE, CakeArenaManager.getEvent( contest + 1) + ": final rank = " + bestRank);
-			skills[contest] = bestRank;
 		}
 
-		results.append( "<br>Final results:<br>" );
+		// Original skill rankings
 		int [] original = FamiliarsDatabase.getFamiliarSkills( familiar.getID() );
-		for ( int contest = 0; contest < 4; ++contest )
-			results.append( CakeArenaManager.getEvent( contest + 1) + ": original rank " + original[contest] + " derived rank = " + skills[contest] + "<br>" );
 
+		// Derived skill rankings
+		int skills [] = new int[4];
+
+		StringBuffer text = new StringBuffer();
+
+		// Open the table
+		text.append( "<table>" );
+
+		// Table header
+		text.append( "<tr>" );
+		text.append( "<th>Contest</th>" );
+		text.append( "<th>XP[1]</th>" );
+		text.append( "<th>XP[2]</th>" );
+		text.append( "<th>XP[3]</th>" );
+		text.append( "<th>Original Rank</th>" );
+		text.append( "<th>Derived Rank</th>" );
+		text.append( "</tr>" );
+
+		for ( int contest = 0; contest < 4; ++contest )
+		{
+			text.append( "<tr>" );
+			text.append( "<td>" + CakeArenaManager.getEvent( contest + 1) + "</td>" );
+
+			int bestXP = 0;
+			int bestRank = 0;
+			for ( int rank = 0; rank < 3; ++rank )
+			{
+				int rankXP = xp[contest][rank];
+				text.append( "<td align=center>" + rankXP + "</td>" );
+				if ( rankXP > bestXP )
+				{
+					bestXP = rankXP;
+					bestRank = rank + 1;
+				}
+			}
+			text.append( "<td align=center>" + original[contest] + "</td>" );
+			text.append( "<td align=center>" + bestRank + "</td>" );
+			skills[contest] = bestRank;
+			text.append( "</tr>" );
+		}
+
+		// Close the table
+		text.append( "</table>" );
+
+		results.append( "<br>Final results:<br><br>" );
+		results.append( text.toString() );
 		return skills;
 	}
 
