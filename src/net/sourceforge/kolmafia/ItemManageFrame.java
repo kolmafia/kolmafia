@@ -287,7 +287,7 @@ public class ItemManageFrame extends KoLFrame
 			for ( int i = 0; i < 3; ++i )
 				optionPanel.add( filters[i] );
 
-			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
 		protected Object [] getDesiredItems( String message )
@@ -460,7 +460,6 @@ public class ItemManageFrame extends KoLFrame
 		public OutsideClosetPanel()
 		{
 			super( "Inside Inventory", KoLCharacter.getInventory() );
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			setButtons( new String [] { "closet", "sell", "mall", "museum", "clan", "refresh" },
 				new ActionListener [] {
 					new PutInClosetListener( false, elementList ),
@@ -477,7 +476,6 @@ public class ItemManageFrame extends KoLFrame
 		public InsideClosetPanel()
 		{
 			super( "Inside Closet", KoLCharacter.getCloset() );
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			setButtons( new String [] { "backpack", "sell", "mall", "museum", "clan", "refresh" },
 				new ActionListener [] {
 					new PutInClosetListener( true, elementList ),

@@ -579,13 +579,24 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	public static DefaultListCellRenderer getAutoSellCellRenderer()
-	{	return new AutoSellCellRenderer();
+	{	return new AutoSellCellRenderer( true, true, true );
+	}
+
+	public static DefaultListCellRenderer getAutoSellCellRenderer( boolean food, boolean booze, boolean other )
+	{	return new AutoSellCellRenderer( food, booze, other );
 	}
 
 	private static class AutoSellCellRenderer extends DefaultListCellRenderer
 	{
-		public AutoSellCellRenderer()
-		{	setOpaque( true );
+		private boolean food, booze, other;
+
+		public AutoSellCellRenderer( boolean food, boolean booze, boolean other )
+		{
+			setOpaque( true );
+
+			this.food = food;
+			this.booze = booze;
+			this.other = other;
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
@@ -596,6 +607,25 @@ public class AdventureResult implements Comparable, KoLConstants
 				return defaultComponent;
 
 			AdventureResult ar = (AdventureResult) value;
+
+			switch ( TradeableItemDatabase.getConsumptionType( ar.getName() ) )
+			{
+				case ConsumeItemRequest.CONSUME_EAT:
+					if ( !food )
+						return BLANK_LABEL;
+					break;
+
+				case ConsumeItemRequest.CONSUME_DRINK:
+					if ( !booze )
+						return BLANK_LABEL;
+					break;
+
+				default:
+					if ( !other )
+						return BLANK_LABEL;
+					break;
+			}
+
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
 
 			StringBuffer stringForm = new StringBuffer();
