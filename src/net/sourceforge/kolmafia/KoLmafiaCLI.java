@@ -1618,9 +1618,9 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			String conditionString = parameters.substring( option.length() ).trim();
 
-			if ( conditionString.startsWith( "conjunction" ) )
+			if ( conditionString.startsWith( "conjunction" ) || conditionString.startsWith( "and" ) )
 				StaticEntity.getClient().useDisjunction = false;
-			else if ( conditionString.startsWith( "disjunction" ) )
+			else if ( conditionString.startsWith( "disjunction" ) || conditionString.startsWith( "or" ) )
 				StaticEntity.getClient().useDisjunction = true;
 
 			if ( StaticEntity.getClient().useDisjunction )
