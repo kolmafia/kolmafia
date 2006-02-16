@@ -156,6 +156,14 @@ public class EquipmentDatabase extends KoLDatabase
 		return hands[ itemID ];
 	}
 
+	public static boolean hasOutfit( int id )
+	{	return KoLCharacter.getOutfits().contains( outfits[id] );
+	}
+
+	public static SpecialOutfit getOutfit( int id )
+	{	return outfits[id];
+	}
+
 	public static void updateOutfits()
 	{
 		LockableListModel available = KoLCharacter.getOutfits();
@@ -181,5 +189,51 @@ public class EquipmentDatabase extends KoLDatabase
 					available.remove( outfits[i] );
 			}
 		}
+	}
+
+	/**
+	 * Utility method which determines whether or not the equipment
+	 * corresponding to the given outfit is already equipped.
+	 */
+
+	public static boolean isWearingOutfit( int outfitID )
+	{
+		boolean isWearingOutfit = true;
+		for ( int i = 0; i < outfitPieces[ outfitID ].length; ++i )
+		{
+			switch ( TradeableItemDatabase.getConsumptionType( outfitPieces[ outfitID ][i].getName() ) )
+			{
+				case ConsumeItemRequest.EQUIP_WEAPON:
+					isWearingOutfit &= KoLCharacter.getEquipment( KoLCharacter.WEAPON ).equals( outfitPieces[ outfitID ][i] );
+					break;
+
+				case ConsumeItemRequest.EQUIP_OFFHAND:
+					isWearingOutfit &= KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).equals( outfitPieces[ outfitID ][i] );
+					break;
+
+				case ConsumeItemRequest.EQUIP_HAT:
+					isWearingOutfit &= KoLCharacter.getEquipment( KoLCharacter.HAT ).equals( outfitPieces[ outfitID ][i] );
+					break;
+
+				case ConsumeItemRequest.EQUIP_SHIRT:
+					isWearingOutfit &= KoLCharacter.getEquipment( KoLCharacter.SHIRT ).equals( outfitPieces[ outfitID ][i] );
+					break;
+
+				case ConsumeItemRequest.EQUIP_PANTS:
+					isWearingOutfit &= KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( outfitPieces[ outfitID ][i] );
+					break;
+
+				case ConsumeItemRequest.EQUIP_ACCESSORY:
+
+					isWearingOutfit &=
+						KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).equals( outfitPieces[ outfitID ][i] ) ||
+						KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).equals( outfitPieces[ outfitID ][i] ) ||
+						KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).equals( outfitPieces[ outfitID ][i] );
+
+					break;
+			}
+		}
+
+		return isWearingOutfit;
 	}
 }

@@ -360,18 +360,20 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		public void actionConfirmed()
 		{
+			client.disableDisplay();
 			ProfileRequest [] selection = getSelection();
 
 			for ( int i = 0; i < selection.length; ++i )
 			{
+				client.updateDisplay( NORMAL_STATE, "Attacking " + selection[i].getPlayerName() + "..." );
 				FightFrame.showRequest( new FlowerHunterRequest( client, selection[i].getPlayerID(),
 					stanceSelect.getSelectedIndex() + 1, victorySelect.getSelectedIndex() == 0, message.getText() ) );
 
 				updateRank();
-
-				if ( i != selection.length - 1 )
-					KoLRequest.delay( 10000 );
 			}
+
+			client.updateDisplay( NORMAL_STATE, "Attacks completed." );
+			client.enableDisplay();
 		}
 
 		public void actionCancelled()

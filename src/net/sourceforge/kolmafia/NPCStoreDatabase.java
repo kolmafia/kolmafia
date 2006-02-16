@@ -45,15 +45,15 @@ import java.util.ArrayList;
 
 public class NPCStoreDatabase extends KoLDatabase
 {
-	private static List [] npcstoreTable;
+	private static List [] storeTable;
 
 	static
 	{
 		BufferedReader reader = getReader( "npcstores.dat" );
 
-		npcstoreTable = new ArrayList[5];
+		storeTable = new ArrayList[5];
 		for ( int i = 0; i < 5; ++i )
-			npcstoreTable[i] = new ArrayList();
+			storeTable[i] = new ArrayList();
 
 		String [] data;
 
@@ -62,9 +62,9 @@ public class NPCStoreDatabase extends KoLDatabase
 			if ( data.length == 4 )
 			{
 				for ( int i = 0; i < 4; ++i )
-					npcstoreTable[i].add( data[i] );
+					storeTable[i].add( data[i] );
 
-				npcstoreTable[4].add( Integer.valueOf( data[2] ) );
+				storeTable[4].add( Integer.valueOf( data[2] ) );
 			}
 		}
 
@@ -81,32 +81,55 @@ public class NPCStoreDatabase extends KoLDatabase
 
 	public static final MallPurchaseRequest getPurchaseRequest( String itemName )
 	{
-		int itemIndex = npcstoreTable[4].indexOf( new Integer( TradeableItemDatabase.getItemID( itemName ) ) );
+		int itemIndex = storeTable[4].indexOf( new Integer( TradeableItemDatabase.getItemID( itemName ) ) );
+
+		// If the item is not present in the NPC store table, then
+		// the item is not available.
+
+		if ( itemIndex == -1 )
+			return null;
 
 		// If the person is not in a muscle sign, then items from the
 		// Degrassi Knoll are not available.
 
-		if ( npcstoreTable[0].get(itemIndex).equals( "5" ) && !KoLCharacter.inMuscleSign() )
+		if ( storeTable[0].get(itemIndex).equals( "5" ) && !KoLCharacter.inMuscleSign() )
 			return null;
 
 		// If the person is not in a mysticality sign, then items from the
 		// Canadia Jewelers are not available.
 
-		if ( npcstoreTable[0].get(itemIndex).equals( "j" ) && !KoLCharacter.inMysticalitySign() )
+		if ( storeTable[0].get(itemIndex).equals( "j" ) && !KoLCharacter.inMysticalitySign() )
 			return null;
 
-		return itemIndex == -1 ? null :
-			new MallPurchaseRequest( client, (String) npcstoreTable[1].get(itemIndex), (String) npcstoreTable[0].get(itemIndex),
-				Integer.parseInt( (String) npcstoreTable[2].get(itemIndex) ), Integer.parseInt( (String) npcstoreTable[3].get(itemIndex) ) );
+		// If the person is trying to get one of the items from the bugbear
+		// store, then the item is not available if they don't have the
+		// bugbear outfit.
+
+		if ( storeTable[0].get(itemIndex).equals( "b" ) && !EquipmentDatabase.hasOutfit( 1 ) )
+			return null;
+
+		// If the person is trying to get the items from the laboratory,
+		// then the item is not available if they don't have the elite
+		// guard uniform.
+
+		if ( storeTable[0].get(itemIndex).equals( "g" ) && !EquipmentDatabase.hasOutfit( 5 ) )
+			return null;
+
+		// If the person is trying to get one of the items from the hippy
+		// store, then the item is not available if they don't have the
+		// hippy outfit.
+
+		if ( storeTable[0].get(itemIndex).equals( "h" ) && !EquipmentDatabase.hasOutfit( 2 ) )
+			return null;
+
+		// If it gets this far, then the item is definitely available
+		// for purchase from the NPC store.
+
+		return new MallPurchaseRequest( client, (String) storeTable[1].get(itemIndex), (String) storeTable[0].get(itemIndex),
+			Integer.parseInt( (String) storeTable[2].get(itemIndex) ), Integer.parseInt( (String) storeTable[3].get(itemIndex) ) );
 	}
 
 	public static final boolean contains( String itemName )
-	{	return npcstoreTable[4].contains( new Integer( TradeableItemDatabase.getItemID( itemName ) ) ) && getPurchaseRequest( itemName ) != null;
-	}
-
-	public static final int getNPCStorePrice( String itemName )
-	{
-		int itemIndex = npcstoreTable[4].indexOf( new Integer( TradeableItemDatabase.getItemID( itemName ) ) );
-		return itemIndex == -1 ? 0 : Integer.parseInt( (String) npcstoreTable[3].get(itemIndex) );
+	{	return storeTable[4].contains( new Integer( TradeableItemDatabase.getItemID( itemName ) ) ) && getPurchaseRequest( itemName ) != null;
 	}
 }

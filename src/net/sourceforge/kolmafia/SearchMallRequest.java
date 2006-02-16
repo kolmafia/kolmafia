@@ -278,9 +278,6 @@ public class SearchMallRequest extends KoLRequest
 		skipTokens( parsedResults, 4 );
 
 		String lastItemName = "";
-		boolean npcStoreAdded = false;
-		int npcStorePrice = -1;
-
 		while ( parsedResults.countTokens() > 1 )
 		{
 			boolean canPurchase = true;
@@ -305,9 +302,9 @@ public class SearchMallRequest extends KoLRequest
 
 				lastItemName = itemName;
 				itemNames.remove( itemName );
-				npcStoreExists = NPCStoreDatabase.contains( itemName );
-				npcStorePrice = npcStoreExists ? NPCStoreDatabase.getNPCStorePrice( itemName ) : Integer.MAX_VALUE;
-				npcStoreAdded = false;
+
+				if ( NPCStoreDatabase.contains( itemName ) )
+					results.add( NPCStoreDatabase.getPurchaseRequest( itemName ) );
 			}
 
 			// The next token contains the number of items being sold
@@ -335,14 +332,7 @@ public class SearchMallRequest extends KoLRequest
 			// Now, check to see if you should add the NPC
 			// store at the current time
 
-			if ( npcStoreExists && !npcStoreAdded && npcStorePrice < price )
-			{
-				npcStoreAdded = true;
-				results.add( NPCStoreDatabase.getPurchaseRequest( itemName ) );
-			}
-
-			if ( !npcStoreExists || KoLCharacter.canInteract() )
-				results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, canPurchase ) );
+			results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, canPurchase ) );
 		}
 
 		// Once the search is complete, add in any remaining NPC

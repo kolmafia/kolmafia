@@ -58,7 +58,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	private boolean successful;
 	private String itemName, shopName;
 	private int itemID, shopID, quantity, price, limit;
+
 	private boolean isNPCStore;
+	private String npcStoreID;
 
 	private boolean canPurchase;
 	public static final int MAX_QUANTITY = 10000000;
@@ -101,6 +103,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.price = price;
 
 		this.isNPCStore = true;
+		this.npcStoreID = storeID;
 		this.canPurchase = true;
 	}
 
@@ -297,6 +300,14 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			return;
 		}
 
+		// Check to make sure that the person is wearing the appropriate
+		// outfit for making the purchase.
+
+		ensureProperAttire();
+
+		// Now that everything's ensured, go ahead and execute the
+		// actual purchase request.
+
 		updateDisplay( NORMAL_STATE, "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")" );
 
 		AdventureResult searchItem = new AdventureResult( itemID, 0 );
@@ -432,5 +443,31 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public int compareTo( MallPurchaseRequest mpr )
 	{	return price - mpr.price;
+	}
+
+	private void ensureProperAttire()
+	{
+		if ( !isNPCStore )
+			return;
+
+		int neededOutfit = 0;
+
+		if ( npcStoreID.equals( "b" ) )
+			neededOutfit = 1;
+
+		if ( npcStoreID.equals( "g" ) )
+			neededOutfit = 5;
+
+		if ( npcStoreID.equals( "h" ) )
+			neededOutfit = 2;
+
+		if ( neededOutfit == 0 )
+			return;
+
+		// Only switch outfits if the person is not
+		// currently wearing the outfit.
+
+		if ( !EquipmentDatabase.isWearingOutfit( neededOutfit ) )
+			(new EquipmentRequest( client, EquipmentDatabase.getOutfit( neededOutfit ) )).run();
 	}
 }
