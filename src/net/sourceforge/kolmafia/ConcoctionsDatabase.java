@@ -313,13 +313,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 		for ( int i = 1; i < ITEM_COUNT; ++i )
 		{
 			// We can't make this concoction now
+
 			if ( concoctions[i].creatable <= 0 )
 			{
 				if ( wasPossible[i] )
 				{
-					concoctionsList.remove( ItemCreationRequest.getInstance( client, i, 0 ) );
+					concoctionsList.remove( ItemCreationRequest.getInstance( client, i, 0, false ) );
 					wasPossible[i] = false;
 				}
+
 				continue;
 			}
 

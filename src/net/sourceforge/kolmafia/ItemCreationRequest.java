@@ -159,6 +159,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	 */
 
 	public static ItemCreationRequest getInstance( KoLmafia client, int itemID, int quantityNeeded )
+	{	return getInstance( client, itemID, quantityNeeded, true );
+	}
+
+	/**
+	 * Static method which determines the appropriate subclass
+	 * of an ItemCreationRequest to return, based on the idea
+	 * that the given quantity of the given item is to be created.
+	 */
+
+	public static ItemCreationRequest getInstance( KoLmafia client, int itemID, int quantityNeeded, boolean returnNullIfImpossible )
 	{
 		if ( itemID == MEAT_PASTE || itemID == MEAT_STACK || itemID == DENSE_STACK )
 			return new CombineMeatRequest( client, itemID, quantityNeeded );
@@ -169,7 +179,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// then return null to indicate that it is not
 		// possible to create the item.
 
-		if ( !ConcoctionsDatabase.isPermittedMethod( mixingMethod ) )
+		if ( returnNullIfImpossible && !ConcoctionsDatabase.isPermittedMethod( mixingMethod ) )
 			return null;
 
 		// Otherwise, return the appropriate subclass of
