@@ -137,33 +137,33 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure8" }, { "Gravy Barrow 3" },
 		  { "Enter the chamber", "Enter the chamber", "Enter the chamber" } },
 
-                // A Bard Day's Night
+		// A Bard Day's Night
 		{ { "choiceAdventure14" }, { "Knob Goblin Harem" },
-		  { "Knob goblin harem veil", "Knob goblin harem pants", "100 meat" } },
+		  { "Knob goblin harem veil", "Knob goblin harem pants", "100 meat", "Complete the outfit" } },
 
 		// Yeti Nother Hippy
 		{ { "choiceAdventure15" }, { "eXtreme Slope 1" },
-		  { "eXtreme mittens", "eXtreme scarf", "75 meat" } },
+		  { "eXtreme mittens", "eXtreme scarf", "75 meat", "Complete the outfit" } },
 
 		// Saint Beernard
 		{ { "choiceAdventure16" }, { "eXtreme Slope 2" },
-		  { "snowboarder pants", "eXtreme scarf", "75 meat" } },
+		  { "snowboarder pants", "eXtreme scarf", "75 meat", "Complete the outfit" } },
 
 		// Generic Teen Comedy
 		{ { "choiceAdventure17" }, { "eXtreme Slope 3" },
-		  { "eXtreme mittens", "snowboarder pants", "75 meat" } },
+		  { "eXtreme mittens", "snowboarder pants", "75 meat", "Complete the outfit" } },
 
 		// A Flat Miner
 		{ { "choiceAdventure18" }, { "Itznotyerzitz Mine 1" },
-		  { "miner's pants", "7-Foot Dwarven mattock", "100 meat" } },
+		  { "miner's pants", "7-Foot Dwarven mattock", "100 meat", "Complete the outfit" } },
 
 		// 100% Legal
 		{ { "choiceAdventure19" }, { "Itznotyerzitz Mine 2" },
-		  { "miner's helmet", "miner's pants", "100 meat" } },
+		  { "miner's helmet", "miner's pants", "100 meat", "Complete the outfit" } },
 
 		// See You Next Fall
 		{ { "choiceAdventure20" }, { "Itznotyerzitz Mine 3" },
-		  { "miner's helmet", "7-Foot Dwarven mattock", "100 meat" } },
+		  { "miner's helmet", "7-Foot Dwarven mattock", "100 meat", "Complete the outfit" } },
 
 		// Under the Knife
 		{ { "choiceAdventure21" }, { "Sleazy Back Alley" },
@@ -171,15 +171,15 @@ public class AdventureDatabase extends KoLDatabase
 
 		// The Arrrbitrator
 		{ { "choiceAdventure22" }, { "Pirate's Cove 1" },
-		  { "eyepatch", "swashbuckling pants", "100 meat" } },
+		  { "eyepatch", "swashbuckling pants", "100 meat", "Complete the outfit" } },
 
 		// Barrie Me at Sea
 		{ { "choiceAdventure23" }, { "Pirate's Cove 2" },
-		  { "stuffed shoulder parrot", "swashbuckling pants", "100 meat" } },
+		  { "stuffed shoulder parrot", "swashbuckling pants", "100 meat", "Complete the outfit" } },
 
 		// Amatearrr Night
 		{ { "choiceAdventure24" }, { "Pirate's Cove 3" },
-		  { "stuffed shoulder parrot", "100 meat", "eyepatch" } },
+		  { "stuffed shoulder parrot", "100 meat", "eyepatch", "Complete the outfit" } },
 
 		// Ouch! You bump into a door!
 		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
