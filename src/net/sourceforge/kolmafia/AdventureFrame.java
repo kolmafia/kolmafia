@@ -383,7 +383,7 @@ public class AdventureFrame extends KoLFrame
 						// that to determine which components make up
 						// the outfit pulled from that area.
 
-						if ( !EquipmentDatabase.addOutfitConditions( request ) )
+						if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
 						{
 							client.updateDisplay( ERROR_STATE, "No outfit corresponds to this zone." );
 							return;

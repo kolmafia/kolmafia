@@ -240,7 +240,7 @@ public class EquipmentDatabase extends KoLDatabase
 	public static boolean addOutfitConditions( KoLAdventure adventure )
 	{
 		LockableListModel conditions = client.getConditions();
-		String adventureID = adventure.getAdventureID()
+		String adventureID = adventure.getAdventureID();
 
 		if ( adventureID.equals( "41" ) )
 		{
