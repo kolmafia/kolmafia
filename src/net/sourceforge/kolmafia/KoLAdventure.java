@@ -150,6 +150,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	public void run()
 	{
 		String action = StaticEntity.getProperty( "battleAction" );
+		int haltTolerance = (int)( Double.parseDouble( StaticEntity.getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
 
 		if ( ( action.equals( "item0536" ) && FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) < 1 ) ||
 			 ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) < 1 ) )
@@ -169,14 +170,13 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			if ( !client.recoverHP() || !client.recoverMP() )
 				return;
-		}
 
-		int haltTolerance = (int)( Double.parseDouble( StaticEntity.getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
-		if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
-		{
-			client.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
-			client.cancelRequest();
-			return;
+			if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
+			{
+				client.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
+				client.cancelRequest();
+				return;
+			}
 		}
 
 		// If auto-recovery failed, return from the run attempt.
@@ -247,13 +247,13 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				client.recoverHP();
 				client.recoverMP();
 			}
-		}
 
-		if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
-		{
-			client.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
-			client.cancelRequest();
-			return;
+			if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
+			{
+				client.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
+				client.cancelRequest();
+				return;
+			}
 		}
 	}
 
