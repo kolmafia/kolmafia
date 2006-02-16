@@ -68,7 +68,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class GearChangeFrame extends KoLFrame
 {
-	private boolean isChanging = false;
+	private boolean isChanging = true;
 
 	private JComboBox [] equipment;
 	private LockableListModel [] equipmentLists;
@@ -90,6 +90,7 @@ public class GearChangeFrame extends KoLFrame
 
 		framePanel.add( createEquipPanel(), "" );
 		refreshEquipPanel();
+		isChanging = false;
 	}
 
 	public void dispose()
