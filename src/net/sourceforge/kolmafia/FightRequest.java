@@ -208,7 +208,7 @@ public class FightRequest extends KoLRequest
 
 			if ( roundCount == 1 )
 			{
-				Matcher encounterMatcher = Pattern.compile( "<td valign=center>You're fighting (.*?)</td>" ).matcher( responseText );
+				Matcher encounterMatcher = Pattern.compile( "<span id='monname'>(.*?)</span>" ).matcher( responseText );
 
 				if ( encounterMatcher.find() )
 				{
