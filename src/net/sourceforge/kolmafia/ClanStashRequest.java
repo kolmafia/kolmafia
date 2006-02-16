@@ -160,22 +160,28 @@ public class ClanStashRequest extends SendMessageRequest
 				updateDisplay( NORMAL_STATE, "Clan donation attempt complete." );
 				break;
 
-			case ITEMS_TO_STASH:
 			case STASH_TO_ITEMS:
 
 				if ( !KoLCharacter.canInteract() )
 				{
 					updateDisplay( ERROR_STATE, "KoLmafia cannot access your clan stash at this time." );
 					client.cancelRequest();
+					return;
 				}
+
+			case ITEMS_TO_STASH:
 
 				updateDisplay( NORMAL_STATE, "Moving items..." );
 				super.run();
+
 				if ( !client.permitsContinue() )
+				{
 					// The move failed. Perhaps you have
 					// insufficient karma. Perhaps somebody
 					// else beat you to it.
 					updateDisplay( ERROR_STATE, "Move failed." );
+				}
+
 				parseStash();
 				break;
 		}
