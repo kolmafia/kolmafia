@@ -85,7 +85,7 @@ public class CommandDisplayFrame extends KoLFrame
 		{
 			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", CouncilFrame.class ) );
 			toolbarPanel.add( new MiniBrowserButton() );
-			toolbarPanel.add( new InvocationButton( "Clear Scrollback", KoLmafia.commandBuffer, "clearBuffer" ) );
+			toolbarPanel.add( new InvocationButton( "Clear Scrollback", "clear.gif", KoLmafia.commandBuffer, "clearBuffer" ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
