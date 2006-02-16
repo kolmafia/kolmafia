@@ -236,4 +236,69 @@ public class EquipmentDatabase extends KoLDatabase
 
 		return isWearingOutfit;
 	}
+
+	public static boolean addOutfitConditions( KoLAdventure adventure )
+	{
+		LockableListModel conditions = client.getConditions();
+		String adventureID = adventure.getAdventureID()
+
+		if ( adventureID.equals( "41" ) )
+		{
+			addOutfitConditions( 5 );
+			return true;
+		}
+
+		if ( adventureID.equals( "42" ) )
+		{
+			addOutfitConditions( 4 );
+			return true;
+		}
+
+		if ( adventureID.equals( "61" ) )
+		{
+			addOutfitConditions( 8 );
+			return true;
+		}
+
+		if ( adventureID.equals( "63" ) )
+		{
+			addOutfitConditions( 7 );
+			return true;
+		}
+
+		if ( adventureID.equals( "26" ) )
+		{
+			addOutfitConditions( 2 );
+			return true;
+		}
+
+		if ( adventureID.equals( "27" ) )
+		{
+			addOutfitConditions( 3 );
+			return true;
+		}
+
+		if ( adventureID.equals( "66" ) )
+		{
+			addOutfitConditions( 9 );
+			return true;
+		}
+
+		if ( adventureID.equals( "85" ) )
+		{
+			addOutfitConditions( 23 );
+			return true;
+		}
+
+		// No outfit existed for this are; therefore,
+		// return false.
+
+		return false;
+	}
+
+	private static void addOutfitConditions( int outfitID )
+	{
+		for ( int i = 0; i < outfitPieces[ outfitID ].length; ++i )
+			DEFAULT_SHELL.executeConditionsCommand( "add " + outfitPieces[ outfitID ][i].getName() );
+	}
 }

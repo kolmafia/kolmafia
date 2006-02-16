@@ -366,8 +366,6 @@ public class AdventureFrame extends KoLFrame
 				DEFAULT_SHELL.executeLine( "conditions clear" );
 
 				boolean verifyConditions = false;
-				boolean useDisjunction = false;
-
 				String [] conditions = conditionField.getText().split( "\\s*,\\s*" );
 
 				for ( int i = 0; i < conditions.length; ++i )
@@ -379,12 +377,27 @@ public class AdventureFrame extends KoLFrame
 
 						verifyConditions = true;
 					}
-					else if ( conditions[i].startsWith( "conjunction" ) || conditions[i].startsWith( "disjunction" ) )
+					else if ( conditions[i].equals( "outfit" ) )
 					{
-						// Postpone mode setting until all of
-						// the other conditions are added.
+						// Determine where you're adventuring and use
+						// that to determine which components make up
+						// the outfit pulled from that area.
 
-						useDisjunction = conditions[i].startsWith( "disjunction" );
+						if ( !EquipmentDatabase.addOutfitConditions( request ) )
+						{
+							client.updateDisplay( ERROR_STATE, "No outfit corresponds to this zone." );
+							return;
+						}
+
+						// In order to ensure that you do not duplicate
+						// items, make sure you verify everything before
+						// you begin adventuring.
+
+						verifyConditions = true;
+					}
+					else if ( conditions[i].equals( "or" ) || conditions[i].equals( "and" ) || conditions[i].startsWith( "conjunction" ) || conditions[i].startsWith( "disjunction" ) )
+					{
+						DEFAULT_SHELL.executeConditionsCommand( "mode " + conditions[i] );
 					}
 					else
 					{
@@ -413,7 +426,6 @@ public class AdventureFrame extends KoLFrame
 				}
 
 				conditionField.setText( "" );
-				DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 			}
 
 			(new RequestThread( request, getValue( countField ) )).start();
