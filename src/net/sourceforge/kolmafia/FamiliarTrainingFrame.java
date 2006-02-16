@@ -883,7 +883,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Close the table
 		text.append( "</table>" );
 
-		results.append( "<br>Final results:<br><br>" );
+		results.append( "<br>Final results for " + familiar.getRace() + " with " + trials + " trials:<br><br>" );
 		results.append( text.toString() );
 		return skills;
 	}
