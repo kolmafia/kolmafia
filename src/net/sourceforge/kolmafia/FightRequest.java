@@ -261,6 +261,7 @@ public class FightRequest extends KoLRequest
 
 					updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
 					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+					client.cancelRequest();
 				}
 			}
 			else if ( responseText.indexOf( "<input" ) == -1 )
