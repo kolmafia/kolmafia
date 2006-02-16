@@ -271,7 +271,7 @@ public class GearChangeFrame extends KoLFrame
 				this.parameters[i] = null;
 		}
 
-		public synchronized void actionPerformed( ActionEvent e )
+		public void actionPerformed( ActionEvent e )
 		{
 			// Ignore the event if the window is currently not
 			// showing, you're in the middle of changing items,
@@ -289,7 +289,7 @@ public class GearChangeFrame extends KoLFrame
 			executeChange();
 		}
 
-		public synchronized void firePopupMenuWillBecomeInvisible()
+		public void firePopupMenuWillBecomeInvisible()
 		{
 			super.firePopupMenuWillBecomeInvisible();
 
@@ -299,7 +299,7 @@ public class GearChangeFrame extends KoLFrame
 			executeChange();
 		}
 
-		public synchronized void executeChange()
+		public void executeChange()
 		{
 			parameters[1] = getSelectedItem();
 
