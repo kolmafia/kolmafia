@@ -174,7 +174,8 @@ public class EquipmentDatabase extends KoLDatabase
 			{
 				boolean hasAllPieces = true;
 				for ( int j = 0; j < outfitPieces[i].length; ++j )
-					hasAllPieces &= KoLCharacter.hasItem( outfitPieces[i][j], true );
+					hasAllPieces &= KoLCharacter.hasItem( outfitPieces[i][j], true ) &&
+						canEquip( outfitPieces[i][j].getName() );
 
 				// If the player has all the pieces, but it's not on the
 				// list, then add it to the list of available outfits.
