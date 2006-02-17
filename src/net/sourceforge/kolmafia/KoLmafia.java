@@ -1315,7 +1315,7 @@ public abstract class KoLmafia implements KoLConstants
 					}
 				}
 
-				else if ( remainingConditions != 0 && request instanceof KoLAdventure )
+				else if ( request instanceof KoLAdventure && !conditions.isEmpty() )
 					updateDisplay( NORMAL_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
 
