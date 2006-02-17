@@ -94,7 +94,8 @@ public abstract class KoLMessenger extends StaticEntity
 	private static SortedListModel onlineContacts = new SortedListModel();
 
 	private static int chattingStyle = 0;
-	private static boolean useTabbedFrame = false;
+	private static boolean useTabbedChat = false;
+	private static boolean usePopupContacts = false;
 	private static boolean highlighting = false;
 
 	public static void reset()
@@ -106,9 +107,10 @@ public abstract class KoLMessenger extends StaticEntity
 
 		chattingStyle = Integer.parseInt( getProperty( "chatStyle" ) );
 		contactsFrame = new ContactListFrame( client, onlineContacts );
-		useTabbedFrame = getProperty( "useTabbedChat" ).equals( "1" );
+		useTabbedChat = getProperty( "useTabbedChat" ).equals( "1" );
+		usePopupContacts = getProperty( "usePopupContacts" ).equals( "1" );
 
-		if ( useTabbedFrame )
+		if ( useTabbedChat )
 		{
 			tabbedFrame = new TabbedChatFrame( client );
 			tabbedFrame.setVisible( true );
@@ -408,8 +410,11 @@ public abstract class KoLMessenger extends StaticEntity
 		for ( int i = 1; i < contactList.length; ++i )
 			onlineContacts.add( contactList[i] );
 
-		contactsFrame.setTitle( contactList[0] );
-		contactsFrame.setVisible( true );
+		if ( usePopupContacts )
+		{
+			contactsFrame.setTitle( contactList[0] );
+			contactsFrame.setVisible( true );
+		}
 	}
 
 	private static final String getNormalizedContent( String originalContent )
@@ -482,6 +487,8 @@ public abstract class KoLMessenger extends StaticEntity
 
 				updateContactList( contactList );
 			}
+
+			processChatMessage( currentChannel, content.replaceAll( "</?[tc].*?>", "" ).replaceFirst( "</b>", "</b><br>" ) );
 		}
 	}
 
@@ -553,7 +560,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		if ( !currentChannel.equals( "" ) )
 		{
-			if ( useTabbedFrame )
+			if ( useTabbedChat )
 				tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 			else
 				getChatFrame( currentChannel ).setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
@@ -814,7 +821,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		buffer.append( displayHTML + "<br>" );
 
-		if ( useTabbedFrame )
+		if ( useTabbedChat )
 			tabbedFrame.highlightTab( getBufferKey( channel ) );
 	}
 
@@ -901,7 +908,7 @@ public abstract class KoLMessenger extends StaticEntity
 				if ( channel.startsWith( "/" ) )
 					currentlyActive.add( channel );
 
-				if ( useTabbedFrame )
+				if ( useTabbedChat )
 				{
 					ChatFrame.ChatPanel panel = tabbedFrame.addTab( channel );
 				}

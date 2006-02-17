@@ -322,7 +322,8 @@ public class OptionsFrame extends KoLFrame
 		private JComboBox autoLogSelect;
 		private JComboBox fontSizeSelect;
 		private JComboBox chatStyleSelect;
-		private JComboBox useTabsSelect;
+		private JComboBox useTabSelect;
+		private JComboBox popupSelect;
 		private JComboBox eSoluSelect;
 
 		public ChatOptionsPanel()
@@ -338,25 +339,32 @@ public class OptionsFrame extends KoLFrame
 				fontSizeSelect.addItem( String.valueOf( i ) );
 
 			chatStyleSelect = new JComboBox();
-			chatStyleSelect.addItem( "Messenger style" );
-			chatStyleSelect.addItem( "Trivia host style" );
-			chatStyleSelect.addItem( "LoathingChat style" );
+			chatStyleSelect.addItem( "All conversations separate" );
+			chatStyleSelect.addItem( "Channels separate, blues combined" );
+			chatStyleSelect.addItem( "Channels combined, blues separate" );
 
-			useTabsSelect = new JComboBox();
-			useTabsSelect.addItem( "Use windowed chat interface" );
-			useTabsSelect.addItem( "Use tabbed chat interface" );
+			useTabSelect = new JComboBox();
+			useTabSelect.addItem( "Use windowed chat interface (popup contacts)" );
+			useTabSelect.addItem( "Use windowed chat interface (inline contacts)" );
+			useTabSelect.addItem( "Use tabbed chat interface (popup contacts)" );
+			useTabSelect.addItem( "Use tabbed chat interface (inline contacts)" );
+
+			popupSelect = new JComboBox();
+			popupSelect.addItem( "Display contact lists inline" );
+			popupSelect.addItem( "Popup contact lists in new window" );
 
 			eSoluSelect = new JComboBox();
-			eSoluSelect.addItem( "Use nameclick select bar only" );
-			eSoluSelect.addItem( "Use eSolu scriptlet chat links (color)" );
-			eSoluSelect.addItem( "Use eSolu scriptlet chat links (gray)" );
+			eSoluSelect.addItem( "Nameclick select bar only" );
+			eSoluSelect.addItem( "eSolu scriptlet chat links (color)" );
+			eSoluSelect.addItem( "eSolu scriptlet chat links (gray)" );
 
-			VerifiableElement [] elements = new VerifiableElement[5];
+			VerifiableElement [] elements = new VerifiableElement[6];
 			elements[0] = new VerifiableElement( "Chat Logs: ", autoLogSelect );
 			elements[1] = new VerifiableElement( "Font Size: ", fontSizeSelect );
 			elements[2] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
-			elements[3] = new VerifiableElement( "Windowing: ", useTabsSelect );
-			elements[4] = new VerifiableElement( "eSolu Script: ", eSoluSelect );
+			elements[3] = new VerifiableElement( "Tabbed Chat: ", useTabSelect );
+			elements[4] = new VerifiableElement( "Contact List: ", popupSelect );
+			elements[5] = new VerifiableElement( "eSolu Script: ", eSoluSelect );
 
 			setContent( elements );
 			actionCancelled();
@@ -372,7 +380,8 @@ public class OptionsFrame extends KoLFrame
 			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
 
 			setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
-			setProperty( "useTabbedChat", String.valueOf( useTabsSelect.getSelectedIndex() ) );
+			setProperty( "useTabbedChat", String.valueOf( useTabSelect.getSelectedIndex() ) );
+			setProperty( "usePopupContacts", String.valueOf( useTabSelect.getSelectedIndex() ) );
 			setProperty( "eSoluScriptType", String.valueOf( eSoluSelect.getSelectedIndex() ) );
 
 			super.actionConfirmed();
@@ -385,7 +394,8 @@ public class OptionsFrame extends KoLFrame
 			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( getProperty( "fontSize" ) ) );
 
 			chatStyleSelect.setSelectedIndex( Integer.parseInt( getProperty( "chatStyle" ) ) );
-			useTabsSelect.setSelectedIndex( Integer.parseInt( getProperty( "useTabbedChat" ) ) );
+			useTabSelect.setSelectedIndex( Integer.parseInt( getProperty( "useTabbedChat" ) ) );
+			popupSelect.setSelectedIndex( Integer.parseInt( getProperty( "usePopupContacts" ) ) );
 			eSoluSelect.setSelectedIndex( Integer.parseInt( getProperty( "eSoluScriptType" ) ) );
 		}
 	}

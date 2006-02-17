@@ -221,6 +221,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "useClockworkBoxes", "false" );
 		ensureProperty( "userInterfaceMode", "0" );
 		ensureProperty( "useSystemTrayIcon", "false" );
+		ensureProperty( "usePopupContacts", "0" );
 		ensureProperty( "useTabbedChat", "1" );
 		ensureProperty( "useToolbars", "true" );
 		ensureProperty( "whiteList", "" );
