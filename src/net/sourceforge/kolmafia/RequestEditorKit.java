@@ -50,6 +50,7 @@ import javax.swing.text.html.ImageView;
 import javax.swing.text.html.HTMLEditorKit;
 
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.TreeMap;
 
 import java.io.File;
@@ -368,7 +369,21 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						actionString.append( elements[i] );
 					}
 
-				request = new KoLRequest( frame.client, actionString.toString(), true );
+				try
+				{
+					request = new KoLRequest( frame.client, URLDecoder.decode( actionString.toString(), "UTF-8" ), true );
+				}
+				catch ( Exception e )
+				{
+					// This could be dangerous to simply exit out; therefore,
+					// go ahead and change it, but print the error to the
+					// debug streams.
+
+					e.printStackTrace();
+					e.printStackTrace( KoLmafia.getLogStream() );
+
+					request = new KoLRequest( frame.client, actionString.toString(), true );
+				}
 			}
 			else
 			{
