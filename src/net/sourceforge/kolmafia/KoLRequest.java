@@ -1104,7 +1104,24 @@ public class KoLRequest implements Runnable, KoLConstants
 				// Only change the decision if the user-specified option
 				// will not satisfy something on the conditions list.
 
-				if ( !TradeableItemDatabase.contains( possibleDecisions[ Integer.parseInt( decision ) - 1 ] ) ||
+				if ( possibleDecisions[ Integer.parseInt( decision ) ].equals( "Complete the outfit" ) )
+				{
+					// Here, you have an outfit completion option.  Therefore
+					// determine which outfit needs to be completed.  This
+					// is, in theory, trivial -- just choose the item that
+					// the player does not have, and if they have everything,
+					// just make a random choice.
+
+					if ( !possibleDecisions[0].endsWith( "meat" ) && !KoLCharacter.hasItem( new AdventureResult( possibleDecisions[0] ), false ) )
+						decision = "1";
+					else if ( !possibleDecisions[1].endsWith( "meat" ) && !KoLCharacter.hasItem( new AdventureResult( possibleDecisions[1] ), false ) )
+						decision = "2";
+					else if ( !possibleDecisions[2].endsWith( "meat" ) && !KoLCharacter.hasItem( new AdventureResult( possibleDecisions[2] ), false ) )
+						decision = "3";
+					else
+						decision = String.valueOf( RNG.nextInt( 3 ) + 1 );
+				}
+				else if ( !TradeableItemDatabase.contains( possibleDecisions[ Integer.parseInt( decision ) - 1 ] ) ||
 					!client.getConditions().contains( new AdventureResult( possibleDecisions[ Integer.parseInt( decision ) - 1 ], 1, false ) ) )
 				{
 					for ( int i = 0; i < possibleDecisions.length; ++i )
@@ -1113,23 +1130,6 @@ public class KoLRequest implements Runnable, KoLConstants
 							decision = String.valueOf( i + 1 );
 					}
 				}
-			}
-			else if ( possibleDecisions != null && possibleDecisions[ Integer.parseInt( decision ) ].equals( "Complete the outfit" ) )
-			{
-				// Here, you have an outfit completion option.  Therefore
-				// determine which outfit needs to be completed.  This
-				// is, in theory, trivial -- just choose the item that
-				// the player does not have, and if they have everything,
-				// just make a random choice.
-
-				if ( !possibleDecisions[0].endsWith( "meat" ) && !KoLCharacter.hasItem( new AdventureResult( possibleDecisions[0] ), false ) )
-					decision = "1";
-				else if ( !possibleDecisions[1].endsWith( "meat" ) && !KoLCharacter.hasItem( new AdventureResult( possibleDecisions[1] ), false ) )
-					decision = "2";
-				else if ( !possibleDecisions[2].endsWith( "meat" ) && !KoLCharacter.hasItem( new AdventureResult( possibleDecisions[2] ), false ) )
-					decision = "3";
-				else
-					decision = String.valueOf( RNG.nextInt( 3 ) + 1 );
 			}
 		}
 
