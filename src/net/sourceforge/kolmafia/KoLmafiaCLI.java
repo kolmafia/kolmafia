@@ -1042,9 +1042,15 @@ public class KoLmafiaCLI extends KoLmafia
 			List familiars = KoLCharacter.getFamiliarList();
 
 			for ( int i = 0; i < familiars.size(); ++i )
+			{
 				if ( familiars.get(i).toString().toLowerCase().indexOf( lowerCaseName ) != -1 )
+				{
 					StaticEntity.getClient().makeRequest( new FamiliarRequest( StaticEntity.getClient(), (FamiliarData) familiars.get(i) ), 1 );
+					return;
+				}
+			}
 
+			StaticEntity.getClient().updateDisplay( ERROR_STATE, "You don't have that familiar." );
 			return;
 		}
 
