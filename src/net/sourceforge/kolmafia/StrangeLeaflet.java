@@ -74,11 +74,18 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	// Items we can pick up
 
+	private static boolean leaflet;
 	private static boolean sword;
 	private static boolean stick;
+	private static boolean boots;
+	private static boolean parchment;
+	private static boolean scroll;
+	private static boolean ring;
+	private static boolean trophy;
 
 	// Things we can manipulate
 
+	private static boolean mailbox;
 	private static boolean door;
 	private static boolean hedge;
 	private static boolean torch;
@@ -131,8 +138,16 @@ public abstract class StrangeLeaflet extends StaticEntity
 		// We know nothing about the state of the items,
 		// so assume that we have nothing for now.
 
+		leaflet = false;
 		sword = false;
 		stick = false;
+		boots = false;
+		parchment = false;
+		scroll = false;
+		ring = false;
+		trophy = false;
+
+		mailbox = false;
 		door = false;
 		hedge = false;
 		torch = false;
@@ -392,7 +407,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	private static void executeCommand( String command )
 	{
-		KoLRequest request = new KoLRequest( client, "text.php", true );
+		KoLRequest request = new KoLRequest( client, "leaflet.php", true );
 		request.addFormField( "pwd", client.getPasswordHash() );
 		request.addFormField( "command", command );
 		request.run();
@@ -404,9 +419,15 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		if ( command.equals( "inv" ) )
 		{
+			leaflet = request.responseText.indexOf( "A junk mail leaflet" ) != -1;
 			sword = request.responseText.indexOf( "An ornate sword" ) != -1;
 			torch = request.responseText.indexOf( "A burning torch" ) != -1;
 			stick = torch || request.responseText.indexOf( "A hefty stick" ) != -1;
+			boots = request.responseText.indexOf( "A pair of large rubber wading boots" ) != -1;
+			parchment = false;
+			scroll = request.responseText.indexOf( "A rolled-up scroll" ) != -1;
+			ring = request.responseText.indexOf( "A giant's pinky ring" ) != -1;
+			trophy = request.responseText.indexOf( "A shiny bowling trophy" ) != -1;
 		}
 
 		// Deduce status of items and objects based on your
