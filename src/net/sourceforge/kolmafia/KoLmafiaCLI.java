@@ -331,6 +331,9 @@ public class KoLmafiaCLI extends KoLmafia
 			for ( int i = 0; i < separateLines.length; ++i )
 				executeLine( separateLines[i] );
 
+			if ( shouldEnable )
+				StaticEntity.getClient().enableDisplay();
+
 			return;
 		}
 
