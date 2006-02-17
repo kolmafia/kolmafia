@@ -150,9 +150,28 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( request.responseText.indexOf( "lair.php" ) == -1 )
 		{
-			client.updateDisplay( ERROR_STATE, "You haven't been given the quest to fight the Sorceress!" );
-			client.cancelRequest();
-			return false;
+			// Visit the council to see if the quest can be unlocked,
+			// but only if you've reached level 11.
+
+			boolean unlockedQuest = false;
+			if ( KoLCharacter.getLevel() >= 11 )
+			{
+				// We should theoretically be able to figure out
+				// whether or not the quest is unlocked from the
+				// HTML in the council request, but for now, use
+				// this inefficient workaround.
+
+				(new KoLRequest( client, "council.php" )).run();
+				request.run();
+				unlockedQuest = request.responseText.indexOf( "lair.php" ) != -1;
+			}
+
+			if ( !unlockedQuest )
+			{
+				client.updateDisplay( ERROR_STATE, "You haven't been given the quest to fight the Sorceress!" );
+				client.cancelRequest();
+				return false;
+			}
 		}
 
 		// Make sure he can get to the desired area
