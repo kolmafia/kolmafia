@@ -167,6 +167,8 @@ public class ChatRequest extends KoLRequest
 
 	private class ChatContinuationThread extends DaemonThread
 	{
+		private int iterations = 0;
+
 		public void run()
 		{
 			ChatRequest request = new ChatRequest( client, lastSeen );
@@ -181,6 +183,15 @@ public class ChatRequest extends KoLRequest
 				request.run();
 
 				request.addFormField( "lasttime", String.valueOf( lastSeen ) );
+
+				// Now, do some garbage collection to avoid the
+				// potential for resource overusage.
+
+				if ( ++iterations == 30 )
+				{
+					iterations = 0;
+					System.gc();
+				}
 			}
 
 			thread = null;
