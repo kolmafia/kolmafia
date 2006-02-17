@@ -132,7 +132,7 @@ public class KoLDatabase extends StaticEntity
 	public static final List getMatchingNames( Map nameMap, String substring )
 	{
 		List substringList = new ArrayList();
-		String searchString = getCanonicalName( substring.replaceAll( "\"", "" ) ).trim();
+		String searchString = getCanonicalName( substring.startsWith( "\"" ) ? substring.substring( 1, substring.length() - 1 ) : substring ).trim();
 
 		if ( substring.length() == 0 )
 			return substringList;
