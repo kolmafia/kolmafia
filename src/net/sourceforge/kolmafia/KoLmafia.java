@@ -78,6 +78,13 @@ public abstract class KoLmafia implements KoLConstants
 	protected static PrintStream logStream = NullStream.INSTANCE;
 	protected static LimitedSizeChatBuffer commandBuffer = null;
 
+	private static final String [] OVERRIDE_DATA =
+	{
+		"adventures.dat", "buffbots.dat", "buffs.dat", "classskills.dat", "concoctions.dat",
+		"equipment.dat", "familiars.dat", "itemdescs.dat", "npcstores.dat", "outfits.dat",
+		"packages.dat", "tradeitems.dat", "zonelist.dat"
+	};
+
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
 	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
 
@@ -167,6 +174,23 @@ public abstract class KoLmafia implements KoLConstants
 
 		storeSaveStates();
 		deinitialize();
+
+		// Also clear out any outdated data files -- this
+		// includes everything except for the adventure table,
+		// since changing that actually does something.
+
+		String version = GLOBAL_SETTINGS.getProperty( "previousUpdateVersion" );
+
+		if ( version == null || !version.equals( VERSION_NAME ) )
+		{
+			GLOBAL_SETTINGS.setProperty( "previousUpdateVersion", VERSION_NAME );
+			for ( int i = 1; i < OVERRIDE_DATA.length; ++i )
+			{
+				File outdated = new File( "data/" + OVERRIDE_DATA[i] );
+				if ( outdated.exists() )
+					outdated.delete();
+			}
+		}
 	}
 
 	/**
@@ -2351,21 +2375,14 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		updateDisplay( DISABLE_STATE, "Downloading override data files..." );
 
-		String [] files =
-		{
-			"adventures.dat", "buffbots.dat", "buffs.dat", "classskills.dat", "concoctions.dat",
-			"equipment.dat", "familiars.dat", "itemdescs.dat", "npcstores.dat", "outfits.dat",
-			"packages.dat", "tradeitems.dat", "zonelist.dat"
-		};
-
 		try
 		{
-			for ( int i = 0; i < files.length; ++i )
+			for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
 			{
 				BufferedReader reader = new BufferedReader( new InputStreamReader(
-					(InputStream) (new URL( "http://kolmafia.sourceforge.net/data/" + files[i] )).getContent() ) );
+					(InputStream) (new URL( "http://kolmafia.sourceforge.net/data/" + OVERRIDE_DATA[i] )).getContent() ) );
 
-				File output = new File( "data/" + files[i] );
+				File output = new File( "data/" + OVERRIDE_DATA[i] );
 				if ( output.exists() )
 					output.delete();
 
