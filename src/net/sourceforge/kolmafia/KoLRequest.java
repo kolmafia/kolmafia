@@ -1114,7 +1114,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					}
 				}
 			}
-			else if ( possibleDecisions[ Integer.parseInt( decision ) ].equals( "Complete the outfit" ) )
+			else if ( possibleDecisions != null && possibleDecisions[ Integer.parseInt( decision ) ].equals( "Complete the outfit" ) )
 			{
 				// Here, you have an outfit completion option.  Therefore
 				// determine which outfit needs to be completed.  This
