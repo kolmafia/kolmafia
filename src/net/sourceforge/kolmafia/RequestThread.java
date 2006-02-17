@@ -164,6 +164,13 @@ public class RequestThread extends Thread implements KoLConstants
 				client.enableDisplay();
 
 			client.resetContinueState();
+
+			// Now, do some garbage collection to avoid the
+			// potential for resource overusage.
+
+			repeatCount = null;
+			requests = null;
+			System.gc();
 		}
 	}
 }
