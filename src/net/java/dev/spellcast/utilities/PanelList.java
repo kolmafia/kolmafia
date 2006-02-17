@@ -59,7 +59,7 @@ import javax.swing.event.ListDataEvent;
  *
  * <br><br>
  *
- * This panel creates a list of which contains data synchronized with a
+ * This panel creates a list of which contains data mirroring a given
  * <code>LockableListModel</code>.  Note, however, that this does not
  * in any way keep track of what is added or removed in of itself, and
  * relies on the <code>Container</code> component to implement that part
@@ -118,16 +118,13 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 		if ( associatedListModel != null )
 		{
-			synchronized ( associatedListModel )
-			{
-				java.util.Iterator contents = associatedListModel.iterator();
+			Object [] contents = associatedListModel.toArray();
 
-				for ( int i = 0; contents.hasNext(); ++i )
-					add( (Component) constructPanelListCell( contents.next(), i ), i );
+			for ( int i = 0; i < contents.length; ++i )
+				add( (Component) constructPanelListCell( contents[i], i ), i );
 
-				validatePanelList();
-				associatedListModel.addListDataListener( new PanelListListener() );
-			}
+			validatePanelList();
+			associatedListModel.addListDataListener( new PanelListListener() );
 		}
 	}
 
@@ -165,7 +162,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 	 * properly adjust themselves to accomodate the updated panel.
 	 */
 
-	private synchronized void validatePanelList()
+	private void validatePanelList()
 	{
 		// reset the size of the container according to the number
 		// of elements currently found in the container
@@ -181,7 +178,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 	 * the <code>JScrollPane</code> to determine how much of the panel should be visible.
 	 */
 
-	public synchronized Dimension getPreferredScrollableViewportSize()
+	public Dimension getPreferredScrollableViewportSize()
 	{	return new Dimension( cellWidth, visibleRows * cellHeight );
 	}
 
@@ -196,7 +193,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 	 * @return	the amount that needs to be scrolled to display the next cell
 	 */
 
-	public synchronized int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction)
+	public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction)
 	{	return orientation == SwingConstants.HORIZONTAL ? 0 : cellHeight;
 	}
 
@@ -211,7 +208,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 	 * @return	the amount that needs to be scrolled to display the next block of cells
 	 */
 
-	public synchronized int getScrollableBlockIncrement( Rectangle visibleRect, int orientation, int direction )
+	public int getScrollableBlockIncrement( Rectangle visibleRect, int orientation, int direction )
 	{	return orientation == SwingConstants.HORIZONTAL ? 0 :
 				(visibleRows - 1) * getScrollableUnitIncrement( visibleRect, orientation, direction );
 	}
@@ -222,7 +219,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 	 * is instead recomputed each time a component is added/removed.
 	 */
 
-	public synchronized boolean getScrollableTracksViewportHeight()
+	public boolean getScrollableTracksViewportHeight()
 	{	return false;
 	}
 
@@ -232,7 +229,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 	 * is instead recomputed each time a component is added/removed.
 	 */
 
-	public synchronized boolean getScrollableTracksViewportWidth()
+	public boolean getScrollableTracksViewportWidth()
 	{	return false;
 	}
 
@@ -251,7 +248,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
 		 */
 
-		public synchronized void intervalAdded( ListDataEvent e )
+		public void intervalAdded( ListDataEvent e )
 		{
 			LockableListModel source = (LockableListModel) e.getSource();
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
@@ -272,7 +269,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
 		 */
 
-		public synchronized void intervalRemoved( ListDataEvent e )
+		public void intervalRemoved( ListDataEvent e )
 		{
 			LockableListModel source = (LockableListModel) e.getSource();
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
@@ -293,7 +290,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
 		 */
 
-		public synchronized void contentsChanged( ListDataEvent e )
+		public void contentsChanged( ListDataEvent e )
 		{
 			LockableListModel source = (LockableListModel) e.getSource();
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();

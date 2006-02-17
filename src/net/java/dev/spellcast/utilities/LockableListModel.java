@@ -61,9 +61,8 @@ import javax.swing.event.ListDataListener;
  */
 
 public class LockableListModel extends javax.swing.AbstractListModel
-	implements Cloneable, java.util.List, javax.swing.ListModel, javax.swing.ComboBoxModel, javax.swing.MutableComboBoxModel, LockableObject
+	implements Cloneable, java.util.List, javax.swing.ListModel, javax.swing.ComboBoxModel, javax.swing.MutableComboBoxModel
 {
-	private ObjectLock lock;
 	private Vector elements;
 	private int selectedIndex;
 
@@ -137,15 +136,15 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		}
 	}
 
-	protected synchronized void fireContentsChanged( Object source, int index0, int index1 )
+	protected void fireContentsChanged( Object source, int index0, int index1 )
 	{	(new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 )).run();
 	}
 
-	protected synchronized void fireIntervalAdded( Object source, int index0, int index1 )
+	protected void fireIntervalAdded( Object source, int index0, int index1 )
 	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 )).run();
 	}
 
-	protected synchronized void fireIntervalRemoved( Object source, int index0, int index1 )
+	protected void fireIntervalRemoved( Object source, int index0, int index1 )
 	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 )).run();
 	}
 
@@ -704,83 +703,6 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			// then it is known that even if it implements the Cloneable interface,
 			// it throws the exception by default - return the original object.
 			return o;
-		}
-	}
-
-	/**
-	 * Tests to see if the object is currently locked.  Note that a return
-	 * of <tt>true</tt> indicates that there are <i>no</i> locks in place
-	 * for this object.
-	 *
-	 * @return	<tt>true</tt> if this object is currently locked
-	 */
-
-	public boolean isLocked()
-	{	return lock != null;
-	}
-
-	/**
-	 * Tests the lock of the given list model.  If the lock is in place, and this
-	 * is not the event dispatch thread, the call to this function will cause the
-	 * thread to block until the lock is released by another thread.  Note that
-	 * the return value indicates the list's state in the <i>past</i>, prior to
-	 * the call to this function; if there is a need to know if the object is
-	 * <i>currently</i> locked, one should use <code>isLocked()</code>
-	 *
-	 * @return	<tt>true</tt> if the list was locked previous to the method call
-	 */
-
-	private boolean checkLock()
-	{
-		if ( javax.swing.SwingUtilities.isEventDispatchThread() )
-			return isLocked();
-
-		if ( !isLocked() )
-			return false;
-
-		synchronized ( this )
-		{	return true;
-		}
-	}
-
-	/**
-	 * Locks this object with the given key.  Note that in order to unlock the object,
-	 * an equivalent key must be provided to the <code>unlock()</code> function.
-	 * If the lock attempt is successful, this function returns true.  Note that a
-	 * given key can only be used to lock this object once; multiple lock attempts
-	 * with the same key will fail if a lock with the given key is already in place.
-	 *
-	 * @param	key	the key to be used to lock the object
-	 * @return	<tt>true</tt> if the object was successfully locked with the given key
-	 */
-
-	public boolean lockWith( Object key )
-	{
-		if ( isLocked() )
-			return false;
-		lock = new ObjectLock( key, this );
-		return true;
-	}
-
-	/**
-	 * Attempts to unlock this object using the given key.  If the unlock attempt is
-	 * successful or if the object is already unlocked, this function returns true.
-	 *
-	 * @param	testKey	the key to be used to attempt an unlock
-	 * @return	<tt>true</tt> if the unlock attempt is successful
-	 */
-
-	public boolean unlockWith( Object testKey )
-	{
-		if ( !isLocked() )
-			return true;
-
-		synchronized ( lock )
-		{
-			if ( !lock.unlockWith( testKey ) )
-				return false;
-			lock = null;
-			return true;
 		}
 	}
 
