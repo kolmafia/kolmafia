@@ -3061,7 +3061,10 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			(new HermitRequest( StaticEntity.getClient() )).run();
 			if ( !StaticEntity.getClient().permitsContinue() )
+			{
+				updateDisplay( ERROR_STATE, "You are not able to visit the hermit." );
 				return;
+			}
 		}
 
 		if ( previousCommand.indexOf( " " ) == -1 )
@@ -3073,19 +3076,49 @@ public class KoLmafiaCLI extends KoLmafia
 
 		String command = previousCommand.split( " " )[0];
 		String parameters = previousCommand.substring( command.length() ).trim();
-		AdventureResult item = getFirstMatchingItem( parameters, NOWHERE, 1 );
-		if ( item == null )
-			return;
 
-		String name = item.getName();
-		if ( !StaticEntity.getClient().hermitItems.contains( name ) )
+		int itemID = -1;
+		int tradeCount = 1;
+
+		List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
+		if ( matchingNames.isEmpty() )
 		{
-			updateDisplay( ERROR_STATE, "You can't get a " + name + " from the hermit today." );
+			String itemCountString = parameters.split( " " )[0];
+			String itemNameString = parameters.substring( itemCountString.length() ).trim();
+			matchingNames = TradeableItemDatabase.getMatchingNames( itemNameString );
+
+			if ( matchingNames.isEmpty() )
+			{
+				updateDisplay( ERROR_STATE, "[" + itemNameString + "] does not match anything in the item database." );
+				StaticEntity.getClient().cancelRequest();
+				return;
+			}
+
+			try
+			{
+				tradeCount = df.parse( itemCountString ).intValue();
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
+				updateDisplay( ERROR_STATE, itemCountString + " is not a number." );
+				StaticEntity.getClient().cancelRequest();
+				return;
+			}
+		}
+
+		for ( int i = 0; i < matchingNames.size(); ++i )
+			if ( StaticEntity.getClient().hermitItems.contains( matchingNames.get(i) ) )
+				itemID = TradeableItemDatabase.getItemID( (String) matchingNames.get(i) );
+
+		if ( itemID == -1 )
+		{
+			updateDisplay( ERROR_STATE, "You can't get " + parameters + " from the hermit today." );
 			return;
 		}
 
-		int itemID = item.getItemID();
-		int tradeCount = item.getCount();
 		(new HermitRequest( StaticEntity.getClient(), itemID, tradeCount )).run();
 	}
 
