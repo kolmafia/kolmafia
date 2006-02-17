@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -168,6 +169,18 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				return;
 			}
+
+			// Next, ensure that you have all the pieces for the
+			// given outfit -- do this by adding all of the items
+			// as conditions and then issuing a check.
+
+			ArrayList temporaryList = new ArrayList();
+			temporaryList.addAll( client.getConditions() );
+			client.getConditions().clear();
+
+			EquipmentDatabase.addOutfitConditions( outfit.getOutfitID() );
+			DEFAULT_SHELL.executeConditionsCommand( "check" );
+			client.getConditions().addAll( temporaryList );
 		}
 
 		// If we are changing an accessory or familiar equipment, first

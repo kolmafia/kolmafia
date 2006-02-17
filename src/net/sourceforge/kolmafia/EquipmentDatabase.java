@@ -296,8 +296,14 @@ public class EquipmentDatabase extends KoLDatabase
 		return false;
 	}
 
-	private static void addOutfitConditions( int outfitID )
+	public static void addOutfitConditions( int outfitID )
 	{
+		// Ignore custom outfits, since there's
+		// no way to know what they are (yet).
+
+		if ( outfitID < 1 )
+			return;
+
 		for ( int i = 0; i < outfitPieces[ outfitID ].length; ++i )
 			DEFAULT_SHELL.executeConditionsCommand( "add " + outfitPieces[ outfitID ][i].getName() );
 	}

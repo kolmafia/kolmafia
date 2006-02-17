@@ -589,6 +589,13 @@ public class AdventureDatabase extends KoLDatabase
 			if ( missingCount <= 0 )
 				return;
 
+			// Next, if you have a piece of equipment, then
+			// assume this might be a check on equipment.
+			// in this case, return from this method.
+
+			if ( KoLCharacter.hasEquipped( item ) && missingCount == 1 )
+				return;
+
 			// First, attempt to pull the item from the closet.
 			// If this is successful, return from the method.
 
