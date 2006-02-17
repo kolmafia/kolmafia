@@ -181,13 +181,13 @@ public abstract class Nemesis extends StaticEntity
 				case 5: // A Stone Door
 
 					action = "door1";
-					client.updateDisplay( NORMAL_STATE, "Passing Stone Door..." );
+					client.updateDisplay( NORMAL_STATE, "Activating the stone door..." );
 					break;
 
 				case 6: // Lavatory Troll 1
 
 					action = "troll1";
-					client.updateDisplay( NORMAL_STATE, "Feeding first troll..." );
+					client.updateDisplay( NORMAL_STATE, "Feeding the first troll..." );
 					break;
 
 				case 7:	// Salad-Covered Door
@@ -202,13 +202,13 @@ public abstract class Nemesis extends StaticEntity
 					}
 
 					action = "door2";
-					client.updateDisplay( NORMAL_STATE, "Plucking Salad..." );
+					client.updateDisplay( NORMAL_STATE, "Plucking the salad door..." );
 					break;
 
 				case 8: // Lavatory Troll 2
 
 					action = "troll2";
-					client.updateDisplay( NORMAL_STATE, "Feeding second troll..." );
+					client.updateDisplay( NORMAL_STATE, "Feeding the second troll..." );
 					break;
 
 				case 9: // Chamber of Epic Conflict
@@ -271,10 +271,7 @@ public abstract class Nemesis extends StaticEntity
 			return;
 		}
 
-		// Unfortunately, we never get here. When we get redirected to
-		// fight.php, we don't seem to get the responseText from our
-		// battle, and therefore can't tell that we've won.
-
+		client.resetContinueState();
 		client.updateDisplay( ENABLE_STATE, "You defeated your nemesis. Congratulations!" );
 	}
 }
