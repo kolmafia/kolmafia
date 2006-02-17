@@ -37,6 +37,10 @@ package net.sourceforge.kolmafia;
 import java.util.Set;
 import java.util.Map;
 import java.util.TreeMap;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.io.BufferedReader;
 import javax.swing.ImageIcon;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -57,8 +61,11 @@ public class FamiliarsDatabase extends KoLDatabase
 	private static Map familiarByID = new TreeMap();
 	private static Map familiarByName = new TreeMap();
 	private static Map familiarByLarva = new TreeMap();
-	private static Map familiarItemByID = new TreeMap();
 	private static Map familiarByItem = new TreeMap();
+
+	private static Map familiarItemByID = new TreeMap();
+	private static Map familiarLarvaByID = new TreeMap();
+
 	private static Map [] eventSkillByName = new TreeMap[4];
 
 	static
@@ -86,13 +93,15 @@ public class FamiliarsDatabase extends KoLDatabase
 					familiarID = Integer.valueOf( data[0] );
 					familiarLarva = Integer.valueOf( data[1] );
 					familiarName = getDisplayName( data[2] );
+					familiarItemName = getDisplayName( data[3] );
 
 					familiarByID.put( familiarID, familiarName );
 					familiarByName.put( getCanonicalName( data[2] ), familiarID );
 					familiarByLarva.put( familiarLarva, familiarID );
-					familiarItemName = getDisplayName( data[3] );
-					familiarItemByID.put( familiarID, familiarItemName );
 					familiarByItem.put( getCanonicalName( data[3] ), familiarID );
+
+					familiarItemByID.put( familiarID, familiarItemName );
+					familiarLarvaByID.put( familiarID, familiarLarva );
 
 					for ( int i = 0; i < 4; ++i )
 						eventSkillByName[i].put( getCanonicalName( data[2] ), Integer.valueOf( data[i+4] ) );
@@ -253,13 +262,66 @@ public class FamiliarsDatabase extends KoLDatabase
 	{
 		for ( int i = 0; i < 4; ++i )
 			eventSkillByName[i].put( getCanonicalName ( name ), new Integer( skills[i] ) );
+
+		// After familiar skills are reset, rewrite the data
+		// file override.
+
+		saveDataOverride();
 	}
 
 	/**
 	 * Returns the set of familiars keyed by name
 	 * @return	The set of familiars keyed by name
 	 */
+
 	public static Set entrySet()
 	{	return familiarByName.entrySet();
+	}
+
+	private static void saveDataOverride()
+	{
+		try
+		{
+			File output = new File( "data/familiars.dat" );
+			if ( output.exists() )
+				output.delete();
+
+			PrintStream writer = new PrintStream( new FileOutputStream( output ) );
+
+			writer.println( "# Original familiar arena stats from Vladjimir's arena data" );
+			writer.println( "# http://www.the-rye.dreamhosters.com/familiars/" );
+			writer.println();
+
+			Integer [] familiarIDs = new Integer[ familiarByID.keySet().size() ];
+			familiarByID.keySet().toArray( familiarIDs );
+
+			for ( int i = 0; i < familiarIDs.length; ++i )
+			{
+				writer.print( familiarIDs[i].intValue() );
+				writer.print( "\t" );
+
+				writer.print( familiarLarvaByID.get( familiarIDs[i] ) );
+				writer.print( "\t" );
+
+				writer.print( getFamiliarName( familiarIDs[i].intValue() ) );
+				writer.print( "\t" );
+
+				writer.print( getFamiliarItem( familiarIDs[i].intValue() ) );
+
+				int [] skills = getFamiliarSkills( familiarIDs[i].intValue() );
+				for ( int j = 0; j < skills.length; ++j )
+				{
+					writer.print( "\t" );
+					writer.print( skills[j] );
+				}
+
+				writer.println();
+			}
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
 	}
 }
