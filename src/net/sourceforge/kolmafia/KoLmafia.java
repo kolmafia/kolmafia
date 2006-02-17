@@ -1329,8 +1329,12 @@ public abstract class KoLmafia implements KoLConstants
 					String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "ate" :
 						(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "drank" : "used";
 
-					updateDisplay( NORMAL_STATE, "Successfully " + useTypeAsString + " " +
-						((ConsumeItemRequest)request).getItemUsed().getName() + " (" + (currentIteration - 1) + ")" );
+					if ( iterations == 1 )
+						updateDisplay( NORMAL_STATE, "Successfully " + useTypeAsString + " " +
+							((ConsumeItemRequest)request).getItemUsed() );
+					else
+						updateDisplay( NORMAL_STATE, "Successfully " + useTypeAsString + " " +
+							((ConsumeItemRequest)request).getItemUsed().getName() + " (" + (currentIteration - 1) + ")" );
 				}
 
 				else if ( currentState != ENABLE_STATE )
