@@ -592,7 +592,7 @@ public class ClanManageFrame extends KoLFrame
 		{	super( 12, 600, 30, ClanSnapshotTable.getFilteredList() );
 		}
 
-		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
+		protected PanelListCell constructPanelListCell( Object value, int index )
 		{
 			ClanMemberPanel toConstruct = new ClanMemberPanel( (ProfileRequest) value );
 			toConstruct.updateDisplay( this, value, index );
@@ -664,7 +664,7 @@ public class ClanManageFrame extends KoLFrame
 			add( Box.createVerticalStrut( 2 ) );
 		}
 
-		public synchronized void updateDisplay( PanelList list, Object value, int index )
+		public void updateDisplay( PanelList list, Object value, int index )
 		{
 			profile = (ProfileRequest) value;
 			memberName.setText( profile.getPlayerName() );

@@ -2955,7 +2955,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 	}
 
-	public synchronized void printBlankLine()
+	public void printBlankLine()
 	{	updateDisplay( NORMAL_STATE, " " );
 	}
 
@@ -2964,7 +2964,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * session.
 	 */
 
-	public synchronized void updateDisplay( int state, String message )
+	public void updateDisplay( int state, String message )
 	{
 		if ( StaticEntity.getClient() == null )
 			return;

@@ -98,7 +98,7 @@ public class KoLmafiaGUI extends KoLmafia
 	 * session.
 	 */
 
-	public synchronized void updateDisplay( int state, String message )
+	public void updateDisplay( int state, String message )
 	{
 		super.updateDisplay( state, message );
 

@@ -207,7 +207,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * mailbox, then iterates on the mailbox.
 	 */
 
-	public static synchronized void runBuffBot( int iterations )
+	public static void runBuffBot( int iterations )
 	{
 		BuffBotHome.setBuffBotActive( true );
 		client.updateDisplay( DISABLE_STATE, "Buffbot started." );

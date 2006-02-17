@@ -462,11 +462,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		Object waitObject = new Object();
 		try
 		{
-			synchronized ( waitObject )
-			{
-				waitObject.wait( milliseconds );
-				waitObject.notifyAll();
-			}
+			waitObject.wait( milliseconds );
+			waitObject.notifyAll();
 		}
 		catch ( InterruptedException e )
 		{

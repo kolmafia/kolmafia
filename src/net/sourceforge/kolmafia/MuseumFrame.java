@@ -203,7 +203,7 @@ public class MuseumFrame extends KoLFrame
 		{	super( 2, 480, 200, MuseumManager.getShelves(), true );
 		}
 
-		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
+		protected PanelListCell constructPanelListCell( Object value, int index )
 		{
 			MuseumShelfPanel toConstruct = new MuseumShelfPanel( index, (SortedListModel) value );
 			return toConstruct;
@@ -242,7 +242,7 @@ public class MuseumFrame extends KoLFrame
 			(new RequestThread( parameters )).start();
 		}
 
-		public synchronized void updateDisplay( PanelList list, Object value, int index )
+		public void updateDisplay( PanelList list, Object value, int index )
 		{
 		}
 	}

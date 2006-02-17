@@ -213,21 +213,18 @@ public class MushroomFrame extends KoLFrame
 	{
 		public void run()
 		{
-			synchronized( MushroomFrame.class )
-			{
-				currentData = MushroomPlot.getMushroomPlot( true ).split( ";" );
+			currentData = MushroomPlot.getMushroomPlot( true ).split( ";" );
 
-				// Only update the layout data if you're
-				// not currently doing any layouts.
+			// Only update the layout data if you're
+			// not currently doing any layouts.
 
-				if ( !doingLayout )
-					layoutData = MushroomPlot.getMushroomPlot( true ).split( ";" );
+			if ( !doingLayout )
+				layoutData = MushroomPlot.getMushroomPlot( true ).split( ";" );
 
-				// With everything that you need updated,
-				// feel free to refresh the layout.
+			// With everything that you need updated,
+			// feel free to refresh the layout.
 
-				refresh();
-			}
+			refresh();
 		}
 	}
 

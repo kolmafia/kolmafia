@@ -174,7 +174,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * session.
 	 */
 
-	public synchronized void updateDisplay( int state, String message )
+	public void updateDisplay( int state, String message )
 	{
 		if ( state != NORMAL_STATE )
 			this.currentState = state;

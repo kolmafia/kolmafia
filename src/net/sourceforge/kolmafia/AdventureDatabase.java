@@ -577,7 +577,7 @@ public class AdventureDatabase extends KoLDatabase
 		}
 	}
 
-	public static synchronized final void retrieveItem( AdventureResult item )
+	public static final void retrieveItem( AdventureResult item )
 	{
 		try
 		{

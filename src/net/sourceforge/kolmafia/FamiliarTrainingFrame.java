@@ -506,7 +506,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				addActionListener( this );
 			}
 
-			public synchronized void actionPerformed( ActionEvent e )
+			public void actionPerformed( ActionEvent e )
 			{
 				if ( !isShowing() || isChanging || !isEnabled() )
 					return;
@@ -517,7 +517,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				executeChange();
 			}
 
-			public synchronized void firePopupMenuWillBecomeInvisible()
+			public void firePopupMenuWillBecomeInvisible()
 			{
 				super.firePopupMenuWillBecomeInvisible();
 
@@ -527,7 +527,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				executeChange();
 			}
 
-			public synchronized void executeChange()
+			public void executeChange()
 			{
 				FamiliarData selection = (FamiliarData)getSelectedItem();
 

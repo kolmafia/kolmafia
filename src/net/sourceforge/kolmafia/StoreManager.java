@@ -116,7 +116,7 @@ public abstract class StoreManager extends StaticEntity
 	{	return soldItemList;
 	}
 
-	public static synchronized void update( String storeText, boolean isPriceManagement )
+	public static void update( String storeText, boolean isPriceManagement )
 	{
 		potentialEarnings = 0;
 

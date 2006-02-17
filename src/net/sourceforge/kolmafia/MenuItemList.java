@@ -47,7 +47,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * A special class which renders the menu holding the list of menu items
- * synchronized to a lockable list model.
+ * listening to a lockable list model.
  */
 
 public abstract class MenuItemList extends JMenu implements ListDataListener
@@ -95,7 +95,7 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 	 * @param	e	the <code>ListDataEvent</code> that triggered this function call
 	 */
 
-	public synchronized void intervalAdded( ListDataEvent e )
+	public void intervalAdded( ListDataEvent e )
 	{
 		LockableListModel source = (LockableListModel) e.getSource();
 		int index0 = e.getIndex0();  int index1 = e.getIndex1();
@@ -116,7 +116,7 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 	 * @param	e	the <code>ListDataEvent</code> that triggered this function call
 	 */
 
-	public synchronized void intervalRemoved( ListDataEvent e )
+	public void intervalRemoved( ListDataEvent e )
 	{
 		LockableListModel source = (LockableListModel) e.getSource();
 		int index0 = e.getIndex0();  int index1 = e.getIndex1();
@@ -137,7 +137,7 @@ public abstract class MenuItemList extends JMenu implements ListDataListener
 	 * @param	e	the <code>ListDataEvent</code> that triggered this function call
 	 */
 
-	public synchronized void contentsChanged( ListDataEvent e )
+	public void contentsChanged( ListDataEvent e )
 	{
 		LockableListModel source = (LockableListModel) e.getSource();
 		int index0 = e.getIndex0();  int index1 = e.getIndex1();

@@ -167,7 +167,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * the <code>dispose()</code> method.
 	 */
 
-	public static synchronized void initialize()
+	public static void initialize()
 	{
 		if ( isRunning )
 			return;
@@ -361,7 +361,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * Disposes the messenger's frames.
 	 */
 
-	public static synchronized void dispose()
+	public static void dispose()
 	{
 		if ( !isRunning )
 			return;
@@ -392,7 +392,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * Returns whether or not the messenger is currently running.
 	 */
 
-	public static synchronized boolean isRunning()
+	public static boolean isRunning()
 	{	return isRunning;
 	}
 

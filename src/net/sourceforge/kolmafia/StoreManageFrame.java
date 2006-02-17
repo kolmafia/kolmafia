@@ -375,7 +375,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		{	super( 16, 680, 30, StoreManager.getSoldItemList() );
 		}
 
-		protected synchronized PanelListCell constructPanelListCell( Object value, int index )
+		protected PanelListCell constructPanelListCell( Object value, int index )
 		{
 			StoreItemPanel toConstruct = new StoreItemPanel( (StoreManager.SoldItem) value );
 			toConstruct.updateDisplay( this, value, index );
@@ -431,7 +431,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			add( corePanel );
 		}
 
-		public synchronized void updateDisplay( PanelList list, Object value, int index )
+		public void updateDisplay( PanelList list, Object value, int index )
 		{
 			StoreManager.SoldItem smsi = (StoreManager.SoldItem) value;
 
