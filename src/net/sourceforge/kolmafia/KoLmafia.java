@@ -1319,7 +1319,7 @@ public abstract class KoLmafia implements KoLConstants
 					updateDisplay( NORMAL_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
 
-				else if ( initialConditions != 0 )
+				else if ( initialConditions != 0 && conditions.isEmpty() )
 					updateDisplay( NORMAL_STATE, "Conditions satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
 
@@ -1336,6 +1336,9 @@ public abstract class KoLmafia implements KoLConstants
 						updateDisplay( NORMAL_STATE, "Successfully " + useTypeAsString + " " +
 							((ConsumeItemRequest)request).getItemUsed().getName() + " (" + (currentIteration - 1) + ")" );
 				}
+
+				else if ( !conditions.isEmpty() )
+					updateDisplay( NORMAL_STATE, "Requests completed. (Conditions not yet satisfied)" );
 
 				else if ( currentState != ENABLE_STATE )
 					updateDisplay( NORMAL_STATE, "Requests completed." );
