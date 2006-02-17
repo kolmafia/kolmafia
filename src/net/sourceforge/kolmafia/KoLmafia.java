@@ -1213,9 +1213,9 @@ public abstract class KoLmafia implements KoLConstants
 			// Begin the adventuring process, or the request execution
 			// process (whichever is applicable).
 
-			int currentIteration;
+			int currentIteration = 0;
 
-			for ( currentIteration = 1; permitsContinue() && currentIteration <= iterations; ++currentIteration )
+			while ( permitsContinue() && ++currentIteration <= iterations )
 			{
 				// If the conditions existed and have been satisfied,
 				// then you should stop.
@@ -1298,7 +1298,7 @@ public abstract class KoLmafia implements KoLConstants
 			// If you've completed the requests, make sure to update
 			// the display.
 
-			if ( currentState != ERROR_STATE )
+			if ( currentState != ERROR_STATE && currentState != ABORT_STATE )
 			{
 				if ( !permitsContinue() )
 				{
@@ -1341,6 +1341,11 @@ public abstract class KoLmafia implements KoLConstants
 					updateDisplay( NORMAL_STATE, "Requests completed." );
 
 			}
+
+			// Now, do some garbage collection to avoid the
+			// potential for resource overusage.
+
+			System.gc();
 		}
 		catch ( RuntimeException e )
 		{
@@ -1353,6 +1358,11 @@ public abstract class KoLmafia implements KoLConstants
 			e.printStackTrace();
 
 			updateDisplay( ERROR_STATE, "Unexpected error." );
+
+			// Now, do some garbage collection to avoid the
+			// potential for resource overusage.
+
+			System.gc();
 		}
 	}
 
