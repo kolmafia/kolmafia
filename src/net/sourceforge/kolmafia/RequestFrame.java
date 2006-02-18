@@ -221,7 +221,7 @@ public class RequestFrame extends KoLFrame
 		toolbarPanel.add( button );
 		getRootPane().setDefaultButton( button );
 
-		(new DisplayRequestThread()).start();
+		(new DisplayRequestThread( request )).start();
 	}
 
 	private class BrowserComboBox extends JComboBox implements ActionListener
@@ -290,16 +290,12 @@ public class RequestFrame extends KoLFrame
 
 	public void refresh( KoLRequest request )
 	{
-		if ( request == currentRequest && !(request instanceof FightRequest) )
-			return;
-
 		String location = request.getURLString();
 
 		if ( parent == null || location.startsWith( "search" ) || location.startsWith( "desc" ) )
 		{
 			setCombatRound( request );
-			currentRequest = request;
-			(new DisplayRequestThread()).start();
+			(new DisplayRequestThread( request )).start();
 		}
 		else
 			parent.refresh( request );
@@ -351,29 +347,44 @@ public class RequestFrame extends KoLFrame
 
 	protected class DisplayRequestThread extends DaemonThread
 	{
+		private KoLRequest request;
+
+		public DisplayRequestThread( KoLRequest request )
+		{	this.request = request;
+		}
+
 		public void run()
 		{
 			synchronized ( DisplayRequestThread.class )
 			{
+				if ( request == null || request.responseText.equals( lastResponseText ) )
+					return;
+
+				currentRequest = request;
 				setupRequest();
-				displayRequest();
+
+				if ( request != null )
+				{
+					client.setCurrentRequest( request );
+					lastResponseText = request.responseText;
+
+					displayRequest();
+					updateClient();
+				}
 			}
 		}
 
 		private void setupRequest()
 		{
-			if ( currentRequest == null )
-				return;
-
-			// For testing purposes, indicate the URL which was requested,
-			// along with a "This is a test" notice.
-
-			if ( client == null )
-				currentRequest.responseText = "This is a test: <b>" + currentRequest.getURLString() + "</b>";
-
-			if ( client != null && getCurrentLocation().startsWith( "adventure.php" ) && currentRequest.getDataString() != null )
+			if ( client == null || request == null )
 			{
-				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( currentRequest.getDataString() );
+				request = null;
+				return;
+			}
+
+			if ( client != null && getCurrentLocation().startsWith( "adventure.php" ) && request.getDataString() != null )
+			{
+				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( request.getDataString() );
 
 				if ( client.isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(1) ) )
 				{
@@ -403,7 +414,7 @@ public class RequestFrame extends KoLFrame
 			// then return from the attempt to display the request,
 			// since there is nothing to display.
 
-			if ( currentRequest.responseText == null || currentRequest.responseText.length() == 0 )
+			if ( request.responseText == null || request.responseText.length() == 0 )
 			{
 				mainBuffer.clearBuffer();
 				mainBuffer.append( "Retrieving..." );
@@ -413,7 +424,7 @@ public class RequestFrame extends KoLFrame
 
 				String original = getProperty( "synchronizeFightFrame" );
 				setProperty( "synchronizeFightFrame", "false" );
-				currentRequest.run();
+				request.run();
 				setProperty( "synchronizeFightFrame", original );
 			}
 
@@ -421,26 +432,23 @@ public class RequestFrame extends KoLFrame
 			// to indicate that you were redirected and the display
 			// cannot be shown in the minibrowser.
 
-			if ( currentRequest.responseText == null || currentRequest.responseText.length() == 0 )
+			if ( request.responseText == null || request.responseText.length() == 0 )
 			{
-				currentRequest = client.getCurrentRequest();
-				if ( currentRequest.responseText == null || currentRequest.responseText.length() == 0 )
+				request = client.getCurrentRequest();
+				if ( request.responseText == null || request.responseText.length() == 0 )
 				{
 					mainBuffer.clearBuffer();
-					mainBuffer.append( "Redirected to unknown page: &lt;" + currentRequest.redirectLocation + "&gt;" );
+					mainBuffer.append( "Redirected to unknown page: &lt;" + request.redirectLocation + "&gt;" );
 					return;
 				}
 			}
 
-			lastResponseText = currentRequest.responseText;
+			lastResponseText = request.responseText;
 		}
 
 		private void displayRequest()
 		{
 			mainBuffer.clearBuffer();
-
-			if ( client != null )
-				client.setCurrentRequest( currentRequest );
 
 			// Function exactly like a history in a normal browser -
 			// if you open a new frame after going back, all the ones
@@ -449,19 +457,22 @@ public class RequestFrame extends KoLFrame
 			while ( visitedLocations.size() > currentLocation )
 				visitedLocations.remove( currentLocation );
 
-			visitedLocations.add( currentRequest );
-			locationField.setText( currentRequest.getURLString() );
+			visitedLocations.add( request );
+			locationField.setText( request.getURLString() );
 			currentLocation = visitedLocations.size();
 
-			mainBuffer.append( getDisplayHTML( currentRequest.responseText ) );
+			mainBuffer.append( getDisplayHTML( lastResponseText ) );
 			mainDisplay.setCaretPosition( 0 );
+		}
 
+		private void updateClient()
+		{
 			// In the event that something resembling a gain event
 			// is seen in the response text, or in the event that you
 			// switch between compact and full mode, refresh the sidebar.
 
 			KoLCharacter.refreshCalculatedLists();
-			String location = currentRequest.getURLString();
+			String location = request.getURLString();
 
 			if ( client != null && hasSideBar && (sidePaneRequest == null || location.indexOf( "?" ) != -1) )
 				refreshSidePane();
@@ -470,35 +481,25 @@ public class RequestFrame extends KoLFrame
 			// familiars, if you visit the appropriate pages.
 
 			if ( location.startsWith( "inventory.php?which=2" ) )
-				EquipmentRequest.parseEquipment( currentRequest.responseText );
+				EquipmentRequest.parseEquipment( request.responseText );
 
 			if ( location.startsWith( "familiar.php" ) )
-				FamiliarData.registerFamiliarData( client, currentRequest.responseText );
+				FamiliarData.registerFamiliarData( client, request.responseText );
 
 			// See if the person learned a new skill from using a
 			// mini-browser frame.
 
-			if ( currentRequest.responseText != null )
-			{
-				Matcher learnedMatcher = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" ).matcher( currentRequest.responseText );
-				if ( learnedMatcher.find() )
-					KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
-			}
+			Matcher learnedMatcher = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" ).matcher( request.responseText );
+			if ( learnedMatcher.find() )
+				KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
 
 			// Unfortunately, if you learn a new skill from Frank
 			// the Regnaissance Gnome at the Gnomish Gnomads
 			// Camp, it doesn't tell you the name of the skill.
-			// It simply says:
-			//
-			// "You leargn a new skill. Whee!"
+			// It simply says: "You leargn a new skill. Whee!"
 
-			if ( currentRequest.responseText.indexOf( "You leargn a new skill." ) != -1 )
+			if ( lastResponseText.indexOf( "You leargn a new skill." ) != -1 )
 			     (new CharsheetRequest( client )).run();
-
-			// Update the mushroom plot, if applicable.
-
-			if ( location.indexOf( "mushroom" ) != -1 )
-				MushroomPlot.parsePlot( currentRequest.responseText );
 		}
 	}
 
