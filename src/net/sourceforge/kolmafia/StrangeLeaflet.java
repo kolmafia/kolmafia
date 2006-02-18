@@ -218,7 +218,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 			case HOUSE:
 				fireplace = response.indexOf( "fireplace is lit" ) != -1;
 				door = true;
-				parseMantlepiece( response );
+				parseMantelpiece( response );
 				break;
 
 			case FIELD:
@@ -269,15 +269,17 @@ public abstract class StrangeLeaflet extends StaticEntity
 		}
 	}
 
-	private static void parseMantlepiece( String response )
+	private static void parseMantelpiece( String response )
 	{
 		if ( response.indexOf( "brass bowling trophy" ) != -1 )
 			magic = null;
 		else if ( response.indexOf( "carved driftwood bird" ) != -1 )
+			// "A carved driftwood bird sits on the mantelpiece."
 			magic = "plover";
 		else if ( response.indexOf( "white house" ) != -1 )
 			magic = "xyzzy";
 		else if ( response.indexOf( "brick building" ) != -1 )
+			// "A ceramic model of a brick building sits on the mantelpiece."
 			magic = "plugh";
 		else if ( response.indexOf( "model ship" ) != -1 )
 			magic = "yoho";
