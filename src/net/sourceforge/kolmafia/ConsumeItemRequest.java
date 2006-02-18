@@ -301,9 +301,6 @@ public class ConsumeItemRequest extends KoLRequest
 			// Remove the old dictionary
 			client.processResult( FightRequest.DICTIONARY1.getNegation() );
 
-			// Get the new dictionary and drywall axe
-			client.processResults( responseText );
-
 			// If he was fighting with the old dictionary, switch
 			// to use the new one.
 
@@ -458,18 +455,6 @@ public class ConsumeItemRequest extends KoLRequest
 			text = matcher.replaceFirst( "</table></body>" );
 
 		return text;
-	}
-
-	protected void processResults()
-	{
-		// The 64735 scroll might generate a dictionary, which we will
-		// process incorrectly, since we don't have the Baron's quest
-		// as an accomplishment.
-		if ( itemUsed.getItemID() == GATES_SCROLL)
-			return;
-
-		// Otherwise, process results as normal
-		super.processResults();
 	}
 
 	public String getCommandForm( int iterations )
