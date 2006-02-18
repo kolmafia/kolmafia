@@ -459,11 +459,26 @@ public class FamiliarTrainingFrame extends KoLFrame
 					int [] skills = learnFamiliarParameters( client, trials );
 
 					// Save familiar parameters
-					if ( skills != null &&
-					     JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-						"Save arena parameters for the " + familiar.getRace() + "?",
-						"Save arena skills?", JOptionPane.YES_NO_OPTION ) )
-						FamiliarsDatabase.setFamiliarSkills( familiar.getRace(), skills );
+					if ( skills != null )
+					{
+						int [] original = FamiliarsDatabase.getFamiliarSkills( familiar.getID() );
+						boolean changed = false;
+
+						for ( int i = 0; i < original.length; ++i )
+							if ( skills[i] != original[i] )
+							{
+								changed = true;
+								break;
+							}
+
+						if ( changed &&
+						     JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+								"Save arena parameters for the " + familiar.getRace() + "?",
+								"Save arena skills?", JOptionPane.YES_NO_OPTION ) )
+							FamiliarsDatabase.setFamiliarSkills( familiar.getRace(), skills );
+						client.updateDisplay( NORMAL_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
+
+					}
 
 					// Re-enable the display
 					client.enableDisplay();
