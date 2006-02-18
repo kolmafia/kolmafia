@@ -366,6 +366,7 @@ public class AdventureFrame extends KoLFrame
 				DEFAULT_SHELL.executeLine( "conditions clear" );
 
 				boolean verifyConditions = false;
+				boolean useDisjunction = false;
 				String [] conditions = conditionField.getText().split( "\\s*,\\s*" );
 
 				for ( int i = 0; i < conditions.length; ++i )
@@ -397,7 +398,7 @@ public class AdventureFrame extends KoLFrame
 					}
 					else if ( conditions[i].equals( "or" ) || conditions[i].equals( "and" ) || conditions[i].startsWith( "conjunction" ) || conditions[i].startsWith( "disjunction" ) )
 					{
-						DEFAULT_SHELL.executeConditionsCommand( "mode " + conditions[i] );
+						useDisjunction = conditions[i].equals( "or" ) || conditions[i].startsWith( "disjunction" );
 					}
 					else
 					{
@@ -425,6 +426,7 @@ public class AdventureFrame extends KoLFrame
 					}
 				}
 
+				DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 				conditionField.setText( "" );
 			}
 
