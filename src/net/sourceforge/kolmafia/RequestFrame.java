@@ -290,7 +290,7 @@ public class RequestFrame extends KoLFrame
 
 	public void refresh( KoLRequest request )
 	{
-		if ( request == currentRequest )
+		if ( request == currentRequest && !(request instanceof FightRequest) )
 			return;
 
 		String location = request.getURLString();

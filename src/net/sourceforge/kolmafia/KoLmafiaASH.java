@@ -2154,6 +2154,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executeMuseumAmountRequest( int itemID ) throws AdvancedScriptException
 		{
+			// Make sure you have the most up-to-date
+			// data on the museum.
+
+			if ( MuseumManager.getItems().isEmpty() )
+				(new MuseumRequest( client )).run();
+
 			AdventureResult item;
 
 			if( (itemID == -1))
