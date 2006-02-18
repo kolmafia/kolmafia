@@ -1269,7 +1269,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		String [] formData = urlData.length == 1 ? new String[0] : urlData[1].split( "&" );
 
 		String [] currentField;
-		KoLRequest request = new KoLRequest( client, urlData[0], true );
+		KoLRequest request = null;
+
+		if ( location.startsWith( "campground.php" ) )
+			request = new CampgroundRequest( client );
+		else
+			request = new KoLRequest( client, urlData[0], true );
 
 		for ( int i = 0; i < formData.length; ++i )
 		{
