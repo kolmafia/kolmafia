@@ -357,36 +357,10 @@ public class RequestFrame extends KoLFrame
 		{
 			synchronized ( DisplayRequestThread.class )
 			{
-				if ( request == null || request.responseText.equals( lastResponseText ) )
+				if ( client == null || request == null || request.responseText.equals( lastResponseText ) )
 					return;
 
-				currentRequest = request;
-				setupRequest();
-
-				if ( request != null )
-				{
-					client.setCurrentRequest( request );
-					lastResponseText = request.responseText;
-
-					displayRequest();
-					updateClient();
-				}
-			}
-		}
-
-		private void setupRequest()
-		{
-			if ( client == null || request == null )
-			{
-				request = null;
-				return;
-			}
-
-			if ( client != null && getCurrentLocation().startsWith( "adventure.php" ) && request.getDataString() != null )
-			{
-				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( request.getDataString() );
-
-				if ( client.isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(1) ) )
+				if ( cloverCheckNeeded() )
 				{
 					if ( getProperty( "cloverProtectActive" ).equals( "true" ) )
 					{
@@ -394,12 +368,55 @@ public class RequestFrame extends KoLFrame
 
 						mainBuffer.clearBuffer();
 						mainBuffer.append( "<h1><font color=\"red\">You have a ten-leaf clover.	 Please deactivate clover protection in your startup options first if you are certain you want to use your clovers while adventuring.</font></h1>" );
+						lastResponseText = "";
 						return;
 					}
 
 					client.processResult( SewerRequest.CLOVER );
 				}
+
+				currentRequest = request;
+				setupRequest();
+
+				if ( request != null && request.responseText != null && request.responseText.length() != 0 )
+				{
+					mainBuffer.clearBuffer();
+					mainBuffer.append( "Retrieving..." );
+
+					client.setCurrentRequest( request );
+					lastResponseText = request.responseText;
+
+					displayRequest();
+					updateClient();
+				}
+				else
+				{
+					// If this resulted in a redirect, then update the display
+					// to indicate that you were redirected and the display
+					// cannot be shown in the minibrowser.
+
+					mainBuffer.clearBuffer();
+					mainBuffer.append( "Redirected to unknown page: &lt;" + request.redirectLocation + "&gt;" );
+					lastResponseText = "";
+				}
 			}
+		}
+
+		private boolean cloverCheckNeeded()
+		{
+			if ( getCurrentLocation().startsWith( "adventure.php" ) && request.getDataString() != null )
+			{
+				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( request.getDataString() );
+				return client.isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(1) );
+			}
+
+			return false;
+		}
+
+		private void setupRequest()
+		{
+			if ( request == null )
+				return;
 
 			// Update the title for the RequestFrame to include the
 			// current round of combat (for people who track this
@@ -410,15 +427,8 @@ public class RequestFrame extends KoLFrame
 			else
 				setTitle( "Mini-Browser" );
 
-			// If the request is in the middle of being redirected,
-			// then return from the attempt to display the request,
-			// since there is nothing to display.
-
 			if ( request.responseText == null || request.responseText.length() == 0 )
 			{
-				mainBuffer.clearBuffer();
-				mainBuffer.append( "Retrieving..." );
-
 				// New prevention mechanism: tell the requests that there
 				// will be no synchronization.
 
@@ -427,23 +437,6 @@ public class RequestFrame extends KoLFrame
 				request.run();
 				setProperty( "synchronizeFightFrame", original );
 			}
-
-			// If this resulted in a redirect, then update the display
-			// to indicate that you were redirected and the display
-			// cannot be shown in the minibrowser.
-
-			if ( request.responseText == null || request.responseText.length() == 0 )
-			{
-				request = client.getCurrentRequest();
-				if ( request.responseText == null || request.responseText.length() == 0 )
-				{
-					mainBuffer.clearBuffer();
-					mainBuffer.append( "Redirected to unknown page: &lt;" + request.redirectLocation + "&gt;" );
-					return;
-				}
-			}
-
-			lastResponseText = request.responseText;
 		}
 
 		private void displayRequest()
@@ -474,7 +467,7 @@ public class RequestFrame extends KoLFrame
 			KoLCharacter.refreshCalculatedLists();
 			String location = request.getURLString();
 
-			if ( client != null && hasSideBar && (sidePaneRequest == null || location.indexOf( "?" ) != -1) )
+			if ( hasSideBar && (sidePaneRequest == null || location.indexOf( "?" ) != -1) )
 				refreshSidePane();
 
 			// Keep the client updated of your current equipment and
