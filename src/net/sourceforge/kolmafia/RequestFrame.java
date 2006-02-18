@@ -353,6 +353,15 @@ public class RequestFrame extends KoLFrame
 	{
 		public void run()
 		{
+			synchronized ( DisplayRequestThread.class )
+			{
+				setupRequest();
+				displayRequest();
+			}
+		}
+
+		private void setupRequest()
+		{
 			if ( currentRequest == null )
 				return;
 
@@ -424,6 +433,10 @@ public class RequestFrame extends KoLFrame
 			}
 
 			lastResponseText = currentRequest.responseText;
+		}
+
+		private void displayRequest()
+		{
 			mainBuffer.clearBuffer();
 
 			if ( client != null )
