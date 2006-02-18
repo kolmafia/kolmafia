@@ -1263,7 +1263,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * should be sent, given the appropriate location.
 	 */
 
-	private KoLRequest extractRequest( String location )
+	protected KoLRequest extractRequest( String location )
 	{
 		String [] urlData = location.split( "\\?" );
 		String [] formData = urlData.length == 1 ? new String[0] : urlData[1].split( "&" );

@@ -221,7 +221,7 @@ public class RequestFrame extends KoLFrame
 		toolbarPanel.add( button );
 		getRootPane().setDefaultButton( button );
 
-		(new DisplayRequestThread( request )).start();
+		(new DisplayRequestThread( this.currentRequest )).start();
 	}
 
 	private class BrowserComboBox extends JComboBox implements ActionListener
@@ -357,7 +357,7 @@ public class RequestFrame extends KoLFrame
 		{
 			synchronized ( DisplayRequestThread.class )
 			{
-				if ( client == null || request == null || request.responseText.equals( lastResponseText ) )
+				if ( client == null || request == null || (!lastResponseText.equals( "" ) && request.responseText.equals( lastResponseText )) )
 					return;
 
 				if ( cloverCheckNeeded() )
@@ -556,7 +556,7 @@ public class RequestFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			visitedLocations.remove( currentRequest );
-			refresh( new KoLRequest( client, currentRequest.getURLString() ) );
+			refresh( extractRequest( currentRequest.getURLString() ) );
 		}
 	}
 
@@ -571,7 +571,7 @@ public class RequestFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			KoLAdventure adventure = AdventureDatabase.getAdventure( locationField.getText() );
-			KoLRequest request = new KoLRequest( client, adventure == null ? locationField.getText() : adventure.getRequest().getURLString(), true );
+			KoLRequest request = extractRequest( adventure == null ? locationField.getText() : adventure.getRequest().getURLString() );
 
 			client.getMacroStream().println( request.getURLString() );
 			refresh( request );
