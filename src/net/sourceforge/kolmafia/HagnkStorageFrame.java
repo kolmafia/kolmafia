@@ -187,7 +187,7 @@ public class HagnkStorageFrame extends KoLFrame
 				elementList.setCellRenderer( AdventureResult.getEquipmentCellRenderer(
 					equipmentFilters[0].isSelected(), equipmentFilters[1].isSelected(), equipmentFilters[2].isSelected(), equipmentFilters[3].isSelected(),
 					equipmentFilters[4].isSelected(), equipmentFilters[5].isSelected(), equipmentFilters[6].isSelected() ) );
-				elementList.updateUI();
+				elementList.validate();
 			}
 		}
 

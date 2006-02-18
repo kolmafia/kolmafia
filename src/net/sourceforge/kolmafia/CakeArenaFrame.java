@@ -82,7 +82,7 @@ public class CakeArenaFrame extends KoLFrame
 		public void run()
 		{
 			if ( familiarTable != null )
-				familiarTable.updateUI();
+				familiarTable.validate();
 		}
 	}
 
