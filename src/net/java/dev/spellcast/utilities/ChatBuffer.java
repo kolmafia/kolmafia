@@ -256,20 +256,14 @@ public class ChatBuffer
 		if ( newContents != null )
 			displayBuffer.append( newContents );
 
-		try
+		if ( changeType != LOGFILE_CHANGE && displayPane != null )
 		{
-			if ( changeType != LOGFILE_CHANGE && displayPane != null )
-			{
-				DisplayPaneUpdater runner = new DisplayPaneUpdater( newContents );
+			DisplayPaneUpdater runner = new DisplayPaneUpdater( newContents );
 
-				if ( SwingUtilities.isEventDispatchThread() )
-					runner.run();
-				else
-					SwingUtilities.invokeAndWait( runner );
-			}
-		}
-		catch ( Exception e )
-		{
+			if ( SwingUtilities.isEventDispatchThread() )
+				runner.run();
+			else
+				SwingUtilities.invokeLater( runner );
 		}
 
 		if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
