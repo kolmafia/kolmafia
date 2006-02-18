@@ -831,6 +831,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 						return null;
 					}
 
+					int match = tool.bestMatch();
+					if ( match != contest + 1 )
+					{
+						// Informative message only. Do not stop session.
+						statusMessage( client, NORMAL_STATE, "Internal error: Familiar Tool selected " + CakeArenaManager.getEvent( match ) + " rather than " + CakeArenaManager.getEvent( contest + 1 ) );
+						// Use contest, even if with bad weight
+						match = contest + 1;
+					}
+
 					// Change into appropriate gear
 					status.changeGear( tool.bestWeight(), false );
 					if ( !client.permitsContinue() )
@@ -841,7 +850,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					}
 
 					// Enter the contest
-					int trialXP = fightMatch( client, status, tool, opponent );
+					int trialXP = fightMatch( client, status, tool, opponent, match );
 
 					if ( trialXP < 0 )
 						suckage[contest] = true;
@@ -1052,7 +1061,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.append( text.toString() );
 	}
 
-	private static void printMatch( FamiliarStatus status, CakeArenaManager.ArenaOpponent opponent, FamiliarTool tool )
+	private static void printMatch( FamiliarStatus status, CakeArenaManager.ArenaOpponent opponent, FamiliarTool tool, int match )
 	{
 		FamiliarData familiar = status.getFamiliar();
 		int weight = tool.bestWeight();
@@ -1070,7 +1079,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			text.append( " lbs." );
 		}
 		text.append( ") vs. " + opponent.getName() );
-		text.append( " in the " + CakeArenaManager.getEvent( tool.bestMatch() ) );
+		text.append( " in the " + CakeArenaManager.getEvent( match ) );
 		text.append( " event.<br>" );
 
 		results.append( text.toString() );
@@ -1079,16 +1088,19 @@ public class FamiliarTrainingFrame extends KoLFrame
 	}
 
 	private static int fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )
+	{	return fightMatch( client, status, tool, opponent, tool.bestMatch() );
+	}
+
+	private static int fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent, int match )
 	{
 		// If user aborted, bail now
 		if ( !client.permitsContinue())
 			return 0;
 
 		// Tell the user about the match
-		printMatch( status, opponent, tool );
+		printMatch( status, opponent, tool, match );
 
 		// Run the match
-		int match = tool.bestMatch();
 		KoLRequest request = new CakeArenaRequest( client, opponent.getID(), match );
 		request.run();
 
@@ -1115,28 +1127,28 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// fighter.<p>Well, not really -- potatoes just suck at
 			// this event.<p>Tort struggles for 3 rounds, but is
 			// eventually knocked out.<p>Tort lost."
-			matcher = Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>(.*?\\.)<p>\\1 struggles for" ).matcher( response );
+			matcher = Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>(.*?\\1.*?\\.<p>)\\1 struggles for" ).matcher( response );
 			break;
 		case 2: // "You enter Trot against Vine Vidi Vici in a
 			// Scavenger Hunt.<p>Trot keeps getting distracted from
 			// the hunt and randomly ramming into things.<p>Trot
 			// finds 12 items from the list.<p>Vine Vidi Vici finds
 			// 17 items.<p>Trot lost."
-			matcher = Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>(.*?\\.)<p>\\1 finds" ).matcher( response );
+			matcher = Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>(.*?\\1.*?\\.<p>)\\1 finds" ).matcher( response );
 			break;
 		case 3: // "You enter Gort against Pork Soda in an Obstacle
 			// Course race.<p>Gort is too short to get over most of
 			// the obstacles.<p>Gort makes it through the obstacle
 			// course in 49 seconds.<p>Pork Soda takes 29
 			// seconds. <p>Gort lost."
-			matcher = Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>(.*?\\.)<p>\\1 makes it through the obstacle course" ).matcher( response );
+			matcher = Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>(.*?\\1.*?\\.<p>)\\1 makes it through the obstacle course" ).matcher( response );
 			break;
 		case 4: // "You enter Tot against Pork Soda in a game of Hide
 			// and Seek.<p>Tot buzzes incessantly, making it very
 			// difficult to remain concealed.<p>Tot manages to stay
 			// hidden for 28 seconds.<p>Pork Soda stays hidden for
 			// 53 seconds.<p>Tot lost."
-			matcher = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\.)<p>\\1 manages to stay hidden" ).matcher( response );
+			matcher = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" ).matcher( response );
 			break;
 		default:
 			return 0;
@@ -2264,7 +2276,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		CakeArenaManager.ArenaOpponent opponent = tool.bestOpponent( debugFamiliar.getID(), weights );
 
-		printMatch( status, opponent, tool );
+		printMatch( status, opponent, tool, tool.bestMatch() );
 
 		int weight = tool.bestWeight();
 		results.append( "Equipping to " + weight + " lbs.<br>" );
