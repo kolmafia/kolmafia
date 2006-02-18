@@ -866,7 +866,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			int bestRank = 0;
 			for ( int rank = 0; rank < 3; ++rank )
 			{
-				int rankXP = xp[contest][rank];
+				int rankXP = suckage[contest] ? 0 : xp[contest][rank];
 				text.append( "<td align=center>" + rankXP + "</td>" );
 				if ( rankXP > bestXP )
 				{
