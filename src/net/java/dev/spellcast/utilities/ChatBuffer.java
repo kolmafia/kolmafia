@@ -258,12 +258,22 @@ public class ChatBuffer
 
 		if ( changeType != LOGFILE_CHANGE && displayPane != null )
 		{
-			DisplayPaneUpdater runner = new DisplayPaneUpdater( newContents );
+			try
+			{
+				DisplayPaneUpdater runner = new DisplayPaneUpdater( newContents );
 
-			if ( SwingUtilities.isEventDispatchThread() )
-				runner.run();
-			else
-				SwingUtilities.invokeLater( runner );
+				if ( SwingUtilities.isEventDispatchThread() )
+					runner.run();
+				else
+					SwingUtilities.invokeAndWait( runner );
+			}
+			catch ( Exception e )
+			{
+				// Print the stack trace to show that
+				// an interruption occurred.
+
+				e.printStackTrace();
+			}
 		}
 
 		if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
@@ -325,8 +335,8 @@ public class ChatBuffer
 					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
 
 				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
-				displayPane.updateUI();
 				verticalScroller.setValue( verticalScroller.getMaximum() );
+				displayPane.updateUI();
 			}
 			catch ( Exception e )
 			{
