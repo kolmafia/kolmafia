@@ -80,10 +80,12 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( NORMAL_STATE, "Determining server..." );
+		updateDisplay( NORMAL_STATE, "Determining login server..." );
 		KoLRequest.applySettings();
 
-		System.out.println( KoLRequest.getRootHostName() + " selected.  Sending login..." );
+		updateDisplay( NORMAL_STATE, KoLRequest.getRootHostName() + " selected." );
+		updateDisplay( NORMAL_STATE, "Sending login..." );
+
 		client.resetContinueState();
 
 		super.run();
