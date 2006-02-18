@@ -290,7 +290,7 @@ public class RequestFrame extends KoLFrame
 
 	public void refresh( KoLRequest request )
 	{
-		if ( request == currentRequest && lastResponseText.equals( request.responseText ) )
+		if ( request == currentRequest )
 			return;
 
 		String location = request.getURLString();
@@ -561,8 +561,8 @@ public class RequestFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			currentRequest.responseText = "";
-			refresh( currentRequest );
+			visitedLocations.remove( currentRequest );
+			refresh( new KoLRequest( client, currentRequest.getURLString() ) );
 		}
 	}
 
