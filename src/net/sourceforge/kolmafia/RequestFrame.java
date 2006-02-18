@@ -357,8 +357,11 @@ public class RequestFrame extends KoLFrame
 		{
 			synchronized ( DisplayRequestThread.class )
 			{
-				if ( client == null || request == null || (!lastResponseText.equals( "" ) && request.responseText.equals( lastResponseText )) )
+				if ( client == null || request == null || (request.responseText != null && !lastResponseText.equals( "" ) && request.responseText.equals( lastResponseText )) )
 					return;
+
+				mainBuffer.clearBuffer();
+				mainBuffer.append( "Retrieving..." );
 
 				if ( cloverCheckNeeded() )
 				{
@@ -380,9 +383,6 @@ public class RequestFrame extends KoLFrame
 
 				if ( request != null && request.responseText != null && request.responseText.length() != 0 )
 				{
-					mainBuffer.clearBuffer();
-					mainBuffer.append( "Retrieving..." );
-
 					client.setCurrentRequest( request );
 					lastResponseText = request.responseText;
 
