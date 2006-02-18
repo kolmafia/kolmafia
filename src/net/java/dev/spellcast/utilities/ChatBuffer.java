@@ -322,7 +322,7 @@ public class ChatBuffer
 			if ( newContents == null )
 			{
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-				displayPane.updateUI();
+				displayPane.validate();
 				return;
 			}
 
@@ -336,7 +336,7 @@ public class ChatBuffer
 
 				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
 				verticalScroller.setValue( verticalScroller.getMaximum() );
-				displayPane.updateUI();
+				displayPane.validate();
 			}
 			catch ( Exception e )
 			{
