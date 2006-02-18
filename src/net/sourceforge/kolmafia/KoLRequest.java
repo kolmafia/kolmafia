@@ -1104,7 +1104,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// Only change the decision if the user-specified option
 				// will not satisfy something on the conditions list.
 
-				if ( possibleDecisions[ Integer.parseInt( decision ) ].equals( "Complete the outfit" ) )
+				if ( possibleDecisions[ Integer.parseInt( decision ) - 1 ].equals( "Complete the outfit" ) )
 				{
 					// Here, you have an outfit completion option.  Therefore
 					// determine which outfit needs to be completed.  This
