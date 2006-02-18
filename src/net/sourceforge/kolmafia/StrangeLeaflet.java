@@ -33,13 +33,14 @@
  */
 
 package net.sourceforge.kolmafia;
-import javax.swing.JOptionPane;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public abstract class StrangeLeaflet extends StaticEntity
 {
 	private static final AdventureResult LEAFLET = new AdventureResult( 520, 1 );
 
-	// There are five locations within the Strange Leaflet:
+	// There are ten locations within the Strange Leaflet:
 
 	//                 Cave
 	//                   ^
@@ -50,22 +51,44 @@ public abstract class StrangeLeaflet extends StaticEntity
 	//                   | N/S
 	//                   v      E/W
 	//               Open Field <-> Inside House
+        //                   ^
+        //                   | N/S
+        //                   v
+        //               South Bank           Table top
+        //                   |                     ^
+        //                   | S + S               | U/D
+        //                   v                     v
+        //               Forest Maze         Middle of tree
+        //                   |                     ^
+        //         N/S/E/W   |                     | U/D
+        //                   |                     v
+        //                   +-------------> Bottom of tree
 
 	private static final int HOUSE = 0;
 	private static final int FIELD = 1;
 	private static final int PATH = 2;
 	private static final int CLEARING = 3;
 	private static final int CAVE = 4;
+	private static final int BANK = 5;
+	private static final int FOREST = 6;
+	private static final int BOTTOM = 7;
+	private static final int TREE = 8;
+	private static final int TABLE = 9;
 
 	// Strings that unambiguously identify current location
 
 	private static final String [] LOCATIONS =
 	{
-		"in the house",
-		"open field",
-		"on a forest path",
-		"in a clearing",
-		"dark and dank cave"
+		"<b>In the House</b>",
+		"<b>West of House</b>",
+		"<b>North of the Field</b>",
+		"<b>Forest Clearing</b>",
+		"<b>Cave</b>",
+		"<b>South Bank</b>",
+		"<b>Forest</b>",
+		"<b>On the other side of the forest maze...</b>",
+		"<b>Halfway Up The Tree</b>",
+		"<b>Tabletop</b>",
 	};
 
 	// Current location
@@ -78,7 +101,10 @@ public abstract class StrangeLeaflet extends StaticEntity
 	private static boolean sword;
 	private static boolean stick;
 	private static boolean boots;
+	private static boolean wornboots;
 	private static boolean parchment;
+	private static boolean egg;
+	private static boolean ruby;
 	private static boolean scroll;
 	private static boolean ring;
 	private static boolean trophy;
@@ -91,27 +117,25 @@ public abstract class StrangeLeaflet extends StaticEntity
 	private static boolean torch;
 	private static boolean serpent;
 	private static boolean chest;
+	private static boolean fireplace;
+	private static String magic;
+	private static String exit;
+	private static boolean roadrunner;
+	private static boolean petunias;
+	private static boolean giant;
 
 	public static void robStrangeLeaflet()
 	{
 		// Make sure the player has the Strange Leaflet.
-		// The item will be located inside of the inventory
-
-		if ( LEAFLET.getCount( KoLCharacter.getInventory() ) < 1 )
+		if ( !KoLCharacter.hasItem( LEAFLET, false ) )
 		{
-			// Not in the inventory. Is it in the closet?
-			if ( LEAFLET.getCount( KoLCharacter.getCloset() ) < 1 )
-			{
-				client.updateDisplay( ERROR_STATE, "You don't have a leaflet." );
-				client.cancelRequest();
-				return;
-			}
-
-			// Yes. Pull it out.
-			AdventureResult [] leaflet = new AdventureResult[1];
-			leaflet[0] = LEAFLET.getInstance( 1 );
-			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, leaflet )).run();
+			client.updateDisplay( ERROR_STATE, "You don't have a leaflet." );
+			client.cancelRequest();
+			return;
 		}
+
+		// Make sure it's in the inventory
+		AdventureDatabase.retrieveItem( LEAFLET );
 
 		// Deduce location and status of items and actions
 		// by initializing the leaflet variables.
@@ -121,16 +145,28 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( !client.permitsContinue() )
 			return;
 
-		// Solve the puzzles.  In order, you are trying to
-		// open the chest, take the grue egg from the hole
-		// behind the chest, and use the "magic phrase".
+		// Solve the puzzles.
 
+		// For completeness, get the leaflet
+		getLeaflet();
+
+		// Open the chest to get the house
 		openChest();
+
+		// Get the grue egg from the hole
 		robHole();
+
+		// Invoke the magic word
+		invokeMagic();
+
+		// Get the ring
+		getRing();
 
 		// Add new items to "Usable" list
 		KoLCharacter.refreshCalculatedLists();
-		client.updateDisplay( ENABLE_STATE, "Strange Leaflet robbed." );
+
+		String extra = trophy ? " (trophy available)" : ( magic != null ) ? " (magic invoked)" : "";
+		client.updateDisplay( ENABLE_STATE, "Strange Leaflet robbed" + extra + "." );
 	}
 
 	private static void initialize()
@@ -142,7 +178,10 @@ public abstract class StrangeLeaflet extends StaticEntity
 		sword = false;
 		stick = false;
 		boots = false;
+		wornboots = false;
 		parchment = false;
+		egg = false;
+		ruby = false;
 		scroll = false;
 		ring = false;
 		trophy = false;
@@ -153,6 +192,12 @@ public abstract class StrangeLeaflet extends StaticEntity
 		torch = false;
 		serpent = false;
 		chest = false;
+		fireplace = false;
+		magic = null;
+		exit = null;
+		roadrunner = false;
+		petunias = false;
+		giant = false;
 
 		// Find out where we are in the leaflet by using
 		// the "inv" command -- this will return your
@@ -171,8 +216,9 @@ public abstract class StrangeLeaflet extends StaticEntity
 		switch ( location )
 		{
 			case HOUSE:
-				sword = response.indexOf( "ornate sword" ) == -1;
+				fireplace = response.indexOf( "fireplace is lit" ) != -1;
 				door = true;
+				parseMantlepiece( response );
 				break;
 
 			case FIELD:
@@ -180,36 +226,40 @@ public abstract class StrangeLeaflet extends StaticEntity
 				break;
 
 			case PATH:
-				stick = response.indexOf( "hefty stick" ) == -1;
 				hedge = response.indexOf( "thick hedge" ) == -1;
-
-				if ( !hedge )
-				{
-					torch = false;
-					serpent = false;
-					chest = false;
-				}
-				else
-				{
-					door = true;
-					sword = true;
-				}
 				break;
 
 			case CLEARING:
-				sword = true;
-				door = true;
 				hedge = true;
 				break;
 
 			case CAVE:
-				sword = true;
-				stick = true;
-				door = true;
 				hedge = true;
-				torch = true;
 				chest =	 response.indexOf( "empty treasure chest" ) != -1;
 				serpent = response.indexOf( "dangerous-looking serpent" ) == -1;
+				break;
+
+			case BANK:
+				fireplace = true;
+				break;
+
+			case FOREST:
+				Matcher matcher = Pattern.compile( "Gaps in the dense, forbidding foliage lead (.*?)," ).matcher( response );
+				if ( matcher.find() )
+					exit = matcher.group(1);
+				break;
+
+			case BOTTOM:
+				exit = null;
+				break;
+
+			case TREE:
+				roadrunner = response.indexOf( "large ruby in its beak" ) != -1;
+				petunias =  response.indexOf( "scroll entangled in the flowers" ) != -1;
+				break;
+
+			case TABLE:
+				giant = response.indexOf( "The Giant himself" ) != -1;
 				break;
 
 			default:
@@ -219,8 +269,46 @@ public abstract class StrangeLeaflet extends StaticEntity
 		}
 	}
 
+	private static void parseMantlepiece( String response )
+	{
+		if ( response.indexOf( "brass bowling trophy" ) != -1 )
+			magic = null;
+		else if ( response.indexOf( "carved driftwood bird" ) != -1 )
+			magic = "plover";
+		else if ( response.indexOf( "white house" ) != -1 )
+			magic = "xyzzy";
+		else if ( response.indexOf( "brick building" ) != -1 )
+			magic = "plugh";
+		else if ( response.indexOf( "model ship" ) != -1 )
+			magic = "yoho";
+	}
+
+	private static void getLeaflet()
+	{
+		// Can't go back
+		if ( location > BANK )
+			return;
+
+		if ( leaflet )
+			return;
+
+		client.updateDisplay( NORMAL_STATE, "Retrieving mail..." );
+
+		goTo( FIELD );
+
+		executeCommand( "open mailbox" );
+		mailbox = true;
+
+		executeCommand( "take leaflet" );
+		leaflet = true;
+	}
+
 	private static void openChest()
 	{
+		// Can't go back
+		if ( location > BANK )
+			return;
+
 		if ( chest )
 			return;
 
@@ -235,9 +323,102 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	private static void robHole()
 	{
+		// Can't go back
+		if ( location > BANK )
+			return;
+
 		client.updateDisplay( NORMAL_STATE, "Hunting eggs..." );
 		executeCommand( "look behind chest" );
 		executeCommand( "look in hole" );
+	}
+
+	private static void invokeMagic()
+	{
+		// Can't go back
+		if ( location > BANK )
+			return;
+
+		if ( trophy )
+			return;
+
+		client.updateDisplay( NORMAL_STATE, "Invoking magic..." );
+
+		goTo( HOUSE );
+		executeCommand( "examine fireplace" );
+
+		if ( magic == null )
+		{
+			executeCommand( "take trophy" );
+			trophy = true;
+			return;
+		}
+
+		executeCommand( magic );
+	}
+
+	private static void getRing()
+	{
+		if ( ring )
+			return;
+
+		client.updateDisplay( NORMAL_STATE, "Stealing ring..." );
+
+		if ( location < BOTTOM )
+			goTo( BOTTOM );
+
+		getScroll();
+
+		if ( parchment )
+		{
+			executeCommand( "GNUSTO CLEESH" );
+			parchment = false;
+			scroll = false;
+		}
+
+		goTo( TABLE );
+
+		if ( giant )
+			executeCommand( "CLEESH giant" );
+
+		executeCommand( "take ring" );
+		ring = true;
+	}
+
+	private static void getScroll()
+	{
+		if ( scroll )
+			return;
+
+		goTo( TREE );
+
+		// If it's not in the bowl of petunias, we've gotten it and memorized it
+		if ( !petunias )
+			return;
+
+		getRuby();
+		goTo( TREE );
+		executeCommand( "throw ruby at petunias" );
+		ruby = false;
+		executeCommand( "read scroll" );
+	}
+
+	private static void getRuby()
+	{
+		if ( ruby )
+			return;
+
+		if ( roadrunner )
+		{
+			if ( !egg )
+				executeCommand( "take egg" );
+			executeCommand( "throw egg at roadrunner" );
+			egg = false;
+			roadrunner = false;
+		}
+
+		goTo( BOTTOM );
+		executeCommand( "move leaves" );
+		ruby = true;
 	}
 
 	private static void goTo( int destination )
@@ -257,6 +438,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 			{
 				switch ( location )
 				{
+					case BANK:
 					case PATH:
 					case CLEARING:
 					case CAVE:
@@ -287,6 +469,9 @@ public abstract class StrangeLeaflet extends StaticEntity
 					case PATH:
 						executeCommand( "south" );
 						break;
+					case BANK:
+						executeCommand( "north" );
+						break;
 					default:
 						break;
 				}
@@ -299,6 +484,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 				switch ( location )
 				{
 					case HOUSE:
+					case BANK:
 						goTo( FIELD );
 						// Fall through
 					case FIELD:
@@ -330,6 +516,69 @@ public abstract class StrangeLeaflet extends StaticEntity
 				getTorch();
 				goTo( PATH );
 				executeCommand( "north" );
+				break;
+			}
+
+			case BANK:
+			{
+				wearBoots();
+				goTo( FIELD );
+				executeCommand( "south" );
+				break;
+			}
+
+			// From here on we've entered the maze and can't go back
+			case FOREST:
+			{
+				// No return
+				if ( location > FOREST )
+					return;
+				goTo( BANK );
+				executeCommand( "south" );
+				executeCommand( "south" );
+				break;
+			}
+
+			case BOTTOM:
+			{
+				switch ( location )
+				{
+					default:
+						goTo( FOREST );
+						// Fall through
+					case FOREST:
+						// Stumble around until we get out
+						while ( exit != null )
+							executeCommand( exit );
+						break;
+					case TABLE:
+						goTo( TREE);
+						// Fall through
+					case TREE:
+						executeCommand( "down" );
+						break;
+				}
+				break;
+			}
+
+			case TREE:
+			{
+				switch ( location )
+				{
+					case BOTTOM:
+						executeCommand( "up" );
+						break;
+					case TABLE:
+						executeCommand( "down" );
+						break;
+				}
+				break;
+			}
+
+			case TABLE:
+			{
+				goTo( TREE);
+				executeCommand( "up" );
 				break;
 			}
 		}
@@ -405,6 +654,44 @@ public abstract class StrangeLeaflet extends StaticEntity
 			executeCommand( "kill serpent" );
 	}
 
+	private static void wearBoots()
+	{
+		if ( wornboots )
+			return;
+
+		getBoots();
+		executeCommand( "wear boots" );
+	}
+
+	private static void getBoots()
+	{
+		if ( boots )
+			return;
+
+		lightFire();
+		executeCommand( "take boots" );
+		boots = true;
+	}
+
+	private static void lightFire()
+	{
+		getTorch();
+		goTo( HOUSE );
+
+		if ( fireplace )
+			return;
+
+		if ( !parchment )
+		{
+			executeCommand( "examine fireplace" );
+			executeCommand( "examine tinder" );
+			parchment = true;
+		}
+
+		executeCommand( "light fireplace" );
+		fireplace = true;
+	}
+
 	private static void executeCommand( String command )
 	{
 		KoLRequest request = new KoLRequest( client, "leaflet.php", true );
@@ -413,9 +700,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		request.run();
 
 		// The inventory command is handled specially because
-		// it resets the state of your items.  For now, only
-		// the strings for the sword and torch are known;
-		// later, check for the hefty stick text.
+		// it resets the state of your items.
 
 		if ( command.equals( "inv" ) )
 		{
@@ -424,7 +709,10 @@ public abstract class StrangeLeaflet extends StaticEntity
 			torch = request.responseText.indexOf( "A burning torch" ) != -1;
 			stick = torch || request.responseText.indexOf( "A hefty stick" ) != -1;
 			boots = request.responseText.indexOf( "A pair of large rubber wading boots" ) != -1;
-			parchment = false;
+			wornboots = boots && request.responseText.indexOf( "boots (equipped)" ) != -1;
+			parchment = request.responseText.indexOf( "A piece of parchment" ) != -1;
+			egg = request.responseText.indexOf( "A jewel-encrusted egg" ) != -1;
+			ruby = request.responseText.indexOf( "A fiery ruby" ) != -1;
 			scroll = request.responseText.indexOf( "A rolled-up scroll" ) != -1;
 			ring = request.responseText.indexOf( "A giant's pinky ring" ) != -1;
 			trophy = request.responseText.indexOf( "A shiny bowling trophy" ) != -1;
