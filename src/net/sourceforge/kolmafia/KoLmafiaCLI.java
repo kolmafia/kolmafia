@@ -372,6 +372,17 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCommand( String command, String parameters )
 	{
+		// Maybe the person is trying to load a raw URL
+		// to test something without creating a brand new
+		// KoLRequest object to handle it yet?
+
+		if ( command.indexOf( ".php" ) != -1 )
+		{
+			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), command, true );
+			StaticEntity.getClient().makeRequest( desired, 1 );
+			return;
+		}
+
 		// First, handle the wait command, for however
 		// many seconds the user would like to wait.
 
@@ -1258,17 +1269,6 @@ public class KoLmafiaCLI extends KoLmafia
 			command.equals( "effects" ) || command.startsWith( "status" ) || command.equals( "encounters" ) )
 		{
 			executePrintCommand( command + " " + parameters );
-			return;
-		}
-
-		// Maybe the person is trying to load a raw URL
-		// to test something without creating a brand new
-		// KoLRequest object to handle it yet?
-
-		if ( command.indexOf( ".php" ) != -1 )
-		{
-			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), command, true );
-			StaticEntity.getClient().makeRequest( desired, 1 );
 			return;
 		}
 
