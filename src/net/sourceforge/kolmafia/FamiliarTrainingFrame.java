@@ -1106,20 +1106,27 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		// Pass the response text to the FamiliarStatus to
 		// add familiar items and deduct a turn.
-		int xp = earnedXP( request.responseText, match );
+		int xp = earnedXP( request.responseText );
 		status.processMatchResult( request.responseText, xp );
 
 		// Return the amount of XP the familiar earned
-		return xp;
+		return badContest( request.responseText,match) ? -1 : xp;
 	}
 
-	private static int earnedXP( String response, int match )
+	private static int earnedXP( String response )
 	{
 		Matcher matcher = Pattern.compile( "gains (\\d+) experience" ).matcher( response );
-		if ( matcher.find() )
-			return Integer.valueOf( matcher.group(1) ).intValue();
+		return matcher.find() ? Integer.valueOf( matcher.group(1) ).intValue() : 0;
+	}
 
-		// We lost. Look for special "this familiar sucks" message
+	private static boolean badContest( String response, int match )
+	{
+		// Look for special "this familiar sucks" message. Note the
+		// familiar can still win, even if such a message is present; a
+		// match in which both familiars suck is given to either
+		// contestant at random.
+
+		Matcher matcher;
 		switch ( match )
 		{
 		case 1: // "You enter Tort against Dirty Pair in an Ultimate
@@ -1151,13 +1158,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 			matcher = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" ).matcher( response );
 			break;
 		default:
-			return 0;
+			return false;
 		}
 
-		if ( matcher.find() )
-			return -1;
-
-		return 0;
+		return  matcher.find();
 	}
 
 	/**
