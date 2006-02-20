@@ -82,7 +82,9 @@ public class AccountRequest extends KoLRequest
 
 		if ( matcher.find() )
 		{
-			matcher = Pattern.compile( "selected>(.*?)</option>" ).matcher( matcher.group() );
+			int timeOffset = 0;
+			// 100, -200, +/- 0
+			matcher = Pattern.compile( "selected>(-?\\d*?)</option>" ).matcher( matcher.group() );
 			if ( matcher.find() )
 			{
 				// You now have the current integer offset
@@ -91,7 +93,7 @@ public class AccountRequest extends KoLRequest
 				// synchronize timestamps with the server so
 				// that all kmail can be processed?
 
-				int timeOffset = Integer.parseInt( matcher.group(1) );
+				timeOffset = Integer.parseInt( matcher.group(1) );
 			}
 		}
 	}
