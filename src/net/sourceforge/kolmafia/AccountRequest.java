@@ -97,4 +97,8 @@ public class AccountRequest extends KoLRequest
 			}
 		}
 	}
+
+	protected void processResults()
+	{
+	}
 }
