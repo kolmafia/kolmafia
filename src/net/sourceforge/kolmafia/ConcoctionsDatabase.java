@@ -73,6 +73,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final AdventureResult HAMMER = new AdventureResult( 338, 1 );
 	private static final AdventureResult PLIERS = new AdventureResult( 709, 1 );
 
+	private static final AdventureResult PASTE = new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 );
+	private static final AdventureResult STACK = new AdventureResult( ItemCreationRequest.MEAT_STACK, 1 );
+	private static final AdventureResult DENSE = new AdventureResult( ItemCreationRequest.DENSE_STACK, 1 );
+
 	private static final AdventureResult ROLLING_PIN = new AdventureResult( 873, 1 );
 	private static final AdventureResult UNROLLING_PIN = new AdventureResult( 873, 1 );
 
@@ -274,10 +278,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		int availableMeat = KoLCharacter.getAvailableMeat() + KoLCharacter.getClosetMeat();
 
+		concoctions[ ItemCreationRequest.MEAT_PASTE ].initial = PASTE.getCount( availableIngredients );
 		concoctions[ ItemCreationRequest.MEAT_PASTE ].total += availableMeat / 10;
 		concoctions[ ItemCreationRequest.MEAT_PASTE ].creatable += availableMeat / 10;
+		concoctions[ ItemCreationRequest.MEAT_STACK ].initial = STACK.getCount( availableIngredients );
 		concoctions[ ItemCreationRequest.MEAT_STACK ].total += availableMeat / 100;
 		concoctions[ ItemCreationRequest.MEAT_STACK ].creatable += availableMeat / 100;
+		concoctions[ ItemCreationRequest.DENSE_STACK ].initial = DENSE.getCount( availableIngredients );
 		concoctions[ ItemCreationRequest.DENSE_STACK ].total += availableMeat / 1000;
 		concoctions[ ItemCreationRequest.DENSE_STACK ].creatable += availableMeat / 1000;
 
