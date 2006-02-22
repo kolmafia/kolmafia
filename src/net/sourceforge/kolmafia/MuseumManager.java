@@ -44,19 +44,14 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MuseumManager extends StaticEntity
 {
-	private static SortedListModel items = new SortedListModel();
 	private static LockableListModel headers = new LockableListModel();
 	private static LockableListModel shelves = new LockableListModel();
 
 	public static void reset()
 	{
-		items.clear();
+		KoLCharacter.getCollection().clear();
 		headers.clear();
 		shelves.clear();
-	}
-
-	public static SortedListModel getItems()
-	{	return items;
 	}
 
 	public static LockableListModel getHeaders()
@@ -166,8 +161,9 @@ public class MuseumManager extends StaticEntity
 		// glitches server side, all items submit their state.
 		// Store the data in two parallel arrays.
 
-		int [] newShelves = new int[ MuseumManager.items.size() ];
-		AdventureResult [] newItems = new AdventureResult[ MuseumManager.items.size() ];
+		int size = KoLCharacter.getCollection().size();
+		int [] newShelves = new int[ size ];
+		AdventureResult [] newItems = new AdventureResult[ size ];
 
 		// Iterate through each shelf and place the item into
 		// the parallel arrays.
@@ -218,7 +214,7 @@ public class MuseumManager extends StaticEntity
 
 	private static void registerItem( AdventureResult item, int shelf )
 	{
-		items.add( item );
+		KoLCharacter.getCollection().add( item );
 		((SortedListModel)shelves.get( shelf )).add( item );
 	}
 

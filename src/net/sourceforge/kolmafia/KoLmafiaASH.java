@@ -2154,31 +2154,35 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executeMuseumAmountRequest( int itemID ) throws AdvancedScriptException
 		{
+			if ( itemID == -1 )
+				return new ScriptValue( TYPE_INT, 0);
+
 			// Make sure you have the most up-to-date
 			// data on the museum.
 
-			if ( MuseumManager.getItems().isEmpty() )
+			if ( KoLCharacter.getCollection().isEmpty() )
 				(new MuseumRequest( client )).run();
 
-			AdventureResult item;
-
-			if( (itemID == -1))
-				return new ScriptValue( TYPE_INT, 0);
-			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
-
+			AdventureResult item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
 			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCollection() ) );
 		}
 
 		private ScriptValue executeShopAmountRequest( int itemID ) throws AdvancedScriptException
 		{
-			AdventureResult item;
-
-			if( (itemID == -1))
+			if ( itemID == -1 )
 				return new ScriptValue( TYPE_INT, 0);
-			new StoreManageRequest( client ).run(); //refresh store inventory
-			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
 
-			return new ScriptValue( TYPE_INT, item.getCount( StoreManager.getSoldItemList() ) );
+			(new StoreManageRequest( client )).run(); //refresh store inventory
+
+			LockableListModel list = StoreManager.getSoldItemList();
+			StoreManager.SoldItem item = new StoreManager.SoldItem( itemID, 0, 0, 0, 0 );
+			int index = list.indexOf( item );
+
+			if ( index < 0 )
+				return new ScriptValue( TYPE_INT, 0 );
+
+			item = (StoreManager.SoldItem)list.get( index );
+			return new ScriptValue( TYPE_INT, item.getQuantity() );
 		}
 
 		private ScriptValue executeStorageAmountRequest( int itemID ) throws AdvancedScriptException

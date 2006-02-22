@@ -174,7 +174,7 @@ public class MuseumFrame extends KoLFrame
 		private class InsideDisplayPanel extends ItemManagePanel
 		{
 			public InsideDisplayPanel()
-			{	super( "Display Case", "put in bag", "put in closet", MuseumManager.getItems() );
+			{	super( "Display Case", "put in bag", "put in closet", KoLCharacter.getCollection() );
 			}
 
 			protected void actionConfirmed()
