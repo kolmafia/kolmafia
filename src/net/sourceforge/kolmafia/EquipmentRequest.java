@@ -157,9 +157,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( requestType == CHANGE_OUTFIT )
 		{
-			// If this is a birthday suit outfit, then make sure
-			// you remove everything first.
-
+			// If this is a birthday suit outfit, then remove everything.
 			if ( outfit == SpecialOutfit.BIRTHDAY_SUIT )
 			{
 				(new EquipmentRequest( client, UNEQUIP_ALL )).run();
@@ -170,17 +168,31 @@ public class EquipmentRequest extends PasswordHashRequest
 				return;
 			}
 
-			// Next, ensure that you have all the pieces for the
-			// given outfit -- do this by adding all of the items
-			// as conditions and then issuing a check.
+			int id = outfit.getOutfitID();
 
-			ArrayList temporaryList = new ArrayList();
-			temporaryList.addAll( client.getConditions() );
-			client.getConditions().clear();
+			// If this is not a custom outfit...
+			if ( id > 0 )
+			{
+				// Return immediately if the character is already wearing the outfit
+				if ( EquipmentDatabase.isWearingOutfit( id ) )
+					return;
 
-			EquipmentDatabase.addOutfitConditions( outfit.getOutfitID() );
-			DEFAULT_SHELL.executeConditionsCommand( "check" );
-			client.getConditions().addAll( temporaryList );
+				// Next, ensure that you have all the pieces for the
+				// given outfit -- do this by adding all of the items
+				// as conditions and then issuing a check.
+
+				ArrayList temporaryList = new ArrayList();
+				temporaryList.addAll( client.getConditions() );
+				client.getConditions().clear();
+
+				EquipmentDatabase.addOutfitConditions( outfit.getOutfitID() );
+				DEFAULT_SHELL.executeConditionsCommand( "check" );
+				client.getConditions().addAll( temporaryList );
+
+				// Bail now if the conditions were not met
+				if ( !client.permitsContinue() )
+					return;
+			}
 		}
 
 		// If we are changing an accessory or familiar equipment, first

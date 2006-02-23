@@ -1102,7 +1102,8 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			executeChangeOutfitCommand( parameters );
-			executePrintCommand( "equip" );
+			if ( StaticEntity.getClient().permitsContinue() )
+				executePrintCommand( "equip" );
 			return;
 		}
 

@@ -193,49 +193,54 @@ public class EquipmentDatabase extends KoLDatabase
 	}
 
 	/**
+	 * Utility method which determines whether or not a particular piece of
+	 * equipment is already equipped.
+	 */
+
+	public static boolean isWearingEquipment( AdventureResult gear )
+	{
+		String name = gear.getName();
+		switch ( TradeableItemDatabase.getConsumptionType( name ) )
+		{
+			case ConsumeItemRequest.EQUIP_WEAPON:
+				return name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) );
+
+			case ConsumeItemRequest.EQUIP_OFFHAND:
+				return	name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) );
+
+			case ConsumeItemRequest.EQUIP_HAT:
+				return name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) );
+
+			case ConsumeItemRequest.EQUIP_SHIRT:
+				return name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ) );
+
+			case ConsumeItemRequest.EQUIP_PANTS:
+				return name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ) );
+
+			case ConsumeItemRequest.EQUIP_ACCESSORY:
+				return name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ) ) ||
+					name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ) ) ||
+					name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) );
+		}
+		return false;
+	}
+
+	/**
 	 * Utility method which determines whether or not the equipment
 	 * corresponding to the given outfit is already equipped.
 	 */
 
 	public static boolean isWearingOutfit( int outfitID )
 	{
-		boolean isWearingOutfit = true;
+		// We don't know the components of custom outfits
+		if ( outfitID < 0 )
+			return false;
+
 		for ( int i = 0; i < outfitPieces[ outfitID ].length; ++i )
-		{
-			switch ( TradeableItemDatabase.getConsumptionType( outfitPieces[ outfitID ][i].getName() ) )
-			{
-				case ConsumeItemRequest.EQUIP_WEAPON:
-					isWearingOutfit &= KoLCharacter.getEquipment( KoLCharacter.WEAPON ).equals( outfitPieces[ outfitID ][i] );
-					break;
+			if ( !isWearingEquipment( outfitPieces[ outfitID ][i] ) )
+				return false;
 
-				case ConsumeItemRequest.EQUIP_OFFHAND:
-					isWearingOutfit &= KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).equals( outfitPieces[ outfitID ][i] );
-					break;
-
-				case ConsumeItemRequest.EQUIP_HAT:
-					isWearingOutfit &= KoLCharacter.getEquipment( KoLCharacter.HAT ).equals( outfitPieces[ outfitID ][i] );
-					break;
-
-				case ConsumeItemRequest.EQUIP_SHIRT:
-					isWearingOutfit &= KoLCharacter.getEquipment( KoLCharacter.SHIRT ).equals( outfitPieces[ outfitID ][i] );
-					break;
-
-				case ConsumeItemRequest.EQUIP_PANTS:
-					isWearingOutfit &= KoLCharacter.getEquipment( KoLCharacter.PANTS ).equals( outfitPieces[ outfitID ][i] );
-					break;
-
-				case ConsumeItemRequest.EQUIP_ACCESSORY:
-
-					isWearingOutfit &=
-						KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).equals( outfitPieces[ outfitID ][i] ) ||
-						KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).equals( outfitPieces[ outfitID ][i] ) ||
-						KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).equals( outfitPieces[ outfitID ][i] );
-
-					break;
-			}
-		}
-
-		return isWearingOutfit;
+		return true;
 	}
 
 	public static boolean addOutfitConditions( KoLAdventure adventure )
@@ -306,6 +311,10 @@ public class EquipmentDatabase extends KoLDatabase
 			return;
 
 		for ( int i = 0; i < outfitPieces[ outfitID ].length; ++i )
-			DEFAULT_SHELL.executeConditionsCommand( "add " + outfitPieces[ outfitID ][i].getName() );
+		{
+			AdventureResult gear = outfitPieces[ outfitID ][i];
+			if ( !isWearingEquipment( gear ) )
+				DEFAULT_SHELL.executeConditionsCommand( "add " + gear.getName() );
+		}
 	}
 }
