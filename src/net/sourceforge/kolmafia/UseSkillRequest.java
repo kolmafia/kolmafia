@@ -136,7 +136,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			client.cancelRequest();
 			lastUpdate = "Not enough mana to continue.";
 		}
-		else if ( responseText.indexOf( "You can only conjure" ) != -1 )
+		else if ( responseText.indexOf( "You can only conjure" ) != -1 ||
+			  responseText.indexOf( "You can only scrounge up" ) != -1 ||
+			  responseText.indexOf( "You can only summon" ) != -1 )
 		{
 			client.cancelRequest();
 			lastUpdate = "Summon limit exceeded.";
