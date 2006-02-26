@@ -115,6 +115,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
+	private static final File SCRIPT_DIRECTORY = new File( "scripts" );
 	private static final Color ERROR_COLOR = new Color( 255, 128, 128 );
 	private static final Color ENABLED_COLOR = new Color( 128, 255, 128 );
 	private static final Color DISABLED_COLOR = null;
@@ -160,7 +161,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected JLabel familiarLabel;
 
 	protected KoLCharacterAdapter refreshListener;
-	protected JMenuItem debugMenuItem, macroMenuItem;
+	protected JMenuItem debugMenuItem = new ToggleDebugMenuItem();
+	protected JMenuItem macroMenuItem = new ToggleMacroMenuItem();
 
 	/**
 	 * Constructs a new <code>KoLFrame</code> with the given title,
@@ -545,8 +547,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			JMenu toggleMenu = new JMenu( "Toggles" );
 			container.add( toggleMenu );
 
-			toggleMenu.add( debugMenuItem = new ToggleDebugMenuItem() );
-			toggleMenu.add( macroMenuItem = new ToggleMacroMenuItem() );
+			toggleMenu.add( debugMenuItem );
+			toggleMenu.add( macroMenuItem );
 		}
 
 		// Add help information for KoLmafia.  This includes
@@ -630,12 +632,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public void actionPerformed( ActionEvent e )
 		{
+			if ( client == null )
+				return;
+		
 			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 			existingFrames.toArray( frames );
 
-			if ( client != null && client.getMacroStream() instanceof NullStream )
+			if ( client.getMacroStream() instanceof NullStream )
 			{
-				JFileChooser chooser = new JFileChooser( "scripts" );
+				JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
 				int returnVal = chooser.showSaveDialog( KoLFrame.this );
 
 				if ( chooser.getSelectedFile() == null )
@@ -643,13 +648,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 				String filename = chooser.getSelectedFile().getAbsolutePath();
 
-				if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+				if ( returnVal == JFileChooser.APPROVE_OPTION )
 					client.openMacroStream( filename );
 
 				for ( int i = 0; i < frames.length; ++i )
 					frames[i].macroMenuItem.setText( "Stop recording script" );
 			}
-			else if ( client != null )
+			else
 			{
 				client.closeMacroStream();
 				for ( int i = 0; i < frames.length; ++i )
@@ -692,7 +697,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				if ( scriptPath == null )
 				{
-					JFileChooser chooser = new JFileChooser( "scripts" );
+					JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
 					int returnVal = chooser.showOpenDialog( null );
 
 					if ( chooser.getSelectedFile() == null )
@@ -1474,10 +1479,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			super( "Scripts", scripts );
 
-			File scriptDirectory = new File( "scripts" );
-
-			if ( !scriptDirectory.exists() )
-				scriptDirectory.mkdirs();
+			if ( !SCRIPT_DIRECTORY.exists() )
+				SCRIPT_DIRECTORY.mkdirs();
 
 			compileScripts();
 		}
@@ -1895,10 +1898,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	public static void compileScripts()
 	{
 		scripts.clear();
-		File directory = new File( "scripts" );
 
 		// Get the list of files in the current directory
-		File [] scriptList = directory.listFiles( BACKUP_FILTER );
+		File [] scriptList = SCRIPT_DIRECTORY.listFiles( BACKUP_FILTER );
 
 		// Iterate through the files.  Do this in two
 		// passes to make sure that directories start

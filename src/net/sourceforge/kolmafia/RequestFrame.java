@@ -295,6 +295,11 @@ public class RequestFrame extends KoLFrame
 		if ( parent == null || location.startsWith( "search" ) || location.startsWith( "desc" ) )
 		{
 			setCombatRound( request );
+
+			// Only record raw mini-browser requests
+			if ( client != null && request.getClass() == KoLRequest.class )
+				client.getMacroStream().println( location );
+
 			(new DisplayRequestThread( request )).start();
 		}
 		else
