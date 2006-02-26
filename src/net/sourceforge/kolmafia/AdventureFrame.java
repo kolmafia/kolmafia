@@ -389,12 +389,6 @@ public class AdventureFrame extends KoLFrame
 							client.updateDisplay( ERROR_STATE, "No outfit corresponds to this zone." );
 							return;
 						}
-
-						// In order to ensure that you do not duplicate
-						// items, make sure you verify everything before
-						// you begin adventuring.
-
-						verifyConditions = true;
 					}
 					else if ( conditions[i].equals( "or" ) || conditions[i].equals( "and" ) || conditions[i].startsWith( "conjunction" ) || conditions[i].startsWith( "disjunction" ) )
 					{

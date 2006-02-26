@@ -313,7 +313,7 @@ public class EquipmentDatabase extends KoLDatabase
 		for ( int i = 0; i < outfitPieces[ outfitID ].length; ++i )
 		{
 			AdventureResult gear = outfitPieces[ outfitID ][i];
-			if ( !isWearingEquipment( gear ) )
+			if ( !KoLCharacter.hasItem( gear, false ) )
 				DEFAULT_SHELL.executeConditionsCommand( "add " + gear.getName() );
 		}
 	}
