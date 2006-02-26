@@ -2191,15 +2191,22 @@ public abstract class KoLCharacter extends StaticEntity
 			case ConsumeItemRequest.EQUIP_WEAPON:
 				return getEquipment( WEAPON ).startsWith( canonicalName );
 
+			case ConsumeItemRequest.EQUIP_OFFHAND:
+				return getEquipment( OFFHAND ).startsWith( canonicalName );
+
 			case ConsumeItemRequest.EQUIP_HAT:
 				return getEquipment( HAT ).startsWith( canonicalName );
+
+			case ConsumeItemRequest.EQUIP_SHIRT:
+				return getEquipment( SHIRT ).startsWith( canonicalName );
 
 			case ConsumeItemRequest.EQUIP_PANTS:
 				return getEquipment( PANTS ).startsWith( canonicalName );
 
 			case ConsumeItemRequest.EQUIP_ACCESSORY:
 				return getEquipment( ACCESSORY1 ).startsWith( canonicalName ) ||
-					getEquipment( ACCESSORY2 ).startsWith( canonicalName ) || getEquipment( ACCESSORY3 ).startsWith( canonicalName );
+					getEquipment( ACCESSORY2 ).startsWith( canonicalName ) ||
+					getEquipment( ACCESSORY3 ).startsWith( canonicalName );
 		}
 
 		return false;

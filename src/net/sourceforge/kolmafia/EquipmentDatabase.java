@@ -193,39 +193,6 @@ public class EquipmentDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Utility method which determines whether or not a particular piece of
-	 * equipment is already equipped.
-	 */
-
-	public static boolean isWearingEquipment( AdventureResult gear )
-	{
-		String name = gear.getName();
-		switch ( TradeableItemDatabase.getConsumptionType( name ) )
-		{
-			case ConsumeItemRequest.EQUIP_WEAPON:
-				return name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) );
-
-			case ConsumeItemRequest.EQUIP_OFFHAND:
-				return	name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) );
-
-			case ConsumeItemRequest.EQUIP_HAT:
-				return name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) );
-
-			case ConsumeItemRequest.EQUIP_SHIRT:
-				return name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ) );
-
-			case ConsumeItemRequest.EQUIP_PANTS:
-				return name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ) );
-
-			case ConsumeItemRequest.EQUIP_ACCESSORY:
-				return name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ) ) ||
-					name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ) ) ||
-					name.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) );
-		}
-		return false;
-	}
-
-	/**
 	 * Utility method which determines whether or not the equipment
 	 * corresponding to the given outfit is already equipped.
 	 */
@@ -237,7 +204,7 @@ public class EquipmentDatabase extends KoLDatabase
 			return false;
 
 		for ( int i = 0; i < outfitPieces[ outfitID ].length; ++i )
-			if ( !isWearingEquipment( outfitPieces[ outfitID ][i] ) )
+			if ( !KoLCharacter.hasEquipped( outfitPieces[ outfitID ][i] ) )
 				return false;
 
 		return true;
