@@ -2329,23 +2329,38 @@ public class KoLmafiaCLI extends KoLmafia
 				return null;
 			}
 
-			try
+			itemID = TradeableItemDatabase.getItemID( (String) matchingNames.get(0) );
+
+			// Make sure what you're attempting to parse is a
+			// number -- if it's not, then the person was trying
+			// to match the full substring.
+
+			if ( itemCountString.equals( "*" ) )
 			{
-				itemID = TradeableItemDatabase.getItemID( (String) matchingNames.get(0) );
-				itemCount = itemCountString.equals( "*" ) ? 0 : df.parse( itemCountString ).intValue();
+				itemCount = 0;
 			}
-			catch ( Exception e )
+			else
 			{
-				// Technically, this exception should not be thrown, but if
-				// it is, then print an error message and return.
+				for ( int i = 0; i < itemCountString.length(); ++i )
+				{
+					if ( !Character.isDigit( itemCountString.charAt(i) ) )
+					{
+						StaticEntity.getClient().cancelRequest();
+						updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
+						return null;
+					}
+				}
 
-				updateDisplay( ERROR_STATE, itemCountString + " is not a number." );
-				StaticEntity.getClient().cancelRequest();
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
-				return null;
+				try
+				{
+					itemCount = df.parse( itemCountString ).intValue();
+				}
+				catch ( Exception e )
+				{
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+					return null;
+				}
 			}
 		}
 
