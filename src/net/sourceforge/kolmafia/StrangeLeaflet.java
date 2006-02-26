@@ -52,11 +52,10 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	// Things to be checked/confirmed:
 	//
-	// 1) Can you close the door from inside the house? If so, how can you tell?
-	// 2) You can only (try to) invoke the magic word once. We should detect
+	// 1) You can only (try to) invoke the magic word once. We should detect
 	//    success, a failed second invocation of the correct word, and a
 	//    failed attempt of the wrong word (which should not happen).
-	// 3) The brass bowling trophy, model ship, and carved driftwood bird
+	// 2) The brass bowling trophy, model ship, and carved driftwood bird
 	//    have all been seen and confirmed by me. The brick building and
 	//    white house have been reported, but not actually successfully
 	//    used, yet, by this script.
@@ -241,8 +240,10 @@ public abstract class StrangeLeaflet extends StaticEntity
 		{
 			case HOUSE:
 				fireplace = response.indexOf( "fireplace is lit" ) != -1;
-				// Can you close the front door from inside the
-				// house? If so, what does it look like?
+				// You cannot close the door. "close door" =>
+				// "You feel a sudden streak of malevolence and
+				// decide to leave the door wide open. Serves
+				// 'em right for not locking it."
 				door = true;
 				break;
 
@@ -308,7 +309,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 			// "A ceramic model of a brick building sits on the mantelpiece."
 			magic = "plugh";
 		else if ( response.indexOf( "model ship" ) != -1 )
-			// Exact words go here.
+			// "A model ship inside a bottle sits on the mantelpiece."
 			magic = "yoho";
 	}
 
