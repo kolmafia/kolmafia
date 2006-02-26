@@ -378,7 +378,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.indexOf( ".php" ) != -1 )
 		{
-			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), command, true );
+			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), previousCommand, true );
 			StaticEntity.getClient().makeRequest( desired, 1 );
 			return;
 		}
