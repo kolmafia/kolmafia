@@ -1318,7 +1318,19 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( !scriptFile.exists() )
 			{
-				runCount = Integer.parseInt( parameters.split( " " )[0] );
+				String runCountString = parameters.split( " " )[0];
+
+				for ( int i = 0; i < runCountString.length(); ++i )
+				{
+					if ( !Character.isDigit( runCountString.charAt(i) ) )
+					{
+						StaticEntity.getClient().cancelRequest();
+						updateDisplay( ERROR_STATE, "[" + parameters + "] does not match a valid script." );
+						return;
+					}
+				}
+
+				runCount = Integer.parseInt( runCountString );
 				String scriptName = parameters.substring( parameters.indexOf( " " ) ).trim();
 
 				scriptFile = new File( "scripts" + File.separator + scriptName );
@@ -1560,26 +1572,34 @@ public class KoLmafiaCLI extends KoLmafia
 			return value;
 		}
 
-		try
+		for ( int i = 0; i < right.length(); ++i )
 		{
-			return Integer.parseInt( right );
+			if ( !Character.isDigit( right.charAt(i) ) )
+			{
+				// Items first for one reason: Knob Goblin perfume
+				// Determine which item is being matched.
+
+				AdventureResult item = itemParameter( right );
+
+				if ( item != null )
+					return item.getCount( KoLCharacter.getInventory() );
+
+				AdventureResult effect = effectParameter( right );
+
+				if ( effect != null )
+					return effect.getCount( KoLCharacter.getEffects() );
+
+				// If it is neither an item nor an effect, report
+				// the exception.
+
+				StaticEntity.getClient().updateDisplay( ERROR_STATE, "Invalid operand [" + right + "] on right side of operator" );
+			}
 		}
-		catch ( NumberFormatException e )
-		{
-			// Items first for one reason: Knob Goblin perfume
 
-			AdventureResult item = itemParameter( right );
+		// If it gets this far, then it must be numeric,
+		// so parse the number and return it.
 
-			if ( item != null )
-				return item.getCount( KoLCharacter.getInventory() );
-
-			AdventureResult effect = effectParameter( right );
-
-			if ( effect != null )
-				return effect.getCount( KoLCharacter.getEffects() );
-
-			throw e;
-		}
+		return Integer.parseInt( right );
 	}
 
 	private AdventureResult effectParameter( String parameter )
