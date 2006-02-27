@@ -123,11 +123,11 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static final String [][] FAMILIAR_DATA =
 	{
-		{ "sabre-toothed lime", "Levitating Potato" },
-		{ "mosquito", "Sabre-Toothed Lime" },
-		{ "barrrnacle", "Angry Goat" },
-		{ "goat", "Mosquito" },
-		{ "potato", "Barrrnacle" }
+		{ "giant sabre-toothed lime", "Levitating Potato" },
+		{ "giant mosquito", "Sabre-Toothed Lime" },
+		{ "giant barrrnacle", "Angry Goat" },
+		{ "giant goat", "Mosquito" },
+		{ "giant potato", "Barrrnacle" }
 	};
 
 	//Item ID for return value to ASH
@@ -1450,7 +1450,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// If not, tell the player to get one and come back.
 
-		if ( familiar == null)
+		if ( familiar == null )
 		{
 			client.updateDisplay( ERROR_STATE, "Come back with a 20 pound " + race );
 			client.cancelRequest();
