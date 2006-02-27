@@ -931,6 +931,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return false;
 		}
 
+		// See if it's heavy enough right now
+		if ( familiar.getModifiedWeight() >= weight )
+			return true;
+
 		// Get the status of current familiar
 		FamiliarStatus status = new FamiliarStatus( client );
 
