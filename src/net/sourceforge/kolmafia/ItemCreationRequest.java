@@ -188,7 +188,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		switch ( mixingMethod )
 		{
 			case COMBINE:
-				return new ItemCreationRequest( client, (client != null && KoLCharacter.inMuscleSign()) ?
+				return new ItemCreationRequest( client, KoLCharacter.inMuscleSign() ?
 					"knoll.php" : "combine.php", itemID, mixingMethod, quantityNeeded );
 
 			case MIX:
@@ -201,7 +201,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return new ItemCreationRequest( client, "cook.php", itemID, mixingMethod, quantityNeeded );
 
 			case SMITH:
-				return new ItemCreationRequest( client, (client != null && KoLCharacter.inMuscleSign()) ?
+				return new ItemCreationRequest( client, KoLCharacter.inMuscleSign() ?
 					"knoll.php" : "smith.php", itemID, mixingMethod, quantityNeeded );
 
 			case SMITH_ARMOR:

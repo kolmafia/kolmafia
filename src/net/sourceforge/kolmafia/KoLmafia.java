@@ -285,6 +285,19 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		// Retrieve the character sheet first since we need things like
+		// zodiac sign before we refresh concoctions
+
+		(new CharsheetRequest( this )).run();
+		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
+
+		if ( !permitsContinue() )
+		{
+			deinitialize();
+			enableDisplay();
+			return;
+		}
+
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
@@ -311,19 +324,6 @@ public abstract class KoLmafia implements KoLConstants
 		// Get current moon phases
 
 		(new MoonPhaseRequest( this )).run();
-
-		if ( !permitsContinue() )
-		{
-			deinitialize();
-			enableDisplay();
-			return;
-		}
-
-		// Retrieve the player data -- just in
-		// case adventures or HP changed.
-
-		(new CharsheetRequest( this )).run();
-		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
 
 		if ( !permitsContinue() )
 		{
