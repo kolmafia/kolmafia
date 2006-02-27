@@ -116,14 +116,15 @@ public abstract class KoLmafia implements KoLConstants
 	protected SortedListModel missingItems = new SortedListModel();
 	protected SortedListModel hermitItems = new SortedListModel();
 	protected SortedListModel hunterItems = new SortedListModel();
+
 	protected LockableListModel restaurantItems = new LockableListModel();
 	protected LockableListModel microbreweryItems = new LockableListModel();
 	protected LockableListModel galaktikCures = new LockableListModel();
 
 	protected boolean useDisjunction;
 	protected SortedListModel conditions = new SortedListModel();
-	protected LockableListModel adventureList = new LockableListModel();
-	protected LockableListModel encounterList = new LockableListModel();
+	protected SortedListModel adventureList = new SortedListModel();
+	protected SortedListModel encounterList = new SortedListModel();
 
 	private int faucetRow;
 	private int faucetColumn;
