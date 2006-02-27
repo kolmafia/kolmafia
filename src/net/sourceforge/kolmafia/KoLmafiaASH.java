@@ -3341,13 +3341,38 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( type.equals( TYPE_ITEM ) )
 			{
-				if( contentString.equals( "none"))
+				if( contentString.equals( "none" ))
 				{
 					contentInt = -1;
 					return;
 				}
-				if ( (contentInt = TradeableItemDatabase.getItemID( contentString )) == -1 )
-					throw new AdvancedScriptException( "Item " + contentString + " not found in database " + getLineAndFile() );
+
+				// Allow for an item number to be specified inside
+				// of the "item" construct.
+
+				for ( int i = 0; i < contentString.length(); ++i )
+				{
+					if ( !Character.isDigit( contentString.charAt(i) ) )
+					{
+						// If you get an actual item number, then store it inside
+						// of contentInt and return from the method.
+
+						if ( (contentInt = TradeableItemDatabase.getItemID( contentString )) != -1 )
+							return;
+
+						// Otherwise, throw an AdvancedScriptException so that
+						// an unsuccessful parse happens before the script gets
+						// executed (consistent with paradigm).
+
+						throw new AdvancedScriptException( "Item " + contentString + " not found in database " + getLineAndFile() );
+					}
+				}
+
+				// Since it is numeric, parse the integer value
+				// and store it inside of the contentInt.
+
+				contentInt = Integer.parseInt( contentString );
+				return;
 			}
 			else if ( type.equals( TYPE_ZODIAC ) )
 			{
@@ -3369,30 +3394,29 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			else if ( type.equals( TYPE_CLASS ) )
 			{
-				for ( int i = 0; ; i++ )
+				for ( int i = 0; i < classes.length; i++ )
 				{
-					if ( i == Array.getLength( classes ) )
-						throw new AdvancedScriptException( "Unknown class " + contentString + " " + getLineAndFile() );
-
 					if ( contentString.equalsIgnoreCase( classes[i] ) )
 					{
 						contentInt = i;
-						break;
+						return;
 					}
 				}
+
+				throw new AdvancedScriptException( "Unknown class " + contentString + " " + getLineAndFile() );
 			}
 			else if ( type.equals( TYPE_STAT ) )
 			{
-				for ( int i = 0; ; i++ )
+				for ( int i = 0; i < stats.length; i++ )
 				{
-					if ( i == Array.getLength( stats ) )
-						throw new AdvancedScriptException( "Unknown stat " + contentString + " " + getLineAndFile() );
 					if ( contentString.equalsIgnoreCase( stats[i] ) )
 					{
 						contentInt = i;
-						break;
+						return;
 					}
 				}
+
+				throw new AdvancedScriptException( "Unknown stat " + contentString + " " + getLineAndFile() );
 			}
 			else if ( type.equals( TYPE_SKILL ) )
 			{
