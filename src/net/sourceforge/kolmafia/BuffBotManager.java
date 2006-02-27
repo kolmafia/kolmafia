@@ -64,6 +64,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static ArrayList deleteList = new ArrayList();
 	private static ArrayList sendList = new ArrayList();
 
+	private static boolean isBetweenProcesses = false;
 	private static int messageDisposalSetting;
 	private static String refundMessage;
 	private static String thanksMessage;
@@ -231,16 +232,17 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		{
 			BuffBotManager.runOnce();
 
+			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
+			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
+			client.updateDisplay( NORMAL_STATE, "Buffbot is sleeping." );
+
 			// Sleep for a while and then try again (don't go
 			// away for more than 1 second at a time to avoid
 			// automatic re-enabling problems).
 
-			if ( i != 1 )
-			{
-				for ( int j = 0; j < 75; ++j )
-					if ( BuffBotHome.isBuffBotActive() )
-						KoLRequest.delay( 1000 );
-			}
+			for ( int j = 0; i != 1 && j < 60; ++j )
+				if ( BuffBotHome.isBuffBotActive() )
+					KoLRequest.delay( 1000 );
 		}
 
 		// After the buffbot is finished running, make sure
@@ -255,32 +257,27 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	public static void runOnce()
 	{
-		// Request the inbox for the user.  Each call
-		// to add message will trigger the actual
-		// buffing attempt sequence, so all that
-		// needs to be done is clear the lists and
-		// initiate the mailbox request.
-
-		((List)mailboxes.get( "Inbox" )).clear();
+		getMessages( "Inbox" ).clear();
 		(new MailboxRequest( client, "Inbox" )).run();
 
-		// Do all the deletes and saves now that all
-		// the buffbot activity has been processed.
-
-		if ( !deleteList.isEmpty() )
-			deleteMessages( "Inbox", deleteList.toArray() );
-
-		if ( !saveList.isEmpty() )
-			saveMessages( saveList.toArray() );
-
-		if ( !deleteList.isEmpty() || !saveList.isEmpty() )
+		while ( !deleteList.isEmpty() || !saveList.isEmpty() )
 		{
-			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
-			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
-		}
+			while ( !deleteList.isEmpty() )
+			{
+				Object [] messages = deleteList.toArray();
+				deleteList.clear();
 
-		deleteList.clear();  saveList.clear();
-		client.updateDisplay( NORMAL_STATE, "Buffbot is sleeping." );
+				deleteMessages( "Inbox", messages );
+			}
+
+			if ( !saveList.isEmpty() )
+			{
+				Object [] messages = saveList.toArray();
+				saveList.clear();
+
+				saveMessages( messages );
+			}
+		}
 	}
 
 	/**
@@ -323,7 +320,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		{
 			boolean success = KoLMailManager.addMessage( boxname, message );
 
-			if ( !success || !BuffBotHome.isBuffBotActive() || !boxname.equals( "Inbox" ) )
+			if ( isBetweenProcesses || !success || !BuffBotHome.isBuffBotActive() || !boxname.equals( "Inbox" ) )
 				return success;
 
 			LockableListModel messages = getMessages( "Inbox" );

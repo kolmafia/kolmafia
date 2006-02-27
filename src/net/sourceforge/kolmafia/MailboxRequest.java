@@ -86,12 +86,6 @@ public class MailboxRequest extends KoLRequest
 
 		super.run();
 
-		if ( action != null )
-		{
-			updateDisplay( NORMAL_STATE, "Selected mail successfully " + action + "d" );
-			return;
-		}
-
 		// Determine how many messages there are, and how many there
 		// are left to go.  This will cause a lot of server load for
 		// those with lots of messages.	 But!  This can be fixed by
