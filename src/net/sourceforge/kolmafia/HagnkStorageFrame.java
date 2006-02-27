@@ -118,15 +118,16 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 			else
 			{
-				consumeFilters = new FilterCheckBox[3];
+				consumeFilters = new FilterCheckBox[5];
 				consumeFilters[0] = new FilterCheckBox( consumeFilters, elementList, "Show food", KoLCharacter.canEat() );
 				consumeFilters[1] = new FilterCheckBox( consumeFilters, elementList, "Show drink", KoLCharacter.canDrink() );
-				consumeFilters[2] = new FilterCheckBox( consumeFilters, elementList, "Show other", true );
+				consumeFilters[2] = new FilterCheckBox( consumeFilters, elementList, "Show others", true );
 
-				for ( int i = 0; i < 3; ++i )
+				for ( int i = 0; i < consumeFilters.length; ++i )
 					optionPanel.add( consumeFilters[i] );
 
-				elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+				elementList.setCellRenderer(
+					AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 			}
 		}
 

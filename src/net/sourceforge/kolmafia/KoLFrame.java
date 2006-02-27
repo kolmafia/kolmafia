@@ -634,7 +634,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			if ( client == null )
 				return;
-		
+
 			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 			existingFrames.toArray( frames );
 
@@ -2090,9 +2090,26 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		public void actionPerformed( ActionEvent e )
 		{
 			if ( isTradeable )
-				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+			{
+				if ( !filters[0].isSelected() && !filters[1].isSelected() && !filters[2].isSelected() )
+				{
+					filters[3].setEnabled( false );
+					filters[4].setEnabled( false );
+				}
+				else
+				{
+					filters[3].setEnabled( true );
+					filters[4].setEnabled( true );
+				}
+
+				elementList.setCellRenderer(
+					AdventureResult.getAutoSellCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(), filters[4].isSelected() ) );
+			}
 			else
-				elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+			{
+				elementList.setCellRenderer(
+					AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+			}
 
 			elementList.validate();
 		}

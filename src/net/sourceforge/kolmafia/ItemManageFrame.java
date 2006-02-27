@@ -169,12 +169,13 @@ public class ItemManageFrame extends KoLFrame
 			JCheckBox [] filters = new JCheckBox[3];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
 			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
-			filters[2] = new FilterCheckBox( filters, elementList, "Show other", true );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
 
-			for ( int i = 0; i < 3; ++i )
+			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
 
-			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			elementList.setCellRenderer(
+				AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
 		private class ConsumeListener implements ActionListener
@@ -279,15 +280,18 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( title, elementModel, true );
 
-			filters = new JCheckBox[3];
+			filters = new JCheckBox[5];
 			filters[0] = new FilterCheckBox( filters, elementList, true, "Show food", KoLCharacter.canEat() );
 			filters[1] = new FilterCheckBox( filters, elementList, true, "Show drink", KoLCharacter.canDrink() );
-			filters[2] = new FilterCheckBox( filters, elementList, true, "Show other", true );
+			filters[2] = new FilterCheckBox( filters, elementList, true, "Show others", true );
+			filters[3] = new FilterCheckBox( filters, elementList, true, "Show no-sell", true );
+			filters[4] = new FilterCheckBox( filters, elementList, true, "Show no-trade", true );
 
-			for ( int i = 0; i < 3; ++i )
+			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
 
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			elementList.setCellRenderer(
+				AdventureResult.getAutoSellCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true, true, true ) );
 		}
 
 		protected Object [] getDesiredItems( String message )
@@ -322,6 +326,15 @@ public class ItemManageFrame extends KoLFrame
 
 						break;
 				}
+
+
+				int autoSellValue = TradeableItemDatabase.getPriceByID( ((AdventureResult)elements[i]).getItemID() );
+
+				if ( !filters[3].isSelected() && autoSellValue < 0 )
+					elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+				if ( !filters[4].isSelected() && autoSellValue == 0 )
+					elementList.removeSelectionInterval( actualIndex, actualIndex );
 			}
 
 			return super.getDesiredItems( message );
@@ -730,12 +743,13 @@ public class ItemManageFrame extends KoLFrame
 			JCheckBox [] filters = new JCheckBox[3];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
 			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
-			filters[2] = new FilterCheckBox( filters, elementList, "Show other", true );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
 
-			for ( int i = 0; i < 3; ++i )
+			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
 
-			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+			elementList.setCellRenderer(
+				AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
 		private class CreateListener implements ActionListener

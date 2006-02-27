@@ -579,24 +579,26 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	public static DefaultListCellRenderer getAutoSellCellRenderer()
-	{	return new AutoSellCellRenderer( true, true, true );
+	{	return getAutoSellCellRenderer( true, true, true, true, false );
 	}
 
-	public static DefaultListCellRenderer getAutoSellCellRenderer( boolean food, boolean booze, boolean other )
-	{	return new AutoSellCellRenderer( food, booze, other );
+	public static DefaultListCellRenderer getAutoSellCellRenderer( boolean food, boolean booze, boolean other, boolean nosell, boolean notrade )
+	{	return new AutoSellCellRenderer( food, booze, other, nosell, notrade );
 	}
 
 	private static class AutoSellCellRenderer extends DefaultListCellRenderer
 	{
-		private boolean food, booze, other;
+		private boolean food, booze, other, nosell, notrade;
 
-		public AutoSellCellRenderer( boolean food, boolean booze, boolean other )
+		public AutoSellCellRenderer( boolean food, boolean booze, boolean other, boolean nosell, boolean notrade )
 		{
 			setOpaque( true );
 
 			this.food = food;
 			this.booze = booze;
 			this.other = other;
+			this.nosell = nosell;
+			this.notrade = notrade;
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
@@ -626,16 +628,26 @@ public class AdventureResult implements Comparable, KoLConstants
 					break;
 			}
 
-			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.itemID );
+			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.getItemID() );
 
 			StringBuffer stringForm = new StringBuffer();
 			stringForm.append( ar.getName() );
 			stringForm.append( " (" );
 
 			if ( autoSellValue < 0 )
+			{
+				if ( !nosell )
+					return BLANK_LABEL;
+
 				stringForm.append( "no-autosell" );
+			}
 			else if ( autoSellValue == 0 )
+			{
+				if ( !notrade )
+					return BLANK_LABEL;
+
 				stringForm.append( "no-trade" );
+			}
 			else
 				stringForm.append( df.format( autoSellValue ) + " meat" );
 
@@ -680,14 +692,14 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 
 		public Component getRendererComponent( JLabel defaultComponent, AdventureResult value )
-		{	return getRendererComponent( defaultComponent, value.getName(), value.getCount() );
+		{	return getRendererComponent( defaultComponent, value.getItemID(), value.getName(), value.getCount() );
 		}
 
 		public Component getRendererComponent( JLabel defaultComponent, ItemCreationRequest value )
-		{	return getRendererComponent( defaultComponent, value.getName(), value.getQuantityNeeded() );
+		{	return getRendererComponent( defaultComponent, value.getItemID(), value.getName(), value.getQuantityNeeded() );
 		}
 
-		public Component getRendererComponent( JLabel defaultComponent, String name, int count )
+		public Component getRendererComponent( JLabel defaultComponent, int itemID, String name, int count )
 		{
 			switch ( TradeableItemDatabase.getConsumptionType( name ) )
 			{
