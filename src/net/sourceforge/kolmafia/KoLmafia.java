@@ -123,7 +123,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected boolean useDisjunction;
 	protected SortedListModel conditions = new SortedListModel();
-	protected SortedListModel adventureList = new SortedListModel();
+	protected LockableListModel adventureList = new LockableListModel();
 	protected SortedListModel encounterList = new SortedListModel();
 
 	private int faucetRow;
@@ -2251,7 +2251,7 @@ public abstract class KoLmafia implements KoLConstants
 		encounterList.add( new RegisteredEncounter( encounterName ) );
 	}
 
-	private class RegisteredEncounter
+	private class RegisteredEncounter implements Comparable
 	{
 		private String name;
 		private int encounterCount;
@@ -2264,6 +2264,12 @@ public abstract class KoLmafia implements KoLConstants
 
 		public String toString()
 		{	return name + " (" + encounterCount + ")";
+		}
+
+		public int compareTo( Object o )
+		{
+			return !(o instanceof RegisteredEncounter) || o == null ? -1 :
+				name.compareToIgnoreCase( ((RegisteredEncounter)o).name );
 		}
 	}
 
