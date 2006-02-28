@@ -58,7 +58,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{
 		super( client, "skills.php" );
 		addFormField( "action", "Skillz." );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 
 		this.skillID = ClassSkillsDatabase.getSkillID( skillName );
 		this.skillName = ClassSkillsDatabase.getSkillName( skillID );

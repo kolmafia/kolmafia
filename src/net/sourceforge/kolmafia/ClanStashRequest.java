@@ -66,7 +66,7 @@ public class ClanStashRequest extends SendMessageRequest
 	public ClanStashRequest( KoLmafia client, int amount )
 	{
 		super( client, "clan_stash.php", new Object[0], amount );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "action", "contribute" );
 		addFormField( "howmuch", String.valueOf( amount ) );
 
@@ -84,7 +84,7 @@ public class ClanStashRequest extends SendMessageRequest
 	{
 		super( client, "clan_stash.php", attachments, 0 );
 
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 
 		this.moveType = moveType;
 		if ( moveType == ITEMS_TO_STASH )

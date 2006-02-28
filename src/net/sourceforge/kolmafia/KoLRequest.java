@@ -284,7 +284,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void addFormField( String name, String value, boolean allowDuplicates )
 	{
-		if ( name.startsWith( "pwd" ) )
+		if ( name.equals( "pwd" ) || name.equals( "phash" ) )
 		{
 			data.add( name );
 			return;
@@ -362,7 +362,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( i > 0 )
 				dataBuffer.append( '&' );
 
-			if ( elements[i].startsWith( "pwd" ) )
+			if ( elements[i].equals( "pwd" ) || elements[i].equals( "phash" ) )
 			{
 				String pwd = elements[i];
 				int index = pwd.indexOf( "=" );
@@ -592,12 +592,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			formURLBuffer.append( dataString );
 
 			if ( client != null && !formURLString.equals( "login.php" ) )
-			{
-				if ( client.getPasswordHash() == null )
-					KoLmafia.getLogStream().println( dataString );
-				else
-					KoLmafia.getLogStream().println( dataString.replaceAll( client.getPasswordHash(), "" ) );
-			}
+				KoLmafia.getLogStream().println( client.prunePasswordHash ( dataString ) );
 
 			formConnection.setRequestMethod( "POST" );
 			BufferedWriter ostream = new BufferedWriter( new OutputStreamWriter( formConnection.getOutputStream() ) );
@@ -833,12 +828,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
 				if ( client != null )
-				{
-					if ( client.getPasswordHash() == null )
-						KoLmafia.getLogStream().println( responseText );
-					else
-						KoLmafia.getLogStream().println( responseText.replaceAll( client.getPasswordHash(), "" ) );
-				}
+					KoLmafia.getLogStream().println( client.prunePasswordHash( responseText ) );
 			}
 		}
 
@@ -1137,7 +1127,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// decision, make that decision and submit the form.
 
 		request = new KoLRequest( client, "choice.php" );
-		request.addFormField( "pwd", client.getPasswordHash() );
+		request.addFormField( "pwd" );
 		request.addFormField( "whichchoice", choice );
 		request.addFormField( "option", decision );
 

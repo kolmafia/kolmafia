@@ -60,7 +60,7 @@ public class MuseumRequest extends SendMessageRequest
 	public MuseumRequest( KoLmafia client, Object [] attachments, boolean isDeposit )
 	{
 		super( client, "managecollection.php", attachments, 0 );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "action", isDeposit ? "put" : "take" );
 
 		this.isManagement = true;
@@ -73,7 +73,7 @@ public class MuseumRequest extends SendMessageRequest
 	public MuseumRequest( KoLmafia client, AdventureResult [] items, int [] shelves )
 	{
 		this( client );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "action", "arrange" );
 
 		for ( int i = 0; i < items.length; ++i )

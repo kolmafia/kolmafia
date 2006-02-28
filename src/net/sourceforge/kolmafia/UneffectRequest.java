@@ -50,7 +50,7 @@ public class UneffectRequest extends KoLRequest
 	{
 		super( client, "uneffect.php" );
 		addFormField( "using", "Yep." );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 
 		this.effect = effect;
 		this.effectID = StatusEffectDatabase.getEffectID( effect.getName() );

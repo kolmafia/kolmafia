@@ -61,7 +61,7 @@ public class AutoSellRequest extends SendMessageRequest
 	public AutoSellRequest( KoLmafia client, Object [] items, int [] prices, int [] limits, int sellType )
 	{
 		super( client, getSellPage( sellType ), items, 0 );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 
 		this.sellType = sellType;
 		this.prices = new int[ prices.length ];

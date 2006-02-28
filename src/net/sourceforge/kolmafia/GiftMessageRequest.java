@@ -90,7 +90,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	public GiftMessageRequest( KoLmafia client, String recipient, String message, AdventureResult attachment )
 	{
 		super( client, "town_sendgift.php", attachment );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "action", "Yep." );
 		addFormField( "towho", recipient );
 		addFormField( "note", message );
@@ -115,7 +115,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		Object wrappingType, Object [] attachments, int meatAttachment )
 	{
 		super( client, "town_sendgift.php", attachments, meatAttachment );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "action", "Yep." );
 		addFormField( "towho", recipient );
 		addFormField( "note", outsideMessage );

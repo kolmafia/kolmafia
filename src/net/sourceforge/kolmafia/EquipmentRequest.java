@@ -90,7 +90,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		if ( requestType == UNEQUIP_ALL )
 		{
 			addFormField( "action", "unequipall" );
-			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "pwd" );
 		}
 	}
 
@@ -112,7 +112,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		{
 			addFormField( "action", "unequip" );
 			addFormField( "type", equipmentType[ equipmentSlot ] );
-			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "pwd" );
 			this.requestType = REMOVE_ITEM;
 		}
 		else
@@ -123,7 +123,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			changeItemName = change.toLowerCase();
 			addFormField( "action", "equip" );
 			addFormField( "whichitem", String.valueOf( TradeableItemDatabase.getItemID( change ) ) );
-			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "pwd" );
 			this.requestType = CHANGE_ITEM;
 		}
 	}

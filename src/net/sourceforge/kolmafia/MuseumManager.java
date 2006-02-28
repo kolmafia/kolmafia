@@ -114,7 +114,7 @@ public class MuseumManager extends StaticEntity
 			{
 				KoLRequest request = new KoLRequest( client, "managecollection.php" );
 				request.addFormField( "action", "newshelf" );
-				request.addFormField( "pwd", client.getPasswordHash() );
+				request.addFormField( "pwd" );
 				request.addFormField( "shelfname", "Deleted Shelf " + i );
 				request.run();
 			}
@@ -138,7 +138,7 @@ public class MuseumManager extends StaticEntity
 
 		KoLRequest request = new KoLRequest( client, "managecollection.php" );
 		request.addFormField( "action", "modifyshelves" );
-		request.addFormField( "pwd", client.getPasswordHash() );
+		request.addFormField( "pwd" );
 
 		for ( int i = 1; i < headers.length; ++i )
 		{

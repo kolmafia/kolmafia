@@ -60,7 +60,7 @@ public class StoreManageRequest extends KoLRequest
 	{
 		super( client, "manageprices.php" );
 		addFormField( "action", "update" );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		this.isPriceManagement = true;
 
 		for ( int i = 0; i < itemID.length; ++i )

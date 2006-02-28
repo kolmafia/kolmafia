@@ -79,7 +79,7 @@ public class HermitRequest extends KoLRequest
 		addFormField( "action", "trade" );
 		addFormField( "quantity", String.valueOf( quantity ) );
 		addFormField( "whichitem", String.valueOf( itemID ) );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 	}
 
 	/**

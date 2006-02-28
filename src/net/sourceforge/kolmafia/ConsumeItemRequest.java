@@ -130,7 +130,7 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 		addFormField( "whichitem", "" + item.getItemID() );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 
 		this.consumptionType = consumptionType;
 		this.itemUsed = item;

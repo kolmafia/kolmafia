@@ -56,7 +56,7 @@ public class ClanMembersRequest extends KoLRequest
 		super( client, "clan_members.php" );
 		this.isLookup = false;
 
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "action", "modify" );
 		addFormField( "begin", "0" );
 

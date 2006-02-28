@@ -78,54 +78,51 @@ public class AdventureRequest extends KoLRequest
 		// posting it in the form sent to adventure.php will handle
 		// everything for you.
 
-		if ( client != null && client.getPasswordHash() != null )
-		{
-			// Almost all requests use one adventure
-			this.adventuresUsed = 1;
+		// Almost all requests use one adventure
+		this.adventuresUsed = 1;
 
-			if ( formSource.equals( "adventure.php" ) )
-				addFormField( "snarfblat", adventureID );
-			else if ( formSource.equals( "shore.php" ) )
-			{
-				addFormField( "whichtrip", adventureID );
-				addFormField( "pwd", client.getPasswordHash() );
-				this.adventuresUsed = 3;
-			}
-			else if ( formSource.equals( "casino.php" ) )
-			{
-				addFormField( "action", "slot" );
-				addFormField( "whichslot", adventureID );
-				if ( !adventureID.equals( "11" ) )
-					this.adventuresUsed = 0;
-			}
-			else if ( formSource.equals( "dungeon.php" ) )
-			{
-				addFormField( "action", "Yep" );
-				addFormField( "option", "1" );
-				addFormField( "pwd", client.getPasswordHash() );
-			}
-			else if ( formSource.equals( "knob.php" ) )
-			{
-				addFormField( "pwd", client.getPasswordHash() );
-				addFormField( "king", "Yep." );
-			}
-			else if ( formSource.equals( "mountains.php" ) )
-			{
-				addFormField( "pwd", client.getPasswordHash() );
-				addFormField( "orcs", "1" );
-				this.adventuresUsed = 0;
-			}
-			else if ( formSource.equals( "friars.php" ) )
-			{
-				addFormField( "pwd", client.getPasswordHash() );
-				addFormField( "action", "ritual" );
-				this.adventuresUsed = 0;
-			}
-			else if ( formSource.equals( "lair6.php" ) )
-				addFormField( "place", adventureID );
-			else if ( !formSource.equals( "rats.php" ) )
-				addFormField( "action", adventureID );
+		if ( formSource.equals( "adventure.php" ) )
+			addFormField( "snarfblat", adventureID );
+		else if ( formSource.equals( "shore.php" ) )
+		{
+			addFormField( "whichtrip", adventureID );
+			addFormField( "pwd" );
+			this.adventuresUsed = 3;
 		}
+		else if ( formSource.equals( "casino.php" ) )
+		{
+			addFormField( "action", "slot" );
+			addFormField( "whichslot", adventureID );
+			if ( !adventureID.equals( "11" ) )
+				this.adventuresUsed = 0;
+		}
+		else if ( formSource.equals( "dungeon.php" ) )
+		{
+			addFormField( "action", "Yep" );
+			addFormField( "option", "1" );
+			addFormField( "pwd" );
+		}
+		else if ( formSource.equals( "knob.php" ) )
+		{
+			addFormField( "pwd" );
+			addFormField( "king", "Yep." );
+		}
+		else if ( formSource.equals( "mountains.php" ) )
+		{
+			addFormField( "pwd" );
+			addFormField( "orcs", "1" );
+			this.adventuresUsed = 0;
+		}
+		else if ( formSource.equals( "friars.php" ) )
+		{
+			addFormField( "pwd" );
+			addFormField( "action", "ritual" );
+			this.adventuresUsed = 0;
+		}
+		else if ( formSource.equals( "lair6.php" ) )
+			addFormField( "place", adventureID );
+		else if ( !formSource.equals( "rats.php" ) )
+			addFormField( "action", adventureID );
 
 		hasLuckyVersion = hasLuckyVersion( adventureID );
 	}

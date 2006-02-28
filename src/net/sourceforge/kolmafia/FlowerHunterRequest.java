@@ -75,7 +75,7 @@ public class FlowerHunterRequest extends KoLRequest
 		this.hunterType = ATTACK;
 
 		addFormField( "action", "Yep." );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "who", opponent );
 		addFormField( "stance", String.valueOf( stance ) );
 		addFormField( "attacktype", isForFlowers ? "flowers" : "rank" );

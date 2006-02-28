@@ -61,13 +61,13 @@ public class GalaktikRequest extends KoLRequest
 		{
 		case HP:
 			addFormField( "action", "curehp" );
-			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "pwd" );
 			this.price =  ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() ) * 10;
 			break;
 
 		case MP:
 			addFormField( "action", "curemp" );
-			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "pwd" );
 			this.price =  ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() ) * 20;
 			break;
 

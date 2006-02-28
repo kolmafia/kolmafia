@@ -70,9 +70,7 @@ public class HeroDonationRequest extends KoLRequest
 	{
 		super( client, "shrines.php" );
 
-		if ( client != null )
-			addFormField( "pwd", client.getPasswordHash() );
-
+		addFormField( "pwd" );
 		addFormField( "action", heroID == BORIS ? "boris" : heroID == JARLSBERG ? "jarlsberg" : "sneakypete" );
 		addFormField( "howmuch", String.valueOf( amount ) );
 

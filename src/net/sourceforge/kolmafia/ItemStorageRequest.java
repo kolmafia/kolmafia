@@ -71,7 +71,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		super( client, moveType == PULL_MEAT_FROM_STORAGE ? "storage.php" : "closet.php",
 			new AdventureResult( AdventureResult.MEAT, moveType == PULL_MEAT_FROM_STORAGE ? amount : 0 ) );
 
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "amt", String.valueOf( amount ) );
 		addFormField( "action", moveType == MEAT_TO_CLOSET ? "addmeat" : "takemeat" );
 
@@ -112,7 +112,7 @@ public class ItemStorageRequest extends SendMessageRequest
 	{
 		super( client, moveType == STORAGE_TO_INVENTORY || moveType == EMPTY_STORAGE ? "storage.php" : "closet.php", attachments, 0 );
 
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "action", moveType == EMPTY_STORAGE ? "takeall" : moveType == INVENTORY_TO_CLOSET ? "put" : "take" );
 
 		this.moveType = moveType;

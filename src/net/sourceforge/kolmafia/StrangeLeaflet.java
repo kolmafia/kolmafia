@@ -748,7 +748,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 	private static String executeCommand( String command )
 	{
 		KoLRequest request = new KoLRequest( client, "leaflet.php", true );
-		request.addFormField( "pwd", client.getPasswordHash() );
+		request.addFormField( "pwd" );
 		request.addFormField( "command", command );
 		request.run();
 

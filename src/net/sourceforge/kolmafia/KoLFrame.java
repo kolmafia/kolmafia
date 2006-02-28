@@ -1757,7 +1757,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			String pwdhash = bookmarkData[2];
 
 			if ( pwdhash.equals( "true" ) )
-				location += "&pwd=" + client.getPasswordHash();
+				location += "&pwd";
 
 			return new DisplayRequestMenuItem( name, location );
 		}

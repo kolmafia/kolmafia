@@ -126,8 +126,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		this.mixingMethod = mixingMethod;
 		this.quantityNeeded = quantityNeeded;
 
-		if ( client != null )
-			addFormField( "pwd", client.getPasswordHash() );
+                addFormField( "pwd" );
 
 		if ( KoLCharacter.inMuscleSign() && mixingMethod == SMITH )
 			addFormField( "action", "smith" );

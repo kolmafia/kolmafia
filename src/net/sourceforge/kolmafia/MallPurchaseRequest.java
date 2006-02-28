@@ -77,19 +77,19 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		if ( storeID.indexOf( "." ) == -1 )
 		{
 			addFormField( "whichstore", storeID );
-			addFormField( "phash", client.getPasswordHash() );
+			addFormField( "phash" );
 			addFormField( "buying", "Yep." );
 		}
 		else if ( storeID.equals( "galaktik.php" ) )
 		{
 			// Annoying special case.
 			addFormField( "action", "buyitem" );
-			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "pwd" );
 		}
 		else
 		{
 			addFormField( "action", "buy" );
-			addFormField( "pwd", client.getPasswordHash() );
+			addFormField( "pwd" );
 		}
 
 		addFormField( "whichitem", String.valueOf( itemID ) );
@@ -141,7 +141,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		this.isNPCStore = false;
 		this.canPurchase = canPurchase;
 
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "whichstore", String.valueOf( shopID ) );
 		addFormField( "buying", "Yep." );
 

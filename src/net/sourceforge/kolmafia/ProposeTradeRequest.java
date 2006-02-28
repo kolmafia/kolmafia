@@ -53,7 +53,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 		super( client, "counteroffer.php", attachments, meatAttachment );
 		addFormField( "action", "counter" );
 		addFormField( "whichoffer", String.valueOf( offerID ) );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 		addFormField( "offermeat", String.valueOf( meatAttachment ) );
 
@@ -66,7 +66,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{
 		super( client, "makeoffer.php", attachments, meatAttachment );
 		addFormField( "action", "proposeoffer" );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "towho", recipient );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
 		addFormField( "offermeat", String.valueOf( meatAttachment ) );

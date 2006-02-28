@@ -51,7 +51,7 @@ public class GreenMessageRequest extends SendMessageRequest
 	{
 		super( client, "sendmessage.php", attachment );
 		addFormField( "action", "send" );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "towho", recipient );
 
 		if ( saveMessage )
@@ -73,7 +73,7 @@ public class GreenMessageRequest extends SendMessageRequest
 	{
 		super( client, "sendmessage.php", attachments, meatAttachment );
 		addFormField( "action", "send" );
-		addFormField( "pwd", client.getPasswordHash() );
+		addFormField( "pwd" );
 		addFormField( "towho", recipient );
 
 		if ( saveMessage )
