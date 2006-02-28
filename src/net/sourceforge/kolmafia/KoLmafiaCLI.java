@@ -2975,23 +2975,16 @@ public class KoLmafiaCLI extends KoLmafia
 
 		try
 		{
-			int buffBotIterations = df.parse( parameters ).intValue();
 			StaticEntity.getClient().resetContinueState();
 
 			BuffBotHome.setBuffBotActive( true );
-			BuffBotManager.runBuffBot( buffBotIterations );
-
+			BuffBotManager.runBuffBot( df.parse( parameters ).intValue() );
 			updateDisplay( NORMAL_STATE, "BuffBot execution complete." );
-			StaticEntity.getClient().cancelRequest();
-
 		}
-		catch (Exception e)
+		catch ( Exception e )
 		{
 			// Technically, this exception should not be thrown, but if
 			// it is, then print an error message and return.
-
-			updateDisplay( ERROR_STATE, parameters + " is not a number." );
-			StaticEntity.getClient().cancelRequest();
 
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
