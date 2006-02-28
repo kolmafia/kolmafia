@@ -148,6 +148,11 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			client.cancelRequest();
 			lastUpdate = target + " has 3 AT buffs already.";
 		}
+		else if ( responseText.indexOf( "You only have 0 /" ) != -1 )
+		{
+			client.cancelRequest();
+			lastUpdate = "No smiles left for the day.";
+		}
 		else if ( responseText.indexOf( "Invalid target player" ) != -1 )
 		{
 			client.cancelRequest();
