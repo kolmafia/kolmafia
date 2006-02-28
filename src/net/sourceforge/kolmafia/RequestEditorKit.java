@@ -72,7 +72,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	// Overkill Unicode table borrowed from HTMLParser
 	// http://htmlparser.sourceforge.net/
 
-	private static final String [][] UNICODE_TABLE =
+	private static final String [][] ORIGINAL_UNICODE_TABLE =
 	{
 		// Portions (c) International Organization for Standardization 1986
 		// Permission to copy in any form is granted for use with
@@ -414,6 +414,35 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{ "&lsaquo;",	"\u2039" }, // single left-pointing angle quotation mark, U+2039 ISO proposed
 		{ "&rsaquo;",	"\u203a" }, // single right-pointing angle quotation mark, U+203A ISO proposed
 		{ "&euro;",	"\u20ac" }  // euro sign, U+20AC NEW
+	};
+
+        // Pruned version
+
+        // The original table has 255 character entities in it.  The current
+        // algorithm for translating in either direction uses a replaceAll for
+        // every one of those. Considering how often KoLmafia does this
+        // translation, performance is abysmal with the full table.
+
+        // For now, here is a table containing just the "important" character
+        // entities needing translation. A better solution would be to keep the
+        // full table but improve the translation algorithm to not be a
+        // performance hog.
+
+	private static final String [][] UNICODE_TABLE =
+	{
+		// Portions (c) International Organization for Standardization 1986
+		// Permission to copy in any form is granted for use with
+		// conforming SGML systems and applications as defined in
+		// ISO 8879, provided this notice is included in all copies.
+
+		{ "&eacute;",	"\u00e9" }, // latin small letter e with acute, U+00E9 ISOlat1
+		{ "&ntilde;",	"\u00f1" }, // latin small letter n with tilde, U+00F1 ISOlat1
+		{ "&trade;",	"\u2122" }, // trade mark sign, U+2122 ISOnum
+		{ "&quot;",	"\"" }, // quotation mark = APL quote, U+0022 ISOnum
+		{ "&amp;",	"\u0026" }, // ampersand, U+0026 ISOnum
+		{ "&lt;",	"\u003c" }, // less-than sign, U+003C ISOnum
+		{ "&gt;",	"\u003e" }, // greater-than sign, U+003E ISOnum
+		{ "&mdash;",	"\u2014" }, // em dash, U+2014 ISOpub
 	};
 
 	private static TreeMap images = new TreeMap();
