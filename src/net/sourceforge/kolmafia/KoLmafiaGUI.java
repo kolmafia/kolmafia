@@ -220,7 +220,7 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	public void showHTML( String text, String title )
-	{	JOptionPane.showMessageDialog( null, text, title, JOptionPane.PLAIN_MESSAGE );
+	{	JOptionPane.showMessageDialog( null, RequestEditorKit.getDisplayHTML( text ), title, JOptionPane.PLAIN_MESSAGE );
 	}
 
 	/**
