@@ -540,11 +540,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static final String getEntities( String unicodeVersion )
 	{
-		StringBuffer entityVersion = null;
-
 		// Iterate over all the characters in the string looking for unicode
+		StringBuffer entityVersion = null;
 		int start = 0;
-		for ( int i = 0; i < unicodeVersion.length(); ++i )
+		int length = unicodeVersion.length();
+
+		for ( int i = 0; i < length; ++i )
 		{
 			Character unicode = new Character( unicodeVersion.charAt( i ) );
 			String entity = (String)entities.get( unicode );
@@ -588,7 +589,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			return entityVersion;
 
 		// Otherwise, make a StringBuffer to create unicode version of input
-		StringBuffer unicodeVersion = new StringBuffer();
+		StringBuffer unicodeVersion = null;
 		int start = 0;
 
 		// Replace all entities
@@ -600,6 +601,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			// If no semicolon, bogus, but quit now
 			if ( semi < 0 )
 				break;
+
+			// If we don't have a string buffer, make one
+			if ( unicodeVersion == null )
+				unicodeVersion = new StringBuffer();
 
 			// Copy in prefix
 			if ( index > start )
