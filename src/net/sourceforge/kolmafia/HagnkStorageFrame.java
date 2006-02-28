@@ -118,7 +118,7 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 			else
 			{
-				consumeFilters = new FilterCheckBox[5];
+				consumeFilters = new FilterCheckBox[3];
 				consumeFilters[0] = new FilterCheckBox( consumeFilters, elementList, "Show food", KoLCharacter.canEat() );
 				consumeFilters[1] = new FilterCheckBox( consumeFilters, elementList, "Show drink", KoLCharacter.canDrink() );
 				consumeFilters[2] = new FilterCheckBox( consumeFilters, elementList, "Show others", true );
