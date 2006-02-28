@@ -2205,15 +2205,9 @@ public abstract class KoLmafia implements KoLConstants
 		KoLCharacter.refreshCalculatedLists();
 
 		if ( purchaseCount == maxPurchases || maxPurchases == Integer.MAX_VALUE )
-		{
 			updateDisplay( NORMAL_STATE, "Purchases complete." );
-			enableDisplay();
-		}
 		else
-		{
 			updateDisplay( ERROR_STATE, "Desired purchase quantity not reached." );
-			enableDisplay();
-		}
 	}
 
 	/**
