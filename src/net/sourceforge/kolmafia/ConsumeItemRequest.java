@@ -72,6 +72,12 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int UNROLLING_PIN = 874;
 	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final int CLOCKWORK_CHEF = 1112;
+	private static final int PURPLE = 1412;
+	private static final int GREEN = 1413;
+	private static final int ORANGE = 1414;
+	private static final int RED = 1415;
+	private static final int BLUE = 1416;
+	private static final int BLACK = 1417;
 
 	private static final int GIFT1 = 1167;
 	private static final int GIFT2 = 1168;
@@ -395,6 +401,22 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "ironically" ) != -1 )
 			{
 				client.processResult( itemUsed.getInstance( -1 ) );
+				return;
+			}
+			break;
+
+		case PURPLE:
+		case GREEN:
+		case ORANGE:
+		case RED:
+		case BLUE:
+		case BLACK:
+			// "Your mouth is still cold from the last snowcone you
+			// ate.	 Try again later."
+			if ( responseText.indexOf( "Try again later" ) != -1 )
+			{
+				client.cancelRequest();
+				updateDisplay( ERROR_STATE, "Your mouth is too cold." );
 				return;
 			}
 			break;
