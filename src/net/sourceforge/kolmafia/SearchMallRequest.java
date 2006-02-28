@@ -166,7 +166,12 @@ public class SearchMallRequest extends KoLRequest
 			shopMatcher.find();
 
 			int shopID = Integer.parseInt( shopMatcher.group(2) );
-			String shopName = shopMatcher.group(1);
+
+			// Translate the shop name to its unicode form so
+			// it can be properly rendered.  In the process,
+			// also handle character entities mangled by KoL.
+
+			String shopName = RequestEditorKit.getUnicode( shopMatcher.group(1).replaceAll( "[ ]+;", ";" ) );
 
 			Pattern limitPattern = Pattern.compile( "Limit ([\\d,]+) /" );
 

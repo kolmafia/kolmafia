@@ -523,6 +523,26 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
+	public static final String getEntities( String unicodeVersion )
+	{
+		String entityVersion = unicodeVersion;
+
+		for ( int i = 0; i < UNICODE_TABLE.length; ++i )
+			entityVersion = entityVersion.replaceAll( UNICODE_TABLE[i][1], UNICODE_TABLE[i][0] );
+
+		return entityVersion;
+	}
+
+	public static final String getUnicode( String entityVersion )
+	{
+		String unicodeVersion = entityVersion;
+
+		for ( int i = 0; i < UNICODE_TABLE.length; ++i )
+			unicodeVersion = unicodeVersion.replaceAll( UNICODE_TABLE[i][0], UNICODE_TABLE[i][1] );
+
+		return unicodeVersion;
+	}
+
 	/**
 	 * Utility method which converts the given text into a form which
 	 * can be displayed properly in a <code>JEditorPane</code>.  This
@@ -584,8 +604,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// handled by the mini browser, so convert them all to
 		// UNICODE characters using the table.
 
-		for ( int i = 0; i < UNICODE_TABLE.length; ++i )
-			displayHTML = displayHTML.replaceAll( UNICODE_TABLE[i][0], UNICODE_TABLE[i][1] );
+		displayHTML = getUnicode( displayHTML );
 
 		// The last thing to worry about is the problems in
 		// submits that appear before the rest of the form data.
