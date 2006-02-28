@@ -298,7 +298,7 @@ public class RequestFrame extends KoLFrame
 
 			// Only record raw mini-browser requests
 			if ( client != null && request.getClass() == KoLRequest.class )
-				client.getMacroStream().println( location );
+				client.getMacroStream().println( client.prunePasswordHash( location ) );
 
 			(new DisplayRequestThread( request )).start();
 		}
@@ -456,7 +456,10 @@ public class RequestFrame extends KoLFrame
 				visitedLocations.remove( currentLocation );
 
 			visitedLocations.add( request );
-			locationField.setText( request.getURLString() );
+			String url = request.getURLString();
+			if ( client != null )
+				url = client.prunePasswordHash( url );
+			locationField.setText( url );
 			currentLocation = visitedLocations.size();
 
 			mainBuffer.append( getDisplayHTML( lastResponseText ) );
@@ -577,8 +580,7 @@ public class RequestFrame extends KoLFrame
 		{
 			KoLAdventure adventure = AdventureDatabase.getAdventure( locationField.getText() );
 			KoLRequest request = extractRequest( adventure == null ? locationField.getText() : adventure.getRequest().getURLString() );
-
-			client.getMacroStream().println( request.getURLString() );
+			client.getMacroStream().println( client.prunePasswordHash( request.getURLString() ) );
 			refresh( request );
 		}
 	}
