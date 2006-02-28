@@ -51,6 +51,7 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.Map;
 import java.util.TreeMap;
 
 import java.io.File;
@@ -72,7 +73,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	// Overkill Unicode table borrowed from HTMLParser
 	// http://htmlparser.sourceforge.net/
 
-	private static final String [][] ORIGINAL_UNICODE_TABLE =
+	private static final String [][] UNICODE_TABLE =
 	{
 		// Portions (c) International Organization for Standardization 1986
 		// Permission to copy in any form is granted for use with
@@ -416,34 +417,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{ "&euro;",	"\u20ac" }  // euro sign, U+20AC NEW
 	};
 
-        // Pruned version
+	private static Map entities = new TreeMap();
+	private static Map unicodes = new TreeMap();
 
-        // The original table has 255 character entities in it.  The current
-        // algorithm for translating in either direction uses a replaceAll for
-        // every one of those. Considering how often KoLmafia does this
-        // translation, performance is abysmal with the full table.
-
-        // For now, here is a table containing just the "important" character
-        // entities needing translation. A better solution would be to keep the
-        // full table but improve the translation algorithm to not be a
-        // performance hog.
-
-	private static final String [][] UNICODE_TABLE =
+	static
 	{
-		// Portions (c) International Organization for Standardization 1986
-		// Permission to copy in any form is granted for use with
-		// conforming SGML systems and applications as defined in
-		// ISO 8879, provided this notice is included in all copies.
-
-		{ "&eacute;",	"\u00e9" }, // latin small letter e with acute, U+00E9 ISOlat1
-		{ "&ntilde;",	"\u00f1" }, // latin small letter n with tilde, U+00F1 ISOlat1
-		{ "&trade;",	"\u2122" }, // trade mark sign, U+2122 ISOnum
-		{ "&quot;",	"\"" }, // quotation mark = APL quote, U+0022 ISOnum
-		{ "&amp;",	"\u0026" }, // ampersand, U+0026 ISOnum
-		{ "&lt;",	"\u003c" }, // less-than sign, U+003C ISOnum
-		{ "&gt;",	"\u003e" }, // greater-than sign, U+003E ISOnum
-		{ "&mdash;",	"\u2014" }, // em dash, U+2014 ISOpub
-	};
+		for ( int i = 0; i < UNICODE_TABLE.length; ++i )
+		{
+			String entity = UNICODE_TABLE[i][0];
+			Character unicode = new Character( UNICODE_TABLE[i][1].charAt( 0 ) );
+			entities.put( unicode, entity );
+			unicodes.put( entity, unicode );
+		}
+	}
 
 	private static TreeMap images = new TreeMap();
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
@@ -554,22 +540,96 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static final String getEntities( String unicodeVersion )
 	{
-		String entityVersion = unicodeVersion;
+		StringBuffer entityVersion = null;
 
-		for ( int i = 0; i < UNICODE_TABLE.length; ++i )
-			entityVersion = entityVersion.replaceAll( UNICODE_TABLE[i][1], UNICODE_TABLE[i][0] );
+		// Iterate over all the characters in the string looking for unicode
+		int start = 0;
+		for ( int i = 0; i < unicodeVersion.length(); ++i )
+		{
+			Character unicode = new Character( unicodeVersion.charAt( i ) );
+			String entity = (String)entities.get( unicode );
 
-		return entityVersion;
+			// If we don't have a translation, move along in string
+			if ( entity == null )
+				continue;
+
+			// If we don't have a string buffer, make one
+			if ( entityVersion == null )
+				entityVersion = new StringBuffer();
+
+			// Append prefix
+			if ( i > start )
+				entityVersion.append( unicodeVersion.substring( start, i ) );
+
+			// Insert entity
+			entityVersion.append( entity );
+
+			// Start new prefix
+			start = i + 1;
+		}
+
+		// If we didn't find anything, return original string
+		if ( start == 0 )
+			return unicodeVersion;
+
+		// Append suffix
+		if ( start < unicodeVersion.length() )
+			entityVersion.append( unicodeVersion.substring( start ) );
+
+		return entityVersion.toString();
 	}
 
 	public static final String getUnicode( String entityVersion )
 	{
-		String unicodeVersion = entityVersion;
+		int index = entityVersion.indexOf( "&" );
 
-		for ( int i = 0; i < UNICODE_TABLE.length; ++i )
-			unicodeVersion = unicodeVersion.replaceAll( UNICODE_TABLE[i][0], UNICODE_TABLE[i][1] );
+		// If there are no character entities, return original string
+		if ( index < 0 )
+			return entityVersion;
 
-		return unicodeVersion;
+		// Otherwise, make a StringBuffer to create unicode version of input
+		StringBuffer unicodeVersion = new StringBuffer();
+		int start = 0;
+
+		// Replace all entities
+		while ( index >= 0 )
+		{
+			// Find the end of the character entity
+			int semi = entityVersion.indexOf( ";", index + 1 );
+
+			// If no semicolon, bogus, but quit now
+			if ( semi < 0 )
+				break;
+
+			// Copy in prefix
+			if ( index > start )
+				unicodeVersion.append( entityVersion.substring( start, index ) );
+
+			// Replace entity with unicode
+			String entity = entityVersion.substring( index, semi + 1 );
+			Character unicode = (Character)unicodes.get( entity );
+
+			// Put in original entity if we don't have a translation
+			if ( unicode == null )
+				unicodeVersion.append( entity );
+			else
+				unicodeVersion.append( unicode.charValue() );
+
+			// Skip past entity
+			start = semi + 1;
+			index = entityVersion.indexOf( "&", start );
+		}
+
+		// If we never actually found an entity, return the original string
+		if ( start == 0 )
+			return entityVersion;
+
+		// Append suffix
+		if ( start < entityVersion.length() )
+			unicodeVersion.append( entityVersion.substring( start ) );
+
+		// Return the new string
+		return unicodeVersion.toString();
 	}
 
 	/**
