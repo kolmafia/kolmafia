@@ -100,7 +100,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected Properties LOCAL_SETTINGS = new Properties();
 
 	protected int currentState;
-	protected boolean permitContinue;
+	private boolean permitContinue;
 
 	protected int [] initialStats = new int[3];
 	protected int [] fullStatGain = new int[3];
@@ -201,7 +201,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void updateDisplay( int state, String message )
 	{
-		if ( state != NORMAL_STATE )
+		if ( this.currentState != ABORT_STATE && state != NORMAL_STATE )
 			this.currentState = state;
 
 		if ( !message.equals( "" ) )
@@ -229,8 +229,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void enableDisplay()
 	{
-		updateDisplay( permitsContinue() ? ENABLE_STATE : ERROR_STATE, "" );
-		resetContinueState();
+		this.currentState = permitsContinue() ? ENABLE_STATE : ERROR_STATE;
+		updateDisplay( this.currentState, "" );
 	}
 
 	/**
@@ -1018,7 +1018,13 @@ public abstract class KoLmafia implements KoLConstants
 		else if ( technique != MPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.GALAKTIK )
 		{
 			if ( !KoLCharacter.getInventory().contains( new AdventureResult( technique.toString(), 0 ) ) )
-				return;
+			{
+				// Allow for the possibility that the player can
+				// auto-purchase the item from the mall.
+
+				if ( !KoLCharacter.canInteract() || !StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+					return;
+			}
 		}
 
 		if ( technique instanceof HPRestoreItemList.HPRestoreItem )
@@ -2197,10 +2203,17 @@ public abstract class KoLmafia implements KoLConstants
 		// refresh the lists at the very end.
 
 		KoLCharacter.refreshCalculatedLists();
+
 		if ( purchaseCount == maxPurchases || maxPurchases == Integer.MAX_VALUE )
+		{
 			updateDisplay( NORMAL_STATE, "Purchases complete." );
+			enableDisplay();
+		}
 		else
+		{
 			updateDisplay( ERROR_STATE, "Desired purchase quantity not reached." );
+			enableDisplay();
+		}
 	}
 
 	/**
