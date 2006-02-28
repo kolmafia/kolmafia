@@ -268,17 +268,41 @@ public class ItemStorageRequest extends SendMessageRequest
 		super.run();
 
 		List storageContents = KoLCharacter.getStorage();
+		Matcher storageMatcher = null;
+
+		// Compute the number of pulls remaining based
+		// on the response text.
+
+		if ( !existingFrames.isEmpty() )
+		{
+			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+			existingFrames.toArray( frames );
+
+			KoLFrame desiredFrame = null;
+				for ( int i = 0; i < frames.length; ++i )
+					if ( frames[i] instanceof HagnkStorageFrame )
+						desiredFrame = frames[i];
+
+			storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
+			if ( storageMatcher.find() )
+				desiredFrame.setTitle( storageMatcher.group() + " more pulls remaining" );
+			else if ( KoLCharacter.canInteract() )
+				desiredFrame.setTitle( "Unlimited pulls remaining" );
+			else if ( KoLCharacter.isHardcore() )
+				desiredFrame.setTitle( "You are not yet done with hardcore" );
+			else
+				desiredFrame.setTitle( "No more pulls remaining" );
+		}
+
+		// Start with an empty list
 
 		if ( !storageContents.isEmpty() )
 			return;
 
-		// Start with an empty list
-
-		Matcher storageMatcher = Pattern.compile( "name=\"whichitem1\".*?</select>" ).matcher( responseText );
-
 		// If there's nothing inside storage, return
 		// because there's nothing to parse.
 
+		storageMatcher = Pattern.compile( "name=\"whichitem1\".*?</select>" ).matcher( responseText );
 		if ( !storageMatcher.find() )
 			return;
 
@@ -306,30 +330,6 @@ public class ItemStorageRequest extends SendMessageRequest
 				e.printStackTrace( KoLmafia.getLogStream() );
 				e.printStackTrace();
 			}
-		}
-
-		// Compute the number of pulls remaining based
-		// on the response text.
-
-		if ( !existingFrames.isEmpty() )
-		{
-			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-			existingFrames.toArray( frames );
-
-			KoLFrame desiredFrame = null;
-				for ( int i = 0; i < frames.length; ++i )
-					if ( frames[i] instanceof HagnkStorageFrame )
-						desiredFrame = frames[i];
-
-			storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
-			if ( storageMatcher.find() )
-				desiredFrame.setTitle( storageMatcher.group() + " more pulls remaining" );
-			else if ( KoLCharacter.canInteract() )
-				desiredFrame.setTitle( "Unlimited pulls remaining" );
-			else if ( KoLCharacter.isHardcore() )
-				desiredFrame.setTitle( "You are not yet done with hardcore" );
-			else
-				desiredFrame.setTitle( "No more pulls remaining" );
 		}
 	}
 
