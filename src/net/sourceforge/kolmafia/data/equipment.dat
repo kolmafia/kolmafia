@@ -191,7 +191,6 @@ automatic catapult	150	Mox: 60	2
 balloon sword	50	Mus: 10
 bamboo bokuto	100	Mus: 35
 basic meat crossbow	40	Mox: 5	2
-basic meat foon	50	Mus: 10
 basic meat spork	45	Mus: 7
 basic meat staff	40	Mus: 5	2
 basic meat sword	40	Mus: 5
@@ -229,7 +228,6 @@ eXtreme meat crossbow	60	Mox: 15	2
 eXtreme meat staff	60	Mus: 15	2
 eXtreme meat sword	60	Mus: 15	2
 fetus-smashing club	200	Mus: 85	2
-foon	30	none
 frozen nunchaku	80	Mus: 25	2
 giant discarded plastic fork	155	Mus: 62	3
 giant needle	150	Mus: 60	2
@@ -313,6 +311,7 @@ yak whip	20	none
 
 anniversary balloon	0	none
 arrow'd heart balloon	0	none
+basic meat foon	0	Mus: 10
 box	0	none
 box-in-the-box	0	none
 box-in-the-box-in-the-box	0	none
@@ -324,6 +323,7 @@ Dyspepsi-Cola shield	0	none
 easter egg balloon	0	Mys: 35
 enchanted brass knuckles	0	Mys: 10
 flaming talons	0	Mys: 30
+foon	0	none
 giant stuffed bugbear	0	none
 Glass Balls of the Goblin King	0	Mys: 20
 gnauga hide buckler	0	Mys: 30
