@@ -142,7 +142,7 @@ public class MuseumManager extends StaticEntity
 
 		for ( int i = 1; i < headers.length; ++i )
 		{
-			request.addFormField( "newname" + i, headers[i] );
+			request.addFormField( "newname" + i, RequestEditorKit.getEntities( headers[i] ) );
 			if ( deleted[i] )
 				request.addFormField( "delete" + i, "on" );
 		}
@@ -233,7 +233,7 @@ public class MuseumManager extends StaticEntity
 				for ( int i = headers.size(); i < currentShelf; ++i )
 					headers.add( "(Deleted Shelf)" );
 
-				headers.add( shelfMatcher.group(2) );
+				headers.add( RequestEditorKit.getUnicode( shelfMatcher.group(2) ) );
 			}
 		}
 
