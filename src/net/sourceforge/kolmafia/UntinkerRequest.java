@@ -70,7 +70,6 @@ public class UntinkerRequest extends KoLRequest
 		{
 			updateDisplay( NORMAL_STATE, "Visiting the Untinker..." );
 			super.run();
-			updateDisplay( NORMAL_STATE, "Back from Untinker." );
 			return;
 		}
 
@@ -103,14 +102,17 @@ public class UntinkerRequest extends KoLRequest
 		// If they do not have a screwdriver, tell them they
 		// need to complete the untinker quest.
 
-		if ( questCompleter.responseText.indexOf( "action" ) == -1 && !KoLCharacter.getInventory().contains( SCREWDRIVER ) )
+		if ( questCompleter.responseText.indexOf( "<select name=whichitem>" ) == -1 )
 		{
 			// If the are in a muscle sign, this is a trivial task;
 			// just have them visit Innabox.
 
 			if ( KoLCharacter.inMuscleSign() )
 			{
-				KoLRequest retrieve = new KoLRequest( client, "knoll.php?place=smith", true );
+				KoLRequest retrieve = new KoLRequest( client, "knoll.php", true );
+				retrieve.run();
+
+				retrieve = new KoLRequest( client, "knoll.php?place=smith", true );
 				retrieve.run();
 			}
 			else
@@ -149,7 +151,9 @@ public class UntinkerRequest extends KoLRequest
 		// Visiting the untinker automatically deducts a
 		// screwdriver from the inventory.
 
-		KoLCharacter.processResult( SCREWDRIVER );
+		if ( KoLCharacter.getInventory().contains( SCREWDRIVER ) )
+			KoLCharacter.processResult( SCREWDRIVER );
+
 		updateDisplay( NORMAL_STATE, "Untinkering an item..." );
 
 		super.run();
