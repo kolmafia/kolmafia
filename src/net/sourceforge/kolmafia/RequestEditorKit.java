@@ -541,9 +541,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	public static final String getEntities( String unicodeVersion )
 	{
 		// Iterate over all the characters in the string looking for unicode
+		int length = unicodeVersion.length();
 		StringBuffer entityVersion = null;
 		int start = 0;
-		int length = unicodeVersion.length();
 
 		for ( int i = 0; i < length; ++i )
 		{
@@ -574,7 +574,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			return unicodeVersion;
 
 		// Append suffix
-		if ( start < unicodeVersion.length() )
+		if ( start < length )
 			entityVersion.append( unicodeVersion.substring( start ) );
 
 		return entityVersion.toString();
@@ -602,6 +602,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( semi < 0 )
 				break;
 
+			// Replace entity with unicode
+			String entity = entityVersion.substring( index, semi + 1 );
+			Character unicode = (Character)unicodes.get( entity );
+
+			// If we don't have a translation, skip past entity
+			if ( unicode == null )
+			{
+				index = entityVersion.indexOf( "&", index + 1 );
+				continue;
+			}
+
 			// If we don't have a string buffer, make one
 			if ( unicodeVersion == null )
 				unicodeVersion = new StringBuffer();
@@ -610,22 +621,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( index > start )
 				unicodeVersion.append( entityVersion.substring( start, index ) );
 
-			// Replace entity with unicode
-			String entity = entityVersion.substring( index, semi + 1 );
-			Character unicode = (Character)unicodes.get( entity );
-
-			// Put in original entity if we don't have a translation
-			if ( unicode == null )
-				unicodeVersion.append( entity );
-			else
-				unicodeVersion.append( unicode.charValue() );
+			// Insert unicode
+			unicodeVersion.append( unicode.charValue() );
 
 			// Skip past entity
 			start = semi + 1;
 			index = entityVersion.indexOf( "&", start );
 		}
 
-		// If we never actually found an entity, return the original string
+		// If we never translated an entity, return the original string
 		if ( start == 0 )
 			return entityVersion;
 
