@@ -148,7 +148,6 @@ public class AdventureResult implements Comparable, KoLConstants
 	{
 		this( TradeableItemDatabase.getItemName( itemID ), count, false );
 		this.itemID = itemID;
-		validateName();
 	}
 
 	/**
