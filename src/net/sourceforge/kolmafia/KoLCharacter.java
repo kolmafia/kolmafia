@@ -1694,8 +1694,12 @@ public abstract class KoLCharacter extends StaticEntity
 				}
 				else if ( dictionary.getCount() == -1 )
 				{
-					battleSkillIDs.remove( 1 );
-					battleSkillNames.remove( 1 );
+					int index = battleSkillIDs.indexOf( "item0536" );
+					if ( index != -1 )
+					{
+						battleSkillIDs.remove( index );
+						battleSkillNames.remove( index );
+					}
 				}
 
 				break;
@@ -1712,8 +1716,12 @@ public abstract class KoLCharacter extends StaticEntity
 				}
 				else if ( dictionary.getCount() == -1 )
 				{
-					battleSkillIDs.remove( 1 );
-					battleSkillNames.remove( 1 );
+					int index = battleSkillIDs.indexOf( "item1316" );
+					if ( index != -1 )
+					{
+						battleSkillIDs.remove( index );
+						battleSkillNames.remove( index );
+					}
 				}
 
 				break;
