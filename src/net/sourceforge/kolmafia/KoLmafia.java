@@ -1344,7 +1344,7 @@ public abstract class KoLmafia implements KoLConstants
 				{
 					// Special processing for adventures.
 
-					if ( request instanceof KoLAdventure )
+					if ( currentState != ERROR_STATE && request instanceof KoLAdventure )
 					{
 						// If we canceled the iteration without
 						// generating a real error, permit
