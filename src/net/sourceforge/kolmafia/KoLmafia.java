@@ -286,19 +286,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Retrieve the character sheet first since we need things like
-		// zodiac sign before we refresh concoctions
-
-		(new CharsheetRequest( this )).run();
-		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
-
-		if ( !permitsContinue() )
-		{
-			deinitialize();
-			enableDisplay();
-			return;
-		}
-
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
@@ -311,7 +298,22 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Update the player's account settings
+		// Retrieve the character sheet next -- because concoctions
+		// are refreshed at the end, it's more important to do this
+		// after so that you have updated dictionary data.
+
+		(new CharsheetRequest( this )).run();
+		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
+
+		if ( !permitsContinue() )
+		{
+			deinitialize();
+			enableDisplay();
+			return;
+		}
+
+		// Update the player's account settings (including time-zone
+		// and current autosell mode).
 
 		(new AccountRequest( StaticEntity.getClient() )).run();
 
