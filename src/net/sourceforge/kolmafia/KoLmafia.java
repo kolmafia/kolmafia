@@ -506,8 +506,22 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		String trimResult = result.trim();
 
-		if ( this instanceof KoLmafiaCLI || commandBuffer != null )
+		if ( this instanceof KoLmafiaCLI )
 			updateDisplay( NORMAL_STATE, trimResult );
+
+		// Do not update the display if you're running in GUI
+		// mode -- however, update the command buffer if there
+		// is one so that the GCLI sees all the results.
+
+		if ( commandBuffer != null )
+		{
+			StringBuffer colorBuffer = new StringBuffer();
+			colorBuffer.append( "<font color=black>" );
+			colorBuffer.append( trimResult );
+			colorBuffer.append( "</font><br>" );
+			colorBuffer.append( LINE_BREAK );
+			commandBuffer.append( colorBuffer.toString() );
+		}
 
 		// Because of the simplified parsing, there's a chance that
 		// the "gain" acquired wasn't a subpoint (in other words, it
