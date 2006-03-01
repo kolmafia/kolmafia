@@ -166,8 +166,8 @@ public class UntinkerRequest extends KoLRequest
 			return;
 		}
 
-		KoLCharacter.processResult( AdventureRequest.ABRIDGED );
-		KoLCharacter.processResult( FightRequest.DICTIONARY1 );
-		KoLCharacter.processResult( AdventureRequest.BRIDGE.getNegation() );
+		client.processResult( AdventureRequest.ABRIDGED );
+		client.processResult( FightRequest.DICTIONARY1 );
+		client.processResult( AdventureRequest.BRIDGE.getNegation() );
 	}
 }
