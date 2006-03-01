@@ -390,9 +390,7 @@ public class RequestFrame extends KoLFrame
 				{
 					client.setCurrentRequest( request );
 					lastResponseText = request.responseText;
-
 					displayRequest();
-					updateClient();
 				}
 				else
 				{
@@ -403,8 +401,15 @@ public class RequestFrame extends KoLFrame
 					mainBuffer.clearBuffer();
 					mainBuffer.append( "Redirected to unknown page: &lt;" + request.redirectLocation + "&gt;" );
 					lastResponseText = "";
+					return;
 				}
 			}
+
+			// Have the client update occur outside of the
+			// synchronization block so that the appearance
+			// of a GUI lockup doesn't happen.
+
+			updateClient();
 		}
 
 		private boolean cloverCheckNeeded()
