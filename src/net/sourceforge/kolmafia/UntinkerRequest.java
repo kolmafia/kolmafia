@@ -155,8 +155,11 @@ public class UntinkerRequest extends KoLRequest
 			KoLCharacter.processResult( SCREWDRIVER );
 
 		updateDisplay( NORMAL_STATE, "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
+
 		super.run();
 		client.processResult( new AdventureResult( itemID, -1 ) );
+
+		updateDisplay( NORMAL_STATE, "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) );
 	}
 
 	protected void processResults()
