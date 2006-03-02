@@ -639,7 +639,7 @@ public class AdventureFrame extends KoLFrame
 			currentlyBuying = false;
 
 			client.enableDisplay();
-			resultsList.validate();
+			resultsList.updateUI();
 		}
 
 		public void requestFocus()
