@@ -325,11 +325,12 @@ public class KoLmafiaCLI extends KoLmafia
 		StaticEntity.getClient().disableDisplay();
 		StaticEntity.getClient().resetContinueState();
 
-		String [] separateLines = line.split( "\\s*;\\s*" );
-		if ( separateLines.length > 1 )
+		if ( line.indexOf( ";" ) != -1 )
 		{
-			for ( int i = 0; i < separateLines.length; ++i )
-				executeLine( separateLines[i] );
+			String[] separateLines = line.split( ";" );
+			for( int i = 0; i < separateLines.length; ++i)
+				if( separateLines[i].length() > 0 )
+					executeLine( separateLines[i] );
 
 			if ( shouldEnable )
 				StaticEntity.getClient().enableDisplay();
