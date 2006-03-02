@@ -473,7 +473,8 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			try
 			{
-				return df.parse( itemLimit.getText() ).intValue();
+				return itemLimit.getText().trim().equals( "" ) ? 0 :
+					df.parse( itemLimit.getText().trim() ).intValue();
 			}
 			catch ( Exception e )
 			{
