@@ -219,7 +219,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "sortAdventures", "false" );
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
 		ensureProperty( "toolbarPosition", "1" );
-		ensureProperty( "useClockworkBoxes", "false" );
 		ensureProperty( "userInterfaceMode", "0" );
 		ensureProperty( "useSystemTrayIcon", "false" );
 		ensureProperty( "usePopupContacts", "0" );

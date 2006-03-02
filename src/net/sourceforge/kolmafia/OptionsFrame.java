@@ -268,10 +268,6 @@ public class OptionsFrame extends KoLFrame
 
 			{ "cloverProtectActive", "Guard against accidental clover usage" },
 			{ "autoSatisfyChecks", "Automatically satisfy conditions on check" },
-
-			{ "autoRepairBoxes", "Automatically repair box servants on explosion" },
-			{ "useClockworkBoxes", "Use clockwork box servants when auto-repairing" },
-			{ "createWithoutBoxServants", "Allow cooking/mixing without box servants" }
 		};
 
 		/**

@@ -569,7 +569,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant )
 	{
-		boolean useClockwork = getProperty( "useClockworkBoxes" ).equals( "true" );
 		// First, check to see if a box servant is available
 		// for usage, either normally, or through some form
 		// of creation.  This can be done by consulting the
@@ -577,11 +576,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( KoLCharacter.hasItem( servant, false ) )
 			AdventureDatabase.retrieveItem( servant );
-		else if ( useClockwork && KoLCharacter.hasItem( clockworkServant, false ) )
+		else if ( KoLCharacter.hasItem( clockworkServant, false ) )
 			AdventureDatabase.retrieveItem( clockworkServant );
 		else if ( KoLCharacter.hasItem( servant, true ) )
 			AdventureDatabase.retrieveItem( servant );
-		else if ( useClockwork && KoLCharacter.hasItem( clockworkServant, true ) )
+		else if ( KoLCharacter.hasItem( clockworkServant, true ) )
 			AdventureDatabase.retrieveItem( clockworkServant );
 
 		if ( servant.getCount( KoLCharacter.getInventory() ) < 1 )

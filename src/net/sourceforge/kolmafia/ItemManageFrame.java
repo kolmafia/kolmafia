@@ -291,7 +291,7 @@ public class ItemManageFrame extends KoLFrame
 				optionPanel.add( filters[i] );
 
 			elementList.setCellRenderer(
-				AdventureResult.getAutoSellCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true, true, true ) );
+				AdventureResult.getAutoSellCellRenderer( true, true, true, true, true ) );
 		}
 
 		protected Object [] getDesiredItems( String message )
@@ -740,11 +740,15 @@ public class ItemManageFrame extends KoLFrame
 				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
 
-			JCheckBox [] filters = new JCheckBox[4];
+			JCheckBox [] filters = new JCheckBox[6];
+
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
 			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
 			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
-			filters[3] = new UseClosetCheckbox();
+
+			filters[3] = new CreateSettingCheckbox( "Allow closet", "showClosetDrivenCreations" );
+			filters[4] = new CreateSettingCheckbox( "Allow no-box", "createWithoutBoxServants" );
+			filters[5] = new CreateSettingCheckbox( "Auto-repair", "autoRepairBoxes" );
 
 			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
@@ -753,17 +757,21 @@ public class ItemManageFrame extends KoLFrame
 				AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
-		private class UseClosetCheckbox extends JCheckBox implements ActionListener
+		private class CreateSettingCheckbox extends JCheckBox implements ActionListener
 		{
-			public UseClosetCheckbox()
+			private String setting;
+
+			public CreateSettingCheckbox( String title, String setting )
 			{
-				super( "Use closet", getProperty( "showClosetDrivenCreations" ).equals( "true" ) );
+				super( title, getProperty( setting ).equals( "true" ) );
+
+				this.setting = setting;
 				addActionListener( this );
 			}
 
 			public void actionPerformed( ActionEvent e )
 			{
-				setProperty( "showClosetDrivenCreations", String.valueOf( isSelected() ) );
+				setProperty( setting, String.valueOf( isSelected() ) );
 				ConcoctionsDatabase.refreshConcoctions();
 			}
 		}
