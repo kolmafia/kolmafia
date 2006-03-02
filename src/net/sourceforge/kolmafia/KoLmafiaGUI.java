@@ -438,13 +438,19 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void makeUntinkerRequest()
 	{
-		AdventureResult currentItem;
 		List untinkerItems = new ArrayList();
 
 		for ( int i = 0; i < KoLCharacter.getInventory().size(); ++i )
 		{
-			currentItem = (AdventureResult) KoLCharacter.getInventory().get(i);
-			if ( ConcoctionsDatabase.getMixingMethod( currentItem.getItemID() ) == ItemCreationRequest.COMBINE )
+			AdventureResult currentItem = (AdventureResult) KoLCharacter.getInventory().get(i);
+			int itemID = currentItem.getItemID();
+
+			// Ignore silly fairy gravy + meat from yesterday recipe
+			if ( itemID == ItemCreationRequest.MEAT_STACK )
+				continue;
+
+			// Otherwise, accept any COMBINE recipe
+			if ( ConcoctionsDatabase.getMixingMethod( itemID ) == ItemCreationRequest.COMBINE )
 				untinkerItems.add( currentItem );
 		}
 
