@@ -296,7 +296,7 @@ public class AdventureRequest extends KoLRequest
 
 				if ( responseText.indexOf( "You acquire an item" ) == -1 && responseText.indexOf( "You gain" ) == -1 )
 				{
-					updateDisplay( ERROR_STATE, "Adventures aborted!" );
+					updateDisplay( ERROR_STATE, "Adventures aborted (empty response from server)." );
 					this.adventuresUsed = 0;
 					return;
 				}

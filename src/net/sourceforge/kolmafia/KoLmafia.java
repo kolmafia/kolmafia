@@ -489,6 +489,7 @@ public abstract class KoLmafia implements KoLConstants
 		fullStatGain[1] = 0;
 		fullStatGain[2] = 0;
 
+		tally.add( new AdventureResult( AdventureResult.ADV ) );
 		processResult( new AdventureResult( AdventureResult.MEAT ) );
 		processResult( new AdventureResult( AdventureResult.SUBSTATS ) );
 		processResult( new AdventureResult( AdventureResult.DIVIDER ) );
@@ -658,6 +659,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( result.isStatusEffect() )
 			AdventureResult.addResultToList( recentEffects, result );
+		else if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
+			AdventureResult.addResultToList( tally, result.getNegation() );
+
 		else if ( result.isItem() || resultName.equals( AdventureResult.SUBSTATS ) || resultName.equals( AdventureResult.MEAT ) )
 		{
 			if ( shouldTally )
@@ -672,14 +676,14 @@ public abstract class KoLmafia implements KoLConstants
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
 
-		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() >= 2 )
+		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() >= 3 )
 		{
 			fullStatGain[0] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() ) - initialStats[0];
 			fullStatGain[1] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() ) - initialStats[1];
 			fullStatGain[2] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() ) - initialStats[2];
 
-			if ( tally.size() > 2 )
-				tally.set( 2, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
+			if ( tally.size() > 3 )
+				tally.set( 3, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
 			else
 				tally.add( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
 		}
@@ -925,7 +929,9 @@ public abstract class KoLmafia implements KoLConstants
 			if ( ((Number)currentMethod.invoke( null, empty )).intValue() >= needed )
 				return true;
 
+			int last = -1;
 			int current = -1;
+
 			resetContinueState();
 
 			// First, attempt to recover using the appropriate script, if it exists.
@@ -935,13 +941,18 @@ public abstract class KoLmafia implements KoLConstants
 			// If there is no change, it exists the loop.
 
 			String scriptPath = settings.getProperty( scriptProperty );
+
 			if ( !scriptPath.trim().equals( "" ) )
 			{
-				while ( permitsContinue() && ((Number)currentMethod.invoke( null, empty )).intValue() < needed &&
-					current != ((Number)currentMethod.invoke( null, empty )).intValue() && currentState != ABORT_STATE )
+				last = -1;
+				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+
+				while ( permitsContinue() && current < needed && last != current && currentState != ABORT_STATE )
 				{
-					current = ((Number)currentMethod.invoke( null, empty )).intValue();
+					last = current;
+					resetContinueState();
 					DEFAULT_SHELL.executeLine( scriptPath );
+					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 				}
 			}
 			else
@@ -964,15 +975,17 @@ public abstract class KoLmafia implements KoLConstants
 				for ( int i = 0; i < totalRestores; ++i )
 				{
 					currentTechnique = getMethod.invoke( null, new Integer [] { new Integer(i) } );
+
 					if ( restoreSetting.indexOf( currentTechnique.toString() ) != -1 )
 					{
-						current = -1;
-						while ( ((Number)currentMethod.invoke( null, empty )).intValue() < needed &&
-							current != ((Number)currentMethod.invoke( null, empty )).intValue() && currentState != ABORT_STATE )
+						last = -1;
+						current = ((Number)currentMethod.invoke( null, empty )).intValue();
+
+						while ( current < needed && last != current && currentState != ABORT_STATE )
 						{
-							current = ((Number)currentMethod.invoke( null, empty )).intValue();
-							resetContinueState();
+							last = current;
 							recoverOnce( currentTechnique );
+							current = ((Number)currentMethod.invoke( null, empty )).intValue();
 						}
 					}
 				}
@@ -981,7 +994,7 @@ public abstract class KoLmafia implements KoLConstants
 			// Fall-through check, just in case you've reached the
 			// desired value.
 
-			if ( ((Number)currentMethod.invoke( null, empty )).intValue() >= needed && currentState != ABORT_STATE )
+			if ( current >= needed && currentState != ABORT_STATE )
 			{
 				updateDisplay( NORMAL_STATE, "Auto-recovery complete." );
 				resetContinueState();
@@ -989,9 +1002,9 @@ public abstract class KoLmafia implements KoLConstants
 			}
 
 			// Now you know for certain that you did not reach the
-			// desired value.  Report an error message.
+			// desired value.  There will be an error message that
+			// is left over from previous attempts -- leave it.
 
-			updateDisplay( ERROR_STATE, "Auto-recovery failed." );
 			cancelRequest();
 			return false;
 		}
@@ -1032,6 +1045,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	private final void recoverOnce( Object technique )
 	{
+		resetContinueState();
+
 		if ( technique == null )
 			return;
 

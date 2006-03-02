@@ -1373,285 +1373,226 @@ public class KoLmafiaASH extends StaticEntity
 
 		result = new ScriptScope( null );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_LOCATION );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_LOCATION ) };
 		result.addFunction( new ScriptExistingFunction( "adventure", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "buy", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "create", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "use", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "eat", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "item_amount", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[1];
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		params[0] = new ScriptType( TYPE_ITEM );
 		result.addFunction( new ScriptExistingFunction( "closet_amount", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[1];
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		params[0] = new ScriptType( TYPE_ITEM );
 		result.addFunction( new ScriptExistingFunction( "museum_amount", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[1];
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		params[0] = new ScriptType( TYPE_ITEM );
 		result.addFunction( new ScriptExistingFunction( "shop_amount", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "storage_amount", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "stash_amount", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "put_closet", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[3];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_INT );
-		params[2] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "put_shop", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "put_stash", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "take_closet", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "take_storage", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "sell_item", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_STRING );
+		params = new ScriptType[] { new ScriptType( TYPE_STRING ) };
 		result.addFunction( new ScriptExistingFunction( "print", new ScriptType( TYPE_VOID ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_zodiac", new ScriptType( TYPE_ZODIAC ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_class", new ScriptType( TYPE_CLASS ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_level", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_hp", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_maxhp", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_mp", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_maxmp", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_STAT );
+		params = new ScriptType[] { new ScriptType( TYPE_STAT ) };
 		result.addFunction( new ScriptExistingFunction( "my_basestat", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_STAT );
+		params = new ScriptType[] { new ScriptType( TYPE_STAT ) };
 		result.addFunction( new ScriptExistingFunction( "my_buffedstat", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_meat", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_closetmeat", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_adventures", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_inebriety", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_SKILL );
+		params = new ScriptType[] { new ScriptType( TYPE_SKILL ) };
 		result.addFunction( new ScriptExistingFunction( "have_skill", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_EFFECT );
+		params = new ScriptType[] { new ScriptType( TYPE_EFFECT ) };
 		result.addFunction( new ScriptExistingFunction( "have_effect", new ScriptType( TYPE_INT ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_SKILL );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_SKILL ) };
 		result.addFunction( new ScriptExistingFunction( "use_skill", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "add_item_condition", new ScriptType( TYPE_VOID ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "can_eat", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "can_drink", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "can_interact", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "trade_hermit", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "trade_bounty_hunter", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "trade_trapper", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "equip", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "unequip", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_familiar", new ScriptType( TYPE_FAMILIAR ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_FAMILIAR );
+		params = new ScriptType[] { new ScriptType( TYPE_FAMILIAR ) };
 		result.addFunction( new ScriptExistingFunction( "equip_familiar", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "council", new ScriptType( TYPE_VOID ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_INT );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
 		result.addFunction( new ScriptExistingFunction( "mind_control", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_name", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "have_chef", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "have_bartender", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_STRING );
+		params = new ScriptType[] { new ScriptType( TYPE_STRING ) };
 		result.addFunction( new ScriptExistingFunction( "cli_execute", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "bounty_hunter_wants", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_BOOLEAN );
+		params = new ScriptType[] { new ScriptType( TYPE_BOOLEAN ) };
 		result.addFunction( new ScriptExistingFunction( "boolean_to_string", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_INT );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
 		result.addFunction( new ScriptExistingFunction( "int_to_string", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_FLOAT );
+		params = new ScriptType[] { new ScriptType( TYPE_FLOAT ) };
 		result.addFunction( new ScriptExistingFunction( "float_to_string", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_ITEM );
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "item_to_string", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_ZODIAC );
+		params = new ScriptType[] { new ScriptType( TYPE_ZODIAC ) };
 		result.addFunction( new ScriptExistingFunction( "zodiac_to_string", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_LOCATION );
+		params = new ScriptType[] { new ScriptType( TYPE_LOCATION ) };
 		result.addFunction( new ScriptExistingFunction( "location_to_string", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_CLASS );
+		params = new ScriptType[] { new ScriptType( TYPE_CLASS ) };
 		result.addFunction( new ScriptExistingFunction( "class_to_string", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_STAT );
+		params = new ScriptType[] { new ScriptType( TYPE_STAT ) };
 		result.addFunction( new ScriptExistingFunction( "stat_to_string", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_SKILL );
+		params = new ScriptType[] { new ScriptType( TYPE_SKILL ) };
 		result.addFunction( new ScriptExistingFunction( "skill_to_string", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_EFFECT );
+		params = new ScriptType[] { new ScriptType( TYPE_EFFECT ) };
 		result.addFunction( new ScriptExistingFunction( "effect_to_string", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_FAMILIAR );
+		params = new ScriptType[] { new ScriptType( TYPE_FAMILIAR ) };
 		result.addFunction( new ScriptExistingFunction( "familiar_to_string", new ScriptType( TYPE_STRING ), params ) );
 
-		params = new ScriptType[1];
-		params[0] = new ScriptType( TYPE_INT );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
 		result.addFunction( new ScriptExistingFunction( "wait", new ScriptType( TYPE_VOID ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "entryway", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "hedgemaze", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "guardians", new ScriptType( TYPE_ITEM ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "chamber", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "nemesis", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "guild", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "gourd", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[0];
+		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "tavern", new ScriptType( TYPE_BOOLEAN ), params ) );
 
-		params = new ScriptType[2];
-		params[0] = new ScriptType( TYPE_INT );
-		params[1] = new ScriptType( TYPE_STRING );
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_STRING ) };
 		result.addFunction( new ScriptExistingFunction( "train_familiar", new ScriptType( TYPE_BOOLEAN ), params ) );
 
 		return result;
@@ -2032,61 +1973,61 @@ public class KoLmafiaASH extends StaticEntity
 					return executeMyFamiliarRequest();
 				else if ( name.equals( "equip_familiar" ) )
 					return executeEquipFamiliarRequest( variables[0].getIntValue() );
-				else if( name.equals( "council" ) )
+				else if ( name.equals( "council" ) )
 					return executeCouncilRequest();
-				else if( name.equals( "mind_control" ) )
+				else if ( name.equals( "mind_control" ) )
 					return executeMindControlRequest( variables[0].getIntValue() );
-				else if( name.equals( "my_name" ) )
+				else if ( name.equals( "my_name" ) )
 					return executeNameRequest();
-				else if( name.equals( "have_chef" ) )
+				else if ( name.equals( "have_chef" ) )
 					return executeChefRequest();
-				else if( name.equals( "have_bartender" ) )
+				else if ( name.equals( "have_bartender" ) )
 					return executeBartenderRequest();
-				else if( name.equals( "cli_execute" ) )
+				else if ( name.equals( "cli_execute" ) )
 					return executeCLIExecuteRequest( variables[0].getStringValue() );
-				else if( name.equals( "bounty_hunter_wants" ) )
+				else if ( name.equals( "bounty_hunter_wants" ) )
 					return executeBountyHunterWantsRequest( variables[0].getIntValue() );
-				else if( name.equals( "boolean_to_string" ) )
+				else if ( name.equals( "boolean_to_string" ) )
 					return executeBooleanToStringRequest( variables[0].getIntValue() );
-				else if( name.equals( "int_to_string" ) )
+				else if ( name.equals( "int_to_string" ) )
 					return executeIntToStringRequest( variables[0].getIntValue() );
-				else if( name.equals( "float_to_string" ) )
+				else if ( name.equals( "float_to_string" ) )
 					return executeFloatToStringRequest( variables[0].getFloatValue() );
-				else if( name.equals( "item_to_string" ) )
+				else if ( name.equals( "item_to_string" ) )
 					return executeItemToStringRequest( variables[0].getIntValue() );
-				else if( name.equals( "zodiac_to_string" ) )
+				else if ( name.equals( "zodiac_to_string" ) )
 					return executeZodiacToStringRequest( variables[0].getIntValue() );
-				else if( name.equals( "location_to_string" ) )
+				else if ( name.equals( "location_to_string" ) )
 					return executeLocationToStringRequest( variables[0].getLocation() );
-				else if( name.equals( "class_to_string" ) )
+				else if ( name.equals( "class_to_string" ) )
 					return executeClassToStringRequest( variables[0].getIntValue() );
-				else if( name.equals( "stat_to_string" ) )
+				else if ( name.equals( "stat_to_string" ) )
 					return executeStatToStringRequest( variables[0].getIntValue() );
-				else if( name.equals( "skill_to_string" ) )
+				else if ( name.equals( "skill_to_string" ) )
 					return executeSkillToStringRequest( variables[0].getIntValue() );
-				else if( name.equals( "effect_to_string" ) )
+				else if ( name.equals( "effect_to_string" ) )
 					return executeEffectToStringRequest( variables[0].getIntValue() );
-				else if( name.equals( "familiar_to_string" ) )
+				else if ( name.equals( "familiar_to_string" ) )
 					return executeFamiliarToStringRequest( variables[0].getIntValue() );
-				else if( name.equals( "wait" ) )
+				else if ( name.equals( "wait" ) )
 					return executeWaitRequest( variables[0].getIntValue() );
-				else if( name.equals( "entryway" ) )
+				else if ( name.equals( "entryway" ) )
 					return executeEntrywayRequest();
-				else if( name.equals( "hedgemaze" ) )
+				else if ( name.equals( "hedgemaze" ) )
 					return executeHedgemazeRequest();
-				else if( name.equals( "guardians" ) )
+				else if ( name.equals( "guardians" ) )
 					return executeGuardiansRequest();
-				else if( name.equals( "chamber" ) )
+				else if ( name.equals( "chamber" ) )
 					return executeChamberRequest();
-				else if( name.equals( "nemesis" ) )
+				else if ( name.equals( "nemesis" ) )
 					return executeNemesisRequest();
-				else if( name.equals( "guild" ) )
+				else if ( name.equals( "guild" ) )
 					return executeGuildRequest();
-				else if( name.equals( "gourd" ) )
+				else if ( name.equals( "gourd" ) )
 					return executeGourdRequest();
-				else if( name.equals( "tavern" ) )
+				else if ( name.equals( "tavern" ) )
 					return executeTavernRequest();
-				else if( name.equals( "train_familiar" ) )
+				else if ( name.equals( "train_familiar" ) )
 					return executeTrainFamiliarRequest( variables[0].getIntValue(), variables[1].getStringValue() );
 				else
 					throw new RuntimeException( "Internal error: unknown library function " + name );
@@ -3423,12 +3364,12 @@ public class KoLmafiaASH extends StaticEntity
 				if ( (contentInt = ClassSkillsDatabase.getSkillID( contentString )) == -1 )
 					throw new AdvancedScriptException( "Skill " + contentString + " not found in database " + getLineAndFile() );
 			}
-			else if( type.equals( TYPE_EFFECT ) )
+			else if ( type.equals( TYPE_EFFECT ) )
 			{
 				if ( (contentInt = StatusEffectDatabase.getEffectID( contentString )) == -1 )
 					throw new AdvancedScriptException( "Effect " + contentString + " not found in database " + getLineAndFile() );
 			}
-			else if( type.equals( TYPE_FAMILIAR ) )
+			else if ( type.equals( TYPE_FAMILIAR ) )
 			{
 				if ( contentString.equals( "none" ) )
 					contentInt = -1;
