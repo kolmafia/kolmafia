@@ -242,9 +242,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 		List availableIngredients = new ArrayList();
 		availableIngredients.addAll( KoLCharacter.getInventory() );
 
-		List closetList = (List) KoLCharacter.getCloset();
-		for ( int i = 0; i < closetList.size(); ++i )
-			AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
+		boolean showClosetDrivenCreations = getProperty( "showClosetDrivenCreations" ).equals( "true" );
+
+		if ( showClosetDrivenCreations )
+		{
+			List closetList = (List) KoLCharacter.getCloset();
+			for ( int i = 0; i < closetList.size(); ++i )
+				AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
+		}
 
 		// First, zero out the quantities table.  Though this is not
 		// actually necessary, it's a good safety and doesn't use up
@@ -276,17 +281,26 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// This should also be calculated to allow for meat stack
 		// recipes to be calculated.
 
-		int availableMeat = KoLCharacter.getAvailableMeat() + KoLCharacter.getClosetMeat();
+		int availableMeat = showClosetDrivenCreations ? KoLCharacter.getAvailableMeat() + KoLCharacter.getClosetMeat() :
+			KoLCharacter.getAvailableMeat();
 
 		concoctions[ ItemCreationRequest.MEAT_PASTE ].initial = PASTE.getCount( availableIngredients );
-		concoctions[ ItemCreationRequest.MEAT_PASTE ].total += availableMeat / 10;
-		concoctions[ ItemCreationRequest.MEAT_PASTE ].creatable += availableMeat / 10;
+		concoctions[ ItemCreationRequest.MEAT_PASTE ].creatable = availableMeat / 10;
+
+		concoctions[ ItemCreationRequest.MEAT_PASTE ].total = concoctions[ ItemCreationRequest.MEAT_PASTE ].initial +
+			concoctions[ ItemCreationRequest.MEAT_PASTE ].creatable;
+
 		concoctions[ ItemCreationRequest.MEAT_STACK ].initial = STACK.getCount( availableIngredients );
-		concoctions[ ItemCreationRequest.MEAT_STACK ].total += availableMeat / 100;
-		concoctions[ ItemCreationRequest.MEAT_STACK ].creatable += availableMeat / 100;
+		concoctions[ ItemCreationRequest.MEAT_STACK ].creatable = availableMeat / 100;
+
+		concoctions[ ItemCreationRequest.MEAT_STACK ].total = concoctions[ ItemCreationRequest.MEAT_STACK ].initial +
+			concoctions[ ItemCreationRequest.MEAT_STACK ].creatable;
+
 		concoctions[ ItemCreationRequest.DENSE_STACK ].initial = DENSE.getCount( availableIngredients );
-		concoctions[ ItemCreationRequest.DENSE_STACK ].total += availableMeat / 1000;
-		concoctions[ ItemCreationRequest.DENSE_STACK ].creatable += availableMeat / 1000;
+		concoctions[ ItemCreationRequest.DENSE_STACK ].creatable = availableMeat / 1000;
+
+		concoctions[ ItemCreationRequest.DENSE_STACK ].total = concoctions[ ItemCreationRequest.DENSE_STACK ].initial +
+			concoctions[ ItemCreationRequest.DENSE_STACK ].creatable;
 
 		// Next, increment through all of the things which can be
 		// created through the use of meat paste.  This allows for box

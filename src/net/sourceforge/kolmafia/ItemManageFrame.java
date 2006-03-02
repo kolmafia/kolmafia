@@ -740,16 +740,32 @@ public class ItemManageFrame extends KoLFrame
 				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
 
-			JCheckBox [] filters = new JCheckBox[3];
+			JCheckBox [] filters = new JCheckBox[4];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
 			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
 			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
+			filters[3] = new UseClosetCheckbox();
 
 			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
 
 			elementList.setCellRenderer(
 				AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+		}
+
+		private class UseClosetCheckbox extends JCheckBox implements ActionListener
+		{
+			public UseClosetCheckbox()
+			{
+				super( "Use closet", getProperty( "showClosetDrivenCreations" ).equals( "true" ) );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				setProperty( "showClosetDrivenCreations", String.valueOf( isSelected() ) );
+				ConcoctionsDatabase.refreshConcoctions();
+			}
 		}
 
 		private class CreateListener implements ActionListener
