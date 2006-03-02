@@ -226,7 +226,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "useToolbars", "true" );
 		ensureProperty( "whiteList", "" );
 		ensureProperty( "windowPositions", "1" );
-		ensureProperty( "zoneExcludeList", "" );
+		ensureProperty( "zoneExcludeList", "20" );
 
 		// These are settings related to choice adventures.
 		// Ensure that they exist, and if they do not, load
