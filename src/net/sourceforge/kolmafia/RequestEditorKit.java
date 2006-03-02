@@ -654,6 +654,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// by the default Java browser to an understood form,
 		// and remove all <HR> tags.
 
+		KoLmafia.getLogStream().println( "Rendering hypertext..." );
 		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
 
 		// Fix all the super-small font displays used in the
@@ -678,11 +679,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)(<td[^>]*>)", "$4$1$2" );
 		displayHTML = displayHTML.replaceAll( "</td></form>", "</form></td>" );
 
-		// turn:  <form...><tr...><td...>...</td></tr></form>
-		// into:  <tr...><td...><form...>...</form></td></tr>
+		// turn:  <center><table><form>...</center></td></tr></form></table>
+		// into:  <form><center><table>...</td></tr></table></center></form>
 
-		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)<tr>(<td[^>]*>)", "<tr>$4$1$2" );
-		displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
+		displayHTML = displayHTML.replaceAll( "<center>(<table[^>]*>)(<form[^>]*>)", "$2<center>$1" );
+		displayHTML = displayHTML.replaceAll( "</center></td></tr></form></table>", "</td></tr></table></center></form>" );
 
 		// KoL also has really crazy nested Javascript links, and
 		// since the default browser doesn't recognize these, be
@@ -722,8 +723,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			"whichbet value='$1'><input type=hidden name=from value=1><input class=button type=submit value=\"In Hagnk's\"><input type=checkbox name=confirm>" );
 
 		// All HTML is now properly rendered!  Return the
-		// compiled string.
+		// compiled string.  Print it to the debug log for
+		// reference purposes.
 
+		KoLmafia.getLogStream().println( displayHTML );
 		return displayHTML;
 	}
 
