@@ -679,12 +679,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)(<td[^>]*>)", "$4$1$2" );
 		displayHTML = displayHTML.replaceAll( "</td></form>", "</form></td>" );
 
-		// turn:  <center><table><form>...</center></td></tr></form></table>
-		// into:  <form><center><table>...</td></tr></table></center></form>
-
-		displayHTML = displayHTML.replaceAll( "<center>(<table[^>]*>)(<form[^>]*>)", "$2<center>$1" );
-		displayHTML = displayHTML.replaceAll( "</center></td></tr></form></table>", "</td></tr></table></center></form>" );
-
 		// KoL also has really crazy nested Javascript links, and
 		// since the default browser doesn't recognize these, be
 		// sure to convert them to standard <A> tags linking to
@@ -721,6 +715,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		displayHTML = displayHTML.replaceAll( "whichbet value='(\\d+)'><input type=hidden name=from value=0>.*?</td><td><input type=checkbox name=confirm>",
 			"whichbet value='$1'><input type=hidden name=from value=1><input class=button type=submit value=\"In Hagnk's\"><input type=checkbox name=confirm>" );
+
+		// The third of these is the outfit managing page,
+		// which requires that the form for the table be
+		// on the outside of the table.
+
+		if ( displayHTML.indexOf( "manage" ) != -1 )
+		{
+			// turn:  <center><table><form>...</center></td></tr></form></table>
+			// into:  <form><center><table>...</td></tr></table></center></form>
+
+			displayHTML = displayHTML.replaceAll( "<center>(<table[^>]*>)(<form[^>]*>)", "$2<center>$1" );
+			displayHTML = displayHTML.replaceAll( "</center></td></tr></form></table>", "</td></tr></table></center></form>" );
+		}
 
 		// All HTML is now properly rendered!  Return the
 		// compiled string.  Print it to the debug log for
