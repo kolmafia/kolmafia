@@ -120,16 +120,22 @@ public class CharpaneRequest extends KoLRequest
 
 	private void handleCompactMode() throws Exception
 	{
-		handleStatPoints( "Mus", "Mys", "Mox" );
-		handleMiscPoints( "HP", "MP", "Meat", "Adv", "" );
-		handleMindControl( "MC" );
+		if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
+		{
+			handleStatPoints( "Mus", "Mys", "Mox" );
+			handleMiscPoints( "HP", "MP", "Meat", "Adv", "" );
+			handleMindControl( "MC" );
+		}
 	}
 
 	private void handleExpandedMode() throws Exception
 	{
-		handleStatPoints( "Muscle", "Mysticality", "Moxie" );
-		handleMiscPoints( "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;" );
-		handleMindControl( "Mind Control" );
+		if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
+		{
+			handleStatPoints( "Muscle", "Mysticality", "Moxie" );
+			handleMiscPoints( "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;" );
+			handleMindControl( "Mind Control" );
+		}
 	}
 
 	private void handleStatPoints( String musString, String mysString, String moxString ) throws Exception
