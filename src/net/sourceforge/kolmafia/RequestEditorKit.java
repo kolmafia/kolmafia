@@ -705,11 +705,21 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		displayHTML = getUnicode( displayHTML );
 
 		// The last thing to worry about is the problems in
-		// submits that appear before the rest of the form data.
-		// The only known instance is the familiar page, so for
-		// now, just handle this case.
+		// specific pages.
+
+		// The first of these is the familiar page, where the
+		// first "Take this one with you" link does not work.
 
 		displayHTML = displayHTML.replaceFirst( "<input class=button type=submit value=\"Take this one with you\">", "" );
+
+		// The second of these is the betting page.  Here, the
+		// problem is an "onClick" in the input field, if the
+		// Hagnk option is available.  Rather than mess with
+		// all that, make it so that Hagnk is the ONLY option
+		// which is present on the bet page.
+
+		displayHTML = displayHTML.replaceAll( "whichbet value='(\\d+)'><input type=hidden name=from value=0>.*?</td><td><input type=checkbox name=confirm>",
+			"whichbet value='$1'><input type=hidden name=from value=1><input class=button type=submit value=\"In Hagnk's\"><input type=checkbox name=confirm>" );
 
 		// All HTML is now properly rendered!  Return the
 		// compiled string.
