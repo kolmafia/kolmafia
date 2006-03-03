@@ -1340,6 +1340,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				for ( int i = frames.length - 1; i >= 0; --i )
 					if ( frames[i].getClass() == RequestFrame.class )
 					{
+						frames[i].requestFocus();
 						((RequestFrame)frames[i]).refresh( request );
 						return;
 					}
@@ -1842,8 +1843,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					nameField = new JTextField();
 					elements[0] = new VerifiableElement( "Name", nameField );
 
-					String url = client.getCurrentRequest() == null ? "" : client.prunePasswordHash( client.getCurrentRequest().getURLString() );
-					locationField = new JTextField( url );
+					locationField = new JTextField( client.getCurrentRequest() == null ? "" : client.getCurrentRequest().getURLString() );
 					elements[1] = new VerifiableElement( "Location", locationField );
 					setContent( elements );
 				}

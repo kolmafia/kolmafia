@@ -257,7 +257,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		return data.isEmpty() ? formURLBuffer.toString() :
 			formURLBuffer.toString().indexOf( "?" ) != -1 ? formURLBuffer.toString() :
-			formURLBuffer.toString() + "?" + getDataString();
+			formURLBuffer.toString() + "?" + getDataString( false );
 	}
 
 	/**
@@ -351,7 +351,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	data.add( element );
 	}
 
-	protected String getDataString()
+	protected String getDataString( boolean includeHash )
 	{
 		StringBuffer dataBuffer = new StringBuffer();
 		String [] elements = new String[ data.size() ];
@@ -364,11 +364,11 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( elements[i].equals( "pwd" ) || elements[i].equals( "phash" ) )
 			{
-				String pwd = elements[i];
-				int index = pwd.indexOf( "=" );
-				dataBuffer.append( index == -1 ? pwd : pwd.substring( 0, index ) );
+				dataBuffer.append( elements[i] );
 				dataBuffer.append( "=" );
-				dataBuffer.append( client.getPasswordHash() );
+
+				if ( includeHash )
+					dataBuffer.append( client.getPasswordHash() );
 			}
 			else
 				dataBuffer.append( elements[i] );
@@ -584,7 +584,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		try
 		{
-			String dataString = getDataString();
+			String dataString = getDataString( true );
 
 			formURLBuffer.setLength(0);
 			formURLBuffer.append( formURLString );
@@ -592,7 +592,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			formURLBuffer.append( dataString );
 
 			if ( client != null && !formURLString.equals( "login.php" ) )
-				KoLmafia.getLogStream().println( client.prunePasswordHash ( dataString ) );
+				KoLmafia.getLogStream().println( getDataString( false ) );
 
 			formConnection.setRequestMethod( "POST" );
 			BufferedWriter ostream = new BufferedWriter( new OutputStreamWriter( formConnection.getOutputStream() ) );
@@ -828,7 +828,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
 				if ( client != null )
-					KoLmafia.getLogStream().println( client.prunePasswordHash( responseText ) );
+					KoLmafia.getLogStream().println( responseText.replaceAll( "<input[^>]*pwd[^>]*>", "" ) );
 			}
 		}
 

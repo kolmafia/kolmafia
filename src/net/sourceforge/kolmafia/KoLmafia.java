@@ -833,15 +833,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Prune the password hash from the input string
-	 * @return	String without password hash
-	 */
-
-	public String prunePasswordHash( String text)
-	{	return ( passwordHash == null ) ? text : text.replaceAll( passwordHash, "" );
-	}
-
-	/**
 	 * Returns the character's contact list.
 	 */
 

@@ -298,9 +298,8 @@ public class RequestFrame extends KoLFrame
 
 			// Only record raw mini-browser requests
 			if ( client != null && request.getClass() == KoLRequest.class )
-				client.getMacroStream().println( client.prunePasswordHash( location ) );
+				client.getMacroStream().println( location );
 
-			requestFocus();
 			(new DisplayRequestThread( request )).start();
 		}
 		else
@@ -415,9 +414,11 @@ public class RequestFrame extends KoLFrame
 
 		private boolean cloverCheckNeeded()
 		{
-			if ( getCurrentLocation().startsWith( "adventure.php" ) && request.getDataString() != null )
+			String adventureID = request.getDataString( false );
+
+			if ( getCurrentLocation().startsWith( "adventure.php" ) && adventureID != null )
 			{
-				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( request.getDataString() );
+				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( adventureID );
 				return client.isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(1) );
 			}
 
@@ -462,10 +463,7 @@ public class RequestFrame extends KoLFrame
 				visitedLocations.remove( currentLocation );
 
 			visitedLocations.add( request );
-			String url = request.getURLString();
-			if ( client != null )
-				url = client.prunePasswordHash( url );
-			locationField.setText( url );
+			locationField.setText( request.getURLString() );
 			currentLocation = visitedLocations.size();
 
 			mainBuffer.append( getDisplayHTML( lastResponseText ) );
@@ -586,7 +584,7 @@ public class RequestFrame extends KoLFrame
 		{
 			KoLAdventure adventure = AdventureDatabase.getAdventure( locationField.getText() );
 			KoLRequest request = extractRequest( adventure == null ? locationField.getText() : adventure.getRequest().getURLString() );
-			client.getMacroStream().println( client.prunePasswordHash( request.getURLString() ) );
+			client.getMacroStream().println( request.getURLString() );
 			refresh( request );
 		}
 	}
