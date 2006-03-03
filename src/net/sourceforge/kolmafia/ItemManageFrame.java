@@ -746,9 +746,12 @@ public class ItemManageFrame extends KoLFrame
 			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
 			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
 
-			filters[3] = new CreateSettingCheckbox( "Allow closet", "showClosetDrivenCreations" );
-			filters[4] = new CreateSettingCheckbox( "Allow no-box", "createWithoutBoxServants" );
-			filters[5] = new CreateSettingCheckbox( "Auto-repair", "autoRepairBoxes" );
+			filters[3] = new CreateSettingCheckbox( "Allow closet", "showClosetDrivenCreations",
+				"Get ingredients from closet if needed" );
+			filters[4] = new CreateSettingCheckbox( "Allow no-box", "createWithoutBoxServants",
+				"Create without requiring a box servant" );
+			filters[5] = new CreateSettingCheckbox( "Auto-repair", "autoRepairBoxes",
+				"Create and install new box servant after explosion" );
 
 			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
@@ -761,11 +764,12 @@ public class ItemManageFrame extends KoLFrame
 		{
 			private String setting;
 
-			public CreateSettingCheckbox( String title, String setting )
+			public CreateSettingCheckbox( String title, String setting, String tooltip )
 			{
 				super( title, getProperty( setting ).equals( "true" ) );
 
 				this.setting = setting;
+				setToolTipText( tooltip );
 				addActionListener( this );
 			}
 
