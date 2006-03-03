@@ -300,6 +300,7 @@ public class RequestFrame extends KoLFrame
 			if ( client != null && request.getClass() == KoLRequest.class )
 				client.getMacroStream().println( client.prunePasswordHash( location ) );
 
+			requestFocus();
 			(new DisplayRequestThread( request )).start();
 		}
 		else
