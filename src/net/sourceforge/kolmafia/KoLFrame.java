@@ -1325,6 +1325,26 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 		else
 		{
+			// Try to see if this is intended to be a brand-new frame.
+			// You can tell this by checking the location -- if it's
+			// main.php, then it's meant to be new.
+
+			if ( !request.getURLString().equals( "main.php" ) )
+			{
+				// Search for an existing true request frame to open
+				// the URL.
+
+				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+				existingFrames.toArray( frames );
+
+				for ( int i = frames.length - 1; i >= 0; --i )
+					if ( frames[i].getClass() == RequestFrame.class )
+					{
+						((RequestFrame)frames[i]).refresh( request );
+						return;
+					}
+			}
+
 			parameters = new Object[2];
 			parameters[0] = client;
 			parameters[1] = request;
