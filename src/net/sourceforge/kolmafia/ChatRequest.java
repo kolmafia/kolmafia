@@ -78,7 +78,7 @@ public class ChatRequest extends KoLRequest
 			actualMessage = message;
 		else if ( message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) )
 			actualMessage = message + " " + contactID;
-		else if ( contact.startsWith( "/" ) && (!message.startsWith( "/" ) || message.startsWith( "/me" ) || message.startsWith( "/em" )) )
+		else if ( contact.startsWith( "/" ) && (!message.startsWith( "/" ) || message.startsWith( "/me" ) || message.startsWith( "/em" ) || message.startsWith( "/warn" ) || message.startsWith( "/ann" )) )
 			actualMessage = contact + " " + message;
 		else if ( contact.startsWith( "[" ) )
 			actualMessage = message;
