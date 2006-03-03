@@ -53,6 +53,10 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import java.io.File;
 import java.io.InputStream;
@@ -720,13 +724,64 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// which requires that the form for the table be
 		// on the outside of the table.
 
-		if ( displayHTML.indexOf( "manage" ) != -1 )
+		if ( displayHTML.indexOf( "name=manage" ) != -1 )
 		{
 			// turn:  <center><table><form>...</center></td></tr></form></table>
 			// into:  <form><center><table>...</td></tr></table></center></form>
 
 			displayHTML = displayHTML.replaceAll( "<center>(<table[^>]*>)(<form[^>]*>)", "$2<center>$1" );
 			displayHTML = displayHTML.replaceAll( "</center></td></tr></form></table>", "</td></tr></table></center></form>" );
+		}
+
+		// The fourth of these is the fight page, which is
+		// totally mixed up -- in addition to basic modifications,
+		// also resort the combat item list.
+
+		if ( displayHTML.indexOf( "name=attack" ) != -1 )
+		{
+			displayHTML = displayHTML.replaceAll( "<form(.*?)<tr><td([^>]*)>", "<tr><td$2><form$1" );
+			displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
+
+			Matcher selectMatcher = Pattern.compile( "<select name=whichitem>.*?</select>" ).matcher( displayHTML );
+			selectMatcher.find();
+
+			ArrayList items = new ArrayList();
+			Matcher itemMatcher = Pattern.compile( "<option.*?>(.*?)</option>" ).matcher( selectMatcher.group() );
+
+			try
+			{
+				// Skip the first one in the list of items
+				// because it contains nothing.
+
+				itemMatcher.find();
+
+				while ( itemMatcher.find() )
+					items.add( AdventureResult.parseResult( itemMatcher.group(1) ) );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace();
+				e.printStackTrace( KoLmafia.getLogStream() );
+			}
+
+			Collections.sort( items );
+			AdventureResult [] itemArray = new AdventureResult[ items.size() ];
+			items.toArray( itemArray );
+
+			StringBuffer itemString = new StringBuffer();
+			itemString.append( "<select name=whichitem><option value=0 selected>(select an item)</option>" );
+
+			for ( int i = 0; i < itemArray.length; ++i )
+			{
+				itemString.append( "<option value=" );
+				itemString.append( itemArray[i].getItemID() );
+				itemString.append( ">" );
+				itemString.append( itemArray[i].toString() );
+				itemString.append( "</option>" );
+			}
+
+			itemString.append( "</select>" );
+			displayHTML = displayHTML.replaceFirst( "<select name=whichitem>.*?</select>", itemString.toString() );
 		}
 
 		// All HTML is now properly rendered!  Return the
