@@ -152,7 +152,7 @@ public class UntinkerRequest extends KoLRequest
 		// screwdriver from the inventory.
 
 		if ( KoLCharacter.getInventory().contains( SCREWDRIVER ) )
-			KoLCharacter.processResult( SCREWDRIVER );
+			client.processResult( SCREWDRIVER );
 
 		updateDisplay( NORMAL_STATE, "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
 

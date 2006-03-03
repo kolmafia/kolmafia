@@ -176,7 +176,7 @@ public class CharpaneRequest extends KoLRequest
 			int oldAdventures = KoLCharacter.getAdventuresLeft();
 			int newAdventures = df.parse( miscMatcher.group(12) ).intValue();
 
-			KoLCharacter.processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
+			client.processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
 		}
 	}
 

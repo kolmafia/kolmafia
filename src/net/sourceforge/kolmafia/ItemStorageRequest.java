@@ -187,7 +187,7 @@ public class ItemStorageRequest extends SendMessageRequest
 				super.run();
 
 				while ( !KoLCharacter.getStorage().isEmpty() )
-					KoLCharacter.processResult( (AdventureResult) KoLCharacter.getStorage().remove(0) );
+					client.processResult( (AdventureResult) KoLCharacter.getStorage().remove(0) );
 
 				break;
 
