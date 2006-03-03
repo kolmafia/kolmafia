@@ -745,6 +745,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			Matcher selectMatcher = Pattern.compile( "<select name=whichitem>.*?</select>" ).matcher( displayHTML );
 			selectMatcher.find();
 
+			int selectedItem = -1;
+			AdventureResult currentItem;
+
 			ArrayList items = new ArrayList();
 			Matcher itemMatcher = Pattern.compile( "<option.*?>(.*?)</option>" ).matcher( selectMatcher.group() );
 
@@ -755,8 +758,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				itemMatcher.find();
 
-				while ( itemMatcher.find() )
-					items.add( AdventureResult.parseResult( itemMatcher.group(1) ) );
+				for ( int i = 0; itemMatcher.find(); ++i )
+				{
+					currentItem = AdventureResult.parseResult( itemMatcher.group(1) );
+					if ( itemMatcher.group().indexOf( "selected" ) != -1 )
+						selectedItem = currentItem.getItemID();
+
+					items.add( currentItem );
+				}
 			}
 			catch ( Exception e )
 			{
@@ -769,12 +778,16 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			items.toArray( itemArray );
 
 			StringBuffer itemString = new StringBuffer();
-			itemString.append( "<select name=whichitem><option value=0 selected>(select an item)</option>" );
+			itemString.append( "<select name=whichitem><option value=0>(select an item)</option>" );
 
 			for ( int i = 0; i < itemArray.length; ++i )
 			{
 				itemString.append( "<option value=" );
 				itemString.append( itemArray[i].getItemID() );
+
+				if ( itemArray[i].getItemID() == selectedItem )
+					itemString.append( " selected" );
+
 				itemString.append( ">" );
 				itemString.append( itemArray[i].toString() );
 				itemString.append( "</option>" );
