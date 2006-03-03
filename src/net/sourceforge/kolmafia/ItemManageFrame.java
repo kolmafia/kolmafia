@@ -281,8 +281,8 @@ public class ItemManageFrame extends KoLFrame
 			super( title, elementModel, true );
 
 			filters = new JCheckBox[5];
-			filters[0] = new FilterCheckBox( filters, elementList, true, "Show food", KoLCharacter.canEat() );
-			filters[1] = new FilterCheckBox( filters, elementList, true, "Show drink", KoLCharacter.canDrink() );
+			filters[0] = new FilterCheckBox( filters, elementList, true, "Show food", true );
+			filters[1] = new FilterCheckBox( filters, elementList, true, "Show drink", true );
 			filters[2] = new FilterCheckBox( filters, elementList, true, "Show others", true );
 			filters[3] = new FilterCheckBox( filters, elementList, true, "Show no-sell", true );
 			filters[4] = new FilterCheckBox( filters, elementList, true, "Show no-trade", true );
