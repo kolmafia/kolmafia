@@ -354,6 +354,7 @@ public class LoginFrame extends KoLFrame
 			uimodes.addItem( "Loathing chat" );
 			uimodes.addItem( "Clan manager" );
 			uimodes.addItem( "Mini-browser" );
+			uimodes.addItem( "Graphical CLI" );
 
 			positions = new JComboBox();
 			positions.addItem( "Always load windows in center" );

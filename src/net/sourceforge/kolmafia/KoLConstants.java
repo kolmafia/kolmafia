@@ -79,7 +79,8 @@ public interface KoLConstants extends UtilityConstants
 	public static final int ABORT_STATE    = 4;
 
 	public static final Class [] INTERFACE_MODES =
-		{ AdventureFrame.class, BuffBotFrame.class, ChatFrame.class, ClanManageFrame.class, RequestFrame.class };
+		{ AdventureFrame.class, BuffBotFrame.class, ChatFrame.class, ClanManageFrame.class, RequestFrame.class, 
+			CommandDisplayFrame.class };
 
 	public static class DaemonThread extends Thread
 	{
