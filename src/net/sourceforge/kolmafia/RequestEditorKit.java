@@ -724,7 +724,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// which requires that the form for the table be
 		// on the outside of the table.
 
-		if ( displayHTML.indexOf( "name=manage" ) != -1 )
+		if ( displayHTML.indexOf( "action=account_manageoutfits.php" ) != -1 )
 		{
 			// turn:  <center><table><form>...</center></td></tr></form></table>
 			// into:  <form><center><table>...</td></tr></table></center></form>
@@ -737,7 +737,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// totally mixed up -- in addition to basic modifications,
 		// also resort the combat item list.
 
-		if ( displayHTML.indexOf( "name=attack" ) != -1 )
+		if ( displayHTML.indexOf( "action=fight.php" ) != -1 )
 		{
 			displayHTML = displayHTML.replaceAll( "<form(.*?)<tr><td([^>]*)>", "<tr><td$2><form$1" );
 			displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
