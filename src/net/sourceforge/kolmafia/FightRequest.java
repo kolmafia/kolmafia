@@ -116,6 +116,11 @@ public class FightRequest extends KoLRequest
 
 			action = "...";
 		}
+		else if ( action.equals( "run away" ) )
+		{
+			action = "runaway";
+			addFormField( "action", action );
+		}
 		else if ( action.equals( "attack" ) )
 		{
 			action = "attack";
