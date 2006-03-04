@@ -84,7 +84,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	private static String KOL_ROOT = "http://" + SERVERS[0][1] + "/";
 
 	private URL formURL;
-	private StringBuffer formURLBuffer;
 	private boolean followRedirects;
 	private String formURLString;
 
@@ -229,8 +228,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		String [] splitURLString = formURLString.split( "\\?" );
 
 		this.formURLString = splitURLString[0];
-		this.formURLBuffer = new StringBuffer( splitURLString[0] );
-
 		this.data = new ArrayList();
 
 		if ( splitURLString.length > 1 )
@@ -254,10 +251,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	protected String getURLString()
-	{
-		return data.isEmpty() ? formURLBuffer.toString() :
-			formURLBuffer.toString().indexOf( "?" ) != -1 ? formURLBuffer.toString() :
-			formURLBuffer.toString() + "?" + getDataString( false );
+	{	return data.isEmpty() ? formURLString : formURLString + "?" + getDataString( false );
 	}
 
 	/**
@@ -348,10 +342,18 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	protected void addFormField( String element )
-	{	data.add( element );
+	{
+		String [] currentComponent = element.split( "=" );
+
+		if ( currentComponent[0].equals( "pwd" ) || currentComponent[0].equals( "phash" ) )
+			addFormField( currentComponent[0], "", false );
+		else if ( currentComponent.length == 1 )
+			addFormField( currentComponent[0], "", true );
+		else
+			addFormField( currentComponent[0], currentComponent[1], true );
 	}
 
-	protected String getDataString( boolean includeHash )
+	private String getDataString( boolean includeHash )
 	{
 		StringBuffer dataBuffer = new StringBuffer();
 		String [] elements = new String[ data.size() ];
@@ -365,14 +367,15 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( elements[i].equals( "pwd" ) || elements[i].equals( "phash" ) )
 			{
 				dataBuffer.append( elements[i] );
-				dataBuffer.append( "=" );
 
 				if ( includeHash )
+				{
+					dataBuffer.append( "=" );
 					dataBuffer.append( client.getPasswordHash() );
+				}
 			}
 			else
 				dataBuffer.append( elements[i] );
-
 		}
 
 		return dataBuffer.toString();
@@ -586,13 +589,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			String dataString = getDataString( true );
 
-			formURLBuffer.setLength(0);
-			formURLBuffer.append( formURLString );
-			formURLBuffer.append( "?" );
-			formURLBuffer.append( dataString );
-
-			if ( client != null && !formURLString.equals( "login.php" ) )
-				KoLmafia.getLogStream().println( getDataString( false ) );
+			if ( client != null && client.getPasswordHash() != null )
+				KoLmafia.getLogStream().println( dataString.replaceAll( client.getPasswordHash(), "" ) );
 
 			formConnection.setRequestMethod( "POST" );
 			BufferedWriter ostream = new BufferedWriter( new OutputStreamWriter( formConnection.getOutputStream() ) );
@@ -739,10 +737,6 @@ public class KoLRequest implements Runnable, KoLConstants
 					// desired and rerun the request.
 
 					this.formURLString = redirectLocation;
-
-					this.formURLBuffer.setLength(0);
-					this.formURLBuffer.append( this.formURLString );
-
 					this.data.clear();
 					this.followRedirects = followRedirects;
 
@@ -827,8 +821,11 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
-				if ( client != null )
-					KoLmafia.getLogStream().println( responseText.replaceAll( "<input[^>]*pwd[^>]*>", "" ) );
+				if ( client != null && client.getPasswordHash() != null )
+					KoLmafia.getLogStream().println( responseText.replaceAll( client.getPasswordHash(), "" ) );
+				else
+					KoLmafia.getLogStream().println(
+						responseText.replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" ) );
 			}
 		}
 
