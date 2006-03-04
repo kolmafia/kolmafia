@@ -1312,7 +1312,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		if ( this instanceof RequestFrame )
 		{
-			if ( !location.startsWith( "search" ) && !location.startsWith( "desc" ) && ((RequestFrame)this).hasSideBar() )
+			if ( !location.startsWith( "search" ) && !location.startsWith( "desc" ) )
 			{
 				((RequestFrame)this).refresh( request );
 				return;
