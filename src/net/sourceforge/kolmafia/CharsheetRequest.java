@@ -248,7 +248,13 @@ public class CharsheetRequest extends KoLRequest
 				while ( !token.equals( "/table" ) )
 				{
 					client.parseEffect( parsedContent.nextToken() );
-					skipTokens( parsedContent, 14 );
+					if ( parsedContent.nextToken().startsWith( "font" ) )
+						
+						// "shrug off" link
+						skipTokens( parsedContent, 13 );
+					else
+						// no such link
+						skipTokens( parsedContent, 6 );
 					token = parsedContent.nextToken();
 				}
 
