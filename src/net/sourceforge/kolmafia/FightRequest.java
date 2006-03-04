@@ -116,7 +116,7 @@ public class FightRequest extends KoLRequest
 
 			action = "...";
 		}
-		else if ( action.equals( "run away" ) )
+		else if ( action.startsWith( "run" ) )
 		{
 			action = "runaway";
 			addFormField( "action", action );
@@ -306,7 +306,7 @@ public class FightRequest extends KoLRequest
 
 	private void payActionCost()
 	{
-		if ( action.equals( "attack" ) )
+		if ( action.equals( "attack" ) || action.equals( "runaway" ) )
 			return;
 
 		if ( action.startsWith( "item" ) )

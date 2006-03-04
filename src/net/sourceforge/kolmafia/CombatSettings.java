@@ -309,7 +309,7 @@ public abstract class CombatSettings implements UtilityConstants
 		CombatActionNode setting = (CombatActionNode) match.getChildAt(
 			roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
 
-		if ( setting.startsWith( "abort" ) || setting.startsWith( "attack" ) || setting.startsWith( "moxman" ) || setting.startsWith( "item" ) || setting.startsWith( "skill" ) )
+		if ( setting.startsWith( "abort" ) || setting.startsWith( "attack" ) || setting.startsWith( "moxman" ) || setting.startsWith( "item" ) || setting.startsWith( "skill" ) || setting.startsWith( "run" ) )
 			return setting.toString();
 
 		// Well, it's either a standard skill, or it's an item,
