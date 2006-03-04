@@ -414,11 +414,11 @@ public class RequestFrame extends KoLFrame
 
 		private boolean cloverCheckNeeded()
 		{
-			String adventureID = request.getDataString( false );
+			String adventure = request.getURLString();
 
-			if ( getCurrentLocation().startsWith( "adventure.php" ) && adventureID != null )
+			if ( getCurrentLocation().startsWith( "adventure.php" ) && adventure != null )
 			{
-				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( adventureID );
+				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( adventure );
 				return client.isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(1) );
 			}
 
