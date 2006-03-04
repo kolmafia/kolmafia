@@ -55,8 +55,8 @@ public interface KoLConstants extends UtilityConstants
 	public static final JLabel BLANK_LABEL = new JLabel();
 	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
 
-	public static final String VERSION_NAME = "KoLmafia v6.7";
-	public static final String VERSION_DATE = "Released February 18, 2006";
+	public static final String VERSION_NAME = "KoLmafia v6.8";
+	public static final String VERSION_DATE = "Released March 4, 2006";
 
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings();
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
@@ -79,7 +79,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final int ABORT_STATE    = 4;
 
 	public static final Class [] INTERFACE_MODES =
-		{ AdventureFrame.class, BuffBotFrame.class, ChatFrame.class, ClanManageFrame.class, RequestFrame.class, 
+		{ AdventureFrame.class, BuffBotFrame.class, ChatFrame.class, ClanManageFrame.class, RequestFrame.class,
 			CommandDisplayFrame.class };
 
 	public static class DaemonThread extends Thread
