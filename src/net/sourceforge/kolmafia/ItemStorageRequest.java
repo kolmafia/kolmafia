@@ -278,20 +278,26 @@ public class ItemStorageRequest extends SendMessageRequest
 			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 			existingFrames.toArray( frames );
 
-			KoLFrame desiredFrame = null;
-				for ( int i = 0; i < frames.length; ++i )
-					if ( frames[i] instanceof HagnkStorageFrame )
-						desiredFrame = frames[i];
+			for ( int i = 0; i < frames.length; ++i )
+				if ( frames[i] instanceof HagnkStorageFrame )
+				{
+					KoLFrame desiredFrame = frames[i];
 
-			storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
-			if ( storageMatcher.find() )
-				desiredFrame.setTitle( storageMatcher.group() + " more pulls remaining" );
-			else if ( KoLCharacter.canInteract() )
-				desiredFrame.setTitle( "Unlimited pulls remaining" );
-			else if ( KoLCharacter.isHardcore() )
-				desiredFrame.setTitle( "You are not yet done with hardcore" );
-			else
-				desiredFrame.setTitle( "No more pulls remaining" );
+					if ( KoLCharacter.isHardcore() )
+					{
+						desiredFrame.setTitle( "You are not yet done with hardcore" );
+						break;
+					}
+
+					storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
+					if ( storageMatcher.find() )
+						desiredFrame.setTitle( storageMatcher.group() + " more pulls remaining" );
+					else if ( KoLCharacter.canInteract() )
+						desiredFrame.setTitle( "Unlimited pulls remaining" );
+					else
+						desiredFrame.setTitle( "No more pulls remaining" );
+					break;
+				}
 		}
 
 		// Start with an empty list

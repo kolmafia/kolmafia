@@ -297,7 +297,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 	private static void parseMantelpiece( String response )
 	{
 		if ( response.indexOf( "brass bowling trophy" ) != -1 )
-			// Exact words go here.
+			// "A brass bowling trophy sits on the mantelpiece."
 			magic = null;
 		else if ( response.indexOf( "carved driftwood bird" ) != -1 )
 			// "A carved driftwood bird sits on the mantelpiece."
