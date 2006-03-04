@@ -1310,40 +1310,40 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		Object [] parameters;
 		String location = request.getURLString();
 
-		if ( this instanceof RequestFrame )
+		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) )
 		{
-			if ( !location.startsWith( "search" ) && !location.startsWith( "desc" ) )
-			{
-				((RequestFrame)this).refresh( request );
-				return;
-			}
-
 			parameters = new Object[3];
 			parameters[0] = client;
-			parameters[1] = this;
+			parameters[1] = this instanceof RequestFrame ? this : null;
 			parameters[2] = request;
+		}
+		else if ( this instanceof RequestFrame )
+		{
+			((RequestFrame)this).refresh( request );
+			return;
+		}
+		else if ( request.getURLString().equals( "main.php" ) )
+		{
+			parameters = new Object[2];
+			parameters[0] = client;
+			parameters[1] = request;
 		}
 		else
 		{
-			// Try to see if this is intended to be a brand-new frame.
-			// You can tell this by checking the location -- if it's
-			// main.php, then it's meant to be new.
+			// Search for an existing true request frame to open
+			// the URL.
 
-			if ( !request.getURLString().equals( "main.php" ) )
+			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+			existingFrames.toArray( frames );
+
+			for ( int i = frames.length - 1; i >= 0; --i )
 			{
-				// Search for an existing true request frame to open
-				// the URL.
-
-				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-				existingFrames.toArray( frames );
-
-				for ( int i = frames.length - 1; i >= 0; --i )
-					if ( frames[i].getClass() == RequestFrame.class )
-					{
-						frames[i].requestFocus();
-						((RequestFrame)frames[i]).refresh( request );
-						return;
-					}
+				if ( frames[i].getClass() == RequestFrame.class )
+				{
+					frames[i].requestFocus();
+					((RequestFrame)frames[i]).refresh( request );
+					return;
+				}
 			}
 
 			parameters = new Object[2];
