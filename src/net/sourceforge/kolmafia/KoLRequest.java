@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.net.URL;
 import java.net.URLEncoder;
+import java.net.URLDecoder;
 import java.net.URLConnection;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -48,6 +49,7 @@ import java.io.OutputStreamWriter;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -351,6 +353,27 @@ public class KoLRequest implements Runnable, KoLConstants
 			addFormField( currentComponent[0], "", true );
 		else
 			addFormField( currentComponent[0], currentComponent[1], true );
+	}
+
+	/**
+	 * Adds an already encoded form field to the KoLRequest.
+	 * @param	element	The field to be added
+	 */
+
+	protected void addEncodedFormField( String element )
+	{
+		// Just decode it first
+		String decoded;
+		try
+		{
+			decoded = URLDecoder.decode( element, "UTF-8" );
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			// Say what?
+			decoded = element;
+		}
+		addFormField( decoded );
 	}
 
 	private String getDataString( boolean includeHash )
