@@ -250,6 +250,6 @@ public class ClassSkillsDatabase extends KoLDatabase
 	 * @return	The set of skills keyed by name
 	 */
 	public static Set entrySet()
-	{	return skillByName.entrySet();
+	{	return skillByID.entrySet();
 	}
 }

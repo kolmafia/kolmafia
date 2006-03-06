@@ -36,19 +36,13 @@ h	The Hippy Produce Stand	332	70
 
 m	The Market Demon	744	24
 m	The Market Demon	23	30
-m	The Market Demon	33	30
-m	The Market Demon	634	30
 m	The Market Demon	69	40
 m	The Market Demon	829	40
-m	The Market Demon	22	50
-m	The Market Demon	21	50
-m	The Market Demon	20	50
 m	The Market Demon	530	50
 m	The Market Demon	247	70
 m	The Market Demon	1003	70
 m	The Market Demon	40	100
 m	The Market Demon	42	100
-m	The Market Demon	59	150
 m	The Market Demon	16	200
 m	The Market Demon	15	200
 m	The Market Demon	14	200
@@ -148,21 +142,30 @@ g	The Knob Goblin Laboratory	341	170
 g	The Knob Goblin Laboratory	343	230
 g	The Knob Goblin Laboratory	340	250
 
+z	The Armory and Leggery	634	30
+z	The Armory and Leggery	21	50
 z	The Armory and Leggery	1465	300
 z	The Armory and Leggery	1466	750
 z	The Armory and Leggery	1467	525
 z	The Armory and Leggery	1468	900
 z	The Armory and Leggery	1469	1125
+
+z	The Armory and Leggery	59	150
 z	The Armory and Leggery	1470	300
 z	The Armory and Leggery	1471	450
 z	The Armory and Leggery	1472	825
 z	The Armory and Leggery	1473	950
 z	The Armory and Leggery	1474	1125
+
+z	The Armory and Leggery	33	30
+z	The Armory and Leggery	20	50
 z	The Armory and Leggery	1475	300
 z	The Armory and Leggery	1476	525
 z	The Armory and Leggery	1477	675
 z	The Armory and Leggery	1478	900
 z	The Armory and Leggery	1479	1125
+
+z	The Armory and Leggery	22	50
 z	The Armory and Leggery	1480	250
 z	The Armory and Leggery	1481	375
 z	The Armory and Leggery	1482	600

@@ -53,11 +53,11 @@ public class TradeableItemDatabase extends KoLDatabase
 {
 	public static final int ITEM_COUNT = 1500;
 
-	private static String [] itemByID = new String[ ITEM_COUNT ];
 	private static int [] consumptionID = new int[ ITEM_COUNT ];
 	private static int [] priceByID = new int[ ITEM_COUNT ];
 	private static String [] descByID = new String[ ITEM_COUNT ];
 
+	private static Map itemByID = new TreeMap();
 	private static Map itemByName = new TreeMap();
 
 	static
@@ -70,18 +70,19 @@ public class TradeableItemDatabase extends KoLDatabase
 		BufferedReader reader = getReader( "tradeitems.dat" );
 
 		String [] data;
-		int itemID;
 
 		while ( (data = readData( reader )) != null )
 		{
 			if ( data.length == 4 )
 			{
-				itemID = Integer.parseInt( data[0] );
+                                int itemID = Integer.parseInt( data[0] );
+				Integer id = new Integer( itemID );
 
 				consumptionID[ itemID ] = Integer.parseInt( data[2] );
 				priceByID[ itemID ] = Integer.parseInt( data[3] );
-				itemByID[ itemID ] = getDisplayName( data[1] );
-				itemByName.put( getCanonicalName( data[1] ), new Integer( itemID ) );
+
+				itemByID.put( id, getDisplayName( data[1] ) );
+				itemByName.put( getCanonicalName( data[1] ), id );
 			}
 		}
 
@@ -138,9 +139,10 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		consumptionID[ itemID ] = 0;
 		priceByID[ itemID ] = 0;
-		itemByID[ itemID ] = itemName;
 
-		itemByName.put( itemName.toLowerCase(), new Integer( itemID ) );
+		Integer id = new Integer( itemID );
+		itemByID.put( id, getDisplayName ( itemName ) );
+		itemByName.put( getCanonicalName( itemName ), id );
 	}
 
 	/**
@@ -400,7 +402,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	public static final String getItemName( int itemID )
 	{
 		return itemID < 0 || itemID > ITEM_COUNT ? null :
-			itemID == 41 ? "ice-cold beer (Schlitz)" : itemID == 81 ? "ice-cold beer (Willer)" : itemByID[ itemID ];
+			itemID == 41 ? "ice-cold beer (Schlitz)" : itemID == 81 ? "ice-cold beer (Willer)" : (String)itemByID.get( new Integer ( itemID ) );
 	}
 
 	/**
@@ -485,6 +487,6 @@ public class TradeableItemDatabase extends KoLDatabase
 	 * @return	The set of items keyed by name
 	 */
 	public static Set entrySet()
-	{	return itemByName.entrySet();
+	{	return itemByID.entrySet();
 	}
 }

@@ -27,6 +27,8 @@
 1012	0	0	Claws of the Walrus
 1014	0	0	Eye of the Stoat
 1015	1	10	Rage of the Reindeer
+1017	0	0	Double-Fisted Skull Smashing
+1018	0	0	Northern Exposure
 
 # Skills available to Tamers
 
@@ -43,6 +45,7 @@
 2012	2	10	Astral Shell
 2013	0	0	Amphibian Sympathy
 2015	0	0	Tao of the Terrapin
+2016	0	0	Cold-Blooded Fearlessness
 
 # Skills available to Pastamancers
 
@@ -59,6 +62,8 @@
 3012	1	20	Cannelloni Cocoon
 3014	0	0	Spirit of Ravioli
 3015	1	10	Springy Fusilli
+3016	0	0	Tolerance of the Kitchen
+3017	1	10	Flavour of Magic	
 
 # Skills available to Saucerors
 
@@ -75,6 +80,8 @@
 4012	3	40	Saucegeyser
 4014	3	4	Saucy Salve
 4015	0	0	Impetuous Sauciness
+4016	0	0	Diminished Gag Reflex
+4017	0	0	Immaculate Seasoning
 
 # Skills available to Bandits
 
@@ -90,6 +97,8 @@
 5011	1	12	Disco Power Nap
 5012	3	10	Disco Face Stab
 5014	1	10	Advanced Cocktailcrafting
+5015	0	0	Ambidextrous Funkslinging
+5016	0	0	Heart of Polyester
 
 # Skills available to Thieves
 
@@ -106,3 +115,6 @@
 6012	2	20	Jackasses' Symphony of Destruction
 6013	2	30	Stevedave's Shanty of Superiority
 6014	2	50	The Ode to Booze
+6015	2	20	The Sonata of Sneakiness
+6016	2	20	Carlweather's Cantata of Conflict
+6017	2	30	Ur-Kel's Aria of Annoyance

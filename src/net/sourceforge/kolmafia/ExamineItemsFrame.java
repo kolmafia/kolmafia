@@ -163,7 +163,7 @@ public class ExamineItemsFrame extends KoLFrame
 					if ( !(entry instanceof Map.Entry ) )
 						return;
 
-					String id = IDNumberMapper( ((Integer)((Map.Entry)entry).getValue()).intValue() );
+					String id = IDNumberMapper( ((Integer)((Map.Entry)entry).getKey()).intValue() );
 					elementList.ensureIndexIsVisible( index );
 					openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
 				}
@@ -198,9 +198,9 @@ public class ExamineItemsFrame extends KoLFrame
 			Map.Entry entry = (Map.Entry) value;
 
 			StringBuffer stringForm = new StringBuffer();
-			stringForm.append( (String)entry.getKey() );
+			stringForm.append( (String)entry.getValue() );
 			stringForm.append( " (" );
-			stringForm.append( (Integer)entry.getValue() );
+			stringForm.append( (Integer)entry.getKey() );
 			stringForm.append( ")" );
 
 			((JLabel) defaultComponent).setText( stringForm.toString() );
@@ -216,8 +216,8 @@ public class ExamineItemsFrame extends KoLFrame
 			     !(o2 instanceof Map.Entry ) )
 				throw new ClassCastException();
 
-			int i1 = ((Integer)((Map.Entry)o1).getValue()).intValue();
-			int i2 = ((Integer)((Map.Entry)o2).getValue()).intValue();
+			int i1 = ((Integer)((Map.Entry)o1).getKey()).intValue();
+			int i2 = ((Integer)((Map.Entry)o2).getKey()).intValue();
 			return i1 - i2;
 		}
 	}
@@ -230,9 +230,9 @@ public class ExamineItemsFrame extends KoLFrame
 			     !(o2 instanceof Map.Entry ) )
 				throw new ClassCastException();
 
-			String s1 = (String)((Map.Entry)o1).getKey();
-			String s2 = (String)((Map.Entry)o2).getKey();
-			return s1.compareTo( s2 );
+			String s1 = (String)((Map.Entry)o1).getValue();
+			String s2 = (String)((Map.Entry)o2).getValue();
+			return s1.compareToIgnoreCase( s2 );
 		}
 	}
 

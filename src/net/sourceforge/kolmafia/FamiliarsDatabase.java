@@ -277,7 +277,7 @@ public class FamiliarsDatabase extends KoLDatabase
 	 */
 
 	public static Set entrySet()
-	{	return familiarByName.entrySet();
+	{	return familiarByID.entrySet();
 	}
 
 	private static void saveDataOverride()

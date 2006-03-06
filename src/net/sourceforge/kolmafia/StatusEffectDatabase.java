@@ -78,14 +78,14 @@ public class StatusEffectDatabase extends KoLDatabase
 		{
 			if ( data.length == 3 )
 			{
-				name = getCanonicalName( data[2] );
+				name = data[2];
 				effectID = Integer.valueOf( data[0] );
 
-				effectByID.put( effectID, name );
-				effectByName.put( name, effectID );
+				effectByID.put( effectID, getDisplayName( name ) );
+				effectByName.put( getCanonicalName( name ), effectID );
 
 				if ( data[1].equals( "1" ) )
-					tinyHouseByName.put( name, data[1] );
+					tinyHouseByName.put( getCanonicalName( name ), data[1] );
 			}
 		}
 
@@ -127,7 +127,7 @@ public class StatusEffectDatabase extends KoLDatabase
 	 * @return	The set of status effects keyed by name
 	 */
 	public static Set entrySet()
-	{	return effectByName.entrySet();
+	{	return effectByID.entrySet();
 	}
 
 	/**
