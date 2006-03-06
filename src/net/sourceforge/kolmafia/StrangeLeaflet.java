@@ -52,10 +52,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	// Things to be checked/confirmed:
 	//
-	// 1) You can only (try to) invoke the magic word once. We should detect
-	//    success, a failed second invocation of the correct word, and a
-	//    failed attempt of the wrong word (which should not happen).
-	// 2) The brass bowling trophy, model ship, and carved driftwood bird
+	// 1) The brass bowling trophy, model ship, and carved driftwood bird
 	//    have all been seen and confirmed by me. The brick building and
 	//    white house have been reported, but not actually successfully
 	//    used, yet, by this script.
@@ -214,7 +211,8 @@ public abstract class StrangeLeaflet extends StaticEntity
 		String response = executeCommand( "inv" );
 
 		leaflet = response.indexOf( "A junk mail leaflet" ) != -1;
-		sword = response.indexOf( "An ornate sword" ) != -1;
+		sword = response.indexOf( "An ornate sword" ) != -1 &&
+			response.indexOf( "hangs above the mantel" ) == -1;
 		torch = response.indexOf( "A burning torch" ) != -1;
 		stick = torch || response.indexOf( "A hefty stick" ) != -1;
 		boots = response.indexOf( "A pair of large rubber wading boots" ) != -1;
