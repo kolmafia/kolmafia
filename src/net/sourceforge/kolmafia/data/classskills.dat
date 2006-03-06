@@ -16,7 +16,7 @@
 
 1000	1	1	Seal Clubbing Frenzy
 1003	3	3	Thrust-Smack
-1004	3	5	Lunge-Smack
+# 1004	3	5	Lunge-Smack
 1005	3	8	Lunging Thrust-Smack
 1006	0	0	Super-Advanced Meatsmithing
 1007	1	7	Tongue of the Otter
@@ -29,6 +29,7 @@
 1015	1	10	Rage of the Reindeer
 1017	0	0	Double-Fisted Skull Smashing
 1018	0	0	Northern Exposure
+1019	1	10	Musk of the Moose
 
 # Skills available to Tamers
 
@@ -99,6 +100,7 @@
 5014	1	10	Advanced Cocktailcrafting
 5015	0	0	Ambidextrous Funkslinging
 5016	0	0	Heart of Polyester
+5017	1	10	Smooth Movement
 
 # Skills available to Thieves
 
