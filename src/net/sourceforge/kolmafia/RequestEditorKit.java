@@ -661,6 +661,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		KoLmafia.getLogStream().println( "Rendering hypertext..." );
 		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
 
+		// The default Java browser doesn't display blank lines correctly
+		displayHTML = displayHTML.replaceAll( "<br><br>", "<br>&nbsp;<br>" );
+
 		// Fix all the super-small font displays used in the
 		// various KoL panes.
 

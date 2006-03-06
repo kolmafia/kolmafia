@@ -802,31 +802,41 @@ public class KoLRequest implements Runnable, KoLConstants
 					{
 						KoLmafia.getLogStream().println( "No reply content.  Retrying..." );
 					}
+					// Check for MySQL errors, since those have been getting more
+					// frequent, and would cause an I/O Exception to be thrown
+					// unnecessarily, when a re-request would do.  I'm not sure
+					// how they work right now (which line the MySQL error is
+					// printed to), but for now, assume
+					// that it's the first line.
+					else if ( line.indexOf( "error" ) != -1 )
+					{
+						KoLmafia.getLogStream().println( "Encountered MySQL error.  Retrying..." );
+					}
+					// The remaining lines form the rest of the content.  In order
+					// to make it easier for string parsing, the line breaks will
+					// ultimately be preserved.
 					else
 					{
-						// Check for MySQL errors, since those have been getting more
-						// frequent, and would cause an I/O Exception to be thrown
-						// unnecessarily, when a re-request would do.  I'm not sure
-						// how they work right now (which line the MySQL error is
-						// printed to), but for now, assume that it's the first line.
+						KoLmafia.getLogStream().println( "Reading page content..." );
 
-						if ( line.indexOf( "error" ) != -1 )
+						// line breaks bloat the log
+						boolean breaks = false;
+
+						while ( true )
 						{
-							KoLmafia.getLogStream().println( "Encountered MySQL error.  Retrying..." );
-						}
-						else
-						{
-							KoLmafia.getLogStream().println( "Reading page content..." );
+							replyBuffer.append( line );
 
-							// The remaining lines form the rest of the content.  In order
-							// to make it easier for string parsing, the line breaks will
-							// ultimately be preserved.
-
-							while ( line != null )
-							{
-								replyBuffer.append( line );
-								line = istream.readLine();
-							}
+							// line breaks are important
+							// inside textarea input fields
+							if ( line.indexOf( "</textarea" ) != -1 )
+								breaks = false;
+							else if ( line.indexOf( "<textarea" ) != -1 )
+								breaks = true;
+							line = istream.readLine();
+							if ( line == null )
+								break;
+							if ( breaks )
+								replyBuffer.append( LINE_BREAK );
 						}
 					}
 				}
