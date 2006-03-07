@@ -745,12 +745,26 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			displayHTML = displayHTML.replaceAll( "<form(.*?)<tr><td([^>]*)>", "<tr><td$2><form$1" );
 			displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
 
-			Matcher selectMatcher = Pattern.compile( "<select name=whichitem>.*?</select>" ).matcher( displayHTML );
-			selectMatcher.find();
+			displayHTML = sortItemList( "whichitem", displayHTML );
+			displayHTML = sortItemList( "whichitem2", displayHTML );
+		}
 
+		// All HTML is now properly rendered!  Return the
+		// compiled string.  Print it to the debug log for
+		// reference purposes.
+
+		KoLmafia.getLogStream().println( displayHTML.replaceAll( StaticEntity.client.getPasswordHash(), "" ) );
+		return displayHTML;
+	}
+
+	private static String sortItemList( String select, String displayHTML )
+	{
+		Matcher selectMatcher = Pattern.compile( "<select name=" + select + ">.*?</select>" ).matcher( displayHTML );
+		if ( selectMatcher.find() )
+		{
 			ArrayList items = new ArrayList();
 			int selectedItem = -1;
-			Matcher itemMatcher = Pattern.compile( "<option.*?value=(\\d+)>.*?\\((\\d+)\\)</option>" ).matcher( selectMatcher.group() );
+			Matcher itemMatcher = Pattern.compile( "<option.*?value=(.*?)>.*?\\((.*?)\\)</option>" ).matcher( selectMatcher.group() );
 
 			try
 			{
@@ -796,12 +810,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			itemString.append( "</select>" );
 			displayHTML = displayHTML.replaceFirst( "<select name=whichitem>.*?</select>", itemString.toString() );
 		}
-
-		// All HTML is now properly rendered!  Return the
-		// compiled string.  Print it to the debug log for
-		// reference purposes.
-
-		KoLmafia.getLogStream().println( displayHTML.replaceAll( StaticEntity.client.getPasswordHash(), "" ) );
 		return displayHTML;
 	}
 
