@@ -845,6 +845,19 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Adding clan management command options inline
+		// in the parsing.
+
+		if ( command.equals( "clan" ) )
+		{
+			if ( parameters.equals( "snapshot" ) )
+				ClanManager.takeSnapshot( 20, 10, 5, 0, false );
+			else if ( parameters.equals( "stashlog" ) )
+				ClanManager.saveStashLog();
+
+			return;
+		}
+
 		// One command available after login is a request
 		// to print the current state of the StaticEntity.getClient().  This
 		// should be handled in a separate method, since
