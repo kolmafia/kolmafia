@@ -748,24 +748,21 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			Matcher selectMatcher = Pattern.compile( "<select name=whichitem>.*?</select>" ).matcher( displayHTML );
 			selectMatcher.find();
 
-			int selectedItem = -1;
-			AdventureResult currentItem;
-
 			ArrayList items = new ArrayList();
-			Matcher itemMatcher = Pattern.compile( "<option.*?>(.*?)</option>" ).matcher( selectMatcher.group() );
+			int selectedItem = -1;
+			Matcher itemMatcher = Pattern.compile( "<option.*?value=(\\d+)>.*?\\((\\d+)\\)</option>" ).matcher( selectMatcher.group() );
 
 			try
 			{
-				// Skip the first one in the list of items
-				// because it contains nothing.
-
-				itemMatcher.find();
-
-				for ( int i = 0; itemMatcher.find(); ++i )
+				while ( itemMatcher.find() )
 				{
-					currentItem = AdventureResult.parseResult( itemMatcher.group(1) );
+					int id = df.parse( itemMatcher.group(1) ).intValue();
+					if ( id == 0 )
+						continue;
+					int count = df.parse( itemMatcher.group(2) ).intValue();
+					AdventureResult currentItem = new AdventureResult( id, count );
 					if ( itemMatcher.group().indexOf( "selected" ) != -1 )
-						selectedItem = currentItem.getItemID();
+						selectedItem = id;
 
 					items.add( currentItem );
 				}
