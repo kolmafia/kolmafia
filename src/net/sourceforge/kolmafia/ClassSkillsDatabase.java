@@ -112,6 +112,18 @@ public class ClassSkillsDatabase extends KoLDatabase
 	}
 
 	/**
+	 * Returns the type for an skill, given its ID.
+	 * @param	skillID	The ID of the skill to lookup
+	 * @return	The type of the corresponding skill
+	 */
+
+	public static final int getSkillType( int skillID )
+	{
+		Object skillType = skillTypeByID.get( new Integer( skillID ) );
+		return skillType == null ? -1 : ((Integer)skillType).intValue();
+	}
+
+	/**
 	 * Returns the ID number for an skill, given its name.
 	 * @param	skillName	The name of the skill to lookup
 	 * @return	The ID number of the corresponding skill

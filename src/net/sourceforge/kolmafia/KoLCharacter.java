@@ -1742,14 +1742,31 @@ public abstract class KoLCharacter extends StaticEntity
 
 		availableSkills.add( skill );
 
-		if ( ClassSkillsDatabase.isNormal( id ) || ClassSkillsDatabase.isBuff( id ) )
-			usableSkills.add( skill );
-
-		if ( ClassSkillsDatabase.isCombat( id ) )
+		switch ( ClassSkillsDatabase.getSkillType( id ) )
 		{
+		case ClassSkillsDatabase.PASSIVE:
+			// Flavour of Magic gives you access to five other
+			// castable skills
+			if ( skill.getSkillName().equals( "Flavour of Magic" ) )
+			{
+				usableSkills.add( new UseSkillRequest( client, "Spirit of Cayenne", "", 1 ) );
+				usableSkills.add( new UseSkillRequest( client, "Spirit of Peppermint", "", 1 ) );
+				usableSkills.add( new UseSkillRequest( client, "Spirit of Garlic", "", 1 ) );
+				usableSkills.add( new UseSkillRequest( client, "Spirit of Wormwood", "", 1 ) );
+				usableSkills.add( new UseSkillRequest( client, "Spirit of Bacon Grease", "", 1 ) );
+			}
+			break;
+
+		case ClassSkillsDatabase.SKILL:
+		case ClassSkillsDatabase.BUFF:
+			usableSkills.add( skill );
+			break;
+
+		case ClassSkillsDatabase.COMBAT:
 			combatSkills.add( skill );
 			battleSkillIDs.add( String.valueOf( id ) );
 			battleSkillNames.add( "Skill: " + skill.getSkillName() );
+			break;
 		}
 	}
 

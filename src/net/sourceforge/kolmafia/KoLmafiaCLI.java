@@ -1897,15 +1897,12 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * A special module used to handle casting skills on yourself;
-	 * note, these skills have to be listed in the table.
+	 * A special module used to handle casting skills on yourself or others.
+	 * Castable skills must be listed in KoLCharacter.getUsableSkills()
 	 */
 
 	private void executeCastBuffRequest( String parameters )
 	{
-		String skillName;
-		int buffCount;
-
 		String [] splitParameters = parameters.replaceFirst( " [oO][nN] ", "\n" ).split( "\n" );
 
 		if ( splitParameters.length == 1 )
@@ -1915,56 +1912,74 @@ public class KoLmafiaCLI extends KoLmafia
 			splitParameters[1] = null;
 		}
 
+		String skillNameString;
+		String buffCountString;
+
 		if ( splitParameters[0].startsWith( "\"" ) )
 		{
-			skillName = splitParameters[0].substring( 1, splitParameters[0].length() - 1 );
-			buffCount = 1;
+			skillNameString = splitParameters[0].substring( 1, splitParameters[0].length() - 1 );
+			buffCountString = null;
 		}
-		else if ( getSkillName( splitParameters[0].toLowerCase() ) != null )
+		else if ( splitParameters[0].equals( "*" ) ||
+			  Character.isDigit( splitParameters[0].charAt( 0 ) ) )
 		{
-			skillName = getSkillName( splitParameters[0].toLowerCase() );
-			buffCount = 1;
-		}
-		else
-		{
-			String firstParameter = splitParameters[0].split( " " )[0].toLowerCase();
-			String skillNameString = splitParameters[0].substring( firstParameter.length() ).trim().toLowerCase();
+			buffCountString = splitParameters[0].split( " " )[0];
+			String rest = splitParameters[0].substring( buffCountString.length() ).trim();
 
-			if ( skillNameString.startsWith( "\"" ) )
+			if ( rest.startsWith( "\"" ) )
 			{
-				skillName = skillNameString.substring( 1, skillNameString.length() - 1 );
+				skillNameString = rest.substring( 1, rest.length() - 1 );
 			}
 			else
 			{
-				skillName = getSkillName( skillNameString );
-				if ( skillName == null )
-				{
-					StaticEntity.getClient().cancelRequest();
-					updateDisplay( ERROR_STATE, "Skill not available" );
-					return;
-				}
+				skillNameString = rest;
 			}
+		}
+		else
+		{
+			skillNameString = splitParameters[0];
+			buffCountString = null;
+		}
 
-			try
-			{
-				buffCount = firstParameter.equals( "*" ) ?
-					(int) ( KoLCharacter.getCurrentMP() /
-						ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) ) :
-							df.parse( firstParameter ).intValue();
-			}
-			catch ( Exception e )
-			{
-				// Technically, this exception should not be thrown, but if
-				// it is, then print an error message and return.
+		String skillName = getUsableSkillName( skillNameString );
+		if ( skillName == null )
+		{
+			String error;
+			if ( getCombatSkillName( skillNameString ) != null )
+				error = "Skill not available outside of combat";
+			else if ( getSkillName( skillNameString ) != null )
+				error = "Skill not castable";
+			else
+				error = "Skill not available";
+			StaticEntity.getClient().cancelRequest();
+			updateDisplay( ERROR_STATE, error );
+			return;
+		}
 
-				updateDisplay( ERROR_STATE, firstParameter + " is not a number." );
-				StaticEntity.getClient().cancelRequest();
+		int buffCount;
+		try
+		{
+			if ( buffCountString == null )
+				buffCount = 1;
+			else if ( buffCountString.equals( "*" ) )
+				buffCount = (int) ( KoLCharacter.getCurrentMP() /
+						    ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) );
+			else
+				buffCount = df.parse( buffCountString ).intValue();
+		}
+		catch ( Exception e )
+		{
+			// Technically, this exception should not be thrown,
+			// but if it is, then print an error message and
+			// return.
 
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+			updateDisplay( ERROR_STATE, buffCountString + " is not a number." );
+			StaticEntity.getClient().cancelRequest();
 
-				return;
-			}
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+
+			return;
 		}
 
 		if ( buffCount > 0 )
@@ -2004,6 +2019,15 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static String getSkillName( String substring )
 	{	return getSkillName( substring, KoLCharacter.getAvailableSkills() );
+	}
+
+	/**
+	 * Utility method used to retrieve the full name of a combat skill,
+	 * given a substring representing it.
+	 */
+
+	public static String getUsableSkillName( String substring )
+	{	return getSkillName( substring, KoLCharacter.getUsableSkills() );
 	}
 
 	/**
