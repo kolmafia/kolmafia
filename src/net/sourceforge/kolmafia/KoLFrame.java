@@ -1996,7 +1996,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		private JComboBox skillSelect;
 		private JComboBox targetSelect;
-		private JTextField countField;
 
 		public SkillBuffPanel()
 		{	this ( "" );
@@ -2009,12 +2008,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			skillSelect = new JComboBox( client == null ? new LockableListModel() : KoLCharacter.getUsableSkills() );
 			targetSelect = new MutableComboBox( client == null ? new SortedListModel() : (SortedListModel) client.getContactList().clone() );
 
-			countField = new JTextField();
-
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Skill Name: ", skillSelect );
 			elements[1] = new VerifiableElement( "The Victim: ", targetSelect );
-			elements[2] = new VerifiableElement( "# of Times: ", countField );
 			setContent( elements, true, true );
 			setDefaultButton( confirmedButton );
 
@@ -2031,7 +2027,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			super.setEnabled( isEnabled );
 			skillSelect.setEnabled( isEnabled );
 			targetSelect.setEnabled( isEnabled );
-			countField.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
@@ -2050,9 +2045,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			String [] targets = client.extractTargets( (String) targetSelect.getSelectedItem() );
 
-			int buffCount = maxBuff ?
-				(int) ( KoLCharacter.getCurrentMP() /
-					ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) ) : getValue( countField, 1 );
+			int buffCount = !maxBuff ? getQuantity( "Casting " + buffName + "...", 1 ) :
+				(int) ( KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) );
 
 			Runnable [] requests;
 
