@@ -1920,7 +1920,7 @@ public class KoLmafiaCLI extends KoLmafia
 			skillNameString = splitParameters[0].substring( 1, splitParameters[0].length() - 1 );
 			buffCountString = null;
 		}
-		else if ( splitParameters[0].equals( "*" ) ||
+		else if ( splitParameters[0].startsWith( "*" ) ||
 			  Character.isDigit( splitParameters[0].charAt( 0 ) ) )
 		{
 			buffCountString = splitParameters[0].split( " " )[0];
