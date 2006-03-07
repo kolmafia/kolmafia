@@ -454,6 +454,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void getBreakfast( String skillname, int standardCast )
 	{
 		int consumptionPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillname ) );
+		recoverMP( consumptionPerCast * standardCast );
 		if ( consumptionPerCast != 0 && consumptionPerCast <= KoLCharacter.getCurrentMP() )
 			(new UseSkillRequest( this, skillname, "", Math.min( standardCast, KoLCharacter.getCurrentMP() / consumptionPerCast ) )).run();
 	}
