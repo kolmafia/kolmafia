@@ -2045,7 +2045,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			String [] targets = client.extractTargets( (String) targetSelect.getSelectedItem() );
 
-			int buffCount = !maxBuff ? getQuantity( "Casting " + buffName + "...", 1 ) :
+			int buffCount = !maxBuff ? getQuantity( "Casting " + buffName + "...", Integer.MAX_VALUE, 1 ) :
 				(int) ( KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) );
 
 			Runnable [] requests;
