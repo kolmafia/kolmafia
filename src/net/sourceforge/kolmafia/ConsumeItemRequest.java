@@ -243,7 +243,7 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
-		if ( responseText.indexOf( "Too much" ) != -1 )
+		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
 			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Your spleen might go kabooie." );
