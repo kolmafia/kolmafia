@@ -63,7 +63,14 @@
 3014	0	0	Spirit of Ravioli
 3015	1	10	Springy Fusilli
 3016	0	0	Tolerance of the Kitchen
-3017	1	10	Flavour of Magic
+# The following is the skill which appears on the character sheet
+3017	0	0	Flavour of Magic
+# The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
+3101	1	10	Spirit of Cayenne
+3102	1	10	Spirit of Peppermint
+3103	1	10	Spirit of Garlic
+3104	1	10	Spirit of Wormwood
+3105	1	10	Spirit of Bacon Grease
 
 # Skills available to Saucerors
 
