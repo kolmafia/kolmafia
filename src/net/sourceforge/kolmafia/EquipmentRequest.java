@@ -64,7 +64,15 @@ public class EquipmentRequest extends PasswordHashRequest
 	// Perhaps this should be in that module, except this is closely tied
 	// to the PHP files that are manipulated by THIS module.
 
-	public static final String [] equipmentType =
+        // These are the public names
+	public static final String [] slotNames =
+	{
+		"hat", "weapon", "off-hand", "shirt", "pants",
+		"acc1", "acc2", "acc3", "familiar"
+	};
+
+        // These are the names used in the PHP file
+	public static final String [] phpSlotNames =
 	{
 		"hat", "weapon", "offhand", "shirt", "pants",
 		"acc1", "acc2", "acc3", "familiarequip"
@@ -73,13 +81,17 @@ public class EquipmentRequest extends PasswordHashRequest
 	private int requestType;
 	private int equipmentSlot;
 	private String changeItemName;
+	private int itemID;
+	private int equipmentType;
 	private SpecialOutfit outfit;
+	private String error;
 
 	public EquipmentRequest( KoLmafia client, int requestType )
 	{
 		super( client, requestType == CLOSET ? "closet.php" : requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
 		this.requestType = requestType;
 		this.outfit = null;
+		this.error = null;
 
 		// Otherwise, add the form field indicating which page
 		// of the inventory you want to request
@@ -110,22 +122,34 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( change.equals( UNEQUIP ) )
 		{
-			addFormField( "action", "unequip" );
-			addFormField( "type", equipmentType[ equipmentSlot ] );
-			addFormField( "pwd" );
 			this.requestType = REMOVE_ITEM;
-		}
-		else
-		{
-			if ( change.indexOf( "(" ) != -1 )
-				change = change.substring( 0, change.indexOf( "(" ) - 1 );
-
-			changeItemName = change.toLowerCase();
-			addFormField( "action", "equip" );
-			addFormField( "whichitem", String.valueOf( TradeableItemDatabase.getItemID( change ) ) );
+			this.error = null;
+			addFormField( "action", "unequip" );
+			addFormField( "type", phpSlotNames[ equipmentSlot ] );
 			addFormField( "pwd" );
-			this.requestType = CHANGE_ITEM;
+			return;
 		}
+
+		if ( change.indexOf( "(" ) != -1 )
+			change = change.substring( 0, change.indexOf( "(" ) - 1 );
+
+		// Find out what item is being equipped
+		this.itemID = TradeableItemDatabase.getItemID( change );
+
+		// Find out what kind of item it is
+		this.equipmentType = TradeableItemDatabase.getConsumptionType( itemID );
+
+		// Make sure you can equip it in the requested slot
+		String action = getAction();
+		if ( action == null )
+			return;
+
+		this.requestType = CHANGE_ITEM;
+		this.changeItemName = KoLDatabase.getCanonicalName( change );
+
+		addFormField( "action", action );
+		addFormField( "whichitem", String.valueOf( itemID ) );
+		addFormField( "pwd" );
 	}
 
 	public EquipmentRequest( KoLmafia client, SpecialOutfit change )
@@ -138,6 +162,75 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		this.requestType = CHANGE_OUTFIT;
 		this.outfit = change;
+		this.error = null;
+	}
+
+	private String getAction()
+	{
+		switch ( equipmentSlot )
+		{
+		case KoLCharacter.HAT:
+			if ( equipmentType == ConsumeItemRequest.EQUIP_HAT )
+				return "equip";
+			break;
+
+		case KoLCharacter.WEAPON:
+			if ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON )
+				return "equip";
+			break;
+
+		case KoLCharacter.OFFHAND:
+			if ( equipmentType == ConsumeItemRequest.EQUIP_OFFHAND )
+				return "equip";
+
+			if ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON )
+			{
+				if ( EquipmentDatabase.getHands( itemID ) > 1 )
+				{
+					error = "That weapon is too big to wield in your off hand.";
+					return null;
+				}
+				if ( !KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" ) )
+				{
+					error = "You don't know how to wield two weapons.";
+					return null;
+				}
+				return "dualwield";
+			}
+			break;
+
+		case KoLCharacter.SHIRT:
+			if ( equipmentType == ConsumeItemRequest.EQUIP_SHIRT )
+				return "equip";
+			break;
+
+		case KoLCharacter.PANTS:
+			if ( equipmentType == ConsumeItemRequest.EQUIP_PANTS )
+				return "equip";
+			break;
+
+		case KoLCharacter.ACCESSORY1:
+		case KoLCharacter.ACCESSORY2:
+		case KoLCharacter.ACCESSORY3:
+			if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
+				return "equip";
+			break;
+
+		case KoLCharacter.FAMILIAR:
+			if ( equipmentType == ConsumeItemRequest.EQUIP_FAMILIAR )
+				return "equip";
+			break;
+
+		case -1:
+			return "equip";
+
+		default:
+			error = "Internal error: bad slot (" + String.valueOf( equipmentSlot ) + ")";
+			return null;
+		}
+
+		error = "You can't put your " + TradeableItemDatabase.getItemName( itemID ) + " there.";
+		return null;
 	}
 
 	public String getOutfitName()
@@ -152,6 +245,14 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public void run()
 	{
+		// If we were given bogus parameters, report the error now
+		if ( error != null )
+		{
+			updateDisplay( ERROR_STATE, error );
+			client.cancelRequest();
+			return;
+		}
+
 		// Outfit changes are a bit quirky, so they're handled
 		// first for easy visibility.
 
@@ -213,7 +314,7 @@ public class EquipmentRequest extends PasswordHashRequest
 					// If we are requesting another familiar's
 					// equipment, make it available.
 
-					AdventureResult result = new AdventureResult( changeItemName, 0 );
+					AdventureResult result = new AdventureResult( itemID, 1 );
 					if ( !KoLCharacter.getInventory().contains( result ) )
 					{
 						// Find first familiar with item
@@ -223,12 +324,12 @@ public class EquipmentRequest extends PasswordHashRequest
 						{
 							if ( familiars[i].getItem() != null && familiars[i].getItem().indexOf( changeItemName ) != -1 )
 							{
-								updateDisplay( NORMAL_STATE, "Stealing " + changeItemName + " from " + familiars[i].getRace() + "..." );
+								updateDisplay( NORMAL_STATE, "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
 								KoLRequest unequip = new KoLRequest( client, "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID(), true );
 								unequip.run();
 
 								familiars[i].setItem( UNEQUIP );
-								client.processResult( new AdventureResult( changeItemName, 1 ), false );
+								client.processResult( result, false );
 
 								break;
 							}
@@ -263,7 +364,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				break;
 
 			case CHANGE_ITEM:
-				updateDisplay( NORMAL_STATE, "Putting on " + changeItemName + "..." );
+				updateDisplay( NORMAL_STATE, ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON ? "Wielding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
 				break;
 
 			case REMOVE_ITEM:
@@ -545,12 +646,12 @@ public class EquipmentRequest extends PasswordHashRequest
 		if ( outfitName != null )
 			return "outfit " + outfitName;
 
-		if ( changeItemName == null )
-			return "";
+		if ( requestType == REMOVE_ITEM )
+			return "unequip " + slotNames[ equipmentSlot ];
 
-		if ( changeItemName.equals( UNEQUIP ) )
-			return "unequip " + changeItemName;
+		if ( requestType == CHANGE_ITEM )
+			return "equip " + slotNames[ equipmentSlot ] + " " + changeItemName;
 
-		return "equip " + changeItemName;
+		return "";
 	}
 }

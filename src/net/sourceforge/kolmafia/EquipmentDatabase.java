@@ -146,6 +146,10 @@ public class EquipmentDatabase extends KoLDatabase
 		return power[ itemID ];
 	}
 
+	public static int getHands( int itemID )
+	{	return hands[ itemID ];
+	}
+
 	public static int getHands( String itemName )
 	{
 		int itemID = TradeableItemDatabase.getItemID( itemName );
@@ -153,7 +157,7 @@ public class EquipmentDatabase extends KoLDatabase
 		if ( itemID == -1 )
 			return 0;
 
-		return hands[ itemID ];
+		return getHands( itemID );
 	}
 
 	public static boolean hasOutfit( int id )

@@ -994,34 +994,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "equip" ) )
 		{
-			if ( parameters.startsWith( "list" ) )
-			{
-				executePrintCommand( "equipment " + parameters.substring(4).trim() );
-				return;
-			}
-			else if ( parameters.length() == 0 )
-			{
-				executePrintCommand( "equipment" );
-				return;
-			}
-
-			AdventureResult match = getFirstMatchingItem( parameters, NOWHERE );
-			if ( match != null )
-			{
-				// Take advantage of KoLmafia's built-in
-				// familiar item switching.
-
-				StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), match.getName() ), 1 );
-			}
-			else
-			{
-				// No item exists which matches the given
-				// substring - error out.
-
-				updateDisplay( ERROR_STATE, "No item matching substring \"" + match + "\"" );
-				StaticEntity.getClient().cancelRequest();
-			}
-
+			executeEquipCommand( parameters );
 			return;
 		}
 
@@ -1030,21 +1003,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "unequip" ) )
 		{
-			// The following loop removes the first item with
-			// the specified name.
-
-			parameters = parameters.toLowerCase();
-
-			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
-			{
-				if ( KoLCharacter.getCurrentEquipmentName( i ) != null && KoLCharacter.getCurrentEquipmentName( i ).indexOf( parameters ) != -1 )
-				{
-					StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, i ), 1 );
-					return;
-				}
-			}
-
-			StaticEntity.getClient().updateDisplay( ERROR_STATE, "No equipment found matching string \"" + parameters + "\"" );
+			executeUnequipCommand( parameters );
 			return;
 		}
 
@@ -2098,6 +2057,87 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( StaticEntity.getClient().permitsContinue() )
 				updateDisplay( NORMAL_STATE, "Requests complete!" );
 		}
+	}
+
+	/**
+	 * A special module used specifically for equipping items.
+	 */
+
+	private void executeEquipCommand( String parameters )
+	{
+		if ( parameters.length() == 0 )
+		{
+			executePrintCommand( "equipment" );
+			return;
+		}
+
+		if ( parameters.startsWith( "list" ) )
+		{
+			executePrintCommand( "equipment " + parameters.substring(4).trim() );
+			return;
+		}
+
+		// Look for name of slot
+		int slot = -1;
+
+		String command = parameters.split( " " )[0];
+		for ( int i = 0; i < EquipmentRequest.slotNames.length; ++i )
+			if ( command.equals( EquipmentRequest.slotNames[i] ) )
+			{
+				parameters = parameters.substring( command.length() ).trim();
+				slot = i;
+				break;
+			}
+
+		AdventureResult match = getFirstMatchingItem( parameters, NOWHERE );
+		if ( match == null )
+		{
+			// No item exists which matches the given
+			// substring - error out.
+
+			updateDisplay( ERROR_STATE, "No item matching substring \"" + match + "\"" );
+			StaticEntity.getClient().cancelRequest();
+			return;
+		}
+
+		// Take advantage of KoLmafia's built-in familiar item
+		// switching.
+
+		StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), match.getName(), slot ), 1 );
+	}
+
+	/**
+	 * A special module used specifically for  unequipping items.
+	 */
+
+	private void executeUnequipCommand( String parameters )
+	{
+		// Look for name of slot
+		String command = parameters.split( " " )[0];
+
+		for ( int i = 0; i < EquipmentRequest.slotNames.length; ++i )
+			if ( command.equals( EquipmentRequest.slotNames[i] ) )
+			{
+				StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, i ), 1 );
+				return;
+			}
+
+		// The following loop removes the first item with
+		// the specified name.
+
+		parameters = parameters.toLowerCase();
+
+		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
+		{
+			if ( KoLCharacter.getCurrentEquipmentName( i ) != null && KoLCharacter.getCurrentEquipmentName( i ).indexOf( parameters ) != -1 )
+			{
+				StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, i ), 1 );
+				return;
+			}
+		}
+
+		StaticEntity.getClient().updateDisplay( ERROR_STATE, "No equipment found matching string \"" + parameters + "\"" );
+		return;
 	}
 
 	/**
