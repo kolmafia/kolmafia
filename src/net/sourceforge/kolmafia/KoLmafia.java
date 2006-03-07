@@ -390,6 +390,8 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve breakfast if the option to retrieve breakfast
 		// was previously selected.
 
+		this.settings = new KoLSettings( loginname );
+
 		if ( getBreakfast )
 			getBreakfast();
 
@@ -397,11 +399,12 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			deinitialize();
 			enableDisplay();
+
+			this.settings = GLOBAL_SETTINGS;
 			return;
 		}
 
 		this.isLoggingIn = false;
-		this.settings = new KoLSettings( loginname );
 		resetContinueState();
 
 		HPRestoreItemList.reset();
