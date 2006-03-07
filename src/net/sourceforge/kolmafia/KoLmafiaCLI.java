@@ -428,6 +428,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			downloadAdventureOverride();
 			updateDisplay( ENABLE_STATE, "You will need to restart KoLmafia for the changes to take effect." );
+			return;
 		}
 
 		if ( command.equals( "abort" ) )
