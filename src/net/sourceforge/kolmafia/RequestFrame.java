@@ -416,10 +416,10 @@ public class RequestFrame extends KoLFrame
 		{
 			String adventure = request.getURLString();
 
-			if ( getCurrentLocation().startsWith( "adventure.php" ) && adventure != null )
+			if ( adventure != null && adventure.startsWith( "adventure.php" ) )
 			{
-				Matcher dataMatcher = Pattern.compile( "adv=(\\d+)" ).matcher( adventure );
-				return client.isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(1) );
+				Matcher dataMatcher = Pattern.compile( "(snarfblat|adv)=(\\d+)" ).matcher( adventure );
+				return client.isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(2) );
 			}
 
 			return false;
