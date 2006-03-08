@@ -426,6 +426,9 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				for ( int i = 0; i < 9; ++i )
 					switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
+				// After all the items have been switched,
+				// update lists.
+				KoLCharacter.refreshCalculatedLists();
 			}
 
 			KoLmafia.getLogStream().println( "Parsing complete." );
@@ -459,11 +462,13 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( switchIn != switchOut )
 		{
+			// Manually add/subtract items from inventory to avoid
+			// excessive list updating. 
 			if ( switchIn != -1 )
-				client.processResult( new AdventureResult( switchIn, -1 ), false );
+				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchIn, -1 ) );
 
 			if ( switchOut != -1 )
-				client.processResult( new AdventureResult( switchOut, 1 ), false );
+				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchOut, 1 ) );
 		}
 	}
 
