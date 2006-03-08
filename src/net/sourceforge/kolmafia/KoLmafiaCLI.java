@@ -846,6 +846,19 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Add in item retrieval the way KoLmafia handles
+		// it internally.
+
+		if ( command.equals( "retrieve" ) )
+		{
+			AdventureResult item = getFirstMatchingItem( parameters, NOWHERE );
+
+			if ( item != null )
+				AdventureDatabase.retrieveItem( item );
+
+			return;
+		}
+
 		// Adding clan management command options inline
 		// in the parsing.
 

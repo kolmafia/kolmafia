@@ -1595,6 +1595,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_STRING ) };
 		result.addFunction( new ScriptExistingFunction( "train_familiar", new ScriptType( TYPE_BOOLEAN ), params ) );
 
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
+		result.addFunction( new ScriptExistingFunction( "retrieve_item", new ScriptType( TYPE_BOOLEAN ), params ) );
+
 		return result;
 	}
 
@@ -2029,6 +2032,8 @@ public class KoLmafiaASH extends StaticEntity
 					return executeTavernRequest();
 				else if ( name.equals( "train_familiar" ) )
 					return executeTrainFamiliarRequest( variables[0].getIntValue(), variables[1].getStringValue() );
+				else if ( name.equals( "retrieve_item" ) )
+					return executeRetrieveItemRequest( variables[0].getIntValue(), variables[1].getIntValue() );
 				else
 					throw new RuntimeException( "Internal error: unknown library function " + name );
 			}
@@ -2545,6 +2550,12 @@ public class KoLmafiaASH extends StaticEntity
 		private ScriptValue executeTrainFamiliarRequest( int amount, String trainType ) throws AdvancedScriptException
 		{
 			DEFAULT_SHELL.executeLine( "train " + trainType + " " + amount );
+			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+		}
+
+		private ScriptValue executeRetrieveItemRequest( int amount, int itemID ) throws AdvancedScriptException
+		{
+			AdventureDatabase.retrieveItem( new AdventureResult( itemID, amount ) );
 			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 		}
 	}
