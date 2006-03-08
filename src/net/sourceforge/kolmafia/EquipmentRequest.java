@@ -440,6 +440,10 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
+	protected void processResults()
+	{
+	}
+
 	private void switchItem( String oldItem, String newItem )
 	{
 		if ( client.inLoginState() )
