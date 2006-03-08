@@ -989,7 +989,12 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( highlight == null )
 			return;
 
-		Color color = new Color( 64 + RNG.nextInt( 128 ), 64 + RNG.nextInt( 128 ), 64 + RNG.nextInt( 128 ) );
+		int [] colors = new int[3];
+		while ( colors[0] > 80 && colors[1] > 80 && colors[2] > 80 )
+			for ( int i = 0; i < 3; ++i )
+				colors[i] = 48 + RNG.nextInt( 144 );
+
+		Color color = new Color( colors[0], colors[1], colors[2] );
 		highlighting = true;
 
 		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
