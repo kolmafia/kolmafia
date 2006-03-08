@@ -145,13 +145,23 @@ public class MuseumFrame extends KoLFrame
 			displayPanel.setEnabled( isEnabled );
 		}
 
+		private Object [] getSelectedValues( Object [] selection, boolean moveAll )
+		{
+			if ( !moveAll )
+				for ( int i = 0; i < selection.length; ++i )
+					selection[i] = ((AdventureResult)selection[i]).getInstance(
+						getQuantity( "Moving " + ((AdventureResult)selection[i]).getName() + "...", 1 ) );
+
+			return selection;
+		}
+
 		private class OutsideDisplayPanel extends ItemManagePanel
 		{
 			public OutsideDisplayPanel()
-			{	super( "Inventory", "add to display", "put in closet", KoLCharacter.getInventory() );
+			{	super( "Inventory", "add maximum", "add multiple", KoLCharacter.getInventory() );
 			}
 
-			protected void actionConfirmed()
+			private void move( boolean moveAll )
 			{
 				if ( !KoLCharacter.hasDisplayCase() )
 				{
@@ -160,39 +170,42 @@ public class MuseumFrame extends KoLFrame
 				}
 
 				Runnable [] parameters = new Runnable[2];
-				parameters[0] = new MuseumRequest( client, elementList.getSelectedValues(), true );
+				parameters[0] = new MuseumRequest( client, getSelectedValues( elementList.getSelectedValues(), moveAll ), true );
 				parameters[1] = new MuseumRequest( client );
 
 				(new RequestThread( parameters )).start();
 			}
 
+			protected void actionConfirmed()
+			{	move( true );
+			}
+
 			protected void actionCancelled()
-			{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, elementList.getSelectedValues() ) )).start();
+			{	move( false );
 			}
 		}
 
 		private class InsideDisplayPanel extends ItemManagePanel
 		{
 			public InsideDisplayPanel()
-			{	super( "Display Case", "put in bag", "put in closet", KoLCharacter.getCollection() );
+			{	super( "Display Case", "remove maximum", "remove multiple", KoLCharacter.getCollection() );
 			}
 
-			protected void actionConfirmed()
+			private void move( boolean moveAll )
 			{
 				Runnable [] parameters = new Runnable[2];
-				parameters[0] = new MuseumRequest( client, elementList.getSelectedValues(), false );
+				parameters[0] = new MuseumRequest( client, getSelectedValues( elementList.getSelectedValues(), moveAll ), false );
 				parameters[1] = new MuseumRequest( client );
 
 				(new RequestThread( parameters )).start();
 			}
 
-			protected void actionCancelled()
-			{
-				Runnable [] parameters = new Runnable[2];
-				parameters[0] = new MuseumRequest( client, elementList.getSelectedValues(), true );
-				parameters[1] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, elementList.getSelectedValues() );
+			protected void actionConfirmed()
+			{	move( true );
+			}
 
-				(new RequestThread( parameters )).start();
+			protected void actionCancelled()
+			{	move( false );
 			}
 		}
 	}
