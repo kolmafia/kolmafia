@@ -355,7 +355,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean isFallingDown()
 	{
-		return getInebriety() > (KoLCharacter.hasSkill( "Liver of Steel" ) ? 19 : 14);
+		return getInebriety() > (hasSkill( "Liver of Steel" ) ? 19 : 14);
 	}
 
 	/**
@@ -1083,8 +1083,15 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static List getFilteredItems( int filterID, String equippedItem )
 	{
-		String currentItem;
 		List items = new ArrayList();
+
+		// If we are looking for off-hand items, the character is
+		// currently equipped with a one-handed weapon, and the
+		// character has the ability to dual-wield weapons, then also
+		// search for one-handed weapons.
+		boolean dual = ( filterID == ConsumeItemRequest.EQUIP_OFFHAND &&
+				 weaponHandedness() == 1 &&
+				 hasSkill( "Double-Fisted Skull Smashing" ) );
 
 		// If we are looking for familiar items, but we don't
 		// have a familiar, then no familiar items can actually
@@ -1098,9 +1105,10 @@ public abstract class KoLCharacter extends StaticEntity
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
-			currentItem = ((AdventureResult)inventory.get(i)).getName().toLowerCase();
+			String currentItem = ((AdventureResult)inventory.get(i)).getName().toLowerCase();
+			int type = TradeableItemDatabase.getConsumptionType( currentItem );
 
-			if ( TradeableItemDatabase.getConsumptionType( currentItem ) == filterID )
+			if ( type == filterID || ( dual && type == ConsumeItemRequest.EQUIP_WEAPON && EquipmentDatabase.getHands( currentItem ) == 1 ) )
 			{
 				// If it's a familiar item, make sure it's OK
 				// for current familiar.
@@ -2195,7 +2203,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasItem( AdventureResult item, boolean shouldCreate )
 	{
-		if ( item.getCount( KoLCharacter.getInventory() ) > 0 || item.getCount( KoLCharacter.getCloset() ) > 0 )
+		if ( item.getCount( getInventory() ) > 0 || item.getCount( getCloset() ) > 0 )
 			return true;
 
 		if ( shouldCreate )
