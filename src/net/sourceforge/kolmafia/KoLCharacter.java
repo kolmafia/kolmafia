@@ -1038,14 +1038,14 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to retrieve whether the character has a big weapon
-	 * @return	boolean	true if the weapon takes more than one hand to hold
+	 * Accessor method to retrieve # of hands character's weapon uses
+	 * @return	int	number of hands needed
 	 */
 
-	public static boolean bigWeapon()
+	public static int weaponHandedness()
 	{
 		String name = getCurrentEquipmentName( WEAPON );
-		return ( name == null) ? false : EquipmentDatabase.getHands( name ) > 1;
+		return ( name == null) ? 0 : EquipmentDatabase.getHands( name );
 	}
 
 	/**

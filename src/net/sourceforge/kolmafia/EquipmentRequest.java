@@ -185,6 +185,11 @@ public class EquipmentRequest extends PasswordHashRequest
 
 			if ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON )
 			{
+				if ( KoLCharacter.weaponHandedness() != 1 )
+				{
+					error = "You must have a 1-handed primary weapon equipped first.";
+					return null;
+				}
 				if ( EquipmentDatabase.getHands( itemID ) > 1 )
 				{
 					error = "That weapon is too big to wield in your off hand.";
@@ -650,7 +655,11 @@ public class EquipmentRequest extends PasswordHashRequest
 			return "unequip " + slotNames[ equipmentSlot ];
 
 		if ( requestType == CHANGE_ITEM )
+		{
+			if ( equipmentSlot == -1 )
+				return "equip " + changeItemName;
 			return "equip " + slotNames[ equipmentSlot ] + " " + changeItemName;
+		}
 
 		return "";
 	}

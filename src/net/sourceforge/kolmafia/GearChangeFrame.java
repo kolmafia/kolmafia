@@ -120,7 +120,7 @@ public class GearChangeFrame extends KoLFrame
 				{
 					// Do not enable Off-Hand if character
 					// has a big weapon
-					if ( i == KoLCharacter.OFFHAND && KoLCharacter.bigWeapon() )
+					if ( i == KoLCharacter.OFFHAND && KoLCharacter.weaponHandedness() > 1 )
 						continue;
 
 					// Enable Shirts only if character has
