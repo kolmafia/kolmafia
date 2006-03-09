@@ -826,7 +826,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( hasItem( SCUBA ) )
 		{
 			AdventureDatabase.retrieveItem( SCUBA );
-			(new EquipmentRequest( client, "makeshift SCUBA gear" )).run();
+			(new EquipmentRequest( client, "makeshift SCUBA gear", KoLCharacter.ACCESSORY1 )).run();
 
 			client.updateDisplay( NORMAL_STATE, "Pressing switch beyond odor..." );
 			(new KoLRequest( client, "lair2.php?action=odor" )).run();
