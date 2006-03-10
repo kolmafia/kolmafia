@@ -480,7 +480,7 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		while ( !hasItem( RHYTHM ) )
+		while ( client.permitsContinue() && !hasItem( RHYTHM ) )
 		{
 			// The character needs to have at least 50 HP, or 25% of
 			// maximum HP (whichever is greater) in order to play
