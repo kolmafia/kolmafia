@@ -168,6 +168,13 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			client.cancelRequest();
 			lastUpdate = target + " cannot receive buffs.";
 		}
+		else if ( responseText.indexOf( "accordion equipped" ) != -1 )
+		{
+			// "You need to have an accordion equipped or in your
+			// inventory if you want to play that song."
+			client.cancelRequest();
+			lastUpdate = "You need an accordion to play Accordion Thief songs.";
+		}
 		else
 		{
 			lastUpdate = "";
