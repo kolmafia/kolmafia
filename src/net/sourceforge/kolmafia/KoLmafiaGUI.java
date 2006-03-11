@@ -494,6 +494,9 @@ public class KoLmafiaGUI extends KoLmafia
 				null, "Set the device to what level?", "Change mind control device from level " + KoLCharacter.getMindControlLevel(),
 					JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ KoLCharacter.getMindControlLevel() ] );
 
+			if ( selectedLevel == null)
+				return;
+
 			(new RequestThread( new MindControlRequest( this, df.parse( selectedLevel.split( " " )[1] ).intValue() ) )).start();
 		}
 		catch ( Exception e )
