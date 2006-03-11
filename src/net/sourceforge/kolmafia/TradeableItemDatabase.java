@@ -231,6 +231,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "mr. accessory jrs." ) )
 			return 896;
 
+		// One zombie pineal gland, Two zombie glands pineal.
+		// For some reason.
+
+		if ( canonicalName.equals( "zombie glands pineal" ) )
+			return 1343;
+
 		// Fedoras are pluralized 1337-style, so make sure
 		// they are recognized as well.
 
