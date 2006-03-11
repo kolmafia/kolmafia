@@ -223,7 +223,7 @@
 223	phat turquoise bracelet	8	75
 224	eyepatch	9	30
 225	tofu casserole	1	107
-226	can of Red Minotaur	0	337
+226	can of Red Minotaur	4	337
 227	Kentucky-fried meat sword	12	180
 228	Kentucky-fried meat staff	12	180
 229	Kentucky-fried meat crossbow	12	180
@@ -863,10 +863,10 @@
 863	skewer-mounted razor blade	7	75
 864	brass stinger	7	75
 865	lead necklace	7	75
-866	shaving cream	1	35
-867	pine tar	1	31
+866	shaving cream	4	35
+867	pine tar	4	31
 868
-869	forest tears	1	33
+869	forest tears	4	33
 870	fetus-smashing club	12	0
 871	meatcar model	7	75
 872	Time Juice	0	0
