@@ -299,7 +299,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( tool == null )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Can't deduce correct tool to use." );
 			return;
 		}
@@ -322,7 +321,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( quantityNeeded >= 10 )
 		{
 			updateDisplay( ERROR_STATE, "Please purchase a " + tool.getName() + " first." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -356,7 +354,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// exist and the user has opted to repair.
 
 		if ( !autoRepairBoxServant() )
-			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "Failed to auto-repair box servant." );
 
 		// If the request has been cancelled midway, be
 		// sure to return from here.
@@ -407,14 +405,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You're missing ingredients." );
 			return;
 		}
 
 		if ( responseText.indexOf( "You don't have that many adventures left" ) != -1 )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You don't have enough adventures." );
 			return;
 		}
@@ -521,34 +517,34 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				return true;
 		}
 
-		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
-		{
-			boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
+		boolean autoRepairSuccessful = false;
 
+		// If they do want to auto-repair, make sure that
+		// the appropriate item is available in their inventory
+
+		if ( getProperty( "autoRepairBoxes" ).equals( "true" ) )
+		{
 			switch ( mixingMethod )
 			{
 				case COOK:
 				case COOK_REAGENT:
 				case COOK_PASTA:
 
-					if ( noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) )
-						return true;
+					autoRepairSuccessful = useBoxServant( CHEF, CLOCKWORK_CHEF );
 					break;
 
 				case MIX:
 				case MIX_SPECIAL:
 
-					if ( noServantNeeded && KoLCharacter.getInventory().contains( KIT ) )
-						return true;
+					autoRepairSuccessful = useBoxServant( BARTENDER, CLOCKWORK_BARTENDER );
 					break;
 			}
-
-			updateDisplay( ERROR_STATE, "Box servant explosion!" );
-			return false;
 		}
 
-		// If they do want to auto-repair, make sure that
-		// the appropriate item is available in their inventory
+		if ( autoRepairSuccessful )
+			return true;
+
+		boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
 
 		switch ( mixingMethod )
 		{
@@ -556,12 +552,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_REAGENT:
 			case COOK_PASTA:
 
-				return useBoxServant( CHEF, CLOCKWORK_CHEF );
+				return noServantNeeded && KoLCharacter.getInventory().contains( OVEN );
 
 			case MIX:
 			case MIX_SPECIAL:
 
-				return useBoxServant( BARTENDER, CLOCKWORK_BARTENDER );
+				return noServantNeeded && KoLCharacter.getInventory().contains( KIT );
 		}
 
 		return false;
@@ -571,19 +567,23 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	{
 		// First, check to see if a box servant is available
 		// for usage, either normally, or through some form
-		// of creation.  This can be done by consulting the
-		// creation table.
+		// of creation.
+
+		AdventureResult usedServant = null;
 
 		if ( KoLCharacter.hasItem( servant, false ) )
-			AdventureDatabase.retrieveItem( servant );
-		else if ( KoLCharacter.hasItem( clockworkServant, false ) )
-			AdventureDatabase.retrieveItem( clockworkServant );
-		else if ( KoLCharacter.hasItem( servant, true ) )
-			AdventureDatabase.retrieveItem( servant );
-		else if ( KoLCharacter.hasItem( clockworkServant, true ) )
-			AdventureDatabase.retrieveItem( clockworkServant );
+			usedServant = servant;
 
-		if ( servant.getCount( KoLCharacter.getInventory() ) < 1 )
+		else if ( KoLCharacter.hasItem( clockworkServant, false ) )
+			usedServant = clockworkServant;
+
+		else if ( KoLCharacter.hasItem( servant, true ) )
+			usedServant = servant;
+
+		else if ( KoLCharacter.hasItem( clockworkServant, true ) )
+			usedServant = clockworkServant;
+
+		if ( usedServant == null )
 		{
 			updateDisplay( ERROR_STATE, "Could not auto-repair " + servant.getName() + "." );
 			return false;
@@ -593,8 +593,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// have the servant in your inventory, so attempt
 		// to repair the box servant.
 
-		updateDisplay( NORMAL_STATE, "Repairing " + servant.getName() + "..." );
-		(new ConsumeItemRequest( client, servant )).run();
+		(new ConsumeItemRequest( client, usedServant )).run();
 		return true;
 	}
 
