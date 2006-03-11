@@ -638,10 +638,36 @@ public class AdventureDatabase extends KoLDatabase
 
 			// Try to purchase the item from the mall, if the
 			// user wishes to autosatisfy through purchases,
-			// and the item is not made through combination.
+			// and the item is not creatable through combines.
 
-			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) && (creator == null || ConcoctionsDatabase.getMixingMethod( creator.getItemID() ) != ItemCreationRequest.COMBINE) )
-				missingCount = retrieveItem( "buy", null, item, missingCount );
+			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+			{
+				// People, in general, don't want to buy the
+				// expensive stages of a TPS drink.  Therefore,
+				// avoid the expensive stages in purchases.
+
+				switch ( item.getItemID() )
+				{
+					case 945:  // skewered jumbo-olive
+					case 946:  // skewered lime
+					case 947:  // skewered cherry
+
+					case 948:  // dirty martini
+					case 949:  // grogtini
+					case 950:  // cherry bomb
+
+					case 1023: // vesper
+					case 1024: // bodyslam
+					case 1025: // sangria del diablo
+
+						break;
+
+					default:
+
+						if ( creator == null || ConcoctionsDatabase.getMixingMethod( item.getItemID() ) != ItemCreationRequest.COMBINE )
+							missingCount = retrieveItem( "buy", null, item, missingCount );
+				}
+			}
 
 			if ( missingCount <= 0 )
 				return;
@@ -657,9 +683,11 @@ public class AdventureDatabase extends KoLDatabase
 			}
 
 			// Try to purchase the item from the mall, if the
-			// user wishes to autosatisfy through purchases.
+			// user wishes to autosatisfy through purchases,
+			// but only for combinable items (non-combinables
+			// would have been handled earlier).
 
-			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) && ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.COMBINE )
 				missingCount = retrieveItem( "buy", null, item, missingCount );
 
 			if ( missingCount <= 0 )
