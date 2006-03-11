@@ -169,8 +169,7 @@ public class KoLmafiaASH extends StaticEntity
 		catch( AdvancedScriptException e )
 		{
 			commandStream.close();
-			client.updateDisplay( KoLmafia.ERROR_STATE, e.getMessage() );
-			client.cancelRequest();
+			client.updateDisplay( ERROR_STATE, e.getMessage() );
 
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();

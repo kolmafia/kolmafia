@@ -381,7 +381,6 @@ public class AdventureDatabase extends KoLDatabase
 			if ( request.responseText.indexOf( "beach.php" ) == -1 )
 			{
 				client.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
-				client.cancelRequest();
 				return;
 			}
 			return;
@@ -524,7 +523,6 @@ public class AdventureDatabase extends KoLDatabase
 		if ( request.responseText.indexOf( adventure.getAdventureID() ) == -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
-			client.cancelRequest();
 			return;
 		}
 	}
@@ -672,7 +670,6 @@ public class AdventureDatabase extends KoLDatabase
 			// available to continue and cancel the request.
 
 			client.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
-			client.cancelRequest();
 		}
 		catch ( Exception e )
 		{

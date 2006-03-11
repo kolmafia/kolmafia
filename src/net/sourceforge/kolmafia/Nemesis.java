@@ -67,7 +67,6 @@ public abstract class Nemesis extends StaticEntity
 		if ( request.responseText.indexOf( "cave.php" ) == -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "You haven't been given the quest to defeat your Nemesis!" );
-			client.cancelRequest();
 			return false;
 		}
 
@@ -103,7 +102,6 @@ public abstract class Nemesis extends StaticEntity
 		else if ( request.responseText.indexOf( "cave9done" ) != -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "You've already defeated your nemesis." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -231,7 +229,6 @@ public abstract class Nemesis extends StaticEntity
 			if ( request.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
 			{
 				client.updateDisplay( ERROR_STATE, "You're out of adventures." );
-				client.cancelRequest();
 				return;
 			}
 

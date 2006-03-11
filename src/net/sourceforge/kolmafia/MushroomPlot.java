@@ -336,7 +336,6 @@ public abstract class MushroomPlot extends StaticEntity
 		if ( square < 1 || square > 16 )
 		{
 			client.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
-			client.cancelRequest();
 			return false;
 		}
 
@@ -359,7 +358,6 @@ public abstract class MushroomPlot extends StaticEntity
 		if ( sporeIndex == -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "You can't plant that." );
-			client.cancelRequest();
 			return false;
 		}
 
@@ -427,7 +425,6 @@ public abstract class MushroomPlot extends StaticEntity
 		if ( square < 1 || square > 16 )
 		{
 			client.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
-			client.cancelRequest();
 			return false;
 		}
 
@@ -477,7 +474,6 @@ public abstract class MushroomPlot extends StaticEntity
 		if ( !KoLCharacter.inMuscleSign() )
 		{
 			client.updateDisplay( ERROR_STATE, "You can't find the mushroom fields." );
-			client.cancelRequest();
 			return false;
 		}
 
@@ -492,7 +488,6 @@ public abstract class MushroomPlot extends StaticEntity
 		if ( ownsPlot == false )
 		{
 			client.updateDisplay( ERROR_STATE, "You haven't bought a mushroom plot yet." );
-			client.cancelRequest();
 			return false;
 		}
 

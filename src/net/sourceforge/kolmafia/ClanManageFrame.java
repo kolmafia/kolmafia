@@ -226,10 +226,7 @@ public class ClanManageFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			if ( isBuffing )
-			{
-				client.cancelRequest();
 				client.updateDisplay( ERROR_STATE, "Purchase attempts cancelled." );
-			}
 		}
 	}
 

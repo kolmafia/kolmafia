@@ -90,7 +90,6 @@ public class RestaurantRequest extends KoLRequest
 		if ( !KoLCharacter.inMysticalitySign() )
 		{
 			client.updateDisplay( ERROR_STATE, "You can't find the restaurant." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -99,14 +98,12 @@ public class RestaurantRequest extends KoLRequest
 			if ( price == 0 )
 			{
 				client.updateDisplay( ERROR_STATE, "The restaurant doesn't sell that." );
-				client.cancelRequest();
 				return;
 			}
 
 			if ( !KoLCharacter.canEat() )
 			{
 				client.updateDisplay( ERROR_STATE, "You can't eat. Why are you here?" );
-				client.cancelRequest();
 				return;
 			}
 		}
@@ -120,7 +117,6 @@ public class RestaurantRequest extends KoLRequest
 			if ( responseText.indexOf( "You are too full to eat that." ) != -1 )
 			{
 				client.updateDisplay( ERROR_STATE, "Consumption limit reached." );
-				client.cancelRequest();
 				return;
 			}
 

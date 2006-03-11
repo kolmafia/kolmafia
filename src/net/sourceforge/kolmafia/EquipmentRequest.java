@@ -254,7 +254,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		if ( error != null )
 		{
 			updateDisplay( ERROR_STATE, error );
-			client.cancelRequest();
 			return;
 		}
 
@@ -467,7 +466,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		if ( switchIn != switchOut )
 		{
 			// Manually add/subtract items from inventory to avoid
-			// excessive list updating. 
+			// excessive list updating.
 			if ( switchIn != -1 )
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchIn, -1 ) );
 

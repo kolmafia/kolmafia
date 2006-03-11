@@ -77,7 +77,6 @@ public class CakeArenaRequest extends KoLRequest
 			// should not continue with the next iteration.
 			// Friendly error messages to come later.
 
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Arena battles aborted!" );
 			return;
 		}

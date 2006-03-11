@@ -440,7 +440,6 @@ public class AdventureFrame extends KoLFrame
 			else
 			{
 				client.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
-				client.cancelRequest();
 				locationSelect.requestFocus();
 			}
 		}
@@ -613,7 +612,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			if ( currentlyBuying )
 			{
-				client.cancelRequest();
+				client.updateDisplay( ABORT_STATE, "Purchases stopped." );
 				return;
 			}
 

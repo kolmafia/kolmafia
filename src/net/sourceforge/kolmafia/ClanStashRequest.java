@@ -165,7 +165,6 @@ public class ClanStashRequest extends SendMessageRequest
 				if ( !KoLCharacter.canInteract() )
 				{
 					updateDisplay( ERROR_STATE, "KoLmafia cannot access your clan stash at this time." );
-					client.cancelRequest();
 					return;
 				}
 

@@ -129,7 +129,6 @@ public class ClanGymRequest extends KoLRequest
 		if ( KoLCharacter.getAdventuresLeft() < turnCount )
 		{
 			updateDisplay( ERROR_STATE, "Insufficient adventures." );
-			client.cancelRequest();
 			return;
 		}
 

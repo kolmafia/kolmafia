@@ -296,7 +296,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		if ( itemID == -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "Item not recognized by KoLmafia database." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -333,7 +332,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		if ( responseText.indexOf( "You can't afford" ) != -1 )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Not enough funds." );
 			return;
 		}

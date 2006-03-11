@@ -1733,7 +1733,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean permitsContinue()
-	{	return permitContinue && currentState != ABORT_STATE;
+	{	return permitContinue && currentState != ERROR_STATE && currentState != ABORT_STATE;
 	}
 
 	/**

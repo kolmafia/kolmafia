@@ -174,7 +174,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 			{
 				client.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
-				client.cancelRequest();
 				return;
 			}
 		}
@@ -191,7 +190,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getAdventuresLeft() < request.getAdventuresUsed() )
 		{
-			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "Insufficient adventures to continue." );
 			return;
 		}
@@ -251,7 +249,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 			{
 				client.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
-				client.cancelRequest();
 				return;
 			}
 		}

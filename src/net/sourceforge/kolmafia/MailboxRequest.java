@@ -129,7 +129,6 @@ public class MailboxRequest extends KoLRequest
 			e.printStackTrace();
 
 			updateDisplay( ERROR_STATE, "Error occurred in mail retrieval." );
-			client.cancelRequest();
 			return;
 		}
 

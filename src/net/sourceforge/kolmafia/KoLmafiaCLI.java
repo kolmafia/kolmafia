@@ -345,7 +345,6 @@ public class KoLmafiaCLI extends KoLmafia
 		line = line.replaceAll( "\\s+", " " ).trim();
 		if ( unrepeatableCommands.contains( line ) )
 		{
-			StaticEntity.getClient().cancelRequest();
 			updateDisplay( ERROR_STATE, "Sorry.  You can only do that once per session." );
 			return;
 		}
@@ -434,7 +433,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "abort" ) )
 		{
 			updateDisplay( ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );
-			StaticEntity.getClient().cancelRequest();
 			return;
 		}
 
@@ -533,7 +531,6 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( lastScript == null || lastScript.previousCommand == null )
 			{
 				updateDisplay( ERROR_STATE, "No commands left to continue script." );
-				StaticEntity.getClient().cancelRequest();
 				return;
 			}
 
@@ -568,8 +565,6 @@ public class KoLmafiaCLI extends KoLmafia
 				// the given number of times.
 
 				updateDisplay( ERROR_STATE, parameters + " is not a number." );
-				StaticEntity.getClient().cancelRequest();
-
 				e.printStackTrace( KoLmafia.getLogStream() );
 				e.printStackTrace();
 
@@ -627,7 +622,6 @@ public class KoLmafiaCLI extends KoLmafia
 			else
 			{
 				updateDisplay( ERROR_STATE, parameters + " is not a valid option." );
-				StaticEntity.getClient().cancelRequest();
 			}
 
 			return;
@@ -668,8 +662,6 @@ public class KoLmafiaCLI extends KoLmafia
 					// bad happening, print an error message.
 
 					updateDisplay( ERROR_STATE, "I/O error in opening file \"" + parameters + "\"" );
-					StaticEntity.getClient().cancelRequest();
-
 					e.printStackTrace( KoLmafia.getLogStream() );
 					e.printStackTrace();
 
@@ -1179,7 +1171,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( splitParameters.length != 2 )
 			{
-				StaticEntity.getClient().cancelRequest();
 				updateDisplay( ERROR_STATE, "Invalid send request." );
 				return;
 			}
@@ -1206,7 +1197,6 @@ public class KoLmafiaCLI extends KoLmafia
 				e.printStackTrace( KoLmafia.getLogStream() );
 				e.printStackTrace();
 
-				StaticEntity.getClient().cancelRequest();
 				return;
 			}
 
@@ -1311,7 +1301,6 @@ public class KoLmafiaCLI extends KoLmafia
 				{
 					if ( !Character.isDigit( runCountString.charAt(i) ) )
 					{
-						StaticEntity.getClient().cancelRequest();
 						updateDisplay( ERROR_STATE, "[" + parameters + "] does not match a valid script." );
 						return;
 					}
@@ -1340,7 +1329,6 @@ public class KoLmafiaCLI extends KoLmafia
 				// script handler to see what happens.
 
 				updateDisplay( ERROR_STATE, "Script file \"" + parameters + "\" could not be found." );
-				StaticEntity.getClient().cancelRequest();
 				return;
 			}
 
@@ -1368,8 +1356,6 @@ public class KoLmafiaCLI extends KoLmafia
 			// before being loaded, this should not happen.
 
 			updateDisplay( ERROR_STATE, e.getMessage() == null ? "" : e.getMessage() );
-			StaticEntity.getClient().cancelRequest();
-
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 
@@ -1859,8 +1845,6 @@ public class KoLmafiaCLI extends KoLmafia
 		catch ( Exception e )
 		{
 			updateDisplay( ERROR_STATE, parameterList[1] + " is not a number." );
-			StaticEntity.getClient().cancelRequest();
-
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 
@@ -1923,7 +1907,7 @@ public class KoLmafiaCLI extends KoLmafia
 				error = "Skill not castable";
 			else
 				error = "Skill not available";
-			StaticEntity.getClient().cancelRequest();
+
 			updateDisplay( ERROR_STATE, error );
 			return;
 		}
@@ -1946,8 +1930,6 @@ public class KoLmafiaCLI extends KoLmafia
 			// return.
 
 			updateDisplay( ERROR_STATE, buffCountString + " is not a number." );
-			StaticEntity.getClient().cancelRequest();
-
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 
@@ -2031,7 +2013,6 @@ public class KoLmafiaCLI extends KoLmafia
 		else
 		{
 			updateDisplay( ERROR_STATE, parameters + " is not a statue." );
-			StaticEntity.getClient().cancelRequest();
 			return;
 		}
 
@@ -2046,8 +2027,6 @@ public class KoLmafiaCLI extends KoLmafia
 				updateDisplay( ERROR_STATE, parameterList[1] + " is not a number." );
 			else
 				updateDisplay( ERROR_STATE, parameterList[2] + " is not a number." );
-
-			StaticEntity.getClient().cancelRequest();
 
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
@@ -2109,7 +2088,6 @@ public class KoLmafiaCLI extends KoLmafia
 			// substring - error out.
 
 			updateDisplay( ERROR_STATE, "No item matching substring \"" + match + "\"" );
-			StaticEntity.getClient().cancelRequest();
 			return;
 		}
 
@@ -2163,7 +2141,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( parameters.length() == 0 )
 		{
 			updateDisplay( ERROR_STATE, "Print what?" );
-			StaticEntity.getClient().cancelRequest();
 			return;
 		}
 
@@ -2202,8 +2179,6 @@ public class KoLmafiaCLI extends KoLmafia
 				// bad happening, print an error message.
 
 				updateDisplay( ERROR_STATE, "I/O error in opening file \"" + parameterList[1] + "\"" );
-				StaticEntity.getClient().cancelRequest();
-
 				e.printStackTrace( KoLmafia.getLogStream() );
 				e.printStackTrace();
 
@@ -2372,7 +2347,6 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( matchingNames.size() == 0 )
 			{
 				updateDisplay( ERROR_STATE, "[" + effectNameString + "] does not match anything in the status effect database." );
-				StaticEntity.getClient().cancelRequest();
 				return null;
 			}
 
@@ -2387,8 +2361,6 @@ public class KoLmafiaCLI extends KoLmafia
 				// it is, then print an error message and return.
 
 				updateDisplay( ERROR_STATE, durationString + " is not a number." );
-				StaticEntity.getClient().cancelRequest();
-
 				e.printStackTrace( KoLmafia.getLogStream() );
 				e.printStackTrace();
 
@@ -2399,7 +2371,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( effectName == null )
 		{
 			updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the status effect database." );
-			StaticEntity.getClient().cancelRequest();
 			return null;
 		}
 
@@ -2437,7 +2408,6 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( matchingNames.size() == 0 )
 			{
 				updateDisplay( ERROR_STATE, "[" + itemNameString + "] does not match anything in the item database." );
-				StaticEntity.getClient().cancelRequest();
 				return null;
 			}
 
@@ -2457,7 +2427,6 @@ public class KoLmafiaCLI extends KoLmafia
 				{
 					if ( !Character.isDigit( itemCountString.charAt(i) ) )
 					{
-						StaticEntity.getClient().cancelRequest();
 						updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
 						return null;
 					}
@@ -2479,7 +2448,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( itemID == -1 )
 		{
 			updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
-			StaticEntity.getClient().cancelRequest();
 			return null;
 		}
 
@@ -2529,7 +2497,6 @@ public class KoLmafiaCLI extends KoLmafia
 		else if ( matchType == CLOSET && matchCount < itemCount )
 		{
 			updateDisplay( ERROR_STATE, "Insufficient " + TradeableItemDatabase.getItemName( itemID ) + " to continue." );
-			StaticEntity.getClient().cancelRequest();
 			return null;
 		}
 
@@ -2577,10 +2544,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// script execution.
 
 		if ( isWithdraw && firstMatch.getCount( KoLCharacter.getInventory() ) - initialCount != firstMatch.getCount() )
-		{
 			updateDisplay( ERROR_STATE, "Unable to acquire " + firstMatch.getCount() + " " + firstMatch.getName() );
-			StaticEntity.getClient().cancelRequest();
-		}
 	}
 
 	/**
@@ -2839,8 +2803,6 @@ public class KoLmafiaCLI extends KoLmafia
 		catch ( Exception e )
 		{
 			updateDisplay( ERROR_STATE, "Invalid price/limit for automall request." );
-			StaticEntity.getClient().cancelRequest();
-
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 
@@ -2933,7 +2895,6 @@ public class KoLmafiaCLI extends KoLmafia
 					break;
 			}
 
-			StaticEntity.getClient().cancelRequest();
 			return;
 		}
 
@@ -2991,7 +2952,6 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( adventure == null )
 			{
 				updateDisplay( ERROR_STATE, parameters + " does not exist in the adventure database." );
-				StaticEntity.getClient().cancelRequest();
 				return;
 			}
 
@@ -3010,8 +2970,6 @@ public class KoLmafiaCLI extends KoLmafia
 				// it is, then print an error message and return.
 
 				updateDisplay( ERROR_STATE, adventureCountString + " is not a number." );
-				StaticEntity.getClient().cancelRequest();
-
 				e.printStackTrace( KoLmafia.getLogStream() );
 				e.printStackTrace();
 
@@ -3042,7 +3000,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( intendedOutfit == null )
 		{
 			updateDisplay( ERROR_STATE, "You can't wear that outfit." );
-			StaticEntity.getClient().cancelRequest();
 			return;
 		}
 
@@ -3061,7 +3018,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( BuffBotManager.getBuffCostTable().isEmpty() )
 		{
 			updateDisplay( ERROR_STATE, "No sellable buffs defined." );
-			StaticEntity.getClient().cancelRequest();
 			return;
 		}
 
@@ -3151,7 +3107,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( wand == null )
 		{
 			updateDisplay( ERROR_STATE, "You don't have an appropriate wand" );
-			StaticEntity.getClient().cancelRequest();
 			return;
 		}
 
@@ -3160,7 +3115,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( parameters.length() == 0 )
 		{
 			updateDisplay( ERROR_STATE, "Zap what?" );
-			StaticEntity.getClient().cancelRequest();
 			return;
 		}
 
@@ -3211,7 +3165,6 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( matchingNames.isEmpty() )
 			{
 				updateDisplay( ERROR_STATE, "[" + itemNameString + "] does not match anything in the item database." );
-				StaticEntity.getClient().cancelRequest();
 				return;
 			}
 
@@ -3225,7 +3178,6 @@ public class KoLmafiaCLI extends KoLmafia
 				e.printStackTrace();
 
 				updateDisplay( ERROR_STATE, itemCountString + " is not a number." );
-				StaticEntity.getClient().cancelRequest();
 				return;
 			}
 		}

@@ -693,36 +693,23 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			String executePath = scriptPath;
 
-			try
+			if ( scriptPath == null )
 			{
-				if ( scriptPath == null )
-				{
-					JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
-					int returnVal = chooser.showOpenDialog( null );
+				JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
+				int returnVal = chooser.showOpenDialog( null );
 
-					if ( chooser.getSelectedFile() == null )
-						return;
-
-					if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-						executePath = chooser.getSelectedFile().getAbsolutePath();
-				}
-
-				if ( executePath == null )
+				if ( chooser.getSelectedFile() == null )
 					return;
 
-				client.resetContinueState();
-				DEFAULT_SHELL.executeLine( executePath );
-			}
-			catch ( Exception e )
-			{
-				// Here, notify the display that the script
-				// file specified could not be loaded
-
-				client.cancelRequest();
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
+					executePath = chooser.getSelectedFile().getAbsolutePath();
 			}
 
+			if ( executePath == null )
+				return;
+
+			client.resetContinueState();
+			DEFAULT_SHELL.executeLine( executePath );
 			client.enableDisplay();
 		}
 	}

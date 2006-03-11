@@ -79,7 +79,6 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( ConcoctionsDatabase.getMixingMethod( itemID ) != ItemCreationRequest.COMBINE )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You cannot untinker that item." );
 			return;
 		}
@@ -88,10 +87,7 @@ public class UntinkerRequest extends KoLRequest
 		// before starting.
 
 		if ( KoLCharacter.getLevel() < 4 )
-		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You cannot untinker items yet." );
-		}
 
 		// If the person does not have the accomplishment, visit
 		// the untinker to ensure that they get the quest.

@@ -96,7 +96,6 @@ public class StarChartRequest extends ItemCreationRequest
 			if ( responseText.indexOf( "reasonable picture" ) != -1 )
 			{
 				updateDisplay( ERROR_STATE, "You can't make that item." );
-				client.cancelRequest();
 				return;
 			}
 

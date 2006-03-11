@@ -174,7 +174,6 @@ public class AdventureRequest extends KoLRequest
 			if ( redirectLocation.equals( "haiku.php" ) )
 			{
 				updateDisplay( ERROR_STATE, "Encountered haiku subquest." );
-				client.cancelRequest();
 			}
 
 			// Make sure that the daily dungeon allows continues
@@ -190,7 +189,6 @@ public class AdventureRequest extends KoLRequest
 			else if ( !redirectLocation.equals( "fight.php" ) && !redirectLocation.equals( "choice.php" ) )
 			{
 				updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
-				client.cancelRequest();
 				return;
 			}
 

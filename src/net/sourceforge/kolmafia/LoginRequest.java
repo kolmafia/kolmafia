@@ -113,7 +113,6 @@ public class LoginRequest extends KoLRequest
 			// re-input their username and password.
 
 			updateDisplay( ERROR_STATE, "Login failed." );
-			client.cancelRequest();
 		}
 
 		client.resetContinueState();

@@ -110,7 +110,6 @@ public class GalaktikRequest extends KoLRequest
 		if ( price > KoLCharacter.getAvailableMeat() )
 		{
 			client.updateDisplay( ERROR_STATE, "You need " + ( price - KoLCharacter.getAvailableMeat() ) + " more meat." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -124,7 +123,6 @@ public class GalaktikRequest extends KoLRequest
 			// correctly
 
 			client.updateDisplay( ERROR_STATE, "You can't afford that cure." );
-			client.cancelRequest();
 			return;
 		}
 

@@ -60,14 +60,12 @@ public class ZapRequest extends KoLRequest
 		if ( !KoLCharacter.getInventory().contains( wand ) )
 		{
 			updateDisplay( ERROR_STATE, "You don't have a" + wand.getName() );
-			client.cancelRequest();
 			return;
 		}
 
 		if ( !KoLCharacter.getInventory().contains( item ) )
 		{
 			updateDisplay( ERROR_STATE, "You don't have a" + item.getName() );
-			client.cancelRequest();
 			return;
 		}
 
@@ -80,7 +78,6 @@ public class ZapRequest extends KoLRequest
 		if ( responseText.indexOf( "nothing happens" ) != -1 )
                 {
 			updateDisplay( ERROR_STATE, "That item is not zappable" );
-			client.cancelRequest();
 			return;
 		}
 

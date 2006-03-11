@@ -118,61 +118,64 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		super.run();
 
+		boolean encounteredError = false;
+
 		// If a reply was obtained, check to see if it was a success message
 		// Otherwise, try to figure out why it was unsuccessful.
 
 		if ( responseText == null || responseText.trim().length() == 0 )
 		{
-			client.cancelRequest();
+			encounteredError = true;
 			lastUpdate = "Encountered lag problems.";
 		}
 		else if ( responseText.indexOf( "You don't have that skill" ) != -1 )
 		{
-			client.cancelRequest();
+			encounteredError = true;
 			lastUpdate = "That skill is unavailable.";
 		}
 		else if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
-			client.cancelRequest();
+			encounteredError = true;
 			lastUpdate = "Not enough mana to continue.";
 		}
 		else if ( responseText.indexOf( "You can only conjure" ) != -1 ||
 			  responseText.indexOf( "You can only scrounge up" ) != -1 ||
 			  responseText.indexOf( "You can only summon" ) != -1 )
 		{
-			client.cancelRequest();
+			encounteredError = true;
 			lastUpdate = "Summon limit exceeded.";
 		}
 		else if ( responseText.indexOf( "too many songs" ) != -1 )
 		{
-			client.cancelRequest();
+			encounteredError = true;
 			lastUpdate = target + " has 3 AT buffs already.";
 		}
 		else if ( responseText.indexOf( "casts left of the Smile of Mr. A" ) != -1 )
 		{
-			client.cancelRequest();
+			encounteredError = true;
 			lastUpdate = "You cannot cast that many smiles.";
 		}
 		else if ( responseText.indexOf( "Invalid target player" ) != -1 )
 		{
-			client.cancelRequest();
+			encounteredError = true;
 			lastUpdate = target + " is not a valid target.";
 		}
 		else if ( responseText.indexOf( "busy fighting" ) != -1 )
 		{
-			client.cancelRequest();
+			encounteredError = true;
 			lastUpdate = target + " is busy fighting.";
 		}
 		else if ( responseText.indexOf( "cannot currently" ) != -1 )
 		{
-			client.cancelRequest();
+			encounteredError = true;
 			lastUpdate = target + " cannot receive buffs.";
 		}
 		else if ( responseText.indexOf( "accordion equipped" ) != -1 )
 		{
 			// "You need to have an accordion equipped or in your
 			// inventory if you want to play that song."
-			client.cancelRequest();
+
+			encounteredError = true;
 			lastUpdate = "You need an accordion to play Accordion Thief songs.";
 		}
 		else
@@ -185,7 +188,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Now that all the checks are complete, proceed
 		// to determine how to update the user display.
 
-		if ( client.permitsContinue() )
+		if ( encounteredError )
+		{
+			updateDisplay( ERROR_STATE, lastUpdate );
+
+			if ( BuffBotHome.isBuffBotActive() )
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
+		}
+		else
 		{
 			if ( target == null || target.equals( "" ) )
 				updateDisplay( NORMAL_STATE, skillName + " was successfully cast" );
@@ -201,13 +211,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				if ( roundsBeatenUp != 0 )
 					client.processResult( KoLAdventure.BEATEN_UP.getInstance( 0 - roundsBeatenUp ) );
 			}
-		}
-		else
-		{
-			updateDisplay( ERROR_STATE, lastUpdate );
-
-			if ( BuffBotHome.isBuffBotActive() )
-				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
 		}
 
 		// To minimize the amount of confusion, go ahead and restore mana

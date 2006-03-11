@@ -112,10 +112,14 @@ public class RequestThread extends Thread implements KoLConstants
 
 	public void run()
 	{
-		if ( client != null && ((requests[0] instanceof KoLRequest && !(requests[0] instanceof ChatRequest)) || requests[0] instanceof KoLAdventure) )
-			client.resetContinueState();
-
 		boolean shouldEnable = client != null && client.currentState != DISABLE_STATE;
+
+		if ( client != null && ((requests[0] instanceof KoLRequest && !(requests[0] instanceof ChatRequest)) || requests[0] instanceof KoLAdventure) )
+		{
+			client.resetContinueState();
+			client.enableDisplay();
+			client.disableDisplay();
+		}
 
 		for ( int i = 0; i < requests.length; ++i )
 		{

@@ -734,14 +734,12 @@ public class KoLRequest implements Runnable, KoLConstants
 					}
 					else
 					{
-						client.cancelRequest();
 						shouldStop = true;
 					}
 				}
 				else if ( redirectLocation.startsWith( "login.php" ) )
 				{
 					updateDisplay( ERROR_STATE, "Session timed out." );
-					client.cancelRequest();
 
 					if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 					{
@@ -750,7 +748,6 @@ public class KoLRequest implements Runnable, KoLConstants
 					}
 					else
 					{
-						client.cancelRequest();
 						shouldStop = true;
 					}
 				}
@@ -1054,7 +1051,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// finish by hand.
 
 			updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
-			client.cancelRequest();
 
 			// Finish in browser if requested
 			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
@@ -1073,7 +1069,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( decision == null )
 		{
 			updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
-			client.cancelRequest();
 
 			// Finish in browser if requested
 			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
@@ -1097,7 +1092,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( decision.equals( "0" ) )
 		{
 			updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
-			client.cancelRequest();
 
 			// Finish in browser if requested
 			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )

@@ -90,7 +90,6 @@ public class MicrobreweryRequest extends KoLRequest
 		if ( !KoLCharacter.inMoxieSign() || !KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
 		{
 			client.updateDisplay( ERROR_STATE, "You can't find the micromicrobrewery." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -99,14 +98,12 @@ public class MicrobreweryRequest extends KoLRequest
 			if ( price == 0 )
 			{
 				client.updateDisplay( ERROR_STATE, "The micromicromicrobrewery doesn't sell that." );
-				client.cancelRequest();
 				return;
 			}
 
 			if ( !KoLCharacter.canDrink() )
 			{
 				client.updateDisplay( ERROR_STATE, "You can't drink. Why are you here?" );
-				client.cancelRequest();
 				return;
 			}
 		}
@@ -120,7 +117,6 @@ public class MicrobreweryRequest extends KoLRequest
 			if ( responseText.indexOf( "You're way too drunk already." ) != -1 )
 			{
 				client.updateDisplay( ERROR_STATE, "Consumption limit reached." );
-				client.cancelRequest();
 				return;
 			}
 

@@ -169,7 +169,6 @@ public abstract class SorceressLair extends StaticEntity
 			if ( !unlockedQuest )
 			{
 				client.updateDisplay( ERROR_STATE, "You haven't been given the quest to fight the Sorceress!" );
-				client.cancelRequest();
 				return false;
 			}
 		}
@@ -209,14 +208,12 @@ public abstract class SorceressLair extends StaticEntity
 			if ( reached < min )
 			{
 				client.updateDisplay( ERROR_STATE, "You can't use this script yet." );
-				client.cancelRequest();
 				return false;
 			}
 
 			if ( reached > max )
 			{
 				client.updateDisplay( ERROR_STATE, "You're already past this script." );
-				client.cancelRequest();
 				return false;
 			}
 		}
@@ -494,7 +491,6 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( KoLCharacter.getCurrentHP() < healthNeeded )
 			{
-				client.cancelRequest();
 				client.updateDisplay( ERROR_STATE, "You must have more than " + healthNeeded + " HP to proceed." );
 				return requirements;
 			}
@@ -616,14 +612,12 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( !EquipmentDatabase.canEquip( starWeapon.getName() ) )
 		{
-			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "Stats too low to equip a star weapon." );
 			return requirements;
 		}
 
 		if ( !EquipmentDatabase.canEquip( STAR_HAT.getName() ) )
 		{
-			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "Stats too low to equip a star hat." );
 			return requirements;
 		}
@@ -658,30 +652,21 @@ public abstract class SorceressLair extends StaticEntity
 			// out of the right stuff."
 
 			if ( request.responseText.indexOf( "right stuff" ) != -1 )
-			{
-				client.cancelRequest();
 				client.updateDisplay( ERROR_STATE, "Failed to equip a star weapon." );
-			}
 
 			// "A fragment of a line hits you really hard
 			// on the arm, and it knocks you back into the
 			// main cavern."
 
 			if ( request.responseText.indexOf( "knocks you back" ) != -1 )
-			{
-				client.cancelRequest();
 				client.updateDisplay( ERROR_STATE, "Failed to equip star buckler." );
-			}
 
 			// "Trog creeps toward the pedestal, but is
 			// blown backwards.  You give up, and go back
 			// out to the main cavern."
 
 			if ( request.responseText.indexOf( "You give up" ) != -1 )
-			{
-				client.cancelRequest();
 				client.updateDisplay( ERROR_STATE, "Failed to equip star starfish." );
-			}
 		}
 
 		return requirements;
@@ -855,7 +840,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( inventoryCount + closetCount == 0 )
 		{
 			client.updateDisplay( ERROR_STATE, "Ran out of puzzle pieces." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -906,7 +890,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( responseText.indexOf( "Click one" ) == -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "Ran out of puzzle pieces." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -971,8 +954,8 @@ public abstract class SorceressLair extends StaticEntity
 			if ( request.responseText.indexOf( "You're out of adventures." ) != -1 )
 			{
 				// Cancel and return now
+
 				client.updateDisplay( ERROR_STATE, "Ran out of adventures." );
-				client.cancelRequest();
 				return responseText;
 			}
 
@@ -1003,7 +986,6 @@ public abstract class SorceressLair extends StaticEntity
 			if ( request.responseText.indexOf( "You're out of adventures." ) != -1 )
 			{
 				client.updateDisplay( ERROR_STATE, "Ran out of adventures." );
-				client.cancelRequest();
 				return responseText;
 			}
 
@@ -1073,7 +1055,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( request.responseText.indexOf( "You don't have time to mess around in the Tower." ) != -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "You're out of adventures." );
-			client.cancelRequest();
 			return false;
 		}
 
@@ -1081,7 +1062,6 @@ public abstract class SorceressLair extends StaticEntity
 		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 
 		// Parse response to see which item we need.
-
 		AdventureResult guardianItem = getGuardianItem( request.responseText );
 
 		// With the guardian item retrieved, check to see if you have
@@ -1248,7 +1228,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( code == null )
 		{
 			client.updateDisplay( ERROR_STATE, "Couldn't solve door code. Do it yourself and come back!" );
-			client.cancelRequest();
 			return;
 		}
 
@@ -1261,11 +1240,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Check for success
 
 		if ( request.responseText.indexOf( "the door slides open" ) == -1 )
-		{
-			// Account for HP loss
 			client.updateDisplay( ERROR_STATE, "I used the wrong code. Sorry." );
-			client.cancelRequest();
-		}
 	}
 
 	private static String deduceCode( String text )
@@ -1363,7 +1338,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
 		{
 			client.updateDisplay( ERROR_STATE, "You must be fully healed to fight your shadow." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -1384,7 +1358,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( request.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
 		{
 			client.updateDisplay( ERROR_STATE, "You're out of adventures." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -1401,7 +1374,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( currentFamiliar == null )
 		{
 			client.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -1416,7 +1388,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( KoLCharacter.getCurrentHP() <= 50 )
 		{
 			client.updateDisplay( ERROR_STATE, "You must have more than 50 HP to proceed." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -1453,7 +1424,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( familiar == null )
 		{
 			client.updateDisplay( ERROR_STATE, "Come back with a 20 pound " + race );
-			client.cancelRequest();
 			return;
 		}
 

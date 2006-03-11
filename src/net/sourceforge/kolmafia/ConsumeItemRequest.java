@@ -183,7 +183,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( alreadyInstalled )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You already have one installed." );
 			return;
 		}
@@ -220,7 +219,6 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
 			{
-				client.cancelRequest();
 				updateDisplay( ERROR_STATE, "You already have that familiar." );
 				return;
 			}
@@ -238,14 +236,12 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "You may not" ) != -1 )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Pathed ascension." );
 			return;
 		}
 
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Your spleen might go kabooie." );
 			return;
 		}
@@ -255,7 +251,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "too full" ) != -1 || responseText.indexOf( "too drunk" ) != -1 )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Consumption limit reached." );
 			return;
 		}
@@ -281,7 +276,6 @@ public class ConsumeItemRequest extends KoLRequest
 			// right now."
 			if ( responseText.indexOf( "You can't receive things" ) != -1 )
 			{
-				client.cancelRequest();
 				updateDisplay( ERROR_STATE, "You can't open that package yet." );
 				return;
 			}
@@ -413,9 +407,8 @@ public class ConsumeItemRequest extends KoLRequest
 		case BLACK:
 			// "Your mouth is still cold from the last snowcone you
 			// ate.	 Try again later."
-			if ( responseText.indexOf( "Try again later" ) != -1 )
+			if ( responseText.indexOf( "still cold" ) != -1 )
 			{
-				client.cancelRequest();
 				updateDisplay( ERROR_STATE, "Your mouth is too cold." );
 				return;
 			}

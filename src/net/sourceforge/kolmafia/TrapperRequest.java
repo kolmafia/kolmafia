@@ -84,7 +84,6 @@ public class TrapperRequest extends KoLRequest
 		if ( quantity == 0 )
 		{
 			updateDisplay( ERROR_STATE, "You do not have any furs." );
-			client.cancelRequest();
 			return;
 		}
 

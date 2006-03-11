@@ -148,7 +148,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( !KoLCharacter.hasItem( LEAFLET, false ) )
 		{
 			client.updateDisplay( ERROR_STATE, "You don't have a leaflet." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -287,7 +286,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 			default:
 				client.updateDisplay( ERROR_STATE, "I can't figure out where you are!" );
-				client.cancelRequest();
 				break;
 		}
 	}

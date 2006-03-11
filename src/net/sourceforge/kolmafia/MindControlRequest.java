@@ -54,7 +54,6 @@ public class MindControlRequest extends KoLRequest
 
 		if ( level < 0 || level > 11 )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "The dial only goes from 0 to 11." );
 			return;
 		}
@@ -63,7 +62,6 @@ public class MindControlRequest extends KoLRequest
 
 		if ( !KoLCharacter.inMysticalitySign() )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "You can't find the Mind Control device." );
 			return;
 		}

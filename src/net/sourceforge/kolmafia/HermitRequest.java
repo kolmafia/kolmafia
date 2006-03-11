@@ -104,7 +104,6 @@ public class HermitRequest extends KoLRequest
 			if ( responseText.indexOf( "you're not allowed to visit" ) != -1 )
 			{
 				updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
-				client.cancelRequest();
 				return;
 			}
 
@@ -115,7 +114,6 @@ public class HermitRequest extends KoLRequest
 			if ( responseText.indexOf( "sends you packing" ) != -1 )
 			{
 				updateDisplay( ERROR_STATE, "The Hermit won't show you his stuff." );
-				client.cancelRequest();
 				return;
 			}
 
@@ -138,7 +136,6 @@ public class HermitRequest extends KoLRequest
 		if ( quantity <= 0 )
 		{
 			updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
-			client.cancelRequest();
 			return;
 		}
 
@@ -167,7 +164,6 @@ public class HermitRequest extends KoLRequest
 			else
 			{
 				updateDisplay( ERROR_STATE, "You need a hermit permit." );
-				client.cancelRequest();
 				return;
 			}
 		}
@@ -182,7 +178,6 @@ public class HermitRequest extends KoLRequest
 			if ( index == -1 )
 			{
 				updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
-				client.cancelRequest();
 				return;
 			}
 
@@ -204,7 +199,6 @@ public class HermitRequest extends KoLRequest
 
 		if ( responseText.indexOf( "doesn't have that item.") != -1 )
 		{
-			client.cancelRequest();
 			updateDisplay( ERROR_STATE, "Today is not a clover day." );
 			return;
 		}
@@ -214,7 +208,6 @@ public class HermitRequest extends KoLRequest
 		if ( responseText.indexOf( "You acquire" ) == -1 )
 		{
 			updateDisplay( ERROR_STATE, "The hermit kept his stuff." );
-			client.cancelRequest();
 			return;
 		}
 

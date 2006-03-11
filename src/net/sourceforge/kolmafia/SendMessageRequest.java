@@ -229,7 +229,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		}
 		else
 		{
-			client.cancelRequest();
+			updateDisplay( ERROR_STATE, "" );
 			return;
 		}
 	}

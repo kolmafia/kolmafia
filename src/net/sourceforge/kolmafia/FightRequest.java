@@ -188,10 +188,8 @@ public class FightRequest extends KoLRequest
 		if ( action.equals( "..." ) || !client.permitsContinue() )
 		{
 			client.updateDisplay( ABORT_STATE, "Battle stopped.  Please finish in-browser." );
-			client.cancelRequest();
 
 			// Finish in browser if requested
-
 			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
 				showInBrowser( true );
 
@@ -256,7 +254,6 @@ public class FightRequest extends KoLRequest
 				{
 					updateDisplay( ERROR_STATE, "You were defeated!" );
 					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-					client.cancelRequest();
 				}
 				else
 				{
@@ -266,7 +263,6 @@ public class FightRequest extends KoLRequest
 
 					updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
 					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-					client.cancelRequest();
 				}
 			}
 			else if ( responseText.indexOf( "<input" ) == -1 )
