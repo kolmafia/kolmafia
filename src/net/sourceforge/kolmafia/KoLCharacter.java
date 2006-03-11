@@ -205,6 +205,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int [] totalSubpoints = new int[3];
 
 	private static LockableListModel equipment = new LockableListModel();
+	private static LockableListModel customOutfits = new LockableListModel();
 	private static LockableListModel outfits = new LockableListModel();
 
 	static
@@ -307,6 +308,7 @@ public abstract class KoLCharacter extends StaticEntity
 		for ( int i = 0; i < 8; ++i )
 			equipment.add( EquipmentRequest.UNEQUIP );
 
+		customOutfits.clear();
 		outfits.clear();
 
 		inventory.clear();
@@ -944,10 +946,10 @@ public abstract class KoLCharacter extends StaticEntity
 	 * or the empty string.
 	 *
 	 * @param	equipment	All of the available equipment, stored in an array index by the constants
-	 * @param	outfits	A listing of available outfits
+	 * @param	customOutfits	A listing of available outfits
 	 */
 
-	public static void setEquipment( String [] equipment, List outfits )
+	public static void setEquipment( String [] equipment, List customOutfits )
 	{
 		for ( int i = 0; i < KoLCharacter.equipment.size(); ++i )
 		{
@@ -965,12 +967,12 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( equipment.length > FAMILIAR && currentFamiliar != null )
 			currentFamiliar.setItem( equipment[FAMILIAR].toLowerCase() );
 
-		if ( !KoLCharacter.outfits.equals( outfits ) )
+		// Rebuild outfits if given a new list
+		if ( customOutfits != null )
 		{
-			KoLCharacter.outfits.clear();
-			KoLCharacter.outfits.add( SpecialOutfit.NO_CHANGE );
-			KoLCharacter.outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
-			KoLCharacter.outfits.addAll( outfits );
+			KoLCharacter.customOutfits.clear();
+			KoLCharacter.customOutfits.addAll( customOutfits );
+			EquipmentDatabase.updateOutfits();
 		}
 
 		FamiliarData.updateWeightModifier();
@@ -1157,9 +1159,21 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to retrieve a list of the outfits available to this character, based
-	 * on the last time the equipment screen was requested.  Note that this list may be outdated
-	 * or outright wrong because of changes to the character's status.
+	 * Accessor method to retrieve a list of the custom outfits available
+	 * to this character, based on the last time the equipment screen was
+	 * requested.
+	 *
+	 * @return	A <code>LockableListModel</code> of the available outfits
+	 */
+
+	public static LockableListModel getCustomOutfits()
+	{	return customOutfits;
+	}
+
+	/**
+	 * Accessor method to retrieve a list of the all the outfits available
+	 * to this character, based on the last time the equipment screen was
+	 * requested.
 	 *
 	 * @return	A <code>LockableListModel</code> of the available outfits
 	 */
@@ -2203,17 +2217,16 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasItem( AdventureResult item, boolean shouldCreate )
 	{
-		if ( item.getCount( getInventory() ) > 0 || item.getCount( getCloset() ) > 0 )
+		if ( item.getCount( getInventory() ) > 0 || item.getCount( getCloset() ) > 0 || hasEquipped( item ) )
 			return true;
 
 		if ( shouldCreate )
 		{
 			ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), 1 );
-			if ( creation != null )
-				return creation.getCount( ConcoctionsDatabase.getConcoctions() ) > 0;
+			return creation != null && creation.getCount( ConcoctionsDatabase.getConcoctions() ) > 0;
 		}
 
-		return hasEquipped( item );
+		return false;
 	}
 
 	public static boolean hasEquipped( AdventureResult item )

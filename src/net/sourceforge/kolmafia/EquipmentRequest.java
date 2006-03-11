@@ -648,7 +648,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( responseText );
 
 		LockableListModel outfits = outfitsMatcher.find() ?
-			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : new LockableListModel();
+			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
 
 		KoLCharacter.setEquipment( equipment, outfits );
 	}

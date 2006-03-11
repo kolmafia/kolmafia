@@ -339,7 +339,7 @@ public class CharsheetRequest extends KoLRequest
 				}
 			}
 
-			KoLCharacter.setEquipment( equipment, KoLCharacter.getOutfits() );
+			KoLCharacter.setEquipment( equipment, null );
 
 			// Parsing of the KoLCharacter sheet is now complete.
 			// Report this to the log stream and return.

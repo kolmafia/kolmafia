@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * A static class which retrieves all the adventures currently
@@ -170,30 +171,41 @@ public class EquipmentDatabase extends KoLDatabase
 
 	public static void updateOutfits()
 	{
-		LockableListModel available = KoLCharacter.getOutfits();
-
+		SortedListModel available = new SortedListModel();
 		for ( int i = 0; i < OUTFIT_COUNT; ++i )
 		{
 			if ( outfits[i] != null )
 			{
 				boolean hasAllPieces = true;
 				for ( int j = 0; j < outfitPieces[i].length; ++j )
-					hasAllPieces &= KoLCharacter.hasItem( outfitPieces[i][j], true ) &&
-						canEquip( outfitPieces[i][j].getName() );
+				{
+					AdventureResult piece = outfitPieces[i][j];
+					if ( !KoLCharacter.hasItem( piece, false ) ||
+					     !canEquip( piece.getName() ) )
+					{
+						hasAllPieces = false;
+						break;
+					}
+				}
 
-				// If the player has all the pieces, but it's not on the
-				// list, then add it to the list of available outfits.
-
-				if ( hasAllPieces && !available.contains( outfits[i] ) )
+				if ( hasAllPieces )
 					available.add( outfits[i] );
-
-				// If the player does not have all the pieces, but it is
-				// on the list, then remove it from the list.
-
-				if ( !hasAllPieces && available.contains( outfits[i] ) )
-					available.remove( outfits[i] );
 			}
 		}
+
+		// Rebuild the list of outfits
+		LockableListModel outfits = KoLCharacter.getOutfits();
+		outfits.clear();
+
+		// Start with the two constant outfits
+		outfits.add( SpecialOutfit.NO_CHANGE );
+		outfits.add( SpecialOutfit.BIRTHDAY_SUIT );
+
+		// Then any custom outfits
+		outfits.addAll( KoLCharacter.getCustomOutfits() );
+
+		// Finally any standard outfits
+		outfits.addAll( available );
 	}
 
 	/**

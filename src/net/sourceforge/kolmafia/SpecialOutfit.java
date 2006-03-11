@@ -38,13 +38,14 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * An encapsulation of a special outfit.  This includes
  * custom outfits as well as standard in-game outfits.
  */
 
-public class SpecialOutfit
+public class SpecialOutfit implements Comparable
 {
 	private int outfitID;
 	private String outfitName;
@@ -77,8 +78,16 @@ public class SpecialOutfit
 	{	return o != null && o instanceof SpecialOutfit && outfitID == ((SpecialOutfit)o).outfitID;
 	}
 
+	public int compareTo( Object o )
+	{
+		if ( o == null || !(o instanceof SpecialOutfit) )
+			return -1;
+
+		return outfitName.compareToIgnoreCase( ((SpecialOutfit)o).outfitName );
+	}
+
 	/**
-	 * Static method used to determine all of the available outfits,
+	 * Static method used to determine all of the custom outfits,
 	 * based on the given HTML enclosed in <code><select></code> tags.
 	 *
 	 * @return	A list of available outfits
@@ -90,7 +99,7 @@ public class SpecialOutfit
 			"<option value=(.*?)>(.*?)</option>" ).matcher( selectHTML );
 
 		int outfitID;
-		LockableListModel outfits = new LockableListModel();
+		SortedListModel outfits = new SortedListModel();
 
 		while ( singleOutfitMatcher.find() )
 		{
