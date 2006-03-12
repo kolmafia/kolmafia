@@ -54,6 +54,7 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int EQUIP_OFFHAND = 13;
 	public static final int CONSUME_RESTORE = 14;
 
+	private static final int DINGHY_PLANS = 146;
 	private static final int ENCHANTED_BEAN = 186;
 	private static final int FENG_SHUI = 210;
 	private static final int CHEF = 438;
@@ -92,6 +93,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int GIFT11 = 1177;
 	private static final int GIFTV = 1460;
 
+	private static final AdventureResult PLANKS = new AdventureResult( 140, -1 );
 	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
 	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
 	private static final AdventureResult AXE = new AdventureResult( 555, 1 );
@@ -367,6 +369,16 @@ public class ConsumeItemRequest extends KoLRequest
 		case LUCIFER:
 			// Jumbo Dr. Lucifer reduces your hit points to 1.
 			client.processResult( new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
+			break;
+
+		case DINGHY_PLANS:
+			// "You need some planks to build the dinghy."
+			if ( responseText.indexOf( "need some planks" ) != -1 )
+			{
+				updateDisplay( ERROR_STATE, "You need some dingy planks." );
+				return;
+			}
+			client.processResult( PLANKS );
 			break;
 
 		case FENG_SHUI:
