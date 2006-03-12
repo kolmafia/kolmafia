@@ -62,12 +62,14 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int KETCHUP_HOUND = 493;
 	private static final int RAFFLE_TICKET = 500;
 	private static final int ARCHES = 504;
+	private static final int HEY_DEZE_MAP = 516;
 	private static final int GATES_SCROLL = 552;
 	private static final int LUCIFER = 571;
 	private static final int TINY_HOUSE = 592;
 	private static final int DRASTIC_HEALING = 595;
 	private static final int WARM_SUBJECT = 621;
 	private static final int TOASTER = 637;
+	private static final int GIANT_CASTLE_MAP = 667;
 	private static final int YETI_PROTEST_SIGN = 775;
 	private static final int ROLLING_PIN = 873;
 	private static final int UNROLLING_PIN = 874;
@@ -328,6 +330,20 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "grows into an enormous beanstalk" ) == -1 )
 				return;
 
+			break;
+
+		case HEY_DEZE_MAP:
+			// "Your song has pleased me greatly. I will reward you
+			// with some of my crazy imps, to do your bidding."
+			if ( responseText.indexOf( "pleased me greatly" ) == -1 )
+				return;
+			break;
+
+		case GIANT_CASTLE_MAP:
+			// "I'm sorry, adventurer, but the Sorceress is in
+			// another castle!"
+			if ( responseText.indexOf( "Sorceress is in another castle" ) == -1 )
+				return;
 			break;
 
 		case DRASTIC_HEALING:
