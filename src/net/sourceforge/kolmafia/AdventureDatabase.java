@@ -665,7 +665,10 @@ public class AdventureDatabase extends KoLDatabase
 					default:
 
 						if ( creator == null || ConcoctionsDatabase.getMixingMethod( item.getItemID() ) != ItemCreationRequest.COMBINE )
-							missingCount = retrieveItem( "buy", null, item, missingCount );
+						{
+							if ( NPCStoreDatabase.contains( item.getName() ) || KoLCharacter.canInteract() )
+								missingCount = retrieveItem( "buy", null, item, missingCount );
+						}
 				}
 			}
 
@@ -688,7 +691,10 @@ public class AdventureDatabase extends KoLDatabase
 			// would have been handled earlier).
 
 			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) && ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.COMBINE )
-				missingCount = retrieveItem( "buy", null, item, missingCount );
+			{
+				if ( NPCStoreDatabase.contains( item.getName() ) || KoLCharacter.canInteract() )
+					missingCount = retrieveItem( "buy", null, item, missingCount );
+			}
 
 			if ( missingCount <= 0 )
 				return;

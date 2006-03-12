@@ -2837,6 +2837,12 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			updateDisplay( NORMAL_STATE, "No item specified for purchase." );
 
+		if ( !NPCStoreDatabase.contains( firstMatch.getName() ) && !KoLCharacter.canInteract() )
+		{
+			updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
+			return;
+		}
+
 		ArrayList results = new ArrayList();
 		(new SearchMallRequest( StaticEntity.getClient(), '\"' + firstMatch.getName() + '\"', 0, results )).run();
 		StaticEntity.getClient().makePurchases( results, results.toArray(), firstMatch.getCount() );
