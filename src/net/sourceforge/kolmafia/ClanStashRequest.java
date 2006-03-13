@@ -147,17 +147,17 @@ public class ClanStashRequest extends SendMessageRequest
 		switch ( moveType )
 		{
 			case REFRESH_ONLY:
-				updateDisplay( NORMAL_STATE, "Retrieving stash list..." );
+				updateDisplay( DISABLE_STATE, "Retrieving stash list..." );
 				super.run();
 				parseStash();
-				updateDisplay( NORMAL_STATE, "Stash list retrieved." );
+				updateDisplay( DISABLE_STATE, "Stash list retrieved." );
 				break;
 
 			case MEAT_TO_STASH:
-				updateDisplay( NORMAL_STATE, "Attempting clan donation..." );
+				updateDisplay( DISABLE_STATE, "Attempting clan donation..." );
 				super.run();
 				parseStash();
-				updateDisplay( NORMAL_STATE, "Clan donation attempt complete." );
+				updateDisplay( DISABLE_STATE, "Clan donation attempt complete." );
 				break;
 
 			case STASH_TO_ITEMS:
@@ -170,7 +170,7 @@ public class ClanStashRequest extends SendMessageRequest
 
 			case ITEMS_TO_STASH:
 
-				updateDisplay( NORMAL_STATE, "Moving items..." );
+				updateDisplay( DISABLE_STATE, "Moving items..." );
 				super.run();
 
 				if ( !client.permitsContinue() )

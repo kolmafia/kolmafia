@@ -69,7 +69,7 @@ public class ZapRequest extends KoLRequest
 			return;
 		}
 
-		client.updateDisplay( NORMAL_STATE, "Zapping item..." );
+		client.updateDisplay( DISABLE_STATE, "Zapping item..." );
 		super.run();
 
 		//" The Crown of the Goblin King shudders for a moment, but
@@ -88,6 +88,6 @@ public class ZapRequest extends KoLRequest
 		if ( responseText.indexOf( "abruptly explodes" ) != -1 )
 		     client.processResult( wand.getNegation() );
 
-		client.updateDisplay( NORMAL_STATE, "Item zapped" );
+		client.updateDisplay( ENABLE_STATE, "Item zapped" );
 	}
 }

@@ -92,7 +92,7 @@ public class HeroDonationRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( NORMAL_STATE, "Donating " + amount + " to the shrine..." );
+		updateDisplay( DISABLE_STATE, "Donating " + amount + " to the shrine..." );
 		super.run();
 
 		// If an error state occurred, return from this
@@ -112,7 +112,7 @@ public class HeroDonationRequest extends KoLRequest
 		}
 
 		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
-		updateDisplay( NORMAL_STATE, "Donation complete." );
+		updateDisplay( ENABLE_STATE, "Donation complete." );
 	}
 
 	public String getCommandForm( int iterations )

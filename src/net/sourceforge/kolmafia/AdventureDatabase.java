@@ -374,7 +374,7 @@ public class AdventureDatabase extends KoLDatabase
 			// visited the council -- check the main map to see if
 			// the beach is unlocked.
 
-			client.updateDisplay( NORMAL_STATE, "Validating map location..." );
+			client.updateDisplay( DISABLE_STATE, "Validating map location..." );
 			request = new KoLRequest( client, "main.php" );
 			request.run();
 
@@ -393,7 +393,7 @@ public class AdventureDatabase extends KoLDatabase
 			// "You have learned how to hunt Yetis from the L337
 			// Tr4pz0r."
 
-			client.updateDisplay( NORMAL_STATE, "Validating map location..." );
+			client.updateDisplay( DISABLE_STATE, "Validating map location..." );
 			// See if we can get to the location already
 			request = new KoLRequest( client, "mclargehuge.php" );
 			request.run();
@@ -512,7 +512,7 @@ public class AdventureDatabase extends KoLDatabase
 		if ( request == null )
 			return;
 
-		client.updateDisplay( NORMAL_STATE, "Validating map location..." );
+		client.updateDisplay( DISABLE_STATE, "Validating map location..." );
 		request.run();
 
 		// Now that the zone is armed, check to see

@@ -87,7 +87,7 @@ public class ClanMembersRequest extends KoLRequest
 		// belong to.  This is done by doing a
 		// profile lookup on yourself.
 
-		updateDisplay( NORMAL_STATE, "Determining clan ID..." );
+		updateDisplay( DISABLE_STATE, "Determining clan ID..." );
 		ProfileRequest clanIDLookup = new ProfileRequest( client, KoLCharacter.getUsername() );
 		clanIDLookup.run();
 
@@ -106,7 +106,7 @@ public class ClanMembersRequest extends KoLRequest
 		this.clanName = clanIDMatcher.group(2);
 
 		addFormField( "whichclan", clanID );
-		updateDisplay( NORMAL_STATE, "Retrieving clan member list..." );
+		updateDisplay( DISABLE_STATE, "Retrieving clan member list..." );
 		super.run();
 
 		// Now, parse out the complete list of clan

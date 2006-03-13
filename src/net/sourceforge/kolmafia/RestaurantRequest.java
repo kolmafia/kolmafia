@@ -108,7 +108,7 @@ public class RestaurantRequest extends KoLRequest
 			}
 		}
 
-		client.updateDisplay( NORMAL_STATE, "Visiting the restaurant..." );
+		client.updateDisplay( DISABLE_STATE, "Visiting the restaurant..." );
 
 		super.run();
 
@@ -121,7 +121,7 @@ public class RestaurantRequest extends KoLRequest
 			}
 
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
-			updateDisplay( NORMAL_STATE, "Food purchased." );
+			updateDisplay( ENABLE_STATE, "Food purchased." );
 			return;
 		}
 
@@ -137,6 +137,6 @@ public class RestaurantRequest extends KoLRequest
 			items.add( purchaseMatcher.group(1) );
 		}
 
-		updateDisplay( NORMAL_STATE, "Menu retrieved." );
+		updateDisplay( ENABLE_STATE, "Menu retrieved." );
 	}
 }

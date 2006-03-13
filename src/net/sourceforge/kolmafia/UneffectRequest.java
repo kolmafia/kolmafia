@@ -65,7 +65,7 @@ public class UneffectRequest extends KoLRequest
 			return;
 		}
 
-		client.updateDisplay( NORMAL_STATE, "Using soft green whatever..." );
+		client.updateDisplay( DISABLE_STATE, "Using soft green whatever..." );
 		super.run();
 
 		// If it notifies you that the effect was removed, delete it
@@ -75,7 +75,7 @@ public class UneffectRequest extends KoLRequest
 		{
 			KoLCharacter.getEffects().remove( effect );
 			client.processResult( REMEDY );
-			client.updateDisplay( NORMAL_STATE, "Effect removed." );
+			client.updateDisplay( ENABLE_STATE, "Effect removed." );
 		}
 		else
 			client.updateDisplay( ERROR_STATE, "Effect removal failed." );

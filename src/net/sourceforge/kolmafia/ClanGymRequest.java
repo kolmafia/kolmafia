@@ -132,14 +132,14 @@ public class ClanGymRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( NORMAL_STATE, "Beginning workout..." );
+		updateDisplay( DISABLE_STATE, "Beginning workout..." );
 		super.run();
 
 		// All the gains will be found before the first </center> tag;
 		// therefore, you can parse just that small segment.
 
 		client.processResult( new AdventureResult( AdventureResult.ADV, 0 - turnCount ) );
-		updateDisplay( NORMAL_STATE, "Workout completed." );
+		updateDisplay( ENABLE_STATE, "Workout completed." );
 	}
 
 	/**

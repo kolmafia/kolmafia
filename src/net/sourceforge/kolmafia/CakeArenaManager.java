@@ -104,7 +104,7 @@ public class CakeArenaManager extends StaticEntity
 
 			for ( int j = 1; client.permitsContinue() && j <= battleCount; ++j )
 			{
-				client.updateDisplay( NORMAL_STATE, "Arena battle, round " + j + " in progress..." );
+				client.updateDisplay( DISABLE_STATE, "Arena battle, round " + j + " in progress..." );
 				client.makeRequest( request, 1 );
 
 				victoryMatcher = victoryPattern.matcher( request.responseText );

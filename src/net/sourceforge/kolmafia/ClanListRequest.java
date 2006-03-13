@@ -52,7 +52,7 @@ public class ClanListRequest extends KoLRequest
 
 	public void run()
 	{
-		client.updateDisplay( NORMAL_STATE, "Retrieving list of attackable clans..." );
+		client.updateDisplay( DISABLE_STATE, "Retrieving list of attackable clans..." );
 
 		super.run();
 

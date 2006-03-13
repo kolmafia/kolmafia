@@ -476,7 +476,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 								"Save arena parameters for the " + familiar.getRace() + "?",
 								"Save arena skills?", JOptionPane.YES_NO_OPTION ) )
 							FamiliarsDatabase.setFamiliarSkills( familiar.getRace(), skills );
-						client.updateDisplay( NORMAL_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
+						client.updateDisplay( PRINT_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
 
 					}
 
@@ -555,7 +555,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			public void run()
 			{
-				client.disableDisplay();
 				FamiliarData selection = (FamiliarData)getSelectedItem();
 				client.resetContinueState();
 				(new FamiliarRequest( client, selection )).run();
@@ -697,7 +696,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			fightMatch( client, status, tool, opponent );
 		}
 
-		statusMessage( client, NORMAL_STATE, "Training session completed." );
+		statusMessage( client, ENABLE_STATE, "Training session completed." );
 		return true;
 	}
 
@@ -805,7 +804,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					// Initialize test parameters
 					test[contest] = rank + 1;
 
-					statusMessage( client, NORMAL_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + ( rank + 1 ) + ": trial " + ( trial + 1 ) );
+					statusMessage( client, DISABLE_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + ( rank + 1 ) + ": trial " + ( trial + 1 ) );
 
 					// Choose possible weights
 					int [] weights = status.getWeights( false );
@@ -823,7 +822,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					if ( match != contest + 1 )
 					{
 						// Informative message only. Do not stop session.
-						statusMessage( client, NORMAL_STATE, "Internal error: Familiar Tool selected " + CakeArenaManager.getEvent( match ) + " rather than " + CakeArenaManager.getEvent( contest + 1 ) );
+						statusMessage( client, ERROR_STATE, "Internal error: Familiar Tool selected " + CakeArenaManager.getEvent( match ) + " rather than " + CakeArenaManager.getEvent( contest + 1 ) );
 						// Use contest, even if with bad weight
 						match = contest + 1;
 					}
@@ -1073,7 +1072,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		results.append( text.toString() );
 
-		client.updateDisplay( NORMAL_STATE, "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
+		client.updateDisplay( DISABLE_STATE, "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
 	private static int fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )
@@ -1946,14 +1945,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 			else
 				message = familiar.getName() + " lost.";
 
-			statusMessage( client, NORMAL_STATE, message );
+			statusMessage( client, DISABLE_STATE, message );
 
 			// If a prize was won, report it
 			Matcher matcher = Pattern.compile( "You acquire an item: <b>(.*?)</b>" ).matcher( response );
 			if ( matcher.find() )
 			{
 				String prize = matcher.group(1);
-				statusMessage( client, NORMAL_STATE, "You win a prize: " + prize + "." );
+				statusMessage( client, DISABLE_STATE, "You win a prize: " + prize + "." );
 				if ( prize.equals( LEAD_NECKLACE.getName() ) )
 				{
 					if ( leadNecklace == null )

@@ -68,7 +68,7 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( itemID == -1 )
 		{
-			updateDisplay( NORMAL_STATE, "Visiting the Untinker..." );
+			updateDisplay( DISABLE_STATE, "Visiting the Untinker..." );
 			super.run();
 			return;
 		}
@@ -150,12 +150,12 @@ public class UntinkerRequest extends KoLRequest
 		if ( KoLCharacter.getInventory().contains( SCREWDRIVER ) )
 			client.processResult( SCREWDRIVER );
 
-		updateDisplay( NORMAL_STATE, "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
+		updateDisplay( DISABLE_STATE, "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
 
 		super.run();
 		client.processResult( new AdventureResult( itemID, -1 ) );
 
-		updateDisplay( NORMAL_STATE, "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) );
+		updateDisplay( DISABLE_STATE, "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) );
 	}
 
 	protected void processResults()
@@ -166,7 +166,6 @@ public class UntinkerRequest extends KoLRequest
 			return;
 		}
 
-		client.processResult( AdventureRequest.ABRIDGED );
 		client.processResult( FightRequest.DICTIONARY1 );
 		client.processResult( AdventureRequest.BRIDGE.getNegation() );
 	}

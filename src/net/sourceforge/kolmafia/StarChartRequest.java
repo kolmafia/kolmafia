@@ -82,7 +82,7 @@ public class StarChartRequest extends ItemCreationRequest
 		for ( int i = 1; i <= getQuantityNeeded(); ++i )
 		{
 			// Disable controls
-			updateDisplay( NORMAL_STATE, "Creating " + getName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
+			updateDisplay( DISABLE_STATE, "Creating " + getName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
 
 			// Run the request
 			super.run();

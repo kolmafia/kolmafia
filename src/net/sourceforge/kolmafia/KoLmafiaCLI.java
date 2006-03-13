@@ -320,9 +320,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public synchronized void executeLine( String line )
 	{
-		boolean shouldEnable = StaticEntity.getClient().currentState != DISABLE_STATE;
-
-		StaticEntity.getClient().disableDisplay();
 		StaticEntity.getClient().resetContinueState();
 
 		if ( line.indexOf( ";" ) != -1 )
@@ -332,9 +329,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if( separateLines[i].length() > 0 )
 					executeLine( separateLines[i] );
 
-			if ( shouldEnable )
-				StaticEntity.getClient().enableDisplay();
-
+			StaticEntity.getClient().enableDisplay();
 			return;
 		}
 
@@ -360,8 +355,7 @@ public class KoLmafiaCLI extends KoLmafia
 			executeCommand( command, parameters );
 		}
 
-		if ( shouldEnable )
-			StaticEntity.getClient().enableDisplay();
+		StaticEntity.getClient().enableDisplay();
 	}
 
 	/**
@@ -395,7 +389,7 @@ public class KoLmafiaCLI extends KoLmafia
 				{
 					KoLRequest.delay( 1000 );
 					if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-						updateDisplay( NORMAL_STATE, "Countdown: " + (seconds - i) + " seconds remaining..." );
+						updateDisplay( DISABLE_STATE, "Countdown: " + (seconds - i) + " seconds remaining..." );
 					else
 						outputStream.print( seconds - i + ", " );
 				}
@@ -406,7 +400,7 @@ public class KoLmafiaCLI extends KoLmafia
 				e.printStackTrace();
 			}
 
-			updateDisplay( NORMAL_STATE, "Waiting completed." );
+			updateDisplay( ENABLE_STATE, "Waiting completed." );
 			return;
 		}
 
@@ -441,7 +435,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "echo" ) )
 		{
-			updateDisplay( NORMAL_STATE, parameters );
+			updateDisplay( parameters );
 			return;
 		}
 
@@ -480,7 +474,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				if ( !StaticEntity.getClient().inLoginState() )
 				{
-					updateDisplay( NORMAL_STATE, "Logging out..." );
+					updateDisplay( DISABLE_STATE, "Logging out..." );
 					(new LogoutRequest( StaticEntity.getClient() )).run();
 				}
 
@@ -503,11 +497,11 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( !StaticEntity.getClient().inLoginState() )
 			{
-				updateDisplay( NORMAL_STATE, "Logging out..." );
+				updateDisplay( DISABLE_STATE, "Logging out..." );
 				(new LogoutRequest( StaticEntity.getClient() )).run();
 			}
 
-			updateDisplay( NORMAL_STATE, "Exiting KoLmafia..." );
+			updateDisplay( DISABLE_STATE, "Exiting KoLmafia..." );
 			System.exit(0);
 		}
 
@@ -577,11 +571,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "moon" ) )
 		{
-			updateDisplay( NORMAL_STATE, "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
-			updateDisplay( NORMAL_STATE, "Grimace: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
+			updateDisplay( "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
+			updateDisplay( "Grimace: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
 			printBlankLine();
 
-			updateDisplay( NORMAL_STATE, MoonPhaseDatabase.getMoonEffect() );
+			updateDisplay( MoonPhaseDatabase.getMoonEffect() );
 			printBlankLine();
 
 			Date today = new Date();
@@ -601,10 +595,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 			String [] holidayPredictions = MoonPhaseDatabase.getHolidayPredictions( today );
 			for ( int i = 0; i < holidayPredictions.length; ++i )
-				updateDisplay( NORMAL_STATE, holidayPredictions[i] );
+				updateDisplay( holidayPredictions[i] );
 
 			printBlankLine();
-			updateDisplay( NORMAL_STATE, MoonPhaseDatabase.getHoliday( today ) );
+			updateDisplay( MoonPhaseDatabase.getHoliday( today ) );
 			printBlankLine();
 
 			return;
@@ -1227,14 +1221,14 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( (command.equals( "status" ) || command.equals( "effects" )) && parameters.startsWith( "refresh" ) )
 		{
 			(new CharsheetRequest( StaticEntity.getClient() )).run();
-			updateDisplay( NORMAL_STATE, "Status refreshed." );
+			updateDisplay( ENABLE_STATE, "Status refreshed." );
 			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
 		}
 
 		if ( command.equals( "inv" ) && parameters.equals( "refresh" ) )
 		{
 			(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET )).run();
-			updateDisplay( NORMAL_STATE, "Status refreshed." );
+			updateDisplay( ENABLE_STATE, "Status refreshed." );
 			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
 		}
 
@@ -1261,7 +1255,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void showHTML( String text, String title )
 	{
-		updateDisplay( NORMAL_STATE, text.replaceAll( "<(br|p|blockquote)>", LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll(
+		updateDisplay( text.replaceAll( "<(br|p|blockquote)>", LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll(
 			"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "n" ).replaceAll( "&quot;", "\"" ) );
 	}
 
@@ -1627,9 +1621,9 @@ public class KoLmafiaCLI extends KoLmafia
 				StaticEntity.getClient().useDisjunction = true;
 
 			if ( StaticEntity.getClient().useDisjunction )
-				updateDisplay( NORMAL_STATE, "All conditions will be ORed together." );
+				updateDisplay( "All conditions will be ORed together." );
 			else
-				updateDisplay( NORMAL_STATE, "All conditions will be ANDed together." );
+				updateDisplay( "All conditions will be ANDed together." );
 		}
 		else if ( option.equals( "add" ) )
 		{
@@ -1815,12 +1809,12 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( condition.getCount() > 0 )
 		{
 			AdventureResult.addResultToList( StaticEntity.getClient().conditions, condition );
-			updateDisplay( NORMAL_STATE, "Condition added." );
+			updateDisplay( "Condition added." );
 			printList( StaticEntity.getClient().conditions );
 		}
 		else
 		{
-			updateDisplay( NORMAL_STATE, "Condition already met." );
+			updateDisplay( "Condition already met." );
 			printList( StaticEntity.getClient().conditions );
 		}
 
@@ -2037,17 +2031,17 @@ public class KoLmafiaCLI extends KoLmafia
 		int amountRemaining = amount;
 		int eachAmount = amountRemaining / increments;
 
-		updateDisplay( NORMAL_STATE, "Donating " + amount + " to the shrine..." );
+		updateDisplay( DISABLE_STATE, "Donating " + amount + " to the shrine..." );
 		StaticEntity.getClient().makeRequest( new HeroDonationRequest( StaticEntity.getClient(), heroID, eachAmount ), increments - 1 );
 		amountRemaining -= eachAmount * (increments - 1);
 
 		if ( StaticEntity.getClient().permitsContinue() )
 		{
-			updateDisplay( NORMAL_STATE, "Request " + increments + " in progress..." );
+			updateDisplay( DISABLE_STATE, "Request " + increments + " in progress..." );
 			StaticEntity.getClient().makeRequest( new HeroDonationRequest( StaticEntity.getClient(), heroID, amountRemaining ), 1 );
 
 			if ( StaticEntity.getClient().permitsContinue() )
-				updateDisplay( NORMAL_STATE, "Requests complete!" );
+				updateDisplay( ENABLE_STATE, "Requests complete!" );
 		}
 	}
 
@@ -2191,7 +2185,7 @@ public class KoLmafiaCLI extends KoLmafia
 		executePrintCommand( parameterList[0].toLowerCase(), filter, desiredOutputStream );
 
 		if ( parameterList.length > 1 && !parameterList[1].equals( "filter" ) )
-			updateDisplay( NORMAL_STATE, "Data has been printed to \"" + parameterList[1] + "\"" );
+			updateDisplay( "Data has been printed to \"" + parameterList[1] + "\"" );
 	}
 
 	/**
@@ -2209,55 +2203,55 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( desiredData.equals( "session" ) )
 		{
-			updateDisplay( NORMAL_STATE, "Player: " + KoLCharacter.getUsername() );
-			updateDisplay( NORMAL_STATE, "Session ID: " + StaticEntity.getClient().getSessionID() );
-			updateDisplay( NORMAL_STATE, "Password Hash: " + StaticEntity.getClient().getPasswordHash() );
+			updateDisplay( "Player: " + KoLCharacter.getUsername() );
+			updateDisplay( "Session ID: " + StaticEntity.getClient().getSessionID() );
+			updateDisplay( "Password Hash: " + StaticEntity.getClient().getPasswordHash() );
 		}
 		else if ( desiredData.startsWith( "stat" ) )
 		{
-			updateDisplay( NORMAL_STATE, "Lv: " + KoLCharacter.getLevel() );
-			updateDisplay( NORMAL_STATE, "HP: " + KoLCharacter.getCurrentHP() + " / " + df.format( KoLCharacter.getMaximumHP() ) );
-			updateDisplay( NORMAL_STATE, "MP: " + KoLCharacter.getCurrentMP() + " / " + df.format( KoLCharacter.getMaximumMP() ) );
+			updateDisplay( "Lv: " + KoLCharacter.getLevel() );
+			updateDisplay( "HP: " + KoLCharacter.getCurrentHP() + " / " + df.format( KoLCharacter.getMaximumHP() ) );
+			updateDisplay( "MP: " + KoLCharacter.getCurrentMP() + " / " + df.format( KoLCharacter.getMaximumMP() ) );
 
 			printBlankLine();
 
-			updateDisplay( NORMAL_STATE, "Mus: " + getStatString( KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() ) );
-			updateDisplay( NORMAL_STATE, "Mys: " + getStatString( KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() ) );
-			updateDisplay( NORMAL_STATE, "Mox: " + getStatString( KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() ) );
+			updateDisplay( "Mus: " + getStatString( KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() ) );
+			updateDisplay( "Mys: " + getStatString( KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() ) );
+			updateDisplay( "Mox: " + getStatString( KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() ) );
 
 			printBlankLine();
 
-			updateDisplay( NORMAL_STATE, "Advs: " + KoLCharacter.getAdventuresLeft() );
-			updateDisplay( NORMAL_STATE, "Meat: " + df.format( KoLCharacter.getAvailableMeat() ) );
-			updateDisplay( NORMAL_STATE, "Drunk: " + KoLCharacter.getInebriety() );
+			updateDisplay( "Advs: " + KoLCharacter.getAdventuresLeft() );
+			updateDisplay( "Meat: " + df.format( KoLCharacter.getAvailableMeat() ) );
+			updateDisplay( "Drunk: " + KoLCharacter.getInebriety() );
 
 			printBlankLine();
 
-			updateDisplay( NORMAL_STATE, "Pet: " + KoLCharacter.getFamiliar() );
-			updateDisplay( NORMAL_STATE, "Item: " + KoLCharacter.getFamiliarItem() );
+			updateDisplay( "Pet: " + KoLCharacter.getFamiliar() );
+			updateDisplay( "Item: " + KoLCharacter.getFamiliarItem() );
 		}
 		else if ( desiredData.startsWith( "equip" ) )
 		{
-			updateDisplay( NORMAL_STATE, "Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
-			updateDisplay( NORMAL_STATE, "Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
-			updateDisplay( NORMAL_STATE, "Off-hand: " + KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
-			updateDisplay( NORMAL_STATE, "Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
-			updateDisplay( NORMAL_STATE, "Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
+			updateDisplay( "Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
+			updateDisplay( "Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
+			updateDisplay( "Off-hand: " + KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
+			updateDisplay( "Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
+			updateDisplay( "Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
 
 			printBlankLine();
 
-			updateDisplay( NORMAL_STATE, "Acc. 1: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
-			updateDisplay( NORMAL_STATE, "Acc. 2: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
-			updateDisplay( NORMAL_STATE, "Acc. 3: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
+			updateDisplay( "Acc. 1: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
+			updateDisplay( "Acc. 2: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
+			updateDisplay( "Acc. 3: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
 
 			printBlankLine();
 
-			updateDisplay( NORMAL_STATE, "Pet: " + KoLCharacter.getFamiliar() );
-			updateDisplay( NORMAL_STATE, "Item: " + KoLCharacter.getFamiliarItem() );
+			updateDisplay( "Pet: " + KoLCharacter.getFamiliar() );
+			updateDisplay( "Item: " + KoLCharacter.getFamiliarItem() );
 		}
 		else if ( desiredData.startsWith( "encounters" ) )
 		{
-			updateDisplay( NORMAL_STATE, "Visited Locations: " );
+			updateDisplay( "Visited Locations: " );
 			printBlankLine();
 
 			printList( StaticEntity.getClient().adventureList );
@@ -2265,7 +2259,7 @@ public class KoLmafiaCLI extends KoLmafia
 			printBlankLine();
 			printBlankLine();
 
-			updateDisplay( NORMAL_STATE, "Encounter Listing: " );
+			updateDisplay( "Encounter Listing: " );
 
 			printBlankLine();
 
@@ -2709,12 +2703,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( StaticEntity.getClient().permitsContinue() )
 		{
-			updateDisplay( NORMAL_STATE, "Current:" );
-			updateDisplay( NORMAL_STATE, plot );
-			updateDisplay( NORMAL_STATE, " " );
-			updateDisplay( NORMAL_STATE, "Forecast:" );
-			updateDisplay( NORMAL_STATE, MushroomPlot.getForecastedPlot( false ) );
-			updateDisplay( NORMAL_STATE, " " );
+			updateDisplay( "Current:" );
+			updateDisplay( plot );
+			updateDisplay( " " );
+			updateDisplay( "Forecast:" );
+			updateDisplay( MushroomPlot.getForecastedPlot( false ) );
+			updateDisplay( " " );
 		}
 	}
 
@@ -2835,7 +2829,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		AdventureResult firstMatch = getFirstMatchingItem( parameters, NOWHERE );
 		if ( firstMatch == null )
-			updateDisplay( NORMAL_STATE, "No item specified for purchase." );
+			updateDisplay( ERROR_STATE, "No item specified for purchase." );
 
 		if ( !NPCStoreDatabase.contains( firstMatch.getName() ) && !KoLCharacter.canInteract() )
 		{
@@ -2907,7 +2901,7 @@ public class KoLmafiaCLI extends KoLmafia
 		StaticEntity.getClient().makeRequest( irequest, 1 );
 
 		if ( StaticEntity.getClient().permitsContinue() )
-			updateDisplay( NORMAL_STATE, "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
+			updateDisplay( ENABLE_STATE, "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
 	}
 
 	/**
@@ -2983,7 +2977,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		updateDisplay( NORMAL_STATE, "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
+		updateDisplay( DISABLE_STATE, "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
 		StaticEntity.getClient().makeRequest( adventure, adventureCount );
 	}
 
@@ -3033,7 +3027,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			BuffBotHome.setBuffBotActive( true );
 			BuffBotManager.runBuffBot( df.parse( parameters ).intValue() );
-			updateDisplay( NORMAL_STATE, "BuffBot execution complete." );
+			updateDisplay( ENABLE_STATE, "BuffBot execution complete." );
 		}
 		catch ( Exception e )
 		{
@@ -3048,7 +3042,11 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	public void printBlankLine()
-	{	updateDisplay( NORMAL_STATE, " " );
+	{	updateDisplay( " " );
+	}
+
+	public void updateDisplay( String message )
+	{	updateDisplay( PRINT_STATE, message );
 	}
 
 	/**
@@ -3151,7 +3149,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( previousCommand.indexOf( " " ) == -1 )
 		{
 			boolean clovers = StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
-			updateDisplay( NORMAL_STATE, "Today is " + ( clovers ? "" : "not " ) + "a clover day." );
+			updateDisplay( "Today is " + ( clovers ? "" : "not " ) + "a clover day." );
 			return;
 		}
 
@@ -3309,7 +3307,7 @@ public class KoLmafiaCLI extends KoLmafia
 			type = GalaktikRequest.MP;
 		else
 		{
-			updateDisplay( NORMAL_STATE, "Unknown Doc Galaktik request" );
+			updateDisplay( ERROR_STATE, "Unknown Doc Galaktik request <" + cure + ">" );
 			return;
 		}
 
@@ -3370,7 +3368,7 @@ public class KoLmafiaCLI extends KoLmafia
 		Object [] elements = new Object[ printing.size() ];
 		printing.toArray( elements );
 		for ( int i = 0; i < elements.length; ++i )
-			updateDisplay( NORMAL_STATE, elements[i].toString() );
+			updateDisplay( elements[i].toString() );
 	}
 
 	/**

@@ -261,7 +261,7 @@ public class BuffBotDatabase extends KoLDatabase
 		if ( client == null )
 			return;
 
-		client.updateDisplay( NORMAL_STATE, "Configuring dynamic buff prices..." );
+		client.updateDisplay( DISABLE_STATE, "Configuring dynamic buff prices..." );
 
 		// Iterate over list of bots and configure each one
 		int botCount = bots.size();
@@ -275,12 +275,12 @@ public class BuffBotDatabase extends KoLDatabase
 			configureDynamicBot( client, name, id );
 		}
 
-		client.updateDisplay( NORMAL_STATE, "Buff prices fetched." );
+		client.updateDisplay( ENABLE_STATE, "Buff prices fetched." );
 	}
 
 	private static void configureDynamicBot( KoLmafia client, String name, String id )
 	{
-		client.updateDisplay( NORMAL_STATE, "Fetching buff prices from " + name + "..." );
+		client.updateDisplay( DISABLE_STATE, "Fetching buff prices from " + name + "..." );
 
 		KoLRequest request = new KoLRequest( client, "displaycollection.php" );
 		request.addFormField( "who", id );

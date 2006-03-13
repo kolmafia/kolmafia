@@ -94,7 +94,6 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static void deleteMessage( String boxname, KoLMailMessage message )
 	{
-		client.disableDisplay();
 		(new RequestThread( new MailboxRequest( client, boxname.equals( "PvP" ) ? "Inbox" : boxname, message, "delete" ) )).start();
 
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
@@ -108,7 +107,6 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( messages.length == 0 )
 			return;
 
-		client.disableDisplay();
 		(new MailboxRequest( client, boxname.equals( "PvP" ) ? "Inbox" : boxname, messages, "delete" )).run();
 
 		int messageIndex;
@@ -123,7 +121,6 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static void saveMessage( KoLMailMessage message )
 	{
-		client.disableDisplay();
 		(new MailboxRequest( client, "Inbox", message, "save" )).run();
 
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( "Inbox" );
@@ -137,7 +134,6 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( messages.length == 0 )
 			return;
 
-		client.disableDisplay();
 		(new MailboxRequest( client, "Inbox", messages, "save" )).run();
 
 		int messageIndex;

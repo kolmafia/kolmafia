@@ -148,20 +148,20 @@ public class KoLmafiaASH extends StaticEntity
 				if ( result.getIntValue() == 0 )
 				{
 					KoLmafia.getLogStream().println( "Script failed!" ); //failed
-					client.updateDisplay( KoLmafia.NORMAL_STATE,  "Script failed!" );
+					client.updateDisplay( ERROR_STATE,  "Script failed!" );
 					return;
 				}
 				else
 				{
 					KoLmafia.getLogStream().println( "Script succeeded!" ); //succes
-					client.updateDisplay( KoLmafia.NORMAL_STATE,  "Script succeeded!" );
+					client.updateDisplay( ENABLE_STATE,  "Script succeeded!" );
 					return;
 				}
 			}
 			else
 			{
 				KoLmafia.getLogStream().println( "Script returned message " + result.toString() );
-				client.updateDisplay( KoLmafia.NORMAL_STATE,  "Script returned value " + result.toString() );
+				client.updateDisplay( ENABLE_STATE,  "Script returned value " + result.toString() );
 				return;
 			}
 
@@ -2045,7 +2045,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executeAdventureRequest( int amount, KoLAdventure location ) throws AdvancedScriptException
 		{
-			client.updateDisplay( KoLmafia.NORMAL_STATE, "Beginning " + amount + " turnips to " + location.toString() + "..." );
+			client.updateDisplay( DISABLE_STATE, "Beginning " + amount + " turnips to " + location.toString() + "..." );
 			client.makeRequest( location, amount );
 
 			if ( client.permitsContinue() )
@@ -2197,7 +2197,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptValue executePrintRequest( String message ) throws AdvancedScriptException
 		{
-			client.updateDisplay( NORMAL_STATE, message );
+			DEFAULT_SHELL.updateDisplay( message );
 			return new ScriptValue( TYPE_VOID );
 		}
 

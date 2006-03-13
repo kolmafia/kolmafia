@@ -139,7 +139,7 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
-		updateDisplay( NORMAL_STATE, "Robbing the hermit..." );
+		updateDisplay( DISABLE_STATE, "Robbing the hermit..." );
 		super.run();
 
 		// If an error state occurred, return from this
@@ -226,7 +226,7 @@ public class HermitRequest extends KoLRequest
 		quantity -= subtractWorthlessItems( GEWGAW, inventory, quantity );
 		subtractWorthlessItems( KNICK_KNACK, inventory, quantity );
 
-		updateDisplay( NORMAL_STATE, "Hermit successfully looted!" );
+		updateDisplay( ENABLE_STATE, "Hermit successfully looted!" );
 	}
 
 	private int subtractWorthlessItems( AdventureResult item, List inventory, int total )

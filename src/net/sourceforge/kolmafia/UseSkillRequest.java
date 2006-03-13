@@ -112,9 +112,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		client.recoverMP();
 
 		if ( target == null || target.trim().length() == 0 )
-			updateDisplay( NORMAL_STATE, "Casting " + skillName + "..." );
+			updateDisplay( DISABLE_STATE, "Casting " + skillName + "..." );
 		else
-			updateDisplay( NORMAL_STATE, "Casting " + skillName + " on " + target );
+			updateDisplay( DISABLE_STATE, "Casting " + skillName + " on " + target );
 
 		super.run();
 
@@ -198,9 +198,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		else
 		{
 			if ( target == null || target.equals( "" ) )
-				updateDisplay( NORMAL_STATE, skillName + " was successfully cast" );
+				updateDisplay( ENABLE_STATE, skillName + " was successfully cast" );
 			else
-				updateDisplay( NORMAL_STATE, skillName + " was successfully cast on " + target );
+				updateDisplay( ENABLE_STATE, skillName + " was successfully cast on " + target );
 
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.

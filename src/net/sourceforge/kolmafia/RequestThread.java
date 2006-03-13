@@ -112,13 +112,10 @@ public class RequestThread extends Thread implements KoLConstants
 
 	public void run()
 	{
-		boolean shouldEnable = client != null && client.currentState != DISABLE_STATE;
-
 		if ( client != null && ((requests[0] instanceof KoLRequest && !(requests[0] instanceof ChatRequest)) || requests[0] instanceof KoLAdventure) )
 		{
 			client.resetContinueState();
 			client.enableDisplay();
-			client.disableDisplay();
 		}
 
 		for ( int i = 0; i < requests.length; ++i )
@@ -134,19 +131,13 @@ public class RequestThread extends Thread implements KoLConstants
 			// client.makeRequest() method.
 
 			else if ( requests[i] instanceof KoLRequest && !client.inLoginState() && client.permitsContinue() )
-			{
-				client.disableDisplay();
 				client.makeRequest( requests[i], repeatCount[i] );
-			}
 
 			// Standard KoL adventures are handled through the
 			// client.makeRequest() method.
 
 			else if ( requests[i] instanceof KoLAdventure && client.permitsContinue() )
-			{
-				client.disableDisplay();
 				client.makeRequest( requests[i], repeatCount[i] );
-			}
 
 			// All other runnables are run, as expected, with
 			// no updates to the client.
@@ -159,14 +150,12 @@ public class RequestThread extends Thread implements KoLConstants
 		if ( requests[0] instanceof ItemCreationRequest && client.permitsContinue() )
 		{
 			ItemCreationRequest irequest = (ItemCreationRequest) requests[0];
-			client.updateDisplay( NORMAL_STATE, "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
+			client.updateDisplay( ENABLE_STATE, "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
 		}
 
 		if ( client != null && !(requests[0] instanceof ChatRequest) && !BuffBotHome.isBuffBotActive() )
 		{
-			if ( shouldEnable )
-				client.enableDisplay();
-
+			client.enableDisplay();
 			client.resetContinueState();
 		}
 	}

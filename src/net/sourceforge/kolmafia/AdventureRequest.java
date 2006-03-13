@@ -217,7 +217,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.trim().length() == 0 )
 		{
-			updateDisplay( NORMAL_STATE, "Empty response from server.  Retrying..." );
+			updateDisplay( DISABLE_STATE, "Empty response from server.  Retrying..." );
 			this.run();
 			return;
 		}
@@ -249,7 +249,7 @@ public class AdventureRequest extends KoLRequest
 					// repeat the request and notify the client that
 					// a server error was encountered.
 
-					updateDisplay( NORMAL_STATE, "Server error.  Repeating request..." );
+					updateDisplay( DISABLE_STATE, "Server error.  Repeating request..." );
 					this.run();
 					return;
 				}
@@ -272,7 +272,7 @@ public class AdventureRequest extends KoLRequest
 					// Nothing more to do in this area
 
 					client.cancelRequest();
-					updateDisplay( NORMAL_STATE, "Nothing more to do here." );
+					updateDisplay( ENABLE_STATE, "Nothing more to do here." );
 					this.adventuresUsed = 0;
 					return;
 				}
@@ -336,7 +336,7 @@ public class AdventureRequest extends KoLRequest
 			}
 			else if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
 			{
-				updateDisplay( NORMAL_STATE, "You can now cross the Orc Chasm." );
+				updateDisplay( ENABLE_STATE, "You can now cross the Orc Chasm." );
 				client.processResult( BRIDGE );
 			}
 			else
@@ -357,7 +357,7 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( CANDLES );
 				client.processResult( BUTTERKNIFE );
 
-				updateDisplay( NORMAL_STATE, "Taint cleansed." );
+				updateDisplay( ENABLE_STATE, "Taint cleansed." );
 			}
 			else
 			{

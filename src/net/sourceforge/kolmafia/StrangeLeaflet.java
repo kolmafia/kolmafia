@@ -335,7 +335,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( leaflet )
 			return;
 
-		client.updateDisplay( NORMAL_STATE, "Retrieving mail..." );
+		client.updateDisplay( DISABLE_STATE, "Retrieving mail..." );
 
 		goTo( FIELD );
 
@@ -357,7 +357,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( chest )
 			return;
 
-		client.updateDisplay( NORMAL_STATE, "Looking for treasure..." );
+		client.updateDisplay( DISABLE_STATE, "Looking for treasure..." );
 
 		goTo( CAVE );
 		killSerpent();
@@ -372,7 +372,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( location > BANK )
 			return;
 
-		client.updateDisplay( NORMAL_STATE, "Hunting eggs..." );
+		client.updateDisplay( DISABLE_STATE, "Hunting eggs..." );
 
 		// We can't tell if we've already done this. But, there's no
 		// harm in doing it twice.
@@ -389,7 +389,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( trophy )
 			return;
 
-		client.updateDisplay( NORMAL_STATE, "Invoking magic..." );
+		client.updateDisplay( DISABLE_STATE, "Invoking magic..." );
 
 		goTo( HOUSE );
 		parseMantelpiece( executeCommand( "examine fireplace" ) );
@@ -409,7 +409,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( ring )
 			return;
 
-		client.updateDisplay( NORMAL_STATE, "Stealing ring..." );
+		client.updateDisplay( DISABLE_STATE, "Stealing ring..." );
 
 		if ( location < BOTTOM )
 			goTo( BOTTOM );

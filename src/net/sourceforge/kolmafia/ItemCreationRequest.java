@@ -308,7 +308,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( tool.getCount( KoLCharacter.getInventory() ) > 0 )
 		{
-			updateDisplay( NORMAL_STATE, "Using " + tool.getName() + "..." );
+			updateDisplay( DISABLE_STATE, "Using " + tool.getName() + "..." );
 			(new ConsumeItemRequest( client, tool )).run();
 			return;
 		}
@@ -333,7 +333,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		for ( int i = 1; client.permitsContinue() && i <= quantityNeeded; ++i )
 		{
-			updateDisplay( NORMAL_STATE, "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
+			updateDisplay( DISABLE_STATE, "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
 			request.run();
 		}
 	}
@@ -389,7 +389,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !client.permitsContinue() )
 			return;
 
-		updateDisplay( NORMAL_STATE, "Creating " + toString() + "..." );
+		updateDisplay( DISABLE_STATE, "Creating " + toString() + "..." );
 		AdventureResult createdItem = new AdventureResult( itemID, 0 );
 		int beforeQuantity = createdItem.getCount( KoLCharacter.getInventory() );
 

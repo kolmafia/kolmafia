@@ -561,7 +561,6 @@ public class ItemManageFrame extends KoLFrame
 
 			private void combineTwoItems()
 			{
-				client.disableDisplay();
 				AdventureDatabase.retrieveItem( new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 ) );
 				request.run();
 
@@ -619,7 +618,7 @@ public class ItemManageFrame extends KoLFrame
 
 						if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
 						{
-							client.updateDisplay( NORMAL_STATE, "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
+							client.updateDisplay( DISABLE_STATE, "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
 							request.addFormField( "item1", String.valueOf( currentTest[0].getItemID() ) );
 							request.addFormField( "item2", String.valueOf( currentTest[1].getItemID() ) );
 
@@ -640,7 +639,6 @@ public class ItemManageFrame extends KoLFrame
 
 			private void combineThreeItems()
 			{
-				client.disableDisplay();
 				request.run();
 
 				// In order to ensure that you do not test items which
@@ -700,7 +698,7 @@ public class ItemManageFrame extends KoLFrame
 
 							if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
 							{
-								client.updateDisplay( NORMAL_STATE, "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
+								client.updateDisplay( DISABLE_STATE, "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
 								request.addFormField( "item1", String.valueOf( currentTest[0].getItemID() ) );
 								request.addFormField( "item2", String.valueOf( currentTest[1].getItemID() ) );
 								request.addFormField( "item3", String.valueOf( currentTest[1].getItemID() ) );

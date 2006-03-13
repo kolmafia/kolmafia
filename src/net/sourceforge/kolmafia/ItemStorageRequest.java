@@ -183,7 +183,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		switch ( moveType )
 		{
 			case EMPTY_STORAGE:
-				updateDisplay( NORMAL_STATE, "Emptying storage..." );
+				updateDisplay( DISABLE_STATE, "Emptying storage..." );
 				super.run();
 
 				while ( !KoLCharacter.getStorage().isEmpty() )
@@ -192,30 +192,30 @@ public class ItemStorageRequest extends SendMessageRequest
 				break;
 
 			case STORAGE_TO_INVENTORY:
-				updateDisplay( NORMAL_STATE, "Moving items..." );
+				updateDisplay( DISABLE_STATE, "Moving items..." );
 				parseStorage();
 				break;
 
 			case RETRIEVE_STORAGE:
-				updateDisplay( NORMAL_STATE, "Retrieving storage contents..." );
+				updateDisplay( DISABLE_STATE, "Retrieving storage contents..." );
 				parseStorage();
 				break;
 
 			case INVENTORY_TO_CLOSET:
 			case CLOSET_TO_INVENTORY:
-				updateDisplay( NORMAL_STATE, "Moving items..." );
+				updateDisplay( DISABLE_STATE, "Moving items..." );
 				super.run();
 				break;
 
 			case CLOSET_YOUR_CLOVERS:
-				updateDisplay( NORMAL_STATE, "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
+				updateDisplay( DISABLE_STATE, "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
 				super.run();
 				break;
 
 			case MEAT_TO_CLOSET:
 			case MEAT_TO_INVENTORY:
 			case PULL_MEAT_FROM_STORAGE:
-				updateDisplay( NORMAL_STATE, "Executing transaction..." );
+				updateDisplay( DISABLE_STATE, "Executing transaction..." );
 				meat();
 				break;
 		}

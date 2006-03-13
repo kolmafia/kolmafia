@@ -106,7 +106,6 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{
-			client.disableDisplay();
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).makeEndOfRunSaleRequest();
 			client.enableDisplay();
@@ -132,7 +131,6 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{
-			client.disableDisplay();
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).removeAllItemsFromStore();
 			client.enableDisplay();
@@ -213,7 +211,6 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionCancelled()
 		{
-			client.disableDisplay();
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).priceItemsAtLowestPrice();
 			client.enableDisplay();
@@ -361,7 +358,6 @@ public class StoreManageFrame extends KoLPanelFrame
 				if ( sellingList.getSelectedItem() == null )
 					return;
 
-				client.disableDisplay();
 				StoreManager.searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary );
 				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
 				client.enableDisplay();
@@ -489,7 +485,6 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				client.disableDisplay();
 				StoreManager.takeItem( itemID );
 				client.enableDisplay();
 			}
@@ -499,7 +494,6 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				client.disableDisplay();
 				StoreManager.searchMall( TradeableItemDatabase.getItemName( itemID ), priceSummary );
 				searchLabel.setText( itemName.getText() );
 				client.enableDisplay();

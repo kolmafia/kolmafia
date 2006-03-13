@@ -75,7 +75,7 @@ public class CharsheetRequest extends KoLRequest
 
 	public void run()
 	{
-		updateDisplay( NORMAL_STATE, "Retrieving character data..." );
+		updateDisplay( DISABLE_STATE, "Retrieving character data..." );
 		super.run();
 
 		// If an error state occurred, return from this
@@ -249,7 +249,7 @@ public class CharsheetRequest extends KoLRequest
 				{
 					client.parseEffect( parsedContent.nextToken() );
 					if ( parsedContent.nextToken().startsWith( "font" ) )
-						
+
 						// "shrug off" link
 						skipTokens( parsedContent, 13 );
 					else

@@ -200,9 +200,9 @@ public class AdventureFrame extends KoLFrame
 				String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
 
 				if ( holiday.startsWith( "No" ) )
-					client.updateDisplay( NORMAL_STATE, MoonPhaseDatabase.getMoonEffect() );
+					client.updateDisplay( PRINT_STATE, MoonPhaseDatabase.getMoonEffect() );
 				else
-					client.updateDisplay( NORMAL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+					client.updateDisplay( PRINT_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 			}
 		}
 		catch ( Exception e )
@@ -406,7 +406,7 @@ public class AdventureFrame extends KoLFrame
 
 				if ( client.getConditions().isEmpty() )
 				{
-					client.updateDisplay( NORMAL_STATE, "Conditions already satisfied." );
+					client.updateDisplay( ENABLE_STATE, "Conditions already satisfied." );
 					return;
 				}
 
@@ -415,7 +415,7 @@ public class AdventureFrame extends KoLFrame
 					DEFAULT_SHELL.executeConditionsCommand( "check" );
 					if ( client.getConditions().isEmpty() )
 					{
-						client.updateDisplay( NORMAL_STATE, "Conditions already satisfied." );
+						client.updateDisplay( ENABLE_STATE, "Conditions already satisfied." );
 						return;
 					}
 				}
@@ -499,7 +499,6 @@ public class AdventureFrame extends KoLFrame
 			{
 				if ( client != null )
 				{
-					client.disableDisplay();
 					client.resetContinueState();
 					displayMessages( WIN_GAME_TEXT[ RNG.nextInt( WIN_GAME_TEXT.length ) ] );
 				}
@@ -509,7 +508,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				for ( int i = 0; i < messages.length - 1 && client.permitsContinue(); ++i )
 				{
-					client.updateDisplay( NORMAL_STATE, messages[i] );
+					client.updateDisplay( DISABLE_STATE, messages[i] );
 					KoLRequest.delay( 3000 );
 				}
 
@@ -648,7 +647,6 @@ public class AdventureFrame extends KoLFrame
 
 	public void searchMall( SearchMallRequest request )
 	{
-		client.disableDisplay();
 		request.run();
 		if ( results != request.getResults() )
 			results.addAll( request.getResults() );
@@ -721,7 +719,7 @@ public class AdventureFrame extends KoLFrame
 				// show what the current state of the selections
 				// is at this time.
 
-				client.updateDisplay( NORMAL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
+				client.updateDisplay( PRINT_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
 			}
 		}
 	}

@@ -124,9 +124,6 @@ public class KoLmafiaGUI extends KoLmafia
 						((Component)references[i].get()).setEnabled( false );
 						break;
 
-					case NORMAL_STATE:
-						break;
-
 					default:
 						((Component)references[i].get()).setEnabled( true );
 						break;
@@ -318,7 +315,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( furs == 0 )
 		{
-			updateDisplay( NORMAL_STATE, "You don't have any yeti furs to trade." );
+			updateDisplay( ERROR_STATE, "You don't have any yeti furs to trade." );
 			return;
 		}
 
@@ -373,7 +370,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( available == 0 )
 		{
-			updateDisplay( NORMAL_STATE, "You don't have any " + selectedValue + "." );
+			updateDisplay( ERROR_STATE, "You don't have any " + selectedValue + "." );
 			return;
 		}
 
@@ -408,7 +405,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( cureArray.length == 0 )
 		{
-			updateDisplay( NORMAL_STATE, "You don't need any cures." );
+			updateDisplay( ERROR_STATE, "You don't need any cures." );
 			return;
 		}
 

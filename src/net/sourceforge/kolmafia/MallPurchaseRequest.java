@@ -307,7 +307,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
 
-		updateDisplay( NORMAL_STATE, "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")" );
+		updateDisplay( DISABLE_STATE, "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")" );
 
 		AdventureResult searchItem = new AdventureResult( itemID, 0 );
 		int beforeCount = searchItem.getCount( KoLCharacter.getInventory() );
@@ -359,7 +359,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 					if ( price >= newPrice )
 					{
-						updateDisplay( NORMAL_STATE, "Failed to yield.  Attempting repurchase..." );
+						updateDisplay( DISABLE_STATE, "Failed to yield.  Attempting repurchase..." );
 						(new MallPurchaseRequest( client, itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice, Math.min( limit, quantity ), true )).run();
 					}
 					else
@@ -367,7 +367,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 						// In the event of a price switch, give the
 						// player the option to report it.
 
-						updateDisplay( NORMAL_STATE, "Price switch detected (#" + shopID + ").  Skipping..." );
+						updateDisplay( DISABLE_STATE, "Price switch detected (#" + shopID + ").  Skipping..." );
 						return;
 					}
 				}
@@ -377,7 +377,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 					// notify the user temporarily that the store
 					// failed to yield the item.
 
-					updateDisplay( NORMAL_STATE, "Failed to yield.  Skipping..." );
+					updateDisplay( DISABLE_STATE, "Failed to yield.  Skipping..." );
 				}
 			}
 			catch ( Exception e )

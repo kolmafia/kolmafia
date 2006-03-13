@@ -328,7 +328,7 @@ public class EquipmentRequest extends PasswordHashRequest
 						{
 							if ( familiars[i].getItem() != null && familiars[i].getItem().indexOf( changeItemName ) != -1 )
 							{
-								updateDisplay( NORMAL_STATE, "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
+								updateDisplay( DISABLE_STATE, "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
 								KoLRequest unequip = new KoLRequest( client, "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID(), true );
 								unequip.run();
 
@@ -356,27 +356,27 @@ public class EquipmentRequest extends PasswordHashRequest
 		switch ( requestType )
 		{
 			case EQUIPMENT:
-				updateDisplay( NORMAL_STATE, "Updating equipment..." );
+				updateDisplay( DISABLE_STATE, "Updating equipment..." );
 				break;
 
 			case CLOSET:
-				updateDisplay( NORMAL_STATE, "Refreshing closet..." );
+				updateDisplay( DISABLE_STATE, "Refreshing closet..." );
 				break;
 
 			case CHANGE_OUTFIT:
-				updateDisplay( NORMAL_STATE, "Putting on " + outfit + "..." );
+				updateDisplay( DISABLE_STATE, "Putting on " + outfit + "..." );
 				break;
 
 			case CHANGE_ITEM:
-				updateDisplay( NORMAL_STATE, ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON ? "Wielding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
+				updateDisplay( DISABLE_STATE, ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON ? "Wielding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
 				break;
 
 			case REMOVE_ITEM:
-				updateDisplay( NORMAL_STATE, "Taking off " + KoLCharacter.getCurrentEquipmentName( equipmentSlot) + "..." );
+				updateDisplay( DISABLE_STATE, "Taking off " + KoLCharacter.getCurrentEquipmentName( equipmentSlot) + "..." );
 				break;
 
 			case UNEQUIP_ALL:
-				updateDisplay( NORMAL_STATE, "Taking off everything..." );
+				updateDisplay( DISABLE_STATE, "Taking off everything..." );
 				break;
 		}
 
@@ -409,7 +409,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( requestType == CLOSET )
 			{
 				parseCloset();
-				updateDisplay( NORMAL_STATE, "Inventory retrieved." );
+				updateDisplay( ENABLE_STATE, "Inventory retrieved." );
 			}
 			else
 			{
