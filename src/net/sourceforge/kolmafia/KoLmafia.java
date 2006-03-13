@@ -235,6 +235,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		this.currentState = permitsContinue() ? ENABLE_STATE : ERROR_STATE;
 		updateDisplay( this.currentState, "" );
+		this.currentState = CONTINUE_STATE;
 	}
 
 	/**
@@ -1690,7 +1691,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean permitsContinue()
-	{	return currentState != PENDING_STATE && currentState != ERROR_STATE && currentState != ABORT_STATE;
+	{	return currentState != CONTINUE_STATE;
 	}
 
 	/**
