@@ -209,7 +209,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void updateDisplay( int state, String message )
 	{
-		if ( this.currentState != ABORT_STATE && state != CONTINUE_STATE )
+		if ( this.currentState != ABORT_STATE )
 			this.currentState = state;
 
 		if ( !message.equals( "" ) )
