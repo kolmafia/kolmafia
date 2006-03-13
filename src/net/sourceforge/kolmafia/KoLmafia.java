@@ -1713,7 +1713,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * method, this method is used to reset the continue state.
 	 */
 
-	private final void resetContinueState()
+	public final void resetContinueState()
 	{	this.permitContinue = true;
 	}
 
