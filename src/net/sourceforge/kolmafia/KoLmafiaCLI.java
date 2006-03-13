@@ -150,7 +150,6 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			StaticEntity.getClient().resetContinueState();
 			String username = StaticEntity.getProperty( "autoLogin" );
 
 			if ( username == null || username.length() == 0 )
@@ -230,8 +229,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void listenForCommands()
 	{
-		StaticEntity.getClient().resetContinueState();
-
 		if ( StaticEntity.getClient() == this )
 			outputStream.print( " > " );
 
@@ -255,10 +252,7 @@ public class KoLmafiaCLI extends KoLmafia
 				line = ((KoLmafiaCLI)StaticEntity.getClient()).getNextLine();
 
 				if ( line.startsWith( "y" ) || line.startsWith( "Y" ) )
-				{
 					StaticEntity.getClient().enableDisplay();
-					StaticEntity.getClient().resetContinueState();
-				}
 			}
 		}
 
@@ -320,8 +314,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public synchronized void executeLine( String line )
 	{
-		StaticEntity.getClient().resetContinueState();
-
 		if ( line.indexOf( ";" ) != -1 )
 		{
 			String[] separateLines = line.split( ";" );
@@ -528,7 +520,6 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			StaticEntity.getClient().resetContinueState();
 			lastScript.listenForCommands();
 
 			if ( lastScript.previousCommand == null )
@@ -1203,7 +1194,6 @@ public class KoLmafiaCLI extends KoLmafia
 				updateDisplay( "Message sent to " + splitParameters[1] );
 			else
 			{
-				StaticEntity.getClient().resetContinueState();
 				int desiredPackageIndex = Math.min( GiftMessageRequest.PACKAGES.size() - 1, attachments.size() );
 
 				(new GiftMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", "You are awesome.",
@@ -1834,7 +1824,6 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			StaticEntity.getClient().makeRequest( new CampgroundRequest( StaticEntity.getClient(), parameterList[0] ),
 				parameterList.length == 1 ? 1 : df.parse( parameterList[1] ).intValue() );
-			StaticEntity.getClient().resetContinueState();
 		}
 		catch ( Exception e )
 		{
@@ -3023,8 +3012,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		try
 		{
-			StaticEntity.getClient().resetContinueState();
-
 			BuffBotHome.setBuffBotActive( true );
 			BuffBotManager.runBuffBot( df.parse( parameters ).intValue() );
 			updateDisplay( "BuffBot execution complete." );

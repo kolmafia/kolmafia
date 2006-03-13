@@ -324,7 +324,6 @@ public class GearChangeFrame extends KoLFrame
 		{
 			try
 			{
-				client.resetContinueState();
 				client.makeRequest( (Runnable) constructor.newInstance( parameters ), 1 );
 				refreshEquipPanel();
 

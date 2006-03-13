@@ -268,7 +268,6 @@ public abstract class Nemesis extends StaticEntity
 			return;
 		}
 
-		client.resetContinueState();
 		client.updateDisplay( "You defeated your nemesis. Congratulations!" );
 	}
 }

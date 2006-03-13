@@ -476,7 +476,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 								"Save arena parameters for the " + familiar.getRace() + "?",
 								"Save arena skills?", JOptionPane.YES_NO_OPTION ) )
 							FamiliarsDatabase.setFamiliarSkills( familiar.getRace(), skills );
-						client.updateDisplay( DISABLE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
+						client.updateDisplay( CONTINUE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
 
 					}
 
@@ -556,9 +556,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public void run()
 			{
 				FamiliarData selection = (FamiliarData)getSelectedItem();
-				client.resetContinueState();
 				(new FamiliarRequest( client, selection )).run();
 				familiar = KoLCharacter.getFamiliar();
+
 				isChanging = false;
 				client.enableDisplay();
 			}
@@ -590,7 +590,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		// Permit training session to proceed
 		stop = false;
-		client.resetContinueState();
 
 		// Get current familiar
 		FamiliarData familiar = KoLCharacter.getFamiliar();
@@ -680,7 +679,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( buffs )
 				{
 					results.append( "Trying again without considering buffs...<br>" );
-					client.resetContinueState();
 					buffs = false;
 					continue;
 				}
@@ -696,7 +694,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			fightMatch( client, status, tool, opponent );
 		}
 
-		statusMessage( DISABLE_STATE, "Training session completed." );
+		statusMessage( CONTINUE_STATE, "Training session completed." );
 		return true;
 	}
 
@@ -715,7 +713,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		// Permit training session to proceed
 		stop = false;
-		client.resetContinueState();
 
 		// Get current familiar
 		FamiliarData familiar = KoLCharacter.getFamiliar();
@@ -804,7 +801,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					// Initialize test parameters
 					test[contest] = rank + 1;
 
-					statusMessage( DISABLE_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + ( rank + 1 ) + ": trial " + ( trial + 1 ) );
+					statusMessage( CONTINUE_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + ( rank + 1 ) + ": trial " + ( trial + 1 ) );
 
 					// Choose possible weights
 					int [] weights = status.getWeights( false );
@@ -958,7 +955,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Perhaps we failed to cast a buff. Try again
 			// using nothing but equipment.
-			client.resetContinueState();
 			buffs = false;
 		}
 
@@ -1615,18 +1611,18 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// If we couldn't pick one, that's an internal error
 			if ( next == null || weight != next.weight() )
 			{
-				results.append( "Internal error: could not select gear set to achieve " + weight + " lbs.<br>" );
+				statusMessage( ERROR_STATE, "Could not select gear set to achieve " + weight + " lbs." );
+
 				if ( next == null )
 					results.append( "No gear set found.<br>" );
 				else
 					results.append( "Selected gear set provides " + next.weight() + " lbs.<br>" );
 
-				client.cancelRequest();
 				return;
 			}
 
 			// Change into the new GearSet
-			changeGear( current, next);
+			changeGear( current, next );
 		}
 
 		/*
@@ -1945,14 +1941,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 			else
 				message = familiar.getName() + " lost.";
 
-			statusMessage( DISABLE_STATE, message );
+			statusMessage( CONTINUE_STATE, message );
 
 			// If a prize was won, report it
 			Matcher matcher = Pattern.compile( "You acquire an item: <b>(.*?)</b>" ).matcher( response );
 			if ( matcher.find() )
 			{
 				String prize = matcher.group(1);
-				statusMessage( DISABLE_STATE, "You win a prize: " + prize + "." );
+				statusMessage( CONTINUE_STATE, "You win a prize: " + prize + "." );
 				if ( prize.equals( LEAD_NECKLACE.getName() ) )
 				{
 					if ( leadNecklace == null )

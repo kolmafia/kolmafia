@@ -200,9 +200,9 @@ public class AdventureFrame extends KoLFrame
 				String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
 
 				if ( holiday.startsWith( "No" ) )
-					client.updateDisplay( DISABLE_STATE, MoonPhaseDatabase.getMoonEffect() );
+					client.updateDisplay( CONTINUE_STATE, MoonPhaseDatabase.getMoonEffect() );
 				else
-					client.updateDisplay( DISABLE_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+					client.updateDisplay( CONTINUE_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 			}
 		}
 		catch ( Exception e )
@@ -498,10 +498,7 @@ public class AdventureFrame extends KoLFrame
 			public void run()
 			{
 				if ( client != null )
-				{
-					client.resetContinueState();
 					displayMessages( WIN_GAME_TEXT[ RNG.nextInt( WIN_GAME_TEXT.length ) ] );
-				}
 			}
 
 			private void displayMessages( String [] messages )
@@ -719,7 +716,7 @@ public class AdventureFrame extends KoLFrame
 				// show what the current state of the selections
 				// is at this time.
 
-				client.updateDisplay( DISABLE_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
+				client.updateDisplay( CONTINUE_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
 			}
 		}
 	}

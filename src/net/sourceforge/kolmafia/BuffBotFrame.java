@@ -208,7 +208,6 @@ public class BuffBotFrame extends KoLFrame
 
 			(new CharsheetRequest( client )).run();
 
-			client.resetContinueState();
 			BuffBotHome.setBuffBotActive( true );
 			BuffBotManager.runBuffBot( Integer.MAX_VALUE );
 		}

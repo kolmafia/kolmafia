@@ -742,14 +742,9 @@ public class KoLRequest implements Runnable, KoLConstants
 					client.updateDisplay( ERROR_STATE, "Session timed out." );
 
 					if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
-					{
 						client.executeTimeInRequest();
-						client.resetContinueState();
-					}
 					else
-					{
 						shouldStop = true;
-					}
 				}
 				else if ( followRedirects )
 				{

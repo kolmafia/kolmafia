@@ -248,8 +248,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// After the buffbot is finished running, make sure
 		// to reset the continue state.
 
-		client.resetContinueState();
-
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
 		client.updateDisplay( "Buffbot stopped." );
 		BuffBotHome.setBuffBotActive( false );
@@ -646,8 +644,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		public boolean castOnTarget( String target )
 		{
-			client.resetContinueState();
-
 			++requestsThisSession;
 			BuffBotHome.recordBuff( target, buffName, castCount, price );
 

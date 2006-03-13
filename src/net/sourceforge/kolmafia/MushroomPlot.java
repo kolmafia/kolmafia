@@ -464,11 +464,6 @@ public abstract class MushroomPlot extends StaticEntity
 		if ( client == null )
 			return true;
 
-		// Clear error state so that the flags are
-		// properly detected.
-
-		client.resetContinueState();
-
 		// If you're not in a Muscle sign, no go.
 
 		if ( !KoLCharacter.inMuscleSign() )

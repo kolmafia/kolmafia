@@ -416,7 +416,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				setEnabled( true );
 				break;
 
-			case DISABLE_STATE:
+			case CONTINUE_STATE:
 
 				if ( compactPane != null )
 					compactPane.setBackground( DISABLED_COLOR );
@@ -708,7 +708,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			if ( executePath == null )
 				return;
 
-			client.resetContinueState();
 			DEFAULT_SHELL.executeLine( executePath );
 			client.enableDisplay();
 		}
@@ -1156,7 +1155,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			{
 				if ( method != null )
 				{
-					client.resetContinueState();
 					method.invoke( object, null );
 					client.enableDisplay();
 				}

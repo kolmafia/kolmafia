@@ -219,8 +219,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			int resultLimit = getValue( limitEntry, 100 );
 
 			resultCards.show( resultCardPanel, String.valueOf( index ) );
-
-			client.resetContinueState();
 			client.updateDisplay( "Conducting search..." );
 
 			while ( !resultsModel[ index ].getDataVector().isEmpty() )
@@ -286,7 +284,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			isSimple = false;
 
 			resultCards.show( resultCardPanel, "1" );
-			client.resetContinueState();
 			client.updateDisplay( "Conducting search..." );
 
 			while ( !resultsModel[1].getDataVector().isEmpty() )

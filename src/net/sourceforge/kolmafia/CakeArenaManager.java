@@ -97,7 +97,6 @@ public class CakeArenaManager extends StaticEntity
 		public void run()
 		{
 			FamiliarTrainingFrame.getResults().clearBuffer();
-			client.resetContinueState();
 
 			Matcher victoryMatcher;
 			Pattern victoryPattern = Pattern.compile( "is the winner, and gains (\\d+) experience" );

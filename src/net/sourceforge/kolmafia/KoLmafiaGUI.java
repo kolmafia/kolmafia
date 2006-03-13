@@ -120,7 +120,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 				switch ( state )
 				{
-					case DISABLE_STATE:
+					case CONTINUE_STATE:
 						((Component)references[i].get()).setEnabled( false );
 						break;
 

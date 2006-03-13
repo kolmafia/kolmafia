@@ -1073,9 +1073,6 @@ public abstract class SorceressLair extends StaticEntity
 			request.addFormField( "whichitem", String.valueOf( guardianItem.getItemID() ) );
 			request.run();
 
-			// Un-cancel
-			client.resetContinueState();
-
 			// Use up the item
 			client.processResult( guardianItem.getNegation() );
 
@@ -1338,7 +1335,6 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
-		client.resetContinueState();
 		client.updateDisplay( "Fighting your shadow..." );
 
 		// Start the battle!
@@ -1359,7 +1355,6 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-		client.resetContinueState();
 	}
 
 	private static void familiarBattle( int n )
@@ -1387,9 +1382,6 @@ public abstract class SorceressLair extends StaticEntity
 			client.updateDisplay( ERROR_STATE, "You must have more than 50 HP to proceed." );
 			return;
 		}
-
-		// The following should be unnecessary...
-		client.resetContinueState();
 
 		client.updateDisplay( "Facing giant familiar..." );
 		KoLRequest request = new KoLRequest( client, "lair6.php", true );

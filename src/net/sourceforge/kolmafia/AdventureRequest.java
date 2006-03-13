@@ -180,7 +180,7 @@ public class AdventureRequest extends KoLRequest
 			// even after a fight.
 
 			else if ( formSource.equals( "dungeon.php" ) )
-				client.resetContinueState();
+				client.updateDisplay( CONTINUE_STATE, "" );
 
 			// Otherwise, the only redirect we understand is
 			// fight.php and choice.php.  If it's neither of
@@ -233,7 +233,6 @@ public class AdventureRequest extends KoLRequest
 
 		if ( KoLCharacter.getCurrentHP() == 0 )
 		{
-			client.cancelRequest();
 			client.updateDisplay( ERROR_STATE, "Ran out of health." );
 			return;
 		}
@@ -260,7 +259,6 @@ public class AdventureRequest extends KoLRequest
 					// He's missing an item, hasn't been give a quest yet,
 					// or otherwise is trying to go somewhere he's not allowed.
 
-					client.cancelRequest();
 					client.updateDisplay( ERROR_STATE, "You can't get to that area." );
 					this.adventuresUsed = 0;
 					return;
@@ -271,23 +269,17 @@ public class AdventureRequest extends KoLRequest
 				{
 					// Nothing more to do in this area
 
-					client.cancelRequest();
-					client.updateDisplay( "Nothing more to do here." );
+					client.updateDisplay( PENDING_STATE, "Nothing more to do here." );
 					this.adventuresUsed = 0;
 					return;
 				}
 
 				if ( responseText.indexOf( "You must have at least" ) != -1 )
 				{
-					client.cancelRequest();
 					client.updateDisplay( ERROR_STATE, "Your stats are too low for this location." );
 					this.adventuresUsed = 0;
 					return;
 				}
-
-				// We can no longer adventure in this area.
-
-				client.cancelRequest();
 
 				// If we gained nothing, assume adventure
 				// didn't take place.
@@ -307,7 +299,6 @@ public class AdventureRequest extends KoLRequest
 			{
 				// Nothing more to do in this area
 
-				client.cancelRequest();
 				client.updateDisplay( ERROR_STATE, "You already defeated the Boss." );
 				return;
 			}
@@ -324,26 +315,30 @@ public class AdventureRequest extends KoLRequest
 				{
 					AdventureDatabase.retrieveItem( ABRIDGED.getNegation() );
 					(new UntinkerRequest( client, ABRIDGED.getItemID() )).run();
-					this.run();
 
+					this.run();
 					return;
 				}
+				else
+				{
+					// Otherwise, the player is unable to cross the orc
+					// chasm at this time.
 
-				// Otherwise, the player is unable to cross the orc
-				// chasm at this time.
-
-				client.updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
+					client.updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
+					return;
+				}
 			}
 			else if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
 			{
 				client.updateDisplay( "You can now cross the Orc Chasm." );
 				client.processResult( BRIDGE );
+				return;
 			}
 			else
+			{
 				client.updateDisplay( ERROR_STATE, "You've already crossed the Orc Chasm." );
-
-			client.cancelRequest();
-			return;
+				return;
+			}
 		}
 		else if ( formSource.equals( "friars.php" ) )
 		{
@@ -358,6 +353,7 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( BUTTERKNIFE );
 
 				client.updateDisplay( "Taint cleansed." );
+				return;
 			}
 			else
 			{
@@ -367,17 +363,14 @@ public class AdventureRequest extends KoLRequest
 				// Detect completion via accomplishments.
 
 				client.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
+				return;
 			}
-
-			client.cancelRequest();
-			return;
 		}
 		else if ( formSource.equals( "trickortreat.php" ) )
 		{
 			if ( responseText.indexOf( "You can't go Trick-or-Treating without a costume!" ) != -1 )
 			{
 				client.updateDisplay( ERROR_STATE, "Put on a costume and try again!" );
-				client.cancelRequest();
 				this.adventuresUsed = 0;
 				return;
 			}
@@ -391,9 +384,8 @@ public class AdventureRequest extends KoLRequest
 			// should not continue with the next iteration.
 			// Friendly error messages to come later.
 
-			client.cancelRequest();
-			this.adventuresUsed = 0;
 			client.updateDisplay( ERROR_STATE, "Turn usage aborted!" );
+			this.adventuresUsed = 0;
 			return;
 		}
 

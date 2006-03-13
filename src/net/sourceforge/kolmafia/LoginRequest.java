@@ -86,8 +86,6 @@ public class LoginRequest extends KoLRequest
 		client.updateDisplay( KoLRequest.getRootHostName() + " selected." );
 		client.updateDisplay( "Sending login..." );
 
-		client.resetContinueState();
-
 		super.run();
 
 		if ( responseCode == 302 )
@@ -114,7 +112,5 @@ public class LoginRequest extends KoLRequest
 
 			client.updateDisplay( ERROR_STATE, "Login failed." );
 		}
-
-		client.resetContinueState();
 	}
 }

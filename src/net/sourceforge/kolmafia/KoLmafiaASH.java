@@ -2924,7 +2924,6 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptValue result;
 			boolean conditionMet = (condition.execute().getIntValue() == 1 );
-			client.resetContinueState();
 
 			if ( conditionMet )
 			{

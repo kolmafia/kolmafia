@@ -112,12 +112,6 @@ public class RequestThread extends Thread implements KoLConstants
 
 	public void run()
 	{
-		if ( client != null && ((requests[0] instanceof KoLRequest && !(requests[0] instanceof ChatRequest)) || requests[0] instanceof KoLAdventure) )
-		{
-			client.resetContinueState();
-			client.enableDisplay();
-		}
-
 		for ( int i = 0; i < requests.length; ++i )
 		{
 			// Chat requests are only run once, no matter what
@@ -154,9 +148,6 @@ public class RequestThread extends Thread implements KoLConstants
 		}
 
 		if ( client != null && !(requests[0] instanceof ChatRequest) && !BuffBotHome.isBuffBotActive() )
-		{
 			client.enableDisplay();
-			client.resetContinueState();
-		}
 	}
 }

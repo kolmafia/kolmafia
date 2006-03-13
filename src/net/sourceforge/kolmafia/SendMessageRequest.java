@@ -189,7 +189,6 @@ public abstract class SendMessageRequest extends KoLRequest
 		// just calls the normal run method from KoLRequest
 		// to execute the request.
 
-		client.resetContinueState();
 		super.run();
 
 		// If an error state occurred, return from this

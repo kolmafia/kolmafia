@@ -538,7 +538,7 @@ public class AdventureDatabase extends KoLDatabase
 		DEFAULT_SHELL.executeLine( command );
 
 		if ( !shouldContinue )
-			client.cancelRequest();
+			client.updateDisplay( ERROR_STATE, "" );
 	}
 
 	/**

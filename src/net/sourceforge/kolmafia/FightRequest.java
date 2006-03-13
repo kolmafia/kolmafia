@@ -239,7 +239,7 @@ public class FightRequest extends KoLRequest
 				// has an "adventure again" link.
 
 				else if ( responseText.indexOf( "againform.submit" ) == -1 && responseText.indexOf( "Go back to the Sorceress' Hedge Maze" ) == -1 )
-					client.cancelRequest();
+					client.updateDisplay( PENDING_STATE, "Nothing left to do here." );
 
 				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 			}
@@ -250,25 +250,20 @@ public class FightRequest extends KoLRequest
 				// also notify the client that an adventure was completed,
 				// but that the loop should be halted.
 
-				if ( roundCount < 30 )
+				if ( KoLCharacter.getCurrentHP() == 0 )
 				{
 					client.updateDisplay( ERROR_STATE, "You were defeated!" );
 					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				}
 				else
 				{
-					// Sometimes you hit the thirty round limit.  Here, report
-					// the error and then continue adventuring (if the user
-					// still wishes to continue).
+					// Sometimes you hit the thirty round limit.  Here, print
+					// the error to the debug log and continue adventuring
+					// as normal.
 
-					client.updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
+					client.updateDisplay( "Thirty combat round limit exceeded." );
 					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				}
-			}
-			else if ( responseText.indexOf( "<input" ) == -1 )
-			{
-				client.updateDisplay( "Final battle completed." );
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 			}
 			else
 			{
@@ -309,30 +304,27 @@ public class FightRequest extends KoLRequest
 		{
 			int itemID = Integer.parseInt( action.substring( 4 ) );
 
-			switch ( itemID)
+			switch ( itemID )
 			{
-			case 2:		// Seal Tooth
-			case 4:		// Scroll of Turtle Summoning
-			case 8:		// Spices
-			case 536:	// Dictionary 1
-			case 1316:	// Dictionary 2
-				return;
+				case 2:		// Seal Tooth
+				case 4:		// Scroll of Turtle Summoning
+				case 8:		// Spices
+				case 536:	// Dictionary 1
+				case 1316:	// Dictionary 2
+
+					return;
 			}
 
 			// Everything else is consumed
+
 			client.processResult( new AdventureResult( itemID, -1 ) );
 			return;
 		}
 
-		int mp = 0;
-
-		if ( action.equals( "moxman" ) )
-			mp = KoLCharacter.getLevel();
-		else
-			mp = ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action ) );
+		int mp = action.equals( "moxman" ) ? KoLCharacter.getLevel() :
+			ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action ) );
 
 		if ( mp > 0 )
-
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - mp ) );
 	}
 }
