@@ -51,7 +51,7 @@ import java.util.Set;
 
 public class TradeableItemDatabase extends KoLDatabase
 {
-	public static final int ITEM_COUNT = 1500;
+	public static final int ITEM_COUNT = 2000;
 
 	private static int [] consumptionID = new int[ ITEM_COUNT ];
 	private static int [] priceByID = new int[ ITEM_COUNT ];
