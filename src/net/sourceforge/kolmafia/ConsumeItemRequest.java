@@ -336,14 +336,20 @@ public class ConsumeItemRequest extends KoLRequest
 			// "Your song has pleased me greatly. I will reward you
 			// with some of my crazy imps, to do your bidding."
 			if ( responseText.indexOf( "pleased me greatly" ) == -1 )
+			{
+				updateDisplay( ERROR_STATE, "You music was inadequate." );
 				return;
+			}
 			break;
 
 		case GIANT_CASTLE_MAP:
 			// "I'm sorry, adventurer, but the Sorceress is in
 			// another castle!"
 			if ( responseText.indexOf( "Sorceress is in another castle" ) == -1 )
+			{
+				updateDisplay( ERROR_STATE, "You couldn't make it all the way to the back door." );
 				return;
+			}
 			break;
 
 		case DRASTIC_HEALING:
