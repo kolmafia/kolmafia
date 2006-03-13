@@ -479,7 +479,7 @@ public class RequestFrame extends KoLFrame
 			KoLCharacter.refreshCalculatedLists();
 			String location = request.getURLString();
 
-			if ( hasSideBar && (sidePaneRequest == null || location.indexOf( "?" ) != -1) )
+			if ( hasSideBar )
 				refreshSidePane();
 
 			// Keep the client updated of your current equipment and
