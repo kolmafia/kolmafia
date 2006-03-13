@@ -533,7 +533,7 @@ public class KoLmafiaGUI extends KoLmafia
 		for ( int i = 0; i < sold.length && permitsContinue(); ++i )
 			StoreManager.takeItem( sold[i].getItemID() );
 
-		updateDisplay( ENABLE_STATE, "Store emptying complete." );
+		updateDisplay( "Store emptying complete." );
 	}
 
 	/**
@@ -596,7 +596,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( permitsContinue() )
 			priceItemsAtLowestPrice();
 
-		updateDisplay( ENABLE_STATE, "Undercutting sale complete." );
+		updateDisplay( "Undercutting sale complete." );
 	}
 
 	/**

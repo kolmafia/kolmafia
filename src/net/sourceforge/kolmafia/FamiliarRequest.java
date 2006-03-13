@@ -70,15 +70,15 @@ public class FamiliarRequest extends KoLRequest
 	public void run()
 	{
 		if ( changeTo == null)
-			updateDisplay( DISABLE_STATE, "Retrieving familiar data..." );
+			client.updateDisplay( "Retrieving familiar data..." );
 		else
 		{
 			FamiliarData familiar = KoLCharacter.getFamiliar();
 			if ( familiar != FamiliarData.NO_FAMILIAR )
-				updateDisplay( DISABLE_STATE, "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
+				client.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
 
 			if (changeTo != FamiliarData.NO_FAMILIAR )
-				updateDisplay( DISABLE_STATE, "Taking " + changeTo.getName() + " the " + changeTo.getRace() + " out of terrarium..." );
+				client.updateDisplay( "Taking " + changeTo.getName() + " the " + changeTo.getRace() + " out of terrarium..." );
 		}
 
 		super.run();
@@ -95,7 +95,7 @@ public class FamiliarRequest extends KoLRequest
 		FamiliarData.updateWeightModifier();
 
 		if ( changeTo == null )
-			updateDisplay( ENABLE_STATE, "Familiar data retrieved." );
+			client.updateDisplay( "Familiar data retrieved." );
 	}
 
 	public String getCommandForm( int iterations )

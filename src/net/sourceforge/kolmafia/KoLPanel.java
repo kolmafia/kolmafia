@@ -164,14 +164,6 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			if ( s == null || label == null )
 				return;
 
-			// If you're not attempting to time-in the session, but
-			// the session has timed out, then ignore all changes
-			// to the attempt to time-in the session.
-
-			if ( label.equals( "Session timed out." ) || label.equals( "Nightly maintenance." ) )
-				if ( displayState == DISABLE_STATE )
-					return;
-
 			// If the string which you're trying to set is blank,
 			// then you don't have to update the status message.
 

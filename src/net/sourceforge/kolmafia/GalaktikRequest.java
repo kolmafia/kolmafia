@@ -83,7 +83,7 @@ public class GalaktikRequest extends KoLRequest
 		{
 			// Ask Doc Galaktik for his available cures.
 
-			client.updateDisplay( DISABLE_STATE, "Visiting Doc Galaktik..." );
+			client.updateDisplay( "Visiting Doc Galaktik..." );
 			super.run();
 
 			int lastMatchIndex = 0;
@@ -96,7 +96,7 @@ public class GalaktikRequest extends KoLRequest
 				client.getGalaktikCures().add( cureMatcher.group(0) );
 			}
 
-			updateDisplay( ENABLE_STATE, "Cures retrieved." );
+			client.updateDisplay( "Cures retrieved." );
 
 			return;
 		}
@@ -113,7 +113,7 @@ public class GalaktikRequest extends KoLRequest
 			return;
 		}
 
-		client.updateDisplay( DISABLE_STATE, "Visiting Doc Galaktik..." );
+		client.updateDisplay( "Visiting Doc Galaktik..." );
 
 		super.run();
 
@@ -133,7 +133,7 @@ public class GalaktikRequest extends KoLRequest
 		else
 			client.processResult( new AdventureResult( AdventureResult.MP, KoLCharacter.getMaximumMP() ) );
 
-		updateDisplay( ENABLE_STATE, "Cure purchased." );
+		client.updateDisplay( "Cure purchased." );
 	}
 
 	public static List retrieveCures( KoLmafia client )

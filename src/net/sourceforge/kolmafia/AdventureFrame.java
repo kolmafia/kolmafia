@@ -200,9 +200,9 @@ public class AdventureFrame extends KoLFrame
 				String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
 
 				if ( holiday.startsWith( "No" ) )
-					client.updateDisplay( PRINT_STATE, MoonPhaseDatabase.getMoonEffect() );
+					client.updateDisplay( DISABLE_STATE, MoonPhaseDatabase.getMoonEffect() );
 				else
-					client.updateDisplay( PRINT_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+					client.updateDisplay( DISABLE_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 			}
 		}
 		catch ( Exception e )
@@ -406,7 +406,7 @@ public class AdventureFrame extends KoLFrame
 
 				if ( client.getConditions().isEmpty() )
 				{
-					client.updateDisplay( ENABLE_STATE, "Conditions already satisfied." );
+					client.updateDisplay( "Conditions already satisfied." );
 					return;
 				}
 
@@ -415,7 +415,7 @@ public class AdventureFrame extends KoLFrame
 					DEFAULT_SHELL.executeConditionsCommand( "check" );
 					if ( client.getConditions().isEmpty() )
 					{
-						client.updateDisplay( ENABLE_STATE, "Conditions already satisfied." );
+						client.updateDisplay( "Conditions already satisfied." );
 						return;
 					}
 				}
@@ -508,7 +508,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				for ( int i = 0; i < messages.length - 1 && client.permitsContinue(); ++i )
 				{
-					client.updateDisplay( DISABLE_STATE, messages[i] );
+					client.updateDisplay( messages[i] );
 					KoLRequest.delay( 3000 );
 				}
 
@@ -651,7 +651,7 @@ public class AdventureFrame extends KoLFrame
 		if ( results != request.getResults() )
 			results.addAll( request.getResults() );
 
-		client.updateDisplay( ENABLE_STATE, results.size() == 0 ? "No results found." : "Search complete." );
+		client.updateDisplay( results.size() == 0 ? "No results found." : "Search complete." );
 		tabs.setSelectedIndex(1);
 		resultSelect.requestFocus();
 		client.enableDisplay();
@@ -719,7 +719,7 @@ public class AdventureFrame extends KoLFrame
 				// show what the current state of the selections
 				// is at this time.
 
-				client.updateDisplay( PRINT_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
+				client.updateDisplay( DISABLE_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
 			}
 		}
 	}

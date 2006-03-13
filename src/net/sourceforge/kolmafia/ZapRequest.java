@@ -59,17 +59,17 @@ public class ZapRequest extends KoLRequest
 	{
 		if ( !KoLCharacter.getInventory().contains( wand ) )
 		{
-			updateDisplay( ERROR_STATE, "You don't have a" + wand.getName() );
+			client.updateDisplay( ERROR_STATE, "You don't have a" + wand.getName() );
 			return;
 		}
 
 		if ( !KoLCharacter.getInventory().contains( item ) )
 		{
-			updateDisplay( ERROR_STATE, "You don't have a" + item.getName() );
+			client.updateDisplay( ERROR_STATE, "You don't have a" + item.getName() );
 			return;
 		}
 
-		client.updateDisplay( DISABLE_STATE, "Zapping item..." );
+		client.updateDisplay( "Zapping item..." );
 		super.run();
 
 		//" The Crown of the Goblin King shudders for a moment, but
@@ -77,7 +77,7 @@ public class ZapRequest extends KoLRequest
 
 		if ( responseText.indexOf( "nothing happens" ) != -1 )
                 {
-			updateDisplay( ERROR_STATE, "That item is not zappable" );
+			client.updateDisplay( ERROR_STATE, "That item is not zappable" );
 			return;
 		}
 
@@ -88,6 +88,6 @@ public class ZapRequest extends KoLRequest
 		if ( responseText.indexOf( "abruptly explodes" ) != -1 )
 		     client.processResult( wand.getNegation() );
 
-		client.updateDisplay( ENABLE_STATE, "Item zapped" );
+		client.updateDisplay( "Item zapped" );
 	}
 }

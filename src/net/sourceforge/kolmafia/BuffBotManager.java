@@ -211,7 +211,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static void runBuffBot( int iterations )
 	{
 		BuffBotHome.setBuffBotActive( true );
-		client.updateDisplay( DISABLE_STATE, "Buffbot started." );
+		client.updateDisplay( "Buffbot started." );
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
 		messageDisposalSetting = Integer.parseInt( getProperty( "buffBotMessageDisposal" ) );
 
@@ -234,7 +234,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
 			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
-			client.updateDisplay( DISABLE_STATE, "Buffbot is sleeping." );
+			client.updateDisplay( "Buffbot is sleeping." );
 
 			// Sleep for a while and then try again (don't go
 			// away for more than 1 second at a time to avoid
@@ -251,7 +251,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		client.resetContinueState();
 
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
-		client.updateDisplay( ENABLE_STATE, "Buffbot stopped." );
+		client.updateDisplay( "Buffbot stopped." );
 		BuffBotHome.setBuffBotActive( false );
 	}
 

@@ -57,7 +57,7 @@ public abstract class Nemesis extends StaticEntity
 		if ( client == null )
 			return false;
 
-		client.updateDisplay( DISABLE_STATE, "Checking prerequisites..." );
+		client.updateDisplay( "Checking prerequisites..." );
 
 		// Make sure the player has been given the quest
 
@@ -173,19 +173,19 @@ public abstract class Nemesis extends StaticEntity
 					}
 
 					action = "flies";
-					client.updateDisplay( DISABLE_STATE, "Swatting flies..." );
+					client.updateDisplay( "Swatting flies..." );
 					break;
 
 				case 5: // A Stone Door
 
 					action = "door1";
-					client.updateDisplay( DISABLE_STATE, "Activating the stone door..." );
+					client.updateDisplay( "Activating the stone door..." );
 					break;
 
 				case 6: // Lavatory Troll 1
 
 					action = "troll1";
-					client.updateDisplay( DISABLE_STATE, "Feeding the first troll..." );
+					client.updateDisplay( "Feeding the first troll..." );
 					break;
 
 				case 7:	// Salad-Covered Door
@@ -200,13 +200,13 @@ public abstract class Nemesis extends StaticEntity
 					}
 
 					action = "door2";
-					client.updateDisplay( DISABLE_STATE, "Plucking the salad door..." );
+					client.updateDisplay( "Plucking the salad door..." );
 					break;
 
 				case 8: // Lavatory Troll 2
 
 					action = "troll2";
-					client.updateDisplay( DISABLE_STATE, "Feeding the second troll..." );
+					client.updateDisplay( "Feeding the second troll..." );
 					break;
 
 				case 9: // Chamber of Epic Conflict
@@ -218,7 +218,7 @@ public abstract class Nemesis extends StaticEntity
 						(new EquipmentRequest( client, weapon )).run();
 
 					action = "end";
-					client.updateDisplay( DISABLE_STATE, "Fighting your nemesis..." );
+					client.updateDisplay( "Fighting your nemesis..." );
 					break;
 			}
 
@@ -269,6 +269,6 @@ public abstract class Nemesis extends StaticEntity
 		}
 
 		client.resetContinueState();
-		client.updateDisplay( ENABLE_STATE, "You defeated your nemesis. Congratulations!" );
+		client.updateDisplay( "You defeated your nemesis. Congratulations!" );
 	}
 }

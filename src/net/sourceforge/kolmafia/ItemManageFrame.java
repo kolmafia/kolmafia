@@ -618,7 +618,7 @@ public class ItemManageFrame extends KoLFrame
 
 						if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
 						{
-							client.updateDisplay( DISABLE_STATE, "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
+							client.updateDisplay( "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
 							request.addFormField( "item1", String.valueOf( currentTest[0].getItemID() ) );
 							request.addFormField( "item2", String.valueOf( currentTest[1].getItemID() ) );
 
@@ -626,7 +626,7 @@ public class ItemManageFrame extends KoLFrame
 
 							if ( request.responseText.indexOf( "You acquire" ) != -1 )
 							{
-								client.updateDisplay( ENABLE_STATE, "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
+								client.updateDisplay( "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
 								return;
 							}
 						}
@@ -698,7 +698,7 @@ public class ItemManageFrame extends KoLFrame
 
 							if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
 							{
-								client.updateDisplay( DISABLE_STATE, "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
+								client.updateDisplay( "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
 								request.addFormField( "item1", String.valueOf( currentTest[0].getItemID() ) );
 								request.addFormField( "item2", String.valueOf( currentTest[1].getItemID() ) );
 								request.addFormField( "item3", String.valueOf( currentTest[1].getItemID() ) );
@@ -707,7 +707,7 @@ public class ItemManageFrame extends KoLFrame
 
 								if ( request.responseText.indexOf( "You acquire" ) != -1 )
 								{
-									client.updateDisplay( ENABLE_STATE, "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
+									client.updateDisplay( "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
 									return;
 								}
 							}
@@ -793,7 +793,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( selected == null )
 					return;
 
-				client.updateDisplay( DISABLE_STATE, "Verifying ingredients..." );
+				client.updateDisplay( "Verifying ingredients..." );
 				ItemCreationRequest selection = (ItemCreationRequest) selected;
 				selection.setQuantityNeeded( createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1 );
 

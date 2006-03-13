@@ -189,7 +189,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionConfirmed()
 		{
-			client.updateDisplay( DISABLE_STATE, "Compiling reprice data..." );
+			client.updateDisplay( "Compiling reprice data..." );
 
 			java.awt.Component [] components = storeItemList.getComponents();
 			int [] itemID = new int[ components.length ];

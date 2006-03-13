@@ -83,11 +83,11 @@ public class TrapperRequest extends KoLRequest
 	{
 		if ( quantity == 0 )
 		{
-			updateDisplay( ERROR_STATE, "You do not have any furs." );
+			client.updateDisplay( ERROR_STATE, "You do not have any furs." );
 			return;
 		}
 
-		updateDisplay( DISABLE_STATE, "Robbing the trapper..." );
+		client.updateDisplay( "Robbing the trapper..." );
 		super.run();
 
 		// If an error state occurred, return from this
@@ -97,6 +97,6 @@ public class TrapperRequest extends KoLRequest
 			return;
 
 		client.processResult( YETI_FUR.getInstance( 0 - quantity ) );
-		updateDisplay( ENABLE_STATE, "Trapper successfully looted!" );
+		client.updateDisplay( "Trapper successfully looted!" );
 	}
 }

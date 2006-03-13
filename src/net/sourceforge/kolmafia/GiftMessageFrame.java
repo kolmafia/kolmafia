@@ -102,7 +102,7 @@ public class GiftMessageFrame extends SendMessageFrame
 
 		if ( client.permitsContinue() )
 		{
-			client.updateDisplay( ENABLE_STATE, "Gift sent to " + recipient );
+			client.updateDisplay( "Gift sent to " + recipient );
 			setTitle( "Gift sent to " + recipient );
 			return true;
 		}

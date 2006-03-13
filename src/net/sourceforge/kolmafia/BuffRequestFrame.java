@@ -181,9 +181,9 @@ public class BuffRequestFrame extends KoLFrame
 					String bot = BuffBotDatabase.getBuffBot( index, selection );
 					int price = BuffBotDatabase.getBuffPrice( index, selection );
 					int turns = BuffBotDatabase.getBuffTurns( index, selection );
-					client.updateDisplay( DISABLE_STATE, "Buying " + turns + " turns of " + buff + " from " + bot );
+					client.updateDisplay( "Buying " + turns + " turns of " + buff + " from " + bot );
 					(new GreenMessageRequest( client, bot, VERSION_NAME, new AdventureResult( AdventureResult.MEAT, price ), false )).run();
-					client.updateDisplay( ENABLE_STATE, "Buff request complete." );
+					client.updateDisplay( "Buff request complete." );
 				}
 			}
 		}

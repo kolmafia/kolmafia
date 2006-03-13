@@ -150,7 +150,7 @@ public class RequestThread extends Thread implements KoLConstants
 		if ( requests[0] instanceof ItemCreationRequest && client.permitsContinue() )
 		{
 			ItemCreationRequest irequest = (ItemCreationRequest) requests[0];
-			client.updateDisplay( ENABLE_STATE, "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
+			client.updateDisplay( "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
 		}
 
 		if ( client != null && !(requests[0] instanceof ChatRequest) && !BuffBotHome.isBuffBotActive() )

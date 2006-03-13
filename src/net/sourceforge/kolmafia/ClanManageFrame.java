@@ -332,14 +332,14 @@ public class ClanManageFrame extends KoLFrame
 
 			public void run()
 			{
-				client.updateDisplay( DISABLE_STATE, "Purchasing clan materials..." );
+				client.updateDisplay( "Purchasing clan materials..." );
 
 				super.run();
 
 				// Theoretically, there should be a test for error state,
 				// but because I'm lazy, that's not happening.
 
-				client.updateDisplay( ENABLE_STATE, "Purchase request processed." );
+				client.updateDisplay( "Purchase request processed." );
 			}
 		}
 	}
@@ -501,12 +501,12 @@ public class ClanManageFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, parameterSelect.getSelectedIndex(), valueField.getText() );
-			client.updateDisplay( ENABLE_STATE, "Search results retrieved." );
+			client.updateDisplay( "Search results retrieved." );
 		}
 
 		protected void actionCancelled()
 		{
-			client.updateDisplay( DISABLE_STATE, "Determining changes..." );
+			client.updateDisplay( "Determining changes..." );
 
 			List rankChange = new ArrayList();
 			List newRanks = new ArrayList();
@@ -545,9 +545,9 @@ public class ClanManageFrame extends KoLFrame
 				}
 			}
 
-			client.updateDisplay( DISABLE_STATE, "Applying changes..." );
+			client.updateDisplay( "Applying changes..." );
 			(new ClanMembersRequest( client, rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
-			client.updateDisplay( ENABLE_STATE, "Changes have been applied." );
+			client.updateDisplay( "Changes have been applied." );
 		}
 	}
 

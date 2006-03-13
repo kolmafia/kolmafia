@@ -539,7 +539,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( MalformedURLException e )
 		{
-			updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLString );
+			client.updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLString );
 
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
@@ -678,7 +678,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( e instanceof FileNotFoundException )
 			{
-				updateDisplay( ERROR_STATE, "Page <" + formURLString + "> not found." );
+				client.updateDisplay( ERROR_STATE, "Page <" + formURLString + "> not found." );
 
 				if ( client != null )
 				{
@@ -725,7 +725,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					// If the system is down for maintenance, the user must be
 					// notified that they should try again later.
 
-					updateDisplay( ERROR_STATE, "Nightly maintenance." );
+					client.updateDisplay( ERROR_STATE, "Nightly maintenance." );
 
 					if ( !(this instanceof LoginRequest) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 					{
@@ -739,7 +739,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				}
 				else if ( redirectLocation.startsWith( "login.php" ) )
 				{
-					updateDisplay( ERROR_STATE, "Session timed out." );
+					client.updateDisplay( ERROR_STATE, "Session timed out." );
 
 					if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 					{
@@ -936,18 +936,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	/**
-	 * Updates the display.
-	 */
-
-	protected final void updateDisplay( int displayState, String message )
-	{
-		if ( client != null )
-			client.updateDisplay( displayState, message );
-		else
-			KoLmafia.getLogStream().println( message );
-	}
-
-	/**
 	 * Utility method used to transform part of the next token on the
 	 * given <code>StringTokenizer</code> into an integer.  This differs
 	 * from the two-argument in that part of the end of the string is
@@ -1050,7 +1038,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// be a bug in KoL itself. Bail now and let the user
 			// finish by hand.
 
-			updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
+			client.updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
 
 			// Finish in browser if requested
 			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
@@ -1068,7 +1056,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( decision == null )
 		{
-			updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
+			client.updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
 
 			// Finish in browser if requested
 			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
@@ -1091,7 +1079,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( decision.equals( "0" ) )
 		{
-			updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
+			client.updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
 
 			// Finish in browser if requested
 			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )

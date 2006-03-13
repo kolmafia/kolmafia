@@ -187,7 +187,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( alreadyInstalled )
 		{
-			updateDisplay( ERROR_STATE, "You already have one installed." );
+			client.updateDisplay( ERROR_STATE, "You already have one installed." );
 			return;
 		}
 
@@ -223,7 +223,7 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
 			{
-				updateDisplay( ERROR_STATE, "You already have that familiar." );
+				client.updateDisplay( ERROR_STATE, "You already have that familiar." );
 				return;
 			}
 
@@ -240,13 +240,13 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "You may not" ) != -1 )
 		{
-			updateDisplay( ERROR_STATE, "Pathed ascension." );
+			client.updateDisplay( ERROR_STATE, "Pathed ascension." );
 			return;
 		}
 
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
-			updateDisplay( ERROR_STATE, "Your spleen might go kabooie." );
+			client.updateDisplay( ERROR_STATE, "Your spleen might go kabooie." );
 			return;
 		}
 
@@ -255,7 +255,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "too full" ) != -1 || responseText.indexOf( "too drunk" ) != -1 )
 		{
-			updateDisplay( ERROR_STATE, "Consumption limit reached." );
+			client.updateDisplay( ERROR_STATE, "Consumption limit reached." );
 			return;
 		}
 
@@ -280,7 +280,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// right now."
 			if ( responseText.indexOf( "You can't receive things" ) != -1 )
 			{
-				updateDisplay( ERROR_STATE, "You can't open that package yet." );
+				client.updateDisplay( ERROR_STATE, "You can't open that package yet." );
 				return;
 			}
 
@@ -337,7 +337,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// with some of my crazy imps, to do your bidding."
 			if ( responseText.indexOf( "pleased me greatly" ) == -1 )
 			{
-				updateDisplay( ERROR_STATE, "You music was inadequate." );
+				client.updateDisplay( ERROR_STATE, "You music was inadequate." );
 				return;
 			}
 			break;
@@ -347,7 +347,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// another castle!"
 			if ( responseText.indexOf( "Sorceress is in another castle" ) == -1 )
 			{
-				updateDisplay( ERROR_STATE, "You couldn't make it all the way to the back door." );
+				client.updateDisplay( ERROR_STATE, "You couldn't make it all the way to the back door." );
 				return;
 			}
 			break;
@@ -397,7 +397,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// "You need some planks to build the dinghy."
 			if ( responseText.indexOf( "need some planks" ) != -1 )
 			{
-				updateDisplay( ERROR_STATE, "You need some dingy planks." );
+				client.updateDisplay( ERROR_STATE, "You need some dingy planks." );
 				return;
 			}
 			client.processResult( PLANKS );
@@ -443,7 +443,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// ate.	 Try again later."
 			if ( responseText.indexOf( "still cold" ) != -1 )
 			{
-				updateDisplay( ERROR_STATE, "Your mouth is too cold." );
+				client.updateDisplay( ERROR_STATE, "Your mouth is too cold." );
 				return;
 			}
 			break;

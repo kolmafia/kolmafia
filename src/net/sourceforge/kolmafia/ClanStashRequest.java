@@ -147,30 +147,30 @@ public class ClanStashRequest extends SendMessageRequest
 		switch ( moveType )
 		{
 			case REFRESH_ONLY:
-				updateDisplay( DISABLE_STATE, "Retrieving stash list..." );
+				client.updateDisplay( "Retrieving stash list..." );
 				super.run();
 				parseStash();
-				updateDisplay( DISABLE_STATE, "Stash list retrieved." );
+				client.updateDisplay( "Stash list retrieved." );
 				break;
 
 			case MEAT_TO_STASH:
-				updateDisplay( DISABLE_STATE, "Attempting clan donation..." );
+				client.updateDisplay( "Attempting clan donation..." );
 				super.run();
 				parseStash();
-				updateDisplay( DISABLE_STATE, "Clan donation attempt complete." );
+				client.updateDisplay( "Clan donation attempt complete." );
 				break;
 
 			case STASH_TO_ITEMS:
 
 				if ( !KoLCharacter.canInteract() )
 				{
-					updateDisplay( ERROR_STATE, "KoLmafia cannot access your clan stash at this time." );
+					client.updateDisplay( ERROR_STATE, "KoLmafia cannot access your clan stash at this time." );
 					return;
 				}
 
 			case ITEMS_TO_STASH:
 
-				updateDisplay( DISABLE_STATE, "Moving items..." );
+				client.updateDisplay( "Moving items..." );
 				super.run();
 
 				if ( !client.permitsContinue() )
@@ -178,7 +178,7 @@ public class ClanStashRequest extends SendMessageRequest
 					// The move failed. Perhaps you have
 					// insufficient karma. Perhaps somebody
 					// else beat you to it.
-					updateDisplay( ERROR_STATE, "Move failed." );
+					client.updateDisplay( ERROR_STATE, "Move failed." );
 				}
 
 				parseStash();

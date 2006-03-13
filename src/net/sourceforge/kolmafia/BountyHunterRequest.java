@@ -73,7 +73,7 @@ public class BountyHunterRequest extends KoLRequest
 				return;
 
 			itemTraded = (AdventureResult) KoLCharacter.getInventory().get( index );
-			updateDisplay( DISABLE_STATE, "Hunting rabbits (or something)..." );
+			client.updateDisplay( "Hunting rabbits (or something)..." );
 		}
 
 		super.run();
@@ -81,7 +81,7 @@ public class BountyHunterRequest extends KoLRequest
 		if ( isExchange )
 		{
 			client.processResult( itemTraded.getNegation() );
-			updateDisplay( ENABLE_STATE, "Items successfully sold to hunter." );
+			client.updateDisplay( "Items successfully sold to hunter." );
 			return;
 		}
 

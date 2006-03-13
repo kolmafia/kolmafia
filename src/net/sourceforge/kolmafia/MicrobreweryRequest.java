@@ -108,7 +108,7 @@ public class MicrobreweryRequest extends KoLRequest
 			}
 		}
 
-		client.updateDisplay( DISABLE_STATE, "Visiting the micromicrobrewery..." );
+		client.updateDisplay( "Visiting the micromicrobrewery..." );
 
 		super.run();
 
@@ -121,7 +121,7 @@ public class MicrobreweryRequest extends KoLRequest
 			}
 
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
-			updateDisplay( ENABLE_STATE, "Drink purchased." );
+			client.updateDisplay( "Drink purchased." );
 			return;
 		}
 
@@ -134,6 +134,6 @@ public class MicrobreweryRequest extends KoLRequest
 			client.getMicrobreweryItems().add( purchaseMatcher.group(1) );
 		}
 
-		updateDisplay( ENABLE_STATE, "Menu retrieved." );
+		client.updateDisplay( "Menu retrieved." );
 	}
 }

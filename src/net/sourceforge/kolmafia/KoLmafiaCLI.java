@@ -389,7 +389,7 @@ public class KoLmafiaCLI extends KoLmafia
 				{
 					KoLRequest.delay( 1000 );
 					if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-						updateDisplay( DISABLE_STATE, "Countdown: " + (seconds - i) + " seconds remaining..." );
+						updateDisplay( "Countdown: " + (seconds - i) + " seconds remaining..." );
 					else
 						outputStream.print( seconds - i + ", " );
 				}
@@ -400,7 +400,7 @@ public class KoLmafiaCLI extends KoLmafia
 				e.printStackTrace();
 			}
 
-			updateDisplay( ENABLE_STATE, "Waiting completed." );
+			updateDisplay( "Waiting completed." );
 			return;
 		}
 
@@ -420,7 +420,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "update" ) )
 		{
 			downloadAdventureOverride();
-			updateDisplay( ENABLE_STATE, "You will need to restart KoLmafia for the changes to take effect." );
+			updateDisplay( "You will need to restart KoLmafia for the changes to take effect." );
 			return;
 		}
 
@@ -474,7 +474,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				if ( !StaticEntity.getClient().inLoginState() )
 				{
-					updateDisplay( DISABLE_STATE, "Logging out..." );
+					updateDisplay( "Logging out..." );
 					(new LogoutRequest( StaticEntity.getClient() )).run();
 				}
 
@@ -497,11 +497,11 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( !StaticEntity.getClient().inLoginState() )
 			{
-				updateDisplay( DISABLE_STATE, "Logging out..." );
+				updateDisplay( "Logging out..." );
 				(new LogoutRequest( StaticEntity.getClient() )).run();
 			}
 
-			updateDisplay( DISABLE_STATE, "Exiting KoLmafia..." );
+			updateDisplay( "Exiting KoLmafia..." );
 			System.exit(0);
 		}
 
@@ -1200,7 +1200,7 @@ public class KoLmafiaCLI extends KoLmafia
 				attachments.toArray(), meatAttachment, false )).run();
 
 			if ( StaticEntity.getClient().permitsContinue() )
-				updateDisplay( ENABLE_STATE, "Message sent to " + splitParameters[1] );
+				updateDisplay( "Message sent to " + splitParameters[1] );
 			else
 			{
 				StaticEntity.getClient().resetContinueState();
@@ -1210,7 +1210,7 @@ public class KoLmafiaCLI extends KoLmafia
 					GiftMessageRequest.PACKAGES.get( desiredPackageIndex ), attachments.toArray(), meatAttachment )).run();
 
 				if ( StaticEntity.getClient().permitsContinue() )
-					updateDisplay( ENABLE_STATE, "Gift sent to " + splitParameters[1] );
+					updateDisplay( "Gift sent to " + splitParameters[1] );
 				else
 					updateDisplay( ERROR_STATE, "Failed to send message to " + splitParameters[1] );
 			}
@@ -1221,14 +1221,14 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( (command.equals( "status" ) || command.equals( "effects" )) && parameters.startsWith( "refresh" ) )
 		{
 			(new CharsheetRequest( StaticEntity.getClient() )).run();
-			updateDisplay( ENABLE_STATE, "Status refreshed." );
+			updateDisplay( "Status refreshed." );
 			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
 		}
 
 		if ( command.equals( "inv" ) && parameters.equals( "refresh" ) )
 		{
 			(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET )).run();
-			updateDisplay( ENABLE_STATE, "Status refreshed." );
+			updateDisplay( "Status refreshed." );
 			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
 		}
 
@@ -2031,17 +2031,17 @@ public class KoLmafiaCLI extends KoLmafia
 		int amountRemaining = amount;
 		int eachAmount = amountRemaining / increments;
 
-		updateDisplay( DISABLE_STATE, "Donating " + amount + " to the shrine..." );
+		updateDisplay( "Donating " + amount + " to the shrine..." );
 		StaticEntity.getClient().makeRequest( new HeroDonationRequest( StaticEntity.getClient(), heroID, eachAmount ), increments - 1 );
 		amountRemaining -= eachAmount * (increments - 1);
 
 		if ( StaticEntity.getClient().permitsContinue() )
 		{
-			updateDisplay( DISABLE_STATE, "Request " + increments + " in progress..." );
+			updateDisplay( "Request " + increments + " in progress..." );
 			StaticEntity.getClient().makeRequest( new HeroDonationRequest( StaticEntity.getClient(), heroID, amountRemaining ), 1 );
 
 			if ( StaticEntity.getClient().permitsContinue() )
-				updateDisplay( ENABLE_STATE, "Requests complete!" );
+				updateDisplay( "Requests complete!" );
 		}
 	}
 
@@ -2901,7 +2901,7 @@ public class KoLmafiaCLI extends KoLmafia
 		StaticEntity.getClient().makeRequest( irequest, 1 );
 
 		if ( StaticEntity.getClient().permitsContinue() )
-			updateDisplay( ENABLE_STATE, "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
+			updateDisplay( "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
 	}
 
 	/**
@@ -2977,7 +2977,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		updateDisplay( DISABLE_STATE, "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
+		updateDisplay( "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
 		StaticEntity.getClient().makeRequest( adventure, adventureCount );
 	}
 
@@ -3027,7 +3027,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			BuffBotHome.setBuffBotActive( true );
 			BuffBotManager.runBuffBot( df.parse( parameters ).intValue() );
-			updateDisplay( ENABLE_STATE, "BuffBot execution complete." );
+			updateDisplay( "BuffBot execution complete." );
 		}
 		catch ( Exception e )
 		{
@@ -3043,10 +3043,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void printBlankLine()
 	{	updateDisplay( " " );
-	}
-
-	public void updateDisplay( String message )
-	{	updateDisplay( PRINT_STATE, message );
 	}
 
 	/**

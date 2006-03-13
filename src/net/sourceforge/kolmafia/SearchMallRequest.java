@@ -157,7 +157,7 @@ public class SearchMallRequest extends KoLRequest
 
 	private void searchStore()
 	{
-		updateDisplay( DISABLE_STATE, retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
+		client.updateDisplay( retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
 		super.run();
 
 		if ( retainAll )
@@ -220,7 +220,7 @@ public class SearchMallRequest extends KoLRequest
 				results.addAll( individualStore.results );
 			}
 
-			updateDisplay( ENABLE_STATE, "Search complete." );
+			client.updateDisplay( "Search complete." );
 		}
 	}
 
@@ -247,7 +247,7 @@ public class SearchMallRequest extends KoLRequest
 		// Otherwise, conduct the normal mall search, processing
 		// the NPC results as needed.
 
-		updateDisplay( DISABLE_STATE, "Searching for items..." );
+		client.updateDisplay( "Searching for items..." );
 		super.run();
 
 		// If an error state occurred, return from this

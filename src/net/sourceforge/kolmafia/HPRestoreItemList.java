@@ -183,7 +183,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			if ( this == HOUSE )
 			{
-				client.updateDisplay( DISABLE_STATE, "Resting at campground..." );
+				client.updateDisplay( "Resting at campground..." );
 				(new CampgroundRequest( client, "rest" )).run();
 				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				return;
@@ -206,7 +206,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			else
 				numberToUse = 1;
 
-			client.updateDisplay( DISABLE_STATE, "Consuming " + numberToUse + " " + itemName + "s..." );
+			client.updateDisplay( "Consuming " + numberToUse + " " + itemName + "s..." );
 			(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
 		}
 

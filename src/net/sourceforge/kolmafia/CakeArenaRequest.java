@@ -58,7 +58,7 @@ public class CakeArenaRequest extends KoLRequest
 	public void run()
 	{
 		if ( !isCompetition )
-			updateDisplay( DISABLE_STATE, "Retrieving opponent list..." );
+			client.updateDisplay( "Retrieving opponent list..." );
 
 		super.run();
 
@@ -77,7 +77,7 @@ public class CakeArenaRequest extends KoLRequest
 			// should not continue with the next iteration.
 			// Friendly error messages to come later.
 
-			updateDisplay( ERROR_STATE, "Arena battles aborted!" );
+			client.updateDisplay( ERROR_STATE, "Arena battles aborted!" );
 			return;
 		}
 
@@ -101,7 +101,7 @@ public class CakeArenaRequest extends KoLRequest
 			CakeArenaManager.registerOpponent( id, name, race, weight );
 		}
 
-		updateDisplay( ENABLE_STATE, "Opponent list retrieved." );
+		client.updateDisplay( "Opponent list retrieved." );
 	}
 
 	public String toString()

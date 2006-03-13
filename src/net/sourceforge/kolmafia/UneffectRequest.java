@@ -61,11 +61,11 @@ public class UneffectRequest extends KoLRequest
 	{
 		if ( !KoLCharacter.getInventory().contains( REMEDY ) )
 		{
-			updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
+			client.updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
 			return;
 		}
 
-		client.updateDisplay( DISABLE_STATE, "Using soft green whatever..." );
+		client.updateDisplay( "Using soft green whatever..." );
 		super.run();
 
 		// If it notifies you that the effect was removed, delete it
@@ -75,7 +75,7 @@ public class UneffectRequest extends KoLRequest
 		{
 			KoLCharacter.getEffects().remove( effect );
 			client.processResult( REMEDY );
-			client.updateDisplay( ENABLE_STATE, "Effect removed." );
+			client.updateDisplay( "Effect removed." );
 		}
 		else
 			client.updateDisplay( ERROR_STATE, "Effect removal failed." );

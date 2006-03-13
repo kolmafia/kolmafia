@@ -183,7 +183,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		KoLCharacter.refreshCalculatedLists();
 
 		String extra = trophy ? " (trophy available)" : ( magic != null ) ? " (magic invoked)" : "";
-		client.updateDisplay( ENABLE_STATE, "Strange Leaflet robbed" + extra + "." );
+		client.updateDisplay( "Strange Leaflet robbed" + extra + "." );
 	}
 
 	private static void initialize()
@@ -335,7 +335,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( leaflet )
 			return;
 
-		client.updateDisplay( DISABLE_STATE, "Retrieving mail..." );
+		client.updateDisplay( "Retrieving mail..." );
 
 		goTo( FIELD );
 
@@ -357,7 +357,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( chest )
 			return;
 
-		client.updateDisplay( DISABLE_STATE, "Looking for treasure..." );
+		client.updateDisplay( "Looking for treasure..." );
 
 		goTo( CAVE );
 		killSerpent();
@@ -372,7 +372,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( location > BANK )
 			return;
 
-		client.updateDisplay( DISABLE_STATE, "Hunting eggs..." );
+		client.updateDisplay( "Hunting eggs..." );
 
 		// We can't tell if we've already done this. But, there's no
 		// harm in doing it twice.
@@ -389,7 +389,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( trophy )
 			return;
 
-		client.updateDisplay( DISABLE_STATE, "Invoking magic..." );
+		client.updateDisplay( "Invoking magic..." );
 
 		goTo( HOUSE );
 		parseMantelpiece( executeCommand( "examine fireplace" ) );
@@ -409,7 +409,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( ring )
 			return;
 
-		client.updateDisplay( DISABLE_STATE, "Stealing ring..." );
+		client.updateDisplay( "Stealing ring..." );
 
 		if ( location < BOTTOM )
 			goTo( BOTTOM );

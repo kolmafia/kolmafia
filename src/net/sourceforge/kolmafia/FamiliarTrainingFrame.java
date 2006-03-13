@@ -476,7 +476,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 								"Save arena parameters for the " + familiar.getRace() + "?",
 								"Save arena skills?", JOptionPane.YES_NO_OPTION ) )
 							FamiliarsDatabase.setFamiliarSkills( familiar.getRace(), skills );
-						client.updateDisplay( PRINT_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
+						client.updateDisplay( DISABLE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
 
 					}
 
@@ -597,13 +597,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
-			statusMessage( client, ERROR_STATE, "No familiar selected to train." );
+			statusMessage( ERROR_STATE, "No familiar selected to train." );
 			return false;
 		}
 
 		if ( !familiar.trainable() )
 		{
-			statusMessage( client, ERROR_STATE, "Don't know how to train a " + familiar.getRace() + " yet." );
+			statusMessage( ERROR_STATE, "Don't know how to train a " + familiar.getRace() + " yet." );
 			return false;
 		}
 
@@ -632,7 +632,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
-		client.updateDisplay( DISABLE_STATE, "Starting training session." );
+		client.updateDisplay( "Starting training session." );
 
 		// Iterate until we reach the goal
 		while ( !goalMet( status, goal, type) )
@@ -640,21 +640,21 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// If user canceled, bail now
 			if ( stop || !client.permitsContinue() )
 			{
-				statusMessage( client, ERROR_STATE, "Training session aborted." );
+				statusMessage( ERROR_STATE, "Training session aborted." );
 				return false;
 			}
 
 			// Make sure you have an adventure left
 			if ( KoLCharacter.getAdventuresLeft() < 1 )
 			{
-				statusMessage( client, ERROR_STATE, "Training stopped: out of adventures." );
+				statusMessage( ERROR_STATE, "Training stopped: out of adventures." );
 				return false;
 			}
 
 			// Make sure you have enough meat to pay for the contest
 			if ( KoLCharacter.getAvailableMeat() < 100 )
 			{
-				statusMessage( client, ERROR_STATE, "Training stopped: out of meat." );
+				statusMessage( ERROR_STATE, "Training stopped: out of meat." );
 				return false;
 			}
 
@@ -669,7 +669,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( opponent == null )
 			{
-				statusMessage( client, ERROR_STATE, "Couldn't choose a suitable opponent." );
+				statusMessage( ERROR_STATE, "Couldn't choose a suitable opponent." );
 				return false;
 			}
 
@@ -685,7 +685,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					continue;
 				}
 
-				statusMessage( client, ERROR_STATE, "Training stopped: internal error." );
+				statusMessage( ERROR_STATE, "Training stopped: internal error." );
 				return false;
 			}
 
@@ -696,7 +696,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			fightMatch( client, status, tool, opponent );
 		}
 
-		statusMessage( client, ENABLE_STATE, "Training session completed." );
+		statusMessage( DISABLE_STATE, "Training session completed." );
 		return true;
 	}
 
@@ -722,7 +722,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
-			statusMessage( client, ERROR_STATE, "No familiar selected to train." );
+			statusMessage( ERROR_STATE, "No familiar selected to train." );
 			return null;
 		}
 
@@ -730,14 +730,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Make sure you have enough adventures left
 		if ( KoLCharacter.getAdventuresLeft() < events )
 		{
-			statusMessage( client, ERROR_STATE, "You need to have at least " + events + " adventures available." );
+			statusMessage( ERROR_STATE, "You need to have at least " + events + " adventures available." );
 			return null;
 		}
 
 		// Make sure you have enough meat to pay for the contests
 		if ( KoLCharacter.getAvailableMeat() < ( 100 * events ) )
 		{
-			statusMessage( client, ERROR_STATE, "You need to have at least " + df.format( 100 * events ) + " meat available." );
+			statusMessage( ERROR_STATE, "You need to have at least " + df.format( 100 * events ) + " meat available." );
 			return null;
 		}
 
@@ -766,7 +766,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
-		client.updateDisplay( DISABLE_STATE, "Starting training session." );
+		client.updateDisplay( "Starting training session." );
 
 		// XP earned indexed by [event][rank]
 		int [][] xp = new int[4][3];
@@ -797,14 +797,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 					// If user canceled, bail now
 					if ( stop || !client.permitsContinue() )
 					{
-						statusMessage( client, ERROR_STATE, "Training session aborted." );
+						statusMessage( ERROR_STATE, "Training session aborted." );
 						return null;
 					}
 
 					// Initialize test parameters
 					test[contest] = rank + 1;
 
-					statusMessage( client, DISABLE_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + ( rank + 1 ) + ": trial " + ( trial + 1 ) );
+					statusMessage( DISABLE_STATE, CakeArenaManager.getEvent( contest + 1) + " rank " + ( rank + 1 ) + ": trial " + ( trial + 1 ) );
 
 					// Choose possible weights
 					int [] weights = status.getWeights( false );
@@ -814,7 +814,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					if ( opponent == null )
 					{
-						statusMessage( client, ERROR_STATE, "Couldn't choose a suitable opponent." );
+						statusMessage( ERROR_STATE, "Couldn't choose a suitable opponent." );
 						return null;
 					}
 
@@ -822,7 +822,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					if ( match != contest + 1 )
 					{
 						// Informative message only. Do not stop session.
-						statusMessage( client, ERROR_STATE, "Internal error: Familiar Tool selected " + CakeArenaManager.getEvent( match ) + " rather than " + CakeArenaManager.getEvent( contest + 1 ) );
+						statusMessage( ERROR_STATE, "Internal error: Familiar Tool selected " + CakeArenaManager.getEvent( match ) + " rather than " + CakeArenaManager.getEvent( contest + 1 ) );
 						// Use contest, even if with bad weight
 						match = contest + 1;
 					}
@@ -831,7 +831,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					status.changeGear( tool.bestWeight(), false );
 					if ( !client.permitsContinue() )
 					{
-						statusMessage( client, ERROR_STATE, "Training stopped: internal error." );
+						statusMessage( ERROR_STATE, "Training stopped: internal error." );
 						return null;
 					}
 
@@ -966,7 +966,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		return false;
 	}
 
-	private static void statusMessage( KoLmafia client, int state, String message )
+	private static void statusMessage( int state, String message )
 	{
 		if ( state == ERROR_STATE || message.endsWith( "lost." ) )
 			results.append( "<font color=red>" + message + "</font><br>" );
@@ -1072,7 +1072,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		results.append( text.toString() );
 
-		client.updateDisplay( DISABLE_STATE, "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
+		client.updateDisplay( "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
 	private static int fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )
@@ -1945,14 +1945,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 			else
 				message = familiar.getName() + " lost.";
 
-			statusMessage( client, DISABLE_STATE, message );
+			statusMessage( DISABLE_STATE, message );
 
 			// If a prize was won, report it
 			Matcher matcher = Pattern.compile( "You acquire an item: <b>(.*?)</b>" ).matcher( response );
 			if ( matcher.find() )
 			{
 				String prize = matcher.group(1);
-				statusMessage( client, DISABLE_STATE, "You win a prize: " + prize + "." );
+				statusMessage( DISABLE_STATE, "You win a prize: " + prize + "." );
 				if ( prize.equals( LEAD_NECKLACE.getName() ) )
 				{
 					if ( leadNecklace == null )

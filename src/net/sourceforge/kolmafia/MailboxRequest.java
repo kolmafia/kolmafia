@@ -80,9 +80,9 @@ public class MailboxRequest extends KoLRequest
 		// reset the variable (to avoid concurrent requests).
 
 		if ( action == null )
-			updateDisplay( DISABLE_STATE, "Retrieving mail from " + boxname + "..." );
+			client.updateDisplay( "Retrieving mail from " + boxname + "..." );
 		else
-			updateDisplay( DISABLE_STATE, "Executing " + action + " request for " + boxname + "..." );
+			client.updateDisplay( "Executing " + action + " request for " + boxname + "..." );
 
 		super.run();
 
@@ -94,7 +94,7 @@ public class MailboxRequest extends KoLRequest
 
 		if ( responseText.indexOf( "There are no messages in this mailbox." ) != -1 )
 		{
-			updateDisplay( ENABLE_STATE, "Your mailbox is empty." );
+			client.updateDisplay( "Your mailbox is empty." );
 			return;
 		}
 
@@ -128,7 +128,7 @@ public class MailboxRequest extends KoLRequest
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 
-			updateDisplay( ERROR_STATE, "Error occurred in mail retrieval." );
+			client.updateDisplay( ERROR_STATE, "Error occurred in mail retrieval." );
 			return;
 		}
 
@@ -136,12 +136,12 @@ public class MailboxRequest extends KoLRequest
 
 		if ( nextMessageIndex == -1 )
 		{
-			updateDisplay( ENABLE_STATE, "Your mailbox is empty." );
+			client.updateDisplay( "Your mailbox is empty." );
 			return;
 		}
 
 		nextMessageIndex = processMessages( nextMessageIndex );
-		updateDisplay( ENABLE_STATE, "Mail retrieved from page 1 of " + boxname );
+		client.updateDisplay( "Mail retrieved from page 1 of " + boxname );
 	}
 
 	private int processMessages( int startIndex )

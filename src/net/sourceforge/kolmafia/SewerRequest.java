@@ -86,13 +86,13 @@ public class SewerRequest extends KoLRequest
 	{
 		if ( !client.isLuckyCharacter() )
 		{
-			updateDisplay( ERROR_STATE, "Ran out of ten-leaf clovers." );
+			client.updateDisplay( ERROR_STATE, "Ran out of ten-leaf clovers." );
 			return;
 		}
 
 		if ( !KoLCharacter.getInventory().contains( GUM ) )
 		{
-			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
+			client.updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
 			return;
 		}
 
@@ -108,7 +108,7 @@ public class SewerRequest extends KoLRequest
 
 			if ( thirdItem < 1 || (thirdItem > 12 && thirdItem != 43) )
 			{
-				updateDisplay( ERROR_STATE, "You must select a third item from the gnomes." );
+				client.updateDisplay( ERROR_STATE, "You must select a third item from the gnomes." );
 				return;
 			}
 
@@ -154,7 +154,7 @@ public class SewerRequest extends KoLRequest
 	{
 		if ( client.isLuckyCharacter() )
 		{
-			updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
+			client.updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
 			return;
 		}
 
@@ -163,7 +163,7 @@ public class SewerRequest extends KoLRequest
 
 		if ( !KoLCharacter.getInventory().contains( GUM ) )
 		{
-			updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
+			client.updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
 			return;
 		}
 
@@ -177,7 +177,7 @@ public class SewerRequest extends KoLRequest
 
 		if ( responseText.indexOf( "Sewage Gnomes" ) != -1 )
 		{
-			updateDisplay( ERROR_STATE, "You have an unaccounted for ten-leaf clover." );
+			client.updateDisplay( ERROR_STATE, "You have an unaccounted for ten-leaf clover." );
 			return;
 		}
 

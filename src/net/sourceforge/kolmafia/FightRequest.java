@@ -231,7 +231,7 @@ public class FightRequest extends KoLRequest
 				// it's complete.
 
 				if ( !client.permitsContinue() )
-					updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
+					client.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
 
 				// If you can't battle again in this location,
 				// cancel future iterations.  Note that there
@@ -252,7 +252,7 @@ public class FightRequest extends KoLRequest
 
 				if ( roundCount < 30 )
 				{
-					updateDisplay( ERROR_STATE, "You were defeated!" );
+					client.updateDisplay( ERROR_STATE, "You were defeated!" );
 					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				}
 				else
@@ -261,13 +261,13 @@ public class FightRequest extends KoLRequest
 					// the error and then continue adventuring (if the user
 					// still wishes to continue).
 
-					updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
+					client.updateDisplay( ERROR_STATE, "Battle exceeded 30 rounds." );
 					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				}
 			}
 			else if ( responseText.indexOf( "<input" ) == -1 )
 			{
-				updateDisplay( ENABLE_STATE, "Final battle completed." );
+				client.updateDisplay( "Final battle completed." );
 				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 			}
 			else

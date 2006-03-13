@@ -73,9 +73,9 @@ public class StoreManageRequest extends KoLRequest
 	public void run()
 	{
 		if ( this.takenItemID > 0 )
-			updateDisplay( DISABLE_STATE, "Removing " + TradeableItemDatabase.getItemName( this.takenItemID ) + " from store..." );
+			client.updateDisplay( "Removing " + TradeableItemDatabase.getItemName( this.takenItemID ) + " from store..." );
 		else
-			updateDisplay( DISABLE_STATE, "Requesting store inventory..." );
+			client.updateDisplay( "Requesting store inventory..." );
 
 		super.run();
 
@@ -104,8 +104,8 @@ public class StoreManageRequest extends KoLRequest
 		StoreManager.update( responseText, isPriceManagement );
 
 		if ( this.takenItemID > 0 )
-			updateDisplay( ENABLE_STATE, this.takenItemID + " removed from your store." );
+			client.updateDisplay( this.takenItemID + " removed from your store." );
 		else
-			updateDisplay( ENABLE_STATE, "Store inventory request complete." );
+			client.updateDisplay( "Store inventory request complete." );
 	}
 }

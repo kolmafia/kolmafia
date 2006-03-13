@@ -307,7 +307,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
 
-		updateDisplay( DISABLE_STATE, "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")" );
+		client.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")" );
 
 		AdventureResult searchItem = new AdventureResult( itemID, 0 );
 		int beforeCount = searchItem.getCount( KoLCharacter.getInventory() );
@@ -332,7 +332,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		if ( responseText.indexOf( "You can't afford" ) != -1 )
 		{
-			updateDisplay( ERROR_STATE, "Not enough funds." );
+			client.updateDisplay( ERROR_STATE, "Not enough funds." );
 			return;
 		}
 
@@ -359,7 +359,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 					if ( price >= newPrice )
 					{
-						updateDisplay( DISABLE_STATE, "Failed to yield.  Attempting repurchase..." );
+						client.updateDisplay( "Failed to yield.  Attempting repurchase..." );
 						(new MallPurchaseRequest( client, itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice, Math.min( limit, quantity ), true )).run();
 					}
 					else
@@ -367,7 +367,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 						// In the event of a price switch, give the
 						// player the option to report it.
 
-						updateDisplay( DISABLE_STATE, "Price switch detected (#" + shopID + ").  Skipping..." );
+						client.updateDisplay( "Price switch detected (#" + shopID + ").  Skipping..." );
 						return;
 					}
 				}
@@ -377,7 +377,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 					// notify the user temporarily that the store
 					// failed to yield the item.
 
-					updateDisplay( DISABLE_STATE, "Failed to yield.  Skipping..." );
+					client.updateDisplay( "Failed to yield.  Skipping..." );
 				}
 			}
 			catch ( Exception e )

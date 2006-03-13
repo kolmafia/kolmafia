@@ -103,7 +103,7 @@ public class HermitRequest extends KoLRequest
 
 			if ( responseText.indexOf( "you're not allowed to visit" ) != -1 )
 			{
-				updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
+				client.updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
 				return;
 			}
 
@@ -113,7 +113,7 @@ public class HermitRequest extends KoLRequest
 
 			if ( responseText.indexOf( "sends you packing" ) != -1 )
 			{
-				updateDisplay( ERROR_STATE, "The Hermit won't show you his stuff." );
+				client.updateDisplay( ERROR_STATE, "The Hermit won't show you his stuff." );
 				return;
 			}
 
@@ -135,11 +135,11 @@ public class HermitRequest extends KoLRequest
 
 		if ( quantity <= 0 )
 		{
-			updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
+			client.updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
 			return;
 		}
 
-		updateDisplay( DISABLE_STATE, "Robbing the hermit..." );
+		client.updateDisplay( "Robbing the hermit..." );
 		super.run();
 
 		// If an error state occurred, return from this
@@ -163,7 +163,7 @@ public class HermitRequest extends KoLRequest
 			}
 			else
 			{
-				updateDisplay( ERROR_STATE, "You need a hermit permit." );
+				client.updateDisplay( ERROR_STATE, "You need a hermit permit." );
 				return;
 			}
 		}
@@ -177,7 +177,7 @@ public class HermitRequest extends KoLRequest
 			int index = responseText.indexOf( "You have " );
 			if ( index == -1 )
 			{
-				updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
+				client.updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
 				return;
 			}
 
@@ -199,7 +199,7 @@ public class HermitRequest extends KoLRequest
 
 		if ( responseText.indexOf( "doesn't have that item.") != -1 )
 		{
-			updateDisplay( ERROR_STATE, "Today is not a clover day." );
+			client.updateDisplay( ERROR_STATE, "Today is not a clover day." );
 			return;
 		}
 
@@ -207,7 +207,7 @@ public class HermitRequest extends KoLRequest
 
 		if ( responseText.indexOf( "You acquire" ) == -1 )
 		{
-			updateDisplay( ERROR_STATE, "The hermit kept his stuff." );
+			client.updateDisplay( ERROR_STATE, "The hermit kept his stuff." );
 			return;
 		}
 
@@ -226,7 +226,7 @@ public class HermitRequest extends KoLRequest
 		quantity -= subtractWorthlessItems( GEWGAW, inventory, quantity );
 		subtractWorthlessItems( KNICK_KNACK, inventory, quantity );
 
-		updateDisplay( ENABLE_STATE, "Hermit successfully looted!" );
+		client.updateDisplay( "Hermit successfully looted!" );
 	}
 
 	private int subtractWorthlessItems( AdventureResult item, List inventory, int total )

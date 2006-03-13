@@ -379,7 +379,7 @@ public class BuffBotFrame extends KoLFrame
 		BuffBotHome.deinitialize();
 
 		if ( client != null )
-			client.updateDisplay( ENABLE_STATE, "Buffbot deactivated." );
+			client.updateDisplay( "Buffbot deactivated." );
 
 		super.dispose();
 	}

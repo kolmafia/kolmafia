@@ -98,11 +98,11 @@ public class MuseumRequest extends SendMessageRequest
 	public void run()
 	{
 		if ( isManagement && isDeposit )
-			updateDisplay( DISABLE_STATE, "Placing items inside display case..." );
+			client.updateDisplay( "Placing items inside display case..." );
 		else if ( isManagement )
-			updateDisplay( DISABLE_STATE, "Moving items from display case..." );
+			client.updateDisplay( "Moving items from display case..." );
 		else
-			updateDisplay( DISABLE_STATE, "Updating collection..." );
+			client.updateDisplay( "Updating collection..." );
 
 		super.run();
 

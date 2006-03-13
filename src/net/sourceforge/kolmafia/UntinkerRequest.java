@@ -68,7 +68,7 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( itemID == -1 )
 		{
-			updateDisplay( DISABLE_STATE, "Visiting the Untinker..." );
+			client.updateDisplay( "Visiting the Untinker..." );
 			super.run();
 			return;
 		}
@@ -79,7 +79,7 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( ConcoctionsDatabase.getMixingMethod( itemID ) != ItemCreationRequest.COMBINE )
 		{
-			updateDisplay( ERROR_STATE, "You cannot untinker that item." );
+			client.updateDisplay( ERROR_STATE, "You cannot untinker that item." );
 			return;
 		}
 
@@ -87,7 +87,7 @@ public class UntinkerRequest extends KoLRequest
 		// before starting.
 
 		if ( KoLCharacter.getLevel() < 4 )
-			updateDisplay( ERROR_STATE, "You cannot untinker items yet." );
+			client.updateDisplay( ERROR_STATE, "You cannot untinker items yet." );
 
 		// If the person does not have the accomplishment, visit
 		// the untinker to ensure that they get the quest.
@@ -127,7 +127,7 @@ public class UntinkerRequest extends KoLRequest
 
 				if ( !client.getConditions().isEmpty() )
 				{
-					updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
+					client.updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
 					client.getConditions().clear();
 					client.getConditions().addAll( temporary );
 					return;
@@ -150,12 +150,12 @@ public class UntinkerRequest extends KoLRequest
 		if ( KoLCharacter.getInventory().contains( SCREWDRIVER ) )
 			client.processResult( SCREWDRIVER );
 
-		updateDisplay( DISABLE_STATE, "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
+		client.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
 
 		super.run();
 		client.processResult( new AdventureResult( itemID, -1 ) );
 
-		updateDisplay( DISABLE_STATE, "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) );
+		client.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) );
 	}
 
 	protected void processResults()
