@@ -120,4 +120,14 @@ public class KoLMailMessage implements Comparable
 	public String getSenderID()
 	{	return senderID;
 	}
+
+	public String getDisplayHTML()
+	{
+		String text = messageHTML;
+
+		// Blank lines are not displayed correctly
+		text = text.replaceAll( "<br><br>", "<br>&nbsp;<br>" );
+
+		return text;
+	}
 }

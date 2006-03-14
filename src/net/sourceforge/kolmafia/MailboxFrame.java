@@ -324,7 +324,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				if ( newIndex >= 0 && getModel().getSize() > 0 )
 				{
 					displayed = ((KoLMailMessage)KoLMailManager.getMessages( mailboxName ).get( newIndex ));
-					mailBuffer.append( displayed.getMessageHTML() );
+					mailBuffer.append( displayed.getDisplayHTML() );
 					messageContent.setCaretPosition( 0 );
 				}
 			}
@@ -429,16 +429,19 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			tokens.nextToken();  tokens.nextToken();
 
 			String recipient = tokens.nextToken();
-			String quotedMessage = displayed.getMessageHTML().substring(
-				displayed.getMessageHTML().indexOf( "<br><br>" ) + 8 ).replaceAll( "<b>", " " ).replaceAll(
-					"><", "" ).replaceAll( "<.*?>", LINE_BREAK );
 
-			Object [] parameters = new Object[ tokens.hasMoreTokens() ? 2 : 3 ];
+			Object [] parameters = new Object[ tokens.hasMoreTokens() ? 3 : 2 ];
 			parameters[0] = client;
 			parameters[1] = recipient;
 
 			if ( parameters.length == 3 )
+			{
+				String rawText = displayed.getMessageHTML();
+				int start = rawText.indexOf( "<br><br>" ) + 8;
+				String text =  rawText.substring( start );
+				String quotedMessage = "> " + text.replaceAll( "<b>", " " ).replaceAll( "<br>", LINE_BREAK + "> " ).replaceAll( "><", "" ).replaceAll( "<.*?>", LINE_BREAK );
 				parameters[2] = quotedMessage;
+			}
 
 			(new CreateFrameRunnable( GreenMessageFrame.class, parameters )).run();
 		}
