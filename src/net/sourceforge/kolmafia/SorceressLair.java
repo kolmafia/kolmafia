@@ -478,18 +478,24 @@ public abstract class SorceressLair extends StaticEntity
 		{
 			// The character needs to have at least 50 HP, or 25% of
 			// maximum HP (whichever is greater) in order to play
-			// the skeleton dice game
+			// the skeleton dice game, UNLESS you have a clover.
 
-			int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
-			client.recoverHP( healthNeeded );
+			if ( hasItem( CLOVER ) )
+				AdventureDatabase.retrieveItem( CLOVER );
 
-			// Verify that you have enough HP to proceed with the
-			// skeleton dice game.
-
-			if ( KoLCharacter.getCurrentHP() < healthNeeded )
+			else
 			{
-				client.updateDisplay( ERROR_STATE, "You must have more than " + healthNeeded + " HP to proceed." );
-				return requirements;
+				int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
+				client.recoverHP( healthNeeded );
+
+				// Verify that you have enough HP to proceed with the
+				// skeleton dice game.
+
+				if ( KoLCharacter.getCurrentHP() < healthNeeded )
+				{
+					client.updateDisplay( ERROR_STATE, "You must have more than " + healthNeeded + " HP to proceed." );
+					return requirements;
+				}
 			}
 
 			// Next, handle the form for the skeleton key to
@@ -506,9 +512,6 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
 			{
-				if ( hasItem( CLOVER ) )
-					AdventureDatabase.retrieveItem( CLOVER );
-
 				request = new KoLRequest( client, "lair2.php" );
 				request.addFormField( "prepreaction", "skel" );
 				request.run();
