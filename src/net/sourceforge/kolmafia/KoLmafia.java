@@ -1691,7 +1691,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean permitsContinue()
-	{	return currentState != CONTINUE_STATE;
+	{	return currentState == CONTINUE_STATE;
 	}
 
 	/**
