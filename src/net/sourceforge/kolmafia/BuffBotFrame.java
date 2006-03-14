@@ -376,8 +376,8 @@ public class BuffBotFrame extends KoLFrame
 		mainSettings = null;
 
 		BuffBotHome.deinitialize();
-
-		DEFAULT_SHELL.updateDisplay( ENABLE_STATE, "Buffbot deactivated." );
+		DEFAULT_SHELL.updateDisplay( "Buffbot deactivated." );
+		client.enableDisplay();
 		super.dispose();
 	}
 

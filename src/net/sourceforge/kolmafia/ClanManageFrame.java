@@ -501,7 +501,8 @@ public class ClanManageFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, parameterSelect.getSelectedIndex(), valueField.getText() );
-			DEFAULT_SHELL.updateDisplay( ENABLE_STATE, "Search results retrieved." );
+			DEFAULT_SHELL.updateDisplay( "Search results retrieved." );
+			client.enableDisplay();
 		}
 
 		protected void actionCancelled()
@@ -547,7 +548,8 @@ public class ClanManageFrame extends KoLFrame
 
 			DEFAULT_SHELL.updateDisplay( "Applying changes..." );
 			(new ClanMembersRequest( client, rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
-			DEFAULT_SHELL.updateDisplay( ENABLE_STATE, "Changes have been applied." );
+			DEFAULT_SHELL.updateDisplay( "Changes have been applied." );
+			client.enableDisplay();
 		}
 	}
 

@@ -626,7 +626,8 @@ public class ItemManageFrame extends KoLFrame
 
 							if ( request.responseText.indexOf( "You acquire" ) != -1 )
 							{
-								DEFAULT_SHELL.updateDisplay( ENABLE_STATE, "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
+								DEFAULT_SHELL.updateDisplay( "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
+								client.enableDisplay();
 								return;
 							}
 						}
@@ -707,7 +708,8 @@ public class ItemManageFrame extends KoLFrame
 
 								if ( request.responseText.indexOf( "You acquire" ) != -1 )
 								{
-									DEFAULT_SHELL.updateDisplay( ENABLE_STATE, "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
+									DEFAULT_SHELL.updateDisplay( "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
+									client.enableDisplay();
 									return;
 								}
 							}

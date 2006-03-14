@@ -209,7 +209,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void updateDisplay( int state, String message )
 	{
-		if ( this.currentState != ABORT_STATE && state != NULL_STATE && state != ENABLE_STATE )
+		if ( this.currentState != ABORT_STATE && state != NULL_STATE )
 			this.currentState = state;
 
 		if ( !message.equals( "" ) )
@@ -1377,7 +1377,7 @@ public abstract class KoLmafia implements KoLConstants
 				else if ( !conditions.isEmpty() )
 					updateDisplay( ERROR_STATE, "Requests completed. (Conditions not yet satisfied)" );
 
-				else if ( currentState != ENABLE_STATE )
+				else if ( currentState == CONTINUE_STATE )
 					updateDisplay( "Requests completed." );
 
 			}
