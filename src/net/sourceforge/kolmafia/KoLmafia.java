@@ -413,6 +413,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		HPRestoreItemList.reset();
 		MPRestoreItemList.reset();
+
+		ConcoctionsDatabase.getConcoctions().clear();
 		KoLCharacter.refreshCalculatedLists();
 	}
 
