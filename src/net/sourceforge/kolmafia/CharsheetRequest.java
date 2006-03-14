@@ -178,7 +178,11 @@ public class CharsheetRequest extends KoLRequest
 			// and the number of turns accumulated.
 
 			skipTokens( parsedContent, 3 );
-			KoLCharacter.setAdventuresLeft( intToken( parsedContent ) );
+
+			int oldAdventures = KoLCharacter.getAdventuresLeft();
+			int newAdventures = intToken( parsedContent );
+
+			client.processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
 
 			while ( !token.startsWith( "Meat" ) )
 				token = parsedContent.nextToken();
