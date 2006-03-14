@@ -406,7 +406,7 @@ public class AdventureFrame extends KoLFrame
 
 				if ( client.getConditions().isEmpty() )
 				{
-					DEFAULT_SHELL.updateDisplay( "Conditions already satisfied." );
+					DEFAULT_SHELL.updateDisplay( ENABLE_STATE, "Conditions already satisfied." );
 					return;
 				}
 
@@ -415,7 +415,7 @@ public class AdventureFrame extends KoLFrame
 					DEFAULT_SHELL.executeConditionsCommand( "check" );
 					if ( client.getConditions().isEmpty() )
 					{
-						DEFAULT_SHELL.updateDisplay( "Conditions already satisfied." );
+						DEFAULT_SHELL.updateDisplay( ENABLE_STATE, "Conditions already satisfied." );
 						return;
 					}
 				}

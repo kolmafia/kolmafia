@@ -199,7 +199,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public void updateDisplay( String message )
-	{	updateDisplay( CONTINUE_STATE, message );
+	{	DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, message );
 	}
 
 	/**
@@ -1697,7 +1697,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		try
 		{
-			File f = new File( DATA_DIRECTORY + "KoLmafia.log" );
+			File f = new File( "KoLmafia.log" );
 
 			if ( !f.exists() )
 				f.createNewFile();

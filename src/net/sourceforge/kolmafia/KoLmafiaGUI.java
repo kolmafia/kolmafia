@@ -102,12 +102,6 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.updateDisplay( state, message );
 
-		if ( message.trim().length() == 0 )
-			return;
-
-		if ( BuffBotHome.isBuffBotActive() )
-			BuffBotHome.updateStatus( message );
-
 		// Next, update all of the panels with the
 		// desired update message.
 
@@ -121,16 +115,7 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( references[i].get() instanceof KoLPanel )
 					((KoLPanel) references[i].get()).setStatusMessage( state, message );
 
-				switch ( state )
-				{
-					case CONTINUE_STATE:
-						((Component)references[i].get()).setEnabled( false );
-						break;
-
-					default:
-						((Component)references[i].get()).setEnabled( true );
-						break;
-				}
+				((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
 			}
 		}
 

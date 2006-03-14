@@ -240,7 +240,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			}
 
 			if ( client.permitsContinue() )
-				DEFAULT_SHELL.updateDisplay( "Search completed." );
+				DEFAULT_SHELL.updateDisplay( ENABLE_STATE, "Search completed." );
 			else
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Search halted." );
 		}
@@ -305,7 +305,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			}
 
 			if ( client.permitsContinue() )
-				DEFAULT_SHELL.updateDisplay( "Search completed." );
+				DEFAULT_SHELL.updateDisplay( ENABLE_STATE, "Search completed." );
 			else
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Search halted." );
 		}
@@ -368,7 +368,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				updateRank();
 			}
 
-			DEFAULT_SHELL.updateDisplay( "Attacks completed." );
+			DEFAULT_SHELL.updateDisplay( ENABLE_STATE, "Attacks completed." );
 		}
 
 		public void actionCancelled()
