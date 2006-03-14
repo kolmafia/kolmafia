@@ -253,7 +253,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// If we were given bogus parameters, report the error now
 		if ( error != null )
 		{
-			client.updateDisplay( ERROR_STATE, error );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, error );
 			return;
 		}
 
@@ -328,7 +328,7 @@ public class EquipmentRequest extends PasswordHashRequest
 						{
 							if ( familiars[i].getItem() != null && familiars[i].getItem().indexOf( changeItemName ) != -1 )
 							{
-								client.updateDisplay( "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
+								DEFAULT_SHELL.updateDisplay( "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
 								KoLRequest unequip = new KoLRequest( client, "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID(), true );
 								unequip.run();
 
@@ -356,27 +356,27 @@ public class EquipmentRequest extends PasswordHashRequest
 		switch ( requestType )
 		{
 			case EQUIPMENT:
-				client.updateDisplay( "Updating equipment..." );
+				DEFAULT_SHELL.updateDisplay( "Updating equipment..." );
 				break;
 
 			case CLOSET:
-				client.updateDisplay( "Refreshing closet..." );
+				DEFAULT_SHELL.updateDisplay( "Refreshing closet..." );
 				break;
 
 			case CHANGE_OUTFIT:
-				client.updateDisplay( "Putting on " + outfit + "..." );
+				DEFAULT_SHELL.updateDisplay( "Putting on " + outfit + "..." );
 				break;
 
 			case CHANGE_ITEM:
-				client.updateDisplay( ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON ? "Wielding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
+				DEFAULT_SHELL.updateDisplay( ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON ? "Wielding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
 				break;
 
 			case REMOVE_ITEM:
-				client.updateDisplay( "Taking off " + KoLCharacter.getCurrentEquipmentName( equipmentSlot) + "..." );
+				DEFAULT_SHELL.updateDisplay( "Taking off " + KoLCharacter.getCurrentEquipmentName( equipmentSlot) + "..." );
 				break;
 
 			case UNEQUIP_ALL:
-				client.updateDisplay( "Taking off everything..." );
+				DEFAULT_SHELL.updateDisplay( "Taking off everything..." );
 				break;
 		}
 
@@ -409,7 +409,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( requestType == CLOSET )
 			{
 				parseCloset();
-				client.updateDisplay( "Inventory retrieved." );
+				DEFAULT_SHELL.updateDisplay( "Inventory retrieved." );
 			}
 			else
 			{

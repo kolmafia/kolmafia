@@ -80,11 +80,11 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
-		client.updateDisplay( "Determining login server..." );
+		DEFAULT_SHELL.updateDisplay( "Determining login server..." );
 		KoLRequest.applySettings();
 
-		client.updateDisplay( KoLRequest.getRootHostName() + " selected." );
-		client.updateDisplay( "Sending login..." );
+		DEFAULT_SHELL.updateDisplay( KoLRequest.getRootHostName() + " selected." );
+		DEFAULT_SHELL.updateDisplay( "Sending login..." );
 
 		super.run();
 
@@ -110,7 +110,7 @@ public class LoginRequest extends KoLRequest
 			// This means that the login failed.  Therefore, the user should
 			// re-input their username and password.
 
-			client.updateDisplay( ERROR_STATE, "Login failed." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Login failed." );
 		}
 	}
 }

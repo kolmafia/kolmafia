@@ -69,13 +69,13 @@ public class GreenMessageFrame extends SendMessageFrame
 
 		if ( client.permitsContinue() )
 		{
-			client.updateDisplay( "Message sent to " + recipient );
+			DEFAULT_SHELL.updateDisplay( "Message sent to " + recipient );
 			setTitle( "Message sent to " + recipient );
 			return true;
 		}
 		else
 		{
-			client.updateDisplay( ERROR_STATE, "Failed to send message to " + recipient );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Failed to send message to " + recipient );
 			setTitle( "Failed to send message to " + recipient );
 			return false;
 		}

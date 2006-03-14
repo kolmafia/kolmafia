@@ -89,7 +89,7 @@ public class RestaurantRequest extends KoLRequest
 	{
 		if ( !KoLCharacter.inMysticalitySign() )
 		{
-			client.updateDisplay( ERROR_STATE, "You can't find the restaurant." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't find the restaurant." );
 			return;
 		}
 
@@ -97,18 +97,18 @@ public class RestaurantRequest extends KoLRequest
 		{
 			if ( price == 0 )
 			{
-				client.updateDisplay( ERROR_STATE, "The restaurant doesn't sell that." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The restaurant doesn't sell that." );
 				return;
 			}
 
 			if ( !KoLCharacter.canEat() )
 			{
-				client.updateDisplay( ERROR_STATE, "You can't eat. Why are you here?" );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't eat. Why are you here?" );
 				return;
 			}
 		}
 
-		client.updateDisplay( "Visiting the restaurant..." );
+		DEFAULT_SHELL.updateDisplay( "Visiting the restaurant..." );
 
 		super.run();
 
@@ -116,12 +116,12 @@ public class RestaurantRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You are too full to eat that." ) != -1 )
 			{
-				client.updateDisplay( ERROR_STATE, "Consumption limit reached." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Consumption limit reached." );
 				return;
 			}
 
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
-			client.updateDisplay( "Food purchased." );
+			DEFAULT_SHELL.updateDisplay( "Food purchased." );
 			return;
 		}
 
@@ -137,6 +137,6 @@ public class RestaurantRequest extends KoLRequest
 			items.add( purchaseMatcher.group(1) );
 		}
 
-		client.updateDisplay( "Menu retrieved." );
+		DEFAULT_SHELL.updateDisplay( "Menu retrieved." );
 	}
 }

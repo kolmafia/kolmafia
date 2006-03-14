@@ -1030,7 +1030,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 			}
 
-			StaticEntity.getClient().updateDisplay( ERROR_STATE, "You don't have that familiar." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have that familiar." );
 			return;
 		}
 
@@ -1554,7 +1554,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// If it is neither an item nor an effect, report
 				// the exception.
 
-				StaticEntity.getClient().updateDisplay( ERROR_STATE, "Invalid operand [" + right + "] on right side of operator" );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Invalid operand [" + right + "] on right side of operator" );
 			}
 		}
 
@@ -2115,7 +2115,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		StaticEntity.getClient().updateDisplay( ERROR_STATE, "No equipment found matching string \"" + parameters + "\"" );
+		DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No equipment found matching string \"" + parameters + "\"" );
 		return;
 	}
 

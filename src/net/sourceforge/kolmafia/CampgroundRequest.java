@@ -98,19 +98,19 @@ public class CampgroundRequest extends KoLRequest
 		if ( action.equals( "rest" ) )
 		{
 			if ( responseText.indexOf( "You sleep" ) == -1 )
-				client.updateDisplay( ERROR_STATE, "Could not rest." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Could not rest." );
 		}
 		else if ( action.equals( "relax" ) )
 		{
 			if ( responseText.indexOf( "You relax" ) == -1 )
-				client.updateDisplay( ERROR_STATE, "Could not relax." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Could not relax." );
 		}
 
 		// Make sure that the character received something if
 		// they were looking for toast
 
 		if ( action.equals( "toast" ) && responseText.indexOf( "acquire" ) == -1 )
-			client.updateDisplay( ERROR_STATE, "No more toast left." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No more toast left." );
 	}
 
 	/**

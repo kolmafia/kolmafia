@@ -59,7 +59,7 @@ public class PixelRequest extends ItemCreationRequest
 			return;
 
 		// Disable controls
-		client.updateDisplay( "Creating " + quantity + " " + getName() + "..." );
+		DEFAULT_SHELL.updateDisplay( "Creating " + quantity + " " + getName() + "..." );
 		addFormField( "quantity", String.valueOf( quantity ) );
 
 		// Run the request

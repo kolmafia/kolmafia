@@ -220,7 +220,7 @@ public class HagnkStorageFrame extends KoLFrame
 			{
 				if ( !KoLCharacter.canInteract() )
 				{
-					client.updateDisplay( ERROR_STATE, "You are not yet out of Ronin." );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You are not yet out of Ronin." );
 					return;
 				}
 

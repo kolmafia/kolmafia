@@ -75,7 +75,7 @@ public class CharsheetRequest extends KoLRequest
 
 	public void run()
 	{
-		client.updateDisplay( "Retrieving character data..." );
+		DEFAULT_SHELL.updateDisplay( "Retrieving character data..." );
 		super.run();
 
 		// If an error state occurred, return from this

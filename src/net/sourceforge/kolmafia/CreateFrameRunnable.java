@@ -128,7 +128,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		if ( this.creator == null )
 		{
 			if ( client != null )
-				client.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
 
 			return;
 		}
@@ -225,7 +225,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// this should never have happened)
 
 			if ( client != null )
-				client.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
 
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();

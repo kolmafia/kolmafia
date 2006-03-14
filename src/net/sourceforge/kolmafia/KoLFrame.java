@@ -2060,7 +2060,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		public void actionPerformed( ActionEvent e )
 		{
 			if ( client != null )
-				client.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
+				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
 		}
 	}
 

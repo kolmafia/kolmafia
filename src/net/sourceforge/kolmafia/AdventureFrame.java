@@ -200,9 +200,9 @@ public class AdventureFrame extends KoLFrame
 				String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
 
 				if ( holiday.startsWith( "No" ) )
-					client.updateDisplay( NULL_STATE, MoonPhaseDatabase.getMoonEffect() );
+					DEFAULT_SHELL.updateDisplay( NULL_STATE, MoonPhaseDatabase.getMoonEffect() );
 				else
-					client.updateDisplay( NULL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+					DEFAULT_SHELL.updateDisplay( NULL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 			}
 		}
 		catch ( Exception e )
@@ -345,7 +345,7 @@ public class AdventureFrame extends KoLFrame
 
 			if ( actionSelect.getSelectedItem() == null )
 			{
-				client.updateDisplay( ERROR_STATE, "Please select a combat option." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Please select a combat option." );
 				return;
 			}
 
@@ -386,7 +386,7 @@ public class AdventureFrame extends KoLFrame
 
 						if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
 						{
-							client.updateDisplay( ERROR_STATE, "No outfit corresponds to this zone." );
+							DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No outfit corresponds to this zone." );
 							return;
 						}
 					}
@@ -398,7 +398,7 @@ public class AdventureFrame extends KoLFrame
 					{
 						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + conditions[i] ) )
 						{
-							client.updateDisplay( ERROR_STATE, "Invalid condition: " + conditions[i] );
+							DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Invalid condition: " + conditions[i] );
 							return;
 						}
 					}
@@ -406,7 +406,7 @@ public class AdventureFrame extends KoLFrame
 
 				if ( client.getConditions().isEmpty() )
 				{
-					client.updateDisplay( "Conditions already satisfied." );
+					DEFAULT_SHELL.updateDisplay( "Conditions already satisfied." );
 					return;
 				}
 
@@ -415,7 +415,7 @@ public class AdventureFrame extends KoLFrame
 					DEFAULT_SHELL.executeConditionsCommand( "check" );
 					if ( client.getConditions().isEmpty() )
 					{
-						client.updateDisplay( "Conditions already satisfied." );
+						DEFAULT_SHELL.updateDisplay( "Conditions already satisfied." );
 						return;
 					}
 				}
@@ -439,7 +439,7 @@ public class AdventureFrame extends KoLFrame
 			}
 			else
 			{
-				client.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
+				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
 				locationSelect.requestFocus();
 			}
 		}
@@ -505,12 +505,12 @@ public class AdventureFrame extends KoLFrame
 			{
 				for ( int i = 0; i < messages.length - 1 && client.permitsContinue(); ++i )
 				{
-					client.updateDisplay( messages[i] );
+					DEFAULT_SHELL.updateDisplay( messages[i] );
 					KoLRequest.delay( 3000 );
 				}
 
 				if ( client.permitsContinue() )
-					client.updateDisplay( ERROR_STATE, messages[ messages.length - 1 ] );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, messages[ messages.length - 1 ] );
 			}
 		}
 
@@ -608,14 +608,14 @@ public class AdventureFrame extends KoLFrame
 		{
 			if ( currentlyBuying )
 			{
-				client.updateDisplay( ABORT_STATE, "Purchases stopped." );
+				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Purchases stopped." );
 				return;
 			}
 
 			Object [] purchases = resultsList.getSelectedValues();
 			if ( purchases == null || purchases.length == 0 )
 			{
-				client.updateDisplay( ERROR_STATE, "Please select a store from which to purchase." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Please select a store from which to purchase." );
 				return;
 			}
 
@@ -648,7 +648,7 @@ public class AdventureFrame extends KoLFrame
 		if ( results != request.getResults() )
 			results.addAll( request.getResults() );
 
-		client.updateDisplay( results.size() == 0 ? "No results found." : "Search complete." );
+		DEFAULT_SHELL.updateDisplay( results.size() == 0 ? "No results found." : "Search complete." );
 		tabs.setSelectedIndex(1);
 		resultSelect.requestFocus();
 
@@ -717,7 +717,7 @@ public class AdventureFrame extends KoLFrame
 				// show what the current state of the selections
 				// is at this time.
 
-				client.updateDisplay( NULL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
+				DEFAULT_SHELL.updateDisplay( NULL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
 			}
 		}
 	}
@@ -878,7 +878,7 @@ public class AdventureFrame extends KoLFrame
 
 				if ( increments == 0 )
 				{
-					client.updateDisplay( ERROR_STATE, "Donation cancelled." );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Donation cancelled." );
 					return;
 				}
 
@@ -943,7 +943,7 @@ public class AdventureFrame extends KoLFrame
 					return;
 
 				case 1:
-					client.updateDisplay( ERROR_STATE, "You cannot deposit into Hagnk's storage." );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You cannot deposit into Hagnk's storage." );
 					return;
 			}
 		}

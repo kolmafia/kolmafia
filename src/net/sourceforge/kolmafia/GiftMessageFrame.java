@@ -102,13 +102,13 @@ public class GiftMessageFrame extends SendMessageFrame
 
 		if ( client.permitsContinue() )
 		{
-			client.updateDisplay( "Gift sent to " + recipient );
+			DEFAULT_SHELL.updateDisplay( "Gift sent to " + recipient );
 			setTitle( "Gift sent to " + recipient );
 			return true;
 		}
 		else
 		{
-			client.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipient );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipient );
 			setTitle( "Failed to send gift to " + recipient );
 			return false;
 		}

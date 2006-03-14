@@ -155,7 +155,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( ( action.equals( "item0536" ) && FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) < 1 ) ||
 			 ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) < 1 ) )
 		{
-			client.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
 			return;
 		}
 
@@ -173,7 +173,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 			{
-				client.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
+				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
 				return;
 			}
 		}
@@ -190,7 +190,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getAdventuresLeft() < request.getAdventuresUsed() )
 		{
-			client.updateDisplay( ERROR_STATE, "Insufficient adventures to continue." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient adventures to continue." );
 			return;
 		}
 
@@ -201,7 +201,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			request.getAdventuresUsed() == 1 && (action.equals( "item0536" ) || action.equals( "item1316" )) &&
 			KoLCharacter.getFamiliar().getID() != 16 && KoLCharacter.getFamiliar().getID() != 17 && KoLCharacter.getFamiliar().getID() != 48 )
 		{
-			client.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
 			return;
 		}
 
@@ -247,7 +247,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 			{
-				client.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
+				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
 				return;
 			}
 		}

@@ -219,7 +219,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			int resultLimit = getValue( limitEntry, 100 );
 
 			resultCards.show( resultCardPanel, String.valueOf( index ) );
-			client.updateDisplay( "Conducting search..." );
+			DEFAULT_SHELL.updateDisplay( "Conducting search..." );
 
 			while ( !resultsModel[ index ].getDataVector().isEmpty() )
 			{
@@ -240,9 +240,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			}
 
 			if ( client.permitsContinue() )
-				client.updateDisplay( "Search completed." );
+				DEFAULT_SHELL.updateDisplay( "Search completed." );
 			else
-				client.updateDisplay( ERROR_STATE, "Search halted." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Search halted." );
 		}
 
 		public Object [] getRow( ProfileRequest result, boolean isSimple )
@@ -251,7 +251,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				return new Object [] { result.getPlayerName(), result.getClanName(), result.getClassType(),
 					result.getPlayerLevel(), result.getPvpRank() };
 
-			client.updateDisplay( "Retrieving profile for " + result.getPlayerName() + "..." );
+			DEFAULT_SHELL.updateDisplay( "Retrieving profile for " + result.getPlayerName() + "..." );
 
 			return new Object [] { result.getPlayerName(), result.getClassType(), result.getRestriction(), result.getPlayerLevel(),
 				result.getPvpRank(), result.getDrink(), result.getEquipmentPower(), result.getCurrentRun(), result.getLastLogin() };
@@ -284,7 +284,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			isSimple = false;
 
 			resultCards.show( resultCardPanel, "1" );
-			client.updateDisplay( "Conducting search..." );
+			DEFAULT_SHELL.updateDisplay( "Conducting search..." );
 
 			while ( !resultsModel[1].getDataVector().isEmpty() )
 			{
@@ -305,14 +305,14 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			}
 
 			if ( client.permitsContinue() )
-				client.updateDisplay( "Search completed." );
+				DEFAULT_SHELL.updateDisplay( "Search completed." );
 			else
-				client.updateDisplay( ERROR_STATE, "Search halted." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Search halted." );
 		}
 
 		public Object [] getRow( ProfileRequest result )
 		{
-			client.updateDisplay( "Retrieving profile for " + result.getPlayerName() + "..." );
+			DEFAULT_SHELL.updateDisplay( "Retrieving profile for " + result.getPlayerName() + "..." );
 
 			return new Object [] { result.getPlayerName(), result.getClassType(), result.getRestriction(), result.getPlayerLevel(),
 				result.getPvpRank(), result.getDrink(), result.getEquipmentPower(), result.getCurrentRun(), result.getLastLogin() };
@@ -361,14 +361,14 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 			for ( int i = 0; i < selection.length; ++i )
 			{
-				client.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
+				DEFAULT_SHELL.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
 				FightFrame.showRequest( new FlowerHunterRequest( client, selection[i].getPlayerID(),
 					stanceSelect.getSelectedIndex() + 1, victorySelect.getSelectedIndex() == 0, message.getText() ) );
 
 				updateRank();
 			}
 
-			client.updateDisplay( "Attacks completed." );
+			DEFAULT_SHELL.updateDisplay( "Attacks completed." );
 		}
 
 		public void actionCancelled()

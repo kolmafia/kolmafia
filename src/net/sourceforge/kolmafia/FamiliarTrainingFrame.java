@@ -476,7 +476,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 								"Save arena parameters for the " + familiar.getRace() + "?",
 								"Save arena skills?", JOptionPane.YES_NO_OPTION ) )
 							FamiliarsDatabase.setFamiliarSkills( familiar.getRace(), skills );
-						client.updateDisplay( CONTINUE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
+						DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
 
 					}
 
@@ -631,7 +631,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
-		client.updateDisplay( "Starting training session." );
+		DEFAULT_SHELL.updateDisplay( "Starting training session." );
 
 		// Iterate until we reach the goal
 		while ( !goalMet( status, goal, type) )
@@ -763,7 +763,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
-		client.updateDisplay( "Starting training session." );
+		DEFAULT_SHELL.updateDisplay( "Starting training session." );
 
 		// XP earned indexed by [event][rank]
 		int [][] xp = new int[4][3];
@@ -909,7 +909,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
-			client.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
 			return false;
 		}
 
@@ -958,7 +958,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			buffs = false;
 		}
 
-		client.updateDisplay( ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
+		DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
 		return false;
 	}
 
@@ -973,7 +973,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		else
 			results.append( message + "<br>" );
 
-		client.updateDisplay( state, message );
+		DEFAULT_SHELL.updateDisplay( state, message );
 	}
 
 	private static void printFamiliar( FamiliarStatus status, int goal, int type )
@@ -1068,7 +1068,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		results.append( text.toString() );
 
-		client.updateDisplay( "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
+		DEFAULT_SHELL.updateDisplay( "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
 	private static int fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )

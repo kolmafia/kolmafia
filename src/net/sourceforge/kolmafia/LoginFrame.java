@@ -242,7 +242,7 @@ public class LoginFrame extends KoLFrame
 
 			if ( loginname == null || password == null || loginname.equals("") || password.equals("") )
 			{
-				client.updateDisplay( ERROR_STATE, "Invalid login." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Invalid login." );
 				return;
 			}
 
@@ -259,7 +259,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			client.updateDisplay( ABORT_STATE, "Login cancelled." );
+			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Login cancelled." );
 			loginnameField.requestFocus();
 		}
 

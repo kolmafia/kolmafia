@@ -52,7 +52,7 @@ public class ClanListRequest extends KoLRequest
 
 	public void run()
 	{
-		client.updateDisplay( "Retrieving list of attackable clans..." );
+		DEFAULT_SHELL.updateDisplay( "Retrieving list of attackable clans..." );
 
 		super.run();
 
@@ -72,7 +72,7 @@ public class ClanListRequest extends KoLRequest
 			Matcher nextMatcher = Pattern.compile( "<br>Your clan can attack again in (.*?)<p>" ).matcher( details.responseText );
 			nextMatcher.find();
 
-			client.updateDisplay( ERROR_STATE, "Your clan can attack again in " + nextMatcher.group(1) );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Your clan can attack again in " + nextMatcher.group(1) );
 		}
 	}
 }

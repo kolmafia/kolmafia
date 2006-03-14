@@ -299,7 +299,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( tool == null )
 		{
-			client.updateDisplay( ERROR_STATE, "Can't deduce correct tool to use." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't deduce correct tool to use." );
 			return;
 		}
 
@@ -308,7 +308,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( tool.getCount( KoLCharacter.getInventory() ) > 0 )
 		{
-			client.updateDisplay( "Using " + tool.getName() + "..." );
+			DEFAULT_SHELL.updateDisplay( "Using " + tool.getName() + "..." );
 			(new ConsumeItemRequest( client, tool )).run();
 			return;
 		}
@@ -320,7 +320,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( quantityNeeded >= 10 )
 		{
-			client.updateDisplay( ERROR_STATE, "Please purchase a " + tool.getName() + " first." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Please purchase a " + tool.getName() + " first." );
 			return;
 		}
 
@@ -333,7 +333,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		for ( int i = 1; client.permitsContinue() && i <= quantityNeeded; ++i )
 		{
-			client.updateDisplay( "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
+			DEFAULT_SHELL.updateDisplay( "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
 			request.run();
 		}
 	}
@@ -354,7 +354,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// exist and the user has opted to repair.
 
 		if ( !autoRepairBoxServant() )
-			client.updateDisplay( ERROR_STATE, "Failed to auto-repair box servant." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Failed to auto-repair box servant." );
 
 		// If the request has been cancelled midway, be
 		// sure to return from here.
@@ -389,7 +389,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !client.permitsContinue() )
 			return;
 
-		client.updateDisplay( "Creating " + toString() + "..." );
+		DEFAULT_SHELL.updateDisplay( "Creating " + toString() + "..." );
 		AdventureResult createdItem = new AdventureResult( itemID, 0 );
 		int beforeQuantity = createdItem.getCount( KoLCharacter.getInventory() );
 
@@ -405,13 +405,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
-			client.updateDisplay( ERROR_STATE, "You're missing ingredients." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're missing ingredients." );
 			return;
 		}
 
 		if ( responseText.indexOf( "You don't have that many adventures left" ) != -1 )
 		{
-			client.updateDisplay( ERROR_STATE, "You don't have enough adventures." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have enough adventures." );
 			return;
 		}
 
@@ -585,7 +585,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( usedServant == null )
 		{
-			client.updateDisplay( ERROR_STATE, "Could not auto-repair " + servant.getName() + "." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Could not auto-repair " + servant.getName() + "." );
 			return false;
 		}
 

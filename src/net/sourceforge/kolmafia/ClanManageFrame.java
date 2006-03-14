@@ -226,7 +226,7 @@ public class ClanManageFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			if ( isBuffing )
-				client.updateDisplay( ERROR_STATE, "Purchase attempts cancelled." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Purchase attempts cancelled." );
 		}
 	}
 
@@ -332,14 +332,14 @@ public class ClanManageFrame extends KoLFrame
 
 			public void run()
 			{
-				client.updateDisplay( "Purchasing clan materials..." );
+				DEFAULT_SHELL.updateDisplay( "Purchasing clan materials..." );
 
 				super.run();
 
 				// Theoretically, there should be a test for error state,
 				// but because I'm lazy, that's not happening.
 
-				client.updateDisplay( "Purchase request processed." );
+				DEFAULT_SHELL.updateDisplay( "Purchase request processed." );
 			}
 		}
 	}
@@ -501,12 +501,12 @@ public class ClanManageFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, parameterSelect.getSelectedIndex(), valueField.getText() );
-			client.updateDisplay( "Search results retrieved." );
+			DEFAULT_SHELL.updateDisplay( "Search results retrieved." );
 		}
 
 		protected void actionCancelled()
 		{
-			client.updateDisplay( "Determining changes..." );
+			DEFAULT_SHELL.updateDisplay( "Determining changes..." );
 
 			List rankChange = new ArrayList();
 			List newRanks = new ArrayList();
@@ -545,9 +545,9 @@ public class ClanManageFrame extends KoLFrame
 				}
 			}
 
-			client.updateDisplay( "Applying changes..." );
+			DEFAULT_SHELL.updateDisplay( "Applying changes..." );
 			(new ClanMembersRequest( client, rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
-			client.updateDisplay( "Changes have been applied." );
+			DEFAULT_SHELL.updateDisplay( "Changes have been applied." );
 		}
 	}
 

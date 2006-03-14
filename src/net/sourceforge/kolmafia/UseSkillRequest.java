@@ -112,9 +112,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		client.recoverMP();
 
 		if ( target == null || target.trim().length() == 0 )
-			client.updateDisplay( "Casting " + skillName + "..." );
+			DEFAULT_SHELL.updateDisplay( "Casting " + skillName + "..." );
 		else
-			client.updateDisplay( "Casting " + skillName + " on " + target );
+			DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " on " + target );
 
 		super.run();
 
@@ -190,7 +190,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( encounteredError )
 		{
-			client.updateDisplay( ERROR_STATE, lastUpdate );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
@@ -198,9 +198,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		else
 		{
 			if ( target == null || target.equals( "" ) )
-				client.updateDisplay( skillName + " was successfully cast" );
+				DEFAULT_SHELL.updateDisplay( skillName + " was successfully cast" );
 			else
-				client.updateDisplay( skillName + " was successfully cast on " + target );
+				DEFAULT_SHELL.updateDisplay( skillName + " was successfully cast on " + target );
 
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.

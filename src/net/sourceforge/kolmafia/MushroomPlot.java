@@ -335,7 +335,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( square < 1 || square > 16 )
 		{
-			client.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
 			return false;
 		}
 
@@ -357,7 +357,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( sporeIndex == -1 )
 		{
-			client.updateDisplay( ERROR_STATE, "You can't plant that." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't plant that." );
 			return false;
 		}
 
@@ -385,7 +385,7 @@ public abstract class MushroomPlot extends StaticEntity
 		// Plant the requested spore.
 
 		MushroomPlotRequest request = new MushroomPlotRequest( square, sporeIndex );
-		client.updateDisplay( "Planting " + TradeableItemDatabase.getItemName( spore ) + " spore..." );
+		DEFAULT_SHELL.updateDisplay( "Planting " + TradeableItemDatabase.getItemName( spore ) + " spore..." );
 		request.run();
 
 		// If it failed, bail.
@@ -397,7 +397,7 @@ public abstract class MushroomPlot extends StaticEntity
 		// that the client allows you to continue.
 
 		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - sporePrice ) );
-		client.updateDisplay( "Spore successfully planted." );
+		DEFAULT_SHELL.updateDisplay( "Spore successfully planted." );
 		return true;
 	}
 
@@ -424,7 +424,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( square < 1 || square > 16 )
 		{
-			client.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
 			return false;
 		}
 
@@ -445,9 +445,9 @@ public abstract class MushroomPlot extends StaticEntity
 			if ( actualPlot[ row ][ col ] != SPROUT || pickSpores )
 			{
 				MushroomPlotRequest request = new MushroomPlotRequest( square );
-				client.updateDisplay( "Picking square " + square + "..." );
+				DEFAULT_SHELL.updateDisplay( "Picking square " + square + "..." );
 				request.run();
-				client.updateDisplay( "Square picked." );
+				DEFAULT_SHELL.updateDisplay( "Square picked." );
 			}
 		}
 
@@ -468,7 +468,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( !KoLCharacter.inMuscleSign() )
 		{
-			client.updateDisplay( ERROR_STATE, "You can't find the mushroom fields." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't find the mushroom fields." );
 			return false;
 		}
 
@@ -482,7 +482,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( ownsPlot == false )
 		{
-			client.updateDisplay( ERROR_STATE, "You haven't bought a mushroom plot yet." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You haven't bought a mushroom plot yet." );
 			return false;
 		}
 

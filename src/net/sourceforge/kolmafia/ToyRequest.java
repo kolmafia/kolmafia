@@ -59,7 +59,7 @@ public class ToyRequest extends ItemCreationRequest
 		int quantity = getQuantityNeeded();
 
 		// Disable controls
-		client.updateDisplay( "Creating " + quantity + " " + getName() + "..." );
+		DEFAULT_SHELL.updateDisplay( "Creating " + quantity + " " + getName() + "..." );
 		addFormField( "quantity", String.valueOf( quantity ) );
 
 		// Run the request

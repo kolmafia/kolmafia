@@ -147,7 +147,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		// Make sure the player has the Strange Leaflet.
 		if ( !KoLCharacter.hasItem( LEAFLET, false ) )
 		{
-			client.updateDisplay( ERROR_STATE, "You don't have a leaflet." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have a leaflet." );
 			return;
 		}
 
@@ -183,7 +183,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		KoLCharacter.refreshCalculatedLists();
 
 		String extra = trophy ? " (trophy available)" : ( magic != null ) ? " (magic invoked)" : "";
-		client.updateDisplay( "Strange Leaflet robbed" + extra + "." );
+		DEFAULT_SHELL.updateDisplay( "Strange Leaflet robbed" + extra + "." );
 	}
 
 	private static void initialize()
@@ -285,7 +285,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 				break;
 
 			default:
-				client.updateDisplay( ERROR_STATE, "I can't figure out where you are!" );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "I can't figure out where you are!" );
 				break;
 		}
 	}
@@ -335,7 +335,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( leaflet )
 			return;
 
-		client.updateDisplay( "Retrieving mail..." );
+		DEFAULT_SHELL.updateDisplay( "Retrieving mail..." );
 
 		goTo( FIELD );
 
@@ -357,7 +357,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( chest )
 			return;
 
-		client.updateDisplay( "Looking for treasure..." );
+		DEFAULT_SHELL.updateDisplay( "Looking for treasure..." );
 
 		goTo( CAVE );
 		killSerpent();
@@ -372,7 +372,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( location > BANK )
 			return;
 
-		client.updateDisplay( "Hunting eggs..." );
+		DEFAULT_SHELL.updateDisplay( "Hunting eggs..." );
 
 		// We can't tell if we've already done this. But, there's no
 		// harm in doing it twice.
@@ -389,7 +389,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( trophy )
 			return;
 
-		client.updateDisplay( "Invoking magic..." );
+		DEFAULT_SHELL.updateDisplay( "Invoking magic..." );
 
 		goTo( HOUSE );
 		parseMantelpiece( executeCommand( "examine fireplace" ) );
@@ -409,7 +409,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( ring )
 			return;
 
-		client.updateDisplay( "Stealing ring..." );
+		DEFAULT_SHELL.updateDisplay( "Stealing ring..." );
 
 		if ( location < BOTTOM )
 			goTo( BOTTOM );

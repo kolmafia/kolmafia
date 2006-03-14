@@ -216,7 +216,7 @@ public class BuffBotFrame extends KoLFrame
 		{
 			BuffBotHome.setBuffBotActive( false );
 			BuffBotHome.updateStatus("BuffBot stopped by user.");
-			client.updateDisplay( ERROR_STATE, "Buffbot stopped by user." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Buffbot stopped by user." );
 		}
 	}
 
@@ -378,7 +378,7 @@ public class BuffBotFrame extends KoLFrame
 		BuffBotHome.deinitialize();
 
 		if ( client != null )
-			client.updateDisplay( "Buffbot deactivated." );
+			DEFAULT_SHELL.updateDisplay( "Buffbot deactivated." );
 
 		super.dispose();
 	}

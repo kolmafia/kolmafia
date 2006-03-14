@@ -259,7 +259,7 @@ public abstract class SendMessageFrame extends KoLFrame
 
 			if ( recipients.length > 11 )
 			{
-				client.updateDisplay( ERROR_STATE, "Maximum number of users exceeded." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Maximum number of users exceeded." );
 				return;
 			}
 

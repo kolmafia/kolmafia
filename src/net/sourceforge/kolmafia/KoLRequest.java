@@ -539,7 +539,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( MalformedURLException e )
 		{
-			client.updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLString );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLString );
 
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
@@ -678,7 +678,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( e instanceof FileNotFoundException )
 			{
-				client.updateDisplay( ERROR_STATE, "Page <" + formURLString + "> not found." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Page <" + formURLString + "> not found." );
 
 				if ( client != null )
 				{
@@ -725,7 +725,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					// If the system is down for maintenance, the user must be
 					// notified that they should try again later.
 
-					client.updateDisplay( ERROR_STATE, "Nightly maintenance." );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Nightly maintenance." );
 
 					if ( !(this instanceof LoginRequest) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 					{
@@ -739,7 +739,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				}
 				else if ( redirectLocation.startsWith( "login.php" ) )
 				{
-					client.updateDisplay( ERROR_STATE, "Session timed out." );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Session timed out." );
 
 					if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 						client.executeTimeInRequest();
@@ -1033,7 +1033,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// be a bug in KoL itself. Bail now and let the user
 			// finish by hand.
 
-			client.updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
 
 			// Finish in browser if requested
 			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
@@ -1051,7 +1051,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( decision == null )
 		{
-			client.updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
 
 			// Finish in browser if requested
 			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
@@ -1074,7 +1074,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( decision.equals( "0" ) )
 		{
-			client.updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
 
 			// Finish in browser if requested
 			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )

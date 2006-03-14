@@ -374,13 +374,13 @@ public class AdventureDatabase extends KoLDatabase
 			// visited the council -- check the main map to see if
 			// the beach is unlocked.
 
-			client.updateDisplay( "Validating map location..." );
+			DEFAULT_SHELL.updateDisplay( "Validating map location..." );
 			request = new KoLRequest( client, "main.php" );
 			request.run();
 
 			if ( request.responseText.indexOf( "beach.php" ) == -1 )
 			{
-				client.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
 				return;
 			}
 			return;
@@ -393,7 +393,7 @@ public class AdventureDatabase extends KoLDatabase
 			// "You have learned how to hunt Yetis from the L337
 			// Tr4pz0r."
 
-			client.updateDisplay( "Validating map location..." );
+			DEFAULT_SHELL.updateDisplay( "Validating map location..." );
 			// See if we can get to the location already
 			request = new KoLRequest( client, "mclargehuge.php" );
 			request.run();
@@ -484,7 +484,7 @@ public class AdventureDatabase extends KoLDatabase
 
 					if ( !client.getConditions().isEmpty() )
 					{
-						client.updateDisplay( ERROR_STATE, "Unable to complete enchanted bean quest." );
+						DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unable to complete enchanted bean quest." );
 						client.getConditions().clear();
 						client.getConditions().addAll( temporary );
 						return;
@@ -512,7 +512,7 @@ public class AdventureDatabase extends KoLDatabase
 		if ( request == null )
 			return;
 
-		client.updateDisplay( "Validating map location..." );
+		DEFAULT_SHELL.updateDisplay( "Validating map location..." );
 		request.run();
 
 		// Now that the zone is armed, check to see
@@ -522,7 +522,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( request.responseText.indexOf( adventure.getAdventureID() ) == -1 )
 		{
-			client.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
 			return;
 		}
 	}
@@ -538,7 +538,7 @@ public class AdventureDatabase extends KoLDatabase
 		DEFAULT_SHELL.executeLine( command );
 
 		if ( !shouldContinue )
-			client.updateDisplay( ERROR_STATE, "" );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "" );
 	}
 
 	/**
@@ -705,7 +705,7 @@ public class AdventureDatabase extends KoLDatabase
 			// then notify the client that there aren't enough items
 			// available to continue and cancel the request.
 
-			client.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 		}
 		catch ( Exception e )
 		{

@@ -103,7 +103,7 @@ public class CakeArenaManager extends StaticEntity
 
 			for ( int j = 1; client.permitsContinue() && j <= battleCount; ++j )
 			{
-				client.updateDisplay( "Arena battle, round " + j + " in progress..." );
+				DEFAULT_SHELL.updateDisplay( "Arena battle, round " + j + " in progress..." );
 				client.makeRequest( request, 1 );
 
 				victoryMatcher = victoryPattern.matcher( request.responseText );
@@ -123,7 +123,7 @@ public class CakeArenaManager extends StaticEntity
 				FamiliarTrainingFrame.getResults().append( text.toString() );
 			}
 
-			client.updateDisplay( "Arena battles complete." );
+			DEFAULT_SHELL.updateDisplay( "Arena battles complete." );
 		}
 	}
 

@@ -82,7 +82,7 @@ public class StarChartRequest extends ItemCreationRequest
 		for ( int i = 1; i <= getQuantityNeeded(); ++i )
 		{
 			// Disable controls
-			client.updateDisplay( "Creating " + getName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
+			DEFAULT_SHELL.updateDisplay( "Creating " + getName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
 
 			// Run the request
 			super.run();
@@ -95,7 +95,7 @@ public class StarChartRequest extends ItemCreationRequest
 
 			if ( responseText.indexOf( "reasonable picture" ) != -1 )
 			{
-				client.updateDisplay( ERROR_STATE, "You can't make that item." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't make that item." );
 				return;
 			}
 

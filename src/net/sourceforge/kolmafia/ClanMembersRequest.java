@@ -87,14 +87,14 @@ public class ClanMembersRequest extends KoLRequest
 		// belong to.  This is done by doing a
 		// profile lookup on yourself.
 
-		client.updateDisplay( "Determining clan ID..." );
+		DEFAULT_SHELL.updateDisplay( "Determining clan ID..." );
 		ProfileRequest clanIDLookup = new ProfileRequest( client, KoLCharacter.getUsername() );
 		clanIDLookup.run();
 
 		Matcher clanIDMatcher = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" ).matcher( clanIDLookup.responseText );
 		if ( !clanIDMatcher.find() )
 		{
-			client.updateDisplay( ERROR_STATE, "Your character does not belong to a clan." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Your character does not belong to a clan." );
 			return;
 		}
 
@@ -106,7 +106,7 @@ public class ClanMembersRequest extends KoLRequest
 		this.clanName = clanIDMatcher.group(2);
 
 		addFormField( "whichclan", clanID );
-		client.updateDisplay( "Retrieving clan member list..." );
+		DEFAULT_SHELL.updateDisplay( "Retrieving clan member list..." );
 		super.run();
 
 		// Now, parse out the complete list of clan

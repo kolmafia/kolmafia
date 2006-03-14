@@ -187,7 +187,7 @@ public class FightRequest extends KoLRequest
 	{
 		if ( action.equals( "..." ) || !client.permitsContinue() )
 		{
-			client.updateDisplay( ABORT_STATE, "Battle stopped.  Please finish in-browser." );
+			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Battle stopped.  Please finish in-browser." );
 
 			// Finish in browser if requested
 			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
@@ -231,7 +231,7 @@ public class FightRequest extends KoLRequest
 				// it's complete.
 
 				if ( !client.permitsContinue() )
-					client.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
 
 				// If you can't battle again in this location,
 				// cancel future iterations.  Note that there
@@ -239,7 +239,7 @@ public class FightRequest extends KoLRequest
 				// has an "adventure again" link.
 
 				else if ( responseText.indexOf( "againform.submit" ) == -1 && responseText.indexOf( "Go back to the Sorceress' Hedge Maze" ) == -1 )
-					client.updateDisplay( PENDING_STATE, "Nothing left to do here." );
+					DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Nothing left to do here." );
 
 				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 			}
@@ -252,7 +252,7 @@ public class FightRequest extends KoLRequest
 
 				if ( KoLCharacter.getCurrentHP() == 0 )
 				{
-					client.updateDisplay( ERROR_STATE, "You were defeated!" );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You were defeated!" );
 					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				}
 				else
@@ -261,7 +261,7 @@ public class FightRequest extends KoLRequest
 					// the error to the debug log and continue adventuring
 					// as normal.
 
-					client.updateDisplay( "Thirty combat round limit exceeded." );
+					DEFAULT_SHELL.updateDisplay( "Thirty combat round limit exceeded." );
 					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				}
 			}

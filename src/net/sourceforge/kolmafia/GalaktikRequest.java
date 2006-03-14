@@ -83,7 +83,7 @@ public class GalaktikRequest extends KoLRequest
 		{
 			// Ask Doc Galaktik for his available cures.
 
-			client.updateDisplay( "Visiting Doc Galaktik..." );
+			DEFAULT_SHELL.updateDisplay( "Visiting Doc Galaktik..." );
 			super.run();
 
 			int lastMatchIndex = 0;
@@ -96,24 +96,24 @@ public class GalaktikRequest extends KoLRequest
 				client.getGalaktikCures().add( cureMatcher.group(0) );
 			}
 
-			client.updateDisplay( "Cures retrieved." );
+			DEFAULT_SHELL.updateDisplay( "Cures retrieved." );
 
 			return;
 		}
 
 		if ( price == 0 )
 		{
-			client.updateDisplay( ERROR_STATE, "You don't need that cure." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't need that cure." );
 			return;
 		}
 
 		if ( price > KoLCharacter.getAvailableMeat() )
 		{
-			client.updateDisplay( ERROR_STATE, "You need " + ( price - KoLCharacter.getAvailableMeat() ) + " more meat." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need " + ( price - KoLCharacter.getAvailableMeat() ) + " more meat." );
 			return;
 		}
 
-		client.updateDisplay( "Visiting Doc Galaktik..." );
+		DEFAULT_SHELL.updateDisplay( "Visiting Doc Galaktik..." );
 
 		super.run();
 
@@ -122,7 +122,7 @@ public class GalaktikRequest extends KoLRequest
 			// This will only happen if we didn't track HP/MP
 			// correctly
 
-			client.updateDisplay( ERROR_STATE, "You can't afford that cure." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't afford that cure." );
 			return;
 		}
 
@@ -133,7 +133,7 @@ public class GalaktikRequest extends KoLRequest
 		else
 			client.processResult( new AdventureResult( AdventureResult.MP, KoLCharacter.getMaximumMP() ) );
 
-		client.updateDisplay( "Cure purchased." );
+		DEFAULT_SHELL.updateDisplay( "Cure purchased." );
 	}
 
 	public static List retrieveCures( KoLmafia client )

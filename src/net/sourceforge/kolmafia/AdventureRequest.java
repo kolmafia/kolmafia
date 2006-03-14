@@ -173,14 +173,14 @@ public class AdventureRequest extends KoLRequest
 
 			if ( redirectLocation.equals( "haiku.php" ) )
 			{
-				client.updateDisplay( ERROR_STATE, "Encountered haiku subquest." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Encountered haiku subquest." );
 			}
 
 			// Make sure that the daily dungeon allows continues
 			// even after a fight.
 
 			else if ( formSource.equals( "dungeon.php" ) )
-				client.updateDisplay( CONTINUE_STATE, "" );
+				DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, "" );
 
 			// Otherwise, the only redirect we understand is
 			// fight.php and choice.php.  If it's neither of
@@ -188,7 +188,7 @@ public class AdventureRequest extends KoLRequest
 
 			else if ( !redirectLocation.equals( "fight.php" ) && !redirectLocation.equals( "choice.php" ) )
 			{
-				client.updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Redirected to unknown page: " + redirectLocation );
 				return;
 			}
 
@@ -217,7 +217,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.trim().length() == 0 )
 		{
-			client.updateDisplay( "Empty response from server.  Retrying..." );
+			DEFAULT_SHELL.updateDisplay( "Empty response from server.  Retrying..." );
 			this.run();
 			return;
 		}
@@ -233,7 +233,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( KoLCharacter.getCurrentHP() == 0 )
 		{
-			client.updateDisplay( ERROR_STATE, "Ran out of health." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Ran out of health." );
 			return;
 		}
 
@@ -248,7 +248,7 @@ public class AdventureRequest extends KoLRequest
 					// repeat the request and notify the client that
 					// a server error was encountered.
 
-					client.updateDisplay( "Server error.  Repeating request..." );
+					DEFAULT_SHELL.updateDisplay( "Server error.  Repeating request..." );
 					this.run();
 					return;
 				}
@@ -259,7 +259,7 @@ public class AdventureRequest extends KoLRequest
 					// He's missing an item, hasn't been give a quest yet,
 					// or otherwise is trying to go somewhere he's not allowed.
 
-					client.updateDisplay( ERROR_STATE, "You can't get to that area." );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't get to that area." );
 					this.adventuresUsed = 0;
 					return;
 				}
@@ -269,14 +269,14 @@ public class AdventureRequest extends KoLRequest
 				{
 					// Nothing more to do in this area
 
-					client.updateDisplay( PENDING_STATE, "Nothing more to do here." );
+					DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Nothing more to do here." );
 					this.adventuresUsed = 0;
 					return;
 				}
 
 				if ( responseText.indexOf( "You must have at least" ) != -1 )
 				{
-					client.updateDisplay( ERROR_STATE, "Your stats are too low for this location." );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Your stats are too low for this location." );
 					this.adventuresUsed = 0;
 					return;
 				}
@@ -286,7 +286,7 @@ public class AdventureRequest extends KoLRequest
 
 				if ( responseText.indexOf( "You acquire an item" ) == -1 && responseText.indexOf( "You gain" ) == -1 )
 				{
-					client.updateDisplay( ERROR_STATE, "Adventures aborted (empty response from server)." );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Adventures aborted (empty response from server)." );
 					this.adventuresUsed = 0;
 					return;
 				}
@@ -299,7 +299,7 @@ public class AdventureRequest extends KoLRequest
 			{
 				// Nothing more to do in this area
 
-				client.updateDisplay( ERROR_STATE, "You already defeated the Boss." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You already defeated the Boss." );
 				return;
 			}
 		}
@@ -324,19 +324,19 @@ public class AdventureRequest extends KoLRequest
 					// Otherwise, the player is unable to cross the orc
 					// chasm at this time.
 
-					client.updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
 					return;
 				}
 			}
 			else if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
 			{
-				client.updateDisplay( "You can now cross the Orc Chasm." );
+				DEFAULT_SHELL.updateDisplay( "You can now cross the Orc Chasm." );
 				client.processResult( BRIDGE );
 				return;
 			}
 			else
 			{
-				client.updateDisplay( ERROR_STATE, "You've already crossed the Orc Chasm." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You've already crossed the Orc Chasm." );
 				return;
 			}
 		}
@@ -352,7 +352,7 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( CANDLES );
 				client.processResult( BUTTERKNIFE );
 
-				client.updateDisplay( "Taint cleansed." );
+				DEFAULT_SHELL.updateDisplay( "Taint cleansed." );
 				return;
 			}
 			else
@@ -362,7 +362,7 @@ public class AdventureRequest extends KoLRequest
 				//   elements necessary to perform the ritual."
 				// Detect completion via accomplishments.
 
-				client.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
 				return;
 			}
 		}
@@ -370,7 +370,7 @@ public class AdventureRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You can't go Trick-or-Treating without a costume!" ) != -1 )
 			{
-				client.updateDisplay( ERROR_STATE, "Put on a costume and try again!" );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Put on a costume and try again!" );
 				this.adventuresUsed = 0;
 				return;
 			}
@@ -384,7 +384,7 @@ public class AdventureRequest extends KoLRequest
 			// should not continue with the next iteration.
 			// Friendly error messages to come later.
 
-			client.updateDisplay( ERROR_STATE, "Turn usage aborted!" );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Turn usage aborted!" );
 			this.adventuresUsed = 0;
 			return;
 		}
