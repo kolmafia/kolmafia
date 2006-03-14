@@ -209,7 +209,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void updateDisplay( int state, String message )
 	{
-		if ( this.currentState != ABORT_STATE )
+		if ( this.currentState != ABORT_STATE && state != NULL_STATE )
 			this.currentState = state;
 
 		if ( !message.equals( "" ) )
@@ -502,23 +502,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void parseResult( String result )
 	{
 		String trimResult = result.trim();
-
-		if ( this instanceof KoLmafiaCLI )
-			DEFAULT_SHELL.updateDisplay( trimResult );
-
-		// Do not update the display if you're running in GUI
-		// mode -- however, update the command buffer if there
-		// is one so that the GCLI sees all the results.
-
-		if ( commandBuffer != null )
-		{
-			StringBuffer colorBuffer = new StringBuffer();
-			colorBuffer.append( "<font color=black>" );
-			colorBuffer.append( trimResult );
-			colorBuffer.append( "</font><br>" );
-			colorBuffer.append( LINE_BREAK );
-			commandBuffer.append( colorBuffer.toString() );
-		}
+		DEFAULT_SHELL.printLine( trimResult );
 
 		// Because of the simplified parsing, there's a chance that
 		// the "gain" acquired wasn't a subpoint (in other words, it

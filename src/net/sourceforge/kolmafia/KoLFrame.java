@@ -397,6 +397,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// the current display state -- but only if the
 		// compact pane has already been constructed.
 
+		if ( displayState == NULL_STATE )
+			displayState = client == null || client.permitsContinue() ? ENABLE_STATE : ERROR_STATE;
+
 		switch ( displayState )
 		{
 			case ERROR_STATE:
@@ -957,9 +960,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			displayer.setEnabled( isEnabled );
-			SwingUtilities.invokeLater( displayer );
+		{	SwingUtilities.invokeLater( displayer );
 		}
 	}
 
@@ -1001,9 +1002,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			displayer.setEnabled( isEnabled );
-			SwingUtilities.invokeLater( displayer );
+		{	SwingUtilities.invokeLater( displayer );
 		}
 	}
 

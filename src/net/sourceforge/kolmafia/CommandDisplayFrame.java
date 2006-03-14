@@ -205,9 +205,11 @@ public class CommandDisplayFrame extends KoLFrame
 
 		public void run()
 		{
-			KoLmafia.commandBuffer.append( "<font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br>" );
+			DEFAULT_SHELL.printLine( " > " + command );
+			DEFAULT_SHELL.printBlankLine();
 			DEFAULT_SHELL.executeLine( command );
 			DEFAULT_SHELL.printBlankLine();
+			client.enableDisplay();
 		}
 	}
 

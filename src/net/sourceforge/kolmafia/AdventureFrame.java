@@ -200,9 +200,9 @@ public class AdventureFrame extends KoLFrame
 				String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
 
 				if ( holiday.startsWith( "No" ) )
-					client.updateDisplay( CONTINUE_STATE, MoonPhaseDatabase.getMoonEffect() );
+					client.updateDisplay( NULL_STATE, MoonPhaseDatabase.getMoonEffect() );
 				else
-					client.updateDisplay( CONTINUE_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+					client.updateDisplay( NULL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 			}
 		}
 		catch ( Exception e )
@@ -651,6 +651,7 @@ public class AdventureFrame extends KoLFrame
 		client.updateDisplay( results.size() == 0 ? "No results found." : "Search complete." );
 		tabs.setSelectedIndex(1);
 		resultSelect.requestFocus();
+
 		client.enableDisplay();
 	}
 
@@ -716,7 +717,7 @@ public class AdventureFrame extends KoLFrame
 				// show what the current state of the selections
 				// is at this time.
 
-				client.updateDisplay( CONTINUE_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
+				client.updateDisplay( NULL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
 			}
 		}
 	}

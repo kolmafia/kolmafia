@@ -78,7 +78,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	private KoLmafia client;
 	private Class creationType;
 	private JFrame creation;
-	private boolean isEnabled;
 
 	private Constructor creator;
 	private Object [] parameters;
@@ -91,7 +90,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	{
 		this.creationType = creationType;
 		this.parameters = parameters;
-		this.isEnabled = true;
 
 		Class [] parameterTypes= new Class[ parameters.length ];
 		for ( int i = 0; i < parameters.length; ++i )
@@ -116,10 +114,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			if ( isValidConstructor )
 				this.creator = constructors[i];
 		}
-	}
-
-	public void setEnabled( boolean isEnabled )
-	{	this.isEnabled = isEnabled;
 	}
 
 	public JFrame getCreation()
@@ -220,9 +214,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// to disable it (if necessary), ensure the frame's
 			// visibility on screen and request focus.
 
-			if ( this.creation instanceof KoLFrame )
-				this.creation.setEnabled( isEnabled );
-
+			this.creation.setEnabled( true );
 			this.creation.setVisible( true );
 			this.creation.requestFocus();
 		}

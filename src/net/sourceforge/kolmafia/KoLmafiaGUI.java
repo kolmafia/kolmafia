@@ -102,6 +102,9 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.updateDisplay( state, message );
 
+		if ( message.trim().length() == 0 )
+			return;
+
 		if ( BuffBotHome.isBuffBotActive() )
 			BuffBotHome.updateStatus( message );
 
@@ -193,6 +196,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
 		((KoLFrame)previousDisplayer.getCreation()).dispose();
+
 		enableDisplay();
 	}
 
@@ -261,10 +265,11 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedValue == null )
 			return;
 
-		(new RequestThread( new ZapRequest( this, wand, (AdventureResult) selectedValue ) )).start();
 		// Do a start() rather than a run() since this is invoked by
 		// the ItemManageFrame, not the menu. Let that frame enable the
 		// display and allow our thread to put up a status message.
+
+		(new RequestThread( new ZapRequest( this, wand, (AdventureResult) selectedValue ) )).start();
 	}
 
 	/**

@@ -76,8 +76,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	protected String previousCommand;
 
-	private PrintStream outputStream;
-	private PrintStream mirrorStream;
+	private PrintStream outputStream = NullStream.INSTANCE;
+	private PrintStream mirrorStream = NullStream.INSTANCE;
 	private BufferedReader commandStream;
 
 	private KoLmafiaCLI lastScript;
@@ -120,7 +120,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public KoLmafiaCLI( InputStream inputStream )
 	{
-		outputStream = StaticEntity.getClient() instanceof KoLmafiaCLI ? System.out : NullStream.INSTANCE;
+		if ( StaticEntity.getClient() instanceof KoLmafiaCLI )
+			outputStream = System.out;
 
 		try
 		{
@@ -132,7 +133,6 @@ public class KoLmafiaCLI extends KoLmafia
 			e.printStackTrace( KoLmafia.getLogStream() );
 		}
 
-		mirrorStream = NullStream.INSTANCE;
 		advancedHandler = new KoLmafiaASH();
 	}
 
@@ -249,6 +249,8 @@ public class KoLmafiaCLI extends KoLmafia
 			else if ( StaticEntity.getClient() instanceof KoLmafiaCLI && !StaticEntity.getClient().permitsContinue() )
 			{
 				outputStream.print( "Continue? [Y/N] > " );
+				mirrorStream.print( "Continue? [Y/N]" );
+
 				line = ((KoLmafiaCLI)StaticEntity.getClient()).getNextLine();
 
 				if ( line.startsWith( "y" ) || line.startsWith( "Y" ) )
@@ -290,6 +292,9 @@ public class KoLmafiaCLI extends KoLmafia
 			// You will either have reached the end of file, or you will
 			// have a valid line -- return it.
 
+			if ( StaticEntity.getClient() == this && line != null && mirrorStream != null )
+				mirrorStream.println( " > " + line );
+
 			return line == null ? null : line.trim();
 		}
 		catch ( IOException e )
@@ -316,12 +321,11 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( line.indexOf( ";" ) != -1 )
 		{
-			String[] separateLines = line.split( ";" );
-			for( int i = 0; i < separateLines.length; ++i)
-				if( separateLines[i].length() > 0 )
+			String [] separateLines = line.split( ";" );
+			for ( int i = 0; i < separateLines.length; ++i )
+				if ( separateLines[i].length() > 0 )
 					executeLine( separateLines[i] );
 
-			StaticEntity.getClient().enableDisplay();
 			return;
 		}
 
@@ -346,8 +350,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 			executeCommand( command, parameters );
 		}
-
-		StaticEntity.getClient().enableDisplay();
 	}
 
 	/**
@@ -613,14 +615,17 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		// Next, handle requests to start or stop
-		// debug mode.
+		// the mirror stream.
 
-		if ( command.startsWith( "mirror" ) )
+		if ( command.indexOf( "mirror" ) != -1 )
 		{
-			if ( parameters.length() == 0 )
+			if ( command.indexOf( "end" ) != -1 || command.indexOf( "stop" ) != -1 || command.indexOf( "close" ) != -1 ||
+				parameters.length() == 0 || parameters.equals( "end" ) || parameters.equals( "stop" ) || parameters.equals( "close" ) )
 			{
 				this.mirrorStream.close();
 				this.mirrorStream = NullStream.INSTANCE;
+
+				updateDisplay( "Mirror stream closed." );
 			}
 			else
 			{
@@ -646,7 +651,7 @@ public class KoLmafiaCLI extends KoLmafia
 					// occur.  However, since there could still be something
 					// bad happening, print an error message.
 
-					updateDisplay( ERROR_STATE, "I/O error in opening file \"" + parameters + "\"" );
+					updateDisplay( ERROR_STATE, "I/O error opening file <" + parameters + ">" );
 					e.printStackTrace( KoLmafia.getLogStream() );
 					e.printStackTrace();
 
@@ -2192,55 +2197,55 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( desiredData.equals( "session" ) )
 		{
-			updateDisplay( "Player: " + KoLCharacter.getUsername() );
-			updateDisplay( "Session ID: " + StaticEntity.getClient().getSessionID() );
-			updateDisplay( "Password Hash: " + StaticEntity.getClient().getPasswordHash() );
+			printLine( "Player: " + KoLCharacter.getUsername() );
+			printLine( "Session ID: " + StaticEntity.getClient().getSessionID() );
+			printLine( "Password Hash: " + StaticEntity.getClient().getPasswordHash() );
 		}
 		else if ( desiredData.startsWith( "stat" ) )
 		{
-			updateDisplay( "Lv: " + KoLCharacter.getLevel() );
-			updateDisplay( "HP: " + KoLCharacter.getCurrentHP() + " / " + df.format( KoLCharacter.getMaximumHP() ) );
-			updateDisplay( "MP: " + KoLCharacter.getCurrentMP() + " / " + df.format( KoLCharacter.getMaximumMP() ) );
+			printLine( "Lv: " + KoLCharacter.getLevel() );
+			printLine( "HP: " + KoLCharacter.getCurrentHP() + " / " + df.format( KoLCharacter.getMaximumHP() ) );
+			printLine( "MP: " + KoLCharacter.getCurrentMP() + " / " + df.format( KoLCharacter.getMaximumMP() ) );
 
 			printBlankLine();
 
-			updateDisplay( "Mus: " + getStatString( KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() ) );
-			updateDisplay( "Mys: " + getStatString( KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() ) );
-			updateDisplay( "Mox: " + getStatString( KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() ) );
+			printLine( "Mus: " + getStatString( KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() ) );
+			printLine( "Mys: " + getStatString( KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() ) );
+			printLine( "Mox: " + getStatString( KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() ) );
 
 			printBlankLine();
 
-			updateDisplay( "Advs: " + KoLCharacter.getAdventuresLeft() );
-			updateDisplay( "Meat: " + df.format( KoLCharacter.getAvailableMeat() ) );
-			updateDisplay( "Drunk: " + KoLCharacter.getInebriety() );
+			printLine( "Advs: " + KoLCharacter.getAdventuresLeft() );
+			printLine( "Meat: " + df.format( KoLCharacter.getAvailableMeat() ) );
+			printLine( "Drunk: " + KoLCharacter.getInebriety() );
 
 			printBlankLine();
 
-			updateDisplay( "Pet: " + KoLCharacter.getFamiliar() );
-			updateDisplay( "Item: " + KoLCharacter.getFamiliarItem() );
+			printLine( "Pet: " + KoLCharacter.getFamiliar() );
+			printLine( "Item: " + KoLCharacter.getFamiliarItem() );
 		}
 		else if ( desiredData.startsWith( "equip" ) )
 		{
-			updateDisplay( "Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
-			updateDisplay( "Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
-			updateDisplay( "Off-hand: " + KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
-			updateDisplay( "Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
-			updateDisplay( "Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
+			printLine( "Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
+			printLine( "Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
+			printLine( "Off-hand: " + KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
+			printLine( "Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
+			printLine( "Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
 
 			printBlankLine();
 
-			updateDisplay( "Acc. 1: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
-			updateDisplay( "Acc. 2: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
-			updateDisplay( "Acc. 3: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
+			printLine( "Acc. 1: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
+			printLine( "Acc. 2: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
+			printLine( "Acc. 3: " + KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
 
 			printBlankLine();
 
-			updateDisplay( "Pet: " + KoLCharacter.getFamiliar() );
-			updateDisplay( "Item: " + KoLCharacter.getFamiliarItem() );
+			printLine( "Pet: " + KoLCharacter.getFamiliar() );
+			printLine( "Item: " + KoLCharacter.getFamiliarItem() );
 		}
 		else if ( desiredData.startsWith( "encounters" ) )
 		{
-			updateDisplay( "Visited Locations: " );
+			printLine( "Visited Locations: " );
 			printBlankLine();
 
 			printList( StaticEntity.getClient().adventureList );
@@ -3028,10 +3033,6 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 	}
 
-	public void printBlankLine()
-	{	updateDisplay( " " );
-	}
-
 	/**
 	 * Updates the currently active display in the <code>KoLmafia</code>
 	 * session.
@@ -3046,22 +3047,22 @@ public class KoLmafiaCLI extends KoLmafia
 		// initializer, then outputStream and mirrorStream will
 		// be null -- check this before attempting to print.
 
-		if ( outputStream != null && !message.equals( "" ) )
+		if ( !message.equals( "" ) )
+		{
 			outputStream.println( message );
-
-		if ( mirrorStream != null && !message.equals( "" ) )
 			mirrorStream.println( message );
 
-		if ( StaticEntity.getClient() instanceof KoLmafiaGUI && !message.equals( "" ) )
-			StaticEntity.getClient().updateDisplay( state, message );
-		else if ( !message.equals( "" ) )
-			StaticEntity.getClient().getLogStream().println( message );
+			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
+				StaticEntity.getClient().updateDisplay( state, message );
+			else
+				StaticEntity.getClient().getLogStream().println( message );
 
-		// There's a special case to be handled if the login was not
-		// successful - in other words, attempt to prompt the user again
+			// There's a special case to be handled if the login was not
+			// successful - in other words, attempt to prompt the user again
 
-		if ( message.equals( "Login failed." ) )
-			attemptLogin();
+			if ( message.equals( "Login failed." ) )
+				attemptLogin();
+		}
 	}
 
 	/**
@@ -3093,7 +3094,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( wand == null )
 		{
-			updateDisplay( ERROR_STATE, "You don't have an appropriate wand" );
+			updateDisplay( ERROR_STATE, "You don't have an appropriate wand." );
 			return;
 		}
 
@@ -3350,8 +3351,32 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		Object [] elements = new Object[ printing.size() ];
 		printing.toArray( elements );
+
 		for ( int i = 0; i < elements.length; ++i )
-			updateDisplay( elements[i].toString() );
+			printLine( elements[i].toString() );
+	}
+
+	public void printBlankLine()
+	{	printLine( " " );
+	}
+
+
+	public void printLine( String line )
+	{
+		outputStream.println( line );
+		mirrorStream.println( line );
+		KoLmafia.getLogStream().println( line );
+
+		if ( commandBuffer != null )
+		{
+			StringBuffer colorBuffer = new StringBuffer();
+			colorBuffer.append( "<font color=black>" );
+			colorBuffer.append( line );
+			colorBuffer.append( "</font><br>" );
+			colorBuffer.append( LINE_BREAK );
+
+			commandBuffer.append( colorBuffer.toString() );
+		}
 	}
 
 	/**
