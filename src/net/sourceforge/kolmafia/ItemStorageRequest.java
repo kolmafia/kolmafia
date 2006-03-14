@@ -290,8 +290,14 @@ public class ItemStorageRequest extends SendMessageRequest
 					}
 
 					storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
+
 					if ( storageMatcher.find() )
-						desiredFrame.setTitle( storageMatcher.group() + " more pulls remaining" );
+					{
+						if ( storageMatcher.group().startsWith( "1 " ) )
+							desiredFrame.setTitle( storageMatcher.group() + " pull remaining" );
+						else
+							desiredFrame.setTitle( storageMatcher.group() + " pulls remaining" );
+					}
 					else if ( KoLCharacter.canInteract() )
 						desiredFrame.setTitle( "Unlimited pulls remaining" );
 					else

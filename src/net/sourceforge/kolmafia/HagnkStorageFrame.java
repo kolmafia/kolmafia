@@ -57,6 +57,7 @@ public class HagnkStorageFrame extends KoLFrame
 {
 	private JTabbedPane tabs;
 	private HagnkStoragePanel all, equip;
+	private static String lastTitle = "";
 
 	public HagnkStorageFrame( KoLmafia client )
 	{
@@ -64,6 +65,8 @@ public class HagnkStorageFrame extends KoLFrame
 
 		if ( client != null && KoLCharacter.getStorage().isEmpty() )
 			(new RequestThread( new ItemStorageRequest( client ) )).start();
+		else
+			setTitle( lastTitle );
 
 		// Finally, add the actual content to the
 		// storage frame.
@@ -77,6 +80,14 @@ public class HagnkStorageFrame extends KoLFrame
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
+	}
+
+	public void setTitle( String title )
+	{
+		super.setTitle( title );
+
+		if ( title.indexOf( "pull" ) != -1 )
+			lastTitle = title;
 	}
 
 	private class HagnkStoragePanel extends MultiButtonPanel
