@@ -209,7 +209,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void updateDisplay( int state, String message )
 	{
-		if ( this.currentState != ABORT_STATE && state != NULL_STATE )
+		if ( this.currentState != ABORT_STATE && state != NULL_STATE && state != ENABLE_STATE )
 			this.currentState = state;
 
 		if ( !message.equals( "" ) )
@@ -970,8 +970,9 @@ public abstract class KoLmafia implements KoLConstants
 
 			// Now you know for certain that you did not reach the
 			// desired value.  There will be an error message that
-			// is left over from previous attempts -- leave it.
+			// is left over from previous attempts.
 
+			updateDisplay( ERROR_STATE, "" );
 			return false;
 		}
 		catch ( Exception e )
@@ -1013,7 +1014,10 @@ public abstract class KoLmafia implements KoLConstants
 		if ( technique == MPRestoreItemList.BEANBAG || technique == MPRestoreItemList.HOUSE || technique == HPRestoreItemList.HOUSE )
 		{
 			if ( KoLCharacter.getAdventuresLeft() == 0 )
+			{
+				DEFAULT_SHELL.updateDisplay( "Insufficient adventures for " + technique );
 				return;
+			}
 		}
 		else if ( technique != MPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.GALAKTIK )
 		{
@@ -1023,7 +1027,10 @@ public abstract class KoLmafia implements KoLConstants
 				// auto-purchase the item from the mall.
 
 				if ( !KoLCharacter.canInteract() || !StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+				{
+					DEFAULT_SHELL.updateDisplay( "Insufficient " + technique + " for auto-restore." );
 					return;
+				}
 			}
 		}
 
