@@ -51,14 +51,12 @@ import java.util.Set;
 
 public class TradeableItemDatabase extends KoLDatabase
 {
-	public static final int ITEM_COUNT = 2000;
+	private static IntegerArray useTypeByID = new IntegerArray();
+	private static IntegerArray priceByID = new IntegerArray();
+	private static StringArray descByID = new StringArray();
 
-	private static int [] consumptionID = new int[ ITEM_COUNT ];
-	private static int [] priceByID = new int[ ITEM_COUNT ];
-	private static String [] descByID = new String[ ITEM_COUNT ];
-
-	private static Map itemByID = new TreeMap();
-	private static Map itemByName = new TreeMap();
+	private static Map nameByItemID = new TreeMap();
+	private static Map itemIDByName = new TreeMap();
 
 	static
 	{
@@ -75,14 +73,14 @@ public class TradeableItemDatabase extends KoLDatabase
 		{
 			if ( data.length == 4 )
 			{
-                                int itemID = Integer.parseInt( data[0] );
+				int itemID = Integer.parseInt( data[0] );
 				Integer id = new Integer( itemID );
 
-				consumptionID[ itemID ] = Integer.parseInt( data[2] );
-				priceByID[ itemID ] = Integer.parseInt( data[3] );
+				useTypeByID.set( itemID, Integer.parseInt( data[2] ) );
+				priceByID.set( itemID, Integer.parseInt( data[3] ) );
 
-				itemByID.put( id, getDisplayName( data[1] ) );
-				itemByName.put( getCanonicalName( data[1] ), id );
+				itemIDByName.put( getCanonicalName( data[1] ), id );
+				nameByItemID.put( id, getDisplayName( data[1] ) );
 			}
 		}
 
@@ -112,7 +110,7 @@ public class TradeableItemDatabase extends KoLDatabase
 						isDescriptionID = false;
 
 				if ( isDescriptionID )
-					descByID[ Integer.parseInt( data[0].trim() ) ] = data[1];
+					descByID.set( Integer.parseInt( data[0].trim() ), data[1] );
 			}
 		}
 
@@ -137,12 +135,14 @@ public class TradeableItemDatabase extends KoLDatabase
 	{
 		KoLmafia.getLogStream().println( "New item: \"" + itemName + "\" (" + itemID + ")" );
 
-		consumptionID[ itemID ] = 0;
-		priceByID[ itemID ] = 0;
+		useTypeByID.set( itemID, 0 );
+		priceByID.set( itemID, 0 );
+		descByID.set( itemID, "" );
 
 		Integer id = new Integer( itemID );
-		itemByID.put( id, getDisplayName ( itemName ) );
-		itemByName.put( getCanonicalName( itemName ), id );
+
+		itemIDByName.put( getCanonicalName( itemName ), id );
+		nameByItemID.put( id, getDisplayName( itemName ) );
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// to parse based on that.
 
 		String canonicalName = getCanonicalName( itemName );
-		Object itemID = itemByName.get( canonicalName );
+		Object itemID = itemIDByName.get( canonicalName );
 
 		// If the name, as-is, exists in the item database,
 		// then go ahead and return the item ID.
@@ -259,12 +259,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "es-", "-" ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "es-", "-" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "s-", "-" ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "s-", "-" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -274,7 +274,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// also have "ee" plural forms should be clumped
 		// in as well.
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "ee", "oo" ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ee", "oo" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -283,7 +283,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// "vortices" -- this should only appear in the
 		// meat vortex, but better safe than sorry.
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "ices", "ex" ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ices", "ex" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -292,7 +292,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// of appendix, not appendex, so it is not caught
 		// by the previous test).
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "ices", "ix" ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ices", "ix" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -300,7 +300,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Also add in a special handling for knives
 		// and other things ending in "ife".
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "ives", "ife" ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ives", "ife" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -308,7 +308,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Also add in a special handling for elves
 		// and other things ending in "f".
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "ves", "f" ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ves", "f" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -316,7 +316,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// Also add in a special handling for staves
 		// and other things ending in "aff".
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "aves", "aff" ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "aves", "aff" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -326,12 +326,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		// item ID for the "y" version.
 
 		if ( canonicalName.endsWith( "ies" ) )
-			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y" );
+			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y" );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "ies ", "y " ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ies ", "y " ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -341,12 +341,12 @@ public class TradeableItemDatabase extends KoLDatabase
 		// item ID for the "o" version.
 
 		if ( canonicalName.endsWith( "es" ) )
-			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
+			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "es ", " " ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "es ", " " ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -355,7 +355,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// ends with "an", then return the appropriate
 		// item ID for the "en" version.
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "en ", "an " ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "en ", "an " ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -363,13 +363,13 @@ public class TradeableItemDatabase extends KoLDatabase
 		// If it's a standard pluralized forms, then
 		// return the appropriate item ID.
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
 		if ( canonicalName.endsWith( "s" ) )
-			itemID = itemByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
+			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -377,7 +377,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		// If it's a cactus, then go ahead and return
 		// the appropriate cactus-type ID.
 
-		itemID = itemByName.get( canonicalName.replaceFirst( "cacti", "cactus" ) );
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "cacti", "cactus" ) );
 
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
@@ -396,7 +396,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final int getPriceByID( int itemID )
-	{	return itemID < 0 ? 0 : priceByID[ itemID ];
+	{	return priceByID.get( itemID );
 	}
 
 	/**
@@ -407,8 +407,8 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static final String getItemName( int itemID )
 	{
-		return itemID < 0 || itemID > ITEM_COUNT ? null :
-			itemID == 41 ? "ice-cold beer (Schlitz)" : itemID == 81 ? "ice-cold beer (Willer)" : (String)itemByID.get( new Integer ( itemID ) );
+		return itemID == 41 ? "ice-cold beer (Schlitz)" : itemID == 81 ? "ice-cold beer (Willer)" :
+			(String) nameByItemID.get( new Integer( itemID ) );
 	}
 
 	/**
@@ -418,7 +418,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final List getMatchingNames( String substring )
-	{	return getMatchingNames( itemByName, substring );
+	{	return getMatchingNames( itemIDByName, substring );
 	}
 
 	/**
@@ -448,7 +448,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID < 1 )
 			return false;
 
-		switch ( consumptionID[ itemID ] )
+		switch ( useTypeByID.get( itemID ) )
 		{
 			case ConsumeItemRequest.CONSUME_EAT:
 			case ConsumeItemRequest.CONSUME_DRINK:
@@ -470,7 +470,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final int getConsumptionType( int itemID )
-	{	return itemID == -1 ? ConsumeItemRequest.NO_CONSUME : consumptionID[ itemID ];
+	{	return itemID == -1 ? ConsumeItemRequest.NO_CONSUME : useTypeByID.get( itemID );
 	}
 
 	public static final int getConsumptionType( String itemName )
@@ -485,14 +485,15 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final String getDescriptionID( int itemID )
-	{	return itemID == -1 || itemID >= ITEM_COUNT ? "" : descByID[ itemID ];
+	{	return descByID.get( itemID );
 	}
 
 	/**
 	 * Returns the set of items keyed by name
 	 * @return	The set of items keyed by name
 	 */
+
 	public static Set entrySet()
-	{	return itemByID.entrySet();
+	{	return nameByItemID.entrySet();
 	}
 }

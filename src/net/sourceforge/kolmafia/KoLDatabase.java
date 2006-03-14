@@ -237,4 +237,52 @@ public class KoLDatabase extends StaticEntity
 	public static final double calculateAverage( List values )
 	{	return (double)calculateTotal( values ) / (double)values.size();
 	}
+
+	/**
+	 * Internal class which functions exactly an array of integers,
+	 * except it uses "sets" and "gets" like a list.  This could be
+	 * done with generics (Java 1.5) but is done like this so that
+	 * we get backwards compatibility.
+	 */
+
+	protected static class IntegerArray
+	{
+		private ArrayList internalList = new ArrayList();
+
+		public int get( int index )
+		{	return index < 0 || index >= internalList.size() ? -1 : ((Integer)internalList.get( index )).intValue();
+		}
+
+		public void set( int index, int value )
+		{
+			while ( index >= internalList.size() )
+				internalList.add( new Integer(0) );
+
+			internalList.set( index, new Integer( value ) );
+		}
+	}
+
+	/**
+	 * Internal class which functions exactly an array of strings,
+	 * except it uses "sets" and "gets" like a list.  This could be
+	 * done with generics (Java 1.5) but is done like this so that
+	 * we get backwards compatibility.
+	 */
+
+	protected static class StringArray
+	{
+		private ArrayList internalList = new ArrayList();
+
+		public String get( int index )
+		{	return index < 0 || index >= internalList.size() ? null : (String) internalList.get( index );
+		}
+
+		public void set( int index, String value )
+		{
+			while ( index >= internalList.size() )
+				internalList.add( "" );
+
+			internalList.set( index, value );
+		}
+	}
 }

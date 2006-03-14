@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.StringTokenizer;
@@ -49,21 +50,60 @@ public class SpecialOutfit implements Comparable
 {
 	private int outfitID;
 	private String outfitName;
+	private ArrayList pieces;
 
+	public static final String NO_CHANGE = " - No Change - ";
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit();
 
 	private SpecialOutfit()
 	{
 		this.outfitID = Integer.MAX_VALUE;
 		this.outfitName = "Birthday Suit";
+		this.pieces = new ArrayList();
 	}
-
-	public static final String NO_CHANGE = " - No Change - ";
 
 	public SpecialOutfit( int outfitID, String outfitName )
 	{
 		this.outfitID = outfitID;
 		this.outfitName = outfitName;
+		this.pieces = new ArrayList();
+	}
+
+	public boolean hasAllPieces()
+	{
+		for ( int i = 0; i < pieces.size(); ++i )
+			if ( !KoLCharacter.hasItem( (AdventureResult) pieces.get(i), false ) || !EquipmentDatabase.canEquip( ((AdventureResult) pieces.get(i)).getName() ) )
+				return false;
+
+		return true;
+	}
+
+	public boolean isWearing()
+	{
+		for ( int i = 0; i < pieces.size(); ++i )
+			if ( !KoLCharacter.hasEquipped( (AdventureResult) pieces.get(i) ) )
+				return false;
+
+		return true;
+	}
+
+	public String [] getMissingPieces()
+	{
+		ArrayList missingPieces = new ArrayList();
+		for ( int i = 0; i < pieces.size(); ++i )
+			if ( !KoLCharacter.hasItem( (AdventureResult) pieces.get(i), false ) )
+				missingPieces.add( (AdventureResult) pieces.get(i) );
+
+		String [] missingArray = new String[ missingPieces.size() ];
+		for ( int i = 0; i < missingArray.length; ++i )
+			missingArray[i] = ((AdventureResult) pieces.get(i)).getName();
+
+		return missingArray;
+	}
+
+
+	public void addPiece( AdventureResult piece )
+	{	this.pieces.add( piece );
 	}
 
 	public String toString()
