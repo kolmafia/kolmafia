@@ -186,7 +186,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "browserBookmarks", "" );
 		ensureProperty( "buffBotCasting", "" );
 		ensureProperty( "buffBotMessageDisposal", "0" );
-		ensureProperty( "buffBotMPRestore", "doc galaktik" );
+		ensureProperty( "buffBotMPRestore", "" );
 		ensureProperty( "chatStyle", "0" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		ensureProperty( "cloverProtectActive", "false" );
@@ -198,7 +198,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "forceReconnect", "false" );
 		ensureProperty( "hpAutoRecover", "-0.1" );
 		ensureProperty( "hpRecoveryScript", "" );
-		ensureProperty( "hpRestoreItems", "doc galaktik" );
+		ensureProperty( "hpRestoreItems", "" );
 		ensureProperty( "highlightList", "" );
 		ensureProperty( "http.proxyHost", "" );
 		ensureProperty( "http.proxyPort", "" );
