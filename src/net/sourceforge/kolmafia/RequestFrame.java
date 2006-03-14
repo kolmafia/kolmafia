@@ -476,7 +476,6 @@ public class RequestFrame extends KoLFrame
 			// is seen in the response text, or in the event that you
 			// switch between compact and full mode, refresh the sidebar.
 
-			KoLCharacter.refreshCalculatedLists();
 			String location = request.getURLString();
 
 			if ( hasSideBar )
@@ -505,6 +504,8 @@ public class RequestFrame extends KoLFrame
 
 			if ( lastResponseText.indexOf( "You leargn a new skill." ) != -1 )
 			     (new CharsheetRequest( client )).run();
+
+			KoLCharacter.refreshCalculatedLists();
 		}
 	}
 
