@@ -468,6 +468,13 @@ public class RequestFrame extends KoLFrame
 				visitedLocations.remove( currentLocation );
 
 			visitedLocations.add( request );
+
+			// Only allow 11 locations in the locations buffer.  That
+			// way, memory doesn't get sucked up by synchronization.
+
+			while ( visitedLocations.size() > 11 )
+				visitedLocations.remove( request );
+
 			locationField.setText( request.getURLString() );
 			currentLocation = visitedLocations.size();
 
