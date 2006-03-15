@@ -1291,6 +1291,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		if ( location.startsWith( "search" ) ||
 		     location.startsWith( "desc" ) ||
+		     location.startsWith( "static" ) ||
 		     location.startsWith( "showplayer" ) )
 		{
 			parameters = new Object[3];
@@ -1766,7 +1767,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[6];
+			JComponent [] headers = new JComponent[9];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
@@ -1779,6 +1780,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			headers[4] = new DisplayRequestMenuItem( "Weird Records Board", "records.php?which=0" );
 			headers[5] = new DisplayRequestMenuItem( "View Mall Store Log", "storelog.php" );
+
+
+			headers[6] = new JSeparator();
+			headers[7] = new DisplayRequestMenuItem( "Old Announcements", "static.php?id=oldannouncements" );
+			headers[8] = new DisplayRequestMenuItem( "Trivial updates", "static.php?id=trivial" );
 
 			return headers;
 		}

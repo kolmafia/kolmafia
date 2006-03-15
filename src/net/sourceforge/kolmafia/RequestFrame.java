@@ -109,6 +109,7 @@ public class RequestFrame extends KoLFrame
 
 		this.hasSideBar = getClass() == RequestFrame.class &&
 			request != null &&
+			!request.getURLString().startsWith( "static" ) &&
 			!request.getURLString().startsWith( "desc" ) &&
 			!request.getURLString().startsWith( "showplayer" ) &&
 			!request.getURLString().startsWith( "doc" ) &&

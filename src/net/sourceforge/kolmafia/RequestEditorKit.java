@@ -753,7 +753,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// compiled string.  Print it to the debug log for
 		// reference purposes.
 
-		KoLmafia.getLogStream().println( displayHTML.replaceAll( StaticEntity.client.getPasswordHash(), "" ) );
+		String pwd = StaticEntity.client.getPasswordHash();
+		String text = pwd == null ? displayHTML : displayHTML.replaceAll( pwd, "" );
+		KoLmafia.getLogStream().println( text );
+
 		return displayHTML;
 	}
 
