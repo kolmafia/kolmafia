@@ -232,7 +232,7 @@ public class RequestFrame extends KoLFrame
 		if ( this.hasSideBar )
 		{
 			REFRESHER.add( this );
-			REFRESHER.run();
+			refreshStatus();
 		}
 
 		(new DisplayRequestThread( this.currentRequest )).start();
@@ -585,11 +585,6 @@ public class RequestFrame extends KoLFrame
 	{
 		public void run()
 		{
-			if ( isEmpty() || lastResponseText.equals( client.getCurrentRequest().responseText ) )
-				return;
-
-			lastResponseText = client.getCurrentRequest().responseText;
-
 			RequestFrame [] frames = new RequestFrame[ this.size() ];
 			toArray( frames );
 
@@ -602,14 +597,25 @@ public class RequestFrame extends KoLFrame
 				{
 					frames[i].sideBuffer.clearBuffer();
 					frames[i].sideBuffer.append( getDisplayHTML( instance.responseText ) );
-					frames[i].sideDisplay.setCaretPosition(0);
+					frames[i].sideDisplay.setCaretPosition( 0 );
 				}
 			}
 		}
 	}
 
 	public static void refreshStatus()
-	{	REFRESHER.run();
+	{
+		if ( REFRESHER.isEmpty() )
+			return;
+
+		if ( lastResponseText.equals( "<!-- NON-EMPTY -->" ) )
+			return;
+
+		if ( !lastResponseText.equals( "" ) && lastResponseText.equals( client.getCurrentRequest().responseText ) )
+			return;
+
+		lastResponseText = client.getCurrentRequest() == null ? "<!-- NON-EMPTY -->" : client.getCurrentRequest().responseText;
+		(new RequestThread( REFRESHER )).start();
 	}
 
 	public static boolean willRefreshStatus()
