@@ -210,7 +210,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( formSource.equals( "lair6.php" ) )
 		{
-			if ( !KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "wand" ) )
+			if ( !KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "wand" ) &&
+				 !KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).startsWith( "wand" ) )
 			{
 				AdventureDatabase.retrieveItem( WAND );
 				if ( !client.permitsContinue() )
