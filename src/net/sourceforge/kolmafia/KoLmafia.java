@@ -126,9 +126,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected LockableListModel adventureList = new LockableListModel();
 	protected SortedListModel encounterList = new SortedListModel();
 
-	private int faucetRow;
-	private int faucetColumn;
-
 	/**
 	 * The main method.  Currently, it instantiates a single instance
 	 * of the <code>KoLmafiaGUI</code>.
@@ -1331,7 +1328,7 @@ public abstract class KoLmafia implements KoLConstants
 				// However, if the request frame will refresh the
 				// player's status, then do not refresh.
 
-				shouldRefreshStatus &= !RequestFrame.willRefresh();
+				shouldRefreshStatus &= !RequestFrame.willRefreshStatus();
 
 				// If it turns out that you need to refresh the player's
 				// status, go ahead and refresh it.
@@ -1483,21 +1480,21 @@ public abstract class KoLmafia implements KoLConstants
 	 * Completes the infamous tavern quest.
 	 */
 
-	public int locateTavernFaucetASH()
+	public int locateTavernFaucet()
 	{
-		faucetRow = 0;
-		faucetColumn = 0;
+		int faucetRow = 0;
+		int faucetColumn = 0;
 
-		locateTavernFaucet();
-		return ( faucetRow - 1 ) * 5 + (faucetColumn - 1);
-	}
-
-	public void locateTavernFaucet()
-	{
 		if ( KoLCharacter.getLevel() < 3 )
 		{
 			updateDisplay( ERROR_STATE, "You need to level up first." );
-			return;
+			return -1;
+		}
+
+		if ( KoLCharacter.getAdventuresLeft() < 25 )
+		{
+			updateDisplay( ERROR_STATE, "You need to have at least 25 adventures to find the faucet." );
+			return -1;
 		}
 
 		(new KoLRequest( this, "council.php", true )).run();
@@ -1529,13 +1526,16 @@ public abstract class KoLmafia implements KoLConstants
 		// If you successfully find the location of the
 		// rat faucet, then you've got it.
 
-		if ( KoLCharacter.getCurrentHP() > 0 )
+		if ( permitsContinue() )
 		{
 			KoLCharacter.processResult( new AdventureResult( AdventureResult.ADV, 1 ) );
 			faucetRow = (int) ((searchIndex.intValue() - 1) / 5) + 1;
 			faucetColumn = (searchIndex.intValue() - 1) % 5 + 1;
 			updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
+			return ( faucetRow - 1 ) * 5 + (faucetColumn - 1);
 		}
+
+		return -1;
 	}
 
 	/**

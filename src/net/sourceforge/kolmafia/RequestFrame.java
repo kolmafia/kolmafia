@@ -607,11 +607,11 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
-	public static void refresh()
+	public static void refreshStatus()
 	{	REFRESHER.run();
 	}
 
-	public static boolean willRefresh()
+	public static boolean willRefreshStatus()
 	{	return !REFRESHER.isEmpty();
 	}
 

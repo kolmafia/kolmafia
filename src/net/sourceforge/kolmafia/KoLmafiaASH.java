@@ -2538,7 +2538,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			int result;
 
-			result = StaticEntity.getClient().locateTavernFaucetASH();
+			result = StaticEntity.getClient().locateTavernFaucet();
 			return new ScriptValue( TYPE_INT, client.permitsContinue() ? result : -1 );
 		}
 

@@ -1000,7 +1000,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 
 		if ( statusChanged )
-			RequestFrame.refresh();
+			RequestFrame.refreshStatus();
 	}
 
 	/**
