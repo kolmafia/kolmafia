@@ -52,10 +52,10 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	// Things to be checked/confirmed:
 	//
-	// 1) The brass bowling trophy, model ship, and carved driftwood bird
-	//    have all been seen and confirmed by me. The brick building and
-	//    white house have been reported, but not actually successfully
-	//    used, yet, by this script.
+	// 1) The brass bowling trophy, model ship, white house, and carved
+	//    driftwood bird have all been seen and confirmed by me. The brick
+	//    building has been reported, but not actually successfully used,
+	//    yet, by this script.
 
 	// There are ten locations within the Strange Leaflet:
 
@@ -213,7 +213,9 @@ public abstract class StrangeLeaflet extends StaticEntity
 		sword = response.indexOf( "An ornate sword" ) != -1 &&
 			response.indexOf( "hangs above the mantel" ) == -1;
 		torch = response.indexOf( "A burning torch" ) != -1;
-		stick = torch || response.indexOf( "A hefty stick" ) != -1;
+		stick = torch ||
+			( response.indexOf( "A hefty stick" ) != -1 &&
+			  response.indexOf( "lies on the ground" ) == -1 );
 		boots = response.indexOf( "A pair of large rubber wading boots" ) != -1;
 		wornboots = boots && response.indexOf( "boots (equipped)" ) != -1;
 		parchment = response.indexOf( "A piece of parchment" ) != -1;
