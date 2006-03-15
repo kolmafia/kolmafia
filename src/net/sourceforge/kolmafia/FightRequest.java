@@ -51,7 +51,7 @@ public class FightRequest extends KoLRequest
 
 	private String action;
 	private int roundCount;
-	private static String encounter;
+	private static String encounter = "";
 
 	private static final String [] RARE_MONSTERS =
 	{ "baiowulf", "crazy bastard", "hockey elemental", "hypnotist of hey deze", "infinite meat bug" };
