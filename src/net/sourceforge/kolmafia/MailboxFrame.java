@@ -439,8 +439,18 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				String rawText = displayed.getMessageHTML();
 				int start = rawText.indexOf( "<br><br>" ) + 8;
 				String text =  rawText.substring( start );
-				String quotedMessage = "> " + text.replaceAll( "<b>", " " ).replaceAll( "<br>", LINE_BREAK + "> " ).replaceAll( "><", "" ).replaceAll( "<.*?>", LINE_BREAK );
-				parameters[2] = quotedMessage;
+
+				// Replace <br> tags with a line break and
+				// quote the following line
+				text = text.replaceAll( "<br>", LINE_BREAK + "> " );
+
+				// Remove all other HTML tags
+				text = text.replaceAll( "><", "" ).replaceAll( "<.*?>", "" );
+
+				// Quote first line and end with a line break
+				text = "> " + text + LINE_BREAK;
+
+				parameters[2] = text;
 			}
 
 			(new CreateFrameRunnable( GreenMessageFrame.class, parameters )).run();
