@@ -90,7 +90,26 @@ public abstract class SendMessageRequest extends KoLRequest
 		super( client, formSource );
 
 		this.meatAttachment = meatAttachment;
-		this.attachments = attachments;
+
+		// Check to see if there are any meat attachments in the
+		// list of items to be sent.
+
+		int currentSize = attachments.length;
+		for ( int i = 0; i < attachments.length; ++i )
+		{
+			if ( ((AdventureResult)attachments[i]).getName().equals( AdventureResult.MEAT ) )
+			{
+				this.meatAttachment += ((AdventureResult)attachments[i]).getCount();
+				--currentSize;
+			}
+		}
+
+		this.attachments = new Object[ currentSize ];
+		currentSize = 0;
+
+		for ( int i = 0; i < attachments.length; ++i )
+			if ( !((AdventureResult)attachments[i]).getName().equals( AdventureResult.MEAT ) )
+				this.attachments[ currentSize++ ] = attachments[i];
 
 		this.source = KoLCharacter.getInventory();
 		this.destination = new ArrayList();

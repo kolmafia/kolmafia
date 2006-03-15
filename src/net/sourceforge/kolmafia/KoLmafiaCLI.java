@@ -1165,44 +1165,22 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			String [] itemNames = splitParameters[0].split( "\\s*,\\s*" );
-			for ( int i = 0; i < itemNames.length; ++i )
-				itemNames[i] = itemNames[i].toLowerCase();
-
-			int meatAttachment = 0;
-			ArrayList attachments = new ArrayList();
-
-			try
-			{
-				for ( int i = 0; i < itemNames.length; ++i )
-				{
-					if ( itemNames[i].endsWith( "meat" ) )
-						meatAttachment += df.parse( itemNames[i].split( " " )[0] ).intValue();
-					else
-						AdventureResult.addResultToList( attachments, getFirstMatchingItem( itemNames[i], INVENTORY ) );
-				}
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
+			Object [] attachments = getMatchingItemList( splitParameters[0], INVENTORY );
+			if ( attachments.length == 0 )
 				return;
-			}
 
 			unrepeatableCommands.add( "send " + parameters );
 
-			(new GreenMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.",
-				attachments.toArray(), meatAttachment, false )).run();
+			(new GreenMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", attachments, 0, false )).run();
 
 			if ( StaticEntity.getClient().permitsContinue() )
 				updateDisplay( "Message sent to " + splitParameters[1] );
 			else
 			{
-				int desiredPackageIndex = Math.min( GiftMessageRequest.PACKAGES.size() - 1, attachments.size() );
+				int desiredPackageIndex = Math.min( GiftMessageRequest.PACKAGES.size() - 1, attachments.length );
 
 				(new GiftMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", "You are awesome.",
-					GiftMessageRequest.PACKAGES.get( desiredPackageIndex ), attachments.toArray(), meatAttachment )).run();
+					GiftMessageRequest.PACKAGES.get( desiredPackageIndex ), attachments, 0 )).run();
 
 				if ( StaticEntity.getClient().permitsContinue() )
 					updateDisplay( "Gift sent to " + splitParameters[1] );
@@ -2715,7 +2693,18 @@ public class KoLmafiaCLI extends KoLmafia
 
 		for ( int i = 0; i < itemNames.length; ++i )
 		{
-			firstMatch = getFirstMatchingItem( itemNames[i], location );
+			try
+			{
+				if ( itemNames[i].equals( "meat" ) )
+					firstMatch = new AdventureResult( AdventureResult.MEAT, df.parse( itemNames[i].split( " " )[0] ).intValue() );
+				else
+					firstMatch = getFirstMatchingItem( itemNames[i], location );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace();
+				e.printStackTrace( KoLmafia.getLogStream() );
+			}
 
 			if ( firstMatch == null )
 				continue;
