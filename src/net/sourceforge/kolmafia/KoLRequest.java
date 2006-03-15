@@ -455,8 +455,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( responseCode == 200 )
 		{
-			processResults();
-
 			// Synchronize if requested
 
 			if ( !isDelayExempt() )
@@ -464,6 +462,8 @@ public class KoLRequest implements Runnable, KoLConstants
 				client.setCurrentRequest( this );
 				showInBrowser( false );
 			}
+
+			processResults();
 		}
 	}
 
