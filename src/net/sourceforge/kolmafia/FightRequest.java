@@ -148,6 +148,9 @@ public class FightRequest extends KoLRequest
 			{
 				addFormField( "action", "useitem" );
 				addFormField( "whichitem", String.valueOf( itemID ) );
+
+				if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) && !hasActionCost( itemID ) )
+					addFormField( "whichitem2", String.valueOf( itemID ) );
 			}
 		}
 
@@ -302,6 +305,24 @@ public class FightRequest extends KoLRequest
 		return ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action ) );
 	}
 
+	private boolean hasActionCost( int itemID )
+	{
+		switch ( itemID )
+		{
+			case 2:		// Seal Tooth
+			case 4:		// Scroll of Turtle Summoning
+			case 8:		// Spices
+			case 536:	// Dictionary 1
+			case 1316:	// Dictionary 2
+
+				return false;
+
+			default:
+
+				return true;
+		}
+	}
+
 	private void payActionCost()
 	{
 		if ( action.equals( "attack" ) || action.equals( "runaway" ) )
@@ -311,20 +332,9 @@ public class FightRequest extends KoLRequest
 		{
 			int itemID = Integer.parseInt( action.substring( 4 ) );
 
-			switch ( itemID )
-			{
-				case 2:		// Seal Tooth
-				case 4:		// Scroll of Turtle Summoning
-				case 8:		// Spices
-				case 536:	// Dictionary 1
-				case 1316:	// Dictionary 2
+			if ( hasActionCost( itemID ) )
+				client.processResult( new AdventureResult( itemID, -1 ) );
 
-					return;
-			}
-
-			// Everything else is consumed
-
-			client.processResult( new AdventureResult( itemID, -1 ) );
 			return;
 		}
 
