@@ -851,7 +851,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					e.printStackTrace();
 				}
 
-				statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && responseText.indexOf( "charpane.php" ) != -1;
+				statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && replyBuffer.toString().indexOf( "charpane.php" ) != -1;
 				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
 				if ( client != null && client.getPasswordHash() != null )
