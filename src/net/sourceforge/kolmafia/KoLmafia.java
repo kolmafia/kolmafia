@@ -99,6 +99,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected PrintStream macroStream;
 	protected Properties LOCAL_SETTINGS = new Properties();
 
+	private String currentIterationString = "";
 	private int currentState = CONTINUE_STATE;
 
 	protected int [] initialStats = new int[3];
@@ -883,14 +884,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	private final boolean recover( int needed, String currentName, String maximumName, String scriptProperty, String listProperty, Class techniqueList )
 	{
-		// Do not attempt recovery if the person has an
-		// auto-halting script and they are below the
-		// needed health.
-
-		int haltTolerance = (int)( Double.parseDouble( StaticEntity.getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
-		if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
-			return false;
-
 		try
 		{
 			Object [] empty = new Object[0];
@@ -911,9 +904,9 @@ public abstract class KoLmafia implements KoLConstants
 			// the stat and makes sure that there's a change with every iteration.
 			// If there is no change, it exists the loop.
 
-			String scriptPath = settings.getProperty( scriptProperty );
+			String scriptPath = settings.getProperty( scriptProperty ).trim();
 
-			if ( !scriptPath.trim().equals( "" ) )
+			if ( !scriptPath.equals( "" ) )
 			{
 				last = -1;
 				current = ((Number)currentMethod.invoke( null, empty )).intValue();
@@ -925,38 +918,36 @@ public abstract class KoLmafia implements KoLConstants
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 				}
 			}
-			else
+
+			// If it gets this far, then you should attempt to recover
+			// using the selected items.  This involves a few extra
+			// reflection methods.
+
+			String restoreSetting = settings.getProperty( listProperty ).trim();
+
+			int totalRestores = ((Number)techniqueList.getMethod( "size", new Class[0] ).invoke( null, empty )).intValue();
+			Method getMethod = techniqueList.getMethod( "get", new Class [] { Integer.TYPE } );
+
+			// Iterate through every single restore item, checking to
+			// see if the settings wish to use this item.  If so, go ahead
+			// and process the item's usage.
+
+			Object currentTechnique;
+
+			for ( int i = 0; i < totalRestores; ++i )
 			{
-				// If it gets this far, then you should attempt to recover
-				// using the selected items.  This involves a few extra
-				// reflection methods.
+				currentTechnique = getMethod.invoke( null, new Integer [] { new Integer(i) } );
 
-				String restoreSetting = settings.getProperty( listProperty );
-
-				int totalRestores = ((Number)techniqueList.getMethod( "size", new Class[0] ).invoke( null, empty )).intValue();
-				Method getMethod = techniqueList.getMethod( "get", new Class [] { Integer.TYPE } );
-
-				// Iterate through every single restore item, checking to
-				// see if the settings wish to use this item.  If so, go ahead
-				// and process the item's usage.
-
-				Object currentTechnique;
-
-				for ( int i = 0; i < totalRestores; ++i )
+				if ( restoreSetting.indexOf( currentTechnique.toString() ) != -1 )
 				{
-					currentTechnique = getMethod.invoke( null, new Integer [] { new Integer(i) } );
+					last = -1;
+					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 
-					if ( restoreSetting.indexOf( currentTechnique.toString() ) != -1 )
+					while ( current < needed && last != current && currentState != ABORT_STATE )
 					{
-						last = -1;
+						last = current;
+						recoverOnce( currentTechnique );
 						current = ((Number)currentMethod.invoke( null, empty )).intValue();
-
-						while ( current < needed && last != current && currentState != ABORT_STATE )
-						{
-							last = current;
-							recoverOnce( currentTechnique );
-							current = ((Number)currentMethod.invoke( null, empty )).intValue();
-						}
 					}
 				}
 			}
@@ -966,9 +957,15 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( current >= needed && currentState != ABORT_STATE )
 			{
-				updateDisplay( "Auto-recovery complete." );
+				updateDisplay( currentIterationString );
 				return true;
 			}
+
+			// If you failed to auto-recover and there are no settings,
+			// make sure the user is aware of this.
+
+			if ( scriptPath.equals( "" ) && restoreSetting.equals( "" ) )
+				updateDisplay( ERROR_STATE, "No auto-restore settings found." );
 
 			// Now you know for certain that you did not reach the
 			// desired value.  There will be an error message that
@@ -1275,7 +1272,7 @@ public abstract class KoLmafia implements KoLConstants
 				// have different displays.  They are handled here.
 
 				if ( request instanceof KoLAdventure )
-					updateDisplay( "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress..." );
+					currentIterationString = "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress...";
 
 				else if ( request instanceof ConsumeItemRequest )
 				{
@@ -1284,10 +1281,15 @@ public abstract class KoLmafia implements KoLConstants
 						(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
 
 					if ( iterations == 1 )
-						updateDisplay( useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().toString() + "..." );
+						currentIterationString = useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().toString() + "...";
 					else
-						updateDisplay( useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getName() + " (" + currentIteration + " of " + iterations + ")..." );
+						currentIterationString = useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getName() +
+							" (" + currentIteration + " of " + iterations + ")...";
 				}
+				else
+					currentIterationString = "";
+
+				updateDisplay( currentIterationString );
 
 				request.run();
 				applyRecentEffects();
@@ -1332,6 +1334,8 @@ public abstract class KoLmafia implements KoLConstants
 				if ( shouldRefreshStatus )
 					(new CharpaneRequest( this )).run();
 			}
+
+			currentIterationString = "";
 
 			// If you've completed the requests, make sure to update
 			// the display.
