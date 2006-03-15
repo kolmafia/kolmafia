@@ -378,7 +378,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Cooking is permitted, so long as the person has a chef
 		// or they don't need a box servant and have an oven.
 
-		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF );
+		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, CLOCKWORK_CHEF );
 
 		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) )
 		{
@@ -400,7 +400,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Mixing is possible whenever the person has a bartender
 		// or they don't need a box servant and have a kit.
 
-		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER );
+		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
 
 		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded && KoLCharacter.getInventory().contains( KIT ) )
 		{
@@ -475,7 +475,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		ADVENTURE_USAGE[ ItemCreationRequest.TOY ] = 0;
 	}
 
-	private static boolean isAvailable( int servantID )
+	private static boolean isAvailable( int servantID, int clockworkID )
 	{
 		// If it's a base case, return whether or not the
 		// servant is already available at the camp.
@@ -495,10 +495,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// the given box servants is non-zero.	This works because
 		// cooking tests are made after item creation tests.
 
-		int available = concoctions.get( servantID ).total;
-		available += servantID == CHEF ? concoctions.get( CLOCKWORK_CHEF ).total : concoctions.get( CLOCKWORK_BARTENDER ).total;
-
-		return available != 0;
+		return concoctions.get( servantID ).total > 0 || concoctions.get( clockworkID ).total > 0;
 	}
 
 	/**
