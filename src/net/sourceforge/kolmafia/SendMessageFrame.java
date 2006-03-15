@@ -276,9 +276,12 @@ public abstract class SendMessageFrame extends KoLFrame
 				if ( !sendMessage( recipients[i], messages ) )
 					return;
 
-			recipientEntry.setSelectedIndex( -1 );
-			client.enableDisplay();
-			dispose();
+			if ( client.permitsContinue() )
+			{
+				recipientEntry.setSelectedIndex( -1 );
+				client.enableDisplay();
+				dispose();
+			}
 		}
 	}
 
