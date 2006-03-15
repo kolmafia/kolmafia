@@ -38,7 +38,6 @@ import java.util.regex.Pattern;
 public class UseSkillRequest extends KoLRequest implements Comparable
 {
 	private static final int WALRUS_TONGUE = 1010;
-
 	protected static String lastUpdate = "";
 
 	private int skillID;
@@ -66,10 +65,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( ClassSkillsDatabase.isBuff( skillID ) )
 		{
+			this.target = target;
 			addFormField( "bufftimes", "" + buffCount );
 
-			if ( target == null || target.trim().length() == 0 )
+			if ( target == null || target.trim().length() == 0 || target.equals( String.valueOf( KoLCharacter.getUserID() ) ) || target.equals( KoLCharacter.getUsername() ) )
 			{
+				this.target = "yourself";
 				if ( KoLCharacter.getUserID() != 0 )
 					addFormField( "targetplayer", String.valueOf( KoLCharacter.getUserID() ) );
 				else
@@ -79,9 +80,11 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				addFormField( "specificplayer", target );
 		}
 		else
+		{
 			addFormField( "quantity", "" + buffCount );
+			this.target = null;
+		}
 
-		this.target = target;
 		this.buffCount = buffCount < 1 ? 1 : buffCount;
 	}
 
@@ -109,12 +112,18 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Before executing the skill, ensure that all necessary mana is
 		// recovered in advance.
 
-		client.recoverMP();
+		client.recoverMP( ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount );
+
+		// If a continue is not permitted, then return from the attempt;
+		// you don't have enough mana for the cast.
+
+		if ( !client.permitsContinue() )
+			return;
 
 		if ( target == null || target.trim().length() == 0 )
 			DEFAULT_SHELL.updateDisplay( "Casting " + skillName + "..." );
 		else
-			DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " on " + target );
+			DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " on " + target + "..." );
 
 		super.run();
 
