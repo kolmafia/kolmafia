@@ -277,6 +277,7 @@ public abstract class SendMessageFrame extends KoLFrame
 					return;
 
 			recipientEntry.setSelectedIndex( -1 );
+			client.enableDisplay();
 			dispose();
 		}
 	}
