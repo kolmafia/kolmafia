@@ -318,6 +318,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		{
 			public void run()
 			{
+				// Logged out?
+				if ( mailBuffer == null )
+					return;
+
 				mailBuffer.clearBuffer();
 				int newIndex = getSelectedIndex();
 
