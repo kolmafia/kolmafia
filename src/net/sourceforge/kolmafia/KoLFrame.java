@@ -1060,6 +1060,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 				openRequestFrame( location );
 			}
+			else if ( location.equals( "lchat.php" ) )
+			{
+				KoLMessenger.initialize();
+			}
 			else if ( KoLFrame.this instanceof RequestFrame )
 			{
 				// If this is a request frame, make sure that
@@ -1767,24 +1771,20 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[9];
+			JComponent [] headers = new JComponent[6];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
 			headers[2] = new JSeparator();
 
+			headers[3] = new DisplayRequestMenuItem( "Announcements", "chatlaunch.php" );
+
 			if ( KoLFrame.this instanceof RequestFrame )
-				headers[3] = new DisplayRequestMenuItem( "Council of Loathing", "council.php" );
+				headers[4] = new DisplayRequestMenuItem( "Council of Loathing", "council.php" );
 			else
-				headers[3] = new DisplayFrameMenuItem( "Council of Loathing", CouncilFrame.class );
+				headers[4] = new DisplayFrameMenuItem( "Council of Loathing", CouncilFrame.class );
 
-			headers[4] = new DisplayRequestMenuItem( "Weird Records Board", "records.php?which=0" );
-			headers[5] = new DisplayRequestMenuItem( "View Mall Store Log", "storelog.php" );
-
-
-			headers[6] = new JSeparator();
-			headers[7] = new DisplayRequestMenuItem( "Old Announcements", "static.php?id=oldannouncements" );
-			headers[8] = new DisplayRequestMenuItem( "Trivial updates", "static.php?id=trivial" );
+			headers[5] = new DisplayRequestMenuItem( "Weird Records Board", "records.php?which=0" );
 
 			return headers;
 		}

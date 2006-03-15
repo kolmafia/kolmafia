@@ -46,6 +46,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public abstract class StoreManager extends StaticEntity
 {
 	private static long potentialEarnings = 0;
+	private static LockableListModel storeLog = new LockableListModel();
 	private static LockableListModel soldItemList = new SortedListModel();
 
 	public static void reset()
@@ -114,6 +115,10 @@ public abstract class StoreManager extends StaticEntity
 
 	public static LockableListModel getSoldItemList()
 	{	return soldItemList;
+	}
+
+	public static LockableListModel getStoreLog()
+	{	return storeLog;
 	}
 
 	public static void update( String storeText, boolean isPriceManagement )
@@ -214,6 +219,22 @@ public abstract class StoreManager extends StaticEntity
 		for ( int i = 0; i < frames.length; ++i )
 			if ( frames[i] instanceof StoreManageFrame )
 				frames[i].setTitle( "Store Manager (potential earnings: " + df.format( potentialEarnings ) + " meat)" );
+	}
+
+	public static void parseLog( String logText )
+	{
+		storeLog.clear();
+
+		Matcher logMatcher = Pattern.compile( "<span.*?</span>" ).matcher( logText );
+		if ( logMatcher.find() )
+		{
+			String [] entries = logMatcher.group().split( "<br>" );
+			for ( int i = 0; i < entries.length; ++i )
+				entries[i] = (entries.length - i - 1) + ":  " + entries[i].replaceAll( "<.*?>", "" );
+
+			for ( int i = entries.length - 2; i >= 0; --i )
+				storeLog.add( entries[i] );
+		}
 	}
 
 	/**

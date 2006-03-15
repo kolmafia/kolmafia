@@ -38,13 +38,23 @@ import java.util.regex.Pattern;
 
 public class StoreManageRequest extends KoLRequest
 {
+	private static final int ITEM_REMOVAL = 1;
+	private static final int PRICE_MANAGEMENT = 2;
+	private static final int VIEW_STORE_LOG = 3;
+
 	private int takenItemID;
-	private boolean isPriceManagement;
+	private int requestType;
 
 	public StoreManageRequest( KoLmafia client )
 	{
 		super( client, "manageprices.php" );
-		this.isPriceManagement = true;
+		this.requestType = PRICE_MANAGEMENT;
+	}
+
+	public StoreManageRequest( KoLmafia client, boolean isStoreLog )
+	{
+		super( client, isStoreLog ? "storelog.php" : "manageprices.php" );
+		this.requestType = VIEW_STORE_LOG;
 	}
 
 	public StoreManageRequest( KoLmafia client, int itemID )
@@ -52,7 +62,8 @@ public class StoreManageRequest extends KoLRequest
 		super( client, "managestore.php" );
 		addFormField( "action", "takeall" );
 		addFormField( "whichitem", String.valueOf( itemID ) );
-		this.isPriceManagement = false;
+
+		this.requestType = ITEM_REMOVAL;
 		this.takenItemID = itemID;
 	}
 
@@ -61,8 +72,8 @@ public class StoreManageRequest extends KoLRequest
 		super( client, "manageprices.php" );
 		addFormField( "action", "update" );
 		addFormField( "pwd" );
-		this.isPriceManagement = true;
 
+		this.requestType = PRICE_MANAGEMENT;
 		for ( int i = 0; i < itemID.length; ++i )
 		{
 			addFormField( "price" + itemID[i], String.valueOf( Math.max( prices[i], Math.max( TradeableItemDatabase.getPriceByID( itemID[i] ), 100 ) ) ) );
@@ -72,40 +83,64 @@ public class StoreManageRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( this.takenItemID > 0 )
-			DEFAULT_SHELL.updateDisplay( "Removing " + TradeableItemDatabase.getItemName( this.takenItemID ) + " from store..." );
-		else
-			DEFAULT_SHELL.updateDisplay( "Requesting store inventory..." );
+		switch ( requestType )
+		{
+			case ITEM_REMOVAL:
+				removeItem();
+				break;
+
+			case PRICE_MANAGEMENT:
+				managePrices();
+				break;
+
+			case VIEW_STORE_LOG:
+				viewStoreLogs();
+				break;
+		}
+	}
+
+	private void viewStoreLogs()
+	{
+		DEFAULT_SHELL.updateDisplay( "Examining store logs..." );
+		super.run();
+
+		StoreManager.parseLog( responseText );
+		DEFAULT_SHELL.updateDisplay( "Store purchase logs retrieved." );
+	}
+
+	private void managePrices()
+	{
+		DEFAULT_SHELL.updateDisplay( "Requesting store inventory..." );
+		super.run();
+
+		StoreManager.update( responseText, true );
+		DEFAULT_SHELL.updateDisplay( "Store inventory request complete." );
+	}
+
+	private void removeItem()
+	{
+		DEFAULT_SHELL.updateDisplay( "Removing " + TradeableItemDatabase.getItemName( this.takenItemID ) + " from store..." );
+		AdventureResult takenItem = new AdventureResult( takenItemID, 0 );
 
 		super.run();
 
-		if ( !isPriceManagement )
+		try
 		{
-			try
-			{
-				Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + takenItemID + "\">.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
+			Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + takenItemID + "\">.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
 
-				if ( takenItemMatcher.find() )
-				{
-					AdventureResult takenItem = new AdventureResult( takenItemID, 0 );
-					client.processResult( takenItem.getInstance( df.parse( takenItemMatcher.group(1) ).intValue() - takenItem.getCount( KoLCharacter.getInventory() ) ) );
-				}
-			}
-			catch ( Exception e )
-			{
-				// Because of the way the regular expression is compiled,
-				// this should not happen.
+			if ( takenItemMatcher.find() )
+				client.processResult( takenItem.getInstance( df.parse( takenItemMatcher.group(1) ).intValue() - takenItem.getCount( KoLCharacter.getInventory() ) ) );
+		}
+		catch ( Exception e )
+		{
+			// Because of the way the regular expression is compiled,
+			// this should not happen.
 
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-			}
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
 		}
 
-		StoreManager.update( responseText, isPriceManagement );
-
-		if ( this.takenItemID > 0 )
-			DEFAULT_SHELL.updateDisplay( this.takenItemID + " removed from your store." );
-		else
-			DEFAULT_SHELL.updateDisplay( "Store inventory request complete." );
+		StoreManager.update( responseText, false );
+		DEFAULT_SHELL.updateDisplay( takenItem.getName() + " removed from your store." );
 	}
 }
