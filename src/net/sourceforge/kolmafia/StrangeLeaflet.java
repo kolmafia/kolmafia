@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import javax.swing.JOptionPane;
 
 public abstract class StrangeLeaflet extends StaticEntity
 {
@@ -143,6 +144,10 @@ public abstract class StrangeLeaflet extends StaticEntity
 	private static boolean giant;		// true if giant is done
 
 	public static void robStrangeLeaflet()
+	{	robStrangeLeaflet( true );
+	}
+  
+	public static void robStrangeLeaflet( boolean invokeMagic )
 	{
 		// Make sure the player has the Strange Leaflet.
 		if ( !KoLCharacter.hasItem( LEAFLET, false ) )
@@ -174,7 +179,14 @@ public abstract class StrangeLeaflet extends StaticEntity
 		robHole();
 
 		// Invoke the magic word
-		invokeMagic();
+		if ( !invokeMagic( invokeMagic ) )
+		{
+			// Magic word is available but the player opted to not
+			// use it yet.
+			KoLCharacter.refreshCalculatedLists();
+			DEFAULT_SHELL.updateDisplay( "Strange Leaflet partially robbed." );
+			return;
+		}
 
 		// Get the ring
 		getRing();
@@ -188,7 +200,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	private static void initialize()
 	{
-		// We know nothing about the state of the manipulatable objects.
+		// We know nothing about the state of the objects.
 
 		mailbox = false;
 		door = false;
@@ -382,16 +394,17 @@ public abstract class StrangeLeaflet extends StaticEntity
 		executeCommand( "look in hole" );
 	}
 
-	private static void invokeMagic()
+	// Returns true if should proceed, false if should stop now
+	private static boolean invokeMagic( boolean invokeMagic )
 	{
 		// Can't go back
 		if ( location > BANK )
-			return;
+			return true;
 
 		if ( trophy )
-			return;
+			return true;
 
-		DEFAULT_SHELL.updateDisplay( "Invoking magic..." );
+		DEFAULT_SHELL.updateDisplay( "Looking for knick-knacks..." );
 
 		goTo( HOUSE );
 		parseMantelpiece( executeCommand( "examine fireplace" ) );
@@ -400,10 +413,20 @@ public abstract class StrangeLeaflet extends StaticEntity
 		{
 			executeCommand( "take trophy" );
 			trophy = true;
-			return;
+			return true;
 		}
 
+		if ( client instanceof KoLmafiaGUI )
+			invokeMagic = JOptionPane.showConfirmDialog( null,
+								     "Would you like to invoke the \"magic words\" today?",
+								     "You know you want to!",
+								     JOptionPane.YES_NO_OPTION ) == JOptionPane.NO_OPTION;
+
+		if ( !invokeMagic )
+			return false;
+
 		parseMagic( executeCommand( magic ) );
+		return true;
 	}
 
 	private static void getRing()
