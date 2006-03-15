@@ -416,15 +416,28 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	}
 
 	/**
-	 * Action listener responsible for displaying reply and quoted message
-	 * windows when a username is clicked, or opening the page in
-	 * a browser if you're clicking something other than the username.
+	 * Action listener responsible for opening a sendmessage frame when
+	 * reply or quote is clicked or opening a frame in the browser when
+	 * something else is clicked.
 	 */
 
 	private class MailLinkClickedListener extends KoLHyperlinkAdapter
 	{
 		protected void handleInternalLink( String location )
 		{
+			// If you click on the player name:
+			//     showplayer.php?who=<playerid>
+
+			if ( !location.startsWith( "sendmessage.php" ) )
+			{
+				openRequestFrame( location );
+				return;
+			}
+
+			// If you click on [reply]:
+			//     sendmessage.php?toid=<playerid>
+			// If you click on [quote]:
+			//     sendmessage.php?toid=<playerid>&quoteid=xxx&box=xxx
 			StringTokenizer tokens = new StringTokenizer( location, "?=&" );
 			tokens.nextToken();  tokens.nextToken();
 

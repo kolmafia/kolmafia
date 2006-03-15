@@ -1289,7 +1289,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		Object [] parameters;
 		String location = request.getURLString();
 
-		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) )
+		if ( location.startsWith( "search" ) ||
+		     location.startsWith( "desc" ) ||
+		     location.startsWith( "showplayer" ) )
 		{
 			parameters = new Object[3];
 			parameters[0] = client;

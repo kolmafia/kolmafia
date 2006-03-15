@@ -107,8 +107,12 @@ public class RequestFrame extends KoLFrame
 		this.currentRequest = getClass() == RequestFrame.class && client != null && client.getCurrentRequest() instanceof FightRequest ?
 			client.getCurrentRequest() : request;
 
-		this.hasSideBar = getClass() == RequestFrame.class && request != null && !request.getURLString().startsWith( "desc" ) &&
-			 !request.getURLString().startsWith( "doc" ) && !request.getURLString().startsWith( "searchp" );
+		this.hasSideBar = getClass() == RequestFrame.class &&
+			request != null &&
+			!request.getURLString().startsWith( "desc" ) &&
+			!request.getURLString().startsWith( "showplayer" ) &&
+			!request.getURLString().startsWith( "doc" ) &&
+			!request.getURLString().startsWith( "searchp" );
 
 		setCombatRound( request );
 
