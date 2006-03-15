@@ -483,7 +483,7 @@ public class RequestFrame extends KoLFrame
 
 			String location = request.getURLString();
 
-			if ( hasSideBar )
+			if ( hasSideBar && (sidePaneRequest == null || request.responseText.indexOf( "charpane.php" ) != -1) )
 				refreshSidePane();
 
 			// Keep the client updated of your current equipment and

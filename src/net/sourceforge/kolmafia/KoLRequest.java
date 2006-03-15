@@ -844,7 +844,8 @@ public class KoLRequest implements Runnable, KoLConstants
 					e.printStackTrace();
 				}
 
-				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
+				if ( getClass() != KoLRequest.class )
+					responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
 				if ( client != null && client.getPasswordHash() != null )
 					KoLmafia.getLogStream().println( responseText.replaceAll( client.getPasswordHash(), "" ) );
