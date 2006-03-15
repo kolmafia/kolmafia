@@ -46,9 +46,9 @@ public class CouncilFrame extends RequestFrame
 	{	super( client, null, new KoLRequest( client, "council.php", true ) );
 	}
 
-	protected String getDisplayHTML( String responseText )
+	protected static String getDisplayHTML( String responseText )
 	{
-		return super.getDisplayHTML( responseText ).replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ).replaceFirst(
+		return RequestFrame.getDisplayHTML( responseText ).replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ).replaceFirst(
 			"table width=95%", "table width=100%" );
 	}
 }

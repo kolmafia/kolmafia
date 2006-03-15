@@ -206,8 +206,7 @@ public class BuffBotFrame extends KoLFrame
 			// This includes character status, inventory
 			// data and current settings.
 
-			(new CharsheetRequest( client )).run();
-
+			CharpaneRequest.getInstance().run();
 			BuffBotHome.setBuffBotActive( true );
 			BuffBotManager.runBuffBot( Integer.MAX_VALUE );
 		}

@@ -1328,11 +1328,16 @@ public abstract class KoLmafia implements KoLConstants
 
 				shouldRefreshStatus |= request instanceof KoLAdventure && KoLCharacter.hasRecoveringEquipment();
 
+				// However, if the request frame will refresh the
+				// player's status, then do not refresh.
+
+				shouldRefreshStatus &= !RequestFrame.willRefresh();
+
 				// If it turns out that you need to refresh the player's
 				// status, go ahead and refresh it.
 
 				if ( shouldRefreshStatus )
-					(new CharpaneRequest( this )).run();
+					CharpaneRequest.getInstance().run();
 			}
 
 			currentIterationString = "";

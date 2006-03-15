@@ -93,6 +93,8 @@ public class KoLRequest implements Runnable, KoLConstants
 	private List data;
 
 	protected KoLmafia client;
+	protected boolean statusChanged;
+
 	protected int responseCode;
 	protected String responseText;
 	protected String redirectLocation;
@@ -431,6 +433,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		do
 		{
+			statusChanged = false;
+
 			// Only add in a delay when you're out of login.
 			// If you're still doing the login process, ignore
 			// the delay to avoid people switching the option
@@ -794,42 +798,45 @@ public class KoLRequest implements Runnable, KoLConstants
 					{
 						KoLmafia.getLogStream().println( "No reply content.  Retrying..." );
 					}
+
 					// Check for MySQL errors, since those have been getting more
 					// frequent, and would cause an I/O Exception to be thrown
 					// unnecessarily, when a re-request would do.  I'm not sure
 					// how they work right now (which line the MySQL error is
 					// printed to), but for now, assume
 					// that it's the first line.
+
 					else if ( line.indexOf( "error" ) != -1 )
 					{
 						KoLmafia.getLogStream().println( "Encountered MySQL error.  Retrying..." );
 					}
+
 					// The remaining lines form the rest of the content.  In order
 					// to make it easier for string parsing, the line breaks will
 					// ultimately be preserved.
+
 					else
 					{
 						KoLmafia.getLogStream().println( "Reading page content..." );
 
-						// line breaks bloat the log
-						boolean breaks = false;
+						// Line breaks bloat the log, but they are important
+						// inside <textarea> input fields.
 
-						while ( true )
+						boolean insideTextArea = false;
+
+						do
 						{
 							replyBuffer.append( line );
 
-							// line breaks are important
-							// inside textarea input fields
 							if ( line.indexOf( "</textarea" ) != -1 )
-								breaks = false;
+								insideTextArea = false;
 							else if ( line.indexOf( "<textarea" ) != -1 )
-								breaks = true;
-							line = istream.readLine();
-							if ( line == null )
-								break;
-							if ( breaks )
+								insideTextArea = true;
+
+							if ( insideTextArea )
 								replyBuffer.append( LINE_BREAK );
 						}
+						while ( (line = istream.readLine()) != null );
 					}
 				}
 				catch ( Exception e )
@@ -844,8 +851,8 @@ public class KoLRequest implements Runnable, KoLConstants
 					e.printStackTrace();
 				}
 
-				if ( getClass() != KoLRequest.class )
-					responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
+				statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && responseText.indexOf( "charpane.php" ) != -1;
+				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
 				if ( client != null && client.getPasswordHash() != null )
 					KoLmafia.getLogStream().println( responseText.replaceAll( client.getPasswordHash(), "" ) );
@@ -992,6 +999,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( previousHP != 0 && KoLCharacter.getCurrentHP() == 0 )
 			client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 
+		if ( statusChanged )
+			RequestFrame.refresh();
 	}
 
 	/**

@@ -71,12 +71,13 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
+	private static String lastResponseText = "";
+	private static SidePaneRefresher REFRESHER = new SidePaneRefresher();
+
 	private int currentLocation = 0;
 	private List visitedLocations = new ArrayList();
 
 	private int combatRound;
-	private String lastResponseText = "";
-
 	private RequestFrame parent;
 	private KoLRequest currentRequest;
 	private LimitedSizeChatBuffer mainBuffer;
@@ -84,7 +85,6 @@ public class RequestFrame extends KoLFrame
 	private boolean hasSideBar;
 	private boolean isRefreshing = false;
 	private LimitedSizeChatBuffer sideBuffer;
-	private CharpaneRequest sidePaneRequest;
 
 	private JTextField locationField = new JTextField();
 	protected JEditorPane sideDisplay;
@@ -101,7 +101,6 @@ public class RequestFrame extends KoLFrame
 	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request )
 	{
 		super( client, "" );
-
 		this.parent = parent;
 
 		this.currentRequest = getClass() == RequestFrame.class && client != null && client.getCurrentRequest() instanceof FightRequest ?
@@ -226,6 +225,15 @@ public class RequestFrame extends KoLFrame
 		toolbarPanel.add( button );
 		getRootPane().setDefaultButton( button );
 
+		// If this has a side bar, then it will need to be notified
+		// whenever there are updates to the player status.
+
+		if ( this.hasSideBar )
+		{
+			REFRESHER.add( this );
+			REFRESHER.run();
+		}
+
 		(new DisplayRequestThread( this.currentRequest )).start();
 	}
 
@@ -319,34 +327,7 @@ public class RequestFrame extends KoLFrame
 			combatRound = 1;
 	}
 
-	/**
-	 * Utility method which refreshes the side pane.  This
-	 * is used whenever something occurs in the main pane
-	 * which is suspected to cause some display change here.
-	 */
-
-	private void refreshSidePane()
-	{
-		if ( !hasSideBar )
-			return;
-
-		if ( isRefreshing )
-			return;
-
-		isRefreshing = true;
-
-		if ( sidePaneRequest == null )
-			sidePaneRequest = new CharpaneRequest( client );
-
-		sidePaneRequest.run();
-		sideBuffer.clearBuffer();
-		sideBuffer.append( getDisplayHTML( sidePaneRequest.responseText ) );
-		sideDisplay.setCaretPosition(0);
-
-		isRefreshing = false;
-	}
-
-	protected String getDisplayHTML( String responseText )
+	protected static String getDisplayHTML( String responseText )
 	{	return RequestEditorKit.getDisplayHTML( responseText );
 	}
 
@@ -490,9 +471,6 @@ public class RequestFrame extends KoLFrame
 
 			String location = request.getURLString();
 
-			if ( hasSideBar && (sidePaneRequest == null || request.responseText.indexOf( "charpane.php" ) != -1) )
-				refreshSidePane();
-
 			// Keep the client updated of your current equipment and
 			// familiars, if you visit the appropriate pages.
 
@@ -602,9 +580,45 @@ public class RequestFrame extends KoLFrame
 		}
 	}
 
+	private static class SidePaneRefresher extends ArrayList implements Runnable
+	{
+		public void run()
+		{
+			if ( isEmpty() || lastResponseText.equals( client.getCurrentRequest().responseText ) )
+				return;
+
+			lastResponseText = client.getCurrentRequest().responseText;
+
+			RequestFrame [] frames = new RequestFrame[ this.size() ];
+			toArray( frames );
+
+			CharpaneRequest instance = CharpaneRequest.getInstance();
+			instance.run();
+
+			for ( int i = 0; i < frames.length; ++i )
+			{
+				if ( frames[i].hasSideBar() )
+				{
+					frames[i].sideBuffer.clearBuffer();
+					frames[i].sideBuffer.append( getDisplayHTML( instance.responseText ) );
+					frames[i].sideDisplay.setCaretPosition(0);
+				}
+			}
+		}
+	}
+
+	public static void refresh()
+	{	REFRESHER.run();
+	}
+
+	public static boolean willRefresh()
+	{	return !REFRESHER.isEmpty();
+	}
+
 	public void dispose()
 	{
 		visitedLocations.clear();
+		REFRESHER.remove( this );
 		super.dispose();
 	}
 

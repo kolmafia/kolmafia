@@ -1166,7 +1166,7 @@ public abstract class SorceressLair extends StaticEntity
 			// sometimes doesn't realize it and will complain
 			// "You're not tough enough to fight up here."
 
-			(new CharpaneRequest( client )).run();
+			CharpaneRequest.getInstance().run();
 		}
 
 		while ( n < 5 )
