@@ -161,7 +161,7 @@ public class KoLmafiaASH extends StaticEntity
 			else
 			{
 				KoLmafia.getLogStream().println( "Script returned message " + result.toString() );
-				DEFAULT_SHELL.updateDisplay(  "Script returned value " + result.toString() );
+				DEFAULT_SHELL.printLine(  "Script returned value " + result.toString() );
 				return;
 			}
 
