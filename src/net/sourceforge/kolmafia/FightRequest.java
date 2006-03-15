@@ -53,6 +53,9 @@ public class FightRequest extends KoLRequest
 	private int roundCount;
 	private static String encounter;
 
+	private static final String [] RARE_MONSTERS =
+	{ "baiowulf", "crazy bastard", "hockey elemental", "hypnotist of hey deze", "infinite meat bug" };
+
 	/**
 	 * Constructs a new <code>FightRequest</code>.  The client provided will
 	 * be used to determine whether or not the fight should be started and/or
@@ -78,6 +81,10 @@ public class FightRequest extends KoLRequest
 		int haltTolerance = (int)( Double.parseDouble( getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
 
 		action = getProperty( "battleAction" );
+
+		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
+			if ( encounter.indexOf( RARE_MONSTERS[i] ) != -1 )
+				client.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
 
 		if ( roundCount > 1 && action.equals( "custom" ) )
 		{
@@ -215,7 +222,7 @@ public class FightRequest extends KoLRequest
 
 				if ( encounterMatcher.find() )
 				{
-					FightRequest.encounter = encounterMatcher.group(1);
+					FightRequest.encounter = encounterMatcher.group(1).toLowerCase();
 					client.registerEncounter( encounter );
 				}
 			}

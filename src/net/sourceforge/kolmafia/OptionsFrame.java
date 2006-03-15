@@ -261,8 +261,6 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "synchronizeFightFrame", "Show requests in mini-browser" },
-			{ "finishInBrowser", "Open browser window to finish aborted battles" },
-
 			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "forceReconnect", "Automatically time-in on time-out" },
 

@@ -1190,8 +1190,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( client instanceof KoLmafiaCLI )
 			return;
 
-		if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) &&
-		     ( !exceptional || getProperty( "finishInBrowser" ).equals( "false" ) ) )
+		if ( !exceptional && getProperty( "synchronizeFightFrame" ).equals( "false" ) )
 			return;
 
 		// Only show the request if the response code is

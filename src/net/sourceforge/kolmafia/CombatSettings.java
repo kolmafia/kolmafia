@@ -128,7 +128,7 @@ public abstract class CombatSettings implements UtilityConstants
 				settingsFile.getParentFile().mkdirs();
 				settingsFile.createNewFile();
 
-				ensureDefaults();
+				ensureProperty( "default", "attack" );
 
 				keys = new String[ reference.keySet().size() ];
 				reference.keySet().toArray( keys );
@@ -185,26 +185,6 @@ public abstract class CombatSettings implements UtilityConstants
 			settingsFile.delete();
 			loadSettings();
 		}
-	}
-
-	/**
-	 * Ensures that all the default keys are non-null.  This is
-	 * used so that there aren't lots of null checks whenever a
-	 * key is loaded.
-	 */
-
-	private static void ensureDefaults()
-	{
-		ensureProperty( "default", "attack" );
-
-		// let the player manually battle the monsters guarding
-		// ultra-rare items.
-
-		ensureProperty( "baiowulf", "abort" );
-		ensureProperty( "crazy bastard", "abort" );
-		ensureProperty( "hockey elemental", "abort" );
-		ensureProperty( "hypnotist of hey deze", "abort" );
-		ensureProperty( "infinite meat bug", "abort" );
 	}
 
 	/**
