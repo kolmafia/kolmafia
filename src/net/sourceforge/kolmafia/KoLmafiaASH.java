@@ -144,23 +144,19 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptValue result = executeGlobalScope( global );
 			if ( result.getType().equals( TYPE_BOOLEAN ) )
 			{
-
 				if ( result.getIntValue() == 0 )
 				{
-					KoLmafia.getLogStream().println( "Script failed!" ); //failed
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE,  "Script failed!" );
+					DEFAULT_SHELL.printLine( "Script failed!" );
 					return;
 				}
 				else
 				{
-					KoLmafia.getLogStream().println( "Script succeeded!" ); //succes
-					DEFAULT_SHELL.updateDisplay(  "Script succeeded!" );
+					DEFAULT_SHELL.printLine( "Script succeeded!" );
 					return;
 				}
 			}
 			else
 			{
-				KoLmafia.getLogStream().println( "Script returned message " + result.toString() );
 				DEFAULT_SHELL.printLine(  "Script returned value " + result.toString() );
 				return;
 			}
