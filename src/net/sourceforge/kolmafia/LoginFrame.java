@@ -260,7 +260,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Login cancelled." );
+			declareWorldPeace();
 			loginnameField.requestFocus();
 		}
 

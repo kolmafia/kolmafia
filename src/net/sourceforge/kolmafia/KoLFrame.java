@@ -406,9 +406,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			case ABORT_STATE:
 
 				if ( compactPane != null )
-					compactPane.setBackground( ERROR_COLOR );
+					compactPane.setBackground( DISABLED_COLOR );
 
-				setEnabled( true );
+				setEnabled( false );
 				break;
 
 			case ENABLE_STATE:
@@ -2066,10 +2066,18 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			if ( client != null )
-				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
+		{	declareWorldPeace();
 		}
+	}
+
+	protected void declareWorldPeace()
+	{
+		DEFAULT_SHELL.updateDisplay( ABORT_STATE, "KoLmafia is declaring world peace..." );
+		KoLRequest.delay( 5000 );
+		DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, "KoLmafia has declared world peace." );
+
+		if ( client != null )
+			client.enableDisplay();
 	}
 
 	protected class FilterCheckBox extends JCheckBox implements ActionListener

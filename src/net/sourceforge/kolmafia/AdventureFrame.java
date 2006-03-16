@@ -441,7 +441,7 @@ public class AdventureFrame extends KoLFrame
 			}
 			else
 			{
-				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
+				declareWorldPeace();
 				locationSelect.requestFocus();
 			}
 		}
@@ -611,6 +611,7 @@ public class AdventureFrame extends KoLFrame
 			if ( currentlyBuying )
 			{
 				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Purchases stopped." );
+				client.enableDisplay();
 				return;
 			}
 
