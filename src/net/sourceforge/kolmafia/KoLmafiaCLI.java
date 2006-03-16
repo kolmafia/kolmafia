@@ -2425,7 +2425,8 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				for ( int i = 0; i < itemCountString.length(); ++i )
 				{
-					if ( !Character.isDigit( itemCountString.charAt(i) ) )
+					char c = itemCountString.charAt(i);
+					if ( !Character.isDigit( c ) && c != '-' && c != '+' )
 					{
 						updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
 						return null;
