@@ -93,10 +93,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class AdventureFrame extends KoLFrame
 {
 	private JComboBox locationSelect;
-	private JComboBox resultSelect;
-	private JPanel resultPanel;
-	private CardLayout resultCards;
-
 	private LockableListModel results;
 	private JList resultsList;
 
@@ -126,31 +122,10 @@ public class AdventureFrame extends KoLFrame
 		JPanel adventureContainer = new JPanel( new BorderLayout( 10, 10 ) );
 
 		this.adventureSelect = new AdventureSelectPanel();
-		JPanel southPanel = new JPanel( new BorderLayout() );
 
-		resultCards = new CardLayout( 0, 0 );
-		resultPanel = new JPanel( resultCards );
-		resultSelect = new JComboBox();
-
-		resultSelect.addItem( "Session Results" );
-		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
-
-		resultSelect.addItem( "Conditions Left" );
-		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ), "1" );
-
-		resultSelect.addItem( "Active Effects" );
-		resultPanel.add( new AdventureResultsPanel( KoLCharacter.getEffects() ), "2" );
-
-		resultSelect.addItem( "Visited Locations" );
-		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getAdventureList() ), "3" );
-
-		resultSelect.addItem( "Encounter Listing" );
-		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getEncounterList() ), "4" );
-
-		resultSelect.addActionListener( new ResultSelectListener() );
-
-		southPanel.add( resultSelect, BorderLayout.NORTH );
-		southPanel.add( resultPanel, BorderLayout.CENTER );
+		JPanel southPanel = new JPanel( new GridLayout( 1, 2, 5, 5 ) );
+		southPanel.add( getAdventureSummary(0) );
+		southPanel.add( getAdventureSummary(1) );
 
 		adventureContainer.add( adventureSelect, BorderLayout.NORTH );
 		adventureContainer.add( southPanel, BorderLayout.CENTER );
@@ -250,6 +225,37 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
+	private JPanel getAdventureSummary( int selectedIndex )
+	{
+		CardLayout resultCards = new CardLayout( 0, 0 );
+		JPanel resultPanel = new JPanel( resultCards );
+		JComboBox resultSelect = new JComboBox();
+
+		resultSelect.addItem( "Session Results" );
+		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
+
+		resultSelect.addItem( "Conditions Left" );
+		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ), "1" );
+
+		resultSelect.addItem( "Active Effects" );
+		resultPanel.add( new AdventureResultsPanel( KoLCharacter.getEffects() ), "2" );
+
+		resultSelect.addItem( "Visited Locations" );
+		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getAdventureList() ), "3" );
+
+		resultSelect.addItem( "Encounter Listing" );
+		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getEncounterList() ), "4" );
+
+		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect ) );
+
+		JPanel containerPanel = new JPanel( new BorderLayout() );
+		containerPanel.add( resultSelect, BorderLayout.NORTH );
+		containerPanel.add( resultPanel, BorderLayout.CENTER );
+
+		resultSelect.setSelectedIndex( selectedIndex );
+		return containerPanel;
+	}
+
 	public void requestFocus()
 	{
 		super.requestFocus();
@@ -258,6 +264,17 @@ public class AdventureFrame extends KoLFrame
 
 	private class ResultSelectListener implements ActionListener
 	{
+		private CardLayout resultCards;
+		private JPanel resultPanel;
+		private JComboBox resultSelect;
+
+		public ResultSelectListener( CardLayout resultCards, JPanel resultPanel, JComboBox resultSelect )
+		{
+			this.resultCards = resultCards;
+			this.resultPanel = resultPanel;
+			this.resultSelect = resultSelect;
+		}
+
 		public void actionPerformed( ActionEvent e )
 		{	resultCards.show( resultPanel, String.valueOf( resultSelect.getSelectedIndex() ) );
 		}
@@ -655,8 +672,6 @@ public class AdventureFrame extends KoLFrame
 
 		DEFAULT_SHELL.updateDisplay( results.size() == 0 ? "No results found." : "Search complete." );
 		tabs.setSelectedIndex(1);
-		resultSelect.requestFocus();
-
 		client.enableDisplay();
 	}
 
