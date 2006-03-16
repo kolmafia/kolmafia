@@ -2402,4 +2402,12 @@ public abstract class KoLmafia implements KoLConstants
 
 		updateDisplay( "Download completed.  KoLmafia successfully updated." );
 	}
+
+	public void declareWorldPeace()
+	{
+		DEFAULT_SHELL.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
+
+		KoLRequest.delay( 5000 );
+		enableDisplay();
+	}
 }

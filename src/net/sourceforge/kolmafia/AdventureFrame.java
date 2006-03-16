@@ -441,7 +441,9 @@ public class AdventureFrame extends KoLFrame
 			}
 			else
 			{
-				declareWorldPeace();
+				if ( client != null )
+					client.declareWorldPeace();
+
 				locationSelect.requestFocus();
 			}
 		}

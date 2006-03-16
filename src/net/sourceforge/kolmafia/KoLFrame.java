@@ -2066,18 +2066,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	declareWorldPeace();
+		{
+			if ( client != null )
+				client.declareWorldPeace();
 		}
-	}
-
-	protected void declareWorldPeace()
-	{
-		DEFAULT_SHELL.updateDisplay( ABORT_STATE, "KoLmafia is declaring world peace..." );
-		KoLRequest.delay( 5000 );
-		DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, "KoLmafia has declared world peace." );
-
-		if ( client != null )
-			client.enableDisplay();
 	}
 
 	protected class FilterCheckBox extends JCheckBox implements ActionListener

@@ -260,7 +260,9 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			declareWorldPeace();
+			if ( client != null )
+				client.declareWorldPeace();
+
 			loginnameField.requestFocus();
 		}
 
