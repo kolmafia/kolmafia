@@ -593,12 +593,9 @@ public class RequestFrame extends KoLFrame
 
 			for ( int i = 0; i < frames.length; ++i )
 			{
-				if ( frames[i].hasSideBar() )
-				{
-					frames[i].sideBuffer.clearBuffer();
-					frames[i].sideBuffer.append( getDisplayHTML( instance.responseText ) );
-					frames[i].sideDisplay.setCaretPosition( 0 );
-				}
+				frames[i].sideBuffer.clearBuffer();
+				frames[i].sideBuffer.append( getDisplayHTML( instance.responseText ) );
+				frames[i].sideDisplay.setCaretPosition( 0 );
 			}
 		}
 	}
@@ -611,7 +608,7 @@ public class RequestFrame extends KoLFrame
 		if ( lastResponseText.equals( "<!-- NON-EMPTY -->" ) )
 			return;
 
-		if ( !lastResponseText.equals( "" ) && lastResponseText.equals( client.getCurrentRequest().responseText ) )
+		if ( !lastResponseText.equals( "" ) && client.getCurrentRequest() != null && lastResponseText.equals( client.getCurrentRequest().responseText ) )
 			return;
 
 		lastResponseText = client.getCurrentRequest() == null ? "<!-- NON-EMPTY -->" : client.getCurrentRequest().responseText;
