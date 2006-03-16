@@ -105,7 +105,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		this.materialCost = this.wrappingType.materialCost;
 
 		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
-		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
+		addFormField( "sendmeat", String.valueOf( this.meatAttachment ) );
 
 		// You can take from inventory (0) or Hagnks (1)
 		addFormField( "fromwhere", "0" );
@@ -130,7 +130,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		this.materialCost = this.wrappingType.materialCost;
 
 		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
-		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
+		addFormField( "sendmeat", String.valueOf( this.meatAttachment ) );
 
 		// You can take from inventory (0) or Hagnks (1)
 		addFormField( "fromwhere", "0" );

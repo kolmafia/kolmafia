@@ -248,7 +248,6 @@ public abstract class SendMessageRequest extends KoLRequest
 		else
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "" );
-			return;
 		}
 	}
 }

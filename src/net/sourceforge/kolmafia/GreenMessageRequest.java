@@ -62,7 +62,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.recipient = KoLmafia.getPlayerID( recipient );
 		this.message = message;
 
-		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
+		addFormField( "sendmeat", String.valueOf( this.meatAttachment ) );
 	}
 
 	public GreenMessageRequest( KoLmafia client, String recipient, String message, Object [] attachments, int meatAttachment )
@@ -84,7 +84,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		this.recipient = KoLmafia.getPlayerID( recipient );
 		this.message = message;
 
-		addFormField( "sendmeat", String.valueOf( meatAttachment ) );
+		addFormField( "sendmeat", String.valueOf( this.meatAttachment ) );
 	}
 
 	public String getRecipient()

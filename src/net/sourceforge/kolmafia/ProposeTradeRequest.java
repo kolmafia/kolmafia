@@ -55,7 +55,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 		addFormField( "whichoffer", String.valueOf( offerID ) );
 		addFormField( "pwd" );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
-		addFormField( "offermeat", String.valueOf( meatAttachment ) );
+		addFormField( "offermeat", String.valueOf( this.meatAttachment ) );
 
 		this.message = message;
 		this.isCounterOffer = true;
@@ -69,7 +69,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 		addFormField( "pwd" );
 		addFormField( "towho", recipient );
 		addFormField( "memo", message.replaceAll( "Meat:", "Please respond with " ) );
-		addFormField( "offermeat", String.valueOf( meatAttachment ) );
+		addFormField( "offermeat", String.valueOf( this.meatAttachment ) );
 
 		this.message = message;
 		this.isCounterOffer = false;

@@ -1175,10 +1175,17 @@ public class KoLmafiaCLI extends KoLmafia
 			(new GreenMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", attachments, 0, false )).run();
 
 			if ( StaticEntity.getClient().permitsContinue() )
+			{
 				updateDisplay( "Message sent to " + splitParameters[1] );
+			}
 			else
 			{
 				int desiredPackageIndex = Math.min( GiftMessageRequest.PACKAGES.size() - 1, attachments.length );
+
+				// Clear the error state for continuation on the
+				// message sending attempt.
+
+				updateDisplay( "" );
 
 				(new GiftMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", "You are awesome.",
 					GiftMessageRequest.PACKAGES.get( desiredPackageIndex ), attachments, 0 )).run();
@@ -2730,7 +2737,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			try
 			{
-				if ( itemNames[i].equals( "meat" ) )
+				if ( itemNames[i].endsWith( "meat" ) )
 					firstMatch = new AdventureResult( AdventureResult.MEAT, df.parse( itemNames[i].split( " " )[0] ).intValue() );
 				else
 					firstMatch = getFirstMatchingItem( itemNames[i], location );
@@ -3075,18 +3082,17 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			outputStream.println( message );
 			mirrorStream.println( message );
-
-			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-				StaticEntity.getClient().updateDisplay( state, message );
-			else
-				StaticEntity.getClient().getLogStream().println( message );
-
-			// There's a special case to be handled if the login was not
-			// successful - in other words, attempt to prompt the user again
-
-			if ( message.equals( "Login failed." ) )
-				attemptLogin();
+			StaticEntity.getClient().getLogStream().println( message );
 		}
+
+		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
+			StaticEntity.getClient().updateDisplay( state, message );
+
+		// There's a special case to be handled if the login was not
+		// successful - in other words, attempt to prompt the user again
+
+		if ( message.equals( "Login failed." ) )
+			attemptLogin();
 	}
 
 	/**
