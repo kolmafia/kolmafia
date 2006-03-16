@@ -74,7 +74,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int CREATION = 3;
 	public static final int CLOSET = 4;
 
-	protected String previousCommand;
+	protected String previousLine;
 
 	private PrintStream outputStream = NullStream.INSTANCE;
 	private PrintStream mirrorStream = NullStream.INSTANCE;
@@ -263,7 +263,7 @@ public class KoLmafiaCLI extends KoLmafia
 			try
 			{
 				commandStream.close();
-				previousCommand = null;
+				previousLine = null;
 			}
 			catch ( IOException e )
 			{
@@ -326,6 +326,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( separateLines[i].length() > 0 )
 					executeLine( separateLines[i] );
 
+			previousLine = line;
 			return;
 		}
 
@@ -346,7 +347,7 @@ public class KoLmafiaCLI extends KoLmafia
 			String parameters = line.substring( command.length() ).trim();
 
 			if ( !command.equals( "repeat" ) )
-				previousCommand = line;
+				previousLine = line;
 
 			executeCommand( command, parameters );
 		}
@@ -366,7 +367,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.indexOf( ".php" ) != -1 )
 		{
-			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), previousCommand, true );
+			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), previousLine, true );
 			StaticEntity.getClient().makeRequest( desired, 1 );
 			return;
 		}
@@ -516,7 +517,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "continue" ) )
 		{
-			if ( lastScript == null || lastScript.previousCommand == null )
+			if ( lastScript == null || lastScript.previousLine == null )
 			{
 				updateDisplay( ERROR_STATE, "No commands left to continue script." );
 				return;
@@ -524,7 +525,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			lastScript.listenForCommands();
 
-			if ( lastScript.previousCommand == null )
+			if ( lastScript.previousLine == null )
 				lastScript = null;
 
 			return;
@@ -537,11 +538,11 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			try
 			{
-				if ( previousCommand != null )
+				if ( previousLine != null )
 				{
 					int repeatCount = parameters.length() == 0 ? 1 : df.parse( parameters ).intValue();
 					for ( int i = 0; i < repeatCount && StaticEntity.getClient().permitsContinue(); ++i )
-						executeLine( previousCommand );
+						executeLine( previousLine );
 				}
 
 				return;
@@ -1312,7 +1313,7 @@ public class KoLmafiaCLI extends KoLmafia
 					lastScript.commandBuffer = commandBuffer;
 					lastScript.listenForCommands();
 
-					if ( lastScript.previousCommand == null )
+					if ( lastScript.previousLine == null )
 						lastScript = null;
 				}
 			}
@@ -2521,13 +2522,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeUntinkerRequest()
 	{
-		if ( previousCommand.indexOf( " " ) == -1 )
+		if ( previousLine.indexOf( " " ) == -1 )
 		{
 			StaticEntity.getClient().makeRequest( new UntinkerRequest( StaticEntity.getClient() ), 1 );
 			return;
 		}
 
-		String item = previousCommand.substring( previousCommand.split( " " )[0].length() ).trim();
+		String item = previousLine.substring( previousLine.split( " " )[0].length() ).trim();
 		AdventureResult firstMatch = getFirstMatchingItem( item, INVENTORY );
 		if ( firstMatch == null )
 			return;
@@ -2543,7 +2544,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			String [] command = previousCommand.split( " " );
+			String [] command = previousLine.split( " " );
 
 			int setting = df.parse( command[1] ).intValue();
 			StaticEntity.getClient().makeRequest( new MindControlRequest( StaticEntity.getClient(), setting ), 1 );
@@ -3063,7 +3064,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public void makeUneffectRequest()
 	{
 		AdventureResult currentEffect;
-		String effectToUneffect = previousCommand.trim().substring( previousCommand.split( " " )[0].length() ).trim().toLowerCase();
+		String effectToUneffect = previousLine.trim().substring( previousLine.split( " " )[0].length() ).trim().toLowerCase();
 
 		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
 		KoLCharacter.getEffects().toArray( effects );
@@ -3087,8 +3088,8 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		String command = previousCommand.split( " " )[0];
-		String parameters = previousCommand.substring( command.length() ).trim();
+		String command = previousLine.split( " " )[0];
+		String parameters = previousLine.substring( command.length() ).trim();
 		if ( parameters.length() == 0 )
 		{
 			updateDisplay( ERROR_STATE, "Zap what?" );
@@ -3119,15 +3120,15 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		if ( previousCommand.indexOf( " " ) == -1 )
+		if ( previousLine.indexOf( " " ) == -1 )
 		{
 			boolean clovers = StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
 			updateDisplay( "Today is " + ( clovers ? "" : "not " ) + "a clover day." );
 			return;
 		}
 
-		String command = previousCommand.split( " " )[0];
-		String parameters = previousCommand.substring( command.length() ).trim();
+		String command = previousLine.split( " " )[0];
+		String parameters = previousLine.substring( command.length() ).trim();
 
 		int itemID = -1;
 		int tradeCount = 1;
@@ -3179,8 +3180,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeTrapperRequest()
 	{
-		String command = previousCommand.split( " " )[0];
-		String parameters = previousCommand.substring( command.length() ).trim();
+		String command = previousLine.split( " " )[0];
+		String parameters = previousLine.substring( command.length() ).trim();
 
 		int furs = TrapperRequest.YETI_FUR.getCount( KoLCharacter.getInventory() );
 
@@ -3212,13 +3213,13 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( StaticEntity.getClient().hunterItems.isEmpty() )
 			(new BountyHunterRequest( StaticEntity.getClient() )).run();
 
-		if ( previousCommand.indexOf( " " ) == -1 )
+		if ( previousLine.indexOf( " " ) == -1 )
 		{
 			printList( StaticEntity.getClient().hunterItems );
 			return;
 		}
 
-		String item = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
+		String item = previousLine.substring( previousLine.indexOf( " " ) ).trim();
 		for ( int i = 0; i < StaticEntity.getClient().hunterItems.size(); ++i )
 			if ( ((String)StaticEntity.getClient().hunterItems.get(i)).indexOf( item ) != -1 )
 				(new BountyHunterRequest( StaticEntity.getClient(), TradeableItemDatabase.getItemID( (String) StaticEntity.getClient().hunterItems.get(i) ) )).run();
@@ -3235,13 +3236,13 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( items.isEmpty() )
 			(new RestaurantRequest( StaticEntity.getClient() )).run();
 
-		if ( previousCommand.indexOf( " " ) == -1 )
+		if ( previousLine.indexOf( " " ) == -1 )
 		{
 			printList( items );
 			return;
 		}
 
-		String item = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
+		String item = previousLine.substring( previousLine.indexOf( " " ) ).trim();
 		for ( int i = 0; i < items.size(); ++i )
 		{
 			String name = (String)items.get(i);
@@ -3262,7 +3263,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeGalaktikRequest()
 	{
-		if ( previousCommand.indexOf( " " ) == -1 )
+		if ( previousLine.indexOf( " " ) == -1 )
 		{
 			List cures = GalaktikRequest.retrieveCures( StaticEntity.getClient() );
 			printList( cures );
@@ -3271,7 +3272,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		// Cure "HP" or "MP"
 
-		String cure = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
+		String cure = previousLine.substring( previousLine.indexOf( " " ) ).trim();
 
 		int type = 0;
 		if ( cure.equalsIgnoreCase( "hp" ) )
@@ -3298,13 +3299,13 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( items.isEmpty() )
 			(new MicrobreweryRequest( StaticEntity.getClient() )).run();
 
-		if ( previousCommand.indexOf( " " ) == -1 )
+		if ( previousLine.indexOf( " " ) == -1 )
 		{
 			printList( items );
 			return;
 		}
 
-		String item = previousCommand.substring( previousCommand.indexOf( " " ) ).trim();
+		String item = previousLine.substring( previousLine.indexOf( " " ) ).trim();
 		for ( int i = 0; i < items.size(); ++i )
 		{
 			String name = (String)items.get(i);
