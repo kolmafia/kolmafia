@@ -177,11 +177,15 @@ public class MuseumFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	move( true );
+			{
+				move( true );
+				client.enableDisplay();
 			}
 
 			protected void actionCancelled()
-			{	move( false );
+			{
+				move( false );
+				client.enableDisplay();
 			}
 		}
 
@@ -201,11 +205,15 @@ public class MuseumFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{	move( true );
+			{
+				move( true );
+				client.enableDisplay();
 			}
 
 			protected void actionCancelled()
-			{	move( false );
+			{
+				move( false );
+				client.enableDisplay();
 			}
 		}
 	}
@@ -244,6 +252,8 @@ public class MuseumFrame extends KoLFrame
 			for ( int i = 0; i < headerArray.length; ++i )
 				if ( selectedValue.equals( headerArray[i] ) )
 					MuseumManager.move( elementList.getSelectedValues(), index, i );
+
+			client.enableDisplay();
 		}
 
 		public void actionCancelled()
@@ -286,6 +296,7 @@ public class MuseumFrame extends KoLFrame
 			String [] headerArray = new String[ headers.size() ];
 			headers.toArray( headerArray );
 			MuseumManager.reorder( headerArray );
+			client.enableDisplay();
 		}
 	}
 
