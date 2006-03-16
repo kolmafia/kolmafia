@@ -2344,13 +2344,46 @@ public class KoLmafiaCLI extends KoLmafia
 		return new AdventureResult( effectName, duration, true );
 	}
 
+	public int getFirstMatchingItemID( List nameList, int matchType )
+	{
+		if ( nameList.isEmpty() )
+			return -1;
+
+		List source = null;
+
+		switch ( matchType )
+		{
+			case NOWHERE:
+			case CREATION:
+				return TradeableItemDatabase.getItemID( (String) nameList.get(0) );
+
+			case INVENTORY:
+				source = KoLCharacter.getInventory();
+				break;
+
+			case CLOSET:
+				source = KoLCharacter.getCloset();
+				break;
+		}
+
+		AdventureResult currentItem = null;
+		for ( int i = 0; i < nameList.size(); ++i )
+		{
+			currentItem = new AdventureResult( (String) nameList.get(i), 0 );
+			if ( source.contains( currentItem ) )
+				return currentItem.getItemID();
+		}
+
+		return currentItem.getItemID();
+	}
+
 	/**
 	 * Utility method which determines the first item which matches
 	 * the given parameter string.  Note that the string may also
 	 * specify an item quantity before the string.
 	 */
 
-	public AdventureResult getFirstMatchingItem( String parameters, int matchType, int def )
+	public AdventureResult getFirstMatchingItem( String parameters, int matchType, int defaultCount )
 	{
 		int itemID = -1;
 		int itemCount = 0;
@@ -2362,8 +2395,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( matchingNames.size() != 0 )
 		{
-			itemID = TradeableItemDatabase.getItemID( (String) matchingNames.get(0) );
-			itemCount = def;
+			itemID = getFirstMatchingItemID( matchingNames, matchType );
+			itemCount = defaultCount;
 		}
 		else
 		{
@@ -2378,7 +2411,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return null;
 			}
 
-			itemID = TradeableItemDatabase.getItemID( (String) matchingNames.get(0) );
+			itemID = getFirstMatchingItemID( matchingNames, matchType );
 
 			// Make sure what you're attempting to parse is a
 			// number -- if it's not, then the person was trying
