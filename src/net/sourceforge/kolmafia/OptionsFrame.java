@@ -344,8 +344,8 @@ public class OptionsFrame extends KoLFrame
 			useTabSelect.addItem( "Use tabbed chat interface (inline contacts)" );
 
 			popupSelect = new JComboBox();
-			popupSelect.addItem( "Display contact lists inline" );
-			popupSelect.addItem( "Popup contact lists in new window" );
+			popupSelect.addItem( "Display /freinds and /who in chat display" );
+			popupSelect.addItem( "Popup a window for /friends and /who" );
 
 			eSoluSelect = new JComboBox();
 			eSoluSelect.addItem( "Nameclick select bar only" );
@@ -375,7 +375,7 @@ public class OptionsFrame extends KoLFrame
 
 			setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
 			setProperty( "useTabbedChat", String.valueOf( useTabSelect.getSelectedIndex() ) );
-			setProperty( "usePopupContacts", String.valueOf( useTabSelect.getSelectedIndex() ) );
+			setProperty( "usePopupContacts", String.valueOf( popupSelect.getSelectedIndex() ) );
 			setProperty( "eSoluScriptType", String.valueOf( eSoluSelect.getSelectedIndex() ) );
 
 			super.actionConfirmed();
