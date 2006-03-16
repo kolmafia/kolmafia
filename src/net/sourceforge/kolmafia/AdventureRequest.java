@@ -253,6 +253,20 @@ public class AdventureRequest extends KoLRequest
 					return;
 				}
 
+				// If you try to adventure at the orc chasm, but you
+				// have not unlocked it yet, then try to unlock it.
+
+				if ( adventureID.equals( "80" ) && responseText.indexOf( "You shouldn't be here." ) != -1 )
+				{
+					(new AdventureRequest( client, "mountains.php", "" )).run();
+
+					if ( client.permitsContinue() )
+					{
+						this.run();
+						return;
+					}
+				}
+
 				if ( responseText.indexOf( "You shouldn't be here." ) != -1 ||
 					  responseText.indexOf( "The Factory has faded back into the spectral mists" ) != -1 )
 				{
