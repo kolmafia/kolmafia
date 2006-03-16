@@ -69,7 +69,7 @@ public class FlowerHunterRequest extends KoLRequest
 			addFormField( "hardcoreonly", "on" );
 	}
 
-	public FlowerHunterRequest( KoLmafia client, String opponent, int stance, boolean isForFlowers, String message )
+	public FlowerHunterRequest( KoLmafia client, String opponent, int stance, String mission, String message )
 	{
 		super( client, "pvp.php" );
 		this.hunterType = ATTACK;
@@ -78,7 +78,7 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "pwd" );
 		addFormField( "who", opponent );
 		addFormField( "stance", String.valueOf( stance ) );
-		addFormField( "attacktype", isForFlowers ? "flowers" : "rank" );
+		addFormField( "attacktype", mission );
 		addFormField( "winmessage", message );
 		addFormField( "losemessage", message );
 	}

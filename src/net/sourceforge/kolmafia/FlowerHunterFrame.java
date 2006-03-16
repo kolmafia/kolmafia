@@ -344,6 +344,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			victorySelect.addItem( "Steal a pretty flower" );
 			victorySelect.addItem( "Fight for leaderboard rank" );
 
+			if ( KoLCharacter.canInteract() )
+				victorySelect.addItem( "Nab yourself some dignity" );
+
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Tactic: ", stanceSelect );
 			elements[1] = new VerifiableElement( "Mission: ", victorySelect );
@@ -363,11 +366,27 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		{
 			ProfileRequest [] selection = getSelection();
 
+			String mission = null;
+			switch ( victorySelect.getSelectedIndex() )
+			{
+				case 0:
+					mission = "flowers";
+					break;
+
+				case 1:
+					mission = "rank";
+					break;
+
+				case 2:
+					mission = "dignity";
+					break;
+			}
+
 			for ( int i = 0; i < selection.length; ++i )
 			{
 				DEFAULT_SHELL.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
 				FightFrame.showRequest( new FlowerHunterRequest( client, selection[i].getPlayerID(),
-					stanceSelect.getSelectedIndex() + 1, victorySelect.getSelectedIndex() == 0, message.getText() ) );
+					stanceSelect.getSelectedIndex() + 1, mission, message.getText() ) );
 
 				updateRank();
 			}
