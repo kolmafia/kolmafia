@@ -958,7 +958,7 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			currentKey = (String) keys[i];
 			filename = CHATLOG_BASENAME + (currentKey.startsWith( "/" ) ? currentKey.substring( 1 ) : KoLmafia.getPlayerID( currentKey )) + ".html";
-			getChatBuffer( currentKey ).setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() + " (" + currentTime + ")" );
+			getChatBuffer( currentKey ).setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() + " (" + currentTime + ")", true );
 		}
 	}
 
