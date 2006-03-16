@@ -716,12 +716,39 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		// The second of these is the betting page.  Here, the
 		// problem is an "onClick" in the input field, if the
-		// Hagnk option is available.  Rather than mess with
-		// all that, make it so that Hagnk is the ONLY option
-		// which is present on the bet page.
+		// Hagnk option is available.
 
-		displayHTML = displayHTML.replaceAll( "whichbet value='(\\d+)'><input type=hidden name=from value=0>.*?</td><td><input type=checkbox name=confirm>",
-			"whichbet value='$1'><input type=hidden name=from value=1><input class=button type=submit value=\"In Hagnk's\"><input type=checkbox name=confirm>" );
+		if ( displayHTML.indexOf( "whichbet" ) != -1 )
+		{
+			// Since the introduction of MMG bots, bets are usually
+			// placed and taken instantaneously.  Therefore, the
+			// search form is extraneous.
+
+			displayHTML = displayHTML.replaceAll( "<center><b>Search.*?<center>", "<center>" );
+
+			// Also, placing a bet is awkward through the KoLmafia
+			// interface.  Remove this capability.
+
+			displayHTML = displayHTML.replaceAll( "<center><b>Add.*?</form><br>", "<br>" );
+
+			// Checkboxes were a safety which were added server-side,
+			// but they do not really help anything and Java is not
+			// very good at rendering them -- remove it.
+
+			displayHTML = displayHTML.replaceFirst( "\\(confirm\\)", "" );
+			displayHTML = displayHTML.replaceAll( "<input type=checkbox name=confirm>", "<input type=hidden name=confirm value=on>" );
+
+			// In order to avoid the problem of having two submits,
+			// which confuses the built-in Java parser, remove one
+			// of the buttons and leave the one that makes sense.
+
+			if ( KoLCharacter.canInteract() )
+				displayHTML = displayHTML.replaceAll( "whichbet value='(\\d+)'><input type=hidden name=from value=0>.*?</td><td><input type=hidden",
+					"whichbet value='$1'><input type=hidden name=from value=0><input class=button type=submit value=\"On Hand\"><input type=hidden" );
+			else
+				displayHTML = displayHTML.replaceAll( "whichbet value='(\\d+)'><input type=hidden name=from value=0>.*?</td><td><input type=hidden",
+					"whichbet value='$1'><input type=hidden name=from value=1><input class=button type=submit value=\"In Hagnk's\"><input type=hidden" );
+		}
 
 		// The third of these is the outfit managing page,
 		// which requires that the form for the table be
