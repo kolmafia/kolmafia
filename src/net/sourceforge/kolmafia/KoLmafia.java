@@ -1906,6 +1906,24 @@ public abstract class KoLmafia implements KoLConstants
 		String [] names = new String[ saveStateNames.size() ];
 		saveStateNames.toArray( names );
 
+		List lowerCaseNames = new ArrayList();
+		for ( int i = 0; i < names.length; ++i )
+		{
+			if ( lowerCaseNames.contains( names[i].toLowerCase() ) )
+			{
+				saveStateNames.remove( names[i] );
+				lowerCaseNames.remove( names[i].toLowerCase() );
+			}
+
+			lowerCaseNames.add( names[i].toLowerCase() );
+		}
+
+		if ( names.length != saveStateNames.size() )
+		{
+			names = new String[ saveStateNames.size() ];
+			saveStateNames.toArray( names );
+		}
+
 		if ( names.length > 0 )
 		{
 			saveStateBuffer.append( names[0] );
@@ -1920,11 +1938,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Now, removing any passwords that were stored
 		// which are no longer in the save state list
-
-
-		List lowerCaseNames = new ArrayList();
-		for ( int i = 0; i < names.length; ++i )
-			lowerCaseNames.add( names[i].toLowerCase() );
 
 		String [] settingsArray = new String[ GLOBAL_SETTINGS.keySet().size() ];
 		GLOBAL_SETTINGS.keySet().toArray( settingsArray );
