@@ -95,7 +95,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static int chattingStyle = 0;
 	private static boolean useTabbedChat = false;
-	private static boolean usePopupContacts = false;
 	private static boolean highlighting = false;
 
 	public static void reset()
@@ -108,7 +107,6 @@ public abstract class KoLMessenger extends StaticEntity
 		chattingStyle = Integer.parseInt( getProperty( "chatStyle" ) );
 		contactsFrame = new ContactListFrame( client, onlineContacts );
 		useTabbedChat = getProperty( "useTabbedChat" ).equals( "1" );
-		usePopupContacts = getProperty( "usePopupContacts" ).equals( "1" );
 
 		if ( useTabbedChat )
 		{
@@ -410,7 +408,7 @@ public abstract class KoLMessenger extends StaticEntity
 		for ( int i = 1; i < contactList.length; ++i )
 			onlineContacts.add( contactList[i] );
 
-		if ( usePopupContacts )
+		if ( getProperty( "usePopupContacts" ).equals( "1" ) )
 		{
 			contactsFrame.setTitle( contactList[0] );
 			contactsFrame.setVisible( true );
@@ -487,8 +485,8 @@ public abstract class KoLMessenger extends StaticEntity
 
 				updateContactList( contactList );
 			}
-
-			processChatMessage( currentChannel, content.replaceAll( "</?[tc].*?>", "" ).replaceFirst( "</b>", "</b><br>" ) );
+			if ( !getProperty( "usePopupContacts" ).equals( "1" ) )
+				processChatMessage( currentChannel, content.replaceAll( "</?[tc].*?>", "" ).replaceFirst( "</b>", "</b><br>" ) );
 		}
 	}
 
