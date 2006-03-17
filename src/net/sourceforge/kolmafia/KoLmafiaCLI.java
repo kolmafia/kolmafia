@@ -3088,11 +3088,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
 			StaticEntity.getClient().updateDisplay( state, message );
-
-		// There's a special case to be handled if the login was not
-		// successful - in other words, attempt to prompt the user again
-
-		if ( message.equals( "Login failed." ) )
+		else if ( message.equals( "Login failed." ) )
 			attemptLogin();
 	}
 
