@@ -985,7 +985,7 @@ public class AdventureFrame extends KoLFrame
 		private class ClosetUpdater implements Runnable
 		{
 			public void run()
-			{	closetField.setText( String.valueOf( KoLCharacter.getClosetMeat() ) );
+			{	closetField.setText( df.format( KoLCharacter.getClosetMeat() ) );
 			}
 		}
 	}
