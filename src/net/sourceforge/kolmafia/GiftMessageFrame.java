@@ -59,14 +59,6 @@ public class GiftMessageFrame extends SendMessageFrame
 	{	super( client, "Send a Purple Message", recipient );
 	}
 
-	public void dispose()
-	{
-		GiftMessageRequest.PACKAGES.removeListDataListener( packageSelect );
-
-		packageSelect = null;
-		super.dispose();
-	}
-
 	protected String [] getEntryHeaders()
 	{	return HEADERS;
 	}
@@ -77,18 +69,7 @@ public class GiftMessageFrame extends SendMessageFrame
 
 	protected Component [] getWestComponents()
 	{
-		// Which packages are available depends on ascension count.
-		// You start with two packages and receive an additional
-		// package every three ascensions you complete.
-
-		int ascensions = KoLCharacter.getAscensions();
-		int count = Math.min( ascensions / 3 + 2, 11 );
-		LockableListModel packages = new LockableListModel();
-
-		for ( int i = 0; i < count; ++i )
-			packages.add( GiftMessageRequest.PACKAGES.get( i ) );
-
-		packageSelect = new JComboBox( packages );
+		packageSelect = new JComboBox( GiftMessageRequest.getPackages() );
 		Component [] westComponents = new Component[1];
 		westComponents[0] = packageSelect;
 		return westComponents;

@@ -1180,7 +1180,8 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else
 			{
-				int desiredPackageIndex = Math.min( GiftMessageRequest.PACKAGES.size() - 1, attachments.length );
+				List availablePackages = GiftMessageRequest.getPackages();
+				int desiredPackageIndex = Math.min( availablePackages.size() - 1, attachments.length );
 
 				// Clear the error state for continuation on the
 				// message sending attempt.
@@ -1188,7 +1189,7 @@ public class KoLmafiaCLI extends KoLmafia
 				updateDisplay( "" );
 
 				(new GiftMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", "You are awesome.",
-					GiftMessageRequest.PACKAGES.get( desiredPackageIndex ), attachments, 0 )).run();
+					availablePackages.get( desiredPackageIndex ), attachments, 0 )).run();
 
 				if ( StaticEntity.getClient().permitsContinue() )
 					updateDisplay( "Gift sent to " + splitParameters[1] );

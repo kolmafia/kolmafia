@@ -47,7 +47,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	private GiftWrapper wrappingType;
 	private int maxCapacity, materialCost;
 
-	public static final LockableListModel PACKAGES = new LockableListModel();
+	private static final LockableListModel PACKAGES = new LockableListModel();
 	static
 	{
 		BufferedReader reader = KoLDatabase.getReader( "packages.dat" );
@@ -152,6 +152,16 @@ public class GiftMessageRequest extends SendMessageRequest
 	{	return "<td>Package sent.</td>";
 	}
 
+	public static LockableListModel getPackages()
+	{
+		// Which packages are available depends on ascension count.
+		// You start with two packages and receive an additional
+		// package every three ascensions you complete.
+
+		LockableListModel packages = new LockableListModel();
+		packages.addAll( PACKAGES.subList( 0, Math.min( KoLCharacter.getAscensions() / 3 + 1, 10 ) ) );
+		return packages;
+	}
 
 	/**
 	 * Runs the request.  Note that this does not report an error if it fails;
