@@ -271,21 +271,7 @@ public class GearChangeFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			// Ignore the event if the window is currently not
-			// showing, you're in the middle of changing items,
-			// or the frame is currently disabled.
-
-			if ( !isShowing() || !isEnabled() )
-				return;
-
-			if ( e.paramString().endsWith( "=" ) )
-				return;
-
-			// Once all the tests above fail, that means the
-			// change can be tested.
-
-			executeChange();
+		{	return;
 		}
 
 		public void firePopupMenuWillBecomeInvisible()
