@@ -307,11 +307,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		JPanel [] panels = new JPanel[5];
 
-		panels[0] = new JPanel( new GridLayout( 2, 1 ) );
+		panels[0] = new JPanel( new GridLayout( 1, 1 ) );
 		panels[0].add( new RequestButton( "refresh", new CharsheetRequest( client ) ) );
-		panels[0].add( levelLabel = new JLabel( " ", JLabel.CENTER ) );
 
-		panels[1] = new JPanel( new GridLayout( 4, 2 ) );
+		panels[1] = new JPanel( new GridLayout( 5, 2 ) );
+		panels[1].add( new JLabel( "Lvl: ", JLabel.RIGHT ) );
+		panels[1].add( levelLabel = new JLabel( " ", JLabel.LEFT ) );
 		panels[1].add( new JLabel( "Mus: ", JLabel.RIGHT ) );
 		panels[1].add( musLabel = new JLabel( " ", JLabel.LEFT ) );
 		panels[1].add( new JLabel( "Mys: ", JLabel.RIGHT ) );
@@ -321,18 +322,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		panels[1].add( new JLabel( "Drunk: ", JLabel.RIGHT ) );
 		panels[1].add( drunkLabel = new JLabel( " ", JLabel.LEFT) );
 
-		panels[2] = new JPanel( new GridLayout( 4, 2 ) );
-		panels[2].add( new JLabel( "HP: ", JLabel.RIGHT ) );
-		panels[2].add( hpLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[2].add( new JLabel( "MP: ", JLabel.RIGHT ) );
-		panels[2].add( mpLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[2].add( new JLabel( "Meat: ", JLabel.RIGHT ) );
-		panels[2].add( meatLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[2].add( new JLabel( "Adv: ", JLabel.RIGHT ) );
-		panels[2].add( advLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[2] = new JPanel( new GridLayout( 1, 1 ) );
+		panels[2].add( roninLabel = new JLabel( " ", JLabel.CENTER ) );
 
-		panels[3] = new JPanel( new GridLayout( 1, 1 ) );
-		panels[3].add( roninLabel = new JLabel( " ", JLabel.CENTER ) );
+		panels[3] = new JPanel( new GridLayout( 2, 2, 5, 5 ) );
+		panels[3].add( hpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
+		panels[3].add( mpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
+		panels[3].add( meatLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
+		panels[3].add( advLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
 
 		panels[4] = new JPanel( new GridLayout( 1, 1 ) );
 		panels[4].add( familiarLabel = new UnanimatedLabel() );
@@ -343,9 +340,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		for ( int i = 0; i < panels.length; ++i )
 		{
-			compactContainer.add( Box.createVerticalStrut( 20 ) );
 			panels[i].setOpaque( false );
 			compactContainer.add( panels[i] );
+			compactContainer.add( Box.createVerticalStrut( 20 ) );
 		}
 
 		JPanel compactCard = new JPanel( new CardLayout( 8, 8 ) );
@@ -367,8 +364,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		public void run()
 		{
-			levelLabel.setText( "Lvl. " + KoLCharacter.getLevel() );
-			roninLabel.setText( KoLCharacter.isHardcore() ? "Hardcore" : KoLCharacter.canInteract() ? "" : "Ronin" );
+			levelLabel.setText( String.valueOf( KoLCharacter.getLevel() ) );
+			roninLabel.setText( KoLCharacter.isHardcore() ? "Hardcore" : KoLCharacter.canInteract() ? "No Ronin" : "Ronin" );
 
 			musLabel.setText( "<html><font color=blue>" + KoLCharacter.getAdjustedMuscle() + "</font> (" +
 				KoLCharacter.getBaseMuscle() + ")" );
@@ -382,9 +379,21 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
 
 			hpLabel.setText( KoLCharacter.getCurrentHP() + " / " + KoLCharacter.getMaximumHP() );
+			hpLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			hpLabel.setHorizontalTextPosition( JLabel.CENTER );
+
 			mpLabel.setText( KoLCharacter.getCurrentMP() + " / " + KoLCharacter.getMaximumMP() );
+			mpLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			mpLabel.setHorizontalTextPosition( JLabel.CENTER );
+
 			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
+			meatLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			meatLabel.setHorizontalTextPosition( JLabel.CENTER );
+
 			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+			advLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			advLabel.setHorizontalTextPosition( JLabel.CENTER );
+
 
 			FamiliarData familiar = KoLCharacter.getFamiliar();
 			int id = familiar == null ? -1 : familiar.getID();
