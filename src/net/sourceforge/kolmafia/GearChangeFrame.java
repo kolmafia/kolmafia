@@ -68,8 +68,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class GearChangeFrame extends KoLFrame
 {
-	private boolean isChanging = true;
-
 	private JComboBox [] equipment;
 	private LockableListModel [] equipmentLists;
 	private JComboBox outfitSelect, familiarSelect;
@@ -90,7 +88,6 @@ public class GearChangeFrame extends KoLFrame
 
 		framePanel.add( createEquipPanel(), "" );
 		refreshEquipPanel();
-		isChanging = false;
 	}
 
 	public void dispose()
@@ -118,13 +115,15 @@ public class GearChangeFrame extends KoLFrame
 			{
 				if ( isEnabled )
 				{
-					// Do not enable Off-Hand if character
+					// Do not enable off-hand if character
 					// has a big weapon
+
 					if ( i == KoLCharacter.OFFHAND && KoLCharacter.weaponHandedness() > 1 )
 						continue;
 
-					// Enable Shirts only if character has
+					// Enable shirts only if character has
 					// Torso Awaregness skill
+
 					if ( i == KoLCharacter.SHIRT && !KoLCharacter.hasSkill( "Torso Awaregness" ) )
 						continue;
 				}
@@ -277,7 +276,7 @@ public class GearChangeFrame extends KoLFrame
 			// showing, you're in the middle of changing items,
 			// or the frame is currently disabled.
 
-			if ( !isShowing() || isChanging || !isEnabled() )
+			if ( !isShowing() || !isEnabled() )
 				return;
 
 			if ( e.paramString().endsWith( "=" ) )
@@ -293,7 +292,7 @@ public class GearChangeFrame extends KoLFrame
 		{
 			super.firePopupMenuWillBecomeInvisible();
 
-			if ( !isShowing() || isChanging || !isEnabled() )
+			if ( !isShowing() || !isEnabled() )
 				return;
 
 			executeChange();
@@ -316,7 +315,6 @@ public class GearChangeFrame extends KoLFrame
 			     ( this == outfitSelect && !( parameters[1] instanceof SpecialOutfit ) ) )
 				return;
 
-			isChanging = true;
 			(new RequestThread( this )).start();
 		}
 
@@ -326,7 +324,6 @@ public class GearChangeFrame extends KoLFrame
 			{
 				client.makeRequest( (Runnable) constructor.newInstance( parameters ), 1 );
 				refreshEquipPanel();
-				isChanging = false;
 			}
 			catch ( Exception e )
 			{
