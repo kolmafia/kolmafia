@@ -46,15 +46,5 @@ package net.sourceforge.kolmafia;
 
 public interface KoLCharacterListener
 {
-	public void hpChanged();
-	public void mpChanged();
-	public void statusPointsChanged();
-	public void availableMeatChanged();
-	public void closetMeatChanged();
-	public void adventuresLeftChanged();
-	public void inebrietyChanged();
-	public void totalTurnsChanged();
-	public void familiarChanged();
-	public boolean isStatusListener();
-	public boolean isInventoryListener();
+	public void updateStatus();
 }

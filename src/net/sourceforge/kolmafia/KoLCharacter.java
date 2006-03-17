@@ -495,12 +495,6 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.currentHP = currentHP < 0 ? 0 :currentHP > maximumHP ? maximumHP : currentHP;
 		KoLCharacter.maximumHP = maximumHP;
 		KoLCharacter.baseMaxHP = baseMaxHP;
-
-		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
-		listenerList.toArray( listenerArray );
-
-		for ( int i = 0; i < listenerArray.length; ++i )
-			listenerArray[i].hpChanged();
 	}
 
 	/**
@@ -542,12 +536,6 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.currentMP = currentMP < 0 ? 0 : currentMP > maximumMP ? maximumMP : currentMP;
 		KoLCharacter.maximumMP = maximumMP;
 		KoLCharacter.baseMaxMP = baseMaxMP;
-
-		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
-		listenerList.toArray( listenerArray );
-
-		for ( int i = 0; i < listenerArray.length; ++i )
-			listenerArray[i].mpChanged();
 	}
 
 	/**
@@ -583,14 +571,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setClosetMeat( int closetMeat )
-	{
-		KoLCharacter.closetMeat = closetMeat;
-
-		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
-		listenerList.toArray( listenerArray );
-
-		for ( int i = 0; i < listenerArray.length; ++i )
-			listenerArray[i].closetMeatChanged();
+	{	KoLCharacter.closetMeat = closetMeat;
 	}
 
 	/**
@@ -610,14 +591,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setAvailableMeat( int availableMeat )
-	{
-		KoLCharacter.availableMeat = availableMeat;
-
-		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
-		listenerList.toArray( listenerArray );
-
-		for ( int i = 0; i < listenerArray.length; ++i )
-			listenerArray[i].availableMeatChanged();
+	{	KoLCharacter.availableMeat = availableMeat;
 	}
 
 	/**
@@ -657,12 +631,6 @@ public abstract class KoLCharacter extends StaticEntity
 		totalSubpoints[0] = totalMuscle;
 		totalSubpoints[1] = totalMysticality;
 		totalSubpoints[2] = totalMoxie;
-
-		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
-		listenerList.toArray( listenerArray );
-
-		for ( int i = 0; i < listenerArray.length; ++i )
-			listenerArray[i].statusPointsChanged();
 	}
 
 	/**
@@ -857,14 +825,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setInebriety( int inebriety )
-	{
-		KoLCharacter.inebriety = inebriety;
-
-		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
-		listenerList.toArray( listenerArray );
-
-		for ( int i = 0; i < listenerArray.length; ++i )
-			listenerArray[i].inebrietyChanged();
+	{	KoLCharacter.inebriety = inebriety;
 	}
 
 	/**
@@ -886,14 +847,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setAdventuresLeft( int adventuresLeft )
-	{
-		KoLCharacter.adventuresLeft = adventuresLeft;
-
-		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
-		listenerList.toArray( listenerArray );
-
-		for ( int i = 0; i < listenerArray.length; ++i )
-			listenerArray[i].adventuresLeftChanged();
+	{	KoLCharacter.adventuresLeft = adventuresLeft;
 	}
 
 	/**
@@ -916,14 +870,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setTotalTurnsUsed( int totalTurnsUsed )
-	{
-		KoLCharacter.totalTurnsUsed = totalTurnsUsed;
-
-		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
-		listenerList.toArray( listenerArray );
-
-		for ( int i = 0; i < listenerArray.length; ++i )
-			listenerArray[i].totalTurnsChanged();
+	{	KoLCharacter.totalTurnsUsed = totalTurnsUsed;
 	}
 
 	/**
@@ -1965,12 +1912,6 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		currentFamiliar = addFamiliar( familiar );
 		familiars.setSelectedItem( currentFamiliar );
-
-		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
-		listenerList.toArray( listenerArray );
-
-		for ( int i = 0; i < listenerArray.length; ++i )
-			listenerArray[i].familiarChanged();
 	}
 
 	/**
@@ -1982,12 +1923,6 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		if ( currentFamiliar != null )
 			currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
-
-		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
-		listenerList.toArray( listenerArray );
-
-		for ( int i = 0; i < listenerArray.length; ++i )
-			listenerArray[i].familiarChanged();
 	}
 
 	/**
@@ -2046,7 +1981,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void addCharacterListener( KoLCharacterListener listener )
 	{
-		if ( listener != null && listener.isStatusListener() && !listenerList.contains( listener ) )
+		if ( listener != null && !listenerList.contains( listener ) )
 			listenerList.add( listener );
 	}
 
@@ -2164,12 +2099,6 @@ public abstract class KoLCharacter extends StaticEntity
 				totalSubpoints[1] += result.getCount();
 			else if ( result.isMoxieGain() )
 				totalSubpoints[2] += result.getCount();
-
-			KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
-			listenerList.toArray( listenerArray );
-
-			for ( int i = 0; i < listenerArray.length; ++i )
-				listenerArray[i].statusPointsChanged();
 		}
 
 		// Refresh after every result processing.
@@ -2257,5 +2186,14 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 
 		return false;
+	}
+
+	public static void updateStatus()
+	{
+		KoLCharacterListener [] listenerArray = new KoLCharacterListener[ listenerList.size() ];
+		listenerList.toArray( listenerArray );
+
+		for ( int i = 0; i < listenerArray.length; ++i )
+			listenerArray[i].updateStatus();
 	}
 }

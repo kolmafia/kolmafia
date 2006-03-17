@@ -44,10 +44,9 @@ import javax.swing.event.ListDataListener;
  * class can simply override the methods it needs.
  */
 
-public class KoLCharacterAdapter implements KoLCharacterListener, ListDataListener
+public class KoLCharacterAdapter implements KoLCharacterListener
 {
 	private Runnable statusUpdater;
-	private Runnable listUpdater;
 
 	public KoLCharacterAdapter()
 	{	this( null );
@@ -58,93 +57,16 @@ public class KoLCharacterAdapter implements KoLCharacterListener, ListDataListen
 	}
 
 	public KoLCharacterAdapter( Runnable statusUpdater, Runnable listUpdater )
-	{
-		this.statusUpdater = statusUpdater;
-		this.listUpdater = listUpdater;
+	{	this.statusUpdater = statusUpdater;
 	}
 
-	public void hpChanged()
+	public void updateStatus()
 	{
 		if ( statusUpdater != null )
 			statusUpdater.run();
-	}
-	public void mpChanged()
-	{
-		if ( statusUpdater != null )
-			statusUpdater.run();
-	}
-
-	public void statusPointsChanged()
-	{
-		if ( statusUpdater != null )
-			statusUpdater.run();
-	}
-
-	public void availableMeatChanged()
-	{
-		if ( statusUpdater != null )
-			statusUpdater.run();
-
-		if ( listUpdater != null )
-			listUpdater.run();
-	}
-
-	public void closetMeatChanged()
-	{
-		if ( statusUpdater != null )
-			statusUpdater.run();
-
-		if ( listUpdater != null )
-			listUpdater.run();
-	}
-
-	public void adventuresLeftChanged()
-	{
-		if ( statusUpdater != null )
-			statusUpdater.run();
-	}
-
-	public void inebrietyChanged()
-	{
-		if ( statusUpdater != null )
-			statusUpdater.run();
-	}
-
-	public void totalTurnsChanged()
-	{
-		if ( statusUpdater != null )
-			statusUpdater.run();
-	}
-
-	public void familiarChanged()
-	{
-		if ( statusUpdater != null )
-			statusUpdater.run();
-	}
-
-	public void contentsChanged( ListDataEvent e )
-	{
-		if ( listUpdater != null )
-			listUpdater.run();
-	}
-
-	public void intervalAdded( ListDataEvent e )
-	{
-		if ( listUpdater != null )
-			listUpdater.run();
-	}
-
-	public void intervalRemoved( ListDataEvent e )
-	{
-		if ( listUpdater != null )
-			listUpdater.run();
 	}
 
 	public boolean isStatusListener()
 	{	return statusUpdater != null;
-	}
-
-	public boolean isInventoryListener()
-	{	return listUpdater != null;
 	}
 }
