@@ -324,14 +324,19 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		panels[ panelCount ].add( drunkLabel = new JLabel( " ", JLabel.LEFT) );
 
 		panels[ ++panelCount ] = new JPanel( new BorderLayout() );
+		panels[ panelCount ].setOpaque( false );
 
 			JPanel labelPanel = new JPanel( new GridLayout( 4, 1 ) );
+			labelPanel.setOpaque( false );
+
 			labelPanel.add( new JLabel( "    HP: ", JLabel.RIGHT ) );
 			labelPanel.add( new JLabel( "    MP: ", JLabel.RIGHT ) );
 			labelPanel.add( new JLabel( "    Meat: ", JLabel.RIGHT ) );
 			labelPanel.add( new JLabel( "    Adv: ", JLabel.RIGHT ) );
 
 			JPanel valuePanel = new JPanel( new GridLayout( 4, 1 ) );
+			valuePanel.setOpaque( false );
+
 			valuePanel.add( hpLabel = new JLabel( " ", JLabel.LEFT ) );
 			valuePanel.add( mpLabel = new JLabel( " ", JLabel.LEFT ) );
 			valuePanel.add( meatLabel = new JLabel( " ", JLabel.LEFT ) );
@@ -2065,8 +2070,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			skillSelect.setEnabled( isEnabled );
-			targetSelect.setEnabled( isEnabled );
+
+			if ( skillSelect != null && targetSelect != null )
+			{
+				skillSelect.setEnabled( isEnabled );
+				targetSelect.setEnabled( isEnabled );
+			}
 		}
 
 		protected void actionConfirmed()
