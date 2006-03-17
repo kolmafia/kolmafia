@@ -125,7 +125,7 @@ public class AdventureFrame extends KoLFrame
 
 		JPanel southPanel = new JPanel( new GridLayout( 1, 2, 5, 5 ) );
 		southPanel.add( getAdventureSummary(0) );
-		southPanel.add( getAdventureSummary(1) );
+		southPanel.add( getAdventureSummary(2) );
 
 		adventureContainer.add( adventureSelect, BorderLayout.NORTH );
 		adventureContainer.add( southPanel, BorderLayout.CENTER );
