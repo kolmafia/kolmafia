@@ -117,11 +117,11 @@ public class SearchMallRequest extends KoLRequest
 		super( client, searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
 		addFormField( "whichitem", searchString );
 
-		if ( cheapestCount > 0 )
-		{
-			addFormField( "cheaponly", "on" );
-			addFormField( "shownum", "" + cheapestCount );
-		}
+		if ( cheapestCount <= 0 || cheapestCount > 37 )
+			cheapestCount = 37;
+
+		addFormField( "cheaponly", "on" );
+		addFormField( "shownum", "" + cheapestCount );
 
 		this.searchString = searchString;
 		this.results = results;
