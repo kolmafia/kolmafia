@@ -317,7 +317,7 @@ public class GearChangeFrame extends KoLFrame
 				return;
 
 			isChanging = true;
-			(new DaemonThread( this )).start();
+			(new RequestThread( this )).start();
 		}
 
 		public void run()
@@ -326,9 +326,7 @@ public class GearChangeFrame extends KoLFrame
 			{
 				client.makeRequest( (Runnable) constructor.newInstance( parameters ), 1 );
 				refreshEquipPanel();
-
 				isChanging = false;
-				client.enableDisplay();
 			}
 			catch ( Exception e )
 			{
