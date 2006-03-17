@@ -156,11 +156,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected JToolBar toolbarPanel;
 
 	protected JPanel compactPane;
-	protected JLabel levelLabel;
+	protected JLabel levelLabel, roninLabel, mcdLabel;
 	protected JLabel musLabel, mysLabel, moxLabel, drunkLabel;
 	protected JLabel hpLabel, mpLabel, meatLabel, advLabel;
-
-	protected JLabel roninLabel;
 	protected JLabel familiarLabel;
 
 	protected KoLCharacterAdapter refreshListener;
@@ -310,20 +308,22 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		panels[0] = new JPanel( new GridLayout( 1, 1 ) );
 		panels[0].add( new RequestButton( "refresh", new CharsheetRequest( client ) ) );
 
-		panels[1] = new JPanel( new GridLayout( 5, 2 ) );
-		panels[1].add( new JLabel( "Lvl: ", JLabel.RIGHT ) );
-		panels[1].add( levelLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[1].add( new JLabel( "Mus: ", JLabel.RIGHT ) );
-		panels[1].add( musLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[1].add( new JLabel( "Mys: ", JLabel.RIGHT ) );
-		panels[1].add( mysLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[1].add( new JLabel( "Mox: ", JLabel.RIGHT ) );
-		panels[1].add( moxLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[1].add( new JLabel( "Drunk: ", JLabel.RIGHT ) );
-		panels[1].add( drunkLabel = new JLabel( " ", JLabel.LEFT) );
+		panels[1] = new JPanel( new GridLayout( KoLCharacter.inMysticalitySign() ? 3 : 2, 1 ) );
+		panels[1].add( levelLabel = new JLabel( " ", JLabel.CENTER ) );
+		panels[1].add( roninLabel = new JLabel( " ", JLabel.CENTER ) );
 
-		panels[2] = new JPanel( new GridLayout( 1, 1 ) );
-		panels[2].add( roninLabel = new JLabel( " ", JLabel.CENTER ) );
+		if ( KoLCharacter.inMysticalitySign() || true )
+			panels[1].add( mcdLabel = new JLabel( " ", JLabel.CENTER ) );
+
+		panels[2] = new JPanel( new GridLayout( 4, 2 ) );
+		panels[2].add( new JLabel( "Mus: ", JLabel.RIGHT ) );
+		panels[2].add( musLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[2].add( new JLabel( "Mys: ", JLabel.RIGHT ) );
+		panels[2].add( mysLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[2].add( new JLabel( "Mox: ", JLabel.RIGHT ) );
+		panels[2].add( moxLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[2].add( new JLabel( "Drunk: ", JLabel.RIGHT ) );
+		panels[2].add( drunkLabel = new JLabel( " ", JLabel.LEFT) );
 
 		panels[3] = new JPanel( new GridLayout( 2, 2, 5, 5 ) );
 		panels[3].add( hpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
@@ -364,8 +364,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		public void run()
 		{
-			levelLabel.setText( String.valueOf( KoLCharacter.getLevel() ) );
-			roninLabel.setText( KoLCharacter.isHardcore() ? "Hardcore" : KoLCharacter.canInteract() ? "No Ronin" : "Ronin" );
+			levelLabel.setText( "Level " + KoLCharacter.getLevel() );
+			roninLabel.setText( KoLCharacter.isHardcore() ? "(Hardcore)" : KoLCharacter.canInteract() ? "(Ronin-Clear)" : "(Ronin)" );
+
+			if ( mcdLabel != null )
+				mcdLabel.setText( "MCD @ " + KoLCharacter.getMindControlLevel() );
 
 			musLabel.setText( "<html><font color=blue>" + KoLCharacter.getAdjustedMuscle() + "</font> (" +
 				KoLCharacter.getBaseMuscle() + ")" );
