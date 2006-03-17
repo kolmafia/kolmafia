@@ -338,13 +338,11 @@ public class OptionsFrame extends KoLFrame
 			chatStyleSelect.addItem( "Channels combined, blues separate" );
 
 			useTabSelect = new JComboBox();
-			useTabSelect.addItem( "Use windowed chat interface (popup contacts)" );
-			useTabSelect.addItem( "Use windowed chat interface (inline contacts)" );
-			useTabSelect.addItem( "Use tabbed chat interface (popup contacts)" );
-			useTabSelect.addItem( "Use tabbed chat interface (inline contacts)" );
+			useTabSelect.addItem( "Use windowed chat interface" );
+			useTabSelect.addItem( "Use tabbed chat interface" );
 
 			popupSelect = new JComboBox();
-			popupSelect.addItem( "Display /freinds and /who in chat display" );
+			popupSelect.addItem( "Display /friends and /who in chat display" );
 			popupSelect.addItem( "Popup a window for /friends and /who" );
 
 			eSoluSelect = new JComboBox();

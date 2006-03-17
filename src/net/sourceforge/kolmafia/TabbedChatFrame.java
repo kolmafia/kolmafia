@@ -69,10 +69,14 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 
 	public void stateChanged( ChangeEvent e )
 	{
-		if ( tabs.getSelectedIndex() != -1 )
+		int selectedIndex = tabs.getSelectedIndex();
+
+		if ( selectedIndex != -1 )
 		{
-			tabs.setBackgroundAt( tabs.getSelectedIndex(), null );
-			tabs.setForegroundAt( tabs.getSelectedIndex(), null );
+			tabs.setBackgroundAt( selectedIndex, null );
+			tabs.setForegroundAt( selectedIndex, null );
+
+			KoLMessenger.setUpdateChannel( tabs.getTitleAt( selectedIndex ).trim() );
 		}
 	}
 

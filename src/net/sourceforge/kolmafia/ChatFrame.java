@@ -227,6 +227,9 @@ public class ChatFrame extends KoLFrame
 		{
 			if ( entryField != null )
 				entryField.requestFocus();
+
+			System.out.println( "Focus requested." );
+			KoLMessenger.setUpdateChannel( getAssociatedContact() );
 		}
 
 		/**
@@ -239,8 +242,6 @@ public class ChatFrame extends KoLFrame
 
 		private class ChatEntryListener extends KeyAdapter implements ActionListener
 		{
-			private String lastMessage = null;
-
 			public void actionPerformed( ActionEvent e )
 			{	submitChat();
 			}
@@ -253,21 +254,19 @@ public class ChatFrame extends KoLFrame
 
 			private void submitChat()
 			{
-				if ( lastMessage != null && lastMessage.equals( entryField.getText().trim() ) )
-					return;
-
-				lastMessage = entryField.getText().trim();
+				String currentMessage = entryField.getText();
+				KoLMessenger.setUpdateChannel( associatedContact );
 				ChatRequest [] requests;
 
-				if ( lastMessage.length() <= 256 )
+				if ( currentMessage.length() <= 256 )
 				{
 					// This is a standard-length message.  Send it
 					// without adding additional divisions.
 
 					requests = new ChatRequest[1];
-					requests[0] = new ChatRequest( client, associatedContact, lastMessage );
+					requests[0] = new ChatRequest( client, associatedContact, currentMessage );
 				}
-				else if ( lastMessage.length() < 1000 || associatedContact.equals( "/clan" ) )
+				else if ( currentMessage.length() < 1000 || associatedContact.equals( "/clan" ) )
 				{
 					// If the message is too long for one message, then
 					// divide it into its component pieces.
@@ -276,21 +275,21 @@ public class ChatFrame extends KoLFrame
 					List splitMessages = new ArrayList();
 					int prevSpaceIndex = 0, nextSpaceIndex = 0;
 
-					while ( nextSpaceIndex < lastMessage.length() )
+					while ( nextSpaceIndex < currentMessage.length() )
 					{
-						nextSpaceIndex = prevSpaceIndex + 240 >= lastMessage.length() ? lastMessage.length() :
-							lastMessage.lastIndexOf( " ", Math.min( prevSpaceIndex + 240, lastMessage.length() ) );
+						nextSpaceIndex = prevSpaceIndex + 240 >= currentMessage.length() ? currentMessage.length() :
+							currentMessage.lastIndexOf( " ", Math.min( prevSpaceIndex + 240, currentMessage.length() ) );
 
 						if ( nextSpaceIndex == -1 )
-							nextSpaceIndex = Math.min( prevSpaceIndex + 240, lastMessage.length() );
+							nextSpaceIndex = Math.min( prevSpaceIndex + 240, currentMessage.length() );
 
-						trimmedMessage = lastMessage.substring( prevSpaceIndex, nextSpaceIndex ).trim();
+						trimmedMessage = currentMessage.substring( prevSpaceIndex, nextSpaceIndex ).trim();
 
 						if ( prevSpaceIndex != 0 )
 							trimmedMessage = "... " + trimmedMessage;
-						if ( nextSpaceIndex != lastMessage.length() )
+						if ( nextSpaceIndex != currentMessage.length() )
 							trimmedMessage = trimmedMessage + " ...";
-						if ( lastMessage.startsWith( "/" ) )
+						if ( currentMessage.startsWith( "/" ) )
 							trimmedMessage = "/me " + trimmedMessage.replaceFirst( "/[^\\s]*\\s+", "" );
 
 						splitMessages.add( trimmedMessage );
@@ -309,7 +308,7 @@ public class ChatFrame extends KoLFrame
 					// case.
 
 					requests = new ChatRequest[1];
-					requests[0] = new ChatRequest( client, associatedContact, lastMessage.substring( 0, 256 ) );
+					requests[0] = new ChatRequest( client, associatedContact, currentMessage.substring( 0, 256 ) );
 				}
 
 				(new RequestThread( requests )).start();
@@ -450,6 +449,10 @@ public class ChatFrame extends KoLFrame
 	{
 		public MessengerButton( String title, String image, String method )
 		{	super( title, image, KoLMessenger.class, method );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	KoLMessenger.setUpdateChannel( getAssociatedContact() );
 		}
 	}
 

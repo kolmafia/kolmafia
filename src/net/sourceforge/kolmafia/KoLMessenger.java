@@ -85,6 +85,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static boolean isRunning = false;
 	private static String currentChannel = "";
+	private static String updateChannel = "";
 	private static ContactListFrame contactsFrame = null;
 	private static TabbedChatFrame tabbedFrame = null;
 
@@ -160,6 +161,12 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 	}
 
+	public static void setUpdateChannel( String channel )
+	{
+		if ( channel != null && channel.startsWith( "/" ) )
+			updateChannel = channel;
+	}
+
 	/**
 	 * Initializes the chat buffer with the provided chat pane.
 	 * Note that the chat refresher will also be initialized
@@ -213,7 +220,7 @@ public abstract class KoLMessenger extends StaticEntity
 	}
 
 	public static void checkChannel()
-	{	(new RequestThread( new ChatRequest( client, currentChannel, "/who" ) )).start();
+	{	(new RequestThread( new ChatRequest( client, updateChannel, "/who" ) )).start();
 	}
 
 	/**
@@ -372,6 +379,7 @@ public abstract class KoLMessenger extends StaticEntity
 		removeChat( currentChannel );
 
 		currentChannel = "";
+		updateChannel = "";
 
 		if ( contactsFrame != null )
 		{
@@ -429,7 +437,7 @@ public abstract class KoLMessenger extends StaticEntity
 		return noCommentsContent.replaceAll( "<table>.*?</table>", "" );
 	}
 
-	private static void handleTableContent( String content, String nameOfActiveFrame )
+	private static void handleTableContent( String content )
 	{
 		Matcher tableMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( content );
 
@@ -449,8 +457,6 @@ public abstract class KoLMessenger extends StaticEntity
 				// If the user has clicked into a menu, then there's a chance that
 				// the active frame will not be recognized - therefore, simply
 				// put the messages into the current channel instead.
-
-				String updateChannel = nameOfActiveFrame == null ? currentChannel : nameOfActiveFrame;
 
 				LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
 				String [] helpdata = result.split( "\n" );
@@ -486,7 +492,10 @@ public abstract class KoLMessenger extends StaticEntity
 				updateContactList( contactList );
 			}
 			if ( !getProperty( "usePopupContacts" ).equals( "1" ) )
-				processChatMessage( currentChannel, content.replaceAll( "</?[tc].*?>", "" ).replaceFirst( "</b>", "</b><br>" ) );
+			{
+				LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
+				currentChatBuffer.append( content.replaceAll( "</?[tc].*?>", "" ).replaceFirst( "</b>", "</b><br>" ) );
+			}
 		}
 	}
 
@@ -513,16 +522,28 @@ public abstract class KoLMessenger extends StaticEntity
 			String channel, channelKey;
 			Matcher channelMatcher = Pattern.compile( "&nbsp;&nbsp;(.*?)<br>" ).matcher( content );
 
+			ArrayList channelList = new ArrayList();
 			while ( channelMatcher.find() )
 			{
 				channel = channelMatcher.group(1);
-				channelKey = "/" + channel.replaceAll( "<.*?>", "" );
+				channelKey = channel.replaceAll( "<.*?>", "" );
+				channelList.add( channelKey );
+
+				if ( channel.indexOf( "<b" ) != -1 )
+					currentChannel = "/" + channelKey;
+			}
+
+			String [] channels = new String[ channelList.size() ];
+			channelList.toArray( channels );
+
+			openInstantMessage( getBufferKey( currentChannel ) );
+			for ( int i = 0; i < channels.length; ++i )
+			{
+				channelKey = channels[i].replaceAll( "<.*?>", "" );
 				openInstantMessage( getBufferKey( channelKey ) );
 
-				if ( channel.indexOf( "<" ) == -1 )
-					setChatFrameTitle( channel, "KoLmafia Chat: " + channelKey + " (listening)" );
-				else
-					currentChannel = channelKey;
+				if ( channels[i].indexOf( "<" ) == -1 )
+					setChatFrameTitle( channelKey, "KoLmafia Chat: " + channelKey + " (listening)" );
 			}
 
 			return;
@@ -577,7 +598,7 @@ public abstract class KoLMessenger extends StaticEntity
 		// Now, extract the contact list and update KoLMessenger to indicate
 		// the contact list found in the last /friends update
 
-		handleTableContent( content, currentChannel );
+		handleTableContent( content );
 
 		// Extract player IDs from the most recent chat content, since it
 		// can prove useful at a later time.
@@ -669,6 +690,7 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( message.startsWith( "You are now talking in channel: " ) )
 		{
 			int startIndex = message.indexOf( ":" ) + 2;
+
 			currentChannel = "/" + message.substring( startIndex ).replaceAll( "\\.", "" );
 			processChatMessage( currentChannel, message );
 		}
