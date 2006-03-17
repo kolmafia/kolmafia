@@ -330,7 +330,7 @@ public class ItemManageFrame extends KoLFrame
 
 				int autoSellValue = TradeableItemDatabase.getPriceByID( ((AdventureResult)elements[i]).getItemID() );
 
-				if ( !filters[3].isSelected() && autoSellValue < 0 )
+				if ( !filters[3].isSelected() && autoSellValue == -1 )
 					elementList.removeSelectionInterval( actualIndex, actualIndex );
 
 				if ( !filters[4].isSelected() && autoSellValue == 0 )

@@ -2092,7 +2092,8 @@ public abstract class KoLCharacter extends StaticEntity
 					usables.set( usables.indexOf( items[i] ), items[i] );
 			}
 
-			if ( TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 && items[i].getCount( sellables ) != items[i].getCount() )
+			int price = TradeableItemDatabase.getPriceByID( items[i].getItemID() );
+			if ( ( price > 0 || price == -1 ) && items[i].getCount( sellables ) != items[i].getCount() )
 			{
 				if ( items[i].getCount( sellables ) == 0 )
 					sellables.add( items[i] );

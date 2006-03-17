@@ -1663,7 +1663,7 @@ public abstract class KoLmafia implements KoLConstants
 			limits[i] = sold[i].getLimit();
 			itemID[i] = sold[i].getItemID();
 
-			if ( sold[i].getPrice() == 999999999 && TradeableItemDatabase.getPriceByID( sold[i].getItemID() ) != -1 && sold[i].getQuantity() < 100 )
+			if ( sold[i].getPrice() == 999999999 && TradeableItemDatabase.getPriceByID( sold[i].getItemID() ) > 0 && sold[i].getQuantity() < 100 )
 			{
 				int desiredPrice = sold[i].getLowest() - (sold[i].getLowest() % 100);
 				if ( desiredPrice >= 100 && desiredPrice >= TradeableItemDatabase.getPriceByID( sold[i].getItemID() ) * 2 )

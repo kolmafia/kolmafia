@@ -636,7 +636,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			stringForm.append( ar.getName() );
 			stringForm.append( " (" );
 
-			if ( autoSellValue < 0 )
+			if ( autoSellValue == -1 )
 			{
 				if ( !nosell )
 					return BLANK_LABEL;
@@ -651,7 +651,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				stringForm.append( "no-trade" );
 			}
 			else
-				stringForm.append( df.format( autoSellValue ) + " meat" );
+				stringForm.append( df.format( autoSellValue > 0 ? autoSellValue : -autoSellValue ) + " meat" );
 
 			stringForm.append( ")" );
 
