@@ -156,8 +156,11 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected JToolBar toolbarPanel;
 
 	protected JPanel compactPane;
-	protected JLabel hpLabel, mpLabel, advLabel;
-	protected JLabel meatLabel, drunkLabel;
+	protected JLabel levelLabel;
+	protected JLabel musLabel, mysLabel, moxLabel, drunkLabel;
+	protected JLabel hpLabel, mpLabel, meatLabel, advLabel;
+
+	protected JLabel roninLabel;
 	protected JLabel familiarLabel;
 
 	protected KoLCharacterAdapter refreshListener;
@@ -302,24 +305,55 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( framePanel.getComponentCount() != 0 )
 			return;
 
-		JPanel compactPane = new JPanel( new GridLayout( 7, 1, 0, 20 ) );
-		compactPane.setOpaque( false );
+		JPanel [] panels = new JPanel[5];
 
-		compactPane.add( hpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
-		compactPane.add( mpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
+		panels[0] = new JPanel( new GridLayout( 2, 1 ) );
+		panels[0].add( new RequestButton( "refresh", new CharsheetRequest( client ) ) );
+		panels[0].add( levelLabel = new JLabel( " ", JLabel.CENTER ) );
 
-		compactPane.add( familiarLabel = new UnanimatedLabel() );
+		panels[1] = new JPanel( new GridLayout( 4, 2 ) );
+		panels[1].add( new JLabel( "Mus: ", JLabel.RIGHT ) );
+		panels[1].add( musLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[1].add( new JLabel( "Mys: ", JLabel.RIGHT ) );
+		panels[1].add( mysLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[1].add( new JLabel( "Mox: ", JLabel.RIGHT ) );
+		panels[1].add( moxLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[1].add( new JLabel( "Drunk: ", JLabel.RIGHT ) );
+		panels[1].add( drunkLabel = new JLabel( " ", JLabel.LEFT) );
 
-		compactPane.add( meatLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
-		compactPane.add( advLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
-		compactPane.add( drunkLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER) );
+		panels[2] = new JPanel( new GridLayout( 4, 2 ) );
+		panels[2].add( new JLabel( "HP: ", JLabel.RIGHT ) );
+		panels[2].add( hpLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[2].add( new JLabel( "MP: ", JLabel.RIGHT ) );
+		panels[2].add( mpLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[2].add( new JLabel( "Meat: ", JLabel.RIGHT ) );
+		panels[2].add( meatLabel = new JLabel( " ", JLabel.LEFT ) );
+		panels[2].add( new JLabel( "Adv: ", JLabel.RIGHT ) );
+		panels[2].add( advLabel = new JLabel( " ", JLabel.LEFT ) );
 
-		compactPane.add( Box.createHorizontalStrut( 80 ) );
+		panels[3] = new JPanel( new GridLayout( 1, 1 ) );
+		panels[3].add( roninLabel = new JLabel( " ", JLabel.CENTER ) );
 
-		this.compactPane = new JPanel();
-		this.compactPane.setLayout( new BoxLayout( this.compactPane, BoxLayout.Y_AXIS ) );
-		this.compactPane.add( Box.createVerticalStrut( 20 ) );
-		this.compactPane.add( compactPane );
+		panels[4] = new JPanel( new GridLayout( 1, 1 ) );
+		panels[4].add( familiarLabel = new UnanimatedLabel() );
+
+		JPanel compactContainer = new JPanel();
+		compactContainer.setOpaque( false );
+		compactContainer.setLayout( new BoxLayout( compactContainer, BoxLayout.Y_AXIS ) );
+
+		for ( int i = 0; i < panels.length; ++i )
+		{
+			compactContainer.add( Box.createVerticalStrut( 20 ) );
+			panels[i].setOpaque( false );
+			compactContainer.add( panels[i] );
+		}
+
+		JPanel compactCard = new JPanel( new CardLayout( 8, 8 ) );
+		compactCard.setOpaque( false );
+		compactCard.add( compactContainer, "" );
+
+		this.compactPane = new JPanel( new BorderLayout() );
+		this.compactPane.add( compactCard, BorderLayout.NORTH );
 
 		framePanel.setLayout( new BorderLayout() );
 		framePanel.add( this.compactPane, BorderLayout.WEST );
@@ -333,25 +367,24 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{
 		public void run()
 		{
-			hpLabel.setText( KoLCharacter.getCurrentHP() + " / " + KoLCharacter.getMaximumHP() );
-			hpLabel.setVerticalTextPosition( JLabel.BOTTOM );
-			hpLabel.setHorizontalTextPosition( JLabel.CENTER );
+			levelLabel.setText( "Lvl. " + KoLCharacter.getLevel() );
+			roninLabel.setText( KoLCharacter.isHardcore() ? "Hardcore" : KoLCharacter.canInteract() ? "" : "Ronin" );
 
-			mpLabel.setText( KoLCharacter.getCurrentMP() + " / " + KoLCharacter.getMaximumMP() );
-			mpLabel.setVerticalTextPosition( JLabel.BOTTOM );
-			mpLabel.setHorizontalTextPosition( JLabel.CENTER );
+			musLabel.setText( "<html><font color=blue>" + KoLCharacter.getAdjustedMuscle() + "</font> (" +
+				KoLCharacter.getBaseMuscle() + ")" );
 
-			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
-			meatLabel.setVerticalTextPosition( JLabel.BOTTOM );
-			meatLabel.setHorizontalTextPosition( JLabel.CENTER );
+			mysLabel.setText( "<html><font color=blue>" + KoLCharacter.getAdjustedMysticality() + "</font> (" +
+				KoLCharacter.getBaseMysticality() + ")" );
 
-			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
-			advLabel.setVerticalTextPosition( JLabel.BOTTOM );
-			advLabel.setHorizontalTextPosition( JLabel.CENTER );
+			moxLabel.setText( "<html><font color=blue>" + KoLCharacter.getAdjustedMoxie() + "</font> (" +
+				KoLCharacter.getBaseMoxie() + ")" );
 
 			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
-			drunkLabel.setVerticalTextPosition( JLabel.BOTTOM );
-			drunkLabel.setHorizontalTextPosition( JLabel.CENTER );
+
+			hpLabel.setText( KoLCharacter.getCurrentHP() + " / " + KoLCharacter.getMaximumHP() );
+			mpLabel.setText( KoLCharacter.getCurrentMP() + " / " + KoLCharacter.getMaximumMP() );
+			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
+			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
 			FamiliarData familiar = KoLCharacter.getFamiliar();
 			int id = familiar == null ? -1 : familiar.getID();
