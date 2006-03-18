@@ -539,7 +539,7 @@ public abstract class KoLMessenger extends StaticEntity
 			openInstantMessage( getBufferKey( currentChannel ) );
 			for ( int i = 0; i < channels.length; ++i )
 			{
-				channelKey = channels[i].replaceAll( "<.*?>", "" );
+				channelKey = "/" + channels[i].replaceAll( "<.*?>", "" );
 				openInstantMessage( getBufferKey( channelKey ) );
 
 				if ( channels[i].indexOf( "<" ) == -1 )
