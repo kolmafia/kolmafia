@@ -1158,45 +1158,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "send" ) )
 		{
-			String [] splitParameters = parameters.replaceFirst( " [tT][oO] ", "\n" ).split( "\n" );
-
-			if ( splitParameters.length != 2 )
-			{
-				updateDisplay( ERROR_STATE, "Invalid send request." );
-				return;
-			}
-
-			Object [] attachments = getMatchingItemList( splitParameters[0], INVENTORY );
-			if ( attachments.length == 0 )
-				return;
-
-			unrepeatableCommands.add( "send " + parameters );
-
-			(new GreenMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", attachments, 0, false )).run();
-
-			if ( StaticEntity.getClient().permitsContinue() )
-			{
-				updateDisplay( "Message sent to " + splitParameters[1] );
-			}
-			else
-			{
-				List availablePackages = GiftMessageRequest.getPackages();
-				int desiredPackageIndex = Math.min( availablePackages.size() - 1, attachments.length );
-
-				// Clear the error state for continuation on the
-				// message sending attempt.
-
-				updateDisplay( "" );
-
-				(new GiftMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", "You are awesome.",
-					availablePackages.get( desiredPackageIndex ), attachments, 0 )).run();
-
-				if ( StaticEntity.getClient().permitsContinue() )
-					updateDisplay( "Gift sent to " + splitParameters[1] );
-				else
-					updateDisplay( ERROR_STATE, "Failed to send message to " + splitParameters[1] );
-			}
-
+			executeSendRequest( parameters );
 			return;
 		}
 
@@ -1241,12 +1203,51 @@ public class KoLmafiaCLI extends KoLmafia
 			"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "n" ).replaceAll( "&quot;", "\"" ) );
 	}
 
+	private void executeSendRequest( String parameters )
+	{
+		String [] splitParameters = parameters.replaceFirst( " [tT][oO] ", "\n" ).split( "\n" );
+
+		if ( splitParameters.length != 2 )
+		{
+			updateDisplay( ERROR_STATE, "Invalid send request." );
+			return;
+		}
+
+		Object [] attachments = getMatchingItemList( splitParameters[0], INVENTORY );
+		if ( attachments.length == 0 )
+			return;
+
+		unrepeatableCommands.add( "send " + parameters );
+		(new GreenMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", attachments, 0, false )).run();
+
+		if ( StaticEntity.getClient().permitsContinue() )
+			updateDisplay( "Message sent to " + splitParameters[1] );
+		else
+		{
+			List availablePackages = GiftMessageRequest.getPackages();
+			int desiredPackageIndex = Math.min( availablePackages.size() - 1, attachments.length );
+
+			// Clear the error state for continuation on the
+			// message sending attempt.
+
+			updateDisplay( "" );
+
+			(new GiftMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", "You are awesome.",
+				availablePackages.get( desiredPackageIndex ), attachments, 0 )).run();
+
+			if ( StaticEntity.getClient().permitsContinue() )
+				updateDisplay( "Gift sent to " + splitParameters[1] );
+			else
+				updateDisplay( ERROR_STATE, "Failed to send message to " + splitParameters[1] );
+		}
+	}
+
 	/**
 	 * A special module used to handle the calling of a
 	 * script.
 	 */
 
-	public void executeScriptCommand( String parameters )
+	private void executeScriptCommand( String parameters )
 	{
 		try
 		{
@@ -3083,13 +3084,16 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			outputStream.println( message );
 			mirrorStream.println( message );
-			StaticEntity.getClient().getLogStream().println( message );
 		}
 
 		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
 			StaticEntity.getClient().updateDisplay( state, message );
-		else if ( message.equals( "Login failed." ) )
-			attemptLogin();
+		else
+		{
+			super.updateDisplay( state, message );
+			if ( message.equals( "Login failed." ) )
+				attemptLogin();
+		}
 	}
 
 	/**
