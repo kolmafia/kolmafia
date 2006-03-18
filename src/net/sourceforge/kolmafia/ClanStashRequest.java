@@ -101,10 +101,7 @@ public class ClanStashRequest extends SendMessageRequest
 			this.whichField = "whichitem";
 			this.quantityField = "quantity";
 			source = new ArrayList();
-			// The request culminates in a standard "You acquire an
-			// item" message. Standard response parsing will find
-			// that and add the item to the inventory.
-			destination = new ArrayList();
+			destination = KoLCharacter.getInventory();
 		}
 
 	}
@@ -178,7 +175,7 @@ public class ClanStashRequest extends SendMessageRequest
 			case REFRESH_ONLY:
 				parseStash();
 				DEFAULT_SHELL.updateDisplay( "Stash list retrieved." );
-				break;
+				return;
 
 			case MEAT_TO_STASH:
 				parseStash();
