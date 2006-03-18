@@ -239,11 +239,9 @@ public class FightRequest extends KoLRequest
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
 
 			// If you can't battle again in this location,
-			// cancel future iterations.  Note that there
-			// is a special case: the hedge maze never
-			// has an "adventure again" link.
+			// cancel future iterations.
 
-			else if ( responseText.indexOf( "againform.submit" ) == -1 && responseText.indexOf( "Go back to the Sorceress' Hedge Maze" ) == -1 )
+			else if ( responseText.indexOf( "againform.submit" ) == -1 && responseText.indexOf( "lair3.php" ) == -1 && responseText.indexOf( "lair4.php" ) == -1 && responseText.indexOf( "lair5.php" ) == -1 && responseText.indexOf( "lair6.php" ) == -1 )
 				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Nothing left to do here." );
 
 			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
