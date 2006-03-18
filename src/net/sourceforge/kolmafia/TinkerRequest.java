@@ -71,17 +71,8 @@ public class TinkerRequest extends ItemCreationRequest
 		if ( !client.permitsContinue() )
 			return;
 
-		int quantity = getQuantityNeeded();
-
-		// Disable controls
-		DEFAULT_SHELL.updateDisplay( "Creating " + quantity + " " + getName() + "..." );
-		addFormField( "qty", String.valueOf( quantity ) );
-
-		// Run the request
+		DEFAULT_SHELL.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );
+		addFormField( "qty", String.valueOf( getQuantityNeeded() ) );
 		super.run();
-
-		// Account for the results
-		for ( int i = 0; i < ingredients.length; ++i )
-			client.processResult( ingredients[i].getInstance( 0 - quantity ) );
 	}
 }

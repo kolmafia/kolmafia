@@ -68,8 +68,11 @@ public class MindControlRequest extends KoLRequest
 
 		DEFAULT_SHELL.updateDisplay( "Resetting mind control device..." );
 		super.run();
-		DEFAULT_SHELL.updateDisplay( "Mind control device reset." );
+	}
 
+	protected void processResults()
+	{
+		DEFAULT_SHELL.updateDisplay( "Mind control device reset." );
 		KoLCharacter.setMindControlLevel( level );
 	}
 }

@@ -109,9 +109,11 @@ public class RestaurantRequest extends KoLRequest
 		}
 
 		DEFAULT_SHELL.updateDisplay( "Visiting the restaurant..." );
-
 		super.run();
+	}
 
+	protected void processResults()
+	{
 		if ( isPurchase )
 		{
 			if ( responseText.indexOf( "You are too full to eat that." ) != -1 )
@@ -121,6 +123,8 @@ public class RestaurantRequest extends KoLRequest
 			}
 
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
+			super.processResults();
+
 			DEFAULT_SHELL.updateDisplay( "Food purchased." );
 			return;
 		}

@@ -222,7 +222,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			else
 				numberToUse = 1;
 
-			DEFAULT_SHELL.updateDisplay( "Consuming " + numberToUse + " " + itemName + "s..." );
+			DEFAULT_SHELL.updateDisplay( "Consuming " + numberToUse + " " + itemName + "..." );
 			(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
 		}
 

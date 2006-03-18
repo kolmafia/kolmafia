@@ -308,17 +308,51 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// actual purchase request.
 
 		DEFAULT_SHELL.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")" );
+		super.run();
+	}
 
+	public int compareTo( Object o )
+	{
+		return ( o == null || !( o instanceof MallPurchaseRequest ) ) ? 1 :
+			compareTo( (MallPurchaseRequest) o );
+	}
+
+	public int compareTo( MallPurchaseRequest mpr )
+	{	return price - mpr.price;
+	}
+
+	private void ensureProperAttire()
+	{
+		if ( !isNPCStore )
+			return;
+
+		int neededOutfit = 0;
+
+		if ( npcStoreID.equals( "b" ) )
+			neededOutfit = 1;
+
+		if ( npcStoreID.equals( "g" ) )
+			neededOutfit = 5;
+
+		if ( npcStoreID.equals( "h" ) )
+			neededOutfit = 2;
+
+		if ( neededOutfit == 0 )
+			return;
+
+		// Only switch outfits if the person is not
+		// currently wearing the outfit.
+
+		if ( !EquipmentDatabase.isWearingOutfit( neededOutfit ) )
+			(new EquipmentRequest( client, EquipmentDatabase.getOutfit( neededOutfit ) )).run();
+	}
+
+	protected void processResults()
+	{
 		AdventureResult searchItem = new AdventureResult( itemID, 0 );
 		int beforeCount = searchItem.getCount( KoLCharacter.getInventory() );
 
-		super.run();
-
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
+		super.processResults();
 
 		// Once it reaches this point, you know that the
 		// request was executed.  Begin parsing the reply.
@@ -431,41 +465,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// so that gets updated in the session summary as well.
 
 		client.processResult( new AdventureResult( AdventureResult.MEAT, -1 * price * (afterCount - beforeCount) ) );
-	}
-
-	public int compareTo( Object o )
-	{
-		return ( o == null || !( o instanceof MallPurchaseRequest ) ) ? 1 :
-			compareTo( (MallPurchaseRequest) o );
-	}
-
-	public int compareTo( MallPurchaseRequest mpr )
-	{	return price - mpr.price;
-	}
-
-	private void ensureProperAttire()
-	{
-		if ( !isNPCStore )
-			return;
-
-		int neededOutfit = 0;
-
-		if ( npcStoreID.equals( "b" ) )
-			neededOutfit = 1;
-
-		if ( npcStoreID.equals( "g" ) )
-			neededOutfit = 5;
-
-		if ( npcStoreID.equals( "h" ) )
-			neededOutfit = 2;
-
-		if ( neededOutfit == 0 )
-			return;
-
-		// Only switch outfits if the person is not
-		// currently wearing the outfit.
-
-		if ( !EquipmentDatabase.isWearingOutfit( neededOutfit ) )
-			(new EquipmentRequest( client, EquipmentDatabase.getOutfit( neededOutfit ) )).run();
+		KoLCharacter.updateStatus();
 	}
 }

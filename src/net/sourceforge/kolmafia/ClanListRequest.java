@@ -50,15 +50,8 @@ public class ClanListRequest extends KoLRequest
 	{	return enemyClans;
 	}
 
-	public void run()
+	protected void processResults()
 	{
-		DEFAULT_SHELL.updateDisplay( "Retrieving list of attackable clans..." );
-
-		super.run();
-
-		if ( responseCode != 200 )
-			return;
-
 		Matcher clanMatcher = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" ).matcher( responseText );
 
 		while ( clanMatcher.find() )

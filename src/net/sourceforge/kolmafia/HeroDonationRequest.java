@@ -95,15 +95,10 @@ public class HeroDonationRequest extends KoLRequest
 		DEFAULT_SHELL.updateDisplay( "Donating " + amount + " to the shrine..." );
 		super.run();
 
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
+	}
 
-		if ( responseCode != 200 )
-			return;
-
-		// All the gains will be found before the first </center> tag;
-		// therefore, you can parse just that small segment.
-
+	protected void processResults()
+	{
 		if ( responseText.indexOf( "You gain" ) == -1 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, responseText.indexOf( "That's not enough" ) == -1 ?
@@ -112,6 +107,8 @@ public class HeroDonationRequest extends KoLRequest
 		}
 
 		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
+		super.processResults();
+
 		DEFAULT_SHELL.updateDisplay( "Donation complete." );
 	}
 

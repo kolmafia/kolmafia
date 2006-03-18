@@ -91,18 +91,7 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{	return "";
 	}
 
-	/**
-	 * Runs the request.  Note that this does not report an error if it fails;
-	 * it merely parses the results to see if any gains were made.
-	 */
-
-	public void run()
-	{
-		super.run();
-
-		if ( responseCode != 200 )
-			return;
-
-		responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
+	protected void processResults()
+	{	responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
 	}
 }

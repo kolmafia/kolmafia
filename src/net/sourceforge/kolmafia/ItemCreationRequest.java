@@ -87,11 +87,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	private static final AdventureResult ROLLING = new AdventureResult( 873, 1 );
 	private static final AdventureResult UNROLLING = new AdventureResult( 874, 1 );
 
-        private static final AdventureResult [][] DOUGH_DATA =
-        {       // input, tool, output
-                { DOUGH, ROLLING, FLAT_DOUGH },
-                { FLAT_DOUGH, UNROLLING, DOUGH }
-        };
+	private static final AdventureResult [][] DOUGH_DATA =
+	{       // input, tool, output
+			{ DOUGH, ROLLING, FLAT_DOUGH },
+			{ FLAT_DOUGH, UNROLLING, DOUGH }
+	};
 
 	/**
 	 * Constructs a new <code>ItemCreationRequest</code> with nothing known
@@ -390,16 +390,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return;
 
 		DEFAULT_SHELL.updateDisplay( "Creating " + toString() + "..." );
+		super.run();
+	}
+
+	protected void processResults()
+	{
 		AdventureResult createdItem = new AdventureResult( itemID, 0 );
 		int beforeQuantity = createdItem.getCount( KoLCharacter.getInventory() );
 
-		super.run();
-
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
+		super.processResults();
 
 		// Check to make sure that the item creation did not fail.
 
@@ -426,44 +425,46 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			// quantity that has changed might not be accurate.
 			// Therefore, update with the actual value.
 
+			AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
+
 			for ( int i = 0; i < ingredients.length; ++i )
-				client.processResult( new AdventureResult( ingredients[i].getItemID(), 0 - createdQuantity ) );
+				client.processResult( new AdventureResult( ingredients[i].getItemID(), -1 * createdQuantity * ingredients[i].getCount() ) );
 
 			// Reduce adventures and use meat paste
 
 			switch ( mixingMethod )
 			{
-			case COMBINE:
-				if ( !KoLCharacter.inMuscleSign() )
-					client.processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
-				break;
+				case COMBINE:
+					if ( !KoLCharacter.inMuscleSign() )
+						client.processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
+					break;
 
-			case SMITH:
-				if ( !KoLCharacter.inMuscleSign() )
+				case SMITH:
+					if ( !KoLCharacter.inMuscleSign() )
+						client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
+					break;
+
+				case SMITH_ARMOR:
+				case SMITH_WEAPON:
 					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
-				break;
+					break;
 
-			case SMITH_ARMOR:
-			case SMITH_WEAPON:
-				client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
-				break;
+				case JEWELRY:
+					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - (3 * createdQuantity) ) );
+					break;
 
-			case JEWELRY:
-				client.processResult( new AdventureResult( AdventureResult.ADV, 0 - (3 * createdQuantity) ) );
-				break;
+				case COOK:
+				case COOK_REAGENT:
+				case COOK_PASTA:
+					if ( !KoLCharacter.hasChef() )
+						client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
+					break;
 
-			case COOK:
-			case COOK_REAGENT:
-			case COOK_PASTA:
-				if ( !KoLCharacter.hasChef() )
-					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
-				break;
-
-			case MIX:
-			case MIX_SPECIAL:
-				if ( !KoLCharacter.hasBartender() )
-					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
-				break;
+				case MIX:
+				case MIX_SPECIAL:
+					if ( !KoLCharacter.hasBartender() )
+						client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
+					break;
 			}
 		}
 

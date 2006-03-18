@@ -67,9 +67,7 @@ public class TrapperRequest extends KoLRequest
 	}
 
 	public TrapperRequest( KoLmafia client, int itemID )
-	{
-		this( client, itemID, YETI_FUR.getCount( KoLCharacter.getInventory() ) );
-
+	{	this( client, itemID, YETI_FUR.getCount( KoLCharacter.getInventory() ) );
 	}
 
 	/**
@@ -89,13 +87,11 @@ public class TrapperRequest extends KoLRequest
 
 		DEFAULT_SHELL.updateDisplay( "Robbing the trapper..." );
 		super.run();
+	}
 
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
-
+	protected void processResults()
+	{
+		super.processResults();
 		client.processResult( YETI_FUR.getInstance( 0 - quantity ) );
 		DEFAULT_SHELL.updateDisplay( "Trapper successfully looted!" );
 	}

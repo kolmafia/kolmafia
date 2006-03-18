@@ -262,19 +262,11 @@ public class AutoSellRequest extends SendMessageRequest
 	public void run()
 	{
 		DEFAULT_SHELL.updateDisplay( ( sellType == AUTOSELL ) ? "Autoselling items..." : "Placing items in the mall..." );
-
 		super.run();
+	}
 
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
-
-		// Otherwise, update the client with the information stating that you
-		// sold all the items of the given time, and acquired a certain amount
-		// of meat from the recipient.
-
+	protected void processResults()
+	{
 		if ( sellType == AUTOSELL )
 		{
 			try
@@ -292,6 +284,7 @@ public class AutoSellRequest extends SendMessageRequest
 		else
 			StoreManager.update( responseText, false );
 
+		super.processResults();
 		DEFAULT_SHELL.updateDisplay( "Items sold." );
 	}
 

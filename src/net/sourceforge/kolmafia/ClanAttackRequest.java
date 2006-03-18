@@ -51,13 +51,11 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 	public void run()
 	{
 		DEFAULT_SHELL.updateDisplay( "Attacking " + name + "..." );
-
 		super.run();
+	}
 
-		// Theoretically, there should be a test for error state,
-		// but because I'm lazy, that's not happening.
-
-		DEFAULT_SHELL.updateDisplay( "Attack request processed." );
+	protected void processResults()
+	{	DEFAULT_SHELL.updateDisplay( "Attack request processed." );
 	}
 
 	public String toString()

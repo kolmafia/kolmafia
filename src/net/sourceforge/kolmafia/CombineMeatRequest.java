@@ -59,9 +59,12 @@ public class CombineMeatRequest extends ItemCreationRequest
 	public void run()
 	{
 		addFormField( "quantity", String.valueOf( getQuantityNeeded() ) );
-
 		super.run();
+	}
 
+	protected void processResults()
+	{
 		client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * getQuantityNeeded() ) );
+		super.processResults();
 	}
 }

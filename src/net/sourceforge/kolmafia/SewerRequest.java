@@ -138,12 +138,6 @@ public class SewerRequest extends KoLRequest
 		// Enter the sewer
 
 		super.run();
-
-		if ( responseCode != 200 )
-			return;
-
-		client.processResult( CLOVER );
-		client.processResult( GUM );
 	}
 
 	/**
@@ -169,9 +163,6 @@ public class SewerRequest extends KoLRequest
 
 		super.run();
 
-		if ( responseCode != 200 )
-			return;
-
 		// You may have randomly received a clover from some other
 		// source - detect this occurence and notify the user
 
@@ -180,8 +171,15 @@ public class SewerRequest extends KoLRequest
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You have an unaccounted for ten-leaf clover." );
 			return;
 		}
+	}
 
-		// Consume the gum
+	protected void processResults()
+	{
+		super.processResults();
+
+		if ( client.isLuckyCharacter() )
+			client.processResult( CLOVER );
+
 		client.processResult( GUM );
 	}
 

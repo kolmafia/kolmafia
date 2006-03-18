@@ -95,9 +95,8 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			((AscensionDataRequest)o).hardcoreCount - hardcoreCount;
 	}
 
-	public void run()
+	protected void processResults()
 	{
-		super.run();
 		responseText = responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" );
 		refreshFields();
 	}

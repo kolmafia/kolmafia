@@ -117,8 +117,8 @@ public class SearchMallRequest extends KoLRequest
 		super( client, searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
 		addFormField( "whichitem", searchString );
 
-		if ( cheapestCount <= 0 || cheapestCount > 37 )
-			cheapestCount = 37;
+		if ( cheapestCount <= 0 || cheapestCount > 100 )
+			cheapestCount = 100;
 
 		addFormField( "cheaponly", "on" );
 		addFormField( "shownum", "" + cheapestCount );
@@ -146,20 +146,41 @@ public class SearchMallRequest extends KoLRequest
 		// somewhere in ronin.
 
 		if ( searchString == null || searchString.trim().length() == 0 )
-			searchStore();
+		{
+			DEFAULT_SHELL.updateDisplay( retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
+		}
 		else
-			searchMall();
-	}
+		{
+			results.clear();
+			List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
 
-	public void processResults()
-	{	return;
+			// In the event that it's all NPC stores, and the person
+			// cannot use the mall, then only display the items which
+			// are available from NPC stores, since that's all that
+			// can be used in this circumstance.
+
+			boolean npcStoreExists = true;
+			for ( int i = 0; i < itemNames.size(); ++i )
+				npcStoreExists &= NPCStoreDatabase.contains( (String) itemNames.get(i) );
+
+			if ( KoLCharacter.getLevel() < 5 || (!KoLCharacter.canInteract() && npcStoreExists) )
+			{
+				finalizeList( itemNames );
+				return;
+			}
+
+			DEFAULT_SHELL.updateDisplay( "Searching for items..." );
+		}
+
+		// Otherwise, conduct the normal mall search, processing
+		// the NPC results as needed.
+
+		super.run();
+
 	}
 
 	private void searchStore()
 	{
-		DEFAULT_SHELL.updateDisplay( retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
-		super.run();
-
 		if ( retainAll )
 		{
 			Matcher shopMatcher = Pattern.compile( "<b>(.*?) \\(<a.*?who=(\\d+)\"" ).matcher( responseText );
@@ -226,35 +247,7 @@ public class SearchMallRequest extends KoLRequest
 
 	private void searchMall()
 	{
-		results.clear();
 		List itemNames = TradeableItemDatabase.getMatchingNames( searchString );
-
-		// In the event that it's all NPC stores, and the person
-		// cannot use the mall, then only display the items which
-		// are available from NPC stores, since that's all that
-		// can be used in this circumstance.
-
-		boolean npcStoreExists = true;
-		for ( int i = 0; i < itemNames.size(); ++i )
-			npcStoreExists &= NPCStoreDatabase.contains( (String) itemNames.get(i) );
-
-		if ( KoLCharacter.getLevel() < 5 || (!KoLCharacter.canInteract() && npcStoreExists) )
-		{
-			finalizeList( itemNames );
-			return;
-		}
-
-		// Otherwise, conduct the normal mall search, processing
-		// the NPC results as needed.
-
-		DEFAULT_SHELL.updateDisplay( "Searching for items..." );
-		super.run();
-
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
 
 		// Change all multi-line store names into single line store names so that the
 		// parser doesn't get confused; remove all stores where limits have already
@@ -359,5 +352,13 @@ public class SearchMallRequest extends KoLRequest
 		for ( int i = 0; i < names.length; ++i )
 			if ( NPCStoreDatabase.contains( names[i] ) )
 				results.add( NPCStoreDatabase.getPurchaseRequest( names[i] ) );
+	}
+
+	protected void processResults()
+	{
+		if ( searchString == null || searchString.trim().length() == 0 )
+			searchStore();
+		else
+			searchMall();
 	}
 }

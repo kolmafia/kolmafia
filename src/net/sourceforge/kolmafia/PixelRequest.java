@@ -53,21 +53,12 @@ public class PixelRequest extends ItemCreationRequest
 		// pixels if they are not currently available.
 
 		makeIngredients();
-		int quantity = getQuantityNeeded();
 
 		if ( !client.permitsContinue() )
 			return;
 
-		// Disable controls
-		DEFAULT_SHELL.updateDisplay( "Creating " + quantity + " " + getName() + "..." );
-		addFormField( "quantity", String.valueOf( quantity ) );
-
-		// Run the request
+		DEFAULT_SHELL.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );
+		addFormField( "quantity", String.valueOf( getQuantityNeeded() ) );
 		super.run();
-
-		// Account for the results
-		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( getItemID() );
-		for ( int i = 0; i < ingredients.length; ++i )
-			client.processResult( ingredients[i].getInstance( 0 - ingredients[i].getCount() * quantity ) );
 	}
 }

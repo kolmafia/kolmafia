@@ -47,10 +47,8 @@ public abstract class PasswordHashRequest extends KoLRequest
 	{	super( client, location );
 	}
 
-	public void run()
+	protected void processResults()
 	{
-		super.run();
-
 		Matcher pwdmatch = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\'](.*?)[\"\']" ).matcher( responseText );
 		if ( pwdmatch.find() )
 			client.setPasswordHash( pwdmatch.group(1) );

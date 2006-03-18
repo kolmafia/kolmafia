@@ -935,7 +935,7 @@ public class AdventureFrame extends KoLFrame
 			fundSource.addItem( "Hagnk's Storage" );
 
 			amountField = new JTextField();
-			closetField = new JTextField( String.valueOf( KoLCharacter.getClosetMeat() ) );
+			closetField = new JTextField( df.format( KoLCharacter.getClosetMeat() ) );
 			closetField.setEnabled( false );
 
 			VerifiableElement [] elements = new VerifiableElement[3];

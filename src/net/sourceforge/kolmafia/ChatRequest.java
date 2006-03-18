@@ -116,28 +116,13 @@ public class ChatRequest extends KoLRequest
 		this.lastSeen = lastSeen;
 	}
 
-	/**
-	 * Runs the chat request.  Note that if you are sending a chat message,
-	 * there will be no refresh thread spawned from calling this procedure.
-	 * However, if it is a non-send request, it will create a new thread just
-	 * before this thread closes.
-	 */
-
-	public void run()
+	protected void processResults()
 	{
-		super.run();
-
 		if ( thread == null )
 		{
 			thread = new ChatContinuationThread();
 			thread.start();
 		}
-
-		// In the event of an error, anything can be the cause; for
-		// now, simply return
-
-		if ( responseCode != 200 || !KoLMessenger.isRunning() )
-			return;
 
 		int index = responseText.indexOf( "<!--lastseen:" );
 

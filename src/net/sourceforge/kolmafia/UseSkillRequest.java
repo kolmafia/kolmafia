@@ -127,6 +127,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		super.run();
 
+		// To minimize the amount of confusion, go ahead and restore mana
+		// once the request is complete.
+
+		client.recoverMP();
+	}
+
+	protected void processResults()
+	{
 		boolean encounteredError = false;
 
 		// If a reply was obtained, check to see if it was a success message
@@ -190,8 +198,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		else
 		{
 			lastUpdate = "";
-			client.processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount) ) );
-			client.applyRecentEffects();
 		}
 
 		// Now that all the checks are complete, proceed
@@ -214,18 +220,18 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.
 
+			client.processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount) ) );
+			client.applyRecentEffects();
+
 			if ( skillID == WALRUS_TONGUE )
 			{
 				int roundsBeatenUp = KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() );
 				if ( roundsBeatenUp != 0 )
 					client.processResult( KoLAdventure.BEATEN_UP.getInstance( 0 - roundsBeatenUp ) );
 			}
+
+			super.processResults();
 		}
-
-		// To minimize the amount of confusion, go ahead and restore mana
-		// once the request is complete.
-
-		client.recoverMP();
 	}
 
 	public String getCommandForm( int iterations )

@@ -392,20 +392,16 @@ public class EquipmentRequest extends PasswordHashRequest
 
 			responseCode = message.responseCode;
 			responseText = message.responseText;
+			processResults();
 		}
+	}
 
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
-
+	protected void processResults()
+	{
 		// Fetch updated equipment
 
 		try
 		{
-			KoLmafia.getLogStream().println( "Parsing data..." );
-
 			if ( requestType == CLOSET )
 			{
 				parseCloset();
@@ -425,22 +421,19 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				for ( int i = 0; i < 9; ++i )
 					switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
-				// After all the items have been switched,
-				// update lists.
-				KoLCharacter.refreshCalculatedLists();
 			}
 
-			KoLmafia.getLogStream().println( "Parsing complete." );
+			// After all the items have been switched,
+			// update lists.
+
+			super.processResults();
+			KoLCharacter.refreshCalculatedLists();
 		}
 		catch ( RuntimeException e )
 		{
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 		}
-	}
-
-	protected void processResults()
-	{
 	}
 
 	private void switchItem( String oldItem, String newItem )
@@ -512,8 +505,6 @@ public class EquipmentRequest extends PasswordHashRequest
 			closet.clear();
 			parseCloset( closetMatcher.group(), closet, false );
 		}
-
-		KoLCharacter.refreshCalculatedLists();
 	}
 
 	private void parseCloset( String content, List resultList, boolean updateUsableList )

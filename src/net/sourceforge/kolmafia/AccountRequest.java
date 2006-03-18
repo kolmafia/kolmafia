@@ -42,13 +42,8 @@ public class AccountRequest extends KoLRequest
 	{	super( client, "account.php" );
 	}
 
-	public void run()
+	protected void processResults()
 	{
-		super.run();
-
-		if ( responseCode != 200 )
-			return;
-
 		// Parse response text -- make sure you
 		// aren't accidentally parsing profiles.
 
@@ -96,9 +91,5 @@ public class AccountRequest extends KoLRequest
 				timeOffset = Integer.parseInt( matcher.group(1) );
 			}
 		}
-	}
-
-	protected void processResults()
-	{
 	}
 }

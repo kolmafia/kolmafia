@@ -174,6 +174,32 @@ public class ItemStorageRequest extends SendMessageRequest
 		return "";
 	}
 
+	protected void processResults()
+	{
+		switch ( moveType )
+		{
+			case EMPTY_STORAGE:
+				while ( !KoLCharacter.getStorage().isEmpty() )
+					client.processResult( (AdventureResult) KoLCharacter.getStorage().remove(0) );
+				break;
+
+			case STORAGE_TO_INVENTORY:
+			case RETRIEVE_STORAGE:
+				parseStorage();
+				break;
+
+			case MEAT_TO_CLOSET:
+			case MEAT_TO_INVENTORY:
+			case PULL_MEAT_FROM_STORAGE:
+				handleMeat();
+				break;
+
+		}
+
+		super.processResults();
+		KoLCharacter.refreshCalculatedLists();
+	}
+
 	/**
 	 * Executes the <code>ItemStorageRequest</code>.
 	 */
@@ -184,53 +210,38 @@ public class ItemStorageRequest extends SendMessageRequest
 		{
 			case EMPTY_STORAGE:
 				DEFAULT_SHELL.updateDisplay( "Emptying storage..." );
-				super.run();
-
-				while ( !KoLCharacter.getStorage().isEmpty() )
-					client.processResult( (AdventureResult) KoLCharacter.getStorage().remove(0) );
-
 				break;
 
 			case STORAGE_TO_INVENTORY:
 				DEFAULT_SHELL.updateDisplay( "Moving items..." );
-				parseStorage();
 				break;
 
 			case RETRIEVE_STORAGE:
 				DEFAULT_SHELL.updateDisplay( "Retrieving storage contents..." );
-				parseStorage();
 				break;
 
 			case INVENTORY_TO_CLOSET:
 			case CLOSET_TO_INVENTORY:
 				DEFAULT_SHELL.updateDisplay( "Moving items..." );
-				super.run();
 				break;
 
 			case CLOSET_YOUR_CLOVERS:
 				DEFAULT_SHELL.updateDisplay( "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
-				super.run();
 				break;
 
 			case MEAT_TO_CLOSET:
 			case MEAT_TO_INVENTORY:
 			case PULL_MEAT_FROM_STORAGE:
 				DEFAULT_SHELL.updateDisplay( "Executing transaction..." );
-				meat();
 				break;
 		}
 
-		KoLCharacter.refreshCalculatedLists();
+		super.run();
 	}
 
-	private void meat()
+	private void handleMeat()
 	{
-		super.run();
-
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 || moveType == PULL_MEAT_FROM_STORAGE )
+		if ( moveType == PULL_MEAT_FROM_STORAGE )
 			return;
 
 		// Now, determine how much is left in your closet
@@ -265,8 +276,6 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	private void parseStorage()
 	{
-		super.run();
-
 		List storageContents = KoLCharacter.getStorage();
 		Matcher storageMatcher = null;
 

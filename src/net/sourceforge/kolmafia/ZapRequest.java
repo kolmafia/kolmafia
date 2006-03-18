@@ -71,23 +71,27 @@ public class ZapRequest extends KoLRequest
 
 		DEFAULT_SHELL.updateDisplay( "Zapping item..." );
 		super.run();
+	}
 
-		//" The Crown of the Goblin King shudders for a moment, but
-		//nothing happens."
+	public void processResults()
+	{
+		super.processResults();
+
+		// "The Crown of the Goblin King shudders for a moment, but
+		// nothing happens."
 
 		if ( responseText.indexOf( "nothing happens" ) != -1 )
-                {
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "That item is not zappable" );
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "That item is not zappable." );
 			return;
 		}
-
-		// Remove old item
-		client.processResult( item.getInstance( -1 ) );
 
 		// If it blew up, remove wand
 		if ( responseText.indexOf( "abruptly explodes" ) != -1 )
 		     client.processResult( wand.getNegation() );
 
-		DEFAULT_SHELL.updateDisplay( "Item zapped" );
+		// Remove old item and notify the user of success.
+		client.processResult( item.getInstance( -1 ) );
+		DEFAULT_SHELL.updateDisplay( item.getName() + " has been zapped." );
 	}
 }

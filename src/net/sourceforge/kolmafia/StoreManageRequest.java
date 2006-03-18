@@ -143,4 +143,8 @@ public class StoreManageRequest extends KoLRequest
 		StoreManager.update( responseText, false );
 		DEFAULT_SHELL.updateDisplay( takenItem.getName() + " removed from your store." );
 	}
+
+	protected void processResults()
+	{
+	}
 }

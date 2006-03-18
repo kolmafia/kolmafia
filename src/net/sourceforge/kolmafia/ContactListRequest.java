@@ -45,13 +45,8 @@ public class ContactListRequest extends KoLRequest
 	{	super( client, "account_contactlist.php" );
 	}
 
-	public void run()
+	protected void processResults()
 	{
-		super.run();
-
-		if ( responseCode != 200 )
-			return;
-
 		client.getContactList().clear();
 		Matcher listMatcher = LIST_PATTERN.matcher( responseText );
 		if ( listMatcher.find() )

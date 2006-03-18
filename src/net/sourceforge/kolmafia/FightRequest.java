@@ -208,82 +208,76 @@ public class FightRequest extends KoLRequest
 
 		super.run();
 
-		// If there were no problems, then begin fighting the battle,
-		// checking for termination conditions
+		// Spend MP and consume items
+		payActionCost();
 
-		if ( responseCode == 200 )
+		// If this is the first round, then register the opponent
+		// you are fighting against.
+
+		if ( roundCount == 1 )
 		{
-			// Spend MP and consume items
-			payActionCost();
+			Matcher encounterMatcher = Pattern.compile( "<span id='monname'>(.*?)</span>" ).matcher( responseText );
 
-			// If this is the first round, then register the opponent
-			// you are fighting against.
-
-			if ( roundCount == 1 )
+			if ( encounterMatcher.find() )
 			{
-				Matcher encounterMatcher = Pattern.compile( "<span id='monname'>(.*?)</span>" ).matcher( responseText );
-
-				if ( encounterMatcher.find() )
-				{
-					FightRequest.encounter = encounterMatcher.group(1).toLowerCase();
-					client.registerEncounter( encounter );
-				}
+				FightRequest.encounter = encounterMatcher.group(1).toLowerCase();
+				client.registerEncounter( encounter );
 			}
+		}
 
-			if ( responseText.indexOf( "fight.php" ) != -1 )
+		if ( responseText.indexOf( "fight.php" ) != -1 )
+		{
+			nextRound();
+			run();
+		}
+		else if ( responseText.indexOf( "WINWINWIN" ) != -1 )
+		{
+			// The battle was won!  If the user canceled, say
+			// it's complete.
+
+			if ( !client.permitsContinue() )
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
+
+			// If you can't battle again in this location,
+			// cancel future iterations.  Note that there
+			// is a special case: the hedge maze never
+			// has an "adventure again" link.
+
+			else if ( responseText.indexOf( "againform.submit" ) == -1 && responseText.indexOf( "Go back to the Sorceress' Hedge Maze" ) == -1 )
+				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Nothing left to do here." );
+
+			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+		}
+		else if ( responseText.indexOf( "You lose." ) != -1 )
+		{
+			// If you lose the battle, you should update the display to
+			// indicate that the battle has been finished; you should
+			// also notify the client that an adventure was completed,
+			// but that the loop should be halted.
+
+			if ( KoLCharacter.getCurrentHP() == 0 )
 			{
-				nextRound();
-				run();
-			}
-			else if ( responseText.indexOf( "WINWINWIN" ) != -1 )
-			{
-				// The battle was won!  If the user canceled, say
-				// it's complete.
-
-				if ( !client.permitsContinue() )
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
-
-				// If you can't battle again in this location,
-				// cancel future iterations.  Note that there
-				// is a special case: the hedge maze never
-				// has an "adventure again" link.
-
-				else if ( responseText.indexOf( "againform.submit" ) == -1 && responseText.indexOf( "Go back to the Sorceress' Hedge Maze" ) == -1 )
-					DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Nothing left to do here." );
-
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You were defeated!" );
 				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-			}
-			else if ( responseText.indexOf( "You lose." ) != -1 )
-			{
-				// If you lose the battle, you should update the display to
-				// indicate that the battle has been finished; you should
-				// also notify the client that an adventure was completed,
-				// but that the loop should be halted.
-
-				if ( KoLCharacter.getCurrentHP() == 0 )
-				{
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You were defeated!" );
-					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-				}
-				else
-				{
-					// Sometimes you hit the thirty round limit.  Here, print
-					// the error to the debug log and continue adventuring
-					// as normal.
-
-					DEFAULT_SHELL.updateDisplay( "Thirty combat round limit exceeded." );
-					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-				}
 			}
 			else
 			{
-				// Otherwise, you still have more rounds to fight.
-				// move onto the next round and then rerun the
-				// request.
+				// Sometimes you hit the thirty round limit.  Here, print
+				// the error to the debug log and continue adventuring
+				// as normal.
 
-				nextRound();
-				run();
+				DEFAULT_SHELL.updateDisplay( "Thirty combat round limit exceeded." );
+				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 			}
+		}
+		else
+		{
+			// Otherwise, you still have more rounds to fight.
+			// move onto the next round and then rerun the
+			// request.
+
+			nextRound();
+			run();
 		}
 	}
 

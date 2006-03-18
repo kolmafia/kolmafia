@@ -153,13 +153,12 @@ public class UntinkerRequest extends KoLRequest
 		DEFAULT_SHELL.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
 
 		super.run();
-		client.processResult( new AdventureResult( itemID, -1 ) );
-
 		DEFAULT_SHELL.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) );
 	}
 
 	protected void processResults()
 	{
+		client.processResult( new AdventureResult( itemID, -1 ) );
 		if ( itemID != AdventureRequest.ABRIDGED.getItemID() )
 		{
 			super.processResults();

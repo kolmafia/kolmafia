@@ -88,7 +88,7 @@ public class LoginRequest extends KoLRequest
 
 		super.run();
 
-		if ( responseCode == 302 )
+		if ( client.permitsContinue() && responseCode == 302 )
 		{
 			if ( redirectLocation.equals( "main_c.html" ) )
 				KoLRequest.isCompactMode = true;

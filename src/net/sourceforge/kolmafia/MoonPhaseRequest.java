@@ -64,14 +64,11 @@ public class MoonPhaseRequest extends KoLRequest
 	{
 		DEFAULT_SHELL.updateDisplay( "Synchronizing moon data..." );
 		super.run();
+	}
 
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
-
-		// Parse result to get current phase of Ronald and Grimace
+	protected void processResults()
+	{
+		// Get current phase of Ronald and Grimace
 
 		Matcher moonMatcher = Pattern.compile( "moon(.)\\.gif.*moon(.)\\.gif" ).matcher( responseText );
 

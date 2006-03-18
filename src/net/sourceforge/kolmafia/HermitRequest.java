@@ -91,13 +91,20 @@ public class HermitRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( itemID != -1 && quantity <= 0 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
+			return;
+		}
+
+		DEFAULT_SHELL.updateDisplay( "Robbing the hermit..." );
+		super.run();
+	}
+
+	protected void processResults()
+	{
 		if ( itemID == -1 )
 		{
-			super.run();
-
-			if ( responseCode != 200 )
-				return;
-
 			// "You don't have a Hermit Permit, so you're not
 			// allowed to visit the Hermit."
 
@@ -132,21 +139,6 @@ public class HermitRequest extends KoLRequest
 
 			return;
 		}
-
-		if ( quantity <= 0 )
-		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
-			return;
-		}
-
-		DEFAULT_SHELL.updateDisplay( "Robbing the hermit..." );
-		super.run();
-
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
 
 		// If you don't have enough Hermit Permits, scale back.
 

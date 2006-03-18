@@ -209,13 +209,10 @@ public abstract class SendMessageRequest extends KoLRequest
 		// to execute the request.
 
 		super.run();
+	}
 
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
-
+	protected void processResults()
+	{
 		// Make sure that the message was actually sent -
 		// the person could have input an invalid player ID
 

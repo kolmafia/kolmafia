@@ -508,6 +508,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		return client == null || client.inLoginState() ||
 			this instanceof LoginRequest || this instanceof ChatRequest || this instanceof CharpaneRequest;
 	}
+
 	/**
 	 * Utility method used to prepare the connection for input and output
 	 * (if output is necessary).  The method attempts to open the connection,

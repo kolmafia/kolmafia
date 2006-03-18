@@ -165,7 +165,8 @@ public class AdventureRequest extends KoLRequest
 
 		super.run();
 
-		// Handle certain redirections
+		// Handle certain redirections, because they can change the
+		// current continue state.
 
 		if ( responseCode == 302 && !redirectLocation.equals( "maint.php" ) )
 		{
@@ -198,13 +199,11 @@ public class AdventureRequest extends KoLRequest
 			this.adventuresUsed = 0;
 			return;
 		}
+	}
 
-		// From here on out, there will only be data handling
-		// if you've encountered a non-redirect request, and
-		// an error hasn't occurred.
-
-		if ( responseCode != 200 )
-			return;
+	protected void processResults()
+	{
+		super.processResults();
 
 		// If this is a lucky adventure, then remove a clover
 		// from the player's inventory.

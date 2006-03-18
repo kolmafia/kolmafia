@@ -40,6 +40,7 @@ public class BountyHunterRequest extends KoLRequest
 {
 	private int itemID;
 	private boolean isExchange;
+	private AdventureResult itemTraded;
 
 	public BountyHunterRequest( KoLmafia client )
 	{
@@ -57,26 +58,27 @@ public class BountyHunterRequest extends KoLRequest
 
 		this.itemID = itemID;
 		this.isExchange = true;
+
+		itemTraded = new AdventureResult( itemID, 0 );
+		itemTraded = itemTraded.getInstance( itemTraded.getCount( KoLCharacter.getInventory() ) );
 	}
 
 	public void run()
 	{
-		int index = -1;
-		AdventureResult itemTraded = null;
-
 		if ( isExchange )
 		{
-			itemTraded = new AdventureResult( itemID, 0 );
-			index = KoLCharacter.getInventory().indexOf( itemTraded );
-
-			if ( index == -1 )
+			if ( itemTraded.getCount() == 0 )
 				return;
 
-			itemTraded = (AdventureResult) KoLCharacter.getInventory().get( index );
 			DEFAULT_SHELL.updateDisplay( "Hunting rabbits (or something)..." );
 		}
 
 		super.run();
+	}
+
+	protected void processResults()
+	{
+		super.processResults();
 
 		if ( isExchange )
 		{

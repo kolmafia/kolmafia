@@ -67,7 +67,10 @@ public class UneffectRequest extends KoLRequest
 
 		DEFAULT_SHELL.updateDisplay( "Using soft green whatever..." );
 		super.run();
+	}
 
+	protected void processResults()
+	{
 		// If it notifies you that the effect was removed, delete it
 		// from the list of effects.
 
@@ -79,6 +82,5 @@ public class UneffectRequest extends KoLRequest
 		}
 		else
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Effect removal failed." );
-
 	}
 }

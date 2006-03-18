@@ -109,9 +109,11 @@ public class MicrobreweryRequest extends KoLRequest
 		}
 
 		DEFAULT_SHELL.updateDisplay( "Visiting the micromicrobrewery..." );
-
 		super.run();
+	}
 
+	public void processResults()
+	{
 		if ( isPurchase )
 		{
 			if ( responseText.indexOf( "You're way too drunk already." ) != -1 )
@@ -121,6 +123,8 @@ public class MicrobreweryRequest extends KoLRequest
 			}
 
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
+			super.processResults();
+
 			DEFAULT_SHELL.updateDisplay( "Drink purchased." );
 			return;
 		}

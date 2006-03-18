@@ -134,11 +134,13 @@ public class ClanGymRequest extends KoLRequest
 
 		DEFAULT_SHELL.updateDisplay( "Beginning workout..." );
 		super.run();
+	}
 
-		// All the gains will be found before the first </center> tag;
-		// therefore, you can parse just that small segment.
-
+	protected void processResults()
+	{
 		client.processResult( new AdventureResult( AdventureResult.ADV, 0 - turnCount ) );
+		super.processResults();
+
 		DEFAULT_SHELL.updateDisplay( "Workout completed." );
 	}
 

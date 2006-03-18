@@ -79,31 +79,9 @@ public class GalaktikRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( price < 0 )
-		{
-			// Ask Doc Galaktik for his available cures.
-
-			DEFAULT_SHELL.updateDisplay( "Visiting Doc Galaktik..." );
-			super.run();
-
-			int lastMatchIndex = 0;
-			Matcher cureMatcher = Pattern.compile( "Restore all .. for [0123456789,]* Meat" ).matcher( responseText );
-
-			client.getGalaktikCures().clear();
-			while ( cureMatcher.find( lastMatchIndex ) )
-			{
-				lastMatchIndex = cureMatcher.end();
-				client.getGalaktikCures().add( cureMatcher.group(0) );
-			}
-
-			DEFAULT_SHELL.updateDisplay( "Cures retrieved." );
-
-			return;
-		}
-
 		if ( price == 0 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't need that cure." );
+			DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, "You don't need that cure." );
 			return;
 		}
 
@@ -114,39 +92,11 @@ public class GalaktikRequest extends KoLRequest
 		}
 
 		DEFAULT_SHELL.updateDisplay( "Visiting Doc Galaktik..." );
-
 		super.run();
-
-		if ( responseText.indexOf( "You can't afford that" ) != -1 )
-		{
-			// This will only happen if we didn't track HP/MP
-			// correctly
-
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't afford that cure." );
-			return;
-		}
-
-		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
-
-		if ( type == HP )
-			client.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
-		else
-			client.processResult( new AdventureResult( AdventureResult.MP, KoLCharacter.getMaximumMP() ) );
-
-		DEFAULT_SHELL.updateDisplay( "Cure purchased." );
 	}
 
 	public static List retrieveCures( KoLmafia client )
 	{
-		// We can visit Doc Galatik, if we don't think we're tracking
-		// HP and MP accurately
-
-		// (new GalaktikRequest( client )).run();
-		// return client.getGalaktikCures();
-
-		// On the other hand, we can calculate what we think he
-		// offers based on current/maximum HP & MP
-
 		LockableListModel cures = new LockableListModel();
 
 		int currentHP = KoLCharacter.getCurrentHP();
@@ -162,6 +112,28 @@ public class GalaktikRequest extends KoLRequest
 			cures.add( "Restore all MP for " + ( maxMP - currentMP ) * 20 + " Meat" );
 
 		return cures;
+	}
+
+	protected void processResults()
+	{
+		if ( responseText.indexOf( "You can't afford that" ) != -1 )
+		{
+			// This will only happen if we didn't track HP/MP
+			// correctly.
+
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't afford that cure." );
+			return;
+		}
+
+		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
+
+		if ( type == HP )
+			client.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
+		else
+			client.processResult( new AdventureResult( AdventureResult.MP, KoLCharacter.getMaximumMP() ) );
+
+		KoLCharacter.updateStatus();
+		DEFAULT_SHELL.updateDisplay( "Cure purchased." );
 	}
 
 	public String getCommandForm( int iterations )

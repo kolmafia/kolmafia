@@ -77,13 +77,10 @@ public class CharsheetRequest extends KoLRequest
 	{
 		DEFAULT_SHELL.updateDisplay( "Retrieving character data..." );
 		super.run();
+	}
 
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
-
+	protected void processResults()
+	{
 		// Set the character's avatar.
 		Matcher avatarMatcher = Pattern.compile( "http://images.kingdomofloathing.com/([^>]*?)\\.gif" ).matcher( responseText );
 		avatarMatcher.find();
@@ -355,6 +352,8 @@ public class CharsheetRequest extends KoLRequest
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 		}
+
+		KoLCharacter.updateStatus();
 	}
 
 	/**

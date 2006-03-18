@@ -61,10 +61,10 @@ public class CakeArenaRequest extends KoLRequest
 			DEFAULT_SHELL.updateDisplay( "Retrieving opponent list..." );
 
 		super.run();
+	}
 
-		if ( responseCode != 200 )
-			return;
-
+	protected void processResults()
+	{
 		if ( responseText.indexOf( "You can't" ) != -1 ||
 		     responseText.indexOf( "You shouldn't" ) != -1 ||
 		     responseText.indexOf( "You don't" ) != -1 ||

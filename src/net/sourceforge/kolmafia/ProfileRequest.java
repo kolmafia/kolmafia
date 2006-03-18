@@ -82,17 +82,6 @@ public class ProfileRequest extends KoLRequest
 		this.karma = new Integer(0);
 	}
 
-	public void run()
-	{
-		super.run();
-		responseText.replaceFirst( "http://www[23]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)", "../ascensions/$1.htm" );
-		refreshFields();
-	}
-
-	public void processResults()
-	{	return;
-	}
-
 	/**
 	 * Internal method used to refresh the fields of the profile
 	 * request based on the response text.  This should be called
@@ -464,5 +453,11 @@ public class ProfileRequest extends KoLRequest
 	{
 		initialize();
 		return ascensionCount;
+	}
+
+	protected void processResults()
+	{
+		responseText.replaceFirst( "http://www[23]?\\.kingdomofloathing\\.com/ascensionhistory\\.php?back=self&who=([\\d]+)", "../ascensions/$1.htm" );
+		refreshFields();
 	}
 }

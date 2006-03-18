@@ -82,15 +82,10 @@ public class FamiliarRequest extends KoLRequest
 		}
 
 		super.run();
+	}
 
-		// There's nothing to parse if an error was encountered,
-		// which could be either an error state or a redirection
-
-		if ( responseCode != 200 )
-			return;
-
-		// Determine which familiars are present.
-
+	protected void processResults()
+	{
 		FamiliarData.registerFamiliarData( client, responseText );
 		FamiliarData.updateWeightModifier();
 

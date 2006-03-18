@@ -38,9 +38,9 @@ public class StarChartRequest extends ItemCreationRequest
 {
 	public static final int STAR = 654;
 	public static final int LINE = 655;
+	private static final AdventureResult CHART = new AdventureResult( "star chart", -1 );
 
 	private int stars, lines;
-	private static final AdventureResult usedCharts = new AdventureResult( "star chart", -1 );
 
 	public StarChartRequest( KoLmafia client, int itemID, int quantityNeeded )
 	{
@@ -71,38 +71,32 @@ public class StarChartRequest extends ItemCreationRequest
 		if ( !client.permitsContinue() )
 			return;
 
-		// Intermediate variables so you don't constantly
-		// instantiate new adventure results each time you
-		// create the item.
-
-		AdventureResult usedStars = new AdventureResult( STAR, 0 - stars );
-		AdventureResult usedLines = new AdventureResult( LINE, 0 - lines );
-		AdventureResult singleCreation = new AdventureResult( getItemID(), 1 );
-
 		for ( int i = 1; i <= getQuantityNeeded(); ++i )
 		{
-			// Disable controls
 			DEFAULT_SHELL.updateDisplay( "Creating " + getName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
-
-			// Run the request
 			super.run();
-
-			// It's possible to fail. For example, you can't make a
-			// shirt without the Torso Awaregness skill.
-
-			// "You can't seem to make a reasonable picture out of
-			// that number of stars and lines."
-
-			if ( responseText.indexOf( "reasonable picture" ) != -1 )
-			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't make that item." );
-				return;
-			}
-
-			// Account for the results
-			client.processResult( usedCharts );
-			client.processResult( usedStars );
-			client.processResult( usedLines );
 		}
+	}
+
+	protected void processResults()
+	{
+		// It's possible to fail. For example, you can't make a
+		// shirt without the Torso Awaregness skill.
+
+		// "You can't seem to make a reasonable picture out of
+		// that number of stars and lines."
+
+		if ( responseText.indexOf( "reasonable picture" ) != -1 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't make that item." );
+			return;
+		}
+
+		// Account for the results
+
+		client.processResult( new AdventureResult( STAR, 0 - stars ) );
+		client.processResult( new AdventureResult( LINE, 0 - lines ) );
+		client.processResult( CHART );
+		client.processResult( new AdventureResult( getItemID(), 1 ) );
 	}
 }

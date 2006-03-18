@@ -76,60 +76,55 @@ public class ClanMembersRequest extends KoLRequest
 	public void run()
 	{
 		if ( isLookup )
-			lookupClanData();
-		else
-			changeClanData();
-	}
-
-	private void lookupClanData()
-	{
-		// First, you need to know which clan you
-		// belong to.  This is done by doing a
-		// profile lookup on yourself.
-
-		DEFAULT_SHELL.updateDisplay( "Determining clan ID..." );
-		ProfileRequest clanIDLookup = new ProfileRequest( client, KoLCharacter.getUsername() );
-		clanIDLookup.run();
-
-		Matcher clanIDMatcher = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" ).matcher( clanIDLookup.responseText );
-		if ( !clanIDMatcher.find() )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Your character does not belong to a clan." );
-			return;
+			// First, you need to know which clan you
+			// belong to.  This is done by doing a
+			// profile lookup on yourself.
+
+			DEFAULT_SHELL.updateDisplay( "Determining clan ID..." );
+			ProfileRequest clanIDLookup = new ProfileRequest( client, KoLCharacter.getUsername() );
+			clanIDLookup.run();
+
+			Matcher clanIDMatcher = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" ).matcher( clanIDLookup.responseText );
+			if ( !clanIDMatcher.find() )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Your character does not belong to a clan." );
+				return;
+			}
+
+			// Now that you know which clan you belong
+			// to, you can do a clan lookup to get a
+			// complete list of clan members in one hit
+
+			this.clanID = clanIDMatcher.group(1);
+			this.clanName = clanIDMatcher.group(2);
+
+			addFormField( "whichclan", clanID );
+			DEFAULT_SHELL.updateDisplay( "Retrieving clan member list..." );
 		}
 
-		// Now that you know which clan you belong
-		// to, you can do a clan lookup to get a
-		// complete list of clan members in one hit
-
-		this.clanID = clanIDMatcher.group(1);
-		this.clanName = clanIDMatcher.group(2);
-
-		addFormField( "whichclan", clanID );
-		DEFAULT_SHELL.updateDisplay( "Retrieving clan member list..." );
 		super.run();
-
-		// Now, parse out the complete list of clan
-		// members so you can act on it.
-
-		int lastMatchIndex = 0;
-		Matcher memberMatcher = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>.*?<td class=small>(\\d+).*?</td>" ).matcher( responseText );
-
-		while ( memberMatcher.find( lastMatchIndex ) )
-		{
-			lastMatchIndex = memberMatcher.end();
-
-			String playerID = memberMatcher.group(1);
-			String playerName = memberMatcher.group(2);
-			String playerLevel = memberMatcher.group(3);
-
-			KoLmafia.registerPlayer( playerName, playerID );
-			ClanManager.registerMember( playerName, playerLevel );
-		}
 	}
 
-	private void changeClanData()
-	{	super.run();
+	protected void processResults()
+	{
+		if ( isLookup )
+		{
+			int lastMatchIndex = 0;
+			Matcher memberMatcher = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>.*?<td class=small>(\\d+).*?</td>" ).matcher( responseText );
+
+			while ( memberMatcher.find( lastMatchIndex ) )
+			{
+				lastMatchIndex = memberMatcher.end();
+
+				String playerID = memberMatcher.group(1);
+				String playerName = memberMatcher.group(2);
+				String playerLevel = memberMatcher.group(3);
+
+				KoLmafia.registerPlayer( playerName, playerID );
+				ClanManager.registerMember( playerName, playerLevel );
+			}
+		}
 	}
 
 	public String getClanID()

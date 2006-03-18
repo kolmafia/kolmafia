@@ -94,7 +94,6 @@ public class MuseumRequest extends SendMessageRequest
 	{	return "";
 	}
 
-
 	public void run()
 	{
 		if ( isManagement && isDeposit )
@@ -105,8 +104,11 @@ public class MuseumRequest extends SendMessageRequest
 			DEFAULT_SHELL.updateDisplay( "Updating collection..." );
 
 		super.run();
+	}
 
-		if ( responseCode == 200 && !isManagement )
+	protected void processResults()
+	{
+		if ( !isManagement )
 			MuseumManager.update( responseText );
 	}
 }

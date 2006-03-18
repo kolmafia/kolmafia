@@ -111,16 +111,16 @@ public class ConsumeItemRequest extends KoLRequest
 	{	this( client, TradeableItemDatabase.getConsumptionType( item.getName() ), item );
 	}
 
-	/**
-	 * Constructs a new <code>ConsumeItemRequest</code>.
-	 * @param	client	The client to be notified of the logout
-	 */
-
 	private ConsumeItemRequest( KoLmafia client, int consumptionType, AdventureResult item )
 	{
-		super( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
+		this( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
 			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" :
-			consumptionType == CONSUME_RESTORE ? "skills.php" : "inv_use.php" );
+			consumptionType == CONSUME_RESTORE ? "skills.php" : "inv_use.php", consumptionType, item );
+	}
+
+	private ConsumeItemRequest( KoLmafia client, String location, int consumptionType, AdventureResult item )
+	{
+		super( client, location );
 
 		if ( consumptionType == CONSUME_MULTIPLE )
 		{
@@ -139,6 +139,7 @@ public class ConsumeItemRequest extends KoLRequest
 		this.consumptionType = consumptionType;
 		this.itemUsed = item;
 	}
+
 
 	public int getConsumptionType()
 	{	return consumptionType;
@@ -203,18 +204,18 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseCode == 302 && redirectLocation.startsWith( "inventory.php" ) )
 		{
-			// Follow the redirection and get the message
-			KoLRequest message = new KoLRequest( client, redirectLocation );
+			// Follow the redirection and get the message;
+			// instantiate a new consume item request so
+			// that it processes the right result.
+
+			ConsumeItemRequest message = new ConsumeItemRequest( client, redirectLocation, consumptionType, itemUsed );
 			message.run();
-
-			responseCode = message.responseCode;
-			responseText = message.responseText;
 		}
+	}
 
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-		if ( responseCode != 200 )
-			return;
+	protected void processResults()
+	{
+		super.processResults();
 
 		// Check for familiar growth - if a familiar is added,
 		// make sure to update the client.

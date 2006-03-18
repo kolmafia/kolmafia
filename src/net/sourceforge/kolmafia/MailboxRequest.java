@@ -70,10 +70,6 @@ public class MailboxRequest extends KoLRequest
 		this.beginIndex = beginIndex;
 	}
 
-	protected void processResults()
-	{
-	}
-
 	public void run()
 	{
 		// Now you know that there is a request in progress, so you
@@ -85,7 +81,10 @@ public class MailboxRequest extends KoLRequest
 			DEFAULT_SHELL.updateDisplay( "Executing " + action + " request for " + boxname + "..." );
 
 		super.run();
+	}
 
+	protected void processResults()
+	{
 		// Determine how many messages there are, and how many there
 		// are left to go.  This will cause a lot of server load for
 		// those with lots of messages.	 But!  This can be fixed by

@@ -163,30 +163,11 @@ public class GiftMessageRequest extends SendMessageRequest
 		return packages;
 	}
 
-	/**
-	 * Runs the request.  Note that this does not report an error if it fails;
-	 * it merely parses the results to see if any gains were made.
-	 */
-
-	public void run()
+	protected void processResults()
 	{
-		// Once all the form fields are broken up, this
-		// just calls the normal run method from KoLRequest
-		// to execute the request.
-
-		super.run();
-
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
-
-		// With that done, the client needs to be updated
-		// on the package sending costs.
-
-		if ( ( responseText.indexOf( getSuccessMessage() ) != -1 ) &&
-		     ( materialCost > 0 ) )
+		if ( responseText.indexOf( getSuccessMessage() ) != -1 && materialCost > 0 )
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - materialCost ) );
+
+		super.processResults();
 	}
 }

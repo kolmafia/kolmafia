@@ -148,16 +148,10 @@ public class ClanStashRequest extends SendMessageRequest
 		{
 			case REFRESH_ONLY:
 				DEFAULT_SHELL.updateDisplay( "Retrieving stash list..." );
-				super.run();
-				parseStash();
-				DEFAULT_SHELL.updateDisplay( "Stash list retrieved." );
 				break;
 
 			case MEAT_TO_STASH:
 				DEFAULT_SHELL.updateDisplay( "Attempting clan donation..." );
-				super.run();
-				parseStash();
-				DEFAULT_SHELL.updateDisplay( "Clan donation attempt complete." );
 				break;
 
 			case STASH_TO_ITEMS:
@@ -171,19 +165,37 @@ public class ClanStashRequest extends SendMessageRequest
 			case ITEMS_TO_STASH:
 
 				DEFAULT_SHELL.updateDisplay( "Moving items..." );
-				super.run();
+				break;
+		}
+
+		super.run();
+	}
+
+	protected void processResults()
+	{
+		switch ( moveType )
+		{
+			case REFRESH_ONLY:
+				parseStash();
+				DEFAULT_SHELL.updateDisplay( "Stash list retrieved." );
+				break;
+
+			case MEAT_TO_STASH:
+				parseStash();
+				DEFAULT_SHELL.updateDisplay( "Clan donation attempt complete." );
+				break;
+
+			case STASH_TO_ITEMS:
+			case ITEMS_TO_STASH:
 
 				if ( !client.permitsContinue() )
-				{
-					// The move failed. Perhaps you have
-					// insufficient karma. Perhaps somebody
-					// else beat you to it.
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Move failed." );
-				}
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Movement of items failed." );
 
 				parseStash();
 				break;
 		}
+
+		super.processResults();
 	}
 
 	private void parseStash()

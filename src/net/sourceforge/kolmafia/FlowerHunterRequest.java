@@ -95,10 +95,8 @@ public class FlowerHunterRequest extends KoLRequest
 	{	return searchResults;
 	}
 
-	public void run()
+	protected void processResults()
 	{
-		super.run();
-
 		switch ( hunterType )
 		{
 			case ATTACK:

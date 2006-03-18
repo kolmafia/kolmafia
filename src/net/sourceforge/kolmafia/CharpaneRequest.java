@@ -88,13 +88,10 @@ public class CharpaneRequest extends KoLRequest
 	{
 		runOnce = true;
 		super.run();
+	}
 
-		// If an error state occurred, return from this
-		// request, since there's no content to parse
-
-		if ( responseCode != 200 )
-			return;
-
+	protected void processResults()
+	{
 		// By refreshing the KoLCharacter pane, you can
 		// determine whether or not you are in compact
 		// mode - be sure to refresh this value.
@@ -118,6 +115,8 @@ public class CharpaneRequest extends KoLRequest
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 		}
+
+		KoLCharacter.updateStatus();
 	}
 
 	private void handleCompactMode() throws Exception
