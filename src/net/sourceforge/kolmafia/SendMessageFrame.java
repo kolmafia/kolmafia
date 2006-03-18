@@ -286,7 +286,7 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	public void attachItems()
 	{
-			Object [] parameters = new Object[3];
+			Object [] parameters = new Object[4];
 			parameters[0] = client;
 			parameters[1] = inventory;
 			parameters[2] = this instanceof GiftMessageFrame ? KoLCharacter.getStorage() : null;
