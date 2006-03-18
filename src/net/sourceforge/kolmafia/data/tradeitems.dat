@@ -1043,7 +1043,7 @@
 1043	string of blue beads	8	75
 1044	string of green beads	8	75
 1045	cheap plastic bottle opener	12	50
-1046	orange traffic cone	9	100
+1046	orange traffic cone	9	-100
 1047	N. O. Beer	0	-1
 1048	red striped oyster egg	3	50
 1049	red polka-dot oyster egg	3	50
@@ -1256,7 +1256,7 @@
 1256	insanely spicy jumping bean burrito	1	90
 1257	rat scrapple	1	40
 1258	pail of pretentious paint	0	0
-1259	yellow traffic cone	9	100
+1259	yellow traffic cone	9	-100
 1260	wax lips	7	-1
 1261	Hatorade	3	250
 1262	off-hand balloon	13	50
@@ -1303,7 +1303,7 @@
 1303	Mjolnir Jr.	12	0
 1304	doppelshifter egg	5	-1
 1305	tiny makeup kit	7	75
-1306	red traffic cone	9	100
+1306	red traffic cone	9	-100
 1307	calm attention-deficit demon	5	-1
 1308	unwound cymbal-playing monkey	5	-1
 1309	attention spanner	7	75
@@ -1417,7 +1417,7 @@
 1417	black snowcone	3	30
 1418	Pretty Predator Clawicure Kit	7	75
 1419	teddy bear sewing kit	7	75
-1420	green traffic cone	9	100
+1420	green traffic cone	9	-100
 1421	Scandalously Skimpy Bikini	8	0
 1422	Sombrero De Vida	9	0
 1423	iceberglet	0	-1
@@ -1492,3 +1492,4 @@
 1492	ninja mop	12	112
 1493	ridiculously overelaborate ninja weapon	12	120
 1494	sugar-coated pine cone	4	10
+1495	blue traffic cone	9	-100
