@@ -142,6 +142,42 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	public static final boolean isKnownCombination( AdventureResult [] ingredients )
 	{
+		// Known combinations which could not be added because
+		// there are limitations in the item manager.
+
+		if ( ingredients.length == 2 )
+		{
+			// Handle meat stacks, which are created from fairy
+			// gravy and meat from yesterday.
+
+			if ( ingredients[0].getItemID() == 80 && ingredients[1].getItemID() == 87 )
+				return true;
+			if ( ingredients[1].getItemID() == 80 && ingredients[0].getItemID() == 87 )
+				return true;
+
+			// Handle plain pizza, which also allows flat dough
+			// to be used instead of wads of dough.
+
+			if ( ingredients[0].getItemID() == 246 && ingredients[1].getItemID() == 301 )
+				return true;
+			if ( ingredients[1].getItemID() == 246 && ingredients[0].getItemID() == 301 )
+				return true;
+
+			// Handle catsup recipes, which only exist in the
+			// item table as ketchup recipes.
+
+			if ( ingredients[0].getItemID() == 107 )
+			{
+				ingredients[0] = new AdventureResult( 106, 1 );
+				return isKnownCombination( ingredients );
+			}
+			if ( ingredients[1].getItemID() == 107 )
+			{
+				ingredients[1] = new AdventureResult( 106, 1 );
+				return isKnownCombination( ingredients );
+			}
+		}
+
 		int [] ingredientTestIDs;
 		AdventureResult [] ingredientTest;
 
