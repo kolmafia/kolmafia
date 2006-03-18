@@ -120,7 +120,6 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult RED_PIXEL_POTION = new AdventureResult( 464, 1 );
 
 	// Familiars and the familiars that defeat them
-
 	private static final String [][] FAMILIAR_DATA =
 	{
 		{ "giant sabre-toothed lime", "Levitating Potato" },
@@ -129,9 +128,6 @@ public abstract class SorceressLair extends StaticEntity
 		{ "giant goat", "Mosquito" },
 		{ "giant potato", "Barrrnacle" }
 	};
-
-	//Item ID for return value to ASH
-	private static int requiredItemID;
 
 	private static boolean checkPrerequisites( int min, int max )
 	{
@@ -996,16 +992,10 @@ public abstract class SorceressLair extends StaticEntity
 		return responseText;
 	}
 
-	public static int fightTowerGuardiansASH()
-	{
-		fightTowerGuardians();
-		return requiredItemID;
-	}
-
-	public static void fightTowerGuardians()
+	public static int fightTowerGuardians()
 	{
 		if ( !checkPrerequisites( 4, 5 ) )
-			return;
+			return 0;
 
 		// Determine which level you actually need to start from.
 
@@ -1035,14 +1025,19 @@ public abstract class SorceressLair extends StaticEntity
 		else
 			currentLevel += 4;
 
+		int requiredItemID = -1;
 		for ( int towerLevel = currentLevel; towerLevel <= 6; ++towerLevel )
-			if ( !fightGuardian( towerLevel ) )
-				return;
+		{
+			requiredItemID = fightGuardian( towerLevel );
+			if ( requiredItemID != -1 )
+				return requiredItemID;
+		}
 
 		DEFAULT_SHELL.updateDisplay( "Path to Sorceress's chamber cleared." );
+		return -1;
 	}
 
-	private static boolean fightGuardian( int towerLevel )
+	private static int fightGuardian( int towerLevel )
 	{
 		DEFAULT_SHELL.updateDisplay( "Fighting guardian on level " + towerLevel + " of the tower..." );
 
@@ -1055,7 +1050,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( request.responseText.indexOf( "You don't have time to mess around in the Tower." ) != -1 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're out of adventures." );
-			return false;
+			return -1;
 		}
 
 		// Decrement adventure tally
@@ -1077,10 +1072,9 @@ public abstract class SorceressLair extends StaticEntity
 			request.run();
 
 			// Use up the item
-			client.processResult( guardianItem.getNegation() );
 
-			// Keep on climbing
-			return true;
+			client.processResult( guardianItem.getNegation() );
+			return -1;
 		}
 
 		// Since we don't have the item, run away
@@ -1093,8 +1087,7 @@ public abstract class SorceressLair extends StaticEntity
 			return fightGuardian( towerLevel );
 
 		DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need an additional " + guardianItem.getName() + " to continue." );
-		requiredItemID = guardianItem.getItemID();
-		return false;
+		return guardianItem.getItemID();
 	}
 
 	private static AdventureResult getGuardianItem( String fightText )
@@ -1158,7 +1151,7 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
-		if ( n == 0)
+		if ( n == 0 )
 		{
 			// We know that all base stats are at least 70. But if
 			// we attained that goal this session without
@@ -1169,9 +1162,9 @@ public abstract class SorceressLair extends StaticEntity
 			CharpaneRequest.getInstance().run();
 		}
 
-		while ( n < 5 )
+		for ( ; n < 5; ++n )
 		{
-			switch (n)
+			switch ( n )
 			{
 				case 0:
 					findDoorCode();
@@ -1192,8 +1185,6 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( !client.permitsContinue() )
 				return;
-
-			n += 1;
 		}
 
 		DEFAULT_SHELL.updateDisplay( "Her Naughtiness awaits. Go battle her!" );

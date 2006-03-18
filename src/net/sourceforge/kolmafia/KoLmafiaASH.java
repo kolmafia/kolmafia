@@ -2506,7 +2506,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			int itemID;
 
-			itemID = SorceressLair.fightTowerGuardiansASH();
+			itemID = SorceressLair.fightTowerGuardians();
 			return new ScriptValue( TYPE_ITEM, itemID == -1 ? "none" : TradeableItemDatabase.getItemName( itemID ) );
 		}
 
