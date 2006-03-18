@@ -108,6 +108,7 @@ public class MuseumRequest extends SendMessageRequest
 
 	protected void processResults()
 	{
+		super.processResults();
 		if ( !isManagement )
 			MuseumManager.update( responseText );
 	}
