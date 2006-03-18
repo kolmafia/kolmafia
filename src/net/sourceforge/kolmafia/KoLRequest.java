@@ -768,7 +768,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					FightRequest battle = new FightRequest( client );
 					battle.run();
 
-					return this instanceof AdventureRequest;
+					return this instanceof AdventureRequest || getClass() == KoLRequest.class;
 				}
 				else if ( redirectLocation.equals( "choice.php" ) )
 				{
