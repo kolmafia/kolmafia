@@ -194,7 +194,8 @@ public class AdventureRequest extends KoLRequest
 			}
 
 			// We're back from a fight, or we completed a choice
-			// adventure -- in both cases, adventure usage is zero.
+			// adventure -- in both cases, adventure usage was
+			// calculated when that page was processed
 
 			this.adventuresUsed = 0;
 			return;
@@ -204,6 +205,11 @@ public class AdventureRequest extends KoLRequest
 	protected void processResults()
 	{
 		super.processResults();
+
+		// From here on out, there will only be data handling if
+		// an error hasn't occurred.
+		if ( responseCode != 200 )
+			return;
 
 		// If this is a lucky adventure, then remove a clover
 		// from the player's inventory.
@@ -446,6 +452,15 @@ public class AdventureRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return responseCode == 200 || redirectLocation == null || redirectLocation.equals( "fight.php" ) ? adventuresUsed : 0;
+	{
+		if ( responseCode == 200 || redirectLocation == null )
+			return adventuresUsed;
+
+		// Fights and choices take an adventure
+		if ( redirectLocation.equals( "fight.php" ) || redirectLocation.equals( "choice.php" ) )
+			return adventuresUsed;
+
+		// Other redirections don't use an adventure.
+		return 0;
 	}
 }
