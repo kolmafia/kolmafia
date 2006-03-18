@@ -369,6 +369,7 @@ public abstract class SendMessageFrame extends KoLFrame
 			this.attachments = attachments;
 			this.newAttachments = new ShowDescriptionList( this.attachments );
 			this.newAttachments.setVisibleRowCount( 16 );
+			this.newAttachments.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 
 			JScrollPane attachmentArea = new JScrollPane( newAttachments, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 

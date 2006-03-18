@@ -126,7 +126,9 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreAddPanel extends ItemManagePanel
 	{
 		public StoreAddPanel()
-		{	 super( "On-Hand Inventory", "add selected", "end of run sale", KoLCharacter.getInventory() );
+		{
+			super( "On-Hand Inventory", "add selected", "end of run sale", KoLCharacter.getInventory() );
+			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 
 		public void actionConfirmed()
@@ -150,7 +152,9 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreRemovePanel extends ItemManagePanel
 	{
 		public StoreRemovePanel()
-		{	 super( "Store's Inventory", "remove selected", "empty out store", StoreManager.getSoldItemList() );
+		{
+			super( "Store's Inventory", "remove selected", "empty out store", StoreManager.getSoldItemList() );
+			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 
 		public void actionConfirmed()
