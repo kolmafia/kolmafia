@@ -108,9 +108,8 @@ public abstract class SendMessageFrame extends KoLFrame
 		JPanel enclosePanel = new JPanel( new BorderLayout() );
 		enclosePanel.add( new JLabel( "Enclose these items:    " ), BorderLayout.WEST );
 
-		JButton attachButton = new JButton( JComponentUtilities.getSharedImage( "icon_plus.gif" ) );
+		JButton attachButton = new InvocationButton( "Attach Items", "icon_plus.gif", this, "attachItems" );
 		JComponentUtilities.setComponentSize( attachButton, 20, 20 );
-		attachButton.addActionListener( new AttachItemsListener() );
 		enclosePanel.add( attachButton, BorderLayout.EAST );
 
 		attachmentPanel.add( enclosePanel, BorderLayout.NORTH );
@@ -285,17 +284,15 @@ public abstract class SendMessageFrame extends KoLFrame
 		}
 	}
 
-	private class AttachItemsListener implements ActionListener
+	public void attachItems()
 	{
-		public void actionPerformed( ActionEvent e )
-		{
 			Object [] parameters = new Object[3];
 			parameters[0] = client;
 			parameters[1] = inventory;
-			parameters[2] = attachments;
+			parameters[2] = this instanceof GiftMessageFrame ? KoLCharacter.getStorage() : null;
+			parameters[3] = attachments;
 
 			(new CreateFrameRunnable( AttachmentFrame.class, parameters )).run();
-		}
 	}
 
 	/**
@@ -359,13 +356,15 @@ public abstract class SendMessageFrame extends KoLFrame
 	public static class AttachmentFrame extends KoLFrame
 	{
 		private ShowDescriptionList newAttachments;
-		private LockableListModel inventory, attachments;
+		private LockableListModel inventory, storage, attachments;
 
-		public AttachmentFrame( KoLmafia client, LockableListModel inventory, LockableListModel attachments )
+		public AttachmentFrame( KoLmafia client, LockableListModel inventory, LockableListModel storage, LockableListModel attachments )
 		{
 			super( client, "Attachments" );
 
 			this.inventory = (LockableListModel) inventory.clone();
+			this.storage = (LockableListModel) storage.clone();
+
 			this.attachments = attachments;
 			this.newAttachments = new ShowDescriptionList( this.attachments );
 			this.newAttachments.setVisibleRowCount( 16 );
@@ -381,14 +380,34 @@ public abstract class SendMessageFrame extends KoLFrame
 			eastPanel.add( labeledArea, "" );
 
 			framePanel.setLayout( new BorderLayout() );
-			framePanel.add( new InventoryPanel(), BorderLayout.CENTER );
+			framePanel.add( new SourcePanel(), BorderLayout.CENTER );
 			framePanel.add( eastPanel, BorderLayout.EAST );
 		}
 
-		private class InventoryPanel extends ItemManagePanel
+		private class SourcePanel extends ItemManagePanel
 		{
-			private InventoryPanel()
-			{	super( "Inside Inventory", " > > > ", " < < < ", inventory );
+			private JComboBox sourceSelect;
+
+			private SourcePanel()
+			{
+				super( storage == null ? "Inside Inventory" : "", " > > > ", " < < < ", inventory );
+
+				if ( storage != null )
+				{
+					sourceSelect = new JComboBox();
+					sourceSelect.addItem( "Inside Inventory" );
+					sourceSelect.addItem( "Inside Hagnk's Storage" );
+					sourceSelect.addActionListener( new SourceChangeListener() );
+				}
+			}
+
+			private class SourceChangeListener implements ActionListener
+			{
+				public void actionPerformed( ActionEvent e )
+				{
+					elementList.setModel( sourceSelect.getSelectedIndex() == 0 ? inventory : storage );
+					attachments.clear();
+				}
 			}
 
 			protected void actionConfirmed()
