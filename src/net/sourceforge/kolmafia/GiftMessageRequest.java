@@ -159,7 +159,9 @@ public class GiftMessageRequest extends SendMessageRequest
 		// package every three ascensions you complete.
 
 		LockableListModel packages = new LockableListModel();
-		packages.addAll( PACKAGES.subList( 0, Math.min( KoLCharacter.getAscensions() / 3 + 1, 10 ) ) );
+		int packageCount = Math.min( KoLCharacter.getAscensions() / 3 + 2, 11 );
+
+		packages.addAll( PACKAGES.subList( 0, packageCount ) );
 		return packages;
 	}
 
