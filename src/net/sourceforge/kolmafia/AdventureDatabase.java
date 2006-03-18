@@ -247,6 +247,13 @@ public class AdventureDatabase extends KoLDatabase
 		{ "choiceAdventure25", "2", "5000" }
 	};
 
+	// Some adventures don't actually cost a tuen
+	public static final String [] FREE_ADVENTURES =
+	{
+		"Rock-a-bye larva",
+		"Cobb's Knob lab key"
+	};
+
 	private static List [] adventureTable;
 
 	public static final void refreshTable()
@@ -737,5 +744,13 @@ public class AdventureDatabase extends KoLDatabase
 			     decision.equals( CHOICE_MEAT_COST[i][1] ) )
 				return Integer.parseInt( CHOICE_MEAT_COST[i][2] );
 		return 0;
+	}
+
+	public static boolean freeAdventure( String text )
+	{
+		for ( int i = 0; i < FREE_ADVENTURES.length; ++i )
+			if ( text.indexOf( FREE_ADVENTURES[i] ) != -1 )
+				return true;
+		return false;
 	}
 }

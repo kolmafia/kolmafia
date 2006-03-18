@@ -206,8 +206,8 @@ public class AdventureRequest extends KoLRequest
 	{
 		super.processResults();
 
-		// From here on out, there will only be data handling if
-		// an error hasn't occurred.
+		// Don't look at results for errors or redirections; fights and
+		// choices are handled elsewhere.
 		if ( responseCode != 200 )
 			return;
 
@@ -242,41 +242,42 @@ public class AdventureRequest extends KoLRequest
 			return;
 		}
 
+		// Do special processing for each KoL PHP file we connect to.
+		// fight.php and choice.php are handled via redirection.
+
+		// A regular adventure location or the Sorceress's Hedge Maze
 		if ( formSource.equals( "adventure.php" ) || formSource.equals( "lair3.php" ) )
 		{
+			// Look more closely if no "adventure again" link
 			if ( responseText.indexOf( "againform.submit" ) == -1 )
 			{
 				if ( responseText.indexOf( "No adventure data exists for this location" ) != -1 )
 				{
-					// In the event that no adventure data existed,
-					// this is a server, so KoLmafia should probably
-					// repeat the request and notify the client that
-					// a server error was encountered.
-
+					// This is a server error. Hope for the
+					// best and repeat the request.
 					DEFAULT_SHELL.updateDisplay( "Server error.  Repeating request..." );
 					this.run();
 					return;
 				}
 
-				// If you try to adventure at the orc chasm, but you
-				// have not unlocked it yet, then try to unlock it.
-
+				// If you haven't unlocked the orc chasm yet,
+				// try doing so now.
 				if ( adventureID.equals( "80" ) && responseText.indexOf( "You shouldn't be here." ) != -1 )
 				{
 					(new AdventureRequest( client, "mountains.php", "" )).run();
 
 					if ( client.permitsContinue() )
-					{
 						this.run();
-						return;
-					}
+
+					return;
 				}
 
 				if ( responseText.indexOf( "You shouldn't be here." ) != -1 ||
-					  responseText.indexOf( "The Factory has faded back into the spectral mists" ) != -1 )
+				     responseText.indexOf( "The Factory has faded back into the spectral mists" ) != -1 )
 				{
-					// He's missing an item, hasn't been give a quest yet,
-					// or otherwise is trying to go somewhere he's not allowed.
+					// We're missing an item, haven't been
+					// give a quest yet, or otherwise
+					// trying to go somewhere not allowed.
 
 					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't get to that area." );
 					this.adventuresUsed = 0;
@@ -309,26 +310,72 @@ public class AdventureRequest extends KoLRequest
 					this.adventuresUsed = 0;
 					return;
 				}
-			}
-		}
-		else if ( formSource.equals( "knob.php" ) || formSource.equals( "cyrpt.php" ) )
-		{
-			if ( responseText.indexOf( "You've already slain the Goblin King" ) != -1 ||
-			     responseText.indexOf( "Bonerdagon has been defeated" ) != -1 )
-			{
-				// Nothing more to do in this area
-
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You already defeated the Boss." );
 				return;
 			}
+
+			// The "adventure again" link is present, so no problem
+			// repeating an adventure in this location.
+
+			// See if we really did anything
+			if ( responseText.indexOf( "You can't" ) != -1 ||
+			     responseText.indexOf( "You shouldn't" ) != -1 ||
+			     responseText.indexOf( "You don't" ) != -1 ||
+			     responseText.indexOf( "You need" ) != -1 ||
+			     responseText.indexOf( "You're way too beaten" ) != -1 ||
+			     responseText.indexOf( "You're too drunk" ) != -1 )
+			{
+				// Give a generic message for now and abort
+				// further adventuring.
+
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Turn usage aborted!" );
+				this.adventuresUsed = 0;
+				return;
+			}
+
+			// Certain one-time adventures do not cost a turn.
+			if ( AdventureDatabase.freeAdventure( responseText ) )
+				this.adventuresUsed = 0;
+
+			// If you're at the casino, each of the different slot
+			// machines deducts meat from your tally
+			if ( adventureID.equals( "70" ) )
+				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			else if ( adventureID.equals( "71" ) )
+				client.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
+
+			return;
 		}
-		else if ( formSource.equals( "mountains.php" ) )
+
+		// Cobb's Knob King's Chamber
+		if ( formSource.equals( "knob.php" ) )
 		{
+			if ( responseText.indexOf( "You've already slain the Goblin King" ) != -1 )
+				// Nothing more to do in this area
+
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You already defeated the Goblin King." );
+			return;
+		}
+
+		// The Haert of the Cyrpt
+		if ( formSource.equals( "cyrpt.php" ) )
+		{
+			if ( responseText.indexOf( "Bonerdagon has been defeated" ) != -1 )
+				// Nothing more to do in this area
+
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You already defeated the Bonerdagon." );
+			return;
+		}
+
+		// The Orc Chasm (pre-bridge)
+		if ( formSource.equals( "mountains.php" ) )
+		{
+			// If there's no link to the valley beyond, put down a
+			// bridge
 			if ( responseText.indexOf( "value=80" ) == -1 )
 			{
-				// Check to see if you have an unabridged dictionary
-				// sitting in your inventory.  If you do, then visit
-				// the untinkerer automatically and repeat the request.
+				// If you have an unabridged dictionary in your
+				// inventory, visit the untinkerer
+				// automatically and repeat the request.
 
 				if ( KoLCharacter.hasItem( ABRIDGED, false ) )
 				{
@@ -338,28 +385,25 @@ public class AdventureRequest extends KoLRequest
 					this.run();
 					return;
 				}
-				else
-				{
-					// Otherwise, the player is unable to cross the orc
-					// chasm at this time.
-
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
-					return;
-				}
+				// Otherwise, the player is unable to cross the
+				// orc chasm at this time.
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
+				return;
 			}
-			else if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
+
+			if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
 			{
 				DEFAULT_SHELL.updateDisplay( "You can now cross the Orc Chasm." );
 				client.processResult( BRIDGE );
 				return;
 			}
-			else
-			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You've already crossed the Orc Chasm." );
-				return;
-			}
+
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You've already crossed the Orc Chasm." );
+			return;
 		}
-		else if ( formSource.equals( "friars.php" ) )
+
+		// The Deep Fat Friars' Ceremony Location
+		if ( formSource.equals( "friars.php" ) )
 		{
 			// "The infernal creatures who have tainted the Friar's
 			// copse stream back into the gate, hooting and
@@ -374,61 +418,35 @@ public class AdventureRequest extends KoLRequest
 				DEFAULT_SHELL.updateDisplay( "Taint cleansed." );
 				return;
 			}
-			else
-			{
-				// Even after you've performed the ritual:
-				//   "You don't appear to have all of the
-				//   elements necessary to perform the ritual."
-				// Detect completion via accomplishments.
 
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
-				return;
-			}
-		}
-		else if ( formSource.equals( "trickortreat.php" ) )
-		{
-			if ( responseText.indexOf( "You can't go Trick-or-Treating without a costume!" ) != -1 )
-			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Put on a costume and try again!" );
-				this.adventuresUsed = 0;
-				return;
-			}
-		}
-		else if ( responseText.indexOf( "You can't" ) != -1 || responseText.indexOf( "You shouldn't" ) != -1 ||
-			responseText.indexOf( "You don't" ) != -1 || responseText.indexOf( "You need" ) != -1 ||
-			responseText.indexOf( "You're way too beaten" ) != -1 || responseText.indexOf( "You're too drunk" ) != -1 )
-		{
-			// Notify the client of failure by telling it that
-			// the adventure did not take place and the client
-			// should not continue with the next iteration.
-			// Friendly error messages to come later.
+			// Even after you've performed the ritual:
+			// "You don't appear to have all of the elements
+			// necessary to perform the ritual."
 
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Turn usage aborted!" );
 			this.adventuresUsed = 0;
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
 			return;
 		}
 
-		// If you took a trip to the shore, 500 meat should be deducted
-		// from your running tally.
-
+		// Shore Trips cost 500 meat each
 		if ( formSource.equals( "shore.php" ) )
 		{
 			client.processResult( new AdventureResult( AdventureResult.MEAT, -500 ) );
 			return;
 		}
 
-		// If you're at the casino, each of the different slot machines
-		// deducts meat from your tally
-
-		if ( formSource.equals( "adventure.php" ) )
+		// Trick-or-treating
+		if ( formSource.equals( "trickortreat.php" ) )
 		{
-			if ( adventureID.equals( "70" ) )
-				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
-			else if ( adventureID.equals( "71" ) )
-				client.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
+			if ( responseText.indexOf( "You can't go Trick-or-Treating without a costume!" ) != -1 )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Put on a costume and try again!" );
+				this.adventuresUsed = 0;
+			}
 			return;
 		}
 
+		// Casino games cost meat to play
 		if ( formSource.equals( "casino.php" ) )
 		{
 			if ( adventureID.equals( "1" ) )
