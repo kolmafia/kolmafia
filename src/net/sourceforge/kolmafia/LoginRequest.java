@@ -88,7 +88,10 @@ public class LoginRequest extends KoLRequest
 
 		super.run();
 
-		if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
+		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
+		{
+		}
+		else if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
 		{
 			if ( redirectLocation.equals( "main_c.html" ) )
 				KoLRequest.isCompactMode = true;
