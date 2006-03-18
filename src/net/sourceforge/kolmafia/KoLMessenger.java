@@ -526,11 +526,10 @@ public abstract class KoLMessenger extends StaticEntity
 			while ( channelMatcher.find() )
 			{
 				channel = channelMatcher.group(1);
-				channelKey = channel.replaceAll( "<.*?>", "" );
-				channelList.add( channelKey );
-
 				if ( channel.indexOf( "<b" ) != -1 )
-					currentChannel = "/" + channelKey;
+					currentChannel = "/" + channel.replaceAll( "<.*?>", "" ).trim();
+				else
+					channelList.add( channel );
 			}
 
 			String [] channels = new String[ channelList.size() ];
@@ -539,11 +538,9 @@ public abstract class KoLMessenger extends StaticEntity
 			openInstantMessage( getBufferKey( currentChannel ) );
 			for ( int i = 0; i < channels.length; ++i )
 			{
-				channelKey = "/" + channels[i].replaceAll( "<.*?>", "" );
+				channelKey = "/" + channels[i].replaceAll( "<.*?>", "" ).trim();
 				openInstantMessage( getBufferKey( channelKey ) );
-
-				if ( channels[i].indexOf( "<" ) == -1 )
-					setChatFrameTitle( channelKey, "KoLmafia Chat: " + channelKey + " (listening)" );
+				setChatFrameTitle( channelKey, "KoLmafia Chat: " + channelKey + " (listening)" );
 			}
 
 			return;
