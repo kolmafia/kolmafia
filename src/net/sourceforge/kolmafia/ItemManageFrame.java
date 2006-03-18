@@ -504,7 +504,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public InventPanel()
 		{
-			super( "bruteforcer an Item", KoLCharacter.getInventory(), false );
+			super( "Invent an Item", KoLCharacter.getInventory(), false );
 			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( true, true, true ) );
 
 			setButtons( new String [] { "combine", "cook", "mix", "smith", "pliers", "tinker" },
