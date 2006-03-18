@@ -262,7 +262,6 @@ public abstract class KoLmafia implements KoLConstants
 		KoLCharacter.reset( loginname );
 		KoLMailManager.reset();
 		FamiliarData.reset();
-		CharpaneRequest.reset();
 		MushroomPlot.reset();
 		StoreManager.reset();
 		CakeArenaManager.reset();
@@ -307,6 +306,19 @@ public abstract class KoLmafia implements KoLConstants
 
 		(new CharsheetRequest( this )).run();
 		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
+
+		if ( !permitsContinue() )
+		{
+			deinitialize();
+			enableDisplay();
+			return;
+		}
+
+		// Also update the player status to determine the MCD setting,
+		// if they are in a mysticality sign.
+
+		if ( KoLCharacter.inMysticalitySign() )
+			CharpaneRequest.getInstance().run();
 
 		if ( !permitsContinue() )
 		{

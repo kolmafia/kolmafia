@@ -52,7 +52,6 @@ import java.util.StringTokenizer;
 public class CharpaneRequest extends KoLRequest
 {
 	private static CharpaneRequest instance = null;
-	private static boolean runOnce = false;
 
 	private CharpaneRequest( KoLmafia client )
 	{
@@ -69,25 +68,6 @@ public class CharpaneRequest extends KoLRequest
 			instance = new CharpaneRequest( StaticEntity.getClient() );
 
 		return instance;
-	}
-
-	public static final boolean wasRunOnce()
-	{	return runOnce;
-	}
-
-	public static final void reset()
-	{	runOnce = false;
-	}
-
-	/**
-	 * Runs the request.  Note that only the KoLCharacter's statistics
-	 * are retrieved via this retrieval.
-	 */
-
-	public void run()
-	{
-		runOnce = true;
-		super.run();
 	}
 
 	protected void processResults()

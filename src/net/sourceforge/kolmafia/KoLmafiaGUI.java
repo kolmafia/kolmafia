@@ -468,11 +468,6 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		try
 		{
-			// Make sure we know current setting
-
-			if ( !CharpaneRequest.wasRunOnce() )
-				CharpaneRequest.getInstance().run();
-
 			String [] levelArray = new String[12];
 			for ( int i = 0; i < 12; ++i )
 				levelArray[i] = "Level " + i;
