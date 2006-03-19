@@ -333,7 +333,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( !filters[3].isSelected() && autoSellValue == -1 )
 					elementList.removeSelectionInterval( actualIndex, actualIndex );
 
-				if ( !filters[4].isSelected() && autoSellValue == 0 )
+				if ( !filters[4].isSelected() && ( autoSellValue == 0 || autoSellValue < -1 ) )
 					elementList.removeSelectionInterval( actualIndex, actualIndex );
 			}
 
