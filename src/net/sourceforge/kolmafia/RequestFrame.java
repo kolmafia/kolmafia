@@ -229,11 +229,10 @@ public class RequestFrame extends KoLFrame
 		// If this has a side bar, then it will need to be notified
 		// whenever there are updates to the player status.
 
+		REFRESHER.add( this );
+
 		if ( this.hasSideBar )
-		{
-			REFRESHER.add( this );
 			refreshStatus();
-		}
 
 		(new DisplayRequestThread( this.currentRequest )).start();
 	}
@@ -593,9 +592,12 @@ public class RequestFrame extends KoLFrame
 
 			for ( int i = 0; i < frames.length; ++i )
 			{
-				frames[i].sideBuffer.clearBuffer();
-				frames[i].sideBuffer.append( getDisplayHTML( instance.responseText ) );
-				frames[i].sideDisplay.setCaretPosition( 0 );
+				if ( frames[i].hasSideBar() )
+				{
+					frames[i].sideBuffer.clearBuffer();
+					frames[i].sideBuffer.append( getDisplayHTML( instance.responseText ) );
+					frames[i].sideDisplay.setCaretPosition( 0 );
+				}
 			}
 		}
 	}
