@@ -544,10 +544,10 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		peopleMenu.add( new JSeparator() );
 
-		peopleMenu.add( new DisplayFrameMenuItem( "Green Message", GreenMessageFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Purple Message", GiftMessageFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "New Kmail", GreenMessageFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Send Gift Package", GiftMessageFrame.class ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Propose Trade", ProposeTradeFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Accept Trades", PendingTradesFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Pending Trades", PendingTradesFrame.class ) );
 
 		// Add in common tasks menu
 
