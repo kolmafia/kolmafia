@@ -444,7 +444,7 @@ public abstract class SendMessageFrame extends KoLFrame
 				for ( int i = 0; i < items.length; ++i )
 				{
 					AdventureResult.addResultToList( attachments, ((AdventureResult) items[i]).getNegation() );
-					AdventureResult.addResultToList( inventory, (AdventureResult) items[i] );
+					AdventureResult.addResultToList( usingStorage ? storage : inventory, (AdventureResult) items[i] );
 				}
 			}
 		}
