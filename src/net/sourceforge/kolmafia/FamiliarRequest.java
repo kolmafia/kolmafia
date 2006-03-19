@@ -86,6 +86,7 @@ public class FamiliarRequest extends KoLRequest
 
 	protected void processResults()
 	{
+		super.processResults();
 		FamiliarData.registerFamiliarData( client, responseText );
 		FamiliarData.updateWeightModifier();
 
