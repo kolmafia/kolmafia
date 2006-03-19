@@ -54,6 +54,7 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int EQUIP_OFFHAND = 13;
 	public static final int CONSUME_RESTORE = 14;
 
+	private static final int SPOOKY_MAP = 74;
 	private static final int DINGHY_PLANS = 146;
 	private static final int ENCHANTED_BEAN = 186;
 	private static final int FENG_SHUI = 210;
@@ -95,6 +96,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int GIFT11 = 1177;
 	private static final int GIFTV = 1460;
 
+	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
+	private static final AdventureResult FERTILIZER = new AdventureResult( 76, -1 );
 	private static final AdventureResult PLANKS = new AdventureResult( 140, -1 );
 	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
 	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
@@ -393,6 +396,20 @@ public class ConsumeItemRequest extends KoLRequest
 			// Jumbo Dr. Lucifer reduces your hit points to 1.
 			client.processResult( new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
 			break;
+
+		case SPOOKY_MAP:
+			// "You plant your Spooky Sapling in the loose soil at
+			// the base of the Temple.  You spray it with your
+			// Spooky-Gro Fertilizer, and it immediately grows to
+			// 20 feet in height.  You can easily climb the
+			// branches to reach the first step of the Temple
+			// now..."
+			if ( responseText.indexOf( "easily climb the branches" ) == -1 )
+				return;
+			client.processResult( SAPLING );
+			client.processResult( FERTILIZER );
+			break;
+
 
 		case DINGHY_PLANS:
 			// "You need some planks to build the dinghy."
