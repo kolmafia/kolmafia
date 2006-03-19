@@ -367,7 +367,7 @@ public abstract class SendMessageFrame extends KoLFrame
 			super( client, "Attachments" );
 
 			this.inventory = (LockableListModel) inventory.clone();
-			this.storage = (LockableListModel) storage.clone();
+			this.storage = storage != null ? (LockableListModel) storage.clone() : null;
 
 			this.attachments = attachments;
 			this.newAttachments = new ShowDescriptionList( this.attachments );
