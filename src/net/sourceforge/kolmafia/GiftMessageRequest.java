@@ -135,7 +135,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	protected void repeat( Object [] attachments )
-	{	(new GiftMessageRequest( client, recipient, outsideMessage, insideMessage, wrappingType, attachments, 0 )).run();
+	{	(new GiftMessageRequest( client, recipient, outsideMessage, insideMessage, wrappingType, attachments, 0, this.source == KoLCharacter.getStorage() )).run();
 	}
 
 	protected String getSuccessMessage()

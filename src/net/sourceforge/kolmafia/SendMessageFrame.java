@@ -69,7 +69,10 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class SendMessageFrame extends KoLFrame
 {
+	// Source of meat & attachments
+	protected static LockableListModel source = null;
 	protected static boolean usingStorage = false;
+
 	protected JPanel messagePanel;
 	protected JComboBox recipientEntry;
 	protected JTextArea [] messageEntry;
@@ -87,9 +90,10 @@ public abstract class SendMessageFrame extends KoLFrame
 	protected SendMessageFrame( KoLmafia client, String title, String recipient )
 	{
 		super( client, title );
-		usingStorage = false;
 
 		inventory = KoLCharacter.getInventory();
+		source = inventory;
+		usingStorage = false;
 
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout( new BoxLayout( mainPanel, BoxLayout.Y_AXIS ) );
@@ -402,6 +406,8 @@ public abstract class SendMessageFrame extends KoLFrame
 					sourceSelect.addItem( "Inside Inventory" );
 					sourceSelect.addItem( "Inside Hagnk's Storage" );
 					sourceSelect.addActionListener( new SourceChangeListener() );
+					if ( usingStorage)
+						sourceSelect.setSelectedIndex( 1 );
 					actualPanel.add( sourceSelect, BorderLayout.NORTH );
 				}
 			}
@@ -410,11 +416,14 @@ public abstract class SendMessageFrame extends KoLFrame
 			{
 				public void actionPerformed( ActionEvent e )
 				{
-					usingStorage = sourceSelect.getSelectedIndex() == 1;
-					elementList.setModel( usingStorage ? storage : inventory );
-
-					while ( !attachments.isEmpty() )
-						AdventureResult.addResultToList( usingStorage ? inventory : storage, (AdventureResult) attachments.remove( 0 ) );
+					// Put back old attachments
+					LockableListModel oldSource = source;
+					source = sourceSelect.getSelectedIndex() == 1 ? storage : inventory;
+					usingStorage = (source == storage );
+					elementList.setModel( source );
+					if ( oldSource != source )
+						while ( !attachments.isEmpty() )
+							AdventureResult.addResultToList( oldSource, (AdventureResult) attachments.remove( 0 ) );
 				}
 			}
 
@@ -429,11 +438,11 @@ public abstract class SendMessageFrame extends KoLFrame
 				{
 					currentItem = (AdventureResult) items[i];
 					attachmentCount = getQuantity( "Attaching " + currentItem.getName() + "...",
-						currentItem.getCount( usingStorage ? storage : inventory ) );
+						currentItem.getCount( source ) );
 
 					currentItem = currentItem.getInstance( attachmentCount );
 					AdventureResult.addResultToList( attachments, currentItem );
-					AdventureResult.addResultToList( usingStorage ? storage : inventory, currentItem.getNegation() );
+					AdventureResult.addResultToList( source, currentItem.getNegation() );
 				}
 			}
 
@@ -444,7 +453,7 @@ public abstract class SendMessageFrame extends KoLFrame
 				for ( int i = 0; i < items.length; ++i )
 				{
 					AdventureResult.addResultToList( attachments, ((AdventureResult) items[i]).getNegation() );
-					AdventureResult.addResultToList( usingStorage ? storage : inventory, (AdventureResult) items[i] );
+					AdventureResult.addResultToList( source, (AdventureResult) items[i] );
 				}
 			}
 		}
