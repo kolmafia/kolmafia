@@ -71,6 +71,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		MushroomFrame.class,
 		OptionsFrame.class,
 		PendingTradesFrame.class,
+		SendMessageFrame.class,
 		StoreManageFrame.class,
 		TabbedChatFrame.class
 	};
@@ -127,9 +128,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		if ( this.creator == null )
 		{
-			if ( client != null )
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
-
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
 			return;
 		}
 
@@ -224,9 +223,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// that it failed to happen (eventhough technically,
 			// this should never have happened)
 
-			if ( client != null )
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
-
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 

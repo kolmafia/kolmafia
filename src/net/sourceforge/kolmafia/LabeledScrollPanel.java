@@ -73,7 +73,10 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 		this.scrollComponent = scrollComponent;
 
 		JPanel centerPanel = new JPanel( new BorderLayout() );
-		centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+
+		if ( !title.equals( "" ) )
+			centerPanel.add( JComponentUtilities.createLabel( title, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
+
 		centerPanel.add( new JScrollPane( scrollComponent, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
 

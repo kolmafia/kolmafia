@@ -398,8 +398,19 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		resetSession();
+		// Also update the contents of Hagnk's storage so that you
+		// do not have to re-run it all the time.
 
+		(new ItemStorageRequest( this )).run();
+
+		if ( !permitsContinue() )
+		{
+			deinitialize();
+			enableDisplay();
+			return;
+		}
+
+		resetSession();
 		applyRecentEffects();
 
 		// Retrieve breakfast if the option to retrieve breakfast

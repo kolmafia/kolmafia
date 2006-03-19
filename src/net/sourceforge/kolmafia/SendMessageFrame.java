@@ -69,6 +69,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class SendMessageFrame extends KoLFrame
 {
+	protected static boolean usingStorage = false;
 	protected JPanel messagePanel;
 	protected JComboBox recipientEntry;
 	protected JTextArea [] messageEntry;
@@ -86,6 +87,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	protected SendMessageFrame( KoLmafia client, String title, String recipient )
 	{
 		super( client, title );
+		usingStorage = false;
 
 		inventory = KoLCharacter.getInventory();
 
@@ -170,6 +172,8 @@ public abstract class SendMessageFrame extends KoLFrame
 		for ( int i = 0; i < messageEntry.length; ++i )
 		{
 			messageEntry[i] = new JTextArea();
+
+			messageEntry[i].setRows( 7 );
 			messageEntry[i].setLineWrap( true );
 			messageEntry[i].setWrapStyleWord( true );
 			scrollArea[i] = new JScrollPane( messageEntry[i], JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
@@ -286,13 +290,13 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	public void attachItems()
 	{
-			Object [] parameters = new Object[4];
-			parameters[0] = client;
-			parameters[1] = inventory;
-			parameters[2] = this instanceof GiftMessageFrame ? KoLCharacter.getStorage() : null;
-			parameters[3] = attachments;
+		Object [] parameters = new Object[4];
+		parameters[0] = client;
+		parameters[1] = inventory;
+		parameters[2] = this instanceof GiftMessageFrame ? KoLCharacter.getStorage() : null;
+		parameters[3] = attachments;
 
-			(new CreateFrameRunnable( AttachmentFrame.class, parameters )).run();
+		(new CreateFrameRunnable( AttachmentFrame.class, parameters )).run();
 	}
 
 	/**
@@ -398,6 +402,7 @@ public abstract class SendMessageFrame extends KoLFrame
 					sourceSelect.addItem( "Inside Inventory" );
 					sourceSelect.addItem( "Inside Hagnk's Storage" );
 					sourceSelect.addActionListener( new SourceChangeListener() );
+					actualPanel.add( sourceSelect, BorderLayout.NORTH );
 				}
 			}
 
@@ -405,8 +410,11 @@ public abstract class SendMessageFrame extends KoLFrame
 			{
 				public void actionPerformed( ActionEvent e )
 				{
-					elementList.setModel( sourceSelect.getSelectedIndex() == 0 ? inventory : storage );
-					attachments.clear();
+					usingStorage = sourceSelect.getSelectedIndex() == 1;
+					elementList.setModel( usingStorage ? storage : inventory );
+
+					while ( !attachments.isEmpty() )
+						AdventureResult.addResultToList( usingStorage ? inventory : storage, (AdventureResult) attachments.remove( 0 ) );
 				}
 			}
 
@@ -420,11 +428,12 @@ public abstract class SendMessageFrame extends KoLFrame
 				for ( int i = 0; i < items.length; ++i )
 				{
 					currentItem = (AdventureResult) items[i];
-					attachmentCount = getQuantity( "Attaching " + currentItem.getName() + "...", currentItem.getCount( inventory ) );
+					attachmentCount = getQuantity( "Attaching " + currentItem.getName() + "...",
+						currentItem.getCount( usingStorage ? storage : inventory ) );
 
 					currentItem = currentItem.getInstance( attachmentCount );
 					AdventureResult.addResultToList( attachments, currentItem );
-					AdventureResult.addResultToList( inventory, currentItem.getNegation() );
+					AdventureResult.addResultToList( usingStorage ? storage : inventory, currentItem.getNegation() );
 				}
 			}
 

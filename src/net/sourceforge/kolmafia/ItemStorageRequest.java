@@ -284,35 +284,18 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		if ( !existingFrames.isEmpty() )
 		{
-			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-			existingFrames.toArray( frames );
-
-			for ( int i = 0; i < frames.length; ++i )
-				if ( frames[i] instanceof HagnkStorageFrame )
-				{
-					KoLFrame desiredFrame = frames[i];
-
-					if ( KoLCharacter.isHardcore() )
-					{
-						desiredFrame.setTitle( "You are not yet done with hardcore" );
-						break;
-					}
-
-					storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
-
-					if ( storageMatcher.find() )
-					{
-						if ( storageMatcher.group().startsWith( "1 " ) )
-							desiredFrame.setTitle( storageMatcher.group() + " pull remaining" );
-						else
-							desiredFrame.setTitle( storageMatcher.group() + " pulls remaining" );
-					}
-					else if ( KoLCharacter.canInteract() )
-						desiredFrame.setTitle( "Unlimited pulls remaining" );
-					else
-						desiredFrame.setTitle( "No more pulls remaining" );
-					break;
-				}
+			storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
+			if ( storageMatcher.find() )
+			{
+				if ( storageMatcher.group().startsWith( "1 " ) )
+					HagnkStorageFrame.setPullsRemaining( storageMatcher.group() + " pull remaining" );
+				else
+					HagnkStorageFrame.setPullsRemaining( storageMatcher.group() + " pulls remaining" );
+			}
+			else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
+				HagnkStorageFrame.setPullsRemaining( "No more pulls remaining" );
+			else
+				HagnkStorageFrame.setPullsRemaining( "Unlimited pulls remaining" );
 		}
 
 		// Start with an empty list

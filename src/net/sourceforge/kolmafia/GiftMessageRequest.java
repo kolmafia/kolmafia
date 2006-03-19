@@ -46,6 +46,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	private String recipient, outsideMessage, insideMessage;
 	private GiftWrapper wrappingType;
 	private int maxCapacity, materialCost;
+	private boolean isFromStorage;
 
 	private static final LockableListModel PACKAGES = new LockableListModel();
 	static
@@ -87,32 +88,14 @@ public class GiftMessageRequest extends SendMessageRequest
 		}
 	}
 
-	public GiftMessageRequest( KoLmafia client, String recipient, String message, AdventureResult attachment )
+	public GiftMessageRequest( KoLmafia client, String recipient, String outsideMessage, String insideMessage,
+		Object wrappingType, Object [] attachments, int meatAttachment )
 	{
-		super( client, "town_sendgift.php", attachment );
-		addFormField( "pwd" );
-		addFormField( "action", "Yep." );
-		addFormField( "towho", recipient );
-		addFormField( "note", message );
-		addFormField( "insidenote", message );
-
-		this.recipient = KoLmafia.getPlayerID( recipient );
-		this.outsideMessage = message;
-		this.insideMessage = message;
-
-		this.wrappingType = (GiftWrapper) PACKAGES.get(0);
-		this.maxCapacity = this.wrappingType.maxCapacity;
-		this.materialCost = this.wrappingType.materialCost;
-
-		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
-		addFormField( "sendmeat", String.valueOf( this.meatAttachment ) );
-
-		// You can take from inventory (0) or Hagnks (1)
-		addFormField( "fromwhere", "0" );
+		this( client, recipient, outsideMessage, insideMessage, wrappingType, attachments, meatAttachment, false );
 	}
 
 	public GiftMessageRequest( KoLmafia client, String recipient, String outsideMessage, String insideMessage,
-		Object wrappingType, Object [] attachments, int meatAttachment )
+		Object wrappingType, Object [] attachments, int meatAttachment, boolean isFromStorage )
 	{
 		super( client, "town_sendgift.php", attachments, meatAttachment );
 		addFormField( "pwd" );
@@ -130,10 +113,17 @@ public class GiftMessageRequest extends SendMessageRequest
 		this.materialCost = this.wrappingType.materialCost;
 
 		addFormField( "whichpackage", String.valueOf( this.wrappingType.radio ) );
-		addFormField( "sendmeat", String.valueOf( this.meatAttachment ) );
+		addFormField( isFromStorage ? "hagnks_sendmeat" : "sendmeat", String.valueOf( this.meatAttachment ) );
 
 		// You can take from inventory (0) or Hagnks (1)
-		addFormField( "fromwhere", "0" );
+		addFormField( "fromwhere", isFromStorage ? "1" : "0" );
+
+		if ( isFromStorage )
+		{
+			this.source = KoLCharacter.getStorage();
+			this.whichField = "hagnks_whichitem";
+			this.quantityField = "hagnks_howmany";
+		}
 	}
 
 	protected int getCapacity()
