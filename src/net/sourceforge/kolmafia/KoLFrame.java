@@ -398,8 +398,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
 
-			hpLabel.setText( df.format( KoLCharacter.getCurrentHP() ) );
-			mpLabel.setText( df.format( KoLCharacter.getCurrentMP() ) );
+			hpLabel.setText( df.format( KoLCharacter.getCurrentHP() ) + "/" + df.format( KoLCharacter.getMaximumHP() ) );
+			mpLabel.setText( df.format( KoLCharacter.getCurrentMP() ) + "/" + df.format( KoLCharacter.getMaximumMP() ) );
 			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
 			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
