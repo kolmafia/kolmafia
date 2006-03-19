@@ -132,7 +132,7 @@ public class GalaktikRequest extends KoLRequest
 		else
 			client.processResult( new AdventureResult( AdventureResult.MP, KoLCharacter.getMaximumMP() ) );
 
-		KoLCharacter.updateStatus();
+		super.processResults();
 		DEFAULT_SHELL.updateDisplay( "Cure purchased." );
 	}
 
