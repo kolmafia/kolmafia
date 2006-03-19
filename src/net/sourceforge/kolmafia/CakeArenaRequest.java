@@ -84,6 +84,7 @@ public class CakeArenaRequest extends KoLRequest
 		if ( isCompetition )
 		{
 			client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
+			super.processResults();
 			return;
 		}
 
