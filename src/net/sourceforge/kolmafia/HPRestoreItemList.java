@@ -185,7 +185,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 			{
 				DEFAULT_SHELL.updateDisplay( "Resting at campground..." );
 				(new CampgroundRequest( client, "rest" )).run();
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				return;
 			}
 

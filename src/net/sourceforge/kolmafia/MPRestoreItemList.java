@@ -185,7 +185,6 @@ public abstract class MPRestoreItemList extends StaticEntity
 			{
 				DEFAULT_SHELL.updateDisplay( "Relaxing in beanbag chair..." );
 				(new CampgroundRequest( client, "relax" )).run();
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				return;
 			}
 
@@ -193,7 +192,6 @@ public abstract class MPRestoreItemList extends StaticEntity
 			{
 				DEFAULT_SHELL.updateDisplay( "Resting at campground..." );
 				(new CampgroundRequest( client, "rest" )).run();
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 				return;
 			}
 

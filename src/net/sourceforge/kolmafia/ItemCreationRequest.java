@@ -438,33 +438,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					if ( !KoLCharacter.inMuscleSign() )
 						client.processResult( new AdventureResult( MEAT_PASTE, 0 - createdQuantity ) );
 					break;
-
-				case SMITH:
-					if ( !KoLCharacter.inMuscleSign() )
-						client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
-					break;
-
-				case SMITH_ARMOR:
-				case SMITH_WEAPON:
-					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
-					break;
-
-				case JEWELRY:
-					client.processResult( new AdventureResult( AdventureResult.ADV, 0 - (3 * createdQuantity) ) );
-					break;
-
-				case COOK:
-				case COOK_REAGENT:
-				case COOK_PASTA:
-					if ( !KoLCharacter.hasChef() )
-						client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
-					break;
-
-				case MIX:
-				case MIX_SPECIAL:
-					if ( !KoLCharacter.hasBartender() )
-						client.processResult( new AdventureResult( AdventureResult.ADV, 0 - createdQuantity ) );
-					break;
 			}
 		}
 
@@ -690,5 +663,46 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public String getCommandForm( int iterations )
 	{	return "create " + getQuantityNeeded() + " \"" + getName() + "\"";
+	}
+
+	/**
+	 * An alternative method to doing adventure calculation is determining
+	 * how many adventures are used by the given request, and subtract
+	 * them after the request is done.
+	 *
+	 * @return	The number of adventures used by this request.
+	 */
+
+	public int getAdventuresUsed()
+	{
+		switch ( mixingMethod )
+		{
+			case SMITH:
+				if ( !KoLCharacter.inMuscleSign() )
+					return quantityNeeded;
+				break;
+
+			case SMITH_ARMOR:
+			case SMITH_WEAPON:
+				return quantityNeeded;
+
+			case JEWELRY:
+				return 3 * quantityNeeded;
+
+			case COOK:
+			case COOK_REAGENT:
+			case COOK_PASTA:
+				if ( !KoLCharacter.hasChef() )
+					return quantityNeeded;
+				break;
+
+			case MIX:
+			case MIX_SPECIAL:
+				if ( !KoLCharacter.hasBartender() )
+					return quantityNeeded;
+				break;
+		}
+
+		return 0;
 	}
 }

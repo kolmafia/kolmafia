@@ -420,6 +420,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				familiarLabel.setText( familiar.getModifiedWeight() + (familiar.getModifiedWeight() == 1 ? " lb." : " lbs.") );
 				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
 				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
+
+				familiarLabel.updateUI();
 			}
 		}
 	}
@@ -538,15 +540,15 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		JMenu peopleMenu = new JMenu( "People" );
 		container.add( peopleMenu );
 
-		peopleMenu.add( new DisplayFrameMenuItem( "Mail Manager", MailboxFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Read KoLmail", MailboxFrame.class ) );
 		peopleMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
 
 		peopleMenu.add( new JSeparator() );
 
-		peopleMenu.add( new DisplayFrameMenuItem( "New Kmail", GreenMessageFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Write a KoLmail", GreenMessageFrame.class ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Send Gift Package", GiftMessageFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Propose Trade", ProposeTradeFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Propose a Trade", ProposeTradeFrame.class ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Pending Trades", PendingTradesFrame.class ) );
 
 		// Add in common tasks menu
@@ -563,6 +565,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", client, "makeHermitRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Skin the Trapper", client, "makeTrapperRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Trading Hunters", client, "makeHunterRequest" ) );
+
+		travelMenu.add( new JSeparator() );
+
 		travelMenu.add( new InvocationMenuItem( "Untinker Items", client, "makeUntinkerRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Gourd Trading", client, "tradeGourdItems" ) );
 

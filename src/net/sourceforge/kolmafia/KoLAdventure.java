@@ -230,9 +230,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// used adventures from the tally
 
 		client.registerAdventure( this );
-		int adventures = getAdventuresUsed();
-		if ( adventures > 0 )
-			client.processResult( new AdventureResult( AdventureResult.ADV, 0 - adventures ) );
 
 		// After running the request, make sure you have enough
 		// mana and health to continue so you don't get an abort

@@ -51,6 +51,7 @@ public class FightRequest extends KoLRequest
 
 	private String action;
 	private int roundCount;
+	private int turnsUsed = 0;
 	private static String encounter = "";
 
 	private static final String [] RARE_MONSTERS =
@@ -67,6 +68,7 @@ public class FightRequest extends KoLRequest
 	{
 		super( client, "fight.php" );
 		this.roundCount = 0;
+		this.turnsUsed = 0;
 		nextRound();
 	}
 
@@ -244,7 +246,7 @@ public class FightRequest extends KoLRequest
 			else if ( responseText.indexOf( "againform.submit" ) == -1 && responseText.indexOf( "lair3.php" ) == -1 && responseText.indexOf( "lair4.php" ) == -1 && responseText.indexOf( "lair5.php" ) == -1 && responseText.indexOf( "lair6.php" ) == -1 )
 				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Nothing left to do here." );
 
-			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			this.turnsUsed = 1;
 		}
 		else if ( responseText.indexOf( "You lose." ) != -1 )
 		{
@@ -256,7 +258,7 @@ public class FightRequest extends KoLRequest
 			if ( KoLCharacter.getCurrentHP() == 0 )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You were defeated!" );
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+				this.turnsUsed = 1;
 			}
 			else
 			{
@@ -265,7 +267,7 @@ public class FightRequest extends KoLRequest
 				// as normal.
 
 				DEFAULT_SHELL.updateDisplay( "Thirty combat round limit exceeded." );
-				client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+				this.turnsUsed = 1;
 			}
 		}
 		else
@@ -335,5 +337,19 @@ public class FightRequest extends KoLRequest
 
 		if ( mp > 0 )
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - mp ) );
+	}
+
+	/**
+	 * An alternative method to doing adventure calculation is determining
+	 * how many adventures are used by the given request, and subtract
+	 * them after the request is done.  This number defaults to <code>zero</code>;
+	 * overriding classes should change this value to the appropriate
+	 * amount.
+	 *
+	 * @return	The number of adventures used by this request.
+	 */
+
+	public int getAdventuresUsed()
+	{	return turnsUsed;
 	}
 }

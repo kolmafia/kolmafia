@@ -847,7 +847,9 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setAdventuresLeft( int adventuresLeft )
-	{	KoLCharacter.adventuresLeft = adventuresLeft;
+	{
+		KoLCharacter.adventuresLeft = adventuresLeft;
+		KoLCharacter.updateStatus();
 	}
 
 	/**

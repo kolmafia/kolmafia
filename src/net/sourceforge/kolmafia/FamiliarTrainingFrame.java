@@ -112,9 +112,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final int firstTinyPlasticCrimbo = 1377;
 	private static final int lastTinyPlasticCrimbo = 1378;
 
-	// An adventure
-	private static final AdventureResult ADV = new AdventureResult( AdventureResult.ADV, -1 );
-
 	public FamiliarTrainingFrame( KoLmafia client )
 	{
 		super( client, "Familiar Training Tool" );
@@ -1966,9 +1963,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 					}
 				}
 			}
-
-			// Tell KoLmafia that we've used an adventure
-			client.processResult( ADV );
 
 			// Increment count of turns in this training session
 			turns++;

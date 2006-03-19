@@ -206,7 +206,10 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	public void showHTML( String text, String title )
-	{	JOptionPane.showMessageDialog( null, RequestEditorKit.getDisplayHTML( text ), title, JOptionPane.PLAIN_MESSAGE );
+	{
+		KoLRequest request = new KoLRequest( this, "" );
+		request.responseText = text;
+		FightFrame.showRequest( request );
 	}
 
 	/**

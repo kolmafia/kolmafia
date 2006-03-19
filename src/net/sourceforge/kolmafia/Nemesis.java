@@ -253,12 +253,6 @@ public abstract class Nemesis extends StaticEntity
 					// Use up ketchup
 					client.processResult( ketchup.getNegation() );
 					break;
-
-				case 9: // Chamber of Epic Conflict
-
-					// Use up an adventure
-					client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-					break;
 			}
 		}
 

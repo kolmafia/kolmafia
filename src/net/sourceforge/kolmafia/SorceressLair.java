@@ -1347,8 +1347,6 @@ public abstract class SorceressLair extends StaticEntity
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're out of adventures." );
 			return;
 		}
-
-		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 	}
 
 	private static void familiarBattle( int n )

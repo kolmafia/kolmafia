@@ -989,8 +989,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected void processResults()
 	{
 		int previousHP = KoLCharacter.getCurrentHP();
-
-		client.processResults( responseText );
+		boolean needsRefresh = client.processResults( responseText );
 
 		// If the character's health drops below zero, make sure
 		// that beaten up is added to the effects.
@@ -998,11 +997,16 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( previousHP != 0 && KoLCharacter.getCurrentHP() == 0 )
 			client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 
+		if ( getAdventuresUsed() > 0 )
+			client.processResult( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
+
 		if ( statusChanged )
-		{
-			KoLCharacter.updateStatus();
 			RequestFrame.refreshStatus();
-		}
+		else if ( needsRefresh )
+			CharpaneRequest.getInstance().run();
+
+		if ( statusChanged || needsRefresh )
+			KoLCharacter.updateStatus();
 	}
 
 	/**
@@ -1160,7 +1164,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		// since they necessarily consume an adventure.
 
 		if ( AdventureDatabase.consumesAdventure( option, decision ) )
+		{
 			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			KoLCharacter.updateStatus();
+		}
 
 		// Certain choices cost meat when selected
 

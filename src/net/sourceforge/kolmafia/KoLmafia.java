@@ -522,7 +522,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @param	result	String to parse for the result
 	 */
 
-	public void parseResult( String result )
+	public boolean parseResult( String result )
 	{
 		String trimResult = result.trim();
 		DEFAULT_SHELL.printLine( trimResult );
@@ -534,20 +534,22 @@ public abstract class KoLmafia implements KoLConstants
 		// do nothing (eventhough it's technically bad style).
 
 		if ( trimResult.startsWith( "You gain a" ) || trimResult.startsWith( "You gain some" ) )
-			return;
+			return false;
 
 		try
 		{
 			if ( logStream != null )
 				logStream.println( "Parsing result: " + trimResult );
 
-			processResult( AdventureResult.parseResult( trimResult ) );
+			return processResult( AdventureResult.parseResult( trimResult ) );
 		}
 		catch ( Exception e )
 		{
 			e.printStackTrace( logStream );
 			e.printStackTrace();
 		}
+
+		return false;
 	}
 
 	public void parseItem( String result )
@@ -623,8 +625,8 @@ public abstract class KoLmafia implements KoLConstants
 	 * @param	result	Result to add to the running tally of adventure results
 	 */
 
-	public void processResult( AdventureResult result )
-	{	processResult( result, true );
+	public boolean processResult( AdventureResult result )
+	{	return processResult( result, true );
 	}
 
 	/**
@@ -637,13 +639,13 @@ public abstract class KoLmafia implements KoLConstants
 	 * @param	shouldTally	Whether or not the result should be added to the running tally
 	 */
 
-	public void processResult( AdventureResult result, boolean shouldTally )
+	public boolean processResult( AdventureResult result, boolean shouldTally )
 	{
 		// This should not happen, but check just in case and
 		// return if the result was null.
 
 		if ( result == null )
-			return;
+			return false;
 
 		if ( logStream != null )
 			logStream.println( "Processing result: " + result );
@@ -654,7 +656,7 @@ public abstract class KoLmafia implements KoLConstants
 		// return if the result name was null.
 
 		if ( resultName == null )
-			return;
+			return false;
 
 		// Process the adventure result in this section; if
 		// it's a status effect, then add it to the recent
@@ -674,16 +676,26 @@ public abstract class KoLmafia implements KoLConstants
 		KoLCharacter.processResult( result );
 
 		if ( !shouldTally )
-			return;
+			return false;
 
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
 
+		boolean shouldRefresh = false;
+
 		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() >= 3 )
 		{
-			fullStatGain[0] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() ) - initialStats[0];
-			fullStatGain[1] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() ) - initialStats[1];
-			fullStatGain[2] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() ) - initialStats[2];
+			int currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() ) - initialStats[0];
+			shouldRefresh |= fullStatGain[0] != currentTest;
+			fullStatGain[0] = currentTest;
+
+			currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() ) - initialStats[1];
+			shouldRefresh |= fullStatGain[1] != currentTest;
+			fullStatGain[1] = currentTest;
+
+			currentTest = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMoxie() ) - initialStats[2];
+			shouldRefresh |= fullStatGain[2] != currentTest;
+			fullStatGain[2] = currentTest;
 
 			if ( tally.size() > 3 )
 				tally.set( 3, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
@@ -734,6 +746,8 @@ public abstract class KoLmafia implements KoLConstants
 				AdventureResult.addResultToList( conditions, result.getNegation() );
 			}
 		}
+
+		return shouldRefresh;
 	}
 
 	/**
@@ -1108,16 +1122,12 @@ public abstract class KoLmafia implements KoLConstants
 	 * @return	<code>true</code> if any results existed
 	 */
 
-	public boolean processResults( String results )
+	public final boolean processResults( String results )
 	{
-		boolean hadResults = false;
 		logStream.println( "Processing results..." );
 
 		if ( results.indexOf( "gains a pound" ) != -1 )
-		{
 			KoLCharacter.incrementFamilarWeight();
-			hadResults = true;
-		}
 
 		String plainTextResult = results.replaceAll( "<.*?>", "\n" );
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
@@ -1130,7 +1140,6 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			lastDamageIndex = damageMatcher.end();
 			parseResult( "You lose " + damageMatcher.group(1) + " hit points" );
-			hadResults = true;
 		}
 
 		damageMatcher = Pattern.compile( "You drop .*? ([\\d,]+) damage" ).matcher( plainTextResult );
@@ -1140,8 +1149,9 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			lastDamageIndex = damageMatcher.end();
 			parseResult( "You lose " + damageMatcher.group(1) + " hit points" );
-			hadResults = true;
 		}
+
+		boolean requiresRefresh = false;
 
 		while ( parsedResults.hasMoreTokens() )
 		{
@@ -1152,7 +1162,6 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( lastToken.startsWith( "You acquire" ) )
 			{
-				hadResults = true;
 				if ( lastToken.indexOf( "effect" ) == -1 )
 				{
 					String item = parsedResults.nextToken();
@@ -1195,12 +1204,11 @@ public abstract class KoLmafia implements KoLConstants
 			}
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
 			{
-				hadResults = true;
-				parseResult( lastToken.indexOf( "." ) == -1 ? lastToken : lastToken.substring( 0, lastToken.indexOf( "." ) ) );
+				requiresRefresh |= parseResult( lastToken.indexOf( "." ) == -1 ? lastToken : lastToken.substring( 0, lastToken.indexOf( "." ) ) );
 			}
 		}
 
-		return hadResults;
+		return requiresRefresh;
 	}
 
 	/**

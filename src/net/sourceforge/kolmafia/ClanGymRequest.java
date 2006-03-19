@@ -138,9 +138,7 @@ public class ClanGymRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		client.processResult( new AdventureResult( AdventureResult.ADV, 0 - turnCount ) );
 		super.processResults();
-
 		DEFAULT_SHELL.updateDisplay( "Workout completed." );
 	}
 
