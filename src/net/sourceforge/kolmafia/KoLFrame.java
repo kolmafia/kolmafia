@@ -381,21 +381,23 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	protected class StatusRefresher implements Runnable
 	{
+		private String statText( int adjusted, int base )
+		{
+			return adjusted == base ? "<html>" + Integer.toString( base ) : 
+				adjusted >  base ? "<html><font color=blue>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")" :
+				"<html><font color=red>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")";
+		}
+
 		public void run()
 		{
 			levelLabel.setText( "Level " + KoLCharacter.getLevel() );
 			roninLabel.setText( KoLCharacter.isHardcore() ? "(Hardcore)" : KoLCharacter.canInteract() ? "(Ronin-Clear)" : "(Ronin)" );
 			mcdLabel.setText( "MCD @ " + KoLCharacter.getMindControlLevel() );
 
-			musLabel.setText( "<html><font color=blue>" + KoLCharacter.getAdjustedMuscle() + "</font> (" +
-				KoLCharacter.getBaseMuscle() + ")" );
-
-			mysLabel.setText( "<html><font color=blue>" + KoLCharacter.getAdjustedMysticality() + "</font> (" +
-				KoLCharacter.getBaseMysticality() + ")" );
-
-			moxLabel.setText( "<html><font color=blue>" + KoLCharacter.getAdjustedMoxie() + "</font> (" +
-				KoLCharacter.getBaseMoxie() + ")" );
-
+			musLabel.setText( statText( KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle() ) );
+			mysLabel.setText( statText( KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality() ) );
+			moxLabel.setText( statText( KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie() ) );
+			
 			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
 
 			hpLabel.setText( df.format( KoLCharacter.getCurrentHP() ) + "/" + df.format( KoLCharacter.getMaximumHP() ) );
