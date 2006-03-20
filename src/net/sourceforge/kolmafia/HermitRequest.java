@@ -203,6 +203,9 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
+		// Tally up the trade
+		super.processResults();
+
 		// If the hermit isn't confused, that means he took a hermit
 		// permit for the items being exchanged.
 
