@@ -159,13 +159,6 @@ public class UntinkerRequest extends KoLRequest
 	protected void processResults()
 	{
 		client.processResult( new AdventureResult( itemID, -1 ) );
-		if ( itemID != AdventureRequest.ABRIDGED.getItemID() )
-		{
-			super.processResults();
-			return;
-		}
-
-		client.processResult( FightRequest.DICTIONARY1 );
-		client.processResult( AdventureRequest.BRIDGE.getNegation() );
+		super.processResults();
 	}
 }
