@@ -197,6 +197,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		}
 
 		super.processResults();
+		KoLCharacter.updateStatus();
 		KoLCharacter.refreshCalculatedLists();
 	}
 
