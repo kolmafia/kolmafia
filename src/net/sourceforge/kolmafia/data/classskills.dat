@@ -30,22 +30,24 @@
 1018	0	0	Northern Exposure
 1019	1	10	Musk of the Moose
 
-# Skills available to Tamers
+# Skills available to Turtle Tamers
 
 2000	1	1	Patience of the Tortoise
 2003	3	3	Headbutt
 2004	0	0	Skin of the Leatherback
-2005	3	20	Spectral Snapper
+2014	0	0	Amphibian Sympathy
 2006	0	0	Armorcraftiness
 2007	2	6	Ghostly Shell
-2008	2	10	Reptilian Fortitude
-2009	2	15	Empathy of the Newt
 2010	2	8	Tenacity of the Snapper
+2015	3	4	Kneebutt
+2009	2	15	Empathy of the Newt
+2008	2	10	Reptilian Fortitude
+2005	3	5	Shieldbutt
 2011	0	0	Wisdom of the Elder Tortoises
 2012	2	10	Astral Shell
-2013	0	0	Amphibian Sympathy
-2015	0	0	Tao of the Terrapin
 2016	0	0	Cold-Blooded Fearlessness
+2020	0	0	Hero of the Half-Shell
+2021	0	0	Tao of the Terrapin
 
 # Skills available to Pastamancers
 
