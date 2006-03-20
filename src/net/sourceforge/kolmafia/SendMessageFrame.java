@@ -70,7 +70,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public abstract class SendMessageFrame extends KoLFrame
 {
 	// Source of meat & attachments
-	protected static LockableListModel source = null;
 	protected static boolean usingStorage = false;
 
 	protected JPanel messagePanel;
@@ -92,7 +91,6 @@ public abstract class SendMessageFrame extends KoLFrame
 		super( client, title );
 
 		inventory = KoLCharacter.getInventory();
-		source = inventory;
 		usingStorage = false;
 
 		JPanel mainPanel = new JPanel();
@@ -394,6 +392,7 @@ public abstract class SendMessageFrame extends KoLFrame
 		private class SourcePanel extends ItemManagePanel
 		{
 			private JComboBox sourceSelect;
+			private LockableListModel source;
 
 			private SourcePanel()
 			{
@@ -411,6 +410,12 @@ public abstract class SendMessageFrame extends KoLFrame
 
 				}
 				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
+				source = usingStorage ? storage : inventory;
+
+				// Remove items from our cloned list that are
+				// already on the attachments list
+				for ( int i = 0; i < attachments.size(); ++i )
+					AdventureResult.addResultToList( source, ((AdventureResult)attachments.get( i )).getNegation() );
 			}
 
 			private class SourceChangeListener implements ActionListener
@@ -432,14 +437,18 @@ public abstract class SendMessageFrame extends KoLFrame
 			{
 				Object [] items = elementList.getSelectedValues();
 
-				AdventureResult currentItem;
-				int attachmentCount, maximumCount;
 
 				for ( int i = 0; i < items.length; ++i )
 				{
-					currentItem = (AdventureResult) items[i];
-					attachmentCount = getQuantity( "Attaching " + currentItem.getName() + "...",
-						currentItem.getCount( source ) );
+					AdventureResult currentItem = (AdventureResult) items[i];
+					// Skip filtered items
+					if ( !TradeableItemDatabase.tradeable( currentItem.getItemID() ) )
+						continue;
+
+					int attachmentCount = getQuantity( "Attaching " + currentItem.getName() + "...",
+									   currentItem.getCount( source ) );
+					if ( attachmentCount == 0 )
+						continue;
 
 					currentItem = currentItem.getInstance( attachmentCount );
 					AdventureResult.addResultToList( attachments, currentItem );

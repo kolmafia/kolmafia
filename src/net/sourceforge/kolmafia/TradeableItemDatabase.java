@@ -400,6 +400,17 @@ public class TradeableItemDatabase extends KoLDatabase
 	}
 
 	/**
+	 * Returns true if the item is tradeable, otherwise false
+	 * @return	true if item is tradeable
+	 */
+
+	public static final boolean tradeable( int itemID )
+	{
+		int price = priceByID.get( itemID );
+		return price == -1 || price > 0;
+	}
+
+	/**
 	 * Returns the name for an item, given its ID number.
 	 * @param	itemID	The ID number of the item to lookup
 	 * @return	The name of the corresponding item

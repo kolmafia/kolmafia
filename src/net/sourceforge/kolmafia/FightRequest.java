@@ -55,7 +55,21 @@ public class FightRequest extends KoLRequest
 	private static String encounter = "";
 
 	private static final String [] RARE_MONSTERS =
-	{ "baiowulf", "crazy bastard", "hockey elemental", "hypnotist of hey deze", "infinite meat bug" };
+	{
+		// Ultra-rare monsters
+		"baiowulf",
+		"crazy bastard",
+		"hockey elemental",
+		"hypnotist of hey deze",
+		"infinite meat bug",
+
+		// Monsters that scale with player level and can't be defeated
+		// with normal tactics
+		"candied yam golem",
+		"malevolent tofurkey",
+		"possessed can of cranberry sauce",
+		"stuffing golem"		
+	};
 
 	/**
 	 * Constructs a new <code>FightRequest</code>.  The client provided will
@@ -68,6 +82,7 @@ public class FightRequest extends KoLRequest
 	{
 		super( client, "fight.php" );
 		this.roundCount = 0;
+		FightRequest.encounter = "";
 		this.turnsUsed = 0;
 		nextRound();
 	}
