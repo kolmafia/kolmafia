@@ -183,7 +183,7 @@ public class KoLmafiaGUI extends KoLmafia
 		// load up the mail manager.
 
 		if ( KoLMailManager.hasNewMessages() )
-			(new CreateFrameRunnable( MailboxFrame.class )).run();
+			JOptionPane.showMessageDialog( null, "You've got mail." );
 	}
 
 	/**
