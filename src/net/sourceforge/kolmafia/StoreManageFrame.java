@@ -96,26 +96,14 @@ public class StoreManageFrame extends KoLPanelFrame
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
-	private class StoreLogPanel extends JPanel
+	private class StoreLogPanel extends ItemManagePanel
 	{
 		public StoreLogPanel()
-		{
-			setLayout( new BorderLayout() );
-			setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-			add( JComponentUtilities.createLabel( "Store Purchases Log", JLabel.CENTER,
-				Color.black, Color.white ), BorderLayout.NORTH );
-
-			JList storeLog = new JList( StoreManager.getStoreLog() );
-			storeLog.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-			storeLog.setPrototypeCellValue( "ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-			storeLog.setVisibleRowCount( 11 );
-
-			add( new JScrollPane( storeLog, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+		{	super( "Transactions Log", "refresh", "do nothing", StoreManager.getStoreLog() );
 		}
 
 		public void actionConfirmed()
-		{
+		{	(new RequestThread( new StoreManageRequest( client, true ) )).start();
 		}
 
 		public void actionCancelled()
