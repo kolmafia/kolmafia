@@ -154,10 +154,7 @@ public class KoLmafiaGUI extends KoLmafia
 		// to do.  Return from the method.
 
 		if ( isLoggingIn || displayer == null || displayer.getCreation() instanceof AdventureFrame )
-		{
-			enableDisplay();
 			return;
-		}
 
 		// Figure out which user interface is being
 		// used -- account for minimalist loadings.
@@ -181,8 +178,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 		((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
 		((KoLFrame)previousDisplayer.getCreation()).dispose();
-
-		enableDisplay();
 	}
 
 	/**
@@ -519,7 +514,7 @@ public class KoLmafiaGUI extends KoLmafia
 		StoreManager.getSoldItemList().toArray( sold );
 
 		for ( int i = 0; i < sold.length && permitsContinue(); ++i )
-			StoreManager.takeItem( sold[i].getItemID() );
+			(new StoreManageRequest( this, sold[i].getItemID() )).run();
 
 		updateDisplay( "Store emptying complete." );
 	}

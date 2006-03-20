@@ -336,7 +336,7 @@ public class RequestFrame extends KoLFrame
 	 * refresh the frame with data do not long the Swing thread.
 	 */
 
-	protected class DisplayRequestThread extends DaemonThread
+	protected class DisplayRequestThread extends Thread
 	{
 		private KoLRequest request;
 

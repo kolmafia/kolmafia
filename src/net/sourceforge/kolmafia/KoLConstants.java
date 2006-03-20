@@ -83,17 +83,4 @@ public interface KoLConstants extends UtilityConstants
 	public static final Class [] INTERFACE_MODES =
 		{ AdventureFrame.class, BuffBotFrame.class, ChatFrame.class, ClanManageFrame.class, RequestFrame.class,
 			CommandDisplayFrame.class };
-
-	public static class DaemonThread extends Thread
-	{
-		public DaemonThread()
-		{	this( null );
-		}
-
-		public DaemonThread( Runnable target )
-		{
-			super( target );
-			setDaemon( true );
-		}
-	}
 }

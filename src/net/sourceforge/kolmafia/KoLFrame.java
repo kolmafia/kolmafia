@@ -115,10 +115,10 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
-	private static final File SCRIPT_DIRECTORY = new File( "scripts" );
-	private static final Color ERROR_COLOR = new Color( 255, 128, 128 );
-	private static final Color ENABLED_COLOR = new Color( 128, 255, 128 );
-	private static final Color DISABLED_COLOR = null;
+	protected static final File SCRIPT_DIRECTORY = new File( "scripts" );
+	protected static final Color ERROR_COLOR = new Color( 255, 128, 128 );
+	protected static final Color ENABLED_COLOR = new Color( 128, 255, 128 );
+	protected static final Color DISABLED_COLOR = null;
 
 	private String lastTitle;
 	protected boolean isEnabled;
@@ -449,9 +449,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// the current display state -- but only if the
 		// compact pane has already been constructed.
 
-		if ( displayState == NULL_STATE )
-			displayState = client == null || client.permitsContinue() ? ENABLE_STATE : ERROR_STATE;
-
 		switch ( displayState )
 		{
 			case ERROR_STATE:
@@ -744,7 +741,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new DaemonThread( this )).start();
+		{	(new RequestThread( this )).start();
 		}
 
 		public void run()
@@ -767,7 +764,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				return;
 
 			DEFAULT_SHELL.executeLine( executePath );
-			client.enableDisplay();
 		}
 	}
 
@@ -1204,7 +1200,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new DaemonThread( this )).start();
+		{	(new RequestThread( this )).start();
 		}
 
 		public void run()
@@ -1212,10 +1208,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			try
 			{
 				if ( method != null )
-				{
 					method.invoke( object, null );
-					client.enableDisplay();
-				}
 			}
 			catch ( Exception e )
 			{
@@ -1283,7 +1276,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new DaemonThread( this )).start();
+		{	(new RequestThread( this )).start();
 		}
 
 		public void run()
@@ -2200,6 +2193,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			super.imageUpdate( img, infoflags, x, y, width, height );
 			return true;
+		}
+	}
+
+	protected abstract class ListeningRunnable implements ActionListener, Runnable
+	{
+		public void actionPerformed( ActionEvent e )
+		{	(new RequestThread( this )).start();
 		}
 	}
 }

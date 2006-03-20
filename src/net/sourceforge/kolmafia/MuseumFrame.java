@@ -177,15 +177,11 @@ public class MuseumFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{
-				move( true );
-				client.enableDisplay();
+			{	move( true );
 			}
 
 			protected void actionCancelled()
-			{
-				move( false );
-				client.enableDisplay();
+			{	move( false );
 			}
 		}
 
@@ -205,15 +201,11 @@ public class MuseumFrame extends KoLFrame
 			}
 
 			protected void actionConfirmed()
-			{
-				move( true );
-				client.enableDisplay();
+			{	move( true );
 			}
 
 			protected void actionCancelled()
-			{
-				move( false );
-				client.enableDisplay();
+			{	move( false );
 			}
 		}
 	}
@@ -231,7 +223,7 @@ public class MuseumFrame extends KoLFrame
 		}
 	}
 
-	public class MuseumShelfPanel extends ItemManagePanel implements PanelListCell
+	public class MuseumShelfPanel extends ItemManagePanel implements PanelListCell, Runnable
 	{
 		private int index;
 
@@ -242,6 +234,10 @@ public class MuseumFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
+		{	(new RequestThread( this )).start();
+		}
+
+		public void run()
 		{
 			Object [] headerArray = MuseumManager.getHeaders().toArray();
 
@@ -252,8 +248,6 @@ public class MuseumFrame extends KoLFrame
 			for ( int i = 0; i < headerArray.length; ++i )
 				if ( selectedValue.equals( headerArray[i] ) )
 					MuseumManager.move( elementList.getSelectedValues(), index, i );
-
-			client.enableDisplay();
 		}
 
 		public void actionCancelled()
@@ -270,7 +264,7 @@ public class MuseumFrame extends KoLFrame
 		}
 	}
 
-	private class OrderingPanel extends ItemManagePanel
+	private class OrderingPanel extends ItemManagePanel implements Runnable
 	{
 		private LockableListModel headers;
 
@@ -292,11 +286,14 @@ public class MuseumFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
+		{	(new RequestThread( this )).start();
+		}
+
+		public void run()
 		{
 			String [] headerArray = new String[ headers.size() ];
 			headers.toArray( headerArray );
 			MuseumManager.reorder( headerArray );
-			client.enableDisplay();
 		}
 	}
 

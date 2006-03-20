@@ -178,7 +178,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			rankLabels[i].setText( "<html><center>Rank " + KoLCharacter.getPvpRank() + "<br>Fashion " + equipmentPower + "</center></html>" );
 	}
 
-	private class SearchPanel extends KoLPanel
+	private class SearchPanel extends KoLPanel implements Runnable
 	{
 		private JTextField levelEntry;
 		private JTextField rankEntry;
@@ -204,16 +204,16 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		public void actionConfirmed()
 		{
 			isSimple = true;
-			executeSearch();
+			(new RequestThread( this )).start();
 		}
 
 		public void actionCancelled()
 		{
 			isSimple = false;
-			executeSearch();
+			(new RequestThread( this )).start();
 		}
 
-		public void executeSearch()
+		public void run()
 		{
 			int index = isSimple ? 0 : 1;
 			int resultLimit = getValue( limitEntry, 100 );
@@ -243,8 +243,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				DEFAULT_SHELL.updateDisplay( "Search completed." );
 			else
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Search halted." );
-
-			client.enableDisplay();
 		}
 
 		public Object [] getRow( ProfileRequest result, boolean isSimple )
@@ -260,7 +258,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 	}
 
-	private class ClanPanel extends KoLPanel
+	private class ClanPanel extends KoLPanel implements Runnable
 	{
 		private JTextField clanID;
 
@@ -277,11 +275,15 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			setDefaultButton( confirmedButton );
 		}
 
+		public void actionConfirmed()
+		{	(new RequestThread( this )).start();
+		}
+
 		public void actionCancelled()
 		{
 		}
 
-		public void actionConfirmed()
+		public void run()
 		{
 			isSimple = false;
 
@@ -310,8 +312,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				DEFAULT_SHELL.updateDisplay( "Search completed." );
 			else
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Search halted." );
-
-			client.enableDisplay();
 		}
 
 		public Object [] getRow( ProfileRequest result )
@@ -323,7 +323,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 	}
 
-	private class AttackPanel extends KoLPanel
+	private class AttackPanel extends KoLPanel implements Runnable
 	{
 		private JTextField message;
 		private JComboBox stanceSelect;
@@ -363,6 +363,24 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		}
 
 		public void actionConfirmed()
+		{	(new RequestThread( this )).start();
+		}
+
+		public void actionCancelled()
+		{
+			ProfileRequest [] selection = getSelection();
+
+			for ( int i = 0; i < selection.length; ++i )
+			{
+				Object [] parameters = new Object[2];
+				parameters[0] = client;
+				parameters[1] = selection[i];
+
+				(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();
+			}
+		}
+
+		public void run()
 		{
 			ProfileRequest [] selection = getSelection();
 
@@ -382,7 +400,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 					break;
 			}
 
-			for ( int i = 0; i < selection.length; ++i )
+			for ( int i = 0; i < selection.length && client.permitsContinue(); ++i )
 			{
 				DEFAULT_SHELL.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
 				FightFrame.showRequest( new FlowerHunterRequest( client, selection[i].getPlayerID(),
@@ -391,23 +409,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				updateRank();
 			}
 
-			DEFAULT_SHELL.updateDisplay( "Attacks completed." );
-			client.enableDisplay();
-		}
-
-		public void actionCancelled()
-		{
-			ProfileRequest [] selection = getSelection();
-
-			for ( int i = 0; i < selection.length; ++i )
-			{
-				Object [] parameters = new Object[2];
-				parameters[0] = client;
-				parameters[1] = selection[i];
-
-				(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();
-			}
-		}
+			DEFAULT_SHELL.updateDisplay( "Attacks completed." );		}
 
 		private ProfileRequest [] getSelection()
 		{

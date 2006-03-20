@@ -103,7 +103,7 @@ public class MushroomFrame extends KoLFrame
 		// at a later date.
 
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.add( new InvocationButton( "Harvest All", this, "harvestMushrooms" ) );
+		buttonPanel.add( new InvocationButton( "Harvest All", MushroomPlot.class, "harvestMushrooms" ) );
 		buttonPanel.add( new InvocationButton( "Do Layout", this, "executeLayout" ) );
 		buttonPanel.add( new InvocationButton( "Script Layout", this, "scriptLayout" ) );
 		completePanel.add( buttonPanel, BorderLayout.SOUTH );
@@ -113,12 +113,6 @@ public class MushroomFrame extends KoLFrame
 
 		plotChanged();
 		setResizable( false );
-	}
-
-	public void harvestMushrooms()
-	{
-		MushroomPlot.harvestMushrooms();
-		client.enableDisplay();
 	}
 
 	public void executeLayout()
@@ -138,7 +132,6 @@ public class MushroomFrame extends KoLFrame
 		}
 
 		doingLayout = false;
-		client.enableDisplay();
 	}
 
 	public void scriptLayout()
@@ -198,21 +191,15 @@ public class MushroomFrame extends KoLFrame
 	 */
 
 	public void plotChanged()
-	{
-		// Get the layout state of the field and update
-		(new UpdateMushroomThread()).start();
+	{	(new RequestThread( new PlotChanger() )).start();
 	}
 
-	/**
-	 * Special thread which allows the layout page to be updated outside
-	 * of the Swing thread -- this means images can be downloaded without
-	 * locking the UI.
-	 */
-
-	private class UpdateMushroomThread extends DaemonThread
+	private class PlotChanger implements Runnable
 	{
 		public void run()
 		{
+			// Get the layout state of the field and update
+
 			currentData = MushroomPlot.getMushroomPlot( true ).split( ";" );
 
 			// Only update the layout data if you're

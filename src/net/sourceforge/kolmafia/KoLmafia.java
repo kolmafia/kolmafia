@@ -252,7 +252,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -284,7 +283,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -296,7 +294,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -310,7 +307,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -323,7 +319,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -335,7 +330,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -346,7 +340,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -359,7 +352,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -371,7 +363,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -381,7 +372,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -394,7 +384,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -406,7 +395,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 		{
 			deinitialize();
-			enableDisplay();
 			return;
 		}
 
@@ -416,21 +404,11 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve breakfast if the option to retrieve breakfast
 		// was previously selected.
 
+		this.isLoggingIn = false;
 		this.settings = new KoLSettings( loginname );
 
 		if ( getBreakfast )
 			getBreakfast();
-
-		if ( !permitsContinue() )
-		{
-			deinitialize();
-			enableDisplay();
-
-			this.settings = GLOBAL_SETTINGS;
-			return;
-		}
-
-		this.isLoggingIn = false;
 
 		HPRestoreItemList.reset();
 		MPRestoreItemList.reset();

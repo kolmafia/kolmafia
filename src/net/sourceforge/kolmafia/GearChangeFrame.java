@@ -313,8 +313,6 @@ public class GearChangeFrame extends KoLFrame
 			}
 			catch ( Exception e )
 			{
-				client.enableDisplay();
-
 				e.printStackTrace( KoLmafia.getLogStream() );
 				e.printStackTrace();
 			}

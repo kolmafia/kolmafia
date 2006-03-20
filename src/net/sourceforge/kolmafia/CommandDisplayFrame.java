@@ -182,7 +182,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 			private void submitCommand()
 			{
-				(new DaemonThread( new CommandRunnable( entryField.getText() ) )).start();
+				(new RequestThread( new CommandRunnable( entryField.getText() ) )).start();
 				entryField.setText( "" );
 			}
 
@@ -209,7 +209,6 @@ public class CommandDisplayFrame extends KoLFrame
 			DEFAULT_SHELL.printBlankLine();
 			DEFAULT_SHELL.executeLine( command );
 			DEFAULT_SHELL.printBlankLine();
-			client.enableDisplay();
 		}
 	}
 

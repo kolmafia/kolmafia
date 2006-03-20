@@ -166,6 +166,7 @@ public class AdventureFrame extends KoLFrame
 		tabs.addTab( "Auto-Restore", restoreScroller );
 
 		addCompactPane();
+		compactPane.setBackground( ENABLED_COLOR );
 		framePanel.add( tabs, BorderLayout.CENTER );
 
 		try
@@ -465,7 +466,7 @@ public class AdventureFrame extends KoLFrame
 			}
 		}
 
-		private class WinGameThread extends DaemonThread
+		private class WinGameThread extends Thread
 		{
 			private String [][] WIN_GAME_TEXT = new String [][]
 			{

@@ -254,7 +254,7 @@ public class KoLmafiaCLI extends KoLmafia
 				line = ((KoLmafiaCLI)StaticEntity.getClient()).getNextLine();
 
 				if ( line.startsWith( "y" ) || line.startsWith( "Y" ) )
-					StaticEntity.getClient().enableDisplay();
+					updateDisplay( CONTINUE_STATE, "Continuing script..." );
 			}
 		}
 

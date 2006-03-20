@@ -166,16 +166,12 @@ public class BuffRequestFrame extends KoLFrame
 					button.setEnabled( isEnabled );
 			}
 
-			private class BuyBuffListener implements ActionListener, Runnable
+			private class BuyBuffListener extends ListeningRunnable
 			{
-				public void actionPerformed( ActionEvent e )
-				{
-					selects.requestFocus();
-					(new DaemonThread( this )).start();
-				}
-
 				public void run()
 				{
+					selects.requestFocus();
+
 					String buff = BuffBotDatabase.getBuffName( index );
 					int selection = selects.getSelectedIndex();
 					String bot = BuffBotDatabase.getBuffBot( index, selection );
@@ -185,7 +181,6 @@ public class BuffRequestFrame extends KoLFrame
 					DEFAULT_SHELL.updateDisplay( "Buying " + turns + " turns of " + buff + " from " + bot );
 					(new GreenMessageRequest( client, bot, VERSION_NAME, new AdventureResult( AdventureResult.MEAT, price ), false )).run();
 					DEFAULT_SHELL.updateDisplay( "Buff request complete." );
-					client.enableDisplay();
 				}
 			}
 		}

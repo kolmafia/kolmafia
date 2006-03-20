@@ -515,7 +515,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	 * images can be downloaded without locking the UI.
 	 */
 
-	private class UpdateTabsThread extends DaemonThread
+	private class UpdateTabsThread extends Thread
 	{
 		public void run()
 		{

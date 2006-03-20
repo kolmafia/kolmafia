@@ -115,7 +115,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 	public FamiliarTrainingFrame( KoLmafia client )
 	{
 		super( client, "Familiar Training Tool" );
-
 		addWindowListener( new CloseFamiliarTrainerListener() );
 
 		CardLayout cards = new CardLayout( 10, 10 );
@@ -126,10 +125,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		// Clear left over results from the buffer
 		results.clearBuffer();
-
-		// Enable the display after fetching opponents
-		if ( client != null )
-			client.enableDisplay();
 	}
 
 	/**
@@ -325,12 +320,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 					changer.setEnabled( isEnabled );
 			}
 
-			private class BaseListener implements ActionListener, Runnable
+			private class BaseListener extends ListeningRunnable
 			{
-				public void actionPerformed( ActionEvent e )
-				{	(new DaemonThread( this )).start();
-				}
-
 				public void run()
 				{
 					// Prompt for goal
@@ -342,18 +333,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Level the familiar
 					levelFamiliar( client, goal, BASE );
-
-					// Re-enable the display
-					client.enableDisplay();
 				}
 			}
 
-			private class BuffedListener implements ActionListener, Runnable
+			private class BuffedListener extends ListeningRunnable
 			{
-				public void actionPerformed( ActionEvent e )
-				{	(new DaemonThread( this )).start();
-				}
-
 				public void run()
 				{
 					// Prompt for goal
@@ -365,18 +349,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Level the familiar
 					levelFamiliar( client, goal, BUFFED );
-
-					// Re-enable the display
-					client.enableDisplay();
 				}
 			}
 
-			private class TurnsListener implements ActionListener, Runnable
+			private class TurnsListener extends ListeningRunnable
 			{
-				public void actionPerformed( ActionEvent e )
-				{	(new DaemonThread( this )).start();
-				}
-
 				public void run()
 				{
 					// Prompt for goal
@@ -388,9 +365,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Level the familiar
 					levelFamiliar( client, goal, TURNS );
-
-					// Re-enable the display
-					client.enableDisplay();
 				}
 			}
 
@@ -427,12 +401,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				}
 			}
 
-			private class LearnListener implements ActionListener, Runnable
+			private class LearnListener extends ListeningRunnable
 			{
-				public void actionPerformed( ActionEvent e )
-				{	(new DaemonThread( this )).start();
-				}
-
 				public void run()
 				{
 					if ( familiar == FamiliarData.NO_FAMILIAR )
@@ -476,9 +446,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 						DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
 
 					}
-
-					// Re-enable the display
-					client.enableDisplay();
 				}
 			}
 
@@ -547,7 +514,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					return;
 
 				isChanging = true;
-				(new DaemonThread( this )).start();
+				(new RequestThread( this )).start();
 			}
 
 			public void run()
@@ -555,9 +522,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				FamiliarData selection = (FamiliarData)getSelectedItem();
 				(new FamiliarRequest( client, selection )).run();
 				familiar = KoLCharacter.getFamiliar();
-
 				isChanging = false;
-				client.enableDisplay();
 			}
 		}
 	}

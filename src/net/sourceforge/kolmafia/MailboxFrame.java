@@ -212,12 +212,12 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		messageListSaved.setModel( KoLMailManager.getMessages( "Saved" ) );
 	}
 
-	private class RequestMailboxThread extends DaemonThread
+	private class RequestMailboxThread extends RequestThread
 	{
 		private String mailboxName;
 
 		public RequestMailboxThread( String mailboxName )
-		{	this.mailboxName = mailboxName;
+		{	super( new MailboxRequest( client, mailboxName ) );
 		}
 
 		public void run()
@@ -225,9 +225,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			refreshMailManager();
 			mailBuffer.append( "Retrieving messages from server..." );
 
-			if ( client != null )
-				(new MailboxRequest( client, mailboxName )).run();
-
+			super.run();
 			mailBuffer.clearBuffer();
 
 			if ( mailboxName.equals( "Inbox" ) )
@@ -236,9 +234,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				messageListOutbox.setInitialized( true );
 			else
 				messageListSaved.setInitialized( true );
-
-			if ( client != null )
-				client.enableDisplay();
 		}
 	}
 
@@ -262,7 +257,19 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void valueChanged( ListSelectionEvent e )
-		{	(new UpdateDisplayThread()).start();
+		{
+			if ( mailBuffer == null )
+				return;
+
+			mailBuffer.clearBuffer();
+			int newIndex = getSelectedIndex();
+
+			if ( newIndex >= 0 && getModel().getSize() > 0 )
+			{
+				displayed = ((KoLMailMessage)KoLMailManager.getMessages( mailboxName ).get( newIndex ));
+				mailBuffer.append( displayed.getDisplayHTML() );
+				messageContent.setCaretPosition( 0 );
+			}
 		}
 
 		private boolean isInitialized()
@@ -276,7 +283,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		private class MailboxKeyListener extends KeyAdapter
 		{
 			public void keyPressed( KeyEvent e )
-			{	(new DaemonThread( new MailboxEventProcessor( e ) )).start();
+			{	(new RequestThread( new MailboxEventProcessor( e ) )).start();
 			}
 		}
 
@@ -296,8 +303,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
 						KoLMailManager.deleteMessages( mailboxName, getSelectedValues() );
-						client.enableDisplay();
 					}
+
 					return;
 				}
 
@@ -307,29 +314,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
 						KoLMailManager.saveMessages( getSelectedValues() );
-						client.enableDisplay();
 					}
+
 					return;
-				}
-			}
-		}
-
-		private class UpdateDisplayThread extends DaemonThread
-		{
-			public void run()
-			{
-				// Logged out?
-				if ( mailBuffer == null )
-					return;
-
-				mailBuffer.clearBuffer();
-				int newIndex = getSelectedIndex();
-
-				if ( newIndex >= 0 && getModel().getSize() > 0 )
-				{
-					displayed = ((KoLMailMessage)KoLMailManager.getMessages( mailboxName ).get( newIndex ));
-					mailBuffer.append( displayed.getDisplayHTML() );
-					messageContent.setCaretPosition( 0 );
 				}
 			}
 		}
@@ -345,7 +332,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new DaemonThread( this )).start();
+		{	(new RequestThread( this )).start();
 		}
 
 		public void run()
@@ -357,7 +344,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 				{
 					KoLMailManager.saveMessages( messageListInbox.getSelectedValues() );
-					client.enableDisplay();
 				}
 			}
 			else
@@ -377,7 +363,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new DaemonThread( this )).start();
+		{	(new RequestThread( this )).start();
 		}
 
 		public void run()
@@ -394,12 +380,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 				KoLMailManager.deleteMessages( "Outbox", messageListOutbox.getSelectedValues() );
 			else
 				KoLMailManager.deleteMessages( "Saved", messageListSaved.getSelectedValues() );
-
-			client.enableDisplay();
 		}
 	}
 
-	private class RefreshButton extends JButton implements ActionListener, Runnable
+	private class RefreshButton extends JButton implements ActionListener
 	{
 		public RefreshButton()
 		{
@@ -409,10 +393,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new DaemonThread( this )).start();
-		}
-
-		public void run()
 		{
 			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
 			(new RequestMailboxThread( currentTabName.equals( "PvP" ) ? "Inbox" : currentTabName )).start();

@@ -123,7 +123,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	private class StoreAddPanel extends ItemManagePanel
+	private class StoreAddPanel extends ItemManagePanel implements Runnable
 	{
 		public StoreAddPanel()
 		{
@@ -142,14 +142,17 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionCancelled()
+		{	(new RequestThread( this )).start();
+		}
+
+		public void run()
 		{
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).makeEndOfRunSaleRequest();
-			client.enableDisplay();
 		}
 	}
 
-	private class StoreRemovePanel extends ItemManagePanel
+	private class StoreRemovePanel extends ItemManagePanel implements Runnable
 	{
 		public StoreRemovePanel()
 		{
@@ -169,10 +172,13 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionCancelled()
+		{	(new RequestThread( this )).start();
+		}
+
+		public void run()
 		{
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).removeAllItemsFromStore();
-			client.enableDisplay();
 		}
 	}
 
@@ -185,7 +191,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			storeItemList.setEnabled( isEnabled );
 	}
 
-	private class StoreManagePanel extends KoLPanel
+	private class StoreManagePanel extends KoLPanel implements Runnable
 	{
 		public StoreManagePanel()
 		{
@@ -244,15 +250,17 @@ public class StoreManageFrame extends KoLPanelFrame
 				limits[i] = currentPanel.getLimit();
 			}
 
-			client.enableDisplay();
 			(new RequestThread( new StoreManageRequest( client, itemID, prices, limits ) )).start();
 		}
 
 		public void actionCancelled()
+		{	(new RequestThread( this )).start();
+		}
+
+		public void run()
 		{
 			if ( client != null && client instanceof KoLmafiaGUI )
 				((KoLmafiaGUI)client).priceItemsAtLowestPrice();
-			client.enableDisplay();
 		}
 	}
 
@@ -390,16 +398,15 @@ public class StoreManageFrame extends KoLPanelFrame
 			}
 		}
 
-		private class SearchButtonListener implements ActionListener
+		private class SearchButtonListener extends ListeningRunnable
 		{
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				if ( sellingList.getSelectedItem() == null )
 					return;
 
 				StoreManager.searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary );
 				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
-				client.enableDisplay();
 			}
 		}
 	}
@@ -523,19 +530,16 @@ public class StoreManageFrame extends KoLPanelFrame
 		private class TakeButtonListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
-			{
-				StoreManager.takeItem( itemID );
-				client.enableDisplay();
+			{	(new RequestThread( new StoreManageRequest( client, itemID ) )).start();
 			}
 		}
 
-		private class SearchButtonListener implements ActionListener
+		private class SearchButtonListener extends ListeningRunnable
 		{
-			public void actionPerformed( ActionEvent e )
+			public void run()
 			{
 				StoreManager.searchMall( TradeableItemDatabase.getItemName( itemID ), priceSummary );
 				searchLabel.setText( itemName.getText() );
-				client.enableDisplay();
 			}
 		}
 	}

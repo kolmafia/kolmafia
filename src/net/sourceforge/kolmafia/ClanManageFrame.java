@@ -501,57 +501,69 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
+		{	(new RequestThread( new MemberSearcher() )).start();
+		}
+
+		private class MemberSearcher implements Runnable
 		{
-			ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, parameterSelect.getSelectedIndex(), valueField.getText() );
-			DEFAULT_SHELL.updateDisplay( "Search results retrieved." );
-			client.enableDisplay();
+			public void run()
+			{
+				ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, parameterSelect.getSelectedIndex(), valueField.getText() );
+				DEFAULT_SHELL.updateDisplay( "Search results retrieved." );
+			}
 		}
 
 		protected void actionCancelled()
+		{	(new RequestThread( new MemberChanger() )).start();
+		}
+
+		private class MemberChanger implements Runnable
 		{
-			DEFAULT_SHELL.updateDisplay( "Determining changes..." );
-
-			List rankChange = new ArrayList();
-			List newRanks = new ArrayList();
-
-			List titleChange = new ArrayList();
-			List newTitles = new ArrayList();
-
-			List boots = new ArrayList();
-
-			Object currentComponent;
-			ClanMemberPanel currentMember;
-			Object desiredRank, desiredTitle;
-
-			for ( int i = 0; i < results.getComponentCount(); ++i )
+			public void run()
 			{
-				currentComponent = results.getComponent(i);
-				if ( currentComponent instanceof ClanMemberPanel )
+				DEFAULT_SHELL.updateDisplay( "Determining changes..." );
+
+				List rankChange = new ArrayList();
+				List newRanks = new ArrayList();
+
+				List titleChange = new ArrayList();
+				List newTitles = new ArrayList();
+
+				List boots = new ArrayList();
+
+				Object currentComponent;
+				ClanMemberPanel currentMember;
+				Object desiredRank, desiredTitle;
+
+				for ( int i = 0; i < results.getComponentCount(); ++i )
 				{
-					currentMember = (ClanMemberPanel) currentComponent;
-					if ( currentMember.bootCheckBox.isSelected() )
-						boots.add( currentMember.memberName.getText() );
-
-					desiredRank = currentMember.rankSelect.getSelectedItem();
-					if ( desiredRank != null && !desiredRank.equals( currentMember.initialRank ) )
+					currentComponent = results.getComponent(i);
+					if ( currentComponent instanceof ClanMemberPanel )
 					{
-						rankChange.add( currentMember.memberName.getText() );
-						newRanks.add( String.valueOf( currentMember.rankSelect.getSelectedIndex() ) );
-					}
+						currentMember = (ClanMemberPanel) currentComponent;
+						if ( currentMember.bootCheckBox.isSelected() )
+							boots.add( currentMember.memberName.getText() );
 
-					desiredTitle = currentMember.titleField.getText();
-					if ( desiredTitle != null && !desiredTitle.equals( currentMember.initialTitle ) )
-					{
-						titleChange.add( currentMember.memberName.getText() );
-						newTitles.add( (String) desiredTitle );
+						desiredRank = currentMember.rankSelect.getSelectedItem();
+						if ( desiredRank != null && !desiredRank.equals( currentMember.initialRank ) )
+						{
+							rankChange.add( currentMember.memberName.getText() );
+							newRanks.add( String.valueOf( currentMember.rankSelect.getSelectedIndex() ) );
+						}
+
+						desiredTitle = currentMember.titleField.getText();
+						if ( desiredTitle != null && !desiredTitle.equals( currentMember.initialTitle ) )
+						{
+							titleChange.add( currentMember.memberName.getText() );
+							newTitles.add( (String) desiredTitle );
+						}
 					}
 				}
-			}
 
-			DEFAULT_SHELL.updateDisplay( "Applying changes..." );
-			(new ClanMembersRequest( client, rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
-			DEFAULT_SHELL.updateDisplay( "Changes have been applied." );
-			client.enableDisplay();
+				DEFAULT_SHELL.updateDisplay( "Applying changes..." );
+				(new ClanMembersRequest( client, rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
+				DEFAULT_SHELL.updateDisplay( "Changes have been applied." );
+			}
 		}
 	}
 

@@ -249,7 +249,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	private class SendMessageListener implements ActionListener, Runnable
 	{
 		public void actionPerformed( ActionEvent e )
-		{	(new DaemonThread( this )).start();
+		{	(new RequestThread( this )).start();
 		}
 
 		public void run()
@@ -284,7 +284,6 @@ public abstract class SendMessageFrame extends KoLFrame
 			if ( client.permitsContinue() )
 			{
 				recipientEntry.setSelectedIndex( -1 );
-				client.enableDisplay();
 				dispose();
 			}
 		}

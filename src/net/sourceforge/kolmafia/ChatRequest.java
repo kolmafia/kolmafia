@@ -150,9 +150,13 @@ public class ChatRequest extends KoLRequest
 	 * can die and a new one can begin.
 	 */
 
-	private class ChatContinuationThread extends DaemonThread
+	private class ChatContinuationThread extends Thread
 	{
 		private int iterations = 0;
+
+		public ChatContinuationThread()
+		{	setDaemon( true );
+		}
 
 		public void run()
 		{

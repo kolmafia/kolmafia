@@ -243,99 +243,72 @@ public abstract class StoreManager extends StaticEntity
 	 */
 
 	public static void searchMall( String itemName, List priceSummary )
-	{	(new MallSearchThread( itemName, priceSummary )).start();
-	}
-
-	private static class MallSearchThread extends DaemonThread
 	{
-		private String itemName;
-		private List priceSummary;
+		priceSummary.clear();
+		if ( itemName == null )
+			return;
 
-		public MallSearchThread( String itemName, List priceSummary )
+		ArrayList results = new ArrayList();
+
+		// For items with the n-tilde character, a
+		// perfect match is available if you use the
+		// substring consisting of everything after
+		// the ntilde;
+
+		if ( itemName.indexOf( "\u00f1" ) != -1 )
+			itemName = itemName.substring( itemName.indexOf( "\u00f1" ) + 1 );
+
+		// For items with the trademark character, a
+		// perfect match is available if you use the
+		// substring consisting of everything before
+		// the trademark character
+
+		else if ( itemName.indexOf( "\u2122" ) != -1 )
+			itemName = itemName.substring( 0, itemName.indexOf( "\u2122" ) );
+
+		else if ( itemName.indexOf( "\u00e9" ) != -1 )
+			itemName = itemName.substring( 0, itemName.indexOf( "\u00e9" ) );
+
+		// All items with double quotes can be matched
+		// by searching on everything before the double
+
+		else if ( itemName.indexOf( "\"" ) != -1 )
+			itemName = itemName.substring( 0, itemName.indexOf( "\"" ) );
+
+		// In all other cases, an exact match is only
+		// available if you enclose the item name in
+		// double quotes.
+
+		else
+			itemName = "\"" + itemName + "\"";
+
+		// With the item name properly formatted, issue
+		// the search request.
+
+		(new SearchMallRequest( client, itemName, 0, results, true )).run();
+
+		MallPurchaseRequest [] resultsArray = new MallPurchaseRequest[ results.size() ];
+		results.toArray( resultsArray );
+
+		TreeMap prices = new TreeMap();
+		Integer currentQuantity, currentPrice;
+
+		for ( int i = 0; i < resultsArray.length; ++i )
 		{
-			this.itemName = itemName;
-			this.priceSummary = priceSummary;
-		}
+			currentPrice = new Integer( resultsArray[i].getPrice() );
+			currentQuantity = (Integer) prices.get( currentPrice );
 
-		public void run()
-		{
-			priceSummary.clear();
-			if ( itemName == null )
-				return;
-
-			ArrayList results = new ArrayList();
-
-			// For items with the n-tilde character, a
-			// perfect match is available if you use the
-			// substring consisting of everything after
-			// the ntilde;
-
-			if ( itemName.indexOf( "\u00f1" ) != -1 )
-				itemName = itemName.substring( itemName.indexOf( "\u00f1" ) + 1 );
-
-			// For items with the trademark character, a
-			// perfect match is available if you use the
-			// substring consisting of everything before
-			// the trademark character
-
-			else if ( itemName.indexOf( "\u2122" ) != -1 )
-				itemName = itemName.substring( 0, itemName.indexOf( "\u2122" ) );
-
-			else if ( itemName.indexOf( "\u00e9" ) != -1 )
-				itemName = itemName.substring( 0, itemName.indexOf( "\u00e9" ) );
-
-			// All items with double quotes can be matched
-			// by searching on everything before the double
-
-			else if ( itemName.indexOf( "\"" ) != -1 )
-				itemName = itemName.substring( 0, itemName.indexOf( "\"" ) );
-
-			// In all other cases, an exact match is only
-			// available if you enclose the item name in
-			// double quotes.
-
+			if ( currentQuantity == null )
+				prices.put( currentPrice, new Integer( resultsArray[i].getLimit() ) );
 			else
-				itemName = "\"" + itemName + "\"";
-
-			// With the item name properly formatted, issue
-			// the search request.
-
-			(new SearchMallRequest( client, itemName, 0, results, true )).run();
-
-			MallPurchaseRequest [] resultsArray = new MallPurchaseRequest[ results.size() ];
-			results.toArray( resultsArray );
-
-			TreeMap prices = new TreeMap();
-			Integer currentQuantity, currentPrice;
-
-			for ( int i = 0; i < resultsArray.length; ++i )
-			{
-				currentPrice = new Integer( resultsArray[i].getPrice() );
-				currentQuantity = (Integer) prices.get( currentPrice );
-
-				if ( currentQuantity == null )
-					prices.put( currentPrice, new Integer( resultsArray[i].getLimit() ) );
-				else
-					prices.put( currentPrice, new Integer( currentQuantity.intValue() + resultsArray[i].getQuantity() ) );
-			}
-
-			Integer [] priceArray = new Integer[ prices.keySet().size() ];
-			prices.keySet().toArray( priceArray );
-
-			for ( int i = 0; i < priceArray.length; ++i )
-				priceSummary.add( "  " + df.format( ((Integer)prices.get( priceArray[i] )).intValue() ) + " @ " + df.format( priceArray[i].intValue() ) + " meat" );
-
-			client.enableDisplay();
+				prices.put( currentPrice, new Integer( currentQuantity.intValue() + resultsArray[i].getQuantity() ) );
 		}
-	}
 
-	/**
-	 * Utility method used to remove the given item from the
-	 * player's store.
-	 */
+		Integer [] priceArray = new Integer[ prices.keySet().size() ];
+		prices.keySet().toArray( priceArray );
 
-	public static void takeItem( int itemID )
-	{	(new RequestThread( new StoreManageRequest( client, itemID ) )).start();
+		for ( int i = 0; i < priceArray.length; ++i )
+			priceSummary.add( "  " + df.format( ((Integer)prices.get( priceArray[i] )).intValue() ) + " @ " + df.format( priceArray[i].intValue() ) + " meat" );
 	}
 
 	/**

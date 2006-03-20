@@ -83,7 +83,7 @@ public class CakeArenaManager extends StaticEntity
 		}
 	}
 
-	private static class ArenaThread extends DaemonThread
+	private static class ArenaThread extends RequestThread
 	{
 		private CakeArenaRequest request;
 		private int battleCount;
