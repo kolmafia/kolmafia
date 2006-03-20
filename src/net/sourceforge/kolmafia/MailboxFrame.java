@@ -217,7 +217,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		private String mailboxName;
 
 		public RequestMailboxThread( String mailboxName )
-		{	super( new MailboxRequest( client, mailboxName ) );
+		{
+			super( new MailboxRequest( client, mailboxName ) );
+			this.mailboxName = mailboxName;
 		}
 
 		public void run()

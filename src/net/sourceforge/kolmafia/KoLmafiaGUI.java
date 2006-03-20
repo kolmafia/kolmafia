@@ -178,6 +178,12 @@ public class KoLmafiaGUI extends KoLmafia
 
 		((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
 		((KoLFrame)previousDisplayer.getCreation()).dispose();
+
+		// Also, if the person has new mail, then automatically
+		// load up the mail manager.
+
+		if ( KoLMailManager.hasNewMessages() )
+			(new CreateFrameRunnable( MailboxFrame.class )).run();
 	}
 
 	/**

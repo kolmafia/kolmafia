@@ -58,6 +58,15 @@ public abstract class KoLMailManager extends StaticEntity
 		getMessages( "Saved" ).clear();
 	}
 
+	public static boolean hasNewMessages()
+	{
+		int oldMessageCount = Integer.parseInt( getProperty( "lastMessageCount" ) );
+		int newMessageCount = getMessages( "Inbox" ).size();
+
+		setProperty( "lastMessageCount", String.valueOf( newMessageCount ) );
+		return oldMessageCount < newMessageCount;
+	}
+
 	/**
 	 * Returns a list containing the messages within the
 	 * specified mailbox.
@@ -88,6 +97,7 @@ public abstract class KoLMailManager extends StaticEntity
 			return false;
 
 		KoLmafia.registerPlayer( toadd.getSenderName(), toadd.getSenderID() );
+
 		mailbox.add( toadd );
 		return true;
 	}
@@ -100,6 +110,8 @@ public abstract class KoLMailManager extends StaticEntity
 		int messageIndex = mailbox.indexOf( message );
 		if ( messageIndex != -1 )
 			mailbox.remove( messageIndex );
+
+		setProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
 	}
 
 	public static void deleteMessages( String boxname, Object [] messages )
@@ -117,6 +129,8 @@ public abstract class KoLMailManager extends StaticEntity
 			if ( messageIndex != -1 )
 				mailbox.remove( messageIndex );
 		}
+
+		setProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
 	}
 
 	public static void saveMessage( KoLMailMessage message )
@@ -127,6 +141,8 @@ public abstract class KoLMailManager extends StaticEntity
 		int messageIndex = mailbox.indexOf( message );
 		if ( messageIndex != -1 )
 			mailbox.remove( messageIndex );
+
+		setProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
 	}
 
 	public static void saveMessages( Object [] messages )
@@ -144,5 +160,7 @@ public abstract class KoLMailManager extends StaticEntity
 			if ( messageIndex != -1 )
 				mailbox.remove( messageIndex );
 		}
+
+		setProperty( "lastMessageCount", String.valueOf( getMessages( "Inbox" ).size() ) );
 	}
 }
