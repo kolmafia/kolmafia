@@ -236,8 +236,12 @@ public class FightRequest extends KoLRequest
 		}
 
 		super.run();
+	}
 
+	protected void processResults()
+	{
 		// Spend MP and consume items
+
 		payActionCost();
 
 		// If this is the first round, then register the opponent
@@ -256,8 +260,8 @@ public class FightRequest extends KoLRequest
 
 		if ( responseText.indexOf( "fight.php" ) != -1 )
 		{
-			nextRound();
-			run();
+			// This is a fall-through state.  This means that
+			// you need to run another fight.
 		}
 		else if ( responseText.indexOf( "WINWINWIN" ) != -1 )
 		{
@@ -304,12 +308,15 @@ public class FightRequest extends KoLRequest
 				this.turnsUsed = 1;
 			}
 		}
-		else
-		{
-			// Otherwise, you still have more rounds to fight.
-			// move onto the next round and then rerun the
-			// request.
 
+		// Otherwise, you still have more rounds to fight.
+		// move onto the next round and then rerun the
+		// request.
+
+		super.processResults();
+
+		if ( this.turnsUsed == 0 )
+		{
 			nextRound();
 			run();
 		}
