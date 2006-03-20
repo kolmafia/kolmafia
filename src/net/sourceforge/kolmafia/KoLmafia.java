@@ -310,18 +310,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Also update the player status to determine the MCD setting,
-		// if they are in a mysticality sign.
-
-		if ( KoLCharacter.inMysticalitySign() )
-			CharpaneRequest.getInstance().run();
-
-		if ( !permitsContinue() )
-		{
-			deinitialize();
-			return;
-		}
-
 		// Update the player's account settings (including time-zone
 		// and current autosell mode).
 

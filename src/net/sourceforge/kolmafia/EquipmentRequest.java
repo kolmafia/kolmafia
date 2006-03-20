@@ -405,6 +405,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( requestType == CLOSET )
 			{
 				parseCloset();
+				super.processResults();
 				DEFAULT_SHELL.updateDisplay( "Inventory retrieved." );
 			}
 			else
@@ -421,12 +422,14 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				for ( int i = 0; i < 9; ++i )
 					switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
+
+				CharpaneRequest.getInstance().run();
+				KoLCharacter.updateStatus();
 			}
 
 			// After all the items have been switched,
 			// update lists.
 
-			super.processResults();
 			KoLCharacter.refreshCalculatedLists();
 		}
 		catch ( RuntimeException e )
