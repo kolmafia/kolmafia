@@ -588,18 +588,24 @@ public class RequestFrame extends KoLFrame
 	{
 		public void run()
 		{
-			RequestFrame [] frames = new RequestFrame[ this.size() ];
-			toArray( frames );
-
 			CharpaneRequest instance = CharpaneRequest.getInstance();
 			instance.run();
+
+			refreshStatus( getDisplayHTML( instance.responseText ) );
+		}
+
+
+		public void refreshStatus( String text )
+		{
+			RequestFrame [] frames = new RequestFrame[ this.size() ];
+			toArray( frames );
 
 			for ( int i = 0; i < frames.length; ++i )
 			{
 				if ( frames[i].hasSideBar() )
 				{
 					frames[i].sideBuffer.clearBuffer();
-					frames[i].sideBuffer.append( getDisplayHTML( instance.responseText ) );
+					frames[i].sideBuffer.append( text );
 					frames[i].sideDisplay.setCaretPosition( 0 );
 				}
 			}
@@ -626,9 +632,13 @@ public class RequestFrame extends KoLFrame
 	}
 
 	public static void disableRefreshStatus( boolean disable )
-	{	refreshStatusDisabled = disable;		
+	{
+		refreshStatusDisabled = disable;
+
+		if ( disable )
+			REFRESHER.refreshStatus( "" );
 	}
-			
+
 
 	public void dispose()
 	{
