@@ -126,9 +126,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( mpRestoreSetting.indexOf( restoreName[i].toString() ) != -1 )
 				restoreCheckbox[i].setSelected( true );
 
-		JScrollPane scrollArea = new JScrollPane( restorePanel, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		JComponentUtilities.setComponentSize( scrollArea, 240, 100 );
-
+		JScrollPane scrollArea = new JScrollPane( restorePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		return scrollArea;
 	}
 
