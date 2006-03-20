@@ -57,6 +57,7 @@ public class FightRequest extends KoLRequest
 	private static final String [] RARE_MONSTERS =
 	{
 		// Ultra-rare monsters
+
 		"baiowulf",
 		"crazy bastard",
 		"hockey elemental",
@@ -65,10 +66,21 @@ public class FightRequest extends KoLRequest
 
 		// Monsters that scale with player level and can't be defeated
 		// with normal tactics
+
 		"candied yam golem",
 		"malevolent tofurkey",
 		"possessed can of cranberry sauce",
-		"stuffing golem"		
+		"stuffing golem"
+	};
+
+	private static final String [] CONTINUE_TEXT =
+	{
+		"againform.submit",  // If there is an again form, then continue
+		"rats.php",          // Allows continuation during tavern quest
+		"lair3.php",         // Allows continuation during hedge maze
+		"lair4.php",         // Allows continuation during tower guardians
+		"lair5.php",         // Allows continuation during tower guardians
+		"lair6.php"          // Allows continuation during shadow and sorceress fight
 	};
 
 	/**
@@ -258,8 +270,15 @@ public class FightRequest extends KoLRequest
 			// If you can't battle again in this location,
 			// cancel future iterations.
 
-			else if ( responseText.indexOf( "againform.submit" ) == -1 && responseText.indexOf( "lair3.php" ) == -1 && responseText.indexOf( "lair4.php" ) == -1 && responseText.indexOf( "lair5.php" ) == -1 && responseText.indexOf( "lair6.php" ) == -1 )
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Nothing left to do here." );
+			else
+			{
+				boolean shouldContinue = false;
+				for ( int i = 0; i < CONTINUE_TEXT.length; ++i )
+					shouldContinue |= responseText.indexOf( CONTINUE_TEXT[i] ) != -1;
+
+				if ( !shouldContinue )
+					DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Nothing left to do here." );
+			}
 
 			this.turnsUsed = 1;
 		}
