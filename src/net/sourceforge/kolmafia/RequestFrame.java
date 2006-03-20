@@ -617,7 +617,7 @@ public class RequestFrame extends KoLFrame
 			return;
 
 		lastResponseText = client.getCurrentRequest() == null ? "<!-- NON-EMPTY -->" : client.getCurrentRequest().responseText;
-		(new RequestThread( REFRESHER )).start();
+		(new Thread( REFRESHER )).start();
 	}
 
 	public static boolean willRefreshStatus()
