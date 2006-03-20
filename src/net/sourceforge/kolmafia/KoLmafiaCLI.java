@@ -2378,7 +2378,7 @@ public class KoLmafiaCLI extends KoLmafia
 		AdventureResult currentItem = null;
 		for ( int i = 0; i < nameList.size(); ++i )
 		{
-			currentItem = new AdventureResult( (String) nameList.get(i), 0 );
+			currentItem = new AdventureResult( (String) nameList.get(i), 0, false );
 			if ( source.contains( currentItem ) )
 				return currentItem.getItemID();
 		}
