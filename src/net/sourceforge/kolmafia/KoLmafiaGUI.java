@@ -140,6 +140,11 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.initialize( loginname, sessionID, getBreakfast );
 
+		// Also update mail to see if the person has received any
+		// new messages.
+
+		(new MailboxRequest( this, "Inbox" )).run();
+
 		// Reset all the titles on all existing frames.
 
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];

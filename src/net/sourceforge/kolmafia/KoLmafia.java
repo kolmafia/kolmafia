@@ -387,17 +387,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Also update mail to see if the person has received any
-		// new messages.
-
-		(new MailboxRequest( this, "Inbox" )).run();
-
-		if ( !permitsContinue() )
-		{
-			deinitialize();
-			return;
-		}
-
 		resetSession();
 		applyRecentEffects();
 
