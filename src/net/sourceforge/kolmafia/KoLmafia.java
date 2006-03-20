@@ -1247,6 +1247,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			while ( permitsContinue() && ++currentIteration <= iterations )
 			{
+				
 				// If the conditions existed and have been satisfied,
 				// then you should stop.
 
@@ -1262,6 +1263,10 @@ public abstract class KoLmafia implements KoLConstants
 
 				remainingConditions = conditions.size();
 
+				// Disable status pane updates if within a group of requests
+				// Enable status pane updates for last request and single requests
+				RequestFrame.disableRefreshStatus( currentIteration < iterations );
+				
 				// Otherwise, disable the display and update the user
 				// and the current request number.  Different requests
 				// have different displays.  They are handled here.
@@ -1335,6 +1340,8 @@ public abstract class KoLmafia implements KoLConstants
 					CharpaneRequest.getInstance().run();
 			}
 
+			RequestFrame.disableRefreshStatus( false );
+			
 			currentIterationString = "";
 
 			// If you've completed the requests, make sure to update

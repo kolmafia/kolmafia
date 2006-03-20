@@ -73,6 +73,7 @@ public class RequestFrame extends KoLFrame
 {
 	private static String lastResponseText = "";
 	private static SidePaneRefresher REFRESHER = new SidePaneRefresher();
+	private static boolean refreshStatusDisabled = false;
 
 	private int currentLocation = 0;
 	private List visitedLocations = new ArrayList();
@@ -607,7 +608,7 @@ public class RequestFrame extends KoLFrame
 
 	public static void refreshStatus()
 	{
-		if ( REFRESHER.isEmpty() )
+		if ( REFRESHER.isEmpty() || refreshStatusDisabled )
 			return;
 
 		if ( lastResponseText.equals( "<!-- NON-EMPTY -->" ) )
@@ -623,6 +624,11 @@ public class RequestFrame extends KoLFrame
 	public static boolean willRefreshStatus()
 	{	return !REFRESHER.isEmpty();
 	}
+
+	public static void disableRefreshStatus( boolean disable )
+	{	refreshStatusDisabled = disable;		
+	}
+			
 
 	public void dispose()
 	{
