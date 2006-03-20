@@ -256,6 +256,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		this.sessionID = sessionID;
+		GLOBAL_SETTINGS.setProperty( "lastUsername", loginname );
 
 		KoLmafiaCLI.reset();
 		KoLCharacter.reset( loginname );

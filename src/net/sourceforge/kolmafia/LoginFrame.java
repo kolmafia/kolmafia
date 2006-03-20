@@ -203,6 +203,10 @@ public class LoginFrame extends KoLFrame
 			if ( client != null )
 			{
 				String autoLoginSetting = GLOBAL_SETTINGS.getProperty( "autoLogin" );
+				if ( autoLoginSetting.equals( "" ) )
+					autoLoginSetting = GLOBAL_SETTINGS.getProperty( "lastUsername" );
+				else
+					autoLoginCheckBox.setSelected( true );
 
 				if ( loginnameField instanceof JComboBox )
 					((JComboBox)loginnameField).setSelectedItem( autoLoginSetting );
