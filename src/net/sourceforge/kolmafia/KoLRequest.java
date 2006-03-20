@@ -444,6 +444,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				if ( isServerFriendly )
 					KoLRequest.delay();
+				else if ( getProperty( "synchronizeFightFrame" ).equals( "true" ) )
+					KoLRequest.delay( 1000 );
 			}
 		}
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
