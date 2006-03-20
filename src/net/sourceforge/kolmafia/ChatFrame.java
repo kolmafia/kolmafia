@@ -228,7 +228,6 @@ public class ChatFrame extends KoLFrame
 			if ( entryField != null )
 				entryField.requestFocus();
 
-			System.out.println( "Focus requested." );
 			KoLMessenger.setUpdateChannel( getAssociatedContact() );
 		}
 
