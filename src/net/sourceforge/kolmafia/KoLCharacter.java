@@ -1630,6 +1630,9 @@ public abstract class KoLCharacter extends StaticEntity
 		for ( int i = 0; i < skillArray.length; ++i )
 			addAvailableSkill( skillArray[i] );
 
+		// Add derived skills based on base skills
+		addDerivedSkills();
+
 		// Set the selected combat skill based on
 		// the user's current setting.
 
@@ -1739,6 +1742,47 @@ public abstract class KoLCharacter extends StaticEntity
 			battleSkillNames.add( "Skill: " + skill.getSkillName() );
 			break;
 		}
+	}
+
+	/**
+	 * Adds derived skills to appropriate lists
+	 */
+
+	public static void addDerivedSkills()
+	{
+		if ( KoLCharacter.getClassType().startsWith( "Tu" ) )
+		{
+			boolean head = hasSkill( "Headbutt" );
+			boolean knee = hasSkill( "Kneebutt" );
+			boolean shield = hasSkill( "Shieldbutt" );
+
+			if ( head && knee )
+				addCombatSkill( "Head + Knee Combo" );
+			if ( head && shield )
+				addCombatSkill( "Head + Shield Combo" );
+			if ( knee && shield )
+				addCombatSkill( "Knee + Shield Combo" );
+			if ( head && knee && shield )
+				addCombatSkill( "Head + Knee + Shield Combo" );
+		}
+	}
+
+	private static void addCombatSkill( String name )
+	{
+		// Only add the skill once
+		if ( hasSkill( name, combatSkills ) )
+			return;
+
+		// Find the skill
+		int id = ClassSkillsDatabase.getSkillID( name );
+		if ( id == -1 )
+			return;
+
+		// Add to lists
+		UseSkillRequest skill = new UseSkillRequest( client, name, "", 1 );
+		combatSkills.add( skill );
+		battleSkillIDs.add( String.valueOf( id ) );
+		battleSkillNames.add( "Skill: " + name );
 	}
 
 	/**
@@ -1867,9 +1911,13 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static boolean hasSkill( String skillName )
+ 	{	return hasSkill( skillName, availableSkills );
+	}
+
+	public static boolean hasSkill( String skillName, LockableListModel list )
 	{
-		for ( int i = 0; i < availableSkills.size(); ++i )
-			if ( ((UseSkillRequest)availableSkills.get(i)).getSkillName().equals( skillName ) )
+		for ( int i = 0; i < list.size(); ++i )
+			if ( ((UseSkillRequest)list.get(i)).getSkillName().equals( skillName ) )
 				return true;
 		return false;
 	}

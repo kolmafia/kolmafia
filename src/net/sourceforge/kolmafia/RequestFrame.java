@@ -485,7 +485,10 @@ public class RequestFrame extends KoLFrame
 
 			Matcher learnedMatcher = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" ).matcher( request.responseText );
 			if ( learnedMatcher.find() )
+			{
 				KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
+				KoLCharacter.addDerivedSkills();
+			}
 
 			// Unfortunately, if you learn a new skill from Frank
 			// the Regnaissance Gnome at the Gnomish Gnomads
