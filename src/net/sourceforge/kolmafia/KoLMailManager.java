@@ -60,11 +60,17 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static boolean hasNewMessages()
 	{
-		int oldMessageCount = Integer.parseInt( getProperty( "lastMessageCount" ) );
-		int newMessageCount = getMessages( "Inbox" ).size();
+		String oldMessageID = getProperty( "lastMessageID" );
 
-		setProperty( "lastMessageCount", String.valueOf( newMessageCount ) );
-		return oldMessageCount < newMessageCount;
+		SortedListModel inbox = getMessages( "Inbox" );
+		if ( inbox.isEmpty() )
+			return false;
+
+		KoLMailMessage latest = (KoLMailMessage) inbox.get(0);
+		String newMessageID = latest.getMessageID();
+
+		setProperty( "lastMessageID", newMessageID );
+		return !oldMessageID.equals( newMessageID );
 	}
 
 	/**
