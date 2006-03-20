@@ -674,6 +674,11 @@ public class AdventureFrame extends KoLFrame
 		DEFAULT_SHELL.updateDisplay( results.size() == 0 ? "No results found." : "Search complete." );
 		tabs.setSelectedIndex(1);
 		client.enableDisplay();
+
+		// Now, do some garbage collection to avoid the
+		// potential for resource overusage.
+
+		System.gc();
 	}
 
 	private String getPurchaseSummary( Object [] purchases )
