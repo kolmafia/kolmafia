@@ -217,7 +217,6 @@ public class LoginFrame extends KoLFrame
 				{
 					passwordField.setText( passwordSetting );
 					savePasswordCheckBox.setSelected( true );
-					autoLoginCheckBox.setSelected( true );
 				}
 
 				getBreakfastCheckBox.setSelected( GLOBAL_SETTINGS.getProperty( "alwaysGetBreakfast" ).equals( "true" ) );
