@@ -651,7 +651,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.initial = concoction.getCount( availableIngredients );
 			this.total = initial;
 
-			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermitted() )
+			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermittedMethod( mixingMethod ) )
 				return;
 
 			// First, preprocess the ingredients by calculating
@@ -716,7 +716,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			// Avoid mutual recursion.
 
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER )
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN ||
+			     mixingMethod == ItemCreationRequest.CLOVER ||
+			     !isPermittedMethod( mixingMethod ) )
 				return quantity;
 
 			// The true value is affected by the maximum value for
@@ -838,16 +840,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( mixingMethod == ItemCreationRequest.COMBINE )
 				concoctions.get( ItemCreationRequest.MEAT_PASTE ).unmark();
-		}
-
-		/**
-		 * Helper method to determine whether or not the given mixing
-		 * method is permitted, provided the state of the boolean
-		 * variables is as specified.
-		 */
-
-		private boolean isPermitted()
-		{	return PERMIT_METHOD[ mixingMethod ];
 		}
 
 		/**
