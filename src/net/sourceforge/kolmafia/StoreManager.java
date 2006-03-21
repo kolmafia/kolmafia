@@ -250,38 +250,6 @@ public abstract class StoreManager extends StaticEntity
 
 		ArrayList results = new ArrayList();
 
-		// For items with the n-tilde character, a
-		// perfect match is available if you use the
-		// substring consisting of everything after
-		// the ntilde;
-
-		if ( itemName.indexOf( "\u00f1" ) != -1 )
-			itemName = itemName.substring( itemName.indexOf( "\u00f1" ) + 1 );
-
-		// For items with the trademark character, a
-		// perfect match is available if you use the
-		// substring consisting of everything before
-		// the trademark character
-
-		else if ( itemName.indexOf( "\u2122" ) != -1 )
-			itemName = itemName.substring( 0, itemName.indexOf( "\u2122" ) );
-
-		else if ( itemName.indexOf( "\u00e9" ) != -1 )
-			itemName = itemName.substring( 0, itemName.indexOf( "\u00e9" ) );
-
-		// All items with double quotes can be matched
-		// by searching on everything before the double
-
-		else if ( itemName.indexOf( "\"" ) != -1 )
-			itemName = itemName.substring( 0, itemName.indexOf( "\"" ) );
-
-		// In all other cases, an exact match is only
-		// available if you enclose the item name in
-		// double quotes.
-
-		else
-			itemName = "\"" + itemName + "\"";
-
 		// With the item name properly formatted, issue
 		// the search request.
 

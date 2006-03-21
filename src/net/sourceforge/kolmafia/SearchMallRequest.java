@@ -115,7 +115,9 @@ public class SearchMallRequest extends KoLRequest
 	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results, boolean retainAll )
 	{
 		super( client, searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
-		addFormField( "whichitem", searchString );
+
+		this.searchString = getItemName( searchString );
+		addFormField( "whichitem", this.searchString );
 
 		if ( cheapestCount <= 0 || cheapestCount > 100 )
 			cheapestCount = 100;
@@ -123,9 +125,51 @@ public class SearchMallRequest extends KoLRequest
 		addFormField( "cheaponly", "on" );
 		addFormField( "shownum", "" + cheapestCount );
 
-		this.searchString = searchString;
 		this.results = results;
 		this.retainAll = retainAll;
+	}
+	
+	private String getItemName( String searchString )
+	{
+		String itemName = searchString;
+	
+		if ( itemName.startsWith( "\"" ) || itemName.startsWith( "\'" ) )
+		{
+		}
+
+		// For items with the n-tilde character, a
+		// perfect match is available if you use the
+		// substring consisting of everything after
+		// the ntilde;
+
+		else if ( itemName.indexOf( "\u00f1" ) != -1 )
+			itemName = itemName.substring( itemName.indexOf( "\u00f1" ) + 1 );
+
+		// For items with the trademark character, a
+		// perfect match is available if you use the
+		// substring consisting of everything before
+		// the trademark character
+
+		else if ( itemName.indexOf( "\u2122" ) != -1 )
+			itemName = itemName.substring( 0, itemName.indexOf( "\u2122" ) );
+
+		else if ( itemName.indexOf( "\u00e9" ) != -1 )
+			itemName = itemName.substring( 0, itemName.indexOf( "\u00e9" ) );
+
+		// All items with double quotes can be matched
+		// by searching on everything before the double
+
+		else if ( itemName.indexOf( "\"" ) != -1 )
+			itemName = itemName.substring( 0, itemName.indexOf( "\"" ) );
+
+		else if ( TradeableItemDatabase.contains( searchString ) )
+			itemName = "\"" + itemName + "\"";
+
+		// In all other cases, an exact match is only
+		// available if you enclose the item name in
+		// double quotes.
+
+		return itemName;
 	}
 
 	public List getResults()

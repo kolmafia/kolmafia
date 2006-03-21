@@ -449,7 +449,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Otherwise, you managed to purchase something!  Here,
 		// you report to the client whatever you gained.
 
-		int quantityAcquired = 0;
+		int quantityAcquired = responseText.indexOf( "You acquire an item: <b>" ) != -1 ? 1 : 0;
 		for ( int i = limit; i > 0 && quantityAcquired == 0; --i )
 			if ( responseText.indexOf( "acquire <b>" + df.format( i ) ) != -1 )
 				quantityAcquired = i;
