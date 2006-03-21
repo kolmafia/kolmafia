@@ -769,9 +769,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		/**
-		 * Utility method which calculates the quantity creatable for
-		 * an recipe based on the modifier/multiplier of its
-		 * ingredients
+		 * Utility method which calculates the available quantity of a
+		 * recipe based on the modifier/multiplier of its ingredients
 		 */
 
 		private int quantity( boolean inMuscleSign )
@@ -784,16 +783,20 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			// The maximum value is equivalent to the total, plus
 			// the modifier, divided by the multiplier, if the
-			// multiplier exists.
+			// multiplier exists, taking into account already the
+			// already created quantity
 
-			int quantity = (this.total + this.modifier) / this.multiplier;
+			int quantity = (this.creatable + this.modifier) / this.multiplier;
 
 			// Avoid mutual recursion.
 
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN ||
-			     mixingMethod == ItemCreationRequest.CLOVER ||
-			     !isPermittedMethod( mixingMethod ) )
-				return quantity;
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER )
+				return this.initial + quantity;
+
+			// If not creatable, don't look at ingredients
+
+			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermittedMethod( mixingMethod ) )
+				return this.initial + quantity;
 
 			// The true value is affected by the maximum value for
 			// the ingredients.  Therefore, calculate the quantity
@@ -811,9 +814,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( this != concoctions.get(0) )
 				quantity = Math.min( quantity, concoctions.get(0).quantity( inMuscleSign ) );
 
-			// In the event that this is item combination and the person
-			// is in a non-muscle sign, item creation is impacted by the
-			// amount of available meat paste.
+			// If this is item combination and the person is in a
+			// non-muscle sign, item creation requires meat paste.
 
 			if ( mixingMethod == ItemCreationRequest.COMBINE && !inMuscleSign )
 				quantity = Math.min( quantity, concoctions.get( ItemCreationRequest.MEAT_PASTE ).quantity( inMuscleSign ) );
@@ -821,7 +823,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// The true value is now calculated.  Return this
 			// value to the requesting method.
 
-			return quantity;
+			return this.initial + quantity;
 		}
 
 		/**
