@@ -55,7 +55,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	// In order to prevent overflows from happening, make
 	// it so that the maximum quantity is 10 million
 
-	private boolean successful;
 	private String itemName, shopName;
 	private int itemID, shopID, quantity, price, limit;
 
@@ -248,7 +247,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		{
 			buffer.append( df.format( quantity ) );
 
-			if ( limit < quantity )
+			if ( limit < quantity || !canPurchase )
 			{
 				buffer.append( " limit " );
 				buffer.append( df.format( limit ) );
@@ -288,7 +287,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			return;
 
 		addFormField( isNPCStore ? "howmany" : "quantity", String.valueOf( limit ) );
-		this.successful = false;
 
 		// If the item is not currently recognized, the user should
 		// be notified that the purchases cannot be made because of that
@@ -349,14 +347,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	protected void processResults()
 	{
-		AdventureResult searchItem = new AdventureResult( itemID, 0 );
-		int beforeCount = searchItem.getCount( KoLCharacter.getInventory() );
-
-		super.processResults();
-
-		// Once it reaches this point, you know that the
-		// request was executed.  Begin parsing the reply.
-
 		String result = responseText.substring( responseText.indexOf( "<center>" ), responseText.indexOf( "</table>" ) );
 
 		// One error is that the item price changed, or the item
@@ -402,7 +392,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 						// player the option to report it.
 
 						DEFAULT_SHELL.updateDisplay( "Price switch detected (#" + shopID + ").  Skipping..." );
-						return;
 					}
 				}
 				else
@@ -439,7 +428,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 				int limit = df.parse( quantityMatcher.group(1) ).intValue();
 				int alreadyPurchased = df.parse( quantityMatcher.group(2) ).intValue();
 
-				(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit, true )).run();
+				if ( limit != alreadyPurchased )
+					(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit, true )).run();
+
 				canPurchase = false;
 				return;
 			}
@@ -458,13 +449,15 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Otherwise, you managed to purchase something!  Here,
 		// you report to the client whatever you gained.
 
-		this.successful = true;
-		int afterCount = searchItem.getCount( KoLCharacter.getInventory() );
+		int quantityAcquired = 0;
+		for ( int i = limit; i > 0 && quantityAcquired == 0; --i )
+			if ( responseText.indexOf( "acquire <b>" + df.format( i ) ) != -1 )
+				quantityAcquired = i;
 
-		// Also report how much meat you lost in the purchase
-		// so that gets updated in the session summary as well.
+		client.processResult( new AdventureResult( itemID, quantityAcquired ) );
+		client.processResult( new AdventureResult( AdventureResult.MEAT, -1 * price * quantityAcquired ) );
 
-		client.processResult( new AdventureResult( AdventureResult.MEAT, -1 * price * (afterCount - beforeCount) ) );
 		KoLCharacter.updateStatus();
+		RequestFrame.refreshStatus();
 	}
 }
