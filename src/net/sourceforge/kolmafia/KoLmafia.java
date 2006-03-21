@@ -256,10 +256,21 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		this.sessionID = sessionID;
-		GLOBAL_SETTINGS.setProperty( "lastUsername", loginname );
+		this.settings = new KoLSettings( loginname );
 
-		KoLmafiaCLI.reset();
+		GLOBAL_SETTINGS.setProperty( "lastUsername", loginname );
 		KoLCharacter.reset( loginname );
+
+		this.refreshSession();
+		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
+
+		if ( getBreakfast )
+			getBreakfast();
+	}
+
+	public final void refreshSession()
+	{
+		KoLmafiaCLI.reset();
 		KoLMailManager.reset();
 		FamiliarData.reset();
 		MushroomPlot.reset();
@@ -303,7 +314,6 @@ public abstract class KoLmafia implements KoLConstants
 		// after so that you have updated dictionary data.
 
 		(new CharsheetRequest( this )).run();
-		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
 
 		if ( !permitsContinue() )
 		{
@@ -394,10 +404,6 @@ public abstract class KoLmafia implements KoLConstants
 		// was previously selected.
 
 		this.isLoggingIn = false;
-		this.settings = new KoLSettings( loginname );
-
-		if ( getBreakfast )
-			getBreakfast();
 
 		HPRestoreItemList.reset();
 		MPRestoreItemList.reset();

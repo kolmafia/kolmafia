@@ -457,11 +457,19 @@ public class RequestFrame extends KoLFrame
 			while ( visitedLocations.size() > 11 )
 				visitedLocations.remove( request );
 
-			locationField.setText( request.getURLString() );
+			String location = request.getURLString();
+
+			locationField.setText( location );
 			currentLocation = visitedLocations.size();
 
 			mainBuffer.append( getDisplayHTML( lastResponseText ) );
 			mainDisplay.setCaretPosition( 0 );
+
+			// One last thing which needs to be done is if the player
+			// just ascended, you need to refresh everything.
+
+			if ( location.equals( "main.php?refreshtop=true&noobmessage=true" ) )
+				client.refreshSession();
 		}
 
 		private void updateClient()
