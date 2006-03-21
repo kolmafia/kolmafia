@@ -306,6 +306,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If we have the correct tool, use it to
 		// create the needed dough type.
 
+		if ( quantityNeeded >= 10 )
+			AdventureDatabase.retrieveItem( tool );
+
 		if ( tool.getCount( KoLCharacter.getInventory() ) > 0 )
 		{
 			DEFAULT_SHELL.updateDisplay( "Using " + tool.getName() + "..." );
@@ -354,13 +357,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// exist and the user has opted to repair.
 
 		if ( !autoRepairBoxServant() )
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Failed to auto-repair box servant." );
-
-		// If the request has been cancelled midway, be
-		// sure to return from here.
-
-		if ( !client.permitsContinue() )
+		{
+			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Failed to auto-repair box servant." );
 			return;
+		}
 
 		// First, make all the required ingredients for
 		// this concoction.
@@ -383,12 +383,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		addFormField( "quantity", String.valueOf( quantityNeeded ) );
 
-		// If the request has been cancelled midway, be
-		// sure to return from here.
-
-		if ( !client.permitsContinue() )
-			return;
-
 		DEFAULT_SHELL.updateDisplay( "Creating " + toString() + "..." );
 		super.run();
 	}
@@ -404,13 +398,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're missing ingredients." );
+			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "You're missing ingredients." );
 			return;
 		}
 
 		if ( responseText.indexOf( "You don't have that many adventures left" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have enough adventures." );
+			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "You don't have enough adventures." );
 			return;
 		}
 
@@ -504,40 +498,21 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				case COOK_REAGENT:
 				case COOK_PASTA:
 
-					autoRepairSuccessful = useBoxServant( CHEF, CLOCKWORK_CHEF );
+					autoRepairSuccessful = useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN );
 					break;
 
 				case MIX:
 				case MIX_SPECIAL:
 
-					autoRepairSuccessful = useBoxServant( BARTENDER, CLOCKWORK_BARTENDER );
+					autoRepairSuccessful = useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT );
 					break;
 			}
 		}
 
-		if ( autoRepairSuccessful )
-			return true;
-
-		boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
-
-		switch ( mixingMethod )
-		{
-			case COOK:
-			case COOK_REAGENT:
-			case COOK_PASTA:
-
-				return noServantNeeded && KoLCharacter.getInventory().contains( OVEN );
-
-			case MIX:
-			case MIX_SPECIAL:
-
-				return noServantNeeded && KoLCharacter.getInventory().contains( KIT );
-		}
-
-		return false;
+		return autoRepairSuccessful;
 	}
 
-	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant )
+	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant, AdventureResult noServantItem )
 	{
 		// First, check to see if a box servant is available
 		// for usage, either normally, or through some form
@@ -559,7 +534,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( usedServant == null )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Could not auto-repair " + servant.getName() + "." );
+			if ( getProperty( "createWithoutBoxServants" ).equals( "true" ) )
+				return noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
+
+			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Could not auto-repair " + servant.getName() + "." );
 			return false;
 		}
 
@@ -573,7 +551,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	protected void makeIngredients()
 	{
-		boolean hadFailure = false;
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
 		for ( int i = 0; i < ingredients.length; ++i )
