@@ -464,6 +464,7 @@ public class RequestFrame extends KoLFrame
 
 			mainBuffer.append( getDisplayHTML( lastResponseText ) );
 			mainDisplay.setCaretPosition( 0 );
+			System.gc();
 
 			// One last thing which needs to be done is if the player
 			// just ascended, you need to refresh everything.
