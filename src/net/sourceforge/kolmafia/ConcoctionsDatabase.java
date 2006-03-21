@@ -176,6 +176,20 @@ public class ConcoctionsDatabase extends KoLDatabase
 				ingredients[1] = new AdventureResult( 106, 1 );
 				return isKnownCombination( ingredients );
 			}
+
+			// Handle ice-cold beer recipes, which only uses the
+			// recipe for item #41 at this time.
+
+			if ( ingredients[0].getItemID() == 81 )
+			{
+				ingredients[0] = new AdventureResult( 41, 1 );
+				return isKnownCombination( ingredients );
+			}
+			if ( ingredients[1].getItemID() == 81 )
+			{
+				ingredients[1] = new AdventureResult( 41, 1 );
+				return isKnownCombination( ingredients );
+			}
 		}
 
 		int [] ingredientTestIDs;
@@ -322,6 +336,30 @@ public class ConcoctionsDatabase extends KoLDatabase
 		concoctions.get( ItemCreationRequest.DENSE_STACK ).total =
 			concoctions.get( ItemCreationRequest.DENSE_STACK ).initial +
 				concoctions.get( ItemCreationRequest.DENSE_STACK ).creatable;
+
+		// Ice-cold beer and ketchup are special instances -- for the
+		// purposes of calculation, we assume that they will use the
+		// ingredient which is present in the greatest quantity.
+
+		int availableBeer = getBetterIngredient( SCHLITZ, WILLER, availableIngredients ).getCount( availableIngredients );
+
+		concoctions.get( SCHLITZ.getItemID() ).initial = availableBeer;
+		concoctions.get( SCHLITZ.getItemID() ).creatable = 0;
+		concoctions.get( SCHLITZ.getItemID() ).total = availableBeer;
+
+		concoctions.get( WILLER.getItemID() ).initial = availableBeer;
+		concoctions.get( WILLER.getItemID() ).creatable = 0;
+		concoctions.get( WILLER.getItemID() ).total = availableBeer;
+
+		int availableKetchup = getBetterIngredient( KETCHUP, CATSUP, availableIngredients ).getCount( availableIngredients );
+
+		concoctions.get( KETCHUP.getItemID() ).initial = availableKetchup;
+		concoctions.get( KETCHUP.getItemID() ).creatable = 0;
+		concoctions.get( KETCHUP.getItemID() ).total = availableKetchup;
+
+		concoctions.get( CATSUP.getItemID() ).initial = availableKetchup;
+		concoctions.get( CATSUP.getItemID() ).creatable = 0;
+		concoctions.get( CATSUP.getItemID() ).total = availableKetchup;
 
 		// Next, increment through all of the things which can be
 		// created through the use of meat paste.  This allows for box
@@ -539,6 +577,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{	return concoctions.get( itemID ).getMixingMethod();
 	}
 
+	private static final AdventureResult SCHLITZ = new AdventureResult( 41, 1 );
+	private static final AdventureResult WILLER = new AdventureResult( 81, 1 );
+	private static final AdventureResult KETCHUP = new AdventureResult( 106, 1 );
+	private static final AdventureResult CATSUP = new AdventureResult( 107, 1 );
+
 	/**
 	 * Returns the item IDs of the ingredients for the given item.
 	 * Note that if there are no ingredients, then <code>null</code>
@@ -546,7 +589,38 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 */
 
 	public static AdventureResult [] getIngredients( int itemID )
-	{	return concoctions.get( itemID ).getIngredients();
+	{
+		List availableIngredients = new ArrayList();
+		availableIngredients.addAll( KoLCharacter.getInventory() );
+
+		boolean showClosetDrivenCreations = getProperty( "showClosetDrivenCreations" ).equals( "true" );
+
+		if ( showClosetDrivenCreations )
+		{
+			List closetList = (List) KoLCharacter.getCloset();
+			for ( int i = 0; i < closetList.size(); ++i )
+				AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
+		}
+
+		// Ensure that you're retrieving the same ingredients that
+		// were used in the calculations.  Usually this is the case,
+		// but ice-cold beer and ketchup are tricky cases.
+
+		AdventureResult [] ingredients = concoctions.get( itemID ).getIngredients();
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			if ( ingredients[i].getItemID() == SCHLITZ.getItemID() || ingredients[i].getItemID() == WILLER.getItemID() )
+				ingredients[i] = getBetterIngredient( SCHLITZ, WILLER, availableIngredients );
+			else if ( ingredients[i].getItemID() == KETCHUP.getItemID() || ingredients[i].getItemID() == CATSUP.getItemID() )
+				ingredients[i] = getBetterIngredient( KETCHUP, CATSUP, availableIngredients );
+		}
+
+		return ingredients;
+	}
+
+	private static AdventureResult getBetterIngredient( AdventureResult ingredient1, AdventureResult ingredient2, List availableIngredients )
+	{	return ingredient1.getCount( availableIngredients ) > ingredient2.getCount( availableIngredients ) ? ingredient1 : ingredient2;
 	}
 
 	/**
