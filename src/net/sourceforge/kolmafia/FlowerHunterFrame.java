@@ -72,6 +72,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	private JTabbedPane tabs;
 	private CardLayout resultCards;
 	private JPanel resultCardPanel;
+	private AttackPanel attackPanel;
 
 	private Vector rankLabels = new Vector();
 	private JTable [] resultsTable = new JTable[2];
@@ -87,7 +88,10 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		tabs = new JTabbedPane();
 		tabs.add( "Search", new SearchPanel() );
-		tabs.add( "Attack", new AttackPanel() );
+
+		attackPanel = new AttackPanel();
+		tabs.add( "Attack", attackPanel );
+
 		tabs.add( "Profiler", new ClanPanel() );
 
 		updateRank();
@@ -146,7 +150,20 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	}
 
 	public void valueChanged( ListSelectionEvent e )
-	{	tabs.setSelectedIndex( resultsTable[ isSimple ? 0 : 1 ].getSelectionModel().isSelectionEmpty() ? 0 : 1 );
+	{
+		JTable table = resultsTable[ isSimple ? 0 : 1 ];
+		int selectedIndex = table.getSelectionModel().isSelectionEmpty() ? 0 : 1;
+
+		tabs.setSelectedIndex( selectedIndex );
+
+		if ( selectedIndex == 1 )
+		{
+			int opponentCount = table.getSelectedRowCount();
+			if ( opponentCount == 1 )
+				attackPanel.setStatusMessage( NULL_STATE, "1 opponent selected." );
+			else
+				attackPanel.setStatusMessage( NULL_STATE, opponentCount + " opponents selected." );
+		}
 	}
 
 	private JPanel getRankLabel()
