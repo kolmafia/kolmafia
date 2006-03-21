@@ -739,7 +739,7 @@ public class AdventureFrame extends KoLFrame
 				// show what the current state of the selections
 				// is at this time.
 
-				DEFAULT_SHELL.updateDisplay( NULL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
+				mallSearch.setStatusMessage( NULL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
 			}
 		}
 	}
