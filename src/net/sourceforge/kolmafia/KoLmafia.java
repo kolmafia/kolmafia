@@ -1244,7 +1244,7 @@ public abstract class KoLmafia implements KoLConstants
 			// process (whichever is applicable).
 
 			int currentIteration = 0;
-			RequestFrame.disableRefreshStatus( iterations != 1 );
+			RequestFrame.disableRefreshStatus( true );
 
 			while ( permitsContinue() && ++currentIteration <= iterations )
 			{
@@ -1336,11 +1336,8 @@ public abstract class KoLmafia implements KoLConstants
 					CharpaneRequest.getInstance().run();
 			}
 
-			if ( iterations != 1 )
-			{
-				RequestFrame.disableRefreshStatus( false );
-				RequestFrame.refreshStatus();
-			}
+			RequestFrame.disableRefreshStatus( false );
+			RequestFrame.refreshStatus();
 
 			currentIterationString = "";
 

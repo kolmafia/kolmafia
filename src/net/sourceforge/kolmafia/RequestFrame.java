@@ -617,13 +617,6 @@ public class RequestFrame extends KoLFrame
 		if ( REFRESHER.isEmpty() || refreshStatusDisabled )
 			return;
 
-		if ( lastResponseText.equals( "<!-- NON-EMPTY -->" ) )
-			return;
-
-		if ( !lastResponseText.equals( "" ) && client.getCurrentRequest() != null && lastResponseText.equals( client.getCurrentRequest().responseText ) )
-			return;
-
-		lastResponseText = client.getCurrentRequest() == null ? "<!-- NON-EMPTY -->" : client.getCurrentRequest().responseText;
 		(new Thread( REFRESHER )).start();
 	}
 
