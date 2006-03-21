@@ -347,21 +347,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private void combineItems()
 	{
-		// If the request has been cancelled midway, be
-		// sure to return from here.
-
-		if ( !client.permitsContinue() )
-			return;
-
-		// Auto-create chef or bartender if one doesn't
-		// exist and the user has opted to repair.
-
-		if ( !autoRepairBoxServant() )
-		{
-			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Failed to auto-repair box servant." );
-			return;
-		}
-
 		// First, make all the required ingredients for
 		// this concoction.
 
@@ -373,8 +358,20 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !client.permitsContinue() )
 			return;
 
-		// Now that the ingredients have been created, you can actually
-		// do the request!
+		// Auto-create chef or bartender if one doesn't
+		// exist and the user has opted to repair.
+
+		if ( !autoRepairBoxServant() )
+			return;
+
+		// If the request has been cancelled midway, be
+		// sure to return from here.
+
+		if ( !client.permitsContinue() )
+			return;
+
+		// Now that the ingredients have been created, and
+		// there are no aborts, you can do the request!
 
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
@@ -398,13 +395,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "You're missing ingredients." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're missing ingredients." );
 			return;
 		}
 
 		if ( responseText.indexOf( "You don't have that many adventures left" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "You don't have enough adventures." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have enough adventures." );
 			return;
 		}
 
@@ -439,22 +436,23 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( responseText.indexOf( "Smoke" ) != -1 )
 		{
+			DEFAULT_SHELL.updateDisplay( "Your box servant has escaped!" );
 			ItemCreationRequest leftOver = ItemCreationRequest.getInstance( client, itemID, quantityNeeded - createdQuantity );
 
 			switch ( mixingMethod )
 			{
-			case COOK:
-			case COOK_REAGENT:
-			case COOK_PASTA:
-				KoLCharacter.setChef( false );
-				leftOver.run();
-				break;
+				case COOK:
+				case COOK_REAGENT:
+				case COOK_PASTA:
+					KoLCharacter.setChef( false );
+					leftOver.run();
+					break;
 
-			case MIX:
-			case MIX_SPECIAL:
-				KoLCharacter.setBartender( false );
-				leftOver.run();
-				break;
+				case MIX:
+				case MIX_SPECIAL:
+					KoLCharacter.setBartender( false );
+					leftOver.run();
+					break;
 			}
 		}
 	}
@@ -534,6 +532,11 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( usedServant == null )
 		{
+			usedServant = KoLCharacter.isHardcore() ? servant : clockworkServant;
+			AdventureDatabase.retrieveItem( usedServant );
+			if ( KoLCharacter.hasItem( usedServant, false ) )
+				return useBoxServant( servant, clockworkServant, noServantItem );
+
 			if ( getProperty( "createWithoutBoxServants" ).equals( "true" ) )
 				return noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
 
