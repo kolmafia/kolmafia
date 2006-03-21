@@ -535,20 +535,6 @@ public class AdventureDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Utility method which retrieves an item by calling the
-	 * given CLI command.
-	 */
-
-	private static final void retrieveItem( String command )
-	{
-		boolean shouldContinue = client.permitsContinue();
-		DEFAULT_SHELL.executeLine( command );
-
-		if ( !shouldContinue )
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "" );
-	}
-
-	/**
 	 * Utility method which retrieves an item by calling a CLI
 	 * command, which is constructed based on the parameters.
 	 */
@@ -559,7 +545,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( retrieveCount > 0 )
 		{
-			retrieveItem( command + " " + retrieveCount + " " + item.getName() );
+			DEFAULT_SHELL.executeLine( command + " " + retrieveCount + " " + item.getName() );
 			return item.getCount() - item.getCount( KoLCharacter.getInventory() );
 		}
 
@@ -577,7 +563,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( createCount > 0 )
 		{
-			retrieveItem( "make " + createCount + " " + item.getName() );
+			DEFAULT_SHELL.executeLine( "make " + createCount + " " + item.getName() );
 			return;
 		}
 	}
@@ -627,7 +613,7 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( KoLCharacter.hasEquipped( item ) )
 			{
-				retrieveItem( "unequip " + item.getName() );
+				DEFAULT_SHELL.executeLine( "unequip " + item.getName() );
 				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 				if ( missingCount <= 0 )
@@ -647,7 +633,20 @@ public class AdventureDatabase extends KoLDatabase
 			// user wishes to autosatisfy through purchases,
 			// and the item is not creatable through combines.
 
-			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+			boolean shouldAutoSatisfyEarly = false;
+
+			switch ( ConcoctionsDatabase.getMixingMethod( item.getItemID() ) )
+			{
+				case ItemCreationRequest.COOK:
+				case ItemCreationRequest.COOK_REAGENT:
+				case ItemCreationRequest.COOK_PASTA:
+				case ItemCreationRequest.MIX:
+				case ItemCreationRequest.MIX_SPECIAL:
+
+					shouldAutoSatisfyEarly = true;
+			}
+
+			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) && shouldAutoSatisfyEarly )
 			{
 				// People, in general, don't want to buy the
 				// expensive stages of a TPS drink.  Therefore,
@@ -673,7 +672,7 @@ public class AdventureDatabase extends KoLDatabase
 
 					default:
 
-						if ( creator == null || ConcoctionsDatabase.getMixingMethod( item.getItemID() ) != ItemCreationRequest.COMBINE )
+						if ( creator == null )
 						{
 							if ( NPCStoreDatabase.contains( item.getName() ) || KoLCharacter.canInteract() )
 								missingCount = retrieveItem( "buy", null, item, missingCount );
@@ -699,7 +698,7 @@ public class AdventureDatabase extends KoLDatabase
 			// but only for combinable items (non-combinables
 			// would have been handled earlier).
 
-			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) && ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.COMBINE )
+			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) && !shouldAutoSatisfyEarly )
 			{
 				if ( NPCStoreDatabase.contains( item.getName() ) || KoLCharacter.canInteract() )
 					missingCount = retrieveItem( "buy", null, item, missingCount );
@@ -712,7 +711,7 @@ public class AdventureDatabase extends KoLDatabase
 			// then notify the client that there aren't enough items
 			// available to continue and cancel the request.
 
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 		}
 		catch ( Exception e )
 		{
