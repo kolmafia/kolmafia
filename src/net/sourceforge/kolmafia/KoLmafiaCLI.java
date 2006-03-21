@@ -1102,7 +1102,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "searchmall" ) )
 		{
 			List results = new ArrayList();
-			(new SearchMallRequest( StaticEntity.getClient(), parameters, results )).run();
+			StoreManager.searchMall( parameters, results );
 			printList( results );
 			return;
 		}

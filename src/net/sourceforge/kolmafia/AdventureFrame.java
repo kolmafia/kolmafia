@@ -596,7 +596,7 @@ public class AdventureFrame extends KoLFrame
 			setContent( elements );
 
 			currentlyBuying = false;
-			countField.setText( getProperty( "defaultLimit" ) );
+			countField.setText( getProperty( "defaultLimit" ).equals( "" ) ? "5" : getProperty( "defaultLimit" ) );
 			setDefaultButton( confirmedButton );
 		}
 
@@ -610,13 +610,9 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			int searchCount = getValue( countField, -1 );
+			int searchCount = getValue( countField, 5 );
 			setProperty( "defaultLimit", countField.getText() );
-
-			if ( searchCount == -1 )
-				searchMall( new SearchMallRequest( client, searchField.getText(), results ) );
-			else
-				searchMall( new SearchMallRequest( client, searchField.getText(), searchCount, results ) );
+			searchMall( new SearchMallRequest( client, searchField.getText(), searchCount, results ) );
 
 			if ( results.size() > 0 )
 			{

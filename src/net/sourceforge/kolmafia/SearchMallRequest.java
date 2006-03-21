@@ -77,21 +77,6 @@ public class SearchMallRequest extends KoLRequest
 	 *
 	 * @param	client	The client to be notified in case of error
 	 * @param	searchString	The string (including wildcards) for the item to be found
-	 * @param	results	The sorted list in which to store the results
-	 */
-
-	public SearchMallRequest( KoLmafia client, String searchString, List results )
-	{	this( client, searchString, 13, results, false );
-	}
-
-	/**
-	 * Constructs a new <code>SearchMallRequest</code> which searches for
-	 * the given item, storing the results in the given <code>ListModel</code>.
-	 * Note that the search string is exactly the same as the way KoL does
-	 * it at the current time.
-	 *
-	 * @param	client	The client to be notified in case of error
-	 * @param	searchString	The string (including wildcards) for the item to be found
 	 * @param	cheapestCount	The number of stores to show; use a non-positive number to show all
 	 * @param	results	The sorted list in which to store the results
 	 */
@@ -119,11 +104,14 @@ public class SearchMallRequest extends KoLRequest
 		this.searchString = getItemName( searchString );
 		addFormField( "whichitem", this.searchString );
 
-		if ( cheapestCount <= 0 || cheapestCount > 100 )
-			cheapestCount = 100;
+		if ( cheapestCount < 0 || cheapestCount > 37 )
+			cheapestCount = 37;
 
-		addFormField( "cheaponly", "on" );
-		addFormField( "shownum", "" + cheapestCount );
+		if ( cheapestCount != 0 )
+		{
+			addFormField( "cheaponly", "on" );
+			addFormField( "shownum", "" + cheapestCount );
+		}
 
 		this.results = results;
 		this.retainAll = retainAll;
