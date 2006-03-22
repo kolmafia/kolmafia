@@ -52,8 +52,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class HPRestoreItemList extends StaticEntity
 {
-	public static final HPRestoreItem GALAKTIK = new HPRestoreItem( "doc galaktik", 1, 10 );
-	public static final HPRestoreItem HOUSE = new HPRestoreItem( "rest at campsite", 1, -3 );
+	public static final HPRestoreItem WALRUS = new HPRestoreItem( "tongue of the walrus", 1, -2 );
+	public static final HPRestoreItem GALAKTIK = new HPRestoreItem( "doc galaktik", 1, Integer.MAX_VALUE - 1 );
+	public static final HPRestoreItem HOUSE = new HPRestoreItem( "rest at campsite", 1, Integer.MAX_VALUE );
 
 	private static Object [] restoreName = new Object[0];
 	private static JCheckBox [] restoreCheckbox = new JCheckBox[0];
@@ -188,11 +189,19 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			int currentHP = KoLCharacter.getCurrentHP();
 			int maximumHP = KoLCharacter.getMaximumHP();
+			int maximumMP = KoLCharacter.getMaximumMP();
+			int hpShort = maximumHP - currentHP;
+			
+			if ( this == WALRUS )
+			{
+				int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( "Tongue of the Walrus" ) );
+				(new UseSkillRequest( client, "Tongue of the Walrus", "", Math.min( maximumMP / mpPerCast, hpShort / 35 ) )).run();
+				return;
+			}
 
 			// Always buff as close to max HP as possible, in order to
 			// go as easy on the server as possible.
 
-			int hpShort = maximumHP - currentHP;
 			int numberToUse = Math.min( (int) Math.ceil( hpShort / hpPerUse ), itemUsed.getCount( KoLCharacter.getInventory() ) );
 
 			// Because there aren't many buffbots running anymore, it's

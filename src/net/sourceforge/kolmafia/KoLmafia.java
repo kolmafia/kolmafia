@@ -1038,7 +1038,7 @@ public abstract class KoLmafia implements KoLConstants
 				return;
 			}
 		}
-		else if ( technique != MPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.GALAKTIK )
+		else if ( technique != MPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.WALRUS )
 		{
 			if ( !KoLCharacter.getInventory().contains( new AdventureResult( technique.toString(), 0 ) ) )
 			{
