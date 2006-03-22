@@ -267,21 +267,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 	protected void processResults()
 	{
-		if ( sellType == AUTOSELL )
-		{
-			try
-			{
-				Matcher matcher = Pattern.compile( "(for|You gain) ([\\d,]+) [Mm]eat" ).matcher( responseText );
-				if ( matcher.find() )
-					client.processResult( new AdventureResult( AdventureResult.MEAT, df.parse( matcher.group(2) ).intValue() ) );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-			}
-		}
-		else
+		if ( sellType != AUTOSELL )
 			StoreManager.update( responseText, false );
 
 		super.processResults();
