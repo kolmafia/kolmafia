@@ -3160,6 +3160,7 @@ public class KoLmafiaCLI extends KoLmafia
 			(new HermitRequest( StaticEntity.getClient() )).run();
 			if ( !StaticEntity.getClient().permitsContinue() )
 				return;
+			clovers = StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
 		}
 
 		if ( previousLine.indexOf( " " ) == -1 )

@@ -118,7 +118,8 @@ public class HermitRequest extends KoLRequest
 				if ( KoLCharacter.getAvailableMeat() >= 100 )
 				{
 					DEFAULT_SHELL.executeLine( "buy 1 hermit permit" );
-					this.run();  return;
+					this.run();
+					return;
 				}
 
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
