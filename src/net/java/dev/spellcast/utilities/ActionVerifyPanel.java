@@ -205,7 +205,7 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 					elementsContainer.add( elements[i].getLabel() );
 				}
 
-				if ( !(elements[i].getInputField() instanceof JScrollPane) )
+				if ( elements[i].shouldResize() )
 					JComponentUtilities.setComponentSize( elements[i].getInputField(), fieldSize );
 
 				elementsContainer.add( elements[i].getInputField() );
@@ -297,16 +297,26 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 	protected final class VerifiableElement implements Comparable
 	{
 		private JLabel label;
+		private boolean shouldResize;
 		private JComponent inputField;
 
 		public VerifiableElement( String label, JComponent inputField )
-		{	this( label, JLabel.RIGHT, inputField );
+		{	this( label, JLabel.RIGHT, inputField, !(inputField instanceof JScrollPane) );
+		}
+
+		public VerifiableElement( String label, JComponent inputField, boolean shouldResize )
+		{	this( label, JLabel.RIGHT, inputField, shouldResize );
 		}
 
 		public VerifiableElement( String label, int direction, JComponent inputField )
+		{	this( label, direction, inputField, !(inputField instanceof JScrollPane) );
+		}
+
+		public VerifiableElement( String label, int direction, JComponent inputField, boolean shouldResize )
 		{
 			this.label = new JLabel( label, direction );
 			this.inputField = inputField;
+			this.shouldResize = shouldResize;
 
 			this.label.setLabelFor( inputField );
 			this.label.setVerticalAlignment( JLabel.TOP );
@@ -351,6 +361,10 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 
 		public JComponent getInputField()
 		{	return inputField;
+		}
+		
+		public boolean shouldResize()
+		{	return shouldResize;
 		}
 
 		public int compareTo( Object o )

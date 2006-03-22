@@ -575,7 +575,9 @@ public class AdventureFrame extends KoLFrame
 
 		private JTextField searchField;
 		private JTextField countField;
+
 		private JCheckBox forceSortingCheckBox;
+		private JCheckBox limitPurchasesCheckBox;
 
 		public MallSearchPanel()
 		{
@@ -586,12 +588,23 @@ public class AdventureFrame extends KoLFrame
 			countField = new JTextField();
 
 			forceSortingCheckBox = new JCheckBox();
+			limitPurchasesCheckBox = new JCheckBox();
 			results = new LockableListModel();
+
+			JPanel checkBoxPanels = new JPanel();
+			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
+			checkBoxPanels.add( new JLabel( "Force Sort: " ), "" );
+			checkBoxPanels.add( forceSortingCheckBox );
+			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
+			checkBoxPanels.add( new JLabel( "Limit Purchases: " ), "" );
+			checkBoxPanels.add( limitPurchasesCheckBox );
+			checkBoxPanels.add( Box.createHorizontalStrut( 20 ) );
+			limitPurchasesCheckBox.setSelected( true );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Item to Find: ", searchField );
 			elements[1] = new VerifiableElement( "Search Limit: ", countField );
-			elements[2] = new VerifiableElement( "Force Sort: ", forceSortingCheckBox );
+			elements[2] = new VerifiableElement( " ", checkBoxPanels, false );
 
 			setContent( elements );
 
@@ -643,7 +656,8 @@ public class AdventureFrame extends KoLFrame
 				defaultPurchases += ((MallPurchaseRequest) purchases[i]).getQuantity() == MallPurchaseRequest.MAX_QUANTITY ?
 					MallPurchaseRequest.MAX_QUANTITY : ((MallPurchaseRequest) purchases[i]).getLimit();
 
-			int count = getQuantity( "Maximum number of items to purchase?", defaultPurchases, 1 );
+			int count = limitPurchasesCheckBox.isSelected() || defaultPurchases >= 1000 ?
+				getQuantity( "Maximum number of items to purchase?", defaultPurchases, 1 ) : defaultPurchases;
 
 			if ( count == 0 )
 				return;
