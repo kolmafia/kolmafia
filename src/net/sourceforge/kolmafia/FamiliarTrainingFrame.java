@@ -127,13 +127,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.clearBuffer();
 	}
 
-	/**
-	 * Internal class to handle de-initializing the chat when
-	 * the window is closed.  This helps stop constantly
-	 * spamming the chat server with a request when nothing
-	 * is being done with the replies.
-	 */
-
 	protected final class CloseFamiliarTrainerListener extends WindowAdapter
 	{
 		public void windowClosed( WindowEvent e )
@@ -231,6 +224,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				// Get current opponents
 				LockableListModel opponents = CakeArenaManager.getOpponentList( client );
+				client.enableDisplay();
+
 				int opponentCount = opponents.size();
 
 				setLayout( new GridLayout( opponentCount, 1, 0, 20 ) );
