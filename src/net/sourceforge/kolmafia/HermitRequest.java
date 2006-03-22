@@ -96,6 +96,11 @@ public class HermitRequest extends KoLRequest
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
 			return;
 		}
+		else if ( getWorthlessItemCount() == 0 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You do not have any worthless items." );
+			return;
+		}
 
 		DEFAULT_SHELL.updateDisplay( "Robbing the hermit..." );
 		super.run();
