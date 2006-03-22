@@ -224,6 +224,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// If the test is successful, then it is safe to run the
 		// request (without spamming the server).
 
+		DEFAULT_SHELL.updateDisplay();
 		request.run();
 
 		// Once the request is complete, be sure to deduct the

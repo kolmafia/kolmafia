@@ -191,6 +191,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	public void updateDisplay()
+	{	DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, currentIterationString );
+	}
+
 	/**
 	 * Updates the currently active display in the <code>KoLmafia</code>
 	 * session.
@@ -911,7 +915,7 @@ public abstract class KoLmafia implements KoLConstants
 			currentMethod = KoLCharacter.class.getMethod( currentName, new Class[0] );
 			maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[0] );
 
-			if ( ((Number)currentMethod.invoke( null, empty )).intValue() >= needed )
+			if ( ((Number)currentMethod.invoke( null, empty )).intValue() > needed )
 				return true;
 
 			int last = -1;
@@ -930,7 +934,7 @@ public abstract class KoLmafia implements KoLConstants
 				last = -1;
 				current = ((Number)currentMethod.invoke( null, empty )).intValue();
 
-				while ( permitsContinue() && current < needed && last != current && currentState != ABORT_STATE )
+				while ( current <= needed && last != current && currentState != ABORT_STATE )
 				{
 					last = current;
 					DEFAULT_SHELL.executeLine( scriptPath );
@@ -962,7 +966,7 @@ public abstract class KoLmafia implements KoLConstants
 					last = -1;
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 
-					while ( current < needed && last != current && currentState != ABORT_STATE )
+					while ( current <= needed && last != current && currentState != ABORT_STATE )
 					{
 						last = current;
 						recoverOnce( currentTechnique );
@@ -975,10 +979,7 @@ public abstract class KoLmafia implements KoLConstants
 			// desired value.
 
 			if ( current >= needed && currentState != ABORT_STATE )
-			{
-				updateDisplay( currentIterationString );
 				return true;
-			}
 
 			// If you failed to auto-recover and there are no settings,
 			// make sure the user is aware of this.
@@ -1303,7 +1304,7 @@ public abstract class KoLmafia implements KoLConstants
 				else
 					currentIterationString = "";
 
-				updateDisplay( currentIterationString );
+				updateDisplay();
 
 				request.run();
 				applyRecentEffects();
