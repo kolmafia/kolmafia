@@ -207,10 +207,10 @@ public class HermitRequest extends KoLRequest
 		// Tally up the trade
 		super.processResults();
 
-		// If the hermit isn't confused, that means he took a hermit
-		// permit for the items being exchanged.
+		// "He looks confused for a moment.  &quot;I already took your
+		// Hermit Permit, right?&quot;" or "your Hermit Permits"
 
-		if ( responseText.indexOf( "I already took your Hermit Permits, right?" ) == -1 )
+		if ( responseText.indexOf( "He looks confused for a moment." ) == -1 )
 			client.processResult( new AdventureResult( 42, 0 - quantity ) );
 
 		List inventory = KoLCharacter.getInventory();
