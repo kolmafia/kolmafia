@@ -420,7 +420,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 			invokeMagic = JOptionPane.showConfirmDialog( null,
 								     "Would you like to invoke the \"magic words\" today?",
 								     "You know you want to!",
-								     JOptionPane.YES_NO_OPTION ) == JOptionPane.NO_OPTION;
+								     JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION;
 
 		if ( !invokeMagic )
 			return false;
