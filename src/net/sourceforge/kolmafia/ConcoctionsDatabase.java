@@ -293,18 +293,26 @@ public class ConcoctionsDatabase extends KoLDatabase
 		for ( int i = 1; i < concoctions.size(); ++i )
 			concoctions.get(i).resetCalculations();
 
-		// Make initial assessment of availability of mixing methods.
-		// Do this here since some COMBINE recipes have ingredients
-		// made using TINKER recipes.
+		// Make assessment of availability of mixing methods.
+		// This method will also calculate the availability of
+		// chefs and bartenders automatically so a second call
+		// is not needed.
 
-		cachePermitted();
+		cachePermitted( availableIngredients );
 
 		// Next, do calculations on all mixing methods which cannot
-		// be created.
+		// be created at this time.
 
 		for ( int i = 1; i < concoctions.size(); ++i )
-			if ( concoctions.get(i).getMixingMethod() == ItemCreationRequest.NOCREATE )
-				concoctions.get(i).calculate( availableIngredients );
+		{
+			Concoction current = concoctions.get(i);
+			if ( !isPermittedMethod( current.getMixingMethod() ) )
+			{
+				current.initial = current.concoction.getCount( availableIngredients );
+				current.creatable = 0;
+				current.total = current.initial;
+			}
+		}
 
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
@@ -361,19 +369,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		concoctions.get( CATSUP.getItemID() ).creatable = 0;
 		concoctions.get( CATSUP.getItemID() ).total = availableKetchup;
 
-		// Next, increment through all of the things which can be
-		// created through the use of meat paste.  This allows for box
-		// servant creation to be calculated in advance.
-
-		for ( int i = 1; i < concoctions.size(); ++i )
-			if ( concoctions.get(i).getMixingMethod() == ItemCreationRequest.COMBINE )
-				concoctions.get(i).calculate( availableIngredients );
-
-		// Now that we have calculated how many box servants are
-		// available, cache permitted mixing methods.
-
-		cachePermitted();
-
 		// Finally, increment through all of the things which are
 		// created any other way, making sure that it's a permitted
 		// mixture before doing the calculation.
@@ -429,10 +424,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * item creation, based on the given client.
 	 */
 
-	private static void cachePermitted()
+	private static void cachePermitted( List availableIngredients )
 	{
-		boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
-
 		// It is never possible to create items which are flagged
 		// NOCREATE, and it is always possible to create items
 		// through meat paste combination.
@@ -446,46 +439,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.CLOVER ] = true;
 		ADVENTURE_USAGE[ ItemCreationRequest.CLOVER ] = 0;
 
-		// Cooking is permitted, so long as the person has a chef
-		// or they don't need a box servant and have an oven.
+		// The gnomish tinkerer is available if the person is in a
+		// moxie sign and they have a bitchin' meat car.
 
-		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, CLOCKWORK_CHEF );
-
-		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) )
-		{
-			PERMIT_METHOD[ ItemCreationRequest.COOK ] = true;
-			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 1;
-		}
-		else
-			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 0;
-
-		// Cooking of reagents and noodles is possible whenever
-		// the person can cook and has the appropriate skill.
-
-		PERMIT_METHOD[ ItemCreationRequest.COOK_REAGENT ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.canSummonReagent();
-		ADVENTURE_USAGE[ ItemCreationRequest.COOK_REAGENT ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
-
-		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.canSummonNoodles();
-		ADVENTURE_USAGE[ ItemCreationRequest.COOK_PASTA ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
-
-		// Mixing is possible whenever the person has a bartender
-		// or they don't need a box servant and have a kit.
-
-		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
-
-		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded && KoLCharacter.getInventory().contains( KIT ) )
-		{
-			PERMIT_METHOD[ ItemCreationRequest.MIX ] = true;
-			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 1;
-		}
-		else
-			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 0;
-
-		// Mixing of advanced drinks is possible whenever the
-		// person can mix drinks and has the appropriate skill.
-
-		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = PERMIT_METHOD[ ItemCreationRequest.MIX ] && KoLCharacter.canSummonShore();
-		ADVENTURE_USAGE[ ItemCreationRequest.MIX_SPECIAL ] = ADVENTURE_USAGE[ ItemCreationRequest.MIX ];
+		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( CAR );
+		ADVENTURE_USAGE[ ItemCreationRequest.TINKER ] = 0;
 
 		// Smithing of items is possible whenever the person
 		// has a hammer.
@@ -534,16 +492,61 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.ROLLING_PIN ] = true;
 		ADVENTURE_USAGE[ ItemCreationRequest.ROLLING_PIN ] = 0;
 
-		// The gnomish tinkerer is available if the person is in a
-		// moxie sign and they have a bitchin' meat car.
-
-		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( CAR );
-		ADVENTURE_USAGE[ ItemCreationRequest.TINKER ] = 0;
-
 		// It's not possible to ask Uncle Crimbo to make toys
 
 		PERMIT_METHOD[ ItemCreationRequest.TOY ] = false;
 		ADVENTURE_USAGE[ ItemCreationRequest.TOY ] = 0;
+
+		// Next, increment through all the box servant creation methods.
+		// This allows future appropriate calculation for cooking/drinking.
+
+		boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
+
+		concoctions.get( CHEF ).calculate( availableIngredients );
+		concoctions.get( CLOCKWORK_CHEF ).calculate( availableIngredients );
+		concoctions.get( BARTENDER ).calculate( availableIngredients );
+		concoctions.get( CLOCKWORK_BARTENDER ).calculate( availableIngredients );
+
+		// Cooking is permitted, so long as the person has a chef
+		// or they don't need a box servant and have an oven.
+
+		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, CLOCKWORK_CHEF );
+
+		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) )
+		{
+			PERMIT_METHOD[ ItemCreationRequest.COOK ] = true;
+			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 1;
+		}
+		else
+			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 0;
+
+		// Cooking of reagents and noodles is possible whenever
+		// the person can cook and has the appropriate skill.
+
+		PERMIT_METHOD[ ItemCreationRequest.COOK_REAGENT ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.canSummonReagent();
+		ADVENTURE_USAGE[ ItemCreationRequest.COOK_REAGENT ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
+
+		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.canSummonNoodles();
+		ADVENTURE_USAGE[ ItemCreationRequest.COOK_PASTA ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
+
+		// Mixing is possible whenever the person has a bartender
+		// or they don't need a box servant and have a kit.
+
+		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
+
+		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded && KoLCharacter.getInventory().contains( KIT ) )
+		{
+			PERMIT_METHOD[ ItemCreationRequest.MIX ] = true;
+			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 1;
+		}
+		else
+			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 0;
+
+		// Mixing of advanced drinks is possible whenever the
+		// person can mix drinks and has the appropriate skill.
+
+		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = PERMIT_METHOD[ ItemCreationRequest.MIX ] && KoLCharacter.canSummonShore();
+		ADVENTURE_USAGE[ ItemCreationRequest.MIX_SPECIAL ] = ADVENTURE_USAGE[ ItemCreationRequest.MIX ];
 	}
 
 	private static boolean isAvailable( int servantID, int clockworkID )
@@ -637,7 +640,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		private List ingredients;
 		private AdventureResult [] ingredientArray;
 
-		private int multiplier;
+		private int modifier, multiplier;
 		private int initial, creatable, total;
 
 		public Concoction( AdventureResult concoction, int mixingMethod )
@@ -656,6 +659,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.creatable = 0;
 			this.total = 0;
 
+			this.modifier = 0;
 			this.multiplier = 0;
 		}
 
@@ -734,7 +738,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				concoctions.get( ingredientArray[i].getItemID() ).calculate( availableIngredients );
 
 			boolean inMuscleSign = KoLCharacter.inMuscleSign();
-			this.mark( 1, inMuscleSign );
+			this.mark( 0, 1, inMuscleSign );
 
 			// With all of the data preprocessed, calculate
 			// the quantity creatable by solving the set of
@@ -746,15 +750,19 @@ public class ConcoctionsDatabase extends KoLDatabase
 				// quantity depends entirely on it.
 
 				this.creatable = concoctions.get( ingredientArray[0].getItemID() ).initial;
+				this.total = this.initial + this.creatable;
 			}
 			else
 			{
-				this.creatable = Integer.MAX_VALUE;
+				this.total = Integer.MAX_VALUE;
 				for ( int i = 0; i < ingredientArray.length; ++i )
-					this.creatable = Math.min( this.creatable, concoctions.get( ingredientArray[i].getItemID() ).quantity( inMuscleSign ) );
+					this.total = Math.min( this.total, concoctions.get( ingredientArray[i].getItemID() ).quantity( inMuscleSign ) );
 
+				// The total available for other creations is equal
+				// to the total, less the initial.
+
+				this.creatable = this.total - this.initial;
 			}
-			this.total = this.initial + this.creatable;
 
 			// Now that all the calculations are complete, unmark
 			// the ingredients so that later calculations can make
@@ -764,8 +772,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		/**
-		 * Utility method which calculates the available quantity of a
-		 * recipe based on the multiplier of its ingredients
+		 * Utility method which calculates the quantity creatable for
+		 * an recipe based on the modifier/multiplier of its
+		 * ingredients
 		 */
 
 		private int quantity( boolean inMuscleSign )
@@ -776,28 +785,25 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( this.multiplier == 0 )
 				return Integer.MAX_VALUE;
 
-			// The maximum value is equivalent to the total divided
-			// by the multiplier.
+			// The maximum value is equivalent to the total, plus
+			// the modifier, divided by the multiplier, if the
+			// multiplier exists.
 
-			int quantity = this.total / this.multiplier;
+			int quantity = (this.total + this.modifier) / this.multiplier;
 
 			// Avoid mutual recursion.
 
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER )
-				return quantity;
-
-			// If not creatable, don't look at ingredients
-
-			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermittedMethod( mixingMethod ) )
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN ||
+			     mixingMethod == ItemCreationRequest.CLOVER ||
+			     !isPermittedMethod( mixingMethod ) )
 				return quantity;
 
 			// The true value is affected by the maximum value for
 			// the ingredients.  Therefore, calculate the quantity
-			// for all the ingredients to complete the solution
+			// for all other ingredients to complete the solution
 			// of the linear inequality.
 
-			quantity = Integer.MAX_VALUE;
-			for ( int i = 0; quantity > 0 && i < ingredientArray.length; ++i )
+			for ( int i = 0; i < ingredientArray.length; ++i )
 				quantity = Math.min( quantity, concoctions.get( ingredientArray[i].getItemID() ).quantity( inMuscleSign ) );
 
 			// Adventures are also considered an ingredient; if
@@ -805,38 +811,35 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// be zero and the infinite number available will have
 			// no effect on the calculation.
 
-			if ( quantity > 0 && this != concoctions.get(0) )
+			if ( this != concoctions.get(0) )
 				quantity = Math.min( quantity, concoctions.get(0).quantity( inMuscleSign ) );
 
-			// If this is item combination and the person is in a
-			// non-muscle sign, item creation requires meat paste.
+			// In the event that this is item combination and the person
+			// is in a non-muscle sign, item creation is impacted by the
+			// amount of available meat paste.
 
-			if ( quantity > 0 && mixingMethod == ItemCreationRequest.COMBINE && !inMuscleSign )
+			if ( mixingMethod == ItemCreationRequest.COMBINE && !inMuscleSign )
 				quantity = Math.min( quantity, concoctions.get( ItemCreationRequest.MEAT_PASTE ).quantity( inMuscleSign ) );
 
 			// The true value is now calculated.  Return this
 			// value to the requesting method.
 
-			return (this.initial + quantity) / this.multiplier;
+			return quantity;
 		}
 
 		/**
 		 * Utility method which marks the ingredient for usage with
-		 * the given multiplier.
+		 * the given added modifier and the given additional multiplier.
 		 */
 
-		private void mark( int multiplier, boolean inMuscleSign )
+		private void mark( int modifier, int multiplier, boolean inMuscleSign )
 		{
+			this.modifier += modifier;
 			this.multiplier += multiplier;
 
 			// Avoid mutual recursion
 
 			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER )
-				return;
-
-			// If not creatable, don't look at ingredients
-
-			if ( mixingMethod == ItemCreationRequest.NOCREATE || !isPermittedMethod( mixingMethod ) )
 				return;
 
 			// Mark all the ingredients, being sure to multiply
@@ -874,7 +877,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 						instanceCount += ingredientArray[j].getCount();
 
 				concoctions.get( ingredientArray[i].getItemID() ).mark(
-					this.multiplier * instanceCount, inMuscleSign );
+					(this.modifier + this.initial) * instanceCount, this.multiplier * instanceCount, inMuscleSign );
 			}
 
 			// Mark the implicit adventure ingredient, being
@@ -882,14 +885,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// which are required for this mixture.
 
 			if ( this != concoctions.get(0) && ADVENTURE_USAGE[ mixingMethod ] != 0 )
-				concoctions.get(0).mark( this.multiplier * ADVENTURE_USAGE[ mixingMethod ], inMuscleSign );
+				concoctions.get(0).mark( (this.modifier + this.initial) * ADVENTURE_USAGE[ mixingMethod ],
+					this.multiplier * ADVENTURE_USAGE[ mixingMethod ], inMuscleSign );
 
 			// In the event that this is a standard combine request,
 			// and the person is not in a muscle sign, make sure that
 			// meat paste is marked as a limiter also.
 
 			if ( mixingMethod == ItemCreationRequest.COMBINE && !inMuscleSign )
-				concoctions.get( ItemCreationRequest.MEAT_PASTE ).mark( this.multiplier, inMuscleSign );
+				concoctions.get( ItemCreationRequest.MEAT_PASTE ).mark( this.modifier + this.initial, this.multiplier, inMuscleSign );
 		}
 
 		/**
@@ -899,9 +903,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		private void unmark()
 		{
-			if ( this.multiplier == 0 )
+			if ( this.modifier == 0 && this.multiplier == 0 )
 				return;
 
+			this.modifier = 0;
 			this.multiplier = 0;
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
@@ -923,8 +928,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{	return concoction.getName();
 		}
 	}
-
-
 
 	/**
 	 * Internal class which functions exactly an array of sorted lists,
