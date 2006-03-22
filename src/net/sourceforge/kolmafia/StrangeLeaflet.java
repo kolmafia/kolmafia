@@ -377,7 +377,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		killSerpent();
 
 		if ( !chest )
-			executeCommand( "open chest" );
+			executeCommand( "open chest", true );
 	}
 
 	private static void robHole()
@@ -391,7 +391,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		// We can't tell if we've already done this. But, there's no
 		// harm in doing it twice.
 		executeCommand( "look behind chest" );
-		executeCommand( "look in hole" );
+		executeCommand( "look in hole", true );
 	}
 
 	// Returns true if should proceed, false if should stop now
@@ -425,7 +425,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( !invokeMagic )
 			return false;
 
-		parseMagic( executeCommand( magic ) );
+		parseMagic( executeCommand( magic, true ) );
 		return true;
 	}
 
@@ -454,7 +454,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( !giant )
 			executeCommand( "CLEESH giant" );
 
-		executeCommand( "take ring" );
+		executeCommand( "take ring", true );
 		ring = true;
 	}
 
@@ -767,10 +767,12 @@ public abstract class StrangeLeaflet extends StaticEntity
 	}
 
 	private static String executeCommand( String command )
+	{	return executeCommand( command, false );
+        }
+
+	private static String executeCommand( String command, boolean results )
 	{
-		KoLRequest request = new KoLRequest( client, "leaflet.php", true );
-		request.addFormField( "pwd" );
-		request.addFormField( "command", command );
+		KoLRequest request = new CommandRequest( client, command, results );
 		request.run();
 
 		// Figure out where we are
@@ -778,5 +780,24 @@ public abstract class StrangeLeaflet extends StaticEntity
 
                 // Let the caller look at the results, if desired
                 return request.responseText;
+	}
+
+	private static class CommandRequest extends KoLRequest
+	{
+		boolean results;
+
+		protected CommandRequest( KoLmafia client, String command, boolean results )
+		{
+			super( client, "leaflet.php", true );
+			addFormField( "pwd" );
+			addFormField( "command", command );
+			this.results = results;
+		}
+
+		protected void processResults()
+		{
+			if ( results )
+				super.processResults();
+		}
 	}
 }
