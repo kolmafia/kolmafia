@@ -722,7 +722,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			this.initial = concoction.getCount( availableIngredients );
 			this.total = initial;
 
-			if ( this.mixingMethod == ItemCreationRequest.NOCREATE || !isPermittedMethod( mixingMethod ) )
+			if ( !isPermittedMethod( mixingMethod ) )
 				return;
 
 			// First, preprocess the ingredients by calculating
@@ -796,7 +796,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// for all other ingredients to complete the solution
 			// of the linear inequality.
 
-			for ( int i = 0; i < ingredientArray.length; ++i )
+			for ( int i = 0; quantity > 0 && i < ingredientArray.length; ++i )
 				quantity = Math.min( quantity, concoctions.get( ingredientArray[i].getItemID() ).quantity( inMuscleSign ) );
 
 			// Adventures are also considered an ingredient; if
@@ -804,14 +804,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// be zero and the infinite number available will have
 			// no effect on the calculation.
 
-			if ( this != concoctions.get(0) )
+			if ( quantity > 0 && this != concoctions.get(0) )
 				quantity = Math.min( quantity, concoctions.get(0).quantity( inMuscleSign ) );
 
-			// In the event that this is item combination and the person
-			// is in a non-muscle sign, item creation is impacted by the
-			// amount of available meat paste.
+			// If this is item combination and the person is in a
+			// non-muscle sign, item creation requires meat paste.
 
-			if ( mixingMethod == ItemCreationRequest.COMBINE && !inMuscleSign )
+			if ( quantity > 0 && mixingMethod == ItemCreationRequest.COMBINE && !inMuscleSign )
 				quantity = Math.min( quantity, concoctions.get( ItemCreationRequest.MEAT_PASTE ).quantity( inMuscleSign ) );
 
 			// The true value is now calculated.  Return this
@@ -832,7 +831,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			// Avoid mutual recursion
 
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER )
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN ||
+			     mixingMethod == ItemCreationRequest.CLOVER ||
+			     !isPermittedMethod( mixingMethod ) )
 				return;
 
 			// Mark all the ingredients, being sure to multiply
