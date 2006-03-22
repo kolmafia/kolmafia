@@ -2741,7 +2741,12 @@ public class KoLmafiaCLI extends KoLmafia
 			try
 			{
 				if ( itemNames[i].endsWith( "meat" ) )
-					firstMatch = new AdventureResult( AdventureResult.MEAT, df.parse( itemNames[i].split( " " )[0] ).intValue() );
+				{
+					String amountString = itemNames[i].split( " " )[0];
+					int amount = amountString.equals( "*" ) ? 0 : df.parse( amountString ).intValue();
+					firstMatch = new AdventureResult( AdventureResult.MEAT, amount > 0 ? amount : KoLCharacter.getAvailableMeat() + amount );
+
+				}
 				else
 					firstMatch = getFirstMatchingItem( itemNames[i], location );
 			}
