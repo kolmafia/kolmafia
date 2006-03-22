@@ -305,6 +305,7 @@ public class CharsheetRequest extends KoLRequest
 			{
 				String currentItem;
 				Matcher itemMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( equipmentMatcher.group(1) );
+				boolean seenWeapon = false;
 
 				while ( itemMatcher.find() )
 				{
@@ -317,7 +318,8 @@ public class CharsheetRequest extends KoLRequest
 							break;
 
 						case ConsumeItemRequest.EQUIP_WEAPON:
-							equipment[ KoLCharacter.WEAPON ] = currentItem;
+							equipment[ seenWeapon ? KoLCharacter.OFFHAND : KoLCharacter.WEAPON ] = currentItem;
+							seenWeapon = true;
 							break;
 
 						case ConsumeItemRequest.EQUIP_OFFHAND:
