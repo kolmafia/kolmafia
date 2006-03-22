@@ -489,6 +489,9 @@ public class RequestFrame extends KoLFrame
 
 			if ( location.startsWith( "familiar.php" ) )
 				FamiliarData.registerFamiliarData( client, request.responseText );
+			
+			if ( location.startsWith( "charsheet.php" ) )
+				CharsheetRequest.parseStatus( request.responseText );
 
 			// See if the person learned a new skill from using a
 			// mini-browser frame.

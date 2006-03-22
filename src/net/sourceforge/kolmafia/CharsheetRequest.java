@@ -80,6 +80,10 @@ public class CharsheetRequest extends KoLRequest
 	}
 
 	protected void processResults()
+	{	parseStatus( responseText );
+	}
+	
+	public static void parseStatus( String responseText )
 	{
 		// Set the character's avatar.
 		Matcher avatarMatcher = Pattern.compile( "http://images.kingdomofloathing.com/([^>]*?)\\.gif" ).matcher( responseText );
@@ -179,7 +183,7 @@ public class CharsheetRequest extends KoLRequest
 			int oldAdventures = KoLCharacter.getAdventuresLeft();
 			int newAdventures = intToken( parsedContent );
 
-			client.processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
 
 			while ( !token.startsWith( "Meat" ) )
 				token = parsedContent.nextToken();
@@ -248,7 +252,7 @@ public class CharsheetRequest extends KoLRequest
 
 				while ( !token.equals( "/table" ) )
 				{
-					client.parseEffect( parsedContent.nextToken() );
+					StaticEntity.getClient().parseEffect( parsedContent.nextToken() );
 					if ( parsedContent.nextToken().startsWith( "font" ) )
 
 						// "shrug off" link
@@ -262,7 +266,7 @@ public class CharsheetRequest extends KoLRequest
 				// Ensure that the effects are refreshed
 				// against the current list.
 
-				client.applyRecentEffects();
+				StaticEntity.getClient().applyRecentEffects();
 			}
 
 			if ( responseText.indexOf( "Skills:" ) != -1 )
@@ -277,7 +281,7 @@ public class CharsheetRequest extends KoLRequest
 					{
 						String skillName = parsedContent.nextToken().trim();
 						if ( ClassSkillsDatabase.contains( skillName ) )
-							availableSkills.add( new UseSkillRequest( client, skillName, "", 1 ) );
+							availableSkills.add( new UseSkillRequest( StaticEntity.getClient(), skillName, "", 1 ) );
 					}
 					token = parsedContent.nextToken();
 				}

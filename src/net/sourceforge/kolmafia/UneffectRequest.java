@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia;
 public class UneffectRequest extends KoLRequest
 {
 	private int effectID;
+	private boolean isShruggable;
 	private AdventureResult effect;
 	public static AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", -1 );
 
@@ -48,24 +49,41 @@ public class UneffectRequest extends KoLRequest
 
 	public UneffectRequest( KoLmafia client, AdventureResult effect )
 	{
-		super( client, "uneffect.php" );
-		addFormField( "using", "Yep." );
-		addFormField( "pwd" );
+		super( client, isShruggable( effect.getName() ) ? "charsheet.php" : "uneffect.php" );
 
 		this.effect = effect;
 		this.effectID = StatusEffectDatabase.getEffectID( effect.getName() );
-		addFormField( "whicheffect", String.valueOf( effectID ) );
+		this.isShruggable = isShruggable( effect.getName() );
+
+		if ( isShruggable )
+		{
+			addFormField( "pwd" );
+			addFormField( "action", "unbuff" );
+			addFormField( "whichbuff", String.valueOf( effectID ) );
+		}
+		else
+		{
+			addFormField( "pwd" );
+			addFormField( "using", "Yep." );
+			addFormField( "whicheffect", String.valueOf( effectID ) );
+		}
+	}
+	
+	private static final boolean isShruggable( String effectName )
+	{
+		return ClassSkillsDatabase.contains( effectName ) &&
+			ClassSkillsDatabase.isBuff( ClassSkillsDatabase.getSkillID( effectName ) );
 	}
 
 	public void run()
 	{
-		if ( !KoLCharacter.getInventory().contains( REMEDY ) )
+		if ( !isShruggable && !KoLCharacter.getInventory().contains( REMEDY ) )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
 			return;
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Using soft green whatever..." );
+		DEFAULT_SHELL.updateDisplay( isShruggable ? "Shrugging off your buff..." : "Using soft green whatever..." );
 		super.run();
 	}
 
@@ -74,13 +92,18 @@ public class UneffectRequest extends KoLRequest
 		// If it notifies you that the effect was removed, delete it
 		// from the list of effects.
 
-		if ( responseText != null && responseText.indexOf( "Effect removed." ) != -1 )
+		if ( responseText != null && (isShruggable || responseText.indexOf( "Effect removed." ) != -1) )
 		{
 			KoLCharacter.getEffects().remove( effect );
-			client.processResult( REMEDY );
+			
+			if ( isShruggable )
+				CharsheetRequest.parseStatus( responseText );
+			else
+				client.processResult( REMEDY );
+
 			DEFAULT_SHELL.updateDisplay( "Effect removed." );
 		}
-		else
+		else if ( !isShruggable )
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Effect removal failed." );
 	}
 }

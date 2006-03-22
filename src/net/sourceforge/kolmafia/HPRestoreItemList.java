@@ -53,6 +53,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public abstract class HPRestoreItemList extends StaticEntity
 {
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "tongue of the walrus", 1, -2 );
+	public static final HPRestoreItem REMEDY = new HPRestoreItem( "soft green echo eyedrop antidote", 1, -1 );
+
 	public static final HPRestoreItem GALAKTIK = new HPRestoreItem( "doc galaktik", 1, Integer.MAX_VALUE - 1 );
 	public static final HPRestoreItem HOUSE = new HPRestoreItem( "rest at campsite", 1, Integer.MAX_VALUE );
 
@@ -174,6 +176,14 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 		public void recoverHP()
 		{
+			if ( this == REMEDY )
+			{
+				if ( UneffectRequest.REMEDY.getCount( KoLCharacter.getInventory() ) > 0 )
+					(new UneffectRequest( client, KoLAdventure.BEATEN_UP )).run();
+
+				return;
+			}
+		
 			if ( this == GALAKTIK )
 			{
 				(new GalaktikRequest( client, GalaktikRequest.HP )).run();
