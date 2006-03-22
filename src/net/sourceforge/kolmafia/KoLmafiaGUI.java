@@ -274,7 +274,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void makeHermitRequest()
 	{
-		if ( hermitItems.isEmpty() )
+		if ( !hermitItems.contains( "ten-leaf clover" ) )
 			(new HermitRequest( this )).run();
 
 		if ( !permitsContinue() )
@@ -289,12 +289,7 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		int selected = TradeableItemDatabase.getItemID( (String)selectedValue );
-
-		int worthlessItems = HermitRequest.TRINKET.getCount( KoLCharacter.getInventory() ) +
-			HermitRequest.GEWGAW.getCount( KoLCharacter.getInventory() ) +
-			HermitRequest.KNICK_KNACK.getCount( KoLCharacter.getInventory() );
-
-		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", worthlessItems );
+		int tradeCount = KoLFrame.getQuantity( "How many " + selectedValue + " to get?", HermitRequest.getWorthlessItemCount() );
 
 		if ( tradeCount == 0 )
 			return;

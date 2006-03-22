@@ -236,6 +236,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		while ( (line = getNextLine()) != null && (StaticEntity.getClient().permitsContinue() || StaticEntity.getClient() == this) )
 		{
+			DEFAULT_SHELL.updateDisplay( "" );
 			if ( StaticEntity.getClient() == this )
 				printBlankLine();
 
@@ -3151,25 +3152,24 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeHermitRequest()
 	{
-		if ( StaticEntity.getClient().hermitItems.isEmpty() )
+		String oldLine =  previousLine;
+		boolean clovers = StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
+
+		if ( !clovers )
 		{
 			(new HermitRequest( StaticEntity.getClient() )).run();
 			if ( !StaticEntity.getClient().permitsContinue() )
-			{
-				updateDisplay( ERROR_STATE, "You are not able to visit the hermit." );
 				return;
-			}
 		}
 
 		if ( previousLine.indexOf( " " ) == -1 )
 		{
-			boolean clovers = StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
 			updateDisplay( "Today is " + ( clovers ? "" : "not " ) + "a clover day." );
 			return;
 		}
 
-		String command = previousLine.split( " " )[0];
-		String parameters = previousLine.substring( command.length() ).trim();
+		String command = oldLine.split( " " )[0];
+		String parameters = oldLine.substring( command.length() ).trim();
 
 		int itemID = -1;
 		int tradeCount = 1;
@@ -3202,8 +3202,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		for ( int i = 0; i < matchingNames.size(); ++i )
-			if ( StaticEntity.getClient().hermitItems.contains( matchingNames.get(i) ) )
+		{
+			if ( StaticEntity.getClient().hermitItems.contains( KoLDatabase.getDisplayName( (String) matchingNames.get(i) ) ) )
 				itemID = TradeableItemDatabase.getItemID( (String) matchingNames.get(i) );
+		}
 
 		if ( itemID == -1 )
 		{

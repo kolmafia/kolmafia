@@ -110,6 +110,12 @@ public class HermitRequest extends KoLRequest
 
 			if ( responseText.indexOf( "you're not allowed to visit" ) != -1 )
 			{
+				if ( KoLCharacter.getAvailableMeat() >= 100 )
+				{
+					DEFAULT_SHELL.executeLine( "buy 1 hermit permit" );
+					this.run();  return;
+				}
+
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
 				return;
 			}
@@ -140,7 +146,8 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
-		// If you don't have enough Hermit Permits, scale back.
+		// If you don't have enough Hermit Permits, then retrieve the
+		// number of hermit permits requested.
 
 		if ( responseText.indexOf( "You don't have enough Hermit Permits" ) != -1 )
 		{
@@ -148,16 +155,14 @@ public class HermitRequest extends KoLRequest
 
 			int permits = PERMIT.getCount( KoLCharacter.getInventory() );
 
-			if ( permits > 0 )
-			{
+			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+				AdventureDatabase.retrieveItem( PERMIT.getInstance( quantity ) );
+
+			permits = PERMIT.getCount( KoLCharacter.getInventory() );
+			if ( client.permitsContinue() )
 				(new HermitRequest( client, itemID, permits )).run();
-				return;
-			}
-			else
-			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need a hermit permit." );
-				return;
-			}
+
+			return;
 		}
 
 		// If you don't have enough worthless items, scale back.
@@ -166,24 +171,14 @@ public class HermitRequest extends KoLRequest
 		{
 			// Figure out how many items you do have.
 
-			int index = responseText.indexOf( "You have " );
-			if ( index == -1 )
+			if ( responseText.indexOf( "You have " ) == -1 )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
 				return;
 			}
 
-			try
-			{
-				int actualQuantity = df.parse( responseText.substring( index + 9 ) ).intValue();
-				(new HermitRequest( client, itemID, actualQuantity )).run();
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-			}
-
+			int actualQuantity = getWorthlessItemCount();
+			(new HermitRequest( client, itemID, actualQuantity )).run();
 			return;
 		}
 
@@ -229,5 +224,11 @@ public class HermitRequest extends KoLRequest
 		int count = 0 - Math.min( total, item.getCount( inventory ) );
 		client.processResult( item.getInstance( count ) );
 		return 0 - count;
+	}
+	
+	public static final int getWorthlessItemCount()
+	{
+		return TRINKET.getCount( KoLCharacter.getInventory() ) +
+				GEWGAW.getCount( KoLCharacter.getInventory() ) + KNICK_KNACK.getCount( KoLCharacter.getInventory() );
 	}
 }

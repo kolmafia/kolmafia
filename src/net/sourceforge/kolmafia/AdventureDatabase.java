@@ -584,7 +584,18 @@ public class AdventureDatabase extends KoLDatabase
 			// assume this might be a check on equipment.
 			// in this case, return from this method.
 
-			if ( KoLCharacter.hasEquipped( item ) && missingCount == 1 )
+			if ( KoLCharacter.hasEquipped( item ) )
+			{
+				if ( missingCount == 1 )
+					return;
+
+				while ( KoLCharacter.hasEquipped( item ) )
+					DEFAULT_SHELL.executeLine( "unequip " + item.getName() );
+
+				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+			}
+
+			if ( missingCount <= 0 )
 				return;
 
 			// First, attempt to pull the item from the closet.
@@ -608,12 +619,15 @@ public class AdventureDatabase extends KoLDatabase
 					return;
 			}
 
-			// Next, if you have a piece of equipment, then attempt to
-			// remove it.
+			// Next, hermit item retrieval is possible when
+			// you have worthless items.  Use this method next.
 
-			if ( KoLCharacter.hasEquipped( item ) )
+			if ( client.hermitItems.contains( item.getName() ) )
 			{
-				DEFAULT_SHELL.executeLine( "unequip " + item.getName() );
+				int worthlessItemCount = HermitRequest.getWorthlessItemCount();
+				if ( worthlessItemCount > 0 )
+					(new HermitRequest( client, item.getItemID(), Math.min( worthlessItemCount, missingCount ) )).run();
+				
 				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 				if ( missingCount <= 0 )
