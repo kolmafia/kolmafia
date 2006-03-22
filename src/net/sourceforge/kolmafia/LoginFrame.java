@@ -341,7 +341,7 @@ public class LoginFrame extends KoLFrame
 
 	private class ServerSelectPanel extends LabeledKoLPanel
 	{
-		private JComboBox servers, uimodes, positions, toolbars, trayicon;
+		private JComboBox servers, uimodes, textheavy, positions, toolbars, trayicon;
 
 		public ServerSelectPanel()
 		{
@@ -353,12 +353,16 @@ public class LoginFrame extends KoLFrame
 				servers.addItem( "Use login server " + i );
 
 			uimodes = new JComboBox();
-			uimodes.addItem( "Normal mode" );
-			uimodes.addItem( "Run a buffbot" );
-			uimodes.addItem( "Loathing chat" );
-			uimodes.addItem( "Clan manager" );
-			uimodes.addItem( "Mini-browser" );
-			uimodes.addItem( "Graphical CLI" );
+			uimodes.addItem( "Open main interface" );
+			uimodes.addItem( "Setup a buffbot" );
+			uimodes.addItem( "Use KoLmafia chat" );
+			uimodes.addItem( "Load clan manager" );
+			uimodes.addItem( "Open mini-browser" );
+			uimodes.addItem( "Open graphical CLI" );
+
+			textheavy = new JComboBox();
+			textheavy.addItem( "Use graphical side pane" );
+			textheavy.addItem( "Use text-heavy side pane" );
 
 			positions = new JComboBox();
 			positions.addItem( "Always load windows in center" );
@@ -376,14 +380,15 @@ public class LoginFrame extends KoLFrame
 			trayicon.addItem( "Minimize KoLmafia to taskbar" );
 			trayicon.addItem( "Minimize KoLmafia to system tray" );
 
-			VerifiableElement [] elements = new VerifiableElement[ System.getProperty( "os.name" ).startsWith( "Windows" ) ? 5 : 4 ];
+			VerifiableElement [] elements = new VerifiableElement[ System.getProperty( "os.name" ).startsWith( "Windows" ) ? 6 : 5 ];
 			elements[0] = new VerifiableElement( "Server: ", servers );
-			elements[1] = new VerifiableElement( "Startup: ", uimodes );
-			elements[2] = new VerifiableElement( "Windows: ", positions );
-			elements[3] = new VerifiableElement( "Toolbars: ", toolbars );
+			elements[1] = new VerifiableElement( "On Startup: ", uimodes );
+			elements[2] = new VerifiableElement( "Side Panes: ", textheavy );
+			elements[3] = new VerifiableElement( "Windows: ", positions );
+			elements[4] = new VerifiableElement( "Toolbars: ", toolbars );
 
 			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-				elements[4] = new VerifiableElement( "SysTray: ", trayicon );
+				elements[5] = new VerifiableElement( "SysTray: ", trayicon );
 
 			setContent( elements );
 			actionCancelled();
@@ -393,6 +398,7 @@ public class LoginFrame extends KoLFrame
 		{
 			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "userInterfaceMode", String.valueOf( uimodes.getSelectedIndex() ) );
+			GLOBAL_SETTINGS.setProperty( "useTextHeavySidepane", String.valueOf( servers.getSelectedIndex() == 1 ) );
 			GLOBAL_SETTINGS.getProperty( "windowPositions", String.valueOf( positions.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
@@ -403,6 +409,7 @@ public class LoginFrame extends KoLFrame
 		{
 			servers.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) );
 			uimodes.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) );
+			textheavy.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useTextHeavySidepane" ).equals( "true" ) ? 1 : 0 );
 			positions.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "windowPositions" ) ) );
 			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
 			trayicon.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 0 );

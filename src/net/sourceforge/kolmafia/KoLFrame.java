@@ -303,6 +303,23 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( framePanel.getComponentCount() != 0 )
 			return;
 
+		boolean useTextOnly = GLOBAL_SETTINGS.getProperty( "useTextHeavySidepane" ).equals( "true" );
+		StatusRefresher refresher;
+
+		if ( useTextOnly )
+			addTextOnlyCompactPane();
+		else
+			addGraphicalCompactPane();
+
+		refresher = new StatusRefresher( useTextOnly );
+		refresher.run();
+
+		this.refreshListener = new KoLCharacterAdapter( refresher );
+		KoLCharacter.addCharacterListener( refreshListener );
+	}
+
+	public void addTextOnlyCompactPane()
+	{
 		JPanel [] panels = new JPanel[4];
 		int panelCount = -1;
 
@@ -373,37 +390,54 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		framePanel.setLayout( new BorderLayout() );
 		framePanel.add( this.compactPane, BorderLayout.WEST );
-		(new StatusRefresher()).run();
+	}
 
-		this.refreshListener = new KoLCharacterAdapter( new StatusRefresher() );
-		KoLCharacter.addCharacterListener( refreshListener );
+	private final void addGraphicalCompactPane()
+	{
+		JPanel compactPane = new JPanel( new GridLayout( 7, 1, 0, 20 ) );
+		compactPane.setOpaque( false );
+
+		compactPane.add( hpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
+		compactPane.add( mpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
+
+		compactPane.add( familiarLabel = new UnanimatedLabel() );
+
+		compactPane.add( meatLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
+		compactPane.add( advLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
+		compactPane.add( drunkLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER) );
+
+		compactPane.add( Box.createHorizontalStrut( 80 ) );
+
+		this.compactPane = new JPanel();
+		this.compactPane.setLayout( new BoxLayout( this.compactPane, BoxLayout.Y_AXIS ) );
+		this.compactPane.add( Box.createVerticalStrut( 20 ) );
+		this.compactPane.add( compactPane );
+
+		framePanel.setLayout( new BorderLayout() );
+		framePanel.add( this.compactPane, BorderLayout.WEST );
 	}
 
 	protected class StatusRefresher implements Runnable
 	{
-		private String statText( int adjusted, int base )
+		private boolean useTextOnly;
+
+		public StatusRefresher( boolean useTextOnly )
+		{	this.useTextOnly = useTextOnly;
+		}
+
+		private String getStatText( int adjusted, int base )
 		{
-			return adjusted == base ? "<html>" + Integer.toString( base ) : 
+			return adjusted == base ? "<html>" + Integer.toString( base ) :
 				adjusted >  base ? "<html><font color=blue>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")" :
 				"<html><font color=red>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")";
 		}
 
 		public void run()
 		{
-			levelLabel.setText( "Level " + KoLCharacter.getLevel() );
-			roninLabel.setText( KoLCharacter.isHardcore() ? "(Hardcore)" : KoLCharacter.canInteract() ? "(Ronin-Clear)" : "(Ronin)" );
-			mcdLabel.setText( "MCD @ " + KoLCharacter.getMindControlLevel() );
-
-			musLabel.setText( statText( KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle() ) );
-			mysLabel.setText( statText( KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality() ) );
-			moxLabel.setText( statText( KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie() ) );
-			
-			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
-
-			hpLabel.setText( df.format( KoLCharacter.getCurrentHP() ) + "/" + df.format( KoLCharacter.getMaximumHP() ) );
-			mpLabel.setText( df.format( KoLCharacter.getCurrentMP() ) + "/" + df.format( KoLCharacter.getMaximumMP() ) );
-			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
-			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+			if ( useTextOnly )
+				updateTextOnly();
+			else
+				updateGraphical();
 
 			FamiliarData familiar = KoLCharacter.getFamiliar();
 			int id = familiar == null ? -1 : familiar.getID();
@@ -425,6 +459,47 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 				familiarLabel.updateUI();
 			}
+		}
+
+		private void updateTextOnly()
+		{
+			levelLabel.setText( "Level " + KoLCharacter.getLevel() );
+			roninLabel.setText( KoLCharacter.isHardcore() ? "(Hardcore)" : KoLCharacter.canInteract() ? "(Ronin-Clear)" : "(Ronin)" );
+			mcdLabel.setText( "MCD @ " + KoLCharacter.getMindControlLevel() );
+
+			musLabel.setText( getStatText( KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle() ) );
+			mysLabel.setText( getStatText( KoLCharacter.getAdjustedMysticality(), KoLCharacter.getBaseMysticality() ) );
+			moxLabel.setText( getStatText( KoLCharacter.getAdjustedMoxie(), KoLCharacter.getBaseMoxie() ) );
+
+			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
+
+			hpLabel.setText( df.format( KoLCharacter.getCurrentHP() ) + "/" + df.format( KoLCharacter.getMaximumHP() ) );
+			mpLabel.setText( df.format( KoLCharacter.getCurrentMP() ) + "/" + df.format( KoLCharacter.getMaximumMP() ) );
+			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
+			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+		}
+
+		private void updateGraphical()
+		{
+			hpLabel.setText( KoLCharacter.getCurrentHP() + " / " + KoLCharacter.getMaximumHP() );
+			hpLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			hpLabel.setHorizontalTextPosition( JLabel.CENTER );
+
+			mpLabel.setText( KoLCharacter.getCurrentMP() + " / " + KoLCharacter.getMaximumMP() );
+			mpLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			mpLabel.setHorizontalTextPosition( JLabel.CENTER );
+
+			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
+			meatLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			meatLabel.setHorizontalTextPosition( JLabel.CENTER );
+
+			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+			advLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			advLabel.setHorizontalTextPosition( JLabel.CENTER );
+
+			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
+			drunkLabel.setVerticalTextPosition( JLabel.BOTTOM );
+			drunkLabel.setHorizontalTextPosition( JLabel.CENTER );
 		}
 	}
 
@@ -937,13 +1012,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
 		{
 			Point p = getLocation();
-			Dimension screenSize = TOOLKIT.getScreenSize();
-
-			if ( p.getX() > 0 && p.getY() > 0 && p.getX() + getWidth() < screenSize.getWidth() && p.getY() + getHeight() < screenSize.getHeight() )
-			{
-				KoLSettings settings = GLOBAL_SETTINGS.getProperty( "windowPositions" ).equals( "1" ) ? GLOBAL_SETTINGS : StaticEntity.getSettings();
-				settings.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
-			}
+			KoLSettings settings = GLOBAL_SETTINGS.getProperty( "windowPositions" ).equals( "1" ) ? GLOBAL_SETTINGS : StaticEntity.getSettings();
+			settings.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 		}
 
 		super.processWindowEvent( e );
