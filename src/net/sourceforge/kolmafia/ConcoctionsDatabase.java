@@ -324,23 +324,17 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// This should also be calculated to allow for meat stack
 		// recipes to be calculated.
 
-		concoctions.get( ItemCreationRequest.MEAT_PASTE ).initial = PASTE.getCount( availableIngredients );
 		concoctions.get( ItemCreationRequest.MEAT_PASTE ).creatable = KoLCharacter.getAvailableMeat() / 10;
-
 		concoctions.get( ItemCreationRequest.MEAT_PASTE ).total =
 			concoctions.get( ItemCreationRequest.MEAT_PASTE ).initial +
 				concoctions.get( ItemCreationRequest.MEAT_PASTE ).creatable;
 
-		concoctions.get( ItemCreationRequest.MEAT_STACK ).initial = STACK.getCount( availableIngredients );
 		concoctions.get( ItemCreationRequest.MEAT_STACK ).creatable = KoLCharacter.getAvailableMeat() / 100;
-
 		concoctions.get( ItemCreationRequest.MEAT_STACK ).total =
 			concoctions.get( ItemCreationRequest.MEAT_STACK ).initial +
 				concoctions.get( ItemCreationRequest.MEAT_STACK ).creatable;
 
-		concoctions.get( ItemCreationRequest.DENSE_STACK ).initial = DENSE.getCount( availableIngredients );
 		concoctions.get( ItemCreationRequest.DENSE_STACK ).creatable = KoLCharacter.getAvailableMeat() / 1000;
-
 		concoctions.get( ItemCreationRequest.DENSE_STACK ).total =
 			concoctions.get( ItemCreationRequest.DENSE_STACK ).initial +
 				concoctions.get( ItemCreationRequest.DENSE_STACK ).creatable;
