@@ -68,7 +68,6 @@ public class StoreManageFrame extends KoLPanelFrame
 	private LockableListModel priceSummary;
 
 	private AddItemPanel addItem;
-	private StoreItemPanelList storeItemList;
 	private JPanel searchResults;
 
 	public StoreManageFrame( KoLmafia client )
@@ -174,13 +173,12 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		if ( addItem != null )
 			addItem.setEnabled( isEnabled );
-
-		if ( storeItemList != null )
-			storeItemList.setEnabled( isEnabled );
 	}
 
 	private class StoreManagePanel extends KoLPanel implements Runnable
 	{
+		private StoreItemPanelList storeItemList;
+
 		public StoreManagePanel()
 		{
 			super( "save changes", "auto-undercut", new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
