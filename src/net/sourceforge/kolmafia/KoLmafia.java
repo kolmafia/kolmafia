@@ -268,6 +268,9 @@ public abstract class KoLmafia implements KoLConstants
 		this.refreshSession();
 		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
 
+		// Retrieve breakfast if the option to retrieve breakfast
+		// was previously selected.
+
 		if ( getBreakfast )
 			getBreakfast();
 	}
@@ -415,9 +418,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		resetSession();
 		applyRecentEffects();
-
-		// Retrieve breakfast if the option to retrieve breakfast
-		// was previously selected.
 
 		this.isLoggingIn = false;
 

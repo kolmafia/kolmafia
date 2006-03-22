@@ -470,7 +470,10 @@ public class RequestFrame extends KoLFrame
 			// just ascended, you need to refresh everything.
 
 			if ( location.equals( "main.php?refreshtop=true&noobmessage=true" ) )
+			{
 				client.refreshSession();
+				client.enableDisplay();
+			}
 		}
 
 		private void updateClient()
