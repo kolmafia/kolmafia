@@ -766,9 +766,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 
 		/**
-		 * Utility method which calculates the quantity creatable for
-		 * an recipe based on the modifier/multiplier of its
-		 * ingredients
+		 * Utility method which calculates the quantity available for
+		 * a recipe based on the modifier/multiplier of its ingredients
 		 */
 
 		private int quantity( boolean inMuscleSign )
