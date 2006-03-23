@@ -414,41 +414,19 @@ public class ClanManageFrame extends KoLFrame
 	private class WithdrawPanel extends ItemManagePanel
 	{
 		public WithdrawPanel()
-		{	super( "Inside Clan Stash", "put in bag", "refresh", ClanManager.getStash() );
+		{
+			super( "Inside Clan Stash", "put in bag", "refresh", ClanManager.getStash() );
+			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 		}
 
 		protected void actionConfirmed()
 		{
-			Object [] items = elementList.getSelectedValues();
+			AdventureResult selection = (AdventureResult) elementList.getSelectedValue();
+			if ( selection == null )
+				return;
 
-			// Check the rank list to see if you're one
-			// of the clan administrators.
-
-			if ( items.length > 1 && rankList.isEmpty() )
-			{
-				rankList = ClanManager.getRankList();
-
-				// If it's been double-confirmed that you're
-				// not a clan administrator, then tell them
-				// they can't do anything with the stash.
-
-				if ( rankList.isEmpty() )
-				{
-					JOptionPane.showMessageDialog( null, "Look, but don't touch." );
-					return;
-				}
-			}
-
-			AdventureResult selection;
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				selection = (AdventureResult) items[i];
-				items[i] = new AdventureResult( selection.getItemID(),
-					getQuantity( "Retrieving " + selection.getName() + " from the stash...", selection.getCount() ) );
-			}
-
-			(new RequestThread( new ClanStashRequest( client, items, ClanStashRequest.STASH_TO_ITEMS ) )).start();
+			selection = selection.getInstance( getQuantity( "Retrieving " + selection.getName() + " from the stash...", selection.getCount() ) );
+			(new RequestThread( new ClanStashRequest( client, new Object [] { selection }, ClanStashRequest.STASH_TO_ITEMS ) )).start();
 		}
 
 		protected void actionCancelled()

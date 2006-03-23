@@ -151,13 +151,9 @@ public class ClanManager extends StaticEntity
 			if ( ranklistMatcher.find() )
 			{
 				Matcher rankMatcher = Pattern.compile( "<option.*?>(.*?)</option>" ).matcher( ranklistMatcher.group() );
-				int lastMatchIndex = 0;
 
-				while ( rankMatcher.find( lastMatchIndex ) )
-				{
-					lastMatchIndex = rankMatcher.end();
+				while ( rankMatcher.find() )
 					rankList.add( rankMatcher.group(1).toLowerCase() );
-				}
 			}
 
 			DEFAULT_SHELL.updateDisplay( "List of ranks retrieved." );
