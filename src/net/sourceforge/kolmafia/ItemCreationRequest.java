@@ -532,16 +532,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( usedServant == null )
 		{
-			usedServant = KoLCharacter.isHardcore() ? servant : clockworkServant;
-			AdventureDatabase.retrieveItem( usedServant );
-			if ( KoLCharacter.hasItem( usedServant, false ) )
-				return useBoxServant( servant, clockworkServant, noServantItem );
-
 			if ( getProperty( "createWithoutBoxServants" ).equals( "true" ) )
 				return noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
 
-			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Could not auto-repair " + servant.getName() + "." );
-			return false;
+			usedServant = KoLCharacter.isHardcore() ? servant : clockworkServant;
 		}
 
 		// Once you hit this point, you're guaranteed to
@@ -549,7 +543,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// to repair the box servant.
 
 		(new ConsumeItemRequest( client, usedServant )).run();
-		return true;
+		return client.permitsContinue();
 	}
 
 	protected void makeIngredients()
