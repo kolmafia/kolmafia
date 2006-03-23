@@ -728,7 +728,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					// If the system is down for maintenance, the user must be
 					// notified that they should try again later.
 
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Nightly maintenance." );
+					DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Nightly maintenance." );
 
 					if ( !(this instanceof LoginRequest) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 					{
@@ -742,7 +742,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				}
 				else if ( redirectLocation.startsWith( "login.php" ) )
 				{
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Session timed out." );
+					DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Session timed out." );
 
 					if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
 						client.executeTimeInRequest();
