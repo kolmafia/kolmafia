@@ -119,8 +119,6 @@ public class LoginFrame extends KoLFrame
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
 
-		addWindowListener( new ExitRequestAdapter() );
-
 		toolbarPanel.add( new DisplayFrameButton( "KoL Almanac", "calendar.gif", CalendarFrame.class ) );
 		toolbarPanel.add( new DisplayFrameButton( "KoL Encyclopedia", "encyclopedia.gif", ExamineItemsFrame.class ) );
 
@@ -139,6 +137,9 @@ public class LoginFrame extends KoLFrame
 	{
 		saveStateNames = null;
 		super.dispose();
+
+		if ( client == null || client.getPasswordHash() == null )
+			System.exit( 0 );
 	}
 
 	public JPanel constructLoginPanel()
@@ -257,8 +258,7 @@ public class LoginFrame extends KoLFrame
 			if ( !loginname.endsWith( "/q" ) )
 				loginname += "/q";
 
-			(new RequestThread(
-				new LoginRequest( client, loginname, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected() ))).start();
+			(new LoginRequest( client, loginname, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected() )).run();
 		}
 
 		protected void actionCancelled()
@@ -491,20 +491,6 @@ public class LoginFrame extends KoLFrame
 				proxyLogin.setEnabled( isSelected() );
 				proxyPassword.setEnabled( isSelected() );
 			}
-		}
-	}
-
-	/**
-	 * Formally exits the program if there are no active sessions when
-	 * this frame is closed.
-	 */
-
-	private class ExitRequestAdapter extends WindowAdapter
-	{
-		public void windowClosed( WindowEvent e )
-		{
-			if ( client == null || client.inLoginState() )
-				System.exit( 0 );
 		}
 	}
 

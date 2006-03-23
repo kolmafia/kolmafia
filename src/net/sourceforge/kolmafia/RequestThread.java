@@ -113,7 +113,7 @@ public class RequestThread extends Thread implements KoLConstants
 			// Standard KoL requests are handled through the
 			// client.makeRequest() method.
 
-			else if ( requests[i] instanceof KoLRequest && !StaticEntity.getClient().inLoginState() && StaticEntity.getClient().permitsContinue() )
+			else if ( requests[i] instanceof KoLRequest && StaticEntity.getClient().permitsContinue() )
 				StaticEntity.getClient().makeRequest( requests[i], repeatCount[i] );
 
 			// Standard KoL adventures are handled through the

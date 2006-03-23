@@ -100,6 +100,12 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void updateDisplay( int state, String message )
 	{
+		// Only allow message to propogate if you
+		// are currently NOT in an abort state.
+
+		if ( currentState == ABORT_STATE && state != ABORT_STATE )
+			return;
+
 		super.updateDisplay( state, message );
 
 		// Next, update all of the panels with the
@@ -158,7 +164,7 @@ public class KoLmafiaGUI extends KoLmafia
 		// or the login failed, then there's nothing left
 		// to do.  Return from the method.
 
-		if ( isLoggingIn || displayer == null || displayer.getCreation() instanceof AdventureFrame )
+		if ( displayer == null || displayer.getCreation() instanceof AdventureFrame )
 			return;
 
 		// Figure out which user interface is being

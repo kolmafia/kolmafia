@@ -136,7 +136,7 @@ public class OptionsFrame extends KoLFrame
 		addTab( "Choice Handling", new ChoiceOptionsPanel() );
 		addTab( "Chat Options", new ChatOptionsPanel() );
 
-		if ( !client.inLoginState() )
+		if ( client.getPasswordHash() != null )
 		{
 			JPanel customContainer = new JPanel( new BorderLayout() );
 			customTabs = new JTabbedPane();

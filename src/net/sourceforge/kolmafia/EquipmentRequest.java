@@ -441,9 +441,6 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private void switchItem( String oldItem, String newItem )
 	{
-		if ( client.inLoginState() )
-			return;
-
 		// Determine the item which is being switched
 		// in and out.
 

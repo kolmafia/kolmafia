@@ -88,7 +88,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
 	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
 
-	protected boolean isLoggingIn;
 	protected boolean isMakingRequest;
 	protected KoLRequest currentRequest;
 	protected LoginRequest cachedLogin;
@@ -100,7 +99,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected Properties LOCAL_SETTINGS = new Properties();
 
 	private String currentIterationString = "";
-	private int currentState = CONTINUE_STATE;
+	protected int currentState = CONTINUE_STATE;
 
 	protected int [] initialStats = new int[3];
 	protected int [] fullStatGain = new int[3];
@@ -156,9 +155,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public KoLmafia()
 	{
-		this.isLoggingIn = true;
 		this.useDisjunction = false;
-
 		this.settings = GLOBAL_SETTINGS;
 		this.macroStream = NullStream.INSTANCE;
 
@@ -317,6 +314,18 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		// Retrieve the list of outfits which are available to the
+		// character.  Due to lots of bug reports, this is no longer
+		// a skippable option.
+
+		(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
+
+		if ( !permitsContinue() )
+		{
+			deinitialize();
+			return;
+		}
+
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
@@ -393,18 +402,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Retrieve the list of outfits which are available to the
-		// character.  Due to lots of bug reports, this is no longer
-		// a skippable option.
-
-		(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
-
-		if ( !permitsContinue() )
-		{
-			deinitialize();
-			return;
-		}
-
 		// Also update the contents of Hagnk's storage so that you
 		// do not have to re-run it all the time.
 
@@ -418,8 +415,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		resetSession();
 		applyRecentEffects();
-
-		this.isLoggingIn = false;
 
 		HPRestoreItemList.reset();
 		MPRestoreItemList.reset();
@@ -1190,7 +1185,8 @@ public abstract class KoLmafia implements KoLConstants
 			}
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
 			{
-				requiresRefresh |= parseResult( lastToken.indexOf( "." ) == -1 ? lastToken : lastToken.substring( 0, lastToken.indexOf( "." ) ) );
+				int periodIndex = lastToken.indexOf( "." );
+				requiresRefresh |= parseResult( periodIndex == -1 ? lastToken : lastToken.substring( 0, periodIndex ) );
 			}
 		}
 
@@ -1844,16 +1840,6 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Returns whether or not the client is currently in a login state.
-	 * While the client is in a login state, only login-related
-	 * activities should be permitted.
-	 */
-
-	public final boolean inLoginState()
-	{	return isLoggingIn;
-	}
-
-	/**
 	 * Utility method used to decode a saved password.
 	 * This should be called whenever a new password
 	 * intends to be stored in the global file.
@@ -2039,13 +2025,14 @@ public abstract class KoLmafia implements KoLConstants
 		// If you're already trying to login, then
 		// don't continue.
 
-		if ( isLoggingIn || this.cachedLogin == null )
+		if ( this.cachedLogin == null )
 			return;
 
-		isLoggingIn = true;
 		LoginRequest cachedLogin = this.cachedLogin;
 
 		deinitialize();
+
+		enableDisplay();
 		updateDisplay( "Timing in session..." );
 
 		// Two quick login attempts to force
@@ -2054,7 +2041,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		cachedLogin.run();
 
-		if ( isLoggingIn )
+		if ( this.cachedLogin == null )
 			cachedLogin.run();
 
 		// Wait 5 minutes inbetween each attempt
@@ -2062,7 +2049,7 @@ public abstract class KoLmafia implements KoLConstants
 		// because if the above two failed, that
 		// means it's nightly maintenance.
 
-		while ( isLoggingIn )
+		while ( this.cachedLogin == null )
 		{
 			for ( int i = 300; i > 0; --i )
 			{

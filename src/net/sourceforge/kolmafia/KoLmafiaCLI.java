@@ -468,7 +468,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( StaticEntity.getClient().getSaveState( parameters ) != null )
 			{
-				if ( !StaticEntity.getClient().inLoginState() )
+				if ( StaticEntity.getClient().getPasswordHash() != null )
 				{
 					updateDisplay( "Logging out..." );
 					(new LogoutRequest( StaticEntity.getClient() )).run();
@@ -491,11 +491,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "exit" ) || command.equals( "quit" ) || command.equals( "logout" ) )
 		{
-			if ( !StaticEntity.getClient().inLoginState() )
-			{
-				updateDisplay( "Logging out..." );
-				(new LogoutRequest( StaticEntity.getClient() )).run();
-			}
+			updateDisplay( "Logging out..." );
+			(new LogoutRequest( StaticEntity.getClient() )).run();
 
 			updateDisplay( "Exiting KoLmafia..." );
 			System.exit(0);

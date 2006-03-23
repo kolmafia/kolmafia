@@ -595,6 +595,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		toolsMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
 		toolsMenu.add( new StopEverythingItem() );
+		toolsMenu.add( new InvocationMenuItem( "Complete Refresh", client, "refreshSession" ) );
 		toolsMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
 
 		toolsMenu.add( new JSeparator() );
