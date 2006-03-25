@@ -1000,13 +1000,12 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( getAdventuresUsed() > 0 )
 			client.processResult( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
 
-		if ( statusChanged )
+		if ( statusChanged && RequestFrame.willRefreshStatus() )
 			RequestFrame.refreshStatus();
 		else if ( needsRefresh )
 			CharpaneRequest.getInstance().run();
 
-		if ( statusChanged || needsRefresh )
-			KoLCharacter.updateStatus();
+		KoLCharacter.updateStatus();
 	}
 
 	/**
