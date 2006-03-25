@@ -267,9 +267,33 @@ public class AutoSellRequest extends SendMessageRequest
 
 	protected void processResults()
 	{
-		if ( sellType != AUTOSELL )
+		if ( sellType == AUTOMALL )
+		{
+			// We placed stuff in the mall.
 			StoreManager.update( responseText, false );
+		}
+		else if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
+		{
+			// New autosell interface.
 
+			// "You sell your 2 disturbing fanfics to an organ
+			// grinder's monkey for 264 Meat."
+
+			try
+			{
+				Matcher matcher = Pattern.compile( "for ([\\d,]+) [Mm]eat" ).matcher( responseText );
+				if ( matcher.find() )
+					client.processResult( new AdventureResult( AdventureResult.MEAT, df.parse( matcher.group(1) ).intValue() ) );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+			}
+		}
+
+		// Move out of inventory. Process meat gains, if old autosell
+		// interface.
 		super.processResults();
 		DEFAULT_SHELL.updateDisplay( "Items sold." );
 	}
