@@ -92,7 +92,7 @@ public abstract class KoLMailManager extends StaticEntity
 	 * @param	message	The message to add to the given mailbox
 	 */
 
-	public static boolean addMessage( String boxname, String message )
+	public static KoLMailMessage addMessage( String boxname, String message )
 	{
 		SortedListModel mailbox = (SortedListModel) mailboxes.get(
 			boxname.equals( "Inbox" ) && message.indexOf( "initiated a PvP attack against you" ) != -1 ? "PvP" : boxname );
@@ -100,12 +100,12 @@ public abstract class KoLMailManager extends StaticEntity
 		KoLMailMessage toadd = new KoLMailMessage( message );
 
 		if ( mailbox.contains( toadd ) )
-			return false;
+			return null;
 
 		KoLmafia.registerPlayer( toadd.getSenderName(), toadd.getSenderID() );
 
 		mailbox.add( toadd );
-		return true;
+		return toadd;
 	}
 
 	public static void deleteMessage( String boxname, KoLMailMessage message )

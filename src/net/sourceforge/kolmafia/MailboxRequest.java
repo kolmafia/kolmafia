@@ -186,8 +186,8 @@ public class MailboxRequest extends KoLRequest
 				// At this point, the message is registered with the mail manager, which
 				// records the message and updates whether or not you should continue.
 
-				shouldContinueParsing &= BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( boxname, currentMessage ) :
-					KoLMailManager.addMessage( boxname, currentMessage );
+				shouldContinueParsing &= (BuffBotHome.isBuffBotActive() ? BuffBotManager.addMessage( boxname, currentMessage ) :
+					KoLMailManager.addMessage( boxname, currentMessage )) != null;
 			}
 		}
 

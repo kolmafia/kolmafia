@@ -64,7 +64,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static ArrayList deleteList = new ArrayList();
 	private static ArrayList sendList = new ArrayList();
 
-	private static boolean isBetweenProcesses = false;
 	private static int messageDisposalSetting;
 	private static String refundMessage;
 	private static String thanksMessage;
@@ -312,49 +311,47 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * convenient to have, from a style perspective.
 	 */
 
-	public static boolean addMessage( String boxname, String message )
+	public static KoLMailMessage addMessage( String boxname, String message )
 	{
+		KoLMailMessage success = KoLMailManager.addMessage( boxname, message );
+
+		if ( success == null || !BuffBotHome.isBuffBotActive() || !boxname.equals( "Inbox" ) )
+			return success;
+
 		try
 		{
-			boolean success = KoLMailManager.addMessage( boxname, message );
-
-			if ( isBetweenProcesses || !success || !BuffBotHome.isBuffBotActive() || !boxname.equals( "Inbox" ) )
-				return success;
-
-			LockableListModel messages = getMessages( "Inbox" );
-			processMessage( (KoLMailMessage) messages.get( messages.size() - 1 ) );
-
-			// Abort the buffbot only when you run out of MP
-			// restores -- otherwise, it's always okay to
-			// continue using the buffbot.
-
-			if ( client.getRestoreCount() == 0 )
-			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unable to continue BuffBot!" );
-				BuffBotHome.setBuffBotActive( false );
-				BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to process a buff message." );
-			}
-
-			if ( !sendList.isEmpty() )
-			{
-				GreenMessageRequest sending = (GreenMessageRequest) sendList.get(0);
-				BuffBotHome.update( BuffBotHome.NOCOLOR, "Sending queued message to " + KoLmafia.getPlayerName( sending.getRecipient() ) + "..." );
-				sending.run();
-
-				sendList.clear();
-			}
+			processMessage( success );
+			client.updateDisplay( "" );
 		}
 		catch ( Exception e )
 		{
-			// If an exception occurs during
-			// the message processing, go ahead
-			// and ignore it.
-
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
+			
+			return success;
 		}
 
-		return true;
+		// Abort the buffbot only when you run out of MP
+		// restores -- otherwise, it's always okay to
+		// continue using the buffbot.
+
+		if ( client.getRestoreCount() == 0 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unable to continue BuffBot!" );
+			BuffBotHome.setBuffBotActive( false );
+			BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to process a buff message." );
+		}
+
+		if ( !sendList.isEmpty() )
+		{
+			GreenMessageRequest sending = (GreenMessageRequest) sendList.get(0);
+			BuffBotHome.update( BuffBotHome.NOCOLOR, "Sending queued message to " + KoLmafia.getPlayerName( sending.getRecipient() ) + "..." );
+			sending.run();
+
+			sendList.clear();
+		}
+
+		return success;
 	}
 
 	/**
@@ -419,6 +416,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	{
 		// Now that you're guaranteed to be above the threshold,
 		// go ahead and process the message.
+
+		BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Received message from [" + message.getSenderName() + "]" );
 
 		if ( containsDonation( message ) )
 		{
@@ -663,12 +662,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			{
 				currentCast = (int) Math.min( castsRemaining, Math.floor( maximumMP / mpPerCast ) );
 				mpPerEvent = (int) (mpPerCast * currentCast);
-
-				// If you're unable to recover your mana, then return
-				// whether or not at least one buff was cast.
-
-				if ( !client.recoverMP( mpPerEvent ) )
-					return castsRemaining < castCount;
 
 				// Attempt to cast the buff.  In the event that it
 				// fails, make sure to report it and return whether
