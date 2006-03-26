@@ -54,7 +54,8 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int EQUIP_OFFHAND = 13;
 	public static final int CONSUME_RESTORE = 14;
 
-	private static final int SPOOKY_MAP = 74;
+	private static final int DOLPHIN_KING_MAP = 26;
+	private static final int SPOOKY_TEMPLE_MAP = 74;
 	private static final int SIXPACK = 138;
 	private static final int DINGHY_PLANS = 146;
 	private static final int ENCHANTED_BEAN = 186;
@@ -69,6 +70,8 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int LUCIFER = 571;
 	private static final int TINY_HOUSE = 592;
 	private static final int DRASTIC_HEALING = 595;
+	private static final int SLUG_LORD_MAP = 598;
+	private static final int DR_HOBO_MAP = 601;
 	private static final int WARM_SUBJECT = 621;
 	private static final int TOASTER = 637;
 	private static final int GIANT_CASTLE_MAP = 667;
@@ -411,7 +414,37 @@ public class ConsumeItemRequest extends KoLRequest
 			client.processResult( new AdventureResult( AdventureResult.HP, 1 - KoLCharacter.getCurrentHP() ) );
 			break;
 
-		case SPOOKY_MAP:
+		case DOLPHIN_KING_MAP:
+			// "You follow the Dolphin King's map to the bottom of
+			// the sea, and find his glorious treasure."
+			if ( responseText.indexOf( "find his glorious treasure" ) == -1 )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have everything you need." );
+				return;
+			}
+			break;
+
+		case SLUG_LORD_MAP:
+			// "You make your way to the deepest part of the tank,
+			// and find a chest engraved with the initials S. L."
+			if ( responseText.indexOf( "deepest part of the tank" ) == -1 )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have everything you need." );
+				return;
+			}
+			break;
+
+		case DR_HOBO_MAP:
+			// "You place it atop the Altar, and grab the Scalpel
+			// at the exact same moment."
+			if ( responseText.indexOf( "exact same moment" ) == -1 )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have everything you need." );
+				return;
+			}
+			break;
+
+		case SPOOKY_TEMPLE_MAP:
 			// "You plant your Spooky Sapling in the loose soil at
 			// the base of the Temple.  You spray it with your
 			// Spooky-Gro Fertilizer, and it immediately grows to
@@ -419,11 +452,13 @@ public class ConsumeItemRequest extends KoLRequest
 			// branches to reach the first step of the Temple
 			// now..."
 			if ( responseText.indexOf( "easily climb the branches" ) == -1 )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have everything you need." );
 				return;
+			}
 			client.processResult( SAPLING );
 			client.processResult( FERTILIZER );
 			break;
-
 
 		case DINGHY_PLANS:
 			// "You need some planks to build the dinghy."
