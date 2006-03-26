@@ -398,7 +398,7 @@ public class LoginFrame extends KoLFrame
 		{
 			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "userInterfaceMode", String.valueOf( uimodes.getSelectedIndex() ) );
-			GLOBAL_SETTINGS.setProperty( "useTextHeavySidepane", String.valueOf( servers.getSelectedIndex() == 1 ) );
+			GLOBAL_SETTINGS.setProperty( "useTextHeavySidepane", String.valueOf( textheavy.getSelectedIndex() == 1 ) );
 			GLOBAL_SETTINGS.getProperty( "windowPositions", String.valueOf( positions.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
