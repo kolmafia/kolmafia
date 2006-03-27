@@ -1310,8 +1310,19 @@ public abstract class SorceressLair extends StaticEntity
 	private static void fightShadow()
 	{
 		List requirements = new ArrayList();
-		requirements.add( new AdventureResult( "red pixel potion", 4 ) );
+	
+		AdventureResult option = new AdventureResult( "red pixel potion", 4 );
+		if ( !KoLCharacter.hasItem( option, true ) )
+		{
+			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+			{
+				option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
+				if ( option.getCount( KoLCharacter.getInventory() ) == 0 )
+					option = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
+			}
+		}
 
+		requirements.add( option );
 		if ( !client.checkRequirements( requirements ) )
 			return;
 
@@ -1334,7 +1345,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Start the battle!
 
 		String action = getProperty( "battleAction" );
-		setProperty( "battleAction", "item464" );
+		setProperty( "battleAction", "item" + option.getItemID() );
 
 		KoLRequest request = new KoLRequest( client, "lair6.php" );
 		request.addFormField( "place", "2" );
