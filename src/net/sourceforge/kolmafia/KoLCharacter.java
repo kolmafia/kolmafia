@@ -2132,7 +2132,9 @@ public abstract class KoLCharacter extends StaticEntity
 						getEffects().set( i, effect.getInstance( effect.getCount() + result.getCount() ) );
 				}
 
-				setTotalTurnsUsed( getTotalTurnsUsed() + result.getCount() );
+				setTotalTurnsUsed( getTotalTurnsUsed() - result.getCount() );
+				if ( getTotalTurnsUsed() >= 600 && !KoLCharacter.isHardcore() )
+					setInteraction( true );
 			}
 		}
 		else if ( resultName.equals( AdventureResult.DRUNK ) )

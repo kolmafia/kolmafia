@@ -82,7 +82,7 @@ public class CharsheetRequest extends KoLRequest
 	protected void processResults()
 	{	parseStatus( responseText );
 	}
-	
+
 	public static void parseStatus( String responseText )
 	{
 		// Set the character's avatar.
@@ -199,10 +199,14 @@ public class CharsheetRequest extends KoLRequest
 				KoLCharacter.setAscensions( intToken( parsedContent ) );
 			}
 
-			while ( !token.startsWith( "Turns" ) )
-				token = parsedContent.nextToken();
-			skipTokens( parsedContent, 3 );
-			KoLCharacter.setTotalTurnsUsed( intToken( parsedContent ) );
+			if ( responseText.indexOf( "(this run)" ) != -1 )
+			{
+				while ( !token.startsWith( "Turns" ) || token.indexOf( "(this run)" ) == -1 )
+					token = parsedContent.nextToken();
+
+				skipTokens( parsedContent, 3 );
+				KoLCharacter.setTotalTurnsUsed( intToken( parsedContent ) );
+			}
 
 			// Determine the player's zodiac sign, if any.
 

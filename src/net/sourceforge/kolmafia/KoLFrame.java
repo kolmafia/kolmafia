@@ -464,7 +464,9 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		private void updateTextOnly()
 		{
 			levelLabel.setText( "Level " + KoLCharacter.getLevel() );
-			roninLabel.setText( KoLCharacter.isHardcore() ? "(Hardcore)" : KoLCharacter.canInteract() ? "(Ronin-Clear)" : "(Ronin)" );
+			roninLabel.setText( KoLCharacter.isHardcore() ? "(Hardcore)" : KoLCharacter.canInteract() ? "(Ronin Clear)" :
+				"(Ronin for " + (600 - KoLCharacter.getTotalTurnsUsed()) + ")" );
+
 			mcdLabel.setText( "MCD @ " + KoLCharacter.getMindControlLevel() );
 
 			musLabel.setText( getStatText( KoLCharacter.getAdjustedMuscle(), KoLCharacter.getBaseMuscle() ) );
