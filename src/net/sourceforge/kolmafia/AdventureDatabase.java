@@ -660,7 +660,7 @@ public class AdventureDatabase extends KoLDatabase
 					shouldAutoSatisfyEarly = true;
 			}
 
-			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) && shouldAutoSatisfyEarly )
+			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) && shouldAutoSatisfyEarly )
 			{
 				// People, in general, don't want to buy the
 				// expensive stages of a TPS drink.  Therefore,
@@ -712,7 +712,7 @@ public class AdventureDatabase extends KoLDatabase
 			// but only for combinable items (non-combinables
 			// would have been handled earlier).
 
-			if ( client.permitsContinue() && getProperty( "autoSatisfyChecks" ).equals( "true" ) && !shouldAutoSatisfyEarly )
+			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) && !shouldAutoSatisfyEarly )
 			{
 				if ( NPCStoreDatabase.contains( item.getName() ) || KoLCharacter.canInteract() )
 					missingCount = retrieveItem( "buy", null, item, missingCount );
