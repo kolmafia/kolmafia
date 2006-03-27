@@ -56,7 +56,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 	private static final int DOLPHIN_KING_MAP = 26;
 	private static final int SPOOKY_TEMPLE_MAP = 74;
-	private static final int SIXPACK = 138;
 	private static final int DINGHY_PLANS = 146;
 	private static final int ENCHANTED_BEAN = 186;
 	private static final int FENG_SHUI = 210;
@@ -100,7 +99,6 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int GIFT11 = 1177;
 	private static final int GIFTV = 1460;
 
-	private static final AdventureResult SCHLITZ = new AdventureResult( 41, 6 );
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
 	private static final AdventureResult FERTILIZER = new AdventureResult( 76, -1 );
 	private static final AdventureResult PLANKS = new AdventureResult( 140, -1 );
@@ -223,19 +221,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		switch ( itemUsed.getItemID() )
-		{
-		case SIXPACK:
-			// "Using" a sixpack makes Schlitz, not Willer
-			client.processResult( SCHLITZ );
-			break;
-
-		default:
-			// Everything else currently makes something that
-			// regular result parsing can recognize
-			super.processResults();
-			break;
-		}
+		super.processResults();
 
 		// Check for familiar growth - if a familiar is added,
 		// make sure to update the client.

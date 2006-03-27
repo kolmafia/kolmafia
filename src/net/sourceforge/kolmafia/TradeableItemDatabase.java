@@ -167,12 +167,6 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemName == null || itemName.length() == 0 )
 			return -1;
 
-		if ( itemName.equals( "ice-cold beer (Schlitz)" ) )
-			return 41;
-
-		if ( itemName.equals( "ice-cold beer (Willer)" ) )
-			return 81;
-
 		// Get the canonical name of the item, and attempt
 		// to parse based on that.
 
@@ -410,9 +404,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 */
 
 	public static final String getItemName( int itemID )
-	{
-		return itemID == 41 ? "ice-cold beer (Schlitz)" : itemID == 81 ? "ice-cold beer (Willer)" :
-			(String) nameByItemID.get( new Integer( itemID ) );
+	{	return (String)nameByItemID.get( new Integer( itemID ) );
 	}
 
 	/**
