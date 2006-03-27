@@ -80,6 +80,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	private static final AdventureResult CLOCKWORK_BARTENDER = new AdventureResult( 1111, 1 );
 
 	private String name;
+	private boolean completedRequest;
 	private int itemID, quantityNeeded, mixingMethod;
 
 	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
@@ -248,6 +249,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
+		completedRequest = false;
 		if ( !client.permitsContinue() || quantityNeeded <= 0 )
 			return;
 
@@ -412,6 +414,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( createdQuantity > 0 )
 		{
+			completedRequest = true;
+
 			// Because an explosion might have occurred, the
 			// quantity that has changed might not be accurate.
 			// Therefore, update with the actual value.
@@ -420,8 +424,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			for ( int i = 0; i < ingredients.length; ++i )
 				client.processResult( new AdventureResult( ingredients[i].getItemID(), -1 * createdQuantity * ingredients[i].getCount() ) );
-
-			// Reduce adventures and use meat paste
 
 			switch ( mixingMethod )
 			{
@@ -649,6 +651,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public int getAdventuresUsed()
 	{
+		if ( !completedRequest )
+			return 0;
+
 		switch ( mixingMethod )
 		{
 			case SMITH:
