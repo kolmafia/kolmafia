@@ -49,11 +49,11 @@ public class FightRequest extends KoLRequest
 	public static final AdventureResult DICTIONARY1 = new AdventureResult( 536, 1 );
 	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
 
-	private String action;
 	private int roundCount;
 	private int turnsUsed = 0;
-	private static String encounter = "";
+	private String action1, action2;
 
+	private static String encounter = "";
 	private static final String [] RARE_MONSTERS =
 	{
 		// Ultra-rare monsters
@@ -87,16 +87,16 @@ public class FightRequest extends KoLRequest
 	 * Constructs a new <code>FightRequest</code>.  The client provided will
 	 * be used to determine whether or not the fight should be started and/or
 	 * continued, and the user settings will be used to determine the kind
-	 * of action to be taken during the battle.
+	 * of action1 to be taken during the battle.
 	 */
 
 	public FightRequest( KoLmafia client )
 	{
 		super( client, "fight.php" );
 		this.roundCount = 0;
+
 		FightRequest.encounter = "";
 		this.turnsUsed = 0;
-		nextRound();
 	}
 
 	public void nextRound()
@@ -109,24 +109,25 @@ public class FightRequest extends KoLRequest
 
 		int haltTolerance = (int)( Double.parseDouble( getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
 
-		action = getProperty( "battleAction" );
+		action1 = getProperty( "battleAction" );
+		action2 = null;
 
 		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
 			if ( encounter.indexOf( RARE_MONSTERS[i] ) != -1 )
 				client.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
 
-		if ( roundCount > 1 && action.equals( "custom" ) )
+		if ( roundCount > 1 && action1.equals( "custom" ) )
 		{
-			action = CombatSettings.getSetting( encounter, roundCount - 2 );
-			if ( action.startsWith( "item" ) )
+			action1 = CombatSettings.getSetting( encounter, roundCount - 2 );
+			if ( action1.startsWith( "item" ) )
 			{
-				String name = (String) TradeableItemDatabase.getMatchingNames( action.substring(4).trim() ).get(0);
-				action = name == null ? "attack" : "item" + TradeableItemDatabase.getItemID( name );
+				String name = (String) TradeableItemDatabase.getMatchingNames( action1.substring(4).trim() ).get(0);
+				action1 = name == null ? "attack" : "item" + TradeableItemDatabase.getItemID( name );
 			}
-			else if ( action.startsWith( "skill" ) )
+			else if ( action1.startsWith( "skill" ) )
 			{
-				String name = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
-				action = name == null ? "attack" : String.valueOf( ClassSkillsDatabase.getSkillID( name ) );
+				String name = KoLmafiaCLI.getCombatSkillName( action1.substring(5).trim() );
+				action1 = name == null ? "attack" : String.valueOf( ClassSkillsDatabase.getSkillID( name ) );
 			}
 		}
 
@@ -136,79 +137,83 @@ public class FightRequest extends KoLRequest
 			// actually wind up submitting no
 			// extra data.
 
-			action = "attack";
+			action1 = "attack";
 		}
-		else if ( action.equals( "abort" ) || !client.permitsContinue() )
+		else if ( action1.equals( "abort" ) || !client.permitsContinue() )
 		{
 			// If the user has chosen to abort
 			// combat, flag it.
 
-			action = "...";
+			action1 = "...";
 		}
 		else if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 		{
 			// If you plan on halting the battle
 			// due to HP loss, then flag it.
 
-			action = "...";
+			action1 = "...";
 		}
-		else if ( action.startsWith( "run" ) )
+		else if ( action1.startsWith( "run" ) )
 		{
-			action = "runaway";
-			addFormField( "action", action );
+			action1 = "runaway";
+			addFormField( "action", action1 );
 		}
-		else if ( action.equals( "attack" ) )
+		else if ( action1.equals( "attack" ) )
 		{
-			action = "attack";
-			addFormField( "action", action );
+			action1 = "attack";
+			addFormField( "action", action1 );
 		}
 
 		// If the player wants to use an item, make sure he has one
-		else if ( action.startsWith( "item" ) )
+		else if ( action1.startsWith( "item" ) )
 		{
-			int itemID = Integer.parseInt( action.substring( 4 ) );
+			int itemID = Integer.parseInt( action1.substring( 4 ) );
+			int itemCount = (new AdventureResult( itemID, 1 )).getCount( KoLCharacter.getInventory() );
 
-			if ( (new AdventureResult( itemID, 1 )).getCount( KoLCharacter.getInventory() ) == 0 )
+			if ( itemCount == 0 )
 			{
-				action = "attack";
-				addFormField( "action", action );
+				action1 = "attack";
+				addFormField( "action", action1 );
 			}
 			else
 			{
 				addFormField( "action", "useitem" );
 				addFormField( "whichitem", String.valueOf( itemID ) );
 
-				if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) && !hasActionCost( itemID ) )
+				if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) && itemCount >= 2 )
+				{
+					action2 = action1;
 					addFormField( "whichitem2", String.valueOf( itemID ) );
+				}
 			}
 		}
 
 		// Skills use MP. Make sure the character has enough
 		else if ( KoLCharacter.getCurrentMP() < getActionCost() )
 		{
-			action = "attack";
-			addFormField( "action", action );
+			action1 = "attack";
+			addFormField( "action", action1 );
 		}
-		else if ( action.equals( "moxman" ) )
+		else if ( action1.equals( "moxman" ) )
 		{
-			action = "moxman";
-			addFormField( "action", action );
+			action1 = "moxman";
+			addFormField( "action", action1 );
 		}
 
 		// If the player wants to use a skill, make sure he knows it
 		else
 		{
-			String skillName = ClassSkillsDatabase.getSkillName( Integer.parseInt( action ) );
+			String skillName = ClassSkillsDatabase.getSkillName( Integer.parseInt( action1 ) );
 
 			if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
 			{
-				action = "attack";
-				addFormField( "action", action );
+				action1 = "attack";
+				addFormField( "action", action1 );
 			}
 			else
 			{
 				addFormField( "action", "skill" );
-				addFormField( "whichskill", action );
+				addFormField( "whichskill", action1 );
 			}
 		}
 	}
@@ -224,7 +229,9 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( action.equals( "..." ) || !client.permitsContinue() )
+		nextRound();
+
+		if ( action1.equals( "..." ) || !client.permitsContinue() )
 		{
 			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Battle stopped.  Please finish in-browser." );
 
@@ -315,11 +322,8 @@ public class FightRequest extends KoLRequest
 
 		super.processResults();
 
-		if ( this.turnsUsed == 0 )
-		{
-			nextRound();
+		if ( turnsUsed == 0 )
 			run();
-		}
 	}
 
 	public int getCombatRound()
@@ -328,16 +332,16 @@ public class FightRequest extends KoLRequest
 
 	private int getActionCost()
 	{
-		if ( action.equals( "attack" ) )
+		if ( action1.equals( "attack" ) )
 			return 0;
 
-		if ( action.startsWith( "item" ) )
+		if ( action1.startsWith( "item" ) )
 			return 0;
 
-		if ( action.equals( "moxman" ) )
+		if ( action1.equals( "moxman" ) )
 			return KoLCharacter.getLevel();
 
-		return ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action ) );
+		return ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action1 ) );
 	}
 
 	private boolean hasActionCost( int itemID )
@@ -360,21 +364,29 @@ public class FightRequest extends KoLRequest
 
 	private void payActionCost()
 	{
-		if ( action.equals( "attack" ) || action.equals( "runaway" ) )
+		if ( action1.equals( "attack" ) || action1.equals( "runaway" ) )
 			return;
 
-		if ( action.startsWith( "item" ) )
+		if ( action1.startsWith( "item" ) )
 		{
-			int itemID = Integer.parseInt( action.substring( 4 ) );
+			int id1 = Integer.parseInt( action1.substring( 4 ) );
 
-			if ( hasActionCost( itemID ) )
-				client.processResult( new AdventureResult( itemID, -1 ) );
+			if ( hasActionCost( id1 ) )
+				client.processResult( new AdventureResult( id1, -1 ) );
+
+			if ( action2 != null )
+			{
+				int id2 = Integer.parseInt( action2.substring( 4 ) );
+			
+				if ( hasActionCost( id2 ) )
+					client.processResult( new AdventureResult( id2, -1 ) );
+			}
 
 			return;
 		}
 
-		int mp = action.equals( "moxman" ) ? KoLCharacter.getLevel() :
-			ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action ) );
+		int mp = action1.equals( "moxman" ) ? KoLCharacter.getLevel() :
+			ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action1 ) );
 
 		if ( mp > 0 )
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - mp ) );
