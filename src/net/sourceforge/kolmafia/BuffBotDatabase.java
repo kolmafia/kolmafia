@@ -59,14 +59,17 @@ public class BuffBotDatabase extends KoLDatabase
 		{ new Integer(6004), "Moxious Madrigal", "Madrigal" },
 		{ new Integer(6005), "Canticle of Celerity", "Celerity" },
 		{ new Integer(6006), "Polka of Plenty", "Polka" },
-		{ new Integer(6007), "Magical Mojomuscular Melody", "MMMelody" },
-		{ new Integer(6008), "Power Ballad of the Arrowsmith", "Power Ballad" },
+		{ new Integer(6007), "Magical Mojomuscular Melody", "Melody" },
+		{ new Integer(6008), "Power Ballad of the Arrowsmith", "Ballad" },
 		{ new Integer(6009), "Anthem of Absorption", "Anthem" },
 		{ new Integer(6010), "Phat Loot Lyric", "Phat Loot" },
 		{ new Integer(6011), "Psalm of Pointiness", "Psalm" },
 		{ new Integer(6012), "Symphony of Destruction", "Symphony" },
 		{ new Integer(6013), "Shanty of Superiority", "Shanty" },
 		{ new Integer(6014), "Ode to Booze", "Ode" },
+		{ new Integer(6015), "Sonata of Sneakiness", "Sneakiness" },
+		{ new Integer(6016), "Cantata of Conflict", "Conflict" },
+		{ new Integer(6017), "Aria of Annoyance", "Aria" },
 
 		// Sauceress Buffs
 		{ new Integer(4007), "Elemental Saucesphere", "Elemental" },
@@ -247,8 +250,8 @@ public class BuffBotDatabase extends KoLDatabase
 	{	return allBots.getBuffFree( index1, index2 );
 	}
 
-	public static String getBuffLabel( int index1, int index2, boolean compact )
-	{	return allBots.getBuffLabel( index1, index2, compact );
+	public static String getBuffLabel( int index1, int index2 )
+	{	return allBots.getBuffLabel( index1, index2 );
 	}
 
 	public static void configureBuffBots()
@@ -391,7 +394,7 @@ public class BuffBotDatabase extends KoLDatabase
 			buffs.toArray( buffArray );
 
 			for ( int i = 0; i < buffArray.length; ++i )
-				if ( name.equals( buffArray[i].getAbbreviation() ) )
+				if ( name.indexOf( buffArray[i].getAbbreviation() ) != -1 )
 					return buffArray[i];
 
 			return null;
@@ -441,8 +444,8 @@ public class BuffBotDatabase extends KoLDatabase
 		{	return getBuff( index1 ).getOfferingFree( index2 );
 		}
 
-		public String getBuffLabel( int index1, int index2, boolean compact )
-		{	return getBuff( index1 ).getOfferingLabel( index2, compact );
+		public String getBuffLabel( int index1, int index2 )
+		{	return getBuff( index1 ).getOfferingLabel( index2 );
 		}
 
 		public void addBuffList( BuffList bl )
@@ -474,7 +477,7 @@ public class BuffBotDatabase extends KoLDatabase
 
 				int offerings = getBuffOfferingCount( i );
 				for (int j = 0; j < offerings; ++j )
-					System.out.println( "  " + getBuffLabel( i, j, false ) );
+					System.out.println( "  " + getBuffLabel( i, j ) );
 			}
 		}
 	}
@@ -537,11 +540,11 @@ public class BuffBotDatabase extends KoLDatabase
 		}
 
 		public long getOfferingRate( int index )
-		{	return getOffering( index).getRate();
+		{	return getOffering( index ).getRate();
 		}
 
-		public String getOfferingLabel( int index, boolean compact )
-		{	return getOffering( index).getLabel( compact );
+		public String getOfferingLabel( int index )
+		{	return getOffering( index ).getLabel();
 		}
 
 		public boolean equals( Object o )
@@ -600,15 +603,8 @@ public class BuffBotDatabase extends KoLDatabase
 		{	return rate;
 		}
 
-		public String getLabel( boolean compact )
-		{
-			String rate = ff.format( (double)(this.rate / 100.0) );
-
-			if ( compact )
-				return turns + " for " + price + " (" + rate + " M/T) from " + bot;
-
-			String isFree = free ? " (once a day)" : "";
-			return turns + " turns for " + price + " meat (" + rate + " meat/turn) from " + bot + isFree;
+		public String getLabel()
+		{	return turns + " turns for " + price + " meat from " + bot + (free ? " (once a day)" : "");
 		}
 
 		public boolean equals( Object o )

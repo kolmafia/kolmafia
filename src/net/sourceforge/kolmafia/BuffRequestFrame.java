@@ -70,8 +70,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffRequestFrame extends KoLFrame
 {
-	private BuffRequestPanel buffs;
-
 	public BuffRequestFrame( KoLmafia client )
 	{
 		super( client, "Buff Requests" );
@@ -83,15 +81,9 @@ public class BuffRequestFrame extends KoLFrame
 		BuffBotDatabase.configureBuffBots();
 
 		BuffRequestPanel buffs = new BuffRequestPanel();
-		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		JComponentUtilities.setComponentSize( scroller, 640, 600 );
+		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JComponentUtilities.setComponentSize( scroller, 600, 480 );
 		framePanel.add( scroller, "" );
-	}
-
-	public void dispose()
-	{
-		buffs = null;
-		super.dispose();
 	}
 
 	private class BuffRequestPanel extends JPanel
@@ -110,7 +102,7 @@ public class BuffRequestFrame extends KoLFrame
 			for ( int i = 0; i < buffCount; ++i )
 				boxes[i] = new BuffRequestBox( i );
 
-			SpringUtilities.makeCompactGrid( this, buffCount, 3, 10, 10, 10, 10 );
+			SpringUtilities.makeCompactGrid( this, buffCount, 3, 5, 5, 5, 5 );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -120,7 +112,7 @@ public class BuffRequestFrame extends KoLFrame
 			if ( boxes == null )
 				return;
 
-			for ( int i = 0; i < boxes.length; ++i)
+			for ( int i = 0; i < boxes.length; ++i )
 				if ( boxes[i] != null )
 					boxes[i].setEnabled( isEnabled );
 		}
@@ -141,7 +133,7 @@ public class BuffRequestFrame extends KoLFrame
 				int count = BuffBotDatabase.getBuffOfferingCount( index );
 				for (int j = 0; j < count; ++j )
 				{
-					String label = BuffBotDatabase.getBuffLabel( index, j , false );
+					String label = BuffBotDatabase.getBuffLabel( index, j );
 					selects.addItem( label );
 				}
 
