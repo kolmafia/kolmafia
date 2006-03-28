@@ -213,9 +213,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		else
 		{
 			if ( target == null || target.equals( "" ) )
-				DEFAULT_SHELL.updateDisplay( skillName + " was successfully cast" );
+				DEFAULT_SHELL.updateDisplay( skillName + " was successfully cast." );
 			else
-				DEFAULT_SHELL.updateDisplay( skillName + " was successfully cast on " + target );
+				DEFAULT_SHELL.updateDisplay( skillName + " was successfully cast on " + target + "." );
 
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.

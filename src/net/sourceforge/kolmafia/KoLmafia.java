@@ -915,11 +915,11 @@ public abstract class KoLmafia implements KoLConstants
 			currentMethod = KoLCharacter.class.getMethod( currentName, new Class[0] );
 			maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[0] );
 
-			if ( ((Number)currentMethod.invoke( null, empty )).intValue() > needed )
-				return true;
-
 			int last = -1;
-			int current = -1;
+			int current = ((Number)currentMethod.invoke( null, empty )).intValue();
+
+			if ( needed != 0 && current >= needed )
+				return true;
 
 			// First, attempt to recover using the appropriate script, if it exists.
 			// This uses a lot of excessive reflection, but the idea is that it
@@ -932,7 +932,6 @@ public abstract class KoLmafia implements KoLConstants
 			if ( !scriptPath.equals( "" ) )
 			{
 				last = -1;
-				current = ((Number)currentMethod.invoke( null, empty )).intValue();
 
 				while ( current <= needed && last != current && currentState != ABORT_STATE )
 				{
@@ -964,7 +963,6 @@ public abstract class KoLmafia implements KoLConstants
 				if ( restoreSetting.indexOf( currentTechnique.toString() ) != -1 )
 				{
 					last = -1;
-					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 
 					while ( current <= needed && last != current && currentState != ABORT_STATE )
 					{
