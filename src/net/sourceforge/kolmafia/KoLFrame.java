@@ -701,11 +701,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		helperMenu.add( new DisplayPageMenuItem( "KoLmafia Thread", "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Sourceforge Page", "https://sourceforge.net/projects/kolmafia" ) );
 		helperMenu.add( new DisplayPageMenuItem( "End-User Manual", "http://kolmafia.sourceforge.net/manual.html" ) );
+		helperMenu.add( new DisplayPageMenuItem( "Script Repository", "http://kolmafia.us/" ) );
 
 		helperMenu.add( new JSeparator() );
 
 		helperMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
-		helperMenu.add( new DisplayPageMenuItem( "Jinya's Visual Wiki", "http://www.thekolwiki.net/" ) );
+		helperMenu.add( new DisplayPageMenuItem( "Jinya's Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Ohayou's Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Moxie Survival Lookup", "http://kol.network-forums.com/cgi-bin/moxie.cgi" ) );
 	}

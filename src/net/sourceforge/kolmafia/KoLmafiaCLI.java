@@ -2351,7 +2351,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return new AdventureResult( effectName, duration, true );
 	}
 
-	public int getFirstMatchingItemID( List nameList, int matchType )
+	public static int getFirstMatchingItemID( List nameList, int matchType )
 	{
 		if ( nameList.isEmpty() )
 			return -1;
@@ -2390,7 +2390,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * specify an item quantity before the string.
 	 */
 
-	public AdventureResult getFirstMatchingItem( String parameters, int matchType, int defaultCount )
+	public static AdventureResult getFirstMatchingItem( String parameters, int matchType, int defaultCount )
 	{
 		int itemID = -1;
 		int itemCount = 0;
@@ -2414,7 +2414,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( matchingNames.size() == 0 )
 			{
-				updateDisplay( ERROR_STATE, "[" + itemNameString + "] does not match anything in the item database." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "[" + itemNameString + "] does not match anything in the item database." );
 				return null;
 			}
 
@@ -2435,7 +2435,7 @@ public class KoLmafiaCLI extends KoLmafia
 					char c = itemCountString.charAt(i);
 					if ( !Character.isDigit( c ) && c != '-' && c != '+' )
 					{
-						updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
+						DEFAULT_SHELL.updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
 						return null;
 					}
 				}
@@ -2455,7 +2455,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( itemID == -1 )
 		{
-			updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
 			return null;
 		}
 
@@ -2504,15 +2504,19 @@ public class KoLmafiaCLI extends KoLmafia
 
 		else if ( matchType == CLOSET && matchCount < itemCount )
 		{
-			updateDisplay( ERROR_STATE, "Insufficient " + TradeableItemDatabase.getItemName( itemID ) + " to continue." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient " + TradeableItemDatabase.getItemName( itemID ) + " to continue." );
 			return null;
 		}
 
 		return itemCount <= 0 ? null : firstMatch;
 	}
 
-	private AdventureResult getFirstMatchingItem( String parameters, int matchType )
+	public static AdventureResult getFirstMatchingItem( String parameters, int matchType )
 	{	return getFirstMatchingItem( parameters, matchType, 1 );
+	}
+
+	public static AdventureResult getFirstMatchingItem( String parameters )
+	{	return getFirstMatchingItem( parameters, INVENTORY, 1 );
 	}
 
 	/**
