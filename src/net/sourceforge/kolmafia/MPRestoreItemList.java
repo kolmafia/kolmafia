@@ -208,14 +208,15 @@ public abstract class MPRestoreItemList extends StaticEntity
 			// go as easy on the server as possible.
 
 			int mpShort = maximumMP - currentMP;
-			int numberToUse = Math.min( (int) Math.ceil( mpShort / mpPerUse ), itemUsed.getCount( KoLCharacter.getInventory() ) );
+			int numberToUse = (int) Math.ceil( mpShort / mpPerUse );
+			
+			if ( StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "false" ) )
+				numberToUse = Math.min( numberToUse, itemUsed.getCount( KoLCharacter.getInventory() ) );
 
 			// Because there aren't many buffbots running anymore, it's
 			// okay to use one less than is actually necessary.
 
-			if ( numberToUse > 1 )
-				--numberToUse;
-			else
+			if ( numberToUse < 1 )
 				numberToUse = 1;
 
 			DEFAULT_SHELL.updateDisplay( "Consuming " + numberToUse + " " + itemName + "..." );

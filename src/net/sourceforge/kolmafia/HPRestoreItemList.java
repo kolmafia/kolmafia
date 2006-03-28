@@ -52,7 +52,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class HPRestoreItemList extends StaticEntity
 {
-	public static final HPRestoreItem WALRUS = new HPRestoreItem( "tongue of the walrus", 1, -2 );
+	public static final HPRestoreItem WALRUS = new HPRestoreItem( "tongue of the walrus", 1, -3 );
+	public static final HPRestoreItem COCOON = new HPRestoreItem( "cannelloni cocoon", 1, -2 );
 	public static final HPRestoreItem REMEDY = new HPRestoreItem( "soft green echo eyedrop antidote", 1, -1 );
 
 	public static final HPRestoreItem GALAKTIK = new HPRestoreItem( "doc galaktik", 1, Integer.MAX_VALUE - 1 );
@@ -65,6 +66,11 @@ public abstract class HPRestoreItemList extends StaticEntity
 	public static void reset()
 	{
 		list.clear();
+		
+		list.add( WALRUS );
+		list.add( COCOON );
+		list.add( REMEDY );
+		
 		list.add( GALAKTIK );
 		list.add( HOUSE );
 
@@ -209,17 +215,23 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return;
 			}
 
+			if ( this == COCOON )
+			{
+				int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( "Cannelloni Cocoon" ) );
+				(new UseSkillRequest( client, "Cannelloni Cocoon", "", 1 )).run();
+				return;
+			}
+
 			// Always buff as close to max HP as possible, in order to
 			// go as easy on the server as possible.
 
-			int numberToUse = Math.min( (int) Math.ceil( hpShort / hpPerUse ), itemUsed.getCount( KoLCharacter.getInventory() ) );
+			int numberToUse = (int) Math.ceil( hpShort / hpPerUse );
 
-			// Because there aren't many buffbots running anymore, it's
-			// okay to use one less than is actually necessary.
+			if ( StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "false" ) )
+				numberToUse = Math.min( numberToUse, itemUsed.getCount( KoLCharacter.getInventory() ) );
 
-			if ( numberToUse > 1 )
-				--numberToUse;
-			else
+
+			if ( numberToUse < 1 )
 				numberToUse = 1;
 
 			DEFAULT_SHELL.updateDisplay( "Consuming " + numberToUse + " " + itemName + "..." );

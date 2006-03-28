@@ -1545,7 +1545,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public void actionPerformed( ActionEvent e )
 		{
-			JFileChooser chooser = new JFileChooser( "." );
+			JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
 			int returnVal = chooser.showOpenDialog( KoLFrame.this );
 
 			if ( chooser.getSelectedFile() == null )

@@ -1038,14 +1038,15 @@ public abstract class KoLmafia implements KoLConstants
 				return;
 			}
 		}
-		else if ( technique != MPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.WALRUS && technique != HPRestoreItemList.REMEDY )
+		else if ( technique != MPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.COCOON && technique != HPRestoreItemList.WALRUS && technique != HPRestoreItemList.REMEDY )
 		{
-			if ( !KoLCharacter.getInventory().contains( new AdventureResult( technique.toString(), 0 ) ) )
+			AdventureResult item = new AdventureResult( technique.toString(), 0 );
+			if ( !KoLCharacter.getInventory().contains( item ) )
 			{
 				// Allow for the possibility that the player can
 				// auto-purchase the item from the mall.
 
-				if ( !KoLCharacter.canInteract() || !StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+				if ( !NPCStoreDatabase.contains( item.getName() ) && !KoLCharacter.canInteract() || !StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" ) )
 				{
 					DEFAULT_SHELL.updateDisplay( "Insufficient " + technique + " for auto-restore." );
 					return;
