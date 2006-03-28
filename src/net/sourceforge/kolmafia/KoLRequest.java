@@ -424,9 +424,15 @@ public class KoLRequest implements Runnable, KoLConstants
 			synchronized ( KoLRequest.class )
 			{
 				KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
+				execute();
 			}
 		}
-
+		else
+			execute();
+	}
+	
+	public void execute()
+	{
 		// You are allowed a maximum of four attempts
 		// to run the request.  This prevents KoLmafia
 		// from spamming the servers.

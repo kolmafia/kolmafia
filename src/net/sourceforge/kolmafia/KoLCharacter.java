@@ -2138,12 +2138,15 @@ public abstract class KoLCharacter extends StaticEntity
 
 				if ( !(StaticEntity.getClient().getCurrentRequest() instanceof CampgroundRequest) )
 				{
-					String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
-					if ( !scriptPath.equals( "" ) )
-						DEFAULT_SHELL.executeLine( scriptPath );
+					synchronized ( KoLRequest.class )
+					{
+						String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
+						if ( !scriptPath.equals( "" ) )
+							DEFAULT_SHELL.executeLine( scriptPath );
 
-					StaticEntity.getClient().recoverHP();
-					StaticEntity.getClient().recoverMP();
+						StaticEntity.getClient().recoverHP();
+						StaticEntity.getClient().recoverMP();
+					}
 				}
 			}
 		}

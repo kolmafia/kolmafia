@@ -1715,10 +1715,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 					int index = locationToIndex( e.getPoint() );
 					Object item = getModel().getElementAt( index );
 
-					if ( item instanceof AdventureResult && ((AdventureResult)item).isItem() )
+					if ( item instanceof AdventureResult )
 					{
 						ensureIndexIsVisible( index );
-						openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( ((AdventureResult)item).getItemID() ) );
+
+						if ( ((AdventureResult)item).isItem() )
+							openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( ((AdventureResult)item).getItemID() ) );
+						if ( ((AdventureResult)item).isStatusEffect() )
+							openRequestFrame( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectID( ((AdventureResult)item).getName() ) );
 					}
 					if ( item instanceof ItemCreationRequest )
 					{

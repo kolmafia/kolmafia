@@ -354,22 +354,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		makeIngredients();
 
-		// If the request has been cancelled midway, be
-		// sure to return from here.
-
-		if ( !client.permitsContinue() )
-			return;
-
-		// Auto-create chef or bartender if one doesn't
-		// exist and the user has opted to repair.
-
 		if ( !autoRepairBoxServant() )
-			return;
-
-		// If the request has been cancelled midway, be
-		// sure to return from here.
-
-		if ( !client.permitsContinue() )
 			return;
 
 		// Now that the ingredients have been created, and
@@ -461,6 +446,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private boolean autoRepairBoxServant()
 	{
+		if ( !client.permitsContinue() )
+			return false;
+
 		// If we are not cooking or mixing, or if we already have the
 		// appropriate servant installed, we don't need to repair
 
@@ -490,26 +478,21 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If they do want to auto-repair, make sure that
 		// the appropriate item is available in their inventory
 
-		if ( getProperty( "autoRepairBoxes" ).equals( "true" ) )
+		switch ( mixingMethod )
 		{
-			switch ( mixingMethod )
-			{
-				case COOK:
-				case COOK_REAGENT:
-				case COOK_PASTA:
+			case COOK:
+			case COOK_REAGENT:
+			case COOK_PASTA:
+				autoRepairSuccessful = useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN );
+				break;
 
-					autoRepairSuccessful = useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN );
-					break;
-
-				case MIX:
-				case MIX_SPECIAL:
-
-					autoRepairSuccessful = useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT );
-					break;
-			}
+			case MIX:
+			case MIX_SPECIAL:
+				autoRepairSuccessful = useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT );
+				break;
 		}
 
-		return autoRepairSuccessful;
+		return autoRepairSuccessful && client.permitsContinue();
 	}
 
 	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant, AdventureResult noServantItem )
@@ -519,6 +502,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// of creation.
 
 		AdventureResult usedServant = null;
+
+		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
+			return getProperty( "createWithoutBoxServants" ).equals( "true" ) && noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
 
 		if ( KoLCharacter.hasItem( servant, false ) )
 			usedServant = servant;

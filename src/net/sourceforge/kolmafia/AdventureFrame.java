@@ -146,17 +146,25 @@ public class AdventureFrame extends KoLFrame
 		// Construct the panel which holds other
 		// commonly-accessed simple features.
 
-		this.meatStorage = new MeatStoragePanel();
 		this.skillBuff = new SkillBuffPanel();
+		JScrollPane effectScroller = new JScrollPane( new ShowDescriptionList( KoLCharacter.getEffects() ),
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		JPanel skillPanel = new JPanel( new BorderLayout() );
+		skillPanel.add( skillBuff, BorderLayout.NORTH );
+		skillPanel.add( effectScroller, BorderLayout.CENTER );
+
+		tabs.addTab( "Skillcast", skillPanel );
+
+		this.meatStorage = new MeatStoragePanel();
 		this.heroDonation = new HeroDonationPanel();
 
 		JPanel otherPanel = new JPanel();
 		otherPanel.setLayout( new BoxLayout( otherPanel, BoxLayout.Y_AXIS ) );
 		otherPanel.add( meatStorage );
-		otherPanel.add( skillBuff );
 		otherPanel.add( heroDonation );
 
-		tabs.addTab( "Other Activities", otherPanel );
+		tabs.addTab( "Manage Meat", otherPanel );
 
 		// Add the automatic restoration and
 		// script customization tab.
