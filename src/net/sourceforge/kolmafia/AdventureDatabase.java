@@ -131,7 +131,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// How Depressing
 		{ { "choiceAdventure7" }, { "Gravy Barrow 2" },
-		  { "Put your hand in the depression", "Leave" } },
+		  { "Put your hand in the depression", "Leave the cave" } },
 
 		// On the Verge of a Dirge
 		{ { "choiceAdventure8" }, { "Gravy Barrow 3" },
@@ -139,31 +139,38 @@ public class AdventureDatabase extends KoLDatabase
 
 		// A Bard Day's Night
 		{ { "choiceAdventure14" }, { "Knob Goblin Harem" },
-		  { "Knob goblin harem veil", "Knob goblin harem pants", "100 meat", "Complete the outfit" } },
+		  { "Knob goblin harem veil", "Knob goblin harem pants", "100 meat", "Complete the outfit" },
+		  { "306", "305", null, null } },
 
 		// Yeti Nother Hippy
 		{ { "choiceAdventure15" }, { "eXtreme Slope 1" },
-		  { "eXtreme mittens", "eXtreme scarf", "75 meat", "Complete the outfit" } },
+		  { "eXtreme mittens", "eXtreme scarf", "75 meat", "Complete the outfit" },
+		  { "399", "355", null, null } },
 
 		// Saint Beernard
 		{ { "choiceAdventure16" }, { "eXtreme Slope 2" },
-		  { "snowboarder pants", "eXtreme scarf", "75 meat", "Complete the outfit" } },
+		  { "snowboarder pants", "eXtreme scarf", "75 meat", "Complete the outfit" },
+		  { "356", "355", null, null } },
 
 		// Generic Teen Comedy
 		{ { "choiceAdventure17" }, { "eXtreme Slope 3" },
-		  { "eXtreme mittens", "snowboarder pants", "75 meat", "Complete the outfit" } },
+		  { "eXtreme mittens", "snowboarder pants", "75 meat", "Complete the outfit" },
+		  { "399", "356", null, null } },
 
 		// A Flat Miner
 		{ { "choiceAdventure18" }, { "Itznotyerzitz Mine 1" },
-		  { "miner's pants", "7-Foot Dwarven mattock", "100 meat", "Complete the outfit" } },
+		  { "miner's pants", "7-Foot Dwarven mattock", "100 meat", "Complete the outfit" },
+		  { "361", "362", null, null } },
 
 		// 100% Legal
 		{ { "choiceAdventure19" }, { "Itznotyerzitz Mine 2" },
-		  { "miner's helmet", "miner's pants", "100 meat", "Complete the outfit" } },
+		  { "miner's helmet", "miner's pants", "100 meat", "Complete the outfit" },
+		  { "360", "361", null, null } },
 
 		// See You Next Fall
 		{ { "choiceAdventure20" }, { "Itznotyerzitz Mine 3" },
-		  { "miner's helmet", "7-Foot Dwarven mattock", "100 meat", "Complete the outfit" } },
+		  { "miner's helmet", "7-Foot Dwarven mattock", "100 meat", "Complete the outfit" },
+		  { "360", "362", null, null } },
 
 		// Under the Knife
 		{ { "choiceAdventure21" }, { "Sleazy Back Alley" },
@@ -171,15 +178,18 @@ public class AdventureDatabase extends KoLDatabase
 
 		// The Arrrbitrator
 		{ { "choiceAdventure22" }, { "Pirate's Cove 1" },
-		  { "eyepatch", "swashbuckling pants", "100 meat", "Complete the outfit" } },
+		  { "eyepatch", "swashbuckling pants", "100 meat", "Complete the outfit" },
+		  { "224", "402", null, null } },
 
 		// Barrie Me at Sea
 		{ { "choiceAdventure23" }, { "Pirate's Cove 2" },
-		  { "stuffed shoulder parrot", "swashbuckling pants", "100 meat", "Complete the outfit" } },
+		  { "stuffed shoulder parrot", "swashbuckling pants", "100 meat", "Complete the outfit" },
+		  { "403", "402", null, null } },
 
 		// Amatearrr Night
 		{ { "choiceAdventure24" }, { "Pirate's Cove 3" },
-		  { "stuffed shoulder parrot", "100 meat", "eyepatch", "Complete the outfit" } },
+		  { "stuffed shoulder parrot", "100 meat", "eyepatch", "Complete the outfit" },
+		  { "403", null, "224", null } },
 
 		// Ouch! You bump into a door!
 		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
@@ -187,15 +197,18 @@ public class AdventureDatabase extends KoLDatabase
 
 		// The Effervescent Fray
 		{ { "choiceAdventure40" }, { "Cola Wars 1" },
-		  { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "15 Mysticality" } },
+		  { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "15 Mysticality" },
+		  { "1328", "1329", null } },
 
 		// Smells Like Team Spirit
 		{ { "choiceAdventure41" }, { "Cola Wars 2" },
-		  { "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "15 Muscle" } },
+		  { "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "15 Muscle" },
+		  { "1330", "1331", null } },
 
 		// What is it Good For?
 		{ { "choiceAdventure42" }, { "Cola Wars 3" },
-		  { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "15 Moxie" } }
+		  { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "15 Moxie" },
+		  { "1326", "1327", null } }
 	};
 
 	// Some choice adventures have a choice that behaves as an "ignore"

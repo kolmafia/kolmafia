@@ -1073,10 +1073,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( decision == null )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
-
-			// Finish in browser if requested
-			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
-				request.showInBrowser( true );
+			request.showInBrowser( true );
 
 			return false;
 		}
@@ -1096,10 +1093,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( decision.equals( "0" ) )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
-
-			// Finish in browser if requested
-			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
-				request.showInBrowser( true );
+			request.showInBrowser( true );
 
 			return false;
 		}
@@ -1111,42 +1105,47 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( !client.getConditions().isEmpty() )
 		{
+			boolean completeOutfit = false;
 			String [] possibleDecisions = null;
+
+			int decisionIndex = Integer.parseInt( decision ) - 1;
 
 			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
 				if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
-					possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][2];
+				{
+					if ( AdventureDatabase.CHOICE_ADVS[i][0].length == 4 )
+					{
+						completeOutfit = AdventureDatabase.CHOICE_ADVS[i][2][ decisionIndex ].equals( "Complete the outfit" );
+						possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
+					}
+				}
 
 			if ( possibleDecisions != null )
 			{
 				// Only change the decision if the user-specified option
 				// will not satisfy something on the conditions list.
 
-				if ( possibleDecisions[ Integer.parseInt( decision ) - 1 ].equals( "Complete the outfit" ) )
+				if ( completeOutfit )
 				{
 					// Here, you have an outfit completion option.  Therefore
-					// determine which outfit needs to be completed.  This
-					// is, in theory, trivial -- just choose the item that
-					// the player does not have, and if they have everything,
-					// just make a random choice.
+					// determine which outfit needs to be completed. Just
+					// choose the item that the player does not have, and if
+					// they have everything, just make a random choice.
 
-					if ( !possibleDecisions[0].endsWith( "meat" ) && !KoLCharacter.hasItem( new AdventureResult( possibleDecisions[0] ), false ) )
-						decision = "1";
-					else if ( !possibleDecisions[1].endsWith( "meat" ) && !KoLCharacter.hasItem( new AdventureResult( possibleDecisions[1] ), false ) )
-						decision = "2";
-					else if ( !possibleDecisions[2].endsWith( "meat" ) && !KoLCharacter.hasItem( new AdventureResult( possibleDecisions[2] ), false ) )
-						decision = "3";
-					else
+					decision = null;
+					
+					for ( int i = 0; i < 3; ++i )
+						if ( possibleDecisions[i] != null && !KoLCharacter.hasItem( new AdventureResult( Integer.parseInt( possibleDecisions[0] ), 1 ), false ) )
+							decision = String.valueOf( i + 1 );
+
+					if ( decision == null )
 						decision = String.valueOf( RNG.nextInt( 3 ) + 1 );
 				}
-				else if ( !TradeableItemDatabase.contains( possibleDecisions[ Integer.parseInt( decision ) - 1 ] ) ||
-					!client.getConditions().contains( new AdventureResult( possibleDecisions[ Integer.parseInt( decision ) - 1 ], 1, false ) ) )
+				else
 				{
 					for ( int i = 0; i < possibleDecisions.length; ++i )
-					{
-						if ( TradeableItemDatabase.contains( possibleDecisions[i] ) && client.getConditions().contains( new AdventureResult( possibleDecisions[i], 1, false ) ) )
+						if ( possibleDecisions[i] != null && client.getConditions().contains( new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 ) ) )
 							decision = String.valueOf( i + 1 );
-					}
 				}
 			}
 		}

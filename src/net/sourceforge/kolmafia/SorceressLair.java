@@ -1310,15 +1310,29 @@ public abstract class SorceressLair extends StaticEntity
 	private static void fightShadow()
 	{
 		List requirements = new ArrayList();
-	
-		// Slightly different handling if the player is out of ronin -
-		// ignore the red pixel potion if the player can interact and
-		// they have the funkslinging skill.
-	
+		
 		AdventureResult option = new AdventureResult( "red pixel potion", 4 );
-		if ( !KoLCharacter.hasItem( option, true ) || KoLCharacter.canInteract() )
+		if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
-			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+			// Whether or not you have red pixel potions, if you
+			// already have enough elixirs or restorative balm,
+			// go ahead and default to them.
+
+			AdventureResult check = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
+			if ( check.getCount( KoLCharacter.getInventory() ) >= 6 )
+				option = check;
+			
+			check = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
+			if ( check.getCount( KoLCharacter.getInventory() ) >= 8 )
+				option = check;
+
+			// Even if you have enough red pixel potions, you
+			// may want to use cures if you're out of Ronin
+			// because they are more cost-effective.  Also, if
+			// you do not have enough red pixel potions, you
+			// will definitely want to use a doc galaktik cure.
+
+			if ( !KoLCharacter.hasItem( option, true ) || KoLCharacter.canInteract() )
 			{
 				option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
 
