@@ -529,8 +529,4 @@ public class StoreManageFrame extends KoLPanelFrame
 			}
 		}
 	}
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( StoreManageFrame.class )).run();
-	}
 }

@@ -671,17 +671,4 @@ public class OptionsFrame extends KoLFrame
 		{	openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
 		}
 	}
-
-	/**
-	 * The main method used in the event of testing the way the
-	 * user interface looks.  This allows the UI to be tested
-	 * without having to constantly log in and out of KoL.
-	 */
-
-	public static void main( String [] args )
-	{
-		HPRestoreItemList.reset();
-		MPRestoreItemList.reset();
-		(new CreateFrameRunnable( OptionsFrame.class )).run();
-	}
 }

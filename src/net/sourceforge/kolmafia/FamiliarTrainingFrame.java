@@ -2260,8 +2260,4 @@ public class FamiliarTrainingFrame extends KoLFrame
 				setText( "Turn On " +  title );
 		}
 	}
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( FamiliarTrainingFrame.class )).run();
-	}
 }

@@ -239,8 +239,4 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 		}
 	}
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( HagnkStorageFrame.class )).run();
-	}
 }

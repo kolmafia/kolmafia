@@ -235,8 +235,4 @@ public class ExamineItemsFrame extends KoLFrame
 			return s1.compareToIgnoreCase( s2 );
 		}
 	}
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( ExamineItemsFrame.class )).run();
-	}
 }

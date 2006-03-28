@@ -94,13 +94,4 @@ public class GiftMessageFrame extends SendMessageFrame
 			return false;
 		}
 	}
-
-	/**
-	 * Main class used to view the user interface without having to actually
-	 * start the program.  Used primarily for user interface testing.
-	 */
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( GiftMessageFrame.class )).run();
-	}
 }

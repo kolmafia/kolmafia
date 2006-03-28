@@ -523,8 +523,4 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			updatePredictionsPage();
 		}
 	}
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( CalendarFrame.class )).run();
-	}
 }

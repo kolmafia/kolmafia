@@ -100,17 +100,4 @@ public class ProposeTradeFrame extends SendMessageFrame
 		(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
 		return true;
 	}
-
-	/**
-	 * Main class used to view the user interface without having to actually
-	 * start the program.  Used primarily for user interface testing.
-	 */
-
-	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( ProposeTradeFrame.class, parameters )).run();
-	}
 }

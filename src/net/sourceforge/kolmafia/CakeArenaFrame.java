@@ -278,8 +278,4 @@ public class CakeArenaFrame extends KoLFrame
 			return component;
 		}
 	}
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( CakeArenaFrame.class )).run();
-	}
 }

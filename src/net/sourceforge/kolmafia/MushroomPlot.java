@@ -584,20 +584,4 @@ public abstract class MushroomPlot extends StaticEntity
 			}
 		}
 	}
-
-	public static void main( String [] args )
-	{
-		initialized = true;
-		ownsPlot = true;
-
-		actualPlot[0][0] = KNOB;
-		actualPlot[0][2] = KNOLL;
-		actualPlot[1][3] = SPOOKY;
-		actualPlot[2][0] = SPOOKY;
-		actualPlot[3][1] = KNOLL;
-		actualPlot[3][3] = KNOB;
-
-		System.out.println( getMushroomPlot( false ) );
-		System.out.println( getForecastedPlot( false ) );
-	}
 }

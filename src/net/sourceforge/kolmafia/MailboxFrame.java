@@ -455,12 +455,4 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			(new CreateFrameRunnable( GreenMessageFrame.class, parameters )).run();
 		}
 	}
-
-	public static void main( String [] args )
-	{
-		Object [] parameters = new Object[1];
-		parameters[0] = null;
-
-		(new CreateFrameRunnable( MailboxFrame.class, parameters )).run();
-	}
 }

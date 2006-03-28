@@ -333,8 +333,4 @@ public class MushroomFrame extends KoLFrame
 			}
 		}
 	}
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( MushroomFrame.class )).run();
-	}
 }

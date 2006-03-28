@@ -118,13 +118,6 @@ public class ClanManageFrame extends KoLFrame
 		this.search = new MemberSearchPanel();
 		this.tabs = new JTabbedPane();
 
-		JPanel snapPanel = new JPanel();
-		snapPanel.setLayout( new BoxLayout( snapPanel, BoxLayout.Y_AXIS ) );
-		snapPanel.add( snapshot );
-		snapPanel.add( ascension );
-
-		tabs.addTab( "Clan Snapshot", snapPanel );
-
 		JPanel karmaPanel = new JPanel( new BorderLayout() );
 		karmaPanel.add( donation, BorderLayout.NORTH );
 
@@ -134,6 +127,13 @@ public class ClanManageFrame extends KoLFrame
 		karmaPanel.add( stashPanel, BorderLayout.CENTER );
 
 		tabs.addTab( "Stash Manager", karmaPanel );
+
+		JPanel snapPanel = new JPanel();
+		snapPanel.setLayout( new BoxLayout( snapPanel, BoxLayout.Y_AXIS ) );
+		snapPanel.add( snapshot );
+		snapPanel.add( ascension );
+
+		tabs.addTab( "Clan Snapshot", snapPanel );
 
 		JPanel purchasePanel = new JPanel();
 		purchasePanel.setLayout( new BoxLayout( purchasePanel, BoxLayout.Y_AXIS ) );
@@ -782,9 +782,5 @@ public class ClanManageFrame extends KoLFrame
 		{
 			ClanManager.saveStashLog();
 		}
-	}
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( ClanManageFrame.class )).run();
 	}
 }

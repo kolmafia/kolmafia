@@ -493,8 +493,4 @@ public class LoginFrame extends KoLFrame
 			}
 		}
 	}
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( LoginFrame.class )).run();
-	}
 }

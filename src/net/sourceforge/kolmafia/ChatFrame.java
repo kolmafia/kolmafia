@@ -467,14 +467,4 @@ public class ChatFrame extends KoLFrame
 				KoLMessenger.removeChat( getAssociatedContact() );
 		}
 	}
-
-	/**
-	 * The main method used in the event of testing the way the
-	 * user interface looks.  This allows the UI to be tested
-	 * without having to constantly log in and out of KoL.
-	 */
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( ChatFrame.class )).run();
-	}
 }

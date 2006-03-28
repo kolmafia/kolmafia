@@ -457,8 +457,4 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		{	return col == getColumnCount() - 1;
 		}
 	}
-
-	public static void main( String [] args )
-	{	(new CreateFrameRunnable( FlowerHunterFrame.class )).run();
-	}
 }
