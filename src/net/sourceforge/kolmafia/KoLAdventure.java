@@ -162,16 +162,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Before running the request, make sure you have enough
 		// mana and health to continue.
 
-		if ( !formSource.equals( "campground.php" ) )
+		if ( !(client.getCurrentRequest() instanceof CampgroundRequest) )
 		{
-			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
-			if ( !scriptPath.equals( "" ) )
-				DEFAULT_SHELL.executeLine( scriptPath );
-
 			if ( !client.recoverHP() || !client.recoverMP() )
 				return;
 
-			if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
+			if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
 			{
 				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
 				return;
@@ -231,25 +227,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// used adventures from the tally
 
 		client.registerAdventure( this );
-
-		// After running the request, make sure you have enough
-		// mana and health to continue so you don't get an abort
-		// when the user has a good script already there.
-
-		if ( !formSource.equals( "campground.php" ) )
-		{
-			if ( !client.permitsContinue() )
-			{
-				client.recoverHP();
-				client.recoverMP();
-			}
-
-			if ( haltTolerance != 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
-			{
-				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
-				return;
-			}
-		}
 	}
 
 	/**

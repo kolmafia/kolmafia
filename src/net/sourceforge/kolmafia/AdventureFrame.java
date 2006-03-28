@@ -786,7 +786,7 @@ public class AdventureFrame extends KoLFrame
 
 			battleStopSelect = new JComboBox();
 			battleStopSelect.addItem( "Never stop combat" );
-			for ( int i = 1; i <= 9; ++i )
+			for ( int i = 0; i <= 9; ++i )
 				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
 
 			// Add in the bewteen-adventures field
@@ -836,7 +836,7 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex()) / 10.0) ) );
+			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
 
 			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
@@ -852,7 +852,7 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) );
+			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
 			betweenBattleScriptField.setText( getProperty( "betweenBattleScript" ) );
 
 			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );

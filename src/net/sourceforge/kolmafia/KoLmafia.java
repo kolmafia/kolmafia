@@ -904,6 +904,9 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
+			if ( needed < 0 )
+				return true;
+
 			Object [] empty = new Object[0];
 			Method currentMethod, maximumMethod;
 
