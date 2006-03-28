@@ -657,10 +657,6 @@ public class RequestFrame extends KoLFrame
 			REFRESHER.refreshStatus( "" );
 	}
 
-	public boolean useSidePane()
-	{	return false;
-	}
-
 	public void dispose()
 	{
 		visitedLocations.clear();

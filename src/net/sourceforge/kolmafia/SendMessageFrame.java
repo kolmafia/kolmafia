@@ -244,10 +244,6 @@ public abstract class SendMessageFrame extends KoLFrame
 		return label;
 	}
 
-	public boolean useSidePane()
-	{	return false;
-	}
-
 	protected abstract boolean sendMessage( String recipient, String [] messages );
 
 	private class SendMessageListener implements ActionListener, Runnable
@@ -469,10 +465,6 @@ public abstract class SendMessageFrame extends KoLFrame
 					AdventureResult.addResultToList( source, (AdventureResult) items[i] );
 				}
 			}
-		}
-
-		public boolean useSidePane()
-		{	return false;
 		}
 	}
 }

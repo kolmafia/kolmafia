@@ -319,10 +319,6 @@ public class CharsheetFrame extends KoLFrame
 		avatar.setIcon( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) );
 	}
 
-	public boolean useSidePane()
-	{	return false;
-	}
-
 	private class StatusRefreshRunnable implements Runnable
 	{
 		public void run()

@@ -220,6 +220,10 @@ public class AdventureFrame extends KoLFrame
 		}
 	}
 
+	public boolean useSidePane()
+	{	return true;
+	}
+
 	private JPanel getAdventureSummary( int selectedIndex )
 	{
 		CardLayout resultCards = new CardLayout( 0, 0 );

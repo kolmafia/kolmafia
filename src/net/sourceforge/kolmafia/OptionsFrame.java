@@ -671,8 +671,4 @@ public class OptionsFrame extends KoLFrame
 		{	openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
 		}
 	}
-
-	public boolean useSidePane()
-	{	return false;
-	}
 }

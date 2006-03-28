@@ -333,8 +333,4 @@ public class MushroomFrame extends KoLFrame
 			}
 		}
 	}
-
-	public boolean useSidePane()
-	{	return false;
-	}
 }

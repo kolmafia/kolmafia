@@ -523,8 +523,4 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			updatePredictionsPage();
 		}
 	}
-
-	public boolean useSidePane()
-	{	return false;
-	}
 }

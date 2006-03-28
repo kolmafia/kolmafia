@@ -783,8 +783,4 @@ public class ClanManageFrame extends KoLFrame
 			ClanManager.saveStashLog();
 		}
 	}
-
-	public boolean useSidePane()
-	{	return false;
-	}
 }

@@ -278,8 +278,4 @@ public class CakeArenaFrame extends KoLFrame
 			return component;
 		}
 	}
-
-	public boolean useSidePane()
-	{	return false;
-	}
 }

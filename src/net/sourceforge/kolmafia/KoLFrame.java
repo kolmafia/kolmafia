@@ -242,7 +242,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 	
 	public boolean useSidePane()
-	{	return true;
+	{	return false;
 	}
 
 	/**

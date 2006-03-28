@@ -88,10 +88,6 @@ public class GearChangeFrame extends KoLFrame
 		refreshEquipPanel();
 	}
 
-	public boolean useSidePane()
-	{	return false;
-	}
-
 	public void dispose()
 	{
 		for ( int i = 0; i < equipment.length; ++i )

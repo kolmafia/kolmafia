@@ -2260,8 +2260,4 @@ public class FamiliarTrainingFrame extends KoLFrame
 				setText( "Turn On " +  title );
 		}
 	}
-
-	public boolean useSidePane()
-	{	return false;
-	}
 }

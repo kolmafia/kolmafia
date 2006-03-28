@@ -455,8 +455,4 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			(new CreateFrameRunnable( GreenMessageFrame.class, parameters )).run();
 		}
 	}
-
-	public boolean useSidePane()
-	{	return false;
-	}
 }
