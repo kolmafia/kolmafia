@@ -1429,7 +1429,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 		else if ( this instanceof RequestFrame )
 		{
-			((RequestFrame)this).refresh( request );
+			((RequestFrame)this).refresh( request, true );
 			return;
 		}
 		else if ( request.getURLString().equals( "main.php" ) )

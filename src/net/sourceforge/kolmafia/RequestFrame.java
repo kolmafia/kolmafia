@@ -235,7 +235,7 @@ public class RequestFrame extends KoLFrame
 		if ( this.hasSideBar )
 			refreshStatus();
 
-		(new DisplayRequestThread( this.currentRequest )).start();
+		(new DisplayRequestThread( this.currentRequest, true )).start();
 	}
 
 	private class BrowserComboBox extends JComboBox implements ActionListener
@@ -303,6 +303,10 @@ public class RequestFrame extends KoLFrame
 	 */
 
 	public void refresh( KoLRequest request )
+	{	refresh( request, false );
+	}
+	
+	public void refresh( KoLRequest request, boolean shouldEnable )
 	{
 		String location = request.getURLString();
 
@@ -311,10 +315,10 @@ public class RequestFrame extends KoLFrame
 			setCombatRound( request );
 
 			// Only record raw mini-browser requests
-			if ( client != null && request.getClass() == KoLRequest.class )
+			if ( request.getClass() == KoLRequest.class )
 				client.getMacroStream().println( location );
 
-			(new DisplayRequestThread( request )).start();
+			(new DisplayRequestThread( request, shouldEnable )).start();
 		}
 		else
 			parent.refresh( request );
@@ -340,9 +344,12 @@ public class RequestFrame extends KoLFrame
 	protected class DisplayRequestThread extends Thread
 	{
 		private KoLRequest request;
+		private boolean shouldEnable;
 
-		public DisplayRequestThread( KoLRequest request )
-		{	this.request = request;
+		public DisplayRequestThread( KoLRequest request, boolean shouldEnable )
+		{
+			this.request = request;
+			this.shouldEnable = shouldEnable;
 		}
 
 		public void run()
@@ -515,6 +522,9 @@ public class RequestFrame extends KoLFrame
 			     (new CharsheetRequest( client )).run();
 
 			KoLCharacter.refreshCalculatedLists();
+			
+			if ( shouldEnable )
+				client.enableDisplay();
 		}
 	}
 

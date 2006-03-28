@@ -989,7 +989,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 							request.addEncodedFormField( elements[i] );
 			}
 
-			frame.refresh( request );
+			frame.refresh( request, true );
 		}
 
 		private RequestFrame findFrame( String value )
