@@ -413,6 +413,8 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		DEFAULT_SHELL.updateDisplay( "Data refreshed." );
+
 		resetSession();
 		applyRecentEffects();
 
