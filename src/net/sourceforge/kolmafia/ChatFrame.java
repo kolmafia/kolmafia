@@ -451,7 +451,9 @@ public class ChatFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	KoLMessenger.setUpdateChannel( getAssociatedContact() );
+		{
+			KoLMessenger.setUpdateChannel( getAssociatedContact() );
+			super.actionPerformed( e );
 		}
 	}
 
