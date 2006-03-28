@@ -208,4 +208,8 @@ public class ContactListFrame extends KoLFrame
 			}
 		}
 	}
+
+	public boolean useSidePane()
+	{	return false;
+	}
 }

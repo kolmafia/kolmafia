@@ -235,4 +235,8 @@ public class ExamineItemsFrame extends KoLFrame
 			return s1.compareToIgnoreCase( s2 );
 		}
 	}
+
+	public boolean useSidePane()
+	{	return false;
+	}
 }

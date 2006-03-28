@@ -34,7 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.CardLayout;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -74,8 +74,7 @@ public class HagnkStorageFrame extends KoLFrame
 		tabs.addTab( "All Items", all );
 		tabs.addTab( "Equipment", equip );
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( tabs, "" );
+		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
 	public static void setPullsRemaining( String pullsRemaining )

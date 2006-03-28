@@ -493,4 +493,8 @@ public class LoginFrame extends KoLFrame
 			}
 		}
 	}
+
+	public boolean useSidePane()
+	{	return false;
+	}
 }

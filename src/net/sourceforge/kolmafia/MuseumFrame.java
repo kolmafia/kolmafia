@@ -104,8 +104,7 @@ public class MuseumFrame extends KoLFrame
 		tabs.addTab( "Shelves", shelvesScroller );
 		tabs.addTab( "Ordering", orderingScroller );
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( tabs, "" );
+		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
 	public void dispose()
@@ -188,7 +187,7 @@ public class MuseumFrame extends KoLFrame
 		private class InsideDisplayPanel extends ItemManagePanel
 		{
 			public InsideDisplayPanel()
-			{	super( "Display Case", "remove maximum", "remove multiple", KoLCharacter.getCollection() );
+			{	super( "Display Case", "take maximum", "take multiple", KoLCharacter.getCollection() );
 			}
 
 			private void move( boolean moveAll )

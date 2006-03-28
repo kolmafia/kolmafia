@@ -74,8 +74,6 @@ public class CommandDisplayFrame extends KoLFrame
 	{
 		super( client, "Graphical CLI" );
 		KoLmafia.commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", false );;
-
-		addCompactPane();
 		framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
 
 		// If the user wishes to add toolbars, go ahead

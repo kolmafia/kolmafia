@@ -135,26 +135,14 @@ public class AdventureFrame extends KoLFrame
 		// Construct the store purchasing container
 		// to hold everything related to purchases.
 
-		JPanel mallContainer = new JPanel( new BorderLayout( 10, 10 ) );
 		this.mallSearch = new MallSearchPanel();
-
-		mallContainer.add( mallSearch, BorderLayout.NORTH );
-		mallContainer.add( new SearchResultsPanel(), BorderLayout.CENTER );
-
-		tabs.addTab( "Purchases", mallContainer );
+		tabs.addTab( "Purchases", mallSearch );
 
 		// Construct the panel which holds other
 		// commonly-accessed simple features.
 
 		this.skillBuff = new SkillBuffPanel();
-		JScrollPane effectScroller = new JScrollPane( new ShowDescriptionList( KoLCharacter.getEffects() ),
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JPanel skillPanel = new JPanel( new BorderLayout() );
-		skillPanel.add( skillBuff, BorderLayout.NORTH );
-		skillPanel.add( effectScroller, BorderLayout.CENTER );
-
-		tabs.addTab( "Skillcast", skillPanel );
+		tabs.addTab( "Skillcast", skillBuff );
 
 		this.meatStorage = new MeatStoragePanel();
 		this.heroDonation = new HeroDonationPanel();
@@ -173,8 +161,6 @@ public class AdventureFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
 		tabs.addTab( "Auto-Restore", restoreScroller );
 
-		addCompactPane();
-		compactPane.setBackground( ENABLED_COLOR );
 		framePanel.add( tabs, BorderLayout.CENTER );
 
 		try
@@ -615,6 +601,7 @@ public class AdventureFrame extends KoLFrame
 			elements[2] = new VerifiableElement( " ", checkBoxPanels, false );
 
 			setContent( elements );
+			add( new SearchResultsPanel(), BorderLayout.CENTER );
 
 			currentlyBuying = false;
 			countField.setText( getProperty( "defaultLimit" ).equals( "" ) ? "5" : getProperty( "defaultLimit" ) );

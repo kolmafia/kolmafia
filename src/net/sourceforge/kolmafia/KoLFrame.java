@@ -116,8 +116,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
 {
 	protected static final File SCRIPT_DIRECTORY = new File( "scripts" );
-	protected static final Color ERROR_COLOR = new Color( 255, 128, 128 );
-	protected static final Color ENABLED_COLOR = new Color( 128, 255, 128 );
+	protected static final Color ERROR_COLOR = new Color( 255, 192, 192 );
+	protected static final Color ENABLED_COLOR = new Color( 192, 255, 192 );
 	protected static final Color DISABLED_COLOR = null;
 
 	private String lastTitle;
@@ -236,6 +236,13 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			compileBookmarks();
 			constructMenus( container );
 		}
+		
+		if ( useSidePane() )
+			addCompactPane();
+	}
+	
+	public boolean useSidePane()
+	{	return true;
 	}
 
 	/**
@@ -316,6 +323,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		this.refreshListener = new KoLCharacterAdapter( refresher );
 		KoLCharacter.addCharacterListener( refreshListener );
+		compactPane.setBackground( ENABLED_COLOR );
 	}
 
 	public void addTextOnlyCompactPane()
@@ -2115,7 +2123,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 * effects to a character (yourself or others).
 	 */
 
-	protected class SkillBuffPanel extends LabeledKoLPanel
+	protected class SkillBuffPanel extends KoLPanel
 	{
 		private JComboBox skillSelect;
 		private JComboBox targetSelect;
@@ -2126,7 +2134,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public SkillBuffPanel( String initialRecipient )
 		{
-			super( "Got Skills?", "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			skillSelect = new JComboBox( client == null ? new LockableListModel() : KoLCharacter.getUsableSkills() );
 			targetSelect = new MutableComboBox( client == null ? new SortedListModel() : (SortedListModel) client.getContactList().clone() );
@@ -2134,8 +2142,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Skill Name: ", skillSelect );
 			elements[1] = new VerifiableElement( "The Victim: ", targetSelect );
-			setContent( elements, true, true );
+
+			setContent( elements );
 			setDefaultButton( confirmedButton );
+
+			JScrollPane effectScroller = new JScrollPane( new ShowDescriptionList( KoLCharacter.getEffects() ),
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			add( effectScroller, BorderLayout.CENTER );
 
 			if ( !initialRecipient.equals( "" ) )
 			{

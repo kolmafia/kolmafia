@@ -82,12 +82,14 @@ public class GearChangeFrame extends KoLFrame
 	public GearChangeFrame( KoLmafia client )
 	{
 		super( client, "Changing Gears" );
-
-		CardLayout cards = new CardLayout( 10, 10 );
-		framePanel.setLayout( cards );
-
+		
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( createEquipPanel(), "" );
 		refreshEquipPanel();
+	}
+
+	public boolean useSidePane()
+	{	return false;
 	}
 
 	public void dispose()

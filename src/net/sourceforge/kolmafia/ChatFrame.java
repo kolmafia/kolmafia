@@ -467,4 +467,8 @@ public class ChatFrame extends KoLFrame
 				KoLMessenger.removeChat( getAssociatedContact() );
 		}
 	}
+
+	public boolean useSidePane()
+	{	return false;
+	}
 }

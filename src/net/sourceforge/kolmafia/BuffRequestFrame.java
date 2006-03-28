@@ -179,4 +179,8 @@ public class BuffRequestFrame extends KoLFrame
 			}
 		}
 	}
+
+	public boolean useSidePane()
+	{	return false;
+	}
 }

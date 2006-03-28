@@ -144,7 +144,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			statusContainer.add( actionStatusPanel );
 			statusContainer.add( Box.createVerticalStrut( 20 ) );
 
-			add( statusContainer, BorderLayout.SOUTH );
+			container.add( statusContainer, BorderLayout.SOUTH );
 		}
 	}
 

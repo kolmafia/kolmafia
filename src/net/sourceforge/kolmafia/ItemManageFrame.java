@@ -143,16 +143,7 @@ public class ItemManageFrame extends KoLFrame
 		tabs.addTab( "Inventory", inventory );
 		tabs.addTab( "Closet", closet );
 
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( tabs, "" );
-
-		toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", StoreManageFrame.class ) );
-		toolbarPanel.add( new DisplayFrameButton( "Display Case", "museum.gif", MuseumFrame.class ) );
-		toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", HagnkStorageFrame.class ) );
-
-		toolbarPanel.add( new JToolBar.Separator() );
-
-		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
+		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
 	private class ConsumePanel extends MultiButtonPanel

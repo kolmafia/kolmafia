@@ -34,7 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.CardLayout;
+import java.awt.BorderLayout;
 import net.java.dev.spellcast.utilities.ActionPanel;
 
 /**
@@ -78,8 +78,6 @@ public class KoLPanelFrame extends KoLFrame
 	 */
 
 	protected void setContentPanel( ActionPanel panel )
-	{
-		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( panel, "" );
+	{	framePanel.add( panel, BorderLayout.CENTER );
 	}
 }

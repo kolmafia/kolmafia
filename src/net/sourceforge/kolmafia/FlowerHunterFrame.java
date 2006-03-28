@@ -457,4 +457,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		{	return col == getColumnCount() - 1;
 		}
 	}
+
+	public boolean useSidePane()
+	{	return false;
+	}
 }
