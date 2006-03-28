@@ -1311,13 +1311,21 @@ public abstract class SorceressLair extends StaticEntity
 	{
 		List requirements = new ArrayList();
 	
+		// Slightly different handling if the player is out of ronin -
+		// ignore the red pixel potion if the player can interact and
+		// they have the funkslinging skill.
+	
 		AdventureResult option = new AdventureResult( "red pixel potion", 4 );
-		if ( !KoLCharacter.hasItem( option, true ) )
+		if ( !KoLCharacter.hasItem( option, true ) || KoLCharacter.canInteract() )
 		{
 			if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 			{
 				option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
-				if ( option.getCount( KoLCharacter.getInventory() ) == 0 )
+
+				// Always default to restorative balm if it will cost
+				// less to acquire it.
+
+				if ( option.getCount( KoLCharacter.getInventory() ) < 3 )
 					option = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
 			}
 		}
