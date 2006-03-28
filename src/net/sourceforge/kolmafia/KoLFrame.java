@@ -2145,17 +2145,28 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 			setContent( elements );
 			setDefaultButton( confirmedButton );
-
-			JScrollPane effectScroller = new JScrollPane( new ShowDescriptionList( KoLCharacter.getEffects() ),
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			add( effectScroller, BorderLayout.CENTER );
+			add( new UneffectPanel(), BorderLayout.CENTER );
 
 			if ( !initialRecipient.equals( "" ) )
 			{
 				targetSelect.addItem( initialRecipient );
 				targetSelect.getEditor().setItem( initialRecipient );
 				targetSelect.setSelectedItem( initialRecipient );
+			}
+		}
+		
+		private class UneffectPanel extends ItemManagePanel
+		{
+			public UneffectPanel()
+			{	super( "Status Effects", "uneffect", "describe", KoLCharacter.getEffects() );
+			}
+			
+			public void actionConfirmed()
+			{	(new RequestThread( new UneffectRequest( client, (AdventureResult) elementList.getSelectedValue() ) )).start();
+			}
+			
+			public void actionCancelled()
+			{	openRequestFrame( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectID( ((AdventureResult) elementList.getSelectedValue()).getName() ) );
 			}
 		}
 
