@@ -59,6 +59,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0 );
 	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0 );
 	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0 );
+	private static final AdventureResult HEAVY_PETTING = new AdventureResult( "Heavy Petting", 0 );
 
 	private int id, weight;
 	private String name, race, item;
@@ -315,7 +316,8 @@ public class FamiliarData implements KoLConstants, Comparable
 		dodecaModifier = weightModifier;
 
 		// Empathy and Leash of Linguini each add five pounds.
-		// So do Green and Black Tongue from eating snowcones
+		// So do Green and Black Tongue from eating snowcones.
+		// So does Heavy Petting from Knob Goblin pet-buffing spray
 		// The passive "Amphibian Sympathy" skill does too.
 
 		if ( KoLCharacter.getEffects().contains( EMPATHY ) )
@@ -323,7 +325,6 @@ public class FamiliarData implements KoLConstants, Comparable
 			weightModifier += 5;
 			dodecaModifier += 5;
 		}
-
 
 		if ( KoLCharacter.getEffects().contains( LEASH ) )
 		{
@@ -333,6 +334,12 @@ public class FamiliarData implements KoLConstants, Comparable
 
 		if ( KoLCharacter.getEffects().contains( GREEN_TONGUE ) ||
 		     KoLCharacter.getEffects().contains( BLACK_TONGUE ) )
+		{
+			weightModifier += 5;
+			dodecaModifier += 5;
+		}
+
+		if ( KoLCharacter.getEffects().contains( HEAVY_PETTING ) )
 		{
 			weightModifier += 5;
 			dodecaModifier += 5;
