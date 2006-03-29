@@ -75,6 +75,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLmafia implements KoLConstants
 {
+	protected static PrintStream macroStream = NullStream.INSTANCE;
 	protected static PrintStream logStream = NullStream.INSTANCE;
 	protected static LimitedSizeChatBuffer commandBuffer = null;
 
@@ -95,7 +96,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected String password, sessionID, passwordHash;
 
 	protected KoLSettings settings;
-	protected PrintStream macroStream;
 	protected Properties LOCAL_SETTINGS = new Properties();
 
 	private String currentIterationString = "";
@@ -157,7 +157,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		this.useDisjunction = false;
 		this.settings = GLOBAL_SETTINGS;
-		this.macroStream = NullStream.INSTANCE;
 
 		String [] currentNames = GLOBAL_SETTINGS.getProperty( "saveState" ).split( "//" );
 		for ( int i = 0; i < currentNames.length; ++i )
@@ -1776,7 +1775,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @param	filename	The name of the file to be created
 	 */
 
-	public final void openMacroStream( String filename )
+	public static final void openMacroStream( String filename )
 	{
 		// First, ensure that a macro stream has not already been
 		// initialized - this can be checked by observing what
@@ -1814,7 +1813,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @return	The macro stream associated with this client
 	 */
 
-	public final PrintStream getMacroStream()
+	public static final PrintStream getMacroStream()
 	{	return macroStream;
 	}
 
@@ -1822,7 +1821,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * Deinitializes the macro stream.
 	 */
 
-	public final void closeMacroStream()
+	public static final void closeMacroStream()
 	{
 		macroStream.close();
 		macroStream = NullStream.INSTANCE;

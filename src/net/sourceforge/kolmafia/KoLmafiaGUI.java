@@ -80,15 +80,18 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
 
-		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) && GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) )
-			SystemTrayFrame.addTrayIcon();
+		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
+		{
+			if ( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) )
+				SystemTrayFrame.addTrayIcon();
+			
+			KoLDesktop.getInstance().setExtendedState( KoLDesktop.MAXIMIZED_HORIZ );
+			KoLDesktop.getInstance().setVisible( true );
+		}
 
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
 		
-		KoLDesktop.getInstance().pack();
-		KoLDesktop.getInstance().setVisible( true );
-
 		Object [] parameters = new Object[1];
 		parameters[0] = session.saveStateNames;
 
@@ -175,21 +178,16 @@ public class KoLmafiaGUI extends KoLmafia
 		// Figure out which user interface is being
 		// used -- account for minimalist loadings.
 
-		displayer.getCreation().setVisible( false );
-		Class frameClass = INTERFACE_MODES[ Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) ];
+		LoginFrame loginWindow = (LoginFrame) displayer.getCreation();
+		loginWindow.setVisible( false );
 
 		// Instantiate the appropriate instance of the
 		// frame that should be loaded based on the mode.
 
-		if ( frameClass == ChatFrame.class )
-		{
-			KoLMessenger.initialize();
-		}
-		else
-		{
-			displayer = new CreateFrameRunnable( frameClass );
-			displayer.run();
-		}
+		displayer = new CreateFrameRunnable( AdventureFrame.class );
+		displayer.run();
+
+		loginWindow.dispose();
 
 		// Also, if the person has new mail, then automatically
 		// load up the mail manager.

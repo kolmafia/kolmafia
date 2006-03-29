@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 // containers
 import java.awt.Image;
+import javax.swing.JFrame;
 import javax.swing.JDialog;
 import javax.swing.JToolBar;
 import javax.swing.JRadioButton;
@@ -105,9 +106,8 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	protected static final Color ENABLED_COLOR = new Color( 192, 255, 192 );
 	protected static final Color DISABLED_COLOR = null;
 
-	private String lastTitle;
-
-	private String frameName;
+	protected String lastTitle;
+	protected String frameName;
 	protected JPanel framePanel;
 	protected JToolBar toolbarPanel;
 
@@ -193,10 +193,6 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 			super.setTitle( this.lastTitle );
 	}
 	
-	public void updateTitle()
-	{	setTitle( lastTitle );
-	}
-
 	public boolean useSidePane()
 	{	return false;
 	}
@@ -222,8 +218,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		// If the list of frames is now empty, make sure
 		// you end the session.  Ending the session for
 		// a login frame involves exiting, and ending the
-		// session for all other frames is restarting the
-		// initial StaticEntity.getClient().
+		// session for all other frames is calling main.
 
 		if ( existingFrames.isEmpty() )
 		{
@@ -236,8 +231,12 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 				System.exit(0);
 			}
 			else
-				KoLmafiaGUI.main( new String[1] );
+				KoLmafiaGUI.main( new String[0] );
 		}
+	}
+	
+	public String toString()
+	{	return getFrameName() + ": " + lastTitle;
 	}
 
 	public String getFrameName()
@@ -503,6 +502,10 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 
 	public final boolean isEnabled()
 	{	return true;
+	}
+	
+	public void setEnabled( boolean isEnabled )
+	{
 	}
 
 	protected class MultiButtonPanel extends JPanel

@@ -94,7 +94,7 @@ public class KoLDesktop extends JFrame implements KoLConstants
 	{
 	}
 
-	private KoLDesktop( String title )
+	protected KoLDesktop( String title )
 	{
 		setTitle( title );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
@@ -125,7 +125,7 @@ public class KoLDesktop extends JFrame implements KoLConstants
 		existingFrames.toArray( frames );
 		
 		for ( int i = 0; i < frames.length; ++i )
-			frames[i].updateTitle();
+			frames[i].setTitle( frames[i].lastTitle );
 	}
 
 	/**
@@ -188,7 +188,6 @@ public class KoLDesktop extends JFrame implements KoLConstants
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new KoLPanelFrameMenuItem( "Manual Buffings", new SkillBuffPanel() ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
 
@@ -556,12 +555,12 @@ public class KoLDesktop extends JFrame implements KoLConstants
 		{
 			super( JComponentUtilities.getSharedImage( "command.gif" ) );
 			addActionListener( this );
-			setText( StaticEntity.getClient().getMacroStream() instanceof NullStream ? "Begin recording script..." : "Stop recording script" );
+			setText( KoLmafia.getMacroStream() instanceof NullStream ? "Begin recording script..." : "Stop recording script" );
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( StaticEntity.getClient().getMacroStream() instanceof NullStream )
+			if ( KoLmafia.getMacroStream() instanceof NullStream )
 			{
 				JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
 				int returnVal = chooser.showSaveDialog( KoLDesktop.this );
@@ -572,13 +571,13 @@ public class KoLDesktop extends JFrame implements KoLConstants
 				String filename = chooser.getSelectedFile().getAbsolutePath();
 
 				if ( returnVal == JFileChooser.APPROVE_OPTION )
-					StaticEntity.getClient().openMacroStream( filename );
+					KoLmafia.openMacroStream( filename );
 
 				macroMenuItem.setText( "Stop recording script" );
 			}
 			else
 			{
-				StaticEntity.getClient().closeMacroStream();
+				KoLmafia.closeMacroStream();
 				macroMenuItem.setText( "Begin recording script..." );
 			}
 		}
