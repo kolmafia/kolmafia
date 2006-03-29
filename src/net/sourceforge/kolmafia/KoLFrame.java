@@ -178,13 +178,13 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 
 		this.frameName = getClass().getName();
 		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
-		this.existingFrames.add( this );
+		existingFrames.add( this );
 
 		if ( useSidePane() )
 			addCompactPane();
 	}
 	
-	public void setTitle( String newTitle )
+	public final void setTitle( String newTitle )
 	{
 		this.lastTitle = newTitle;
 		if ( KoLCharacter.getUsername().length() > 0 )
@@ -236,7 +236,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	}
 	
 	public String toString()
-	{	return getFrameName() + ": " + lastTitle;
+	{	return lastTitle;
 	}
 
 	public String getFrameName()
@@ -830,56 +830,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	 */
 
 	public void openRequestFrame( String location )
-	{	openRequestFrame( RequestEditorKit.extractRequest( location ) );
-	}
-
-	public void openRequestFrame( KoLRequest request )
-	{
-		Object [] parameters;
-		String location = request.getURLString();
-
-		if ( location.startsWith( "search" ) ||
-		     location.startsWith( "desc" ) ||
-		     location.startsWith( "static" ) ||
-		     location.startsWith( "showplayer" ) )
-		{
-			parameters = new Object[2];
-			parameters[0] = this instanceof RequestFrame ? this : null;
-			parameters[1] = request;
-		}
-		else if ( this instanceof RequestFrame )
-		{
-			((RequestFrame)this).refresh( request, true );
-			return;
-		}
-		else if ( request.getURLString().equals( "main.php" ) )
-		{
-			parameters = new Object[1];
-			parameters[0] = request;
-		}
-		else
-		{
-			// Search for an existing true request frame to open
-			// the URL.
-
-			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-			existingFrames.toArray( frames );
-
-			for ( int i = frames.length - 1; i >= 0; --i )
-			{
-				if ( frames[i].getClass() == RequestFrame.class )
-				{
-					frames[i].requestFocus();
-					((RequestFrame)frames[i]).refresh( request );
-					return;
-				}
-			}
-
-			parameters = new Object[1];
-			parameters[0] = request;
-		}
-
-		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
+	{	KoLDesktop.openRequestFrame( location );
 	}
 
 	/**

@@ -107,13 +107,11 @@ public class AdventureFrame extends KoLFrame
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
 	 * are placed into their corresponding tabs, with the content panel being
 	 * defaulted to the adventure selection panel.
-	 *
-	 * @param	StaticEntity.getClient()	StaticEntity.getClient()/session associated with this frame
 	 */
 
 	public AdventureFrame()
 	{
-		super( "Main" );
+		super( "Main Interface" );
 		this.tabs = new JTabbedPane();
 
 		// Construct the adventure select container

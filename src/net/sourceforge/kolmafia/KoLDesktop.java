@@ -61,6 +61,7 @@ import javax.swing.JOptionPane;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.lang.reflect.Method;
+import java.lang.ref.WeakReference;
 
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.ActionPanel;
@@ -262,6 +263,9 @@ public class KoLDesktop extends JFrame implements KoLConstants
 		scriptMenu = new ScriptMenu();
 		container.add( scriptMenu );
 
+		// Add in the toggles menu for whenever the menu bar is
+		// something that appears on top.
+
 		if ( container instanceof JMenuBar )
 		{
 			JMenu toggleMenu = new JMenu( "Toggles" );
@@ -270,6 +274,8 @@ public class KoLDesktop extends JFrame implements KoLConstants
 			toggleMenu.add( debugMenuItem );
 			toggleMenu.add( macroMenuItem );
 		}
+
+		container.add( new WindowMenu() );
 
 		// Add help information for KoLmafia.  This includes
 		// the additional help-oriented stuffs.
@@ -313,11 +319,94 @@ public class KoLDesktop extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	FightFrame.showLocation( location );
+		{	openRequestFrame( location );
 		}
 
 		public String toString()
 		{	return getText();
+		}
+	}
+
+	/**
+	 * A method used to open a new <code>RequestFrame</code> which displays
+	 * the given location, relative to the KoL home directory for the current
+	 * session.  This should be called whenever <code>RequestFrame</code>s
+	 * need to be created in order to keep code modular.
+	 */
+
+	public static void openRequestFrame( String location )
+	{	openRequestFrame( RequestEditorKit.extractRequest( location ) );
+	}
+
+	public static void openRequestFrame( KoLRequest request )
+	{
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+		
+		RequestFrame requestHolder = null;
+
+		for ( int i = frames.length - 1; i >= 0; --i )
+			if ( frames[i].getClass() == RequestFrame.class && ((RequestFrame)frames[i]).hasSideBar() )
+				requestHolder = (RequestFrame) frames[i];
+
+		Object [] parameters;
+		String location = request.getURLString();
+
+		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
+		{
+			parameters = new Object[2];
+			parameters[0] = requestHolder;
+			parameters[1] = request;
+		}
+		else if ( requestHolder != null )
+		{
+			requestHolder.refresh( request );
+			requestHolder.requestFocus();
+			return;
+		}
+		else
+		{
+			parameters = new Object[1];
+			parameters[0] = request;
+		}
+
+		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
+	}
+	
+	protected class WindowMenu extends MenuItemList
+	{
+		public WindowMenu()
+		{	super( "Window", existingFrames );
+		}
+		
+		public JComponent constructMenuItem( Object o )
+		{	return new WindowDisplayMenuItem( (KoLFrame) o );
+		}
+		
+		public JComponent [] getHeaders()
+		{	return new JComponent[0];
+		}
+
+		private class WindowDisplayMenuItem extends JMenuItem implements ActionListener
+		{
+			private WeakReference frameReference;
+		
+			public WindowDisplayMenuItem( KoLFrame frame )
+			{
+				super( frame.toString() );
+				frameReference = new WeakReference( frame );
+				addActionListener( this );
+			}
+			
+			public void actionPerformed( ActionEvent e )
+			{
+				KoLFrame frame = (KoLFrame) frameReference.get();
+				if ( frame != null )
+				{
+					frame.setVisible( true );
+					frame.requestFocus();
+				}
+			}
 		}
 	}
 

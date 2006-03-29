@@ -101,6 +101,7 @@ public class RequestFrame extends KoLFrame
 
 	public RequestFrame( RequestFrame parent, KoLRequest request )
 	{
+		super( "Mini-Browser" );
 		this.parent = parent;
 
 		this.currentRequest = getClass() == RequestFrame.class && StaticEntity.getClient().getCurrentRequest() instanceof FightRequest ?

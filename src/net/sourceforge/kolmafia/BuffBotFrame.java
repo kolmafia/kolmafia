@@ -95,13 +95,11 @@ public class BuffBotFrame extends KoLFrame
 	/**
 	 * Constructs a new <code>BuffBotFrame</code> and inserts all
 	 * of the necessary panels into a tabular layout for accessibility.
-	 *
-	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() to be notified in the event of error.
 	 */
 
 	public BuffBotFrame()
 	{
-		super( "BuffBot" );
+		super( "BuffBot Manager" );
 
 		BuffBotHome.reset();
 		BuffBotManager.reset();
@@ -117,6 +115,9 @@ public class BuffBotFrame extends KoLFrame
 		optionsContainer.add( new BuffListPanel(), BorderLayout.CENTER );
 
 		tabs.addTab( "Edit Bufflist", optionsContainer );
+
+		mainSettings = new MainSettingsPanel();
+		tabs.addTab( "Main Settings", mainSettings );
 
 		whiteListEntry = new JTextArea();
 		invalidPriceMessage = new JTextArea();
@@ -159,17 +160,11 @@ public class BuffBotFrame extends KoLFrame
 		settingsPanel.add( settingsMiddlePanel );
 		settingsPanel.add( settingsBottomPanel );
 
-		JPanel settingsContainer = new JPanel( new BorderLayout( 10, 10 ) );
-		mainSettings = new MainSettingsPanel();
-
 		whiteListEntry.addFocusListener( mainSettings );
 		invalidPriceMessage.addFocusListener( mainSettings );
 		thanksMessage.addFocusListener( mainSettings );
 
-		settingsContainer.add( mainSettings, BorderLayout.NORTH );
-		settingsContainer.add( settingsPanel, BorderLayout.CENTER );
-
-		tabs.addTab( "Main Settings", settingsContainer );
+		tabs.addTab( "Other Settings", settingsPanel );
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
@@ -326,7 +321,7 @@ public class BuffBotFrame extends KoLFrame
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Message disposal: ", messageDisposalSelect );
-			elements[1] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
+			elements[1] = new VerifiableElement( "Mana restores: ", MPRestoreItemList.getDisplay() );
 
 			setContent( elements );
 			actionCancelled();

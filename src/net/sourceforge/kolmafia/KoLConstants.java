@@ -34,8 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Locale;
 import java.text.DecimalFormat;
@@ -47,6 +45,7 @@ import javax.swing.JLabel;
 import java.awt.Toolkit;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public interface KoLConstants extends UtilityConstants
 {
@@ -64,8 +63,8 @@ public interface KoLConstants extends UtilityConstants
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
 	public static final File SCRIPT_DIRECTORY = new File( "scripts" );
 
-	public static final List existingFrames = new ArrayList();
-	public static final List existingPanels = new ArrayList();
+	public static final LockableListModel existingFrames = new LockableListModel();
+	public static final LockableListModel existingPanels = new LockableListModel();
 
 	public static final DecimalFormat df = new DecimalFormat(
 		"#,##0", new DecimalFormatSymbols( Locale.US ) );
@@ -82,8 +81,4 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final int PENDING_STATE  = 4;
 	public static final int CONTINUE_STATE = 5;
-
-	public static final Class [] INTERFACE_MODES =
-		{ AdventureFrame.class, BuffBotFrame.class, ChatFrame.class, ClanManageFrame.class, RequestFrame.class,
-			CommandDisplayFrame.class };
 }
