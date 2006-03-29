@@ -78,7 +78,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public static void main( String [] args )
 	{
-	
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
 
 		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) && GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) )
@@ -170,7 +169,7 @@ public class KoLmafiaGUI extends KoLmafia
 		// or the login failed, then there's nothing left
 		// to do.  Return from the method.
 
-		if ( displayer.getCreation() instanceof AdventureFrame )
+		if ( !(displayer.getCreation() instanceof LoginFrame) )
 			return;
 
 		// Figure out which user interface is being
