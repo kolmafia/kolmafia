@@ -513,23 +513,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
-	/**
-	 * Method used to set the current extended state of the
-	 * frame.  In most KoLFrames, this defaults to iconified
-	 * or normal, and maximizing is disabled.  However, request
-	 * frames and profile frames display raw HTML - therefore,
-	 * they need to be maximizable.
-	 */
-
-	public void setExtendedState( int state )
-	{
-		if ( state == ICONIFIED && System.getProperty( "os.name" ).startsWith( "Windows" ) && GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) )
-			setVisible( false );
-		else
-			super.setExtendedState( state );
-
-	}
-
 	public void updateDisplayState( int displayState )
 	{
 		// Change the background of the frame based on
@@ -1957,7 +1940,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		{
 			public AddBookmarkDialog()
 			{
-				super( KoLFrame.this, "Add a KoL-relative bookmark!" );
+				super( (java.awt.Frame) null, "Add a KoL-relative bookmark!" );
 				getContentPane().add( new AddBookmarkPanel() );
 			}
 

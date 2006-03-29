@@ -35,7 +35,6 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Dimension;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import java.lang.reflect.Constructor;
 
@@ -78,7 +77,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 	private KoLmafia client;
 	private Class creationType;
-	private JFrame creation;
+	private KoLFrame creation;
 
 	private Constructor creator;
 	private Object [] parameters;
@@ -117,7 +116,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		}
 	}
 
-	public JFrame getCreation()
+	public KoLFrame getCreation()
 	{	return creation;
 	}
 
@@ -155,12 +154,12 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		this.creation = null;
 
-		JFrame currentFrame;
+		KoLFrame currentFrame;
 		Class currentType;
 
 		for ( int i = 0; i < existingFrames.size(); ++i )
 		{
-			currentFrame = (JFrame) existingFrames.get(i);
+			currentFrame = (KoLFrame) existingFrames.get(i);
 			currentType = currentFrame.getClass();
 
 			if ( currentType == creationType )
@@ -176,7 +175,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		try
 		{
 			if ( this.creation == null )
-				this.creation = (JFrame) creator.newInstance( parameters );
+				this.creation = (KoLFrame) creator.newInstance( parameters );
 
 			this.creation.pack();
 
@@ -184,7 +183,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// on the screen now that the frame has been packed
 			// to the appropriate size.
 
-			if ( this.creation instanceof KoLFrame && !GLOBAL_SETTINGS.getProperty( "windowPositions" ).equals( "0" ) )
+			if ( !GLOBAL_SETTINGS.getProperty( "windowPositions" ).equals( "0" ) )
 			{
 				KoLFrame frame = (KoLFrame) this.creation;
 				String frameName = frame.getFrameName();

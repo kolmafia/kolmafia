@@ -116,7 +116,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 	public FamiliarTrainingFrame( KoLmafia client )
 	{
 		super( client, "Familiar Training Tool" );
-		addWindowListener( new CloseFamiliarTrainerListener() );
 
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );
@@ -128,11 +127,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.clearBuffer();
 	}
 
-	protected final class CloseFamiliarTrainerListener extends WindowAdapter
+	public void dispose()
 	{
-		public void windowClosed( WindowEvent e )
-		{	stop = true;
-		}
+		stop = true;
+		super.dispose();
 	}
 
 	public static final ChatBuffer getResults()

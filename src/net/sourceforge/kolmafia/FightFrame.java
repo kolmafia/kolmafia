@@ -56,14 +56,12 @@ public class FightFrame extends RequestFrame
 	{
 		super( client, null, request );
 		FightFrame.INSTANCE = this;
-		addWindowListener( new CloseFightFrameListener() );
 	}
-
-	protected final class CloseFightFrameListener extends WindowAdapter
+	
+	public void dispose()
 	{
-		public void windowClosed( WindowEvent e )
-		{	INSTANCE = null;
-		}
+		INSTANCE = null;
+		super.dispose();
 	}
 
 	public static void showRequest( KoLRequest request )

@@ -125,7 +125,7 @@ public class ContactListFrame extends KoLFrame
 		if ( client == null )
 			return;
 
-		JDialog dialogCDL = new JDialog( this, "Here's your CDL!" );
+		JDialog dialogCDL = new JDialog( (java.awt.Frame) null, "Here's your CDL!" );
 		JTextArea entryCDL = new JTextArea();
 
 		entryCDL.setLineWrap( true );
