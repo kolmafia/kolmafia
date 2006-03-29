@@ -135,10 +135,10 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 
 	protected KoLFrame( String title )
 	{
-		super( KoLDesktop.getInstance(), title );
-		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
+		super( KoLDesktop.getInstance() );
+		setTitle( title );
 
-		this.lastTitle = title;
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
 		getContentPane().add( this.framePanel, BorderLayout.CENTER );
 
