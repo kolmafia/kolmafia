@@ -188,9 +188,9 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	{
 		this.lastTitle = newTitle;
 		if ( KoLCharacter.getUsername().length() > 0 )
-			setTitle( KoLCharacter.getUsername() + ": " + this.lastTitle );
+			super.setTitle( KoLCharacter.getUsername() + ": " + this.lastTitle );
 		else
-			setTitle( this.lastTitle );
+			super.setTitle( this.lastTitle );
 	}
 	
 	public void updateTitle()
