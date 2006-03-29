@@ -102,7 +102,7 @@ public class ChatBuffer
 	protected PrintWriter activeLogWriter;
 
 	protected StringBuffer displayBuffer;
-	protected VerticalAutoScrollBar verticalScroller;
+	protected JScrollBar verticalScroller;
 
 	protected static final String EMPTY_STRING = "";
 	protected static final String NEW_LINE = System.getProperty( "line.separator" );
@@ -161,8 +161,7 @@ public class ChatBuffer
 		fireBufferChanged( DISPLAY_CHANGE, null );
 
 		JScrollPane scroller = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		verticalScroller = new VerticalAutoScrollBar();
-		scroller.setVerticalScrollBar( verticalScroller );
+		verticalScroller = scroller.getVerticalScrollBar();
 		return scroller;
 	}
 
@@ -346,49 +345,6 @@ public class ChatBuffer
 				e.printStackTrace();
 				return;
 			}
-		}
-	}
-
-	/**
-	 * Special implementation of a vertical scrollbar which
-	 * allows for scrollback reading.
-	 */
-
-	protected class VerticalAutoScrollBar extends JScrollBar
-	{
-		private boolean autoscroll;
-
-		public VerticalAutoScrollBar()
-		{
-			super( VERTICAL );
-			this.autoscroll = true;
-		}
-
-		public void setValue( int value )
-		{
-			if ( getValueIsAdjusting() )
-				autoscroll = getMaximum() - getVisibleAmount() - getValue() < 100;
-
-			if ( autoscroll || getValueIsAdjusting() )
-			{
-				super.setValue( value );
-				if ( value == getMaximum() )
-					displayPane.setCaretPosition( displayPane.getDocument().getLength() );
-			}
-		}
-
-		protected void fireAdjustmentValueChanged( int id, int type, int value )
-		{
-			if ( autoscroll || getValueIsAdjusting() )
-				super.fireAdjustmentValueChanged( id, type, value );
-		}
-
-		public void setValues( int newValue, int newExtent, int newMin, int newMax )
-		{
-			if ( autoscroll || getValueIsAdjusting() )
-				super.setValues( newValue, newExtent, newMin, newMax );
-			else
-				super.setValues( getValue(), newExtent, newMin, newMax );
 		}
 	}
 }
