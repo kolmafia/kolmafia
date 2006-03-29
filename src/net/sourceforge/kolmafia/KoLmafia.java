@@ -913,7 +913,8 @@ public abstract class KoLmafia implements KoLConstants
 			maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[0] );
 			
 			int maximum = ((Number)currentMethod.invoke( null, empty )).intValue();
-			needed = (int) Math.min( Double.parseDouble( settings.getProperty( settingName ) ) * (double) maximum, (double) needed );
+			int setting = (int) ( Double.parseDouble( settings.getProperty( settingName ) ) * (double) maximum );			
+			needed = needed == 0 || setting < 0 ? setting : Math.max( setting, needed );
 
 			if ( needed < 0 )
 				return true;
