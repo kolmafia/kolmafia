@@ -186,16 +186,19 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			KoLFrame frame = (KoLFrame) this.creation;
 			String frameName = frame.getFrameName();
 
+			int xLocation = 0;
+			int yLocation = 0;
+			Dimension screenSize = TOOLKIT.getScreenSize();
 			if ( StaticEntity.getSettings().containsKey( frameName ) )
 			{
 				String [] location = StaticEntity.getSettings().getProperty( frameName ).split( "," );
-				int xLocation = Integer.parseInt( location[0] );
-				int yLocation = Integer.parseInt( location[1] );
-
-				Dimension screenSize = TOOLKIT.getScreenSize();
-				if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
-					frame.setLocation( xLocation, yLocation );
+				xLocation = Integer.parseInt( location[0] );
+				yLocation = Integer.parseInt( location[1] );
 			}
+			if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
+				frame.setLocation( xLocation, yLocation );
+			else
+				frame.setLocation( (int)(screenSize.getWidth() - frame.getWidth())/2, (int)(screenSize.getHeight() - frame.getHeight())/2 );
 
 			// With the location set set on screen, make sure
 			// to disable it (if necessary), ensure the frame's
