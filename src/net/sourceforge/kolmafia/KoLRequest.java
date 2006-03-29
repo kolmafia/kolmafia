@@ -1098,56 +1098,45 @@ public class KoLRequest implements Runnable, KoLConstants
 			return false;
 		}
 
-		// Now, we check to see if there is a choice which
-		// satisfies an existing condition.  If there is,
-		// we automatically select it.  Otherwise, we use
-		// whatever decision was set by the user.
+		boolean completeOutfit = false;
+		String [] possibleDecisions = null;
 
-		if ( !client.getConditions().isEmpty() )
-		{
-			boolean completeOutfit = false;
-			String [] possibleDecisions = null;
+		int decisionIndex = Integer.parseInt( decision ) - 1;
 
-			int decisionIndex = Integer.parseInt( decision ) - 1;
-
-			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
-				if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
-				{
-					if ( AdventureDatabase.CHOICE_ADVS[i][0].length == 4 )
-					{
-						completeOutfit = AdventureDatabase.CHOICE_ADVS[i][2][ decisionIndex ].equals( "Complete the outfit" );
-						possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
-					}
-				}
-
-			if ( possibleDecisions != null )
+		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
 			{
-				// Only change the decision if the user-specified option
-				// will not satisfy something on the conditions list.
-
-				if ( completeOutfit )
+				if ( AdventureDatabase.CHOICE_ADVS[i].length == 4 )
 				{
-					// Here, you have an outfit completion option.  Therefore
-					// determine which outfit needs to be completed. Just
-					// choose the item that the player does not have, and if
-					// they have everything, just make a random choice.
-
-					decision = null;
-					
-					for ( int i = 0; i < 3; ++i )
-						if ( possibleDecisions[i] != null && !KoLCharacter.hasItem( new AdventureResult( Integer.parseInt( possibleDecisions[0] ), 1 ), false ) )
-							decision = String.valueOf( i + 1 );
-
-					if ( decision == null )
-						decision = String.valueOf( RNG.nextInt( 3 ) + 1 );
-				}
-				else
-				{
-					for ( int i = 0; i < possibleDecisions.length; ++i )
-						if ( possibleDecisions[i] != null && client.getConditions().contains( new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 ) ) )
-							decision = String.valueOf( i + 1 );
+					completeOutfit = AdventureDatabase.CHOICE_ADVS[i][2][ decisionIndex ].equals( "Complete the outfit" );
+					possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
 				}
 			}
+
+		// Only change the decision if the user-specified option
+		// will not satisfy something on the conditions list.
+
+		if ( completeOutfit )
+		{
+			// Here, you have an outfit completion option.  Therefore
+			// determine which outfit needs to be completed. Just
+			// choose the item that the player does not have, and if
+			// they have everything, just make a random choice.
+
+			decision = null;
+					
+			for ( int i = 0; i < 3; ++i )
+				if ( possibleDecisions[i] != null && !KoLCharacter.hasItem( new AdventureResult( Integer.parseInt( possibleDecisions[0] ), 1 ), false ) )
+					decision = String.valueOf( i + 1 );
+
+			if ( decision == null )
+				decision = String.valueOf( RNG.nextInt( 3 ) + 1 );
+		}
+		else if ( possibleDecisions != null )
+		{
+			for ( int i = 0; i < possibleDecisions.length; ++i )
+				if ( possibleDecisions[i] != null && client.getConditions().contains( new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 ) ) )
+					decision = String.valueOf( i + 1 );
 		}
 
 		// If there is currently a setting which determines the
