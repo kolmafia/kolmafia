@@ -1322,16 +1322,6 @@ public abstract class KoLmafia implements KoLConstants
 
 				shouldRefreshStatus = currentEffectCount != KoLCharacter.getEffects().size();
 
-				// If this is a KoLRequest, make sure to process
-				// any applicable adventure usage.
-
-				if ( request instanceof KoLRequest )
-				{
-					int adventures = ((KoLRequest)request).getAdventuresUsed();
-					if ( adventures > 0 )
-						processResult( new AdventureResult( AdventureResult.ADV, 0 - adventures ) );
-				}
-
 				// One circumstance where you need a refresh is if
 				// you gain/lose a status effect.
 
@@ -1400,11 +1390,7 @@ public abstract class KoLmafia implements KoLConstants
 						updateDisplay( "Successfully " + useTypeAsString + " " +
 							((ConsumeItemRequest)request).getItemUsed().getName() + " (" + (currentIteration - 1) + ")" );
 				}
-
-				else if ( !conditions.isEmpty() )
-					updateDisplay( ERROR_STATE, "Requests completed. (Conditions not yet satisfied)" );
-
-				else if ( currentState == CONTINUE_STATE )
+				else
 					updateDisplay( "Requests completed." );
 
 			}
