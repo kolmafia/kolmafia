@@ -902,18 +902,21 @@ public abstract class KoLmafia implements KoLConstants
 	 * and if not, calls the appropriate scripts to do so.
 	 */
 
-	private final boolean recover( int needed, String currentName, String maximumName, String scriptProperty, String listProperty, Class techniqueList )
+	private final boolean recover( int needed, String settingName, String currentName, String maximumName, String scriptProperty, String listProperty, Class techniqueList )
 	{
 		try
 		{
-			if ( needed < 0 )
-				return true;
-
 			Object [] empty = new Object[0];
 			Method currentMethod, maximumMethod;
 
 			currentMethod = KoLCharacter.class.getMethod( currentName, new Class[0] );
 			maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[0] );
+			
+			int maximum = ((Number)currentMethod.invoke( null, empty )).intValue();
+			needed = (int) Math.min( Double.parseDouble( settings.getProperty( settingName ) ) * (double) maximum, (double) needed );
+
+			if ( needed < 0 )
+				return true;
 
 			int last = -1;
 			int current = ((Number)currentMethod.invoke( null, empty )).intValue();
@@ -1009,13 +1012,11 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	protected final boolean recoverHP()
-	{
-		double recover = Double.parseDouble( settings.getProperty( "hpAutoRecover" ) ) * (double) KoLCharacter.getMaximumHP();
-		return recoverHP( (int) recover );
+	{	return recoverHP( 0 );
 	}
 
 	public final boolean recoverHP( int recover )
-	{	return recover( recover, "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestoreItems", HPRestoreItemList.class );
+	{	return recover( recover, "hpAutoRecover", "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestoreItems", HPRestoreItemList.class );
 	}
 
 	/**
@@ -1084,9 +1085,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	protected final boolean recoverMP()
-	{
-		double mpNeeded = Double.parseDouble( settings.getProperty( "mpAutoRecover" ) ) * (double) KoLCharacter.getMaximumMP();
-		return recoverMP( (int) mpNeeded );
+	{	return recoverMP( 0 );
 	}
 
 	/**
@@ -1095,7 +1094,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean recoverMP( int mpNeeded )
-	{	return recover( mpNeeded, "getCurrentMP", "getMaximumMP", "mpRecoveryScript", "buffBotMPRestore", MPRestoreItemList.class );
+	{	return recover( mpNeeded, "mpAutoRecover", "getCurrentMP", "getMaximumMP", "mpRecoveryScript", "buffBotMPRestore", MPRestoreItemList.class );
 	}
 
 	/**
