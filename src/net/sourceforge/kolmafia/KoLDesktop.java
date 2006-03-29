@@ -118,7 +118,14 @@ public class KoLDesktop extends JFrame implements KoLConstants
 	}
 
 	public static void updateTitle()
-	{	INSTANCE.setTitle( KoLCharacter.getUsername() + " (" + KoLRequest.getRootHostName() + ")" );
+	{
+		INSTANCE.setTitle( KoLCharacter.getUsername() + " (" + KoLRequest.getRootHostName() + ")" );
+		
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+		
+		for ( int i = 0; i < frames.length; ++i )
+			frames[i].updateTitle();
 	}
 
 	/**

@@ -138,9 +138,6 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		super( KoLDesktop.getInstance(), title );
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
-		if ( KoLCharacter.getUsername().length() > 0 )
-			setTitle( KoLCharacter.getUsername() + ": " + title );
-
 		this.lastTitle = title;
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
 		getContentPane().add( this.framePanel, BorderLayout.CENTER );
@@ -185,6 +182,19 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 
 		if ( useSidePane() )
 			addCompactPane();
+	}
+	
+	public void setTitle( String newTitle )
+	{
+		this.lastTitle = newTitle;
+		if ( KoLCharacter.getUsername().length() > 0 )
+			setTitle( KoLCharacter.getUsername() + ": " + this.lastTitle );
+		else
+			setTitle( this.lastTitle );
+	}
+	
+	public void updateTitle()
+	{	setTitle( lastTitle );
 	}
 
 	public boolean useSidePane()
