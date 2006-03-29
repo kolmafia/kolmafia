@@ -472,7 +472,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 				if ( compactPane != null )
 					compactPane.setBackground( ERROR_COLOR );
 
-				setEnabled( false );
+				setEnabled( true );
 				break;
 
 			case ENABLE_STATE:
