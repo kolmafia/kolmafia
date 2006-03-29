@@ -285,19 +285,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		private class MailboxKeyListener extends KeyAdapter
 		{
 			public void keyPressed( KeyEvent e )
-			{	(new RequestThread( new MailboxEventProcessor( e ) )).start();
-			}
-		}
-
-		private class MailboxEventProcessor implements Runnable
-		{
-			private KeyEvent e;
-
-			public MailboxEventProcessor( KeyEvent e )
-			{	this.e = e;
-			}
-
-			public void run()
 			{
 				if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE )
 				{
@@ -305,6 +292,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
 						KoLMailManager.deleteMessages( mailboxName, getSelectedValues() );
+						client.enableDisplay();
 					}
 
 					return;
@@ -316,6 +304,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
 						KoLMailManager.saveMessages( getSelectedValues() );
+						client.enableDisplay();
 					}
 
 					return;
