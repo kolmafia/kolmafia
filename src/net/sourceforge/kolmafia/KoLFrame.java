@@ -642,9 +642,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 			addActionListener( this );
 			this.frameClass = frameClass;
 
-			Object [] parameters;
-			parameters = new KoLmafia[1];
-			parameters[0] = StaticEntity.getClient();
+			Object [] parameters = new Object[0];
 
 			this.displayer = new CreateFrameRunnable( frameClass, parameters );
 		}
@@ -658,9 +656,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 			addActionListener( this );
 			this.frameClass = frameClass;
 
-			Object [] parameters;
-			parameters = new KoLmafia[1];
-			parameters[0] = StaticEntity.getClient();
+			Object [] parameters = new Object[0];
 
 			this.displayer = new CreateFrameRunnable( frameClass, parameters );
 		}
@@ -832,10 +828,9 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		     location.startsWith( "static" ) ||
 		     location.startsWith( "showplayer" ) )
 		{
-			parameters = new Object[3];
-			parameters[0] = StaticEntity.getClient();
-			parameters[1] = this instanceof RequestFrame ? this : null;
-			parameters[2] = request;
+			parameters = new Object[2];
+			parameters[0] = this instanceof RequestFrame ? this : null;
+			parameters[1] = request;
 		}
 		else if ( this instanceof RequestFrame )
 		{
@@ -844,9 +839,8 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		}
 		else if ( request.getURLString().equals( "main.php" ) )
 		{
-			parameters = new Object[2];
-			parameters[0] = StaticEntity.getClient();
-			parameters[1] = request;
+			parameters = new Object[1];
+			parameters[0] = request;
 		}
 		else
 		{
@@ -866,9 +860,8 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 				}
 			}
 
-			parameters = new Object[2];
-			parameters[0] = StaticEntity.getClient();
-			parameters[1] = request;
+			parameters = new Object[1];
+			parameters[0] = request;
 		}
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
