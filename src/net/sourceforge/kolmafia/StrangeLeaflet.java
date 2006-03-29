@@ -152,8 +152,13 @@ public abstract class StrangeLeaflet extends StaticEntity
 		// Make sure the player has the Strange Leaflet.
 		if ( !KoLCharacter.hasItem( LEAFLET, false ) )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have a leaflet." );
-			return;
+			if ( KoLCharacter.getLevel() >= 9 )
+				(new KoLRequest( client, "council.php" )).run();
+			else
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You are too low level for that quest." );
+				return;
+			}
 		}
 
 		// Make sure it's in the inventory
