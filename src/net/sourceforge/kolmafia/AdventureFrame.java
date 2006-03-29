@@ -108,12 +108,12 @@ public class AdventureFrame extends KoLFrame
 	 * are placed into their corresponding tabs, with the content panel being
 	 * defaulted to the adventure selection panel.
 	 *
-	 * @param	client	Client/session associated with this frame
+	 * @param	StaticEntity.getClient()	StaticEntity.getClient()/session associated with this frame
 	 */
 
-	public AdventureFrame( KoLmafia client )
+	public AdventureFrame()
 	{
-		super( client, "Main" );
+		super( "Main" );
 		this.tabs = new JTabbedPane();
 
 		// Construct the adventure select container
@@ -165,15 +165,12 @@ public class AdventureFrame extends KoLFrame
 
 		try
 		{
-			if ( client != null )
-			{
-				String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
+			String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
 
-				if ( holiday.startsWith( "No" ) )
-					DEFAULT_SHELL.updateDisplay( NULL_STATE, MoonPhaseDatabase.getMoonEffect() );
-				else
-					DEFAULT_SHELL.updateDisplay( NULL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
-			}
+			if ( holiday.startsWith( "No" ) )
+				DEFAULT_SHELL.updateDisplay( NULL_STATE, MoonPhaseDatabase.getMoonEffect() );
+			else
+				DEFAULT_SHELL.updateDisplay( NULL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 		}
 		catch ( Exception e )
 		{
@@ -231,19 +228,19 @@ public class AdventureFrame extends KoLFrame
 		JComboBox resultSelect = new JComboBox();
 
 		resultSelect.addItem( "Session Results" );
-		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getSessionTally() ), "0" );
+		resultPanel.add( new AdventureResultsPanel( StaticEntity.getClient().getSessionTally() ), "0" );
 
 		resultSelect.addItem( "Conditions Left" );
-		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getConditions() ), "1" );
+		resultPanel.add( new AdventureResultsPanel( StaticEntity.getClient().getConditions() ), "1" );
 
 		resultSelect.addItem( "Active Effects" );
 		resultPanel.add( new AdventureResultsPanel( KoLCharacter.getEffects() ), "2" );
 
 		resultSelect.addItem( "Visited Locations" );
-		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getAdventureList() ), "3" );
+		resultPanel.add( new AdventureResultsPanel( StaticEntity.getClient().getAdventureList() ), "3" );
 
 		resultSelect.addItem( "Encounter Listing" );
-		resultPanel.add( new AdventureResultsPanel( client == null ? new LockableListModel() : client.getEncounterList() ), "4" );
+		resultPanel.add( new AdventureResultsPanel( StaticEntity.getClient().getEncounterList() ), "4" );
 
 		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect ) );
 
@@ -368,12 +365,6 @@ public class AdventureFrame extends KoLFrame
 			Runnable request = (Runnable) locationSelect.getSelectedItem();
 			setProperty( "lastAdventure", request.toString() );
 
-			// If it turns out that you have a null client (you are
-			// just demoing), stop here.
-
-			if ( client == null )
-				return;
-
 			// If there are conditions in the condition field, be
 			// sure to process them.
 
@@ -420,20 +411,20 @@ public class AdventureFrame extends KoLFrame
 					}
 				}
 
-				if ( client.getConditions().isEmpty() )
+				if ( StaticEntity.getClient().getConditions().isEmpty() )
 				{
 					DEFAULT_SHELL.updateDisplay( "Conditions already satisfied." );
-					client.enableDisplay();
+					StaticEntity.getClient().enableDisplay();
 					return;
 				}
 
 				if ( verifyConditions )
 				{
 					DEFAULT_SHELL.executeConditionsCommand( "check" );
-					if ( client.getConditions().isEmpty() )
+					if ( StaticEntity.getClient().getConditions().isEmpty() )
 					{
 						DEFAULT_SHELL.updateDisplay( "Conditions already satisfied." );
-						client.enableDisplay();
+						StaticEntity.getClient().enableDisplay();
 						return;
 					}
 				}
@@ -447,19 +438,13 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			// Once the stubs are finished, this will notify the
-			// client to terminate the loop early.  For now, since
-			// there's no actual functionality, simply request focus
-
-			if ( isEnabled )
+			if ( cancelledButton.getText().equals( "win game" ) )
 			{
 				(new WinGameThread()).start();
 			}
 			else
 			{
-				if ( client != null )
-					client.declareWorldPeace();
-
+				StaticEntity.getClient().declareWorldPeace();
 				locationSelect.requestFocus();
 			}
 		}
@@ -516,20 +501,18 @@ public class AdventureFrame extends KoLFrame
 			};
 
 			public void run()
-			{
-				if ( client != null )
-					displayMessages( WIN_GAME_TEXT[ RNG.nextInt( WIN_GAME_TEXT.length ) ] );
+			{	displayMessages( WIN_GAME_TEXT[ RNG.nextInt( WIN_GAME_TEXT.length ) ] );
 			}
 
 			private void displayMessages( String [] messages )
 			{
-				for ( int i = 0; i < messages.length - 1 && client.permitsContinue(); ++i )
+				for ( int i = 0; i < messages.length - 1 && StaticEntity.getClient().permitsContinue(); ++i )
 				{
 					DEFAULT_SHELL.updateDisplay( messages[i] );
 					KoLRequest.delay( 3000 );
 				}
 
-				if ( client.permitsContinue() )
+				if ( StaticEntity.getClient().permitsContinue() )
 					DEFAULT_SHELL.updateDisplay( ERROR_STATE, messages[ messages.length - 1 ] );
 			}
 		}
@@ -624,7 +607,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			int searchCount = getValue( countField, 5 );
 			setProperty( "defaultLimit", countField.getText() );
-			searchMall( new SearchMallRequest( client, searchField.getText(), searchCount, results ) );
+			searchMall( new SearchMallRequest( StaticEntity.getClient(), searchField.getText(), searchCount, results ) );
 
 			if ( results.size() > 0 )
 			{
@@ -639,7 +622,7 @@ public class AdventureFrame extends KoLFrame
 			if ( currentlyBuying )
 			{
 				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Purchases stopped." );
-				client.enableDisplay();
+				StaticEntity.getClient().enableDisplay();
 				return;
 			}
 
@@ -662,10 +645,10 @@ public class AdventureFrame extends KoLFrame
 				return;
 
 			currentlyBuying = true;
-			client.makePurchases( results, purchases, count );
+			StaticEntity.getClient().makePurchases( results, purchases, count );
 			currentlyBuying = false;
 
-			client.enableDisplay();
+			StaticEntity.getClient().enableDisplay();
 			resultsList.updateUI();
 		}
 
@@ -682,7 +665,7 @@ public class AdventureFrame extends KoLFrame
 
 		DEFAULT_SHELL.updateDisplay( results.size() == 0 ? "No results found." : "Search complete." );
 		tabs.setSelectedIndex(1);
-		client.enableDisplay();
+		StaticEntity.getClient().enableDisplay();
 
 		// Now, do some garbage collection to avoid the
 		// potential for resource overusage.
@@ -901,7 +884,7 @@ public class AdventureFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			if ( heroField.getSelectedIndex() != -1 )
-				(new RequestThread( new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, getValue( amountField ) ) )).start();
+				(new RequestThread( new HeroDonationRequest( StaticEntity.getClient(), heroField.getSelectedIndex() + 1, getValue( amountField ) ) )).start();
 
 		}
 
@@ -920,7 +903,7 @@ public class AdventureFrame extends KoLFrame
 				if ( heroField.getSelectedIndex() != -1 )
 				{
 					int eachAmount = getValue( amountField ) / increments;
-					(new RequestThread( new HeroDonationRequest( client, heroField.getSelectedIndex() + 1, eachAmount ), increments )).start();
+					(new RequestThread( new HeroDonationRequest( StaticEntity.getClient(), heroField.getSelectedIndex() + 1, eachAmount ), increments )).start();
 				}
 			}
 			catch ( Exception e )
@@ -974,7 +957,7 @@ public class AdventureFrame extends KoLFrame
 			switch ( fundSource.getSelectedIndex() )
 			{
 				case 0:
-					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
+					(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
 					return;
 
 				case 1:
@@ -988,11 +971,11 @@ public class AdventureFrame extends KoLFrame
 			switch ( fundSource.getSelectedIndex() )
 			{
 				case 0:
-					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
+					(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
 					return;
 
 				case 1:
-					(new RequestThread( new ItemStorageRequest( client, getValue( amountField ), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) )).start();
+					(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), getValue( amountField ), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) )).start();
 					return;
 			}
 		}

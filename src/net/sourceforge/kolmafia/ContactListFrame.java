@@ -66,13 +66,13 @@ public class ContactListFrame extends KoLFrame
 	private SortedListModel contacts;
 	private JList contactsDisplay;
 
-	public ContactListFrame( KoLmafia client )
-	{	this( client, client == null ? new SortedListModel() : client.getContactList() );
+	public ContactListFrame()
+	{	this( StaticEntity.getClient().getContactList() );
 	}
 
-	public ContactListFrame( KoLmafia client, SortedListModel contacts )
+	public ContactListFrame( SortedListModel contacts )
 	{
-		super( client, "Contact List" );
+		super( "Contact List" );
 		this.contacts = contacts;
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( new ContactListPanel(), "" );
@@ -122,9 +122,6 @@ public class ContactListFrame extends KoLFrame
 
 	public void listSelected()
 	{
-		if ( client == null )
-			return;
-
 		JDialog dialogCDL = new JDialog( (java.awt.Frame) null, "Here's your CDL!" );
 		JTextArea entryCDL = new JTextArea();
 
@@ -143,11 +140,8 @@ public class ContactListFrame extends KoLFrame
 
 	public void buffSelected()
 	{
-		if ( client == null )
-			return;
-
 		Object [] parameters = new Object[3];
-		parameters[0] = client;
+		parameters[0] = StaticEntity.getClient();
 		parameters[1] = "Mass Buff";
 		parameters[2] = new SkillBuffPanel( convertToCDL() );
 
@@ -156,9 +150,6 @@ public class ContactListFrame extends KoLFrame
 
 	public void mailSelected()
 	{
-		if ( client == null )
-			return;
-
 		// Make sure there's only eleven players
 		// selected, since that's the kmail limit.
 
@@ -166,7 +157,7 @@ public class ContactListFrame extends KoLFrame
 			JOptionPane.showMessageDialog( null, "That's beyond ridiculous." );
 
 		Object [] parameters = new Object[2];
-		parameters[0] = client;
+		parameters[0] = StaticEntity.getClient();
 		parameters[1] = convertToCDL();
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( GreenMessageFrame.class, parameters ) );

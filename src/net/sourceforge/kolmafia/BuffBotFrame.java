@@ -96,18 +96,15 @@ public class BuffBotFrame extends KoLFrame
 	 * Constructs a new <code>BuffBotFrame</code> and inserts all
 	 * of the necessary panels into a tabular layout for accessibility.
 	 *
-	 * @param	client	The client to be notified in the event of error.
+	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() to be notified in the event of error.
 	 */
 
-	public BuffBotFrame( KoLmafia client )
+	public BuffBotFrame()
 	{
-		super( client, "BuffBot" );
+		super( "BuffBot" );
 
-		if ( client != null )
-		{
-			BuffBotHome.reset();
-			BuffBotManager.reset();
-		}
+		BuffBotHome.reset();
+		BuffBotManager.reset();
 
 		// Initialize the display log buffer and the file log
 
@@ -374,7 +371,7 @@ public class BuffBotFrame extends KoLFrame
 
 		BuffBotHome.deinitialize();
 		DEFAULT_SHELL.updateDisplay( "Buffbot deactivated." );
-		client.enableDisplay();
+		StaticEntity.getClient().enableDisplay();
 		super.dispose();
 	}
 }

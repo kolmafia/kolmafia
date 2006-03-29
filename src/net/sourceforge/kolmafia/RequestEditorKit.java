@@ -780,7 +780,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// compiled string.  Print it to the debug log for
 		// reference purposes.
 
-		String pwd = StaticEntity.client.getPasswordHash();
+		String pwd = StaticEntity.getClient().getPasswordHash();
 		String text = pwd == null ? displayHTML : displayHTML.replaceAll( pwd, "" );
 		KoLmafia.getLogStream().println( text );
 
@@ -963,7 +963,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				try
 				{
-					request = new KoLRequest( frame.client, URLDecoder.decode( actionString.toString(), "UTF-8" ), true );
+					request = new KoLRequest( StaticEntity.getClient(), URLDecoder.decode( actionString.toString(), "UTF-8" ), true );
 				}
 				catch ( Exception e )
 				{
@@ -974,7 +974,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					e.printStackTrace();
 					e.printStackTrace( KoLmafia.getLogStream() );
 
-					request = new KoLRequest( frame.client, actionString.toString(), true );
+					request = new KoLRequest( StaticEntity.getClient(), actionString.toString(), true );
 				}
 			}
 			else
@@ -982,7 +982,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				// For normal URLs, the form data can be submitted
 				// just like in every other request.
 
-				request = new KoLRequest( frame.client, action, true );
+				request = new KoLRequest( StaticEntity.getClient(), action, true );
 				if ( elements[0].length() > 0 )
 					for ( int i = 0; i < elements.length; ++i )
 						if ( elements[i] != null )
@@ -1009,5 +1009,36 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			return null;
 		}
+	}
+
+	/**
+	 * Utility method used to determine the KoLRequest that
+	 * should be sent, given the appropriate location.
+	 */
+
+	protected static KoLRequest extractRequest( String location )
+	{
+		String [] urlData = location.split( "\\?" );
+		String [] formData = urlData.length == 1 ? new String[0] : urlData[1].split( "&" );
+
+		String [] currentField;
+		KoLRequest request = null;
+
+		if ( location.startsWith( "campground.php" ) )
+			request = new CampgroundRequest( StaticEntity.getClient() );
+		else
+			request = new KoLRequest( StaticEntity.getClient(), urlData[0], true );
+
+		for ( int i = 0; i < formData.length; ++i )
+		{
+			currentField = formData[i].split( "=" );
+
+			if ( currentField.length == 2 )
+				request.addFormField( currentField[0], currentField[1] );
+			else
+				request.addFormField( formData[i] );
+		}
+
+		return request;
 	}
 }

@@ -101,9 +101,9 @@ public class ClanManageFrame extends KoLFrame
 	private MemberSearchPanel search;
 	private ClanMemberPanelList results;
 
-	public ClanManageFrame( KoLmafia client )
+	public ClanManageFrame()
 	{
-		super( client, "Clan Management" );
+		super( "Clan Management" );
 
 		this.rankList = new LockableListModel();
 
@@ -182,8 +182,7 @@ public class ClanManageFrame extends KoLFrame
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
 
-		if ( client != null )
-			(new RequestThread( new ClanStashRequest( client ) )).start();
+		(new RequestThread( new ClanStashRequest( StaticEntity.getClient() ) )).start();
 	}
 
 	/**
@@ -202,7 +201,7 @@ public class ClanManageFrame extends KoLFrame
 			super( "Hire Trainers", "purchase", "take break", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 			this.isBuffing = false;
 
-			buffField = new JComboBox( ClanBuffRequest.getRequestList( client ) );
+			buffField = new JComboBox( ClanBuffRequest.getRequestList( StaticEntity.getClient() ) );
 			countField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[2];
@@ -260,7 +259,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionCancelled()
-		{	(new RequestThread( new ClanListRequest( client ) )).start();
+		{	(new RequestThread( new ClanListRequest( StaticEntity.getClient() ) )).start();
 		}
 	}
 
@@ -320,7 +319,7 @@ public class ClanManageFrame extends KoLFrame
 		{
 			public ClanMaterialsRequest()
 			{
-				super( ClanManageFrame.this.client, "clan_war.php" );
+				super( StaticEntity.getClient(), "clan_war.php" );
 				addFormField( "action", "Yep." );
 				addFormField( "goodies", String.valueOf( getValue( goodies ) ) );
 				addFormField( "oatmeal", String.valueOf( getValue( oatmeal ) ) );
@@ -370,7 +369,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new RequestThread( new ClanStashRequest( client, getValue( amountField ) ) )).start();
+		{	(new RequestThread( new ClanStashRequest( StaticEntity.getClient(), getValue( amountField ) ) )).start();
 		}
 
 		protected void actionCancelled()
@@ -392,11 +391,11 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new RequestThread( new ClanStashRequest( client, elementList.getSelectedValues(), ClanStashRequest.ITEMS_TO_STASH ) )).start();
+		{	(new RequestThread( new ClanStashRequest( StaticEntity.getClient(), elementList.getSelectedValues(), ClanStashRequest.ITEMS_TO_STASH ) )).start();
 		}
 
 		protected void actionCancelled()
-		{	(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, elementList.getSelectedValues() ) )).start();
+		{	(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.INVENTORY_TO_CLOSET, elementList.getSelectedValues() ) )).start();
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -426,11 +425,11 @@ public class ClanManageFrame extends KoLFrame
 				return;
 
 			selection = selection.getInstance( getQuantity( "Retrieving " + selection.getName() + " from the stash...", selection.getCount() ) );
-			(new RequestThread( new ClanStashRequest( client, new Object [] { selection }, ClanStashRequest.STASH_TO_ITEMS ) )).start();
+			(new RequestThread( new ClanStashRequest( StaticEntity.getClient(), new Object [] { selection }, ClanStashRequest.STASH_TO_ITEMS ) )).start();
 		}
 
 		protected void actionCancelled()
-		{	(new RequestThread( new ClanStashRequest( client ) )).start();
+		{	(new RequestThread( new ClanStashRequest( StaticEntity.getClient() ) )).start();
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -539,7 +538,7 @@ public class ClanManageFrame extends KoLFrame
 				}
 
 				DEFAULT_SHELL.updateDisplay( "Applying changes..." );
-				(new ClanMembersRequest( client, rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
+				(new ClanMembersRequest( StaticEntity.getClient(), rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
 				DEFAULT_SHELL.updateDisplay( "Changes have been applied." );
 			}
 		}
@@ -668,7 +667,7 @@ public class ClanManageFrame extends KoLFrame
 			public void actionPerformed( ActionEvent e )
 			{
 				Object [] parameters = new Object[2];
-				parameters[0] = client;
+				parameters[0] = StaticEntity.getClient();
 				parameters[1] = profile;
 
 				(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();

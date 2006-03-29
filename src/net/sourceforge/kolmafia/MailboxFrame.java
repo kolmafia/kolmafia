@@ -80,9 +80,9 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	private MailSelectList messageListOutbox;
 	private MailSelectList messageListSaved;
 
-	public MailboxFrame( KoLmafia client )
+	public MailboxFrame()
 	{
-		super( client, "IcePenguin Express" );
+		super( "IcePenguin Express" );
 
 		this.messageListInbox = new MailSelectList( "Inbox" );
 		JScrollPane messageListInboxDisplay = new JScrollPane( messageListInbox,
@@ -128,8 +128,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		toolbarPanel.add( new DeleteButton() );
 		toolbarPanel.add( new RefreshButton() );
 
-		if ( client != null )
-			(new RequestMailboxThread( "Inbox" )).start();
+		(new RequestMailboxThread( "Inbox" )).start();
 	}
 
 	public void dispose()
@@ -167,7 +166,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	/**
 	 * Whenever the tab changes, this method is used to retrieve
-	 * the messages from the appropriate client, if the mailbox
+	 * the messages from the appropriate StaticEntity.getClient(), if the mailbox
 	 * is currently empty.
 	 */
 
@@ -218,7 +217,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 		public RequestMailboxThread( String mailboxName )
 		{
-			super( new MailboxRequest( client, mailboxName ) );
+			super( new MailboxRequest( StaticEntity.getClient(), mailboxName ) );
 			this.mailboxName = mailboxName;
 		}
 
@@ -292,7 +291,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
 						KoLMailManager.deleteMessages( mailboxName, getSelectedValues() );
-						client.enableDisplay();
+						StaticEntity.getClient().enableDisplay();
 					}
 
 					return;
@@ -304,7 +303,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
 						KoLMailManager.saveMessages( getSelectedValues() );
-						client.enableDisplay();
+						StaticEntity.getClient().enableDisplay();
 					}
 
 					return;
@@ -419,7 +418,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			String recipient = tokens.nextToken();
 
 			Object [] parameters = new Object[ tokens.hasMoreTokens() ? 3 : 2 ];
-			parameters[0] = client;
+			parameters[0] = StaticEntity.getClient();
 			parameters[1] = recipient;
 
 			if ( parameters.length == 3 )

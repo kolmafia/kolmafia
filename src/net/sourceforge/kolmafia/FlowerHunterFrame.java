@@ -82,9 +82,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 	private ProfileRequest [] results;
 	private JCheckBox [] detailOptions;
 
-	public FlowerHunterFrame( KoLmafia client )
+	public FlowerHunterFrame()
 	{
-		super( client, "Hardcore Flower Hunter" );
+		super( "Hardcore Flower Hunter" );
 
 		tabs = new JTabbedPane();
 		tabs.add( "Search", new SearchPanel() );
@@ -244,19 +244,19 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				resultsModel[ index ].fireTableRowsDeleted( 0, 0 );
 			}
 
-			FlowerHunterRequest search = new FlowerHunterRequest( client, levelEntry.getText(), rankEntry.getText() );
+			FlowerHunterRequest search = new FlowerHunterRequest( StaticEntity.getClient(), levelEntry.getText(), rankEntry.getText() );
 			search.run();
 
 			results = new ProfileRequest[ search.getSearchResults().size() ];
 			search.getSearchResults().toArray( results );
 
-			for ( int i = 0; i < resultLimit && i < results.length && client.permitsContinue(); ++i )
+			for ( int i = 0; i < resultLimit && i < results.length && StaticEntity.getClient().permitsContinue(); ++i )
 			{
 				resultsModel[ index ].addRow( getRow( results[i], isSimple ) );
 				resultsModel[ index ].fireTableRowsInserted( i - 1, i - 1 );
 			}
 
-			if ( client.permitsContinue() )
+			if ( StaticEntity.getClient().permitsContinue() )
 				DEFAULT_SHELL.updateDisplay( "Search completed." );
 			else
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Search halted." );
@@ -313,19 +313,19 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				resultsModel[1].fireTableRowsDeleted( 0, 0 );
 			}
 
-			FlowerHunterRequest search = new FlowerHunterRequest( client, clanID.getText() );
+			FlowerHunterRequest search = new FlowerHunterRequest( StaticEntity.getClient(), clanID.getText() );
 			search.run();
 
 			results = new ProfileRequest[ search.getSearchResults().size() ];
 			search.getSearchResults().toArray( results );
 
-			for ( int i = 0; i < results.length && client.permitsContinue(); ++i )
+			for ( int i = 0; i < results.length && StaticEntity.getClient().permitsContinue(); ++i )
 			{
 				resultsModel[1].addRow( getRow( results[i] ) );
 				resultsModel[1].fireTableRowsInserted( i - 1, i - 1 );
 			}
 
-			if ( client.permitsContinue() )
+			if ( StaticEntity.getClient().permitsContinue() )
 				DEFAULT_SHELL.updateDisplay( "Search completed." );
 			else
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Search halted." );
@@ -390,7 +390,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			for ( int i = 0; i < selection.length; ++i )
 			{
 				Object [] parameters = new Object[2];
-				parameters[0] = client;
+				parameters[0] = StaticEntity.getClient();
 				parameters[1] = selection[i];
 
 				(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();
@@ -417,10 +417,10 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 					break;
 			}
 
-			for ( int i = 0; i < selection.length && client.permitsContinue(); ++i )
+			for ( int i = 0; i < selection.length && StaticEntity.getClient().permitsContinue(); ++i )
 			{
 				DEFAULT_SHELL.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
-				FightFrame.showRequest( new FlowerHunterRequest( client, selection[i].getPlayerID(),
+				FightFrame.showRequest( new FlowerHunterRequest( StaticEntity.getClient(), selection[i].getPlayerID(),
 					stanceSelect.getSelectedIndex() + 1, mission, message.getText() ) );
 
 				updateRank();

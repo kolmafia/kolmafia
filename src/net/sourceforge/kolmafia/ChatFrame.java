@@ -85,11 +85,11 @@ public class ChatFrame extends KoLFrame
 
 	/**
 	 * Constructs a new <code>ChatFrame</code>.
-	 * @param	client	The client associated with the chat session
+	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() associated with the chat session
 	 */
 
-	public ChatFrame( KoLmafia client )
-	{	this( client, "" );
+	public ChatFrame()
+	{	this( "" );
 	}
 
 	/**
@@ -97,10 +97,8 @@ public class ChatFrame extends KoLFrame
 	 * used for instant messaging to the specified contact.
 	 */
 
-	public ChatFrame( KoLmafia client, String associatedContact )
+	public ChatFrame( String associatedContact )
 	{
-		super( client, "" );
-
 		framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
 
@@ -148,7 +146,7 @@ public class ChatFrame extends KoLFrame
 
 		setSize( new Dimension( 500, 300 ) );
 
-		if ( client != null && mainPanel != null && associatedContact != null )
+		if ( mainPanel != null && associatedContact != null )
 		{
 			if ( associatedContact.startsWith( "/" ) )
 				setTitle( "KoLmafia Chat: " + associatedContact );
@@ -159,6 +157,11 @@ public class ChatFrame extends KoLFrame
 
 	public void dispose()
 	{
+		if ( getAssociatedContact() == null )
+			KoLMessenger.dispose();
+		else
+			KoLMessenger.removeChat( getAssociatedContact() );
+
 		mainPanel = null;
 		nameClickSelect = null;
 
@@ -263,7 +266,7 @@ public class ChatFrame extends KoLFrame
 					// without adding additional divisions.
 
 					requests = new ChatRequest[1];
-					requests[0] = new ChatRequest( client, associatedContact, currentMessage );
+					requests[0] = new ChatRequest( StaticEntity.getClient(), associatedContact, currentMessage );
 				}
 				else if ( currentMessage.length() < 1000 || associatedContact.equals( "/clan" ) )
 				{
@@ -297,7 +300,7 @@ public class ChatFrame extends KoLFrame
 
 					requests = new ChatRequest[ splitMessages.size() ];
 					for ( int i = 0; i < splitMessages.size(); ++i )
-						requests[i] = new ChatRequest( client, associatedContact, (String) splitMessages.get(i) );
+						requests[i] = new ChatRequest( StaticEntity.getClient(), associatedContact, (String) splitMessages.get(i) );
 				}
 				else
 				{
@@ -307,7 +310,7 @@ public class ChatFrame extends KoLFrame
 					// case.
 
 					requests = new ChatRequest[1];
-					requests[0] = new ChatRequest( client, associatedContact, currentMessage.substring( 0, 256 ) );
+					requests[0] = new ChatRequest( StaticEntity.getClient(), associatedContact, currentMessage.substring( 0, 256 ) );
 				}
 
 				(new RequestThread( requests )).start();
@@ -366,7 +369,7 @@ public class ChatFrame extends KoLFrame
 			// First, determine the parameters inside of the
 			// location which will be passed to frame classes.
 
-			Object [] parameters = new Object[] { client, client.getPlayerName( locationSplit[1] ) };
+			Object [] parameters = new Object[] { StaticEntity.getClient(), StaticEntity.getClient().getPlayerName( locationSplit[1] ) };
 
 			// Next, determine the option which had been
 			// selected in the link-click.
@@ -413,7 +416,7 @@ public class ChatFrame extends KoLFrame
 						mall = (AdventureFrame) creator.getCreation();
 					}
 
-					mall.searchMall( new SearchMallRequest( client, Integer.parseInt( KoLmafia.getPlayerID( (String) parameters[1] ) ) ) );
+					mall.searchMall( new SearchMallRequest( StaticEntity.getClient(), Integer.parseInt( KoLmafia.getPlayerID( (String) parameters[1] ) ) ) );
 					return;
 
 				case 6:
@@ -425,11 +428,11 @@ public class ChatFrame extends KoLFrame
 					return;
 
 				case 8:
-					(new RequestThread( new ChatRequest( client, "/whois", (String) parameters[1] ) )).start();
+					(new RequestThread( new ChatRequest( StaticEntity.getClient(), "/whois", (String) parameters[1] ) )).start();
 					return;
 
 				case 9:
-					(new RequestThread( new ChatRequest( client, "/baleet", (String) parameters[1] ) )).start();
+					(new RequestThread( new ChatRequest( StaticEntity.getClient(), "/baleet", (String) parameters[1] ) )).start();
 					return;
 
 				default:
@@ -454,19 +457,6 @@ public class ChatFrame extends KoLFrame
 		{
 			KoLMessenger.setUpdateChannel( getAssociatedContact() );
 			super.actionPerformed( e );
-		}
-	}
-
-	protected void processWindowEvent( WindowEvent e )
-	{
-		super.processWindowEvent( e );
-
-		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
-		{
-			if ( getAssociatedContact() == null )
-				KoLMessenger.dispose();
-			else
-				KoLMessenger.removeChat( getAssociatedContact() );
 		}
 	}
 }

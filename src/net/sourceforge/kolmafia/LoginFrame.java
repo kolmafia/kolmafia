@@ -85,8 +85,8 @@ public class LoginFrame extends KoLFrame
 	private JCheckBox autoLoginCheckBox;
 	private JCheckBox getBreakfastCheckBox;
 
-	public LoginFrame( KoLmafia client )
-	{	this( client, new SortedListModel() );
+	public LoginFrame()
+	{	this( new SortedListModel() );
 	}
 
 	/**
@@ -97,12 +97,12 @@ public class LoginFrame extends KoLFrame
 	 * and derived classes may access the <code>LoginPanel</code> indirectly
 	 * in this fashion.
 	 *
-	 * @param	client	The client associated with this <code>LoginFrame</code>.
+	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() associated with this <code>LoginFrame</code>.
 	 */
 
-	public LoginFrame( KoLmafia client, SortedListModel saveStateNames )
+	public LoginFrame( SortedListModel saveStateNames )
 	{
-		super( client, "Login" );
+		super( "Login" );
 		JTabbedPane tabs = new JTabbedPane();
 
 		this.saveStateNames = new SortedListModel();
@@ -138,7 +138,7 @@ public class LoginFrame extends KoLFrame
 		saveStateNames = null;
 		super.dispose();
 
-		if ( client == null || client.getPasswordHash() == null )
+		if ( StaticEntity.getClient().getPasswordHash() == null )
 			System.exit( 0 );
 	}
 
@@ -201,28 +201,24 @@ public class LoginFrame extends KoLFrame
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ), BorderLayout.CENTER );
 			actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
 
-			if ( client != null )
+			String autoLoginSetting = GLOBAL_SETTINGS.getProperty( "autoLogin" );
+			if ( autoLoginSetting.equals( "" ) )
+				autoLoginSetting = GLOBAL_SETTINGS.getProperty( "lastUsername" );
+			else
+				autoLoginCheckBox.setSelected( true );
+
+			if ( loginnameField instanceof JComboBox )
+				((JComboBox)loginnameField).setSelectedItem( autoLoginSetting );
+
+			String passwordSetting = StaticEntity.getClient().getSaveState( autoLoginSetting );
+
+			if ( passwordSetting != null )
 			{
-				String autoLoginSetting = GLOBAL_SETTINGS.getProperty( "autoLogin" );
-				if ( autoLoginSetting.equals( "" ) )
-					autoLoginSetting = GLOBAL_SETTINGS.getProperty( "lastUsername" );
-				else
-					autoLoginCheckBox.setSelected( true );
-
-				if ( loginnameField instanceof JComboBox )
-					((JComboBox)loginnameField).setSelectedItem( autoLoginSetting );
-
-				String passwordSetting = client.getSaveState( autoLoginSetting );
-
-				if ( passwordSetting != null )
-				{
-					passwordField.setText( passwordSetting );
-					savePasswordCheckBox.setSelected( true );
-				}
-
-				getBreakfastCheckBox.setSelected( GLOBAL_SETTINGS.getProperty( "alwaysGetBreakfast" ).equals( "true" ) );
+				passwordField.setText( passwordSetting );
+				savePasswordCheckBox.setSelected( true );
 			}
 
+			getBreakfastCheckBox.setSelected( GLOBAL_SETTINGS.getProperty( "alwaysGetBreakfast" ).equals( "true" ) );
 			setDefaultButton( confirmedButton );
 		}
 
@@ -258,21 +254,19 @@ public class LoginFrame extends KoLFrame
 			if ( !loginname.endsWith( "/q" ) )
 				loginname += "/q";
 
-			(new LoginRequest( client, loginname, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected() )).run();
+			(new LoginRequest( StaticEntity.getClient(), loginname, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected() )).run();
 		}
 
 		protected void actionCancelled()
 		{
-			if ( client != null )
-				client.declareWorldPeace();
-
+			StaticEntity.getClient().declareWorldPeace();
 			loginnameField.requestFocus();
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{
 			if ( !savePasswordCheckBox.isSelected() && loginnameField instanceof JComboBox )
-				client.removeSaveState( (String) ((JComboBox)loginnameField).getSelectedItem() );
+				StaticEntity.getClient().removeSaveState( (String) ((JComboBox)loginnameField).getSelectedItem() );
 		}
 
 		/**
@@ -309,7 +303,7 @@ public class LoginFrame extends KoLFrame
 					return;
 				}
 
-				String password = client.getSaveState( currentMatch );
+				String password = StaticEntity.getClient().getSaveState( currentMatch );
 				if ( password != null )
 				{
 					passwordField.setText( password );

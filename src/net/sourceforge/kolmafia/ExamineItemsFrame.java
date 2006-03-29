@@ -78,9 +78,9 @@ public class ExamineItemsFrame extends KoLFrame
 	private static LockableListModel allSkills = new LockableListModel( ClassSkillsDatabase.entrySet() );
 	private static LockableListModel allFamiliars = new LockableListModel( FamiliarsDatabase.entrySet() );
 
-	public ExamineItemsFrame( KoLmafia client )
+	public ExamineItemsFrame()
 	{
-		super( client, "Kingdom of Loathing Encyclopedia" );
+		super( "Kingdom of Loathing Encyclopedia" );
 
 		tabs = new JTabbedPane();
 

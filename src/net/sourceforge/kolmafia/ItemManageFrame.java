@@ -90,12 +90,12 @@ public class ItemManageFrame extends KoLFrame
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
 	 * of the necessary panels into a tabular layout for accessibility.
 	 *
-	 * @param	client	The client to be notified in the event of error.
+	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() to be notified in the event of error.
 	 */
 
-	public ItemManageFrame( KoLmafia client )
+	public ItemManageFrame()
 	{
-		super( client, "Item Management" );
+		super( "Item Management" );
 
 		tabs = new JTabbedPane();
 		consume = new ConsumePanel();
@@ -110,32 +110,29 @@ public class ItemManageFrame extends KoLFrame
 
 		tabs.addTab( "Consume", consume );
 
-		if ( client != null )
+		// If the person is in a mysticality sign, make sure
+		// you retrieve information from the restaurant.
+
+		if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
 		{
-			// If the person is in a mysticality sign, make sure
-			// you retrieve information from the restaurant.
+			special = new SpecialPanel( StaticEntity.getClient().getRestaurantItems() );
+			tabs.add( "Restaurant", special );
 
-			if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
-			{
-				special = new SpecialPanel( client.getRestaurantItems() );
-				tabs.add( "Restaurant", special );
+			if ( StaticEntity.getClient().getRestaurantItems().isEmpty() )
+				(new RequestThread( new RestaurantRequest( StaticEntity.getClient() ) )).start();
+		}
 
-				if ( client.getRestaurantItems().isEmpty() )
-					(new RequestThread( new RestaurantRequest( client ) )).start();
-			}
+		// If the person is in a moxie sign and they have completed
+		// the beach quest, then retrieve information from the
+		// microbrewery.
 
-			// If the person is in a moxie sign and they have completed
-			// the beach quest, then retrieve information from the
-			// microbrewery.
+		if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
+		{
+			special = new SpecialPanel( StaticEntity.getClient().getMicrobreweryItems() );
+			tabs.add( "Microbrewery", special );
 
-			if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
-			{
-				special = new SpecialPanel( client.getMicrobreweryItems() );
-				tabs.add( "Microbrewery", special );
-
-				if ( client.getMicrobreweryItems().isEmpty() )
-					(new RequestThread( new MicrobreweryRequest( client ) )).start();
-			}
+			if ( StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
+				(new RequestThread( new MicrobreweryRequest( StaticEntity.getClient() ) )).start();
 		}
 
 //		tabs.addTab( "Find Recipe", bruteforcer );
@@ -154,7 +151,7 @@ public class ItemManageFrame extends KoLFrame
 
 			setButtons( new String [] { "use one", "use multiple", "refresh" },
 				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
-				new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
+				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 
 			JCheckBox [] filters = new JCheckBox[3];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
@@ -200,12 +197,12 @@ public class ItemManageFrame extends KoLFrame
 
 					if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE || consumptionType == ConsumeItemRequest.CONSUME_RESTORE )
 					{
-						requests[i] = new ConsumeItemRequest( client, currentItem.getInstance( consumptionCount ) );
+						requests[i] = new ConsumeItemRequest( StaticEntity.getClient(), currentItem.getInstance( consumptionCount ) );
 						repeatCount[i] = 1;
 					}
 					else
 					{
-						requests[i] = new ConsumeItemRequest( client, currentItem.getInstance( 1 ) );
+						requests[i] = new ConsumeItemRequest( StaticEntity.getClient(), currentItem.getInstance( 1 ) );
 						repeatCount[i] = consumptionCount;
 					}
 				}
@@ -254,8 +251,8 @@ public class ItemManageFrame extends KoLFrame
 				if ( consumptionCount == 0 )
 					return;
 
-				Runnable request = elementList.getModel() == client.getRestaurantItems() ?
-					(KoLRequest) (new RestaurantRequest( client, item )) : (KoLRequest) (new MicrobreweryRequest( client, item ));
+				Runnable request = elementList.getModel() == StaticEntity.getClient().getRestaurantItems() ?
+					(KoLRequest) (new RestaurantRequest( StaticEntity.getClient(), item )) : (KoLRequest) (new MicrobreweryRequest( StaticEntity.getClient(), item ));
 
 				(new RequestThread( request, consumptionCount )).start();
 			}
@@ -351,7 +348,7 @@ public class ItemManageFrame extends KoLFrame
 				this.requests = new Runnable[ !retrieveFromClosetFirst || description.equals( "Bagging" ) ? 1 : 2 ];
 
 				if ( retrieveFromClosetFirst )
-					requests[0] = new ItemStorageRequest( client, ItemStorageRequest.CLOSET_TO_INVENTORY, items );
+					requests[0] = new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.CLOSET_TO_INVENTORY, items );
 
 				return items;
 			}
@@ -374,7 +371,7 @@ public class ItemManageFrame extends KoLFrame
 					return;
 
 				if ( !retrieveFromClosetFirst )
-					requests[0] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+					requests[0] = new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
 				initializeTransfer();
 			}
@@ -412,7 +409,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
-				requests[ requests.length - 1 ] = new AutoSellRequest( client, items, sellType );
+				requests[ requests.length - 1 ] = new AutoSellRequest( StaticEntity.getClient(), items, sellType );
 				initializeTransfer();
 			}
 		}
@@ -429,7 +426,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( items == null )
 					return;
 
-				requests[ requests.length - 1 ] = new ClanStashRequest( client, items, ClanStashRequest.ITEMS_TO_STASH );
+				requests[ requests.length - 1 ] = new ClanStashRequest( StaticEntity.getClient(), items, ClanStashRequest.ITEMS_TO_STASH );
 				initializeTransfer();
 			}
 		}
@@ -452,7 +449,7 @@ public class ItemManageFrame extends KoLFrame
 					return;
 				}
 
-				requests[ requests.length - 1 ] = new MuseumRequest( client, items, true );
+				requests[ requests.length - 1 ] = new MuseumRequest( StaticEntity.getClient(), items, true );
 				initializeTransfer();
 			}
 		}
@@ -470,7 +467,7 @@ public class ItemManageFrame extends KoLFrame
 					new AutoSellListener( false, AutoSellRequest.AUTOMALL, elementList ),
 					new PutOnDisplayListener( false, elementList ),
 					new GiveToClanListener( false, elementList ),
-					new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
+					new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 		}
 	}
 
@@ -486,7 +483,7 @@ public class ItemManageFrame extends KoLFrame
 					new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ),
 					new PutOnDisplayListener( true, elementList ),
 					new GiveToClanListener( true, elementList ),
-					new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
+					new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 		}
 	}
 
@@ -513,7 +510,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public SearchListener( String location )
 			{
-				request = new KoLRequest( client, location, true );
+				request = new KoLRequest( StaticEntity.getClient(), location, true );
 				request.addFormField( "pwd" );
 
 				if ( location.equals( "gnomes.php" ) )
@@ -599,9 +596,9 @@ public class ItemManageFrame extends KoLFrame
 				// Begin testing every single possible combination.
 
 				AdventureResult [] currentTest = new AdventureResult[2];
-				for ( int i = 0; i < coreArray.length && client.permitsContinue(); ++i )
+				for ( int i = 0; i < coreArray.length && StaticEntity.getClient().permitsContinue(); ++i )
 				{
-					for ( int j = 0; j < availableArray.length && client.permitsContinue(); ++j )
+					for ( int j = 0; j < availableArray.length && StaticEntity.getClient().permitsContinue(); ++j )
 					{
 						currentTest[0] = coreArray[i];
 						currentTest[1] = availableArray[j];
@@ -676,11 +673,11 @@ public class ItemManageFrame extends KoLFrame
 				// Begin testing every single possible combination.
 
 				AdventureResult [] currentTest = new AdventureResult[3];
-				for ( int i = 0; i < coreArray.length && client.permitsContinue(); ++i )
+				for ( int i = 0; i < coreArray.length && StaticEntity.getClient().permitsContinue(); ++i )
 				{
-					for ( int j = 0; j < availableArray.length && client.permitsContinue(); ++j )
+					for ( int j = 0; j < availableArray.length && StaticEntity.getClient().permitsContinue(); ++j )
 					{
-						for ( int k = j; k < availableArray.length && client.permitsContinue(); ++k )
+						for ( int k = j; k < availableArray.length && StaticEntity.getClient().permitsContinue(); ++k )
 						{
 							currentTest[0] = coreArray[i];
 							currentTest[1] = availableArray[j];
@@ -726,7 +723,7 @@ public class ItemManageFrame extends KoLFrame
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			setButtons( new String [] { "create one", "create multiple", "refresh" },
 				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
-				new RequestButton( "Refresh Items", new EquipmentRequest( client, EquipmentRequest.CLOSET ) ) } );
+				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 
 			JCheckBox [] filters = new JCheckBox[6];
 

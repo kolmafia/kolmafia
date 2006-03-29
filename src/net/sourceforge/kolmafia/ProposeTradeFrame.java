@@ -44,17 +44,17 @@ public class ProposeTradeFrame extends SendMessageFrame
 	private String offerID;
 	private static final String [] HEADERS = { "Send this note:" };
 
-	public ProposeTradeFrame( KoLmafia client )
-	{	this( client, "", null );
+	public ProposeTradeFrame()
+	{	this( "", null );
 	}
 
-	public ProposeTradeFrame( KoLmafia client, String recipient )
-	{	this( client, recipient, null );
+	public ProposeTradeFrame( String recipient )
+	{	this( recipient, null );
 	}
 
-	public ProposeTradeFrame( KoLmafia client, String recipient, String offerID )
+	public ProposeTradeFrame( String recipient, String offerID )
 	{
-		super( client, "Send a Trade Proposal", recipient );
+		super( "Send a Trade Proposal", recipient );
 		this.offerID = offerID;
 
 		if ( this.offerID != null )
@@ -82,21 +82,21 @@ public class ProposeTradeFrame extends SendMessageFrame
 	protected boolean sendMessage( String recipient, String [] messages )
 	{
 		// Close all pending trades frames first
-		
+
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
 		for ( int i = 0; i < frames.length; ++i )
 			if ( frames[i] instanceof PendingTradesFrame )
 				((PendingTradesFrame)frames[i]).dispose();
-		
+
 		// Send the offer / response
-		
+
 		if ( offerID != null )
-			(new ProposeTradeRequest( client, Integer.parseInt( offerID ), messages[0], getAttachedItems(), getAttachedMeat() )).run();
+			(new ProposeTradeRequest( StaticEntity.getClient(), Integer.parseInt( offerID ), messages[0], getAttachedItems(), getAttachedMeat() )).run();
 		Object [] parameters = new Object[2];
-		parameters[0] = client;
-		parameters[1] = offerID != null ? new ProposeTradeRequest( client ) :
-			new ProposeTradeRequest( client, recipient, messages[0], getAttachedItems(), getAttachedMeat() );
+		parameters[0] = StaticEntity.getClient();
+		parameters[1] = offerID != null ? new ProposeTradeRequest( StaticEntity.getClient() ) :
+			new ProposeTradeRequest( StaticEntity.getClient(), recipient, messages[0], getAttachedItems(), getAttachedMeat() );
 		(new CreateFrameRunnable( PendingTradesFrame.class, parameters )).run();
 		return true;
 	}

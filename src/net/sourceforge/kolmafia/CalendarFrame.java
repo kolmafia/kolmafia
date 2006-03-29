@@ -88,9 +88,9 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	private static Date selectedDate;
 	private static int selectedRow, selectedColumn;
 
-	public CalendarFrame( KoLmafia client )
+	public CalendarFrame()
 	{
-		super( client, "Farmer's Almanac" );
+		super( "Farmer's Almanac" );
 		framePanel.setLayout( new BorderLayout() );
 
 		selectedRow = -1;

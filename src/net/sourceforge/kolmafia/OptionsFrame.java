@@ -117,18 +117,18 @@ public class OptionsFrame extends KoLFrame
 
 	/**
 	 * Constructs a new <code>OptionsFrame</code> that will be
-	 * associated with the given client.  When this frame is
+	 * associated with the given StaticEntity.getClient().  When this frame is
 	 * closed, it will attempt to return focus to the currently
-	 * active frame; note that if this is done while the client
+	 * active frame; note that if this is done while the StaticEntity.getClient()
 	 * is shuffling active frames, closing the window will not
 	 * properly transfer focus.
 	 *
-	 * @param	client	The client to be associated with this <code>OptionsFrame</code>
+	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() to be associated with this <code>OptionsFrame</code>
 	 */
 
-	public OptionsFrame( KoLmafia client )
+	public OptionsFrame()
 	{
-		super( client, "Preferences" );
+		super( "Preferences" );
 		tabs = new JTabbedPane();
 
 		addTab( "General", new GeneralOptionsPanel() );
@@ -136,7 +136,7 @@ public class OptionsFrame extends KoLFrame
 		addTab( "Choice Handling", new ChoiceOptionsPanel() );
 		addTab( "Chat Options", new ChatOptionsPanel() );
 
-		if ( client.getPasswordHash() != null )
+		if ( StaticEntity.getClient().getPasswordHash() != null )
 		{
 			JPanel customContainer = new JPanel( new BorderLayout() );
 			customTabs = new JTabbedPane();
@@ -232,7 +232,7 @@ public class OptionsFrame extends KoLFrame
 
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 
-			if ( client != null && options[0].isSelected() )
+			if ( options[0].isSelected() )
 				Collections.sort( adventureList );
 		}
 
@@ -566,7 +566,7 @@ public class OptionsFrame extends KoLFrame
 	 * A generic panel which adds a label to the bottom of the KoLPanel
 	 * to update the panel's status.  It also provides a thread which is
 	 * guaranteed to be a daemon thread for updating the frame which
-	 * also retrieves a reference to the client's current settings.
+	 * also retrieves a reference to the StaticEntity.getClient()'s current settings.
 	 */
 
 	private abstract class OptionsPanel extends LabeledKoLPanel
@@ -668,7 +668,7 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		protected void actionCancelled()
-		{	openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
+		{	StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
 		}
 	}
 }

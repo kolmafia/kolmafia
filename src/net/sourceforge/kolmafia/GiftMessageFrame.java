@@ -51,12 +51,12 @@ public class GiftMessageFrame extends SendMessageFrame
 
 	private JComboBox packageSelect;
 
-	public GiftMessageFrame( KoLmafia client )
-	{	this( client, "" );
+	public GiftMessageFrame()
+	{	this( "" );
 	}
 
-	public GiftMessageFrame( KoLmafia client, String recipient )
-	{	super( client, "Send a Purple Message", recipient );
+	public GiftMessageFrame( String recipient )
+	{	super( "Send a Purple Message", recipient );
 	}
 
 	protected String [] getEntryHeaders()
@@ -78,10 +78,10 @@ public class GiftMessageFrame extends SendMessageFrame
 	protected boolean sendMessage( String recipient, String [] messages )
 	{
 		GiftMessageFrame.this.setEnabled( false );
-		(new GiftMessageRequest( client, recipient, messages[0], messages[1], packageSelect.getSelectedItem(), getAttachedItems(), getAttachedMeat(), usingStorage )).run();
+		(new GiftMessageRequest( StaticEntity.getClient(), recipient, messages[0], messages[1], packageSelect.getSelectedItem(), getAttachedItems(), getAttachedMeat(), usingStorage )).run();
 		GiftMessageFrame.this.setEnabled( true );
 
-		if ( client.permitsContinue() )
+		if ( StaticEntity.getClient().permitsContinue() )
 		{
 			DEFAULT_SHELL.updateDisplay( "Gift sent to " + recipient );
 			setTitle( "Gift sent to " + recipient );

@@ -39,13 +39,13 @@ import java.util.regex.Matcher;
 
 public class PendingTradesFrame extends RequestFrame
 {
-	public PendingTradesFrame( KoLmafia client )
-	{	this( client, new ProposeTradeRequest( client ) );
+	public PendingTradesFrame()
+	{	this( new ProposeTradeRequest( StaticEntity.getClient() ) );
 	}
 
-	public PendingTradesFrame( KoLmafia client, ProposeTradeRequest ptr )
+	public PendingTradesFrame( ProposeTradeRequest ptr )
 	{
-		super( client, ptr );
+		super( ptr );
 		mainDisplay.addHyperlinkListener( new TradeLinkListener() );
 	}
 
@@ -70,7 +70,7 @@ public class PendingTradesFrame extends RequestFrame
 			String offerID = location.substring( location.lastIndexOf( "=" ) + 1 );
 
 			Object [] parameters = new Object[3];
-			parameters[0] = client;
+			parameters[0] = StaticEntity.getClient();
 			parameters[1] = "Offer ID # " + offerID;
 			parameters[2] = offerID;
 

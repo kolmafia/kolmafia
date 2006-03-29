@@ -76,13 +76,13 @@ public class GearChangeFrame extends KoLFrame
 	 * Constructs a new character sheet, using the data located
 	 * in the provided session.
 	 *
-	 * @param	client	The client containing the data associated with the character
+	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() containing the data associated with the character
 	 */
 
-	public GearChangeFrame( KoLmafia client )
+	public GearChangeFrame()
 	{
-		super( client, "Changing Gears" );
-		
+		super( "Changing Gears" );
+
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( createEquipPanel(), "" );
 		refreshEquipPanel();
@@ -263,7 +263,7 @@ public class GearChangeFrame extends KoLFrame
 			}
 
 			this.parameters = new Object[ parameterTypes.length ];
-			this.parameters[0] = client;
+			this.parameters[0] = StaticEntity.getClient();
 			for ( int i = 1; i < parameters.length; ++i )
 				this.parameters[i] = null;
 		}
@@ -306,7 +306,7 @@ public class GearChangeFrame extends KoLFrame
 		{
 			try
 			{
-				client.makeRequest( (Runnable) constructor.newInstance( parameters ), 1 );
+				StaticEntity.getClient().makeRequest( (Runnable) constructor.newInstance( parameters ), 1 );
 				refreshEquipPanel();
 			}
 			catch ( Exception e )

@@ -48,20 +48,24 @@ public class FightFrame extends RequestFrame
 {
 	private static FightFrame INSTANCE = null;
 
-	public FightFrame( KoLmafia client )
-	{	this( client, null );
+	public FightFrame()
+	{	this( null );
 	}
 
-	public FightFrame( KoLmafia client, KoLRequest request )
+	public FightFrame( KoLRequest request )
 	{
-		super( client, null, request );
+		super( null, request );
 		FightFrame.INSTANCE = this;
 	}
-	
+
 	public void dispose()
 	{
 		INSTANCE = null;
 		super.dispose();
+	}
+
+	public static void showLocation( String location )
+	{	showRequest( RequestEditorKit.extractRequest( location ) );
 	}
 
 	public static void showRequest( KoLRequest request )
@@ -88,19 +92,14 @@ public class FightFrame extends RequestFrame
 		// go ahead and refresh it.  Otherwise, create a
 		// new frame which renders the request.
 
-		client.setCurrentRequest( request );
+		StaticEntity.getClient().setCurrentRequest( request );
 
 		if ( INSTANCE == null )
 		{
 			// Parameters which will be used to render the
 			// request frame.
 
-			Object [] parameters = new Object[2];
-
-			parameters[0] = StaticEntity.getClient();
-			parameters[1] = request;
-
-			(new CreateFrameRunnable( FightFrame.class, parameters )).run();
+			(new CreateFrameRunnable( FightFrame.class, new Object [] { request } )).run();
 		}
 		else
 			INSTANCE.refresh( request );

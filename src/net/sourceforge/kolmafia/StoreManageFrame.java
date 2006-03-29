@@ -70,19 +70,16 @@ public class StoreManageFrame extends KoLPanelFrame
 	private AddItemPanel addItem;
 	private JPanel searchResults;
 
-	public StoreManageFrame( KoLmafia client )
+	public StoreManageFrame()
 	{
-		super( client, "Store Manager" );
+		super( "Store Manager" );
 
-		if ( client != null )
-		{
-			Runnable [] requests = new Runnable [] {
-				new StoreManageRequest( client ),
-				new StoreManageRequest( client, true )
-			};
+		Runnable [] requests = new Runnable [] {
+			new StoreManageRequest( StaticEntity.getClient() ),
+			new StoreManageRequest( StaticEntity.getClient(), true )
+		};
 
-			(new RequestThread( requests )).start();
-		}
+		(new RequestThread( requests )).start();
 
 		setResizable( false );
 
@@ -102,7 +99,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new StoreManageRequest( client, true ) )).start();
+		{	(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), true ) )).start();
 		}
 
 		public void actionCancelled()
@@ -125,7 +122,7 @@ public class StoreManageFrame extends KoLPanelFrame
 					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 						return;
 
-			(new RequestThread( new AutoSellRequest( client, elementList.getSelectedValues(), AutoSellRequest.AUTOMALL ) )).start();
+			(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), elementList.getSelectedValues(), AutoSellRequest.AUTOMALL ) )).start();
 		}
 
 		public void actionCancelled()
@@ -134,8 +131,8 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void run()
 		{
-			if ( client != null && client instanceof KoLmafiaGUI )
-				((KoLmafiaGUI)client).makeEndOfRunSaleRequest();
+			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
+				((KoLmafiaGUI)StaticEntity.getClient()).makeEndOfRunSaleRequest();
 		}
 	}
 
@@ -153,7 +150,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			 StoreManageRequest [] requests = new StoreManageRequest[ items.length ];
 
 			 for ( int i = 0; i < items.length; ++i )
-			 	requests[i] = new StoreManageRequest( client, ((StoreManager.SoldItem)items[i]).getItemID() );
+			 	requests[i] = new StoreManageRequest( StaticEntity.getClient(), ((StoreManager.SoldItem)items[i]).getItemID() );
 
 			(new RequestThread( requests )).start();
 		}
@@ -164,8 +161,8 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void run()
 		{
-			if ( client != null && client instanceof KoLmafiaGUI )
-				((KoLmafiaGUI)client).removeAllItemsFromStore();
+			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
+				((KoLmafiaGUI)StaticEntity.getClient()).removeAllItemsFromStore();
 		}
 	}
 
@@ -236,7 +233,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				limits[i] = currentPanel.getLimit();
 			}
 
-			(new RequestThread( new StoreManageRequest( client, itemID, prices, limits ) )).start();
+			(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), itemID, prices, limits ) )).start();
 		}
 
 		public void actionCancelled()
@@ -245,8 +242,8 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void run()
 		{
-			if ( client != null && client instanceof KoLmafiaGUI )
-				((KoLmafiaGUI)client).priceItemsAtLowestPrice();
+			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
+				((KoLmafiaGUI)StaticEntity.getClient()).priceItemsAtLowestPrice();
 		}
 	}
 
@@ -380,7 +377,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				soldItem = new AdventureResult( soldItem.getItemID(), qty );
 
 				if ( price > 10 )
-					(new RequestThread( new AutoSellRequest( client, soldItem, price, limit ) )).start();
+					(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), soldItem, price, limit ) )).start();
 			}
 		}
 
@@ -516,7 +513,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		private class TakeButtonListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
-			{	(new RequestThread( new StoreManageRequest( client, itemID ) )).start();
+			{	(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), itemID ) )).start();
 			}
 		}
 

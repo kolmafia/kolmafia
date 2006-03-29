@@ -70,9 +70,9 @@ public class CommandDisplayFrame extends KoLFrame
 	private static int lastCommandIndex = 0;
 	private static ArrayList recentCommands = new ArrayList();
 
-	public CommandDisplayFrame( KoLmafia client )
+	public CommandDisplayFrame()
 	{
-		super( client, "Graphical CLI" );
+		super( "Graphical CLI" );
 		KoLmafia.commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", false );;
 		framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
 

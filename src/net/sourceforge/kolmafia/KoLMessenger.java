@@ -106,12 +106,12 @@ public abstract class KoLMessenger extends StaticEntity
 		instantMessageBuffers.clear();
 
 		chattingStyle = Integer.parseInt( getProperty( "chatStyle" ) );
-		contactsFrame = new ContactListFrame( client, onlineContacts );
+		contactsFrame = new ContactListFrame( onlineContacts );
 		useTabbedChat = getProperty( "useTabbedChat" ).equals( "1" );
 
 		if ( useTabbedChat )
 		{
-			tabbedFrame = new TabbedChatFrame( client );
+			tabbedFrame = new TabbedChatFrame();
 			tabbedFrame.setVisible( true );
 		}
 		else
@@ -931,7 +931,7 @@ public abstract class KoLMessenger extends StaticEntity
 				}
 				else
 				{
-					ChatFrame frame = new ChatFrame( client, channel );
+					ChatFrame frame = new ChatFrame( channel );
 					frame.setVisible( true );
 					instantMessageFrames.put( channel, frame );
 				}

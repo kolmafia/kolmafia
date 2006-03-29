@@ -75,7 +75,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		TabbedChatFrame.class
 	};
 
-	private KoLmafia client;
 	private Class creationType;
 	private KoLFrame creation;
 
@@ -83,7 +82,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	private Object [] parameters;
 
 	public CreateFrameRunnable( Class creationType )
-	{	this( creationType, new Object[] { StaticEntity.getClient() } );
+	{	this( creationType, new Object[0] );
 	}
 
 	public CreateFrameRunnable( Class creationType, Object [] parameters )
@@ -175,38 +174,28 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		try
 		{
 			if ( this.creation == null )
+			{
 				this.creation = (KoLFrame) creator.newInstance( parameters );
-
-			this.creation.pack();
+				this.creation.pack();
+			}
 
 			// Load the KoL frame to the appropriate location
 			// on the screen now that the frame has been packed
 			// to the appropriate size.
 
-			if ( !GLOBAL_SETTINGS.getProperty( "windowPositions" ).equals( "0" ) )
+			KoLFrame frame = (KoLFrame) this.creation;
+			String frameName = frame.getFrameName();
+
+			if ( StaticEntity.getSettings().containsKey( frameName ) )
 			{
-				KoLFrame frame = (KoLFrame) this.creation;
-				String frameName = frame.getFrameName();
+				String [] location = StaticEntity.getSettings().getProperty( frameName ).split( "," );
+				int xLocation = Integer.parseInt( location[0] );
+				int yLocation = Integer.parseInt( location[1] );
 
-				KoLSettings settings = GLOBAL_SETTINGS.getProperty( "windowPositions" ).equals( "1" ) ? GLOBAL_SETTINGS : StaticEntity.getSettings();
-
-				if ( settings.containsKey( frameName ) )
-				{
-					String [] location = settings.getProperty( frameName ).split( "," );
-					int xLocation = Integer.parseInt( location[0] );
-					int yLocation = Integer.parseInt( location[1] );
-
-					Dimension screenSize = TOOLKIT.getScreenSize();
-					if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
-						frame.setLocation( xLocation, yLocation );
-					else
-						frame.setLocationRelativeTo( null );
-				}
-				else
-					frame.setLocationRelativeTo( null );
+				Dimension screenSize = TOOLKIT.getScreenSize();
+				if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
+					frame.setLocation( xLocation, yLocation );
 			}
-			else
-				this.creation.setLocationRelativeTo( null );
 
 			// With the location set set on screen, make sure
 			// to disable it (if necessary), ensure the frame's

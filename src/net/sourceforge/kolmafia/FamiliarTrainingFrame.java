@@ -113,9 +113,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final int firstTinyPlasticCrimbo = 1377;
 	private static final int lastTinyPlasticCrimbo = 1378;
 
-	public FamiliarTrainingFrame( KoLmafia client )
+	public FamiliarTrainingFrame()
 	{
-		super( client, "Familiar Training Tool" );
+		super( "Familiar Training Tool" );
 
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );
@@ -222,8 +222,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public OpponentsPanel()
 			{
 				// Get current opponents
-				LockableListModel opponents = CakeArenaManager.getOpponentList( client );
-				client.enableDisplay();
+				LockableListModel opponents = CakeArenaManager.getOpponentList( StaticEntity.getClient() );
+				StaticEntity.getClient().enableDisplay();
 
 				int opponentCount = opponents.size();
 
@@ -258,7 +258,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				matchup = new DisplayFrameButton( "View Matchup", CakeArenaFrame.class );
 				containerPanel.add( matchup );
 
-				changer = new LocalSettingChanger( client, "Buff-Casting", "castBuffsWhileTraining" );
+				changer = new LocalSettingChanger( "Buff-Casting", "castBuffsWhileTraining" );
 				containerPanel.add( changer );
 
 				containerPanel.add( new JLabel() );
@@ -326,7 +326,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 						return;
 
 					// Level the familiar
-					levelFamiliar( client, goal, BASE );
+					levelFamiliar( goal, BASE );
 				}
 			}
 
@@ -342,7 +342,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 						return;
 
 					// Level the familiar
-					levelFamiliar( client, goal, BUFFED );
+					levelFamiliar( goal, BUFFED );
 				}
 			}
 
@@ -358,7 +358,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 						return;
 
 					// Level the familiar
-					levelFamiliar( client, goal, TURNS );
+					levelFamiliar( goal, TURNS );
 				}
 			}
 
@@ -417,7 +417,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 						return;
 
 					// Learn familiar parameters
-					int [] skills = learnFamiliarParameters( client, trials );
+					int [] skills = learnFamiliarParameters( trials );
 
 					// Save familiar parameters
 					if ( skills != null )
@@ -447,7 +447,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			private class DebugListener implements ActionListener
 			{
 				public void actionPerformed( ActionEvent e )
-				{	debug( client );
+				{	debug( StaticEntity.getClient() );
 				}
 			}
 			*/
@@ -514,32 +514,32 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public void run()
 			{
 				FamiliarData selection = (FamiliarData)getSelectedItem();
-				(new FamiliarRequest( client, selection )).run();
+				(new FamiliarRequest( StaticEntity.getClient(), selection )).run();
 				familiar = KoLCharacter.getFamiliar();
 				isChanging = false;
 			}
 		}
 	}
 
-	private static boolean levelFamiliar( KoLmafia client, int goal, int type )
+	private static boolean levelFamiliar( int goal, int type )
 	{
-		boolean buffs = client.getLocalBooleanProperty( "castBuffsWhileTraining" );
-		boolean debug = client.getLocalBooleanProperty( "debugFamiliarTraining" );
-		return levelFamiliar( client, goal, type, buffs, debug );
+		boolean buffs = StaticEntity.getClient().getLocalBooleanProperty( "castBuffsWhileTraining" );
+		boolean debug = StaticEntity.getClient().getLocalBooleanProperty( "debugFamiliarTraining" );
+		return levelFamiliar( goal, type, buffs, debug );
 	}
 
 	/**
 	 * Utility method to level the current familiar by fighting the
 	 * current arena opponents.
 	 *
-	 * @param	client	KoLmafia client
+	 * @param	StaticEntity.getClient()	KoLmafia StaticEntity.getClient()
 	 * @param	goal	Weight goal for the familiar
 	 * @param	type	BASE, BUFF, or TURNS
 	 * @param	buffs	true if should cast buffs during training
 	 * @param	debug	true if we are debugging
 	 */
 
-	public static boolean levelFamiliar( KoLmafia client, int goal, int type, boolean buffs, boolean debug )
+	public static boolean levelFamiliar( int goal, int type, boolean buffs, boolean debug )
 	{
 		// Clear the output
 		results.clearBuffer();
@@ -563,7 +563,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		// Get the status of current familiar
-		FamiliarStatus status = new FamiliarStatus( client );
+		FamiliarStatus status = new FamiliarStatus();
 
 		// Identify the familiar we are training
 		printFamiliar( status, goal, type );
@@ -577,7 +577,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.append( "<br>" );
 
 		// Get opponent list
-		LockableListModel opponents = CakeArenaManager.getOpponentList( client );
+		LockableListModel opponents = CakeArenaManager.getOpponentList( StaticEntity.getClient() );
 
 		// Print the opponents
 		printOpponents( opponents );
@@ -593,7 +593,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		while ( !goalMet( status, goal, type) )
 		{
 			// If user canceled, bail now
-			if ( stop || !client.permitsContinue() )
+			if ( stop || !StaticEntity.getClient().permitsContinue() )
 			{
 				statusMessage( ERROR_STATE, "Training session aborted." );
 				return false;
@@ -630,7 +630,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Change into appropriate gear
 			status.changeGear( tool.bestWeight(), buffs );
-			if ( !client.permitsContinue() )
+			if ( !StaticEntity.getClient().permitsContinue() )
 			{
 				if ( buffs )
 				{
@@ -647,7 +647,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				break;
 
 			// Enter the contest
-			fightMatch( client, status, tool, opponent );
+			fightMatch( status, tool, opponent );
 		}
 
 		statusMessage( CONTINUE_STATE, "Training session completed." );
@@ -658,11 +658,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * Utility method to derive the arena parameters of the current
 	 * familiar
 	 *
-	 * @param	client	KoLmafia client
 	 * @param	trials	How many trials per event
 	 */
 
-	private static int [] learnFamiliarParameters( KoLmafia client, int trials )
+	private static int [] learnFamiliarParameters( int trials )
 	{
 		// Clear the output
 		results.clearBuffer();
@@ -695,7 +694,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		// Get the status of current familiar
-		FamiliarStatus status = new FamiliarStatus( client );
+		FamiliarStatus status = new FamiliarStatus();
 
 		// Identify the familiar we are training
 		printFamiliar( status, 0, LEARN );
@@ -709,7 +708,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.append( "<br>" );
 
 		// Get opponent list
-		LockableListModel opponents = CakeArenaManager.getOpponentList( client );
+		LockableListModel opponents = CakeArenaManager.getOpponentList( StaticEntity.getClient() );
 
 		// Print the opponents
 		printOpponents( opponents );
@@ -748,7 +747,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 						continue;
 
 					// If user canceled, bail now
-					if ( stop || !client.permitsContinue() )
+					if ( stop || !StaticEntity.getClient().permitsContinue() )
 					{
 						statusMessage( ERROR_STATE, "Training session aborted." );
 						return null;
@@ -782,14 +781,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Change into appropriate gear
 					status.changeGear( tool.bestWeight(), false );
-					if ( !client.permitsContinue() )
+					if ( !StaticEntity.getClient().permitsContinue() )
 					{
 						statusMessage( ERROR_STATE, "Training stopped: internal error." );
 						return null;
 					}
 
 					// Enter the contest
-					int trialXP = fightMatch( client, status, tool, opponent, match );
+					int trialXP = fightMatch( status, tool, opponent, match );
 
 					if ( trialXP < 0 )
 						suckage[contest] = true;
@@ -855,11 +854,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 * Utility method to buff the current familiar to the specified weight
 	 * or higher.
 	 *
-	 * @param	client	KoLmafia client
+	 * @param	StaticEntity.getClient()	KoLmafia StaticEntity.getClient()
 	 * @param	weight	Weight goal for the familiar
 	 */
 
-	public static boolean buffFamiliar( KoLmafia client, int weight )
+	public static boolean buffFamiliar( int weight )
 	{
 		// Get current familiar. If none, punt.
 		FamiliarData familiar = KoLCharacter.getFamiliar();
@@ -874,7 +873,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return true;
 
 		// Get the status of current familiar
-		FamiliarStatus status = new FamiliarStatus( client );
+		FamiliarStatus status = new FamiliarStatus();
 
 		// Initially, allow buffs
 		boolean buffs = true;
@@ -902,7 +901,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			status.changeGear( goal, buffs );
 
 			// See if we succeeded
-			if ( client.permitsContinue() )
+			if ( StaticEntity.getClient().permitsContinue() )
 				return true;
 
 			// If we failed using only equipment, punt.
@@ -1027,21 +1026,21 @@ public class FamiliarTrainingFrame extends KoLFrame
 		DEFAULT_SHELL.updateDisplay( "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
-	private static int fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )
-	{	return fightMatch( client, status, tool, opponent, tool.bestMatch() );
+	private static int fightMatch( FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )
+	{	return fightMatch( status, tool, opponent, tool.bestMatch() );
 	}
 
-	private static int fightMatch( KoLmafia client, FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent, int match )
+	private static int fightMatch( FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent, int match )
 	{
 		// If user aborted, bail now
-		if ( !client.permitsContinue())
+		if ( !StaticEntity.getClient().permitsContinue())
 			return 0;
 
 		// Tell the user about the match
 		printMatch( status, opponent, tool, match );
 
 		// Run the match
-		KoLRequest request = new CakeArenaRequest( client, opponent.getID(), match );
+		KoLRequest request = new CakeArenaRequest( StaticEntity.getClient(), opponent.getID(), match );
 		request.run();
 
 		// Pass the response text to the FamiliarStatus to
@@ -1113,9 +1112,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 	 */
 	private static class FamiliarStatus
 	{
-		// Client
-		KoLmafia client;
-
 		// The familiar we are tracking
 		FamiliarData familiar;
 
@@ -1160,11 +1156,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Gear sets
 		ArrayList gearSets;
 
-		public FamiliarStatus( KoLmafia client )
+		public FamiliarStatus()
 		{
-			// Save client for later use
-			this.client = client;
-
 			// Find out which familiar we are working with
 			familiar = KoLCharacter.getFamiliar();
 
@@ -1194,7 +1187,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		/*
 		// Debug initializer
-		public FamiliarStatus( KoLmafia client,
+		public FamiliarStatus( KoLmafia StaticEntity.getClient(),
 				       FamiliarData familiar,
 				       boolean sympathyAvailable,
 				       boolean leashAvailable,
@@ -1208,8 +1201,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				       AdventureResult acc3,
 				       LockableListModel inventory )
 		{
-			// Save client for later use
-			this.client = client;
+			// Save StaticEntity.getClient() for later use
+			this.StaticEntity.getClient() = StaticEntity.getClient();
 
 			// Find out which familiar we are working with
 			this.familiar = familiar;
@@ -1644,7 +1637,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( current != null )
 			{
 				results.append( "Taking off " + current.getName() + "<br>" );
-				(new EquipmentRequest( client, EquipmentRequest.UNEQUIP, slot)).run();
+				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, slot)).run();
 				setItem( slot, null );
 			}
 
@@ -1652,7 +1645,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == leadNecklace && leadNecklaceOwner != null && leadNecklaceOwner != familiar )
 			{
 				results.append( "Stealing lead necklace from " + leadNecklaceOwner.getName() + " the " + leadNecklaceOwner.getRace() + "<br>" );
-				(new EquipmentRequest( client, "lead necklace", KoLCharacter.FAMILIAR )).run();
+				(new EquipmentRequest( StaticEntity.getClient(), "lead necklace", KoLCharacter.FAMILIAR )).run();
 				leadNecklaceOwner = familiar;
 			}
 
@@ -1660,7 +1653,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == ratHeadBalloon && ratHeadBalloonOwner != null && ratHeadBalloonOwner != familiar )
 			{
 				results.append( "Stealing rat head balloon from " + ratHeadBalloonOwner.getName() + " the " + ratHeadBalloonOwner.getRace() + "<br>" );
-				(new EquipmentRequest( client, "rat head balloon", KoLCharacter.FAMILIAR )).run();
+				(new EquipmentRequest( StaticEntity.getClient(), "rat head balloon", KoLCharacter.FAMILIAR )).run();
 				ratHeadBalloonOwner = familiar;
 			}
 
@@ -1669,7 +1662,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				String name = next.getName();
 				results.append( "Putting on " + name + "<br>" );
-				(new EquipmentRequest( client, name, slot)).run();
+				(new EquipmentRequest( StaticEntity.getClient(), name, slot)).run();
 				setItem( slot, next );
 			}
 		}
@@ -1693,8 +1686,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next.leash && !current.leash )
 			{
 				// Cast Leash. Bail if can't.
-				(new UseSkillRequest( client, "Leash of Linguini", null, 1 )).run();
-				if ( !client.permitsContinue())
+				(new UseSkillRequest( StaticEntity.getClient(), "Leash of Linguini", null, 1 )).run();
+				if ( !StaticEntity.getClient().permitsContinue())
 					return;
 
 				// Remember it
@@ -1704,8 +1697,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next.empathy && !current.empathy )
 			{
 				// Cast Empathy. Bail if can't.
-				(new UseSkillRequest( client, "Empathy of the Newt", null, 1 )).run();
-				if ( !client.permitsContinue())
+				(new UseSkillRequest( StaticEntity.getClient(), "Empathy of the Newt", null, 1 )).run();
+				if ( !StaticEntity.getClient().permitsContinue())
 					return;
 
 				// Remember it
@@ -2187,7 +2180,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private static FamiliarData debugFamiliar = new FamiliarData( 19, "Creepy", 2, "skewer-mounted razor blade" );
 
-	private static void debug( KoLmafia client )
+	private static void debug( KoLmafia StaticEntity.getClient() )
 	{
 		LockableListModel inventory = new LockableListModel();
 		inventory.add( new AdventureResult( "lead necklace", 1 ) );
@@ -2195,7 +2188,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		inventory.add( new AdventureResult( "tiny plastic stab bat", 1 ) );
 		inventory.add( new AdventureResult( "tiny plastic cocoabo", 1 ) );
 
-		FamiliarStatus status = new FamiliarStatus( client,
+		FamiliarStatus status = new FamiliarStatus(
 							    debugFamiliar,
 							    true,
 							    true,
@@ -2250,7 +2243,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		private String title;
 		private String property;
 
-		public LocalSettingChanger( KoLmafia client, String title, String property )
+		public LocalSettingChanger( String title, String property )
 		{
 			this.title = title;
 			this.property = property;
@@ -2260,11 +2253,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( client == null )
-				return;
-
-			boolean toggleValue = !client.getLocalBooleanProperty( property );
-			client.setLocalProperty( property, toggleValue );
+			boolean toggleValue = !StaticEntity.getClient().getLocalBooleanProperty( property );
+			StaticEntity.getClient().setLocalProperty( property, toggleValue );
 
 			if ( toggleValue )
 				setText( "Turn Off " + title );

@@ -2638,7 +2638,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		boolean buffs = ( split.length == 3 && split[2].equals( "yes" ) );
 
-		FamiliarTrainingFrame.levelFamiliar( StaticEntity.getClient(), goal, type, buffs, false );
+		FamiliarTrainingFrame.levelFamiliar( goal, type, buffs, false );
 	}
 
 	/**

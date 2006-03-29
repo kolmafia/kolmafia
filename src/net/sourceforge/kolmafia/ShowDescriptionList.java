@@ -34,50 +34,52 @@
 
 package net.sourceforge.kolmafia;
 
-// event listeners
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import javax.swing.JList;
 
-public class GreenMessageFrame extends SendMessageFrame
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseListener;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
+
+/**
+ * A special class which displays an item's description after you double
+ * click on the JList.
+ */
+
+public class ShowDescriptionList extends JList
 {
-	private static final String [] HEADERS = { "Send this message:" };
-
-	public GreenMessageFrame()
-	{	this( "" );
-	}
-
-	public GreenMessageFrame( String recipient )
-	{	this( recipient, "" );
-	}
-
-	public GreenMessageFrame( String recipient, String quotedMessage )
+	public ShowDescriptionList( LockableListModel model )
 	{
-		super( "Send a Green Message", recipient );
-		messageEntry[0].setText( quotedMessage );
+		super( model );
+		addMouseListener( new ShowDescriptionAdapter() );
 	}
 
-	protected String [] getEntryHeaders()
-	{	return HEADERS;
-	}
 
-	protected boolean sendMessage( String recipient, String [] messages )
+	private class ShowDescriptionAdapter extends MouseAdapter
 	{
-		GreenMessageFrame.this.setEnabled( false );
-		(new GreenMessageRequest( StaticEntity.getClient(), recipient, messages[0], getAttachedItems(), getAttachedMeat() )).run();
-		GreenMessageFrame.this.setEnabled( true );
+		public void mouseClicked( MouseEvent e )
+		{
+			if ( e.getClickCount() == 2 )
+			{
+				int index = locationToIndex( e.getPoint() );
+				Object item = getModel().getElementAt( index );
 
-		if ( StaticEntity.getClient().permitsContinue() )
-		{
-			DEFAULT_SHELL.updateDisplay( "Message sent to " + recipient );
-			setTitle( "Message sent to " + recipient );
-			return true;
-		}
-		else
-		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Failed to send message to " + recipient );
-			setTitle( "Failed to send message to " + recipient );
-			return false;
+				if ( item instanceof AdventureResult )
+				{
+					ensureIndexIsVisible( index );
+
+					if ( ((AdventureResult)item).isItem() )
+						FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( ((AdventureResult)item).getItemID() ) );
+					if ( ((AdventureResult)item).isStatusEffect() )
+						FightFrame.showLocation( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectID( ((AdventureResult)item).getName() ) );
+				}
+				if ( item instanceof ItemCreationRequest )
+				{
+					ensureIndexIsVisible( index );
+					FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( ((ItemCreationRequest)item).getItemID() ) );
+				}
+			}
 		}
 	}
 }

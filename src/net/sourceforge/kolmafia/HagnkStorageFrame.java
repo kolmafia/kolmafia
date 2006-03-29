@@ -59,9 +59,9 @@ public class HagnkStorageFrame extends KoLFrame
 	private HagnkStoragePanel all, equip;
 	private static String pullsRemaining = "";
 
-	public HagnkStorageFrame( KoLmafia client )
+	public HagnkStorageFrame()
 	{
-		super( client, "Ancestral Storage" );
+		super( "Ancestral Storage" );
 		setTitle( pullsRemaining );
 
 		// Finally, add the actual content to the
@@ -215,10 +215,10 @@ public class HagnkStorageFrame extends KoLFrame
 				Object [] items = getDesiredItems( "Pulling" );
 
 				Runnable [] requests = isCloset ? new Runnable[2] : new Runnable[1];
-				requests[0] = new ItemStorageRequest( client, ItemStorageRequest.STORAGE_TO_INVENTORY, items );
+				requests[0] = new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.STORAGE_TO_INVENTORY, items );
 
 				if ( isCloset )
-					requests[1] = new ItemStorageRequest( client, ItemStorageRequest.INVENTORY_TO_CLOSET, items );
+					requests[1] = new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.INVENTORY_TO_CLOSET, items );
 
 				(new RequestThread( requests )).start();
 			}
@@ -234,7 +234,7 @@ public class HagnkStorageFrame extends KoLFrame
 					return;
 				}
 
-				(new RequestThread( new ItemStorageRequest( client, ItemStorageRequest.EMPTY_STORAGE ) )).start();
+				(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.EMPTY_STORAGE ) )).start();
 			}
 		}
 	}

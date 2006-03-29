@@ -68,9 +68,9 @@ public class CakeArenaFrame extends KoLFrame
 	private JTable familiarTable;
 	private LockableListModel opponents;
 
-	public CakeArenaFrame( KoLmafia client )
+	public CakeArenaFrame()
 	{
-		super( client, "Susie's Secret Bedroom!" );
+		super( "Susie's Secret Bedroom!" );
 
 		framePanel.setLayout( new BorderLayout() );
 		framePanel.add( new CakeArenaPanel(), BorderLayout.CENTER );
@@ -103,7 +103,7 @@ public class CakeArenaFrame extends KoLFrame
 		public CakeArenaPanel()
 		{
 			super( new BorderLayout( 0, 10 ) );
-			opponents = CakeArenaManager.getOpponentList( client );
+			opponents = CakeArenaManager.getOpponentList( StaticEntity.getClient() );
 
 			String opponentRace;
 			String [] columnNames = { "Familiar", "Cage Match", "Scavenger Hunt", "Obstacle Course", "Hide and Seek" };

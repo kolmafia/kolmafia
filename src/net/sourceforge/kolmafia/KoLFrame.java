@@ -44,18 +44,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JComponent;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.Box;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
@@ -75,17 +69,11 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
-import java.awt.event.WindowListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseListener;
-import javax.swing.ListSelectionModel;
 
 // basic utilities
-import java.io.File;
-import java.io.FilenameFilter;
 import java.io.FileInputStream;
 import java.lang.reflect.Method;
 
@@ -98,10 +86,8 @@ import java.util.StringTokenizer;
 // other stuff
 import javax.swing.SwingUtilities;
 import java.lang.ref.WeakReference;
-import edu.stanford.ejalbert.BrowserLauncher;
 
 // spellcast imports
-import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -113,43 +99,13 @@ import net.java.dev.spellcast.utilities.SortedListModel;
  * value and the message to use for updating.
  */
 
-public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstants
+public abstract class KoLFrame extends JDialog implements KoLConstants
 {
-	protected static final File SCRIPT_DIRECTORY = new File( "scripts" );
 	protected static final Color ERROR_COLOR = new Color( 255, 192, 192 );
 	protected static final Color ENABLED_COLOR = new Color( 192, 255, 192 );
 	protected static final Color DISABLED_COLOR = null;
 
 	private String lastTitle;
-	protected boolean isEnabled;
-	protected static KoLmafia client;
-
-	static
-	{
-		// Ensure that images are properly loaded
-		// and the appropriate HTML rendering engine
-		// is installed to the frames.
-
-		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
-		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
-	};
-
-	protected static LockableListModel scripts = new LockableListModel();
-	protected ScriptMenu scriptMenu;
-
-	protected static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
-	{
-		public boolean accept( File dir, String name )
-		{	return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" );
-		}
-	};
-
-	protected static SortedListModel bookmarks = new SortedListModel( String.class );
-	private static boolean bookmarksCompiled = false;
-	protected BookmarkMenu bookmarkMenu;
-
-	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm", "sungraphics-license.txt", "systray-license.txt" };
-	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher", "Sun Graphics", "System Tray" };
 
 	private String frameName;
 	protected JPanel framePanel;
@@ -162,25 +118,28 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	protected JLabel familiarLabel;
 
 	protected KoLCharacterAdapter refreshListener;
-	protected JMenuItem debugMenuItem = new ToggleDebugMenuItem();
-	protected JMenuItem macroMenuItem = new ToggleMacroMenuItem();
 
 	/**
 	 * Constructs a new <code>KoLFrame</code> with the given title,
-	 * to be associated with the given client.
+	 * to be associated with the given StaticEntity.getClient().
 	 */
 
-	protected KoLFrame( KoLmafia client, String title )
+	protected KoLFrame()
+	{	this( "" );
+	}
+
+	/**
+	 * Constructs a new <code>KoLFrame</code> with the given title,
+	 * to be associated with the given StaticEntity.getClient().
+	 */
+
+	protected KoLFrame( String title )
 	{
-		super( KoLCharacter.getUsername().equals( "" ) ? VERSION_NAME + ": " + title :
-			KoLCharacter.getUsername() + ": " + title + " (" + KoLRequest.getRootHostName() + ")" );
+		super( KoLDesktop.getInstance(), title );
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
-		this.isEnabled = true;
 		this.lastTitle = title;
-		KoLFrame.client = client;
-
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
 		getContentPane().add( this.framePanel, BorderLayout.CENTER );
 
@@ -220,27 +179,12 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		this.frameName = getClass().getName();
 		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
+		this.existingFrames.add( this );
 
-		if ( !(this instanceof SystemTrayFrame) )
-			this.existingFrames.add( this );
-
-		// All frames will have to access the same menu bar for consistency.
-		// Later on, all menu items not added by default will be placed onto
-		// the panel for increased visibility.
-
-		if ( !(this instanceof ContactListFrame) )
-		{
-			JMenuBar container = new JMenuBar();
-			this.setJMenuBar( container );
-
-			compileBookmarks();
-			constructMenus( container );
-		}
-		
 		if ( useSidePane() )
 			addCompactPane();
 	}
-	
+
 	public boolean useSidePane()
 	{	return false;
 	}
@@ -267,7 +211,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		// you end the session.  Ending the session for
 		// a login frame involves exiting, and ending the
 		// session for all other frames is restarting the
-		// initial client.
+		// initial StaticEntity.getClient().
 
 		if ( existingFrames.isEmpty() )
 		{
@@ -282,16 +226,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			else
 				KoLmafiaGUI.main( new String[1] );
 		}
-	}
-
-	public void updateTitle()
-	{	setTitle( lastTitle );
-	}
-
-	public void setTitle( String title )
-	{
-		this.lastTitle = title;
-		super.setTitle( KoLCharacter.getUsername() + ": " + title + " (" + KoLRequest.getRootHostName() + ")" );
 	}
 
 	public String getFrameName()
@@ -390,7 +324,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		JPanel refreshPanel = new JPanel();
 		refreshPanel.setOpaque( false );
-		refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", new CharsheetRequest( client ) ) );
+		refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", new CharsheetRequest( StaticEntity.getClient() ) ) );
 
 		this.compactPane = new JPanel( new BorderLayout() );
 		this.compactPane.add( compactCard, BorderLayout.NORTH );
@@ -549,164 +483,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
-	 * Utility method which adds a menu bar to the frame.
-	 * This is called by default to allow for all frames to
-	 * have equivalent menu items.
-	 */
-
-	protected void constructMenus( JComponent container )
-	{
-		// Add general features.
-
-		JMenu statusMenu = new JMenu( "General" );
-		container.add( statusMenu );
-
-		// Add the refresh menu, which holds the ability to refresh
-		// everything in the session.
-
-		statusMenu.add( new DisplayFrameMenuItem( "Main Interface", AdventureFrame.class ) );
-		statusMenu.add( new DisplayRequestMenuItem( "Mini-Browser", "main.php" ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
-
-		statusMenu.add( new JSeparator() );
-
-		statusMenu.add( new DisplayFrameMenuItem( "Player Status", CharsheetFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", ItemManageFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", GearChangeFrame.class ) );
-
-		statusMenu.add( new JSeparator() );
-
-		statusMenu.add( new DisplayFrameMenuItem( "Mall Manager", StoreManageFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Museum Display", MuseumFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", HagnkStorageFrame.class ) );
-
-		// Add specialized tools.
-
-		JMenu toolsMenu = new JMenu( "Tools" );
-		container.add( toolsMenu );
-
-		toolsMenu.add( new InvocationMenuItem( "Clear Results", client, "resetSession" ) );
-		toolsMenu.add( new StopEverythingItem() );
-		toolsMenu.add( new InvocationMenuItem( "Complete Refresh", client, "refreshSession" ) );
-		toolsMenu.add( new InvocationMenuItem( "Session Time-In", client, "executeTimeInRequest" ) );
-
-		toolsMenu.add( new JSeparator() );
-
-		toolsMenu.add( new KoLPanelFrameMenuItem( "Manual Buffings", new SkillBuffPanel() ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
-
-		toolsMenu.add( new JSeparator() );
-
-		toolsMenu.add( new DisplayFrameMenuItem( "Flower Hunter", FlowerHunterFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
-
-		// Add the old-school people menu.
-
-		JMenu peopleMenu = new JMenu( "People" );
-		container.add( peopleMenu );
-
-		peopleMenu.add( new DisplayFrameMenuItem( "Read KoLmail", MailboxFrame.class ) );
-		peopleMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
-
-		peopleMenu.add( new JSeparator() );
-
-		peopleMenu.add( new DisplayFrameMenuItem( "Write a KoLmail", GreenMessageFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Send Gift Package", GiftMessageFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Propose a Trade", ProposeTradeFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Pending Trades", PendingTradesFrame.class ) );
-
-		// Add in common tasks menu
-
-		JMenu travelMenu = new JMenu( "Travel" );
-		container.add( travelMenu );
-
-		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", client, "makeGalaktikRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Mind Control", client, "makeMindControlRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Get Breakfast", client, "getBreakfast" ) );
-
-		travelMenu.add( new JSeparator() );
-
-		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", client, "makeHermitRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Skin the Trapper", client, "makeTrapperRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Trading Hunters", client, "makeHunterRequest" ) );
-
-		travelMenu.add( new JSeparator() );
-
-		travelMenu.add( new InvocationMenuItem( "Untinker Items", client, "makeUntinkerRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Gourd Trading", client, "tradeGourdItems" ) );
-
-		// Add in automatic quest completion scripts.
-
-		JMenu questsMenu = new JMenu( "Quests" );
-		container.add( questsMenu );
-
-		questsMenu.add( new InvocationMenuItem( "Unlock Guild", client, "unlockGuildStore" ) );
-		questsMenu.add( new InvocationMenuItem( "Tavern Faucet", client, "locateTavernFaucet" ) );
-
-		questsMenu.add( new JSeparator() );
-
-		questsMenu.add( new InvocationMenuItem( "Nemesis Quest", Nemesis.class, "faceNemesis" ) );
-		questsMenu.add( new InvocationMenuItem( "Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
-
-		questsMenu.add( new JSeparator() );
-
-		questsMenu.add( new InvocationMenuItem( "Lair Entryway", SorceressLair.class, "completeEntryway" ) );
-		questsMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLair.class, "completeHedgeMaze" ) );
-		questsMenu.add( new InvocationMenuItem( "Tower Guardians", SorceressLair.class, "fightTowerGuardians" ) );
-		questsMenu.add( new InvocationMenuItem( "Final Chamber", SorceressLair.class, "completeSorceressChamber" ) );
-
-		JMenu bookmarkMenu = new BookmarkMenu();
-		container.add( bookmarkMenu );
-
-		// Add script and bookmark menus, which use the
-		// listener-driven static lists.
-
-		scriptMenu = new ScriptMenu();
-		container.add( scriptMenu );
-
-		if ( container instanceof JMenuBar )
-		{
-			JMenu toggleMenu = new JMenu( "Toggles" );
-			container.add( toggleMenu );
-
-			toggleMenu.add( debugMenuItem );
-			toggleMenu.add( macroMenuItem );
-		}
-
-		// Add help information for KoLmafia.  This includes
-		// the additional help-oriented stuffs.
-
-		JMenu helperMenu = new JMenu( "Help" );
-		container.add( helperMenu );
-
-		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", LicenseDisplay.class ) );
-		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", CalendarFrame.class ) );
-		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
-
-		helperMenu.add( new JSeparator() );
-
-		helperMenu.add( new DisplayPageMenuItem( "KoLmafia Thread", "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
-		helperMenu.add( new DisplayPageMenuItem( "Sourceforge Page", "https://sourceforge.net/projects/kolmafia" ) );
-		helperMenu.add( new DisplayPageMenuItem( "End-User Manual", "http://kolmafia.sourceforge.net/manual.html" ) );
-		helperMenu.add( new DisplayPageMenuItem( "Script Repository", "http://kolmafia.us/" ) );
-
-		helperMenu.add( new JSeparator() );
-
-		helperMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
-		helperMenu.add( new DisplayPageMenuItem( "Jinya's Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
-		helperMenu.add( new DisplayPageMenuItem( "Ohayou's Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
-		helperMenu.add( new DisplayPageMenuItem( "Moxie Survival Lookup", "http://kol.network-forums.com/cgi-bin/moxie.cgi" ) );
-	}
-
-	public void setEnabled( boolean isEnabled )
-	{	this.isEnabled = isEnabled;
-	}
-
-	/**
 	 * Overrides the default isEnabled() method, because the setEnabled()
 	 * method does not call the superclass's version.
 	 *
@@ -715,160 +491,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 	public final boolean isEnabled()
 	{	return true;
-	}
-
-	private class ToggleDebugMenuItem extends JMenuItem implements ActionListener
-	{
-		public ToggleDebugMenuItem()
-		{
-			super( JComponentUtilities.getSharedImage( "debug.gif" ) );
-			addActionListener( this );
-			setText( client == null || KoLmafia.getLogStream() instanceof NullStream ? "Begin recording debug..." : "Stop recording debug" );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-			existingFrames.toArray( frames );
-
-			if ( KoLmafia.getLogStream() instanceof NullStream )
-			{
-				KoLmafia.openDebugLog();
-				for ( int i = 0; i < frames.length; ++i )
-					if ( frames[i] != null && frames[i].debugMenuItem != null )
-						frames[i].debugMenuItem.setText( "Stop recording debug" );
-			}
-			else
-			{
-				KoLmafia.closeDebugLog();
-				for ( int i = 0; i < frames.length; ++i )
-					if ( frames[i] != null && frames[i].debugMenuItem != null )
-						frames[i].debugMenuItem.setText( "Begin recording debug..." );
-			}
-		}
-	}
-
-	private class ToggleMacroMenuItem extends JMenuItem implements ActionListener
-	{
-		public ToggleMacroMenuItem()
-		{
-			super( JComponentUtilities.getSharedImage( "command.gif" ) );
-			addActionListener( this );
-			setText( client == null || client.getMacroStream() instanceof NullStream ? "Begin recording script..." : "Stop recording script" );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( client == null )
-				return;
-
-			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-			existingFrames.toArray( frames );
-
-			if ( client.getMacroStream() instanceof NullStream )
-			{
-				JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
-				int returnVal = chooser.showSaveDialog( KoLFrame.this );
-
-				if ( chooser.getSelectedFile() == null )
-					return;
-
-				String filename = chooser.getSelectedFile().getAbsolutePath();
-
-				if ( returnVal == JFileChooser.APPROVE_OPTION )
-					client.openMacroStream( filename );
-
-				for ( int i = 0; i < frames.length; ++i )
-					frames[i].macroMenuItem.setText( "Stop recording script" );
-			}
-			else
-			{
-				client.closeMacroStream();
-				for ( int i = 0; i < frames.length; ++i )
-					frames[i].macroMenuItem.setText( "Begin recording script..." );
-			}
-		}
-	}
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for loading a script.
-	 */
-
-	private static class LoadScriptMenuItem extends JMenuItem implements ActionListener, Runnable
-	{
-		private String scriptPath;
-
-		public LoadScriptMenuItem()
-		{	this( "Load script...", null );
-		}
-
-		public LoadScriptMenuItem( String scriptName, String scriptPath )
-		{
-			super( scriptName );
-			addActionListener( this );
-
-			this.scriptPath = scriptPath;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
-		}
-
-		public void run()
-		{
-			String executePath = scriptPath;
-
-			if ( scriptPath == null )
-			{
-				JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
-				int returnVal = chooser.showOpenDialog( null );
-
-				if ( chooser.getSelectedFile() == null )
-					return;
-
-				if ( client != null && returnVal == JFileChooser.APPROVE_OPTION )
-					executePath = chooser.getSelectedFile().getAbsolutePath();
-			}
-
-			if ( executePath == null )
-				return;
-
-			DEFAULT_SHELL.executeLine( executePath );
-		}
-	}
-
-	/**
-	 * An internal class which creates a panel which manages items.
-	 * This is done because most of the item management displays
-	 * are replicated.  Note that a lot of this code was borrowed
-	 * directly from the ActionVerifyPanel class in the utilities
-	 * package for Spellcast.
-	 */
-
-	protected abstract class ItemManagePanel extends LabeledScrollPanel
-	{
-		protected ShowDescriptionList elementList;
-
-		public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
-		{	this( title, confirmedText, cancelledText, elements, true );
-		}
-
-		public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements, boolean isRootPane )
-		{
-			super( title, confirmedText, cancelledText, new ShowDescriptionList( elements ), isRootPane );
-
-			elementList = (ShowDescriptionList) scrollComponent;
-			elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
-			elementList.setVisibleRowCount( 8 );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			elementList.setEnabled( isEnabled );
-		}
 	}
 
 	protected class MultiButtonPanel extends JPanel
@@ -1002,18 +624,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		}
 	}
 
-	protected void processWindowEvent( WindowEvent e )
-	{
-		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
-		{
-			Point p = getLocation();
-			KoLSettings settings = GLOBAL_SETTINGS.getProperty( "windowPositions" ).equals( "1" ) ? GLOBAL_SETTINGS : StaticEntity.getSettings();
-			settings.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
-		}
-
-		super.processWindowEvent( e );
-	}
-
 	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
@@ -1033,19 +643,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			this.frameClass = frameClass;
 
 			Object [] parameters;
-			if ( frameClass == LicenseDisplay.class )
-			{
-				parameters = new Object[4];
-				parameters[0] = "KoLmafia: Copyright Notice";
-				parameters[1] = new VersionDataPanel();
-				parameters[2] = LICENSE_FILENAME;
-				parameters[3] = LICENSE_NAME;
-			}
-			else
-			{
-				parameters = new KoLmafia[1];
-				parameters[0] = client;
-			}
+			parameters = new KoLmafia[1];
+			parameters[0] = StaticEntity.getClient();
 
 			this.displayer = new CreateFrameRunnable( frameClass, parameters );
 		}
@@ -1060,104 +659,14 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			this.frameClass = frameClass;
 
 			Object [] parameters;
-			if ( frameClass == LicenseDisplay.class )
-			{
-				parameters = new Object[4];
-				parameters[0] = "KoLmafia: Copyright Notice";
-				parameters[1] = new VersionDataPanel();
-				parameters[2] = LICENSE_FILENAME;
-				parameters[3] = LICENSE_NAME;
-			}
-			else
-			{
-				parameters = new KoLmafia[1];
-				parameters[0] = client;
-			}
+			parameters = new KoLmafia[1];
+			parameters[0] = StaticEntity.getClient();
 
 			this.displayer = new CreateFrameRunnable( frameClass, parameters );
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{	SwingUtilities.invokeLater( displayer );
-		}
-	}
-
-
-	/**
-	 * In order to keep the user interface from freezing (or at least
-	 * appearing to freeze), this internal class is used to process
-	 * the request for viewing frames.
-	 */
-
-	protected class DisplayFrameMenuItem extends JMenuItem implements ActionListener
-	{
-		private Class frameClass;
-		private CreateFrameRunnable displayer;
-
-		public DisplayFrameMenuItem( String title, Class frameClass )
-		{
-			super( title );
-			addActionListener( this );
-
-			this.frameClass = frameClass;
-
-			Object [] parameters;
-			if ( frameClass == LicenseDisplay.class )
-			{
-				parameters = new Object[4];
-				parameters[0] = "KoLmafia: Copyright Notice";
-				parameters[1] = new VersionDataPanel();
-				parameters[2] = LICENSE_FILENAME;
-				parameters[3] = LICENSE_NAME;
-			}
-			else
-			{
-				parameters = new KoLmafia[1];
-				parameters[0] = client;
-			}
-
-			this.displayer = new CreateFrameRunnable( frameClass, parameters );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	SwingUtilities.invokeLater( displayer );
-		}
-	}
-
-	/**
-	 * Internal class which opens the operating system's default
-	 * browser to the given location.
-	 */
-
-	protected class DisplayPageMenuItem extends JMenuItem implements ActionListener
-	{
-		private String location;
-
-		public DisplayPageMenuItem( String title, String location )
-		{
-			super( title );
-			addActionListener( this );
-
-			this.location = location;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	openSystemBrowser( location );
-		}
-	}
-
-	protected static void openSystemBrowser( String location )
-	{
-		try
-		{
-			BrowserLauncher.openURL( location );
-		}
-		catch ( java.io.IOException e )
-		{
-			KoLmafia.getLogStream().println( "Failed to open browser:" );
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
 		}
 	}
 
@@ -1188,7 +697,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				// you minimize the number of open windows by
 				// making an attempt to refresh.
 
-				((RequestFrame)KoLFrame.this).refresh( extractRequest( location ) );
+				((RequestFrame)KoLFrame.this).refresh( RequestEditorKit.extractRequest( location ) );
 			}
 			else
 			{
@@ -1221,67 +730,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 
 		public void actionPerformed( ActionEvent e )
 		{
-			client.setCurrentRequest( null );
+			StaticEntity.getClient().setCurrentRequest( null );
 			openRequestFrame( "main.php" );
-		}
-	}
-
-	private static final Class [] NOPARAMS = new Class[0];
-
-	/**
-	 * Internal class used to invoke the given no-parameter
-	 * method on the given object.  This is used whenever
-	 * there is the need to invoke a method and the creation
-	 * of an additional class is unnecessary.
-	 */
-
-	protected class InvocationMenuItem extends JMenuItem implements ActionListener, Runnable
-	{
-		private Object object;
-		private Method method;
-
-		public InvocationMenuItem( String title, Object object, String methodName )
-		{
-			this( title, object == null ? null : object.getClass(), methodName );
-			this.object = object;
-		}
-
-		public InvocationMenuItem( String title, Class c, String methodName )
-		{
-			super( title );
-			addActionListener( this );
-
-			if ( c == null )
-				return;
-
-			try
-			{
-				this.object = object;
-				this.method = c.getMethod( methodName, NOPARAMS );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-			}
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
-		}
-
-		public void run()
-		{
-			try
-			{
-				if ( method != null )
-					method.invoke( object, null );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-			}
 		}
 	}
 
@@ -1362,37 +812,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	}
 
 	/**
-	 * Utility method used to determine the KoLRequest that
-	 * should be sent, given the appropriate location.
-	 */
-
-	protected KoLRequest extractRequest( String location )
-	{
-		String [] urlData = location.split( "\\?" );
-		String [] formData = urlData.length == 1 ? new String[0] : urlData[1].split( "&" );
-
-		String [] currentField;
-		KoLRequest request = null;
-
-		if ( location.startsWith( "campground.php" ) )
-			request = new CampgroundRequest( client );
-		else
-			request = new KoLRequest( client, urlData[0], true );
-
-		for ( int i = 0; i < formData.length; ++i )
-		{
-			currentField = formData[i].split( "=" );
-
-			if ( currentField.length == 2 )
-				request.addFormField( currentField[0], currentField[1] );
-			else
-				request.addFormField( formData[i] );
-		}
-
-		return request;
-	}
-
-	/**
 	 * A method used to open a new <code>RequestFrame</code> which displays
 	 * the given location, relative to the KoL home directory for the current
 	 * session.  This should be called whenever <code>RequestFrame</code>s
@@ -1400,7 +819,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	 */
 
 	public void openRequestFrame( String location )
-	{	openRequestFrame( extractRequest( location ) );
+	{	openRequestFrame( RequestEditorKit.extractRequest( location ) );
 	}
 
 	public void openRequestFrame( KoLRequest request )
@@ -1414,7 +833,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		     location.startsWith( "showplayer" ) )
 		{
 			parameters = new Object[3];
-			parameters[0] = client;
+			parameters[0] = StaticEntity.getClient();
 			parameters[1] = this instanceof RequestFrame ? this : null;
 			parameters[2] = request;
 		}
@@ -1426,7 +845,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		else if ( request.getURLString().equals( "main.php" ) )
 		{
 			parameters = new Object[2];
-			parameters[0] = client;
+			parameters[0] = StaticEntity.getClient();
 			parameters[1] = request;
 		}
 		else
@@ -1448,7 +867,7 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			}
 
 			parameters = new Object[2];
-			parameters[0] = client;
+			parameters[0] = StaticEntity.getClient();
 			parameters[1] = request;
 		}
 
@@ -1472,35 +891,8 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 			addActionListener( this );
 
 			Object [] parameters = new Object[3];
-			parameters[0] = client;
+			parameters[0] = StaticEntity.getClient();
 			parameters[1] = tooltip;
-			parameters[2] = panel;
-
-			creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	creator.run();
-		}
-	}
-
-	/**
-	 * An internal class used to handle requests to open a new frame
-	 * using a local panel inside of the adventure frame.
-	 */
-
-	protected class KoLPanelFrameMenuItem extends JMenuItem implements ActionListener
-	{
-		private CreateFrameRunnable creator;
-
-		public KoLPanelFrameMenuItem( String title, ActionPanel panel )
-		{
-			super( title );
-			addActionListener( this );
-
-			Object [] parameters = new Object[3];
-			parameters[0] = client;
-			parameters[1] = title;
 			parameters[2] = panel;
 
 			creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
@@ -1543,201 +935,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 				return;
 
 			scriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
-		}
-	}
-
-	/**
-	 * An internal class which displays KoLmafia's current version
-	 * information.  This is passed to the constructor for the
-	 * <code>LicenseDisplay</code>.
-	 */
-
-	private class VersionDataPanel extends JPanel
-	{
-		private final String [] versionData = {
-			VERSION_NAME, VERSION_DATE, " ",
-			"Copyright © 2005 KoLmafia development team",
-			"Berkeley Software Development (BSD) License",
-			"http://kolmafia.sourceforge.net/",
-			" ",
-			"Current Running on " + System.getProperty( "os.name" ),
-			"Using Java v" + System.getProperty( "java.runtime.version" )
-		};
-
-		public VersionDataPanel()
-		{
-			JPanel versionPanel = new JPanel( new BorderLayout( 20, 20 ) );
-			versionPanel.add( new JLabel( JComponentUtilities.getSharedImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.NORTH );
-
-			JPanel labelPanel = new JPanel( new GridLayout( versionData.length, 1 ) );
-			for ( int i = 0; i < versionData.length; ++i )
-				labelPanel.add( new JLabel( versionData[i], JLabel.CENTER ) );
-
-			versionPanel.add( labelPanel, BorderLayout.CENTER );
-
-			JButton donateButton = new JButton( JComponentUtilities.getSharedImage( "paypal.gif" ) );
-			JComponentUtilities.setComponentSize( donateButton, 74, 31 );
-			donateButton.addActionListener( new DisplayPageMenuItem( "", "http://sourceforge.net/donate/index.php?user_id=813949" ) );
-
-			JPanel donatePanel = new JPanel();
-			donatePanel.add( donateButton );
-
-			JPanel centerPanel = new JPanel( new BorderLayout( 20, 20 ) );
-			centerPanel.add( versionPanel, BorderLayout.CENTER );
-			centerPanel.add( donatePanel, BorderLayout.SOUTH );
-
-			setLayout( new CardLayout( 20, 20 ) );
-			add( centerPanel, "" );
-		}
-	}
-
-	/**
-	 * A special class which renders the list of available scripts.
-	 */
-
-	private class ScriptMenu extends MenuItemList
-	{
-		public ScriptMenu()
-		{
-			super( "Scripts", scripts );
-
-			if ( !SCRIPT_DIRECTORY.exists() )
-				SCRIPT_DIRECTORY.mkdirs();
-
-			compileScripts();
-		}
-
-		public JComponent constructMenuItem( Object o )
-		{	return o instanceof JSeparator ? new JSeparator() : constructMenuItem( (File) o, "scripts" );
-		}
-
-		private JComponent constructMenuItem( File file, String prefix )
-		{
-			// Get path components of this file
-			String [] pieces;
-
-			try
-			{
-				pieces = file.getCanonicalPath().split( "[\\\\/]" );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
-				return null;
-			}
-
-			// There must be at least a file name
-			if ( pieces.length < 1 )
-				return null;
-
-			String name = pieces[ pieces.length - 1 ];
-			String path = prefix + File.separator + name;
-
-			if ( file.isDirectory() )
-			{
-				// Get a list of all the files
-				File [] scriptList = file.listFiles();
-
-				//  Convert the list into a menu
-				JMenu menu = new JMenu( name );
-
-				// Iterate through the files.  Do this in two
-				// passes to make sure that directories start
-				// up top, followed by non-directories.
-
-				boolean hasDirectories = false;
-
-				for ( int i = 0; i < scriptList.length; ++i )
-				{
-					if ( scriptList[i].isDirectory() )
-					{
-						menu.add( constructMenuItem( scriptList[i], path ) );
-						hasDirectories = true;
-					}
-				}
-
-				if ( hasDirectories )
-					menu.add( new JSeparator() );
-
-				for ( int i = 0; i < scriptList.length; ++i )
-					if ( !scriptList[i].isDirectory() )
-						menu.add( constructMenuItem( scriptList[i], path ) );
-
-				// Return the menu
-				return menu;
-			}
-
-			return new LoadScriptMenuItem( name, path );
-		}
-
-		public JComponent [] getHeaders()
-		{
-			JComponent [] headers = new JComponent[2];
-
-			headers[0] = new LoadScriptMenuItem();
-			headers[1] = new InvocationMenuItem( "Refresh menu", KoLFrame.this, "compileScripts" );
-
-			return headers;
-		}
-	}
-
-	/**
-	 * A special class which displays an item's description after you double
-	 * click on the JList.
-	 */
-
-	protected class ShowDescriptionList extends JList
-	{
-		public ShowDescriptionList( LockableListModel model )
-		{
-			super( model );
-			addMouseListener( new ShowDescriptionAdapter() );
-		}
-
-
-		private class ShowDescriptionAdapter extends MouseAdapter
-		{
-			public void mouseClicked( MouseEvent e )
-			{
-				if ( e.getClickCount() == 2 )
-				{
-					int index = locationToIndex( e.getPoint() );
-					Object item = getModel().getElementAt( index );
-
-					if ( item instanceof AdventureResult )
-					{
-						ensureIndexIsVisible( index );
-
-						if ( ((AdventureResult)item).isItem() )
-							openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( ((AdventureResult)item).getItemID() ) );
-						if ( ((AdventureResult)item).isStatusEffect() )
-							openRequestFrame( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectID( ((AdventureResult)item).getName() ) );
-					}
-					if ( item instanceof ItemCreationRequest )
-					{
-						ensureIndexIsVisible( index );
-						openRequestFrame( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( ((ItemCreationRequest)item).getItemID() ) );
-					}
-				}
-			}
-		}
-	}
-
-	private class RequestMenuItem extends JMenuItem implements ActionListener
-	{
-		private KoLRequest request;
-
-		public RequestMenuItem( String title, KoLRequest request )
-		{
-			super( title );
-			this.request = request;
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( request )).start();
 		}
 	}
 
@@ -1846,380 +1043,6 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 	{	return StaticEntity.getProperty( name );
 	}
 
-	/**
-	 * Internal class which displays the given request inside
-	 * of the current frame.
-	 */
-
-	protected class DisplayRequestMenuItem extends JMenuItem implements ActionListener
-	{
-		private String location;
-
-		public DisplayRequestMenuItem( String label, String location )
-		{
-			super( label.replaceAll( "\\|", "" ) );
-			addActionListener( this );
-			this.location = location;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	openRequestFrame( location );
-		}
-
-		public String toString()
-		{	return getText();
-		}
-	}
-
-	/**
-	 * A special class which renders the menu holding the list of bookmarks.
-	 * This class also synchronizes with the list of available bookmarks.
-	 */
-
-	protected class BookmarkMenu extends MenuItemList
-	{
-		public BookmarkMenu()
-		{	super( "Bookmarks", bookmarks );
-		}
-
-		public JComponent constructMenuItem( Object o )
-		{
-			String [] bookmarkData = ((String)o).split( "\\|" );
-
-			String name = bookmarkData[0];
-			String location = bookmarkData[1];
-			String pwdhash = bookmarkData[2];
-
-			if ( pwdhash.equals( "true" ) )
-				location += "&pwd";
-
-			return new DisplayRequestMenuItem( name, location );
-		}
-
-		public JComponent [] getHeaders()
-		{
-			JComponent [] headers = new JComponent[6];
-
-			headers[0] = new AddBookmarkMenuItem();
-			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
-			headers[2] = new JSeparator();
-
-			headers[3] = new DisplayRequestMenuItem( "Announcements", "chatlaunch.php" );
-
-			if ( KoLFrame.this instanceof RequestFrame )
-				headers[4] = new DisplayRequestMenuItem( "Council of Loathing", "council.php" );
-			else
-				headers[4] = new DisplayFrameMenuItem( "Council of Loathing", CouncilFrame.class );
-
-			headers[5] = new DisplayRequestMenuItem( "Weird Records Board", "records.php?which=0" );
-
-			return headers;
-		}
-
-		/**
-		 * An internal class which handles the addition of new
-		 * bookmarks to the bookmark menu.
-		 */
-
-		private class AddBookmarkMenuItem extends JMenuItem implements ActionListener
-		{
-			public AddBookmarkMenuItem()
-			{
-				super( "Add Bookmark..." );
-				addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				AddBookmarkDialog prompter = new AddBookmarkDialog();
-				prompter.pack();  prompter.setVisible( true );
-			}
-		}
-
-		private class AddBookmarkDialog extends JDialog
-		{
-			public AddBookmarkDialog()
-			{
-				super( (java.awt.Frame) null, "Add a KoL-relative bookmark!" );
-				getContentPane().add( new AddBookmarkPanel() );
-			}
-
-			private class AddBookmarkPanel extends KoLPanel
-			{
-				private JTextField nameField;
-				private JTextField locationField;
-
-				public AddBookmarkPanel()
-				{
-					super( "add", "cancel" );
-
-					VerifiableElement [] elements = new VerifiableElement[2];
-					nameField = new JTextField();
-					elements[0] = new VerifiableElement( "Name", nameField );
-
-					locationField = new JTextField( client.getCurrentRequest() == null ? "" : client.getCurrentRequest().getURLString() );
-					elements[1] = new VerifiableElement( "Location", locationField );
-					setContent( elements );
-				}
-
-				public void actionConfirmed()
-				{
-					// Strip pwdhash out of location and
-					// set third parameter correctly
-					bookmarks.add( nameField.getText() + "|" + locationField.getText() + "|false" );
-					saveBookmarks();
-
-					AddBookmarkDialog.this.dispose();
-				}
-
-				public void actionCancelled()
-				{
-					AddBookmarkDialog.this.dispose();
-				}
-			}
-		}
-	}
-
-	/**
-	 * A special panel which generates a list of bookmarks which
-	 * can subsequently be managed.
-	 */
-
-	protected class BookmarkManagePanel extends ItemManagePanel
-	{
-		public BookmarkManagePanel()
-		{
-			super( "Bookmark Management", "rename", "delete", bookmarks );
-			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-		}
-
-		public void actionConfirmed()
-		{
-			int index = elementList.getSelectedIndex();
-			if ( index == -1 )
-				return;
-
-			String currentItem = (String)elementList.getSelectedValue();
-			if ( currentItem == null )
-				return;
-
-			String [] bookmarkData = currentItem.split( "\\|" );
-
-			String name = bookmarkData[0];
-			String location = bookmarkData[1];
-			String pwdhash = bookmarkData[2];
-
-			String newName = JOptionPane.showInputDialog( "Name your bookmark?", name );
-
-			if ( newName == null )
-				return;
-
-			bookmarks.remove( index );
-			bookmarks.add( newName + "|" + location + "|" + pwdhash );
-			saveBookmarks();
-		}
-
-		public void actionCancelled()
-		{
-			int index = elementList.getSelectedIndex();
-			if ( index == -1 )
-				return;
-
-			bookmarks.remove( index );
-			saveBookmarks();
-		}
-	}
-
-	public static void compileScripts()
-	{
-		scripts.clear();
-
-		// Get the list of files in the current directory
-		File [] scriptList = SCRIPT_DIRECTORY.listFiles( BACKUP_FILTER );
-
-		// Iterate through the files.  Do this in two
-		// passes to make sure that directories start
-		// up top, followed by non-directories.
-
-		boolean hasDirectories = false;
-
-		for ( int i = 0; i < scriptList.length; ++i )
-		{
-			if ( scriptList[i].isDirectory() )
-			{
-				scripts.add( scriptList[i] );
-				hasDirectories = true;
-			}
-		}
-
-		if ( hasDirectories )
-			scripts.add( new JSeparator() );
-
-		for ( int i = 0; i < scriptList.length; ++i )
-			if ( !scriptList[i].isDirectory() )
-				scripts.add( scriptList[i] );
-	}
-
-	/**
-	 * Utility method to compile the list of bookmarks based on the
-	 * current server settings.
-	 */
-
-	protected void compileBookmarks()
-	{
-		// Read the setting into the list only once.  The list and
-		// setting are subsequently kept in synch.
-		if ( bookmarksCompiled )
-			return;
-
-		bookmarksCompiled = true;
-
-		String [] bookmarkData = GLOBAL_SETTINGS.getProperty( "browserBookmarks" ).split( "\\|" );
-		String name, location, pwdhash;
-
-		if ( bookmarkData.length > 1 )
-			for ( int i = 0; i < bookmarkData.length; ++i )
-				bookmarks.add( bookmarkData[i] + "|" + bookmarkData[++i] + "|" + bookmarkData[++i] );
-	}
-
-	/**
-	 * Utility method to save the entire list of bookmarks to the settings
-	 * file.  This should be called after every update.
-	 */
-
-	protected void saveBookmarks()
-	{
-		StringBuffer bookmarkData = new StringBuffer();
-
-		for ( int i = 0; i < bookmarks.size(); ++i )
-		{
-			if ( i > 0 )
-				bookmarkData.append( '|' );
-			bookmarkData.append( (String)bookmarks.get(i) );
-		}
-
-		GLOBAL_SETTINGS.setProperty( "browserBookmarks", bookmarkData.toString() );
-	}
-
-	/**
-	 * An internal class which represents the panel used for adding
-	 * effects to a character (yourself or others).
-	 */
-
-	protected class SkillBuffPanel extends KoLPanel
-	{
-		private JComboBox skillSelect;
-		private JComboBox targetSelect;
-
-		public SkillBuffPanel()
-		{	this ( "" );
-		}
-
-		public SkillBuffPanel( String initialRecipient )
-		{
-			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
-
-			skillSelect = new JComboBox( client == null ? new LockableListModel() : KoLCharacter.getUsableSkills() );
-			targetSelect = new MutableComboBox( client == null ? new SortedListModel() : (SortedListModel) client.getContactList().clone() );
-
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Skill Name: ", skillSelect );
-			elements[1] = new VerifiableElement( "The Victim: ", targetSelect );
-
-			setContent( elements );
-			setDefaultButton( confirmedButton );
-			add( new UneffectPanel(), BorderLayout.CENTER );
-
-			if ( !initialRecipient.equals( "" ) )
-			{
-				targetSelect.addItem( initialRecipient );
-				targetSelect.getEditor().setItem( initialRecipient );
-				targetSelect.setSelectedItem( initialRecipient );
-			}
-		}
-		
-		private class UneffectPanel extends ItemManagePanel
-		{
-			public UneffectPanel()
-			{	super( "Status Effects", "uneffect", "describe", KoLCharacter.getEffects() );
-			}
-			
-			public void actionConfirmed()
-			{	(new RequestThread( new UneffectRequest( client, (AdventureResult) elementList.getSelectedValue() ) )).start();
-			}
-			
-			public void actionCancelled()
-			{	openRequestFrame( "desc_effect.php?whicheffect=" + StatusEffectDatabase.getEffectID( ((AdventureResult) elementList.getSelectedValue()).getName() ) );
-			}
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-
-			if ( skillSelect != null && targetSelect != null )
-			{
-				skillSelect.setEnabled( isEnabled );
-				targetSelect.setEnabled( isEnabled );
-			}
-		}
-
-		protected void actionConfirmed()
-		{	buff( false );
-		}
-
-		protected void actionCancelled()
-		{	buff( true );
-		}
-
-		private void buff( boolean maxBuff )
-		{
-			String buffName = ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName();
-			if ( buffName == null )
-				return;
-
-			String [] targets = client.extractTargets( (String) targetSelect.getSelectedItem() );
-
-			int buffCount = !maxBuff ? getQuantity( "Casting " + buffName + "...", Integer.MAX_VALUE, 1 ) :
-				(int) ( KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) );
-
-			if ( buffCount == 0 )
-				return;
-
-			Runnable [] requests;
-
-			if ( targets.length == 0 )
-			{
-				requests = new Runnable[1];
-				requests[0] = new UseSkillRequest( client, buffName, "", buffCount );
-			}
-			else
-			{
-				requests = new Runnable[ targets.length ];
-				for ( int i = 0; i < requests.length && client.permitsContinue(); ++i )
-					if ( targets[i] != null )
-						requests[i] = new UseSkillRequest( client, buffName, targets[i], buffCount );
-			}
-
-			(new RequestThread( requests )).start();
-		}
-	}
-
-	private class StopEverythingItem extends JMenuItem implements ActionListener
-	{
-		public StopEverythingItem()
-		{
-			super( "Stop Everything" );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( client != null )
-				client.declareWorldPeace();
-		}
-	}
-
 	protected class FilterCheckBox extends JCheckBox implements ActionListener
 	{
 		private boolean isTradeable;
@@ -2289,5 +1112,17 @@ public abstract class KoLFrame extends javax.swing.JFrame implements KoLConstant
 		public void actionPerformed( ActionEvent e )
 		{	(new RequestThread( this )).start();
 		}
+	}
+
+	protected void processWindowEvent( WindowEvent e )
+	{
+		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
+		{
+			Point p = getLocation();
+			KoLSettings settings = GLOBAL_SETTINGS.getProperty( "windowPositions" ).equals( "1" ) ? GLOBAL_SETTINGS : StaticEntity.getSettings();
+			settings.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+		}
+
+		super.processWindowEvent( e );
 	}
 }

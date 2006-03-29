@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity implements KoLConstants
 {
@@ -73,16 +74,31 @@ public abstract class StaticEntity implements KoLConstants
 		(new RequestThread( new LogoutRequest( client ) )).start();
 	}
 
-	protected static final KoLSettings getSettings()
+	public static final KoLSettings getSettings()
 	{	return client == null ? GLOBAL_SETTINGS : client.getSettings();
 	}
 
-	protected static final void setProperty( String name, String value )
+	public static final void setProperty( String name, String value )
 	{
 		getSettings().setProperty( name, value );
 	}
 
-	protected static final String getProperty( String name )
+	public static final String getProperty( String name )
 	{	return getSettings().getProperty( name );
+	}
+
+	public static void openSystemBrowser( String location )
+	{
+		try
+		{
+			BrowserLauncher.openURL( location );
+		}
+		catch ( java.io.IOException e )
+		{
+			KoLmafia.getLogStream().println( "Failed to open browser:" );
+
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
 	}
 }

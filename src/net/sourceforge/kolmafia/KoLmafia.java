@@ -168,7 +168,6 @@ public abstract class KoLmafia implements KoLConstants
 		// affect performance, but not significantly.
 
 		storeSaveStates();
-		deinitialize();
 
 		// Also clear out any outdated data files -- this
 		// includes everything except for the adventure table,
@@ -911,9 +910,9 @@ public abstract class KoLmafia implements KoLConstants
 
 			currentMethod = KoLCharacter.class.getMethod( currentName, new Class[0] );
 			maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[0] );
-			
+
 			int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
-			double setting = Double.parseDouble( settings.getProperty( settingName ) );			
+			double setting = Double.parseDouble( settings.getProperty( settingName ) );
 			needed = setting < 0 ? -1 : (int) Math.max( setting * (double) maximum, (double) needed );
 
 			if ( needed < 0 )

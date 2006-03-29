@@ -48,24 +48,23 @@ public class KoLPanelFrame extends KoLFrame
 {
 	/**
 	 * Constructs an empty <code>KoLPanelFrame</code> which
-	 * uses the given client and has the given title.
+	 * uses the given StaticEntity.getClient() and has the given title.
 	 */
 
-	public KoLPanelFrame( KoLmafia client, String title )
-	{
-		super( client, title );
+	public KoLPanelFrame( String title )
+	{	super( title );
 	}
 
 	/**
 	 * Constructs a <code>KoLPanelFrame</code> which contains
-	 * the given client and has the given title.  The content
+	 * the given StaticEntity.getClient() and has the given title.  The content
 	 * panel for this frame will be initialized to the panel
 	 * that is provided.
 	 */
 
-	public KoLPanelFrame( KoLmafia client, String title, ActionPanel panel )
+	public KoLPanelFrame( String title, ActionPanel panel )
 	{
-		super( client, title );
+		super( title );
 		setContentPanel( panel );
 	}
 

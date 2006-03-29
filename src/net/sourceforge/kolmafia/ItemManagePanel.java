@@ -34,50 +34,37 @@
 
 package net.sourceforge.kolmafia;
 
-// event listeners
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import javax.swing.ListSelectionModel;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class GreenMessageFrame extends SendMessageFrame
+/**
+ * An internal class which creates a panel which manages items.
+ * This is done because most of the item management displays
+ * are replicated.  Note that a lot of this code was borrowed
+ * directly from the ActionVerifyPanel class in the utilities
+ * package for Spellcast.
+ */
+
+public abstract class ItemManagePanel extends LabeledScrollPanel
 {
-	private static final String [] HEADERS = { "Send this message:" };
+	protected ShowDescriptionList elementList;
 
-	public GreenMessageFrame()
-	{	this( "" );
+	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
+	{	this( title, confirmedText, cancelledText, elements, true );
 	}
 
-	public GreenMessageFrame( String recipient )
-	{	this( recipient, "" );
-	}
-
-	public GreenMessageFrame( String recipient, String quotedMessage )
+	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements, boolean isRootPane )
 	{
-		super( "Send a Green Message", recipient );
-		messageEntry[0].setText( quotedMessage );
+		super( title, confirmedText, cancelledText, new ShowDescriptionList( elements ), isRootPane );
+
+		elementList = (ShowDescriptionList) scrollComponent;
+		elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
+		elementList.setVisibleRowCount( 8 );
 	}
 
-	protected String [] getEntryHeaders()
-	{	return HEADERS;
-	}
-
-	protected boolean sendMessage( String recipient, String [] messages )
+	public void setEnabled( boolean isEnabled )
 	{
-		GreenMessageFrame.this.setEnabled( false );
-		(new GreenMessageRequest( StaticEntity.getClient(), recipient, messages[0], getAttachedItems(), getAttachedMeat() )).run();
-		GreenMessageFrame.this.setEnabled( true );
-
-		if ( StaticEntity.getClient().permitsContinue() )
-		{
-			DEFAULT_SHELL.updateDisplay( "Message sent to " + recipient );
-			setTitle( "Message sent to " + recipient );
-			return true;
-		}
-		else
-		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Failed to send message to " + recipient );
-			setTitle( "Failed to send message to " + recipient );
-			return false;
-		}
+		super.setEnabled( isEnabled );
+		elementList.setEnabled( isEnabled );
 	}
 }

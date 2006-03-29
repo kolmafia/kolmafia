@@ -62,6 +62,9 @@ public class KoLmafiaGUI extends KoLmafia
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
 
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
+
+		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
+		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 	}
 
 	private CreateFrameRunnable displayer;
@@ -75,6 +78,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public static void main( String [] args )
 	{
+	
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
 
 		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) && GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) )
@@ -82,15 +86,21 @@ public class KoLmafiaGUI extends KoLmafia
 
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
+		
+		KoLDesktop.getInstance().pack();
+		KoLDesktop.getInstance().setVisible( true );
 
-		if ( args.length == 0 )
-		{
-			String login = session.settings.getProperty( "autoLogin" );
-			String password = session.getSaveState( login );
+		Object [] parameters = new Object[1];
+		parameters[0] = session.saveStateNames;
 
-			if ( password != null )
-				(new LoginRequest( session, login, password, true, true )).run();
-		}
+		session.displayer = new CreateFrameRunnable( LoginFrame.class, parameters );
+		session.displayer.run();
+
+		String login = session.settings.getProperty( "autoLogin" );
+		String password = session.getSaveState( login );
+
+		if ( password != null )
+			(new LoginRequest( session, login, password, true, true )).run();
 	}
 
 	/**
@@ -146,38 +156,27 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		super.initialize( loginname, sessionID, getBreakfast );
 
-		if ( !permitsContinue() )
-			return;
-
 		// Also update mail to see if the person has received any
 		// new messages.
 
 		(new MailboxRequest( this, "Inbox" )).run();
 
-		if ( !permitsContinue() )
-			return;
-
 		// Reset all the titles on all existing frames.
 
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
 		SystemTrayFrame.updateTooltip();
-		for ( int i = 0; i < frames.length; ++i )
-			frames[i].updateTitle();
+		KoLDesktop.updateTitle();
 
 		// If you've already loaded an adventure frame,
 		// or the login failed, then there's nothing left
 		// to do.  Return from the method.
 
-		if ( displayer == null || displayer.getCreation() instanceof AdventureFrame )
+		if ( displayer.getCreation() instanceof AdventureFrame )
 			return;
 
 		// Figure out which user interface is being
 		// used -- account for minimalist loadings.
 
-		CreateFrameRunnable previousDisplayer = displayer;
-
+		displayer.getCreation().setVisible( false );
 		Class frameClass = INTERFACE_MODES[ Integer.parseInt( GLOBAL_SETTINGS.getProperty( "userInterfaceMode" ) ) ];
 
 		// Instantiate the appropriate instance of the
@@ -193,34 +192,11 @@ public class KoLmafiaGUI extends KoLmafia
 			displayer.run();
 		}
 
-		((KoLFrame)previousDisplayer.getCreation()).setVisible( false );
-		((KoLFrame)previousDisplayer.getCreation()).dispose();
-
 		// Also, if the person has new mail, then automatically
 		// load up the mail manager.
 
 		if ( KoLMailManager.hasNewMessages() )
 			(new CreateFrameRunnable( MailboxFrame.class )).run();
-	}
-
-	/**
-	 * Deinitializes the <code>KoLmafia</code> session.  Called after
-	 * the user has logged out.
-	 */
-
-	public void deinitialize()
-	{
-		super.deinitialize();
-
-		if ( displayer == null )
-		{
-			Object [] parameters = new Object[2];
-			parameters[0] = this;
-			parameters[1] = saveStateNames;
-
-			displayer = new CreateFrameRunnable( LoginFrame.class, parameters );
-			displayer.run();
-		}
 	}
 
 	public void showHTML( String text, String title )

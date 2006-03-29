@@ -42,6 +42,7 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.text.DecimalFormatSymbols;
 
+import java.io.File;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
 
@@ -51,6 +52,7 @@ public interface KoLConstants extends UtilityConstants
 {
 	public static final Random RNG = new Random();
 	public static final String LINE_BREAK = System.getProperty( "line.separator" );
+	public static final Class [] NOPARAMS = new Class[0];
 
 	public static final JLabel BLANK_LABEL = new JLabel();
 	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
@@ -60,6 +62,7 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings();
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
+	public static final File SCRIPT_DIRECTORY = new File( "scripts" );
 
 	public static final List existingFrames = new ArrayList();
 	public static final List existingPanels = new ArrayList();

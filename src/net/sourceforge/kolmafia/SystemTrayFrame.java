@@ -11,23 +11,17 @@ import com.gc.systray.SystemTrayIconManager;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 
-public class SystemTrayFrame extends KoLFrame implements Runnable
+public class SystemTrayFrame extends KoLDesktop implements Runnable
 {
 	private static int icon;
 	private static SystemTrayIconManager manager = null;
 
 	private SystemTrayFrame()
-	{	super( StaticEntity.getClient(), "SystemTrayFrame" );
+	{
 	}
 
 	public void setVisible( boolean isVisible )
-	{
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
-		for ( int i = 0; i < frames.length; ++i )
-			if ( !frames[i].isVisible() )
-				frames[i].setVisible( isVisible );
+	{	KoLDesktop.getInstance().setVisible( isVisible );
 	}
 
 	public static void updateTooltip()
@@ -98,22 +92,6 @@ public class SystemTrayFrame extends KoLFrame implements Runnable
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 		}
-	}
-
-	public void dispose()
-	{
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
-		for ( int i = 0; i < frames.length; ++i )
-			frames[i].dispose();
-
-		// Ordinarily, you might invoke the garbage collector
-		// immediately after this -- for convenience, null the
-		// frames pointer before doing so.
-
-		frames = null;
-		System.gc();
 	}
 
 	public static void addTrayIcon()

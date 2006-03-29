@@ -91,21 +91,20 @@ public class RequestFrame extends KoLFrame
 	protected JEditorPane sideDisplay;
 	protected JEditorPane mainDisplay;
 
-	public RequestFrame( KoLmafia client )
-	{	this( client, new KoLRequest( client, "main.php" ) );
+	public RequestFrame()
+	{	this( new KoLRequest( StaticEntity.getClient(), "main.php" ) );
 	}
 
-	public RequestFrame( KoLmafia client, KoLRequest request )
-	{	this( client, null, request );
+	public RequestFrame( KoLRequest request )
+	{	this( null, request );
 	}
 
-	public RequestFrame( KoLmafia client, RequestFrame parent, KoLRequest request )
+	public RequestFrame( RequestFrame parent, KoLRequest request )
 	{
-		super( client, "" );
 		this.parent = parent;
 
-		this.currentRequest = getClass() == RequestFrame.class && client != null && client.getCurrentRequest() instanceof FightRequest ?
-			client.getCurrentRequest() : request;
+		this.currentRequest = getClass() == RequestFrame.class && StaticEntity.getClient().getCurrentRequest() instanceof FightRequest ?
+			StaticEntity.getClient().getCurrentRequest() : request;
 
 		this.hasSideBar = getClass() == RequestFrame.class &&
 			request != null &&
@@ -250,7 +249,7 @@ public class RequestFrame extends KoLFrame
 			BrowserComboBoxItem selected = (BrowserComboBoxItem) source.getSelectedItem();
 
 			if ( !selected.getLocation().equals( "" ) )
-				refresh( new KoLRequest( client, selected.getLocation() ) );
+				refresh( new KoLRequest( StaticEntity.getClient(), selected.getLocation() ) );
 
 			source.setSelectedIndex( 0 );
 		}
@@ -305,7 +304,7 @@ public class RequestFrame extends KoLFrame
 	public void refresh( KoLRequest request )
 	{	refresh( request, false );
 	}
-	
+
 	public void refresh( KoLRequest request, boolean shouldEnable )
 	{
 		String location = request.getURLString();
@@ -316,7 +315,7 @@ public class RequestFrame extends KoLFrame
 
 			// Only record raw mini-browser requests
 			if ( request.getClass() == KoLRequest.class )
-				client.getMacroStream().println( location );
+				StaticEntity.getClient().getMacroStream().println( location );
 
 			(new DisplayRequestThread( request, shouldEnable )).start();
 		}
@@ -356,7 +355,7 @@ public class RequestFrame extends KoLFrame
 		{
 			synchronized ( DisplayRequestThread.class )
 			{
-				if ( client == null || request == null || (request.responseText != null && !lastResponseText.equals( "" ) && request.responseText.equals( lastResponseText )) )
+				if ( request == null || (request.responseText != null && !lastResponseText.equals( "" ) && request.responseText.equals( lastResponseText )) )
 					return;
 
 				mainBuffer.clearBuffer();
@@ -374,7 +373,7 @@ public class RequestFrame extends KoLFrame
 						return;
 					}
 
-					client.processResult( SewerRequest.CLOVER );
+					StaticEntity.getClient().processResult( SewerRequest.CLOVER );
 				}
 
 				currentRequest = request;
@@ -382,7 +381,7 @@ public class RequestFrame extends KoLFrame
 
 				if ( request != null && request.responseText != null && request.responseText.length() != 0 )
 				{
-					client.setCurrentRequest( request );
+					StaticEntity.getClient().setCurrentRequest( request );
 					lastResponseText = request.responseText;
 					displayRequest();
 				}
@@ -399,7 +398,7 @@ public class RequestFrame extends KoLFrame
 				}
 			}
 
-			// Have the client update occur outside of the
+			// Have the StaticEntity.getClient() update occur outside of the
 			// synchronization block so that the appearance
 			// of a GUI lockup doesn't happen.
 
@@ -413,7 +412,7 @@ public class RequestFrame extends KoLFrame
 			if ( adventure != null && adventure.startsWith( "adventure.php" ) )
 			{
 				Matcher dataMatcher = Pattern.compile( "(snarfblat|adv)=(\\d+)" ).matcher( adventure );
-				return client.isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(2) );
+				return StaticEntity.getClient().isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(2) );
 			}
 
 			return false;
@@ -478,8 +477,8 @@ public class RequestFrame extends KoLFrame
 
 			if ( location.equals( "main.php?refreshtop=true&noobmessage=true" ) )
 			{
-				client.refreshSession();
-				client.enableDisplay();
+				StaticEntity.getClient().refreshSession();
+				StaticEntity.getClient().enableDisplay();
 			}
 		}
 
@@ -491,15 +490,15 @@ public class RequestFrame extends KoLFrame
 
 			String location = request.getURLString();
 
-			// Keep the client updated of your current equipment and
+			// Keep the StaticEntity.getClient() updated of your current equipment and
 			// familiars, if you visit the appropriate pages.
 
 			if ( location.startsWith( "inventory.php?which=2" ) )
 				EquipmentRequest.parseEquipment( request.responseText );
 
 			if ( location.startsWith( "familiar.php" ) )
-				FamiliarData.registerFamiliarData( client, request.responseText );
-			
+				FamiliarData.registerFamiliarData( StaticEntity.getClient(), request.responseText );
+
 			if ( location.startsWith( "charsheet.php" ) )
 				CharsheetRequest.parseStatus( request.responseText );
 
@@ -509,7 +508,7 @@ public class RequestFrame extends KoLFrame
 			Matcher learnedMatcher = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" ).matcher( request.responseText );
 			if ( learnedMatcher.find() )
 			{
-				KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
+				KoLCharacter.addAvailableSkill( new UseSkillRequest( StaticEntity.getClient(), learnedMatcher.group(1), "", 1 ) );
 				KoLCharacter.addDerivedSkills();
 			}
 
@@ -519,12 +518,12 @@ public class RequestFrame extends KoLFrame
 			// It simply says: "You leargn a new skill. Whee!"
 
 			if ( lastResponseText.indexOf( "You leargn a new skill." ) != -1 )
-			     (new CharsheetRequest( client )).run();
+			     (new CharsheetRequest( StaticEntity.getClient() )).run();
 
 			KoLCharacter.refreshCalculatedLists();
-			
+
 			if ( shouldEnable )
-				client.enableDisplay();
+				StaticEntity.getClient().enableDisplay();
 		}
 	}
 
@@ -537,7 +536,7 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	refresh( new KoLRequest( client, "main.php" ) );
+		{	refresh( new KoLRequest( StaticEntity.getClient(), "main.php" ) );
 		}
 	}
 
@@ -588,7 +587,7 @@ public class RequestFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			visitedLocations.remove( currentRequest );
-			refresh( extractRequest( currentRequest.getURLString() ) );
+			refresh( RequestEditorKit.extractRequest( currentRequest.getURLString() ) );
 		}
 	}
 
@@ -603,8 +602,8 @@ public class RequestFrame extends KoLFrame
 		public void actionPerformed( ActionEvent e )
 		{
 			KoLAdventure adventure = AdventureDatabase.getAdventure( locationField.getText() );
-			KoLRequest request = extractRequest( adventure == null ? locationField.getText() : adventure.getRequest().getURLString() );
-			client.getMacroStream().println( request.getURLString() );
+			KoLRequest request = RequestEditorKit.extractRequest( adventure == null ? locationField.getText() : adventure.getRequest().getURLString() );
+			StaticEntity.getClient().getMacroStream().println( request.getURLString() );
 			refresh( request );
 		}
 	}

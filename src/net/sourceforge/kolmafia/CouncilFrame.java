@@ -42,8 +42,8 @@ import java.awt.BorderLayout;
 
 public class CouncilFrame extends RequestFrame
 {
-	public CouncilFrame( KoLmafia client )
-	{	super( client, null, new KoLRequest( client, "council.php", true ) );
+	public CouncilFrame()
+	{	super( null, new KoLRequest( StaticEntity.getClient(), "council.php", true ) );
 	}
 
 	protected static String getDisplayHTML( String responseText )

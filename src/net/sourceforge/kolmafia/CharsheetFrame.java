@@ -85,13 +85,11 @@ public class CharsheetFrame extends KoLFrame
 	/**
 	 * Constructs a new character sheet, using the data located
 	 * in the provided session.
-	 *
-	 * @param	client	The client containing the data associated with the character
 	 */
 
-	public CharsheetFrame( KoLmafia client )
+	public CharsheetFrame()
 	{
-		super( client, "Character Sheet" );
+		super( "Character Sheet" );
 
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );
@@ -162,7 +160,7 @@ public class CharsheetFrame extends KoLFrame
 
 		this.avatar = new JLabel( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) );
 		imagePanel.add( avatar, BorderLayout.CENTER );
-		imagePanel.add( new RequestButton( "Refresh Status", new CharsheetRequest( client ) ), BorderLayout.SOUTH );
+		imagePanel.add( new RequestButton( "Refresh Status", new CharsheetRequest( StaticEntity.getClient() ) ), BorderLayout.SOUTH );
 
 
 		return imagePanel;
@@ -287,9 +285,7 @@ public class CharsheetFrame extends KoLFrame
 
 	public void refreshStatus()
 	{
-		if ( client != null )
-			client.applyRecentEffects();
-
+		StaticEntity.getClient().applyRecentEffects();
 		levelLabel.setText( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassName() );
 
 		hpMeter.setMaximum( KoLCharacter.getMaximumHP() );

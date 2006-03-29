@@ -82,15 +82,14 @@ public class MuseumFrame extends KoLFrame
 	 * Constructs a new <code>MuseumFrame</code> and inserts all
 	 * of the necessary panels into a tabular layout for accessibility.
 	 *
-	 * @param	client	The client to be notified in the event of error.
+	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() to be notified in the event of error.
 	 */
 
-	public MuseumFrame( KoLmafia client )
+	public MuseumFrame()
 	{
-		super( client, "Display Case" );
+		super( "Display Case" );
 
-		if ( client != null )
-			(new RequestThread( new MuseumRequest( client ) )).start();
+		(new RequestThread( new MuseumRequest( StaticEntity.getClient() ) )).start();
 
 		general = new AddRemovePanel();
 		shelves = new MuseumShelfList();
@@ -169,8 +168,8 @@ public class MuseumFrame extends KoLFrame
 				}
 
 				Runnable [] parameters = new Runnable[2];
-				parameters[0] = new MuseumRequest( client, getSelectedValues( elementList.getSelectedValues(), moveAll ), true );
-				parameters[1] = new MuseumRequest( client );
+				parameters[0] = new MuseumRequest( StaticEntity.getClient(), getSelectedValues( elementList.getSelectedValues(), moveAll ), true );
+				parameters[1] = new MuseumRequest( StaticEntity.getClient() );
 
 				(new RequestThread( parameters )).start();
 			}
@@ -193,8 +192,8 @@ public class MuseumFrame extends KoLFrame
 			private void move( boolean moveAll )
 			{
 				Runnable [] parameters = new Runnable[2];
-				parameters[0] = new MuseumRequest( client, getSelectedValues( elementList.getSelectedValues(), moveAll ), false );
-				parameters[1] = new MuseumRequest( client );
+				parameters[0] = new MuseumRequest( StaticEntity.getClient(), getSelectedValues( elementList.getSelectedValues(), moveAll ), false );
+				parameters[1] = new MuseumRequest( StaticEntity.getClient() );
 
 				(new RequestThread( parameters )).start();
 			}
@@ -252,8 +251,8 @@ public class MuseumFrame extends KoLFrame
 		public void actionCancelled()
 		{
 			Runnable [] parameters = new Runnable[2];
-			parameters[0] = new MuseumRequest( client, elementList.getSelectedValues(), false );
-			parameters[1] = new MuseumRequest( client );
+			parameters[0] = new MuseumRequest( StaticEntity.getClient(), elementList.getSelectedValues(), false );
+			parameters[1] = new MuseumRequest( StaticEntity.getClient() );
 
 			(new RequestThread( parameters )).start();
 		}

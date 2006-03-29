@@ -82,13 +82,13 @@ public abstract class SendMessageFrame extends KoLFrame
 	protected JTextField attachedMeat;
 	protected LockableListModel attachments;
 
-	protected SendMessageFrame( KoLmafia client, String title )
-	{	this( client, title, "" );
+	protected SendMessageFrame( String title )
+	{	this( title, "" );
 	}
 
-	protected SendMessageFrame( KoLmafia client, String title, String recipient )
+	protected SendMessageFrame( String title, String recipient )
 	{
-		super( client, title );
+		super( title );
 
 		inventory = KoLCharacter.getInventory();
 		usingStorage = false;
@@ -163,7 +163,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	{
 		String [] entryHeaders = getEntryHeaders();
 
-		recipientEntry = new MutableComboBox( client == null ? new SortedListModel() : (SortedListModel) client.getContactList().clone() );
+		recipientEntry = new MutableComboBox( (SortedListModel) StaticEntity.getClient().getContactList().clone() );
 		recipientEntry.setEditable( true );
 
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
@@ -254,10 +254,7 @@ public abstract class SendMessageFrame extends KoLFrame
 
 		public void run()
 		{
-			if ( client == null )
-				return;
-
-			String [] recipients = client.extractTargets( (String) recipientEntry.getSelectedItem() );
+			String [] recipients = StaticEntity.getClient().extractTargets( (String) recipientEntry.getSelectedItem() );
 
 			// Limit the number of messages which can be sent
 			// to just eleven, as was the case with KoLmelion.
@@ -277,11 +274,11 @@ public abstract class SendMessageFrame extends KoLFrame
 			// If one of them fails, however, immediately stop
 			// and notify the user that there was failure.
 
-			for ( int i = 0; i < recipients.length && client.permitsContinue(); ++i )
+			for ( int i = 0; i < recipients.length && StaticEntity.getClient().permitsContinue(); ++i )
 				if ( !sendMessage( recipients[i], messages ) )
 					return;
 
-			if ( client.permitsContinue() )
+			if ( StaticEntity.getClient().permitsContinue() )
 			{
 				recipientEntry.setSelectedIndex( -1 );
 				dispose();
@@ -291,11 +288,10 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	public void attachItems()
 	{
-		Object [] parameters = new Object[4];
-		parameters[0] = client;
-		parameters[1] = inventory;
-		parameters[2] = this instanceof GiftMessageFrame ? KoLCharacter.getStorage() : null;
-		parameters[3] = attachments;
+		Object [] parameters = new Object[3];
+		parameters[0] = inventory;
+		parameters[1] = this instanceof GiftMessageFrame ? KoLCharacter.getStorage() : null;
+		parameters[2] = attachments;
 
 		(new CreateFrameRunnable( AttachmentFrame.class, parameters )).run();
 	}
@@ -348,8 +344,8 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	public void refreshContactList()
 	{
-		(new ContactListRequest( client )).run();
-		recipientEntry.setModel( (SortedListModel) client.getContactList().clone() );
+		(new ContactListRequest( StaticEntity.getClient() )).run();
+		recipientEntry.setModel( (SortedListModel) StaticEntity.getClient().getContactList().clone() );
 	}
 
 	/**
@@ -363,9 +359,9 @@ public abstract class SendMessageFrame extends KoLFrame
 		private ShowDescriptionList newAttachments;
 		private LockableListModel inventory, storage, attachments;
 
-		public AttachmentFrame( KoLmafia client, LockableListModel inventory, LockableListModel storage, LockableListModel attachments )
+		public AttachmentFrame( LockableListModel inventory, LockableListModel storage, LockableListModel attachments )
 		{
-			super( client, "Attachments" );
+			super( "Attachments" );
 
 			this.inventory = (LockableListModel) inventory.clone();
 			this.storage = storage != null ? (LockableListModel) storage.clone() : null;

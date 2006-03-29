@@ -70,9 +70,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffRequestFrame extends KoLFrame
 {
-	public BuffRequestFrame( KoLmafia client )
+	public BuffRequestFrame()
 	{
-		super( client, "Buff Requests" );
+		super( "Buff Requests" );
 
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );
@@ -84,8 +84,8 @@ public class BuffRequestFrame extends KoLFrame
 		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		JComponentUtilities.setComponentSize( scroller, 600, 480 );
 		framePanel.add( scroller, "" );
-		
-		client.enableDisplay();
+
+		StaticEntity.getClient().enableDisplay();
 	}
 
 	private class BuffRequestPanel extends JPanel
@@ -173,7 +173,7 @@ public class BuffRequestFrame extends KoLFrame
 					int turns = BuffBotDatabase.getBuffTurns( index, selection );
 
 					DEFAULT_SHELL.updateDisplay( "Buying " + turns + " turns of " + buff + " from " + bot );
-					(new GreenMessageRequest( client, bot, VERSION_NAME, new AdventureResult( AdventureResult.MEAT, price ), false )).run();
+					(new GreenMessageRequest( StaticEntity.getClient(), bot, VERSION_NAME, new AdventureResult( AdventureResult.MEAT, price ), false )).run();
 					DEFAULT_SHELL.updateDisplay( "Buff request complete." );
 				}
 			}

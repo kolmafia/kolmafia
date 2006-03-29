@@ -64,9 +64,9 @@ public class MushroomFrame extends KoLFrame
 	private final MushroomButton [][] layoutButtons;
 	private final MushroomButton [][] forecastButtons;
 
-	public MushroomFrame( KoLmafia client )
+	public MushroomFrame()
 	{
-		super( client, "Mushroom Fields" );
+		super( "Mushroom Fields" );
 
 		JPanel currentPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
 		JPanel layoutPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
