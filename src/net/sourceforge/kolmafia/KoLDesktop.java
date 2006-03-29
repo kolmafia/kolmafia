@@ -97,12 +97,20 @@ public class KoLDesktop extends JFrame implements KoLConstants
 	private KoLDesktop( String title )
 	{
 		setTitle( title );
+		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 
 		JMenuBar container = new JMenuBar();
 		this.setJMenuBar( container );
 
 		compileBookmarks();
 		constructMenus( container );
+	}
+
+	public void dispose()
+	{
+		super.dispose();
+		SystemTrayFrame.removeTrayIcon();
+		System.exit(0);
 	}
 
 	public static KoLDesktop getInstance()
