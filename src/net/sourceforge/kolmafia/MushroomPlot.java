@@ -74,6 +74,9 @@ public abstract class MushroomPlot extends StaticEntity
 	public static final int FROZEN = 756;
 	public static final int STINKY = 757;
 
+	// Special mushrooms
+	public static final int GLOOMY = 1266;
+
 	// Assocations between the mushroom IDs
 	// and the mushroom image.
 
@@ -96,7 +99,10 @@ public abstract class MushroomPlot extends StaticEntity
 		// Third generation mushrooms
 		{ new Integer( FLAMING ), "fireshroom.gif", "Fl", new Integer( 0 ) },
 		{ new Integer( FROZEN ), "iceshroom.gif", "Fr", new Integer( 0 ) },
-		{ new Integer( STINKY ), "stinkshroo.gif", "St", new Integer( 0 ) }
+		{ new Integer( STINKY ), "stinkshroo.gif", "St", new Integer( 0 ) },
+
+		// Special mushrooms
+		{ new Integer( GLOOMY ), "blackshroo.gif", "Gl", new Integer( 0 ) },
 	};
 
 	static

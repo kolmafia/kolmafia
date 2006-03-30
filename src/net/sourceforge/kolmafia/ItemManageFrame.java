@@ -143,10 +143,6 @@ public class ItemManageFrame extends KoLFrame
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
-	public boolean useSidePane()
-	{	return true;
-	}
-
 	private class ConsumePanel extends MultiButtonPanel
 	{
 		public ConsumePanel()
