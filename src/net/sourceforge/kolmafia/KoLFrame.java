@@ -180,7 +180,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
 		existingFrames.add( this );
 
-		if ( !System.getProperty( "os.name" ).startsWith( "Mac" ) )
+		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
 			setJMenuBar( new KoLMenuBar() );
 
 		if ( useSidePane() )
