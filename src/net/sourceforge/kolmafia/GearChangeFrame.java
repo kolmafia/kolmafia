@@ -81,7 +81,7 @@ public class GearChangeFrame extends KoLFrame
 
 	public GearChangeFrame()
 	{
-		super( "Changing Gears" );
+		super( "Gear Changer" );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( createEquipPanel(), "" );

@@ -3370,18 +3370,6 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * Confirms whether or not the user wants to make a drunken
-	 * request.  This should be called before doing requests when
-	 * the user is in an inebrieted state.
-	 *
-	 * @return	<code>true</code> if the user wishes to adventure drunk
-	 */
-
-	protected boolean confirmDrunkenRequest()
-	{	return false;
-	}
-
-	/**
 	 * Utility method used to print a list to the given output
 	 * stream.  If there's a need to print to the current output
 	 * stream, simply pass the output stream to this method.

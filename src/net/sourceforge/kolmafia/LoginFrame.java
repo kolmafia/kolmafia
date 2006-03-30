@@ -64,6 +64,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 // other imports
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -110,21 +111,22 @@ public class LoginFrame extends KoLFrame
 
 		tabs.addTab( "Login", constructLoginPanel() );
 
+		JScrollPane scroller = new JScrollPane( new StartupFramesPanel(),
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		JComponentUtilities.setComponentSize( scroller, 300, 300 );
+		tabs.addTab( "Startup", scroller );
+
 		JPanel connectPanel = new JPanel();
+
 		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
 		connectPanel.add( new ServerSelectPanel() );
 		connectPanel.add( new ProxyOptionsPanel() );
+
 		tabs.addTab( "Settings", connectPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
-
-		toolbarPanel.add( new DisplayFrameButton( "KoL Almanac", "calendar.gif", CalendarFrame.class ) );
-		toolbarPanel.add( new DisplayFrameButton( "KoL Encyclopedia", "encyclopedia.gif", ExamineItemsFrame.class ) );
-
-		toolbarPanel.add( new JToolBar.Separator() );
-
-		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
 	}
 
 	public void requestFocus()
@@ -255,6 +257,7 @@ public class LoginFrame extends KoLFrame
 				loginname += "/q";
 
 			(new LoginRequest( StaticEntity.getClient(), loginname, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected() )).run();
+			StaticEntity.getClient().enableDisplay();
 		}
 
 		protected void actionCancelled()
@@ -324,6 +327,77 @@ public class LoginFrame extends KoLFrame
 						passwordField.requestFocus();
 				}
 			}
+		}
+	}
+	
+	private class StartupFramesPanel extends KoLPanel
+	{
+		private final String [][] FRAME_OPTIONS =
+		{
+			{ "Main Interface", "AdventureFrame" },
+			{ "Mini-Browser", "RequestFrame" },
+			{ "Graphical CLI", "CommandDisplayFrame" },
+
+			{ "Player Status", "CharsheetFrame" },
+			{ "Item Manager", "ItemManageFrame" },
+			{ "Gear Changer", "GearChangeFrame" },
+
+			{ "Store Manager", "StoreManageFrame" },
+			{ "Display Case", "MuseumFrame" },
+			{ "Hagnk Storage", "HagnkStorageFrame" },
+
+			{ "Buffbot Manager", "BuffBotFrame" },
+			{ "Purchase Buffs", "BuffRequestFrame" },
+
+			{ "Flower Hunter", "FlowerHunterFrame" },
+			{ "Mushroom Plot", "MushroomFrame" },
+			{ "Familiar Trainer", "FamiliarTrainingFrame" },
+
+			{ "IcePenguin Express", "MailboxFrame" },
+			{ "KoLmafia Chat", "KoLMessenger" },
+			
+			{ "Clan Manager", "ClanManageFrame" },
+			{ "Farmer's Almanac", "CalendarFrame" },
+			
+		};
+	
+		private JCheckBox [] options;
+		
+		public StartupFramesPanel()
+		{
+			super( new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
+
+			options = new JCheckBox[ FRAME_OPTIONS.length ];
+			VerifiableElement [] elements = new VerifiableElement[ FRAME_OPTIONS.length ];
+
+			for ( int i = 0; i < elements.length; ++i )
+				elements[i] = new VerifiableElement( "Show \"" + FRAME_OPTIONS[i][0] + "\" on startup", JLabel.LEFT, options[i] = new JCheckBox() );
+			
+			setContent( elements, false );
+			actionCancelled();
+		}
+		
+		public void actionConfirmed()
+		{
+			StringBuffer settingString = new StringBuffer();
+			for ( int i = 0; i < options.length; ++i )
+			{
+				if ( options[i].isSelected() )
+				{
+					if ( settingString.length() != 0 )
+						settingString.append( "," );
+					settingString.append( FRAME_OPTIONS[i][1] );
+				}
+			}
+			
+			GLOBAL_SETTINGS.setProperty( "initialFrameLoading", settingString.toString() );
+		}
+		
+		public void actionCancelled()
+		{
+			String settingString = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
+			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
+				options[i].setSelected( settingString.indexOf( FRAME_OPTIONS[i][1] ) != -1 );
 		}
 	}
 
@@ -424,10 +498,10 @@ public class LoginFrame extends KoLFrame
 
 			VerifiableElement [] elements = new VerifiableElement[5];
 			elements[0] = new VerifiableElement( "Use Proxy: ", proxySet );
-			elements[1] = new VerifiableElement( "Proxy Host: ", proxyHost );
-			elements[2] = new VerifiableElement( "Proxy Port: ", proxyPort );
-			elements[3] = new VerifiableElement( "Proxy Login: ", proxyLogin );
-			elements[4] = new VerifiableElement( "Proxy Pass: ", proxyPassword );
+			elements[1] = new VerifiableElement( "Host: ", proxyHost );
+			elements[2] = new VerifiableElement( "Port: ", proxyPort );
+			elements[3] = new VerifiableElement( "Login: ", proxyLogin );
+			elements[4] = new VerifiableElement( "Password: ", proxyPassword );
 
 			setContent( elements, true );
 			actionCancelled();

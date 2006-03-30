@@ -81,4 +81,53 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final int PENDING_STATE  = 4;
 	public static final int CONTINUE_STATE = 5;
+
+	public static final String [][] WIN_GAME_TEXT = new String [][]
+	{
+		{
+			"Petitioning the Seaside Town Council for automatic game completion...",
+			"The Seaside Town Council has rejected your petition.  Game incomplete.",
+			"You reject the Seaside Town's decision.  Fighting the council...",
+			"You have been defeated by the Seaside Town Council."
+		},
+
+		{
+			"You enter the super-secret code into the Strange Leaflet...",
+			"Your ruby W and heavy D fuse to form the mysterious R!",
+			"Moxie sign backdoor accessed.  Supertinkering The Ultimate Weapon...",
+			"Supertinkering complete.  Executing tower script...",
+			"Your RNG spawns an enraged cow on Floors 1-6."
+		},
+
+		{
+			"You win the game. What, you were expecting more?",
+			"You are now standing in an open field to the west of the Kingdom.",
+			"You hear a gurgling ocean to the south, and a path leads north into Valhalla.",
+			"What now, Adventurer?"
+		},
+
+		{
+			"You touch your star starfish!  You surge with power!",
+			"Accessing tower backdoor.  Fighting Naughty Sorceress...",
+			"Connection timed out during post.  Retrying...",
+			"Connection timed out during reply.  Retrying...",
+			"Your star power has expired.  You have been defeated!"
+		},
+
+		{
+			"You raise your metallic A to the sky. Victory is yours!",
+			"Original game concept by Jick (Asymmetric Publications).",
+			"Co-written by Mr. Skullhead, Riff, and the /dev team.",
+			"Special thanks to: the Mods, the Ascension testers, and you.",
+			"We present you a new quest, which is basically the same thing, only harder.",
+			"Crap!  You've been using KoLmafia so long you can't remember how to play!  Game Over."
+		},
+
+		{
+			"Executing secret trail script...",
+			"Crossing first obstacle, admiring landmarks...",
+			"Path set to oxygenarian, familiar pace set to grue-ing...",
+			"You have died from KoLera.  Game Over."
+		}
+	};
 }

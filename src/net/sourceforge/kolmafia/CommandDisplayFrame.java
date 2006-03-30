@@ -112,6 +112,10 @@ public class CommandDisplayFrame extends KoLFrame
 		}
 	}
 
+	public boolean useSidePane()
+	{	return true;
+	}
+
 	public void requestFocus()
 	{
 		super.requestFocus();

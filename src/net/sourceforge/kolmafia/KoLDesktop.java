@@ -173,8 +173,8 @@ public class KoLDesktop extends JFrame implements KoLConstants
 
 		statusMenu.add( new JSeparator() );
 
-		statusMenu.add( new DisplayFrameMenuItem( "Mall Manager", StoreManageFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Museum Display", MuseumFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Store Manager", StoreManageFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Display Case", MuseumFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", HagnkStorageFrame.class ) );
 
 		// Add specialized tools.
@@ -189,7 +189,7 @@ public class KoLDesktop extends JFrame implements KoLConstants
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Buffbot Manager", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
 
 		toolsMenu.add( new JSeparator() );
@@ -335,10 +335,6 @@ public class KoLDesktop extends JFrame implements KoLConstants
 	 */
 
 	public static void openRequestFrame( String location )
-	{	openRequestFrame( RequestEditorKit.extractRequest( location ) );
-	}
-
-	public static void openRequestFrame( KoLRequest request )
 	{
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
@@ -350,7 +346,7 @@ public class KoLDesktop extends JFrame implements KoLConstants
 				requestHolder = (RequestFrame) frames[i];
 
 		Object [] parameters;
-		String location = request.getURLString();
+		KoLRequest request = RequestEditorKit.extractRequest( location );
 
 		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
 		{
@@ -360,7 +356,9 @@ public class KoLDesktop extends JFrame implements KoLConstants
 		}
 		else if ( requestHolder != null )
 		{
-			requestHolder.refresh( request );
+			if ( !location.equals( "main.php" ) )
+				requestHolder.refresh( request );
+
 			requestHolder.requestFocus();
 			return;
 		}

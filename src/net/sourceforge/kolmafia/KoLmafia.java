@@ -1226,19 +1226,16 @@ public abstract class KoLmafia implements KoLConstants
 
 			int currentEffectCount = KoLCharacter.getEffects().size();
 
-			boolean pulledOver = false;
 			boolean shouldRefreshStatus;
 
 			// Otherwise, you're handling a standard adventure.  Be
 			// sure to check to see if you're allowed to continue
 			// after drunkenness.
 
-			if ( KoLCharacter.isFallingDown() )
+			if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && KoLCharacter.getInebriety() < 29 )
 			{
-				if ( request instanceof KoLAdventure && !(((KoLAdventure)request).getRequest() instanceof CampgroundRequest) && KoLCharacter.getInebriety() != 30 && !confirmDrunkenRequest() )
-					updateDisplay( ERROR_STATE, "You are too drunk to continue." );
-
-				pulledOver = true;
+				updateDisplay( ERROR_STATE, "You are too drunk to continue." );
+				return;
 			}
 
 			// Check to see if there are any end conditions.  If
@@ -1310,12 +1307,10 @@ public abstract class KoLmafia implements KoLConstants
 				// Prevent drunkenness adventures from occurring by
 				// testing inebriety levels after the request is run.
 
-				if ( request instanceof KoLAdventure && KoLCharacter.isFallingDown() && !pulledOver )
+				if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && KoLCharacter.getInebriety() < 29 )
 				{
-					if ( permitsContinue() && KoLCharacter.getInebriety() != 30 && !confirmDrunkenRequest() )
-						updateDisplay( ERROR_STATE, "You are too drunk to continue." );
-
-					pulledOver = true;
+					updateDisplay( ERROR_STATE, "You are too drunk to continue." );
+					return;
 				}
 
 				shouldRefreshStatus = currentEffectCount != KoLCharacter.getEffects().size();
@@ -1637,16 +1632,6 @@ public abstract class KoLmafia implements KoLConstants
 		processResult( new AdventureResult( AdventureResult.ADV, -4 ) );
 		updateDisplay( "Guild store unlocked (maybe)." );
 	}
-
-	/**
-	 * Confirms whether or not the user wants to make a drunken
-	 * request.  This should be called before doing requests when
-	 * the user is in an inebrieted state.
-	 *
-	 * @return	<code>true</code> if the user wishes to adventure drunk
-	 */
-
-	protected abstract boolean confirmDrunkenRequest();
 
 	public void priceItemsAtLowestPrice()
 	{

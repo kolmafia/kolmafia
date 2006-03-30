@@ -438,80 +438,12 @@ public class AdventureFrame extends KoLFrame
 		{
 			if ( cancelledButton.getText().equals( "win game" ) )
 			{
-				(new WinGameThread()).start();
+				pushWinGameButton();
 			}
 			else
 			{
 				StaticEntity.getClient().declareWorldPeace();
 				locationSelect.requestFocus();
-			}
-		}
-
-		private class WinGameThread extends Thread
-		{
-			private String [][] WIN_GAME_TEXT = new String [][]
-			{
-				{
-					"Petitioning the Seaside Town Council for automatic game completion...",
-					"The Seaside Town Council has rejected your petition.  Game incomplete.",
-					"You reject the Seaside Town's decision.  Fighting the council...",
-					"You have been defeated by the Seaside Town Council."
-				},
-
-				{
-					"You enter the super-secret code into the Strange Leaflet...",
-					"Your ruby W and heavy D fuse to form the mysterious R!",
-					"Moxie sign backdoor accessed.  Supertinkering The Ultimate Weapon...",
-					"Supertinkering complete.  Executing tower script...",
-					"Your RNG spawns an enraged cow on Floors 1-6."
-				},
-
-				{
-					"You win the game. What, you were expecting more?",
-					"You are now standing in an open field to the west of the Kingdom.",
-					"You hear a gurgling ocean to the south, and a path leads north into Valhalla.",
-					"What now?"
-				},
-
-				{
-					"You touch your star starfish!  You surge with power!",
-					"Accessing tower backdoor.  Fighting Naughty Sorceress...",
-					"Connection timed out during post.  Retrying...",
-					"Connection timed out during reply.  Retrying...",
-					"Your star power has expired.  You have been defeated!"
-				},
-
-				{
-					"You raise your metallic A to the sky. Victory is yours!",
-					"Original game concept by Jick (Asymmetric Publications).",
-					"Co-written by Mr. Skullhead, Riff, and the /dev team.",
-					"Special thanks to: the Mods, the Ascension testers, and you.",
-					"We present you a new quest, which is basically the same thing, only harder.",
-					"Crap!  You've been using KoLmafia so long you can't remember how to play.  Game Over."
-				},
-
-				{
-					"Executing secret trail script...",
-					"Crossing first obstacle, admiring landmarks...",
-					"Path set to oxygenarian, familiar pace set to grueling...",
-					"You have died from KoLera.  Game Over."
-				}
-			};
-
-			public void run()
-			{	displayMessages( WIN_GAME_TEXT[ RNG.nextInt( WIN_GAME_TEXT.length ) ] );
-			}
-
-			private void displayMessages( String [] messages )
-			{
-				for ( int i = 0; i < messages.length - 1 && StaticEntity.getClient().permitsContinue(); ++i )
-				{
-					DEFAULT_SHELL.updateDisplay( messages[i] );
-					KoLRequest.delay( 3000 );
-				}
-
-				if ( StaticEntity.getClient().permitsContinue() )
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, messages[ messages.length - 1 ] );
 			}
 		}
 
@@ -924,11 +856,13 @@ public class AdventureFrame extends KoLFrame
 
 		public MeatStoragePanel()
 		{
-			super( "Meat Management", "deposit", "withdraw", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "Meat Management", "transfer", "bedidall", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			fundSource = new JComboBox();
-			fundSource.addItem( "Inventory / Closet" );
-			fundSource.addItem( "Hagnk's Storage" );
+ 			fundSource = new JComboBox();
+			fundSource.addItem( "From Inventory to Closet" );
+			fundSource.addItem( "From Closet to Inventory" );
+			fundSource.addItem( "From Hagnk's to Inventory" );
+			fundSource.addItem( "From Hagnk's to Closet" );
 
 			amountField = new JTextField();
 			closetField = new JTextField( df.format( KoLCharacter.getClosetMeat() ) );
@@ -952,30 +886,63 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			switch ( fundSource.getSelectedIndex() )
+			int transferType = -1;
+			int fundTransferType = fundSource.getSelectedIndex();
+			int amountToTransfer = getValue( amountField );
+
+			if ( fundTransferType > 1 && KoLCharacter.isHardcore() )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You cannot pull meat from Hagnk's while in Hardcore." );
+				StaticEntity.getClient().enableDisplay();
+				return;
+			}
+			
+			ItemStorageRequest [] requests = new ItemStorageRequest[ fundTransferType == 3 ? 2 : 1 ];
+	
+			switch ( fundTransferType )
 			{
 				case 0:
-					(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), getValue( amountField ), ItemStorageRequest.MEAT_TO_CLOSET ) )).start();
-					return;
+					transferType = ItemStorageRequest.MEAT_TO_CLOSET;
+
+					if ( amountToTransfer <= 0 )
+						amountToTransfer = KoLCharacter.getAvailableMeat();
+
+					break;
 
 				case 1:
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You cannot deposit into Hagnk's storage." );
-					return;
+					transferType = ItemStorageRequest.MEAT_TO_INVENTORY;
+
+					if ( amountToTransfer <= 0 )
+						amountToTransfer = KoLCharacter.getClosetMeat();
+
+					break;
+
+				case 2:
+				case 3:
+
+					transferType = ItemStorageRequest.PULL_MEAT_FROM_STORAGE;
+
+					if ( amountToTransfer <= 0 )
+					{
+						DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You must specify an amount to pull from Hagnk's." );
+						StaticEntity.getClient().enableDisplay();
+						return;
+					}
+
+					break;
 			}
+			
+			requests[0] = new ItemStorageRequest( StaticEntity.getClient(), amountToTransfer, transferType );
+			if ( fundTransferType == 3 )
+				requests[1] = new ItemStorageRequest( StaticEntity.getClient(), amountToTransfer, ItemStorageRequest.MEAT_TO_CLOSET );
+
+			(new RequestThread( requests )).start();
 		}
 
 		protected void actionCancelled()
 		{
-			switch ( fundSource.getSelectedIndex() )
-			{
-				case 0:
-					(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), getValue( amountField ), ItemStorageRequest.MEAT_TO_INVENTORY ) )).start();
-					return;
-
-				case 1:
-					(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), getValue( amountField ), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) )).start();
-					return;
-			}
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "<html><font color=green>You <font color=red>lost</font>. Better luck next time.</font></html>" );
+			StaticEntity.getClient().enableDisplay();
 		}
 
 		private class ClosetUpdater implements Runnable
@@ -983,6 +950,25 @@ public class AdventureFrame extends KoLFrame
 			public void run()
 			{	closetField.setText( df.format( KoLCharacter.getClosetMeat() ) );
 			}
+		}
+	}
+	
+	public static final void pushWinGameButton()
+	{	displayMessages( WIN_GAME_TEXT[ RNG.nextInt( WIN_GAME_TEXT.length ) ] );
+	}
+
+	public static void displayMessages( String [] messages )
+	{
+		for ( int i = 0; i < messages.length - 1 && StaticEntity.getClient().permitsContinue(); ++i )
+		{
+			DEFAULT_SHELL.updateDisplay( messages[i] );
+			KoLRequest.delay( 3000 );
+		}
+
+		if ( StaticEntity.getClient().permitsContinue() )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, messages[ messages.length - 1 ] );
+			StaticEntity.getClient().enableDisplay();
 		}
 	}
 }

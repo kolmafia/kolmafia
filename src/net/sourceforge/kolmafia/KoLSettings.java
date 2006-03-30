@@ -203,6 +203,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "http.proxyPort", "" );
 		ensureProperty( "http.proxyUser", "" );
 		ensureProperty( "http.proxyPassword", "" );
+		ensureProperty( "initialFrameLoading", "AdventureFrame,MailboxFrame" );
 		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		ensureProperty( "lastAdventure", "" );
 		ensureProperty( "lastMessageID", "" );
@@ -220,7 +221,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "sortAdventures", "false" );
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
 		ensureProperty( "toolbarPosition", "1" );
-		ensureProperty( "userInterfaceMode", "0" );
 		ensureProperty( "useSystemTrayIcon", "false" );
 		ensureProperty( "usePopupContacts", "1" );
 		ensureProperty( "useTabbedChat", "1" );

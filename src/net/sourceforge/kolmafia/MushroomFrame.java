@@ -66,7 +66,7 @@ public class MushroomFrame extends KoLFrame
 
 	public MushroomFrame()
 	{
-		super( "Mushroom Fields" );
+		super( "Mushroom Plot" );
 
 		JPanel currentPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
 		JPanel layoutPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );

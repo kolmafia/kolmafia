@@ -89,7 +89,7 @@ public class CharsheetFrame extends KoLFrame
 
 	public CharsheetFrame()
 	{
-		super( "Character Sheet" );
+		super( "Player Status" );
 
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );

@@ -157,11 +157,10 @@ public class KoLmafiaGUI extends KoLmafia
 	public void initialize( String loginname, String sessionID, boolean getBreakfast )
 	{
 		super.initialize( loginname, sessionID, getBreakfast );
+		String frameSetting = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
 
-		// Also update mail to see if the person has received any
-		// new messages.
-
-		(new MailboxRequest( this, "Inbox" )).run();
+		if ( frameSetting.indexOf( "MailboxFrame" ) != -1 )
+			(new MailboxRequest( this, "Inbox" )).run();		
 
 		// Reset all the titles on all existing frames.
 
@@ -184,16 +183,36 @@ public class KoLmafiaGUI extends KoLmafia
 		// Instantiate the appropriate instance of the
 		// frame that should be loaded based on the mode.
 
-		displayer = new CreateFrameRunnable( AdventureFrame.class );
-		displayer.run();
+		String [] initialFrames = frameSetting.split( "," );
+		for ( int i = 0; i < initialFrames.length; ++i )
+		{
+			if ( initialFrames[i].equals( "KoLMessenger" ) )
+			{
+				KoLMessenger.initialize();
+			}
+			if ( initialFrames[i].equals( "MailboxFrame" ) )
+			{
+				if ( KoLMailManager.hasNewMessages() )
+					(new CreateFrameRunnable( MailboxFrame.class, new Object [] { "Inbox" } )).run();
+			}
+			else
+			{
+				try
+				{
+					Class associatedClass = Class.forName( "net.sourceforge.kolmafia." + initialFrames[i] );
+					displayer = new CreateFrameRunnable( associatedClass );
+					displayer.run();
+				}
+				catch ( ClassNotFoundException e )
+				{
+					e.printStackTrace( KoLmafia.getLogStream() );
+					e.printStackTrace();
+				}
+
+			}
+		}
 
 		loginWindow.dispose();
-
-		// Also, if the person has new mail, then automatically
-		// load up the mail manager.
-
-		if ( KoLMailManager.hasNewMessages() )
-			(new CreateFrameRunnable( MailboxFrame.class )).run();
 	}
 
 	public void showHTML( String text, String title )
@@ -476,22 +495,6 @@ public class KoLmafiaGUI extends KoLmafia
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * Confirms whether or not the user wants to make a drunken
-	 * request.  This should be called before doing requests when
-	 * the user is in an inebrieted state.
-	 *
-	 * @return	<code>true</code> if the user wishes to adventure drunk
-	 */
-
-	protected boolean confirmDrunkenRequest()
-	{
-		return JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-			" You see flying penguins and a dancing hermit!\nThe mafia has stolen your shoes!\n(KoLmafia thinks you're too drunk!)\nContinue adventuring anyway?\n",
-			"You're not drunk!?", JOptionPane.YES_NO_OPTION );
-	}
-
 
 	public void removeAllItemsFromStore()
 	{

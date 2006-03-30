@@ -95,7 +95,7 @@ public class ItemManageFrame extends KoLFrame
 
 	public ItemManageFrame()
 	{
-		super( "Item Management" );
+		super( "Item Manager" );
 
 		tabs = new JTabbedPane();
 		consume = new ConsumePanel();
@@ -141,6 +141,10 @@ public class ItemManageFrame extends KoLFrame
 		tabs.addTab( "Closet", closet );
 
 		framePanel.add( tabs, BorderLayout.CENTER );
+	}
+
+	public boolean useSidePane()
+	{	return true;
 	}
 
 	private class ConsumePanel extends MultiButtonPanel

@@ -81,6 +81,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	private MailSelectList messageListSaved;
 
 	public MailboxFrame()
+	{	this( null );
+	}
+
+	public MailboxFrame( String initialTab )
 	{
 		super( "IcePenguin Express" );
 
@@ -128,7 +132,8 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		toolbarPanel.add( new DeleteButton() );
 		toolbarPanel.add( new RefreshButton() );
 
-		(new RequestMailboxThread( "Inbox" )).start();
+		if ( initialTab == null )
+			(new RequestMailboxThread( "Inbox" )).start();
 	}
 
 	public void dispose()

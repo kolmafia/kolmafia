@@ -115,7 +115,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	public FamiliarTrainingFrame()
 	{
-		super( "Familiar Training Tool" );
+		super( "Familiar Trainer" );
 
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );
