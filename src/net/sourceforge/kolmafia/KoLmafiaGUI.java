@@ -80,11 +80,11 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
 
-		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-		{
-			if ( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) )
-				SystemTrayFrame.addTrayIcon();
+		if ( StaticEntity.usesSystemTray() )
+			SystemTrayFrame.addTrayIcon();
 
+		if ( !StaticEntity.usesRelayWindows() && !System.getProperty( "os.name" ).startsWith( "Mac" ) )
+		{
 			KoLDesktop.getInstance().setExtendedState( KoLDesktop.MAXIMIZED_HORIZ );
 			KoLDesktop.getInstance().setVisible( true );
 		}

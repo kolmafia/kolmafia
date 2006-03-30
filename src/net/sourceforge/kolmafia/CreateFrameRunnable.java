@@ -34,7 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Window;
 import java.awt.Dimension;
+import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import java.lang.reflect.Constructor;
 
@@ -174,17 +177,16 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		try
 		{
 			if ( this.creation == null )
-			{
 				this.creation = (KoLFrame) creator.newInstance( parameters );
-				this.creation.pack();
-			}
+
+			String frameName = ((KoLFrame)this.creation).getFrameName();
 
 			// Load the KoL frame to the appropriate location
 			// on the screen now that the frame has been packed
 			// to the appropriate size.
 
-			KoLFrame frame = (KoLFrame) this.creation;
-			String frameName = frame.getFrameName();
+			Window window = StaticEntity.usesRelayWindows() ? (Window) this.creation.createRelayWindow() : (Window) this.creation;
+			window.pack();
 
 			int xLocation = 0;
 			int yLocation = 0;
@@ -196,17 +198,23 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				yLocation = Integer.parseInt( location[1] );
 			}
 			if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
-				frame.setLocation( xLocation, yLocation );
+				window.setLocation( xLocation, yLocation );
 			else
-				frame.setLocation( (int)(screenSize.getWidth() - frame.getWidth())/2, (int)(screenSize.getHeight() - frame.getHeight())/2 );
+				window.setLocation( (int)(screenSize.getWidth() - window.getWidth())/2, (int)(screenSize.getHeight() - window.getHeight())/2 );
 
 			// With the location set set on screen, make sure
 			// to disable it (if necessary), ensure the frame's
 			// visibility on screen and request focus.
 
-			this.creation.setEnabled( true );
-			this.creation.setVisible( true );
-			this.creation.requestFocus();
+			window.setEnabled( true );
+
+			if ( window instanceof JDialog && !System.getProperty( "os.name" ).startsWith( "Mac" ) )
+				((JDialog)window).setJMenuBar( new KoLMenuBar() );
+			else if ( window instanceof JFrame )
+				((JFrame)window).setJMenuBar( new KoLMenuBar() );
+
+			window.setVisible( true );
+			window.requestFocus();
 		}
 		catch ( Exception e )
 		{

@@ -109,7 +109,9 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	protected String lastTitle;
 	protected String frameName;
 	protected JPanel framePanel;
+
 	protected JToolBar toolbarPanel;
+	protected JFrame relayWindow = null;
 
 	protected JPanel compactPane;
 	protected JLabel levelLabel, roninLabel, mcdLabel;
@@ -180,9 +182,6 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
 		existingFrames.add( this );
 
-		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
-			setJMenuBar( new KoLMenuBar() );
-
 		if ( useSidePane() )
 			addCompactPane();
 	}
@@ -190,10 +189,37 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	public final void setTitle( String newTitle )
 	{
 		this.lastTitle = newTitle;
-		if ( KoLCharacter.getUsername().length() > 0 )
-			super.setTitle( KoLCharacter.getUsername() + ": " + this.lastTitle );
+		String desiredTitle = KoLCharacter.getUsername().length() > 0 ?
+			KoLCharacter.getUsername() + ": " + this.lastTitle : this.lastTitle;
+
+		if ( relayWindow == null )
+			super.setTitle( desiredTitle );
 		else
-			super.setTitle( this.lastTitle );
+			relayWindow.setTitle( desiredTitle );
+	}
+
+	public final void setVisible( boolean isVisible )
+	{
+		if ( relayWindow == null )
+			super.setVisible( isVisible );
+		else
+			relayWindow.setVisible( isVisible );
+	}
+
+	public final boolean isVisible()
+	{
+		if ( relayWindow == null )
+			return super.isVisible();
+		else
+			return relayWindow.isVisible();
+	}
+
+	public void requestFocus()
+	{
+		if ( relayWindow == null )
+			super.requestFocus();
+		else
+			relayWindow.requestFocus();
 	}
 
 	public boolean useSidePane()
@@ -1075,5 +1101,34 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		}
 
 		super.processWindowEvent( e );
+	}
+
+	protected JFrame createRelayWindow()
+	{
+		relayWindow = new RelayWindow();
+		return relayWindow;
+	}
+
+	/**
+	 * Internal class which places the contents of the JDialog
+	 * inside of a separate JFrame.  This frame is then notified
+	 * of any title updates.
+	 */
+
+	private class RelayWindow extends JFrame
+	{
+		public RelayWindow()
+		{
+			this.setTitle( KoLFrame.this.getTitle() );
+			this.setContentPane( KoLFrame.this.getContentPane() );
+		}
+
+		protected void processWindowEvent( WindowEvent e )
+		{
+			super.processWindowEvent( e );
+
+			if ( e.getID() == WindowEvent.WINDOW_CLOSING )
+				KoLFrame.this.processWindowEvent( e );
+		}
 	}
 }

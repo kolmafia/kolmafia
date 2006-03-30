@@ -329,7 +329,7 @@ public class LoginFrame extends KoLFrame
 			}
 		}
 	}
-	
+
 	private class StartupFramesPanel extends KoLPanel
 	{
 		private final String [][] FRAME_OPTIONS =
@@ -355,14 +355,14 @@ public class LoginFrame extends KoLFrame
 
 			{ "IcePenguin Express", "MailboxFrame" },
 			{ "KoLmafia Chat", "KoLMessenger" },
-			
+
 			{ "Clan Manager", "ClanManageFrame" },
 			{ "Farmer's Almanac", "CalendarFrame" },
-			
+
 		};
-	
+
 		private JCheckBox [] options;
-		
+
 		public StartupFramesPanel()
 		{
 			super( new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
@@ -372,11 +372,11 @@ public class LoginFrame extends KoLFrame
 
 			for ( int i = 0; i < elements.length; ++i )
 				elements[i] = new VerifiableElement( "Show \"" + FRAME_OPTIONS[i][0] + "\" on startup", JLabel.LEFT, options[i] = new JCheckBox() );
-			
+
 			setContent( elements, false );
 			actionCancelled();
 		}
-		
+
 		public void actionConfirmed()
 		{
 			StringBuffer settingString = new StringBuffer();
@@ -389,10 +389,10 @@ public class LoginFrame extends KoLFrame
 					settingString.append( FRAME_OPTIONS[i][1] );
 				}
 			}
-			
+
 			GLOBAL_SETTINGS.setProperty( "initialFrameLoading", settingString.toString() );
 		}
-		
+
 		public void actionCancelled()
 		{
 			String settingString = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
@@ -409,7 +409,7 @@ public class LoginFrame extends KoLFrame
 
 	private class ServerSelectPanel extends LabeledKoLPanel
 	{
-		private JComboBox servers, textheavy, toolbars, trayicon;
+		private JComboBox servers, textheavy, toolbars, windowing, trayicon;
 
 		public ServerSelectPanel()
 		{
@@ -431,17 +431,24 @@ public class LoginFrame extends KoLFrame
 			toolbars.addItem( "Put toolbar left of panel" );
 			toolbars.addItem( "Put toolbar right of panel" );
 
-			trayicon = new JComboBox();
-			trayicon.addItem( "Minimize KoLmafia to taskbar" );
-			trayicon.addItem( "Minimize KoLmafia to system tray" );
+			windowing = new JComboBox();
+			windowing.addItem( "Allow one taskbar icon (requires restart)" );
+			windowing.addItem( "Allow multiple taskbar icons (requires restart)" );
 
-			VerifiableElement [] elements = new VerifiableElement[ System.getProperty( "os.name" ).startsWith( "Windows" ) ? 4 : 3 ];
+			trayicon = new JComboBox();
+			trayicon.addItem( "Minimize KoLmafia to taskbar (requires restart)" );
+			trayicon.addItem( "Minimize KoLmafia to system tray (requires restart)" );
+
+			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 5 : 4;
+
+			VerifiableElement [] elements = new VerifiableElement[ elementCount ];
 			elements[0] = new VerifiableElement( "Server: ", servers );
 			elements[1] = new VerifiableElement( "Sidebar: ", textheavy );
 			elements[2] = new VerifiableElement( "Toolbars: ", toolbars );
+			elements[3] = new VerifiableElement( "Windows: ", windowing );
 
 			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-				elements[3] = new VerifiableElement( "SysTray: ", trayicon );
+				elements[4] = new VerifiableElement( "SysTray: ", trayicon );
 
 			setContent( elements );
 			actionCancelled();
@@ -453,6 +460,7 @@ public class LoginFrame extends KoLFrame
 			GLOBAL_SETTINGS.setProperty( "useTextHeavySidepane", String.valueOf( textheavy.getSelectedIndex() == 1 ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
+			GLOBAL_SETTINGS.setProperty( "useRelayWindows", String.valueOf( windowing.getSelectedIndex() == 1 ) );
 			GLOBAL_SETTINGS.setProperty( "useSystemTrayIcon", String.valueOf( trayicon.getSelectedIndex() == 1 ) );
 		}
 
@@ -461,6 +469,7 @@ public class LoginFrame extends KoLFrame
 			servers.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) );
 			textheavy.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useTextHeavySidepane" ).equals( "true" ) ? 1 : 0 );
 			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
+			windowing.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useRelayWindows" ).equals( "true" ) ? 1 : 0 );
 			trayicon.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 0 );
 		}
 	}

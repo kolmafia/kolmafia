@@ -49,6 +49,8 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	protected static KoLmafia client;
+	private static int usesSystemTray = 0;
+	private static int usesRelayWindows = 0;
 
 	public static final void setClient( KoLmafia client )
 	{	StaticEntity.client = client;
@@ -56,6 +58,23 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static KoLmafia getClient()
 	{	return client;
+	}
+
+	public static boolean usesSystemTray()
+	{
+		if ( usesSystemTray == 0 )
+			usesSystemTray = System.getProperty( "os.name" ).startsWith( "Windows" ) &&
+				GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 2;
+
+		return usesSystemTray == 1;
+	}
+
+	public static boolean usesRelayWindows()
+	{
+		if ( usesRelayWindows == 0 )
+			usesRelayWindows = GLOBAL_SETTINGS.getProperty( "useRelayWindows" ).equals( "true" ) ? 1 : 2;
+
+		return usesRelayWindows == 1;
 	}
 
 	public static void closeSession()
