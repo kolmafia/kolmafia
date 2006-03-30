@@ -180,10 +180,13 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
 		existingFrames.add( this );
 
+		if ( !System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			setJMenuBar( new KoLMenuBar() );
+
 		if ( useSidePane() )
 			addCompactPane();
 	}
-	
+
 	public final void setTitle( String newTitle )
 	{
 		this.lastTitle = newTitle;
@@ -192,7 +195,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		else
 			super.setTitle( this.lastTitle );
 	}
-	
+
 	public boolean useSidePane()
 	{	return false;
 	}
@@ -234,7 +237,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 				KoLmafiaGUI.main( new String[0] );
 		}
 	}
-	
+
 	public String toString()
 	{	return lastTitle;
 	}
@@ -503,7 +506,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	public final boolean isEnabled()
 	{	return true;
 	}
-	
+
 	public void setEnabled( boolean isEnabled )
 	{
 	}
@@ -696,7 +699,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 				// These include description data, documentation
 				// and player searches.
 
-				openRequestFrame( location );
+				StaticEntity.openRequestFrame( location );
 			}
 			else if ( location.equals( "lchat.php" ) )
 			{
@@ -716,7 +719,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 				// open up a new request frame in order to
 				// display the appropriate data.
 
-				openRequestFrame( location );
+				StaticEntity.openRequestFrame( location );
 			}
 		}
 	}
@@ -742,7 +745,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		public void actionPerformed( ActionEvent e )
 		{
 			StaticEntity.getClient().setCurrentRequest( null );
-			openRequestFrame( "main.php" );
+			StaticEntity.openRequestFrame( "main.php" );
 		}
 	}
 
@@ -820,17 +823,6 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 				e.printStackTrace();
 			}
 		}
-	}
-
-	/**
-	 * A method used to open a new <code>RequestFrame</code> which displays
-	 * the given location, relative to the KoL home directory for the current
-	 * session.  This should be called whenever <code>RequestFrame</code>s
-	 * need to be created in order to keep code modular.
-	 */
-
-	public void openRequestFrame( String location )
-	{	KoLDesktop.openRequestFrame( location );
 	}
 
 	/**

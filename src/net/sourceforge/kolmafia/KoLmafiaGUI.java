@@ -84,14 +84,14 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			if ( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) )
 				SystemTrayFrame.addTrayIcon();
-			
+
 			KoLDesktop.getInstance().setExtendedState( KoLDesktop.MAXIMIZED_HORIZ );
 			KoLDesktop.getInstance().setVisible( true );
 		}
 
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
-		
+
 		Object [] parameters = new Object[1];
 		parameters[0] = session.saveStateNames;
 
@@ -160,7 +160,7 @@ public class KoLmafiaGUI extends KoLmafia
 		String frameSetting = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
 
 		if ( frameSetting.indexOf( "MailboxFrame" ) != -1 )
-			(new MailboxRequest( this, "Inbox" )).run();		
+			(new MailboxRequest( this, "Inbox" )).run();
 
 		// Reset all the titles on all existing frames.
 

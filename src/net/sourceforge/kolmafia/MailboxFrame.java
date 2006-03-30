@@ -409,7 +409,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 			if ( !location.startsWith( "sendmessage.php" ) )
 			{
-				openRequestFrame( location );
+				StaticEntity.openRequestFrame( location );
 				return;
 			}
 

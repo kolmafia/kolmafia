@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+
+import javax.swing.SwingUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity implements KoLConstants
@@ -100,5 +102,49 @@ public abstract class StaticEntity implements KoLConstants
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * A method used to open a new <code>RequestFrame</code> which displays
+	 * the given location, relative to the KoL home directory for the current
+	 * session.  This should be called whenever <code>RequestFrame</code>s
+	 * need to be created in order to keep code modular.
+	 */
+
+	public static void openRequestFrame( String location )
+	{
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		RequestFrame requestHolder = null;
+
+		for ( int i = frames.length - 1; i >= 0; --i )
+			if ( frames[i].getClass() == RequestFrame.class && ((RequestFrame)frames[i]).hasSideBar() )
+				requestHolder = (RequestFrame) frames[i];
+
+		Object [] parameters;
+		KoLRequest request = RequestEditorKit.extractRequest( location );
+
+		if ( location.startsWith( "search" ) || location.startsWith( "desc" ) || location.startsWith( "static" ) || location.startsWith( "show" ) )
+		{
+			parameters = new Object[2];
+			parameters[0] = requestHolder;
+			parameters[1] = request;
+		}
+		else if ( requestHolder != null )
+		{
+			if ( !location.equals( "main.php" ) )
+				requestHolder.refresh( request );
+
+			requestHolder.requestFocus();
+			return;
+		}
+		else
+		{
+			parameters = new Object[1];
+			parameters[0] = request;
+		}
+
+		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
 	}
 }

@@ -165,7 +165,7 @@ public class ExamineItemsFrame extends KoLFrame
 
 					String id = IDNumberMapper( ((Integer)((Map.Entry)entry).getKey()).intValue() );
 					elementList.ensureIndexIsVisible( index );
-					openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
+					StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
 				}
 			}
 		}

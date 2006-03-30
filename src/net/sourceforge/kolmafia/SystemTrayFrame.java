@@ -21,7 +21,12 @@ public class SystemTrayFrame extends KoLDesktop implements Runnable
 	}
 
 	public void setVisible( boolean isVisible )
-	{	KoLDesktop.getInstance().setVisible( isVisible );
+	{
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		for ( int i = 0; i < frames.length; ++i )
+			frames[i].setVisible( isVisible );
 	}
 
 	public static void updateTooltip()
@@ -80,8 +85,7 @@ public class SystemTrayFrame extends KoLDesktop implements Runnable
 			SystemTrayFrame.manager = new SystemTrayIconManager( icon, VERSION_NAME + ": " + KoLCharacter.getUsername() );
 
 			JPopupMenu popup = new JPopupMenu();
-			constructMenus( popup );
-			popup.add( new InvocationMenuItem( "End Session", this, "dispose" ) );
+			KoLMenuBar menubar = new KoLMenuBar( popup );
 
 			manager.setLeftClickView( this );
 			manager.setRightClickView( popup );
