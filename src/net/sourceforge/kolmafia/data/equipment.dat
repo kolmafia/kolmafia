@@ -1,0 +1,515 @@
+# Helmet section.  This section includes all the items
+# which go in the "hat" slot of the equipment menu.
+
+Ancient Saucehelm	50	Mys: 10
+asbestos helmet turtle	80	Mox: 25
+asshat	30	none
+balaclava	50	Mox: 10
+balloon helmet	50	Mox: 10
+Baron Von Ratsworth's tophat	75	Mox: 22
+barskin hat	25	none
+basic meat fez	45	Mox: 7
+basic meat helmet	40	Mox: 5
+blue traffic cone	60	Mox: 15
+bowler	100	Mox: 35
+bugbear beanie	30	none
+bum cheek	20	none
+chef's hat	30	none
+chrome helmet turtle	120	Mox: 45
+Cloaca-Cola helmet	30	none
+clockwork hat	80	Mox: 25
+coconut shell	30	none
+cold ninja mask	80	Mox: 25
+cornuthaum	85	Mox: 27
+Crimbo hat	100	Mox: 35
+Crown of the Goblin King	70	Mox: 20
+Disco 'Fro Pick	50	Mox: 10
+disco mask	10	none
+draggin' ball hat	100	Mox: 35
+Dyspepsi-Cola helmet	30	none
+El Sombrero De Lopez	50	Mox: 10
+Elder Turtle Shell	50	Mus: 10
+enchanted eyepatch	35	Mox: 2
+eXtreme scarf	100	Mox: 35
+eyepatch	25	none
+f3d0r4	110	Mox: 40
+fez of etymology	120	Mox: 45
+filthy knitted dread sack	60	Mox: 15
+foolscap fool's cap	40	Mox: 5
+football helmet	150	Mox: 60
+gasmask	50	Mox: 10
+goat beard	60	Mox: 15
+goofily-plumed helmet	70	Mox: 20
+green traffic cone	60	Mox: 15
+helmet turtle	10	none
+ice pick	100	none
+irate sombrero	45	Mus: 7
+Kentucky-style derby	20	none
+Knob Goblin elite helm	60	Mox: 15
+Knob Goblin harem veil	10	none
+Knob Goblin visor	50	Mox: 10
+leather mask	60	Mox: 15
+lihc face	90	Mox: 30
+linoleum helmet turtle	100	Mox: 35
+MAHI fez	200	Mox: 85
+maiden wig	35	Mox: 2
+meat cowboy hat	40	Mox: 5
+meatloaf helmet	55	Mox: 12
+meaty helmet turtle	70	Mox: 20
+mesh cap	130	Mox: 50
+miner's helmet	80	Mox: 25
+Mohawk wig	140	Mox: 55
+mullet wig	40	Mox: 5
+orange traffic cone	60	Mox: 15
+Orcish baseball cap	60	Mox: 15
+oriole-feather headdress	15	none
+pail	30	none
+pentacorn hat	40	Mox: 5
+pimpin' meat hat	55	Mox: 12
+pixel hat	50	Mox: 10
+plexiglass pith helmet	180	Mox: 75
+Radio Free Baseball Cap	150	Mox: 60
+ravioli hat	10	none
+red traffic cone	60	Mox: 15
+safarrri hat	90	Mox: 30
+sequined fez	80	Mox: 25
+snorkel	10	none
+Sombrero De Vida	50	Mox: 10
+spooky hockey mask	100	Mox: 35
+stainless steel skullcap	90	Mox: 30
+star hat	165	Mox: 67
+The Colander of Em-er'il	50	Mys: 10
+Dolphin King's crown	35	Mox: 2
+The Scalp of Gorgolok	50	Mus: 10
+time helmet	100	Mox: 35
+viking helmet	20	none
+wolf mask	150	Mox: 60
+wooden salad bowl	120	Mox: 45
+yellow plastic hard hat	90	Mox: 30
+yellow traffic cone	60	Mox: 15
+
+# Pants section.  This section includes all the items
+# which go in the "pants" slot of the equipment menu.
+
+1337 7r0uZ0RZ	110	Mox: 40
+alpha-mail pants	140	Mox: 55
+basic meat kilt	40	Mox: 5
+basic meat pants	40	Mox: 5
+basic meat skirt	40	Mox: 5
+bloody clown pants	50	Mox: 10
+Boss Bat britches	65	Mox: 17
+bowlegged pants	100	Mox: 35
+bugbear bungguard	30	none
+chain-mail monokini	30	none
+Cloaca-Cola fatigues	30	none
+clockwork pants	80	Mus: 25
+Crimbo pants	100	Mox: 35
+demonskin trousers	50	Mox: 10
+dungeoneer's dungarees	30	none
+Dyspepsi-Cola fatigues	30	none
+filthy corduroys	60	Mox: 15
+frilly skirt	35	Mox: 2
+furry kilt	150	Mox: 60
+furry pants	150	Mox: 60
+furry skirt	150	Mox: 60
+gnauga hide chaps	80	Mox: 25
+gnauga hide kilt	80	Mox: 25
+gnauga hide skirt	80	Mox: 25
+hippopotamus kilt	130	Mox: 50
+hippopotamus pants	130	Mox: 50
+hippopotamus skirt	130	Mox: 50
+junk-mail pants	50	Mox: 10
+Knob Goblin elite pants	60	Mox: 15
+Knob Goblin harem pants	10	none
+Knob Goblin pants	25	none
+Knob Goblin Uberpants	45	Mox: 7
+leather chaps	130	Mox: 50
+leotarrrd	90	Mox: 30
+los chinos	55	Mox: 12
+mariachi pants	10	none
+miner's pants	80	Mox: 25
+ninja hot pants	70	Mox: 20
+old school Mafia knickerbockers	100	Mox: 35
+Orcish cargo shorts	60	Mox: 15
+pants of the Slug Lord	35	Mox: 2
+paper-plate-mail pants	80	Mox: 25
+penguinskin mini-kilt	120	Mox: 45
+penguinskin mini-skirt	120	Mox: 45
+penguin shorts	120	Mox: 45
+pixel pants	50	Mox: 10
+plexiglass pants	180	Mox: 75
+Radio Free Pants	150	Mox: 60
+snowboarder pants	100	Mox: 35
+stainless steel slacks	90	Mox: 30
+star pants	165	Mox: 67
+sticky meat kilt	45	Mox: 7
+sticky meat pants	45	Mox: 7
+sticky meat skirt	45	Mox: 7
+studded leather boxer shorts	20	none
+swashbuckling pants	80	Mox: 25
+time trousers	100	Mox: 35
+tree skirt	100	Mox: 35
+troutpiece	110	Mox: 40
+white satin pants	40	Mox: 5
+yakskin kilt	140	Mox: 55
+yakskin pants	140	Mox: 55
+yakskin skirt	140	Mox: 55
+
+# Shirt section.  This section includes all the items
+# which go in the "shirt" slot of the equipment menu.
+
+Ascension Souvenir T-Shirt	15	none
+clockwork trench coat	80	Mus: 25
+coconut bikini top	100	Mus: 35
+filthy hippy poncho	40	Mus: 5
+floral print shirt	100	Mus: 35
+frilly shirt	20	none
+gingham blouse	100	Mus: 35
+goth kid t-shirt	100	Mus: 35
+harem girl t-shirt	25	none
+Knob Goblin elite shirt	35	Mus: 2
+loathing eagle baby-doll shirt	45	Mus: 7
+Mr. Shirt	30	none
+pirate shirt	50	Mus: 10
+rhinestone cowboy shirt	100	Mus: 35
+soggy wofl t-shirt	45	Mus: 7
+souvenir ski t-shirt	100	Mus: 35
+star shirt	165	Mus: 67
+supportive bra	50	Mox: 10
+
+# Weapon section.  This section includes all the items
+# which go in the "weapon" slot of the equipment menu.
+
+25-meat staff	70	Mus: 20	2
+5-Alarm Saucepan	50	Mus: 10
+7-Foot Dwarven mattock	80	Mus: 25	2
+arse-shooting crossbow	160	Mox: 65	2
+asbestos crossbow	110	Mox: 40	2
+asbestos staff	110	Mus: 40	2
+asbestos sword	110	Mus: 40	2
+asparagus knife	15	none
+automatic catapult	150	Mox: 60	2
+balloon sword	50	Mus: 10
+bamboo bokuto	100	Mus: 35
+basic meat crossbow	40	Mox: 5	2
+basic meat spork	45	Mus: 7
+basic meat staff	40	Mus: 5	2
+basic meat sword	40	Mus: 5
+batblade	110	Mus: 40
+big stick	10	none	2
+Bigger Bugfinder Blade	200	Mus: 85	2
+bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2
+Bjorn's Hammer	50	Mus: 10
+bow staff	100	Mus: 35	2
+bugbear-smiting sword	150	Mus: 60	2
+Bugfinder Blade	180	Mus: 75	2
+can of fake snow	100	Mox: 35
+can of maces	50	Mox: 10
+cheap plastic bottle opener	30	none
+chopsticks	75	Mus: 23
+chrome crossbow	120	Mox: 45	2
+chrome staff	120	Mus: 45	2
+chrome sword	120	Mus: 45	2
+Cloaca-Cola-issue combat knife	30	none
+cool whip	10	none
+crazy bastard sword	75	Mus: 22	2
+Crimbo sword	100	Mus: 35	2
+crowbarrr	80	Mus: 25	2
+denim axe	120	Mus: 45	2
+diamond-studded cane	60	Mus: 15
+disco ball	10	none
+Disco Banjo	50	Mox: 10	2
+Dr. Hobo's scalpel	35	Mus: 2
+dripping meat crossbow	50	Mox: 10	2
+dripping meat staff	50	Mus: 10	2
+dripping meat sword	50	Mus: 10	2
+duck-on-a-string	100	Mus: 35
+drywall axe	150	Mus: 60	2
+especially homoerotic frat-paddle	150	Mus: 60
+eXtreme meat crossbow	60	Mox: 15	2
+eXtreme meat staff	60	Mus: 15	2
+eXtreme meat sword	60	Mus: 15	2
+fetus-smashing club	200	Mus: 85	2
+frozen nunchaku	80	Mus: 25	2
+giant discarded plastic fork	155	Mus: 62	3
+giant needle	150	Mus: 60	2
+gnauga hide whip	20	none
+Gnollish autoplunger	60	Mus: 15	3
+Gnollish flyswatter	35	Mus: 2
+Gnollish nunchaku	45	Mus: 7	2
+Gnollish plunger	35	Mus: 2
+grave robbing shovel	80	Mus: 25	2
+halfberd	30	none
+heteroerotic frat-paddle	150	Mus: 60
+hippo whip	20	none
+homoerotic frat-paddle	70	Mus: 20
+huge mirror shard	30	none
+ice sickle	100	none	1
+icy-hot katana	90	Mus: 30	2
+iron pasta spoon	110	Mus: 40
+Kentucky-fried meat crossbow	80	Mox: 25	2
+Kentucky-fried meat staff	80	Mus: 25	2
+Kentucky-fried meat sword	80	Mus: 25	2
+kneecapping stick	90	Mus: 30
+Knob Goblin elite polearm	60	Mus: 15	2
+Knob Goblin scimitar	15	none
+Knob Goblin tongs	20	none
+lead yo-yo	80	Mox: 25
+linoleum crossbow	100	Mox: 35	2
+linoleum staff	100	Mus: 35	2
+linoleum sword	100	Mus: 35	2
+little paper umbrella	30	none
+lucky ball-and-chain	130	Mox: 50	2
+Mafia violin case	100	Mus: 35
+Mjolnir Jr.	200	Mus: 85
+ninja mop	90	Mus: 30
+Pasta of Peril	50	Mus: 10
+pasta spoon	10	none
+penguin whip	20	none
+pixel sword	50	Mus: 10
+plexiglass pike pike	180	Mus: 75	2
+Radio Free Foil	150	Mus: 60
+rib of the Bonerdagon	80	Mus: 25	2
+ridiculously huge sword	140	Mus: 55	3
+ridiculously overelaborate ninja weapon	100	Mus: 35	3
+Rock and Roll Legend	50	Mox: 10	2
+rubber axe	40	Mus: 5	2
+sabre teeth	60	Mus: 15
+sack of doorknobs	110	Mox: 50	2
+saucepan	10	none
+seal-clubbing club	10	none
+skeleton bone	30	none
+slightly peevedbow	60	Mox: 15	2
+slingshot	20	none	2
+spiked femur	100	Mus: 35
+spooky bicycle chain	80	Mus: 25
+spooky staff	35	Mus: 2	2
+spooky stick	30	none	2
+spork	30	none
+stainless steel shillelagh	90	Mus: 30
+star crossbow	165	Mox: 67	2
+star staff	165	Mus: 67	2
+star sword	165	Mus: 67	2
+stolen accordion	10	none	2
+stone banjo	25	none	2
+suede shortsword	40	Mus: 5
+sweet ninja sword	20	none
+time sword	100	Mus: 35
+tiny ninja sword	20	none
+tiny plastic sword	10	none
+titanium assault umbrella	130	Mus: 50
+Totally Gay Claymore	69	Mus: 19	2
+Turtleslinger	50	Mus: 10	2
+two-handed depthsword	120	Mus: 45	2
+Unionize The Elves sign	50	Mus: 10
+vorpal blade	90	Mus: 30
+Wand of Nagamar	30	none
+white sword	40	Mus: 5
+wholeberd	80	Mus: 25	2
+wooden axe	60	Mus: 15	2
+wooden stakes	25	none	2
+yak whip	20	none
+
+# Off-hand section.  This section includes all the items
+# which go in the "off-hand" slot of the equipment menu.
+
+anniversary balloon	0	none
+arrow'd heart balloon	0	none
+basic meat foon	0	Mus: 10
+box	0	none
+box-in-the-box	0	none
+box-in-the-box-in-the-box	0	none
+Cloaca-Cola shield	0	none
+clockwork detective skull	0	Mox: 25
+continuum transfunctioner	0	none
+detective skull	0	Mox: 15
+Dyspepsi-Cola shield	0	none
+easter egg balloon	0	Mys: 35
+enchanted brass knuckles	0	Mys: 10
+flaming talons	0	Mys: 30
+foon	0	none
+giant stuffed bugbear	0	none
+Glass Balls of the Goblin King	0	Mys: 20
+gnauga hide buckler	0	Mys: 30
+green balloon	0	none
+heart-shaped balloon	0	none
+hippo skin buckler	0	Mys: 30
+hypnodisk	0	none
+ice baby	0	none
+Kevlar balloon	0	none
+kickback cookbook	0	none
+magic lamp	0	none
+magical ice cubes	0	none
+marionette	0	Mys: 40
+mini-zeppelin	0	none
+miniature stuffed Goth Giant	0	none
+moxie magnet	0	none
+Mr. Balloon	0	none
+Mylar balloon	0	none
+oyster basket	0	none
+off-hand balloon	0	none
+penguin skin buckler	0	Mys: 30
+pirate hook	0	none
+rag doll	0	Mys: 40
+Raggedy Hippy doll	0	none
+red balloon	0	none
+rice bowl	0	none
+sock monkey	0	Mys: 40
+star buckler	0	Mys: 67
+steaming evil	0	Mus: 75
+stuffed can of asparagus	0	none
+stuffed dodecapede	0	none
+stuffed ghuol whelp	0	none
+stuffed Mob Penguin	0	none
+stuffed sabre-toothed lime	0	none
+stuffed stab bat	0	none
+stuffed yeti	0	none
+stuffed zmobie	0	none
+thought balloon	0	none
+voodoo doll	0	none
+white balloon	0	none
+yak skin buckler	0	Mys: 30
+
+# Accessories section.  While Coldfront lists an item
+# power for each item, I have no idea where those values
+# come from, so they're all zeroed.  These items go into
+# the "equipment" slot of the equipment menu.
+
+acid-squirting flower	0	Mys: 10
+amulet of extreme plot significance	0	Mys: 35
+arrrgyle socks	0	Mys: 20
+baconstone bracelet	0	Mys: 10
+baconstone earring	0	Mys: 10
+baconstone pendant	0	Mys: 10
+baconstone ring	0	Mys: 10
+badass belt	0	Mys: 35
+Baron Von Ratsworth's monocle	0	none
+Baron Von Ratsworth's money clip	0	none
+beer goggles	0	none
+bejeweled accordion strap	0	none
+big red clown nose	0	Mys: 10
+bling-bling	0	Mys: 7
+Bonerdagon necklace	0	Mys: 25
+Boris's ring	0	Mys: 25
+Boss Bat bling	0	Mys: 17
+Cape of the Goblin King	0	Mys: 20
+cement shoes	0	Mys: 35
+charrrm bracelet	0	Mys: 20
+clown shoes	0	Mys: 10
+colored-light "necklace"	0	Mys: 35
+consolation ribbon	0	none
+dead guy's watch	0	Mys: 10
+dirty hobo gloves	0	none
+disbelief suspenders	0	Mys: 10
+disembodied smile	0	none
+Dyspepsi-Cola-issue canteen	0	none
+enchanted toothpick	0	Mys: 25
+exclusive ultra-rare item	0	none
+eXtreme mittens	0	Mys: 40
+eXtreme nose ring	0	Mys: 10
+fuzzy bracelets	0	none
+giant pinky ring	0	Mys: 35
+glowing red eye	0	Mys: 60
+gnatwing earring	0	Mys: 20
+gnoll-tooth necklace	0	Mys: 25
+Golden Mr. Accessory	0	none
+hamethyst bracelet	0	Mys: 10
+hamethyst earring	0	Mys: 10
+hamethyst necklace	0	Mys: 10
+hamethyst ring	0	Mys: 10
+hemp bracelet	0	Mys: 20
+hockey stick of furious angry rage	0	Mys: 35
+ice skates	0	none
+imitation nice watch	0	Mys: 35
+incredibly dense meat gem	0	none
+infernal insoles	0	Mys: 15
+intergalactic pom poms	0	none
+Item #13	0	none
+Jarlsberg's earring	0	Mys: 25
+Jekyllin hide belt	0	none
+ladle of mystery	0	none
+Mafia bow tie	0	Mys: 35
+Mafia stogie	0	Mys: 35
+makeshift SCUBA gear	0	none
+Mr. Accessory	0	none
+Mr. Accessory Jr.	0	none
+Mr. Eh?	0	none
+Mr. Exploiter	0	none
+monster bait	0	none
+Ms. Accessory	0	none
+phat turquoise bracelet	0	Mys: 20
+Pine-Fresh air freshener	0	Mys: 10
+plexiglass pendant	0	Mys: 75
+plexiglass pinky ring	0	Mys: 75
+plexiglass pocketwatch	0	Mys: 75
+porquoise bracelet	0	Mys: 10
+porquoise eyebrow ring	0	Mys: 10
+porquoise necklace	0	Mys: 10
+porquoise ring	0	Mys: 10
+ring of adornment	0	Mys: 25
+ring of aggravate monster	0	Mys: 25
+ring of cold resistance	0	Mys: 25
+ring of conflict	0	Mys: 25
+ring of fire resistance	0	Mys: 25
+ring of gain strength	0	Mys: 25
+ring of half-assed regeneration	0	Mys: 10
+ring of increase damage	0	Mys: 25
+Scandalously Skimpy Bikini	0	Mox: 10
+severed rocking horse head	0	Mys: 10
+shiny ring	0	Mys: 10
+sk8board	0	Mys: 20
+Sneaky Pete's breath spray	0	Mys: 25
+special sauce glove	0	none
+spooky glove	0	none
+stainless steel scarf	0	Mys: 30
+stainless steel solitaire	0	Mys: 30
+stainless steel suspenders	0	Mys: 30
+string of blue beads	0	none
+string of green beads	0	none
+string of red beads	0	none
+stuffed shoulder parrot	0	Mys: 25
+support cummerbund	0	Mys: 35
+Talisman o' Nam	0	Mys: 25
+Talisman of Baio	0	none
+tiny plastic accordion thief	0	none
+tiny plastic angry goat	0	none
+tiny plastic baby gravy fairy	0	none
+tiny plastic barrrnacle	0	none
+tiny plastic bitchin' meatcar	0	none
+tiny plastic blood-faced volleyball	0	none
+tiny plastic Boris	0	none
+tiny plastic Cheshire bat	0	none
+tiny plastic Crimbo elf	0	none
+tiny plastic Crimbo reindeer	0	none
+tiny plastic Crimbo wreath	0	none
+tiny plastic cocoabo	0	none
+tiny plastic coffee pixie	0	none
+tiny plastic disco bandit	0	none
+tiny plastic fuzzy dice	0	none
+tiny plastic ghost pickle on a stick	0	none
+tiny plastic ghuol whelp	0	none
+tiny plastic grue	0	none
+tiny plastic hermit	0	none
+tiny plastic howling balloon monkey	0	none
+tiny plastic Jarlsberg	0	none
+tiny plastic killer bee	0	none
+tiny plastic leprechaun	0	none
+tiny plastic levitating potato	0	none
+tiny plastic mosquito	0	none
+tiny plastic pastamancer	0	none
+tiny plastic sabre-toothed lime	0	none
+tiny plastic sauceror	0	none
+tiny plastic seal clubber	0	none
+tiny plastic Sneaky Pete	0	none
+tiny plastic spooky pirate skeleton	0	none
+tiny plastic stab bat	0	none
+tiny plastic star starfish	0	none
+tiny plastic Susie	0	none
+tiny plastic sweet nutcracker	0	none
+tiny plastic turtle tamer	0	none
+tiny plastic Uncle Crimbo	0	none
+toy train	0	none
+walrus-tusk earring	0	Mys: 10
+Warehouse 23 bling	0	none
+Xlyinia's notebook	0	none
+ye olde golde frontes	0	none

@@ -1,0 +1,124 @@
+00	campground.php	rest	Rest at Campsite
+00	campground.php	relax	Relax in Beanbag
+
+01	shore.php	1	Muscle Vacation
+01	shore.php	2	Mysticality Vacation
+01	shore.php	3	Moxie Vacation
+01	adventure.php	45	South of the Border
+
+02	luckysewer.php	0	Market Sewer (Lucky)
+02	sewer.php	0	Market Sewer (Unlucky)
+
+03	casino.php	1	Goat Party
+03	casino.php	2	Pirate Party
+03	casino.php	11	Lemon Party
+
+03	adventure.php	70	Roulette Tables
+03	adventure.php	71	Poker Room
+
+04	adventure.php	9	Sleazy Back Alley
+04	adventure.php	10	Haunted Pantry
+
+04	adventure.php	16	Haiku Dungeon
+04	adventure.php	19	Limerick Dungeon
+04	adventure.php	38	Enormous Greater-Than Sign
+04	adventure.php	39	Dungeons of Doom
+04	dungeon.php	1	Daily Dungeon
+
+05	adventure.php	18	Degrassi Knoll
+05	adventure.php	20	Fun House
+05	adventure.php	21	Cemetary (Pre-Cyrpt)
+05	adventure.php	22	Fernswarthy's Tower
+05	adventure.php	58	Cemetary (Post-Cyrpt)
+05	adventure.php	78	Palindome
+
+06	adventure.php	11	Outskirts of The Knob
+06	adventure.php	40	Knob Goblin Kitchens
+06	adventure.php	41	Knob Goblin Treasury
+06	adventure.php	42	Knob Goblin Harem
+06	knob.php	0	The King's Chamber
+06	adventure.php	50	Knob Goblin Laboratory
+06	adventure.php	51	Menagerie (Level 1)
+06	adventure.php	52	Menagerie (Level 2)
+06	adventure.php	53	Menagerie (Level 3)
+
+07	adventure.php	30	Bat Hole Entryway
+07	adventure.php	31	Guano Junction
+07	adventure.php	32	Batrat and Ratbat Burrow
+07	adventure.php	33	Beanbat Chamber
+07	adventure.php	34	The Boss Bat's Lair
+
+08	adventure.php	54	Defiled Nook
+08	adventure.php	55	Defiled Cranny
+08	adventure.php	56	Defiled Alcove
+08	adventure.php	57	Defiled Niche
+08	cyrpt.php	Yep.	Haert of the Cyrpt
+
+09	adventure.php	15	Spooky Forest
+09	adventure.php	17	Hidden Temple
+09	adventure.php	25	Typical Tavern (Post-Rat)
+09	adventure.php	73	Inexplicable Door
+09	adventure.php	28	Whitey's Grove
+
+10	adventure.php	75	Dark Neck of the Woods
+10	adventure.php	76	Dark Heart of the Woods
+10	adventure.php	77	Dark Elbow of the Woods
+10	friars.php	0	Friar Ceremony Location
+10	adventure.php	79	Deep Fat Friar's Gate
+
+11	adventure.php	91	Noob Cave
+11	adventure.php	92	The Dire Warren
+11	mountains.php	0	The Orc Chasm (Pre-Bridge)
+11	adventure.php	80	Valley Beyond Orc Chasm
+
+12	adventure.php	60	Goatlet
+12	adventure.php	61	Itznotyerzitz Mine
+12	adventure.php	62	Ninja Snowmen
+12	adventure.php	63	eXtreme Slope
+12	adventure.php	64	Icy Peak
+
+13	adventure.php	26	Hippy Camp (No Disguise)
+13	adventure.php	65	Hippy Camp (In Disguise)
+13	adventure.php	27	Frat House (No Disguise)
+13	adventure.php	29	Frat House (In Disguise)
+13	adventure.php	66	Pirate Cove (No Disguise)
+13	adventure.php	67	Pirate Cove (In Disguise)
+
+14	adventure.php	81	Penultimate Fantasy Airship
+14	adventure.php	82	Castle in the Clouds in the Sky
+14	adventure.php	83	Hole in the Sky
+
+15	adventure.php	43	Outskirts of Camp
+15	adventure.php	44	Camp Logging Camp
+15	adventure.php	46	Thugnderdome
+15	adventure.php	47	Bugbear Pens
+15	adventure.php	48	Spooky Gravy Barrow
+
+16	clan_gym.php	1	Hobo-Flex Workout Machine
+16	clan_gym.php	2	Big Book of Magicalness
+16	clan_gym.php	3	Tan-U-Lots Tanning Bed
+
+# Sorceress Lair
+
+17	lair3.php	hedge	Sorceress' Hedge Maze
+17	lair6.php	5	Fight the Naughty Sorceress
+
+# Rift Locations
+
+18	adventure.php	85	Battlefield (No Uniform)
+18	adventure.php	86	Battlefield (Cloaca Uniform)
+18	adventure.php	87	Battlefield (Dyspepsi Uniform)
+18	adventure.php	59	Icy Peak (Past)
+
+# Holiday Locations
+
+19	adventure.php	37	Spectral Pickle Factory
+19	trickortreat.php	Yep.	Trick-or-Treating
+19	adventure.php	84	St. Sneaky Pete's Day Stupor
+
+# Discontinued Locations
+
+20	adventure.php	93	Crimbo Town Toy Factory
+20	adventure.php	88	Market Square (Future)
+20	adventure.php	89	The Mall (Future)
+20	adventure.php	90	Wrong Side of the Tracks (Future)

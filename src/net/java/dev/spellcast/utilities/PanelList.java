@@ -1,0 +1,307 @@
+/**
+ * Copyright (c) 2003, Spellcast development team
+ * http://spellcast.dev.java.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "Spellcast development team" nor the names of
+ *      its contributors may be used to endorse or promote products
+ *      derived from this software without specific prior written
+ *      permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.java.dev.spellcast.utilities;
+
+// layout
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
+import javax.swing.BoxLayout;
+import javax.swing.SwingConstants;
+
+// event listeners
+import javax.swing.SwingUtilities;
+import javax.swing.event.ListDataEvent;
+
+/**
+ * One of the consequences of using a <code>JList</code> is that, in order
+ * to allow selectability, many of the components within a rendered cell
+ * have no functionality; buttons cannot be clicked, and sublists cannot
+ * really exist.  However, two concepts of a JList are very useful: having
+ * ordered components which respond to changes in a <code>ListModel</code>,
+ * and having these components be displayed in a list-like fashion.  The
+ * point of this class is to implement those two features of a <code>JList</code>
+ * and ignore the selectable-index feature available to <code>JList</code>s.
+ *
+ * <br><br>
+ *
+ * This panel creates a list of which contains data mirroring a given
+ * <code>LockableListModel</code>.  Note, however, that this does not
+ * in any way keep track of what is added or removed in of itself, and
+ * relies on the <code>Container</code> component to implement that part
+ * of its functionality, which has the consequence of allowing all add()
+ * and remove() functions to be public.  Thus, if any components are added
+ * or removed from this list through other classes, the contents are no
+ * longer reliable and unanticipated exceptions may be thrown.
+ */
+
+public abstract class PanelList extends javax.swing.JPanel implements javax.swing.Scrollable
+{
+	private int visibleRows;
+	private int cellHeight, cellWidth;
+
+	/**
+	 * Constructs a new <code>PanelList</code> which will respond to changes in
+	 * the given <code>LockableListModel</code> by adding or removing
+	 * components as needed.
+	 *
+	 * @param	visibleRows	if this component is inside a <code>JScrollPane</code>,
+	 *						this reflects the number of rows that should be visible
+	 *						in the viewport; otherwise, this value indicates the
+	 *						minimum size of the panel
+	 * @param	cellHeight	the height of each individual cell in the <code>PanelList</code>
+	 * @param	cellWidth	the width of each individual cell in the <code>PanelList</code>
+	 * @param	associatedListModel	the list model associated with this <code>PanelList</code>
+	 */
+
+	public PanelList( int visibleRows, int cellWidth, int cellHeight, LockableListModel associatedListModel )
+	{	this( visibleRows, cellWidth, cellHeight, associatedListModel, false );
+	}
+
+	/**
+	 * Constructs a new <code>PanelList</code> which will respond to changes in
+	 * the given <code>LockableListModel</code> by adding or removing
+	 * components as needed.
+	 *
+	 * @param	visibleRows	if this component is inside a <code>JScrollPane</code>,
+	 *						this reflects the number of rows that should be visible
+	 *						in the viewport; otherwise, this value indicates the
+	 *						minimum size of the panel
+	 * @param	cellHeight	the height of each individual cell in the <code>PanelList</code>
+	 * @param	cellWidth	the width of each individual cell in the <code>PanelList</code>
+	 * @param	associatedListModel	the list model associated with this <code>PanelList</code>
+	 */
+
+	public PanelList( int visibleRows, int cellWidth, int cellHeight, LockableListModel associatedListModel, boolean useBoxLayout )
+	{
+		super();  this.setLayout( useBoxLayout ? (LayoutManager) new BoxLayout( this, BoxLayout.Y_AXIS ) : (LayoutManager) new FlowLayout() );
+		this.visibleRows = visibleRows;  this.cellHeight = cellHeight;  this.cellWidth = cellWidth;
+
+		// check to see if there are any components within the associated list
+		// model, and add them to the existing panel list if they do exist;
+		// note that if the associated list model is null, this panel becomes
+		// fairly meaningless, but a null pointer exception will not be thrown
+
+		if ( associatedListModel != null )
+		{
+			Object [] contents = associatedListModel.toArray();
+
+			for ( int i = 0; i < contents.length; ++i )
+				add( (Component) constructPanelListCell( contents[i], i ), i );
+
+			validatePanelList();
+			associatedListModel.addListDataListener( new PanelListListener() );
+		}
+	}
+
+	/**
+	 * Overridden so that individual components may be enabled and disabled.
+	 * This is different from the behavior of a normal JPanel, because the
+	 * children of a <code>PanelList</code> should be enabled and disabled
+	 * with the parent list.
+	 *
+	 * @param	isEnabled	<code>true</code> if the list should be enabled
+	 */
+
+	public void setEnabled( boolean isEnabled )
+	{
+		int componentCount = getComponentCount();
+		for ( int i = 0; i < componentCount; ++i )
+			getComponent( i ).setEnabled( isEnabled );
+	}
+
+	/**
+	 * Returns a <code>PanelListCell</code> constructed from the given Object, to be
+	 * positioned at the given index in the <code>PanelList</code>.
+	 *
+	 * @param	value	the object which contains the data needed to construct the display
+	 * @param	index	this cell's intended index within the <code>PanelList</code>
+	 * @return	the constructed panel list cell
+	 */
+
+	protected abstract PanelListCell constructPanelListCell( Object value, int index );
+
+	/**
+	 * A private function used to validate the panel list.  The function serves
+	 * to resize the display, as appropriate.  This allows any function which
+	 * is controlling the <code>Scrollable</code> elements of the list to
+	 * properly adjust themselves to accomodate the updated panel.
+	 */
+
+	private void validatePanelList()
+	{
+		// reset the size of the container according to the number
+		// of elements currently found in the container
+
+		int displayedRows = getComponentCount() > visibleRows ? getComponentCount() : visibleRows;
+		int appropriateHeight = displayedRows * getScrollableUnitIncrement( null, SwingConstants.VERTICAL, 1 );
+		JComponentUtilities.setComponentSize( this, cellWidth, appropriateHeight );
+		invalidate();  validate();  repaint();
+	}
+
+	/**
+	 * Returns the preferred size of the scrollable viewport.  Used by classes such as
+	 * the <code>JScrollPane</code> to determine how much of the panel should be visible.
+	 */
+
+	public Dimension getPreferredScrollableViewportSize()
+	{	return new Dimension( cellWidth, visibleRows * cellHeight );
+	}
+
+	/**
+	 * Returns the amount that is needed to display a single cell, given the visible rectangle
+	 * and the direction to be scrolled.
+	 *
+	 * @param	visibleRect	the visible rectangular area seen in the viewport
+	 * @param	orientation	the orientation of the scrollbar that was clicked
+	 * @param	direction	the direction (with respect to the scrollbar) that is being scrolled;
+	 *						positive indicates a right/down, negative indicates up/left
+	 * @return	the amount that needs to be scrolled to display the next cell
+	 */
+
+	public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction)
+	{	return orientation == SwingConstants.HORIZONTAL ? 0 : cellHeight;
+	}
+
+	/**
+	 * Returns the amount that is needed to display a single block of cells, given the visible
+	 * rectangle and the direction to be scrolled.
+	 *
+	 * @param	visibleRect	the visible rectangular area seen in the viewport
+	 * @param	orientation	the orientation of the scrollbar that was clicked
+	 * @param	direction	the direction (with respect to the scrollbar) that is being scrolled;
+	 *						positive indicates a right/down, negative indicates up/left
+	 * @return	the amount that needs to be scrolled to display the next block of cells
+	 */
+
+	public int getScrollableBlockIncrement( Rectangle visibleRect, int orientation, int direction )
+	{	return orientation == SwingConstants.HORIZONTAL ? 0 :
+				(visibleRows - 1) * getScrollableUnitIncrement( visibleRect, orientation, direction );
+	}
+
+	/**
+	 * This function always returns false to indicate that this scrollable does not
+	 * force the height of the viewport to match the height of the display.  The height
+	 * is instead recomputed each time a component is added/removed.
+	 */
+
+	public boolean getScrollableTracksViewportHeight()
+	{	return false;
+	}
+
+	/**
+	 * This function always returns false to indicate that this scrollable does not
+	 * force the width of the viewport to match the width of the display.  The width
+	 * is instead recomputed each time a component is added/removed.
+	 */
+
+	public boolean getScrollableTracksViewportWidth()
+	{	return false;
+	}
+
+	/**
+	 * Rather than having the PanelList implement <code>ListDataListener</code>, it
+	 * instead defers all listening to this listener class, which then listens on
+	 * the <code>LockableListModel</code> for changes in its underlying structure.
+	 */
+
+	private class PanelListListener implements javax.swing.event.ListDataListener
+	{
+		/**
+		 * Called whenever contents have been added to the original list; a
+		 * function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public void intervalAdded( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 >= source.size() || source.size() == getComponentCount() )
+				return;
+
+			for ( int i = index0; i <= index1; ++i )
+				add( (Component) constructPanelListCell( source.get(i), i ), i );
+
+			validatePanelList();
+		}
+
+		/**
+		 * Called whenever contents have been removed from the original list;
+		 * a function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public void intervalRemoved( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 >= getComponentCount() || source.size() == getComponentCount() )
+				return;
+
+			for ( int i = index1; i >= index0; --i )
+				remove(i);
+
+			validatePanelList();
+		}
+
+		/**
+		 * Called whenever contents in the original list have changed; a
+		 * function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public void contentsChanged( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 >= getComponentCount() )
+				return;
+
+			for ( int i = index1; i >= index0; --i )
+				((PanelListCell)getComponent(i)).updateDisplay( PanelList.this, source.get(i), i );
+
+			validatePanelList();
+		}
+	}
+}

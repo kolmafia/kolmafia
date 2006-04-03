@@ -1,0 +1,495 @@
+/**
+ * Copyright (c) 2005, KoLmafia development team
+ * http://kolmafia.sourceforge.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "KoLmafia development team" nor the names of
+ *      its contributors may be used to endorse or promote products
+ *      derived from this software without specific prior written
+ *      permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.sourceforge.kolmafia;
+
+import java.io.BufferedReader;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Set;
+
+/**
+ * A static class which retrieves all the tradeable items available in
+ * the Kingdom of Loathing and allows the client to do item look-ups.
+ * The item list being used is a parsed and resorted list found on
+ * Ohayou's Kingdom of Loathing website.  In order to decrease server
+ * load, this item list is stored within the JAR archive.
+ */
+
+public class TradeableItemDatabase extends KoLDatabase
+{
+	private static IntegerArray useTypeByID = new IntegerArray();
+	private static IntegerArray priceByID = new IntegerArray();
+	private static StringArray descByID = new StringArray();
+
+	private static Map nameByItemID = new TreeMap();
+	private static Map itemIDByName = new TreeMap();
+
+	static
+	{
+		// This begins by opening up the data file and preparing
+		// a buffered reader; once this is done, every line is
+		// examined and double-referenced: once in the name-lookup,
+		// and again in the ID lookup.
+
+		BufferedReader reader = getReader( "tradeitems.dat" );
+
+		String [] data;
+
+		while ( (data = readData( reader )) != null )
+		{
+			if ( data.length == 4 )
+			{
+				int itemID = Integer.parseInt( data[0] );
+				Integer id = new Integer( itemID );
+
+				useTypeByID.set( itemID, Integer.parseInt( data[2] ) );
+				priceByID.set( itemID, Integer.parseInt( data[3] ) );
+
+				itemIDByName.put( getCanonicalName( data[1] ), id );
+				nameByItemID.put( id, getDisplayName( data[1] ) );
+			}
+		}
+
+		// Next, retrieve the description IDs using the data
+		// table present in MaxDemian's database.
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
+
+		reader = getReader( "itemdescs.dat" );
+
+		while ( (data = readData( reader )) != null )
+		{
+			boolean isDescriptionID = true;
+			if ( data.length >= 2 && data[1].length() > 0 )
+			{
+				isDescriptionID = true;
+				for ( int i = 0; i < data[1].length() && isDescriptionID; ++i )
+					if ( !Character.isDigit( data[1].charAt(i) ) )
+						isDescriptionID = false;
+
+				if ( isDescriptionID )
+					descByID.set( Integer.parseInt( data[0].trim() ), data[1] );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Temporarily adds an item to the item database.  This
+	 * is used whenever KoLmafia encounters an unknown item
+	 * in the mall or in the player's inventory.
+	 */
+
+	public static void registerItem( int itemID, String itemName )
+	{
+		KoLmafia.getLogStream().println( "New item: \"" + itemName + "\" (" + itemID + ")" );
+
+		useTypeByID.set( itemID, 0 );
+		priceByID.set( itemID, 0 );
+		descByID.set( itemID, "" );
+
+		Integer id = new Integer( itemID );
+
+		itemIDByName.put( getCanonicalName( itemName ), id );
+		nameByItemID.put( id, getDisplayName( itemName ) );
+	}
+
+	/**
+	 * Returns the ID number for an item, given its name.
+	 * @param	itemName	The name of the item to lookup
+	 * @return	The ID number of the corresponding item
+	 */
+
+	public static final int getItemID( String itemName )
+	{	return getItemID( itemName, 1 );
+	}
+
+	/**
+	 * Returns the ID number for an item, given its name.
+	 * @param	itemName	The name of the item to lookup
+	 * @param	count		How many there are
+	 * @return	The ID number of the corresponding item
+	 */
+
+	public static final int getItemID( String itemName, int count )
+	{
+		if ( itemName == null || itemName.length() == 0 )
+			return -1;
+
+		// Get the canonical name of the item, and attempt
+		// to parse based on that.
+
+		String canonicalName = getCanonicalName( itemName );
+		Object itemID = itemIDByName.get( canonicalName );
+
+		// If the name, as-is, exists in the item database,
+		// then go ahead and return the item ID.
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// If there's no more than one, don't deal with pluralization
+		if ( count < 2 )
+			return -1;
+
+		// If it's a snowcone, then reverse the word order
+		if ( canonicalName.startsWith( "snowcones" ) )
+			return getItemID( canonicalName.split( " " )[1] + " snowcone", count );
+
+		// If this is the pluralized version of chewing
+		// gum, then return the ID for chewing gum.
+
+		if ( canonicalName.equals( "chewing gums on strings" ) )
+			return SewerRequest.GUM.getItemID();
+
+		// If it's the plural form of boxed wine, which
+		// looks nothing like boxed wine, then return
+		// the ID for boxed wine.
+
+		if ( canonicalName.equals( "boxes of wine" ) )
+			return 1005;
+
+		// Black Lotuses are KoL-pluralized as Black Loti
+		// Not that you are likely to have lots of them.
+
+		if ( canonicalName.equals( "black loti" ) )
+			return 1188;
+
+		// Yo-yos are pluralized in a very strange way as
+		// well, and require special handling.
+
+		if ( canonicalName.equals( "yo-yo-yo" ) )
+			return 1389;
+
+		// Mr. Accessory Jrs. are also pluralized in an
+		// unconventional manner (slightly, anyway)
+
+		if ( canonicalName.equals( "mr. accessory jrs." ) )
+			return 896;
+
+		// One zombie pineal gland, Two zombie glands pineal.
+		// For some reason.
+
+		if ( canonicalName.equals( "zombie glands pineal" ) )
+			return 1343;
+
+		// Fedoras are pluralized 1337-style, so make sure
+		// they are recognized as well.
+
+		if ( canonicalName.equals( "f3d0r45" ) )
+			return 538;
+
+		// The dead guy's watch has a double plural -- so
+		// it's not just as easy as doing a possessive.
+
+		if ( canonicalName.equals( "dead guys' watches" ) )
+			return 230;
+
+		// A little sump'm sump'm loses the "a" and pluralizes
+		// itself -- therefore, it also must be handled in a
+		// different way.
+
+		if ( canonicalName.equals( "little sump'm sump'ms" ) )
+			return 682;
+
+		// The word right before the dash may also be pluralized,
+		// so make sure the dashed words are recognized.
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "es-", "-" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "s-", "-" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// If it's a plural form of "tooth", then make
+		// sure that it's handled.  Other things which
+		// also have "ee" plural forms should be clumped
+		// in as well.
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ee", "oo" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// Also handle the plural of vortex, which is
+		// "vortices" -- this should only appear in the
+		// meat vortex, but better safe than sorry.
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ices", "ex" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// Handling of appendices (which is the plural
+		// of appendix, not appendex, so it is not caught
+		// by the previous test).
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ices", "ix" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// Also add in a special handling for knives
+		// and other things ending in "ife".
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ives", "ife" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// Also add in a special handling for elves
+		// and other things ending in "f".
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ves", "f" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// Also add in a special handling for staves
+		// and other things ending in "aff".
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "aves", "aff" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// If it's a pluralized form of something that
+		// ends with "y", then return the appropriate
+		// item ID for the "y" version.
+
+		if ( canonicalName.endsWith( "ies" ) )
+			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 3 ) + "y" );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "ies ", "y " ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// If it's a pluralized form of something that
+		// ends with "o", then return the appropriate
+		// item ID for the "o" version.
+
+		if ( canonicalName.endsWith( "es" ) )
+			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 2 ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "es ", " " ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// If it's a pluralized form of something that
+		// ends with "an", then return the appropriate
+		// item ID for the "en" version.
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "en ", "an " ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// If it's a standard pluralized forms, then
+		// return the appropriate item ID.
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "([A-Za-z])s ", "$1 " ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		if ( canonicalName.endsWith( "s" ) )
+			itemID = itemIDByName.get( canonicalName.substring( 0, canonicalName.length() - 1 ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// If it's a cactus, then go ahead and return
+		// the appropriate cactus-type ID.
+
+		itemID = itemIDByName.get( canonicalName.replaceFirst( "cacti", "cactus" ) );
+
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
+
+		// Attempt to find the item name by brute force
+		// by checking every single space location.  Do
+		// this recursively for best results.
+
+		int lastSpaceIndex = canonicalName.indexOf( " " );
+		return lastSpaceIndex != -1 ? getItemID( canonicalName.substring( lastSpaceIndex ).trim(), count ) : -1;
+	}
+
+	/**
+	 * Returns the price for the item with the given ID.
+	 * @return	The price associated with the item
+	 */
+
+	public static final int getPriceByID( int itemID )
+	{	return priceByID.get( itemID );
+	}
+
+	/**
+	 * Returns true if the item is tradeable, otherwise false
+	 * @return	true if item is tradeable
+	 */
+
+	public static final boolean tradeable( int itemID )
+	{
+		int price = priceByID.get( itemID );
+		return price == -1 || price > 0;
+	}
+
+	/**
+	 * Returns the name for an item, given its ID number.
+	 * @param	itemID	The ID number of the item to lookup
+	 * @return	The name of the corresponding item
+	 */
+
+	public static final String getItemName( int itemID )
+	{	return (String)nameByItemID.get( new Integer( itemID ) );
+	}
+
+	/**
+	 * Returns a list of all items which contain the given
+	 * substring.  This is useful for people who are doing
+	 * lookups on items.
+	 */
+
+	public static final List getMatchingNames( String substring )
+	{	return getMatchingNames( itemIDByName, substring );
+	}
+
+	/**
+	 * Returns whether or not an item with a given name
+	 * exists in the database; this is useful in the
+	 * event that an item is encountered which is not
+	 * tradeable (and hence, should not be displayed).
+	 *
+	 * @return	<code>true</code> if the item is in the database
+	 */
+
+	public static final boolean contains( String itemName )
+	{	return getItemID( itemName ) != -1;
+	}
+
+	/**
+	 * Returns whether or not the item with the given name
+	 * is usable (this includes edibility).
+	 *
+	 * @return	<code>true</code> if the item is usable
+	 */
+
+	public static final boolean isUsable( String itemName )
+	{
+		int itemID = getItemID( itemName );
+
+		if ( itemID < 1 )
+			return false;
+
+		switch ( useTypeByID.get( itemID ) )
+		{
+			case ConsumeItemRequest.CONSUME_EAT:
+			case ConsumeItemRequest.CONSUME_DRINK:
+			case ConsumeItemRequest.CONSUME_USE:
+			case ConsumeItemRequest.CONSUME_MULTIPLE:
+			case ConsumeItemRequest.GROW_FAMILIAR:
+			case ConsumeItemRequest.CONSUME_ZAP:
+			case ConsumeItemRequest.CONSUME_RESTORE:
+				return true;
+			default:
+				return false;
+		}
+	}
+
+	/**
+	 * Returns the kind of consumption associated with an item
+	 *
+	 * @return	The consumption associated with the item
+	 */
+
+	public static final int getConsumptionType( int itemID )
+	{	return itemID == -1 ? ConsumeItemRequest.NO_CONSUME : useTypeByID.get( itemID );
+	}
+
+	public static final int getConsumptionType( String itemName )
+	{	return getConsumptionType( getItemID( itemName ) );
+	}
+
+	/**
+	 * Returns the item description ID used by the given
+	 * item, given its item ID.
+	 *
+	 * @return	The description ID associated with the item
+	 */
+
+	public static final String getDescriptionID( int itemID )
+	{	return descByID.get( itemID );
+	}
+
+	/**
+	 * Returns the set of items keyed by name
+	 * @return	The set of items keyed by name
+	 */
+
+	public static Set entrySet()
+	{	return nameByItemID.entrySet();
+	}
+}

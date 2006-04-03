@@ -1,0 +1,622 @@
+# Christmas-specific items which can be created through combination or
+# smithing.
+
+present	1	box	wrapping paper
+bow staff	4	big stick	bow
+bowlegged pants	4	basic meat pants	bow
+bowler	4	basic meat helmet	bow
+Crimbo hat	4	wrapping paper	helmet recipe
+Crimbo pants	4	wrapping paper	pants kit
+Crimbo sword	4	wrapping paper	sword hilt
+
+
+# Quest items which are created by combination and their subparts.
+
+abridged dictionary	1	bridge	dictionary
+badass belt	1	batskin belt	dragonbone belt buckle
+bitchin' meatcar	1	dope wheels	meat engine
+bone rattle	1	skeleton bone	broken skull
+Bonerdagon necklace	1	necklace chain	vertebra of the Bonerdagon
+cog and sprocket assembly	1	cog	sprocket assembly
+dope wheels	1	tires	sweet rims
+full meat tank	1	empty meat tank	meat stack
+heavy metal sonata	1	chrome ore	drab sonata
+heavy metal thunderrr guitarrr	1	acoustic guitarrr	chrome ore
+hosed tank	1	fishtank	fish hose
+intragalactic rowboat	1	S.O.C.K.	quantum egg
+makeshift SCUBA gear	1	hosed tank	fishbowl
+oyster basket	1	tisket	tasket
+really really sticky spider web	1	really sticky spider web	really sticky spider web
+really sticky spider web	1	spider web	spider web
+skeleton key	1	skeleton bone	loose teeth
+T-bone key	1	rusty L-shaped piece of metal	crusty L-shaped piece of metal
+tambourine	1	Gnollish pie tin	tambourine bells
+
+
+# Items involved with the campground, or subcomponents involved in the
+# creation of campground items.
+
+barskin tent	1	bar skin	wooden stakes
+beanbag chair	1	beans	filthy knitted dread sack
+cottage	1	anticheese	bowl of cottage cheese
+evil golden arches	1	evil golden arch	evil golden arch
+lifeless meat doll	1	meat face	wooden figurine
+maid head	1	brainy skull	maiden wig
+meat engine	1	full meat tank	cog and sprocket assembly
+meat face	1	fairy gravy	dried face
+meat golem	1	lifeless meat doll	magicalness-in-a-can
+Meat maid	1	maid head	Meat maid body
+Meat maid body	1	frilly skirt	meat engine
+pretty bouquet	1	pretty flower	pretty flower
+spooky scarecrow	1	wooden stakes	spooky staff
+
+
+# Weapons and accessories that can be created by non-seal clubbers by
+# combining items.
+
+asshat	1	bum cheek	bum cheek
+charrrm bracelet	1	hemp bracelet	charrrm
+detective skull	1	gnoll lips	brainy skull
+disembodied smile	1	gnoll lips	gnoll teeth
+enchanted eyepatch	1	eyepatch	lihc eye
+gnatwing earring	1	gnatwing	piercing post
+gnoll-tooth necklace	1	gnoll teeth	necklace chain
+Gnollish autoplunger	1	Gnollish plunger	meat engine
+icy-hot katana	1	icy katana hilt	hot katana blade
+meat cowboy hat	1	basic meat helmet	whitesnake skin
+phat turquoise bracelet	1	hemp bracelet	phat turquoise bead
+pimpin' meat hat	1	basic meat helmet	bling-bling
+spooky staff	1	spooky shrunken head	spooky stick
+Talisman o' Nam	1	snakehead charrrm	snakehead charrrm
+
+
+# Clover weapons and their subcomponents.  These can be made by all
+# classes by combining items.
+
+ten-leaf clover	16	disassembled clover
+disassembled clover	16	ten-leaf clover
+seal-toothed rock	1	big rock	seal tooth
+Bjorn's Hammer	1	seal-clubbing club	seal-toothed rock
+turtle factory	1	big rock	scroll of turtle summoning
+Turtleslinger	1	slingshot	turtle factory
+spaghetti with rock-balls	1	big rock	ravioli hat
+Pasta of Peril	1	spaghetti with rock-balls	pasta spoon
+heavy hot sauce	1	big rock	jaba&ntilde;ero pepper
+5-Alarm Saucepan	1	heavy hot sauce	saucepan
+stone banjo	1	big rock	banjo strings
+Disco Banjo	1	disco ball	stone banjo
+heart of rock and roll	1	big rock	hot buttered roll
+Rock and Roll Legend	1	heart of rock and roll	stolen accordion
+
+
+# Familiar items and their subcomponents which do not serve any other
+# recalled purpose.
+
+balloon helmet	1	long skinny balloon	long skinny balloon
+balloon monkey	1	balloon sword	long skinny balloon
+balloon sword	1	balloon helmet	long skinny balloon
+cocoa egg	2	large cocoa eggshell fragment	large cocoa eggshell fragment
+fertilized ghuol egg	1	ghuol egg	Spooky-Gro fertilizer
+goat	1	anticheese	goat cheese
+hovering sombrero	1	irate sombrero	poultrygeist
+large cocoa eggshell fragment	2	cocoa eggshell fragment	cocoa eggshell fragment
+one-winged stab bat	1	batblade	bat wing
+pirate skull	1	eyepatch	brainy skull
+pregnant gloomy black mushroom	2	gloomy black mushroom	spooky fairy gravy
+pregnant oily golden mushroom	2	oily golden mushroom	sleazy fairy gravy
+pregnant mushroom	2	Knob mushroom	fairy gravy
+rewinged stab bat	1	bat wing	one-winged stab bat
+sabre-toothed lime cub	1	lime	sabre teeth
+sleazy fairy gravy	2	pr0n legs	fairy gravy
+ghost pickle on a stick	2	spectral pickle	skewer
+
+clockwork pirate skull	1	clockwork sphere	enchanted eyepatch
+pirate zombie head	1	clockwork pirate skull	zombie pineal gland
+pirate zombie robot head	1	pirate zombie head	glowing red eye
+ninja pirate zombie robot head	1	pirate zombie robot head	cold ninja mask
+
+# Box parts and things that go into boxes or become boxes or are involved
+# in some way with boxes and the things that become/go into them.
+
+bartender skull	1	brainy skull	beer goggles
+bartender-in-the-box	1	bartender-skull-in-the-box	cocktailcrafting kit
+bartender-skull-in-the-box	1	nothing-in-the-box	bartender skull
+beer goggles	1	beer lens	beer lens
+box-in-the-box	1	box	nothing-in-the-box
+box-in-the-box-in-the-box	1	box	nothing-in-the-box-in-the-box
+brainy skull	1	disembodied brain	smart skull
+chef skull	1	brainy skull	chef's hat
+chef-in-the-box	1	chef-skull-in-the-box	E-Z Cook Oven&trade;
+chef-skull-in-the-box	1	nothing-in-the-box	chef skull
+nothing-in-the-box	1	box	spring
+nothing-in-the-box-in-the-box	1	box-in-the-box	spring
+sprocket assembly	1	sprocket	spring
+
+
+# Items created by combining letters and/or numbers.
+
+31337 scroll	1	30669 scroll	668 scroll
+64067 scroll	1	30669 scroll	33398 scroll
+64735 scroll	1	64067 scroll	668 scroll
+668 scroll	1	334 scroll	334 scroll
+ND	1	lowercase N	heavy D
+NG	1	lowercase N	original G
+WA	1	metallic A	ruby W
+Wand of Nagamar	1	WA	ND
+wang	1	WA	NG
+
+
+# Burritos, pizza and statue lime pies.  These are a class all their own
+# because of their popularity.  Other really popular items, like spectral
+# pickles, are also included.
+
+bean burrito	2	flat dough	beans
+Boris's key lime	2	Boris's key	lime
+Boris's key lime pie	2	Boris's key lime	pie crust
+briny vinegar	2	brine	vinegar
+enchanted bean burrito	2	flat dough	enchanted bean
+flower petal pie	2	pretty flower	pie crust
+ghostly pickling solution	2	briny vinegar	dill
+goat cheese pizza	2	plain pizza	goat cheese
+herb brownies	2	herbs	Uncle Jick's Brownie Mix
+hippy herbal tea	2	guano coffee cup	herbs
+insanely spicy bean burrito	2	spicy bean burrito	jaba&ntilde;ero pepper
+insanely spicy enchanted bean burrito	2	spicy enchanted bean burrito	jaba&ntilde;ero pepper
+insanely spicy jumping bean burrito	2	spicy jumping bean burrito	jaba&ntilde;ero pepper
+Jarlsberg's key lime	2	Jarlsberg's key	lime
+Jarlsberg's key lime pie	2	Jarlsberg's key lime	pie crust
+jumping bean burrito	2	flat dough	jumping beans
+Lucky Surprise Egg	2	ten-leaf clover	cocoa egg
+mushroom pizza	2	plain pizza	Knob mushroom
+pie crust	2	Gnollish pie tin	wad of dough
+plain pizza	2	wad of dough	tomato
+sausage pizza	2	plain pizza	Knob sausage
+spicy bean burrito	2	bean burrito	spices
+spicy enchanted bean burrito	2	enchanted bean burrito	spices
+spicy jumping bean burrito	2	jumping bean burrito	spices
+Sneaky Pete's key lime	2	Sneaky Pete's key	lime
+Sneaky Pete's key lime pie	2	Sneaky Pete's key lime	pie crust
+spectral pickle	2	ghost cucumber	ghostly pickling solution
+
+flat dough	11	wad of dough
+wad of dough	11	flat dough
+
+# Other recipes which aren't popular but can be created.  There is no
+# real reason why they aren't popular - they just aren't.
+
+bat haggis	2	batgut	spices
+bat wing kabob	2	bat wing	skewer
+carob brownies	2	carob chunks	Uncle Jick's Brownie Mix
+carob chunk cookies	2	carob chunks	wad of dough
+chorizo taco	2	uncooked chorizo	taco shell
+ghuol egg quiche	2	ghuol egg	pie crust
+ghuol-ear kabob	2	ghuol ears	skewer
+grue egg omelette	2	grue egg	spooky mushroom
+Knob shroomkabob	2	Knob mushroom	skewer
+Knoll shroomkabob	2	Knoll mushroom	skewer
+lihc eye pie	2	lihc eye	pie crust
+menudo	2	catgut	spices
+papaya taco	2	papaya	taco shell
+pr0n cocktail	2	pr0n legs	ketchup
+rat appendix-kabob	2	rat appendix	skewer
+rat scrapple	2	ratgut	spices
+skewered cat appendix	2	cat appendix	skewer
+spooky shroomkabob	2	spooky mushroom	skewer
+stuffed spooky mushroom	2	spooky mushroom	goat cheese
+tofu casserole	2	wad of tofu	Gnollish casserole dish
+white chocolate chip cookies	2	white chocolate chips	wad of dough
+
+
+# Standard, tier 1 and tier 2 beverages.  Nothing special about
+# these mixtures except everyone can make them.
+
+bloody beer	3	tomato	[41]
+bloody mary	3	tomato	bottle of vodka
+eggnog	3	ghuol egg	spiced rum
+fine wine	3	grapes	fermenting powder
+papaya sling	3	papaya	bottle of gin
+shot of flower schnapps	3	fermenting powder	pretty flower
+shot of grapefruit schnapps	3	grapefruit	fermenting powder
+shot of orange schnapps	3	orange	fermenting powder
+shot of tomato schnapps	3	fermenting powder	tomato
+green beer	3	ten-leaf clover	[41]
+
+
+# Tier 3 and tier 4 beverages which can be made by anyone.  These are
+# believed to be the best creatable drinks without buying a DB's skills or
+# using a tiny plastic sword.
+
+extra-spicy bloody mary	3	bloody mary	spices
+especially salty dog	3	salty dog	brine
+margarita	3	bottle of tequila	lemon
+martini	3	bottle of gin	olive
+monkey wrench	3	bottle of rum	grapefruit
+salty dog	3	bottle of gin	grapefruit
+redrum	3	bottle of rum	cranberries
+rum and cola	3	bottle of rum	Dyspepsi-Cola
+screwdriver	3	bottle of vodka	orange
+spiced rum	3	bottle of rum	spices
+strawberry daiquiri	3	bottle of rum	strawberry
+strawberry wine	3	boxed wine	strawberry
+tequila sunrise	3	bottle of tequila	orange
+vodka and cranberry	3	bottle of vodka	cranberries
+vodka martini	3	bottle of vodka	olive
+whiskey and cola	3	bottle of whiskey	Dyspepsi-Cola
+whiskey and soda	3	bottle of whiskey	soda water
+whiskey sour	3	bottle of whiskey	lemon
+white Canadian	3	bottle of vodka	glass of goat's milk
+wine spritzer	3	boxed wine	soda water
+
+
+# Tier 3, 4 and 5 beverages which can only be made by DBs.
+# These include the popular umbrella, coconut and ice drinks.
+
+a little sump'm sump'm	7	martini	little paper umbrella
+horizontal tango	7	wine spritzer	little paper umbrella
+roll in the hay	7	whiskey and soda	little paper umbrella
+ducha de oro	7	tequila sunrise	little paper umbrella
+
+fuzzbump	7	whiskey sour	coconut shell
+slip 'n' slide	7	screwdriver	coconut shell
+ocean motion	7	monkey wrench	coconut shell
+pink pony	7	strawberry wine	coconut shell
+
+slap and tickle	7	salty dog	magical ice cubes
+rockin' wagon	7	vodka martini	magical ice cubes
+perpendicular hula	7	strawberry daiquiri	magical ice cubes
+calle de miel	7	margarita	magical ice cubes
+
+
+# Tiny plastic sword drinks which can be made by anyone.  Also
+# includes skewered items and subingredients.
+
+grog	3	bottle of rum	lime
+tequila with training wheels	3	bottle of tequila	lime
+skewered lime	3	lime	tiny plastic sword
+grogtini	3	grog	skewered lime
+bodyslam	3	tequila with training wheels	skewered lime
+
+sangria	3	boxed wine	cherry
+old-fashioned	3	bottle of whiskey	cherry
+skewered cherry	3	cherry	tiny plastic sword
+sangria del diablo	3	sangria	skewered cherry
+cherry bomb	3	old-fashioned	skewered cherry
+
+dry martini	3	bottle of gin	jumbo olive
+dry vodka martini	3	bottle of vodka	jumbo olive
+skewered jumbo olive	3	jumbo olive	tiny plastic sword
+dirty martini	3	dry martini	skewered jumbo olive
+vesper	3	dry vodka martini	skewered jumbo olive
+
+
+# Super-advanced Meatsmithing base ingredients.  These items are used
+# later in the construction of meat-smithing weapons.
+
+asbestos crossbow string	13	crossbow string	asbestos ore
+asbestos meat stack	13	asbestos ore	dense meat stack
+asbestos stick	13	big stick	asbestos ore
+asbestos sword hilt	13	asbestos ore	sword hilt
+
+chrome crossbow string	13	chrome ore	crossbow string
+chrome meat stack	13	dense meat stack	chrome ore
+chrome stick	13	big stick	chrome ore
+chrome sword hilt	13	chrome ore	sword hilt
+
+linoleum crossbow string	13	linoleum ore	crossbow string
+linoleum meat stack	13	dense meat stack	linoleum ore
+linoleum stick	13	big stick	linoleum ore
+linoleum sword hilt	13	linoleum ore	sword hilt
+
+
+# Meat-smithing weapons.  These items are grouped based on the
+# type of base material used in their creation.
+
+asbestos crossbow	13	asbestos crossbow string	asbestos meat stack
+asbestos staff	13	asbestos stick	asbestos meat stack
+asbestos sword	13	asbestos meat stack	asbestos sword hilt
+
+basic meat crossbow	4	crossbow string	meat stack
+basic meat staff	4	big stick	meat stack
+basic meat sword	4	sword hilt	meat stack
+
+basic meat foon	4	foon	meat stack
+basic meat spork	4	meat stack	spork
+
+chrome crossbow	13	chrome crossbow string	chrome meat stack
+chrome staff	13	chrome stick	chrome meat stack
+chrome sword	13	chrome sword hilt	chrome meat stack
+
+dripping meat crossbow	4	basic meat crossbow	ketchup
+dripping meat staff	4	basic meat staff	ketchup
+dripping meat sword	4	basic meat sword	ketchup
+
+eXtreme meat crossbow	4	basic meat crossbow	stone of eXtreme power
+eXtreme meat staff	4	basic meat staff	stone of eXtreme power
+eXtreme meat sword	4	stone of eXtreme power	basic meat sword
+
+Kentucky-fried meat crossbow	4	secret blend of herbs and spices	basic meat crossbow
+Kentucky-fried meat staff	4	secret blend of herbs and spices	basic meat staff
+Kentucky-fried meat sword	4	secret blend of herbs and spices	basic meat sword
+
+linoleum crossbow	13	linoleum meat stack	linoleum crossbow string
+linoleum staff	13	linoleum meat stack	linoleum stick
+linoleum sword	13	linoleum meat stack	linoleum sword hilt
+
+hippo whip	13	hippopotamus skin	whip kit
+penguin whip	13	penguin skin	whip kit
+yak whip	13	yak skin	whip kit
+gnauga hide whip	13	gnauga hide	whip kit
+
+
+# Meat-smithing armor pieces.  These items are helmets, pants,
+# and sometimes accessories which are created in smithing.
+
+meaty helmet turtle	14	helmet turtle	dense meat stack
+asbestos helmet turtle	14	meaty helmet turtle	asbestos ore
+chrome helmet turtle	14	meaty helmet turtle	chrome ore
+linoleum helmet turtle	14	meaty helmet turtle	linoleum ore
+
+basic meat pants	4	meat stack	pants kit
+basic meat helmet	4	meat stack	helmet recipe
+meatloaf helmet	4	basic meat helmet	ketchup
+
+basic meat fez	4	basic meat helmet	tassel
+sequined fez	4	basic meat fez	teeny-tiny ninja stars
+
+# The dictionary you get from the an abridged dictionary (item 536) is
+# not a smithing ingredient. The dictionary the Baron rewards you with
+# (item 1316) is.
+
+fez of etymology	4	basic meat fez	facsimile dictionary
+
+# Pants made of hides of various sorts.
+
+furry pants	14	furry fur	pants kit
+hippopotamus pants	14	hippopotamus skin	pants kit
+penguin shorts	14	penguin skin	pants kit
+sticky meat pants	4	really really sticky spider web	basic meat pants
+yakskin pants	14	yak skin	pants kit
+gnauga hide chaps	14	gnauga hide	pants kit
+
+# Skirts made of hides of various sorts.
+
+furry skirt	14	furry fur	skirt / kilt kit
+hippopotamus skirt	14	hippopotamus skin	skirt / kilt kit
+penguinskin mini-skirt	14	penguin skin	skirt / kilt kit
+sticky meat skirt	4	really really sticky spider web	basic meat skirt
+yakskin skirt	14	yak skin	skirt / kilt kit
+gnauga hide skirt	14	gnauga hide	skirt / kilt kit
+
+# Kilts made of hides of various sorts.
+
+furry kilt	14	furry fur	skirt / kilt kit
+hippopotamus kilt	14	hippopotamus skin	skirt / kilt kit
+penguinskin mini-kilt	14	penguin skin	skirt / kilt kit
+sticky meat kilt	4	really really sticky spider web	basic meat kilt
+yakskin kilt	14	yak skin	skirt / kilt kit
+gnauga hide kilt	14	gnauga hide	skirt / kilt kit
+
+# Bucklers made of hides of various sorts.
+
+hippo skin buckler	14	hippopotamus skin	buckler buckle
+penguin skin buckler	14	penguin skin	buckler buckle
+yak skin buckler	14	yak skin	buckler buckle
+gnauga hide buckler	14	gnauga hide	buckler buckle
+
+eXtreme nose ring	1	stone of eXtreme power	piercing post
+spooky glove	2	spooky fairy gravy	small leather glove
+
+# Time Trappings, smithable by anyone.
+
+time helmet	4	petrified time	helmet recipe
+time trousers	4	petrified time	pants kit
+time sword	4	petrified time	sword hilt
+
+# Reagent potions.  Not to be confused with reagent broth mixtures
+# which can be combined with pasta by pastamancers.
+
+alarming strawberry juice	5	scrumptious reagent	strawberry
+arse-a'fire elixir	5	jaba&ntilde;ero pepper	scrumptious reagent
+cosmic lemonade	5	lemon	scrumptious reagent
+dill potion	5	dill	scrumptious reagent
+drab potion	5	olive	scrumptious reagent
+equilibrium juice	5	scrumptious reagent	lime
+grapefruit juice of powerful power	5	grapefruit	scrumptious reagent
+maraschino moxiosity potion	5	cherry	scrumptious reagent
+orangish aphrodisiac	5	orange	scrumptious reagent
+papotion of papower	5	papaya	scrumptious reagent
+potion of chalky equality	5	scrumptious reagent	cranberries
+potion of temporary gr8tness	5	scrumptious reagent	gr8ps
+tomato smoothie	5	tomato	scrumptious reagent
+wrath serum	5	grapes	scrumptious reagent
+
+
+# Simple pastamancer recipes.  Available to pastamancers only, and
+# creates pasta if you don't have finer ingredients.
+
+boring spaghetti	6	dry noodles	tomato
+delicious noodles	6	dry noodles	herbs
+delicious spicy noodles	6	dry noodles	secret blend of herbs and spices
+painful penne pasta	6	dry noodles	jaba&ntilde;ero pepper
+pr0n m4nic0tti	6	dry noodles	pr0n legs
+ravioli della hippy	6	wad of tofu	dry noodles
+spicy noodles	6	dry noodles	spices
+
+
+# Items involved in the famous pastamancer-sauceror lunch creation
+# duo - end items and non-end items.
+
+fancy schmancy cheese sauce	5	scrumptious reagent	goat cheese
+Hell broth	5	scrumptious reagent	hellion cube
+Himalayan Hidalgo sauce	5	Knob mushroom	scrumptious reagent
+sauce of the ages	5	Knob sausage	scrumptious reagent
+fettucini Inconnu	6	fancy schmancy cheese sauce	dry noodles
+gnocchetti di Nietzsche	6	Himalayan Hidalgo sauce	dry noodles
+Hell ramen	6	Hell broth	dry noodles
+spaghetti with Skullheads	6	sauce of the ages	dry noodles
+
+
+# Stir-fry items.  These are the main ingredients or are sub-ingredients
+# of chow mein items.
+
+asparagus stir-fry	2	stalk of asparagus	secret blend of herbs and spices
+bat wing stir-fry	2	bat wing	Knob stir-fry
+Knob sausage stir-fry	2	Knob sausage	Knoll stir-fry
+Knob stir-fry	2	Knob mushroom	secret blend of herbs and spices
+Knoll stir-fry	2	Knoll mushroom	secret blend of herbs and spices
+olive stir-fry	2	secret blend of herbs and spices	olive
+pr0n stir-fry	2	pr0n legs	olive stir-fry
+rat appendix stir-fry	2	rat appendix	spooky stir-fry
+secret blend of herbs and spices	2	herbs	spices
+spooky stir-fry	2	spooky mushroom	secret blend of herbs and spices
+tofu stir-fry	2	wad of tofu	asparagus stir-fry
+
+
+# Easily the most popular food items in the game (next to spectral
+# pickles), these are the stir-fry chow meins in the game.
+
+bat wing chow mein	6	bat wing stir-fry	dry noodles
+Knob sausage chow mein	6	Knob sausage stir-fry	dry noodles
+pr0n chow mein	6	pr0n stir-fry	dry noodles
+rat appendix chow mein	6	rat appendix stir-fry	dry noodles
+tofu chow mein	6	tofu stir-fry	dry noodles
+
+# Star Chart items
+
+star buckler	9	star chart	star (4)	line (6)
+star crossbow	9	star chart	star (5)	line (6)
+star hat	9	star chart	star (5)	line (3)
+star pants	9	star chart	star (7)	line (7)
+star staff	9	star chart	star (6)	line (5)
+star starfish	9	star chart	star (6)	line (4)
+star sword	9	star chart	star (7)	line (4)
+star throwing star	9	star chart	star (4)	line (2)
+Richard's star key	9	star chart	star (8)	line (7)
+star shirt	9	star chart	star (15)	line (15)
+
+
+# Pixel items.  These are items which are created at the Crackpot
+# mystic after collecting enough pixels.
+
+red pixel potion	10	black pixel (3)	red pixel (2)
+blue pixel potion	10	black pixel (3)	blue pixel (2)
+green pixel potion	10	black pixel (4)	green pixel (3)
+purple pixel pie	10	white pixel (5)	red pixel (2)	blue pixel (2)
+pixel hat	10	white pixel (10)	green pixel (15)
+pixel pants	10	black pixel (10)	red pixel (20)
+pixel sword	10	white pixel (20)	black pixel (10)	blue pixel (10)
+digital key	10	white pixel (30)
+white pixel	10	red pixel	green pixel	blue pixel
+monster bait	10	red pixel (20)	white pixel (15)
+
+
+# Jewelry making recipes.  These are recipes which are only available
+# once you acquire jewelry-making pliers.
+
+hamethyst earring	8	hamethyst	piercing post
+hamethyst necklace	8	hamethyst	necklace chain
+hamethyst bracelet	8	hamethyst	hemp bracelet
+hamethyst ring	8	hamethyst	ring setting
+baconstone earring	8	baconstone	piercing post
+baconstone pendant	8	baconstone	necklace chain
+baconstone bracelet	8	baconstone	hemp bracelet
+baconstone ring	8	baconstone	ring setting
+porquoise eyebrow ring	8	porquoise	piercing post
+porquoise necklace	8	porquoise	necklace chain
+porquoise bracelet	8	porquoise	hemp bracelet
+porquoise ring	8	porquoise	ring setting
+
+
+# Familiars.  These are familiars which are only available after
+# ascension (not including the ones which are available through
+# post-ascension methods, like supertinkering).
+
+maple leaf	1	leaf	maple syrup
+unwound clockwork grapefruit	2	clockwork endoskeleton	grapefruit
+deactivated MicroMechaMech	12	clockwork spine	clockwork claws	clockwork key
+
+
+# These are item-combinations which are only available post-ascension,
+# and does not fall into any other categories.
+
+leaf	1	leaflet	leaflet
+wholeberd	1	halfberd	halfberd
+
+
+# Foods.  These are foods which are only available post-ascension,
+# and include the mushroom recipes.
+
+spicy mushroom quesadilla	2	warm mushroom	flat dough
+cool mushroom casserole	2	cool mushroom	Gnollish casserole dish
+cream of pointy mushroom soup	2	pointy mushroom	glass of goat's milk
+
+
+# Drinks.  These are drinks which are only available post-ascension,
+# and include the lumberjack and the mushroom wines.
+
+lumbering jack	3	bottle of whiskey	Blatantly Canadian
+flaming mushroom wine	3	mushroom fermenting solution	flaming mushroom
+icy mushroom wine	3	mushroom fermenting solution	frozen mushroom
+stinky mushroom wine	3	mushroom fermenting solution	stinky mushroom
+pointy mushroom wine	3	mushroom fermenting solution	pointy mushroom
+flat mushroom wine	3	mushroom fermenting solution	warm mushroom
+cool mushroom wine	3	mushroom fermenting solution	cool mushroom
+knob mushroom wine	3	mushroom fermenting solution	Knob mushroom
+knoll mushroom wine	3	mushroom fermenting solution	Knoll mushroom
+spooky mushroom wine	3	mushroom fermenting solution	spooky mushroom
+gloomy mushroom wine	3	mushroom fermenting solution	gloomy black mushroom
+oily mushroom wine	3	mushroom fermenting solution	oily golden mushroom
+
+
+# Tinker recipes.  These recipes are the recipes which are used in the
+# supertinkering process for Moxie signs.
+
+clockwork widget	12	flange	cog	sprocket
+clockwork thingamajig	12	flange	cog	spring
+clockwork doohickey	12	flange	spring	sprocket
+clockwork clockwise dome	12	clockwork widget	flange	spring
+clockwork spine	12	clockwork widget	spring	cog
+clockwork rings	12	clockwork thingamajig	flange	sprocket
+clockwork claws	12	clockwork thingamajig	spring	sprocket
+clockwork endoskeleton	12	clockwork claws	clockwork counterclockwise dome	clockwork key
+clockwork sheet	12	clockwork doohickey	cog	flange
+clockwork counterclockwise dome	12	clockwork doohickey	cog	sprocket
+clockwork sphere	12	clockwork counterclockwise dome	clockwork clockwise dome	clockwork key
+clockwork hat	12	clockwork clockwise dome	clockwork rings	clockwork key
+clockwork trench coat	12	clockwork spine	clockwork sheet	clockwork key
+clockwork pants	12	clockwork sheet	clockwork rings	clockwork key
+
+
+# Clockwork servant recipes.  These recipes are used to create clockwork
+# counterparts to the standard servants available pre-ascension.
+
+clockwork detective skull	1	clockwork sphere	gnoll lips
+
+clockwork maid head	1	clockwork sphere	maiden wig
+clockwork maid	1	clockwork maid head	Meat maid body
+
+clockwork chef head	1	clockwork sphere	chef's hat
+clockwork chef-head-in-the-box	1	clockwork chef head	nothing-in-the-box
+clockwork chef-in-the-box	1	clockwork chef-head-in-the-box	E-Z Cook Oven&trade;
+
+clockwork bartender head	1	clockwork sphere	beer goggles
+clockwork bartender-head-in-the-box	1	clockwork bartender head	nothing-in-the-box
+clockwork bartender-in-the-box	1	clockwork bartender-head-in-the-box	cocktailcrafting kit
+
+# Crimbo toys.  These are items which are created at Uncle Crimbo
+# after collecting enough toy components.
+
+yo-yo	15	length of string	toy wheel
+top	15	wooden block	toy wheel
+ball	15	stuffing	felt
+kite	15	length of string	felt
+pet rock	15	googly eye	wooden block
+stuffed doppelshifter	15	googly eye	stuffing
+teddy bear	15	googly eye (2)	stuffing (4)	felt (2)
+duck-on-a-string	15	length of string	googly eye (2)	wooden block (2)	toy wheel (2)
+toy soldier	15	googly eye (2)	wooden block (3)
+doll house	15	wooden block (4)	felt (3)
+toy train	15	length of string (2)	wooden block (3)	toy wheel (6)
+marionette	15	length of string (2)	googly eye (2)	wooden block (2)
+sock monkey	15	googly eye (2)	stuffing (3)	felt
+rag doll	15	googly eye (2)	stuffing (3)	felt (2)

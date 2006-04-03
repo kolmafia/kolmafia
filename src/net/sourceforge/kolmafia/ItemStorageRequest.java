@@ -1,0 +1,395 @@
+/**
+ * Copyright (c) 2005, KoLmafia development team
+ * http://kolmafia.sourceforge.net/
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ *
+ *  [1] Redistributions of source code must retain the above copyright
+ *      notice, this list of conditions and the following disclaimer.
+ *  [2] Redistributions in binary form must reproduce the above copyright
+ *      notice, this list of conditions and the following disclaimer in
+ *      the documentation and/or other materials provided with the
+ *      distribution.
+ *  [3] Neither the name "KoLmafia development team" nor the names of
+ *      its contributors may be used to endorse or promote products
+ *      derived from this software without specific prior written
+ *      permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ * COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+ * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+ * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
+ */
+
+package net.sourceforge.kolmafia;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class ItemStorageRequest extends SendMessageRequest
+{
+	private int moveType;
+
+	public static final int EMPTY_STORAGE = -2;
+	public static final int CLOSET_YOUR_CLOVERS = -1;
+	public static final int RETRIEVE_STORAGE = 0;
+	public static final int INVENTORY_TO_CLOSET = 1;
+	public static final int CLOSET_TO_INVENTORY = 2;
+	public static final int MEAT_TO_CLOSET = 4;
+	public static final int MEAT_TO_INVENTORY = 5;
+	public static final int STORAGE_TO_INVENTORY = 6;
+	public static final int PULL_MEAT_FROM_STORAGE = 7;
+
+	public ItemStorageRequest( KoLmafia client )
+	{
+		super( client, "storage.php" );
+		this.moveType = RETRIEVE_STORAGE;
+	}
+
+	/**
+	 * Constructs a new <code>ItemStorageRequest</code>.
+	 * @param	client	The client to be notified of the results
+	 * @param	amount	The amount of meat involved in this transaction
+	 * @param	moveType	Whether or not this is a deposit or withdrawal, or if it's to the clan stash
+	 */
+
+	public ItemStorageRequest( KoLmafia client, int amount, int moveType )
+	{
+		super( client, moveType == PULL_MEAT_FROM_STORAGE ? "storage.php" : "closet.php",
+			new AdventureResult( AdventureResult.MEAT, moveType == PULL_MEAT_FROM_STORAGE ? amount : 0 ) );
+
+		addFormField( "pwd" );
+		addFormField( "amt", String.valueOf( amount ) );
+		addFormField( "action", moveType == MEAT_TO_CLOSET ? "addmeat" : "takemeat" );
+
+		this.moveType = moveType;
+
+		if ( moveType == PULL_MEAT_FROM_STORAGE )
+		{
+			source = KoLCharacter.getStorage();
+			destination = KoLCharacter.getInventory();
+		}
+	}
+
+	/**
+	 * Should only be used to closet clovers.  A tribute to the "Closet Your Clovers" speech:
+	 * http://forums.kingdomofloathing.com/viewtopic.php?t=33250
+	 *
+	 * @param	client	The client to be notified of the results
+	 * @param	moveType	Whether or not clovers are being closeted
+	 */
+
+	public ItemStorageRequest( KoLmafia client, int moveType )
+	{
+		this( client, moveType == EMPTY_STORAGE ? EMPTY_STORAGE : INVENTORY_TO_CLOSET,
+			moveType == EMPTY_STORAGE ? new Object[0] : new Object [] {
+			SewerRequest.CLOVER.getInstance( SewerRequest.CLOVER.getCount( KoLCharacter.getInventory() ) ) } );
+
+		this.moveType = moveType;
+	}
+
+	/**
+	 * Constructs a new <code>ItemStorageRequest</code>.
+	 * @param	client	The client to be notified of the results
+	 * @param	moveType	The identifier for the kind of action taking place
+	 * @param	attachments	The list of attachments involved in the request
+	 */
+
+	public ItemStorageRequest( KoLmafia client, int moveType, Object [] attachments )
+	{
+		super( client, moveType == STORAGE_TO_INVENTORY || moveType == EMPTY_STORAGE ? "storage.php" : "closet.php", attachments, 0 );
+
+		addFormField( "pwd" );
+		addFormField( "action", moveType == EMPTY_STORAGE ? "takeall" : moveType == INVENTORY_TO_CLOSET ? "put" : "take" );
+
+		this.moveType = moveType;
+
+		if ( moveType == CLOSET_TO_INVENTORY )
+		{
+			source = KoLCharacter.getCloset();
+			destination = KoLCharacter.getInventory();
+		}
+		else if ( moveType == INVENTORY_TO_CLOSET )
+		{
+			source = KoLCharacter.getInventory();
+			destination = KoLCharacter.getCloset();
+		}
+		else if ( moveType == STORAGE_TO_INVENTORY )
+		{
+			source = KoLCharacter.getStorage();
+			destination = KoLCharacter.getInventory();
+		}
+	}
+
+	public int getMoveType()
+	{	return moveType;
+	}
+
+	public List getItems()
+	{
+		List itemList = new ArrayList();
+
+		if ( attachments == null )
+			return itemList;
+
+		for ( int i = 0; i < attachments.length; ++i )
+			itemList.add( attachments[i] );
+
+		return itemList;
+	}
+
+	protected int getCapacity()
+	{	return 11;
+	}
+
+	protected void repeat( Object [] attachments )
+	{	(new ItemStorageRequest( client, moveType, attachments )).run();
+	}
+
+	protected String getSuccessMessage()
+	{
+		switch ( moveType )
+		{
+			case STORAGE_TO_INVENTORY:
+				return "moved from storage to inventory";
+			case INVENTORY_TO_CLOSET:
+				return "moved from inventory to closet";
+			case CLOSET_TO_INVENTORY:
+				return "moved from closet to inventory";
+		}
+
+		return "";
+	}
+
+	protected void processResults()
+	{
+		switch ( moveType )
+		{
+			case EMPTY_STORAGE:
+				while ( !KoLCharacter.getStorage().isEmpty() )
+					client.processResult( (AdventureResult) KoLCharacter.getStorage().remove(0) );
+				break;
+
+			case STORAGE_TO_INVENTORY:
+			case RETRIEVE_STORAGE:
+				parseStorage();
+				break;
+
+			case MEAT_TO_CLOSET:
+			case MEAT_TO_INVENTORY:
+			case PULL_MEAT_FROM_STORAGE:
+				handleMeat();
+				break;
+
+		}
+
+		super.processResults();
+		KoLCharacter.updateStatus();
+		KoLCharacter.refreshCalculatedLists();
+	}
+
+	/**
+	 * Executes the <code>ItemStorageRequest</code>.
+	 */
+
+	public void run()
+	{
+		switch ( moveType )
+		{
+			case EMPTY_STORAGE:
+				DEFAULT_SHELL.updateDisplay( "Emptying storage..." );
+				break;
+
+			case STORAGE_TO_INVENTORY:
+				DEFAULT_SHELL.updateDisplay( "Moving items..." );
+				break;
+
+			case RETRIEVE_STORAGE:
+				DEFAULT_SHELL.updateDisplay( "Retrieving storage contents..." );
+				break;
+
+			case INVENTORY_TO_CLOSET:
+			case CLOSET_TO_INVENTORY:
+				DEFAULT_SHELL.updateDisplay( "Moving items..." );
+				break;
+
+			case CLOSET_YOUR_CLOVERS:
+				DEFAULT_SHELL.updateDisplay( "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
+				break;
+
+			case MEAT_TO_CLOSET:
+			case MEAT_TO_INVENTORY:
+			case PULL_MEAT_FROM_STORAGE:
+				DEFAULT_SHELL.updateDisplay( "Executing transaction..." );
+				break;
+		}
+
+		super.run();
+	}
+
+	private void handleMeat()
+	{
+		if ( moveType == PULL_MEAT_FROM_STORAGE )
+			return;
+
+		// Now, determine how much is left in your closet
+		// by locating "Your closet contains x meat" and
+		// update the display with that information.
+
+		int beforeMeatInCloset = KoLCharacter.getClosetMeat();
+		int afterMeatInCloset = 0;
+
+		Matcher meatInClosetMatcher = Pattern.compile( "<b>Your closet contains ([\\d,]+) meat\\.</b>" ).matcher( responseText );
+
+		if ( meatInClosetMatcher.find() )
+		{
+			try
+			{
+				afterMeatInCloset = df.parse( meatInClosetMatcher.group(1) ).intValue();
+			}
+			catch ( Exception e )
+			{
+				// This really should not happen, since the numbers
+				// are getting grouped properly.  But, just in case,
+				// the exception is caught and nothing changes.
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+			}
+		}
+
+		KoLCharacter.setClosetMeat( afterMeatInCloset );
+		client.processResult( new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
+	}
+
+	private void parseStorage()
+	{
+		List storageContents = KoLCharacter.getStorage();
+		Matcher storageMatcher = null;
+
+		// Compute the number of pulls remaining based
+		// on the response text.
+
+		if ( !existingFrames.isEmpty() )
+		{
+			storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
+			if ( storageMatcher.find() )
+			{
+				if ( storageMatcher.group().startsWith( "1 " ) )
+					HagnkStorageFrame.setPullsRemaining( storageMatcher.group() + " pull remaining" );
+				else
+					HagnkStorageFrame.setPullsRemaining( storageMatcher.group() + " pulls remaining" );
+			}
+			else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
+				HagnkStorageFrame.setPullsRemaining( "No more pulls remaining" );
+			else
+				HagnkStorageFrame.setPullsRemaining( "Unlimited pulls remaining" );
+		}
+
+		// Start with an empty list
+
+		if ( !storageContents.isEmpty() )
+			return;
+
+		// If there's nothing inside storage, return
+		// because there's nothing to parse.
+
+		storageMatcher = Pattern.compile( "name=\"whichitem1\".*?</select>" ).matcher( responseText );
+		if ( !storageMatcher.find() )
+			return;
+
+		int lastFindIndex = 0;
+		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( storageMatcher.group() );
+		while ( optionMatcher.find( lastFindIndex ) )
+		{
+			try
+			{
+				lastFindIndex = optionMatcher.end();
+				int itemID = df.parse( optionMatcher.group(1) ).intValue();
+
+				if ( TradeableItemDatabase.getItemName( itemID ) == null )
+					TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
+
+				AdventureResult result = new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() );
+				AdventureResult.addResultToList( storageContents, result );
+			}
+			catch ( Exception e )
+			{
+				// If an exception occurs during the parsing, just
+				// continue after notifying the KoLmafia.getLogStream() of the
+				// error.  This could be handled better, but not now.
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public String getCommandForm( int iterations )
+	{
+		StringBuffer commandString = new StringBuffer();
+
+		AdventureResult [] items = new AdventureResult[ getItems().size() ];
+		getItems().toArray( items );
+
+		// If this is not a handled command form, then
+		// return the empty string.
+
+		switch ( moveType )
+		{
+			case ItemStorageRequest.INVENTORY_TO_CLOSET:
+			case ItemStorageRequest.CLOSET_TO_INVENTORY:
+			case ItemStorageRequest.STORAGE_TO_INVENTORY:
+				break;
+
+			default:
+				return "";
+		}
+
+		// Otherwise, because commands cannot be strung
+		// together on one line, print out one line at
+		// a time to the buffered string.
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			if ( i != 0 )
+				commandString.append( LINE_BREAK );
+
+			switch ( moveType )
+			{
+				case ItemStorageRequest.INVENTORY_TO_CLOSET:
+					commandString.append( "closet put *" );
+					break;
+
+				case ItemStorageRequest.CLOSET_TO_INVENTORY:
+					commandString.append( "closet take *" );
+					break;
+
+				case ItemStorageRequest.STORAGE_TO_INVENTORY:
+					commandString.append( "hagnk " );
+					commandString.append( items[i].getCount() );
+					break;
+			}
+
+			commandString.append( " \"" );
+			commandString.append( items[i].getName() );
+			commandString.append( '\"' );
+		}
+
+		return commandString.toString();
+	}
+
+}
