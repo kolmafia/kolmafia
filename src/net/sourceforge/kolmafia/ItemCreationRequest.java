@@ -258,12 +258,12 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case SUBCLASS:
 
 				super.run();
-				break;
+				return;
 
 			case ROLLING_PIN:
 
 				makeDough();
-				break;
+				return;
 
 			case CLOVER:
 
@@ -275,7 +275,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			default:
 
 				combineItems();
-				break;
+				return;
 		}
 	}
 

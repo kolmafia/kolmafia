@@ -55,7 +55,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class HagnkStorageFrame extends KoLFrame
 {
-	private JTabbedPane tabs;
 	private HagnkStoragePanel all, equip;
 	private static String pullsRemaining = "";
 

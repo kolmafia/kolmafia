@@ -131,10 +131,15 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		// Add the refresh menu, which holds the ability to refresh
 		// everything in the session.
 
-		statusMenu.add( new DisplayFrameMenuItem( "Main Interface", AdventureFrame.class ) );
-		statusMenu.add( new DisplayRequestMenuItem( "Mini-Browser", "main.php" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Adventure", AdventureFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Purchases", MallSearchFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
+
+		statusMenu.add( new JSeparator() );
+
+		statusMenu.add( new DisplayRequestMenuItem( "Mini-Browser", "main.php" ) );
+		statusMenu.add( new InvocationMenuItem( "Relay Browser", StaticEntity.getClient(), "startRelayServer" ) );
 
 		statusMenu.add( new JSeparator() );
 
@@ -160,7 +165,9 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new DisplayFrameMenuItem( "Buffbot Manager", BuffBotFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", MeatManageFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Skill Usage", SkillBuffPanel.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
 
 		toolsMenu.add( new JSeparator() );
@@ -331,7 +338,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				KoLFrame frame = (KoLFrame) frameReference.get();
 				if ( frame != null )
 				{
-					frame.setVisible( true );
+					boolean appearsInTab = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" ).indexOf(
+						frame instanceof ChatFrame ? "KoLMessenger" : frame.getFrameName() ) != -1;
+
+					if ( !appearsInTab )
+						frame.setVisible( true );
+
 					frame.requestFocus();
 				}
 			}
@@ -657,15 +669,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 	protected class DisplayFrameMenuItem extends JMenuItem implements ActionListener
 	{
-		private Class frameClass;
 		private CreateFrameRunnable displayer;
 
 		public DisplayFrameMenuItem( String title, Class frameClass )
 		{
 			super( title );
 			addActionListener( this );
-
-			this.frameClass = frameClass;
 
 			Object [] parameters;
 			if ( frameClass == LicenseDisplay.class )
@@ -675,6 +684,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				parameters[1] = new VersionDataPanel();
 				parameters[2] = LICENSE_FILENAME;
 				parameters[3] = LICENSE_NAME;
+			}
+			else if ( frameClass == SkillBuffPanel.class )
+			{
+				frameClass = KoLPanelFrame.class;
+				parameters = new Object[1];
+				parameters[0] = new SkillBuffPanel();
 			}
 			else
 			{
@@ -758,7 +773,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			try
 			{
 				if ( method != null )
-					method.invoke( object, null );
+					method.invoke( object instanceof KoLmafia ? StaticEntity.getClient() : object, null );
 			}
 			catch ( Exception e )
 			{

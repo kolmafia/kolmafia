@@ -159,27 +159,19 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		// Before running the request, make sure you have enough
-		// mana and health to continue.
-
-		if ( !(client.getCurrentRequest() instanceof CampgroundRequest) )
-		{
-			if ( !client.recoverHP() || !client.recoverMP() )
-				return;
-
-			if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
-			{
-				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
-				return;
-			}
-		}
-
 		// If auto-recovery failed, return from the run attempt.
 		// This prevents other messages from overriding the actual
 		// error message.
 
+		client.runBetweenBattleChecks();
 		if ( !client.permitsContinue() )
 			return;
+
+		if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
+		{
+			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
+			return;
+		}
 
 		// Make sure there are enough adventures to run the request
 		// so that you don't spam the server unnecessarily.
@@ -201,32 +193,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		// If you're fighting the naughty sorceress, be sure to
-		// equip the wand first.
-
-		if ( formSource.equals( "lair6.php" ) )
-		{
-			if ( !KoLCharacter.getEquipment( KoLCharacter.WEAPON ).startsWith( "wand" ) &&
-				 !KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).startsWith( "wand" ) )
-			{
-				AdventureDatabase.retrieveItem( WAND );
-				if ( !client.permitsContinue() )
-					return;
-
-				(new EquipmentRequest( client, WAND.getName() )).run();
-			}
-		}
-
 		// If the test is successful, then it is safe to run the
 		// request (without spamming the server).
 
 		DEFAULT_SHELL.updateDisplay();
 		request.run();
 
-		// Once the request is complete, be sure to deduct the
-		// used adventures from the tally
-
 		client.registerAdventure( this );
+		client.runBetweenBattleChecks();
 	}
 
 	public int compareTo( Object o )

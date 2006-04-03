@@ -89,7 +89,6 @@ public class ClanManageFrame extends KoLFrame
 {
 	private LockableListModel rankList;
 
-	private JTabbedPane tabs;
 	private ClanBuffPanel clanBuff;
 	private StoragePanel storing;
 	private WithdrawPanel withdrawal;

@@ -41,6 +41,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
+import javax.swing.JTabbedPane;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
@@ -55,6 +56,7 @@ import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JCheckBox;
 import javax.swing.Box;
 
 import java.awt.event.ActionEvent;
@@ -87,9 +89,12 @@ public class RequestFrame extends KoLFrame
 	private boolean isRefreshing = false;
 	private LimitedSizeChatBuffer sideBuffer;
 
-	private JTextField locationField = new JTextField();
 	protected JEditorPane sideDisplay;
 	protected JEditorPane mainDisplay;
+
+	private static BrowserComboBox functionSelect, gotoSelect;
+	private static JCheckBox runBetweenBattleChecks;
+	private JTextField locationField = new JTextField();
 
 	public RequestFrame()
 	{	this( new KoLRequest( StaticEntity.getClient(), "main.php" ) );
@@ -108,13 +113,9 @@ public class RequestFrame extends KoLFrame
 			StaticEntity.getClient().getCurrentRequest() : request;
 
 		this.hasSideBar = getClass() == RequestFrame.class &&
-			request != null &&
-			!request.getURLString().startsWith( "chat" ) &&
-			!request.getURLString().startsWith( "static" ) &&
-			!request.getURLString().startsWith( "desc" ) &&
-			!request.getURLString().startsWith( "showplayer" ) &&
-			!request.getURLString().startsWith( "doc" ) &&
-			!request.getURLString().startsWith( "searchp" );
+			request != null && !request.getURLString().startsWith( "chat" ) && !request.getURLString().startsWith( "static" ) &&
+			!request.getURLString().startsWith( "desc" ) && !request.getURLString().startsWith( "showplayer" ) &&
+			!request.getURLString().startsWith( "doc" ) && !request.getURLString().startsWith( "searchp" );
 
 		setCombatRound( request );
 
@@ -156,7 +157,7 @@ public class RequestFrame extends KoLFrame
 			// mini-browser, including inventory, character
 			// information, skills and account setup.
 
-			BrowserComboBox functionSelect = new BrowserComboBox();
+			functionSelect = new BrowserComboBox();
 			functionSelect.addItem( new BrowserComboBoxItem( " - Function - ", "" ) );
 
 			functionSelect.addItem( new BrowserComboBoxItem( "Consumables", "inventory.php?which=1" ) );
@@ -173,7 +174,7 @@ public class RequestFrame extends KoLFrame
 			// are familiar with seeing this as well.  But,
 			// place it all inside of a "travel" menu.
 
-			BrowserComboBox gotoSelect = new BrowserComboBox();
+			gotoSelect = new BrowserComboBox();
 			gotoSelect.addItem( new BrowserComboBoxItem( " - Goto (Maki) - ", "" ) );
 
 			gotoSelect.addItem( new BrowserComboBoxItem( "Main Map", "main.php" ) );
@@ -203,16 +204,35 @@ public class RequestFrame extends KoLFrame
 			topMenu.add( new JLabel( JComponentUtilities.getSharedImage( "itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" ) ) );
 			topMenu.add( new JLabel( JComponentUtilities.getSharedImage( "itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) );
 
+			topMenu.add( Box.createHorizontalStrut( 20 ) );
+			topMenu.add( runBetweenBattleChecks = new JCheckBox( "Run between-battle scripts" ) );
+			runBetweenBattleChecks.setOpaque( false );
+
 			functionSelect.setSelectedIndex( 0 );
 			gotoSelect.setSelectedIndex( 0 );
 
-			framePanel.setLayout( new BorderLayout() );
-			framePanel.add( topMenu, BorderLayout.NORTH );
-			framePanel.add( horizontalSplit, BorderLayout.CENTER );
+			JPanel container = new JPanel( new BorderLayout() );
+			container.add( topMenu, BorderLayout.NORTH );
+			container.add( horizontalSplit, BorderLayout.CENTER );
 
-			// Add toolbar pieces so that people can quickly
-			// go to locations they like.
+			tabs = new JTabbedPane( JTabbedPane.BOTTOM );
+			tabs.addTab( "Mini-Browser", container );
+
+			JScrollPane restoreScroller = new JScrollPane( new RestoreOptionsPanel( false ),
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
+			tabs.add( "Between Battle Scripts", restoreScroller );
+
+			framePanel.setLayout( new BorderLayout() );
+			framePanel.add( tabs, BorderLayout.CENTER );
 		}
+
+		// Add toolbar pieces so that people can quickly
+		// go to locations they like.
+
+		JToolBar toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+		getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 
 		toolbarPanel.add( new BackButton() );
 		toolbarPanel.add( new ForwardButton() );
@@ -225,6 +245,7 @@ public class RequestFrame extends KoLFrame
 
 		GoButton button = new GoButton();
 		toolbarPanel.add( button );
+
 		getRootPane().setDefaultButton( button );
 
 		// If this has a side bar, then it will need to be notified
@@ -613,12 +634,30 @@ public class RequestFrame extends KoLFrame
 	{
 		public void run()
 		{
+			int adventuresBefore = KoLCharacter.getAdventuresLeft();
+
 			CharpaneRequest instance = CharpaneRequest.getInstance();
 			instance.run();
 
+			if ( adventuresBefore > KoLCharacter.getAdventuresLeft() && runBetweenBattleChecks != null && runBetweenBattleChecks.isSelected() )
+			{
+				refreshStatus( "" );
+
+				functionSelect.setEnabled( false );
+				gotoSelect.setEnabled( false );
+				runBetweenBattleChecks.setEnabled( false );
+
+				StaticEntity.getClient().runBetweenBattleChecks();
+
+				runBetweenBattleChecks.setEnabled( true );
+				gotoSelect.setEnabled( true );
+				functionSelect.setEnabled( true );
+
+				instance.run();
+			}
+
 			refreshStatus( getDisplayHTML( instance.responseText ) );
 		}
-
 
 		public void refreshStatus( String text )
 		{
@@ -639,14 +678,14 @@ public class RequestFrame extends KoLFrame
 
 	public static void refreshStatus()
 	{
-		if ( REFRESHER.isEmpty() || refreshStatusDisabled )
+		if ( REFRESHER.isEmpty() || refreshStatusDisabled || (runBetweenBattleChecks != null && !runBetweenBattleChecks.isEnabled()) )
 			return;
 
 		(new Thread( REFRESHER )).start();
 	}
 
 	public static boolean willRefreshStatus()
-	{	return !REFRESHER.isEmpty();
+	{	return !REFRESHER.isEmpty() && !refreshStatusDisabled && runBetweenBattleChecks != null && runBetweenBattleChecks.isEnabled();
 	}
 
 	public static void disableRefreshStatus( boolean disable )

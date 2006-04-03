@@ -105,23 +105,20 @@ public class ChatFrame extends KoLFrame
 		// Add the standard chat options which the user
 		// simply clicks on for functionality.
 
-		toolbarPanel.add( new MessengerButton( "Clear All", "clear.gif", "clearChatBuffers" ) );
-
-		toolbarPanel.add( new JToolBar.Separator() );
-
-		toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
-		toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
-
-		toolbarPanel.add( new JToolBar.Separator() );
-
-		toolbarPanel.add( new MessengerButton( "/friends", "who1.gif", "checkFriends" ) );
-		toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
-
-		toolbarPanel.add( new JToolBar.Separator() );
-
-		toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
-
-		toolbarPanel.add( new JToolBar.Separator() );
+		JToolBar toolbarPanel = getToolbar();
+		if ( toolbarPanel != null )
+		{
+			toolbarPanel.add( new MessengerButton( "Clear All", "clear.gif", "clearChatBuffers" ) );
+			toolbarPanel.add( new JToolBar.Separator() );
+			toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
+			toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
+			toolbarPanel.add( new JToolBar.Separator() );
+			toolbarPanel.add( new MessengerButton( "/friends", "who1.gif", "checkFriends" ) );
+			toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
+			toolbarPanel.add( new JToolBar.Separator() );
+			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
+			toolbarPanel.add( new JToolBar.Separator() );
+		}
 
 		// Add the name click options as a giant combo
 		// box, rather than a hidden menu.
@@ -138,7 +135,9 @@ public class ChatFrame extends KoLFrame
 		nameClickSelect.addItem( "Name click performs /whois" );
 		nameClickSelect.addItem( "Name click baleets the player" );
 
-		toolbarPanel.add( nameClickSelect );
+		if ( toolbarPanel != null )
+			toolbarPanel.add( nameClickSelect );
+
 		nameClickSelect.setSelectedIndex(0);
 
 		// Set the default size so that it doesn't appear super-small
@@ -401,19 +400,19 @@ public class ChatFrame extends KoLFrame
 
 				case 5:
 
-					AdventureFrame mall = null;
+					MallSearchFrame mall = null;
 					KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 					existingFrames.toArray( frames );
 
 					for ( int i = 0; i < frames.length; ++i )
-						if ( frames[i] instanceof AdventureFrame )
-							mall = (AdventureFrame) frames[i];
+						if ( frames[i] instanceof MallSearchFrame )
+							mall = (MallSearchFrame) frames[i];
 
 					if ( mall == null )
 					{
-						CreateFrameRunnable creator = new CreateFrameRunnable( AdventureFrame.class );
+						CreateFrameRunnable creator = new CreateFrameRunnable( MallSearchFrame.class );
 						creator.run();
-						mall = (AdventureFrame) creator.getCreation();
+						mall = (MallSearchFrame) creator.getCreation();
 					}
 
 					mall.searchMall( new SearchMallRequest( StaticEntity.getClient(), Integer.parseInt( KoLmafia.getPlayerID( (String) parameters[1] ) ) ) );

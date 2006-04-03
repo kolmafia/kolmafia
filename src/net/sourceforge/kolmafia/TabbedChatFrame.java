@@ -53,12 +53,6 @@ import com.sun.java.forums.CloseableTabbedPaneListener;
 
 public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneListener, ChangeListener
 {
-	private CloseableTabbedPane tabs;
-
-	public TabbedChatFrame()
-	{	tabs.addChangeListener( this );
-	}
-
 	public void dispose()
 	{
 		this.tabs = null;
@@ -87,7 +81,9 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 	protected void initialize( String associatedContact )
 	{
 		tabs = new CloseableTabbedPane();
-		tabs.addCloseableTabbedPaneListener( this );
+		tabs.addChangeListener( this );
+
+		((CloseableTabbedPane)tabs).addCloseableTabbedPaneListener( this );
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 

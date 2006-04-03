@@ -34,10 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Window;
 import java.awt.Dimension;
-import javax.swing.JFrame;
-import javax.swing.JDialog;
 import javax.swing.SwingUtilities;
 import java.lang.reflect.Constructor;
 
@@ -49,33 +46,11 @@ import java.lang.reflect.Constructor;
 
 public class CreateFrameRunnable implements Runnable, KoLConstants
 {
-	private static final Class [] SINGLE_INSTANCE =
+	private static final Class [] MULTI_INSTANCE =
 	{
-		AdventureFrame.class,
-		BuffBotFrame.class,
-		BuffRequestFrame.class,
-		CalendarFrame.class,
-		CakeArenaFrame.class,
-		CharsheetFrame.class,
-		ClanManageFrame.class,
-		CommandDisplayFrame.class,
-		ContactListFrame.class,
-		CouncilFrame.class,
-		ExamineItemsFrame.class,
-		FamiliarTrainingFrame.class,
-		FightFrame.class,
-		GearChangeFrame.class,
-		HagnkStorageFrame.class,
-		ItemManageFrame.class,
-		LoginFrame.class,
-		MailboxFrame.class,
-		MuseumFrame.class,
-		MushroomFrame.class,
-		OptionsFrame.class,
-		PendingTradesFrame.class,
-		SendMessageFrame.class,
-		StoreManageFrame.class,
-		TabbedChatFrame.class
+		ChatFrame.class,
+		RequestFrame.class,
+		SendMessageFrame.class
 	};
 
 	private Class creationType;
@@ -159,15 +134,21 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		KoLFrame currentFrame;
 		Class currentType;
 
-		for ( int i = 0; i < existingFrames.size(); ++i )
+		for ( int i = 0; i < existingFrames.size() && this.creation == null; ++i )
 		{
 			currentFrame = (KoLFrame) existingFrames.get(i);
 			currentType = currentFrame.getClass();
 
 			if ( currentType == creationType )
-				for ( int j = 0; j < SINGLE_INSTANCE.length; ++j )
-					if ( currentType == SINGLE_INSTANCE[j] )
-						this.creation = currentFrame;
+			{
+				boolean allowMultiple = false;
+				for ( int j = 0; j < MULTI_INSTANCE.length; ++j )
+					if ( currentType == MULTI_INSTANCE[j] )
+						allowMultiple = true;
+
+				if ( !allowMultiple )
+					this.creation = currentFrame;
+			}
 		}
 
 		// Now, if you aren't supposed to create a new instance,
@@ -179,14 +160,34 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			if ( this.creation == null )
 				this.creation = (KoLFrame) creator.newInstance( parameters );
 
+			boolean appearsInTab = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" ).indexOf(
+				this.creation instanceof ChatFrame ? "KoLMessenger" : this.creation.getFrameName() ) != -1;
+
+			// If the person is requesting a this.creation that is meant
+			// to appear in the KoLDesktop interface, then make
+			// sure you initialize it.
+
+			if ( appearsInTab && !KoLDesktop.isInitializing() )
+			{
+				KoLDesktop.getInstance().initializeTabs();
+				KoLDesktop.getInstance().pack();
+				KoLDesktop.getInstance().setVisible( true );
+			}
+
 			String frameName = ((KoLFrame)this.creation).getFrameName();
 
 			// Load the KoL frame to the appropriate location
 			// on the screen now that the frame has been packed
 			// to the appropriate size.
 
-			Window window = StaticEntity.usesRelayWindows() ? (Window) this.creation.createRelayWindow() : (Window) this.creation;
-			window.pack();
+			if ( !appearsInTab )
+			{
+				this.creation.constructToolbar();
+				if ( this.creation.useSidePane() )
+					this.creation.addCompactPane();
+			}
+
+			this.creation.pack();
 
 			int xLocation = 0;
 			int yLocation = 0;
@@ -198,23 +199,25 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				yLocation = Integer.parseInt( location[1] );
 			}
 			if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
-				window.setLocation( xLocation, yLocation );
+				this.creation.setLocation( xLocation, yLocation );
 			else
-				window.setLocation( (int)(screenSize.getWidth() - window.getWidth())/2, (int)(screenSize.getHeight() - window.getHeight())/2 );
+				this.creation.setLocation( (int)(screenSize.getWidth() - this.creation.getWidth())/2, (int)(screenSize.getHeight() - this.creation.getHeight())/2 );
 
 			// With the location set set on screen, make sure
 			// to disable it (if necessary), ensure the frame's
 			// visibility on screen and request focus.
 
-			window.setEnabled( true );
+			this.creation.setEnabled( true );
 
-			if ( window instanceof JDialog && !System.getProperty( "os.name" ).startsWith( "Mac" ) )
-				((JDialog)window).setJMenuBar( new KoLMenuBar() );
-			else if ( window instanceof JFrame )
-				((JFrame)window).setJMenuBar( new KoLMenuBar() );
+			if ( !appearsInTab )
+				this.creation.setJMenuBar( new KoLMenuBar() );
 
-			window.setVisible( true );
-			window.requestFocus();
+			if ( appearsInTab )
+				KoLDesktop.addTab( this.creation );
+			else
+				this.creation.setVisible( true );
+
+			this.creation.requestFocus();
 		}
 		catch ( Exception e )
 		{

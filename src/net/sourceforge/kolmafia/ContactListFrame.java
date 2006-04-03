@@ -38,6 +38,7 @@ import java.awt.Color;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 
+import javax.swing.JToolBar;
 import javax.swing.JDialog;
 import javax.swing.JTextArea;
 import javax.swing.JOptionPane;
@@ -77,9 +78,13 @@ public class ContactListFrame extends KoLFrame
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( new ContactListPanel(), "" );
 
-		this.toolbarPanel.add( new InvocationButton( "Show as list", "copy.gif", this, "listSelected" ) );
-		this.toolbarPanel.add( new InvocationButton( "Mass-buff", "buff.gif", this, "buffSelected" ) );
-		this.toolbarPanel.add( new InvocationButton( "Mass-mail", "mail.gif", this, "mailSelected" ) );
+		JToolBar toolbarPanel = getToolbar();
+		if ( toolbarPanel != null )
+		{
+			toolbarPanel.add( new InvocationButton( "Show as list", "copy.gif", this, "listSelected" ) );
+			toolbarPanel.add( new InvocationButton( "Mass-buff", "buff.gif", this, "buffSelected" ) );
+			toolbarPanel.add( new InvocationButton( "Mass-mail", "mail.gif", this, "mailSelected" ) );
+		}
 
 		setDefaultCloseOperation( HIDE_ON_CLOSE );
 		pack();

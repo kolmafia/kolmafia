@@ -36,9 +36,9 @@ package net.sourceforge.kolmafia;
 
 // containers
 import java.awt.Image;
+import javax.swing.JToolBar;
 import javax.swing.JFrame;
 import javax.swing.JDialog;
-import javax.swing.JToolBar;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
@@ -54,6 +54,7 @@ import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
+import javax.swing.JTabbedPane;
 
 // layout
 import java.awt.Point;
@@ -100,26 +101,15 @@ import net.java.dev.spellcast.utilities.SortedListModel;
  * value and the message to use for updating.
  */
 
-public abstract class KoLFrame extends JDialog implements KoLConstants
+public abstract class KoLFrame extends JFrame implements KoLConstants
 {
-	protected static final Color ERROR_COLOR = new Color( 255, 192, 192 );
-	protected static final Color ENABLED_COLOR = new Color( 192, 255, 192 );
-	protected static final Color DISABLED_COLOR = null;
-
+	protected JTabbedPane tabs = null;
 	protected String lastTitle;
 	protected String frameName;
 	protected JPanel framePanel;
 
-	protected JToolBar toolbarPanel;
-	protected JFrame relayWindow = null;
-
-	protected JPanel compactPane;
-	protected JLabel levelLabel, roninLabel, mcdLabel;
-	protected JLabel musLabel, mysLabel, moxLabel, drunkLabel;
-	protected JLabel hpLabel, mpLabel, meatLabel, advLabel;
-	protected JLabel familiarLabel;
-
-	protected KoLCharacterAdapter refreshListener;
+	protected StatusRefresher refresher = null;
+	protected KoLCharacterAdapter refreshListener = null;
 
 	/**
 	 * Constructs a new <code>KoLFrame</code> with the given title,
@@ -137,40 +127,72 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 
 	protected KoLFrame( String title )
 	{
-		super( KoLDesktop.getInstance() );
 		setTitle( title );
 
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		this.framePanel = new JPanel( new BorderLayout( 0, 0 ) );
 		getContentPane().add( this.framePanel, BorderLayout.CENTER );
 
-		this.toolbarPanel = null;
+		this.frameName = getClass().getName();
+		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
+
+		if ( !(this instanceof KoLDesktop) )
+			existingFrames.add( this );
+	}
+
+	public final void setTitle( String newTitle )
+	{
+		this.lastTitle = newTitle;
+		KoLDesktop.setTitle( this, newTitle );
+
+		super.setTitle( KoLCharacter.getUsername().length() > 0 ?
+			KoLCharacter.getUsername() + ": " + this.lastTitle : this.lastTitle );
+
+	}
+
+	public void requestFocus()
+	{
+		super.requestFocus();
+		KoLDesktop.requestFocus( this );
+	}
+
+	public boolean useSidePane()
+	{	return false;
+	}
+
+	public void constructToolbar()
+	{
+	}
+
+	protected final JToolBar getToolbar()
+	{
+		JToolBar toolbarPanel = null;
 
 		switch ( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) )
 		{
 			case 1:
-				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
 				getContentPane().add( toolbarPanel, BorderLayout.NORTH );
 				break;
 
 			case 2:
-				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
 				getContentPane().add( toolbarPanel, BorderLayout.SOUTH );
 				break;
 
 			case 3:
-				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
+				toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
 				getContentPane().add( toolbarPanel, BorderLayout.WEST );
 				break;
 
 			case 4:
-				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
+				toolbarPanel = new JToolBar( "KoLmafia Toolbar", JToolBar.VERTICAL );
 				getContentPane().add( toolbarPanel, BorderLayout.EAST );
 				break;
 
 			default:
 
-				this.toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
+				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
 				if ( this instanceof LoginFrame || this instanceof ChatFrame )
 				{
 					getContentPane().add( toolbarPanel, BorderLayout.NORTH );
@@ -178,52 +200,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 				}
 		}
 
-		this.frameName = getClass().getName();
-		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
-		existingFrames.add( this );
-
-		if ( useSidePane() )
-			addCompactPane();
-	}
-
-	public final void setTitle( String newTitle )
-	{
-		this.lastTitle = newTitle;
-		String desiredTitle = KoLCharacter.getUsername().length() > 0 ?
-			KoLCharacter.getUsername() + ": " + this.lastTitle : this.lastTitle;
-
-		if ( relayWindow == null )
-			super.setTitle( desiredTitle );
-		else
-			relayWindow.setTitle( desiredTitle );
-	}
-
-	public final void setVisible( boolean isVisible )
-	{
-		if ( relayWindow == null )
-			super.setVisible( isVisible );
-		else
-			relayWindow.setVisible( isVisible );
-	}
-
-	public final boolean isVisible()
-	{
-		if ( relayWindow == null )
-			return super.isVisible();
-		else
-			return relayWindow.isVisible();
-	}
-
-	public void requestFocus()
-	{
-		if ( relayWindow == null )
-			super.requestFocus();
-		else
-			relayWindow.requestFocus();
-	}
-
-	public boolean useSidePane()
-	{	return false;
+		return toolbarPanel;
 	}
 
 	/**
@@ -240,6 +217,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		// the maintained list of frames.
 
 		existingFrames.remove( this );
+		KoLDesktop.removeTab( this );
 
 		if ( refreshListener != null )
 			KoLCharacter.removeCharacterListener( refreshListener );
@@ -249,7 +227,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		// a login frame involves exiting, and ending the
 		// session for all other frames is calling main.
 
-		if ( existingFrames.isEmpty() )
+		if ( existingFrames.isEmpty() && StaticEntity.getClient() instanceof KoLmafiaGUI )
 		{
 			KoLMessenger.dispose();
 			StaticEntity.closeSession();
@@ -281,133 +259,42 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 
 	public void addCompactPane()
 	{
-		if ( framePanel.getComponentCount() != 0 )
+		if ( refresher != null )
 			return;
 
 		boolean useTextOnly = GLOBAL_SETTINGS.getProperty( "useTextHeavySidepane" ).equals( "true" );
-		StatusRefresher refresher;
-
-		if ( useTextOnly )
-			addTextOnlyCompactPane();
-		else
-			addGraphicalCompactPane();
 
 		refresher = new StatusRefresher( useTextOnly );
 		refresher.run();
 
-		this.refreshListener = new KoLCharacterAdapter( refresher );
+		refreshListener = new KoLCharacterAdapter( refresher );
 		KoLCharacter.addCharacterListener( refreshListener );
-		compactPane.setBackground( ENABLED_COLOR );
+
+		refresher.getCompactPane().setBackground( ENABLED_COLOR );
+		getContentPane().add( refresher.getCompactPane(), BorderLayout.WEST );
 	}
 
-	public void addTextOnlyCompactPane()
+	protected static class StatusRefresher implements Runnable
 	{
-		JPanel [] panels = new JPanel[4];
-		int panelCount = -1;
+		private JPanel compactPane;
+		private JLabel levelLabel, roninLabel, mcdLabel;
+		private JLabel musLabel, mysLabel, moxLabel, drunkLabel;
+		private JLabel hpLabel, mpLabel, meatLabel, advLabel;
+		private JLabel familiarLabel;
 
-		panels[ ++panelCount ] = new JPanel( new GridLayout( 3, 1 ) );
-		panels[ panelCount ].add( levelLabel = new JLabel( " ", JLabel.CENTER ) );
-		panels[ panelCount ].add( roninLabel = new JLabel( " ", JLabel.CENTER ) );
-
-		if ( KoLCharacter.inMysticalitySign() || true )
-			panels[ panelCount ].add( mcdLabel = new JLabel( " ", JLabel.CENTER ) );
-
-		panels[ ++panelCount ] = new JPanel( new GridLayout( 4, 2 ) );
-		panels[ panelCount ].add( new JLabel( "Mus: ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( musLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[ panelCount ].add( new JLabel( "Mys: ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( mysLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[ panelCount ].add( new JLabel( "Mox: ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( moxLabel = new JLabel( " ", JLabel.LEFT ) );
-		panels[ panelCount ].add( new JLabel( "Drunk: ", JLabel.RIGHT ) );
-		panels[ panelCount ].add( drunkLabel = new JLabel( " ", JLabel.LEFT) );
-
-		panels[ ++panelCount ] = new JPanel( new BorderLayout() );
-		panels[ panelCount ].setOpaque( false );
-
-			JPanel labelPanel = new JPanel( new GridLayout( 4, 1 ) );
-			labelPanel.setOpaque( false );
-
-			labelPanel.add( new JLabel( "    HP: ", JLabel.RIGHT ) );
-			labelPanel.add( new JLabel( "    MP: ", JLabel.RIGHT ) );
-			labelPanel.add( new JLabel( "    Meat: ", JLabel.RIGHT ) );
-			labelPanel.add( new JLabel( "    Adv: ", JLabel.RIGHT ) );
-
-			JPanel valuePanel = new JPanel( new GridLayout( 4, 1 ) );
-			valuePanel.setOpaque( false );
-
-			valuePanel.add( hpLabel = new JLabel( " ", JLabel.LEFT ) );
-			valuePanel.add( mpLabel = new JLabel( " ", JLabel.LEFT ) );
-			valuePanel.add( meatLabel = new JLabel( " ", JLabel.LEFT ) );
-			valuePanel.add( advLabel = new JLabel( " ", JLabel.LEFT ) );
-
-		panels[ panelCount ].add( labelPanel, BorderLayout.WEST );
-		panels[ panelCount ].add( valuePanel, BorderLayout.CENTER );
-
-		panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
-		panels[ panelCount ].add( familiarLabel = new UnanimatedLabel() );
-
-		JPanel compactContainer = new JPanel();
-		compactContainer.setOpaque( false );
-		compactContainer.setLayout( new BoxLayout( compactContainer, BoxLayout.Y_AXIS ) );
-
-		for ( int i = 0; i < panels.length; ++i )
-		{
-			panels[i].setOpaque( false );
-			compactContainer.add( panels[i] );
-			compactContainer.add( Box.createVerticalStrut( 20 ) );
-		}
-
-		JPanel compactCard = new JPanel( new CardLayout( 8, 8 ) );
-		compactCard.setOpaque( false );
-		compactCard.add( compactContainer, "" );
-
-		JPanel refreshPanel = new JPanel();
-		refreshPanel.setOpaque( false );
-		refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", new CharsheetRequest( StaticEntity.getClient() ) ) );
-
-		this.compactPane = new JPanel( new BorderLayout() );
-		this.compactPane.add( compactCard, BorderLayout.NORTH );
-		this.compactPane.add( refreshPanel, BorderLayout.SOUTH );
-
-		framePanel.setLayout( new BorderLayout() );
-		framePanel.add( this.compactPane, BorderLayout.WEST );
-	}
-
-	private final void addGraphicalCompactPane()
-	{
-		JPanel compactPane = new JPanel( new GridLayout( 7, 1, 0, 20 ) );
-		compactPane.setOpaque( false );
-
-		compactPane.add( hpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
-		compactPane.add( mpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
-
-		compactPane.add( familiarLabel = new UnanimatedLabel() );
-
-		compactPane.add( meatLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
-		compactPane.add( advLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
-		compactPane.add( drunkLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER) );
-
-		compactPane.add( Box.createHorizontalStrut( 80 ) );
-
-		this.compactPane = new JPanel();
-		this.compactPane.setLayout( new BoxLayout( this.compactPane, BoxLayout.Y_AXIS ) );
-		this.compactPane.add( Box.createVerticalStrut( 20 ) );
-		this.compactPane.add( compactPane );
-
-		framePanel.setLayout( new BorderLayout() );
-		framePanel.add( this.compactPane, BorderLayout.WEST );
-	}
-
-	protected class StatusRefresher implements Runnable
-	{
-		private boolean useTextOnly;
+		protected boolean useTextOnly;
 
 		public StatusRefresher( boolean useTextOnly )
-		{	this.useTextOnly = useTextOnly;
+		{
+			this.useTextOnly = useTextOnly;
+
+			if ( useTextOnly )
+				addTextOnlyCompactPane();
+			else
+				addGraphicalCompactPane();
 		}
 
-		private String getStatText( int adjusted, int base )
+		protected String getStatText( int adjusted, int base )
 		{
 			return adjusted == base ? "<html>" + Integer.toString( base ) :
 				adjusted >  base ? "<html><font color=blue>" + Integer.toString( adjusted ) + "</font> (" + Integer.toString( base ) + ")" :
@@ -443,7 +330,104 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 			}
 		}
 
-		private void updateTextOnly()
+		public void addTextOnlyCompactPane()
+		{
+			JPanel [] panels = new JPanel[4];
+			int panelCount = -1;
+
+			panels[ ++panelCount ] = new JPanel( new GridLayout( 3, 1 ) );
+			panels[ panelCount ].add( levelLabel = new JLabel( " ", JLabel.CENTER ) );
+			panels[ panelCount ].add( roninLabel = new JLabel( " ", JLabel.CENTER ) );
+
+			if ( KoLCharacter.inMysticalitySign() || true )
+				panels[ panelCount ].add( mcdLabel = new JLabel( " ", JLabel.CENTER ) );
+
+			panels[ ++panelCount ] = new JPanel( new GridLayout( 4, 2 ) );
+			panels[ panelCount ].add( new JLabel( "Mus: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( musLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( new JLabel( "Mys: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( mysLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( new JLabel( "Mox: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( moxLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( new JLabel( "Drunk: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( drunkLabel = new JLabel( " ", JLabel.LEFT) );
+
+			panels[ ++panelCount ] = new JPanel( new BorderLayout() );
+			panels[ panelCount ].setOpaque( false );
+
+				JPanel labelPanel = new JPanel( new GridLayout( 4, 1 ) );
+				labelPanel.setOpaque( false );
+
+				labelPanel.add( new JLabel( "    HP: ", JLabel.RIGHT ) );
+				labelPanel.add( new JLabel( "    MP: ", JLabel.RIGHT ) );
+				labelPanel.add( new JLabel( "    Meat: ", JLabel.RIGHT ) );
+				labelPanel.add( new JLabel( "    Adv: ", JLabel.RIGHT ) );
+
+				JPanel valuePanel = new JPanel( new GridLayout( 4, 1 ) );
+				valuePanel.setOpaque( false );
+
+				valuePanel.add( hpLabel = new JLabel( " ", JLabel.LEFT ) );
+				valuePanel.add( mpLabel = new JLabel( " ", JLabel.LEFT ) );
+				valuePanel.add( meatLabel = new JLabel( " ", JLabel.LEFT ) );
+				valuePanel.add( advLabel = new JLabel( " ", JLabel.LEFT ) );
+
+			panels[ panelCount ].add( labelPanel, BorderLayout.WEST );
+			panels[ panelCount ].add( valuePanel, BorderLayout.CENTER );
+
+			panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
+			panels[ panelCount ].add( familiarLabel = new UnanimatedLabel() );
+
+			JPanel compactContainer = new JPanel();
+			compactContainer.setOpaque( false );
+			compactContainer.setLayout( new BoxLayout( compactContainer, BoxLayout.Y_AXIS ) );
+
+			for ( int i = 0; i < panels.length; ++i )
+			{
+				panels[i].setOpaque( false );
+				compactContainer.add( panels[i] );
+				compactContainer.add( Box.createVerticalStrut( 20 ) );
+			}
+
+			JPanel compactCard = new JPanel( new CardLayout( 8, 8 ) );
+			compactCard.setOpaque( false );
+			compactCard.add( compactContainer, "" );
+
+			JPanel refreshPanel = new JPanel();
+			refreshPanel.setOpaque( false );
+			refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", new CharsheetRequest( StaticEntity.getClient() ) ) );
+
+			compactPane = new JPanel( new BorderLayout() );
+			compactPane.add( compactCard, BorderLayout.NORTH );
+			compactPane.add( refreshPanel, BorderLayout.SOUTH );
+		}
+
+		protected JPanel getCompactPane()
+		{	return compactPane;
+		}
+
+		protected void addGraphicalCompactPane()
+		{
+			JPanel compactPane = new JPanel( new GridLayout( 7, 1, 0, 20 ) );
+			compactPane.setOpaque( false );
+
+			compactPane.add( hpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
+			compactPane.add( mpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
+
+			compactPane.add( familiarLabel = new UnanimatedLabel() );
+
+			compactPane.add( meatLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
+			compactPane.add( advLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
+			compactPane.add( drunkLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER) );
+
+			compactPane.add( Box.createHorizontalStrut( 80 ) );
+
+			compactPane = new JPanel();
+			compactPane.setLayout( new BoxLayout( this.compactPane, BoxLayout.Y_AXIS ) );
+			compactPane.add( Box.createVerticalStrut( 20 ) );
+			compactPane.add( compactPane );
+		}
+
+		protected void updateTextOnly()
 		{
 			levelLabel.setText( "Level " + KoLCharacter.getLevel() );
 			roninLabel.setText( KoLCharacter.isHardcore() ? "(Hardcore)" : KoLCharacter.canInteract() ? "(Ronin Clear)" :
@@ -463,7 +447,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 		}
 
-		private void updateGraphical()
+		protected void updateGraphical()
 		{
 			hpLabel.setText( KoLCharacter.getCurrentHP() + " / " + KoLCharacter.getMaximumHP() );
 			hpLabel.setVerticalTextPosition( JLabel.BOTTOM );
@@ -497,16 +481,16 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		{
 			case ERROR_STATE:
 
-				if ( compactPane != null )
-					compactPane.setBackground( ERROR_COLOR );
+				if ( refresher != null )
+					refresher.getCompactPane().setBackground( ERROR_COLOR );
 
 				setEnabled( true );
 				break;
 
 			case ENABLE_STATE:
 
-				if ( compactPane != null )
-					compactPane.setBackground( ENABLED_COLOR );
+				if ( refresher != null )
+					refresher.getCompactPane().setBackground( ENABLED_COLOR );
 
 				setEnabled( true );
 				break;
@@ -514,8 +498,8 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 			case ABORT_STATE:
 			case CONTINUE_STATE:
 
-				if ( compactPane != null )
-					compactPane.setBackground( DISABLED_COLOR );
+				if ( refresher != null )
+					refresher.getCompactPane().setBackground( DISABLED_COLOR );
 
 				setEnabled( false );
 				break;
@@ -537,7 +521,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	{
 	}
 
-	protected class MultiButtonPanel extends JPanel
+	protected static class MultiButtonPanel extends JPanel
 	{
 		protected boolean showMovers;
 		protected JPanel enclosingPanel;
@@ -674,10 +658,10 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	 * the request for viewing frames.
 	 */
 
-	protected class DisplayFrameButton extends JButton implements ActionListener
+	protected static class DisplayFrameButton extends JButton implements ActionListener
 	{
-		private Class frameClass;
-		private CreateFrameRunnable displayer;
+		protected Class frameClass;
+		protected CreateFrameRunnable displayer;
 
 		public DisplayFrameButton( String text, Class frameClass )
 		{
@@ -711,81 +695,16 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	}
 
 	/**
-	 * Action listener responsible for handling links clicked
-	 * inside of a <code>JEditorPane</code>.
-	 */
-
-	protected class KoLHyperlinkAdapter extends HyperlinkAdapter
-	{
-		protected void handleInternalLink( String location )
-		{
-			if ( location.startsWith( "desc" ) || location.startsWith( "doc" ) || location.startsWith( "searchp" ) )
-			{
-				// Certain requests should open in a new window.
-				// These include description data, documentation
-				// and player searches.
-
-				StaticEntity.openRequestFrame( location );
-			}
-			else if ( location.equals( "lchat.php" ) )
-			{
-				KoLMessenger.initialize();
-			}
-			else if ( KoLFrame.this instanceof RequestFrame )
-			{
-				// If this is a request frame, make sure that
-				// you minimize the number of open windows by
-				// making an attempt to refresh.
-
-				((RequestFrame)KoLFrame.this).refresh( RequestEditorKit.extractRequest( location ) );
-			}
-			else
-			{
-				// Otherwise, if this isn't a request frame,
-				// open up a new request frame in order to
-				// display the appropriate data.
-
-				StaticEntity.openRequestFrame( location );
-			}
-		}
-	}
-
-	/**
-	 * An internal class which opens a new <code>RequestFrame</code>
-	 * to the given frame whenever an action event is triggered.
-	 */
-
-	protected class MiniBrowserButton extends JButton implements ActionListener
-	{
-		private String location;
-		private boolean useSavedRequest;
-
-		public MiniBrowserButton()
-		{
-			super( JComponentUtilities.getSharedImage( "browser.gif" ) );
-			JComponentUtilities.setComponentSize( this, 32, 32 );
-			addActionListener( this );
-			setToolTipText( "Mini-Browser" );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			StaticEntity.getClient().setCurrentRequest( null );
-			StaticEntity.openRequestFrame( "main.php" );
-		}
-	}
-
-	/**
 	 * Internal class used to invoke the given no-parameter
 	 * method on the given object.  This is used whenever
 	 * there is the need to invoke a method and the creation
 	 * of an additional class is unnecessary.
 	 */
 
-	protected class InvocationButton extends JButton implements ActionListener, Runnable
+	protected static class InvocationButton extends JButton implements ActionListener, Runnable
 	{
-		private Object object;
-		private Method method;
+		protected Object object;
+		protected Method method;
 
 		public InvocationButton( String text, Object object, String methodName )
 		{
@@ -817,7 +736,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 			completeConstruction( c, methodName );
 		}
 
-		private void completeConstruction( Class c, String methodName )
+		protected void completeConstruction( Class c, String methodName )
 		{
 			addActionListener( this );
 
@@ -856,9 +775,9 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	 * using a local panel inside of the adventure frame.
 	 */
 
-	protected class KoLPanelFrameButton extends JButton implements ActionListener
+	protected static class KoLPanelFrameButton extends JButton implements ActionListener
 	{
-		private CreateFrameRunnable creator;
+		protected CreateFrameRunnable creator;
 
 		public KoLPanelFrameButton( String tooltip, String icon, ActionPanel panel )
 		{
@@ -880,44 +799,9 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		}
 	}
 
-	/**
-	 * This internal class is used to process the request for selecting
-	 * a script using the file dialog.
-	 */
-
-	protected class ScriptSelectPanel extends JPanel implements ActionListener
+	protected static class RequestButton extends JButton implements ActionListener
 	{
-		private JTextField scriptField;
-
-		public ScriptSelectPanel( JTextField scriptField )
-		{
-			setLayout( new BorderLayout( 0, 0 ) );
-
-			add( scriptField, BorderLayout.CENTER );
-			JButton scriptButton = new JButton( "..." );
-
-			JComponentUtilities.setComponentSize( scriptButton, 20, 20 );
-			scriptButton.addActionListener( this );
-			add( scriptButton, BorderLayout.EAST );
-
-			this.scriptField = scriptField;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
-			int returnVal = chooser.showOpenDialog( KoLFrame.this );
-
-			if ( chooser.getSelectedFile() == null )
-				return;
-
-			scriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
-		}
-	}
-
-	protected class RequestButton extends JButton implements ActionListener
-	{
-		private KoLRequest request;
+		protected KoLRequest request;
 
 		public RequestButton( String title, KoLRequest request )
 		{
@@ -1012,19 +896,11 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 	{	return getQuantity( title, maximumValue, maximumValue );
 	}
 
-	protected final void setProperty( String name, String value )
-	{	StaticEntity.setProperty( name, value );
-	}
-
-	protected final String getProperty( String name )
-	{	return StaticEntity.getProperty( name );
-	}
-
-	protected class FilterCheckBox extends JCheckBox implements ActionListener
+	protected static class FilterCheckBox extends JCheckBox implements ActionListener
 	{
-		private boolean isTradeable;
-		private JCheckBox [] filters;
-		private ShowDescriptionList elementList;
+		protected boolean isTradeable;
+		protected JCheckBox [] filters;
+		protected ShowDescriptionList elementList;
 
 		public FilterCheckBox( JCheckBox [] filters, ShowDescriptionList elementList, String label, boolean isSelected )
 		{	this( filters, elementList, false, label, isSelected );
@@ -1068,7 +944,7 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		}
 	}
 
-	private class UnanimatedLabel extends JLabel
+	protected static class UnanimatedLabel extends JLabel
 	{
 		public UnanimatedLabel()
 		{	super( " ", null, CENTER );
@@ -1103,32 +979,160 @@ public abstract class KoLFrame extends JDialog implements KoLConstants
 		super.processWindowEvent( e );
 	}
 
-	protected JFrame createRelayWindow()
+	protected class KoLHyperlinkAdapter extends HyperlinkAdapter
 	{
-		relayWindow = new RelayWindow();
-		return relayWindow;
+		protected void handleInternalLink( String location )
+		{
+			if ( location.startsWith( "desc" ) || location.startsWith( "doc" ) || location.startsWith( "searchp" ) )
+			{
+				// Certain requests should open in a new window.
+				// These include description data, documentation
+				// and player searches.
+
+				StaticEntity.openRequestFrame( location );
+			}
+			else if ( location.equals( "lchat.php" ) )
+			{
+				KoLMessenger.initialize();
+			}
+			else if ( KoLFrame.this instanceof RequestFrame )
+			{
+				// If this is a request frame, make sure that
+				// you minimize the number of open windows by
+				// making an attempt to refresh.
+
+				((RequestFrame)KoLFrame.this).refresh( RequestEditorKit.extractRequest( location ) );
+			}
+			else
+			{
+				// Otherwise, if this isn't a request frame,
+				// open up a new request frame in order to
+				// display the appropriate data.
+
+				StaticEntity.openRequestFrame( location );
+			}
+		}
+	}
+
+	protected final void setProperty( String name, String value )
+	{	StaticEntity.setProperty( name, value );
+	}
+
+	protected final String getProperty( String name )
+	{	return StaticEntity.getProperty( name );
 	}
 
 	/**
-	 * Internal class which places the contents of the JDialog
-	 * inside of a separate JFrame.  This frame is then notified
-	 * of any title updates.
+	 * This panel allows the user to select how they would like to fight
+	 * their battles.  Everything from attacks, attack items, recovery items,
+	 * retreat, and battle skill usage will be supported when this panel is
+	 * finalized.  For now, however, it only customizes attacks.
 	 */
 
-	private class RelayWindow extends JFrame
+	protected class RestoreOptionsPanel extends KoLPanel
 	{
-		public RelayWindow()
+		private JComboBox battleStopSelect;
+		private JComboBox hpAutoRecoverSelect;
+		private JComboBox mpAutoRecoverSelect;
+		private JTextField hpRecoveryScriptField;
+		private JTextField mpRecoveryScriptField;
+		private JTextField betweenBattleScriptField;
+
+		/**
+		 * Constructs a new <code>RestoreOptionsPanel</code> containing a
+		 * way for the users to choose the way they want to recover their
+		 * health and mana inbetween battles encountered during adventuring.
+		 */
+
+		public RestoreOptionsPanel( boolean includeAutoStop )
 		{
-			this.setTitle( KoLFrame.this.getTitle() );
-			this.setContentPane( KoLFrame.this.getContentPane() );
+			super( "save", "reload", new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+
+			battleStopSelect = new JComboBox();
+			battleStopSelect.addItem( "Never stop combat" );
+			for ( int i = 0; i <= 9; ++i )
+				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
+
+			// Add in the between-adventures field
+
+			betweenBattleScriptField = new JTextField();
+
+			// All the components of autorecovery
+
+			hpAutoRecoverSelect = new JComboBox();
+			hpAutoRecoverSelect.addItem( "Do not autorecover HP" );
+			for ( int i = 0; i <= 9; ++i )
+				hpAutoRecoverSelect.addItem( "Autorecover HP at " + (i * 10) + "%" );
+
+			mpAutoRecoverSelect = new JComboBox();
+			mpAutoRecoverSelect.addItem( "Do not autorecover MP" );
+			for ( int i = 0; i <= 9; ++i )
+				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
+
+			hpRecoveryScriptField = new JTextField();
+			mpRecoveryScriptField = new JTextField();
+
+			// Add the elements to the panel
+
+			int currentElementCount = 0;
+			VerifiableElement [] elements = new VerifiableElement[ includeAutoStop ? 11 : 9 ];
+
+			if ( includeAutoStop )
+			{
+				elements[ currentElementCount++ ] = new VerifiableElement( "Stop Combat: ", battleStopSelect );
+				elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
+			}
+
+			elements[ currentElementCount++ ] = new VerifiableElement( "Between Battles: ", new ScriptSelectPanel( betweenBattleScriptField ) );
+			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
+
+			elements[ currentElementCount++ ] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", HPRestoreItemList.getDisplay() );
+			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
+
+			elements[ currentElementCount++ ] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "MP Recovery Script: ", new ScriptSelectPanel( mpRecoveryScriptField ) );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
+
+			setContent( elements );
+			actionCancelled();
 		}
 
-		protected void processWindowEvent( WindowEvent e )
+		public void setEnabled( boolean isEnabled )
 		{
-			super.processWindowEvent( e );
+		}
 
-			if ( e.getID() == WindowEvent.WINDOW_CLOSING )
-				KoLFrame.this.processWindowEvent( e );
+		protected void actionConfirmed()
+		{
+			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex() - 1) / 10.0) ) );
+			setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
+
+			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
+			HPRestoreItemList.setProperty();
+
+			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+			setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
+			MPRestoreItemList.setProperty();
+
+			JOptionPane.showMessageDialog( null, "Settings have been saved." );
+		}
+
+		protected void actionCancelled()
+		{
+			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
+			betweenBattleScriptField.setText( getProperty( "betweenBattleScript" ) );
+
+			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
+			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
+
+			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
+			mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
+		}
+
+		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
 		}
 	}
 }

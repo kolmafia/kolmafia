@@ -570,9 +570,9 @@ public class AdventureDatabase extends KoLDatabase
 	 * appropriate CLI command.
 	 */
 
-	private static final void retrieveItem( ItemCreationRequest item, boolean validate, int missingCount )
+	private static final void retrieveItem( ItemCreationRequest item, int missingCount )
 	{
-		int createCount = Math.min( missingCount, validate ? item.getCount( ConcoctionsDatabase.getConcoctions() ) : Integer.MAX_VALUE );
+		int createCount = Math.min( missingCount, item.getCount( ConcoctionsDatabase.getConcoctions() ) );
 
 		if ( createCount > 0 )
 		{
@@ -625,7 +625,7 @@ public class AdventureDatabase extends KoLDatabase
 			ItemCreationRequest creator = ItemCreationRequest.getInstance( client, item.getItemID(), item.getCount() );
 			if ( creator != null )
 			{
-				retrieveItem( creator, true, missingCount );
+				retrieveItem( creator, missingCount );
 				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 				if ( missingCount <= 0 )
@@ -640,7 +640,7 @@ public class AdventureDatabase extends KoLDatabase
 				int worthlessItemCount = HermitRequest.getWorthlessItemCount();
 				if ( worthlessItemCount > 0 )
 					(new HermitRequest( client, item.getItemID(), Math.min( worthlessItemCount, missingCount ) )).run();
-				
+
 				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
 				if ( missingCount <= 0 )
@@ -712,12 +712,27 @@ public class AdventureDatabase extends KoLDatabase
 
 			// Finally, if it's creatable, rather than seeing
 			// what main ingredient is missing, show what
-			// sub-ingredients are missing.
+			// sub-ingredients are missing; but only do this
+			// if it's not a clover or a wad of dough, which
+			// causes infinite recursion.
 
 			if ( creator != null )
 			{
-				retrieveItem( creator, false, missingCount );
-				return;
+				switch ( item.getItemID() )
+				{
+					case 24:
+					case 196:
+					case 159:
+					case 301:
+
+						break;
+
+					default:
+
+						creator.setQuantityNeeded( missingCount );
+						creator.run();
+						return;
+				}
 			}
 
 			// Try to purchase the item from the mall, if the

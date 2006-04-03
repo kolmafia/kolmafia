@@ -69,7 +69,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ExamineItemsFrame extends KoLFrame
 {
-	private JTabbedPane tabs;
 	private ExamineItemsPanel items;
 	private ItemLookupPanel familiars, skills, effects;
 
@@ -81,7 +80,6 @@ public class ExamineItemsFrame extends KoLFrame
 	public ExamineItemsFrame()
 	{
 		super( "Kingdom of Loathing Encyclopedia" );
-
 		tabs = new JTabbedPane();
 
 		items = new ExamineItemsPanel( allItems );

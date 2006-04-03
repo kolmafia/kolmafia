@@ -75,6 +75,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLmafia implements KoLConstants
 {
+	protected static LocalRelayServer relayServer = new LocalRelayServer();
 	protected static PrintStream macroStream = NullStream.INSTANCE;
 	protected static PrintStream logStream = NullStream.INSTANCE;
 	protected static LimitedSizeChatBuffer commandBuffer = null;
@@ -84,6 +85,15 @@ public abstract class KoLmafia implements KoLConstants
 		"adventures.dat", "buffbots.dat", "buffs.dat", "classskills.dat", "concoctions.dat",
 		"equipment.dat", "familiars.dat", "itemdescs.dat", "npcstores.dat", "outfits.dat",
 		"packages.dat", "tradeitems.dat", "zonelist.dat"
+	};
+	
+	public static final String [][] BREAKFAST_SKILLS =
+	{
+		{ "Summon Snowcone", "1" },
+		{ "Summon Hilarious Objects", "1" },
+		{ "Advanced Saucecrafting", "3" },
+		{ "Pastamastery", "3" },
+		{ "Advanced Cocktailcrafting", "3" }
 	};
 
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
@@ -439,17 +449,10 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.hasArches() )
 			(new CampgroundRequest( this, "arches" )).run();
 
-		if ( KoLCharacter.canSummonSnowcones() )
-			getBreakfast( "Summon Snowcone", 1 );
-
-		if ( KoLCharacter.canSummonReagent() )
-			getBreakfast( "Advanced Saucecrafting", 3 );
-
-		if ( (!KoLCharacter.isHardcore() || KoLCharacter.canEat()) && KoLCharacter.canSummonNoodles() )
-			getBreakfast( "Pastamastery", 3 );
-
-		if ( (!KoLCharacter.isHardcore() || KoLCharacter.canDrink()) && KoLCharacter.canSummonShore() )
-			getBreakfast( "Advanced Cocktailcrafting", 3 );
+		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfastSkills" );
+		for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
+			if ( skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1 && KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] ) )
+				getBreakfast( BREAKFAST_SKILLS[i][0], Integer.parseInt( BREAKFAST_SKILLS[i][1] ) );
 
 		updateDisplay( "Breakfast retrieved." );
 	}
@@ -969,7 +972,7 @@ public abstract class KoLmafia implements KoLConstants
 					while ( current <= needed && last != current && currentState != ABORT_STATE )
 					{
 						last = current;
-						recoverOnce( currentTechnique );
+						recoverOnce( currentTechnique, restoreSetting.indexOf( ";" ) != -1 );
 						current = ((Number)currentMethod.invoke( null, empty )).intValue();
 					}
 				}
@@ -1015,7 +1018,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public final boolean recoverHP( int recover )
-	{	return recover( recover, "hpAutoRecover", "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestoreItems", HPRestoreItemList.class );
+	{	return recover( recover, "hpAutoRecover", "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestores", HPRestoreItemList.class );
 	}
 
 	/**
@@ -1023,20 +1026,16 @@ public abstract class KoLmafia implements KoLConstants
 	 * in a script) in order to restore.
 	 */
 
-	private final void recoverOnce( Object technique )
+	private final void recoverOnce( Object technique, boolean canUseOtherTechnique )
 	{
 		if ( technique == null )
 			return;
 
-		if ( technique == MPRestoreItemList.BEANBAG || technique == MPRestoreItemList.HOUSE || technique == HPRestoreItemList.HOUSE )
-		{
-			if ( KoLCharacter.getAdventuresLeft() == 0 )
-			{
-				DEFAULT_SHELL.updateDisplay( "Insufficient adventures for " + technique );
-				return;
-			}
-		}
-		else if ( technique != MPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.GALAKTIK && technique != HPRestoreItemList.COCOON && technique != HPRestoreItemList.WALRUS && technique != HPRestoreItemList.REMEDY )
+		// If the technique is an item, and the item is not readily available,
+		// then don't bother with this item -- however, if it is the only item
+		// present, then rethink it.
+
+		if ( technique != HPRestoreItemList.COCOON && technique != HPRestoreItemList.WALRUS )
 		{
 			AdventureResult item = new AdventureResult( technique.toString(), 0 );
 			if ( !KoLCharacter.getInventory().contains( item ) )
@@ -1044,7 +1043,7 @@ public abstract class KoLmafia implements KoLConstants
 				// Allow for the possibility that the player can
 				// auto-purchase the item from the mall.
 
-				if ( !NPCStoreDatabase.contains( item.getName() ) && !KoLCharacter.canInteract() || !StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+				if ( canUseOtherTechnique || !StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" ) || (!NPCStoreDatabase.contains( item.getName() ) && !KoLCharacter.canInteract()) )
 				{
 					DEFAULT_SHELL.updateDisplay( "Insufficient " + technique + " for auto-restore." );
 					return;
@@ -1067,7 +1066,7 @@ public abstract class KoLmafia implements KoLConstants
 	public int getRestoreCount()
 	{
 		int restoreCount = 0;
-		String mpRestoreSetting = settings.getProperty( "buffBotMPRestore" );
+		String mpRestoreSetting = settings.getProperty( "mpRestores" );
 
 		for ( int i = 0; i < MPRestoreItemList.size(); ++i )
 			if ( mpRestoreSetting.indexOf( MPRestoreItemList.get(i).toString() ) != -1 )
@@ -1093,7 +1092,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean recoverMP( int mpNeeded )
-	{	return recover( mpNeeded, "mpAutoRecover", "getCurrentMP", "getMaximumMP", "mpRecoveryScript", "buffBotMPRestore", MPRestoreItemList.class );
+	{	return recover( mpNeeded, "mpAutoRecover", "getCurrentMP", "getMaximumMP", "mpRecoveryScript", "mpRestores", MPRestoreItemList.class );
 	}
 
 	/**
@@ -2362,7 +2361,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void downloadAdventureOverride()
 	{
-		updateDisplay( "Downloading override data files..." );
+		DEFAULT_SHELL.updateDisplay( "Downloading override data files..." );
 
 		try
 		{
@@ -2386,7 +2385,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( IOException e )
 		{
-			updateDisplay( ERROR_STATE, "Error occurred in download attempt.  Update failed." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Error occurred in download attempt.  Update failed." );
 
 			e.printStackTrace( logStream );
 			e.printStackTrace();
@@ -2394,7 +2393,37 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		updateDisplay( "Download completed.  KoLmafia successfully updated." );
+		DEFAULT_SHELL.updateDisplay( "Download completed.  Please restart to complete the update." );
+	}
+
+	public void runBetweenBattleChecks()
+	{
+		// Before running the request, make sure you have enough
+		// mana and health to continue.
+
+		if ( !(getCurrentRequest() instanceof CampgroundRequest) )
+		{
+			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
+			if ( !scriptPath.equals( "" ) )
+				DEFAULT_SHELL.executeLine( scriptPath );
+
+			recoverHP();
+			recoverMP();
+		}
+	}
+
+	public void startRelayServer()
+	{
+		if ( !relayServer.isRunning() )
+			(new Thread( relayServer )).start(); 
+
+		for ( int i = 0; i < 30 && !relayServer.isRunning(); ++i )
+			KoLRequest.delay( 100 );
+		
+		if ( !relayServer.isRunning() )
+			return;
+		
+		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + relayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") ); 
 	}
 
 	public void declareWorldPeace()

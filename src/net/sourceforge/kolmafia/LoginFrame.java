@@ -41,6 +41,7 @@ import javax.swing.BoxLayout;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import javax.swing.SpringLayout;
 
 // event listeners
 import java.awt.event.FocusEvent;
@@ -63,10 +64,13 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 // other imports
+import com.sun.java.forums.SpringUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -97,14 +101,12 @@ public class LoginFrame extends KoLFrame
 	 * <code>KoLPanel</code> and other classes for updating its display,
 	 * and derived classes may access the <code>LoginPanel</code> indirectly
 	 * in this fashion.
-	 *
-	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() associated with this <code>LoginFrame</code>.
 	 */
 
 	public LoginFrame( SortedListModel saveStateNames )
 	{
 		super( VERSION_NAME + ": Login" );
-		JTabbedPane tabs = new JTabbedPane();
+		tabs = new JTabbedPane();
 
 		this.saveStateNames = new SortedListModel();
 		this.saveStateNames.addAll( saveStateNames );
@@ -116,6 +118,7 @@ public class LoginFrame extends KoLFrame
 
 		JComponentUtilities.setComponentSize( scroller, 300, 300 );
 		tabs.addTab( "Startup", scroller );
+		tabs.addTab( "Breakfast", new BreakfastPanel() );
 
 		JPanel connectPanel = new JPanel();
 
@@ -334,8 +337,11 @@ public class LoginFrame extends KoLFrame
 	{
 		private final String [][] FRAME_OPTIONS =
 		{
-			{ "Main Interface", "AdventureFrame" },
 			{ "Mini-Browser", "RequestFrame" },
+			{ "Relay Server", "LocalRelayServer" },
+
+			{ "Adventure", "AdventureFrame" },
+			{ "Purchases", "MallSearchFrame" },
 			{ "Graphical CLI", "CommandDisplayFrame" },
 
 			{ "Player Status", "CharsheetFrame" },
@@ -346,6 +352,8 @@ public class LoginFrame extends KoLFrame
 			{ "Display Case", "MuseumFrame" },
 			{ "Hagnk Storage", "HagnkStorageFrame" },
 
+			{ "Meat Manager", "MeatManageFrame" },
+			{ "Skill Casting", "SkillBuffPanel" },
 			{ "Buffbot Manager", "BuffBotFrame" },
 			{ "Purchase Buffs", "BuffRequestFrame" },
 
@@ -358,20 +366,102 @@ public class LoginFrame extends KoLFrame
 
 			{ "Clan Manager", "ClanManageFrame" },
 			{ "Farmer's Almanac", "CalendarFrame" },
-
 		};
 
-		private JCheckBox [] options;
+		private JRadioButton [] nullOptions;
+		private JRadioButton [] startupOptions;
+		private JRadioButton [] interfaceOptions;
 
 		public StartupFramesPanel()
 		{
-			super( new Dimension( 300, 20 ), new Dimension( 20, 20 ) );
+			super( "save", "restore", new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
 
-			options = new JCheckBox[ FRAME_OPTIONS.length ];
-			VerifiableElement [] elements = new VerifiableElement[ FRAME_OPTIONS.length ];
+			nullOptions = new JRadioButton[ FRAME_OPTIONS.length ];
+			startupOptions = new JRadioButton[ FRAME_OPTIONS.length ];
+			interfaceOptions = new JRadioButton[ FRAME_OPTIONS.length ];
 
-			for ( int i = 0; i < elements.length; ++i )
-				elements[i] = new VerifiableElement( "Show \"" + FRAME_OPTIONS[i][0] + "\" on startup", JLabel.LEFT, options[i] = new JCheckBox() );
+			JPanel contentPanel = new JPanel( new SpringLayout() );
+
+			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
+			{
+				nullOptions[i] = new JRadioButton( "manual" );
+				startupOptions[i] = new JRadioButton( "startup" );
+				interfaceOptions[i] = new JRadioButton( "as tab" );
+
+				ButtonGroup holder = new ButtonGroup();
+				holder.add( nullOptions[i] );
+				holder.add( startupOptions[i] );
+				holder.add( interfaceOptions[i] );
+
+				contentPanel.add( new JLabel( FRAME_OPTIONS[i][0] + ": ", JLabel.RIGHT ) );
+				contentPanel.add( nullOptions[i] );
+				contentPanel.add( startupOptions[i] );
+				contentPanel.add( interfaceOptions[i] );
+			}
+
+			setContent( new VerifiableElement[0], false );
+
+			SpringUtilities.makeCompactGrid( contentPanel, FRAME_OPTIONS.length, 4, 5, 5, 5, 5 );
+			container.add( contentPanel, BorderLayout.CENTER );
+			actionCancelled();
+		}
+
+		public void actionConfirmed()
+		{
+			StringBuffer startupString = new StringBuffer();
+			StringBuffer interfaceString = new StringBuffer();
+
+			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
+			{
+				if ( startupOptions[i].isSelected() )
+				{
+					if ( startupString.length() != 0 )
+						startupString.append( "," );
+					startupString.append( FRAME_OPTIONS[i][1] );
+				}
+
+				if ( interfaceOptions[i].isSelected() )
+				{
+					if ( interfaceString.length() != 0 )
+						interfaceString.append( "," );
+					interfaceString.append( FRAME_OPTIONS[i][1] );
+				}
+			}
+
+			GLOBAL_SETTINGS.setProperty( "initialFrameLoading", startupString.toString() );
+			GLOBAL_SETTINGS.setProperty( "mainInterfaceTabs", interfaceString.toString() );
+			JOptionPane.showMessageDialog( null, "Settings have been saved." );
+		}
+
+		public void actionCancelled()
+		{
+			String startupString = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
+			String interfaceString = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" );
+
+			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
+			{
+				startupOptions[i].setSelected( startupString.indexOf( FRAME_OPTIONS[i][1] ) != -1 );
+				interfaceOptions[i].setSelected( interfaceString.indexOf( FRAME_OPTIONS[i][1] ) != -1 );
+
+				if ( !startupOptions[i].isSelected() && !interfaceOptions[i].isSelected() )
+					nullOptions[i].setSelected( true );
+			}
+		}
+	}
+
+	private class BreakfastPanel extends KoLPanel
+	{
+		private JCheckBox [] skillOptions;
+
+		public BreakfastPanel()
+		{
+			super( "save", "restore", new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
+
+			skillOptions = new JCheckBox[ KoLmafia.BREAKFAST_SKILLS.length ];
+			VerifiableElement [] elements = new VerifiableElement[ KoLmafia.BREAKFAST_SKILLS.length ];
+
+			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
+				elements[i] = new VerifiableElement( KoLmafia.BREAKFAST_SKILLS[i][0], JLabel.LEFT, skillOptions[i] = new JCheckBox() );
 
 			setContent( elements, false );
 			actionCancelled();
@@ -379,25 +469,27 @@ public class LoginFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StringBuffer settingString = new StringBuffer();
-			for ( int i = 0; i < options.length; ++i )
+			StringBuffer skillString = new StringBuffer();
+
+			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
 			{
-				if ( options[i].isSelected() )
+				if ( skillOptions[i].isSelected() )
 				{
-					if ( settingString.length() != 0 )
-						settingString.append( "," );
-					settingString.append( FRAME_OPTIONS[i][1] );
+					if ( skillString.length() != 0 )
+						skillString.append( "," );
+					skillString.append( KoLmafia.BREAKFAST_SKILLS[i][0] );
 				}
 			}
 
-			GLOBAL_SETTINGS.setProperty( "initialFrameLoading", settingString.toString() );
+			GLOBAL_SETTINGS.setProperty( "breakfastSkills", skillString.toString() );
+			JOptionPane.showMessageDialog( null, "Settings have been saved." );
 		}
 
 		public void actionCancelled()
 		{
-			String settingString = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
-			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
-				options[i].setSelected( settingString.indexOf( FRAME_OPTIONS[i][1] ) != -1 );
+			String skillString = GLOBAL_SETTINGS.getProperty( "breakfastSkills" );
+			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
+				skillOptions[i].setSelected( skillString.indexOf( KoLmafia.BREAKFAST_SKILLS[i][0] ) != -1 );
 		}
 	}
 
@@ -413,7 +505,7 @@ public class LoginFrame extends KoLFrame
 
 		public ServerSelectPanel()
 		{
-			super( "Server Select", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "Server Select", new Dimension( 80, 20 ), new Dimension( 320, 20 ) );
 
 			servers = new JComboBox();
 			servers.addItem( "Auto-detect login server" );
@@ -439,16 +531,15 @@ public class LoginFrame extends KoLFrame
 			trayicon.addItem( "Minimize KoLmafia to taskbar (requires restart)" );
 			trayicon.addItem( "Minimize KoLmafia to system tray (requires restart)" );
 
-			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 5 : 4;
+			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 4 : 3;
 
 			VerifiableElement [] elements = new VerifiableElement[ elementCount ];
 			elements[0] = new VerifiableElement( "Server: ", servers );
 			elements[1] = new VerifiableElement( "Sidebar: ", textheavy );
 			elements[2] = new VerifiableElement( "Toolbars: ", toolbars );
-			elements[3] = new VerifiableElement( "Windows: ", windowing );
 
 			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-				elements[4] = new VerifiableElement( "SysTray: ", trayicon );
+				elements[3] = new VerifiableElement( "SysTray: ", trayicon );
 
 			setContent( elements );
 			actionCancelled();
@@ -460,7 +551,6 @@ public class LoginFrame extends KoLFrame
 			GLOBAL_SETTINGS.setProperty( "useTextHeavySidepane", String.valueOf( textheavy.getSelectedIndex() == 1 ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
-			GLOBAL_SETTINGS.setProperty( "useRelayWindows", String.valueOf( windowing.getSelectedIndex() == 1 ) );
 			GLOBAL_SETTINGS.setProperty( "useSystemTrayIcon", String.valueOf( trayicon.getSelectedIndex() == 1 ) );
 		}
 
@@ -469,7 +559,6 @@ public class LoginFrame extends KoLFrame
 			servers.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) );
 			textheavy.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useTextHeavySidepane" ).equals( "true" ) ? 1 : 0 );
 			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
-			windowing.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useRelayWindows" ).equals( "true" ) ? 1 : 0 );
 			trayicon.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 0 );
 		}
 	}

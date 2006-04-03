@@ -83,12 +83,6 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( StaticEntity.usesSystemTray() )
 			SystemTrayFrame.addTrayIcon();
 
-		if ( !StaticEntity.usesRelayWindows() && !System.getProperty( "os.name" ).startsWith( "Mac" ) )
-		{
-			KoLDesktop.getInstance().setExtendedState( KoLDesktop.MAXIMIZED_HORIZ );
-			KoLDesktop.getInstance().setVisible( true );
-		}
-
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
 
@@ -157,9 +151,11 @@ public class KoLmafiaGUI extends KoLmafia
 	public void initialize( String loginname, String sessionID, boolean getBreakfast )
 	{
 		super.initialize( loginname, sessionID, getBreakfast );
-		String frameSetting = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
 
-		if ( frameSetting.indexOf( "MailboxFrame" ) != -1 )
+		String startupSetting = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
+		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" );
+
+		if ( startupSetting.indexOf( "MailboxFrame" ) != -1 && interfaceSetting.indexOf( "MailboxFrame" ) == -1 )
 			(new MailboxRequest( this, "Inbox" )).run();
 
 		// Reset all the titles on all existing frames.
@@ -183,36 +179,70 @@ public class KoLmafiaGUI extends KoLmafia
 		// Instantiate the appropriate instance of the
 		// frame that should be loaded based on the mode.
 
-		String [] initialFrames = frameSetting.split( "," );
-		for ( int i = 0; i < initialFrames.length; ++i )
-		{
-			if ( initialFrames[i].equals( "KoLMessenger" ) )
-			{
-				KoLMessenger.initialize();
-			}
-			if ( initialFrames[i].equals( "MailboxFrame" ) )
-			{
-				if ( KoLMailManager.hasNewMessages() )
-					(new CreateFrameRunnable( MailboxFrame.class, new Object [] { "Inbox" } )).run();
-			}
-			else
-			{
-				try
-				{
-					Class associatedClass = Class.forName( "net.sourceforge.kolmafia." + initialFrames[i] );
-					displayer = new CreateFrameRunnable( associatedClass );
-					displayer.run();
-				}
-				catch ( ClassNotFoundException e )
-				{
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-				}
+		String [] startupArray = startupSetting.split( "," );
+		String [] interfaceArray = interfaceSetting.split( "," );
 
-			}
+		ArrayList initialFrameList = new ArrayList();
+
+		for ( int i = 0; i < startupArray.length; ++i )
+			if ( !initialFrameList.contains( startupArray[i] ) )
+				initialFrameList.add( startupArray[i] );
+
+		for ( int i = 0; i < interfaceArray.length; ++i )
+			initialFrameList.remove( interfaceArray[i] );
+
+		String [] initialFrames = new String[ initialFrameList.size() ];
+		initialFrameList.toArray( initialFrames );
+
+		for ( int i = 0; i < initialFrames.length; ++i )
+			constructFrame( initialFrames[i] );
+
+		displayer = new CreateFrameRunnable( AdventureFrame.class );
+
+		if ( !GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" ).equals( "" ) )
+		{
+			KoLDesktop.getInstance().initializeTabs();
+			KoLDesktop.getInstance().pack();
+			KoLDesktop.getInstance().setVisible( true );
 		}
 
 		loginWindow.dispose();
+	}
+
+	public static void constructFrame( String frameName )
+	{
+		if ( frameName.equals( "LocalRelayServer" ) )
+		{
+			StaticEntity.getClient().startRelayServer();
+		}
+		else if ( frameName.equals( "KoLMessenger" ) )
+		{
+			KoLMessenger.initialize();
+		}
+		else if ( frameName.equals( "MailboxFrame" ) )
+		{
+			if ( KoLMailManager.hasNewMessages() )
+				(new CreateFrameRunnable( MailboxFrame.class, new Object [] { "Inbox" } )).run();
+		}
+		else if ( frameName.equals( "SkillBuffPanel" ) )
+		{
+			CreateFrameRunnable displayer = new CreateFrameRunnable( KoLPanelFrame.class, new Object [] { "Skill Casting", new SkillBuffPanel() } );
+			displayer.run();
+		}
+		else
+		{
+			try
+			{
+				Class associatedClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
+				CreateFrameRunnable displayer = new CreateFrameRunnable( associatedClass );
+				displayer.run();
+			}
+			catch ( ClassNotFoundException e )
+			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void showHTML( String text, String title )

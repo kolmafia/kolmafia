@@ -38,6 +38,7 @@ package net.sourceforge.kolmafia;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JList;
+import javax.swing.JToolBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JEditorPane;
@@ -128,9 +129,14 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		JComponentUtilities.setComponentSize( splitPane, 500, 300 );
 		getContentPane().add( splitPane );
 
-		toolbarPanel.add( new SaveAllButton() );
-		toolbarPanel.add( new DeleteButton() );
-		toolbarPanel.add( new RefreshButton() );
+		JToolBar toolbarPanel = getToolbar();
+		
+		if ( toolbarPanel != null )
+		{
+			toolbarPanel.add( new SaveAllButton() );
+			toolbarPanel.add( new DeleteButton() );
+			toolbarPanel.add( new RefreshButton() );
+		}
 
 		if ( initialTab == null )
 			(new RequestMailboxThread( "Inbox" )).start();

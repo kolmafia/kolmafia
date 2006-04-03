@@ -451,6 +451,9 @@ public abstract class SorceressLair extends StaticEntity
 		if ( isCheckOnly || hasItem( RHYTHM ) || !requirements.isEmpty() )
 			return requirements;
 
+		if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) && KoLCharacter.canInteract() )
+			AdventureDatabase.retrieveItem( CLOVER );
+
 		if ( !hasItem( CLOVER ) )
 		{
 			if ( client instanceof KoLmafiaCLI )
@@ -1310,7 +1313,7 @@ public abstract class SorceressLair extends StaticEntity
 	private static void fightShadow()
 	{
 		List requirements = new ArrayList();
-		
+
 		AdventureResult option = new AdventureResult( "red pixel potion", 4 );
 		if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
@@ -1321,7 +1324,7 @@ public abstract class SorceressLair extends StaticEntity
 			AdventureResult check = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
 			if ( check.getCount( KoLCharacter.getInventory() ) >= 6 )
 				option = check;
-			
+
 			check = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
 			if ( check.getCount( KoLCharacter.getInventory() ) >= 8 )
 				option = check;

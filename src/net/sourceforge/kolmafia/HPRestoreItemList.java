@@ -42,7 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 
-import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -52,49 +52,31 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class HPRestoreItemList extends StaticEntity
 {
-	public static final HPRestoreItem WALRUS = new HPRestoreItem( "tongue of the walrus", 1, -3 );
-	public static final HPRestoreItem COCOON = new HPRestoreItem( "cannelloni cocoon", 1, -2 );
-	public static final HPRestoreItem REMEDY = new HPRestoreItem( "soft green echo eyedrop antidote", 1, -1 );
+	public static final HPRestoreItem WALRUS = new HPRestoreItem( "tongue of the walrus", 35 );
+	private static final HPRestoreItem REMEDY = new HPRestoreItem( "soft green echo eyedrop antidote", 0 );
+	private static final HPRestoreItem TINY_HOUSE = new HPRestoreItem( "tiny house", 22 );
 
-	public static final HPRestoreItem GALAKTIK = new HPRestoreItem( "doc galaktik", 1, Integer.MAX_VALUE - 1 );
-	public static final HPRestoreItem HOUSE = new HPRestoreItem( "rest at campsite", 1, Integer.MAX_VALUE );
+	public static final HPRestoreItem COCOON = new HPRestoreItem( "cannelloni cocoon", 1 );
 
 	private static Object [] restoreName = new Object[0];
 	private static JCheckBox [] restoreCheckbox = new JCheckBox[0];
-	private static SortedListModel list = new SortedListModel();
+	private static LockableListModel list = new LockableListModel();
 
 	public static void reset()
 	{
 		list.clear();
 		
 		list.add( WALRUS );
-		list.add( COCOON );
 		list.add( REMEDY );
-		
-		list.add( GALAKTIK );
-		list.add( HOUSE );
+		list.add( TINY_HOUSE );
 
-		// These restores maximize your current HP.  To
-		// make sure they appear at the top, they have values
-		// which do not reflect their market value.
+		list.add( COCOON );
+		list.add( new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE ) );
+		list.add( new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE ) );
 
-		list.add( new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE, 0 ) );
-		list.add( new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE, 0 ) );
-
-		// These HP restores come from NPCs, so they have a
-		// constant market value
-
-		list.add( new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 4, 30 ) );
-		list.add( new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9, 60 ) );
-		list.add( new HPRestoreItem( "Doc Galaktik's Restorative Balm", 14, 120 ) );
-		list.add( new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 19, 240 ) );
-
-		// Non-standard items which can also be used for HP
-		// recovery, but might be a little expensive.
-
-		list.add( new HPRestoreItem( "cast", 17, 300 ) );
-		list.add( new HPRestoreItem( "tiny house", 22, 400 ) );
-		list.add( new HPRestoreItem( "phonics down", 48, 900 ) );
+		list.add( new HPRestoreItem( "phonics down", 48 ) );
+		list.add( new HPRestoreItem( "cast", 17 ) );
+		list.add( new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 ) );
 	}
 
 	public static HPRestoreItem get( int index )
@@ -129,7 +111,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 		restorePanel.add( checkboxPanel, BorderLayout.WEST );
 		restorePanel.add( labelPanel, BorderLayout.CENTER );
 
-		String HPRestoreSetting = getProperty( "hpRestoreItems" );
+		String HPRestoreSetting = getProperty( "hpRestores" );
 
 		for ( int i = 0; i < restoreName.length; ++i )
 			if ( HPRestoreSetting.indexOf( restoreName[i].toString() ) != -1 )
@@ -141,7 +123,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 	public static void setProperty()
 	{
-		StringBuffer HPRestoreSetting = new StringBuffer();
+		StringBuffer hpRestoreSetting = new StringBuffer();
 
 		if ( restoreCheckbox != null )
 		{
@@ -149,30 +131,27 @@ public abstract class HPRestoreItemList extends StaticEntity
 			{
 				if ( restoreCheckbox[i].isSelected() )
 				{
-					HPRestoreSetting.append( restoreName[i].toString() );
-					HPRestoreSetting.append( ';' );
+					if ( hpRestoreSetting.length() != 0 )
+						hpRestoreSetting.append( ';' );
+
+					hpRestoreSetting.append( restoreName[i].toString() );
 				}
 			}
 		}
 
-		setProperty( "hpRestoreItems", HPRestoreSetting.toString() );
+		setProperty( "hpRestores", hpRestoreSetting.toString() );
 	}
 
-	public static class HPRestoreItem implements Comparable
+	public static class HPRestoreItem
 	{
 		private String itemName;
 		private int hpPerUse;
-		private int estimatedPrice;
-		private double priceToHPRatio;
 		private AdventureResult itemUsed;
 
-		public HPRestoreItem( String itemName, int hpPerUse, int estimatedPrice )
+		public HPRestoreItem( String itemName, int hpPerUse )
 		{
 			this.itemName = itemName;
 			this.hpPerUse = hpPerUse;
-			this.estimatedPrice = estimatedPrice;
-
-			this.priceToHPRatio = hpPerUse == 0 ? Double.MAX_VALUE : (double)estimatedPrice / (double)hpPerUse;
 			this.itemUsed = new AdventureResult( itemName, 0 );
 		}
 
@@ -184,22 +163,17 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{
 			if ( this == REMEDY )
 			{
-				if ( UneffectRequest.REMEDY.getCount( KoLCharacter.getInventory() ) > 0 )
+				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
 					(new UneffectRequest( client, KoLAdventure.BEATEN_UP )).run();
 
 				return;
 			}
-		
-			if ( this == GALAKTIK )
-			{
-				(new GalaktikRequest( client, GalaktikRequest.HP )).run();
-				return;
-			}
 
-			if ( this == HOUSE )
+			if ( this == TINY_HOUSE )
 			{
-				DEFAULT_SHELL.updateDisplay( "Resting at campground..." );
-				(new CampgroundRequest( client, "rest" )).run();
+				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
+					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", 1 ) )).run();
+				
 				return;
 			}
 
@@ -236,15 +210,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			DEFAULT_SHELL.updateDisplay( "Consuming " + numberToUse + " " + itemName + "..." );
 			(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
-		}
-
-		public int compareTo( Object o )
-		{
-			if ( !(o instanceof HPRestoreItem) || o == null )
-				return -1;
-
-			double ratioDifference = this.priceToHPRatio - ((HPRestoreItem)o).priceToHPRatio;
-			return ratioDifference < 0.0 ? -1 : ratioDifference > 0.0 ? 1 : 0;
 		}
 
 		public String toString()

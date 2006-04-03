@@ -77,6 +77,17 @@ public class KoLPanelFrame extends KoLFrame
 	 */
 
 	protected void setContentPanel( ActionPanel panel )
-	{	framePanel.add( panel, BorderLayout.CENTER );
+	{
+		if ( getClass() == KoLPanelFrame.class )
+		{
+			this.frameName = panel.getClass().getName();
+			this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
+		}
+
+		framePanel.add( panel, BorderLayout.CENTER );
 	}
+
+	public boolean useSidePane()
+	{	return true;
+	}	
 }

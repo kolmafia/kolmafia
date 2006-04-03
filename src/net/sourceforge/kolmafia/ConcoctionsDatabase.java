@@ -319,26 +319,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		concoctions.get(0).total = KoLCharacter.getAdventuresLeft();
 
-		// Next, meat paste and meat stacks can be created directly
-		// and are dependent upon the amount of meat available.
-		// This should also be calculated to allow for meat stack
-		// recipes to be calculated.
-
-		concoctions.get( ItemCreationRequest.MEAT_PASTE ).creatable = KoLCharacter.getAvailableMeat() / 10;
-		concoctions.get( ItemCreationRequest.MEAT_PASTE ).total =
-			concoctions.get( ItemCreationRequest.MEAT_PASTE ).initial +
-				concoctions.get( ItemCreationRequest.MEAT_PASTE ).creatable;
-
-		concoctions.get( ItemCreationRequest.MEAT_STACK ).creatable = KoLCharacter.getAvailableMeat() / 100;
-		concoctions.get( ItemCreationRequest.MEAT_STACK ).total =
-			concoctions.get( ItemCreationRequest.MEAT_STACK ).initial +
-				concoctions.get( ItemCreationRequest.MEAT_STACK ).creatable;
-
-		concoctions.get( ItemCreationRequest.DENSE_STACK ).creatable = KoLCharacter.getAvailableMeat() / 1000;
-		concoctions.get( ItemCreationRequest.DENSE_STACK ).total =
-			concoctions.get( ItemCreationRequest.DENSE_STACK ).initial +
-				concoctions.get( ItemCreationRequest.DENSE_STACK ).creatable;
-
 		// Ice-cold beer and ketchup are special instances -- for the
 		// purposes of calculation, we assume that they will use the
 		// ingredient which is present in the greatest quantity.
@@ -390,25 +370,25 @@ public class ConcoctionsDatabase extends KoLDatabase
 					concoctionsList.remove( ItemCreationRequest.getInstance( client, i, 0, false ) );
 					concoctions.get(i).setPossible( false );
 				}
-
-				continue;
-			}
-
-			// We can make the concoction now
-			ItemCreationRequest currentCreation = ItemCreationRequest.getInstance( client, i, concoctions.get(i).creatable );
-
-			if ( concoctions.get(i).wasPossible() )
-			{
-				if ( currentCreation.getCount( concoctionsList ) != concoctions.get(i).creatable )
-				{
-					concoctionsList.remove( currentCreation );
-					concoctionsList.add( currentCreation );
-				}
 			}
 			else
 			{
-				concoctionsList.add( currentCreation );
-				concoctions.get(i).setPossible( true );
+				// We can make the concoction now
+				ItemCreationRequest currentCreation = ItemCreationRequest.getInstance( client, i, concoctions.get(i).creatable );
+
+				if ( concoctions.get(i).wasPossible() )
+				{
+					if ( currentCreation.getCount( concoctionsList ) != concoctions.get(i).creatable )
+					{
+						concoctionsList.remove( currentCreation );
+						concoctionsList.add( currentCreation );
+					}
+				}
+				else
+				{
+					concoctionsList.add( currentCreation );
+					concoctions.get(i).setPossible( true );
+				}
 			}
 		}
 	}
@@ -420,6 +400,26 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static void cachePermitted( List availableIngredients )
 	{
+		// Next, meat paste and meat stacks can be created directly
+		// and are dependent upon the amount of meat available.
+		// This should also be calculated to allow for meat stack
+		// recipes to be calculated.
+
+		concoctions.get( ItemCreationRequest.MEAT_PASTE ).creatable = KoLCharacter.getAvailableMeat() / 10;
+		concoctions.get( ItemCreationRequest.MEAT_PASTE ).total =
+			concoctions.get( ItemCreationRequest.MEAT_PASTE ).initial +
+				concoctions.get( ItemCreationRequest.MEAT_PASTE ).creatable;
+
+		concoctions.get( ItemCreationRequest.MEAT_STACK ).creatable = KoLCharacter.getAvailableMeat() / 100;
+		concoctions.get( ItemCreationRequest.MEAT_STACK ).total =
+			concoctions.get( ItemCreationRequest.MEAT_STACK ).initial +
+				concoctions.get( ItemCreationRequest.MEAT_STACK ).creatable;
+
+		concoctions.get( ItemCreationRequest.DENSE_STACK ).creatable = KoLCharacter.getAvailableMeat() / 1000;
+		concoctions.get( ItemCreationRequest.DENSE_STACK ).total =
+			concoctions.get( ItemCreationRequest.DENSE_STACK ).initial +
+				concoctions.get( ItemCreationRequest.DENSE_STACK ).creatable;
+
 		// It is never possible to create items which are flagged
 		// NOCREATE, and it is always possible to create items
 		// through meat paste combination.

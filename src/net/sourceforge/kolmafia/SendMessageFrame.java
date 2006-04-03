@@ -154,9 +154,9 @@ public abstract class SendMessageFrame extends KoLFrame
 		messagePanel = new JPanel( new BorderLayout() );
 		messagePanel.add( mainPanel, BorderLayout.CENTER );
 
-		this.framePanel.setLayout( new CardLayout( 20, 20 ) );
-		this.framePanel.add( messagePanel, "" );
-		this.getRootPane().setDefaultButton( sendMessageButton );
+		framePanel.setLayout( new CardLayout( 20, 20 ) );
+		framePanel.add( messagePanel, "" );
+		getRootPane().setDefaultButton( sendMessageButton );
 	}
 
 	protected JPanel constructWestPanel()

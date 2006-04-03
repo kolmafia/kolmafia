@@ -106,7 +106,7 @@ public class BuffBotFrame extends KoLFrame
 
 		// Initialize the display log buffer and the file log
 
-		JTabbedPane tabs = new JTabbedPane();
+		tabs = new JTabbedPane();
 		tabs.addTab( "Run Buffbot", new MainBuffPanel() );
 
 		buffOptions = new BuffOptionsPanel();
@@ -330,11 +330,7 @@ public class BuffBotFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-
 			messageDisposalSelect.setEnabled( isEnabled );
-			whiteListEntry.setEnabled( isEnabled );
-			invalidPriceMessage.setEnabled( isEnabled );
-			thanksMessage.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()

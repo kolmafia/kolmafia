@@ -378,6 +378,16 @@ public class KoLRequest implements Runnable, KoLConstants
 		addFormField( decoded );
 	}
 
+	protected void addEncodedFormFields( String fields )
+	{
+		if ( fields.indexOf( "&" ) == -1 )
+			addEncodedFormField( fields );
+		
+		String [] tokens = fields.split( "(&)" );
+		for ( int i = 0; i < tokens.length; ++i )
+			addEncodedFormField( tokens[i] );
+	}
+
 	private String getDataString( boolean includeHash )
 	{
 		StringBuffer dataBuffer = new StringBuffer();
@@ -766,7 +776,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 					return false;
 				}
-				else if ( redirectLocation.equals( "fight.php" ) )
+				else if ( redirectLocation.equals( "fight.php" ) && !(this instanceof LocalRelayRequest) )
 				{
 					// You have been redirected to a fight!  Here, you need
 					// to complete the fight before you can continue.
@@ -776,7 +786,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 					return this instanceof AdventureRequest || getClass() == KoLRequest.class;
 				}
-				else if ( redirectLocation.equals( "choice.php" ) )
+				else if ( redirectLocation.equals( "choice.php" ) && !(this instanceof LocalRelayRequest) )
 				{
 					shouldStop = processChoiceAdventure();
 				}
@@ -790,6 +800,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				String line = null;
 				StringBuffer replyBuffer = new StringBuffer();
+				StringBuffer rawBuffer = new StringBuffer();
 
 				try
 				{
@@ -832,6 +843,8 @@ public class KoLRequest implements Runnable, KoLConstants
 						do
 						{
 							replyBuffer.append( line );
+							rawBuffer.append( line );
+							rawBuffer.append( LINE_BREAK );
 
 							if ( line.indexOf( "</textarea" ) != -1 )
 								insideTextArea = false;
@@ -856,7 +869,8 @@ public class KoLRequest implements Runnable, KoLConstants
 					e.printStackTrace();
 				}
 
-				statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && replyBuffer.toString().indexOf( "charpane.php" ) != -1;
+				responseText = rawBuffer.toString();
+				processRawResponse();
 				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
 				if ( client != null && client.getPasswordHash() != null )
@@ -886,6 +900,17 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		istream = null;
 		return shouldStop;
+	}
+
+	/**
+	 * processRawResponse method allows classes to process raw, unfiltered 
+	 * server response.  For the durration of this call, responseText 
+	 * will point to unfiltered HTML which contains Javascript.
+	 * If a sub class overrides this function, it should always call 
+	 * super.processRawData()
+	 */
+	protected void processRawResponse()
+	{	statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && responseText.indexOf( "charpane.php" ) != -1;
 	}
 
 	/**

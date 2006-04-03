@@ -362,6 +362,21 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCommand( String command, String parameters )
 	{
+		// Insert random video game reference command to
+		// start things off.
+
+		if ( command.equals( "priphea" ) )
+		{
+			if ( !KoLDesktop.getInstance().isVisible() )
+			{
+				KoLDesktop.getInstance().initializeTabs();
+				KoLDesktop.getInstance().pack();
+				KoLDesktop.getInstance().setVisible( true );
+			}
+
+			return;
+		}
+
 		// Maybe the person is trying to load a raw URL
 		// to test something without creating a brand new
 		// KoLRequest object to handle it yet?
@@ -370,6 +385,15 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), previousLine, true );
 			StaticEntity.getClient().makeRequest( desired, 1 );
+			return;
+		}
+		
+		// Maybe the person wants to load up their browser
+		// from the KoLmafia CLI?
+		
+		if ( command.startsWith( "relay" ) || command.startsWith( "serve" ) )
+		{
+			StaticEntity.getClient().startRelayServer();
 			return;
 		}
 
@@ -431,7 +455,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "echo" ) )
 		{
-			updateDisplay( parameters );
+			if ( parameters.equalsIgnoreCase( "timestamp" ) )
+				updateDisplay( CalendarFrame.TODAY_FORMATTER.format( new Date() ) );
+			else if ( parameters.equalsIgnoreCase( "kol-date" ) )
+				updateDisplay( MoonPhaseDatabase.getCalendarDayAsString( new Date() ) );
+			else
+				updateDisplay( parameters );
+
 			return;
 		}
 
@@ -830,15 +860,26 @@ public class KoLmafiaCLI extends KoLmafia
 		// Add in item retrieval the way KoLmafia handles
 		// it internally.
 
-		if ( command.equals( "retrieve" ) )
+		if ( command.equals( "retrieve" ) || command.equals( "acquire" ) )
 		{
-			AdventureResult item = getFirstMatchingItem( parameters, NOWHERE );
+			// Generic handling of retrieval of worthless
+			// items is by adventuring in the sewer.
+		
+			if ( parameters.equals( "worthless item" ) )
+			{
+				while ( HermitRequest.getWorthlessItemCount() == 0 )
+					executeLine( "buy chewing gum on a string; adventure unlucky" );
+			}
+			else
+			{
+				AdventureResult item = getFirstMatchingItem( parameters, NOWHERE );	
 
-			if ( item != null )
-				AdventureDatabase.retrieveItem( item );
-
+				if ( item != null )
+					AdventureDatabase.retrieveItem( item );
+			}
+			
 			return;
-		}
+ 		}
 
 		// Adding clan management command options inline
 		// in the parsing.
@@ -921,7 +962,7 @@ public class KoLmafiaCLI extends KoLmafia
 			executeStashRequest( parameters );
 			return;
 		}
-
+		
 		// Another w00t for more item-related commands.
 		// This one is the one that allows you to pull
 		// things from storage.
@@ -1189,10 +1230,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
-		if ( parameters.length() != 0 )
-			executeScriptCommand( command + " " + parameters );
-		else
-			executeScriptCommand( command );
+		executeScriptCommand( previousLine );
 	}
 
 	public void showHTML( String text, String title )
@@ -1590,6 +1628,9 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.getClient().checkRequirements( StaticEntity.getClient().conditions );
 			StaticEntity.getClient().conditions.clear();
 			StaticEntity.getClient().conditions.addAll( StaticEntity.getClient().missingItems );
+
+			DEFAULT_SHELL.updateDisplay( "Check complete.  Resuming request..." );
+
 			return true;
 		}
 		else if ( option.equals( "mode" ) )
@@ -2399,6 +2440,22 @@ public class KoLmafiaCLI extends KoLmafia
 		// the amount, if the amount is 1.
 
 		List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
+		
+		// Next, check to see if any of the items matching appear
+		// in an NPC store.  If so, automatically default to it.
+		
+		String [] matchingNamesArray = new String[ matchingNames.size() ];
+		matchingNames.toArray( matchingNamesArray );
+		
+		for ( int i = 0; i < matchingNamesArray.length; ++i )
+		{
+			if ( NPCStoreDatabase.contains( matchingNamesArray[i] ) )
+			{
+				matchingNames.clear();
+				matchingNames.add( matchingNamesArray[i] );
+				break;
+			}
+		}
 
 		if ( matchingNames.size() != 0 )
 		{
@@ -3151,6 +3208,14 @@ public class KoLmafiaCLI extends KoLmafia
 		(new ZapRequest( StaticEntity.getClient(), wand, item )).run();
 	}
 
+	public boolean isCloverDay()
+	{
+		if ( !StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" ) )
+			(new HermitRequest( StaticEntity.getClient() )).run();
+		
+		return StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
+	}
+
 	/**
 	 * Retrieves the items specified in the most recent command.  If there
 	 * are no clovers available, the request will abort.
@@ -3158,16 +3223,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeHermitRequest()
 	{
-		String oldLine =  previousLine;
-		boolean clovers = StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
+		String oldLine = previousLine;
+		boolean clovers = isCloverDay();
 
-		if ( !clovers )
-		{
-			(new HermitRequest( StaticEntity.getClient() )).run();
-			if ( !StaticEntity.getClient().permitsContinue() )
-				return;
-			clovers = StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
-		}
+		if ( !StaticEntity.getClient().permitsContinue() )
+			return;
 
 		if ( previousLine.indexOf( " " ) == -1 )
 		{

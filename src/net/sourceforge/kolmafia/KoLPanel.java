@@ -34,17 +34,24 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.JTextField;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
+import javax.swing.JFileChooser;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 import java.lang.ref.WeakReference;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
 /**
@@ -128,11 +135,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	{
 		super.setContent( elements, mainPanel, eastPanel, isLabelPreceeding, bothDisabledOnClick );
 
-		boolean shouldAddStatusLabel = elements.length != 0;
-		for ( int i = 0; i < elements.length; ++i )
-			shouldAddStatusLabel &= !(elements[i].getInputField() instanceof JScrollPane);
-
-		if ( shouldAddStatusLabel )
+		if ( shouldAddStatusLabel( elements ) )
 		{
 			JPanel statusContainer = new JPanel();
 			statusContainer.setLayout( new BoxLayout( statusContainer, BoxLayout.Y_AXIS ) );
@@ -172,9 +175,61 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		}
 	}
 
+	protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+	{
+		boolean shouldAddStatusLabel = elements.length != 0;
+		for ( int i = 0; i < elements.length; ++i )
+			shouldAddStatusLabel &= !(elements[i].getInputField() instanceof JScrollPane);
+
+		return shouldAddStatusLabel;
+	}
+
+	/**
+	 * This internal class is used to process the request for selecting
+	 * a script using the file dialog.
+	 */
+
+	protected class ScriptSelectPanel extends JPanel implements ActionListener
+	{
+		private JTextField scriptField;
+
+		public ScriptSelectPanel( JTextField scriptField )
+		{
+			setLayout( new BorderLayout( 0, 0 ) );
+
+			add( scriptField, BorderLayout.CENTER );
+			JButton scriptButton = new JButton( "..." );
+
+			JComponentUtilities.setComponentSize( scriptButton, 20, 20 );
+			scriptButton.addActionListener( this );
+			add( scriptButton, BorderLayout.EAST );
+
+			this.scriptField = scriptField;
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
+			int returnVal = chooser.showOpenDialog( null );
+
+			if ( chooser.getSelectedFile() == null )
+				return;
+
+			scriptField.setText( chooser.getSelectedFile().getAbsolutePath() );
+		}
+	}
+
 	public void setStatusMessage( int displayState, String s )
 	{
 		if ( actionStatusLabel != null && !s.equals( "" ) )
 			actionStatusLabel.setStatusMessage( displayState, s );
+	}
+
+	protected final void setProperty( String name, String value )
+	{	StaticEntity.setProperty( name, value );
+	}
+
+	protected final String getProperty( String name )
+	{	return StaticEntity.getProperty( name );
 	}
 }

@@ -83,7 +83,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		setResizable( false );
 
-		JTabbedPane tabs = new JTabbedPane();
+		tabs = new JTabbedPane();
 		tabs.add( "Price Setup", new StoreManagePanel() );
 		tabs.add( "Store Log", new StoreLogPanel() );
 		tabs.add( "Bulk Additions", new StoreAddPanel() );

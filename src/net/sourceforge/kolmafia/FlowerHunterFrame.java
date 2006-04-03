@@ -69,7 +69,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 {
 	private boolean isSimple;
-	private JTabbedPane tabs;
 	private CardLayout resultCards;
 	private JPanel resultCardPanel;
 	private AttackPanel attackPanel;

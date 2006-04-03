@@ -53,6 +53,7 @@ import java.awt.event.AdjustmentListener;
 import javax.swing.SwingUtilities;
 
 // containers
+import javax.swing.JToolBar;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -75,41 +76,6 @@ public class CommandDisplayFrame extends KoLFrame
 		super( "Graphical CLI" );
 		KoLmafia.commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", false );;
 		framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
-
-		// If the user wishes to add toolbars, go ahead
-		// and add the toolbar.
-
-		if ( GLOBAL_SETTINGS.getProperty( "useToolbars" ).equals( "true" ) )
-		{
-			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", CouncilFrame.class ) );
-			toolbarPanel.add( new MiniBrowserButton() );
-			toolbarPanel.add( new InvocationButton( "Clear Scrollback", "clear.gif", KoLmafia.commandBuffer, "clearBuffer" ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-
-			toolbarPanel.add( new DisplayFrameButton( "IcePenguin Express", "mail.gif", MailboxFrame.class ) );
-			toolbarPanel.add( new InvocationButton( "KoLmafia Chat", "chat.gif", KoLMessenger.class, "initialize" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", ClanManageFrame.class ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-
-			toolbarPanel.add( new DisplayFrameButton( "Player Status", "hp.gif", CharsheetFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Equipment Manager", "equipment.gif", GearChangeFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", StoreManageFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", HagnkStorageFrame.class ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-
-			toolbarPanel.add( new DisplayFrameButton( "Run a Buffbot", "buff.gif", BuffBotFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", FamiliarTrainingFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Player vs. Player", "flower.gif", FlowerHunterFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", MushroomFrame.class ) );
-
-			toolbarPanel.add( new JToolBar.Separator() );
-
-			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
-		}
 	}
 
 	public boolean useSidePane()
@@ -207,10 +173,17 @@ public class CommandDisplayFrame extends KoLFrame
 
 		public void run()
 		{
-			DEFAULT_SHELL.printLine( " > " + command );
-			DEFAULT_SHELL.printBlankLine();
-			DEFAULT_SHELL.executeLine( command );
-			DEFAULT_SHELL.printBlankLine();
+			if ( command.equalsIgnoreCase( "clear" ) || command.equalsIgnoreCase( "cls" ) )
+			{
+				KoLmafia.commandBuffer.clearBuffer();
+			}
+			else
+			{
+				DEFAULT_SHELL.printLine( " > " + command );
+				DEFAULT_SHELL.printBlankLine();
+				DEFAULT_SHELL.executeLine( command );
+				DEFAULT_SHELL.printBlankLine();
+			}
 		}
 	}
 }

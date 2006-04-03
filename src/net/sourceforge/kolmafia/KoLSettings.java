@@ -183,10 +183,10 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "battleAction", "attack" );
 		ensureProperty( "battleStop", "0.0" );
 		ensureProperty( "betweenBattleScript", "" );
+		ensureProperty( "breakfastSkills", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		ensureProperty( "browserBookmarks", "" );
 		ensureProperty( "buffBotCasting", "" );
 		ensureProperty( "buffBotMessageDisposal", "0" );
-		ensureProperty( "buffBotMPRestore", "" );
 		ensureProperty( "chatStyle", "0" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		ensureProperty( "cloverProtectActive", "false" );
@@ -197,7 +197,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "forceReconnect", "false" );
 		ensureProperty( "hpAutoRecover", "-0.1" );
 		ensureProperty( "hpRecoveryScript", "" );
-		ensureProperty( "hpRestoreItems", "" );
+		ensureProperty( "hpRestores", "" );
 		ensureProperty( "highlightList", "" );
 		ensureProperty( "http.proxyHost", "" );
 		ensureProperty( "http.proxyPort", "" );
@@ -210,8 +210,10 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "lastUsername", "" );
 		ensureProperty( "loginServer", "0" );
 		ensureProperty( "luckySewerAdventure", "stolen accordion" );
+		ensureProperty( "mainInterfaceTabs", "AdventureFrame,MallSearchFrame,SkillBuffPanel" );
 		ensureProperty( "mpAutoRecover", "-0.1" );
 		ensureProperty( "mpRecoveryScript", "" );
+		ensureProperty( "mpRestores", "" );
 		ensureProperty( "proxySet", "false" );
 		ensureProperty( "saveState", "" );
 		ensureProperty( "serverFriendly", "false" );
@@ -221,7 +223,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "sortAdventures", "false" );
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
 		ensureProperty( "toolbarPosition", "1" );
-		ensureProperty( "useRelayWindows", "false" );
 		ensureProperty( "useSystemTrayIcon", "false" );
 		ensureProperty( "usePopupContacts", "1" );
 		ensureProperty( "useTabbedChat", "1" );

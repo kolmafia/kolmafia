@@ -83,7 +83,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ItemManageFrame extends KoLFrame
 {
-	private JTabbedPane tabs;
 	private MultiButtonPanel bruteforcer, inventory, closet, consume, create, special;
 
 	/**

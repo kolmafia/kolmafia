@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Color;
 import java.util.Random;
 import java.util.Locale;
 import java.text.DecimalFormat;
@@ -81,6 +82,10 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final int PENDING_STATE  = 4;
 	public static final int CONTINUE_STATE = 5;
+
+	public static final Color ERROR_COLOR = new Color( 255, 192, 192 );
+	public static final Color ENABLED_COLOR = new Color( 192, 255, 192 );
+	public static final Color DISABLED_COLOR = null;
 
 	public static final String [][] WIN_GAME_TEXT = new String [][]
 	{

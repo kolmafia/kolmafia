@@ -72,7 +72,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	// Special date formatter which formats according to
 	// the standard Western format of month, day, year.
 
-	private static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy" );
+	public static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy" );
 
 	// The following are static variables used to track the calendar.
 	// They are made static as a design decision to allow the oracle
@@ -125,7 +125,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		predictDisplay.setEditable( false );
 		predictBuffer.setChatDisplay( predictDisplay );
 
-		JTabbedPane tabs = new JTabbedPane();
+		tabs = new JTabbedPane();
 		tabs.addTab( "KoL One-a-Day", dailyDisplay );
 		tabs.addTab( "Upcoming Events", predictDisplay );
 

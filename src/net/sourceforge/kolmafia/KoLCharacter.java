@@ -2135,19 +2135,6 @@ public abstract class KoLCharacter extends StaticEntity
 				setTotalTurnsUsed( getTotalTurnsUsed() - result.getCount() );
 				if ( getTotalTurnsUsed() >= 600 && !KoLCharacter.isHardcore() )
 					setInteraction( true );
-
-				if ( !(StaticEntity.getClient().getCurrentRequest() instanceof CampgroundRequest) )
-				{
-					synchronized ( KoLRequest.class )
-					{
-						String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
-						if ( !scriptPath.equals( "" ) )
-							DEFAULT_SHELL.executeLine( scriptPath );
-
-						StaticEntity.getClient().recoverHP();
-						StaticEntity.getClient().recoverMP();
-					}
-				}
 			}
 		}
 		else if ( resultName.equals( AdventureResult.DRUNK ) )
