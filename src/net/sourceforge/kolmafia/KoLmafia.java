@@ -2433,4 +2433,8 @@ public abstract class KoLmafia implements KoLConstants
 		KoLRequest.delay( 5000 );
 		enableDisplay();
 	}
+
+	public static int getRelayPort()
+	{	return relayServer.getPort();
+	}
 }
