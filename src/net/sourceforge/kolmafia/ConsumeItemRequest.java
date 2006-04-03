@@ -79,12 +79,14 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int UNROLLING_PIN = 874;
 	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final int CLOCKWORK_CHEF = 1112;
+	private static final int SNOWCONE_TOME = 1411;
 	private static final int PURPLE = 1412;
 	private static final int GREEN = 1413;
 	private static final int ORANGE = 1414;
 	private static final int RED = 1415;
 	private static final int BLUE = 1416;
 	private static final int BLACK = 1417;
+	private static final int HILARIOUS_TOME = 1498;
 
 	private static final int GIFT1 = 1167;
 	private static final int GIFT2 = 1168;
@@ -535,6 +537,25 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case ARCHES:
 			KoLCharacter.setArches( true );
+			break;
+
+		case SNOWCONE_TOME:
+			// "You read the incantation written on the pages of
+			// the tome. Snowflakes coalesce in your
+			// mind. Delicious snowflakes."
+			if ( responseText.indexOf( "You read the incantation" ) == -1 )
+				return;
+			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, "Summon Snowcone", "", 1 ) );
+			break;
+
+
+		case HILARIOUS_TOME:
+			// "You pore over the tome, and sophomoric humor pours
+			// into your brain. The mysteries of McPhee become
+			// clear to you."
+			if ( responseText.indexOf( "You pore over the tome" ) == -1 )
+				return;
+			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, "Summon Hilarious Objects", "", 1 ) );
 			break;
 		}
 
