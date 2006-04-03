@@ -228,25 +228,18 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected KoLRequest( KoLmafia client, String formURLString, boolean followRedirects )
 	{
 		this.client = client;
-
-		String [] splitURLString = formURLString.split( "\\?" );
-
-		this.formURLString = splitURLString[0];
 		this.data = new ArrayList();
-
-		if ( splitURLString.length > 1 )
-		{
-			String [] currentComponent;
-			String [] components = splitURLString[1].split( "&" );
-
-			for ( int i = 0; i < components.length; ++i )
-			{
-				currentComponent = components[i].split( "=" );
-				addFormField( currentComponent[0], currentComponent.length > 1 ? currentComponent[1] : "", true );
-			}
-		}
-
 		this.followRedirects = followRedirects;
+
+		if ( formURLString.indexOf( "\\?" ) == -1 )
+		{
+			this.formURLString = formURLString;
+			return;
+		}
+		
+		String [] splitURLString = formURLString.split( "\\?" );
+		this.formURLString = splitURLString[0];
+		addEncodedFormFields( splitURLString[1] );
 	}
 
 	/**
