@@ -185,6 +185,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				this.creation.constructToolbar();
 				if ( this.creation.useSidePane() )
 					this.creation.addCompactPane();
+
+				this.creation.setJMenuBar( new KoLMenuBar() );
 			}
 
 			this.creation.pack();
@@ -208,9 +210,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// visibility on screen and request focus.
 
 			this.creation.setEnabled( true );
-
-			if ( !appearsInTab )
-				this.creation.setJMenuBar( new KoLMenuBar() );
 
 			if ( appearsInTab )
 				KoLDesktop.addTab( this.creation );

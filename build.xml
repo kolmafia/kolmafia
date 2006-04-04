@@ -11,9 +11,7 @@
   <property name="build" location="build"/>
   <property name="dist" location="dist"/>
   <property name="docs" location="${dist}/docs"/>
-  <property name="cvscheck" location="cvscheck"/>
 
-  <property name="cvsroot" value=":pserver:anonymous@cvs.sourceforge.net:/cvsroot/kolmafia"/>
   <property name="jarfile" location="${dist}/${ant.project.name}.jar"/>
   <property name="tarfile" location="${dist}/${ant.project.name}.tar.gz"/>
   <property name="main-class" value="net.sourceforge.kolmafia.KoLmafia"/>
@@ -193,34 +191,5 @@
           description="generate the executable JAR file from clean state">
 
   </target>
-
-  <!-- =================================================== -->
-  <!--  checks to see if the current files in CVS compile  -->
-  <!-- =================================================== -->
-
-  <target name="cvscheck"
-          description="checks to see if the current files in CVS compile">
-
-     <delete dir="${cvscheck}"/>
-     <mkdir dir="${cvscheck}"/>
-
-     <cvspass passfile="${cvscheck}/.cvspass"
-              cvsroot="${cvsroot}"
-              password=""/>
-
-     <cvs passfile="${cvscheck}/.cvspass"
-          cvsRoot="${cvsroot}"
-          package="${ant.project.name}"
-          dest="${cvscheck}"/>
-
-     <ant antfile="build.xml"
-          inheritAll="false"
-          dir="${cvscheck}/${ant.project.name}/"
-          target="compile"/>
-
-     <delete dir="${cvscheck}"/>
-
-  </target>
-
 
 </project>

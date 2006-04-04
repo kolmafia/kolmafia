@@ -91,12 +91,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 		session.displayer = new CreateFrameRunnable( LoginFrame.class, parameters );
 		session.displayer.run();
-
-		String login = session.settings.getProperty( "autoLogin" );
-		String password = session.getSaveState( login );
-
-		if ( password != null )
-			(new LoginRequest( session, login, password, true, true )).run();
 	}
 
 	/**
@@ -148,9 +142,9 @@ public class KoLmafiaGUI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID, boolean getBreakfast )
+	public void initialize( String loginname, String sessionID )
 	{
-		super.initialize( loginname, sessionID, getBreakfast );
+		super.initialize( loginname, sessionID );
 
 		String startupSetting = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
 		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" );
@@ -207,6 +201,10 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 
 		loginWindow.dispose();
+
+		if ( KoLMailManager.hasNewMessages() )
+			DEFAULT_SHELL.updateDisplay( "You have new mail." );
+
 	}
 
 	public static void constructFrame( String frameName )
@@ -221,8 +219,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "MailboxFrame" ) )
 		{
-			if ( KoLMailManager.hasNewMessages() )
-				(new CreateFrameRunnable( MailboxFrame.class, new Object [] { "Inbox" } )).run();
+			(new CreateFrameRunnable( MailboxFrame.class, new Object [] { "Inbox" } )).run();
 		}
 		else if ( frameName.equals( "SkillBuffPanel" ) )
 		{

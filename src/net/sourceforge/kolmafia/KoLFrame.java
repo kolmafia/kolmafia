@@ -972,8 +972,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
 		{
 			Point p = getLocation();
-			KoLSettings settings = GLOBAL_SETTINGS.getProperty( "windowPositions" ).equals( "1" ) ? GLOBAL_SETTINGS : StaticEntity.getSettings();
-			settings.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+			StaticEntity.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 		}
 
 		super.processWindowEvent( e );

@@ -165,10 +165,8 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
+			username = username.replaceAll( "/q", "" );
 			String password = StaticEntity.getClient().getSaveState( username );
-
-			if ( !username.endsWith( "/q" ) )
-				username += "/q";
 
 			if ( password == null )
 			{
@@ -184,8 +182,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			outputStream.println();
 			StaticEntity.getClient().deinitialize();
-			(new LoginRequest( StaticEntity.getClient(), username, password, true,
-				GLOBAL_SETTINGS.getProperty( "alwaysGetBreakfast" ).equals( "true" ) )).run();
+			(new LoginRequest( StaticEntity.getClient(), username, password )).run();
 		}
 		catch ( IOException e )
 		{
@@ -207,12 +204,12 @@ public class KoLmafiaCLI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID, boolean getBreakfast )
+	public void initialize( String loginname, String sessionID )
 	{
 		if ( StaticEntity.getClient() != this )
-			StaticEntity.getClient().initialize( loginname, sessionID, getBreakfast );
+			StaticEntity.getClient().initialize( loginname, sessionID );
 		else
-			super.initialize( loginname, sessionID, getBreakfast );
+			super.initialize( loginname, sessionID );
 
 		if ( StaticEntity.getClient() == this )
 		{
@@ -387,10 +384,10 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.getClient().makeRequest( desired, 1 );
 			return;
 		}
-		
+
 		// Maybe the person wants to load up their browser
 		// from the KoLmafia CLI?
-		
+
 		if ( command.startsWith( "relay" ) || command.startsWith( "serve" ) )
 		{
 			StaticEntity.getClient().startRelayServer();
@@ -496,7 +493,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) || command.equals( "relogin" ) )
 		{
-			if ( StaticEntity.getClient().getSaveState( parameters ) != null )
+			String password = StaticEntity.getClient().getSaveState( parameters );
+			if ( password != null )
 			{
 				if ( StaticEntity.getClient().getPasswordHash() != null )
 				{
@@ -505,8 +503,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 
 				StaticEntity.getClient().deinitialize();
-				(new LoginRequest( StaticEntity.getClient(), parameters, StaticEntity.getClient().getSaveState( parameters ), true,
-					GLOBAL_SETTINGS.getProperty( "alwaysGetBreakfast" ).equals( "true" ) )).run();
+				(new LoginRequest( StaticEntity.getClient(), parameters, password )).run();
 			}
 			else
 				updateDisplay( ERROR_STATE, "No password saved for that username." );
@@ -864,7 +861,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			// Generic handling of retrieval of worthless
 			// items is by adventuring in the sewer.
-		
+
 			if ( parameters.equals( "worthless item" ) )
 			{
 				while ( HermitRequest.getWorthlessItemCount() == 0 )
@@ -872,12 +869,12 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else
 			{
-				AdventureResult item = getFirstMatchingItem( parameters, NOWHERE );	
+				AdventureResult item = getFirstMatchingItem( parameters, NOWHERE );
 
 				if ( item != null )
 					AdventureDatabase.retrieveItem( item );
 			}
-			
+
 			return;
  		}
 
@@ -962,7 +959,7 @@ public class KoLmafiaCLI extends KoLmafia
 			executeStashRequest( parameters );
 			return;
 		}
-		
+
 		// Another w00t for more item-related commands.
 		// This one is the one that allows you to pull
 		// things from storage.
@@ -2440,13 +2437,13 @@ public class KoLmafiaCLI extends KoLmafia
 		// the amount, if the amount is 1.
 
 		List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
-		
+
 		// Next, check to see if any of the items matching appear
 		// in an NPC store.  If so, automatically default to it.
-		
+
 		String [] matchingNamesArray = new String[ matchingNames.size() ];
 		matchingNames.toArray( matchingNamesArray );
-		
+
 		for ( int i = 0; i < matchingNamesArray.length; ++i )
 		{
 			if ( NPCStoreDatabase.contains( matchingNamesArray[i] ) )
@@ -3212,7 +3209,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( !StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" ) )
 			(new HermitRequest( StaticEntity.getClient() )).run();
-		
+
 		return StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
 	}
 

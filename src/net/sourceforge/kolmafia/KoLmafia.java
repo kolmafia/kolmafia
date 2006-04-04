@@ -86,7 +86,7 @@ public abstract class KoLmafia implements KoLConstants
 		"equipment.dat", "familiars.dat", "itemdescs.dat", "npcstores.dat", "outfits.dat",
 		"packages.dat", "tradeitems.dat", "zonelist.dat"
 	};
-	
+
 	public static final String [][] BREAKFAST_SKILLS =
 	{
 		{ "Summon Snowcone", "1" },
@@ -252,7 +252,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID, boolean getBreakfast )
+	public void initialize( String loginname, String sessionID )
 	{
 		// Initialize the variables to their initial
 		// states to avoid null pointers getting thrown
@@ -273,11 +273,28 @@ public abstract class KoLmafia implements KoLConstants
 		this.refreshSession();
 		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
 
-		// Retrieve breakfast if the option to retrieve breakfast
-		// was previously selected.
+		if ( KoLCharacter.hasToaster() )
+			for ( int i = 0; i < 3 && permitsContinue(); ++i )
+				(new CampgroundRequest( this, "toast" )).run();
 
-		if ( getBreakfast )
-			getBreakfast();
+		if ( KoLCharacter.hasArches() )
+			(new CampgroundRequest( this, "arches" )).run();
+
+		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + loginname.toLowerCase() );
+
+		if ( skillSetting != null )
+			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
+				if ( skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1 && KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] ) )
+					getBreakfast( BREAKFAST_SKILLS[i][0], Integer.parseInt( BREAKFAST_SKILLS[i][1] ) );
+	}
+
+	public void getBreakfast( String skillname, int standardCast )
+	{
+		int consumptionPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillname ) );
+		recoverMP( consumptionPerCast * standardCast );
+
+		if ( consumptionPerCast != 0 && consumptionPerCast <= KoLCharacter.getCurrentMP() )
+			(new UseSkillRequest( this, skillname, "", Math.min( standardCast, KoLCharacter.getCurrentMP() / consumptionPerCast ) )).run();
 	}
 
 	public final void refreshSession()
@@ -290,13 +307,6 @@ public abstract class KoLmafia implements KoLConstants
 		CakeArenaManager.reset();
 		MuseumManager.reset();
 		ClanManager.reset();
-
-		this.recentEffects.clear();
-		this.conditions.clear();
-		this.missingItems.clear();
-
-		this.encounterList.clear();
-		this.adventureList.clear();
 
 		this.hermitItems.clear();
 		this.hermitItems.add( "banjo strings" );
@@ -438,34 +448,6 @@ public abstract class KoLmafia implements KoLConstants
 	 * to retrieve breakfast.
 	 */
 
-	public void getBreakfast()
-	{
-		updateDisplay( "Retrieving breakfast..." );
-
-		if ( KoLCharacter.hasToaster() )
-			for ( int i = 0; i < 3 && permitsContinue(); ++i )
-				(new CampgroundRequest( this, "toast" )).run();
-
-		if ( KoLCharacter.hasArches() )
-			(new CampgroundRequest( this, "arches" )).run();
-
-		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfastSkills" );
-		for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
-			if ( skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1 && KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] ) )
-				getBreakfast( BREAKFAST_SKILLS[i][0], Integer.parseInt( BREAKFAST_SKILLS[i][1] ) );
-
-		updateDisplay( "Breakfast retrieved." );
-	}
-
-	public void getBreakfast( String skillname, int standardCast )
-	{
-		int consumptionPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillname ) );
-		recoverMP( consumptionPerCast * standardCast );
-
-		if ( consumptionPerCast != 0 && consumptionPerCast <= KoLCharacter.getCurrentMP() )
-			(new UseSkillRequest( this, skillname, "", Math.min( standardCast, KoLCharacter.getCurrentMP() / consumptionPerCast ) )).run();
-	}
-
 	/**
 	 * Deinitializes the <code>KoLmafia</code> session.  Called after
 	 * the user has logged out.
@@ -486,6 +468,13 @@ public abstract class KoLmafia implements KoLConstants
 	public void resetSession()
 	{
 		tally.clear();
+
+		this.recentEffects.clear();
+		this.conditions.clear();
+		this.missingItems.clear();
+
+		this.encounterList.clear();
+		this.adventureList.clear();
 
 		initialStats[0] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() );
 		initialStats[1] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() );
@@ -1997,13 +1986,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If you're already trying to login, then
 		// don't continue.
 
-		if ( this.cachedLogin == null )
-			return;
-
-		LoginRequest cachedLogin = this.cachedLogin;
-
 		deinitialize();
-
 		enableDisplay();
 		updateDisplay( "Timing in session..." );
 
@@ -2013,26 +1996,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		cachedLogin.run();
 
-		if ( this.cachedLogin == null )
-			cachedLogin.run();
-
-		// Wait 5 minutes inbetween each attempt
-		// to re-login to Kingdom of Loathing,
-		// because if the above two failed, that
-		// means it's nightly maintenance.
-
-		while ( this.cachedLogin == null )
-		{
-			for ( int i = 300; i > 0; --i )
-			{
-				updateDisplay( i + " second" + (i == 1 ? "" : "s") + " before next retry attempt..." );
-				KoLRequest.delay( 1000 );
-			}
-
-			cachedLogin.run();
-		}
-
-		updateDisplay( "Session timed in." );
+		if ( getPasswordHash() != null )
+			updateDisplay( "Session timed in." );
 	}
 
 	public boolean checkRequirements( List requirements )
@@ -2415,15 +2380,15 @@ public abstract class KoLmafia implements KoLConstants
 	public void startRelayServer()
 	{
 		if ( !relayServer.isRunning() )
-			(new Thread( relayServer )).start(); 
+			(new Thread( relayServer )).start();
 
 		for ( int i = 0; i < 30 && !relayServer.isRunning(); ++i )
 			KoLRequest.delay( 100 );
-		
+
 		if ( !relayServer.isRunning() )
 			return;
-		
-		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + relayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") ); 
+
+		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + relayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") );
 	}
 
 	public void declareWorldPeace()

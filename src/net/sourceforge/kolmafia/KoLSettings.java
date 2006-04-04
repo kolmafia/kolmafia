@@ -175,15 +175,12 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// The remaining settings are not related to choice
 		// adventures and require no special handling.
 
-		ensureProperty( "alwaysGetBreakfast", "true" );
 		ensureProperty( "autoRepairBoxes", "false" );
 		ensureProperty( "autoSatisfyChecks", "false" );
 		ensureProperty( "autoLogChat", "false" );
-		ensureProperty( "autoLogin", "" );
 		ensureProperty( "battleAction", "attack" );
 		ensureProperty( "battleStop", "0.0" );
 		ensureProperty( "betweenBattleScript", "" );
-		ensureProperty( "breakfastSkills", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		ensureProperty( "browserBookmarks", "" );
 		ensureProperty( "buffBotCasting", "" );
 		ensureProperty( "buffBotMessageDisposal", "0" );
