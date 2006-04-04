@@ -130,7 +130,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		getContentPane().add( splitPane );
 
 		JToolBar toolbarPanel = getToolbar();
-		
+
 		if ( toolbarPanel != null )
 		{
 			toolbarPanel.add( new SaveAllButton() );
@@ -423,16 +423,16 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			//     sendmessage.php?toid=<playerid>
 			// If you click on [quote]:
 			//     sendmessage.php?toid=<playerid>&quoteid=xxx&box=xxx
+
 			StringTokenizer tokens = new StringTokenizer( location, "?=&" );
 			tokens.nextToken();  tokens.nextToken();
 
 			String recipient = tokens.nextToken();
 
-			Object [] parameters = new Object[ tokens.hasMoreTokens() ? 3 : 2 ];
-			parameters[0] = StaticEntity.getClient();
-			parameters[1] = recipient;
+			Object [] parameters = new Object[ tokens.hasMoreTokens() ? 2 : 1 ];
+			parameters[0] = recipient;
 
-			if ( parameters.length == 3 )
+			if ( parameters.length == 2 )
 			{
 				String rawText = displayed.getMessageHTML();
 				int start = rawText.indexOf( "<br><br>" ) + 8;
@@ -440,15 +440,18 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 				// Replace <br> tags with a line break and
 				// quote the following line
+
 				text = text.replaceAll( "<br>", LINE_BREAK + "> " );
 
 				// Remove all other HTML tags
+
 				text = text.replaceAll( "><", "" ).replaceAll( "<.*?>", "" );
 
 				// Quote first line and end with a line break
+
 				text = "> " + text + LINE_BREAK;
 
-				parameters[2] = text;
+				parameters[1] = text;
 			}
 
 			(new CreateFrameRunnable( GreenMessageFrame.class, parameters )).run();
