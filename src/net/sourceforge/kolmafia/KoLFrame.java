@@ -1121,35 +1121,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			JOptionPane.showMessageDialog( null, "Settings have been saved." );
 		}
 
-		private String getSettingString( JCheckBox [] restoreCheckbox )
-		{
-			StringBuffer restoreSetting = new StringBuffer();
-
-			for ( int i = 0; i < restoreCheckbox.length; ++i )
-			{
-				if ( restoreCheckbox[i].isSelected() )
-				{
-					if ( restoreSetting.length() != 0 )
-						restoreSetting.append( ';' );
-
-					restoreSetting.append( restoreCheckbox[i].getText() );
-				}
-			}
-
-			return restoreSetting.toString();
-		}
-
-		private JScrollPane constructScroller( JCheckBox [] restoreCheckbox )
-		{
-			JPanel checkboxPanel = new JPanel( new GridLayout( restoreCheckbox.length, 1 ) );
-			for ( int i = 0; i < restoreCheckbox.length; ++i )
-				checkboxPanel.add( restoreCheckbox[i] );
-
-			JScrollPane scrollArea = new JScrollPane( checkboxPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-			return scrollArea;
-		}
-
-
 		protected void actionCancelled()
 		{
 			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
@@ -1165,5 +1136,52 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
 		{	return false;
 		}
+	}
+
+	protected String getSettingString( JCheckBox [] restoreCheckbox )
+	{
+		StringBuffer restoreSetting = new StringBuffer();
+
+		for ( int i = 0; i < restoreCheckbox.length; ++i )
+		{
+			if ( restoreCheckbox[i].isSelected() )
+			{
+				if ( restoreSetting.length() != 0 )
+					restoreSetting.append( ';' );
+
+				restoreSetting.append( restoreCheckbox[i].getText() );
+			}
+		}
+
+		return restoreSetting.toString();
+	}
+
+	protected JScrollPane constructScroller( JCheckBox [] restoreCheckbox )
+	{
+		JPanel checkboxPanel = new JPanel( new GridLayout( restoreCheckbox.length, 1 ) );
+		for ( int i = 0; i < restoreCheckbox.length; ++i )
+			checkboxPanel.add( restoreCheckbox[i] );
+
+		JScrollPane scrollArea = new JScrollPane( checkboxPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		return scrollArea;
+	}
+
+	public void pack()
+	{
+		super.pack();
+
+		int xLocation = 0;
+		int yLocation = 0;
+		Dimension screenSize = TOOLKIT.getScreenSize();
+		if ( StaticEntity.getSettings().containsKey( frameName ) )
+		{
+			String [] location = StaticEntity.getSettings().getProperty( frameName ).split( "," );
+			xLocation = Integer.parseInt( location[0] );
+			yLocation = Integer.parseInt( location[1] );
+		}
+		if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
+			setLocation( xLocation, yLocation );
+		else
+			setLocationRelativeTo( null );
 	}
 }

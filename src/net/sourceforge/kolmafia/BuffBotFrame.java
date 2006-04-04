@@ -86,11 +86,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class BuffBotFrame extends KoLFrame
 {
 	private JList buffListDisplay;
-	private MainBuffPanel mainBuff;
-	private BuffOptionsPanel buffOptions;
-	private MainSettingsPanel mainSettings;
-
-	private JTextArea whiteListEntry, invalidPriceMessage, thanksMessage;
 
 	/**
 	 * Constructs a new <code>BuffBotFrame</code> and inserts all
@@ -109,63 +104,19 @@ public class BuffBotFrame extends KoLFrame
 		tabs = new JTabbedPane();
 		tabs.addTab( "Run Buffbot", new MainBuffPanel() );
 
-		buffOptions = new BuffOptionsPanel();
 		JPanel optionsContainer = new JPanel( new BorderLayout( 10, 10 ) );
-		optionsContainer.add( buffOptions, BorderLayout.NORTH );
+		optionsContainer.add( new BuffOptionsPanel(), BorderLayout.NORTH );
 		optionsContainer.add( new BuffListPanel(), BorderLayout.CENTER );
 
 		tabs.addTab( "Edit Bufflist", optionsContainer );
+		tabs.addTab( "Main Settings", new MainSettingsPanel() );
+		tabs.addTab( "Other Settings", new OtherSettingsPanel() );
 
-		mainSettings = new MainSettingsPanel();
-		tabs.addTab( "Main Settings", mainSettings );
-
-		whiteListEntry = new JTextArea();
-		invalidPriceMessage = new JTextArea();
-		thanksMessage = new JTextArea();
-
-		whiteListEntry.setLineWrap( true );
-		whiteListEntry.setWrapStyleWord( true );
-
-		invalidPriceMessage.setLineWrap( true );
-		invalidPriceMessage.setWrapStyleWord( true );
-
-		thanksMessage.setLineWrap( true );
-		thanksMessage.setWrapStyleWord( true );
-
-		JPanel settingsTopPanel = new JPanel( new BorderLayout() );
-		settingsTopPanel.add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
-			Color.black, Color.white ), BorderLayout.NORTH );
-		settingsTopPanel.add( new JScrollPane( whiteListEntry, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
-		JPanel settingsMiddlePanel = new JPanel( new BorderLayout() );
-		settingsMiddlePanel.add( JComponentUtilities.createLabel( "Invalid Buff Price Message", JLabel.CENTER,
-			Color.black, Color.white ), BorderLayout.NORTH );
-		settingsMiddlePanel.add( new JScrollPane( invalidPriceMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
-		JPanel settingsBottomPanel = new JPanel( new BorderLayout() );
-		settingsBottomPanel.add( JComponentUtilities.createLabel( "Donation Thanks Message", JLabel.CENTER,
-			Color.black, Color.white ), BorderLayout.NORTH );
-		settingsBottomPanel.add( new JScrollPane( thanksMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-
-		JPanel settingsPanel = new JPanel( new GridLayout( 3, 1, 10, 10 ) );
-
-		JComponentUtilities.setComponentSize( settingsTopPanel, 300, 120 );
-		JComponentUtilities.setComponentSize( settingsMiddlePanel, 300, 120 );
-		JComponentUtilities.setComponentSize( settingsBottomPanel, 300, 120 );
-
-		settingsPanel.add( settingsTopPanel );
-		settingsPanel.add( settingsMiddlePanel );
-		settingsPanel.add( settingsBottomPanel );
-
-		whiteListEntry.addFocusListener( mainSettings );
-		invalidPriceMessage.addFocusListener( mainSettings );
-		thanksMessage.addFocusListener( mainSettings );
-
-		tabs.addTab( "Other Settings", settingsPanel );
 		framePanel.add( tabs, BorderLayout.CENTER );
+	}
+
+	public boolean useSidePane()
+	{	return true;
 	}
 
 	/**
@@ -307,10 +258,11 @@ public class BuffBotFrame extends KoLFrame
 	private class MainSettingsPanel extends KoLPanel
 	{
 		private JComboBox messageDisposalSelect;
+		private JCheckBox [] mpRestoreCheckbox;
 
 		public MainSettingsPanel()
 		{
-			super( new Dimension( 120, 20 ),  new Dimension( 300, 20 ));
+			super( new Dimension( 120, 20 ),  new Dimension( 300, 20 ) );
 
 			JPanel panel = new JPanel( new BorderLayout() );
 			LockableListModel messageDisposalChoices = new LockableListModel();
@@ -321,7 +273,7 @@ public class BuffBotFrame extends KoLFrame
 
 			VerifiableElement [] elements = new VerifiableElement[2];
 			elements[0] = new VerifiableElement( "Message disposal: ", messageDisposalSelect );
-			elements[1] = new VerifiableElement( "Mana restores: ", MPRestoreItemList.getDisplay() );
+			elements[1] = new VerifiableElement( "Mana restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
 
 			setContent( elements );
 			actionCancelled();
@@ -336,17 +288,76 @@ public class BuffBotFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
-			MPRestoreItemList.setProperty();
+			setProperty( "mpRestores", getSettingString( mpRestoreCheckbox ) );
+		}
 
+		public void actionCancelled()
+		{	messageDisposalSelect.setSelectedIndex( Integer.parseInt( getProperty( "buffBotMessageDisposal" ) ) );
+		}
+	}
+
+	private class OtherSettingsPanel extends KoLPanel
+	{
+		private JTextArea whiteListEntry, invalidPriceMessage, thanksMessage;
+
+		public OtherSettingsPanel()
+		{
+			super( "save", "reset", new Dimension( 120, 20 ),  new Dimension( 300, 20 ) );
+			setContent( new VerifiableElement[0] );
+
+			whiteListEntry = new JTextArea();
+			invalidPriceMessage = new JTextArea();
+			thanksMessage = new JTextArea();
+
+			whiteListEntry.setLineWrap( true );
+			whiteListEntry.setWrapStyleWord( true );
+
+			invalidPriceMessage.setLineWrap( true );
+			invalidPriceMessage.setWrapStyleWord( true );
+
+			thanksMessage.setLineWrap( true );
+			thanksMessage.setWrapStyleWord( true );
+
+			JPanel settingsTopPanel = new JPanel( new BorderLayout() );
+			settingsTopPanel.add( JComponentUtilities.createLabel( "White List (separate names with commas):", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			settingsTopPanel.add( new JScrollPane( whiteListEntry, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			JPanel settingsMiddlePanel = new JPanel( new BorderLayout() );
+			settingsMiddlePanel.add( JComponentUtilities.createLabel( "Invalid Buff Price Message", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			settingsMiddlePanel.add( new JScrollPane( invalidPriceMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			JPanel settingsBottomPanel = new JPanel( new BorderLayout() );
+			settingsBottomPanel.add( JComponentUtilities.createLabel( "Donation Thanks Message", JLabel.CENTER,
+				Color.black, Color.white ), BorderLayout.NORTH );
+			settingsBottomPanel.add( new JScrollPane( thanksMessage, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			JPanel settingsPanel = new JPanel( new GridLayout( 3, 1, 10, 10 ) );
+
+			JComponentUtilities.setComponentSize( settingsTopPanel, 300, 120 );
+			JComponentUtilities.setComponentSize( settingsMiddlePanel, 300, 120 );
+			JComponentUtilities.setComponentSize( settingsBottomPanel, 300, 120 );
+
+			settingsPanel.add( settingsTopPanel );
+			settingsPanel.add( settingsMiddlePanel );
+			settingsPanel.add( settingsBottomPanel );
+
+			container.add( settingsPanel, BorderLayout.CENTER );
+		}
+
+		protected void actionConfirmed()
+		{
 			setProperty( "whiteList", whiteListEntry.getText() );
 			setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
 			setProperty( "thanksMessage", thanksMessage.getText() );
 		}
 
-		public void actionCancelled()
+		protected void actionCancelled()
 		{
-			messageDisposalSelect.setSelectedIndex( Integer.parseInt( getProperty( "buffBotMessageDisposal" ) ) );
-
 			whiteListEntry.setText( getProperty( "whiteList" ) );
 			invalidPriceMessage.setText( getProperty( "invalidBuffMessage" ) );
 			thanksMessage.setText( getProperty( "thanksMessage" ) );
@@ -355,11 +366,6 @@ public class BuffBotFrame extends KoLFrame
 
 	public void dispose()
 	{
-		buffListDisplay = null;
-		mainBuff = null;
-		buffOptions = null;
-		mainSettings = null;
-
 		BuffBotHome.deinitialize();
 		DEFAULT_SHELL.updateDisplay( "Buffbot deactivated." );
 		StaticEntity.getClient().enableDisplay();
