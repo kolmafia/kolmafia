@@ -53,9 +53,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public abstract class MPRestoreItemList extends StaticEntity
 {
 	public static final MPRestoreItem MYSTERY = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
-
-	private static Object [] restoreName = new Object[0];
-	private static JCheckBox [] restoreCheckbox = new JCheckBox[0];
 	private static LockableListModel list = new LockableListModel();
 
 	public static void reset()
@@ -85,59 +82,20 @@ public abstract class MPRestoreItemList extends StaticEntity
 	{	return list.size();
 	}
 
-	public static JScrollPane getDisplay()
+	public static JCheckBox [] getCheckboxes()
 	{
-		restoreName = list.toArray();
-		restoreCheckbox = new JCheckBox[ restoreName.length ];
-
-		JPanel checkboxPanel = new JPanel();
-		checkboxPanel.setLayout( new GridLayout( restoreCheckbox.length, 1 ) );
-
-		for ( int i = 0; i < restoreCheckbox.length; ++i )
-		{
-			restoreCheckbox[i] = new JCheckBox();
-			checkboxPanel.add( restoreCheckbox[i] );
-		}
-
-		JPanel labelPanel = new JPanel();
-		labelPanel.setLayout( new GridLayout( restoreName.length, 1 ) );
-		for ( int i = 0; i < restoreName.length; ++i )
-			labelPanel.add( new JLabel( restoreName[i].toString(), JLabel.LEFT ) );
-
-		JPanel restorePanel = new JPanel();
-		restorePanel.setLayout( new BorderLayout( 0, 0 ) );
-		restorePanel.add( checkboxPanel, BorderLayout.WEST );
-		restorePanel.add( labelPanel, BorderLayout.CENTER );
-
+		Object [] restoreName = list.toArray();
 		String mpRestoreSetting = getProperty( "mpRestores" );
 
+		JCheckBox [] restoreCheckbox = new JCheckBox[ restoreName.length ];
+
 		for ( int i = 0; i < restoreName.length; ++i )
-			if ( mpRestoreSetting.indexOf( restoreName[i].toString() ) != -1 )
-				restoreCheckbox[i].setSelected( true );
-
-		JScrollPane scrollArea = new JScrollPane( restorePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		return scrollArea;
-	}
-
-	public static void setProperty()
-	{
-		StringBuffer mpRestoreSetting = new StringBuffer();
-
-		if ( restoreCheckbox != null )
 		{
-			for ( int i = 0; i < restoreCheckbox.length; ++i )
-			{
-				if ( restoreCheckbox[i].isSelected() )
-				{
-					if ( mpRestoreSetting.length() != 0 )
-						mpRestoreSetting.append( ';' );
-
-					mpRestoreSetting.append( restoreName[i].toString() );
-				}
-			}
+			restoreCheckbox[i] = new JCheckBox( restoreName[i].toString() );
+			restoreCheckbox[i].setSelected( mpRestoreSetting.indexOf( restoreName[i].toString() ) != -1 );
 		}
 
-		setProperty( "mpRestores", mpRestoreSetting.toString() );
+		return restoreCheckbox;
 	}
 
 	public static class MPRestoreItem
@@ -175,7 +133,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			int mpShort = maximumMP - currentMP;
 			int numberToUse = (int) Math.ceil( mpShort / mpPerUse );
-			
+
 			if ( StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "false" ) )
 				numberToUse = Math.min( numberToUse, itemUsed.getCount( KoLCharacter.getInventory() ) );
 

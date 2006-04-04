@@ -89,11 +89,11 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static final String [][] BREAKFAST_SKILLS =
 	{
-		{ "Summon Snowcone", "1" },
-		{ "Summon Hilarious Objects", "1" },
-		{ "Advanced Saucecrafting", "3" },
-		{ "Pastamastery", "3" },
-		{ "Advanced Cocktailcrafting", "3" }
+		{ "Summon Snowcone", "1", "Snowcone" },
+		{ "Summon Hilarious Objects", "1", "Grimoire" },
+		{ "Advanced Saucecrafting", "3", "Reagent" },
+		{ "Pastamastery", "3", "Noodles" },
+		{ "Advanced Cocktailcrafting", "3", "Cocktails" }
 	};
 
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };

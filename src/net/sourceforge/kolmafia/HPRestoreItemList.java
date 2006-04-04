@@ -57,15 +57,12 @@ public abstract class HPRestoreItemList extends StaticEntity
 	private static final HPRestoreItem TINY_HOUSE = new HPRestoreItem( "tiny house", 22 );
 
 	public static final HPRestoreItem COCOON = new HPRestoreItem( "cannelloni cocoon", 1 );
-
-	private static Object [] restoreName = new Object[0];
-	private static JCheckBox [] restoreCheckbox = new JCheckBox[0];
 	private static LockableListModel list = new LockableListModel();
 
 	public static void reset()
 	{
 		list.clear();
-		
+
 		list.add( WALRUS );
 		list.add( REMEDY );
 		list.add( TINY_HOUSE );
@@ -87,59 +84,20 @@ public abstract class HPRestoreItemList extends StaticEntity
 	{	return list.size();
 	}
 
-	public static JScrollPane getDisplay()
+	public static JCheckBox [] getCheckboxes()
 	{
-		restoreName = list.toArray();
-		restoreCheckbox = new JCheckBox[ restoreName.length ];
+		Object [] restoreName = list.toArray();
+		String hpRestoreSetting = getProperty( "hpRestores" );
 
-		JPanel checkboxPanel = new JPanel();
-		checkboxPanel.setLayout( new GridLayout( restoreCheckbox.length, 1 ) );
-
-		for ( int i = 0; i < restoreCheckbox.length; ++i )
-		{
-			restoreCheckbox[i] = new JCheckBox();
-			checkboxPanel.add( restoreCheckbox[i] );
-		}
-
-		JPanel labelPanel = new JPanel();
-		labelPanel.setLayout( new GridLayout( restoreName.length, 1 ) );
-		for ( int i = 0; i < restoreName.length; ++i )
-			labelPanel.add( new JLabel( restoreName[i].toString(), JLabel.LEFT ) );
-
-		JPanel restorePanel = new JPanel();
-		restorePanel.setLayout( new BorderLayout( 0, 0 ) );
-		restorePanel.add( checkboxPanel, BorderLayout.WEST );
-		restorePanel.add( labelPanel, BorderLayout.CENTER );
-
-		String HPRestoreSetting = getProperty( "hpRestores" );
+		JCheckBox [] restoreCheckbox = new JCheckBox[ restoreName.length ];
 
 		for ( int i = 0; i < restoreName.length; ++i )
-			if ( HPRestoreSetting.indexOf( restoreName[i].toString() ) != -1 )
-				restoreCheckbox[i].setSelected( true );
-
-		JScrollPane scrollArea = new JScrollPane( restorePanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		return scrollArea;
-	}
-
-	public static void setProperty()
-	{
-		StringBuffer hpRestoreSetting = new StringBuffer();
-
-		if ( restoreCheckbox != null )
 		{
-			for ( int i = 0; i < restoreCheckbox.length; ++i )
-			{
-				if ( restoreCheckbox[i].isSelected() )
-				{
-					if ( hpRestoreSetting.length() != 0 )
-						hpRestoreSetting.append( ';' );
-
-					hpRestoreSetting.append( restoreName[i].toString() );
-				}
-			}
+			restoreCheckbox[i] = new JCheckBox( restoreName[i].toString() );
+			restoreCheckbox[i].setSelected( hpRestoreSetting.indexOf( restoreName[i].toString() ) != -1 );
 		}
 
-		setProperty( "hpRestores", hpRestoreSetting.toString() );
+		return restoreCheckbox;
 	}
 
 	public static class HPRestoreItem
@@ -173,7 +131,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			{
 				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
 					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", 1 ) )).run();
-				
+
 				return;
 			}
 
@@ -181,7 +139,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			int maximumHP = KoLCharacter.getMaximumHP();
 			int maximumMP = KoLCharacter.getMaximumMP();
 			int hpShort = maximumHP - currentHP;
-			
+
 			if ( this == WALRUS )
 			{
 				int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( "Tongue of the Walrus" ) );
