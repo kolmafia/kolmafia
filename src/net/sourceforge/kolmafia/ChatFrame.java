@@ -211,7 +211,7 @@ public class ChatFrame extends KoLFrame
 
 			add( KoLMessenger.getChatBuffer( associatedContact ).setChatDisplay( chatDisplay ), BorderLayout.CENTER );
 			add( entryPanel, BorderLayout.SOUTH );
-			getRootPane().setDefaultButton( entryButton );
+			ChatFrame.this.getRootPane().setDefaultButton( entryButton );
 		}
 
 		public String getAssociatedContact()

@@ -246,7 +246,7 @@ public class RequestFrame extends KoLFrame
 		GoButton button = new GoButton();
 		toolbarPanel.add( button );
 
-		getRootPane().setDefaultButton( button );
+		RequestFrame.this.getRootPane().setDefaultButton( button );
 
 		// If this has a side bar, then it will need to be notified
 		// whenever there are updates to the player status.
