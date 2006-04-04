@@ -1037,6 +1037,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		private JTextField mpRecoveryScriptField;
 		private JTextField betweenBattleScriptField;
 
+		private JCheckBox [] hpRestoreCheckbox;
+		private JCheckBox [] mpRestoreCheckbox;
+
 		/**
 		 * Constructs a new <code>RestoreOptionsPanel</code> containing a
 		 * way for the users to choose the way they want to recover their
@@ -1087,12 +1090,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			elements[ currentElementCount++ ] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
 			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
-			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", HPRestoreItemList.getDisplay() );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) );
 			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
 
 			elements[ currentElementCount++ ] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
 			elements[ currentElementCount++ ] = new VerifiableElement( "MP Recovery Script: ", new ScriptSelectPanel( mpRecoveryScriptField ) );
-			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", MPRestoreItemList.getDisplay() );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
 
 			setContent( elements );
 			actionCancelled();
@@ -1109,14 +1112,43 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
-			HPRestoreItemList.setProperty();
+			setProperty( "hpRestores", getSettingString( hpRestoreCheckbox ) );
 
 			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
-			MPRestoreItemList.setProperty();
+			setProperty( "mpRestores", getSettingString( mpRestoreCheckbox ) );
 
 			JOptionPane.showMessageDialog( null, "Settings have been saved." );
 		}
+
+		private String getSettingString( JCheckBox [] restoreCheckbox )
+		{
+			StringBuffer restoreSetting = new StringBuffer();
+
+			for ( int i = 0; i < restoreCheckbox.length; ++i )
+			{
+				if ( restoreCheckbox[i].isSelected() )
+				{
+					if ( restoreSetting.length() != 0 )
+						restoreSetting.append( ';' );
+
+					restoreSetting.append( restoreCheckbox[i].getText() );
+				}
+			}
+
+			return restoreSetting.toString();
+		}
+
+		private JScrollPane constructScroller( JCheckBox [] restoreCheckbox )
+		{
+			JPanel checkboxPanel = new JPanel( new GridLayout( restoreCheckbox.length, 1 ) );
+			for ( int i = 0; i < restoreCheckbox.length; ++i )
+				checkboxPanel.add( restoreCheckbox[i] );
+
+			JScrollPane scrollArea = new JScrollPane( checkboxPanel, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+			return scrollArea;
+		}
+
 
 		protected void actionCancelled()
 		{
