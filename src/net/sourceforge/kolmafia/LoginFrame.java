@@ -335,6 +335,7 @@ public class LoginFrame extends KoLFrame
 
 			{ "Clan Manager", "ClanManageFrame" },
 			{ "Farmer's Almanac", "CalendarFrame" },
+			{ "Encyclopedia", "ExamineItemsFrame" },
 		};
 
 		private JRadioButton [] nullOptions;

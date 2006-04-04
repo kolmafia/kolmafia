@@ -79,7 +79,7 @@ public class ExamineItemsFrame extends KoLFrame
 
 	public ExamineItemsFrame()
 	{
-		super( "Kingdom of Loathing Encyclopedia" );
+		super( "Encyclopedia" );
 		tabs = new JTabbedPane();
 
 		items = new ExamineItemsPanel( allItems );
