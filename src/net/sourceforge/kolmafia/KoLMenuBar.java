@@ -166,7 +166,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		toolsMenu.add( new JSeparator() );
 
 		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", MeatManageFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Skill Usage", SkillBuffPanel.class ) );
+		toolsMenu.add( new KoLPanelFrameMenuItem( "Skill Usage", new SkillBuffPanel() ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
 
@@ -684,12 +684,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				parameters[2] = LICENSE_FILENAME;
 				parameters[3] = LICENSE_NAME;
 			}
-			else if ( frameClass == SkillBuffPanel.class )
-			{
-				frameClass = KoLPanelFrame.class;
-				parameters = new Object[1];
-				parameters[0] = new SkillBuffPanel();
-			}
 			else
 			{
 				parameters = new Object[0];
@@ -795,11 +789,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{
 			super( title );
 			addActionListener( this );
-
-			Object [] parameters = new Object[3];
-			parameters[0] = StaticEntity.getClient();
-			parameters[1] = title;
-			parameters[2] = panel;
+ 
+			Object [] parameters = new Object[2];
+			parameters[0] = title;
+			parameters[1] = panel;
 
 			creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
 		}

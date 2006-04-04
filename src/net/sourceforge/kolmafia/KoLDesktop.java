@@ -48,6 +48,7 @@ import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
+import javax.swing.JRootPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -88,7 +89,9 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	private static boolean isInitializing = false;
 
 	private JTabbedPane tabs = new JTabbedPane();
+	
 	private ArrayList tabListing = new ArrayList();
+	private ArrayList defaultButtons = new ArrayList();
 
 	protected JPanel compactPane;
 	protected JLabel levelLabel, roninLabel, mcdLabel;
@@ -147,7 +150,15 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		int selectedIndex = tabs.getSelectedIndex();
 
 		if ( selectedIndex != -1 && selectedIndex < tabListing.size() )
-			((KoLFrame) tabListing.get( selectedIndex )).requestFocus();
+		{
+			JRootPane rootPane = (JRootPane) tabs.getComponentAt( selectedIndex );
+			JButton defaultButton = (JButton) defaultButtons.get( selectedIndex );
+
+			rootPane.requestFocus();
+			
+			rootPane.setDefaultButton( defaultButton );
+			KoLDesktop.this.getRootPane().setDefaultButton( defaultButton );
+		}
 	}
 
 	public void initializeTabs()
@@ -198,8 +209,10 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			if ( content.tabs != null )
 				content.tabs.setTabPlacement( JTabbedPane.BOTTOM );
 
-			INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
+			INSTANCE.defaultButtons.add( content.getRootPane().getDefaultButton() );
 			INSTANCE.tabListing.add( content );
+			INSTANCE.tabs.addTab( content.lastTitle, content.getRootPane() );
+
 			tabIndex = INSTANCE.tabListing.size() - 1;
 		}
 
@@ -214,6 +227,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		int tabIndex = INSTANCE.tabListing.indexOf( content );
 		if ( tabIndex != -1 )
 		{
+			INSTANCE.defaultButtons.remove( tabIndex );
 			INSTANCE.tabListing.remove( tabIndex );
 			INSTANCE.tabs.removeTabAt( tabIndex );
 		}

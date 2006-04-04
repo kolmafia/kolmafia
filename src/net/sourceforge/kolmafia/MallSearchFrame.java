@@ -113,7 +113,7 @@ public class MallSearchFrame extends KoLPanelFrame
 
 			currentlyBuying = false;
 			countField.setText( getProperty( "defaultLimit" ).equals( "" ) ? "5" : getProperty( "defaultLimit" ) );
-			getRootPane().setDefaultButton( confirmedButton );
+			MallSearchFrame.this.getRootPane().setDefaultButton( confirmedButton );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -150,7 +150,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			Object [] purchases = resultsList.getSelectedValues();
 			if ( purchases == null || purchases.length == 0 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Please select a store from which to purchase." );
+				setStatusMessage( ERROR_STATE, "Please select a store from which to purchase." );
 				return;
 			}
 

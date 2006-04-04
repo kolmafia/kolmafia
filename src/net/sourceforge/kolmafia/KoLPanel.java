@@ -151,22 +151,9 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 			container.add( statusContainer, BorderLayout.SOUTH );
 		}
-
-		if ( confirmedButton != null )
-		{
+		
+		if ( confirmedButton != null );
 			setDefaultButton( confirmedButton );
-			confirmedButton.addKeyListener( new DefaultButtonListener() );
-		}
-	}
-
-	private class DefaultButtonListener extends KeyAdapter
-	{
-		public void keyReleased( KeyEvent e )
-		{
-			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-				actionConfirmed();
-		}
-
 	}
 
 	private class StatusLabel extends JLabel

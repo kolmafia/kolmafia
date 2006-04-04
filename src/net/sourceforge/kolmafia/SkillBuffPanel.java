@@ -67,7 +67,6 @@ public class SkillBuffPanel extends KoLPanel
 		elements[1] = new VerifiableElement( "The Victim: ", targetSelect );
 
 		setContent( elements );
-		setDefaultButton( confirmedButton );
 		add( new UneffectPanel(), BorderLayout.CENTER );
 
 		if ( !initialRecipient.equals( "" ) )
