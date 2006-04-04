@@ -194,7 +194,6 @@ public class LoginFrame extends KoLFrame
 
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ), BorderLayout.CENTER );
 			actionStatusPanel.add( breakfastPanel, BorderLayout.NORTH );
-			setDefaultButton( confirmedButton );
 		}
 
 		public void setEnabled( boolean isEnabled )

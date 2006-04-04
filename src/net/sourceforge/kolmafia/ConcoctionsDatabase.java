@@ -731,8 +731,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			for ( int i = 0; i < ingredientArray.length; ++i )
 				concoctions.get( ingredientArray[i].getItemID() ).calculate( availableIngredients );
 
-			boolean inMuscleSign = KoLCharacter.inMuscleSign();
-			this.mark( 0, 1, inMuscleSign );
+			this.mark( 0, 1 );
 
 			// With all of the data preprocessed, calculate
 			// the quantity creatable by solving the set of
@@ -750,7 +749,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			{
 				this.total = Integer.MAX_VALUE;
 				for ( int i = 0; i < ingredientArray.length; ++i )
-					this.total = Math.min( this.total, concoctions.get( ingredientArray[i].getItemID() ).quantity( inMuscleSign ) );
+					this.total = Math.min( this.total, concoctions.get( ingredientArray[i].getItemID() ).quantity() );
 
 				// The total available for other creations is equal
 				// to the total, less the initial.
@@ -770,7 +769,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		 * a recipe based on the modifier/multiplier of its ingredients
 		 */
 
-		private int quantity( boolean inMuscleSign )
+		private int quantity()
 		{
 			// If there is no multiplier, assume that an infinite
 			// number is available.
@@ -786,9 +785,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			// Avoid mutual recursion.
 
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN ||
-			     mixingMethod == ItemCreationRequest.CLOVER ||
-			     !isPermittedMethod( mixingMethod ) )
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER || !isPermittedMethod( mixingMethod ) )
 				return quantity;
 
 			// The true value is affected by the maximum value for
@@ -797,7 +794,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// of the linear inequality.
 
 			for ( int i = 0; quantity > 0 && i < ingredientArray.length; ++i )
-				quantity = Math.min( quantity, concoctions.get( ingredientArray[i].getItemID() ).quantity( inMuscleSign ) );
+				quantity = Math.min( quantity, concoctions.get( ingredientArray[i].getItemID() ).quantity() );
 
 			// Adventures are also considered an ingredient; if
 			// no adventures are necessary, the multiplier should
@@ -805,13 +802,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// no effect on the calculation.
 
 			if ( quantity > 0 && this != concoctions.get(0) )
-				quantity = Math.min( quantity, concoctions.get(0).quantity( inMuscleSign ) );
-
-			// If this is item combination and the person is in a
-			// non-muscle sign, item creation requires meat paste.
-
-			if ( quantity > 0 && mixingMethod == ItemCreationRequest.COMBINE && !inMuscleSign )
-				quantity = Math.min( quantity, concoctions.get( ItemCreationRequest.MEAT_PASTE ).quantity( inMuscleSign ) );
+				quantity = Math.min( quantity, concoctions.get(0).quantity() );
 
 			// The true value is now calculated.  Return this
 			// value to the requesting method.
@@ -824,16 +815,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 		 * the given added modifier and the given additional multiplier.
 		 */
 
-		private void mark( int modifier, int multiplier, boolean inMuscleSign )
+		private void mark( int modifier, int multiplier )
 		{
 			this.modifier += modifier;
 			this.multiplier += multiplier;
 
 			// Avoid mutual recursion
 
-			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN ||
-			     mixingMethod == ItemCreationRequest.CLOVER ||
-			     !isPermittedMethod( mixingMethod ) )
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER || !isPermittedMethod( mixingMethod ) )
 				return;
 
 			// Mark all the ingredients, being sure to multiply
@@ -844,26 +833,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
 			{
-				// In order to ensure that the multiplier
-				// is added correctly, make sure you count
-				// the ingredient as many times as it appears,
-				// but only multi-count the ingredient once.
-
-				instanceCount = ingredientArray[i].getCount();
-
-				for ( int j = 0; j < i; ++j )
-					if ( ingredientArray[i].getItemID() == ingredientArray[j].getItemID() )
-						instanceCount += ingredientArray[j].getCount();
-
-				// If the ingredient has already been counted
-				// before, continue with the next ingredient.
-
-				if ( instanceCount > ingredientArray[i].getCount() )
-					continue;
-
-				// Now that you know that this is the first
-				// time the ingredient has been seen, proceed.
-
 				instanceCount = ingredientArray[i].getCount();
 
 				for ( int j = i + 1; j < ingredientArray.length; ++j )
@@ -871,7 +840,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 						instanceCount += ingredientArray[j].getCount();
 
 				concoctions.get( ingredientArray[i].getItemID() ).mark(
-					(this.modifier + this.initial) * instanceCount, this.multiplier * instanceCount, inMuscleSign );
+					(this.modifier + this.initial) * instanceCount, this.multiplier * instanceCount );
 			}
 
 			// Mark the implicit adventure ingredient, being
@@ -880,14 +849,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( this != concoctions.get(0) && ADVENTURE_USAGE[ mixingMethod ] != 0 )
 				concoctions.get(0).mark( (this.modifier + this.initial) * ADVENTURE_USAGE[ mixingMethod ],
-					this.multiplier * ADVENTURE_USAGE[ mixingMethod ], inMuscleSign );
-
-			// In the event that this is a standard combine request,
-			// and the person is not in a muscle sign, make sure that
-			// meat paste is marked as a limiter also.
-
-			if ( mixingMethod == ItemCreationRequest.COMBINE && !inMuscleSign )
-				concoctions.get( ItemCreationRequest.MEAT_PASTE ).mark( this.modifier + this.initial, this.multiplier, inMuscleSign );
+					this.multiplier * ADVENTURE_USAGE[ mixingMethod ] );
 		}
 
 		/**
@@ -908,9 +870,24 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			if ( this != concoctions.get(0) )
 				concoctions.get(0).unmark();
+		}
 
-			if ( mixingMethod == ItemCreationRequest.COMBINE )
-				concoctions.get( ItemCreationRequest.MEAT_PASTE ).unmark();
+		private int getMeatPasteNeeded()
+		{
+			// Avoid mutual recursion.
+
+			if ( mixingMethod == ItemCreationRequest.ROLLING_PIN || mixingMethod == ItemCreationRequest.CLOVER || !isPermittedMethod( mixingMethod ) )
+				return 0;
+
+			// Count all the meat paste from the different
+			// levels in the creation tree.
+
+			int runningTotal = 0;
+			for ( int i = 0; i < ingredientArray.length; ++i )
+				runningTotal += concoctions.get( ingredientArray[i].getItemID() ).getMeatPasteNeeded();
+
+			runningTotal += this.creatable;
+			return runningTotal;
 		}
 
 		/**

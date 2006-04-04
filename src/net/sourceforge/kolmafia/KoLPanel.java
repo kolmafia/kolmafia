@@ -34,6 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -149,6 +151,22 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 			container.add( statusContainer, BorderLayout.SOUTH );
 		}
+
+		if ( confirmedButton != null )
+		{
+			setDefaultButton( confirmedButton );
+			confirmedButton.addKeyListener( new DefaultButtonListener() );
+		}
+	}
+
+	private class DefaultButtonListener extends KeyAdapter
+	{
+		public void keyReleased( KeyEvent e )
+		{
+			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+				actionConfirmed();
+		}
+
 	}
 
 	private class StatusLabel extends JLabel

@@ -178,18 +178,22 @@ public class KoLmafiaGUI extends KoLmafia
 
 		ArrayList initialFrameList = new ArrayList();
 
-		for ( int i = 0; i < startupArray.length; ++i )
-			if ( !initialFrameList.contains( startupArray[i] ) )
-				initialFrameList.add( startupArray[i] );
+		if ( !startupSetting.equals( "" ) )
+			for ( int i = 0; i < startupArray.length; ++i )
+				if ( !initialFrameList.contains( startupArray[i] ) )
+					initialFrameList.add( startupArray[i] );
 
 		for ( int i = 0; i < interfaceArray.length; ++i )
 			initialFrameList.remove( interfaceArray[i] );
 
-		String [] initialFrames = new String[ initialFrameList.size() ];
-		initialFrameList.toArray( initialFrames );
+		if ( !initialFrameList.isEmpty() )
+		{
+			String [] initialFrames = new String[ initialFrameList.size() ];
+			initialFrameList.toArray( initialFrames );
 
-		for ( int i = 0; i < initialFrames.length; ++i )
-			constructFrame( initialFrames[i] );
+			for ( int i = 0; i < initialFrames.length; ++i )
+				constructFrame( initialFrames[i] );
+		}
 
 		displayer = new CreateFrameRunnable( AdventureFrame.class );
 

@@ -214,7 +214,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			elements[2] = new VerifiableElement( "Limit: ", limitEntry );
 
 			setContent( elements, null, getRankLabel(), true, true );
-			setDefaultButton( confirmedButton );
 		}
 
 		public void actionConfirmed()
@@ -288,7 +287,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			elements[0] = new VerifiableElement( "Clan ID: ", clanID );
 
 			setContent( elements, null, getRankLabel(), true, true );
-			setDefaultButton( confirmedButton );
 		}
 
 		public void actionConfirmed()

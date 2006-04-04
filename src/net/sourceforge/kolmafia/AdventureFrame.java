@@ -250,6 +250,7 @@ public class AdventureFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Conditions: ", conditionField );
 
 			setContent( elements );
+			getRootPane().setDefaultButton( confirmedButton );
 
 			int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( getProperty( "battleAction" ) );
 
@@ -279,12 +280,6 @@ public class AdventureFrame extends KoLFrame
 				if ( actionSelect.getSelectedIndex() != -1 )
 					setProperty( "battleAction", (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() ) );
 			}
-		}
-
-		protected void setContent( VerifiableElement [] elements )
-		{
-			super.setContent( elements );
-			setDefaultButton( confirmedButton );
 		}
 
 		public void setEnabled( boolean isEnabled )
