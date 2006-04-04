@@ -174,8 +174,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				KoLDesktop.getInstance().setVisible( true );
 			}
 
-			String frameName = ((KoLFrame)this.creation).getFrameName();
-
 			// Load the KoL frame to the appropriate location
 			// on the screen now that the frame has been packed
 			// to the appropriate size.
@@ -190,20 +188,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			}
 
 			this.creation.pack();
-
-			int xLocation = 0;
-			int yLocation = 0;
-			Dimension screenSize = TOOLKIT.getScreenSize();
-			if ( StaticEntity.getSettings().containsKey( frameName ) )
-			{
-				String [] location = StaticEntity.getSettings().getProperty( frameName ).split( "," );
-				xLocation = Integer.parseInt( location[0] );
-				yLocation = Integer.parseInt( location[1] );
-			}
-			if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
-				this.creation.setLocation( xLocation, yLocation );
-			else
-				this.creation.setLocation( (int)(screenSize.getWidth() - this.creation.getWidth())/2, (int)(screenSize.getHeight() - this.creation.getHeight())/2 );
 
 			// With the location set set on screen, make sure
 			// to disable it (if necessary), ensure the frame's

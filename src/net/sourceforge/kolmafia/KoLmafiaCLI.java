@@ -798,15 +798,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Next is the command to handle the retrieval
-		// of breakfast, which is not yet documented.
-
-		if ( command.equals( "breakfast" ) )
-		{
-			StaticEntity.getClient().getBreakfast();
-			return;
-		}
-
 		// Next is the command to train your current familiar
 
 		if ( command.equals( "train" ) )
