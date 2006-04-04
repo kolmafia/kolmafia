@@ -112,6 +112,7 @@ public class CommandDisplayFrame extends KoLFrame
 			setLayout( new BorderLayout( 1, 1 ) );
 			add( scrollPane, BorderLayout.CENTER );
 			add( entryPanel, BorderLayout.SOUTH );
+			getRootPane().setDefaultButton( entryButton );
 		}
 
 		/**

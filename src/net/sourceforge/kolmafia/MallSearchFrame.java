@@ -85,7 +85,6 @@ public class MallSearchFrame extends KoLPanelFrame
 		public MallSearchPanel()
 		{
 			super( "search", "purchase", "cancel", new Dimension( 100, 20 ), new Dimension( 250, 20 ) );
-			setDefaultButton( confirmedButton );
 
 			searchField = new JTextField();
 			countField = new JTextField();
@@ -114,7 +113,7 @@ public class MallSearchFrame extends KoLPanelFrame
 
 			currentlyBuying = false;
 			countField.setText( getProperty( "defaultLimit" ).equals( "" ) ? "5" : getProperty( "defaultLimit" ) );
-			setDefaultButton( confirmedButton );
+			getRootPane().setDefaultButton( confirmedButton );
 		}
 
 		public void setEnabled( boolean isEnabled )

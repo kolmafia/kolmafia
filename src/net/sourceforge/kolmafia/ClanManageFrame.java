@@ -465,7 +465,6 @@ public class ClanManageFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "Value:", valueField );
 
 			setContent( elements, null, null, true, true );
-			setDefaultButton( confirmedButton );
 		}
 
 		public void setEnabled( boolean isEnabled )
