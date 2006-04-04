@@ -34,38 +34,16 @@
 
 package net.sourceforge.kolmafia;
 
-import java.net.URL;
-import java.net.URLEncoder;
-import java.net.URLDecoder;
-import java.net.URLConnection;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-
-import java.io.PrintStream;
-import java.io.BufferedWriter;
-import java.io.OutputStreamWriter;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class LocalRelayRequest extends KoLRequest
 {
-	static final byte[] EOL = {(byte)'\r', (byte)'\n' };
 	protected String fullResponse;
-
+	
 	public LocalRelayRequest( KoLmafia client, String formURLString, boolean followRedirects )
 	{	super( client, formURLString, followRedirects );
 	}
-
+	
 	public HttpURLConnection getFormConnection()
 	{	return formConnection;
 	}
@@ -73,15 +51,15 @@ public class LocalRelayRequest extends KoLRequest
 	public String getFullResponse()
 	{	return fullResponse;
 	}
-
+	
 	protected void processRawResponse()
 	{
 		super.processRawResponse();
 		fullResponse = responseText;
 		
-		// Change the function menu
-    if ( getURLString().indexOf("compactmenu.php") != -1 )
+		if ( getURLString().indexOf("compactmenu.php") != -1 )
 		{
+			// Change the function menu
 			fullResponse = fullResponse.replaceAll(	"<option value=.?inventory.?php.?>Inventory</option>",
 																							"<option value=\"inventory.php?which=1\">Consumables</option>\n" + 
 																							"<option value=\"inventory.php\">Inventory</option>" );
@@ -89,7 +67,7 @@ public class LocalRelayRequest extends KoLRequest
 																							"<option value=\"inventory.php?which=2\">Equipment</option>\n" + 
 																							"<option value=\"inventory.php\">Inventory</option>" );
 			fullResponse = fullResponse.replaceAll(	"<option value=.?inventory.?php.?>Inventory</option>", 
-																						"<option value=\"inventory.php?which=3\">Miscellaneous</option>" );
+																							"<option value=\"inventory.php?which=3\">Miscellaneous</option>" );
 			fullResponse = fullResponse.replaceAll(	"<option value=.?questlog.?php.?>Quests</option>",
 																							"<option value=\"familiar.php\">Terrarium</option>" );
 			fullResponse = fullResponse.replaceAll(	"<option value=.?messages.?php.?>Read Messages</option>",
@@ -98,22 +76,31 @@ public class LocalRelayRequest extends KoLRequest
 			fullResponse = fullResponse.replaceAll(	"<option value=.?documentation.?>Documentation</option>", "" );
 			fullResponse = fullResponse.replaceAll(	"<option value=.?forums.?>Forums</option>", "" );
 			fullResponse = fullResponse.replaceAll(	"<option value=.?radio.?>Radio</option>", "" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?sendmessage.?php.?toid.?Jick>Report Bug</option>", "" );
+			fullResponse = fullResponse.replaceAll(	"<option value=.?sendmessage.*?</option>", "" );
 			fullResponse = fullResponse.replaceAll(	"<option value=.?store.?>Store</option>", "" );
 			fullResponse = fullResponse.replaceAll(	"<option value=.?logout.?php.?>Log Out</option>", "" );
 			fullResponse = fullResponse.replaceAll(	"<option value=.?donate.?>Donate</option>", "" );
+
+			// Mafiatize the goto menu
+			fullResponse = fullResponse.replaceAll(	"<option value=.?mall.?php.*?</option>", "" );
+			fullResponse = fullResponse.replaceAll(	"<option value=.?mountains.?php.?>",
+																							"<option value=\"mclargehuge.php\">Mt. McLargeHuge</option>\n" + 
+																							"<option value=\"mountains.php\">" );
+			fullResponse = fullResponse.replaceAll(	"Nearby Plains</a>",
+																							"Nearby Plains</a>\n" +
+																							"<option value=\"beanstalk.php\">Above Beanstalk</option>\n" );
 		}
-    // Add [refresh] link to charpane.php (may remove this later)
-    if ( getURLString().indexOf("charpane.php") != -1 )
+		// Add [refresh] link to charpane.php (may remove this later)
+		if ( getURLString().indexOf("charpane.php") != -1 )
 			fullResponse = fullResponse.replaceAll( "<centeR><b><a target=mainpane href=.?charsheet.?php.?>", 
 																							"<centeR>[<a href=\"javascript:parent.charpane.location.href='charpane.php';\">" +
 																							"refresh</a>]<br><br><b><a target=mainpane href=\"charsheet.php\">" );
-    // Fix chat javascript problems with relay system
-    if ( getURLString().indexOf("lchat.php") != -1 )
+		// Fix chat javascript problems with relay system
+		if ( getURLString().indexOf("lchat.php") != -1 )
 			fullResponse = fullResponse.replaceAll( "window.?location.?hostname", 
 																							"\"127.0.0.1:" + KoLmafia.getRelayPort() + "\"" );
 		// Fix chat context menu problems with relay
-    if ( getURLString().indexOf("lchat.php") != -1 )
+		if ( getURLString().indexOf("lchat.php") != -1 )
 			fullResponse = fullResponse.replaceAll( "</head>", 
 																							"<script language=\"Javascript\">base = \"http://127.0.0.1:" + 
 																							KoLmafia.getRelayPort() + "\";</script></head>" );
