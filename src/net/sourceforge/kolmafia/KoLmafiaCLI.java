@@ -204,12 +204,12 @@ public class KoLmafiaCLI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID )
+	public void initialize( String username, String sessionID )
 	{
 		if ( StaticEntity.getClient() != this )
-			StaticEntity.getClient().initialize( loginname, sessionID );
+			StaticEntity.getClient().initialize( username, sessionID );
 		else
-			super.initialize( loginname, sessionID );
+			super.initialize( username, sessionID );
 
 		if ( StaticEntity.getClient() == this )
 		{

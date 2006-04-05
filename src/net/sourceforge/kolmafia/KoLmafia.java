@@ -252,7 +252,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID )
+	public void initialize( String username, String sessionID )
 	{
 		// Initialize the variables to their initial
 		// states to avoid null pointers getting thrown
@@ -265,13 +265,13 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		this.sessionID = sessionID;
-		this.settings = new KoLSettings( loginname );
+		this.settings = new KoLSettings( username );
 
-		GLOBAL_SETTINGS.setProperty( "lastUsername", loginname );
-		KoLCharacter.reset( loginname );
+		GLOBAL_SETTINGS.setProperty( "lastUsername", username );
+		KoLCharacter.reset( username );
 
 		this.refreshSession();
-		registerPlayer( loginname, String.valueOf( KoLCharacter.getUserID() ) );
+		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
 
 		if ( KoLCharacter.hasToaster() )
 			for ( int i = 0; i < 3 && permitsContinue(); ++i )
@@ -280,12 +280,16 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.hasArches() )
 			(new CampgroundRequest( this, "arches" )).run();
 
-		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + loginname.toLowerCase() );
+		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + username.toLowerCase() );
 
 		if ( skillSetting != null )
 			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
 				if ( skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1 && KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] ) )
 					getBreakfast( BREAKFAST_SKILLS[i][0], Integer.parseInt( BREAKFAST_SKILLS[i][1] ) );
+
+		String scriptSetting = GLOBAL_SETTINGS.getProperty( "loginScript." + username.toLowerCase() );
+		if ( !scriptSetting.equals( "" ) )
+			DEFAULT_SHELL.executeLine( scriptSetting );
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
@@ -1806,12 +1810,12 @@ public abstract class KoLmafia implements KoLConstants
 	 * intends to be stored in the global file.
 	 */
 
-	public final void addSaveState( String loginname, String password )
+	public final void addSaveState( String username, String password )
 	{
 		try
 		{
-			if ( !saveStateNames.contains( loginname ) )
-				saveStateNames.add( loginname );
+			if ( !saveStateNames.contains( username ) )
+				saveStateNames.add( username );
 
 			storeSaveStates();
 			String utfString = URLEncoder.encode( password, "UTF-8" );
@@ -1840,7 +1844,7 @@ public abstract class KoLmafia implements KoLConstants
 				}
 			}
 
-			GLOBAL_SETTINGS.setProperty( "saveState." + loginname.toLowerCase(), (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
+			GLOBAL_SETTINGS.setProperty( "saveState." + username.toLowerCase(), (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
