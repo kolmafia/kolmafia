@@ -2833,7 +2833,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( type == TYPE_LOCATION )
 				return "location";
 			if ( type == TYPE_CLASS )
-				return "private class";
+				return "class";
 			if ( type == TYPE_STAT )
 				return "stat";
 			if ( type == TYPE_SKILL )
