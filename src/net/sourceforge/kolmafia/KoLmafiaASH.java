@@ -140,7 +140,7 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptValue result = executeGlobalScope( global );
 			if ( result.getType().equals( TYPE_BOOLEAN ) )
 			{
-				if ( result.getIntValue() == 0 )
+				if ( result.intValue() == 0 )
 				{
 					DEFAULT_SHELL.printLine( "Script failed!" );
 					return;
@@ -506,7 +506,6 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptReturn parseReturn( ScriptType expectedType, ScriptScope parentScope ) throws AdvancedScriptException
 	{
-
 		ScriptExpression expression = null;
 
 		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "return" ) )
@@ -711,11 +710,12 @@ public class KoLmafiaASH extends StaticEntity
 		if ( currentToken() == null )
 			return null;
 
-		if ( currentToken() != null && currentToken().equalsIgnoreCase( "!" ) )
+		if ( currentToken().equals( "!" ) )
 		{
 			readToken(); // !
 			if ( (lhs = parseValue( scope )) == null )
 				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
+
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( "!" ) );
 		}
 		else
@@ -745,11 +745,9 @@ public class KoLmafiaASH extends StaticEntity
 	private ScriptExpression parseValue( ScriptScope scope ) throws AdvancedScriptException
 	{
 		ScriptExpression result;
-		int i;
 
 		if ( currentToken() == null )
 			return null;
-
 
 		if ( currentToken().equalsIgnoreCase( "(" ) )
 		{
@@ -768,73 +766,63 @@ public class KoLmafiaASH extends StaticEntity
 			readToken();
 			return new ScriptValue( new ScriptType( TYPE_BOOLEAN ), 1 );
 		}
-		else if ( currentToken().equalsIgnoreCase( "false" ) )
+
+		if ( currentToken().equalsIgnoreCase( "false" ) )
 		{
 			readToken();
 			return new ScriptValue( new ScriptType( TYPE_BOOLEAN ), 0 );
 		}
 
-		else if ( (result = parseCall( scope )) != null )
+		if ( (result = parseCall( scope )) != null )
 			return result;
 
-		else if ( (result = parseVariableReference( scope )) != null )
+		if ( (result = parseVariableReference( scope )) != null )
 			return result;
 
-		else if ( Character.isDigit( currentToken().charAt( 0 ) ) || currentToken().charAt( 0 ) == '-' )
+		if ( Character.isDigit( currentToken().charAt( 0 ) ) || currentToken().charAt( 0 ) == '-' )
 		{
-			int resultInt;
-
-			boolean negative = false;
-
-			i = 0;
-
-			if ( currentToken().charAt( 0 ) == '-' )
+			for ( int i = 0; i < currentToken().length(); ++i )
 			{
-				negative = true;
-				i = 1;
-			}
-
-			for ( resultInt = 0; i < currentToken().length(); ++i )
-			{
-				if ( !Character.isDigit( currentToken().charAt(i) ) )
+				if ( !Character.isDigit( currentToken().charAt( i ) ) )
 				{
-					if ( currentToken().charAt(i) == '.' )
-					{
-						return parseFloat();
-					}
-					else
-						throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile() );
-				}
-				resultInt = ( resultInt * 10 ) + ( currentToken().charAt(i ) - '0' );
-			}
-			if ( negative )
-				resultInt = resultInt * -1;
+					if ( i == 0 && currentToken().charAt(i) == '-' )
+						continue;
 
-			readToken(); //integer
+					if ( currentToken().charAt(i) == '.' )
+						return parseFloat();
+
+					throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile() );
+				}
+			}
+
+			int resultInt = Integer.parseInt( currentToken() );
+			readToken(); // integer
+
 			return new ScriptValue( new ScriptType( TYPE_INT ), resultInt );
 		}
 		else if ( currentToken().equalsIgnoreCase( "\"" ) )
 		{
-			//Directly work with line - ignore any "tokens" you meet until the string is closed
-			String resultString = "";
-			for ( i = 1; ; ++i )
+			// Directly work with line - ignore any "tokens" you meet until the string is closed
+
+			StringBuffer resultString = new StringBuffer();
+			for ( int i = 1; ; ++i )
 			{
 				if ( i == line.length() )
 				{
 					throw new AdvancedScriptException( "No closing '\"' found " + getLineAndFile() );
 				}
-				else if ( line.charAt(i ) == '\\' )
+				else if ( line.charAt( i ) == '\\' )
 				{
-					resultString = resultString + line.charAt( ++i );
+					resultString.append( line.charAt( ++i ) );
 				}
-				else if ( line.charAt(i ) == '"' )
+				else if ( line.charAt( i ) == '"' )
 				{
 					line = line.substring( i + 1 ); //+ 1 to get rid of '"' token
-					return new ScriptValue( new ScriptType( TYPE_STRING ), resultString );
+					return new ScriptValue( new ScriptType( TYPE_STRING ), resultString.toString() );
 				}
 				else
 				{
-					resultString = resultString + line.charAt( i );
+					resultString.append( line.charAt( i ) );
 				}
 			}
 
@@ -850,29 +838,31 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !currentToken().equalsIgnoreCase( "[" ) )
 				throw new AdvancedScriptException( "'[' Expected " + getLineAndFile() );
 
-			String resultString = "";
-			for ( i = 1; ; ++i )
+			StringBuffer resultString = new StringBuffer();
+
+			for ( int i = 1; ; ++i )
 			{
 				if ( i == line.length() )
 				{
 					throw new AdvancedScriptException( "No closing ']' found " + getLineAndFile() );
 				}
-				else if ( line.charAt(i ) == '\\' )
+				else if ( line.charAt( i ) == '\\' )
 				{
-					resultString = resultString + line.charAt( ++i );
+					resultString.append( line.charAt( ++i ) );
 				}
-				else if ( line.charAt(i ) == ']' )
+				else if ( line.charAt( i ) == ']' )
 				{
 					line = line.substring( i + 1 ); //+1 to get rid of ']' token
-					return new ScriptValue( type, resultString );
+					return new ScriptValue( type, resultString.toString());
 				}
 				else
 				{
-					resultString = resultString + line.charAt( i );
+					resultString.append( line.charAt( i ) );
 				}
 
 			}
 		}
+
 		return null;
 	}
 
@@ -1513,6 +1503,42 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "bounty_hunter_wants", new ScriptType( TYPE_BOOLEAN ), params ) );
 
+		params = new ScriptType[] { new ScriptType( TYPE_BOOLEAN ) };
+		result.addFunction( new ScriptExistingFunction( "boolean_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
+		result.addFunction( new ScriptExistingFunction( "int_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_FLOAT ) };
+		result.addFunction( new ScriptExistingFunction( "float_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
+		result.addFunction( new ScriptExistingFunction( "item_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_ZODIAC ) };
+		result.addFunction( new ScriptExistingFunction( "zodiac_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_LOCATION ) };
+		result.addFunction( new ScriptExistingFunction( "location_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_CLASS ) };
+		result.addFunction( new ScriptExistingFunction( "class_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_STAT ) };
+		result.addFunction( new ScriptExistingFunction( "stat_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_SKILL ) };
+		result.addFunction( new ScriptExistingFunction( "skill_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_EFFECT ) };
+		result.addFunction( new ScriptExistingFunction( "effect_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_FAMILIAR ) };
+		result.addFunction( new ScriptExistingFunction( "familiar_to_string", new ScriptType( TYPE_STRING ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
+		result.addFunction( new ScriptExistingFunction( "int_to_item", new ScriptType( TYPE_ITEM ), params ) );
+
 		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
 		result.addFunction( new ScriptExistingFunction( "wait", new ScriptType( TYPE_VOID ), params ) );
 
@@ -1604,32 +1630,32 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptFunction getFirstFunction()
 		{
-			return ( ScriptFunction ) functions.getFirstElement();
+			return (ScriptFunction) functions.getFirstElement();
 		}
 
 		public ScriptFunction getNextFunction( ScriptFunction current )
 		{
-			return ( ScriptFunction ) functions.getNextElement( current );
+			return (ScriptFunction) functions.getNextElement( current );
 		}
 
 		public ScriptVariable getFirstVariable()
 		{
-			return ( ScriptVariable ) variables.getFirstElement();
+			return (ScriptVariable) variables.getFirstElement();
 		}
 
 		public ScriptVariable getNextVariable( ScriptVariable current )
 		{
-			return ( ScriptVariable ) variables.getNextElement( current );
+			return (ScriptVariable) variables.getNextElement( current );
 		}
 
 		public ScriptCommand getFirstCommand()
 		{
-			return ( ScriptCommand ) commands.getFirstElement();
+			return (ScriptCommand) commands.getFirstElement();
 		}
 
 		public ScriptCommand getNextCommand( ScriptCommand current )
 		{
-			return ( ScriptCommand ) commands.getNextElement( current );
+			return (ScriptCommand) commands.getNextElement( current );
 		}
 
 		public boolean assertReturn()
@@ -1707,18 +1733,17 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				result = current.execute();
 
-				if ( currentState == STATE_RETURN )
-					return result;
+				switch ( currentState )
+				{
+					case STATE_RETURN:
+					case STATE_BREAK:
+					case STATE_CONTINUE:
+					case STATE_EXIT:
 
-				if ( currentState == STATE_BREAK )
-					return null;
-
-				if ( currentState == STATE_CONTINUE )
-					return null;
-
-				if ( currentState == STATE_EXIT )
-					return null;
+						return result;
+				}
 			}
+
 			try
 			{
 				return new ScriptValue( TYPE_VOID, 0 );
@@ -1773,11 +1798,8 @@ public class KoLmafiaASH extends StaticEntity
 			return scope;
 		}
 
-		public int compareTo( Object o ) throws ClassCastException
-		{
-			if (!(o instanceof ScriptFunction ) )
-				throw new ClassCastException();
-			return name.compareTo( ((ScriptFunction)o).name );
+		public int compareTo( Object o )
+		{	return name.compareTo( ((ScriptFunction)o).name );
 		}
 
 		public String getName()
@@ -1843,595 +1865,369 @@ public class KoLmafiaASH extends StaticEntity
 					return null;
 				}
 
-				if ( name.equalsIgnoreCase( "adventure" ) )
-					return executeAdventureRequest( variables[0].getIntValue(), variables[1].getLocation() );
-				else if ( name.equalsIgnoreCase( "buy" ) )
-					return executeBuyRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else if ( name.equalsIgnoreCase( "create" ) )
-					return executeCreateRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else if ( name.equalsIgnoreCase( "use" ) || name.equalsIgnoreCase( "eat" ) )
-					return executeUseRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else if ( name.equalsIgnoreCase( "item_amount" ) )
-					return executeItemAmountRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "closet_amount" ) )
-					return executeClosetAmountRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "museum_amount" ) )
-					return executeMuseumAmountRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "shop_amount" ) )
-					return executeShopAmountRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "storage_amount" ) )
-					return executeStorageAmountRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "stash_amount" ) )
-					return executeStashAmountRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "put_closet" ) )
-					return executePutClosetRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else if ( name.equalsIgnoreCase( "put_shop" ) )
-					return executePutShopRequest( variables[0].getIntValue(), variables[1].getIntValue(), variables[2].getIntValue() );
-				else if ( name.equalsIgnoreCase( "put_stash" ) )
-					return executePutStashRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else if ( name.equalsIgnoreCase( "take_closet" ) )
-					return executeTakeClosetRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else if ( name.equalsIgnoreCase( "take_storage" ) )
-					return executeTakeStorageRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else if ( name.equalsIgnoreCase( "sell_item" ) )
-					return executeSellItemRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else if ( name.equalsIgnoreCase( "print" ) )
-					return executePrintRequest( variables[0].toStringValue().toString() );
-				else if ( name.equalsIgnoreCase( "my_zodiac" ) )
-					return executeZodiacRequest();
-				else if ( name.equalsIgnoreCase( "my_class" ) )
-					return executeClassRequest();
-				else if ( name.equalsIgnoreCase( "my_level" ) )
-					return executeLevelRequest();
-				else if ( name.equalsIgnoreCase( "my_hp" ) )
-					return executeHPRequest();
-				else if ( name.equalsIgnoreCase( "my_maxhp" ) )
-					return executeMaxHPRequest();
-				else if ( name.equalsIgnoreCase( "my_mp" ) )
-					return executeMPRequest();
-				else if ( name.equalsIgnoreCase( "my_maxmp" ) )
-					return executeMaxMPRequest();
-				else if ( name.equalsIgnoreCase( "my_basestat" ) )
-					return executeBaseStatRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "my_buffedstat" ) )
-					return executeBuffedStatRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "my_meat" ) )
-					return executeMeatRequest();
-				else if ( name.equalsIgnoreCase( "my_closetmeat" ) )
-					return executeClosetMeatRequest();
-				else if ( name.equalsIgnoreCase( "my_adventures" ) )
-					return executeAdventuresRequest();
-				else if ( name.equalsIgnoreCase( "my_inebriety" ) )
-					return executeInebrietyRequest();
-				else if ( name.equalsIgnoreCase( "have_skill" ) )
-					return executeHaveSkillRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "have_effect" ) )
-					return executeHaveEffectRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "use_skill" ) )
-					return executeUseSkillRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else if ( name.equalsIgnoreCase( "add_item_condition" ) )
-					return executeItemConditionRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else if ( name.equalsIgnoreCase( "can_eat" ) )
-					return executeCanEatRequest();
-				else if ( name.equalsIgnoreCase( "can_drink" ) )
-					return executeCanDrinkRequest();
-				else if ( name.equalsIgnoreCase( "can_interact" ) )
-					return executeCanInteractRequest();
-				else if ( name.equalsIgnoreCase( "trade_hermit" ) )
-					return executeHermitRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else if ( name.equalsIgnoreCase( "trade_bounty_hunter" ) )
-					return executeBountyHunterRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "trade_trapper" ) )
-					return executeTrapperRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "equip" ) )
-					return executeEquipRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "unequip" ) )
-					return executeUnequipRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "my_familiar" ) )
-					return executeMyFamiliarRequest();
-				else if ( name.equalsIgnoreCase( "equip_familiar" ) )
-					return executeEquipFamiliarRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "council" ) )
-					return executeCouncilRequest();
-				else if ( name.equalsIgnoreCase( "mind_control" ) )
-					return executeMindControlRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "my_name" ) )
-					return executeNameRequest();
-				else if ( name.equalsIgnoreCase( "have_chef" ) )
-					return executeChefRequest();
-				else if ( name.equalsIgnoreCase( "have_bartender" ) )
-					return executeBartenderRequest();
-				else if ( name.equalsIgnoreCase( "cli_execute" ) )
-					return executeCLIExecuteRequest( variables[0].toStringValue().toString() );
-				else if ( name.equalsIgnoreCase( "bounty_hunter_wants" ) )
-					return executeBountyHunterWantsRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "wait" ) )
-					return executeWaitRequest( variables[0].getIntValue() );
-				else if ( name.equalsIgnoreCase( "entryway" ) )
-					return executeEntrywayRequest();
-				else if ( name.equalsIgnoreCase( "hedgemaze" ) )
-					return executeHedgemazeRequest();
-				else if ( name.equalsIgnoreCase( "guardians" ) )
-					return executeGuardiansRequest();
-				else if ( name.equalsIgnoreCase( "chamber" ) )
-					return executeChamberRequest();
-				else if ( name.equalsIgnoreCase( "nemesis" ) )
-					return executeNemesisRequest();
-				else if ( name.equalsIgnoreCase( "guild" ) )
-					return executeGuildRequest();
-				else if ( name.equalsIgnoreCase( "gourd" ) )
-					return executeGourdRequest();
-				else if ( name.equalsIgnoreCase( "tavern" ) )
-					return executeTavernRequest();
-				else if ( name.equalsIgnoreCase( "train_familiar" ) )
-					return executeTrainFamiliarRequest( variables[0].getIntValue(), variables[1].toStringValue().toString() );
-				else if ( name.equalsIgnoreCase( "retrieve_item" ) )
-					return executeRetrieveItemRequest( variables[0].getIntValue(), variables[1].getIntValue() );
-				else
-					throw new RuntimeException( "Internal error: unknown library function " + name );
+				return executeLibraryFunction();
+
 			}
-			catch( AdvancedScriptException e )
+			catch ( AdvancedScriptException e )
 			{
 				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing." );
 			}
 		}
 
-
-		private ScriptValue executeAdventureRequest( int amount, KoLAdventure location ) throws AdvancedScriptException
+		private ScriptValue executeLibraryFunction() throws AdvancedScriptException
 		{
-			DEFAULT_SHELL.updateDisplay( "Beginning " + amount + " turnips to " + location.toString() + "..." );
-			client.makeRequest( location, amount );
+			if ( name.equalsIgnoreCase( "adventure" ) )
+			{
+				DEFAULT_SHELL.updateDisplay( "Beginning " + variables[0].intValue() + " turnips to " + variables[1].getLocation() + "..." );
+				DEFAULT_SHELL.executeLine( "adventure " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
 
-			if ( client.permitsContinue() )
-				return new ScriptValue( TYPE_BOOLEAN, 1 );
-			else
+			if ( name.equalsIgnoreCase( "buy" ) )
+			{
+				DEFAULT_SHELL.executeLine( "buy " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "create" ) )
+			{
+				DEFAULT_SHELL.executeLine( "create " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "use" ) || name.equalsIgnoreCase( "eat" ) || name.equalsIgnoreCase( "drink" ) )
+			{
+				DEFAULT_SHELL.executeLine( "use " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "item_amount" ) )
+			{
+				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
+				return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getInventory() ) );
+			}
+
+			if ( name.equalsIgnoreCase( "closet_amount" ) )
+			{
+				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
+				return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCloset() ) );
+			}
+
+			if ( name.equalsIgnoreCase( "museum_amount" ) )
+			{
+				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
+				return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCollection() ) );
+			}
+
+			if ( name.equalsIgnoreCase( "shop_amount" ) )
+			{
+				(new StoreManageRequest( client )).run();
+
+				LockableListModel list = StoreManager.getSoldItemList();
+				StoreManager.SoldItem item = new StoreManager.SoldItem( variables[0].intValue(), 0, 0, 0, 0 );
+				int index = list.indexOf( item );
+
+				if ( index < 0 )
+					return new ScriptValue( TYPE_INT, 0 );
+
+				item = (StoreManager.SoldItem) list.get( index );
+				return new ScriptValue( TYPE_INT, item.getQuantity() );
+			}
+
+			if ( name.equalsIgnoreCase( "storage_amount" ) )
+			{
+				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
+				return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getStorage() ) );
+			}
+
+			if ( name.equalsIgnoreCase( "stash_amount" ) )
+			{
+				(new ClanStashRequest( client )).run();
+				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
+				return new ScriptValue( TYPE_INT, item.getCount( ClanManager.getStash() ) );
+			}
+
+			if ( name.equalsIgnoreCase( "put_closet" ) )
+			{
+				DEFAULT_SHELL.executeLine( "closet put " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "put_shop" ) )
+			{
+				DEFAULT_SHELL.executeLine( "mallsell " + variables[2].toStringValue() + " " + variables[0].intValue() + " " + variables[1].intValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "put_stash" ) )
+			{
+				DEFAULT_SHELL.executeLine( "stash put " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "take_closet" ) )
+			{
+				DEFAULT_SHELL.executeLine( "closet take " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "take_storage" ) )
+			{
+				DEFAULT_SHELL.executeLine( "hagnk " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "sell_item" ) )
+			{
+				DEFAULT_SHELL.executeLine( "sell " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "print" ) )
+			{
+				DEFAULT_SHELL.updateDisplay( variables[0].toStringValue().toString() );
+				return new ScriptValue( TYPE_VOID );
+			}
+
+			if ( name.equalsIgnoreCase( "my_zodiac" ) )
+				return new ScriptValue( TYPE_ZODIAC, KoLCharacter.getSign() );
+
+			if ( name.equalsIgnoreCase( "my_class" ) )
+				return new ScriptValue( TYPE_CLASS, KoLCharacter.getClassType() );
+
+			if ( name.equalsIgnoreCase( "my_level" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getLevel() );
+
+			if ( name.equalsIgnoreCase( "my_hp" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentHP() );
+
+			if ( name.equalsIgnoreCase( "my_maxhp" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumHP() );
+
+			if ( name.equalsIgnoreCase( "my_mp" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentMP() );
+
+			if ( name.equalsIgnoreCase( "my_maxmp" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumMP() );
+
+			if ( name.equalsIgnoreCase( "my_basestat" ) )
+			{
+				int stat = variables[0].intValue();
+
+				if ( STATS[ stat ].equalsIgnoreCase( "muscle" ) )
+					return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMuscle() );
+				if ( STATS[ stat ].equalsIgnoreCase( "mysticality" ) )
+					return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMysticality() );
+				if ( STATS[ stat ].equalsIgnoreCase( "moxie" ) )
+					return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMoxie() );
+
+				throw new RuntimeException( "Internal error: unknown stat" );
+			}
+
+			if ( name.equalsIgnoreCase( "my_buffedstat" ) )
+			{
+				int stat = variables[0].intValue();
+
+				if ( STATS[ stat ].equalsIgnoreCase( "muscle" ) )
+					return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMuscle() );
+				if ( STATS[ stat ].equalsIgnoreCase( "mysticality" ) )
+					return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMysticality() );
+				if ( STATS[ stat ].equalsIgnoreCase( "moxie" ) )
+					return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMoxie() );
+
+				throw new RuntimeException( "Internal error: unknown stat" );
+			}
+
+			if ( name.equalsIgnoreCase( "my_meat" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getAvailableMeat() );
+
+			if ( name.equalsIgnoreCase( "my_closetmeat" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getClosetMeat() );
+
+			if ( name.equalsIgnoreCase( "my_adventures" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getAdventuresLeft() );
+
+			if ( name.equalsIgnoreCase( "my_inebriety" ) )
+				return new ScriptValue( TYPE_INT, KoLCharacter.getInebriety() );
+
+			if ( name.equalsIgnoreCase( "have_skill" ) )
+				return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.hasSkill( variables[0].intValue() ) ? 1 : 0 );
+
+			if ( name.equalsIgnoreCase( "have_effect" ) )
+			{
+				List potentialEffects = StatusEffectDatabase.getMatchingNames( variables[0].toStringValue().toString() );
+				AdventureResult effect = potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get(0), 0, true );
+				return new ScriptValue( TYPE_INT, effect == null ? 0 : effect.getCount( KoLCharacter.getEffects() ) );
+			}
+
+			if ( name.equalsIgnoreCase( "use_skill" ) )
+			{
+				DEFAULT_SHELL.executeLine( "cast " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "can_eat" ) )
+				return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.canEat() ? 1 : 0 );
+
+			if ( name.equalsIgnoreCase( "can_drink" ) )
+				return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.canDrink() ? 1 : 0 );
+
+			if ( name.equalsIgnoreCase( "can_interact" ) )
+				return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.canInteract() ? 1 : 0 );
+
+			if ( name.equalsIgnoreCase( "trade_hermit" ) )
+			{
+				DEFAULT_SHELL.executeLine( "hermit " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "trade_bounty_hunter" ) )
+			{
+				DEFAULT_SHELL.executeLine( "hunter " + variables[0].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "trade_trapper" ) )
+			{
+				DEFAULT_SHELL.executeLine( "trapper " + variables[0].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "equip" ) )
+			{
+				DEFAULT_SHELL.executeLine( "equip " + variables[0].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "unequip" ) )
+			{
+				DEFAULT_SHELL.executeLine( "unequip " + variables[0].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "my_familiar" ) )
+				return new ScriptValue( TYPE_FAMILIAR, KoLCharacter.getFamiliar().getID() == -1 ? "none" : KoLCharacter.getFamiliar().getRace() );
+
+			if ( name.equalsIgnoreCase( "equip_familiar" ) )
+			{
+				DEFAULT_SHELL.executeLine( "familiar " + variables[0].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "council" ) )
+			{
+				DEFAULT_SHELL.executeLine( "council" );
+				return new ScriptValue( TYPE_VOID );
+			}
+
+			if ( name.equalsIgnoreCase( "mind_control" ) )
+			{
+				DEFAULT_SHELL.executeLine( "mind-control " + variables[0].intValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "my_name" ) )
+				return new ScriptValue( TYPE_STRING, KoLCharacter.getUsername() );
+
+			if ( name.equalsIgnoreCase( "have_chef" ) )
+				return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.hasChef() ? 1 : 0 );
+
+			if ( name.equalsIgnoreCase( "have_bartender" ) )
+				return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.hasBartender() ? 1 : 0 );
+
+			if ( name.equalsIgnoreCase( "cli_execute" ) )
+			{
+				DEFAULT_SHELL.executeLine( variables[0].toStringValue().toString() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "bounty_hunter_wants" ) )
+			{
+				String itemName = variables[0].toStringValue().toString();
+
+				if ( StaticEntity.getClient().hunterItems.isEmpty() )
+					(new BountyHunterRequest( StaticEntity.getClient() )).run();
+
+				for ( int i = 0; i < StaticEntity.getClient().hunterItems.size(); ++i )
+					if ( ((String)StaticEntity.getClient().hunterItems.get(i)).equalsIgnoreCase( itemName ) )
+						return new ScriptValue( TYPE_BOOLEAN, 1 );
+
 				return new ScriptValue( TYPE_BOOLEAN, 0 );
-		}
-
-		private ScriptValue executeBuyRequest( int amount, int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "buy " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeCreateRequest( int amount, int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "create " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeUseRequest( int amount, int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "use " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeItemAmountRequest( int itemID ) throws AdvancedScriptException
-		{
-			AdventureResult item;
-
-			if( (itemID == -1))
-				return new ScriptValue( TYPE_INT, 0);
-			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
-
-			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getInventory() ) );
-		}
-
-		private ScriptValue executeClosetAmountRequest( int itemID ) throws AdvancedScriptException
-		{
-			AdventureResult item;
-
-			if( (itemID == -1))
-				return new ScriptValue( TYPE_INT, 0);
-			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
-
-			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCloset() ) );
-		}
-
-		private ScriptValue executeMuseumAmountRequest( int itemID ) throws AdvancedScriptException
-		{
-			if ( itemID == -1 )
-				return new ScriptValue( TYPE_INT, 0);
-
-			// Make sure you have the most up-to-date
-			// data on the museum.
-
-			if ( KoLCharacter.getCollection().isEmpty() )
-				(new MuseumRequest( client )).run();
-
-			AdventureResult item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
-			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCollection() ) );
-		}
-
-		private ScriptValue executeShopAmountRequest( int itemID ) throws AdvancedScriptException
-		{
-			if ( itemID == -1 )
-				return new ScriptValue( TYPE_INT, 0);
-
-			(new StoreManageRequest( client )).run(); //refresh store inventory
-
-			LockableListModel list = StoreManager.getSoldItemList();
-			StoreManager.SoldItem item = new StoreManager.SoldItem( itemID, 0, 0, 0, 0 );
-			int index = list.indexOf( item );
-
-			if ( index < 0 )
-				return new ScriptValue( TYPE_INT, 0 );
-
-			item = (StoreManager.SoldItem)list.get( index );
-			return new ScriptValue( TYPE_INT, item.getQuantity() );
-		}
-
-		private ScriptValue executeStorageAmountRequest( int itemID ) throws AdvancedScriptException
-		{
-			AdventureResult item;
-
-			if( (itemID == -1))
-				return new ScriptValue( TYPE_INT, 0);
-			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
-
-			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getStorage() ) );
-		}
-
-		private ScriptValue executeStashAmountRequest( int itemID ) throws AdvancedScriptException
-		{
-			AdventureResult item;
-
-			if( (itemID == -1))
-				return new ScriptValue( TYPE_INT, 0);
-			new ClanStashRequest( client ).run(); //refresh clan stash
-			item = new AdventureResult( TradeableItemDatabase.getItemName( itemID ), 0, false );
-
-			return new ScriptValue( TYPE_INT, item.getCount( ClanManager.getStash() ) );
-		}
-
-		private ScriptValue executePutClosetRequest( int amount, int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "closet put " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executePutShopRequest( int price, int limit, int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "mallsell " + TradeableItemDatabase.getItemName( itemID ) + " " + price + " " + limit );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executePutStashRequest( int amount, int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "stash put " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeTakeClosetRequest( int amount, int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "closet take " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeTakeStorageRequest( int amount, int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "hagnk " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeSellItemRequest( int amount, int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "sell " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executePrintRequest( String message ) throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.updateDisplay( message );
-			return new ScriptValue( TYPE_VOID );
-		}
-
-		private ScriptValue executeZodiacRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_ZODIAC, KoLCharacter.getSign() );
-		}
-
-		private ScriptValue executeClassRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_CLASS, KoLCharacter.getClassType() );
-		}
-
-		private ScriptValue executeLevelRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getLevel() );
-		}
-
-		private ScriptValue executeHPRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentHP() );
-		}
-
-		private ScriptValue executeMaxHPRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumHP() );
-		}
-
-		private ScriptValue executeMPRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentMP() );
-		}
-
-		private ScriptValue executeMaxMPRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumMP() );
-		}
-
-		private ScriptValue executeBaseStatRequest( int stat ) throws AdvancedScriptException
-		{
-			if ( STATS[stat].equalsIgnoreCase( "muscle" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMuscle() );
-			else if ( STATS[stat].equalsIgnoreCase( "mysticality" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMysticality() );
-			else if ( STATS[stat].equalsIgnoreCase( "moxie" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMoxie() );
-			else
-				throw new RuntimeException( "Internal Error: unknown stat" );
-		}
-
-		private ScriptValue executeBuffedStatRequest( int stat ) throws AdvancedScriptException
-		{
-			if ( STATS[stat].equalsIgnoreCase( "muscle" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMuscle() );
-			else if ( STATS[stat].equalsIgnoreCase( "mysticality" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMysticality() );
-			else if ( STATS[stat].equalsIgnoreCase( "moxie" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMoxie() );
-			else
-				throw new RuntimeException( "Internal Error: unknown stat" );
-		}
-
-		private ScriptValue executeMeatRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getAvailableMeat() );
-		}
-
-		private ScriptValue executeClosetMeatRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getClosetMeat() );
-		}
-
-		private ScriptValue executeAdventuresRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getAdventuresLeft() );
-		}
-
-		private ScriptValue executeInebrietyRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_INT, KoLCharacter.getInebriety() );
-		}
-
-		private ScriptValue executeHaveSkillRequest( int skillID ) throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.hasSkill( skillID ) ? 1 : 0 );
-		}
-
-		private ScriptValue executeHaveEffectRequest( int effectID ) throws AdvancedScriptException
-		{
-			List potentialEffects;
-			AdventureResult effect;
-
-			potentialEffects = StatusEffectDatabase.getMatchingNames( StatusEffectDatabase.getEffectName( effectID ) );
-			if ( potentialEffects.isEmpty() )
-				effect = null;
-			else
-				effect = new AdventureResult(  (String) potentialEffects.get(0), 0, true );
-			return new ScriptValue( TYPE_INT, effect == null ? 0 : effect.getCount( KoLCharacter.getEffects() ) );
-		}
-
-		private ScriptValue executeUseSkillRequest( int amount, int skillID ) throws AdvancedScriptException
-		{
-			client.makeRequest( new UseSkillRequest( client, ClassSkillsDatabase.getSkillName( skillID ), null, amount ), 1 );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeItemConditionRequest( int amount, int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "conditions add " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_VOID );
-		}
-
-		private ScriptValue executeCanEatRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.canEat() ? 1 : 0 );
-		}
-
-		private ScriptValue executeCanDrinkRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.canDrink() ? 1 : 0 );
-		}
-
-		private ScriptValue executeCanInteractRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.canInteract() ? 1 : 0 );
-		}
-
-		private ScriptValue executeHermitRequest( int amount, int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "hermit " + amount + " " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeBountyHunterRequest( int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "hunter " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeTrapperRequest( int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "trapper " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeEquipRequest( int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "equip " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeUnequipRequest( int itemID ) throws AdvancedScriptException
-		{
-			if( !(itemID == -1))
-				DEFAULT_SHELL.executeLine( "unequip " + TradeableItemDatabase.getItemName( itemID ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeMyFamiliarRequest() throws AdvancedScriptException
-		{
-			if ( KoLCharacter.getFamiliar().getID() == -1 )
-				return new ScriptValue( TYPE_FAMILIAR, "none" );
-			else
-				return new ScriptValue( TYPE_FAMILIAR, KoLCharacter.getFamiliar().getRace() );
-		}
-
-		private ScriptValue executeEquipFamiliarRequest( int familiarID ) throws AdvancedScriptException
-		{
-			if( familiarID == -1 )
-			{
-				client.makeRequest( new FamiliarRequest( client, FamiliarData.NO_FAMILIAR ), 1 );
 			}
-			else
+
+			if ( name.endsWith( "_to_string" ) )
+				return variables[0].toStringValue();
+
+			if ( name.equalsIgnoreCase( "int_to_item" ) )
+				return new ScriptValue( TYPE_ITEM, variables[0].intValue() );
+
+			if ( name.equalsIgnoreCase( "wait" ) )
 			{
-				DEFAULT_SHELL.executeLine( "familiar " + FamiliarsDatabase.getFamiliarName( familiarID ) );
+				DEFAULT_SHELL.executeLine( "wait " + variables[0].intValue() );
+				return new ScriptValue( TYPE_VOID );
 			}
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 
-		}
+			if ( name.equalsIgnoreCase( "entryway" ) )
+			{
+				DEFAULT_SHELL.executeLine( "entryway" );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
 
-		private ScriptValue executeCouncilRequest() throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.executeLine( "council" );
-			return new ScriptValue( TYPE_VOID );
-		}
+			if ( name.equalsIgnoreCase( "hedgemaze" ) )
+			{
+				DEFAULT_SHELL.executeLine( "hedgemaze" );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
 
-		private ScriptValue executeMindControlRequest( int setting ) throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.executeLine( "mind-control " + setting );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
+			if ( name.equalsIgnoreCase( "guardians" ) )
+			{
+				int itemID = SorceressLair.fightTowerGuardians();
+				return new ScriptValue( TYPE_ITEM, itemID == -1 ? "none" : TradeableItemDatabase.getItemName( itemID ) );
+			}
 
-		private ScriptValue executeNameRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_STRING, KoLCharacter.getUsername());
-		}
+			if ( name.equalsIgnoreCase( "chamber" ) )
+			{
+				DEFAULT_SHELL.executeLine( "chamber" );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
 
-		private ScriptValue executeChefRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.hasChef() ? 1 : 0);
-		}
+			if ( name.equalsIgnoreCase( "nemesis" ) )
+			{
+				DEFAULT_SHELL.executeLine( "nemesis" );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
 
-		private ScriptValue executeBartenderRequest() throws AdvancedScriptException
-		{
-			return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.hasBartender() ? 1 : 0);
-		}
+			if ( name.equalsIgnoreCase( "guild" ) )
+			{
+				DEFAULT_SHELL.executeLine( "guild" );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
 
-		private ScriptValue executeCLIExecuteRequest( String s ) throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.executeLine( s );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
+			if ( name.equalsIgnoreCase( "gourd" ) )
+			{
+				DEFAULT_SHELL.executeLine( "gourd" );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
 
-		private ScriptValue executeBountyHunterWantsRequest( int itemID ) throws AdvancedScriptException
-		{
-			if( ( itemID == -1 ) )
-				return new ScriptValue( TYPE_BOOLEAN, 1 );
-			if ( StaticEntity.getClient().hunterItems.isEmpty() )
-				(new BountyHunterRequest( StaticEntity.getClient() )).run();
+			if ( name.equalsIgnoreCase( "tavern" ) )
+			{
+				int result = StaticEntity.getClient().locateTavernFaucet();
+				return new ScriptValue( TYPE_INT, client.permitsContinue() ? result : -1 );
+			}
 
-			for ( int i = 0; i < StaticEntity.getClient().hunterItems.size(); ++i )
-				if ( ((String)StaticEntity.getClient().hunterItems.get(i)).equalsIgnoreCase( TradeableItemDatabase.getItemName( itemID ) ))
-					return new ScriptValue( TYPE_BOOLEAN, 1 );
+			if ( name.equalsIgnoreCase( "train_familiar" ) )
+			{
+				DEFAULT_SHELL.executeLine( "train " + variables[1].toStringValue() + " " + variables[0].intValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
 
-			return new ScriptValue( TYPE_BOOLEAN, 0 );
-		}
+			if ( name.equalsIgnoreCase( "retrieve_item" ) )
+			{
+				AdventureDatabase.retrieveItem( new AdventureResult( variables[1].intValue(), variables[0].intValue() ) );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
 
-		private ScriptValue executeWaitRequest( int seconds ) throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.executeLine( "wait " + seconds );
-			return new ScriptValue( TYPE_VOID );
-		}
-
-		private ScriptValue executeEntrywayRequest() throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.executeLine( "entryway" );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeHedgemazeRequest() throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.executeLine( "hedgemaze" );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeGuardiansRequest() throws AdvancedScriptException
-		{
-			int itemID;
-
-			itemID = SorceressLair.fightTowerGuardians();
-			return new ScriptValue( TYPE_ITEM, itemID == -1 ? "none" : TradeableItemDatabase.getItemName( itemID ) );
-		}
-
-		private ScriptValue executeChamberRequest() throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.executeLine( "chamber" );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeNemesisRequest() throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.executeLine( "nemesis" );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeGuildRequest() throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.executeLine( "guild" );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeGourdRequest() throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.executeLine( "gourd" );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeTavernRequest() throws AdvancedScriptException
-		{
-			int result;
-
-			result = StaticEntity.getClient().locateTavernFaucet();
-			return new ScriptValue( TYPE_INT, client.permitsContinue() ? result : -1 );
-		}
-
-		private ScriptValue executeTrainFamiliarRequest( int amount, String trainType ) throws AdvancedScriptException
-		{
-			DEFAULT_SHELL.executeLine( "train " + trainType + " " + amount );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
-		}
-
-		private ScriptValue executeRetrieveItemRequest( int amount, int itemID ) throws AdvancedScriptException
-		{
-			AdventureDatabase.retrieveItem( new AdventureResult( itemID, amount ) );
-			return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			throw new RuntimeException( "Internal error: unknown library function " + name );
 		}
 	}
 
@@ -2458,14 +2254,8 @@ public class KoLmafiaASH extends StaticEntity
 			content = new ScriptValue( type );
 		}
 
-		public int compareTo( Object o ) throws ClassCastException
-		{
-			if (!(o instanceof ScriptVariable ) )
-				throw new ClassCastException();
-			if ( name == null )
-				return 1;
-			return name.compareTo( ((ScriptVariable)o).name );
-
+		public int compareTo( Object o )
+		{	return name == null ? 1 : name.compareTo( ((ScriptVariable)o).name );
 		}
 
 		public ScriptType getType()
@@ -2483,9 +2273,9 @@ public class KoLmafiaASH extends StaticEntity
 			return content;
 		}
 
-		public int getIntValue()
+		public int intValue()
 		{
-			return content.getIntValue();
+			return content.intValue();
 		}
 
 		public ScriptValue toStringValue()
@@ -2505,9 +2295,9 @@ public class KoLmafiaASH extends StaticEntity
 			return content.getLocation();
 		}
 
-		public double getFloatValue()
+		public double floatValue()
 		{
-			return content.getFloatValue();
+			return content.floatValue();
 		}
 
 		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
@@ -2521,6 +2311,10 @@ public class KoLmafiaASH extends StaticEntity
 				else if ( getType().equals( TYPE_FLOAT ) && targetValue.getType().equals( TYPE_INT ) )
 				{
 					content = targetValue.toFloatValue();
+				}
+				else if ( getType().equals( TYPE_STRING ) )
+				{
+					content = targetValue.toStringValue();
 				}
 				else
 					throw new RuntimeException( "Internal error: Cannot assign " + targetValue.getType() + " to " + getType() );
@@ -2586,12 +2380,8 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 
-		public int compareTo( Object o ) throws ClassCastException
-		{
-			if (!(o instanceof ScriptVariableReference ) )
-				throw new ClassCastException();
-			return target.getName().compareTo( ((ScriptVariableReference)o).target.getName() );
-
+		public int compareTo( Object o )
+		{	return target.getName().compareTo( ((ScriptVariableReference)o).target.getName() );
 		}
 
 		public ScriptValue execute()
@@ -2638,14 +2428,6 @@ public class KoLmafiaASH extends StaticEntity
 			this.command = command;
 		}
 
-		public int compareTo( Object o ) throws ClassCastException
-		{
-			if (!(o instanceof ScriptCommand ) )
-				throw new ClassCastException();
-			return 0;
-
-		}
-
 		public String toString()
 		{
 			if ( this.command == COMMAND_BREAK )
@@ -2674,6 +2456,7 @@ public class KoLmafiaASH extends StaticEntity
 				currentState = STATE_EXIT;
 				return null;
 			}
+
 			throw new RuntimeException( "Internal error: unknown ScriptCommand type" );
 
 		}
@@ -2705,15 +2488,21 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptReturn( ScriptExpression returnValue, ScriptType expectedType ) throws AdvancedScriptException
 		{
 			this.returnValue = returnValue;
-			if ( !( expectedType == null ) && !(returnValue == null ) && !returnValue.getType().equals( expectedType ) )
+			if ( expectedType != null && returnValue != null && !returnValue.getType().equals( expectedType ) )
 			{
-				if ( returnValue.getType().equals( TYPE_INT ) && expectedType.equals( TYPE_FLOAT ) )
-					;
-				else if ( returnValue.getType().equals( TYPE_FLOAT ) && expectedType.equals( TYPE_INT ) )
-					;
-				else
+				boolean validReturn = false;
+
+				// float-check values
+				validReturn |= expectedType.equals( TYPE_INT ) && returnValue.getType().equals( TYPE_FLOAT );
+				validReturn |= expectedType.equals( TYPE_FLOAT ) && returnValue.getType().equals( TYPE_INT );
+
+				// string operations are valid
+				validReturn |= expectedType.equals( TYPE_STRING );
+
+				if ( !validReturn )
 					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType() + " to " + expectedType + " " + getLineAndFile() );
 			}
+
 			this.expectedType = expectedType;
 		}
 
@@ -2721,8 +2510,10 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( expectedType != null )
 				return expectedType;
+
 			if ( returnValue == null )
 				return new ScriptType( TYPE_VOID );
+
 			return returnValue.getType();
 		}
 
@@ -2742,12 +2533,16 @@ public class KoLmafiaASH extends StaticEntity
 				return null;
 
 			result = returnValue.execute();
+
 			if ( result == null )
 				return null;
-			if ( returnValue.getType().equals( TYPE_INT ) && expectedType != null && expectedType.equals( TYPE_FLOAT ) )
+
+			if ( expectedType.equals( TYPE_FLOAT ) )
 				return result.toFloatValue();
-			if ( returnValue.getType().equals( TYPE_FLOAT ) && expectedType != null && expectedType.equals( TYPE_INT ) )
+
+			if ( expectedType.equals( TYPE_INT ) )
 				return result.toIntValue();
+
 			return result;
 		}
 	}
@@ -2764,8 +2559,9 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.scope = scope;
 			this.condition = condition;
-			if ( !( condition.getType().equals( TYPE_BOOLEAN ) ) )
+			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
 				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getLineAndFile() );
+
 			this.repeat = repeat;
 			elseLoops = new ScriptLoopList();
 		}
@@ -2806,7 +2602,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptValue result;
-			boolean conditionMet = (condition.execute().getIntValue() == 1 );
+			boolean conditionMet = (condition.execute().intValue() == 1 );
 			DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, "" );
 
 			if ( conditionMet )
@@ -2839,7 +2635,7 @@ public class KoLmafiaASH extends StaticEntity
 					if ( !repeat )
 						break;
 				}
-				while ( condition.execute().getIntValue() == 1 );
+				while ( condition.execute().intValue() == 1 );
 			}
 			else
 			{
@@ -2916,23 +2712,24 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			ScriptVariableReference		paramVarRef;
-			ScriptExpression		paramValue;
-			for
-			(
-				paramVarRef = target.getFirstParam(), paramValue = params.getFirstExpression();
-				paramVarRef != null;
-				paramVarRef = target.getNextParam( paramVarRef ), paramValue = params.getNextExpression( paramValue )
-			 )
+			ScriptVariableReference paramVarRef = target.getFirstParam();
+			ScriptExpression paramValue = params.getFirstExpression();
+
+			while ( paramVarRef != null )
 			{
 				if ( paramVarRef == null )
-					throw new RuntimeException( "Internal error: illegal arguments." );
+					throw new RuntimeException( "Internal error: illegal arguments" );
+
 				paramVarRef.setValue( paramValue.execute() );
 				if ( currentState == STATE_EXIT )
 					return null;
+
+				paramVarRef = target.getNextParam( paramVarRef );
+				paramValue = params.getNextExpression( paramValue );
 			}
+
 			if ( paramValue != null )
-				throw new RuntimeException( "Internal error: illegal arguments." );
+				throw new RuntimeException( "Internal error: illegal arguments" );
 
 			return target.execute();
 		}
@@ -3120,20 +2917,12 @@ public class KoLmafiaASH extends StaticEntity
 			this.content = original.content;
 		}
 
-		public int compareTo( Object o ) throws ClassCastException
-		{
-			if (!(o instanceof ScriptValue ) )
-				throw new ClassCastException();
-			return 0;
-
-		}
-
 		public ScriptValue toFloatValue() throws AdvancedScriptException
 		{
 			if ( type.equals( TYPE_FLOAT ) )
 				return this;
 			else
-				return new ScriptValue( TYPE_FLOAT, (float ) contentInt );
+				return new ScriptValue( TYPE_FLOAT, (float) contentInt );
 		}
 
 		public ScriptValue toIntValue() throws AdvancedScriptException
@@ -3141,7 +2930,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( type.equals( TYPE_INT ) )
 				return this;
 			else
-				return new ScriptValue( TYPE_INT, (int ) contentFloat );
+				return new ScriptValue( TYPE_INT, (int) contentFloat );
 		}
 
 		public ScriptType getType()
@@ -3150,29 +2939,30 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return contentString;
+		{
+			if ( contentString != null )
+				return contentString;
+
+			if ( type.equals( TYPE_BOOLEAN ) )
+				return String.valueOf( contentInt != 0 );
+
+			if ( type.equals( TYPE_FLOAT ) )
+				return df.format( contentFloat );
+
+			return df.format( contentInt );
 		}
 
 		public ScriptValue toStringValue() throws AdvancedScriptException
 		{
-			if ( contentString != null )
-				return new ScriptValue( TYPE_STRING, contentString );
-
-			if ( type.equals( TYPE_BOOLEAN ) )
-				return new ScriptValue( TYPE_STRING, String.valueOf( contentInt != 0 ) );
-
-			if ( type.equals( TYPE_FLOAT ) )
-				return new ScriptValue( TYPE_STRING, df.format( contentFloat ) );
-
-			return new ScriptValue( TYPE_STRING, df.format( contentInt ) );
+			return new ScriptValue( TYPE_STRING, toString() );
 		}
 
-		public int getIntValue()
+		public int intValue()
 		{
 			return contentInt;
 		}
 
-		public float getFloatValue()
+		public float floatValue()
 		{
 			return contentFloat;
 		}
@@ -3305,15 +3095,22 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.lhs = lhs;
 			this.rhs = rhs;
-			if (( rhs != null ) && !lhs.getType().equals( rhs.getType() ) )
+
+			if ( rhs != null && !lhs.getType().equals( rhs.getType() ) )
 			{
-				if ( lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT ) )
-					;
-				else if ( lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT ) )
-					;
-				else
-					throw new AdvancedScriptException( "Cannot apply " + lhs.getType() + " to " + rhs.getType() + " " + getLineAndFile() );
+				boolean validOperation = false;
+
+				// float-check values
+				validOperation |= lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT );
+				validOperation |= lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT );
+
+				// string operations are valid
+				validOperation |= lhs.getType().equals( TYPE_STRING );
+
+				if ( !validOperation )
+					throw new AdvancedScriptException( "Cannot apply " + rhs.getType() + " to " + lhs + " " + getLineAndFile() );
 			}
+
 			this.oper = oper;
 		}
 
@@ -3442,7 +3239,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( operator.equalsIgnoreCase( "!" ) )
 			{
-				if ( leftResult.getIntValue() == 0 )
+				if ( leftResult.intValue() == 0 )
 					return new ScriptValue( TYPE_BOOLEAN, 1 );
 				else
 					return new ScriptValue( TYPE_BOOLEAN, 0 );
@@ -3453,9 +3250,9 @@ public class KoLmafiaASH extends StaticEntity
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().getFloatValue() * rightResult.toFloatValue().getFloatValue() );
+					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() * rightResult.toFloatValue().floatValue() );
 				else
-					return new ScriptValue( TYPE_INT, leftResult.getIntValue() * rightResult.getIntValue() );
+					return new ScriptValue( TYPE_INT, leftResult.intValue() * rightResult.intValue() );
 			}
 			if ( operator.equalsIgnoreCase( "/" ) )
 			{
@@ -3463,9 +3260,9 @@ public class KoLmafiaASH extends StaticEntity
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().getFloatValue() / rightResult.toFloatValue().getFloatValue() );
+					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() / rightResult.toFloatValue().floatValue() );
 				else
-					return new ScriptValue( TYPE_INT, leftResult.getIntValue() / rightResult.getIntValue() );
+					return new ScriptValue( TYPE_INT, leftResult.intValue() / rightResult.intValue() );
 			}
 			if ( operator.equalsIgnoreCase( "%" ) )
 			{
@@ -3473,9 +3270,9 @@ public class KoLmafiaASH extends StaticEntity
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().getFloatValue() % rightResult.toFloatValue().getFloatValue() );
+					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() % rightResult.toFloatValue().floatValue() );
 				else
-					return new ScriptValue( TYPE_INT, leftResult.getIntValue() % rightResult.getIntValue() );
+					return new ScriptValue( TYPE_INT, leftResult.intValue() % rightResult.intValue() );
 			}
 			if ( operator.equalsIgnoreCase( "+" ) )
 			{
@@ -3483,13 +3280,13 @@ public class KoLmafiaASH extends StaticEntity
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) )
-					return new ScriptValue( TYPE_STRING, leftResult.toStringValue().toString() + rightResult.toStringValue().toString() );
+					return new ScriptValue( TYPE_STRING, leftResult.toStringValue().toStringValue() + rightResult.toStringValue().toString() );
 				else
 				{
 					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-						return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().getFloatValue() + rightResult.toFloatValue().getFloatValue() );
+						return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() + rightResult.toFloatValue().floatValue() );
 					else
-						return new ScriptValue( TYPE_INT, leftResult.getIntValue() + rightResult.getIntValue() );
+						return new ScriptValue( TYPE_INT, leftResult.intValue() + rightResult.intValue() );
 				}
 			}
 			if ( operator.equalsIgnoreCase( "-" ) )
@@ -3498,9 +3295,9 @@ public class KoLmafiaASH extends StaticEntity
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().getFloatValue() - rightResult.toFloatValue().getFloatValue() );
+					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() - rightResult.toFloatValue().floatValue() );
 				else
-					return new ScriptValue( TYPE_INT, leftResult.getIntValue() - rightResult.getIntValue() );
+					return new ScriptValue( TYPE_INT, leftResult.intValue() - rightResult.intValue() );
 			}
 			if ( operator.equalsIgnoreCase( "<" ) )
 			{
@@ -3509,14 +3306,14 @@ public class KoLmafiaASH extends StaticEntity
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 				{
-					if ( leftResult.toFloatValue().getFloatValue() < rightResult.toFloatValue().getFloatValue() )
+					if ( leftResult.toFloatValue().floatValue() < rightResult.toFloatValue().floatValue() )
 						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
 						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 				else
 				{
-					if ( leftResult.getIntValue() < rightResult.getIntValue() )
+					if ( leftResult.intValue() < rightResult.intValue() )
 						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
 						return new ScriptValue( TYPE_BOOLEAN, 0 );
@@ -3529,14 +3326,14 @@ public class KoLmafiaASH extends StaticEntity
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 				{
-					if ( leftResult.toFloatValue().getFloatValue() > rightResult.toFloatValue().getFloatValue() )
+					if ( leftResult.toFloatValue().floatValue() > rightResult.toFloatValue().floatValue() )
 						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
 						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 				else
 				{
-					if ( leftResult.getIntValue() > rightResult.getIntValue() )
+					if ( leftResult.intValue() > rightResult.intValue() )
 						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
 						return new ScriptValue( TYPE_BOOLEAN, 0 );
@@ -3549,14 +3346,14 @@ public class KoLmafiaASH extends StaticEntity
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 				{
-					if ( leftResult.toFloatValue().getFloatValue() <= rightResult.toFloatValue().getFloatValue() )
+					if ( leftResult.toFloatValue().floatValue() <= rightResult.toFloatValue().floatValue() )
 						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
 						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 				else
 				{
-					if ( leftResult.getIntValue() <= rightResult.getIntValue() )
+					if ( leftResult.intValue() <= rightResult.intValue() )
 						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
 						return new ScriptValue( TYPE_BOOLEAN, 0 );
@@ -3569,14 +3366,14 @@ public class KoLmafiaASH extends StaticEntity
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 				{
-					if ( leftResult.toFloatValue().getFloatValue() >= rightResult.toFloatValue().getFloatValue() )
+					if ( leftResult.toFloatValue().floatValue() >= rightResult.toFloatValue().floatValue() )
 						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
 						return new ScriptValue( TYPE_BOOLEAN, 0 );
 				}
 				else
 				{
-					if ( leftResult.getIntValue() >= rightResult.getIntValue() )
+					if ( leftResult.intValue() >= rightResult.intValue() )
 						return new ScriptValue( TYPE_BOOLEAN, 1 );
 					else
 						return new ScriptValue( TYPE_BOOLEAN, 0 );
@@ -3603,14 +3400,14 @@ public class KoLmafiaASH extends StaticEntity
 				{
 					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 					{
-						if ( leftResult.toFloatValue().getFloatValue() == rightResult.toFloatValue().getFloatValue() )
+						if ( leftResult.toFloatValue().floatValue() == rightResult.toFloatValue().floatValue() )
 							return new ScriptValue( TYPE_BOOLEAN, 1 );
 						else
 							return new ScriptValue( TYPE_BOOLEAN, 0 );
 					}
 					else
 					{
-						if ( leftResult.getIntValue() == rightResult.getIntValue() )
+						if ( leftResult.intValue() == rightResult.intValue() )
 							return new ScriptValue( TYPE_BOOLEAN, 1 );
 						else
 							return new ScriptValue( TYPE_BOOLEAN, 0 );
@@ -3645,14 +3442,14 @@ public class KoLmafiaASH extends StaticEntity
 				{
 					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 					{
-						if ( leftResult.toFloatValue().getFloatValue() != rightResult.toFloatValue().getFloatValue() )
+						if ( leftResult.toFloatValue().floatValue() != rightResult.toFloatValue().floatValue() )
 							return new ScriptValue( TYPE_BOOLEAN, 1 );
 						else
 							return new ScriptValue( TYPE_BOOLEAN, 0 );
 					}
 					else
 					{
-						if ( leftResult.getIntValue() != rightResult.getIntValue() )
+						if ( leftResult.intValue() != rightResult.intValue() )
 							return new ScriptValue( TYPE_BOOLEAN, 1 );
 						else
 							return new ScriptValue( TYPE_BOOLEAN, 0 );
@@ -3668,14 +3465,14 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( operator.equalsIgnoreCase( "||" ) )
 			{
-				if ( leftResult.getIntValue() == 1 )
+				if ( leftResult.intValue() == 1 )
 					return new ScriptValue( TYPE_BOOLEAN, 1 );
 				else
 					return rhs.execute();
 			}
 			if ( operator.equalsIgnoreCase( "&&" ) )
 			{
-				if ( leftResult.getIntValue() == 0 )
+				if ( leftResult.intValue() == 0 )
 					return new ScriptValue( TYPE_BOOLEAN, 0 );
 				else
 					return rhs.execute();
@@ -3703,15 +3500,9 @@ public class KoLmafiaASH extends StaticEntity
 			next = node;
 		}
 
-		public int compareTo( Object o ) throws ClassCastException
-		{
-			if (!(o instanceof ScriptListNode ) )
-				throw new ClassCastException();
-
-			return 0; //This should not happen since each extending private class overrides this function
-
+		public int compareTo( Object o )
+		{	return 0;
 		}
-
 	}
 
 	private class ScriptList
