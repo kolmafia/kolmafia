@@ -163,7 +163,6 @@ public class LoginFrame extends KoLFrame
 
 	private class LoginPanel extends KoLPanel implements ActionListener
 	{
-		private JComboBox servers;
 		private JCheckBox [] skillOptions;
 
 		/**
@@ -177,21 +176,15 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "login", "cancel" );
 
-			servers = new JComboBox();
-			servers.addItem( "Auto-select login server" );
-			for ( int i = 1; i <= KoLRequest.SERVER_COUNT; ++i )
-				servers.addItem( "Login using www" + (i == 1 ? "" : "" + i) + ".kingdomofloathing.com" );
-
 			usernameField = GLOBAL_SETTINGS.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 			passwordField = new JPasswordField();
 			scriptField = new JTextField();
 
-			VerifiableElement [] elements = new VerifiableElement[4];
+			VerifiableElement [] elements = new VerifiableElement[3];
 
-			elements[0] = new VerifiableElement( "Server: ", servers );
-			elements[1] = new VerifiableElement( "Username: ", usernameField );
-			elements[2] = new VerifiableElement( "Password: ", passwordField );
-			elements[3] = new VerifiableElement( "On Login: ", new ScriptSelectPanel( scriptField ) );
+			elements[0] = new VerifiableElement( "Username: ", usernameField );
+			elements[1] = new VerifiableElement( "Password: ", passwordField );
+			elements[2] = new VerifiableElement( "On Login: ", new ScriptSelectPanel( scriptField ) );
 
 			skillOptions = new JCheckBox[ KoLmafia.BREAKFAST_SKILLS.length ];
 			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
@@ -246,7 +239,6 @@ public class LoginFrame extends KoLFrame
 
 			username = username.replaceAll( "/q", "" );
 
-			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "breakfast." + username.toLowerCase(), skillString.toString() );
 			GLOBAL_SETTINGS.setProperty( "loginScript." + username.toLowerCase(), scriptField.getText() );
 
@@ -445,11 +437,16 @@ public class LoginFrame extends KoLFrame
 
 	private class UserInterfacePanel extends LabeledKoLPanel
 	{
-		private JComboBox textheavy, toolbars, windowing, trayicon;
+		private JComboBox servers, textheavy, toolbars, windowing, trayicon;
 
 		public UserInterfacePanel()
 		{
 			super( "User Interface", new Dimension( 80, 20 ), new Dimension( 320, 20 ) );
+
+			servers = new JComboBox();
+			servers.addItem( "Auto-select login server" );
+			for ( int i = 1; i <= KoLRequest.SERVER_COUNT; ++i )
+				servers.addItem( "Login using www" + (i == 1 ? "" : "" + i) + ".kingdomofloathing.com" );
 
 			textheavy = new JComboBox();
 			textheavy.addItem( "Use graphical side pane" );
@@ -470,14 +467,15 @@ public class LoginFrame extends KoLFrame
 			trayicon.addItem( "Minimize KoLmafia to taskbar (requires restart)" );
 			trayicon.addItem( "Minimize KoLmafia to system tray (requires restart)" );
 
-			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 3 : 2;
+			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 4 : 3;
 
 			VerifiableElement [] elements = new VerifiableElement[ elementCount ];
-			elements[0] = new VerifiableElement( "Sidebar: ", textheavy );
-			elements[1] = new VerifiableElement( "Toolbars: ", toolbars );
+			elements[0] = new VerifiableElement( "Server: ", servers );
+			elements[1] = new VerifiableElement( "Sidebar: ", textheavy );
+			elements[2] = new VerifiableElement( "Toolbars: ", toolbars );
 
 			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-				elements[2] = new VerifiableElement( "SysTray: ", trayicon );
+				elements[3] = new VerifiableElement( "SysTray: ", trayicon );
 
 			setContent( elements );
 			actionCancelled();
@@ -485,6 +483,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
+			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "useTextHeavySidepane", String.valueOf( textheavy.getSelectedIndex() == 1 ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
