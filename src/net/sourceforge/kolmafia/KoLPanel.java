@@ -43,6 +43,7 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
@@ -137,6 +138,19 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	{
 		super.setContent( elements, mainPanel, eastPanel, isLabelPreceeding, bothDisabledOnClick );
 
+		// In addition to setting the content on these, also
+		// add a return-key listener to each of the input fields.
+
+		ActionConfirmListener listener = new ActionConfirmListener();
+
+		for ( int i = 0; i < elements.length; ++i )
+		{
+			if ( elements[i].getInputField() instanceof JComboBox )
+				((JComboBox)elements[i].getInputField()).addKeyListener( listener );
+			if ( elements[i].getInputField() instanceof JTextField )
+				((JTextField)elements[i].getInputField()).addKeyListener( listener );
+		}
+
 		if ( shouldAddStatusLabel( elements ) )
 		{
 			JPanel statusContainer = new JPanel();
@@ -151,9 +165,15 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 			container.add( statusContainer, BorderLayout.SOUTH );
 		}
-		
-		if ( confirmedButton != null );
-			setDefaultButton( confirmedButton );
+	}
+
+	private class ActionConfirmListener extends KeyAdapter
+	{
+		public void keyReleased( KeyEvent e )
+		{
+			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+				actionConfirmed();
+		}
 	}
 
 	private class StatusLabel extends JLabel

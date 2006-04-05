@@ -250,7 +250,6 @@ public class AdventureFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Conditions: ", conditionField );
 
 			setContent( elements );
-			AdventureFrame.this.getRootPane().setDefaultButton( confirmedButton );
 
 			int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( getProperty( "battleAction" ) );
 
@@ -308,7 +307,7 @@ public class AdventureFrame extends KoLFrame
 				setStatusMessage( ERROR_STATE, "Please select an adventure location." );
 				return;
 			}
-			
+
 			setProperty( "lastAdventure", request.toString() );
 
 			// If there are conditions in the condition field, be
