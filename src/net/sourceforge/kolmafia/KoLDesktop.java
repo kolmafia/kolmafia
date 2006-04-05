@@ -89,9 +89,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	private static boolean isInitializing = false;
 
 	private JTabbedPane tabs = new JTabbedPane();
-	
 	private ArrayList tabListing = new ArrayList();
-	private ArrayList defaultButtons = new ArrayList();
 
 	protected JPanel compactPane;
 	protected JLabel levelLabel, roninLabel, mcdLabel;
@@ -148,17 +146,8 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	public void stateChanged( ChangeEvent e )
 	{
 		int selectedIndex = tabs.getSelectedIndex();
-
 		if ( selectedIndex != -1 && selectedIndex < tabListing.size() )
-		{
-			JRootPane rootPane = (JRootPane) tabs.getComponentAt( selectedIndex );
-			JButton defaultButton = (JButton) defaultButtons.get( selectedIndex );
-
-			rootPane.requestFocus();
-			
-			rootPane.setDefaultButton( defaultButton );
-			KoLDesktop.this.getRootPane().setDefaultButton( defaultButton );
-		}
+			((KoLFrame) tabListing.get( selectedIndex )).requestFocus();
 	}
 
 	public void initializeTabs()
@@ -209,9 +198,8 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			if ( content.tabs != null )
 				content.tabs.setTabPlacement( JTabbedPane.BOTTOM );
 
-			INSTANCE.defaultButtons.add( content.getRootPane().getDefaultButton() );
 			INSTANCE.tabListing.add( content );
-			INSTANCE.tabs.addTab( content.lastTitle, content.getRootPane() );
+			INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
 
 			tabIndex = INSTANCE.tabListing.size() - 1;
 		}
@@ -227,7 +215,6 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		int tabIndex = INSTANCE.tabListing.indexOf( content );
 		if ( tabIndex != -1 )
 		{
-			INSTANCE.defaultButtons.remove( tabIndex );
 			INSTANCE.tabListing.remove( tabIndex );
 			INSTANCE.tabs.removeTabAt( tabIndex );
 		}

@@ -113,7 +113,6 @@ public class MallSearchFrame extends KoLPanelFrame
 
 			currentlyBuying = false;
 			countField.setText( getProperty( "defaultLimit" ).equals( "" ) ? "5" : getProperty( "defaultLimit" ) );
-			MallSearchFrame.this.getRootPane().setDefaultButton( confirmedButton );
 		}
 
 		public void setEnabled( boolean isEnabled )

@@ -59,6 +59,8 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.Box;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.event.ListDataEvent;
@@ -245,8 +247,6 @@ public class RequestFrame extends KoLFrame
 
 		GoButton button = new GoButton();
 		toolbarPanel.add( button );
-
-		RequestFrame.this.getRootPane().setDefaultButton( button );
 
 		// If this has a side bar, then it will need to be notified
 		// whenever there are updates to the player status.
@@ -619,6 +619,7 @@ public class RequestFrame extends KoLFrame
 		{
 			super( "Go" );
 			addActionListener( this );
+			locationField.addKeyListener( new GoAdapter() );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -627,6 +628,15 @@ public class RequestFrame extends KoLFrame
 			KoLRequest request = RequestEditorKit.extractRequest( adventure == null ? locationField.getText() : adventure.getRequest().getURLString() );
 			StaticEntity.getClient().getMacroStream().println( request.getURLString() );
 			refresh( request );
+		}
+
+		private class GoAdapter extends KeyAdapter
+		{
+			public void keyReleased( KeyEvent e )
+			{
+				if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+					actionPerformed( null );
+			}
 		}
 	}
 

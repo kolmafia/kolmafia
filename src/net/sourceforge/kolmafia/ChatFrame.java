@@ -200,18 +200,19 @@ public class ChatFrame extends KoLFrame
 			chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
 			this.associatedContact = associatedContact;
 
+			ChatEntryListener listener = new ChatEntryListener();
+
 			JPanel entryPanel = new JPanel( new BorderLayout() );
 			entryField = new JTextField();
-			entryField.addKeyListener( new ChatEntryListener() );
+			entryField.addKeyListener( listener );
 
 			JButton entryButton = new JButton( "chat" );
-			entryButton.addActionListener( new ChatEntryListener() );
+			entryButton.addActionListener( listener );
 			entryPanel.add( entryField, BorderLayout.CENTER );
 			entryPanel.add( entryButton, BorderLayout.EAST );
 
 			add( KoLMessenger.getChatBuffer( associatedContact ).setChatDisplay( chatDisplay ), BorderLayout.CENTER );
 			add( entryPanel, BorderLayout.SOUTH );
-			ChatFrame.this.getRootPane().setDefaultButton( entryButton );
 		}
 
 		public String getAssociatedContact()
