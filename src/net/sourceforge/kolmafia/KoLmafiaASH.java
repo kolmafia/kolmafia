@@ -1405,7 +1405,7 @@ public class KoLmafiaASH extends StaticEntity
 		result.addFunction( new ScriptExistingFunction( "my_zodiac", new ScriptType( TYPE_ZODIAC ), params ) );
 
 		params = new ScriptType[] {};
-		result.addFunction( new ScriptExistingFunction( "my_private class", new ScriptType( TYPE_CLASS ), params ) );
+		result.addFunction( new ScriptExistingFunction( "my_class", new ScriptType( TYPE_CLASS ), params ) );
 
 		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_level", new ScriptType( TYPE_INT ), params ) );
