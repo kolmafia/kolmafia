@@ -142,9 +142,9 @@ public class KoLmafiaGUI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String loginname, String sessionID )
+	public void initialize( String username, String sessionID )
 	{
-		super.initialize( loginname, sessionID );
+		super.initialize( username, sessionID );
 
 		String startupSetting = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
 		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" );

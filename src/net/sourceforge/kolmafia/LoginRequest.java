@@ -43,7 +43,7 @@ package net.sourceforge.kolmafia;
 
 public class LoginRequest extends KoLRequest
 {
-	private String loginname;
+	private String username;
 	private String password;
 
 	/**
@@ -56,15 +56,15 @@ public class LoginRequest extends KoLRequest
 	 * @param	getBreakfast	Whether or not the client should retrieve breakfast after login
 	 */
 
-	public LoginRequest( KoLmafia client, String loginname, String password )
+	public LoginRequest( KoLmafia client, String username, String password )
 	{
 		super( client, "login.php" );
 
-		this.loginname = loginname;
+		this.username = username;
 		this.password = password;
 
 		addFormField( "loggingin", "Yup." );
-		addFormField( "loginname", loginname );
+		addFormField( "loginname", username );
 		addFormField( "password", password );
 	}
 
@@ -96,10 +96,10 @@ public class LoginRequest extends KoLRequest
 			// of success.  But first, if there was a desire to
 			// save the password, do so here.
 
-			client.addSaveState( loginname.replaceFirst( "/q", "" ), password );
-			client.initialize( loginname.replaceFirst( "/q", "" ), formConnection.getHeaderField( "Set-Cookie" ) );
+			client.addSaveState( username.replaceFirst( "/q", "" ), password );
+			client.initialize( username.replaceFirst( "/q", "" ), formConnection.getHeaderField( "Set-Cookie" ) );
 			client.cachedLogin = client.getPasswordHash() == null ? null :
-				new LoginRequest( client, loginname, password );
+				new LoginRequest( client, username, password );
 		}
 		else
 		{

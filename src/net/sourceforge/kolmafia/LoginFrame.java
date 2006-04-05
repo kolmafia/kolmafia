@@ -84,8 +84,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class LoginFrame extends KoLFrame
 {
 	private SortedListModel saveStateNames;
-	private JComponent loginnameField;
+	private JComponent usernameField;
 	private JPasswordField passwordField;
+	private JTextField scriptField;
 
 	public LoginFrame()
 	{	this( new SortedListModel() );
@@ -119,7 +120,7 @@ public class LoginFrame extends KoLFrame
 		JPanel connectPanel = new JPanel();
 
 		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
-		connectPanel.add( new ServerSelectPanel() );
+		connectPanel.add( new UserInterfacePanel() );
 		connectPanel.add( new ProxyOptionsPanel() );
 
 		tabs.addTab( "Settings", connectPanel );
@@ -131,7 +132,7 @@ public class LoginFrame extends KoLFrame
 	public void requestFocus()
 	{
 		super.requestFocus();
-		loginnameField.requestFocus();
+		usernameField.requestFocus();
 	}
 
 	public void dispose()
@@ -162,6 +163,7 @@ public class LoginFrame extends KoLFrame
 
 	private class LoginPanel extends KoLPanel implements ActionListener
 	{
+		private JComboBox servers;
 		private JCheckBox [] skillOptions;
 
 		/**
@@ -175,12 +177,21 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "login", "cancel" );
 
-			loginnameField = GLOBAL_SETTINGS.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
-			passwordField = new JPasswordField();
+			servers = new JComboBox();
+			servers.addItem( "Auto-select login server" );
+			for ( int i = 1; i <= KoLRequest.SERVER_COUNT; ++i )
+				servers.addItem( "Login using www" + (i == 1 ? "" : "" + i) + ".kingdomofloathing.com" );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Login: ", loginnameField );
-			elements[1] = new VerifiableElement( "Password: ", passwordField );
+			usernameField = GLOBAL_SETTINGS.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
+			passwordField = new JPasswordField();
+			scriptField = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[4];
+
+			elements[0] = new VerifiableElement( "Server: ", servers );
+			elements[1] = new VerifiableElement( "Username: ", usernameField );
+			elements[2] = new VerifiableElement( "Password: ", passwordField );
+			elements[3] = new VerifiableElement( "On Login: ", new ScriptSelectPanel( scriptField ) );
 
 			skillOptions = new JCheckBox[ KoLmafia.BREAKFAST_SKILLS.length ];
 			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
@@ -200,8 +211,8 @@ public class LoginFrame extends KoLFrame
 		{
 			super.setEnabled( isEnabled );
 
-			if ( loginnameField != null )
-				loginnameField.setEnabled( isEnabled );
+			if ( usernameField != null )
+				usernameField.setEnabled( isEnabled );
 
 			if ( passwordField != null )
 				passwordField.setEnabled( isEnabled );
@@ -209,12 +220,12 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			String loginname = ((String)(loginnameField instanceof JComboBox ?
-				((JComboBox)loginnameField).getSelectedItem() : ((JTextField)loginnameField).getText() ));
+			String username = ((String)(usernameField instanceof JComboBox ?
+				((JComboBox)usernameField).getSelectedItem() : ((JTextField)usernameField).getText() ));
 
 			String password = new String( passwordField.getPassword() );
 
-			if ( loginname == null || password == null || loginname.equals("") || password.equals("") )
+			if ( username == null || password == null || username.equals("") || password.equals("") )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Invalid login." );
 				return;
@@ -233,17 +244,20 @@ public class LoginFrame extends KoLFrame
 				}
 			}
 
-			loginname = loginname.replaceAll( "/q", "" );
+			username = username.replaceAll( "/q", "" );
 
-			GLOBAL_SETTINGS.setProperty( "breakfast." + loginname.toLowerCase(), skillString.toString() );
-			(new LoginRequest( StaticEntity.getClient(), loginname, password )).run();
+			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
+			GLOBAL_SETTINGS.setProperty( "breakfast." + username.toLowerCase(), skillString.toString() );
+			GLOBAL_SETTINGS.setProperty( "loginScript." + username.toLowerCase(), scriptField.getText() );
+
+			(new LoginRequest( StaticEntity.getClient(), username, password )).run();
 			StaticEntity.getClient().enableDisplay();
 		}
 
 		protected void actionCancelled()
 		{
 			StaticEntity.getClient().declareWorldPeace();
-			loginnameField.requestFocus();
+			usernameField.requestFocus();
 		}
 
 		/**
@@ -280,15 +294,19 @@ public class LoginFrame extends KoLFrame
 				}
 
 				String password = StaticEntity.getClient().getSaveState( currentMatch );
-
-				if ( password != null )
-					passwordField.setText( password );
-				else
+				if ( password == null )
+				{
 					passwordField.setText( "" );
+					return;
+				}
+
+				passwordField.setText( password );
 
 				String skillString = GLOBAL_SETTINGS.getProperty( "breakfast." + currentMatch.toLowerCase() );
 				for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
 					skillOptions[i].setSelected( skillString != null && skillString.indexOf( KoLmafia.BREAKFAST_SKILLS[i][0] ) != -1 );
+
+				scriptField.setText( GLOBAL_SETTINGS.getProperty( "loginScript." + currentMatch.toLowerCase() ) );
 			}
 
 			private class PasswordFocusListener extends KeyAdapter
@@ -425,18 +443,13 @@ public class LoginFrame extends KoLFrame
 	 * to select the framing mode to use.
 	 */
 
-	private class ServerSelectPanel extends LabeledKoLPanel
+	private class UserInterfacePanel extends LabeledKoLPanel
 	{
-		private JComboBox servers, textheavy, toolbars, windowing, trayicon;
+		private JComboBox textheavy, toolbars, windowing, trayicon;
 
-		public ServerSelectPanel()
+		public UserInterfacePanel()
 		{
-			super( "Server Select", new Dimension( 80, 20 ), new Dimension( 320, 20 ) );
-
-			servers = new JComboBox();
-			servers.addItem( "Auto-detect login server" );
-			for ( int i = 1; i <= KoLRequest.SERVER_COUNT; ++i )
-				servers.addItem( "Use login server " + i );
+			super( "User Interface", new Dimension( 80, 20 ), new Dimension( 320, 20 ) );
 
 			textheavy = new JComboBox();
 			textheavy.addItem( "Use graphical side pane" );
@@ -457,15 +470,14 @@ public class LoginFrame extends KoLFrame
 			trayicon.addItem( "Minimize KoLmafia to taskbar (requires restart)" );
 			trayicon.addItem( "Minimize KoLmafia to system tray (requires restart)" );
 
-			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 4 : 3;
+			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 3 : 2;
 
 			VerifiableElement [] elements = new VerifiableElement[ elementCount ];
-			elements[0] = new VerifiableElement( "Server: ", servers );
-			elements[1] = new VerifiableElement( "Sidebar: ", textheavy );
-			elements[2] = new VerifiableElement( "Toolbars: ", toolbars );
+			elements[0] = new VerifiableElement( "Sidebar: ", textheavy );
+			elements[1] = new VerifiableElement( "Toolbars: ", toolbars );
 
 			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-				elements[3] = new VerifiableElement( "SysTray: ", trayicon );
+				elements[2] = new VerifiableElement( "SysTray: ", trayicon );
 
 			setContent( elements );
 			actionCancelled();
@@ -473,7 +485,6 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "useTextHeavySidepane", String.valueOf( textheavy.getSelectedIndex() == 1 ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
@@ -482,7 +493,6 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			servers.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) ) );
 			textheavy.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useTextHeavySidepane" ).equals( "true" ) ? 1 : 0 );
 			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
 			trayicon.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 0 );
