@@ -141,6 +141,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 	{
 		private FamiliarData familiar;
 		private JComboBox familiars;
+		private JLabel winCount;
+		private JLabel prizeCounter;
 		private JLabel totalWeight;
 
 		private OpponentsPanel opponentsPanel;
@@ -153,6 +155,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			existingPanels.add( new WeakReference( this ) );
 
 			JPanel container = new JPanel( new BorderLayout( 10, 10 ) );
+
+			// Force re-fetch of opponents and arena wins
+			CakeArenaManager.reset();
 
 			// Get current familiar
 			familiar = KoLCharacter.getFamiliar();
@@ -177,11 +182,28 @@ public class FamiliarTrainingFrame extends KoLFrame
 			buttonPanel = new ButtonPanel();
 			buttonContainer.add( buttonPanel, BorderLayout.NORTH );
 
-			// Put the total familiar weight next
+			// List of counters at bottom
+			JPanel counterPanel = new JPanel();
+			counterPanel.setLayout( new GridLayout( 3, 1 ) );
+
+			// First the win counter
+			winCount = new JLabel( "", JLabel.CENTER );
+			counterPanel.add( winCount );
+
+			// Next the prize counter 
+			prizeCounter = new JLabel( "", JLabel.CENTER );
+			counterPanel.add( prizeCounter );
+
+			// Finally the total familiar weight
 			totalWeight = new JLabel( "", JLabel.CENTER );
+			counterPanel.add( totalWeight );
+
+			// Make a refresher for the counters
 			TotalWeightRefresher runnable = new TotalWeightRefresher();
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( runnable ) );
-			buttonContainer.add( totalWeight, BorderLayout.SOUTH );
+
+			// Show the counters 
+			buttonContainer.add( counterPanel, BorderLayout.SOUTH );
 
 			add( buttonContainer, BorderLayout.EAST );
 		}
@@ -194,6 +216,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			public void run()
 			{
+				// Arena wins
+				int arenaWins = KoLCharacter.getArenaWins();
+				winCount.setText( arenaWins + " arena wins" );
+
+				// Wins to next prize
+				int nextPrize = 10 - ( arenaWins % 10 );
+				prizeCounter.setText( nextPrize + " wins to next prize" );
+
+				// Terrarium weight
 				int totalTerrariumWeight = 0;
 
 				FamiliarData [] familiarArray = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];

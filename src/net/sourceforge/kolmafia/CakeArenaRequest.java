@@ -85,9 +85,26 @@ public class CakeArenaRequest extends KoLRequest
 		{
 			client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
 			super.processResults();
+
+			// If the familiar won, increment win count
+
+			if ( responseText.indexOf( "Congratulations!" ) != -1 )
+				KoLCharacter.setArenaWins( KoLCharacter.getArenaWins() + 1 );
 			return;
 		}
 
+		// Retrieve arena wins count
+
+		// "You have won 722 times. Only 8 wins left until your next
+		// prize!"
+
+		Matcher winMatcher = Pattern.compile(
+			"You have won (\\d*) time" ).matcher( responseText );
+
+		if ( winMatcher.find() )
+			KoLCharacter.setArenaWins( Integer.parseInt( winMatcher.group(1) ) );
+
+                // Retrieve list of opponents
 		int lastMatchIndex = 0;
 		Matcher opponentMatcher = Pattern.compile(
 			"<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?<b>(.*?)</b> the (.*?)<br/?>(\\d*).*?</tr>" ).matcher( responseText );

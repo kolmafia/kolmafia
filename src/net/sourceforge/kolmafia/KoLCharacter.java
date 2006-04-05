@@ -263,6 +263,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static SortedListModel familiars = new SortedListModel( FamiliarData.class );
 	private static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
+	private static int arenaWins = 0;
 
 	// Listener-driven container items
 
@@ -333,6 +334,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 		familiars.clear();
 		familiars.add( FamiliarData.NO_FAMILIAR );
+		arenaWins = 0;
+
 		beanstalkArmed = false;
 
 		ascensions = 0;
@@ -1933,6 +1936,26 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static FamiliarData getFamiliar()
 	{	return currentFamiliar;
+	}
+
+	/**
+	 * Accessor method to get arena wins
+	 * @return	wins
+	 */
+
+	public static int getArenaWins()
+	{	return arenaWins;
+	}
+
+	/**
+	 * Accessor method to set arena wins
+	 * @parameter	wins
+	 */
+
+	public static void setArenaWins( int wins )
+	{
+		arenaWins = wins;
+		KoLCharacter.updateStatus();
 	}
 
 	/**
