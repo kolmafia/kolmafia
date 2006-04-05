@@ -1419,8 +1419,18 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !StaticEntity.getClient().permitsContinue() )
 			return false;
 
-		// Check if the person is looking for whether or
-		// not they are a certain class.
+		// Allow checking for moon signs for stat days
+		// only.  Allow test for today and tomorrow.
+
+		Matcher dayMatcher = Pattern.compile( "(today|tomorrow) is (.*?) day" ).matcher( parameters );
+		if ( dayMatcher.find() )
+		{
+			String statDayInformation = MoonPhaseDatabase.getMoonEffect().toLowerCase();
+			return statDayInformation.startsWith( dayMatcher.group(2) + " " + dayMatcher.group(1) );
+		}
+
+		// Check for the bounty hunter's current desired
+		// item list.
 
 		if ( parameters.startsWith( "bounty hunter wants " ) )
 		{
@@ -1434,6 +1444,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 			return false;
 		}
+
+		// Check if the person is looking for whether or
+		// not they are a certain class.
 
 		if ( parameters.startsWith( "class is not " ) )
 		{
