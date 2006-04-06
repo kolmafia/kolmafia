@@ -87,7 +87,7 @@ public class MoneyMakingGameFrame extends KoLFrame
 		}
 	}
 
-	public static void handleBetResult( String message )
-	{
+	public static String handleBetResult( String message )
+	{	return message;
 	}
 }
