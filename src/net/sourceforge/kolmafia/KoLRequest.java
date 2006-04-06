@@ -231,7 +231,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.data = new ArrayList();
 		this.followRedirects = followRedirects;
 
-		if ( formURLString.indexOf( "\\?" ) == -1 )
+		if ( formURLString.indexOf( "?" ) == -1 )
 		{
 			this.formURLString = formURLString;
 			return;
