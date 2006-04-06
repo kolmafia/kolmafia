@@ -370,7 +370,7 @@ public class ChatFrame extends KoLFrame
 			// First, determine the parameters inside of the
 			// location which will be passed to frame classes.
 
-			Object [] parameters = new Object[] { StaticEntity.getClient(), StaticEntity.getClient().getPlayerName( locationSplit[1] ) };
+			Object [] parameters = new Object[] { StaticEntity.getClient().getPlayerName( locationSplit[1] ) };
 
 			// Next, determine the option which had been
 			// selected in the link-click.

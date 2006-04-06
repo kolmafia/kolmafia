@@ -54,7 +54,7 @@ public class FightFrame extends RequestFrame
 
 	public FightFrame( KoLRequest request )
 	{
-		super( null, request );
+		super( "Combat Handler", null, request );
 		FightFrame.INSTANCE = this;
 	}
 

@@ -41,31 +41,8 @@ package net.sourceforge.kolmafia;
 
 public class MoneyMakingGameRequest extends KoLRequest
 {
-	private int meat;
-
-	public MoneyMakingGameRequest( KoLmafia client, int meat, boolean fromStorage )
-	{
-		super( client, "bet.php" );
-		
-		this.meat = meat;
-
-		addFormField( "action", "makebet" );
-		addFormField( "pwd", client.getPasswordHash() );
-		addFormField( "from", fromStorage ? "1" : "0" );
-		addFormField( "howmuch", String.valueOf( meat ) );
-	}
-
-	public void run()
-	{
-		
-		if (meat < 1000 || meat > 100000000) {
-			client.updateDisplay( ABORT_STATE, "Bet must between 1,000 and 100,000,000 meat." );
-			return;
-		}
-
-		client.updateDisplay( PENDING_STATE, "Placing Bet..." );
-		super.run();
-		client.updateDisplay( CONTINUE_STATE, "Bet Placed." );
+	public MoneyMakingGameRequest( KoLmafia client )
+	{	super( client, "betarchive.php" );
 	}
 
 	protected void processResults()

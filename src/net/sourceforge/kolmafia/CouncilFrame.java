@@ -43,7 +43,7 @@ import java.awt.BorderLayout;
 public class CouncilFrame extends RequestFrame
 {
 	public CouncilFrame()
-	{	super( null, new KoLRequest( StaticEntity.getClient(), "council.php", true ) );
+	{	super( "Council of Loathing", new KoLRequest( StaticEntity.getClient(), "council.php", true ) );
 	}
 
 	protected static String getDisplayHTML( String responseText )

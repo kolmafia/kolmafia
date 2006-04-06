@@ -34,11 +34,11 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.GridLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
-import javax.swing.BoxLayout;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -62,13 +62,15 @@ public class MeatManageFrame extends KoLFrame
 	{
 		super( "Meat Manager" );
 
-		JPanel container = new JPanel();
-		container.setLayout( new BoxLayout( container, BoxLayout.Y_AXIS ) );
+		meatStorage = new MeatStoragePanel();
+		heroDonation = new HeroDonationPanel();
+
+		JPanel container = new JPanel( new GridLayout( 2, 1 ) );
 		container.add( meatStorage );
 		container.add( heroDonation );
 
-		getContentPane().setLayout( new CardLayout( 10, 10 ) );
-		getContentPane().add( container );
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
+		framePanel.add( container, "" );
 	}
 
 	public boolean useSidePane()
@@ -115,7 +117,6 @@ public class MeatManageFrame extends KoLFrame
 		{
 			if ( heroField.getSelectedIndex() != -1 )
 				(new RequestThread( new HeroDonationRequest( StaticEntity.getClient(), heroField.getSelectedIndex() + 1, getValue( amountField ) ) )).start();
-
 		}
 
 		protected void actionCancelled()
@@ -196,9 +197,9 @@ public class MeatManageFrame extends KoLFrame
 				StaticEntity.getClient().enableDisplay();
 				return;
 			}
-			
+
 			ItemStorageRequest [] requests = new ItemStorageRequest[ fundTransferType == 3 ? 2 : 1 ];
-	
+
 			switch ( fundTransferType )
 			{
 				case 0:
@@ -231,7 +232,7 @@ public class MeatManageFrame extends KoLFrame
 
 					break;
 			}
-			
+
 			requests[0] = new ItemStorageRequest( StaticEntity.getClient(), amountToTransfer, transferType );
 			if ( fundTransferType == 3 )
 				requests[1] = new ItemStorageRequest( StaticEntity.getClient(), amountToTransfer, ItemStorageRequest.MEAT_TO_CLOSET );
