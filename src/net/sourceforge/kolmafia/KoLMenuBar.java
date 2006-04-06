@@ -176,6 +176,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
 
+		if ( MoneyMakingGameFrame.frameEnabled() )
+		{
+			toolsMenu.add( new JSeparator() );
+			toolsMenu.add( new DisplayFrameMenuItem( "MMG Bot", MoneyMakingGameFrame.class ) );
+		}
+
 		// Add the old-school people menu.
 
 		JMenu peopleMenu = new JMenu( "People" );
