@@ -73,7 +73,8 @@ public class MoneyMakingGameFrame extends KoLFrame
 			}
 
 			DEFAULT_SHELL.executeLine( "sell * casino pass" );
-			JOptionPane.showMessageDialog( null, "You offer your casino passes in ritual sacrifice to Jarlsberg." );
+			JOptionPane.showMessageDialog( null, "Your casino passes have been sold to Jarlsberg." );
+			StaticEntity.getClient().enableDisplay();
 		}
 	}
 
