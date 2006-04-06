@@ -99,16 +99,24 @@ public class RequestFrame extends KoLFrame
 	private JTextField locationField = new JTextField();
 
 	public RequestFrame()
-	{	this( new KoLRequest( StaticEntity.getClient(), "main.php" ) );
+	{	this( "Mini-Browser", new KoLRequest( StaticEntity.getClient(), "main.php" ) );
 	}
 
 	public RequestFrame( KoLRequest request )
-	{	this( null, request );
+	{	this( "Mini-Browser", null, request );
+	}
+
+	public RequestFrame( String title, KoLRequest request )
+	{	this( title, null, request );
 	}
 
 	public RequestFrame( RequestFrame parent, KoLRequest request )
+	{	this( "Mini-Browser", parent, request );
+	}
+
+	public RequestFrame( String title, RequestFrame parent, KoLRequest request )
 	{
-		super( "Mini-Browser" );
+		super( title );
 		this.parent = parent;
 
 		this.currentRequest = getClass() == RequestFrame.class && StaticEntity.getClient().getCurrentRequest() instanceof FightRequest ?
@@ -444,15 +452,6 @@ public class RequestFrame extends KoLFrame
 		{
 			if ( request == null )
 				return;
-
-			// Update the title for the RequestFrame to include the
-			// current round of combat (for people who track this
-			// sort of thing).
-
-			if ( getCurrentLocation().startsWith( "fight" ) )
-				setTitle( "Mini-Browser: Combat Round " + combatRound );
-			else
-				setTitle( "Mini-Browser" );
 
 			if ( request.responseText == null || request.responseText.length() == 0 )
 			{

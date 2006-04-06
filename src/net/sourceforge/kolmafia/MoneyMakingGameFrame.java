@@ -41,21 +41,11 @@ public class MoneyMakingGameFrame extends KoLFrame
 {
 	public MoneyMakingGameFrame()
 	{
-		super( "MMG" );
+		super( "The Meatsink" );
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 	}
 
-        public static boolean frameEnabled()
-	{	return false;
-        }
-
-	public static boolean betResult( String message )
+	public static void handleBetResult( String message )
 	{
-		return false;
-	}
-
-	public static String processChatMessage( String message )
-	{
-		return message;
 	}
 }

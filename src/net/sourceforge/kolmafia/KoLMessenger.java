@@ -707,12 +707,11 @@ public abstract class KoLMessenger extends StaticEntity
 				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
 			processChatMessage( recipient, cleanHTML );
 		}
-		else if ( MoneyMakingGameFrame.betResult( message ) ) 
-		{
-			processChatMessage( currentChannel, MoneyMakingGameFrame.processChatMessage( message ));
-		}
 		else
 		{
+			if ( message.indexOf( "href='bet.php'" ) != -1 )
+				MoneyMakingGameFrame.handleBetResult( message );
+
 			processChatMessage( currentChannel, message );
 		}
 	}

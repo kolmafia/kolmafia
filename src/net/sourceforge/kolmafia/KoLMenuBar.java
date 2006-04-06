@@ -165,8 +165,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", MeatManageFrame.class ) );
-		toolsMenu.add( new KoLPanelFrameMenuItem( "Skill Usage", new SkillBuffPanel() ) );
+		toolsMenu.add( new KoLPanelFrameMenuItem( "Skill Casting", new SkillBuffPanel() ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
 
@@ -176,11 +175,9 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
 
-		if ( MoneyMakingGameFrame.frameEnabled() )
-		{
-			toolsMenu.add( new JSeparator() );
-			toolsMenu.add( new DisplayFrameMenuItem( "MMG Bot", MoneyMakingGameFrame.class ) );
-		}
+		toolsMenu.add( new JSeparator() );
+		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", MeatManageFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "The Meatsink", MoneyMakingGameFrame.class ) );
 
 		// Add the old-school people menu.
 
@@ -382,16 +379,11 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[6];
+			JComponent [] headers = new JComponent[3];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
-			headers[2] = new JSeparator();
-
-			headers[3] = new DisplayRequestMenuItem( "Announcements", "chatlaunch.php" );
-			headers[4] = new DisplayFrameMenuItem( "Council of Loathing", CouncilFrame.class );
-
-			headers[5] = new DisplayRequestMenuItem( "Weird Records Board", "records.php?which=0" );
+			headers[2] = new DisplayFrameMenuItem( "Council of Loathing", CouncilFrame.class );
 
 			return headers;
 		}
@@ -795,7 +787,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{
 			super( title );
 			addActionListener( this );
- 
+
 			Object [] parameters = new Object[2];
 			parameters[0] = title;
 			parameters[1] = panel;

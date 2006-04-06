@@ -195,7 +195,7 @@
 187	534717073	loose teeth
 188	255139922	bat guano
 189	720857924	guano coffee cup
-190			guild pants
+190		guild pants
 191	606865770	Boss Bat bandana
 192	990969530	batskin belt
 193	525458096	birthday candle
@@ -788,16 +788,16 @@
 780	700840454	scroll of pasta summoning
 781	535591885	mafia aria
 782	23525325	Mr. Exploiter
-783	1261246		'Villa' document
+783	1261246	'Villa' document
 784	35798378	Acqua Del Piatto Merlot
 785	488779797	Mystery Raffle Ticket #5
-786	521666		strawberry
+786	521666	strawberry
 787	124295227	bottle of rum
 788	400889977	strawberry daiquiri
 789	405289977	rum and cola
 790	33846846	grog
 791	13555353	Mafia bow tie
-792	125353		Golden Mr. Accessory
+792	125353	Golden Mr. Accessory
 793	1231231234	potion of chalky equality
 794	123123333	alarming strawberry juice
 795	155798378	Acque Luride Grezze Cabernet
@@ -805,7 +805,7 @@
 797	152547062	rockin' wagon
 798	544547062	ocean motion
 799	557887062	fuzzbump
-800	46522		poutine
+800	46522	poutine
 801	12312455	Knob stir-fry
 802	
 803	
@@ -833,7 +833,7 @@
 825	206200011	fizzy potion
 826	407001621	dark potion
 827	301022011	murky potion
-828	8374657		baby killer bee
+828	8374657	baby killer bee
 829	82346664	anti-anti-antidote
 830	90050040	royal jelly
 831	1553500054	small box
@@ -850,9 +850,9 @@
 842	63331253	beertini
 843	25581788	salty slug
 844	155535035	papaya slung
-845	31337		MAHI fez
-846			especially homoerotic frat-paddle
-847	1997970		heteroerotic frat-paddle
+845	31337	MAHI fez
+846		especially homoerotic frat-paddle
+847	1997970	heteroerotic frat-paddle
 848	10000001	hypodermic needle
 849	10616161	Meat detector
 850	10045001	many-eyed glasses
@@ -872,8 +872,8 @@
 864	10330001	brass stinger
 865	10005201	lead necklace
 866	84623514	shaving cream
-867	7532159		pine tar
-868	
+867	7532159	pine tar
+868
 869	764985213	forest tears
 870	869858134	fetus-smashing club
 871	777055201	meatcar model
@@ -938,13 +938,13 @@
 930	
 931	649788552	spiced rum
 932	246426544	eggnog
-933	6445454		candy cane
+933	6445454	candy cane
 934	64545412	gingerbread bugbear
 935	452221212	imitation nice watch
 936	63338787	Hanukkimbo dreidl
 937	95141525	menorette
 938	775545454	tiny plastic sword
-939	5551212		small Crimbo Pressie
+939	5551212	small Crimbo Pressie
 940	18004564	bow
 941	34323536	Crimbo stocking
 942	572095636	bowler
@@ -994,7 +994,7 @@
 986	534203164	tiny plastic killer bee
 987	633909836	tiny plastic Cheshire bat
 988	727439462	tiny plastic coffee pixie
-989	624148858	tiny plastic bitchin' meat car
+989	624148858	tiny plastic bitchin' meatcar
 990	521569533	tiny plastic hermit
 991	440543108	tiny plastic Boris
 992	485391755	tiny plastic Jarlsberg
@@ -1122,7 +1122,7 @@
 1114	566765807	tisket
 1115	598623036	tasket
 1116	272150426	annoying pitchfork 
-1117	4440444		Stupid University Diploma
+1117	4440444	Stupid University Diploma
 1118	783161030	pregnant flaming mushroom
 1119	148465385	pregnant frozen mushroom
 1120	167284460	pregnant stinky mushroom

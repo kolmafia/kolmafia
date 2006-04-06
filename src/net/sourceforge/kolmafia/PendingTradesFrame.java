@@ -45,7 +45,7 @@ public class PendingTradesFrame extends RequestFrame
 
 	public PendingTradesFrame( ProposeTradeRequest ptr )
 	{
-		super( ptr );
+		super( "Pending Trades", ptr );
 		mainDisplay.addHyperlinkListener( new TradeLinkListener() );
 	}
 

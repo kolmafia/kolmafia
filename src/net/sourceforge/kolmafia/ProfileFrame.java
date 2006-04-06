@@ -41,6 +41,6 @@ public class ProfileFrame extends RequestFrame
 	}
 
 	public ProfileFrame( ProfileRequest profile )
-	{	super( null, profile );
+	{	super( "Player Profile", null, profile );
 	}
 }
