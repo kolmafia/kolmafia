@@ -34,6 +34,15 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.Date;
+import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+import java.text.SimpleDateFormat;
+
+import net.java.dev.spellcast.utilities.SortedListModel;
+
 /**
  * An extension of the generic <code>KoLRequest</code> class which handles
  * placing bets at the Money Making Game
@@ -41,11 +50,155 @@ package net.sourceforge.kolmafia;
 
 public class MoneyMakingGameRequest extends KoLRequest
 {
+	private SortedListModel betSummary = new SortedListModel();
+	private static final SimpleDateFormat RESULT_FORMAT = new SimpleDateFormat( "MM/dd/yy hh:mma" );
+
+
 	public MoneyMakingGameRequest( KoLmafia client )
 	{	super( client, "betarchive.php" );
 	}
 
+	public void run()
+	{
+		DEFAULT_SHELL.updateDisplay( "Retrieving bet archive..." );
+		super.run();
+	}
+
 	protected void processResults()
 	{
+		ArrayList madeBets = new ArrayList();
+		ArrayList takenBets = new ArrayList();
+
+		Pattern singleBet = Pattern.compile( "<tr.*?</b></td>" );
+
+		Matcher madeMatcher = Pattern.compile( "<div id='made'>.*?</div>" ).matcher( responseText );
+		if ( madeMatcher.find() )
+		{
+			madeMatcher = singleBet.matcher( madeMatcher.group() );
+			madeMatcher.find();
+
+			while ( madeMatcher.find() )
+				if ( madeMatcher.group().indexOf( ">&nbsp;<" ) == -1 )
+					madeBets.add( new MoneyMakingGameResult( madeMatcher.group(), true ) );
+		}
+
+		Matcher takenMatcher = Pattern.compile( "<div id='taken'>.*?</div>" ).matcher( responseText );
+		if ( takenMatcher.find() )
+		{
+			takenMatcher = singleBet.matcher( takenMatcher.group() );
+			takenMatcher.find();
+
+			while ( takenMatcher.find() )
+				if ( takenMatcher.group().indexOf( ">&nbsp;<" ) == -1 )
+					takenBets.add( new MoneyMakingGameResult( takenMatcher.group(), false ) );
+		}
+
+		TreeMap playerMap = new TreeMap();
+		ArrayList betHistory = new ArrayList();
+		betHistory.addAll( madeBets );
+		betHistory.addAll( takenBets );
+
+		MoneyMakingGameResult [] betHistoryArray = new MoneyMakingGameResult[ betHistory.size() ];
+		betHistory.toArray( betHistoryArray );
+
+		for ( int i = 0; i < betHistoryArray.length; ++i )
+		{
+			if ( !playerMap.containsKey( betHistoryArray[i].playerID ) )
+				playerMap.put( betHistoryArray[i].playerID, new Integer(0) );
+
+			Integer currentTally = (Integer) playerMap.get( betHistoryArray[i].playerID );
+			playerMap.put( betHistoryArray[i].playerID, new Integer( currentTally.intValue() + betHistoryArray[i].betAmount ) );
+		}
+
+		Object [] keys = playerMap.keySet().toArray();
+		betSummary.clear();
+
+		for ( int i = 0; i < keys.length; ++i )
+			betSummary.add( new MoneyMakingGameSummary( (String) keys[i], (Integer) playerMap.get( keys[i] ) ) );
+	}
+
+	public SortedListModel getBetSummary()
+	{	return betSummary;
+	}
+
+	private class MoneyMakingGameSummary implements Comparable
+	{
+		private String playerID;
+		private Integer winAmount;
+
+		public MoneyMakingGameSummary( String playerID, Integer winAmount )
+		{
+			this.playerID = playerID;
+			this.winAmount = winAmount;
+		}
+
+		public int compareTo( Object o )
+		{	return winAmount.compareTo( ((MoneyMakingGameSummary)o).winAmount );
+		}
+
+		public String toString()
+		{
+			return "<html><font color=" + (winAmount.intValue() > 0 ? "green" : "red") +
+				">" + client.getPlayerName( playerID ) + ": " + (winAmount.intValue() > 0 ? "+" : "") +
+				df.format( winAmount.intValue() ) + "</font></html>";
+		}
+	}
+
+	private class MoneyMakingGameResult
+	{
+		private Date timestamp;
+		private int betAmount;
+		private String playerID;
+
+		private boolean isPlacedBet;
+		private boolean isPositive;
+
+		public MoneyMakingGameResult( String resultText, boolean isPlacedBet )
+		{
+			try
+			{
+				this.isPlacedBet = isPlacedBet;
+				this.isPositive = resultText.indexOf( "color='green'>+" ) != -1;
+
+				Matcher results = Pattern.compile( "<td.*?</td>" ).matcher( resultText );
+
+				// The first cell in the row is the timestamp
+				// for the result.
+
+				if ( results.find() )
+					timestamp = RESULT_FORMAT.parse( results.group().replaceAll( "&nbsp;", " " ).replaceAll( "<.*?>", "" ) );
+
+				// Next is the amount which was bet.  In this
+				// case, parse out the value.
+
+				if ( results.find() )
+				{
+					Matcher amountMatcher = Pattern.compile( ">([\\d,]+) " ).matcher( results.group() );
+					if ( amountMatcher.find() )
+					{
+						betAmount = df.parse( amountMatcher.group(1) ).intValue();
+						betAmount = (int) (((float) betAmount) * (isPositive ? 0.998f : -1.0f));
+					}
+				}
+
+				// The next is the name of the player who placed
+				// or took your bet.
+
+				if ( results.find() )
+				{
+					Matcher playerMatcher = Pattern.compile( "who=(\\d+).*?<b>(.*?)</b>" ).matcher( results.group() );
+					if ( playerMatcher.find() )
+					{
+						playerID = playerMatcher.group(1);
+						client.registerPlayer( playerMatcher.group(2), playerID );
+					}
+				}
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+			}
+		}
 	}
 }
