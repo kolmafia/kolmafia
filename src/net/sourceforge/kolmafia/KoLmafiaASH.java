@@ -2066,6 +2066,12 @@ public class KoLmafiaASH extends StaticEntity
 				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 			}
 
+			if ( name.equalsIgnoreCase( "add_item_condition" ) )
+			{
+				DEFAULT_SHELL.executeLine( "conditions add " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_VOID );
+			}
+
 			if ( name.equalsIgnoreCase( "can_eat" ) )
 				return new ScriptValue( TYPE_BOOLEAN, KoLCharacter.canEat() ? 1 : 0 );
 
