@@ -221,6 +221,8 @@ public class CakeArenaFrame extends KoLFrame
 
 				if ( battleCount > 0 )
 					CakeArenaManager.fightOpponent( opponents.get( row ).toString(), column, battleCount );
+
+				StaticEntity.getClient().enableDisplay();
 			}
 			catch ( Exception e1 )
 			{
