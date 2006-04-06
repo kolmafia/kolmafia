@@ -38,6 +38,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 
+import java.awt.Component;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -59,7 +60,10 @@ import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
+
+import javax.swing.JEditorPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -75,6 +79,18 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class KoLmafia implements KoLConstants
 {
+	static
+	{
+		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
+		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
+		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
+
+		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
+
+		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
+		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
+	}
+
 	protected static LocalRelayServer relayServer = new LocalRelayServer();
 	protected static PrintStream macroStream = NullStream.INSTANCE;
 	protected static PrintStream logStream = NullStream.INSTANCE;
@@ -236,6 +252,32 @@ public abstract class KoLmafia implements KoLConstants
 
 			commandBuffer.append( colorBuffer.toString() );
 		}
+
+		// Next, update all of the panels with the
+		// desired update message.
+
+		WeakReference [] references = new WeakReference[ existingPanels.size() ];
+		existingPanels.toArray( references );
+
+		for ( int i = 0; i < references.length; ++i )
+		{
+			if ( references[i].get() != null )
+			{
+				if ( references[i].get() instanceof KoLPanel )
+					((KoLPanel) references[i].get()).setStatusMessage( state, message );
+
+				((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
+			}
+		}
+
+		// Finally, update all of the existing frames
+		// with the appropriate state.
+
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		for ( int i = 0; i < frames.length; ++i )
+			frames[i].updateDisplayState( state );
 	}
 
 	public void enableDisplay()
@@ -271,8 +313,20 @@ public abstract class KoLmafia implements KoLConstants
 		KoLCharacter.reset( username );
 
 		this.refreshSession();
+
+		if ( !permitsContinue() )
+		{
+			deinitialize();
+			return;
+		}
+		
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
 
+		String today = sdf.format( new Date() );
+		String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + username.toLowerCase() );
+		if ( lastBreakfast != null && lastBreakfast.equals( "today" ) )
+			return;
+		
 		if ( KoLCharacter.hasToaster() )
 			for ( int i = 0; i < 3 && permitsContinue(); ++i )
 				(new CampgroundRequest( this, "toast" )).run();
@@ -290,6 +344,9 @@ public abstract class KoLmafia implements KoLConstants
 		String scriptSetting = GLOBAL_SETTINGS.getProperty( "loginScript." + username.toLowerCase() );
 		if ( scriptSetting != null && !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
+		
+		if ( (skillSetting != null && !skillSetting.equals( "" )) || (scriptSetting != null && !scriptSetting.equals( "" )) )
+			GLOBAL_SETTINGS.setProperty( "lastBreakfast." + username, today );
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
@@ -331,10 +388,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.galaktikCures.clear();
 
 		if ( !permitsContinue() )
-		{
-			deinitialize();
 			return;
-		}
 
 		// Retrieve the list of outfits which are available to the
 		// character.  Due to lots of bug reports, this is no longer
@@ -343,10 +397,7 @@ public abstract class KoLmafia implements KoLConstants
 		(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
 
 		if ( !permitsContinue() )
-		{
-			deinitialize();
 			return;
-		}
 
 		// Retrieve the items which are available for consumption
 		// and item creation.
@@ -354,10 +405,7 @@ public abstract class KoLmafia implements KoLConstants
 		(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
 
 		if ( !permitsContinue() )
-		{
-			deinitialize();
 			return;
-		}
 
 		// Retrieve the character sheet next -- because concoctions
 		// are refreshed at the end, it's more important to do this
@@ -366,10 +414,7 @@ public abstract class KoLmafia implements KoLConstants
 		(new CharsheetRequest( this )).run();
 
 		if ( !permitsContinue() )
-		{
-			deinitialize();
 			return;
-		}
 
 		// Update the player's account settings (including time-zone
 		// and current autosell mode).
@@ -377,20 +422,14 @@ public abstract class KoLmafia implements KoLConstants
 		(new AccountRequest( StaticEntity.getClient() )).run();
 
 		if ( !permitsContinue() )
-		{
-			deinitialize();
 			return;
-		}
 
 		// Get current moon phases
 
 		(new MoonPhaseRequest( this )).run();
 
 		if ( !permitsContinue() )
-		{
-			deinitialize();
 			return;
-		}
 
 		// Retrieve campground data to see if the user is able to
 		// cook, make drinks or make toast.
@@ -399,10 +438,7 @@ public abstract class KoLmafia implements KoLConstants
 		(new CampgroundRequest( this )).run();
 
 		if ( !permitsContinue() )
-		{
-			deinitialize();
 			return;
-		}
 
 		// Retrieve the list of familiars which are available to
 		// the player, if they haven't opted to skip them.
@@ -410,19 +446,13 @@ public abstract class KoLmafia implements KoLConstants
 		(new FamiliarRequest( this )).run();
 
 		if ( !permitsContinue() )
-		{
-			deinitialize();
 			return;
-		}
 
 		updateDisplay( "Retrieving contact list..." );
 		(new ContactListRequest( this )).run();
 
 		if ( !permitsContinue() )
-		{
-			deinitialize();
 			return;
-		}
 
 		// Also update the contents of Hagnk's storage so that you
 		// do not have to re-run it all the time.
@@ -430,10 +460,7 @@ public abstract class KoLmafia implements KoLConstants
 		(new ItemStorageRequest( this )).run();
 
 		if ( !permitsContinue() )
-		{
-			deinitialize();
 			return;
-		}
 
 		DEFAULT_SHELL.updateDisplay( "Data refreshed." );
 

@@ -217,19 +217,34 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	protected class ScriptSelectPanel extends JPanel implements ActionListener
 	{
 		private JTextField scriptField;
+		private JButton scriptButton;
 
 		public ScriptSelectPanel( JTextField scriptField )
 		{
 			setLayout( new BorderLayout( 0, 0 ) );
 
 			add( scriptField, BorderLayout.CENTER );
-			JButton scriptButton = new JButton( "..." );
+			scriptButton = new JButton( "..." );
 
 			JComponentUtilities.setComponentSize( scriptButton, 20, 20 );
 			scriptButton.addActionListener( this );
 			add( scriptButton, BorderLayout.EAST );
 
 			this.scriptField = scriptField;
+		}
+		
+		public void setEnabled( boolean isEnabled )
+		{
+			scriptField.setEnabled( isEnabled );
+			scriptButton.setEnabled( isEnabled );
+		}
+		
+		public String getText()
+		{	return scriptField.getText();
+		}
+		
+		public void setText( String text )
+		{	scriptField.setText( text );
 		}
 
 		public void actionPerformed( ActionEvent e )

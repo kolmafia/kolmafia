@@ -70,6 +70,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 // other imports
+import java.util.Date;
 import com.sun.java.forums.SpringUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -83,10 +84,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class LoginFrame extends KoLFrame
 {
-	private SortedListModel saveStateNames;
 	private JComponent usernameField;
-	private JPasswordField passwordField;
-	private JTextField scriptField;
+	private SortedListModel saveStateNames;
 
 	public LoginFrame()
 	{	this( new SortedListModel() );
@@ -163,6 +162,9 @@ public class LoginFrame extends KoLFrame
 
 	private class LoginPanel extends KoLPanel implements ActionListener
 	{
+		private boolean isBreakfastEnabled = true;
+		private JPasswordField passwordField;
+		private ScriptSelectPanel scriptField;
 		private JCheckBox [] skillOptions;
 
 		/**
@@ -178,13 +180,13 @@ public class LoginFrame extends KoLFrame
 
 			usernameField = GLOBAL_SETTINGS.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 			passwordField = new JPasswordField();
-			scriptField = new JTextField();
+			scriptField = new ScriptSelectPanel( new JTextField() );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 
 			elements[0] = new VerifiableElement( "Username: ", usernameField );
 			elements[1] = new VerifiableElement( "Password: ", passwordField );
-			elements[2] = new VerifiableElement( "On Login: ", new ScriptSelectPanel( scriptField ) );
+			elements[2] = new VerifiableElement( "On Login: ", scriptField );
 
 			skillOptions = new JCheckBox[ KoLmafia.BREAKFAST_SKILLS.length ];
 			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
@@ -209,6 +211,13 @@ public class LoginFrame extends KoLFrame
 
 			if ( passwordField != null )
 				passwordField.setEnabled( isEnabled );
+			
+			if ( scriptField != null )
+				scriptField.setEnabled( isEnabled && isBreakfastEnabled );
+
+			if ( skillOptions != null )
+				for ( int i = 0; i < skillOptions.length; ++i )
+					skillOptions[i].setEnabled( isEnabled && isBreakfastEnabled );
 		}
 
 		protected void actionConfirmed()
@@ -282,6 +291,8 @@ public class LoginFrame extends KoLFrame
 				if ( currentMatch == null )
 				{
 					passwordField.setText( "" );
+					isBreakfastEnabled = true;
+					LoginPanel.this.setEnabled( true );
 					return;
 				}
 
@@ -289,16 +300,22 @@ public class LoginFrame extends KoLFrame
 				if ( password == null )
 				{
 					passwordField.setText( "" );
+					isBreakfastEnabled = true;
+					LoginPanel.this.setEnabled( true );
 					return;
 				}
 
 				passwordField.setText( password );
 
+				String todayString = sdf.format( new Date() );
 				String skillString = GLOBAL_SETTINGS.getProperty( "breakfast." + currentMatch.toLowerCase() );
 				for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
 					skillOptions[i].setSelected( skillString != null && skillString.indexOf( KoLmafia.BREAKFAST_SKILLS[i][0] ) != -1 );
 
 				scriptField.setText( GLOBAL_SETTINGS.getProperty( "loginScript." + currentMatch.toLowerCase() ) );
+				String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + currentMatch.toLowerCase() );
+				isBreakfastEnabled = !lastBreakfast.equals( todayString );
+				LoginPanel.this.setEnabled( true );
 			}
 
 			private class PasswordFocusListener extends KeyAdapter
