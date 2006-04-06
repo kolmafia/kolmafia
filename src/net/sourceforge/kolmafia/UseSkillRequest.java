@@ -85,6 +85,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			this.target = null;
 		}
 
+		for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
+			if ( this.skillName.equals( KoLmafia.BREAKFAST_SKILLS[i][0] ) )
+				buffCount = Math.min( Integer.parseInt( KoLmafia.BREAKFAST_SKILLS[i][1] ), buffCount );
+		
 		this.buffCount = buffCount < 1 ? 1 : buffCount;
 	}
 
@@ -159,6 +163,16 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			  responseText.indexOf( "You can only scrounge up" ) != -1 ||
 			  responseText.indexOf( "You can only summon" ) != -1 )
 		{
+			// If it's a buff count greater than one,
+			// try to scale down the request.
+
+			if ( buffCount > 1 )
+			{
+				--this.buffCount;
+				this.run();
+				return;
+			}
+
 			encounteredError = true;
 			lastUpdate = "Summon limit exceeded.";
 		}

@@ -1168,7 +1168,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public void pack()
 	{
-		super.pack();
+		if ( !(this instanceof ChatFrame) )
+			super.pack();
 
 		int xLocation = 0;
 		int yLocation = 0;

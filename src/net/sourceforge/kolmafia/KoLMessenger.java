@@ -111,8 +111,10 @@ public abstract class KoLMessenger extends StaticEntity
 
 		if ( useTabbedChat )
 		{
-			tabbedFrame = new TabbedChatFrame();
-			tabbedFrame.setVisible( true );
+			CreateFrameRunnable creator = new CreateFrameRunnable( TabbedChatFrame.class );
+			creator.run();
+			
+			tabbedFrame = (TabbedChatFrame) creator.getCreation();
 		}
 		else
 		{
@@ -125,40 +127,9 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( getProperty( "autoLogChat" ).equals( "true" ) )
 			initializeChatLogs();
 	}
-
-	private static class ChannelColorsRequest extends KoLRequest
-	{
-		public ChannelColorsRequest()
-		{	super( KoLMessenger.client, "account_chatcolors.php", true );
-		}
-
-		public void run()
-		{
-			super.run();
-
-			// First, add in all the colors for all of the
-			// channel tags (for people using standard KoL
-			// chatting mode).
-
-			Matcher colorMatcher = Pattern.compile( "<td>(.*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			while ( colorMatcher.find() )
-				colors.put( colorMatcher.group(1).toLowerCase(), AVAILABLE_COLORS[ Integer.parseInt( colorMatcher.group(2) ) ] );
-
-			// Add in other custom colors which are available
-			// in the chat options.
-
-			colorMatcher = Pattern.compile( "<select name=chatcolorself>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			if ( colorMatcher.find() )
-				colors.put( "chatcolorself", AVAILABLE_COLORS[ Integer.parseInt( colorMatcher.group(1) ) ] );
-
-			colorMatcher = Pattern.compile( "<select name=chatcolorcontacts>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			if ( colorMatcher.find() )
-				colors.put( "chatcolorcontacts", AVAILABLE_COLORS[ Integer.parseInt( colorMatcher.group(1) ) ] );
-
-			colorMatcher = Pattern.compile( "<select name=chatcolorothers>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			if ( colorMatcher.find() )
-				colors.put( "chatcolorothers", AVAILABLE_COLORS[ Integer.parseInt( colorMatcher.group(1) ) ] );
-		}
+	
+	protected static void setColor( String channel, int colorIndex )
+	{	colors.put( channel, AVAILABLE_COLORS[ colorIndex ] );
 	}
 
 	public static void setUpdateChannel( String channel )
@@ -180,11 +151,7 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 
 		reset();  isRunning = true;
-
-		KoLRequest [] requests = new KoLRequest[2];
-		requests[0] = new ChannelColorsRequest();
-		requests[1] = new ChatRequest( client, null, "/listen" );
-		(new RequestThread( requests )).start();
+		(new RequestThread( new ChatRequest( client, null, "/listen" ) )).start();
 
 		// Clear the highlights and add all the ones which
 		// were saved from the last session.
@@ -922,6 +889,9 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			try
 			{
+				if ( !isRunning() )
+					return;
+				
 				LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(), true );
 				instantMessageBuffers.put( channel, buffer );
 
@@ -934,9 +904,10 @@ public abstract class KoLMessenger extends StaticEntity
 				}
 				else
 				{
-					ChatFrame frame = new ChatFrame( channel );
-					frame.setVisible( true );
-					instantMessageFrames.put( channel, frame );
+					CreateFrameRunnable creator = new CreateFrameRunnable( ChatFrame.class, new String [] { channel } );
+					creator.run();
+
+					instantMessageFrames.put( channel, creator.getCreation() );
 				}
 
 				if ( CHATLOG_BASENAME != null && !CHATLOG_BASENAME.equals( "" ) )

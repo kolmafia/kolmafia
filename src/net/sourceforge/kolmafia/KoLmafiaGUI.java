@@ -37,6 +37,8 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import java.awt.Component;
 import javax.swing.JEditorPane;
@@ -55,18 +57,6 @@ import java.lang.ref.WeakReference;
 
 public class KoLmafiaGUI extends KoLmafia
 {
-	static
-	{
-		System.setProperty( "com.apple.mrj.application.apple.menu.about.name", "KoLmafia" );
-		System.setProperty( "com.apple.mrj.application.live-resize", "true" );
-		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
-
-		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
-
-		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
-		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
-	}
-
 	private CreateFrameRunnable displayer;
 	private LimitedSizeChatBuffer buffer;
 
@@ -107,32 +97,6 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		super.updateDisplay( state, message );
-
-		// Next, update all of the panels with the
-		// desired update message.
-
-		WeakReference [] references = new WeakReference[ existingPanels.size() ];
-		existingPanels.toArray( references );
-
-		for ( int i = 0; i < references.length; ++i )
-		{
-			if ( references[i].get() != null )
-			{
-				if ( references[i].get() instanceof KoLPanel )
-					((KoLPanel) references[i].get()).setStatusMessage( state, message );
-
-				((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
-			}
-		}
-
-		// Finally, update all of the existing frames
-		// with the appropriate state.
-
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
-		for ( int i = 0; i < frames.length; ++i )
-			frames[i].updateDisplayState( state );
 	}
 
 	/**
@@ -145,6 +109,9 @@ public class KoLmafiaGUI extends KoLmafia
 	public void initialize( String username, String sessionID )
 	{
 		super.initialize( username, sessionID );
+
+		updateDisplay( "Retrieving chat color settings..." );
+		(new ChannelColorsRequest()).run();
 
 		String startupSetting = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
 		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" );
@@ -623,5 +590,40 @@ public class KoLmafiaGUI extends KoLmafia
 
 		JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
 			JOptionPane.INFORMATION_MESSAGE, null, printing.toArray(), null );
+	}
+
+	private static class ChannelColorsRequest extends KoLRequest
+	{
+		public ChannelColorsRequest()
+		{	super( StaticEntity.getClient(), "account_chatcolors.php", true );
+		}
+
+		public void run()
+		{
+			super.run();
+
+			// First, add in all the colors for all of the
+			// channel tags (for people using standard KoL
+			// chatting mode).
+
+			Matcher colorMatcher = Pattern.compile( "<td>(.*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			while ( colorMatcher.find() )
+				KoLMessenger.setColor( colorMatcher.group(1).toLowerCase(), Integer.parseInt( colorMatcher.group(2) ) );
+
+			// Add in other custom colors which are available
+			// in the chat options.
+
+			colorMatcher = Pattern.compile( "<select name=chatcolorself>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			if ( colorMatcher.find() )
+				KoLMessenger.setColor( "chatcolorself", Integer.parseInt( colorMatcher.group(1) ) );
+
+			colorMatcher = Pattern.compile( "<select name=chatcolorcontacts>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			if ( colorMatcher.find() )
+				KoLMessenger.setColor( "chatcolorcontacts", Integer.parseInt( colorMatcher.group(1) ) );
+
+			colorMatcher = Pattern.compile( "<select name=chatcolorothers>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			if ( colorMatcher.find() )
+				KoLMessenger.setColor( "chatcolorothers", Integer.parseInt( colorMatcher.group(1) ) );
+		}
 	}
 }
