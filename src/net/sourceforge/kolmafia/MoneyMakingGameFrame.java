@@ -33,16 +33,48 @@
  */
 
 package net.sourceforge.kolmafia;
-
-// layout
 import java.awt.CardLayout;
+import javax.swing.JOptionPane;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MoneyMakingGameFrame extends KoLFrame
 {
+	private static final AdventureResult CASINO_PASS = new AdventureResult( 40, 1 );
+
 	public MoneyMakingGameFrame()
 	{
 		super( "The Meatsink" );
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
+		framePanel.add( new MoneyMakingGamePanel(), "" );
+	}
+
+	private class MoneyMakingGamePanel extends ItemManagePanel
+	{
+		public MoneyMakingGamePanel()
+		{	super( "Bet History", "analyze", "cheat", new LockableListModel() );
+		}
+
+		public void actionConfirmed()
+		{
+			MoneyMakingGameRequest analyzer = new MoneyMakingGameRequest( StaticEntity.getClient() );
+			analyzer.run();
+			elementList.setModel( analyzer.getBetSummary() );
+
+			DEFAULT_SHELL.updateDisplay( "Bet archive retrieved." );
+			StaticEntity.getClient().enableDisplay();
+		}
+
+		public void actionCancelled()
+		{
+			if ( !KoLCharacter.getInventory().contains( CASINO_PASS ) )
+			{
+				JOptionPane.showMessageDialog( null, "You do not have a casino pass." );
+				return;
+			}
+
+			DEFAULT_SHELL.executeLine( "sell * casino pass" );
+			JOptionPane.showMessageDialog( null, "You offer your casino passes in ritual sacrifice to Jarlsberg." );
+		}
 	}
 
 	public static void handleBetResult( String message )
