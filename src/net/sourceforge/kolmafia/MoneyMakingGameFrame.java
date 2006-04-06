@@ -33,8 +33,12 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.awt.CardLayout;
+import java.awt.BorderLayout;
+import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MoneyMakingGameFrame extends KoLFrame
@@ -44,13 +48,18 @@ public class MoneyMakingGameFrame extends KoLFrame
 	public MoneyMakingGameFrame()
 	{
 		super( "The Meatsink" );
+
+		// tabs = new JTabbedPane();
+		// tabs.addTab( "Analysis", new AnalysisPanel() );
+		// framePanel.add( tabs, BorderLayout.CENTER );
+
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( new MoneyMakingGamePanel(), "" );
+		framePanel.add( new AnalysisPanel(), "" );
 	}
 
-	private class MoneyMakingGamePanel extends ItemManagePanel
+	private class AnalysisPanel extends ItemManagePanel
 	{
-		public MoneyMakingGamePanel()
+		public AnalysisPanel()
 		{	super( "Bet History", "analyze", "cheat", new LockableListModel() );
 		}
 

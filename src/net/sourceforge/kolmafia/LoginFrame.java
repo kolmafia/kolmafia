@@ -347,7 +347,7 @@ public class LoginFrame extends KoLFrame
 			{ "Farmer's Almanac", "CalendarFrame" },
 			{ "Encyclopedia", "ExamineItemsFrame" },
 
-			// { "Money Making Game", "MoneyMakingGameFrame" },
+			{ "Meatsink", "MoneyMakingGameFrame" },
 		};
 
 		private JRadioButton [] nullOptions;
