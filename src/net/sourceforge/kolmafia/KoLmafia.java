@@ -288,7 +288,7 @@ public abstract class KoLmafia implements KoLConstants
 					getBreakfast( BREAKFAST_SKILLS[i][0], Integer.parseInt( BREAKFAST_SKILLS[i][1] ) );
 
 		String scriptSetting = GLOBAL_SETTINGS.getProperty( "loginScript." + username.toLowerCase() );
-		if ( !scriptSetting.equals( "" ) )
+		if ( scriptSetting != null && !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
 	}
 
