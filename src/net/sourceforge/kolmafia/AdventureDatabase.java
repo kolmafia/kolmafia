@@ -753,7 +753,7 @@ public class AdventureDatabase extends KoLDatabase
 			// then notify the client that there aren't enough items
 			// available to continue and cancel the request.
 
-			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 		}
 		catch ( Exception e )
 		{
