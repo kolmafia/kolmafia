@@ -179,6 +179,10 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		super.dispose();
 	}
 
+	public static boolean instanceExists()
+	{	return INSTANCE != null;
+	}
+	
 	public static KoLDesktop getInstance()
 	{
 		if ( INSTANCE == null )

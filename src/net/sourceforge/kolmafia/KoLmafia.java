@@ -278,6 +278,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < frames.length; ++i )
 			frames[i].updateDisplayState( state );
+
+		if ( KoLDesktop.instanceExists() )
+			KoLDesktop.getInstance().updateDisplayState( state );
 	}
 
 	public void enableDisplay()
