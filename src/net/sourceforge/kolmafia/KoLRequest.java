@@ -861,9 +861,8 @@ public class KoLRequest implements Runnable, KoLConstants
 					e.printStackTrace();
 				}
 
-				responseText = rawBuffer.toString();
-				processRawResponse();
 				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
+				processRawResponse( rawBuffer.toString() );
 
 				if ( client != null && client.getPasswordHash() != null )
 					KoLmafia.getLogStream().println( responseText.replaceAll( client.getPasswordHash(), "" ) );
@@ -896,13 +895,11 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	/**
 	 * This method allows classes to process a raw, unfiltered 
-	 * server response.  For the duration of this call, responseText 
-	 * will point to unfiltered HTML which contains Javascript.
-	 * If a sub class overrides this function, it should always call 
-	 * <code>super.processRawResponse()</code>
+	 * server response.
 	 */
-	protected void processRawResponse()
-	{	statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && responseText.indexOf( "charpane.php" ) != -1;
+
+	protected void processRawResponse( String rawResponse )
+	{	statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && rawResponse.indexOf( "charpane.php" ) != -1;
 	}
 
 	/**

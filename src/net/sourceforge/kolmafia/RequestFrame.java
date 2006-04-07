@@ -505,44 +505,7 @@ public class RequestFrame extends KoLFrame
 
 		private void updateClient()
 		{
-			// In the event that something resembling a gain event
-			// is seen in the response text, or in the event that you
-			// switch between compact and full mode, refresh the sidebar.
-
-			String location = request.getURLString();
-
-			// Keep the StaticEntity.getClient() updated of your current equipment and
-			// familiars, if you visit the appropriate pages.
-
-			if ( location.startsWith( "inventory.php?which=2" ) )
-				EquipmentRequest.parseEquipment( request.responseText );
-
-			if ( location.startsWith( "familiar.php" ) )
-				FamiliarData.registerFamiliarData( StaticEntity.getClient(), request.responseText );
-
-			if ( location.startsWith( "charsheet.php" ) )
-				CharsheetRequest.parseStatus( request.responseText );
-
-			// See if the person learned a new skill from using a
-			// mini-browser frame.
-
-			Matcher learnedMatcher = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" ).matcher( request.responseText );
-			if ( learnedMatcher.find() )
-			{
-				KoLCharacter.addAvailableSkill( new UseSkillRequest( StaticEntity.getClient(), learnedMatcher.group(1), "", 1 ) );
-				KoLCharacter.addDerivedSkills();
-			}
-
-			// Unfortunately, if you learn a new skill from Frank
-			// the Regnaissance Gnome at the Gnomish Gnomads
-			// Camp, it doesn't tell you the name of the skill.
-			// It simply says: "You leargn a new skill. Whee!"
-
-			if ( lastResponseText.indexOf( "You leargn a new skill." ) != -1 )
-			     (new CharsheetRequest( StaticEntity.getClient() )).run();
-
-			KoLCharacter.refreshCalculatedLists();
-
+			StaticEntity.externalUpdate( request.getURLString(), request.responseText );			
 			if ( shouldEnable )
 				StaticEntity.getClient().enableDisplay();
 		}
