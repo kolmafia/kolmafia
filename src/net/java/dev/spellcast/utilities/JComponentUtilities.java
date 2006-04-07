@@ -138,8 +138,8 @@ public class JComponentUtilities implements UtilityConstants
 		}
 		catch ( FileNotFoundException e )
 		{
-System.out.println( e );
-e.printStackTrace();
+			System.out.println( e );
+			e.printStackTrace();
 			System.err.println( "Shared image <" + filename + "> could not be found" );
 			return null;
 		}
@@ -171,8 +171,12 @@ e.printStackTrace();
 			return new ImageIcon( subdirectory + filename );
 
 		java.net.URL filenameAsURL;
+
 		String fullname = directory + subdirectory + filename;
-		String jarname = fullname.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+		String fulljarname = fullname.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+
+		String halfname = subdirectory + filename;
+		String halfjarname = halfname.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 
 		// attempt to retrieve the file from the system class tree (non-JAR)
 		filenameAsURL = SYSTEM_CLASSLOADER.getResource( fullname );
@@ -180,7 +184,17 @@ e.printStackTrace();
 			return new ImageIcon( filenameAsURL );
 
 		// attempt to retrieve the file from the system class tree (JAR)
-		filenameAsURL = SYSTEM_CLASSLOADER.getResource( jarname );
+		filenameAsURL = SYSTEM_CLASSLOADER.getResource( fulljarname );
+		if ( filenameAsURL != null )
+			return new ImageIcon( filenameAsURL );
+
+		// attempt to retrieve the file from the system class tree (non-JAR)
+		filenameAsURL = SYSTEM_CLASSLOADER.getResource( halfname );
+		if ( filenameAsURL != null )
+			return new ImageIcon( filenameAsURL );
+
+		// attempt to retrieve the file from the system class tree (JAR)
+		filenameAsURL = SYSTEM_CLASSLOADER.getResource( halfjarname );
 		if ( filenameAsURL != null )
 			return new ImageIcon( filenameAsURL );
 
@@ -190,7 +204,17 @@ e.printStackTrace();
 			return new ImageIcon( filenameAsURL );
 
 		// attempt to retrieve the file from the Spellcast class tree (JAR)
-		filenameAsURL = MAINCLASS_CLASSLOADER.getResource( jarname );
+		filenameAsURL = MAINCLASS_CLASSLOADER.getResource( fulljarname );
+		if ( filenameAsURL != null )
+			return new ImageIcon( filenameAsURL );
+
+		// attempt to retrieve the file from the Spellcast class tree (non-JAR)
+		filenameAsURL = MAINCLASS_CLASSLOADER.getResource( halfname );
+		if ( filenameAsURL != null )
+			return new ImageIcon( filenameAsURL );
+
+		// attempt to retrieve the file from the Spellcast class tree (JAR)
+		filenameAsURL = MAINCLASS_CLASSLOADER.getResource( halfjarname );
 		if ( filenameAsURL != null )
 			return new ImageIcon( filenameAsURL );
 

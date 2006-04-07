@@ -89,6 +89,19 @@ public class DataUtilities implements UtilityConstants
 		}
 	}
 
+	public static BufferedReader getReader( String directory, String subdirectory, String filename )
+	{
+		try
+		{
+			return new BufferedReader( new InputStreamReader( getFileInputStream( directory, subdirectory, filename ) ) );
+		}
+		catch ( FileNotFoundException e )
+		{
+			System.err.println( "Shared file <" + filename + "> could not be found" );
+			return null;
+		}
+	}
+
 	/**
 	 * A public function used to retrieve the input stream, given a filename.
 	 * Allows referencing images within a JAR, inside of a class tree, and
@@ -111,8 +124,12 @@ public class DataUtilities implements UtilityConstants
 			subdirectory += File.separator;
 
 		InputStream locationAsInputStream;
+
 		String fullname = directory + subdirectory + filename;
-		String jarname = fullname.replaceAll( java.io.File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+		String fulljarname = fullname.replaceAll( java.io.File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+		
+		String halfname = subdirectory + filename;
+		String halfjarname = halfname.replaceAll( java.io.File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 
 		// attempt to retrieve the file from the system class tree (non-JAR)
 		locationAsInputStream = SYSTEM_CLASSLOADER.getResourceAsStream( fullname );
@@ -120,7 +137,16 @@ public class DataUtilities implements UtilityConstants
 			return locationAsInputStream;
 
 		// attempt to retrieve the file from the system class tree (JAR)
-		locationAsInputStream = SYSTEM_CLASSLOADER.getResourceAsStream( jarname );
+		locationAsInputStream = SYSTEM_CLASSLOADER.getResourceAsStream( fulljarname );
+		if ( locationAsInputStream != null )
+			return locationAsInputStream;
+
+		locationAsInputStream = SYSTEM_CLASSLOADER.getResourceAsStream( halfname );
+		if ( locationAsInputStream != null )
+			return locationAsInputStream;
+
+		// attempt to retrieve the file from the system class tree (JAR)
+		locationAsInputStream = SYSTEM_CLASSLOADER.getResourceAsStream( halfjarname );
 		if ( locationAsInputStream != null )
 			return locationAsInputStream;
 
@@ -130,7 +156,17 @@ public class DataUtilities implements UtilityConstants
 			return locationAsInputStream;
 
 		// attempt to retrieve the file from the Spellcast class tree (JAR)
-		locationAsInputStream = MAINCLASS_CLASSLOADER.getResourceAsStream( jarname );
+		locationAsInputStream = MAINCLASS_CLASSLOADER.getResourceAsStream( fulljarname );
+		if ( locationAsInputStream != null )
+			return locationAsInputStream;
+
+		// attempt to retrieve the file from the Spellcast class tree (non-JAR)
+		locationAsInputStream = MAINCLASS_CLASSLOADER.getResourceAsStream( fullname );
+		if ( locationAsInputStream != null )
+			return locationAsInputStream;
+
+		// attempt to retrieve the file from the Spellcast class tree (JAR)
+		locationAsInputStream = MAINCLASS_CLASSLOADER.getResourceAsStream( halfjarname );
 		if ( locationAsInputStream != null )
 			return locationAsInputStream;
 

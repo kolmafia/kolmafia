@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JFrame;
 import java.awt.Dimension;
 import javax.swing.SwingUtilities;
 import java.lang.reflect.Constructor;
@@ -54,7 +55,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	};
 
 	private Class creationType;
-	private KoLFrame creation;
+	private JFrame creation;
 
 	private Constructor creator;
 	private Object [] parameters;
@@ -93,7 +94,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		}
 	}
 
-	public KoLFrame getCreation()
+	public JFrame getCreation()
 	{	return creation;
 	}
 
@@ -158,10 +159,10 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		try
 		{
 			if ( this.creation == null )
-				this.creation = (KoLFrame) creator.newInstance( parameters );
+				this.creation = (JFrame) creator.newInstance( parameters );
 
-			boolean appearsInTab = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" ).indexOf(
-				this.creation instanceof ChatFrame ? "KoLMessenger" : this.creation.getFrameName() ) != -1;
+			boolean appearsInTab = this.creation instanceof KoLFrame && GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" ).indexOf(
+				this.creation instanceof ChatFrame ? "KoLMessenger" : ((KoLFrame)this.creation).getFrameName() ) != -1;
 
 			// If the person is requesting a this.creation that is meant
 			// to appear in the KoLDesktop interface, then make
@@ -178,11 +179,12 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// on the screen now that the frame has been packed
 			// to the appropriate size.
 
-			if ( !appearsInTab )
+			if ( !appearsInTab && this.creation instanceof KoLFrame )
 			{
-				this.creation.constructToolbar();
-				if ( this.creation.useSidePane() )
-					this.creation.addCompactPane();
+				KoLFrame frame = (KoLFrame) this.creation;
+				frame.constructToolbar();
+				if ( frame.useSidePane() )
+					frame.addCompactPane();
 
 				this.creation.setJMenuBar( new KoLMenuBar() );
 			}
@@ -196,7 +198,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			this.creation.setEnabled( true );
 
 			if ( appearsInTab )
-				KoLDesktop.addTab( this.creation );
+				KoLDesktop.addTab( (KoLFrame) this.creation );
 			else
 				this.creation.setVisible( true );
 
