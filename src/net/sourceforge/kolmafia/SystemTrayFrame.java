@@ -46,7 +46,7 @@ public class SystemTrayFrame extends KoLDesktop implements Runnable
 
 			if ( !library.exists() )
 			{
-				InputStream input = DataUtilities.getFileInputStream( "", "", "DesktopIndicator.dll" );
+				InputStream input = DataUtilities.getInputStream( "", "DesktopIndicator.dll" );
 				OutputStream output = new FileOutputStream( library );
 
 				byte [] buffer = new byte[ 1024 ];
@@ -65,7 +65,7 @@ public class SystemTrayFrame extends KoLDesktop implements Runnable
 
 			if ( !trayicon.exists() )
 			{
-				java.io.InputStream input = DataUtilities.getFileInputStream( "", "", "KoLmelionIcon.ico" );
+				java.io.InputStream input = DataUtilities.getInputStream( "", "KoLmelionIcon.ico" );
 				java.io.OutputStream output = new java.io.FileOutputStream( trayicon );
 
 				byte [] buffer = new byte[ 1024 ];
