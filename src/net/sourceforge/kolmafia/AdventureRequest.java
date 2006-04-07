@@ -300,15 +300,12 @@ public class AdventureRequest extends KoLRequest
 				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Taint cleansed." );
 				return;
 			}
-			else
-			{
-				// Even after you've performed the ritual:
-				// "You don't appear to have all of the elements
-				// necessary to perform the ritual."
+                        // Even after you've performed the ritual:
+                        // "You don't appear to have all of the elements
+                        // necessary to perform the ritual."
 
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
-				return;
-			}
+                        DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
+                        return;
 		}
 
 		// If we gained nothing, assume adventure didn't take place.

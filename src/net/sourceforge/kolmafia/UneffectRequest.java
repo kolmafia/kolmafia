@@ -71,8 +71,23 @@ public class UneffectRequest extends KoLRequest
 	
 	private static final boolean isShruggable( String effectName )
 	{
-		return ClassSkillsDatabase.contains( effectName ) &&
-			ClassSkillsDatabase.isBuff( ClassSkillsDatabase.getSkillID( effectName ) );
+		int id = ClassSkillsDatabase.getSkillID( effectToSkill ( effectName ) );
+		return id != -1 && ClassSkillsDatabase.isBuff( id  );
+	}
+
+	/**
+	 * Given the name of an effect, return the name of the skill that
+	 * created that effect
+	 *
+	 * @param	effect	The name of the effect
+	 * @return	skill	The name of the skill
+	 */
+	
+	public static String effectToSkill( String effectName )
+	{
+		if ( effectName.equals( "Ode to Booze" ) )
+			return "The Ode to Booze";
+		return effectName;
 	}
 
 	public void run()
