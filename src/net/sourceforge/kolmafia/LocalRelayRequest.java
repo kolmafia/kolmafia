@@ -57,52 +57,67 @@ public class LocalRelayRequest extends KoLRequest
 		super.processRawResponse();
 		fullResponse = responseText;
 		
-		if ( getURLString().indexOf("compactmenu.php") != -1 )
+		String urlString = getURLString();
+
+		if ( urlString.indexOf( "compactmenu.php" ) != -1 )
 		{
-			// Change the function menu
-			fullResponse = fullResponse.replaceAll(	"<option value=.?inventory.?php.?>Inventory</option>",
-																							"<option value=\"inventory.php?which=1\">Consumables</option>\n" + 
-																							"<option value=\"inventory.php\">Inventory</option>" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?inventory.?php.?>Inventory</option>", 
-																							"<option value=\"inventory.php?which=2\">Equipment</option>\n" + 
-																							"<option value=\"inventory.php\">Inventory</option>" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?inventory.?php.?>Inventory</option>", 
-																							"<option value=\"inventory.php?which=3\">Miscellaneous</option>" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?questlog.?php.?>Quests</option>",
-																							"<option value=\"familiar.php\">Terrarium</option>" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?messages.?php.?>Read Messages</option>",
-																							"<option value=\"questlog.php?which=1\">Quest Log</option>\n" + 
-																							"<option value=\"messages.php\">Read Messages</option>" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?documentation.?>Documentation</option>", "" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?forums.?>Forums</option>", "" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?radio.?>Radio</option>", "" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?sendmessage.*?</option>", "" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?store.?>Store</option>", "" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?logout.?php.?>Log Out</option>", "" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?donate.?>Donate</option>", "" );
+			// Mafiatize the function menu
+
+			fullResponse = fullResponse.replaceAll(
+				"<option value=.?inventory.?php.?>Inventory</option>",
+				"<option value=\"inventory.php?which=1\">Consumables</option>\n<option value=\"inventory.php?which=2\">Equipment</option>\n<option value=\"inventory.php?which=3\">Miscellaneous</option>" );
+			fullResponse = fullResponse.replaceAll(
+				"<option value=.?questlog.?php.?>Quests</option>",
+				"<option value=\"familiar.php\">Terrarium</option>" );
+			fullResponse = fullResponse.replaceAll(
+				"<option value=.?messages.?php.?>Read Messages</option>",
+				"<option value=\"questlog.php?which=1\">Quest Log</option>\n<option value=\"messages.php\">Read Messages</option>" );
+
+			fullResponse = fullResponse.replaceAll( ">Store</option>", ">Asymmetric Store</option>" );
+			fullResponse = fullResponse.replaceAll( ">Donate</option>", ">Donate to KoL</option>" );
+
+			// Remove only the logout option
+			// since it might cause problems.
+			
+			fullResponse = fullResponse.replaceAll( "<option value=.?logout.?php.?>Log Out</option>", "" );
 
 			// Mafiatize the goto menu
-			fullResponse = fullResponse.replaceAll(	"<option value=.?mall.?php.*?</option>", "" );
-			fullResponse = fullResponse.replaceAll(	"<option value=.?mountains.?php.?>",
-																							"<option value=\"mclargehuge.php\">Mt. McLargeHuge</option>\n" + 
-																							"<option value=\"mountains.php\">" );
-			fullResponse = fullResponse.replaceAll(	"Nearby Plains</a>",
-																							"Nearby Plains</a>\n" +
-																							"<option value=\"beanstalk.php\">Above Beanstalk</option>\n" );
+
+			fullResponse = fullResponse.replaceAll(
+				"<option value=.?mountains.?php.?>",
+				"<option value=\"mclargehuge.php\">Mt. McLargeHuge</option>\n<option value=\"mountains.php\">" );
+
+			fullResponse = fullResponse.replaceAll(
+				"Nearby Plains</a>",
+				"Nearby Plains</a>\n<option value=\"beanstalk.php\">Above Beanstalk</option>\n" );
 		}
+
 		// Add [refresh] link to charpane.php (may remove this later)
-		if ( getURLString().indexOf("charpane.php") != -1 )
+
+		if ( urlString.indexOf( "charpane.php" ) != -1 )
+		{
 			fullResponse = fullResponse.replaceAll( "<centeR><b><a target=mainpane href=.?charsheet.?php.?>", 
-																							"<centeR>[<a href=\"javascript:parent.charpane.location.href='charpane.php';\">" +
-																							"refresh</a>]<br><br><b><a target=mainpane href=\"charsheet.php\">" );
+				"<centeR>[<a href=\"javascript:parent.charpane.location.href='charpane.php';\">" +
+				"refresh</a>]<br><br><b><a target=mainpane href=\"charsheet.php\">" );
+		}
+
 		// Fix chat javascript problems with relay system
-		if ( getURLString().indexOf("lchat.php") != -1 )
-			fullResponse = fullResponse.replaceAll( "window.?location.?hostname", 
-																							"\"127.0.0.1:" + KoLmafia.getRelayPort() + "\"" );
-		// Fix chat context menu problems with relay
-		if ( getURLString().indexOf("lchat.php") != -1 )
-			fullResponse = fullResponse.replaceAll( "</head>", 
-																							"<script language=\"Javascript\">base = \"http://127.0.0.1:" + 
-																							KoLmafia.getRelayPort() + "\";</script></head>" );
+
+		if ( urlString.indexOf( "lchat.php" ) != -1 )
+		{
+			fullResponse = fullResponse.replaceAll(
+				"window.?location.?hostname", 
+				"\"127.0.0.1:" + KoLmafia.getRelayPort() + "\"" );
+
+			fullResponse = fullResponse.replaceAll(
+				"</head>", 
+				"<script language=\"Javascript\">base = \"http://127.0.0.1:" +  KoLmafia.getRelayPort() + "\";</script></head>" );
+		}
+		
+		// Fix KoLmafia getting outdated by events happening
+		// in the browser.
+		
+		if ( urlString.indexOf( "charpane.php") != -1 )
+			CharpaneRequest.processCharacterPane( fullResponse );
 	}
 }

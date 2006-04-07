@@ -71,6 +71,10 @@ public class CharpaneRequest extends KoLRequest
 	}
 
 	protected void processResults()
+	{	processCharacterPane( this.responseText );
+	}
+	
+	public static void processCharacterPane( String responseText )
 	{
 		// By refreshing the KoLCharacter pane, you can
 		// determine whether or not you are in compact
@@ -86,9 +90,9 @@ public class CharpaneRequest extends KoLRequest
 		try
 		{
 			if ( isCompactMode )
-				handleCompactMode();
+				handleCompactMode( responseText );
 			else
-				handleExpandedMode();
+				handleExpandedMode( responseText );
 		}
 		catch ( Exception e )
 		{
@@ -99,27 +103,27 @@ public class CharpaneRequest extends KoLRequest
 		KoLCharacter.updateStatus();
 	}
 
-	private void handleCompactMode() throws Exception
+	private static void handleCompactMode( String responseText ) throws Exception
 	{
 		if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
 		{
-			handleStatPoints( "Mus", "Mys", "Mox" );
-			handleMiscPoints( "HP", "MP", "Meat", "Adv", "" );
-			handleMindControl( "MC" );
+			handleStatPoints( responseText, "Mus", "Mys", "Mox" );
+			handleMiscPoints( responseText, "HP", "MP", "Meat", "Adv", "" );
+			handleMindControl( responseText, "MC" );
 		}
 	}
 
-	private void handleExpandedMode() throws Exception
+	private static void handleExpandedMode( String responseText ) throws Exception
 	{
 		if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
 		{
-			handleStatPoints( "Muscle", "Mysticality", "Moxie" );
-			handleMiscPoints( "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;" );
-			handleMindControl( "Mind Control" );
+			handleStatPoints( responseText, "Muscle", "Mysticality", "Moxie" );
+			handleMiscPoints( responseText, "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;" );
+			handleMindControl( responseText, "Mind Control" );
 		}
 	}
 
-	private void handleStatPoints( String musString, String mysString, String moxString ) throws Exception
+	private static void handleStatPoints( String responseText, String musString, String mysString, String moxString ) throws Exception
 	{
 		int [] modified = new int[3];
 
@@ -141,7 +145,7 @@ public class CharpaneRequest extends KoLRequest
 		}
 	}
 
-	private void handleMiscPoints( String hpString, String mpString, String meatString, String advString, String spacerString ) throws Exception
+	private static void handleMiscPoints( String responseText, String hpString, String mpString, String meatString, String advString, String spacerString ) throws Exception
 	{
 		Matcher miscMatcher = Pattern.compile( hpString + ".*?(<font.*?>)?<font.*?>(.*?)" + spacerString + "/" + spacerString + "(.*?)</font>.*?" +
 			mpString + ".*?<b>(<font.*?>)?(.*?)" + spacerString + "/" + spacerString + "(.*?)(</font>)?</b>.*?" +
@@ -157,15 +161,17 @@ public class CharpaneRequest extends KoLRequest
 			int oldAdventures = KoLCharacter.getAdventuresLeft();
 			int newAdventures = df.parse( miscMatcher.group(12) ).intValue();
 
-			client.processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
 		}
 	}
 
-	private void handleMindControl( String mcString ) throws Exception
+	private static void handleMindControl( String responseText, String mcString ) throws Exception
 	{
 		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(.*?)</b>" ).matcher( responseText );
 
 		if ( matcher.find() )
 			KoLCharacter.setMindControlLevel( df.parse( matcher.group(2) ).intValue() );
+		else
+			KoLCharacter.setMindControlLevel( 0 );
 	}
 }
