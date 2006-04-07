@@ -349,12 +349,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// mixture before doing the calculation.
 
 		for ( int i = 1; i < concoctions.size(); ++i )
-		{
-			if ( concoctions.get(i).concoction.getName() == null )
-				continue;
-
-			concoctions.get(i).calculate( availableIngredients );
-		}
+			if ( concoctions.get(i).toString() != null )
+				concoctions.get(i).calculate( availableIngredients );
 
 		// Now, to update the list of creatables without removing
 		// all creatable items.  We do this by determining the
@@ -834,14 +830,21 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 			for ( int i = 0; i < ingredientArray.length; ++i )
 			{
+				boolean shouldMark = true;
 				instanceCount = ingredientArray[i].getCount();
 
-				for ( int j = i + 1; j < ingredientArray.length; ++j )
-					if ( ingredientArray[i].getItemID() == ingredientArray[j].getItemID() )
-						instanceCount += ingredientArray[j].getCount();
+				for ( int j = 0; j < i; ++j )
+					shouldMark &= ingredientArray[i].getItemID() != ingredientArray[j].getItemID();
+				
+				if ( shouldMark )
+				{
+					for ( int j = i + 1; j < ingredientArray.length; ++j )
+						if ( ingredientArray[i].getItemID() == ingredientArray[j].getItemID() )
+							instanceCount += ingredientArray[j].getCount();
 
-				concoctions.get( ingredientArray[i].getItemID() ).mark(
-					(this.modifier + this.initial) * instanceCount, this.multiplier * instanceCount );
+					concoctions.get( ingredientArray[i].getItemID() ).mark(
+							(this.modifier + this.initial) * instanceCount, this.multiplier * instanceCount );
+				}
 			}
 
 			// Mark the implicit adventure ingredient, being
