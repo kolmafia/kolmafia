@@ -3456,16 +3456,16 @@ public class KoLmafiaCLI extends KoLmafia
 		mirrorStream.println( line );
 		KoLmafia.getLogStream().println( line );
 
-		if ( commandBuffer != null )
-		{
-			StringBuffer colorBuffer = new StringBuffer();
-			colorBuffer.append( "<font color=black>" );
-			colorBuffer.append( line );
-			colorBuffer.append( "</font><br>" );
-			colorBuffer.append( LINE_BREAK );
+		StringBuffer colorBuffer = new StringBuffer();
+		colorBuffer.append( "<font color=black>" );
+		colorBuffer.append( line );
+		colorBuffer.append( "</font><br>" );
+		colorBuffer.append( LINE_BREAK );
 
+		relayServer.addStatusMessage( colorBuffer.toString() );
+		
+		if ( commandBuffer != null )
 			commandBuffer.append( colorBuffer.toString() );
-		}
 	}
 
 	/**

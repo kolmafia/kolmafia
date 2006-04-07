@@ -58,6 +58,9 @@ public class LocalRelayServer implements Runnable
 	private int port = 60080;
 	private boolean listening = false;
 
+	protected static Vector statusMessages = new Vector();
+	protected static boolean sendRefresh = false;
+
 	public int getPort()
 	{	return port;
 	}
@@ -91,7 +94,7 @@ public class LocalRelayServer implements Runnable
 		agents = 0;
 		synchronized ( agentThreads )
 		{
-			while( !agentThreads.isEmpty() )
+			while ( !agentThreads.isEmpty() )
 			{
 				RelayAgent agent = (RelayAgent) agentThreads.elementAt( 0 );
 				agentThreads.removeElementAt( 0 );
@@ -164,6 +167,43 @@ public class LocalRelayServer implements Runnable
 		}
 	}
 
+	public static void refreshCharPane( boolean refresh )
+	{	sendRefresh = refresh;
+	}
+
+	public static boolean refreshPending()
+	{ return sendRefresh;
+	}	
+
+	public void addStatusMessage( String message )
+	{
+		synchronized ( statusMessages )
+		{
+			statusMessages.addElement( message );
+			while( statusMessages.size() > 100 )
+				statusMessages.removeElementAt( 0 );
+		}
+	}
+	
+	public static String getNewStatusMessages()
+	{
+		String messages = "";
+		synchronized ( statusMessages )
+		{
+			while ( !statusMessages.isEmpty() )
+			{
+				messages += (String) statusMessages.elementAt( 0 );
+				statusMessages.removeElementAt( 0 );
+			}
+		}
+		if ( sendRefresh )
+		{
+			messages += "<!--refresh-->";
+			sendRefresh = false;
+		}
+		return messages;
+	}	
+
 	private class RelayAgent implements Runnable 
 	{		
 		protected Socket socket = null;
@@ -208,16 +248,12 @@ public class LocalRelayServer implements Runnable
 			}
 		}
 		
-		protected void sendHeaders( PrintStream printStream, HttpURLConnection formConnection ) throws IOException
+		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
 		{
-			printStream.print( formConnection.getHeaderField( 0 ) );
-			printStream.write( NEW_LINE );
-			
-			for ( int i = 1; formConnection.getHeaderFieldKey( i ) != null; ++i )
+			String header = null;
+			for ( int i = 0; null != ( header = request.getHeader( i ) ); ++i )
 			{
-				if ( formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
-					continue;  		
-				printStream.print( formConnection.getHeaderFieldKey( i ) + ": " + formConnection.getHeaderField( i ) );
+				printStream.print( header );
 				printStream.write( NEW_LINE );
 			}  	
 		}
@@ -267,7 +303,7 @@ public class LocalRelayServer implements Runnable
 				}
 				
 				request.run();
-				sendHeaders( printStream, request.getFormConnection() );
+				sendHeaders( printStream, request );
 				printStream.write( NEW_LINE );
 				printStream.print( request.getFullResponse() );
 				

@@ -36,18 +36,24 @@ package net.sourceforge.kolmafia;
 
 import java.net.HttpURLConnection;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Vector;
+
 public class LocalRelayRequest extends KoLRequest
 {
 	protected String fullResponse;
-	
+	protected List headers = new ArrayList();
+
 	public LocalRelayRequest( KoLmafia client, String formURLString, boolean followRedirects )
 	{	super( client, formURLString, followRedirects );
 	}
-	
-	public HttpURLConnection getFormConnection()
-	{	return formConnection;
-	}
-	
+
 	public String getFullResponse()
 	{	return fullResponse;
 	}
@@ -58,7 +64,7 @@ public class LocalRelayRequest extends KoLRequest
 		this.fullResponse = rawResponse;
 		
 		String urlString = getURLString();
-
+		
 		if ( urlString.indexOf( "compactmenu.php" ) != -1 )
 		{
 			// Mafiatize the function menu
@@ -92,15 +98,6 @@ public class LocalRelayRequest extends KoLRequest
 				"Nearby Plains</a>\n<option value=\"beanstalk.php\">Above Beanstalk</option>\n" );
 		}
 
-		// Add [refresh] link to charpane.php (may remove this later)
-
-		if ( urlString.indexOf( "charpane.php" ) != -1 )
-		{
-			fullResponse = fullResponse.replaceAll( "<centeR><b><a target=mainpane href=.?charsheet.?php.?>", 
-				"<centeR>[<a href=\"javascript:parent.charpane.location.href='charpane.php';\">" +
-				"refresh</a>]<br><br><b><a target=mainpane href=\"charsheet.php\">" );
-		}
-
 		// Fix chat javascript problems with relay system
 
 		if ( urlString.indexOf( "lchat.php" ) != -1 )
@@ -125,5 +122,131 @@ public class LocalRelayRequest extends KoLRequest
 		
 		else
 			StaticEntity.externalUpdate( urlString, responseText );
+
+		// Make sure we don't refresh the browser's side pane 
+		// twice.  (Let the original Javascript do it's job.)
+		
+		if ( statusChanged )
+			LocalRelayServer.refreshCharPane( false );
+		
+		if ( urlString.indexOf( "newchatmessages.php" ) != -1 && LocalRelayServer.refreshPending() )
+		{
+			// User is in chat and status has changed. 
+			// Therefore, update the browser's side pane.
+
+			this.fullResponse += "<!--refresh-->";
+			LocalRelayServer.refreshCharPane( false );
+		}
+		
+		// Put gCLI in the chat frame
+		
+		if ( urlString.indexOf( "main" ) != -1 )
+			fullResponse = fullResponse.replaceAll( "<frame name=chatpane src=.?chatlaunch.?php",
+				"<frame name=chatpane src=\"/KoLmafia/cli" );
+	}
+
+	public String getHeader( int index )
+	{
+		if ( headers.isEmpty() )
+		{
+			// This request was relayed to the server. Respond with those headers.
+			headers.add( formConnection.getHeaderField( 0 ) );
+			for ( int i = 1; formConnection.getHeaderFieldKey( i ) != null; ++i )
+				if ( !formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
+					headers.add( formConnection.getHeaderFieldKey( i ) + ": " + formConnection.getHeaderField( i ) );
+		}
+		if ( index >= headers.size() )
+			return null;
+		return (String) headers.get( index );
+	}
+	
+	protected void PseudoResponse( String status, String data )
+	{
+		headers.clear();
+		headers.add( status );
+		headers.add( "Date: " + ( new Date() ) );
+		headers.add( "Server: " + VERSION_NAME );
+		headers.add( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0" );
+		headers.add( "Pragma: no-cache" );
+		headers.add( "Content-Length: " + data.length() );
+		headers.add( "Connection: close" );
+		headers.add( "Content-Type: text/html; charset=UTF-8" );
+		fullResponse = data;
+	}	
+
+	/** Expands special keys found in responses to Special Requests
+	 */
+	protected void postProcessSpecialRequest()
+	{
+		fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + KoLmafia.getRelayPort() );
+	}
+	
+	protected void sendSharedFile( String filename ) throws IOException
+	{
+		StringBuffer replyBuffer = new StringBuffer();
+		BufferedReader reader = KoLDatabase.getReader( "html/" + filename );
+		String line = null;
+		while ( (line = reader.readLine()) != null )
+		{
+			replyBuffer.append( line );
+			replyBuffer.append( LINE_BREAK );
+		}
+		reader.close();
+		
+		PseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );		
+	}
+	
+	protected void sendNewStatusMessages()
+	{	PseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );		
+	}
+	
+	protected void sumbitCmd()
+	{
+		String command = getFormField( "cmd" );
+		if( command == null )
+			return;
+		DEFAULT_SHELL.printLine( " > " + command );
+		DEFAULT_SHELL.executeLine( command );
+	}
+	
+	protected void sendNotFound()
+	{	PseudoResponse( "HTTP 404 - File not found", "" );
+	}
+	
+	public void run()
+	{
+		if ( !formURLString.startsWith( "/KoLmafia/" ) )
+		{
+			super.run();
+			return;
+		}
+		try {
+			
+			String specialRequest = formURLString.substring( 10 );
+			
+			if ( specialRequest.equals( "cli" ) )
+				sendSharedFile( "cli.html" );
+			else if ( specialRequest.equals( "newStatusMsgs" ) )
+				sendNewStatusMessages();
+			else if ( specialRequest.equals( "submitCmd" ) )
+				sumbitCmd();
+			else if ( specialRequest.equals( "fw_menu.js" ) )
+				sendSharedFile( "fw_menu.js" );
+			else
+			{
+				sendNotFound();
+				return;
+			}
+			postProcessSpecialRequest();			
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
+		finally
+		{
+			//TODO: make sure we have something to send to the browser
+		}
 	}
 }

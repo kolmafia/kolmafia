@@ -238,20 +238,21 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !message.equals( "" ) )
 			logStream.println( message );
 
+		StringBuffer colorBuffer = new StringBuffer();
+		if ( state == ERROR_STATE || state == ABORT_STATE )
+			colorBuffer.append( "<font color=red>" );
+		else
+			colorBuffer.append( "<font color=black>" );
+
+		colorBuffer.append( message.indexOf( LINE_BREAK ) != -1 ? ("<pre>" + message + "</pre>") : message );
+		colorBuffer.append( "</font><br>" );
+		colorBuffer.append( LINE_BREAK );
+
+		if ( !message.equals( "" ) )
+			relayServer.addStatusMessage( colorBuffer.toString() );
+
 		if ( commandBuffer != null && !message.equals( "" ) )
-		{
-			StringBuffer colorBuffer = new StringBuffer();
-			if ( state == ERROR_STATE || state == ABORT_STATE )
-				colorBuffer.append( "<font color=red>" );
-			else
-				colorBuffer.append( "<font color=black>" );
-
-			colorBuffer.append( message.indexOf( LINE_BREAK ) != -1 ? ("<pre>" + message + "</pre>") : message );
-			colorBuffer.append( "</font><br>" );
-			colorBuffer.append( LINE_BREAK );
-
 			commandBuffer.append( colorBuffer.toString() );
-		}
 
 		// Next, update all of the panels with the
 		// desired update message.
