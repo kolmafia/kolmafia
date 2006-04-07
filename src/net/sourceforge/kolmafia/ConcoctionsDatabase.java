@@ -318,6 +318,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// concoction will use ADVs.
 
 		concoctions.get(0).total = KoLCharacter.getAdventuresLeft();
+		calculateMeatCombines( availableIngredients );
 
 		// Ice-cold beer and ketchup are special instances -- for the
 		// purposes of calculation, we assume that they will use the
@@ -393,6 +394,24 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 	}
 
+	private static void calculateMeatCombines( List availableIngredients )
+	{
+		// Meat paste and meat stacks can be created directly
+		// and are dependent upon the amount of meat available.
+
+		concoctions.get( PASTE.getItemID() ).initial = PASTE.getCount( availableIngredients );
+		concoctions.get( PASTE.getItemID() ).creatable = KoLCharacter.getAvailableMeat() / 10;
+		concoctions.get( PASTE.getItemID() ).total = concoctions.get( PASTE.getItemID() ).initial + concoctions.get( PASTE.getItemID() ).creatable;
+
+		concoctions.get( STACK.getItemID() ).initial = STACK.getCount( availableIngredients );
+		concoctions.get( STACK.getItemID() ).creatable = KoLCharacter.getAvailableMeat() / 100;
+		concoctions.get( STACK.getItemID() ).total = concoctions.get( STACK.getItemID() ).initial + concoctions.get( STACK.getItemID() ).creatable;
+
+		concoctions.get( DENSE.getItemID() ).initial = DENSE.getCount( availableIngredients );
+		concoctions.get( DENSE.getItemID() ).creatable = KoLCharacter.getAvailableMeat() / 1000;
+		concoctions.get( DENSE.getItemID() ).total = concoctions.get( DENSE.getItemID() ).initial + concoctions.get( DENSE.getItemID() ).creatable;
+	}
+	
 	/**
 	 * Utility method used to cache the current permissions on
 	 * item creation, based on the given client.
@@ -400,26 +419,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static void cachePermitted( List availableIngredients )
 	{
-		// Next, meat paste and meat stacks can be created directly
-		// and are dependent upon the amount of meat available.
-		// This should also be calculated to allow for meat stack
-		// recipes to be calculated.
-
-		concoctions.get( ItemCreationRequest.MEAT_PASTE ).creatable = KoLCharacter.getAvailableMeat() / 10;
-		concoctions.get( ItemCreationRequest.MEAT_PASTE ).total =
-			concoctions.get( ItemCreationRequest.MEAT_PASTE ).initial +
-				concoctions.get( ItemCreationRequest.MEAT_PASTE ).creatable;
-
-		concoctions.get( ItemCreationRequest.MEAT_STACK ).creatable = KoLCharacter.getAvailableMeat() / 100;
-		concoctions.get( ItemCreationRequest.MEAT_STACK ).total =
-			concoctions.get( ItemCreationRequest.MEAT_STACK ).initial +
-				concoctions.get( ItemCreationRequest.MEAT_STACK ).creatable;
-
-		concoctions.get( ItemCreationRequest.DENSE_STACK ).creatable = KoLCharacter.getAvailableMeat() / 1000;
-		concoctions.get( ItemCreationRequest.DENSE_STACK ).total =
-			concoctions.get( ItemCreationRequest.DENSE_STACK ).initial +
-				concoctions.get( ItemCreationRequest.DENSE_STACK ).creatable;
-
+		calculateMeatCombines( availableIngredients );
+		
 		// It is never possible to create items which are flagged
 		// NOCREATE, and it is always possible to create items
 		// through meat paste combination.

@@ -1015,7 +1015,13 @@ public class KoLRequest implements Runnable, KoLConstants
 		// that beaten up is added to the effects.
 
 		if ( previousHP != 0 && KoLCharacter.getCurrentHP() == 0 )
-			client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
+		{
+			// Wild hare is exempt from beaten up status if you
+			// are beaten up in the middle of a battle.
+			
+			if ( !formURLString.equals( "fight.php" ) || KoLCharacter.getFamiliar().getID() != 50 )
+				client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
+		}
 
 		if ( getAdventuresUsed() > 0 )
 			client.processResult( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
