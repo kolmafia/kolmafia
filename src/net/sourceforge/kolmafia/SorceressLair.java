@@ -1463,7 +1463,7 @@ public abstract class SorceressLair extends StaticEntity
 			if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )
 				return;
 		}
-			
+
 		// We're good to go. Fight!
 		familiarBattle( n );
 	}
