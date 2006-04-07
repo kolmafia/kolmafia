@@ -314,7 +314,7 @@ public class LoginFrame extends KoLFrame
 
 				scriptField.setText( GLOBAL_SETTINGS.getProperty( "loginScript." + currentMatch.toLowerCase() ) );
 				String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + currentMatch.toLowerCase() );
-				isBreakfastEnabled = !lastBreakfast.equals( todayString );
+				isBreakfastEnabled = lastBreakfast == null || !lastBreakfast.equals( todayString );
 				LoginPanel.this.setEnabled( true );
 			}
 
