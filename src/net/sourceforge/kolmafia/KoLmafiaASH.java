@@ -1539,6 +1539,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
 		result.addFunction( new ScriptExistingFunction( "int_to_item", new ScriptType( TYPE_ITEM ), params ) );
 
+		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
+		result.addFunction( new ScriptExistingFunction( "item_to_int", new ScriptType( TYPE_INT ), params ) );
+
 		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
 		result.addFunction( new ScriptExistingFunction( "wait", new ScriptType( TYPE_VOID ), params ) );
 
@@ -2161,11 +2164,11 @@ public class KoLmafiaASH extends StaticEntity
 				return new ScriptValue( TYPE_BOOLEAN, 0 );
 			}
 
-			if ( name.endsWith( "_to_string" ) )
-				return variables[0].toStringValue();
-
 			if ( name.equalsIgnoreCase( "int_to_item" ) )
 				return new ScriptValue( TYPE_ITEM, variables[0].intValue() );
+
+			if ( name.equalsIgnoreCase( "item_to_int" ) )
+				return new ScriptValue( TYPE_INT, variables[0].intValue() );
 
 			if ( name.equalsIgnoreCase( "wait" ) )
 			{
@@ -2232,6 +2235,9 @@ public class KoLmafiaASH extends StaticEntity
 				AdventureDatabase.retrieveItem( new AdventureResult( variables[1].intValue(), variables[0].intValue() ) );
 				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 			}
+
+			if ( name.toLowerCase().endsWith( "_to_string" ) )
+				return variables[0].toStringValue();
 
 			throw new RuntimeException( "Internal error: unknown library function " + name );
 		}
