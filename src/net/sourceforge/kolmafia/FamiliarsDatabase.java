@@ -231,7 +231,7 @@ public class FamiliarsDatabase extends KoLDatabase
 	public static ImageIcon getFamiliarImage( int familiarID )
 	{
 		downloadFamiliarImage( familiarID );
-		return JComponentUtilities.getSharedImage( getFamiliarImageLocation( familiarID ) );
+		return JComponentUtilities.getImage( getFamiliarImageLocation( familiarID ) );
 	}
 
 	public static ImageIcon getFamiliarImage( String name )

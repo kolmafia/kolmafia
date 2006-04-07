@@ -555,7 +555,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	{
 		public ToggleDebugMenuItem()
 		{
-			super( JComponentUtilities.getSharedImage( "debug.gif" ) );
+			super( JComponentUtilities.getImage( "debug.gif" ) );
 			addActionListener( this );
 			setText( KoLmafia.getLogStream() instanceof NullStream ? "Begin recording debug..." : "Stop recording debug" );
 		}
@@ -579,7 +579,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	{
 		public ToggleMacroMenuItem()
 		{
-			super( JComponentUtilities.getSharedImage( "command.gif" ) );
+			super( JComponentUtilities.getImage( "command.gif" ) );
 			addActionListener( this );
 			setText( KoLmafia.getMacroStream() instanceof NullStream ? "Begin recording script..." : "Stop recording script" );
 		}
@@ -821,7 +821,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		public VersionDataPanel()
 		{
 			JPanel versionPanel = new JPanel( new BorderLayout( 20, 20 ) );
-			versionPanel.add( new JLabel( JComponentUtilities.getSharedImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.NORTH );
+			versionPanel.add( new JLabel( JComponentUtilities.getImage( "penguin.gif" ), JLabel.CENTER ), BorderLayout.NORTH );
 
 			JPanel labelPanel = new JPanel( new GridLayout( versionData.length, 1 ) );
 			for ( int i = 0; i < versionData.length; ++i )
@@ -829,7 +829,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 			versionPanel.add( labelPanel, BorderLayout.CENTER );
 
-			JButton donateButton = new JButton( JComponentUtilities.getSharedImage( "paypal.gif" ) );
+			JButton donateButton = new JButton( JComponentUtilities.getImage( "paypal.gif" ) );
 			JComponentUtilities.setComponentSize( donateButton, 74, 31 );
 			donateButton.addActionListener( new DisplayPageMenuItem( "", "http://sourceforge.net/donate/index.php?user_id=813949" ) );
 

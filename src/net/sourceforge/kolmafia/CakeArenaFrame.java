@@ -200,7 +200,7 @@ public class CakeArenaFrame extends KoLFrame
 
 		public OpponentButton( int row, int column, Integer skill )
 		{
-			super( JComponentUtilities.getSharedImage( (skill == null ? "0" : skill.toString()) + "star.gif" ) );
+			super( JComponentUtilities.getImage( (skill == null ? "0" : skill.toString()) + "star.gif" ) );
 			addMouseListener( this );
 
 			this.row = row;
@@ -262,8 +262,8 @@ public class CakeArenaFrame extends KoLFrame
 				return currentFamiliar == null ? getStandardComponent( "NO DATA (0 lbs)" ) :
 					getStandardComponent( currentFamiliar.toString() );
 
-			return currentFamiliar == null ? new JLabel( JComponentUtilities.getSharedImage( "0star.gif" ) ) :
-				new JLabel( JComponentUtilities.getSharedImage( FamiliarsDatabase.getFamiliarSkill( currentFamiliar.getRace(), column ).toString() + "star.gif" ) );
+			return currentFamiliar == null ? new JLabel( JComponentUtilities.getImage( "0star.gif" ) ) :
+				new JLabel( JComponentUtilities.getImage( FamiliarsDatabase.getFamiliarSkill( currentFamiliar.getRace(), column ).toString() + "star.gif" ) );
 		}
 
 		private Component getStandardComponent( Object value )

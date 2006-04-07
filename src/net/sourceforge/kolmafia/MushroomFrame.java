@@ -238,9 +238,9 @@ public class MushroomFrame extends KoLFrame
 		{
 			for ( int j = 0; j < 4; ++j )
 			{
-				currentButtons[i][j].setIcon( JComponentUtilities.getSharedImage( currentData[ i * 4 + j ] ) );
-				layoutButtons[i][j].setIcon( JComponentUtilities.getSharedImage( layoutData[ i * 4 + j ] ) );
-				forecastButtons[i][j].setIcon( JComponentUtilities.getSharedImage( forecastData[ i * 4 + j ] ) );
+				currentButtons[i][j].setIcon( JComponentUtilities.getImage( currentData[ i * 4 + j ] ) );
+				layoutButtons[i][j].setIcon( JComponentUtilities.getImage( layoutData[ i * 4 + j ] ) );
+				forecastButtons[i][j].setIcon( JComponentUtilities.getImage( forecastData[ i * 4 + j ] ) );
 			}
 		}
 	}

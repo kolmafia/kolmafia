@@ -86,8 +86,6 @@ public abstract class KoLmafia implements KoLConstants
 		System.setProperty( "com.apple.mrj.application.growbox.intrudes", "false" );
 
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
-
-		System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" );
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 	}
 

@@ -103,7 +103,7 @@ public class LicenseDisplay extends javax.swing.JFrame
 			case DATA_FILE:
 			{
 				licenseDisplay = new JEditorPane();
-				java.io.BufferedReader buf = DataUtilities.getReader( "", "licenses", fileNames[index] );
+				java.io.BufferedReader buf = DataUtilities.getReader( "licenses", fileNames[index] );
 
 				// in the event that the license display could not be found, return a blank
 				// label indicating that the license could not be found
@@ -140,7 +140,7 @@ public class LicenseDisplay extends javax.swing.JFrame
 			{
 				try
 				{
-					javax.swing.ImageIcon licenseImage = JComponentUtilities.getImage( "", "licenses", fileNames[index] );
+					javax.swing.ImageIcon licenseImage = JComponentUtilities.getImage( "licenses", fileNames[index] );
 					if ( licenseImage == null )
 						return getNoLicenseNotice();
 

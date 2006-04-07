@@ -47,8 +47,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class KoLDatabase extends StaticEntity
 {
-	static { System.setProperty( "SHARED_MODULE_DIRECTORY", "net/sourceforge/kolmafia/" ); };
-
 	protected static BufferedReader getReader( String file )
 	{
 		File override = new File( "data/" + file );
@@ -65,7 +63,7 @@ public class KoLDatabase extends StaticEntity
 			}
 		}
 
-		return DataUtilities.getReaderForSharedDataFile( file );
+		return DataUtilities.getReader( file );
 	}
 
 	protected static String [] readData( BufferedReader reader )

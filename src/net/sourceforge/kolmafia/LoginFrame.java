@@ -147,7 +147,7 @@ public class LoginFrame extends KoLFrame
 	{
 		JPanel imagePanel = new JPanel( new BorderLayout( 0, 0 ) );
 		imagePanel.add( new JLabel( " " ), BorderLayout.NORTH );
-		imagePanel.add( new JLabel( JComponentUtilities.getSharedImage( "lantern.jpg" ), JLabel.CENTER ), BorderLayout.SOUTH );
+		imagePanel.add( new JLabel( JComponentUtilities.getImage( "lantern.jpg" ), JLabel.CENTER ), BorderLayout.SOUTH );
 
 		JPanel containerPanel = new JPanel( new BorderLayout() );
 		containerPanel.add( imagePanel, BorderLayout.NORTH );
