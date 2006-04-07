@@ -64,7 +64,7 @@ import javax.swing.JEditorPane;
 import javax.swing.ImageIcon;
 
 // utilities
-import java.lang.Math;
+import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.TreeSet;
 import java.io.File;
@@ -892,6 +892,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	public static boolean buffFamiliar( int weight )
 	{
 		// Get current familiar. If none, punt.
+
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
@@ -899,53 +900,37 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return false;
 		}
 
-		// See if it's heavy enough right now
-		if ( familiar.getModifiedWeight() >= weight )
-			return true;
-
-		// Get the status of current familiar
 		FamiliarStatus status = new FamiliarStatus();
 
-		// Initially, allow buffs
-		boolean buffs = true;
+		int goal = 0;
 
-		// Try to buff and equip to reach goal
-		while ( true )
+		int [] weights = status.getWeights( false );
+		Arrays.sort( weights );
+		
+		boolean needBuffs = false;
+		for ( int i = 0; goal < weight && i < weights.length; ++i )
+			goal = Math.max( goal, weights[i] );
+
+		if ( goal < weight )
 		{
-			// Find possible weights
-			int [] weights = status.getWeights( buffs );
+			weights = status.getWeights( true );
+			Arrays.sort( weights );
 
-			// Examine list and see if it is possible
-			int goal = 0;
-			for (int i = 0; i < weights.length; ++i )
-			{
-				goal = weights[i];
-				if ( goal >= weight )
-					break;
-			}
-
-			// Punt if goal is not possible
-			if ( goal < weight )
-				break;
-
-			// Change into appropriate gear
-			status.changeGear( goal, buffs );
-
-			// See if we succeeded
-			if ( StaticEntity.getClient().permitsContinue() )
-				return true;
-
-			// If we failed using only equipment, punt.
-			if ( !buffs )
-				break;
-
-			// Perhaps we failed to cast a buff. Try again
-			// using nothing but equipment.
-			buffs = false;
+			needBuffs = true;
+			for ( int i = 0; goal < weight && i < weights.length; ++i )
+				goal = Math.max( goal, weights[i] );
 		}
 
-		DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
-		return false;
+		if ( goal >= weight )
+			status.changeGear( goal, needBuffs );
+
+		if ( familiar.getModifiedWeight() < weight )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
+			return false;
+		}
+		
+		return true;
 	}
 
 	private static void statusMessage( int state, String message )

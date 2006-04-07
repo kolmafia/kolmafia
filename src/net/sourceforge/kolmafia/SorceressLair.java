@@ -1451,22 +1451,19 @@ public abstract class SorceressLair extends StaticEntity
 
 		// If we can buff it to 20 pounds, try again.
 
-		if ( FamiliarTrainingFrame.buffFamiliar( 20 ) )
-		{
-			familiarBattle( n );
-			return;
-		}
-
-		// We can't buff it high enough. Train it.
-
-		if ( !FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false, false) )
-			return;
-
-		// We trained it. Equip and buff it.
-
 		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )
-			return;
+		{
+			// We can't buff it high enough. Train it.
 
+			if ( !FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false, false ) )
+				return;
+
+			// We trained it. Equip and buff it.
+
+			if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )
+				return;
+		}
+			
 		// We're good to go. Fight!
 		familiarBattle( n );
 	}

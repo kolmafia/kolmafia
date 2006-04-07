@@ -34,6 +34,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.SwingUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
 
@@ -165,5 +168,40 @@ public abstract class StaticEntity implements KoLConstants
 		}
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( RequestFrame.class, parameters ) );
+	}
+	
+	public static void externalUpdate( String location, String responseText )
+	{
+		// Keep the client updated of your current equipment and
+		// familiars, if you visit the appropriate pages.
+
+		if ( location.startsWith( "inventory.php?which=2" ) )
+			EquipmentRequest.parseEquipment( responseText );
+
+		if ( location.startsWith( "familiar.php" ) )
+			FamiliarData.registerFamiliarData( client, responseText );
+
+		if ( location.startsWith( "charsheet.php" ) )
+			CharsheetRequest.parseStatus( responseText );
+
+		// See if the person learned a new skill from using a
+		// mini-browser frame.
+
+		Matcher learnedMatcher = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" ).matcher( responseText );
+		if ( learnedMatcher.find() )
+		{
+			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
+			KoLCharacter.addDerivedSkills();
+		}
+
+		// Unfortunately, if you learn a new skill from Frank
+		// the Regnaissance Gnome at the Gnomish Gnomads
+		// Camp, it doesn't tell you the name of the skill.
+		// It simply says: "You leargn a new skill. Whee!"
+
+		if ( responseText.indexOf( "You leargn a new skill." ) != -1 )
+		     (new CharsheetRequest( client )).run();
+
+		KoLCharacter.refreshCalculatedLists();
 	}
 }

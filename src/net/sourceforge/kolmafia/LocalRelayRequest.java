@@ -52,10 +52,10 @@ public class LocalRelayRequest extends KoLRequest
 	{	return fullResponse;
 	}
 	
-	protected void processRawResponse()
+	protected void processRawResponse( String rawResponse )
 	{
-		super.processRawResponse();
-		fullResponse = responseText;
+		super.processRawResponse( rawResponse );
+		this.fullResponse = rawResponse;
 		
 		String urlString = getURLString();
 
@@ -115,9 +115,15 @@ public class LocalRelayRequest extends KoLRequest
 		}
 		
 		// Fix KoLmafia getting outdated by events happening
-		// in the browser.
+		// in the browser by using the sidepane.
 		
-		if ( urlString.indexOf( "charpane.php") != -1 )
-			CharpaneRequest.processCharacterPane( fullResponse );
+		else if ( urlString.indexOf( "charpane.php") != -1 )
+			CharpaneRequest.processCharacterPane( responseText );
+
+		// Fix it a little more by making sure that familiar
+		// changes and equipment changes are remembered.
+		
+		else
+			StaticEntity.externalUpdate( urlString, responseText );
 	}
 }
