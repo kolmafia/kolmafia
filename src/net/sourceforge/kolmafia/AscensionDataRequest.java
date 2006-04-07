@@ -40,15 +40,11 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.text.SimpleDateFormat;
-import java.lang.reflect.Array;
 
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
-
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileSystemView;
 
 public class AscensionDataRequest extends KoLRequest implements Comparable
 {
@@ -100,6 +96,77 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		responseText = responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" );
 		refreshFields();
 	}
+	
+	private String getBackupFileData()
+	{
+		File clan = new File( "clan" );
+		if ( !clan.exists() )
+			return "";
+		
+		File [] resultFolders = clan.listFiles();
+
+		File backupFile = null;
+		int bestMonth = 0, bestWeek = 0;
+		int currentMonth, currentWeek;
+
+		for ( int i = 0; i < resultFolders.length; ++i )
+		{
+			if ( !resultFolders[i].isDirectory() )
+				continue;
+
+			File [] ascensionFolders = resultFolders[i].listFiles();
+
+			for ( int j = 0; j < ascensionFolders.length; ++j )
+			{
+				if ( !ascensionFolders[j].getName().startsWith( "2005" ) )
+					continue;
+
+				currentMonth = Integer.parseInt( ascensionFolders[j].getName().substring( 4, 6 ) );
+				currentWeek = Integer.parseInt( ascensionFolders[j].getName().substring( 8, 9 ) );
+
+				boolean shouldReplace = false;
+
+				shouldReplace |= currentMonth > bestMonth;
+				shouldReplace |= currentMonth == bestMonth && currentWeek > bestWeek;
+				shouldReplace &= currentMonth == 9 || currentMonth == 10;
+				
+				if ( shouldReplace )
+				{
+					File checkFile = new File( ascensionFolders[j], "ascensions" + File.separator + playerID + ".htm");
+					if ( checkFile.exists() )
+					{
+						backupFile = checkFile;
+						bestMonth = currentMonth;
+						bestWeek = currentWeek;
+					}
+				}
+			}
+		}
+		
+		if ( backupFile == null )
+			return "";
+
+		try
+		{
+			BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( backupFile ) ) );
+			StringBuffer ascensionBuffer = new StringBuffer();
+			String currentLine;
+
+			while ( (currentLine = istream.readLine()) != null )
+			{
+				ascensionBuffer.append( currentLine );
+				ascensionBuffer.append( LINE_BREAK );
+			}
+
+			return ascensionBuffer.toString();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+			return "";
+		}
+	}
 
 	/**
 	 * Internal method used to refresh the fields of the profile
@@ -112,115 +179,37 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		ascensionData.clear();
 		Matcher fieldMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( responseText );
 
-		JFileChooser filechooser = new JFileChooser();
-		FileSystemView fileview = filechooser.getFileSystemView();
-		File dir = new File("clan" + File.separator);
-		File[] results = fileview.getFiles(dir, false);
-		File charFile = null;
-		File bestFile = null;
-		int bestMonth = 0;
-		int bestWeek = 0;
-		int currentMonth;
-		int currentWeek;
-		StringBuffer ascensionString;
-
-		for(int i = 0; i < Array.getLength(results); i++)
-		{
-			if(!results[i].isDirectory())
-				continue;
-
-			File[] ascensionFolders = fileview.getFiles(results[i], false);
-
-			for(int j = 0; j < Array.getLength(ascensionFolders); j++)
-			{
-				if(!ascensionFolders[j].getName().substring(0,4).equals("2005"))
-					continue;
-				currentMonth = Integer.parseInt(ascensionFolders[j].getName().substring(4,6));
-				currentWeek = Integer.parseInt(ascensionFolders[j].getName().substring(8,9));
-				if(currentMonth < 9 || currentMonth > 10)
-					continue;
-				if(bestFile == null)
-					; //current file is best yet
-				else if(currentMonth > bestMonth)
-					; //current file is best yet
-				else if(currentMonth == bestMonth && currentWeek > bestWeek)
-					; //current file is best yet
-				else
-					continue; //current file is not as good as bestFile
-
-				bestFile = ascensionFolders[j];
-				bestMonth = currentMonth;
-				bestWeek = currentWeek;
-			}
-
-			if(bestFile != null)
-			{
-				//try to find own charID
-				charFile = new File(bestFile, "ascensions" + File.separator + "" + playerID + ".htm");
-				if(charFile.exists())
-					break;
-				else
-				{
-					charFile = null;
-					bestFile = null;
-					bestMonth = 0;
-					bestWeek = 0;
-				}
-			}
-		}
-
-
+		StringBuffer ascensionBuffer = new StringBuffer();
+		ascensionBuffer.append( getBackupFileData() );
 
 		int lastFindIndex = 0;
 		AscensionDataField lastField;
 
-
-		if(charFile != null)
+		if ( ascensionBuffer.length() != 0 )
 		{
-			try
-			{
-				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( charFile ) ) );
-				ascensionString = new StringBuffer();
-				String currentLine;
-
-				while ( (currentLine = istream.readLine()) != null )
-				{
-					ascensionString.append( currentLine );
-					ascensionString.append( LINE_BREAK );
-				}
-
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
-				return;
-			}
-
 			int oldFindIndex = 0;
 			boolean inconsistency = false;
 			boolean newDataAvailable = true;
 			String [] columnsNew = null;
 
-			Matcher oldDataMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( ascensionString );
-			if(!fieldMatcher.find( lastFindIndex ))
-				{
+			Matcher oldDataMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( ascensionBuffer );
+			if ( !fieldMatcher.find( lastFindIndex ) )
+			{
 				newDataAvailable = false;
-				}
+			}
 			else
-				{
+			{
 				lastFindIndex = fieldMatcher.end() - 5;
 				columnsNew = fieldMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
-				}
+			}
 
 			while ( oldDataMatcher.find( oldFindIndex ) )
 			{
 				oldFindIndex = oldDataMatcher.end() - 5;
 
 				String [] columnsOld = oldDataMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
-				if(!newDataAvailable)
-					{
+				if ( !newDataAvailable )
+				{
 					lastField = new AscensionDataField( playerName, playerID, columnsOld );
 					ascensionData.add( lastField );
 
@@ -228,21 +217,19 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 						++softcoreCount;
 					else
 						++hardcoreCount;
-					}
+				}
 
-				else if(columnsNew != null && columnsNew[0].equals(columnsOld[0]))
+				else if ( columnsNew != null && columnsNew[0].equals( columnsOld[0] ) )
 				{
-					if(!fieldMatcher.find( lastFindIndex ))
-						{
+					if ( !fieldMatcher.find( lastFindIndex ) )
+					{
 						newDataAvailable = false;
-						}
+					}
 					else
-						{
+					{
 						lastFindIndex = fieldMatcher.end() - 5;
 						columnsNew = fieldMatcher.group().replaceAll( "</tr><td>", "" ).replaceAll( "&nbsp;", "" ).replaceAll( " ", "" ).split( "(<.*?>)+" );
-						}
-
-
+					}
 
 					lastField = new AscensionDataField( playerName, playerID, columnsOld );
 					ascensionData.add( lastField );
@@ -264,32 +251,21 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 					try
 					{
-						//subtract columns[turns] from columnsNew[turns] [5]
-						//subtract columns[days] from columnsNew[days] [6]
+						// Subtract columns[turns] from columnsNew[turns];
+						// currently, this is [5]
+
 						inconsistency = true;
-						columnsNew[5] = Integer.toString(df.parse( columnsNew[5] ).intValue() - df.parse( columnsOld[5] ).intValue());
+						columnsNew[5] = String.valueOf( df.parse( columnsNew[5] ).intValue() - df.parse( columnsOld[5] ).intValue() );
 
-						//I'm not sure exactly what the day amount on multiple ascension runs added together means.
-						//It's not the exact difference between the dates + 1, but it doesn't seem to be exactly the ascension day counts
-						//added up.
-						//columnsNew[6] = Integer.toString(df.parse( columnsNew[6] ).intValue() - df.parse( columnsOld[6] ).intValue());
+						// Subtract columns[days] from columnsNew[days];
+						// currently, this is [6].  Ascensions count
+						// both first day and last day, so remember to
+						// add it back in.
 
+						long timeDifference = ASCEND_DATE_FORMAT.parse( columnsNew[1] ).getTime() -
+							ASCEND_DATE_FORMAT.parse( columnsOld[1] ).getTime();
 
-						//So let's just calculate the correct day count from the two dates
-						long oldDate = new java.util.GregorianCalendar(
-							Integer.parseInt(columnsOld[1].substring(6,8)) + 2000, //'05' stands for 2005.
-							Integer.parseInt(columnsOld[1].substring(0,2)) - 1, //month is 0 based - ie 0 for January
-							Integer.parseInt(columnsOld[1].substring(3,5))
-							).getTime().getTime();
-						long newDate = new java.util.GregorianCalendar(
-							Integer.parseInt(columnsNew[1].substring(6,8)) + 2000,
-							Integer.parseInt(columnsNew[1].substring(0,2)) - 1,
-							Integer.parseInt(columnsNew[1].substring(3,5))
-							).getTime().getTime();
-						double difference = newDate - oldDate;
-						int days = (int)(Math.round((difference/(1000*60*60*24))));
-						days++;	//Ascensions count both first day and last day
-						columnsNew[6] = Integer.toString(days);
+						columnsNew[6] = String.valueOf( (int) Math.round( timeDifference / 86400000l ) + 1 );
 					}
 					catch ( Exception e )
 					{
@@ -300,20 +276,9 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 						e.printStackTrace();
 					}
 				}
-				/*
-				lastField = new AscensionDataField( playerName, playerID, columns );
-				ascensionData.add( lastField );
-
-				if ( lastField.isSoftcore )
-					++softcoreCount;
-				else
-					++hardcoreCount;
-				*/
 			}
-			if(inconsistency)
+			if ( inconsistency )
 			{
-
-
 				lastField = new AscensionDataField( playerName, playerID, columnsNew );
 				ascensionData.add( lastField );
 
@@ -323,12 +288,8 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 					++hardcoreCount;
 
 				lastFindIndex = fieldMatcher.end() - 5;
-
 			}
-
-
 		}
-
 
 		while ( fieldMatcher.find( lastFindIndex ) )
 		{
@@ -344,7 +305,6 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			else
 				++hardcoreCount;
 		}
-
 	}
 
 	/**
