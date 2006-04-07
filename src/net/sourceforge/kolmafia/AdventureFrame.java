@@ -341,6 +341,8 @@ public class AdventureFrame extends KoLFrame
 							DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No outfit corresponds to this zone." );
 							return;
 						}
+
+						verifyConditions = true;
 					}
 					else if ( conditions[i].equals( "or" ) || conditions[i].equals( "and" ) || conditions[i].startsWith( "conjunction" ) || conditions[i].startsWith( "disjunction" ) )
 					{
