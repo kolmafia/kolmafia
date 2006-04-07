@@ -182,6 +182,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static final int ACCESSORY2 = 6;
 	public static final int ACCESSORY3 = 7;
 	public static final int FAMILIAR = 8;
+	public static final int FAKEHAND = 9;
 
 	// Ascension sign constants
 
@@ -205,6 +206,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int [] totalSubpoints = new int[3];
 
 	private static LockableListModel equipment = new LockableListModel();
+	private static int fakeHands = 0;
 	private static LockableListModel customOutfits = new LockableListModel();
 	private static LockableListModel outfits = new LockableListModel();
 
@@ -308,6 +310,7 @@ public abstract class KoLCharacter extends StaticEntity
 		equipment.clear();
 		for ( int i = 0; i < 8; ++i )
 			equipment.add( EquipmentRequest.UNEQUIP );
+		fakeHands = 0;
 
 		customOutfits.clear();
 		outfits.clear();
@@ -955,6 +958,14 @@ public abstract class KoLCharacter extends StaticEntity
 			return getFamiliarItem();
 
 		return EquipmentRequest.UNEQUIP;
+	}
+
+	public static int getFakeHands()
+	{	return fakeHands;
+	}
+
+	public static void setFakeHands( int hands )
+	{	fakeHands = hands;
 	}
 
 	/**

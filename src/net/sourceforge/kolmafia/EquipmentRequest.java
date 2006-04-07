@@ -68,15 +68,17 @@ public class EquipmentRequest extends PasswordHashRequest
 	public static final String [] slotNames =
 	{
 		"hat", "weapon", "off-hand", "shirt", "pants",
-		"acc1", "acc2", "acc3", "familiar"
+		"acc1", "acc2", "acc3", "familiar", "fakehand"
 	};
 
         // These are the names used in the PHP file
 	public static final String [] phpSlotNames =
 	{
 		"hat", "weapon", "offhand", "shirt", "pants",
-		"acc1", "acc2", "acc3", "familiarequip"
+		"acc1", "acc2", "acc3", "familiarequip", "fakehand"
 	};
+
+	private static final int FAKE_HAND = 1511;
 
 	private int requestType;
 	private int equipmentSlot;
@@ -372,7 +374,8 @@ public class EquipmentRequest extends PasswordHashRequest
 				break;
 
 			case REMOVE_ITEM:
-				DEFAULT_SHELL.updateDisplay( "Taking off " + KoLCharacter.getCurrentEquipmentName( equipmentSlot) + "..." );
+				String item = ( equipmentSlot == KoLCharacter.FAKEHAND ) ? "fake hand" : KoLCharacter.getCurrentEquipmentName( equipmentSlot);
+				DEFAULT_SHELL.updateDisplay( "Taking off " + item + "..." );
 				break;
 
 			case UNEQUIP_ALL:
@@ -411,6 +414,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			else
 			{
 				String [] oldEquipment = new String[9];
+				int oldFakeHands = KoLCharacter.getFakeHands();
 
 				// Ensure that the inventory stays up-to-date by
 				// switching items around, as needed.
@@ -422,6 +426,11 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				for ( int i = 0; i < 9; ++i )
 					switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
+
+				// Adjust inventory of fake hands
+				int newFakeHands = KoLCharacter.getFakeHands();
+				if ( oldFakeHands != newFakeHands )
+					AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, oldFakeHands - newFakeHands ) );
 
 				CharpaneRequest.getInstance().run();
 				KoLCharacter.updateStatus();
@@ -539,10 +548,11 @@ public class EquipmentRequest extends PasswordHashRequest
 	public static void parseEquipment( String responseText )
 	{
 		String [] equipment = new String[9];
-		Matcher equipmentMatcher;
-
 		for ( int i = 0; i < equipment.length; ++i )
 			equipment[i] = UNEQUIP;
+		int fakeHands = 0;
+
+		Matcher equipmentMatcher;
 
 		if ( responseText.indexOf( "unequip&type=hat") != -1 )
 		{
@@ -566,7 +576,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=offhand") != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Off-Hand:</td>.*?<b>(.*?)</b>.*unequip&type=offhand" ).matcher( responseText );
+			equipmentMatcher = Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b>[^>]*unequip&type=offhand" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.OFFHAND ] = equipmentMatcher.group(1);
@@ -635,12 +645,20 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 		}
 
+		int index = 0;
+		while ( ( index = responseText.indexOf( "unequip&type=fakehand", index) ) != -1 )
+		{
+			++fakeHands;
+			index += 21;
+		}
+
 		Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( responseText );
 
 		LockableListModel outfits = outfitsMatcher.find() ?
 			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
 
 		KoLCharacter.setEquipment( equipment, outfits );
+		KoLCharacter.setFakeHands( fakeHands );
 	}
 
 	public String getCommandForm( int iterations )
