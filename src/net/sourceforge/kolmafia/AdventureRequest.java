@@ -185,7 +185,17 @@ public class AdventureRequest extends KoLRequest
 		if ( encounterMatcher.find() )
 			client.registerEncounter( encounterMatcher.group(1) );
 
-		// Certain one-time adventures do not cost a turn.
+		// If you haven't unlocked the orc chasm yet,
+		// try doing so now.
+
+		if ( adventureID.equals( "80" ) && responseText.indexOf( "You shouldn't be here." ) != -1 )
+		{
+			(new AdventureRequest( client, "mountains.php", "" )).run();
+			if ( client.permitsContinue() )
+				this.run();
+
+			return;
+		}
 
 		// We're missing an item, haven't been given a quest yet, or otherwise
 		// trying to go somewhere not allowed.
@@ -196,32 +206,6 @@ public class AdventureRequest extends KoLRequest
 			return;
 		}
 
-		// If we gained nothing, assume adventure didn't take place.
-
-		if ( !formSource.equals( "dungeons.php" ) && responseText.indexOf( "You lose" ) == -1 && responseText.indexOf( "You acquire" ) == -1 && responseText.indexOf( "You gain" ) == -1 )
-		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No results detected." );
-			return;
-		}
-
-		// If you're at the casino, each of the different slot
-		// machines deducts meat from your tally
-
-		if ( formSource.equals( "casino.php" ) )
-		{
-			if ( adventureID.equals( "1" ) )
-				client.processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
-			else if ( adventureID.equals( "2" ) )
-				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
-			else if ( adventureID.equals( "11" ) )
-				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
-		}
-
-		if ( adventureID.equals( "70" ) )
-			client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
-		else if ( adventureID.equals( "71" ) )
-			client.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
-
 		// This is a server error. Hope for the
 		// best and repeat the request.
 
@@ -229,18 +213,6 @@ public class AdventureRequest extends KoLRequest
 		{
 			DEFAULT_SHELL.updateDisplay( "Server error.  Repeating request..." );
 			this.run();
-			return;
-		}
-
-		// If you haven't unlocked the orc chasm yet,
-		// try doing so now.
-
-		if ( adventureID.equals( "80" ) && responseText.indexOf( "You shouldn't be here." ) != -1 )
-		{
-			(new AdventureRequest( client, "mountains.php", "" )).run();
-			if ( client.permitsContinue() )
-				this.run();
-
 			return;
 		}
 
@@ -302,7 +274,7 @@ public class AdventureRequest extends KoLRequest
 
 			if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( "You can now cross the Orc Chasm." );
+				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You can now cross the Orc Chasm." );
 				client.processResult( BRIDGE );
 				return;
 			}
@@ -325,7 +297,8 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( CANDLES );
 				client.processResult( BUTTERKNIFE );
 
-				DEFAULT_SHELL.updateDisplay( "Taint cleansed." );
+				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Taint cleansed." );
+				return;
 			}
 			else
 			{
@@ -337,6 +310,32 @@ public class AdventureRequest extends KoLRequest
 				return;
 			}
 		}
+
+		// If we gained nothing, assume adventure didn't take place.
+
+		if ( !formSource.equals( "dungeons.php" ) && responseText.indexOf( "You lose" ) == -1 && responseText.indexOf( "You acquire" ) == -1 && responseText.indexOf( "You gain" ) == -1 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No results detected." );
+			return;
+		}
+
+		// If you're at the casino, each of the different slot
+		// machines deducts meat from your tally
+
+		if ( formSource.equals( "casino.php" ) )
+		{
+			if ( adventureID.equals( "1" ) )
+				client.processResult( new AdventureResult( AdventureResult.MEAT, -5 ) );
+			else if ( adventureID.equals( "2" ) )
+				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+			else if ( adventureID.equals( "11" ) )
+				client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+		}
+
+		if ( adventureID.equals( "70" ) )
+			client.processResult( new AdventureResult( AdventureResult.MEAT, -10 ) );
+		else if ( adventureID.equals( "71" ) )
+			client.processResult( new AdventureResult( AdventureResult.MEAT, -30 ) );
 
 		// Shore Trips cost 500 meat each; handle
 		// the processing here.
