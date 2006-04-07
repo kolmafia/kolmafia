@@ -436,6 +436,12 @@ public class KoLRequest implements Runnable, KoLConstants
 	
 	public void execute()
 	{
+		// If you're about to fight the Naughty Sorceress,
+		// clear your list of effects.
+		
+		if ( getURLString().equals( "lair6.php?place=5") )
+			KoLCharacter.getEffects().clear();
+		
 		// You are allowed a maximum of four attempts
 		// to run the request.  This prevents KoLmafia
 		// from spamming the servers.
@@ -738,22 +744,15 @@ public class KoLRequest implements Runnable, KoLConstants
 					// notified that they should try again later.
 
 					DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Nightly maintenance." );
-
-					if ( !(this instanceof LoginRequest) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
-					{
-						client.executeTimeInRequest();
-						return false;
-					}
-					else
-					{
-						shouldStop = true;
-					}
+					shouldStop = true;
 				}
 				else if ( redirectLocation.startsWith( "login.php" ) )
 				{
 					DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Session timed out." );
 
 					if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
+						client.executeTimeInRequest();
+					else if ( this instanceof LocalRelayRequest )
 						client.executeTimeInRequest();
 					else
 						shouldStop = true;
@@ -896,11 +895,11 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	/**
-	 * processRawResponse method allows classes to process raw, unfiltered 
-	 * server response.  For the durration of this call, responseText 
+	 * This method allows classes to process a raw, unfiltered 
+	 * server response.  For the duration of this call, responseText 
 	 * will point to unfiltered HTML which contains Javascript.
 	 * If a sub class overrides this function, it should always call 
-	 * super.processRawData()
+	 * <code>super.processRawResponse()</code>
 	 */
 	protected void processRawResponse()
 	{	statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && responseText.indexOf( "charpane.php" ) != -1;
