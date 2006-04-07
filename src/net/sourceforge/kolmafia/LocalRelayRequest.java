@@ -230,8 +230,6 @@ public class LocalRelayRequest extends KoLRequest
 				sendNewStatusMessages();
 			else if ( specialRequest.equals( "submitCmd" ) )
 				sumbitCmd();
-			else if ( specialRequest.equals( "fw_menu.js" ) )
-				sendSharedFile( "fw_menu.js" );
 			else
 			{
 				sendNotFound();
@@ -246,7 +244,8 @@ public class LocalRelayRequest extends KoLRequest
 		}
 		finally
 		{
-			//TODO: make sure we have something to send to the browser
+			if ( headers.isEmpty() )
+				sendNotFound();
 		}
 	}
 }
