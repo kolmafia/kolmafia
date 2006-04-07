@@ -303,6 +303,7 @@ public class CharsheetRequest extends KoLRequest
 			String [] equipment = new String[8];
 			for ( int i = 0; i < 8; ++i )
 				equipment[i] = EquipmentRequest.UNEQUIP;
+			int fakeHands = 0;
 
 			Matcher equipmentMatcher = Pattern.compile( "<b>Equipment.*?<table>(.*?)</table>" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
@@ -327,7 +328,10 @@ public class CharsheetRequest extends KoLRequest
 							break;
 
 						case ConsumeItemRequest.EQUIP_OFFHAND:
-							equipment[ KoLCharacter.OFFHAND ] = currentItem;
+							if ( currentItem.equals( "fake hand" ) )
+								fakeHands++;
+							else
+								equipment[ KoLCharacter.OFFHAND ] = currentItem;
 							break;
 
 						case ConsumeItemRequest.EQUIP_SHIRT:
@@ -351,6 +355,7 @@ public class CharsheetRequest extends KoLRequest
 			}
 
 			KoLCharacter.setEquipment( equipment, null );
+			KoLCharacter.setFakeHands( fakeHands );
 
 			// Parsing of the KoLCharacter sheet is now complete.
 			// Report this to the log stream and return.

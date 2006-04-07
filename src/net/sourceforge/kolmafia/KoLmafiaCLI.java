@@ -2129,10 +2129,20 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
+		parameters = parameters.toLowerCase();
+
+		// Allow player to remove all of his fake hands
+		if ( parameters.equals( "fake hand" ) )
+		{
+			if ( KoLCharacter.getFakeHands() == 0 )
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're not wearing any fake hands" );
+			else
+				StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, KoLCharacter.FAKEHAND ), 1 );
+			return;
+		}
+
 		// The following loop removes the first item with
 		// the specified name.
-
-		parameters = parameters.toLowerCase();
 
 		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 		{
@@ -2256,6 +2266,9 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			printLine( "Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
 			printLine( "Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
+			int fakeHands = KoLCharacter.getFakeHands();
+			for ( int i = 0; i < fakeHands; ++i )
+				printLine( "Off-hand: fake hand" );
 			printLine( "Off-hand: " + KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
 			printLine( "Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
 			printLine( "Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
