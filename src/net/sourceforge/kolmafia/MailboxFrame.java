@@ -327,7 +327,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	{
 		public SaveAllButton()
 		{
-			super( JComponentUtilities.getSharedImage( "saveall.gif" ) );
+			super( JComponentUtilities.getImage( "saveall.gif" ) );
 			addActionListener( this );
 			setToolTipText( "Save All" );
 		}
@@ -358,7 +358,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	{
 		public DeleteButton()
 		{
-			super( JComponentUtilities.getSharedImage( "delete.gif" ) );
+			super( JComponentUtilities.getImage( "delete.gif" ) );
 			addActionListener( this );
 			setToolTipText( "Delete" );
 		}
@@ -388,7 +388,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	{
 		public RefreshButton()
 		{
-			super( JComponentUtilities.getSharedImage( "refresh.gif" ) );
+			super( JComponentUtilities.getImage( "refresh.gif" ) );
 			addActionListener( this );
 			setToolTipText( "Refresh" );
 		}

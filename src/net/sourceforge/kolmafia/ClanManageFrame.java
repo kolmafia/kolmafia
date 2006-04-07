@@ -548,7 +548,7 @@ public class ClanManageFrame extends KoLFrame
 
 		public SelectAllForBootButton()
 		{
-			super( JComponentUtilities.getSharedImage( "preferences.gif" ) );
+			super( JComponentUtilities.getImage( "preferences.gif" ) );
 			addActionListener( this );
 			setToolTipText( "Boot" );
 			shouldSelect = true;
@@ -625,7 +625,7 @@ public class ClanManageFrame extends KoLFrame
 
 			clanKarma = new JLabel( df.format( value.getKarma() ), JLabel.LEFT );
 
-			JButton profileButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
+			JButton profileButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
 			profileButton.addActionListener( new ShowProfileListener() );
 
 			JComponentUtilities.setComponentSize( profileButton, 20, 20 );

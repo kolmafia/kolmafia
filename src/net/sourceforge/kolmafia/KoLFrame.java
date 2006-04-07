@@ -313,7 +313,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			if ( id == -1 )
 			{
-				familiarLabel.setIcon( JComponentUtilities.getSharedImage( "debug.gif" ) );
+				familiarLabel.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
 				familiarLabel.setText( "0 lbs." );
 				familiarLabel.setVerticalTextPosition( JLabel.BOTTOM );
 				familiarLabel.setHorizontalTextPosition( JLabel.CENTER );
@@ -410,14 +410,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			JPanel compactPane = new JPanel( new GridLayout( 7, 1, 0, 20 ) );
 			compactPane.setOpaque( false );
 
-			compactPane.add( hpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ) );
-			compactPane.add( mpLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ) );
+			compactPane.add( hpLabel = new JLabel( " ", JComponentUtilities.getImage( "hp.gif" ), JLabel.CENTER ) );
+			compactPane.add( mpLabel = new JLabel( " ", JComponentUtilities.getImage( "mp.gif" ), JLabel.CENTER ) );
 
 			compactPane.add( familiarLabel = new UnanimatedLabel() );
 
-			compactPane.add( meatLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "meat.gif" ), JLabel.CENTER ) );
-			compactPane.add( advLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "hourglass.gif" ), JLabel.CENTER ) );
-			compactPane.add( drunkLabel = new JLabel( " ", JComponentUtilities.getSharedImage( "sixpack.gif" ), JLabel.CENTER) );
+			compactPane.add( meatLabel = new JLabel( " ", JComponentUtilities.getImage( "meat.gif" ), JLabel.CENTER ) );
+			compactPane.add( advLabel = new JLabel( " ", JComponentUtilities.getImage( "hourglass.gif" ), JLabel.CENTER ) );
+			compactPane.add( drunkLabel = new JLabel( " ", JComponentUtilities.getImage( "sixpack.gif" ), JLabel.CENTER) );
 
 			compactPane.add( Box.createHorizontalStrut( 80 ) );
 
@@ -677,7 +677,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public DisplayFrameButton( String tooltip, String icon, Class frameClass )
 		{
-			super( JComponentUtilities.getSharedImage( icon ) );
+			super( JComponentUtilities.getImage( icon ) );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
 			setToolTipText( tooltip );
 
@@ -728,7 +728,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public InvocationButton( String tooltip, String icon, Class c, String methodName )
 		{
-			super( JComponentUtilities.getSharedImage( icon ) );
+			super( JComponentUtilities.getImage( icon ) );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
 
 			this.object = c;
@@ -781,7 +781,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public KoLPanelFrameButton( String tooltip, String icon, ActionPanel panel )
 		{
-			super( JComponentUtilities.getSharedImage( icon ) );
+			super( JComponentUtilities.getImage( icon ) );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
 			setToolTipText( tooltip );
 			addActionListener( this );
@@ -812,7 +812,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public RequestButton( String title, String icon, KoLRequest request )
 		{
-			super( JComponentUtilities.getSharedImage( icon ) );
+			super( JComponentUtilities.getImage( icon ) );
 			setToolTipText( title );
 			this.request = request;
 			addActionListener( this );

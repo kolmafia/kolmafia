@@ -158,7 +158,7 @@ public class CharsheetFrame extends KoLFrame
 		levelPanel.add( levelMeter, BorderLayout.SOUTH );
 		imagePanel.add( levelPanel, BorderLayout.NORTH );
 
-		this.avatar = new JLabel( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) );
+		this.avatar = new JLabel( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
 		imagePanel.add( avatar, BorderLayout.CENTER );
 		imagePanel.add( new RequestButton( "Refresh Status", new CharsheetRequest( StaticEntity.getClient() ) ), BorderLayout.SOUTH );
 
@@ -241,11 +241,11 @@ public class CharsheetFrame extends KoLFrame
 		JComponentUtilities.setComponentSize( mpMeter, 60, 20 );
 
 		JPanel hpPanel = new JPanel( new BorderLayout( 5, 5 ) );
-		hpPanel.add( new JLabel( JComponentUtilities.getSharedImage( "hp.gif" ), JLabel.CENTER ), BorderLayout.CENTER );
+		hpPanel.add( new JLabel( JComponentUtilities.getImage( "hp.gif" ), JLabel.CENTER ), BorderLayout.CENTER );
 		hpPanel.add( hpMeter, BorderLayout.SOUTH );
 
 		JPanel mpPanel = new JPanel( new BorderLayout( 5, 5 ) );
-		mpPanel.add( new JLabel( JComponentUtilities.getSharedImage( "mp.gif" ), JLabel.CENTER ), BorderLayout.CENTER );
+		mpPanel.add( new JLabel( JComponentUtilities.getImage( "mp.gif" ), JLabel.CENTER ), BorderLayout.CENTER );
 		mpPanel.add( mpMeter, BorderLayout.SOUTH );
 
 		JPanel basicPanel = new JPanel();
@@ -312,7 +312,7 @@ public class CharsheetFrame extends KoLFrame
 					   df.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
 
 		// Set the current avatar
-		avatar.setIcon( JComponentUtilities.getSharedImage( KoLCharacter.getAvatar() ) );
+		avatar.setIcon( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
 	}
 
 	private class StatusRefreshRunnable implements Runnable

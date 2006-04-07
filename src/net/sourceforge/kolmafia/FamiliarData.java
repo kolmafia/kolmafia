@@ -364,7 +364,7 @@ public class FamiliarData implements KoLConstants, Comparable
 
 			if ( value == null || !(value instanceof FamiliarData) || ((FamiliarData)value).id == -1 )
 			{
-				defaultComponent.setIcon( JComponentUtilities.getSharedImage( "debug.gif" ) );
+				defaultComponent.setIcon( JComponentUtilities.getImage( "debug.gif" ) );
 				defaultComponent.setText( VERSION_NAME + ", the 0 lb. \"No Familiar Plz\" Placeholder" );
 
 				defaultComponent.setVerticalTextPosition( JLabel.CENTER );

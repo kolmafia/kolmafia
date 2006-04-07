@@ -211,8 +211,8 @@ public class RequestFrame extends KoLFrame
 			RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" );
 			RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" );
 
-			topMenu.add( new JLabel( JComponentUtilities.getSharedImage( "itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" ) ) );
-			topMenu.add( new JLabel( JComponentUtilities.getSharedImage( "itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) );
+			topMenu.add( new JLabel( JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getRonaldPhase() + ".gif" ) ) );
+			topMenu.add( new JLabel( JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) );
 
 			topMenu.add( Box.createHorizontalStrut( 20 ) );
 			topMenu.add( runBetweenBattleChecks = new JCheckBox( "Run between-battle scripts" ) );
@@ -515,7 +515,7 @@ public class RequestFrame extends KoLFrame
 	{
 		public HomeButton()
 		{
-			super( JComponentUtilities.getSharedImage( "home.gif" ) );
+			super( JComponentUtilities.getImage( "home.gif" ) );
 			addActionListener( this );
 		}
 
@@ -528,7 +528,7 @@ public class RequestFrame extends KoLFrame
 	{
 		public BackButton()
 		{
-			super( JComponentUtilities.getSharedImage( "back.gif" ) );
+			super( JComponentUtilities.getImage( "back.gif" ) );
 			addActionListener( this );
 		}
 
@@ -546,7 +546,7 @@ public class RequestFrame extends KoLFrame
 	{
 		public ForwardButton()
 		{
-			super( JComponentUtilities.getSharedImage( "forward.gif" ) );
+			super( JComponentUtilities.getImage( "forward.gif" ) );
 			addActionListener( this );
 		}
 
@@ -564,7 +564,7 @@ public class RequestFrame extends KoLFrame
 	{
 		public ReloadButton()
 		{
-			super( JComponentUtilities.getSharedImage( "reload.gif" ) );
+			super( JComponentUtilities.getImage( "reload.gif" ) );
 			addActionListener( this );
 		}
 

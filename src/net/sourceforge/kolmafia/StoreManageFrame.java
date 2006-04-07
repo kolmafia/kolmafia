@@ -293,11 +293,11 @@ public class StoreManageFrame extends KoLPanelFrame
 			itemQty = new JTextField( "" );
 			lowestPrice = new JLabel( "(unknown)", JLabel.CENTER );
 
-			addButton = new JButton( JComponentUtilities.getSharedImage( "icon_success_sml.gif" ) );
+			addButton = new JButton( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
 			addButton.addActionListener( new AddButtonListener() );
 			addButton.setToolTipText( "Add to Store" );
 
-			searchButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
+			searchButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
 			searchButton.addActionListener( new SearchButtonListener() );
 			searchButton.setToolTipText( "Price Analysis" );
 
@@ -424,11 +424,11 @@ public class StoreManageFrame extends KoLPanelFrame
 			lowestPrice = new JLabel( value.getLowest() == 0 ? "(unknown)" : df.format( value.getLowest() ), JLabel.CENTER );
 			itemLimit = new JTextField( df.format( value.getLimit() ) );
 
-			takeButton = new JButton( JComponentUtilities.getSharedImage( "icon_error_sml.gif" ) );
+			takeButton = new JButton( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
 			takeButton.addActionListener( new TakeButtonListener() );
 			takeButton.setToolTipText( "Remove Items" );
 
-			searchButton = new JButton( JComponentUtilities.getSharedImage( "icon_warning_sml.gif" ) );
+			searchButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
 			searchButton.addActionListener( new SearchButtonListener() );
 			searchButton.setToolTipText( "Price Analysis" );
 
