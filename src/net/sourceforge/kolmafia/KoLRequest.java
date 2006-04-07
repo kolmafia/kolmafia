@@ -87,7 +87,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private URL formURL;
 	private boolean followRedirects;
-	private String formURLString;
+	protected String formURLString;
 
 	private String sessionID;
 	private List data;
@@ -379,6 +379,30 @@ public class KoLRequest implements Runnable, KoLConstants
 		String [] tokens = fields.split( "(&)" );
 		for ( int i = 0; i < tokens.length; ++i )
 			addEncodedFormField( tokens[i] );
+	}
+
+	protected String getFormField( String key )
+	{
+		String [] elements = new String[ data.size() ];
+		data.toArray( elements );
+		for ( int i = 0; i < elements.length; ++i )
+		{
+			if( elements[i].indexOf( "=" ) == -1 )
+				continue;
+			String [] tokens = elements[i].split( "=" );
+			if( tokens[0].equals( key ) )
+			{
+				try
+				{
+					return URLDecoder.decode( tokens[1], "UTF-8" );
+				}
+				catch ( Exception e )
+				{
+					return tokens[1];
+				}
+			}
+		}
+		return null;
 	}
 
 	private String getDataString( boolean includeHash )
@@ -899,7 +923,10 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	protected void processRawResponse( String rawResponse )
-	{	statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && rawResponse.indexOf( "charpane.php" ) != -1;
+	{
+		statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && rawResponse.indexOf( "charpane.php" ) != -1;
+		if ( statusChanged )
+			LocalRelayServer.refreshCharPane( true );
 	}
 
 	/**
