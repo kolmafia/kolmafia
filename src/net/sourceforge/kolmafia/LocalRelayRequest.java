@@ -128,7 +128,7 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			fullResponse = fullResponse.replaceAll( "<script.*?></script>", "" );
 			fullResponse = fullResponse.replaceFirst( "<a href",
-				"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>NOTE: This text was added by KoLmafia; it is not actually possible to access this normally.</p><center><a href");
+				"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>NOTE: The graphical CLI will load in this frame to allow for manual adventuring.</p><center><a href");
 		}
 	}
 
@@ -146,18 +146,21 @@ public class LocalRelayRequest extends KoLRequest
 		return index >= headers.size() ? null : (String) headers.get( index );
 	}
 	
-	protected void pseudoResponse( String status, String data )
+	protected void pseudoResponse( String status, String fullResponse )
 	{
+		this.fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + KoLmafia.getRelayPort() );
+		if ( fullResponse.length() == 0 )
+			this.fullResponse = " ";
+		
 		headers.clear();
 		headers.add( status );
 		headers.add( "Date: " + ( new Date() ) );
 		headers.add( "Server: " + VERSION_NAME );
 		headers.add( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0" );
 		headers.add( "Pragma: no-cache" );
-		headers.add( "Content-Length: " + data.length() );
+		headers.add( "Content-Length: " + this.fullResponse.length() );
 		headers.add( "Connection: close" );
 		headers.add( "Content-Type: text/html; charset=UTF-8" );
-		fullResponse = data;
 	}	
 
 	protected void sendSharedFile( String filename ) throws IOException
@@ -188,8 +191,8 @@ public class LocalRelayRequest extends KoLRequest
 		if ( command == null )
 			return;
 
-		KoLmafia.getRelayServer().addStatusMessage( "<br><font color=olive> &gt; " + command + "</font><br><br>" );
 		DEFAULT_SHELL.executeLine( command );
+		client.enableDisplay();
 
 		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
@@ -218,18 +221,16 @@ public class LocalRelayRequest extends KoLRequest
 			
 			if ( specialRequest.equals( "submitCommand" ) )
 				submitCommand();
-			else if ( specialRequest.equals( "clearMessages" ) )
-				LocalRelayServer.getNewStatusMessages();
+			else if ( specialRequest.equals( "getNewMessages" ) )
+				pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 			else
 				sendSharedFile( specialRequest );
 
 			// Update the response text with the appropriate
 			// information on the relay port.
 
-			if ( fullResponse != null )
-				fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + KoLmafia.getRelayPort() );
-			else
-				fullResponse = "";
+			if ( fullResponse == null )
+				pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
 		catch ( Exception e )
 		{

@@ -48,7 +48,7 @@ import java.util.Vector;
 public class LocalRelayServer implements Runnable
 {
 	private static final byte [] NEW_LINE = {(byte)'\r', (byte)'\n' };
-	private static final int MAX_AGENT_THREADS = 5;
+	private static final int MAX_AGENT_THREADS = 9;
 	private static final int TIMEOUT = 5000;
 
 	protected static Vector agentThreads = new Vector();
