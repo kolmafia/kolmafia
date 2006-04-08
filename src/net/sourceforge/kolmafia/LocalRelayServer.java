@@ -59,7 +59,6 @@ public class LocalRelayServer implements Runnable
 	private boolean listening = false;
 
 	protected static Vector statusMessages = new Vector();
-	protected static boolean sendRefresh = false;
 
 	public int getPort()
 	{	return port;
@@ -132,20 +131,14 @@ public class LocalRelayServer implements Runnable
 		RelayAgent agent = null;
 		synchronized ( agentThreads )
 		{
-			if ( agentThreads.isEmpty() )
+			for ( int i = 0; i < agentThreads.size(); ++i )
 			{
-				if ( agents < MAX_AGENT_THREADS )
-					agents++;
-				
-				agent = new RelayAgent();
-				agent.setSocket( socket );
-				(new Thread( agent )).start();
-			}
-			else
-			{
-				agent = (RelayAgent) agentThreads.elementAt( 0 );
-				agentThreads.removeElementAt( 0 );
-				agent.setSocket( socket );
+				agent = (RelayAgent) agentThreads.elementAt(i);
+				if ( agent.isWaiting() )
+				{
+					agent.setSocket( socket );
+					return;
+				}
 			}
 		}
 	}
@@ -153,6 +146,17 @@ public class LocalRelayServer implements Runnable
 	public void runServer() throws Exception
 	{
 		serverSocket = new ServerSocket( port, 25, InetAddress.getByName( "127.0.0.1" ) );
+
+		// Initialize all the agent threads first
+		// to ensure every request is caught.
+
+		for ( int i = 0; i < MAX_AGENT_THREADS; ++i )
+		{
+			RelayAgent agent = new RelayAgent();
+			(new Thread( agent )).start();
+			agentThreads.add( agent );
+		}
+		
 		listening = true;
 		while ( listening )
 		{
@@ -167,46 +171,36 @@ public class LocalRelayServer implements Runnable
 		}
 	}
 
-	public static void refreshCharPane( boolean refresh )
-	{	sendRefresh = refresh;
-	}
-
-	public static boolean refreshPending()
-	{ return sendRefresh;
-	}	
-
 	public void addStatusMessage( String message )
 	{
 		synchronized ( statusMessages )
 		{
 			statusMessages.addElement( message );
-			while( statusMessages.size() > 100 )
-				statusMessages.removeElementAt( 0 );
 		}
 	}
 	
 	public static String getNewStatusMessages()
 	{
-		String messages = "";
+		StringBuffer messages = new StringBuffer();
 		synchronized ( statusMessages )
 		{
 			while ( !statusMessages.isEmpty() )
 			{
-				messages += (String) statusMessages.elementAt( 0 );
+				messages.append( (String) statusMessages.elementAt( 0 ) );
 				statusMessages.removeElementAt( 0 );
 			}
 		}
-		if ( sendRefresh )
-		{
-			messages += "<!--refresh-->";
-			sendRefresh = false;
-		}
-		return messages;
+
+		return messages.toString();
 	}	
 
 	private class RelayAgent implements Runnable 
 	{		
 		protected Socket socket = null;
+		
+		boolean isWaiting()
+		{	return socket == null;
+		}
 		
 		synchronized void setSocket( Socket socket )
 		{
@@ -236,15 +230,7 @@ public class LocalRelayServer implements Runnable
 				{	e.printStackTrace();
 				}
 				
-				// Jump back in the pool
 				socket = null;
-				synchronized ( agentThreads )
-				{
-					if ( agentThreads.size() < agents )
-						agentThreads.addElement( this );
-					else
-						return;
-				}
 			}
 		}
 		
