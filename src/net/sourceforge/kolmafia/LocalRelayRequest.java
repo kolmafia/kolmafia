@@ -200,8 +200,6 @@ public class LocalRelayRequest extends KoLRequest
 	
 	public void run()
 	{
-		System.out.println( formURLString );
-
 		if ( formURLString.indexOf( ".gif" ) != -1 )
 		{
 			sendNotFound();
