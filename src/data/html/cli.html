@@ -89,11 +89,20 @@ function initSizes()
 		document.getElementById( "CmdWindow" ).offsetHeight + 6;
 };
 
+var commands = new Array();
+var commandCount = 0;
+
 function checkForEnter( e )
 {
 	var key = window.event ? e.keyCode : e.which;
 	if ( key == 13 )
 		submitCommand();
+
+	if ( key == 38 && commandCount > 0 )
+		document.cmdform.cmd.value = commands[ --commandCount ];
+
+	if ( key == 40 && commandCount + 1 < commands.length )
+		document.cmdform.cmd.value = commands[ ++commandCount ];
 };
 
 function getHttpObject()
@@ -130,6 +139,9 @@ function submitCommand()
 
 	if ( command == "" )
 		return true;
+	
+	commandCount = commands.push( command ) + 1;
+	
 	if ( command == "clear" || command == "cls" )
 	{
 		wnd.innerHTML = "";
