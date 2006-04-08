@@ -480,6 +480,8 @@ public class AdventureFrame extends KoLFrame
 			castleWheelSelect.addItem( "Turn to muscle position" );
 			castleWheelSelect.addItem( "Turn to mysticality position" );
 			castleWheelSelect.addItem( "Turn to moxie position" );
+			castleWheelSelect.addItem( "Turn clockwise" );
+			castleWheelSelect.addItem( "Turn counterclockwise" );
 			castleWheelSelect.addItem( "Ignore this adventure" );
 
 			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 1 ];
@@ -513,8 +515,8 @@ public class AdventureFrame extends KoLFrame
 			// Moxie          +         Mysticality
 			//            Map Quest
 
-			// Option 1: Turn the wheel counterclockwise
-			// Option 2: Turn the wheel clockwise
+			// Option 1: Turn the wheel clockwise
+			// Option 2: Turn the wheel counterclockwise
 			// Option 3: Leave the wheel alone
 
 			switch ( castleWheelSelect.getSelectedIndex() )
@@ -547,7 +549,21 @@ public class AdventureFrame extends KoLFrame
 					setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
 					break;
 
-				case 4: // Ignore this adventure
+				case 4: // Turn the wheel clockwise
+					setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
+					setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
+					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
+					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
+					break;
+
+				case 5: // Turn the wheel counterclockwise
+					setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
+					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
+					setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
+					setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
+					break;
+
+				case 6: // Ignore this adventure
 					setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
 					setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
 					setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
@@ -563,53 +579,64 @@ public class AdventureFrame extends KoLFrame
 				optionSelects[i].setSelectedIndex( Integer.parseInt( getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) ) );
 
 			// Determine the desired wheel position by examining
-			// which choice adventure has the "3" value.  If none
-			// exists, assume the user wishes to turn it to the map
-			// quest.
+			// which choice adventure has the "3" value.
+			// If none are "3", may be clockwise or counterclockwise
+			// If they are all "3", leave wheel alone
 
-			// If they are all "3", user wants the wheel left alone
-
-			int option = 11;
-			int count = 0;
+			int [] counts = { 0, 0, 0, 0 };
+			int option3 = 11;
 			for ( int i = 9; i < 13; ++i )
-				if ( getProperty( "choiceAdventure" + i ).equals( "3" ) )
-				{
-					option = i;
-					count++;
-				}
-
-			switch ( count )
 			{
-				default:	// Bogus saved options
-				case 0:		// Map quest position
-					castleWheelSelect.setSelectedIndex(0);
-					break;
-
-				case 1:		// One chosen target
-					switch ( option )
-					{
-					case 9: // Muscle position
-						castleWheelSelect.setSelectedIndex(1);
-						break;
-
-					case 10: // Mysticality position
-						castleWheelSelect.setSelectedIndex(2);
-						break;
-
-					case 11: // Map quest position
-						castleWheelSelect.setSelectedIndex(0);
-						break;
-
-					case 12: // Moxie position
-						castleWheelSelect.setSelectedIndex(3);
-						break;
-					}
-					break;
-
-				case 4:		// Ignore this adventure
-					castleWheelSelect.setSelectedIndex(4);
-					break;
+				int choice = Integer.parseInt( getProperty( "choiceAdventure" + i ) );
+				counts[choice]++;
+				if ( choice == 3 )
+					option3 = i;
 			}
+
+			int index = 0;
+
+			if ( counts[1] == 4 )
+			{
+				// All choices say turn clockwise
+				index = 4;
+			}
+			else if ( counts[2] == 4 )
+			{
+				// All choices say turn counterclockwise
+				index = 5;
+			}
+			else if ( counts[3] == 4 )
+			{
+				// All choices say leave alone
+				index = 6;
+			}
+			else if ( counts[3] != 1 )
+			{
+				// Bogus. Assume map quest
+				index = 0;
+			}
+			else if ( option3 == 9)
+			{
+				// Muscle says leave alone
+				index = 1;
+			}
+			else if ( option3 == 10)
+			{
+				// Mysticality says leave alone
+				index = 2;
+			}
+			else if ( option3 == 11)
+			{
+				// Map Quest says leave alone
+				index = 0;
+			}
+			else if ( option3 == 12)
+			{
+				// Moxie says leave alone
+				index = 3;
+			}
+
+			castleWheelSelect.setSelectedIndex( index );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
