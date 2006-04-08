@@ -326,7 +326,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		String today = sdf.format( new Date() );
 		String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + username.toLowerCase() );
-		if ( lastBreakfast != null && lastBreakfast.equals( "today" ) )
+
+		if ( lastBreakfast != null && lastBreakfast.equals( today ) )
 			return;
 		
 		if ( KoLCharacter.hasToaster() )
@@ -347,8 +348,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( scriptSetting != null && !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
 		
-		if ( (skillSetting != null && !skillSetting.equals( "" )) || (scriptSetting != null && !scriptSetting.equals( "" )) )
-			GLOBAL_SETTINGS.setProperty( "lastBreakfast." + username, today );
+		GLOBAL_SETTINGS.setProperty( "lastBreakfast." + username.toLowerCase(), today );
+		LocalRelayServer.getNewStatusMessages();
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
@@ -2415,12 +2416,18 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !relayServer.isRunning() )
 			(new Thread( relayServer )).start();
 
-		for ( int i = 0; i < 30 && !relayServer.isRunning(); ++i )
+		// Wait for 5 seconds before giving up
+		// on the relay server.
+		
+		for ( int i = 0; i < 50 && !relayServer.isRunning(); ++i )
 			KoLRequest.delay( 100 );
 
 		if ( !relayServer.isRunning() )
 			return;
 
+		// Even after the wait, sometimes, the
+		// worker threads have not been filled.
+		
 		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + relayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") );
 	}
 
@@ -2434,5 +2441,9 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static int getRelayPort()
 	{	return relayServer.getPort();
+	}
+	
+	public static LocalRelayServer getRelayServer()
+	{	return relayServer;
 	}
 }

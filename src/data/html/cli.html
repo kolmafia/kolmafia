@@ -1,6 +1,6 @@
 <html>
  <head>
-  <title>KoLmafia CLI</title>
+  <title>KoLmafia gCLI</title>
   <link rel="stylesheet" type="text/css" href="http://images.kingdomofloathing.com/styles.css">
   <style type=text/css>
     input.text, textarea
@@ -82,21 +82,21 @@ function initSizes()
 	document.getElementById( "InputForm" ).style.width = initwidth;
 	document.getElementById( "ToggleDisplay" ).style.width = initwidth;
 	document.getElementById( "CmdWindow" ).style.height = document.body.clientHeight -
-																													document.getElementById( "InputForm" ).offsetHeight -
-																													document.getElementById( "ToggleDisplay" ).offsetHeight - 20;
+		document.getElementById( "InputForm" ).offsetHeight -
+		document.getElementById( "ToggleDisplay" ).offsetHeight - 20;
 	document.getElementById( "CmdWindow" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
 	document.getElementById( "InputForm" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 
-																													document.getElementById( "CmdWindow" ).offsetHeight + 6;
+		document.getElementById( "CmdWindow" ).offsetHeight + 6;
 };
 
 function checkForEnter( e )
 {
 	var key = window.event ? e.keyCode : e.which;
 	if ( key == 13 )
-		submitCmd();
+		submitCommand();
 };
 
-function getHTTP()
+function getHttpObject()
 {
 	var http = false;
 	if ( window.ActiveXObject )
@@ -110,43 +110,43 @@ function getHTTP()
 	}
 	else
 		http = new XMLHttpRequest();
+
 	return http;
 };
 
-function submitCmd()
+function clearMessages()
 {
-	var command = document.cmdform.cmd.value;
-	document.cmdform.cmd.value = "";
-	submitKoLmafiaCmd( command )
-	document.getElementById( "CmdWindow" ).scrollTop += 600;
-	document.cmdform.cmd.focus();
-};
-
-function submitKoLmafiaCmd( command )
-{
-	var http = getHTTP();
-	http.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/submitCmd?cmd=" + URLEncode( command ) );
-	http.onreadystatechange = function (){ return; }
+	var http = getHttpObject();
+	http.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/clearMessages" );
+	http.onreadystatechange = function () { return true; };
 	http.send( null );
-};
+}
 
-function getNewStatusMessages( )
+function submitCommand()
 {
 	var wnd = document.getElementById( "CmdWindow" );
-	var http = getHTTP();
-	http.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/newStatusMsgs" );
+	var command = document.cmdform.cmd.value;
+	document.cmdform.cmd.value = "";
+
+	if ( command == "" )
+		return true;
+	if ( command == "clear" || command == "cls" )
+	{
+		wnd.innerHTML = "";
+		return true;		
+	}
+
+	var http = getHttpObject();
+	if ( !http )
+		return true;
+
+	http.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/submitCommand?cmd=" + URLEncode( command ) );
 	http.onreadystatechange = function ()
 	{
 		if ( http.readyState != 4 )
 			return;
 
-		if ( http.responseText.indexOf( "<!--refresh-->" ) != -1 )
-			 top.charpane.location.reload( true );
-		
-		var doscroll = false;
-		if ( wnd.scrollHeight - ( wnd.scrollTop + wnd.offsetHeight ) < 4 )
-			doscroll = true;
-
+		top.charpane.location.reload( true );
 		wnd.innerHTML += ( http.responseText );
 
 		var htmlLen = wnd.innerHTML.length;
@@ -157,14 +157,14 @@ function getNewStatusMessages( )
 			wnd.innerHTML = newhtml;
 		}
 		
-		wnd.style.width = initwidth;
-		
-		if ( doscroll )
-			wnd.scrollTop += 400;
-
-		timeout = setTimeout( "getNewStatusMessages();", 1000 );
+		wnd.style.width = initwidth;		
+		wnd.scrollTop = wnd.scrollHeight;
 	}
+
 	http.send( null );
+
+	document.cmdform.cmd.focus();
+	return true;
 };
 
 // ====================================================================
@@ -184,6 +184,7 @@ function getNewStatusMessages( )
 // SpecialThanks to Neelesh Thakur for being the first to
 // report a bug in URLDecode() - now fixed 2003-02-19.
 // ====================================================================
+
 function URLEncode( x )
 {
 	// The Javascript escape and unescape functions do not correspond
@@ -259,15 +260,15 @@ function URLDecode( x )
  </head>
 
 
- <body link=black alink=black vlink=black onLoad='initSizes(); getNewStatusMessages();' onResize='initSizes();'>
-  <div id="ToggleDisplay" class=toggledisplay><center><b>KoLmafia CLI</b><br>[ <u><a href="/lchat.php">Switch to Chat</a></u> ]</center></div>
+ <body link=black alink=black vlink=black onLoad='initSizes(); clearMessages();' onResize='initSizes();'>
+  <div id="ToggleDisplay" class=toggledisplay><center><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</center></div>
   <div id="CmdWindow" class=cmddisplay>
   </div>
   <form name=cmdform onSubmit='return false;'>
    <div id="InputForm" class=inputform>
     <center>
      <input style="width: 70%;" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForEnter( event );' autocomplete="off">
-     <input class=button type=button onClick="submitCmd();" value="Exec">
+     <input class=button type=button onClick="submitCommand();" value="Exec">
     </center>
    </div>
   </form>

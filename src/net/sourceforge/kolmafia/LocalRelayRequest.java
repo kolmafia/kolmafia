@@ -63,9 +63,7 @@ public class LocalRelayRequest extends KoLRequest
 		super.processRawResponse( rawResponse );
 		this.fullResponse = rawResponse;
 		
-		String urlString = getURLString();
-		
-		if ( urlString.indexOf( "compactmenu.php" ) != -1 )
+		if ( formURLString.indexOf( "compactmenu.php" ) != -1 )
 		{
 			// Mafiatize the function menu
 
@@ -100,7 +98,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		// Fix chat javascript problems with relay system
 
-		if ( urlString.indexOf( "lchat.php" ) != -1 )
+		if ( formURLString.indexOf( "lchat.php" ) != -1 )
 		{
 			fullResponse = fullResponse.replaceAll(
 				"window.?location.?hostname", 
@@ -114,35 +112,24 @@ public class LocalRelayRequest extends KoLRequest
 		// Fix KoLmafia getting outdated by events happening
 		// in the browser by using the sidepane.
 		
-		else if ( urlString.indexOf( "charpane.php") != -1 )
+		else if ( formURLString.indexOf( "charpane.php") != -1 )
 			CharpaneRequest.processCharacterPane( responseText );
 
 		// Fix it a little more by making sure that familiar
 		// changes and equipment changes are remembered.
 		
 		else
-			StaticEntity.externalUpdate( urlString, responseText );
+			StaticEntity.externalUpdate( formURLString, responseText );
 
-		// Make sure we don't refresh the browser's side pane 
-		// twice.  (Let the original Javascript do it's job.)
+		// Allow a way to get from KoL back to the gCLI
+		// using the chat launcher.
 		
-		if ( statusChanged )
-			LocalRelayServer.refreshCharPane( false );
-		
-		if ( urlString.indexOf( "newchatmessages.php" ) != -1 && LocalRelayServer.refreshPending() )
+		if ( formURLString.indexOf( "chatlaunch" ) != -1 )
 		{
-			// User is in chat and status has changed. 
-			// Therefore, update the browser's side pane.
-
-			this.fullResponse += "<!--refresh-->";
-			LocalRelayServer.refreshCharPane( false );
+			fullResponse = fullResponse.replaceAll( "<script.*?></script>", "" );
+			fullResponse = fullResponse.replaceFirst( "<a href",
+				"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>NOTE: This text was added by KoLmafia; it is not actually possible to access this normally.</p><center><a href");
 		}
-		
-		// Put gCLI in the chat frame
-		
-		if ( urlString.indexOf( "main" ) != -1 )
-			fullResponse = fullResponse.replaceAll( "<frame name=chatpane src=.?chatlaunch.?php",
-				"<frame name=chatpane src=\"/KoLmafia/cli" );
 	}
 
 	public String getHeader( int index )
@@ -155,12 +142,11 @@ public class LocalRelayRequest extends KoLRequest
 				if ( !formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
 					headers.add( formConnection.getHeaderFieldKey( i ) + ": " + formConnection.getHeaderField( i ) );
 		}
-		if ( index >= headers.size() )
-			return null;
-		return (String) headers.get( index );
+
+		return index >= headers.size() ? null : (String) headers.get( index );
 	}
 	
-	protected void PseudoResponse( String status, String data )
+	protected void pseudoResponse( String status, String data )
 	{
 		headers.clear();
 		headers.add( status );
@@ -174,68 +160,78 @@ public class LocalRelayRequest extends KoLRequest
 		fullResponse = data;
 	}	
 
-	/** Expands special keys found in responses to Special Requests
-	 */
-	protected void postProcessSpecialRequest()
-	{
-		fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + KoLmafia.getRelayPort() );
-	}
-	
 	protected void sendSharedFile( String filename ) throws IOException
 	{
 		StringBuffer replyBuffer = new StringBuffer();
 		BufferedReader reader = KoLDatabase.getReader( "html/" + filename );
+
+		if ( reader == null )
+		{
+			sendNotFound();
+			return;
+		}
+	
 		String line = null;
 		while ( (line = reader.readLine()) != null )
 		{
 			replyBuffer.append( line );
 			replyBuffer.append( LINE_BREAK );
 		}
+
 		reader.close();
-		
-		PseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );		
+		pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );		
 	}
 	
-	protected void sendNewStatusMessages()
-	{	PseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );		
-	}
-	
-	protected void sumbitCmd()
+	protected void submitCommand()
 	{
 		String command = getFormField( "cmd" );
-		if( command == null )
+		if ( command == null )
 			return;
-		DEFAULT_SHELL.printLine( " > " + command );
+
+		KoLmafia.getRelayServer().addStatusMessage( "<br><font color=olive> &gt; " + command + "</font><br><br>" );
 		DEFAULT_SHELL.executeLine( command );
+
+		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
 	
 	protected void sendNotFound()
-	{	PseudoResponse( "HTTP 404 - File not found", "" );
+	{	pseudoResponse( "HTTP/1.1 404 Not Found", "" );
 	}
 	
 	public void run()
 	{
-		if ( !formURLString.startsWith( "/KoLmafia/" ) )
+		System.out.println( formURLString );
+
+		if ( formURLString.indexOf( ".gif" ) != -1 )
+		{
+			sendNotFound();
+			return;
+		}
+
+		if ( formURLString.indexOf( "KoLmafia" ) == -1 )
 		{
 			super.run();
 			return;
 		}
-		try {
-			
+
+		try
+		{
 			String specialRequest = formURLString.substring( 10 );
 			
-			if ( specialRequest.equals( "cli" ) )
-				sendSharedFile( "cli.html" );
-			else if ( specialRequest.equals( "newStatusMsgs" ) )
-				sendNewStatusMessages();
-			else if ( specialRequest.equals( "submitCmd" ) )
-				sumbitCmd();
+			if ( specialRequest.equals( "submitCommand" ) )
+				submitCommand();
+			else if ( specialRequest.equals( "clearMessages" ) )
+				LocalRelayServer.getNewStatusMessages();
 			else
-			{
-				sendNotFound();
-				return;
-			}
-			postProcessSpecialRequest();			
+				sendSharedFile( specialRequest );
+
+			// Update the response text with the appropriate
+			// information on the relay port.
+
+			if ( fullResponse != null )
+				fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + KoLmafia.getRelayPort() );
+			else
+				fullResponse = "";
 		}
 		catch ( Exception e )
 		{
