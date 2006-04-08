@@ -175,6 +175,7 @@
 		display.innerHTML += "<br><font color=olive> &gt; " + command + "</font><br><br>";
 		display.style.width = initwidth;
 		display.scrollTop = display.scrollHeight;
+		top.charpane.location.reload( true );
 	
 		var httpObject = getHttpObject();
 		if ( !httpObject )
