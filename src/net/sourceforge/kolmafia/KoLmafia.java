@@ -2428,6 +2428,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Even after the wait, sometimes, the
 		// worker threads have not been filled.
 		
+		LocalRelayServer.getNewStatusMessages();
 		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + relayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") );
 	}
 
@@ -2441,9 +2442,5 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static int getRelayPort()
 	{	return relayServer.getPort();
-	}
-	
-	public static LocalRelayServer getRelayServer()
-	{	return relayServer;
 	}
 }

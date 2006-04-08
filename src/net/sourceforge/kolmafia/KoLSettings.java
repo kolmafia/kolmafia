@@ -207,7 +207,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "lastUsername", "" );
 		ensureProperty( "loginServer", "0" );
 		ensureProperty( "luckySewerAdventure", "stolen accordion" );
-		ensureProperty( "mainInterfaceTabs", "AdventureFrame,MallSearchFrame,SkillBuffPanel" );
+		ensureProperty( "mainInterfaceTabs", "AdventureFrame,MallSearchFrame,ItemManageFrame,SkillBuffPanel" );
 		ensureProperty( "mpAutoRecover", "-0.1" );
 		ensureProperty( "mpRecoveryScript", "" );
 		ensureProperty( "mpRestores", "" );

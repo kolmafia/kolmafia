@@ -1,286 +1,312 @@
-<html>
- <head>
-  <title>KoLmafia gCLI</title>
-  <link rel="stylesheet" type="text/css" href="http://images.kingdomofloathing.com/styles.css">
-  <style type=text/css>
-    input.text, textarea
-    {
-      border: 1px black solid;
-      font-family: Arial, Helvetica,  sans-serif;
-      font-size: 10pt;
-    }
-    input.button
-    {
-      border: 1px black solid;
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 9pt;
-      font-weight: bold;
-      background-color: #FFFFFF;
-    }
-    body
-    {
-    	padding: 0px;
-    	spacing: 0px;
-    }
-    a
-    {
-    	text-decoration: none;
-    }
-    .toggledisplay
-    {
-    	position: absolute;
-    	padding: 2px;
-    	spacing: 0px;
-    	top: 2px;
-    	left: 2px;
-    	font-size: 12px;
-    	border: none;
-    }
-    .cmddisplay
-    {
-    	position: absolute;
-    	padding: 2px;
-    	spacing: 0px;
-    	top: 22px;
-    	left: 2px;
-    	font-family: arial;
-    	font-size: 12px;
-    	height: 300;
-    	border: 1px solid black;
-    	overflow-y: scroll; 
-    	overflow-x: hidden; 
-    	overflow: auto;
-    }
-    .inputform
-    {
-    	position: absolute;
-    	border: none;
-    	left: 2px;
-    	padding: 2px;
-    	spacing: 0px;
-    }
-    .tiny { font-size: 8pt; }
-    .small { font-size: 10pt; }
-    .nounder { text-decoration: none; }
-  </style>
-  <script language=Javascript>
+<html><head>
+<title>KoLmafia gCLI</title>
+<link rel="stylesheet" type="text/css" href="http://images.kingdomofloathing.com/styles.css">
 
-var initwidth = 0;
-var timeout = 0;
+<style type=text/css><!--
 
-function initSizes()
-{
-	if ( navigator.appName.indexOf( "Explorer" ) != -1 )
-		initwidth = document.body.offsetWidth - 5;
-	else
-		initwidth = self.innerWidth - 10;
+	input.text, textarea
+	{
+		border: 1px black solid;
+		font-family: Arial, Helvetica,  sans-serif;
+		font-size: 10pt;
+	}
+	
+	input.button
+	{
+		border: 1px black solid;
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 9pt;
+		font-weight: bold;
+		background-color: #FFFFFF;
+	}
+	body
+	{
+		padding: 0px;
+		spacing: 0px;
+	}
+	a
+	{
+		text-decoration: none;
+	}
+	.toggledisplay
+	{
+		position: absolute;
+		padding: 2px;
+		spacing: 0px;
+		top: 2px;
+		left: 2px;
+		font-size: 12px;
+		border: none;
+	}
+	.cmddisplay
+	{
+		position: absolute;
+		padding: 2px;
+		spacing: 0px;
+		top: 22px;
+		left: 2px;
+		font-family: arial;
+		font-size: 12px;
+		height: 300;
+		border: 1px solid black;
+		overflow-y: scroll; 
+		overflow-x: hidden; 
+		overflow: auto;
+	}
+	.inputform
+	{
+		position: absolute;
+		border: none;
+		left: 2px;
+		padding: 2px;
+		spacing: 0px;
+	}
+
+--></style>
+
+<script language=Javascript><!--
+
+	var initwidth = 0;
+	var timeout = 0;
+	
+	function initSizes()
+	{
+		if ( navigator.appName.indexOf( "Explorer" ) != -1 )
+			initwidth = document.body.offsetWidth - 5;
+		else
+			initwidth = self.innerWidth - 10;
+			
+		if ( initwidth < 150 )
+			initwidth = 150;
 		
-	if ( initwidth < 150 )
-		initwidth = 150;
+		document.getElementById( "CmdWindow" ).style.width = initwidth;
+		document.getElementById( "InputForm" ).style.width = initwidth;
+		document.getElementById( "ToggleDisplay" ).style.width = initwidth;
+		document.getElementById( "CmdWindow" ).style.height = document.body.clientHeight -
+			document.getElementById( "InputForm" ).offsetHeight -
+			document.getElementById( "ToggleDisplay" ).offsetHeight - 20;
+		document.getElementById( "CmdWindow" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
+		document.getElementById( "InputForm" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 
+			document.getElementById( "CmdWindow" ).offsetHeight + 6;
+	};
+
+	var requests = new Array();
+	var commands = new Array();
+	var commandCount = 0;
 	
-	document.getElementById( "CmdWindow" ).style.width = initwidth;
-	document.getElementById( "InputForm" ).style.width = initwidth;
-	document.getElementById( "ToggleDisplay" ).style.width = initwidth;
-	document.getElementById( "CmdWindow" ).style.height = document.body.clientHeight -
-		document.getElementById( "InputForm" ).offsetHeight -
-		document.getElementById( "ToggleDisplay" ).offsetHeight - 20;
-	document.getElementById( "CmdWindow" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 6;
-	document.getElementById( "InputForm" ).style.top = document.getElementById( "ToggleDisplay" ).offsetHeight + 
-		document.getElementById( "CmdWindow" ).offsetHeight + 6;
-};
-
-var commands = new Array();
-var commandCount = 0;
-
-function checkForEnter( e )
-{
-	var key = window.event ? e.keyCode : e.which;
-	if ( key == 13 )
-		submitCommand();
-
-	if ( key == 38 && commandCount > 0 )
-		document.cmdform.cmd.value = commands[ --commandCount ];
-
-	if ( key == 40 && commandCount + 1 < commands.length )
-		document.cmdform.cmd.value = commands[ ++commandCount ];
-};
-
-function getHttpObject()
-{
-	var http = false;
-	if ( window.ActiveXObject )
+	function checkForEnter( e )
 	{
-	  try
-		{	http = new ActiveXObject( "Msxml2.XMLHTTP" );
-		}
-		catch ( e )
-		{	http = new ActiveXObject( "Microsoft.XMLHTTP" );
-		}
-	}
-	else
-		http = new XMLHttpRequest();
-
-	return http;
-};
-
-function clearMessages()
-{
-	var http = getHttpObject();
-	http.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/clearMessages" );
-	http.onreadystatechange = function () { return true; };
-	http.send( null );
-}
-
-function submitCommand()
-{
-	var wnd = document.getElementById( "CmdWindow" );
-	var command = document.cmdform.cmd.value;
-	document.cmdform.cmd.value = "";
-
-	if ( command == "" )
-		return true;
+		var key = window.event ? e.keyCode : e.which;
+		if ( key == 13 )
+			submitCommand();
 	
-	commandCount = commands.push( command ) + 1;
+		if ( key == 38 && commandCount > 0 )
+			document.cmdform.cmd.value = commands[ --commandCount ];
 	
-	if ( command == "clear" || command == "cls" )
+		if ( key == 40 && commandCount + 1 < commands.length )
+			document.cmdform.cmd.value = commands[ ++commandCount ];
+	};
+	
+	function getHttpObject()
 	{
-		wnd.innerHTML = "";
-		return true;		
-	}
-
-	var http = getHttpObject();
-	if ( !http )
-		return true;
-
-	http.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/submitCommand?cmd=" + URLEncode( command ) );
-	http.onreadystatechange = function ()
-	{
-		if ( http.readyState != 4 )
-			return;
-
-		top.charpane.location.reload( true );
-		wnd.innerHTML += ( http.responseText );
-
-		var htmlLen = wnd.innerHTML.length;
-		if ( htmlLen > 30000 )
+		var httpObject = false;
+		if ( window.ActiveXObject )
 		{
-			var newhtml = wnd.innerHTML.substring( htmlLen - 30000, htmlLen );
-			newhtml = newhtml.substring( newhtml.indexOf( "<" ), 30000 );
-			wnd.innerHTML = newhtml;
+			try
+			{
+				httpObject = new ActiveXObject( "Msxml2.XMLHTTP" );
+			}
+			catch ( e )
+			{
+				httpObject = new ActiveXObject( "Microsoft.XMLHTTP" );
+			}
+		}
+		else
+			httpObject = new XMLHttpRequest();
+	
+		return httpObject;
+	};
+	
+	function getNewMessages()
+	{
+		var display = document.getElementById( "CmdWindow" );
+		var httpObject = getHttpObject();
+		if ( !httpObject )
+			return true;
+	
+		httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/getNewMessages" );
+		httpObject.onreadystatechange = function()
+		{
+			if ( httpObject.readyState != 4 )
+				return;
+			
+			if ( httpObject.responseText == null )
+				parent.location.href = "http://forums.kingdomofloathing.com/";
+
+			if ( httpObject.responseText.length < 2 )
+				return;
+
+			display.innerHTML += ( httpObject.responseText );
+			display.style.width = initwidth;
+			display.scrollTop = display.scrollHeight;
+		}
+	
+		httpObject.send( null );
+	};
+	
+	
+	function submitCommand()
+	{
+		var display = document.getElementById( "CmdWindow" );
+		var command = document.cmdform.cmd.value;
+		document.cmdform.cmd.value = "";
+	
+		if ( command == "" )
+			return true;
+		
+		commandCount = commands.push( command ) + 1;
+		
+		if ( command == "clear" || command == "cls" )
+		{
+			display.innerHTML = "";
+			return true;		
 		}
 		
-		wnd.style.width = initwidth;		
-		wnd.scrollTop = wnd.scrollHeight;
-	}
+		display.innerHTML += "<br><font color=olive> &gt; " + command + "</font><br><br>";
+		display.style.width = initwidth;
+		display.scrollTop = display.scrollHeight;
+	
+		var httpObject = getHttpObject();
+		if ( !httpObject )
+			return true;
+	
+		httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/submitCommand?cmd=" + URLEncode( command ) );
+		httpObject.onreadystatechange = function ()
+		{
+			if ( httpObject.readyState != 4 )
+				return;
 
-	http.send( null );
+			if ( httpObject.responseText == null )
+				parent.location.href = "http://forums.kingdomofloathing.com/";
 
-	document.cmdform.cmd.focus();
-	return true;
-};
-
-// ====================================================================
-//			 URLEncode and URLDecode functions
-//
-// Copyright Albion Research Ltd. 2002
-// http://www.albionresearch.com/
-//
-// You may copy these functions providing that 
-// ( a ) you leave this copyright notice intact, and 
-// ( b ) if you use these functions on a publicly accessible
-//		 web site you include a credit somewhere on the web site 
-//		 with a link back to http://www.albionresarch.com/
-//
-// If you find or fix any bugs, please let us know at albionresearch.com
-//
-// SpecialThanks to Neelesh Thakur for being the first to
-// report a bug in URLDecode() - now fixed 2003-02-19.
-// ====================================================================
-
-function URLEncode( x )
-{
-	// The Javascript escape and unescape functions do not correspond
-	// with what browsers actually do...
-	var SAFECHARS = "0123456789" +					// Numeric
-					"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +	// Alphabetic
-					"abcdefghijklmnopqrstuvwxyz" +
-					"-_.!~*'()";					// RFC2396 Mark characters
-	var HEX = "0123456789ABCDEF";
-
-	var plaintext = x;
-	var encoded = "";
-	for ( var i = 0; i < plaintext.length; i++ ) {
-		var ch = plaintext.charAt( i );
-		if ( ch=="+" ) {
-			encoded+="%2B";
-		} else if ( ch == " " ) {
-				encoded += "+";				// x-www-urlencoded, rather than %20
-		} else if ( SAFECHARS.indexOf( ch ) != -1 ) {
-				encoded += ch;
-		} else {
-				var charCode = ch.charCodeAt( 0 );
-			if ( charCode > 255 ) {
-					alert( "Unicode Character '" + ch + "' cannot be encoded using standard URL encoding.\n" +
-								"( URL encoding only supports 8-bit characters. )\n" +
-						"A space ( + ) will be substituted." );
-				encoded += "+";
+			if ( httpObject.responseText.length < 2 )
+				return;
+	
+			display.innerHTML += ( httpObject.responseText );
+			display.style.width = initwidth;
+			display.scrollTop = display.scrollHeight;
+		}
+	
+		httpObject.send( null );
+	
+		document.cmdform.cmd.focus();
+		return true;
+	};
+	
+	// ====================================================================
+	//			 URLEncode and URLDecode functions
+	//
+	// Copyright Albion Research Ltd. 2002
+	// httpObject://www.albionresearch.com/
+	//
+	// You may copy these functions providing that 
+	// ( a ) you leave this copyright notice intact, and 
+	// ( b ) if you use these functions on a publicly accessible
+	//		 web site you include a credit somewhere on the web site 
+	//		 with a link back to http://www.albionresarch.com/
+	//
+	// If you find or fix any bugs, please let us know at albionresearch.com
+	//
+	// SpecialThanks to Neelesh Thakur for being the first to
+	// report a bug in URLDecode() - now fixed 2003-02-19.
+	// ====================================================================
+	
+	function URLEncode( x )
+	{
+		// The Javascript escape and unescape functions do not correspond
+		// with what browsers actually do...
+		var SAFECHARS = "0123456789" +					// Numeric
+						"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +	// Alphabetic
+						"abcdefghijklmnopqrstuvwxyz" +
+						"-_.!~*'()";					// RFC2396 Mark characters
+		var HEX = "0123456789ABCDEF";
+	
+		var plaintext = x;
+		var encoded = "";
+		for ( var i = 0; i < plaintext.length; i++ ) {
+			var ch = plaintext.charAt( i );
+			if ( ch=="+" ) {
+				encoded+="%2B";
+			} else if ( ch == " " ) {
+					encoded += "+";				// x-www-urlencoded, rather than %20
+			} else if ( SAFECHARS.indexOf( ch ) != -1 ) {
+					encoded += ch;
 			} else {
-				encoded += "%";
-				encoded += HEX.charAt( ( charCode >> 4 ) & 0xF );
-				encoded += HEX.charAt( charCode & 0xF );
+					var charCode = ch.charCodeAt( 0 );
+				if ( charCode > 255 ) {
+						alert( "Unicode Character '" + ch + "' cannot be encoded using standard URL encoding.\n" +
+									"( URL encoding only supports 8-bit characters. )\n" +
+							"A space ( + ) will be substituted." );
+					encoded += "+";
+				} else {
+					encoded += "%";
+					encoded += HEX.charAt( ( charCode >> 4 ) & 0xF );
+					encoded += HEX.charAt( charCode & 0xF );
+				}
 			}
 		}
-	} // for
-
-	return encoded;
-};
-
-function URLDecode( x )
-{
-	 // Replace + with ' '
-	 // Replace %xx with equivalent character
-	 // Put [ERROR] in output if %xx is invalid.
-	 var HEXCHARS = "0123456789ABCDEFabcdef"; 
-	 var encoded = x;
-	 var plaintext = "";
-	 var i = 0;
-	 while ( i < encoded.length ) {
-			 var ch = encoded.charAt( i );
-		 if ( ch == "+" ) {
-				 plaintext += " ";
-			 i++;
-		 } else if ( ch == "%" ) {
-			if ( i < ( encoded.length-2 ) 
-					&& HEXCHARS.indexOf( encoded.charAt( i+1 ) ) != -1 
-					&& HEXCHARS.indexOf( encoded.charAt( i+2 ) ) != -1 ) {
-				plaintext += unescape( encoded.substr( i,3 ) );
-				i += 3;
+	
+		return encoded;
+	};
+	
+	function URLDecode( x )
+	{
+		 // Replace + with ' '
+		 // Replace %xx with equivalent character
+		 // Put [ERROR] in output if %xx is invalid.
+		 var HEXCHARS = "0123456789ABCDEFabcdef"; 
+		 var encoded = x;
+		 var plaintext = "";
+		 var i = 0;
+		 while ( i < encoded.length ) {
+				 var ch = encoded.charAt( i );
+			 if ( ch == "+" ) {
+					 plaintext += " ";
+				 i++;
+			 } else if ( ch == "%" ) {
+				if ( i < ( encoded.length-2 ) 
+						&& HEXCHARS.indexOf( encoded.charAt( i+1 ) ) != -1 
+						&& HEXCHARS.indexOf( encoded.charAt( i+2 ) ) != -1 ) {
+					plaintext += unescape( encoded.substr( i,3 ) );
+					i += 3;
+				} else {
+					alert( 'Bad escape combination near ...' + encoded.substr( i ) );
+					plaintext += "%[ERROR]";
+					i++;
+				}
 			} else {
-				alert( 'Bad escape combination near ...' + encoded.substr( i ) );
-				plaintext += "%[ERROR]";
-				i++;
+				 plaintext += ch;
+				 i++;
 			}
-		} else {
-			 plaintext += ch;
-			 i++;
-		}
-	} // while
-	 return plaintext;
-};
-  </script>
+		} // while
+		 return plaintext;
+	};
 
- </head>
+--></script>
+
+</head>
 
 
- <body link=black alink=black vlink=black onLoad='initSizes(); clearMessages();' onResize='initSizes();'>
+ <body link=black alink=black vlink=black onLoad='initSizes(); setInterval( getNewMessages, 1000 );' onResize='initSizes();'>
+
   <div id="ToggleDisplay" class=toggledisplay><center><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</center></div>
-  <div id="CmdWindow" class=cmddisplay>
-  </div>
+  <div id="CmdWindow" class=cmddisplay></div>
+
   <form name=cmdform onSubmit='return false;'>
    <div id="InputForm" class=inputform>
     <center>
      <input style="width: 70%;" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForEnter( event );' autocomplete="off">
-     <input class=button type=button onClick="submitCommand();" value="Exec">
+     <input class=button type=button onClick="submitCommand();" value="exec">
     </center>
    </div>
   </form>
