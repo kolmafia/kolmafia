@@ -295,11 +295,19 @@ public class KoLSettings extends Properties implements UtilityConstants
 			}
 		}
 
-		// Check for valid settings.  Valid settings are
-		// ones where there are exactly two of one setting
-		// and one of the other, and one leave alone.
+		// Check for valid settings:
 
-		if ( !( (clockwiseCount == 1 && counterClockwiseCount == 2) || (clockwiseCount == 2 && counterClockwiseCount == 1) || (clockwiseCount == 0 && counterClockwiseCount == 0) ) )
+		// 1) Two clockwise, one counterclockwise, one leave alone
+		// 2) Two counterclockwise, one clockwise, one leave alone
+		// 3) Four clockwise
+		// 4) Four counterclockwise
+		// 5) All leave alone
+
+		if ( !( (clockwiseCount == 1 && counterClockwiseCount == 2) ||
+			(clockwiseCount == 2 && counterClockwiseCount == 1) ||
+			(clockwiseCount == 4) ||
+			(counterClockwiseCount == 4) ||
+			(clockwiseCount == 0 && counterClockwiseCount == 0) ) )
 		{
 			wheelChoices[0] = 1;
 			wheelChoices[1] = 1;
