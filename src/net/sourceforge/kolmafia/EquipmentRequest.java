@@ -576,7 +576,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=offhand") != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b>[^>]*unequip&type=offhand" ).matcher( responseText );
+			equipmentMatcher = Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.OFFHAND ] = equipmentMatcher.group(1);
