@@ -1539,8 +1539,26 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
 		result.addFunction( new ScriptExistingFunction( "int_to_item", new ScriptType( TYPE_ITEM ), params ) );
 
+		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
+		result.addFunction( new ScriptExistingFunction( "int_to_skill", new ScriptType( TYPE_SKILL ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
+		result.addFunction( new ScriptExistingFunction( "int_to_effect", new ScriptType( TYPE_EFFECT ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
+		result.addFunction( new ScriptExistingFunction( "int_to_familiar", new ScriptType( TYPE_FAMILIAR ), params ) );
+
 		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "item_to_int", new ScriptType( TYPE_INT ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_SKILL ) };
+		result.addFunction( new ScriptExistingFunction( "skill_to_int", new ScriptType( TYPE_INT ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_EFFECT ) };
+		result.addFunction( new ScriptExistingFunction( "effect_to_int", new ScriptType( TYPE_INT ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_FAMILIAR ) };
+		result.addFunction( new ScriptExistingFunction( "familiar_to_int", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
 		result.addFunction( new ScriptExistingFunction( "wait", new ScriptType( TYPE_VOID ), params ) );
@@ -2165,10 +2183,16 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			if ( name.equalsIgnoreCase( "int_to_item" ) )
-				return new ScriptValue( TYPE_ITEM, variables[0].intValue() );
+				return new ScriptValue( TYPE_ITEM, TradeableItemDatabase.getItemName( variables[0].intValue() ) );
 
-			if ( name.equalsIgnoreCase( "item_to_int" ) )
-				return new ScriptValue( TYPE_INT, variables[0].intValue() );
+			if ( name.equalsIgnoreCase( "int_to_skill" ) )
+				return new ScriptValue( TYPE_SKILL, ClassSkillsDatabase.getSkillName( variables[0].intValue() ) );
+
+			if ( name.equalsIgnoreCase( "int_to_effect" ) )
+				return new ScriptValue( TYPE_EFFECT, StatusEffectDatabase.getEffectName( variables[0].intValue() ) );
+
+			if ( name.equalsIgnoreCase( "int_to_familiar" ) )
+				return new ScriptValue( TYPE_FAMILIAR, FamiliarsDatabase.getFamiliarName( variables[0].intValue() ) );
 
 			if ( name.equalsIgnoreCase( "wait" ) )
 			{
@@ -2235,6 +2259,9 @@ public class KoLmafiaASH extends StaticEntity
 				AdventureDatabase.retrieveItem( new AdventureResult( variables[1].intValue(), variables[0].intValue() ) );
 				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 			}
+
+			if ( name.toLowerCase().endsWith( "_to_int" ) )
+				return new ScriptValue( TYPE_INT, variables[0].intValue() );
 
 			if ( name.toLowerCase().endsWith( "_to_string" ) )
 				return variables[0].toStringValue();
