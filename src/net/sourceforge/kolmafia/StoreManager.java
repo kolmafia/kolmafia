@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,7 +48,7 @@ public abstract class StoreManager extends StaticEntity
 {
 	private static long potentialEarnings = 0;
 	private static LockableListModel storeLog = new LockableListModel();
-	private static LockableListModel soldItemList = new SortedListModel();
+	private static LockableListModel soldItemList = new LockableListModel();
 
 	public static void reset()
 	{
@@ -209,6 +210,7 @@ public abstract class StoreManager extends StaticEntity
 		// re-adding the items to your store.
 
 		soldItemList.retainAll( newItems );
+		Collections.sort( soldItemList );
 
 		// Now, update the title of the store manage
 		// frame to reflect the new price.
@@ -326,9 +328,7 @@ public abstract class StoreManager extends StaticEntity
 		}
 
 		public int compareTo( Object o )
-		{
-			return o == null || !(o instanceof SoldItem) ? -1 :
-				TradeableItemDatabase.getItemName( itemID ).compareToIgnoreCase( TradeableItemDatabase.getItemName( ((SoldItem)o).itemID ) );
+		{	return o == null || !(o instanceof SoldItem) ? -1 : price - ((SoldItem)o).price;
 		}
 
 		public String toString()
