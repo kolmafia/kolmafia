@@ -1422,10 +1422,17 @@ public abstract class KoLmafia implements KoLConstants
 			// the logger (whatever it may be), and notify the
 			// user that an error was encountered.
 
+			boolean shouldOpenStream = KoLmafia.getLogStream() instanceof NullStream;
+
+			if ( shouldOpenStream )
+				KoLmafia.openDebugLog();
+
+			updateDisplay( ERROR_STATE, "UNEXPECTED ERROR: Debug log printed." );
 			e.printStackTrace( logStream );
 			e.printStackTrace();
 
-			updateDisplay( ERROR_STATE, "Unexpected error." );
+			if ( shouldOpenStream )
+				KoLmafia.openDebugLog();
 
 			// Now, do some garbage collection to avoid the
 			// potential for resource overusage.

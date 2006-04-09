@@ -555,7 +555,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	private boolean isDelayExempt()
-	{	return client == null || this instanceof LoginRequest || this instanceof ChatRequest || this instanceof CharpaneRequest;
+	{	return this instanceof LoginRequest || this instanceof ChatRequest || this instanceof CharpaneRequest;
 	}
 
 	/**
@@ -568,10 +568,10 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean prepareConnection()
 	{
-		KoLmafia.getLogStream().println( "Connecting to " + formURLString + "..." );
+		if ( !(this instanceof ChatRequest) )
+			KoLmafia.getLogStream().println( "Connecting to " + formURLString + "..." );
 
-		if ( client != null )
-			this.sessionID = client.getSessionID();
+		this.sessionID = client.getSessionID();
 
 		// Make sure that all variables are reset before you reopen
 		// the connection.  Invoke the garbage collector to minimize
@@ -605,7 +605,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			// For now, because there isn't HTTPS support, just open the
 			// connection and directly cast it into an HttpURLConnection
 
-			KoLmafia.getLogStream().println( "Attempting to establish connection..." );
+			if ( !(this instanceof ChatRequest) )
+				KoLmafia.getLogStream().println( "Attempting to establish connection..." );
+
 			formConnection = (HttpURLConnection) formURL.openConnection();
 		}
 		catch ( Exception e )
@@ -614,7 +616,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// that there was a timeout; return false and let the loop
 			// attempt to connect again
 
-			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
+			if ( !(this instanceof ChatRequest) )
 				KoLmafia.getLogStream().println( "Error opening connection.  Retrying..." );
 
 			e.printStackTrace( KoLmafia.getLogStream() );
@@ -624,7 +626,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			return false;
 		}
 
-		KoLmafia.getLogStream().println( "Connection established." );
+		if ( !(this instanceof ChatRequest) )
+			KoLmafia.getLogStream().println( "Connection established." );
 
 		formConnection.setDoInput( true );
 		formConnection.setDoOutput( !data.isEmpty() );
@@ -658,13 +661,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( data.isEmpty() )
 			return true;
 
-		KoLmafia.getLogStream().println( "Posting form data..." );
+		if ( !(this instanceof ChatRequest) )
+			KoLmafia.getLogStream().println( "Posting form data..." );
 
 		try
 		{
 			String dataString = getDataString( true );
 
-			if ( client != null && client.getPasswordHash() != null )
+			if ( client.getPasswordHash() != null && !(this instanceof ChatRequest) )
 				KoLmafia.getLogStream().println( dataString.replaceAll( client.getPasswordHash(), "" ) );
 
 			formConnection.setRequestMethod( "POST" );
@@ -675,12 +679,14 @@ public class KoLRequest implements Runnable, KoLConstants
 			ostream.close();
 			ostream = null;
 
-			KoLmafia.getLogStream().println( "Posting data posted." );
+			if ( !(this instanceof ChatRequest) )
+				KoLmafia.getLogStream().println( "Posting data posted." );
+
 			return true;
 		}
 		catch ( Exception e )
 		{
-			if ( formURLString.indexOf( "chat" ) == -1 && ( client == null || !BuffBotHome.isBuffBotActive() ) )
+			if ( !(this instanceof ChatRequest) )
 				KoLmafia.getLogStream().println( "Connection timed out during post.  Retrying..." );
 
 			KoLRequest.delay();
@@ -709,7 +715,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// one that results in something happening), or an error-type one
 			// (ie: maintenance).
 
-			if ( client != null )
+			if ( !(this instanceof ChatRequest) )
 				KoLmafia.getLogStream().println( "Retrieving server reply..." );
 
 			responseText = "";
@@ -732,11 +738,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Page <" + formURLString + "> not found." );
 
-				if ( client != null )
-				{
-					KoLmafia.getLogStream().println( e );
-					e.printStackTrace( KoLmafia.getLogStream() );
-				}
+				KoLmafia.getLogStream().println( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
 
 				// In this case, it's like a false redirect, but to
 				// a page which no longer exists.  Pretend it's the
@@ -749,7 +752,8 @@ public class KoLRequest implements Runnable, KoLConstants
 				return true;
 			}
 
-			KoLmafia.getLogStream().println( "Connection timed out during response.  Retrying..." );
+			if ( !(this instanceof ChatRequest) )
+				KoLmafia.getLogStream().println( "Connection timed out during response.  Retrying..." );
 
 			// Add in an extra delay in the event of a time-out in order
 			// to be nicer on the KoL servers.
@@ -760,147 +764,147 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		boolean shouldStop = true;
 
-		if ( client != null )
-		{
+		if ( !(this instanceof ChatRequest) )
 			KoLmafia.getLogStream().println( "Server response code: " + responseCode );
 
-			if ( responseCode >= 300 && responseCode <= 399 )
+		if ( responseCode >= 300 && responseCode <= 399 )
+		{
+			// Redirect codes are all the ones that occur between
+			// 300 and 399.  All these notify the user of a location
+			// to return to; deal with the ones which are errors.
+
+			redirectLocation = formConnection.getHeaderField( "Location" );
+
+			if ( redirectLocation.equals( "maint.php" ) )
 			{
-				// Redirect codes are all the ones that occur between
-				// 300 and 399.  All these notify the user of a location
-				// to return to; deal with the ones which are errors.
+				// If the system is down for maintenance, the user must be
+				// notified that they should try again later.
 
-				redirectLocation = formConnection.getHeaderField( "Location" );
+				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Nightly maintenance." );
+				shouldStop = true;
+			}
+			else if ( redirectLocation.startsWith( "login.php" ) )
+			{
+				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Session timed out." );
 
-				if ( redirectLocation.equals( "maint.php" ) )
-				{
-					// If the system is down for maintenance, the user must be
-					// notified that they should try again later.
-
-					DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Nightly maintenance." );
+				if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
+					client.executeTimeInRequest();
+				else if ( this instanceof LocalRelayRequest )
+					client.executeTimeInRequest();
+				else
 					shouldStop = true;
-				}
-				else if ( redirectLocation.startsWith( "login.php" ) )
-				{
-					DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Session timed out." );
+			}
+			else if ( followRedirects )
+			{
+				// Re-setup this request to follow the redirect
+				// desired and rerun the request.
 
-					if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
-						client.executeTimeInRequest();
-					else if ( this instanceof LocalRelayRequest )
-						client.executeTimeInRequest();
-					else
-						shouldStop = true;
-				}
-				else if ( followRedirects )
-				{
-					// Re-setup this request to follow the redirect
-					// desired and rerun the request.
+				constructURLString( redirectLocation );
+				return false;
+			}
+			else if ( redirectLocation.equals( "fight.php" ) && !(this instanceof LocalRelayRequest) )
+			{
+				// You have been redirected to a fight!  Here, you need
+				// to complete the fight before you can continue.
 
-					constructURLString( redirectLocation );
-					return false;
-				}
-				else if ( redirectLocation.equals( "fight.php" ) && !(this instanceof LocalRelayRequest) )
-				{
-					// You have been redirected to a fight!  Here, you need
-					// to complete the fight before you can continue.
+				FightRequest battle = new FightRequest( client );
+				battle.run();
 
-					FightRequest battle = new FightRequest( client );
-					battle.run();
+				return this instanceof AdventureRequest || getClass() == KoLRequest.class;
+			}
+			else if ( redirectLocation.equals( "choice.php" ) && !(this instanceof LocalRelayRequest) )
+			{
+				shouldStop = processChoiceAdventure();
+			}
+			else
+			{
+				shouldStop = true;
+				KoLmafia.getLogStream().println( "Redirected: " + redirectLocation );
+			}
+		}
+		else if ( responseCode == 200 )
+		{
+			String line = null;
+			StringBuffer replyBuffer = new StringBuffer();
+			StringBuffer rawBuffer = new StringBuffer();
 
-					return this instanceof AdventureRequest || getClass() == KoLRequest.class;
-				}
-				else if ( redirectLocation.equals( "choice.php" ) && !(this instanceof LocalRelayRequest) )
+			try
+			{
+				line = istream.readLine();
+
+				// There's a chance that there was no content in the reply
+				// (header-only reply) - if that's the case, the line will
+				// be null and you've hit an error state.
+
+				if ( line == null )
 				{
-					shouldStop = processChoiceAdventure();
+					KoLmafia.getLogStream().println( "No reply content.  Retrying..." );
 				}
+
+				// Check for MySQL errors, since those have been getting more
+				// frequent, and would cause an IOException to be thrown
+				// unnecessarily, when a re-request would do.  I'm not sure
+				// how they work right now (which line the MySQL error is
+				// printed to), but for now, assume
+				// that it's the first line.
+
+				else if ( line.indexOf( "error" ) != -1 )
+				{
+					if ( !(this instanceof ChatRequest) )
+						KoLmafia.getLogStream().println( "Encountered MySQL error.  Retrying..." );
+				}
+
+				// The remaining lines form the rest of the content.  In order
+				// to make it easier for string parsing, the line breaks will
+				// ultimately be preserved.
+
 				else
 				{
-					shouldStop = true;
-					KoLmafia.getLogStream().println( "Redirected: " + redirectLocation );
-				}
-			}
-			else if ( responseCode == 200 )
-			{
-				String line = null;
-				StringBuffer replyBuffer = new StringBuffer();
-				StringBuffer rawBuffer = new StringBuffer();
-
-				try
-				{
-					line = istream.readLine();
-
-					// There's a chance that there was no content in the reply
-					// (header-only reply) - if that's the case, the line will
-					// be null and you've hit an error state.
-
-					if ( line == null )
-					{
-						KoLmafia.getLogStream().println( "No reply content.  Retrying..." );
-					}
-
-					// Check for MySQL errors, since those have been getting more
-					// frequent, and would cause an I/O Exception to be thrown
-					// unnecessarily, when a re-request would do.  I'm not sure
-					// how they work right now (which line the MySQL error is
-					// printed to), but for now, assume
-					// that it's the first line.
-
-					else if ( line.indexOf( "error" ) != -1 )
-					{
-						KoLmafia.getLogStream().println( "Encountered MySQL error.  Retrying..." );
-					}
-
-					// The remaining lines form the rest of the content.  In order
-					// to make it easier for string parsing, the line breaks will
-					// ultimately be preserved.
-
-					else
-					{
+					if ( !(this instanceof ChatRequest) )
 						KoLmafia.getLogStream().println( "Reading page content..." );
 
-						// Line breaks bloat the log, but they are important
-						// inside <textarea> input fields.
+					// Line breaks bloat the log, but they are important
+					// inside <textarea> input fields.
 
-						boolean insideTextArea = false;
+					boolean insideTextArea = false;
 
-						do
-						{
-							replyBuffer.append( line );
-							rawBuffer.append( line );
-							rawBuffer.append( LINE_BREAK );
+					do
+					{
+						replyBuffer.append( line );
+						rawBuffer.append( line );
+						rawBuffer.append( LINE_BREAK );
 
-							if ( line.indexOf( "</textarea" ) != -1 )
-								insideTextArea = false;
-							else if ( line.indexOf( "<textarea" ) != -1 )
-								insideTextArea = true;
+						if ( line.indexOf( "</textarea" ) != -1 )
+							insideTextArea = false;
+						else if ( line.indexOf( "<textarea" ) != -1 )
+							insideTextArea = true;
 
-							if ( insideTextArea )
-								replyBuffer.append( LINE_BREAK );
-						}
-						while ( (line = istream.readLine()) != null );
+						if ( insideTextArea )
+							replyBuffer.append( LINE_BREAK );
 					}
+					while ( (line = istream.readLine()) != null );
 				}
-				catch ( Exception e )
-				{
-					// An Exception is clearly an error; here it will be reported
-					// to the client, but another attempt will be made
-
-					if ( formURLString.indexOf( "chat" ) == -1 )
-						KoLmafia.getLogStream().println( "Error reading server reply.  Retrying..." );
-
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-				}
-
-				responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
-				processRawResponse( rawBuffer.toString() );
-
-				if ( client != null && client.getPasswordHash() != null )
-					KoLmafia.getLogStream().println( responseText.replaceAll( client.getPasswordHash(), "" ) );
-				else
-					KoLmafia.getLogStream().println(
-						responseText.replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" ) );
 			}
+			catch ( Exception e )
+			{
+				// An Exception is clearly an error; here it will be reported
+				// to the client, but another attempt will be made
+
+				if ( !(this instanceof ChatRequest) )
+					KoLmafia.getLogStream().println( "Error reading server reply.  Retrying..." );
+
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+			}
+
+			responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
+			processRawResponse( rawBuffer.toString() );
+
+			if ( client.getPasswordHash() != null && !(this instanceof ChatRequest) )
+				KoLmafia.getLogStream().println( responseText.replaceAll( client.getPasswordHash(), "" ) );
+			else if ( !(this instanceof ChatRequest) )
+				KoLmafia.getLogStream().println(
+					responseText.replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" ) );
 		}
 
 		try
