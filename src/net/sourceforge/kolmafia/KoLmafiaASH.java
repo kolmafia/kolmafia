@@ -2183,16 +2183,16 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			if ( name.equalsIgnoreCase( "int_to_item" ) )
-				return new ScriptValue( TYPE_ITEM, TradeableItemDatabase.getItemName( variables[0].intValue() ) );
+				return new ScriptValue( TYPE_ITEM, variables[0].intValue() );
 
 			if ( name.equalsIgnoreCase( "int_to_skill" ) )
-				return new ScriptValue( TYPE_SKILL, ClassSkillsDatabase.getSkillName( variables[0].intValue() ) );
+				return new ScriptValue( TYPE_SKILL, variables[0].intValue() );
 
 			if ( name.equalsIgnoreCase( "int_to_effect" ) )
-				return new ScriptValue( TYPE_EFFECT, StatusEffectDatabase.getEffectName( variables[0].intValue() ) );
+				return new ScriptValue( TYPE_EFFECT, variables[0].intValue() );
 
 			if ( name.equalsIgnoreCase( "int_to_familiar" ) )
-				return new ScriptValue( TYPE_FAMILIAR, FamiliarsDatabase.getFamiliarName( variables[0].intValue() ) );
+				return new ScriptValue( TYPE_FAMILIAR, variables[0].intValue() );
 
 			if ( name.equalsIgnoreCase( "wait" ) )
 			{
@@ -2919,10 +2919,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue( int type, int contentInt ) throws AdvancedScriptException
-		{
-			this.type = new ScriptType( type );
-			this.contentInt = contentInt;
-			fillContent();
+		{	this( new ScriptType( type ), contentInt );
 		}
 
 
@@ -2935,10 +2932,7 @@ public class KoLmafiaASH extends StaticEntity
 
 
 		public ScriptValue( int type, String contentString ) throws AdvancedScriptException
-		{
-			this.type = new ScriptType( type );
-			this.contentString = contentString;
-			fillContent();
+		{	this( new ScriptType( type ), contentString );
 		}
 
 		public ScriptValue( ScriptType type, String contentString ) throws AdvancedScriptException
@@ -3023,14 +3017,25 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( type.equals( TYPE_ITEM ) )
 			{
+				if ( contentString == null )
+				{
+					contentString = TradeableItemDatabase.getItemName( contentInt );
+					if ( contentString == null )
+					{
+						contentString = "none";
+						contentInt = -1;
+					}
+					return;
+				}
+
 				if ( contentString.equalsIgnoreCase( "none" ) )
 				{
 					contentInt = -1;
 					return;
 				}
 
-				// Allow for an item number to be specified inside
-				// of the "item" construct.
+				// Allow for an item number to be specified
+				// inside of the "item" construct.
 
 				for ( int i = 0; i < contentString.length(); ++i )
 				{
@@ -3102,16 +3107,49 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			else if ( type.equals( TYPE_SKILL ) )
 			{
+				if ( contentString == null )
+				{
+					contentString = ClassSkillsDatabase.getSkillName( contentInt );
+					if ( contentString == null )
+					{
+						contentString = "none";
+						contentInt = -1;
+					}
+					return;
+				}
+
 				if ( (contentInt = ClassSkillsDatabase.getSkillID( contentString )) == -1 )
 					throw new AdvancedScriptException( "Skill " + contentString + " not found in database " + getLineAndFile() );
 			}
 			else if ( type.equals( TYPE_EFFECT ) )
 			{
+				if ( contentString == null )
+				{
+					contentString = StatusEffectDatabase.getEffectName( contentInt );
+					if ( contentString == null )
+					{
+						contentString = "none";
+						contentInt = -1;
+					}
+					return;
+				}
+
 				if ( (contentInt = StatusEffectDatabase.getEffectID( contentString )) == -1 )
 					throw new AdvancedScriptException( "Effect " + contentString + " not found in database " + getLineAndFile() );
 			}
 			else if ( type.equals( TYPE_FAMILIAR ) )
 			{
+				if ( contentString == null )
+				{
+					contentString = FamiliarsDatabase.getFamiliarName( contentInt );
+					if ( contentString == null )
+					{
+						contentString = "none";
+						contentInt = -1;
+					}
+					return;
+				}
+
 				if ( contentString.equalsIgnoreCase( "none" ) )
 					contentInt = -1;
 				else if ( (contentInt = FamiliarsDatabase.getFamiliarID( contentString )) == -1 )
