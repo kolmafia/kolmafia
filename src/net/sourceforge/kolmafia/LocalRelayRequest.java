@@ -49,6 +49,7 @@ public class LocalRelayRequest extends KoLRequest
 {
 	protected String fullResponse;
 	protected List headers = new ArrayList();
+	protected static boolean refreshRequired = false;
 
 	public LocalRelayRequest( KoLmafia client, String formURLString, boolean followRedirects )
 	{	super( client, formURLString, followRedirects );
@@ -130,6 +131,30 @@ public class LocalRelayRequest extends KoLRequest
 			fullResponse = fullResponse.replaceFirst( "<a href",
 				"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>NOTE: The graphical CLI will load in this frame to allow for manual adventuring.</p><center><a href");
 		}
+
+		// If an action within KoLmafia has changed the character
+		// status, the next request the Relay Browser's makes
+		// should cause the charpane frame to refresh.
+		
+		if ( refreshRequired )
+		{
+			refreshRequired = false;
+			if ( fullResponse.indexOf( "</head>" ) != -1 )
+			{
+				if ( formURLString.indexOf( "desc_item.php" ) != -1 )
+					fullResponse = fullResponse.replaceAll(
+						"</head>", 
+						"<script language=\"Javascript\">opener.charpane.location.href=\"/charpane.php\";</script></head>" );
+				else
+					fullResponse = fullResponse.replaceAll(
+						"</head>", 
+						"<script language=\"Javascript\">parent.charpane.location.href=\"/charpane.php\";</script></head>" );
+			}
+			else if ( formURLString.indexOf( "newchatmessages.php" ) != -1 )
+				fullResponse += "<!--refresh-->";
+			else
+				refreshRequired = true;
+		}
 	}
 
 	public String getHeader( int index )
@@ -151,6 +176,19 @@ public class LocalRelayRequest extends KoLRequest
 		this.fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + KoLmafia.getRelayPort() );
 		if ( fullResponse.length() == 0 )
 			this.fullResponse = " ";
+
+		if ( refreshRequired )
+		{
+			refreshRequired = false;
+			if ( this.fullResponse.indexOf( "</head>" ) != -1 )
+				this.fullResponse = this.fullResponse.replaceAll(
+					"</head>", 
+					"<script language=\"Javascript\">parent.charpane.location.href=\"/charpane.php\";</script></head>" );
+			else if ( formURLString.indexOf( "getNewMessages" ) != -1 )
+				this.fullResponse += "<!--refresh-->";
+			else
+				refreshRequired = true;
+		}
 		
 		headers.clear();
 		headers.add( status );
@@ -242,5 +280,9 @@ public class LocalRelayRequest extends KoLRequest
 			if ( headers.isEmpty() )
 				sendNotFound();
 		}
+	}
+
+	public static void refreshCharPane()
+	{	refreshRequired = true;
 	}
 }
