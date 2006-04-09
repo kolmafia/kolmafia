@@ -664,6 +664,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// The default Java browser doesn't display blank lines correctly
 		displayHTML = displayHTML.replaceAll( "<br><br>", "<br>&nbsp;<br>" );
 
+		// Fix all the tables which decide to put a row end,
+		// but no row beginning.
+		
+		displayHTML = displayHTML.replaceAll( "</tr><td", "</tr><tr><td" );
+
 		// Fix all the super-small font displays used in the
 		// various KoL panes.
 
@@ -775,7 +780,24 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			displayHTML = sortItemList( "whichitem", displayHTML );
 			displayHTML = sortItemList( "whichitem2", displayHTML );
 		}
-
+		
+		// The clan gym buttons are a little mixed up, but
+		// it's possible to get everything to work by changing
+		// the table cells to line breaks.
+		
+		if ( displayHTML.indexOf( "action=clan_gym.php") != -1 )
+		{
+			displayHTML = displayHTML.replaceAll( "<td width=100 height=100>", "<tr><td width=100 height=100>" );
+			displayHTML = displayHTML.replaceAll( "</td><td valign=center>", "<br>" );
+			displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
+		}
+		
+		// Doc Galaktik's page is going to get completely
+		// killed, except for the main purchases.
+		
+		if ( displayHTML.indexOf( "action=galaktik.php") != -1 )
+			displayHTML = displayHTML.replaceFirst( "<table><table.*", "" );
+		
 		// All HTML is now properly rendered!  Return the
 		// compiled string.  Print it to the debug log for
 		// reference purposes.
