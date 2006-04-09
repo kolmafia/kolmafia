@@ -138,18 +138,11 @@ public class LocalRelayRequest extends KoLRequest
 		
 		if ( refreshRequired )
 		{
-			refreshRequired = false;
+			refreshRequired = ( formURLString.indexOf( "desc_item.php" ) != -1 );
 			if ( fullResponse.indexOf( "</head>" ) != -1 )
-			{
-				if ( formURLString.indexOf( "desc_item.php" ) != -1 )
-					fullResponse = fullResponse.replaceAll(
-						"</head>", 
-						"<script language=\"Javascript\">opener.charpane.location.href=\"/charpane.php\";</script></head>" );
-				else
-					fullResponse = fullResponse.replaceAll(
-						"</head>", 
-						"<script language=\"Javascript\">parent.charpane.location.href=\"/charpane.php\";</script></head>" );
-			}
+				fullResponse = fullResponse.replaceAll(
+					"</head>", 
+					"<script language=\"Javascript\">parent.charpane.location.href=\"/charpane.php\";</script></head>" );
 			else if ( formURLString.indexOf( "newchatmessages.php" ) != -1 )
 				fullResponse += "<!--refresh-->";
 			else
