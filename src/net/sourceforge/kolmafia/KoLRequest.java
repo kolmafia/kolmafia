@@ -936,6 +936,8 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected void processRawResponse( String rawResponse )
 	{
 		statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && rawResponse.indexOf( "charpane.php" ) != -1;
+		if( statusChanged && !(this instanceof LocalRelayRequest) )
+			LocalRelayRequest.refreshCharPane();
 	}
 
 	/**
