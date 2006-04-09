@@ -208,4 +208,13 @@ public abstract class StaticEntity implements KoLConstants
 
 		KoLCharacter.refreshCalculatedLists();
 	}
+	
+	public static final void executeCountdown( String message, int seconds )
+	{
+		for ( int i = 0; i < seconds && StaticEntity.getClient().permitsContinue(); ++i )
+		{
+			StaticEntity.getClient().updateDisplay( message + (seconds - i) + " seconds..." );
+			KoLRequest.delay( 1000 );
+		}
+	}
 }

@@ -89,7 +89,6 @@ public abstract class KoLmafia implements KoLConstants
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 	}
 
-	protected static LocalRelayServer relayServer = new LocalRelayServer();
 	protected static PrintStream macroStream = NullStream.INSTANCE;
 	protected static PrintStream logStream = NullStream.INSTANCE;
 	protected static LimitedSizeChatBuffer commandBuffer = null;
@@ -247,7 +246,7 @@ public abstract class KoLmafia implements KoLConstants
 		colorBuffer.append( LINE_BREAK );
 
 		if ( !message.equals( "" ) )
-			relayServer.addStatusMessage( colorBuffer.toString() );
+			LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 
 		if ( commandBuffer != null && !message.equals( "" ) )
 			commandBuffer.append( colorBuffer.toString() );
@@ -2026,8 +2025,15 @@ public abstract class KoLmafia implements KoLConstants
 		deinitialize();  enableDisplay();
 		updateDisplay( "Timing in session..." );
 
-		while ( getPasswordHash() == null )
+		cachedLogin.run();
+		if ( getPasswordHash() == null )
 			cachedLogin.run();
+		
+		while ( getPasswordHash() == null )
+		{
+			StaticEntity.executeCountdown( "Next login in ", 300 );
+			cachedLogin.run();
+		}
 
 		updateDisplay( "Session timed in." );
 	}
@@ -2411,23 +2417,21 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void startRelayServer()
 	{
-		if ( !relayServer.isRunning() )
-			(new Thread( relayServer )).start();
+		LocalRelayServer.startThread();
 
 		// Wait for 5 seconds before giving up
 		// on the relay server.
 		
-		for ( int i = 0; i < 50 && !relayServer.isRunning(); ++i )
+		for ( int i = 0; i < 50 && !LocalRelayServer.isRunning(); ++i )
 			KoLRequest.delay( 100 );
 
-		if ( !relayServer.isRunning() )
+		if ( !LocalRelayServer.isRunning() )
 			return;
 
 		// Even after the wait, sometimes, the
 		// worker threads have not been filled.
 		
-		LocalRelayServer.getNewStatusMessages();
-		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + relayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") );
+		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") );
 	}
 
 	public void declareWorldPeace()
@@ -2436,9 +2440,5 @@ public abstract class KoLmafia implements KoLConstants
 
 		KoLRequest.delay( 5000 );
 		enableDisplay();
-	}
-
-	public static int getRelayPort()
-	{	return relayServer.getPort();
 	}
 }

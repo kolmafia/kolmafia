@@ -473,29 +473,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 		
-		if ( getURLString().equals( "lair6.php?place=5") )
+		if ( getURLString().equals( "lair6.php?place=5" ) )
 			KoLCharacter.getEffects().clear();
 		
-		// You are allowed a maximum of four attempts
-		// to run the request.  This prevents KoLmafia
-		// from spamming the servers.
-
 		do
 		{
 			statusChanged = false;
-
-			// Only add in a delay when you're out of login.
-			// If you're still doing the login process, ignore
-			// the delay to avoid people switching the option
-			// off just to avoid login slowdown.
-
-			if ( !isDelayExempt() )
-			{
-				if ( isServerFriendly )
-					KoLRequest.delay();
-				else if ( getProperty( "synchronizeFightFrame" ).equals( "true" ) )
-					KoLRequest.delay( 1000 );
-			}
+			if ( !isDelayExempt() || getProperty( "synchronizeFightFrame" ).equals( "true" ) || isServerFriendly )
+				KoLRequest.delay();
 		}
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
 
@@ -937,7 +922,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && rawResponse.indexOf( "charpane.php" ) != -1;
 		if( statusChanged && !(this instanceof LocalRelayRequest) )
-			LocalRelayRequest.refreshCharPane();
+			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 	}
 
 	/**

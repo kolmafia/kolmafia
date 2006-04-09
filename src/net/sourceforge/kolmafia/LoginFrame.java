@@ -316,6 +316,8 @@ public class LoginFrame extends KoLFrame
 				String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + currentMatch.toLowerCase() );
 				isBreakfastEnabled = lastBreakfast == null || !lastBreakfast.equals( todayString );
 				LoginPanel.this.setEnabled( true );
+
+				setStatusMessage( NULL_STATE, isBreakfastEnabled ? " " : "Breakfast options disabled (already got breakfast today)" );
 			}
 
 			private class PasswordFocusListener extends KeyAdapter
