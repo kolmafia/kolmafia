@@ -382,6 +382,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), previousLine, true );
 			StaticEntity.getClient().makeRequest( desired, 1 );
+			StaticEntity.externalUpdate( desired.getURLString(), desired.responseText );
 			return;
 		}
 

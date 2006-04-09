@@ -193,6 +193,10 @@ public abstract class StaticEntity implements KoLConstants
 			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
 			KoLCharacter.addDerivedSkills();
 		}
+		
+		learnedMatcher = Pattern.compile( "You emerge with a (.*?) of Steel" ).matcher( responseText );
+		if ( learnedMatcher.find() )
+			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1) + " of Steel", "", 1 ) );
 
 		// Unfortunately, if you learn a new skill from Frank
 		// the Regnaissance Gnome at the Gnomish Gnomads
