@@ -146,6 +146,9 @@
 			if ( httpObject.responseText.length < 2 )
 				return;
 
+			if ( httpObject.responseText.indexOf("<!--refresh-->") != -1 )
+				top.charpane.location.reload( true );
+
 			display.innerHTML += ( httpObject.responseText );
 			display.style.width = initwidth;
 			display.scrollTop = display.scrollHeight;
@@ -175,7 +178,6 @@
 		display.innerHTML += "<br><font color=olive> &gt; " + command + "</font><br><br>";
 		display.style.width = initwidth;
 		display.scrollTop = display.scrollHeight;
-		top.charpane.location.reload( true );
 	
 		var httpObject = getHttpObject();
 		if ( !httpObject )
