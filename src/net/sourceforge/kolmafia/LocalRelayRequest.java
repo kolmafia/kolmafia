@@ -49,7 +49,6 @@ public class LocalRelayRequest extends KoLRequest
 {
 	protected String fullResponse;
 	protected List headers = new ArrayList();
-	protected static boolean refreshRequired = false;
 
 	public LocalRelayRequest( KoLmafia client, String formURLString, boolean followRedirects )
 	{	super( client, formURLString, followRedirects );
@@ -103,11 +102,11 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			fullResponse = fullResponse.replaceAll(
 				"window.?location.?hostname", 
-				"\"127.0.0.1:" + KoLmafia.getRelayPort() + "\"" );
+				"\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
 
 			fullResponse = fullResponse.replaceAll(
 				"</head>", 
-				"<script language=\"Javascript\">base = \"http://127.0.0.1:" +  KoLmafia.getRelayPort() + "\";</script></head>" );
+				"<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script></head>" );
 		}
 		
 		// Fix KoLmafia getting outdated by events happening
@@ -131,23 +130,6 @@ public class LocalRelayRequest extends KoLRequest
 			fullResponse = fullResponse.replaceFirst( "<a href",
 				"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>NOTE: The graphical CLI will load in this frame to allow for manual adventuring.</p><center><a href");
 		}
-
-		// If an action within KoLmafia has changed the character
-		// status, the next request the Relay Browser's makes
-		// should cause the charpane frame to refresh.
-		
-		if ( refreshRequired )
-		{
-			refreshRequired = ( formURLString.indexOf( "desc_item.php" ) != -1 );
-			if ( fullResponse.indexOf( "</head>" ) != -1 )
-				fullResponse = fullResponse.replaceAll(
-					"</head>", 
-					"<script language=\"Javascript\">parent.charpane.location.href=\"/charpane.php\";</script></head>" );
-			else if ( formURLString.indexOf( "newchatmessages.php" ) != -1 )
-				fullResponse += "<!--refresh-->";
-			else
-				refreshRequired = true;
-		}
 	}
 
 	public String getHeader( int index )
@@ -166,23 +148,10 @@ public class LocalRelayRequest extends KoLRequest
 	
 	protected void pseudoResponse( String status, String fullResponse )
 	{
-		this.fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + KoLmafia.getRelayPort() );
+		this.fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
 		if ( fullResponse.length() == 0 )
 			this.fullResponse = " ";
 
-		if ( refreshRequired )
-		{
-			refreshRequired = false;
-			if ( this.fullResponse.indexOf( "</head>" ) != -1 )
-				this.fullResponse = this.fullResponse.replaceAll(
-					"</head>", 
-					"<script language=\"Javascript\">parent.charpane.location.href=\"/charpane.php\";</script></head>" );
-			else if ( formURLString.indexOf( "getNewMessages" ) != -1 )
-				this.fullResponse += "<!--refresh-->";
-			else
-				refreshRequired = true;
-		}
-		
 		headers.clear();
 		headers.add( status );
 		headers.add( "Date: " + ( new Date() ) );
@@ -273,9 +242,5 @@ public class LocalRelayRequest extends KoLRequest
 			if ( headers.isEmpty() )
 				sendNotFound();
 		}
-	}
-
-	public static void refreshCharPane()
-	{	refreshRequired = true;
 	}
 }

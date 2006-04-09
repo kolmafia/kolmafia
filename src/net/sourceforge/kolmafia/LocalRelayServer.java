@@ -47,50 +47,108 @@ import java.util.Vector;
 
 public class LocalRelayServer implements Runnable
 {
+	private static Thread relayThread = null;
+	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
+	
 	private static final byte [] NEW_LINE = {(byte)'\r', (byte)'\n' };
 	private static final int MAX_AGENT_THREADS = 9;
 	private static final int TIMEOUT = 5000;
 
 	protected static Vector agentThreads = new Vector();
-	protected static int agents = 0;
-	
 	private ServerSocket serverSocket = null;
-	private int port = 60080;
-	private boolean listening = false;
+	private static int port = 60080;
+	private static boolean listening = false;
 
 	protected static Vector statusMessages = new Vector();
 
-	public int getPort()
+	private LocalRelayServer()
+	{
+	}
+
+	public static void startThread()
+	{
+		if ( relayThread != null )
+			return;
+		
+		relayThread = new Thread( INSTANCE );
+		relayThread.start();
+	}
+	
+	public static int getPort()
 	{	return port;
 	}
 	
-	public boolean isRunning()
+	public static boolean isRunning()
 	{	return listening;
 	}
 
 	public synchronized void run()
 	{
-		try
-		{	runServer();
+		port = 60080;
+		while ( port <= 60090 && !openServerSocket() )
+			++port;
+
+		// Initialize all the agent threads first
+		// to ensure every request is caught.
+
+		for ( int i = 0; i < MAX_AGENT_THREADS; ++i )
+		{
+			RelayAgent agent = new RelayAgent();
+			(new Thread( agent )).start();
+			agentThreads.add( agent );
 		}
-		catch ( Exception e )
-		{	
-			if ( port > 60090 )
-				return;
-			else
+		
+		listening = true;
+		while ( listening )
+		{
+			try
 			{
-				port++;
-				run();
+				dispatchAgent( serverSocket.accept() );
+			}
+			catch ( Exception e )
+			{
+				// If an exception occurs here, that means
+				// someone closed the thread; just reset
+				// the listening state and fall through.
+
+				listening = false;
 			}
 		}
-		finally
-		{	close();
+
+		closeAgents();
+		
+		try
+		{
+			if ( serverSocket != null )
+				serverSocket.close();
+		}
+		catch ( Exception e )
+		{
+			// The end result of a socket closing
+			// should not throw an exception, but
+			// if it does, the socket closes.
+		}
+
+		serverSocket = null;
+		agentThreads.clear();
+		relayThread = null;
+	}
+	
+	private boolean openServerSocket()
+	{
+		try
+		{
+			serverSocket = new ServerSocket( port, 25, InetAddress.getByName( "127.0.0.1" ) );
+			return true;
+		}
+		catch ( Exception e )
+		{
+			return false;
 		}
 	}
 	
 	private void closeAgents()
 	{
-		agents = 0;
 		synchronized ( agentThreads )
 		{
 			while ( !agentThreads.isEmpty() )
@@ -102,30 +160,6 @@ public class LocalRelayServer implements Runnable
 		}
 	}
 
-	public void close()
-	{
-		try
-		{
-			closeAgents();
-
-			// Close server thread (it's blocking on accept() right now)
-			if ( serverSocket != null )
-				serverSocket.close();
-		}
-		catch ( Exception e )
-		{	e.printStackTrace();
-		}
-		finally
-		{
-			// Reset state for next run()
-			serverSocket = null;
-			port = 60080;
-			listening = false;
-			agents = 0;
-			agentThreads.removeAllElements();
-		}
-	}	
-	
 	private void dispatchAgent( Socket socket )
 	{
 		RelayAgent agent = null;
@@ -143,35 +177,7 @@ public class LocalRelayServer implements Runnable
 		}
 	}
 
-	public void runServer() throws Exception
-	{
-		serverSocket = new ServerSocket( port, 25, InetAddress.getByName( "127.0.0.1" ) );
-
-		// Initialize all the agent threads first
-		// to ensure every request is caught.
-
-		for ( int i = 0; i < MAX_AGENT_THREADS; ++i )
-		{
-			RelayAgent agent = new RelayAgent();
-			(new Thread( agent )).start();
-			agentThreads.add( agent );
-		}
-		
-		listening = true;
-		while ( listening )
-		{
-			try
-			{	dispatchAgent( serverSocket.accept() );
-			}
-			catch ( Exception e )
-			{
-				// Someone has called serverSocket.close(). Exit thread.
-				return;
-			}
-		}
-	}
-
-	public void addStatusMessage( String message )
+	public static void addStatusMessage( String message )
 	{
 		synchronized ( statusMessages )
 		{

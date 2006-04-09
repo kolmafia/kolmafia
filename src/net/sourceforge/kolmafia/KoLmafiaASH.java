@@ -1390,10 +1390,16 @@ public class KoLmafiaASH extends StaticEntity
 		result.addFunction( new ScriptExistingFunction( "put_stash", new ScriptType( TYPE_BOOLEAN ), params ) );
 
 		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
+		result.addFunction( new ScriptExistingFunction( "put_display", new ScriptType( TYPE_BOOLEAN ), params ) );
+		
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "take_closet", new ScriptType( TYPE_BOOLEAN ), params ) );
 
 		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "take_storage", new ScriptType( TYPE_BOOLEAN ), params ) );
+		
+		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
+		result.addFunction( new ScriptExistingFunction( "take_display", new ScriptType( TYPE_BOOLEAN ), params ) );
 
 		params = new ScriptType[] { new ScriptType( TYPE_INT ), new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "sell_item", new ScriptType( TYPE_BOOLEAN ), params ) );
@@ -1985,6 +1991,12 @@ public class KoLmafiaASH extends StaticEntity
 				DEFAULT_SHELL.executeLine( "stash put " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 			}
+			
+			if ( name.equalsIgnoreCase( "put_display" ) )
+			{
+				DEFAULT_SHELL.executeLine( "display put " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
 
 			if ( name.equalsIgnoreCase( "take_closet" ) )
 			{
@@ -1998,6 +2010,12 @@ public class KoLmafiaASH extends StaticEntity
 				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 			}
 
+			if ( name.equalsIgnoreCase( "take_display" ) )
+			{
+				DEFAULT_SHELL.executeLine( "display take " + variables[0].intValue() + " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+			
 			if ( name.equalsIgnoreCase( "sell_item" ) )
 			{
 				DEFAULT_SHELL.executeLine( "sell " + variables[0].intValue() + " " + variables[1].toStringValue() );

@@ -403,14 +403,7 @@ public class KoLmafiaCLI extends KoLmafia
 			try
 			{
 				int seconds = df.parse( parameters ).intValue();
-				for ( int i = 0; i < seconds && StaticEntity.getClient().permitsContinue(); ++i )
-				{
-					KoLRequest.delay( 1000 );
-					if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-						updateDisplay( "Countdown: " + (seconds - i) + " seconds remaining..." );
-					else
-						outputStream.print( seconds - i + ", " );
-				}
+				StaticEntity.executeCountdown( "Countdown: ", seconds );
 			}
 			catch ( Exception e )
 			{
@@ -1082,6 +1075,15 @@ public class KoLmafiaCLI extends KoLmafia
 			executeClosetManageRequest( parameters );
 			return;
 		}
+		
+		// More commands -- this time to put stuff into
+		// your display case (or remove them).
+		
+		if ( command.equals( "display" ) )
+		{
+			executeDisplayCaseRequest( parameters );
+			return;
+		}
 
 		// Yet another popular command involves changing
 		// your outfit.
@@ -1197,11 +1199,11 @@ public class KoLmafiaCLI extends KoLmafia
 			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
 		}
 
-		if ( command.equals( "inv" ) && parameters.equals( "refresh" ) )
+		if ( command.startsWith( "inv" ) && parameters.equals( "refresh" ) )
 		{
 			(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET )).run();
 			updateDisplay( "Status refreshed." );
-			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
+			return;
 		}
 
 		// Finally, handle command abbreviations - in
@@ -2613,22 +2615,12 @@ public class KoLmafiaCLI extends KoLmafia
 				parameters = parameters.substring( 3 ).trim();
 		}
 
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, isWithdraw ? NOWHERE : INVENTORY );
-		if ( firstMatch == null )
+		Object [] items = getMatchingItemList( parameters, isWithdraw ? NOWHERE : INVENTORY );
+		if ( items.length == 0 )
 			return;
 
-		Object [] items = new Object[1];
-		items[0] = firstMatch;
-
-		int initialCount = firstMatch.getCount( KoLCharacter.getInventory() );
 		StaticEntity.getClient().makeRequest( new ClanStashRequest( StaticEntity.getClient(), items, isWithdraw ?
 			ClanStashRequest.STASH_TO_ITEMS : ClanStashRequest.ITEMS_TO_STASH ), 1 );
-
-		// If the item amount doesn't match the desired, then cancel
-		// script execution.
-
-		if ( isWithdraw && firstMatch.getCount( KoLCharacter.getInventory() ) - initialCount != firstMatch.getCount() )
-			updateDisplay( ERROR_STATE, "Unable to acquire " + firstMatch.getCount() + " " + firstMatch.getName() );
 	}
 
 	/**
@@ -2917,11 +2909,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeAutoSellRequest( String parameters )
 	{
-		AdventureResult firstMatch = getFirstMatchingItem( parameters, INVENTORY );
-		if ( firstMatch == null )
+		Object [] items = getMatchingItemList( parameters, INVENTORY );
+		if ( items.length == 0 )
 			return;
 
-		StaticEntity.getClient().makeRequest( new AutoSellRequest( StaticEntity.getClient(), firstMatch ), 1 );
+		StaticEntity.getClient().makeRequest( new AutoSellRequest( StaticEntity.getClient(), items, AutoSellRequest.AUTOSELL ), 1 );
 	}
 
 	/**
@@ -2944,7 +2936,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		ArrayList results = new ArrayList();
-		(new SearchMallRequest( StaticEntity.getClient(), '\"' + firstMatch.getName() + '\"', 0, results )).run();
+		(new SearchMallRequest( StaticEntity.getClient(), '\"' + firstMatch.getName() + '\"', 2 * firstMatch.getCount(), results )).run();
 		StaticEntity.getClient().makePurchases( results, results.toArray(), firstMatch.getCount() );
 	}
 
@@ -3035,6 +3027,20 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.getClient().makeRequest( new ConsumeItemRequest( StaticEntity.getClient(), new AdventureResult( itemName, itemCount, false ) ), 1 );
 		else
 			StaticEntity.getClient().makeRequest( new ConsumeItemRequest( StaticEntity.getClient(), new AdventureResult( itemName, 1, false ) ), itemCount );
+	}
+
+	/**
+	 * A special module for instantiating display case management requests,
+	 * strictly for adding and removing things.
+	 */
+	
+	private void executeDisplayCaseRequest( String parameters )
+	{
+		Object [] items = getMatchingItemList( parameters.substring(4).trim(), parameters.startsWith( "take" ) ? NOWHERE : INVENTORY );
+		if ( items.length == 0 )
+			return;
+
+		StaticEntity.getClient().makeRequest( new MuseumRequest( StaticEntity.getClient(), items, !parameters.startsWith( "take" ) ), 1 );
 	}
 
 	/**
@@ -3142,36 +3148,6 @@ public class KoLmafiaCLI extends KoLmafia
 			e.printStackTrace();
 
 			return;
-		}
-	}
-
-	/**
-	 * Updates the currently active display in the <code>KoLmafia</code>
-	 * session.
-	 */
-
-	public void updateDisplay( int state, String message )
-	{
-		if ( StaticEntity.getClient() == null )
-			return;
-
-		// If it's the enableDisplay() called from the KoLmafia
-		// initializer, then outputStream and mirrorStream will
-		// be null -- check this before attempting to print.
-
-		if ( !message.equals( "" ) )
-		{
-			outputStream.println( message );
-			mirrorStream.println( message );
-		}
-
-		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-			StaticEntity.getClient().updateDisplay( state, message );
-		else
-		{
-			super.updateDisplay( state, message );
-			if ( message.equals( "Login failed." ) )
-				attemptLogin();
 		}
 	}
 
@@ -3476,10 +3452,40 @@ public class KoLmafiaCLI extends KoLmafia
 		colorBuffer.append( "</font><br>" );
 		colorBuffer.append( LINE_BREAK );
 
-		relayServer.addStatusMessage( colorBuffer.toString() );
+		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 		
 		if ( commandBuffer != null )
 			commandBuffer.append( colorBuffer.toString() );
+	}
+
+	/**
+	 * Updates the currently active display in the <code>KoLmafia</code>
+	 * session.
+	 */
+
+	public void updateDisplay( int state, String message )
+	{
+		if ( StaticEntity.getClient() == null )
+			return;
+
+		// If it's the enableDisplay() called from the KoLmafia
+		// initializer, then outputStream and mirrorStream will
+		// be null -- check this before attempting to print.
+
+		if ( !message.equals( "" ) )
+		{
+			outputStream.println( message );
+			mirrorStream.println( message );
+		}
+
+		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
+			StaticEntity.getClient().updateDisplay( state, message );
+		else
+		{
+			super.updateDisplay( state, message );
+			if ( message.equals( "Login failed." ) )
+				attemptLogin();
+		}
 	}
 
 	/**
