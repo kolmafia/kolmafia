@@ -230,14 +230,21 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.client = client;
 		this.data = new ArrayList();
 		this.followRedirects = followRedirects;
+		
+		constructURLString( formURLString );
+	}
+	
+	private void constructURLString( String newURLString )
+	{
+		this.data.clear();
 
-		if ( formURLString.indexOf( "?" ) == -1 )
+		if ( newURLString.indexOf( "?" ) == -1 )
 		{
-			this.formURLString = formURLString;
+			this.formURLString = newURLString;
 			return;
 		}
-		
-		String [] splitURLString = formURLString.split( "\\?" );
+
+		String [] splitURLString = newURLString.split( "\\?" );
 		this.formURLString = splitURLString[0];
 		addEncodedFormFields( splitURLString[1] );
 	}
@@ -374,7 +381,10 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected void addEncodedFormFields( String fields )
 	{
 		if ( fields.indexOf( "&" ) == -1 )
+		{
 			addEncodedFormField( fields );
+			return;
+		}
 		
 		String [] tokens = fields.split( "(&)" );
 		for ( int i = 0; i < tokens.length; ++i )
@@ -786,10 +796,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					// Re-setup this request to follow the redirect
 					// desired and rerun the request.
 
-					this.formURLString = redirectLocation;
-					this.data.clear();
-					this.followRedirects = followRedirects;
-
+					constructURLString( redirectLocation );
 					return false;
 				}
 				else if ( redirectLocation.equals( "fight.php" ) && !(this instanceof LocalRelayRequest) )

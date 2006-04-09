@@ -119,6 +119,9 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult SHARD = new AdventureResult( 726, 1 );
 	private static final AdventureResult RED_PIXEL_POTION = new AdventureResult( 464, 1 );
 
+	private static final FamiliarData STARFISH = new FamiliarData( 17 );
+	private static final AdventureResult STARFISH_ITEM = new AdventureResult( 664, 1 );
+
 	// Familiars and the familiars that defeat them
 	private static final String [][] FAMILIAR_DATA =
 	{
@@ -139,8 +142,20 @@ public abstract class SorceressLair extends StaticEntity
 
 		DEFAULT_SHELL.updateDisplay( "Checking prerequisites..." );
 
+		// Make sure you have a starfish.  If
+		// not, acquire the item and use it;
+		// use the default acquisition mechanisms
+		// found in the item consumption request.
+	
+		if ( !KoLCharacter.getFamiliarList().contains( STARFISH ) )
+		{
+			(new ConsumeItemRequest( client, STARFISH_ITEM )).run();
+			if ( !client.permitsContinue() )
+				return false;
+		}
+		
 		// Make sure he's been given the quest
-
+		
 		KoLRequest request = new KoLRequest( client, "main.php", true );
 		request.run();
 
