@@ -140,8 +140,18 @@ public class ChatRequest extends KoLRequest
 			// value for the last seen - in this case, just leave the old
 			// last seen value.
 
+			boolean shouldOpenStream = KoLmafia.getLogStream() instanceof NullStream;
+			
+			if ( shouldOpenStream )
+				KoLmafia.openDebugLog();
+			
+			DEFAULT_SHELL.updateDisplay( "ERROR IN CHAT PROCESSING!  Debug log printed." );
+			KoLmafia.getLogStream().println( responseText ); 
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
+
+			if ( shouldOpenStream )
+				KoLmafia.closeDebugLog();
 		}
 	}
 
