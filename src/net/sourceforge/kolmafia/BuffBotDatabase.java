@@ -68,7 +68,7 @@ public class BuffBotDatabase extends KoLDatabase
 		{ new Integer(6013), "Shanty" },
 		{ new Integer(6014), "Ode" },
 		{ new Integer(6015), "Sneakiness" },
-		{ new Integer(6016), "Conflict" },
+		{ new Integer(6016), "Cantata" },
 		{ new Integer(6017), "Aria" },
 
 		// Sauceress Buffs
@@ -394,11 +394,7 @@ public class BuffBotDatabase extends KoLDatabase
 			buffs.toArray( buffArray );
 
 			for ( int i = 0; i < buffArray.length; ++i )
-				// Either the name contains the "official"
-				// abbreviation or is a substring of the skill
-				// name
-				if ( name.indexOf( buffArray[i].getAbbreviation() ) != -1 ||
-				     buffArray[i].getName().indexOf( name ) != -1 )
+				if ( name.indexOf( buffArray[i].getAbbreviation() ) != -1 )
 					return buffArray[i];
 
 			return null;
