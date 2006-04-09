@@ -44,7 +44,7 @@ import java.util.Collections;
  * disturb the sorted property of the <code>List</code>.  The <code>SortedListModel</code> adds
  * the additional restriction that, if an element <tt>e2</tt> is added to the list after another
  * element <tt>e1</tt> is added, and <tt>e1.equals(e2)</tt> returns <tt>true</tt>, then <tt>e2</tt>
- * must appear in the list after <tt>e1</tt>.
+ * will not be added to the list.
  */
 
 public class SortedListModel extends LockableListModel
@@ -108,13 +108,23 @@ public class SortedListModel extends LockableListModel
 
 	public void add( int index, Object element )
 	{
+		if ( contains( element ) )
+			return;
+
 		boolean needsSort = ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 ) ||
 			( index < size() && ((Comparable)element).compareTo( get( index ) ) > 0 );
 
-		super.add( index, element );
-
 		if ( needsSort )
-			java.util.Collections.sort( this );
+		{
+			ArrayList interimList = new ArrayList();
+			interimList.addAll( this );
+
+			interimList.add( index, element );
+			clear();  addAll( interimList );
+			return;
+		}
+
+		super.add( index, element );
 	}
 
     /**
@@ -124,6 +134,9 @@ public class SortedListModel extends LockableListModel
 
 	public boolean add( Object o )
 	{
+		if ( contains( o ) )
+			return false;
+
 		try
 		{
 			add( indexOf( 0, size() - 1, (Comparable)o, INSERTION ), o );
@@ -139,15 +152,15 @@ public class SortedListModel extends LockableListModel
 
 	public boolean addAll( Collection c )
 	{
-		if ( isEmpty() )
-		{
-			ArrayList interimList = new ArrayList();
-			interimList.addAll( c );
-			Collections.sort( interimList );
-			return super.addAll( interimList );
-		}
+		boolean succeeded = true;
 
-		return super.addAll( c );
+		ArrayList interimList = new ArrayList();
+		interimList.addAll( c );
+
+		for ( int i = 0; i < interimList.size(); ++i )
+			succeeded &= add( interimList.get(i) );
+
+		return succeeded;
 	}
 
     /**
@@ -192,11 +205,17 @@ public class SortedListModel extends LockableListModel
 		boolean needsSort = ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 ) ||
 			( index + 1 < size() && ((Comparable)element).compareTo( get( index + 1 ) ) > 0 );
 
-		Object oldvalue = super.set( index, element );
-
 		if ( needsSort )
-			java.util.Collections.sort( this );
+		{
+			ArrayList interimList = new ArrayList();
+			interimList.addAll( this );
 
+			Object oldvalue = interimList.set( index, element );
+			clear();  addAll( interimList );
+			return oldvalue;
+		}
+
+		Object oldvalue = super.set( index, element );
 		return oldvalue;
 	}
 
