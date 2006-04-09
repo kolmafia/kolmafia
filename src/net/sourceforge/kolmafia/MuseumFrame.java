@@ -156,7 +156,9 @@ public class MuseumFrame extends KoLFrame
 		private class OutsideDisplayPanel extends ItemManagePanel
 		{
 			public OutsideDisplayPanel()
-			{	super( "Inventory", "add maximum", "add multiple", KoLCharacter.getInventory() );
+			{
+				super( "Inventory", "add maximum", "add multiple", KoLCharacter.getInventory() );
+				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			}
 
 			private void move( boolean moveAll )
@@ -186,7 +188,9 @@ public class MuseumFrame extends KoLFrame
 		private class InsideDisplayPanel extends ItemManagePanel
 		{
 			public InsideDisplayPanel()
-			{	super( "Display Case", "take maximum", "take multiple", KoLCharacter.getCollection() );
+			{
+				super( "Display Case", "take maximum", "take multiple", KoLCharacter.getCollection() );
+				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 			}
 
 			private void move( boolean moveAll )
