@@ -491,7 +491,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		sessionID = null;
 		passwordHash = null;
-		cachedLogin = null;
 		closeMacroStream();
 	}
 
@@ -2024,21 +2023,13 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void executeTimeInRequest()
 	{
-		// If you're already trying to login, then
-		// don't continue.
-
-		deinitialize();
-		enableDisplay();
+		deinitialize();  enableDisplay();
 		updateDisplay( "Timing in session..." );
 
-		// Two quick login attempts to force
-		// a timeout of the other session and
-		// re-request another session.
+		while ( getPasswordHash() == null )
+			cachedLogin.run();
 
-		cachedLogin.run();
-
-		if ( getPasswordHash() != null )
-			updateDisplay( "Session timed in." );
+		updateDisplay( "Session timed in." );
 	}
 
 	public boolean checkRequirements( List requirements )
