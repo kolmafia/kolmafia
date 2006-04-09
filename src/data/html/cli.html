@@ -146,7 +146,7 @@
 			if ( httpObject.responseText.length < 2 )
 				return;
 
-			if ( httpObject.responseText.indexOf("<!--refresh-->") != -1 )
+			if ( httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
 				top.charpane.location.reload( true );
 
 			display.innerHTML += ( httpObject.responseText );
