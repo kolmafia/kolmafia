@@ -1253,7 +1253,7 @@ public abstract class KoLmafia implements KoLConstants
 			// sure to check to see if you're allowed to continue
 			// after drunkenness.
 
-			if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && KoLCharacter.getInebriety() < 29 )
+			if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && KoLCharacter.getInebriety() < 26 )
 			{
 				updateDisplay( ERROR_STATE, "You are too drunk to continue." );
 				return;
