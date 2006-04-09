@@ -2759,7 +2759,15 @@ public class KoLmafiaASH extends StaticEntity
 				if ( paramVarRef == null )
 					throw new RuntimeException( "Internal error: illegal arguments" );
 
-				paramVarRef.setValue( paramValue.execute() );
+				if ( paramVarRef.getType().equals( TYPE_INT ) && paramValue.getType().equals( TYPE_FLOAT ) )
+					paramVarRef.setValue( paramValue.execute().toIntValue() );
+				else if ( paramVarRef.getType().equals( TYPE_FLOAT ) && paramValue.getType().equals( TYPE_INT ) )
+					paramVarRef.setValue( paramValue.execute().toFloatValue() );
+				else if ( paramVarRef.getType().equals( TYPE_STRING ) )
+					paramVarRef.setValue( paramValue.execute().toStringValue() );
+				else
+					paramVarRef.setValue( paramValue.execute() );
+
 				if ( currentState == STATE_EXIT )
 					return null;
 
