@@ -55,33 +55,33 @@ public class BuffBotDatabase extends KoLDatabase
 	private static final Object [][] buffData =
 	{
 		// Accordion Thief Buffs
-		{ new Integer(6003), "Antiphon of Aptitude", "Antiphon" },
-		{ new Integer(6004), "Moxious Madrigal", "Madrigal" },
-		{ new Integer(6005), "Canticle of Celerity", "Celerity" },
-		{ new Integer(6006), "Polka of Plenty", "Polka" },
-		{ new Integer(6007), "Magical Mojomuscular Melody", "Melody" },
-		{ new Integer(6008), "Power Ballad of the Arrowsmith", "Ballad" },
-		{ new Integer(6009), "Anthem of Absorption", "Anthem" },
-		{ new Integer(6010), "Phat Loot Lyric", "Phat Loot" },
-		{ new Integer(6011), "Psalm of Pointiness", "Psalm" },
-		{ new Integer(6012), "Symphony of Destruction", "Symphony" },
-		{ new Integer(6013), "Shanty of Superiority", "Shanty" },
-		{ new Integer(6014), "Ode to Booze", "Ode" },
-		{ new Integer(6015), "Sonata of Sneakiness", "Sneakiness" },
-		{ new Integer(6016), "Cantata of Conflict", "Conflict" },
-		{ new Integer(6017), "Aria of Annoyance", "Aria" },
+		{ new Integer(6003), "Antiphon" },
+		{ new Integer(6004), "Madrigal" },
+		{ new Integer(6005), "Celerity" },
+		{ new Integer(6006), "Polka" },
+		{ new Integer(6007), "Melody" },
+		{ new Integer(6008), "Ballad" },
+		{ new Integer(6009), "Anthem" },
+		{ new Integer(6010), "Phat Loot" },
+		{ new Integer(6011), "Psalm" },
+		{ new Integer(6012), "Symphony" },
+		{ new Integer(6013), "Shanty" },
+		{ new Integer(6014), "Ode" },
+		{ new Integer(6015), "Sneakiness" },
+		{ new Integer(6016), "Conflict" },
+		{ new Integer(6017), "Aria" },
 
 		// Sauceress Buffs
-		{ new Integer(4007), "Elemental Saucesphere", "Elemental" },
-		{ new Integer(4008), "Jalape&ntilde;o Saucesphere", "Jalapeno" },
-		{ new Integer(4011), "Jaba&ntilde;ero Saucesphere", "Jabanero" },
+		{ new Integer(4007), "Elemental" },
+		{ new Integer(4008), "Jalapeno" },
+		{ new Integer(4011), "Jabanero" },
 
 		// Turtle Tamer Buffs
-		{ new Integer(2007), "Ghostly Shell", "Ghostly" },
-		{ new Integer(2008), "Reptilian Fortitude", "Fortitude" },
-		{ new Integer(2009), "Empathy of the Newt", "Empathy" },
-		{ new Integer(2010), "Tenacity of the Snapper", "Tenacity" },
-		{ new Integer(2012), "Astral Shell", "Astral" }
+		{ new Integer(2007), "Ghostly" },
+		{ new Integer(2008), "Fortitude" },
+		{ new Integer(2009), "Empathy" },
+		{ new Integer(2010), "Tenacity" },
+		{ new Integer(2012), "Astral" }
 	};
 
 	// Buffs obtainable from statically configured buffbots
@@ -394,7 +394,11 @@ public class BuffBotDatabase extends KoLDatabase
 			buffs.toArray( buffArray );
 
 			for ( int i = 0; i < buffArray.length; ++i )
-				if ( name.indexOf( buffArray[i].getAbbreviation() ) != -1 )
+				// Either the name contains the "official"
+				// abbreviation or is a substring of the skill
+				// name
+				if ( name.indexOf( buffArray[i].getAbbreviation() ) != -1 ||
+				     buffArray[i].getName().indexOf( name ) != -1 )
 					return buffArray[i];
 
 			return null;
@@ -494,7 +498,7 @@ public class BuffBotDatabase extends KoLDatabase
 			Object [] data = buffData[index];
 			this.skill = ((Integer)data[0]).intValue();
 			this.name = ClassSkillsDatabase.getSkillName( skill );
-			this.abbreviation = (String)data[2];
+			this.abbreviation = (String)data[1];
 			this.offerings = new SortedListModel();
 		}
 
