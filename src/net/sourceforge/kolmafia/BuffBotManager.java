@@ -46,6 +46,8 @@ import java.util.Arrays;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -199,6 +201,45 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 
 		setProperty( "buffBotCasting", sellerSetting.toString() );
+
+		TreeMap buffNameMap = new TreeMap();
+
+		StringBuffer currentString;
+
+		for ( int i = 0; i < buffCostTable.size(); ++i )
+		{
+			currentCast = (BuffBotCaster) buffCostTable.get(i);
+			if ( buffNameMap.containsKey( currentCast.getBuffName() ) )
+				buffNameMap.put( currentCast.getBuffName(), new StringBuffer() );
+
+			currentString = (StringBuffer) buffNameMap.get( currentCast.getBuffName() );
+
+			currentString.append( currentCast.getTurnCount() );
+			currentString.append( '-' );
+			currentString.append( currentCast.getPrice() );
+			
+			if ( currentCast.philanthropic )
+				currentString.append( '*' );
+			
+			currentString.append( LINE_BREAK );
+		}
+		
+		try
+		{
+			PrintStream buffList = new PrintStream( new FileOutputStream( new File( "buffs/" + KoLCharacter.getUsername() + "_KoLmafiaReadableDisplayCaseText.txt" ) ) );
+			Object [] keys = buffNameMap.keySet().toArray();
+			
+			for ( int i = 0; i < keys.length; ++i )
+			{
+				buffList.println( keys[i] );
+				buffList.println( buffNameMap.get( keys[i] ) );
+			}
+			
+			buffList.close();
+		}
+		catch ( Exception e )
+		{
+		}
 	}
 
 	/**
@@ -571,6 +612,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		private int buffID;
 		private String buffName;
 		private int castCount;
+		private int turnCount;
 
 		private String target;
 		private boolean restricted;
@@ -586,6 +628,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			this.buffName = buffName;
 			this.price = price;
 			this.castCount = castCount;
+			this.turnCount = buffID > 6000 ? castCount * 15 : castCount * 10;
 
 			this.restricted = restricted;
 			this.philanthropic = philanthropic;
@@ -598,9 +641,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			stringForm.append( " time" );
 
 			if ( castCount != 1 )
-				stringForm.append( 's' );
-
-			stringForm.append( " for " );
+				stringForm.append( "s (" );
+			
+			stringForm.append( turnCount );
+			stringForm.append( " turns) for " );
 			stringForm.append( price );
 			stringForm.append( " meat" );
 
@@ -694,6 +738,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		{	return price;
 		}
 
+		public int getTurnCount()
+		{	return turnCount;
+		}
+		
 		public int getCastCount()
 		{	return castCount;
 		}
