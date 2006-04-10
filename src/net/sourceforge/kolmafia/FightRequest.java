@@ -75,7 +75,7 @@ public class FightRequest extends KoLRequest
 
 	private static final String [] CONTINUE_TEXT =
 	{
-		"againform.submit",  // If there is an again form, then continue
+		"Adventure Again",   // Regular link
 		"rats.php",          // Allows continuation during tavern quest
 		"lair3.php",         // Allows continuation during hedge maze
 		"lair4.php",         // Allows continuation during tower guardians
