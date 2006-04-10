@@ -45,6 +45,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import net.java.dev.spellcast.utilities.DataUtilities;
+
 public class LocalRelayRequest extends KoLRequest
 {
 	protected String fullResponse;
@@ -166,7 +168,7 @@ public class LocalRelayRequest extends KoLRequest
 	protected void sendSharedFile( String filename ) throws IOException
 	{
 		StringBuffer replyBuffer = new StringBuffer();
-		BufferedReader reader = KoLDatabase.getReader( "html/" + filename );
+		BufferedReader reader = DataUtilities.getReader( "html", filename );
 
 		if ( reader == null )
 		{

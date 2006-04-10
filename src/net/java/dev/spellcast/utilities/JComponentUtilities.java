@@ -131,16 +131,7 @@ public class JComponentUtilities implements UtilityConstants
 	 */
 
 	public static ImageIcon getImage( String filename )
-	{
-		try
-		{	return getImage( IMAGE_DIRECTORY, filename );
-		}
-		catch ( FileNotFoundException e )
-		{
-			System.out.println( e );
-			e.printStackTrace();
-			return null;
-		}
+	{	return getImage( IMAGE_DIRECTORY, filename );
 	}
 
 	/**
@@ -154,18 +145,17 @@ public class JComponentUtilities implements UtilityConstants
 	 */
 
 	public static ImageIcon getImage( String directory, String filename )
-		throws FileNotFoundException
 	{
 		if ( directory.length() > 0 && !directory.endsWith( File.separator ) && !directory.endsWith( "/" ) )
 			directory += File.separator;
 
-		File override = new File( directory + filename );
-		if ( override.exists() )
-			return new ImageIcon( directory + filename );
-
 		ImageIcon result =  null;
 		String fullname = directory + filename;
 		String jarname = fullname.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+
+		File override = new File( fullname );
+		if ( override.exists() )
+			return new ImageIcon( fullname );
 
 		result = getImage( SYSTEM_CLASSLOADER, fullname, jarname );
 		if ( result != null )
@@ -176,7 +166,7 @@ public class JComponentUtilities implements UtilityConstants
 			return result;
 
 		// if it's gotten this far, the image icon does not exist
-		throw new FileNotFoundException( fullname );
+		return null;
 	}
 	
 	private static ImageIcon getImage( ClassLoader loader, String filename, String jarname )
