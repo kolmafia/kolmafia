@@ -347,6 +347,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( scriptSetting != null && !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
 		
+		if ( (skillSetting != null && !skillSetting.equals( "" )) || (scriptSetting != null && !scriptSetting.equals( "" )) )
 		GLOBAL_SETTINGS.setProperty( "lastBreakfast." + username.toLowerCase(), today );
 		LocalRelayServer.getNewStatusMessages();
 	}

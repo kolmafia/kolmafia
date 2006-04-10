@@ -91,16 +91,8 @@ public class DataUtilities implements UtilityConstants
 
 	public static BufferedReader getReader( String directory, String filename )
 	{
-		try
-		{
-			return new BufferedReader( new InputStreamReader( getInputStream( directory, filename ) ) );
-		}
-		catch ( FileNotFoundException e )
-		{
-			System.out.println( e );
-			e.printStackTrace();
-			return null;
-		}
+		InputStream istream = getInputStream( directory, filename );
+		return istream == null ? null : new BufferedReader( new InputStreamReader( istream ) );
 	}
 
 	/**
@@ -114,7 +106,6 @@ public class DataUtilities implements UtilityConstants
 	 */
 
 	public static InputStream getInputStream( String directory, String filename )
-		throws FileNotFoundException
 	{
 		if ( directory.length() > 0 && !directory.endsWith( File.separator ) && !directory.endsWith( "/" ) )
 			directory += File.separator;
@@ -123,7 +114,20 @@ public class DataUtilities implements UtilityConstants
 
 		String fullname = directory + filename;
 		String jarname = fullname.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
-		
+
+		File override = new File( fullname );
+		if ( override.exists() )
+		{
+			try
+			{
+				return new FileInputStream( override );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace();
+			}
+		}
+
 		locationAsInputStream = getInputStream( SYSTEM_CLASSLOADER, fullname, jarname );
 		if ( locationAsInputStream != null )
 			return locationAsInputStream;
@@ -133,7 +137,7 @@ public class DataUtilities implements UtilityConstants
 			return locationAsInputStream;
 
 		// if it's gotten this far, the file does not exist
-		throw new FileNotFoundException( fullname );
+		return null;
 	}
 	
 	private static InputStream getInputStream( ClassLoader loader, String filename, String jarname )

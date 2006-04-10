@@ -48,22 +48,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 public class KoLDatabase extends StaticEntity
 {
 	protected static BufferedReader getReader( String file )
-	{
-		File override = new File( "data/" + file );
-		if ( override.exists() )
-		{
-			try
-			{
-				return new BufferedReader( new InputStreamReader( new FileInputStream( override ) ) );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-			}
-		}
-
-		return DataUtilities.getReader( file );
+	{	return DataUtilities.getReader( file );
 	}
 
 	protected static String [] readData( BufferedReader reader )
