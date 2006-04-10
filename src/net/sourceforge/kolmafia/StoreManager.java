@@ -209,8 +209,9 @@ public abstract class StoreManager extends StaticEntity
 		// is slightly better than constantly clearing and then
 		// re-adding the items to your store.
 
-		soldItemList.retainAll( newItems );
-		Collections.sort( soldItemList );
+		soldItemList.clear();
+		Collections.sort( newItems );
+		soldItemList.addAll( newItems );
 
 		// Now, update the title of the store manage
 		// frame to reflect the new price.
