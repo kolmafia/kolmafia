@@ -1583,14 +1583,6 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Method to sort the effects by duration
-	 */
-
-	public static void sortEffects()
-	{	AdventureResult.sortListByCount( activeEffects );
-	}
-
-	/**
 	 * Accessor method to set the list of available skills.
 	 * @param	availableSkills	The list of the names of available skills
 	 */
