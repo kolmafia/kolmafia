@@ -75,6 +75,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int TOASTER = 637;
 	private static final int GIANT_CASTLE_MAP = 667;
 	private static final int YETI_PROTEST_SIGN = 775;
+	private static final int PLUS_SIGN = 918;
 	private static final int ROLLING_PIN = 873;
 	private static final int UNROLLING_PIN = 874;
 	private static final int CLOCKWORK_BARTENDER = 1111;
@@ -515,6 +516,16 @@ public class ConsumeItemRequest extends KoLRequest
 			// They are not consumed by being used
 			client.processResult( FLAT_DOUGH.getInstance( FLAT_DOUGH.getCount( KoLCharacter.getInventory() ) ).getNegation() );
 			return;
+
+		case PLUS_SIGN:
+			// "Following The Oracle's advice, you treat the plus
+			// sign as a book, and read it."
+			if ( responseText.indexOf( "you treat the plus sign as a book" ) == -1 )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't know how to use it." );
+				return;
+			}
+			break;
 
 		case YETI_PROTEST_SIGN:
 			// You don't use up a Yeti Protest Sign by protesting
