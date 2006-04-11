@@ -1014,6 +1014,28 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to determine if character's weapon is ranged
+	 * @return	boolean	true if weapon is ranged
+	 */
+
+	public static boolean rangedWeapon()
+	{
+		String name = getCurrentEquipmentName( WEAPON );
+		return name != null && EquipmentDatabase.isRanged( name );
+	}
+
+	/**
+	 * Accessor method to determine if character is currently dual-wielding
+	 * @return	boolean	true if character has two weapons equipped
+	 */
+
+	public static boolean dualWielding()
+	{
+		String name = getCurrentEquipmentName( OFFHAND );
+		return name != null && EquipmentDatabase.getHands( name ) == 1;
+	}
+
+	/**
 	 * Accessor method to retrieve a list of all available items which can be equipped
 	 * by familiars.  Note this lists items which the current familiar cannot equip.
 	 */
@@ -1051,12 +1073,16 @@ public abstract class KoLCharacter extends StaticEntity
 		List items = new ArrayList();
 
 		// If we are looking for off-hand items, the character is
-		// currently equipped with a one-handed weapon, and the
+		// currently equipped with a one-handed melee weapon, and the
 		// character has the ability to dual-wield weapons, then also
 		// search for one-handed weapons.
 		boolean dual = ( filterID == ConsumeItemRequest.EQUIP_OFFHAND &&
-				 weaponHandedness() == 1 &&
+				 weaponHandedness() == 1 && !rangedWeapon() &&
 				 hasSkill( "Double-Fisted Skull Smashing" ) );
+
+		// If the character is currently dual wielding, only melee
+		// weapons are allowed in the main weapon slot
+		boolean dualWielding = dualWielding();
 
 		// If we are looking for familiar items, but we don't
 		// have a familiar, then no familiar items can actually
@@ -1073,28 +1099,42 @@ public abstract class KoLCharacter extends StaticEntity
 			String currentItem = ((AdventureResult)inventory.get(i)).getName().toLowerCase();
 			int type = TradeableItemDatabase.getConsumptionType( currentItem );
 
-			if ( type == filterID || ( dual && type == ConsumeItemRequest.EQUIP_WEAPON && EquipmentDatabase.getHands( currentItem ) == 1 ) )
+			// If we want off-hand items and we can dual wield,
+			// allow one-handed melee weapons
+			if ( filterID == ConsumeItemRequest.EQUIP_OFFHAND && dual && type == ConsumeItemRequest.EQUIP_WEAPON )
 			{
-				// If it's a familiar item, make sure it's OK
-				// for current familiar.
-
-				if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR )
-				{
-					if ( currentFamiliar.canEquip( currentItem ) )
-						items.add( currentItem );
-				}
-
-				// Otherwise, see if we have the necessary stat
-				// to equip the item.
-
-				else if ( EquipmentDatabase.canEquip( currentItem ) )
-				{
-					if ( filterID != ConsumeItemRequest.EQUIP_ACCESSORY )
-						items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
-					else
-						items.add( currentItem );
-				}
+				if ( !EquipmentDatabase.dualWieldable( currentItem ) )
+					continue;
 			}
+
+			// Otherwise, slot and item type must match
+			else if ( filterID != type )
+				continue;
+
+			// If we are currently dual-wielding, only melee
+			// weapons are allowed in the main weapon slot
+			// Two-handed ranged weapons are also allowed since
+			// they will remove both weapons when equipped
+			else if ( filterID == ConsumeItemRequest.EQUIP_WEAPON && dualWielding && EquipmentDatabase.isRanged( currentItem ) && EquipmentDatabase.getHands( currentItem ) == 1 )
+				continue;
+
+			// If we are equipping familiar items, make sure
+			// current familiar can use this one
+			if ( type == ConsumeItemRequest.EQUIP_FAMILIAR )
+			{
+				if ( currentFamiliar.canEquip( currentItem ) )
+					items.add( currentItem );
+				continue;
+			}
+
+			// It's a regular item. Make sure we meet requirements
+			if ( !EquipmentDatabase.canEquip( currentItem ) )
+				continue;
+
+			if ( filterID != ConsumeItemRequest.EQUIP_ACCESSORY )
+				items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
+			else
+				items.add( currentItem );
 		}
 
 		// If we are looking at familiar items, include those which can

@@ -152,6 +152,32 @@ public class EquipmentDatabase extends KoLDatabase
 		return getHands( itemID );
 	}
 
+	public static boolean isRanged( int itemID )
+	{
+		String req = requirement.get( itemID );
+		return req != null && req.startsWith( "Mox:" );
+	}
+
+	public static boolean isRanged( String itemName )
+	{
+		int itemID = TradeableItemDatabase.getItemID( itemName );
+
+		if ( itemID == -1 )
+			return false;
+
+		return isRanged( itemID );
+	}
+
+	public static boolean dualWieldable( String itemName )
+	{
+		int itemID = TradeableItemDatabase.getItemID( itemName );
+
+		if ( itemID == -1 )
+			return false;
+
+		return getHands( itemID ) == 1 && !isRanged( itemID );
+	}
+
 	public static boolean hasOutfit( int id )
 	{	return KoLCharacter.getOutfits().contains( outfits.get( id ) );
 	}
