@@ -407,24 +407,24 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		protected void addGraphicalCompactPane()
 		{
-			JPanel compactPane = new JPanel( new GridLayout( 7, 1, 0, 20 ) );
-			compactPane.setOpaque( false );
+			JPanel compactContainer = new JPanel( new GridLayout( 7, 1, 0, 20 ) );
+			compactContainer.setOpaque( false );
 
-			compactPane.add( hpLabel = new JLabel( " ", JComponentUtilities.getImage( "hp.gif" ), JLabel.CENTER ) );
-			compactPane.add( mpLabel = new JLabel( " ", JComponentUtilities.getImage( "mp.gif" ), JLabel.CENTER ) );
+			compactContainer.add( hpLabel = new JLabel( " ", JComponentUtilities.getImage( "hp.gif" ), JLabel.CENTER ) );
+			compactContainer.add( mpLabel = new JLabel( " ", JComponentUtilities.getImage( "mp.gif" ), JLabel.CENTER ) );
 
-			compactPane.add( familiarLabel = new UnanimatedLabel() );
+			compactContainer.add( familiarLabel = new UnanimatedLabel() );
 
-			compactPane.add( meatLabel = new JLabel( " ", JComponentUtilities.getImage( "meat.gif" ), JLabel.CENTER ) );
-			compactPane.add( advLabel = new JLabel( " ", JComponentUtilities.getImage( "hourglass.gif" ), JLabel.CENTER ) );
-			compactPane.add( drunkLabel = new JLabel( " ", JComponentUtilities.getImage( "sixpack.gif" ), JLabel.CENTER) );
+			compactContainer.add( meatLabel = new JLabel( " ", JComponentUtilities.getImage( "meat.gif" ), JLabel.CENTER ) );
+			compactContainer.add( advLabel = new JLabel( " ", JComponentUtilities.getImage( "hourglass.gif" ), JLabel.CENTER ) );
+			compactContainer.add( drunkLabel = new JLabel( " ", JComponentUtilities.getImage( "sixpack.gif" ), JLabel.CENTER) );
 
-			compactPane.add( Box.createHorizontalStrut( 80 ) );
+			compactContainer.add( Box.createHorizontalStrut( 80 ) );
 
 			compactPane = new JPanel();
 			compactPane.setLayout( new BoxLayout( this.compactPane, BoxLayout.Y_AXIS ) );
 			compactPane.add( Box.createVerticalStrut( 20 ) );
-			compactPane.add( compactPane );
+			compactPane.add( compactContainer );
 		}
 
 		protected void updateTextOnly()
