@@ -195,6 +195,22 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
 		  { "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } },
 
+		// A Three-Tined Fork
+		{ { "choiceAdventure26" }, { "Spooky Forest" },
+		  { "Muscle Classes", "Mysticality Classes", "Moxie Classes" } },
+
+		// Footprints
+		{ { "choiceAdventure27" }, { "Spooky Forest" },
+		  { "Seal Clubber", "Turtle Tamer" } },
+
+		// A Pair of Craters
+		{ { "choiceAdventure28" }, { "Spooky Forest" },
+		  { "Pastamancer", "Sauceress" } },
+
+		// The Road Less Visible
+		{ { "choiceAdventure29" }, { "Spooky Forest" },
+		  { "Disco Bandit", "Accordion Thief" } },
+
 		// The Effervescent Fray
 		{ { "choiceAdventure40" }, { "Cola Wars 1" },
 		  { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "15 Mysticality" },
@@ -208,7 +224,15 @@ public class AdventureDatabase extends KoLDatabase
 		// What is it Good For?
 		{ { "choiceAdventure42" }, { "Cola Wars 3" },
 		  { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "15 Moxie" },
-		  { "1326", "1327", null } }
+		  { "1326", "1327", null } },
+
+		// Maps and Legends
+		{ { "choiceAdventure45" }, { "Spooky Forest" },
+		  { "Spooky Temple Map", "Ignore the monolith", "Fight" } },
+
+		// An Interesting Choice
+		{ { "choiceAdventure46" }, { "Spooky Forest" },
+		  { "Moxie", "Muscle", "Fight" } },
 	};
 
 	// Some choice adventures have a choice that behaves as an "ignore"
@@ -241,7 +265,11 @@ public class AdventureDatabase extends KoLDatabase
 		{ "choiceAdventure21", "2" },
 
 		// Ouch! You bump into a door!
-		{ "choiceAdventure25", "3" }
+		{ "choiceAdventure25", "3" },
+
+		// Maps and Legends
+		{ "choiceAdventure45", "2" },
+
 	};
 
 	// Some choice adventures have options that cost meat
