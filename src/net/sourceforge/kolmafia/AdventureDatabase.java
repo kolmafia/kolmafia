@@ -196,19 +196,19 @@ public class AdventureDatabase extends KoLDatabase
 		  { "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } },
 
 		// A Three-Tined Fork
-		{ { "choiceAdventure26" }, { "Spooky Forest" },
+		{ { "choiceAdventure26" }, { "Spooky Forest 1" },
 		  { "Muscle Classes", "Mysticality Classes", "Moxie Classes" } },
 
 		// Footprints
-		{ { "choiceAdventure27" }, { "Spooky Forest" },
+		{ { "choiceAdventure27" }, { "Spooky Forest 2a" },
 		  { "Seal Clubber", "Turtle Tamer" } },
 
 		// A Pair of Craters
-		{ { "choiceAdventure28" }, { "Spooky Forest" },
-		  { "Pastamancer", "Sauceress" } },
+		{ { "choiceAdventure28" }, { "Spooky Forest 2b" },
+		  { "Pastamancer", "Sauceror" } },
 
 		// The Road Less Visible
-		{ { "choiceAdventure29" }, { "Spooky Forest" },
+		{ { "choiceAdventure29" }, { "Spooky Forest 2c" },
 		  { "Disco Bandit", "Accordion Thief" } },
 
 		// The Effervescent Fray
@@ -227,11 +227,11 @@ public class AdventureDatabase extends KoLDatabase
 		  { "1326", "1327", null } },
 
 		// Maps and Legends
-		{ { "choiceAdventure45" }, { "Spooky Forest" },
+		{ { "choiceAdventure45" }, { "Spooky Forest 3" },
 		  { "Spooky Temple Map", "Ignore the monolith", "Fight" } },
 
 		// An Interesting Choice
-		{ { "choiceAdventure46" }, { "Spooky Forest" },
+		{ { "choiceAdventure46" }, { "Spooky Forest 4" },
 		  { "Moxie", "Muscle", "Fight" } },
 	};
 
