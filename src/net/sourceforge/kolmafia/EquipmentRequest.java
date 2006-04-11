@@ -141,6 +141,10 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Find out what kind of item it is
 		this.equipmentType = TradeableItemDatabase.getConsumptionType( itemID );
 
+		// If unspecified slot, pick based on type of item
+		if ( this.equipmentSlot == -1 )
+			this.equipmentSlot = chooseEquipmentSlot();
+
 		// Make sure you can equip it in the requested slot
 		String action = getAction();
 		if ( action == null )
@@ -178,7 +182,16 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		case KoLCharacter.WEAPON:
 			if ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON )
+			{
+				if ( KoLCharacter.dualWielding() &&
+				     EquipmentDatabase.isRanged( itemID ) &&
+				     EquipmentDatabase.getHands( itemID ) == 1 )
+				{
+					error = "You can't equip a ranged weapon with a melee weapon in your off-hand.";
+					return null;
+				}
 				return "equip";
+			}
 			break;
 
 		case KoLCharacter.OFFHAND:
@@ -187,14 +200,19 @@ public class EquipmentRequest extends PasswordHashRequest
 
 			if ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON )
 			{
-				if ( KoLCharacter.weaponHandedness() != 1 )
+				if ( KoLCharacter.weaponHandedness() != 1 || KoLCharacter.rangedWeapon() )
 				{
-					error = "You must have a 1-handed primary weapon equipped first.";
+					error = "You must have a 1-handed melee weapon equipped first.";
 					return null;
 				}
 				if ( EquipmentDatabase.getHands( itemID ) > 1 )
 				{
-					error = "That weapon is too big to wield in your off hand.";
+					error = "That weapon is too big to wield in your off-hand.";
+					return null;
+				}
+				if ( EquipmentDatabase.isRanged( itemID ) )
+				{
+					error = "You can't wield a ranged weapon in your off-hand.";
 					return null;
 				}
 				if ( !KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" ) )
@@ -238,6 +256,37 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		error = "You can't put your " + TradeableItemDatabase.getItemName( itemID ) + " there.";
 		return null;
+	}
+
+	private int chooseEquipmentSlot()
+	{
+		if ( equipmentSlot != -1 )
+			return equipmentSlot;
+
+		switch ( equipmentType )
+		{
+		case ConsumeItemRequest.EQUIP_HAT:
+			return KoLCharacter.HAT;
+
+		case ConsumeItemRequest.EQUIP_WEAPON:
+			return KoLCharacter.WEAPON;
+
+		case ConsumeItemRequest.EQUIP_OFFHAND:
+			return KoLCharacter.OFFHAND;
+
+		case ConsumeItemRequest.EQUIP_SHIRT:
+			return KoLCharacter.SHIRT;
+
+		case ConsumeItemRequest.EQUIP_PANTS:
+			return KoLCharacter.PANTS;
+
+		case ConsumeItemRequest.EQUIP_FAMILIAR:
+			return KoLCharacter.FAMILIAR;
+
+		case ConsumeItemRequest.EQUIP_ACCESSORY:
+		default:
+			return -1;
+		}
 	}
 
 	public String getOutfitName()

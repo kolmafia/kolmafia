@@ -219,7 +219,7 @@ Crimbo sword	100	Mus: 35	2
 crowbarrr	80	Mus: 25	2
 denim axe	120	Mus: 45	2
 diamond-studded cane	60	Mus: 15
-disco ball	10	none
+disco ball	10	Mox: 0
 Disco Banjo	50	Mox: 10	2
 Dr. Hobo's scalpel	35	Mus: 2
 dripping meat crossbow	50	Mox: 10	2
@@ -282,7 +282,7 @@ saucepan	10	none
 seal-clubbing club	10	none
 skeleton bone	30	none
 slightly peevedbow	60	Mox: 15	2
-slingshot	20	none	2
+slingshot	20	Mox: 0	2
 spiked femur	100	Mus: 35
 spooky bicycle chain	80	Mus: 25
 spooky staff	35	Mus: 2	2
@@ -292,8 +292,8 @@ stainless steel shillelagh	90	Mus: 30
 star crossbow	165	Mox: 67	2
 star staff	165	Mus: 67	2
 star sword	165	Mus: 67	2
-stolen accordion	10	none	2
-stone banjo	25	none	2
+stolen accordion	10	Mox: 0	2
+stone banjo	25	Mox: 0	2
 suede shortsword	40	Mus: 5
 sweet ninja sword	20	none
 time sword	100	Mus: 35
