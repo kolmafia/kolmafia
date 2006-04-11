@@ -203,13 +203,12 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		setProperty( "buffBotCasting", sellerSetting.toString() );
 
 		TreeMap buffNameMap = new TreeMap();
-
 		StringBuffer currentString;
 
 		for ( int i = 0; i < buffCostTable.size(); ++i )
 		{
 			currentCast = (BuffBotCaster) buffCostTable.get(i);
-			if ( buffNameMap.containsKey( currentCast.getBuffName() ) )
+			if ( !buffNameMap.containsKey( currentCast.getBuffName() ) )
 				buffNameMap.put( currentCast.getBuffName(), new StringBuffer() );
 
 			currentString = (StringBuffer) buffNameMap.get( currentCast.getBuffName() );

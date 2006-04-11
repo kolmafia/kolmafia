@@ -98,29 +98,6 @@ public class AdventureResult implements Comparable, KoLConstants
 		MOX_SUBSTAT.add( "Cheek" );  MOX_SUBSTAT.add( "Chutzpah" );  MOX_SUBSTAT.add( "Roguishness" );  MOX_SUBSTAT.add( "Sarcasm" );  MOX_SUBSTAT.add( "Smarm" );
 	}
 
-	private static final Comparator COUNT_COMPARATOR = new Comparator()
-	{
-		public int compare( Object o1, Object o2 )
-		{
-			if ( !(o1 instanceof AdventureResult ) ||
-			     !(o2 instanceof AdventureResult ) )
-				throw new ClassCastException();
-
-			AdventureResult ar1 = (AdventureResult)o1;
-			AdventureResult ar2 = (AdventureResult)o2;
-
-			// Order first by count
-			int count1 = ar1.getCount();
-			int count2 = ar2.getCount();
-
-			if ( count1 != count2 )
-				return count1 - count2;
-
-			// Order second by name
-			return ar1.name.compareTo( ar2.name );
-		}
-	};
-
 	/**
 	 * Constructs a new <code>AdventureResult</code> with the given name.
 	 * The amount of gain will default to zero.  This constructor should
@@ -502,6 +479,9 @@ public class AdventureResult implements Comparable, KoLConstants
 		if ( priorityDifference != 0 )
 			return priorityDifference;
 
+		if ( isStatusEffect() && getCount() != ar.getCount() )
+			return getCount() - ar.getCount();
+		
 		int nameComparison = name.compareToIgnoreCase( ar.name );
 		if ( nameComparison != 0 )
 			return nameComparison;
@@ -568,16 +548,6 @@ public class AdventureResult implements Comparable, KoLConstants
 			sumResult = new AdventureResult( AdventureResult.ADV, 0 );
 
 		tally.set( index, sumResult );
-	}
-
-	/**
-	 * Utility method used to sort a list of AdventureResults by count
-	 *
-	 * @param	list	The list of <code>AdventureResult</code>s
-	 */
-
-	public static void sortListByCount( List list )
-	{	 java.util.Collections.sort( list, COUNT_COMPARATOR );
 	}
 
 	public static DefaultListCellRenderer getAutoSellCellRenderer()
