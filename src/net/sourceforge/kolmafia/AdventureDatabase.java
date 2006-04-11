@@ -228,7 +228,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Maps and Legends
 		{ { "choiceAdventure45" }, { "Spooky Forest 3" },
-		  { "Spooky Temple Map", "Ignore the monolith", "Fight" } },
+		  { "Spooky Temple Map", "Ignore the monolith", "Nothing" } },
 
 		// An Interesting Choice
 		{ { "choiceAdventure46" }, { "Spooky Forest 4" },
