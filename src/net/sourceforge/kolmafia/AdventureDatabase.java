@@ -59,9 +59,24 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final Map ZONE_NAMES = new TreeMap();
 	public static final Map ZONE_DESCRIPTIONS = new TreeMap();
+	private static List [] adventureTable = new ArrayList[4];
+	private static final Map areaCombatData = new TreeMap();
 
 	static
 	{
+		for ( int i = 0; i < 4; ++i )
+			adventureTable[i] = new ArrayList();
+
+		AdventureDatabase.refreshZoneTable();
+		AdventureDatabase.refreshAdventureTable();
+		AdventureDatabase.refreshCombatsTable();
+	}
+
+	public static final void refreshZoneTable()
+	{
+		ZONE_NAMES.clear();
+		ZONE_DESCRIPTIONS.clear();
+
 		BufferedReader reader = getReader( "zonelist.dat" );
 		String [] data;
 
@@ -83,8 +98,6 @@ public class AdventureDatabase extends KoLDatabase
 			e.printStackTrace( KoLmafia.getLogStream() );
 			e.printStackTrace();
 		}
-
-		AdventureDatabase.refreshTable();
 	}
 
 	public static final String [] CLOVER_ADVS =
@@ -295,15 +308,12 @@ public class AdventureDatabase extends KoLDatabase
 		"Cobb's Knob lab key"
 	};
 
-	private static List [] adventureTable;
-
-	public static final void refreshTable()
+	public static final void refreshAdventureTable()
 	{
 		BufferedReader reader = getReader( "adventures.dat" );
 
-		adventureTable = new ArrayList[4];
 		for ( int i = 0; i < 4; ++i )
-			adventureTable[i] = new ArrayList();
+			adventureTable[i].clear();
 
 		String [] data;
 
@@ -564,7 +574,7 @@ public class AdventureDatabase extends KoLDatabase
 		request.run();
 
 		// Now that the zone is armed, check to see
-		// if the adventure is even available.  If
+		// if the adventure is even available.	If
 		// it's not, cancel the request before it's
 		// even made to minimize server hits.
 
@@ -821,5 +831,59 @@ public class AdventureDatabase extends KoLDatabase
 			if ( text.indexOf( FREE_ADVENTURES[i] ) != -1 )
 				return true;
 		return false;
+	}
+
+	public static final void refreshCombatsTable()
+	{
+		areaCombatData.clear();
+
+		BufferedReader reader = getReader( "combats.dat" );
+		String [] data;
+
+		String [] adventures = new String[ adventureTable[3].size() ];
+		adventureTable[3].toArray( adventures );
+
+		while ( (data = readData( reader )) != null )
+		{
+			if ( data.length == 2 )
+			{
+				if ( !validateAdventureArea( data[0], adventures ) )
+				{
+					System.out.println( "Invalid adventure area: " + data[0] );
+					continue;
+				}
+
+				AreaCombatData combat = new AreaCombatData( data[1] );
+				if ( !combat.valid() )
+				{
+					System.out.println( "Bad combat parameters for " + data[0] );
+					continue;
+				}
+
+				areaCombatData.put( data[0], combat );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			e.printStackTrace( KoLmafia.getLogStream() );
+			e.printStackTrace();
+		}
+	}
+
+	private static boolean validateAdventureArea( String area, String [] areas )
+	{
+		for ( int i = 0; i < areas.length; ++i )
+			if ( area.equals( areas[i] ) )
+			     return true;
+		return false;
+	}
+
+	public static AreaCombatData getAreaCombatData( String area )
+	{	return (AreaCombatData)areaCombatData.get( area );
 	}
 }

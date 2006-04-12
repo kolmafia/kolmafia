@@ -1,0 +1,80 @@
+# Adventure Area Name	Area Parameters
+#
+# Adventure Area Name must match that in adventures.dat
+# Area parameters extracted from Kittiwake's Monster Survival Guide:
+#
+# http://forums.kingdomofloathing.com/viewtopic.php?t=39973&start=0
+# http://kol.network-forums.com/viewtopic.php?p=1757
+
+Sleazy Back Alley	Hit: 10 Evade: 10
+Haunted Pantry	Hit: 10 Evade: 10
+
+Dungeons of Doom	Hit: 46-54 Evade: 46-54
+Daily Dungeon	Hit: 21-28 Evade: 21-30
+
+Degrassi Knoll	Hit: 19-24 Evade: 19-22
+Fun House	Hit: 26-29 Evade: 23-29
+Cemetary (Pre-Cyrpt)	Hit: 27-31 Evade: 27-39
+Fernswarthy's Tower	Hit: 25-28 Evade: 25-33
+Cemetary (Post-Cyrpt)	Hit: 63-69 Evade: 62-68
+Palindome	Hit: 74-89 Evade: 74-89
+
+Outskirts of The Knob	Hit: 10-11 Evade: 10-11
+Knob Goblin Kitchens	Hit: 29-31 Evade: 29-31
+Knob Goblin Treasury	Hit: 33-37 Evade: 33-41
+Knob Goblin Harem	Hit: 34-37 Evade: 35-41
+The King's Chamber	Hit: 62 Evade: 66
+Knob Goblin Laboratory	Hit: 49-54 Evade: 49-54
+Menagerie (Level 1)	Hit: 59-65 Evade: 59-65
+Menagerie (Level 2)	Hit: 69-75 Evade: 69-75
+Menagerie (Level 3)	Hit: 79-85 Evade: 79-85
+
+Bat Hole Entryway	Hit: 21-23 Evade: 20-25
+Guano Junction	Hit: 23-27 Evade: 23-27
+Batrat and Ratbat Burrow	Hit: 32-34 Evade: 32-34
+Beanbat Chamber	Hit: 30 Evade: 31
+The Boss Bat's Lair	Hit: 42 Evade: 46
+
+Defiled Nook	Hit: 63-82 Evade: 63-86
+Defiled Cranny	Hit: 65-80 Evade: 63-88
+Defiled Alcove	Hit: 64-80 Evade: 62-88
+Defiled Niche	Hit: 66-82 Evade: 66-86
+Haert of the Cyrpt	Hit: 99 Evade: 100
+
+Spooky Forest	Hit: 12-13 Evade: 10
+Inexplicable Door	Hit: 29-34 Evade: 29-34
+Whitey's Grove	Hit: 43-46 Evade: 43-45
+
+Dark Neck of the Woods	Hit: 49-61 Evade: 49-61
+Dark Heart of the Woods	Hit: 51-59 Evade: 51-59
+Dark Elbow of the Woods	Hit: 39-55 Evade: 53-59
+Deep Fat Friar's Gate	Hit: 39-61 Evade: 49-61
+
+Valley Beyond Orc Chasm	Hit: 84-96 Evade: 84-96
+
+Goatlet	Hit: 77 Evade: 77
+Itznotyerzitz Mine	Hit: 62-66 Evade: 62-66
+Ninja Snowmen	Hit: 94-99 Evade: 94-99
+eXtreme Slope	Hit: 82-84 Evade: 80-85
+Icy Peak	Hit: 112 Evade: 116
+
+Hippy Camp (No Disguise)	Hit: 48-50 Evade: 48-50
+Frat House (No Disguise)	Hit: 48-50 Evade: 48-50
+Pirate Cove (No Disguise)	Hit: 70-78 Evade: 70-78
+
+Penultimate Fantasy Airship	Hit: 98-129 Evade: 100-129
+Castle in the Clouds in the Sky	Hit: 134-154 Evade: 134-154
+Hole in the Sky	Hit: 160-177 Evade: 158-177
+
+Outskirts of Camp	Hit: 11-12 Evade: 10
+Camp Logging Camp	Hit: 44-49 Evade: 44-49
+Thugnderdome	Hit: 44-54 Evade: 44-54
+Bugbear Pens	Hit: 22-29 Evade: 22-29
+Spooky Gravy Barrow	Hit: 63-84 Evade: 65-85
+
+Sorceress' Hedge Maze	Hit: 189 Evade: 189
+
+Battlefield (Cloaca Uniform)	Hit: 39 Evade: 39
+Battlefield (Dyspepsi Uniform)	Hit: 39 Evade: 39
+
+Spectral Pickle Factory	Hit: 205 Evade: 205
