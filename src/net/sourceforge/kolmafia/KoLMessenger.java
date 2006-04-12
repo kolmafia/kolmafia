@@ -679,7 +679,9 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( message.indexOf( "href='bet.php'" ) != -1 )
 				message = MoneyMakingGameFrame.handleBetResult( message );
 
-			processChatMessage( currentChannel, message );
+			// Allow the MMG frame to consume the message
+			if ( message != null)
+				processChatMessage( currentChannel, message );
 		}
 	}
 
