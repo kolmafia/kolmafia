@@ -270,6 +270,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureNonZeroProperty( "choiceAdventure42", "3" );
 		ensureProperty( "choiceAdventure45", "0" );
 		ensureNonZeroProperty( "choiceAdventure46", "3" );
+		ensureNonZeroProperty( "choiceAdventure47", "2" );
 
 		// Wheel choice adventures need special handling.
 		// This is where everything is validated for that.
