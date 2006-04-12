@@ -136,4 +136,74 @@ public class AreaCombatData
 	public int maxEvade()
 	{	return maxEvade;
 	}
+
+	public double hitPercent( int attack, int defense )
+	{
+		// ( (Attack - Defense) / 18 ) * 100 + 50 = Hit% 
+		double percent = 100.0 * ( attack - defense ) / 18 + 50.0;
+		if ( percent < 0.0 )
+			return 0.0;
+		if ( percent > 100.0 )
+			return 100.0;
+		return percent;
+	}
+
+	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
+	private static final int ICE_SICKLE = 1424;
+	private static final int HIPPO_WHIP = 1029;
+	private static final int GIANT_NEEDLE = 619;
+	private static final int GOTH_KID = 703;
+	private static final int HOCKEY_STICK = 1236;
+	private static final int SCARF = 1227;
+	private static final int AGGRAVATE_MONSTER = 835;
+	private static final int PITCHFORK = 1116;
+
+	public static int monsterLevelAdjustment()
+	{
+		int ml = KoLCharacter.getMindControlLevel();
+
+		for ( int slot = KoLCharacter.WEAPON; slot <= KoLCharacter.FAMILIAR; ++slot )
+		{
+			if ( slot == KoLCharacter.PANTS )
+				continue;
+
+			AdventureResult item = KoLCharacter.getCurrentEquipment( slot );
+			if ( item == null )
+				continue;
+
+			switch ( item.getItemID() )
+			{
+			case ICE_SICKLE:
+				ml += 15;
+				break;
+			case HIPPO_WHIP:
+				ml += 10;
+				break;
+			case GIANT_NEEDLE:
+				ml += 5;
+				break;
+			case GOTH_KID:
+				ml += 5;
+				break;
+			case HOCKEY_STICK:
+				ml += 30;
+				break;
+			case SCARF:
+				ml += 20;
+				break;
+			case AGGRAVATE_MONSTER:
+				ml += 5;
+				break;
+			case PITCHFORK:
+				ml += 5;
+				break;
+			}
+		}
+
+		// Effects: Aria of Annoyance
+		if ( KoLCharacter.getEffects().contains( ARIA ) )
+			ml += 2 * KoLCharacter.getLevel();
+
+		return ml;
+	}
 }

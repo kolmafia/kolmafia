@@ -759,7 +759,7 @@
 759	dill	0	75
 760	vinegar	0	77
 761	brine	0	77
-762	especially salty dog	0	154
+762	especially salty dog	2	154
 763	ghostly pickling solution	0	255
 764	spectral pickle	1	352
 765	briny vinegar	0	160
@@ -1520,3 +1520,4 @@
 1520	Radio KoL Coffee Mug	0	-1
 1521	Frank Gorshin trophy	0	0
 1522	Radio Free Jersey	11	0
+1523	bottle of used blood	3	0
