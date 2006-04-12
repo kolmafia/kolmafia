@@ -246,6 +246,10 @@ public class AdventureDatabase extends KoLDatabase
 		// An Interesting Choice
 		{ { "choiceAdventure46" }, { "Spooky Forest 4" },
 		  { "Moxie", "Muscle", "Fight" } },
+
+		// Have a Heart
+		{ { "choiceAdventure47" }, { "Spooky Forest 5" },
+		  { "Trade for used blood", "Keep your hearts" } },
 	};
 
 	// Some choice adventures have a choice that behaves as an "ignore"
@@ -283,6 +287,8 @@ public class AdventureDatabase extends KoLDatabase
 		// Maps and Legends
 		{ "choiceAdventure45", "2" },
 
+		// Have a Heart
+		{ "choiceAdventure47", "2" },
 	};
 
 	// Some choice adventures have options that cost meat
