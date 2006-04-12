@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.util.StringTokenizer;
 
-public class AreaCombatData
+public class AreaCombatData implements KoLConstants
 {
 	private boolean valid;
 	private int minHit;
@@ -137,6 +137,34 @@ public class AreaCombatData
 	{	return maxEvade;
 	}
 
+	public String safetyString()
+	{
+		int ml = monsterLevelAdjustment();
+		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
+		boolean ranged = KoLCharacter.rangedWeapon();
+		int hitstat = ranged ? moxie : ( KoLCharacter.getAdjustedMuscle() - ml );
+		double minHitPercent = hitPercent( hitstat, minHit );
+		double maxHitPercent = hitPercent( hitstat, maxHit );
+		int minPerfectHit = perfectHit( hitstat, minHit );
+		int maxPerfectHit = perfectHit( hitstat, maxHit );
+		double minEvadePercent = hitPercent( moxie, minEvade );
+		double maxEvadePercent = hitPercent( moxie, maxEvade );
+		int minPerfectEvade = perfectHit( moxie, minEvade );
+		int maxPerfectEvade = perfectHit( moxie, maxEvade );
+
+		StringBuffer buffer = new StringBuffer();
+		buffer.append( "Hit: " );
+		buffer.append( ff.format( minHitPercent ) + "%-" + ff.format( maxHitPercent ) + "%");
+		buffer.append( " (" + ( ranged ? "Moxie" : "Muscle" ) + " " );
+		buffer.append( minPerfectHit + "/" + maxPerfectHit + ") " );
+		buffer.append( "Evade: " );
+		buffer.append( ff.format( minEvadePercent ) + "%-" + ff.format( maxEvadePercent ) + "%" );
+		buffer.append( " (Moxie " );
+		buffer.append( minPerfectEvade + "/" + maxPerfectEvade + ") " );
+
+		return buffer.toString();
+	}
+
 	public double hitPercent( int attack, int defense )
 	{
 		// ( (Attack - Defense) / 18 ) * 100 + 50 = Hit% 
@@ -147,6 +175,10 @@ public class AreaCombatData
 			return 100.0;
 		return percent;
 	}
+
+	public int perfectHit( int attack, int defense )
+	{	return attack - defense - 9;
+        }
 
 	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
 	private static final int ICE_SICKLE = 1424;

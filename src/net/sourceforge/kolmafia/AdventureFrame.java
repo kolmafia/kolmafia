@@ -93,6 +93,7 @@ public class AdventureFrame extends KoLFrame
 	private DefaultTreeModel displayModel;
 	private JComboBox locationSelect;
 	private AdventureSelectPanel adventureSelect;
+	protected KoLCharacterAdapter safetyListener = null;
 
 	/**
 	 * Constructs a new <code>AdventureFrame</code>.  All constructed panels
@@ -231,6 +232,7 @@ public class AdventureFrame extends KoLFrame
 		private JComboBox actionSelect;
 		private JTextField countField;
 		private JTextField conditionField;
+		private JLabel safetyField;
 
 		public AdventureSelectPanel()
 		{
@@ -240,6 +242,7 @@ public class AdventureFrame extends KoLFrame
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 
 			locationSelect = new JComboBox( adventureList );
+
 			countField = new JTextField();
 			conditionField = new JTextField();
 
@@ -264,12 +267,55 @@ public class AdventureFrame extends KoLFrame
 				actionSelect.setSelectedIndex( actionIndex );
 
 			actionSelect.addActionListener( new BattleActionListener() );
+			safetyField = new JLabel( "", JLabel.CENTER );
+			add( safetyField );
 
 			String lastAdventure = getProperty( "lastAdventure" );
 
 			for ( int i = 0; i < adventureList.size(); ++i )
 				if ( adventureList.get(i).toString().equals( lastAdventure ) )
 					locationSelect.setSelectedItem( adventureList.get(i) );
+
+			// Update the safety field if the character changes
+			safetyListener = new KoLCharacterAdapter( new SafetyRefresher() );
+			KoLCharacter.addCharacterListener( safetyListener );
+
+			// Update the safety field if the location changes
+			locationSelect.addActionListener( new LocationListener() );
+		}
+
+		private class SafetyRefresher implements Runnable
+		{
+			public SafetyRefresher()
+			{	this.run();
+			}
+
+			public void run()
+			{
+				setSafetyString();
+			}
+		}
+
+		private class LocationListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				setSafetyString();
+			}
+		}
+
+		private void setSafetyString()
+		{
+			if ( safetyField == null)
+				return;
+
+			Runnable request = (Runnable) locationSelect.getSelectedItem();
+			if ( request == null )
+				return;
+
+			AreaCombatData combat = AdventureDatabase.getAreaCombatData( request.toString() );
+			String safety = ( combat == null ) ? "" : combat.safetyString();
+			safetyField.setText( safety );
 		}
 
 		private class BattleActionListener implements ActionListener

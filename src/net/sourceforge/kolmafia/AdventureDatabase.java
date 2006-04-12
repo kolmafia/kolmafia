@@ -884,6 +884,13 @@ public class AdventureDatabase extends KoLDatabase
 	}
 
 	public static AreaCombatData getAreaCombatData( String area )
-	{	return (AreaCombatData)areaCombatData.get( area );
+	{
+		// Strip out zone name if present
+		int index = area.indexOf( ":" );
+		if ( index != -1 )
+			area = area.substring( index + 2 );
+
+		// Get the combat data
+		return (AreaCombatData)areaCombatData.get( area );
 	}
 }
