@@ -154,13 +154,13 @@ public class AreaCombatData implements KoLConstants
 
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( "Hit: " );
-		buffer.append( ff.format( minHitPercent ) + "%-" + ff.format( maxHitPercent ) + "%");
+		buffer.append( ff.format( minHitPercent ) + "%/" + ff.format( maxHitPercent ) + "%");
 		buffer.append( " (" + ( ranged ? "Moxie" : "Muscle" ) + " " );
-		buffer.append( minPerfectHit + "/" + maxPerfectHit + ") " );
-		buffer.append( "Evade: " );
-		buffer.append( ff.format( minEvadePercent ) + "%-" + ff.format( maxEvadePercent ) + "%" );
+		buffer.append( minPerfectHit + "/" + maxPerfectHit + ")" );
+		buffer.append( "  Evade: " );
+		buffer.append( ff.format( minEvadePercent ) + "%/" + ff.format( maxEvadePercent ) + "%" );
 		buffer.append( " (Moxie " );
-		buffer.append( minPerfectEvade + "/" + maxPerfectEvade + ") " );
+		buffer.append( minPerfectEvade + "/" + maxPerfectEvade + ")" );
 
 		return buffer.toString();
 	}
