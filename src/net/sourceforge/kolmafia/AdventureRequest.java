@@ -128,6 +128,17 @@ public class AdventureRequest extends KoLRequest
 			addFormField( "place", adventureID );
 		else if ( !formSource.equals( "rats.php" ) )
 			addFormField( "action", adventureID );
+
+		hasLuckyVersion = hasLuckyVersion( adventureID );
+	}
+
+	public static final boolean hasLuckyVersion( String adventureID )
+	{
+		for ( int i = 0; i < AdventureDatabase.CLOVER_ADVS.length; ++i )
+			if ( AdventureDatabase.CLOVER_ADVS[i].equals( adventureID ) )
+				return true;
+
+		return false;
 	}
 
 	/**
@@ -152,9 +163,12 @@ public class AdventureRequest extends KoLRequest
 	protected void processResults()
 	{
 		// If this is a lucky adventure, then remove a clover
-		// from the player's inventory.
+		// from the player's inventory -- this will occur when
+		// you see either "Your ten-leaf clover" or "your
+		// ten-leaf clover" (shorten to "our ten-leaf clover"
+		// for substring matching)
 
-		if ( hasLuckyVersion && client.isLuckyCharacter() )
+		if ( responseText.indexOf( "our ten-leaf clover" ) != -1 )
 			client.processResult( SewerRequest.CLOVER );
 
 		// Sometimes, there's no response from the server.
