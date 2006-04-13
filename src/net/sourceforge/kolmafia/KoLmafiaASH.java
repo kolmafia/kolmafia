@@ -1942,6 +1942,9 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( name.equalsIgnoreCase( "museum_amount" ) )
 			{
+				if ( KoLCharacter.getCollection().isEmpty() )
+					(new MuseumRequest( StaticEntity.getClient() )).run();
+					
 				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
 				return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCollection() ) );
 			}
@@ -3063,7 +3066,10 @@ public class KoLmafiaASH extends StaticEntity
 						// of contentInt and return from the method.
 
 						if ( (contentInt = TradeableItemDatabase.getItemID( contentString )) != -1 )
+						{
+							contentString = TradeableItemDatabase.getItemName( contentInt );
 							return;
+						}
 
 						// Otherwise, throw an AdvancedScriptException so that
 						// an unsuccessful parse happens before the script gets
@@ -3077,6 +3083,7 @@ public class KoLmafiaASH extends StaticEntity
 				// and store it inside of the contentInt.
 
 				contentInt = Integer.parseInt( contentString );
+				contentString = TradeableItemDatabase.getItemName( contentInt );
 				return;
 			}
 			else if ( type.equals( TYPE_ZODIAC ) )
@@ -3138,6 +3145,8 @@ public class KoLmafiaASH extends StaticEntity
 
 				if ( (contentInt = ClassSkillsDatabase.getSkillID( contentString )) == -1 )
 					throw new AdvancedScriptException( "Skill " + contentString + " not found in database " + getLineAndFile() );
+
+				contentString = ClassSkillsDatabase.getSkillName( contentInt );
 			}
 			else if ( type.equals( TYPE_EFFECT ) )
 			{
@@ -3172,6 +3181,8 @@ public class KoLmafiaASH extends StaticEntity
 					contentInt = -1;
 				else if ( (contentInt = FamiliarsDatabase.getFamiliarID( contentString )) == -1 )
 					throw new AdvancedScriptException( "Familiar " + contentString + " not found in database " + getLineAndFile() );
+
+				contentString = FamiliarsDatabase.getFamiliarName( contentInt );
 			}
 		}
 

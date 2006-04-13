@@ -248,7 +248,7 @@ public class AdventureFrame extends KoLFrame
 
 			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Location: ", locationSelect );
-			elements[1] = new VerifiableElement( "# of turnips: ", countField );
+			elements[1] = new VerifiableElement( "# of Visits: ", countField );
 			elements[2] = new VerifiableElement( "Combat Tactic: ", actionSelect );
 			elements[3] = new VerifiableElement( "Conditions: ", conditionField );
 
