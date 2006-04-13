@@ -69,10 +69,9 @@ public class PendingTradesFrame extends RequestFrame
 
 			String offerID = location.substring( location.lastIndexOf( "=" ) + 1 );
 
-			Object [] parameters = new Object[3];
-			parameters[0] = StaticEntity.getClient();
-			parameters[1] = "Offer ID # " + offerID;
-			parameters[2] = offerID;
+			Object [] parameters = new Object[2];
+			parameters[0] = "Offer ID # " + offerID;
+			parameters[1] = offerID;
 
 			(new CreateFrameRunnable( ProposeTradeFrame.class, parameters )).run();
 			dispose();
