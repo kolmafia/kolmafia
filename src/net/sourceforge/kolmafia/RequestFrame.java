@@ -99,7 +99,7 @@ public class RequestFrame extends KoLFrame
 	private JTextField locationField = new JTextField();
 
 	public RequestFrame()
-	{	this( "Mini-Browser", new KoLRequest( StaticEntity.getClient(), "main.php" ) );
+	{	this( "Mini-Browser", new KoLRequest( StaticEntity.getClient(), "main.php", true ) );
 	}
 
 	public RequestFrame( KoLRequest request )
@@ -396,7 +396,8 @@ public class RequestFrame extends KoLFrame
 					// cannot be shown in the minibrowser.
 
 					mainBuffer.clearBuffer();
-					mainBuffer.append( "Redirected to unknown page: &lt;" + request.redirectLocation + "&gt;" );
+					mainBuffer.append( "Tried to access: &lt;" + currentLocation + "&gt;" );
+					mainBuffer.append( "Redirected: &lt;" + request.redirectLocation + "&gt;" );
 					return;
 				}
 			}
@@ -433,22 +434,10 @@ public class RequestFrame extends KoLFrame
 			// if you open a new frame after going back, all the ones
 			// in the future get removed.
 
-			while ( shownHTML.size() > locationIndex )
-			{
-				history.remove( locationIndex );
-				shownHTML.remove( locationIndex );
-			}
-
 			String renderText = getDisplayHTML( text );
 			
 			history.add( request.getURLString() );
 			shownHTML.add( renderText );
-
-			// Only allow 11 locations in the locations buffer.  That
-			// way, memory doesn't get sucked up by synchronization.
-
-			while ( shownHTML.size() > 11 )
-				shownHTML.remove( request );
 
 			String location = request.getURLString();
 
