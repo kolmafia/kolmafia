@@ -128,17 +128,6 @@ public class AdventureRequest extends KoLRequest
 			addFormField( "place", adventureID );
 		else if ( !formSource.equals( "rats.php" ) )
 			addFormField( "action", adventureID );
-
-		hasLuckyVersion = hasLuckyVersion( adventureID );
-	}
-
-	public static final boolean hasLuckyVersion( String adventureID )
-	{
-		for ( int i = 0; i < AdventureDatabase.CLOVER_ADVS.length; ++i )
-			if ( AdventureDatabase.CLOVER_ADVS[i].equals( adventureID ) )
-				return true;
-
-		return false;
 	}
 
 	/**
@@ -151,9 +140,6 @@ public class AdventureRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( hasLuckyVersion && client.isLuckyCharacter() && getProperty( "cloverProtectActive" ).equals( "true" ) )
-			(new ItemStorageRequest( client, ItemStorageRequest.CLOSET_YOUR_CLOVERS )).run();
-
 		// Prevent the request from happening if the client attempted
 		// to cancel in the delay period.
 

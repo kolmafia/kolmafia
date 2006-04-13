@@ -73,21 +73,6 @@ public class FightFrame extends RequestFrame
 		if ( request.responseText == null )
 			request.run();
 
-		// If there's a currently open mini-browser window
-		// that has a sidebar, then use it instead.
-
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
-		for ( int i = 0; i < frames.length; ++i )
-		{
-			if ( frames[i].getClass() == RequestFrame.class && ((RequestFrame)frames[i]).hasSideBar() )
-			{
-				((RequestFrame)frames[i]).refresh( request );
-				return;
-			}
-		}
-
 		// If you can find an instance of a fight frame,
 		// go ahead and refresh it.  Otherwise, create a
 		// new frame which renders the request.

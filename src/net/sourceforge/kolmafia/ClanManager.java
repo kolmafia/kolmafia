@@ -939,7 +939,6 @@ public class ClanManager extends StaticEntity
 		{
 			case ClanSnapshotTable.NAME_FILTER:
 			case ClanSnapshotTable.LEVEL_FILTER:
-			case ClanSnapshotTable.RANK_FILTER:
 			case ClanSnapshotTable.KARMA_FILTER:
 
 				break;

@@ -64,8 +64,8 @@ public abstract class StoreManager extends StaticEntity
 
 	public static SoldItem registerItem( int itemID, int quantity, int price, int limit, int lowest )
 	{
-		if ( price != 999999999 )
-			potentialEarnings += price * quantity;
+		if ( price < 50000000 )
+			potentialEarnings += (long) price * (long) quantity;
 
 		SoldItem newItem = new SoldItem( itemID, quantity, price, limit, lowest );
 		int itemIndex = soldItemList.indexOf( newItem );
