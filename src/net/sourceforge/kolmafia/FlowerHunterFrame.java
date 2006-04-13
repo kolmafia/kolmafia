@@ -132,6 +132,8 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		sortedModel[ index ] = new TableSorter( resultsModel[ index ], resultsTable[ index ].getTableHeader() );
 		resultsTable[ index ].setModel( sortedModel[ index ] );
 		resultsTable[ index ].getSelectionModel().addListSelectionListener( this );
+		resultsTable[ index ].setPreferredScrollableViewportSize(
+			new Dimension( (int) resultsTable[ index ].getPreferredScrollableViewportSize().getWidth(), 200 ) );
 	}
 
 	public void dispose()
