@@ -458,7 +458,8 @@ public class LoginFrame extends KoLFrame
 
 	private class UserInterfacePanel extends LabeledKoLPanel
 	{
-		private JComboBox servers, textheavy, toolbars, windowing, trayicon;
+		private JComboBox servers, textheavy, passwords;
+		private JComboBox toolbars, windowing, trayicon;
 
 		public UserInterfacePanel()
 		{
@@ -469,6 +470,10 @@ public class LoginFrame extends KoLFrame
 			for ( int i = 1; i <= KoLRequest.SERVER_COUNT; ++i )
 				servers.addItem( "Login using www" + (i == 1 ? "" : "" + i) + ".kingdomofloathing.com" );
 
+			passwords = new JComboBox();
+			passwords.addItem( "Always remember passwords (requires restart)" );
+			passwords.addItem( "Never remember passwords (requires restart)" );
+			
 			textheavy = new JComboBox();
 			textheavy.addItem( "Use graphical side pane" );
 			textheavy.addItem( "Use text-heavy side pane" );
@@ -488,15 +493,16 @@ public class LoginFrame extends KoLFrame
 			trayicon.addItem( "Minimize KoLmafia to taskbar (requires restart)" );
 			trayicon.addItem( "Minimize KoLmafia to system tray (requires restart)" );
 
-			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 4 : 3;
+			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 5 : 4;
 
 			VerifiableElement [] elements = new VerifiableElement[ elementCount ];
 			elements[0] = new VerifiableElement( "Server: ", servers );
-			elements[1] = new VerifiableElement( "Sidebar: ", textheavy );
-			elements[2] = new VerifiableElement( "Toolbars: ", toolbars );
+			elements[1] = new VerifiableElement( "Password: ", passwords );
+			elements[2] = new VerifiableElement( "Sidebar: ", textheavy );
+			elements[3] = new VerifiableElement( "Toolbars: ", toolbars );
 
 			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-				elements[3] = new VerifiableElement( "SysTray: ", trayicon );
+				elements[4] = new VerifiableElement( "SysTray: ", trayicon );
 
 			setContent( elements );
 			actionCancelled();
@@ -505,6 +511,7 @@ public class LoginFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
+			GLOBAL_SETTINGS.setProperty( "rememberPasswords", String.valueOf( passwords.getSelectedIndex() == 0 ) );
 			GLOBAL_SETTINGS.setProperty( "useTextHeavySidepane", String.valueOf( textheavy.getSelectedIndex() == 1 ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
@@ -513,6 +520,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
+			passwords.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "rememberPasswords" ).equals( "true" ) ? 0 : 1 );
 			textheavy.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useTextHeavySidepane" ).equals( "true" ) ? 1 : 0 );
 			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
 			trayicon.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 0 );

@@ -183,8 +183,23 @@ public abstract class KoLmafia implements KoLConstants
 		this.settings = GLOBAL_SETTINGS;
 
 		String [] currentNames = GLOBAL_SETTINGS.getProperty( "saveState" ).split( "//" );
-		for ( int i = 0; i < currentNames.length; ++i )
-			saveStateNames.add( currentNames[i] );
+
+		if ( GLOBAL_SETTINGS.getProperty( "rememberPasswords" ).equals( "true" ) )
+		{
+			for ( int i = 0; i < currentNames.length; ++i )
+				saveStateNames.add( currentNames[i] );
+		}
+		else
+		{
+			String [] keys = new String[ GLOBAL_SETTINGS.keySet().size() ];
+			GLOBAL_SETTINGS.keySet().toArray( keys );
+			
+			for ( int i = 0; i < keys.length; ++i )
+				if ( keys[i].startsWith( "saveState" ) )
+					GLOBAL_SETTINGS.remove( keys[i] );
+
+			GLOBAL_SETTINGS.setProperty( "saveState", "" );
+		}
 
 		// This line is added to clear out data from previous
 		// releases of KoLmafia - the extra disk access does
@@ -1849,6 +1864,9 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void addSaveState( String username, String password )
 	{
+		if ( GLOBAL_SETTINGS.getProperty( "rememberPasswords" ).equals( "false" ) )
+			return;
+
 		try
 		{
 			if ( !saveStateNames.contains( username ) )
