@@ -355,7 +355,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// make sure you discover the password hash
 			// in some other way.
 			
-			if ( client.getPasswordHash().equals( "" ) && currentComponent.length == 2 && currentComponent[1].length() > 0 )
+			if ( (client.getPasswordHash() == null || client.getPasswordHash().equals( "" )) && currentComponent.length == 2 && currentComponent[1].length() > 0 )
 				client.setPasswordHash( currentComponent[1] );
 
 			addFormField( currentComponent[0], "", false );
