@@ -152,8 +152,6 @@ public class OptionsFrame extends KoLFrame
 			{ "synchronizeFightFrame", "Show requests in mini-browser" },
 			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "forceReconnect", "Automatically time-in on time-out" },
-
-			{ "cloverProtectActive", "Guard against accidental clover usage" },
 			{ "autoSatisfyChecks", "Automatically satisfy conditions on check" },
 		};
 

@@ -84,20 +84,9 @@ public class ItemStorageRequest extends SendMessageRequest
 		}
 	}
 
-	/**
-	 * Should only be used to closet clovers.  A tribute to the "Closet Your Clovers" speech:
-	 * http://forums.kingdomofloathing.com/viewtopic.php?t=33250
-	 *
-	 * @param	client	The client to be notified of the results
-	 * @param	moveType	Whether or not clovers are being closeted
-	 */
-
 	public ItemStorageRequest( KoLmafia client, int moveType )
 	{
-		this( client, moveType == EMPTY_STORAGE ? EMPTY_STORAGE : INVENTORY_TO_CLOSET,
-			moveType == EMPTY_STORAGE ? new Object[0] : new Object [] {
-			SewerRequest.CLOVER.getInstance( SewerRequest.CLOVER.getCount( KoLCharacter.getInventory() ) ) } );
-
+		this( client, moveType, new Object[0] );
 		this.moveType = moveType;
 	}
 

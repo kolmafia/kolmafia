@@ -224,8 +224,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		super.processResults();
-
 		// Check for familiar growth - if a familiar is added,
 		// make sure to update the client.
 
@@ -367,8 +365,13 @@ public class ConsumeItemRequest extends KoLRequest
 			// crumble, it is not consumed
 
 			client.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
+			
 			if ( responseText.indexOf( "crumble" ) == -1 )
+			{
+				KoLCharacter.updateStatus();
 				return;
+			}
+
 			break;
 
 		case TINY_HOUSE:
@@ -574,6 +577,7 @@ public class ConsumeItemRequest extends KoLRequest
 		// used. Do so.
 
 		client.processResult( itemUsed.getNegation() );
+		super.processResults();
 	}
 
 	private String trimInventoryText( String text )

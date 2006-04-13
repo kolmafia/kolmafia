@@ -75,16 +75,16 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
 {
-	private static String lastResponseText = "";
 	private static SidePaneRefresher REFRESHER = new SidePaneRefresher();
 	private static boolean refreshStatusDisabled = false;
 
-	private int currentLocation = 0;
-	private List visitedLocations = new ArrayList();
+	private int locationIndex = 0;
+	private ArrayList history = new ArrayList();
+	private ArrayList shownHTML = new ArrayList();
 
 	private int combatRound;
 	private RequestFrame parent;
-	private KoLRequest currentRequest;
+	private String currentLocation;
 	private LimitedSizeChatBuffer mainBuffer;
 
 	private boolean hasSideBar;
@@ -118,9 +118,6 @@ public class RequestFrame extends KoLFrame
 	{
 		super( title );
 		this.parent = parent;
-
-		this.currentRequest = getClass() == RequestFrame.class && StaticEntity.getClient().getCurrentRequest() instanceof FightRequest ?
-			StaticEntity.getClient().getCurrentRequest() : request;
 
 		this.hasSideBar = getClass() == RequestFrame.class &&
 			request != null && !request.getURLString().startsWith( "chat" ) && !request.getURLString().startsWith( "static" ) &&
@@ -264,7 +261,8 @@ public class RequestFrame extends KoLFrame
 		if ( this.hasSideBar )
 			refreshStatus();
 
-		(new DisplayRequestThread( this.currentRequest, true )).start();
+		(new DisplayRequestThread( getClass() == RequestFrame.class && StaticEntity.getClient().getCurrentRequest() instanceof FightRequest ?
+			StaticEntity.getClient().getCurrentRequest() : request, true )).start();
 	}
 
 	private class BrowserComboBox extends JComboBox implements ActionListener
@@ -314,14 +312,9 @@ public class RequestFrame extends KoLFrame
 	public boolean hasSideBar()
 	{	return hasSideBar;
 	}
-
-	/**
-	 * Utility method which returns the current URL being pointed
-	 * to by this <code>RequestFrame</code>.
-	 */
-
+	
 	public String getCurrentLocation()
-	{	return currentRequest.getURLString();
+	{	return currentLocation;
 	}
 
 	/**
@@ -385,35 +378,16 @@ public class RequestFrame extends KoLFrame
 		{
 			synchronized ( DisplayRequestThread.class )
 			{
-				if ( request == null || (request.responseText != null && !lastResponseText.equals( "" ) && request.responseText.equals( lastResponseText )) )
-					return;
-
 				mainBuffer.clearBuffer();
 				mainBuffer.append( "Retrieving..." );
 
-				if ( cloverCheckNeeded() )
-				{
-					if ( getProperty( "cloverProtectActive" ).equals( "true" ) )
-					{
-						DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
-
-						mainBuffer.clearBuffer();
-						mainBuffer.append( "<h1><font color=\"red\">You have a ten-leaf clover.	 Please deactivate clover protection in your startup options first if you are certain you want to use your clovers while adventuring.</font></h1>" );
-						lastResponseText = "";
-						return;
-					}
-
-					StaticEntity.getClient().processResult( SewerRequest.CLOVER );
-				}
-
-				currentRequest = request;
+				currentLocation = request.getURLString();
 				setupRequest();
 
 				if ( request != null && request.responseText != null && request.responseText.length() != 0 )
 				{
 					StaticEntity.getClient().setCurrentRequest( request );
-					lastResponseText = request.responseText;
-					displayRequest();
+					displayRequest( request.responseText );
 				}
 				else
 				{
@@ -423,7 +397,6 @@ public class RequestFrame extends KoLFrame
 
 					mainBuffer.clearBuffer();
 					mainBuffer.append( "Redirected to unknown page: &lt;" + request.redirectLocation + "&gt;" );
-					lastResponseText = "";
 					return;
 				}
 			}
@@ -433,19 +406,6 @@ public class RequestFrame extends KoLFrame
 			// of a GUI lockup doesn't happen.
 
 			updateClient();
-		}
-
-		private boolean cloverCheckNeeded()
-		{
-			String adventure = request.getURLString();
-
-			if ( adventure != null && adventure.startsWith( "adventure.php" ) )
-			{
-				Matcher dataMatcher = Pattern.compile( "(snarfblat|adv)=(\\d+)" ).matcher( adventure );
-				return StaticEntity.getClient().isLuckyCharacter() && dataMatcher.find() && AdventureRequest.hasLuckyVersion( dataMatcher.group(2) );
-			}
-
-			return false;
 		}
 
 		private void setupRequest()
@@ -465,7 +425,7 @@ public class RequestFrame extends KoLFrame
 			}
 		}
 
-		private void displayRequest()
+		private void displayRequest( String text )
 		{
 			mainBuffer.clearBuffer();
 
@@ -473,23 +433,29 @@ public class RequestFrame extends KoLFrame
 			// if you open a new frame after going back, all the ones
 			// in the future get removed.
 
-			while ( visitedLocations.size() > currentLocation )
-				visitedLocations.remove( currentLocation );
+			while ( shownHTML.size() > locationIndex )
+			{
+				history.remove( locationIndex );
+				shownHTML.remove( locationIndex );
+			}
 
-			visitedLocations.add( request );
+			String renderText = getDisplayHTML( text );
+			
+			history.add( request.getURLString() );
+			shownHTML.add( renderText );
 
 			// Only allow 11 locations in the locations buffer.  That
 			// way, memory doesn't get sucked up by synchronization.
 
-			while ( visitedLocations.size() > 11 )
-				visitedLocations.remove( request );
+			while ( shownHTML.size() > 11 )
+				shownHTML.remove( request );
 
 			String location = request.getURLString();
 
 			locationField.setText( location );
-			currentLocation = visitedLocations.size();
+			locationIndex = shownHTML.size();
 
-			mainBuffer.append( getDisplayHTML( lastResponseText ) );
+			mainBuffer.append( renderText );
 			mainDisplay.setCaretPosition( 0 );
 			System.gc();
 
@@ -534,10 +500,12 @@ public class RequestFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( currentLocation > 1 )
+			if ( locationIndex > 1 )
 			{
-				--currentLocation;
-				refresh( (KoLRequest) visitedLocations.get( currentLocation - 1 ) );
+				--locationIndex;
+				mainBuffer.clearBuffer();
+				mainBuffer.append( (String) shownHTML.get( locationIndex - 1 ) );
+				locationField.setText( (String) history.get( locationIndex - 1 ) );
 			}
 		}
 	}
@@ -552,10 +520,12 @@ public class RequestFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( currentLocation + 1 < visitedLocations.size() )
+			if ( locationIndex + 1 < shownHTML.size() )
 			{
-				++currentLocation;
-				refresh( (KoLRequest) visitedLocations.get( currentLocation - 1 ) );
+				mainBuffer.clearBuffer();
+				mainBuffer.append( (String) shownHTML.get( locationIndex ) );
+				locationField.setText( (String) history.get( locationIndex ) );
+				++locationIndex;
 			}
 		}
 	}
@@ -569,9 +539,7 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{
-			visitedLocations.remove( currentRequest );
-			refresh( RequestEditorKit.extractRequest( currentRequest.getURLString() ) );
+		{	refresh( new KoLRequest( StaticEntity.getClient(), currentLocation, true ) );
 		}
 	}
 
@@ -670,7 +638,8 @@ public class RequestFrame extends KoLFrame
 
 	public void dispose()
 	{
-		visitedLocations.clear();
+		history.clear();
+		shownHTML.clear();
 		REFRESHER.remove( this );
 		super.dispose();
 	}

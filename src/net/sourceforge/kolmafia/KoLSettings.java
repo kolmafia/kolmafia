@@ -186,7 +186,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "buffBotMessageDisposal", "0" );
 		ensureProperty( "chatStyle", "0" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
-		ensureProperty( "cloverProtectActive", "false" );
 		ensureProperty( "createWithoutBoxServants", "false" );
 		ensureProperty( "defaultLimit", "13" );
 		ensureProperty( "eSoluScriptType", "0" );
