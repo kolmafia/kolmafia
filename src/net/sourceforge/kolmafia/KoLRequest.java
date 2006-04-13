@@ -350,7 +350,16 @@ public class KoLRequest implements Runnable, KoLConstants
 		String [] currentComponent = element.split( "=" );
 
 		if ( currentComponent[0].equals( "pwd" ) || currentComponent[0].equals( "phash" ) )
+		{
+			// If you were in Valhalla on login, then
+			// make sure you discover the password hash
+			// in some other way.
+			
+			if ( client.getPasswordHash().equals( "" ) && currentComponent.length == 2 && currentComponent[1].length() > 0 )
+				client.setPasswordHash( currentComponent[1] );
+
 			addFormField( currentComponent[0], "", false );
+		}
 		else if ( currentComponent.length == 1 )
 			addFormField( currentComponent[0], "", true );
 		else
@@ -786,6 +795,11 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				constructURLString( redirectLocation );
 				return false;
+			}
+			else if ( redirectLocation.startsWith( "valhalla.php" ) )
+			{
+				client.setPasswordHash( "" );
+				shouldStop = true;
 			}
 			else if ( redirectLocation.equals( "fight.php" ) && !(this instanceof LocalRelayRequest) )
 			{
