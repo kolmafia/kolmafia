@@ -855,7 +855,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setAdventuresLeft( int adventuresLeft )
 	{
 		KoLCharacter.adventuresLeft = adventuresLeft;
-		KoLCharacter.updateStatus();
+		updateStatus();
 	}
 
 	/**
@@ -919,7 +919,7 @@ public abstract class KoLCharacter extends StaticEntity
 				KoLCharacter.equipment.set( i, equipment[i].toLowerCase() + " (+" + EquipmentDatabase.getPower( equipment[i] ) + ")" );
 		}
 
-		if ( equipment.length > FAMILIAR && currentFamiliar != null )
+		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
 			currentFamiliar.setItem( equipment[FAMILIAR].toLowerCase() );
 
 		// Rebuild outfits if given a new list
@@ -2000,7 +2000,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setArenaWins( int wins )
 	{
 		arenaWins = wins;
-		KoLCharacter.updateStatus();
+		updateStatus();
 	}
 
 	/**
@@ -2030,6 +2030,8 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		currentFamiliar = addFamiliar( familiar );
 		familiars.setSelectedItem( currentFamiliar );
+		updateEquipmentList( equipmentLists[FAMILIAR], ConsumeItemRequest.EQUIP_FAMILIAR, getFamiliarItem() );
+		updateStatus();
 	}
 
 	/**
