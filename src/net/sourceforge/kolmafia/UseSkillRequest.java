@@ -44,6 +44,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private String skillName;
 	private String target;
 	private int buffCount;
+	private String countFieldID;
 
 	/**
 	 * Constructs a new <code>UseSkillRequest</code>.
@@ -66,7 +67,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( ClassSkillsDatabase.isBuff( skillID ) )
 		{
 			this.target = target;
-			addFormField( "bufftimes", "" + buffCount );
+			this.countFieldID = "bufftimes";
 
 			if ( target == null || target.trim().length() == 0 || target.equals( String.valueOf( KoLCharacter.getUserID() ) ) || target.equals( KoLCharacter.getUsername() ) )
 			{
@@ -81,7 +82,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		}
 		else
 		{
-			addFormField( "quantity", "" + buffCount );
+			this.countFieldID = "quantity";
 			this.target = null;
 		}
 
@@ -116,20 +117,44 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// Before executing the skill, ensure that all necessary mana is
 		// recovered in advance.
 
-		client.recoverMP( ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount );
+		int castsRemaining = buffCount;
+		int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( skillID );
+		int maximumMP = KoLCharacter.getMaximumMP();
 
-		// If a continue is not permitted, then return from the attempt;
-		// you don't have enough mana for the cast.
+		int currentCast, mpPerEvent;
 
-		if ( !client.permitsContinue() )
-			return;
+		while ( castsRemaining > 0 )
+		{
+			currentCast = (int) Math.min( castsRemaining, Math.floor( maximumMP / mpPerCast ) );
+			mpPerEvent = (int) (mpPerCast * currentCast);
 
-		if ( target == null || target.trim().length() == 0 )
-			DEFAULT_SHELL.updateDisplay( "Casting " + skillName + "..." );
-		else
-			DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " on " + target + "..." );
+			client.recoverMP( Math.min( mpPerEvent, maximumMP ) );
 
-		super.run();
+			if ( !client.permitsContinue() )
+				return;
+
+			// Attempt to cast the buff.  In the event that it
+			// fails, make sure to report it and return whether
+			// or not at least one cast was completed.
+
+			addFormField( countFieldID, String.valueOf( currentCast ), false );
+
+			if ( target == null || target.trim().length() == 0 )
+				DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " " + currentCast + " times..." );
+			else
+				DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " on " + target + " " + currentCast + " times..." );
+
+			super.run();
+
+			if ( !client.permitsContinue() )
+				return;
+
+			// Otherwise, you have completed the correct number
+			// of casts.  Deduct it from the number of casts
+			// remaining and continue.
+
+			castsRemaining -= currentCast;
+		}
 
 		// To minimize the amount of confusion, go ahead and restore mana
 		// once the request is complete.
