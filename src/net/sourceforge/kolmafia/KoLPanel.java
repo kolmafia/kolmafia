@@ -98,6 +98,12 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		existingPanels.add( new WeakReference( this ) );
 	}
 
+	protected KoLPanel( String confirmedText, String cancelledText, boolean isCenterPanel )
+	{
+		super( confirmedText, cancelledText, isCenterPanel );
+		existingPanels.add( new WeakReference( this ) );
+	}
+
 	protected KoLPanel( String confirmedText, Dimension labelSize, Dimension fieldSize, boolean isCenterPanel )
 	{
 		super( confirmedText, labelSize, fieldSize, isCenterPanel );
@@ -143,27 +149,30 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		ActionConfirmListener listener = new ActionConfirmListener();
 
-		for ( int i = 0; i < elements.length; ++i )
+		if ( elements != null )
 		{
-			if ( elements[i].getInputField() instanceof JComboBox )
-				((JComboBox)elements[i].getInputField()).addKeyListener( listener );
-			if ( elements[i].getInputField() instanceof JTextField )
-				((JTextField)elements[i].getInputField()).addKeyListener( listener );
-		}
-
-		if ( shouldAddStatusLabel( elements ) )
-		{
-			JPanel statusContainer = new JPanel();
-			statusContainer.setLayout( new BoxLayout( statusContainer, BoxLayout.Y_AXIS ) );
-
-			actionStatusPanel = new JPanel( new BorderLayout() );
-			actionStatusLabel = new StatusLabel();
-			actionStatusPanel.add( actionStatusLabel, BorderLayout.SOUTH );
-
-			statusContainer.add( actionStatusPanel );
-			statusContainer.add( Box.createVerticalStrut( 20 ) );
-
-			container.add( statusContainer, BorderLayout.SOUTH );
+			for ( int i = 0; i < elements.length; ++i )
+			{
+				if ( elements[i].getInputField() instanceof JComboBox )
+					((JComboBox)elements[i].getInputField()).addKeyListener( listener );
+				if ( elements[i].getInputField() instanceof JTextField )
+					((JTextField)elements[i].getInputField()).addKeyListener( listener );
+			}
+	
+			if ( shouldAddStatusLabel( elements ) )
+			{
+				JPanel statusContainer = new JPanel();
+				statusContainer.setLayout( new BoxLayout( statusContainer, BoxLayout.Y_AXIS ) );
+	
+				actionStatusPanel = new JPanel( new BorderLayout() );
+				actionStatusLabel = new StatusLabel();
+				actionStatusPanel.add( actionStatusLabel, BorderLayout.SOUTH );
+	
+				statusContainer.add( actionStatusPanel );
+				statusContainer.add( Box.createVerticalStrut( 20 ) );
+	
+				container.add( statusContainer, BorderLayout.SOUTH );
+			}
 		}
 	}
 
@@ -202,8 +211,8 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 	protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
 	{
-		boolean shouldAddStatusLabel = elements.length != 0;
-		for ( int i = 0; i < elements.length; ++i )
+		boolean shouldAddStatusLabel = elements != null && elements.length != 0;
+		for ( int i = 0; shouldAddStatusLabel && i < elements.length; ++i )
 			shouldAddStatusLabel &= !(elements[i].getInputField() instanceof JScrollPane);
 
 		return shouldAddStatusLabel;

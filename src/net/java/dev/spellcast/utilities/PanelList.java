@@ -38,10 +38,15 @@ package net.java.dev.spellcast.utilities;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.LayoutManager;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
+
+// Containers
+import javax.swing.JPanel;
+import javax.swing.Scrollable;
 
 // event listeners
 import javax.swing.SwingUtilities;
@@ -69,8 +74,9 @@ import javax.swing.event.ListDataEvent;
  * longer reliable and unanticipated exceptions may be thrown.
  */
 
-public abstract class PanelList extends javax.swing.JPanel implements javax.swing.Scrollable
+public abstract class PanelList extends JPanel implements Scrollable
 {
+	private JPanel listPanel;
 	private int visibleRows;
 	private int cellHeight, cellWidth;
 
@@ -108,7 +114,11 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 	public PanelList( int visibleRows, int cellWidth, int cellHeight, LockableListModel associatedListModel, boolean useBoxLayout )
 	{
-		super();  this.setLayout( useBoxLayout ? (LayoutManager) new BoxLayout( this, BoxLayout.Y_AXIS ) : (LayoutManager) new FlowLayout() );
+		super( new BorderLayout() );
+		
+		this.add( listPanel = new JPanel(), BorderLayout.WEST );
+		listPanel.setLayout( useBoxLayout ? (LayoutManager) new BoxLayout( listPanel, BoxLayout.Y_AXIS ) : (LayoutManager) new FlowLayout() );
+
 		this.visibleRows = visibleRows;  this.cellHeight = cellHeight;  this.cellWidth = cellWidth;
 
 		// check to see if there are any components within the associated list
@@ -121,7 +131,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 			Object [] contents = associatedListModel.toArray();
 
 			for ( int i = 0; i < contents.length; ++i )
-				add( (Component) constructPanelListCell( contents[i], i ), i );
+				listPanel.add( (Component) constructPanelListCell( contents[i], i ), i );
 
 			validatePanelList();
 			associatedListModel.addListDataListener( new PanelListListener() );
@@ -139,9 +149,9 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 	public void setEnabled( boolean isEnabled )
 	{
-		int componentCount = getComponentCount();
+		int componentCount = listPanel.getComponentCount();
 		for ( int i = 0; i < componentCount; ++i )
-			getComponent( i ).setEnabled( isEnabled );
+			listPanel.getComponent( i ).setEnabled( isEnabled );
 	}
 
 	/**
@@ -169,8 +179,8 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 
 		int displayedRows = getComponentCount() > visibleRows ? getComponentCount() : visibleRows;
 		int appropriateHeight = displayedRows * getScrollableUnitIncrement( null, SwingConstants.VERTICAL, 1 );
-		JComponentUtilities.setComponentSize( this, cellWidth, appropriateHeight );
-		invalidate();  validate();  repaint();
+		JComponentUtilities.setComponentSize( listPanel, cellWidth, appropriateHeight );
+		listPanel.invalidate();  listPanel.validate();  listPanel.repaint();
 	}
 
 	/**
@@ -214,23 +224,21 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 	}
 
 	/**
-	 * This function always returns false to indicate that this scrollable does not
-	 * force the height of the viewport to match the height of the display.  The height
-	 * is instead recomputed each time a component is added/removed.
+	 * This function always returns true to indicate that this scrollable
+	 * forces the height of the viewport to match the height of the display.
 	 */
 
 	public boolean getScrollableTracksViewportHeight()
-	{	return false;
+	{	return true;
 	}
 
 	/**
-	 * This function always returns false to indicate that this scrollable does not
-	 * force the width of the viewport to match the width of the display.  The width
-	 * is instead recomputed each time a component is added/removed.
+	 * This function always returns false to indicate that this scrollable
+	 * forces the height of the viewport to match the height of the display.
 	 */
 
 	public boolean getScrollableTracksViewportWidth()
-	{	return false;
+	{	return true;
 	}
 
 	/**
@@ -253,11 +261,11 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 			LockableListModel source = (LockableListModel) e.getSource();
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-			if ( index1 >= source.size() || source.size() == getComponentCount() )
+			if ( index1 >= source.size() || source.size() == listPanel.getComponentCount() )
 				return;
 
 			for ( int i = index0; i <= index1; ++i )
-				add( (Component) constructPanelListCell( source.get(i), i ), i );
+				listPanel.add( (Component) constructPanelListCell( source.get(i), i ), i );
 
 			validatePanelList();
 		}
@@ -274,11 +282,11 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 			LockableListModel source = (LockableListModel) e.getSource();
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-			if ( index1 >= getComponentCount() || source.size() == getComponentCount() )
+			if ( index1 >= getComponentCount() || source.size() == listPanel.getComponentCount() )
 				return;
 
 			for ( int i = index1; i >= index0; --i )
-				remove(i);
+				listPanel.remove(i);
 
 			validatePanelList();
 		}
@@ -299,7 +307,7 @@ public abstract class PanelList extends javax.swing.JPanel implements javax.swin
 				return;
 
 			for ( int i = index1; i >= index0; --i )
-				((PanelListCell)getComponent(i)).updateDisplay( PanelList.this, source.get(i), i );
+				((PanelListCell)listPanel.getComponent(i)).updateDisplay( PanelList.this, source.get(i), i );
 
 			validatePanelList();
 		}

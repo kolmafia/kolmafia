@@ -81,8 +81,6 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		(new RequestThread( requests )).start();
 
-		setResizable( false );
-
 		tabs = new JTabbedPane();
 		tabs.add( "Price Setup", new StoreManagePanel() );
 		tabs.add( "Store Log", new StoreLogPanel() );
@@ -182,9 +180,8 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public StoreManagePanel()
 		{
-			super( "save changes", "auto-undercut", new Dimension( 0, 0 ), new Dimension( 520, 25 ) );
+			super( "save changes", "auto-undercut", true );
 
-			priceSummary = new LockableListModel();
 			JPanel headerPanel = new JPanel();
 			headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.Y_AXIS ) );
 
@@ -212,10 +209,9 @@ public class StoreManageFrame extends KoLPanelFrame
 			elementsPanel.add( headerPanel, BorderLayout.NORTH );
 			elementsPanel.add( storeItemScrollArea );
 
-			VerifiableElement [] elements = new VerifiableElement[0];
 			searchResults = new SearchResultsPanel();
 
-			setContent( elements, null, searchResults, true, true );
+			setContent( null, null, searchResults, true, true );
 			container.add( elementsPanel, BorderLayout.CENTER );
 		}
 
@@ -270,6 +266,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			add( searchLabel, BorderLayout.NORTH );
 			JComponentUtilities.setComponentSize( searchLabel, 150, 16 );
 
+			priceSummary = new LockableListModel();
 			JList resultsDisplay = new JList( priceSummary );
 			resultsDisplay.setPrototypeCellValue( "1234567890ABCDEF" );
 			resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
@@ -334,11 +331,15 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			labelPanel.add( Box.createHorizontalStrut( 20 ) );
 
-			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-			add( Box.createVerticalStrut( 5 ) );
-			add( labelPanel );
-			add( Box.createVerticalStrut( 5 ) );
-			add( corePanel );
+			JPanel containerPanel = new JPanel();
+			containerPanel.setLayout( new BoxLayout( containerPanel, BoxLayout.Y_AXIS ) );
+			containerPanel.add( Box.createVerticalStrut( 5 ) );
+			containerPanel.add( labelPanel );
+			containerPanel.add( Box.createVerticalStrut( 5 ) );
+			containerPanel.add( corePanel );
+			
+			setLayout( new BorderLayout() );
+			add( containerPanel, BorderLayout.WEST );
 		}
 
 		public void setEnabled( boolean isEnabled )
