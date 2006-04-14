@@ -145,10 +145,9 @@ public class ContactListFrame extends KoLFrame
 
 	public void buffSelected()
 	{
-		Object [] parameters = new Object[3];
-		parameters[0] = StaticEntity.getClient();
-		parameters[1] = "Mass Buff";
-		parameters[2] = new SkillBuffPanel( convertToCDL() );
+		Object [] parameters = new Object[2];
+		parameters[0] = "Mass Buff";
+		parameters[1] = new SkillBuffPanel( convertToCDL() );
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
 	}
@@ -161,9 +160,8 @@ public class ContactListFrame extends KoLFrame
 		if ( getSelectedPlayers().length > 11 )
 			JOptionPane.showMessageDialog( null, "That's beyond ridiculous." );
 
-		Object [] parameters = new Object[2];
-		parameters[0] = StaticEntity.getClient();
-		parameters[1] = convertToCDL();
+		Object [] parameters = new Object[1];
+		parameters[0] = convertToCDL();
 
 		SwingUtilities.invokeLater( new CreateFrameRunnable( GreenMessageFrame.class, parameters ) );
 	}

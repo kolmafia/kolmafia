@@ -65,6 +65,7 @@ public abstract class ItemManagePanel extends LabeledScrollPanel
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-		elementList.setEnabled( isEnabled );
+		if ( elementList != null )
+			elementList.setEnabled( isEnabled );
 	}
 }
