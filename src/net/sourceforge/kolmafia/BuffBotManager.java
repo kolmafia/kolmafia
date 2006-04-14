@@ -692,41 +692,21 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// Figure out how much MP the buff will take, and then identify
 			// the number of casts per request that this character can handle.
 
-			int castsRemaining = castCount;
-			double mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( buffID );
-			double maximumMP = KoLCharacter.getMaximumMP();
-
-			int currentCast, mpPerEvent;
-
 			BuffBotHome.update( BuffBotHome.BUFFCOLOR, "Casting " + buffName + ", " + castCount + " times on " +
 				target + " for " + price + " meat... " );
 
-			while ( castsRemaining > 0 )
+			(new UseSkillRequest( client, buffName, target, castCount )).run();
+
+			if ( client.permitsContinue() )
 			{
-				currentCast = (int) Math.min( castsRemaining, Math.floor( maximumMP / mpPerCast ) );
-				mpPerEvent = (int) (mpPerCast * currentCast);
-
-				// Attempt to cast the buff.  In the event that it
-				// fails, make sure to report it and return whether
-				// or not at least one cast was completed.
-
-				(new UseSkillRequest( client, buffName, target, currentCast )).run();
-
-				if ( !client.permitsContinue() )
-				{
-					BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buffName + " on " + target );
-					return castsRemaining != castCount;
-				}
-
-				// Otherwise, you have completed the correct number
-				// of casts.  Deduct it from the number of casts
-				// remaining and continue.
-
-				castsRemaining -= currentCast;
-				BuffBotHome.update( BuffBotHome.BUFFCOLOR, " ---> Successfully cast " + buffName + " " + currentCast + " times" );
+				BuffBotHome.update( BuffBotHome.BUFFCOLOR, " ---> Successfully cast " + buffName + " on " + target );
+				return true;
 			}
-
-			return true;
+			else
+			{
+				BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buffName + " on " + target );
+				return false;
+			}
 		}
 
 		public String getBuffName()
