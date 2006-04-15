@@ -1,382 +1,69 @@
-# Adventure Area Name	Area Parameters
+# Adventure Area Name	Monsters
 #
 # Adventure Area Name must match that in adventures.dat
-# Area parameters extracted from Kittiwake's Monster Survival Guide:
+# Monsters extracted from Kittiwake's Monster Survival Guide:
 #
 # http://forums.kingdomofloathing.com/viewtopic.php?t=39973&start=0
 # http://kol.network-forums.com/viewtopic.php?p=1757
+#
+# Last edited by Kittiwake on Fri Apr 14, 2006 4:48 am
 
-Sleazy Back Alley	Hit: 1 Evade: 1
-# Big Creepy Spider 	HP: 1 XP: 1 Def: 1 Atk: 1
-# Completely Different Spider	HP: 1 XP: 1 Def: 1 Atk: 1
-# Rushing Bum 	HP: 1 XP: 1 Def: 1 Atk: 1
-# Drunken Half-Orc Hobo 	HP: 1 XP: 1 Def: 1 Atk: 1 E: stench
-
-Haunted Pantry	Hit: 1 Evade: 1
-# Possessed Can of Tomatoes 	HP: 1 XP: 1 Def: 2 Atk: 1
-# Fiendish Can of Asparagus 	HP: 1 XP: 1 Def: 2 Atk: 1
-# Flame-Broiled Meat Blob 	HP: 2 XP: 1 Def: 1 Atk: 1 E: heat
-# Undead Elbow Macaroni 	HP: 1 XP: 1 Def: 1 Atk: 1 E: spooky
-
-Dungeons of Doom	Hit: 37-45 Evade: 37-45
-# Swarm of Killer Bees 	HP: 45 XP: 7 Def: 39 Atk: 41
-# Acid Blob 	HP: 40 XP: 7.6 Def: 38 Atk: 38
-# Mind Flayer 	HP: 47 XP: 7.6 Def: 40 Atk: 36
-# Large Kobold  	HP: 30 XP: 7.8 Def: 35 Atk: 43
-# Quantum Mechanic	HP: 51 XP: 7.4 Def: 37 Atk: 37
-# Mimic	HP: 50 XP: 9 Def: 45 Atk: 45
-
-Daily Dungeon	Hit: 12-19 Evade: 12-21
-# Dairy Ooze	HP: 8 XP: 2.6 Def: 13 Atk: 13
-# Dodecapede	HP: 8 XP: 2.4 Def: 12 Atk: 12
-# Giant Giant Moth	HP: 11 XP: 3-4 Def: 12 Atk: 11
-# Mayonnaise Wasp 	HP: 11 XP: 3.4 Def: 17 Atk: 17
-# Pencil Golem 	HP: 11 XP: 3 Def: 15 Atk: 15
-# Sabre-Toothed Lime	HP: 8 XP: 2.8 Def: 14 Atk: 14
-# Tonic Water Elemental	HP: 14 XP: 3.6 Def: 18 Atk: 18
-# Vampire Clam	HP: 14 XP: 4 Def: 19 Atk: 21
-
-Degrassi Knoll	Hit: 10-15 Evade: 10-13
-# Gnollish Bodybuilder 	HP: 5 XP: 2 Def: 10 Atk: 10 EA: sleaze
-# Gnollish Crossdresser 	HP: 5 XP: 2 Def: 10 Atk: 10 EA: sleaze
-# Gnollish Flyslayer 	HP: 5 XP: 2 Def: 10 Atk: 10
-# Gnollish Gearhead 	HP: 5 XP: 2 Def: 10 Atk: 10
-# Gnollish Piebaker	HP: 6 XP: 2.6 Def: 13 Atk: 13
-# Gnollish Plungermaster 	HP: 6 XP: 2.6 Def: 13 Atk: 13
-# Gnollish Sorceress 	HP: 5 XP: 2.1 Def: 11 Atk: 11
-# Gnollish Tirejuggler 	HP: 6 XP: 2.4 Def: 12 Atk: 12
-# Gnollish War Chef 	HP: 9 XP: 2.8 Def: 15 Atk: 13
-# Guard Bugbear 	HP: 6 XP: 2.4 Def: 12 Atk: 12
-# One-Eyed Gnoll 	HP: 5 XP: 2.2 Def: 11 Atk: 11
-
-Fun House	Hit: 17-20 Evade: 14-20
-# Bugbear-In-The-Box	HP: 11 XP: 3.4 Def: 18 Atk: 14
-# Disease-In-The-Box	HP: 14 XP: 3.6 Def: 18 Atk: 18
-# Lemon-In-The-Box	HP: 12 XP: 3.4  Def: 17 Atk: 17
-# Scary Clown	HP: 15 XP: 3.8 Def: 19 Atk: 19 E: spooky
-# Shaky Clown	HP: 16 XP: 3.8  Def: 19 Atk: 19 E: sleaze
-# Creepy Clown	HP: 16 XP: 4 Def: 20 Atk: 20 E: sleaze
-
-Cemetary (Pre-Cyrpt)	Hit: 18-22 Evade: 18-30
-# Ghoul 	HP: 10 XP: 3.8 Def: 19 Atk: 19 E: spooky
-# Grave Rober 	HP: 12 XP: 4 Def: 22 Atk: 18 E: spooky
-# Lihc 	HP: 11 XP: 5 Def: 20 Atk: 30 ED: sleaze
-# Skleleton 	HP: 10 XP: 3.6 Def: 18 Atk: 18 E: spooky
-# Smart Skelton 	HP: 11 XP: 4 Def: 20 Atk: 20 E: spooky
-# Zmobie 	HP: 10 XP: 4 Def: 20 Atk: 20 E: spooky
-# Zobmie 	HP: 10 XP: 3.8 Def: 19 Atk: 19 E: spooky
-
-Fernswarthy's Tower	Hit: 16-19 Evade: 16-24
-# Brainsweeper 	HP: 9 XP: 3.6  Def: 18 Atk: 18
-# Bread Golem 	HP: 8 XP: 4 Def: 16 Atk: 24
-# Chowder Golem 	HP: 9 XP: 4 Def: 18 Atk: 22
-# Giant Pair of Tweezers 	HP: 8 XP: 3-4 Def: 18 Atk: 16
-# Weretaco 	HP: 8 XP: 3.2 Def: 16 Atk: 16
-# Yeast Beast 	HP: 8 XP: 3.4 Def: 17 Atk: 17 EA: sleaze
-# Lesser Fruit Golem 	HP: 9 XP: 4 Def: 17 Atk: 23</span>
-
-# Cemetary (Post-Cyrpt)	Hit: 54-60 Evade: 53-59
-# Corpulent Zobmie	HP: 50 XP: 10.8 Def: 55 Atk: 53 E: spooky
-# Grave Rober Zmobie 	HP: 50 XP: 11.8 Def: 59 Atk: 59 E: spooky
-# Senile Lihc 	HP: 50 XP: 11.4 Def: 57 Atk: 57 E: spooky
-# Slick Lihc	HP: 50 XP: 11.8 Def: 60 Atk: 58 E: spooky
-# Gluttonous Ghuol 	HP: 50 XP: 11 Def: 56 Atk: 54 E: spooky
-# Gaunt Ghuol	HP: 50 XP: 11 Def: 56 Atk: 54 E: spooky
-# Spiny Skelelton 	HP: 50 XP: 10.8 Def: 54 Atk: 54 E: spooky
-# Toothy Sklelton 	HP: 50 XP: 11.6 Def: 58 Atk: 58 E: spooky
-
-Palindome	Hit: 65-80 Evade: 65-80
-# Bob Racecar 	HP: 60 XP: 13.8 Def: 69 Atk: 69
-# Drab Bard 	HP: 55 XP: 13 Def: 65 Atk: 65
-# Evil Olive 	HP: 60 XP: 14 Def: 70 Atk: 70
-# Flock of Stab-Bats 	HP: 70 XP: 16 Def: 80 Atk: 80
-# Racecar Bob 	HP: 60 XP: 13.8 Def: 69 Atk: 69
-# Taco Cat 	HP: 56 XP: 13.6 Def: 66 Atk: 66
-# Tan Gnat 	HP: 58 XP: 13.2 Def: 68 Atk: 68
-
-Outskirts of The Knob	Hit: 1-2 Evade: 1-2
-# Knob Goblin Assistant Chef	HP: 1 XP: 1 Def: 1 Atk: 1
-# Sleeping Knob Goblin Guard	HP: 1 XP: 1 Def: 1 Atk: 1
-# Sub-Assistant Knob Mad Scientist   1 HP XP: 1 Def: 2 Atk: 2
-# Knob Goblin Barbecue Team	HP: 2 XP: 1 Def: 2 Atk: 2 E: heat
-
-Knob Goblin Kitchens	Hit: 20-22 Evade: 20-22
-# Knob Goblin Chef 	HP: 15 XP: 4 Def: 20 Atk: 20
-# Knob Goblin Master Chef 	HP: 20 XP: 4.4 Def: 22 Atk: 22
-
-Knob Goblin Treasury	Hit: 24-28 Evade: 24-32
-# Knob Goblin Bean Counter 	HP: 20 XP: 4.8 Def: 24 Atk: 24
-# Knob Goblin Elite Guardsman 	HP: 30 XP: 6 Def: 28 Atk: 32
-
-Knob Goblin Harem	Hit: 25-28 Evade: 26-32
-# Knob Goblin Elite Guardsman 	HP: 30 XP: 6 Def: 28 Atk: 32
-# Knob Goblin Harem Girl 	HP: 20 XP: 5 Def: 25 Atk: 25 E: sleaze
-
-The King's Chamber	Hit: 53 Evade: 57
-# The Knob Goblin King 	HP: 50 XP: 11 Def: 53 Atk: 57
-
-Knob Goblin Laboratory	Hit: 40-45 Evade: 40-45
-# Knob Goblin Mad Scientist 	HP: 25 XP: 8 Def: 40 Atk: 40
-# Knob Goblin Very Mad Scientist 	HP: 30 XP: 9 Def: 45 Atk: 45
-
-Menagerie (Level 1)	Hit: 50-56 Evade: 50-56
-# BASIC Elemental 	HP: 40 XP: 10 Def: 50 Atk: 50
-# Fruit Golem 	HP: 46 XP: 11.2 Def: 56 Atk: 56
-# Knob Goblin Mutant 	HP: 43 XP: 10.6 Def: 53 Atk: 53
-
-Menagerie (Level 2)	Hit: 60-66 Evade: 60-66
-# Carnivorous Moxie Weed 	HP: 56 XP: 13.2 Def: 66 Atk: 66
-# Grass Elemental	HP: 50 XP: 12 Def: 60 Atk: 60
-# Weremoose 	HP: 53 XP: 12.6 Def: 63 Atk: 63
-
-Menagerie (Level 3)	Hit: 70-76 Evade: 70-76
-# Booze Giant 	HP: 66 XP: 15.2 Def: 76 Atk: 76
-# Portly Abomination 	HP: 63 XP: 14.6 Def: 73 Atk: 73
-# Spectral Jellyfish 	HP: 60 XP: 14 Def: 70 Atk: 70
-
-Bat Hole Entryway	Hit: 12-14 Evade: 11-16
-# Albino Bat 	HP: 8 XP: 2.4  Def: 14 Atk: 10
-# Pine Bat 	HP: 8 XP: 2.8  Def: 12 Atk: 16 EA: stench
-# Regular Old Bat 	HP: 8 XP: 2.6  Def: 13 Atk: 13
-
-Guano Junction	Hit: 14-18 Evade: 14-18
-# Baseball Bat	HP: 9 XP: 3 Def: 15 Atk: 15
-# Briefcase Bat 	HP: 11 XP: 3.4 Def: 17 Atk: 17
-# Perpendicular Bat 	HP: 12 XP: 3.6 Def: 18 Atk: 18
-# Skullbat 	HP: 10 XP: 3.2 Def: 16 Atk: 16 EA: spooky
-# Doughbat 	HP: 8 XP: 2.8 Def: 14 Atk: 14 EA: sleaze
-
-Batrat and Ratbat Burrow	Hit: 23-25 Evade: 23-25
-# Batrat 	HP: 20 XP: 4.6 Def: 23 Atk: 23
-# Ratbat 	HP: 22 XP: 5 Def: 25 Atk: 25
-
-Beanbat Chamber	Hit: 21 Evade: 22
-# Beanbat 	HP: 18 XP: 4.2 Def: 21 Atk: 21
-
-The Boss Bat's Lair	Hit: 33 Evade: 37
-# The Boss Bat 	HP: 40 XP: 7 Def: 33 Atk: 37
-
-Defiled Nook	Hit: 54-73 Evade: 54-77
-# Spiny Skelelton 	HP: 50 XP: 10.8 Def: 54 Atk: 54 E: spooky
-# Toothy Sklelton 	HP: 50 XP: 11.6 Def: 58 Atk: 58  E: spooky
-# Giant Skeelton 	HP: 60 XP: 15 Def: 73 Atk: 77 E: spooky
-
-Defiled Cranny	Hit: 56-71 Evade: 54-79
-# Gluttonous Ghuol 	HP: 50 XP: 11 Def: 56 Atk: 54 E: spooky
-# Gaunt Ghuol	HP: 50 XP: 11 Def: 56 Atk: 54 E: spooky
-# Huge Ghuol 	HP: 60 XP: 15 Def: 71 Atk: 79 E: spooky
-
-Defiled Alcove	Hit: 55-71 Evade: 53-79
-# Corpulent Zobmie	HP: 50 XP: 10.8 Def: 55 Atk: 53 E: spooky
-# Grave Rober Zmobie 	HP: 50 XP: 11.8 Def: 59 Atk: 59 E: spooky
-# Conjoined Zmombie 	HP: 60 XP: 15 Def: 71 Atk: 79 E: spooky
-
-Defiled Niche	Hit: 57-73 Evade: 57-77
-# Senile Lihc 	HP: 50 XP: 11.4 Def: 57 Atk: 57 E: spooky
-# Slick Lihc	HP: 50 XP: 11.8 Def: 60 Atk: 58 E: spooky
-# Garganthulihc 	HP: 60 XP: 15  Def: 73 Atk: 77 E: spooky
-
-Haert of the Cyrpt	Hit: 90 Evade: 90
-# The Bonerdagon 	HP: 120 XP: 18 Def: 90 Atk: 90 E: spooky
-
-Spooky Forest	Hit: 3-4 Evade: 1
-# Bar	HP: 5 XP: 1 Def: 3 Atk: 1
-# Triffid	HP: 6 XP: 1 Def: 5 Atk: 1
-# Warwelf - 2 HP XP: 1 Def: 3 Atk: 1
-# Wolfman	HP: 2 XP: 1 Def: 3 Atk: 1
-# Spooky Mummy	HP: 3 XP: 1 Def: 4 Atk: 1 E: spooky
-# Spooky Vampire	HP: 2 XP: 1 Def: 4 Atk: 1 E: spooky
-
-Inexplicable Door	Hit: 20-25 Evade: 20-25
-# Blooper	HP: 15 XP: 5 Def: 25 Atk: 25
-# Bullet Bill 	HP: 15 XP: 5 Def: 25 Atk: 25
-# Buzzy Beetle 	HP: 15 XP: 4 Def: 20 Atk: 20
-# Goomba 	HP: 15 XP: 4 Def: 20 Atk: 20
-# Keese 	HP: 15 XP: 5 Def: 25 Atk: 25
-# Koopa Troopa 	HP: 15 XP: 4 Def: 20 Atk: 20
-# Octoroc 	HP: 15 XP: 5 Def: 25 Atk: 25
-# Tektite 	HP: 15 XP: 4 Def: 20 Atk: 20
-# Zol 	HP: 15 XP: 5 Def: 25 Atk: 25
-
-Whitey's Grove	Hit: 34-37 Evade: 34-36
-# Knight in White Satin - 21 HP - 7-8 XP Def: 37 Atk: 36
-# White Chocolate Golem	HP: 21 XP: 7 Def: 36 Atk: 34
-# White Lion	HP: 21 XP: 7 Def: 35 Atk: 35
-# Whitesnake	HP: 21 XP: 7 Def: 34 Atk: 36
-
-Dark Neck of the Woods	Hit: 40-52 Evade: 40-52
-# Hellion 	HP: 52 XP: 10.4 Def: 52 Atk: 52 E: heat
-# P Imp 	HP: 42 XP: 8.4 Def: 42 Atk: 42 E: heat
-# W Imp 	HP: 40 XP: 8 Def: 40 Atk: 40 E: heat
-
-Dark Heart of the Woods	Hit: 42-50 Evade: 42-50
-# Fallen Archfiend 	HP: 50 XP: 10 Def: 50 Atk: 50 E: heat
-# G Imp 	HP: 46 XP: 9.2 Def: 46 Atk: 46 E: heat
-# P Imp 	HP: 42 XP: 8.4 Def: 42 Atk: 42 E: heat
-
-Dark Elbow of the Woods	Hit: 30-46 Evade: 44-50
-# Demoninja 	HP: 48 XP: 9.6 Def: 30 Atk: 50 E: heat
-# G Imp 	HP: 46 XP: 9.2 Def: 46 Atk: 46 E: heat
-# L Imp 	HP: 44 XP: 8.8 Def: 44 Atk: 44 E: heat
-
-Deep Fat Friar's Gate	Hit: 30-52 Evade: 40-52
-# Demoninja 	HP: 48 XP: 9.6 Def: 30 Atk: 50 E: heat
-# Fallen Archfiend 	HP: 50 XP: 10 Def: 50 Atk: 50 E: heat
-# G Imp 	HP: 46 XP: 9.2 Def: 46 Atk: 46 E: heat
-# Hellion 	HP: 52 XP: 10.4 Def: 52 Atk: 52 E: heat
-# L Imp 	HP: 44 XP: 8.8 Def: 44 Atk: 44 E: heat
-# P Imp 	HP: 42 XP: 8.4 Def: 42 Atk: 42 E: heat
-# W Imp 	HP: 40 XP: 8 Def: 40 Atk: 40 E: heat
-
-Valley Beyond Orc Chasm	Hit: 75-87 Evade: 75-87
-# 1335 HaXx0r	HP: 71 XP: 16.2 Def: 81 Atk: 81 - 90 Evade
-# Anime Smiley	HP: 67 XP: 15.4 Def: 77 Atk: 77
-# Flaming Troll	HP: 73 XP: 16.6 Def: 83 Atk: 83
-# Lamz0r N00b	HP: 69 XP: 15.8 Def: 79 Atk: 79
-# Me4t BegZ0r	HP: 77 XP: 17.4 Def: 87 Atk: 87
-# Spam Witch	HP: 75 XP: 17 Def: 85 Atk: 85 EA: sleaze
-# XXX pr0n	HP: 68 XP: 15 Def: 75 Atk: 75
-
-Goatlet	Hit: 68 Evade: 68
-# Dairy Goat 	HP: 50 XP: 13.6 Def: 68 Atk: 68
-# Drunk Goat 	HP: 50 XP: 13.6 Def: 68 Atk: 68
-# Sabre-Toothed Goat 	HP: 50 XP: 13.6 Def: 68 Atk: 68
-
-Itznotyerzitz Mine	Hit: 53-57 Evade: 53-57
-# 7-Foot Dwarf (Moil) 	HP: 40 XP: 10.6 Def: 53 Atk: 53
-# 7-Foot Dwarf (Royale)	HP: 40 XP: 10.6 Def: 53 Atk: 53
-# 7-Foot Dwarf Foreman 	HP: 50 XP: 11.4 Def: 57 Atk: 57
-
-Ninja Snowmen	Hit: 85-90 Evade: 85-90
-# Ninja Snowman 	HP: 70 XP: 17 Def: 85 Atk: 85 E: cold
-# Ninja Snowman (Ricebowl) 	HP: 70 XP: 17 Def: 85 Atk: 85 ED: cold
-# Ninja Snowman Janitor 	HP: 70 XP: 16 Def: 90 Atk: 70 ED: cold
-# Ninja Snowman Weaponmaster 	HP: 80 XP: 18 Def: 90 Atk: 90 ED: cold
-
-eXtreme Slope	Hit: 73-75 Evade: 71-76
-# Sk8 Gnome 	HP: 65 XP: 15 Def: 75 Atk: 75
-# eXtreme Cross-Country Hippy 	HP: 65 XP: 14.6 Def: 73 Atk: 73 E: stench
-# eXtreme Orcish Snowboarder	HP: 65 XP: 15 Def: 74 Atk: 76 E: sleaze
-
-Icy Peak	Hit: 103 Evade: 107
-# Knott Yeti	HP: 90 XP: 21 Def: 103 Atk: 107 E: cold
-
-Hippy Camp (No Disguise)	Hit: 39-41 Evade: 39-41
-# Crusty Hippy 	HP: 30 XP: 8.2 Def: 41 Atk: 41 E: stench
-# Crusty Hippy Jewelry Maker 	HP: 30 XP: 8.2 Def: 41 Atk: 41 E: stench
-# Crusty Hippy Vegan Chef 	HP: 30 XP: 8.2 Def: 41 Atk: 41 E: stench
-# Dirty Hippy 	HP: 30 XP: 8 Def: 40 Atk: 40 E: stench
-# Dirty Hippy Jewelry Maker 	HP: 30 XP: 8 Def: 40 Atk: 40 E: stench
-# Dirty Hippy Vegan Chef 	HP: 30 XP: 8 Def: 40 Atk: 40 E: stench
-# Filthy Hippy 	HP: 30 XP: 8 Def: 39 Atk: 41 E: stench
-# Filthy Hippy Jewelry Maker 	HP: 30 XP: 7.8 Def: 39 Atk: 39 E: stench
-# Filthy Hippy Vegan Chef 	HP: 30 XP: 7.8 Def: 39 Atk: 39 E: stench
-
-Frat House (No Disguise)	Hit: 39-41 Evade: 39-41
-# Orcish Frat Boy (French Maid) 	HP: 30 XP: 8.2 Def: 41 Atk: 41 E: sleaze
-# Orcish Frat Boy (Sorority Orcs)	HP: 30 XP: 7.8 Def: 39 Atk: 39 E: sleaze
-# Orcish Frat Boy (Paddling) 	HP: 30 XP: 8 Def: 40 Atk: 40 E: sleaze
-
-Pirate Cove (No Disguise)	Hit: 61-69 Evade: 61-69
-# Sassy Pirate 	HP: 51 XP: 12.2 Def: 61 Atk: 61
-# Shady Pirate 	HP: 57 XP: 13.4 Def: 67 Atk: 67
-# Shifty Pirate 	HP: 59 XP: 13.8 Def: 69 Atk: 69
-# Swarthy Pirate 	HP: 53 XP: 12.6 Def: 63 Atk: 63
-# Smarmy Pirate 	HP: 55 XP: 13 Def: 65 Atk: 65 E: sleaze
-
-Penultimate Fantasy Airship	Hit: 89-120 Evade: 91-120
-# Burly Sidekick 	HP: 100 XP: 20 Def: 100 Atk: 100
-# Irritating Series of Random Encounters 	HP: 110 XP: 21 Def: 105 Atk: 105
-# MagiMechTech MechaMech	HP: 100 XP: 24 Def: 120 Atk: 120
-# Protagonist 	HP: 80 XP: 20 Def: 100 Atk: 100
-# Quiet Healer 	HP: 90 XP: 19 Def: 95 Atk: 95
-# Spunky Princess  	HP: 75 XP: 18 Def: 89 Atk: 91
-
-Castle in the Clouds in the Sky	Hit: 125-145 Evade: 125-145
-# Alphabet Giant 	HP: 150 XP: 29 Def: 145 Atk: 145
-# Goth Giant 	HP: 150 XP: 26 Def: 130 Atk: 130
-# Furry Giant 	HP: 150 XP: 27 Def: 135 Atk: 135 EA: sleaze
-# Possibility Giant 	HP: 150 XP: 26 Def: 130 Atk: 130
-# Procrastination Giant 	HP: 150 XP: 25 Def: 125 Atk: 125
-# Raver Giant 	HP: 150 XP: 28 Def: 140 Atk: 140
-
-Hole in the Sky	Hit: 151-168 Evade: 149-168
-# The Astronomer 	HP: 150 XP: 33.6 Def: 168 Atk: 168
-# One-Eyed Willie 	HP: 150 XP: 30 Def: 151 Atk: 149 E: sleaze
-# The Family Jewels 	HP: 150 XP: 31.2 Def: 156 Atk: 156 E: sleaze
-# The Hooded Warrior 	HP: 150 XP: 33 Def: 165 Atk: 165 E: sleaze
-# The Junk 	HP: 150 XP: 32 Def: 159 Atk: 161 E: sleaze
-# The Pork Sword 	HP: 150 XP: 32.4Def: 162 Atk: 162 E: sleaze
-# The Trouser Snake 	HP: 150 XP: 30.6 Def: 153 Atk: 153 E: sleaze
-
-The Dire Warren	Hit: 10 Evade: 10
-# Fluffy Bunny 	HP: 1 XP: 1 Def: 1 Atk: 1
-
-South of the Border	Hit: 17-25 Evade: 20-25
-# Angry Pi&ntilde;ata 	HP: 20 XP: 4.4 Def: 22 Atk: 22
-# Handsome Mariachi 	HP: 15 XP: 4 Def: 17 Atk: 23
-# Irate Mariachi 	HP: 17 XP: 4 Def: 20 Atk: 20
-# Mariachi Calavera 	HP: 30 XP: 4.4 Def: 22 Atk: 22
-# Raging Bull 	HP: 20 XP: 5 Def: 25 Atk: 25
-
-Outskirts of Camp	Hit: 2-3 Evade: 1
-# Axe Handle 	HP: 3 XP: 1 Def: 3 Atk: 1
-# Cloud of Disembodied Whiskers 	HP: 3 XP: 1 Def: 3 Atk: 1
-# Poutine Oooze 	HP: 3 XP: 1 Def: 2 Atk: 1
-# Forest Spirit 	HP: 3 XP: 1 Def: 2 Atk: 1
-
-Camp Logging Camp	Hit: 35-40 Evade: 35-40
-# Decent Lumberjack 	HP: 35 XP: 7 Def: 35 Atk: 35
-# Lumberjack Supervisor 	HP: 40 XP: 8 Def: 40 Atk: 40
-# Lumberjill 	HP: 36 XP: 7.2 Def: 36 Atk: 36
-# Lumberjuan 	HP: 35 XP: 7 Def: 35 Atk: 35
-
-Thugnderdome	Hit: 35-45 Evade: 35-45
-# Gnarly Gnome 	HP: 35 XP: 7 Def: 35 Atk: 35
-# Gnasty Gnome 	HP: 35 XP: 7 Def: 35 Atk: 35
-# Gnefarious Gnome	HP: 35 XP: 7 Def: 35 Atk: 35
-# Gnomester Blomester	HP: 35 XP: 7 Def: 35 Atk: 35
-# Gnu Jack Gnome	HP: 35 XP: 7 Def: 35 Atk: 35
-# Vicious Gnauga	HP: 40 XP: 9 Def: 45 Atk: 45
-
-Bugbear Pens	Hit: 13-20 Evade: 13-20
-# An Angry Bugbear	HP: 12 XP: 3 Def: 15 Atk: 15
-# A Bugged Bugbear	HP: 14 XP: 3.2 Def: 18 Atk: 14
-# Mad Bugbears	HP: 13 XP: 3.2 Def: 17 Atk: 15
-# A Revolting Bugbear	HP: 10 XP: 2.6 Def: 13 Atk: 13
-# A Revolving Bugbear   11 HP XP: 3 Def: 15 Atk: 15
-# An Annoying Spooky Gravy Fairy 	HP: 20 XP: 4 Def: 20 Atk: 20 E: spooky
-
-Spooky Gravy Barrow	Hit: 54-75 Evade: 56-75
-# Spooky Gravy Fairy Guard 	HP: 45 XP: 11 Def: 54 Atk: 56 E: spooky
-# Spooky Gravy Fairy Ninja 	HP: 55 XP: 13 Def: 65 Atk: 65 E: spooky
-# Spooky Gravy Fairy Warlock 	HP: 50 XP: 12 Def: 60 Atk: 60 E: spooky
-# Felonia, Queen of the Spooky Gravy Fairies 	HP: 82 XP: 15 Def: 75 Atk: 75 E: spooky
-
-Sorceress' Hedge Maze	Hit: 180 Evade: 180
-# Topiary Golem 	HP: 150 XP: 36 Def: 180 Atk: 180
-
-Battlefield (Cloaca Uniform)	Hit: 30 Evade: 30
-# Dyspepsi-Cola General	HP: 40 XP: 6 Def: 30 Atk: 30
-# Dyspepsi-Cola Knight	HP: 35 XP: 6 Def: 30 Atk: 30
-# Dyspepsi-Cola Soldier	HP: 30 XP: 6 Def: 30 Atk: 30
-
-Battlefield (Dyspepsi Uniform)	Hit: 30 Evade: 30
-# Cloaca-Cola Catapult Engineer	HP: 40 XP: 6 Def: 30 Atk: 30
-# Cloaca-Cola Footsoldier	HP: 35 XP: 6 Def: 30 Atk: 30
-# Cloaca-Cola Soldier	HP: 30 XP: 6 Def: 30 Atk: 30
-
-Spectral Pickle Factory	Hit: 200 Evade: 200
-# Carnivorous Dill Plant 	HP: 180 XP: 40 Def: 200 Atk: 200
-# Ghostly Pickle Factory Worker	HP: 180 XP: 40 Def: 200 Atk: 200
-# Vine Gar 	HP: 180 XP: 40 Def: 200 Atk: 200
-
-# Other areas:
-
-# The Typical Tavern
-# Drunken Rat	HP: 8 XP: 2 Def: 11 Atk: 9
-
-# The Barrel Full of Barrels
-# Mimic (Bottom 2 Rows)	HP: 25 XP: 3 Def: 15 Atk: 15
-# Mimic (Middle 2 Rows)	HP: 35 XP: 5 Def: 25 Atk: 25
-# Mimic (Top 2 Rows)	HP: 45 XP: 7 Def: 35 Atk: 35
+Bat Hole Entryway	Albino Bat	Pine Bat	Regular Old Bat
+Batrat and Ratbat Burrow	Batrat	Ratbat
+Battlefield (Cloaca Uniform)	 Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier
+Battlefield (Dyspepsi Uniform)	 Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier
+Beanbat Chamber	Beanbat
+Bugbear Pens	An Angry Bugbear	A Bugged Bugbear	Mad Bugbears	A Revolting Bugbear	A Revolving Bugbear	An Annoying Spooky Gravy Fairy
+Camp Logging Camp	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan
+Castle in the Clouds in the Sky	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
+Cemetary (Post-Cyrpt)	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton
+Cemetary (Pre-Cyrpt)	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
+Daily Dungeon	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayonnaise Wasp	Pencil Golem	Sabre-Toothed Lime	Tonic Water Elemental	Vampire Clam
+Dark Elbow of the Woods	Demoninja	G Imp	L Imp
+Dark Heart of the Woods	Fallen Archfiend	G Imp	P Imp
+Dark Neck of the Woods	Hellion	P Imp	W Imp
+Deep Fat Friar's Gate	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp
+Defiled Alcove	Corpulent Zobmie	Grave Rober Zmobie	Conjoined Zmombie
+Defiled Cranny	Gluttonous Ghuol	Gaunt Ghuol	Huge Ghuol
+Defiled Niche	Senile Lihc	Slick Lihc	Garganthulihc
+Defiled Nook	Spiny Skelelton	Toothy Sklelton	Giant Skeelton
+Degrassi Knoll	Gnollish Bodybuilder	Gnollish Crossdresser	Gnollish Flyslayer	Gnollish Gearhead	Gnollish Piebaker	Gnollish Plungermaster	Gnollish Sorceress	Gnollish Tirejuggler	Gnollish War Chef	Guard Bugbear	One-Eyed Gnoll
+Dungeons of Doom	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic
+eXtreme Slope	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
+Fernswarthy's Tower	Brainsweeper	Bread Golem	Chowder Golem	Giant Pair of Tweezers	Weretaco	Yeast Beast	Lesser Fruit Golem
+Frat House (No Disguise)	Orcish Frat Boy (French Maid)	Orcish Frat Boy (Sorority Orcs)	Orcish Frat Boy (Paddling)
+Fun House	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown
+Goatlet	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
+Guano Junction	Baseball Bat	Briefcase Bat	Perpendicular Bat	Skullbat	Doughbat
+Haert of the Cyrpt	The Bonerdagon
+Haunted Pantry	Possessed Can of Tomatoes	Fiendish Can of Asparagus	Flame-Broiled Meat Blob	Undead Elbow Macaroni
+Hippy Camp (No Disguise)	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
+Hole in the Sky	The Astronomer	One-Eyed Willie	The Family Jewels	The Hooded Warrior	The Junk	The Pork Sword	The Trouser Snake
+Icy Peak	Knott Yeti
+Inexplicable Door	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octoroc	Tektite	Zol
+Itznotyerzitz Mine	7-Foot Dwarf (Moil)	7-Foot Dwarf (Royale)	7-Foot Dwarf Foreman
+Knob Goblin Harem	Knob Goblin Elite Guardsman	Knob Goblin Harem Girl
+Knob Goblin Kitchens	Knob Goblin Chef	Knob Goblin Master Chef
+Knob Goblin Laboratory	Knob Goblin Mad Scientist	Knob Goblin Very Mad Scientist
+Knob Goblin Treasury	Knob Goblin Bean Counter	Knob Goblin Elite Guardsman
+Menagerie (Level 1)	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
+Menagerie (Level 2)	Carnivorous Moxie Weed	Grass Elemental	Weremoose
+Menagerie (Level 3)	Booze Giant	Portly Abomination	Spectral Jellyfish
+Ninja Snowmen	Ninja Snowman	Ninja Snowman (Ricebowl)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
+Outskirts of Camp	Axe Handle	Cloud of Disembodied Whiskers	Poutine Oooze	Forest Spirit
+Outskirts of The Knob	Knob Goblin Assistant Chef	Sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
+Palindome	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat
+Penultimate Fantasy Airship	Burly Sidekick	Irritating Series of Random Encounters	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess 
+Pirate Cove (No Disguise)	Sassy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate	Smarmy Pirate
+Sleazy Back Alley	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo
+Sorceress' Hedge Maze	Topiary Golem
+South of the Border	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull
+Spectral Pickle Factory	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar
+Spooky Forest	Bar	Triffid	Warwelf	Wolfman	Spooky Mummy	Spooky Vampire
+Spooky Gravy Barrow	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia	Queen of the Spooky Gravy Fairies
+The Boss Bat's Lair	The Boss Bat
+The Dire Warren	Fluffy Bunny
+The King's Chamber	The Knob Goblin King
+Thugnderdome	Gnarly Gnome	Gnasty Gnome	Gnefarious Gnome	Gnomester Blomester	Gnu Jack Gnome	Vicious Gnauga
+Valley Beyond Orc Chasm	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Spam Witch	XXX pr0n
+Whitey's Grove	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
