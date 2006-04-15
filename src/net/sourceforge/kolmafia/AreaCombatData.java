@@ -139,10 +139,12 @@ public class AreaCombatData implements KoLConstants
 
 	public String safetyString()
 	{
+		boolean ranged = KoLCharacter.rangedWeapon();
+
 		int ml = monsterLevelAdjustment();
 		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
-		boolean ranged = KoLCharacter.rangedWeapon();
 		int hitstat = ranged ? moxie : ( KoLCharacter.getAdjustedMuscle() - ml );
+
 		double minHitPercent = hitPercent( hitstat, minHit );
 		double maxHitPercent = hitPercent( hitstat, maxHit );
 		int minPerfectHit = perfectHit( hitstat, minHit );
@@ -153,21 +155,46 @@ public class AreaCombatData implements KoLConstants
 		int maxPerfectEvade = perfectHit( moxie, maxEvade );
 
 		StringBuffer buffer = new StringBuffer();
-		buffer.append( "Hit: " );
-		buffer.append( ff.format( minHitPercent ) + "%/" + ff.format( maxHitPercent ) + "%");
-		buffer.append( " (" + ( ranged ? "Moxie" : "Muscle" ) + " " );
-		buffer.append( minPerfectHit + "/" + maxPerfectHit + ")" );
-		buffer.append( "  Evade: " );
-		buffer.append( ff.format( minEvadePercent ) + "%/" + ff.format( maxEvadePercent ) + "%" );
-		buffer.append( " (Moxie " );
-		buffer.append( minPerfectEvade + "/" + maxPerfectEvade + ")" );
 
+		buffer.append( "<html><b>Hit</b>: " );
+		buffer.append( getRateString( minHitPercent, minPerfectHit, maxHitPercent, maxPerfectHit, ranged ) );
+
+		buffer.append( "<br><b>Evade</b>: " );
+		buffer.append( getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, true ) );
+
+		buffer.append( "</html>" );
+		return buffer.toString();
+	}
+
+	private String getRateString( double minPercent, int minMargin, double maxPercent, int maxMargin, boolean isMoxieTest )
+	{
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( ff.format( minPercent ) );
+		buffer.append( "%/" );
+
+		buffer.append( ff.format( maxPercent ) );
+		buffer.append( "% (" );
+
+		buffer.append( isMoxieTest ? "Moxie " : "Muscle " );
+
+		if ( minMargin >= 0 )
+			buffer.append( "+" );
+		buffer.append( minMargin );
+
+		buffer.append( "/" );
+
+		if ( maxMargin >= 0 )
+			buffer.append( "+" );
+		buffer.append( maxMargin );
+
+		buffer.append( ")" );
 		return buffer.toString();
 	}
 
 	public double hitPercent( int attack, int defense )
 	{
-		// ( (Attack - Defense) / 18 ) * 100 + 50 = Hit% 
+		// ( (Attack - Defense) / 18 ) * 100 + 50 = Hit%
 		double percent = 100.0 * ( attack - defense ) / 18 + 50.0;
 		if ( percent < 0.0 )
 			return 0.0;

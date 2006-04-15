@@ -229,7 +229,7 @@ public class RequestFrame extends KoLFrame
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 			JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
-			tabs.add( "Between Battle Scripts", restoreScroller );
+			tabs.add( "Between-Battle", restoreScroller );
 
 			framePanel.setLayout( new BorderLayout() );
 			framePanel.add( tabs, BorderLayout.CENTER );
@@ -312,7 +312,7 @@ public class RequestFrame extends KoLFrame
 	public boolean hasSideBar()
 	{	return hasSideBar;
 	}
-	
+
 	public String getCurrentLocation()
 	{	return currentLocation;
 	}
@@ -435,7 +435,7 @@ public class RequestFrame extends KoLFrame
 			// in the future get removed.
 
 			String renderText = getDisplayHTML( text );
-			
+
 			history.add( request.getURLString() );
 			shownHTML.add( renderText );
 
@@ -460,7 +460,7 @@ public class RequestFrame extends KoLFrame
 
 		private void updateClient()
 		{
-			StaticEntity.externalUpdate( request.getURLString(), request.responseText );			
+			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
 			if ( shouldEnable )
 				StaticEntity.getClient().enableDisplay();
 		}
@@ -475,7 +475,7 @@ public class RequestFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	refresh( new KoLRequest( StaticEntity.getClient(), "main.php" ) );
+		{	refresh( new KoLRequest( StaticEntity.getClient(), "main.php", true ) );
 		}
 	}
 
