@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.awt.Component;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -107,7 +108,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 	public boolean useSidePane()
 	{	return false;
-	}	
+	}
 
 	private class StoreAddPanel extends ItemManagePanel implements Runnable
 	{
@@ -219,7 +220,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			DEFAULT_SHELL.updateDisplay( "Compiling reprice data..." );
 
-			java.awt.Component [] components = storeItemList.getComponents();
+			Component [] components = storeItemList.getComponents();
 			int [] itemID = new int[ components.length ];
 			int [] prices = new int[ components.length ];
 			int [] limits = new int[ components.length ];
@@ -337,7 +338,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			containerPanel.add( labelPanel );
 			containerPanel.add( Box.createVerticalStrut( 5 ) );
 			containerPanel.add( corePanel );
-			
+
 			setLayout( new BorderLayout() );
 			add( containerPanel, BorderLayout.WEST );
 		}
