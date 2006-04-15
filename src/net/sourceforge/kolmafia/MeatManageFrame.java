@@ -106,13 +106,6 @@ public class MeatManageFrame extends KoLFrame
 			setContent( elements, true, true );
 		}
 
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			heroField.setEnabled( isEnabled );
-			amountField.setEnabled( isEnabled );
-		}
-
 		protected void actionConfirmed()
 		{
 			if ( heroField.getSelectedIndex() != -1 )
@@ -167,7 +160,6 @@ public class MeatManageFrame extends KoLFrame
 
 			amountField = new JTextField();
 			closetField = new JTextField( df.format( KoLCharacter.getClosetMeat() ) );
-			closetField.setEnabled( false );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
@@ -181,8 +173,7 @@ public class MeatManageFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			fundSource.setEnabled( isEnabled );
-			amountField.setEnabled( isEnabled );
+			closetField.setEnabled( false );
 		}
 
 		protected void actionConfirmed()

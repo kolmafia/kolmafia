@@ -65,6 +65,7 @@ import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 
 public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 {
+	private VerifiableElement [] elements;
 	protected JPanel actionStatusPanel;
 	protected StatusLabel actionStatusLabel;
 
@@ -148,6 +149,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		// add a return-key listener to each of the input fields.
 
 		ActionConfirmListener listener = new ActionConfirmListener();
+		this.elements = elements;
 
 		if ( elements != null )
 		{
@@ -176,6 +178,15 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		}
 	}
 
+	public void setEnabled( boolean isEnabled )
+	{
+		if ( elements == null )
+			return;
+		
+		for ( int i = 0; i < elements.length; ++i )
+			elements[i].getInputField().setEnabled( isEnabled );
+	}
+	
 	private class ActionConfirmListener extends KeyAdapter
 	{
 		public void keyReleased( KeyEvent e )

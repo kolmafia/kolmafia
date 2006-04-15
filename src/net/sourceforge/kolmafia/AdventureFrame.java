@@ -330,9 +330,7 @@ public class AdventureFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
-			locationSelect.setEnabled( isEnabled );
-			countField.setEnabled( isEnabled );
-			conditionField.setEnabled( isEnabled );
+			actionSelect.setEnabled( true );
 		}
 
 		protected void actionConfirmed()

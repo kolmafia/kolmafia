@@ -206,13 +206,6 @@ public class ClanManageFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			buffField.setEnabled( isEnabled );
-			countField.setEnabled( isEnabled );
-		}
-
 		protected void actionConfirmed()
 		{	(new RequestThread( (Runnable) buffField.getSelectedItem(), getValue( countField ) )).start();
 		}
@@ -241,12 +234,6 @@ public class ClanManageFrame extends KoLFrame
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Victim: ", enemyList );
 			setContent( elements );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			enemyList.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
@@ -284,18 +271,6 @@ public class ClanManageFrame extends KoLFrame
 			elements[5] = new VerifiableElement( "La-Z-Archers: ", archers );
 
 			setContent( elements );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-
-			goodies.setEnabled( isEnabled );
-			oatmeal.setEnabled( isEnabled );
-			recliners.setEnabled( isEnabled );
-			ground.setEnabled( isEnabled );
-			airborne.setEnabled( isEnabled );
-			archers.setEnabled( isEnabled );
 		}
 
 		public void actionConfirmed()
@@ -357,12 +332,6 @@ public class ClanManageFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			amountField.setEnabled( isEnabled );
-		}
-
 		protected void actionConfirmed()
 		{	(new RequestThread( new ClanStashRequest( StaticEntity.getClient(), getValue( amountField ) ) )).start();
 		}
@@ -392,12 +361,6 @@ public class ClanManageFrame extends KoLFrame
 		protected void actionCancelled()
 		{	(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.INVENTORY_TO_CLOSET, elementList.getSelectedValues() ) )).start();
 		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			elementList.setEnabled( isEnabled );
-		}
 	}
 
 	/**
@@ -419,12 +382,6 @@ public class ClanManageFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{	(new RequestThread( new ClanStashRequest( StaticEntity.getClient() ) )).start();
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			elementList.setEnabled( isEnabled );
 		}
 	}
 
@@ -455,14 +412,6 @@ public class ClanManageFrame extends KoLFrame
 			elements[2] = new VerifiableElement( "Value:", valueField );
 
 			setContent( elements, null, null, true, true );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			parameterSelect.setEnabled( isEnabled );
-			matchSelect.setEnabled( isEnabled );
-			valueField.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()

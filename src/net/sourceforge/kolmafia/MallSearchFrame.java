@@ -115,14 +115,6 @@ public class MallSearchFrame extends KoLPanelFrame
 			countField.setText( getProperty( "defaultLimit" ).equals( "" ) ? "5" : getProperty( "defaultLimit" ) );
 		}
 
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			searchField.setEnabled( isEnabled );
-			countField.setEnabled( isEnabled );
-			forceSortingCheckBox.setEnabled( isEnabled );
-		}
-
 		protected void actionConfirmed()
 		{
 			int searchCount = getValue( countField, 5 );
@@ -149,7 +141,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			Object [] purchases = resultsList.getSelectedValues();
 			if ( purchases == null || purchases.length == 0 )
 			{
-				setStatusMessage( ERROR_STATE, "Please select a store from which to purchase." );
+				setStatusMessage( NULL_STATE, "Please select a store from which to purchase." );
 				return;
 			}
 
