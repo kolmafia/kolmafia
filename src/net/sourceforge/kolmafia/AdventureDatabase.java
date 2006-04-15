@@ -851,20 +851,18 @@ public class AdventureDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 2 )
+			if ( data.length > 1 )
 			{
 				if ( !validateAdventureArea( data[0], adventures ) )
 				{
-					System.out.println( "Invalid adventure area: " + data[0] );
+					System.out.println( "Invalid adventure area: \"" + data[0] + "\"" );
 					continue;
 				}
 
-				AreaCombatData combat = new AreaCombatData( data[1] );
-				if ( !combat.valid() )
-				{
-					System.out.println( "Bad combat parameters for " + data[0] );
-					continue;
-				}
+				AreaCombatData combat = new AreaCombatData();
+
+				for ( int i = 1; i < data.length; ++i )
+					combat.addMonster( data[i] );
 
 				areaCombatData.put( data[0], combat );
 			}

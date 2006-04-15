@@ -34,91 +34,46 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.util.StringTokenizer;
+import java.util.List;
+import java.util.ArrayList;
 
 public class AreaCombatData implements KoLConstants
 {
-	private boolean valid;
 	private int minHit;
 	private int maxHit;
 	private int minEvade;
 	private int maxEvade;
+	private List monsters;
 
-	public AreaCombatData( String data )
-	{	this.valid = parse( data );
-	}
-
-	private boolean parse( String s )
+	public AreaCombatData()
 	{
-		int minHit = 0;
-		int maxHit = 0;
-		int minEvade = 0;
-		int maxEvade = 0;
-
-		// Hit: 10 Evade: 12-13
-
-		StringTokenizer tokens = new StringTokenizer( s, " " );
-		while ( tokens.hasMoreTokens() )
-		{
-			try
-			{
-				String option = tokens.nextToken();
-				if ( option.equals( "Hit:" ) )
-				{
-					if ( !tokens.hasMoreTokens() )
-						return false;
-					String value = tokens.nextToken();
-					int dash = value.indexOf( "-" );
-					if ( dash != -1 )
-					{
-						minHit = Integer.parseInt( value.substring( 0, dash ) );
-						maxHit = Integer.parseInt( value.substring( dash + 1 ) );
-					}
-					else
-					{
-						minHit = Integer.parseInt( value );
-						maxHit = minHit;
-					}
-					continue;
-				}
-
-				if ( option.equals( "Evade:" ) )
-				{
-					if ( !tokens.hasMoreTokens() )
-						return false;
-					String value = tokens.nextToken();
-					int dash = value.indexOf( "-" );
-					if ( dash != -1 )
-					{
-						minEvade = Integer.parseInt( value.substring( 0, dash ) );
-						maxEvade = Integer.parseInt( value.substring( dash + 1 ) );
-					}
-					else
-					{
-						minEvade = Integer.parseInt( value );
-						maxEvade = minEvade;
-					}
-					continue;
-				}
-			}
-			catch ( Exception e )
-			{
-			}
-
-			return false;
-		}
-
-		this.minHit = minHit;
-		this.maxHit = maxHit;
-		this.minEvade = minEvade;
-		this.maxEvade = maxEvade;
-		return true;
+		this.monsters = new ArrayList();
+		minHit = Integer.MAX_VALUE;
+		maxHit = 0;
+		minEvade = Integer.MAX_VALUE;
+		maxEvade = 0;
 	}
 
-	public boolean valid()
-	{	return valid;
+	public boolean addMonster( String name )
+	{
+		MonsterDatabase.Monster monster = MonsterDatabase.findMonster( name );
+		if ( monster == null )
+			return false;
+
+		int attack = monster.getAttack();
+		if ( attack < minEvade )
+			minEvade = attack;
+		if ( attack > maxEvade )
+			maxEvade = attack;
+
+		int defense = monster.getDefense();
+		if ( defense < minHit )
+			minHit = defense;
+		if ( defense > maxHit )
+			maxHit = defense;
+
+		monsters.add( monster );
+		return true;
 	}
 
 	public int minHit()
@@ -206,6 +161,13 @@ public class AreaCombatData implements KoLConstants
 	public int perfectHit( int attack, int defense )
 	{	return attack - defense - 9;
         }
+
+	// Elements:
+	// <span style="color: red;"><b>hot</b></span>
+	// <span style="color: blue;"><b>cold</b></span>
+	// <span style="color: green;"><b>stench</b></span>
+	// <span style="color: gray;"><b>spookiness</b></span>
+	// <span style="color: blueviolet;"><b>sleaze</b></span>
 
 	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
 	private static final int ICE_SICKLE = 1424;
