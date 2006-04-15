@@ -897,6 +897,6 @@ public class AdventureDatabase extends KoLDatabase
 			area = area.substring( index + 2 );
 
 		// Get the combat data
-		return (AreaCombatData)areaCombatData.get( area );
+		return (AreaCombatData) areaCombatData.get( area );
 	}
 }
