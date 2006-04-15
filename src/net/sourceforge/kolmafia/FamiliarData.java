@@ -206,6 +206,9 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1305:	// tiny makeup kit
 			return 15;
 
+		case 1526:	// pet rock "Snooty" disguise
+			return 11;
+
 		default:
 			if ( TradeableItemDatabase.getConsumptionType( itemID ) == ConsumeItemRequest.EQUIP_FAMILIAR )
 				return 5;
