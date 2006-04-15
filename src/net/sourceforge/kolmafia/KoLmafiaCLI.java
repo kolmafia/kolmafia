@@ -2936,7 +2936,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		ArrayList results = new ArrayList();
-		(new SearchMallRequest( StaticEntity.getClient(), '\"' + firstMatch.getName() + '\"', 2 * firstMatch.getCount(), results )).run();
+		(new SearchMallRequest( StaticEntity.getClient(), '\"' + firstMatch.getName() + '\"', 0, results )).run();
 		StaticEntity.getClient().makePurchases( results, results.toArray(), firstMatch.getCount() );
 	}
 

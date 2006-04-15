@@ -199,19 +199,6 @@ public class BuffBotFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			if ( skillSelect != null )
-				skillSelect.setEnabled( isEnabled );
-			if ( buffListDisplay != null )
-				buffListDisplay.setEnabled( isEnabled );
-			if ( priceField != null )
-				priceField.setEnabled( isEnabled );
-			if ( countField != null )
-				countField.setEnabled( isEnabled );
-		}
-
 		protected void actionConfirmed()
 		{
 			try
@@ -277,12 +264,6 @@ public class BuffBotFrame extends KoLFrame
 
 			setContent( elements );
 			actionCancelled();
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			super.setEnabled( isEnabled );
-			messageDisposalSelect.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
