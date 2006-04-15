@@ -115,7 +115,7 @@ public abstract class PanelList extends JPanel implements Scrollable
 	public PanelList( int visibleRows, int cellWidth, int cellHeight, LockableListModel associatedListModel, boolean useBoxLayout )
 	{
 		super( new BorderLayout() );
-		
+
 		this.add( listPanel = new JPanel(), BorderLayout.WEST );
 		listPanel.setLayout( useBoxLayout ? (LayoutManager) new BoxLayout( listPanel, BoxLayout.Y_AXIS ) : (LayoutManager) new FlowLayout() );
 
@@ -221,6 +221,10 @@ public abstract class PanelList extends JPanel implements Scrollable
 	public int getScrollableBlockIncrement( Rectangle visibleRect, int orientation, int direction )
 	{	return orientation == SwingConstants.HORIZONTAL ? 0 :
 				(visibleRows - 1) * getScrollableUnitIncrement( visibleRect, orientation, direction );
+	}
+
+	public Component [] getComponents()
+	{	return listPanel.getComponents();
 	}
 
 	/**
