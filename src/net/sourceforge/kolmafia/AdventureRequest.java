@@ -312,14 +312,6 @@ public class AdventureRequest extends KoLRequest
                         return;
 		}
 
-		// If we gained nothing, assume adventure didn't take place.
-
-		if ( !formSource.equals( "dungeons.php" ) && responseText.indexOf( "You lose" ) == -1 && responseText.indexOf( "You acquire" ) == -1 && responseText.indexOf( "You gain" ) == -1 )
-		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No results detected." );
-			return;
-		}
-
 		// If you're at the casino, each of the different slot
 		// machines deducts meat from your tally
 

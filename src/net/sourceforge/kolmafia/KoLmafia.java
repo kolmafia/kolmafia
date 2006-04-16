@@ -1339,7 +1339,7 @@ public abstract class KoLmafia implements KoLConstants
 				// Prevent drunkenness adventures from occurring by
 				// testing inebriety levels after the request is run.
 
-				if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && KoLCharacter.getInebriety() < 29 )
+				if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && KoLCharacter.getInebriety() < 26 )
 				{
 					updateDisplay( ERROR_STATE, "You are too drunk to continue." );
 					return;

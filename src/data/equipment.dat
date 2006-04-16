@@ -40,10 +40,11 @@ football helmet	150	Mox: 60
 gasmask	50	Mox: 10
 goat beard	60	Mox: 15
 goofily-plumed helmet	70	Mox: 20
+grass hat	80	Mox: 25
 green traffic cone	60	Mox: 15
 helmet turtle	10	none
 ice pick	100	none
-irate sombrero	45	Mus: 7
+irate sombrero	45	Mox: 7
 Kentucky-style derby	20	none
 Knob Goblin elite helm	60	Mox: 15
 Knob Goblin harem veil	10	none
@@ -115,6 +116,7 @@ furry skirt	150	Mox: 60
 gnauga hide chaps	80	Mox: 25
 gnauga hide kilt	80	Mox: 25
 gnauga hide skirt	80	Mox: 25
+grass skirt	80	Mox: 25
 hippopotamus kilt	130	Mox: 50
 hippopotamus pants	130	Mox: 50
 hippopotamus skirt	130	Mox: 50
@@ -241,6 +243,7 @@ Gnollish autoplunger	60	Mus: 15	3
 Gnollish flyswatter	35	Mus: 2
 Gnollish nunchaku	45	Mus: 7	2
 Gnollish plunger	35	Mus: 2
+grass blade	80	Mus: 25
 grave robbing shovel	80	Mus: 25	2
 halfberd	30	none
 heteroerotic frat-paddle	150	Mus: 60
@@ -271,6 +274,7 @@ pasta spoon	10	none
 penguin whip	20	none
 pixel sword	50	Mus: 10
 plexiglass pike pike	180	Mus: 75	2
+portable corkscrew	30	none
 Radio Free Foil	150	Mus: 60
 rib of the Bonerdagon	80	Mus: 25	2
 ridiculously huge sword	140	Mus: 55	3
