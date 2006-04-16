@@ -353,7 +353,6 @@ penguin whip	13	penguin skin	whip kit
 yak whip	13	yak skin	whip kit
 gnauga hide whip	13	gnauga hide	whip kit
 
-
 # Meat-smithing armor pieces.  These items are helmets, pants,
 # and sometimes accessories which are created in smithing.
 
@@ -368,6 +367,10 @@ meatloaf helmet	4	basic meat helmet	ketchup
 
 basic meat fez	4	basic meat helmet	tassel
 sequined fez	4	basic meat fez	teeny-tiny ninja stars
+
+grass blade	4	fake plastic grass	sword hilt
+grass hat	4	fake plastic grass	helmet recipe
+grass skirt	4	fake plastic grass	skirt / kilt kit
 
 # The dictionary you get from the an abridged dictionary (item 536) is
 # not a smithing ingredient. The dictionary the Baron rewards you with
