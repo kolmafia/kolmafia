@@ -235,13 +235,19 @@ public class AdventureRequest extends KoLRequest
 		// defeated the goblin king, go into pending state.
 
 		if ( formSource.equals( "knob.php" ) && responseText.indexOf( "You've already slain the Goblin King" ) != -1 )
+		{
 			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You already defeated the Goblin King." );
+			return;
+		}
 
 		// The Haert of the Cyrpt: if you've already defeated
 		// the bonerdagon, go into pending state.
 
 		if ( formSource.equals( "cyrpt.php" ) && responseText.indexOf( "Bonerdagon has been defeated" ) != -1 )
+		{
 			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You already defeated the Bonerdagon." );
+			return;
+		}
 
 		// The Orc Chasm (pre-bridge)
 
@@ -304,12 +310,13 @@ public class AdventureRequest extends KoLRequest
 				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Taint cleansed." );
 				return;
 			}
-                        // Even after you've performed the ritual:
-                        // "You don't appear to have all of the elements
-                        // necessary to perform the ritual."
 
-                        DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
-                        return;
+			// Even after you've performed the ritual:
+			// "You don't appear to have all of the elements
+			// necessary to perform the ritual."
+
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
+			return;
 		}
 
 		// If you're at the casino, each of the different slot
