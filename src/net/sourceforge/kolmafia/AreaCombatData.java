@@ -76,6 +76,10 @@ public class AreaCombatData implements KoLConstants
 		return true;
 	}
 
+	public MonsterDatabase.Monster getMonster( int i )
+	{	return (MonsterDatabase.Monster) monsters.get(i);
+	}
+
 	public int minHit()
 	{	return minHit;
 	}
@@ -116,7 +120,11 @@ public class AreaCombatData implements KoLConstants
 
 		buffer.append( "<br><b>Evade</b>: " );
 		buffer.append( getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, true ) );
-
+		for ( int i = 0; i < monsters.size(); ++i )
+		{
+			MonsterDatabase.Monster monster = getMonster( i );
+			buffer.append( "<br>" + getMonsterString( monster, moxie, hitstat ) );
+		}
 		buffer.append( "</html>" );
 		return buffer.toString();
 	}
@@ -147,6 +155,60 @@ public class AreaCombatData implements KoLConstants
 		return buffer.toString();
 	}
 
+	private String getRateString( double percent, int margin )
+	{
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( ff.format( percent ) );
+		buffer.append( "% (" );
+		if ( margin >= 0 )
+			buffer.append( "+" );
+		buffer.append( margin );
+		buffer.append( ")" );
+		return buffer.toString();
+	}
+
+	private String getMonsterString( MonsterDatabase.Monster monster, int moxie, int hitstat )
+	{
+		// moxie and hitstat already adjusted for monster level
+
+		int defense = monster.getDefense();
+		double hitPercent = hitPercent( hitstat, defense );
+		int perfectHit = perfectHit( hitstat, defense );
+
+		int attack = monster.getAttack();
+		double evadePercent = hitPercent( moxie, attack );
+		int perfectEvade = perfectHit( moxie, attack );
+
+		StringBuffer buffer = new StringBuffer();
+
+		int element = monster.getDefenseElement();
+		if ( element == MonsterDatabase.NONE )
+			element = monster.getAttackElement();
+
+		// Color the monster name according to its element
+		if ( element == MonsterDatabase.HEAT )
+			buffer.append( " <font color=red>" );
+		else if ( element == MonsterDatabase.COLD )
+			buffer.append( " <font color=blue>" );
+		else if ( element == MonsterDatabase.STENCH )
+			buffer.append( " <font color=green>" );
+		else if ( element == MonsterDatabase.SPOOKY )
+			buffer.append( " <font color=gray>" );
+		else if ( element == MonsterDatabase.SLEAZE )
+			buffer.append( " <font color=#FF00FF>" );
+		buffer.append( monster.getName() );
+		if ( element != MonsterDatabase.NONE )
+			buffer.append( " </font>" );
+
+		buffer.append( ": Hit: " );
+		buffer.append( getRateString( hitPercent, perfectHit ) );
+		buffer.append( " Evade: " );
+		buffer.append( getRateString( evadePercent, perfectEvade  ) );
+
+		return buffer.toString();
+	}
+
 	public double hitPercent( int attack, int defense )
 	{
 		// ( (Attack - Defense) / 18 ) * 100 + 50 = Hit%
@@ -160,14 +222,7 @@ public class AreaCombatData implements KoLConstants
 
 	public int perfectHit( int attack, int defense )
 	{	return attack - defense - 9;
-        }
-
-	// Elements:
-	// <span style="color: red;"><b>hot</b></span>
-	// <span style="color: blue;"><b>cold</b></span>
-	// <span style="color: green;"><b>stench</b></span>
-	// <span style="color: gray;"><b>spookiness</b></span>
-	// <span style="color: blueviolet;"><b>sleaze</b></span>
+	}
 
 	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
 	private static final int ICE_SICKLE = 1424;

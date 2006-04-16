@@ -230,10 +230,12 @@ public class AdventureFrame extends KoLFrame
 
 		public SafetyField()
 		{
-			super( new GridLayout( 1, 1 ) );
-
-			add( safetyText = new JLabel( " " ) );
+			super( new BorderLayout() );
+			safetyText = new JLabel( " " );
 			safetyText.setVerticalAlignment( JLabel.TOP );
+
+			add( new JScrollPane( safetyText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED ), BorderLayout.CENTER );
 
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( this ) );
 			locationSelect.addActionListener( this );
