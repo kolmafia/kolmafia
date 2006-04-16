@@ -24,6 +24,7 @@ Anime Smiley	HP: 67 XP: 15.4 Def: 77 Atk: 77
 Axe Handle	HP: 3 XP: 1 Def: 3 Atk: 1
 BASIC Elemental	HP: 40 XP: 10 Def: 50 Atk: 50
 Bar	HP: 5 XP: 1 Def: 3 Atk: 1
+Baseball Bat	HP: 9 XP: 3 Def: 15 Atk: 15
 Batrat	HP: 20 XP: 4.6 Def: 23 Atk: 23
 Beanbat	HP: 18 XP: 4.2 Def: 21 Atk: 21
 Big Creepy Spider	HP: 1 XP: 1 Def: 1 Atk: 1
@@ -32,6 +33,7 @@ Bob Racecar	HP: 60 XP: 13.8 Def: 69 Atk: 69
 Booze Giant	HP: 66 XP: 15.2 Def: 76 Atk: 76
 Brainsweeper	HP: 9 XP: 3.6  Def: 18 Atk: 18
 Bread Golem	HP: 8 XP: 4 Def: 16 Atk: 24
+Briefcase Bat	HP: 11 XP: 3.4 Def: 17 Atk: 17
 Bugbear-In-The-Box	HP: 11 XP: 3.4 Def: 18 Atk: 14
 Bullet Bill	HP: 15 XP: 5 Def: 25 Atk: 25
 Burly Sidekick	HP: 100 XP: 20 Def: 100 Atk: 100
@@ -60,6 +62,7 @@ Dirty Hippy Jewelry Maker	HP: 30 XP: 8 Def: 40 Atk: 40 E: stench
 Dirty Hippy Vegan Chef	HP: 30 XP: 8 Def: 40 Atk: 40 E: stench
 Disease-In-The-Box	HP: 14 XP: 3.6 Def: 18 Atk: 18
 Dodecapede	HP: 8 XP: 2.4 Def: 12 Atk: 12
+Doughbat	HP: 8 XP: 2.8 Def: 14 Atk: 14 EA: sleaze
 Drab Bard	HP: 55 XP: 13 Def: 65 Atk: 65
 Drunk Goat	HP: 50 XP: 13.6 Def: 68 Atk: 68
 Drunken Half-Orc Hobo	HP: 1 XP: 1 Def: 1 Atk: 1 E: stench
@@ -162,6 +165,7 @@ Orcish Frat Boy (Paddling)	HP: 30 XP: 8 Def: 40 Atk: 40 E: sleaze
 Orcish Frat Boy (Sorority Orcs)	HP: 30 XP: 7.8 Def: 39 Atk: 39 E: sleaze
 P Imp	HP: 42 XP: 8.4 Def: 42 Atk: 42 E: heat
 Pencil Golem	HP: 11 XP: 3 Def: 15 Atk: 15
+Perpendicular Bat	HP: 12 XP: 3.6 Def 18 Atk: 18
 Pine Bat	HP: 8 XP: 2.8  Def: 12 Atk: 16 EA: stench
 Portly Abomination	HP: 63 XP: 14.6 Def: 73 Atk: 73
 Possessed Can of Tomatoes	HP: 1 XP: 1 Def: 2 Atk: 1
@@ -187,6 +191,7 @@ Shaky Clown	HP: 16 XP: 3.8  Def: 19 Atk: 19 E: sleaze
 Shifty Pirate	HP: 59 XP: 13.8 Def: 69 Atk: 69
 Sk8 Gnome	HP: 65 XP: 15 Def: 75 Atk: 75
 Skleleton	HP: 10 XP: 3.6 Def: 18 Atk: 18 E: spooky
+Skullbat	HP: 10 XP: 3.2 Def: 16 Atk: 16 EA: spooky  
 Sleeping Knob Goblin Guard	HP: 1 XP: 1 Def: 1 Atk: 1
 Slick Lihc	HP: 50 XP: 11.8 Def: 60 Atk: 58 E: spooky
 Smarmy Pirate	HP: 55 XP: 13 Def: 65 Atk: 65 E: sleaze
