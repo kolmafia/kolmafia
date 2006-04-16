@@ -73,16 +73,6 @@ public class FightRequest extends KoLRequest
 		"stuffing golem"
 	};
 
-	private static final String [] CONTINUE_TEXT =
-	{
-		"Adventure Again",   // Regular link
-		"rats.php",          // Allows continuation during tavern quest
-		"lair3.php",         // Allows continuation during hedge maze
-		"lair4.php",         // Allows continuation during tower guardians
-		"lair5.php",         // Allows continuation during tower guardians
-		"lair6.php"          // Allows continuation during shadow and sorceress fight
-	};
-
 	/**
 	 * Constructs a new <code>FightRequest</code>.  The client provided will
 	 * be used to determine whether or not the fight should be started and/or
@@ -278,19 +268,6 @@ public class FightRequest extends KoLRequest
 			if ( !client.permitsContinue() )
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
 
-			// If you can't battle again in this location,
-			// cancel future iterations.
-
-			else
-			{
-				boolean shouldContinue = false;
-				for ( int i = 0; i < CONTINUE_TEXT.length; ++i )
-					shouldContinue |= responseText.indexOf( CONTINUE_TEXT[i] ) != -1;
-
-				if ( !shouldContinue )
-					DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Nothing left to do here." );
-			}
-
 			this.turnsUsed = 1;
 		}
 		else if ( responseText.indexOf( "You lose." ) != -1 )
@@ -307,11 +284,9 @@ public class FightRequest extends KoLRequest
 			}
 			else
 			{
-				// Sometimes you hit the thirty round limit.  Here, print
-				// the error to the debug log and continue adventuring
-				// as normal.
+				// Maybe some other reason for automatic failure occurred.
+				// Mark the adventure as used and continue.
 
-				DEFAULT_SHELL.updateDisplay( "Thirty combat round limit exceeded." );
 				this.turnsUsed = 1;
 			}
 		}
