@@ -43,7 +43,16 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MonsterDatabase extends KoLDatabase
 {
+
 	public static final Map MONSTERS = new TreeMap();
+
+	// Elements
+	public static final int NONE = 0;
+	public static final int HEAT = 1;
+	public static final int COLD = 2;
+	public static final int STENCH = 3;
+	public static final int SPOOKY = 4;
+	public static final int SLEAZE = 5;
 
 	static
 	{
@@ -196,16 +205,8 @@ public class MonsterDatabase extends KoLDatabase
 			return null;
 		}
 
-		return new Monster( HP, XP, attack, defense, attackElement, defenseElement );
+		return new Monster( name, HP, XP, attack, defense, attackElement, defenseElement );
 	}
-
-	// Elements
-	private static final int NONE = 0;
-	private static final int HEAT = 1;
-	private static final int COLD = 2;
-	private static final int STENCH = 3;
-	private static final int SPOOKY = 4;
-	private static final int SLEAZE = 5;
 
 	private static int parseElement( String s )
 	{
@@ -224,6 +225,7 @@ public class MonsterDatabase extends KoLDatabase
 
 	public static class Monster
 	{
+		private String name;
 		private int HP;
 		private double XP;
 		private int attack;
@@ -231,14 +233,19 @@ public class MonsterDatabase extends KoLDatabase
 		private int attackElement;
 		private int defenseElement;
 
-		public Monster( int HP, double XP, int attack, int defense, int atackElement, int defenseElement )
+		public Monster( String name, int HP, double XP, int attack, int defense, int attackElement, int defenseElement )
 		{
+			this.name = name;
 			this.HP = HP;
 			this.XP = XP;
 			this.attack = attack;
 			this.defense = defense;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
+		}
+
+		public String getName()
+		{	return name;
 		}
 
 		public int getHP()
