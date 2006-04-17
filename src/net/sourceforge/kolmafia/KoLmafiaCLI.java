@@ -85,10 +85,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static void main( String [] args )
 	{
-		String initialScript = null;
-		for ( int i = 0; i < args.length; ++i )
-			if ( args[i].startsWith( "script=" ) )
-				initialScript = args[i].substring( 7 );
+		StringBuffer initialScript = new StringBuffer();
+		
+		for ( int i = 1; i < args.length; ++i )
+		{
+			initialScript.append( args[i] );
+			initialScript.append( " " );
+		}
 
 		System.out.println();
 		System.out.println( " **************************" );
@@ -100,14 +103,18 @@ public class KoLmafiaCLI extends KoLmafia
 		StaticEntity.setClient( DEFAULT_SHELL );
 		DEFAULT_SHELL.outputStream = System.out;
 
-		if ( initialScript == null )
+		if ( initialScript.length() == 0 )
 		{
 			DEFAULT_SHELL.attemptLogin();
 			DEFAULT_SHELL.listenForCommands();
 		}
 		else
 		{
-			DEFAULT_SHELL.executeLine( "call " + initialScript );
+			String actualScript = initialScript.toString().trim();
+			if ( actualScript.startsWith( "script=" ) )
+				actualScript = actualScript.substring( 7 );
+			
+			DEFAULT_SHELL.executeLine( "call " + actualScript );
 			DEFAULT_SHELL.listenForCommands();
 		}
 	}
@@ -1276,6 +1283,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeScriptCommand( String parameters )
 	{
+		parameters = parameters.replaceAll( "\\\"", "" );
+		
 		try
 		{
 			// Locate the script file.  In order of preference,
