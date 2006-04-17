@@ -483,6 +483,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				CharpaneRequest.getInstance().run();
 				KoLCharacter.updateStatus();
+				DEFAULT_SHELL.updateDisplay( "Gear changed." );
 			}
 
 			// After all the items have been switched,
