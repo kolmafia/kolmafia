@@ -200,7 +200,8 @@ public class AreaCombatData implements KoLConstants
 		else if ( element == MonsterDatabase.SPOOKY )
 			buffer.append( " <font color=gray>" );
 		else if ( element == MonsterDatabase.SLEAZE )
-			buffer.append( " <font color=magenta>" );
+			// The color "magenta" is not always recognized
+			buffer.append( " <font color=#FF00FF>" );
 		else
 			buffer.append( " <font color=black>" );
 
