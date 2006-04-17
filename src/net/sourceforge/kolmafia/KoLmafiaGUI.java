@@ -235,10 +235,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedValue == null )
 			return;
 
-		(new RequestThread( new UneffectRequest( this, (AdventureResult) selectedValue ) )).start();
-		// Do a start() rather than a run() since this is invoked by
-		// the ItemManageFrame, not the menu. Let that frame enable the
-		// display and allow our thread to put up a status message.
+		(new RequestThread( new UneffectRequest( this, (AdventureResult) selectedValue ) )).run();
 	}
 
 	/**
@@ -261,11 +258,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedValue == null )
 			return;
 
-		// Do a start() rather than a run() since this is invoked by
-		// the ItemManageFrame, not the menu. Let that frame enable the
-		// display and allow our thread to put up a status message.
-
-		(new RequestThread( new ZapRequest( this, wand, (AdventureResult) selectedValue ) )).start();
+		(new RequestThread( new ZapRequest( this, wand, (AdventureResult) selectedValue ) )).run();
 	}
 
 	/**
@@ -296,7 +289,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( tradeCount == 0 )
 			return;
 
-		(new RequestThread( new HermitRequest( this, selected, tradeCount ) )).start();
+		(new RequestThread( new HermitRequest( this, selected, tradeCount ) )).run();
 	}
 
 	/**
@@ -338,7 +331,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( tradeCount == 0 )
 			return;
 
-		(new RequestThread( new TrapperRequest( this, selected, tradeCount ) )).start();
+		(new RequestThread( new TrapperRequest( this, selected, tradeCount ) )).run();
 	}
 
 	/**
@@ -385,10 +378,10 @@ public class KoLmafiaGUI extends KoLmafia
 			sequence[1] = new BountyHunterRequest( this, selected.getItemID() );
 			sequence[2] = new ItemStorageRequest( this, ItemStorageRequest.CLOSET_TO_INVENTORY, items );
 
-			(new RequestThread( sequence )).start();
+			(new RequestThread( sequence )).run();
 		}
 		else
-			(new RequestThread( new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) ) )).start();
+			(new RequestThread( new BountyHunterRequest( this, TradeableItemDatabase.getItemID( selectedValue ) ) )).run();
 	}
 
 	/**
@@ -420,7 +413,7 @@ public class KoLmafiaGUI extends KoLmafia
 		else
 			return;
 
-		(new RequestThread( new GalaktikRequest( this, type ) )).start();
+		(new RequestThread( new GalaktikRequest( this, type ) )).run();
 	}
 
 	/**
@@ -463,7 +456,7 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedValue == null )
 			return;
 
-		(new RequestThread( new UntinkerRequest( this, selectedValue.getItemID() ) )).start();
+		(new RequestThread( new UntinkerRequest( this, selectedValue.getItemID() ) )).run();
 	}
 
 	/**
@@ -485,7 +478,7 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( selectedLevel == null)
 				return;
 
-			(new RequestThread( new MindControlRequest( this, df.parse( selectedLevel.split( " " )[1] ).intValue() ) )).start();
+			(new RequestThread( new MindControlRequest( this, df.parse( selectedLevel.split( " " )[1] ).intValue() ) )).run();
 		}
 		catch ( Exception e )
 		{

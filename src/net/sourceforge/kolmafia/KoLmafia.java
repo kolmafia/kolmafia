@@ -1415,9 +1415,9 @@ public abstract class KoLmafia implements KoLConstants
 						updateDisplay( "Successfully " + useTypeAsString + " " +
 							((ConsumeItemRequest)request).getItemUsed().getName() + " (" + (currentIteration - 1) + ")" );
 				}
-				else
+				else if ( request instanceof KoLAdventure )
 					updateDisplay( "Requests completed." );
-
+				// Assume any other request has its own message
 			}
 
 			// Now, do some garbage collection to avoid the
