@@ -200,7 +200,7 @@ public class AdventureRequest extends KoLRequest
 		// We're missing an item, haven't been given a quest yet, or otherwise
 		// trying to go somewhere not allowed.
 
-		if ( responseText.indexOf( "You shouldn't be here." ) != -1 || responseText.indexOf( "into the spectral mists" ) != -1 )
+		if ( responseText.indexOf( "You shouldn't be here." ) != -1 || responseText.indexOf( "into the spectral mists" ) != -1 || responseText.indexOf( "not yet be accessible" ) != -1 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't get to that area." );
 			return;

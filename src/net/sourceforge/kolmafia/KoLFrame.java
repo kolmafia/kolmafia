@@ -211,6 +211,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public void dispose()
 	{
+		if ( isVisible() )
+			rememberPosition();
+	
 		super.dispose();
 
 		// Determine which frame needs to be removed from
@@ -970,14 +973,21 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected void processWindowEvent( WindowEvent e )
 	{
 		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
-		{
-			Point p = getLocation();
-			StaticEntity.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
-		}
+			rememberPosition();
 
 		super.processWindowEvent( e );
 	}
-
+	
+	public void setVisible( boolean isVisible )
+	{
+		if ( isVisible )
+			restorePosition();
+		else
+			rememberPosition();
+		
+		super.setVisible( isVisible );
+	}
+	
 	protected class KoLHyperlinkAdapter extends HyperlinkAdapter
 	{
 		protected void handleInternalLink( String location )
@@ -1020,124 +1030,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected final String getProperty( String name )
 	{	return StaticEntity.getProperty( name );
 	}
-
-	/**
-	 * This panel allows the user to select how they would like to fight
-	 * their battles.  Everything from attacks, attack items, recovery items,
-	 * retreat, and battle skill usage will be supported when this panel is
-	 * finalized.  For now, however, it only customizes attacks.
-	 */
-
-	protected class RestoreOptionsPanel extends KoLPanel
-	{
-		private JComboBox battleStopSelect;
-		private JComboBox hpAutoRecoverSelect;
-		private JComboBox mpAutoRecoverSelect;
-		private JTextField hpRecoveryScriptField;
-		private JTextField mpRecoveryScriptField;
-		private JTextField betweenBattleScriptField;
-
-		private JCheckBox [] hpRestoreCheckbox;
-		private JCheckBox [] mpRestoreCheckbox;
-
-		/**
-		 * Constructs a new <code>RestoreOptionsPanel</code> containing a
-		 * way for the users to choose the way they want to recover their
-		 * health and mana inbetween battles encountered during adventuring.
-		 */
-
-		public RestoreOptionsPanel( boolean includeAutoStop )
-		{
-			super( "save", "reload", new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
-
-			battleStopSelect = new JComboBox();
-			battleStopSelect.addItem( "Never stop combat" );
-			for ( int i = 0; i <= 9; ++i )
-				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
-
-			// Add in the between-adventures field
-
-			betweenBattleScriptField = new JTextField();
-
-			// All the components of autorecovery
-
-			hpAutoRecoverSelect = new JComboBox();
-			hpAutoRecoverSelect.addItem( "Do not autorecover HP" );
-			for ( int i = 0; i <= 9; ++i )
-				hpAutoRecoverSelect.addItem( "Autorecover HP at " + (i * 10) + "%" );
-
-			mpAutoRecoverSelect = new JComboBox();
-			mpAutoRecoverSelect.addItem( "Do not autorecover MP" );
-			for ( int i = 0; i <= 9; ++i )
-				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
-
-			hpRecoveryScriptField = new JTextField();
-			mpRecoveryScriptField = new JTextField();
-
-			// Add the elements to the panel
-
-			int currentElementCount = 0;
-			VerifiableElement [] elements = new VerifiableElement[ includeAutoStop ? 11 : 9 ];
-
-			if ( includeAutoStop )
-			{
-				elements[ currentElementCount++ ] = new VerifiableElement( "Stop Combat: ", battleStopSelect );
-				elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
-			}
-
-			elements[ currentElementCount++ ] = new VerifiableElement( "Between Battles: ", new ScriptSelectPanel( betweenBattleScriptField ) );
-			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
-
-			elements[ currentElementCount++ ] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
-			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
-			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) );
-			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
-
-			elements[ currentElementCount++ ] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
-			elements[ currentElementCount++ ] = new VerifiableElement( "MP Recovery Script: ", new ScriptSelectPanel( mpRecoveryScriptField ) );
-			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
-
-			setContent( elements );
-			actionCancelled();
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-		}
-
-		protected void actionConfirmed()
-		{
-			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex() - 1) / 10.0) ) );
-			setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
-
-			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
-			setProperty( "hpRestores", getSettingString( hpRestoreCheckbox ) );
-
-			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-			setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
-			setProperty( "mpRestores", getSettingString( mpRestoreCheckbox ) );
-
-			JOptionPane.showMessageDialog( null, "Settings have been saved." );
-		}
-
-		protected void actionCancelled()
-		{
-			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
-			betweenBattleScriptField.setText( getProperty( "betweenBattleScript" ) );
-
-			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
-			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
-
-			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
-			mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
-		}
-
-		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
-		{	return false;
-		}
-	}
-
+   
 	protected String getSettingString( JCheckBox [] restoreCheckbox )
 	{
 		StringBuffer restoreSetting = new StringBuffer();
@@ -1170,7 +1063,18 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		if ( !(this instanceof ChatFrame) )
 			super.pack();
+		
+		restorePosition();
+	}
 
+	private void rememberPosition()
+	{
+		Point p = getLocation();
+		StaticEntity.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+	}
+
+	private void restorePosition()
+	{
 		int xLocation = 0;
 		int yLocation = 0;
 		Dimension screenSize = TOOLKIT.getScreenSize();

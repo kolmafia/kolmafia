@@ -167,7 +167,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( !client.permitsContinue() )
 			return;
 
-		if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
+		if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance && !(request instanceof CampgroundRequest) )
 		{
 			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
 			return;

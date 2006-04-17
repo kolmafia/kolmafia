@@ -120,11 +120,15 @@ public class AreaCombatData implements KoLConstants
 
 		buffer.append( "<br><b>Evade</b>: " );
 		buffer.append( getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, true ) );
+		buffer.append( "<br>" );
+
 		for ( int i = 0; i < monsters.size(); ++i )
 		{
+			buffer.append( "<br>" );
 			MonsterDatabase.Monster monster = getMonster( i );
-			buffer.append( "<br>" + getMonsterString( monster, moxie, hitstat ) );
+			buffer.append( getMonsterString( monster, moxie, hitstat ) );
 		}
+
 		buffer.append( "</html>" );
 		return buffer.toString();
 	}
@@ -196,15 +200,16 @@ public class AreaCombatData implements KoLConstants
 		else if ( element == MonsterDatabase.SPOOKY )
 			buffer.append( " <font color=gray>" );
 		else if ( element == MonsterDatabase.SLEAZE )
-			buffer.append( " <font color=#FF00FF>" );
-		buffer.append( monster.getName() );
-		if ( element != MonsterDatabase.NONE )
-			buffer.append( " </font>" );
+			buffer.append( " <font color=magenta>" );
+		else
+			buffer.append( " <font color=black>" );
 
-		buffer.append( ": Hit: " );
-		buffer.append( getRateString( hitPercent, perfectHit ) );
-		buffer.append( " Evade: " );
-		buffer.append( getRateString( evadePercent, perfectEvade  ) );
+		buffer.append( monster.getName() );
+		buffer.append( "</font><br> - Hit: " );
+		buffer.append( ff.format( hitPercent ) );
+		buffer.append( "%, Evade: " );
+		buffer.append( ff.format( evadePercent ) );
+		buffer.append( "%" );
 
 		return buffer.toString();
 	}

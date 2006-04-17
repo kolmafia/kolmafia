@@ -166,6 +166,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		toolsMenu.add( new JSeparator() );
 
 		toolsMenu.add( new KoLPanelFrameMenuItem( "Skill Casting", new SkillBuffPanel() ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Auto Restore", RestoreOptionsFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
 

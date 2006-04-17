@@ -120,12 +120,6 @@ public class AdventureFrame extends KoLFrame
 		adventureContainer.add( southPanel, BorderLayout.CENTER );
 		tabs.add( "Adventure", adventureContainer );
 
-		JScrollPane restoreScroller = new JScrollPane( new RestoreOptionsPanel( true ),
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
-		tabs.add( "Between-Battle", restoreScroller );
-
 		JScrollPane choiceScroller = new JScrollPane( new ChoiceOptionsPanel(),
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
@@ -494,7 +488,9 @@ public class AdventureFrame extends KoLFrame
 	private class ChoiceOptionsPanel extends KoLPanel
 	{
 		private JComboBox [] optionSelects;
+		private JComboBox battleStopSelect;
 		private JComboBox castleWheelSelect;
+		private JComboBox spookyForestSelect;
 
 		/**
 		 * Constructs a new <code>ChoiceOptionsPanel</code>.
@@ -518,6 +514,11 @@ public class AdventureFrame extends KoLFrame
 					optionSelects[i].addItem( AdventureDatabase.CHOICE_ADVS[i][2][j] );
 			}
 
+			battleStopSelect = new JComboBox();
+			battleStopSelect.addItem( "Never stop combat" );
+			for ( int i = 0; i <= 9; ++i )
+				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
+			
 			castleWheelSelect = new JComboBox();
 			castleWheelSelect.addItem( "Turn to map quest position" );
 			castleWheelSelect.addItem( "Turn to muscle position" );
@@ -527,11 +528,21 @@ public class AdventureFrame extends KoLFrame
 			castleWheelSelect.addItem( "Turn counterclockwise" );
 			castleWheelSelect.addItem( "Ignore this adventure" );
 
-			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 1 ];
-			elements[0] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
+			spookyForestSelect = new JComboBox();
+			spookyForestSelect.addItem( "Loot Seal Clubber corpse" );
+			spookyForestSelect.addItem( "Loot Turtle Tamer corpse" );
+			spookyForestSelect.addItem( "Loot Pastamancer corpse" );
+			spookyForestSelect.addItem( "Loot Sauceror corpse" );
+			spookyForestSelect.addItem( "Loot Disco Bandit corpse" );
+			spookyForestSelect.addItem( "Loot Accordion Thief corpse" );
 
-			for ( int i = 1; i < elements.length; ++i )
-				elements[i] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i-1][1][0], optionSelects[i-1] );
+			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 3 ];
+			elements[0] = new VerifiableElement( "Combat Abort", battleStopSelect );
+			elements[1] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
+			elements[2] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
+
+			for ( int i = 3; i < elements.length; ++i )
+				elements[i] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i-3][1][0], optionSelects[i-3] );
 
 			setContent( elements );
 			actionCancelled();
@@ -539,7 +550,9 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
+			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
+
 			for ( int i = 1; i < optionSelects.length; ++i )
 			{
 				int index = optionSelects[i].getSelectedIndex();
@@ -613,10 +626,44 @@ public class AdventureFrame extends KoLFrame
 					setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
 					break;
 			}
+			
+			switch ( spookyForestSelect.getSelectedIndex() )
+			{
+				case 0: // Seal clubber corpse
+					setProperty( "choiceAdventure26", "1" );
+					setProperty( "choiceAdventure27", "1" );
+					break;
+
+				case 1: // Turtle tamer corpse
+					setProperty( "choiceAdventure26", "1" );
+					setProperty( "choiceAdventure27", "2" );
+					break;
+
+				case 2: // Pastamancer corpse
+					setProperty( "choiceAdventure26", "2" );
+					setProperty( "choiceAdventure28", "1" );
+					break;
+
+				case 3: // Sauceror corpse
+					setProperty( "choiceAdventure26", "2" );
+					setProperty( "choiceAdventure28", "2" );
+					break;
+
+				case 4: // Disco bandit corpse
+					setProperty( "choiceAdventure26", "3" );
+					setProperty( "choiceAdventure29", "1" );
+					break;
+
+				case 5: // Accordion thief corpse
+					setProperty( "choiceAdventure26", "3" );
+					setProperty( "choiceAdventure29", "2" );
+					break;
+			}
 		}
 
 		protected void actionCancelled()
 		{
+			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
 			optionSelects[0].setSelectedItem( getProperty( "luckySewerAdventure" ) );
 			for ( int i = 1; i < optionSelects.length; ++i )
 				optionSelects[i].setSelectedIndex( Integer.parseInt( getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) ) );
@@ -680,6 +727,14 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			castleWheelSelect.setSelectedIndex( index );
+			
+			// Now, determine what is located in choice adventure #26,
+			// which shows you which slot (in general) to use.
+			
+			index = Integer.parseInt( getProperty( "choiceAdventure26" ) );
+			index = index * 2 + Integer.parseInt( getProperty( "choiceAdventure" + (26 + index) ) ) - 3;
+			
+			spookyForestSelect.setSelectedIndex( index );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
