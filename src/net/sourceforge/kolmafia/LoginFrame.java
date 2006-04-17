@@ -301,6 +301,10 @@ public class LoginFrame extends KoLFrame
 				{
 					passwordField.setText( "" );
 					isBreakfastEnabled = true;
+
+					for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
+						skillOptions[i].setSelected( true );
+					
 					LoginPanel.this.setEnabled( true );
 					return;
 				}
@@ -352,6 +356,8 @@ public class LoginFrame extends KoLFrame
 
 			{ "Meat Manager", "MeatManageFrame" },
 			{ "Skill Casting", "SkillBuffPanel" },
+			{ "Auto Restore", "RestoreOptionsFrame" },
+
 			{ "Buffbot Manager", "BuffBotFrame" },
 			{ "Purchase Buffs", "BuffRequestFrame" },
 
@@ -366,7 +372,7 @@ public class LoginFrame extends KoLFrame
 			{ "Farmer's Almanac", "CalendarFrame" },
 			{ "Encyclopedia", "ExamineItemsFrame" },
 
-			{ "Meatsink", "MoneyMakingGameFrame" },
+			{ "The Meatsink", "MoneyMakingGameFrame" },
 		};
 
 		private JRadioButton [] nullOptions;

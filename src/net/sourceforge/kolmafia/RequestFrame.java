@@ -222,17 +222,8 @@ public class RequestFrame extends KoLFrame
 			container.add( topMenu, BorderLayout.NORTH );
 			container.add( horizontalSplit, BorderLayout.CENTER );
 
-			tabs = new JTabbedPane( JTabbedPane.BOTTOM );
-			tabs.addTab( "Mini-Browser", container );
-
-			JScrollPane restoreScroller = new JScrollPane( new RestoreOptionsPanel( false ),
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			JComponentUtilities.setComponentSize( restoreScroller, 560, 400 );
-			tabs.add( "Between-Battle", restoreScroller );
-
 			framePanel.setLayout( new BorderLayout() );
-			framePanel.add( tabs, BorderLayout.CENTER );
+			framePanel.add( container, BorderLayout.CENTER );
 		}
 
 		// Add toolbar pieces so that people can quickly

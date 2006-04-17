@@ -208,22 +208,6 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
 		  { "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } },
 
-		// A Three-Tined Fork
-		{ { "choiceAdventure26" }, { "Spooky Forest 1" },
-		  { "Muscle Classes", "Mysticality Classes", "Moxie Classes" } },
-
-		// Footprints
-		{ { "choiceAdventure27" }, { "Spooky Forest 2a" },
-		  { "Seal Clubber", "Turtle Tamer" } },
-
-		// A Pair of Craters
-		{ { "choiceAdventure28" }, { "Spooky Forest 2b" },
-		  { "Pastamancer", "Sauceror" } },
-
-		// The Road Less Visible
-		{ { "choiceAdventure29" }, { "Spooky Forest 2c" },
-		  { "Disco Bandit", "Accordion Thief" } },
-
 		// The Effervescent Fray
 		{ { "choiceAdventure40" }, { "Cola Wars 1" },
 		  { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "15 Mysticality" },
