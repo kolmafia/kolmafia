@@ -557,7 +557,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * @param	content	The content with which to update the chat
 	 */
 
-	public static void updateChat( String content )
+	public static synchronized void updateChat( String content )
 	{
 		// Now, extract the contact list and update KoLMessenger to indicate
 		// the contact list found in the last /friends update

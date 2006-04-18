@@ -85,9 +85,9 @@ public class RequestFrame extends KoLFrame
 	private int combatRound;
 	private RequestFrame parent;
 	private String currentLocation;
+	private KoLRequest currentRequest;
 	private LimitedSizeChatBuffer mainBuffer;
 
-	private boolean hasSideBar;
 	private boolean isRefreshing = false;
 	private LimitedSizeChatBuffer sideBuffer;
 
@@ -119,13 +119,7 @@ public class RequestFrame extends KoLFrame
 		super( title );
 		this.parent = parent;
 
-		this.hasSideBar = getClass() == RequestFrame.class &&
-			request != null && !request.getURLString().startsWith( "chat" ) && !request.getURLString().startsWith( "static" ) &&
-			!request.getURLString().startsWith( "desc" ) && !request.getURLString().startsWith( "showplayer" ) &&
-			!request.getURLString().startsWith( "doc" ) && !request.getURLString().startsWith( "searchp" );
-
-		setCombatRound( request );
-
+		setCurrentRequest( request );
 		this.mainDisplay = new JEditorPane();
 		this.mainDisplay.setEditable( false );
 
@@ -138,7 +132,7 @@ public class RequestFrame extends KoLFrame
 		// Game text descriptions and player searches should not add
 		// extra requests to the server by having a side panel.
 
-		if ( !hasSideBar )
+		if ( !hasSideBar() )
 		{
 			this.sideBuffer = null;
 
@@ -249,11 +243,10 @@ public class RequestFrame extends KoLFrame
 
 		REFRESHER.add( this );
 
-		if ( this.hasSideBar )
+		if ( hasSideBar() )
 			refreshStatus();
 
-		(new DisplayRequestThread( getClass() == RequestFrame.class && StaticEntity.getClient().getCurrentRequest() instanceof FightRequest ?
-			StaticEntity.getClient().getCurrentRequest() : request, true )).start();
+		(new DisplayRequestThread( request, true )).start();
 	}
 
 	private class BrowserComboBox extends JComboBox implements ActionListener
@@ -301,7 +294,10 @@ public class RequestFrame extends KoLFrame
 	 */
 
 	public boolean hasSideBar()
-	{	return hasSideBar;
+	{
+		return currentRequest != null && !currentRequest.getURLString().startsWith( "chat" ) && !currentRequest.getURLString().startsWith( "static" ) &&
+			!currentRequest.getURLString().startsWith( "desc" ) && !currentRequest.getURLString().startsWith( "showplayer" ) &&
+			!currentRequest.getURLString().startsWith( "doc" ) && !currentRequest.getURLString().startsWith( "searchp" );
 	}
 
 	public String getCurrentLocation()
@@ -325,7 +321,7 @@ public class RequestFrame extends KoLFrame
 
 		if ( parent == null || location.startsWith( "search" ) || location.startsWith( "desc" ) )
 		{
-			setCombatRound( request );
+			setCurrentRequest( request );
 
 			// Only record raw mini-browser requests
 			if ( request.getClass() == KoLRequest.class )
@@ -337,12 +333,14 @@ public class RequestFrame extends KoLFrame
 			parent.refresh( request );
 	}
 
-	private void setCombatRound( KoLRequest request )
+	private void setCurrentRequest( KoLRequest request )
 	{
 		if ( request != null && request instanceof FightRequest )
 			combatRound = ((FightRequest)request).getCombatRound();
 		else
 			combatRound = 1;
+		
+		this.currentRequest = currentRequest;
 	}
 
 	protected static String getDisplayHTML( String responseText )

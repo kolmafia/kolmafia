@@ -224,11 +224,7 @@ public class FightRequest extends KoLRequest
 		if ( action1.equals( "..." ) || !client.permitsContinue() )
 		{
 			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Battle stopped.  Please finish in-browser." );
-
-			// Finish in browser if requested
-			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
-				showInBrowser( true );
-
+			showInBrowser( true );
 			return;
 		}
 
