@@ -437,12 +437,8 @@ public class ClanManageFrame extends KoLFrame
 			{
 				DEFAULT_SHELL.updateDisplay( "Determining changes..." );
 
-				List rankChange = new ArrayList();
-				List newRanks = new ArrayList();
-
 				List titleChange = new ArrayList();
 				List newTitles = new ArrayList();
-
 				List boots = new ArrayList();
 
 				Object currentComponent;
@@ -458,9 +454,6 @@ public class ClanManageFrame extends KoLFrame
 						if ( currentMember.bootCheckBox.isSelected() )
 							boots.add( currentMember.memberName.getText() );
 
-						rankChange.add( currentMember.memberName.getText() );
-						newRanks.add( String.valueOf( currentMember.initialRank ) );
-
 						desiredTitle = currentMember.titleField.getText();
 						if ( desiredTitle != null && !desiredTitle.equals( currentMember.initialTitle ) )
 						{
@@ -471,7 +464,7 @@ public class ClanManageFrame extends KoLFrame
 				}
 
 				DEFAULT_SHELL.updateDisplay( "Applying changes..." );
-				(new ClanMembersRequest( StaticEntity.getClient(), rankChange.toArray(), newRanks.toArray(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
+				(new ClanMembersRequest( StaticEntity.getClient(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
 				DEFAULT_SHELL.updateDisplay( "Changes have been applied." );
 			}
 		}
