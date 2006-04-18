@@ -184,6 +184,10 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			if ( line.indexOf( "<img" ) != -1 )
 			{
+				String directory = (new File( "html" + File.separator + filename )).getParent();
+				if ( !directory.endsWith( File.separator ) )
+					directory += File.separator;
+
 				StringBuffer lineBuffer = new StringBuffer();
 
 				Matcher imageMatcher = Pattern.compile( "<img src=\"([^\"]*?)\"" ).matcher( line );
@@ -193,7 +197,7 @@ public class LocalRelayRequest extends KoLRequest
 					if ( location.indexOf( "http://" ) == -1 )
 					{
 						imageMatcher.appendReplacement( lineBuffer,
-							"<img src=\"" + (new File( "html" + File.separator + location )).toURL() + "\"" );
+							"<img src=\"" + (new File( directory + location )).toURL() + "\"" );
 					}
 					else
 					{
