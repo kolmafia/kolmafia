@@ -3006,9 +3006,6 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		StaticEntity.getClient().makeRequest( irequest, 1 );
-
-		if ( StaticEntity.getClient().permitsContinue() )
-			updateDisplay( "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
 	}
 
 	/**
