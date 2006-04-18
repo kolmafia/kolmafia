@@ -1070,7 +1070,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	private void rememberPosition()
 	{
 		Point p = getLocation();
-		StaticEntity.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+		if ( this instanceof LoginFrame )
+			GLOBAL_SETTINGS.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+		else
+			StaticEntity.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 	}
 
 	private void restorePosition()
