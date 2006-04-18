@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.net.HttpURLConnection;
 
+import java.io.File;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -45,6 +46,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LocalRelayRequest extends KoLRequest
@@ -179,10 +182,33 @@ public class LocalRelayRequest extends KoLRequest
 		String line = null;
 		while ( (line = reader.readLine()) != null )
 		{
+			if ( line.indexOf( "<img" ) != -1 )
+			{
+				StringBuffer lineBuffer = new StringBuffer();
+
+				Matcher imageMatcher = Pattern.compile( "<img src=\"([^\"]*?)\"" ).matcher( line );
+				while ( imageMatcher.find() )
+				{
+					String location = imageMatcher.group(1);
+					if ( location.indexOf( "http://" ) == -1 )
+					{
+						imageMatcher.appendReplacement( lineBuffer,
+							"<img src=\"" + (new File( "html" + File.separator + location )).toURL() + "\"" );
+					}
+					else
+					{
+						lineBuffer.append( imageMatcher.group() );
+					}
+				}
+				
+				imageMatcher.appendTail( lineBuffer );
+				line = lineBuffer.toString();
+			}
+
 			replyBuffer.append( line );
 			replyBuffer.append( LINE_BREAK );
 		}
-
+		
 		reader.close();
 		pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );		
 	}
