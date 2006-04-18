@@ -442,6 +442,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 					break;
 			}
 		}
+		else
+		{
+			DEFAULT_SHELL.updateDisplay( NULL_STATE, "Successfully created " + quantityNeeded + " " + getName() );
+		}
 	}
 
 	private boolean autoRepairBoxServant()

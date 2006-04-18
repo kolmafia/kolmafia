@@ -200,12 +200,27 @@ public class AdventureRequest extends KoLRequest
 		// We're missing an item, haven't been given a quest yet, or otherwise
 		// trying to go somewhere not allowed.
 
-		if ( responseText.indexOf( "You shouldn't be here." ) != -1 || responseText.indexOf( "into the spectral mists" ) != -1 || responseText.indexOf( "not yet be accessible" ) != -1 )
+		if ( responseText.indexOf( "You shouldn't be here." ) != -1 || responseText.indexOf( "not yet be accessible" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't get to that area." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't get to that area yet." );
+			return;
+		}
+		
+		if ( responseText.indexOf( "into the spectral mists" ) != -1 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No one may know of its coming or going." );
 			return;
 		}
 
+		// Cold protection is required for the area.  This only happens at
+		// the peak.  Abort and notify.
+		
+		if ( responseText.indexOf( "need some sort of protection" ) != -1 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need cold protection." );
+			return;
+		}
+		
 		// This is a server error. Hope for the
 		// best and repeat the request.
 

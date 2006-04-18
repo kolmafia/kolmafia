@@ -130,12 +130,6 @@ public class RequestThread extends Thread implements KoLConstants
 					requests[i].run();
 		}
 
-		if ( requests[0] instanceof ItemCreationRequest && StaticEntity.getClient().permitsContinue() )
-		{
-			ItemCreationRequest irequest = (ItemCreationRequest) requests[0];
-			DEFAULT_SHELL.updateDisplay( "Successfully created " + irequest.getQuantityNeeded() + " " + irequest.getName() );
-		}
-
 		if ( !(requests[0] instanceof ChatRequest) && !BuffBotHome.isBuffBotActive() )
 			StaticEntity.getClient().enableDisplay();
 	}
