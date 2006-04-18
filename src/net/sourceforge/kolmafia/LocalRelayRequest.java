@@ -165,7 +165,13 @@ public class LocalRelayRequest extends KoLRequest
 		headers.add( "Pragma: no-cache" );
 		headers.add( "Content-Length: " + this.fullResponse.length() );
 		headers.add( "Connection: close" );
-		headers.add( "Content-Type: text/html; charset=UTF-8" );
+		
+		if ( formURLString.endsWith( ".css" ) )
+			headers.add( "Content-Type: text/css; charset=UTF-8" );
+		else if ( formURLString.endsWith( ".js" ) )
+			headers.add( "Content-Type: text/javascript; charset=UTF-8" );
+		else
+			headers.add( "Content-Type: text/html; charset=UTF-8" );
 	}	
 
 	protected void sendSharedFile( String filename ) throws IOException
