@@ -723,6 +723,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "survival" ) )
+		{
+			showHTML( AdventureDatabase.getAreaCombatData( AdventureDatabase.getAdventure( parameters ).toString() ).toString(), "Survival Lookup" );
+			return;
+		}
+		
 		// Look!  It's the command to complete the
 		// Sorceress entryway.
 
@@ -1233,8 +1239,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void showHTML( String text, String title )
 	{
-		updateDisplay( text.replaceAll( "<(br|p|blockquote)>", LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll(
-			"&nbsp;", " " ).replaceAll( "&trade;", " [tm]" ).replaceAll( "&ntilde;", "n" ).replaceAll( "&quot;", "\"" ) );
+		updateDisplay( text.replaceAll( "<br>", LINE_BREAK ).replaceAll( "<(p|blockquote)>", LINE_BREAK + LINE_BREAK ).replaceAll(
+			LINE_BREAK + "(" + LINE_BREAK + ")+", LINE_BREAK + LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll( "&nbsp;", " " ).replaceAll(
+			"&trade;", " [tm]" ).replaceAll( "&ntilde;", "n" ).replaceAll( "&quot;", "" ) );
 	}
 
 	private void executeSendRequest( String parameters )

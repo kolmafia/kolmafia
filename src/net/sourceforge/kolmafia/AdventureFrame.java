@@ -252,10 +252,8 @@ public class AdventureFrame extends KoLFrame
 				return;
 
 			AreaCombatData combat = AdventureDatabase.getAreaCombatData( request.toString() );
-			String text = ( combat == null ) ? "" : combat.safetyString();
-
+			String text = ( combat == null ) ? "" : combat.toString();
 			safetyText.setText( text );
-			safetyText.setBackground( text.indexOf( "-" ) == -1 ? ENABLED_COLOR : ERROR_COLOR );
 		}
 	}
 

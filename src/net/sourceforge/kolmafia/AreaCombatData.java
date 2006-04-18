@@ -96,7 +96,7 @@ public class AreaCombatData implements KoLConstants
 	{	return maxEvade;
 	}
 
-	public String safetyString()
+	public String toString()
 	{
 		boolean ranged = KoLCharacter.rangedWeapon();
 
@@ -205,17 +205,17 @@ public class AreaCombatData implements KoLConstants
 	public static String elementColor( int element )
 	{
 		if ( element == MonsterDatabase.HEAT )
-			return "red";
+			return "#ff0000";
 		if ( element == MonsterDatabase.COLD )
-			return "blue";
+			return "#00ff00";
 		if ( element == MonsterDatabase.STENCH )
-			return "green";
+			return "#008000";
 		if ( element == MonsterDatabase.SPOOKY )
-			return "gray";
+			return "#808080";
 		if ( element == MonsterDatabase.SLEAZE )
-			// Not all Javas recognize "magenta"
-			return "#FF00FF";
-		return "black";
+			return "#8a2be2";
+
+		return "#000000";
 	}
 
 	public static double hitPercent( int attack, int defense )
