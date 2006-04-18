@@ -186,36 +186,39 @@ public class AreaCombatData implements KoLConstants
 
 		StringBuffer buffer = new StringBuffer();
 
-		int element = monster.getDefenseElement();
-		if ( element == MonsterDatabase.NONE )
-			element = monster.getAttackElement();
+		int ed = monster.getDefenseElement();
+		int ea = monster.getAttackElement();
+		int element = ( ed == MonsterDatabase.NONE ) ? ea : ed;
 
 		// Color the monster name according to its element
-		if ( element == MonsterDatabase.HEAT )
-			buffer.append( " <font color=red>" );
-		else if ( element == MonsterDatabase.COLD )
-			buffer.append( " <font color=blue>" );
-		else if ( element == MonsterDatabase.STENCH )
-			buffer.append( " <font color=green>" );
-		else if ( element == MonsterDatabase.SPOOKY )
-			buffer.append( " <font color=gray>" );
-		else if ( element == MonsterDatabase.SLEAZE )
-			// The color "magenta" is not always recognized
-			buffer.append( " <font color=#FF00FF>" );
-		else
-			buffer.append( " <font color=black>" );
-
+		buffer.append( " <font color=" + elementColor( element ) + ">" );
 		buffer.append( monster.getName() );
-		buffer.append( "</font><br> - Hit: " );
+		buffer.append( "</font><br> - Hit: <font color=" + elementColor( ed ) + ">" );
 		buffer.append( ff.format( hitPercent ) );
-		buffer.append( "%, Evade: " );
+		buffer.append( "%</font>, Evade: <font color=" + elementColor( ea ) + ">" );
 		buffer.append( ff.format( evadePercent ) );
-		buffer.append( "%" );
+		buffer.append( "%</font>" );
 
 		return buffer.toString();
 	}
 
-	public double hitPercent( int attack, int defense )
+	public static String elementColor( int element )
+	{
+		if ( element == MonsterDatabase.HEAT )
+			return "red";
+		if ( element == MonsterDatabase.COLD )
+			return "blue";
+		if ( element == MonsterDatabase.STENCH )
+			return "green";
+		if ( element == MonsterDatabase.SPOOKY )
+			return "gray";
+		if ( element == MonsterDatabase.SLEAZE )
+			// Not all Javas recognize "magenta"
+			return "#FF00FF";
+		return "black";
+	}
+
+	public static double hitPercent( int attack, int defense )
 	{
 		// ( (Attack - Defense) / 18 ) * 100 + 50 = Hit%
 		double percent = 100.0 * ( attack - defense ) / 18 + 50.0;
@@ -226,7 +229,7 @@ public class AreaCombatData implements KoLConstants
 		return percent;
 	}
 
-	public int perfectHit( int attack, int defense )
+	public static int perfectHit( int attack, int defense )
 	{	return attack - defense - 9;
 	}
 
