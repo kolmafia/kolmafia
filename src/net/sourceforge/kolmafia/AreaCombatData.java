@@ -207,7 +207,7 @@ public class AreaCombatData implements KoLConstants
 		if ( element == MonsterDatabase.HEAT )
 			return "#ff0000";
 		if ( element == MonsterDatabase.COLD )
-			return "#00ff00";
+			return "#0000ff";
 		if ( element == MonsterDatabase.STENCH )
 			return "#008000";
 		if ( element == MonsterDatabase.SPOOKY )
