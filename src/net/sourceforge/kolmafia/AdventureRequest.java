@@ -220,6 +220,15 @@ public class AdventureRequest extends KoLRequest
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need cold protection." );
 			return;
 		}
+
+		// Stench protection is required for the area.	This only
+		// happens at the Guano Junction.  Abort and notify.
+		
+		if ( responseText.indexOf( "need stench protection to adventure here" ) != -1 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need stench protection." );
+			return;
+		}
 		
 		// This is a server error. Hope for the
 		// best and repeat the request.
