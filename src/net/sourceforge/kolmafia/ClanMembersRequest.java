@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -51,26 +52,41 @@ public class ClanMembersRequest extends KoLRequest
 		this.isLookup = true;
 	}
 
-	public ClanMembersRequest( KoLmafia client, Object [] rankChange, Object [] newRanks, Object [] titleChange, Object [] newTitles, Object [] boots )
+	public ClanMembersRequest( KoLmafia client, Object [] titleChange, Object [] newTitles, Object [] boots )
 	{
 		super( client, "clan_members.php" );
 		this.isLookup = false;
 
 		addFormField( "pwd" );
 		addFormField( "action", "modify" );
-		addFormField( "begin", "0" );
 
-		for ( int i = 0; i < rankChange.length; ++i )
-			addFormField( "level" + KoLmafia.getPlayerID( (String) rankChange[i] ), (String) newRanks[i] );
+		ArrayList fields = new ArrayList();
 
+		String currentID;
 		for ( int i = 0; i < titleChange.length; ++i )
-			addFormField( "title" + KoLmafia.getPlayerID( (String) titleChange[i] ), (String) newTitles[i] );
+		{
+			currentID = KoLmafia.getPlayerID( (String) titleChange[i] );
+			addFormField( "title" + currentID, (String) newTitles[i] );
+
+			if ( !fields.contains( currentID ) )
+				fields.add( currentID );
+		}
 
 		for ( int i = 0; i < boots.length; ++i )
 		{
-			ClanManager.unregisterMember( client.getPlayerID( (String) boots[i] ) );
-			addFormField( "boot" + KoLmafia.getPlayerID( (String) boots[i] ), "on" );
+			currentID = KoLmafia.getPlayerID( (String) boots[i] );
+			ClanManager.unregisterMember( currentID );
+			addFormField( "boot" + currentID, "on" );
+
+			if ( !fields.contains( currentID ) )
+				fields.add( currentID );
 		}
+
+		String [] changedIDs = new String[ fields.size() ];
+		fields.toArray( changedIDs );
+
+		for ( int i = 0; i < changedIDs.length; ++i )
+			addFormField( "pids[]", changedIDs[i], true );
 	}
 
 	public void run()
