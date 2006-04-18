@@ -49,6 +49,10 @@ public class PendingTradesFrame extends RequestFrame
 		mainDisplay.addHyperlinkListener( new TradeLinkListener() );
 	}
 
+	public boolean hasSideBar()
+	{	return false;
+	}
+	
 	private class TradeLinkListener extends KoLHyperlinkAdapter
 	{
 		protected void handleInternalLink( String location )

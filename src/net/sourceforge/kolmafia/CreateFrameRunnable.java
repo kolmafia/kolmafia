@@ -51,6 +51,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	{
 		ChatFrame.class,
 		RequestFrame.class,
+		ProfileFrame.class,
 		SendMessageFrame.class
 	};
 
@@ -164,8 +165,9 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			boolean appearsInTab = this.creation instanceof KoLFrame && GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" ).indexOf(
 				this.creation instanceof ChatFrame ? "KoLMessenger" : ((KoLFrame)this.creation).getFrameName() ) != -1;
 
-			appearsInTab &= !(this.creation instanceof RequestFrame) || ((RequestFrame)this.creation).hasSideBar();
-			
+			appearsInTab &= !(this.creation instanceof RequestFrame) ||
+				(this.creation.getClass() == RequestFrame.class && ((RequestFrame)this.creation).hasSideBar());
+
 			// If the person is requesting a this.creation that is meant
 			// to appear in the KoLDesktop interface, then make
 			// sure you initialize it.

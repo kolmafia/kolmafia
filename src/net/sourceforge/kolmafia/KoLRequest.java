@@ -897,6 +897,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
+			
+			checkForNewEvents();
 			processRawResponse( rawBuffer.toString() );
 
 			if ( client.getPasswordHash() != null && !(this instanceof ChatRequest) )
@@ -1271,5 +1273,30 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public String getCommandForm( int iterations )
 	{	return "";
+	}
+	
+	private void checkForNewEvents()
+	{
+		if ( responseText.indexOf( "bgcolor=orange><b>New Events:</b>") != -1 )
+		{
+			// Capture the entire new events table in order
+			// to display the appropriate message.
+			
+			Matcher eventMatcher = Pattern.compile( "<table width=.*?<td height=4></td></tr></table>" ).matcher( responseText );
+			if ( eventMatcher.find() )
+			{
+				if ( !KoLMessenger.isRunning() )
+				{
+					client.showHTML( eventMatcher.group(), "Recent Events" );
+					return;
+				}
+
+				String [] events = eventMatcher.group().replaceAll( "<br>", "\n" ).replaceAll( "<.*?>", "" ).split( "\n" );
+				responseText = eventMatcher.replaceFirst( "" );
+				
+				for ( int i = 0; i < events.length; ++i )
+					KoLMessenger.updateChat( "<font color=green>" + events[i].substring( events[i].indexOf( "-" ) + 2 ) + "</font>" );
+			}
+		}
 	}
 }

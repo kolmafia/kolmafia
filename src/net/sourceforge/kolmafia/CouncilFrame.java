@@ -45,6 +45,10 @@ public class CouncilFrame extends RequestFrame
 	public CouncilFrame()
 	{	super( "Council of Loathing", new KoLRequest( StaticEntity.getClient(), "council.php", true ) );
 	}
+	
+	public boolean hasSideBar()
+	{	return false;
+	}
 
 	protected static String getDisplayHTML( String responseText )
 	{
