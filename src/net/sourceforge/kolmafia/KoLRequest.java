@@ -1213,6 +1213,11 @@ public class KoLRequest implements Runnable, KoLConstants
 				break;
 			}
 
+		// If it's not in the table (the castle wheel, for example)
+		// return the player's chose descision.
+		if ( possibleDecisions == null )
+			return decision;
+
 		// Choose an item that the player does not have
 		for ( int i = 0; i < possibleDecisions.length; ++i )
 		{
