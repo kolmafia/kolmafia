@@ -1689,12 +1689,13 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptCommand current, previous = null;
 
-			for ( current = getFirstCommand(); current != null; previous = current, current = getNextCommand( current ) )
-				;
+			for ( current = getFirstCommand(); current != null; previous = current, current = getNextCommand( current ) );
+
 			if ( previous == null )
 				return false;
 			if ( !( previous instanceof ScriptReturn ) )
 				return false;
+
 			return true;
 		}
 
@@ -1754,12 +1755,12 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptCommand current;
-			ScriptValue result;
+			ScriptValue result = null;
 
 			for ( current = getFirstCommand(); current != null; current = getNextCommand( current ) )
 			{
 				result = current.execute();
-
+				
 				switch ( currentState )
 				{
 					case STATE_RETURN:
@@ -2377,7 +2378,9 @@ public class KoLmafiaASH extends StaticEntity
 					content = targetValue.toStringValue();
 				}
 				else
+				{
 					throw new RuntimeException( "Internal error: Cannot assign " + targetValue.getType() + " to " + getType() );
+				}
 			}
 			content = targetValue;
 		}
@@ -2548,6 +2551,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptReturn( ScriptExpression returnValue, ScriptType expectedType ) throws AdvancedScriptException
 		{
 			this.returnValue = returnValue;
+
 			if ( expectedType != null && returnValue != null && !returnValue.getType().equals( expectedType ) )
 			{
 				boolean validReturn = false;
@@ -2594,8 +2598,14 @@ public class KoLmafiaASH extends StaticEntity
 
 			result = returnValue.execute();
 
+			if ( currentState != STATE_EXIT )
+				currentState = STATE_RETURN;
+
 			if ( result == null )
 				return null;
+
+			if ( expectedType.equals( TYPE_STRING ) )
+				return result.toStringValue();
 
 			if ( expectedType.equals( TYPE_FLOAT ) )
 				return result.toFloatValue();
@@ -2925,7 +2935,7 @@ public class KoLmafiaASH extends StaticEntity
 		Object content = null;
 
 		public ScriptValue()
-		{
+		{	this.type = new ScriptType( TYPE_VOID );
 		}
 
 		public ScriptValue( int type ) throws AdvancedScriptException
@@ -3004,7 +3014,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( contentString != null )
 				return contentString;
-
+			
 			if ( type.equals( TYPE_BOOLEAN ) )
 				return String.valueOf( contentInt != 0 );
 
