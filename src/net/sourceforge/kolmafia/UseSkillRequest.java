@@ -46,6 +46,24 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private int buffCount;
 	private String countFieldID;
 
+	private static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
+	private static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
+	private static final AdventureResult ROLL = new AdventureResult( 47, 1 );
+	private static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
+	private static final AdventureResult HEART = new AdventureResult( 48, 1 );
+
+	// Clover weapons
+	private static final AdventureResult BJORNS_HAMMER = new AdventureResult( 32, 1 );
+	private static final AdventureResult TURTLESLINGER = new AdventureResult( 60, 1 );
+	private static final AdventureResult PASTA_OF_PERIL = new AdventureResult( 68, 1 );
+	private static final AdventureResult FIVE_ALARM_SAUCEPAN = new AdventureResult( 57, 1 );
+	private static final AdventureResult DISCO_BANJO = new AdventureResult( 54, 1 );
+
+	private static final AdventureResult [] CLOVER_WEAPONS = { BJORNS_HAMMER, TURTLESLINGER, FIVE_ALARM_SAUCEPAN, PASTA_OF_PERIL, DISCO_BANJO };
+
+	private String weapon, offhand;
+	private AdventureResult cloverWeapon;
+
 	/**
 	 * Constructs a new <code>UseSkillRequest</code>.
 	 * @param	client	The client to be notified of completion
@@ -114,6 +132,23 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
+		// Get an accordion, if needed
+		if ( !getAccordion() )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need an accordion to play Accordion Thief songs." );
+			return;
+		}
+
+		// Cast the skill as many times as needed
+
+		useSkillLoop();
+
+		// Rebuild epic weapon and re-equip, if necessary
+		restoreEquipment();
+	}
+
+        private void useSkillLoop()
+	{
 		// Before executing the skill, ensure that all necessary mana is
 		// recovered in advance.
 
@@ -156,10 +191,231 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			castsRemaining -= currentCast;
 		}
 
-		// To minimize the amount of confusion, go ahead and restore mana
-		// once the request is complete.
+		// To minimize the amount of confusion, go ahead and restore
+		// mana once the request is complete.
 
 		client.recoverMP();
+	}
+
+	private boolean getAccordion()
+	{
+		// If it's not an Accordion Thief song, no accordion is needed
+		if ( skillID <= 6000 || skillID >= 7000 )
+			return true;
+
+		// Otherwise, get out the best accordion you have available.
+
+		// Is there a Rock and Roll Legend equipped?
+		if ( KoLCharacter.hasEquipped( ROCKNROLL_LEGEND ) )
+			return true;
+
+		// Is there a Rock and Roll Legend in inventory?
+		if ( ROCKNROLL_LEGEND.getCount( KoLCharacter.getInventory() ) > 0 )
+		{
+			unequipStolenAccordion();
+			return true;
+		}
+
+		// Is there a Rock and Roll Legend in the closet?
+		if ( ROCKNROLL_LEGEND.getCount( KoLCharacter.getCloset() ) > 0 )
+		{
+			AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
+			unequipStolenAccordion();
+			return true;
+		}
+
+		// He must have at least a stolen accordion
+		if ( !KoLCharacter.hasItem( ACCORDION, false ) )
+			return false;
+
+		// Does he also have heart of rock and roll?
+		if ( KoLCharacter.hasItem( HEART, false ) )
+		{
+			// Yes! Make a Rock and Roll Legend
+			buildLegend();
+			return true;
+		}
+
+		// Does he have a hot buttered roll?
+		if ( !KoLCharacter.hasItem( ROLL, false ) )
+			// Nope. Just use existing stolen accordion
+			return true;
+
+		// Does he have a big rock?
+		if ( KoLCharacter.hasItem( BIG_ROCK, false ) )
+		{
+			// Yes! Make a Rock and Roll Legend
+			buildLegend();
+			return true;
+		}
+
+		// Can we get a big rock from a clover weapon?
+		for ( int i = 0; i < CLOVER_WEAPONS.length; ++i )
+			if ( KoLCharacter.hasItem( CLOVER_WEAPONS[i], false  ) )
+			{
+				cloverWeapon = CLOVER_WEAPONS[i];
+				break;
+			}
+
+		if ( cloverWeapon == null )
+			// Nope. Just use existing stolen accordion
+			return true;
+
+		// If he's already helped the Untinker, cool - but we don't
+		// want to run adventures to fulfill that quest.
+		if ( !canUntinker() )
+			return true;
+
+		// Unequip the clover weapon, if necessary
+		retrieveCloverWeapon( cloverWeapon );
+
+		// Untinker the clover weapon and get a big rock
+		untinkerCloverWeapon( client, cloverWeapon );
+
+		// Build a Rock and Roll Legend
+		buildLegend();
+
+		return true;
+	}
+
+	private boolean canUntinker()
+	{
+		// If you're too low level, don't even try
+		if ( KoLCharacter.getLevel() < 4 )
+			return false;
+
+		// Otherwise, visit the untinker and see what he says.
+		KoLRequest questCompleter = new UntinkerRequest( client );
+		questCompleter.run();
+
+		// If he mentions Degrassi Knoll, you haven't given him his
+		// screwdriver yet.
+		if ( questCompleter.responseText.indexOf( "Degrassi Knoll" ) != -1 )
+			return false;
+
+		return true;
+	}
+
+	private void retrieveCloverWeapon( AdventureResult item )
+	{
+		// If it's already in inventory, cool
+		if ( item.getCount( KoLCharacter.getInventory() ) > 0 )
+			return;
+
+		// If it's in the closet, pull it out
+		if ( item.getCount( KoLCharacter.getCloset() ) > 0 )
+		{
+			AdventureDatabase.retrieveItem( item );
+			return;
+		}
+
+		// Otherwise, it must be equipped
+		String name = item.getName();
+
+		// Is it the offhand item?
+		String offhand = KoLCharacter.getCurrentEquipment( KoLCharacter.OFFHAND ).getName();
+		if ( name.equals( offhand ) )
+		{
+			// Unequip the clover weapon from the offhand
+			(new EquipmentRequest( client, EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND )).run();
+			this.offhand = name;
+			return;
+		}
+
+		// Nope. It must be the weapon. Is the offhand item also a
+		// one-handed weapon?
+		if ( EquipmentDatabase.getHands( offhand ) == 1 )
+			// Yes. It will automatically unequip
+			this.offhand = offhand;
+
+		// Get the clover weapon from the weapon slot
+		(new EquipmentRequest( client, EquipmentRequest.UNEQUIP, KoLCharacter.WEAPON )).run();
+		weapon = name;
+	}
+
+	public static void untinkerCloverWeapon( KoLmafia client, AdventureResult item )
+	{
+		switch ( item.getItemID() )
+		{
+		case 32:	// Bjorn's Hammer
+			( new UntinkerRequest( client, 32 ) ).run();
+			( new UntinkerRequest( client, 31 ) ).run();
+			break;
+		case 50:	// Rock and Roll Legend
+			( new UntinkerRequest( client, 50 ) ).run();
+			( new UntinkerRequest( client, 48 ) ).run();
+			break;
+		case 54:	// Disco Banjo
+			( new UntinkerRequest( client, 54 ) ).run();
+			( new UntinkerRequest( client, 53 ) ).run();
+			break;
+		case 57:	// 5-Alarm Saucepan
+			( new UntinkerRequest( client, 57 ) ).run();
+			( new UntinkerRequest( client, 56 ) ).run();
+			break;
+		case 60:	// Turtleslinger
+			( new UntinkerRequest( client, 60 ) ).run();
+			( new UntinkerRequest( client, 58 ) ).run();
+			break;
+		case 68:	// Pasta of Peril
+			( new UntinkerRequest( client, 68 ) ).run();
+			( new UntinkerRequest( client, 67 ) ).run();
+			break;
+		}
+	}
+
+	private void buildLegend()
+	{
+		// Remove equipped accordion, if any
+		unequipStolenAccordion();
+
+		// Make sure there is an accordion in inventory
+		AdventureDatabase.retrieveItem( ACCORDION );
+
+		// Make sure there is a heart of rock and roll in inventory.
+		// Make one, if necessary
+		AdventureDatabase.retrieveItem( HEART );
+
+		// Construct Rock and Roll Legend
+		ItemCreationRequest.getInstance( client, ROCKNROLL_LEGEND ).run();
+		// If we upgraded the equipped accordion, remember to downgrade
+		// it when we are done
+		if ( weapon != null && weapon.equals( "stolen accordion" ) && !KoLCharacter.hasItem( ACCORDION, false ) )
+			cloverWeapon = ROCKNROLL_LEGEND;
+	}
+
+	private void unequipStolenAccordion()
+	{
+		// If there's a stolen accordion equipped, unequip it so the
+		// Rock and Roll Legend in inventory is used to play the song
+
+		if ( !KoLCharacter.hasEquipped( ACCORDION ) )
+			return;
+
+		(new EquipmentRequest( client, EquipmentRequest.UNEQUIP, KoLCharacter.WEAPON )).run();
+		weapon = ACCORDION.getName();
+	}
+
+	private void restoreEquipment()
+	{
+		// If we untinkered a Clover Weapon and built a Rock and Roll
+		// Legend, undo it all
+		if ( cloverWeapon != null )
+		{
+			// Untinker the Rock and Roll Legend we constructed
+			untinkerCloverWeapon( client, ROCKNROLL_LEGEND );
+
+			// Rebuild the Clover Weapon we started with
+			if ( cloverWeapon != ROCKNROLL_LEGEND )
+				ItemCreationRequest.getInstance( client, cloverWeapon ).run();
+		}
+
+		// If we unequipped a weapon, equip it again
+		if ( weapon != null )
+			(new EquipmentRequest( client, weapon, KoLCharacter.WEAPON )).run();
+		// If we unequipped an off-hand weapon, equip it again
+		if ( offhand != null )
+			(new EquipmentRequest( client, offhand, KoLCharacter.OFFHAND )).run();
 	}
 
 	protected void processResults()
