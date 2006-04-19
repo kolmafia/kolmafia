@@ -112,7 +112,7 @@ public class GearChangeFrame extends KoLFrame
 
 		super.dispose();
 	}
-
+	
 	private class EquipPanel extends KoLPanel
 	{
 		public EquipPanel()
@@ -143,8 +143,35 @@ public class GearChangeFrame extends KoLFrame
 			elements[13] = new VerifiableElement( "Outfit: ", outfitSelect );
 
 			setContent( elements );
+			setEnabled( true );
 		}
 		
+		private void ensureValidSelections()
+		{
+			equipment[3].setEnabled( KoLCharacter.hasSkill( "Torso Awaregness" ) );
+
+			String name = KoLCharacter.getEquipmentName( (String) equipment[2].getSelectedItem() );
+			int handsNeeded = ( name == null ) ? 0 : EquipmentDatabase.getHands( name );
+		
+			if ( handsNeeded > 1 )
+			{
+				pieces[2] = null;
+				equipment[2].setSelectedItem( null );
+				equipment[2].setEnabled( false );
+			}
+			else if ( outfit == null )
+			{
+				equipment[2].setEnabled( true );
+			}
+		}
+	
+		public void setEnabled( boolean isEnabled )
+		{
+			super.setEnabled( isEnabled );
+			if ( isEnabled )
+				ensureValidSelections();
+		}
+
 		public void actionConfirmed()
 		{
 			ArrayList requestList = new ArrayList();
@@ -155,22 +182,18 @@ public class GearChangeFrame extends KoLFrame
 					requestList.add( new EquipmentRequest( StaticEntity.getClient(), pieces[i], i ) );
 					pieces[i] = null;
 				}
-				
-				equipment[i].setEnabled( true );
 			}
 			
 			if ( familiar != null )
 			{
 				requestList.add( new FamiliarRequest( StaticEntity.getClient(), familiar ) );
 				familiar = null;
-				familiarSelect.setEnabled( true );
 			}
 			
 			if ( outfit != null )
 			{
 				requestList.add( new EquipmentRequest( StaticEntity.getClient(), (SpecialOutfit) outfit ) );
 				outfit = null;
-				outfitSelect.setEnabled( true );
 			}
 			
 			if ( requestList.isEmpty() )
@@ -200,7 +223,7 @@ public class GearChangeFrame extends KoLFrame
 			if ( this == outfitSelect )
 			{				
 				outfit = getSelectedItem();
-				boolean shouldEnable = outfit instanceof String;
+				boolean shouldEnable = outfit == null || outfit instanceof String;
 
 				if ( shouldEnable )
 					outfit = null;
@@ -217,6 +240,7 @@ public class GearChangeFrame extends KoLFrame
 
 				pieces[8] = null;
 				equipmentLists[8].clear();
+				equipmentLists[8].add( familiar.getItem() );
 				equipment[8].setEnabled( false );
 			}
 			else

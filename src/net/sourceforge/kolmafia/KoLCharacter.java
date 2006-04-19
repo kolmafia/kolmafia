@@ -975,19 +975,27 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static String getCurrentEquipmentName( int type )
-	{
-		String name = getEquipment( type );
+	{	return getEquipmentName( getEquipment( type ) );
+	}
+	
+	/**
+	 * Accessor method to retrieve the name of a piece of equipment
+	 * @param	equipmentDescription	the description of equipment
+	 * @return	String	name of the equipped item or null if none
+	 */
 
+	public static String getEquipmentName( String equipmentDescription )
+	{
+		if ( equipmentDescription == null )
+			return null;
+		
 		// If slot not currently equipped, return null
-		if ( name.equals( EquipmentRequest.UNEQUIP ))
+		if ( equipmentDescription.equals( EquipmentRequest.UNEQUIP ))
 			return null;
 
 		// Strip off item power
-		int paren = name.indexOf( " (" );
-		if ( paren >= 0 )
-			name = name.substring( 0, paren );
-
-		return name;
+		int parenIndex = equipmentDescription.indexOf( " (" );
+		return parenIndex == -1 ? equipmentDescription : equipmentDescription.substring( 0, parenIndex );
 	}
 
 	/**
