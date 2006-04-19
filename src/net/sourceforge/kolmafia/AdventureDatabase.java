@@ -153,37 +153,37 @@ public class AdventureDatabase extends KoLDatabase
 		// A Bard Day's Night
 		{ { "choiceAdventure14" }, { "Knob Goblin Harem" },
 		  { "Knob goblin harem veil", "Knob goblin harem pants", "100 meat", "Complete the outfit" },
-		  { "306", "305", null, null } },
+		  { "306", "305", "666" } },
 
 		// Yeti Nother Hippy
 		{ { "choiceAdventure15" }, { "eXtreme Slope 1" },
 		  { "eXtreme mittens", "eXtreme scarf", "75 meat", "Complete the outfit" },
-		  { "399", "355", null, null } },
+		  { "399", "355", "666" } },
 
 		// Saint Beernard
 		{ { "choiceAdventure16" }, { "eXtreme Slope 2" },
 		  { "snowboarder pants", "eXtreme scarf", "75 meat", "Complete the outfit" },
-		  { "356", "355", null, null } },
+		  { "356", "355", "666" } },
 
 		// Generic Teen Comedy
 		{ { "choiceAdventure17" }, { "eXtreme Slope 3" },
 		  { "eXtreme mittens", "snowboarder pants", "75 meat", "Complete the outfit" },
-		  { "399", "356", null, null } },
+		  { "399", "356", "666" } },
 
 		// A Flat Miner
 		{ { "choiceAdventure18" }, { "Itznotyerzitz Mine 1" },
 		  { "miner's pants", "7-Foot Dwarven mattock", "100 meat", "Complete the outfit" },
-		  { "361", "362", null, null } },
+		  { "361", "362", "666" } },
 
 		// 100% Legal
 		{ { "choiceAdventure19" }, { "Itznotyerzitz Mine 2" },
 		  { "miner's helmet", "miner's pants", "100 meat", "Complete the outfit" },
-		  { "360", "361", null, null } },
+		  { "360", "361", "666" } },
 
 		// See You Next Fall
 		{ { "choiceAdventure20" }, { "Itznotyerzitz Mine 3" },
 		  { "miner's helmet", "7-Foot Dwarven mattock", "100 meat", "Complete the outfit" },
-		  { "360", "362", null, null } },
+		  { "360", "362", "666" } },
 
 		// Under the Knife
 		{ { "choiceAdventure21" }, { "Sleazy Back Alley" },
@@ -192,17 +192,17 @@ public class AdventureDatabase extends KoLDatabase
 		// The Arrrbitrator
 		{ { "choiceAdventure22" }, { "Pirate's Cove 1" },
 		  { "eyepatch", "swashbuckling pants", "100 meat", "Complete the outfit" },
-		  { "224", "402", null, null } },
+		  { "224", "402", "666" } },
 
 		// Barrie Me at Sea
 		{ { "choiceAdventure23" }, { "Pirate's Cove 2" },
 		  { "stuffed shoulder parrot", "swashbuckling pants", "100 meat", "Complete the outfit" },
-		  { "403", "402", null, null } },
+		  { "403", "402", "666" } },
 
 		// Amatearrr Night
 		{ { "choiceAdventure24" }, { "Pirate's Cove 3" },
 		  { "stuffed shoulder parrot", "100 meat", "eyepatch", "Complete the outfit" },
-		  { "403", null, "224", null } },
+		  { "403", "666", "224" } },
 
 		// Ouch! You bump into a door!
 		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
@@ -211,17 +211,17 @@ public class AdventureDatabase extends KoLDatabase
 		// The Effervescent Fray
 		{ { "choiceAdventure40" }, { "Cola Wars 1" },
 		  { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "15 Mysticality" },
-		  { "1328", "1329", null } },
+		  { "1328", "1329", "666" } },
 
 		// Smells Like Team Spirit
 		{ { "choiceAdventure41" }, { "Cola Wars 2" },
 		  { "Dyspepsi-Cola fatigues", "Cloaca-Cola helmet", "15 Muscle" },
-		  { "1330", "1331", null } },
+		  { "1330", "1331", "666" } },
 
 		// What is it Good For?
 		{ { "choiceAdventure42" }, { "Cola Wars 3" },
 		  { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "15 Moxie" },
-		  { "1326", "1327", null } },
+		  { "1326", "1327", "666" } },
 
 		// Maps and Legends
 		{ { "choiceAdventure45" }, { "Spooky Forest 3" },
