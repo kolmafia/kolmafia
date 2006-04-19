@@ -340,7 +340,7 @@ public class RequestFrame extends KoLFrame
 		else
 			combatRound = 1;
 		
-		this.currentRequest = currentRequest;
+		this.currentRequest = request;
 	}
 
 	protected static String getDisplayHTML( String responseText )
