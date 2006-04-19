@@ -627,9 +627,6 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( KoLCharacter.hasEquipped( item ) )
 			{
-				if ( missingCount == 1 )
-					return;
-
 				while ( KoLCharacter.hasEquipped( item ) )
 					DEFAULT_SHELL.executeLine( "unequip " + item.getName() );
 
