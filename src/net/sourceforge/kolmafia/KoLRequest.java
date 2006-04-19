@@ -1152,7 +1152,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// complete the outfit (decision 4) or if you have a
 		// non-empty list of conditions.
 
-		if ( decision.equals( "4" ) || !client.getConditions.isEmpty() )
+		if ( decision.equals( "4" ) || !client.getConditions().isEmpty() )
 		{
 			String [] possibleDecisions = null;
 			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
@@ -1175,7 +1175,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// randomly select an option.
 			
 			if ( decision.equals( "4" ) )
-				decision = RNG.nextInt(3) + 1;
+				decision = String.valueOf( RNG.nextInt(3) + 1 );
 		}
 
 		// If there is currently a setting which determines the
