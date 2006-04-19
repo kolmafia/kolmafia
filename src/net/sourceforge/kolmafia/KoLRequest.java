@@ -1165,13 +1165,15 @@ public class KoLRequest implements Runnable, KoLConstants
 			AdventureResult item;
 			for ( int i = 0; i < possibleDecisions.length; ++i )
 			{
-				item = new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 );
-				if ( !KoLCharacter.hasItem( item, false ) || client.getConditions().contains( item ) )
-					decision = String.valueOf( i + 1 );
+				if ( !possibleDecisions[i].equals( "666" ) )
+				{
+					item = new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 );
+					if ( !KoLCharacter.hasItem( item, false ) || client.getConditions().contains( item ) )
+						decision = String.valueOf( i + 1 );
+				}
 			}
 			
-			// If for some crazy reason the person has a steaming
-			// evil and the decision is still 4, then go ahead and
+			// If the decision is still 4, then go ahead and
 			// randomly select an option.
 			
 			if ( decision.equals( "4" ) )
