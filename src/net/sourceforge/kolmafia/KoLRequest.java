@@ -1177,7 +1177,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( completeOutfit )
 		{
-			// Here, you have an outfit completion option.  Therefore
+			// Here, you have an outfit completion option. Therefore
 			// determine which outfit needs to be completed. Just
 			// choose the item that the player does not have, and if
 			// they have everything, just make a random choice.
@@ -1185,8 +1185,11 @@ public class KoLRequest implements Runnable, KoLConstants
 			decision = null;
 					
 			for ( int i = 0; i < 3; ++i )
-				if ( possibleDecisions[i] != null && !KoLCharacter.hasItem( new AdventureResult( Integer.parseInt( possibleDecisions[0] ), 1 ), false ) )
+				if ( possibleDecisions[i] != null && !KoLCharacter.hasItem( new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 ), false ) )
+				{
 					decision = String.valueOf( i + 1 );
+					break;
+				}
 
 			if ( decision == null )
 				decision = String.valueOf( RNG.nextInt( 3 ) + 1 );
@@ -1195,7 +1198,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			for ( int i = 0; i < possibleDecisions.length; ++i )
 				if ( possibleDecisions[i] != null && client.getConditions().contains( new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 ) ) )
+				{
 					decision = String.valueOf( i + 1 );
+					break;
+				}
 		}
 
 		// If there is currently a setting which determines the
