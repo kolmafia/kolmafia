@@ -1153,32 +1153,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// non-empty list of conditions.
 
 		if ( decision.equals( "4" ) || !client.getConditions().isEmpty() )
-		{
-			String [] possibleDecisions = null;
-			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
-				if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
-					possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
-
-			// Choose the item that the player does not have, and if
-			// they have everything, just make a random choice.
-
-			AdventureResult item;
-			for ( int i = 0; i < possibleDecisions.length; ++i )
-			{
-				if ( !possibleDecisions[i].equals( "666" ) )
-				{
-					item = new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 );
-					if ( !KoLCharacter.hasItem( item, false ) || client.getConditions().contains( item ) )
-						decision = String.valueOf( i + 1 );
-				}
-			}
-			
-			// If the decision is still 4, then go ahead and
-			// randomly select an option.
-			
-			if ( decision.equals( "4" ) )
-				decision = String.valueOf( RNG.nextInt(3) + 1 );
-		}
+                        decision = pickOutfitChoice( option, decision );
 
 		// If there is currently a setting which determines the
 		// decision, make that decision and submit the form.
@@ -1222,6 +1197,35 @@ public class KoLRequest implements Runnable, KoLConstants
 			return handleChoiceResponse( request );
 
 		return true;
+	}
+
+	private String pickOutfitChoice( String option, String decision )
+	{
+		// Find the options for the choice we've encountered
+		String [] possibleDecisions = null;
+		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
+			{
+				// Bail if it doesn't complete an outfit
+				if ( AdventureDatabase.CHOICE_ADVS[i].length == 2 )
+					return decision;
+				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
+				break;
+			}
+
+		// Choose an item that the player does not have
+		for ( int i = 0; i < possibleDecisions.length; ++i )
+		{
+			if ( possibleDecisions[i] != null )
+			{
+				AdventureResult item = new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 );
+				if ( !KoLCharacter.hasItem( item, false ) || client.getConditions().contains( item ) )
+					return String.valueOf( i + 1 );
+			}
+		}
+
+		// If they have everything, just make a random choice.
+		return String.valueOf( RNG.nextInt(3) + 1 );
 	}
 
 	/*

@@ -174,7 +174,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			(new EquipmentRequest( client, initialOffhand, KoLCharacter.OFFHAND )).run();
 	}
 
-    private void useSkillLoop()
+	private void useSkillLoop()
 	{
 		// Before executing the skill, ensure that all necessary mana is
 		// recovered in advance.
