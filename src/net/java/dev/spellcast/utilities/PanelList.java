@@ -74,7 +74,7 @@ import javax.swing.event.ListDataEvent;
  * longer reliable and unanticipated exceptions may be thrown.
  */
 
-public abstract class PanelList extends JPanel implements Scrollable
+public abstract class PanelList extends JPanel
 {
 	private JPanel listPanel;
 	private int visibleRows;
@@ -116,7 +116,7 @@ public abstract class PanelList extends JPanel implements Scrollable
 	{
 		super( new BorderLayout() );
 
-		this.add( listPanel = new JPanel(), BorderLayout.WEST );
+		this.add( listPanel = new JPanel(), isResizeableList() ? BorderLayout.CENTER : BorderLayout.WEST );
 		listPanel.setLayout( useBoxLayout ? (LayoutManager) new BoxLayout( listPanel, BoxLayout.Y_AXIS ) : (LayoutManager) new FlowLayout() );
 
 		this.visibleRows = visibleRows;  this.cellHeight = cellHeight;  this.cellWidth = cellWidth;
@@ -136,6 +136,10 @@ public abstract class PanelList extends JPanel implements Scrollable
 			validatePanelList();
 			associatedListModel.addListDataListener( new PanelListListener() );
 		}
+	}
+
+	protected boolean isResizeableList()
+	{	return false;
 	}
 
 	/**
@@ -173,76 +177,11 @@ public abstract class PanelList extends JPanel implements Scrollable
 	 */
 
 	private void validatePanelList()
-	{
-		// reset the size of the container according to the number
-		// of elements currently found in the container
-
-		int displayedRows = getComponentCount() > visibleRows ? getComponentCount() : visibleRows;
-		int appropriateHeight = displayedRows * getScrollableUnitIncrement( null, SwingConstants.VERTICAL, 1 );
-		JComponentUtilities.setComponentSize( listPanel, cellWidth, appropriateHeight );
-		listPanel.invalidate();  listPanel.validate();  listPanel.repaint();
-	}
-
-	/**
-	 * Returns the preferred size of the scrollable viewport.  Used by classes such as
-	 * the <code>JScrollPane</code> to determine how much of the panel should be visible.
-	 */
-
-	public Dimension getPreferredScrollableViewportSize()
-	{	return new Dimension( cellWidth, visibleRows * cellHeight );
-	}
-
-	/**
-	 * Returns the amount that is needed to display a single cell, given the visible rectangle
-	 * and the direction to be scrolled.
-	 *
-	 * @param	visibleRect	the visible rectangular area seen in the viewport
-	 * @param	orientation	the orientation of the scrollbar that was clicked
-	 * @param	direction	the direction (with respect to the scrollbar) that is being scrolled;
-	 *						positive indicates a right/down, negative indicates up/left
-	 * @return	the amount that needs to be scrolled to display the next cell
-	 */
-
-	public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation, int direction)
-	{	return orientation == SwingConstants.HORIZONTAL ? 0 : cellHeight;
-	}
-
-	/**
-	 * Returns the amount that is needed to display a single block of cells, given the visible
-	 * rectangle and the direction to be scrolled.
-	 *
-	 * @param	visibleRect	the visible rectangular area seen in the viewport
-	 * @param	orientation	the orientation of the scrollbar that was clicked
-	 * @param	direction	the direction (with respect to the scrollbar) that is being scrolled;
-	 *						positive indicates a right/down, negative indicates up/left
-	 * @return	the amount that needs to be scrolled to display the next block of cells
-	 */
-
-	public int getScrollableBlockIncrement( Rectangle visibleRect, int orientation, int direction )
-	{	return orientation == SwingConstants.HORIZONTAL ? 0 :
-				(visibleRows - 1) * getScrollableUnitIncrement( visibleRect, orientation, direction );
+	{	listPanel.invalidate();  listPanel.validate();  listPanel.repaint();
 	}
 
 	public Component [] getComponents()
 	{	return listPanel.getComponents();
-	}
-
-	/**
-	 * This function always returns true to indicate that this scrollable
-	 * forces the height of the viewport to match the height of the display.
-	 */
-
-	public boolean getScrollableTracksViewportHeight()
-	{	return true;
-	}
-
-	/**
-	 * This function always returns false to indicate that this scrollable
-	 * forces the height of the viewport to match the height of the display.
-	 */
-
-	public boolean getScrollableTracksViewportWidth()
-	{	return true;
 	}
 
 	/**

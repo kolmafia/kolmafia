@@ -148,7 +148,7 @@ public class MuseumFrame extends KoLFrame
 			if ( !moveAll )
 				for ( int i = 0; i < selection.length; ++i )
 					selection[i] = ((AdventureResult)selection[i]).getInstance(
-						getQuantity( "Moving " + ((AdventureResult)selection[i]).getName() + "...", 1 ) );
+						getQuantity( "Moving " + ((AdventureResult)selection[i]).getName() + "...", ((AdventureResult)selection[i]).getCount(), 1 ) );
 
 			return selection;
 		}
@@ -156,9 +156,7 @@ public class MuseumFrame extends KoLFrame
 		private class OutsideDisplayPanel extends ItemManagePanel
 		{
 			public OutsideDisplayPanel()
-			{
-				super( "Inventory", "add maximum", "add multiple", KoLCharacter.getInventory() );
-				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
+			{	super( "Inventory", "add all", "add some", KoLCharacter.getInventory() );
 			}
 
 			private void move( boolean moveAll )
@@ -188,9 +186,7 @@ public class MuseumFrame extends KoLFrame
 		private class InsideDisplayPanel extends ItemManagePanel
 		{
 			public InsideDisplayPanel()
-			{
-				super( "Display Case", "take maximum", "take multiple", KoLCharacter.getCollection() );
-				elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
+			{	super( "Display Case", "take all", "take some", KoLCharacter.getCollection() );
 			}
 
 			private void move( boolean moveAll )
@@ -222,6 +218,10 @@ public class MuseumFrame extends KoLFrame
 		{
 			MuseumShelfPanel toConstruct = new MuseumShelfPanel( index, (SortedListModel) value );
 			return toConstruct;
+		}
+
+		protected boolean isResizeableList()
+		{	return true;
 		}
 	}
 
