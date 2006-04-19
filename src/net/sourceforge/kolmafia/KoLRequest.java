@@ -1087,10 +1087,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
 
-		// Synchronize if requested
-		if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
-			request.showInBrowser( false );
-
+		request.showInBrowser( false );
 		return handleChoiceResponse( request );
 	}
 
@@ -1114,11 +1111,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// finish by hand.
 
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
-
-			// Finish in browser if requested
-			if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
-				request.showInBrowser( true );
-
+			request.showInBrowser( true );
 			return false;
 		}
 
@@ -1133,7 +1126,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
 			request.showInBrowser( true );
-
 			return false;
 		}
 
@@ -1153,55 +1145,37 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
 			request.showInBrowser( true );
-
 			return false;
 		}
 
-		boolean completeOutfit = false;
-		String [] possibleDecisions = null;
+		// Only change the decision if you are told to either
+		// complete the outfit (decision 4) or if you have a
+		// non-empty list of conditions.
 
-		int decisionIndex = Integer.parseInt( decision ) - 1;
-
-		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
-			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
-			{
-				if ( AdventureDatabase.CHOICE_ADVS[i].length == 4 )
-				{
-					completeOutfit = AdventureDatabase.CHOICE_ADVS[i][2][ decisionIndex ].equals( "Complete the outfit" );
-					possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
-				}
-			}
-
-		// Only change the decision if the user-specified option
-		// will not satisfy something on the conditions list.
-
-		if ( completeOutfit )
+		if ( decision.equals( "4" ) || !client.getConditions.isEmpty() )
 		{
-			// Here, you have an outfit completion option. Therefore
-			// determine which outfit needs to be completed. Just
-			// choose the item that the player does not have, and if
+			String [] possibleDecisions = null;
+			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+				if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
+					possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
+
+			// Choose the item that the player does not have, and if
 			// they have everything, just make a random choice.
 
-			decision = null;
-					
-			for ( int i = 0; i < 3; ++i )
-				if ( possibleDecisions[i] != null && !KoLCharacter.hasItem( new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 ), false ) )
-				{
-					decision = String.valueOf( i + 1 );
-					break;
-				}
-
-			if ( decision == null )
-				decision = String.valueOf( RNG.nextInt( 3 ) + 1 );
-		}
-		else if ( possibleDecisions != null )
-		{
+			AdventureResult item;
 			for ( int i = 0; i < possibleDecisions.length; ++i )
-				if ( possibleDecisions[i] != null && client.getConditions().contains( new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 ) ) )
-				{
+			{
+				item = new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 );
+				if ( !KoLCharacter.hasItem( item, false ) || client.getConditions().contains( item ) )
 					decision = String.valueOf( i + 1 );
-					break;
-				}
+			}
+			
+			// If for some crazy reason the person has a steaming
+			// evil and the decision is still 4, then go ahead and
+			// randomly select an option.
+			
+			if ( decision.equals( "4" ) )
+				decision = RNG.nextInt(3) + 1;
 		}
 
 		// If there is currently a setting which determines the
@@ -1213,10 +1187,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		request.addFormField( "option", decision );
 
 		request.run();
-
-		// Synchronize if requested
-		if ( getProperty( "synchronizeFightFrame" ).equals( "false" ) )
-			request.showInBrowser( false );
+		request.showInBrowser( false );
 
 		// Manually process any adventure usage for choice adventures,
 		// since they necessarily consume an adventure.
