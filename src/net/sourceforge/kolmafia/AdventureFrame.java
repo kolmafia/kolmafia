@@ -228,8 +228,11 @@ public class AdventureFrame extends KoLFrame
 			safetyText = new JLabel( " " );
 			safetyText.setVerticalAlignment( JLabel.TOP );
 
-			add( new JScrollPane( safetyText, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED ), BorderLayout.CENTER );
+			JScrollPane textScroller = new JScrollPane( safetyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+			
+			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
+			add( textScroller, BorderLayout.CENTER );
 
 			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( this ) );
 			locationSelect.addActionListener( this );
