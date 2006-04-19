@@ -286,9 +286,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( hasItem( BANJO_STRING ) && hasItem( cloverWeapon ) )
 			{
-				client.makeRequest( new UntinkerRequest( client, cloverWeapon.getItemID() ), 1 );
-				client.makeRequest( new UntinkerRequest( client, cloverWeapon.getItemID() == ROCKNROLL_LEGEND.getItemID() ? 48 :
-					cloverWeapon.getItemID() - 1 ), 1 );
+				UseSkillRequest.untinkerCloverWeapon( client, cloverWeapon );
 				client.makeRequest( ItemCreationRequest.getInstance( client, STONE_BANJO ), 1 );
 			}
 		}

@@ -2287,7 +2287,8 @@ public abstract class KoLCharacter extends StaticEntity
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
 		{
 			case ConsumeItemRequest.EQUIP_WEAPON:
-				return getEquipment( WEAPON ).startsWith( canonicalName );
+				return getEquipment( WEAPON ).startsWith( canonicalName ) ||
+					getEquipment( OFFHAND ).startsWith( canonicalName );
 
 			case ConsumeItemRequest.EQUIP_OFFHAND:
 				return getEquipment( OFFHAND ).startsWith( canonicalName );
