@@ -246,6 +246,9 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 	public static void updateTitle()
 	{
+		if ( INSTANCE != null )
+			INSTANCE.setTitle( INSTANCE.lastTitle );
+		
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
 
