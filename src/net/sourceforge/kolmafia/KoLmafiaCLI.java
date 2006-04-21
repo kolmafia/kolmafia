@@ -1346,6 +1346,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( scriptFile.getPath().indexOf( ".ash" ) != -1 )
 			{
+				if ( previousLine.startsWith( "validate " ) )
+				{
+					advancedHandler.validate( scriptFile );
+					return;
+				}
+
 				for ( int i = 0; i < runCount && StaticEntity.getClient().permitsContinue(); ++i )
 					advancedHandler.execute( scriptFile );
 			}
@@ -2328,7 +2334,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * specify an effect duration before the string.
 	 */
 
-	private AdventureResult getFirstMatchingEffect( String parameters )
+	public AdventureResult getFirstMatchingEffect( String parameters )
 	{
 		String effectName = null;
 		int duration = 0;
