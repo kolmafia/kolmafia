@@ -691,21 +691,24 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static void processChatMessage( String channel, String message )
 	{
+		if ( !isRunning() || channel == null || message == null || channel.length() == 0 || message.length() == 0 )
+			return;
+
+		LimitedSizeChatBuffer buffer = null;
+		String bufferKey = getBufferKey( channel );
+		String displayHTML = "";
+
 		try
 		{
-			if ( channel == null || message == null || channel.length() == 0 || message.length() == 0 )
+	
+			if ( message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( bufferKey ) )
 				return;
 	
-			if ( message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( getBufferKey( channel ) ) )
-				return;
-	
-			LimitedSizeChatBuffer buffer = getChatBuffer( channel );
+			buffer = getChatBuffer( bufferKey );
 	
 			// Figure out what the properly formatted HTML looks like
 			// first, based on who sent the message and whether or not
 			// there are supposed to be italics.
-	
-			String displayHTML = "";
 	
 			// There are a bunch of messages that are supposed to be
 			// formatted in green.  These are all handled first.
@@ -802,7 +805,7 @@ public abstract class KoLMessenger extends StaticEntity
 			// doing their chatting, then make sure to append the
 			// channel with the appropriate color.
 	
-			if ( getBufferKey( channel ).startsWith( "[" ) && channel.startsWith( "/" ) )
+			if ( bufferKey.startsWith( "[" ) && channel.startsWith( "/" ) )
 				displayHTML = "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " + displayHTML;
 	
 			// Now that everything has been properly formatted,
@@ -811,14 +814,17 @@ public abstract class KoLMessenger extends StaticEntity
 			buffer.append( displayHTML + "<br>" );
 	
 			if ( useTabbedChat )
-				tabbedFrame.highlightTab( getBufferKey( channel ) );
+				tabbedFrame.highlightTab( bufferKey );
 		}
 		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 			
-			StaticEntity.printStackTrace( e, "Error in channel " + channel + " with message \"" + message + "\"" );
+			StaticEntity.printStackTrace( e, "Error in channel " + channel,
+				new String [] { "Channel: " + channel, "Buffer key: " + bufferKey, "Object signature: " + buffer,
+					"Use tabs: " + useTabbedChat, "Tabbed frame: " + tabbedFrame, "Collection signature: " + instantMessageBuffers,
+					"Message: " + message, "Rendered: " + displayHTML, "" } );
 		}
 	}
 

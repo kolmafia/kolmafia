@@ -42,6 +42,8 @@ import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity implements KoLConstants
 {
+	private static final String [] EMPTY_STRING_ARRAY = new String[0];
+
 	static
 	{
 		// In order to minimize error internally, KoLmafia will
@@ -217,13 +219,17 @@ public abstract class StaticEntity implements KoLConstants
 			KoLRequest.delay( 1000 );
 		}
 	}
-	
+		
 	public static final void printStackTrace( Throwable t )
-	{	printStackTrace( t, "UNEXPECTED ERROR" );
+	{	printStackTrace( t, "UNEXPECTED ERROR", EMPTY_STRING_ARRAY );
 	}
 	
 	
 	public static final void printStackTrace( Throwable t, String message )
+	{	printStackTrace( t, message, EMPTY_STRING_ARRAY );
+	}
+
+	public static final void printStackTrace( Throwable t, String message, String [] logAssistMessages )
 	{
 		boolean shouldOpenStream = KoLmafia.getLogStream() instanceof NullStream;
 
@@ -231,6 +237,12 @@ public abstract class StaticEntity implements KoLConstants
 			KoLmafia.openDebugLog();
 
 		DEFAULT_SHELL.updateDisplay( ERROR_STATE, message + ".  Debug log printed." );
+		for ( int i = 0; i < logAssistMessages.length; ++i )
+		{
+			System.out.println( logAssistMessages[i] );
+			KoLmafia.getLogStream().println( logAssistMessages[i] );
+		}
+		
 		t.printStackTrace( KoLmafia.getLogStream() );
 		t.printStackTrace();
 
