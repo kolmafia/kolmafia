@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.List;
 import java.util.Set;
 import java.util.Map;
 import java.util.TreeMap;
@@ -101,6 +102,16 @@ public class ClassSkillsDatabase extends KoLDatabase
 			
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	/**
+	 * Returns a list of all skills which contain the given
+	 * substring.  This is useful for people who are doing
+	 * lookups on skills.
+	 */
+
+	public static final List getMatchingNames( String substring )
+	{	return getMatchingNames( skillByName, substring );
 	}
 
 	/**

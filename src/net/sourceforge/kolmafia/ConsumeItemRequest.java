@@ -259,11 +259,18 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 		// Check to make sure that it wasn't a food or drink
-		// that was consumed that resulted in nothing.
+		// that was consumed that resulted in nothing.  Eating
+		// too much is flagged as a continuable state.
 
-		if ( responseText.indexOf( "too full" ) != -1 || responseText.indexOf( "too drunk" ) != -1 )
+		if ( responseText.indexOf( "too full" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Consumption limit reached." );
+			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Consumption limit reached." );
+			return;
+		}
+		
+		if ( responseText.indexOf( "too drunk" ) != -1 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Inebriety limit reached." );
 			return;
 		}
 

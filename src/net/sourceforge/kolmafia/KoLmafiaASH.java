@@ -117,7 +117,7 @@ public class KoLmafiaASH extends StaticEntity
 	public String fileName;
 	public LineNumberReader commandStream;
 
-	public void execute( File scriptFile ) throws IOException
+	public void validate( File scriptFile ) throws IOException
 	{
 		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 		this.fileName = scriptFile.getPath();
@@ -135,8 +135,22 @@ public class KoLmafiaASH extends StaticEntity
 
 			commandStream.close();
 			printScope( global, 0 );
-
-			currentState = STATE_NORMAL;
+		}
+		catch ( AdvancedScriptException e )
+		{
+			commandStream.close();
+			StaticEntity.printStackTrace( e, e.getMessage() );
+			return;
+		}
+	}
+	
+	public void execute( File scriptFile ) throws IOException
+	{
+		// Befire you do anything, validate the script.
+		validate( scriptFile );
+		
+		try
+		{
 			ScriptValue result = executeGlobalScope( global );
 			if ( result.getType().equals( TYPE_BOOLEAN ) )
 			{
@@ -160,11 +174,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 		catch( AdvancedScriptException e )
 		{
-			commandStream.close();
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, e.getMessage() );
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			StaticEntity.printStackTrace( e, e.getMessage() );
 			return;
 		}
 	}
@@ -3062,22 +3072,25 @@ public class KoLmafiaASH extends StaticEntity
 
 				for ( int i = 0; i < contentString.length(); ++i )
 				{
+					// If you get an actual item number, then store it inside
+					// of contentInt and return from the method.  But, in this
+					// case, we're testing if it's not an item number -- use
+					// substring matching to make it user-friendlier.
+
 					if ( !Character.isDigit( contentString.charAt(i) ) )
 					{
-						// If you get an actual item number, then store it inside
-						// of contentInt and return from the method.
-
-						if ( (contentInt = TradeableItemDatabase.getItemID( contentString )) != -1 )
-						{
-							contentString = TradeableItemDatabase.getItemName( contentInt );
-							return;
-						}
+						AdventureResult item = DEFAULT_SHELL.getFirstMatchingItem( contentString );
 
 						// Otherwise, throw an AdvancedScriptException so that
 						// an unsuccessful parse happens before the script gets
 						// executed (consistent with paradigm).
 
-						throw new AdvancedScriptException( "Item " + contentString + " not found in database " + getLineAndFile() );
+						if ( item == null )
+							throw new AdvancedScriptException( "Item " + contentString + " not found in database " + getLineAndFile() );
+
+						contentInt = item.getItemID();
+						contentString = TradeableItemDatabase.getItemName( contentInt );
+						return;
 					}
 				}
 
@@ -3145,9 +3158,12 @@ public class KoLmafiaASH extends StaticEntity
 					return;
 				}
 
-				if ( (contentInt = ClassSkillsDatabase.getSkillID( contentString )) == -1 )
+				List skills = ClassSkillsDatabase.getMatchingNames( contentString );
+
+				if ( skills.isEmpty() )
 					throw new AdvancedScriptException( "Skill " + contentString + " not found in database " + getLineAndFile() );
 
+				contentInt = ClassSkillsDatabase.getSkillID( (String) skills.get(0) );
 				contentString = ClassSkillsDatabase.getSkillName( contentInt );
 			}
 			else if ( type.equals( TYPE_EFFECT ) )
@@ -3162,9 +3178,13 @@ public class KoLmafiaASH extends StaticEntity
 					}
 					return;
 				}
-
-				if ( (contentInt = StatusEffectDatabase.getEffectID( contentString )) == -1 )
+				
+				AdventureResult effect = DEFAULT_SHELL.getFirstMatchingEffect( contentString );
+				if ( effect == null )
 					throw new AdvancedScriptException( "Effect " + contentString + " not found in database " + getLineAndFile() );
+
+				contentInt = StatusEffectDatabase.getEffectID( effect.getName() );
+				contentString = StatusEffectDatabase.getEffectName( contentInt );
 			}
 			else if ( type.equals( TYPE_FAMILIAR ) )
 			{
