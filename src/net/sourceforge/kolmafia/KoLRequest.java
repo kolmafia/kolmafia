@@ -133,9 +133,10 @@ public class KoLRequest implements Runnable, KoLConstants
 				}
 				catch ( UnknownHostException e )
 				{
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-
+					// This should not happen.  Therefore, print
+					// a stack trace for debug purposes.
+					
+					StaticEntity.printStackTrace( e, "Error in proxy setup" );
 					System.setProperty( "http.proxyHost", proxyHost );
 				}
 
@@ -164,13 +165,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
-			// An exception here means that the attempt to set up the proxy
-			// server failed or the attempt to set the login server failed.
-			// Because these result in default values, pretend nothing
-			// happened and carry on with business.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Error in proxy setup" );
 		}
 	}
 
@@ -288,27 +286,20 @@ public class KoLRequest implements Runnable, KoLConstants
 			return;
 		}
 
-		String encodedName = null;
-		String encodedValue = null;
+		String encodedName = name == null ? "" : name;
+		String encodedValue = value == null ? "" : value;
 
 		try
 		{
-			encodedName = URLEncoder.encode( name, "UTF-8" ) + "=";
-			encodedValue = URLEncoder.encode( value, "UTF-8" );
+			encodedName = URLEncoder.encode( encodedName, "UTF-8" ) + "=";
+			encodedValue = URLEncoder.encode( encodedValue, "UTF-8" );
 		}
 		catch ( Exception e )
 		{
-			// In this case, you failed to encode the appropriate
-			// name and value data.	 So, just print this to the
-			// appropriate log stream and add in the unencoded
-			// data (in case it's fine).
-
-			KoLmafia.getLogStream().println( "Could not encode: " + name + "=" + value );
-			data.add( name + "=" + value );
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			return;
 		}
 
@@ -319,7 +310,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			String [] existingData = new String[ data.size() ];
 			data.toArray( existingData );
-
+			
 			for ( int i = 0; i < existingData.length; ++i )
 			{
 				if ( existingData[i].startsWith( encodedName ) )
@@ -374,16 +365,21 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected void addEncodedFormField( String element )
 	{
 		// Just decode it first
-		String decoded;
+		String decoded = element;
+
 		try
 		{
 			decoded = URLDecoder.decode( element, "UTF-8" );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
-			// Say what?
-			decoded = element;
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
+			return;
 		}
+
 		addFormField( decoded );
 	}
 
@@ -395,21 +391,28 @@ public class KoLRequest implements Runnable, KoLConstants
 			return;
 		}
 		
-		String [] tokens = fields.split( "(&)" );
+		String [] tokens = fields.split( "&" );
 		for ( int i = 0; i < tokens.length; ++i )
-			addEncodedFormField( tokens[i] );
+		{
+			if ( (tokens[i].indexOf( "+" ) == -1 && tokens[i].indexOf( "%") == -1) || tokens[i].indexOf( " " ) != -1 )
+				addFormField( tokens[i] );
+			else
+				addEncodedFormField( tokens[i] );
+		}
 	}
 
 	protected String getFormField( String key )
 	{
 		String [] elements = new String[ data.size() ];
 		data.toArray( elements );
+
 		for ( int i = 0; i < elements.length; ++i )
 		{
-			if( elements[i].indexOf( "=" ) == -1 )
+			if ( elements[i].indexOf( "=" ) == -1 )
 				continue;
+
 			String [] tokens = elements[i].split( "=" );
-			if( tokens[0].equals( key ) )
+			if ( tokens[0].equals( key ) )
 			{
 				try
 				{
@@ -421,6 +424,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				}
 			}
 		}
+
 		return null;
 	}
 
@@ -543,8 +547,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( InterruptedException e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -585,11 +591,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( MalformedURLException e )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Error in URL: " + KOL_ROOT + formURLString );
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Error in URL: " + KOL_ROOT + formURLString );
 			KoLRequest.delay();
 			return false;
 		}
@@ -612,9 +617,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( !(this instanceof ChatRequest) )
 				KoLmafia.getLogStream().println( "Error opening connection.  Retrying..." );
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
 
 			KoLRequest.delay();
 			return false;
@@ -730,10 +732,10 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( e instanceof FileNotFoundException )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Page <" + formURLString + "> not found." );
-
-				KoLmafia.getLogStream().println( e );
-				e.printStackTrace( KoLmafia.getLogStream() );
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e, "Page <" + formURLString + "> not found." );
 
 				// In this case, it's like a false redirect, but to
 				// a page which no longer exists.  Pretend it's the
@@ -891,9 +893,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				if ( !(this instanceof ChatRequest) )
 					KoLmafia.getLogStream().println( "Error reading server reply.  Retrying..." );
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
 			}
 
 			responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
@@ -914,11 +913,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
-			// Errors equate to an input stream that
-			// has already been closed.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 
 		// Null the pointer to help the garbage collector
@@ -992,7 +990,12 @@ public class KoLRequest implements Runnable, KoLConstants
 			return (token.indexOf(",") == -1) ? Integer.parseInt( token ) : df.parse( token ).intValue();
 		}
 		catch ( Exception e )
-		{	return 0;
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
+			return 0;
 		}
 	}
 
@@ -1019,7 +1022,12 @@ public class KoLRequest implements Runnable, KoLConstants
 			return (token.indexOf(",") == -1) ? Integer.parseInt( token ) : df.parse( token ).intValue();
 		}
 		catch ( Exception e )
-		{	return 0;
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
+			return 0;
 		}
 	}
 

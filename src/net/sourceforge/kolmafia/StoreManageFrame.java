@@ -456,13 +456,14 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			try
 			{
-				return df.parse( itemPrice.getText() ).intValue();
+				return itemPrice.getText().equals( "" ) ? 0 : df.parse( itemPrice.getText() ).intValue();
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 				return 0;
 			}
 		}

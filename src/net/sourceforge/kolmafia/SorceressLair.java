@@ -1149,19 +1149,9 @@ public abstract class SorceressLair extends StaticEntity
 		int n = -1;
 		Matcher placeMatcher = Pattern.compile( "lair6.php\\?place=(\\d+)" ).matcher( request.responseText );
 		if ( placeMatcher.find() )
-		{
-			try
-			{
-				n = df.parse( placeMatcher.group(1) ).intValue();
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-			}
-		}
+			n = Integer.parseInt( placeMatcher.group(1) );
 
-		if ( n < 0)
+		if ( n < 0 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "I can't tell how far you've gotten into the Sorceress's Chamber yet." );
 			return;

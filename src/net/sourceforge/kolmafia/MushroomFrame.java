@@ -169,10 +169,12 @@ public class MushroomFrame extends KoLFrame
 
 			ostream.close();
 		}
-		catch ( Exception ex )
+		catch ( Exception e )
 		{
-			ex.printStackTrace( KoLmafia.getLogStream() );
-			ex.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Error saving file <" + output.getAbsolutePath() + ">" );
 		}
 	}
 

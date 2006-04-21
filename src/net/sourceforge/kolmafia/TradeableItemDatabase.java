@@ -93,8 +93,10 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 
 		reader = getReader( "itemdescs.dat" );
@@ -120,8 +122,10 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 

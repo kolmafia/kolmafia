@@ -63,11 +63,10 @@ public class MoonPhaseDatabase extends StaticEntity
 		}
 		catch ( Exception e )
 		{
-			// Because the date string was manually
-			// constructed, this error will not happen.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -86,8 +85,10 @@ public class MoonPhaseDatabase extends StaticEntity
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 

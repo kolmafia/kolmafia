@@ -238,6 +238,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 		catch ( Exception e )
 		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -365,9 +369,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
 			
+			StaticEntity.printStackTrace( e );
 			return success;
 		}
 

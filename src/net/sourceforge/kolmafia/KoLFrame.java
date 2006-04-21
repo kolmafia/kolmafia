@@ -749,8 +749,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 
@@ -767,8 +769,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 	}
@@ -858,9 +862,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			return 0;
 		}
 	}
@@ -888,9 +893,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			return 0;
 		}
 	}

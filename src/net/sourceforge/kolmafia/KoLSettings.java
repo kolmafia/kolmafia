@@ -142,13 +142,10 @@ public class KoLSettings extends Properties implements UtilityConstants
 		}
 		catch ( IOException e1 )
 		{
-			// This should not happen, because it should
-			// always be possible.  Therefore, no handling
-			// will take place at the current time unless a
-			// pressing need arises for it.
-
-			e1.printStackTrace( KoLmafia.getLogStream() );
-			e1.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e1 );
 		}
 		catch ( Exception e2 )
 		{
@@ -156,9 +153,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 			// means that they will have to be created after
 			// the current file is deleted.
 
-			e2.printStackTrace( KoLmafia.getLogStream() );
-			e2.printStackTrace();
-
+			StaticEntity.printStackTrace( e2 );
 			source.delete();
 			loadSettings( source );
 		}
@@ -399,13 +394,10 @@ public class KoLSettings extends Properties implements UtilityConstants
 		}
 		catch ( IOException e )
 		{
-			// This should not happen, because it should
-			// always be possible.  Therefore, no handling
-			// will take place at the current time unless a
-			// pressing need arises for it.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 

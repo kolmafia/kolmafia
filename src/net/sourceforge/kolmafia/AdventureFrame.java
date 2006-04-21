@@ -146,11 +146,10 @@ public class AdventureFrame extends KoLFrame
 		}
 		catch ( Exception e )
 		{
-			// Should not happen - you're having the parser
-			// parse something that it formatted.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 
 		getContentPane().add( tabs, BorderLayout.CENTER );
@@ -768,8 +767,10 @@ public class AdventureFrame extends KoLFrame
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 
 			refreshCombatTree();
@@ -791,8 +792,10 @@ public class AdventureFrame extends KoLFrame
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 
 			// After storing all the data on disk, go ahead

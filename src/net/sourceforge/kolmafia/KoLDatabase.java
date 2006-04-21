@@ -53,6 +53,9 @@ public class KoLDatabase extends StaticEntity
 
 	protected static String [] readData( BufferedReader reader )
 	{
+		if ( reader == null )
+			return null;
+		
 		try
 		{
 			String line;
@@ -70,12 +73,10 @@ public class KoLDatabase extends StaticEntity
 		}
 		catch ( Exception e )
 		{
-			// If an exception is caught while attempting
-			// to retrieve the next tokenizer, return null.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			return null;
 		}
 	}

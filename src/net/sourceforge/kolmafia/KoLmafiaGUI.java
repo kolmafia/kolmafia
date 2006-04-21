@@ -207,8 +207,10 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 			catch ( ClassNotFoundException e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 	}
@@ -465,26 +467,18 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void makeMindControlRequest()
 	{
-		try
-		{
-			String [] levelArray = new String[12];
-			for ( int i = 0; i < 12; ++i )
-				levelArray[i] = "Level " + i;
+		String [] levelArray = new String[12];
+		for ( int i = 0; i < 12; ++i )
+			levelArray[i] = "Level " + i;
 
-			String selectedLevel = (String) JOptionPane.showInputDialog(
-				null, "Set the device to what level?", "Change mind control device from level " + KoLCharacter.getMindControlLevel(),
-					JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ KoLCharacter.getMindControlLevel() ] );
+		String selectedLevel = (String) JOptionPane.showInputDialog(
+			null, "Set the device to what level?", "Change mind control device from level " + KoLCharacter.getMindControlLevel(),
+				JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ KoLCharacter.getMindControlLevel() ] );
 
-			if ( selectedLevel == null)
-				return;
+		if ( selectedLevel == null)
+			return;
 
-			(new RequestThread( new MindControlRequest( this, df.parse( selectedLevel.split( " " )[1] ).intValue() ) )).run();
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-		}
+		(new RequestThread( new MindControlRequest( this, Integer.parseInt( selectedLevel.split( " " )[1] ) ) )).run();
 	}
 
 	public void removeAllItemsFromStore()

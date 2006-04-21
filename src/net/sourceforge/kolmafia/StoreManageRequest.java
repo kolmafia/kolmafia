@@ -124,21 +124,9 @@ public class StoreManageRequest extends KoLRequest
 
 		super.run();
 
-		try
-		{
-			Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + takenItemID + "\">.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
-
-			if ( takenItemMatcher.find() )
-				client.processResult( takenItem.getInstance( df.parse( takenItemMatcher.group(1) ).intValue() - takenItem.getCount( KoLCharacter.getInventory() ) ) );
-		}
-		catch ( Exception e )
-		{
-			// Because of the way the regular expression is compiled,
-			// this should not happen.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-		}
+		Matcher takenItemMatcher = Pattern.compile( "<option value=\"" + takenItemID + "\">.*?\\(([\\d,]+)\\)</option>" ).matcher( responseText );
+		if ( takenItemMatcher.find() )
+			client.processResult( takenItem.getInstance( Integer.parseInt( takenItemMatcher.group(1) ) - takenItem.getCount( KoLCharacter.getInventory() ) ) );
 
 		StoreManager.update( responseText, false );
 		DEFAULT_SHELL.updateDisplay( takenItem.getName() + " removed from your store." );

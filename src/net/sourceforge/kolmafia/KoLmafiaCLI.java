@@ -136,8 +136,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace();
-			e.printStackTrace( KoLmafia.getLogStream() );
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Error opening input stream." );
 		}
 
 		advancedHandler = new KoLmafiaASH();
@@ -193,14 +195,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch ( IOException e )
 		{
-			// Something bad must of happened.  Blow up!
-			// Or rather, print the stack trace and exit
-			// with an error state.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
-			System.exit(-1);
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Error in login attempt" );
 		}
 	}
 
@@ -272,8 +270,10 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			catch ( IOException e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 	}
@@ -304,13 +304,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch ( IOException e )
 		{
-			// If an IOException occurs during the parsing of the
-			// command, you should exit from the command with an
-			// error state after printing the stack trace.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			return null;
 		}
 	}
@@ -409,13 +406,15 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			try
 			{
-				int seconds = df.parse( parameters ).intValue();
+				int seconds = parameters.equals( "" ) ? 1 : df.parse( parameters ).intValue();
 				StaticEntity.executeCountdown( "Countdown: ", seconds );
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 
 			updateDisplay( "Waiting completed." );
@@ -575,13 +574,10 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			catch ( Exception e )
 			{
-				// Notify the StaticEntity.getClient() that the command could not be repeated
+				// Notify the client that the command could not be repeated
 				// the given number of times.
 
 				updateDisplay( ERROR_STATE, parameters + " is not a number." );
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
 				return;
 			}
 		}
@@ -606,11 +602,11 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			catch ( Exception e )
 			{
-				// Should not happen - you're having the parser
-				// parse something that it formatted.
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
 
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				StaticEntity.printStackTrace( e );
+				return;
 			}
 
 			String [] holidayPredictions = MoonPhaseDatabase.getHolidayPredictions( today );
@@ -674,14 +670,10 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 				catch ( IOException e )
 				{
-					// Because you created a file, no I/O errors should
-					// occur.  However, since there could still be something
-					// bad happening, print an error message.
-
-					updateDisplay( ERROR_STATE, "I/O error opening file <" + parameters + ">" );
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-
+					// This should not happen.  Therefore, print
+					// a stack trace for debug purposes.
+					
+					StaticEntity.printStackTrace( e, "Error opening file <" + parameters + ">" );
 					return;
 				}
 			}
@@ -1372,13 +1364,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch ( Exception e )
 		{
-			// Because everything is checked for consistency
-			// before being loaded, this should not happen.
-
-			updateDisplay( ERROR_STATE, e.getMessage() == null ? "" : e.getMessage() );
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			return;
 		}
 	}
@@ -1516,9 +1505,10 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			updateDisplay( ERROR_STATE, parameters + " is not a valid construct." );
 			return false;
 		}
 
@@ -1562,7 +1552,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return 0;
 	}
 
-	private int rvalue( String left, String right ) throws NumberFormatException
+	private int rvalue( String left, String right )
 	{
 		if ( right.endsWith( "%" ) )
 		{
@@ -1729,12 +1719,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 				catch ( Exception e )
 				{
-					// In the event that some exception occurred in
-					// parsing, return a null result.
-
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-
+					updateDisplay( conditionString + " is an invalid condition." );
 					condition = null;
 				}
 			}
@@ -1777,12 +1762,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 				catch ( Exception e )
 				{
-					// In the event that some exception occurred in
-					// parsing, return a null result.
-
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-
+					updateDisplay( conditionString + " is an invalid condition." );
 					condition = null;
 				}
 			}
@@ -1818,12 +1798,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 				catch ( Exception e )
 				{
-					// In the event that some exception occurred in
-					// parsing, return a null result.
-
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-
+					updateDisplay( conditionString + " is an invalid condition." );
 					condition = null;
 				}
 			}
@@ -1880,9 +1855,6 @@ public class KoLmafiaCLI extends KoLmafia
 		catch ( Exception e )
 		{
 			updateDisplay( ERROR_STATE, parameterList[1] + " is not a number." );
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
 			return;
 		}
 	}
@@ -1950,7 +1922,7 @@ public class KoLmafiaCLI extends KoLmafia
 		int buffCount;
 		try
 		{
-			if ( buffCountString == null )
+			if ( buffCountString == null || buffCountString.length() == 0 )
 				buffCount = 1;
 			else if ( buffCountString.equals( "*" ) )
 				buffCount = (int) ( KoLCharacter.getCurrentMP() /
@@ -1960,14 +1932,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		catch ( Exception e )
 		{
-			// Technically, this exception should not be thrown,
-			// but if it is, then print an error message and
-			// return.
-
 			updateDisplay( ERROR_STATE, buffCountString + " is not a number." );
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
 			return;
 		}
 
@@ -2062,9 +2027,6 @@ public class KoLmafiaCLI extends KoLmafia
 				updateDisplay( ERROR_STATE, parameterList[1] + " is not a number." );
 			else
 				updateDisplay( ERROR_STATE, parameterList[2] + " is not a number." );
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
 
 			return;
 		}
@@ -2219,14 +2181,10 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			catch ( IOException e )
 			{
-				// Because you created a file, no I/O errors should
-				// occur.  However, since there could still be something
-				// bad happening, print an error message.
-
-				updateDisplay( ERROR_STATE, "I/O error in opening file \"" + parameterList[1] + "\"" );
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e, "Error opening file <" + parameterList[1] + ">" );
 				return;
 			}
 		}
@@ -2405,13 +2363,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			catch ( Exception e )
 			{
-				// Technically, this exception should not be thrown, but if
-				// it is, then print an error message and return.
-
 				updateDisplay( ERROR_STATE, durationString + " is not a number." );
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
 				return null;
 			}
 		}
@@ -2536,8 +2488,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 				catch ( Exception e )
 				{
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, itemCountString + " is not a number." );
 					return null;
 				}
 			}
@@ -2677,9 +2628,6 @@ public class KoLmafiaCLI extends KoLmafia
 		catch ( Exception e )
 		{
 			updateDisplay( ERROR_STATE, "Invalid setting for device." );
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
 		}
 	}
 
@@ -2833,14 +2781,12 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace();
-				e.printStackTrace( KoLmafia.getLogStream() );
+				updateDisplay( ERROR_STATE, itemNames[i] + " is not a valid list element." );
+				firstMatch = null;
 			}
 
-			if ( firstMatch == null )
-				continue;
-
-			AdventureResult.addResultToList( items, firstMatch );
+			if ( firstMatch != null )
+				AdventureResult.addResultToList( items, firstMatch );
 		}
 
 		return items.toArray();
@@ -2911,9 +2857,6 @@ public class KoLmafiaCLI extends KoLmafia
 		catch ( Exception e )
 		{
 			updateDisplay( ERROR_STATE, "Invalid price/limit for automall request." );
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
 			return;
 		}
 	}
@@ -3095,9 +3038,6 @@ public class KoLmafiaCLI extends KoLmafia
 				// it is, then print an error message and return.
 
 				updateDisplay( ERROR_STATE, adventureCountString + " is not a number." );
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
 				return;
 			}
 		}
@@ -3150,16 +3090,14 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			BuffBotHome.setBuffBotActive( true );
 			BuffBotManager.runBuffBot( df.parse( parameters ).intValue() );
-			updateDisplay( "BuffBot execution complete." );
+			updateDisplay( "Buffbot execution complete." );
 		}
 		catch ( Exception e )
 		{
-			// Technically, this exception should not be thrown, but if
-			// it is, then print an error message and return.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Error opening file <" + parameters + ">" );
 			return;
 		}
 	}
@@ -3264,9 +3202,6 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
 				updateDisplay( ERROR_STATE, itemCountString + " is not a number." );
 				return;
 			}
@@ -3466,9 +3401,7 @@ public class KoLmafiaCLI extends KoLmafia
 		colorBuffer.append( LINE_BREAK );
 
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
-		
-		if ( commandBuffer != null )
-			commandBuffer.append( colorBuffer.toString() );
+		commandBuffer.append( colorBuffer.toString() );
 	}
 
 	/**

@@ -121,13 +121,10 @@ public class MailboxRequest extends KoLRequest
 		}
 		catch ( Exception e )
 		{
-			// If an exception is caught, then something bad
-			// probably happened.  Return. :D
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Error occurred in mail retrieval." );
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Error in mail retrieval" );
 			return;
 		}
 

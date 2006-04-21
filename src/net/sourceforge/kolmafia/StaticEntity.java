@@ -119,10 +119,10 @@ public abstract class StaticEntity implements KoLConstants
 		}
 		catch ( java.io.IOException e )
 		{
-			KoLmafia.getLogStream().println( "Failed to open browser:" );
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Failed to open system browser" );
 		}
 	}
 
@@ -216,5 +216,25 @@ public abstract class StaticEntity implements KoLConstants
 			StaticEntity.getClient().updateDisplay( message + (seconds - i) + " seconds..." );
 			KoLRequest.delay( 1000 );
 		}
+	}
+	
+	public static final void printStackTrace( Throwable t )
+	{	printStackTrace( t, "UNEXPECTED ERROR" );
+	}
+	
+	
+	public static final void printStackTrace( Throwable t, String message )
+	{
+		boolean shouldOpenStream = KoLmafia.getLogStream() instanceof NullStream;
+
+		if ( shouldOpenStream )
+			KoLmafia.openDebugLog();
+
+		DEFAULT_SHELL.updateDisplay( ERROR_STATE, message + ".  Debug log printed." );
+		t.printStackTrace( KoLmafia.getLogStream() );
+		t.printStackTrace();
+
+		if ( shouldOpenStream )
+			KoLmafia.openDebugLog();
 	}
 }

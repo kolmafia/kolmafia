@@ -136,11 +136,13 @@ public class BuffBotHome extends StaticEntity
 			output.getParentFile().mkdirs();
 			return new PrintStream( new FileOutputStream( output, true ), true );
 		}
-		catch ( java.io.FileNotFoundException e )
-		{	throw new RuntimeException( "The file <" + output.getAbsolutePath() + "> could not be opened for writing" );
-		}
-		catch ( SecurityException e )
-		{	throw new RuntimeException( "The file <" + output.getAbsolutePath() + "> could not be opened for writing" );
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Failed to open <" + output.getAbsolutePath() + "> for output" );
+			return null;
 		}
 	}
 
@@ -168,8 +170,10 @@ public class BuffBotHome extends StaticEntity
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 
