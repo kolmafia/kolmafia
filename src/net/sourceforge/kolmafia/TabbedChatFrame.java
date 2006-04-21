@@ -121,13 +121,40 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 			return;
 
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
+		{
 			if ( tabName.equals( tabs.getTitleAt(i).trim() ) )
 			{
-				if ( tabs.getSelectedIndex() == i )
-					return;
-
-				tabs.setBackgroundAt( i, new Color( 0, 0, 128 ) );
-				tabs.setForegroundAt( i, Color.white );
+				TabHighlighter tabHighlight = new TabHighlighter( i );
+				
+				try
+				{
+					if ( SwingUtilities.isEventDispatchThread() )
+						tabHighlight.run();
+					else
+						SwingUtilities.invokeAndWait( tabHighlight );
+				}
+				catch ( Exception e )
+				{
+					StaticEntity.printStackTrace( e );
+				}
 			}
+		}
+	}
+	
+	private class TabHighlighter implements Runnable
+	{
+		private int tabIndex;
+		public TabHighlighter( int tabIndex )
+		{	this.tabIndex = tabIndex;
+		}
+		
+		public void run()
+		{
+			if ( tabs.getSelectedIndex() == tabIndex )
+				return;
+
+			tabs.setBackgroundAt( tabIndex, new Color( 0, 0, 128 ) );
+			tabs.setForegroundAt( tabIndex, Color.white );
+		}
 	}
 }
