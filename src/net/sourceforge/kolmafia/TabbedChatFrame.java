@@ -150,11 +150,18 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 		
 		public void run()
 		{
-			if ( tabs.getSelectedIndex() == tabIndex )
-				return;
-
-			tabs.setBackgroundAt( tabIndex, new Color( 0, 0, 128 ) );
-			tabs.setForegroundAt( tabIndex, Color.white );
+			try
+			{
+				if ( tabs.getSelectedIndex() == tabIndex )
+					return;
+	
+				tabs.setBackgroundAt( tabIndex, new Color( 0, 0, 128 ) );
+				tabs.setForegroundAt( tabIndex, Color.white );
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
 		}
 	}
 }
