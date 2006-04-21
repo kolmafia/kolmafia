@@ -3091,7 +3091,7 @@ public class KoLmafiaASH extends StaticEntity
 
 					if ( !Character.isDigit( contentString.charAt(i) ) )
 					{
-						AdventureResult item = DEFAULT_SHELL.getFirstMatchingItem( contentString );
+						AdventureResult item = DEFAULT_SHELL.getFirstMatchingItem( contentString, KoLmafiaCLI.NOWHERE );
 
 						// Otherwise, throw an AdvancedScriptException so that
 						// an unsuccessful parse happens before the script gets
