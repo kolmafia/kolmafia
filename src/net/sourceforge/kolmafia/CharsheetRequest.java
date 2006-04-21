@@ -51,6 +51,8 @@ import java.util.StringTokenizer;
 
 public class CharsheetRequest extends KoLRequest
 {
+	private static final Pattern BASE_PATTERN = Pattern.compile( " \\(base: ([\\d,]+)\\)" );
+
 	/**
 	 * Constructs a new <code>CharsheetRequest</code>.  The data
 	 * in the KoLCharacter entity will be overridden over the
@@ -127,7 +129,7 @@ public class CharsheetRequest extends KoLRequest
 				token = parsedContent.nextToken();
 			skipTokens( parsedContent, 3 );
 			int maximumHP = intToken( parsedContent );
-			KoLCharacter.setHP( currentHP, maximumHP, retrieveBase( parsedContent, maximumHP ) );
+			KoLCharacter.setHP( currentHP, maximumHP, retrieveBase( parsedContent.nextToken(), maximumHP ) );
 
 			// Mana point parsing is exactly the same as hit point
 			// parsing - so this is just a copy-paste of the code.
@@ -141,7 +143,7 @@ public class CharsheetRequest extends KoLRequest
 				token = parsedContent.nextToken();
 			skipTokens( parsedContent, 3 );
 			int maximumMP = intToken( parsedContent );
-			KoLCharacter.setMP( currentMP, maximumMP, retrieveBase( parsedContent, maximumMP ) );
+			KoLCharacter.setMP( currentMP, maximumMP, retrieveBase( parsedContent.nextToken(), maximumMP ) );
 
 			// Next, you begin parsing the different stat points;
 			// this involves hunting for the stat point's name,
@@ -387,7 +389,7 @@ public class CharsheetRequest extends KoLRequest
 			token = st.nextToken();
 		skipTokens( st, 6 );
 		stats[0] = intToken( st );
-		int base = retrieveBase( st, stats[0] );
+		int base = retrieveBase( st.nextToken(), stats[0] );
 		while ( !token.equals( "b" ) )
 			token = st.nextToken();
 		stats[1] = KoLCharacter.calculateSubpoints( base, intToken( st ) );
@@ -406,11 +408,21 @@ public class CharsheetRequest extends KoLRequest
 	 * @param	defaultBase	The value to return, if no base value is found
 	 * @return	The parsed base value, or the default value if no base value is found
 	 */
-
-	private static int retrieveBase( StringTokenizer st, int defaultBase )
+	
+	private static int retrieveBase( String token, int defaultBase )
 	{
-		skipTokens( st, 1 );
-		int possibleBase = intToken( st, 8, 1 );
-		return possibleBase == 0 ? defaultBase : possibleBase;
+		try
+		{
+			Matcher baseMatcher = BASE_PATTERN.matcher( token );
+			return baseMatcher.find() ? df.parse( baseMatcher.group(1) ).intValue() : defaultBase;
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
+			return defaultBase;
+		}
 	}
 }
