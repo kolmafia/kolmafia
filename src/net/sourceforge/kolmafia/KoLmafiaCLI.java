@@ -530,7 +530,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// login), so they should be handled before a test
 		// of login state needed for other commands.
 
-		if ( command.equals( "call" ) || command.equals( "run" ) || command.equals( "exec" ) || command.equals( "load" ) )
+		if ( command.equals( "validate" ) || command.equals( "call" ) || command.equals( "run" ) || command.equals( "exec" ) || command.equals( "load" ) )
 		{
 			executeScriptCommand( parameters );
 			return;

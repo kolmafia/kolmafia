@@ -297,10 +297,8 @@ public class KoLmafiaASH extends StaticEntity
 					if ( !result.addFunction( f ) )
 						throw new AdvancedScriptException( "Function " + f.getName() + " already defined " + getLineAndFile() );
 			}
-			else if ( (v = parseVariable( t )) != null )
+			else if ( (v = parseVariable( t, result )) != null )
 			{
-				if ( !result.addVariable( v ) )
-					throw new AdvancedScriptException( "Variable " + v.getName() + " already defined " + getLineAndFile() );
 				if ( currentToken().equalsIgnoreCase( ";" ) )
 					readToken(); //read ;
 				else
@@ -343,7 +341,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( (paramType = parseType()) == null )
 				throw new AdvancedScriptException( " ')' Expected " + getLineAndFile() );
 
-			if ( (param = parseVariable( paramType )) == null )
+			if ( (param = parseVariable( paramType, null )) == null )
 				throw new AdvancedScriptException( " Identifier expected " + getLineAndFile() );
 
 			if ( !currentToken().equalsIgnoreCase( ")" ) )
@@ -393,7 +391,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptVariable parseVariable( ScriptType t )
+	private ScriptVariable parseVariable( ScriptType t, ScriptScope scope ) throws AdvancedScriptException
 	{
 		ScriptVariable result;
 
@@ -402,7 +400,20 @@ public class KoLmafiaASH extends StaticEntity
 		else
 			return null;
 
+		if ( scope != null && !scope.addVariable( result ) )
+			throw new AdvancedScriptException( "Variable " + result.getName() + " already defined " + getLineAndFile() );
+
 		readToken(); // If parsing of Identifier succeeded, go to next token.
+		
+		if ( scope != null && currentToken().equals( "=" ) )
+		{
+			readToken(); // Eat the equals sign
+
+			ScriptVariableReference lhs = new ScriptVariableReference( result.getName(), scope );
+			ScriptExpression rhs = parseExpression( scope );
+			scope.addCommand( new ScriptAssignment( lhs, rhs ) );
+		}
+
 		return result;
 	}
 
@@ -687,7 +698,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptVariableReference lhs;
 		ScriptExpression rhs;
 
-		if ( nextToken() == null || !nextToken().equalsIgnoreCase( "=" ) )
+		if ( nextToken() == null || !nextToken().equals( "=" ) )
 			return null;
 
 		if ( parseIdentifier( currentToken() ) )
@@ -2824,6 +2835,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.lhs = lhs;
 			this.rhs = rhs;
+			
 			if ( !lhs.getType().equals( rhs.getType() ) )
 			{
 				boolean validOperation = false;
