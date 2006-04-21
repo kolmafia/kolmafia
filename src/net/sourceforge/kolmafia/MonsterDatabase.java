@@ -82,8 +82,10 @@ public class MonsterDatabase extends KoLDatabase
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -199,7 +201,10 @@ public class MonsterDatabase extends KoLDatabase
 			}
 			catch ( Exception e )
 			{
-				System.out.println( "Monster: \" " + name + "\" : bad value for option: " + option );
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e, s );
 			}
 
 			return null;

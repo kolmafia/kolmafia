@@ -126,32 +126,17 @@ public class ChatRequest extends KoLRequest
 
 		int index = responseText.indexOf( "<!--lastseen:" );
 
+		if ( index != -1 )
+			lastSeen = Integer.parseInt( responseText.substring( index + 13, index + 23 ) );
+
 		try
 		{
-			if ( index != -1 )
-				lastSeen = df.parse( responseText.substring( index + 13, index + 23 ) ).intValue();
-
 			if ( !(client instanceof KoLmafiaCLI) )
 				KoLMessenger.updateChat( responseText );
 		}
 		catch ( Exception e )
 		{
-			// If any exception is thrown, it's possible that there is no
-			// value for the last seen - in this case, just leave the old
-			// last seen value.
-
-			boolean shouldOpenStream = KoLmafia.getLogStream() instanceof NullStream;
-			
-			if ( shouldOpenStream )
-				KoLmafia.openDebugLog();
-			
-			DEFAULT_SHELL.updateDisplay( "ERROR IN CHAT PROCESSING!  Debug log printed." );
-			KoLmafia.getLogStream().println( responseText ); 
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
-			if ( shouldOpenStream )
-				KoLmafia.closeDebugLog();
+			StaticEntity.printStackTrace( e );
 		}
 	}
 

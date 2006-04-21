@@ -121,11 +121,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 			}
 			catch ( Exception e )
 			{
-				// If an exception is thrown, then something bad
-				// happened, so do absolutely nothing.
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 
@@ -135,8 +134,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -233,33 +234,23 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	private static AdventureResult parseIngredient( String data )
 	{
-		try
+		// If the ingredient is specified inside of brackets,
+		// then a specific item ID is being designated.
+
+		if ( data.startsWith( "[" ) )
 		{
-			// If the ingredient is specified inside of brackets,
-			// then a specific item ID is being designated.
+			int closeBracketIndex = data.indexOf( "]" );
+			String itemIDString = data.substring( 0, closeBracketIndex ).replaceAll( "[\\[\\]]", "" ).trim();
+			String quantityString = data.substring( closeBracketIndex + 1 ).trim();
 
-			if ( data.startsWith( "[" ) )
-			{
-				int closeBracketIndex = data.indexOf( "]" );
-				String itemIDString = data.substring( 0, closeBracketIndex ).replaceAll( "[\\[\\]]", "" ).trim();
-				String quantityString = data.substring( closeBracketIndex + 1 ).trim();
-
-				return new AdventureResult( df.parse( itemIDString ).intValue(), quantityString.length() == 0 ? 1 :
-					df.parse( quantityString.replaceAll( "[\\(\\)]", "" ) ).intValue() );
-			}
-
-			// Otherwise, it's a standard ingredient - use
-			// the standard adventure result parsing routine.
-
-			return AdventureResult.parseResult( data );
+			return new AdventureResult( Integer.parseInt( itemIDString ), quantityString.length() == 0 ? 1 :
+				Integer.parseInt( quantityString.replaceAll( "[\\(\\)]", "" ) ) );
 		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
 
-			return null;
-		}
+		// Otherwise, it's a standard ingredient - use
+		// the standard adventure result parsing routine.
+
+		return AdventureResult.parseResult( data );
 	}
 
 	public static synchronized SortedListModel getConcoctions()

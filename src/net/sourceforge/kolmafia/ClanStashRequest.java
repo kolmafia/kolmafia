@@ -252,12 +252,10 @@ public class ClanStashRequest extends SendMessageRequest
 			}
 			catch ( Exception e )
 			{
-				// If an exception occurs during the parsing, just
-				// continue after notifying the KoLmafia.getLogStream() of the
-				// error.  This could be handled better, but not now.
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 

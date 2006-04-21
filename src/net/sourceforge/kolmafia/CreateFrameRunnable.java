@@ -123,8 +123,10 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e, "Frame could not be loaded" );
 			}
 		}
 
@@ -210,14 +212,10 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		}
 		catch ( Exception e )
 		{
-			// If this happens, update the display to indicate
-			// that it failed to happen (eventhough technically,
-			// this should never have happened)
-
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Frame could not be loaded" );
 			return;
 		}
 	}

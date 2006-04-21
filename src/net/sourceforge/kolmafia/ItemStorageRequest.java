@@ -251,12 +251,10 @@ public class ItemStorageRequest extends SendMessageRequest
 			}
 			catch ( Exception e )
 			{
-				// This really should not happen, since the numbers
-				// are getting grouped properly.  But, just in case,
-				// the exception is caught and nothing changes.
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 
@@ -317,12 +315,10 @@ public class ItemStorageRequest extends SendMessageRequest
 			}
 			catch ( Exception e )
 			{
-				// If an exception occurs during the parsing, just
-				// continue after notifying the KoLmafia.getLogStream() of the
-				// error.  This could be handled better, but not now.
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 	}

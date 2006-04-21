@@ -356,16 +356,13 @@ public class CharsheetRequest extends KoLRequest
 
 			KoLCharacter.setEquipment( equipment, null );
 			KoLCharacter.setFakeHands( fakeHands );
-
-			// Parsing of the KoLCharacter sheet is now complete.
-			// Report this to the log stream and return.
-
-			KoLmafia.getLogStream().println( "Parsing complete." );
 		}
 		catch ( RuntimeException e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 
 		KoLCharacter.updateStatus();

@@ -44,8 +44,6 @@ import java.net.URLEncoder;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import edu.stanford.ejalbert.BrowserLauncher;
-
 /**
  * Action listener responsible for handling links clicked
  * inside of a <code>JEditorPane</code>.
@@ -62,20 +60,9 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 			if ( location.startsWith( "http://" ) || location.startsWith( "https://" ) )
 			{
 				// Attempt to open the URL on the system's default
-				// browser.  This could theoretically cause problems,
-				// but for now, let's just do a try-catch and cross
-				// our fingers.
-
-				try
-				{
-					BrowserLauncher.openURL( location );
-				}
-				catch ( IOException e1 )
-				{
-					KoLmafia.getLogStream().println( "Failed to open browser:" );
-					e1.printStackTrace( KoLmafia.getLogStream() );
-					e1.printStackTrace();
-				}
+				// browser (call StaticEntity wrapper method).
+				
+				StaticEntity.openSystemBrowser( location );
 			}
 			else if ( location.startsWith( "javascript:" ) && (location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1) )
 			{
@@ -181,10 +168,12 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 						inputString.append( '=' );
 						inputString.append( URLEncoder.encode( valueMatcher.group(1), "UTF-8" ) );
 					}
-					catch ( Exception e2 )
+					catch ( Exception e1 )
 					{
-						e2.printStackTrace( KoLmafia.getLogStream() );
-						e2.printStackTrace();
+						// This should not happen.  Therefore, print
+						// a stack trace for debug purposes.
+						
+						StaticEntity.printStackTrace( e1 );
 					}
 				}
 

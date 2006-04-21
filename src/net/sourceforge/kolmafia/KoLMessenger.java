@@ -691,125 +691,135 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static void processChatMessage( String channel, String message )
 	{
-		if ( channel == null || message == null || channel.length() == 0 || message.length() == 0 )
-			return;
-
-		if ( message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( getBufferKey( channel ) ) )
-			return;
-
-		LimitedSizeChatBuffer buffer = getChatBuffer( channel );
-
-		// Figure out what the properly formatted HTML looks like
-		// first, based on who sent the message and whether or not
-		// there are supposed to be italics.
-
-		String displayHTML = "";
-
-		// There are a bunch of messages that are supposed to be
-		// formatted in green.  These are all handled first.
-
-		if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) )
-			displayHTML = "<font color=green>" + message + "</font>";
-
-		else if ( message.startsWith( "<a target=mainpane href=\'" ) )
-			displayHTML = "<font color=green>" + message + "</font>";
-
-		else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
-			displayHTML = "<font color=green>" + message + "</font>";
-
-		else if ( message.indexOf( "has proposed a trade" ) != -1 )
-			displayHTML = "<font color=green>" + message + "</font>";
-
-		else if ( message.indexOf( "has cancelled a trade" ) != -1 )
-			displayHTML = "<font color=green>" + message + "</font>";
-
-		else if ( message.indexOf( "has responded to a trade" ) != -1 )
-			displayHTML = "<font color=green>" + message + "</font>";
-
-		else if ( message.indexOf( "has declined a trade" ) != -1 )
-			displayHTML = "<font color=green>" + message + "</font>";
-
-		else if ( message.indexOf( "has accepted a trade" ) != -1 )
-			displayHTML = "<font color=green>" + message + "</font>";
-
-		// Then, private messages resulting from a /last command
-		// show up in blue.  These are handled next.
-
-		else if ( message.startsWith( "<b>from " ) || message.startsWith( "<b>to " ) )
-			displayHTML = "<font color=blue>" + message + "</font>";
-
-		// Mod warnings and system messages turn up in red.  There
-		// are kick messages which show up in red as well, but those
-		// should also have mod warning attached.
-
-		else if ( message.indexOf( ">Mod Warning<" ) != -1 || message.indexOf( ">System Message<" ) != -1 )
-			displayHTML = "<font color=red>" + message + "</font>";
-
-		else
+		try
 		{
-			// Finally, all other messages are treated normally, with
-			// no special formatting needed.
-
-			Matcher nameMatcher = Pattern.compile( "<a.*?>(.*?)</a>" ).matcher( message );
-			String contactName = nameMatcher.find() ? nameMatcher.group(1).replaceAll( "<.*?>", "" ) : message;
-			displayHTML = message.replaceFirst( contactName, "<font color=\"" + getColor( contactName ) + "\">" + contactName + "</font>" );
-
-			// All messages which don't have a colon following the name
-			// are italicized messages from actions.
-
-			if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
-				displayHTML = "<i>" + displayHTML + "</i>";
-		}
-
-		// Add the appropriate eSolu scriptlet additions to the
-		// processed chat message.
-
-		if ( !getProperty( "eSoluScriptType" ).equals( "0" ) )
-		{
-			Matcher whoMatcher = Pattern.compile( "showplayer.php\\?who=[\\d]+" ).matcher( message );
-			if ( whoMatcher.find() )
+			if ( channel == null || message == null || channel.length() == 0 || message.length() == 0 )
+				return;
+	
+			if ( message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( getBufferKey( channel ) ) )
+				return;
+	
+			LimitedSizeChatBuffer buffer = getChatBuffer( channel );
+	
+			// Figure out what the properly formatted HTML looks like
+			// first, based on who sent the message and whether or not
+			// there are supposed to be italics.
+	
+			String displayHTML = "";
+	
+			// There are a bunch of messages that are supposed to be
+			// formatted in green.  These are all handled first.
+	
+			if ( message.indexOf( "<a" ) == -1 || message.indexOf( "</a>," ) != -1 || message.startsWith( "<a class=nounder" ) )
+				displayHTML = "<font color=green>" + message + "</font>";
+	
+			else if ( message.startsWith( "<a target=mainpane href=\'" ) )
+				displayHTML = "<font color=green>" + message + "</font>";
+	
+			else if ( message.startsWith( "<a target=mainpane href=\"messages.php\">" ) )
+				displayHTML = "<font color=green>" + message + "</font>";
+	
+			else if ( message.indexOf( "has proposed a trade" ) != -1 )
+				displayHTML = "<font color=green>" + message + "</font>";
+	
+			else if ( message.indexOf( "has cancelled a trade" ) != -1 )
+				displayHTML = "<font color=green>" + message + "</font>";
+	
+			else if ( message.indexOf( "has responded to a trade" ) != -1 )
+				displayHTML = "<font color=green>" + message + "</font>";
+	
+			else if ( message.indexOf( "has declined a trade" ) != -1 )
+				displayHTML = "<font color=green>" + message + "</font>";
+	
+			else if ( message.indexOf( "has accepted a trade" ) != -1 )
+				displayHTML = "<font color=green>" + message + "</font>";
+	
+			// Then, private messages resulting from a /last command
+			// show up in blue.  These are handled next.
+	
+			else if ( message.startsWith( "<b>from " ) || message.startsWith( "<b>to " ) )
+				displayHTML = "<font color=blue>" + message + "</font>";
+	
+			// Mod warnings and system messages turn up in red.  There
+			// are kick messages which show up in red as well, but those
+			// should also have mod warning attached.
+	
+			else if ( message.indexOf( ">Mod Warning<" ) != -1 || message.indexOf( ">System Message<" ) != -1 )
+				displayHTML = "<font color=red>" + message + "</font>";
+	
+			else
 			{
-				String link = whoMatcher.group();
-				boolean useColors = getProperty( "eSoluScriptType" ).equals( "1" );
-
-				StringBuffer linkBuffer = new StringBuffer();
-
-				linkBuffer.append( "</b> " );
-
-				linkBuffer.append( "<a href=\"" + link + "_1\" alt=\"send blue message\">" );
-				linkBuffer.append( useColors ? "<font color=blue>" : "<font color=gray>" );
-				linkBuffer.append( "[p]</font></a>" );
-
-				linkBuffer.append( "<a href=\"" + link + "_4\" alt=\"send trade request\">" );
-				linkBuffer.append( useColors ? "<font color=green>" : "<font color=gray>" );
-				linkBuffer.append( "[t]</font></a>" );
-
-				linkBuffer.append( "<a href=\"" + link + "_5\" alt=\"search mall store\">" );
-				linkBuffer.append( useColors ? "<font color=maroon>" : "<font color=gray>" );
-				linkBuffer.append( "[m]</font></a>" );
-
-				linkBuffer.append( "<a href=\"" + link + "_9\" alt=\"put on ignore list\">" );
-				linkBuffer.append( useColors ? "<font color=red>" : "<font color=gray>" );
-				linkBuffer.append( "[x]</font></a>" );
-
-				displayHTML = displayHTML.replaceFirst( "</b>", linkBuffer.toString() );
+				// Finally, all other messages are treated normally, with
+				// no special formatting needed.
+	
+				Matcher nameMatcher = Pattern.compile( "<a.*?>(.*?)</a>" ).matcher( message );
+				String contactName = nameMatcher.find() ? nameMatcher.group(1).replaceAll( "<.*?>", "" ) : message;
+				displayHTML = message.replaceFirst( contactName, "<font color=\"" + getColor( contactName ) + "\">" + contactName + "</font>" );
+	
+				// All messages which don't have a colon following the name
+				// are italicized messages from actions.
+	
+				if ( message.indexOf( "</a>:" ) == -1 && message.indexOf( "</b>:" ) == -1 )
+					displayHTML = "<i>" + displayHTML + "</i>";
 			}
+	
+			// Add the appropriate eSolu scriptlet additions to the
+			// processed chat message.
+	
+			if ( !getProperty( "eSoluScriptType" ).equals( "0" ) )
+			{
+				Matcher whoMatcher = Pattern.compile( "showplayer.php\\?who=[\\d]+" ).matcher( message );
+				if ( whoMatcher.find() )
+				{
+					String link = whoMatcher.group();
+					boolean useColors = getProperty( "eSoluScriptType" ).equals( "1" );
+	
+					StringBuffer linkBuffer = new StringBuffer();
+	
+					linkBuffer.append( "</b> " );
+	
+					linkBuffer.append( "<a href=\"" + link + "_1\" alt=\"send blue message\">" );
+					linkBuffer.append( useColors ? "<font color=blue>" : "<font color=gray>" );
+					linkBuffer.append( "[p]</font></a>" );
+	
+					linkBuffer.append( "<a href=\"" + link + "_4\" alt=\"send trade request\">" );
+					linkBuffer.append( useColors ? "<font color=green>" : "<font color=gray>" );
+					linkBuffer.append( "[t]</font></a>" );
+	
+					linkBuffer.append( "<a href=\"" + link + "_5\" alt=\"search mall store\">" );
+					linkBuffer.append( useColors ? "<font color=maroon>" : "<font color=gray>" );
+					linkBuffer.append( "[m]</font></a>" );
+	
+					linkBuffer.append( "<a href=\"" + link + "_9\" alt=\"put on ignore list\">" );
+					linkBuffer.append( useColors ? "<font color=red>" : "<font color=gray>" );
+					linkBuffer.append( "[x]</font></a>" );
+	
+					displayHTML = displayHTML.replaceFirst( "</b>", linkBuffer.toString() );
+				}
+			}
+	
+			// Now, if the person is using LoathingChat style for
+			// doing their chatting, then make sure to append the
+			// channel with the appropriate color.
+	
+			if ( getBufferKey( channel ).startsWith( "[" ) && channel.startsWith( "/" ) )
+				displayHTML = "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " + displayHTML;
+	
+			// Now that everything has been properly formatted,
+			// show the display HTML.
+	
+			buffer.append( displayHTML + "<br>" );
+	
+			if ( useTabbedChat )
+				tabbedFrame.highlightTab( getBufferKey( channel ) );
 		}
-
-		// Now, if the person is using LoathingChat style for
-		// doing their chatting, then make sure to append the
-		// channel with the appropriate color.
-
-		if ( getBufferKey( channel ).startsWith( "[" ) && channel.startsWith( "/" ) )
-			displayHTML = "<font color=\"" + getColor( channel.substring(1) ) + "\">[" + channel.substring(1) + "]</font> " + displayHTML;
-
-		// Now that everything has been properly formatted,
-		// show the display HTML.
-
-		buffer.append( displayHTML + "<br>" );
-
-		if ( useTabbedChat )
-			tabbedFrame.highlightTab( getBufferKey( channel ) );
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Error in channel " + channel + " with message \"" + message + "\"" );
+		}
 	}
 
 	/**
@@ -860,12 +870,10 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 		catch ( Throwable e )
 		{
-			// Unless the Swing thread is interrupted for some
-			// reason (which should never happen), this will
-			// not happen.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -921,12 +929,10 @@ public abstract class KoLMessenger extends StaticEntity
 			}
 			catch ( Exception e )
 			{
-				// If any exceptions happen along the way, they should
-				// not disturb the Swing thread.  Go ahead and ignore
-				// the exception, but print debug information.
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 	}

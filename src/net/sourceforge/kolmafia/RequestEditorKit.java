@@ -516,11 +516,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			// If an IOException occurs at any time during the
-			// attempt to retrieve the image, this means that
-			// it's an HTML parse error because of malformed
-			// HTML -- ignore the error and return null.
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Error loading image <" + filename + ">" );
 			return null;
 		}
 	}
@@ -822,9 +821,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			{
 				while ( itemMatcher.find() )
 				{
-					int id = df.parse( itemMatcher.group(1) ).intValue();
+					int id = Integer.parseInt( itemMatcher.group(1) );
 					if ( id == 0 )
 						continue;
+
 					int count = df.parse( itemMatcher.group(2) ).intValue();
 					AdventureResult currentItem = new AdventureResult( id, count );
 					if ( itemMatcher.group().indexOf( "selected" ) != -1 )
@@ -835,8 +835,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace();
-				e.printStackTrace( KoLmafia.getLogStream() );
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 
 			Collections.sort( items );
@@ -989,13 +991,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				}
 				catch ( Exception e )
 				{
-					// This could be dangerous to simply exit out; therefore,
-					// go ahead and change it, but print the error to the
-					// debug streams.
-
-					e.printStackTrace();
-					e.printStackTrace( KoLmafia.getLogStream() );
-
+					// This should not happen.  Therefore, print
+					// a stack trace for debug purposes.
+					
+					StaticEntity.printStackTrace( e );
 					request = new KoLRequest( StaticEntity.getClient(), actionString.toString(), true );
 				}
 			}

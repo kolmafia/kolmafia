@@ -159,11 +159,10 @@ public abstract class StoreManager extends StaticEntity
 			}
 			catch ( Exception e )
 			{
-				// Because of the way the regular expressions are
-				// set up, this should not happen.
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 		else
@@ -196,11 +195,10 @@ public abstract class StoreManager extends StaticEntity
 			}
 			catch ( Exception e )
 			{
-				// Because of the way the regular expressions are
-				// set up, this should not happen.
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 

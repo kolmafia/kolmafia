@@ -102,11 +102,10 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		}
 		catch ( Exception e )
 		{
-			// Should not happen - you're having the parser
-			// parse something that it formatted.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 
 		calculatePhases( selectedDate );
@@ -176,13 +175,10 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			}
 			catch ( Exception e1 )
 			{
-				// If an exception happens somewhere in this
-				// process, that means it didn't get to the
-				// HTML updating stage.  In that case, you
-				// have nothing to do.
-
-				e1.printStackTrace( KoLmafia.getLogStream() );
-				e1.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e1 );
 			}
 		}
 	}
@@ -226,24 +222,16 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 	private static final void calculatePhases( Date time )
 	{
-		try
-		{
-			// In order to ensure that everything is computed
-			// based on new-year, wrap the date inside of the
-			// formatter (which strips time information) and
-			// reparse the date.
+		// In order to ensure that everything is computed
+		// based on new-year, wrap the date inside of the
+		// formatter (which strips time information) and
+		// reparse the date.
 
-			int calendarDay = MoonPhaseDatabase.getCalendarDay( time );
-			int phaseStep = ((calendarDay % 16) + 16) % 16;
+		int calendarDay = MoonPhaseDatabase.getCalendarDay( time );
+		int phaseStep = ((calendarDay % 16) + 16) % 16;
 
-			ronaldPhase = phaseStep % 8;
-			grimacePhase = phaseStep / 2;
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-		}
+		ronaldPhase = phaseStep % 8;
+		grimacePhase = phaseStep / 2;
 	}
 
 	/**
@@ -501,8 +489,10 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 
 			return normalRenderer;

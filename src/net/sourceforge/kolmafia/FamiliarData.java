@@ -87,13 +87,10 @@ public class FamiliarData implements KoLConstants, Comparable
 		}
 		catch ( Exception e )
 		{
-			// If an exception is thrown, that means it was not
-			// possible to parse the kills.  Set the weight to
-			// zero pounds in this case.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			this.weight = 0;
 		}
 

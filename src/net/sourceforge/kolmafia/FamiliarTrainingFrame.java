@@ -420,8 +420,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 					}
 					catch ( Exception ex )
 					{
-						ex.printStackTrace( KoLmafia.getLogStream() );
-						ex.printStackTrace();
+						// This should not happen.  Therefore, print
+						// a stack trace for debug purposes.
+						
+						StaticEntity.printStackTrace( ex );
 					}
 				}
 			}

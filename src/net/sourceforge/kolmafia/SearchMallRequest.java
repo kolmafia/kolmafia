@@ -253,8 +253,11 @@ public class SearchMallRequest extends KoLRequest
 				}
 				catch ( Exception e )
 				{
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
+					// This should not happen.  Therefore, print
+					// a stack trace for debug purposes.
+					
+					StaticEntity.printStackTrace( e );
+					return;
 				}
 			}
 		}

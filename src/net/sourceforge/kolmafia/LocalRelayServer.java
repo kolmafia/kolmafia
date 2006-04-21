@@ -222,18 +222,31 @@ public class LocalRelayServer implements Runnable
 				{
 					// wait for a client
 					try
-					{	wait();
+					{
+						// Wait indefinitely for a client.  Exception
+						// handling is probably not the best way to
+						// handle this, but for now, it will do.
+
+						wait();
 					}
 					catch ( InterruptedException e )
-					{	continue;
+					{
+						// We expect this to happen only when we are
+						// interrupted.  Fall through.
 					}
 				}
 				
 				try
-				{	performRelay();
+				{
+					if ( socket != null )
+						performRelay();
 				}
 				catch ( Exception e )
-				{	e.printStackTrace();
+				{
+					// This should not happen.  Therefore, print
+					// a stack trace for debug purposes.
+					
+					StaticEntity.printStackTrace( e );
 				}
 				
 				socket = null;

@@ -71,23 +71,7 @@ public class MoonPhaseRequest extends KoLRequest
 		// Get current phase of Ronald and Grimace
 
 		Matcher moonMatcher = Pattern.compile( "moon(.)\\.gif.*moon(.)\\.gif" ).matcher( responseText );
-
 		if ( moonMatcher.find() )
-		{
-			try
-			{
-				MoonPhaseDatabase.setMoonPhases( df.parse( moonMatcher.group(1) ).intValue() - 1, df.parse( moonMatcher.group(2) ).intValue() - 1 );
-			}
-			catch ( Exception e )
-			{
-				// If an exception occurs during the parsing,
-				// just continue after notifying the KoLmafia.getLogStream()
-				// of the error.  This could be handled better,
-				// but not now.
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-			}
-		}
+			MoonPhaseDatabase.setMoonPhases( Integer.parseInt( moonMatcher.group(1) ) - 1, Integer.parseInt( moonMatcher.group(2) ) - 1 );
 	}
 }

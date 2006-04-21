@@ -92,7 +92,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected static PrintStream macroStream = NullStream.INSTANCE;
 	protected static PrintStream logStream = NullStream.INSTANCE;
-	protected static LimitedSizeChatBuffer commandBuffer = null;
+	protected static LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", false );
 
 	private static final String [] OVERRIDE_DATA =
 	{
@@ -262,10 +262,10 @@ public abstract class KoLmafia implements KoLConstants
 		colorBuffer.append( LINE_BREAK );
 
 		if ( !message.equals( "" ) )
+		{
 			LocalRelayServer.addStatusMessage( colorBuffer.toString() );
-
-		if ( commandBuffer != null && !message.equals( "" ) )
 			commandBuffer.append( colorBuffer.toString() );
+		}
 
 		// Next, update all of the panels with the
 		// desired update message.
@@ -545,7 +545,6 @@ public abstract class KoLmafia implements KoLConstants
 	public boolean parseResult( String result )
 	{
 		String trimResult = result.trim();
-		DEFAULT_SHELL.printLine( trimResult );
 
 		// Because of the simplified parsing, there's a chance that
 		// the "gain" acquired wasn't a subpoint (in other words, it
@@ -558,15 +557,15 @@ public abstract class KoLmafia implements KoLConstants
 
 		try
 		{
-			if ( logStream != null )
-				logStream.println( "Parsing result: " + trimResult );
-
+			logStream.println( "Parsing result: " + trimResult );
 			return processResult( AdventureResult.parseResult( trimResult ) );
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( logStream );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 
 		return false;
@@ -574,8 +573,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void parseItem( String result )
 	{
-		if ( logStream != null )
-			logStream.println( "Parsing item: " + result );
+		logStream.println( "Parsing item: " + result );
 
 		// We do the following in order to not get confused by:
 		//
@@ -607,9 +605,10 @@ public abstract class KoLmafia implements KoLConstants
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( logStream );
-				e.printStackTrace();
-				return;
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 		}
 
@@ -618,8 +617,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void parseEffect( String result )
 	{
-		if ( logStream != null )
-			logStream.println( "Parsing effect: " + result );
+		logStream.println( "Parsing effect: " + result );
 
 		StringTokenizer parsedEffect = new StringTokenizer( result, "()" );
 		String parsedEffectName = parsedEffect.nextToken().trim();
@@ -631,8 +629,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( logStream );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -1032,9 +1032,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( logStream );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			return false;
 		}
 	}
@@ -1154,7 +1155,10 @@ public abstract class KoLmafia implements KoLConstants
 		while ( damageMatcher.find( lastDamageIndex ) )
 		{
 			lastDamageIndex = damageMatcher.end();
-			parseResult( "You lose " + damageMatcher.group(1) + " hit points" );
+			String message = "You lose " + damageMatcher.group(1) + " hit points";
+			
+			DEFAULT_SHELL.printLine( message );
+			parseResult( message );
 		}
 
 		damageMatcher = Pattern.compile( "You drop .*? ([\\d,]+) damage" ).matcher( plainTextResult );
@@ -1163,7 +1167,10 @@ public abstract class KoLmafia implements KoLConstants
 		while ( damageMatcher.find( lastDamageIndex ) )
 		{
 			lastDamageIndex = damageMatcher.end();
-			parseResult( "You lose " + damageMatcher.group(1) + " hit points" );
+			String message = "You lose " + damageMatcher.group(1) + " hit points";
+			
+			DEFAULT_SHELL.printLine( message );
+			parseResult( message );
 		}
 
 		boolean requiresRefresh = false;
@@ -1177,12 +1184,17 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( lastToken.startsWith( "You acquire" ) )
 			{
+				String acquisition = lastToken;
+				
 				if ( lastToken.indexOf( "effect" ) == -1 )
 				{
 					String item = parsedResults.nextToken();
 
 					if ( lastToken.indexOf( "an item" ) != -1 )
+					{
+						DEFAULT_SHELL.printLine( acquisition + " " + item );
 						parseItem( item );
+					}
 					else
 					{
 						// The name of the item follows the number
@@ -1200,6 +1212,7 @@ public abstract class KoLmafia implements KoLConstants
 						else if ( itemName.equals( "evil golden arches" ) )
 							itemName = "evil golden arch";
 
+						DEFAULT_SHELL.printLine( acquisition );
 						parseItem( itemName + " (" + countString + ")" );
 					}
 				}
@@ -1208,8 +1221,12 @@ public abstract class KoLmafia implements KoLConstants
 					String effectName = parsedResults.nextToken();
 					lastToken = parsedResults.nextToken();
 
+					DEFAULT_SHELL.printLine( acquisition + " " + effectName + " " + lastToken );
+
 					if ( lastToken.indexOf( "duration" ) == -1 )
+					{
 						parseEffect( effectName );
+					}
 					else
 					{
 						String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
@@ -1219,6 +1236,7 @@ public abstract class KoLmafia implements KoLConstants
 			}
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
 			{
+				DEFAULT_SHELL.printLine( lastToken );
 				int periodIndex = lastToken.indexOf( "." );
 				requiresRefresh |= parseResult( periodIndex == -1 ? lastToken : lastToken.substring( 0, periodIndex ) );
 			}
@@ -1415,38 +1433,19 @@ public abstract class KoLmafia implements KoLConstants
 						updateDisplay( "Successfully " + useTypeAsString + " " +
 							((ConsumeItemRequest)request).getItemUsed().getName() + " (" + (currentIteration - 1) + ")" );
 				}
-				else if ( request instanceof KoLAdventure )
+				else if ( !(request instanceof UseSkillRequest || request instanceof ItemCreationRequest) )
 					updateDisplay( "Requests completed." );
-				// Assume any other request has its own message
 			}
-
-			// Now, do some garbage collection to avoid the
-			// potential for resource overusage.
-
-			System.gc();
 		}
-		catch ( RuntimeException e )
+		catch ( Exception e )
 		{
-			// In the event that an exception occurs during the
-			// request processing, catch it here, print it to
-			// the logger (whatever it may be), and notify the
-			// user that an error was encountered.
-
-			boolean shouldOpenStream = KoLmafia.getLogStream() instanceof NullStream;
-
-			if ( shouldOpenStream )
-				KoLmafia.openDebugLog();
-
-			updateDisplay( ERROR_STATE, "UNEXPECTED ERROR: Debug log printed." );
-			e.printStackTrace( logStream );
-			e.printStackTrace();
-
-			if ( shouldOpenStream )
-				KoLmafia.openDebugLog();
-
-			// Now, do some garbage collection to avoid the
-			// potential for resource overusage.
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
+		}
+		finally
+		{
 			System.gc();
 		}
 	}
@@ -1753,13 +1752,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( IOException e )
 		{
-			// This should not happen, unless the user
-			// security settings are too high to allow
-			// programs to write output; therefore,
-			// pretend for now that everything works.
-
-			e.printStackTrace( logStream );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -1822,13 +1818,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( IOException e )
 		{
-			// This should not happen, unless the user
-			// security settings are too high to allow
-			// programs to write output; therefore,
-			// pretend for now that everything works.
-
-			e.printStackTrace( logStream );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -1898,13 +1891,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
-			// UTF-8 is a very generic encoding scheme; this
-			// exception should never be thrown.  But if it
-			// is, just ignore it for now.  Better exception
-			// handling when it becomes necessary.
-
-			e.printStackTrace( logStream );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -2007,14 +1997,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
-			// UTF-8 is a very generic encoding scheme; this
-			// exception should never be thrown.  But if it
-			// is, just ignore it for now.  Better exception
-			// handling when it becomes necessary.
-
-			e.printStackTrace( logStream );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			return null;
 		}
 	}
@@ -2403,11 +2389,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		catch ( IOException e )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Error occurred in download attempt.  Update failed." );
-
-			e.printStackTrace( logStream );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Data file update failed" );
 			return;
 		}
 

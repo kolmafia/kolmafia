@@ -108,8 +108,10 @@ public class FamiliarsDatabase extends KoLDatabase
 				}
 				catch ( Exception e )
 				{
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
+					// This should not happen.  Therefore, print
+					// a stack trace for debug purposes.
+					
+					StaticEntity.printStackTrace( e );
 				}
 			}
 		}
@@ -120,8 +122,10 @@ public class FamiliarsDatabase extends KoLDatabase
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -326,8 +330,10 @@ public class FamiliarsDatabase extends KoLDatabase
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Error in recording familiar data" );
 		}
 	}
 }

@@ -162,8 +162,10 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			return "";
 		}
 	}
@@ -269,11 +271,10 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 					}
 					catch ( Exception e )
 					{
-						// Because the data is properly structured,
-						// this exception should never be thrown.
-
-						e.printStackTrace( KoLmafia.getLogStream() );
-						e.printStackTrace();
+						// This should not happen.  Therefore, print
+						// a stack trace for debug purposes.
+						
+						StaticEntity.printStackTrace( e );
 					}
 				}
 			}
@@ -399,11 +400,10 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			}
 			catch ( Exception e )
 			{
-				// Because the data is properly structured,
-				// this exception should never be thrown.
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 			}
 
 			stringForm = new StringBuffer();

@@ -74,7 +74,6 @@ public class CommandDisplayFrame extends KoLFrame
 	public CommandDisplayFrame()
 	{
 		super( "Graphical CLI" );
-		KoLmafia.commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", false );;
 		framePanel.add( new CommandDisplayPanel(), BorderLayout.CENTER );
 	}
 

@@ -89,7 +89,7 @@ public class MeatManageFrame extends KoLFrame
 
 		public HeroDonationPanel()
 		{
-			super( "Donations to the Greater Good", "lump sum", "increments", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "Donations to the Greater Good", "donate", "explode", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			LockableListModel heroes = new LockableListModel();
 			heroes.add( "Statue of Boris" );
@@ -113,28 +113,7 @@ public class MeatManageFrame extends KoLFrame
 		}
 
 		protected void actionCancelled()
-		{
-			try
-			{
-				int increments = df.parse( JOptionPane.showInputDialog( "How many increments?" ) ).intValue();
-
-				if ( increments == 0 )
-				{
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Donation cancelled." );
-					return;
-				}
-
-				if ( heroField.getSelectedIndex() != -1 )
-				{
-					int eachAmount = getValue( amountField ) / increments;
-					(new RequestThread( new HeroDonationRequest( StaticEntity.getClient(), heroField.getSelectedIndex() + 1, eachAmount ), increments )).start();
-				}
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-			}
+		{	setStatusMessage( NULL_STATE, "The Frost poem you dialed is unavailable at this time." );
 		}
 	}
 

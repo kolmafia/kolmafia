@@ -122,45 +122,42 @@ public class BuffBotDatabase extends KoLDatabase
 				int price;
 				try
 				{
-					price = Integer.parseInt( data[2] );
+					price = df.parse( data[2] ).intValue();
 				}
 				catch ( Exception e )
 				{
-					System.out.println( "Bad price: " + data[2] );
-
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-
+					// This should not happen.  Therefore, print
+					// a stack trace for debug purposes.
+					
+					StaticEntity.printStackTrace( e, "Bad price: " + data[2] );
 					continue;
 				}
 
 				int turns;
 				try
 				{
-					turns = Integer.parseInt( data[3] );
+					turns = df.parse( data[3] ).intValue();
 				}
 				catch ( Exception e )
 				{
-					System.out.println( "Bad turns: " + data[3] );
-
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-
+					// This should not happen.  Therefore, print
+					// a stack trace for debug purposes.
+					
+					StaticEntity.printStackTrace( e, "Bad turns: " + data[3] );
 					continue;
 				}
 
 				int free;
 				try
 				{
-					free = Integer.parseInt( data[4] );
+					free = df.parse( data[4] ).intValue();
 				}
 				catch ( Exception e )
 				{
-					System.out.println( "Bad free: " + data[2] );
-
-					e.printStackTrace( KoLmafia.getLogStream() );
-					e.printStackTrace();
-
+					// This should not happen.  Therefore, print
+					// a stack trace for debug purposes.
+					
+					StaticEntity.printStackTrace( e, "Bad free: " + data[2] );
 					continue;
 				}
 
@@ -175,8 +172,10 @@ public class BuffBotDatabase extends KoLDatabase
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
@@ -352,9 +351,10 @@ public class BuffBotDatabase extends KoLDatabase
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e );
 				continue;
 			}
 		}

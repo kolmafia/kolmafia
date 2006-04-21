@@ -210,8 +210,10 @@ public class ProfileRequest extends KoLRequest
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Could not parse profile for " + playerName );
 		}
 	}
 
@@ -287,11 +289,10 @@ public class ProfileRequest extends KoLRequest
 		}
 		catch ( Exception e )
 		{
-			// If an exception occurred, the fields will
-			// be blank.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e, "Could not parse profile for " + playerName );
 		}
 
 		return instance;

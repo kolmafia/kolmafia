@@ -337,7 +337,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 * @throws	ParseException	The value enclosed within parentheses was not a number.
 	 */
 
-	public static AdventureResult parseResult( String s ) throws NumberFormatException, ParseException
+	public static AdventureResult parseResult( String s )
 	{
 		try
 		{
@@ -394,14 +394,10 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 		catch ( Exception e )
 		{
-			// If some weird exception occurs somewhere inbetween,
-			// simply return null.  Strangely, this exception
-			// should never occur (like all other parsed exceptions),
-			// but is caught as a matter of formality.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			return null;
 		}
 	}

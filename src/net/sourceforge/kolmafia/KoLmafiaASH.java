@@ -193,13 +193,10 @@ public class KoLmafiaASH extends StaticEntity
 		}
 		catch ( IOException e )
 		{
-			// If an IOException occurs during the parsing of the
-			// command, you should exit from the command with an
-			// error state after printing the stack trace.
-
-			e.printStackTrace( KoLmafia.getLogStream() );
-			e.printStackTrace();
-
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 			return null;
 		}
 	}
@@ -1323,7 +1320,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			else if ( param.getType().equals( TYPE_VOID ) )
 			{
-				param.setValue( new ScriptValue( TYPE_VOID ) );
+				param.setValue( new ScriptValue() );
 			}
 			else
 				throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
@@ -1772,16 +1769,8 @@ public class KoLmafiaASH extends StaticEntity
 				}
 			}
 
-			try
-			{
-				return new ScriptValue( TYPE_VOID, 0 );
-			}
-			catch ( AdvancedScriptException e )
-			{
-				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing." );
-			}
+			return new ScriptValue();
 		}
-
 	}
 
 	private class ScriptScopeList extends ScriptList
@@ -1894,11 +1883,14 @@ public class KoLmafiaASH extends StaticEntity
 				}
 
 				return executeLibraryFunction();
-
 			}
 			catch ( AdvancedScriptException e )
 			{
-				throw new RuntimeException( "AdvancedScriptException in execution - should occur only during parsing." );
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e, "Error encountered in ASH script" );
+				return new ScriptValue();
 			}
 		}
 
@@ -2029,7 +2021,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( name.equalsIgnoreCase( "print" ) )
 			{
 				DEFAULT_SHELL.updateDisplay( variables[0].toStringValue().toString() );
-				return new ScriptValue( TYPE_VOID );
+				return new ScriptValue();
 			}
 
 			if ( name.equalsIgnoreCase( "my_zodiac" ) )
@@ -2112,7 +2104,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( name.equalsIgnoreCase( "add_item_condition" ) )
 			{
 				DEFAULT_SHELL.executeLine( "conditions add " + variables[0].intValue() + " " + variables[1].toStringValue() );
-				return new ScriptValue( TYPE_VOID );
+				return new ScriptValue();
 			}
 
 			if ( name.equalsIgnoreCase( "can_eat" ) )
@@ -2166,7 +2158,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( name.equalsIgnoreCase( "council" ) )
 			{
 				DEFAULT_SHELL.executeLine( "council" );
-				return new ScriptValue( TYPE_VOID );
+				return new ScriptValue();
 			}
 
 			if ( name.equalsIgnoreCase( "mind_control" ) )
@@ -2219,7 +2211,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( name.equalsIgnoreCase( "wait" ) )
 			{
 				DEFAULT_SHELL.executeLine( "wait " + variables[0].intValue() );
-				return new ScriptValue( TYPE_VOID );
+				return new ScriptValue();
 			}
 
 			if ( name.equalsIgnoreCase( "entryway" ) )
