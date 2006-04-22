@@ -276,21 +276,21 @@ public class LocalRelayServer implements Runnable
 				BufferedReader reader = new BufferedReader( new InputStreamReader( new BufferedInputStream( socket.getInputStream() ) ) );
 				PrintStream printStream = new PrintStream( socket.getOutputStream() );
 				
+				String line;
 				String path;
 				String method;
 				
-				String [] tokens = reader.readLine().trim().split( " " );
+				line = reader.readLine();
+				if ( line == null )
+					return;
+				
+				String [] tokens = line.trim().split( " " );
 				method = tokens[0];
 				LocalRelayRequest request = new LocalRelayRequest( StaticEntity.getClient(), tokens[1], false );
 				
 				int contentLength = 0;
-				while ( true )
+				while ( (line = reader.readLine()) != null && line.trim().length() != 0 )
 				{
-					String line = reader.readLine();
-
-					if ( line == null || line.trim().length() <= 0 )
-						break;
-					
 					if ( line.indexOf( ": " ) == -1 )
 						continue;
 					
