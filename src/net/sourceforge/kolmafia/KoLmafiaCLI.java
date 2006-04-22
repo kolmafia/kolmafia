@@ -401,7 +401,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		// First, handle the wait command, for however
 		// many seconds the user would like to wait.
-
+		
 		if ( command.equals( "wait" ) || command.equals( "pause" ) )
 		{
 			try
@@ -718,6 +718,15 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "survival" ) )
 		{
 			showHTML( AdventureDatabase.getAreaCombatData( AdventureDatabase.getAdventure( parameters ).toString() ).toString(), "Survival Lookup" );
+			return;
+		}
+
+		// Re-adding the breakfast command, just
+		// so people can add it in scripting.
+		
+		if ( command.equals( "breakfast" ) )
+		{
+			getBreakfast( false );
 			return;
 		}
 		
