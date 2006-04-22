@@ -2261,6 +2261,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 			this.title = title;
 			this.property = property;
 			addActionListener( this );
+
+			// Turn everything off and back on again
+			// so that it's off to start.
+			
+			actionPerformed( null );
 			actionPerformed( null );
 		}
 
