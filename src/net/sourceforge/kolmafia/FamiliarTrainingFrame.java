@@ -119,7 +119,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		CardLayout cards = new CardLayout( 10, 10 );
 		framePanel.setLayout( cards );
-
+		
 		training = new FamiliarTrainingPanel();
 		framePanel.add( training, "" );
 
@@ -2274,5 +2274,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			else
 				setText( "Turn On " +  title );
 		}
+	}
+	
+	public static boolean executesConflictingRequest()
+	{	return true;		
 	}
 }

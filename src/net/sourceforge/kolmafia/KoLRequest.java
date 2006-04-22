@@ -483,6 +483,8 @@ public class KoLRequest implements Runnable, KoLConstants
 	
 	public void execute()
 	{
+		client.setCurrentRequest( this );
+		
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 		
@@ -497,20 +499,16 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
 
-		// If the user wants to show all the requests in the browser, then
-		// make sure it's updated.
-
 		if ( responseCode == 200 )
 		{
-			// Synchronize if requested
-
 			if ( !isDelayExempt() )
-			{
-				client.setCurrentRequest( this );
 				showInBrowser( false );
-			}
 
 			processResults();
+		}
+		else
+		{
+			client.setCurrentRequest( null );
 		}
 	}
 

@@ -104,34 +104,34 @@ public class ItemManageFrame extends KoLFrame
 		closet = new InsideClosetPanel();
 		special = null;
 
-		// If the player is in a muscle sign, then make sure
-		// that the restaurant panel is there.
-
 		tabs.addTab( "Consume", consume );
-
-		// If the person is in a mysticality sign, make sure
-		// you retrieve information from the restaurant.
-
-		if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
+		
+		if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
 		{
-			special = new SpecialPanel( StaticEntity.getClient().getRestaurantItems() );
-			tabs.add( "Restaurant", special );
-
-			if ( StaticEntity.getClient().getRestaurantItems().isEmpty() )
-				(new RequestThread( new RestaurantRequest( StaticEntity.getClient() ) )).start();
-		}
-
-		// If the person is in a moxie sign and they have completed
-		// the beach quest, then retrieve information from the
-		// microbrewery.
-
-		if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
-		{
-			special = new SpecialPanel( StaticEntity.getClient().getMicrobreweryItems() );
-			tabs.add( "Microbrewery", special );
-
-			if ( StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
-				(new RequestThread( new MicrobreweryRequest( StaticEntity.getClient() ) )).start();
+			// If the person is in a mysticality sign, make sure
+			// you retrieve information from the restaurant.
+	
+			if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
+			{
+				special = new SpecialPanel( StaticEntity.getClient().getRestaurantItems() );
+				tabs.add( "Restaurant", special );
+	
+				if ( StaticEntity.getClient().getRestaurantItems().isEmpty() )
+					(new RequestThread( new RestaurantRequest( StaticEntity.getClient() ) )).start();
+			}
+	
+			// If the person is in a moxie sign and they have completed
+			// the beach quest, then retrieve information from the
+			// microbrewery.
+	
+			if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
+			{
+				special = new SpecialPanel( StaticEntity.getClient().getMicrobreweryItems() );
+				tabs.add( "Microbrewery", special );
+	
+				if ( StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
+					(new RequestThread( new MicrobreweryRequest( StaticEntity.getClient() ) )).start();
+			}
 		}
 
 //		tabs.addTab( "Find Recipe", bruteforcer );

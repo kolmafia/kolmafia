@@ -2449,4 +2449,8 @@ public abstract class KoLmafia implements KoLConstants
 		KoLRequest.delay( 5000 );
 		enableDisplay();
 	}
+	
+	public boolean shouldMakeConflictingRequest()
+	{	return currentRequest == null || !(currentRequest instanceof FightRequest) || currentRequest.getAdventuresUsed() == 1;
+	}
 }

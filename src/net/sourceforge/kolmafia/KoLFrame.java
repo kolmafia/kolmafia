@@ -693,7 +693,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	SwingUtilities.invokeLater( displayer );
+		{	(new RequestThread( displayer )).start();
 		}
 	}
 
@@ -802,7 +802,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	creator.run();
+		{	(new RequestThread( creator )).start();
 		}
 	}
 
@@ -1097,5 +1097,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			setLocation( xLocation, yLocation );
 		else
 			setLocationRelativeTo( null );
+	}
+
+	public static boolean executesConflictingRequest()
+	{	return false;
 	}
 }

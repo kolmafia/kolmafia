@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia;
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import javax.swing.SwingUtilities;
+import java.lang.reflect.Method;
 import java.lang.reflect.Constructor;
 
 /**
@@ -75,7 +76,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			parameterTypes[i] = parameters[i] == null ? null : parameters[i].getClass();
 
 		this.creator = null;
-		boolean isValidConstructor = true;
+		boolean isValidConstructor;
+
 		Class [] constructorParameterTypes;
 		Constructor [] constructors = creationType.getConstructors();
 
@@ -101,6 +103,27 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 	public void run()
 	{
+		// If you are in the Swing thread, then wait
+		// until you are no longer in the Swing thread
+		// so you are able to see debug messages.
+
+		if ( !SwingUtilities.isEventDispatchThread() )
+		{
+			try
+			{
+				SwingUtilities.invokeAndWait( this );
+				return;
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+				
+				StaticEntity.printStackTrace( e, "Swing thread interrupted" );
+				return;				
+			}
+		}
+
 		// If there is no creation creation, then return
 		// from the method because there's nothing to do.
 
@@ -109,15 +132,25 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
 			return;
 		}
-
-		// If you are in the Swing thread, then wait
-		// until you are no longer in the Swing thread
-		// so you are able to see debug messages.
-
-		if ( SwingUtilities.isEventDispatchThread() )
+		
+		if ( !StaticEntity.getClient().shouldMakeConflictingRequest() )
 		{
-			(new Thread( this )).start();
-			return;
+			try
+			{
+				Method m = creationType.getMethod( "executesConflictingRequest", NOPARAMS );
+				Boolean result = (Boolean) m.invoke( creationType, null );
+	
+				if ( result.equals( Boolean.TRUE ) )
+				{
+					DEFAULT_SHELL.updateDisplay( "You can't do that while adventuring." );
+					return;
+				}
+			}
+			catch ( Exception e )
+			{
+				// In this case, you know for sure that the
+				// method does not exist.  So, do nothing.
+			}
 		}
 
 		// Check to see if this is a frame that should

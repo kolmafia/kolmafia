@@ -159,7 +159,9 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		for ( int i = 0; i < interfaceArray.length; ++i )
 			KoLmafiaGUI.constructFrame( interfaceArray[i] );
 
-		tabs.setSelectedIndex(0);
+		if ( tabs.getTabCount() != 0 )
+			tabs.setSelectedIndex(0);
+
 		isInitializing = false;
 	}
 

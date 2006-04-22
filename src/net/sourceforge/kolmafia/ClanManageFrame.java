@@ -177,7 +177,8 @@ public class ClanManageFrame extends KoLFrame
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
 
-		(new RequestThread( new ClanStashRequest( StaticEntity.getClient() ) )).start();
+		if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+			(new RequestThread( new ClanStashRequest( StaticEntity.getClient() ) )).start();
 	}
 
 	/**

@@ -189,12 +189,16 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 			elements[i].getInputField().setEnabled( isEnabled );
 	}
 	
-	private class ActionConfirmListener extends KeyAdapter
+	private class ActionConfirmListener extends KeyAdapter implements Runnable
 	{
 		public void keyReleased( KeyEvent e )
 		{
 			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-				actionConfirmed();
+				(new RequestThread( this )).start();
+		}
+		
+		public void run()
+		{	actionConfirmed();
 		}
 	}
 
