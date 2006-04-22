@@ -139,7 +139,12 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		}
 
 		if ( initialTab == null )
-			(new RequestMailboxThread( "Inbox" )).start();
+		{
+			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+				(new RequestMailboxThread( "Inbox" )).start();
+			else
+				mailBuffer.append( "You are currently adventuring, so the mailbox won't be loaded." );
+		}
 	}
 
 	public void dispose()

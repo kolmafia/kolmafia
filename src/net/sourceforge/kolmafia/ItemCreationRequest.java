@@ -524,8 +524,14 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( usedServant == null )
 		{
-			if ( getProperty( "createWithoutBoxServants" ).equals( "true" ) )
-				return noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
+			if ( getProperty( "autoSatisfyChecks" ).equals( "false" ) )
+			{
+				return getProperty( "createWithoutBoxServants" ).equals( "true" ) &&
+					noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
+			}
+			
+			if ( KoLCharacter.isHardcore() && !KoLCharacter.inMuscleSign() )
+				return false;
 
 			usedServant = KoLCharacter.isHardcore() ? servant : clockworkServant;
 		}
@@ -534,6 +540,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// have the servant in your inventory, so attempt
 		// to repair the box servant.
 
+		
 		(new ConsumeItemRequest( client, usedServant )).run();
 		return client.permitsContinue();
 	}
