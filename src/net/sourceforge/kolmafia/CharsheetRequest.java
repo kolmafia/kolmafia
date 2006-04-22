@@ -94,279 +94,262 @@ public class CharsheetRequest extends KoLRequest
 		RequestEditorKit.downloadImage( avatarMatcher.group() );
 		KoLCharacter.setAvatar( avatarMatcher.group(1) + ".gif" );
 
-		// The easiest way to retrieve the character sheet
-		// data is to first strip all of the HTML from the
-		// reply, and then tokenize on the stripped-down
-		// version.  This can be done through simple regular
-		// expression matching.
+		// Strip all of the HTML from the server reply
+		// and then figure out what to do from there.
 
-		StringTokenizer parsedContent = new StringTokenizer( responseText, "<>" );
+		String token = "";
+		StringTokenizer cleanContent = new StringTokenizer( responseText.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ), "\n" );
 
-		try
+		while ( !token.startsWith( " (" ) )
+			token = cleanContent.nextToken();
+
+		KoLCharacter.setUserID( Integer.parseInt( token.substring( 3, token.length() - 1 ) ) );
+		skipTokens( cleanContent, 1 );
+		KoLCharacter.setClassName( cleanContent.nextToken().trim() );
+
+		// Hit point parsing begins with the first index of
+		// the words indicating that the upcoming token will
+		// show the HP values (Current, Maximum).
+
+		while ( !token.startsWith( "Current" ) )
+			token = cleanContent.nextToken();
+
+		int currentHP = intToken( cleanContent );
+		while ( !token.startsWith( "Maximum" ) )
+			token = cleanContent.nextToken();
+
+		int maximumHP = intToken( cleanContent );
+		token = cleanContent.nextToken();
+		KoLCharacter.setHP( currentHP, maximumHP, retrieveBase( token, maximumHP ) );
+		
+		// Mana point parsing is exactly the same as hit point
+		// parsing - so this is just a copy-paste of the code.
+
+		while ( !token.startsWith( "Current" ) )
+			token = cleanContent.nextToken();
+
+		int currentMP = intToken( cleanContent );
+		while ( !token.startsWith( "Maximum" ) )
+			token = cleanContent.nextToken();
+
+		int maximumMP = intToken( cleanContent );
+		token = cleanContent.nextToken();
+		KoLCharacter.setMP( currentMP, maximumMP, retrieveBase( token, maximumMP ) );
+
+		// Next, you begin parsing the different stat points;
+		// this involves hunting for the stat point's name,
+		// skipping the appropriate number of tokens, and then
+		// reading in the numbers.
+		
+		int [] mus = findStatPoints( cleanContent, "Mus" );
+		int [] mys = findStatPoints( cleanContent, "Mys" );
+		int [] mox = findStatPoints( cleanContent, "Mox" );
+
+		KoLCharacter.setStatPoints( mus[0], mus[1], mys[0], mys[1], mox[0], mox[1] );
+
+		// Drunkenness may or may not exist (in other words,
+		// if the KoLCharacter is not drunk, nothing will show
+		// up).  Therefore, parse it if it exists; otherwise,
+		// parse until the "Adventures remaining:" token.
+
+
+		while ( !token.startsWith( "Temul" ) && !token.startsWith( "Inebr" ) && !token.startsWith( "Tipsi" ) &&
+			!token.startsWith( "Drunk" ) && !token.startsWith( "Adven" ) )
+				token = cleanContent.nextToken();
+		
+		if ( !token.startsWith( "Adven" ) )
 		{
-			// The first two tokens in the stream contains the
-			// name, but the character's name was known at login.
-			// Therefore, these tokens can be discarded.
+			KoLCharacter.setInebriety( intToken( cleanContent ) );
+			while ( !token.startsWith( "Adven" ) )
+				token = cleanContent.nextToken();
+		}
+		else
+			KoLCharacter.setInebriety( 0 );
 
-			String token = parsedContent.nextToken();
-			while ( !token.startsWith( " (" ) )
-				token = parsedContent.nextToken();
+		// Now parse the number of adventures remaining,
+		// the monetary value in the KoLCharacter's pocket,
+		// and the number of turns accumulated.
 
-			KoLCharacter.setUserID( Integer.parseInt( token.substring( 3, token.length() - 1 ) ) );
-			skipTokens( parsedContent, 3 );
-			KoLCharacter.setClassName( parsedContent.nextToken().trim() );
+		int oldAdventures = KoLCharacter.getAdventuresLeft();
+		int newAdventures = intToken( cleanContent );
 
-			// Hit point parsing begins with the first index of
-			// the words indicating that the upcoming token will
-			// show the HP values (Current, Maximum).
+		StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
 
-			while ( !token.startsWith( "Current" ) )
-				token = parsedContent.nextToken();
-			skipTokens( parsedContent, 3 );
-			int currentHP = intToken( parsedContent );
+		while ( !token.startsWith( "Meat" ) )
+			token = cleanContent.nextToken();
+		KoLCharacter.setAvailableMeat( intToken( cleanContent ) );
 
-			while ( !token.startsWith( "Maximum" ) )
-				token = parsedContent.nextToken();
-			skipTokens( parsedContent, 3 );
-			int maximumHP = intToken( parsedContent );
-			KoLCharacter.setHP( currentHP, maximumHP, retrieveBase( parsedContent.nextToken(), maximumHP ) );
+		// Determine the player's ascension count, if any.
+		// This is seen by whether or not the word "Ascensions"
+		// appears in their player profile.
 
-			// Mana point parsing is exactly the same as hit point
-			// parsing - so this is just a copy-paste of the code.
+		if ( responseText.indexOf( "Ascensions:" ) != -1 )
+		{
+			while ( !token.startsWith( "Ascensions" ) )
+				token = cleanContent.nextToken();
+			KoLCharacter.setAscensions( intToken( cleanContent ) );
+		}
 
-			while ( !token.startsWith( "Current" ) )
-				token = parsedContent.nextToken();
-			skipTokens( parsedContent, 3 );
-			int currentMP = intToken( parsedContent );
+		// There may also be a "turns this run" field which
+		// allows you to have a Ronin countdown.
+		
+		if ( responseText.indexOf( "(this run)" ) != -1 )
+		{
+			while ( !token.startsWith( "Turns" ) || token.indexOf( "(this run)" ) == -1 )
+				token = cleanContent.nextToken();
 
-			while ( !token.startsWith( "Maximum" ) )
-				token = parsedContent.nextToken();
-			skipTokens( parsedContent, 3 );
-			int maximumMP = intToken( parsedContent );
-			KoLCharacter.setMP( currentMP, maximumMP, retrieveBase( parsedContent.nextToken(), maximumMP ) );
+			KoLCharacter.setTotalTurnsUsed( intToken( cleanContent ) );
+		}
 
-			// Next, you begin parsing the different stat points;
-			// this involves hunting for the stat point's name,
-			// skipping the appropriate number of tokens, and then
-			// reading in the numbers.
+		// Determine the player's zodiac sign, if any.  We
+		// could read the path in next, but it's easier to
+		// read it from the full response text.
 
-			int [] mus = findStatPoints( parsedContent, "Mus" );
-			int [] mys = findStatPoints( parsedContent, "Mys" );
-			int [] mox = findStatPoints( parsedContent, "Mox" );
+		if ( responseText.indexOf( "Sign:" ) != -1 )
+		{
+			while ( !cleanContent.nextToken().startsWith( "Sign:" ) );
+			KoLCharacter.setSign( cleanContent.nextToken() );
+		}
 
-			KoLCharacter.setStatPoints( mus[0], mus[1], mys[0], mys[1], mox[0], mox[1] );
-
-			// Drunkenness may or may not exist (in other words,
-			// if the KoLCharacter is not drunk, nothing will show
-			// up).  Therefore, parse it if it exists; otherwise,
-			// parse until the "Adventures remaining:" token.
-
-			while ( !token.startsWith("Temul") && !token.startsWith("Inebr") && !token.startsWith("Tipsi") &&
-				!token.startsWith("Drunk") && !token.startsWith("Adven") )
-					token = parsedContent.nextToken();
-
-			if ( !token.startsWith( "Adven" ) )
-			{
-				skipTokens( parsedContent, 3 );
-				KoLCharacter.setInebriety( intToken( parsedContent ) );
-
-				while ( !token.startsWith( "Adven" ) )
-					token = parsedContent.nextToken();
-			}
-			else
-				KoLCharacter.setInebriety( 0 );
-
-			// Now parse the number of adventures remaining,
-			// the monetary value in the KoLCharacter's pocket,
-			// and the number of turns accumulated.
-
-			skipTokens( parsedContent, 3 );
-
-			int oldAdventures = KoLCharacter.getAdventuresLeft();
-			int newAdventures = intToken( parsedContent );
-
-			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
-
-			while ( !token.startsWith( "Meat" ) )
-				token = parsedContent.nextToken();
-			skipTokens( parsedContent, 3 );
-			KoLCharacter.setAvailableMeat( intToken( parsedContent ) );
-
-			// Determine the player's ascension count, if any.
-			if ( responseText.indexOf( "Ascensions:" ) != -1 )
-			{
-				while ( !token.startsWith( "Ascensions" ) )
-					token = parsedContent.nextToken();
-				skipTokens( parsedContent, 4 );
-				KoLCharacter.setAscensions( intToken( parsedContent ) );
-			}
-
-			if ( responseText.indexOf( "(this run)" ) != -1 )
-			{
-				while ( !token.startsWith( "Turns" ) || token.indexOf( "(this run)" ) == -1 )
-					token = parsedContent.nextToken();
-
-				skipTokens( parsedContent, 3 );
-				KoLCharacter.setTotalTurnsUsed( intToken( parsedContent ) );
-			}
-
-			// Determine the player's zodiac sign, if any.
-
-			if ( responseText.indexOf( "Sign:" ) != -1 )
-			{
-				while ( !parsedContent.nextToken().startsWith( "Sign:" ) );
-				skipTokens( parsedContent, 3 );
-				KoLCharacter.setSign( parsedContent.nextToken() );
-			}
-
-			KoLCharacter.setHardcore( responseText.indexOf( "You are in Hardcore mode" ) != -1 );
-			KoLCharacter.setInteraction( responseText.indexOf( "You may not receive items from other players" ) == -1 &&
+		KoLCharacter.setHardcore( responseText.indexOf( "You are in Hardcore mode" ) != -1 );
+		KoLCharacter.setInteraction( responseText.indexOf( "You may not receive items from other players" ) == -1 &&
 				responseText.indexOf( "You are in Hardcore mode" ) == -1 );
 
-			// Determine the current consumption restrictions
-			// the player possesses.
+		// Determine the current consumption restrictions
+		// the player possesses.
+		
+		KoLCharacter.setConsumptionRestriction(
+			responseText.indexOf( "You may not eat or drink anything." ) != -1 ? AscensionSnapshotTable.OXYGENARIAN :
+			responseText.indexOf( "You may not eat any food or drink any non-alcoholic beverages." ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
+			responseText.indexOf( "You may not consume any alcohol." ) != -1 ? AscensionSnapshotTable.TEETOTALER : AscensionSnapshotTable.NOPATH );
 
-			KoLCharacter.setConsumptionRestriction(
-				responseText.indexOf( "You may not eat or drink anything." ) != -1 ? AscensionSnapshotTable.OXYGENARIAN :
-				responseText.indexOf( "You may not eat any food or drink any non-alcoholic beverages." ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
-				responseText.indexOf( "You may not consume any alcohol." ) != -1 ? AscensionSnapshotTable.TEETOTALER : AscensionSnapshotTable.NOPATH );
+		// See if the player has a store
+		KoLCharacter.setStore( responseText.indexOf( "Mall of Loathing" ) != -1 );
 
-			// See if the player has a store
-			KoLCharacter.setStore( responseText.indexOf( "Mall of Loathing" ) != -1 );
+		// See if the player has a display case
+		KoLCharacter.setDisplayCase( responseText.indexOf( "Cannon Museum" ) != -1 );
 
-			// See if the player has a display case
-			KoLCharacter.setDisplayCase( responseText.indexOf( "Cannon Museum" ) != -1 );
+		// Determine the player's current PvP rank
 
-			// Determine the player's current PvP rank
-
-			if ( responseText.indexOf( "PvP:" ) != -1 )
-			{
-				while ( !parsedContent.nextToken().startsWith( "Ranking" ) );
-				skipTokens( parsedContent, 3 );
-				KoLCharacter.setPvpRank( Integer.parseInt( parsedContent.nextToken() ) );
-			}
-
-			// Determine whether or not the player has any
-			// active effects - if so, retrieve them.
-
-			KoLCharacter.getEffects().clear();
-			if ( responseText.indexOf( "Effects:" ) != -1 )
-			{
-				while ( !parsedContent.nextToken().startsWith( "Eff" ) );
-				skipTokens( parsedContent, 13 );
-				token = parsedContent.nextToken();
-
-				while ( !token.equals( "/table" ) )
-				{
-					StaticEntity.getClient().parseEffect( parsedContent.nextToken() );
-					if ( parsedContent.nextToken().startsWith( "font" ) )
-
-						// "shrug off" link
-						skipTokens( parsedContent, 13 );
-					else
-						// no such link
-						skipTokens( parsedContent, 6 );
-					token = parsedContent.nextToken();
-				}
-
-				// Ensure that the effects are refreshed
-				// against the current list.
-
-				StaticEntity.getClient().applyRecentEffects();
-			}
-
-			if ( responseText.indexOf( "Skills:" ) != -1 )
-			{
-				while ( !parsedContent.nextToken().startsWith( "Ski" ) );
-
-				token = parsedContent.nextToken();
-				List availableSkills = new ArrayList();
-				while ( !token.equals( "/table" ) )
-				{
-					if ( token.startsWith( "a" ) )
-					{
-						String skillName = parsedContent.nextToken().trim();
-						if ( ClassSkillsDatabase.contains( skillName ) )
-							availableSkills.add( new UseSkillRequest( StaticEntity.getClient(), skillName, "", 1 ) );
-					}
-					token = parsedContent.nextToken();
-				}
-
-				KoLCharacter.setAvailableSkills( availableSkills );
-			}
-
-			// Current equipment is also listed on the KoLCharacter
-			// sheet -- because we now have consumption types,
-			// it is now possible to retrieve all the equipment.
-
-			// We can't get familiar equipment from this page,
-			// so don't reset it.
-
-			String [] equipment = new String[8];
-			for ( int i = 0; i < 8; ++i )
-				equipment[i] = EquipmentRequest.UNEQUIP;
-			int fakeHands = 0;
-
-			Matcher equipmentMatcher = Pattern.compile( "<b>Equipment.*?<table>(.*?)</table>" ).matcher( responseText );
-			if ( equipmentMatcher.find() )
-			{
-				String currentItem;
-				Matcher itemMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( equipmentMatcher.group(1) );
-				boolean seenWeapon = false;
-
-				while ( itemMatcher.find() )
-				{
-					currentItem = itemMatcher.group(1);
-
-					switch ( TradeableItemDatabase.getConsumptionType( currentItem ) )
-					{
-						case ConsumeItemRequest.EQUIP_HAT:
-							equipment[ KoLCharacter.HAT ] = currentItem;
-							break;
-
-						case ConsumeItemRequest.EQUIP_WEAPON:
-							equipment[ seenWeapon ? KoLCharacter.OFFHAND : KoLCharacter.WEAPON ] = currentItem;
-							seenWeapon = true;
-							break;
-
-						case ConsumeItemRequest.EQUIP_OFFHAND:
-							if ( currentItem.equals( "fake hand" ) )
-								fakeHands++;
-							else
-								equipment[ KoLCharacter.OFFHAND ] = currentItem;
-							break;
-
-						case ConsumeItemRequest.EQUIP_SHIRT:
-							equipment[ KoLCharacter.SHIRT ] = currentItem;
-							break;
-
-						case ConsumeItemRequest.EQUIP_PANTS:
-							equipment[ KoLCharacter.PANTS ] = currentItem;
-							break;
-
-						case ConsumeItemRequest.EQUIP_ACCESSORY:
-
-							if ( equipment[ KoLCharacter.ACCESSORY1 ].equals( EquipmentRequest.UNEQUIP ) )
-								equipment[ KoLCharacter.ACCESSORY1 ] = currentItem;
-							else if ( equipment[ KoLCharacter.ACCESSORY2 ].equals( EquipmentRequest.UNEQUIP ) )
-								equipment[ KoLCharacter.ACCESSORY2 ] = currentItem;
-							else
-								equipment[ KoLCharacter.ACCESSORY3 ] = currentItem;
-					}
-				}
-			}
-
-			KoLCharacter.setEquipment( equipment, null );
-			KoLCharacter.setFakeHands( fakeHands );
-		}
-		catch ( RuntimeException e )
+		if ( responseText.indexOf( "PvP:" ) != -1 )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-			
-			StaticEntity.printStackTrace( e );
+			while ( !cleanContent.nextToken().startsWith( "Ranking" ) );
+			KoLCharacter.setPvpRank( intToken( cleanContent ) );
 		}
 
+		// We can't get familiar equipment from this page,
+		// so don't reset it.
+
+		String [] equipment = new String[8];
+		for ( int i = 0; i < 8; ++i )
+			equipment[i] = EquipmentRequest.UNEQUIP;
+
+		int fakeHands = 0;
+
+		if ( responseText.indexOf( "Equipment:" ) != -1 )
+		{
+			while ( !cleanContent.nextToken().startsWith( "Equipment" ) );
+			boolean seenWeapon = false;
+
+			while ( !token.startsWith( "Eff" ) && !token.startsWith( "Skill" ) && !token.startsWith( "You" ) )
+			{
+				token = cleanContent.nextToken();
+				switch ( TradeableItemDatabase.getConsumptionType( token ) )
+				{
+					case ConsumeItemRequest.EQUIP_HAT:
+						equipment[ KoLCharacter.HAT ] = token;
+						break;
+
+					case ConsumeItemRequest.EQUIP_WEAPON:
+						equipment[ seenWeapon ? KoLCharacter.OFFHAND : KoLCharacter.WEAPON ] = token;
+						seenWeapon = true;
+						break;
+
+					case ConsumeItemRequest.EQUIP_OFFHAND:
+						if ( token.equals( "fake hand" ) )
+							++fakeHands;
+						else
+							equipment[ KoLCharacter.OFFHAND ] = token;
+						break;
+
+					case ConsumeItemRequest.EQUIP_SHIRT:
+						equipment[ KoLCharacter.SHIRT ] = token;
+						break;
+
+					case ConsumeItemRequest.EQUIP_PANTS:
+						equipment[ KoLCharacter.PANTS ] = token;
+						break;
+
+					case ConsumeItemRequest.EQUIP_ACCESSORY:
+
+						if ( equipment[ KoLCharacter.ACCESSORY1 ].equals( EquipmentRequest.UNEQUIP ) )
+							equipment[ KoLCharacter.ACCESSORY1 ] = token;
+						else if ( equipment[ KoLCharacter.ACCESSORY2 ].equals( EquipmentRequest.UNEQUIP ) )
+							equipment[ KoLCharacter.ACCESSORY2 ] = token;
+						else
+							equipment[ KoLCharacter.ACCESSORY3 ] = token;
+				}
+			}
+		}
+
+		KoLCharacter.setEquipment( equipment, null );
+		KoLCharacter.setFakeHands( fakeHands );
+		
+		// Determine whether or not the player has any
+		// active effects - if so, retrieve them.
+
+		StaticEntity.getClient().applyRecentEffects();
+		KoLCharacter.getEffects().clear();
+
+		if ( responseText.indexOf( "Effects:" ) != -1 )
+		{
+			while ( !token.startsWith( "Eff" ) )
+				token = cleanContent.nextToken();
+
+			// Ensure that the effects are refreshed
+			// against the current list.
+			
+			token = cleanContent.nextToken();
+			while ( !token.startsWith( "Skill" ) )
+			{
+				// Skip the shrug-off link, which
+				// is encased in square brackets
+				
+				if ( token.startsWith( "[" ) )
+					skipTokens( cleanContent, 3 );
+				else
+					StaticEntity.getClient().parseEffect( token );
+				
+				token = cleanContent.nextToken();
+			}
+
+			StaticEntity.getClient().applyRecentEffects();
+		}
+
+		while ( !token.startsWith( "Skill" ) )
+			token = cleanContent.nextToken();
+
+		// The first token says "(click the skill name for more information)"
+		// which is not really a skill.
+
+		skipTokens( cleanContent, 1 );
+		token = cleanContent.nextToken();
+
+		List availableSkills = new ArrayList();
+		while ( !token.startsWith( "Current" ) && cleanContent.hasMoreTokens() )
+		{
+			if ( token.startsWith( "(" ) )
+			{
+				if ( token.length() == 1 )
+					skipTokens( cleanContent, 2 );
+			}
+			else if ( ClassSkillsDatabase.contains( token ) )
+				availableSkills.add( new UseSkillRequest( StaticEntity.getClient(), token, "", 1 ) );
+
+			token = cleanContent.nextToken();
+		}
+
+		KoLCharacter.setAvailableSkills( availableSkills );
 		KoLCharacter.updateStatus();
 	}
 
@@ -375,25 +358,27 @@ public class CharsheetRequest extends KoLRequest
 	 * created because statistic-point finding is exactly the same for
 	 * every statistic point.
 	 *
-	 * @param	st	The <code>StringTokenizer</code> containing the tokens to be parsed
+	 * @param	tokenizer	The <code>StringTokenizer</code> containing the tokens to be parsed
 	 * @param	searchString	The search string indicating the beginning of the statistic
 	 * @return	The 2-element array containing the parsed statistics
 	 */
 
-	private static int [] findStatPoints( StringTokenizer st, String searchString )
+	private static int [] findStatPoints( StringTokenizer tokenizer, String searchString )
 	{
 		int [] stats = new int[2];
-		String token = st.nextToken();
+		String token = tokenizer.nextToken();
 
 		while ( !token.startsWith( searchString ) )
-			token = st.nextToken();
-		skipTokens( st, 6 );
-		stats[0] = intToken( st );
-		int base = retrieveBase( st.nextToken(), stats[0] );
-		while ( !token.equals( "b" ) )
-			token = st.nextToken();
-		stats[1] = KoLCharacter.calculateSubpoints( base, intToken( st ) );
+			token = tokenizer.nextToken();
 
+		stats[0] = intToken( tokenizer );
+		token = tokenizer.nextToken();
+		int base = retrieveBase( token, stats[0] );
+
+		while ( !token.startsWith( "(" ) )
+			token = tokenizer.nextToken();
+
+		stats[1] = KoLCharacter.calculateSubpoints( base, intToken( tokenizer ) );
 		return stats;
 	}
 
