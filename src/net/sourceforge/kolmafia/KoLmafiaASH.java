@@ -2685,7 +2685,8 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptValue result;
-			boolean conditionMet = (condition.execute().intValue() == 1 );
+			ScriptValue conditionResult = condition.execute();
+			boolean conditionMet = conditionResult != null && conditionResult.intValue() == 1;
 			DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, "" );
 
 			if ( conditionMet )
@@ -2718,7 +2719,7 @@ public class KoLmafiaASH extends StaticEntity
 					if ( !repeat )
 						break;
 				}
-				while ( condition.execute().intValue() == 1 );
+				while ( (conditionResult = condition.execute()) != null && conditionResult.intValue() == 1 );
 			}
 			else
 			{

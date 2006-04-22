@@ -95,7 +95,7 @@ public abstract class PanelList extends JPanel
 	 */
 
 	public PanelList( int visibleRows, int cellWidth, int cellHeight, LockableListModel associatedListModel )
-	{	this( visibleRows, cellWidth, cellHeight, associatedListModel, false );
+	{	this( visibleRows, cellWidth, cellHeight, associatedListModel, true );
 	}
 
 	/**
@@ -116,7 +116,10 @@ public abstract class PanelList extends JPanel
 	{
 		super( new BorderLayout() );
 
-		this.add( listPanel = new JPanel(), isResizeableList() ? BorderLayout.CENTER : BorderLayout.WEST );
+		JPanel listContainer = new JPanel( new BorderLayout() );
+		listContainer.add( listPanel = new JPanel(), BorderLayout.NORTH );
+
+		this.add( listContainer, isResizeableList() ? BorderLayout.CENTER : BorderLayout.WEST );
 		listPanel.setLayout( useBoxLayout ? (LayoutManager) new BoxLayout( listPanel, BoxLayout.Y_AXIS ) : (LayoutManager) new FlowLayout() );
 
 		this.visibleRows = visibleRows;  this.cellHeight = cellHeight;  this.cellWidth = cellWidth;
