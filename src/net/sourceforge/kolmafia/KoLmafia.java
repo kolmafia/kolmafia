@@ -336,15 +336,32 @@ public abstract class KoLmafia implements KoLConstants
 			deinitialize();
 			return;
 		}
+
+		// Always reset the auto-repair settings, because the
+		// auto-repair situation is usually desired unless
+		// the person is trying to explode boxes.
 		
+		StaticEntity.setProperty( "autoRepairBoxes", "true" );
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
 
 		String today = sdf.format( new Date() );
 		String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + username.toLowerCase() );
 
-		if ( lastBreakfast != null && lastBreakfast.equals( today ) )
-			return;
-		
+		if ( lastBreakfast == null || !lastBreakfast.equals( today ) )
+		{
+			String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + username.toLowerCase() );
+			String scriptSetting = GLOBAL_SETTINGS.getProperty( "loginScript." + username.toLowerCase() );
+			if ( scriptSetting != null && !scriptSetting.equals( "" ) )
+				DEFAULT_SHELL.executeLine( scriptSetting );
+
+			getBreakfast( true );	
+			if ( (skillSetting != null && !skillSetting.equals( "" )) || (scriptSetting != null && !scriptSetting.equals( "" )) )
+				GLOBAL_SETTINGS.setProperty( "lastBreakfast." + username.toLowerCase(), today );
+		}
+	}
+	
+	public void getBreakfast( boolean checkSettings )
+	{
 		if ( KoLCharacter.hasToaster() )
 			for ( int i = 0; i < 3 && permitsContinue(); ++i )
 				(new CampgroundRequest( this, "toast" )).run();
@@ -352,20 +369,12 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.hasArches() )
 			(new CampgroundRequest( this, "arches" )).run();
 
-		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + username.toLowerCase() );
+		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + KoLCharacter.getUsername().toLowerCase() );
 
 		if ( skillSetting != null )
 			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
-				if ( skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1 && KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] ) )
+				if ( !checkSettings || (skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1 && KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] )) )
 					getBreakfast( BREAKFAST_SKILLS[i][0], Integer.parseInt( BREAKFAST_SKILLS[i][1] ) );
-
-		String scriptSetting = GLOBAL_SETTINGS.getProperty( "loginScript." + username.toLowerCase() );
-		if ( scriptSetting != null && !scriptSetting.equals( "" ) )
-			DEFAULT_SHELL.executeLine( scriptSetting );
-		
-		if ( (skillSetting != null && !skillSetting.equals( "" )) || (scriptSetting != null && !scriptSetting.equals( "" )) )
-		GLOBAL_SETTINGS.setProperty( "lastBreakfast." + username.toLowerCase(), today );
-		LocalRelayServer.getNewStatusMessages();
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
