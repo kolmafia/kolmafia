@@ -110,24 +110,14 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			return;
 		}
 
-		// If you are not in the Swing thread, then wait
-		// until you are in the Swing thread before making
-		// the object to avoid deadlocks.
+		// If you are in the Swing thread, then wait
+		// until you are no longer in the Swing thread
+		// so you are able to see debug messages.
 
-		if ( !SwingUtilities.isEventDispatchThread() )
+		if ( SwingUtilities.isEventDispatchThread() )
 		{
-			try
-			{
-				SwingUtilities.invokeAndWait( this );
-				return;
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-				
-				StaticEntity.printStackTrace( e, "Frame could not be loaded" );
-			}
+			(new Thread( this )).start();
+			return;
 		}
 
 		// Check to see if this is a frame that should

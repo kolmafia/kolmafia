@@ -156,9 +156,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			JPanel container = new JPanel( new BorderLayout( 10, 10 ) );
 
-			// Force re-fetch of opponents and arena wins
-			CakeArenaManager.reset();
-
 			// Get current familiar
 			familiar = KoLCharacter.getFamiliar();
 
@@ -253,9 +250,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public OpponentsPanel()
 			{
 				// Get current opponents
-				LockableListModel opponents = CakeArenaManager.getOpponentList( StaticEntity.getClient() );
-				StaticEntity.getClient().enableDisplay();
-
+				LockableListModel opponents = CakeArenaManager.getOpponentList();
 				int opponentCount = opponents.size();
 
 				setLayout( new GridLayout( opponentCount, 1, 0, 20 ) );
@@ -610,7 +605,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.append( "<br>" );
 
 		// Get opponent list
-		LockableListModel opponents = CakeArenaManager.getOpponentList( StaticEntity.getClient() );
+		LockableListModel opponents = CakeArenaManager.getOpponentList();
 
 		// Print the opponents
 		printOpponents( opponents );
@@ -741,7 +736,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		results.append( "<br>" );
 
 		// Get opponent list
-		LockableListModel opponents = CakeArenaManager.getOpponentList( StaticEntity.getClient() );
+		LockableListModel opponents = CakeArenaManager.getOpponentList();
 
 		// Print the opponents
 		printOpponents( opponents );

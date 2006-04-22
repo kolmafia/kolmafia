@@ -132,11 +132,12 @@ public class CakeArenaManager extends StaticEntity
 	 * the cake-shaped arena.
 	 */
 
-	public static LockableListModel getOpponentList( KoLmafia client )
+	public synchronized static LockableListModel getOpponentList()
 	{
-		if ( client != null && opponentList.isEmpty() )
+		if ( opponentList.isEmpty() )
 			(new CakeArenaRequest( client )).run();
 
+		StaticEntity.getClient().enableDisplay();
 		return opponentList;
 	}
 

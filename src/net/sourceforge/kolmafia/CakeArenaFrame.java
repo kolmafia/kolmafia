@@ -103,7 +103,7 @@ public class CakeArenaFrame extends KoLFrame
 		public CakeArenaPanel()
 		{
 			super( new BorderLayout( 0, 10 ) );
-			opponents = CakeArenaManager.getOpponentList( StaticEntity.getClient() );
+			opponents = CakeArenaManager.getOpponentList();
 
 			String opponentRace;
 			String [] columnNames = { "Familiar", "Cage Match", "Scavenger Hunt", "Obstacle Course", "Hide and Seek" };
