@@ -667,9 +667,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( result == null )
 			return false;
 
-		if ( logStream != null )
-			logStream.println( "Processing result: " + result );
-
+		logStream.println( "Processing result: " + result );
 		String resultName = result.getName();
 
 		// This should not happen, but check just in case and
@@ -1201,8 +1199,10 @@ public abstract class KoLmafia implements KoLConstants
 						// that appears after the first index.
 
 						String countString = item.split( " " )[0];
-						String itemName = item.substring( item.indexOf( " " ) ).trim();
-						boolean isNumeric = true;
+						int spaceIndex = item.indexOf( " " );
+						
+						String itemName = spaceIndex == -1 ? item : item.substring( spaceIndex ).trim();
+						boolean isNumeric = spaceIndex != -1;
 
 						for ( int i = 0; isNumeric && i < countString.length(); ++i )
 							isNumeric &= Character.isDigit( countString.charAt(i) ) || countString.charAt(i) == ',';
@@ -1212,7 +1212,7 @@ public abstract class KoLmafia implements KoLConstants
 						else if ( itemName.equals( "evil golden arches" ) )
 							itemName = "evil golden arch";
 
-						DEFAULT_SHELL.printLine( acquisition );
+						DEFAULT_SHELL.printLine( acquisition + " " + item );
 						parseItem( itemName + " (" + countString + ")" );
 					}
 				}
@@ -1237,8 +1237,16 @@ public abstract class KoLmafia implements KoLConstants
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
 			{
 				DEFAULT_SHELL.printLine( lastToken );
+
 				int periodIndex = lastToken.indexOf( "." );
-				requiresRefresh |= parseResult( periodIndex == -1 ? lastToken : lastToken.substring( 0, periodIndex ) );
+				if ( periodIndex != -1 )
+					lastToken = lastToken.substring( 0, periodIndex );
+				
+				int parenIndex = lastToken.indexOf( "(" );
+				if ( parenIndex != -1 )
+					lastToken = lastToken.substring( 0, parenIndex );
+				
+				requiresRefresh |= parseResult( lastToken.trim() );
 			}
 		}
 
