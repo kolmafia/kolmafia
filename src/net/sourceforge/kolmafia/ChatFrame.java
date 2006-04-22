@@ -85,7 +85,6 @@ public class ChatFrame extends KoLFrame
 
 	/**
 	 * Constructs a new <code>ChatFrame</code>.
-	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() associated with the chat session
 	 */
 
 	public ChatFrame()
@@ -385,7 +384,7 @@ public class ChatFrame extends KoLFrame
 			switch ( linkOption )
 			{
 				case 1:
-					KoLMessenger.openInstantMessage( (String) parameters[1] );
+					KoLMessenger.openInstantMessage( (String) parameters[0] );
 					return;
 
 				case 2:
@@ -417,23 +416,23 @@ public class ChatFrame extends KoLFrame
 						mall = (MallSearchFrame) creator.getCreation();
 					}
 
-					mall.searchMall( new SearchMallRequest( StaticEntity.getClient(), Integer.parseInt( KoLmafia.getPlayerID( (String) parameters[1] ) ) ) );
+					mall.searchMall( new SearchMallRequest( StaticEntity.getClient(), Integer.parseInt( KoLmafia.getPlayerID( (String) parameters[0] ) ) ) );
 					return;
 
 				case 6:
-					StaticEntity.openRequestFrame( "displaycollection.php?who=" + KoLmafia.getPlayerID( (String) parameters[1] ) );
+					StaticEntity.openRequestFrame( "displaycollection.php?who=" + KoLmafia.getPlayerID( (String) parameters[0] ) );
 					return;
 
 				case 7:
-					StaticEntity.openRequestFrame( "ascensionhistory.php?who=" + KoLmafia.getPlayerID( (String) parameters[1] ) );
+					StaticEntity.openRequestFrame( "ascensionhistory.php?who=" + KoLmafia.getPlayerID( (String) parameters[0] ) );
 					return;
 
 				case 8:
-					(new RequestThread( new ChatRequest( StaticEntity.getClient(), "/whois", (String) parameters[1] ) )).start();
+					(new RequestThread( new ChatRequest( StaticEntity.getClient(), "/whois", (String) parameters[0] ) )).start();
 					return;
 
 				case 9:
-					(new RequestThread( new ChatRequest( StaticEntity.getClient(), "/baleet", (String) parameters[1] ) )).start();
+					(new RequestThread( new ChatRequest( StaticEntity.getClient(), "/baleet", (String) parameters[0] ) )).start();
 					return;
 
 				default:
