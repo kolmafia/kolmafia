@@ -316,7 +316,7 @@ public class CharsheetRequest extends KoLRequest
 				// is encased in square brackets
 				
 				if ( token.startsWith( "[" ) )
-					skipTokens( cleanContent, 3 );
+					skipTokens( cleanContent, 2 );
 				else
 					StaticEntity.getClient().parseEffect( token );
 				
