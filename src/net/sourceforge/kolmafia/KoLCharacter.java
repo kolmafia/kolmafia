@@ -1996,7 +1996,10 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static int getArenaWins()
 	{
-		CakeArenaManager.getOpponentList( client );
+		// Ensure that the arena opponent list is
+		// initialized.
+		
+		CakeArenaManager.getOpponentList();
 		return arenaWins;
 	}
 
