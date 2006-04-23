@@ -858,13 +858,21 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "retrieve" ) || command.equals( "acquire" ) )
 		{
+			String oldSetting = StaticEntity.getProperty( "autoSatisfyChecks" );
+			StaticEntity.setProperty( "autoSatisfyChecks", "true" );
+			
 			// Generic handling of retrieval of worthless
 			// items is by adventuring in the sewer.
 
 			if ( parameters.equals( "worthless item" ) )
 			{
+				AdventureResult clover = SewerRequest.CLOVER.getInstance(1);
+				
 				while ( HermitRequest.getWorthlessItemCount() == 0 )
-					executeLine( "buy chewing gum on a string; adventure unlucky" );
+				{
+					AdventureDatabase.retrieveItem( clover );
+					executeLine( "adventure unlucky" );
+				}
 			}
 			else
 			{
@@ -874,6 +882,7 @@ public class KoLmafiaCLI extends KoLmafia
 					AdventureDatabase.retrieveItem( item );
 			}
 
+			StaticEntity.setProperty( "autoSatisfyChecks", oldSetting );
 			return;
  		}
 
