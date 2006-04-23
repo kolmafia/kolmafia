@@ -1213,7 +1213,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
 			{
 				// Bail if it doesn't complete an outfit
-				if ( AdventureDatabase.CHOICE_ADVS[i].length == 2 )
+				if ( AdventureDatabase.CHOICE_ADVS[i].length < 4 )
 					return decision;
 				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
 				break;
