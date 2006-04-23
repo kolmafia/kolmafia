@@ -49,6 +49,7 @@ public abstract class StoreManager extends StaticEntity
 	private static long potentialEarnings = 0;
 	private static LockableListModel storeLog = new LockableListModel();
 	private static LockableListModel soldItemList = new LockableListModel();
+	private static LockableListModel sortedSoldItemList = new LockableListModel();
 
 	public static void reset()
 	{
@@ -108,14 +109,12 @@ public abstract class StoreManager extends StaticEntity
 		return currentPrice;
 	}
 
-	/**
-	 * Returns a list of the items which are handled by
-	 * the current store manager.  Note that this list
-	 * may or may not be up-to-date.
-	 */
-
 	public static LockableListModel getSoldItemList()
 	{	return soldItemList;
+	}
+	
+	public static LockableListModel getSortedSoldItemList()
+	{	return sortedSoldItemList;
 	}
 
 	public static LockableListModel getStoreLog()
@@ -202,15 +201,14 @@ public abstract class StoreManager extends StaticEntity
 			}
 		}
 
-		// Only keep the elements which were added to the new
-		// item list -- make use of retainAll for this.  This
-		// is slightly better than constantly clearing and then
-		// re-adding the items to your store.
-
 		soldItemList.clear();
-		Collections.sort( newItems );
 		soldItemList.addAll( newItems );
 
+		Collections.sort( newItems );
+		
+		sortedSoldItemList.clear();
+		sortedSoldItemList.addAll( newItems );
+		
 		// Now, update the title of the store manage
 		// frame to reflect the new price.
 
