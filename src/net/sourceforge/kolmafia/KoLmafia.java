@@ -313,6 +313,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void initialize( String username, String sessionID )
 	{
+		this.conditions.clear();
+
 		// Initialize the variables to their initial
 		// states to avoid null pointers getting thrown
 		// all over the place
@@ -523,7 +525,6 @@ public abstract class KoLmafia implements KoLConstants
 		tally.clear();
 
 		this.recentEffects.clear();
-		this.conditions.clear();
 		this.missingItems.clear();
 
 		this.encounterList.clear();
