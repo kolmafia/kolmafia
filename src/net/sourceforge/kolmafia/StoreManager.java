@@ -137,18 +137,21 @@ public abstract class StoreManager extends StaticEntity
 			// The item matcher here examines each row in the table
 			// displayed in the price management page.
 
-			Matcher priceMatcher = Pattern.compile( "<tr>.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" ).matcher( storeText );
+			Matcher priceMatcher = Pattern.compile( "<tr><td><b>(.*?)\\&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" ).matcher( storeText );
 
 			try
 			{
 				while ( priceMatcher.find() )
 				{
-					itemID = Integer.parseInt( priceMatcher.group(3) );
-					quantity = df.parse( priceMatcher.group(1) ).intValue();
+					itemID = Integer.parseInt( priceMatcher.group(4) );
+					if ( TradeableItemDatabase.getItemName( itemID ) == null )
+						TradeableItemDatabase.registerItem( itemID, priceMatcher.group(1) );
 
-					price = df.parse( priceMatcher.group(2) ).intValue();
-					limit = df.parse( priceMatcher.group(4) ).intValue();
-					lowest = df.parse( priceMatcher.group(5) ).intValue();
+					quantity = df.parse( priceMatcher.group(2) ).intValue();
+
+					price = df.parse( priceMatcher.group(3) ).intValue();
+					limit = df.parse( priceMatcher.group(5) ).intValue();
+					lowest = df.parse( priceMatcher.group(6) ).intValue();
 
 					// Now that all the data has been retrieved, register
 					// the item that was discovered.
@@ -167,17 +170,27 @@ public abstract class StoreManager extends StaticEntity
 		else
 		{
 			AdventureResult item;
-			int price, limit;
+			int itemID, price, limit;
 
 			// The item matcher here examines each row in the table
 			// displayed in the standard item-addition page.
 
-			Matcher itemMatcher = Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td>" ).matcher( storeText );
+			Matcher itemMatcher = Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" ).matcher( storeText );
 
 			try
 			{
 				while ( itemMatcher.find() )
 				{
+					itemID = Integer.parseInt( itemMatcher.group(4) );
+					if ( TradeableItemDatabase.getItemName( itemID ) == null )
+					{
+						String itemName = itemMatcher.group(1);
+						if ( itemName.indexOf( "(" ) != -1 )
+							itemName = itemName.substring( 0, itemName.indexOf( "(" ) ).trim();
+
+						TradeableItemDatabase.registerItem( itemID, itemName );
+					}
+
 					item = AdventureResult.parseResult( itemMatcher.group(1) );
 					price = df.parse( itemMatcher.group(2) ).intValue();
 
