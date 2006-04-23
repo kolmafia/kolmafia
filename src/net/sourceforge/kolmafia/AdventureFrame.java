@@ -414,6 +414,7 @@ public class AdventureFrame extends KoLFrame
 				}
 
 				DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
+				DEFAULT_SHELL.updateDisplay( "Conditions set.  Preparing for adventuring..." );
 				conditionField.setText( "" );
 			}
 
