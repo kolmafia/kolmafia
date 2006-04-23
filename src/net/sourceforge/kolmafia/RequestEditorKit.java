@@ -516,10 +516,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+			// This can happen whenever there is bad internet
+			// or whenever the familiar is brand-new.
 			
-			StaticEntity.printStackTrace( e, "Error loading image <" + filename + ">" );
 			return null;
 		}
 	}

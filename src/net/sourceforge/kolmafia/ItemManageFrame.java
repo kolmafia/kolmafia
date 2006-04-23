@@ -779,9 +779,13 @@ public class ItemManageFrame extends KoLFrame
 				if ( selected == null )
 					return;
 
-				DEFAULT_SHELL.updateDisplay( "Verifying ingredients..." );
 				ItemCreationRequest selection = (ItemCreationRequest) selected;
-				selection.setQuantityNeeded( createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1 );
+				int quantityDesired = createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1;
+				if ( quantityDesired < 1 )
+					return;
+				
+				DEFAULT_SHELL.updateDisplay( "Verifying ingredients..." );
+				selection.setQuantityNeeded( quantityDesired );
 				(new RequestThread( selection )).start();
 			}
 		}

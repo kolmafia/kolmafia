@@ -146,7 +146,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreRemovePanel()
 		{
-			super( "Store's Inventory", "remove selected", "empty out store", StoreManager.getSoldItemList() );
+			super( "Store's Inventory", "remove selected", "empty out store", StoreManager.getSortedSoldItemList() );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 
@@ -214,7 +214,6 @@ public class StoreManageFrame extends KoLPanelFrame
 			elementsPanel.add( storeItemScrollArea );
 
 			searchResults = new SearchResultsPanel();
-
 			setContent( null, null, searchResults, true, true );
 			container.add( elementsPanel, BorderLayout.CENTER );
 		}
@@ -223,7 +222,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			DEFAULT_SHELL.updateDisplay( "Compiling reprice data..." );
 
-			Component [] components = storeItemList.getComponents();
+			java.awt.Component [] components = storeItemList.getComponents();
 			int [] itemID = new int[ components.length ];
 			int [] prices = new int[ components.length ];
 			int [] limits = new int[ components.length ];
@@ -270,8 +269,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			add( searchLabel, BorderLayout.NORTH );
 			JComponentUtilities.setComponentSize( searchLabel, 150, 16 );
 
-			priceSummary = new LockableListModel();
-			JList resultsDisplay = new JList( priceSummary );
+			JList resultsDisplay = new JList( priceSummary = new LockableListModel() );
 			resultsDisplay.setPrototypeCellValue( "1234567890ABCDEF" );
 			resultsDisplay.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 			JScrollPane scrollArea = new JScrollPane( resultsDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
@@ -283,6 +281,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 	private class AddItemPanel extends JPanel
 	{
+		private JLabel lowestPrice;
 		private JComboBox sellingList;
 		private JTextField itemPrice, itemQty;
 		private JButton addButton, searchButton;
@@ -294,6 +293,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			itemPrice = new JTextField( "" );
 			itemQty = new JTextField( "" );
+			lowestPrice = new JLabel( "(unknown)", JLabel.CENTER );
 
 			addButton = new JButton( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
 			addButton.addActionListener( new AddButtonListener() );
@@ -303,8 +303,9 @@ public class StoreManageFrame extends KoLPanelFrame
 			searchButton.addActionListener( new SearchButtonListener() );
 			searchButton.setToolTipText( "Price Analysis" );
 
-			JComponentUtilities.setComponentSize( sellingList, 280, 20 );
+			JComponentUtilities.setComponentSize( sellingList, 260, 20 );
 			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
+			JComponentUtilities.setComponentSize( lowestPrice, 80, 20 );
 			JComponentUtilities.setComponentSize( itemQty, 50, 20 );
 			JComponentUtilities.setComponentSize( addButton, 30, 20 );
 			JComponentUtilities.setComponentSize( searchButton, 30, 20 );
@@ -314,15 +315,17 @@ public class StoreManageFrame extends KoLPanelFrame
 			corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( sellingList ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( lowestPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemQty ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( addButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 30 ) );
 
-			JLabel [] label = new JLabel[4];
-			label[0] = new JLabel( "Item Name", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[0], 280, 20 );
+			JLabel [] label = new JLabel[5];
+			label[0] = new JLabel( "Item Name", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[0], 260, 20 );
 			label[1] = new JLabel( "Price", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[1], 80, 20 );
-			label[2] = new JLabel( "Qty", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[2], 50, 20 );
-			label[3] = new JLabel( "Action", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 70, 20 );
+			label[2] = new JLabel( "Lowest", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[2], 80, 20 );
+			label[3] = new JLabel( "Qty", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 50, 20 );
+			label[4] = new JLabel( "Action", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[4], 70, 20 );
 
 			JPanel labelPanel = new JPanel();
 			labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.X_AXIS ) );
@@ -335,15 +338,11 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			labelPanel.add( Box.createHorizontalStrut( 20 ) );
 
-			JPanel containerPanel = new JPanel();
-			containerPanel.setLayout( new BoxLayout( containerPanel, BoxLayout.Y_AXIS ) );
-			containerPanel.add( Box.createVerticalStrut( 5 ) );
-			containerPanel.add( labelPanel );
-			containerPanel.add( Box.createVerticalStrut( 5 ) );
-			containerPanel.add( corePanel );
-
-			setLayout( new BorderLayout() );
-			add( containerPanel, BorderLayout.WEST );
+			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+			add( Box.createVerticalStrut( 5 ) );
+			add( labelPanel );
+			add( Box.createVerticalStrut( 5 ) );
+			add( corePanel );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -370,12 +369,13 @@ public class StoreManageFrame extends KoLPanelFrame
 					return;
 
 				int price = getValue( itemPrice, StoreManager.getPrice( soldItem.getItemID() ) );
+				int limit = 0;
 				int qty = getValue( itemQty, soldItem.getCount() );
 
 				soldItem = new AdventureResult( soldItem.getItemID(), qty );
 
 				if ( price > 10 )
-					(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), soldItem, price, 0 ) )).start();
+					(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), soldItem, price, limit ) )).start();
 			}
 		}
 
@@ -395,7 +395,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 9, 530, 30, StoreManager.getSoldItemList() );
+		{	super( 16, 600, 30, StoreManager.getSoldItemList() );
 		}
 
 		protected PanelListCell constructPanelListCell( Object value, int index )
@@ -409,9 +409,9 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreItemPanel extends JPanel implements PanelListCell
 	{
 		private int itemID;
-		private JLabel itemName, itemQuantity;
+		private JLabel itemName, itemQuantity, lowestPrice;
 		private JTextField itemPrice;
-		private JButton  searchButton;
+		private JButton takeButton, searchButton;
 
 		public StoreItemPanel( StoreManager.SoldItem value )
 		{
@@ -419,14 +419,21 @@ public class StoreManageFrame extends KoLPanelFrame
 			itemName = new JLabel( TradeableItemDatabase.getItemName( itemID ), JLabel.RIGHT );
 			itemQuantity = new JLabel( df.format( value.getQuantity() ), JLabel.CENTER );
 			itemPrice = new JTextField( df.format( value.getPrice() ) );
+			lowestPrice = new JLabel( value.getLowest() == 0 ? "(unknown)" : df.format( value.getLowest() ), JLabel.CENTER );
+
+			takeButton = new JButton( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
+			takeButton.addActionListener( new TakeButtonListener() );
+			takeButton.setToolTipText( "Remove Items" );
 
 			searchButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
 			searchButton.addActionListener( new SearchButtonListener() );
 			searchButton.setToolTipText( "Price Analysis" );
 
-			JComponentUtilities.setComponentSize( itemName, 280, 20 );
+			JComponentUtilities.setComponentSize( itemName, 260, 20 );
 			JComponentUtilities.setComponentSize( itemPrice, 80, 20 );
+			JComponentUtilities.setComponentSize( lowestPrice, 80, 20 );
 			JComponentUtilities.setComponentSize( itemQuantity, 50, 20 );
+			JComponentUtilities.setComponentSize( takeButton, 30, 20 );
 			JComponentUtilities.setComponentSize( searchButton, 30, 20 );
 
 			JPanel corePanel = new JPanel();
@@ -434,8 +441,10 @@ public class StoreManageFrame extends KoLPanelFrame
 			corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 			corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( itemQuantity ); corePanel.add( Box.createHorizontalStrut( 25 ) );
-			corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 25 ) );
+			corePanel.add( lowestPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( itemQuantity ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( takeButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
 
 			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
 			add( Box.createVerticalStrut( 5 ) );
@@ -449,6 +458,14 @@ public class StoreManageFrame extends KoLPanelFrame
 			itemName.setText( TradeableItemDatabase.getItemName( smsi.getItemID() ) );
 			itemQuantity.setText( df.format( smsi.getQuantity() ) );
 			itemPrice.setText( df.format( smsi.getPrice() ) );
+			lowestPrice.setText( smsi.getLowest() == 0 ? "**" : df.format( smsi.getLowest() ) );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			itemPrice.setEnabled( isEnabled );
+			takeButton.setEnabled( isEnabled );
+			searchButton.setEnabled( isEnabled );
 		}
 
 		public int getItemID()
@@ -459,15 +476,21 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			try
 			{
-				return itemPrice.getText().equals( "" ) ? 0 : df.parse( itemPrice.getText() ).intValue();
+				return df.parse( itemPrice.getText() ).intValue();
 			}
 			catch ( Exception e )
 			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-				
-				StaticEntity.printStackTrace( e );
+				e.printStackTrace( KoLmafia.getLogStream() );
+				e.printStackTrace();
+
 				return 0;
+			}
+		}
+
+		private class TakeButtonListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{	(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), itemID ) )).start();
 			}
 		}
 
