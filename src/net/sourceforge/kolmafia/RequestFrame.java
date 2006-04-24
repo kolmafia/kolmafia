@@ -76,7 +76,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class RequestFrame extends KoLFrame
 {
 	private static SidePaneRefresher REFRESHER = new SidePaneRefresher();
-	private static boolean refreshStatusDisabled = false;
+	private static boolean refreshStatusEnabled = true;
 
 	private int locationIndex = 0;
 	private ArrayList history = new ArrayList();
@@ -596,21 +596,24 @@ public class RequestFrame extends KoLFrame
 
 	public static void refreshStatus()
 	{
-		if ( REFRESHER.isEmpty() || refreshStatusDisabled || (runBetweenBattleChecks != null && !runBetweenBattleChecks.isEnabled()) )
+		if ( REFRESHER.isEmpty() || !refreshStatusEnabled || (runBetweenBattleChecks != null && !runBetweenBattleChecks.isEnabled()) )
 			return;
 
 		(new Thread( REFRESHER )).start();
 	}
 
 	public static boolean willRefreshStatus()
-	{	return !REFRESHER.isEmpty() && !refreshStatusDisabled && runBetweenBattleChecks != null && runBetweenBattleChecks.isEnabled();
+	{	return !REFRESHER.isEmpty() && refreshStatusEnabled && runBetweenBattleChecks != null && runBetweenBattleChecks.isEnabled();
+	}
+	
+	public static boolean isRefreshStatusEnabled()
+	{	return refreshStatusEnabled;
 	}
 
-	public static void disableRefreshStatus( boolean disable )
+	public static void setRefreshStatusEnabled( boolean isEnabled )
 	{
-		refreshStatusDisabled = disable;
-
-		if ( disable )
+		refreshStatusEnabled = isEnabled;
+		if ( !isEnabled )
 			REFRESHER.refreshStatus( "" );
 	}
 

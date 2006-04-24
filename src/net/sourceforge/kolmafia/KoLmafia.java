@@ -1326,7 +1326,8 @@ public abstract class KoLmafia implements KoLConstants
 			// process (whichever is applicable).
 
 			int currentIteration = 0;
-			RequestFrame.disableRefreshStatus( true );
+			boolean shouldEnableRefreshStatus = RequestFrame.isRefreshStatusEnabled();
+			RequestFrame.setRefreshStatusEnabled( false );
 
 			while ( permitsContinue() && ++currentIteration <= iterations )
 			{
@@ -1372,6 +1373,12 @@ public abstract class KoLmafia implements KoLConstants
 				request.run();
 				applyRecentEffects();
 
+				// Decrement the counter to null out the increment
+				// effect on the next iteration of the loop.
+				
+				if ( request instanceof KoLAdventure && permitsContinue() && ((KoLAdventure)request).getRequest().getAdventuresUsed() == 0 )
+					--currentIteration;
+				
 				// Prevent drunkenness adventures from occurring by
 				// testing inebriety levels after the request is run.
 
@@ -1406,8 +1413,11 @@ public abstract class KoLmafia implements KoLConstants
 					CharpaneRequest.getInstance().run();
 			}
 
-			RequestFrame.disableRefreshStatus( false );
-			RequestFrame.refreshStatus();
+			if ( shouldEnableRefreshStatus )
+			{
+				RequestFrame.setRefreshStatusEnabled( true );
+				RequestFrame.refreshStatus();
+			}
 
 			currentIterationString = "";
 
