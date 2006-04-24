@@ -137,7 +137,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static void registerItem( int itemID, String itemName )
 	{
-		KoLmafia.getLogStream().println( "New item: \"" + itemName + "\" (" + itemID + ")" );
+		KoLmafia.getDebugStream().println( "New item: <" + itemName + "> (#" + itemID + ")" );
 
 		useTypeByID.set( itemID, 0 );
 		priceByID.set( itemID, 0 );

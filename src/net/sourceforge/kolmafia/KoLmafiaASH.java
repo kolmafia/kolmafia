@@ -1073,18 +1073,18 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptCommand currentCommand;
 
 		indentLine( indent );
-		KoLmafia.getLogStream().println( "<SCOPE>" );
+		KoLmafia.getDebugStream().println( "<SCOPE>" );
 
 		indentLine( indent + 1 );
-		KoLmafia.getLogStream().println( "<VARIABLES>" );
+		KoLmafia.getDebugStream().println( "<VARIABLES>" );
 		for ( currentVar = scope.getFirstVariable(); currentVar != null; currentVar = scope.getNextVariable( currentVar ) )
 			printVariable( currentVar, indent + 2 );
 		indentLine( indent + 1 );
-		KoLmafia.getLogStream().println( "<FUNCTIONS>" );
+		KoLmafia.getDebugStream().println( "<FUNCTIONS>" );
 		for ( currentFunc = scope.getFirstFunction(); currentFunc != null; currentFunc = scope.getNextFunction( currentFunc ) )
 			printFunction( currentFunc, indent + 2 );
 		indentLine( indent + 1 );
-		KoLmafia.getLogStream().println( "<COMMANDS>" );
+		KoLmafia.getDebugStream().println( "<COMMANDS>" );
 		for ( currentCommand = scope.getFirstCommand(); currentCommand != null; currentCommand = scope.getNextCommand( currentCommand ) )
 			printCommand( currentCommand, indent + 2 );
 	}
@@ -1092,13 +1092,13 @@ public class KoLmafiaASH extends StaticEntity
 	private void printVariable( ScriptVariable var, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getLogStream().println( "<VAR " + var.getType() + " " + var.getName() + ">" );
+		KoLmafia.getDebugStream().println( "<VAR " + var.getType() + " " + var.getName() + ">" );
 	}
 
 	private void printFunction( ScriptFunction func, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getLogStream().println( "<FUNC " + func.getType() + " " + func.getName() + ">" );
+		KoLmafia.getDebugStream().println( "<FUNC " + func.getType() + " " + func.getName() + ">" );
 		for ( ScriptVariableReference current = func.getFirstParam(); current != null; current = func.getNextParam( current ) )
 			printVariableReference( current, indent + 1 );
 		printScope( func.getScope(), indent + 1 );
@@ -1117,14 +1117,14 @@ public class KoLmafiaASH extends StaticEntity
 		else
 		{
 			indentLine( indent );
-			KoLmafia.getLogStream().println( "<COMMAND " + command + ">" );
+			KoLmafia.getDebugStream().println( "<COMMAND " + command + ">" );
 		}
 	}
 
 	private void printReturn( ScriptReturn ret, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getLogStream().println( "<RETURN " + ret.getType() + ">" );
+		KoLmafia.getDebugStream().println( "<RETURN " + ret.getType() + ">" );
 		if ( !ret.getType().equals( TYPE_VOID ) )
 			printExpression( ret.getExpression(), indent + 1 );
 	}
@@ -1133,9 +1133,9 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		indentLine( indent );
 		if ( loop.repeats() )
-			KoLmafia.getLogStream().println( "<WHILE>" );
+			KoLmafia.getDebugStream().println( "<WHILE>" );
 		else
-			KoLmafia.getLogStream().println( "<IF>" );
+			KoLmafia.getDebugStream().println( "<IF>" );
 		printExpression( loop.getCondition(), indent + 1 );
 		printScope( loop.getScope(), indent + 1 );
 		for ( ScriptLoop currentElse = loop.getFirstElseLoop(); currentElse != null; currentElse = loop.getNextElseLoop( currentElse ) )
@@ -1145,7 +1145,7 @@ public class KoLmafiaASH extends StaticEntity
 	private void printCall( ScriptCall call, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getLogStream().println( "<CALL " + call.getTarget().getName() + ">" );
+		KoLmafia.getDebugStream().println( "<CALL " + call.getTarget().getName() + ">" );
 		for ( ScriptExpression current = call.getFirstParam(); current != null; current = call.getNextParam( current ) )
 			printExpression( current, indent + 1 );
 	}
@@ -1153,7 +1153,7 @@ public class KoLmafiaASH extends StaticEntity
 	private void printAssignment( ScriptAssignment assignment, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getLogStream().println( "<ASSIGN " + assignment.getLeftHandSide().getName() + ">" );
+		KoLmafia.getDebugStream().println( "<ASSIGN " + assignment.getLeftHandSide().getName() + ">" );
 		printExpression( assignment.getRightHandSide(), indent + 1 );
 
 	}
@@ -1180,26 +1180,26 @@ public class KoLmafiaASH extends StaticEntity
 		else
 		{
 			indentLine( indent );
-			KoLmafia.getLogStream().println( "<VALUE " + value.getType() + " [" + value + "]>" );
+			KoLmafia.getDebugStream().println( "<VALUE " + value.getType() + " [" + value + "]>" );
 		}
 	}
 
 	public void printOperator( ScriptOperator oper, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getLogStream().println( "<OPER " + oper + ">" );
+		KoLmafia.getDebugStream().println( "<OPER " + oper + ">" );
 	}
 
 	public void printVariableReference( ScriptVariableReference varRef, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getLogStream().println( "<VARREF> " + varRef.getName() );
+		KoLmafia.getDebugStream().println( "<VARREF> " + varRef.getName() );
 	}
 
 	private void indentLine( int indent )
 	{
 		for ( int i = 0; i < indent; ++i )
-			KoLmafia.getLogStream().print( "   " );
+			KoLmafia.getDebugStream().print( "   " );
 	}
 
 

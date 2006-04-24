@@ -231,22 +231,22 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static final void printStackTrace( Throwable t, String message, String [] logAssistMessages )
 	{
-		boolean shouldOpenStream = KoLmafia.getLogStream() instanceof NullStream;
+		boolean shouldOpenStream = KoLmafia.getDebugStream() instanceof NullStream;
 
 		if ( shouldOpenStream )
-			KoLmafia.openDebugLog();
+			KoLmafia.openDebugStream();
 
 		DEFAULT_SHELL.updateDisplay( ERROR_STATE, message + ".  Debug log printed." );
 		for ( int i = 0; i < logAssistMessages.length; ++i )
 		{
 			System.out.println( logAssistMessages[i] );
-			KoLmafia.getLogStream().println( logAssistMessages[i] );
+			KoLmafia.getDebugStream().println( logAssistMessages[i] );
 		}
 		
-		t.printStackTrace( KoLmafia.getLogStream() );
+		t.printStackTrace( KoLmafia.getDebugStream() );
 		t.printStackTrace();
 
 		if ( shouldOpenStream )
-			KoLmafia.closeDebugLog();
+			KoLmafia.closeDebugStream();
 	}
 }

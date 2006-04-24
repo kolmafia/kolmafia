@@ -656,7 +656,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// by the default Java browser to an understood form,
 		// and remove all <HR> tags.
 
-		KoLmafia.getLogStream().println( "Rendering hypertext..." );
+		KoLmafia.getDebugStream().println( "Rendering hypertext..." );
 		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
 
 		// The default Java browser doesn't display blank lines correctly
@@ -802,7 +802,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		String pwd = StaticEntity.getClient().getPasswordHash();
 		String text = pwd == null ? displayHTML : displayHTML.replaceAll( pwd, "" );
-		KoLmafia.getLogStream().println( text );
+		KoLmafia.getDebugStream().println( text );
 
 		return displayHTML;
 	}

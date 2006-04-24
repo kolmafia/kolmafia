@@ -90,8 +90,9 @@ public abstract class KoLmafia implements KoLConstants
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 	}
 
+	protected static PrintStream sessionStream = NullStream.INSTANCE;
 	protected static PrintStream macroStream = NullStream.INSTANCE;
-	protected static PrintStream logStream = NullStream.INSTANCE;
+	protected static PrintStream debugStream = NullStream.INSTANCE;
 	protected static LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", false );
 
 	private static final String [] OVERRIDE_DATA =
@@ -249,7 +250,7 @@ public abstract class KoLmafia implements KoLConstants
 			this.currentState = state;
 
 		if ( !message.equals( "" ) )
-			logStream.println( message );
+			debugStream.println( message );
 
 		StringBuffer colorBuffer = new StringBuffer();
 		if ( state == ERROR_STATE || state == ABORT_STATE )
@@ -325,8 +326,16 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		this.sessionID = sessionID;
+		this.sessionID = sessionID;		
 		this.settings = new KoLSettings( username );
+		
+		if ( GLOBAL_SETTINGS.getProperty( "keepSessionLogs" ).equals( "true" ) || settings.getProperty( "keepSessionLogs" ).equals( "true" ) )
+		{
+			settings.setProperty( "keepSessionLogs", "true" );
+			KoLmafia.openSessionStream();
+		}
+		else
+			KoLmafia.closeSessionStream();
 
 		GLOBAL_SETTINGS.setProperty( "lastUsername", username );
 		KoLCharacter.reset( username );
@@ -513,6 +522,8 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		sessionID = null;
 		passwordHash = null;
+
+		closeDebugStream();
 		closeMacroStream();
 	}
 
@@ -567,7 +578,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		try
 		{
-			logStream.println( "Parsing result: " + trimResult );
+			debugStream.println( "Parsing result: " + trimResult );
 			return processResult( AdventureResult.parseResult( trimResult ) );
 		}
 		catch ( Exception e )
@@ -583,7 +594,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void parseItem( String result )
 	{
-		logStream.println( "Parsing item: " + result );
+		debugStream.println( "Parsing item: " + result );
 
 		// We do the following in order to not get confused by:
 		//
@@ -627,7 +638,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void parseEffect( String result )
 	{
-		logStream.println( "Parsing effect: " + result );
+		debugStream.println( "Parsing effect: " + result );
 
 		StringTokenizer parsedEffect = new StringTokenizer( result, "()" );
 		String parsedEffectName = parsedEffect.nextToken().trim();
@@ -677,7 +688,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( result == null )
 			return false;
 
-		logStream.println( "Processing result: " + result );
+		debugStream.println( "Processing result: " + result );
 		String resultName = result.getName();
 
 		// This should not happen, but check just in case and
@@ -1148,7 +1159,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final boolean processResults( String results )
 	{
-		logStream.println( "Processing results..." );
+		debugStream.println( "Processing results..." );
 
 		if ( results.indexOf( "gains a pound" ) != -1 )
 			KoLCharacter.incrementFamilarWeight();
@@ -1755,18 +1766,18 @@ public abstract class KoLmafia implements KoLConstants
 	/**
 	 * Initializes a stream for logging debugging information.  This
 	 * method creates a <code>KoLmafia.log</code> file in the default
-	 * data directory if one does not exist, or appends to the existing
+	 * directory if one does not exist, or appends to the existing
 	 * log.  This method should only be invoked if the user wishes to
 	 * assist in beta testing because the output is VERY verbose.
 	 */
 
-	public static final void openDebugLog()
+	public static final void openDebugStream()
 	{
 		// First, ensure that a log stream has not already been
 		// initialized - this can be checked by observing what
 		// class the current log stream is.
 
-		if ( !(logStream instanceof NullStream) )
+		if ( !(debugStream instanceof NullStream) )
 			return;
 
 		try
@@ -1776,7 +1787,19 @@ public abstract class KoLmafia implements KoLConstants
 			if ( !f.exists() )
 				f.createNewFile();
 
-			logStream = new LogStream( f );
+			debugStream = new LogStream( f );
+
+			debugStream.println();
+			debugStream.println();
+			debugStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			debugStream.println( "            Beginning New Logging Session (" + VERSION_NAME + ")" );
+			debugStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			debugStream.println( " Please note: do not post these logs in the KoLmafia thread.  If " );
+			debugStream.println( " you would like us to look at the log, please instead email logs " );
+			debugStream.println( " to holatuwol@hotmail.com using the subject [KoLmafia] Debug Log " );
+			debugStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			debugStream.println();
+			debugStream.println();
 		}
 		catch ( IOException e )
 		{
@@ -1787,10 +1810,55 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public static final void closeDebugLog()
+	public static final void closeDebugStream()
 	{
-		logStream.close();
-		logStream = NullStream.INSTANCE;
+		debugStream.close();
+		debugStream = NullStream.INSTANCE;
+	}
+
+	/**
+	 * Initializes a stream for logging debugging information.  This
+	 * method creates a <code>KoLmafia.log</code> file in the default
+	 * directory if one does not exist, or appends to the existing
+	 * log.  This method should only be invoked if the user wishes to
+	 * assist in beta testing because the output is VERY verbose.
+	 */
+
+	public static final void openSessionStream()
+	{
+		// First, ensure that a log stream has not already been
+		// initialized - this can be checked by observing what
+		// class the current log stream is.
+
+		if ( !(sessionStream instanceof NullStream) )
+			return;
+
+		try
+		{
+			File f = new File( "logs/" + KoLCharacter.getUsername() + "_" +
+				sdf.format( new Date() ) + ".txt" );
+
+			if ( !f.getParentFile().exists() )
+				f.mkdirs();
+
+			if ( !f.exists() )
+				f.createNewFile();
+
+			sessionStream = new LogStream( f );
+		}
+		catch ( IOException e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	public static final void closeSessionStream()
+	{
+		sessionStream.close();
+		sessionStream = NullStream.INSTANCE;
 	}
 
 	/**
@@ -1806,12 +1874,21 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
+	 * Retrieves the stream currently used for logging output for
+	 * the URL/session logger.
+	 */
+	
+	public static final PrintStream getSessionStream()
+	{	return sessionStream;
+	}
+	
+	/**
 	 * Retrieves the stream currently used for logging debug output.
 	 * @return	The stream used for debug output
 	 */
 
-	public static final PrintStream getLogStream()
-	{	return logStream;
+	public static final PrintStream getDebugStream()
+	{	return debugStream;
 	}
 
 	/**
