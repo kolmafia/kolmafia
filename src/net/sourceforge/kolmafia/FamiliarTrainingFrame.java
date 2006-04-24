@@ -1974,9 +1974,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Add possible skills
 			if ( sympathyAvailable )
 				weight += ( familiar.getID() == DODECAPEDE ) ? -5 : 5;
-			if ( leashAvailable || leashActive )
+			if ( leashAvailable || leashActive > 0 )
 				weight += 5;
-			if ( empathyAvailable || empathyActive )
+			if ( empathyAvailable || empathyActive > 0 )
 				weight += 5;
 
 			// Add available familiar items
