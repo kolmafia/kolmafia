@@ -272,7 +272,7 @@ public class AdventureFrame extends KoLFrame
 
 		public AdventureSelectPanel()
 		{
-			super( "begin advs", "win game", "stop all", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
+			super( "begin advs", "stop all", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
 
 			actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
@@ -423,15 +423,8 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			if ( cancelledButton.getText().equals( "win game" ) )
-			{
-				pushWinGameButton();
-			}
-			else
-			{
-				StaticEntity.getClient().declareWorldPeace();
-				locationSelect.requestFocus();
-			}
+			StaticEntity.getClient().declareWorldPeace();
+			locationSelect.requestFocus();
 		}
 
 		public void requestFocus()
@@ -459,25 +452,6 @@ public class AdventureFrame extends KoLFrame
 
 			add( new JScrollPane( tallyDisplay, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
-		}
-	}
-
-	public static final void pushWinGameButton()
-	{	displayMessages( WIN_GAME_TEXT[ RNG.nextInt( WIN_GAME_TEXT.length ) ] );
-	}
-
-	public static void displayMessages( String [] messages )
-	{
-		for ( int i = 0; i < messages.length - 1 && StaticEntity.getClient().permitsContinue(); ++i )
-		{
-			DEFAULT_SHELL.updateDisplay( messages[i] );
-			KoLRequest.delay( 3000 );
-		}
-
-		if ( StaticEntity.getClient().permitsContinue() )
-		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, messages[ messages.length - 1 ] );
-			StaticEntity.getClient().enableDisplay();
 		}
 	}
 
