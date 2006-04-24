@@ -626,9 +626,9 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.startsWith( "debug" ) )
 		{
 			if ( parameters.startsWith( "on" ) )
-				openDebugLog();
+				openDebugStream();
 			else if ( parameters.startsWith( "off" ) )
-				closeDebugLog();
+				closeDebugStream();
 			else
 			{
 				updateDisplay( ERROR_STATE, parameters + " is not a valid option." );
@@ -2720,10 +2720,6 @@ public class KoLmafiaCLI extends KoLmafia
 			catch  ( Exception e )
 			{
 				updateDisplay( ERROR_STATE, squareString + " is not a number." );
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
 				return;
 			}
 
@@ -2759,10 +2755,6 @@ public class KoLmafiaCLI extends KoLmafia
 			catch  ( Exception e )
 			{
 				updateDisplay( ERROR_STATE, squareString + " is not a number." );
-
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
 				return;
 			}
 		}
@@ -3411,12 +3403,13 @@ public class KoLmafiaCLI extends KoLmafia
 	{	printLine( " " );
 	}
 
-
 	public void printLine( String line )
 	{
 		outputStream.println( line );
 		mirrorStream.println( line );
-		KoLmafia.getLogStream().println( line );
+
+		KoLmafia.getDebugStream().println( line );
+		KoLmafia.getSessionStream().println( line );
 
 		StringBuffer colorBuffer = new StringBuffer();
 		colorBuffer.append( "<font color=black>" );

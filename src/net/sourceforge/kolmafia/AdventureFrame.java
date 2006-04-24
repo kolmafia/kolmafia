@@ -463,7 +463,10 @@ public class AdventureFrame extends KoLFrame
 	private class ChoiceOptionsPanel extends KoLPanel
 	{
 		private JComboBox [] optionSelects;
+
 		private JComboBox battleStopSelect;
+		private JComboBox cloverProtectSelect;
+
 		private JComboBox castleWheelSelect;
 		private JComboBox spookyForestSelect;
 
@@ -494,6 +497,10 @@ public class AdventureFrame extends KoLFrame
 			for ( int i = 0; i <= 9; ++i )
 				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
 			
+			cloverProtectSelect = new JComboBox();
+			cloverProtectSelect.addItem( "Disassemble ten-leaf clovers" );
+			cloverProtectSelect.addItem( "Leave ten-leaf clovers alone" );
+			
 			castleWheelSelect = new JComboBox();
 			castleWheelSelect.addItem( "Turn to map quest position" );
 			castleWheelSelect.addItem( "Turn to muscle position" );
@@ -511,13 +518,18 @@ public class AdventureFrame extends KoLFrame
 			spookyForestSelect.addItem( "Loot Disco Bandit corpse" );
 			spookyForestSelect.addItem( "Loot Accordion Thief corpse" );
 
-			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 3 ];
+			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 7 ];
 			elements[0] = new VerifiableElement( "Combat Abort", battleStopSelect );
-			elements[1] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
-			elements[2] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
+			elements[1] = new VerifiableElement( "Clover Protect", cloverProtectSelect );
 
-			for ( int i = 3; i < elements.length; ++i )
-				elements[i] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i-3][1][0], optionSelects[i-3] );
+			elements[2] = new VerifiableElement( "", new JLabel() );
+			elements[3] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
+			elements[4] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
+			elements[5] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
+
+			elements[6] = new VerifiableElement( "", new JLabel() );
+			for ( int i = 1; i < optionSelects.length; ++i )
+				elements[i+6] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i][1][0], optionSelects[i] );
 
 			setContent( elements );
 			actionCancelled();
@@ -526,6 +538,7 @@ public class AdventureFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex() - 1) / 10.0) ) );
+			setProperty( "cloverProtectActive", String.valueOf( cloverProtectSelect.getSelectedIndex() == 0 ) );
 			setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
@@ -639,6 +652,8 @@ public class AdventureFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
+			cloverProtectSelect.setSelectedIndex( getProperty( "cloverProtectActive" ).equals( "true" ) ? 0 : 1 );
+
 			optionSelects[0].setSelectedItem( getProperty( "luckySewerAdventure" ) );
 			for ( int i = 1; i < optionSelects.length; ++i )
 				optionSelects[i].setSelectedIndex( Integer.parseInt( getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) ) );

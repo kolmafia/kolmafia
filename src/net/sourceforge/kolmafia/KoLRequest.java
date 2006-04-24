@@ -485,6 +485,15 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		client.setCurrentRequest( this );
 		
+		if ( getClass() == KoLRequest.class )
+			client.getSessionStream().println( getURLString() );
+		else
+		{
+			String requestName = getClass().getName();
+			requestName = requestName.substring( requestName.lastIndexOf( "." ) + 1 );
+			client.getSessionStream().println( requestName + ": " + toString() );
+		}
+
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 		
@@ -505,6 +514,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				showInBrowser( false );
 
 			processResults();
+			AdventureRequest.registerEncounter( this );
 		}
 		else
 		{
@@ -567,7 +577,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	private boolean prepareConnection()
 	{
 		if ( !(this instanceof ChatRequest) )
-			KoLmafia.getLogStream().println( "Connecting to " + formURLString + "..." );
+			KoLmafia.getDebugStream().println( "Connecting to " + formURLString + "..." );
 
 		this.sessionID = client.getSessionID();
 
@@ -603,7 +613,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// connection and directly cast it into an HttpURLConnection
 
 			if ( !(this instanceof ChatRequest) )
-				KoLmafia.getLogStream().println( "Attempting to establish connection..." );
+				KoLmafia.getDebugStream().println( "Attempting to establish connection..." );
 
 			formConnection = (HttpURLConnection) formURL.openConnection();
 		}
@@ -614,14 +624,14 @@ public class KoLRequest implements Runnable, KoLConstants
 			// attempt to connect again
 
 			if ( !(this instanceof ChatRequest) )
-				KoLmafia.getLogStream().println( "Error opening connection.  Retrying..." );
+				KoLmafia.getDebugStream().println( "Error opening connection.  Retrying..." );
 
 			KoLRequest.delay();
 			return false;
 		}
 
 		if ( !(this instanceof ChatRequest) )
-			KoLmafia.getLogStream().println( "Connection established." );
+			KoLmafia.getDebugStream().println( "Connection established." );
 
 		formConnection.setDoInput( true );
 		formConnection.setDoOutput( !data.isEmpty() );
@@ -656,14 +666,14 @@ public class KoLRequest implements Runnable, KoLConstants
 			return true;
 
 		if ( !(this instanceof ChatRequest) )
-			KoLmafia.getLogStream().println( "Posting form data..." );
+			KoLmafia.getDebugStream().println( "Posting form data..." );
 
 		try
 		{
 			String dataString = getDataString( true );
 
 			if ( client.getPasswordHash() != null && !(this instanceof ChatRequest) )
-				KoLmafia.getLogStream().println( dataString.replaceAll( client.getPasswordHash(), "" ) );
+				KoLmafia.getDebugStream().println( dataString.replaceAll( client.getPasswordHash(), "" ) );
 
 			formConnection.setRequestMethod( "POST" );
 			BufferedWriter ostream = new BufferedWriter( new OutputStreamWriter( formConnection.getOutputStream() ) );
@@ -674,14 +684,14 @@ public class KoLRequest implements Runnable, KoLConstants
 			ostream = null;
 
 			if ( !(this instanceof ChatRequest) )
-				KoLmafia.getLogStream().println( "Posting data posted." );
+				KoLmafia.getDebugStream().println( "Posting data posted." );
 
 			return true;
 		}
 		catch ( Exception e )
 		{
 			if ( !(this instanceof ChatRequest) )
-				KoLmafia.getLogStream().println( "Connection timed out during post.  Retrying..." );
+				KoLmafia.getDebugStream().println( "Connection timed out during post.  Retrying..." );
 
 			KoLRequest.delay();
 			return false;
@@ -710,7 +720,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// (ie: maintenance).
 
 			if ( !(this instanceof ChatRequest) )
-				KoLmafia.getLogStream().println( "Retrieving server reply..." );
+				KoLmafia.getDebugStream().println( "Retrieving server reply..." );
 
 			responseText = "";
 			redirectLocation = "";
@@ -747,7 +757,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			if ( !(this instanceof ChatRequest) )
-				KoLmafia.getLogStream().println( "Connection timed out during response.  Retrying..." );
+				KoLmafia.getDebugStream().println( "Connection timed out during response.  Retrying..." );
 
 			// Add in an extra delay in the event of a time-out in order
 			// to be nicer on the KoL servers.
@@ -759,7 +769,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		boolean shouldStop = true;
 
 		if ( !(this instanceof ChatRequest) )
-			KoLmafia.getLogStream().println( "Server response code: " + responseCode );
+			KoLmafia.getDebugStream().println( "Server response code: " + responseCode );
 
 		if ( responseCode >= 300 && responseCode <= 399 )
 		{
@@ -818,7 +828,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			else
 			{
 				shouldStop = true;
-				KoLmafia.getLogStream().println( "Redirected: " + redirectLocation );
+				KoLmafia.getDebugStream().println( "Redirected: " + redirectLocation );
 			}
 		}
 		else if ( responseCode == 200 )
@@ -837,7 +847,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				if ( line == null )
 				{
-					KoLmafia.getLogStream().println( "No reply content.  Retrying..." );
+					KoLmafia.getDebugStream().println( "No reply content.  Retrying..." );
 				}
 
 				// Check for MySQL errors, since those have been getting more
@@ -850,7 +860,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				else if ( line.indexOf( "error" ) != -1 )
 				{
 					if ( !(this instanceof ChatRequest) )
-						KoLmafia.getLogStream().println( "Encountered MySQL error.  Retrying..." );
+						KoLmafia.getDebugStream().println( "Encountered MySQL error.  Retrying..." );
 				}
 
 				// The remaining lines form the rest of the content.  In order
@@ -860,7 +870,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				else
 				{
 					if ( !(this instanceof ChatRequest) )
-						KoLmafia.getLogStream().println( "Reading page content..." );
+						KoLmafia.getDebugStream().println( "Reading page content..." );
 
 					// Line breaks bloat the log, but they are important
 					// inside <textarea> input fields.
@@ -890,7 +900,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// to the client, but another attempt will be made
 
 				if ( !(this instanceof ChatRequest) )
-					KoLmafia.getLogStream().println( "Error reading server reply.  Retrying..." );
+					KoLmafia.getDebugStream().println( "Error reading server reply.  Retrying..." );
 			}
 
 			responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
@@ -899,9 +909,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			processRawResponse( rawBuffer.toString() );
 
 			if ( client.getPasswordHash() != null && !(this instanceof ChatRequest) )
-				KoLmafia.getLogStream().println( responseText.replaceAll( client.getPasswordHash(), "" ) );
+				KoLmafia.getDebugStream().println( responseText.replaceAll( client.getPasswordHash(), "" ) );
 			else if ( !(this instanceof ChatRequest) )
-				KoLmafia.getLogStream().println(
+				KoLmafia.getDebugStream().println(
 					responseText.replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" ) );
 		}
 
@@ -1292,5 +1302,9 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLMessenger.updateChat( "<font color=green>" + events[i].substring( events[i].indexOf( "-" ) + 2 ) + "</font>" );
 			}
 		}
+	}
+	
+	public String toString()
+	{	return getURLString();
 	}
 }

@@ -108,13 +108,11 @@ public class OptionsFrame extends KoLFrame
 {
 	/**
 	 * Constructs a new <code>OptionsFrame</code> that will be
-	 * associated with the given StaticEntity.getClient().  When this frame is
+	 * associated with the given client.  When this frame is
 	 * closed, it will attempt to return focus to the currently
-	 * active frame; note that if this is done while the StaticEntity.getClient()
+	 * active frame; note that if this is done while the client
 	 * is shuffling active frames, closing the window will not
 	 * properly transfer focus.
-	 *
-	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() to be associated with this <code>OptionsFrame</code>
 	 */
 
 	public OptionsFrame()
@@ -149,10 +147,11 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "synchronizeFightFrame", "Show requests in mini-browser" },
+			{ "showAllRequests", "Show requests in mini-browser" },
+			{ "keepSessionLogs", "Maintain dated player session log" },
 			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "forceReconnect", "Automatically time-in on time-out" },
-			{ "autoSatisfyChecks", "Automatically satisfy conditions on check" },
+			{ "autoSatisfyChecks", "Allow purchases on conditions check" },
 		};
 
 		/**
@@ -183,6 +182,11 @@ public class OptionsFrame extends KoLFrame
 				setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 			super.actionConfirmed();
+
+			if ( getProperty( "keepSessionLogs" ).equals( "true" ) )
+				KoLmafia.openSessionStream();
+			else
+				KoLmafia.closeSessionStream();
 		}
 
 		protected void actionCancelled()

@@ -241,15 +241,7 @@ public class FightRequest extends KoLRequest
 		// you are fighting against.
 
 		if ( roundCount == 1 )
-		{
-			Matcher encounterMatcher = Pattern.compile( "<span id='monname'>(.*?)</span>" ).matcher( responseText );
-
-			if ( encounterMatcher.find() )
-			{
-				FightRequest.encounter = encounterMatcher.group(1).toLowerCase();
-				client.registerEncounter( encounter );
-			}
-		}
+			FightRequest.encounter = AdventureRequest.registerEncounter( this );
 
 		if ( responseText.indexOf( "fight.php" ) != -1 )
 		{

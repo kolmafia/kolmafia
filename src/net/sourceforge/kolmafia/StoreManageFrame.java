@@ -364,13 +364,12 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			try
 			{
-				return df.parse( itemPrice.getText() ).intValue();
+				return itemPrice.getText() == null || itemPrice.getText().length() == 0 ? 0 :
+					df.parse( itemPrice.getText() ).intValue();
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( KoLmafia.getLogStream() );
-				e.printStackTrace();
-
+				StaticEntity.printStackTrace( e );
 				return 0;
 			}
 		}

@@ -558,19 +558,19 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{
 			super( JComponentUtilities.getImage( "debug.gif" ) );
 			addActionListener( this );
-			setText( KoLmafia.getLogStream() instanceof NullStream ? "Begin recording debug..." : "Stop recording debug" );
+			setText( KoLmafia.getDebugStream() instanceof NullStream ? "Begin recording debug..." : "Stop recording debug" );
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( KoLmafia.getLogStream() instanceof NullStream )
+			if ( KoLmafia.getDebugStream() instanceof NullStream )
 			{
-				KoLmafia.openDebugLog();
+				KoLmafia.openDebugStream();
 				debugMenuItem.setText( "Stop recording debug" );
 			}
 			else
 			{
-				KoLmafia.closeDebugLog();
+				KoLmafia.closeDebugStream();
 				debugMenuItem.setText( "Begin recording debug..." );
 			}
 		}

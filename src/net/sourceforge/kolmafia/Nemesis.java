@@ -223,7 +223,7 @@ public abstract class Nemesis extends StaticEntity
 			}
 
 			// Visit the cave
-			request = new AdventureRequest( client, "cave.php", action );
+			request = new KoLRequest( client, "cave.php?action=" + action );
 			request.run();
 
 			if ( request.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )

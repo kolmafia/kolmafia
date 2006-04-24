@@ -181,6 +181,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "buffBotMessageDisposal", "0" );
 		ensureProperty( "chatStyle", "0" );
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
+		ensureProperty( "cloverProtectActive", "false" );
 		ensureProperty( "createWithoutBoxServants", "false" );
 		ensureProperty( "defaultLimit", "13" );
 		ensureProperty( "eSoluScriptType", "0" );
@@ -196,6 +197,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "http.proxyPassword", "" );
 		ensureProperty( "initialFrameLoading", "" );
 		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
+		ensureProperty( "keepSessionLogs", "false" );
 		ensureProperty( "lastAdventure", "" );
 		ensureProperty( "lastMessageID", "" );
 		ensureProperty( "lastUsername", "" );
@@ -209,8 +211,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "rememberPasswords", "false" );
 		ensureProperty( "saveState", "" );
 		ensureProperty( "serverFriendly", "false" );
-		ensureProperty( "synchronizeFightFrame", "false" );
 		ensureProperty( "showAdventureZone", "true" );
+		ensureProperty( "showAllRequests", "false" );
 		ensureProperty( "showClosetDrivenCreations", "true" );
 		ensureProperty( "sortAdventures", "false" );
 		ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
