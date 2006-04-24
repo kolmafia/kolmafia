@@ -524,7 +524,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 	}
 
-	protected static class MultiButtonPanel extends JPanel
+	protected class MultiButtonPanel extends JPanel
 	{
 		protected boolean showMovers;
 		protected JPanel enclosingPanel;
@@ -601,60 +601,86 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		protected Object [] getDesiredItems( String message )
 		{
-			Object [] items = elementList.getSelectedValues();
-			if ( items.length == 0 )
-				return null;
-
-			int neededSize = items.length;
-			AdventureResult currentItem;
-
-			for ( int i = 0; i < items.length; ++i )
-			{
-				currentItem = (AdventureResult) items[i];
-
-				int quantity = movers[0].isSelected() ? currentItem.getCount() : movers[1].isSelected() ?
-					currentItem.getCount() - 1 : movers[2].isSelected() ? getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() ) : 1;
-
-				// If the user manually enters zero, return from
-				// this, since they probably wanted to cancel.
-
-				if ( quantity == 0 && movers[2].isSelected() )
-					return null;
-
-				// Otherwise, if it was not a manual entry, then reset
-				// the entry to null so that it can be re-processed.
-
-				if ( quantity == 0 )
-				{
-					items[i] = null;
-					--neededSize;
-				}
-				else
-				{
-					items[i] = currentItem.getInstance( quantity );
-				}
-			}
-
-			// If none of the array entries were nulled,
-			// then return the array as-is.
-
-			if ( neededSize == items.length )
-				return items;
-
-			// Otherwise, shrink the array which will be
-			// returned so that it removes any nulled values.
-
-			Object [] desiredItems = new Object[ neededSize ];
-			neededSize = 0;
-
-			for ( int i = 0; i < items.length; ++i )
-				if ( items[i] != null )
-					desiredItems[ neededSize++ ] = items[i];
-
-			return desiredItems;
+			return KoLFrame.this.getDesiredItems( elementList, message,
+				movers[0].isSelected() ? TAKE_ALL : movers[1].isSelected() ? TAKE_ALL_BUT_ONE :
+				movers[2].isSelected() ? TAKE_MULTIPLE : TAKE_ONE );
 		}
 	}
 
+	protected static final int TAKE_ALL = 1;
+	protected static final int TAKE_ALL_BUT_ONE = 2;
+	protected static final int TAKE_MULTIPLE = 3;
+	protected static final int TAKE_ONE = 4;
+
+	protected Object [] getDesiredItems( JList elementList, String message, int quantityType )
+	{
+		Object [] items = elementList.getSelectedValues();
+		if ( items.length == 0 )
+			return null;
+
+		int neededSize = items.length;
+		AdventureResult currentItem;
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			currentItem = (AdventureResult) items[i];
+
+			int quantity = 0;
+			switch ( quantityType )
+			{
+				case TAKE_ALL:
+					quantity = currentItem.getCount();
+					break;
+				case TAKE_ALL_BUT_ONE:
+					quantity = currentItem.getCount() - 1;
+					break;
+				case TAKE_MULTIPLE:
+					quantity = getQuantity( message + " " + currentItem.getName() + "...", currentItem.getCount() );
+					break;
+				default:
+					quantity = 1;
+					break;
+			}
+
+			// If the user manually enters zero, return from
+			// this, since they probably wanted to cancel.
+
+			if ( quantity == 0 && quantityType == TAKE_MULTIPLE )
+				return null;
+
+			// Otherwise, if it was not a manual entry, then reset
+			// the entry to null so that it can be re-processed.
+
+			if ( quantity == 0 )
+			{
+				items[i] = null;
+				--neededSize;
+			}
+			else
+			{
+				items[i] = currentItem.getInstance( quantity );
+			}
+		}
+
+		// If none of the array entries were nulled,
+		// then return the array as-is.
+
+		if ( neededSize == items.length )
+			return items;
+
+		// Otherwise, shrink the array which will be
+		// returned so that it removes any nulled values.
+
+		Object [] desiredItems = new Object[ neededSize ];
+		neededSize = 0;
+
+		for ( int i = 0; i < items.length; ++i )
+			if ( items[i] != null )
+				desiredItems[ neededSize++ ] = items[i];
+
+		return desiredItems;
+	}
+	
 	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
