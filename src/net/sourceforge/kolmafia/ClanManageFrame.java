@@ -356,11 +356,15 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new RequestThread( new ClanStashRequest( StaticEntity.getClient(), elementList.getSelectedValues(), ClanStashRequest.ITEMS_TO_STASH ) )).start();
+		{
+			(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),
+				getDesiredItems( elementList, "Donate", TAKE_MULTIPLE ), ClanStashRequest.ITEMS_TO_STASH ) )).start();
 		}
 
 		protected void actionCancelled()
-		{	(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.INVENTORY_TO_CLOSET, elementList.getSelectedValues() ) )).start();
+		{
+			(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.INVENTORY_TO_CLOSET,
+				getDesiredItems( elementList, "Closet", TAKE_MULTIPLE ) ) )).start();
 		}
 	}
 
@@ -378,7 +382,9 @@ public class ClanManageFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	(new RequestThread( new ClanStashRequest( StaticEntity.getClient(), elementList.getSelectedValues(), ClanStashRequest.STASH_TO_ITEMS ) )).start();
+		{
+			(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),
+				getDesiredItems( elementList, "Withdraw", TAKE_MULTIPLE ), ClanStashRequest.STASH_TO_ITEMS ) )).start();
 		}
 
 		protected void actionCancelled()
