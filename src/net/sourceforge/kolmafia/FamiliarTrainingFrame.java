@@ -1528,7 +1528,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If we have a lead necklace, use it
 			if ( leadNecklace != null )
-				getAccessoryWeights( weight + 3);
+				getAccessoryWeights( weight + 3 );
 
 			// If we have a rat head balloon, use it
 			if ( ratHeadBalloon != null )
@@ -1974,15 +1974,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// Add possible skills
 			if ( sympathyAvailable )
 				weight += ( familiar.getID() == DODECAPEDE ) ? -5 : 5;
-			if ( leashAvailable )
+			if ( leashAvailable || leashActive )
 				weight += 5;
-			if ( empathyAvailable )
+			if ( empathyAvailable || empathyActive )
 				weight += 5;
 
 			// Add available familiar items
 			if ( specWeight > 3 )
 				weight += specWeight;
-			else if (leadNecklace != null)
+			else if ( leadNecklace != null )
 				weight += 3;
 
 			// Add available tiny plastic items
