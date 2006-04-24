@@ -119,28 +119,28 @@ public class KoLmafiaASH extends StaticEntity
 
 	public void validate( File scriptFile ) throws IOException
 	{
-		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
+		this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 		this.fileName = scriptFile.getPath();
 
-		line = getNextLine();
-		lineNumber = commandStream.getLineNumber();
-		nextLine = getNextLine();
+		this.line = getNextLine();
+		this.lineNumber = commandStream.getLineNumber();
+		this.nextLine = getNextLine();
 
 		try
 		{
-			global = parseScope( null, new ScriptVariableList(), getExistingFunctionScope(), false );
+			this.global = parseScope( null, new ScriptVariableList(), getExistingFunctionScope(), false );
 
-			if ( line != null )
+			if ( this.line != null )
 				throw new AdvancedScriptException( "Script parsing error " + getLineAndFile() );
 
-			commandStream.close();
+			this.commandStream.close();
 			printScope( global, 0 );
 		}
 		catch ( AdvancedScriptException e )
 		{
-			commandStream.close();
+			this.commandStream.close();
+			this.commandStream = null;
 			StaticEntity.printStackTrace( e, e.getMessage() );
-			return;
 		}
 	}
 	
@@ -148,34 +148,27 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		// Befire you do anything, validate the script.
 		validate( scriptFile );
+
+		if ( this.commandStream == null )
+			return;
 		
 		try
 		{
 			ScriptValue result = executeGlobalScope( global );
-			if ( result.getType().equals( TYPE_BOOLEAN ) )
-			{
-				if ( result.intValue() == 0 )
-				{
-					DEFAULT_SHELL.printLine( "Script failed!" );
-					return;
-				}
-				else
-				{
-					DEFAULT_SHELL.printLine( "Script succeeded!" );
-					return;
-				}
-			}
-			else
-			{
-				DEFAULT_SHELL.printLine(  "Script returned value " + result );
+			if ( result == null || result.getType() == null )
 				return;
-			}
+
+			if ( result.getType().equals( TYPE_BOOLEAN ) )
+				DEFAULT_SHELL.printLine( result.intValue() == 0 ? "Script failed!" : "Script succeeded!" );
+			else if ( result.getType().equals( TYPE_STRING ) )
+				DEFAULT_SHELL.printLine( result.toString() );
+			else
+				DEFAULT_SHELL.printLine(  "Script returned value " + result );
 
 		}
-		catch( AdvancedScriptException e )
+		catch ( AdvancedScriptException e )
 		{
 			StaticEntity.printStackTrace( e, e.getMessage() );
-			return;
 		}
 	}
 
@@ -238,9 +231,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			commandStream.close();
 		}
-		catch( IOException e )
+		catch ( IOException e )
 		{
-			throw new RuntimeException( "Internal Error: IOException occurred on attempt to close file." );
 		}
 
 		if ( line != null )
