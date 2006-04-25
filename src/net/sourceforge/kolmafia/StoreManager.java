@@ -75,29 +75,7 @@ public abstract class StoreManager extends StaticEntity
 		if ( price < 50000000 )
 			potentialEarnings += (long) price * (long) quantity;
 
-		SoldItem newItem = new SoldItem( itemID, quantity, price, limit, lowest );
-		int itemIndex = soldItemList.indexOf( newItem );
-
-		// If the item is brand-new, just add it to the
-		// list of sold items.
-
-		if ( itemIndex == -1 )
-		{
-			soldItemList.add( newItem );
-		}
-		else
-		{
-			// If the item already exists, check it against the
-			// one which already exists in the list.  If there
-			// are any changes, update.
-
-			SoldItem oldItem = (SoldItem) soldItemList.get( itemIndex );
-
-			if ( oldItem.getQuantity() != newItem.getQuantity() || oldItem.getPrice() != newItem.getPrice() || oldItem.getLimit() != newItem.getLimit() || oldItem.getLowest() != newItem.getLowest() )
-				soldItemList.set( itemIndex, newItem );
-		}
-
-		return newItem;
+		return new SoldItem( itemID, quantity, price, limit, lowest );
 	}
 
 	/**
@@ -264,7 +242,11 @@ public abstract class StoreManager extends StaticEntity
 		Matcher logMatcher = Pattern.compile( "<span.*?</span>" ).matcher( logText );
 		if ( logMatcher.find() )
 		{
+			if ( logMatcher.group().indexOf( "<br>" ) == -1 )
+				return;
+			
 			String [] entries = logMatcher.group().split( "<br>" );
+		
 			for ( int i = 0; i < entries.length; ++i )
 				storeLog.add( new StoreLogEntry( entries.length - i - 1, entries[i].replaceAll( "<.*?>", "" ) ) );
 
