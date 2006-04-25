@@ -1379,11 +1379,13 @@ public class KoLmafiaCLI extends KoLmafia
 					return;
 				}
 
+				updateDisplay( "Executing \"" + parameters + "\" " + df.format( runCount ) + " time" + (runCount == 1 ? "..." : "s...") );
 				for ( int i = 0; i < runCount && StaticEntity.getClient().permitsContinue(); ++i )
 					advancedHandler.execute( scriptFile );
 			}
 			else
 			{
+				updateDisplay( "Executing \"" + parameters + "\" " + df.format( runCount ) + " time" + (runCount == 1 ? "..." : "s...") );
 				for ( int i = 0; i < runCount && StaticEntity.getClient().permitsContinue(); ++i )
 				{
 					lastScript = new KoLmafiaCLI( new FileInputStream( scriptFile ) );
