@@ -518,7 +518,7 @@ public class AdventureFrame extends KoLFrame
 			spookyForestSelect.addItem( "Loot Disco Bandit corpse" );
 			spookyForestSelect.addItem( "Loot Accordion Thief corpse" );
 
-			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 7 ];
+			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 6 ];
 			elements[0] = new VerifiableElement( "Combat Abort", battleStopSelect );
 			elements[1] = new VerifiableElement( "Clover Protect", cloverProtectSelect );
 
