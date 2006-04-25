@@ -993,9 +993,13 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 
 		int [] colors = new int[3];
-		while ( colors[0] > 80 && colors[1] > 80 && colors[2] > 80 )
+
+		do
+		{
 			for ( int i = 0; i < 3; ++i )
 				colors[i] = 48 + RNG.nextInt( 144 );
+		}
+		while ( colors[0] > 80 && colors[1] > 80 && colors[2] > 80 );
 
 		Color color = new Color( colors[0], colors[1], colors[2] );
 		highlighting = true;
