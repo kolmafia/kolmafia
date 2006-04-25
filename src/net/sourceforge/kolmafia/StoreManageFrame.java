@@ -95,7 +95,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreLogPanel extends ItemManagePanel
 	{
 		public StoreLogPanel()
-		{	super( "Transactions Log", "refresh", "do nothing", StoreManager.getStoreLog() );
+		{	super( "Transactions Log", "refresh", "resort", StoreManager.getStoreLog() );
 		}
 
 		public void actionConfirmed()
@@ -103,7 +103,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionCancelled()
-		{
+		{	StoreManager.sortStoreLog( true );
 		}
 	}
 

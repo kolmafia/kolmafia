@@ -40,6 +40,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseListener;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -64,11 +66,14 @@ public class ShowDescriptionList extends JList
 			{
 				int index = locationToIndex( e.getPoint() );
 				Object item = getModel().getElementAt( index );
+				
+				if ( item == null )
+					return;
+
+				ensureIndexIsVisible( index );
 
 				if ( item instanceof AdventureResult )
 				{
-					ensureIndexIsVisible( index );
-
 					if ( ((AdventureResult)item).isItem() )
 						FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( ((AdventureResult)item).getItemID() ) );
 					if ( ((AdventureResult)item).isStatusEffect() )
@@ -76,8 +81,16 @@ public class ShowDescriptionList extends JList
 				}
 				if ( item instanceof ItemCreationRequest )
 				{
-					ensureIndexIsVisible( index );
 					FightFrame.showLocation( "desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( ((ItemCreationRequest)item).getItemID() ) );
+				}
+				if ( item instanceof String )
+				{
+					Matcher playerMatcher = Pattern.compile( "\\(#(\\d+)\\)" ).matcher( (String) item );
+					if ( playerMatcher.find() )
+					{
+						Object [] parameters = new Object [] { "#" + playerMatcher.group(1) };
+						(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();
+					}
 				}
 			}
 		}

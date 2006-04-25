@@ -46,6 +46,12 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class StoreManager extends StaticEntity
 {
+	private static final int RECENT_FIRST = 1;
+	private static final int OLDEST_FIRST = 2;
+	private static final int GROUP_BY_NAME = 3;
+	
+	private static int currentSortType = RECENT_FIRST;
+
 	private static long potentialEarnings = 0;
 	private static LockableListModel storeLog = new LockableListModel();
 	private static LockableListModel soldItemList = new LockableListModel();
@@ -55,6 +61,7 @@ public abstract class StoreManager extends StaticEntity
 	{
 		potentialEarnings = 0;
 		soldItemList.clear();
+		sortedSoldItemList.clear();
 	}
 
 	/**
@@ -120,14 +127,35 @@ public abstract class StoreManager extends StaticEntity
 	public static LockableListModel getStoreLog()
 	{	return storeLog;
 	}
+	
+	public static void sortStoreLog( boolean cycleSortType )
+	{
+		if ( cycleSortType )
+		{
+			switch ( currentSortType )
+			{
+				case RECENT_FIRST:
+					currentSortType = OLDEST_FIRST;
+					break;
+				case OLDEST_FIRST:
+					currentSortType = GROUP_BY_NAME;
+					break;
+				case GROUP_BY_NAME:
+					currentSortType = RECENT_FIRST;
+					break;
+			}
+		}
+		
+		// Because StoreLogEntry objects use the current
+		// internal variable to decide how to sort, a simple
+		// function call will suffice.
+		
+		Collections.sort( storeLog );
+	}
 
 	public static void update( String storeText, boolean isPriceManagement )
 	{
-		potentialEarnings = 0;
-
-		// Now that the item list has been cleared, begin
-		// parsing the store text.
-
+		reset();
 		ArrayList newItems = new ArrayList();
 
 		if ( isPriceManagement )
@@ -214,12 +242,8 @@ public abstract class StoreManager extends StaticEntity
 			}
 		}
 
-		soldItemList.clear();
 		soldItemList.addAll( newItems );
-
 		Collections.sort( newItems );
-		
-		sortedSoldItemList.clear();
 		sortedSoldItemList.addAll( newItems );
 		
 		// Now, update the title of the store manage
@@ -242,10 +266,45 @@ public abstract class StoreManager extends StaticEntity
 		{
 			String [] entries = logMatcher.group().split( "<br>" );
 			for ( int i = 0; i < entries.length; ++i )
-				entries[i] = (entries.length - i - 1) + ":  " + entries[i].replaceAll( "<.*?>", "" );
+				storeLog.add( new StoreLogEntry( entries.length - i - 1, entries[i].replaceAll( "<.*?>", "" ) ) );
 
-			for ( int i = entries.length - 2; i >= 0; --i )
-				storeLog.add( entries[i] );
+			sortStoreLog( false );
+		}
+	}
+	
+	private static class StoreLogEntry
+	{
+		private int id;
+		private String text;
+		private String stringForm;
+		
+		public StoreLogEntry( int id, String text )
+		{
+			this.id = id;
+			this.text = text;
+			this.stringForm = id + ": " + text;
+		}
+		
+		public String toString()
+		{	return stringForm;
+		}
+		
+		public int compareTo( Object o )
+		{
+			if ( o == null || !(o instanceof StoreLogEntry) )
+				return -1;
+			
+			switch ( currentSortType )
+			{
+				case RECENT_FIRST:
+					return id - ((StoreLogEntry)o).id;
+				case OLDEST_FIRST:
+					return ((StoreLogEntry)o).id - id;
+				case GROUP_BY_NAME:
+					return text.compareTo( ((StoreLogEntry)o).text );
+				default:
+					return -1;
+			}
 		}
 	}
 
