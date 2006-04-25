@@ -367,6 +367,7 @@ public class LoginFrame extends KoLFrame
 
 			{ "IcePenguin Express", "MailboxFrame" },
 			{ "KoLmafia Chat", "KoLMessenger" },
+			{ "New Events", "EventsFrame" },
 
 			{ "Clan Manager", "ClanManageFrame" },
 			{ "Farmer's Almanac", "CalendarFrame" },
