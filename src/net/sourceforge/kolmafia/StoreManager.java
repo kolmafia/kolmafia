@@ -255,6 +255,10 @@ public abstract class StoreManager extends StaticEntity
 	 */
 
 	public static void searchMall( String itemName, List priceSummary )
+	{	searchMall( itemName, priceSummary, 10 );
+	}
+	
+	public static void searchMall( String itemName, List priceSummary, int maximumResults )
 	{
 		priceSummary.clear();
 		if ( itemName == null )
@@ -265,7 +269,7 @@ public abstract class StoreManager extends StaticEntity
 		// With the item name properly formatted, issue
 		// the search request.
 
-		(new SearchMallRequest( client, itemName, 10, results, true )).run();
+		(new SearchMallRequest( client, itemName, maximumResults, results, true )).run();
 
 		MallPurchaseRequest [] resultsArray = new MallPurchaseRequest[ results.size() ];
 		results.toArray( resultsArray );

@@ -1155,7 +1155,16 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "searchmall" ) )
 		{
 			List results = new ArrayList();
-			StoreManager.searchMall( parameters, results );
+			int desiredLimit = 0;
+
+			if ( parameters.indexOf( "with limit" ) != -1 )
+			{
+				String [] splitup = parameters.split( "with limit" );
+				parameters = splitup[0];
+				desiredLimit = Integer.parseInt( parameters );
+			}
+			
+			StoreManager.searchMall( parameters, results, desiredLimit );
 			printList( results );
 			return;
 		}
@@ -2911,7 +2920,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		ArrayList results = new ArrayList();
-		(new SearchMallRequest( StaticEntity.getClient(), '\"' + firstMatch.getName() + '\"', 0, results )).run();
+		StoreManager.searchMall( '\"' + firstMatch.getName() + '\"', results );
 		StaticEntity.getClient().makePurchases( results, results.toArray(), firstMatch.getCount() );
 	}
 

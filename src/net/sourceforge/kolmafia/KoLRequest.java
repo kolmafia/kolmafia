@@ -510,7 +510,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( responseCode == 200 )
 		{
-			if ( !isDelayExempt() )
+			if ( !isDelayExempt() && !(this instanceof SearchMallRequest) )
 				showInBrowser( false );
 
 			processResults();
