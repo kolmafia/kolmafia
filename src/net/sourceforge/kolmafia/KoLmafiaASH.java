@@ -3246,7 +3246,7 @@ public class KoLmafiaASH extends StaticEntity
 				validOperation |= lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT );
 
 				// string operations are valid
-				validOperation |= lhs.getType().equals( TYPE_STRING );
+				validOperation |= lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING );
 
 				if ( !validOperation )
 					throw new AdvancedScriptException( "Cannot apply " + rhs.getType() + " to " + lhs + " " + getLineAndFile() );
@@ -3283,7 +3283,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			try
 			{
-				return oper.applyTo(lhs, rhs );
+				return oper.applyTo( lhs, rhs );
 			}
 			catch( AdvancedScriptException e )
 			{
