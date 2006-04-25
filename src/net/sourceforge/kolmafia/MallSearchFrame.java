@@ -118,6 +118,9 @@ public class MallSearchFrame extends KoLPanelFrame
 		protected void actionConfirmed()
 		{
 			int searchCount = getValue( countField, 5 );
+			if ( searchCount == 5 || searchCount < 0 )
+				countField.setText( "5" );
+			
 			setProperty( "defaultLimit", countField.getText() );
 			searchMall( new SearchMallRequest( StaticEntity.getClient(), searchField.getText(), searchCount, results ) );
 

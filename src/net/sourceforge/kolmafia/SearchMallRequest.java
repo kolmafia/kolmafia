@@ -104,14 +104,11 @@ public class SearchMallRequest extends KoLRequest
 		this.searchString = getItemName( searchString );
 		addFormField( "whichitem", this.searchString );
 
-		if ( cheapestCount < 0 || cheapestCount > 37 )
-			cheapestCount = 37;
+		if ( cheapestCount <= 0 )
+			cheapestCount = 5;
 
-		if ( cheapestCount != 0 )
-		{
-			addFormField( "cheaponly", "on" );
-			addFormField( "shownum", "" + cheapestCount );
-		}
+		addFormField( "cheaponly", "on" );
+		addFormField( "shownum", "" + cheapestCount );
 
 		this.results = results;
 		this.retainAll = retainAll;
