@@ -34,66 +34,24 @@
 
 package net.sourceforge.kolmafia;
 
-// layout
-import javax.swing.Box;
-import java.awt.CardLayout;
-import java.awt.BorderLayout;
-
-// containers
-import javax.swing.JList;
-import javax.swing.JPanel;
-import javax.swing.JComponent;
-import javax.swing.JScrollPane;
-
-import java.lang.ref.WeakReference;
-import net.java.dev.spellcast.utilities.ActionPanel;
-import net.java.dev.spellcast.utilities.LockableListModel;
-
 /**
  * A class which displays the list of events that arrived this session
  */
 
-public class EventsFrame extends KoLFrame
+public class EventsFrame extends KoLPanelFrame
 {
 	public EventsFrame()
 	{
 		super( "Recent Events" );
-		getContentPane().add( new EventsPanel(), BorderLayout.CENTER );
+		setContentPane( new EventsPanel() );
 	}
 
-	private class EventsPanel extends ActionPanel
+	private class EventsPanel extends LabeledScrollPanel
 	{
-		protected JPanel actualPanel;
-		protected VerifyButtonPanel buttonPanel;
-		protected JComponent scrollComponent;
-
 		public EventsPanel()
 		{
-			scrollComponent = new JList( KoLCharacter.getEvents() );
-
-			JPanel centerPanel = new JPanel( new BorderLayout() );
-			centerPanel.add( new JScrollPane( scrollComponent,
-							  JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-							  JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED ),
-					 BorderLayout.CENTER );
-
-			actualPanel = new JPanel( new BorderLayout( 20, 10 ) );
-			actualPanel.add( centerPanel, BorderLayout.CENTER );
-
-			buttonPanel = new VerifyButtonPanel( "clear", "check", "check" );
-			buttonPanel.setBothDisabledOnClick( true );
-			actualPanel.add( buttonPanel, BorderLayout.EAST );
-
-			getContentPane().setLayout( new CardLayout( 10, 10 ) );
-			getContentPane().add( actualPanel, "" );
-
-			existingPanels.add( new WeakReference( this ) );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-			scrollComponent.setEnabled( isEnabled );
-			buttonPanel.setEnabled( isEnabled );
+			super( "Recent Events", "clear", "check",
+				new ShowDescriptionList( KoLCharacter.getEvents() ) );
 		}
 
 		protected void actionConfirmed()

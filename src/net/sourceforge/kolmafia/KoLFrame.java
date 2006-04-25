@@ -1096,7 +1096,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( !(this instanceof ChatFrame) )
 			super.pack();
 		
-		restorePosition();
+		if ( !isVisible() )
+			restorePosition();
 	}
 
 	private void rememberPosition()

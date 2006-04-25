@@ -68,14 +68,19 @@ public class ProfileRequest extends KoLRequest
 	{
 		super( client, "showplayer.php" );
 
-		if ( client != null )
-			addFormField( "who", KoLmafia.getPlayerID( playerName ) );
-
-		this.playerName = playerName;
-
-		if ( client != null )
+		if ( playerName.startsWith( "#" ) )
+		{
+			this.playerID = playerName.substring(1);
+			this.playerName = KoLmafia.getPlayerName( playerID );
+		}
+		else
+		{
+			this.playerName = playerName;
 			this.playerID = KoLmafia.getPlayerID( playerName );
+		}
 
+		addFormField( "who", playerID );
+		
 		this.muscle = new Integer(0);
 		this.mysticism = new Integer(0);
 		this.moxie = new Integer(0);

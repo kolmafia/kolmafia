@@ -1301,8 +1301,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		responseText = eventMatcher.replaceFirst( "" );
 
 		// Append the events to the character's list
-		LockableListModel list = KoLCharacter.getEvents();
-		boolean gui = StaticEntity.getClient() instanceof KoLmafiaGUI;
+		LockableListModel eventList = KoLCharacter.getEvents();
 
 		for ( int i = 0; i < events.length; ++i )
 		{
@@ -1314,26 +1313,36 @@ public class KoLRequest implements Runnable, KoLConstants
 			// 04/25/06 12:53:54 PM - New message received from <a target=mainpane href='showplayer.php?who=115875'><font color=green>Brianna</font></a>.
 			// 04/25/06 01:06:43 PM - <a class=nounder target=mainpane href='showplayer.php?who=115875'><b><font color=green>Brianna</font></b></a> has played a song (The Polka of Plenty) for you.
 
-			// For now, simply strip out HTML tags.
-			event = events[i].replaceAll( "<.*?>", "" );
+			// Add in a player ID so that the events can be handled
+			// using a ShowDescriptionList.
+
+			event = event.replaceAll( "</a>", "<a>" ).replaceAll( "<[^a].*?>", "" );
+			event = event.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
+			event = event.replaceAll( "<.*?>", "" );
 
 			// Add the event to the event list
-			list.add( event );
 
-			// If client is not a GUI, display the event
-			if ( !gui )
-				StaticEntity.getClient().updateDisplay( event );
+			eventList.add( event );
+
+			// Print everything to the default shell; this way, the
+			// graphical CLI is also notified of events.
+
+			DEFAULT_SHELL.printLine( event );
 		}
 
-		// If we're not a GUI, quit now
-		if ( !gui )
+		// If we're not a GUI and there are no GUI windows open
+		// (ie: the GUI loader command wasn't used), quit now.
+
+		if ( existingFrames.isEmpty() )
 			return;
 
 		// If we are not running chat, pop up an EventsFrame to show
-		// the events
+		// the events.  Use the standard run method so that you wait
+		// for it to finish before calling it again on another event.
+
 		if ( !KoLMessenger.isRunning() )
 		{
-			SwingUtilities.invokeLater(new CreateFrameRunnable( EventsFrame.class ));
+			(new CreateFrameRunnable( EventsFrame.class )).run();
 			return;
 		}
 
