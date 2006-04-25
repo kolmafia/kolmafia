@@ -283,7 +283,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 16, 540, 30, StoreManager.getSoldItemList() );
+		{	super( 16, 540, 40, StoreManager.getSoldItemList() );
 		}
 
 		protected PanelListCell constructPanelListCell( Object value, int index )
@@ -317,7 +317,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			searchButton.addActionListener( new SearchButtonListener() );
 			searchButton.setToolTipText( "Price Analysis" );
 
-			JComponentUtilities.setComponentSize( itemName, 180, 20 );
+			JComponentUtilities.setComponentSize( itemName, 180, 36 );
 			JComponentUtilities.setComponentSize( itemPrice, 90, 20 );
 			JComponentUtilities.setComponentSize( lowestPrice, 90, 20 );
 			JComponentUtilities.setComponentSize( itemQuantity, 50, 20 );
