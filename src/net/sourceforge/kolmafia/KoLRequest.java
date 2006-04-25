@@ -57,6 +57,9 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.SwingUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
+
 /**
  * Most aspects of Kingdom of Loathing are accomplished by submitting
  * forms and their accompanying data.  This abstract class is designed
@@ -1281,26 +1284,65 @@ public class KoLRequest implements Runnable, KoLConstants
 	
 	private void checkForNewEvents()
 	{
-		if ( responseText.indexOf( "bgcolor=orange><b>New Events:</b>") != -1 )
-		{
-			// Capture the entire new events table in order
-			// to display the appropriate message.
-			
-			Matcher eventMatcher = Pattern.compile( "<table width=.*?<td height=4></td></tr></table>" ).matcher( responseText );
-			if ( eventMatcher.find() )
-			{
-				if ( !KoLMessenger.isRunning() )
-				{
-					client.showHTML( eventMatcher.group(), "Recent Events" );
-					return;
-				}
+		if ( responseText.indexOf( "bgcolor=orange><b>New Events:</b>") == -1 )
+			return;
 
-				String [] events = eventMatcher.group().replaceAll( "<br>", "\n" ).replaceAll( "<.*?>", "" ).split( "\n" );
-				responseText = eventMatcher.replaceFirst( "" );
-				
-				for ( int i = 0; i < events.length; ++i )
-					KoLMessenger.updateChat( "<font color=green>" + events[i].substring( events[i].indexOf( "-" ) + 2 ) + "</font>" );
-			}
+		// Capture the entire new events table in order to display the
+		// appropriate message.
+			
+		Matcher eventMatcher = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" ).matcher( responseText );
+		if ( !eventMatcher.find() )
+			return;
+
+		// Make an array of events
+		String [] events = eventMatcher.group(1).replaceAll( "<br>", "\n" ).split( "\n" );
+
+		// Remove the events from the response text
+		responseText = eventMatcher.replaceFirst( "" );
+
+		// Append the events to the character's list
+		LockableListModel list = KoLCharacter.getEvents();
+		boolean gui = StaticEntity.getClient() instanceof KoLmafiaGUI;
+
+		for ( int i = 0; i < events.length; ++i )
+		{
+			String event = events[i];
+
+			// The event may be marked up with color and links to
+			// user profiles. For example:
+
+			// 04/25/06 12:53:54 PM - New message received from <a target=mainpane href='showplayer.php?who=115875'><font color=green>Brianna</font></a>.
+			// 04/25/06 01:06:43 PM - <a class=nounder target=mainpane href='showplayer.php?who=115875'><b><font color=green>Brianna</font></b></a> has played a song (The Polka of Plenty) for you.
+
+			// For now, simply strip out HTML tags.
+			event = events[i].replaceAll( "<.*?>", "" );
+
+			// Add the event to the event list
+			list.add( event );
+
+			// If client is not a GUI, display the event
+			if ( !gui )
+				StaticEntity.getClient().updateDisplay( event );
+		}
+
+		// If we're not a GUI, quit now
+		if ( !gui )
+			return;
+
+		// If we are not running chat, pop up an EventsFrame to show
+		// the events
+		if ( !KoLMessenger.isRunning() )
+		{
+			SwingUtilities.invokeLater(new CreateFrameRunnable( EventsFrame.class ));
+			return;
+		}
+
+		// Copy the events to chat
+		for ( int i = 0; i < events.length; ++i )
+		{
+			int dash = events[i].indexOf( "-" );
+			String event = events[i].substring( dash + 2 ).replaceAll( "<.*?>", "" );
+			KoLMessenger.updateChat( "<font color=green>" + event + "</font>" );
 		}
 	}
 	

@@ -216,6 +216,8 @@ public abstract class KoLCharacter extends StaticEntity
 			equipment.add( EquipmentRequest.UNEQUIP );
 	}
 
+	private static LockableListModel events = new LockableListModel();
+
 	private static SortedListModel inventory = new SortedListModel( AdventureResult.class );
 	private static SortedListModel closet = new SortedListModel( AdventureResult.class );
 	private static SortedListModel collection = new SortedListModel( AdventureResult.class );
@@ -314,6 +316,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 		customOutfits.clear();
 		outfits.clear();
+
+		events.clear();
 
 		inventory.clear();
 		closet.clear();
@@ -2329,5 +2333,13 @@ public abstract class KoLCharacter extends StaticEntity
 
 		for ( int i = 0; i < listenerArray.length; ++i )
 			listenerArray[i].updateStatus();
+	}
+
+	public static LockableListModel getEvents()
+	{	return events;
+	}
+
+	public static void clearEvents()
+	{	events.clear();
 	}
 }
