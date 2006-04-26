@@ -112,7 +112,6 @@ public class ChatFrame extends KoLFrame
 			toolbarPanel.add( new MessengerButton( "Add Highlighting", "highlight1.gif", "addHighlighting" ) );
 			toolbarPanel.add( new MessengerButton( "Remove Highlighting", "highlight2.gif", "removeHighlighting" ) );
 			toolbarPanel.add( new JToolBar.Separator() );
-			toolbarPanel.add( new MessengerButton( "/friends", "who1.gif", "checkFriends" ) );
 			toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
 			toolbarPanel.add( new JToolBar.Separator() );
 			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
@@ -257,6 +256,12 @@ public class ChatFrame extends KoLFrame
 			private void submitChat()
 			{
 				String currentMessage = entryField.getText();
+				if ( currentMessage.startsWith( "/clear" ) || currentMessage.startsWith( "/cls" ) || currentMessage.equals( "clear" ) || currentMessage.equals( "cls" ) )
+				{
+					KoLMessenger.clearChatBuffers();
+					return;
+				}
+
 				KoLMessenger.setUpdateChannel( associatedContact );
 				ChatRequest [] requests;
 
