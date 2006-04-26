@@ -188,7 +188,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		peopleMenu.add( new DisplayFrameMenuItem( "Read KoLmail", MailboxFrame.class ) );
 		peopleMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "New Events", EventsFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Recent Events", EventsFrame.class ) );
 
 		peopleMenu.add( new JSeparator() );
 
