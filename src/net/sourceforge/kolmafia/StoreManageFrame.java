@@ -218,7 +218,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			DEFAULT_SHELL.updateDisplay( "Compiling reprice data..." );
 
-			java.awt.Component [] components = storeItemList.getComponents();
+			java.awt.Component [] components = storeItemList.getPanelListCells();
 			int [] itemID = new int[ components.length ];
 			int [] prices = new int[ components.length ];
 			int [] limits = new int[ components.length ];
