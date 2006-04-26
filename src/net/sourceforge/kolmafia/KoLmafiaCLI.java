@@ -530,7 +530,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// login), so they should be handled before a test
 		// of login state needed for other commands.
 
-		if ( command.equals( "validate" ) || command.equals( "call" ) || command.equals( "run" ) || command.equals( "exec" ) || command.equals( "load" ) )
+		if ( command.equals( "validate" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
 		{
 			executeScriptCommand( parameters );
 			return;
@@ -715,7 +715,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "survival" ) )
+		if ( command.equals( "survival" ) || command.equals( "getdata" ) )
 		{
 			showHTML( AdventureDatabase.getAreaCombatData( AdventureDatabase.getAdventure( parameters ).toString() ).toString(), "Survival Lookup" );
 			return;
@@ -1218,7 +1218,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Because it makes sense to add this command as-is,
 		// you now have the ability to request buffs.
 
-		if ( command.equals( "send" ) )
+		if ( command.equals( "send" ) || command.equals( "kmail" ) )
 		{
 			executeSendRequest( parameters );
 			return;
@@ -1379,13 +1379,11 @@ public class KoLmafiaCLI extends KoLmafia
 					return;
 				}
 
-				updateDisplay( "Executing \"" + parameters + "\" " + df.format( runCount ) + " time" + (runCount == 1 ? "..." : "s...") );
 				for ( int i = 0; i < runCount && StaticEntity.getClient().permitsContinue(); ++i )
 					advancedHandler.execute( scriptFile );
 			}
 			else
 			{
-				updateDisplay( "Executing \"" + parameters + "\" " + df.format( runCount ) + " time" + (runCount == 1 ? "..." : "s...") );
 				for ( int i = 0; i < runCount && StaticEntity.getClient().permitsContinue(); ++i )
 				{
 					lastScript = new KoLmafiaCLI( new FileInputStream( scriptFile ) );
