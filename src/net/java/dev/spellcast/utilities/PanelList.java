@@ -180,7 +180,9 @@ public abstract class PanelList extends JPanel
 	 */
 
 	private void validatePanelList()
-	{	listPanel.invalidate();  listPanel.validate();  listPanel.repaint();
+	{
+		validate();
+		repaint();
 	}
 
 	public Component [] getPanelListCells()
@@ -228,7 +230,7 @@ public abstract class PanelList extends JPanel
 			LockableListModel source = (LockableListModel) e.getSource();
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-			if ( index1 >= getComponentCount() || source.size() == listPanel.getComponentCount() )
+			if ( index1 >= listPanel.getComponentCount() || source.size() == listPanel.getComponentCount() )
 				return;
 
 			for ( int i = index1; i >= index0; --i )
@@ -249,7 +251,7 @@ public abstract class PanelList extends JPanel
 			LockableListModel source = (LockableListModel) e.getSource();
 			int index0 = e.getIndex0();  int index1 = e.getIndex1();
 
-			if ( index1 >= getComponentCount() )
+			if ( index1 >= listPanel.getComponentCount() )
 				return;
 
 			for ( int i = index1; i >= index0; --i )
