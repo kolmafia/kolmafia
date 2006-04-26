@@ -247,14 +247,14 @@ public abstract class StoreManager extends StaticEntity
 			
 			String [] entries = logMatcher.group().split( "<br>" );
 		
-			for ( int i = 0; i < entries.length; ++i )
+			for ( int i = 0; i < entries.length - 1; ++i )
 				storeLog.add( new StoreLogEntry( entries.length - i - 1, entries[i].replaceAll( "<.*?>", "" ) ) );
 
 			sortStoreLog( false );
 		}
 	}
 	
-	private static class StoreLogEntry
+	private static class StoreLogEntry implements Comparable
 	{
 		private int id;
 		private String text;

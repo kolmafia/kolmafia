@@ -183,7 +183,7 @@ public abstract class PanelList extends JPanel
 	{	listPanel.invalidate();  listPanel.validate();  listPanel.repaint();
 	}
 
-	public Component [] getComponents()
+	public Component [] getPanelListCells()
 	{	return listPanel.getComponents();
 	}
 
