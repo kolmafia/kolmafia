@@ -131,12 +131,12 @@ public class ChatRequest extends KoLRequest
 
 		try
 		{
-			if ( !(client instanceof KoLmafiaCLI) )
+			if ( KoLMessenger.isRunning() )
 				KoLMessenger.updateChat( responseText );
 		}
 		catch ( Exception e )
 		{
-			StaticEntity.printStackTrace( e );
+			StaticEntity.printStackTrace( e, "Chat error" );
 		}
 	}
 

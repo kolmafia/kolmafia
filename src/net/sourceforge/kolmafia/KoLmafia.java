@@ -65,6 +65,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Method;
 
 import javax.swing.JEditorPane;
+import javax.swing.JOptionPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -2549,5 +2550,82 @@ public abstract class KoLmafia implements KoLConstants
 	
 	public boolean shouldMakeConflictingRequest()
 	{	return currentRequest == null || !(currentRequest instanceof FightRequest) || currentRequest.getAdventuresUsed() == 1;
+	}
+
+	public void removeAllItemsFromStore()
+	{
+		(new StoreManageRequest( this )).run();
+
+		// Now determine the desired prices on items.
+		// If the value of an item is currently 100,
+		// then remove the item from the store.
+
+		StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
+		StoreManager.getSoldItemList().toArray( sold );
+
+		for ( int i = 0; i < sold.length && permitsContinue(); ++i )
+			(new StoreManageRequest( this, sold[i].getItemID() )).run();
+
+		updateDisplay( "Store emptying complete." );
+	}
+
+	/**
+	 * Hosts a massive sale on the items currently in your store.
+	 * Utilizes the "minimum meat" principle.
+	 */
+
+	public void makeEndOfRunSaleRequest()
+	{
+		if ( !KoLCharacter.canInteract() )
+		{
+			updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
+			return;
+		}
+
+		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+			"Are you sure you'd like to host an end-of-run sale?", "MASSIVE SALE", JOptionPane.YES_NO_OPTION ) )
+				return;
+
+		// Find all tradeable items.  Tradeable items
+		// are marked by an autosell value of nonzero.
+
+		AdventureResult [] items = new AdventureResult[ KoLCharacter.getInventory().size() ];
+		KoLCharacter.getInventory().toArray( items );
+
+		ArrayList autosell = new ArrayList();
+		ArrayList automall = new ArrayList();
+
+		// Only place items in the mall which are not
+		// sold in NPC stores -- everything else, make
+		// sure you autosell.
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			if ( items[i].getCount() < 100 && TradeableItemDatabase.getPriceByID( items[i].getItemID() ) > 0 )
+			{
+				if ( NPCStoreDatabase.contains( items[i].getName() ) )
+					autosell.add( items[i] );
+				else
+					automall.add( items[i] );
+			}
+		}
+
+		// Now, place all the items in the mall at the
+		// maximum possible price.  This allows KoLmafia
+		// to determine the minimum price.
+
+		if ( autosell.size() > 0 && permitsContinue() )
+			(new AutoSellRequest( this, autosell.toArray(), AutoSellRequest.AUTOSELL )).run();
+
+		if ( automall.size() > 0 && permitsContinue() )
+			(new AutoSellRequest( this, automall.toArray(), AutoSellRequest.AUTOMALL )).run();
+
+		// Now, remove all the items that you intended
+		// to remove from the store due to pricing issues.
+
+		if ( permitsContinue() )
+			priceItemsAtLowestPrice();
+
+		updateDisplay( "Undercutting sale complete." );
 	}
 }

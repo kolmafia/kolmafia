@@ -239,15 +239,11 @@ public class BuffBotHome extends StaticEntity
 	{
 		if ( entry != null && client != null && hypertextLogStream != null )
 		{
-			if ( client instanceof KoLmafiaGUI )
-				messages.add( 0, new BuffMessage( c, entry ) );
-
+			messages.add( 0, new BuffMessage( c, entry ) );
 			hypertextLogStream.println( "<br><font color=" + DataUtilities.toHexString( c ) + ">" + entry + "</font>" );
 			hypertextLogStream.flush();
 
-			if ( client instanceof KoLmafiaCLI )
-				System.out.println( entry );
-
+			DEFAULT_SHELL.printLine( entry );
 			if ( messages.size() > 100 )
 				messages.remove( 100 );
 		}

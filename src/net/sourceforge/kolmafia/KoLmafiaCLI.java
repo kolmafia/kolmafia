@@ -127,8 +127,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public KoLmafiaCLI( InputStream inputStream )
 	{
-		if ( StaticEntity.getClient() instanceof KoLmafiaCLI )
-			outputStream = System.out;
+		if ( DEFAULT_SHELL != null )
+			outputStream = DEFAULT_SHELL.outputStream;
 
 		try
 		{
@@ -249,10 +249,13 @@ public class KoLmafiaCLI extends KoLmafia
 				printBlankLine();
 				outputStream.print( " > " );
 			}
-			else if ( StaticEntity.getClient() instanceof KoLmafiaCLI && !StaticEntity.getClient().permitsContinue() )
+			else if ( StaticEntity.getClient() == DEFAULT_SHELL && !DEFAULT_SHELL.permitsContinue() )
 			{
-				outputStream.print( "Continue? [Y/N] > " );
+				outputStream.print( "Continue? [Y/N]" );
 				mirrorStream.print( "Continue? [Y/N]" );
+
+				printBlankLine();
+				outputStream.print( " > " );
 
 				line = ((KoLmafiaCLI)StaticEntity.getClient()).getNextLine();
 
@@ -1164,7 +1167,7 @@ public class KoLmafiaCLI extends KoLmafia
 				desiredLimit = Integer.parseInt( parameters );
 			}
 			
-			StoreManager.searchMall( parameters, results, desiredLimit );
+			StoreManager.searchMall( parameters, results, desiredLimit, true );
 			printList( results );
 			return;
 		}
@@ -2920,7 +2923,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		ArrayList results = new ArrayList();
-		StoreManager.searchMall( '\"' + firstMatch.getName() + '\"', results );
+		StoreManager.searchMall( '\"' + firstMatch.getName() + '\"', results, 10, false );
 		StaticEntity.getClient().makePurchases( results, results.toArray(), firstMatch.getCount() );
 	}
 

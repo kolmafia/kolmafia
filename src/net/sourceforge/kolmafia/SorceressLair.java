@@ -469,7 +469,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( !hasItem( CLOVER ) )
 		{
-			if ( client instanceof KoLmafiaCLI )
+			if ( existingFrames.isEmpty() )
 			{
 				requirements.add( CLOVER );
 				return requirements;
