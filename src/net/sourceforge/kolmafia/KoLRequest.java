@@ -516,7 +516,14 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !isDelayExempt() && !(this instanceof SearchMallRequest) )
 				showInBrowser( false );
 
-			processResults();
+			if ( getClass() == KoLRequest.class || this instanceof LocalRelayRequest )
+			{
+				if ( !shouldIgnoreResults() )
+					processResults();
+			}
+			else
+				processResults();
+
 			AdventureRequest.registerEncounter( this );
 		}
 		else
@@ -525,6 +532,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 	}
 
+	private boolean shouldIgnoreResults()
+	{
+		return formURLString.startsWith( "messages.php" ) || formURLString.startsWith( "mall.php" ) ||
+			formURLString.startsWith( "searchmall.php" ) || formURLString.startsWith( "clan" ) ||
+			formURLString.startsWith( "manage" ) || formURLString.startsWith( "inv" ) ||
+			formURLString.startsWith( "sell" ) || formURLString.indexOf( "chat" ) != -1;
+	}
+	
 	/**
 	 * Utility method which waits for the default refresh rate
 	 * without using Thread.sleep() - this means CPU usage can
