@@ -1265,7 +1265,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// in a browser.  If you're using a command-line
 		// interface, then you should not display the request.
 
-		if ( client instanceof KoLmafiaCLI )
+		if ( existingFrames.isEmpty() )
 			return;
 
 		if ( !exceptional && getProperty( "synchronizeFightFrame" ).equals( "false" ) )

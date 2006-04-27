@@ -120,13 +120,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{
-			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-				"Are you sure you would like to place the selected items in your store?",
-					"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
-						return;
-
-			(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), elementList.getSelectedValues(), AutoSellRequest.AUTOMALL ) )).start();
+		{	(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), elementList.getSelectedValues(), AutoSellRequest.AUTOMALL ) )).start();
 		}
 
 		public void actionCancelled()
@@ -134,9 +128,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void run()
-		{
-			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-				((KoLmafiaGUI)StaticEntity.getClient()).makeEndOfRunSaleRequest();
+		{	StaticEntity.getClient().makeEndOfRunSaleRequest();
 		}
 	}
 
@@ -164,9 +156,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void run()
-		{
-			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-				((KoLmafiaGUI)StaticEntity.getClient()).removeAllItemsFromStore();
+		{	StaticEntity.getClient().removeAllItemsFromStore();
 		}
 	}
 
@@ -240,9 +230,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void run()
-		{
-			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-				((KoLmafiaGUI)StaticEntity.getClient()).priceItemsAtLowestPrice();
+		{	StaticEntity.getClient().priceItemsAtLowestPrice();
 		}
 	}
 
@@ -385,7 +373,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			public void run()
 			{
-				StoreManager.searchMall( TradeableItemDatabase.getItemName( itemID ), priceSummary );
+				StoreManager.searchMall( TradeableItemDatabase.getItemName( itemID ), priceSummary, 100, true );
 				searchLabel.setText( itemName.getText() );
 			}
 		}

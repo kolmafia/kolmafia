@@ -421,11 +421,13 @@ public abstract class StrangeLeaflet extends StaticEntity
 			return true;
 		}
 
-		if ( client instanceof KoLmafiaGUI )
+		if ( !existingFrames.isEmpty() )
+		{
 			invokeMagic = JOptionPane.showConfirmDialog( null,
-								     "Would you like to invoke the \"magic words\" today?",
-								     "You know you want to!",
-								     JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION;
+			     "Would you like to invoke the \"magic word\" today?",
+			     "You know you want to!",
+			     JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION;
+		}
 
 		if ( !invokeMagic )
 			return false;

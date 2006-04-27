@@ -231,7 +231,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	{
 		StringBuffer buffer = new StringBuffer();
 
-		if ( client instanceof KoLmafiaGUI )
+		if ( !existingFrames.isEmpty() )
 		{
 			buffer.append( "<html><nobr>" );
 			if ( !canPurchase )
@@ -259,7 +259,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		buffer.append( "): " );
 		buffer.append( shopName );
 
-		if ( client instanceof KoLmafiaGUI )
+		if ( !existingFrames.isEmpty() )
 		{
 			if ( !canPurchase )
 				buffer.append( "</font>" );
