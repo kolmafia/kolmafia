@@ -246,9 +246,10 @@ public class SortedListModel extends LockableListModel
 		halfwayIndex >>= 1;
 
 		Comparable halfwayElement = (Comparable) get( halfwayIndex );
-		int compareResult = halfWayElement instanceof String && element instanceof String ?
-			((String)halfWayElement.compareToIgnoreCase( (String) element ) :
-			halfwayElement.compareTo( element );
+		int compareResult = halfwayElement.compareTo( element );
+//		int compareResult = halfwayElement instanceof String && element instanceof String ?
+//			((String)halfwayElement).compareToIgnoreCase( (String) element ) :
+//			halfwayElement.compareTo( element );
 
 		// if the element in the middle is larger than the element being checked,
 		// then it is known that the element is smaller than the middle element,
