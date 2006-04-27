@@ -468,14 +468,19 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static void handlePlayerData( String content )
 	{
-		Matcher playerMatcher = Pattern.compile( "showplayer.php\\?who\\=(\\d+)[\'\"]>(.*?)</a>" ).matcher( content );
+		Matcher playerMatcher = Pattern.compile( "showplayer\\.php\\?who\\=(\\d+)[\'\"][^>]*?>(.*?)</a>" ).matcher( content );
 
 		String playerName, playerID;
 		while ( playerMatcher.find() )
 		{
 			playerName = playerMatcher.group(2).replaceAll( "<.*?>", "" ).replaceAll( " \\(.*?\\)", "" ).replaceAll( ":" , "" );
 			playerID = playerMatcher.group(1);
-			KoLmafia.registerPlayer( playerName, playerID );
+			
+			// Handle the new player profile links -- in
+			// this case, ignore the registration.
+
+			if ( !playerName.startsWith( "&" ) )
+				KoLmafia.registerPlayer( playerName, playerID );
 		}
 	}
 
@@ -771,7 +776,7 @@ public abstract class KoLMessenger extends StaticEntity
 	
 			if ( !getProperty( "eSoluScriptType" ).equals( "0" ) )
 			{
-				Matcher whoMatcher = Pattern.compile( "showplayer.php\\?who=[\\d]+" ).matcher( message );
+				Matcher whoMatcher = Pattern.compile( "showplayer\\.php\\?who=[\\d]+" ).matcher( message );
 				if ( whoMatcher.find() )
 				{
 					String link = whoMatcher.group();
