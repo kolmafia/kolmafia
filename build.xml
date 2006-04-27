@@ -1,4 +1,4 @@
-<project name="KoLmafia" default="createjar" basedir=".">
+<project name="KoLmafia" default="rejar" basedir=".">
 
 
   <!-- ========================================== -->
