@@ -8,6 +8,7 @@
 #
 # Last edited by Kittiwake on Fri Apr 14, 2006 4:48 am
 
+8-Bit Realm	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octoroc	Tektite	Zol
 Bat Hole Entryway	Albino Bat	Pine Bat	Regular Old Bat
 Batrat and Ratbat Burrow	Batrat	Ratbat
 Battlefield (Cloaca Uniform)	 Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier
@@ -16,8 +17,8 @@ Beanbat Chamber	Beanbat
 Bugbear Pens	An Angry Bugbear	A Bugged Bugbear	Mad Bugbears	A Revolting Bugbear	A Revolving Bugbear	An Annoying Spooky Gravy Fairy
 Camp Logging Camp	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan
 Castle in the Clouds in the Sky	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
-Cemetary (Post-Cyrpt)	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton
-Cemetary (Pre-Cyrpt)	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
+Post-Cyrpt Cemetary	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton
+Pre-Cyrpt Cemetary	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
 Daily Dungeon	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayonnaise Wasp	Pencil Golem	Sabre-Toothed Lime	Tonic Water Elemental	Vampire Clam
 Dark Elbow of the Woods	Demoninja	G Imp	L Imp
 Dark Heart of the Woods	Fallen Archfiend	G Imp	P Imp
@@ -31,30 +32,29 @@ Degrassi Knoll	Gnollish Bodybuilder	Gnollish Crossdresser	Gnollish Flyslayer	Gno
 Dungeons of Doom	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic
 eXtreme Slope	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 Fernswarthy's Tower	Brainsweeper	Bread Golem	Chowder Golem	Giant Pair of Tweezers	Weretaco	Yeast Beast	Lesser Fruit Golem
-Frat House (No Disguise)	Orcish Frat Boy (French Maid)	Orcish Frat Boy (Sorority Orcs)	Orcish Frat Boy (Paddling)
+Frat House	Orcish Frat Boy (French Maid)	Orcish Frat Boy (Sorority Orcs)	Orcish Frat Boy (Paddling)
 Fun House	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown
 Goatlet	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
 Guano Junction	Baseball Bat	Briefcase Bat	Perpendicular Bat	Skullbat	Doughbat
 Haert of the Cyrpt	The Bonerdagon
 Haunted Pantry	Possessed Can of Tomatoes	Fiendish Can of Asparagus	Flame-Broiled Meat Blob	Undead Elbow Macaroni
-Hippy Camp (No Disguise)	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
+Hippy Camp	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
 Hole in the Sky	The Astronomer	One-Eyed Willie	The Family Jewels	The Hooded Warrior	The Junk	The Pork Sword	The Trouser Snake
 Icy Peak	Knott Yeti
-Inexplicable Door	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octoroc	Tektite	Zol
 Itznotyerzitz Mine	7-Foot Dwarf (Moil)	7-Foot Dwarf (Royale)	7-Foot Dwarf Foreman
 Knob Goblin Harem	Knob Goblin Elite Guardsman	Knob Goblin Harem Girl
 Knob Goblin Kitchens	Knob Goblin Chef	Knob Goblin Master Chef
 Knob Goblin Laboratory	Knob Goblin Mad Scientist	Knob Goblin Very Mad Scientist
 Knob Goblin Treasury	Knob Goblin Bean Counter	Knob Goblin Elite Guardsman
-Menagerie (Level 1)	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
-Menagerie (Level 2)	Carnivorous Moxie Weed	Grass Elemental	Weremoose
-Menagerie (Level 3)	Booze Giant	Portly Abomination	Spectral Jellyfish
+Menagerie 1	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
+Menagerie 2	Carnivorous Moxie Weed	Grass Elemental	Weremoose
+Menagerie 3	Booze Giant	Portly Abomination	Spectral Jellyfish
 Ninja Snowmen	Ninja Snowman	Ninja Snowman (Ricebowl)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
 Outskirts of Camp	Axe Handle	Cloud of Disembodied Whiskers	Poutine Oooze	Forest Spirit
 Outskirts of The Knob	Knob Goblin Assistant Chef	Sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
 Palindome	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat
 Penultimate Fantasy Airship	Burly Sidekick	Irritating Series of Random Encounters	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess 
-Pirate Cove (No Disguise)	Sassy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate	Smarmy Pirate
+Pirate Cove	Sassy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate	Smarmy Pirate
 Sleazy Back Alley	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo
 Sorceress' Hedge Maze	Topiary Golem
 South of the Border	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull

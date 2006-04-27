@@ -6,8 +6,8 @@
 01	shore.php	3	Moxie Vacation
 01	adventure.php	45	South of the Border
 
-02	luckysewer.php	0	Market Sewer (Lucky)
-02	sewer.php	0	Market Sewer (Unlucky)
+02	sewer.php	0	Sewer Normally
+02	luckysewer.php	0	Sewer With Clovers
 
 03	casino.php	1	Goat Party
 03	casino.php	2	Pirate Party
@@ -27,9 +27,9 @@
 
 05	adventure.php	18	Degrassi Knoll
 05	adventure.php	20	Fun House
-05	adventure.php	21	Cemetary (Pre-Cyrpt)
+05	adventure.php	21	Pre-Cyrpt Cemetary
 05	adventure.php	22	Fernswarthy's Tower
-05	adventure.php	58	Cemetary (Post-Cyrpt)
+05	adventure.php	58	Post-Cyrpt Cemetary
 05	adventure.php	78	Palindome
 
 06	adventure.php	11	Outskirts of The Knob
@@ -38,9 +38,9 @@
 06	adventure.php	42	Knob Goblin Harem
 06	knob.php	0	The King's Chamber
 06	adventure.php	50	Knob Goblin Laboratory
-06	adventure.php	51	Menagerie (Level 1)
-06	adventure.php	52	Menagerie (Level 2)
-06	adventure.php	53	Menagerie (Level 3)
+06	adventure.php	51	Menagerie 1
+06	adventure.php	52	Menagerie 2
+06	adventure.php	53	Menagerie 3
 
 07	adventure.php	30	Bat Hole Entryway
 07	adventure.php	31	Guano Junction
@@ -56,8 +56,8 @@
 
 09	adventure.php	15	Spooky Forest
 09	adventure.php	17	Hidden Temple
-09	adventure.php	25	Typical Tavern (Post-Rat)
-09	adventure.php	73	Inexplicable Door
+09	adventure.php	25	Typical Tavern
+09	adventure.php	73	8-Bit Realm
 09	adventure.php	28	Whitey's Grove
 
 10	adventure.php	75	Dark Neck of the Woods
@@ -68,7 +68,7 @@
 
 11	adventure.php	91	Noob Cave
 11	adventure.php	92	The Dire Warren
-11	mountains.php	0	The Orc Chasm (Pre-Bridge)
+11	mountains.php	0	Bridge the Orc Chasm
 11	adventure.php	80	Valley Beyond Orc Chasm
 
 12	adventure.php	60	Goatlet
@@ -77,12 +77,12 @@
 12	adventure.php	63	eXtreme Slope
 12	adventure.php	64	Icy Peak
 
-13	adventure.php	26	Hippy Camp (No Disguise)
-13	adventure.php	65	Hippy Camp (In Disguise)
-13	adventure.php	27	Frat House (No Disguise)
-13	adventure.php	29	Frat House (In Disguise)
-13	adventure.php	66	Pirate Cove (No Disguise)
-13	adventure.php	67	Pirate Cove (In Disguise)
+13	adventure.php	26	Hippy Camp
+13	adventure.php	65	Hippy Camp In Disguise
+13	adventure.php	27	Frat House
+13	adventure.php	29	Frat House In Disguise
+13	adventure.php	66	Pirate Cove
+13	adventure.php	67	Pirate Cove In Disguise
 
 14	adventure.php	81	Penultimate Fantasy Airship
 14	adventure.php	82	Castle in the Clouds in the Sky
@@ -108,7 +108,7 @@
 18	adventure.php	85	Battlefield (No Uniform)
 18	adventure.php	86	Battlefield (Cloaca Uniform)
 18	adventure.php	87	Battlefield (Dyspepsi Uniform)
-18	adventure.php	59	Icy Peak (Past)
+18	adventure.php	59	Icy Peak of the Past
 
 # Holiday Locations
 
@@ -119,6 +119,6 @@
 # Discontinued Locations
 
 20	adventure.php	93	Crimbo Town Toy Factory
-20	adventure.php	88	Market Square (Future)
-20	adventure.php	89	The Mall (Future)
-20	adventure.php	90	Wrong Side of the Tracks (Future)
+20	adventure.php	88	Future Market Square
+20	adventure.php	89	Mall of the Future
+20	adventure.php	90	Future Wrong Side of the Tracks

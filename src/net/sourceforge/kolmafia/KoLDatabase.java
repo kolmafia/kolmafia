@@ -268,5 +268,24 @@ public class KoLDatabase extends StaticEntity
 
 			internalList.set( index, value );
 		}
+		
+		public void add( String s )
+		{	internalList.add( s );
+		}
+		
+		public void clear()
+		{	internalList.clear();
+		}
+		
+		public String [] toArray()
+		{
+			String [] array = new String[ internalList.size() ];
+			internalList.toArray( array );
+			return array;
+		}
+		
+		public int size()
+		{	return internalList.size();
+		}
 	}
 }

@@ -187,7 +187,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			if ( this.creation == null )
 				this.creation = (JFrame) creator.newInstance( parameters );
 
-			boolean appearsInTab = this.creation instanceof KoLFrame && GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" ).indexOf(
+			boolean appearsInTab = this.creation instanceof KoLFrame && GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).indexOf(
 				this.creation instanceof ChatFrame ? "KoLMessenger" : ((KoLFrame)this.creation).getFrameName() ) != -1;
 
 			appearsInTab &= !(this.creation instanceof RequestFrame) ||

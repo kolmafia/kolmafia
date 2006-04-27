@@ -154,7 +154,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	{
 		isInitializing = true;
 
-		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" );
+		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
 		String [] interfaceArray = interfaceSetting.split( "," );
 		for ( int i = 0; i < interfaceArray.length; ++i )
 			KoLmafiaGUI.constructFrame( interfaceArray[i] );

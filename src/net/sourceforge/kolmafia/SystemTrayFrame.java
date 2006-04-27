@@ -25,7 +25,7 @@ public class SystemTrayFrame extends KoLDesktop implements Runnable
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
 
-		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" );
+		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
 
 		for ( int i = 0; i < frames.length; ++i )
 			if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
