@@ -856,7 +856,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 				return;
 
 			for ( int i = index0; i <= index1; ++i )
-				mirrorImage.add( i, source.get(i) );
+				mirrorImage.add( source.get(i) );
 		}
 
 		/**
@@ -887,8 +887,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			if ( mirrorImage == null || source == null || index0 < 0 || index1 < 0 || index1 >= mirrorImage.size() )
 				return;
 
-			for ( int i = index1; i >= index0; --i )
-				mirrorImage.remove( i );
+			mirrorImage.retainAll( source );
 		}
 
 		/**
@@ -920,7 +919,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 				return;
 
 			for ( int i = index1; i >= index0; --i )
-				mirrorImage.set( i, source.get(i) );
+				mirrorImage.set( mirrorImage.indexOf( source.get(i) ), source.get(i) );
 		}
 	}
 }
