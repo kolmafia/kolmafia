@@ -121,6 +121,7 @@ public class OptionsFrame extends KoLFrame
 		tabs = new JTabbedPane();
 
 		addTab( "General", new GeneralOptionsPanel() );
+		addTab( "Zone List", new AreaOptionsPanel() );
 		addTab( "Chat Options", new ChatOptionsPanel() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );

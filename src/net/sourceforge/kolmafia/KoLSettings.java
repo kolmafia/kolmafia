@@ -223,7 +223,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "useTextHeavySidepane", "true" );
 		ensureProperty( "useToolbars", "true" );
 		ensureProperty( "whiteList", "" );
-		ensureProperty( "zoneExcludeList", "03,16,20" );
+		ensureProperty( "zoneExcludeList", "Removed" );
 
 		// These are settings related to choice adventures.
 		// Ensure that they exist, and if they do not, load
