@@ -295,9 +295,9 @@ public abstract class StoreManager extends StaticEntity
 	 * given item.
 	 */
 
-	public static void searchMall( String itemName, List priceSummary, int maximumResults, boolean toString )
+	public static void searchMall( String itemName, List resultSummary, int maximumResults, boolean toString )
 	{
-		priceSummary.clear();
+		resultSummary.clear();
 		if ( itemName == null )
 			return;
 
@@ -308,7 +308,10 @@ public abstract class StoreManager extends StaticEntity
 
 		(new SearchMallRequest( client, itemName, maximumResults, results, true )).run();
 		if ( !toString )
+		{
+			resultSummary.addAll( results );
 			return;
+		}
 
 		MallPurchaseRequest [] resultsArray = new MallPurchaseRequest[ results.size() ];
 		results.toArray( resultsArray );
@@ -331,7 +334,7 @@ public abstract class StoreManager extends StaticEntity
 		prices.keySet().toArray( priceArray );
 
 		for ( int i = 0; i < priceArray.length; ++i )
-			priceSummary.add( "  " + df.format( ((Integer)prices.get( priceArray[i] )).intValue() ) + " @ " + df.format( priceArray[i].intValue() ) + " meat" );
+			resultSummary.add( "  " + df.format( ((Integer)prices.get( priceArray[i] )).intValue() ) + " @ " + df.format( priceArray[i].intValue() ) + " meat" );
 	}
 
 	/**
