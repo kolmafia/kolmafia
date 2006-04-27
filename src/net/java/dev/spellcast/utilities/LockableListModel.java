@@ -309,6 +309,84 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public boolean isEmpty()
 	{	return elements.isEmpty();
 	}
+	
+	/**
+	 * Internal class used to handle iterators.  This is done to
+	 * ensure that all applicable interface structures are notified
+	 * whenever changes are made to the list elements.
+	 */
+
+	private class ListModelIterator implements ListIterator
+	{
+		private int removeIndex;
+		private int currentIndex;
+		private boolean isIncrementing;
+		
+		public ListModelIterator()
+		{	this( 0 );
+		}
+		
+		public ListModelIterator( int initialIndex )
+		{
+			removeIndex = initialIndex;
+			currentIndex = initialIndex;
+			isIncrementing = true;
+		}
+
+		public boolean hasPrevious()
+		{	return currentIndex > 0;
+		}
+		
+		public boolean hasNext()
+		{	return currentIndex < LockableListModel.this.size();
+		}
+
+		public Object next()
+		{
+			isIncrementing = true;
+			return LockableListModel.this.get( currentIndex++ );
+		}
+		
+		public Object previous()
+		{
+			isIncrementing = false;
+			return LockableListModel.this.get( --currentIndex );
+		}
+		
+		public int nextIndex()
+		{	return currentIndex;
+		}
+		
+		public int previousIndex()
+		{	return currentIndex - 1;
+		}
+		
+		public void add( Object o )
+		{
+			LockableListModel.this.add( currentIndex++, o );
+		}
+		
+		public void remove()
+		{
+			if ( currentIndex == removeIndex )
+				return;
+
+			if ( isIncrementing )
+			{
+				removeIndex = --currentIndex;
+				LockableListModel.this.remove( removeIndex );
+			}
+			else
+			{
+				LockableListModel.this.remove( currentIndex-- );
+				removeIndex = currentIndex;
+			}
+		}
+		
+		public void set( Object o )
+		{	LockableListModel.this.set( isIncrementing ? currentIndex - 1 : currentIndex, o );
+		}
+	}
 
 	/**
 	 * Please refer to {@link java.util.List#iterator()} for more
@@ -316,7 +394,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public Iterator iterator()
-	{	return elements.iterator();
+	{	return new ListModelIterator();
 	}
 
 	/**
@@ -343,7 +421,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public ListIterator listIterator()
-	{	return elements.listIterator();
+	{	return new ListModelIterator();
 	}
 
 	/**
@@ -352,7 +430,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public ListIterator listIterator( int index )
-	{	return elements.listIterator( index );
+	{	return new ListModelIterator( index );
 	}
 
 

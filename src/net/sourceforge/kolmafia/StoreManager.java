@@ -75,7 +75,33 @@ public abstract class StoreManager extends StaticEntity
 		if ( price < 50000000 )
 			potentialEarnings += (long) price * (long) quantity;
 
-		return new SoldItem( itemID, quantity, price, limit, lowest );
+		SoldItem newItem = new SoldItem( itemID, quantity, price, limit, lowest );
+		int itemIndex = soldItemList.indexOf( newItem );
+
+		// If the item is brand-new, just add it to the
+		// list of sold items.
+
+		if ( itemIndex == -1 )
+		{
+			soldItemList.add( newItem );
+			sortedSoldItemList.add( newItem );
+		}
+		else
+		{
+			// If the item already exists, check it against the
+			// one which already exists in the list.  If there
+			// are any changes, update.
+
+			SoldItem oldItem = (SoldItem) soldItemList.get( itemIndex );
+
+			if ( oldItem.getQuantity() != newItem.getQuantity() || oldItem.getPrice() != newItem.getPrice() || oldItem.getLimit() != newItem.getLimit() || oldItem.getLowest() != newItem.getLowest() )
+			{
+				soldItemList.set( itemIndex, newItem );
+				sortedSoldItemList.set( sortedSoldItemList.indexOf( newItem ), newItem );
+			}
+		}
+
+		return newItem;
 	}
 
 	/**
@@ -133,7 +159,7 @@ public abstract class StoreManager extends StaticEntity
 
 	public static void update( String storeText, boolean isPriceManagement )
 	{
-		reset();
+		potentialEarnings = 0;
 		ArrayList newItems = new ArrayList();
 
 		if ( isPriceManagement )
@@ -220,10 +246,10 @@ public abstract class StoreManager extends StaticEntity
 			}
 		}
 
-		soldItemList.addAll( newItems );
-		Collections.sort( newItems );
-		sortedSoldItemList.addAll( newItems );
-		
+		soldItemList.retainAll( newItems );
+		sortedSoldItemList.retainAll( newItems );
+		Collections.sort( sortedSoldItemList );
+
 		// Now, update the title of the store manage
 		// frame to reflect the new price.
 
@@ -263,7 +289,9 @@ public abstract class StoreManager extends StaticEntity
 		public StoreLogEntry( int id, String text )
 		{
 			this.id = id;
-			this.text = text;
+
+			String [] pieces = text.split( " " );
+			this.text = text.substring( pieces[0].length() + pieces[1].length() + 2 );
 			this.stringForm = id + ": " + text;
 		}
 		
@@ -283,7 +311,7 @@ public abstract class StoreManager extends StaticEntity
 				case OLDEST_FIRST:
 					return ((StoreLogEntry)o).id - id;
 				case GROUP_BY_NAME:
-					return text.compareTo( ((StoreLogEntry)o).text );
+					return text.compareToIgnoreCase( ((StoreLogEntry)o).text );
 				default:
 					return -1;
 			}
