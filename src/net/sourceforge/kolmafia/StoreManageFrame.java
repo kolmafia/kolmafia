@@ -271,7 +271,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 16, 540, 40, StoreManager.getSoldItemList() );
+		{	super( 16, 540, 24, StoreManager.getSoldItemList() );
 		}
 
 		protected PanelListCell constructPanelListCell( Object value, int index )
@@ -305,7 +305,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			searchButton.addActionListener( new SearchButtonListener() );
 			searchButton.setToolTipText( "Price Analysis" );
 
-			JComponentUtilities.setComponentSize( itemName, 180, 36 );
+			JComponentUtilities.setComponentSize( itemName, 180, 20 );
 			JComponentUtilities.setComponentSize( itemPrice, 90, 20 );
 			JComponentUtilities.setComponentSize( lowestPrice, 90, 20 );
 			JComponentUtilities.setComponentSize( itemQuantity, 50, 20 );
@@ -331,7 +331,8 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			StoreManager.SoldItem smsi = (StoreManager.SoldItem) value;
 
-			itemName.setText( "<html>" + TradeableItemDatabase.getItemName( smsi.getItemID() ) + "</html>" );
+			itemName.setText( smsi.getItemName() );
+			itemName.setToolTipText( smsi.getItemName() );
 			itemQuantity.setText( df.format( smsi.getQuantity() ) );
 			itemPrice.setText( df.format( smsi.getPrice() ) );
 			lowestPrice.setText( smsi.getLowest() == 0 ? "**" : df.format( smsi.getLowest() ) );
@@ -375,6 +376,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			{
 				StoreManager.searchMall( TradeableItemDatabase.getItemName( itemID ), priceSummary, 100, true );
 				searchLabel.setText( itemName.getText() );
+				searchLabel.setToolTipText( itemName.getText() );
 			}
 		}
 	}
