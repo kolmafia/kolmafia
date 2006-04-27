@@ -186,9 +186,15 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		{
 			if ( this.creation == null )
 				this.creation = (JFrame) creator.newInstance( parameters );
+			
+			String tabSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
+			String searchString = this.creation instanceof ChatFrame ? "KoLMessenger" :
+				((KoLFrame)this.creation).getFrameName();
 
-			boolean appearsInTab = this.creation instanceof KoLFrame && GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).indexOf(
-				this.creation instanceof ChatFrame ? "KoLMessenger" : ((KoLFrame)this.creation).getFrameName() ) != -1;
+			boolean appearsInTab = this.creation instanceof KoLFrame;
+
+			appearsInTab &= tabSetting.indexOf( searchString + "," ) != -1 ||
+				tabSetting.indexOf( "," + searchString ) != -1 || tabSetting.equals( searchString );
 
 			appearsInTab &= !(this.creation instanceof RequestFrame) ||
 				(this.creation.getClass() == RequestFrame.class && ((RequestFrame)this.creation).hasSideBar());
