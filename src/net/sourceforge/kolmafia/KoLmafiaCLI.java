@@ -3478,7 +3478,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( request instanceof KoLRequest )
 				commandString.append( ((KoLRequest)request).getCommandForm( iterations ) );
 	
-			if ( request instanceof KoLAdventure )
+			if ( request instanceof KoLAdventure && ((KoLAdventure)request).getRequest() != null )
 				commandString.append( "adventure " + iterations + " " + ((KoLAdventure)request).getAdventureName() );
 		}
 
