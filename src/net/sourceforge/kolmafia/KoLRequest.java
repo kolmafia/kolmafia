@@ -922,15 +922,18 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
-			
+
+                        if ( !(this instanceof ChatRequest) )
+                        {
+                                // Remove password hash before logging
+                                String response = ( client.getPasswordHash() != null ) ?
+                                        responseText.replaceAll( client.getPasswordHash(), "" ) :
+                                        responseText.replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" );
+                                KoLmafia.getDebugStream().println( response );
+                        }
+
 			checkForNewEvents();
 			processRawResponse( rawBuffer.toString() );
-
-			if ( client.getPasswordHash() != null && !(this instanceof ChatRequest) )
-				KoLmafia.getDebugStream().println( responseText.replaceAll( client.getPasswordHash(), "" ) );
-			else if ( !(this instanceof ChatRequest) )
-				KoLmafia.getDebugStream().println(
-					responseText.replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" ) );
 		}
 
 		try
@@ -961,7 +964,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected void processRawResponse( String rawResponse )
 	{
 		statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && rawResponse.indexOf( "charpane.php" ) != -1;
-		if( statusChanged && !(this instanceof LocalRelayRequest) )
+		if ( statusChanged && !(this instanceof LocalRelayRequest) )
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 	}
 
@@ -1101,7 +1104,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( statusChanged && RequestFrame.willRefreshStatus() )
 			RequestFrame.refreshStatus();
-		else if ( needsRefresh )
+		else if ( statusChanged || needsRefresh )
 			CharpaneRequest.getInstance().run();
 
 		KoLCharacter.updateStatus();
@@ -1335,6 +1338,14 @@ public class KoLRequest implements Runnable, KoLConstants
 			event = event.replaceAll( "<a[^>]*showplayer\\.php\\?who=(\\d+)[^>]*>(.*?)<a>", "$2 (#$1)" );
 			event = event.replaceAll( "<.*?>", "" );
 
+			// If it's a song or a buff, must update status
+
+			// <name> has played a song (The Ode to Booze) for you
+			// An Elemental Saucesphere has been conjured around you by <name>
+			// <name> has imbued you with Reptilian Fortitude
+			// <name> has given you the Tenacity of the Snapper
+			// <name> has fortified you with Empathy of the Newt
+
 			// Add the event to the event list
 
 			eventList.add( event );
@@ -1365,7 +1376,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		for ( int i = 0; i < events.length; ++i )
 		{
 			int dash = events[i].indexOf( "-" );
-			String event = events[i].substring( dash + 2 ).replaceAll( "<.*?>", "" );
+			String event = events[i].substring( dash + 2 );
 			KoLMessenger.updateChat( "<font color=green>" + event + "</font>" );
 		}
 	}
