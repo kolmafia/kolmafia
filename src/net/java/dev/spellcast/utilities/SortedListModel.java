@@ -120,8 +120,24 @@ public class SortedListModel extends LockableListModel
 
 	public Object set( int index, Object element )
 	{
+		int desiredIndex = indexOf( 0, size() - 1, (Comparable)element, INSERTION );
+		if ( index == desiredIndex - 1 )
+			return super.set( index, element );
+
+		// Now, you know they're not equal, so what
+		// you would do is remove the element at the
+		// given position, and then re-add the element
+		// which is to be set (to ensure sortedness).
+
 		Object value = remove( index );
-		this.add( element );
+
+		// If the location would be unaffected by
+		// the removal process, call the super-class
+		// add method on this index; otherwise, lower
+		// the index by one to account for the missing
+		// item and do the insertion.
+
+		super.add( desiredIndex < index ? desiredIndex : desiredIndex - 1, element );
 		return value;
 	}
 	
@@ -137,7 +153,7 @@ public class SortedListModel extends LockableListModel
 
 		try
 		{
-			super.add( indexOf( 0, size() - 1, size(), (Comparable)o, INSERTION ), o );
+			super.add( indexOf( 0, size() - 1, (Comparable)o, INSERTION ), o );
 			return true;
 		}
 		catch ( IllegalArgumentException e1 )
@@ -171,7 +187,7 @@ public class SortedListModel extends LockableListModel
 		if ( !associatedClass.isInstance( o ) )
 			return -1;
 
-		return indexOf( 0, size() - 1, size(), (Comparable)o, NORMAL );
+		return indexOf( 0, size() - 1,  (Comparable)o, NORMAL );
 	}
 
     /**
@@ -184,7 +200,7 @@ public class SortedListModel extends LockableListModel
 		if ( !associatedClass.isInstance( o ) )
 			return -1;
 
-		return indexOf( 0, size() - 1, size(), (Comparable)o, NORMAL );
+		return indexOf( 0, size() - 1,  (Comparable)o, NORMAL );
 	}
 
  	/**
@@ -195,13 +211,9 @@ public class SortedListModel extends LockableListModel
 	 * objects of respectable size, having good performance is ideal.
 	 */
 
-	private int indexOf( int beginIndex, int endIndex, int totalListSize, Comparable element, int whichIndexOf )
+	private int indexOf( int beginIndex, int endIndex, Comparable element, int whichIndexOf )
 	{
 		// if the binary search has been terminated, return -1
-
-		if ( beginIndex < 0 || endIndex >= totalListSize )
-			return whichIndexOf == NORMAL ? -1 : endIndex >= totalListSize ? totalListSize :
-				beginIndex < 0 ? 0 : endIndex;
 
 		if ( beginIndex == endIndex )
 			return whichIndexOf == INSERTION ? beginIndex + 1 :
@@ -228,20 +240,20 @@ public class SortedListModel extends LockableListModel
 		// so it must preceed the middle element
 
 		if ( compareResult > 0 )
-			return indexOf( beginIndex, halfwayIndex - 1, totalListSize, element, whichIndexOf );
+			return indexOf( beginIndex, halfwayIndex - 1, element, whichIndexOf );
 
 		// if the element in the middle is smaller than the element being checked,
 		// then it is known that the element is larger than the middle element, so
 		// it must succeed the middle element
 
 		if ( compareResult < 0 )
-			return indexOf( halfwayIndex + 1, endIndex, totalListSize, element, whichIndexOf );
+			return indexOf( halfwayIndex + 1, endIndex, element, whichIndexOf );
 
 		// if the element in the middle is equal to the element being checked,
 		// then it is known that you have located at least one occurrence of the
 		// object; because duplicates are not allowed, return the halfway point
 
-		return halfwayIndex;
+		return whichIndexOf == NORMAL ? halfwayIndex : halfwayIndex + 1;
 	}
 
 	public Object clone()
