@@ -283,10 +283,4 @@ public class LocalRelayRequest extends KoLRequest
 				sendNotFound();
 		}
 	}
-	
-	protected void processResults()
-	{
-		if ( !formURLString.startsWith( "messages.php" ) && !formURLString.startsWith( "searchmall.php" ) )
-			super.processResults();
-	}
 }
