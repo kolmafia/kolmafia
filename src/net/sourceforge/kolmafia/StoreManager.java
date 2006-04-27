@@ -373,6 +373,7 @@ public abstract class StoreManager extends StaticEntity
 	public static class SoldItem implements Comparable
 	{
 		private int itemID;
+		private String itemName;
 		private int quantity;
 		private int price;
 		private int limit;
@@ -381,6 +382,7 @@ public abstract class StoreManager extends StaticEntity
 		public SoldItem( int itemID, int quantity, int price, int limit, int lowest )
 		{
 			this.itemID = itemID;
+			this.itemName = TradeableItemDatabase.getItemName( itemID );
 			this.quantity = quantity;
 			this.price = price;
 			this.limit = limit;
@@ -389,6 +391,10 @@ public abstract class StoreManager extends StaticEntity
 
 		public int getItemID()
 		{	return itemID;
+		}
+		
+		public String getItemName()
+		{	return itemName;
 		}
 
 		public int getQuantity()
