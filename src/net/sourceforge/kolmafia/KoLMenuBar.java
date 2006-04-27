@@ -342,7 +342,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				KoLFrame frame = (KoLFrame) frameReference.get();
 				if ( frame != null )
 				{
-					boolean appearsInTab = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" ).indexOf(
+					boolean appearsInTab = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).indexOf(
 						frame instanceof ChatFrame ? "KoLMessenger" : frame.getFrameName() ) != -1;
 
 					if ( !appearsInTab )

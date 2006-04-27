@@ -437,14 +437,14 @@ public class LoginFrame extends KoLFrame
 			}
 
 			GLOBAL_SETTINGS.setProperty( "initialFrameLoading", startupString.toString() );
-			GLOBAL_SETTINGS.setProperty( "mainInterfaceTabs", interfaceString.toString() );
+			GLOBAL_SETTINGS.setProperty( "initialDesktopTabs", interfaceString.toString() );
 			JOptionPane.showMessageDialog( null, "Settings have been saved." );
 		}
 
 		public void actionCancelled()
 		{
 			String startupString = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
-			String interfaceString = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" );
+			String interfaceString = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
 
 			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
 			{
