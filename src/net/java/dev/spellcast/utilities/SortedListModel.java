@@ -49,9 +49,8 @@ import java.util.Collections;
 
 public class SortedListModel extends LockableListModel
 {
-	private static final int FIRST_INDEX = 0;
-	private static final int LAST_INDEX  = -1;
-	private static final int INSERTION   = -2;
+	private static final int NORMAL = 0;
+	private static final int INSERTION = 1;
 
 	private Class associatedClass;
 
@@ -103,30 +102,29 @@ public class SortedListModel extends LockableListModel
 
     /**
      * Please refer to {@link java.util.List#add(int,Object)} for more
-     * information regarding this function.
+     * information regarding this function.  Note that if the position
+     * is invalid (ie: it does not result in a sorted property), the
+     * element will be successfully added, but to a different position.
      */
 
 	public void add( int index, Object element )
-	{
-		if ( contains( element ) )
-			return;
-
-		boolean needsSort = ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 ) ||
-			( index < size() && ((Comparable)element).compareTo( get( index ) ) > 0 );
-
-		if ( needsSort )
-		{
-			ArrayList interimList = new ArrayList();
-			interimList.addAll( this );
-
-			interimList.add( index, element );
-			clear();  addAll( interimList );
-			return;
-		}
-
-		super.add( index, element );
+	{	this.add( element );
 	}
 
+    /**
+     * Please refer to {@link java.util.List#set(int,Object)} for more
+     * information regarding this function.  Note that if the position
+     * is invalid (ie: it does not result in a sorted property), the
+     * element will be successfully set, but to a different position.
+     */
+
+	public Object set( int index, Object element )
+	{
+		Object value = remove( index );
+		this.add( element );
+		return value;
+	}
+	
     /**
      * Please refer to {@link java.util.List#add(Object)} for more
      * information regarding this function.
@@ -139,7 +137,7 @@ public class SortedListModel extends LockableListModel
 
 		try
 		{
-			add( indexOf( 0, size() - 1, (Comparable)o, INSERTION ), o );
+			super.add( indexOf( 0, size() - 1, size(), (Comparable)o, INSERTION ), o );
 			return true;
 		}
 		catch ( IllegalArgumentException e1 )
@@ -172,19 +170,13 @@ public class SortedListModel extends LockableListModel
 	{
 		if ( !associatedClass.isInstance( o ) )
 			return -1;
-		return indexOf( 0, size() - 1, (Comparable)o, FIRST_INDEX );
+
+		return indexOf( 0, size() - 1, size(), (Comparable)o, NORMAL );
 	}
 
     /**
      * Please refer to {@link java.util.List#indexOf(Object)} for more information
-     * regarding this function.  However, note also that a <code>SortedListModel</code>
-     * maintains that if an element <tt>e2</tt> is added to the list after another
-     * element <tt>e1</tt> is added, and <tt>e1.equals(e2)</tt> returns <tt>true</tt>,
-     * then <tt>e2</tt> must appear in the list after <tt>e1</tt>.  Thus, the
-     * calculation of the last index of an object can be done in <code>log( n )</code>
-     * time by locating the correct index for the insertion of the object, which is
-     * done in <code>log( n )</code> time, and checking the index immediately previous
-     * to it.
+     * regarding this function.
      */
 
 	public int lastIndexOf( Object o )
@@ -192,34 +184,10 @@ public class SortedListModel extends LockableListModel
 		if ( !associatedClass.isInstance( o ) )
 			return -1;
 
-		return indexOf( 0, size() - 1, (Comparable)o, LAST_INDEX );
+		return indexOf( 0, size() - 1, size(), (Comparable)o, NORMAL );
 	}
 
-    /**
-     * Please refer to {@link java.util.List#set(int,Object)} for more
-     * information regarding this function.
-     */
-
-	public Object set( int index, Object element )
-	{
-		boolean needsSort = ( index > 0 && ((Comparable)element).compareTo( get( index - 1 ) ) < 0 ) ||
-			( index + 1 < size() && ((Comparable)element).compareTo( get( index + 1 ) ) > 0 );
-
-		if ( needsSort )
-		{
-			ArrayList interimList = new ArrayList();
-			interimList.addAll( this );
-
-			Object oldvalue = interimList.set( index, element );
-			clear();  addAll( interimList );
-			return oldvalue;
-		}
-
-		Object oldvalue = super.set( index, element );
-		return oldvalue;
-	}
-
-	/**
+ 	/**
 	 * A helper function which calculates the index of an element using
 	 * binary search.  In most cases, the difference is minimal, since
 	 * most <code>ListModel</code> objects are fairly small.  However,
@@ -227,78 +195,53 @@ public class SortedListModel extends LockableListModel
 	 * objects of respectable size, having good performance is ideal.
 	 */
 
-	private int indexOf( int beginIndex, int endIndex, Comparable element, int whichIndexOf )
+	private int indexOf( int beginIndex, int endIndex, int totalListSize, Comparable element, int whichIndexOf )
 	{
 		// if the binary search has been terminated, return -1
-		int totalListSize = size();
 
-		if ( beginIndex < 0 || beginIndex > endIndex || endIndex >= totalListSize || beginIndex + whichIndexOf >= totalListSize )
-			return whichIndexOf == INSERTION ? beginIndex : -1;
+		if ( beginIndex < 0 || endIndex >= totalListSize )
+			return whichIndexOf == NORMAL ? -1 : endIndex >= totalListSize ? totalListSize :
+				beginIndex < 0 ? 0 : endIndex;
 
+		if ( beginIndex == endIndex )
+			return whichIndexOf == INSERTION ? beginIndex + 1 :
+				element.equals( get( beginIndex ) ) ? beginIndex : -1;
+
+		if ( beginIndex > endIndex )
+			return whichIndexOf == INSERTION ? endIndex + 1:
+				element.equals( get( endIndex ) ) ? endIndex : -1;
+		
 		// calculate the halfway point and compare the element with the
 		// element located at the halfway point - note that in locating
 		// the last index of, the value is rounded up to avoid an infinite
 		// recursive loop
 
-		int halfwayIndex = beginIndex + endIndex;
-		if ( whichIndexOf == LAST_INDEX || whichIndexOf == INSERTION )
-			++halfwayIndex;
-		halfwayIndex >>= 1;
-
+		int halfwayIndex = (beginIndex + endIndex + 1) >> 1;
 		Comparable halfwayElement = (Comparable) get( halfwayIndex );
-		int compareResult = halfwayElement.compareTo( element );
-//		int compareResult = halfwayElement instanceof String && element instanceof String ?
-//			((String)halfwayElement).compareToIgnoreCase( (String) element ) :
-//			halfwayElement.compareTo( element );
+
+		int compareResult = halfwayElement instanceof String && element instanceof String ?
+			((String)halfwayElement).compareToIgnoreCase( (String) element ) :
+			halfwayElement.compareTo( element );
 
 		// if the element in the middle is larger than the element being checked,
 		// then it is known that the element is smaller than the middle element,
 		// so it must preceed the middle element
 
 		if ( compareResult > 0 )
-			return indexOf( beginIndex, halfwayIndex - 1, element, whichIndexOf );
+			return indexOf( beginIndex, halfwayIndex - 1, totalListSize, element, whichIndexOf );
 
 		// if the element in the middle is smaller than the element being checked,
 		// then it is known that the element is larger than the middle element, so
 		// it must succeed the middle element
 
 		if ( compareResult < 0 )
-			return indexOf( halfwayIndex + 1, endIndex, element, whichIndexOf );
+			return indexOf( halfwayIndex + 1, endIndex, totalListSize, element, whichIndexOf );
 
 		// if the element in the middle is equal to the element being checked,
 		// then it is known that you have located at least one occurrence of the
-		// object; if the range has not yet been narrowed completely, continue
-		// to narrow the range - locate the last index of the element by looking
-		// in the second half, and locate all others by looking in the first half
+		// object; because duplicates are not allowed, return the halfway point
 
-		if ( beginIndex != endIndex )
-		{
-			if ( whichIndexOf == LAST_INDEX || whichIndexOf == INSERTION )
-				return indexOf( halfwayIndex, endIndex, element, whichIndexOf );
-			return indexOf( beginIndex, halfwayIndex, element, whichIndexOf );
-		}
-
-		// if the range has been narrowed completely, then you have either found
-		// the first or last occurrence, pending the value of [whichIndexOf] used;
-		// if searching for the last index, then the index found is guaranteed
-		// to be valid, so simply return it
-
-		if ( whichIndexOf == LAST_INDEX )
-			return halfwayIndex;
-
-		// by the principle of the SortedListModel, the insertion index, if an
-		// element is found, will be immediately after the last instance of it
-
-		if ( whichIndexOf == INSERTION )
-			return halfwayIndex + 1;
-
-		// in all other cases, one must ensure that the [whichIndexOf]-th element
-		// exists, and this is done by checking that the element at the [whichIndexOf]
-		// position relative to the current checking point exists and is equal to the
-		// element being located
-
-		return element.equals( get( halfwayIndex + whichIndexOf ) ) ?
-			halfwayIndex + whichIndexOf : -1;
+		return halfwayIndex;
 	}
 
 	public Object clone()
