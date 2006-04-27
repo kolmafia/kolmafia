@@ -59,13 +59,13 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final Map ZONE_NAMES = new TreeMap();
 	public static final Map ZONE_DESCRIPTIONS = new TreeMap();
-	private static List [] adventureTable = new ArrayList[4];
+	private static StringArray [] adventureTable = new StringArray[4];
 	private static final Map areaCombatData = new TreeMap();
 
 	static
 	{
 		for ( int i = 0; i < 4; ++i )
-			adventureTable[i] = new ArrayList();
+			adventureTable[i] = new StringArray();
 
 		AdventureDatabase.refreshZoneTable();
 		AdventureDatabase.refreshAdventureTable();
@@ -74,8 +74,8 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final void refreshZoneTable()
 	{
-		ZONE_NAMES.clear();
-		ZONE_DESCRIPTIONS.clear();
+		if ( !ZONE_NAMES.isEmpty() )
+			return;
 
 		BufferedReader reader = getReader( "zonelist.dat" );
 		String [] data;
@@ -101,25 +101,6 @@ public class AdventureDatabase extends KoLDatabase
 			StaticEntity.printStackTrace( e );
 		}
 	}
-
-	public static final String [] CLOVER_ADVS =
-	{
-		"11",  // Cobb's Knob Outskirts
-		"40",  // Cobb's Knob Kitchens
-		"41",  // Cobb's Knob Treasury
-		"42",  // Cobb's Knob Harem
-		"16",  // The Haiku Dungeon
-		"10",  // The Haunted Pantry
-		"19",  // The Limerick Dungeon
-		"70",  // The Casino Roulette Wheel
-		"9",   // The Sleazy Back Alley
-		"15",  // The Spooky Forest
-		"17",  // The Hidden Temple
-		"27",  // The Orcish Frat House (no disguise)
-		"29",  // The Orcish Frat House (in disguise)
-		"26",  // Hippy Camp (no disguise)
-		"65",  // Hippy Camp (in disguise)
-	};
 
 	public static final String [][][] CHOICE_ADVS =
 	{
@@ -313,10 +294,10 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			if ( data.length == 4 )
 			{
-				Object zone = ZONE_NAMES.get( data[0] );
+				String zone = (String) ZONE_NAMES.get( data[0] );
 
 				// Be defensive: user can supply a broken data file
-				if ( zone == null)
+				if ( zone == null )
 				{
 					System.out.println( "Bad adventure zone: " + data[0] );
 					continue;
@@ -336,7 +317,7 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -368,8 +349,7 @@ public class AdventureDatabase extends KoLDatabase
 					shouldAdd = false;
 
 			if ( shouldAdd )
-				adventures.add( new KoLAdventure( client, zoneName,
-					(String) adventureTable[1].get(i), (String) adventureTable[2].get(i), (String) adventureTable[3].get(i) ) );
+				adventures.add( getAdventure(i) );
 		}
 
 		if ( getProperty( "sortAdventures" ).equals( "true" ) )
@@ -385,14 +365,43 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static KoLAdventure getAdventure( String adventureName )
 	{
-		List adventureNames = adventureTable[3];
+		String lowerCaseName = adventureName.toLowerCase();
+		while ( lowerCaseName.indexOf( ":" ) != -1 )
+			lowerCaseName = lowerCaseName.substring( lowerCaseName.indexOf( ":" ) + 1 );
+		lowerCaseName = lowerCaseName.trim();
 
-		for ( int i = 0; i < adventureNames.size(); ++i )
-			if ( ((String) adventureNames.get(i)).toLowerCase().indexOf( adventureName.toLowerCase() ) != -1 )
-				return new KoLAdventure( client, (String) adventureTable[0].get(i), (String) adventureTable[1].get(i),
-					(String) adventureTable[2].get(i), (String) adventureTable[3].get(i) );
+		int matchStartIndex;
+		String currentTest;
 
-		return null;
+		int bestMatchIndex = -1;
+		int bestMatchLength = Integer.MAX_VALUE;
+		int bestMatchStartIndex = Integer.MAX_VALUE;
+		
+		for ( int i = 0; i < adventureTable[3].size(); ++i )
+		{
+			currentTest = adventureTable[3].get(i).toLowerCase();
+			matchStartIndex = currentTest.indexOf( lowerCaseName );
+
+			if ( matchStartIndex != -1 )
+			{
+				if ( bestMatchIndex == -1 || matchStartIndex < bestMatchStartIndex ||
+					(matchStartIndex == bestMatchStartIndex && currentTest.length() < bestMatchLength) )
+				{
+					bestMatchIndex = i;
+					bestMatchStartIndex = matchStartIndex;
+					bestMatchLength = currentTest.length();
+				}
+			}
+		}
+
+		return bestMatchIndex == -1 ? null : getAdventure( bestMatchIndex );
+	}
+	
+	private static KoLAdventure getAdventure( int tableIndex )
+	{
+		return new KoLAdventure( client,
+			adventureTable[0].get( tableIndex ), adventureTable[1].get( tableIndex ),
+			adventureTable[2].get( tableIndex ), adventureTable[3].get( tableIndex ) );
 	}
 
 	/**
@@ -405,12 +414,12 @@ public class AdventureDatabase extends KoLDatabase
 		KoLRequest request = null;
 
 		String adventureID = adventure.getAdventureID();
-		String zone = adventure.getZone();
+		String formSource = adventure.getFormSource();
 
 		// The beach is unlocked provided the player has the meat car
 		// accomplishment and a meatcar in inventory.
 
-		if ( zone.equals( "Beach" ) )
+		if ( formSource.equals( "shore.php" ) || adventureID.equals( "45" ) )
 		{
 			// Make sure the car is in the inventory
 			retrieveItem( ConcoctionsDatabase.CAR );
@@ -438,7 +447,7 @@ public class AdventureDatabase extends KoLDatabase
 			return;
 		}
 
-		else if ( zone.equals( "McLarge" ) )
+		else if ( adventureID.equals( "60" ) || adventureID.equals( "61" ) || adventureID.equals( "62" ) || adventureID.equals( "63" ) || adventureID.equals( "64" ) )
 		{
 			// Obviate following request by checking accomplishment:
 			// questlog.php?which=2
@@ -463,7 +472,7 @@ public class AdventureDatabase extends KoLDatabase
 		// The casino is unlocked provided the player
 		// has a casino pass in their inventory.
 
-		else if ( zone.equals( "Casino" ) )
+		else if ( formSource.equals( "casino.php" ) || adventureID.equals( "70" ) || adventureID.equals( "71" ) )
 		{
 			retrieveItem( CASINO );
 			return;
@@ -472,7 +481,7 @@ public class AdventureDatabase extends KoLDatabase
 		// The island is unlocked provided the player
 		// has a dingy dinghy in their inventory.
 
-		else if ( zone.equals( "Island" ) )
+		else if ( adventureID.equals( "26" ) || adventureID.equals( "65" ) || adventureID.equals( "27" ) || adventureID.equals( "29" ) || adventureID.equals( "66" ) || adventureID.equals( "67") )
 		{
 			retrieveItem( DINGHY );
 			return;
@@ -507,6 +516,7 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			// If the character has a S.O.C.K. or an intragalactic
 			// rowboat, they can get to the airship
+
 			if ( KoLCharacter.hasItem( SOCK, false ) || KoLCharacter.hasItem( ROWBOAT, false ) )
 				return;
 
@@ -833,8 +843,7 @@ public class AdventureDatabase extends KoLDatabase
 		BufferedReader reader = getReader( "combats.dat" );
 		String [] data;
 
-		String [] adventures = new String[ adventureTable[3].size() ];
-		adventureTable[3].toArray( adventures );
+		String [] adventures = adventureTable[3].toArray();
 
 		while ( (data = readData( reader )) != null )
 		{

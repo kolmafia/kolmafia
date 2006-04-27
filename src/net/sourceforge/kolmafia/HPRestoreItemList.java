@@ -52,22 +52,39 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class HPRestoreItemList extends StaticEntity
 {
-	public static final HPRestoreItem WALRUS = new HPRestoreItem( "tongue of the walrus", 35 );
 	private static final HPRestoreItem REMEDY = new HPRestoreItem( "soft green echo eyedrop antidote", 0 );
 	private static final HPRestoreItem TINY_HOUSE = new HPRestoreItem( "tiny house", 22 );
 
-	public static final HPRestoreItem COCOON = new HPRestoreItem( "cannelloni cocoon", 1 );
+	public static final HPRestoreItem WALRUS = new HPRestoreItem( "tongue of the walrus", 35 );
+	public static final HPRestoreItem OTTER = new HPRestoreItem( "tongue of the otter", 15 );
+	public static final HPRestoreItem BANDAGES = new HPRestoreItem( "lasagna bandages", 24 );
+	public static final HPRestoreItem COCOON = new HPRestoreItem( "cannelloni cocoon", Integer.MAX_VALUE );
+	public static final HPRestoreItem NAP = new HPRestoreItem( "disco nap", 20 );
+	public static final HPRestoreItem POWERNAP = new HPRestoreItem( "disco power nap", 40 );
+
 	private static LockableListModel list = new LockableListModel();
 
 	public static void reset()
 	{
 		list.clear();
 
-		list.add( WALRUS );
+		if ( KoLCharacter.hasSkill( WALRUS.toString() ) )
+			list.add( WALRUS );
+		if ( KoLCharacter.hasSkill( OTTER.toString() ) )
+			list.add( OTTER );
+
 		list.add( REMEDY );
 		list.add( TINY_HOUSE );
 
-		list.add( COCOON );
+		if ( KoLCharacter.hasSkill( COCOON.toString() ) )
+			list.add( COCOON );
+		if ( KoLCharacter.hasSkill( BANDAGES.toString() ) )
+			list.add( BANDAGES );
+		if ( KoLCharacter.hasSkill( POWERNAP.toString() ) )
+			list.add( POWERNAP );
+		if ( KoLCharacter.hasSkill( NAP.toString() ) )
+			list.add( NAP );
+
 		list.add( new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE ) );
 		list.add( new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE ) );
 
@@ -140,14 +157,22 @@ public abstract class HPRestoreItemList extends StaticEntity
 			int maximumMP = KoLCharacter.getMaximumMP();
 			int hpShort = maximumHP - currentHP;
 
-			if ( this == WALRUS )
+			if ( this == WALRUS || this == OTTER )
 			{
-				int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( "Tongue of the Walrus" ) );
-				(new UseSkillRequest( client, "Tongue of the Walrus", "", Math.min( maximumMP / mpPerCast, hpShort / 35 ) )).run();
+				if ( StaticEntity.getProperty( "hpRestores" ).indexOf( "," ) == -1 )
+				{
+					if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
+						(new UseSkillRequest( client, toString(), "", 1 )).run();
+					
+					return;
+				}
+				
+				int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( toString() ) );
+				(new UseSkillRequest( client, toString(), "", Math.min( maximumMP / mpPerCast, hpShort / 35 ) )).run();
 				return;
 			}
 
-			if ( this == COCOON )
+			if ( ClassSkillsDatabase.contains( this.toString() ) )
 			{
 				int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( "Cannelloni Cocoon" ) );
 				(new UseSkillRequest( client, "Cannelloni Cocoon", "", 1 )).run();

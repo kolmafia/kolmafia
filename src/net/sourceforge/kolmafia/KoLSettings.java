@@ -195,6 +195,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "http.proxyPort", "" );
 		ensureProperty( "http.proxyUser", "" );
 		ensureProperty( "http.proxyPassword", "" );
+		ensureProperty( "initialDesktopTabs", "AdventureFrame,MallSearchFrame,SkillBuffPanel,RestoreOptionsFrame" );
 		ensureProperty( "initialFrameLoading", "" );
 		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		ensureProperty( "keepSessionLogs", "false" );
@@ -203,7 +204,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "lastUsername", "" );
 		ensureProperty( "loginServer", "0" );
 		ensureProperty( "luckySewerAdventure", "stolen accordion" );
-		ensureProperty( "mainInterfaceTabs", "AdventureFrame,MallSearchFrame,ItemManageFrame,SkillBuffPanel" );
 		ensureProperty( "mpAutoRecover", "-0.1" );
 		ensureProperty( "mpRecoveryScript", "" );
 		ensureProperty( "mpRestores", "" );
@@ -223,7 +223,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "useTextHeavySidepane", "true" );
 		ensureProperty( "useToolbars", "true" );
 		ensureProperty( "whiteList", "" );
-		ensureProperty( "zoneExcludeList", "20" );
+		ensureProperty( "zoneExcludeList", "03,16,20" );
 
 		// These are settings related to choice adventures.
 		// Ensure that they exist, and if they do not, load

@@ -79,6 +79,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			this.request = new SewerRequest( client, true );
 		else if ( formSource.equals( "campground.php" ) )
 			this.request = new CampgroundRequest( client, adventureID );
+		else if ( formSource.equals( "clan_gym.php" ) )
+			this.request = null;
 		else
 			this.request = new AdventureRequest( client, adventureName, formSource, adventureID );
 	}
@@ -97,15 +99,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public String getAdventureName()
 	{	return adventureName;
-	}
-
-	/**
-	 * Returns the zone in which this adventure is found.
-	 * @return	The zone for this adventure
-	 */
-
-	public String getZone()
-	{	return zone;
 	}
 
 	/**
@@ -135,9 +128,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public String toString()
 	{
-		if ( client == null )
-			return adventureName;
-
 		boolean includeZoneName = client.getSettings().getProperty( "showAdventureZone" ).equals( "true" );
 		return includeZoneName ? zone + ": " + adventureName : adventureName;
 	}

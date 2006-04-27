@@ -114,7 +114,7 @@ public class KoLmafiaGUI extends KoLmafia
 		(new ChannelColorsRequest()).run();
 
 		String startupSetting = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
-		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" );
+		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
 
 		if ( startupSetting.indexOf( "MailboxFrame" ) != -1 && interfaceSetting.indexOf( "MailboxFrame" ) == -1 )
 			(new MailboxRequest( this, "Inbox" )).run();
@@ -164,7 +164,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		displayer = new CreateFrameRunnable( AdventureFrame.class );
 
-		if ( !GLOBAL_SETTINGS.getProperty( "mainInterfaceTabs" ).equals( "" ) )
+		if ( !GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).equals( "" ) )
 		{
 			KoLDesktop.getInstance().initializeTabs();
 			KoLDesktop.getInstance().pack();

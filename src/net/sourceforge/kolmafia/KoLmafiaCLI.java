@@ -3473,12 +3473,14 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final String deriveCommand( Runnable request, int iterations )
 	{
 		StringBuffer commandString = new StringBuffer();
-
-		if ( request instanceof KoLRequest )
-			commandString.append( ((KoLRequest)request).getCommandForm( iterations ) );
-
-		if ( request instanceof KoLAdventure )
-			commandString.append( "adventure " + iterations + " " + ((KoLAdventure)request).getAdventureName() );
+		if ( iterations > 0 )
+		{
+			if ( request instanceof KoLRequest )
+				commandString.append( ((KoLRequest)request).getCommandForm( iterations ) );
+	
+			if ( request instanceof KoLAdventure )
+				commandString.append( "adventure " + iterations + " " + ((KoLAdventure)request).getAdventureName() );
+		}
 
 		if ( commandString.length() > 0 )
 			commandString.append( LINE_BREAK );

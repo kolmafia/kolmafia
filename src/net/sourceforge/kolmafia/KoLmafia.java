@@ -1089,7 +1089,7 @@ public abstract class KoLmafia implements KoLConstants
 		// then don't bother with this item -- however, if it is the only item
 		// present, then rethink it.
 
-		if ( technique != HPRestoreItemList.COCOON && technique != HPRestoreItemList.WALRUS )
+		if ( !ClassSkillsDatabase.contains( technique.toString() ) )
 		{
 			AdventureResult item = new AdventureResult( technique.toString(), 0 );
 			if ( !KoLCharacter.getInventory().contains( item ) )
@@ -1297,7 +1297,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( request instanceof KoLAdventure )
 			{
 				KoLAdventure adventure = (KoLAdventure) request;
-				if ( adventure.getFormSource().equals( "clan_gym.php" ) )
+				if ( adventure.getRequest() == null )
 				{
 					(new ClanGymRequest( this, Integer.parseInt( adventure.getAdventureID() ), iterations )).run();
 					return;
