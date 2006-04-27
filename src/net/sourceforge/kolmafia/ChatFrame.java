@@ -369,6 +369,10 @@ public class ChatFrame extends KoLFrame
 				return;
 			}
 
+			// <name> took your bet
+			if ( location.startsWith( "bet.php" ) )
+				return;
+
 			String [] locationSplit = location.split( "[=_]" );
 
 			// First, determine the parameters inside of the

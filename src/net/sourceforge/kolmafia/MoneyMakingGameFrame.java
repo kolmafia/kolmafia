@@ -39,6 +39,9 @@ import java.awt.BorderLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MoneyMakingGameFrame extends KoLFrame
@@ -88,6 +91,16 @@ public class MoneyMakingGameFrame extends KoLFrame
 	}
 
 	public static String handleBetResult( String message )
-	{	return message;
+	{
+		// <a target=mainpane href='showplayer.php?who=721048'><a href='bet.php' target=mainpane class=nounder><b>Interesting Sam</b></a> took your 1,000 Meat bet, and you won, earning you 1,998 Meat.</a>
+		Matcher matcher = Pattern.compile( "<a href='bet.php'.*?>(.*?)</a>" ).matcher( message );
+
+		if ( matcher.find() )
+		{
+			// Remove the link to bet.php
+			message = matcher.replaceFirst( matcher.group(1) );
+		}
+
+		return message;
 	}
 }

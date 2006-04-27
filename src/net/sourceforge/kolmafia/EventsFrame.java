@@ -63,7 +63,8 @@ public class EventsFrame extends KoLPanelFrame
 		protected void actionCancelled()
 		{
 			// Connect to main map to pick up new events
-			(new KoLRequest( StaticEntity.getClient(), "main.php" ) ).run();
+			DEFAULT_SHELL.updateDisplay( "Checking for new events..." );
+			(new RequestThread( new KoLRequest( StaticEntity.getClient(), "main.php" ) )).start();
 		}
 	}
 }
