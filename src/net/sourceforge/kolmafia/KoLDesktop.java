@@ -110,6 +110,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		setDefaultCloseOperation( DISPOSE_ON_CLOSE );
 		getContentPane().setLayout( new BorderLayout() );
 
+		tabs.setTabLayoutPolicy( JTabbedPane.SCROLL_TAB_LAYOUT );
 		getContentPane().add( tabs, BorderLayout.CENTER );
 		addCompactPane();
 
