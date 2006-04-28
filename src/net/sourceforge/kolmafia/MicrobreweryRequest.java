@@ -101,6 +101,12 @@ public class MicrobreweryRequest extends KoLRequest
 				return;
 			}
 
+			if ( price > KoLCharacter.getAvailableMeat() )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient funds." );
+				return;
+			}
+
 			if ( !KoLCharacter.canDrink() )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't drink. Why are you here?" );
@@ -119,6 +125,12 @@ public class MicrobreweryRequest extends KoLRequest
 			if ( responseText.indexOf( "You're way too drunk already." ) != -1 )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Consumption limit reached." );
+				return;
+			}
+			
+			if ( responseText.indexOf( "You can't afford that item.") != -1 )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient funds." );
 				return;
 			}
 

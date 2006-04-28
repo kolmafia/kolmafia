@@ -101,6 +101,12 @@ public class RestaurantRequest extends KoLRequest
 				return;
 			}
 
+			if ( price > KoLCharacter.getAvailableMeat() )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient funds." );
+				return;
+			}
+
 			if ( !KoLCharacter.canEat() )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't eat. Why are you here?" );
@@ -119,6 +125,12 @@ public class RestaurantRequest extends KoLRequest
 			if ( responseText.indexOf( "You are too full to eat that." ) != -1 )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Consumption limit reached." );
+				return;
+			}
+
+			if ( responseText.indexOf( "You can't afford that item.") != -1 )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient funds." );
 				return;
 			}
 
