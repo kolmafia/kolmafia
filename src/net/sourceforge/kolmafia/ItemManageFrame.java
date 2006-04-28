@@ -344,6 +344,8 @@ public class ItemManageFrame extends KoLFrame
 			public Object [] initialSetup()
 			{
 				Object [] items = getDesiredItems( description );
+				if (items == null )
+					return null;
 				this.requests = new Runnable[ !retrieveFromClosetFirst || description.equals( "Bagging" ) ? 1 : 2 ];
 
 				if ( retrieveFromClosetFirst )
