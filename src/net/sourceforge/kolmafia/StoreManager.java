@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -223,7 +224,27 @@ public abstract class StoreManager extends StaticEntity
 						TradeableItemDatabase.registerItem( itemID, itemName );
 					}
 
-					item = AdventureResult.parseResult( itemMatcher.group(1) );
+					// Remove parenthesized number and match again.
+					StringTokenizer parsedItem = new StringTokenizer( itemMatcher.group(1), "()" );
+					String name = parsedItem.nextToken().trim();
+					int count = 1;
+
+					if ( parsedItem.hasMoreTokens() )
+					{
+						try
+						{
+							count = df.parse( parsedItem.nextToken() ).intValue();
+						}
+						catch ( Exception e )
+						{
+							// This should not happen.  Therefore, print
+							// a stack trace for debug purposes.
+							
+							StaticEntity.printStackTrace( e );
+						}
+					}
+					
+					item = new AdventureResult( name, count, false );
 					price = df.parse( itemMatcher.group(2) ).intValue();
 
 					// In this case, the limit could appear as "unlimited",

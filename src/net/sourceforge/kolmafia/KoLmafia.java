@@ -1715,9 +1715,8 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		(new StoreManageRequest( this )).run();
 
-		// Now determine the desired prices on items.
-		// If the value of an item is currently 100,
-		// then remove the item from the store.
+		// Now determine the desired prices on items.  If
+		// 
 
 		StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
 		StoreManager.getSoldItemList().toArray( sold );
@@ -1731,13 +1730,15 @@ public abstract class KoLmafia implements KoLConstants
 			limits[i] = sold[i].getLimit();
 			itemID[i] = sold[i].getItemID();
 
-			if ( sold[i].getPrice() == 999999999 && TradeableItemDatabase.getPriceByID( sold[i].getItemID() ) > 0 && sold[i].getQuantity() < 100 )
+			int minimumPrice = TradeableItemDatabase.getPriceByID( sold[i].getItemID() ) * 2;
+			if ( minimumPrice < 0 )
+				minimumPrice = 0 - minimumPrice;
+
+			minimumPrice = Math.max( 100, minimumPrice );
+			if ( sold[i].getPrice() == 999999999 && minimumPrice > 0 )
 			{
 				int desiredPrice = sold[i].getLowest() - (sold[i].getLowest() % 100);
-				if ( desiredPrice >= 100 && desiredPrice >= TradeableItemDatabase.getPriceByID( sold[i].getItemID() ) * 2 )
-					prices[i] = desiredPrice;
-				else
-					prices[i] = sold[i].getLowest();
+				prices[i] = desiredPrice < minimumPrice ? minimumPrice : desiredPrice;
 			}
 			else
 				prices[i] = sold[i].getPrice();
@@ -2601,7 +2602,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			if ( items[i].getCount() < 100 && TradeableItemDatabase.getPriceByID( items[i].getItemID() ) > 0 )
+			if ( items[i].getCount() < 100 && TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 )
 			{
 				if ( NPCStoreDatabase.contains( items[i].getName() ) )
 					autosell.add( items[i] );
