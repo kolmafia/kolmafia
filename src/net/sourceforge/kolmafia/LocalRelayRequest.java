@@ -185,6 +185,7 @@ public class LocalRelayRequest extends KoLRequest
 				case ConsumeItemRequest.CONSUME_USE:
 					useType = "use";
 					useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+					break;
 
 				case ConsumeItemRequest.EQUIP_HAT:
 				case ConsumeItemRequest.EQUIP_PANTS:
@@ -197,7 +198,8 @@ public class LocalRelayRequest extends KoLRequest
 			if ( useType != null && useLocation != null )
 			{
 				useLinkMatcher.appendReplacement( linkedResponse,
-					"You acquire$1 [<font size=1><a href=\"" + useLocation.toString() + itemID + "\">" + useType + "</a>]</font></td>" );
+					"You acquire$1 <font size=1>[<a href=\"" + useLocation.toString() + ( useType == "skills" ? "" : String.valueOf( itemID ) ) + 
+					"\">" + useType + "</a>]</font></td>" );
 			}
 			else
 			{
