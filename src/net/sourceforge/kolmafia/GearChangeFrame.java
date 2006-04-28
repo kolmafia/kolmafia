@@ -231,16 +231,20 @@ public class GearChangeFrame extends KoLFrame
 				for ( int i = 0; i < 8; ++i )
 					equipment[i].setEnabled( shouldEnable );
 			}
-			else
-			if ( this == familiarSelect )
+			else if ( this == familiarSelect )
 			{
 				familiar = (FamiliarData) getSelectedItem();
-				if ( familiar.equals( KoLCharacter.getFamiliar() ) )
+System.out.println( "Step 1: " + getSelectedIndex() + ", " + familiar );
+				if ( familiar != null && familiar.equals( KoLCharacter.getFamiliar() ) )
 					familiar = null;
-
+System.out.println( "Step 2: " + getSelectedIndex() + ", " + familiar );
+				
 				pieces[8] = null;
 				equipmentLists[8].clear();
-				equipmentLists[8].add( familiar.getItem() );
+				
+				if ( familiar != null )
+					equipmentLists[8].add( familiar.getItem() );
+
 				equipment[8].setEnabled( false );
 			}
 			else
