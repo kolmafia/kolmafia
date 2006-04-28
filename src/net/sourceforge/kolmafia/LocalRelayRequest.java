@@ -135,6 +135,78 @@ public class LocalRelayRequest extends KoLRequest
 			fullResponse = fullResponse.replaceFirst( "<a href",
 				"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>NOTE: The graphical CLI will load in this frame to allow for manual adventuring.</p><center><a href");
 		}
+		
+		// Now, for a little fun HTML manipulation.  See
+		// if there's an item present, and if so, modify
+		// it so that you get a use link.
+		
+		StringBuffer linkedResponse = new StringBuffer();
+		Matcher useLinkMatcher = Pattern.compile( "You acquire(.*?)</td>" ).matcher( fullResponse );
+
+		while ( useLinkMatcher.find() )
+		{
+			String itemName = useLinkMatcher.group(1);
+			int itemCount = itemName.indexOf( ":" ) != -1 ? 1 : 2;
+
+			if ( itemCount == 1 )
+				itemName = itemName.substring( itemName.indexOf( ":" ) + 1 ).replaceAll( "<.*?>", "" ).trim();
+			else
+			{
+				itemName = itemName.replaceAll( "<.*?>", "" );
+				itemName = itemName.substring( itemName.indexOf( " " ) + 1 ).trim();
+			}
+
+			int itemID = TradeableItemDatabase.getItemID( itemName, itemCount );
+			String useType = null;
+			String useLocation = null;
+
+			switch ( TradeableItemDatabase.getConsumptionType( itemID ) )
+			{
+				case ConsumeItemRequest.CONSUME_EAT:
+					useType = KoLCharacter.canEat() ? "eat" : null;
+					useLocation = "inv_eat.php?pwd=&which=1&whichitem=";
+					break;
+
+				case ConsumeItemRequest.CONSUME_DRINK:
+					useType = KoLCharacter.canDrink() ? "drink" : null;
+					useLocation = "inv_booze.php?pwd=&which=1&whichitem=";
+					break;
+
+				case ConsumeItemRequest.CONSUME_MULTIPLE:
+					useType = "use";
+					useLocation = itemCount != 1 ? "multiuse.php?passitem=" : "inv_use.php?pwd=&which=1&whichitem=";
+					break;
+
+				case ConsumeItemRequest.CONSUME_RESTORE:
+					useType = "skills";
+					useLocation = "skills.php";
+					break;
+
+				case ConsumeItemRequest.CONSUME_USE:
+					useType = "use";
+					useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+
+				case ConsumeItemRequest.EQUIP_HAT:
+				case ConsumeItemRequest.EQUIP_PANTS:
+				case ConsumeItemRequest.EQUIP_SHIRT:
+					useType = "equip";
+					useLocation = "inv_equip.php?pwd=&which=2&action=equip&whichitem=";
+					break;
+			}
+			
+			if ( useType != null && useLocation != null )
+			{
+				useLinkMatcher.appendReplacement( linkedResponse,
+					"You acquire$1 [<font size=1><a href=\"" + useLocation.toString() + itemID + "\">" + useType + "</a>]</font></td>" );
+			}
+			else
+			{
+				useLinkMatcher.appendReplacement( linkedResponse, "$0" );
+			}
+		}
+
+		useLinkMatcher.appendTail( linkedResponse );
+		fullResponse = linkedResponse.toString();
 	}
 
 	public String getHeader( int index )
@@ -207,7 +279,7 @@ public class LocalRelayRequest extends KoLRequest
 					}
 					else
 					{
-						lineBuffer.append( imageMatcher.group() );
+						imageMatcher.appendReplacement( lineBuffer, "$0" );
 					}
 				}
 				
@@ -255,7 +327,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		try
 		{
-			String specialRequest = formURLString.substring( 10 );
+			String specialRequest = formURLString.substring( 9 );
 			
 			if ( specialRequest.equals( "submitCommand" ) )
 				submitCommand();
