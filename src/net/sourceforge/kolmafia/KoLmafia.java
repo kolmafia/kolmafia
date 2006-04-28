@@ -1731,12 +1731,9 @@ public abstract class KoLmafia implements KoLConstants
 			itemID[i] = sold[i].getItemID();
 
 			int minimumPrice = TradeableItemDatabase.getPriceByID( sold[i].getItemID() ) * 2;
-			if ( minimumPrice < 0 )
-				minimumPrice = 0 - minimumPrice;
-
-			minimumPrice = Math.max( 100, minimumPrice );
 			if ( sold[i].getPrice() == 999999999 && minimumPrice > 0 )
 			{
+				minimumPrice = Math.max( 100, minimumPrice );
 				int desiredPrice = sold[i].getLowest() - (sold[i].getLowest() % 100);
 				prices[i] = desiredPrice < minimumPrice ? minimumPrice : desiredPrice;
 			}
@@ -2602,7 +2599,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			if ( items[i].getCount() < 100 && TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 )
+			if ( TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 )
 			{
 				if ( NPCStoreDatabase.contains( items[i].getName() ) )
 					autosell.add( items[i] );
