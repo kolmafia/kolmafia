@@ -1715,8 +1715,9 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		(new StoreManageRequest( this )).run();
 
-		// Now determine the desired prices on items.  If
-		// 
+		// Now determine the desired prices on items.
+		// If the value of an item is currently 100,
+		// then remove the item from the store.
 
 		StoreManager.SoldItem [] sold = new StoreManager.SoldItem[ StoreManager.getSoldItemList().size() ];
 		StoreManager.getSoldItemList().toArray( sold );
