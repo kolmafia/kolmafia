@@ -238,6 +238,8 @@ public class KoLRequest implements Runnable, KoLConstants
 	private void constructURLString( String newURLString )
 	{
 		this.data.clear();
+		if ( newURLString.startsWith( "/" ) )
+			newURLString = newURLString.substring(1);
 
 		if ( newURLString.indexOf( "?" ) == -1 )
 		{
