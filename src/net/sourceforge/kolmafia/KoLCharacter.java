@@ -1073,8 +1073,20 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void updateEquipmentList( LockableListModel currentList, int currentFilter, String equippedItem )
 	{
-		currentList.clear();
-		currentList.addAll( getFilteredItems( currentFilter, equippedItem ) );
+		List newItems = getFilteredItems( currentFilter, equippedItem );
+		if ( currentList.equals( newItems ) )
+			return;
+		
+		if ( currentList.size() < newItems.size() )
+		{
+			newItems.removeAll( currentList );
+			currentList.addAll( newItems );
+		}
+		else
+		{
+			currentList.retainAll( newItems );
+		}
+		
 		currentList.setSelectedItem( equippedItem );
 	}
 

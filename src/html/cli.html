@@ -93,18 +93,27 @@
 	var requests = new Array();
 	var commands = new Array();
 	var commandCount = 0;
+	var isRefreshing = false;
 	
-	function checkForEnter( e )
+	function checkForKeyEvent( e )
 	{
 		var key = window.event ? e.keyCode : e.which;
+
 		if ( key == 13 )
 			submitCommand();
 	
 		if ( key == 38 && commandCount > 0 )
 			document.cmdform.cmd.value = commands[ --commandCount ];
-	
+
 		if ( key == 40 && commandCount + 1 < commands.length )
 			document.cmdform.cmd.value = commands[ ++commandCount ];
+
+		// Safari processes the key event twice; in order
+		// to make sure this doesn't cause problems, you
+		// will need to stop the propogation for each event.
+
+		if ( e.stopPropagation )
+			e.stopPropagation();		
 	};
 	
 	function getHttpObject()
@@ -146,12 +155,16 @@
 			if ( httpObject.responseText.length < 2 )
 				return;
 
-			if ( httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
-				top.charpane.location.reload( true );
-
 			display.innerHTML += ( httpObject.responseText );
 			display.style.width = initwidth;
 			display.scrollTop = display.scrollHeight;
+
+			if ( !isRefreshing && httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
+			{
+				isRefreshing = true;
+				top.charpane.location.reload( true );
+				isRefreshing = false;
+			}
 		}
 	
 		httpObject.send( null );
@@ -168,7 +181,7 @@
 			return true;
 		
 		commandCount = commands.push( command );
-		
+
 		if ( command == "clear" || command == "cls" )
 		{
 			display.innerHTML = "";
@@ -308,7 +321,7 @@
   <form name=cmdform onSubmit='return false;'>
    <div id="InputForm" class=inputform>
     <center>
-     <input style="width: 70%;" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForEnter( event );' autocomplete="off">
+     <input style="width: 70%;" maxlength=200 class=text type=text size=12 name=cmd onKeyUp='checkForKeyEvent( event );' autocomplete="off">
      <input class=button type=button onClick="submitCommand();" value="exec">
     </center>
    </div>
