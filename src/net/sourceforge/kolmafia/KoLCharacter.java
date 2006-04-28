@@ -233,7 +233,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static LockableListModel battleSkillIDs = new LockableListModel();
 	private static LockableListModel battleSkillNames = new LockableListModel();
 
-	private static LockableListModel [] equipmentLists = new LockableListModel[9];
+	private static SortedListModel [] equipmentLists = new SortedListModel[9];
 	static
 	{
 		for ( int i = 0; i < 9; ++i )
@@ -1073,9 +1073,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void updateEquipmentList( LockableListModel currentList, int currentFilter, String equippedItem )
 	{
-		currentList.setSelectedItem( null );
 		currentList.clear();
-
 		currentList.addAll( getFilteredItems( currentFilter, equippedItem ) );
 		currentList.setSelectedItem( equippedItem );
 	}
