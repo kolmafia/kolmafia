@@ -213,34 +213,34 @@ public class SortedListModel extends LockableListModel
 
 	private int indexOf( int beginIndex, int endIndex, Comparable element, int whichIndexOf )
 	{
-		// if the binary search has been terminated, return -1
+		int compareResult = 0;
 
 		if ( beginIndex == endIndex )
-			return whichIndexOf == INSERTION ? beginIndex + 1 :
-				element.equals( get( beginIndex ) ) ? beginIndex : -1;
+		{
+			compareResult = compare( element, (Comparable) get( beginIndex ) );
+			if ( whichIndexOf == INSERTION )
+				return compareResult < 0 ? beginIndex : beginIndex + 1;
 
+			return compareResult == 0 ? beginIndex : -1;
+		}
+		
 		if ( beginIndex > endIndex )
-			return whichIndexOf == INSERTION ? endIndex + 1:
-				element.equals( get( endIndex ) ) ? endIndex : -1;
+			return whichIndexOf == INSERTION ? beginIndex : -1;
 		
 		// calculate the halfway point and compare the element with the
 		// element located at the halfway point - note that in locating
 		// the last index of, the value is rounded up to avoid an infinite
 		// recursive loop
 
-		int halfwayIndex = (beginIndex + endIndex + 1) >> 1;
-		Comparable halfwayElement = (Comparable) get( halfwayIndex );
-
-		int compareResult = halfwayElement instanceof String && element instanceof String ?
-			((String)halfwayElement).compareToIgnoreCase( (String) element ) :
-			halfwayElement.compareTo( element );
+		int halfwayIndex = (beginIndex + endIndex) >> 1;
+		compareResult = compare( (Comparable) get( halfwayIndex ), element );
 
 		// if the element in the middle is larger than the element being checked,
 		// then it is known that the element is smaller than the middle element,
 		// so it must preceed the middle element
 
 		if ( compareResult > 0 )
-			return indexOf( beginIndex, halfwayIndex - 1, element, whichIndexOf );
+			return indexOf( beginIndex, halfwayIndex, element, whichIndexOf );
 
 		// if the element in the middle is smaller than the element being checked,
 		// then it is known that the element is larger than the middle element, so
@@ -254,6 +254,14 @@ public class SortedListModel extends LockableListModel
 		// object; because duplicates are not allowed, return the halfway point
 
 		return whichIndexOf == NORMAL ? halfwayIndex : halfwayIndex + 1;
+	}
+	
+	private int compare( Comparable left, Comparable right )
+	{
+		return left == null ? 1 : right == null ? -1 :
+			left instanceof String && right instanceof String ?
+			((String)left).compareToIgnoreCase( (String) right ) :
+			left instanceof String ? 0 - right.compareTo( left ) : left.compareTo( right );
 	}
 
 	public Object clone()

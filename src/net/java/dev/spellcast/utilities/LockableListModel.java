@@ -593,7 +593,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
      */
 
 	public void setSelectedItem( Object o )
-	{	setSelectedIndex( indexOf( o ) );
+	{	setSelectedIndex( o == null ? -1 : indexOf( o ) );
 	}
 
 	/**
