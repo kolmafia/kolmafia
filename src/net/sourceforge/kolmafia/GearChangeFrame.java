@@ -234,10 +234,8 @@ public class GearChangeFrame extends KoLFrame
 			else if ( this == familiarSelect )
 			{
 				familiar = (FamiliarData) getSelectedItem();
-System.out.println( "Step 1: " + getSelectedIndex() + ", " + familiar );
 				if ( familiar != null && familiar.equals( KoLCharacter.getFamiliar() ) )
 					familiar = null;
-System.out.println( "Step 2: " + getSelectedIndex() + ", " + familiar );
 				
 				pieces[8] = null;
 				equipmentLists[8].clear();
