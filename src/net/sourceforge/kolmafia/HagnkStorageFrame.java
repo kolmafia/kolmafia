@@ -212,6 +212,8 @@ public class HagnkStorageFrame extends KoLFrame
 			public void actionPerformed( ActionEvent e )
 			{
 				Object [] items = getDesiredItems( "Pulling" );
+				if ( items == null )
+					return;
 
 				Runnable [] requests = isCloset ? new Runnable[2] : new Runnable[1];
 				requests[0] = new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.STORAGE_TO_INVENTORY, items );
