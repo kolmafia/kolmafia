@@ -140,9 +140,9 @@ public class AdventureFrame extends KoLFrame
 			String holiday = MoonPhaseDatabase.getHoliday( sdf.parse( sdf.format( new Date() ) ) );
 
 			if ( holiday.startsWith( "No" ) )
-				DEFAULT_SHELL.updateDisplay( NULL_STATE, MoonPhaseDatabase.getMoonEffect() );
+				adventureSelect.setStatusMessage( MoonPhaseDatabase.getMoonEffect() );
 			else
-				DEFAULT_SHELL.updateDisplay( NULL_STATE, holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+				adventureSelect.setStatusMessage( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
 		}
 		catch ( Exception e )
 		{
@@ -375,7 +375,7 @@ public class AdventureFrame extends KoLFrame
 
 						if ( !(request instanceof KoLAdventure) || !EquipmentDatabase.addOutfitConditions( (KoLAdventure) request ) )
 						{
-							DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No outfit corresponds to this zone." );
+							setStatusMessage( "No outfit corresponds to this zone." );
 							return;
 						}
 
@@ -388,31 +388,18 @@ public class AdventureFrame extends KoLFrame
 					else
 					{
 						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + conditions[i] ) )
-						{
-							DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Invalid condition: " + conditions[i] );
 							return;
-						}
 					}
-				}
-
-				if ( StaticEntity.getClient().getConditions().isEmpty() )
-				{
-					DEFAULT_SHELL.updateDisplay( "Conditions already satisfied." );
-					StaticEntity.getClient().enableDisplay();
-					return;
 				}
 
 				if ( verifyConditions )
 				{
 					DEFAULT_SHELL.executeConditionsCommand( "check" );
 					if ( StaticEntity.getClient().getConditions().isEmpty() )
-					{
-						DEFAULT_SHELL.updateDisplay( "Conditions already satisfied." );
-						StaticEntity.getClient().enableDisplay();
 						return;
-					}
 				}
 
+				DEFAULT_SHELL.enableDisplay();
 				DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 				DEFAULT_SHELL.updateDisplay( "Conditions set.  Preparing for adventuring..." );
 				conditionField.setText( "" );

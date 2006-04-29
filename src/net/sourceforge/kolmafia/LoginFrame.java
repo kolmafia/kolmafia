@@ -321,7 +321,7 @@ public class LoginFrame extends KoLFrame
 				isBreakfastEnabled = lastBreakfast == null || !lastBreakfast.equals( todayString );
 				LoginPanel.this.setEnabled( true );
 
-				setStatusMessage( NULL_STATE, isBreakfastEnabled ? " " : "Breakfast options disabled (already got breakfast today)" );
+				setStatusMessage( isBreakfastEnabled ? " " : "Breakfast options disabled (already got breakfast today)" );
 			}
 
 			private class PasswordFocusListener extends KeyAdapter

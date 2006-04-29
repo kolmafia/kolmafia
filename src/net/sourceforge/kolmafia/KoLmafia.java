@@ -247,7 +247,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void updateDisplay( int state, String message )
 	{
-		if ( this.currentState != ABORT_STATE && state != NULL_STATE )
+		if ( this.currentState != ABORT_STATE )
 			this.currentState = state;
 
 		if ( !message.equals( "" ) )
@@ -1763,6 +1763,18 @@ public abstract class KoLmafia implements KoLConstants
 	{	return currentState == CONTINUE_STATE;
 	}
 
+	/**
+	 * Retrieves whether or not continuation of an adventure or request
+	 * will be denied by the client, regardless of continue state reset,
+	 * until the display is enable (ie: in an abort state).
+	 *
+	 * @return	<code>true</code> if requests are allowed to continue
+	 */
+
+	public final boolean refusesContinue()
+	{	return currentState == ABORT_STATE;
+	}
+	
 	/**
 	 * Initializes a stream for logging debugging information.  This
 	 * method creates a <code>KoLmafia.log</code> file in the default

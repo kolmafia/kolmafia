@@ -120,7 +120,11 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), elementList.getSelectedValues(), AutoSellRequest.AUTOMALL ) )).start();
+		{
+			Object [] items = getDesiredItems( elementList, "Stock up", TAKE_MULTIPLE );
+			if ( items == null || items.length == 0 )
+				return;
+			(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), items, AutoSellRequest.AUTOMALL ) )).start();
 		}
 
 		public void actionCancelled()

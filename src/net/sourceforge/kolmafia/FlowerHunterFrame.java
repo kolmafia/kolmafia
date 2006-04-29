@@ -161,9 +161,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		{
 			int opponentCount = table.getSelectedRowCount();
 			if ( opponentCount == 1 )
-				attackPanel.setStatusMessage( NULL_STATE, "1 opponent selected." );
+				attackPanel.setStatusMessage( "1 opponent selected." );
 			else
-				attackPanel.setStatusMessage( NULL_STATE, opponentCount + " opponents selected." );
+				attackPanel.setStatusMessage( opponentCount + " opponents selected." );
 		}
 	}
 

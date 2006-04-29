@@ -136,7 +136,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		{
 			if ( currentlyBuying )
 			{
-				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Purchases stopped." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Purchases stopped." );
 				StaticEntity.getClient().enableDisplay();
 				return;
 			}
@@ -144,7 +144,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			Object [] purchases = resultsList.getSelectedValues();
 			if ( purchases == null || purchases.length == 0 )
 			{
-				setStatusMessage( NULL_STATE, "Please select a store from which to purchase." );
+				setStatusMessage( "Please select a store from which to purchase." );
 				return;
 			}
 
@@ -249,7 +249,7 @@ public class MallSearchFrame extends KoLPanelFrame
 				// show what the current state of the selections
 				// is at this time.
 
-				mallSearch.setStatusMessage( NULL_STATE, getPurchaseSummary( resultsList.getSelectedValues() ) );
+				mallSearch.setStatusMessage( getPurchaseSummary( resultsList.getSelectedValues() ) );
 			}
 		}
 	}
