@@ -245,8 +245,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( StaticEntity.getClient() == this )
 			{
-				if ( StaticEntity.getClient().refusesContinue() )
-					enableDisplay();
+				if ( refusesContinue() )
+					forceContinue();
 
 				printBlankLine();
 				outputStream.print( " > " );
@@ -261,12 +261,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 				line = getNextLine();
 
-				if ( line.startsWith( "y" ) || line.startsWith( "Y" ) )
-				{
-					if ( StaticEntity.getClient().refusesContinue() )
-						enableDisplay();
-					updateDisplay( "Continuing script..." );
-				}
+				if ( line != null && line.startsWith( "y" ) || line.startsWith( "Y" ) )
+					DEFAULT_SHELL.forceContinue();
 			}
 		}
 
@@ -375,7 +371,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If it gets this far, that means the continue
 		// state can be reset.
 		
-		StaticEntity.getClient().currentState = CONTINUE_STATE;
+		StaticEntity.getClient().forceContinue();
 		
 		// Insert random video game reference command to
 		// start things off.
@@ -1309,8 +1305,7 @@ public class KoLmafiaCLI extends KoLmafia
 			// Clear the error state for continuation on the
 			// message sending attempt.
 
-			updateDisplay( "" );
-
+			StaticEntity.getClient().forceContinue();
 			(new GiftMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", "You are awesome.",
 				availablePackages.get( desiredPackageIndex ), attachments, 0 )).run();
 
@@ -3461,13 +3456,16 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void updateDisplay( int state, String message )
 	{
-		if ( StaticEntity.getClient() == null )
-			return;
-
 		// If it's the enableDisplay() called from the KoLmafia
 		// initializer, then outputStream and mirrorStream will
 		// be null -- check this before attempting to print.
 
+		if ( StaticEntity.getClient() == null )
+			return;
+
+		// Only print non-blank messages (otherwise, you get
+		// a whole bunch of whitespace on output).
+		
 		if ( !message.equals( "" ) )
 		{
 			outputStream.println( message );
