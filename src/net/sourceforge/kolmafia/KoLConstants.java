@@ -75,7 +75,6 @@ public interface KoLConstants extends UtilityConstants
 
 	public static final SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd" );
 
-	public static final int NULL_STATE     = 0;
 	public static final int ENABLE_STATE   = 1;
 	public static final int ERROR_STATE    = 2;
 	public static final int ABORT_STATE    = 3;

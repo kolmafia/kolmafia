@@ -154,15 +154,17 @@ public class KoLmafiaASH extends StaticEntity
 		
 		try
 		{
-			ScriptValue result = executeGlobalScope( global );
-			if ( result == null || result.getType() == null )
-				return;
+			DEFAULT_SHELL.enableDisplay();
 
+			ScriptValue result = executeGlobalScope( global );
+			if ( !client.permitsContinue() || result == null || result.getType() == null )
+				return;
+			
 			if ( result.getType().equals( TYPE_BOOLEAN ) )
 				DEFAULT_SHELL.printLine( result.intValue() == 0 ? "Script failed!" : "Script succeeded!" );
 			else if ( result.getType().equals( TYPE_STRING ) )
 				DEFAULT_SHELL.printLine( result.toString() );
-			else
+			else if ( !result.getType().equals( TYPE_VOID ) )
 				DEFAULT_SHELL.printLine(  "Script returned value " + result );
 
 		}
@@ -1911,7 +1913,6 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( name.equalsIgnoreCase( "adventure" ) )
 			{
-				DEFAULT_SHELL.updateDisplay( "Beginning " + variables[0].intValue() + " turnips to " + variables[1].getLocation() + "..." );
 				DEFAULT_SHELL.executeLine( "adventure " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 			}

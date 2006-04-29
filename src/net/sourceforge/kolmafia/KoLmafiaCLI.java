@@ -238,7 +238,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		while ( (line = getNextLine()) != null && (StaticEntity.getClient().permitsContinue() || StaticEntity.getClient() == this) )
 		{
-			DEFAULT_SHELL.updateDisplay( "" );
 			if ( StaticEntity.getClient() == this )
 				printBlankLine();
 
@@ -246,6 +245,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( StaticEntity.getClient() == this )
 			{
+				if ( StaticEntity.getClient().refusesContinue() )
+					enableDisplay();
+
 				printBlankLine();
 				outputStream.print( " > " );
 			}
@@ -257,10 +259,14 @@ public class KoLmafiaCLI extends KoLmafia
 				printBlankLine();
 				outputStream.print( " > " );
 
-				line = ((KoLmafiaCLI)StaticEntity.getClient()).getNextLine();
+				line = getNextLine();
 
 				if ( line.startsWith( "y" ) || line.startsWith( "Y" ) )
-					updateDisplay( CONTINUE_STATE, "Continuing script..." );
+				{
+					if ( StaticEntity.getClient().refusesContinue() )
+						enableDisplay();
+					updateDisplay( "Continuing script..." );
+				}
 			}
 		}
 
@@ -1675,7 +1681,10 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.getClient().conditions.clear();
 			StaticEntity.getClient().conditions.addAll( StaticEntity.getClient().missingItems );
 
-			DEFAULT_SHELL.updateDisplay( "Check complete.  Resuming request..." );
+			if ( StaticEntity.getClient().conditions.isEmpty() )
+				updateDisplay( "All conditions already satisfied." );
+			else
+				DEFAULT_SHELL.updateDisplay( "Check complete.  Resuming request..." );
 
 			return true;
 		}

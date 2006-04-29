@@ -285,6 +285,10 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		}
 	}
 
+	public void setStatusMessage( String s )
+	{	setStatusMessage( ENABLE_STATE, s );
+	}
+	
 	public void setStatusMessage( int displayState, String s )
 	{
 		if ( actionStatusLabel != null && !s.equals( "" ) )

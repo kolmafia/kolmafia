@@ -113,7 +113,7 @@ public class MeatManageFrame extends KoLFrame
 		}
 
 		protected void actionCancelled()
-		{	setStatusMessage( NULL_STATE, "The Frost poem you dialed is unavailable at this time." );
+		{	setStatusMessage( "The Frost poem you dialed is unavailable at this time." );
 		}
 	}
 

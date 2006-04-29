@@ -444,7 +444,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		}
 		else
 		{
-			DEFAULT_SHELL.updateDisplay( NULL_STATE, "Successfully created " + quantityNeeded + " " + getName() );
+			DEFAULT_SHELL.updateDisplay( "Successfully created " + quantityNeeded + " " + getName() );
 		}
 	}
 

@@ -206,7 +206,7 @@ public class GearChangeFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	setStatusMessage( NULL_STATE, "Feature not yet available." );
+		{	setStatusMessage( "Feature not yet available." );
 		}
 	}
 	
