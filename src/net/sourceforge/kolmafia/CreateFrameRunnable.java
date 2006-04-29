@@ -193,8 +193,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 			boolean appearsInTab = this.creation instanceof KoLFrame;
 
-			appearsInTab &= tabSetting.indexOf( searchString + "," ) != -1 ||
-				tabSetting.indexOf( "," + searchString ) != -1 || tabSetting.equals( searchString );
+			appearsInTab &= tabSetting.startsWith( searchString + "," ) || tabSetting.endsWith( "," + searchString ) ||
+				tabSetting.indexOf( "," + searchString + "," ) != -1 || tabSetting.equals( searchString );
 
 			appearsInTab &= !(this.creation instanceof RequestFrame) ||
 				(this.creation.getClass() == RequestFrame.class && ((RequestFrame)this.creation).hasSideBar());
