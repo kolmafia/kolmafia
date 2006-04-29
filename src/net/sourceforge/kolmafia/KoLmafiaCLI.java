@@ -372,6 +372,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCommand( String command, String parameters )
 	{
+		// If it gets this far, that means the continue
+		// state can be reset.
+		
+		StaticEntity.getClient().currentState = CONTINUE_STATE;
+		
 		// Insert random video game reference command to
 		// start things off.
 
@@ -1070,6 +1075,11 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				executePrintCommand( "familiars" );
 				return;
+			}
+			else if ( parameters.equalsIgnoreCase( "none" ) || parameters.equalsIgnoreCase( "unequip" ) )
+			{
+				StaticEntity.getClient().makeRequest( new FamiliarRequest( StaticEntity.getClient(), FamiliarData.NO_FAMILIAR ), 1 );
+				return;				
 			}
 
 			String lowerCaseName = parameters.toLowerCase();
@@ -3090,10 +3100,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeChangeOutfitCommand( String parameters )
 	{
-		String lowercaseOutfitName = parameters.toLowerCase().trim();
+		String lowercaseOutfitName = parameters.toLowerCase().trim();		
 		Object [] outfits = new Object[ KoLCharacter.getOutfits().size() ];
 		KoLCharacter.getOutfits().toArray( outfits );
-		SpecialOutfit intendedOutfit = null;
+
+		SpecialOutfit intendedOutfit = lowercaseOutfitName.equals( "birthday suit" ) ?
+			SpecialOutfit.BIRTHDAY_SUIT: null;
 
 		for ( int i = 0; intendedOutfit == null && i < outfits.length; ++i )
 			if ( outfits[i] instanceof SpecialOutfit && outfits[i].toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )

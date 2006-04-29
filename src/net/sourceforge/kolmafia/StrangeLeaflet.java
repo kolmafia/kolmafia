@@ -153,7 +153,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( !KoLCharacter.hasItem( LEAFLET, false ) )
 		{
 			if ( KoLCharacter.getLevel() >= 9 )
-				(new KoLRequest( client, "council.php" )).run();
+				DEFAULT_SHELL.executeLine( "council" );
 			else
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You are too low level for that quest." );

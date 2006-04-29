@@ -172,7 +172,7 @@ public abstract class SorceressLair extends StaticEntity
 				// HTML in the council request, but for now, use
 				// this inefficient workaround.
 
-				(new KoLRequest( client, "council.php" )).run();
+				DEFAULT_SHELL.executeLine( "council" );
 				request.run();
 				unlockedQuest = request.responseText.indexOf( "lair.php" ) != -1;
 			}
@@ -433,8 +433,8 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( request.responseText.indexOf( "lair2.php" ) == -1 )
 		{
-			(new FamiliarRequest( client, FamiliarData.NO_FAMILIAR )).run();
-			(new EquipmentRequest( client, SpecialOutfit.BIRTHDAY_SUIT )).run();
+			DEFAULT_SHELL.executeLine( "familiar none" );
+			DEFAULT_SHELL.executeLine( "outfit birthday suit" );
 
 			// We will need to re-equip
 
@@ -639,9 +639,9 @@ public abstract class SorceressLair extends StaticEntity
 		// require you to re-equip your star weapon and
 		// a star buckler and switch to a starfish first.
 
-		(new EquipmentRequest( client, starWeapon.getName() )).run();
-		(new EquipmentRequest( client, STAR_HAT.getName() )).run();
-		(new FamiliarRequest( client, new FamiliarData( 17 ) )).run();
+		DEFAULT_SHELL.executeLine( "equip " + starWeapon.getName() );
+		DEFAULT_SHELL.executeLine( "equip star hat" );
+		DEFAULT_SHELL.executeLine( "familiar star starfish" );
 
 		DEFAULT_SHELL.updateDisplay( "Inserting Richard's star key..." );
 
@@ -823,8 +823,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( hasItem( SCUBA ) )
 		{
 			AdventureDatabase.retrieveItem( SCUBA );
-			(new EquipmentRequest( client, "makeshift SCUBA gear", KoLCharacter.ACCESSORY1 )).run();
-
+			DEFAULT_SHELL.executeLine( "equip acc1 makeshift SCUBA gear" );
 			DEFAULT_SHELL.updateDisplay( "Pressing switch beyond odor..." );
 			(new KoLRequest( client, "lair2.php?action=odor" )).run();
 		}
@@ -1303,8 +1302,7 @@ public abstract class SorceressLair extends StaticEntity
 		AdventureDatabase.retrieveItem( SHARD );
 
 		// Equip the huge mirror shard
-		(new EquipmentRequest( client, SHARD.getName() )).run();
-
+		DEFAULT_SHELL.executeLine( "equip huge mirror shard" );
 		DEFAULT_SHELL.updateDisplay( "Reflecting energy bolt..." );
 
 		// Reflect the energy bolt
