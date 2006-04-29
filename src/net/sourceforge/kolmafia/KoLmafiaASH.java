@@ -160,11 +160,13 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !client.permitsContinue() || result == null || result.getType() == null )
 				return;
 			
-			if ( result.getType().equals( TYPE_BOOLEAN ) )
+			if ( result.getType().equals( TYPE_VOID ) )
+				DEFAULT_SHELL.printLine( client.permitsContinue() ? "Script failed!" : "Script succeeded!" );
+			else if ( result.getType().equals( TYPE_BOOLEAN ) )
 				DEFAULT_SHELL.printLine( result.intValue() == 0 ? "Script failed!" : "Script succeeded!" );
 			else if ( result.getType().equals( TYPE_STRING ) )
 				DEFAULT_SHELL.printLine( result.toString() );
-			else if ( !result.getType().equals( TYPE_VOID ) )
+			else
 				DEFAULT_SHELL.printLine(  "Script returned value " + result );
 
 		}
@@ -2679,8 +2681,11 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptValue result;
 			ScriptValue conditionResult = condition.execute();
+
+			if ( !StaticEntity.getClient().refusesContinue() )
+				StaticEntity.getClient().forceContinue();
+
 			boolean conditionMet = conditionResult != null && conditionResult.intValue() == 1;
-			DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, "" );
 
 			if ( conditionMet )
 			{
