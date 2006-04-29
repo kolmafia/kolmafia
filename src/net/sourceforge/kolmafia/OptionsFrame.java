@@ -122,6 +122,7 @@ public class OptionsFrame extends KoLFrame
 
 		addTab( "General", new GeneralOptionsPanel() );
 		addTab( "Zone List", new AreaOptionsPanel() );
+		addTab( "Relay Browser", new RelayOptionsPanel() );
 		addTab( "Chat Options", new ChatOptionsPanel() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
@@ -135,13 +136,53 @@ public class OptionsFrame extends KoLFrame
 		tabs.add( name, scroller );
 	}
 
-	/**
-	 * This panel handles all of the things related to login
-	 * options, including which server to use for login and
-	 * all other requests, as well as the user's proxy settings
-	 * (if applicable).
-	 */
+	private class RelayOptionsPanel extends OptionsPanel
+	{
+		private JCheckBox [] optionBoxes;
 
+		private final String [][] options =
+		{
+			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
+			{ "relayAddsCommandLineLinks", "Add gCLI tool links to chat launcher" }
+		};
+
+		/**
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
+		 * place for the users to select their desired server and for them
+		 * to modify any applicable proxy settings.
+		 */
+
+		public RelayOptionsPanel()
+		{
+			super( "Relay Browser", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+
+			optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			for ( int i = 0; i < options.length; ++i )
+				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements, false );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			for ( int i = 0; i < options.length; ++i )
+				setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+
+			super.actionConfirmed();
+		}
+
+		protected void actionCancelled()
+		{
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i].setSelected( getProperty( options[i][0] ).equals( "true" ) );
+		}
+	}
+	
 	private class GeneralOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;

@@ -129,17 +129,26 @@ public class LocalRelayRequest extends KoLRequest
 		// Allow a way to get from KoL back to the gCLI
 		// using the chat launcher.
 		
-		if ( formURLString.indexOf( "chatlaunch" ) != -1 )
-		{
-			fullResponse = fullResponse.replaceAll( "<script.*?></script>", "" );
-			fullResponse = fullResponse.replaceFirst( "<a href",
-				"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>NOTE: The graphical CLI will load in this frame to allow for manual adventuring.</p><center><a href");
-		}
-		
+		if ( formURLString.indexOf( "chatlaunch" ) != -1 && StaticEntity.getProperty( "relayAddsCommandLineLinks" ).equals( "true" ) )
+			addCommandLineLinks();
+
 		// Now, for a little fun HTML manipulation.  See
 		// if there's an item present, and if so, modify
 		// it so that you get a use link.
 		
+		if ( StaticEntity.getProperty( "relayAddsUseLinks" ).equals( "true" ) )
+			addUseLinks();
+	}
+	
+	private void addCommandLineLinks()
+	{
+		fullResponse = fullResponse.replaceAll( "<script.*?></script>", "" );
+		fullResponse = fullResponse.replaceFirst( "<a href",
+			"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>NOTE: The graphical CLI will load in this frame to allow for manual adventuring.</p><center><a href");
+	}
+	
+	private void addUseLinks()
+	{
 		StringBuffer linkedResponse = new StringBuffer();
 		Matcher useLinkMatcher = Pattern.compile( "You acquire(.*?)</td>" ).matcher( fullResponse );
 
@@ -208,7 +217,7 @@ public class LocalRelayRequest extends KoLRequest
 		}
 
 		useLinkMatcher.appendTail( linkedResponse );
-		fullResponse = linkedResponse.toString();
+		fullResponse = linkedResponse.toString();		
 	}
 
 	public String getHeader( int index )

@@ -208,6 +208,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "mpRecoveryScript", "" );
 		ensureProperty( "mpRestores", "" );
 		ensureProperty( "proxySet", "false" );
+		ensureProperty( "relayAddsCommandLineLinks", "true" );
+		ensureProperty( "relayAddsUseLinks", "true" );
 		ensureProperty( "rememberPasswords", "false" );
 		ensureProperty( "saveState", "" );
 		ensureProperty( "serverFriendly", "false" );
