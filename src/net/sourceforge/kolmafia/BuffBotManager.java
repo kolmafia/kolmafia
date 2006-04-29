@@ -365,7 +365,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		try
 		{
 			processMessage( success );
-			client.updateDisplay( "" );
+			client.forceContinue();
 		}
 		catch ( Exception e )
 		{

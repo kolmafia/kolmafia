@@ -1289,6 +1289,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
+			forceContinue();
 			macroStream.print( KoLmafiaCLI.deriveCommand( request, iterations ) );
 
 			// Handle the gym, which is the only adventure type
@@ -1438,19 +1439,12 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( currentState != ERROR_STATE && currentState != ABORT_STATE )
 			{
-				if ( !permitsContinue() )
-				{
-					// Special processing for adventures.
+				// If we canceled the iteration without
+				// generating a real error, permit
+				// scripts to continue.
 
-					if ( currentState == PENDING_STATE && request instanceof KoLAdventure )
-					{
-						// If we canceled the iteration without
-						// generating a real error, permit
-						// scripts to continue.
-
-						updateDisplay( CONTINUE_STATE, "" );
-					}
-				}
+				if ( currentState == PENDING_STATE )
+						currentState = CONTINUE_STATE;
 
 				else if ( request instanceof KoLAdventure && !conditions.isEmpty() )
 					updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
@@ -1773,6 +1767,17 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final boolean refusesContinue()
 	{	return currentState == ABORT_STATE;
+	}
+
+	/**
+	 * Forces a continue state.  This should only be called when
+	 * there is no doubt that a continue should occur.
+	 *
+	 * @return	<code>true</code> if requests are allowed to continue
+	 */
+
+	public final void forceContinue()
+	{	currentState = CONTINUE_STATE;
 	}
 	
 	/**
@@ -2140,7 +2145,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void executeTimeInRequest()
 	{
-		deinitialize();  enableDisplay();
+		deinitialize();  forceContinue();
 		updateDisplay( "Timing in session..." );
 
 		cachedLogin.run();
