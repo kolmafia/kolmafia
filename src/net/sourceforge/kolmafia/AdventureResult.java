@@ -611,7 +611,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			}
 			else if ( autoSellValue == 0 )
 			{
-				if ( !notrade )
+				if ( !nosell || !notrade )
 					return BLANK_LABEL;
 
 				stringForm.append( "no-trade" );
