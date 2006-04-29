@@ -1559,6 +1559,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setMindControlLevel( int level )
 	{
 		KoLCharacter.mindControlLevel = level;
+		updateStatus();
 	}
 
 	/**
