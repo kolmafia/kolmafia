@@ -74,6 +74,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
+
+	private static final AdventureResult BOX = new AdventureResult( 427, 1 ); 
+	private static final AdventureResult CHEF_SKULL = new AdventureResult( 437, 1 );
+	private static final AdventureResult CHEF_SKULL_BOX = new AdventureResult( 438, 1 );
+	private static final AdventureResult BARTENDER_SKULL = new AdventureResult( 439, 1 );
+	private static final AdventureResult BARTENDER_SKULL_BOX = new AdventureResult( 440, 1 );
+
 	private static final AdventureResult CHEF = new AdventureResult( 438, 1 );
 	private static final AdventureResult CLOCKWORK_CHEF = new AdventureResult( 1112, 1 );
 	private static final AdventureResult BARTENDER = new AdventureResult( 440, 1 );
@@ -487,19 +494,22 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK:
 			case COOK_REAGENT:
 			case COOK_PASTA:
-				autoRepairSuccessful = useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN );
+				autoRepairSuccessful = useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN, CHEF_SKULL, CHEF_SKULL_BOX );
 				break;
 
 			case MIX:
 			case MIX_SPECIAL:
-				autoRepairSuccessful = useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT );
+				autoRepairSuccessful = useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT, BARTENDER_SKULL, BARTENDER_SKULL_BOX );
 				break;
 		}
+
+		if ( !autoRepairSuccessful )
+			client.updateDisplay( ERROR_STATE, "Auto-repair was unsuccessful." );
 
 		return autoRepairSuccessful && client.permitsContinue();
 	}
 
-	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant, AdventureResult noServantItem )
+	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant, AdventureResult noServantItem, AdventureResult skullItem, AdventureResult boxedItem )
 	{
 		// First, check to see if a box servant is available
 		// for usage, either normally, or through some form
@@ -524,16 +534,31 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( usedServant == null )
 		{
-			if ( getProperty( "autoSatisfyChecks" ).equals( "false" ) )
-			{
-				return getProperty( "createWithoutBoxServants" ).equals( "true" ) &&
-					noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
-			}
+			boolean isCreatePermitted = getProperty( "createWithoutBoxServants" ).equals( "true" ) &&
+				noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
 			
-			if ( KoLCharacter.isHardcore() && !KoLCharacter.inMuscleSign() )
-				return false;
+			if ( getProperty( "autoSatisfyChecks" ).equals( "false" ) )
+				return isCreatePermitted;
 
-			usedServant = KoLCharacter.isHardcore() ? servant : clockworkServant;
+			if ( KoLCharacter.inMuscleSign() )
+			{
+				if ( KoLCharacter.hasItem( boxedItem, true ) )
+					usedServant = boxedItem;
+				else if ( KoLCharacter.hasItem( skullItem, true ) && KoLCharacter.hasItem( BOX, false ) )
+					usedServant = boxedItem;
+			}
+			else if ( KoLCharacter.isHardcore() )
+			{
+				if ( KoLCharacter.hasItem( boxedItem, true ) )
+					usedServant = boxedItem;
+			}
+			else
+			{
+				usedServant = clockworkServant;
+			}
+
+			if ( usedServant == null )
+				return isCreatePermitted;
 		}
 
 		// Once you hit this point, you're guaranteed to
