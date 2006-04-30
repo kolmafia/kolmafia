@@ -2792,8 +2792,6 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptVariableReference paramVarRef = target.getFirstParam();
-			if ( paramVarRef == null )
-				throw new RuntimeException( "Internal error: illegal arguments" );
 			ScriptExpression paramValue = params.getFirstExpression();
 
 			while ( paramVarRef != null )
