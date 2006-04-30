@@ -228,7 +228,9 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void updateDisplay()
-	{	DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, currentIterationString );
+	{
+		if ( !currentIterationString.equals( "" ) )
+			DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, currentIterationString );
 	}
 
 	/**
@@ -237,7 +239,9 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public void updateDisplay( String message )
-	{	DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, message );
+	{
+		if ( !message.equals( "" ) )
+			DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, message );
 	}
 
 	/**
@@ -247,11 +251,13 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void updateDisplay( int state, String message )
 	{
+		if ( message.equals( "" ) )
+			return;
+		
 		if ( this.currentState != ABORT_STATE )
 			this.currentState = state;
 
-		if ( !message.equals( "" ) )
-			debugStream.println( message );
+		debugStream.println( message );
 
 		StringBuffer colorBuffer = new StringBuffer();
 		if ( state == ERROR_STATE || state == ABORT_STATE )
@@ -263,11 +269,8 @@ public abstract class KoLmafia implements KoLConstants
 		colorBuffer.append( "</font><br>" );
 		colorBuffer.append( LINE_BREAK );
 
-		if ( !message.equals( "" ) )
-		{
-			LocalRelayServer.addStatusMessage( colorBuffer.toString() );
-			commandBuffer.append( colorBuffer.toString() );
-		}
+		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
+		commandBuffer.append( colorBuffer.toString() );
 
 		// Next, update all of the panels with the
 		// desired update message.
@@ -1383,7 +1386,6 @@ public abstract class KoLmafia implements KoLConstants
 					currentIterationString = "";
 
 				updateDisplay();
-
 				request.run();
 				applyRecentEffects();
 
@@ -2536,6 +2538,8 @@ public abstract class KoLmafia implements KoLConstants
 			recoverHP();
 			recoverMP();
 		}
+		
+		updateDisplay();
 	}
 
 	public void startRelayServer()
