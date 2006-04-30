@@ -975,18 +975,32 @@ public abstract class KoLmafia implements KoLConstants
 			maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[0] );
 
 			int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
-			double setting = BuffBotHome.isBuffBotActive() ? 0.0 : Double.parseDouble( settings.getProperty( settingName ) );
-			needed = setting < 0 ? -1 : (int) Math.max( setting * (double) maximum, (double) needed );
-
-			if ( needed < 0 )
-				return true;
+			double setting = Double.parseDouble( settings.getProperty( settingName ) );
+			
+			if ( !BuffBotHome.isBuffBotActive() )
+			{
+				needed = setting < 0 ? -1 : (int) Math.max( setting * (double) maximum, (double) needed );
+				if ( needed < 0 )
+					return true;
+			}
 
 			int last = -1;
 			int current = ((Number)currentMethod.invoke( null, empty )).intValue();
-
-			if ( needed != 0 && current >= needed )
+			
+			// If a buffbot is currently running, only restore MP to
+			// max when what you have is less than what you need.
+			
+			if ( BuffBotHome.isBuffBotActive() )
+			{
+				if ( current < needed )
+					needed = maximum - 1;
+			}
+			else
+				needed = needed == maximum ? maximum - 1 : needed + 1;
+			
+			if ( current > needed )
 				return true;
-
+			
 			// First, attempt to recover using the appropriate script, if it exists.
 			// This uses a lot of excessive reflection, but the idea is that it
 			// checks the current value of the stat against the needed value of
@@ -999,7 +1013,7 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				last = -1;
 
-				while ( current <= needed && last != current && currentState != ABORT_STATE )
+				while ( current < needed && last != current && currentState != ABORT_STATE )
 				{
 					last = current;
 					DEFAULT_SHELL.executeLine( scriptPath );
@@ -1022,7 +1036,7 @@ public abstract class KoLmafia implements KoLConstants
 
 			Object currentTechnique;
 
-			for ( int i = 0; i < totalRestores; ++i )
+			for ( int i = 0; i < totalRestores && current < needed; ++i )
 			{
 				currentTechnique = getMethod.invoke( null, new Integer [] { new Integer(i) } );
 
@@ -1030,10 +1044,10 @@ public abstract class KoLmafia implements KoLConstants
 				{
 					last = -1;
 
-					while ( current <= needed && last != current && currentState != ABORT_STATE )
+					while ( current < needed && last != current && currentState != ABORT_STATE )
 					{
 						last = current;
-						recoverOnce( currentTechnique, restoreSetting.indexOf( ";" ) != -1 );
+						recoverOnce( currentTechnique, restoreSetting.indexOf( ";" ) != -1 || restoreSetting.endsWith( currentTechnique.toString() ), needed );
 						current = ((Number)currentMethod.invoke( null, empty )).intValue();
 					}
 				}
@@ -1088,7 +1102,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * in a script) in order to restore.
 	 */
 
-	private final void recoverOnce( Object technique, boolean canUseOtherTechnique )
+	private final void recoverOnce( Object technique, boolean canUseOtherTechnique, int needed )
 	{
 		if ( technique == null )
 			return;
@@ -1114,10 +1128,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		if ( technique instanceof HPRestoreItemList.HPRestoreItem )
-			((HPRestoreItemList.HPRestoreItem)technique).recoverHP();
+			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( canUseOtherTechnique );
 
 		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
-			((MPRestoreItemList.MPRestoreItem)technique).recoverMP();
+			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed );
 	}
 
 	/**

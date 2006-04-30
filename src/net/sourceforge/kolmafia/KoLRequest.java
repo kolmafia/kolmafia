@@ -470,20 +470,14 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		// Returning to thread synchronization.  Because requests
-		// are forced to occur in separate threads, and the only
-		// loop is the time-in loop, this should not cause a deadlock.
-
-		if ( !isDelayExempt() )
+		if ( !isDelayExempt() && !(this instanceof FightRequest) && client.getCurrentRequest() instanceof FightRequest && client.getCurrentRequest().getAdventuresUsed() == 0 )
 		{
-			synchronized ( KoLRequest.class )
-			{
-				KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
-				execute();
-			}
+			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Unexpected request attempted mid-fight." );
+			return;
 		}
-		else
-			execute();
+		
+		KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
+		execute();
 
 		if ( getURLString().equals( "main.php?refreshtop=true&noobmessage=true" ) )
 			client.handleAscension();
