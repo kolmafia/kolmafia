@@ -124,7 +124,12 @@ public class StoreManageFrame extends KoLPanelFrame
 			Object [] items = getDesiredItems( elementList, "Stock up", TAKE_MULTIPLE );
 			if ( items == null || items.length == 0 )
 				return;
-			(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), items, AutoSellRequest.AUTOMALL ) )).start();
+
+			Runnable [] requests = new Runnable[2];
+			requests[0] = new AutoSellRequest( StaticEntity.getClient(), items, AutoSellRequest.AUTOMALL );
+			requests[1] = new StoreManageRequest( StaticEntity.getClient() );
+			
+			(new RequestThread( requests )).start();
 		}
 
 		public void actionCancelled()
@@ -146,12 +151,13 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionConfirmed()
 		{
-			 Object [] items = elementList.getSelectedValues();
-			 StoreManageRequest [] requests = new StoreManageRequest[ items.length ];
+			Object [] items = elementList.getSelectedValues();
+			StoreManageRequest [] requests = new StoreManageRequest[ items.length + 1 ];
 
-			 for ( int i = 0; i < items.length; ++i )
+			for ( int i = 0; i < items.length; ++i )
 			 	requests[i] = new StoreManageRequest( StaticEntity.getClient(), ((StoreManager.SoldItem)items[i]).getItemID() );
 
+			requests[ items.length ] = new StoreManageRequest( StaticEntity.getClient() );
 			(new RequestThread( requests )).start();
 		}
 

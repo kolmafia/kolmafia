@@ -51,7 +51,8 @@ public abstract class StoreManager extends StaticEntity
 	private static final int OLDEST_FIRST = 2;
 	private static final int GROUP_BY_NAME = 3;
 	
-	private static int currentSortType = RECENT_FIRST;
+	private static int currentLogSort = RECENT_FIRST;
+	private static boolean sortItemsByName = false;
 
 	private static long potentialEarnings = 0;
 	private static LockableListModel storeLog = new LockableListModel();
@@ -137,16 +138,16 @@ public abstract class StoreManager extends StaticEntity
 	{
 		if ( cycleSortType )
 		{
-			switch ( currentSortType )
+			switch ( currentLogSort )
 			{
 				case RECENT_FIRST:
-					currentSortType = OLDEST_FIRST;
+					currentLogSort = OLDEST_FIRST;
 					break;
 				case OLDEST_FIRST:
-					currentSortType = GROUP_BY_NAME;
+					currentLogSort = GROUP_BY_NAME;
 					break;
 				case GROUP_BY_NAME:
-					currentSortType = RECENT_FIRST;
+					currentLogSort = RECENT_FIRST;
 					break;
 			}
 		}
@@ -269,6 +270,10 @@ public abstract class StoreManager extends StaticEntity
 
 		soldItemList.retainAll( newItems );
 		sortedSoldItemList.retainAll( newItems );
+
+		sortItemsByName = true;
+		Collections.sort( newItems );
+		sortItemsByName = false;
 		Collections.sort( sortedSoldItemList );
 
 		// Now, update the title of the store manage
@@ -325,7 +330,7 @@ public abstract class StoreManager extends StaticEntity
 			if ( o == null || !(o instanceof StoreLogEntry) )
 				return -1;
 			
-			switch ( currentSortType )
+			switch ( currentLogSort )
 			{
 				case RECENT_FIRST:
 					return id - ((StoreLogEntry)o).id;
@@ -439,7 +444,9 @@ public abstract class StoreManager extends StaticEntity
 		}
 
 		public int compareTo( Object o )
-		{	return o == null || !(o instanceof SoldItem) ? -1 : price - ((SoldItem)o).price;
+		{
+			return o == null || !(o instanceof SoldItem) ? -1 : sortItemsByName ?
+				itemName.compareToIgnoreCase( ((SoldItem)o).itemName ) : price - ((SoldItem)o).price;
 		}
 
 		public String toString()
