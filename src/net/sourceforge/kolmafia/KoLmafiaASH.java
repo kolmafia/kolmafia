@@ -1495,8 +1495,14 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "equip", new ScriptType( TYPE_BOOLEAN ), params ) );
 
+		params = new ScriptType[] { new ScriptType( TYPE_SLOT ), new ScriptType( TYPE_ITEM ) };
+		result.addFunction( new ScriptExistingFunction( "equip_slot", new ScriptType( TYPE_BOOLEAN ), params ) );
+
 		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "unequip", new ScriptType( TYPE_BOOLEAN ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_SLOT ) };
+		result.addFunction( new ScriptExistingFunction( "unequip_slot", new ScriptType( TYPE_BOOLEAN ), params ) );
 
 		params = new ScriptType[] { new ScriptType( TYPE_SLOT ) };
 		result.addFunction( new ScriptExistingFunction( "current_equipment", new ScriptType( TYPE_ITEM ), params ) );
@@ -2169,7 +2175,13 @@ public class KoLmafiaASH extends StaticEntity
 				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 			}
 
-			if ( name.equalsIgnoreCase( "unequip" ) )
+			if ( name.equalsIgnoreCase( "equip_slot" ) )
+			{
+				DEFAULT_SHELL.executeLine( "equip " + variables[0].toStringValue()+ " " + variables[1].toStringValue() );
+				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
+			}
+
+			if ( name.equalsIgnoreCase( "unequip" ) || name.equalsIgnoreCase( "unequip_slot" ) )
 			{
 				DEFAULT_SHELL.executeLine( "unequip " + variables[0].toStringValue() );
 				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
