@@ -352,8 +352,10 @@ public abstract class KoLmafia implements KoLConstants
 		// Always reset the auto-repair settings, because the
 		// auto-repair situation is usually desired unless
 		// the person is trying to explode boxes.
-		
-		StaticEntity.setProperty( "autoRepairBoxes", "true" );
+
+		if ( StaticEntity.getProperty( "autoRepairBoxes" ).equals( "false" ) )
+			StaticEntity.setProperty( "autoRepairBoxes", String.valueOf( KoLCharacter.canInteract() ) );
+
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
 
 		String today = sdf.format( new Date() );
