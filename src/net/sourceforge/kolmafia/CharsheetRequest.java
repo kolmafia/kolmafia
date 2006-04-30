@@ -141,9 +141,9 @@ public class CharsheetRequest extends KoLRequest
 		// skipping the appropriate number of tokens, and then
 		// reading in the numbers.
 		
-		int [] mus = findStatPoints( cleanContent, "Mus" );
-		int [] mys = findStatPoints( cleanContent, "Mys" );
-		int [] mox = findStatPoints( cleanContent, "Mox" );
+		int [] mus = findStatPoints( cleanContent, token, "Mus" );
+		int [] mys = findStatPoints( cleanContent, token, "Mys" );
+		int [] mox = findStatPoints( cleanContent, token, "Mox" );
 
 		KoLCharacter.setStatPoints( mus[0], mus[1], mys[0], mys[1], mox[0], mox[1] );
 
@@ -363,10 +363,9 @@ public class CharsheetRequest extends KoLRequest
 	 * @return	The 2-element array containing the parsed statistics
 	 */
 
-	private static int [] findStatPoints( StringTokenizer tokenizer, String searchString )
+	private static int [] findStatPoints( StringTokenizer tokenizer, String token, String searchString )
 	{
 		int [] stats = new int[2];
-		String token = tokenizer.nextToken();
 
 		while ( !token.startsWith( searchString ) )
 			token = tokenizer.nextToken();
