@@ -3463,14 +3463,20 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( StaticEntity.getClient() == null )
 			return;
 
-		// Only print non-blank messages (otherwise, you get
-		// a whole bunch of whitespace on output).
+		// Only allow message to propogate if you
+		// are currently NOT in an abort state.
+
+		if ( currentState == ABORT_STATE && state != ABORT_STATE )
+			return;
+
+		// Don't bother with empty-string messages,
+		// as they serve no purpose under this setup.
 		
-		if ( !message.equals( "" ) )
-		{
-			outputStream.println( message );
-			mirrorStream.println( message );
-		}
+		if ( message.equals( "" ) )
+			return;
+		
+		outputStream.println( message );
+		mirrorStream.println( message );
 
 		if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
 			StaticEntity.getClient().updateDisplay( state, message );
