@@ -187,12 +187,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		while ( castsRemaining > 0 )
 		{
-			currentCast = (int) Math.min( castsRemaining, Math.floor( maximumMP / mpPerCast ) );
-			mpPerEvent = (int) (mpPerCast * currentCast);
+			currentCast = Math.min( castsRemaining, (int) Math.floor( KoLCharacter.getCurrentMP() / mpPerCast ) );
+			if ( currentCast == 0 )
+				currentCast = Math.min( castsRemaining, (int) Math.floor( maximumMP / mpPerCast ) );
+			
+			mpPerEvent = mpPerCast * currentCast;
+			client.recoverMP( mpPerEvent );
 
-			client.recoverMP( Math.min( mpPerEvent, maximumMP ) );
-
-			if ( !client.permitsContinue() )
+			if ( KoLCharacter.getCurrentMP() < mpPerEvent || !client.permitsContinue() )
 				return;
 
 			// Attempt to cast the buff.  In the event that it

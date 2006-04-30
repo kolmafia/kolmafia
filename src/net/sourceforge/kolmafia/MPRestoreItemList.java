@@ -115,7 +115,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverMP()
+		public void recoverMP( int needed )
 		{
 			if ( this == MYSTERY )
 			{
@@ -125,23 +125,14 @@ public abstract class MPRestoreItemList extends StaticEntity
 				this.mpPerUse = (int) (KoLCharacter.getLevel() * 1.5 + 4.0);
 			}
 
-			int currentMP = KoLCharacter.getCurrentMP();
-			int maximumMP = KoLCharacter.getMaximumMP();
-
-			// Always buff as close to max MP as possible, in order to
-			// go as easy on the server as possible.
-
-			int mpShort = maximumMP - currentMP;
+			int mpShort = needed - KoLCharacter.getCurrentMP();
 			int numberToUse = (int) Math.ceil( mpShort / mpPerUse );
 
 			if ( StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "false" ) )
 				numberToUse = Math.min( numberToUse, itemUsed.getCount( KoLCharacter.getInventory() ) );
 
-			// Because there aren't many buffbots running anymore, it's
-			// okay to use one less than is actually necessary.
-
 			if ( numberToUse < 1 )
-				numberToUse = 1;
+				return;
 
 			DEFAULT_SHELL.updateDisplay( "Consuming " + numberToUse + " " + itemName + "..." );
 			(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();

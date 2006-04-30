@@ -119,6 +119,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 	public static class HPRestoreItem
 	{
+		private int skillID;
 		private String itemName;
 		private int hpPerUse;
 		private AdventureResult itemUsed;
@@ -127,6 +128,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{
 			this.itemName = itemName;
 			this.hpPerUse = hpPerUse;
+			this.skillID = ClassSkillsDatabase.getSkillID( itemName );
 			this.itemUsed = new AdventureResult( itemName, 0 );
 		}
 
@@ -134,8 +136,11 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverHP()
+		public void recoverHP( boolean canUseOtherTechnique )
 		{
+			// Remedies are only used if the player is beaten up.
+			// Otherwise, it is not used.
+			
 			if ( this == REMEDY )
 			{
 				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
@@ -143,56 +148,57 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				return;
 			}
+			
+			// For all other instances, you will need to calculate
+			// the number of times this technique must be used.
+			
+			int hpShort = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentHP();
+			int numberToUse = (int) Math.ceil( hpShort / hpPerUse );
 
+			if ( TradeableItemDatabase.contains( itemName ) )
+				numberToUse = Math.min( numberToUse, itemUsed.getCount( KoLCharacter.getInventory() ) );
+
+			if ( ClassSkillsDatabase.contains( itemName ) && canUseOtherTechnique )
+			{
+				int mpPerUse = ClassSkillsDatabase.getMPConsumptionByID( skillID );
+				numberToUse = Math.min( numberToUse, KoLCharacter.getCurrentHP() / numberToUse );
+			}
+
+			if ( numberToUse == 0 )
+				return;
+
+			// Test for tiny houses.  If there is no other technique,
+			// use as many as possible.  Otherwise, just use one.
+			
 			if ( this == TINY_HOUSE )
 			{
-				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
+				if ( !canUseOtherTechnique )
+					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", numberToUse ) )).run();
+				else if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
 					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", 1 ) )).run();
 
 				return;
 			}
 
-			int currentHP = KoLCharacter.getCurrentHP();
-			int maximumHP = KoLCharacter.getMaximumHP();
-			int maximumMP = KoLCharacter.getMaximumMP();
-			int hpShort = maximumHP - currentHP;
-
 			if ( this == WALRUS || this == OTTER )
 			{
-				if ( StaticEntity.getProperty( "hpRestores" ).indexOf( "," ) == -1 )
-				{
-					if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
-						(new UseSkillRequest( client, toString(), "", 1 )).run();
+				if ( !canUseOtherTechnique )
+					(new UseSkillRequest( client, toString(), "", numberToUse )).run();
+				else if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
+					(new UseSkillRequest( client, toString(), "", 1 )).run();
 					
-					return;
-				}
-				
-				int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( toString() ) );
-				(new UseSkillRequest( client, toString(), "", Math.min( maximumMP / mpPerCast, hpShort / 35 ) )).run();
 				return;
 			}
 
 			if ( ClassSkillsDatabase.contains( this.toString() ) )
 			{
-				int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( "Cannelloni Cocoon" ) );
-				(new UseSkillRequest( client, "Cannelloni Cocoon", "", 1 )).run();
-				return;
+				(new UseSkillRequest( client, this.toString(), "", numberToUse )).run();
 			}
-
-			// Always buff as close to max HP as possible, in order to
-			// go as easy on the server as possible.
-
-			int numberToUse = (int) Math.ceil( hpShort / hpPerUse );
-
-			if ( StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "false" ) )
-				numberToUse = Math.min( numberToUse, itemUsed.getCount( KoLCharacter.getInventory() ) );
-
-
-			if ( numberToUse < 1 )
-				numberToUse = 1;
-
-			DEFAULT_SHELL.updateDisplay( "Consuming " + numberToUse + " " + itemName + "..." );
-			(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
+			else
+			{
+				DEFAULT_SHELL.updateDisplay( "Consuming " + numberToUse + " " + itemName + "..." );
+				(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
+			}
 		}
 
 		public String toString()

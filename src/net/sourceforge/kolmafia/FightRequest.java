@@ -258,6 +258,13 @@ public class FightRequest extends KoLRequest
 
 			this.turnsUsed = 1;
 		}
+		else if ( responseText.indexOf( "You run away" ) != -1 )
+		{
+			if ( !client.permitsContinue() )
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
+
+			this.turnsUsed = 1;			
+		}
 		else if ( responseText.indexOf( "You lose." ) != -1 )
 		{
 			// If you lose the battle, you should update the display to
@@ -265,18 +272,12 @@ public class FightRequest extends KoLRequest
 			// also notify the client that an adventure was completed,
 			// but that the loop should be halted.
 
-			if ( KoLCharacter.getCurrentHP() == 0 )
-			{
+			if ( !client.permitsContinue() )
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
+			else if ( KoLCharacter.getCurrentHP() == 0 )
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You were defeated!" );
-				this.turnsUsed = 1;
-			}
-			else
-			{
-				// Maybe some other reason for automatic failure occurred.
-				// Mark the adventure as used and continue.
 
-				this.turnsUsed = 1;
-			}
+			this.turnsUsed = 1;
 		}
 
 		// Otherwise, you still have more rounds to fight.
