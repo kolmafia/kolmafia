@@ -2649,4 +2649,18 @@ public abstract class KoLmafia implements KoLConstants
 
 		updateDisplay( "Undercutting sale complete." );
 	}
+	
+	protected void handleAscension()
+	{
+		refreshSession();
+		sessionStream.println();
+		sessionStream.println();
+		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+		sessionStream.println( "           Beginning New Ascension           " );
+		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+		sessionStream.println();
+		sessionStream.println();
+ 		
+		enableDisplay();
+	}
 }

@@ -484,6 +484,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		else
 			execute();
+
+		if ( getURLString().equals( "main.php?refreshtop=true&noobmessage=true" ) )
+			client.handleAscension();
 	}
 	
 	public void execute()

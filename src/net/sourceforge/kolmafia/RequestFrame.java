@@ -436,15 +436,6 @@ public class RequestFrame extends KoLFrame
 			mainBuffer.append( renderText );
 			mainDisplay.setCaretPosition( 0 );
 			System.gc();
-
-			// One last thing which needs to be done is if the player
-			// just ascended, you need to refresh everything.
-
-			if ( location.equals( "main.php?refreshtop=true&noobmessage=true" ) )
-			{
-				StaticEntity.getClient().refreshSession();
-				StaticEntity.getClient().enableDisplay();
-			}
 		}
 
 		private void updateClient()
