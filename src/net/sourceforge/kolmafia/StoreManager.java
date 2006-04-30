@@ -445,8 +445,19 @@ public abstract class StoreManager extends StaticEntity
 
 		public int compareTo( Object o )
 		{
-			return o == null || !(o instanceof SoldItem) ? -1 : sortItemsByName ?
-				itemName.compareToIgnoreCase( ((SoldItem)o).itemName ) : price - ((SoldItem)o).price;
+			if ( o == null || !(o instanceof SoldItem) )
+				return -1;
+
+			if ( price != 999999999 && ((SoldItem)o).price == 999999999 )
+				return -1;
+			
+			if ( price == 999999999 && ((SoldItem)o).price != 999999999 )
+				return 1;
+			
+			if ( price == 999999999 && ((SoldItem)o).price == 999999999 )
+				return itemName.compareToIgnoreCase( ((SoldItem)o).itemName );
+
+			return sortItemsByName ? itemName.compareToIgnoreCase( ((SoldItem)o).itemName ) : price - ((SoldItem)o).price;
 		}
 
 		public String toString()
