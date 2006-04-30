@@ -2117,16 +2117,11 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		// Look for name of slot
-		int slot = -1;
-
 		String command = parameters.split( " " )[0];
-		for ( int i = 0; i < EquipmentRequest.slotNames.length; ++i )
-			if ( command.equals( EquipmentRequest.slotNames[i] ) )
-			{
-				parameters = parameters.substring( command.length() ).trim();
-				slot = i;
-				break;
-			}
+		int slot = EquipmentRequest.slotNumber( command );
+
+		if ( slot != -1 )
+			parameters = parameters.substring( command.length() ).trim();
 
 		AdventureResult match = getFirstMatchingItem( parameters, NOWHERE );
 		if ( match == null )
@@ -2152,13 +2147,13 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		// Look for name of slot
 		String command = parameters.split( " " )[0];
+		int slot = EquipmentRequest.slotNumber( command );
 
-		for ( int i = 0; i < EquipmentRequest.slotNames.length; ++i )
-			if ( command.equals( EquipmentRequest.slotNames[i] ) )
-			{
-				StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, i ), 1 );
-				return;
-			}
+		if ( slot != -1 )
+		{
+			StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, slot ), 1 );
+			return;
+		}
 
 		parameters = parameters.toLowerCase();
 

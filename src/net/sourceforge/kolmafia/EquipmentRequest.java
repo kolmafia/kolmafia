@@ -716,6 +716,14 @@ public class EquipmentRequest extends PasswordHashRequest
 		KoLCharacter.setFakeHands( fakeHands );
 	}
 
+	public static int slotNumber( String name )
+	{
+		for ( int i = 0; i < slotNames.length; ++i )
+			if ( name.equals( slotNames[i] ) )
+				return i;
+		return -1;
+	}
+
 	public String getCommandForm( int iterations )
 	{
 		String outfitName = getOutfitName();

@@ -89,6 +89,7 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int TYPE_SKILL = 105;
 	public static final int TYPE_EFFECT = 106;
 	public static final int TYPE_FAMILIAR = 107;
+	public static final int TYPE_SLOT = 108;
 
 	public static final String [] ZODIACS = { "none", "wallaby", "mongoose", "vole", "platypus", "opossum", "marmot", "wombat", "blender", "packrat" };
 	public static final String [] CLASSES = { "seal clubber", "turtle tamer", "pastamancer", "sauceror", "disco bandit", "accordion thief" };
@@ -497,6 +498,8 @@ public class KoLmafiaASH extends StaticEntity
 			type = TYPE_EFFECT;
 		else if ( typeString.equalsIgnoreCase( "familiar" ) )
 			type = TYPE_FAMILIAR;
+		else if ( typeString.equalsIgnoreCase( "slot" ) )
+			type = TYPE_SLOT;
 		else
 			return null;
 
@@ -1284,7 +1287,8 @@ public class KoLmafiaASH extends StaticEntity
 				param.getType().equals( TYPE_STRING ) ||
 				param.getType().equals( TYPE_SKILL ) ||
 				param.getType().equals( TYPE_EFFECT ) ||
-				param.getType().equals( TYPE_FAMILIAR )
+				param.getType().equals( TYPE_FAMILIAR ) ||
+				param.getType().equals( TYPE_SLOT )
 			)
 			{
 				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType() + " " + param.getName() );
@@ -1494,6 +1498,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "unequip", new ScriptType( TYPE_BOOLEAN ), params ) );
 
+		params = new ScriptType[] { new ScriptType( TYPE_SLOT ) };
+		result.addFunction( new ScriptExistingFunction( "current_equipment", new ScriptType( TYPE_ITEM ), params ) );
+
 		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "my_familiar", new ScriptType( TYPE_FAMILIAR ), params ) );
 
@@ -1554,6 +1561,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { new ScriptType( TYPE_FAMILIAR ) };
 		result.addFunction( new ScriptExistingFunction( "familiar_to_string", new ScriptType( TYPE_STRING ), params ) );
 
+		params = new ScriptType[] { new ScriptType( TYPE_SLOT ) };
+		result.addFunction( new ScriptExistingFunction( "slot_to_string", new ScriptType( TYPE_STRING ), params ) );
+
 		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
 		result.addFunction( new ScriptExistingFunction( "int_to_item", new ScriptType( TYPE_ITEM ), params ) );
 
@@ -1566,6 +1576,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
 		result.addFunction( new ScriptExistingFunction( "int_to_familiar", new ScriptType( TYPE_FAMILIAR ), params ) );
 
+		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
+		result.addFunction( new ScriptExistingFunction( "int_to_slot", new ScriptType( TYPE_SLOT ), params ) );
+
 		params = new ScriptType[] { new ScriptType( TYPE_ITEM ) };
 		result.addFunction( new ScriptExistingFunction( "item_to_int", new ScriptType( TYPE_INT ), params ) );
 
@@ -1577,6 +1590,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { new ScriptType( TYPE_FAMILIAR ) };
 		result.addFunction( new ScriptExistingFunction( "familiar_to_int", new ScriptType( TYPE_INT ), params ) );
+
+		params = new ScriptType[] { new ScriptType( TYPE_SLOT ) };
+		result.addFunction( new ScriptExistingFunction( "slot_to_int", new ScriptType( TYPE_INT ), params ) );
 
 		params = new ScriptType[] { new ScriptType( TYPE_INT ) };
 		result.addFunction( new ScriptExistingFunction( "wait", new ScriptType( TYPE_VOID ), params ) );
@@ -2159,6 +2175,11 @@ public class KoLmafiaASH extends StaticEntity
 				return new ScriptValue( TYPE_BOOLEAN, client.permitsContinue() ? 1 : 0 );
 			}
 
+			if ( name.equalsIgnoreCase( "current_equipment" ) )
+			{
+				return new ScriptValue( TYPE_ITEM, KoLCharacter.getCurrentEquipmentName( variables[0].intValue() ) );
+			}
+
 			if ( name.equalsIgnoreCase( "my_familiar" ) )
 				return new ScriptValue( TYPE_FAMILIAR, KoLCharacter.getFamiliar().getID() == -1 ? "none" : KoLCharacter.getFamiliar().getRace() );
 
@@ -2220,6 +2241,9 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( name.equalsIgnoreCase( "int_to_familiar" ) )
 				return new ScriptValue( TYPE_FAMILIAR, variables[0].intValue() );
+
+			if ( name.equalsIgnoreCase( "int_to_slot" ) )
+				return new ScriptValue( TYPE_SLOT, variables[0].intValue() );
 
 			if ( name.equalsIgnoreCase( "wait" ) )
 			{
@@ -2925,10 +2949,12 @@ public class KoLmafiaASH extends StaticEntity
 				return "stat";
 			if ( type == TYPE_SKILL )
 				return "skill";
-			if( type == TYPE_EFFECT )
+			if ( type == TYPE_EFFECT )
 				return "effect";
-			if( type == TYPE_FAMILIAR )
+			if ( type == TYPE_FAMILIAR )
 				return "familiar";
+			if ( type == TYPE_SLOT )
+				return "slot";
 			return "unknown type";
 		}
 
@@ -3212,6 +3238,20 @@ public class KoLmafiaASH extends StaticEntity
 					throw new AdvancedScriptException( "Familiar " + contentString + " not found in database " + getLineAndFile() );
 
 				contentString = FamiliarsDatabase.getFamiliarName( contentInt );
+			}
+			else if ( type.equals( TYPE_SLOT ) )
+			{
+				if ( contentString == null )
+				{
+					if ( contentInt < 0 || contentInt >= EquipmentRequest.slotNames.length ) 
+						throw new AdvancedScriptException( "Bad slot number " + getLineAndFile() );
+					contentString = EquipmentRequest.slotNames[contentInt];
+					return;
+				}
+
+				contentInt = EquipmentRequest.slotNumber( contentString );
+				if ( contentInt == -1 )
+					throw new AdvancedScriptException( "Bad slot name " + contentString + getLineAndFile() );
 			}
 		}
 
@@ -3538,7 +3578,8 @@ public class KoLmafiaASH extends StaticEntity
 					lhs.getType().equals( TYPE_SKILL ) ||
 					lhs.getType().equals( TYPE_EFFECT ) ||
 					lhs.getType().equals( TYPE_STAT ) ||
-					lhs.getType().equals( TYPE_FAMILIAR )
+					lhs.getType().equals( TYPE_FAMILIAR ) ||
+					lhs.getType().equals( TYPE_SLOT )
 				 )
 				{
 					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
@@ -3580,7 +3621,8 @@ public class KoLmafiaASH extends StaticEntity
 					lhs.getType().equals( TYPE_SKILL ) ||
 					lhs.getType().equals( TYPE_EFFECT ) ||
 					lhs.getType().equals( TYPE_STAT ) ||
-					lhs.getType().equals( TYPE_FAMILIAR )
+					lhs.getType().equals( TYPE_FAMILIAR ) ||
+					lhs.getType().equals( TYPE_SLOT )
 				 )
 				{
 					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
