@@ -271,7 +271,11 @@ public abstract class KoLmafia implements KoLConstants
 
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 		commandBuffer.append( colorBuffer.toString() );
-
+		updateDisplayPanels( state, message );
+	}
+	
+	public void updateDisplayPanels( int state, String message )
+	{
 		// Next, update all of the panels with the
 		// desired update message.
 
@@ -299,13 +303,12 @@ public abstract class KoLmafia implements KoLConstants
 			frames[i].updateDisplayState( state );
 
 		if ( KoLDesktop.instanceExists() )
-			KoLDesktop.getInstance().updateDisplayState( state );
+			KoLDesktop.getInstance().updateDisplayState( state );		
 	}
 
 	public void enableDisplay()
 	{
-		this.currentState = permitsContinue() ? ENABLE_STATE : ERROR_STATE;
-		updateDisplay( this.currentState, "" );
+		updateDisplayPanels( permitsContinue() ? ENABLE_STATE : ERROR_STATE, "" );
 		this.currentState = CONTINUE_STATE;
 	}
 
