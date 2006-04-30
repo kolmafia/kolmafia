@@ -1289,7 +1289,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			forceContinue();
 			macroStream.print( KoLmafiaCLI.deriveCommand( request, iterations ) );
 
 			// Handle the gym, which is the only adventure type
@@ -1444,7 +1443,7 @@ public abstract class KoLmafia implements KoLConstants
 				// scripts to continue.
 
 				if ( currentState == PENDING_STATE )
-						currentState = CONTINUE_STATE;
+					forceContinue();
 
 				else if ( request instanceof KoLAdventure && !conditions.isEmpty() )
 					updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +

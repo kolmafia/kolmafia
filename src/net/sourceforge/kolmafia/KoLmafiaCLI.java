@@ -326,10 +326,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public synchronized void executeLine( String line )
 	{
+		// If it gets this far, that means the continue
+		// state can be reset.
+
 		if ( line.indexOf( ";" ) != -1 )
 		{
 			String [] separateLines = line.split( ";" );
-			for ( int i = 0; i < separateLines.length; ++i )
+			for ( int i = 0; i < separateLines.length && StaticEntity.getClient().permitsContinue(); ++i )
 				if ( separateLines[i].length() > 0 )
 					executeLine( separateLines[i] );
 
@@ -367,12 +370,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	private void executeCommand( String command, String parameters )
-	{
-		// If it gets this far, that means the continue
-		// state can be reset.
-		
-		StaticEntity.getClient().forceContinue();
-		
+	{		
 		// Insert random video game reference command to
 		// start things off.
 
@@ -1305,7 +1303,9 @@ public class KoLmafiaCLI extends KoLmafia
 			// Clear the error state for continuation on the
 			// message sending attempt.
 
-			StaticEntity.getClient().forceContinue();
+			if ( !StaticEntity.getClient().refusesContinue() )
+				StaticEntity.getClient().forceContinue();
+
 			(new GiftMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", "You are awesome.",
 				availablePackages.get( desiredPackageIndex ), attachments, 0 )).run();
 

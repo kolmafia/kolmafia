@@ -154,8 +154,6 @@ public class KoLmafiaASH extends StaticEntity
 		
 		try
 		{
-			DEFAULT_SHELL.enableDisplay();
-
 			ScriptValue result = executeGlobalScope( global );
 			if ( !client.permitsContinue() || result == null || result.getType() == null )
 				return;
@@ -1786,7 +1784,7 @@ public class KoLmafiaASH extends StaticEntity
 				}
 			}
 
-			return new ScriptValue();
+			return result;
 		}
 	}
 
@@ -1866,8 +1864,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public boolean assertReturn()
-		{
-			return scope.assertReturn();
+		{	return scope.assertReturn();
 		}
 	}
 
@@ -1896,7 +1893,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( !client.permitsContinue() )
 				{
 					currentState = STATE_EXIT;
-					return null;
+					return new ScriptValue();
 				}
 
 				return executeLibraryFunction();
