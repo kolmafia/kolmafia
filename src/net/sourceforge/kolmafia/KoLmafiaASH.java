@@ -2792,13 +2792,14 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			ScriptVariableReference paramVarRef = target.getFirstParam();
+			if ( paramVarRef == null )
+				throw new RuntimeException( "Internal error: illegal arguments" );
 			ScriptExpression paramValue = params.getFirstExpression();
 
 			while ( paramVarRef != null )
 			{
-				if ( paramVarRef == null )
+				if ( paramValue == null )
 					throw new RuntimeException( "Internal error: illegal arguments" );
-
 				if ( paramVarRef.getType().equals( TYPE_INT ) && paramValue.getType().equals( TYPE_FLOAT ) )
 					paramVarRef.setValue( paramValue.execute().toIntValue() );
 				else if ( paramVarRef.getType().equals( TYPE_FLOAT ) && paramValue.getType().equals( TYPE_INT ) )
@@ -3031,7 +3032,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( type.equals( TYPE_FLOAT ) )
 				return df.format( contentFloat );
 
-			return df.format( contentInt );
+			return String.valueOf( contentInt );
 		}
 
 		public ScriptValue toStringValue() throws AdvancedScriptException
@@ -3424,7 +3425,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) )
-					return new ScriptValue( TYPE_STRING, leftResult.toStringValue().toStringValue() + rightResult.toStringValue().toString() );
+					return new ScriptValue( TYPE_STRING, leftResult.toStringValue().toString() + rightResult.toStringValue().toString() );
 				else
 				{
 					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
