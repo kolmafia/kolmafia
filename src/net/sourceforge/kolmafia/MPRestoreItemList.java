@@ -54,11 +54,8 @@ public abstract class MPRestoreItemList extends StaticEntity
 {
 	public static final MPRestoreItem MYSTERY = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
 	private static LockableListModel list = new LockableListModel();
-
-	public static void reset()
+	static
 	{
-		list.clear();
-
 		list.add( new MPRestoreItem( "Dyspepsi-Cola", 12 ) );
 		list.add( new MPRestoreItem( "Cloaca-Cola", 12 ) );
 
@@ -84,8 +81,6 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	public static JCheckBox [] getCheckboxes()
 	{
-		reset();
-
 		Object [] restoreName = list.toArray();
 		String mpRestoreSetting = getProperty( "mpRestores" );
 

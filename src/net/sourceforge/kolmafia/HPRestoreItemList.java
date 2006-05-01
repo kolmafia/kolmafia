@@ -63,11 +63,8 @@ public abstract class HPRestoreItemList extends StaticEntity
 	public static final HPRestoreItem POWERNAP = new HPRestoreItem( "disco power nap", 40 );
 
 	private static LockableListModel list = new LockableListModel();
-
-	public static void reset()
+	static
 	{
-		list.clear();
-
 		list.add( WALRUS );
 		list.add( OTTER );
 
@@ -97,8 +94,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 	public static JCheckBox [] getCheckboxes()
 	{
-		reset();
-		
 		Object [] restoreName = list.toArray();
 		String hpRestoreSetting = getProperty( "hpRestores" );
 
