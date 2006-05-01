@@ -166,9 +166,12 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( !GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).equals( "" ) )
 		{
-			KoLDesktop.getInstance().initializeTabs();
-			KoLDesktop.getInstance().pack();
-			KoLDesktop.getInstance().setVisible( true );
+			if ( !KoLDesktop.getInstance().isVisible() )
+			{
+				KoLDesktop.getInstance().initializeTabs();
+				KoLDesktop.getInstance().pack();
+				KoLDesktop.getInstance().setVisible( true );
+			}
 		}
 
 		loginWindow.dispose();
