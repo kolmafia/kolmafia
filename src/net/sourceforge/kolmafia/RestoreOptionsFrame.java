@@ -51,7 +51,7 @@ public class RestoreOptionsFrame extends KoLFrame
 		super( "Auto-Restore" );
 		tabs = new JTabbedPane();
 		
-		tabs.add( "Health", new GeneralOptionsPanel() );
+		tabs.add( "Health", new HealthOptionsPanel() );
 		tabs.add( "Mana", new ManaOptionsPanel() );
 		
 		framePanel.setLayout( new BorderLayout() );

@@ -505,9 +505,6 @@ public abstract class KoLmafia implements KoLConstants
 		resetSession();
 		applyRecentEffects();
 
-		HPRestoreItemList.reset();
-		MPRestoreItemList.reset();
-
 		ConcoctionsDatabase.getConcoctions().clear();
 		KoLCharacter.refreshCalculatedLists();
 	}
