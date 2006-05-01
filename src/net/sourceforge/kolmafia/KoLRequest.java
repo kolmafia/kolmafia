@@ -1367,7 +1367,14 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( !KoLMessenger.isRunning() )
 		{
-			(new CreateFrameRunnable( EventsFrame.class )).run();
+			// Don't load the initial desktop frame unless it's
+			// already visible before this is run -- this ensures
+			// that the restore options are properly reset before
+			// the frame reloads.
+			
+			if ( GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).indexOf( "EventsFrame" ) == -1 || KoLDesktop.getInstance().isVisible() )
+				(new CreateFrameRunnable( EventsFrame.class )).run();
+
 			return;
 		}
 

@@ -109,8 +109,6 @@ public class KoLmafiaGUI extends KoLmafia
 	public void initialize( String username, String sessionID )
 	{
 		super.initialize( username, sessionID );
-
-		updateDisplay( "Retrieving chat color settings..." );
 		(new ChannelColorsRequest()).run();
 
 		String startupSetting = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );

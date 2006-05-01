@@ -51,55 +51,17 @@ public class RestoreOptionsFrame extends KoLFrame
 		super( "Auto-Restore" );
 		tabs = new JTabbedPane();
 		
-		tabs.add( "Auto-Scripts", new GeneralOptionsPanel() );
-		tabs.add( "Health Restore", new HealthOptionsPanel() );
-		tabs.add( "Mana Restore", new ManaOptionsPanel() );
+		tabs.add( "Health", new GeneralOptionsPanel() );
+		tabs.add( "Mana", new ManaOptionsPanel() );
 		
 		framePanel.setLayout( new BorderLayout() );
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
-	private class GeneralOptionsPanel extends KoLPanel
-	{
-		private JTextField betweenBattleScriptField;
-
-		public GeneralOptionsPanel()
-		{
-			super( "save", "reload", new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
-
-			betweenBattleScriptField = new JTextField();
-
-			int currentElementCount = 0;
-
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[ currentElementCount++ ] = new VerifiableElement( "Between Battles: ", new ScriptSelectPanel( betweenBattleScriptField ) );
-
-			setContent( elements );
-			actionCancelled();
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-		}
-
-		protected void actionConfirmed()
-		{
-			setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
-			JOptionPane.showMessageDialog( null, "Settings have been saved." );
-		}
-
-		protected void actionCancelled()
-		{
-			betweenBattleScriptField.setText( getProperty( "betweenBattleScript" ) );
-		}
-
-		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
-		{	return false;
-		}
-	}
-
 	private class HealthOptionsPanel extends KoLPanel
 	{
+		private boolean refreshSoon = false;
+		private JTextField betweenBattleScriptField;
 		private JComboBox hpAutoRecoverSelect;
 		private JTextField hpRecoveryScriptField;
 
@@ -108,6 +70,7 @@ public class RestoreOptionsFrame extends KoLFrame
 		public HealthOptionsPanel()
 		{
 			super( "save", "reload", new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+			betweenBattleScriptField = new JTextField();
 
 			hpAutoRecoverSelect = new JComboBox();
 			hpAutoRecoverSelect.addItem( "Do not autorecover HP" );
@@ -119,7 +82,10 @@ public class RestoreOptionsFrame extends KoLFrame
 			// Add the elements to the panel
 
 			int currentElementCount = 0;
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement [] elements = new VerifiableElement[5];
+
+			elements[ currentElementCount++ ] = new VerifiableElement( "Between Battles: ", new ScriptSelectPanel( betweenBattleScriptField ) );
+			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
 
 			elements[ currentElementCount++ ] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
 			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
@@ -131,10 +97,19 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
+			if ( !isEnabled )
+				refreshSoon = true;
+			
+			if ( isEnabled && refreshSoon )
+			{
+				actionCancelled();
+				refreshSoon = false;
+			}
 		}
 
 		protected void actionConfirmed()
 		{
+			setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
 			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
 			setProperty( "hpRestores", getSettingString( hpRestoreCheckbox ) );
@@ -144,6 +119,7 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
+			betweenBattleScriptField.setText( getProperty( "betweenBattleScript" ) );
 			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
 			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
 		}
