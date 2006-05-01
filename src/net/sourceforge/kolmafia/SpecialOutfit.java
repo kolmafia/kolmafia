@@ -52,6 +52,7 @@ public class SpecialOutfit implements Comparable
 	private String outfitName;
 	private ArrayList pieces;
 
+	public static SpecialOutfit CHECKPOINT = null;
 	public static final String NO_CHANGE = " - No Change - ";
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit();
 
@@ -66,6 +67,10 @@ public class SpecialOutfit implements Comparable
 	{
 		this.outfitID = outfitID;
 		this.outfitName = outfitName;
+
+		if ( this.outfitName.equals( "KoLmafia Checkpoint" ) )
+			CHECKPOINT = this;
+		
 		this.pieces = new ArrayList();
 	}
 
@@ -125,7 +130,27 @@ public class SpecialOutfit implements Comparable
 
 		return outfitName.compareToIgnoreCase( ((SpecialOutfit)o).outfitName );
 	}
+	
+	/**
+	 * Creates a checkpoint.  This should be called whenever
+	 * the player needs an outfit marked to revert to.
+	 */
 
+	public static void createCheckpoint()
+	{	(new EquipmentRequest( StaticEntity.getClient(), "KoLmafia Checkpoint" )).run();
+	}
+	
+	/**
+	 * Restores a checkpoint.  This should be called whenever
+	 * the player needs to revert to their checkpointed outfit.
+	 */
+	
+	public static void restoreCheckpoint()
+	{
+		if ( CHECKPOINT != null )
+			(new EquipmentRequest( StaticEntity.getClient(), CHECKPOINT )).run();
+	}
+	
 	/**
 	 * Static method used to determine all of the custom outfits,
 	 * based on the given HTML enclosed in <code><select></code> tags.
@@ -139,6 +164,7 @@ public class SpecialOutfit implements Comparable
 			"<option value=(.*?)>(.*?)</option>" ).matcher( selectHTML );
 
 		int outfitID;
+		CHECKPOINT = null;
 		SortedListModel outfits = new SortedListModel();
 
 		while ( singleOutfitMatcher.find() )
@@ -147,7 +173,7 @@ public class SpecialOutfit implements Comparable
 			if ( outfitID < 0 )
 				outfits.add( new SpecialOutfit( outfitID, singleOutfitMatcher.group(2) ) );
 		}
-
+		
 		return outfits;
 	}
 }

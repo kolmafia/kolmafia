@@ -41,6 +41,7 @@ import java.awt.CardLayout;
 import java.awt.BorderLayout;
 
 // containers
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -206,7 +207,10 @@ public class GearChangeFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	setStatusMessage( "Feature not yet available." );
+		{
+			String currentValue = JOptionPane.showInputDialog( "Name your outfit!", "KoLmafia Checkpoint" );
+			if ( currentValue == null )
+				return;
 		}
 	}
 	

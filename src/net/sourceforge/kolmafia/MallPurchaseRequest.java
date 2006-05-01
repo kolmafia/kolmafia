@@ -342,7 +342,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// currently wearing the outfit.
 
 		if ( !EquipmentDatabase.isWearingOutfit( neededOutfit ) )
+		{
+			SpecialOutfit.createCheckpoint();
 			(new EquipmentRequest( client, EquipmentDatabase.getOutfit( neededOutfit ) )).run();
+		}
 	}
 
 	protected void processResults()

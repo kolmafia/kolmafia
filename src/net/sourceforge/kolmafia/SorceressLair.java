@@ -250,11 +250,11 @@ public abstract class SorceressLair extends StaticEntity
 
 	public static void completeEntryway()
 	{
-		// Make sure he's ascended at least once
-
 		if ( !checkPrerequisites( 1, 2 ) )
 			return;
 
+		SpecialOutfit.createCheckpoint();
+		
 		// If you couldn't complete the gateway, then return
 		// from this method call.
 
@@ -317,6 +317,7 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.addAll( retrieveSqueezings( false ) );
 		requirements.addAll( retrieveScubaGear( false ) );
 
+		SpecialOutfit.restoreCheckpoint();
 		if ( !client.checkRequirements( requirements ) || !client.permitsContinue() )
 			return;
 
@@ -332,6 +333,7 @@ public abstract class SorceressLair extends StaticEntity
 		request = new KoLRequest( client, "lair2.php" );
 		request.addFormField( "action", "statues" );
 		request.run();
+
 
 		// "As the mariachis reach a dire crescendo (Hey, have you
 		// heard my new band, Dire Crescendo?) the gate behind the

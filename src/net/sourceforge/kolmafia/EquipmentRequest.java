@@ -52,19 +52,21 @@ public class EquipmentRequest extends PasswordHashRequest
 {
 	public static final String UNEQUIP = "(none)";
 
-	public static final int EQUIPMENT = 1;
-	public static final int CLOSET = 2;
+	public static final int CLOSET = 1;
+
+	private static final int SAVE_OUTFIT = 2;
 	private static final int CHANGE_OUTFIT = 3;
+
 	private static final int CHANGE_ITEM = 4;
 	private static final int REMOVE_ITEM = 5;
-	public static final int UNEQUIP_ALL = 6;
+	private static final int UNEQUIP_ALL = 6;
 
 	// Array indexed by equipment "slot" from KoLCharacter
 	//
 	// Perhaps this should be in that module, except this is closely tied
 	// to the PHP files that are manipulated by THIS module.
 
-        // These are the public names
+    // These are the public names
 	public static final String [] slotNames =
 	{
 		"hat", "weapon", "off-hand", "shirt", "pants",
@@ -108,12 +110,14 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	public EquipmentRequest( KoLmafia client, String change )
-	{	this( client, change, -1 );
-	}
-
-	public EquipmentRequest( KoLmafia client, String change, Integer equipmentSlot )
-	{	this( client, change, equipmentSlot.intValue() );
+	public EquipmentRequest( KoLmafia client, String outfitName )
+	{
+		super( client, "inv_equip.php" );
+		addFormField( "which", "2" );
+		
+		addFormField( "action", "customoutfit" );
+		addFormField( "outfitname", outfitName );
+		requestType = SAVE_OUTFIT;
 	}
 
 	public EquipmentRequest( KoLmafia client, String change, int equipmentSlot )
@@ -406,14 +410,14 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		switch ( requestType )
 		{
-			case EQUIPMENT:
-				DEFAULT_SHELL.updateDisplay( "Updating equipment..." );
-				break;
-
 			case CLOSET:
 				DEFAULT_SHELL.updateDisplay( "Refreshing closet..." );
 				break;
 
+			case SAVE_OUTFIT:
+				DEFAULT_SHELL.updateDisplay( "Saving outfit..." );
+				break;
+				
 			case CHANGE_OUTFIT:
 				DEFAULT_SHELL.updateDisplay( "Putting on " + outfit + "..." );
 				break;
