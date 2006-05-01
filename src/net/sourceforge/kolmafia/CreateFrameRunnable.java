@@ -51,7 +51,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	private static final Class [] MULTI_INSTANCE =
 	{
 		ChatFrame.class,
-		KoLPanelFrame.class,
 		RequestFrame.class,
 		ProfileFrame.class,
 		SendMessageFrame.class
@@ -161,14 +160,20 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		KoLFrame currentFrame;
 		Class currentType;
+		String currentTypeName;
 
+		String creationTypeName = (creationType == KoLPanelFrame.class ? parameters[1].getClass() : creationType).getName();
+		creationTypeName = creationTypeName.substring( creationTypeName.lastIndexOf( "." ) + 1 );
+		
 		for ( int i = 0; i < existingFrames.size() && this.creation == null; ++i )
 		{
 			currentFrame = (KoLFrame) existingFrames.get(i);
-			currentType = currentFrame.getClass();
+			currentTypeName = currentFrame.getFrameName();
 
-			if ( currentType == creationType )
+			if ( currentTypeName.equals( creationTypeName ) )
 			{
+				currentType = currentFrame.getClass();
+
 				boolean allowMultiple = false;
 				for ( int j = 0; j < MULTI_INSTANCE.length; ++j )
 					if ( currentType == MULTI_INSTANCE[j] )
