@@ -233,6 +233,30 @@ public class AreaCombatData implements KoLConstants
 	{	return attack - defense - 9;
 	}
 
+	// XP & HP data:
+
+	// +1 ML adds +1 HP, +1 Attack, +1 Defense
+	// Monster XP = ( attack + defense ) / 10
+
+	// Items that affect XP:
+
+	// Wax Lips: +2.5
+	// ice baby: +1
+
+	// Skills that affect XP:
+
+	// Aloysius' Antiphon of Aptitude: +3
+	// Black Tongue: +2.5
+	// Orange Tongue: +2.5
+	// Big Veiny Brain: +2
+	// Peeled Eyeballs: -1
+	// Wasabi Sinuses: -1
+
+	// Familiars that affect XP:
+
+	// Volleyball (Bat, Shaman, Monkey): ( weight / 4 )
+	// Hovering Sombrero: ( sqrt(ML) * weight * 3 ) / 100
+
 	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
 	private static final int ICE_SICKLE = 1424;
 	private static final int HIPPO_WHIP = 1029;

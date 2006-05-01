@@ -101,7 +101,6 @@ public class MonsterDatabase extends KoLDatabase
 
 		// parse parameters and make a new monster
 		int HP = 0;
-		double XP = 0;
 		int attack = 0;
 		int defense = 0;
 		int attackElement = NONE;
@@ -120,16 +119,6 @@ public class MonsterDatabase extends KoLDatabase
 					{
 						value = tokens.nextToken();
 						HP = Integer.parseInt( value );
-						continue;
-					}
-				}
-
-				else if ( option.equals( "XP:" ) )
-				{
-					if ( tokens.hasMoreTokens() )
-					{
-						value = tokens.nextToken();
-						XP = Double.parseDouble( value );
 						continue;
 					}
 				}
@@ -210,7 +199,7 @@ public class MonsterDatabase extends KoLDatabase
 			return null;
 		}
 
-		return new Monster( name, HP, XP, attack, defense, attackElement, defenseElement );
+		return new Monster( name, HP, attack, defense, attackElement, defenseElement );
 	}
 
 	private static int parseElement( String s )
@@ -232,17 +221,15 @@ public class MonsterDatabase extends KoLDatabase
 	{
 		private String name;
 		private int HP;
-		private double XP;
 		private int attack;
 		private int defense;
 		private int attackElement;
 		private int defenseElement;
 
-		public Monster( String name, int HP, double XP, int attack, int defense, int attackElement, int defenseElement )
+		public Monster( String name, int HP, int attack, int defense, int attackElement, int defenseElement )
 		{
 			this.name = name;
 			this.HP = HP;
-			this.XP = XP;
 			this.attack = attack;
 			this.defense = defense;
 			this.attackElement = attackElement;
@@ -255,10 +242,6 @@ public class MonsterDatabase extends KoLDatabase
 
 		public int getHP()
 		{	return HP;
-		}
-
-		public double getXP()
-		{	return XP;
 		}
 
 		public int getAttack()
