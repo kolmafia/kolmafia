@@ -168,7 +168,7 @@ public abstract class Nemesis extends StaticEntity
 
 					if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).indexOf( "fly" ) == -1 )
 					{
-						(new EquipmentRequest( client, FLY_SWATTER.getName() )).run();
+						DEFAULT_SHELL.executeLine( "equip Gnollish flyswatter" );
 						needsWeapon = true;
 					}
 
@@ -195,7 +195,7 @@ public abstract class Nemesis extends StaticEntity
 
 					if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).indexOf( "tongs" ) == -1 )
 					{
-						(new EquipmentRequest( client, TONGS.getName() )).run();
+						DEFAULT_SHELL.executeLine( "equip Knob Goblin tongs" );
 						needsWeapon = true;
 					}
 
@@ -215,7 +215,7 @@ public abstract class Nemesis extends StaticEntity
 					// changed (according to variable resets).
 
 					if ( needsWeapon )
-						(new EquipmentRequest( client, weapon )).run();
+						DEFAULT_SHELL.executeLine( "outfit Custom: KoLmafia Checkpoint" );
 
 					action = "end";
 					DEFAULT_SHELL.updateDisplay( "Fighting your nemesis..." );
