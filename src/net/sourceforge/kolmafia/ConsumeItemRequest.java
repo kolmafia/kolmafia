@@ -75,9 +75,11 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int TOASTER = 637;
 	private static final int GIANT_CASTLE_MAP = 667;
 	private static final int YETI_PROTEST_SIGN = 775;
-	private static final int PLUS_SIGN = 918;
+	private static final int ANTIDOTE = 829;
+	private static final int TEARS = 869;
 	private static final int ROLLING_PIN = 873;
 	private static final int UNROLLING_PIN = 874;
+	private static final int PLUS_SIGN = 918;
 	private static final int CLOCKWORK_BARTENDER = 1111;
 	private static final int CLOCKWORK_CHEF = 1112;
 	private static final int SNOWCONE_TOME = 1411;
@@ -102,6 +104,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int GIFT11 = 1177;
 	private static final int GIFTV = 1460;
 
+	private static final AdventureResult POISON = new AdventureResult( "Poisoned", 1, true );
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
 	private static final AdventureResult FERTILIZER = new AdventureResult( 76, -1 );
 	private static final AdventureResult PLANKS = new AdventureResult( 140, -1 );
@@ -379,6 +382,14 @@ public class ConsumeItemRequest extends KoLRequest
 				return;
 			}
 
+			break;
+		
+		case TEARS:
+			KoLCharacter.getEffects().remove( KoLAdventure.BEATEN_UP );
+			break;
+		
+		case ANTIDOTE:
+			KoLCharacter.getEffects().remove( POISON );
 			break;
 
 		case TINY_HOUSE:

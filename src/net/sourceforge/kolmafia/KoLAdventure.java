@@ -49,7 +49,7 @@ import java.io.FileInputStream;
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
 	private static final AdventureResult WAND = new AdventureResult( 626, 1 );
-	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1 );
+	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1, true );
 
 	protected KoLmafia client;
 	private String zone, adventureID, formSource, adventureName;
