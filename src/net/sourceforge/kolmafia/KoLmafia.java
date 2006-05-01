@@ -1042,7 +1042,7 @@ public abstract class KoLmafia implements KoLConstants
 					while ( current < needed && last != current && currentState != ABORT_STATE )
 					{
 						last = current;
-						recoverOnce( currentTechnique, restoreSetting.indexOf( ";" ) != -1 || restoreSetting.endsWith( currentTechnique.toString() ), needed );
+						recoverOnce( currentTechnique, !restoreSetting.endsWith( currentTechnique.toString() ), needed );
 						current = ((Number)currentMethod.invoke( null, empty )).intValue();
 					}
 				}

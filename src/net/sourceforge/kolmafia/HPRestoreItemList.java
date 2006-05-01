@@ -68,22 +68,16 @@ public abstract class HPRestoreItemList extends StaticEntity
 	{
 		list.clear();
 
-		if ( KoLCharacter.hasSkill( WALRUS.toString() ) )
-			list.add( WALRUS );
-		if ( KoLCharacter.hasSkill( OTTER.toString() ) )
-			list.add( OTTER );
+		list.add( WALRUS );
+		list.add( OTTER );
 
 		list.add( REMEDY );
 		list.add( TINY_HOUSE );
 
-		if ( KoLCharacter.hasSkill( COCOON.toString() ) )
-			list.add( COCOON );
-		if ( KoLCharacter.hasSkill( BANDAGES.toString() ) )
-			list.add( BANDAGES );
-		if ( KoLCharacter.hasSkill( POWERNAP.toString() ) )
-			list.add( POWERNAP );
-		if ( KoLCharacter.hasSkill( NAP.toString() ) )
-			list.add( NAP );
+		list.add( COCOON );
+		list.add( BANDAGES );
+		list.add( POWERNAP );
+		list.add( NAP );
 
 		list.add( new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE ) );
 		list.add( new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE ) );
@@ -103,6 +97,8 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 	public static JCheckBox [] getCheckboxes()
 	{
+		reset();
+		
 		Object [] restoreName = list.toArray();
 		String hpRestoreSetting = getProperty( "hpRestores" );
 
