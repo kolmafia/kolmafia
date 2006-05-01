@@ -227,12 +227,6 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public void updateDisplay()
-	{
-		if ( !currentIterationString.equals( "" ) )
-			DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, currentIterationString );
-	}
-
 	/**
 	 * Updates the currently active display in the <code>KoLmafia</code>
 	 * session.
@@ -1403,7 +1397,9 @@ public abstract class KoLmafia implements KoLConstants
 				else
 					currentIterationString = "";
 
-				updateDisplay();
+				if ( !(request instanceof KoLAdventure) )
+					updateDisplay( currentIterationString );
+
 				request.run();
 				applyRecentEffects();
 
@@ -2557,7 +2553,11 @@ public abstract class KoLmafia implements KoLConstants
 			recoverMP();
 		}
 		
-		updateDisplay();
+		if ( permitsContinue() )
+		{
+			updateDisplay( currentIterationString );
+			currentIterationString = "";
+		}
 	}
 
 	public void startRelayServer()
