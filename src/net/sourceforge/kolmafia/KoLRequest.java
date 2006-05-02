@@ -1347,7 +1347,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			// Add the event to the event list
 
-			eventList.add( event );
+			if ( !KoLMessenger.isRunning() )
+				eventList.add( event );
 
 			// Print everything to the default shell; this way, the
 			// graphical CLI is also notified of events.

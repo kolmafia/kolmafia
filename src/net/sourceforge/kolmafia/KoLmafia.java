@@ -397,6 +397,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void refreshSession()
 	{
+		KoLCharacter.reset( KoLCharacter.getUsername() );
+		
 		KoLmafiaCLI.reset();
 		KoLMailManager.reset();
 		FamiliarData.reset();

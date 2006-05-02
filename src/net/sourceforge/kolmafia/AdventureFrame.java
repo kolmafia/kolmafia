@@ -727,7 +727,9 @@ public class AdventureFrame extends KoLFrame
 
 			try
 			{
+				CombatSettings.reset();
 				BufferedReader reader = KoLDatabase.getReader( CombatSettings.settingsFileName() );
+
 				StringBuffer buffer = new StringBuffer();
 
 				String line;

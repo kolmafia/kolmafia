@@ -297,9 +297,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static final void reset( String username )
 	{
-		if ( client == null )
-			return;
-
 		KoLCharacter.username = username;
 
 		classname = "";
