@@ -990,7 +990,7 @@ public abstract class KoLmafia implements KoLConstants
 					needed = maximum - 1;
 			}
 			else
-				needed = needed == maximum ? maximum - 1 : needed + 1;
+				needed = needed >= maximum ? maximum - 1 : needed + 1;
 			
 			if ( current > needed )
 				return true;
@@ -1117,7 +1117,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		if ( technique instanceof HPRestoreItemList.HPRestoreItem )
-			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( canUseOtherTechnique );
+			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( canUseOtherTechnique, needed );
 
 		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
 			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( canUseOtherTechnique, needed );

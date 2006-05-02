@@ -106,28 +106,16 @@ public class CharsheetFrame extends KoLFrame
 		entirePanel.add( northPanel, BorderLayout.NORTH );
 		entirePanel.add( scroller, BorderLayout.CENTER );
 
-		refreshStatus();
-
 		framePanel.add( entirePanel, "" );
 		statusRefresher = new KoLCharacterAdapter( new StatusRefreshRunnable() );
 		KoLCharacter.addCharacterListener( statusRefresher );
+		
+		statusRefresher.updateStatus();
 	}
 
 	public void dispose()
 	{
 		KoLCharacter.removeCharacterListener( statusRefresher );
-
-		levelPanel = null;
-		levelLabel = null;
-
-		levelMeter = null;
-		hpMeter = null;
-		mpMeter = null;
-		avatar = null;
-		statusLabel = null;
-		tnpDisplay = null;
-
-		statusRefresher = null;
 		super.dispose();
 	}
 
@@ -277,48 +265,38 @@ public class CharsheetFrame extends KoLFrame
 		return statusLabelPanel;
 	}
 
-	/**
-	 * Utility method used to refresh the status of the pane.  This
-	 * method is made public so that the same frame can be hidden and
-	 * reused at a later time.
-	 */
-
-	public void refreshStatus()
-	{
-		StaticEntity.getClient().applyRecentEffects();
-		levelLabel.setText( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassName() );
-
-		hpMeter.setMaximum( KoLCharacter.getMaximumHP() );
-		hpMeter.setValue( KoLCharacter.getCurrentHP() );
-		hpMeter.setString( df.format( KoLCharacter.getCurrentHP() ) + " / " + df.format( KoLCharacter.getMaximumHP() ) );
-
-		mpMeter.setMaximum( KoLCharacter.getMaximumMP() );
-		mpMeter.setValue( KoLCharacter.getCurrentMP() );
-		mpMeter.setString( df.format( KoLCharacter.getCurrentMP() ) + " / " + df.format( KoLCharacter.getMaximumMP() ) );
-
-		refreshValuePanel( 0, KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() );
-		refreshValuePanel( 1, KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() );
-		refreshValuePanel( 2, KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() );
-
-		int currentLevel = KoLCharacter.calculateLastLevel();
-		int nextLevel = KoLCharacter.calculateNextLevel();
-		int totalPrime = KoLCharacter.getTotalPrime();
-
-		levelMeter.setMaximum( nextLevel - currentLevel );
-		levelMeter.setValue( totalPrime - currentLevel );
-		levelMeter.setString( "" );
-
-		levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
-					   df.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
-
-		// Set the current avatar
-		avatar.setIcon( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
-	}
-
 	private class StatusRefreshRunnable implements Runnable
 	{
 		public void run()
-		{	refreshStatus();
+		{
+			StaticEntity.getClient().applyRecentEffects();
+			levelLabel.setText( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassName() );
+
+			hpMeter.setMaximum( KoLCharacter.getMaximumHP() );
+			hpMeter.setValue( KoLCharacter.getCurrentHP() );
+			hpMeter.setString( df.format( KoLCharacter.getCurrentHP() ) + " / " + df.format( KoLCharacter.getMaximumHP() ) );
+
+			mpMeter.setMaximum( KoLCharacter.getMaximumMP() );
+			mpMeter.setValue( KoLCharacter.getCurrentMP() );
+			mpMeter.setString( df.format( KoLCharacter.getCurrentMP() ) + " / " + df.format( KoLCharacter.getMaximumMP() ) );
+
+			refreshValuePanel( 0, KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() );
+			refreshValuePanel( 1, KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() );
+			refreshValuePanel( 2, KoLCharacter.getBaseMoxie(), KoLCharacter.getAdjustedMoxie(), KoLCharacter.getMoxieTNP() );
+
+			int currentLevel = KoLCharacter.calculateLastLevel();
+			int nextLevel = KoLCharacter.calculateNextLevel();
+			int totalPrime = KoLCharacter.getTotalPrime();
+
+			levelMeter.setMaximum( nextLevel - currentLevel );
+			levelMeter.setValue( totalPrime - currentLevel );
+			levelMeter.setString( "" );
+
+			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
+				df.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
+
+			// Set the current avatar
+			avatar.setIcon( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );
 		}
 	}
 }
