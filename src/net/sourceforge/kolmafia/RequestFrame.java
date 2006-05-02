@@ -408,10 +408,10 @@ public class RequestFrame extends KoLFrame
 				// New prevention mechanism: tell the requests that there
 				// will be no synchronization.
 
-				String original = getProperty( "synchronizeFightFrame" );
-				setProperty( "synchronizeFightFrame", "false" );
+				String original = getProperty( "showAllRequests" );
+				setProperty( "showAllRequests", "false" );
 				request.run();
-				setProperty( "synchronizeFightFrame", original );
+				setProperty( "showAllRequests", original );
 			}
 		}
 
