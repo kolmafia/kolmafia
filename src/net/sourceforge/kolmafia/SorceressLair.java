@@ -1348,11 +1348,8 @@ public abstract class SorceressLair extends StaticEntity
 				// Always default to restorative balm if it will cost
 				// less to acquire it.
 
-				if ( KoLCharacter.getMaximumHP() >= 126 )
-				{
-					if ( option.getCount( KoLCharacter.getInventory() ) < 3 )
-						option = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
-				}
+				if ( KoLCharacter.getMaximumHP() >= 126 && option.getCount( KoLCharacter.getInventory() ) < 3 )
+					option = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
 			}
 		}
 
@@ -1363,21 +1360,19 @@ public abstract class SorceressLair extends StaticEntity
 		// Ensure that the player is at full HP since the shadow will
 		// probably beat him up if he has less.
 
-		if ( option.getName().startsWith( "red" ) && KoLCharacter.getMaximumHP() < 126 )
+		if ( !option.getName().endsWith( "red" ) && KoLCharacter.getMaximumHP() < 126 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
 			return;
 		}
 
-		int maximumDamage = 22 + KoLCharacter.getMaximumHP() / 5 + 3;
+		int maximumDamage = 22 + (int) Math.floor( KoLCharacter.getMaximumHP() / 5 ) + 3;
 		int minimumHealing = option.getName().startsWith( "red" ) ? 25 :
 			option.getName().endsWith( "alm" ) ? 26 : 36;
 		
 		// Suppose you have 126 HP, and assume maximum damage taken.
-		// We have the following results, assuming worst-case mana
-		// restoration.  Calculate the leeway.  You need at least
-		// one health on the last hit.  Looking at an example with
-		// 126 initial health to see a pattern:
+		// We have the following results, assuming worst-case health
+		// restoration.  Calculate the leeway:
 
 		// Round 1: You lose 22 + 25 + 3 = 50 damage (76 health)
 		//  - You gain 25, leaving you with 101 health
@@ -1402,7 +1397,7 @@ public abstract class SorceressLair extends StaticEntity
 		// and you will recover your health twice.
 
 		int neededHealth = minimumHealing >= 32 ?
-			maximumDamage * 3 - minimumHealing * 2 : maximumDamage * 4 - minimumHealing * 3;		
+			maximumDamage * 3 - minimumHealing * 2 : maximumDamage * 4 - minimumHealing * 3;
 
 		// Health restore tries to restore above the given
 		// amount; therefore, restore just below it and the
@@ -1411,7 +1406,7 @@ public abstract class SorceressLair extends StaticEntity
 		client.recoverHP( neededHealth - 1 );
 		if ( KoLCharacter.getCurrentHP() < neededHealth )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You must be fully healed to fight your shadow." );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You must be healed to fight your shadow." );
 			return;
 		}
 
