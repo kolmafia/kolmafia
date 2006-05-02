@@ -505,7 +505,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		do
 		{
 			statusChanged = false;
-			if ( !isDelayExempt() && ( getProperty( "synchronizeFightFrame" ).equals( "true" ) || isServerFriendly ) )
+			if ( !isDelayExempt() && ( getProperty( "showAllRequests" ).equals( "true" ) || isServerFriendly ) )
 				KoLRequest.delay();
 		}
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
@@ -1285,7 +1285,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( existingFrames.isEmpty() )
 			return;
 
-		if ( !exceptional && getProperty( "synchronizeFightFrame" ).equals( "false" ) )
+		if ( !exceptional && getProperty( "showAllRequests" ).equals( "false" ) )
 			return;
 
 		// Only show the request if the response code is
