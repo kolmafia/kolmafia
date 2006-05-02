@@ -880,23 +880,24 @@ public class KoLmafiaCLI extends KoLmafia
 			String oldSetting = StaticEntity.getProperty( "autoSatisfyChecks" );
 			StaticEntity.setProperty( "autoSatisfyChecks", "true" );
 			
-			// Generic handling of retrieval of worthless
-			// items is by adventuring in the sewer.
+			// Handle lucky and unlucky retrieval of 
+			// worthless items via the sewer.
 
 			if ( parameters.equals( "worthless item" ) )
+				while ( HermitRequest.getWorthlessItemCount() == 0 && StaticEntity.getClient().permitsContinue() )
+					executeLine( "buy 1 chewing gum on a string; adventure Unlucky Sewer" );
+			else if ( parameters.equals( "worthless item with clover" ) && HermitRequest.getWorthlessItemCount() == 0 )
 			{
-				AdventureResult clover = SewerRequest.CLOVER.getInstance(1);
-				
-				while ( HermitRequest.getWorthlessItemCount() == 0 )
-				{
-					AdventureDatabase.retrieveItem( clover );
-					executeLine( "adventure unlucky" );
-				}
+				AdventureDatabase.retrieveItem( SewerRequest.CLOVER.getInstance(1) );
+				executeLine( "buy 1 chewing gum on a string; adventure Sewer With Clovers" );
 			}
-			else
+			
+			// Non-worthless-item requests default to 
+			// internal retrieveItem calls.
+
+			else if ( !parameters.startsWith( "worthless item" ) )
 			{
 				AdventureResult item = getFirstMatchingItem( parameters, NOWHERE );
-
 				if ( item != null )
 					AdventureDatabase.retrieveItem( item );
 			}
