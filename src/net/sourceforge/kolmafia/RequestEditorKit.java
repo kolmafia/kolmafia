@@ -708,6 +708,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// UNICODE characters using the table.
 
 		displayHTML = getUnicode( displayHTML );
+		
+		// Image links are mangled a little bit because they use
+		// Javascript now -- fix them.
+		
+		displayHTML = displayHTML.replaceAll( "<img([^>]*?) onClick=\'descitem\\((\\d+)\\);\'>",
+			"<a href=\"desc_item.php?whichitem=$2\"><img$1 border=0></a>" );
 
 		// The last thing to worry about is the problems in
 		// specific pages.
