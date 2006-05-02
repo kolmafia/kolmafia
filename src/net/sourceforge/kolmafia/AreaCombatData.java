@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AreaCombatData implements KoLConstants
 {
@@ -113,6 +114,20 @@ public class AreaCombatData implements KoLConstants
 		int minPerfectEvade = perfectHit( moxie, minEvade );
 		int maxPerfectEvade = perfectHit( moxie, maxEvade );
 
+		// XP constants
+		FamiliarData familiar = KoLCharacter.getFamiliar();
+		double xpAdjustment = effectXPAdjustment() + itemXPAdjustment() + familiarXPAdjustment( familiar );
+
+		// Iterate once through monsters to calculate average XP
+		double totalXP = 0.0;
+		int monsterCount = monsters.size();
+
+		for ( int i = 0; i < monsterCount; ++i )
+		{
+			MonsterDatabase.Monster monster = getMonster( i );
+			totalXP += monster.getAdjustedXP( xpAdjustment, ml,  familiar );
+		}
+
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append( "<html><b>Hit</b>: " );
@@ -120,13 +135,14 @@ public class AreaCombatData implements KoLConstants
 
 		buffer.append( "<br><b>Evade</b>: " );
 		buffer.append( getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, true ) );
+		buffer.append( "<br><b>Average XP</b>: " + ff.format( totalXP / (double)monsterCount ) );
 		buffer.append( "<br>" );
 
 		for ( int i = 0; i < monsters.size(); ++i )
 		{
 			buffer.append( "<br>" );
 			MonsterDatabase.Monster monster = getMonster( i );
-			buffer.append( getMonsterString( monster, moxie, hitstat ) );
+			buffer.append( getMonsterString( monster, moxie, hitstat, xpAdjustment, ml ) );
 		}
 
 		buffer.append( "</html>" );
@@ -172,7 +188,7 @@ public class AreaCombatData implements KoLConstants
 		return buffer.toString();
 	}
 
-	private String getMonsterString( MonsterDatabase.Monster monster, int moxie, int hitstat )
+	private String getMonsterString( MonsterDatabase.Monster monster, int moxie, int hitstat, double xpAdjustment, int ml )
 	{
 		// moxie and hitstat already adjusted for monster level
 
@@ -183,6 +199,9 @@ public class AreaCombatData implements KoLConstants
 		int attack = monster.getAttack();
 		double evadePercent = hitPercent( moxie, attack );
 		int perfectEvade = perfectHit( moxie, attack );
+
+		int HP = monster.getAdjustedHP( ml );
+		double XP = monster.getAdjustedXP( xpAdjustment, ml, KoLCharacter.getFamiliar() );
 
 		StringBuffer buffer = new StringBuffer();
 
@@ -197,7 +216,7 @@ public class AreaCombatData implements KoLConstants
 		buffer.append( ff.format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + elementColor( ea ) + ">" );
 		buffer.append( ff.format( evadePercent ) );
-		buffer.append( "%</font>" );
+		buffer.append( "%</font><br> - HP: " + HP + ", XP: " + ff.format( XP ) );
 
 		return buffer.toString();
 	}
@@ -233,31 +252,95 @@ public class AreaCombatData implements KoLConstants
 	{	return attack - defense - 9;
 	}
 
-	// XP & HP data:
+	// Effects that modify earned XP:
 
-	// +1 ML adds +1 HP, +1 Attack, +1 Defense
-	// Monster XP = ( attack + defense ) / 10
+	private static final AdventureResult ANTIPHON = new AdventureResult( "Aloysius' Antiphon of Aptitude", 0 );
+	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0 );
+	private static final AdventureResult ORANGE_TONGUE = new AdventureResult( "Orange Tongue", 0 );
+	private static final AdventureResult VEINY = new AdventureResult( "Big Veiny Brain", 0 );
+	private static final AdventureResult PEELED = new AdventureResult( "Peeled Eyeballs", 0 );
+	private static final AdventureResult WASABI = new AdventureResult( "Wasabi Sinuses", 0 );
 
-	// Items that affect XP:
+	public static double effectXPAdjustment()
+	{
+		double modifier = 0.0;
+		LockableListModel effects = KoLCharacter.getEffects();
+		if ( effects.contains( ANTIPHON ) )
+			modifier += 3;
+		if ( effects.contains( BLACK_TONGUE ) )
+			modifier += 2.5;
+		if ( effects.contains( ORANGE_TONGUE ) )
+			modifier += 2.5;
+		if ( effects.contains( VEINY ) )
+			modifier += 2;
+		if ( effects.contains( PEELED ) )
+			modifier -= 1;
+		if ( effects.contains( WASABI ) )
+			modifier -= 1;
+		return modifier;
+	}
 
-	// Wax Lips: +2.5
-	// ice baby: +1
+	// Items that modify earned XP:
 
-	// Skills that affect XP:
+	private static final int ICE_BABY = 1425;
+	private static final int WAX_LIPS = 1260;
 
-	// Aloysius' Antiphon of Aptitude: +3
-	// Black Tongue: +2.5
-	// Orange Tongue: +2.5
-	// Big Veiny Brain: +2
-	// Peeled Eyeballs: -1
-	// Wasabi Sinuses: -1
+	public static double itemXPAdjustment()
+	{
+		double modifier = 0.0;
+		AdventureResult offhand = KoLCharacter.getCurrentEquipment( KoLCharacter.OFFHAND );
+		if ( offhand != null & offhand.getItemID() == ICE_BABY )
+			modifier += 1.0;
+		return modifier;
+	}
 
-	// Familiars that affect XP:
+	// Familiars that modify earned XP:
 
-	// Volleyball (Bat, Shaman, Monkey): ( weight / 4 )
-	// Hovering Sombrero: ( sqrt(ML) * weight * 3 ) / 100
+	private static final int VOLLEYBALL = 12;
+	private static final int CHESHIRE = 23;
+	private static final int JILL = 24;
+	private static final int SHAMAN = 39;
+	private static final int MONKEY = 42;
+
+	public static double familiarXPAdjustment( FamiliarData familiar )
+	{
+		double modifier = 0.0;
+
+		switch ( familiar.getID() )
+		{
+		case -1:
+			// No familiar
+			return 0.0;
+
+		case VOLLEYBALL:
+		case CHESHIRE:
+		case SHAMAN:
+		case MONKEY:
+			// Full volleyball equivalent familiar
+			modifier += (double)familiar.getModifiedWeight() / 4.0;
+			break;
+
+		case JILL:
+			// Half volleyball equivalent familiar
+			modifier += (double)familiar.getModifiedWeight() / 8.0;
+			break;
+		}
+
+		// If familiar is wearing wax lips, that's like 10 lbs. of
+		// volleyball, or +2.5 XP
+
+		if ( TradeableItemDatabase.getItemID( familiar.getItem() ) == WAX_LIPS )
+			modifier += 2.5;
+
+		return modifier;
+	}
+
+	// Effects that modify ML:
 
 	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
+
+	// Items that modify ML:
+
 	private static final int ICE_SICKLE = 1424;
 	private static final int HIPPO_WHIP = 1029;
 	private static final int GIANT_NEEDLE = 619;
