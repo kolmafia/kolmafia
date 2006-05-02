@@ -122,19 +122,6 @@ public class KoLmafiaGUI extends KoLmafia
 		SystemTrayFrame.updateTooltip();
 		KoLDesktop.updateTitle();
 
-		// If you've already loaded an adventure frame,
-		// or the login failed, then there's nothing left
-		// to do.  Return from the method.
-
-		if ( !(displayer.getCreation() instanceof LoginFrame) )
-			return;
-
-		// Figure out which user interface is being
-		// used -- account for minimalist loadings.
-
-		LoginFrame loginWindow = (LoginFrame) displayer.getCreation();
-		loginWindow.setVisible( false );
-
 		// Instantiate the appropriate instance of the
 		// frame that should be loaded based on the mode.
 
@@ -160,8 +147,6 @@ public class KoLmafiaGUI extends KoLmafia
 				constructFrame( initialFrames[i] );
 		}
 
-		displayer = new CreateFrameRunnable( AdventureFrame.class );
-
 		if ( !GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).equals( "" ) )
 		{
 			if ( !KoLDesktop.getInstance().isVisible() )
@@ -171,7 +156,21 @@ public class KoLmafiaGUI extends KoLmafia
 				KoLDesktop.getInstance().setVisible( true );
 			}
 		}
+		
+		// If you've already loaded an adventure frame,
+		// or the login failed, then there's nothing left
+		// to do.  Return from the method.
 
+		if ( !(displayer.getCreation() instanceof LoginFrame) )
+			return;
+
+		// Figure out which user interface is being
+		// used -- account for minimalist loadings.
+
+		LoginFrame loginWindow = (LoginFrame) displayer.getCreation();
+		loginWindow.setVisible( false );
+		
+		displayer = new CreateFrameRunnable( AdventureFrame.class );
 		loginWindow.dispose();
 
 		if ( KoLMailManager.hasNewMessages() )

@@ -516,11 +516,12 @@ public class KoLmafiaCLI extends KoLmafia
 				
 				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 				existingFrames.toArray( frames );
-				
+
 				for ( int i = 0; i < frames.length; ++i )
 					if ( !(frames[i] instanceof LoginFrame) )
 						frames[i].dispose();
-				
+
+				KoLDesktop.getInstance().setVisible( false );
 				(new LoginRequest( StaticEntity.getClient(), parameters, password )).run();
 			}
 			else

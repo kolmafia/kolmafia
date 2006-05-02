@@ -87,7 +87,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 {
 	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
 	private static boolean stop = false;
+
 	private FamiliarTrainingPanel training;
+	private KoLCharacterAdapter weightListener;
 
 	public static final int BASE = 1;
 	public static final int BUFFED = 2;
@@ -130,6 +132,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 	public void dispose()
 	{
 		stop = true;
+		KoLCharacter.removeCharacterListener( weightListener );
+
 		super.dispose();
 	}
 
@@ -196,8 +200,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			counterPanel.add( totalWeight );
 
 			// Make a refresher for the counters
-			TotalWeightRefresher runnable = new TotalWeightRefresher();
-			KoLCharacter.addCharacterListener( new KoLCharacterAdapter( runnable ) );
+			weightListener = new KoLCharacterAdapter( new TotalWeightRefresher() );
+			KoLCharacter.addCharacterListener( weightListener );
 
 			// Show the counters 
 			buttonContainer.add( counterPanel, BorderLayout.SOUTH );
