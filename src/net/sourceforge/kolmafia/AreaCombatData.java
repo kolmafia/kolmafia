@@ -289,7 +289,7 @@ public class AreaCombatData implements KoLConstants
 	{
 		double modifier = 0.0;
 		AdventureResult offhand = KoLCharacter.getCurrentEquipment( KoLCharacter.OFFHAND );
-		if ( offhand != null & offhand.getItemID() == ICE_BABY )
+		if ( offhand != null && offhand.getItemID() == ICE_BABY )
 			modifier += 1.0;
 		return modifier;
 	}
