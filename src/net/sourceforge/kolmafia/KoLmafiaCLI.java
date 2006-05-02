@@ -1147,10 +1147,24 @@ public class KoLmafiaCLI extends KoLmafia
 				executePrintCommand( "outfits" );
 				return;
 			}
+			else if ( parameters.equalsIgnoreCase( "checkpoint" ) )
+			{
+				SpecialOutfit.restoreCheckpoint();
+				return;
+			}
 
 			executeChangeOutfitCommand( parameters );
 			if ( StaticEntity.getClient().permitsContinue() )
 				executePrintCommand( "equip" );
+			return;
+		}
+		
+		// Another command involves saving the current
+		// gear into the KoLmafia checkpoint outfit.
+		
+		if ( command.equals( "checkpoint" ) )
+		{
+			SpecialOutfit.createCheckpoint();
 			return;
 		}
 
