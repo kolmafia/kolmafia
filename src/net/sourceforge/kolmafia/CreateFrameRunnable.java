@@ -195,7 +195,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			
 			String tabSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
 			String searchString = this.creation instanceof ChatFrame ? "KoLMessenger" :
-				((KoLFrame)this.creation).getFrameName();
+				this.creation instanceof KoLFrame ? ((KoLFrame)this.creation).getFrameName() : "...";
 
 			boolean appearsInTab = this.creation instanceof KoLFrame;
 
@@ -231,6 +231,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			}
 
 			this.creation.pack();
+			if ( !(this.creation instanceof KoLFrame) )
+				this.creation.setLocationRelativeTo( null );
 
 			// With the location set set on screen, make sure
 			// to disable it (if necessary), ensure the frame's
