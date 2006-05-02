@@ -1005,7 +1005,7 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				last = -1;
 
-				while ( current < needed && last != current && currentState != ABORT_STATE )
+				while ( current < needed && last != current && !refusesContinue() )
 				{
 					last = current;
 					DEFAULT_SHELL.executeLine( scriptPath );
@@ -1027,19 +1027,21 @@ public abstract class KoLmafia implements KoLConstants
 			// and process the item's usage.
 
 			Object currentTechnique;
+			String currentTechniqueName;
 
 			for ( int i = 0; i < totalRestores && current < needed; ++i )
 			{
 				currentTechnique = getMethod.invoke( null, new Integer [] { new Integer(i) } );
+				currentTechniqueName = currentTechnique.toString();
 
-				if ( restoreSetting.indexOf( currentTechnique.toString() ) != -1 )
+				if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
 				{
 					last = -1;
 
-					while ( current < needed && last != current && currentState != ABORT_STATE )
+					while ( current < needed && last != current && !refusesContinue() )
 					{
 						last = current;
-						recoverOnce( currentTechnique, !restoreSetting.endsWith( currentTechnique.toString() ), needed );
+						recoverOnce( currentTechnique, currentTechniqueName, !restoreSetting.endsWith( currentTechniqueName ), needed );
 						current = ((Number)currentMethod.invoke( null, empty )).intValue();
 					}
 				}
@@ -1048,7 +1050,7 @@ public abstract class KoLmafia implements KoLConstants
 			// Fall-through check, just in case you've reached the
 			// desired value.
 
-			if ( current >= needed && currentState != ABORT_STATE )
+			if ( current >= needed && !refusesContinue() )
 				return true;
 
 			// If you failed to auto-recover and there are no settings,
@@ -1094,29 +1096,40 @@ public abstract class KoLmafia implements KoLConstants
 	 * in a script) in order to restore.
 	 */
 
-	private final void recoverOnce( Object technique, boolean canUseOtherTechnique, int needed )
+	private final void recoverOnce( Object technique, String techniqueName, boolean canUseOtherTechnique, int needed )
 	{
 		if ( technique == null )
 			return;
 
+		boolean autoSatisfy = StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" );
+		
 		// If the technique is an item, and the item is not readily available,
 		// then don't bother with this item -- however, if it is the only item
 		// present, then rethink it.
 
-		if ( !ClassSkillsDatabase.contains( technique.toString() ) )
+		if ( TradeableItemDatabase.contains( techniqueName ) )
 		{
-			AdventureResult item = new AdventureResult( technique.toString(), 0 );
+			AdventureResult item = new AdventureResult( techniqueName, 0 );
 			if ( !KoLCharacter.getInventory().contains( item ) )
 			{
 				// Allow for the possibility that the player can
 				// auto-purchase the item from the mall.
 
-				if ( canUseOtherTechnique || !StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" ) || (!NPCStoreDatabase.contains( item.getName() ) && !KoLCharacter.canInteract()) )
+				if ( canUseOtherTechnique )
 				{
-					DEFAULT_SHELL.updateDisplay( "Insufficient " + technique + " for auto-restore." );
+					DEFAULT_SHELL.updateDisplay( "Insufficient " + techniqueName + " for auto-restore." );
 					return;
 				}
+
+				if ( !NPCStoreDatabase.contains( item.getName() ) && !KoLCharacter.canInteract() )
+				{
+					DEFAULT_SHELL.updateDisplay( "Insufficient " + techniqueName + " for auto-restore." );
+					return;
+				}				
 			}
+			
+			if ( !canUseOtherTechnique )
+				StaticEntity.setProperty( "autoSatisfyChecks", "true" );
 		}
 
 		if ( technique instanceof HPRestoreItemList.HPRestoreItem )
@@ -1124,6 +1137,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
 			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed );
+
+		StaticEntity.setProperty( "autoSatisfyChecks", String.valueOf( autoSatisfy ) );
 	}
 
 	/**
@@ -1448,19 +1463,20 @@ public abstract class KoLmafia implements KoLConstants
 
 			currentIterationString = "";
 
-			// If you've completed the requests, make sure to update
-			// the display.
-
-			if ( currentState != ERROR_STATE && currentState != ABORT_STATE )
+			if ( currentState == PENDING_STATE )
 			{
 				// If we canceled the iteration without
 				// generating a real error, permit
 				// scripts to continue.
 
-				if ( currentState == PENDING_STATE )
-					forceContinue();
+				forceContinue();
+			}
+			else if ( permitsContinue() )
+			{
+				// If you've completed the requests, make sure to update
+				// the display.
 
-				else if ( request instanceof KoLAdventure && !conditions.isEmpty() )
+				if ( request instanceof KoLAdventure && !conditions.isEmpty() )
 					updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
 
