@@ -1317,7 +1317,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 		unrepeatableCommands.add( "send " + parameters );
-		(new GreenMessageRequest( StaticEntity.getClient(), splitParameters[1], "You are awesome.", attachments, 0, false )).run();
+		(new GreenMessageRequest( StaticEntity.getClient(), splitParameters[1], "Fear my moxie!", attachments, 0, false )).run();
 
 		if ( StaticEntity.getClient().permitsContinue() )
 			updateDisplay( "Message sent to " + splitParameters[1] );

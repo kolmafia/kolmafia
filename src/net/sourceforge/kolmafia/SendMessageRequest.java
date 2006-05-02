@@ -244,7 +244,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		}
 		else
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "" );
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Item/meat attachment failed." );
 		}
 		
 		super.processResults();
