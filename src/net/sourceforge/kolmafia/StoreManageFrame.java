@@ -178,33 +178,14 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			super( "save changes", "auto-undercut", true );
 
-			JLabel [] label = new JLabel[5];
-			label[0] = new JLabel( "Item Name", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[0], 180, 20 );
-			label[1] = new JLabel( "Price", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[1], 90, 20 );
-			label[2] = new JLabel( "Lowest", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[2], 90, 20 );
-			label[3] = new JLabel( "Qty", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 50, 20 );
-			label[4] = new JLabel( "Action", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[4], 70, 20 );
-
-			JPanel labelPanel = new JPanel();
-			labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.X_AXIS ) );
-			labelPanel.add( Box.createHorizontalStrut( 10 ) );
-			for ( int i = 0; i < label.length; ++i )
-			{
-				labelPanel.add( label[i] );
-				labelPanel.add( Box.createHorizontalStrut( 10 ) );
-			}
-
-			labelPanel.add( Box.createHorizontalStrut( 20 ) );
-
-			JPanel headerPanel = new JPanel();
-			headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.Y_AXIS ) );
-			headerPanel.add( labelPanel );
-			headerPanel.add( Box.createVerticalStrut( 10 ) );
-
 			storeItemList = new StoreItemPanelList();
 			JScrollPane storeItemScrollArea = new JScrollPane( storeItemList,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
+			JPanel headerPanel = new JPanel( new BorderLayout() );
+			headerPanel.add( new AddItemPanel(), BorderLayout.WEST );
+			headerPanel.add( Box.createVerticalStrut( 10 ), BorderLayout.SOUTH );
+			
 			JPanel elementsPanel = new JPanel( new BorderLayout() );
 			elementsPanel.add( headerPanel, BorderLayout.NORTH );
 			elementsPanel.add( storeItemScrollArea );
@@ -278,10 +259,123 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
+	private class AddItemPanel extends JPanel
+	{
+		private JLabel lowestPrice;
+		private JComboBox sellingList;
+		private JTextField itemPrice, itemQty;
+		private JButton addButton, searchButton;
+
+		public AddItemPanel()
+		{
+			sellingList = new JComboBox( KoLCharacter.getSellables() );
+			sellingList.setRenderer( AdventureResult.getAutoSellCellRenderer() );
+
+			itemPrice = new JTextField( "" );
+			itemQty = new JTextField( "" );
+			lowestPrice = new JLabel( "(unknown)", JLabel.CENTER );
+
+			addButton = new JButton( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
+			addButton.addActionListener( new AddButtonListener() );
+			addButton.setToolTipText( "Add to Store" );
+
+			searchButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
+			searchButton.addActionListener( new SearchButtonListener() );
+			searchButton.setToolTipText( "Price Analysis" );
+
+			JComponentUtilities.setComponentSize( sellingList, 240, 20 );
+			JComponentUtilities.setComponentSize( itemPrice, 90, 20 );
+			JComponentUtilities.setComponentSize( lowestPrice, 90, 20 );
+			JComponentUtilities.setComponentSize( itemQty, 50, 20 );
+			JComponentUtilities.setComponentSize( addButton, 30, 20 );
+			JComponentUtilities.setComponentSize( searchButton, 30, 20 );
+
+			JPanel corePanel = new JPanel();
+			corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
+			corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( sellingList ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( lowestPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( itemQty ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( addButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
+			corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 30 ) );
+
+			JLabel [] label = new JLabel[5];
+			label[0] = new JLabel( "Item Name", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[0], 240, 20 );
+			label[1] = new JLabel( "Price", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[1], 90, 20 );
+			label[2] = new JLabel( "Lowest", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[2], 90, 20 );
+			label[3] = new JLabel( "Qty", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 50, 20 );
+			label[4] = new JLabel( "Action", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[4], 70, 20 );
+
+			JPanel labelPanel = new JPanel();
+			labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.X_AXIS ) );
+			labelPanel.add( Box.createHorizontalStrut( 10 ) );
+			for ( int i = 0; i < label.length; ++i )
+			{
+				labelPanel.add( label[i] );
+				labelPanel.add( Box.createHorizontalStrut( 10 ) );
+			}
+
+			labelPanel.add( Box.createHorizontalStrut( 20 ) );
+
+			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+			add( Box.createVerticalStrut( 5 ) );
+			add( labelPanel );
+			add( Box.createVerticalStrut( 5 ) );
+			add( corePanel );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			sellingList.setEnabled( isEnabled );
+			itemPrice.setEnabled( isEnabled );
+			itemQty.setEnabled( isEnabled );
+			addButton.setEnabled( isEnabled );
+			searchButton.setEnabled( isEnabled );
+		}
+
+		private class AddButtonListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( !KoLCharacter.hasStore() )
+				{
+					JOptionPane.showMessageDialog( null, "Sorry, you don't have a store." );
+					return;
+				}
+
+				AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
+				if ( soldItem == null )
+					return;
+
+				int price = getValue( itemPrice, StoreManager.getPrice( soldItem.getItemID() ) );
+				int limit = 0;
+				int qty = getValue( itemQty, soldItem.getCount() );
+
+				soldItem = new AdventureResult( soldItem.getItemID(), qty );
+
+				if ( price > 10 )
+					(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), soldItem, price, limit ) )).start();
+			}
+		}
+
+		private class SearchButtonListener extends ListeningRunnable
+		{
+			public void run()
+			{
+				if ( sellingList.getSelectedItem() == null )
+					return;
+
+				StoreManager.searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary, 10, true );
+				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
+			}
+		}
+	}	
+
 	private class StoreItemPanelList extends PanelList
 	{
 		public StoreItemPanelList()
-		{	super( 16, 540, 24, StoreManager.getSoldItemList() );
+		{	super( 16, 600, 24, StoreManager.getSoldItemList() );
 		}
 
 		protected PanelListCell constructPanelListCell( Object value, int index )
@@ -315,7 +409,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			searchButton.addActionListener( new SearchButtonListener() );
 			searchButton.setToolTipText( "Price Analysis" );
 
-			JComponentUtilities.setComponentSize( itemName, 180, 20 );
+			JComponentUtilities.setComponentSize( itemName, 240, 20 );
 			JComponentUtilities.setComponentSize( itemPrice, 90, 20 );
 			JComponentUtilities.setComponentSize( lowestPrice, 90, 20 );
 			JComponentUtilities.setComponentSize( itemQuantity, 50, 20 );
