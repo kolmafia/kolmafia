@@ -223,6 +223,7 @@ public class MonsterDatabase extends KoLDatabase
 		private int HP;
 		private int attack;
 		private int defense;
+		private double XP;
 		private int attackElement;
 		private int defenseElement;
 
@@ -232,6 +233,7 @@ public class MonsterDatabase extends KoLDatabase
 			this.HP = HP;
 			this.attack = attack;
 			this.defense = defense;
+			this.XP = (double)( attack + defense ) / 10.0 ;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
 		}
@@ -264,26 +266,31 @@ public class MonsterDatabase extends KoLDatabase
 		{	return defenseElement;
 		}
 
+		public double getXP()
+		{	return XP;
+		}
+
 		public double getAdjustedXP( double modifier, int ml, FamiliarData familiar )
 		{
 			// +1 ML adds +1 HP, +1 Attack, +1 Defense
 			// Monster XP = ( attack + defense ) / 10
-			double xp = (double)( attack + ml + defense + ml ) / 10.0;
+			double adjustedML = (double)( attack + ml + defense + ml ) / 2.0;
+			XP =  adjustedML / 5.0;
 			// Add constant XP from items, effects, and familiars
-			xp += modifier;
+			XP += modifier;
 			// Add variable XP from familiars
-			xp += sombreroXPAdjustment( ( attack + defense ) / 2 + ml, familiar );
-			return xp;
+			XP += sombreroXPAdjustment( adjustedML, familiar );
+			return XP;
 		}
 
 		private static final int SOMBRERO = 18;
 		private static final double sombreroFactor = 3.0 / 100.0;
-		public static double sombreroXPAdjustment( int ml, FamiliarData familiar )
+		public static double sombreroXPAdjustment( double ml, FamiliarData familiar )
 		{
 			if ( familiar.getID() != SOMBRERO )
 				return 0.0;
 			// ( sqrt(ML) * weight * 3 ) / 100
-			return Math.sqrt( (double)ml ) * (double)familiar.getModifiedWeight() * sombreroFactor;
+			return Math.sqrt( ml ) * (double)familiar.getModifiedWeight() * sombreroFactor;
 		}
 	}
 }

@@ -142,7 +142,7 @@ public class AreaCombatData implements KoLConstants
 		{
 			buffer.append( "<br>" );
 			MonsterDatabase.Monster monster = getMonster( i );
-			buffer.append( getMonsterString( monster, moxie, hitstat, xpAdjustment, ml ) );
+			buffer.append( getMonsterString( monster, moxie, hitstat, ml ) );
 		}
 
 		buffer.append( "</html>" );
@@ -188,7 +188,7 @@ public class AreaCombatData implements KoLConstants
 		return buffer.toString();
 	}
 
-	private String getMonsterString( MonsterDatabase.Monster monster, int moxie, int hitstat, double xpAdjustment, int ml )
+	private String getMonsterString( MonsterDatabase.Monster monster, int moxie, int hitstat, int ml )
 	{
 		// moxie and hitstat already adjusted for monster level
 
@@ -201,7 +201,7 @@ public class AreaCombatData implements KoLConstants
 		int perfectEvade = perfectHit( moxie, attack );
 
 		int HP = monster.getAdjustedHP( ml );
-		double XP = monster.getAdjustedXP( xpAdjustment, ml, KoLCharacter.getFamiliar() );
+		double XP = monster.getXP();
 
 		StringBuffer buffer = new StringBuffer();
 
