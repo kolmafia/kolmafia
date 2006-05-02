@@ -112,7 +112,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverMP( int needed )
+		public void recoverMP( boolean canUseOtherTechnique, int needed )
 		{
 			if ( this == MYSTERY )
 			{
@@ -123,9 +123,9 @@ public abstract class MPRestoreItemList extends StaticEntity
 			}
 
 			int mpShort = needed - KoLCharacter.getCurrentMP();
-			int numberToUse = (int) Math.ceil( mpShort / mpPerUse );
+			int numberToUse = (int) Math.ceil( (double) mpShort / (double) mpPerUse );
 
-			if ( StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "false" ) )
+			if ( canUseOtherTechnique )
 				numberToUse = Math.min( numberToUse, itemUsed.getCount( KoLCharacter.getInventory() ) );
 
 			if ( numberToUse < 1 )

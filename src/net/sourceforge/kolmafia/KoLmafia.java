@@ -1100,9 +1100,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	private final void recoverOnce( Object technique, String techniqueName, boolean canUseOtherTechnique, int needed )
 	{
-		if ( technique == null )
-			return;
-
 		boolean autoSatisfy = StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" );
 		
 		// If the technique is an item, and the item is not readily available,
@@ -1112,24 +1109,9 @@ public abstract class KoLmafia implements KoLConstants
 		if ( TradeableItemDatabase.contains( techniqueName ) )
 		{
 			AdventureResult item = new AdventureResult( techniqueName, 0 );
-			if ( !KoLCharacter.getInventory().contains( item ) )
-			{
-				// Allow for the possibility that the player can
-				// auto-purchase the item from the mall.
+			if ( !KoLCharacter.getInventory().contains( item ) && canUseOtherTechnique )
+				return;
 
-				if ( canUseOtherTechnique )
-				{
-					DEFAULT_SHELL.updateDisplay( "Insufficient " + techniqueName + " for auto-restore." );
-					return;
-				}
-
-				if ( !NPCStoreDatabase.contains( item.getName() ) && !KoLCharacter.canInteract() )
-				{
-					DEFAULT_SHELL.updateDisplay( "Insufficient " + techniqueName + " for auto-restore." );
-					return;
-				}				
-			}
-			
 			if ( !canUseOtherTechnique )
 				StaticEntity.setProperty( "autoSatisfyChecks", "true" );
 		}
@@ -1138,7 +1120,7 @@ public abstract class KoLmafia implements KoLConstants
 			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( canUseOtherTechnique );
 
 		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
-			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed );
+			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( canUseOtherTechnique, needed );
 
 		StaticEntity.setProperty( "autoSatisfyChecks", String.valueOf( autoSatisfy ) );
 	}
