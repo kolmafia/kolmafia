@@ -470,7 +470,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( !(this instanceof LocalRelayRequest) && !isDelayExempt() && !(this instanceof FightRequest) && client.getCurrentRequest() instanceof FightRequest && client.getCurrentRequest().getAdventuresUsed() == 0 )
+		if ( !isDelayExempt() && !(this instanceof FightRequest) && client.getCurrentRequest() instanceof FightRequest && client.getCurrentRequest().getAdventuresUsed() == 0 )
 		{
 			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Unexpected request attempted mid-fight." );
 			return;
@@ -580,7 +580,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	private boolean isDelayExempt()
-	{	return this instanceof LoginRequest || this instanceof ChatRequest || this instanceof CharpaneRequest;
+	{	return this instanceof LoginRequest || this instanceof ChatRequest || this instanceof CharpaneRequest || this instanceof LocalRelayRequest;
 	}
 
 	/**
