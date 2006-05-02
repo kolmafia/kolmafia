@@ -1328,9 +1328,12 @@ public abstract class SorceressLair extends StaticEntity
 			if ( check.getCount( KoLCharacter.getInventory() ) >= 6 )
 				option = check;
 
-			check = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
-			if ( check.getCount( KoLCharacter.getInventory() ) >= 8 )
-				option = check;
+			if ( KoLCharacter.getMaximumHP() >= 126 )
+			{
+				check = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
+				if ( check.getCount( KoLCharacter.getInventory() ) >= 8 )
+					option = check;
+			}
 
 			// Even if you have enough red pixel potions, you
 			// may want to use cures if you're out of Ronin
@@ -1345,8 +1348,11 @@ public abstract class SorceressLair extends StaticEntity
 				// Always default to restorative balm if it will cost
 				// less to acquire it.
 
-				if ( option.getCount( KoLCharacter.getInventory() ) < 3 )
-					option = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
+				if ( KoLCharacter.getMaximumHP() >= 126 )
+				{
+					if ( option.getCount( KoLCharacter.getInventory() ) < 3 )
+						option = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
+				}
 			}
 		}
 
@@ -1357,12 +1363,53 @@ public abstract class SorceressLair extends StaticEntity
 		// Ensure that the player is at full HP since the shadow will
 		// probably beat him up if he has less.
 
-		client.recoverHP( KoLCharacter.getMaximumHP() );
+		if ( option.getName().startsWith( "red" ) && KoLCharacter.getMaximumHP() < 126 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
+			return;
+		}
 
-		// Need to be at full health.  Abort if this is
-		// not the case.
+		int maximumDamage = 22 + KoLCharacter.getMaximumHP() / 5 + 3;
+		int minimumHealing = option.getName().startsWith( "red" ) ? 25 :
+			option.getName().endsWith( "alm" ) ? 26 : 36;
+		
+		// Suppose you have 126 HP, and assume maximum damage taken.
+		// We have the following results, assuming worst-case mana
+		// restoration.  Calculate the leeway.  You need at least
+		// one health on the last hit.  Looking at an example with
+		// 126 initial health to see a pattern:
 
-		if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
+		// Round 1: You lose 22 + 25 + 3 = 50 damage (76 health)
+		//  - You gain 25, leaving you with 101 health
+		// Round 2: You lose 22 + 25 + 3 = 50 damage (51 health)
+		//  - You gain 25, leaving you with 76 health
+		// Round 3: You lose 22 + 25 + 3 = 50 damage (26 health)
+		//  - You gain 25, leaving you with 51 health
+		// Round 4: You lose 22 + 25 + 3 = 50 damage (1 health)
+
+		// It turns out that in the worst case, you'll be hit by the
+		// shadow for maximum damage four times and you will recover
+		// your health three times.  This is not quite true in the
+		// case of ointments, though:
+		
+		// Round 1: You lose 22 + 25 + 3 = 50 damage (76 health)
+		//  - You gain 36, leaving you with 112 health
+		// Round 2: You lose 22 + 25 + 3 = 50 damage (62 health)
+		//  - You gain 36, leaving you with 98 health
+		// Round 3: You lose 22 + 25 + 3 = 50 damage (48 health)
+		
+		// In this case, you are hit a maximum of three times,
+		// and you will recover your health twice.
+
+		int neededHealth = minimumHealing >= 32 ?
+			maximumDamage * 3 - minimumHealing * 2 : maximumDamage * 4 - minimumHealing * 3;		
+
+		// Health restore tries to restore above the given
+		// amount; therefore, restore just below it and the
+		// restore will attempt to round up.
+		
+		client.recoverHP( neededHealth - 1 );
+		if ( KoLCharacter.getCurrentHP() < neededHealth )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You must be fully healed to fight your shadow." );
 			return;
