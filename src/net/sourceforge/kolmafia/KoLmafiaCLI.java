@@ -2454,12 +2454,18 @@ public class KoLmafiaCLI extends KoLmafia
 			return -1;
 
 		List source = null;
-
+		String [] nameArray = new String[ nameList.size() ];
+		nameList.toArray( nameArray );
+		
 		switch ( matchType )
 		{
 			case NOWHERE:
+				for ( int i = 0; i < nameArray.length; ++i )
+					if ( NPCStoreDatabase.contains( nameArray[i] ) )
+						return TradeableItemDatabase.getItemID( nameArray[i] );
+
 			case CREATION:
-				return TradeableItemDatabase.getItemID( (String) nameList.get(0) );
+				return TradeableItemDatabase.getItemID( nameArray[0] );
 
 			case INVENTORY:
 				source = KoLCharacter.getInventory();
@@ -2471,9 +2477,9 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		AdventureResult currentItem = null;
-		for ( int i = 0; i < nameList.size(); ++i )
+		for ( int i = 0; i < nameArray.length; ++i )
 		{
-			currentItem = new AdventureResult( (String) nameList.get(i), 0, false );
+			currentItem = new AdventureResult( nameArray[i], 0, false );
 			if ( source.contains( currentItem ) )
 				return currentItem.getItemID();
 		}
@@ -2499,19 +2505,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		// Next, check to see if any of the items matching appear
 		// in an NPC store.  If so, automatically default to it.
-
-		String [] matchingNamesArray = new String[ matchingNames.size() ];
-		matchingNames.toArray( matchingNamesArray );
-
-		for ( int i = 0; i < matchingNamesArray.length; ++i )
-		{
-			if ( NPCStoreDatabase.contains( matchingNamesArray[i] ) )
-			{
-				matchingNames.clear();
-				matchingNames.add( matchingNamesArray[i] );
-				break;
-			}
-		}
 
 		if ( matchingNames.size() != 0 )
 		{
