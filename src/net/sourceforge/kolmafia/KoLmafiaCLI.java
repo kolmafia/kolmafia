@@ -510,7 +510,17 @@ public class KoLmafiaCLI extends KoLmafia
 					(new LogoutRequest( StaticEntity.getClient() )).run();
 				}
 
-				StaticEntity.getClient().deinitialize();
+				// Remove all of the frames which may have been loaded;
+				// this ensures a forced reload of the frame which will
+				// keep the parameters fresh.
+				
+				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+				existingFrames.toArray( frames );
+				
+				for ( int i = 0; i < frames.length; ++i )
+					if ( !(frames[i] instanceof LoginFrame) )
+						frames[i].dispose();
+				
 				(new LoginRequest( StaticEntity.getClient(), parameters, password )).run();
 			}
 			else

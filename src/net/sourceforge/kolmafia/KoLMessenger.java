@@ -54,6 +54,8 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public abstract class KoLMessenger extends StaticEntity
 {
+	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm:ss a" );
+
 	private static TreeMap colors = new TreeMap();
 	private static String CHATLOG_BASENAME = "";
 	private static final Color DEFAULT_HIGHLIGHT = new Color( 128, 0, 128 );
@@ -817,6 +819,12 @@ public abstract class KoLMessenger extends StaticEntity
 			// show the display HTML.
 	
 			buffer.append( displayHTML + "<br>" );
+			if ( displayHTML.startsWith( "<font color=green>" ) )
+			{
+				changeToUserTimeZone();
+				KoLCharacter.getEvents().add( EVENT_TIMESTAMP.format( new Date() ) + " - " + displayHTML.replaceAll( "<.*?>", "" ) );
+				changeToKoLTimeZone();
+			}
 	
 			if ( useTabbedChat )
 				tabbedFrame.highlightTab( bufferKey );
