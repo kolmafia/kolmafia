@@ -49,8 +49,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
+import java.util.Collections;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * Container class for <code>BuffBotManager</code>
@@ -71,7 +71,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static String thanksMessage;
 
 	private static Map buffCostMap = new TreeMap();
-	private static SortedListModel buffCostTable = new SortedListModel();
+	private static LockableListModel buffCostTable = new LockableListModel();
 	private static String [] whiteListArray = new String[0];
 
 	public static final String MEAT_REGEX = "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat";
@@ -117,7 +117,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 * this buffbot.
 	 */
 
-	public static SortedListModel getBuffCostTable()
+	public static LockableListModel getBuffCostTable()
 	{	return buffCostTable;
 	}
 
@@ -155,6 +155,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		castList.add( newCast );
 		buffCostTable.add( newCast );
+		Collections.sort( buffCostTable );
 
 		saveBuffs();
 	}
@@ -645,8 +646,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			stringForm.append( " time" );
 
 			if ( castCount != 1 )
-				stringForm.append( "s (" );
+				stringForm.append( "s" );
 			
+			stringForm.append( " (" );
 			stringForm.append( turnCount );
 			stringForm.append( " turns) for " );
 			stringForm.append( price );
