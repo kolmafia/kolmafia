@@ -41,6 +41,7 @@ import java.awt.CardLayout;
 import java.awt.BorderLayout;
 
 // containers
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -74,6 +75,8 @@ public class GearChangeFrame extends KoLFrame
 	private FamiliarData familiar = null;
 	private String [] pieces = new String[9];
 
+	private JButton outfitButton;
+	
 	private ChangeComboBox [] equipment;
 	private LockableListModel [] equipmentLists;
 	private ChangeComboBox outfitSelect, familiarSelect;
@@ -144,26 +147,8 @@ public class GearChangeFrame extends KoLFrame
 			elements[13] = new VerifiableElement( "Outfit: ", outfitSelect );
 
 			setContent( elements );
+			outfitButton = cancelledButton;
 			setEnabled( true );
-		}
-		
-		private void ensureValidSelections()
-		{
-			equipment[3].setEnabled( KoLCharacter.hasSkill( "Torso Awaregness" ) );
-
-			String name = KoLCharacter.getEquipmentName( (String) equipment[2].getSelectedItem() );
-			int handsNeeded = ( name == null ) ? 0 : EquipmentDatabase.getHands( name );
-		
-			if ( handsNeeded > 1 )
-			{
-				pieces[2] = null;
-				equipment[2].setSelectedItem( null );
-				equipment[2].setEnabled( false );
-			}
-			else if ( outfit == null )
-			{
-				equipment[2].setEnabled( true );
-			}
 		}
 	
 		public void setEnabled( boolean isEnabled )
@@ -211,6 +196,8 @@ public class GearChangeFrame extends KoLFrame
 			String currentValue = JOptionPane.showInputDialog( "Name your outfit!", "KoLmafia Checkpoint" );
 			if ( currentValue == null )
 				return;
+			
+			(new RequestThread( new EquipmentRequest( StaticEntity.getClient(), currentValue ) )).start();
 		}
 	}
 	
@@ -257,7 +244,31 @@ public class GearChangeFrame extends KoLFrame
 
 				if ( this != equipment[8] )
 					outfitSelect.setEnabled( false );
+				
+				ensureValidSelections();
 			}
 		}
+	}
+
+	private void ensureValidSelections()
+	{
+		equipment[3].setEnabled( KoLCharacter.hasSkill( "Torso Awaregness" ) );
+
+		String name = KoLCharacter.getEquipmentName( (String) equipment[2].getSelectedItem() );
+		int handsNeeded = ( name == null ) ? 0 : EquipmentDatabase.getHands( name );
+	
+		if ( handsNeeded > 1 )
+		{
+			pieces[2] = null;
+			equipment[2].setSelectedItem( null );
+			equipment[2].setEnabled( false );
+		}
+		else if ( outfit == null )
+		{
+			equipment[2].setEnabled( true );
+		}
+		
+		if ( outfitButton != null )
+			outfitButton.setEnabled( equipment[0] == null && outfitSelect.isEnabled() );
 	}
 }
