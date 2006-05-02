@@ -107,10 +107,6 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	public boolean useSidePane()
-	{	return false;
-	}
-
 	private class StoreAddPanel extends ItemManagePanel implements Runnable
 	{
 		public StoreAddPanel()
