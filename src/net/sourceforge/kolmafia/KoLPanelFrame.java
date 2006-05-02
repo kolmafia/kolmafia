@@ -86,8 +86,4 @@ public class KoLPanelFrame extends KoLFrame
 
 		framePanel.add( panel, BorderLayout.CENTER );
 	}
-
-	public boolean useSidePane()
-	{	return true;
-	}	
 }
