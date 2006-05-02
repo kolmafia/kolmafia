@@ -2046,9 +2046,9 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( name.equalsIgnoreCase( "creatable_amount" ) )
 			{
-				(new ClanStashRequest( client )).run();
-				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
-				return new ScriptValue( TYPE_INT, item.getCount( ClanManager.getStash() ) );
+				ConcoctionsDatabase.refreshConcoctions();
+				ItemCreationRequest item = ItemCreationRequest.getInstance( client, variables[0].intValue(), 0 );
+				return new ScriptValue( TYPE_INT, item.getCount( ConcoctionsDatabase.getConcoctions() ) );
 			}
 
 			if ( name.equalsIgnoreCase( "put_closet" ) )
