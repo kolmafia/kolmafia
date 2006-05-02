@@ -301,6 +301,7 @@ public class AreaCombatData implements KoLConstants
 	private static final int JILL = 24;
 	private static final int SHAMAN = 39;
 	private static final int MONKEY = 42;
+	private static final int HOBO = 52;
 
 	public static double familiarXPAdjustment( FamiliarData familiar )
 	{
@@ -316,6 +317,7 @@ public class AreaCombatData implements KoLConstants
 		case CHESHIRE:
 		case SHAMAN:
 		case MONKEY:
+		case HOBO:
 			// Full volleyball equivalent familiar
 			modifier += (double)familiar.getModifiedWeight() / 4.0;
 			break;
