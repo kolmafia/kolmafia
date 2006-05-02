@@ -1065,7 +1065,7 @@ public abstract class KoLmafia implements KoLConstants
 			// desired value.  There will be an error message that
 			// is left over from previous attempts.
 
-			updateDisplay( ERROR_STATE, "" );
+			this.currentState = ERROR_STATE;
 			return false;
 		}
 		catch ( Exception e )
@@ -1988,7 +1988,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void addSaveState( String username, String password )
 	{
-		if ( GLOBAL_SETTINGS.getProperty( "rememberPasswords" ).equals( "false" ) )
+		if ( this instanceof KoLmafiaGUI && GLOBAL_SETTINGS.getProperty( "rememberPasswords" ).equals( "false" ) )
 			return;
 
 		try
