@@ -127,7 +127,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverHP( boolean canUseOtherTechnique )
+		public void recoverHP( boolean canUseOtherTechnique, int needed )
 		{
 			// Remedies are only used if the player is beaten up.
 			// Otherwise, it is not used.
@@ -143,7 +143,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			// For all other instances, you will need to calculate
 			// the number of times this technique must be used.
 			
-			int hpShort = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
+			int hpShort = needed - KoLCharacter.getCurrentHP();
 			int numberToUse = (int) Math.ceil( hpShort / hpPerUse );
 
 			if ( TradeableItemDatabase.contains( itemName ) && canUseOtherTechnique )

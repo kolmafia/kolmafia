@@ -74,7 +74,7 @@ public class RestoreOptionsFrame extends KoLFrame
 
 			hpAutoRecoverSelect = new JComboBox();
 			hpAutoRecoverSelect.addItem( "Do not autorecover HP" );
-			for ( int i = 0; i <= 9; ++i )
+			for ( int i = 0; i <= 10; ++i )
 				hpAutoRecoverSelect.addItem( "Autorecover HP at " + (i * 10) + "%" );
 
 			hpRecoveryScriptField = new JTextField();
@@ -142,7 +142,7 @@ public class RestoreOptionsFrame extends KoLFrame
 
 			mpAutoRecoverSelect = new JComboBox();
 			mpAutoRecoverSelect.addItem( "Do not autorecover MP" );
-			for ( int i = 0; i <= 9; ++i )
+			for ( int i = 0; i <= 10; ++i )
 				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
 
 			mpRecoveryScriptField = new JTextField();
