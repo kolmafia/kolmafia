@@ -144,6 +144,8 @@ public class ItemManageFrame extends KoLFrame
 
 	private class ConsumePanel extends MultiButtonPanel
 	{
+		private JCheckBox [] filters;
+
 		public ConsumePanel()
 		{
 			super( "Usable Items", KoLCharacter.getUsables(), false );
@@ -152,7 +154,7 @@ public class ItemManageFrame extends KoLFrame
 				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 
-			JCheckBox [] filters = new JCheckBox[3];
+			filters = new JCheckBox[3];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
 			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
 			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
@@ -162,6 +164,16 @@ public class ItemManageFrame extends KoLFrame
 
 			elementList.setCellRenderer(
 				AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
+		}
+
+		protected Object [] getDesiredItems( String message )
+		{
+			filterSelection( filters[0].isSelected(),
+					 filters[1].isSelected(),
+					 filters[2].isSelected(),
+					 true,
+					 true );
+			return super.getDesiredItems( message );
 		}
 
 		private class ConsumeListener implements ActionListener
@@ -174,7 +186,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{
-				Object [] items = elementList.getSelectedValues();
+				Object [] items = getDesiredItems( "Consume" );
 				if ( items.length == 0 )
 					return;
 
@@ -282,47 +294,11 @@ public class ItemManageFrame extends KoLFrame
 
 		protected Object [] getDesiredItems( String message )
 		{
-			// Ensure that the selection interval does not include
-			// anything that was filtered out by the checkboxes.
-
-			Object [] elements = elementList.getSelectedValues();
-			for ( int i = 0; i < elements.length; ++i )
-			{
-				int actualIndex = ((LockableListModel)elementList.getModel()).indexOf( elements[i] );
-				switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)elements[i]).getName() ) )
-				{
-					case ConsumeItemRequest.CONSUME_EAT:
-
-						if ( !filters[0].isSelected() )
-							elementList.removeSelectionInterval( actualIndex, actualIndex );
-
-						break;
-
-					case ConsumeItemRequest.CONSUME_DRINK:
-
-						if ( !filters[1].isSelected() )
-							elementList.removeSelectionInterval( actualIndex, actualIndex );
-
-						break;
-
-					default:
-
-						if ( !filters[2].isSelected() )
-							elementList.removeSelectionInterval( actualIndex, actualIndex );
-
-						break;
-				}
-
-
-				int autoSellValue = TradeableItemDatabase.getPriceByID( ((AdventureResult)elements[i]).getItemID() );
-
-				if ( !filters[3].isSelected() && ( autoSellValue == 0 || autoSellValue == -1 ) )
-					elementList.removeSelectionInterval( actualIndex, actualIndex );
-
-				if ( !filters[4].isSelected() && ( autoSellValue == 0 || autoSellValue < -1 ) )
-					elementList.removeSelectionInterval( actualIndex, actualIndex );
-			}
-
+			filterSelection( filters[0].isSelected(),
+					 filters[1].isSelected(),
+					 filters[2].isSelected(),
+					 filters[3].isSelected(),
+					 filters[4].isSelected() );
 			return super.getDesiredItems( message );
 		}
 

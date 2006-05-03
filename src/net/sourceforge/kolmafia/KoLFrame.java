@@ -605,6 +605,47 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				movers[0].isSelected() ? TAKE_ALL : movers[1].isSelected() ? TAKE_ALL_BUT_ONE :
 				movers[2].isSelected() ? TAKE_MULTIPLE : TAKE_ONE );
 		}
+
+		protected void filterSelection( boolean eat, boolean drink, boolean other, boolean sell, boolean trade )
+		{
+			Object [] elements = elementList.getSelectedValues();
+			for ( int i = 0; i < elements.length; ++i )
+			{
+				int actualIndex = ((LockableListModel)elementList.getModel()).indexOf( elements[i] );
+				switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)elements[i]).getName() ) )
+				{
+				case ConsumeItemRequest.CONSUME_EAT:
+
+					if ( !eat )
+						elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+					break;
+
+				case ConsumeItemRequest.CONSUME_DRINK:
+
+					if ( !drink )
+						elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+					break;
+
+				default:
+
+					if ( !other )
+						elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+					break;
+				}
+
+
+				int autoSellValue = TradeableItemDatabase.getPriceByID( ((AdventureResult)elements[i]).getItemID() );
+
+				if ( !sell && ( autoSellValue == 0 || autoSellValue == -1 ) )
+					elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+				if ( !trade && ( autoSellValue == 0 || autoSellValue < -1 ) )
+					elementList.removeSelectionInterval( actualIndex, actualIndex );
+			}
+		}
 	}
 
 	protected static final int TAKE_ALL = 1;

@@ -147,34 +147,11 @@ public class HagnkStorageFrame extends KoLFrame
 
 			if ( isEquipment )
 			{
-				Object [] elements = elementList.getSelectedValues();
-				for ( int i = 0; i < elements.length; ++i )
-				{
-					int actualIndex = ((LockableListModel)elementList.getModel()).indexOf( elements[i] );
-					switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)elements[i]).getName() ) )
-					{
-						case ConsumeItemRequest.CONSUME_EAT:
-
-							if ( !consumeFilters[0].isSelected() )
-								elementList.removeSelectionInterval( actualIndex, actualIndex );
-
-							break;
-
-						case ConsumeItemRequest.CONSUME_DRINK:
-
-							if ( !consumeFilters[1].isSelected() )
-								elementList.removeSelectionInterval( actualIndex, actualIndex );
-
-							break;
-
-						default:
-
-							if ( !consumeFilters[2].isSelected() )
-								elementList.removeSelectionInterval( actualIndex, actualIndex );
-
-							break;
-					}
-				}
+				filterSelection( consumeFilters[0].isSelected(),
+						 consumeFilters[1].isSelected(),
+						 consumeFilters[2].isSelected(),
+						 true,
+						 true );
 			}
 
 			return super.getDesiredItems( message );
