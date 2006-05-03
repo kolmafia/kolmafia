@@ -111,7 +111,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreAddPanel()
 		{
-			super( "On-Hand Inventory", "add selected", "end of run sale", KoLCharacter.getInventory() );
+			super( "On-Hand Inventory", "add selected", "end of run sale", KoLCharacter.getSellables() );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 
