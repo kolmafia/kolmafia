@@ -62,14 +62,14 @@ public class RestoreOptionsFrame extends KoLFrame
 	{
 		private boolean refreshSoon = false;
 		private JTextField betweenBattleScriptField;
-		private JComboBox hpAutoRecoverSelect;
+		private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect;
 		private JTextField hpRecoveryScriptField;
 
 		private JCheckBox [] hpRestoreCheckbox;
 
 		public HealthOptionsPanel()
 		{
-			super( "save", "reload", new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+			super( "save", "reload", new Dimension( 160, 20 ), new Dimension( 300, 20 ) );
 			betweenBattleScriptField = new JTextField();
 
 			hpAutoRecoverSelect = new JComboBox();
@@ -77,17 +77,23 @@ public class RestoreOptionsFrame extends KoLFrame
 			for ( int i = 0; i <= 10; ++i )
 				hpAutoRecoverSelect.addItem( "Autorecover HP at " + (i * 10) + "%" );
 
+			hpAutoRecoverTargetSelect = new JComboBox();
+			hpAutoRecoverTargetSelect.addItem( "Do not autorecover HP" );
+			for ( int i = 0; i <= 10; ++i )
+				hpAutoRecoverTargetSelect.addItem( "Autorecover HP to " + (i * 10) + "%" );
+
 			hpRecoveryScriptField = new JTextField();
 
 			// Add the elements to the panel
 
 			int currentElementCount = 0;
-			VerifiableElement [] elements = new VerifiableElement[5];
+			VerifiableElement [] elements = new VerifiableElement[6];
 
 			elements[ currentElementCount++ ] = new VerifiableElement( "Between Battles: ", new ScriptSelectPanel( betweenBattleScriptField ) );
 			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
 
-			elements[ currentElementCount++ ] = new VerifiableElement( "HP Auto-Recovery: ", hpAutoRecoverSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Trigger: ", hpAutoRecoverSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Target: ", hpAutoRecoverTargetSelect );
 			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Script: ", new ScriptSelectPanel( hpRecoveryScriptField ) );
 			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) );
 
@@ -109,8 +115,12 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
+			if ( hpAutoRecoverSelect.getSelectedIndex() != 0 && hpAutoRecoverSelect.getSelectedIndex() >= hpAutoRecoverTargetSelect.getSelectedIndex() )
+				JOptionPane.showMessageDialog( null, "Your restore target must be greater than your restore trigger." );
+
 			setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
 			setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+			setProperty( "hpAutoRecoverTarget", String.valueOf( ((double)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
 			setProperty( "hpRestores", getSettingString( hpRestoreCheckbox ) );
 
@@ -121,6 +131,7 @@ public class RestoreOptionsFrame extends KoLFrame
 		{
 			betweenBattleScriptField.setText( getProperty( "betweenBattleScript" ) );
 			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
+			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecoverTarget" ) ) * 10) + 1 );
 			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
 		}
 
@@ -131,28 +142,34 @@ public class RestoreOptionsFrame extends KoLFrame
 	
 	private class ManaOptionsPanel extends KoLPanel
 	{
-		private JComboBox mpAutoRecoverSelect;
+		private JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect;
 		private JTextField mpRecoveryScriptField;
 
 		private JCheckBox [] mpRestoreCheckbox;
 
 		public ManaOptionsPanel()
 		{
-			super( "save", "reload", new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+			super( "save", "reload", new Dimension( 160, 20 ), new Dimension( 300, 20 ) );
 
 			mpAutoRecoverSelect = new JComboBox();
 			mpAutoRecoverSelect.addItem( "Do not autorecover MP" );
 			for ( int i = 0; i <= 10; ++i )
 				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
 
+			mpAutoRecoverTargetSelect = new JComboBox();
+			mpAutoRecoverTargetSelect.addItem( "Do not autorecover MP" );
+			for ( int i = 0; i <= 10; ++i )
+				mpAutoRecoverTargetSelect.addItem( "Autorecover MP to " + (i * 10) + "%" );
+			
 			mpRecoveryScriptField = new JTextField();
 
 			// Add the elements to the panel
 
 			int currentElementCount = 0;
-			VerifiableElement [] elements = new VerifiableElement[3];
+			VerifiableElement [] elements = new VerifiableElement[4];
 
-			elements[ currentElementCount++ ] = new VerifiableElement( "MP Auto-Recovery: ", mpAutoRecoverSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "MP Recovery Trigger: ", mpAutoRecoverSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "MP Recovery Target: ", mpAutoRecoverTargetSelect );
 			elements[ currentElementCount++ ] = new VerifiableElement( "MP Recovery Script: ", new ScriptSelectPanel( mpRecoveryScriptField ) );
 			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
 
@@ -166,7 +183,11 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
+			if ( mpAutoRecoverSelect.getSelectedIndex() != 0 && mpAutoRecoverSelect.getSelectedIndex() >= mpAutoRecoverTargetSelect.getSelectedIndex() )
+				JOptionPane.showMessageDialog( null, "Your restore target must be greater than your restore trigger." );
+			
 			setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+			setProperty( "mpAutoRecoverTarget", String.valueOf( ((double)(mpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
 			setProperty( "mpRestores", getSettingString( mpRestoreCheckbox ) );
 
@@ -176,6 +197,7 @@ public class RestoreOptionsFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
+			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecoverTarget" ) ) * 10) + 1 );
 			mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
 		}
 

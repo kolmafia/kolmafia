@@ -969,6 +969,10 @@ public abstract class KoLmafia implements KoLConstants
 			maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[0] );
 
 			int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
+
+			// First, check against the restore trigger to see if
+			// any restoration needs to take place.
+			
 			double setting = Double.parseDouble( settings.getProperty( settingName ) );
 			
 			if ( !BuffBotHome.isBuffBotActive() )
@@ -992,6 +996,35 @@ public abstract class KoLmafia implements KoLConstants
 			else
 				needed = needed >= maximum ? maximum - 1 : needed + 1;
 			
+			if ( current > needed )
+				return true;
+
+			// Next, check against the restore target to see how
+			// far you need to go.
+			
+			setting = Double.parseDouble( settings.getProperty( settingName + "Target" ) );
+			
+			if ( !BuffBotHome.isBuffBotActive() )
+			{
+				needed = setting < 0 ? -1 : (int) Math.max( setting * (double) maximum, (double) needed );
+				if ( needed < 0 )
+					return true;
+			}
+
+			last = -1;
+			current = ((Number)currentMethod.invoke( null, empty )).intValue();
+			
+			// If a buffbot is currently running, only restore MP to
+			// max when what you have is less than what you need.
+			
+			if ( BuffBotHome.isBuffBotActive() )
+			{
+				if ( current < needed )
+					needed = maximum - 1;
+			}
+			else
+				needed = needed >= maximum ? maximum - 1 : needed + 1;
+
 			if ( current > needed )
 				return true;
 			
