@@ -97,6 +97,8 @@ public class HagnkStorageFrame extends KoLFrame
 		public HagnkStoragePanel( boolean isEquipment )
 		{
 			super( "Inside Storage", KoLCharacter.getStorage(), !isEquipment );
+			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+
 			setButtons( new String [] { "put in bag", "put in closet", "take it all" },
 				new ActionListener [] { new PullFromStorageListener( false ), new PullFromStorageListener( true ), new EmptyStorageListener() } );
 
