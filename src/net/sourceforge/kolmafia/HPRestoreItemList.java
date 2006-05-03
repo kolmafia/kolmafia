@@ -144,7 +144,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			// the number of times this technique must be used.
 			
 			int hpShort = needed - KoLCharacter.getCurrentHP();
-			int numberToUse = (int) Math.ceil( hpShort / hpPerUse );
+			int numberToUse = (int) Math.ceil( (double) hpShort / (double) hpPerUse );
 
 			if ( TradeableItemDatabase.contains( itemName ) && canUseOtherTechnique )
 				numberToUse = Math.min( numberToUse, itemUsed.getCount( KoLCharacter.getInventory() ) );
