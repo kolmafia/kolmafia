@@ -330,6 +330,7 @@ public class BuffBotFrame extends KoLFrame
 			settingsPanel.add( settingsBottomPanel );
 
 			container.add( settingsPanel, BorderLayout.CENTER );
+			actionCancelled();
 		}
 
 		protected void actionConfirmed()

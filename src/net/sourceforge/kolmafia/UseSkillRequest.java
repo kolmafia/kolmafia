@@ -390,7 +390,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			encounteredError = true;
 			lastUpdate = target + " is busy fighting.";
 		}
-		else if ( responseText.indexOf( "cannot currently" ) != -1 )
+		else if ( responseText.indexOf( "receive buffs" ) != -1 )
 		{
 			encounteredError = true;
 			lastUpdate = target + " cannot receive buffs.";
