@@ -1308,7 +1308,7 @@
 1308	unwound cymbal-playing monkey	5	-1
 1309	attention spanner	7	75
 1310	funky brass fez	7	75
-1311	comfy blanket	0	0
+1311	comfy blanket	0	-1
 1312	Baron Von Ratsworth's monocle	8	0
 1313	Baron Von Ratsworth's money clip	8	0
 1314	Baron Von Ratsworth's tophat	9	0
@@ -1531,5 +1531,5 @@
 1531	grass skirt	10	-1
 1532	grass hat	9	-1
 1533	grass blade	12	-1
-1536	homeless hobo spirit	5	0
+1536	homeless hobo spirit	5	-1
 1537	weegee sqouija	7	75

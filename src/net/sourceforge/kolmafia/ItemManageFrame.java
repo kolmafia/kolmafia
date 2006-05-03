@@ -153,15 +153,15 @@ public class ItemManageFrame extends KoLFrame
 				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 
 			JCheckBox [] filters = new JCheckBox[3];
-			filters[0] = new FilterCheckBox( filters, elementList, KoLCharacter.getUsables(), "Show food", KoLCharacter.canEat() );
-			filters[1] = new FilterCheckBox( filters, elementList, KoLCharacter.getUsables(), "Show drink", KoLCharacter.canDrink() );
-			filters[2] = new FilterCheckBox( filters, elementList, KoLCharacter.getUsables(), "Show others", true );
+			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
+			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
 
 			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
 
-			elementList.setModel( AdventureResult.getFilteredItemList(
-				KoLCharacter.getUsables(), filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+			elementList.setCellRenderer(
+				AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
 		private class ConsumeListener implements ActionListener
@@ -262,23 +262,68 @@ public class ItemManageFrame extends KoLFrame
 	{
 		private JCheckBox [] filters;
 
-		public ClosetManagePanel( String title, SortedListModel elementModel )
+		public ClosetManagePanel( String title, LockableListModel elementModel )
 		{
 			super( title, elementModel, true );
-			this.elementModel = elementModel;
 
 			filters = new JCheckBox[5];
-			filters[0] = new FilterCheckBox( filters, elementList, elementModel, true, "Show food", true );
-			filters[1] = new FilterCheckBox( filters, elementList, elementModel, true, "Show drink", true );
-			filters[2] = new FilterCheckBox( filters, elementList, elementModel, true, "Show others", true );
-			filters[3] = new FilterCheckBox( filters, elementList, elementModel, true, "Show no-sell", true );
-			filters[4] = new FilterCheckBox( filters, elementList, elementModel, true, "Show no-trade", true );
+			filters[0] = new FilterCheckBox( filters, elementList, true, "Show food", true );
+			filters[1] = new FilterCheckBox( filters, elementList, true, "Show drink", true );
+			filters[2] = new FilterCheckBox( filters, elementList, true, "Show others", true );
+			filters[3] = new FilterCheckBox( filters, elementList, true, "Show no-sell", true );
+			filters[4] = new FilterCheckBox( filters, elementList, true, "Show no-trade", true );
 
 			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
 
-			elementList.setModel( AdventureResult.getFilteredItemList(
-				elementModel, filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(), filters[4].isSelected() ) );
+			elementList.setCellRenderer(
+				AdventureResult.getAutoSellCellRenderer( true, true, true, true, true ) );
+		}
+
+		protected Object [] getDesiredItems( String message )
+		{
+			// Ensure that the selection interval does not include
+			// anything that was filtered out by the checkboxes.
+
+			Object [] elements = elementList.getSelectedValues();
+			for ( int i = 0; i < elements.length; ++i )
+			{
+				int actualIndex = ((LockableListModel)elementList.getModel()).indexOf( elements[i] );
+				switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)elements[i]).getName() ) )
+				{
+					case ConsumeItemRequest.CONSUME_EAT:
+
+						if ( !filters[0].isSelected() )
+							elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+						break;
+
+					case ConsumeItemRequest.CONSUME_DRINK:
+
+						if ( !filters[1].isSelected() )
+							elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+						break;
+
+					default:
+
+						if ( !filters[2].isSelected() )
+							elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+						break;
+				}
+
+
+				int autoSellValue = TradeableItemDatabase.getPriceByID( ((AdventureResult)elements[i]).getItemID() );
+
+				if ( !filters[3].isSelected() && ( autoSellValue == 0 || autoSellValue == -1 ) )
+					elementList.removeSelectionInterval( actualIndex, actualIndex );
+
+				if ( !filters[4].isSelected() && ( autoSellValue == 0 || autoSellValue < -1 ) )
+					elementList.removeSelectionInterval( actualIndex, actualIndex );
+			}
+
+			return super.getDesiredItems( message );
 		}
 
 		protected abstract class TransferListener implements ActionListener
@@ -448,6 +493,7 @@ public class ItemManageFrame extends KoLFrame
 		public InventPanel()
 		{
 			super( "Invent an Item", KoLCharacter.getInventory(), false );
+			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( true, true, true ) );
 
 			setButtons( new String [] { "combine", "cook", "mix", "smith", "pliers", "tinker" },
 				new ActionListener [] { new SearchListener( "combine.php" ), new SearchListener( "cook.php" ),
@@ -682,9 +728,9 @@ public class ItemManageFrame extends KoLFrame
 
 			JCheckBox [] filters = new JCheckBox[6];
 
-			filters[0] = new FilterCheckBox( filters, elementList, ConcoctionsDatabase.getConcoctions(), "Show food", KoLCharacter.canEat() );
-			filters[1] = new FilterCheckBox( filters, elementList, ConcoctionsDatabase.getConcoctions(), "Show drink", KoLCharacter.canDrink() );
-			filters[2] = new FilterCheckBox( filters, elementList, ConcoctionsDatabase.getConcoctions(), "Show others", true );
+			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
+			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", KoLCharacter.canDrink() );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
 
 			filters[3] = new CreateSettingCheckbox( "Allow closet", "showClosetDrivenCreations",
 				"Get ingredients from closet if needed" );
@@ -696,8 +742,8 @@ public class ItemManageFrame extends KoLFrame
 			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
 
-			elementList.setModel( AdventureResult.getFilteredCreationList(
-				filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+			elementList.setCellRenderer(
+				AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
 		private class CreateSettingCheckbox extends JCheckBox implements ActionListener

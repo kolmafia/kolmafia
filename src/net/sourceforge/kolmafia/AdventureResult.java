@@ -44,12 +44,10 @@ import java.text.DecimalFormat;
 import java.lang.ref.WeakReference;
 
 import java.awt.Color;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.JLabel;
 import java.awt.Component;
 import javax.swing.JList;
-
-import javax.swing.DefaultListCellRenderer;
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * A container class which encapsulates the results from an adventure and
@@ -549,62 +547,26 @@ public class AdventureResult implements Comparable, KoLConstants
 	}
 
 	public static DefaultListCellRenderer getAutoSellCellRenderer()
-	{	return new AutoSellCellRenderer();
+	{	return getAutoSellCellRenderer( true, true, true, true, false );
 	}
 
-	public static SortedListModel getFilteredItemList( SortedListModel sourceList, boolean food, boolean booze, boolean other )
-	{	return getFilteredItemList( sourceList, food, booze, other, true, true );
-	}
-	
-	public static SortedListModel getFilteredItemList( SortedListModel sourceList, boolean food, boolean booze, boolean other, boolean nosell, boolean notrade )
-	{
-		if ( sourceList.isEmpty() )
-			return sourceList;
-		
-		if ( sourceList.get(0) instanceof ItemCreationRequest )
-			return getFilteredCreationList( food, booze, other );
-		
-		AdventureResult [] results = new AdventureResult[ sourceList.size() ];
-		sourceList.toArray( results );
-		
-		SortedListModel filteredList = new SortedListModel();
-		for ( int i = 0; i < results.length; ++i )
-		{
-			int consumptionType = TradeableItemDatabase.getConsumptionType( results[i].getName() );
-			if ( consumptionType == ConsumeItemRequest.CONSUME_EAT )
-			{
-				if ( !food )
-					continue;
-			}
-			else if ( consumptionType == ConsumeItemRequest.CONSUME_DRINK )
-			{
-				if ( !booze )
-					continue;
-			}
-			else
-			{
-				if ( !other )
-					continue;
-			}
-
-			int autoSellValue = TradeableItemDatabase.getPriceByID( results[i].getItemID() );
-			if ( autoSellValue == -1 && !nosell )
-				continue;
-			if ( autoSellValue == 0 && (!nosell || !notrade) )
-				continue;
-			if ( autoSellValue < -1 && !notrade )
-				continue;
-			
-			filteredList.add( results[i] );
-		}
-		
-		return filteredList;
+	public static DefaultListCellRenderer getAutoSellCellRenderer( boolean food, boolean booze, boolean other, boolean nosell, boolean notrade )
+	{	return new AutoSellCellRenderer( food, booze, other, nosell, notrade );
 	}
 
 	private static class AutoSellCellRenderer extends DefaultListCellRenderer
 	{
-		public AutoSellCellRenderer()
-		{	setOpaque( true );
+		private boolean food, booze, other, nosell, notrade;
+
+		public AutoSellCellRenderer( boolean food, boolean booze, boolean other, boolean nosell, boolean notrade )
+		{
+			setOpaque( true );
+
+			this.food = food;
+			this.booze = booze;
+			this.other = other;
+			this.nosell = nosell;
+			this.notrade = notrade;
 		}
 
 		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
@@ -615,6 +577,25 @@ public class AdventureResult implements Comparable, KoLConstants
 				return defaultComponent;
 
 			AdventureResult ar = (AdventureResult) value;
+
+			switch ( TradeableItemDatabase.getConsumptionType( ar.getName() ) )
+			{
+				case ConsumeItemRequest.CONSUME_EAT:
+					if ( !food )
+						return BLANK_LABEL;
+					break;
+
+				case ConsumeItemRequest.CONSUME_DRINK:
+					if ( !booze )
+						return BLANK_LABEL;
+					break;
+
+				default:
+					if ( !other )
+						return BLANK_LABEL;
+					break;
+			}
+
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.getItemID() );
 
 			StringBuffer stringForm = new StringBuffer();
@@ -622,11 +603,26 @@ public class AdventureResult implements Comparable, KoLConstants
 			stringForm.append( " (" );
 
 			if ( autoSellValue == -1 )
+			{
+				if ( !nosell )
+					return BLANK_LABEL;
+
 				stringForm.append( "no-autosell" );
+			}
 			else if ( autoSellValue == 0 )
+			{
+				if ( !nosell || !notrade )
+					return BLANK_LABEL;
+
 				stringForm.append( "no-trade" );
+			}
 			else if ( autoSellValue < -1 )
+			{
+				if ( !notrade )
+					return BLANK_LABEL;
+
 				stringForm.append( df.format( -autoSellValue ) + " meat, no-trade" );
+			}
 			else
 				stringForm.append( df.format( autoSellValue ) + " meat" );
 
@@ -644,39 +640,64 @@ public class AdventureResult implements Comparable, KoLConstants
 		}
 	}
 
-	public static SortedListModel getFilteredCreationList( boolean food, boolean booze, boolean other )
+	public static DefaultListCellRenderer getConsumableCellRenderer( boolean food, boolean booze, boolean other )
+	{	return new ConsumableCellRenderer( food, booze, other );
+	}
+
+	private static class ConsumableCellRenderer extends DefaultListCellRenderer
 	{
-		SortedListModel concoctions = ConcoctionsDatabase.getConcoctions();
-		if ( concoctions.isEmpty() )
-			return concoctions;
-		
-		ItemCreationRequest [] requests = new ItemCreationRequest[ concoctions.size() ];
-		concoctions.toArray( requests );
+		private boolean food, booze, other;
 
-		SortedListModel filteredList = new SortedListModel();
-		for ( int i = 0; i < requests.length; ++i )
+		public ConsumableCellRenderer( boolean food, boolean booze, boolean other )
 		{
-			int consumptionType = TradeableItemDatabase.getConsumptionType( requests[i].getName() );
-			if ( consumptionType == ConsumeItemRequest.CONSUME_EAT )
+			setOpaque( true );
+
+			this.food = food;
+			this.booze = booze;
+			this.other = other;
+		}
+
+		public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus )
+		{
+			JLabel defaultComponent = (JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+
+			return value == null ? defaultComponent : value instanceof AdventureResult ?
+				getRendererComponent( defaultComponent, (AdventureResult) value ) : value instanceof ItemCreationRequest ?
+				getRendererComponent( defaultComponent, (ItemCreationRequest) value ) : defaultComponent;
+		}
+
+		public Component getRendererComponent( JLabel defaultComponent, AdventureResult value )
+		{	return getRendererComponent( defaultComponent, value.getItemID(), value.getName(), value.getCount() );
+		}
+
+		public Component getRendererComponent( JLabel defaultComponent, ItemCreationRequest value )
+		{	return getRendererComponent( defaultComponent, value.getItemID(), value.getName(), value.getQuantityNeeded() );
+		}
+
+		public Component getRendererComponent( JLabel defaultComponent, int itemID, String name, int count )
+		{
+			switch ( TradeableItemDatabase.getConsumptionType( name ) )
 			{
-				if ( !food )
-					continue;
-			}
-			else if ( consumptionType == ConsumeItemRequest.CONSUME_DRINK )
-			{
-				if ( !booze )
-					continue;
-			}
-			else
-			{
-				if ( !other )
-					continue;
+				case ConsumeItemRequest.CONSUME_EAT:
+					if ( !food )
+						return BLANK_LABEL;
+					break;
+
+				case ConsumeItemRequest.CONSUME_DRINK:
+					if ( !booze )
+						return BLANK_LABEL;
+					break;
+
+				default:
+					if ( !other )
+						return BLANK_LABEL;
+					break;
 			}
 
-			filteredList.add( requests[i] );
+			String stringForm = name + " (" + df.format( count ) + ")";
+			defaultComponent.setText( stringForm );
+			return defaultComponent;
 		}
-		
-		return filteredList;
 	}
 
 	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean offhand, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
