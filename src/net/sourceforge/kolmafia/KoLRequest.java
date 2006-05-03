@@ -523,7 +523,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			else
 				processResults();
 
-			AdventureRequest.registerEncounter( this );
+			if ( !(this instanceof FightRequest) )
+				AdventureRequest.registerEncounter( this );
 		}
 		else
 		{
