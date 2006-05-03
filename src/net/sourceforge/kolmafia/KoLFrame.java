@@ -935,15 +935,17 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		protected boolean isTradeable;
 		protected JCheckBox [] filters;
+		protected SortedListModel elementModel;
 		protected ShowDescriptionList elementList;
 
-		public FilterCheckBox( JCheckBox [] filters, ShowDescriptionList elementList, String label, boolean isSelected )
-		{	this( filters, elementList, false, label, isSelected );
+		public FilterCheckBox( JCheckBox [] filters, ShowDescriptionList elementList, SortedListModel elementModel, String label, boolean isSelected )
+		{	this( filters, elementList, elementModel, false, label, isSelected );
 		}
 
-		public FilterCheckBox( JCheckBox [] filters, ShowDescriptionList elementList, boolean isTradeable, String label, boolean isSelected )
+		public FilterCheckBox( JCheckBox [] filters, ShowDescriptionList elementList, SortedListModel elementModel, boolean isTradeable, String label, boolean isSelected )
 		{
 			super( label, isSelected );
+			this.elementModel = elementModel;
 			addActionListener( this );
 
 			this.isTradeable = isTradeable;
@@ -966,13 +968,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					filters[4].setEnabled( true );
 				}
 
-				elementList.setCellRenderer(
-					AdventureResult.getAutoSellCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(), filters[4].isSelected() ) );
+				elementList.setModel( AdventureResult.getFilteredItemList(
+					elementModel, filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(), filters[4].isSelected() ) );
 			}
 			else
 			{
-				elementList.setCellRenderer(
-					AdventureResult.getConsumableCellRenderer( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
+				elementList.setModel( AdventureResult.getFilteredItemList(
+					elementModel, filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected() ) );
 			}
 
 			elementList.validate();

@@ -3099,7 +3099,17 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		updateDisplay( "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
-		StaticEntity.getClient().makeRequest( adventure, adventureCount );
+
+		if ( adventureCount > 0 )
+		{
+			StaticEntity.getClient().makeRequest( adventure, adventureCount );
+		}
+		else
+		{
+			int limit = 0 - adventureCount;
+			while ( KoLCharacter.getAdventuresLeft() > limit )
+				StaticEntity.getClient().makeRequest( adventure, 1 );				
+		}
 	}
 
 	/**

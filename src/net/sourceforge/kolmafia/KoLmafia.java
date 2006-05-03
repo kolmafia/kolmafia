@@ -1375,8 +1375,10 @@ public abstract class KoLmafia implements KoLConstants
 				// and the current request number.  Different requests
 				// have different displays.  They are handled here.
 
-				if ( request instanceof KoLAdventure )
+				if ( request instanceof KoLAdventure && iterations > 1 )
 					currentIterationString = "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress...";
+				else if ( request instanceof KoLAdventure )
+					currentIterationString = "Visit to " + request.toString() + " in progress...";
 
 				else if ( request instanceof ConsumeItemRequest )
 				{
