@@ -188,6 +188,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "fontSize", "3" );
 		ensureProperty( "forceReconnect", "false" );
 		ensureProperty( "hpAutoRecover", "-0.1" );
+		ensureProperty( "hpAutoRecoverTarget", "1.0" );
 		ensureProperty( "hpRecoveryScript", "" );
 		ensureProperty( "hpRestores", "" );
 		ensureProperty( "highlightList", "" );
@@ -205,6 +206,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "loginServer", "0" );
 		ensureProperty( "luckySewerAdventure", "stolen accordion" );
 		ensureProperty( "mpAutoRecover", "-0.1" );
+		ensureProperty( "mpAutoRecoverTarget", "1.0" );
 		ensureProperty( "mpRecoveryScript", "" );
 		ensureProperty( "mpRestores", "" );
 		ensureProperty( "proxySet", "false" );
