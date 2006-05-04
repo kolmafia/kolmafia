@@ -173,6 +173,15 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			StaticEntity.printStackTrace( e, e.getMessage() );
 		}
+		catch ( RuntimeException e )
+		{
+			// If it's an exception resulting from
+			// a premature abort, which causes void
+			// values to be return, ignore.
+			
+			if ( !e.getMessage().startsWith( "Cannot" ) )
+				StaticEntity.printStackTrace( e, e.getMessage() );				
+		}
 	}
 
 

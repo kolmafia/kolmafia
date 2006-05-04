@@ -350,7 +350,16 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	protected void processResults()
 	{
-		String result = responseText.substring( responseText.indexOf( "<center>" ), responseText.indexOf( "</table>" ) );
+		int startIndex = responseText.indexOf( "<center>" );
+		int stopIndex = responseText.indexOf( "</table>" );
+
+		if ( startIndex == -1 || stopIndex == -1 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unexpected result.  Are you sure this store is available?" );
+			return;
+		}
+		
+		String result = responseText.substring( startIndex, stopIndex );
 
 		// One error is that the item price changed, or the item
 		// is no longer available because someone was faster at
