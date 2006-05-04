@@ -350,13 +350,13 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ) != null )
 		{
-			loaderScript.append( "for ( i = 0; i < numberofitemchoices[6]; ++i ) if ( equipment[6][i].name.toLowerCase() == \"" +
+			loaderScript.append( "for ( i = 0; i < numberofitemchoices[6]; ++i ) if ( equipment[5][i].name.toLowerCase() == \"" +
 				KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ).toLowerCase() + "\" ) document.equipment.acc2.selectedIndex = i; " );
 		}
 
 		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) != null )
 		{
-			loaderScript.append( "for ( i = 0; i < numberofitemchoices[7]; ++i ) if ( equipment[7][i].name.toLowerCase() == \"" +
+			loaderScript.append( "for ( i = 0; i < numberofitemchoices[7]; ++i ) if ( equipment[5][i].name.toLowerCase() == \"" +
 				KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ).toLowerCase() + "\" ) document.equipment.acc3.selectedIndex = i; " );
 		}
 		
@@ -372,26 +372,37 @@ public class LocalRelayRequest extends KoLRequest
 			
 			if ( ClassSkillsDatabase.getSkillType( skillID ) == ClassSkillsDatabase.PASSIVE && !(skillID < 10 || (skillID > 14 && skillID < 1000)) )
 			{
-				loaderScript.append( "document." );
-				if ( skillID < 1000 )
-					loaderScript.append( "gnome" );
-				else if ( skillID < 2000 )
-					loaderScript.append( "scpassive" );
-				else if ( skillID < 3000 )
-					loaderScript.append( "ttpassive" );
-				else if ( skillID < 4000 )
-					loaderScript.append( "ppassive" );
-				else if ( skillID < 5000 )
-					loaderScript.append( "spassive" );
-				else
-					loaderScript.append( "dbpassive" );
+				StringBuffer skillElement = new StringBuffer();
 				
-				loaderScript.append( "." );
-				loaderScript.append( skills[i].getSkillName().replaceAll( " ", "" ).toLowerCase() );
+				skillElement.append( "document." );
+				if ( skillID < 1000 )
+					skillElement.append( "gnome" );
+				else if ( skillID < 2000 )
+					skillElement.append( "scpassive" );
+				else if ( skillID < 3000 )
+					skillElement.append( "ttpassive" );
+				else if ( skillID < 4000 )
+					skillElement.append( "ppassive" );
+				else if ( skillID < 5000 )
+					skillElement.append( "spassive" );
+				else
+					skillElement.append( "dbpassive" );
+				
+				skillElement.append( "." );
+				skillElement.append( skills[i].getSkillName().replaceAll( " ", "" ).toLowerCase() );
+
+				// Sometimes, the simulator does not include
+				// a given passive skill, which aborts the
+				// script if the element is accessed.
+
+				loaderScript.append( "if ( " );
+				loaderScript.append( skillElement.toString() );
+				loaderScript.append( " ) " );
+				loaderScript.append( skillElement.toString() );
 				loaderScript.append( ".checked = true; " );
 			}
 		}
-		
+
 		// Also load up the player's current active effects
 		// and fill them into the buffs area.
 		
