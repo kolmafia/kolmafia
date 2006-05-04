@@ -68,7 +68,7 @@ public class SpecialOutfit implements Comparable
 		this.outfitID = outfitID;
 		this.outfitName = outfitName;
 
-		if ( this.outfitName.equals( "KoLmafia Checkpoint" ) )
+		if ( this.outfitName.equals( "Custom: KoLmafia Checkpoint" ) )
 			CHECKPOINT = this;
 		
 		this.pieces = new ArrayList();
