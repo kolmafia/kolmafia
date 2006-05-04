@@ -212,7 +212,7 @@ public class LocalRelayRequest extends KoLRequest
 				return;
 			}
 		}
-	
+
 		String line = null;
 		while ( (line = reader.readLine()) != null )
 		{
@@ -248,26 +248,8 @@ public class LocalRelayRequest extends KoLRequest
 		}
 		
 		reader.close();
-		String responseText = replyBuffer.toString();
-
-		if ( filename.equals( "simulator/index.html" ) )
-			responseText = handleSimulatorIndex( responseText );
-/* 
-		else if ( filename.equals( "simulator/hats.js" ) )
-			responseText = handleSimulatorItems( KoLCharacter.HAT, responseText );
-		else if ( filename.equals( "simulator/weapons.js" ) )
-			responseText = handleSimulatorItems( KoLCharacter.WEAPON, responseText );
-		else if ( filename.equals( "simulator/offhand.js" ) )
-			responseText = handleSimulatorItems( KoLCharacter.OFFHAND, responseText );
-		else if ( filename.equals( "simulator/shirts.js" ) )
-			responseText = handleSimulatorItems( KoLCharacter.SHIRT, responseText );
-		else if ( filename.equals( "simulator/pants.js" ) )
-			responseText = handleSimulatorItems( KoLCharacter.PANTS, responseText );
-		else if ( filename.equals( "simulator/accessories.js" ) )
-			responseText = handleSimulatorItems( KoLCharacter.ACCESSORY1, responseText );
-*/
-
-		pseudoResponse( "HTTP/1.1 200 OK", responseText );		
+		pseudoResponse( "HTTP/1.1 200 OK", filename.equals( "simulator/index.html" ) ?
+			handleSimulatorIndex( replyBuffer.toString() ) : replyBuffer.toString() );
 	}
 
 	private List getAvailableAccessories()
@@ -282,40 +264,6 @@ public class LocalRelayRequest extends KoLRequest
 	
 	private String handleSimulatorIndex( String responseText )
 	{
-		// Replace the total counts with the actual total
-		// counts KoLmafia-side.
-/*		
-		List [] lists = KoLCharacter.getEquipmentLists();
-		int availableAccessories = getAvailableAccessories().size();
-
-		responseText = responseText.replaceFirst( "(numberofitemchoices\\[0\\]=)\\d+",
-			"$1 " + lists[ KoLCharacter.HAT ].size() );
-		responseText = responseText.replaceFirst( "(numberofitemchoices\\[1\\]=)\\d+",
-			"$1 " + lists[ KoLCharacter.WEAPON ].size() );
-		responseText = responseText.replaceFirst( "(numberofitemchoices\\[2\\]=)\\d+",
-			"$1 " + lists[ KoLCharacter.OFFHAND ].size() );
-		responseText = responseText.replaceFirst( "(numberofitemchoices\\[3\\]=)\\d+",
-			"$1 " + lists[ KoLCharacter.SHIRT ].size() );
-		responseText = responseText.replaceFirst( "(numberofitemchoices\\[4\\]=)\\d+",
-			"$1 " + lists[ KoLCharacter.PANTS ].size() );
-		responseText = responseText.replaceFirst( "(numberofitemchoices\\[5\\]=)\\d+",
-			"$1 " + availableAccessories );
-		responseText = responseText.replaceFirst( "(numberofitemchoices\\[6\\]=)\\d+",
-			"$1 " + availableAccessories );
-		responseText = responseText.replaceFirst( "(numberofitemchoices\\[7\\]=)\\d+",
-			"$1 " + availableAccessories );
-*/
-		// If your current familiar matches, make sure that
-		// it gets selected in the simulator.
-		
-		responseText = responseText.replaceFirst( "<option>" + KoLCharacter.getFamiliar().getName() + "</option>",
-			"<option selected>" + KoLCharacter.getFamiliar().getName() + "</option>" );
-
-		// Replace the onLoad sequence with a function call
-		// which initializes the data with KoLmafia data.
-		
-		responseText = responseText.replaceFirst( "(onLoad=\".*?)(GoCalc\\(\\);\")", "$1;loadKoLmafiaData();$2" );
-
 		// This is the simple Javascript which can be added
 		// arbitrarily to the end without having to modify
 		// the underlying HTML.
@@ -342,9 +290,15 @@ public class LocalRelayRequest extends KoLRequest
 		loaderScript.append( "document.character.mcd.selectedIndex = " + KoLCharacter.getMindControlLevel() + "; " ); 
 		loaderScript.append( "document.character.weight.value = " + KoLCharacter.getFamiliar().getWeight() + "; " ); 
 
+		// Change the player's familiar to the current
+		// familiar using a cheap loop hack.
+
+		loaderScript.append( "for ( i = 0; i < document.character.familiar.options.length; ++i ) if ( document.character.familiar.options[i].innerHTML == \"" +
+			KoLCharacter.getFamiliar().getName() + "\" ) document.character.familiar.selectedIndex = i; " );
+
 		// Change the player's equipment around using
 		// a cheap loop hack.
-		
+
 		loaderScript.append( "for ( i = 0; i < numberofitemchoices[0]; ++i ) if ( equipment[0][i].name == \"" +
 			KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) + "\" ) document.equipment.hat.selectedIndex = i; " );
 		loaderScript.append( "for ( i = 0; i < numberofitemchoices[1]; ++i ) if ( equipment[1][i].name == \"" +
@@ -362,56 +316,47 @@ public class LocalRelayRequest extends KoLRequest
 		loaderScript.append( "for ( i = 0; i < numberofitemchoices[7]; ++i ) if ( equipment[7][i].name == \"" +
 			KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) + "\" ) document.equipment.acc3.selectedIndex = i; " );
 
-		// End script.  Everything should be properly
-		// selected at this point.
+		// Load up the player's current skillset to figure
+		// out what options are available.
 		
-		loaderScript.append( " } </script></html>" ); 
-		return responseText.replaceFirst( "</html>", loaderScript.toString() );		
-	}
-	
-	private String handleSimulatorItems( int filter, String responseText )
-	{
-		// Here, only allow items which the player currently
-		// has inside of their inventory.  This shrinks the
-		// size of the list down considerably.
-
-		List list = filter == KoLCharacter.ACCESSORY1 ?
-			getAvailableAccessories() : KoLCharacter.getEquipmentLists()[ filter ];
+		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getAvailableSkills().size() ];
+		KoLCharacter.getAvailableSkills().toArray( skills );
 		
-		String [] items = new String[ list.size() ];
-		list.toArray( items );
-		
-		int itemCount = 0;
-
-		Matcher equipmentMatcher = Pattern.compile( "equipment\\[(\\d+)\\]\\[(\\d+)\\].name=\"(.*?)\"" ).matcher( responseText );
-		while ( equipmentMatcher.find() )
+		for ( int i = 0; i < skills.length; ++i )
 		{
-			int index = Integer.parseInt( equipmentMatcher.group(2) );
-			if ( index == 0 )
-				continue;
+			int skillID = skills[i].getSkillID();
 			
-			boolean itemFound = false;
-			String name = equipmentMatcher.group(3).toLowerCase();
-			for ( int i = 0; i < items.length && !itemFound; ++i )
-				if ( items[i].indexOf( name ) != -1 )
-					itemFound = true;
-			
-			if ( itemFound )
+			if ( ClassSkillsDatabase.getSkillType( skillID ) == ClassSkillsDatabase.PASSIVE && !(skillID < 10 || (skillID > 14 && skillID < 1000)) )
 			{
-				responseText = responseText.replaceAll( "(equipment\\[" +
-					equipmentMatcher.group(1) + "\\]\\[)" + equipmentMatcher.group(2) + "\\]", "$1 " + (++itemCount) + "]" );
-			}
-			else
-			{
-				responseText = responseText.replaceAll( "(equipment\\[" +
-					equipmentMatcher.group(1) + "\\]\\[" + equipmentMatcher.group(2) + "\\])", "// $1" );
+				loaderScript.append( "document." );
+				if ( skillID < 1000 )
+					loaderScript.append( "gnome" );
+				else if ( skillID < 2000 )
+					loaderScript.append( "scpassive" );
+				else if ( skillID < 3000 )
+					loaderScript.append( "ttpassive" );
+				else if ( skillID < 4000 )
+					loaderScript.append( "ppassive" );
+				else if ( skillID < 5000 )
+					loaderScript.append( "spassive" );
+				else
+					loaderScript.append( "dbpassive" );
+				
+				loaderScript.append( "." );
+				loaderScript.append( skills[i].getSkillName().replaceAll( " ", "" ).toLowerCase() );
+				loaderScript.append( ".checked = true; " );
 			}
 		}
 		
-		System.out.println( responseText );
-		return responseText;
-	}
+		// End script.  Everything should be properly
+		// selected at this point.
 
+		loaderScript.append( " } " );
+		loaderScript.append( "document.getElementsByTagName( \"body\" )[0].onLoad += \"initializeKoLmafiaData(); GoCalc();\"" );
+		loaderScript.append( "</script></html>" ); 
+		return responseText.replaceFirst( "</html>", loaderScript.toString() );		
+	}
+	
 	protected void submitCommand()
 	{
 		String command = getFormField( "cmd" );
