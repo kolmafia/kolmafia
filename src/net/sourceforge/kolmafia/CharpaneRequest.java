@@ -89,10 +89,22 @@ public class CharpaneRequest extends KoLRequest
 
 		try
 		{
-			if ( isCompactMode )
-				handleCompactMode( responseText );
+			if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
+			{
+				if ( isCompactMode )
+					handleCompactMode( responseText );
+				else
+					handleExpandedMode( responseText );
+			}
 			else
-				handleExpandedMode( responseText );
+			{
+				KoLCharacter.setStatPoints( 1, 0, 1, 0, 1, 0 );
+				KoLCharacter.setHP( 1, 1, 1 );
+				KoLCharacter.setMP( 1, 1, 1 );
+				KoLCharacter.setAvailableMeat( 0 );
+				KoLCharacter.setAdventuresLeft( 0 );
+				KoLCharacter.setMindControlLevel( 0 );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -107,22 +119,16 @@ public class CharpaneRequest extends KoLRequest
 
 	private static void handleCompactMode( String responseText ) throws Exception
 	{
-		if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
-		{
-			handleStatPoints( responseText, "Mus", "Mys", "Mox" );
-			handleMiscPoints( responseText, "HP", "MP", "Adv", "Meat", "", "<b>", "</b>" );
-			handleMindControl( responseText, "MC" );
-		}
+		handleStatPoints( responseText, "Mus", "Mys", "Mox" );
+		handleMiscPoints( responseText, "HP", "MP", "Adv", "Meat", "", "<b>", "</b>" );
+		handleMindControl( responseText, "MC" );
 	}
 
 	private static void handleExpandedMode( String responseText ) throws Exception
 	{
-		if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
-		{
-			handleStatPoints( responseText, "Muscle", "Mysticality", "Moxie" );
-			handleMiscPoints( responseText, "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;", "<span.*?>", "</span>" );
-			handleMindControl( responseText, "Mind Control" );
-		}
+		handleStatPoints( responseText, "Muscle", "Mysticality", "Moxie" );
+		handleMiscPoints( responseText, "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;", "<span.*?>", "</span>" );
+		handleMindControl( responseText, "Mind Control" );
 	}
 
 	private static void handleStatPoints( String responseText, String musString, String mysString, String moxString ) throws Exception
