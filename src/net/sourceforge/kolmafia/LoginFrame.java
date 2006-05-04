@@ -338,6 +338,7 @@ public class LoginFrame extends KoLFrame
 		private final String [][] FRAME_OPTIONS =
 		{
 			{ "Mini-Browser", "RequestFrame" },
+			{ "Request Synch", "FightFrame" },
 			{ "Relay Server", "LocalRelayServer" },
 
 			{ "Adventure", "AdventureFrame" },
