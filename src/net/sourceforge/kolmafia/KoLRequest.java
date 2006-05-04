@@ -536,8 +536,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		return formURLString.startsWith( "http" ) || formURLString.startsWith( "messages.php" ) || formURLString.startsWith( "mall.php" ) ||
 			formURLString.startsWith( "searchmall.php" ) || formURLString.startsWith( "clan" ) ||
-			formURLString.startsWith( "manage" ) || formURLString.startsWith( "inv" ) ||
-			formURLString.startsWith( "sell" ) || formURLString.indexOf( "chat" ) != -1;
+			formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) || formURLString.indexOf( "chat" ) != -1;
 	}
 	
 	/**

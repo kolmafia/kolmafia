@@ -181,8 +181,10 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	public void setEnabled( boolean isEnabled )
 	{
 		super.setEnabled( isEnabled );
-		
-		if ( elements == null )
+		if ( elements == null || elements.length == 0 )
+			return;
+
+		if ( elements[0].getInputField().isEnabled() == isEnabled )
 			return;
 		
 		for ( int i = 0; i < elements.length; ++i )
