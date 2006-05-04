@@ -1472,6 +1472,12 @@ public abstract class KoLmafia implements KoLConstants
 
 				if ( shouldRefreshStatus )
 					CharpaneRequest.getInstance().run();
+				
+				// Account for the possibility that you could have run
+				// out of adventures mid-request.
+				
+				if ( KoLCharacter.getAdventuresLeft() == 0 )
+					updateDisplay( PENDING_STATE, "Ran out of adventures." );
 			}
 
 			if ( shouldEnableRefreshStatus )
@@ -1751,6 +1757,13 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		processResult( new AdventureResult( AdventureResult.ADV, -4 ) );
+
+		if ( KoLCharacter.getLevel() >= 4 )
+		{
+			request = new KoLRequest( this, "guild.php?place=paco", true );
+			request.run();
+		}
+
 		updateDisplay( "Guild store unlocked (maybe)." );
 	}
 
