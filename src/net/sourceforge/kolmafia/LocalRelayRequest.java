@@ -317,7 +317,7 @@ public class LocalRelayRequest extends KoLRequest
 			KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) + "\" ) document.equipment.acc3.selectedIndex = i; " );
 
 		// Load up the player's current skillset to figure
-		// out what options are available.
+		// out what passive skills are available.
 		
 		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getAvailableSkills().size() ];
 		KoLCharacter.getAvailableSkills().toArray( skills );
@@ -347,6 +347,52 @@ public class LocalRelayRequest extends KoLRequest
 				loaderScript.append( ".checked = true; " );
 			}
 		}
+		
+		// Also load up the player's current active effects
+		// and fill them into the buffs area.
+		
+		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
+		KoLCharacter.getEffects().toArray( effects );
+		
+		for ( int i = 0; i < effects.length; ++i )
+		{			
+			String name = UneffectRequest.effectToSkill( effects[i].getName() ).replaceAll( " ", "" ).toLowerCase();
+			
+			if ( name.indexOf( "snowcone" ) == -1 )
+			{
+				loaderScript.append( "effect = document.getElementsByName( \"" + name + "\" ); " );
+				loaderScript.append( "if ( effect.length > 0 ) effect[0].checked = true; " );
+			}
+			else
+			{
+				// This is strongly dependent on the ordering of
+				// snowcones on the page, but there really is no
+				// other way at this point.
+				
+				loaderScript.append( "document.snowcones[" );
+
+				if ( name.startsWith( "black" ) )
+					loaderScript.append( 1 );
+				else if ( name.startsWith( "blue" ) )
+					loaderScript.append( 2 );
+				else if ( name.startsWith( "red" ) )
+					loaderScript.append( 3 );
+				else if ( name.startsWith( "orange" ) )
+					loaderScript.append( 4 );
+				else if ( name.startsWith( "green" ) )
+					loaderScript.append( 5 );
+				else
+					loaderScript.append( 6 );
+
+				loaderScript.append( "].checked = true; " );
+			}
+		}
+		
+		// Load up the Rock 'n Roll legend input box
+		// with whether or not you have one.
+		
+		if ( KoLCharacter.getInventory().contains( UseSkillRequest.ROCKNROLL_LEGEND ) )
+			loaderScript.append( "document.miscinput.rockandroll.checked = true; " );
 		
 		// End script.  Everything should be properly
 		// selected at this point.

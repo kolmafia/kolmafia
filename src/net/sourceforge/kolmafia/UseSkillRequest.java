@@ -47,7 +47,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	private String countFieldID;
 
 	private static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
-	private static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
+	public static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
 	private static final AdventureResult ROLL = new AdventureResult( 47, 1 );
 	private static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
 	private static final AdventureResult HEART = new AdventureResult( 48, 1 );
