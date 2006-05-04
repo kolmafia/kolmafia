@@ -109,13 +109,11 @@ public class KoLmafiaGUI extends KoLmafia
 	public void initialize( String username, String sessionID )
 	{
 		super.initialize( username, sessionID );
+		(new MailboxRequest( this, "Inbox" )).run();
 		(new ChannelColorsRequest()).run();
 
-		String startupSetting = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
-		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
-
-		if ( startupSetting.indexOf( "MailboxFrame" ) != -1 && interfaceSetting.indexOf( "MailboxFrame" ) == -1 )
-			(new MailboxRequest( this, "Inbox" )).run();
+		String frameSetting = GLOBAL_SETTINGS.getProperty( "initialFrames" );
+		String desktopSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
 
 		// Reset all the titles on all existing frames.
 
@@ -125,18 +123,18 @@ public class KoLmafiaGUI extends KoLmafia
 		// Instantiate the appropriate instance of the
 		// frame that should be loaded based on the mode.
 
-		String [] startupArray = startupSetting.split( "," );
-		String [] interfaceArray = interfaceSetting.split( "," );
+		String [] frameArray = frameSetting.split( "," );
+		String [] desktopArray = desktopSetting.split( "," );
 
 		ArrayList initialFrameList = new ArrayList();
 
-		if ( !startupSetting.equals( "" ) )
-			for ( int i = 0; i < startupArray.length; ++i )
-				if ( !initialFrameList.contains( startupArray[i] ) )
-					initialFrameList.add( startupArray[i] );
+		if ( !frameSetting.equals( "" ) )
+			for ( int i = 0; i < frameArray.length; ++i )
+				if ( !initialFrameList.contains( frameArray[i] ) )
+					initialFrameList.add( frameArray[i] );
 
-		for ( int i = 0; i < interfaceArray.length; ++i )
-			initialFrameList.remove( interfaceArray[i] );
+		for ( int i = 0; i < desktopArray.length; ++i )
+			initialFrameList.remove( desktopArray[i] );
 
 		if ( !initialFrameList.isEmpty() )
 		{
@@ -175,7 +173,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( KoLMailManager.hasNewMessages() )
 			DEFAULT_SHELL.updateDisplay( "You have new mail." );
-
 	}
 
 	public static void constructFrame( String frameName )
@@ -183,35 +180,45 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( frameName.equals( "LocalRelayServer" ) )
 		{
 			StaticEntity.getClient().startRelayServer();
+			return;
 		}
 		else if ( frameName.equals( "KoLMessenger" ) )
 		{
 			KoLMessenger.initialize();
+			return;
 		}
 		else if ( frameName.equals( "MailboxFrame" ) )
 		{
-			(new CreateFrameRunnable( MailboxFrame.class, new Object [] { "Inbox" } )).run();
+			if ( KoLMailManager.getMessages( "Inbox" ).isEmpty() )
+				return;
+		}
+		else if ( frameName.equals( "EventsFrame" ) )
+		{
+			// Inside of the KoLRequest object, events frames are
+			// already automatically loaded on receipt of an event,
+			// so no additional processing needs to happen here.
+			
+			return;
 		}
 		else if ( frameName.equals( "SkillBuffPanel" ) )
 		{
 			CreateFrameRunnable displayer = new CreateFrameRunnable( KoLPanelFrame.class, new Object [] { "Skill Casting", new SkillBuffPanel() } );
 			displayer.run();
+			return;
 		}
-		else
+
+		try
 		{
-			try
-			{
-				Class associatedClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
-				CreateFrameRunnable displayer = new CreateFrameRunnable( associatedClass );
-				displayer.run();
-			}
-			catch ( ClassNotFoundException e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-				
-				StaticEntity.printStackTrace( e );
-			}
+			Class associatedClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
+			CreateFrameRunnable displayer = new CreateFrameRunnable( associatedClass );
+			displayer.run();
+		}
+		catch ( ClassNotFoundException e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
 		}
 	}
 

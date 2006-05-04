@@ -106,15 +106,6 @@ public class MuseumFrame extends KoLFrame
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
-	public void dispose()
-	{
-		general = null;
-		shelves = null;
-		ordering = null;
-
-		super.dispose();
-	}
-
 	/**
 	 * Internal class used to handle everything related to
 	 * placing items into the display and taking items from

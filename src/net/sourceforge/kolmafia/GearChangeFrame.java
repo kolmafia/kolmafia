@@ -105,17 +105,6 @@ public class GearChangeFrame extends KoLFrame
 		KoLCharacter.updateEquipmentLists();
 	}
 
-	public void dispose()
-	{
-		for ( int i = 0; i < equipment.length; ++i )
-			equipmentLists[i].removeListDataListener( equipment[i] );
-
-		KoLCharacter.getOutfits().removeListDataListener( outfitSelect );
-		KoLCharacter.getFamiliarList().removeListDataListener( familiarSelect );
-
-		super.dispose();
-	}
-	
 	private class EquipPanel extends KoLPanel
 	{
 		public EquipPanel()

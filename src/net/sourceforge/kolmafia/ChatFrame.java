@@ -159,9 +159,6 @@ public class ChatFrame extends KoLFrame
 		else
 			KoLMessenger.removeChat( getAssociatedContact() );
 
-		mainPanel = null;
-		nameClickSelect = null;
-
 		super.dispose();
 	}
 

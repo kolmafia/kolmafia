@@ -136,9 +136,7 @@ public class LoginFrame extends KoLFrame
 
 	public void dispose()
 	{
-		saveStateNames = null;
 		super.dispose();
-
 		if ( StaticEntity.getClient().getPasswordHash() == null )
 			System.exit( 0 );
 	}
@@ -416,40 +414,40 @@ public class LoginFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StringBuffer startupString = new StringBuffer();
-			StringBuffer interfaceString = new StringBuffer();
+			StringBuffer frameString = new StringBuffer();
+			StringBuffer desktopString = new StringBuffer();
 
 			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
 			{
 				if ( startupOptions[i].isSelected() )
 				{
-					if ( startupString.length() != 0 )
-						startupString.append( "," );
-					startupString.append( FRAME_OPTIONS[i][1] );
+					if ( frameString.length() != 0 )
+						frameString.append( "," );
+					frameString.append( FRAME_OPTIONS[i][1] );
 				}
 
 				if ( interfaceOptions[i].isSelected() )
 				{
-					if ( interfaceString.length() != 0 )
-						interfaceString.append( "," );
-					interfaceString.append( FRAME_OPTIONS[i][1] );
+					if ( desktopString.length() != 0 )
+						desktopString.append( "," );
+					desktopString.append( FRAME_OPTIONS[i][1] );
 				}
 			}
 
-			GLOBAL_SETTINGS.setProperty( "initialFrameLoading", startupString.toString() );
-			GLOBAL_SETTINGS.setProperty( "initialDesktopTabs", interfaceString.toString() );
+			GLOBAL_SETTINGS.setProperty( "initialFrames", frameString.toString() );
+			GLOBAL_SETTINGS.setProperty( "initialDesktopTabs", desktopString.toString() );
 			JOptionPane.showMessageDialog( null, "Settings have been saved." );
 		}
 
 		public void actionCancelled()
 		{
-			String startupString = GLOBAL_SETTINGS.getProperty( "initialFrameLoading" );
-			String interfaceString = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
+			String frameString = GLOBAL_SETTINGS.getProperty( "initialFrames" );
+			String desktopString = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
 
 			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
 			{
-				startupOptions[i].setSelected( startupString.indexOf( FRAME_OPTIONS[i][1] ) != -1 );
-				interfaceOptions[i].setSelected( interfaceString.indexOf( FRAME_OPTIONS[i][1] ) != -1 );
+				startupOptions[i].setSelected( frameString.indexOf( FRAME_OPTIONS[i][1] ) != -1 );
+				interfaceOptions[i].setSelected( desktopString.indexOf( FRAME_OPTIONS[i][1] ) != -1 );
 
 				if ( !startupOptions[i].isSelected() && !interfaceOptions[i].isSelected() )
 					nullOptions[i].setSelected( true );
