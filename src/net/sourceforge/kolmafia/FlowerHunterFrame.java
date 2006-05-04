@@ -136,20 +136,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			new Dimension( (int) resultsTable[ index ].getPreferredScrollableViewportSize().getWidth(), 200 ) );
 	}
 
-	public void dispose()
-	{
-		tabs = null;
-		resultCards = null;
-		resultCardPanel = null;
-
-		resultsTable = null;
-		sortedModel = null;
-		resultsModel = null;
-
-		results = null;
-		super.dispose();
-	}
-
 	public void valueChanged( ListSelectionEvent e )
 	{
 		JTable table = resultsTable[ isSimple ? 0 : 1 ];

@@ -86,14 +86,6 @@ public class CakeArenaFrame extends KoLFrame
 		}
 	}
 
-	public void dispose()
-	{
-		opponents = null;
-		familiarTable = null;
-
-		super.dispose();
-	}
-
 	private class CakeArenaPanel extends JPanel
 	{
 		private JComboBox opponentSelect;

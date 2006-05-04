@@ -90,14 +90,6 @@ public class ContactListFrame extends KoLFrame
 		pack();
 	}
 
-	public void dispose()
-	{
-		contacts = null;
-		contactsDisplay = null;
-
-		super.dispose();
-	}
-
 	public Object [] getSelectedPlayers()
 	{
 		Object [] selectedPlayers = contactsDisplay.getSelectedValues();

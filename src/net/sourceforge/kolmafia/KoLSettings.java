@@ -199,7 +199,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "http.proxyUser", "" );
 		ensureProperty( "http.proxyPassword", "" );
 		ensureProperty( "initialDesktopTabs", "AdventureFrame,MallSearchFrame,SkillBuffPanel,RestoreOptionsFrame" );
-		ensureProperty( "initialFrameLoading", "" );
+		ensureProperty( "initialFrames", "EventsFrame,MailboxFrame" );
 		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		ensureProperty( "keepSessionLogs", "false" );
 		ensureProperty( "lastAdventure", "" );

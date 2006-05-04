@@ -1373,8 +1373,12 @@ public class KoLRequest implements Runnable, KoLConstants
 			// already visible before this is run -- this ensures
 			// that the restore options are properly reset before
 			// the frame reloads.
-			
-			if ( GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).indexOf( "EventsFrame" ) == -1 || KoLDesktop.getInstance().isVisible() )
+
+			boolean shouldLoadEventFrame = GLOBAL_SETTINGS.getProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
+			shouldLoadEventFrame |= GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).indexOf( "EventsFrame" ) != -1 &&
+				KoLDesktop.getInstance().isVisible();
+
+			if ( shouldLoadEventFrame )
 				(new CreateFrameRunnable( EventsFrame.class )).run();
 
 			return;

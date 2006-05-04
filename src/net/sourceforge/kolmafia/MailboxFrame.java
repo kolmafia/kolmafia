@@ -82,10 +82,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	private MailSelectList messageListSaved;
 
 	public MailboxFrame()
-	{	this( null );
-	}
-
-	public MailboxFrame( String initialTab )
 	{
 		super( "IcePenguin Express" );
 
@@ -138,28 +134,10 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			toolbarPanel.add( new RefreshButton() );
 		}
 
-		if ( initialTab == null )
-		{
-			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
-				(new RequestMailboxThread( "Inbox" )).start();
-			else
-				mailBuffer.append( "You are currently adventuring, so the mailbox won't be loaded." );
-		}
-	}
-
-	public void dispose()
-	{
-		displayed = null;
-		messageContent = null;
-		tabbedListDisplay = null;
-		mailBuffer = null;
-
-		messageListInbox = null;
-		messageListPvp = null;
-		messageListOutbox = null;
-		messageListSaved = null;
-
-		super.dispose();
+		if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+			(new RequestMailboxThread( "Inbox" )).start();
+		else
+			mailBuffer.append( "You are currently adventuring, so the mailbox won't be loaded." );
 	}
 
 	public void setEnabled( boolean isEnabled )
