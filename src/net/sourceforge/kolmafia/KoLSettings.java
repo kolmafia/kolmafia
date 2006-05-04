@@ -183,6 +183,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		ensureProperty( "cloverProtectActive", "false" );
 		ensureProperty( "createWithoutBoxServants", "false" );
+		ensureProperty( "defaultDropdown1", "0" );
+		ensureProperty( "defaultDropdown2", "1" );
 		ensureProperty( "defaultLimit", "13" );
 		ensureProperty( "eSoluScriptType", "0" );
 		ensureProperty( "fontSize", "3" );
