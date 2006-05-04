@@ -91,7 +91,9 @@ public class AdventureFrame extends KoLFrame
 {
 	private JTree displayTree;
 	private DefaultTreeModel displayModel;
+
 	private JComboBox locationSelect;
+	private JComboBox dropdown1, dropdown2;
 	private AdventureSelectPanel adventureSelect;
 
 	/**
@@ -113,8 +115,8 @@ public class AdventureFrame extends KoLFrame
 		this.adventureSelect = new AdventureSelectPanel();
 
 		JPanel southPanel = new JPanel( new GridLayout( 1, 2, 5, 5 ) );
-		southPanel.add( getAdventureSummary(0) );
-		southPanel.add( getAdventureSummary(1) );
+		southPanel.add( getAdventureSummary( Integer.parseInt( getProperty( "defaultDropdown1" ) ) ) );
+		southPanel.add( getAdventureSummary( Integer.parseInt( getProperty( "defaultDropdown2" ) ) ) );
 
 		adventureContainer.add( adventureSelect, BorderLayout.NORTH );
 		adventureContainer.add( southPanel, BorderLayout.CENTER );
@@ -189,7 +191,12 @@ public class AdventureFrame extends KoLFrame
 		containerPanel.add( resultSelect, BorderLayout.NORTH );
 		containerPanel.add( resultPanel, BorderLayout.CENTER );
 
-		resultSelect.setSelectedIndex( selectedIndex );
+		if ( dropdown1 == null )
+			dropdown1 = resultSelect;
+		else
+			dropdown2 = resultSelect;
+		
+		resultSelect.setSelectedIndex( selectedIndex );		
 		return containerPanel;
 	}
 
@@ -213,7 +220,11 @@ public class AdventureFrame extends KoLFrame
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	resultCards.show( resultPanel, String.valueOf( resultSelect.getSelectedIndex() ) );
+		{
+			String index = String.valueOf( resultSelect.getSelectedIndex() );
+			resultCards.show( resultPanel, index );
+			setProperty( resultSelect == dropdown1 ? "defaultDropdown1" : "defaultDropdown2", index );
+			
 		}
 	}
 
