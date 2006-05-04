@@ -118,6 +118,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		return mpDifference != 0 ? mpDifference : skillName.compareToIgnoreCase( ((UseSkillRequest)o).skillName );
 	}
+	
+	public int getSkillID()
+	{	return skillID;
+	}
 
 	public String getSkillName()
 	{	return skillName;
