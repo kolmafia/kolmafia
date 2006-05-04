@@ -2610,6 +2610,25 @@ public abstract class KoLmafia implements KoLConstants
 		
 		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") );
 	}
+	
+	public void launchSimulator()
+	{
+		LocalRelayServer.startThread();
+
+		// Wait for 5 seconds before giving up
+		// on the relay server.
+		
+		for ( int i = 0; i < 50 && !LocalRelayServer.isRunning(); ++i )
+			KoLRequest.delay( 100 );
+
+		if ( !LocalRelayServer.isRunning() )
+			return;
+
+		// Even after the wait, sometimes, the
+		// worker threads have not been filled.
+		
+		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/KoLmafia/simulator/index.html" );
+	}
 
 	public void declareWorldPeace()
 	{
