@@ -226,7 +226,7 @@ public abstract class Nemesis extends StaticEntity
 			request = new KoLRequest( client, "cave.php?action=" + action );
 			request.run();
 
-			if ( request.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
+			if ( request.responseText != null && request.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're out of adventures." );
 				return;
@@ -256,7 +256,8 @@ public abstract class Nemesis extends StaticEntity
 			}
 		}
 
-		if ( client.getCurrentRequest().responseText.indexOf( "WINWINWIN") == -1 )
+		if ( client.getCurrentRequest() != null &&  client.getCurrentRequest().responseText != null &&
+			client.getCurrentRequest().responseText.indexOf( "WINWINWIN") == -1 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "KoLmafia was unable to defeat your nemesis." );
 			return;
