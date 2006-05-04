@@ -285,7 +285,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		helperMenu.add( new DisplayPageMenuItem( "Moxie Survival Lookup", "http://kol.network-forums.com/cgi-bin/moxie.cgi" ) );
 
 		if ( !(container instanceof JMenuBar) )
-			container.add( new InvocationMenuItem( "End Session", this, "dispose" ) );
+			container.add( new InvocationMenuItem( "End Session", SystemTrayFrame.class, "removeTrayIcon" ) );
 	}
 
 	/**
