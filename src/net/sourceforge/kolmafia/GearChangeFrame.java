@@ -71,9 +71,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class GearChangeFrame extends KoLFrame
 {
-	private FamiliarData familiar = null;
 	private String [] pieces = new String[9];
-
 	private JButton outfitButton;
 	
 	private ChangeComboBox [] equipment;
@@ -158,12 +156,6 @@ public class GearChangeFrame extends KoLFrame
 				}
 			}
 			
-			if ( familiar != null )
-			{
-				requestList.add( new FamiliarRequest( StaticEntity.getClient(), familiar ) );
-				familiar = null;
-			}
-			
 			if ( requestList.isEmpty() )
 				return;
 			
@@ -198,20 +190,13 @@ public class GearChangeFrame extends KoLFrame
 				Object outfit = getSelectedItem();
 				if ( outfit != null && !(outfit instanceof String) )
 					(new RequestThread( new EquipmentRequest( StaticEntity.getClient(), (SpecialOutfit) outfit ) )).start();
+				setSelectedItem( null );
 			}
 			else if ( this == familiarSelect )
 			{
-				familiar = (FamiliarData) getSelectedItem();
-				if ( familiar != null && familiar.equals( KoLCharacter.getFamiliar() ) )
-					familiar = null;
-				
-				pieces[8] = null;
-				equipmentLists[8].clear();
-				
-				if ( familiar != null )
-					equipmentLists[8].add( familiar.getItem() );
-
-				equipment[8].setEnabled( false );
+				FamiliarData familiar = (FamiliarData) getSelectedItem();
+				if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
+					(new RequestThread( new FamiliarRequest( StaticEntity.getClient(), familiar ) )).start();
 			}
 			else
 			{
