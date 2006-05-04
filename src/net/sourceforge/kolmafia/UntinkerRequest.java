@@ -122,9 +122,13 @@ public class UntinkerRequest extends KoLRequest
 				client.getConditions().clear();
 				client.getConditions().add( SCREWDRIVER.getNegation() );
 
-				KoLAdventure adventure = AdventureDatabase.getAdventure( "degrassi" );
-				client.makeRequest( adventure, KoLCharacter.getAdventuresLeft() );
+				// Make sure that paco has been visited, or else
+				// the knoll won't be available.
+				
+				KoLRequest request = new KoLRequest( client, "guild.php?place=paco", true );
+				request.run();
 
+				DEFAULT_SHELL.executeLine( "adventure * degrassi" );
 				if ( !client.getConditions().isEmpty() )
 				{
 					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
