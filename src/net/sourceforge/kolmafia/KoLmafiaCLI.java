@@ -2198,7 +2198,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 		{
-			if ( KoLCharacter.getCurrentEquipmentName( i ) != null && KoLCharacter.getCurrentEquipmentName( i ).indexOf( parameters ) != -1 )
+			String name = KoLCharacter.getCurrentEquipmentName( i );
+			if ( name != null && name.toLowerCase().indexOf( parameters ) != -1 )
 			{
 				StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, i ), 1 );
 				return;
