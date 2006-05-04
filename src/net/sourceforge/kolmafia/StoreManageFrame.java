@@ -178,6 +178,8 @@ public class StoreManageFrame extends KoLPanelFrame
 			JScrollPane storeItemScrollArea = new JScrollPane( storeItemList,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
+			JComponentUtilities.setComponentSize( storeItemScrollArea, 600, 300 );
+
 			JPanel headerPanel = new JPanel( new BorderLayout() );
 			headerPanel.add( new AddItemPanel(), BorderLayout.WEST );
 			headerPanel.add( Box.createVerticalStrut( 10 ), BorderLayout.SOUTH );
