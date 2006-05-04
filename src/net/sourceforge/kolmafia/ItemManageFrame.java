@@ -149,7 +149,6 @@ public class ItemManageFrame extends KoLFrame
 		public ConsumePanel()
 		{
 			super( "Usable Items", KoLCharacter.getUsables(), false );
-			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 			setButtons( new String [] { "use one", "use multiple", "refresh" },
 				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
