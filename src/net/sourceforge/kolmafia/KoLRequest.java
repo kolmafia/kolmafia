@@ -534,7 +534,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean shouldIgnoreResults()
 	{
-		return formURLString.startsWith( "messages.php" ) || formURLString.startsWith( "mall.php" ) ||
+		return formURLString.startsWith( "http" ) || formURLString.startsWith( "messages.php" ) || formURLString.startsWith( "mall.php" ) ||
 			formURLString.startsWith( "searchmall.php" ) || formURLString.startsWith( "clan" ) ||
 			formURLString.startsWith( "manage" ) || formURLString.startsWith( "inv" ) ||
 			formURLString.startsWith( "sell" ) || formURLString.indexOf( "chat" ) != -1;
@@ -613,7 +613,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		try
 		{
-			this.formURL = new URL( KOL_ROOT + formURLString );
+			this.formURL = formURLString.startsWith( "http:" ) ?
+				new URL( formURLString ) : new URL( KOL_ROOT + formURLString );
 		}
 		catch ( MalformedURLException e )
 		{
@@ -923,14 +924,14 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
-                        if ( !(this instanceof ChatRequest) )
-                        {
-                                // Remove password hash before logging
-                                String response = ( client.getPasswordHash() != null ) ?
-                                        responseText.replaceAll( client.getPasswordHash(), "" ) :
-                                        responseText.replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" );
-                                KoLmafia.getDebugStream().println( response );
-                        }
+            if ( !(this instanceof ChatRequest) )
+            {
+                    // Remove password hash before logging
+                    String response = ( client.getPasswordHash() != null ) ?
+                            responseText.replaceAll( client.getPasswordHash(), "" ) :
+                            responseText.replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" );
+                    KoLmafia.getDebugStream().println( response );
+            }
 
 			checkForNewEvents();
 			processRawResponse( rawBuffer.toString() );
