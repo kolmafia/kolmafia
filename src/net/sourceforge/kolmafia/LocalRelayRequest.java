@@ -295,7 +295,7 @@ public class LocalRelayRequest extends KoLRequest
 		// familiar using a cheap loop hack.
 
 		loaderScript.append( "for ( i = 0; i < document.character.familiar.options.length; ++i ) if ( document.character.familiar.options[i].innerHTML.toLowerCase() == \"" +
-			KoLCharacter.getFamiliar().getName().toLowerCase() + "\" ) document.character.familiar.selectedIndex = i; " );
+			KoLCharacter.getFamiliar().getRace().toLowerCase() + "\" ) document.character.familiar.selectedIndex = i; " );
 
 		String familiarEquipment = KoLCharacter.getCurrentEquipmentName( KoLCharacter.FAMILIAR );
 		if ( familiarEquipment != null )
