@@ -333,9 +333,9 @@ public abstract class StoreManager extends StaticEntity
 			switch ( currentLogSort )
 			{
 				case RECENT_FIRST:
-					return id - ((StoreLogEntry)o).id;
-				case OLDEST_FIRST:
 					return ((StoreLogEntry)o).id - id;
+				case OLDEST_FIRST:
+					return id - ((StoreLogEntry)o).id;
 				case GROUP_BY_NAME:
 					return text.compareToIgnoreCase( ((StoreLogEntry)o).text );
 				default:
