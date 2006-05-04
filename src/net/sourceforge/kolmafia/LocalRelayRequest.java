@@ -249,7 +249,7 @@ public class LocalRelayRequest extends KoLRequest
 		
 		reader.close();
 		pseudoResponse( "HTTP/1.1 200 OK", filename.equals( "simulator/index.html" ) ?
-			handleSimulatorIndex( replyBuffer.toString() ) : replyBuffer.toString() );
+			handleSimulatorIndex( replyBuffer ) : replyBuffer.toString() );
 	}
 
 	private List getAvailableAccessories()
@@ -262,7 +262,7 @@ public class LocalRelayRequest extends KoLRequest
 		return available;
 	}
 	
-	private String handleSimulatorIndex( String responseText )
+	private String handleSimulatorIndex( StringBuffer replyBuffer )
 	{
 		// This is the simple Javascript which can be added
 		// arbitrarily to the end without having to modify
@@ -282,6 +282,7 @@ public class LocalRelayRequest extends KoLRequest
 		// everything on left-hand side of simulator.
 		
 		loaderScript.append( "function loadKoLmafiaData() { " );
+
 		loaderScript.append( "document.character.charclass.selectedIndex = " + classIndex + "; " ); 
 		loaderScript.append( "document.character.basemuscle.value = " + KoLCharacter.getBaseMuscle() + "; " ); 
 		loaderScript.append( "document.character.basemuscle.value = " + KoLCharacter.getBaseMuscle() + "; " ); 
@@ -295,35 +296,70 @@ public class LocalRelayRequest extends KoLRequest
 
 		loaderScript.append( "for ( i = 0; i < document.character.familiar.options.length; ++i ) if ( document.character.familiar.options[i].innerHTML.toLowerCase() == \"" +
 			KoLCharacter.getFamiliar().getName().toLowerCase() + "\" ) document.character.familiar.selectedIndex = i; " );
-		loaderScript.append( "for ( i = 0; i < document.equipment.familiarequip.options.length; ++i ) if ( document.equipment.familiarequip.options[i].value.toLowerCase() == \"" );
 
-		if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemID( KoLCharacter.getCurrentEquipmentName( KoLCharacter.FAMILIAR ) ) ) == 5 )
-			loaderScript.append( "familiar-specific +5 lbs." );
-		else
-			loaderScript.append( KoLCharacter.getCurrentEquipmentName( KoLCharacter.FAMILIAR ).toLowerCase() );
+		String familiarEquipment = KoLCharacter.getCurrentEquipmentName( KoLCharacter.FAMILIAR );
+		if ( familiarEquipment != null )
+		{
+			loaderScript.append( "for ( i = 0; i < document.equipment.familiarequip.options.length; ++i ) if ( document.equipment.familiarequip.options[i].value.toLowerCase() == \"" );
+			if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemID( familiarEquipment ) ) == 5 )
+				loaderScript.append( "familiar-specific +5 lbs." );
+			else
+				loaderScript.append( familiarEquipment.toLowerCase() );
 
-		loaderScript.append( "\" ) document.equipment.familiarequip.selectedIndex = i; " );
+			loaderScript.append( "\" ) document.equipment.familiarequip.selectedIndex = i; " );
+		}
 
 		// Change the player's equipment around using
 		// a cheap loop hack.
 
-		loaderScript.append( "for ( i = 0; i < numberofitemchoices[0]; ++i ) if ( equipment[0][i].name.toLowerCase() == \"" +
-			KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ).toLowerCase() + "\" ) document.equipment.hat.selectedIndex = i; " );
-		loaderScript.append( "for ( i = 0; i < numberofitemchoices[1]; ++i ) if ( equipment[1][i].name.toLowerCase() == \"" +
-			KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ).toLowerCase() + "\" ) document.equipment.weapon.selectedIndex = i; " );
-		loaderScript.append( "for ( i = 0; i < numberofitemchoices[2]; ++i ) if ( equipment[2][i].name.toLowerCase() == \"" +
-			KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ).toLowerCase() + "\" ) document.equipment.offhand.selectedIndex = i; " );
-		loaderScript.append( "for ( i = 0; i < numberofitemchoices[3]; ++i ) if ( equipment[3][i].name.toLowerCase() == \"" +
-			KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ).toLowerCase() + "\" ) document.equipment.shirt.selectedIndex = i; " );
-		loaderScript.append( "for ( i = 0; i < numberofitemchoices[4]; ++i ) if ( equipment[4][i].name.toLowerCase() == \"" +
-			KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ).toLowerCase() + "\" ) document.equipment.pants.selectedIndex = i; " );
-		loaderScript.append( "for ( i = 0; i < numberofitemchoices[5]; ++i ) if ( equipment[5][i].name.toLowerCase() == \"" +
-			KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ).toLowerCase() + "\" ) document.equipment.acc1.selectedIndex = i; " );
-		loaderScript.append( "for ( i = 0; i < numberofitemchoices[6]; ++i ) if ( equipment[6][i].name.toLowerCase() == \"" +
-			KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ).toLowerCase() + "\" ) document.equipment.acc2.selectedIndex = i; " );
-		loaderScript.append( "for ( i = 0; i < numberofitemchoices[7]; ++i ) if ( equipment[7][i].name.toLowerCase() == \"" +
-			KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ).toLowerCase() + "\" ) document.equipment.acc3.selectedIndex = i; " );
+		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) != null )
+		{
+			loaderScript.append( "for ( i = 0; i < numberofitemchoices[0]; ++i ) if ( equipment[0][i].name.toLowerCase() == \"" +
+				KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ).toLowerCase() + "\" ) document.equipment.hat.selectedIndex = i; " );
+		}
 
+		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) != null )
+		{
+			loaderScript.append( "for ( i = 0; i < numberofitemchoices[1]; ++i ) if ( equipment[1][i].name.toLowerCase() == \"" +
+				KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ).toLowerCase() + "\" ) document.equipment.weapon.selectedIndex = i; " );
+		}
+		
+		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) != null )
+		{
+			loaderScript.append( "for ( i = 0; i < numberofitemchoices[2]; ++i ) if ( equipment[2][i].name.toLowerCase() == \"" +
+				KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ).toLowerCase() + "\" ) document.equipment.offhand.selectedIndex = i; " );
+		}
+		
+		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ) != null )
+		{
+			loaderScript.append( "for ( i = 0; i < numberofitemchoices[3]; ++i ) if ( equipment[3][i].name.toLowerCase() == \"" +
+				KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ).toLowerCase() + "\" ) document.equipment.shirt.selectedIndex = i; " );
+		}
+		
+		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ) != null )
+		{
+			loaderScript.append( "for ( i = 0; i < numberofitemchoices[4]; ++i ) if ( equipment[4][i].name.toLowerCase() == \"" +
+				KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ).toLowerCase() + "\" ) document.equipment.pants.selectedIndex = i; " );
+		}
+
+		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ) != null )
+		{
+			loaderScript.append( "for ( i = 0; i < numberofitemchoices[5]; ++i ) if ( equipment[5][i].name.toLowerCase() == \"" +
+				KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ).toLowerCase() + "\" ) document.equipment.acc1.selectedIndex = i; " );
+		}
+
+		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ) != null )
+		{
+			loaderScript.append( "for ( i = 0; i < numberofitemchoices[6]; ++i ) if ( equipment[6][i].name.toLowerCase() == \"" +
+				KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ).toLowerCase() + "\" ) document.equipment.acc2.selectedIndex = i; " );
+		}
+
+		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) != null )
+		{
+			loaderScript.append( "for ( i = 0; i < numberofitemchoices[7]; ++i ) if ( equipment[7][i].name.toLowerCase() == \"" +
+				KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ).toLowerCase() + "\" ) document.equipment.acc3.selectedIndex = i; " );
+		}
+		
 		// Load up the player's current skillset to figure
 		// out what passive skills are available.
 		
@@ -395,20 +431,22 @@ public class LocalRelayRequest extends KoLRequest
 				loaderScript.append( "].checked = true; " );
 			}
 		}
-		
+
 		// Load up the Rock 'n Roll legend input box
 		// with whether or not you have one.
 		
 		if ( KoLCharacter.getInventory().contains( UseSkillRequest.ROCKNROLL_LEGEND ) )
 			loaderScript.append( "document.miscinput.rockandroll.checked = true; " );
-		
+
 		// End script.  Everything should be properly
 		// selected at this point.
 
 		loaderScript.append( " } " );
-		loaderScript.append( "document.getElementsByTagName( \"body\" )[0].onLoad += \"initializeKoLmafiaData(); GoCalc();\"" );
-		loaderScript.append( "</script></html>" ); 
-		return responseText.replaceFirst( "</html>", loaderScript.toString() );		
+		loaderScript.append( "</script></html>" );
+		
+		replyBuffer.insert( replyBuffer.indexOf( ";GoCalc()" ), ";loadKoLmafiaData()" );
+		return replyBuffer.replace( replyBuffer.lastIndexOf( "</html>" ),
+			replyBuffer.length(), loaderScript.toString() ).toString();		
 	}
 	
 	protected void submitCommand()
