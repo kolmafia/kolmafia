@@ -109,8 +109,14 @@ public class KoLmafiaGUI extends KoLmafia
 	public void initialize( String username, String sessionID )
 	{
 		super.initialize( username, sessionID );
-		(new MailboxRequest( this, "Inbox" )).run();
-		(new ChannelColorsRequest()).run();
+		if ( refusesContinue() )
+			return;
+
+		if ( getPasswordHash() != null )
+		{
+			(new MailboxRequest( this, "Inbox" )).run();
+			(new ChannelColorsRequest()).run();
+		}
 
 		String frameSetting = GLOBAL_SETTINGS.getProperty( "initialFrames" );
 		String desktopSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );

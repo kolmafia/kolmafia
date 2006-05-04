@@ -356,6 +356,12 @@ public abstract class KoLmafia implements KoLConstants
 		if ( StaticEntity.getProperty( "autoRepairBoxes" ).equals( "false" ) )
 			StaticEntity.setProperty( "autoRepairBoxes", String.valueOf( KoLCharacter.canInteract() ) );
 
+		// If the password hash is non-null, then that means you
+		// might be mid-transition.
+		
+		if ( getPasswordHash() != null && getPasswordHash().equals( "" ) )
+			return;
+		
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
 
 		String today = sdf.format( new Date() );
@@ -443,10 +449,16 @@ public abstract class KoLmafia implements KoLConstants
 		// and item creation.
 
 		(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
-
+		
 		if ( !permitsContinue() )
 			return;
 
+		// If the password hash is non-null, then that means you
+		// might be mid-transition.
+		
+		if ( getPasswordHash() != null && getPasswordHash().equals( "" ) )
+			return;
+		
 		// Retrieve the character sheet next -- because concoctions
 		// are refreshed at the end, it's more important to do this
 		// after so that you have updated dictionary data.
