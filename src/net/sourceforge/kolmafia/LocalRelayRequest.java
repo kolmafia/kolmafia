@@ -37,6 +37,8 @@ package net.sourceforge.kolmafia;
 import java.net.HttpURLConnection;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 
@@ -67,6 +69,9 @@ public class LocalRelayRequest extends KoLRequest
 	{
 		super.processRawResponse( rawResponse );
 		this.fullResponse = rawResponse;
+
+		if ( formURLString.startsWith( "http" ) )
+			return;
 		
 		if ( formURLString.indexOf( "compactmenu.php" ) != -1 )
 		{
@@ -129,95 +134,21 @@ public class LocalRelayRequest extends KoLRequest
 		// Allow a way to get from KoL back to the gCLI
 		// using the chat launcher.
 		
-		if ( formURLString.indexOf( "chatlaunch" ) != -1 && StaticEntity.getProperty( "relayAddsCommandLineLinks" ).equals( "true" ) )
-			addCommandLineLinks();
-
-		// Now, for a little fun HTML manipulation.  See
-		// if there's an item present, and if so, modify
-		// it so that you get a use link.
-		
-		if ( StaticEntity.getProperty( "relayAddsUseLinks" ).equals( "true" ) )
-			addUseLinks();
-	}
-	
-	private void addCommandLineLinks()
-	{
-		fullResponse = fullResponse.replaceAll( "<script.*?></script>", "" );
-		fullResponse = fullResponse.replaceFirst( "<a href",
-			"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>NOTE: The graphical CLI will load in this frame to allow for manual adventuring.</p><center><a href");
-	}
-	
-	private void addUseLinks()
-	{
-		StringBuffer linkedResponse = new StringBuffer();
-		Matcher useLinkMatcher = Pattern.compile( "You acquire(.*?)</td>" ).matcher( fullResponse );
-
-		while ( useLinkMatcher.find() )
+		if ( formURLString.indexOf( "chatlaunch" ) != -1 )
 		{
-			String itemName = useLinkMatcher.group(1);
-			int itemCount = itemName.indexOf( ":" ) != -1 ? 1 : 2;
-
-			if ( itemCount == 1 )
-				itemName = itemName.substring( itemName.indexOf( ":" ) + 1 ).replaceAll( "<.*?>", "" ).trim();
-			else
+			if ( StaticEntity.getProperty( "relayAddsCommandLineLinks" ).equals( "true" ) )
 			{
-				itemName = itemName.replaceAll( "<.*?>", "" );
-				itemName = itemName.substring( itemName.indexOf( " " ) + 1 ).trim();
+				fullResponse = fullResponse.replaceFirst( "<a href",
+					"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Loads in this frame to allow for manual adventuring.</p><center><a href");
 			}
-
-			int itemID = TradeableItemDatabase.getItemID( itemName, itemCount );
-			String useType = null;
-			String useLocation = null;
-
-			switch ( TradeableItemDatabase.getConsumptionType( itemID ) )
+			if ( StaticEntity.getProperty( "relayAddsSimulatorLinks" ).equals( "true" ) )
 			{
-				case ConsumeItemRequest.CONSUME_EAT:
-					useType = KoLCharacter.canEat() ? "eat" : null;
-					useLocation = "inv_eat.php?pwd=&which=1&whichitem=";
-					break;
-
-				case ConsumeItemRequest.CONSUME_DRINK:
-					useType = KoLCharacter.canDrink() ? "drink" : null;
-					useLocation = "inv_booze.php?pwd=&which=1&whichitem=";
-					break;
-
-				case ConsumeItemRequest.CONSUME_MULTIPLE:
-					useType = "use";
-					useLocation = itemCount != 1 ? "multiuse.php?passitem=" : "inv_use.php?pwd=&which=1&whichitem=";
-					break;
-
-				case ConsumeItemRequest.CONSUME_RESTORE:
-					useType = "skills";
-					useLocation = "skills.php";
-					break;
-
-				case ConsumeItemRequest.CONSUME_USE:
-					useType = "use";
-					useLocation = "inv_use.php?pwd=&which=3&whichitem=";
-					break;
-
-				case ConsumeItemRequest.EQUIP_HAT:
-				case ConsumeItemRequest.EQUIP_PANTS:
-				case ConsumeItemRequest.EQUIP_SHIRT:
-					useType = "equip";
-					useLocation = "inv_equip.php?pwd=&which=2&action=equip&whichitem=";
-					break;
-			}
-			
-			if ( useType != null && useLocation != null )
-			{
-				useLinkMatcher.appendReplacement( linkedResponse,
-					"You acquire$1 <font size=1>[<a href=\"" + useLocation.toString() + ( useType == "skills" ? "" : String.valueOf( itemID ) ) + 
-					"\">" + useType + "</a>]</font></td>" );
-			}
-			else
-			{
-				useLinkMatcher.appendReplacement( linkedResponse, "$0" );
+				fullResponse = fullResponse.replaceFirst( "<a href",
+					"<a target=_new href=\"KoLmafia/simulator/index.html\"><b>KoL Simulator</b></a></center><p>Ayvuir's Simulator of Loathing, as found on the forums.</p><center><a href");
 			}
 		}
 
-		useLinkMatcher.appendTail( linkedResponse );
-		fullResponse = linkedResponse.toString();		
+		fullResponse = RequestEditorKit.getFeatureRichHTML( fullResponse );
 	}
 
 	public String getHeader( int index )
@@ -259,13 +190,26 @@ public class LocalRelayRequest extends KoLRequest
 
 	protected void sendSharedFile( String filename ) throws IOException
 	{
+		int index = filename.indexOf( "/" );
+		String name = filename.substring( index + 1 );
+
 		StringBuffer replyBuffer = new StringBuffer();
-		BufferedReader reader = DataUtilities.getReader( "html", filename );
+		BufferedReader reader = DataUtilities.getReader(
+			index == -1 ? "html" : "html/" + filename.substring( 0, index ), name );
 
 		if ( reader == null )
 		{
-			sendNotFound();
-			return;
+			if ( filename.startsWith( "simulator" ) )
+			{
+				downloadSimulatorFile( name );
+				reader = DataUtilities.getReader( "html", filename );
+			}
+			
+			if ( reader == null )
+			{
+				sendNotFound();
+				return;
+			}
 		}
 	
 		String line = null;
@@ -303,7 +247,46 @@ public class LocalRelayRequest extends KoLRequest
 		}
 		
 		reader.close();
-		pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );		
+		String responseText = replyBuffer.toString();
+		
+		if ( filename.equals( "simulator/index.html" ) )
+			responseText = handleSimulatorIndex( responseText );
+
+		pseudoResponse( "HTTP/1.1 200 OK", responseText );		
+	}
+	
+	private String handleSimulatorIndex( String responseText )
+	{
+		// If your current familiar matches, make sure that
+		// it gets selected in the simulator.
+		
+		responseText = responseText.replaceFirst( "<option>" + KoLCharacter.getFamiliar().getName() + "</option>",
+			"<option selected>" + KoLCharacter.getFamiliar().getName() + "</option>" );
+		
+		// This is the simple Javascript which can be added
+		// arbitrarily to the end without having to modify
+		// the underlying HTML.
+		
+		StringBuffer loaderScript = new StringBuffer();
+		loaderScript.append( "<script language=\"Javascript\"> " ); 
+
+		String className = KoLCharacter.getClassType().toLowerCase();
+
+		int classIndex = -1;
+		for ( int i = 0; i < KoLmafiaASH.CLASSES.length; ++i )
+			if ( KoLmafiaASH.CLASSES[i].equals( className ) )
+				classIndex = i;
+
+		loaderScript.append( "document.character.charclass.selectedIndex = " + classIndex + "; " ); 
+		loaderScript.append( "document.character.basemuscle.value = " + KoLCharacter.getBaseMuscle() + "; " ); 
+		loaderScript.append( "document.character.basemuscle.value = " + KoLCharacter.getBaseMuscle() + "; " ); 
+		loaderScript.append( "document.character.basemysticality.value = " + KoLCharacter.getBaseMysticality() + "; " ); 
+		loaderScript.append( "document.character.basemoxie.value = " + KoLCharacter.getBaseMoxie() + "; " ); 
+		loaderScript.append( "document.character.mcd.selectedIndex = " + KoLCharacter.getMindControlLevel() + "; " ); 
+		loaderScript.append( "document.character.weight.value = " + KoLCharacter.getFamiliar().getWeight() + "; " ); 
+
+		loaderScript.append( "</script></html>" ); 
+		return responseText.replaceFirst( "</html>", loaderScript.toString() );		
 	}
 	
 	protected void submitCommand()
@@ -364,6 +347,29 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			if ( headers.isEmpty() )
 				sendNotFound();
+		}
+	}
+	
+	private void downloadSimulatorFile( String filename )
+	{
+		LocalRelayRequest request = new LocalRelayRequest( client, "http://cif.rochester.edu/~code/kol/" + filename, false );
+		request.run();
+
+		File directory = new File( "html/simulator/" );
+		directory.mkdirs();
+
+		request.fullResponse = request.fullResponse.replaceAll( "\"images/",
+			"\"http://cif.rochester.edu/~code/kol/images/" );
+
+		try
+		{
+			LogStream writer = new LogStream( "html/simulator/" + filename );
+			writer.print( request.fullResponse );
+			writer.close();
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e, "Failed to create cached simulator file." );
 		}
 	}
 }
