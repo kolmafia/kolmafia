@@ -916,13 +916,13 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( equipment[i] == null || equipment[i].equals( "none" ) || equipment[i].equals( EquipmentRequest.UNEQUIP ) )
 				KoLCharacter.equipment.set( i, EquipmentRequest.UNEQUIP );
 			else if ( TradeableItemDatabase.getConsumptionType( equipment[i] ) == ConsumeItemRequest.EQUIP_ACCESSORY )
-				KoLCharacter.equipment.set( i, equipment[i].toLowerCase() );
+				KoLCharacter.equipment.set( i, equipment[i] );
 			else
-				KoLCharacter.equipment.set( i, equipment[i].toLowerCase() + " (+" + EquipmentDatabase.getPower( equipment[i] ) + ")" );
+				KoLCharacter.equipment.set( i, equipment[i] + " (+" + EquipmentDatabase.getPower( equipment[i] ) + ")" );
 		}
 
 		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
-			currentFamiliar.setItem( equipment[FAMILIAR].toLowerCase() );
+			currentFamiliar.setItem( equipment[FAMILIAR] );
 
 		// Rebuild outfits if given a new list
 		if ( customOutfits != null )
@@ -977,7 +977,10 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static String getCurrentEquipmentName( int type )
-	{	return getEquipmentName( getEquipment( type ) );
+	{
+		if ( type == FAKEHAND )
+			return fakeHands > 0 ? "fake hand" : null;
+		return getEquipmentName( getEquipment( type ) );
 	}
 	
 	/**
@@ -1116,7 +1119,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
-			String currentItem = ((AdventureResult)inventory.get(i)).getName().toLowerCase();
+			String currentItem = ((AdventureResult)inventory.get(i)).getName();
 			int type = TradeableItemDatabase.getConsumptionType( currentItem );
 
 			// If we want off-hand items and we can dual wield,

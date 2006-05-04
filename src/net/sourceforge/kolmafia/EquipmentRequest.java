@@ -427,7 +427,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				break;
 
 			case REMOVE_ITEM:
-				String item = ( equipmentSlot == KoLCharacter.FAKEHAND ) ? "fake hand" : KoLCharacter.getCurrentEquipmentName( equipmentSlot);
+				String item = KoLCharacter.getCurrentEquipmentName( equipmentSlot);
 				if ( item == null )
 					return;
 				
