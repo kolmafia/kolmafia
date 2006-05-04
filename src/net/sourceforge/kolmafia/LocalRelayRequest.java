@@ -42,6 +42,7 @@ import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import java.util.List;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -248,21 +249,73 @@ public class LocalRelayRequest extends KoLRequest
 		
 		reader.close();
 		String responseText = replyBuffer.toString();
-		
+
 		if ( filename.equals( "simulator/index.html" ) )
 			responseText = handleSimulatorIndex( responseText );
+/* 
+		else if ( filename.equals( "simulator/hats.js" ) )
+			responseText = handleSimulatorItems( KoLCharacter.HAT, responseText );
+		else if ( filename.equals( "simulator/weapons.js" ) )
+			responseText = handleSimulatorItems( KoLCharacter.WEAPON, responseText );
+		else if ( filename.equals( "simulator/offhand.js" ) )
+			responseText = handleSimulatorItems( KoLCharacter.OFFHAND, responseText );
+		else if ( filename.equals( "simulator/shirts.js" ) )
+			responseText = handleSimulatorItems( KoLCharacter.SHIRT, responseText );
+		else if ( filename.equals( "simulator/pants.js" ) )
+			responseText = handleSimulatorItems( KoLCharacter.PANTS, responseText );
+		else if ( filename.equals( "simulator/accessories.js" ) )
+			responseText = handleSimulatorItems( KoLCharacter.ACCESSORY1, responseText );
+*/
 
 		pseudoResponse( "HTTP/1.1 200 OK", responseText );		
+	}
+
+	private List getAvailableAccessories()
+	{
+		List available = (List) KoLCharacter.getEquipmentLists()[ KoLCharacter.ACCESSORY1 ].clone();
+		if ( !available.contains( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) ) )
+			available.add( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
+		if ( !available.contains( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) ) )
+			available.add( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
+		return available;
 	}
 	
 	private String handleSimulatorIndex( String responseText )
 	{
+		// Replace the total counts with the actual total
+		// counts KoLmafia-side.
+/*		
+		List [] lists = KoLCharacter.getEquipmentLists();
+		int availableAccessories = getAvailableAccessories().size();
+
+		responseText = responseText.replaceFirst( "(numberofitemchoices\\[0\\]=)\\d+",
+			"$1 " + lists[ KoLCharacter.HAT ].size() );
+		responseText = responseText.replaceFirst( "(numberofitemchoices\\[1\\]=)\\d+",
+			"$1 " + lists[ KoLCharacter.WEAPON ].size() );
+		responseText = responseText.replaceFirst( "(numberofitemchoices\\[2\\]=)\\d+",
+			"$1 " + lists[ KoLCharacter.OFFHAND ].size() );
+		responseText = responseText.replaceFirst( "(numberofitemchoices\\[3\\]=)\\d+",
+			"$1 " + lists[ KoLCharacter.SHIRT ].size() );
+		responseText = responseText.replaceFirst( "(numberofitemchoices\\[4\\]=)\\d+",
+			"$1 " + lists[ KoLCharacter.PANTS ].size() );
+		responseText = responseText.replaceFirst( "(numberofitemchoices\\[5\\]=)\\d+",
+			"$1 " + availableAccessories );
+		responseText = responseText.replaceFirst( "(numberofitemchoices\\[6\\]=)\\d+",
+			"$1 " + availableAccessories );
+		responseText = responseText.replaceFirst( "(numberofitemchoices\\[7\\]=)\\d+",
+			"$1 " + availableAccessories );
+*/
 		// If your current familiar matches, make sure that
 		// it gets selected in the simulator.
 		
 		responseText = responseText.replaceFirst( "<option>" + KoLCharacter.getFamiliar().getName() + "</option>",
 			"<option selected>" + KoLCharacter.getFamiliar().getName() + "</option>" );
+
+		// Replace the onLoad sequence with a function call
+		// which initializes the data with KoLmafia data.
 		
+		responseText = responseText.replaceFirst( "(onLoad=\".*?)(GoCalc\\(\\);\")", "$1;loadKoLmafiaData();$2" );
+
 		// This is the simple Javascript which can be added
 		// arbitrarily to the end without having to modify
 		// the underlying HTML.
@@ -277,6 +330,10 @@ public class LocalRelayRequest extends KoLRequest
 			if ( KoLmafiaASH.CLASSES[i].equals( className ) )
 				classIndex = i;
 
+		// Basic additions of player stats.  Includes
+		// everything on left-hand side of simulator.
+		
+		loaderScript.append( "function loadKoLmafiaData() { " );
 		loaderScript.append( "document.character.charclass.selectedIndex = " + classIndex + "; " ); 
 		loaderScript.append( "document.character.basemuscle.value = " + KoLCharacter.getBaseMuscle() + "; " ); 
 		loaderScript.append( "document.character.basemuscle.value = " + KoLCharacter.getBaseMuscle() + "; " ); 
@@ -285,10 +342,76 @@ public class LocalRelayRequest extends KoLRequest
 		loaderScript.append( "document.character.mcd.selectedIndex = " + KoLCharacter.getMindControlLevel() + "; " ); 
 		loaderScript.append( "document.character.weight.value = " + KoLCharacter.getFamiliar().getWeight() + "; " ); 
 
-		loaderScript.append( "</script></html>" ); 
+		// Change the player's equipment around using
+		// a cheap loop hack.
+		
+		loaderScript.append( "for ( i = 0; i < numberofitemchoices[0]; ++i ) if ( equipment[0][i].name == \"" +
+			KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) + "\" ) document.equipment.hat.selectedIndex = i; " );
+		loaderScript.append( "for ( i = 0; i < numberofitemchoices[1]; ++i ) if ( equipment[1][i].name == \"" +
+			KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) + "\" ) document.equipment.weapon.selectedIndex = i; " );
+		loaderScript.append( "for ( i = 0; i < numberofitemchoices[2]; ++i ) if ( equipment[2][i].name == \"" +
+			KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) + "\" ) document.equipment.offhand.selectedIndex = i; " );
+		loaderScript.append( "for ( i = 0; i < numberofitemchoices[3]; ++i ) if ( equipment[3][i].name == \"" +
+			KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ) + "\" ) document.equipment.shirt.selectedIndex = i; " );
+		loaderScript.append( "for ( i = 0; i < numberofitemchoices[4]; ++i ) if ( equipment[4][i].name == \"" +
+			KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ) + "\" ) document.equipment.pants.selectedIndex = i; " );
+		loaderScript.append( "for ( i = 0; i < numberofitemchoices[5]; ++i ) if ( equipment[5][i].name == \"" +
+			KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ) + "\" ) document.equipment.acc1.selectedIndex = i; " );
+		loaderScript.append( "for ( i = 0; i < numberofitemchoices[6]; ++i ) if ( equipment[6][i].name == \"" +
+			KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ) + "\" ) document.equipment.acc2.selectedIndex = i; " );
+		loaderScript.append( "for ( i = 0; i < numberofitemchoices[7]; ++i ) if ( equipment[7][i].name == \"" +
+			KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) + "\" ) document.equipment.acc3.selectedIndex = i; " );
+
+		// End script.  Everything should be properly
+		// selected at this point.
+		
+		loaderScript.append( " } </script></html>" ); 
 		return responseText.replaceFirst( "</html>", loaderScript.toString() );		
 	}
 	
+	private String handleSimulatorItems( int filter, String responseText )
+	{
+		// Here, only allow items which the player currently
+		// has inside of their inventory.  This shrinks the
+		// size of the list down considerably.
+
+		List list = filter == KoLCharacter.ACCESSORY1 ?
+			getAvailableAccessories() : KoLCharacter.getEquipmentLists()[ filter ];
+		
+		String [] items = new String[ list.size() ];
+		list.toArray( items );
+		
+		int itemCount = 0;
+
+		Matcher equipmentMatcher = Pattern.compile( "equipment\\[(\\d+)\\]\\[(\\d+)\\].name=\"(.*?)\"" ).matcher( responseText );
+		while ( equipmentMatcher.find() )
+		{
+			int index = Integer.parseInt( equipmentMatcher.group(2) );
+			if ( index == 0 )
+				continue;
+			
+			boolean itemFound = false;
+			String name = equipmentMatcher.group(3).toLowerCase();
+			for ( int i = 0; i < items.length && !itemFound; ++i )
+				if ( items[i].indexOf( name ) != -1 )
+					itemFound = true;
+			
+			if ( itemFound )
+			{
+				responseText = responseText.replaceAll( "(equipment\\[" +
+					equipmentMatcher.group(1) + "\\]\\[)" + equipmentMatcher.group(2) + "\\]", "$1 " + (++itemCount) + "]" );
+			}
+			else
+			{
+				responseText = responseText.replaceAll( "(equipment\\[" +
+					equipmentMatcher.group(1) + "\\]\\[" + equipmentMatcher.group(2) + "\\])", "// $1" );
+			}
+		}
+		
+		System.out.println( responseText );
+		return responseText;
+	}
+
 	protected void submitCommand()
 	{
 		String command = getFormField( "cmd" );

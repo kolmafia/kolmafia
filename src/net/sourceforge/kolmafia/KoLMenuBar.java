@@ -140,6 +140,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		statusMenu.add( new DisplayRequestMenuItem( "Mini-Browser", "main.php" ) );
 		statusMenu.add( new InvocationMenuItem( "Relay Browser", StaticEntity.getClient(), "startRelayServer" ) );
+		statusMenu.add( new InvocationMenuItem( "KoL Simulator", StaticEntity.getClient(), "launchSimulator" ) );
 
 		statusMenu.add( new JSeparator() );
 
