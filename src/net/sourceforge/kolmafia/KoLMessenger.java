@@ -857,7 +857,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( lowercase.equals( KoLCharacter.getUsername().toLowerCase() ) )
 			return (String) colors.get( "chatcolorself" );
 
-		if ( client.getContactList().contains( lowercase ) )
+		if ( client.getContactList().contains( channel ) )
 			return (String) colors.get( "chatcolorcontacts" );
 
 		return (String) colors.get( "chatcolorothers" );
