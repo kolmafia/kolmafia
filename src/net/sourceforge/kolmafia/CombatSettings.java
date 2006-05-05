@@ -291,9 +291,11 @@ public abstract class CombatSettings implements UtilityConstants
 		if ( potentialSkill != null )
 			return "skill " + potentialSkill;
 
-		AdventureResult item = KoLmafiaCLI.getFirstMatchingItem( setting.toString() );
-		if ( item != null )
-			return "item " + item.getName();
+		int itemID = setting.toString().equals( "" ) ? -1 : KoLmafiaCLI.getFirstMatchingItemID(
+			TradeableItemDatabase.getMatchingNames( setting.toString() ), KoLmafiaCLI.NOWHERE );
+
+		if ( itemID != -1 )
+			return "item " + TradeableItemDatabase.getItemName( itemID );
 
 		return getSetting( setting.toString(), roundCount - match.getChildCount() + 1 );
 	}
