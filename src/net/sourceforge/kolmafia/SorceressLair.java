@@ -1445,6 +1445,10 @@ public abstract class SorceressLair extends StaticEntity
 	}
 
 	private static void familiarBattle( int n )
+	{	familiarBattle( n, true );
+	}
+	
+	private static void familiarBattle( int n, boolean requiresHeal )
 	{
 		// Make sure that the familiar is at least twenty pounds.
 		// Otherwise, it's a wasted request.
@@ -1459,15 +1463,18 @@ public abstract class SorceressLair extends StaticEntity
 		// Ensure that the player has more than 50 HP, since
 		// you cannot enter the familiar chamber with less.
 
-		client.recoverHP( 50 );
-
-		// Need more than 50 hit points.  Abort if this is
-		// not the case.
-
-		if ( KoLCharacter.getCurrentHP() <= 50 )
+		if ( requiresHeal )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You must have more than 50 HP to proceed." );
-			return;
+			client.recoverHP( 50 );
+
+			// Need more than 50 hit points.  Abort if this is
+			// not the case.
+	
+			if ( KoLCharacter.getCurrentHP() <= 50 )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You must have more than 50 HP to proceed." );
+				return;
+			}
 		}
 
 		DEFAULT_SHELL.updateDisplay( "Facing giant familiar..." );
@@ -1524,6 +1531,6 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		// We're good to go. Fight!
-		familiarBattle( n );
+		familiarBattle( n, false );
 	}
 }
