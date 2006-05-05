@@ -901,37 +901,48 @@ public class FamiliarTrainingFrame extends KoLFrame
 			return false;
 		}
 
-		FamiliarStatus status = new FamiliarStatus();
+		// If the familiar is already heavy enough, nothing to do
+		if ( familiar.getModifiedWeight() >= weight )
+			return true;
 
+		FamiliarStatus status = new FamiliarStatus();
+		boolean needBuffs = false;
 		int goal = 0;
 
-		int [] weights = status.getWeights( false );
-		Arrays.sort( weights );
-		
-		boolean needBuffs = false;
-		for ( int i = 0; goal < weight && i < weights.length; ++i )
-			goal = Math.max( goal, weights[i] );
-
-		if ( goal < weight )
+		while ( goal < weight )
 		{
-			weights = status.getWeights( true );
+			// Calculate possible weights
+			int [] weights = status.getWeights( needBuffs );
 			Arrays.sort( weights );
 
-			needBuffs = true;
+			// Find the first one which meets or exceeds goal
 			for ( int i = 0; goal < weight && i < weights.length; ++i )
 				goal = Math.max( goal, weights[i] );
+
+			// If we found one, use it
+			if ( goal >= weight )
+			{
+				// Change gear and buff up
+				status.changeGear( goal, needBuffs );
+
+				// If we failed to buff, give up
+				if ( familiar.getModifiedWeight() < weight )
+					break;
+
+				// Otherwise, we're good to go
+				return true;
+			}
+
+			// If we've already tried using buffs, give up now
+			if ( needBuffs )
+				break;
+
+			// Try again with buffs
+			needBuffs = true;
 		}
 
-		if ( goal >= weight )
-			status.changeGear( goal, needBuffs );
-
-		if ( familiar.getModifiedWeight() < weight )
-		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
-			return false;
-		}
-		
-		return true;
+		DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
+		return false;
 	}
 
 	private static void statusMessage( int state, String message )
