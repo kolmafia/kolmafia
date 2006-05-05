@@ -261,8 +261,135 @@ public class LocalRelayRequest extends KoLRequest
 			available.add( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
 		return available;
 	}
+
+	private String replaceTag( String string, String tag, int replaceWith )
+	{	return replaceTag( string, tag, String.valueOf( replaceWith ) );
+	}
 	
-	private String handleSimulatorIndex( StringBuffer replyBuffer )
+	private String replaceTag( String string, String tag, String replaceWith )
+	{
+		if ( replaceWith == null )
+			replaceWith = "";
+		
+		// Do you think replacing replaceAll with a manual,
+		// static, non-regex function would be any faster?  
+		// We could lose the regex overhead that way.
+		
+		return string.replaceAll( "\\Q" + tag + "\\E", replaceWith.toLowerCase() );
+	}
+	
+	private String handleSimulatorIndex( StringBuffer replyBuffer ) throws IOException
+	{
+		// This is the simple Javascript which can be added
+		// arbitrarily to the end without having to modify
+		// the underlying HTML.
+		
+		StringBuffer loaderBuffer = new StringBuffer();
+		BufferedReader reader = DataUtilities.getReader( "html/simulator/", "index.html.js" );
+
+		String line = null;
+		while ( (line = reader.readLine()) != null )
+		{
+			loaderBuffer.append( line );
+			loaderBuffer.append( LINE_BREAK );			
+		}
+		reader.close();
+		String loaderScript = loaderBuffer.toString();
+
+		int classIndex = -1;
+		for ( int i = 0; i < KoLmafiaASH.CLASSES.length; ++i )
+			if ( KoLmafiaASH.CLASSES[i].equalsIgnoreCase( KoLCharacter.getClassType() ) )
+				classIndex = i;
+
+		// Basic additions of player state info
+		
+		loaderScript = replaceTag( loaderScript, "/*classIndex*/", classIndex );
+		loaderScript = replaceTag( loaderScript, "/*baseMuscle*/", KoLCharacter.getBaseMuscle() );
+		loaderScript = replaceTag( loaderScript, "/*baseMysticality*/", KoLCharacter.getBaseMysticality() );
+		loaderScript = replaceTag( loaderScript, "/*baseMoxie*/", KoLCharacter.getBaseMoxie() );
+		loaderScript = replaceTag( loaderScript, "/*mindControl*/", KoLCharacter.getMindControlLevel() );
+
+		// Change the player's familiar to the current
+		// familiar.  Input the weight and change the 
+		// familiar equipment.
+
+		loaderScript = replaceTag( loaderScript, "/*familiar*/",  KoLCharacter.getFamiliar().getRace() );
+		loaderScript = replaceTag( loaderScript, "/*familiarWeight*/", KoLCharacter.getFamiliar().getWeight() );
+
+		String familiarEquipment = KoLCharacter.getCurrentEquipmentName( KoLCharacter.FAMILIAR );
+		if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemID( familiarEquipment ) ) == 5 )
+			loaderScript = replaceTag( loaderScript, "/*familiarEquip*/", "familiar-specific +5 lbs." );
+		else
+			loaderScript = replaceTag( loaderScript, "/*familiarEquip*/", familiarEquipment );
+
+		// Change the player's equipment
+
+		loaderScript = replaceTag( loaderScript, "/*hat*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) );
+		loaderScript = replaceTag( loaderScript, "/*weapon*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) );
+		loaderScript = replaceTag( loaderScript, "/*offhand*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) );
+		loaderScript = replaceTag( loaderScript, "/*shirt*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ) );
+		loaderScript = replaceTag( loaderScript, "/*pants*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ) );
+
+		// Change the player's accessories
+
+		loaderScript = replaceTag( loaderScript, "/*accessory1*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ) );
+		loaderScript = replaceTag( loaderScript, "/*accessory2*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ) );
+		loaderScript = replaceTag( loaderScript, "/*accessory3*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) );
+
+		// Load up the player's current skillset to figure
+		// out what passive skills are available.
+		
+		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getAvailableSkills().size() ];
+		KoLCharacter.getAvailableSkills().toArray( skills );
+
+		String passiveSkills = "";
+		for ( int i = 0; i < skills.length; ++i )
+		{
+			int skillID = skills[i].getSkillID();
+			if ( !( ClassSkillsDatabase.getSkillType( skillID ) == ClassSkillsDatabase.PASSIVE && !(skillID < 10 || (skillID > 14 && skillID < 1000)) ) )
+				continue;
+
+			passiveSkills += "\t";
+			if ( skillID < 1000 )
+				passiveSkills += "gnome";
+			else if ( skillID < 2000 )
+				passiveSkills += "scpassive";
+			else if ( skillID < 3000 )
+				passiveSkills += "ttpassive";
+			else if ( skillID < 4000 )
+				passiveSkills += "ppassive";
+			else if ( skillID < 5000 )
+				passiveSkills += "spassive";
+			else
+				passiveSkills += "dbpassive";
+			passiveSkills += "." + skills[i].getSkillName().replaceAll( "[ -]", "" ).toLowerCase() + "\t";
+		}
+		
+		loaderScript = replaceTag( loaderScript, "/*passiveSkills*/", passiveSkills );
+
+		// Also load up the player's current active effects
+		// and fill them into the buffs area.
+
+		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
+		KoLCharacter.getEffects().toArray( effects );
+
+		String activeEffects = "";
+		for ( int i = 0; i < effects.length; ++i )
+			activeEffects += "\t" + UneffectRequest.effectToSkill( effects[i].getName() ).replaceAll( "[ -]", "" ).toLowerCase() + "\t";
+
+		loaderScript = replaceTag( loaderScript, "/*activeEffects*/", activeEffects );
+
+		if ( KoLCharacter.getInventory().contains( UseSkillRequest.ROCKNROLL_LEGEND ) )
+			loaderScript = replaceTag( loaderScript, "/*rockAndRoll*/", "true" );
+		else
+			loaderScript = replaceTag( loaderScript, "/*rockAndRoll*/", "false" );
+
+		replyBuffer.insert( replyBuffer.indexOf( ";GoCalc()" ), ";loadKoLmafiaData()" );
+		replyBuffer.insert( replyBuffer.indexOf( "</html>" ), loaderScript.toString() );
+		return replyBuffer.toString();
+	}
+	
+	private String handleSimulatorIndexOld( StringBuffer replyBuffer )
 	{
 		// This is the simple Javascript which can be added
 		// arbitrarily to the end without having to modify
