@@ -1357,10 +1357,23 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !client.checkRequirements( requirements ) )
 			return;
 
-		// Ensure that the player is at full HP since the shadow will
-		// probably beat him up if he has less.
+		// If the person is using elixirs, that means they have
+		// funkslinging.  You need at least 33 health for this
+		// method to work.
+		
+		if ( option.getName().endsWith( "ixer" ) )
+		{
+			if ( KoLCharacter.getMaximumHP() < 33 )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
+				return;
+			}
+		}
 
-		if ( !option.getName().endsWith( "red" ) && KoLCharacter.getMaximumHP() < 126 )
+		// If you're using any other method, you need at least
+		// 126 health for the method to work.
+		
+		else if ( KoLCharacter.getMaximumHP() < 126 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
 			return;
@@ -1385,13 +1398,14 @@ public abstract class SorceressLair extends StaticEntity
 		// It turns out that in the worst case, you'll be hit by the
 		// shadow for maximum damage four times and you will recover
 		// your health three times.  This is not quite true in the
-		// case of ointments, though:
+		// case of elixirs, though (assume you have 33 maximum HP):
 		
-		// Round 1: You lose 22 + 25 + 3 = 50 damage (76 health)
-		//  - You gain 36, leaving you with 112 health
-		// Round 2: You lose 22 + 25 + 3 = 50 damage (62 health)
-		//  - You gain 36, leaving you with 98 health
-		// Round 3: You lose 22 + 25 + 3 = 50 damage (48 health)
+		// Round 1: You lose 22 + 7 + 3 = 32 damage (1 health)
+		//  - You gain 36, leaving you with 33 health
+		// Round 2: You lose 22 + 7 + 3 = 32 damage (1 health)
+		//  - You gain 36, leaving you with 33 health
+		// Round 3: You lose 22 + 7 + 3 = 32 damage (1 health)
+		//  - You gain 36, leaving you with 33 health
 		
 		// In this case, you are hit a maximum of three times,
 		// and you will recover your health twice.
