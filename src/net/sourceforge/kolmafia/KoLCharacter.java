@@ -2310,29 +2310,29 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasEquipped( AdventureResult item )
 	{
-		String canonicalName = KoLDatabase.getCanonicalName( item.getName() );
+		String name = item.getName();
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
 		{
 			case ConsumeItemRequest.EQUIP_WEAPON:
-				return getEquipment( WEAPON ).startsWith( canonicalName ) ||
-					getEquipment( OFFHAND ).startsWith( canonicalName );
+				return getEquipment( WEAPON ).startsWith( name ) ||
+					getEquipment( OFFHAND ).startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_OFFHAND:
-				return getEquipment( OFFHAND ).startsWith( canonicalName );
+				return getEquipment( OFFHAND ).startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_HAT:
-				return getEquipment( HAT ).startsWith( canonicalName );
+				return getEquipment( HAT ).startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_SHIRT:
-				return getEquipment( SHIRT ).startsWith( canonicalName );
+				return getEquipment( SHIRT ).startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_PANTS:
-				return getEquipment( PANTS ).startsWith( canonicalName );
+				return getEquipment( PANTS ).startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_ACCESSORY:
-				return getEquipment( ACCESSORY1 ).startsWith( canonicalName ) ||
-					getEquipment( ACCESSORY2 ).startsWith( canonicalName ) ||
-					getEquipment( ACCESSORY3 ).startsWith( canonicalName );
+				return getEquipment( ACCESSORY1 ).startsWith( name ) ||
+					getEquipment( ACCESSORY2 ).startsWith( name ) ||
+					getEquipment( ACCESSORY3 ).startsWith( name );
 		}
 
 		return false;
