@@ -708,10 +708,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			AdventureResult result = getFirstMatchingItem( parameters, NOWHERE );
 			if ( result == null )
-			{
-				updateDisplay( ERROR_STATE, "No item matching [" + parameters + "] found" );
 				return;
-			}
 
 			KoLRequest request = new KoLRequest( StaticEntity.getClient(),
 				"desc_item.php?whichitem=" + TradeableItemDatabase.getDescriptionID( result.getItemID() ) );
@@ -2512,6 +2509,11 @@ public class KoLmafiaCLI extends KoLmafia
 			itemID = getFirstMatchingItemID( matchingNames, matchType );
 			itemCount = defaultCount;
 		}
+		else if ( parameters.indexOf( " " ) == -1 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
+			return null;
+		}
 		else
 		{
 			String itemCountString = parameters.split( " " )[0];
@@ -2521,7 +2523,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( matchingNames.size() == 0 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "[" + itemNameString + "] does not match anything in the item database." );
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
 				return null;
 			}
 
@@ -2943,7 +2945,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		AdventureResult firstMatch = getFirstMatchingItem( parameters, NOWHERE );
 		if ( firstMatch == null )
-			updateDisplay( ERROR_STATE, "No item specified for purchase." );
+			return;
 
 		if ( !NPCStoreDatabase.contains( firstMatch.getName() ) && !KoLCharacter.canInteract() )
 		{
