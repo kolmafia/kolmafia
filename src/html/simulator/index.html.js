@@ -19,7 +19,7 @@ function loadKoLmafiaData()
 	for ( j = 0; j < document.forms.length; ++j )
 		for ( i = 0; i < document.forms[j].elements.length; ++i )
 		{
-			if ( passiveSkills.indexOf( "\t" + document.forms[j].name + "." + document.forms[j].elements[i].name + "\t" ) != -1 )
+			if ( passiveSkills.indexOf( "\t" + document.forms[j].elements[i].name + "\t" ) != -1 )
 				if ( document.forms[j].elements[i].type == "checkbox" )
 				{
 					document.forms[j].elements[i].checked = true;
@@ -57,34 +57,21 @@ function loadKoLmafiaData()
 
 	// Familiar and Familiar Equipment
 
-	for ( i = 0; i < document.character.familiar.options.length; ++i ) 
-		if ( document.character.familiar.options[i].innerHTML.toLowerCase() == "/*familiar*/" )
-			document.character.familiar.selectedIndex = i;
-	for ( i = 0; i < document.equipment.familiarequip.options.length; ++i )
-		if ( document.equipment.familiarequip.options[i].value.toLowerCase() == "/*familiarEquip*/" )
-			document.equipment.familiarequip.selectedIndex = i;
+	document.character.familiar.value = "/*familiar*/";
+	document.equipment.familiarequip.value = "/*familiarEquip*/";
 
-	// Hat, Weapon, Offhand, Pants
+	// All other equipment
 
-	for ( i = 0; i < numberofitemchoices[0]; ++i )
-		if ( equipment[0][i].name.toLowerCase() == "/*hat*/" )
-			document.equipment.hat.selectedIndex = i;
-	for ( i = 0; i < numberofitemchoices[1]; ++i )
-		if ( equipment[1][i].name.toLowerCase() == "/*weapon*/" )
-			document.equipment.weapon.selectedIndex = i;
-
-	// Uhh... Is this bad?
-	// this is the only way I could make dual wielding work :(
+	document.equipment.hat.value = "/*hat*/";
+	document.equipment.weapon.value = "/*weapon*/";
 	document.equipment.offhand.value = "/*offhand*/";
-
-	for ( i = 0; i < numberofitemchoices[3]; ++i ) 
-		if ( equipment[3][i].name.toLowerCase() == "/*shirt*/" )
-			document.equipment.pants.selectedIndex = i; 
-	for ( i = 0; i < numberofitemchoices[4]; ++i ) 
-		if ( equipment[4][i].name.toLowerCase() == "/*pants*/" )
-			document.equipment.pants.selectedIndex = i; 
+	document.equipment.shirt.value = "/*shirt*/";
+	document.equipment.pants.value = "/*pants*/";
 
 	// Accessories
+	document.equipment.acc1.value = "/*accessory1*/";
+	document.equipment.acc2.value = "/*accessory2*/";
+	document.equipment.acc3.value = "/*accessory3*/";
 	for ( i = 0; i < numberofitemchoices[5]; ++i ) 
 		if ( equipment[5][i].name.toLowerCase() == "/*accessory1*/" )
 			document.equipment.acc1.selectedIndex = i; 

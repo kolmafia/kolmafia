@@ -189,34 +189,17 @@ public class LocalRelayRequest extends KoLRequest
 			headers.add( "Content-Type: text/html; charset=UTF-8" );
 	}	
 
-	protected void sendSharedFile( String filename ) throws IOException
+	private StringBuffer readContents( BufferedReader reader, String filename ) throws IOException
 	{
-		int index = filename.indexOf( "/" );
-		String name = filename.substring( index + 1 );
-
-		StringBuffer replyBuffer = new StringBuffer();
-		BufferedReader reader = DataUtilities.getReader(
-			index == -1 ? "html" : "html/" + filename.substring( 0, index ), name );
+		String line = null;
+		StringBuffer contentBuffer = new StringBuffer();
 
 		if ( reader == null )
-		{
-			if ( filename.startsWith( "simulator" ) )
-			{
-				downloadSimulatorFile( name );
-				reader = DataUtilities.getReader( "html", filename );
-			}
-			
-			if ( reader == null )
-			{
-				sendNotFound();
-				return;
-			}
-		}
-
-		String line = null;
+			return contentBuffer;
+		
 		while ( (line = reader.readLine()) != null )
 		{
-			if ( line.indexOf( "<img" ) != -1 )
+			if ( !filename.endsWith( ".js" ) && line.indexOf( "<img" ) != -1 )
 			{
 				String directory = (new File( "html" + File.separator + filename )).getParent();
 				if ( !directory.endsWith( File.separator ) )
@@ -243,13 +226,89 @@ public class LocalRelayRequest extends KoLRequest
 				line = lineBuffer.toString();
 			}
 
-			replyBuffer.append( line );
-			replyBuffer.append( LINE_BREAK );
+			contentBuffer.append( line );
+			contentBuffer.append( LINE_BREAK );
 		}
-		
+
 		reader.close();
-		pseudoResponse( "HTTP/1.1 200 OK", filename.equals( "simulator/index.html" ) ?
-			handleSimulatorIndex( replyBuffer ) : replyBuffer.toString() );
+		return contentBuffer;
+	}
+
+	private void sendSharedFile( String filename ) throws IOException
+	{
+		boolean isServerRequest = !filename.startsWith( "KoLmafia" );
+		if ( !isServerRequest )
+			filename = filename.substring( 9 );
+		
+		int index = filename.indexOf( "/" );
+
+		BufferedReader reader = null;
+		StringBuffer replyBuffer = new StringBuffer();
+		StringBuffer scriptBuffer = new StringBuffer();
+		
+		String name = filename.substring( index + 1 );
+		String directory = index == -1 ? "html" : "html/" + filename.substring( 0, index );
+
+		reader = DataUtilities.getReader( directory, name );
+		if ( reader == null && filename.startsWith( "simulator" ) )
+		{
+			downloadSimulatorFile( name );
+			reader = DataUtilities.getReader( directory, name );
+		}
+			
+		if ( reader == null && isServerRequest )
+		{
+			// If there's no override file, go ahead and
+			// request the page from the server normally.
+
+			super.run();
+		}
+		else if ( reader == null )
+		{
+			sendNotFound();
+			return;
+		}
+		else
+		{
+			// Now that you know the reader exists, read the
+			// contents of the reader.
+
+			replyBuffer = readContents( reader, filename );
+		}
+
+		// Add brand new Javascript to every single page.  Check
+		// to see if a reader exists for the file.
+
+		reader = DataUtilities.getReader( directory, name + ".js" );
+		if ( reader != null )
+		{
+			// Initialize the reply buffer with the contents of
+			// the full response if you're a standard KoL request.
+
+			if ( isServerRequest )
+				replyBuffer.append( fullResponse );
+
+			scriptBuffer = readContents( reader, filename + ".js" );
+			if ( filename.equals( "simulator/index.html" ) )
+				handleSimulatorIndex( replyBuffer, scriptBuffer );
+
+			int terminalIndex = replyBuffer.lastIndexOf( "</html>" );
+			if ( terminalIndex == -1 )
+			{
+				replyBuffer.append( scriptBuffer.toString() );
+				replyBuffer.append( "</html>" );
+			}
+
+			replyBuffer.insert( terminalIndex, scriptBuffer.toString() );
+			pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );			
+		}
+		else if ( !isServerRequest )
+		{
+			// Make sure to print the reply buffer to the
+			// response buffer for the local relay server.
+
+			pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );			
+		}
 	}
 
 	private List getAvailableAccessories()
@@ -262,40 +321,33 @@ public class LocalRelayRequest extends KoLRequest
 		return available;
 	}
 
-	private String replaceTag( String string, String tag, int replaceWith )
-	{	return replaceTag( string, tag, String.valueOf( replaceWith ) );
+	private void replaceTag( StringBuffer buffer, String tag, int replaceWith )
+	{	replaceTag( buffer, tag, String.valueOf( replaceWith ) );
 	}
 	
-	private String replaceTag( String string, String tag, String replaceWith )
+	private void replaceTag( StringBuffer buffer, String tag, String replaceWith )
 	{
 		if ( replaceWith == null )
 			replaceWith = "";
 		
-		// Do you think replacing replaceAll with a manual,
-		// static, non-regex function would be any faster?  
-		// We could lose the regex overhead that way.
-		
-		return string.replaceAll( "\\Q" + tag + "\\E", replaceWith.toLowerCase() );
+		// Using a regular expression, while faster, results
+		// in a lot of String allocation overhead.  So, use
+		// a statically-allocated StringBuffers.
+
+		int lastIndex = buffer.indexOf( tag );
+		while ( lastIndex != -1 )
+		{
+			buffer.replace( lastIndex, lastIndex + tag.length(), replaceWith );
+			lastIndex = buffer.indexOf( tag );
+		}
 	}
 	
-	private String handleSimulatorIndex( StringBuffer replyBuffer ) throws IOException
+	private void handleSimulatorIndex( StringBuffer replyBuffer, StringBuffer scriptBuffer ) throws IOException
 	{
 		// This is the simple Javascript which can be added
 		// arbitrarily to the end without having to modify
 		// the underlying HTML.
 		
-		StringBuffer loaderBuffer = new StringBuffer();
-		BufferedReader reader = DataUtilities.getReader( "html/simulator/", "index.html.js" );
-
-		String line = null;
-		while ( (line = reader.readLine()) != null )
-		{
-			loaderBuffer.append( line );
-			loaderBuffer.append( LINE_BREAK );			
-		}
-		reader.close();
-		String loaderScript = loaderBuffer.toString();
-
 		int classIndex = -1;
 		for ( int i = 0; i < KoLmafiaASH.CLASSES.length; ++i )
 			if ( KoLmafiaASH.CLASSES[i].equalsIgnoreCase( KoLCharacter.getClassType() ) )
@@ -303,38 +355,38 @@ public class LocalRelayRequest extends KoLRequest
 
 		// Basic additions of player state info
 		
-		loaderScript = replaceTag( loaderScript, "/*classIndex*/", classIndex );
-		loaderScript = replaceTag( loaderScript, "/*baseMuscle*/", KoLCharacter.getBaseMuscle() );
-		loaderScript = replaceTag( loaderScript, "/*baseMysticality*/", KoLCharacter.getBaseMysticality() );
-		loaderScript = replaceTag( loaderScript, "/*baseMoxie*/", KoLCharacter.getBaseMoxie() );
-		loaderScript = replaceTag( loaderScript, "/*mindControl*/", KoLCharacter.getMindControlLevel() );
+		replaceTag( scriptBuffer, "/*classIndex*/", classIndex );
+		replaceTag( scriptBuffer, "/*baseMuscle*/", KoLCharacter.getBaseMuscle() );
+		replaceTag( scriptBuffer, "/*baseMysticality*/", KoLCharacter.getBaseMysticality() );
+		replaceTag( scriptBuffer, "/*baseMoxie*/", KoLCharacter.getBaseMoxie() );
+		replaceTag( scriptBuffer, "/*mindControl*/", KoLCharacter.getMindControlLevel() );
 
 		// Change the player's familiar to the current
 		// familiar.  Input the weight and change the 
 		// familiar equipment.
 
-		loaderScript = replaceTag( loaderScript, "/*familiar*/",  KoLCharacter.getFamiliar().getRace() );
-		loaderScript = replaceTag( loaderScript, "/*familiarWeight*/", KoLCharacter.getFamiliar().getWeight() );
+		replaceTag( scriptBuffer, "/*familiar*/",  KoLCharacter.getFamiliar().getRace() );
+		replaceTag( scriptBuffer, "/*familiarWeight*/", KoLCharacter.getFamiliar().getWeight() );
 
 		String familiarEquipment = KoLCharacter.getCurrentEquipmentName( KoLCharacter.FAMILIAR );
 		if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemID( familiarEquipment ) ) == 5 )
-			loaderScript = replaceTag( loaderScript, "/*familiarEquip*/", "familiar-specific +5 lbs." );
+			replaceTag( scriptBuffer, "/*familiarEquip*/", "familiar-specific +5 lbs." );
 		else
-			loaderScript = replaceTag( loaderScript, "/*familiarEquip*/", familiarEquipment );
+			replaceTag( scriptBuffer, "/*familiarEquip*/", familiarEquipment );
 
 		// Change the player's equipment
 
-		loaderScript = replaceTag( loaderScript, "/*hat*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) );
-		loaderScript = replaceTag( loaderScript, "/*weapon*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) );
-		loaderScript = replaceTag( loaderScript, "/*offhand*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) );
-		loaderScript = replaceTag( loaderScript, "/*shirt*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ) );
-		loaderScript = replaceTag( loaderScript, "/*pants*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ) );
+		replaceTag( scriptBuffer, "/*hat*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) );
+		replaceTag( scriptBuffer, "/*weapon*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) );
+		replaceTag( scriptBuffer, "/*offhand*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) );
+		replaceTag( scriptBuffer, "/*shirt*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ) );
+		replaceTag( scriptBuffer, "/*pants*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ) );
 
 		// Change the player's accessories
 
-		loaderScript = replaceTag( loaderScript, "/*accessory1*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ) );
-		loaderScript = replaceTag( loaderScript, "/*accessory2*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ) );
-		loaderScript = replaceTag( loaderScript, "/*accessory3*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) );
+		replaceTag( scriptBuffer, "/*accessory1*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ) );
+		replaceTag( scriptBuffer, "/*accessory2*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ) );
+		replaceTag( scriptBuffer, "/*accessory3*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) );
 
 		// Load up the player's current skillset to figure
 		// out what passive skills are available.
@@ -342,30 +394,19 @@ public class LocalRelayRequest extends KoLRequest
 		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getAvailableSkills().size() ];
 		KoLCharacter.getAvailableSkills().toArray( skills );
 
-		String passiveSkills = "";
+		StringBuffer passiveSkills = new StringBuffer();
 		for ( int i = 0; i < skills.length; ++i )
 		{
 			int skillID = skills[i].getSkillID();
 			if ( !( ClassSkillsDatabase.getSkillType( skillID ) == ClassSkillsDatabase.PASSIVE && !(skillID < 10 || (skillID > 14 && skillID < 1000)) ) )
 				continue;
 
-			passiveSkills += "\t";
-			if ( skillID < 1000 )
-				passiveSkills += "gnome";
-			else if ( skillID < 2000 )
-				passiveSkills += "scpassive";
-			else if ( skillID < 3000 )
-				passiveSkills += "ttpassive";
-			else if ( skillID < 4000 )
-				passiveSkills += "ppassive";
-			else if ( skillID < 5000 )
-				passiveSkills += "spassive";
-			else
-				passiveSkills += "dbpassive";
-			passiveSkills += "." + skills[i].getSkillName().replaceAll( "[ -]", "" ).toLowerCase() + "\t";
+			passiveSkills.append( "\t" );
+			passiveSkills.append( skills[i].getSkillName().replaceAll( "[ -]", "" ).toLowerCase() );
+			passiveSkills.append( "\t" );
 		}
-		
-		loaderScript = replaceTag( loaderScript, "/*passiveSkills*/", passiveSkills );
+
+		replaceTag( scriptBuffer, "/*passiveSkills*/", passiveSkills.toString() );
 
 		// Also load up the player's current active effects
 		// and fill them into the buffs area.
@@ -377,214 +418,14 @@ public class LocalRelayRequest extends KoLRequest
 		for ( int i = 0; i < effects.length; ++i )
 			activeEffects += "\t" + UneffectRequest.effectToSkill( effects[i].getName() ).replaceAll( "[ -]", "" ).toLowerCase() + "\t";
 
-		loaderScript = replaceTag( loaderScript, "/*activeEffects*/", activeEffects );
+		replaceTag( scriptBuffer, "/*activeEffects*/", activeEffects );
 
 		if ( KoLCharacter.getInventory().contains( UseSkillRequest.ROCKNROLL_LEGEND ) )
-			loaderScript = replaceTag( loaderScript, "/*rockAndRoll*/", "true" );
+			replaceTag( scriptBuffer, "/*rockAndRoll*/", "true" );
 		else
-			loaderScript = replaceTag( loaderScript, "/*rockAndRoll*/", "false" );
+			replaceTag( scriptBuffer, "/*rockAndRoll*/", "false" );
 
 		replyBuffer.insert( replyBuffer.indexOf( ";GoCalc()" ), ";loadKoLmafiaData()" );
-		replyBuffer.insert( replyBuffer.indexOf( "</html>" ), loaderScript.toString() );
-		return replyBuffer.toString();
-	}
-	
-	private String handleSimulatorIndexOld( StringBuffer replyBuffer )
-	{
-		// This is the simple Javascript which can be added
-		// arbitrarily to the end without having to modify
-		// the underlying HTML.
-		
-		StringBuffer loaderScript = new StringBuffer();
-		loaderScript.append( "<script language=\"Javascript\"> " ); 
-
-		String className = KoLCharacter.getClassType().toLowerCase();
-
-		int classIndex = -1;
-		for ( int i = 0; i < KoLmafiaASH.CLASSES.length; ++i )
-			if ( KoLmafiaASH.CLASSES[i].equals( className ) )
-				classIndex = i;
-
-		// Basic additions of player stats.  Includes
-		// everything on left-hand side of simulator.
-		
-		loaderScript.append( "function loadKoLmafiaData() { " );
-
-		loaderScript.append( "document.character.charclass.selectedIndex = " + classIndex + "; " ); 
-		loaderScript.append( "document.character.basemuscle.value = " + KoLCharacter.getBaseMuscle() + "; " ); 
-		loaderScript.append( "document.character.basemuscle.value = " + KoLCharacter.getBaseMuscle() + "; " ); 
-		loaderScript.append( "document.character.basemysticality.value = " + KoLCharacter.getBaseMysticality() + "; " ); 
-		loaderScript.append( "document.character.basemoxie.value = " + KoLCharacter.getBaseMoxie() + "; " ); 
-		loaderScript.append( "document.character.mcd.selectedIndex = " + KoLCharacter.getMindControlLevel() + "; " ); 
-		loaderScript.append( "document.character.weight.value = " + KoLCharacter.getFamiliar().getWeight() + "; " ); 
-
-		// Change the player's familiar to the current
-		// familiar using a cheap loop hack.
-
-		loaderScript.append( "for ( i = 0; i < document.character.familiar.options.length; ++i ) if ( document.character.familiar.options[i].innerHTML.toLowerCase() == \"" +
-			KoLCharacter.getFamiliar().getRace().toLowerCase() + "\" ) document.character.familiar.selectedIndex = i; " );
-
-		String familiarEquipment = KoLCharacter.getCurrentEquipmentName( KoLCharacter.FAMILIAR );
-		if ( familiarEquipment != null )
-		{
-			loaderScript.append( "for ( i = 0; i < document.equipment.familiarequip.options.length; ++i ) if ( document.equipment.familiarequip.options[i].value.toLowerCase() == \"" );
-			if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemID( familiarEquipment ) ) == 5 )
-				loaderScript.append( "familiar-specific +5 lbs." );
-			else
-				loaderScript.append( familiarEquipment.toLowerCase() );
-
-			loaderScript.append( "\" ) document.equipment.familiarequip.selectedIndex = i; " );
-		}
-
-		// Change the player's equipment around using
-		// a cheap loop hack.
-
-		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) != null )
-		{
-			loaderScript.append( "for ( i = 0; i < numberofitemchoices[0]; ++i ) if ( equipment[0][i].name.toLowerCase() == \"" +
-				KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ).toLowerCase() + "\" ) document.equipment.hat.selectedIndex = i; " );
-		}
-
-		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) != null )
-		{
-			loaderScript.append( "for ( i = 0; i < numberofitemchoices[1]; ++i ) if ( equipment[1][i].name.toLowerCase() == \"" +
-				KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ).toLowerCase() + "\" ) document.equipment.weapon.selectedIndex = i; " );
-		}
-		
-		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) != null )
-		{
-			loaderScript.append( "for ( i = 0; i < numberofitemchoices[2]; ++i ) if ( equipment[2][i].name.toLowerCase() == \"" +
-				KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ).toLowerCase() + "\" ) document.equipment.offhand.selectedIndex = i; " );
-		}
-		
-		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ) != null )
-		{
-			loaderScript.append( "for ( i = 0; i < numberofitemchoices[3]; ++i ) if ( equipment[3][i].name.toLowerCase() == \"" +
-				KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ).toLowerCase() + "\" ) document.equipment.shirt.selectedIndex = i; " );
-		}
-		
-		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ) != null )
-		{
-			loaderScript.append( "for ( i = 0; i < numberofitemchoices[4]; ++i ) if ( equipment[4][i].name.toLowerCase() == \"" +
-				KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ).toLowerCase() + "\" ) document.equipment.pants.selectedIndex = i; " );
-		}
-
-		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ) != null )
-		{
-			loaderScript.append( "for ( i = 0; i < numberofitemchoices[5]; ++i ) if ( equipment[5][i].name.toLowerCase() == \"" +
-				KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ).toLowerCase() + "\" ) document.equipment.acc1.selectedIndex = i; " );
-		}
-
-		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ) != null )
-		{
-			loaderScript.append( "for ( i = 0; i < numberofitemchoices[6]; ++i ) if ( equipment[5][i].name.toLowerCase() == \"" +
-				KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ).toLowerCase() + "\" ) document.equipment.acc2.selectedIndex = i; " );
-		}
-
-		if ( KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) != null )
-		{
-			loaderScript.append( "for ( i = 0; i < numberofitemchoices[7]; ++i ) if ( equipment[5][i].name.toLowerCase() == \"" +
-				KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ).toLowerCase() + "\" ) document.equipment.acc3.selectedIndex = i; " );
-		}
-		
-		// Load up the player's current skillset to figure
-		// out what passive skills are available.
-		
-		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getAvailableSkills().size() ];
-		KoLCharacter.getAvailableSkills().toArray( skills );
-		
-		for ( int i = 0; i < skills.length; ++i )
-		{
-			int skillID = skills[i].getSkillID();
-			
-			if ( ClassSkillsDatabase.getSkillType( skillID ) == ClassSkillsDatabase.PASSIVE && !(skillID < 10 || (skillID > 14 && skillID < 1000)) )
-			{
-				StringBuffer skillElement = new StringBuffer();
-				
-				skillElement.append( "document." );
-				if ( skillID < 1000 )
-					skillElement.append( "gnome" );
-				else if ( skillID < 2000 )
-					skillElement.append( "scpassive" );
-				else if ( skillID < 3000 )
-					skillElement.append( "ttpassive" );
-				else if ( skillID < 4000 )
-					skillElement.append( "ppassive" );
-				else if ( skillID < 5000 )
-					skillElement.append( "spassive" );
-				else
-					skillElement.append( "dbpassive" );
-				
-				skillElement.append( "." );
-				skillElement.append( skills[i].getSkillName().replaceAll( " ", "" ).toLowerCase() );
-
-				// Sometimes, the simulator does not include
-				// a given passive skill, which aborts the
-				// script if the element is accessed.
-
-				loaderScript.append( "if ( " );
-				loaderScript.append( skillElement.toString() );
-				loaderScript.append( " ) " );
-				loaderScript.append( skillElement.toString() );
-				loaderScript.append( ".checked = true; " );
-			}
-		}
-
-		// Also load up the player's current active effects
-		// and fill them into the buffs area.
-		
-		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
-		KoLCharacter.getEffects().toArray( effects );
-		
-		for ( int i = 0; i < effects.length; ++i )
-		{			
-			String name = UneffectRequest.effectToSkill( effects[i].getName() ).replaceAll( " ", "" ).toLowerCase();
-			
-			if ( name.indexOf( "snowcone" ) == -1 )
-			{
-				loaderScript.append( "effect = document.getElementsByName( \"" + name + "\" ); " );
-				loaderScript.append( "if ( effect.length > 0 ) effect[0].checked = true; " );
-			}
-			else
-			{
-				// This is strongly dependent on the ordering of
-				// snowcones on the page, but there really is no
-				// other way at this point.
-				
-				loaderScript.append( "document.snowcones[" );
-
-				if ( name.startsWith( "black" ) )
-					loaderScript.append( 1 );
-				else if ( name.startsWith( "blue" ) )
-					loaderScript.append( 2 );
-				else if ( name.startsWith( "red" ) )
-					loaderScript.append( 3 );
-				else if ( name.startsWith( "orange" ) )
-					loaderScript.append( 4 );
-				else if ( name.startsWith( "green" ) )
-					loaderScript.append( 5 );
-				else
-					loaderScript.append( 6 );
-
-				loaderScript.append( "].checked = true; " );
-			}
-		}
-
-		// Load up the Rock 'n Roll legend input box
-		// with whether or not you have one.
-		
-		if ( KoLCharacter.getInventory().contains( UseSkillRequest.ROCKNROLL_LEGEND ) )
-			loaderScript.append( "document.miscinput.rockandroll.checked = true; " );
-
-		// End script.  Everything should be properly
-		// selected at this point.
-
-		loaderScript.append( " } " );
-		loaderScript.append( "</script></html>" );
-		
-		replyBuffer.insert( replyBuffer.indexOf( ";GoCalc()" ), ";loadKoLmafiaData()" );
-		return replyBuffer.replace( replyBuffer.lastIndexOf( "</html>" ),
-			replyBuffer.length(), loaderScript.toString() ).toString();		
 	}
 	
 	protected void submitCommand()
@@ -605,29 +446,21 @@ public class LocalRelayRequest extends KoLRequest
 	
 	public void run()
 	{
-		if ( formURLString.indexOf( ".gif" ) != -1 )
+		if ( formURLString.endsWith( ".gif" ) )
 		{
 			sendNotFound();
 			return;
 		}
 
-		if ( formURLString.indexOf( "KoLmafia" ) == -1 )
-		{
-			super.run();
-			return;
-		}
-
 		try
 		{
-			String specialRequest = formURLString.substring( 9 );
-			
-			if ( specialRequest.equals( "submitCommand" ) )
+			if ( formURLString.endsWith( "submitCommand" ) )
 				submitCommand();
-			else if ( specialRequest.equals( "getNewMessages" ) )
+			else if ( formURLString.endsWith( "getNewMessages" ) )
 				pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 			else
-				sendSharedFile( specialRequest );
-
+				sendSharedFile( formURLString );
+			
 			// Update the response text with the appropriate
 			// information on the relay port.
 
@@ -640,11 +473,6 @@ public class LocalRelayRequest extends KoLRequest
 			// a stack trace for debug purposes.
 			
 			StaticEntity.printStackTrace( e );
-		}
-		finally
-		{
-			if ( headers.isEmpty() )
-				sendNotFound();
 		}
 	}
 	
