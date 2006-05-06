@@ -278,31 +278,39 @@ public class LocalRelayRequest extends KoLRequest
 
 		// Add brand new Javascript to every single page.  Check
 		// to see if a reader exists for the file.
+		
+		boolean writePseudoResponse = !isServerRequest;
 
-		reader = DataUtilities.getReader( directory, name + ".js" );
-		if ( reader != null )
+		if ( !name.endsWith( ".js" ) )
 		{
-			// Initialize the reply buffer with the contents of
-			// the full response if you're a standard KoL request.
-
-			if ( isServerRequest )
-				replyBuffer.append( fullResponse );
-
-			scriptBuffer = readContents( reader, filename + ".js" );
-			if ( filename.equals( "simulator/index.html" ) )
-				handleSimulatorIndex( replyBuffer, scriptBuffer );
-
-			int terminalIndex = replyBuffer.lastIndexOf( "</html>" );
-			if ( terminalIndex == -1 )
+			reader = DataUtilities.getReader( directory, name.substring( 0, name.lastIndexOf( "." ) ) + ".js" );
+			if ( reader != null )
 			{
-				replyBuffer.append( scriptBuffer.toString() );
-				replyBuffer.append( "</html>" );
-			}
+				// Initialize the reply buffer with the contents of
+				// the full response if you're a standard KoL request.
 
-			replyBuffer.insert( terminalIndex, scriptBuffer.toString() );
-			pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );			
+				if ( isServerRequest )
+				{
+					replyBuffer.append( fullResponse );
+					writePseudoResponse = true;
+				}
+
+				scriptBuffer = readContents( reader, filename.substring( 0, filename.lastIndexOf( "." ) ) + ".js" );
+				if ( filename.equals( "simulator/index.html" ) )
+					handleSimulatorIndex( replyBuffer, scriptBuffer );
+
+				int terminalIndex = replyBuffer.lastIndexOf( "</html>" );
+				if ( terminalIndex == -1 )
+				{
+					replyBuffer.append( scriptBuffer.toString() );
+					replyBuffer.append( "</html>" );
+				}
+				else
+					replyBuffer.insert( terminalIndex, scriptBuffer.toString() );
+			}
 		}
-		else if ( !isServerRequest )
+
+		if ( writePseudoResponse )
 		{
 			// Make sure to print the reply buffer to the
 			// response buffer for the local relay server.
