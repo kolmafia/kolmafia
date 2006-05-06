@@ -118,6 +118,8 @@ public class KoLmafiaASH extends StaticEntity
 	public String fileName;
 	public LineNumberReader commandStream;
 
+	private ScriptValue VOID_VALUE = new ScriptValue();
+
 	public void validate( File scriptFile ) throws IOException
 	{
 		this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
@@ -147,7 +149,7 @@ public class KoLmafiaASH extends StaticEntity
 	
 	public void execute( File scriptFile ) throws IOException
 	{
-		// Befire you do anything, validate the script.
+		// Before you do anything, validate the script.
 		validate( scriptFile );
 
 		if ( this.commandStream == null )
@@ -156,11 +158,13 @@ public class KoLmafiaASH extends StaticEntity
 		try
 		{
 			ScriptValue result = executeGlobalScope( global );
+
 			if ( !client.permitsContinue() || result == null || result.getType() == null )
 				return;
+
 			
 			if ( result.getType().equals( TYPE_VOID ) )
-				DEFAULT_SHELL.printLine( client.permitsContinue() ? "Script failed!" : "Script succeeded!" );
+				DEFAULT_SHELL.printLine( !client.permitsContinue() ? "Script failed!" : "Script succeeded!" );
 			else if ( result.getType().equals( TYPE_BOOLEAN ) )
 				DEFAULT_SHELL.printLine( result.intValue() == 0 ? "Script failed!" : "Script succeeded!" );
 			else if ( result.getType().equals( TYPE_STRING ) )
@@ -1223,6 +1227,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptValue result = null;
 		String resultString;
 
+		currentState = STATE_NORMAL;
 		main = globalScope.findFunction( "main", null );
 
 		if ( main == null )
@@ -1348,7 +1353,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			else if ( param.getType().equals( TYPE_VOID ) )
 			{
-				param.setValue( new ScriptValue() );
+				param.setValue( VOID_VALUE );
 			}
 			else
 				throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
@@ -1815,7 +1820,7 @@ public class KoLmafiaASH extends StaticEntity
 			for ( current = getFirstCommand(); current != null; current = getNextCommand( current ) )
 			{
 				result = current.execute();
-				
+
 				switch ( currentState )
 				{
 					case STATE_RETURN:
@@ -1936,7 +1941,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( !client.permitsContinue() )
 				{
 					currentState = STATE_EXIT;
-					return new ScriptValue();
+					return VOID_VALUE;
 				}
 
 				return executeLibraryFunction();
@@ -1947,7 +1952,7 @@ public class KoLmafiaASH extends StaticEntity
 				// a stack trace for debug purposes.
 				
 				StaticEntity.printStackTrace( e, "Error encountered in ASH script" );
-				return new ScriptValue();
+				return VOID_VALUE;
 			}
 		}
 
@@ -2111,7 +2116,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( name.equalsIgnoreCase( "print" ) )
 			{
 				DEFAULT_SHELL.updateDisplay( variables[0].toStringValue().toString() );
-				return new ScriptValue();
+				return VOID_VALUE;
 			}
 
 			if ( name.equalsIgnoreCase( "my_name" ) )
@@ -2200,7 +2205,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( name.equalsIgnoreCase( "add_item_condition" ) )
 			{
 				DEFAULT_SHELL.executeLine( "conditions add " + variables[0].intValue() + " " + variables[1].toStringValue() );
-				return new ScriptValue();
+				return VOID_VALUE;
 			}
 
 			if ( name.equalsIgnoreCase( "can_eat" ) )
@@ -2276,7 +2281,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( name.equalsIgnoreCase( "council" ) )
 			{
 				DEFAULT_SHELL.executeLine( "council" );
-				return new ScriptValue();
+				return VOID_VALUE;
 			}
 
 			if ( name.equalsIgnoreCase( "mind_control" ) )
@@ -2300,7 +2305,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( name.equalsIgnoreCase( "wait" ) )
 			{
 				DEFAULT_SHELL.executeLine( "wait " + variables[0].intValue() );
-				return new ScriptValue();
+				return VOID_VALUE;
 			}
 
 			if ( name.equalsIgnoreCase( "entryway" ) )
@@ -2582,12 +2587,12 @@ public class KoLmafiaASH extends StaticEntity
 			if ( this.command == COMMAND_BREAK )
 			{
 				currentState = STATE_BREAK;
-				return null;
+				return VOID_VALUE;
 			}
 			else if ( this.command == COMMAND_CONTINUE )
 			{
 				currentState = STATE_CONTINUE;
-				return null;
+				return VOID_VALUE;
 			}
 			else if ( this.command == COMMAND_EXIT )
 			{
@@ -2690,6 +2695,10 @@ public class KoLmafiaASH extends StaticEntity
 
 			return result;
 		}
+
+		public String toString()
+		{	return "return " + returnValue;
+		}
 	}
 
 
@@ -2764,7 +2773,7 @@ public class KoLmafiaASH extends StaticEntity
 						if ( repeat )
 							currentState = STATE_NORMAL;
 
-						return null;
+						return VOID_VALUE;
 					}
 					if ( currentState == STATE_CONTINUE )
 					{
@@ -2796,7 +2805,11 @@ public class KoLmafiaASH extends StaticEntity
 				}
 			}
 
-			return null;
+			return VOID_VALUE;
+		}
+
+		public String toString()
+		{	return "loop ";
 		}
 	}
 
@@ -2943,9 +2956,12 @@ public class KoLmafiaASH extends StaticEntity
 			else
 				lhs.setValue( rhs.execute() );
 
-			return null;
+			return VOID_VALUE;
 		}
 
+		public String toString()
+		{	return lhs.getName() + " = " + rhs;
+		}
 	}
 
 	private class ScriptType
@@ -3093,6 +3109,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{
+			if ( type.equals( TYPE_VOID ) )
+				return "<void>";
+
 			if ( contentString != null )
 				return contentString;
 			
@@ -3379,6 +3398,9 @@ public class KoLmafiaASH extends StaticEntity
 			}
 		}
 
+		public String toString()
+		{	return lhs + " " + oper.toString() + " " + rhs;
+		}
 	}
 
 	private class ScriptExpressionList extends ScriptList
