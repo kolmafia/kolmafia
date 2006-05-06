@@ -306,7 +306,15 @@ public class LocalRelayRequest extends KoLRequest
 					replyBuffer.append( "</html>" );
 				}
 				else
+				{
+					scriptBuffer.insert( 0, LINE_BREAK );
+					scriptBuffer.insert( 0, LINE_BREAK );
+					scriptBuffer.insert( 0, "<script language=\"Javascript\">" );
+					scriptBuffer.append( LINE_BREAK );
+					scriptBuffer.append( LINE_BREAK );
+					scriptBuffer.append( "</script>" );
 					replyBuffer.insert( terminalIndex, scriptBuffer.toString() );
+				}
 			}
 		}
 
