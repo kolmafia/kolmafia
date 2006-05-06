@@ -70,12 +70,6 @@ public class CharpaneRequest extends KoLRequest
 		return instance;
 	}
 	
-	public void run()
-	{
-		responseText = "<html><head><link rel=\"stylesheet\" type=\"text/css\" href=\"http://images.kingdomofloathing.com/styles.css\"><style type=\"text/css\">body, td {	font-size: .8em;}</style></head><body bgcolor=white text=black link=black alink=black vlink=black><centeR><b><a target=mainpane href=\"charsheet.php\">Ivalice</a></b><br>Lvl. 6<hr width=50%><table cellpadding=1 cellspacing=0 align=center><tr><td align=right>Mus:</td><td align=left><b><font color=blue>23</font>&nbsp;(30)</b></td></tr><tr><td align=right>Mys:</td><td align=left><b><font color=blue>12</font>&nbsp;(18)</b></td></tr><tr><td align=right>Mox:</td><td align=left><b><font color=blue>18</font>&nbsp;(19)</b></td></tr></table><hr width=50%><table align=center cellpadding=1 cellspacing=1><tr><td align=right>HP:</td><td align=left><b><font color=black>39/39</font></b></td></tr><tr><td align=right>MP:</td><td align=left><b>1/18</b></td></tr><tr><td align=right>Meat:</td><td align=left><b>6,737</b></td></tr><tr><td align=right><a title=\"Last Adventure: Knob Goblin Laboratory\" target=mainpane href=\"adventure.php?snarfblat=50\">Adv</a>:</td><td align=left><b>184</b></td></tr><tr><td colspan=2 align=center><b>Hardcore</b></td></tr></table><hr width=50%><table cellpadding=1 cellspacing=0><tr><td><img src=\"http://images.kingdomofloathing.com/itemimages/beatenup.gif\" class=hand alt=\"Beaten Up\" title=\"Beaten Up\" onClick='eff(\"7\");'></td><td>(3)</td></tr><tr><td><img src=\"http://images.kingdomofloathing.com/itemimages/clock.gif\" class=hand alt=\"Ticking Clock\" title=\"Ticking Clock\" onClick='eff(\"73\");'></td><td>(195)</td></tr></table><hr width=50%><centeR><a target=mainpane href=\"familiar.php\"><img src=\"http://images.kingdomofloathing.com/itemimages/familiar15.gif\" width=30 height=30 border=0></a><br>11 lbs.</center></center></body></html>";
-		processResults();
-	}
-	
 	protected void processResults()
 	{	processCharacterPane( this.responseText );
 	}
