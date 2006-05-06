@@ -154,12 +154,19 @@ public class ChatFrame extends KoLFrame
 
 	public void dispose()
 	{
-		if ( getAssociatedContact() == null )
-			KoLMessenger.dispose();
-		else
-			KoLMessenger.removeChat( getAssociatedContact() );
-
 		super.dispose();
+		(new ChatRemoverThread()).start();
+	}
+	
+	private class ChatRemoverThread extends Thread
+	{
+		public void run()
+		{
+			if ( getAssociatedContact() == null )
+				KoLMessenger.dispose();
+			else
+				KoLMessenger.removeChat( getAssociatedContact() );
+		}
 	}
 
 	/**

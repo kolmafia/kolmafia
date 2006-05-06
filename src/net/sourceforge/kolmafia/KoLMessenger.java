@@ -100,7 +100,7 @@ public abstract class KoLMessenger extends StaticEntity
 	private static boolean useTabbedChat = false;
 	private static boolean highlighting = false;
 
-	public static void reset()
+	public static synchronized void reset()
 	{
 		isRunning = false;
 		onlineContacts.clear();
@@ -130,11 +130,11 @@ public abstract class KoLMessenger extends StaticEntity
 			initializeChatLogs();
 	}
 	
-	protected static void setColor( String channel, int colorIndex )
+	protected static synchronized void setColor( String channel, int colorIndex )
 	{	colors.put( channel, AVAILABLE_COLORS[ colorIndex ] );
 	}
 
-	public static void setUpdateChannel( String channel )
+	public static synchronized void setUpdateChannel( String channel )
 	{
 		if ( channel != null && channel.startsWith( "/" ) )
 			updateChannel = channel;
@@ -147,7 +147,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * the <code>dispose()</code> method.
 	 */
 
-	public static void initialize()
+	public static synchronized void initialize()
 	{
 		if ( isRunning )
 			return;
@@ -177,18 +177,18 @@ public abstract class KoLMessenger extends StaticEntity
 	 * whenever the user wishes for there to be less text.
 	 */
 
-	public static void clearChatBuffer( String contact )
+	public static synchronized void clearChatBuffer( String contact )
 	{
 		LimitedSizeChatBuffer bufferToClear = getChatBuffer( contact );
 		if ( bufferToClear != null )
 			bufferToClear.clearBuffer();
 	}
 
-	public static void checkFriends()
+	public static synchronized void checkFriends()
 	{	(new RequestThread( new ChatRequest( client, currentChannel, "/friends" ) )).start();
 	}
 
-	public static void checkChannel()
+	public static synchronized void checkChannel()
 	{	(new RequestThread( new ChatRequest( client, updateChannel, "/who" ) )).start();
 	}
 
@@ -202,7 +202,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * @return	The chat buffer for the given contact
 	 */
 
-	public static LimitedSizeChatBuffer getChatBuffer( String contact )
+	public static synchronized LimitedSizeChatBuffer getChatBuffer( String contact )
 	{
 		String neededBufferName = getBufferKey( contact );
 		LimitedSizeChatBuffer neededBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.get( neededBufferName );
@@ -226,7 +226,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * and inactive state for the frames.
 	 */
 
-	public static ChatFrame getChatFrame( String contact )
+	public static synchronized ChatFrame getChatFrame( String contact )
 	{
 		String neededFrameName = getBufferKey( contact );
 		return (ChatFrame) instantMessageFrames.get( neededFrameName );
@@ -238,7 +238,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * title to the frame.
 	 */
 
-	public static void setChatFrameTitle( String contact, String title )
+	public static synchronized void setChatFrameTitle( String contact, String title )
 	{
 		ChatFrame neededFrame = getChatFrame( contact );
 		if ( neededFrame == null || neededFrame.getTitle().indexOf( contact ) == -1 )
@@ -253,7 +253,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * a key value used by the buffers and frames.
 	 */
 
-	private static String getBufferKey( String contact )
+	private static synchronized String getBufferKey( String contact )
 	{
 		return contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
 			chattingStyle == 1 && !contact.startsWith( "/" ) ? "[blues]" : chattingStyle == 2 && contact.startsWith( "/" ) ? "[chat]" : contact;
@@ -264,7 +264,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * method is called whenever a window is closed.
 	 */
 
-	public static void removeChat( String contact )
+	public static synchronized void removeChat( String contact )
 	{
 		if ( contact == null || contact.equals( "" ) )
 			return;
@@ -329,7 +329,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * @return	<code>true</code> if the messenger is showing.
 	 */
 
-	public static boolean isShowing()
+	public static synchronized boolean isShowing()
 	{	return instantMessageBuffers.size() == 0;
 	}
 
@@ -337,7 +337,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * Disposes the messenger's frames.
 	 */
 
-	public static void dispose()
+	public static synchronized void dispose()
 	{
 		if ( !isRunning )
 			return;
@@ -369,7 +369,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * Returns whether or not the messenger is currently running.
 	 */
 
-	public static boolean isRunning()
+	public static synchronized boolean isRunning()
 	{	return isRunning;
 	}
 
@@ -378,7 +378,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * list.  This is used after every call to /friends or /who.
 	 */
 
-	protected static void updateContactList( String [] contactList )
+	protected static synchronized void updateContactList( String [] contactList )
 	{
 		onlineContacts.clear();
 
@@ -392,7 +392,7 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 	}
 
-	private static final String getNormalizedContent( String originalContent )
+	private static synchronized final String getNormalizedContent( String originalContent )
 	{
 		String noImageContent = originalContent.replaceAll( "<img.*?>", "" );
 		String condensedContent = noImageContent.replaceAll( "(</?p>)+", "<br>" );
@@ -406,7 +406,7 @@ public abstract class KoLMessenger extends StaticEntity
 		return noCommentsContent.replaceAll( "<table>.*?</table>", "" );
 	}
 
-	private static void handleTableContent( String content )
+	private static synchronized void handleTableContent( String content )
 	{
 		Matcher tableMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( content );
 
@@ -468,7 +468,7 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 	}
 
-	private static void handlePlayerData( String content )
+	private static synchronized void handlePlayerData( String content )
 	{
 		Matcher playerMatcher = Pattern.compile( "showplayer\\.php\\?who\\=(\\d+)[\'\"][^>]*?>(.*?)</a>" ).matcher( content );
 
@@ -486,7 +486,7 @@ public abstract class KoLMessenger extends StaticEntity
 		}
 	}
 
-	private static void handleChatData( String content )
+	private static synchronized void handleChatData( String content )
 	{
 		// First, if it's the initial content that lets you
 		// know which channels you're listening to, handle it.
@@ -566,15 +566,24 @@ public abstract class KoLMessenger extends StaticEntity
 
 	public static synchronized void updateChat( String content )
 	{
+		if ( !isRunning() )
+			return;
+	
 		// Now, extract the contact list and update KoLMessenger to indicate
 		// the contact list found in the last /friends update
 
 		handleTableContent( content );
 
+		if ( !isRunning() )
+			return;
+
 		// Extract player IDs from the most recent chat content, since it
 		// can prove useful at a later time.
 
 		handlePlayerData( content );
+
+		if ( !isRunning() )
+			return;
 
 		// Now, that all the pre-processing is done, go ahead and handle
 		// all of the individual chat data.
@@ -588,8 +597,11 @@ public abstract class KoLMessenger extends StaticEntity
 	 * the /channel command is used to switch to a different channel.
 	 */
 
-	public static void stopConversation()
+	public static synchronized void stopConversation()
 	{
+		if ( !isRunning() )
+			return;
+
 		if ( !currentChannel.equals( "" ) )
 		{
 			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (inactive)" );
@@ -603,8 +615,11 @@ public abstract class KoLMessenger extends StaticEntity
 	 * after the /switch command is used to switch to a different channel.
 	 */
 
-	public static void switchConversation()
+	public static synchronized void switchConversation()
 	{
+		if ( !isRunning() )
+			return;
+
 		if ( !currentChannel.equals( "" ) )
 			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (listening)" );
 	}
@@ -614,8 +629,11 @@ public abstract class KoLMessenger extends StaticEntity
 	 * given message.
 	 */
 
-	public static void processChatMessage( String message )
+	public static synchronized void processChatMessage( String message )
 	{
+		if ( !isRunning() )
+			return;
+
 		// Empty messages do not need to be processed; therefore,
 		// return if one was retrieved.
 
@@ -691,12 +709,12 @@ public abstract class KoLMessenger extends StaticEntity
 	}
 
 	/**
-	 * Static method for handling individual channel methods.
+	 * static synchronized method for handling individual channel methods.
 	 * @param	channel	The name of the channel
 	 * @param	message	The message that was sent to the channel
 	 */
 
-	private static void processChatMessage( String channel, String message )
+	private static synchronized void processChatMessage( String channel, String message )
 	{
 		if ( !isRunning() || channel == null || message == null || channel.length() == 0 || message.length() == 0 )
 			return;
@@ -825,6 +843,9 @@ public abstract class KoLMessenger extends StaticEntity
 				KoLCharacter.getEvents().add( EVENT_TIMESTAMP.format( new Date() ) + " - " + displayHTML.replaceAll( "<.*?>", "" ) );
 				changeToKoLTimeZone();
 			}
+
+			// Check to make sure that in the time it took for
+			// everything to be processed, chat didn't get closed.
 	
 			if ( useTabbedChat )
 				tabbedFrame.highlightTab( bufferKey );
@@ -847,7 +868,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * use customized colors.
 	 */
 
-	private static String getColor( String channel )
+	private static synchronized String getColor( String channel )
 	{
 		String lowercase = channel.toLowerCase();
 
@@ -870,7 +891,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * @param	channel	The channel to be opened
 	 */
 
-	public static void openInstantMessage( String channel )
+	public static synchronized void openInstantMessage( String channel )
 	{
 		// If the window exists, don't open another one as it
 		// just confuses the disposal issue
@@ -916,10 +937,11 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			try
 			{
-				if ( !isRunning() )
+				if ( !isRunning )
 					return;
 				
-				LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " + channel + " - Started " + Calendar.getInstance().getTime().toString(), true );
+				LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " +
+					channel + " - Started " + Calendar.getInstance().getTime().toString(), true );
 				instantMessageBuffers.put( channel, buffer );
 
 				if ( channel.startsWith( "/" ) )
@@ -939,8 +961,10 @@ public abstract class KoLMessenger extends StaticEntity
 
 				if ( CHATLOG_BASENAME != null && !CHATLOG_BASENAME.equals( "" ) )
 				{
-					String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) : KoLmafia.getPlayerID( channel )) + ".html";
-					buffer.setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() + " (" + Calendar.getInstance().getTime().toString() + ")" );
+					String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) :
+						KoLmafia.getPlayerID( channel )) + ".html";
+					buffer.setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() +
+						" (" + Calendar.getInstance().getTime().toString() + ")" );
 				}
 
 				if ( highlighting && !channel.equals( "[highs]" ) )
@@ -962,7 +986,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * channel name will be appended to the end of the chat log name.
 	 */
 
-	public static void initializeChatLogs()
+	public static synchronized void initializeChatLogs()
 	{
 		Date currentTime = new Date();
 		CHATLOG_BASENAME = "chats" + File.separator + sdf.format( currentTime ) + "_";
@@ -984,7 +1008,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * the desire not to log a specific part of a conversation.
 	 */
 
-	public static void clearChatBuffers()
+	public static synchronized void clearChatBuffers()
 	{
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
@@ -999,7 +1023,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * point of this process results in no chat highlighting being added.
 	 */
 
-	public static void addHighlighting()
+	public static synchronized void addHighlighting()
 	{
 		String highlight = JOptionPane.showInputDialog( "What word/phrase would you like to highlight?", KoLCharacter.getUsername() );
 		if ( highlight == null )
@@ -1041,7 +1065,7 @@ public abstract class KoLMessenger extends StaticEntity
 	 * that only one highlight at a time can be removed with this method.
 	 */
 
-	public static void removeHighlighting()
+	public static synchronized void removeHighlighting()
 	{
 		Object [] patterns = LimitedSizeChatBuffer.highlights.toArray();
 		if ( patterns.length == 0 )

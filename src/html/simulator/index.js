@@ -1,4 +1,4 @@
-<script language="Javascript">
+
 function loadKoLmafiaData()
 {
 	// Load basic character information
@@ -84,4 +84,3 @@ function loadKoLmafiaData()
 	
 	document.miscinput.rockandroll.checked = /*rockAndRoll*/;
 }
-</script>
