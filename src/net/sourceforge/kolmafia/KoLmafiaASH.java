@@ -120,7 +120,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptValue VOID_VALUE = new ScriptValue();
 
-	private boolean tracing = false;
+	private boolean tracing = true;
 	private String prefix = null;
 
 	public void validate( File scriptFile ) throws IOException
