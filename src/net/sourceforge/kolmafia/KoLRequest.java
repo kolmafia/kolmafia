@@ -749,6 +749,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			istream = new BufferedReader( new InputStreamReader( formConnection.getInputStream() ) );
 			responseCode = formConnection.getResponseCode();
+			redirectLocation = formConnection.getHeaderField( "Location" );
 		}
 		catch ( Exception e )
 		{
@@ -784,8 +785,11 @@ public class KoLRequest implements Runnable, KoLConstants
 			return false;
 		}
 
-		boolean shouldStop = true;
-
+		if ( this instanceof LocalRelayRequest && responseCode != 200 )
+			return true;
+		
+		boolean shouldStop = true;		
+		
 		if ( !(this instanceof ChatRequest) )
 			KoLmafia.getDebugStream().println( "Server response code: " + responseCode );
 
@@ -794,8 +798,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// Redirect codes are all the ones that occur between
 			// 300 and 399.  All these notify the user of a location
 			// to return to; deal with the ones which are errors.
-
-			redirectLocation = formConnection.getHeaderField( "Location" );
 
 			if ( redirectLocation.equals( "maint.php" ) )
 			{
@@ -808,13 +810,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			else if ( redirectLocation.startsWith( "login.php" ) )
 			{
 				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Session timed out." );
-
-				if ( !formURLString.equals( "login.php" ) && client.getSettings().getProperty( "forceReconnect" ).equals( "true" ) )
-					client.executeTimeInRequest();
-				else if ( this instanceof LocalRelayRequest )
-					client.executeTimeInRequest();
-				else
-					shouldStop = true;
+				shouldStop = true;
 			}
 			else if ( followRedirects )
 			{

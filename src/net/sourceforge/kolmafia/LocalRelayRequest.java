@@ -262,6 +262,9 @@ public class LocalRelayRequest extends KoLRequest
 			// request the page from the server normally.
 
 			super.run();
+
+			if ( responseCode != 200 )
+				return;
 		}
 		else if ( reader == null )
 		{
@@ -476,12 +479,6 @@ public class LocalRelayRequest extends KoLRequest
 				pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 			else
 				sendSharedFile( formURLString );
-			
-			// Update the response text with the appropriate
-			// information on the relay port.
-
-			if ( fullResponse == null )
-				pseudoResponse( "HTTP/1.1 200 OK", "" );
 		}
 		catch ( Exception e )
 		{
