@@ -1316,8 +1316,6 @@ public abstract class KoLmafia implements KoLConstants
 			}
 			else if ( (lastToken.startsWith( "You gain" ) || lastToken.startsWith( "You lose " )) )
 			{
-				DEFAULT_SHELL.printLine( lastToken );
-
 				int periodIndex = lastToken.indexOf( "." );
 				if ( periodIndex != -1 )
 					lastToken = lastToken.substring( 0, periodIndex );
@@ -1326,6 +1324,8 @@ public abstract class KoLmafia implements KoLConstants
 				if ( parenIndex != -1 )
 					lastToken = lastToken.substring( 0, parenIndex );
 				
+				DEFAULT_SHELL.printLine( lastToken );
+
 				requiresRefresh |= parseResult( lastToken.trim() );
 			}
 		}
