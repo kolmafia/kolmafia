@@ -120,6 +120,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptValue VOID_VALUE = new ScriptValue();
 
+	private boolean tracing = false;
+	private String prefix = null;
+
 	public void validate( File scriptFile ) throws IOException
 	{
 		this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
@@ -1816,10 +1819,21 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptCommand current;
 			ScriptValue result = null;
+			String oldPrefix = prefix;
+
+			if ( tracing )
+				prefix = prefix == null ? "" : prefix + "  ";
 
 			for ( current = getFirstCommand(); current != null; current = getNextCommand( current ) )
 			{
+
+				if ( tracing )
+					KoLmafia.getDebugStream().println( prefix  + "[" + currentState + "] -> " + current );
+
 				result = current.execute();
+
+				if ( tracing )
+					KoLmafia.getDebugStream().println( prefix + "[" + currentState + "] <- " + result );
 
 				switch ( currentState )
 				{
@@ -1828,10 +1842,12 @@ public class KoLmafiaASH extends StaticEntity
 					case STATE_CONTINUE:
 					case STATE_EXIT:
 
+						prefix = oldPrefix;
 						return result;
 				}
 			}
 
+			prefix = oldPrefix;
 			return result;
 		}
 	}
@@ -2443,26 +2459,26 @@ public class KoLmafiaASH extends StaticEntity
 
 		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
 		{
-			if ( !getType().equals( targetValue.getType() ) )
+			if ( getType().equals( targetValue.getType() ) )
 			{
-				if ( getType().equals( TYPE_INT ) && targetValue.getType().equals( TYPE_FLOAT ) )
-				{
-					content = targetValue.toIntValue();
-				}
-				else if ( getType().equals( TYPE_FLOAT ) && targetValue.getType().equals( TYPE_INT ) )
-				{
-					content = targetValue.toFloatValue();
-				}
-				else if ( getType().equals( TYPE_STRING ) )
-				{
-					content = targetValue.toStringValue();
-				}
-				else
-				{
-					throw new RuntimeException( "Internal error: Cannot assign " + targetValue.getType() + " to " + getType() );
-				}
+				content = targetValue;
 			}
-			content = targetValue;
+			else if ( getType().equals( TYPE_STRING ) )
+			{
+				content = targetValue.toStringValue();
+			}
+			else if ( getType().equals( TYPE_INT ) && targetValue.getType().equals( TYPE_FLOAT ) )
+			{
+				content = targetValue.toIntValue();
+			}
+			else if ( getType().equals( TYPE_FLOAT ) && targetValue.getType().equals( TYPE_INT ) )
+			{
+				content = targetValue.toFloatValue();
+			}
+			else
+			{
+				throw new RuntimeException( "Internal error: Cannot assign " + targetValue.getType() + " to " + getType() );
+			}
 		}
 	}
 
@@ -2535,6 +2551,10 @@ public class KoLmafiaASH extends StaticEntity
 		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
 		{
 			target.setValue( targetValue );
+		}
+
+		public String toString()
+		{	return target.getName();
 		}
 	}
 
@@ -2809,7 +2829,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return "loop ";
+		{	return repeat ? "while" : "if";
 		}
 	}
 
@@ -2901,6 +2921,10 @@ public class KoLmafiaASH extends StaticEntity
 				throw new RuntimeException( "Internal error: illegal arguments" );
 
 			return target.execute();
+		}
+
+		public String toString()
+		{	return target.getName() + "()";
 		}
 	}
 
