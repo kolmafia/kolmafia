@@ -193,7 +193,6 @@ public class OptionsFrame extends KoLFrame
 			{ "showAllRequests", "Show requests in mini-browser" },
 			{ "keepSessionLogs", "Maintain dated player session log" },
 			{ "serverFriendly", "Use server-friendlier request speed" },
-			{ "forceReconnect", "Automatically time-in on time-out" },
 			{ "autoSatisfyChecks", "Allow purchases on conditions check" },
 		};
 
