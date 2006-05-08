@@ -1,3 +1,14 @@
+String.prototype.trim = function()
+{	return this.replace( /^\s+/, '' ).replace( /\s+$/, '' );
+};
+
+function selectOption( combobox, value )
+{
+	value = value.toLowerCase().trim();
+	for ( i = 0; ( i < combobox.options.length ) && ( combobox.options[i].value.toLowerCase().trim() != value ); ++i );
+	if ( i < combobox.options.length )
+		combobox.selectedIndex = i;
+};
 
 function loadKoLmafiaData()
 {
@@ -11,31 +22,23 @@ function loadKoLmafiaData()
 	document.character.weight.value = /*familiarWeight*/;
 
 	// Effects & Passive Skills
-	
-	// ( Skills must come before equipment for dual weilding )
-	
+
 	var passiveSkills = "/*passiveSkills*/";
 	var activeEffects = "/*activeEffects*/";
 	for ( j = 0; j < document.forms.length; ++j )
 		for ( i = 0; i < document.forms[j].elements.length; ++i )
-		{
-			if ( passiveSkills.indexOf( "\t" + document.forms[j].elements[i].name + "\t" ) != -1 )
-				if ( document.forms[j].elements[i].type == "checkbox" )
+			if ( document.forms[j].elements[i].type == "checkbox" )
+				if ( ( passiveSkills.indexOf( "\t" + document.forms[j].elements[i].name + "\t" ) != -1 ) ||
+					( activeEffects.indexOf( "\t" + document.forms[j].elements[i].name + "\t" ) != -1 ) )
 				{
 					document.forms[j].elements[i].checked = true;
 					document.forms[j].style.display = "";
 				}
-			if ( activeEffects.indexOf( "\t" + document.forms[j].elements[i].name + "\t" ) != -1 )
-				if ( document.forms[j].elements[i].type == "checkbox" )
-				{
-					document.forms[j].elements[i].checked = true;
-					document.forms[j].style.display = "";
-				}
-		}
 
 	AdjustForDualWield();
 	
 	// Snowcones
+	
 	var snowcone = 0;
 	if ( activeEffects.indexOf( "\tblacktongue\t" ) != -1 )
 		snowcone = 1;
@@ -57,30 +60,20 @@ function loadKoLmafiaData()
 
 	// Familiar and Familiar Equipment
 
-	document.character.familiar.value = "/*familiar*/";
-	document.equipment.familiarequip.value = "/*familiarEquip*/";
+	selectOption( document.character.familiar, "/*familiar*/" );
+	selectOption( document.equipment.familiarequip, "/*familiarEquip*/" );
 
 	// All other equipment
 
-	document.equipment.hat.value = "/*hat*/";
-	document.equipment.weapon.value = "/*weapon*/";
-	document.equipment.offhand.value = "/*offhand*/";
-	document.equipment.shirt.value = "/*shirt*/";
-	document.equipment.pants.value = "/*pants*/";
+	selectOption( document.equipment.hat, "/*hat*/" );
+	selectOption( document.equipment.weapon, "/*weapon*/" );
+	selectOption( document.equipment.offhand, "/*offhand*/" );
+	selectOption( document.equipment.shirt, "/*shirt*/" );
+	selectOption( document.equipment.pants, "/*pants*/" );
 
-	// Accessories
-	document.equipment.acc1.value = "/*accessory1*/";
-	document.equipment.acc2.value = "/*accessory2*/";
-	document.equipment.acc3.value = "/*accessory3*/";
-	for ( i = 0; i < numberofitemchoices[5]; ++i ) 
-		if ( equipment[5][i].name.toLowerCase() == "/*accessory1*/" )
-			document.equipment.acc1.selectedIndex = i; 
-	for ( i = 0; i < numberofitemchoices[6]; ++i ) 
-		if ( equipment[5][i].name.toLowerCase() == "/*accessory2*/" )
-			document.equipment.acc2.selectedIndex = i; 
-	for ( i = 0; i < numberofitemchoices[7]; ++i ) 
-		if ( equipment[5][i].name.toLowerCase() == "/*accessory3*/" )
-			document.equipment.acc3.selectedIndex = i; 
-	
+	selectOption( document.equipment.acc1, "/*accessory1*/" );
+	selectOption( document.equipment.acc2, "/*accessory2*/" );
+	selectOption( document.equipment.acc3, "/*accessory3*/" );
+
 	document.miscinput.rockandroll.checked = /*rockAndRoll*/;
-}
+};
