@@ -1488,7 +1488,7 @@ public abstract class KoLmafia implements KoLConstants
 				// Account for the possibility that you could have run
 				// out of adventures mid-request.
 				
-				if ( KoLCharacter.getAdventuresLeft() == 0 )
+				if ( KoLCharacter.getAdventuresLeft() == 0 && request instanceof KoLAdventure )
 					updateDisplay( PENDING_STATE, "Ran out of adventures." );
 			}
 
