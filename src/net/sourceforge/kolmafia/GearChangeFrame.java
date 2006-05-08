@@ -208,7 +208,7 @@ public class GearChangeFrame extends KoLFrame
 							pieces[i] = null;
 					}
 
-				if ( this != equipment[8] )
+				if ( this != equipment[ KoLCharacter.FAMILIAR ] )
 					outfitSelect.setEnabled( false );
 				
 				ensureValidSelections();
@@ -218,21 +218,21 @@ public class GearChangeFrame extends KoLFrame
 
 	private void ensureValidSelections()
 	{
-		equipment[3].setEnabled( KoLCharacter.hasSkill( "Torso Awaregness" ) );
+		equipment[ KoLCharacter.SHIRT ].setEnabled( KoLCharacter.hasSkill( "Torso Awaregness" ) );
 
-		String name = KoLCharacter.getEquipmentName( (String) equipment[2].getSelectedItem() );
-		int handsNeeded = ( name == null ) ? 0 : EquipmentDatabase.getHands( name );
-	
-		if ( handsNeeded > 1 )
+		if ( KoLCharacter.dualWielding() )
 		{
-			pieces[2] = null;
-			equipment[2].setSelectedItem( null );
-			equipment[2].setEnabled( false );
+			equipment[ KoLCharacter.OFFHAND ].setEnabled( true );
+			KoLCharacter.updateEquipmentList(  KoLCharacter.OFFHAND );
+			
+			if ( pieces[ KoLCharacter.OFFHAND ] == null )
+				equipmentLists[ KoLCharacter.OFFHAND ].setSelectedItem( KoLCharacter.getEquipment(2) );
 		}
 		else
 		{
-			equipment[2].setEnabled( true );
-			KoLCharacter.updateEquipmentList( 2 );
+			pieces[ KoLCharacter.OFFHAND ] = null;
+			equipment[ KoLCharacter.OFFHAND ].setSelectedItem( null );
+			equipment[ KoLCharacter.OFFHAND ].setEnabled( false );
 		}
 		
 		if ( outfitButton != null )
