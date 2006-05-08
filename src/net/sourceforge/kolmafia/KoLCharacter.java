@@ -1043,7 +1043,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean dualWielding()
 	{
-		String name = getCurrentEquipmentName( OFFHAND );
+		String name = getEquipmentName( (String) equipmentLists[WEAPON].getSelectedItem() );
 		return name != null && EquipmentDatabase.getHands( name ) == 1;
 	}
 
@@ -1059,21 +1059,49 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void updateEquipmentLists()
 	{
 		EquipmentDatabase.updateOutfits();
-
-		updateEquipmentList( equipmentLists[HAT], ConsumeItemRequest.EQUIP_HAT, getEquipment( HAT ) );
-		updateEquipmentList( equipmentLists[WEAPON], ConsumeItemRequest.EQUIP_WEAPON, getEquipment( WEAPON ) );
-		updateEquipmentList( equipmentLists[OFFHAND], ConsumeItemRequest.EQUIP_OFFHAND, getEquipment( OFFHAND ) );
-		updateEquipmentList( equipmentLists[SHIRT], ConsumeItemRequest.EQUIP_SHIRT, getEquipment( SHIRT ) );
-		updateEquipmentList( equipmentLists[PANTS], ConsumeItemRequest.EQUIP_PANTS, getEquipment( PANTS ) );
-		updateEquipmentList( equipmentLists[ACCESSORY1], ConsumeItemRequest.EQUIP_ACCESSORY, getEquipment( ACCESSORY1 ) );
-		updateEquipmentList( equipmentLists[ACCESSORY2], ConsumeItemRequest.EQUIP_ACCESSORY, getEquipment( ACCESSORY2 ) );
-		updateEquipmentList( equipmentLists[ACCESSORY3], ConsumeItemRequest.EQUIP_ACCESSORY, getEquipment( ACCESSORY3 ) );
-		updateEquipmentList( equipmentLists[FAMILIAR], ConsumeItemRequest.EQUIP_FAMILIAR, getEquipment( FAMILIAR ) );
+		for ( int i = 0; i <= FAMILIAR; ++i )
+			updateEquipmentList( i );
 	}
 
-	public static void updateEquipmentList( LockableListModel currentList, int currentFilter, String equippedItem )
+	public static void updateEquipmentList( int listIndex )
 	{
-		List newItems = getFilteredItems( currentFilter, equippedItem );
+		int consumeFilter = 0;
+		switch ( listIndex )
+		{
+			case HAT:
+				consumeFilter = ConsumeItemRequest.EQUIP_HAT;
+				break;
+			case WEAPON:
+				consumeFilter = ConsumeItemRequest.EQUIP_WEAPON;
+				break;
+			case OFFHAND:
+				consumeFilter = ConsumeItemRequest.EQUIP_OFFHAND;
+				break;
+			case SHIRT:
+				consumeFilter = ConsumeItemRequest.EQUIP_SHIRT;
+				break;
+			case PANTS:
+				consumeFilter = ConsumeItemRequest.EQUIP_PANTS;
+				break;
+			case ACCESSORY1:
+			case ACCESSORY2:
+			case ACCESSORY3:
+				consumeFilter = ConsumeItemRequest.EQUIP_ACCESSORY;
+				break;
+			case FAMILIAR:
+				consumeFilter = ConsumeItemRequest.EQUIP_FAMILIAR;
+				break;
+			default:
+				return;
+		}
+		
+		updateEquipmentList( equipmentLists[ listIndex ], consumeFilter,
+			(String) equipmentLists[ listIndex ].getSelectedItem() );
+	}
+		
+	private static void updateEquipmentList( LockableListModel currentList, int consumeFilter, String equippedItem )
+	{
+		List newItems = getFilteredItems( consumeFilter, equippedItem );
 		if ( currentList.equals( newItems ) )
 			return;
 		
@@ -1098,12 +1126,14 @@ public abstract class KoLCharacter extends StaticEntity
 		// currently equipped with a one-handed melee weapon, and the
 		// character has the ability to dual-wield weapons, then also
 		// search for one-handed weapons.
+
 		boolean dual = ( filterID == ConsumeItemRequest.EQUIP_OFFHAND &&
-				 weaponHandedness() == 1 && !rangedWeapon() &&
-				 hasSkill( "Double-Fisted Skull Smashing" ) );
+			weaponHandedness() == 1 && !rangedWeapon() &&
+			hasSkill( "Double-Fisted Skull Smashing" ) );
 
 		// If the character is currently dual wielding, only melee
 		// weapons are allowed in the main weapon slot
+
 		boolean dualWielding = dualWielding();
 
 		// If we are looking for familiar items, but we don't
@@ -1123,6 +1153,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 			// If we want off-hand items and we can dual wield,
 			// allow one-handed melee weapons
+
 			if ( filterID == ConsumeItemRequest.EQUIP_OFFHAND && dual && type == ConsumeItemRequest.EQUIP_WEAPON )
 			{
 				if ( !EquipmentDatabase.dualWieldable( currentItem ) )
@@ -1130,6 +1161,7 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 
 			// Otherwise, slot and item type must match
+
 			else if ( filterID != type )
 				continue;
 
@@ -1137,11 +1169,13 @@ public abstract class KoLCharacter extends StaticEntity
 			// weapons are allowed in the main weapon slot
 			// Two-handed ranged weapons are also allowed since
 			// they will remove both weapons when equipped
+
 			else if ( filterID == ConsumeItemRequest.EQUIP_WEAPON && dualWielding && EquipmentDatabase.isRanged( currentItem ) && EquipmentDatabase.getHands( currentItem ) == 1 )
 				continue;
 
 			// If we are equipping familiar items, make sure
 			// current familiar can use this one
+
 			if ( type == ConsumeItemRequest.EQUIP_FAMILIAR )
 			{
 				if ( currentFamiliar.canEquip( currentItem ) )
@@ -1150,6 +1184,7 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 
 			// It's a regular item. Make sure we meet requirements
+
 			if ( !EquipmentDatabase.canEquip( currentItem ) )
 				continue;
 

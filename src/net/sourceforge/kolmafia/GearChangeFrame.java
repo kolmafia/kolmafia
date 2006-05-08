@@ -202,7 +202,11 @@ public class GearChangeFrame extends KoLFrame
 			{
 				for ( int i = 0; i < equipment.length; ++i )
 					if ( this == equipment[i] )
+					{
 						pieces[i] = (String) getSelectedItem();
+						if ( pieces[i] != null && KoLCharacter.getEquipment(i).equals( pieces[i] ) )
+							pieces[i] = null;
+					}
 
 				if ( this != equipment[8] )
 					outfitSelect.setEnabled( false );
@@ -228,6 +232,7 @@ public class GearChangeFrame extends KoLFrame
 		else
 		{
 			equipment[2].setEnabled( true );
+			KoLCharacter.updateEquipmentList( 2 );
 		}
 		
 		if ( outfitButton != null )
