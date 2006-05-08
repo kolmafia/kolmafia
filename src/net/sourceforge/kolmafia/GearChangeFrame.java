@@ -73,7 +73,8 @@ public class GearChangeFrame extends KoLFrame
 {
 	private String [] pieces = new String[9];
 	private JButton outfitButton;
-	
+
+	private EquipPanel equip;
 	private ChangeComboBox [] equipment;
 	private LockableListModel [] equipmentLists;
 	private ChangeComboBox outfitSelect, familiarSelect;
@@ -99,7 +100,7 @@ public class GearChangeFrame extends KoLFrame
 		outfitSelect = new ChangeComboBox( KoLCharacter.getOutfits() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( new EquipPanel(), "" );
+		framePanel.add( equip = new EquipPanel(), "" );
 		KoLCharacter.updateEquipmentLists();
 	}
 
@@ -155,6 +156,10 @@ public class GearChangeFrame extends KoLFrame
 					pieces[i] = null;
 				}
 			}
+
+			FamiliarData familiar = (FamiliarData) familiarSelect.getSelectedItem();
+			if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
+				requestList.add( new FamiliarRequest( StaticEntity.getClient(), familiar ) );
 			
 			if ( requestList.isEmpty() )
 				return;
@@ -190,29 +195,28 @@ public class GearChangeFrame extends KoLFrame
 				Object outfit = getSelectedItem();
 				if ( outfit != null && !(outfit instanceof String) )
 					(new RequestThread( new EquipmentRequest( StaticEntity.getClient(), (SpecialOutfit) outfit ) )).start();
+
 				setSelectedItem( null );
+				return;
 			}
 			else if ( this == familiarSelect )
 			{
-				FamiliarData familiar = (FamiliarData) getSelectedItem();
-				if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
-					(new RequestThread( new FamiliarRequest( StaticEntity.getClient(), familiar ) )).start();
+				equip.actionConfirmed();
+				return;
 			}
-			else
-			{
-				for ( int i = 0; i < equipment.length; ++i )
-					if ( this == equipment[i] )
-					{
-						pieces[i] = (String) getSelectedItem();
-						if ( pieces[i] != null && KoLCharacter.getEquipment(i).equals( pieces[i] ) )
-							pieces[i] = null;
-					}
 
-				if ( this != equipment[ KoLCharacter.FAMILIAR ] )
-					outfitSelect.setEnabled( false );
-				
-				ensureValidSelections();
-			}
+			for ( int i = 0; i < equipment.length; ++i )
+				if ( this == equipment[i] )
+				{
+					pieces[i] = (String) getSelectedItem();
+					if ( pieces[i] != null && KoLCharacter.getEquipment(i).equals( pieces[i] ) )
+						pieces[i] = null;
+				}
+
+			if ( this != equipment[ KoLCharacter.FAMILIAR ] )
+				outfitSelect.setEnabled( false );
+			
+			ensureValidSelections();
 		}
 	}
 
