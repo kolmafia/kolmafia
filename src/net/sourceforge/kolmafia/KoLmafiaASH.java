@@ -295,7 +295,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		while ( (importString = parseImport()) != null )
 		{
-			if ( currentToken().equalsIgnoreCase( ";" ) )
+			if ( currentToken().equals( ";" ) )
 				readToken(); //read ;
 			else
 				throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
@@ -332,7 +332,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			else if ( (v = parseVariable( t, result )) != null )
 			{
-				if ( currentToken().equalsIgnoreCase( ";" ) )
+				if ( currentToken().equals( ";" ) )
 					readToken(); //read ;
 				else
 					throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
@@ -360,7 +360,7 @@ public class KoLmafiaASH extends StaticEntity
 		else
 			return null;
 
-		if ( nextToken() == null || !nextToken().equalsIgnoreCase( "(" ) )
+		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
 
 		readToken(); //read Function name
@@ -369,7 +369,7 @@ public class KoLmafiaASH extends StaticEntity
 		paramList = new ScriptVariableList();
 
 		result = new ScriptFunction( functionName, t );
-		while ( !currentToken().equalsIgnoreCase( ")" ) )
+		while ( !currentToken().equals( ")" ) )
 		{
 			if ( (paramType = parseType()) == null )
 				throw new AdvancedScriptException( " ')' Expected " + getLineAndFile() );
@@ -377,9 +377,9 @@ public class KoLmafiaASH extends StaticEntity
 			if ( (param = parseVariable( paramType, null )) == null )
 				throw new AdvancedScriptException( " Identifier expected " + getLineAndFile() );
 
-			if ( !currentToken().equalsIgnoreCase( ")" ) )
+			if ( !currentToken().equals( ")" ) )
 			{
-				if ( !currentToken().equalsIgnoreCase( "," ) )
+				if ( !currentToken().equals( "," ) )
 					throw new AdvancedScriptException( " ')' Expected " + getLineAndFile() );
 
 				readToken(); //read comma
@@ -392,7 +392,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		readToken(); //read )
 
-		if ( !currentToken().equalsIgnoreCase( "{" ) ) //Scope is a single call
+		if ( !currentToken().equals( "{" ) ) //Scope is a single call
 		{
 			result.setScope( new ScriptScope( parseCommand( t, parentScope, false, false ), parentScope ) );
 
@@ -410,7 +410,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			readToken(); //read {
 			result.setScope( parseScope( t, paramList, parentScope, false ) );
-			if ( !currentToken().equalsIgnoreCase( "}" ) )
+			if ( !currentToken().equals( "}" ) )
 				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
 			readToken(); //read }
 		}
@@ -494,7 +494,7 @@ public class KoLmafiaASH extends StaticEntity
 		else
 			return null;
 
-		if ( currentToken() == null || !currentToken().equalsIgnoreCase( ";" ) )
+		if ( currentToken() == null || !currentToken().equals( ";" ) )
 			throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
 
 		readToken(); // ;
@@ -568,7 +568,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		readToken(); //return
 
-		if ( currentToken() != null && currentToken().equalsIgnoreCase( ";" ) )
+		if ( currentToken() != null && currentToken().equals( ";" ) )
 		{
 			if ( expectedType != null && expectedType.equals( TYPE_VOID ) )
 				return new ScriptReturn( null, VOID_TYPE );
@@ -601,21 +601,21 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( (currentToken().equalsIgnoreCase( "while" ) && ( repeat = true )) || currentToken().equalsIgnoreCase( "if" ) )
 		{
-			if ( nextToken() == null || !nextToken().equalsIgnoreCase( "(" ) )
+			if ( nextToken() == null || !nextToken().equals( "(" ) )
 				throw new AdvancedScriptException( "'(' Expected " + getLineAndFile() );
 
 			readToken(); //if or while
 			readToken(); //(
 
 			expression = parseExpression( parentScope );
-			if ( currentToken() == null || !currentToken().equalsIgnoreCase( ")" ) )
+			if ( currentToken() == null || !currentToken().equals( ")" ) )
 				throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
 
 			readToken(); // )
 
 			do
 			{
-				if ( currentToken() == null || !currentToken().equalsIgnoreCase( "{" ) ) //Scope is a single call
+				if ( currentToken() == null || !currentToken().equals( "{" ) ) //Scope is a single call
 				{
 					command = parseCommand( functionType, parentScope, !elseFound, (repeat || loop) );
 					scope = new ScriptScope( command, parentScope );
@@ -627,7 +627,7 @@ public class KoLmafiaASH extends StaticEntity
 					readToken(); //read {
 					scope = parseScope( functionType, null, parentScope, (repeat || loop ) );
 
-					if ( currentToken() == null || !currentToken().equalsIgnoreCase( "}" ) )
+					if ( currentToken() == null || !currentToken().equals( "}" ) )
 						throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
 
 					readToken(); //read }
@@ -647,13 +647,13 @@ public class KoLmafiaASH extends StaticEntity
 						readToken(); //else
 						readToken(); //if
 
-						if ( currentToken() == null || !currentToken().equalsIgnoreCase( "(" ) )
+						if ( currentToken() == null || !currentToken().equals( "(" ) )
 							throw new AdvancedScriptException( "'(' Expected " + getLineAndFile() );
 
 						readToken(); //(
 						expression = parseExpression( parentScope );
 
-						if ( currentToken() == null || !currentToken().equalsIgnoreCase( ")" ) )
+						if ( currentToken() == null || !currentToken().equals( ")" ) )
 							throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
 
 						readToken(); // )
@@ -687,7 +687,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptExpressionList params;
 		ScriptExpression val;
 
-		if ( nextToken() == null || !nextToken().equalsIgnoreCase( "(" ) )
+		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
 
 		if ( parseIdentifier( currentToken() ) )
@@ -699,15 +699,15 @@ public class KoLmafiaASH extends StaticEntity
 		readToken(); //(
 
 		params = new ScriptExpressionList();
-		while ( currentToken() != null && !currentToken().equalsIgnoreCase( ")" ) )
+		while ( currentToken() != null && !currentToken().equals( ")" ) )
 		{
 			if ( (val = parseExpression( scope )) != null )
 			{
 				params.addElement( val );
 			}
-			if ( !currentToken().equalsIgnoreCase( "," ) )
+			if ( !currentToken().equals( "," ) )
 			{
-				if ( !currentToken().equalsIgnoreCase( ")" ) )
+				if ( !currentToken().equals( ")" ) )
 				{
 					throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
 				}
@@ -715,12 +715,12 @@ public class KoLmafiaASH extends StaticEntity
 			else
 			{
 				readToken();
-				if ( currentToken().equalsIgnoreCase( ")" ) )
+				if ( currentToken().equals( ")" ) )
 					throw new AdvancedScriptException( "Parameter expected " + getLineAndFile() );
 			}
 		}
 
-		if ( !currentToken().equalsIgnoreCase( ")" ) )
+		if ( !currentToken().equals( ")" ) )
 			throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
 
 		readToken(); // )
@@ -804,11 +804,11 @@ public class KoLmafiaASH extends StaticEntity
 		if ( currentToken() == null )
 			return null;
 
-		if ( currentToken().equalsIgnoreCase( "(" ) )
+		if ( currentToken().equals( "(" ) )
 		{
 			readToken();// (
 			result = parseExpression( scope );
-			if ( currentToken() == null || !currentToken().equalsIgnoreCase( ")" ) )
+			if ( currentToken() == null || !currentToken().equals( ")" ) )
 				throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
 
 			readToken();// )
@@ -855,7 +855,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			return new ScriptValue( INT_TYPE, resultInt );
 		}
-		else if ( currentToken().equalsIgnoreCase( "\"" ) )
+		else if ( currentToken().equals( "\"" ) )
 		{
 			// Directly work with line - ignore any "tokens" you meet until the string is closed
 
@@ -882,7 +882,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 		}
-		else if ( currentToken().equalsIgnoreCase( "$" ) )
+		else if ( currentToken().equals( "$" ) )
 		{
 			ScriptType type;
 			readToken();
@@ -890,7 +890,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( type == null )
 				throw new AdvancedScriptException( "Unknown type " + currentToken() + " " + getLineAndFile() );
-			if ( !currentToken().equalsIgnoreCase( "[" ) )
+			if ( !currentToken().equals( "[" ) )
 				throw new AdvancedScriptException( "'[' Expected " + getLineAndFile() );
 
 			StringBuffer resultString = new StringBuffer();
@@ -943,12 +943,12 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		if
 		(
-			oper.equalsIgnoreCase( "!" ) ||
-			oper.equalsIgnoreCase( "*" ) || oper.equalsIgnoreCase( "/" ) || oper.equalsIgnoreCase( "%" ) ||
-			oper.equalsIgnoreCase( "+" ) || oper.equalsIgnoreCase( "-" ) ||
-			oper.equalsIgnoreCase( "<" ) || oper.equalsIgnoreCase( ">" ) || oper.equalsIgnoreCase( "<=" ) || oper.equalsIgnoreCase( ">=" ) ||
-			oper.equalsIgnoreCase( "==" ) || oper.equalsIgnoreCase( "!=" ) ||
-			oper.equalsIgnoreCase( "||" ) || oper.equalsIgnoreCase( "&&" )
+			oper.equals( "!" ) ||
+			oper.equals( "*" ) || oper.equals( "/" ) || oper.equals( "%" ) ||
+			oper.equals( "+" ) || oper.equals( "-" ) ||
+			oper.equals( "<" ) || oper.equals( ">" ) || oper.equals( "<=" ) || oper.equals( ">=" ) ||
+			oper.equals( "==" ) || oper.equals( "!=" ) ||
+			oper.equals( "||" ) || oper.equals( "&&" )
 		 )
 		{
 			return new ScriptOperator( oper );
@@ -981,7 +981,7 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		readToken(); //import
 
-		if ( !currentToken().equalsIgnoreCase( "<" ) )
+		if ( !currentToken().equals( "<" ) )
 			throw new AdvancedScriptException( "'<' Expected " + getLineAndFile() );
 		for ( i = 1; ; ++i )
 		{
@@ -1024,7 +1024,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		String result = line.substring( tokenLength( line ) ).trim();
 
-		if ( result.equalsIgnoreCase( "" ) )
+		if ( result.equals( "" ) )
 		{
 			if ( nextLine == null )
 				return null;
@@ -1067,7 +1067,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( line == null )
 			return;
 
-		while ( line.equalsIgnoreCase( "" ) )
+		while ( line.equals( "" ) )
 		{
 			line = nextLine;
 			lineNumber = commandStream.getLineNumber();
@@ -1082,7 +1082,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( nextLine == null )
 			return;
 
-		while ( nextLine.equalsIgnoreCase( "" ) )
+		while ( nextLine.equals( "" ) )
 		{
 			nextLine = getNextLine();
 			if ( nextLine == null )
@@ -3216,6 +3216,12 @@ public class KoLmafiaASH extends StaticEntity
 			this.contentInt = value ? 1 : 0;
 		}
 
+		public ScriptValue( double content )
+		{
+			this.type = FLOAT_TYPE;
+			this.contentFloat = (float)content;
+		}
+
 		public ScriptValue( int type ) throws AdvancedScriptException
 		{
 			this.type = new ScriptType( type );
@@ -3664,7 +3670,34 @@ public class KoLmafiaASH extends StaticEntity
 			if ( currentState == STATE_EXIT )
 				return null;
 
-			if ( rhs != null && !rhs.getType().equals( lhs.getType() ) )
+			// Unary Operators
+			if ( operator.equals( "!" ) )
+				return new ScriptValue( leftResult.intValue() == 0 );
+
+			// Unknown operator
+			if ( rhs == null )
+				throw new RuntimeException( "Internal error: missing right operand." );
+
+			// Binary operators with optional right values
+			if ( operator.equals( "||" ) )
+			{
+				if ( leftResult.intValue() == 1 )
+					return TRUE_VALUE;
+				ScriptValue rightResult = rhs.execute();
+				captureValue();
+				return rightResult;
+			}
+			if ( operator.equals( "&&" ) )
+			{
+				if ( leftResult.intValue() == 0 )
+					return FALSE_VALUE;
+				ScriptValue rightResult = rhs.execute();
+				captureValue();
+				return rightResult;
+			}
+
+			// Ensure type compatibility of operands
+			if ( !rhs.getType().equals( lhs.getType() ) )
 			{
 				boolean validOperation = false;
 
@@ -3679,146 +3712,131 @@ public class KoLmafiaASH extends StaticEntity
 					throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond" );
 			}
 
-			if ( operator.equals( "!" ) )
-			{
-				return new ScriptValue( leftResult.intValue() == 0 );
-			}
-			if ( operator.equals( "*" ) )
-			{
-				ScriptValue rightResult = rhs.execute();
-				if ( currentState == STATE_EXIT )
-					return null;
-				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() * rightResult.toFloatValue().floatValue() );
-				else
-					return new ScriptValue( TYPE_INT, leftResult.intValue() * rightResult.intValue() );
-			}
-			if ( operator.equals( "/" ) )
-			{
-				ScriptValue rightResult = rhs.execute();
-				if ( currentState == STATE_EXIT )
-					return null;
-				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() / rightResult.toFloatValue().floatValue() );
-				else
-					return new ScriptValue( TYPE_INT, leftResult.intValue() / rightResult.intValue() );
-			}
-			if ( operator.equals( "%" ) )
-			{
-				ScriptValue rightResult = rhs.execute();
-				if ( currentState == STATE_EXIT )
-					return null;
-				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() % rightResult.toFloatValue().floatValue() );
-				else
-					return new ScriptValue( TYPE_INT, leftResult.intValue() % rightResult.intValue() );
-			}
+			// Binary operators
+			ScriptValue rightResult = rhs.execute();
+			captureValue();
+			if ( currentState == STATE_EXIT )
+				return null;
+
+			// String operators
 			if ( operator.equals( "+" ) )
 			{
-				ScriptValue rightResult = rhs.execute();
-				if ( currentState == STATE_EXIT )
-					return null;
 				if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) )
 					return new ScriptValue( TYPE_STRING, leftResult.toStringValue().toString() + rightResult.toStringValue().toString() );
-				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() + rightResult.toFloatValue().floatValue() );
-				else
-					return new ScriptValue( TYPE_INT, leftResult.intValue() + rightResult.intValue() );
 			}
-			if ( operator.equals( "-" ) )
-			{
-				ScriptValue rightResult = rhs.execute();
-				if ( currentState == STATE_EXIT )
-					return null;
-				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() - rightResult.toFloatValue().floatValue() );
-				else
-					return new ScriptValue( TYPE_INT, leftResult.intValue() - rightResult.intValue() );
-			}
-			if ( operator.equals( "<" ) )
-			{
-				ScriptValue rightResult = rhs.execute();
-				if ( currentState == STATE_EXIT )
-					return null;
-				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( leftResult.toFloatValue().floatValue() < rightResult.toFloatValue().floatValue() );
-				else
-					return new ScriptValue( leftResult.intValue() < rightResult.intValue() );
-			}
-			if ( operator.equals( ">" ) )
-			{
-				ScriptValue rightResult = rhs.execute();
-				if ( currentState == STATE_EXIT )
-					return null;
-				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( leftResult.toFloatValue().floatValue() > rightResult.toFloatValue().floatValue() );
-				else
-					return new ScriptValue( leftResult.intValue() > rightResult.intValue() );
-			}
-			if ( operator.equals( "<=" ) )
-			{
-				ScriptValue rightResult = rhs.execute();
-				if ( currentState == STATE_EXIT )
-					return null;
-				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( leftResult.toFloatValue().floatValue() <= rightResult.toFloatValue().floatValue() );
-				else
-					return new ScriptValue( leftResult.intValue() <= rightResult.intValue() );
-			}
-			if ( operator.equals( ">=" ) )
-			{
-				ScriptValue rightResult = rhs.execute();
-				if ( currentState == STATE_EXIT )
-					return null;
-				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( leftResult.toFloatValue().floatValue() >= rightResult.toFloatValue().floatValue() );
-				else
-					return new ScriptValue( leftResult.intValue() >= rightResult.intValue() );
-			}
+
 			if ( operator.equals( "==" ) )
 			{
-				ScriptValue rightResult = rhs.execute();
-				captureValue();
-				if ( currentState == STATE_EXIT )
-					return null;
-				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( leftResult.toFloatValue().floatValue() == rightResult.toFloatValue().floatValue() );
 				if ( lhs.getType().equals( TYPE_STRING ) ||
 				     lhs.getType().equals( TYPE_LOCATION ) ||
 				     lhs.getType().equals( TYPE_MONSTER ) )
 					return new ScriptValue( leftResult.toString().equalsIgnoreCase( rightResult.toString() ) );
-				return new ScriptValue( leftResult.intValue() == rightResult.intValue() );
 			}
+
 			if ( operator.equals( "!=" ) )
 			{
-				ScriptValue rightResult = rhs.execute();
-				captureValue();
-				if ( currentState == STATE_EXIT )
-					return null;
-				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( leftResult.toFloatValue().floatValue() != rightResult.toFloatValue().floatValue() );
 				if ( lhs.getType().equals( TYPE_STRING ) ||
 				     lhs.getType().equals( TYPE_LOCATION ) ||
 				     lhs.getType().equals( TYPE_MONSTER ) )
 					return new ScriptValue( !leftResult.toString().equalsIgnoreCase( rightResult.toString() ) );
-				return new ScriptValue( leftResult.intValue() != rightResult.intValue() );
 			}
-			if ( operator.equalsIgnoreCase( "||" ) )
+
+			// Arithmetic operators
+			boolean isInt;
+			double lfloat = 0.0, rfloat = 0.0;
+			int lint = 0, rint = 0;
+
+			if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 			{
-				if ( leftResult.intValue() == 1 )
-					return TRUE_VALUE;
-				ScriptValue rightResult = rhs.execute();
-				captureValue();
-				return	rightResult;
+				isInt = false;
+				lfloat = leftResult.toFloatValue().floatValue();
+				rfloat = rightResult.toFloatValue().floatValue();
 			}
-			if ( operator.equalsIgnoreCase( "&&" ) )
+			else
 			{
-				if ( leftResult.intValue() == 0 )
-					return FALSE_VALUE;
-				ScriptValue rightResult = rhs.execute();
-				captureValue();
-				return	rightResult;
+				isInt = true;
+				lint = leftResult.intValue();
+				rint = rightResult.intValue();
 			}
+
+			if ( operator.equals( "+" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( lint + rint );
+				return new ScriptValue( lfloat + rfloat );
+			}
+
+			if ( operator.equals( "-" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( lint - rint );
+				return new ScriptValue( lfloat - rfloat );
+			}
+
+			if ( operator.equals( "*" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( lint * rint );
+				return new ScriptValue( lfloat * rfloat );
+			}
+
+			if ( operator.equals( "/" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( lint / rint );
+				return new ScriptValue( lfloat / rfloat );
+			}
+
+			if ( operator.equals( "%" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( lint % rint );
+				return new ScriptValue( lfloat % rfloat );
+			}
+
+			if ( operator.equals( "<" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( lint < rint );
+				return new ScriptValue( lfloat < rfloat );
+			}
+
+			if ( operator.equals( ">" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( lint > rint );
+				return new ScriptValue( lfloat > rfloat );
+			}
+
+			if ( operator.equals( "<=" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( lint <= rint );
+				return new ScriptValue( lfloat <= rfloat );
+			}
+
+			if ( operator.equals( ">=" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( lint >= rint );
+				return new ScriptValue( lfloat >= rfloat );
+			}
+
+			if ( operator.equals( "==" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( lint == rint );
+				return new ScriptValue( lfloat == rfloat );
+			}
+
+			if ( operator.equals( "!=" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( lint != rint );
+				return new ScriptValue( lfloat != rfloat );
+			}
+
+			// Unknown operator
 			throw new RuntimeException( "Internal error: illegal operator." );
 		}
 	}
