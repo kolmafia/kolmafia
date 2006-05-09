@@ -421,7 +421,7 @@ public class LocalRelayRequest extends KoLRequest
 				continue;
 
 			passiveSkills.append( "\t" );
-			passiveSkills.append( skills[i].getSkillName().replaceAll( "[ -]", "" ).toLowerCase() );
+			passiveSkills.append( skills[i].getSkillName().replaceAll( "[' -]", "" ).toLowerCase() );
 			passiveSkills.append( "\t" );
 		}
 
@@ -435,7 +435,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		String activeEffects = "";
 		for ( int i = 0; i < effects.length; ++i )
-			activeEffects += "\t" + UneffectRequest.effectToSkill( effects[i].getName() ).replaceAll( "[ -]", "" ).toLowerCase() + "\t";
+			activeEffects += "\t" + UneffectRequest.effectToSkill( effects[i].getName() ).replaceAll( "[' -]", "" ).toLowerCase() + "\t";
 
 		replaceTag( scriptBuffer, "/*activeEffects*/", activeEffects );
 
