@@ -1154,6 +1154,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		boolean sympathyAvailable;
 		boolean leashAvailable;
 		boolean empathyAvailable;
+		boolean heavyPettingAvailable;
 
 		// Active effects which affect weight
 		int leashActive;
@@ -1273,6 +1274,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
 			empathyAvailable = KoLCharacter.hasSkill( "Empathy of the Newt" );
 			leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
+			heavyPettingAvailable = NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
 
 			// Look at effects to decide which ones are active;
 			LockableListModel active = KoLCharacter.getEffects();
@@ -1992,6 +1994,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( leashAvailable || leashActive > 0 )
 				weight += 5;
 			if ( empathyAvailable || empathyActive > 0 )
+				weight += 5;
+			if ( heavyPettingAvailable || heavyPettingActive > 0 )
 				weight += 5;
 
 			// Add available familiar items
