@@ -1274,7 +1274,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
 			empathyAvailable = KoLCharacter.hasSkill( "Empathy of the Newt" );
 			leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
-			heavyPettingAvailable = NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
+			heavyPettingAvailable = NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" ) &&
+				StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" );
 
 			// Look at effects to decide which ones are active;
 			LockableListModel active = KoLCharacter.getEffects();
@@ -1522,15 +1523,19 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			if ( buffs )
 			{
+				int overallModifier = 0;
+				
 				if ( empathyAvailable && empathyActive == 0 )
-					getItemWeights( weight + 5 );
-
+					overallModifier += 5;
+				
 				if ( leashAvailable && leashActive == 0 )
-					getItemWeights( weight + 5 );
-
-				if ( empathyAvailable && leashAvailable &&
-				     empathyActive == 0 && leashActive == 0 )
-					getItemWeights( weight + 10 );
+					overallModifier += 5;
+				
+				if ( heavyPettingAvailable && heavyPettingActive == 0 )
+					overallModifier += 5;
+				
+				for ( int i = 5; i <= overallModifier; i += 5 )
+					getItemWeights( weight + i );
 			}
 
 			// Calculate item weights with no additional buffs
@@ -1716,8 +1721,9 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next.leash && !current.leash )
 			{
 				// Cast Leash. Bail if can't.
-				(new UseSkillRequest( StaticEntity.getClient(), "Leash of Linguini", null, 1 )).run();
-				if ( !StaticEntity.getClient().permitsContinue())
+
+				DEFAULT_SHELL.executeLine( "cast Leash of Linguini" );
+				if ( !UseSkillRequest.lastUpdate.equals( "" ) )
 					return;
 
 				// Remember it
@@ -1727,12 +1733,18 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next.empathy && !current.empathy )
 			{
 				// Cast Empathy. Bail if can't.
-				(new UseSkillRequest( StaticEntity.getClient(), "Empathy of the Newt", null, 1 )).run();
-				if ( !StaticEntity.getClient().permitsContinue())
+				DEFAULT_SHELL.executeLine( "cast Empathy of the Newt" );
+				if ( !UseSkillRequest.lastUpdate.equals( "" ) )
 					return;
 
 				// Remember it
 				empathyActive += 10;
+			}
+			
+			if ( next.spray && !current.spray )
+			{
+				DEFAULT_SHELL.executeLine( "use Knob Goblin pet-buffing spray" );
+				heavyPettingActive += 10;
 			}
 		}
 
@@ -1771,67 +1783,72 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void getBuffGearSets( int weight, boolean buffs )
 		{
-			if ( leashActive > 0 && empathyActive > 0 )
-				getHatGearSets( weight, true, true );
-			else if ( leashActive > 0 )
+			// Handle base case of everything available right
+			// now with no additional casting.
+			
+			getHatGearSets( weight, leashActive > 0, empathyActive > 0, heavyPettingActive > 0 );
+
+			// Handle situations where you are allowed to cast
+			// buffs on yourself during training.
+			
+			if ( buffs )
 			{
-				getHatGearSets( weight, true, false );
-				if ( buffs && empathyAvailable )
-					getHatGearSets( weight, true, true );
+				boolean addLeash = buffs && leashAvailable && leashActive == 0;
+				boolean addEmpathy = buffs && empathyAvailable && empathyActive == 0;
+				boolean addSpray = buffs && heavyPettingAvailable && heavyPettingActive == 0;
+				
+				if ( addLeash )
+					getHatGearSets( weight, addLeash, empathyActive > 0, heavyPettingActive > 0 );
+				if ( addLeash )
+					getHatGearSets( weight, leashActive > 0, addEmpathy, heavyPettingActive > 0 );
+				if ( addSpray )
+					getHatGearSets( weight, leashActive > 0, empathyActive > 0, addSpray );
+		
+				if ( addLeash && addEmpathy )
+					getHatGearSets( weight, addLeash, addEmpathy, heavyPettingActive > 0 );
+				if ( addEmpathy && addSpray )
+					getHatGearSets( weight, leashActive > 0, addEmpathy, addSpray );
+				if ( addLeash && addSpray )
+					getHatGearSets( weight, addLeash, empathyActive > 0, addSpray );
+		
+				if ( addLeash && addEmpathy && addSpray )
+					getHatGearSets( weight, addLeash, addEmpathy, addSpray );
 			}
-			else if ( empathyActive > 0 )
-			{
-				getHatGearSets( weight, false, true );
-				if ( buffs && leashAvailable )
-					getHatGearSets( weight, true, true );
-			}
-			else if ( buffs )
-			{
-				getHatGearSets( weight, false, false );
-				if ( leashAvailable )
-					getHatGearSets( weight, true, false );
-				if ( empathyAvailable )
-					getHatGearSets( weight, false, true );
-				if ( leashAvailable && empathyAvailable)
-					getHatGearSets( weight, true, true );
-			}
-			else
-				getHatGearSets( weight, false, false );
 		}
 
-		private void getHatGearSets( int weight, boolean leash, boolean empathy )
+		private void getHatGearSets( int weight, boolean leash, boolean empathy, boolean spray )
 		{
 			if ( pithHelmet != null )
-				getItemGearSets( weight, pithHelmet, leash, empathy );
+				getItemGearSets( weight, pithHelmet, leash, empathy, spray );
 
-			getItemGearSets( weight, null, leash, empathy );
+			getItemGearSets( weight, null, leash, empathy, spray );
 		}
 
-		private void getItemGearSets( int weight, AdventureResult hat, boolean leash, boolean empathy )
+		private void getItemGearSets( int weight, AdventureResult hat, boolean leash, boolean empathy, boolean spray )
 		{
 			if ( specItem != null )
-				getAccessoryGearSets( weight, specItem, hat, leash, empathy );
+				getAccessoryGearSets( weight, specItem, hat, leash, empathy, spray );
 			if ( leadNecklace != null )
-				getAccessoryGearSets( weight, leadNecklace, hat, leash, empathy );
+				getAccessoryGearSets( weight, leadNecklace, hat, leash, empathy, spray );
 			if ( ratHeadBalloon != null )
-				getAccessoryGearSets( weight, ratHeadBalloon, hat, leash, empathy );
-			getAccessoryGearSets( weight, null, hat, leash, empathy );
+				getAccessoryGearSets( weight, ratHeadBalloon, hat, leash, empathy, spray );
+			getAccessoryGearSets( weight, null, hat, leash, empathy, spray );
 		}
 
-		private void getAccessoryGearSets( int weight, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy )
+		private void getAccessoryGearSets( int weight, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy, boolean spray )
 		{
 			// No matter how many Tiny Plastic Objects we have, a
 			// configuration with none equipped is legal
-			addGearSet( weight, null, null, null, item, hat, leash, empathy );
+			addGearSet( weight, null, null, null, item, hat, leash, empathy, spray );
 			if ( tpCount == 0 )
 				return;
 
 			// If we have at least one and it started out equipped,
 			// then it might be in any of the three accessory
 			// slots.
-			addGearSet( weight, tp[0], null, null, item, hat, leash, empathy );
-			addGearSet( weight, null, tp[0], null, item, hat, leash, empathy );
-			addGearSet( weight, null, null, tp[0], item, hat, leash, empathy );
+			addGearSet( weight, tp[0], null, null, item, hat, leash, empathy, spray );
+			addGearSet( weight, null, tp[0], null, item, hat, leash, empathy, spray );
+			addGearSet( weight, null, null, tp[0], item, hat, leash, empathy, spray );
 			if ( tpCount == 1)
 				return;
 
@@ -1839,42 +1856,42 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// when we came in, they'll be in one of the following
 			// patterns.
 
-			addGearSet( weight, tp[0], tp[1], null, item, hat, leash, empathy );
-			addGearSet( weight, tp[0], null, tp[1], item, hat, leash, empathy );
-			addGearSet( weight, null, tp[0], tp[1], item, hat, leash, empathy );
+			addGearSet( weight, tp[0], tp[1], null, item, hat, leash, empathy, spray );
+			addGearSet( weight, tp[0], null, tp[1], item, hat, leash, empathy, spray );
+			addGearSet( weight, null, tp[0], tp[1], item, hat, leash, empathy, spray );
 
 			// If one of the two was in the inventory, the first
 			// could have been in any of the three accessory
 			// slots. Add a pattern for where it was in the third
 			// slot.
 
-			addGearSet( weight, tp[1], null, tp[0], item, hat, leash, empathy );
+			addGearSet( weight, tp[1], null, tp[0], item, hat, leash, empathy, spray );
 
 			if ( tpCount == 2 )
 				return;
 
 			// If we have three and they were all equipped when we
 			// came in, they'll be in the following pattern
-			addGearSet( weight, tp[0], tp[1], tp[2], item, hat, leash, empathy );
+			addGearSet( weight, tp[0], tp[1], tp[2], item, hat, leash, empathy, spray );
 
 			// If two of them were equipped and the third was in
 			// the inventory, the following patterns are legal
-			addGearSet( weight, tp[0], tp[2], tp[1], item, hat, leash, empathy );
-			addGearSet( weight, tp[2], tp[0], tp[1], item, hat, leash, empathy );
+			addGearSet( weight, tp[0], tp[2], tp[1], item, hat, leash, empathy, spray );
+			addGearSet( weight, tp[2], tp[0], tp[1], item, hat, leash, empathy, spray );
 
 			// If only one was equipped, based on which
 			// two-accessory patterns are legal, the following
 			// three-accessory patterns are also legal
-			addGearSet( weight, tp[1], tp[2], tp[0], item, hat, leash, empathy );
+			addGearSet( weight, tp[1], tp[2], tp[0], item, hat, leash, empathy, spray );
 		}
 
-		private void addGearSet( int weight, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy )
+		private void addGearSet( int weight, AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy, boolean spray )
 		{
-			if ( weight == gearSetWeight( acc1, acc2, acc3, item, hat, leash, empathy ) )
-				gearSets.add( new GearSet( hat, item, acc1, acc2, acc3, leash, empathy ) );
+			if ( weight == gearSetWeight( acc1, acc2, acc3, item, hat, leash, empathy, spray ) )
+				gearSets.add( new GearSet( hat, item, acc1, acc2, acc3, leash, empathy, spray ) );
 		}
 
-		private int gearSetWeight( AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy )
+		private int gearSetWeight( AdventureResult acc1, AdventureResult acc2, AdventureResult acc3, AdventureResult item,  AdventureResult hat, boolean leash, boolean empathy, boolean spray )
 		{
 			int weight = familiar.getWeight();
 
@@ -1883,9 +1900,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// One snowcone effect at a time
 			if ( greenTongueActive > 0 || blackTongueActive > 0 )
-				weight += 5;
-
-			if ( heavyPettingActive > 0 )
 				weight += 5;
 
 			if ( hat == PITH_HELMET )
@@ -1908,6 +1922,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( leash )
 				weight += 5;
 			if ( empathy )
+				weight += 5;
+			if ( spray )
 				weight += 5;
 
 			return Math.max( weight, 1 );
@@ -2102,16 +2118,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 			public AdventureResult acc1;
 			public AdventureResult acc2;
 			public AdventureResult acc3;
+
 			public boolean leash;
 			public boolean empathy;
+			public boolean spray;
 
-			public GearSet( AdventureResult hat,
-					AdventureResult item,
-					AdventureResult acc1,
-					AdventureResult acc2,
-					AdventureResult acc3,
-					boolean leash,
-					boolean empathy )
+			public GearSet( AdventureResult hat, AdventureResult item,
+				AdventureResult acc1, AdventureResult acc2, AdventureResult acc3,
+				boolean leash, boolean empathy, boolean spray )
 			{
 				this.hat = hat;
 				this.item = item;
@@ -2120,6 +2134,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				this.acc3 = acc3;
 				this.leash = leash;
 				this.empathy = empathy;
+				this.spray = spray;
 			}
 
 			public GearSet()
@@ -2130,11 +2145,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 				      FamiliarStatus.this.acc[1],
 				      FamiliarStatus.this.acc[2],
 				      FamiliarStatus.this.leashActive > 0,
-				      FamiliarStatus.this.empathyActive > 0);
+				      FamiliarStatus.this.empathyActive > 0,
+				      FamiliarStatus.this.heavyPettingActive > 0 );
 			}
 
 			public int weight()
-			{	return gearSetWeight( acc1, acc2, acc3, item, hat, leash, empathy );
+			{	return gearSetWeight( acc1, acc2, acc3, item, hat, leash, empathy, spray );
 			}
 
 			public int compareTo( GearSet that )

@@ -1528,21 +1528,31 @@ public abstract class SorceressLair extends StaticEntity
 			(new FamiliarRequest( client, familiar )).run();
 
 		// If we can buff it to 20 pounds, try again.
-
+		String previousSetting = StaticEntity.getProperty( "autoSatisfyChecks" );
+		StaticEntity.setProperty( "autoSatisfyChecks", "true" );
+		
 		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )
 		{
 			// We can't buff it high enough. Train it.
 
 			if ( !FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false, false ) )
+			{
+				StaticEntity.setProperty( "autoSatisfyChecks", previousSetting );
 				return;
+			}
 
 			// We trained it. Equip and buff it.
 
 			if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )
+			{
+				StaticEntity.setProperty( "autoSatisfyChecks", previousSetting );
 				return;
+			}
 		}
 
 		// We're good to go. Fight!
+
+		StaticEntity.setProperty( "autoSatisfyChecks", previousSetting );
 		familiarBattle( n, false );
 	}
 }
