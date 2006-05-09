@@ -1711,8 +1711,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( StaticEntity.getClient().conditions.isEmpty() )
 				updateDisplay( "All conditions already satisfied." );
-			else
-				DEFAULT_SHELL.updateDisplay( "Check complete.  Resuming request..." );
 
 			return true;
 		}
@@ -1881,12 +1879,6 @@ public class KoLmafiaCLI extends KoLmafia
 				// out which item or effect is desired and set that as the condition.
 
 				condition = getFirstMatchingItem( conditionString, NOWHERE );
-
-				// If no item exists, then it must be a status effect that the
-				// player is looking for.
-
-				if ( condition == null )
-					condition = getFirstMatchingEffect( conditionString );
 			}
 		}
 
