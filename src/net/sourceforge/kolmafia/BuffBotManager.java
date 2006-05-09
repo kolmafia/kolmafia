@@ -704,7 +704,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			(new UseSkillRequest( client, buffName, target, castCount )).run();
 
-			if ( client.permitsContinue() )
+			if ( UseSkillRequest.lastUpdate.equals( "" ) )
 			{
 				BuffBotHome.update( BuffBotHome.BUFFCOLOR, " ---> Successfully cast " + buffName + " on " + target );
 				return true;

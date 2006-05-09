@@ -260,6 +260,12 @@ public class AdventureRequest extends KoLRequest
 			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You already defeated the Bonerdagon." );
 			return;
 		}
+		
+		if ( responseText.indexOf( "already undefiled" ) != -1 )
+		{
+			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Cyrpt area cleared." );
+			return;
+		}
 
 		// The Orc Chasm (pre-bridge)
 
