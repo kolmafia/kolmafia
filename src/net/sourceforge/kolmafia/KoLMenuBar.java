@@ -138,7 +138,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		statusMenu.add( new JSeparator() );
 
-		statusMenu.add( new DisplayRequestMenuItem( "Mini-Browser", "main.php" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Mini-Browser", RequestFrame.class ) );
 		statusMenu.add( new InvocationMenuItem( "Relay Browser", StaticEntity.getClient(), "startRelayServer" ) );
 		statusMenu.add( new InvocationMenuItem( "KoL Simulator", StaticEntity.getClient(), "launchSimulator" ) );
 
@@ -669,14 +669,15 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 	protected class DisplayFrameMenuItem extends JMenuItem implements ActionListener
 	{
-		private CreateFrameRunnable displayer;
+		private Class frameClass;
+		private Object [] parameters;
 
 		public DisplayFrameMenuItem( String title, Class frameClass )
 		{
 			super( title );
 			addActionListener( this );
+			this.frameClass = frameClass;
 
-			Object [] parameters;
 			if ( frameClass == LicenseDisplay.class )
 			{
 				parameters = new Object[4];
@@ -689,12 +690,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			{
 				parameters = new Object[0];
 			}
-
-			this.displayer = new CreateFrameRunnable( frameClass, parameters );
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	SwingUtilities.invokeLater( displayer );
+		{	SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
 		}
 	}
 

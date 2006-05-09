@@ -385,8 +385,8 @@ public class RequestFrame extends KoLFrame
 					// cannot be shown in the minibrowser.
 
 					mainBuffer.clearBuffer();
-					mainBuffer.append( "Tried to access: &lt;" + currentLocation + "&gt;" );
-					mainBuffer.append( "Redirected: &lt;" + request.redirectLocation + "&gt;" );
+					mainBuffer.append( "<b>Tried to access</b>: " + currentLocation );
+					mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
 					return;
 				}
 			}
