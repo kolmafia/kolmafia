@@ -375,25 +375,25 @@ public class LoginFrame extends KoLFrame
 			{ "The Meatsink", "MoneyMakingGameFrame" },
 		};
 
-		private JRadioButton [] nullOptions;
-		private JRadioButton [] startupOptions;
-		private JRadioButton [] interfaceOptions;
+		private InterfaceRadioButton [] nullOptions;
+		private InterfaceRadioButton [] startupOptions;
+		private InterfaceRadioButton [] interfaceOptions;
 
 		public StartupFramesPanel()
 		{
-			super( "save", "restore", new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
+			super( new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
 
-			nullOptions = new JRadioButton[ FRAME_OPTIONS.length ];
-			startupOptions = new JRadioButton[ FRAME_OPTIONS.length ];
-			interfaceOptions = new JRadioButton[ FRAME_OPTIONS.length ];
+			nullOptions = new InterfaceRadioButton[ FRAME_OPTIONS.length ];
+			startupOptions = new InterfaceRadioButton[ FRAME_OPTIONS.length ];
+			interfaceOptions = new InterfaceRadioButton[ FRAME_OPTIONS.length ];
 
 			JPanel contentPanel = new JPanel( new SpringLayout() );
 
 			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
 			{
-				nullOptions[i] = new JRadioButton( "manual" );
-				startupOptions[i] = new JRadioButton( "startup" );
-				interfaceOptions[i] = new JRadioButton( "as tab" );
+				nullOptions[i] = new InterfaceRadioButton( "manual" );
+				startupOptions[i] = new InterfaceRadioButton( "startup" );
+				interfaceOptions[i] = new InterfaceRadioButton( "as tab" );
 
 				ButtonGroup holder = new ButtonGroup();
 				holder.add( nullOptions[i] );
@@ -437,7 +437,6 @@ public class LoginFrame extends KoLFrame
 
 			GLOBAL_SETTINGS.setProperty( "initialFrames", frameString.toString() );
 			GLOBAL_SETTINGS.setProperty( "initialDesktopTabs", desktopString.toString() );
-			JOptionPane.showMessageDialog( null, "Settings have been saved." );
 		}
 
 		public void actionCancelled()
@@ -452,6 +451,19 @@ public class LoginFrame extends KoLFrame
 
 				if ( !startupOptions[i].isSelected() && !interfaceOptions[i].isSelected() )
 					nullOptions[i].setSelected( true );
+			}
+		}
+
+		private class InterfaceRadioButton extends JRadioButton implements ActionListener
+		{
+			public InterfaceRadioButton( String text )
+			{
+				super( text );
+				addActionListener( this );
+			}
+			
+			public void actionPerformed( ActionEvent e )
+			{	actionConfirmed();
 			}
 		}
 	}
