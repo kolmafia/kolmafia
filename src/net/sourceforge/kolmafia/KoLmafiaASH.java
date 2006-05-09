@@ -3661,7 +3661,6 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptValue leftResult = lhs.execute();
 			captureValue();
-
 			if ( currentState == STATE_EXIT )
 				return null;
 
@@ -3680,11 +3679,11 @@ public class KoLmafiaASH extends StaticEntity
 					throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond" );
 			}
 
-			if ( operator.equalsIgnoreCase( "!" ) )
+			if ( operator.equals( "!" ) )
 			{
 				return new ScriptValue( leftResult.intValue() == 0 );
 			}
-			if ( operator.equalsIgnoreCase( "*" ) )
+			if ( operator.equals( "*" ) )
 			{
 				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
@@ -3694,7 +3693,7 @@ public class KoLmafiaASH extends StaticEntity
 				else
 					return new ScriptValue( TYPE_INT, leftResult.intValue() * rightResult.intValue() );
 			}
-			if ( operator.equalsIgnoreCase( "/" ) )
+			if ( operator.equals( "/" ) )
 			{
 				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
@@ -3704,7 +3703,7 @@ public class KoLmafiaASH extends StaticEntity
 				else
 					return new ScriptValue( TYPE_INT, leftResult.intValue() / rightResult.intValue() );
 			}
-			if ( operator.equalsIgnoreCase( "%" ) )
+			if ( operator.equals( "%" ) )
 			{
 				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
@@ -3714,22 +3713,19 @@ public class KoLmafiaASH extends StaticEntity
 				else
 					return new ScriptValue( TYPE_INT, leftResult.intValue() % rightResult.intValue() );
 			}
-			if ( operator.equalsIgnoreCase( "+" ) )
+			if ( operator.equals( "+" ) )
 			{
 				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) )
 					return new ScriptValue( TYPE_STRING, leftResult.toStringValue().toString() + rightResult.toStringValue().toString() );
+				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
+					return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() + rightResult.toFloatValue().floatValue() );
 				else
-				{
-					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-						return new ScriptValue( TYPE_FLOAT, leftResult.toFloatValue().floatValue() + rightResult.toFloatValue().floatValue() );
-					else
-						return new ScriptValue( TYPE_INT, leftResult.intValue() + rightResult.intValue() );
-				}
+					return new ScriptValue( TYPE_INT, leftResult.intValue() + rightResult.intValue() );
 			}
-			if ( operator.equalsIgnoreCase( "-" ) )
+			if ( operator.equals( "-" ) )
 			{
 				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
@@ -3739,131 +3735,73 @@ public class KoLmafiaASH extends StaticEntity
 				else
 					return new ScriptValue( TYPE_INT, leftResult.intValue() - rightResult.intValue() );
 			}
-			if ( operator.equalsIgnoreCase( "<" ) )
+			if ( operator.equals( "<" ) )
 			{
 				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-				{
 					return new ScriptValue( leftResult.toFloatValue().floatValue() < rightResult.toFloatValue().floatValue() );
-				}
 				else
-				{
 					return new ScriptValue( leftResult.intValue() < rightResult.intValue() );
-				}
 			}
-			if ( operator.equalsIgnoreCase( ">" ) )
+			if ( operator.equals( ">" ) )
 			{
 				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-				{
 					return new ScriptValue( leftResult.toFloatValue().floatValue() > rightResult.toFloatValue().floatValue() );
-				}
 				else
-				{
 					return new ScriptValue( leftResult.intValue() > rightResult.intValue() );
-				}
 			}
-			if ( operator.equalsIgnoreCase( "<=" ) )
+			if ( operator.equals( "<=" ) )
 			{
 				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-				{
 					return new ScriptValue( leftResult.toFloatValue().floatValue() <= rightResult.toFloatValue().floatValue() );
-				}
 				else
-				{
 					return new ScriptValue( leftResult.intValue() <= rightResult.intValue() );
-				}
 			}
-			if ( operator.equalsIgnoreCase( ">=" ) )
+			if ( operator.equals( ">=" ) )
 			{
 				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-				{
 					return new ScriptValue( leftResult.toFloatValue().floatValue() >= rightResult.toFloatValue().floatValue() );
-				}
 				else
-				{
 					return new ScriptValue( leftResult.intValue() >= rightResult.intValue() );
-				}
 			}
-			if ( operator.equalsIgnoreCase( "==" ) )
+			if ( operator.equals( "==" ) )
 			{
 				ScriptValue rightResult = rhs.execute();
+				captureValue();
 				if ( currentState == STATE_EXIT )
 					return null;
-				if
-				(
-					lhs.getType().equals( TYPE_INT ) ||
-					lhs.getType().equals( TYPE_FLOAT ) ||
-					lhs.getType().equals( TYPE_BOOLEAN ) ||
-					lhs.getType().equals( TYPE_ITEM ) ||
-					lhs.getType().equals( TYPE_ZODIAC ) ||
-					lhs.getType().equals( TYPE_CLASS ) ||
-					lhs.getType().equals( TYPE_SKILL ) ||
-					lhs.getType().equals( TYPE_EFFECT ) ||
-					lhs.getType().equals( TYPE_STAT ) ||
-					lhs.getType().equals( TYPE_FAMILIAR ) ||
-					lhs.getType().equals( TYPE_SLOT ) ||
-					lhs.getType().equals( TYPE_MONSTER )
-				 )
-				{
-					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					{
-						return new ScriptValue( leftResult.toFloatValue().floatValue() == rightResult.toFloatValue().floatValue() );
-					}
-					else
-					{
-						return new ScriptValue( leftResult.intValue() == rightResult.intValue() );
-					}
-				}
-				else
-				{
+				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
+					return new ScriptValue( leftResult.toFloatValue().floatValue() == rightResult.toFloatValue().floatValue() );
+				if ( lhs.getType().equals( TYPE_STRING ) ||
+				     lhs.getType().equals( TYPE_LOCATION ) ||
+				     lhs.getType().equals( TYPE_MONSTER ) )
 					return new ScriptValue( leftResult.toString().equalsIgnoreCase( rightResult.toString() ) );
-				}
+				return new ScriptValue( leftResult.intValue() == rightResult.intValue() );
 			}
-			if ( operator.equalsIgnoreCase( "!=" ) )
+			if ( operator.equals( "!=" ) )
 			{
 				ScriptValue rightResult = rhs.execute();
+				captureValue();
 				if ( currentState == STATE_EXIT )
 					return null;
-				if
-				(
-					lhs.getType().equals( TYPE_INT ) ||
-					lhs.getType().equals( TYPE_FLOAT ) ||
-					lhs.getType().equals( TYPE_BOOLEAN ) ||
-					lhs.getType().equals( TYPE_ITEM ) ||
-					lhs.getType().equals( TYPE_ZODIAC ) ||
-					lhs.getType().equals( TYPE_CLASS ) ||
-					lhs.getType().equals( TYPE_SKILL ) ||
-					lhs.getType().equals( TYPE_EFFECT ) ||
-					lhs.getType().equals( TYPE_STAT ) ||
-					lhs.getType().equals( TYPE_FAMILIAR ) ||
-					lhs.getType().equals( TYPE_SLOT ) ||
-					lhs.getType().equals( TYPE_MONSTER )
-				 )
-				{
-					if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
-					{
-						return new ScriptValue( leftResult.toFloatValue().floatValue() != rightResult.toFloatValue().floatValue() );
-					}
-					else
-					{
-						return new ScriptValue( leftResult.intValue() != rightResult.intValue() );
-					}
-				}
-				else
-				{
+				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
+					return new ScriptValue( leftResult.toFloatValue().floatValue() != rightResult.toFloatValue().floatValue() );
+				if ( lhs.getType().equals( TYPE_STRING ) ||
+				     lhs.getType().equals( TYPE_LOCATION ) ||
+				     lhs.getType().equals( TYPE_MONSTER ) )
 					return new ScriptValue( !leftResult.toString().equalsIgnoreCase( rightResult.toString() ) );
-				}
+				return new ScriptValue( leftResult.intValue() != rightResult.intValue() );
 			}
 			if ( operator.equalsIgnoreCase( "||" ) )
 			{
