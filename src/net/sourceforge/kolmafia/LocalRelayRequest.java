@@ -444,6 +444,11 @@ public class LocalRelayRequest extends KoLRequest
 		else
 			replaceTag( scriptBuffer, "/*rockAndRoll*/", "false" );
 
+		// Set the moon phases (for stat days)
+		
+		replaceTag( scriptBuffer, "/*moonPhase*/", (int) (MoonPhaseDatabase.getGrimacePhase() * 2 
+			+ Math.round( MoonPhaseDatabase.getRonaldPhase() / 2.0f - Math.floor( MoonPhaseDatabase.getRonaldPhase() / 2.0f ) )) - 1 );
+
 		replyBuffer.insert( replyBuffer.indexOf( ";GoCalc()" ), ";loadKoLmafiaData()" );
 	}
 	

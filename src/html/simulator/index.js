@@ -76,4 +76,11 @@ function loadKoLmafiaData()
 	selectOption( document.equipment.acc3, "/*accessory3*/" );
 
 	document.miscinput.rockandroll.checked = /*rockAndRoll*/;
+	
+	// Moon phase
+	
+	moonphase = /*moonPhase*/;
+	document.images[0].src=moonimage[0][moonphase].src;
+	document.images[1].src=moonimage[1][moonphase].src;
+
 };
