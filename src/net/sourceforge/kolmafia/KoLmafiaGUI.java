@@ -494,27 +494,6 @@ public class KoLmafiaGUI extends KoLmafia
 		(new RequestThread( new MindControlRequest( this, Integer.parseInt( selectedLevel.split( " " )[1] ) ) )).run();
 	}
 
-	/**
-	 * Utility method used to print a list to the given output
-	 * stream.  If there's a need to print to the current output
-	 * stream, simply pass the output stream to this method.
-	 */
-
-	protected void printList( List printing )
-	{
-		if ( printing.isEmpty() )
-			return;
-
-		if ( printing.size() == 1 )
-		{
-			updateDisplay( ERROR_STATE, "You need " + printing.get(0).toString() + " before continuing." );
-			return;
-		}
-
-		JOptionPane.showInputDialog( null, "The following items are still missing...", "Oops, you did it again!",
-			JOptionPane.INFORMATION_MESSAGE, null, printing.toArray(), null );
-	}
-
 	private static class ChannelColorsRequest extends KoLRequest
 	{
 		public ChannelColorsRequest()

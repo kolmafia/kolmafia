@@ -406,8 +406,11 @@ public class AdventureFrame extends KoLFrame
 				if ( verifyConditions )
 				{
 					DEFAULT_SHELL.executeConditionsCommand( "check" );
-					if ( StaticEntity.getClient().getConditions().isEmpty() )
+					if ( StaticEntity.getClient().conditions.isEmpty() )
+					{
+						StaticEntity.getClient().updateDisplay( "All conditions already satisfied." );
 						return;
+					}
 				}
 
 				DEFAULT_SHELL.enableDisplay();

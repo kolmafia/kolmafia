@@ -143,7 +143,11 @@ public abstract class StrangeLeaflet extends StaticEntity
 	private static boolean petunias;	// true if petunias are done
 	private static boolean giant;		// true if giant is done
 
-	public static void robStrangeLeaflet()
+	public static void leafletNoMagic()
+	{	robStrangeLeaflet( false );
+	}
+
+	public static void leafletWithMagic()
 	{	robStrangeLeaflet( true );
 	}
   
@@ -183,11 +187,11 @@ public abstract class StrangeLeaflet extends StaticEntity
 		// Get the grue egg from the hole
 		robHole();
 
-		// Invoke the magic word
+		// Invoke the magic word, if the player wants to;
+		// otherwise, retrieve the trophy in all cases.
+
 		if ( !invokeMagic( invokeMagic ) )
 		{
-			// Magic word is available but the player opted to not
-			// use it yet.
 			KoLCharacter.refreshCalculatedLists();
 			DEFAULT_SHELL.updateDisplay( "Strange Leaflet partially robbed." );
 			return;
@@ -382,7 +386,10 @@ public abstract class StrangeLeaflet extends StaticEntity
 		killSerpent();
 
 		if ( !chest )
+		{
 			executeCommand( "open chest", true );
+			DEFAULT_SHELL.executeLine( "use Frobozz Real-Estate Company Instant House (TM)" );
+		}
 	}
 
 	private static void robHole()
@@ -419,14 +426,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 			executeCommand( "take trophy" );
 			trophy = true;
 			return true;
-		}
-
-		if ( !existingFrames.isEmpty() )
-		{
-			invokeMagic = JOptionPane.showConfirmDialog( null,
-			     "Would you like to invoke the \"magic word\" today?",
-			     "You know you want to!",
-			     JOptionPane.YES_NO_OPTION ) == JOptionPane.YES_OPTION;
 		}
 
 		if ( !invokeMagic )
