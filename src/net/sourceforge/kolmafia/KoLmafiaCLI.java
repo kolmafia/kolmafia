@@ -1706,10 +1706,6 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.getClient().checkRequirements( StaticEntity.getClient().conditions );
 			StaticEntity.getClient().conditions.clear();
 			StaticEntity.getClient().conditions.addAll( StaticEntity.getClient().missingItems );
-
-			if ( StaticEntity.getClient().conditions.isEmpty() )
-				updateDisplay( "All conditions already satisfied." );
-
 			return true;
 		}
 		else if ( option.equals( "mode" ) )
@@ -1722,9 +1718,11 @@ public class KoLmafiaCLI extends KoLmafia
 				StaticEntity.getClient().useDisjunction = true;
 
 			if ( StaticEntity.getClient().useDisjunction )
-				updateDisplay( "All conditions will be ORed together." );
+				updateDisplay( "All non-stat conditions will be ORed together." );
 			else
-				updateDisplay( "All conditions will be ANDed together." );
+				updateDisplay( "All non-stat conditions will be ANDed together." );
+			
+			return true;
 		}
 		else if ( option.equals( "add" ) )
 		{
@@ -1889,13 +1887,11 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( condition.getCount() > 0 )
 		{
 			AdventureResult.addResultToList( StaticEntity.getClient().conditions, condition );
-			updateDisplay( "Condition added." );
-			printList( StaticEntity.getClient().conditions );
+			updateDisplay( "Condition <" + condition + "> added." );
 		}
 		else
 		{
-			updateDisplay( "Condition already met." );
-			printList( StaticEntity.getClient().conditions );
+			updateDisplay( "Condition <" + condition + "> already met." );
 		}
 
 		return true;
@@ -3411,21 +3407,6 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		updateDisplay( ERROR_STATE, "The microbrewery isn't selling " + item + " today." );
-	}
-
-	/**
-	 * Utility method used to print a list to the given output
-	 * stream.  If there's a need to print to the current output
-	 * stream, simply pass the output stream to this method.
-	 */
-
-	protected void printList( List printing )
-	{
-		Object [] elements = new Object[ printing.size() ];
-		printing.toArray( elements );
-
-		for ( int i = 0; i < elements.length; ++i )
-			printLine( elements[i].toString() );
 	}
 
 	public void printBlankLine()

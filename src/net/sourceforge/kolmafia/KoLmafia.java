@@ -2261,17 +2261,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		// If there are any missing requirements
-		// be sure to return false.
+		// be sure to return false.  Otherwise,
+		// you managed to get everything.
 
-		if ( !missingItems.isEmpty() )
-		{
-			updateDisplay( ERROR_STATE, "Insufficient items to continue." );
-			printList( missingItems );
-			return false;
-		}
-
-		updateDisplay( "Requirements met." );
-		return true;
+		return missingItems.isEmpty();
 	}
 
 	/**
@@ -2280,7 +2273,14 @@ public abstract class KoLmafia implements KoLConstants
 	 * stream, simply pass the output stream to this method.
 	 */
 
-	protected abstract void printList( List printing );
+	protected void printList( List printing )
+	{
+		Object [] elements = new Object[ printing.size() ];
+		printing.toArray( elements );
+
+		for ( int i = 0; i < elements.length; ++i )
+			DEFAULT_SHELL.printLine( elements[i].toString() );
+	}
 
 	/**
 	 * Utility method used to purchase the given number of items

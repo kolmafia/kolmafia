@@ -228,7 +228,8 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		questsMenu.add( new JSeparator() );
 
 		questsMenu.add( new InvocationMenuItem( "Nemesis Quest", Nemesis.class, "faceNemesis" ) );
-		questsMenu.add( new InvocationMenuItem( "Strange Leaflet", StrangeLeaflet.class, "robStrangeLeaflet" ) );
+		questsMenu.add( new InvocationMenuItem( "Leaflet (No Magic)", StrangeLeaflet.class, "leafletNoMagic" ) );
+		questsMenu.add( new InvocationMenuItem( "Leaflet (With Magic)", StrangeLeaflet.class, "leafletWithMagic" ) );
 
 		questsMenu.add( new JSeparator() );
 
