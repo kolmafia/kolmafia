@@ -89,6 +89,7 @@ public class FamiliarRequest extends KoLRequest
 		super.processResults();
 		FamiliarData.registerFamiliarData( client, responseText );
 		FamiliarData.updateWeightModifier();
+		KoLCharacter.updateEquipmentList( KoLCharacter.FAMILIAR );
 
 		if ( changeTo == null )
 			DEFAULT_SHELL.updateDisplay( "Familiar data retrieved." );
