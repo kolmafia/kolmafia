@@ -1095,8 +1095,7 @@ public abstract class KoLCharacter extends StaticEntity
 				return;
 		}
 		
-		updateEquipmentList( equipmentLists[ listIndex ], consumeFilter,
-			(String) equipmentLists[ listIndex ].getSelectedItem() );
+		updateEquipmentList( equipmentLists[ listIndex ], consumeFilter, getEquipment( listIndex ) );
 	}
 		
 	private static void updateEquipmentList( LockableListModel currentList, int consumeFilter, String equippedItem )
