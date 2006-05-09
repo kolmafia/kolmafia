@@ -143,6 +143,8 @@ public class KoLmafiaASH extends StaticEntity
 	private boolean tracing = true;
 	private String prefix = null;
 
+	// **************** Parsing *****************
+
 	public void validate( File scriptFile ) throws IOException
 	{
 		this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
@@ -166,7 +168,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.commandStream.close();
 			this.commandStream = null;
-			StaticEntity.printStackTrace( e, e.getMessage() );
+			printStackTrace( e, e.getMessage() );
 		}
 	}
 	
@@ -198,7 +200,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 		catch ( AdvancedScriptException e )
 		{
-			StaticEntity.printStackTrace( e, e.getMessage() );
+			printStackTrace( e, e.getMessage() );
 		}
 		catch ( RuntimeException e )
 		{
@@ -207,7 +209,7 @@ public class KoLmafiaASH extends StaticEntity
 			// values to be return, ignore.
 			
 			if ( !e.getMessage().startsWith( "Cannot" ) )
-				StaticEntity.printStackTrace( e, e.getMessage() );				
+				printStackTrace( e, e.getMessage() );				
 		}
 	}
 
@@ -238,7 +240,7 @@ public class KoLmafiaASH extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 			
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 			return null;
 		}
 	}
@@ -1108,6 +1110,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
+	// **************** Debug printing *****************
 
 	private void printScope( ScriptScope scope, int indent )
 	{
@@ -1245,6 +1248,26 @@ public class KoLmafiaASH extends StaticEntity
 			KoLmafia.getDebugStream().print( "   " );
 	}
 
+	// **************** Execution *****************
+
+	private void captureValue()
+	{
+		// We've just executed a command in a context that captures the
+		// return value.
+
+		if ( client.refusesContinue() )
+		{
+			// User aborted
+			currentState = STATE_EXIT;
+			return;
+		}
+
+		// An error occurred, but since we captured the result, permit
+		// further execution.
+		if ( currentState == STATE_EXIT )
+			currentState = STATE_NORMAL;
+		client.forceContinue();
+	}
 
 	private ScriptValue executeGlobalScope( ScriptScope globalScope ) throws AdvancedScriptException
 	{
@@ -1867,11 +1890,14 @@ public class KoLmafiaASH extends StaticEntity
 
 			for ( current = getFirstCommand(); current != null; current = getNextCommand( current ) )
 			{
-
 				if ( tracing )
 					KoLmafia.getDebugStream().println( prefix  + "[" + currentState + "] -> " + current );
 
 				result = current.execute();
+
+				// Abort processing now if command failed
+				if ( !client.permitsContinue() )
+					currentState = STATE_EXIT;
 
 				if ( tracing )
 					KoLmafia.getDebugStream().println( prefix + "[" + currentState + "] <- " + result );
@@ -1995,12 +2021,6 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			try
 			{
-				if ( !client.permitsContinue() )
-				{
-					currentState = STATE_EXIT;
-					return VOID_VALUE;
-				}
-
 				return executeLibraryFunction();
 			}
 			catch ( AdvancedScriptException e )
@@ -2008,8 +2028,8 @@ public class KoLmafiaASH extends StaticEntity
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 				
-				StaticEntity.printStackTrace( e, "Error encountered in ASH script" );
-				return VOID_VALUE;
+				printStackTrace( e, "Error encountered in ASH script" );
+				return null;
 			}
 		}
 
@@ -2081,7 +2101,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( name.equalsIgnoreCase( "museum_amount" ) )
 			{
 				if ( KoLCharacter.getCollection().isEmpty() )
-					(new MuseumRequest( StaticEntity.getClient() )).run();
+					(new MuseumRequest( client )).run();
 					
 				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
 				return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCollection() ) );
@@ -2284,11 +2304,11 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				String itemName = variables[0].toStringValue().toString();
 
-				if ( StaticEntity.getClient().hunterItems.isEmpty() )
-					(new BountyHunterRequest( StaticEntity.getClient() )).run();
+				if ( client.hunterItems.isEmpty() )
+					(new BountyHunterRequest( client )).run();
 
-				for ( int i = 0; i < StaticEntity.getClient().hunterItems.size(); ++i )
-					if ( ((String)StaticEntity.getClient().hunterItems.get(i)).equalsIgnoreCase( itemName ) )
+				for ( int i = 0; i < client.hunterItems.size(); ++i )
+					if ( ((String)client.hunterItems.get(i)).equalsIgnoreCase( itemName ) )
 						return TRUE_VALUE;
 
 				return FALSE_VALUE;
@@ -2437,7 +2457,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( name.equalsIgnoreCase( "tavern" ) )
 			{
-				int result = StaticEntity.getClient().locateTavernFaucet();
+				int result = client.locateTavernFaucet();
 				return new ScriptValue( TYPE_INT, client.permitsContinue() ? result : -1 );
 			}
 
@@ -2762,15 +2782,23 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			ScriptValue result;
+			if ( !client.permitsContinue() )
+				currentState = STATE_EXIT;
 
-			if ( currentState != STATE_EXIT )
-				currentState = STATE_RETURN;
+			if ( currentState == STATE_EXIT )
+				return null;
 
 			if ( returnValue == null )
 				return null;
 
-			result = returnValue.execute();
+			if ( tracing )
+				KoLmafia.getDebugStream().println( prefix  + "[" + currentState + "] -> " + returnValue );
+
+			ScriptValue result = returnValue.execute();
+			captureValue();
+
+			if ( tracing )
+				KoLmafia.getDebugStream().println( prefix + "[" + currentState + "] <- " + result );
 
 			if ( currentState != STATE_EXIT )
 				currentState = STATE_RETURN;
@@ -2849,54 +2877,74 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			ScriptValue result;
-			ScriptValue conditionResult = condition.execute();
-
-			if ( !StaticEntity.getClient().refusesContinue() )
-				StaticEntity.getClient().forceContinue();
-
-			boolean conditionMet = conditionResult != null && conditionResult.intValue() == 1;
-
-			if ( conditionMet )
+			if ( !client.permitsContinue() )
 			{
-				do
-				{
-					result = scope.execute();
-					if ( currentState == STATE_BREAK )
-					{
-						if ( repeat )
-							currentState = STATE_NORMAL;
-
-						return VOID_VALUE;
-					}
-					if ( currentState == STATE_CONTINUE )
-					{
-						if ( !repeat )
-							return VOID_VALUE;
-
-						currentState = STATE_NORMAL;
-					}
-					if ( currentState == STATE_RETURN )
-					{
-						return result;
-					}
-					if ( currentState == STATE_EXIT )
-					{
-						return null;
-					}
-					if ( !repeat )
-						break;
-				}
-				while ( (conditionResult = condition.execute()) != null && conditionResult.intValue() == 1 );
+				currentState = STATE_EXIT;
+				return null;
 			}
-			else
+
+			boolean executed = false;
+
+			while ( !executed || repeat  )
 			{
-				for ( ScriptLoop elseLoop = elseLoops.getFirstScriptLoop(); elseLoop != null; elseLoop = elseLoops.getNextScriptLoop( elseLoop ) )
+				if ( tracing )
+					KoLmafia.getDebugStream().println( prefix  + "  test: " + condition );
+
+				ScriptValue conditionResult = condition.execute();
+				captureValue();
+
+				if ( tracing )
+					KoLmafia.getDebugStream().println( prefix + "  [" + currentState + "] <- " + conditionResult );
+
+				boolean conditionMet = conditionResult != null && conditionResult.intValue() == 1;
+
+				if ( !conditionMet )
+					break;
+
+				// The condition was satisfied at least once
+				executed = true;
+
+				ScriptValue result = scope.execute();
+
+				if ( !client.permitsContinue() )
+					currentState = STATE_EXIT;
+
+				if ( currentState == STATE_BREAK )
 				{
-					result = elseLoop.execute();
-					if ( currentState != STATE_NORMAL )
-						return result;
+					if ( repeat )
+						currentState = STATE_NORMAL;
+
+					return VOID_VALUE;
 				}
+
+				if ( currentState == STATE_CONTINUE )
+				{
+					if ( !repeat )
+						return VOID_VALUE;
+
+					currentState = STATE_NORMAL;
+				}
+
+				if ( currentState == STATE_RETURN )
+				{
+					return result;
+				}
+
+				if ( currentState == STATE_EXIT )
+				{
+					return null;
+				}
+			}
+
+			if ( executed )
+				return VOID_VALUE;
+
+			// Conditional failed. Move to else clauses
+			for ( ScriptLoop elseLoop = elseLoops.getFirstScriptLoop(); elseLoop != null; elseLoop = elseLoops.getNextScriptLoop( elseLoop ) )
+			{
+				ScriptValue result = elseLoop.execute();
+				if ( currentState != STATE_NORMAL )
+					return result;
 			}
 
 			return VOID_VALUE;
@@ -2968,24 +3016,39 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
+			if ( !client.permitsContinue() )
+			{
+				currentState = STATE_EXIT;
+				return null;
+			}
+
 			ScriptVariableReference paramVarRef = target.getFirstParam();
 			ScriptExpression paramValue = params.getFirstExpression();
+			int paramCount = 0;
 
 			while ( paramVarRef != null )
 			{
+				++paramCount;
 				if ( paramValue == null )
 					throw new RuntimeException( "Internal error: illegal arguments" );
-				if ( paramVarRef.getType().equals( TYPE_INT ) && paramValue.getType().equals( TYPE_FLOAT ) )
-					paramVarRef.setValue( paramValue.execute().toIntValue() );
-				else if ( paramVarRef.getType().equals( TYPE_FLOAT ) && paramValue.getType().equals( TYPE_INT ) )
-					paramVarRef.setValue( paramValue.execute().toFloatValue() );
-				else if ( paramVarRef.getType().equals( TYPE_STRING ) )
-					paramVarRef.setValue( paramValue.execute().toStringValue() );
-				else
-					paramVarRef.setValue( paramValue.execute() );
+
+				ScriptValue value = paramValue.execute();
+				captureValue();
+
+				if ( tracing )
+					KoLmafia.getDebugStream().println( prefix  + "  param #" + paramCount + " = " + value );
 
 				if ( currentState == STATE_EXIT )
 					return null;
+
+				if ( paramVarRef.getType().equals( TYPE_INT ) && paramValue.getType().equals( TYPE_FLOAT ) )
+					paramVarRef.setValue( value.toIntValue() );
+				else if ( paramVarRef.getType().equals( TYPE_FLOAT ) && paramValue.getType().equals( TYPE_INT ) )
+					paramVarRef.setValue( value.toFloatValue() );
+				else if ( paramVarRef.getType().equals( TYPE_STRING ) )
+					paramVarRef.setValue( value.toStringValue() );
+				else
+					paramVarRef.setValue( value );
 
 				paramVarRef = target.getNextParam( paramVarRef );
 				paramValue = params.getNextExpression( paramValue );
@@ -3045,14 +3108,26 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
+			if ( !client.permitsContinue() )
+			{
+				currentState = STATE_EXIT;
+				return null;
+			}
+
+			ScriptValue value = rhs.execute();
+			captureValue();
+
+			if ( currentState == STATE_EXIT )
+				return null;
+
 			if ( lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT ) )
-				lhs.setValue( rhs.execute().toIntValue() );
+				lhs.setValue( value.toIntValue() );
 			else if ( lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT ) )
-				lhs.setValue( rhs.execute().toFloatValue() );
+				lhs.setValue( value.toFloatValue() );
 			else if ( lhs.getType().equals( TYPE_STRING ) )
-				lhs.setValue( rhs.execute().toStringValue() );
+				lhs.setValue( value.toStringValue() );
 			else
-				lhs.setValue( rhs.execute() );
+				lhs.setValue( value );
 
 			return VOID_VALUE;
 		}
@@ -3585,7 +3660,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs ) throws AdvancedScriptException
 		{
 			ScriptValue leftResult = lhs.execute();
-			ScriptValue rightResult;
+			captureValue();
 
 			if ( currentState == STATE_EXIT )
 				return null;
@@ -3611,7 +3686,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( operator.equalsIgnoreCase( "*" ) )
 			{
-				rightResult = rhs.execute();
+				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
@@ -3621,7 +3696,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( operator.equalsIgnoreCase( "/" ) )
 			{
-				rightResult = rhs.execute();
+				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
@@ -3631,7 +3706,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( operator.equalsIgnoreCase( "%" ) )
 			{
-				rightResult = rhs.execute();
+				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
@@ -3641,7 +3716,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( operator.equalsIgnoreCase( "+" ) )
 			{
-				rightResult = rhs.execute();
+				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) )
@@ -3656,7 +3731,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( operator.equalsIgnoreCase( "-" ) )
 			{
-				rightResult = rhs.execute();
+				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
@@ -3666,7 +3741,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( operator.equalsIgnoreCase( "<" ) )
 			{
-				rightResult = rhs.execute();
+				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
@@ -3680,7 +3755,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( operator.equalsIgnoreCase( ">" ) )
 			{
-				rightResult = rhs.execute();
+				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
@@ -3689,12 +3764,12 @@ public class KoLmafiaASH extends StaticEntity
 				}
 				else
 				{
-                                        return new ScriptValue( leftResult.intValue() > rightResult.intValue() );
+					return new ScriptValue( leftResult.intValue() > rightResult.intValue() );
 				}
 			}
 			if ( operator.equalsIgnoreCase( "<=" ) )
 			{
-				rightResult = rhs.execute();
+				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
@@ -3708,7 +3783,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( operator.equalsIgnoreCase( ">=" ) )
 			{
-				rightResult = rhs.execute();
+				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
@@ -3722,7 +3797,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( operator.equalsIgnoreCase( "==" ) )
 			{
-				rightResult = rhs.execute();
+				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if
@@ -3757,7 +3832,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( operator.equalsIgnoreCase( "!=" ) )
 			{
-				rightResult = rhs.execute();
+				ScriptValue rightResult = rhs.execute();
 				if ( currentState == STATE_EXIT )
 					return null;
 				if
@@ -3794,15 +3869,17 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				if ( leftResult.intValue() == 1 )
 					return TRUE_VALUE;
-				else
-					return rhs.execute();
+				ScriptValue rightResult = rhs.execute();
+				captureValue();
+				return	rightResult;
 			}
 			if ( operator.equalsIgnoreCase( "&&" ) )
 			{
 				if ( leftResult.intValue() == 0 )
 					return FALSE_VALUE;
-				else
-					return rhs.execute();
+				ScriptValue rightResult = rhs.execute();
+				captureValue();
+				return	rightResult;
 			}
 			throw new RuntimeException( "Internal error: illegal operator." );
 		}
