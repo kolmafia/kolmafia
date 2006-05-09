@@ -596,7 +596,7 @@ public class ClanManageFrame extends KoLFrame
 				parameters[0] = StaticEntity.getClient();
 				parameters[1] = profile;
 
-				(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();
+				SwingUtilities.invokeLater( new CreateFrameRunnable( ProfileFrame.class, parameters ) );
 			}
 		}
 	}

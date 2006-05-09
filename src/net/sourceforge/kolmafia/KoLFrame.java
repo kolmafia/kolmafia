@@ -730,8 +730,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	protected static class DisplayFrameButton extends JButton implements ActionListener
 	{
-		protected Class frameClass;
-		protected CreateFrameRunnable displayer;
+		private Class frameClass;
 
 		public DisplayFrameButton( String text, Class frameClass )
 		{
@@ -739,10 +738,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			addActionListener( this );
 			this.frameClass = frameClass;
-
-			Object [] parameters = new Object[0];
-
-			this.displayer = new CreateFrameRunnable( frameClass, parameters );
 		}
 
 		public DisplayFrameButton( String tooltip, String icon, Class frameClass )
@@ -753,14 +748,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			addActionListener( this );
 			this.frameClass = frameClass;
-
-			Object [] parameters = new Object[0];
-
-			this.displayer = new CreateFrameRunnable( frameClass, parameters );
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( displayer )).start();
+		{	SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass ) );
 		}
 	}
 
@@ -851,7 +842,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	protected static class KoLPanelFrameButton extends JButton implements ActionListener
 	{
-		protected CreateFrameRunnable creator;
+		protected Object [] parameters;
 
 		public KoLPanelFrameButton( String tooltip, String icon, ActionPanel panel )
 		{
@@ -860,16 +851,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			setToolTipText( tooltip );
 			addActionListener( this );
 
-			Object [] parameters = new Object[3];
+			parameters = new Object[3];
 			parameters[0] = StaticEntity.getClient();
 			parameters[1] = tooltip;
 			parameters[2] = panel;
-
-			creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( creator )).start();
+		{	SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
 		}
 	}
 
