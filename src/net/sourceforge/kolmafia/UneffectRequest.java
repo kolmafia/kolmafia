@@ -92,6 +92,10 @@ public class UneffectRequest extends KoLRequest
 		     effectName.equals( "Psalm of Pointiness" ) ||
 		     effectName.equals( "Ode to Booze" ) )
 			return "The " + effectName;
+
+		if ( effectName.equals( "Empathy" ) )
+			return "Empathy of the Newt";
+
 		return effectName;
 	}
 
