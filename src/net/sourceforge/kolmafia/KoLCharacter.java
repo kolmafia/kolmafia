@@ -1043,7 +1043,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean dualWielding()
 	{
-		String name = getEquipmentName( (String) equipmentLists[WEAPON].getSelectedItem() );
+		String name = getEquipmentName( (String) equipmentLists[ OFFHAND ].getSelectedItem() );
 		return name != null && EquipmentDatabase.getHands( name ) == 1;
 	}
 
