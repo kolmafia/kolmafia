@@ -2171,6 +2171,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 					changes++;
 				if ( this.empathy != that.empathy )
 					changes++;
+				if ( this.spray != that.spray )
+					changes++;
 
 				return changes;
 			}
@@ -2207,6 +2209,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				text.append( leash );
 				text.append( ", " );
 				text.append( empathy );
+				text.append( ", " );
+				text.append( spray );
 				text.append( ")" );
 				return text.toString();
 			}
