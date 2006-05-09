@@ -198,8 +198,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			mpPerEvent = mpPerCast * currentCast;
 			client.recoverMP( mpPerEvent );
 
-			if ( KoLCharacter.getCurrentMP() < mpPerEvent || !client.permitsContinue() )
+			if ( !client.permitsContinue() )
 				return;
+
+			if ( KoLCharacter.getCurrentMP() < mpPerEvent )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient MP to cast " + skillName );
+				return;
+			}
 
 			// Attempt to cast the buff.  In the event that it
 			// fails, make sure to report it and return whether
