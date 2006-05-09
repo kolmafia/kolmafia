@@ -65,6 +65,7 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult ACOUSTIC_GUITAR = new AdventureResult( 404, 1 );
 	private static final AdventureResult HEAVY_METAL_GUITAR = new AdventureResult( 507, 1 );
 
+	private static final AdventureResult BROKEN_SKULL = new AdventureResult( 741, 1 );
 	private static final AdventureResult BONE_RATTLE = new AdventureResult( 168, 1 );
 	private static final AdventureResult TAMBOURINE = new AdventureResult( 740, 1 );
 
@@ -292,7 +293,9 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		requirements.add( pickOne( new AdventureResult [] { ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, STONE_BANJO, DISCO_BANJO } ) );
-		requirements.add( pickOne( new AdventureResult [] { BONE_RATTLE, TAMBOURINE } ) );
+
+		AdventureResult percussion = pickOne( new AdventureResult [] { BONE_RATTLE, TAMBOURINE, BROKEN_SKULL } );
+		requirements.add( percussion );
 		requirements.add( pickOne( new AdventureResult [] { ACCORDION, ROCKNROLL_LEGEND } ) );
 
 		// If he brought a balloon monkey, get him an easter egg
@@ -321,6 +324,15 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !client.checkRequirements( requirements ) || !client.permitsContinue() )
 			return;
 
+		// If you decided to use a broken skull because
+		// you had no other items, untinker the key.
+
+		if ( percussion == BROKEN_SKULL )
+		{
+			DEFAULT_SHELL.executeLine( "untinker skeleton key" );
+			DEFAULT_SHELL.executeLine( "create bone rattle" );
+		}
+		
 		// Finally, arm the stone mariachis with their
 		// appropriate instruments.
 
