@@ -1424,19 +1424,6 @@ public abstract class KoLmafia implements KoLConstants
 					currentIterationString = "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress...";
 				else if ( request instanceof KoLAdventure )
 					currentIterationString = "Visit to " + request.toString() + " in progress...";
-
-				else if ( request instanceof ConsumeItemRequest )
-				{
-					int consumptionType = ((ConsumeItemRequest)request).getConsumptionType();
-					String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
-						(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
-
-					if ( iterations == 1 )
-						currentIterationString = useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().toString() + "...";
-					else
-						currentIterationString = useTypeAsString + " " + ((ConsumeItemRequest)request).getItemUsed().getName() +
-							" (" + currentIteration + " of " + iterations + ")...";
-				}
 				else
 					currentIterationString = "";
 
@@ -1521,21 +1508,8 @@ public abstract class KoLmafia implements KoLConstants
 					updateDisplay( "Conditions satisfied after " + (currentIteration - 1) +
 						((currentIteration == 2) ? " request." : " requests.") );
 
-				else if ( request instanceof ConsumeItemRequest )
-				{
-					int consumptionType = ((ConsumeItemRequest)request).getConsumptionType();
-					String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "ate" :
-						(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "drank" : "used";
-
-					if ( iterations == 1 )
-						updateDisplay( "Successfully " + useTypeAsString + " " +
-							((ConsumeItemRequest)request).getItemUsed() );
-					else
-						updateDisplay( "Successfully " + useTypeAsString + " " +
-							((ConsumeItemRequest)request).getItemUsed().getName() + " (" + (currentIteration - 1) + ")" );
-				}
-				else if ( !(request instanceof UseSkillRequest || request instanceof ItemCreationRequest) )
-					updateDisplay( "Requests completed." );
+				else if ( !(request instanceof UseSkillRequest ) )
+					updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
 			}
 		}
 		catch ( Exception e )

@@ -163,6 +163,28 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public void run()
 	{
+		int iterations = 1;
+		if ( itemUsed.getCount() != 1 && consumptionType != ConsumeItemRequest.CONSUME_MULTIPLE && consumptionType != ConsumeItemRequest.CONSUME_RESTORE )
+		{
+			iterations = itemUsed.getCount();
+			itemUsed = itemUsed.getInstance( 1 );
+		}
+
+		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
+			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
+
+		for ( int i = 1; client.permitsContinue() && i <= iterations; ++i )
+			useOnce( i, iterations, useTypeAsString );
+	}
+	
+	public void useOnce( int currentIteration, int totalIterations, String useTypeAsString )
+	{
+		if ( totalIterations == 1 )
+			DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().toString() + "..." );
+		else
+			DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().getName() +
+				" (" + currentIteration + " of " + totalIterations + ")..." );
+
 		if ( itemUsed.getItemID() == UneffectRequest.REMEDY.getItemID() )
 		{
 			client.makeUneffectRequest();
@@ -632,7 +654,7 @@ public class ConsumeItemRequest extends KoLRequest
 				break;
 		}
 
-		commandString.append( iterations == 1 ? itemUsed.getCount() : iterations );
+		commandString.append( itemUsed.getCount() );
 		commandString.append( " \"" );
 		commandString.append( itemUsed.getName() );
 		commandString.append( "\"" );

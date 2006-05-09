@@ -36,65 +36,37 @@ package net.sourceforge.kolmafia;
 
 public class RequestThread extends Thread implements KoLConstants
 {
-	private int [] repeatCount;
+	private int repeatCount;
 	private Runnable [] requests;
-
-	public RequestThread()
-	{	this( (Runnable) null, 0 );
-	}
 
 	public RequestThread( Runnable request )
 	{	this( request, 1 );
 	}
 
 	public RequestThread( Runnable request, int repeatCount )
-	{	this( new Runnable [] { request }, new int [] { repeatCount } );
+	{	this( new Runnable [] { request }, repeatCount );
 	}
 
 	public RequestThread( Runnable [] requests )
 	{	this( requests, 1 );
 	}
-
+	
 	public RequestThread( Runnable [] requests, int repeatCount )
 	{
+		this.repeatCount = repeatCount;
+		
 		int requestCount = 0;
 		for ( int i = 0; i < requests.length; ++i )
 			if ( requests[i] != null )
 				++requestCount;
 
 		this.requests = new Runnable[ requestCount ];
-		this.repeatCount = new int[ requestCount ];
 
 		requestCount = 0;
 
 		for ( int i = 0; i < requests.length; ++i )
 			if ( requests[i] != null )
-			{
-				this.requests[ requestCount ] = requests[i];
-				this.repeatCount[ requestCount++ ] = repeatCount;
-			}
-
-		setDaemon( true );
-	}
-
-	public RequestThread( Runnable [] requests, int [] repeatCount )
-	{
-		int requestCount = 0;
-		for ( int i = 0; i < requests.length; ++i )
-			if ( requests[i] != null )
-				++requestCount;
-
-		this.requests = new Runnable[ requestCount ];
-		this.repeatCount = new int[ requestCount ];
-
-		requestCount = 0;
-
-		for ( int i = 0; i < requests.length; ++i )
-			if ( requests[i] != null )
-			{
-				this.requests[ requestCount ] = requests[i];
-				this.repeatCount[ requestCount++ ] = repeatCount[i];
-			}
+				this.requests[ requestCount++ ] = requests[i];
 
 		setDaemon( true );
 	}
@@ -113,27 +85,41 @@ public class RequestThread extends Thread implements KoLConstants
 			if ( requests[i] instanceof ChatRequest )
 				requests[i].run();
 
-			// Standard KoL requests are handled through the
-			// client.makeRequest() method.
-
-			else if ( requests[i] instanceof KoLRequest && StaticEntity.getClient().permitsContinue() )
-				StaticEntity.getClient().makeRequest( requests[i], repeatCount[i] );
+			// Setting it up so that derived classes can
+			// override the behavior of execution.
+			
+			else if ( requests[i] instanceof KoLRequest )
+			{
+				run( (KoLRequest) requests[i], repeatCount );
+			}
 
 			// Standard KoL adventures are handled through the
 			// client.makeRequest() method.
 
-			else if ( requests[i] instanceof KoLAdventure && StaticEntity.getClient().permitsContinue() )
-				StaticEntity.getClient().makeRequest( requests[i], repeatCount[i] );
+			else if ( requests[i] instanceof KoLAdventure )
+			{
+				if ( StaticEntity.getClient().permitsContinue() )
+					StaticEntity.getClient().makeRequest( requests[i], repeatCount );
+			}
 
 			// All other runnables are run, as expected, with
 			// no updates to the client.
 
 			else
-				for ( int j = 0; j < repeatCount[i]; ++j )
+				for ( int j = 0; j < repeatCount; ++j )
 					requests[i].run();
 		}
 
 		if ( !(requests[0] instanceof ChatRequest) && !BuffBotHome.isBuffBotActive() )
 			StaticEntity.getClient().enableDisplay();
+	}
+	
+	protected void run( KoLRequest request, int repeatCount )
+	{
+		// Standard KoL requests are handled through the
+		// client.makeRequest() method.
+
+		if ( StaticEntity.getClient().permitsContinue() )
+			StaticEntity.getClient().makeRequest( request, repeatCount );
 	}
 }

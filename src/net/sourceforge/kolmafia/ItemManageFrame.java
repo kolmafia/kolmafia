@@ -169,10 +169,7 @@ public class ItemManageFrame extends KoLFrame
 		protected Object [] getDesiredItems( String message )
 		{
 			filterSelection( filters[0].isSelected(),
-					 filters[1].isSelected(),
-					 filters[2].isSelected(),
-					 true,
-					 true );
+				 filters[1].isSelected(), filters[2].isSelected(), true, true );
 			return super.getDesiredItems( message );
 		}
 
@@ -194,7 +191,6 @@ public class ItemManageFrame extends KoLFrame
 				AdventureResult currentItem;
 
 				Runnable [] requests = new Runnable[ items.length ];
-				int [] repeatCount = new int[ items.length ];
 
 				for ( int i = 0; i < items.length; ++i )
 				{
@@ -206,19 +202,10 @@ public class ItemManageFrame extends KoLFrame
 					if ( consumptionCount == 0 )
 						return;
 
-					if ( consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE || consumptionType == ConsumeItemRequest.CONSUME_RESTORE )
-					{
-						requests[i] = new ConsumeItemRequest( StaticEntity.getClient(), currentItem.getInstance( consumptionCount ) );
-						repeatCount[i] = 1;
-					}
-					else
-					{
-						requests[i] = new ConsumeItemRequest( StaticEntity.getClient(), currentItem.getInstance( 1 ) );
-						repeatCount[i] = consumptionCount;
-					}
+					requests[i] = new ConsumeItemRequest( StaticEntity.getClient(), currentItem.getInstance( consumptionCount ) );
 				}
 
-				(new RequestThread( requests, repeatCount )).start();
+				(new RequestThread( requests )).start();
 			}
 		}
 	}
