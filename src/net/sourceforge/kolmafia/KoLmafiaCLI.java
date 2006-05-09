@@ -241,13 +241,11 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( StaticEntity.getClient() == this )
 				printBlankLine();
 
+			StaticEntity.getClient().forceContinue();
 			executeLine( line );
 
 			if ( StaticEntity.getClient() == this )
 			{
-				if ( refusesContinue() )
-					forceContinue();
-
 				printBlankLine();
 				outputStream.print( " > " );
 			}
