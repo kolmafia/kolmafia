@@ -45,6 +45,9 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 
 public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 {
+	private static final int RESIZE_SIZE = 10000;
+	private static final int MAXIMUM_SIZE = 30000;
+	
 	protected static List colors;
 	protected static List highlights;
 	protected static List dehighlights;
@@ -179,11 +182,17 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		}
 
 		super.append( highlightMessage.replaceAll( "(<br>)+", "<br>" + LINE_BREAK ) );
-
 		if ( affectsHighlightBuffer && message.compareToIgnoreCase( highlightMessage ) != 0 )
 			highlightBuffer.append( highlightMessage.replaceAll( "(<br>)+", "<br>" + LINE_BREAK ) );
 
 		previousFontSize = fontSize;
+
+		if ( displayBuffer.length() > MAXIMUM_SIZE )
+		{
+			int lineIndex = displayBuffer.indexOf( "<br>", displayBuffer.length() - RESIZE_SIZE );
+			displayBuffer.delete( 0, lineIndex == -1 ? displayBuffer.length() : lineIndex );
+			fireBufferChanged( CONTENT_CHANGE, null );
+		}
 	}
 
 	public static String addHighlight( String highlight, Color color )
