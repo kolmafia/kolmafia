@@ -3025,13 +3025,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		itemName = firstMatch.getName();
 		itemCount = firstMatch.getCount();
-
-		consumptionType = TradeableItemDatabase.getConsumptionType( itemName );
-
-		if ( itemCount == 1 || consumptionType == ConsumeItemRequest.CONSUME_MULTIPLE || consumptionType == ConsumeItemRequest.CONSUME_RESTORE )
-			StaticEntity.getClient().makeRequest( new ConsumeItemRequest( StaticEntity.getClient(), new AdventureResult( itemName, itemCount, false ) ), 1 );
-		else
-			StaticEntity.getClient().makeRequest( new ConsumeItemRequest( StaticEntity.getClient(), new AdventureResult( itemName, 1, false ) ), itemCount );
+		StaticEntity.getClient().makeRequest( new ConsumeItemRequest( StaticEntity.getClient(), new AdventureResult( itemName, itemCount, false ) ), 1 );
 	}
 
 	/**
