@@ -141,7 +141,24 @@ public class KoLmafiaASH extends StaticEntity
 	private ScriptValue FALSE_VALUE = new ScriptValue( false );
 
 	private boolean tracing = true;
-	private String prefix = "";
+	private String prefix = null;
+
+
+	// **************** Tracing *****************
+
+	private String traceIndent()
+	{
+		String oldPrefix = prefix;
+		if ( tracing )
+			prefix = ( prefix == null ) ? "" : prefix + "  ";
+		return oldPrefix;
+	}
+
+	private void trace( String string )
+	{
+		if ( tracing )
+			KoLmafia.getDebugStream().println( prefix + string );
+	}
 
 	// **************** Parsing *****************
 
@@ -1883,15 +1900,11 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptCommand current;
 			ScriptValue result = null;
-			String oldPrefix = prefix;
-
-			if ( tracing )
-				prefix = prefix + "  ";
+			String oldPrefix = traceIndent();
 
 			for ( current = getFirstCommand(); current != null; current = getNextCommand( current ) )
 			{
-				if ( tracing )
-					KoLmafia.getDebugStream().println( prefix  + "[" + currentState + "] -> " + current );
+				trace( "[" + currentState + "] -> " + current );
 
 				result = current.execute();
 
@@ -1899,8 +1912,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( !client.permitsContinue() )
 					currentState = STATE_EXIT;
 
-				if ( tracing )
-					KoLmafia.getDebugStream().println( prefix + "[" + currentState + "] <- " + result );
+				trace( "[" + currentState + "] <- " + result );
 
 				switch ( currentState )
 				{
@@ -1987,10 +1999,17 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
+			String oldPrefix = traceIndent();
+
+			trace( "Entering " + name );
+
 			ScriptValue result = scope.execute();
 			if ( currentState != STATE_EXIT )
 				currentState = STATE_NORMAL;
 
+			trace( "Returning " + result );
+
+			prefix = oldPrefix;
 			return result;
 		}
 
@@ -2697,6 +2716,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
+			String oldPrefix = traceIndent();
+			trace( toString() );
+			prefix = oldPrefix;
+
 			if ( this.command == COMMAND_BREAK )
 			{
 				currentState = STATE_BREAK;
@@ -2792,14 +2815,14 @@ public class KoLmafiaASH extends StaticEntity
 			if ( returnValue == null )
 				return null;
 
-			if ( tracing )
-				KoLmafia.getDebugStream().println( prefix  + "[" + currentState + "] -> " + returnValue );
+			String oldPrefix = traceIndent();
+			trace( "Eval: " + returnValue );
 
 			ScriptValue result = returnValue.execute();
 			captureValue();
 
-			if ( tracing )
-				KoLmafia.getDebugStream().println( prefix + "[" + currentState + "] <- " + result );
+			trace( "Set:  " + returnValue );
+                        prefix = oldPrefix;
 
 			if ( currentState != STATE_EXIT )
 				currentState = STATE_RETURN;
@@ -2884,18 +2907,19 @@ public class KoLmafiaASH extends StaticEntity
 				return null;
 			}
 
+			String oldPrefix = traceIndent();
+			trace( this.toString() );
+
 			boolean executed = false;
 
 			while ( !executed || repeat  )
 			{
-				if ( tracing )
-					KoLmafia.getDebugStream().println( prefix  + "  test: " + condition );
+				trace( "Test: " + condition );
 
 				ScriptValue conditionResult = condition.execute();
 				captureValue();
 
-				if ( tracing )
-					KoLmafia.getDebugStream().println( prefix + "  [" + currentState + "] <- " + conditionResult );
+				trace(	"<- " + conditionResult );
 
 				boolean conditionMet = conditionResult != null && conditionResult.intValue() == 1;
 
@@ -2915,39 +2939,52 @@ public class KoLmafiaASH extends StaticEntity
 					if ( repeat )
 						currentState = STATE_NORMAL;
 
+					prefix = oldPrefix;
 					return VOID_VALUE;
 				}
 
 				if ( currentState == STATE_CONTINUE )
 				{
 					if ( !repeat )
+					{
+						prefix = oldPrefix;
 						return VOID_VALUE;
+					}
 
 					currentState = STATE_NORMAL;
 				}
 
 				if ( currentState == STATE_RETURN )
 				{
+					prefix = oldPrefix;
 					return result;
 				}
 
 				if ( currentState == STATE_EXIT )
 				{
+					prefix = oldPrefix;
 					return null;
 				}
 			}
 
 			if ( executed )
+			{
+				prefix = oldPrefix;
 				return VOID_VALUE;
+			}
 
 			// Conditional failed. Move to else clauses
 			for ( ScriptLoop elseLoop = elseLoops.getFirstScriptLoop(); elseLoop != null; elseLoop = elseLoops.getNextScriptLoop( elseLoop ) )
 			{
 				ScriptValue result = elseLoop.execute();
 				if ( currentState != STATE_NORMAL )
+				{
+					prefix = oldPrefix;
 					return result;
+				}
 			}
 
+			prefix = oldPrefix;
 			return VOID_VALUE;
 		}
 
@@ -3025,22 +3062,29 @@ public class KoLmafiaASH extends StaticEntity
 
 			ScriptVariableReference paramVarRef = target.getFirstParam();
 			ScriptExpression paramValue = params.getFirstExpression();
-			int paramCount = 0;
 
+			String oldPrefix = traceIndent();
+			trace( "Enter: " + target.getName() );
+
+			int paramCount = 0;
 			while ( paramVarRef != null )
 			{
 				++paramCount;
 				if ( paramValue == null )
 					throw new RuntimeException( "Internal error: illegal arguments" );
 
+				trace( "param #" + paramCount + ": " + paramValue );
+
 				ScriptValue value = paramValue.execute();
 				captureValue();
 
-				if ( tracing )
-					KoLmafia.getDebugStream().println( prefix  + "  param #" + paramCount + " = " + value );
+				trace( "<- " + value );
 
 				if ( currentState == STATE_EXIT )
+				{
+					prefix = oldPrefix;
 					return null;
+				}
 
 				if ( paramVarRef.getType().equals( TYPE_INT ) && paramValue.getType().equals( TYPE_FLOAT ) )
 					paramVarRef.setValue( value.toIntValue() );
@@ -3058,7 +3102,12 @@ public class KoLmafiaASH extends StaticEntity
 			if ( paramValue != null )
 				throw new RuntimeException( "Internal error: illegal arguments" );
 
-			return target.execute();
+			ScriptValue result = target.execute();
+
+			trace( "Return: " + result );
+			prefix = oldPrefix;
+
+			return result;
 		}
 
 		public String toString()
@@ -3115,8 +3164,14 @@ public class KoLmafiaASH extends StaticEntity
 				return null;
 			}
 
+			String oldPrefix = traceIndent();
+			trace( "Eval: " + rhs );
+
 			ScriptValue value = rhs.execute();
 			captureValue();
+
+			trace( "Set:  " + value );
+			prefix = oldPrefix;
 
 			if ( currentState == STATE_EXIT )
 				return null;
