@@ -369,7 +369,7 @@ public class ChatFrame extends KoLFrame
 		{
 			if ( location.startsWith( "makeoffer.php" ) )
 			{
-				SwingUtilities.invokeLater( new CreateFrameRunnable( PendingTradesFrame.class ) );
+				(new RequestThread( new CreateFrameRunnable( PendingTradesFrame.class ) )).start();
 				return;
 			}
 
@@ -456,7 +456,7 @@ public class ChatFrame extends KoLFrame
 			// Now, determine what needs to be done based
 			// on the link option.
 
-			SwingUtilities.invokeLater( new CreateFrameRunnable( frameClass, parameters ) );
+			(new RequestThread( new CreateFrameRunnable( frameClass, parameters ) )).start();
 		}
 	}
 

@@ -141,7 +141,7 @@ public class ContactListFrame extends KoLFrame
 		parameters[0] = "Mass Buff";
 		parameters[1] = new SkillBuffPanel( convertToCDL() );
 
-		SwingUtilities.invokeLater( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) );
+		(new RequestThread( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) )).start();
 	}
 
 	public void mailSelected()
@@ -155,7 +155,7 @@ public class ContactListFrame extends KoLFrame
 		Object [] parameters = new Object[1];
 		parameters[0] = convertToCDL();
 
-		SwingUtilities.invokeLater( new CreateFrameRunnable( GreenMessageFrame.class, parameters ) );
+		(new RequestThread( new CreateFrameRunnable( GreenMessageFrame.class, parameters ) )).start();
 	}
 
 	private class ContactListPanel extends JPanel

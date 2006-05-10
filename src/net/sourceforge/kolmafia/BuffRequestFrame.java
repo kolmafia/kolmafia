@@ -78,7 +78,6 @@ public class BuffRequestFrame extends KoLFrame
 		framePanel.setLayout( cards );
 
 		// Configure buffbot offerings
-		BuffBotDatabase.configureBuffBots();
 
 		BuffRequestPanel buffs = new BuffRequestPanel();
 		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );

@@ -259,10 +259,6 @@ public class BuffBotDatabase extends KoLDatabase
 		allBots = new BuffList();
 		allBots.addBuffList( staticBots );
 
-		// If there is no client, return.
-		if ( client == null )
-			return;
-
 		DEFAULT_SHELL.updateDisplay( "Configuring dynamic buff prices..." );
 
 		// Iterate over list of bots and configure each one
@@ -282,9 +278,23 @@ public class BuffBotDatabase extends KoLDatabase
 
 	private static void configureDynamicBot( KoLmafia client, String name, String id )
 	{
+		// First, check if the bot is online by sending
+		// a chat request.
+
+		KoLRequest request = new ChatRequest( client, "", "/whois " + id );
+		request.run();
+
+System.out.println( request.responseText );
+
+		if ( request.responseText.indexOf( "currently online" ) == -1 )
+		{
+			client.updateDisplay( name + " is not currently online." );
+			return;
+		}
+
 		DEFAULT_SHELL.updateDisplay( "Fetching buff prices from " + name + "..." );
 
-		KoLRequest request = new KoLRequest( client, "displaycollection.php" );
+		request = new KoLRequest( client, "displaycollection.php" );
 		request.addFormField( "who", id );
 		request.run();
 
