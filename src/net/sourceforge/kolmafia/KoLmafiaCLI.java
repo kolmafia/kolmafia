@@ -174,7 +174,6 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			username = username.replaceAll( "/q", "" );
 			String password = StaticEntity.getClient().getSaveState( username );
 
 			if ( password == null )
