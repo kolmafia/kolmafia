@@ -250,6 +250,16 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int adventuresLeft = 0;
 	private static int totalTurnsUsed = 0;
 
+	// Status pane data which is rendered whenever
+	// the user changes equipment, effects, and familiar
+
+	private static int monsterLevelAdjustment = 0;
+	private static double combatPercentAdjustment = 0.0;
+	private static double initiativeAdjustment = 0.0;
+	private static double fixedXPAdjustment = 0.0;
+	private static double meatDropPercentAdjustment = 0.0;
+	private static double itemDropPercentAdjustment = 0.0;
+
 	// Travel information
 
 	private static boolean hasStore = false;
@@ -305,6 +315,13 @@ public abstract class KoLCharacter extends StaticEntity
 		pvpRank = 0;
 		adjustedStats = new int[3];
 		totalSubpoints = new int[3];
+
+		monsterLevelAdjustment = 0;
+		combatPercentAdjustment = 0.0;
+		initiativeAdjustment = 0.0;
+		fixedXPAdjustment = 0.0;
+		meatDropPercentAdjustment = 0.0;
+		itemDropPercentAdjustment = 0.0;
 
 		equipment.clear();
 		for ( int i = 0; i < 8; ++i )
@@ -895,6 +912,72 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to retrieve the total current monster level
+	 * adjustment
+	 *
+	 * @return	Total Current Monster Level Adjustment
+	 */
+
+	public static int getMonsterLevelAdjustment()
+	{	return monsterLevelAdjustment;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current combat percent
+	 * adjustment
+	 *
+	 * @return	Total Current Combat Percent Adjustment
+	 */
+
+	public static double getCombatPercentAdjustment()
+	{	return combatPercentAdjustment;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current initiative
+	 * adjustment
+	 *
+	 * @return	Total Current Initiative Adjustment
+	 */
+
+	public static double getInitiativeAdjustment()
+	{	return initiativeAdjustment;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current fixed XP
+	 * adjustment
+	 *
+	 * @return	Total Current Fixed XP Adjustment
+	 */
+
+	public static double getFixedXPAdjustment()
+	{	return fixedXPAdjustment;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current meat drop percent
+	 * adjustment
+	 *
+	 * @return	Total Current Meat Drop Percent Adjustment
+	 */
+
+	public static double getMeatDropPercentAdjustment()
+	{	return meatDropPercentAdjustment;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current item drop percent
+	 * adjustment
+	 *
+	 * @return	Total Current Item Drop Percent Adjustment
+	 */
+
+	public static double getItemDropPercentAdjustment()
+	{	return itemDropPercentAdjustment;
+	}
+
+	/**
 	 * Accessor method to set the equipment the character is currently using.
 	 * This does not take into account the power of the item or anything of
 	 * that nature; only the item's name is stored.  Note that if no item is
@@ -933,6 +1016,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 		FamiliarData.updateWeightModifier();
 		ClassSkillsDatabase.updateManaModifier();
+		recalculateAdjustments( false );
+		updateStatus();
 	}
 
 	/**
@@ -1593,6 +1678,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setMindControlLevel( int level )
 	{
 		KoLCharacter.mindControlLevel = level;
+		recalculateAdjustments( false );
 		updateStatus();
 	}
 
@@ -1845,6 +1931,8 @@ public abstract class KoLCharacter extends StaticEntity
 			battleSkillNames.add( "Skill: " + skill.getSkillName() );
 			break;
 		}
+
+                recalculateAdjustments( true );
 	}
 
 	/**
@@ -2091,6 +2179,7 @@ public abstract class KoLCharacter extends StaticEntity
 		currentFamiliar = addFamiliar( familiar );
 		familiars.setSelectedItem( currentFamiliar );
 		updateEquipmentList( equipmentLists[FAMILIAR], ConsumeItemRequest.EQUIP_FAMILIAR, getFamiliarItem() );
+		recalculateAdjustments( false );
 		updateStatus();
 	}
 
@@ -2102,7 +2191,11 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void incrementFamilarWeight()
 	{
 		if ( currentFamiliar != null )
+		{
 			currentFamiliar.setWeight( currentFamiliar.getWeight() + 1 );
+			recalculateAdjustments( false );
+			updateStatus();
+		}
 	}
 
 	/**
@@ -2386,5 +2479,586 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void clearEvents()
 	{	events.clear();
+	}
+
+	// Effects that modify ML:
+
+	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
+
+	// Items that modify ML:
+
+	private static final int ICE_SICKLE = 1424;
+	private static final int HIPPO_WHIP = 1029;
+	private static final int GIANT_NEEDLE = 619;
+	private static final int GOTH_KID = 703;
+	private static final int HOCKEY_STICK = 1236;
+	private static final int SCARF = 1227;
+	private static final int AGGRAVATE_MONSTER = 835;
+	private static final int PITCHFORK = 1116;
+
+	// Effects that modify Combat Frequency
+	private static final String CANTATA = "Carlweather's Cantata of Confrontation";
+	private static final String SONATA = "The Sonata of Sneakiness";
+	private static final String MUSK = "Musk of the Moose";
+	private static final String SMOOTH = "Smooth Movements";
+	private static final String STENCH = "Hippy Stench";
+	private static final String SCENT = "Fresh Scent";
+
+	// Items that modify Combat Frequency
+	private static final int CONFLICT = 1298;
+	private static final int BAIT = 1300;
+
+	// Effects that modify Initiative
+  	private static final String FUSILLI = "Springy Fusilli";
+	private static final String CANTICLE = "Cletus's Canticle of Celerity";
+	private static final String TICKING_CLOCK = "Ticking Clock";
+	private static final String RELAXATION = "Extreme Muscle Relaxation";
+
+	// Skills that modify Initiative
+	private static final String SELF_PRESERVATION = "Overdeveloped Sense of Self Preservation";
+
+	// Items that modify Initiative
+	private static final int BONERDAGON_NECKLACE = 1248;
+	private static final int CRIMBO_PANTS = 650;
+	private static final int CHOPSTICKS = 1490;
+	private static final int PENGUIN_SHORTS = 396;
+	private static final int PENGUIN_KILT = 1281;
+	private static final int PENGUIN_SKIRT = 1280;
+	private static final int STAR_PANTS = 660;
+	private static final int COLD_NINJA_MASK = 348;
+	private static final int ICE_SKATES = 1427;
+	private static final int LEOTARRD = 415;
+	private static final int PIXEL_SWORD = 690;
+	private static final int SK8BOARD = 410;
+	private static final int CLOCKWORK_PANTS = 1099;
+	private static final int CROWBARRR = 414;
+	private static final int GNATWING_EARRING = 505;
+	private static final int INFERNAL_INSOLES = 477;
+	private static final int PLASTIC_FORK = 1151;
+	private static final int SHOVEL = 671;
+
+	// Effects that modify earned XP:
+
+	private static final String ANTIPHON = "Aloysius' Antiphon of Aptitude";
+	private static final String BLACK_TONGUE = "Black Tongue";
+	private static final String ORANGE_TONGUE = "Orange Tongue";
+	private static final String VEINY = "Big Veiny Brain";
+	private static final String PEELED = "Peeled Eyeballs";
+	private static final String WASABI = "Wasabi Sinuses";
+
+	// Items that modify earned XP:
+
+	private static final int ICE_BABY = 1425;
+	private static final int WAX_LIPS = 1260;
+
+	// Familiars that modify earned XP:
+
+	private static final int VOLLEYBALL = 12;
+	private static final int CHESHIRE = 23;
+	private static final int JILL = 24;
+	private static final int SHAMAN = 39;
+	private static final int MONKEY = 42;
+	private static final int HARE = 50;
+	private static final int HOBO = 52;
+
+	// Effects that modify Meat Drops
+	private static final String RED_TONGUE = "Red Tongue";
+	private static final String TACTICS = "Eggs-stortionary Tactics";
+	private static final String POLKA = "Polka of Plenty";
+
+	// Skills that modify Meat Drops
+	private static final String NIMBLE_FINGERS = "Nimble Fingers";
+	private static final String PANHANDLING = "Expert Panhandling";
+	private static final String PICKPOCKETING = "Gnefarious Pickpocketing";
+
+	// Items that modify Meat Drops
+	private static final int TAM = 1040;
+	private static final int MEAT_GEM = 876;
+	private static final int STAINLESS_SLACKS = 1228;
+	private static final int MONEY_CLIP = 1313;
+	private static final int PORQUOISE_NECKLACE = 720;
+	private static final int TOY_TRAIN = 1399;
+	private static final int TP_HERMIT = 990;
+	private static final int PENGUIN_WHIP = 1030;
+	private static final int BOX_IN_BOX_IN_BOX = 447;
+	private static final int BOX_IN_BOX = 445;
+	private static final int BOX = 427;
+
+	// Familiars that modify Meat Drops
+	private static final int LEPRECHAUN = 2;
+	private static final int TURKEY = 25;
+
+	// Effects that modify Item Drops
+	private static final String PERCEPTION = "Eggs-tra Sensory Perception";
+	private static final String BLUE_TONGUE = "Blue Tongue";
+	private static final String PHAT_LOOT = "Fat Leon's Phat Loot Lyric";
+	private static final String OBJECT_DETECTION = "Object Detection";
+
+	// Skills that modify Item Drops
+	private static final String MAD_LOOTING_SKILLZ = "Mad Looting Skillz";
+	private static final String OBSERVATIOGN = "Powers of Observatiogn";
+
+	// Items that modify Item Drops
+	private static final int JEKYLLIN = 1291;
+	private static final int HYPNODISK = 878;
+	private static final int MAYPOLE = 1152;
+	private static final int MRAJR = 896;
+	private static final int PLEXIGLASS_PANTS = 1234;
+	private static final int RICE_BOWL = 1491;
+	private static final int ICE_PICK = 1426;
+	private static final int MONOCLE = 1312;
+	private static final int DUCK = 1396;
+	private static final int HELMET = 360;
+	private static final int GNAUGA_WHIP = 1032;
+
+	// Familiars that modify Item Drops
+	private static final int BABY_GRAVY_FAIRY = 15;
+	private static final int FLAMING_GRAVY_FAIRY = 34;
+	private static final int FROZEN_GRAVY_FAIRY = 35;
+	private static final int STINKY_GRAVY_FAIRY = 36;
+	private static final int SPOOKY_GRAVY_FAIRY = 37;
+	private static final int SLEAZY_GRAVY_FAIRY = 49;
+	private static final int PIXIE = 22;
+	private static final int DEMON = 41;
+	private static final int CRIMBO_ELF = 26;
+
+	public static boolean recalculateAdjustments( boolean update )
+	{
+		int newMonsterLevelAdjustment = 0;
+		double newCombatPercentAdjustment = 0.0;
+		double newInitiativeAdjustment = 0.0;
+		double newFixedXPAdjustment = 0.0;
+		double newMeatDropPercentAdjustment = 0.0;
+		double newItemDropPercentAdjustment = 0.0;
+
+		// Look at mind control level
+		newMonsterLevelAdjustment += getMindControlLevel();
+
+		// Look at items
+		for ( int slot = WEAPON; slot <= FAMILIAR; ++slot )
+		{
+			AdventureResult item = getCurrentEquipment( slot );
+			if ( item == null )
+				continue;
+
+			switch ( item.getItemID() )
+			{
+			case HOCKEY_STICK:
+				newMonsterLevelAdjustment += 30;
+				break;
+			case SCARF:
+				newMonsterLevelAdjustment += 20;
+				break;
+			case ICE_SICKLE:
+				newMonsterLevelAdjustment += 15;
+				break;
+			case HIPPO_WHIP:
+				newMonsterLevelAdjustment += 10;
+				break;
+			case GIANT_NEEDLE:
+			case GOTH_KID:
+			case AGGRAVATE_MONSTER:
+			case PITCHFORK:
+				newMonsterLevelAdjustment += 5;
+				break;
+			case BAIT:
+				newCombatPercentAdjustment += 5;
+				break;
+			case CONFLICT:
+				newCombatPercentAdjustment -= 5;
+				break;
+			case BONERDAGON_NECKLACE:
+			case CRIMBO_PANTS:
+				newInitiativeAdjustment += 30;
+				break;
+			case CHOPSTICKS:
+			case PENGUIN_SHORTS:
+			case PENGUIN_KILT:
+			case PENGUIN_SKIRT:
+				newInitiativeAdjustment += 20;
+				break;
+			case COLD_NINJA_MASK:
+			case LEOTARRD:
+			case PIXEL_SWORD:
+			case SK8BOARD:
+				newInitiativeAdjustment += 15;
+				break;
+			case CLOCKWORK_PANTS:
+			case CROWBARRR:
+			case GNATWING_EARRING:
+			case INFERNAL_INSOLES:
+				newInitiativeAdjustment += 10;
+				break;
+			case PLASTIC_FORK:
+			case SHOVEL:
+				newInitiativeAdjustment -= 10;
+				break;
+			case WAX_LIPS:
+				newFixedXPAdjustment += 2.5;
+				break;
+			case ICE_BABY:
+				newFixedXPAdjustment += 1.0;
+				break;
+			case TAM:
+				newMeatDropPercentAdjustment += 50;
+				break;
+			case MEAT_GEM:
+				newMeatDropPercentAdjustment += 25;
+				break;
+			case STAINLESS_SLACKS:
+				newInitiativeAdjustment += 15;
+				newMeatDropPercentAdjustment += 20;
+				break;
+			case ICE_SKATES:
+				newInitiativeAdjustment += 15;
+				newMeatDropPercentAdjustment += 15;
+				break;
+			case MONEY_CLIP:
+				newMeatDropPercentAdjustment += 15;
+				break;
+			case PORQUOISE_NECKLACE:
+			case TOY_TRAIN:
+				newMeatDropPercentAdjustment += 10;
+				break;
+			case TP_HERMIT:
+				newMeatDropPercentAdjustment += 6;
+				break;
+			case PENGUIN_WHIP:
+			case BOX_IN_BOX_IN_BOX:
+				newMeatDropPercentAdjustment += 3;
+				break;
+			case BOX_IN_BOX:
+				newMeatDropPercentAdjustment += 2;
+				break;
+			case BOX:
+				newMeatDropPercentAdjustment += 1;
+				break;
+			case JEKYLLIN:
+				// newItemDropPercentAdjustment depends on moon phase
+				break;
+			case HYPNODISK:
+			case MAYPOLE:
+			case MRAJR:
+				newItemDropPercentAdjustment += 25;
+				break;
+			case PLEXIGLASS_PANTS:
+				newItemDropPercentAdjustment += 20;
+				newInitiativeAdjustment += 25;
+				break;
+			case RICE_BOWL:
+				// newItemDropPercentAdjustment += 20;
+				// Food items only
+				break;
+			case ICE_PICK:
+				newItemDropPercentAdjustment += 15;
+				break;
+			case MONOCLE:
+				newItemDropPercentAdjustment += 12.5;
+				break;
+			case DUCK:
+			case HELMET:
+				newItemDropPercentAdjustment += 5;
+				break;
+			case GNAUGA_WHIP:
+				newItemDropPercentAdjustment += 3;
+				break;
+			}
+		}
+
+		// Look at skills
+		for ( int i = 0; i < availableSkills.size(); ++i )
+		{
+			String name = ((UseSkillRequest)availableSkills.get(i)).getSkillName();
+			if ( name.equals( SELF_PRESERVATION ) )
+			{
+				newInitiativeAdjustment += 20;
+				continue;
+			}
+
+			if ( name.equals( NIMBLE_FINGERS ) )
+			{
+				newMeatDropPercentAdjustment += 20;
+				continue;
+			}
+
+			if ( name.equals( PANHANDLING ) ||
+			     name.equals( PICKPOCKETING ) )
+			{
+				newMeatDropPercentAdjustment += 10;
+				continue;
+			}
+
+			if ( name.equals( MAD_LOOTING_SKILLZ ) )
+			{
+				newItemDropPercentAdjustment += 20;
+				continue;
+			}
+
+			if ( name.equals( OBSERVATIOGN ) )
+			{
+				newItemDropPercentAdjustment += 10;
+				continue;
+			}
+		}
+
+		// Look at status effects
+		for ( int i = 0; i < activeEffects.size(); ++i )
+		{
+			String name = ((AdventureResult)activeEffects.get(i)).getName();
+
+			if ( name.equals( ARIA ) )
+			{
+				newMonsterLevelAdjustment += 2 * getLevel();
+				continue;
+			}
+
+			if ( name.equals( ANTIPHON ) )
+			{
+				newFixedXPAdjustment += 3;
+				continue;
+			}
+
+			if ( name.equals( PHAT_LOOT ) )
+			{
+				newItemDropPercentAdjustment += 20;
+				continue;
+			}
+
+			if ( name.equals( POLKA ) )
+			{
+				newMeatDropPercentAdjustment += 50;
+				continue;
+			}
+
+			if ( name.equals( CANTATA ) )
+			{
+				newCombatPercentAdjustment += 5;
+				continue;
+			}
+
+			if ( name.equals( SONATA ) )
+			{
+				newCombatPercentAdjustment -= 5;
+				continue;
+			}
+
+			if ( name.equals( CANTICLE ) )
+			{
+				newInitiativeAdjustment += 30;
+				continue;
+			}
+
+			if ( name.equals( FUSILLI ) )
+			{
+				newInitiativeAdjustment += 40;
+				continue;
+			}
+
+			if ( name.equals( TICKING_CLOCK ) )
+			{
+				newInitiativeAdjustment += 20;
+				continue;
+			}
+
+			if ( name.equals( RELAXATION ) )
+			{
+				newInitiativeAdjustment -= 25;
+				continue;
+			}
+
+			if ( name.equals( MUSK ) )
+			{
+				newCombatPercentAdjustment += 5;
+				continue;
+			}
+
+			if ( name.equals( SMOOTH ) )
+			{
+				newCombatPercentAdjustment -= 5;
+				continue;
+			}
+
+			if ( name.equals( STENCH ) )
+			{
+				newCombatPercentAdjustment += 5;
+				continue;
+			}
+
+			if ( name.equals( SCENT ) )
+			{
+				newCombatPercentAdjustment -= 5;
+				continue;
+			}
+
+			if ( name.equals( BLACK_TONGUE ) )
+			{
+				newFixedXPAdjustment += 2.5;
+				newItemDropPercentAdjustment += 30;
+				newMeatDropPercentAdjustment += 30;
+				continue;
+			}
+
+			if ( name.equals( RED_TONGUE ) )
+			{
+				newMeatDropPercentAdjustment += 30;
+				continue;
+			}
+
+			if ( name.equals( BLUE_TONGUE ) )
+			{
+				newItemDropPercentAdjustment += 30;
+				continue;
+			}
+
+			if ( name.equals( ORANGE_TONGUE ) )
+			{
+				newFixedXPAdjustment += 2.5;
+				continue;
+			}
+
+			if ( name.equals( PERCEPTION ) )
+			{
+				newItemDropPercentAdjustment += 30;
+				continue;
+			}
+
+			if ( name.equals( TACTICS ) )
+			{
+				newMeatDropPercentAdjustment += 50;
+				continue;
+			}
+
+			if ( name.equals( VEINY ) )
+			{
+				newFixedXPAdjustment += 2;
+				newMeatDropPercentAdjustment -= 20;
+				continue;
+			}
+
+			if ( name.equals( PEELED ) )
+			{
+				newItemDropPercentAdjustment += 40;
+				newMeatDropPercentAdjustment -= 16;
+				newFixedXPAdjustment -= 1;
+				continue;
+			}
+
+			if ( name.equals( WASABI ) )
+			{
+				newMeatDropPercentAdjustment += 30;
+				newItemDropPercentAdjustment -= 10;
+				newFixedXPAdjustment -= 1;
+				continue;
+			}
+
+			if ( name.equals( OBJECT_DETECTION ) )
+			{
+				newItemDropPercentAdjustment += 12.5;
+				continue;
+			}
+		}
+
+		// Look at familiar
+		double modifier = (double)currentFamiliar.getModifiedWeight();
+		switch ( currentFamiliar.getID() )
+		{
+		case BABY_GRAVY_FAIRY:
+		case FLAMING_GRAVY_FAIRY:
+		case FROZEN_GRAVY_FAIRY:
+		case STINKY_GRAVY_FAIRY:
+		case SPOOKY_GRAVY_FAIRY:
+		case SLEAZY_GRAVY_FAIRY:
+		case CRIMBO_ELF:
+			// Full gravy fairy equivalent familiar
+			newItemDropPercentAdjustment += modifier * 2.5;
+			break;
+
+		case PIXIE:
+		case DEMON:
+			// Full gravy fairy equivalent familiar
+			// Full leprechaun equivalent familiar
+			newItemDropPercentAdjustment += modifier * 2.5;
+			newMeatDropPercentAdjustment += modifier * 5;
+			break;
+
+		case VOLLEYBALL:
+		case HOBO:
+			// Full volleyball equivalent familiar
+			newFixedXPAdjustment += modifier / 4.0;
+			break;
+
+		case LEPRECHAUN:
+		case TURKEY:
+			// Full leprechaun equivalent familiar
+			newMeatDropPercentAdjustment += modifier * 5;
+			break;
+
+		case CHESHIRE:
+		case MONKEY:
+			// Full volleyball equivalent familiar
+			// Full leprechaun equivalent familiar
+			newFixedXPAdjustment += modifier / 4.0;
+			newMeatDropPercentAdjustment += modifier * 5;
+			break;
+
+		case SHAMAN:
+			// Full volleyball equivalent familiar
+			// Full gravy fairy equivalent familiar
+			newFixedXPAdjustment += modifier / 4.0;
+			newItemDropPercentAdjustment += modifier / 40.0;
+			break;
+
+		case JILL:
+			// Half volleyball equivalent familiar
+			newFixedXPAdjustment += modifier / 8.0;
+			break;
+
+		case HARE:
+			// Full volleyball equivalent 1/4 of the time
+			newFixedXPAdjustment += modifier / 16.0;
+			break;
+		}
+
+		boolean changed = false;
+		if ( monsterLevelAdjustment != newMonsterLevelAdjustment )
+		{
+			monsterLevelAdjustment = newMonsterLevelAdjustment;
+			changed = true;
+		}
+
+		if ( combatPercentAdjustment != newCombatPercentAdjustment )
+		{
+			combatPercentAdjustment = newCombatPercentAdjustment;
+			changed = true;
+		}
+
+		if ( initiativeAdjustment != newInitiativeAdjustment )
+		{
+			initiativeAdjustment = newInitiativeAdjustment;
+			changed = true;
+		}
+
+		if ( fixedXPAdjustment != newFixedXPAdjustment )
+		{
+			fixedXPAdjustment = newFixedXPAdjustment;
+			changed = true;
+		}
+
+		if ( meatDropPercentAdjustment != newMeatDropPercentAdjustment )
+		{
+			meatDropPercentAdjustment = newMeatDropPercentAdjustment;
+			changed = true;
+		}
+
+		if ( itemDropPercentAdjustment != newItemDropPercentAdjustment )
+		{
+			itemDropPercentAdjustment = newItemDropPercentAdjustment;
+			changed = true;
+		}
+
+		if ( changed && update )
+			updateStatus();
+
+		return changed;
 	}
 }

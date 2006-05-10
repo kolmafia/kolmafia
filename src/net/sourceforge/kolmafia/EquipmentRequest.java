@@ -489,6 +489,7 @@ public class EquipmentRequest extends PasswordHashRequest
 					AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, oldFakeHands - newFakeHands ) );
 
 				CharpaneRequest.getInstance().run();
+				KoLCharacter.recalculateAdjustments( false );
 				KoLCharacter.updateStatus();
 				DEFAULT_SHELL.updateDisplay( "Gear changed." );
 			}

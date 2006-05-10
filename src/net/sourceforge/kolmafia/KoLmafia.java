@@ -520,6 +520,7 @@ public abstract class KoLmafia implements KoLConstants
 		applyRecentEffects();
 
 		ConcoctionsDatabase.getConcoctions().clear();
+		KoLCharacter.recalculateAdjustments( false );
 		KoLCharacter.refreshCalculatedLists();
 	}
 
@@ -818,6 +819,7 @@ public abstract class KoLmafia implements KoLConstants
 		Collections.sort( KoLCharacter.getEffects() );
 		recentEffects.clear();
 		FamiliarData.updateWeightModifier();
+		KoLCharacter.recalculateAdjustments( false );
 	}
 
 	/**
