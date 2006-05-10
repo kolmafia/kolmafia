@@ -244,8 +244,6 @@ public class LoginFrame extends KoLFrame
 				}
 			}
 
-			username = username.replaceAll( "/q", "" );
-
 			GLOBAL_SETTINGS.setProperty( "breakfast." + username.toLowerCase(), skillString.toString() );
 			GLOBAL_SETTINGS.setProperty( "loginScript." + username.toLowerCase(), scriptField.getText() );
 

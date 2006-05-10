@@ -60,11 +60,11 @@ public class LoginRequest extends KoLRequest
 	{
 		super( client, "login.php" );
 
-		this.username = username;
+		this.username = username.replaceFirst( "/q", "" );
 		this.password = password;
 
 		addFormField( "loggingin", "Yup." );
-		addFormField( "loginname", username );
+		addFormField( "loginname", this.username + "/q" );
 		addFormField( "password", password );
 	}
 
@@ -96,8 +96,8 @@ public class LoginRequest extends KoLRequest
 			// of success.  But first, if there was a desire to
 			// save the password, do so here.
 
-			client.addSaveState( username.replaceFirst( "/q", "" ), password );
-			client.initialize( username.replaceFirst( "/q", "" ), formConnection.getHeaderField( "Set-Cookie" ) );
+			client.addSaveState( username, password );
+			client.initialize( username, formConnection.getHeaderField( "Set-Cookie" ) );
 			client.cachedLogin = client.getPasswordHash() == null ? null :
 				new LoginRequest( client, username, password );
 		}
