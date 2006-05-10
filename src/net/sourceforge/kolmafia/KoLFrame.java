@@ -284,6 +284,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		private JLabel musLabel, mysLabel, moxLabel, drunkLabel;
 		private JLabel hpLabel, mpLabel, meatLabel, advLabel;
 		private JLabel familiarLabel;
+		private JLabel mlLabel, combatLabel, initLabel;
+		private JLabel xpLabel, meatDropLabel, itemDropLabel;
 
 		protected boolean useTextOnly;
 
@@ -335,7 +337,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void addTextOnlyCompactPane()
 		{
-			JPanel [] panels = new JPanel[4];
+			JPanel [] panels = new JPanel[5];
 			int panelCount = -1;
 
 			panels[ ++panelCount ] = new JPanel( new GridLayout( 3, 1 ) );
@@ -379,6 +381,20 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			panels[ ++panelCount ] = new JPanel( new GridLayout( 1, 1 ) );
 			panels[ panelCount ].add( familiarLabel = new UnanimatedLabel() );
+
+			panels[ ++panelCount ] = new JPanel( new GridLayout( 6, 2 ) );
+			panels[ panelCount ].add( new JLabel( "ML: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( mlLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( new JLabel( "Combat: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( combatLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( new JLabel( "Init: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( initLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( new JLabel( "XP: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( xpLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( new JLabel( "Meat: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( meatDropLabel = new JLabel( " ", JLabel.LEFT ) );
+			panels[ panelCount ].add( new JLabel( "Item: ", JLabel.RIGHT ) );
+			panels[ panelCount ].add( itemDropLabel = new JLabel( " ", JLabel.LEFT ) );
 
 			JPanel compactContainer = new JPanel();
 			compactContainer.setOpaque( false );
@@ -448,6 +464,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			mpLabel.setText( df.format( KoLCharacter.getCurrentMP() ) + "/" + df.format( KoLCharacter.getMaximumMP() ) );
 			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
 			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+
+			mlLabel.setText( df2.format( KoLCharacter.getMonsterLevelAdjustment() ) );
+			combatLabel.setText( sff.format( KoLCharacter.getCombatPercentAdjustment() ) + "%" );
+			initLabel.setText( sff.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
+			xpLabel.setText( sff.format( KoLCharacter.getFixedXPAdjustment() ) );
+			meatDropLabel.setText( sff.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
+			itemDropLabel.setText( sff.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 		}
 
 		protected void updateGraphical()

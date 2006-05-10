@@ -101,7 +101,7 @@ public class AreaCombatData implements KoLConstants
 	{
 		boolean ranged = KoLCharacter.rangedWeapon();
 
-		int ml = monsterLevelAdjustment();
+		int ml = KoLCharacter.getMonsterLevelAdjustment();
 		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
 		int hitstat = ranged ? moxie : ( KoLCharacter.getAdjustedMuscle() - ml );
 
@@ -116,7 +116,7 @@ public class AreaCombatData implements KoLConstants
 
 		// XP constants
 		FamiliarData familiar = KoLCharacter.getFamiliar();
-		double xpAdjustment = effectXPAdjustment() + itemXPAdjustment() + familiarXPAdjustment( familiar );
+		double xpAdjustment = KoLCharacter.getFixedXPAdjustment();
 
 		// Iterate once through monsters to calculate average XP
 		double totalXP = 0.0;
@@ -250,160 +250,5 @@ public class AreaCombatData implements KoLConstants
 
 	public static int perfectHit( int attack, int defense )
 	{	return attack - defense - 9;
-	}
-
-	// Effects that modify earned XP:
-
-	private static final AdventureResult ANTIPHON = new AdventureResult( "Aloysius' Antiphon of Aptitude", 0 );
-	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0 );
-	private static final AdventureResult ORANGE_TONGUE = new AdventureResult( "Orange Tongue", 0 );
-	private static final AdventureResult VEINY = new AdventureResult( "Big Veiny Brain", 0 );
-	private static final AdventureResult PEELED = new AdventureResult( "Peeled Eyeballs", 0 );
-	private static final AdventureResult WASABI = new AdventureResult( "Wasabi Sinuses", 0 );
-
-	public static double effectXPAdjustment()
-	{
-		double modifier = 0.0;
-		LockableListModel effects = KoLCharacter.getEffects();
-		if ( effects.contains( ANTIPHON ) )
-			modifier += 3;
-		if ( effects.contains( BLACK_TONGUE ) )
-			modifier += 2.5;
-		if ( effects.contains( ORANGE_TONGUE ) )
-			modifier += 2.5;
-		if ( effects.contains( VEINY ) )
-			modifier += 2;
-		if ( effects.contains( PEELED ) )
-			modifier -= 1;
-		if ( effects.contains( WASABI ) )
-			modifier -= 1;
-		return modifier;
-	}
-
-	// Items that modify earned XP:
-
-	private static final int ICE_BABY = 1425;
-	private static final int WAX_LIPS = 1260;
-
-	public static double itemXPAdjustment()
-	{
-		double modifier = 0.0;
-		AdventureResult offhand = KoLCharacter.getCurrentEquipment( KoLCharacter.OFFHAND );
-		if ( offhand != null && offhand.getItemID() == ICE_BABY )
-			modifier += 1.0;
-		return modifier;
-	}
-
-	// Familiars that modify earned XP:
-
-	private static final int VOLLEYBALL = 12;
-	private static final int CHESHIRE = 23;
-	private static final int JILL = 24;
-	private static final int SHAMAN = 39;
-	private static final int MONKEY = 42;
-	private static final int HARE = 50;
-	private static final int HOBO = 52;
-
-	public static double familiarXPAdjustment( FamiliarData familiar )
-	{
-		double modifier = 0.0;
-
-		switch ( familiar.getID() )
-		{
-		case -1:
-			// No familiar
-			return 0.0;
-
-		case VOLLEYBALL:
-		case CHESHIRE:
-		case SHAMAN:
-		case MONKEY:
-		case HOBO:
-			// Full volleyball equivalent familiar
-			modifier += (double)familiar.getModifiedWeight() / 4.0;
-			break;
-
-		case JILL:
-			// Half volleyball equivalent familiar
-			modifier += (double)familiar.getModifiedWeight() / 8.0;
-			break;
-
-		case HARE:
-			// Full volleyball equivalent 1/4 of the time
-			modifier += (double)familiar.getModifiedWeight() / 16.0;
-			break;
-		}
-
-		// If familiar is wearing wax lips, that's like 10 lbs. of
-		// volleyball, or +2.5 XP
-
-		if ( TradeableItemDatabase.getItemID( familiar.getItem() ) == WAX_LIPS )
-			modifier += 2.5;
-
-		return modifier;
-	}
-
-	// Effects that modify ML:
-
-	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
-
-	// Items that modify ML:
-
-	private static final int ICE_SICKLE = 1424;
-	private static final int HIPPO_WHIP = 1029;
-	private static final int GIANT_NEEDLE = 619;
-	private static final int GOTH_KID = 703;
-	private static final int HOCKEY_STICK = 1236;
-	private static final int SCARF = 1227;
-	private static final int AGGRAVATE_MONSTER = 835;
-	private static final int PITCHFORK = 1116;
-
-	public static int monsterLevelAdjustment()
-	{
-		int ml = KoLCharacter.getMindControlLevel();
-
-		for ( int slot = KoLCharacter.WEAPON; slot <= KoLCharacter.FAMILIAR; ++slot )
-		{
-			if ( slot == KoLCharacter.PANTS )
-				continue;
-
-			AdventureResult item = KoLCharacter.getCurrentEquipment( slot );
-			if ( item == null )
-				continue;
-
-			switch ( item.getItemID() )
-			{
-			case ICE_SICKLE:
-				ml += 15;
-				break;
-			case HIPPO_WHIP:
-				ml += 10;
-				break;
-			case GIANT_NEEDLE:
-				ml += 5;
-				break;
-			case GOTH_KID:
-				ml += 5;
-				break;
-			case HOCKEY_STICK:
-				ml += 30;
-				break;
-			case SCARF:
-				ml += 20;
-				break;
-			case AGGRAVATE_MONSTER:
-				ml += 5;
-				break;
-			case PITCHFORK:
-				ml += 5;
-				break;
-			}
-		}
-
-		// Effects: Aria of Annoyance
-		if ( KoLCharacter.getEffects().contains( ARIA ) )
-			ml += 2 * KoLCharacter.getLevel();
-
-		return ml;
 	}
 }
