@@ -118,7 +118,7 @@ public class ChatRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		if ( thread == null )
+		if ( KoLMessenger.isRunning() && thread == null )
 		{
 			thread = new ChatContinuationThread();
 			thread.start();
