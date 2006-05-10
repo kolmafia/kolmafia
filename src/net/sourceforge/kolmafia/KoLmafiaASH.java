@@ -141,7 +141,7 @@ public class KoLmafiaASH extends StaticEntity
 	private ScriptValue FALSE_VALUE = new ScriptValue( false );
 
 	private boolean tracing = true;
-	private String prefix = null;
+	private String prefix = "";
 
 	// **************** Parsing *****************
 
@@ -1886,7 +1886,7 @@ public class KoLmafiaASH extends StaticEntity
 			String oldPrefix = prefix;
 
 			if ( tracing )
-				prefix = prefix == null ? "" : prefix + "  ";
+				prefix = prefix + "  ";
 
 			for ( current = getFirstCommand(); current != null; current = getNextCommand( current ) )
 			{
@@ -3196,7 +3196,6 @@ public class KoLmafiaASH extends StaticEntity
 				return "monster";
 			return "unknown type";
 		}
-
 	}
 
 	private class ScriptValue extends ScriptExpression
@@ -3764,35 +3763,35 @@ public class KoLmafiaASH extends StaticEntity
 			if ( operator.equals( "+" ) )
 			{
 				if ( isInt )
-					return new ScriptValue( lint + rint );
+					return new ScriptValue( TYPE_INT, lint + rint );
 				return new ScriptValue( lfloat + rfloat );
 			}
 
 			if ( operator.equals( "-" ) )
 			{
 				if ( isInt )
-					return new ScriptValue( lint - rint );
+					return new ScriptValue( TYPE_INT, lint - rint );
 				return new ScriptValue( lfloat - rfloat );
 			}
 
 			if ( operator.equals( "*" ) )
 			{
 				if ( isInt )
-					return new ScriptValue( lint * rint );
+					return new ScriptValue( TYPE_INT, lint * rint );
 				return new ScriptValue( lfloat * rfloat );
 			}
 
 			if ( operator.equals( "/" ) )
 			{
 				if ( isInt )
-					return new ScriptValue( lint / rint );
+					return new ScriptValue( TYPE_INT, lint / rint );
 				return new ScriptValue( lfloat / rfloat );
 			}
 
 			if ( operator.equals( "%" ) )
 			{
 				if ( isInt )
-					return new ScriptValue( lint % rint );
+					return new ScriptValue( TYPE_INT, lint % rint );
 				return new ScriptValue( lfloat % rfloat );
 			}
 
