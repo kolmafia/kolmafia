@@ -844,7 +844,7 @@ public class KoLmafiaASH extends StaticEntity
 						continue;
 
 					if ( currentToken().charAt(i) == '.' )
-						return parseFloat();
+						return parseDouble();
 
 					throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile() );
 				}
@@ -921,14 +921,14 @@ public class KoLmafiaASH extends StaticEntity
 		return null;
 	}
 
-	private ScriptValue parseFloat() throws AdvancedScriptException
+	private ScriptValue parseDouble() throws AdvancedScriptException
 	{
 		try
 		{
-			float result;
+			double result;
 
-			result = Float.parseFloat( currentToken() );
-			readToken(); //float
+			result = Double.parseDouble( currentToken() );
+			readToken(); //double
 			return new ScriptValue( TYPE_FLOAT, result );
 		}
 		catch( NumberFormatException e )
@@ -1374,7 +1374,7 @@ public class KoLmafiaASH extends StaticEntity
 				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType() + " " + param.getName() );
 				try
 				{
-					param.setValue( new ScriptValue( TYPE_FLOAT, Float.parseFloat( resultString ) ) );
+					param.setValue( new ScriptValue( TYPE_FLOAT, Double.parseDouble( resultString ) ) );
 				}
 				catch( NumberFormatException e )
 				{
@@ -2484,7 +2484,6 @@ public class KoLmafiaASH extends StaticEntity
 	private class ScriptVariable extends ScriptListNode
 	{
 		String name;
-
 		ScriptValue	content;
 
 		public ScriptVariable( ScriptType type )
@@ -3203,7 +3202,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptType type;
 
 		int contentInt = 0;
-		float contentFloat = 0.0f;
+		double contentFloat = 0.0;
 		String contentString = null;
 		Object content = null;
 
@@ -3220,7 +3219,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue( double content )
 		{
 			this.type = FLOAT_TYPE;
-			this.contentFloat = (float)content;
+			this.contentFloat = content;
 		}
 
 		public ScriptValue( int type ) throws AdvancedScriptException
@@ -3257,7 +3256,7 @@ public class KoLmafiaASH extends StaticEntity
 			fillContent();
 		}
 
-		public ScriptValue( int type, float content ) throws AdvancedScriptException
+		public ScriptValue( int type, double content ) throws AdvancedScriptException
 		{
 			if ( type != TYPE_FLOAT )
 				throw new AdvancedScriptException( "Internal error: cannot assign float value to non-float" );
@@ -3278,7 +3277,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( type.equals( TYPE_FLOAT ) )
 				return this;
 			else
-				return new ScriptValue( TYPE_FLOAT, (float) contentInt );
+				return new ScriptValue( TYPE_FLOAT, (double) contentInt );
 		}
 
 		public ScriptValue toIntValue() throws AdvancedScriptException
@@ -3306,7 +3305,7 @@ public class KoLmafiaASH extends StaticEntity
 				return String.valueOf( contentInt != 0 );
 
 			if ( type.equals( TYPE_FLOAT ) )
-				return df.format( contentFloat );
+				return String.valueOf( contentFloat );
 
 			return String.valueOf( contentInt );
 		}
@@ -3326,7 +3325,7 @@ public class KoLmafiaASH extends StaticEntity
 			return contentInt;
 		}
 
-		public float floatValue()
+		public double floatValue()
 		{
 			return contentFloat;
 		}
