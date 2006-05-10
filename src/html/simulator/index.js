@@ -60,7 +60,12 @@ function loadKoLmafiaData()
 
 	// Familiar and Familiar Equipment
 
-	selectOption( document.character.familiar, "/*familiar*/" );
+	if ( "/*familiar*/" == "Cymbal-Playing Monkey" )
+		selectOption( document.character.familiar, "Cheshire Bitten" );
+	else if ( "/*familiar*/" == "Cheshire Bat" )
+		selectOption( document.character.familiar, "Cheshire Bitten" );
+	else
+		selectOption( document.character.familiar, "/*familiar*/" );
 	selectOption( document.equipment.familiarequip, "/*familiarEquip*/" );
 
 	// All other equipment
