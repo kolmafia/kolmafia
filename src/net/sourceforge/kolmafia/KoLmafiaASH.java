@@ -2788,6 +2788,8 @@ public class KoLmafiaASH extends StaticEntity
 			if ( currentState == STATE_EXIT )
 				return null;
 
+			currentState = STATE_RETURN;
+
 			if ( returnValue == null )
 				return null;
 
