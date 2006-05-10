@@ -224,7 +224,7 @@ public class GearChangeFrame extends KoLFrame
 	{
 		equipment[ KoLCharacter.SHIRT ].setEnabled( KoLCharacter.hasSkill( "Torso Awaregness" ) );
 
-		if ( KoLCharacter.dualWielding() )
+		if ( KoLCharacter.weaponHandedness() == 1 )
 		{
 			equipment[ KoLCharacter.OFFHAND ].setEnabled( true );
 			KoLCharacter.updateEquipmentList(  KoLCharacter.OFFHAND );
