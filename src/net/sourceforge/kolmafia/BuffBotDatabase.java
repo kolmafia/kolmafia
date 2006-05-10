@@ -284,8 +284,6 @@ public class BuffBotDatabase extends KoLDatabase
 		KoLRequest request = new ChatRequest( client, "", "/whois " + id );
 		request.run();
 
-System.out.println( request.responseText );
-
 		if ( request.responseText.indexOf( "currently online" ) == -1 )
 		{
 			client.updateDisplay( name + " is not currently online." );
