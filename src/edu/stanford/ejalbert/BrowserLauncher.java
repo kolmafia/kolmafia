@@ -165,22 +165,6 @@ public class BrowserLauncher {
 	private static final String GURL_EVENT = "GURL";
 
 	/**
-	 * The first parameter that needs to be passed into Runtime.exec() to open the default web
-	 * browser on Windows.
-	 */
-    private static final String FIRST_WINDOWS_PARAMETER = "/c";
-    
-    /** The second parameter for Runtime.exec() on Windows. */
-    private static final String SECOND_WINDOWS_PARAMETER = "start";
-    
-    /**
-     * The third parameter for Runtime.exec() on Windows.  This is a "title"
-     * parameter that the command line expects.  Setting this parameter allows
-     * URLs containing spaces to work.
-     */
-    private static final String THIRD_WINDOWS_PARAMETER = "\"\"";
-	
-	/**
 	 * The shell parameters for Netscape that opens a given URL in an already-open copy of Netscape
 	 * on many command-line systems.
 	 */
@@ -455,7 +439,7 @@ public class BrowserLauncher {
 				browser = "cmd.exe";
 				break;
 			case WINDOWS_9x:
-				browser = "command.com";
+				browser = "rundll32.exe";
 				break;
 			case OTHER:
 			default:
@@ -481,6 +465,7 @@ public class BrowserLauncher {
 		
 		switch (jvm) {
 			case MRJ_2_0:
+			{
 				Object aeDesc = null;
 				try {
 					aeDesc = aeDescConstructor.newInstance(new Object[] { url });
@@ -497,10 +482,14 @@ public class BrowserLauncher {
 					browser = null;	// Ditto
 				}
 				break;
+			}
 			case MRJ_2_1:
+			{
 				Runtime.getRuntime().exec(new String[] { (String) browser, url } );
 				break;
+			}
 			case MRJ_3_0:
+			{
 				int[] instance = new int[1];
 				int result = ICStart(instance, 0);
 				if (result == 0) {
@@ -521,7 +510,9 @@ public class BrowserLauncher {
 					throw new IOException("Unable to create an Internet Config instance: " + result);
 				}
 				break;
+			}
 			case MRJ_3_1:
+			{
 				try {
 					openURL.invoke(null, new Object[] { url });
 				} catch (InvocationTargetException ite) {
@@ -530,15 +521,14 @@ public class BrowserLauncher {
 					throw new IOException("IllegalAccessException while calling openURL: " + iae.getMessage());
 				}
 				break;
+			}
 		    case WINDOWS_NT:
-		    case WINDOWS_9x:
+		    {
 		    	// Add quotes around the URL to allow ampersands and other special
 		    	// characters to work.
-				Process process = Runtime.getRuntime().exec(new String[] { (String) browser,
-																FIRST_WINDOWS_PARAMETER,
-																SECOND_WINDOWS_PARAMETER,
-																THIRD_WINDOWS_PARAMETER,
-																'"' + url + '"' });
+				Process process = Runtime.getRuntime().exec(
+					new String[] { (String) browser, "/c", "start", "\"\"", '"' + url + '"' } );
+
 				// This avoids a memory leak on some versions of Java on Windows.
 				// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
 				try {
@@ -548,11 +538,29 @@ public class BrowserLauncher {
 					throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
 				}
 				break;
+		    }
+		    case WINDOWS_9x:
+		    {
+		    	// Add quotes around the URL to allow ampersands and other special
+		    	// characters to work.
+				Process process = Runtime.getRuntime().exec(
+					new String[] { (String) browser, "url.dll,FileProtocolHandler", '"' + url + '"' } );
+
+				// This avoids a memory leak on some versions of Java on Windows.
+				// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
+				try {
+					process.waitFor();
+					process.exitValue();
+				} catch (InterruptedException ie) {
+					throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
+				}
+				break;
+		    }
 			case OTHER:
-				// Assume that we're on Unix and that Netscape is installed
-				
+			{
+				// Assume that we're on Unix and that Netscape is installed				
 				// First, attempt to open the URL in a currently running session of Netscape
-				process = Runtime.getRuntime().exec(new String[] { (String) browser,
+				Process process = Runtime.getRuntime().exec(new String[] { (String) browser,
 													NETSCAPE_REMOTE_PARAMETER,
 													NETSCAPE_OPEN_PARAMETER_START +
 													url +
@@ -566,10 +574,13 @@ public class BrowserLauncher {
 					throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
 				}
 				break;
+			}
 			default:
+			{
 				// This should never occur, but if it does, we'll try the simplest thing possible
 				Runtime.getRuntime().exec(new String[] { (String) browser, url });
 				break;
+			}
 		}
 	}
 
