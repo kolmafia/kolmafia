@@ -465,10 +465,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
 			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
-			mlLabel.setText( df2.format( KoLCharacter.getMonsterLevelAdjustment() ) );
+			int ml = KoLCharacter.getMonsterLevelAdjustment();
+			mlLabel.setText( df2.format( ml ) );
 			combatLabel.setText( sff.format( KoLCharacter.getCombatPercentAdjustment() ) + "%" );
 			initLabel.setText( sff.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
-			xpLabel.setText( sff.format( KoLCharacter.getFixedXPAdjustment() ) );
+			xpLabel.setText( sff.format( KoLCharacter.getFixedXPAdjustment() + (double)ml / 5.0 ) );
 			meatDropLabel.setText( sff.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
 			itemDropLabel.setText( sff.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 		}
