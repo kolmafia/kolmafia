@@ -2611,6 +2611,12 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int HELMET = 360;
 	private static final int GNAUGA_WHIP = 1032;
 
+	// KoLmafia does not support the "containers" slot.
+
+	// Mr. Container (482): +3%
+	// hemp backbacp (218): +2%
+	// Newbiesport&trade; backpack (483): +1%
+
 	// Familiars that modify Item Drops
 	private static final int BABY_GRAVY_FAIRY = 15;
 	private static final int FLAMING_GRAVY_FAIRY = 34;
