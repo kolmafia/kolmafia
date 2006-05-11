@@ -1149,6 +1149,10 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static void updateEquipmentList( int listIndex )
+	{	updateEquipmentList( listIndex, getEquipment( listIndex ) );
+	}
+
+	public static void updateEquipmentList( int listIndex, String equippedItem )
 	{
 		int consumeFilter = 0;
 		switch ( listIndex )
@@ -1180,7 +1184,7 @@ public abstract class KoLCharacter extends StaticEntity
 				return;
 		}
 		
-		updateEquipmentList( equipmentLists[ listIndex ], consumeFilter, getEquipment( listIndex ) );
+		updateEquipmentList( equipmentLists[ listIndex ], consumeFilter, equippedItem );
 	}
 		
 	private static void updateEquipmentList( LockableListModel currentList, int consumeFilter, String equippedItem )
