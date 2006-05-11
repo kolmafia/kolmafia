@@ -439,7 +439,7 @@ public class BrowserLauncher {
 				browser = "cmd.exe";
 				break;
 			case WINDOWS_9x:
-				browser = "rundll32.exe";
+				browser = "command.com";
 				break;
 			case OTHER:
 			default:
@@ -544,7 +544,7 @@ public class BrowserLauncher {
 		    	// Add quotes around the URL to allow ampersands and other special
 		    	// characters to work.
 				Process process = Runtime.getRuntime().exec(
-					new String[] { (String) browser, "url.dll,FileProtocolHandler", url } );
+					new String[] { (String) browser, "/c", "explorer", '"' + url + '"' } );
 
 				// This avoids a memory leak on some versions of Java on Windows.
 				// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
