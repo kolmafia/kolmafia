@@ -227,7 +227,7 @@ public class GearChangeFrame extends KoLFrame
 		if ( KoLCharacter.weaponHandedness() == 1 )
 		{
 			equipment[ KoLCharacter.OFFHAND ].setEnabled( true );
-			KoLCharacter.updateEquipmentList(  KoLCharacter.OFFHAND );
+			KoLCharacter.updateEquipmentList( KoLCharacter.OFFHAND, (String) equipment[2].getSelectedItem() );
 			
 			if ( pieces[ KoLCharacter.OFFHAND ] == null )
 				equipmentLists[ KoLCharacter.OFFHAND ].setSelectedItem( KoLCharacter.getEquipment(2) );
