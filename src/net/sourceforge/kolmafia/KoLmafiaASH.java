@@ -1293,6 +1293,8 @@ public class KoLmafiaASH extends StaticEntity
 		String resultString;
 
 		currentState = STATE_NORMAL;
+		prefix = null;
+
 		main = globalScope.findFunction( "main", null );
 
 		if ( main == null )
