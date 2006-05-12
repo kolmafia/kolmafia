@@ -187,7 +187,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 			}
 			else
 			{
-				DEFAULT_SHELL.updateDisplay( "Consuming " + numberToUse + " " + itemName + "..." );
 				(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
 			}
 		}

@@ -131,7 +131,6 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( numberToUse < 1 )
 				return;
 
-			DEFAULT_SHELL.updateDisplay( "Consuming " + numberToUse + " " + itemName + "..." );
 			(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
 		}
 

@@ -418,22 +418,13 @@ public abstract class SorceressLair extends StaticEntity
 		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
 		{
 			if ( !KoLCharacter.getEffects().contains( SUGAR ) )
-			{
-				DEFAULT_SHELL.updateDisplay( "Getting jittery..." );
 				(new ConsumeItemRequest( client, candy )).run();
-			}
 
 			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) )
-			{
-				DEFAULT_SHELL.updateDisplay( "Becoming a pansy..." );
 				(new ConsumeItemRequest( client, WUSSY_POTION )).run();
-			}
 
 			if ( !KoLCharacter.getEffects().contains( MIASMA ) )
-			{
-				DEFAULT_SHELL.updateDisplay( "Inverting anime smileyness..." );
 				(new ConsumeItemRequest( client, BLACK_CANDLE )).run();
-			}
 
 			DEFAULT_SHELL.updateDisplay( "Crossing three door puzzle..." );
 
@@ -765,12 +756,12 @@ public abstract class SorceressLair extends StaticEntity
 		// Next, handle the three hero keys, which involve
 		// answering the riddles with the forms of fish.
 
-		AdventureDatabase.retrieveItem( BORIS );
 		if ( !hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
 			requirements.add( BORIS );
 
 		if ( hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
 		{
+			AdventureDatabase.retrieveItem( BORIS );
 			DEFAULT_SHELL.updateDisplay( "Inserting Boris's key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
@@ -787,12 +778,12 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		AdventureDatabase.retrieveItem( JARLSBERG );
 		if ( !hasItem( JARLSBERG ) && !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
 			requirements.add( JARLSBERG );
 
 		if ( hasItem( JARLSBERG ) && !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
 		{
+			AdventureDatabase.retrieveItem( JARLSBERG );
 			DEFAULT_SHELL.updateDisplay( "Inserting Jarlsberg's key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
@@ -809,12 +800,12 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		AdventureDatabase.retrieveItem( SNEAKY_PETE );
 		if ( !hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
 			requirements.add( SNEAKY_PETE );
 
 		if ( hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
 		{
+			AdventureDatabase.retrieveItem( SNEAKY_PETE );
 			DEFAULT_SHELL.updateDisplay( "Inserting Sneaky Pete's key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
