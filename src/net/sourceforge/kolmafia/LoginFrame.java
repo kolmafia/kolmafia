@@ -108,13 +108,20 @@ public class LoginFrame extends KoLFrame
 		this.saveStateNames = new SortedListModel();
 		this.saveStateNames.addAll( saveStateNames );
 
-		tabs.addTab( "Login", constructLoginPanel() );
+		tabs.addTab( "KoL Login", constructLoginPanel() );
 
+		JPanel breakfastPanel = new JPanel();
+		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
+		
+		breakfastPanel.add( new BreakfastPanel( "Softcore Characters", "softcore" ) );
+		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "hardcore" ) );
+		tabs.addTab( "Breakfast", breakfastPanel );
+		
 		JScrollPane scroller = new JScrollPane( new StartupFramesPanel(),
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		JComponentUtilities.setComponentSize( scroller, 300, 300 );
-		tabs.addTab( "Startup", scroller );
+		tabs.addTab( "Displays", scroller );
 
 		JPanel connectPanel = new JPanel();
 
@@ -161,10 +168,13 @@ public class LoginFrame extends KoLFrame
 	private class LoginPanel extends KoLPanel implements ActionListener
 	{
 		private boolean isBreakfastEnabled = true;
+
 		private JPasswordField passwordField;
 		private ScriptSelectPanel scriptField;
-		private JCheckBox [] skillOptions;
-
+		private JCheckBox savePasswordCheckBox;
+		private JCheckBox autoLoginCheckBox;
+		private JCheckBox getBreakfastCheckBox;
+		
 		/**
 		 * Constructs a new <code>LoginPanel</code>, containing a place
 		 * for the users to input their login name and password.  This
@@ -179,47 +189,71 @@ public class LoginFrame extends KoLFrame
 			usernameField = GLOBAL_SETTINGS.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 			passwordField = new JPasswordField();
 			scriptField = new ScriptSelectPanel( new JTextField() );
+			
+			savePasswordCheckBox = new JCheckBox();
+			savePasswordCheckBox.addActionListener( this );
+
+			autoLoginCheckBox = new JCheckBox();
+			getBreakfastCheckBox = new JCheckBox();
+
+			JPanel checkBoxPanels = new JPanel();
+			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
+			checkBoxPanels.add( new JLabel( "Save Password: " ), "" );
+			checkBoxPanels.add( savePasswordCheckBox );
+			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
+			checkBoxPanels.add( new JLabel( "Auto-Login: " ), "" );
+			checkBoxPanels.add( autoLoginCheckBox );
+			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
+			checkBoxPanels.add( new JLabel( "Breakfast: " ), "" );
+			checkBoxPanels.add( getBreakfastCheckBox );
+			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
-
-			elements[0] = new VerifiableElement( "Username: ", usernameField );
+			elements[0] = new VerifiableElement( "Login: ", usernameField );
 			elements[1] = new VerifiableElement( "Password: ", passwordField );
 			elements[2] = new VerifiableElement( "On Login: ", scriptField );
 
-			skillOptions = new JCheckBox[ KoLmafia.BREAKFAST_SKILLS.length ];
-			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
-				skillOptions[i] = new JCheckBox( KoLmafia.BREAKFAST_SKILLS[i][2] );
-
 			setContent( elements );
 
-			JPanel breakfastPanel = new JPanel();
-			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
-				breakfastPanel.add( skillOptions[i] );
-
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ), BorderLayout.CENTER );
-			actionStatusPanel.add( breakfastPanel, BorderLayout.NORTH );
+			actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
+
+			String autoLoginSetting = GLOBAL_SETTINGS.getProperty( "autoLogin" );
+			if ( autoLoginSetting.equals( "" ) )
+				autoLoginSetting = GLOBAL_SETTINGS.getProperty( "lastUsername" );
+			else
+				autoLoginCheckBox.setSelected( true );
+
+			if ( usernameField instanceof JComboBox )
+				((JComboBox)usernameField).setSelectedItem( autoLoginSetting );
+
+			String passwordSetting = StaticEntity.getClient().getSaveState( autoLoginSetting );
+
+			if ( passwordSetting != null )
+			{
+				passwordField.setText( passwordSetting );
+				savePasswordCheckBox.setSelected( true );
+			}
+
+			getBreakfastCheckBox.setSelected( GLOBAL_SETTINGS.getProperty( "alwaysGetBreakfast" ).equals( "true" ) );
+			setDefaultButton( confirmedButton );
 		}
 
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
+			usernameField.setEnabled( isEnabled );
+			passwordField.setEnabled( isEnabled );
 
-			if ( usernameField != null )
-				usernameField.setEnabled( isEnabled );
-
-			if ( passwordField != null )
-				passwordField.setEnabled( isEnabled );
-
-			if ( scriptField != null )
-				scriptField.setEnabled( isEnabled && isBreakfastEnabled );
-
-			if ( skillOptions != null )
-				for ( int i = 0; i < skillOptions.length; ++i )
-					skillOptions[i].setEnabled( isEnabled && isBreakfastEnabled );
+			scriptField.setEnabled( isEnabled && isBreakfastEnabled );
+			savePasswordCheckBox.setEnabled( isEnabled );
+			autoLoginCheckBox.setEnabled( isEnabled );
+			getBreakfastCheckBox.setEnabled( isEnabled && isBreakfastEnabled );
 		}
 
 		protected void actionConfirmed()
 		{
+			GLOBAL_SETTINGS.setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 			String username = ((String)(usernameField instanceof JComboBox ?
 				((JComboBox)usernameField).getSelectedItem() : ((JTextField)usernameField).getText() ));
 
@@ -231,23 +265,15 @@ public class LoginFrame extends KoLFrame
 				return;
 			}
 
-			StringBuffer skillString = new StringBuffer();
+			if ( autoLoginCheckBox.isSelected() )
+				GLOBAL_SETTINGS.setProperty( "autoLogin", username );
+			else
+				GLOBAL_SETTINGS.setProperty( "autoLogin", "" );
 
-			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
-			{
-				if ( skillOptions[i].isSelected() )
-				{
-					if ( skillString.length() != 0 )
-						skillString.append( "," );
-
-					skillString.append( KoLmafia.BREAKFAST_SKILLS[i][0] );
-				}
-			}
-
-			GLOBAL_SETTINGS.setProperty( "breakfast." + username.toLowerCase(), skillString.toString() );
 			GLOBAL_SETTINGS.setProperty( "loginScript." + username.toLowerCase(), scriptField.getText() );
+			GLOBAL_SETTINGS.setProperty( "getBreakfast." + username.toLowerCase(), String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
-			(new LoginRequest( StaticEntity.getClient(), username, password )).run();
+			(new LoginRequest( StaticEntity.getClient(), username, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected() )).run();
 			StaticEntity.getClient().enableDisplay();
 		}
 
@@ -256,6 +282,17 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.getClient().declareWorldPeace();
 			usernameField.requestFocus();
 		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( !savePasswordCheckBox.isSelected() && usernameField instanceof JComboBox )
+				StaticEntity.getClient().removeSaveState( (String) ((JComboBox)usernameField).getSelectedItem() );
+		}
+
+		/**
+		 * Special instance of a JComboBox which overrides the default
+		 * key events of a JComboBox to allow you to catch key events.
+		 */
 
 		/**
 		 * Special instance of a JComboBox which overrides the default
@@ -298,9 +335,6 @@ public class LoginFrame extends KoLFrame
 					passwordField.setText( "" );
 					isBreakfastEnabled = true;
 
-					for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
-						skillOptions[i].setSelected( true );
-					
 					LoginPanel.this.setEnabled( true );
 					return;
 				}
@@ -308,16 +342,18 @@ public class LoginFrame extends KoLFrame
 				passwordField.setText( password );
 
 				String todayString = sdf.format( new Date() );
-				String skillString = GLOBAL_SETTINGS.getProperty( "breakfast." + currentMatch.toLowerCase() );
-				for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
-					skillOptions[i].setSelected( skillString != null && skillString.indexOf( KoLmafia.BREAKFAST_SKILLS[i][0] ) != -1 );
 
-				scriptField.setText( GLOBAL_SETTINGS.getProperty( "loginScript." + currentMatch.toLowerCase() ) );
+				String loginScript = GLOBAL_SETTINGS.getProperty( "loginScript." + currentMatch.toLowerCase() );
+				String breakfastSetting = GLOBAL_SETTINGS.getProperty( "getBreakfast." + currentMatch.toLowerCase() );
+				
+				scriptField.setText( loginScript == null ? "" : loginScript );
+				getBreakfastCheckBox.setSelected( breakfastSetting != null && breakfastSetting.equals( "true" ) );
+
 				String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + currentMatch.toLowerCase() );
 				isBreakfastEnabled = lastBreakfast == null || !lastBreakfast.equals( todayString );
 				LoginPanel.this.setEnabled( true );
 
-				setStatusMessage( isBreakfastEnabled ? " " : "Breakfast options disabled (already got breakfast today)" );
+				setStatusMessage( isBreakfastEnabled ? " " : "Once-per-day options disabled (already executed today)" );
 			}
 
 			private class PasswordFocusListener extends KeyAdapter
@@ -328,6 +364,55 @@ public class LoginFrame extends KoLFrame
 						passwordField.requestFocus();
 				}
 			}
+		}
+	}
+	
+	private class BreakfastPanel extends LabeledKoLPanel
+	{
+		private String breakfastType;
+		private JCheckBox [] skillOptions;
+		
+		public BreakfastPanel( String title, String breakfastType )
+		{
+			super( title, new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
+			
+			this.breakfastType = breakfastType;
+			skillOptions = new JCheckBox[ KoLmafia.BREAKFAST_SKILLS.length ];
+			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
+				skillOptions[i] = new JCheckBox();
+			
+			VerifiableElement [] elements = new VerifiableElement[ skillOptions.length ];
+			
+			for ( int i = 0; i < elements.length; ++i )
+				elements[i] = new VerifiableElement( KoLmafia.BREAKFAST_SKILLS[i][0], JLabel.LEFT, skillOptions[i] );
+			
+			setContent( elements, false );
+			actionCancelled();
+		}
+		
+		public void actionConfirmed()
+		{
+			StringBuffer skillString = new StringBuffer();
+
+			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
+			{
+				if ( skillOptions[i].isSelected() )
+				{
+					if ( skillString.length() != 0 )
+						skillString.append( "," );
+
+					skillString.append( KoLmafia.BREAKFAST_SKILLS[i][0] );
+				}
+			}
+
+			GLOBAL_SETTINGS.setProperty( "breakfast." + breakfastType, skillString.toString() );
+		}
+		
+		public void actionCancelled()
+		{
+			String skillString = GLOBAL_SETTINGS.getProperty( "breakfast." + breakfastType );
+			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
+				skillOptions[i].setSelected( skillString != null && skillString.indexOf( KoLmafia.BREAKFAST_SKILLS[i][0] ) != -1 );
 		}
 	}
 
@@ -479,17 +564,13 @@ public class LoginFrame extends KoLFrame
 
 		public UserInterfacePanel()
 		{
-			super( "User Interface", new Dimension( 80, 20 ), new Dimension( 320, 20 ) );
+			super( "User Interface", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
 
 			servers = new JComboBox();
 			servers.addItem( "Auto-select login server" );
 			for ( int i = 1; i <= KoLRequest.SERVER_COUNT; ++i )
-				servers.addItem( "Login using www" + (i == 1 ? "" : "" + i) + ".kingdomofloathing.com" );
+				servers.addItem( "Login using login server " + i );
 
-			passwords = new JComboBox();
-			passwords.addItem( "Always remember passwords (requires restart)" );
-			passwords.addItem( "Never remember passwords (requires restart)" );
-			
 			textheavy = new JComboBox();
 			textheavy.addItem( "Use graphical side pane" );
 			textheavy.addItem( "Use text-heavy side pane" );
@@ -509,16 +590,15 @@ public class LoginFrame extends KoLFrame
 			trayicon.addItem( "Minimize KoLmafia to taskbar (requires restart)" );
 			trayicon.addItem( "Minimize KoLmafia to system tray (requires restart)" );
 
-			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 5 : 4;
+			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 4 : 3;
 
 			VerifiableElement [] elements = new VerifiableElement[ elementCount ];
 			elements[0] = new VerifiableElement( "Server: ", servers );
-			elements[1] = new VerifiableElement( "Password: ", passwords );
-			elements[2] = new VerifiableElement( "Sidebar: ", textheavy );
-			elements[3] = new VerifiableElement( "Toolbars: ", toolbars );
+			elements[1] = new VerifiableElement( "Sidebar: ", textheavy );
+			elements[2] = new VerifiableElement( "Toolbars: ", toolbars );
 
 			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-				elements[4] = new VerifiableElement( "SysTray: ", trayicon );
+				elements[3] = new VerifiableElement( "SysTray: ", trayicon );
 
 			setContent( elements );
 			actionCancelled();
@@ -527,7 +607,6 @@ public class LoginFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
-			GLOBAL_SETTINGS.setProperty( "rememberPasswords", String.valueOf( passwords.getSelectedIndex() == 0 ) );
 			GLOBAL_SETTINGS.setProperty( "useTextHeavySidepane", String.valueOf( textheavy.getSelectedIndex() == 1 ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
@@ -536,7 +615,6 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			passwords.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "rememberPasswords" ).equals( "true" ) ? 0 : 1 );
 			textheavy.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useTextHeavySidepane" ).equals( "true" ) ? 1 : 0 );
 			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
 			trayicon.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 0 );

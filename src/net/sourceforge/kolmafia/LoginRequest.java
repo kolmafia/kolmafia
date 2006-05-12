@@ -45,6 +45,8 @@ public class LoginRequest extends KoLRequest
 {
 	private String username;
 	private String password;
+	private boolean savePassword;
+	private boolean getBreakfast;
 
 	/**
 	 * Constructs a new <code>LoginRequest</code>.  The given
@@ -58,10 +60,19 @@ public class LoginRequest extends KoLRequest
 
 	public LoginRequest( KoLmafia client, String username, String password )
 	{
+		this( client, username, password, true,
+				GLOBAL_SETTINGS.getProperty( "getBreakfast." + username ) != null &&
+				GLOBAL_SETTINGS.getProperty( "getBreakfast." + username ).equals( "true" ) );
+	}
+	
+	public LoginRequest( KoLmafia client, String username, String password, boolean savePassword, boolean getBreakfast )
+	{
 		super( client, "login.php" );
 
-		this.username = username.replaceFirst( "/q", "" );
+		this.username = username.replaceFirst( "/[qQ]", "" );
 		this.password = password;
+		this.savePassword = savePassword;
+		this.getBreakfast = getBreakfast;
 
 		addFormField( "loggingin", "Yup." );
 		addFormField( "loginname", this.username + "/q" );
@@ -96,8 +107,10 @@ public class LoginRequest extends KoLRequest
 			// of success.  But first, if there was a desire to
 			// save the password, do so here.
 
-			client.addSaveState( username, password );
-			client.initialize( username, formConnection.getHeaderField( "Set-Cookie" ) );
+			if ( this.savePassword )
+				client.addSaveState( username, password );
+
+			client.initialize( username, formConnection.getHeaderField( "Set-Cookie" ), this.getBreakfast );
 			client.cachedLogin = client.getPasswordHash() == null ? null :
 				new LoginRequest( client, username, password );
 		}
