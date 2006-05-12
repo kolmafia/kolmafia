@@ -1274,8 +1274,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
 			empathyAvailable = KoLCharacter.hasSkill( "Empathy of the Newt" );
 			leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
-			heavyPettingAvailable = NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" ) &&
-				StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" );
+			heavyPettingAvailable = NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
 
 			// Look at effects to decide which ones are active;
 			LockableListModel active = KoLCharacter.getEffects();

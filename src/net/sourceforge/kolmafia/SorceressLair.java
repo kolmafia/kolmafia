@@ -469,25 +469,26 @@ public abstract class SorceressLair extends StaticEntity
 		if ( isCheckOnly || hasItem( RHYTHM ) || !requirements.isEmpty() )
 			return requirements;
 
-		if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) && KoLCharacter.canInteract() )
+		if ( HermitRequest.getWorthlessItemCount() > 0 || (getProperty( "autoSatisfyChecks" ).equals( "true" ) && KoLCharacter.canInteract()) )
 			AdventureDatabase.retrieveItem( CLOVER );
 
 		if ( !hasItem( CLOVER ) )
 		{
-			if ( existingFrames.isEmpty() )
-			{
-				requirements.add( CLOVER );
-				return requirements;
-			}
-
-			boolean shouldContinue = JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-				"You do not have a ten-leaf clover.\nAre you sure you wish to challenge the skeleton?",
+			boolean shouldContinue = existingFrames.isEmpty() ? false :
+				JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+				"Would you like to confront the skeleton without a clover?",
 				"Do ya feel lucky, punk?", JOptionPane.YES_NO_OPTION );
 
 			if ( !shouldContinue )
 			{
-				requirements.add( CLOVER );
-				return requirements;
+				if ( HermitRequest.isCloverDay() )
+					AdventureDatabase.retrieveItem( CLOVER );
+				
+				if ( !hasItem( CLOVER ) )
+				{
+					requirements.add( CLOVER );
+					return requirements;
+				}
 			}
 		}
 
@@ -1106,7 +1107,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( guardianItem.getCount( KoLCharacter.getInventory() ) != 0 )
 			return fightGuardian( towerLevel );
 
-		DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need an additional " + guardianItem.getName() + " to continue." );
 		return guardianItem.getItemID();
 	}
 
@@ -1411,23 +1411,9 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		requirements.add( option );
-
-		// If it's not a red-pixel potion, then turn on automatic
-		// purchase, and revert when you're done.
-		
-		String property = getProperty( "autoSatisfyChecks" );
-
-		if ( !option.getName().startsWith( "red" ) )
-			setProperty( "autoSatisfyChecks", "true" );
-
 		if ( !client.checkRequirements( requirements ) )
-		{
-			setProperty( "autoSatisfyChecks", property );
 			return;
-		}
 
-		setProperty( "autoSatisfyChecks", property );
-		
 		// If you're using any other method than elixir, you need
 		// at least 126 health for the battle.
 
@@ -1540,31 +1526,18 @@ public abstract class SorceressLair extends StaticEntity
 			(new FamiliarRequest( client, familiar )).run();
 
 		// If we can buff it to 20 pounds, try again.
-		String previousSetting = StaticEntity.getProperty( "autoSatisfyChecks" );
-		StaticEntity.setProperty( "autoSatisfyChecks", "true" );
-		
 		if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )
 		{
 			// We can't buff it high enough. Train it.
-
 			if ( !FamiliarTrainingFrame.levelFamiliar( 20, FamiliarTrainingFrame.BUFFED, false, false ) )
-			{
-				StaticEntity.setProperty( "autoSatisfyChecks", previousSetting );
 				return;
-			}
 
 			// We trained it. Equip and buff it.
-
 			if ( !FamiliarTrainingFrame.buffFamiliar( 20 ) )
-			{
-				StaticEntity.setProperty( "autoSatisfyChecks", previousSetting );
 				return;
-			}
 		}
 
 		// We're good to go. Fight!
-
-		StaticEntity.setProperty( "autoSatisfyChecks", previousSetting );
 		familiarBattle( n, false );
 	}
 }
