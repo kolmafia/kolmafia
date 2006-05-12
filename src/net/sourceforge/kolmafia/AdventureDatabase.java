@@ -330,6 +330,12 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final LockableListModel getAsLockableListModel()
 	{
+		refreshAdventureList();
+		return adventures;
+	}
+	
+	public static void refreshAdventureList()
+	{
 		String [] zones = getProperty( "zoneExcludeList" ).split( "," );
 		if ( zones.length == 1 && zones[0].length() == 0 )
 			zones[0] = "-";
@@ -353,9 +359,7 @@ public class AdventureDatabase extends KoLDatabase
 		}
 
 		if ( getProperty( "sortAdventures" ).equals( "true" ) )
-			java.util.Collections.sort( adventures );
-
-		return adventures;
+			adventures.sort();		
 	}
 
 	/**

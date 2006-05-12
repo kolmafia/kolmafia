@@ -48,8 +48,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
-
-import java.util.Collections;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -155,7 +153,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		castList.add( newCast );
 		buffCostTable.add( newCast );
-		Collections.sort( buffCostTable );
+		buffCostTable.sort();
 
 		saveBuffs();
 	}
