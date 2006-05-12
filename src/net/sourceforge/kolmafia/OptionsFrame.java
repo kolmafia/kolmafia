@@ -70,7 +70,6 @@ import javax.swing.Box;
 // utilities
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.StringTokenizer;
 
 import java.io.File;
@@ -413,11 +412,7 @@ public class OptionsFrame extends KoLFrame
 
 			setProperty( "zoneExcludeList", areas.toString() );
 			super.actionConfirmed();
-
-			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
-
-			if ( options[0].isSelected() )
-				Collections.sort( adventureList );
+			AdventureDatabase.refreshAdventureList();
 		}
 
 		protected void actionCancelled()

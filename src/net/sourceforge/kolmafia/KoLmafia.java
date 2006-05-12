@@ -55,7 +55,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.math.BigInteger;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
@@ -816,7 +815,7 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int j = 0; j < recentEffects.size(); ++j )
 			AdventureResult.addResultToList( KoLCharacter.getEffects(), (AdventureResult) recentEffects.get(j) );
 
-		Collections.sort( KoLCharacter.getEffects() );
+		KoLCharacter.getEffects().sort();
 		recentEffects.clear();
 		FamiliarData.updateWeightModifier();
 		KoLCharacter.recalculateAdjustments( false );

@@ -40,6 +40,8 @@ import java.util.Vector;
 import java.util.ListIterator;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Comparator;
+import java.util.Collections;
 
 // update components
 import javax.swing.SwingUtilities;
@@ -146,6 +148,18 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	protected void fireIntervalRemoved( Object source, int index0, int index1 )
 	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 )).run();
+	}
+	
+	public void sort()
+	{
+		Collections.sort( elements );
+		fireContentsChanged( this, 0, size() - 1 );
+	}
+	
+	public void sort( Comparator c )
+	{
+		Collections.sort( elements, c );
+		fireContentsChanged( this, 0, size() - 1 );
 	}
 
 	/**
@@ -318,8 +332,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	private class ListModelIterator implements ListIterator
 	{
-		private int removeIndex;
-		private int currentIndex;
+		private int nextIndex, previousIndex;
 		private boolean isIncrementing;
 		
 		public ListModelIterator()
@@ -328,63 +341,67 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		
 		public ListModelIterator( int initialIndex )
 		{
-			removeIndex = initialIndex;
-			currentIndex = initialIndex;
+			nextIndex = 0;
+			previousIndex = -1;
 			isIncrementing = true;
 		}
 
 		public boolean hasPrevious()
-		{	return currentIndex > 0;
+		{	return previousIndex > 0;
 		}
 		
 		public boolean hasNext()
-		{	return currentIndex < LockableListModel.this.size();
+		{	return nextIndex < LockableListModel.this.size();
 		}
 
 		public Object next()
 		{
 			isIncrementing = true;
-			return LockableListModel.this.get( currentIndex++ );
+			Object nextObject = LockableListModel.this.get( nextIndex );
+			++nextIndex;  ++previousIndex;			
+			return nextObject;
 		}
 		
 		public Object previous()
 		{
 			isIncrementing = false;
-			return LockableListModel.this.get( --currentIndex );
+			Object previousObject = LockableListModel.this.get( previousIndex );
+			--nextIndex;  --previousIndex;			
+			return previousObject;
 		}
 		
 		public int nextIndex()
-		{	return currentIndex;
+		{	return nextIndex;
 		}
 		
 		public int previousIndex()
-		{	return currentIndex - 1;
+		{	return previousIndex;
 		}
 		
 		public void add( Object o )
 		{
-			LockableListModel.this.add( currentIndex++, o );
+			LockableListModel.this.add( nextIndex, o );
+			++nextIndex;  ++previousIndex;
 		}
 		
 		public void remove()
 		{
-			if ( currentIndex == removeIndex )
-				return;
-
 			if ( isIncrementing )
 			{
-				removeIndex = --currentIndex;
-				LockableListModel.this.remove( removeIndex );
+				--nextIndex;  --previousIndex;
+				LockableListModel.this.remove( nextIndex );
 			}
 			else
 			{
-				LockableListModel.this.remove( currentIndex-- );
-				removeIndex = currentIndex;
+				++nextIndex;  ++previousIndex;
+				LockableListModel.this.remove( previousIndex );
 			}
 		}
 		
 		public void set( Object o )
-		{	LockableListModel.this.set( isIncrementing ? currentIndex - 1 : currentIndex, o );
+		{
+			LockableListModel.this.set( isIncrementing ?
+				nextIndex - 1 : previousIndex + 1, o );
 		}
 	}
 

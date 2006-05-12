@@ -59,6 +59,7 @@ import javax.swing.JTabbedPane;
 
 // utilities
 import java.util.Map;
+import java.util.Collections;
 import java.util.Comparator;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -114,27 +115,22 @@ public class ExamineItemsFrame extends KoLFrame
 
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 			elementList.addMouseListener( new ShowEntryAdapter() );
+			elementList.setCellRenderer( new EntryCellRenderer() );
+
 			actionConfirmed();
 		}
 
 		protected void actionConfirmed()
 		{
 			// Sort elements by name
-			elementList.clearSelection();
-			java.util.Collections.sort( list, new EntryNameComparator() );
-			elementList.setCellRenderer( new EntryCellRenderer() );
+			Collections.sort( list, new EntryNameComparator() );
+//list.sort( new EntryNameComparator() );
 		}
 
 		public void actionCancelled()
 		{
 			// Sort elements by ID number
-			elementList.clearSelection();
-			java.util.Collections.sort( list, new EntryIDComparator() );
-			elementList.setCellRenderer( new EntryCellRenderer() );
-		}
-
-		public String IDNumberMapper( int id )
-		{	return String.valueOf( id );
+			Collections.sort( list, new EntryIDComparator() );
 		}
 
 		private class ShowEntryAdapter extends MouseAdapter
@@ -149,7 +145,7 @@ public class ExamineItemsFrame extends KoLFrame
 					if ( !(entry instanceof Map.Entry ) )
 						return;
 
-					String id = IDNumberMapper( ((Integer)((Map.Entry)entry).getKey()).intValue() );
+					String id = String.valueOf( ((Integer)((Map.Entry)entry).getKey()).intValue() );
 					elementList.ensureIndexIsVisible( index );
 					StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
 				}

@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
@@ -155,8 +154,8 @@ public abstract class StoreManager extends StaticEntity
 		// Because StoreLogEntry objects use the current
 		// internal variable to decide how to sort, a simple
 		// function call will suffice.
-		
-		Collections.sort( storeLog );
+
+		storeLog.sort();
 	}
 
 	public static void update( String storeText, boolean isPriceManagement )
@@ -272,9 +271,10 @@ public abstract class StoreManager extends StaticEntity
 		sortedSoldItemList.retainAll( newItems );
 
 		sortItemsByName = true;
-		Collections.sort( newItems );
+		soldItemList.sort();
+
 		sortItemsByName = false;
-		Collections.sort( sortedSoldItemList );
+		sortedSoldItemList.sort();
 
 		// Now, update the title of the store manage
 		// frame to reflect the new price.

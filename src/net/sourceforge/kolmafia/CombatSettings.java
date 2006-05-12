@@ -42,12 +42,7 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.io.InputStreamReader;
 
-import java.util.List;
-import java.util.Vector;
 import java.util.TreeMap;
-import java.util.Collections;
-import java.util.Enumeration;
-
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.DefaultMutableTreeNode;
 

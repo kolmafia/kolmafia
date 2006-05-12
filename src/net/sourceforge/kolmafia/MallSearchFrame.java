@@ -128,7 +128,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			{
 				resultsList.ensureIndexIsVisible( 0 );
 				if ( forceSortingCheckBox.isSelected() )
-					java.util.Collections.sort( results );
+					results.sort();
 			}
 		}
 
