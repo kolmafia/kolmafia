@@ -150,12 +150,19 @@
 				return;
 			
 			if ( httpObject.responseText == null )
-				parent.location.href = "http://forums.kingdomofloathing.com/";
+				parent.location.href = "http://www.kingdomofloathing.com/login.php?results=Session timed out.";
 
 			if ( httpObject.responseText.length < 2 )
 				return;
 
 			display.innerHTML += ( httpObject.responseText );
+
+			if ( display.innerHTML.length > 30000 )
+			{
+				display.innerHTML = display.innerHTML.substring(
+					display.innerHTML.lastIndexOf( "<br>", 10000 ) + 4 );
+			}
+
 			display.style.width = initwidth;
 			display.scrollTop = display.scrollHeight;
 
