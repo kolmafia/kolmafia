@@ -59,7 +59,8 @@ public class LocalRelayServer implements Runnable
 	private static int port = 60080;
 	private static boolean listening = false;
 
-	protected static Vector statusMessages = new Vector();
+	private static long lastRequest = 0;
+	private static StringBuffer statusMessages = new StringBuffer();
 
 	private LocalRelayServer()
 	{
@@ -181,23 +182,27 @@ public class LocalRelayServer implements Runnable
 	{
 		synchronized ( statusMessages )
 		{
-			statusMessages.addElement( message );
+			// If it's been more than 10 seconds, since the
+			// last buffer was cleared, that means no monitoring
+			// is happening, so you can clear the buffer and
+			// ignore the addition (since no one is checking).
+			
+			if ( lastRequest == 0 || lastRequest - System.currentTimeMillis() > 10000 )
+				return;
+
+			statusMessages.append( message );
 		}
 	}
-	
+
 	public static String getNewStatusMessages()
 	{
-		StringBuffer messages = new StringBuffer();
 		synchronized ( statusMessages )
 		{
-			while ( !statusMessages.isEmpty() )
-			{
-				messages.append( (String) statusMessages.elementAt( 0 ) );
-				statusMessages.removeElementAt( 0 );
-			}
+			lastRequest = System.currentTimeMillis();			
+			String newMessages = statusMessages.toString();
+			statusMessages.setLength(0);
+			return newMessages;
 		}
-
-		return messages.toString();
 	}	
 
 	private class RelayAgent implements Runnable 
