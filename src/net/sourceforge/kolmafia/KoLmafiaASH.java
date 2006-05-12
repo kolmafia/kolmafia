@@ -2297,7 +2297,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( name.equalsIgnoreCase( "use_skill" ) )
 			{
 				DEFAULT_SHELL.executeLine( "cast " + variables[0].intValue() + " " + variables[1].toStringValue() );
-				return new ScriptValue( client.permitsContinue() );
+				return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
 			}
 
 			if ( name.equalsIgnoreCase( "add_item_condition" ) )
