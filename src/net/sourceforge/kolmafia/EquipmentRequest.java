@@ -177,6 +177,13 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private String getAction()
 	{
+		AdventureResult item = new AdventureResult( itemID, 0 );
+		if ( item.getCount( KoLCharacter.getInventory() ) == 0 )
+		{
+			error = "You don't have a " + item.getName();
+			return null;
+		}
+
 		switch ( equipmentSlot )
 		{
 		case KoLCharacter.HAT:
