@@ -97,7 +97,6 @@ public class HagnkStorageFrame extends KoLFrame
 		public HagnkStoragePanel( boolean isEquipment )
 		{
 			super( "Inside Storage", KoLCharacter.getStorage(), !isEquipment );
-			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
 			setButtons( new String [] { "put in bag", "put in closet", "take it all" },
 				new ActionListener [] { new PullFromStorageListener( false ), new PullFromStorageListener( true ), new EmptyStorageListener() } );
@@ -147,13 +146,10 @@ public class HagnkStorageFrame extends KoLFrame
 			// Ensure that the selection interval does not include
 			// anything that was filtered out by the checkboxes.
 
-			if ( isEquipment )
+			if ( !isEquipment )
 			{
-				filterSelection( consumeFilters[0].isSelected(),
-						 consumeFilters[1].isSelected(),
-						 consumeFilters[2].isSelected(),
-						 true,
-						 true );
+				filterSelection( consumeFilters[0].isSelected(), consumeFilters[1].isSelected(),
+					consumeFilters[2].isSelected(), true, true );
 			}
 
 			return super.getDesiredItems( message );
