@@ -81,7 +81,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( ClassSkillsDatabase.isBuff( skillID ) )
 		{
-			this.target = target;
 			this.countFieldID = "bufftimes";
 
 			if ( target == null || target.trim().length() == 0 || target.equals( String.valueOf( KoLCharacter.getUserID() ) ) || target.equals( KoLCharacter.getUsername() ) )
@@ -93,7 +92,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 					addFormField( "specificplayer", KoLCharacter.getUsername() );
 			}
 			else
+			{
+				this.target = target;
 				addFormField( "specificplayer", target );
+			}
 		}
 		else
 		{
@@ -423,14 +425,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( encounteredError )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, lastUpdate );
+			DEFAULT_SHELL.updateDisplay( target == null || target.equals( "yourself" ) ?
+				ERROR_STATE : CONTINUE_STATE, lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
 		}
 		else
 		{
-			if ( target == null || target.equals( "" ) )
+			if ( target == null )
 				DEFAULT_SHELL.updateDisplay( skillName + " was successfully cast." );
 			else
 				DEFAULT_SHELL.updateDisplay( skillName + " was successfully cast on " + target + "." );
