@@ -444,10 +444,34 @@ public class LocalRelayRequest extends KoLRequest
 		else
 			replaceTag( scriptBuffer, "/*rockAndRoll*/", "false" );
 
-		// Set the moon phases (for stat days)
-		
-		replaceTag( scriptBuffer, "/*moonPhase*/", (int) (MoonPhaseDatabase.getGrimacePhase() * 2 
-			+ Math.round( MoonPhaseDatabase.getRonaldPhase() / 2.0f - Math.floor( MoonPhaseDatabase.getRonaldPhase() / 2.0f ) )) - 1 );
+		/**
+		 *	Set the moon phases
+		 *
+		 *	simulator moonphase = ( RONALD_PHASE, GRIMACE_PHASE  )
+		 *       
+		 * 	0  = ( 0, 0 )
+		 *	1  = ( 1, 0 )
+		 *	2  = ( 2, 1 )
+		 *	3  = ( 3, 1 )
+		 *	4  = ( 4, 2 )
+		 *	5  = ( 5, 2 )
+		 *	6  = ( 6, 3 )
+		 *	7  = ( 7, 3 )
+		 *	8  = ( 0, 4 )
+		 *	9  = ( 1, 4 )
+		 *	10 = ( 2, 5 )
+		 *	11 = ( 3, 5 )
+		 *	12 = ( 4, 6 )
+		 *	13 = ( 5, 6 )
+		 *	14 = ( 6, 7 )
+		 *	15 = ( 7, 7 )
+		 *
+		 *  Notice that, simulator moonphase equals GRIMACE_PHASE times 2 plus 1 if RONALD_PHASE is odd.
+		 *  We will do this mathematicaly with Math.floor() and Math.round().
+		 */		
+
+		replaceTag( scriptBuffer, "/*moonPhase*/", (int) ((MoonPhaseDatabase.getGrimacePhase()-1) * 2 
+			+ Math.round( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f - Math.floor( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f ) )) );
 
 		replyBuffer.insert( replyBuffer.indexOf( ";GoCalc()" ), ";loadKoLmafiaData()" );
 	}
