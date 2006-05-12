@@ -52,6 +52,8 @@ public class AdventureRequest extends KoLRequest
 	private String adventureID;
 	protected int adventuresUsed;
 
+	private static boolean completedLastFight = true;
+
 	public static final AdventureResult ABRIDGED = new AdventureResult( 534, -1 );
 	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
 	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
@@ -376,7 +378,7 @@ public class AdventureRequest extends KoLRequest
 	public static String registerEncounter( KoLRequest request )
 	{
 		String urlString = request.getURLString();
-		if ( !(request instanceof AdventureRequest) && !containsEncounter( urlString ) )
+		if ( !(request instanceof AdventureRequest) && !containsEncounter( urlString, request.responseText ) )
 			return "";
 		
 		// The first round is unique in that there is no
@@ -409,14 +411,18 @@ public class AdventureRequest extends KoLRequest
 		return "";
 	}
 	
-	private static boolean containsEncounter( String formSource )
+	private static boolean containsEncounter( String formSource, String responseText )
 	{
 		// The first round is unique in that there is no
 		// data fields.  Therefore, it will equal fight.php
 		// exactly every single time.
 
 		if ( formSource.startsWith( "fight.php" ) )
-			return formSource.equals( "fight.php" );
+		{
+			boolean shouldRecord = formSource.equals( "fight.php" ) && completedLastFight;
+			completedLastFight = responseText.indexOf( "fight.php" ) == -1;
+			return shouldRecord;
+		}
 
 		// All other adventures can be identified via their
 		// form data and the place they point to.
