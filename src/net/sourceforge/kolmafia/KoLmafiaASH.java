@@ -140,11 +140,16 @@ public class KoLmafiaASH extends StaticEntity
 	private ScriptValue TRUE_VALUE = new ScriptValue( true );
 	private ScriptValue FALSE_VALUE = new ScriptValue( false );
 
+
+	// **************** Tracing *****************
+
 	private boolean tracing = true;
 	private String prefix = null;
 
-
-	// **************** Tracing *****************
+	private void resetTracing()
+	{
+		prefix = null;
+	}
 
 	private String traceIndent()
 	{
@@ -152,6 +157,11 @@ public class KoLmafiaASH extends StaticEntity
 		if ( tracing )
 			prefix = ( prefix == null ) ? "" : prefix + "  ";
 		return oldPrefix;
+	}
+
+	private void traceUnindent( String oldPrefix )
+	{
+		prefix = oldPrefix;
 	}
 
 	private void trace( String string )
@@ -332,8 +342,7 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				if ( (c = parseCommand( expectedType, result, false, whileLoop )) != null )
 				{
-					if ( startScope == null ) //only upper level scope may be directly executed.
-						result.addCommand( c );
+					result.addCommand( c );
 
 					continue;
 				}
@@ -1293,17 +1302,20 @@ public class KoLmafiaASH extends StaticEntity
 		String resultString;
 
 		currentState = STATE_NORMAL;
-		prefix = null;
+		resetTracing();
 
 		main = globalScope.findFunction( "main", null );
 
-		if ( main == null )
-		{
-			if ( globalScope.getFirstCommand() == null )
-				throw new AdvancedScriptException( "No function main or command found." );
-			result = globalScope.execute();
-		}
-		else
+		if ( main == null && globalScope.getFirstCommand() == null )
+			throw new AdvancedScriptException( "No commands or main function found." );
+
+		// First execute top-level commands;
+		result = globalScope.execute();
+		if ( currentState == STATE_EXIT )
+			return result;
+
+		// Now execute main function, if any
+		if ( main != null )
 		{
 			requestUserParams( main );
 			result = main.execute();
@@ -1923,12 +1935,12 @@ public class KoLmafiaASH extends StaticEntity
 					case STATE_CONTINUE:
 					case STATE_EXIT:
 
-						prefix = oldPrefix;
+						traceUnindent( oldPrefix );
 						return result;
 				}
 			}
 
-			prefix = oldPrefix;
+			traceUnindent( oldPrefix );
 			return result;
 		}
 	}
@@ -2011,7 +2023,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			trace( "Returning " + result );
 
-			prefix = oldPrefix;
+			traceUnindent( oldPrefix );
 			return result;
 		}
 
@@ -2720,7 +2732,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String oldPrefix = traceIndent();
 			trace( toString() );
-			prefix = oldPrefix;
+			traceUnindent( oldPrefix );
 
 			if ( this.command == COMMAND_BREAK )
 			{
@@ -2824,7 +2836,7 @@ public class KoLmafiaASH extends StaticEntity
 			captureValue();
 
 			trace( "Set:  " + returnValue );
-                        prefix = oldPrefix;
+                        traceUnindent( oldPrefix );
 
 			if ( currentState != STATE_EXIT )
 				currentState = STATE_RETURN;
@@ -2941,7 +2953,7 @@ public class KoLmafiaASH extends StaticEntity
 					if ( repeat )
 						currentState = STATE_NORMAL;
 
-					prefix = oldPrefix;
+					traceUnindent( oldPrefix );
 					return VOID_VALUE;
 				}
 
@@ -2949,7 +2961,7 @@ public class KoLmafiaASH extends StaticEntity
 				{
 					if ( !repeat )
 					{
-						prefix = oldPrefix;
+						traceUnindent( oldPrefix );
 						return VOID_VALUE;
 					}
 
@@ -2958,20 +2970,20 @@ public class KoLmafiaASH extends StaticEntity
 
 				if ( currentState == STATE_RETURN )
 				{
-					prefix = oldPrefix;
+					traceUnindent( oldPrefix );
 					return result;
 				}
 
 				if ( currentState == STATE_EXIT )
 				{
-					prefix = oldPrefix;
+					traceUnindent( oldPrefix );
 					return null;
 				}
 			}
 
 			if ( executed )
 			{
-				prefix = oldPrefix;
+				traceUnindent( oldPrefix );
 				return VOID_VALUE;
 			}
 
@@ -2981,12 +2993,12 @@ public class KoLmafiaASH extends StaticEntity
 				ScriptValue result = elseLoop.execute();
 				if ( currentState != STATE_NORMAL )
 				{
-					prefix = oldPrefix;
+					traceUnindent( oldPrefix );
 					return result;
 				}
 			}
 
-			prefix = oldPrefix;
+			traceUnindent( oldPrefix );
 			return VOID_VALUE;
 		}
 
@@ -3084,7 +3096,7 @@ public class KoLmafiaASH extends StaticEntity
 
 				if ( currentState == STATE_EXIT )
 				{
-					prefix = oldPrefix;
+					traceUnindent( oldPrefix );
 					return null;
 				}
 
@@ -3107,7 +3119,7 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptValue result = target.execute();
 
 			trace( "Return: " + result );
-			prefix = oldPrefix;
+			traceUnindent( oldPrefix );
 
 			return result;
 		}
@@ -3173,7 +3185,7 @@ public class KoLmafiaASH extends StaticEntity
 			captureValue();
 
 			trace( "Set:  " + value );
-			prefix = oldPrefix;
+			traceUnindent( oldPrefix );
 
 			if ( currentState == STATE_EXIT )
 				return null;
