@@ -1318,17 +1318,71 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static void fightShadow()
 	{
-		List requirements = new ArrayList();
+		// You need at least 33 health for the shadow fight.
+		// Make this test now.
 
+		if ( KoLCharacter.getMaximumHP() < 33 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
+			return;
+		}
+
+		List requirements = new ArrayList();
 		AdventureResult option = new AdventureResult( "red pixel potion", 4 );
-		if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+
+		int maximumDamage = 22 + (int) Math.floor( KoLCharacter.getMaximumHP() / 5 ) + 3;
+		int minimumHealing = 25;
+		
+		// Suppose you have 126 HP, and assume maximum damage taken.
+		// We have the following results, assuming worst-case health
+		// restoration.  Calculate the leeway:
+
+		// Round 1: You lose 22 + 25 + 3 = 50 damage (76 health)
+		//  - You gain 25, leaving you with 101 health
+		// Round 2: You lose 22 + 25 + 3 = 50 damage (51 health)
+		//  - You gain 25, leaving you with 76 health
+		// Round 3: You lose 22 + 25 + 3 = 50 damage (26 health)
+		//  - You gain 25, leaving you with 51 health
+		// Round 4: You lose 22 + 25 + 3 = 50 damage (1 health)
+
+		// It turns out that in the worst case, you'll be hit by the
+		// shadow for maximum damage four times and you will recover
+		// your health three times.
+
+		int neededHealth = maximumDamage * 4 - minimumHealing * 3;
+		
+		if ( neededHealth > KoLCharacter.getCurrentHP() && KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+		{
+			// This is not quite true in the case of elixirs, though
+			// (assume you have 33 maximum HP):
+			
+			// Round 1: You lose 22 + 7 + 3 = 32 damage (1 health)
+			//  - You gain 36, leaving you with 33 health
+			// Round 2: You lose 22 + 7 + 3 = 32 damage (1 health)
+			//  - You gain 36, leaving you with 33 health
+			// Round 3: You lose 22 + 7 + 3 = 32 damage (1 health)
+			//  - You gain 36, leaving you with 33 health
+			
+			// In this case, you are hit a maximum of three times,
+			// and you will recover your health twice.
+
+			option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
+			neededHealth = maximumDamage * 3 - minimumHealing * 2;
+		}
+		
+		// Now, if you have greater than the amount of needed
+		// health from the get-go, choose whichever one is least
+		// expensive based on what you currently have.
+
+		if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) && option.getName().startsWith( "red" ) )
 		{
 			// Whether or not you have red pixel potions, if you
 			// already have enough elixirs or restorative balm,
 			// go ahead and default to them.
 
 			AdventureResult check = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
-			if ( check.getCount( KoLCharacter.getInventory() ) >= 6 )
+
+			if ( KoLCharacter.hasItem( check, true ) )
 				option = check;
 
 			if ( KoLCharacter.getMaximumHP() >= 126 )
@@ -1357,64 +1411,31 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		requirements.add( option );
-		if ( !client.checkRequirements( requirements ) )
-			return;
 
-		// If the person is using elixirs, that means they have
-		// funkslinging.  You need at least 33 health for this
-		// method to work.
+		// If it's not a red-pixel potion, then turn on automatic
+		// purchase, and revert when you're done.
 		
-		if ( option.getName().endsWith( "ixer" ) )
+		String property = getProperty( "autoSatisfyChecks" );
+
+		if ( !option.getName().startsWith( "red" ) )
+			setProperty( "autoSatisfyChecks", "true" );
+
+		if ( !client.checkRequirements( requirements ) )
 		{
-			if ( KoLCharacter.getMaximumHP() < 33 )
-			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
-				return;
-			}
+			setProperty( "autoSatisfyChecks", property );
+			return;
 		}
 
-		// If you're using any other method, you need at least
-		// 126 health for the method to work.
+		setProperty( "autoSatisfyChecks", property );
 		
-		else if ( KoLCharacter.getMaximumHP() < 126 )
+		// If you're using any other method than elixir, you need
+		// at least 126 health for the battle.
+
+		if ( !option.getName().endsWith( "ixer" ) && KoLCharacter.getMaximumHP() < 126 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
 			return;
 		}
-
-		int maximumDamage = 22 + (int) Math.floor( KoLCharacter.getMaximumHP() / 5 ) + 3;
-		int minimumHealing = option.getName().startsWith( "red" ) ? 25 :
-			option.getName().endsWith( "alm" ) ? 26 : 36;
-		
-		// Suppose you have 126 HP, and assume maximum damage taken.
-		// We have the following results, assuming worst-case health
-		// restoration.  Calculate the leeway:
-
-		// Round 1: You lose 22 + 25 + 3 = 50 damage (76 health)
-		//  - You gain 25, leaving you with 101 health
-		// Round 2: You lose 22 + 25 + 3 = 50 damage (51 health)
-		//  - You gain 25, leaving you with 76 health
-		// Round 3: You lose 22 + 25 + 3 = 50 damage (26 health)
-		//  - You gain 25, leaving you with 51 health
-		// Round 4: You lose 22 + 25 + 3 = 50 damage (1 health)
-
-		// It turns out that in the worst case, you'll be hit by the
-		// shadow for maximum damage four times and you will recover
-		// your health three times.  This is not quite true in the
-		// case of elixirs, though (assume you have 33 maximum HP):
-		
-		// Round 1: You lose 22 + 7 + 3 = 32 damage (1 health)
-		//  - You gain 36, leaving you with 33 health
-		// Round 2: You lose 22 + 7 + 3 = 32 damage (1 health)
-		//  - You gain 36, leaving you with 33 health
-		// Round 3: You lose 22 + 7 + 3 = 32 damage (1 health)
-		//  - You gain 36, leaving you with 33 health
-		
-		// In this case, you are hit a maximum of three times,
-		// and you will recover your health twice.
-
-		int neededHealth = minimumHealing >= 32 ?
-			maximumDamage * 3 - minimumHealing * 2 : maximumDamage * 4 - minimumHealing * 3;
 
 		// Health restore tries to restore above the given
 		// amount; therefore, restore just below it and the
