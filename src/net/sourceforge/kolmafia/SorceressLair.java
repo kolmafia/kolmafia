@@ -98,7 +98,7 @@ public abstract class SorceressLair extends StaticEntity
 
 	// Items for the hedge maze
 
-	private static final AdventureResult PUZZLE_PIECE = new AdventureResult( 727, 1 );
+	public static final AdventureResult PUZZLE_PIECE = new AdventureResult( 727, 1 );
 	private static final AdventureResult HEDGE_KEY = new AdventureResult( 728, 1 );
 
 	private static final AdventureResult BANJO_STRING = new AdventureResult( 52, 1 );

@@ -871,8 +871,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					break;
 
 				case ConsumeItemRequest.CONSUME_USE:
-					useType = "use";
-					useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+					
+					if ( itemID == SorceressLair.PUZZLE_PIECE.getItemID() )
+					{
+						useType = "use";
+						useLocation = "hedgepuzzle.php";
+					}
+					else
+					{
+						useType = "use";
+						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+					}
+
 					break;
 
 				case ConsumeItemRequest.EQUIP_HAT:
@@ -886,7 +896,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( useType != null && useLocation != null )
 			{
 				useLinkMatcher.appendReplacement( linkedResponse,
-					"You acquire$1 <font size=1>[<a href=\"" + useLocation.toString() + ( useType == "skills" ? "" : String.valueOf( itemID ) ) + 
+					"You acquire$1 <font size=1>[<a href=\"" + useLocation.toString() +
+					(useLocation.endsWith( "=" ) ? String.valueOf( itemID ) : "") + 
 					"\">" + useType + "</a>]</font></td>" );
 			}
 			else

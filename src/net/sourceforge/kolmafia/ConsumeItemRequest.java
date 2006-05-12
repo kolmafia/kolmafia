@@ -163,6 +163,12 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( itemUsed.getItemID() == SorceressLair.PUZZLE_PIECE.getItemID() )
+		{
+			SorceressLair.completeHedgeMaze();
+			return;
+		}
+		
 		int iterations = 1;
 		if ( itemUsed.getCount() != 1 && consumptionType != ConsumeItemRequest.CONSUME_MULTIPLE && consumptionType != ConsumeItemRequest.CONSUME_RESTORE )
 		{
