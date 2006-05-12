@@ -2778,9 +2778,16 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 
 		// Look at skills
-		for ( int i = 0; i < availableSkills.size(); ++i )
+		UseSkillRequest [] skills = new UseSkillRequest[ availableSkills.size() ];
+		availableSkills.toArray( skills );
+
+		for ( int i = 0; i < skills.length; ++i )
 		{
-			String name = ((UseSkillRequest)availableSkills.get(i)).getSkillName();
+			String name = skills[i].getSkillName();
+
+			if ( name == null )
+				continue;
+
 			if ( name.equals( SELF_PRESERVATION ) )
 			{
 				newInitiativeAdjustment += 20;
@@ -2814,9 +2821,15 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 
 		// Look at status effects
-		for ( int i = 0; i < activeEffects.size(); ++i )
+		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
+		activeEffects.toArray( effects );
+
+		for ( int i = 0; i < effects.length; ++i )
 		{
-			String name = ((AdventureResult)activeEffects.get(i)).getName();
+			String name = effects[i].getName();
+
+			if ( name == null )
+				continue;
 
 			if ( name.equals( ARIA ) )
 			{
