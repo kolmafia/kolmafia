@@ -425,8 +425,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( encounteredError )
 		{
-			DEFAULT_SHELL.updateDisplay( target == null || target.equals( "yourself" ) ?
-				ERROR_STATE : CONTINUE_STATE, lastUpdate );
+			DEFAULT_SHELL.updateDisplay( PENDING_STATE, lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
