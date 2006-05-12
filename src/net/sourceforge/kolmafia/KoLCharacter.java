@@ -2576,7 +2576,8 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final String PICKPOCKETING = "Gnefarious Pickpocketing";
 
 	// Items that modify Meat Drops
-	private static final int TAM = 1040;
+	private static final int TAM1 = 1040;
+	private static final int TAM2 = 1539;
 	private static final int MEAT_GEM = 876;
 	private static final int STAINLESS_SLACKS = 1228;
 	private static final int MONEY_CLIP = 1313;
@@ -2709,7 +2710,8 @@ public abstract class KoLCharacter extends StaticEntity
 			case ICE_BABY:
 				newFixedXPAdjustment += 1.0;
 				break;
-			case TAM:
+			case TAM1:
+			case TAM2:
 				newMeatDropPercentAdjustment += 50;
 				break;
 			case MEAT_GEM:

@@ -109,6 +109,7 @@ public class FamiliarData implements KoLConstants, Comparable
 
 		this.item = itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
 			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky tam o'shanter" :
+			itemData.indexOf( "omat.gif" ) != -1 ? "lucky tam o'shatner" :
 			itemData.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
 			itemData.indexOf( "waxlips.gif" ) != -1 ? "wax lips" :
 			itemData.indexOf( "pitchfork.gif" ) != -1 ? "annoying pitchfork" :
@@ -190,6 +191,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1419:	// teddy bear sewing kit
 		case 1489:	// miniature dormouse
 		case 1537:	// weegee sqouija
+		case 1539:	// lucky Tam O'Shatner
 			return 0;
 
 		case 865:	// lead necklace
@@ -270,6 +272,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			case 1152:
 			case 1218:
 			case 1260:
+			case 1539:
 				return true;
 
 			default:
