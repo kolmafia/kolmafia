@@ -699,7 +699,10 @@ public class AdventureDatabase extends KoLDatabase
 			// user wishes to autosatisfy through purchases,
 			// and the item is not creatable through combines.
 
-			boolean shouldAutoSatisfyEarly = false;
+			boolean shouldPurchase = TradeableItemDatabase.getPriceByID( item.getItemID() ) > 0;
+			boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
+			boolean shouldAutoSatisfyEarly = canUseNPCStore;
+			boolean shouldUseMall = getProperty( "autoSatisfyChecks" ).equals( "true" );
 
 			switch ( ConcoctionsDatabase.getMixingMethod( item.getItemID() ) )
 			{
@@ -713,37 +716,15 @@ public class AdventureDatabase extends KoLDatabase
 					shouldAutoSatisfyEarly = true;
 			}
 
-			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) && shouldAutoSatisfyEarly )
+			if ( shouldPurchase && shouldUseMall && shouldAutoSatisfyEarly )
 			{
-				// People, in general, don't want to buy the
-				// expensive stages of a TPS drink.  Therefore,
-				// avoid the expensive stages in purchases.
+				// Ignore all items which have no autosell value,
+				// because these tend to get really ugly in the mall.
 
-				switch ( item.getItemID() )
+				if ( creator == null )
 				{
-					case 938:  // tiny plastic sword
-
-					case 945:  // skewered jumbo-olive
-					case 946:  // skewered lime
-					case 947:  // skewered cherry
-
-					case 948:  // dirty martini
-					case 949:  // grogtini
-					case 950:  // cherry bomb
-
-					case 1023: // vesper
-					case 1024: // bodyslam
-					case 1025: // sangria del diablo
-
-						break;
-
-					default:
-
-						if ( creator == null )
-						{
-							if ( NPCStoreDatabase.contains( item.getName() ) || KoLCharacter.canInteract() )
-								missingCount = retrieveItem( "buy", null, item, missingCount );
-						}
+					if ( canUseNPCStore || KoLCharacter.canInteract() )
+						missingCount = retrieveItem( "buy", null, item, missingCount );
 				}
 			}
 
@@ -780,9 +761,9 @@ public class AdventureDatabase extends KoLDatabase
 			// but only for combinable items (non-combinables
 			// would have been handled earlier).
 
-			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) && !shouldAutoSatisfyEarly )
+			if ( shouldPurchase && !shouldAutoSatisfyEarly )
 			{
-				if ( NPCStoreDatabase.contains( item.getName() ) || KoLCharacter.canInteract() )
+				if ( KoLCharacter.canInteract() && shouldUseMall )
 					missingCount = retrieveItem( "buy", null, item, missingCount );
 			}
 

@@ -3190,14 +3190,6 @@ public class KoLmafiaCLI extends KoLmafia
 		(new ZapRequest( StaticEntity.getClient(), wand, item )).run();
 	}
 
-	public boolean isCloverDay()
-	{
-		if ( !StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" ) )
-			(new HermitRequest( StaticEntity.getClient() )).run();
-
-		return StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
-	}
-
 	/**
 	 * Retrieves the items specified in the most recent command.  If there
 	 * are no clovers available, the request will abort.
@@ -3206,7 +3198,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public void makeHermitRequest()
 	{
 		String oldLine = previousLine;
-		boolean clovers = isCloverDay();
+		boolean clovers = HermitRequest.isCloverDay();
 
 		if ( !StaticEntity.getClient().permitsContinue() )
 			return;

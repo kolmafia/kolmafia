@@ -534,27 +534,32 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( usedServant == null )
 		{
-			boolean isCreatePermitted = getProperty( "createWithoutBoxServants" ).equals( "true" ) &&
-				noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
-			
-			if ( getProperty( "autoSatisfyChecks" ).equals( "false" ) )
-				return isCreatePermitted;
+			boolean isCreatePermitted = getProperty( "createWithoutBoxServants" ).equals( "true" );
 
-			if ( KoLCharacter.inMuscleSign() )
+			// If they cannot afford to buy an NPC store item, that means
+			// it all depends on whether or not they currently have the item.
+			
+			if ( KoLCharacter.getAvailableMeat() < 1000 )
 			{
-				if ( KoLCharacter.hasItem( boxedItem, true ) )
-					usedServant = boxedItem;
-				else if ( KoLCharacter.hasItem( skullItem, true ) && KoLCharacter.hasItem( BOX, false ) )
-					usedServant = boxedItem;
+				return isCreatePermitted &&
+					noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
 			}
-			else if ( KoLCharacter.isHardcore() )
+			
+			// If the player can construct the box servant with just a few
+			// more purchases, then do so.
+			
+			if ( KoLCharacter.hasItem( boxedItem, true ) )
 			{
-				if ( KoLCharacter.hasItem( boxedItem, true ) )
-					usedServant = boxedItem;
+				usedServant = servant;
 			}
-			else
+			else if ( KoLCharacter.inMuscleSign() )
 			{
-				usedServant = clockworkServant;
+				if ( KoLCharacter.hasItem( skullItem, true ) && KoLCharacter.hasItem( BOX, false ) )
+					usedServant = servant;
+			}
+			else if ( KoLCharacter.canInteract() && getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+			{
+				usedServant = servant;
 			}
 
 			if ( usedServant == null )

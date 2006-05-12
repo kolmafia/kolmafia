@@ -132,7 +132,16 @@ public class HermitRequest extends KoLRequest
 
 			if ( responseText.indexOf( "sends you packing" ) != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The Hermit won't show you his stuff." );
+				// Automatically attempt to get a worthless item
+				// in order to determine what's available.
+				
+				if ( KoLCharacter.getAdventuresLeft() > 0 )
+				{
+					DEFAULT_SHELL.executeLine( "retrieve worthless item" );
+					if ( getWorthlessItemCount() != 0 )
+						this.run();
+				}
+
 				return;
 			}
 
@@ -160,9 +169,7 @@ public class HermitRequest extends KoLRequest
 			// Figure out how many you do have.
 
 			int permits = PERMIT.getCount( KoLCharacter.getInventory() );
-
-			if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) )
-				AdventureDatabase.retrieveItem( PERMIT.getInstance( quantity ) );
+			AdventureDatabase.retrieveItem( PERMIT.getInstance( quantity ) );
 
 			permits = PERMIT.getCount( KoLCharacter.getInventory() );
 			if ( client.permitsContinue() )
@@ -177,20 +184,18 @@ public class HermitRequest extends KoLRequest
 		{
 			// Figure out how many items you do have.
 
-			if ( responseText.indexOf( "You have " ) == -1 )
-			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
-				return;
-			}
-
 			int actualQuantity = getWorthlessItemCount();
-			(new HermitRequest( client, itemID, actualQuantity )).run();
+			
+			if ( actualQuantity > 0 )
+				(new HermitRequest( client, itemID, actualQuantity )).run();
+
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
 			return;
 		}
 
 		// If the item is unavailable, assume he was asking for clover
 
-		if ( responseText.indexOf( "doesn't have that item.") != -1 )
+		if ( responseText.indexOf( "doesn't have that item." ) != -1 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Today is not a clover day." );
 			return;
@@ -236,5 +241,13 @@ public class HermitRequest extends KoLRequest
 	{
 		return TRINKET.getCount( KoLCharacter.getInventory() ) +
 				GEWGAW.getCount( KoLCharacter.getInventory() ) + KNICK_KNACK.getCount( KoLCharacter.getInventory() );
+	}
+	
+	public static final boolean isCloverDay()
+	{
+		if ( !StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" ) )
+			(new HermitRequest( StaticEntity.getClient() )).run();
+
+		return StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
 	}
 }
