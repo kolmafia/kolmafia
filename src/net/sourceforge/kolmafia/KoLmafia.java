@@ -104,11 +104,11 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static final String [][] BREAKFAST_SKILLS =
 	{
-		{ "Summon Snowcone", "1", "Snowcone" },
-		{ "Summon Hilarious Objects", "1", "Grimoire" },
-		{ "Advanced Saucecrafting", "3", "Reagent" },
-		{ "Pastamastery", "3", "Noodles" },
-		{ "Advanced Cocktailcrafting", "3", "Cocktails" }
+		{ "Summon Snowcone", "1" },
+		{ "Summon Hilarious Objects", "1" },
+		{ "Advanced Saucecrafting", "3" },
+		{ "Pastamastery", "3" },
+		{ "Advanced Cocktailcrafting", "3" }
 	};
 
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
@@ -224,6 +224,20 @@ public abstract class KoLmafia implements KoLConstants
 					outdated.delete();
 			}
 		}
+		
+		// All that completed, check to see if there is an auto-login
+		// which should occur.
+		
+		String autoLogin = GLOBAL_SETTINGS.getProperty( "autoLogin" );
+		if ( !autoLogin.equals( "" ) )
+		{
+			// Make sure that a password was stored for this
+			// character (would fail otherwise):
+			
+			String password = StaticEntity.getClient().getSaveState( autoLogin );
+			if ( password != null && !password.equals( "" ) )
+				(new RequestThread( new LoginRequest( StaticEntity.getClient(), autoLogin, password ) )).start();
+		}
 	}
 
 	/**
@@ -312,7 +326,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String username, String sessionID )
+	public void initialize( String username, String sessionID, boolean getBreakfast )
 	{
 		this.conditions.clear();
 
@@ -360,22 +374,25 @@ public abstract class KoLmafia implements KoLConstants
 		
 		if ( getPasswordHash() != null && getPasswordHash().equals( "" ) )
 			return;
-		
+
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
 
-		String today = sdf.format( new Date() );
-		String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + username.toLowerCase() );
-
-		if ( lastBreakfast == null || !lastBreakfast.equals( today ) )
+		if ( getBreakfast )
 		{
-			String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + username.toLowerCase() );
-			String scriptSetting = GLOBAL_SETTINGS.getProperty( "loginScript." + username.toLowerCase() );
-			if ( scriptSetting != null && !scriptSetting.equals( "" ) )
-				DEFAULT_SHELL.executeLine( scriptSetting );
-
-			getBreakfast( true );	
-			if ( (skillSetting != null && !skillSetting.equals( "" )) || (scriptSetting != null && !scriptSetting.equals( "" )) )
-				GLOBAL_SETTINGS.setProperty( "lastBreakfast." + username.toLowerCase(), today );
+			String today = sdf.format( new Date() );
+			String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + username.toLowerCase() );
+	
+			if ( lastBreakfast == null || !lastBreakfast.equals( today ) )
+			{
+				String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + (KoLCharacter.isHardcore() ? "hardcore" : "softcore") );
+				String scriptSetting = GLOBAL_SETTINGS.getProperty( "loginScript." + username.toLowerCase() );
+				if ( scriptSetting != null && !scriptSetting.equals( "" ) )
+					DEFAULT_SHELL.executeLine( scriptSetting );
+	
+				getBreakfast( true );	
+				if ( (skillSetting != null && !skillSetting.equals( "" )) || (scriptSetting != null && !scriptSetting.equals( "" )) )
+					GLOBAL_SETTINGS.setProperty( "lastBreakfast." + username.toLowerCase(), today );
+			}
 		}
 	}
 	
@@ -388,7 +405,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.hasArches() )
 			(new CampgroundRequest( this, "arches" )).run();
 
-		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + KoLCharacter.getUsername().toLowerCase() );
+		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + (KoLCharacter.isHardcore() ? "hardcore" : "softcore") );
 
 		if ( skillSetting != null )
 			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )

@@ -208,15 +208,15 @@ public class KoLmafiaCLI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String username, String sessionID )
+	public void initialize( String username, String sessionID, boolean getBreakfast )
 	{
 		if ( StaticEntity.getClient() != this )
-			StaticEntity.getClient().initialize( username, sessionID );
-		else
-			super.initialize( username, sessionID );
-
-		if ( StaticEntity.getClient() == this )
 		{
+			StaticEntity.getClient().initialize( username, sessionID, getBreakfast );
+		}
+		else
+		{
+			super.initialize( username, sessionID, getBreakfast );
 			printBlankLine();
 			executeCommand( "moons", "" );
 			printBlankLine();
@@ -1886,11 +1886,11 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( condition.getCount() > 0 )
 		{
 			AdventureResult.addResultToList( StaticEntity.getClient().conditions, condition );
-			updateDisplay( "Condition <" + condition + "> added." );
+			updateDisplay( "Condition added: " + condition );
 		}
 		else
 		{
-			updateDisplay( "Condition <" + condition + "> already met." );
+			updateDisplay( "Condition already met: " + condition );
 		}
 
 		return true;
