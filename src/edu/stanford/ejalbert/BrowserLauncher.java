@@ -524,13 +524,58 @@ public class BrowserLauncher {
 			}
 		    case WINDOWS_NT:
 		    {
-		    	// Add quotes around the URL to allow ampersands and other special
-		    	// characters to work.
-				Process process = Runtime.getRuntime().exec(
-					new String[] { (String) browser, "/c", "start", "\"\"", '"' + url + '"' } );
+				// Determine whether or not Internet Explorer is flagged as the
+				// default browser -- if it is, invoke it manually in order to
+				// get a new window to open.
+
+				Process process = Runtime.getRuntime().exec( new String [] { (String) browser, "/c",
+					"assoc", ".html" } );
+
+				boolean usingIE = false;
+
+				try
+				{
+					java.io.BufferedReader stream = new
+						java.io.BufferedReader( new java.io.InputStreamReader( process.getInputStream() ) );
+
+					usingIE = stream.readLine().indexOf( "htmlfile" ) != -1;
+				}
+				catch ( Exception e )
+				{
+					// If we can't determine the default browser, then assume
+					// that it's not Internet Explorer.
+				}
 
 				// This avoids a memory leak on some versions of Java on Windows.
 				// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
+
+				try {
+					process.waitFor();
+					process.exitValue();
+				} catch (InterruptedException ie) {
+					throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
+				}
+
+				if ( usingIE )
+				{
+					// Add quotes around the URL to allow ampersands and other special
+					// characters to work.
+
+					process = Runtime.getRuntime().exec(
+						new String[] { (String) browser, "/c", "explorer", '"' + url + '"' } );
+				}
+				else
+				{
+					// Add quotes around the URL to allow ampersands and other special
+					// characters to work.
+
+					process = Runtime.getRuntime().exec(
+						new String[] { (String) browser, "/c", "start", "\"\"", '"' + url + '"' } );
+				}
+
+				// This avoids a memory leak on some versions of Java on Windows.
+				// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
+
 				try {
 					process.waitFor();
 					process.exitValue();
@@ -541,8 +586,9 @@ public class BrowserLauncher {
 		    }
 		    case WINDOWS_9x:
 		    {
-		    	// Add quotes around the URL to allow ampersands and other special
-		    	// characters to work.
+				// Add quotes around the URL to allow ampersands and other special
+		    		// characters to work.
+
 				Process process = Runtime.getRuntime().exec(
 					new String[] { (String) browser, "/c", "explorer", '"' + url + '"' } );
 
