@@ -179,11 +179,14 @@ public class ConsumeItemRequest extends KoLRequest
 	
 	public void useOnce( int currentIteration, int totalIterations, String useTypeAsString )
 	{
-		if ( totalIterations == 1 )
-			DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().toString() + "..." );
-		else
-			DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().getName() +
-				" (" + currentIteration + " of " + totalIterations + ")..." );
+		if ( !formURLString.startsWith( "inventory.php" ) )
+		{
+			if ( totalIterations == 1 )
+				DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().toString() + "..." );
+			else
+				DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().getName() +
+					" (" + currentIteration + " of " + totalIterations + ")..." );
+		}
 
 		if ( itemUsed.getItemID() == UneffectRequest.REMEDY.getItemID() )
 		{
