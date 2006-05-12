@@ -123,14 +123,13 @@ public class ExamineItemsFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			// Sort elements by name
-			Collections.sort( list, new EntryNameComparator() );
-//list.sort( new EntryNameComparator() );
+			list.sort( new EntryNameComparator() );
 		}
 
 		public void actionCancelled()
 		{
 			// Sort elements by ID number
-			Collections.sort( list, new EntryIDComparator() );
+			list.sort( new EntryIDComparator() );
 		}
 
 		private class ShowEntryAdapter extends MouseAdapter
