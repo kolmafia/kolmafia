@@ -299,7 +299,7 @@ public class ItemStorageRequest extends SendMessageRequest
 			return;
 
 		int lastFindIndex = 0;
-		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( storageMatcher.group() );
+		Matcher optionMatcher = Pattern.compile( "<option[^>]* value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( storageMatcher.group() );
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			try

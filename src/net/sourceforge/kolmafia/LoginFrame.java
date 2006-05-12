@@ -324,6 +324,8 @@ public class LoginFrame extends KoLFrame
 				if ( currentMatch == null )
 				{
 					passwordField.setText( "" );
+					setStatusMessage( " " );
+					
 					isBreakfastEnabled = true;
 					LoginPanel.this.setEnabled( true );
 					return;
@@ -333,8 +335,9 @@ public class LoginFrame extends KoLFrame
 				if ( password == null )
 				{
 					passwordField.setText( "" );
-					isBreakfastEnabled = true;
+					setStatusMessage( " " );
 
+					isBreakfastEnabled = true;
 					LoginPanel.this.setEnabled( true );
 					return;
 				}
