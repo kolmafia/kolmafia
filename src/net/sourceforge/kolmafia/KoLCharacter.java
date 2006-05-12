@@ -2501,22 +2501,22 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int PITCHFORK = 1116;
 
 	// Effects that modify Combat Frequency
-	private static final String CANTATA = "Carlweather's Cantata of Confrontation";
-	private static final String SONATA = "The Sonata of Sneakiness";
-	private static final String MUSK = "Musk of the Moose";
-	private static final String SMOOTH = "Smooth Movements";
-	private static final String STENCH = "Hippy Stench";
-	private static final String SCENT = "Fresh Scent";
+	private static final AdventureResult CANTATA = new AdventureResult( "Carlweather's Cantata of Confrontation", 0 );
+	private static final AdventureResult SONATA = new AdventureResult( "The Sonata of Sneakiness", 0 );
+	private static final AdventureResult MUSK = new AdventureResult( "Musk of the Moose", 0 );
+	private static final AdventureResult SMOOTH = new AdventureResult( "Smooth Movements", 0 );
+	private static final AdventureResult STENCH = new AdventureResult( "Hippy Stench", 0 );
+	private static final AdventureResult SCENT = new AdventureResult( "Fresh Scent", 0 );
 
 	// Items that modify Combat Frequency
 	private static final int CONFLICT = 1298;
 	private static final int BAIT = 1300;
 
 	// Effects that modify Initiative
-  	private static final String FUSILLI = "Springy Fusilli";
-	private static final String CANTICLE = "Cletus's Canticle of Celerity";
-	private static final String TICKING_CLOCK = "Ticking Clock";
-	private static final String RELAXATION = "Extreme Muscle Relaxation";
+  	private static final AdventureResult FUSILLI = new AdventureResult( "Springy Fusilli", 0 );
+	private static final AdventureResult CANTICLE = new AdventureResult( "Cletus's Canticle of Celerity", 0 );
+	private static final AdventureResult TICKING_CLOCK = new AdventureResult( "Ticking Clock", 0 );
+	private static final AdventureResult RELAXATION = new AdventureResult( "Extreme Muscle Relaxation", 0 );
 
 	// Skills that modify Initiative
 	private static final String SELF_PRESERVATION = "Overdeveloped Sense of Self Preservation";
@@ -2543,12 +2543,12 @@ public abstract class KoLCharacter extends StaticEntity
 
 	// Effects that modify earned XP:
 
-	private static final String ANTIPHON = "Aloysius' Antiphon of Aptitude";
-	private static final String BLACK_TONGUE = "Black Tongue";
-	private static final String ORANGE_TONGUE = "Orange Tongue";
-	private static final String VEINY = "Big Veiny Brain";
-	private static final String PEELED = "Peeled Eyeballs";
-	private static final String WASABI = "Wasabi Sinuses";
+	private static final AdventureResult ANTIPHON = new AdventureResult( "Aloysius' Antiphon of Aptitude", 0 );
+	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0 );
+	private static final AdventureResult ORANGE_TONGUE = new AdventureResult( "Orange Tongue", 0 );
+	private static final AdventureResult VEINY = new AdventureResult( "Big Veiny Brain", 0 );
+	private static final AdventureResult PEELED = new AdventureResult( "Peeled Eyeballs", 0 );
+	private static final AdventureResult WASABI = new AdventureResult( "Wasabi Sinuses", 0 );
 
 	// Items that modify earned XP:
 
@@ -2566,9 +2566,9 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int HOBO = 52;
 
 	// Effects that modify Meat Drops
-	private static final String RED_TONGUE = "Red Tongue";
-	private static final String TACTICS = "Eggs-stortionary Tactics";
-	private static final String POLKA = "Polka of Plenty";
+	private static final AdventureResult RED_TONGUE = new AdventureResult( "Red Tongue", 0 );
+	private static final AdventureResult TACTICS = new AdventureResult( "Eggs-stortionary Tactics", 0 );
+	private static final AdventureResult POLKA = new AdventureResult( "Polka of Plenty", 0 );
 
 	// Skills that modify Meat Drops
 	private static final String NIMBLE_FINGERS = "Nimble Fingers";
@@ -2594,10 +2594,10 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int TURKEY = 25;
 
 	// Effects that modify Item Drops
-	private static final String PERCEPTION = "Eggs-tra Sensory Perception";
-	private static final String BLUE_TONGUE = "Blue Tongue";
-	private static final String PHAT_LOOT = "Fat Leon's Phat Loot Lyric";
-	private static final String OBJECT_DETECTION = "Object Detection";
+	private static final AdventureResult PERCEPTION = new AdventureResult( "Eggs-tra Sensory Perception", 0 );
+	private static final AdventureResult BLUE_TONGUE = new AdventureResult( "Blue Tongue", 0 );
+	private static final AdventureResult PHAT_LOOT = new AdventureResult( "Fat Leon's Phat Loot Lyric", 0 );
+	private static final AdventureResult OBJECT_DETECTION = new AdventureResult( "Object Detection", 0 );
 
 	// Skills that modify Item Drops
 	private static final String MAD_LOOTING_SKILLZ = "Mad Looting Skillz";
@@ -2778,210 +2778,128 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 
 		// Look at skills
+
+		// Assume the character knows 50 skills and we have 10 that
+		// we're checking.
+		//
+		// If we iterate over the 50 skills, we make 10 string
+		// comparisons per skill, for a total of 500 comparisons
+		//
+		// If we look up the 10 skills one after the other, depending
+		// on how the skills are stored and whether the character knows
+		// it, it will take anywhere from 1 to 50 string comparisons
+		//
+		// Therefore, we'll simply call "hasSkill" on each skill of
+		// interest.
+
 		UseSkillRequest [] skills = new UseSkillRequest[ availableSkills.size() ];
 		availableSkills.toArray( skills );
 
-		for ( int i = 0; i < skills.length; ++i )
-		{
-			String name = skills[i].getSkillName();
+		if ( hasSkill( SELF_PRESERVATION ) )
+			newInitiativeAdjustment += 20;
 
-			if ( name == null )
-				continue;
+		if ( hasSkill( NIMBLE_FINGERS ) )
+			newMeatDropPercentAdjustment += 20;
 
-			if ( name.equals( SELF_PRESERVATION ) )
-			{
-				newInitiativeAdjustment += 20;
-				continue;
-			}
+		if ( hasSkill( PANHANDLING ) || hasSkill( PICKPOCKETING ) )
+			newMeatDropPercentAdjustment += 10;
 
-			if ( name.equals( NIMBLE_FINGERS ) )
-			{
-				newMeatDropPercentAdjustment += 20;
-				continue;
-			}
+		if ( hasSkill( MAD_LOOTING_SKILLZ ) )
+			newItemDropPercentAdjustment += 20;
 
-			if ( name.equals( PANHANDLING ) ||
-			     name.equals( PICKPOCKETING ) )
-			{
-				newMeatDropPercentAdjustment += 10;
-				continue;
-			}
-
-			if ( name.equals( MAD_LOOTING_SKILLZ ) )
-			{
-				newItemDropPercentAdjustment += 20;
-				continue;
-			}
-
-			if ( name.equals( OBSERVATIOGN ) )
-			{
-				newItemDropPercentAdjustment += 10;
-				continue;
-			}
-		}
+		if ( hasSkill( OBSERVATIOGN ) )
+			newItemDropPercentAdjustment += 10;
 
 		// Look at status effects
-		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
-		activeEffects.toArray( effects );
 
-		for ( int i = 0; i < effects.length; ++i )
+		// A similar argument holds for why we should simply look up
+		// effects rather iterate over the list.
+
+		if ( ARIA.getCount( activeEffects ) > 0 )
+			newMonsterLevelAdjustment += 2 * getLevel();
+
+		if ( ANTIPHON.getCount( activeEffects ) > 0 )
+			newFixedXPAdjustment += 3;
+
+		if ( PHAT_LOOT.getCount( activeEffects ) > 0 )
+			newItemDropPercentAdjustment += 20;
+
+		if ( POLKA.getCount( activeEffects ) > 0 )
+			newMeatDropPercentAdjustment += 50;
+
+		if ( CANTATA.getCount( activeEffects ) > 0 )
+			newCombatPercentAdjustment += 5;
+
+		if ( SONATA.getCount( activeEffects ) > 0 )
+			newCombatPercentAdjustment -= 5;
+
+		if ( CANTICLE.getCount( activeEffects ) > 0 )
+			newInitiativeAdjustment += 30;
+
+		if ( FUSILLI.getCount( activeEffects ) > 0 )
+			newInitiativeAdjustment += 40;
+
+		if ( TICKING_CLOCK.getCount( activeEffects ) > 0 )
+			newInitiativeAdjustment += 20;
+
+		if ( RELAXATION.getCount( activeEffects ) > 0 )
+			newInitiativeAdjustment -= 25;
+
+		if ( MUSK.getCount( activeEffects ) > 0 )
+			newCombatPercentAdjustment += 5;
+
+		if ( SMOOTH.getCount( activeEffects ) > 0 )
+			newCombatPercentAdjustment -= 5;
+
+		if ( STENCH.getCount( activeEffects ) > 0 )
+			newCombatPercentAdjustment += 5;
+
+		if ( SCENT.getCount( activeEffects ) > 0 )
+			newCombatPercentAdjustment -= 5;
+
+		// Only one snowcone effect can be active at a time
+
+		if ( BLACK_TONGUE.getCount( activeEffects ) > 0 )
 		{
-			String name = effects[i].getName();
-
-			if ( name == null )
-				continue;
-
-			if ( name.equals( ARIA ) )
-			{
-				newMonsterLevelAdjustment += 2 * getLevel();
-				continue;
-			}
-
-			if ( name.equals( ANTIPHON ) )
-			{
-				newFixedXPAdjustment += 3;
-				continue;
-			}
-
-			if ( name.equals( PHAT_LOOT ) )
-			{
-				newItemDropPercentAdjustment += 20;
-				continue;
-			}
-
-			if ( name.equals( POLKA ) )
-			{
-				newMeatDropPercentAdjustment += 50;
-				continue;
-			}
-
-			if ( name.equals( CANTATA ) )
-			{
-				newCombatPercentAdjustment += 5;
-				continue;
-			}
-
-			if ( name.equals( SONATA ) )
-			{
-				newCombatPercentAdjustment -= 5;
-				continue;
-			}
-
-			if ( name.equals( CANTICLE ) )
-			{
-				newInitiativeAdjustment += 30;
-				continue;
-			}
-
-			if ( name.equals( FUSILLI ) )
-			{
-				newInitiativeAdjustment += 40;
-				continue;
-			}
-
-			if ( name.equals( TICKING_CLOCK ) )
-			{
-				newInitiativeAdjustment += 20;
-				continue;
-			}
-
-			if ( name.equals( RELAXATION ) )
-			{
-				newInitiativeAdjustment -= 25;
-				continue;
-			}
-
-			if ( name.equals( MUSK ) )
-			{
-				newCombatPercentAdjustment += 5;
-				continue;
-			}
-
-			if ( name.equals( SMOOTH ) )
-			{
-				newCombatPercentAdjustment -= 5;
-				continue;
-			}
-
-			if ( name.equals( STENCH ) )
-			{
-				newCombatPercentAdjustment += 5;
-				continue;
-			}
-
-			if ( name.equals( SCENT ) )
-			{
-				newCombatPercentAdjustment -= 5;
-				continue;
-			}
-
-			if ( name.equals( BLACK_TONGUE ) )
-			{
-				newFixedXPAdjustment += 2.5;
-				newItemDropPercentAdjustment += 30;
-				newMeatDropPercentAdjustment += 30;
-				continue;
-			}
-
-			if ( name.equals( RED_TONGUE ) )
-			{
-				newMeatDropPercentAdjustment += 30;
-				continue;
-			}
-
-			if ( name.equals( BLUE_TONGUE ) )
-			{
-				newItemDropPercentAdjustment += 30;
-				continue;
-			}
-
-			if ( name.equals( ORANGE_TONGUE ) )
-			{
-				newFixedXPAdjustment += 2.5;
-				continue;
-			}
-
-			if ( name.equals( PERCEPTION ) )
-			{
-				newItemDropPercentAdjustment += 30;
-				continue;
-			}
-
-			if ( name.equals( TACTICS ) )
-			{
-				newMeatDropPercentAdjustment += 50;
-				continue;
-			}
-
-			if ( name.equals( VEINY ) )
-			{
-				newFixedXPAdjustment += 2;
-				newMeatDropPercentAdjustment -= 20;
-				continue;
-			}
-
-			if ( name.equals( PEELED ) )
-			{
-				newItemDropPercentAdjustment += 40;
-				newMeatDropPercentAdjustment -= 16;
-				newFixedXPAdjustment -= 1;
-				continue;
-			}
-
-			if ( name.equals( WASABI ) )
-			{
-				newMeatDropPercentAdjustment += 30;
-				newItemDropPercentAdjustment -= 10;
-				newFixedXPAdjustment -= 1;
-				continue;
-			}
-
-			if ( name.equals( OBJECT_DETECTION ) )
-			{
-				newItemDropPercentAdjustment += 12.5;
-				continue;
-			}
+			newFixedXPAdjustment += 2.5;
+			newItemDropPercentAdjustment += 30;
+			newMeatDropPercentAdjustment += 30;
 		}
+		else if ( RED_TONGUE.getCount( activeEffects ) > 0 )
+			newMeatDropPercentAdjustment += 30;
+		else if ( BLUE_TONGUE.getCount( activeEffects ) > 0 )
+			newItemDropPercentAdjustment += 30;
+		else if ( ORANGE_TONGUE.getCount( activeEffects ) > 0 )
+			newFixedXPAdjustment += 2.5;
+
+		if ( PERCEPTION.getCount( activeEffects ) > 0 )
+			newItemDropPercentAdjustment += 30;
+
+		if ( TACTICS.getCount( activeEffects ) > 0 )
+			newMeatDropPercentAdjustment += 50;
+
+		if ( VEINY.getCount( activeEffects ) > 0 )
+		{
+			newFixedXPAdjustment += 2;
+			newMeatDropPercentAdjustment -= 20;
+		}
+
+		if ( PEELED.getCount( activeEffects ) > 0 )
+		{
+			newItemDropPercentAdjustment += 40;
+			newMeatDropPercentAdjustment -= 16;
+			newFixedXPAdjustment -= 1;
+		}
+
+		if ( WASABI.getCount( activeEffects ) > 0 )
+		{
+			newMeatDropPercentAdjustment += 30;
+			newItemDropPercentAdjustment -= 10;
+			newFixedXPAdjustment -= 1;
+		}
+
+		if ( OBJECT_DETECTION.getCount( activeEffects ) > 0 )
+			newItemDropPercentAdjustment += 12.5;
 
 		// Look at familiar
 		double modifier = (double)currentFamiliar.getModifiedWeight();
