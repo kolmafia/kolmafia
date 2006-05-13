@@ -186,7 +186,7 @@ public class CharpaneRequest extends KoLRequest
 			String availableMeat = miscMatcher.group(5).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			KoLCharacter.setAvailableMeat( Integer.parseInt( availableMeat ) );
 
-			String adventuresLeft = miscMatcher.group(1).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );			
+			String adventuresLeft = miscMatcher.group(6).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );			
 			int oldAdventures = KoLCharacter.getAdventuresLeft();
 			int newAdventures = Integer.parseInt( adventuresLeft );
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
