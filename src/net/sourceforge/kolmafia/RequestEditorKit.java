@@ -822,6 +822,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		
 		if ( StaticEntity.getProperty( "relayAddsUseLinks" ).equals( "true" ) )
 			text = addUseLinks( text );
+		
+		if ( StaticEntity.getProperty( "relayMovesManeuver" ).equals( "true" ) )
+			text = moveManeuverButton( text );
 			
 		return text;
 	}
@@ -908,6 +911,21 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		useLinkMatcher.appendTail( linkedResponse );
 		return linkedResponse.toString();
+	}
+	
+	private static String moveManeuverButton( String text )
+	{
+		int moxmanIndex = text.indexOf( "<form name=moxman" );
+		if ( moxmanIndex == -1 )
+			return text;
+		
+		StringBuffer textBuffer = new StringBuffer( text );
+		int endIndex = text.indexOf( "</form>", moxmanIndex );	
+		textBuffer.delete( moxmanIndex, endIndex );
+	
+		int skillIndex = textBuffer.indexOf( "skill)</option>" );
+		textBuffer.insert( skillIndex + 15, "<option value='moxman'>Moxious Maneuver</option>" );
+		return textBuffer.toString();
 	}
 
 	private static String sortItemList( String select, String displayHTML )

@@ -143,7 +143,8 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
 			{ "relayAddsCommandLineLinks", "Add gCLI tool links to chat launcher" },
-			{ "relayAddsSimulatorLinks", "Add Ayvuir's Simulator of Loathing link" }
+			{ "relayAddsSimulatorLinks", "Add Ayvuir's Simulator of Loathing link" },
+			{ "relayMovesManeuver", "Move moxious maneuver button into skills list" }
 		};
 
 		/**
