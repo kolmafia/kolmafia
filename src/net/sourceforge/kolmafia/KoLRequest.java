@@ -457,6 +457,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			else
 				dataBuffer.append( elements[i] );
 		}
+		
+		if ( dataBuffer.indexOf( "whichskill=moxman" ) != -1 )
+			return "action=moxman";
 
 		return dataBuffer.toString();
 	}
@@ -512,9 +515,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( responseCode == 200 )
 		{
+			if ( !(this instanceof FightRequest) )
+				AdventureRequest.registerEncounter( this );
+
 			if ( !isDelayExempt() && !(this instanceof SearchMallRequest) )
 				showInBrowser( false );
-
+			
 			if ( getClass() == KoLRequest.class || this instanceof LocalRelayRequest )
 			{
 				if ( !shouldIgnoreResults() )
@@ -522,9 +528,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 			else
 				processResults();
-
-			if ( !(this instanceof FightRequest) )
-				AdventureRequest.registerEncounter( this );
 		}
 		else
 		{
