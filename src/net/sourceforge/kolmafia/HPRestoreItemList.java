@@ -42,8 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
+import java.util.ArrayList;
 
 /**
  * A special class used as a holder class to hold all of the
@@ -57,54 +56,40 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "tongue of the walrus", 35 );
 	public static final HPRestoreItem OTTER = new HPRestoreItem( "tongue of the otter", 15 );
-	public static final HPRestoreItem BANDAGES = new HPRestoreItem( "lasagna bandages", 24 );
-	public static final HPRestoreItem COCOON = new HPRestoreItem( "cannelloni cocoon", Integer.MAX_VALUE );
-	public static final HPRestoreItem NAP = new HPRestoreItem( "disco nap", 20 );
-	public static final HPRestoreItem POWERNAP = new HPRestoreItem( "disco power nap", 40 );
 
-	private static LockableListModel list = new LockableListModel();
-	static
-	{
-		list.add( WALRUS );
-		list.add( OTTER );
+	private static final HPRestoreItem BANDAGES = new HPRestoreItem( "lasagna bandages", 24 );
+	private static final HPRestoreItem COCOON = new HPRestoreItem( "cannelloni cocoon", Integer.MAX_VALUE );
+	private static final HPRestoreItem NAP = new HPRestoreItem( "disco nap", 20 );
+	private static final HPRestoreItem POWERNAP = new HPRestoreItem( "disco power nap", 40 );
+	private static final HPRestoreItem PHONICS = new HPRestoreItem( "phonics down", 48 );
+	private static final HPRestoreItem CAST = new HPRestoreItem( "cast", 17 );
 
-		list.add( REMEDY );
-		list.add( TINY_HOUSE );
+	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] { WALRUS, OTTER, REMEDY, TINY_HOUSE, COCOON, BANDAGES, POWERNAP, NAP, PHONICS, CAST };
 
-		list.add( COCOON );
-		list.add( BANDAGES );
-		list.add( POWERNAP );
-		list.add( NAP );
+	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
+	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
+	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
 
-		list.add( new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE ) );
-		list.add( new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE ) );
-
-		list.add( new HPRestoreItem( "phonics down", 48 ) );
-		list.add( new HPRestoreItem( "cast", 17 ) );
-		list.add( new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 ) );
-	}
-
-	public static HPRestoreItem get( int index )
-	{	return (HPRestoreItem) list.get( index );
-	}
-
-	public static int size()
-	{	return list.size();
-	}
+	public static final HPRestoreItem [] FALLBACKS = new HPRestoreItem[] { HERBS, SCROLL, OINTMENT };
 
 	public static JCheckBox [] getCheckboxes()
 	{
-		Object [] restoreName = list.toArray();
 		String hpRestoreSetting = getProperty( "hpRestores" );
+		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length + FALLBACKS.length ];
 
-		JCheckBox [] restoreCheckbox = new JCheckBox[ restoreName.length ];
-
-		for ( int i = 0; i < restoreName.length; ++i )
+		for ( int i = 0; i < CONFIGURES.length; ++i )
 		{
-			restoreCheckbox[i] = new JCheckBox( restoreName[i].toString() );
-			restoreCheckbox[i].setSelected( hpRestoreSetting.indexOf( restoreName[i].toString() ) != -1 );
+			restoreCheckbox[i] = new JCheckBox( CONFIGURES[i].toString() );
+			restoreCheckbox[i].setSelected( hpRestoreSetting.indexOf( CONFIGURES[i].toString() ) != -1 );
 		}
 
+		for ( int i = 0; i < FALLBACKS.length; ++i )
+		{
+			restoreCheckbox[CONFIGURES.length + i] = new JCheckBox( FALLBACKS[i].toString() );
+			restoreCheckbox[CONFIGURES.length + i].setSelected( true );
+			restoreCheckbox[CONFIGURES.length + i].setEnabled( false );
+		}
+		
 		return restoreCheckbox;
 	}
 
@@ -127,7 +112,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverHP( boolean canUseOtherTechnique, int needed )
+		public void recoverHP( int needed )
 		{
 			// Remedies are only used if the player is beaten up.
 			// Otherwise, it is not used.
@@ -146,10 +131,23 @@ public abstract class HPRestoreItemList extends StaticEntity
 			int hpShort = needed - KoLCharacter.getCurrentHP();
 			int numberToUse = (int) Math.ceil( (double) hpShort / (double) hpPerUse );
 
-			if ( TradeableItemDatabase.contains( itemName ) && canUseOtherTechnique )
-				numberToUse = Math.min( numberToUse, itemUsed.getCount( KoLCharacter.getInventory() ) );
+			if ( TradeableItemDatabase.contains( itemName ) )
+			{
+				// In certain instances, you are able to buy more of
+				// the given item from NPC stores, or from the mall.
+				
+				int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
+				
+				if ( this == HERBS && NPCStoreDatabase.contains( HERBS.toString() ) )
+					numberAvailable = 1;
+				else if ( this == SCROLL && KoLCharacter.canInteract() )
+					numberAvailable = 1;
+				else if ( this == OINTMENT )
+					numberAvailable = numberToUse;
 
-			if ( ClassSkillsDatabase.contains( itemName ) && canUseOtherTechnique )
+				numberToUse = Math.min( numberToUse, numberAvailable );
+			}
+			else if ( ClassSkillsDatabase.contains( itemName ) )
 			{
 				int mpPerUse = ClassSkillsDatabase.getMPConsumptionByID( skillID );
 				numberToUse = Math.min( numberToUse, KoLCharacter.getCurrentHP() / numberToUse );
@@ -163,9 +161,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			
 			if ( this == TINY_HOUSE )
 			{
-				if ( !canUseOtherTechnique )
-					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", numberToUse ) )).run();
-				else if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
+				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
 					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", 1 ) )).run();
 
 				return;
@@ -173,11 +169,9 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			if ( this == WALRUS || this == OTTER )
 			{
-				if ( !canUseOtherTechnique )
-					(new UseSkillRequest( client, toString(), "", numberToUse )).run();
-				else if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
+				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
 					(new UseSkillRequest( client, toString(), "", 1 )).run();
-					
+
 				return;
 			}
 

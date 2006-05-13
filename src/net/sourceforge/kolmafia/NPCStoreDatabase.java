@@ -91,6 +91,31 @@ public class NPCStoreDatabase extends KoLDatabase
 		if ( itemIndex == -1 )
 			return null;
 
+		// Check for whether or not the purchase can be made from a
+		// guild store.  Store #1 is moxie classes, store #2 is for
+		// mysticality classes, and store #3 is for muscle classes.
+		
+		String classType = KoLCharacter.getClassType();
+		if ( storeTable[0].get(itemIndex).equals( "1" ) )
+		{
+			if ( !classType.startsWith( "Di" ) && !classType.startsWith( "Ac" ) )
+				return null;
+		}
+
+		if ( storeTable[0].get(itemIndex).equals( "2" ) )
+		{
+			if ( !classType.startsWith( "Pa" ) && !classType.startsWith( "Sa" ) &&
+				!(classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) )
+					return null;
+		}
+
+		if ( storeTable[0].get(itemIndex).equals( "3" ) )
+		{
+			if ( !classType.startsWith( "Se" ) && !classType.startsWith( "Tu" ) &&
+				!(classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) )
+					return null;
+		}
+		
 		// If the person is not in a muscle sign, then items from the
 		// Degrassi Knoll are not available.
 
@@ -132,6 +157,6 @@ public class NPCStoreDatabase extends KoLDatabase
 	}
 
 	public static final boolean contains( String itemName )
-	{	return storeTable[4].contains( new Integer( TradeableItemDatabase.getItemID( itemName ) ) ) && getPurchaseRequest( itemName ) != null;
+	{	return getPurchaseRequest( itemName ) != null;
 	}
 }

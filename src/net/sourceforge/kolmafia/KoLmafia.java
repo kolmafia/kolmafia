@@ -988,157 +988,131 @@ public abstract class KoLmafia implements KoLConstants
 	 * and if not, calls the appropriate scripts to do so.
 	 */
 
-	private final boolean recover( int needed, String settingName, String currentName, String maximumName, String scriptProperty, String listProperty, Class techniqueList )
+	private final boolean recover( int needed, String settingName, String currentName, String maximumName,
+		String scriptProperty, String listProperty, Object [] techniques, Object [] fallbacks ) throws Exception
 	{
-		try
+		Object [] empty = new Object[0];
+		Method currentMethod, maximumMethod;
+
+		currentMethod = KoLCharacter.class.getMethod( currentName, new Class[0] );
+		maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[0] );
+
+		int initial = needed;
+		int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
+
+		// First, check against the restore trigger to see if
+		// any restoration needs to take place.
+		
+		double setting = Double.parseDouble( settings.getProperty( settingName ) );
+		
+		if ( !BuffBotHome.isBuffBotActive() )
 		{
-			Object [] empty = new Object[0];
-			Method currentMethod, maximumMethod;
+			needed = setting < 0 ? -1 : needed != 0 ? needed :
+				(int) Math.max( setting * (double) maximum, (double) needed );
 
-			currentMethod = KoLCharacter.class.getMethod( currentName, new Class[0] );
-			maximumMethod = KoLCharacter.class.getMethod( maximumName, new Class[0] );
-
-			int maximum = ((Number)maximumMethod.invoke( null, empty )).intValue();
-
-			// First, check against the restore trigger to see if
-			// any restoration needs to take place.
-			
-			double setting = Double.parseDouble( settings.getProperty( settingName ) );
-			
-			if ( !BuffBotHome.isBuffBotActive() )
-			{
-				needed = setting < 0 ? -1 : (int) Math.max( setting * (double) maximum, (double) needed );
-				if ( needed < 0 )
-					return true;
-			}
-
-			int last = -1;
-			int current = ((Number)currentMethod.invoke( null, empty )).intValue();
-			
-			// If a buffbot is currently running, only restore MP to
-			// max when what you have is less than what you need.
-			
-			if ( BuffBotHome.isBuffBotActive() )
-			{
-				if ( current < needed )
-					needed = maximum - 1;
-			}
-			else
-				needed = needed >= maximum ? maximum - 1 : needed + 1;
-			
-			if ( current > needed )
+			if ( needed < 0 )
 				return true;
+		}
 
-			// Next, check against the restore target to see how
-			// far you need to go.
-			
-			setting = Double.parseDouble( settings.getProperty( settingName + "Target" ) );
-			
-			if ( !BuffBotHome.isBuffBotActive() )
+		int last = -1;
+		int current = ((Number)currentMethod.invoke( null, empty )).intValue();
+		
+		// If a buffbot is currently running, only restore MP to
+		// max when what you have is less than what you need.
+		
+		if ( BuffBotHome.isBuffBotActive() )
+		{
+			if ( current < needed )
+				needed = maximum - 1;
+		}
+		else
+			needed = needed >= maximum ? maximum - 1 : needed + 1;
+		
+		if ( current > needed )
+			return true;
+
+		// Next, check against the restore target to see how
+		// far you need to go.
+
+		int threshold = needed;
+		setting = Double.parseDouble( settings.getProperty( settingName + "Target" ) );
+		
+		if ( initial == 0 )
+			needed = (int) ( setting * (double) maximum );
+
+		// First, attempt to recover using the appropriate script, if it exists.
+		// This uses a lot of excessive reflection, but the idea is that it
+		// checks the current value of the stat against the needed value of
+		// the stat and makes sure that there's a change with every iteration.
+		// If there is no change, it exists the loop.
+
+		String scriptPath = settings.getProperty( scriptProperty ).trim();
+
+		if ( !scriptPath.equals( "" ) )
+		{
+			while ( current < threshold && last != current && !refusesContinue() )
 			{
-				needed = setting < 0 ? -1 : (int) Math.max( setting * (double) maximum, (double) needed );
-				if ( needed < 0 )
-					return true;
+				last = current;
+				DEFAULT_SHELL.executeLine( scriptPath );
+				current = ((Number)currentMethod.invoke( null, empty )).intValue();
 			}
+		}
 
-			last = -1;
-			current = ((Number)currentMethod.invoke( null, empty )).intValue();
-			
-			// If a buffbot is currently running, only restore MP to
-			// max when what you have is less than what you need.
-			
-			if ( BuffBotHome.isBuffBotActive() )
-			{
-				if ( current < needed )
-					needed = maximum - 1;
-			}
-			else
-				needed = needed >= maximum ? maximum - 1 : needed + 1;
+		// If it gets this far, then you should attempt to recover
+		// using the selected items.  This involves a few extra
+		// reflection methods.
 
-			if ( current > needed )
-				return true;
-			
-			// First, attempt to recover using the appropriate script, if it exists.
-			// This uses a lot of excessive reflection, but the idea is that it
-			// checks the current value of the stat against the needed value of
-			// the stat and makes sure that there's a change with every iteration.
-			// If there is no change, it exists the loop.
+		String restoreSetting = settings.getProperty( listProperty ).trim();
 
-			String scriptPath = settings.getProperty( scriptProperty ).trim();
+		// Iterate through every single restore item, checking to
+		// see if the settings wish to use this item.  If so, go ahead
+		// and process the item's usage.
 
-			if ( !scriptPath.equals( "" ) )
+		String currentTechniqueName;
+
+		for ( int i = 0; i < techniques.length && current < threshold; ++i )
+		{
+			currentTechniqueName = techniques[i].toString();
+			if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
 			{
 				last = -1;
 
-				while ( current < needed && last != current && !refusesContinue() )
+				while ( current < threshold && last != current && !refusesContinue() )
 				{
 					last = current;
-					DEFAULT_SHELL.executeLine( scriptPath );
+					recoverOnce( techniques[i], currentTechniqueName, needed, false );
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 				}
 			}
-
-			// If it gets this far, then you should attempt to recover
-			// using the selected items.  This involves a few extra
-			// reflection methods.
-
-			String restoreSetting = settings.getProperty( listProperty ).trim();
-
-			int totalRestores = ((Number)techniqueList.getMethod( "size", new Class[0] ).invoke( null, empty )).intValue();
-			Method getMethod = techniqueList.getMethod( "get", new Class [] { Integer.TYPE } );
-
-			// Iterate through every single restore item, checking to
-			// see if the settings wish to use this item.  If so, go ahead
-			// and process the item's usage.
-
-			Object currentTechnique;
-			String currentTechniqueName;
-
-			for ( int i = 0; i < totalRestores && current < needed; ++i )
-			{
-				currentTechnique = getMethod.invoke( null, new Integer [] { new Integer(i) } );
-				currentTechniqueName = currentTechnique.toString();
-
-				if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
-				{
-					last = -1;
-
-					while ( current < needed && last != current && !refusesContinue() )
-					{
-						last = current;
-						recoverOnce( currentTechnique, currentTechniqueName, !restoreSetting.endsWith( currentTechniqueName ), needed );
-						current = ((Number)currentMethod.invoke( null, empty )).intValue();
-					}
-				}
-			}
-
-			// Fall-through check, just in case you've reached the
-			// desired value.
-
-			if ( current >= needed && !refusesContinue() )
-				return true;
-
-			// If you failed to auto-recover and there are no settings,
-			// make sure the user is aware of this.
-
-			if ( scriptPath.equals( "" ) && restoreSetting.equals( "" ) )
-				updateDisplay( ERROR_STATE, "No auto-restore settings found." );
-
-			// Now you know for certain that you did not reach the
-			// desired value.  There will be an error message that
-			// is left over from previous attempts.
-
-			this.currentState = ERROR_STATE;
-			return false;
 		}
-		catch ( Exception e )
+
+		// Fall-through check, just in case you've reached the
+		// desired value.
+
+		if ( current >= threshold && !refusesContinue() )
+			return true;
+
+		// Now, last check -- go ahead and call the method which
+		// invokes the fallback restores;
+
+		for ( int i = 0; i < fallbacks.length && current < threshold; ++i )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-			
-			StaticEntity.printStackTrace( e );
-			return false;
+			recoverOnce( fallbacks[i], fallbacks[i].toString(), needed, true );
+			current = ((Number)currentMethod.invoke( null, empty )).intValue();
 		}
+
+		// If you failed to auto-recover and there are no settings,
+		// make sure the user is aware of this.
+
+		if ( scriptPath.equals( "" ) && restoreSetting.equals( "" ) )
+			updateDisplay( ERROR_STATE, "No auto-restore settings found." );
+
+		// Now you know for certain that you did not reach the
+		// desired value.  There will be an error message that
+		// is left over from previous attempts.
+
+		this.currentState = ERROR_STATE;
+		return false;
 	}
 
 	/**
@@ -1153,7 +1127,20 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public final boolean recoverHP( int recover )
-	{	return recover( recover, "hpAutoRecover", "getCurrentHP", "getMaximumHP", "hpRecoveryScript", "hpRestores", HPRestoreItemList.class );
+	{
+		try
+		{
+			return recover( recover, "hpAutoRecover", "getCurrentHP", "getMaximumHP",
+				"hpRecoveryScript", "hpRestores", HPRestoreItemList.CONFIGURES, HPRestoreItemList.FALLBACKS );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
+			return false;
+		}
 	}
 
 	/**
@@ -1161,10 +1148,8 @@ public abstract class KoLmafia implements KoLConstants
 	 * in a script) in order to restore.
 	 */
 
-	private final void recoverOnce( Object technique, String techniqueName, boolean canUseOtherTechnique, int needed )
+	private final void recoverOnce( Object technique, String techniqueName, int needed, boolean isFallback )
 	{
-		boolean autoSatisfy = StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" );
-		
 		// If the technique is an item, and the item is not readily available,
 		// then don't bother with this item -- however, if it is the only item
 		// present, then rethink it.
@@ -1172,20 +1157,15 @@ public abstract class KoLmafia implements KoLConstants
 		if ( TradeableItemDatabase.contains( techniqueName ) )
 		{
 			AdventureResult item = new AdventureResult( techniqueName, 0 );
-			if ( !KoLCharacter.getInventory().contains( item ) && canUseOtherTechnique )
+			if ( !KoLCharacter.getInventory().contains( item ) && !isFallback )
 				return;
-
-			if ( !canUseOtherTechnique )
-				StaticEntity.setProperty( "autoSatisfyChecks", "true" );
 		}
 
 		if ( technique instanceof HPRestoreItemList.HPRestoreItem )
-			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( canUseOtherTechnique, needed );
+			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( needed );
 
 		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
-			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( canUseOtherTechnique, needed );
-
-		StaticEntity.setProperty( "autoSatisfyChecks", String.valueOf( autoSatisfy ) );
+			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed );
 	}
 
 	/**
@@ -1198,9 +1178,12 @@ public abstract class KoLmafia implements KoLConstants
 		int restoreCount = 0;
 		String mpRestoreSetting = settings.getProperty( "mpRestores" );
 
-		for ( int i = 0; i < MPRestoreItemList.size(); ++i )
-			if ( mpRestoreSetting.indexOf( MPRestoreItemList.get(i).toString() ) != -1 )
-				restoreCount += MPRestoreItemList.get(i).getItem().getCount( KoLCharacter.getInventory() );
+		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
+			if ( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[i].toString() ) != -1 )
+				restoreCount += MPRestoreItemList.CONFIGURES[i].getItem().getCount( KoLCharacter.getInventory() );
+
+		for ( int i = 0; i < MPRestoreItemList.FALLBACKS.length; ++i )
+			restoreCount += MPRestoreItemList.FALLBACKS[i].getItem().getCount( KoLCharacter.getInventory() );
 
 		return restoreCount;
 	}
@@ -1222,7 +1205,20 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public final boolean recoverMP( int mpNeeded )
-	{	return recover( mpNeeded, "mpAutoRecover", "getCurrentMP", "getMaximumMP", "mpRecoveryScript", "mpRestores", MPRestoreItemList.class );
+	{
+		try
+		{
+			return recover( mpNeeded, "mpAutoRecover", "getCurrentMP", "getMaximumMP",
+				"mpRecoveryScript", "mpRestores", MPRestoreItemList.CONFIGURES, MPRestoreItemList.FALLBACKS );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+			
+			StaticEntity.printStackTrace( e );
+			return false;
+		}
 	}
 
 	/**
