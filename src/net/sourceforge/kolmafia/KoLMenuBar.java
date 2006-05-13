@@ -325,7 +325,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public JComponent [] getHeaders()
-		{	return new JComponent[0];
+		{
+			JComponent [] headers = new JComponent[1];
+			headers[0] = new WindowDisplayMenuItem( null );
+			return headers;
 		}
 
 		private class WindowDisplayMenuItem extends JMenuItem implements ActionListener
@@ -334,13 +337,30 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 			public WindowDisplayMenuItem( KoLFrame frame )
 			{
-				super( frame.toString() );
-				frameReference = new WeakReference( frame );
+				super( frame == null ? "Show All Displays" : frame.toString() );
+				frameReference = frame == null ? null : new WeakReference( frame );
 				addActionListener( this );
 			}
 
 			public void actionPerformed( ActionEvent e )
 			{
+				if ( frameReference == null )
+				{
+					KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+					existingFrames.toArray( frames );
+
+					String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
+
+					for ( int i = 0; i < frames.length; ++i )
+						if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
+							frames[i].setVisible( true );
+
+					if ( KoLDesktop.instanceExists() )
+						KoLDesktop.getInstance().setVisible( true );
+
+					return;
+				}
+				
 				KoLFrame frame = (KoLFrame) frameReference.get();
 				if ( frame != null )
 				{

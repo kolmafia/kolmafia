@@ -144,7 +144,7 @@ public class ExamineItemsFrame extends KoLFrame
 					if ( !(entry instanceof Map.Entry ) )
 						return;
 
-					String id = String.valueOf( ((Integer)((Map.Entry)entry).getKey()).intValue() );
+					String id = TradeableItemDatabase.getDescriptionID( ((Integer)((Map.Entry)entry).getKey()).intValue() );
 					elementList.ensureIndexIsVisible( index );
 					StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
 				}
