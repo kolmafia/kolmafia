@@ -42,8 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JScrollPane;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
+import java.util.ArrayList;
 
 /**
  * A special class used as a holder class to hold all of the
@@ -52,46 +51,37 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public abstract class MPRestoreItemList extends StaticEntity
 {
-	public static final MPRestoreItem MYSTERY = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
-	private static LockableListModel list = new LockableListModel();
-	static
+	private static final MPRestoreItem SODA_WATER = new MPRestoreItem( "soda water", 4 );
+	private static final MPRestoreItem MYSTERY = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
+	
+	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
-		list.add( new MPRestoreItem( "Dyspepsi-Cola", 12 ) );
-		list.add( new MPRestoreItem( "Cloaca-Cola", 12 ) );
+		new MPRestoreItem( "Dyspepsi-Cola", 12 ), new MPRestoreItem( "Cloaca-Cola", 12 ),
+		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tiny house", 22 ),
+		new MPRestoreItem( "Knob Goblin superseltzer", 27 ), new MPRestoreItem( "Knob Goblin seltzer", 10 ),
+		new MPRestoreItem( "blatantly Canadian", 22 )
+	};
 
-		list.add( new MPRestoreItem( "phonics down", 48 ) );
-		list.add( new MPRestoreItem( "tiny house", 22 ) );
-
-		list.add( new MPRestoreItem( "Knob Goblin superseltzer", 27 ) );
-		list.add( new MPRestoreItem( "Knob Goblin seltzer", 10 ) );
-
-		list.add( new MPRestoreItem( "blatantly Canadian", 22 ) );
-		list.add( new MPRestoreItem( "soda water", 4 ) );
-
-		list.add( MYSTERY );
-	}
-
-	public static MPRestoreItem get( int index )
-	{	return (MPRestoreItem) list.get( index );
-	}
-
-	public static int size()
-	{	return list.size();
-	}
+	public static final MPRestoreItem [] FALLBACKS = new MPRestoreItem [] { MYSTERY, SODA_WATER };
 
 	public static JCheckBox [] getCheckboxes()
 	{
-		Object [] restoreName = list.toArray();
 		String mpRestoreSetting = getProperty( "mpRestores" );
+		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length + FALLBACKS.length ];
 
-		JCheckBox [] restoreCheckbox = new JCheckBox[ restoreName.length ];
-
-		for ( int i = 0; i < restoreName.length; ++i )
+		for ( int i = 0; i < CONFIGURES.length; ++i )
 		{
-			restoreCheckbox[i] = new JCheckBox( restoreName[i].toString() );
-			restoreCheckbox[i].setSelected( mpRestoreSetting.indexOf( restoreName[i].toString() ) != -1 );
+			restoreCheckbox[i] = new JCheckBox( CONFIGURES[i].toString() );
+			restoreCheckbox[i].setSelected( mpRestoreSetting.indexOf( CONFIGURES[i].toString() ) != -1 );
 		}
 
+		for ( int i = 0; i < FALLBACKS.length; ++i )
+		{
+			restoreCheckbox[CONFIGURES.length + i] = new JCheckBox( FALLBACKS[i].toString() );
+			restoreCheckbox[CONFIGURES.length + i].setSelected( true );
+			restoreCheckbox[CONFIGURES.length + i].setEnabled( false );
+		}
+		
 		return restoreCheckbox;
 	}
 
@@ -112,7 +102,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverMP( boolean canUseOtherTechnique, int needed )
+		public void recoverMP( int needed )
 		{
 			if ( this == MYSTERY )
 			{
@@ -125,7 +115,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			int mpShort = needed - KoLCharacter.getCurrentMP();
 			int numberToUse = (int) Math.ceil( (double) mpShort / (double) mpPerUse );
 
-			if ( canUseOtherTechnique )
+			if ( !(this == MYSTERY && NPCStoreDatabase.contains( MYSTERY.toString() )) && this != SODA_WATER )
 				numberToUse = Math.min( numberToUse, itemUsed.getCount( KoLCharacter.getInventory() ) );
 
 			if ( numberToUse < 1 )

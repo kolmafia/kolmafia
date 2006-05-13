@@ -37,6 +37,7 @@ import java.util.regex.Pattern;
 
 public class UseSkillRequest extends KoLRequest implements Comparable
 {
+	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
 	protected static String lastUpdate = "";
 
@@ -443,7 +444,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount) ) );
 			client.applyRecentEffects();
 
-			if ( skillID == WALRUS_TONGUE )
+			if ( skillID == OTTER_TONGUE || skillID == WALRUS_TONGUE )
 			{
 				int roundsBeatenUp = KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() );
 				if ( roundsBeatenUp != 0 )

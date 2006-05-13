@@ -720,7 +720,7 @@ public class AdventureDatabase extends KoLDatabase
 					shouldAutoSatisfyEarly = true;
 			}
 
-			if ( shouldPurchase && shouldUseMall && shouldAutoSatisfyEarly )
+			if ( shouldPurchase && shouldAutoSatisfyEarly && (canUseNPCStore || shouldUseMall) )
 			{
 				// Ignore all items which have no autosell value,
 				// because these tend to get really ugly in the mall.
