@@ -1059,7 +1059,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	protected void processWindowEvent( WindowEvent e )
 	{
-		if ( e.getID() == WindowEvent.WINDOW_CLOSING )
+		if ( isVisible() )
 			rememberPosition();
 
 		super.processWindowEvent( e );

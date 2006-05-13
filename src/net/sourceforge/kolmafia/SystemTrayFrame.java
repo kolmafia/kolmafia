@@ -30,6 +30,9 @@ public class SystemTrayFrame extends KoLDesktop implements Runnable
 		for ( int i = 0; i < frames.length; ++i )
 			if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
 				frames[i].setVisible( isVisible );
+
+		if ( KoLDesktop.instanceExists() )
+			KoLDesktop.getInstance().setVisible( isVisible );
 	}
 
 	public static void updateTooltip()
