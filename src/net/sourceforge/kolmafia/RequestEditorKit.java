@@ -924,7 +924,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		textBuffer.delete( moxmanIndex, endIndex );
 	
 		int skillIndex = textBuffer.indexOf( "skill)</option>" );
-		textBuffer.insert( skillIndex + 15, "<option value='moxman'>Moxious Maneuver</option>" );
+		textBuffer.insert( skillIndex + 15, "<option value='moxman'>Moxious Maneuver (" +
+			KoLCharacter.getLevel() + " Muscularity Points)</option>" );
 		return textBuffer.toString();
 	}
 
