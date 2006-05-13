@@ -259,6 +259,9 @@ public abstract class StaticEntity implements KoLConstants
 		t.printStackTrace( KoLmafia.getDebugStream() );
 		t.printStackTrace();
 
+		if ( client.getCurrentRequest() != null )
+			KoLmafia.getDebugStream().println( "" + client.getCurrentRequest().responseText );
+		
 		if ( shouldOpenStream )
 			KoLmafia.closeDebugStream();
 	}
