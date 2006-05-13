@@ -1101,6 +1101,12 @@ public abstract class KoLmafia implements KoLConstants
 			current = ((Number)currentMethod.invoke( null, empty )).intValue();
 		}
 
+		// Fall-through check, just in case you've reached the
+		// desired value.
+
+		if ( current >= threshold && !refusesContinue() )
+			return true;
+		
 		// If you failed to auto-recover and there are no settings,
 		// make sure the user is aware of this.
 
