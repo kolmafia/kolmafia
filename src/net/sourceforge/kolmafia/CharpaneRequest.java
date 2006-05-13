@@ -147,11 +147,13 @@ public class CharpaneRequest extends KoLRequest
 		{
 			for ( int i = 0; i < 3; ++i )
 			{
-				Matcher modifiedMatcher = Pattern.compile( "<font color=blue>(.*?)</font>&nbsp;\\((.*?)\\)" ).matcher(
+				Matcher modifiedMatcher = Pattern.compile( "<font color=blue>(\\d+)</font>&nbsp;\\((\\d+)\\)" ).matcher(
 					statMatcher.group( i + 1 ) );
 
-				modified[i] = modifiedMatcher.find() ? df.parse( modifiedMatcher.group(1) ).intValue() :
-					df.parse( statMatcher.group( i + 1 ) ).intValue();
+				if ( modifiedMatcher.find() )
+					modified[i] = Integer.parseInt( modifiedMatcher.group(1) );
+				else
+					modified[i] = Integer.parseInt( statMatcher.group( i + 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
 			}
 
 			KoLCharacter.setStatPoints( modified[0], KoLCharacter.getTotalMuscle(), modified[1],
@@ -172,24 +174,31 @@ public class CharpaneRequest extends KoLRequest
 
 		if ( miscMatcher.find() )
 		{
-			KoLCharacter.setHP( df.parse( miscMatcher.group(1).replaceAll( "<.*?>", "" ) ).intValue(), df.parse( miscMatcher.group(2).replaceAll( "<.*?>", "" ) ).intValue(), df.parse( miscMatcher.group(2).replaceAll( "<.*?>", "" ) ).intValue() );
-			KoLCharacter.setMP( df.parse( miscMatcher.group(3) ).intValue(), df.parse( miscMatcher.group(4) ).intValue(), df.parse( miscMatcher.group(4) ).intValue() );
+			String currentHP = miscMatcher.group(1).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+			String maximumHP = miscMatcher.group(2).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+			
+			String currentMP = miscMatcher.group(3).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+			String maximumMP = miscMatcher.group(4).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 
-			KoLCharacter.setAvailableMeat( df.parse( miscMatcher.group(5) ).intValue() );
+			KoLCharacter.setHP( Integer.parseInt( currentHP ), Integer.parseInt( maximumHP ), Integer.parseInt( maximumHP ) );
+			KoLCharacter.setMP( Integer.parseInt( currentMP ), Integer.parseInt( maximumMP ), Integer.parseInt( maximumMP ) );
 
+			String availableMeat = miscMatcher.group(5).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
+			KoLCharacter.setAvailableMeat( Integer.parseInt( availableMeat ) );
+
+			String adventuresLeft = miscMatcher.group(1).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );			
 			int oldAdventures = KoLCharacter.getAdventuresLeft();
-			int newAdventures = df.parse( miscMatcher.group(6) ).intValue();
-
+			int newAdventures = Integer.parseInt( adventuresLeft );
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
 		}
 	}
 
 	private static void handleMindControl( String responseText, String mcString ) throws Exception
 	{
-		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(.*?)</b>" ).matcher( responseText );
+		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
 
 		if ( matcher.find() )
-			KoLCharacter.setMindControlLevel( df.parse( matcher.group(2) ).intValue() );
+			KoLCharacter.setMindControlLevel( Integer.parseInt( matcher.group(2) ) );
 		else
 			KoLCharacter.setMindControlLevel( 0 );
 	}
