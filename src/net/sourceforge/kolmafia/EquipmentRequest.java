@@ -53,13 +53,14 @@ public class EquipmentRequest extends PasswordHashRequest
 	public static final String UNEQUIP = "(none)";
 
 	public static final int CLOSET = 1;
+	public static final int EQUIPMENT = 2;
 
-	private static final int SAVE_OUTFIT = 2;
-	private static final int CHANGE_OUTFIT = 3;
+	private static final int SAVE_OUTFIT = 3;
+	private static final int CHANGE_OUTFIT = 4;
 
-	private static final int CHANGE_ITEM = 4;
-	private static final int REMOVE_ITEM = 5;
-	private static final int UNEQUIP_ALL = 6;
+	private static final int CHANGE_ITEM = 5;
+	private static final int REMOVE_ITEM = 6;
+	private static final int UNEQUIP_ALL = 7;
 
 	// Array indexed by equipment "slot" from KoLCharacter
 	//
@@ -421,6 +422,10 @@ public class EquipmentRequest extends PasswordHashRequest
 				DEFAULT_SHELL.updateDisplay( "Refreshing closet..." );
 				break;
 
+			case EQUIPMENT:
+				DEFAULT_SHELL.updateDisplay( "Retrieving equipment..." );
+				break;
+
 			case SAVE_OUTFIT:
 				DEFAULT_SHELL.updateDisplay( "Saving outfit..." );
 				break;
@@ -498,7 +503,13 @@ public class EquipmentRequest extends PasswordHashRequest
 				CharpaneRequest.getInstance().run();
 				KoLCharacter.recalculateAdjustments( false );
 				KoLCharacter.updateStatus();
-				DEFAULT_SHELL.updateDisplay( "Gear changed." );
+
+				if ( requestType == EQUIPMENT )
+					DEFAULT_SHELL.updateDisplay( "Equipment updated." );
+				else if ( requestType == SAVE_OUTFIT )
+					DEFAULT_SHELL.updateDisplay( "Outfit saved." );
+				else
+					DEFAULT_SHELL.updateDisplay( "Gear changed." );
 			}
 
 			// After all the items have been switched,

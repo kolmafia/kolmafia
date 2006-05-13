@@ -141,6 +141,8 @@ public class GearChangeFrame extends KoLFrame
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
+			outfitButton.setEnabled( isEnabled );
+
 			if ( isEnabled )
 				ensureValidSelections();
 		}
@@ -209,13 +211,10 @@ public class GearChangeFrame extends KoLFrame
 				if ( this == equipment[i] )
 				{
 					pieces[i] = (String) getSelectedItem();
-					if ( pieces[i] != null && KoLCharacter.getEquipment(i).equals( pieces[i] ) )
+					if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
 						pieces[i] = null;
 				}
 
-			if ( this != equipment[ KoLCharacter.FAMILIAR ] )
-				outfitSelect.setEnabled( false );
-			
 			ensureValidSelections();
 		}
 	}
@@ -224,22 +223,26 @@ public class GearChangeFrame extends KoLFrame
 	{
 		equipment[ KoLCharacter.SHIRT ].setEnabled( KoLCharacter.hasSkill( "Torso Awaregness" ) );
 
-		if ( KoLCharacter.weaponHandedness() == 1 )
+		if ( KoLCharacter.weaponHandedness() < 2 )
 		{
 			equipment[ KoLCharacter.OFFHAND ].setEnabled( true );
-			KoLCharacter.updateEquipmentList( KoLCharacter.OFFHAND, (String) equipment[2].getSelectedItem() );
+			String offhandItem = pieces[ KoLCharacter.OFFHAND ] == null ?
+				KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) : pieces[ KoLCharacter.OFFHAND ];
 			
-			if ( pieces[ KoLCharacter.OFFHAND ] == null )
-				equipmentLists[ KoLCharacter.OFFHAND ].setSelectedItem( KoLCharacter.getEquipment(2) );
+			KoLCharacter.updateEquipmentList( KoLCharacter.OFFHAND, offhandItem );
 		}
 		else
 		{
+			equipment[ KoLCharacter.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
 			pieces[ KoLCharacter.OFFHAND ] = null;
-			equipment[ KoLCharacter.OFFHAND ].setSelectedItem( null );
 			equipment[ KoLCharacter.OFFHAND ].setEnabled( false );
 		}
 		
-		if ( outfitButton != null )
-			outfitButton.setEnabled( equipment[0] == null && outfitSelect.isEnabled() );
+		boolean enableOutfits = true;
+		for ( int i = 0; i < equipment.length; ++i )
+			enableOutfits &= pieces[i] == null;
+
+		outfitSelect.setEnabled( enableOutfits );
+		outfitButton.setEnabled( enableOutfits );
 	}
 }

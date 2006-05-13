@@ -453,10 +453,10 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Retrieve the list of outfits which are available to the
 		// character.  Due to lots of bug reports, this is no longer
-		// a skippable option.  But, rather than refreshing equipment
-		// explicitly, what we do instead is force a checkpoint.
+		// a skippable option.
 
-		SpecialOutfit.createCheckpoint();
+		(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
+		SpecialOutfit.deleteCheckpoint();
 
 		if ( !permitsContinue() )
 			return;
