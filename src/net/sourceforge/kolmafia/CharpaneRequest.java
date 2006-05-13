@@ -87,48 +87,54 @@ public class CharpaneRequest extends KoLRequest
 		// only data that requires synchronization is the
 		// modified stat values, health and mana.
 
-		try
+		if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
 		{
-			if ( responseText.indexOf( "<img src=\"http://images.kingdomofloathing.com/otherimages/inf_small.gif\">" ) == -1 )
-			{
-				if ( isCompactMode )
-					handleCompactMode( responseText );
-				else
-					handleExpandedMode( responseText );
-			}
+			if ( isCompactMode )
+				handleCompactMode( responseText );
 			else
-			{
-				KoLCharacter.setStatPoints( 1, 0, 1, 0, 1, 0 );
-				KoLCharacter.setHP( 1, 1, 1 );
-				KoLCharacter.setMP( 1, 1, 1 );
-				KoLCharacter.setAvailableMeat( 0 );
-				KoLCharacter.setAdventuresLeft( 0 );
-				KoLCharacter.setMindControlLevel( 0 );
-			}
+				handleExpandedMode( responseText );
 		}
-		catch ( Exception e )
+		else
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-			
-			StaticEntity.printStackTrace( e );
+			KoLCharacter.setStatPoints( 1, 0, 1, 0, 1, 0 );
+			KoLCharacter.setHP( 1, 1, 1 );
+			KoLCharacter.setMP( 1, 1, 1 );
+			KoLCharacter.setAvailableMeat( 0 );
+			KoLCharacter.setAdventuresLeft( 0 );
+			KoLCharacter.setMindControlLevel( 0 );
 		}
 
 		KoLCharacter.updateStatus();
 	}
 
-	private static void handleCompactMode( String responseText ) throws Exception
+	private static void handleCompactMode( String responseText )
 	{
-		handleStatPoints( responseText, "Mus", "Mys", "Mox" );
-		handleMiscPoints( responseText, "HP", "MP", "Meat", "Adv", "", "<b>", "</b>" );
-		handleMindControl( responseText, "MC" );
+		try
+		{
+			handleStatPoints( responseText, "Mus", "Mys", "Mox" );
+			handleMiscPoints( responseText, "HP", "MP", "Meat", "Adv", "", "<b>", "</b>" );
+			handleMindControl( responseText, "MC" );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e, "Character pane error", new String [] {
+				responseText } );
+		}
 	}
 
-	private static void handleExpandedMode( String responseText ) throws Exception
+	private static void handleExpandedMode( String responseText )
 	{
-		handleStatPoints( responseText, "Muscle", "Mysticality", "Moxie" );
-		handleMiscPoints( responseText, "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;", "<span.*?>", "</span>" );
-		handleMindControl( responseText, "Mind Control" );
+		try
+		{
+			handleStatPoints( responseText, "Muscle", "Mysticality", "Moxie" );
+			handleMiscPoints( responseText, "hp\\.gif", "mp\\.gif", "meat\\.gif", "hourglass\\.gif", "&nbsp;", "<span.*?>", "</span>" );
+			handleMindControl( responseText, "Mind Control" );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e, "Character pane error", new String [] {
+				responseText } );
+		}
 	}
 
 	private static void handleStatPoints( String responseText, String musString, String mysString, String moxString ) throws Exception
