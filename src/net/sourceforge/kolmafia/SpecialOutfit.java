@@ -148,7 +148,26 @@ public class SpecialOutfit implements Comparable
 	public static void restoreCheckpoint()
 	{
 		if ( CHECKPOINT != null )
+		{
 			(new EquipmentRequest( StaticEntity.getClient(), CHECKPOINT )).run();
+			SpecialOutfit.deleteCheckpoint();
+		}
+	}
+	
+	/**
+	 * Deletes the checkpoint outfit, if present.  This should
+	 * be called whenever KoLmafia is done using the checkpoint.
+	 */
+
+	public static void deleteCheckpoint()
+	{
+		if ( CHECKPOINT != null )
+		{
+			(new KoLRequest( StaticEntity.getClient(), "account_manageoutfits.php?action=Yep.&delete" +
+				(0 - CHECKPOINT.getOutfitID()) + "=on" )).run();
+
+			CHECKPOINT = null;
+		}
 	}
 	
 	/**

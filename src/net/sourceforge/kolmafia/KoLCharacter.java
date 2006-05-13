@@ -1106,7 +1106,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static int weaponHandedness()
 	{
-		String name = getCurrentEquipmentName( WEAPON );
+		String name = getEquipmentName( (String) equipmentLists[ WEAPON ].getSelectedItem() );
 		return ( name == null) ? 0 : EquipmentDatabase.getHands( name );
 	}
 
@@ -1117,7 +1117,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean rangedWeapon()
 	{
-		String name = getCurrentEquipmentName( WEAPON );
+		String name = getEquipmentName( (String) equipmentLists[ WEAPON ].getSelectedItem() );
 		return name != null && EquipmentDatabase.isRanged( name );
 	}
 

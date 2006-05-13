@@ -69,7 +69,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 	static { CombatSettings.reset(); }
 
-	public static final void reset()
+	public synchronized static final void reset()
 	{
 		CombatSettings.characterName = KoLCharacter.getUsername();
 		CombatSettings.settingsFile = new File( DATA_DIRECTORY + settingsFileName() );
@@ -81,11 +81,11 @@ public abstract class CombatSettings implements UtilityConstants
 		saveSettings();
 	}
 
-	public static final String settingsFileName()
+	public synchronized static final String settingsFileName()
 	{	return "~" + KoLCharacter.getUsername().replaceAll( "\\/q", "" ).replaceAll( " ", "_" ).toLowerCase() + ".ccs";
 	}
 
-	public static final TreeNode getRoot()
+	public synchronized static final TreeNode getRoot()
 	{
 		if ( !characterName.equals( KoLCharacter.getUsername() ) )
 			CombatSettings.reset();
@@ -98,7 +98,7 @@ public abstract class CombatSettings implements UtilityConstants
 	 * object to disk for later retrieval.
 	 */
 
-	public static void saveSettings()
+	public synchronized static void saveSettings()
 	{	storeSettings( settingsFile );
 	}
 
@@ -111,7 +111,7 @@ public abstract class CombatSettings implements UtilityConstants
 	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
-	private static void loadSettings()
+	private synchronized static void loadSettings()
 	{
 		try
 		{
@@ -182,7 +182,7 @@ public abstract class CombatSettings implements UtilityConstants
 	 * initializes it to the given value.
 	 */
 
-	private static void ensureProperty( String key, String defaultValue )
+	private synchronized static void ensureProperty( String key, String defaultValue )
 	{
 		if ( !reference.containsKey( key ) )
 		{
@@ -204,7 +204,7 @@ public abstract class CombatSettings implements UtilityConstants
 	 * @param	destination	The file to which the settings will be stored.
 	 */
 
-	private static void storeSettings( File destination )
+	private synchronized static void storeSettings( File destination )
 	{
 		try
 		{
@@ -233,7 +233,7 @@ public abstract class CombatSettings implements UtilityConstants
 		}
 	}
 
-	public static String getSetting( String encounter, int roundCount )
+	public synchronized static String getSetting( String encounter, int roundCount )
 	{
 		if ( !characterName.equals( KoLCharacter.getUsername() ) )
 			CombatSettings.reset();

@@ -97,7 +97,12 @@ public class KoLSettings extends Properties implements UtilityConstants
 		storeSettings( settingsFile );
 	}
 
-	public Object setProperty( String name, String value )
+
+	public synchronized String getProperty( String name )
+	{	return super.getProperty( name );
+	}
+	
+	public synchronized Object setProperty( String name, String value )
 	{
 		Object returnValue = super.setProperty( name, value );
 		storeSettings( settingsFile );
@@ -113,7 +118,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
-	private void loadSettings( File source )
+	private synchronized void loadSettings( File source )
 	{
 		try
 		{
@@ -165,7 +170,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	 * key is loaded.
 	 */
 
-	private void ensureDefaults()
+	private synchronized void ensureDefaults()
 	{
 		// The remaining settings are not related to choice
 		// adventures and require no special handling.
@@ -340,7 +345,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	 * initializes it to the given value.
 	 */
 
-	private void ensureProperty( String key, String defaultValue )
+	private synchronized void ensureProperty( String key, String defaultValue )
 	{
 		if ( !containsKey( key ) )
 			super.setProperty( key, defaultValue );
@@ -352,7 +357,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	 * and is 0, force it to the default value. This is for choice adventures.
 	 */
 
-	private void ensureNonZeroProperty( String key, String defaultValue )
+	private synchronized void ensureNonZeroProperty( String key, String defaultValue )
 	{
 		if ( !containsKey( key ) || ( get( key).equals( "0" ) ) )
 			super.setProperty( key, defaultValue );
@@ -366,7 +371,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	 * @param	destination	The file to which the settings will be stored.
 	 */
 
-	private void storeSettings( File destination )
+	private synchronized void storeSettings( File destination )
 	{
 		try
 		{
@@ -414,5 +419,4 @@ public class KoLSettings extends Properties implements UtilityConstants
 			StaticEntity.printStackTrace( e );
 		}
 	}
-
 }
