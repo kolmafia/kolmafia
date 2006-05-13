@@ -2686,6 +2686,7 @@ public abstract class KoLCharacter extends StaticEntity
 			case PENGUIN_SHORTS:
 			case PENGUIN_KILT:
 			case PENGUIN_SKIRT:
+			case STAR_PANTS:
 				newInitiativeAdjustment += 20;
 				break;
 			case COLD_NINJA_MASK:
