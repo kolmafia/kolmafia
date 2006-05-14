@@ -433,6 +433,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			StoreManager.SoldItem smsi = (StoreManager.SoldItem) value;
 
+			itemID = smsi.getItemID();
 			itemName.setText( smsi.getItemName() );
 			itemName.setToolTipText( smsi.getItemName() );
 			itemQuantity.setText( df.format( smsi.getQuantity() ) );
