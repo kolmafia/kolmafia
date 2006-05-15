@@ -142,14 +142,15 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	public void setEnabled( boolean isEnabled )
 	{
-		refreshMailManager();
-
 		if ( tabbedListDisplay != null )
 			for ( int i = 0; i < tabbedListDisplay.getTabCount(); ++i )
 				tabbedListDisplay.setEnabledAt( i, isEnabled );
 
 		if ( messageListInbox != null )
 			messageListInbox.setEnabled( isEnabled );
+
+		if ( messageListPvp != null )
+			messageListPvp.setEnabled( isEnabled );
 
 		if ( messageListOutbox != null )
 			messageListOutbox.setEnabled( isEnabled );
@@ -281,10 +282,14 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			{
 				if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE )
 				{
+					Object [] messages = getSelectedValues();
+					if ( messages.length == 0 )
+						return;
+					
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
-						KoLMailManager.deleteMessages( mailboxName, getSelectedValues() );
+						KoLMailManager.deleteMessages( mailboxName, messages );
 						StaticEntity.getClient().enableDisplay();
 					}
 
@@ -293,10 +298,14 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 				if ( e.getKeyCode() == KeyEvent.VK_S && mailboxName.equals( "Inbox" ) )
 				{
+					Object [] messages = getSelectedValues();
+					if ( messages.length == 0 )
+						return;
+					
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
-						KoLMailManager.saveMessages( getSelectedValues() );
+						KoLMailManager.saveMessages( messages );
 						StaticEntity.getClient().enableDisplay();
 					}
 
@@ -308,62 +317,77 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 	private class SaveAllButton extends JButton implements ActionListener, Runnable
 	{
+		private Object [] messages = null;
+		
 		public SaveAllButton()
 		{
 			super( JComponentUtilities.getImage( "saveall.gif" ) );
 			addActionListener( this );
-			setToolTipText( "Save All" );
+			setToolTipText( "Save Selected" );
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
+		{
+			messages = null;
+			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
+
+			if ( currentTabName.equals( "Inbox" ) )
+				messages = messageListInbox.getSelectedValues();
+			if ( currentTabName.equals( "PvP" ) )
+				messages = messageListPvp.getSelectedValues();
+
+			if ( messages == null || messages.length == 0 )
+				return;
+
+			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
+						return;
+			
+			(new RequestThread( this )).start();
 		}
 
 		public void run()
-		{
-			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
-			if ( currentTabName.equals( "Inbox" ) || currentTabName.equals( "PvP" ) )
-			{
-				if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-				{
-					KoLMailManager.saveMessages( messageListInbox.getSelectedValues() );
-				}
-			}
-			else
-			{
-				JOptionPane.showMessageDialog( null, "Messages in this mailbox cannot be saved." );
-			}
+		{	KoLMailManager.saveMessages( messages );
 		}
 	}
 
 	private class DeleteButton extends JButton implements ActionListener, Runnable
 	{
+		private String currentTabName = null;
+		private Object [] messages = null;
+
 		public DeleteButton()
 		{
 			super( JComponentUtilities.getImage( "delete.gif" ) );
 			addActionListener( this );
-			setToolTipText( "Delete" );
+			setToolTipText( "Delete Selected" );
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
+		{
+			messages = null;
+			currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
+			if ( currentTabName.equals( "Inbox" ) )
+				messages = messageListInbox.getSelectedValues();
+			else if ( currentTabName.equals( "PvP" ) )
+				messages = messageListPvp.getSelectedValues();
+			else if ( currentTabName.equals( "Outbox" ) )
+				messages = messageListOutbox.getSelectedValues();
+			else if ( currentTabName.equals( "Saved" ) )
+				messageListSaved.getSelectedValues();
+
+			if ( messages ==  null || messages.length == 0 )
+				return;
+			
+			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+					"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
+						return;
+			
+			(new RequestThread( this )).start();
 		}
 
 		public void run()
-		{
-			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
-				"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
-					return;
-
-			String currentTabName = tabbedListDisplay.getTitleAt( tabbedListDisplay.getSelectedIndex() );
-
-			if ( currentTabName.equals( "Inbox" ) )
-				KoLMailManager.deleteMessages( "Inbox", messageListInbox.getSelectedValues() );
-			else if ( currentTabName.equals( "Outbox" ) )
-				KoLMailManager.deleteMessages( "Outbox", messageListOutbox.getSelectedValues() );
-			else
-				KoLMailManager.deleteMessages( "Saved", messageListSaved.getSelectedValues() );
+		{	KoLMailManager.deleteMessages( currentTabName, messages );
 		}
 	}
 
