@@ -194,9 +194,9 @@ public class AdventureResult implements Comparable, KoLConstants
 	{
 		if ( isStatusEffect() )
 		{
-			this.itemID = -1;
+			this.itemID = StatusEffectDatabase.getEffectID( this.name );
 			String originalName = this.name;
-			this.name = StatusEffectDatabase.getEffectName( StatusEffectDatabase.getEffectID( name ) );
+			this.name = StatusEffectDatabase.getEffectName( this.itemID );
 
 			if ( this.name.startsWith( "Unknown" ) )
 				this.name = originalName;
