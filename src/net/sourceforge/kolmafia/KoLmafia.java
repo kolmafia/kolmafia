@@ -170,6 +170,20 @@ public abstract class KoLmafia implements KoLConstants
 			KoLmafiaGUI.main( args );
 		else
 			KoLmafiaCLI.main( args );
+
+		// All that completed, check to see if there is an auto-login
+		// which should occur.
+		
+		String autoLogin = GLOBAL_SETTINGS.getProperty( "autoLogin" );
+		if ( !autoLogin.equals( "" ) )
+		{
+			// Make sure that a password was stored for this
+			// character (would fail otherwise):
+			
+			String password = StaticEntity.getClient().getSaveState( autoLogin );
+			if ( password != null && !password.equals( "" ) )
+				(new RequestThread( new LoginRequest( StaticEntity.getClient(), autoLogin, password ) )).start();
+		}
 	}
 
 	/**
@@ -223,20 +237,6 @@ public abstract class KoLmafia implements KoLConstants
 				if ( outdated.exists() )
 					outdated.delete();
 			}
-		}
-		
-		// All that completed, check to see if there is an auto-login
-		// which should occur.
-		
-		String autoLogin = GLOBAL_SETTINGS.getProperty( "autoLogin" );
-		if ( !autoLogin.equals( "" ) )
-		{
-			// Make sure that a password was stored for this
-			// character (would fail otherwise):
-			
-			String password = StaticEntity.getClient().getSaveState( autoLogin );
-			if ( password != null && !password.equals( "" ) )
-				(new RequestThread( new LoginRequest( StaticEntity.getClient(), autoLogin, password ) )).start();
 		}
 	}
 
