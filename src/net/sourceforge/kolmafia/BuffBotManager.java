@@ -212,14 +212,22 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		
 		if ( document != null )
 		{
-			document.println( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
+			document.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" );
 			document.println( "<?xml-stylesheet type=\"text/xsl\" href=\"http://kolmafia.sourceforge.net/buffbot.xsl\"?>" );
 			document.println();
 			
 			document.println( "<botdata>" );
 			document.println( "<name>" + KoLCharacter.getUsername() + "</name>" );
 			document.println( "<playerid>" + KoLCharacter.getUserID() + "</playerid>" );
+
+			document.println( "<free-list>" );
 		}
+		
+		TreeMap [] nameMap = new TreeMap[4];
+		for ( int i = 0; i < 4; ++i )
+			nameMap[i] = new TreeMap();
+
+		ArrayList currentList;
 
 		for ( int i = 0; i < casters.length; ++i )
 		{
@@ -237,21 +245,94 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			if ( casters[i].restricted || document == null )
 				continue;
 
-			document.println( "<buffdata>" );
-			document.println( "\t<name>" + casters[i].getBuffName() + "</name>" );
-			document.println( "\t<price>" + casters[i].getPrice() + "</price>" );
-			document.println( "\t<turns>" + casters[i].getTurnCount() + "</turns>" );
-			document.println( "\t<philanthropic>" + casters[i].philanthropic + "</philanthropic>" );
-			document.println( "</buffdata>" );
+			if ( casters[i].philanthropic )
+			{
+				document.println( "\t<buffdata>" );
+				document.println( "\t\t<name>" + casters[i].getBuffName() + "</name>" );
+				document.println( "\t\t<skillid>" + casters[i].getBuffID() + "</skillid>" );
+				document.println( "\t\t<price>" + casters[i].getPrice() + "</price>" );
+				document.println( "\t\t<turns>" + casters[i].getTurnCount() + "</turns>" );
+				document.println( "\t\t<philanthropic>" + casters[i].philanthropic + "</philanthropic>" );
+				document.println( "\t</buffdata>" );
+			}
+			else
+			{
+				int index = casters[i].getBuffID() / 2000;
+				if ( !nameMap[ index ].containsKey( casters[i].getBuffName() ) )
+					nameMap[ index ].put( casters[i].getBuffName(), new ArrayList() );
+				
+				currentList = (ArrayList) nameMap[ index ].get( casters[i].getBuffName() );
+				currentList.add( casters[i] );
+			}
 		}
 
 		setProperty( "buffBotCasting", sellerSetting.toString() );
+		if ( document == null )
+			return;
 
-		if ( document != null )
+		document.println( "</free-list>" );
+		document.println( "<normal-list>" );
+
+		for ( int k = 0; k < 4; ++k )
 		{
-			document.println( "</botdata>" );
-			document.close();
+			if ( nameMap[k].isEmpty() )
+				continue;
+			
+			document.println( "\t<skillset>" );
+			document.print( "\t\t<name>" );
+			
+			switch ( k )
+			{
+				case 0:
+					document.print( "Non-Specific Buffs" );
+					break;
+				case 1:
+					document.print( "Turtle Tamer Buffs" );
+					break;
+				case 2:
+					document.print( "Sauceror Buffs" );
+					break;
+				case 3:
+					document.print( "Accordion Thief Buffs" );
+					break;
+			}
+			
+			document.println( "</name>" );
+			Object [] keys = nameMap[k].keySet().toArray();
+		
+			for ( int j = 0; j < keys.length; ++j )
+			{
+				currentList = (ArrayList) nameMap[k].get( keys[j] );
+				casters = new BuffBotCaster[ currentList.size() ];
+				currentList.toArray( casters );
+	
+				document.println( "\t\t<buffset>" );
+				document.println( "\t\t\t<name>" + casters[0].getBuffName() + "</name>" );
+				document.println( "\t\t\t<sortid>" + (casters[0].getBuffID() / 1000) + "</sortid>" );
+	
+				for ( int i = 0; i < casters.length; ++i )
+				{
+					document.println( "\t\t\t<buffdata>" );
+		
+					document.println( "\t\t\t\t<name>" + casters[i].getBuffName() + "</name>" );
+					document.println( "\t\t\t\t<skillid>" + casters[i].getBuffID() + "</skillid>" );
+					document.println( "\t\t\t\t<price>" + casters[i].getPrice() + "</price>" );
+					document.println( "\t\t\t\t<turns>" + casters[i].getTurnCount() + "</turns>" );
+					document.println( "\t\t\t\t<philanthropic>" + casters[i].philanthropic + "</philanthropic>" );
+		
+					document.println( "\t\t\t</buffdata>" );
+				}
+	
+				document.println( "\t\t</buffset>" );
+			}
+			
+			document.println( "\t</skillset>" );
 		}
+
+		document.println( "</normal-list>" );
+		
+		document.println( "</botdata>" );
+		document.close();
 	}
 
 	/**
@@ -641,7 +722,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			this.buffName = buffName;
 			this.price = price;
 			this.castCount = castCount;
-			this.turnCount = buffID > 6000 ? castCount * 15 : castCount * 10;
+			this.turnCount = buffID > 6000 ? castCount * 15 : buffID < 1000 ? castCount * 5 : castCount * 10;
 
 			this.restricted = restricted;
 			this.philanthropic = philanthropic;
@@ -724,6 +805,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			}
 		}
 
+		public int getBuffID()
+		{	return buffID;
+		}
+		
 		public String getBuffName()
 		{	return buffName;
 		}
