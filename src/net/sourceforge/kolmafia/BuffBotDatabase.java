@@ -414,11 +414,11 @@ public class BuffBotDatabase extends KoLDatabase
 
 	private static class BuffList
 	{
-		private SortedListModel buffs;
+		private ArrayList buffs;
 
 		public BuffList()
 		{
-			this.buffs = new SortedListModel();
+			this.buffs = new ArrayList();
 			for ( int i = 0; i < buffData.length; ++i )
 				buffs.add( new Buff( i ) );
 		}
@@ -531,11 +531,11 @@ public class BuffBotDatabase extends KoLDatabase
 		}
 	}
 
-	private static class Buff implements Comparable
+	private static class Buff
 	{
-		int skill;
-		String name;
-		String abbreviation;
+		private int skill;
+		private String name;
+		private String abbreviation;
 		private SortedListModel offerings;
 
 		public Buff( int index )
@@ -603,15 +603,6 @@ public class BuffBotDatabase extends KoLDatabase
 
 			Buff buff = (Buff) o;
 			return abbreviation.equals( buff.abbreviation );
-		}
-
-		public int compareTo( Object o )
-		{
-			if ( !(o instanceof Buff) || o == null )
-				return -1;
-
-			Buff buff = (Buff) o;
-			return abbreviation.compareTo( buff.abbreviation );
 		}
 	}
 
