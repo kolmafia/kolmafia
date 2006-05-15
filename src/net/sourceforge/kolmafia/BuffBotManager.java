@@ -108,6 +108,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				}
 			}
 		}
+		
+		saveBuffs();
 	}
 
 	/**
@@ -190,57 +192,65 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		StringBuffer sellerSetting = new StringBuffer();
 		BuffBotCaster currentCast;
 
-		if ( buffCostTable.size() > 0 )
-			sellerSetting.append( ((BuffBotCaster) buffCostTable.get(0)).toSettingString() );
+		PrintStream document = null;
 
-		for ( int i = 1; i < buffCostTable.size(); ++i )
+		try
 		{
-			sellerSetting.append( ';' );
-			sellerSetting.append( ((BuffBotCaster) buffCostTable.get(i)).toSettingString() );
+			File xmlfile = new File( "buffs/" + KoLCharacter.getUsername() + ".xml" );
+			if ( xmlfile.exists() )
+				xmlfile.delete();
+			
+			document = new PrintStream( new FileOutputStream( xmlfile, false ) );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+		}
+		
+		BuffBotCaster [] casters = new BuffBotCaster[ buffCostTable.size() ];
+		buffCostTable.toArray( casters );
+		
+		if ( document != null )
+		{
+			document.println( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
+			document.println( "<?xml-stylesheet type=\"text/xsl\" href=\"http://kolmafia.sourceforge.net/buffbot.xsl\"?>" );
+			document.println();
+			
+			document.println( "<botdata>" );
+			document.println( "<name>" + KoLCharacter.getUsername() + "</name>" );
+			document.println( "<playerid>" + KoLCharacter.getUserID() + "</playerid>" );
+		}
+
+		for ( int i = 0; i < casters.length; ++i )
+		{
+			// First, append the buff to the setting string, then
+			// print the buff to the XML tree.
+			
+			if ( i > 0 )
+				sellerSetting.append( ';' );
+
+			sellerSetting.append( casters[i].toSettingString() );
+
+			// Don't print the cast to the XML tree if it happens
+			// to be restricted.
+			
+			if ( casters[i].restricted || document == null )
+				continue;
+
+			document.println( "<buffdata>" );
+			document.println( "\t<name>" + casters[i].getBuffName() + "</name>" );
+			document.println( "\t<price>" + casters[i].getPrice() + "</price>" );
+			document.println( "\t<turns>" + casters[i].getTurnCount() + "</turns>" );
+			document.println( "\t<philanthropic>" + casters[i].philanthropic + "</philanthropic>" );
+			document.println( "</buffdata>" );
 		}
 
 		setProperty( "buffBotCasting", sellerSetting.toString() );
 
-		TreeMap buffNameMap = new TreeMap();
-		StringBuffer currentString;
-
-		for ( int i = 0; i < buffCostTable.size(); ++i )
+		if ( document != null )
 		{
-			currentCast = (BuffBotCaster) buffCostTable.get(i);
-			if ( !buffNameMap.containsKey( currentCast.getBuffName() ) )
-				buffNameMap.put( currentCast.getBuffName(), new StringBuffer() );
-
-			currentString = (StringBuffer) buffNameMap.get( currentCast.getBuffName() );
-
-			currentString.append( currentCast.getTurnCount() );
-			currentString.append( '-' );
-			currentString.append( currentCast.getPrice() );
-			
-			if ( currentCast.philanthropic )
-				currentString.append( '*' );
-			
-			currentString.append( LINE_BREAK );
-		}
-		
-		try
-		{
-			PrintStream buffList = new PrintStream( new FileOutputStream( new File( "buffs/" + KoLCharacter.getUsername() + "_KoLmafiaReadableDisplayCaseText.txt" ) ) );
-			Object [] keys = buffNameMap.keySet().toArray();
-			
-			for ( int i = 0; i < keys.length; ++i )
-			{
-				buffList.println( keys[i] );
-				buffList.println( buffNameMap.get( keys[i] ) );
-			}
-			
-			buffList.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-			
-			StaticEntity.printStackTrace( e );
+			document.println( "</botdata>" );
+			document.close();
 		}
 	}
 
