@@ -36,6 +36,9 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 
@@ -81,7 +84,10 @@ public class BuffBotDatabase extends KoLDatabase
 		{ new Integer(2008), "Fortitude" },
 		{ new Integer(2009), "Empathy" },
 		{ new Integer(2010), "Tenacity" },
-		{ new Integer(2012), "Astral" }
+		{ new Integer(2012), "Astral" },
+		
+		// Oddball Buffs
+		{ new Integer(3), "Smile" }
 	};
 
 	// Buffs obtainable from statically configured buffbots
@@ -278,26 +284,61 @@ public class BuffBotDatabase extends KoLDatabase
 
 	private static void configureDynamicBot( KoLmafia client, String name, String id )
 	{
-		// First, check if the bot is online by sending
-		// a chat request.
-
-		KoLRequest request = new ChatRequest( client, "", "/whois " + id );
-		request.run();
-
-		if ( request.responseText.indexOf( "currently online" ) == -1 )
-		{
-			client.updateDisplay( name + " is not currently online." );
-			return;
-		}
-
 		DEFAULT_SHELL.updateDisplay( "Fetching buff prices from " + name + "..." );
 
-		request = new KoLRequest( client, "displaycollection.php" );
+		KoLRequest request = new KoLRequest( client, "displaycollection.php" );
 		request.addFormField( "who", id );
 		request.run();
+		
+		Matcher linkMatcher = Pattern.compile( "<a [^>]*href=\"([^>]*)\\.xml\">" ).matcher( request.responseText );
+		if ( linkMatcher.find() )
+		{
+			request = new KoLRequest( client, linkMatcher.group(1) + ".xml" );
+			request.run();
 
-		String data = request.responseText;
+			htmlConfigure( name, request.responseText );
+		}
+		else
+			textConfigure( name, request.responseText );
+	}
+	
+	private static void htmlConfigure( String name, String data )
+	{
+		// Now, for the infamous XML parse tree.  Rather than building
+		// a tree (which would probably be smarter), simply do regular
+		// expression matching and assume we have a properly-structured
+		// XML file -- which is assumed because of the XSLT.
 
+		Matcher nodeMatcher = Pattern.compile( "<buffdata>(.*?)</buffdata>" ).matcher( data );
+		Pattern namePattern = Pattern.compile( "<name>(.*?)</name>" );
+		Pattern pricePattern = Pattern.compile( "<price>(.*?)</price>" );
+		Pattern turnPattern = Pattern.compile( "<turns>(.*?)</turns>" );
+		Pattern oncePattern = Pattern.compile( "<philanthropic>(.*?)</philanthropic>" );
+
+		BuffList buffs = new BuffList();		
+		Matcher nameMatcher, priceMatcher, turnMatcher, onceMatcher;
+
+		while ( nodeMatcher.find() )
+		{
+			nameMatcher = namePattern.matcher( nodeMatcher.group(1) );
+			priceMatcher = pricePattern.matcher( nodeMatcher.group(1) );
+			turnMatcher = turnPattern.matcher( nodeMatcher.group(1) );
+			onceMatcher = oncePattern.matcher( nodeMatcher.group(1) );
+
+			if ( nameMatcher.find() && priceMatcher.find() && turnMatcher.find() )
+			{
+				buffs.findAbbreviation( nameMatcher.group(1).trim() ).addOffering(
+					new Offering( name, Integer.parseInt( priceMatcher.group(1).trim() ),
+					Integer.parseInt( turnMatcher.group(1).trim() ),
+					onceMatcher.find() ? onceMatcher.group(1).trim().equals( "true" ) : false ) );
+			}
+		}
+		
+		allBots.addBuffList( buffs );
+	}
+	
+	private static void textConfigure( String name, String data )
+	{
 		// Look for start tag
 		int start = data.indexOf( "CONDENSED PRICE LIST" );
 		if ( start < 0 )

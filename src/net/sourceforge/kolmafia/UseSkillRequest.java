@@ -232,11 +232,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			castsRemaining -= currentCast;
 		}
-
-		// To minimize the amount of confusion, go ahead and restore
-		// mana once the request is complete.
-
-		client.recoverMP();
 	}
 
 	private AdventureResult prepareAccordion()

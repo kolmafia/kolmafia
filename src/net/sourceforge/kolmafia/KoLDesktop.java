@@ -283,7 +283,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
-			toolbarPanel.add( new DisplayFrameButton( "Run a Buffbot", "buff.gif", BuffBotFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Purchase Buffs", "buff.gif", BuffRequestFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", FamiliarTrainingFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Player vs. Player", "flower.gif", FlowerHunterFrame.class ) );
 			toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", MushroomFrame.class ) );
