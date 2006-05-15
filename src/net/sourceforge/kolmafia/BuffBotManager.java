@@ -308,7 +308,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	
 				document.println( "\t\t<buffset>" );
 				document.println( "\t\t\t<name>" + casters[0].getBuffName() + "</name>" );
-				document.println( "\t\t\t<sortid>" + (casters[0].getBuffID() / 1000) + "</sortid>" );
 	
 				for ( int i = 0; i < casters.length; ++i )
 				{
