@@ -52,8 +52,6 @@ public class AdventureRequest extends KoLRequest
 	private String adventureID;
 	protected int adventuresUsed;
 
-	private static boolean completedLastFight = true;
-
 	public static final AdventureResult ABRIDGED = new AdventureResult( 534, -1 );
 	public static final AdventureResult BRIDGE = new AdventureResult( 535, -1 );
 	public static final AdventureResult DODECAGRAM = new AdventureResult( 479, -1 );
@@ -418,11 +416,7 @@ public class AdventureRequest extends KoLRequest
 		// exactly every single time.
 
 		if ( formSource.startsWith( "fight.php" ) )
-		{
-			boolean shouldRecord = formSource.equals( "fight.php" ) && completedLastFight;
-			completedLastFight = responseText.indexOf( "fight.php" ) == -1;
-			return shouldRecord;
-		}
+			return formSource.equals( "fight.php" );
 
 		// All other adventures can be identified via their
 		// form data and the place they point to.
