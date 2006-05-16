@@ -100,7 +100,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final int DODECAPEDE = 38;
 
 	// Familiar buffing skills and effects
-	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0, true );
+	public static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0, true );
 	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0, true );
 	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0, true );
 	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0, true );
@@ -110,11 +110,26 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final AdventureResult PITH_HELMET = new AdventureResult( "plexiglass pith helmet", 0, false );
 	private static final AdventureResult LEAD_NECKLACE = new AdventureResult( "lead necklace", 0, false );
 	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( "rat head balloon", 0, false );
+
 	private static final int firstTinyPlastic = 969;
 	private static final int lastTinyPlastic = 988;
 	private static final int firstTinyPlasticCrimbo = 1377;
 	private static final int lastTinyPlasticCrimbo = 1378;
 
+	
+	// Available skills which affect weight
+	private static boolean sympathyAvailable;
+	private static boolean leashAvailable;
+	private static boolean empathyAvailable;
+	private static boolean heavyPettingAvailable;
+
+	// Active effects which affect weight
+	private static int leashActive;
+	private static int empathyActive;
+	private static int greenTongueActive;
+	private static int blackTongueActive;
+	private static int heavyPettingActive;
+	
 	public FamiliarTrainingFrame()
 	{
 		super( "Familiar Trainer" );
@@ -997,14 +1012,94 @@ public class FamiliarTrainingFrame extends KoLFrame
 	{
 		switch (type)
 		{
-		case BASE:
-			return ( status.baseWeight() >= goal );
+			case BASE:
+				return ( status.baseWeight() >= goal );
+	
+			case BUFFED:
+			{
+				boolean goalReached = status.maxBuffedWeight() >= goal;
+				if ( goalReached || !KoLCharacter.canInteract() || goal != 20 )
+					return goalReached;
+				
+				// If the player is currently out of Ronin, then they have
+				// the option of automatically purchasing their familiar item,
+				// pet-buffing spray, empathy and a green snowcone, which will
+				// boost you straight to 20 pounds without any skills.
 
-		case BUFFED:
-			return ( status.maxBuffedWeight() >= goal );
+				int poundsNeeded = goal - status.maxBuffedWeight();
 
-		case TURNS:
-			return ( status.turnsUsed() >= goal );
+				// If you're out of Ronin, pet-buffing spray is still
+				// available in the mall.  Check this option first.
+				
+				if ( !heavyPettingAvailable && heavyPettingActive == 0 )
+				{
+					poundsNeeded -= 5;
+					DEFAULT_SHELL.executeLine( "acquire Knob Goblin pet-buffing spray" );
+					status = new FamiliarStatus();
+				}
+				
+				if ( poundsNeeded <= 0 )
+					return true;
+
+				// First, check their current familiar item.  If it's
+				// zero, then try to acquire the item and equip it.
+				
+				if ( status.familiarItemWeight != 5 )
+				{
+					poundsNeeded -= 5 - status.familiarItemWeight;
+					String familiarItem = FamiliarsDatabase.getFamiliarItem( status.getFamiliar().getID() );
+					DEFAULT_SHELL.executeLine( "acquire " + familiarItem );
+					status = new FamiliarStatus();
+				}
+
+				if ( poundsNeeded <= 0 )
+					return true;
+
+				// Acquire tiny plastic items from the mall.  Randomly
+				// choose one of the items using a random number generator.
+				
+				if ( poundsNeeded <= 3 - status.tpCount )
+				{
+					String plasticItem = TradeableItemDatabase.getItemName(
+						firstTinyPlastic + RNG.nextInt( lastTinyPlastic - firstTinyPlastic ) );
+
+					DEFAULT_SHELL.executeLine( "acquire " + poundsNeeded + " " + plasticItem );
+					status = new FamiliarStatus();
+					return true;
+				}
+
+				// Finally, if they need empathy, tell them that they
+				// should consider requesting it from a buffbot.
+				
+				if ( !empathyAvailable && empathyActive == 0 )
+				{
+					stop = true;
+					statusMessage( ERROR_STATE, "Ask a buffbot for empathy?" );							
+				}
+
+				// Otherwise, if it gets this far, you definitely need
+				// a snowcone; any other circumstance and you would have
+				// had enough to get by.  But, only buy a snowcone if
+				// you're really short on adventures and the goal is 20.
+				
+				else
+				{
+					if ( KoLCharacter.getAdventuresLeft() < 10 )
+					{
+						DEFAULT_SHELL.executeLine( "acquire green snowcone" );
+						status = new FamiliarStatus();
+						return true;
+					}
+				}
+
+				// Now, the fall-through state is when the goal reached is
+				// definitely false.  Return this just to make certain.
+
+				return false;
+			}
+	
+			case TURNS:
+				return ( status.turnsUsed() >= goal );
 		}
 
 		return false;
@@ -1149,19 +1244,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 		// Details about its special familiar item
 		AdventureResult familiarItem ;
 		int familiarItemWeight;
-
-		// Available skills which affect weight
-		boolean sympathyAvailable;
-		boolean leashAvailable;
-		boolean empathyAvailable;
-		boolean heavyPettingAvailable;
-
-		// Active effects which affect weight
-		int leashActive;
-		int empathyActive;
-		int greenTongueActive;
-		int blackTongueActive;
-		int heavyPettingActive;
 
 		// Currently equipped gear which affects weight
 		AdventureResult hat;
@@ -2138,14 +2220,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			public GearSet()
 			{
-				this( FamiliarStatus.this.hat,
-				      FamiliarStatus.this.item,
-				      FamiliarStatus.this.acc[0],
-				      FamiliarStatus.this.acc[1],
-				      FamiliarStatus.this.acc[2],
-				      FamiliarStatus.this.leashActive > 0,
-				      FamiliarStatus.this.empathyActive > 0,
-				      FamiliarStatus.this.heavyPettingActive > 0 );
+				this( FamiliarStatus.this.hat, FamiliarStatus.this.item, acc[0], acc[1], acc[2],
+					leashActive > 0, empathyActive > 0, heavyPettingActive > 0 );
 			}
 
 			public int weight()
