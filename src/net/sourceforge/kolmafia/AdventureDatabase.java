@@ -835,7 +835,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length > 1 )
+			if ( data.length > 2 )
 			{
 				if ( !validateAdventureArea( data[0], adventures ) )
 				{
@@ -843,9 +843,10 @@ public class AdventureDatabase extends KoLDatabase
 					continue;
 				}
 
-				AreaCombatData combat = new AreaCombatData();
+				int combats = Integer.parseInt( data[1] );
+				AreaCombatData combat = new AreaCombatData( combats );
 
-				for ( int i = 1; i < data.length; ++i )
+				for ( int i = 2; i < data.length; ++i )
 					combat.addMonster( data[i] );
 
 				areaCombatData.put( data[0], combat );
