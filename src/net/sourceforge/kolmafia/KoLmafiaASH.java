@@ -116,6 +116,7 @@ public class KoLmafiaASH extends StaticEntity
 	private String nextLine;
 	private int lineNumber;
 
+	private static ArrayList imports = new ArrayList();
 	public String fileName;
 	public LineNumberReader commandStream;
 
@@ -176,6 +177,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 		this.fileName = scriptFile.getPath();
+		this.imports.clear();
 
 		this.line = getNextLine();
 		this.lineNumber = commandStream.getLineNumber();
@@ -183,7 +185,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		try
 		{
-			this.global = parseScope( null, new ScriptVariableList(), getExistingFunctionScope(), false );
+			this.global = parseScope( null, null, new ScriptVariableList(), getExistingFunctionScope(), false );
 
 			if ( this.line != null )
 				throw new AdvancedScriptException( "Script parsing error " + getLineAndFile() );
@@ -286,6 +288,14 @@ public class KoLmafiaASH extends StaticEntity
 		File scriptFile = new File( "scripts" + File.separator + fileName );
 		if ( !scriptFile.exists() )
 			scriptFile = new File( "scripts" + File.separator + fileName + ".ash" );
+
+		if ( scriptFile.exists() )
+		{
+			String name = scriptFile.toString();
+			if ( imports.contains( name ) )
+				return startScope;
+			imports.add( name );
+		}
 
 		commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 
