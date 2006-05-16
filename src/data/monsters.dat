@@ -6,6 +6,35 @@
 # http://kol.network-forums.com/viewtopic.php?p=1757
 #
 # Last edited by Kittiwake on Fri Apr 14, 2006 4:48 am
+#
+# Missing data:
+#
+# Vampire Bat
+#
+# Questionable data:
+#
+# Baiowulf
+# Count Bakula
+# Crazy Bastard
+# Hockey Elemental
+# Hypnotist of Hey Deze
+# Infinite Meat Bug
+#
+# Scaling monsters:
+#
+# Baron Von Ratsworth
+# Naughty Sorceress
+# Naughty Sorceress (second form)
+#
+# Striking Factory-Worker Elf
+# Striking Gift-Wrapper Elf
+# Striking Middle-Management Elf
+# Striking Pencil-Pusher Elf
+# Striking Stocking-Stuffer Elf
+#
+# Item Drop percentage figures from Yiab's statistical data:
+#
+# http://kol.coldfront.net/thekolwiki/index.php/Parseable_Item_Statistics
 
 1335 HaXx0r	HP: 71 Def: 81 Atk: 81
 7-Foot Dwarf (Moil)	HP: 40 Def: 53 Atk: 53
@@ -13,7 +42,7 @@
 7-Foot Dwarf Foreman	HP: 50 Def: 57 Atk: 57
 A Bugged Bugbear	HP: 14 Def: 18 Atk: 14
 A Revolting Bugbear	HP: 10 Def: 13 Atk: 13
-A Revolving Bugbear   HP: 11 Def: 15 Atk: 15
+A Revolving Bugbear	HP: 11 Def: 15 Atk: 15
 Acid Blob	HP: 40 Def: 38 Atk: 38
 Albino Bat	HP: 8  Def: 14 Atk: 10
 Alphabet Giant	HP: 150 Def: 145 Atk: 145
@@ -22,8 +51,10 @@ An Annoying Spooky Gravy Fairy	HP: 20 Def: 20 Atk: 20 E: spooky
 Angry Pi&ntilde;ata	HP: 20 Def: 22 Atk: 22
 Anime Smiley	HP: 67 Def: 77 Atk: 77
 Axe Handle	HP: 3 Def: 3 Atk: 1
+Baiowulf	HP: 40 Def: 25 Atk: 25
 BASIC Elemental	HP: 40 Def: 50 Atk: 50
 Bar	HP: 5 Def: 3 Atk: 1
+Baron Von Ratsworth	
 Baseball Bat	HP: 9 Def: 15 Atk: 15
 Batrat	HP: 20 Def: 23 Atk: 23
 Beanbat	HP: 18 Def: 21 Atk: 21
@@ -49,6 +80,8 @@ Completely Different Spider	HP: 1 Def: 1 Atk: 1
 Conjoined Zmombie	HP: 60 Def: 71 Atk: 79 E: spooky
 Corpulent Zobmie	HP: 50 Def: 55 Atk: 53 E: spooky
 Corpulent Zobmie	HP: 50 Def: 55 Atk: 53 E: spooky
+Count Bakula	HP: 70 Def: 80 Atk: 80
+Crazy Bastard	HP: 25 Def: 20 Atk: 20
 Creepy Clown	HP: 16 Def: 20 Atk: 20 E: sleaze
 Crusty Hippy	HP: 30 Def: 41 Atk: 41 E: stench
 Crusty Hippy Jewelry Maker	HP: 30 Def: 41 Atk: 41 E: stench
@@ -117,7 +150,10 @@ Grave Rober Zmobie	HP: 50 Def: 59 Atk: 59 E: spooky
 Guard Bugbear	HP: 6 Def: 12 Atk: 12
 Handsome Mariachi	HP: 15 Def: 17 Atk: 23
 Hellion	HP: 52 Def: 52 Atk: 52 E: heat
+Hockey Elemental	HP: 40 Def: 65 Atk: 65
 Huge Ghuol	HP: 60 Def: 71 Atk: 79 E: spooky
+Hypnotist of Hey Deze	HP: 80 Def: 50 Atk: 50
+Infinite Meat Bug	HP: 50 Def: 45 Atk: 45
 Irate Mariachi	HP: 17 Def: 20 Atk: 20
 Irritating Series of Random Encounters	HP: 110 Def: 105 Atk: 105
 Keese	HP: 15 Def: 25 Atk: 25
@@ -153,7 +189,10 @@ Mimic (Bottom 2 Rows)	HP: 25 Def: 15 Atk: 15
 Mimic (Middle 2 Rows)	HP: 35 Def: 25 Atk: 25
 Mimic (Top 2 Rows)	HP: 45 Def: 35 Atk: 35
 Mind Flayer	HP: 47 Def: 40 Atk: 36
-Ninja Snowman	HP: 70 Def: 85 Atk: 85 E: cold
+Naughty Sorceress	
+Naughty Sorceress (second form)	
+Ninja Snowman (Katana)	HP: 70 Def: 85 Atk: 85 E: cold
+Ninja Snowman (Masked)	HP: 70 Def: 85 Atk: 85 E: cold
 Ninja Snowman (Ricebowl)	HP: 70 Def: 85 Atk: 85 ED: cold
 Ninja Snowman Janitor	HP: 70 Def: 90 Atk: 70 ED: cold
 Ninja Snowman Weaponmaster	HP: 80 Def: 90 Atk: 90 ED: cold
@@ -205,7 +244,12 @@ Spooky Gravy Fairy Warlock	HP: 50 Def: 60 Atk: 60 E: spooky
 Spooky Mummy	HP: 3 Def: 4 Atk: 1 E: spooky
 Spooky Vampire	HP: 2 Def: 4 Atk: 1 E: spooky
 Spunky Princess 	HP: 75 Def: 89 Atk: 91
-Sub-Assistant Knob Mad Scientist   1 HP Def: 2 Atk: 2
+Striking Factory-Worker Elf	
+Striking Gift-Wrapper Elf	
+Striking Middle-Management Elf	
+Striking Pencil-Pusher Elf	
+Striking Stocking-Stuffer Elf	
+Sub-Assistant Knob Mad Scientist	HP: 1 Def: 2 Atk: 2
 Swarm of Killer Bees	HP: 45 Def: 39 Atk: 41
 Swarthy Pirate	HP: 53 Def: 63 Atk: 63
 Taco Cat	HP: 56 Def: 66 Atk: 66
@@ -214,17 +258,21 @@ Tektite	HP: 15 Def: 20 Atk: 20
 The Astronomer	HP: 150 Def: 168 Atk: 168
 The Bonerdagon	HP: 120 Def: 90 Atk: 90 E: spooky
 The Boss Bat	HP: 40 Def: 33 Atk: 37
+The Burrowing Bishop	HP: 150 Def: 163 Atk: 163 E: sleaze
 The Family Jewels	HP: 150 Def: 156 Atk: 156 E: sleaze
 The Hooded Warrior	HP: 150 Def: 165 Atk: 165 E: sleaze
 The Junk	HP: 150 Def: 159 Atk: 161 E: sleaze
 The Knob Goblin King	HP: 50 Def: 53 Atk: 57
 The Pork Sword	HP: 150 Def: 162 Atk: 162 E: sleaze
+The Skinflute	HP: 150 Def: 158 Atk: 158 E: sleaze
 The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze
+The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18
 Toothy Sklelton	HP: 50 Def: 58 Atk: 58  E: spooky
 Topiary Golem	HP: 150 Def: 180 Atk: 180
 Triffid	HP: 6 Def: 5 Atk: 1
 Undead Elbow Macaroni	HP: 1 Def: 1 Atk: 1 E: spooky
+Vampire Bat	
 Vampire Clam	HP: 14 Def: 19 Atk: 21
 Vicious Gnauga	HP: 40 Def: 45 Atk: 45
 Vine Gar	HP: 180 Def: 200 Atk: 200

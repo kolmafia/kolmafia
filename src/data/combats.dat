@@ -1,69 +1,105 @@
-# Adventure Area Name	Monsters
+# Adventure Area Name	Combat %	Monsters
 #
 # Adventure Area Name must match that in adventures.dat
+#
 # Monsters extracted from Kittiwake's Monster Survival Guide:
 #
 # http://forums.kingdomofloathing.com/viewtopic.php?t=39973&start=0
 # http://kol.network-forums.com/viewtopic.php?p=1757
 #
 # Last edited by Kittiwake on Fri Apr 14, 2006 4:48 am
+#
+# Combat percentage figures from Yiab's statistical data:
+#
+# http://kol.coldfront.net/thekolwiki/index.php/Parseable_Area_Statistics
+#
+# Missing Combat Percent Data (marked with -1):
+#
+# Battlefield (Cloaca Uniform)
+# Battlefield (Dyspepsi Uniform)
+# Bugbear Pens
+# Dark Elbow of the Woods: Demoninja, G Imp, L Imp, Der Bierdieb
+# Dark Heart of the Woods: Fallen Archfiend, G Imp, P Imp, Friar No More
+# Dark Neck of the Woods: Hellion, P Imp, W Imp, On Wings of Fire
+# Dungeons of Doom
+# Spooky Gravy Barrow
+#
+# All monsters are usually equally likely to appear. For those areas
+# where some monsters are more heavily weighted than others, specify the
+# relative weights for each monster in the area following a colon:
+#
+#     monster1: 2 monster2: 3
+#
+# says that for every five combat encounters in the area, 2 will be
+# monster 1 and 3 will be monster 2.
+#
+# A weight of 0 means this is a one-time (boss) encounter in the area. A
+# weight of -1 means this is an ultra-rare encounter. Neither type of
+# monster will be included in average XP calculations.
+#
+# Assumptions:
+#
+# Knob Goblin Kitchens: similar to Laboratory: chef: 2  master chef: 1
+# Guano Junction: New monster: Vampire Bat - equally likely
+# Hole in the Sky: Three new constellations - equally likely
 
-8-Bit Realm	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octoroc	Tektite	Zol
-Bat Hole Entryway	Albino Bat	Pine Bat	Regular Old Bat
-Batrat and Ratbat Burrow	Batrat	Ratbat
-Battlefield (Cloaca Uniform)	 Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier
-Battlefield (Dyspepsi Uniform)	 Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier
-Beanbat Chamber	Beanbat
-Bugbear Pens	An Angry Bugbear	A Bugged Bugbear	Mad Bugbears	A Revolting Bugbear	A Revolving Bugbear	An Annoying Spooky Gravy Fairy
-Camp Logging Camp	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan
-Castle in the Clouds in the Sky	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
-Post-Cyrpt Cemetary	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton
-Pre-Cyrpt Cemetary	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
-Daily Dungeon	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayonnaise Wasp	Pencil Golem	Sabre-Toothed Lime	Tonic Water Elemental	Vampire Clam
-Dark Elbow of the Woods	Demoninja	G Imp	L Imp
-Dark Heart of the Woods	Fallen Archfiend	G Imp	P Imp
-Dark Neck of the Woods	Hellion	P Imp	W Imp
-Deep Fat Friar's Gate	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp
-Defiled Alcove	Corpulent Zobmie	Grave Rober Zmobie	Conjoined Zmombie
-Defiled Cranny	Gluttonous Ghuol	Gaunt Ghuol	Huge Ghuol
-Defiled Niche	Senile Lihc	Slick Lihc	Garganthulihc
-Defiled Nook	Spiny Skelelton	Toothy Sklelton	Giant Skeelton
-Degrassi Knoll	Gnollish Bodybuilder	Gnollish Crossdresser	Gnollish Flyslayer	Gnollish Gearhead	Gnollish Piebaker	Gnollish Plungermaster	Gnollish Sorceress	Gnollish Tirejuggler	Gnollish War Chef	Guard Bugbear	One-Eyed Gnoll
-Dungeons of Doom	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic
-eXtreme Slope	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
-Fernswarthy's Tower	Brainsweeper	Bread Golem	Chowder Golem	Giant Pair of Tweezers	Weretaco	Yeast Beast	Lesser Fruit Golem
-Frat House	Orcish Frat Boy (French Maid)	Orcish Frat Boy (Sorority Orcs)	Orcish Frat Boy (Paddling)
-Fun House	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown
-Goatlet	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
-Guano Junction	Baseball Bat	Briefcase Bat	Perpendicular Bat	Skullbat	Doughbat
-Haert of the Cyrpt	The Bonerdagon
-Haunted Pantry	Possessed Can of Tomatoes	Fiendish Can of Asparagus	Flame-Broiled Meat Blob	Undead Elbow Macaroni
-Hippy Camp	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
-Hole in the Sky	The Astronomer	One-Eyed Willie	The Family Jewels	The Hooded Warrior	The Junk	The Pork Sword	The Trouser Snake
-Icy Peak	Knott Yeti
-Itznotyerzitz Mine	7-Foot Dwarf (Moil)	7-Foot Dwarf (Royale)	7-Foot Dwarf Foreman
-Knob Goblin Harem	Knob Goblin Elite Guardsman	Knob Goblin Harem Girl
-Knob Goblin Kitchens	Knob Goblin Chef	Knob Goblin Master Chef
-Knob Goblin Laboratory	Knob Goblin Mad Scientist	Knob Goblin Very Mad Scientist
-Knob Goblin Treasury	Knob Goblin Bean Counter	Knob Goblin Elite Guardsman
-Menagerie 1	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
-Menagerie 2	Carnivorous Moxie Weed	Grass Elemental	Weremoose
-Menagerie 3	Booze Giant	Portly Abomination	Spectral Jellyfish
-Ninja Snowmen	Ninja Snowman	Ninja Snowman (Ricebowl)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
-Outskirts of Camp	Axe Handle	Cloud of Disembodied Whiskers	Poutine Oooze	Forest Spirit
-Outskirts of The Knob	Knob Goblin Assistant Chef	Sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
-Palindome	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat
-Penultimate Fantasy Airship	Burly Sidekick	Irritating Series of Random Encounters	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess 
-Pirate Cove	Sassy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate	Smarmy Pirate
-Sleazy Back Alley	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo
-Sorceress' Hedge Maze	Topiary Golem
-South of the Border	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull
-Spectral Pickle Factory	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar
-Spooky Forest	Bar	Triffid	Warwelf	Wolfman	Spooky Mummy	Spooky Vampire
-Spooky Gravy Barrow	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies
-The Boss Bat's Lair	The Boss Bat
-The Dire Warren	Fluffy Bunny
-The King's Chamber	The Knob Goblin King
-Thugnderdome	Gnarly Gnome	Gnasty Gnome	Gnefarious Gnome	Gnomester Blomester	Gnu Jack Gnome	Vicious Gnauga
-Valley Beyond Orc Chasm	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Spam Witch	XXX pr0n
-Whitey's Grove	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
+8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octoroc	Tektite	Zol
+Bat Hole Entryway	100	Albino Bat	Pine Bat	Regular Old Bat
+Batrat and Ratbat Burrow	100	Batrat	Ratbat
+Battlefield (Cloaca Uniform)	-1	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier
+Battlefield (Dyspepsi Uniform)	-1	 Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier
+Beanbat Chamber	100	Beanbat
+Bugbear Pens	-1	An Angry Bugbear	A Bugged Bugbear	Mad Bugbears	A Revolting Bugbear	A Revolving Bugbear	An Annoying Spooky Gravy Fairy: 0
+Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
+Castle in the Clouds in the Sky	75	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
+Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton	Count Bakula: -1
+Pre-Cyrpt Cemetary	100	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
+Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
+Daily Dungeon	-1	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayonnaise Wasp	Pencil Golem	Sabre-Toothed Lime	Tonic Water Elemental	Vampire Clam
+Dark Elbow of the Woods	-1	Demoninja	G Imp	L Imp
+Dark Heart of the Woods	-1	Fallen Archfiend	G Imp	P Imp
+Dark Neck of the Woods	-1	Hellion	P Imp	W Imp
+Deep Fat Friar's Gate	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
+Defiled Alcove	100	Corpulent Zobmie	Grave Rober Zmobie	Conjoined Zmombie
+Defiled Cranny	100	Gluttonous Ghuol	Gaunt Ghuol	Huge Ghuol: 0
+Defiled Niche	100	Senile Lihc	Slick Lihc	Garganthulihc: 0
+Defiled Nook	100	Spiny Skelelton	Toothy Sklelton	Giant Skeelton: 0
+Degrassi Knoll	-1	Gnollish Bodybuilder	Gnollish Crossdresser	Gnollish Flyslayer	Gnollish Gearhead	Gnollish Piebaker	Gnollish Plungermaster	Gnollish Sorceress	Gnollish Tirejuggler	Gnollish War Chef	Guard Bugbear	One-Eyed Gnoll
+Dungeons of Doom	-1	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic
+eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
+Fernswarthy's Tower	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
+Frat House	100	Orcish Frat Boy (French Maid)	Orcish Frat Boy (Sorority Orcs)	Orcish Frat Boy (Paddling)
+Fun House	100	Bugbear-In-The-Box	Disease-In-The-Box	Lemon-In-The-Box	Scary Clown	Shaky Clown	Creepy Clown
+Goatlet	100	Dairy Goat	Drunk Goat	Sabre-Toothed Goat
+Guano Junction	100	Baseball Bat	Briefcase Bat	Perpendicular Bat	Skullbat	Doughbat	Vampire Bat
+Haert of the Cyrpt	100	The Bonerdagon
+Haunted Pantry	50	Possessed Can of Tomatoes: 3	Fiendish Can of Asparagus: 3	Flame-Broiled Meat Blob: 2	Undead Elbow Macaroni: 3
+Hippy Camp	100	Crusty Hippy	Crusty Hippy Jewelry Maker	Crusty Hippy Vegan Chef	Dirty Hippy	Dirty Hippy Jewelry Maker	Dirty Hippy Vegan Chef	Filthy Hippy	Filthy Hippy Jewelry Maker	Filthy Hippy Vegan Chef
+Hole in the Sky	100	The Astronomer	One-Eyed Willie	The Burrowing Bishop	The Family Jewels	The Hooded Warrior	The Junk	The Pork Sword	The Skinflute	The Trouser Snake	The Twig and Berries
+Icy Peak	100	Knott Yeti
+Itznotyerzitz Mine	75	7-Foot Dwarf (Moil)	7-Foot Dwarf (Royale)	7-Foot Dwarf Foreman
+Knob Goblin Harem	60	Knob Goblin Elite Guardsman: 1	Knob Goblin Harem Girl: 2
+Knob Goblin Kitchens	100	Knob Goblin Chef: 2	Knob Goblin Master Chef: 1
+Knob Goblin Laboratory	100	Knob Goblin Mad Scientist: 2	Knob Goblin Very Mad Scientist: 1
+Knob Goblin Treasury	85	Knob Goblin Bean Counter	Knob Goblin Elite Guardsman	Infinite Meat Bug: -1
+Menagerie 1	100	BASIC Elemental	Fruit Golem	Knob Goblin Mutant
+Menagerie 2	100	Carnivorous Moxie Weed	Grass Elemental	Weremoose
+Menagerie 3	100	Booze Giant	Portly Abomination	Spectral Jellyfish
+Ninja Snowmen	100	Ninja Snowman (Katana)	Ninja Snowman (Masked)	Ninja Snowman (Ricebowl)	Ninja Snowman Janitor	Ninja Snowman Weaponmaster
+Outskirts of Camp	70	Axe Handle	Cloud of Disembodied Whiskers	Poutine Oooze	Forest Spirit
+Outskirts of The Knob	50	Knob Goblin Assistant Chef	Sleeping Knob Goblin Guard	Sub-Assistant Knob Mad Scientist	Knob Goblin Barbecue Team
+Palindome	50	Bob Racecar	Drab Bard	Evil Olive	Flock of Stab-Bats	Racecar Bob	Taco Cat	Tan Gnat
+Penultimate Fantasy Airship	80	Burly Sidekick	Irritating Series of Random Encounters	MagiMechTech MechaMech	Protagonist	Quiet Healer	Spunky Princess 
+Pirate Cove	60	Sassy Pirate	Shady Pirate	Shifty Pirate	Swarthy Pirate	Smarmy Pirate
+Sleazy Back Alley	50	Big Creepy Spider	Completely Different Spider	Rushing Bum	Drunken Half-Orc Hobo	Crazy Bastard: -1
+Sorceress' Hedge Maze	100	Topiary Golem
+South of the Border	50	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull
+Spectral Pickle Factory	75	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar
+Spooky Forest	100	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowulf: -1
+Spooky Gravy Barrow	-1	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
+The Boss Bat's Lair	100	The Boss Bat
+The Dire Warren	100	Fluffy Bunny
+The King's Chamber	100	The Knob Goblin King
+Thugnderdome	100	Gnarly Gnome	Gnasty Gnome	Gnefarious Gnome	Gnomester Blomester	Gnu Jack Gnome	Vicious Gnauga
+Valley Beyond Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Spam Witch	XXX pr0n
+Whitey's Grove	50	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake

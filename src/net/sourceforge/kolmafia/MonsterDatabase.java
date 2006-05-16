@@ -267,7 +267,7 @@ public class MonsterDatabase extends KoLDatabase
 		}
 
 		public double getXP()
-		{	return XP;
+		{	return Math.max( 1.0, XP );
 		}
 
 		public double getAdjustedXP( double modifier, int ml, FamiliarData familiar )
@@ -280,7 +280,7 @@ public class MonsterDatabase extends KoLDatabase
 			XP += modifier;
 			// Add variable XP from familiars
 			XP += sombreroXPAdjustment( adjustedML, familiar );
-			return XP;
+			return Math.max( 1.0, XP );
 		}
 
 		private static final int SOMBRERO = 18;

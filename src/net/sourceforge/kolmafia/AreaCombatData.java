@@ -44,19 +44,37 @@ public class AreaCombatData implements KoLConstants
 	private int maxHit;
 	private int minEvade;
 	private int maxEvade;
-	private List monsters;
 
-	public AreaCombatData()
+	private int combats;
+	private int weights;
+
+	// Parallel lists: monsters and encounter weighting
+	private List monsters;
+	private List weightings;
+
+	public AreaCombatData( int combats )
 	{
 		this.monsters = new ArrayList();
-		minHit = Integer.MAX_VALUE;
-		maxHit = 0;
-		minEvade = Integer.MAX_VALUE;
-		maxEvade = 0;
+		this.weightings = new ArrayList();
+		this.combats = combats;
+		this.weights = 0;
+		this.minHit = Integer.MAX_VALUE;
+		this.maxHit = 0;
+		this.minEvade = Integer.MAX_VALUE;
+		this.maxEvade = 0;
 	}
 
 	public boolean addMonster( String name )
 	{
+		int weighting = 1;
+
+		int colon = name.indexOf( ":" );
+		if ( colon > 0 )
+		{
+			weighting = Integer.parseInt( name.substring( colon + 1 ).trim() );
+			name = name.substring( 0, colon );
+		}
+
 		MonsterDatabase.Monster monster = MonsterDatabase.findMonster( name );
 		if ( monster == null )
 			return false;
@@ -74,11 +92,24 @@ public class AreaCombatData implements KoLConstants
 			maxHit = defense;
 
 		monsters.add( monster );
+
+		if ( weighting > 0 )
+			weights += weighting;
+		weightings.add( new Integer( weighting ) );
+
 		return true;
 	}
 
 	public MonsterDatabase.Monster getMonster( int i )
 	{	return (MonsterDatabase.Monster) monsters.get(i);
+	}
+
+	public int getWeighting( int i )
+	{	return ((Integer)weightings.get(i)).intValue();
+	}
+
+	public int combats()
+	{	return combats;
 	}
 
 	public int minHit()
@@ -118,14 +149,21 @@ public class AreaCombatData implements KoLConstants
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		double xpAdjustment = KoLCharacter.getFixedXPAdjustment();
 
-		// Iterate once through monsters to calculate average XP
-		double totalXP = 0.0;
-		int monsterCount = monsters.size();
+		// Area Combat percentage
+		double combatFactor = areaCombatPercent() / 100.0;
 
-		for ( int i = 0; i < monsterCount; ++i )
+		// Iterate once through monsters to calculate average XP
+		double averageXP = 0.0;
+
+		for ( int i = 0; i < monsters.size(); ++i )
 		{
+			int weighting = getWeighting( i );
+			// Omit ultra-rare (-1) and one-time (0) monsters
+			if ( weighting < 1 )
+				continue;
 			MonsterDatabase.Monster monster = getMonster( i );
-			totalXP += monster.getAdjustedXP( xpAdjustment, ml,  familiar );
+			double weight = (double)weighting / (double)weights;
+			averageXP += weight * monster.getAdjustedXP( xpAdjustment, ml,  familiar );
 		}
 
 		StringBuffer buffer = new StringBuffer();
@@ -135,18 +173,31 @@ public class AreaCombatData implements KoLConstants
 
 		buffer.append( "<br><b>Evade</b>: " );
 		buffer.append( getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, true ) );
-		buffer.append( "<br><b>Average XP</b>: " + ff.format( totalXP / (double)monsterCount ) );
+		buffer.append( "<br><b>Combat encounters</b>: " );
+		buffer.append( (combats < 0 ) ? "No data" : ( ff.format( combatFactor * 100.0 ) + "%" ) );
+		buffer.append( "<br><b>Average XP</b>: " + ff.format( averageXP * combatFactor ) );
 		buffer.append( "<br>" );
 
 		for ( int i = 0; i < monsters.size(); ++i )
 		{
-			buffer.append( "<br>" );
 			MonsterDatabase.Monster monster = getMonster( i );
-			buffer.append( getMonsterString( monster, moxie, hitstat, ml ) );
+			int weighting = getWeighting( i );
+			buffer.append( "<br>" );
+			buffer.append( getMonsterString( monster, moxie, hitstat, ml, weighting, combatFactor ) );
 		}
 
 		buffer.append( "</html>" );
 		return buffer.toString();
+	}
+
+        private double areaCombatPercent()
+	{
+		// If we don't have the data, pretend it's all combat
+		if ( combats < 0 )
+			return 100.0;
+
+		double pct = (double)combats + KoLCharacter.getCombatPercentAdjustment();
+		return Math.max( 0.0, Math.min( 100.0, pct ) );
 	}
 
 	private String getRateString( double minPercent, int minMargin, double maxPercent, int maxMargin, boolean isMoxieTest )
@@ -188,7 +239,7 @@ public class AreaCombatData implements KoLConstants
 		return buffer.toString();
 	}
 
-	private String getMonsterString( MonsterDatabase.Monster monster, int moxie, int hitstat, int ml )
+	private String getMonsterString( MonsterDatabase.Monster monster, int moxie, int hitstat, int ml, int weighting, double combatFactor )
 	{
 		// moxie and hitstat already adjusted for monster level
 
@@ -212,7 +263,14 @@ public class AreaCombatData implements KoLConstants
 		// Color the monster name according to its element
 		buffer.append( " <font color=" + elementColor( element ) + ">" );
 		buffer.append( monster.getName() );
-		buffer.append( "</font><br> - Hit: <font color=" + elementColor( ed ) + ">" );
+		buffer.append( "</font> (" );
+		if ( weighting < 0 )
+			buffer.append( "ultra-rare" );
+		else if ( weighting == 0 )
+			buffer.append( "one-time" );
+		else
+			buffer.append( ff.format( 100.0 * combatFactor * (double)weighting / (double)weights ) + "%" );
+                buffer.append( ")<br> - Hit: <font color=" + elementColor( ed ) + ">" );
 		buffer.append( ff.format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + elementColor( ea ) + ">" );
 		buffer.append( ff.format( evadePercent ) );
