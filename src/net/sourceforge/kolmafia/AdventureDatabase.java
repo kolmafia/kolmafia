@@ -703,7 +703,9 @@ public class AdventureDatabase extends KoLDatabase
 			// user wishes to autosatisfy through purchases,
 			// and the item is not creatable through combines.
 
-			boolean shouldPurchase = TradeableItemDatabase.getPriceByID( item.getItemID() ) > 0;
+			int price = TradeableItemDatabase.getPriceByID( item.getItemID() );
+
+			boolean shouldPurchase = price != 0 && price != -1;
 			boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
 			boolean shouldAutoSatisfyEarly = canUseNPCStore;
 			boolean shouldUseMall = getProperty( "autoSatisfyChecks" ).equals( "true" );
