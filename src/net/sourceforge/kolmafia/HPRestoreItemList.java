@@ -70,7 +70,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
 
-	public static final HPRestoreItem [] FALLBACKS = new HPRestoreItem[] { HERBS, SCROLL, OINTMENT };
+	public static final HPRestoreItem [] FALLBACKS = new HPRestoreItem[] { SCROLL, HERBS, OINTMENT };
 
 	public static JCheckBox [] getCheckboxes()
 	{
@@ -138,8 +138,8 @@ public abstract class HPRestoreItemList extends StaticEntity
 				
 				int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
 				
-				if ( this == HERBS && NPCStoreDatabase.contains( HERBS.toString() ) )
-					numberAvailable = 1;
+				if ( this == HERBS )
+					numberAvailable = hpShort < 20 || !NPCStoreDatabase.contains( HERBS.toString() ) ? 0 : 1;
 				else if ( this == SCROLL && KoLCharacter.canInteract() )
 					numberAvailable = 1;
 				else if ( this == OINTMENT )
