@@ -1010,10 +1010,12 @@ public abstract class KoLmafia implements KoLConstants
 			if ( current < needed )
 				needed = maximum - 1;
 		}
-		else
-			needed = needed >= maximum ? maximum - 1 : needed + 1;
-		
-		if ( current > needed )
+		else if ( needed >= maximum )
+		{
+			needed = maximum - 1;
+		}
+
+		if ( current >= needed )
 			return true;
 
 		// Next, check against the restore target to see how
