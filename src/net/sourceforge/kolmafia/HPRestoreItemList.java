@@ -64,7 +64,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 	private static final HPRestoreItem PHONICS = new HPRestoreItem( "phonics down", 48 );
 	private static final HPRestoreItem CAST = new HPRestoreItem( "cast", 17 );
 
-	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] { WALRUS, OTTER, REMEDY, TINY_HOUSE, COCOON, BANDAGES, POWERNAP, NAP, PHONICS, CAST };
+	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] { WALRUS, OTTER, REMEDY, TINY_HOUSE, COCOON, PHONICS, CAST, BANDAGES, POWERNAP, NAP };
 
 	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
 	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
@@ -156,16 +156,13 @@ public abstract class HPRestoreItemList extends StaticEntity
 			if ( numberToUse == 0 )
 				return;
 
-			// Test for tiny houses.  If there is no other technique,
-			// use as many as possible.  Otherwise, just use one.
-			
 			if ( this == TINY_HOUSE )
 			{
 				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
 					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", 1 ) )).run();
 
 				return;
-			}
+			}			
 
 			if ( this == WALRUS || this == OTTER )
 			{
@@ -177,6 +174,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			if ( ClassSkillsDatabase.contains( this.toString() ) )
 			{
+				if ( this != COCOON || hpShort >= 20 )
 				(new UseSkillRequest( client, this.toString(), "", numberToUse )).run();
 			}
 			else
