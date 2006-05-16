@@ -878,12 +878,28 @@ public class KoLmafiaCLI extends KoLmafia
 			// worthless items via the sewer.
 
 			if ( parameters.equals( "worthless item" ) )
-				while ( HermitRequest.getWorthlessItemCount() == 0 && StaticEntity.getClient().permitsContinue() )
+			{
+				while ( KoLCharacter.getAdventuresLeft() > 0 && HermitRequest.getWorthlessItemCount() == 0 && StaticEntity.getClient().permitsContinue() )
 					executeLine( "buy 1 chewing gum on a string; adventure Unlucky Sewer" );
+				
+				if ( HermitRequest.getWorthlessItemCount() == 0 )
+				{
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unable to acquire a worthless item." );
+					return;
+				}
+			}
 			else if ( parameters.equals( "worthless item with clover" ) && HermitRequest.getWorthlessItemCount() == 0 )
 			{
-				AdventureDatabase.retrieveItem( SewerRequest.CLOVER.getInstance(1) );
-				executeLine( "buy 1 chewing gum on a string; adventure Sewer With Clovers" );
+				if ( KoLCharacter.getAdventuresLeft() > 0 )
+				{
+					AdventureDatabase.retrieveItem( SewerRequest.CLOVER.getInstance(1) );
+					executeLine( "buy 1 chewing gum on a string; adventure Sewer With Clovers" );
+				}
+				else
+				{
+					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unable to acquire a worthless item." );
+					return;
+				}
 			}
 			
 			// Non-worthless-item requests default to 
