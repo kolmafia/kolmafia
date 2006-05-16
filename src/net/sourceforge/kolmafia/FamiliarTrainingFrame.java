@@ -1074,22 +1074,20 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( !empathyAvailable && empathyActive == 0 )
 				{
 					stop = true;
-					statusMessage( ERROR_STATE, "Ask a buffbot for empathy?" );							
+					statusMessage( ERROR_STATE, "Ask a buffbot for empathy?" );
+					return false;
 				}
 
 				// Otherwise, if it gets this far, you definitely need
 				// a snowcone; any other circumstance and you would have
 				// had enough to get by.  But, only buy a snowcone if
-				// you're really short on adventures and the goal is 20.
+				// you're really short on adventures.
 				
-				else
+				if ( KoLCharacter.getAdventuresLeft() < 10 )
 				{
-					if ( KoLCharacter.getAdventuresLeft() < 10 )
-					{
-						DEFAULT_SHELL.executeLine( "acquire green snowcone" );
-						status = new FamiliarStatus();
-						return true;
-					}
+					DEFAULT_SHELL.executeLine( "acquire green snowcone" );
+					status = new FamiliarStatus();
+					return true;
 				}
 
 				// Now, the fall-through state is when the goal reached is
