@@ -174,8 +174,15 @@ public class AreaCombatData implements KoLConstants
 		buffer.append( "<br><b>Evade</b>: " );
 		buffer.append( getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, true ) );
 		buffer.append( "<br><b>Combat encounters</b>: " );
-		buffer.append( (combats < 0 ) ? "No data" : ( ff.format( combatFactor * 100.0 ) + "%" ) );
-		buffer.append( "<br><b>Average XP</b>: " + ff.format( averageXP * combatFactor ) );
+		if ( combats > 0 )
+		{
+			buffer.append( ff.format( combatFactor * 100.0 ) + "%" );
+			buffer.append( "<br><b>Average XP/turn from Combat</b>: " + ff.format( averageXP * combatFactor ) );
+		}
+		else if ( combats == 0 )
+			buffer.append( "0%" );
+		else
+			buffer.append( "No data" );
 		buffer.append( "<br>" );
 
 		for ( int i = 0; i < monsters.size(); ++i )
