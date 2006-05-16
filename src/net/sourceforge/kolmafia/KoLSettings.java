@@ -225,7 +225,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "relayAddsSimulatorLinks", "true" );
 		ensureProperty( "relayAddsUseLinks", "true" );
 		ensureProperty( "relayMovesManeuver", "true" );
-		ensureProperty( "rememberPasswords", "false" );
 		ensureProperty( "saveState", "" );
 		ensureProperty( "serverFriendly", "false" );
 		ensureProperty( "showAdventureZone", "true" );
