@@ -150,7 +150,7 @@ public abstract class Nemesis extends StaticEntity
 
 		// Save currently equipped weapon so we can re-equip it for the final battle.
 
-		String weapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
+		String weapon = KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON );
 		boolean needsWeapon = false;
 
 		// Pass the obstacles one at a time.
