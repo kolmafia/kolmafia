@@ -276,7 +276,7 @@ public class FamiliarData implements KoLConstants, Comparable
 				return true;
 
 			default:
-				return item.equals( KoLDatabase.getCanonicalName( FamiliarsDatabase.getFamiliarItem( id ) ) );
+				return item.equals( FamiliarsDatabase.getFamiliarItem( id ) );
 		}
 	}
 
