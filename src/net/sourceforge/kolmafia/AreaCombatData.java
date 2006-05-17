@@ -268,9 +268,9 @@ public class AreaCombatData implements KoLConstants
 		int element = ( ed == MonsterDatabase.NONE ) ? ea : ed;
 
 		// Color the monster name according to its element
-		buffer.append( " <font color=" + elementColor( element ) + ">" );
+		buffer.append( " <font color=" + elementColor( element ) + "><b>" );
 		buffer.append( monster.getName() );
-		buffer.append( "</font> (" );
+		buffer.append( "</b></font> (" );
 		if ( weighting < 0 )
 			buffer.append( "ultra-rare" );
 		else if ( weighting == 0 )
