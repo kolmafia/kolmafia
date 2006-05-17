@@ -2157,10 +2157,15 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Take advantage of KoLmafia's built-in familiar item
-		// switching.
-
-		StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), match.getName(), slot ), 1 );
+		// If you are equipping a two-handed weapon, and you
+		// orginally were dual-wielding, unequip the offhand
+		// weapon first.
+		
+		if ( KoLCharacter.dualWielding() && EquipmentDatabase.getHands( match.getItemID() ) == 2 )
+			executeLine( "unequip off-hand" );
+		
+		StaticEntity.getClient().makeRequest(
+			new EquipmentRequest( StaticEntity.getClient(), match.getName(), slot ), 1 );
 	}
 
 	/**
