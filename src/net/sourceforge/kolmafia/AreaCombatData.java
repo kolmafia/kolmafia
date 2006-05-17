@@ -79,6 +79,20 @@ public class AreaCombatData implements KoLConstants
 		if ( monster == null )
 			return false;
 
+		monsters.add( monster );
+		weightings.add( new Integer( weighting ) );
+
+		// Don't let ultra-rare monsters skew hit and evade numbers -
+		// or anything else.
+		if ( weighting < 0 )
+			return true;
+
+		// Don't let one-time monsters skew combat percentage numbers
+		// or things derived from them, like area-wide item and meat
+		// drops. Do include them in hit and evade ("safety") numbers.
+		if ( weighting > 0 )
+			weights += weighting;
+
 		int attack = monster.getAttack();
 		if ( attack < minEvade )
 			minEvade = attack;
@@ -90,12 +104,6 @@ public class AreaCombatData implements KoLConstants
 			minHit = defense;
 		if ( defense > maxHit )
 			maxHit = defense;
-
-		monsters.add( monster );
-
-		if ( weighting > 0 )
-			weights += weighting;
-		weightings.add( new Integer( weighting ) );
 
 		return true;
 	}
