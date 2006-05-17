@@ -37,6 +37,8 @@ package net.sourceforge.kolmafia;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.StringTokenizer;
+import java.util.List;
+import java.util.ArrayList;
 
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -71,7 +73,23 @@ public class MonsterDatabase extends KoLDatabase
 			if ( data.length >= 2 )
 			{
 				Monster monster = registerMonster( data[0], data[1] );
-				if ( monster != null )
+				if ( monster == null )
+					continue;
+
+				boolean bad = false;
+				for ( int i = 2; i < data.length; ++i )
+				{
+					AdventureResult item = AdventureResult.parseResult( data[i] );
+					if ( item != null )
+					{
+						monster.addItem( item );
+						continue;
+					}
+					System.out.println( "Bad item for monster \"" + data[0] + "\": " + data[i] );
+					bad = true;
+				}
+
+				if ( !bad )
 					MONSTERS.put( data[0], monster );
 			}
 		}
@@ -226,6 +244,7 @@ public class MonsterDatabase extends KoLDatabase
 		private double XP;
 		private int attackElement;
 		private int defenseElement;
+		private List items;
 
 		public Monster( String name, int HP, int attack, int defense, int attackElement, int defenseElement )
 		{
@@ -236,6 +255,7 @@ public class MonsterDatabase extends KoLDatabase
 			this.XP = (double)( attack + defense ) / 10.0 ;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
+			this.items = new ArrayList();
 		}
 
 		public String getName()
@@ -264,6 +284,14 @@ public class MonsterDatabase extends KoLDatabase
 
 		public int getDefenseElement()
 		{	return defenseElement;
+		}
+
+		public List getItems()
+		{	return items;
+		}
+
+		public void addItem( AdventureResult item )
+		{	items.add( item );
 		}
 
 		public double getXP()

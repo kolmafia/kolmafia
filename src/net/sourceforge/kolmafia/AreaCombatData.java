@@ -283,7 +283,26 @@ public class AreaCombatData implements KoLConstants
 		buffer.append( ff.format( evadePercent ) );
 		buffer.append( "%</font><br> - HP: " + HP + ", XP: " + ff.format( XP ) );
 
+		printItemList( buffer, "<br> - Items: ", monster.getItems() );
+
 		return buffer.toString();
+	}
+
+        private void printItemList( StringBuffer buffer, String prefix, List items )
+	{
+		if ( items.size() == 0 )
+			return;
+
+		double itemModifier = ( 100.0 + KoLCharacter.getItemDropPercentAdjustment() ) / 100.0;
+		buffer.append( prefix );
+		for ( int i = 0; i < items.size(); ++i )
+		{
+			AdventureResult item = (AdventureResult)items.get(i);
+			if ( i > 0 )
+				buffer.append( ", " );
+			double drop = Math.min( (double)item.getCount() * itemModifier, 100.0 );
+			buffer.append( item.getName() + " (" + ff.format( drop ) + "%)" );
+		}
 	}
 
 	public static String elementColor( int element )
