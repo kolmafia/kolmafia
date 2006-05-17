@@ -2158,7 +2158,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		// If you are equipping a two-handed weapon, and you
-		// orginally were dual-wielding, unequip the offhand
+		// originally were dual-wielding, unequip the offhand
 		// weapon first.
 		
 		if ( KoLCharacter.dualWielding() && EquipmentDatabase.getHands( match.getItemID() ) == 2 )
