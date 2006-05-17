@@ -45,8 +45,8 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 
 public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 {
-	private static final int RESIZE_SIZE = 100000;
-	private static final int MAXIMUM_SIZE = 200000;
+	private static final int RESIZE_SIZE = 10000;
+	private static final int MAXIMUM_SIZE = 30000;
 	
 	protected static List colors;
 	protected static List highlights;
@@ -54,6 +54,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	protected static LimitedSizeChatBuffer highlightBuffer;
 
 	private int previousFontSize;
+	private boolean ignoresBufferLimit;
 	private boolean affectsHighlightBuffer;
 
 	private static int fontSize = 3;
@@ -65,10 +66,18 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		setFontSize( fontSize );
 	}
 
+	public LimitedSizeChatBuffer( String title )
+	{
+		this( title, false );
+		this.ignoresBufferLimit = true;
+	}
+	
 	public LimitedSizeChatBuffer( String title, boolean affectsHighlightBuffer )
 	{
 		super( title );
 		previousFontSize = fontSize;
+
+		this.ignoresBufferLimit = false;
 		this.affectsHighlightBuffer = affectsHighlightBuffer;
 	}
 
@@ -187,7 +196,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 		previousFontSize = fontSize;
 
-		if ( displayBuffer.length() > MAXIMUM_SIZE )
+		if ( !ignoresBufferLimit && displayBuffer.length() > MAXIMUM_SIZE )
 		{
 			int lineIndex = displayBuffer.indexOf( "<br>", displayBuffer.length() - RESIZE_SIZE );
 			displayBuffer.delete( 0, lineIndex == -1 ? displayBuffer.length() : lineIndex );

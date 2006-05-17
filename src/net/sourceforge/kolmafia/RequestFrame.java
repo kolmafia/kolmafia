@@ -126,7 +126,7 @@ public class RequestFrame extends KoLFrame
 		if ( !(this instanceof PendingTradesFrame) )
 			this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
-		this.mainBuffer = new LimitedSizeChatBuffer( "Mini-Browser", false );
+		this.mainBuffer = new LimitedSizeChatBuffer( "Mini-Browser" );
 		JScrollPane mainScroller = this.mainBuffer.setChatDisplay( this.mainDisplay );
 
 		// Game text descriptions and player searches should not add
@@ -146,7 +146,7 @@ public class RequestFrame extends KoLFrame
 			this.sideDisplay.setEditable( false );
 			this.sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
-			this.sideBuffer = new LimitedSizeChatBuffer( "", false );
+			this.sideBuffer = new LimitedSizeChatBuffer( "Sidebar" );
 			JScrollPane sideScroller = this.sideBuffer.setChatDisplay( sideDisplay );
 			JComponentUtilities.setComponentSize( sideScroller, 150, 450 );
 
