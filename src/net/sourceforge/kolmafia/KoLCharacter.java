@@ -2613,7 +2613,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int ICE_PICK = 1426;
 	private static final int MONOCLE = 1312;
 	private static final int DUCK = 1396;
-	private static final int HELMET = 360;
+	private static final int MINERS_HELMET = 360;
 	private static final int GNAUGA_WHIP = 1032;
 
 	// KoLmafia does not support the "containers" slot.
@@ -2646,7 +2646,7 @@ public abstract class KoLCharacter extends StaticEntity
 		newMonsterLevelAdjustment += getMindControlLevel();
 
 		// Look at items
-		for ( int slot = WEAPON; slot <= FAMILIAR; ++slot )
+		for ( int slot = HAT; slot <= FAMILIAR; ++slot )
 		{
 			AdventureResult item = getCurrentEquipment( slot );
 			if ( item == null )
@@ -2769,7 +2769,7 @@ public abstract class KoLCharacter extends StaticEntity
 				newItemDropPercentAdjustment += 12.5;
 				break;
 			case DUCK:
-			case HELMET:
+			case MINERS_HELMET:
 				newItemDropPercentAdjustment += 5;
 				break;
 			case GNAUGA_WHIP:
