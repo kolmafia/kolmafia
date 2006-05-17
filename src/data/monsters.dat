@@ -35,102 +35,132 @@
 # Item Drop percentage figures from Yiab's statistical data:
 #
 # http://kol.coldfront.net/thekolwiki/index.php/Parseable_Item_Statistics
+#
+# Missing Item Drop Data for the following:
+#
+# Buzzy Beetle
+# The Burrowing Bishop
+# The Skinflute
+# The Twig and Berries
+# Vampire Bat
+#
+# One Time monsters:
+#
+# Baron Von Ratsworth	
+# Conjoined Zmombie
+# Garganthulihc
+# Giant Skeelton
+# Huge Ghuol
+# The Bonerdagon
+# The Boss Bat
+# The Knob Goblin King
+#
+# Monsters from the following areas:
+#
+# Battlefield (Cloaca Uniform)
+# Battlefield (Dyspepsi Uniform)
+# Bugbear Pens
+# Dungeon of Doom
+# Degrassi Knoll
+# Knob Goblin Kitchen
+# Sorceress' Hedge Maze
+# Spooky Gravy Barrow
 
-1335 HaXx0r	HP: 71 Def: 81 Atk: 81
-7-Foot Dwarf (Moil)	HP: 40 Def: 53 Atk: 53
-7-Foot Dwarf (Royale)	HP: 40 Def: 53 Atk: 53
-7-Foot Dwarf Foreman	HP: 50 Def: 57 Atk: 57
+1335 HaXx0r	HP: 71 Def: 81 Atk: 81	334 scroll (20.4)	Dyspepsi-Cola (70.3)	1337 7r0uZ0RZ (14.8)
+7-Foot Dwarf (Moil)	HP: 40 Def: 53 Atk: 53	miner's helmet (2.9)	miner's pants (3.3)	7-Foot Dwarven mattock (3.6)
+7-Foot Dwarf (Royale)	HP: 40 Def: 53 Atk: 53	miner's helmet (2.9)	miner's pants (3.3)	7-Foot Dwarven mattock (3.6)
+7-Foot Dwarf Foreman	HP: 50 Def: 57 Atk: 57	7-Foot Dwarven mattock (3.2)	miner's helmet (2.9)	miner's pants (3.1)
 A Bugged Bugbear	HP: 14 Def: 18 Atk: 14
 A Revolting Bugbear	HP: 10 Def: 13 Atk: 13
 A Revolving Bugbear	HP: 11 Def: 15 Atk: 15
 Acid Blob	HP: 40 Def: 38 Atk: 38
-Albino Bat	HP: 8  Def: 14 Atk: 10
-Alphabet Giant	HP: 150 Def: 145 Atk: 145
+Albino Bat	HP: 8  Def: 14 Atk: 10	batgut (8.5)	bat guano (9.7)
+Alphabet Giant	HP: 150 Def: 145 Atk: 145	heavy D (39.3)	original G (41.3)
 An Angry Bugbear	HP: 12 Def: 15 Atk: 15
 An Annoying Spooky Gravy Fairy	HP: 20 Def: 20 Atk: 20 E: spooky
-Angry Pi&ntilde;ata	HP: 20 Def: 22 Atk: 22
-Anime Smiley	HP: 67 Def: 77 Atk: 77
-Axe Handle	HP: 3 Def: 3 Atk: 1
-Baiowulf	HP: 40 Def: 25 Atk: 25
+Angry Pi&ntilde;ata	HP: 20 Def: 22 Atk: 22	pile of candy (100.0)
+Anime Smiley	HP: 67 Def: 77 Atk: 77	334 scroll (31.5)	Tasty Fun Good rice candy (40.5)
+Axe Handle	HP: 3 Def: 3 Atk: 1	pine tar (19.7)
+Baiowulf	HP: 40 Def: 25 Atk: 25	Talisman of Baio (100)
 BASIC Elemental	HP: 40 Def: 50 Atk: 50
-Bar	HP: 5 Def: 3 Atk: 1
+Bar	HP: 5 Def: 3 Atk: 1	bar skin (27.0)	barskin hat (4.9)
 Baron Von Ratsworth	
-Baseball Bat	HP: 9 Def: 15 Atk: 15
-Batrat	HP: 20 Def: 23 Atk: 23
-Beanbat	HP: 18 Def: 21 Atk: 21
-Big Creepy Spider	HP: 1 Def: 1 Atk: 1
-Blooper	HP: 15 Def: 25 Atk: 25
-Bob Racecar	HP: 60 Def: 69 Atk: 69
-Booze Giant	HP: 66 Def: 76 Atk: 76
-Brainsweeper	HP: 9  Def: 18 Atk: 18
-Bread Golem	HP: 8 Def: 16 Atk: 24
-Briefcase Bat	HP: 11 Def: 17 Atk: 17
-Bugbear-In-The-Box	HP: 11 Def: 18 Atk: 14
-Bullet Bill	HP: 15 Def: 25 Atk: 25
-Burly Sidekick	HP: 100 Def: 100 Atk: 100
+Baseball Bat	HP: 9 Def: 15 Atk: 15	baseball (29.8)	sonar-in-a-biscuit (18.5)
+Batrat	HP: 20 Def: 23 Atk: 23	bat wing (16.0)	bat guano (15.7)	batgut (15.1)
+Beanbat	HP: 18 Def: 21 Atk: 21	enchanted bean (51.3)
+Big Creepy Spider	HP: 1 Def: 1 Atk: 1	spider web (25.5)	spider web (25.5)
+Blooper	HP: 15 Def: 25 Atk: 25	white pixel (68.6)	white pixel (68.6)	white pixel (68.6)
+Bob Racecar	HP: 60 Def: 69 Atk: 69	ketchup hound (8.8)	leather chaps (13.2)	mesh cap (15.1)
+Booze Giant	HP: 66 Def: 76 Atk: 76	bottle of gin (14.9)	bottle of rum (16.3)	bottle of tequila (13.6)	bottle of vodka (14.5)	bottle of whiskey (14.9)	boxed wine (14.7)
+Brainsweeper	HP: 9  Def: 18 Atk: 18	disembodied brain (30.9)
+Bread Golem	HP: 8 Def: 16 Atk: 24	wad of dough (31.0)
+Briefcase Bat	HP: 11 Def: 17 Atk: 17	bat guano (10.8)	briefcase (40.8)	sonar-in-a-biscuit (18.1)
+Bugbear-In-The-Box	HP: 11 Def: 18 Atk: 14	box (20.5)	bugbear beanie (9.2)	bugbear bungguard (8.9)
+Bullet Bill	HP: 15 Def: 25 Atk: 25	black pixel (69.7)	black pixel (69.7)	black pixel (69.7)
+Burly Sidekick	HP: 100 Def: 100 Atk: 100	cocoa eggshell fragment (30.4)	mohawk wig (10.3)	tiny house (30.6)
 Buzzy Beetle	HP: 15 Def: 20 Atk: 20
-Carnivorous Dill Plant	HP: 180 Def: 200 Atk: 200
-Carnivorous Moxie Weed	HP: 56 Def: 66 Atk: 66
+Carnivorous Dill Plant	HP: 180 Def: 200 Atk: 200	dill (29.2)	dill (29.2)
+Carnivorous Moxie Weed	HP: 56 Def: 66 Atk: 66	moxie weed (30.2)	giant moxie weed (13.3)	giant moxie weed (13.3)
 Chowder Golem	HP: 9 Def: 18 Atk: 22
 Cloaca-Cola Catapult Engineer	HP: 40 Def: 30 Atk: 30
 Cloaca-Cola Footsoldier	HP: 35 Def: 30 Atk: 30
 Cloaca-Cola Soldier	HP: 30 Def: 30 Atk: 30
-Cloud of Disembodied Whiskers	HP: 3 Def: 3 Atk: 1
-Completely Different Spider	HP: 1 Def: 1 Atk: 1
+Cloud of Disembodied Whiskers	HP: 3 Def: 3 Atk: 1	shaving cream (22.1)
+Completely Different Spider	HP: 1 Def: 1 Atk: 1	spider web (24.6)	spider web (24.6)
 Conjoined Zmombie	HP: 60 Def: 71 Atk: 79 E: spooky
+Corpulent Zobmie	HP: 50 Def: 55 Atk: 53 E: spooky	cranberries (21.1)	cranberries (21.1)	loose teeth (8.3)
 Corpulent Zobmie	HP: 50 Def: 55 Atk: 53 E: spooky
-Corpulent Zobmie	HP: 50 Def: 55 Atk: 53 E: spooky
-Count Bakula	HP: 70 Def: 80 Atk: 80
-Crazy Bastard	HP: 25 Def: 20 Atk: 20
-Creepy Clown	HP: 16 Def: 20 Atk: 20 E: sleaze
-Crusty Hippy	HP: 30 Def: 41 Atk: 41 E: stench
-Crusty Hippy Jewelry Maker	HP: 30 Def: 41 Atk: 41 E: stench
-Crusty Hippy Vegan Chef	HP: 30 Def: 41 Atk: 41 E: stench
-Dairy Goat	HP: 50 Def: 68 Atk: 68
+Count Bakula	HP: 70 Def: 80 Atk: 80	Talisman of Bakula (100)
+Crazy Bastard	HP: 25 Def: 20 Atk: 20	crazy bastard sword (100)
+Creepy Clown	HP: 16 Def: 20 Atk: 20 E: sleaze	acid-squirting flower (10.4)	clown shoes (9.9)	foolscap fool's cap (10.3)
+Crusty Hippy	HP: 30 Def: 41 Atk: 41 E: stench	filthy corduroys (5.5)	filthy knitted dread sack (5.4)	windchimes (29.5)	reodorant (5.0)
+Crusty Hippy Jewelry Maker	HP: 30 Def: 41 Atk: 41 E: stench	necklace chain (28.5)	filthy knitted dread sack (2.8)	reodorant (6.1)	filthy corduroys (2.0)
+Crusty Hippy Vegan Chef	HP: 30 Def: 41 Atk: 41 E: stench	filthy corduroys (3.3)	filthy knitted dread sack (6.2)	herbs (29.6)	reodorant (4.7)
+Dairy Goat	HP: 50 Def: 68 Atk: 68	glass of goat's milk (20.4)	goat cheese (39.2)
 Dairy Ooze	HP: 8 Def: 13 Atk: 13
-Decent Lumberjack	HP: 35 Def: 35 Atk: 35
-Demoninja	HP: 48 Def: 30 Atk: 50 E: heat
-Dirty Hippy	HP: 30 Def: 40 Atk: 40 E: stench
-Dirty Hippy Jewelry Maker	HP: 30 Def: 40 Atk: 40 E: stench
-Dirty Hippy Vegan Chef	HP: 30 Def: 40 Atk: 40 E: stench
-Disease-In-The-Box	HP: 14 Def: 18 Atk: 18
+Decent Lumberjack	HP: 35 Def: 35 Atk: 35	poutine (30.0)	disbelief suspenders (8.8)
+Demoninja	HP: 48 Def: 30 Atk: 50 E: heat	hot katana blade (27.8)	ninja hot pants (6.8)
+Dirty Hippy	HP: 30 Def: 40 Atk: 40 E: stench	Feng Shui for Big Dumb Idiots (30.4)	filthy corduroys (4.6)	reodorant (5.5)	filthy knitted dread sack (2.0)
+Dirty Hippy Jewelry Maker	HP: 30 Def: 40 Atk: 40 E: stench	filthy corduroys (4.4)	hemp bracelet (30.2)	phat turquoise bead (10.4)	filthy knitted dread sack (2.2)	reodorant (4.8)
+Dirty Hippy Vegan Chef	HP: 30 Def: 40 Atk: 40 E: stench	carob chunks (31.4)	filthy knitted dread sack (5.6)	Uncle Jick's Brownie Mix (32.5)	reodorant (3.6)	filthy corduroys (2.2)
+Disease-In-The-Box	HP: 14 Def: 18 Atk: 18	box (30.8)	disease (40.5)
 Dodecapede	HP: 8 Def: 12 Atk: 12
-Doughbat	HP: 8 Def: 14 Atk: 14 EA: sleaze
-Drab Bard	HP: 55 Def: 65 Atk: 65
-Drunk Goat	HP: 50 Def: 68 Atk: 68
-Drunken Half-Orc Hobo	HP: 1 Def: 1 Atk: 1 E: stench
+Doughbat	HP: 8 Def: 14 Atk: 14 EA: sleaze	sonar-in-a-biscuit (19.2)	wad of dough (30.5)
+Drab Bard	HP: 55 Def: 65 Atk: 65	drab sonata (27.8)	guitar pick (14.1)	olive (39.0)
+Drunk Goat	HP: 50 Def: 68 Atk: 68	bottle of whiskey (22.5)	goat beard (3.9)
+Drunken Half-Orc Hobo	HP: 1 Def: 1 Atk: 1 E: stench	dirty hobo gloves (30.9)	Mad Train wine (59.6)	moxie weed (14.9)
 Drunken Rat	HP: 8 Def: 11 Atk: 9
 Dyspepsi-Cola General	HP: 40 Def: 30 Atk: 30
 Dyspepsi-Cola Knight	HP: 35 Def: 30 Atk: 30
 Dyspepsi-Cola Soldier	HP: 30 Def: 30 Atk: 30
-Evil Olive	HP: 60 Def: 70 Atk: 70
-eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench
-eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 76 E: sleaze
-Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat
+Evil Olive	HP: 60 Def: 70 Atk: 70	bottle of gin (29.5)	olive (39.7)	jumbo olive (9.7)
+eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench	eXtreme mittens (5.8)	eXtreme scarf (12.8)	Mountain Stream soda (29.7)
+eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 76 E: sleaze	eXtreme mittens (5.1)	Mountain Stream soda (28.9)	snowboarder pants (11.0)
+Fallen Archfiend	HP: 50 Def: 50 Atk: 50 E: heat	evil golden arch (29.4)	infernal insoles (8.2)
 Felonia, Queen of the Spooky Gravy Fairies	HP: 82 Def: 75 Atk: 75 E: spooky
-Fiendish Can of Asparagus	HP: 1 Def: 2 Atk: 1 E: stench
-Filthy Hippy	HP: 30 Def: 39 Atk: 41 E: stench
-Filthy Hippy Jewelry Maker	HP: 30 Def: 39 Atk: 39 E: stench
-Filthy Hippy Vegan Chef	HP: 30 Def: 39 Atk: 39 E: stench
-Flame-Broiled Meat Blob	HP: 2 Def: 1 Atk: 1 E: heat
-Flaming Troll	HP: 73 Def: 83 Atk: 83
-Flock of Stab-Bats	HP: 70 Def: 80 Atk: 80
+Fiendish Can of Asparagus	HP: 1 Def: 2 Atk: 1 E: stench	asparagus knife (20.6)	stalk of asparagus (40.8)	razor-sharp can lid (42.4)
+Filthy Hippy	HP: 30 Def: 39 Atk: 41 E: stench	decorative fountain (31.6)	filthy corduroys1.8	filthy knitted dread sack (2.0)	patchouli incense stick (29.1)	tambourine bells (14.6)	reodorant (5.4)
+Filthy Hippy Jewelry Maker	HP: 30 Def: 39 Atk: 39 E: stench	phat turquoise bead (9.6)	piercing post (31.3)	reodorant (5.0)	filthy corduroys (1.5)	filthy knitted dread sack (2.2)
+Filthy Hippy Vegan Chef	HP: 30 Def: 39 Atk: 39 E: stench	tambourine bells (8.7)	wad of tofu (31.3)	reodorant (4.5)	filthy corduroys (1.8)	filthy knitted dread sack (2.0)
+Flame-Broiled Meat Blob	HP: 2 Def: 1 Atk: 1 E: heat	meat paste (39.5)	meat paste (39.5)	meat paste (39.5)
+Flaming Troll	HP: 73 Def: 83 Atk: 83	flaming talons (12.6)	Trollhouse cookies (39.4)
+Flock of Stab-Bats	HP: 70 Def: 80 Atk: 80	bat wing (30.3)	batblade (26.8)	batgut (31.0)
 Fluffy Bunny	HP: 1 Def: 1 Atk: 1
-Forest Spirit	HP: 3 Def: 2 Atk: 1
-Fruit Golem	HP: 46 Def: 56 Atk: 56
-Furry Giant	HP: 150 Def: 135 Atk: 135 EA: sleaze
-G Imp	HP: 46 Def: 46 Atk: 46 E: heat
+Forest Spirit	HP: 3 Def: 2 Atk: 1	forest tears (31.3)
+Fruit Golem	HP: 46 Def: 56 Atk: 56	cherry (16.5)	orange (14.8)	lime (15.6)
+Furry Giant	HP: 150 Def: 135 Atk: 135 EA: sleaze	furry fur (37.4)	disturbing fanfic (29.1)	wolf mask (10.5)
+G Imp	HP: 46 Def: 46 Atk: 46 E: heat	hot wing (30.1)	Imp Ale (31.2)	leather mask (6.8)
 Garganthulihc	HP: 60  Def: 73 Atk: 77 E: spooky
-Gaunt Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky
-Ghostly Pickle Factory Worker	HP: 180 Def: 200 Atk: 200
-Ghoul	HP: 10 Def: 19 Atk: 19 E: spooky
+Gaunt Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky	ghuol ears (18.7)	ghuol egg (20.0)
+Ghostly Pickle Factory Worker	HP: 180 Def: 200 Atk: 200	ghost cucumber (32.0)	ghost cucumber (32.0)
+Ghoul	HP: 10 Def: 19 Atk: 19 E: spooky	ghuol egg (25.8)	ghuol ears (25.3)
 Giant Giant Moth	HP: 11 Def: 12 Atk: 11
 Giant Pair of Tweezers	HP: 8 Def: 18 Atk: 16
 Giant Skeelton	HP: 60 Def: 73 Atk: 77 E: spooky
-Gluttonous Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky
-Gnarly Gnome	HP: 35 Def: 35 Atk: 35
-Gnasty Gnome	HP: 35 Def: 35 Atk: 35
-Gnefarious Gnome	HP: 35 Def: 35 Atk: 35
+Gluttonous Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky	ghuol ears (11.2)	ghuol egg (9.9)	ghuol guolash (21.3)
+Gnarly Gnome	HP: 35 Def: 35 Atk: 35	clockwork key (3.2)	clockwork key (3.2)	flange (3.6)
+Gnasty Gnome	HP: 35 Def: 35 Atk: 35	clockwork key (3.2)	clockwork key (3.2)	flange (3.6)
+Gnefarious Gnome	HP: 35 Def: 35 Atk: 35	sprocket (16.9)	cog (17.2)	flange (3.6)
 Gnollish Bodybuilder	HP: 5 Def: 10 Atk: 10 EA: sleaze
 Gnollish Crossdresser	HP: 5 Def: 10 Atk: 10 EA: sleaze
 Gnollish Flyslayer	HP: 5 Def: 10 Atk: 10
@@ -140,152 +170,152 @@ Gnollish Plungermaster	HP: 6 Def: 13 Atk: 13
 Gnollish Sorceress	HP: 5 Def: 11 Atk: 11
 Gnollish Tirejuggler	HP: 6 Def: 12 Atk: 12
 Gnollish War Chef	HP: 9 Def: 15 Atk: 13
-Gnomester Blomester	HP: 35 Def: 35 Atk: 35
-Gnu Jack Gnome	HP: 35 Def: 35 Atk: 35
-Goomba	HP: 15 Def: 20 Atk: 20
-Goth Giant	HP: 150 Def: 130 Atk: 130
+Gnomester Blomester	HP: 35 Def: 35 Atk: 35	cog (15.5)	spring (16.2)	flange (3.5)
+Gnu Jack Gnome	HP: 35 Def: 35 Atk: 35	sprocket (16.0)	spring (15.4)	flange (3.7)
+Goomba	HP: 15 Def: 20 Atk: 20	black pixel (49.3)	red pixel (80.2)	white pixel (51.0)
+Goth Giant	HP: 150 Def: 130 Atk: 130	awful poetry journal (29.0)	thin black candle (29.2)	Warm Subject gift certificate (28.6)
 Grass Elemental	HP: 50 Def: 60 Atk: 60
-Grave Rober	HP: 12 Def: 22 Atk: 18 E: spooky
-Grave Rober Zmobie	HP: 50 Def: 59 Atk: 59 E: spooky
+Grave Rober	HP: 12 Def: 22 Atk: 18 E: spooky	dead guy's watch (4.9)
+Grave Rober Zmobie	HP: 50 Def: 59 Atk: 59 E: spooky	dead guy's watch (9.9)	grave robbing shovel (10.3)	loose teeth (8.7)
 Guard Bugbear	HP: 6 Def: 12 Atk: 12
-Handsome Mariachi	HP: 15 Def: 17 Atk: 23
-Hellion	HP: 52 Def: 52 Atk: 52 E: heat
-Hockey Elemental	HP: 40 Def: 65 Atk: 65
+Handsome Mariachi	HP: 15 Def: 17 Atk: 23	bottle of tequila (29.9)	chorizo taco (21.1)	handsomeness potion (19.4)
+Hellion	HP: 52 Def: 52 Atk: 52 E: heat	Hellion cube (27.8)
+Hockey Elemental	HP: 40 Def: 65 Atk: 65	hockey stick of furious angry rage (100)
 Huge Ghuol	HP: 60 Def: 71 Atk: 79 E: spooky
-Hypnotist of Hey Deze	HP: 80 Def: 50 Atk: 50
-Infinite Meat Bug	HP: 50 Def: 45 Atk: 45
-Irate Mariachi	HP: 17 Def: 20 Atk: 20
-Irritating Series of Random Encounters	HP: 110 Def: 105 Atk: 105
-Keese	HP: 15 Def: 25 Atk: 25
-Knight in White Satin	HP: 21 Def: 37 Atk: 36
-Knob Goblin Assistant Chef	HP: 1 Def: 1 Atk: 1
-Knob Goblin Barbecue Team	HP: 2 Def: 2 Atk: 2 E: heat
-Knob Goblin Bean Counter	HP: 20 Def: 24 Atk: 24
+Hypnotist of Hey Deze	HP: 80 Def: 50 Atk: 50	hypnodisk (100)
+Infinite Meat Bug	HP: 50 Def: 45 Atk: 45	incredibly dense meat gem (100)
+Irate Mariachi	HP: 17 Def: 20 Atk: 20	bottle of tequila (34.4)	irate sombrero (19.4)	mariachi G-string (29.4)
+Irritating Series of Random Encounters	HP: 110 Def: 105 Atk: 105	cocoa eggshell fragment (20.3)	soft green echo eyedrop antidote (21.2)	tiny house (20.1)
+Keese	HP: 15 Def: 25 Atk: 25	blue pixel (68.4)	blue pixel (68.4)	blue pixel (68.4)
+Knight in White Satin	HP: 21 Def: 37 Atk: 36	white sword (17.3)	white satin pants (16.5)
+Knob Goblin Assistant Chef	HP: 1 Def: 1 Atk: 1	chef's hat (33.5)	Knob Goblin tongs (11.7)	Knob Goblin pants (7.4)
+Knob Goblin Barbecue Team	HP: 2 Def: 2 Atk: 2 E: heat	bowl of cottage cheese (62.5)	Knob Goblin pants (7.2)	Knob Goblin tongs (18.9)
+Knob Goblin Bean Counter	HP: 20 Def: 24 Atk: 24	beans (15.3)	meat stack (15.9)	Knob Goblin visor (3.8)
 Knob Goblin Chef	HP: 15 Def: 20 Atk: 20
-Knob Goblin Elite Guardsman	HP: 30 Def: 28 Atk: 32
-Knob Goblin Harem Girl	HP: 20 Def: 25 Atk: 25 E: sleaze
-Knob Goblin Mad Scientist	HP: 25 Def: 40 Atk: 40
+Knob Goblin Elite Guardsman	HP: 30 Def: 28 Atk: 32	Knob Goblin elite helm (3.7)	Knob Goblin elite pants (4.4)	Knob Goblin elite polearm (3.8)	Knob Goblin elite shirt (7.0)
+Knob Goblin Harem Girl	HP: 20 Def: 25 Atk: 25 E: sleaze	Knob Goblin perfume (15.9)	Knob Goblin harem veil (4.7)	Knob Goblin harem pants (3.3)	harem girl t-shirt (2.0)
+Knob Goblin Mad Scientist	HP: 25 Def: 40 Atk: 40	Knob Goblin love potion (10.0)	Knob Goblin seltzer (20.1)	Knob Goblin steroids (10.0)
 Knob Goblin Master Chef	HP: 20 Def: 22 Atk: 22
 Knob Goblin Mutant	HP: 43 Def: 53 Atk: 53
-Knob Goblin Very Mad Scientist	HP: 30 Def: 45 Atk: 45
-Knott Yeti	HP: 90 Def: 103 Atk: 107 E: cold
-Koopa Troopa	HP: 15 Def: 20 Atk: 20
-L Imp	HP: 44 Def: 44 Atk: 44 E: heat
-Lamz0r N00b	HP: 69 Def: 79 Atk: 79
+Knob Goblin Very Mad Scientist	HP: 30 Def: 45 Atk: 45	Knob Goblin seltzer (16.5)	Knob Goblin superseltzer (16.8)	scrumptious reagent (24.3)
+Knott Yeti	HP: 90 Def: 103 Atk: 107 E: cold	penguin skin (9.4)	yeti fur (30.8)
+Koopa Troopa	HP: 15 Def: 20 Atk: 20	black pixel (48.0)	green pixel (80.6)	white pixel (50.9)
+L Imp	HP: 44 Def: 44 Atk: 44 E: heat	Imp Ale (30.4)	cast (30.0)	flaming crutch (30.2)
+Lamz0r N00b	HP: 69 Def: 79 Atk: 79	33398 scroll (30.2)	draggin' ball hat (12.3)
 Large Kobold 	HP: 30 Def: 35 Atk: 43
-Lemon-In-The-Box	HP: 12  Def: 17 Atk: 17
-Lesser Fruit Golem	HP: 9 Def: 17 Atk: 23
-Lihc	HP: 11 Def: 20 Atk: 30 ED: spooky EA: spooky EA: sleaze
-Lumberjack Supervisor	HP: 40 Def: 40 Atk: 40
-Lumberjill	HP: 36 Def: 36 Atk: 36
-Lumberjuan	HP: 35 Def: 35 Atk: 35
+Lemon-In-The-Box	HP: 12  Def: 17 Atk: 17	box (19.3)	lemon (51.2)
+Lesser Fruit Golem	HP: 9 Def: 17 Atk: 23	grapefruit (14.8)	grapes (15.6)	lemon (16.1)	orange (16.7)	strawberry (14.8)
+Lihc	HP: 11 Def: 20 Atk: 30 ED: spooky EA: spooky EA: sleaze	lihc eye (29.2)
+Lumberjack Supervisor	HP: 40 Def: 40 Atk: 40	balaclava (4.9)	balaclava baklava (24.5)
+Lumberjill	HP: 36 Def: 36 Atk: 36	Blatantly Canadian (30.8)	maple syrup (29.6)
+Lumberjuan	HP: 35 Def: 35 Atk: 35	los chinos (4.2)	leaflet (15.4)	wooden axe (4.0)
 Mad Bugbears	HP: 13 Def: 17 Atk: 15
-MagiMechTech MechaMech	HP: 100 Def: 120 Atk: 120
-Mariachi Calavera	HP: 30 Def: 22 Atk: 22
+MagiMechTech MechaMech	HP: 100 Def: 120 Atk: 120	glowing red eye (17.8)	photoprotoneutron torpedo (28.1)	metallic A (31.4)
+Mariachi Calavera	HP: 30 Def: 22 Atk: 22	bottle of tequila (31.4)	marzipan skull (30.9)
 Mayonnaise Wasp	HP: 11 Def: 17 Atk: 17
-Me4t BegZ0r	HP: 77 Def: 87 Atk: 87
-Mimic	HP: 50 Def: 45 Atk: 45
+Me4t BegZ0r	HP: 77 Def: 87 Atk: 87	meat vortex (100.0)
+Mimic	HP: 50 Def: 45 Atk: 45	dead mimic (100)
 Mimic (Bottom 2 Rows)	HP: 25 Def: 15 Atk: 15
 Mimic (Middle 2 Rows)	HP: 35 Def: 25 Atk: 25
 Mimic (Top 2 Rows)	HP: 45 Def: 35 Atk: 35
 Mind Flayer	HP: 47 Def: 40 Atk: 36
 Naughty Sorceress	
 Naughty Sorceress (second form)	
-Ninja Snowman (Katana)	HP: 70 Def: 85 Atk: 85 E: cold
-Ninja Snowman (Masked)	HP: 70 Def: 85 Atk: 85 E: cold
-Ninja Snowman (Ricebowl)	HP: 70 Def: 85 Atk: 85 ED: cold
-Ninja Snowman Janitor	HP: 70 Def: 90 Atk: 70 ED: cold
-Ninja Snowman Weaponmaster	HP: 80 Def: 90 Atk: 90 ED: cold
-Octoroc	HP: 15 Def: 25 Atk: 25
+Ninja Snowman (Katana)	HP: 70 Def: 85 Atk: 85 E: cold	frigid ninja stars (19.5)	frozen nunchaku (2.0)	icy katana hilt (14.4)
+Ninja Snowman (Masked)	HP: 70 Def: 85 Atk: 85 E: cold	cold ninja mask (11.6)	frigid ninja stars (19.4)	frozen nunchaku (2.1)
+Ninja Snowman (Ricebowl)	HP: 70 Def: 85 Atk: 85 ED: cold	frigid ninja stars (19.7)	rice bowl (5.4)	chopsticks (5.7)
+Ninja Snowman Janitor	HP: 70 Def: 90 Atk: 70 ED: cold	frigid ninja stars (19.8)	ninja mop (4.1)	pail (9.7)
+Ninja Snowman Weaponmaster	HP: 80 Def: 90 Atk: 90 ED: cold	ridiculously overelaborate ninja weapon (4.1)	frigid ninja stars (19.3)	frozen nunchaku (5.6)
+Octoroc	HP: 15 Def: 25 Atk: 25	red pixel (69.3)	red pixel (69.3)	red pixel (69.3)
 One-Eyed Gnoll	HP: 5 Def: 11 Atk: 11
-One-Eyed Willie	HP: 150 Def: 151 Atk: 149 E: sleaze
-Orcish Frat Boy (French Maid)	HP: 30 Def: 41 Atk: 41 E: sleaze
-Orcish Frat Boy (Paddling)	HP: 30 Def: 40 Atk: 40 E: sleaze
-Orcish Frat Boy (Sorority Orcs)	HP: 30 Def: 39 Atk: 39 E: sleaze
-P Imp	HP: 42 Def: 42 Atk: 42 E: heat
+One-Eyed Willie	HP: 150 Def: 151 Atk: 149 E: sleaze	line (31.2)	line (31.2)	star (30.3)
+Orcish Frat Boy (French Maid)	HP: 30 Def: 41 Atk: 41 E: sleaze	bottle of gin (20.9)	Ice-cold Sir Schlitz (20.1)	Orcish cargo shorts (6.5)	deodorant (5.5)
+Orcish Frat Boy (Paddling)	HP: 30 Def: 40 Atk: 40 E: sleaze	bottle of vodka (20.2)	homoerotic frat-paddle (6.5)	Ice-cold Sir Schlitz (20.1)	deodorant (5.5)
+Orcish Frat Boy (Sorority Orcs)	HP: 30 Def: 39 Atk: 39 E: sleaze	Ice-cold Sir Schlitz (20.1)	ice-cold fotie (21.1)	Orcish baseball cap (5.8)	deodorant (5.5)
+P Imp	HP: 42 Def: 42 Atk: 42 E: heat	Imp Ale (31.1)	hot wing (31.6)	diamond-studded cane (5.9)
 Pencil Golem	HP: 11 Def: 15 Atk: 15
-Perpendicular Bat	HP: 12 Def: 18 Atk: 18
-Pine Bat	HP: 8  Def: 12 Atk: 16 EA: stench
+Perpendicular Bat	HP: 12 Def: 18 Atk: 18	batgut (16.2)	bat wing (14.8)	sonar-in-a-biscuit (20.3)
+Pine Bat	HP: 8  Def: 12 Atk: 16 EA: stench	bat wing (13.5)	Pine-Fresh air freshener (15.9)	batgut (14.3)
 Portly Abomination	HP: 63 Def: 73 Atk: 73
-Possessed Can of Tomatoes	HP: 1 Def: 2 Atk: 1
-Possibility Giant	HP: 150 Def: 130 Atk: 130
-Poutine Oooze	HP: 3 Def: 2 Atk: 1
-Procrastination Giant	HP: 150 Def: 125 Atk: 125
-Protagonist	HP: 80 Def: 100 Atk: 100
+Possessed Can of Tomatoes	HP: 1 Def: 2 Atk: 1	razor-sharp can lid (45.7)	tomato (59.7)
+Possibility Giant	HP: 150 Def: 130 Atk: 130	chaos butterfly (18.9)	plot hole (22.4)	probability potion (30.9)
+Poutine Oooze	HP: 3 Def: 2 Atk: 1	poutine (39.0)
+Procrastination Giant	HP: 150 Def: 125 Atk: 125	procrastination potion (28.9)
+Protagonist	HP: 80 Def: 100 Atk: 100	phonics down (41.6)	ridiculously huge sword (9.8)	super-spikey hair gel (19.3)
 Quantum Mechanic	HP: 51 Def: 37 Atk: 37
-Quiet Healer	HP: 90 Def: 95 Atk: 95
-Racecar Bob	HP: 60 Def: 69 Atk: 69
-Raging Bull	HP: 20 Def: 25 Atk: 25
-Ratbat	HP: 22 Def: 25 Atk: 25
-Raver Giant	HP: 150 Def: 140 Atk: 140
-Regular Old Bat	HP: 8  Def: 13 Atk: 13
-Rushing Bum	HP: 1 Def: 1 Atk: 1
-Sabre-Toothed Goat	HP: 50 Def: 68 Atk: 68
+Quiet Healer	HP: 90 Def: 95 Atk: 95	amulet of extreme plot significance (10.4)	scroll of drastic healing (30.8)	soft green echo eyedrop antidote (29.6)
+Racecar Bob	HP: 60 Def: 69 Atk: 69	enormous belt buckle (24.8)	leather chaps (13.6)	mesh cap (14.4)
+Raging Bull	HP: 20 Def: 25 Atk: 25	jumping beans (53.1)	can of Red Minotaur (30.3)
+Ratbat	HP: 22 Def: 25 Atk: 25	rat appendix (15.0)	ratgut (15.0)
+Raver Giant	HP: 150 Def: 140 Atk: 140	Angry Farmer candy (30.6)	giant needle (28.4)	Mick's IcyVapoHotness Rub (29.2)
+Regular Old Bat	HP: 8  Def: 13 Atk: 13	bat guano (16.2)	batgut (13.3)	bat wing (16.5)
+Rushing Bum	HP: 1 Def: 1 Atk: 1	bum cheek (30.9)	Mad Train wine (30.3)	moxie weed (17.0)
+Sabre-Toothed Goat	HP: 50 Def: 68 Atk: 68	goat beard (2.9)	Sabre teeth (4.9)
 Sabre-Toothed Lime	HP: 8 Def: 14 Atk: 14
-Sassy Pirate	HP: 51 Def: 61 Atk: 61
-Scary Clown	HP: 15 Def: 19 Atk: 19 E: spooky
-Senile Lihc	HP: 50 Def: 57 Atk: 57 E: spooky
-Shady Pirate	HP: 57 Def: 67 Atk: 67
-Shaky Clown	HP: 16  Def: 19 Atk: 19 E: sleaze
-Shifty Pirate	HP: 59 Def: 69 Atk: 69
-Sk8 Gnome	HP: 65 Def: 75 Atk: 75
-Skleleton	HP: 10 Def: 18 Atk: 18 E: spooky
-Skullbat	HP: 10 Def: 16 Atk: 16 EA: spooky  
-Sleeping Knob Goblin Guard	HP: 1 Def: 1 Atk: 1
-Slick Lihc	HP: 50 Def: 60 Atk: 58 E: spooky
-Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze
-Smart Skelton	HP: 11 Def: 20 Atk: 20 E: spooky
-Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze
+Sassy Pirate	HP: 51 Def: 61 Atk: 61	crowbarrr (9.5)	sunken chest (16.2)	swashbuckling pants (11.5)
+Scary Clown	HP: 15 Def: 19 Atk: 19 E: spooky	big red clown nose (9.0)	bloody clown pants (9.9)	long skinny balloon (39.8)
+Senile Lihc	HP: 50 Def: 57 Atk: 57 E: spooky	lihc eye (19.1)	lihc face (7.7)
+Shady Pirate	HP: 57 Def: 67 Atk: 67	acoustic guitarrr (10.5)	barrrnacle (8.9)	safarrri hat (10.5)
+Shaky Clown	HP: 16  Def: 19 Atk: 19 E: sleaze	bloody clown pants (16.4)	big red clown nose (15.3)	bottle of gin (10.7)	bottle of rum (9.9)	bottle of tequila (11.3)	bottle of whiskey (10.7)	bottle of vodka (9.8)	boxed wine (10.5)
+Shifty Pirate	HP: 59 Def: 69 Atk: 69	arrrgyle socks (10.5)	snakehead charrrm (28.9)	sunken chest (29.9)
+Sk8 Gnome	HP: 65 Def: 75 Atk: 75	gr8ps (40.6)	sk8board (6.3)	t8r tots (40.3)
+Skleleton	HP: 10 Def: 18 Atk: 18 E: spooky	loose teeth (29.8)	skeleton bone (58.9)
+Skullbat	HP: 10 Def: 16 Atk: 16 EA: spooky	broken skull (39.3)	loose teeth (20.7)	sonar-in-a-biscuit (31.7)
+Sleeping Knob Goblin Guard	HP: 1 Def: 1 Atk: 1	viking helmet (31.5)	Knob Goblin pants (7.3)	Knob Goblin scimitar (31.0)
+Slick Lihc	HP: 50 Def: 60 Atk: 58 E: spooky	lihc eye (20.5)	lihc face (7.5)
+Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze	bottle of rum (48.6)	charrrm (19.8)	eyepatch (8.4)
+Smart Skelton	HP: 11 Def: 20 Atk: 20 E: spooky	smart skull (51.7)
+Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze	30669 scroll (32.0)	Spam Witch sammich (51.4)
 Spectral Jellyfish	HP: 60 Def: 70 Atk: 70
-Spiny Skelelton	HP: 50 Def: 54 Atk: 54 E: spooky
+Spiny Skelelton	HP: 50 Def: 54 Atk: 54 E: spooky	skeleton bone (40.3)	smart skull (47.7)	spiked femur (8.8)
 Spooky Gravy Fairy Guard	HP: 45 Def: 54 Atk: 56 E: spooky
 Spooky Gravy Fairy Ninja	HP: 55 Def: 65 Atk: 65 E: spooky
 Spooky Gravy Fairy Warlock	HP: 50 Def: 60 Atk: 60 E: spooky
-Spooky Mummy	HP: 3 Def: 4 Atk: 1 E: spooky
+Spooky Mummy	HP: 3 Def: 4 Atk: 1 E: spooky	dried face (9.9)	spooky shrunken head (20.2)
 Spooky Vampire	HP: 2 Def: 4 Atk: 1 E: spooky
-Spunky Princess 	HP: 75 Def: 89 Atk: 91
-Striking Factory-Worker Elf	
-Striking Gift-Wrapper Elf	
-Striking Middle-Management Elf	
-Striking Pencil-Pusher Elf	
-Striking Stocking-Stuffer Elf	
-Sub-Assistant Knob Mad Scientist	HP: 1 Def: 2 Atk: 2
+Spunky Princess 	HP: 75 Def: 89 Atk: 91	cocoa eggshell fragment (28.8)	tiny house (31.4)	titanium assault umbrella (10.3)
+Striking Factory-Worker Elf		felt (10.6)	wooden block (12.1)	googly eye (13.0)	length of string (12.5)	stuffing (11.2)	toy wheel (10.1)
+Striking Gift-Wrapper Elf		felt (9.3)	wooden block (10.5)	googly eye (11.2)	length of string (10.0)	stuffing (10.9)	toy wheel (11.6)
+Striking Middle-Management Elf		felt (10.5)	wooden block (11.4)	stuffing (10.6)	length of string (9.7)	googly eye (10.3)	toy wheel (11.6)
+Striking Pencil-Pusher Elf		felt (9.3)	wooden block (11.4)	googly eye (9.7)	length of string (9.7)	stuffing (10.4)	toy wheel (11.2)
+Striking Stocking-Stuffer Elf		length of string (10.3)	stuffing (10.9)	wooden block (9.3)	googly eye (11.3)	felt (10.6)	toy wheel (11.1)
+Sub-Assistant Knob Mad Scientist	HP: 1 Def: 2 Atk: 2	viking helmet (31.5)	Knob Goblin pants (7.3)	Knob Goblin scimitar (31.0)
 Swarm of Killer Bees	HP: 45 Def: 39 Atk: 41
-Swarthy Pirate	HP: 53 Def: 63 Atk: 63
-Taco Cat	HP: 56 Def: 66 Atk: 66
-Tan Gnat	HP: 58 Def: 68 Atk: 68
-Tektite	HP: 15 Def: 20 Atk: 20
-The Astronomer	HP: 150 Def: 168 Atk: 168
+Swarthy Pirate	HP: 53 Def: 63 Atk: 63	leotarrrd (10.5)	pirate pelvis (18.0)	stuffed shoulder parrot (9.7)
+Taco Cat	HP: 56 Def: 66 Atk: 66	cat appendix (30.8)	catgut (32.5)	taco shell (27.8)
+Tan Gnat	HP: 58 Def: 68 Atk: 68	gnatwing (41.0)	suntan lotion of moxiousness (51.1)
+Tektite	HP: 15 Def: 20 Atk: 20	black pixel (51.4)	blue pixel (80.0)	white pixel (50.8)
+The Astronomer	HP: 150 Def: 168 Atk: 168	star chart (100.0)
 The Bonerdagon	HP: 120 Def: 90 Atk: 90 E: spooky
 The Boss Bat	HP: 40 Def: 33 Atk: 37
 The Burrowing Bishop	HP: 150 Def: 163 Atk: 163 E: sleaze
-The Family Jewels	HP: 150 Def: 156 Atk: 156 E: sleaze
-The Hooded Warrior	HP: 150 Def: 165 Atk: 165 E: sleaze
-The Junk	HP: 150 Def: 159 Atk: 161 E: sleaze
+The Family Jewels	HP: 150 Def: 156 Atk: 156 E: sleaze	star (29.0)	star (29.0)	star (29.0)
+The Hooded Warrior	HP: 150 Def: 165 Atk: 165 E: sleaze	line (30.7)	star (31.3)	star (31.3)
+The Junk	HP: 150 Def: 159 Atk: 161 E: sleaze	line (30.4)	line (30.4)	star (29.3)
 The Knob Goblin King	HP: 50 Def: 53 Atk: 57
-The Pork Sword	HP: 150 Def: 162 Atk: 162 E: sleaze
+The Pork Sword	HP: 150 Def: 162 Atk: 162 E: sleaze	line (22.2)	star (30.2)	star (30.2)
 The Skinflute	HP: 150 Def: 158 Atk: 158 E: sleaze
-The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze
+The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30.0)	line (30.0)	line (30.0)
 The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18
-Toothy Sklelton	HP: 50 Def: 58 Atk: 58  E: spooky
+Toothy Sklelton	HP: 50 Def: 58 Atk: 58  E: spooky	loose teeth (19.3)	loose teeth (19.3)	skeleton bone (19.9)
 Topiary Golem	HP: 150 Def: 180 Atk: 180
-Triffid	HP: 6 Def: 5 Atk: 1
-Undead Elbow Macaroni	HP: 1 Def: 1 Atk: 1 E: spooky
+Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (31.6)	spooky stick (31.6)
+Undead Elbow Macaroni	HP: 1 Def: 1 Atk: 1 E: spooky	magicalness-in-a-can (26.4)
 Vampire Bat	
 Vampire Clam	HP: 14 Def: 19 Atk: 21
-Vicious Gnauga	HP: 40 Def: 45 Atk: 45
-Vine Gar	HP: 180 Def: 200 Atk: 200
-W Imp	HP: 40 Def: 40 Atk: 40 E: heat
+Vicious Gnauga	HP: 40 Def: 45 Atk: 45	gnauga hide (10.1)
+Vine Gar	HP: 180 Def: 200 Atk: 200	vinegar (30.8)	vinegar (30.8)
+W Imp	HP: 40 Def: 40 Atk: 40 E: heat	Imp Ale (31.2)	ruby W (28.2)	wussiness potion (29.4)
 Warwelf	HP: 2 Def: 3 Atk: 1
 Weremoose	HP: 53 Def: 63 Atk: 63
-Weretaco	HP: 8 Def: 16 Atk: 16
-White Chocolate Golem	HP: 21 Def: 36 Atk: 34
+Weretaco	HP: 8 Def: 16 Atk: 16	taco shell (32.3)	uncooked chorizo (31.7)
+White Chocolate Golem	HP: 21 Def: 36 Atk: 34	white chocolate chips (50.6)
 White Lion	HP: 21 Def: 35 Atk: 35
-Whitesnake	HP: 21 Def: 34 Atk: 36
+Whitesnake	HP: 21 Def: 34 Atk: 36	whitesnake skin (30.1)
 Wolfman	HP: 2 Def: 3 Atk: 1
-XXX pr0n	HP: 68 Def: 75 Atk: 75
-Yeast Beast	HP: 8 Def: 17 Atk: 17 EA: sleaze
-Zmobie	HP: 10 Def: 20 Atk: 20 E: spooky
-Zobmie	HP: 10 Def: 19 Atk: 19 E: spooky
-Zol	HP: 15 Def: 25 Atk: 25
+XXX pr0n	HP: 68 Def: 75 Atk: 75	f3d0r4 (14.4)	lowercase N (20.0)	pr0n legs (42.4)
+Yeast Beast	HP: 8 Def: 17 Atk: 17 EA: sleaze	wad of dough (51.6)	wad of dough (51.6)
+Zmobie	HP: 10 Def: 20 Atk: 20 E: spooky	cranberries (19.0)	loose teeth (48.4)
+Zobmie	HP: 10 Def: 19 Atk: 19 E: spooky	cranberries (21.6)	cranberries (21.6)
+Zol	HP: 15 Def: 25 Atk: 25	green pixel (69.1)	green pixel (69.1)	green pixel (69.1)

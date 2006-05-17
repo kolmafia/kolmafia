@@ -68,7 +68,7 @@ public class MonsterDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 2 )
+			if ( data.length >= 2 )
 			{
 				Monster monster = registerMonster( data[0], data[1] );
 				if ( monster != null )
