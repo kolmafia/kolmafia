@@ -65,6 +65,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.JEditorPane;
 
 // other imports
 import java.util.Date;
@@ -230,13 +231,13 @@ public class AdventureFrame extends KoLFrame
 
 	private class SafetyField extends JPanel implements Runnable, ActionListener
 	{
-		private JLabel safetyText;
+		private JEditorPane safetyText;
 
 		public SafetyField()
 		{
 			super( new BorderLayout() );
-			safetyText = new JLabel( " " );
-			safetyText.setVerticalAlignment( JLabel.TOP );
+			safetyText = new JEditorPane( "text/html", " " );
+			safetyText.setEditable( false );
 
 			JScrollPane textScroller = new JScrollPane( safetyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
@@ -267,6 +268,7 @@ public class AdventureFrame extends KoLFrame
 			AreaCombatData combat = AdventureDatabase.getAreaCombatData( request.toString() );
 			String text = ( combat == null ) ? "" : combat.toString();
 			safetyText.setText( text );
+			safetyText.setCaretPosition( 0);
 		}
 	}
 
