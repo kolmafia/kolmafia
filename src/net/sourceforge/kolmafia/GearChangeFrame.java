@@ -150,6 +150,14 @@ public class GearChangeFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			ArrayList requestList = new ArrayList();
+
+			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) == 1 &&
+				EquipmentDatabase.getHands( pieces[ KoLCharacter.WEAPON ] ) > 1 )
+			{
+				requestList.add( new EquipmentRequest( StaticEntity.getClient(), pieces[ KoLCharacter.OFFHAND ], KoLCharacter.OFFHAND ) );
+				pieces[ KoLCharacter.OFFHAND ] = null;
+			}
+
 			for ( int i = 0; i < pieces.length; ++i )
 			{
 				if ( pieces[i] != null )
@@ -234,7 +242,7 @@ public class GearChangeFrame extends KoLFrame
 		else
 		{
 			equipment[ KoLCharacter.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
-			pieces[ KoLCharacter.OFFHAND ] = null;
+			pieces[ KoLCharacter.OFFHAND ] = EquipmentRequest.UNEQUIP;
 			equipment[ KoLCharacter.OFFHAND ].setEnabled( false );
 		}
 		

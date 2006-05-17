@@ -215,7 +215,7 @@ public abstract class Nemesis extends StaticEntity
 					// changed (according to variable resets).
 
 					if ( needsWeapon )
-						DEFAULT_SHELL.executeLine( "outfit Custom: KoLmafia Checkpoint" );
+						DEFAULT_SHELL.executeLine( "equip " + weapon );
 
 					action = "end";
 					DEFAULT_SHELL.updateDisplay( "Fighting your nemesis..." );
