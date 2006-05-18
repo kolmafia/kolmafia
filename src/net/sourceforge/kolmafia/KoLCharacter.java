@@ -255,6 +255,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static int monsterLevelAdjustment = 0;
 	private static int familiarWeightAdjustment = 0;
+	private static int dodecapedeWeightAdjustment = 0;
+	private static int familiarItemWeightAdjustment = 0;
 	private static double combatPercentAdjustment = 0.0;
 	private static double initiativeAdjustment = 0.0;
 	private static double fixedXPAdjustment = 0.0;
@@ -319,6 +321,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 		monsterLevelAdjustment = 0;
 		familiarWeightAdjustment = 0;
+		dodecapedeWeightAdjustment = 0;
+		familiarItemWeightAdjustment = 0;
 		combatPercentAdjustment = 0.0;
 		initiativeAdjustment = 0.0;
 		fixedXPAdjustment = 0.0;
@@ -933,6 +937,14 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static int getFamiliarWeightAdjustment()
 	{	return familiarWeightAdjustment;
+	}
+
+	public static int getDodecapedeWeightAdjustment()
+	{	return dodecapedeWeightAdjustment;
+	}
+
+	public static int getFamiliarItemWeightAdjustment()
+	{	return familiarItemWeightAdjustment;
 	}
 
 	/**
@@ -2669,6 +2681,8 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		int newMonsterLevelAdjustment = 0;
 		int newFamiliarWeightAdjustment = 0;
+		int newDodecapedeWeightAdjustment = 0;
+		int newFamiliarItemWeightAdjustment = 0;
 		double newCombatPercentAdjustment = 0.0;
 		double newInitiativeAdjustment = 0.0;
 		double newFixedXPAdjustment = 0.0;
@@ -2691,12 +2705,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 			if ( slot == FAMILIAR )
 			{
-				int modifier = FamiliarData.itemWeightModifier( itemID );
-				if ( modifier != 0 )
-				{
-					newFamiliarWeightAdjustment += modifier;
+				newFamiliarItemWeightAdjustment = FamiliarData.itemWeightModifier( itemID );
+				if ( newFamiliarItemWeightAdjustment != 0 )
 					continue;
-				}
 
 				// Other familiar items have special effects
 				// which we handle below
@@ -2706,6 +2717,7 @@ public abstract class KoLCharacter extends StaticEntity
 			     ( itemID >= firstTinyPlasticCrimbo && itemID <= lastTinyPlasticCrimbo ) )
 			{
 				newFamiliarWeightAdjustment += 1;
+				newDodecapedeWeightAdjustment += 1;
 				continue;
 			}
 
@@ -2731,6 +2743,7 @@ public abstract class KoLCharacter extends StaticEntity
 				break;
 			case PLEXIGLASS_PITH_HELMET:
 				newFamiliarWeightAdjustment += 5;
+				newDodecapedeWeightAdjustment += 5;
 				break;
 			case BAIT:
 				newCombatPercentAdjustment += 5;
@@ -2857,7 +2870,10 @@ public abstract class KoLCharacter extends StaticEntity
 		availableSkills.toArray( skills );
 
 		if ( hasSkill( SYMPATHY ) )
-			newFamiliarWeightAdjustment += (familiarID == DODECAPEDE ) ? -5 : 5;
+                {
+			newFamiliarWeightAdjustment += 5;
+			newDodecapedeWeightAdjustment -= 5;
+                }
 
 		if ( hasSkill( SELF_PRESERVATION ) )
 			newInitiativeAdjustment += 20;
@@ -2901,13 +2917,22 @@ public abstract class KoLCharacter extends StaticEntity
 			newInitiativeAdjustment += 30;
 
 		if ( EMPATHY.getCount( activeEffects ) > 0 )
+		{
 			newFamiliarWeightAdjustment += 5;
+			newDodecapedeWeightAdjustment += 5;
+		}
 
 		if ( LEASH.getCount( activeEffects ) > 0 )
+		{
 			newFamiliarWeightAdjustment += 5;
+			newDodecapedeWeightAdjustment += 5;
+		}
 
 		if ( HEAVY_PETTING.getCount( activeEffects ) > 0 )
+		{
 			newFamiliarWeightAdjustment += 5;
+			newDodecapedeWeightAdjustment += 5;
+		}
 
 		if ( FUSILLI.getCount( activeEffects ) > 0 )
 			newInitiativeAdjustment += 40;
@@ -2935,12 +2960,16 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( BLACK_TONGUE.getCount( activeEffects ) > 0 )
 		{
 			newFamiliarWeightAdjustment += 5;
+			newDodecapedeWeightAdjustment += 5;
 			newFixedXPAdjustment += 2.5;
 			newItemDropPercentAdjustment += 30;
 			newMeatDropPercentAdjustment += 30;
 		}
 		else if ( GREEN_TONGUE.getCount( activeEffects ) > 0 )
+		{
 			newFamiliarWeightAdjustment += 5;
+			newDodecapedeWeightAdjustment += 5;
+		}
 		else if ( RED_TONGUE.getCount( activeEffects ) > 0 )
 			newMeatDropPercentAdjustment += 30;
 		else if ( BLUE_TONGUE.getCount( activeEffects ) > 0 )
@@ -2979,7 +3008,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		// Now that we have calculated the familiar weight adjustment,
 		// look at familiar.
-		double modifier = (double)( currentFamiliar.getWeight() + newFamiliarWeightAdjustment );
+		double modifier = (double)( currentFamiliar.getWeight() + newFamiliarWeightAdjustment + newFamiliarItemWeightAdjustment );
 		switch ( familiarID )
 		{
 		case BABY_GRAVY_FAIRY:
@@ -3049,6 +3078,13 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( familiarWeightAdjustment != newFamiliarWeightAdjustment )
 		{
 			familiarWeightAdjustment = newFamiliarWeightAdjustment;
+			dodecapedeWeightAdjustment = newDodecapedeWeightAdjustment;
+			changed = true;
+		}
+
+		if ( familiarItemWeightAdjustment != newFamiliarItemWeightAdjustment )
+		{
+			familiarItemWeightAdjustment = newFamiliarItemWeightAdjustment;
 			changed = true;
 		}
 

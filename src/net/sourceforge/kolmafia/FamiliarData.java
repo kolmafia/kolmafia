@@ -99,14 +99,14 @@ public class FamiliarData implements KoLConstants, Comparable
 		String itemData = dataMatcher.group(5);
 
 		this.item = itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
-			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky tam o'shanter" :
-			itemData.indexOf( "omat.gif" ) != -1 ? "lucky tam o'shatner" :
+			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" :
+			itemData.indexOf( "omat.gif" ) != -1 ? "lucky Tam O'Shatner" :
 			itemData.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
 			itemData.indexOf( "waxlips.gif" ) != -1 ? "wax lips" :
 			itemData.indexOf( "pitchfork.gif" ) != -1 ? "annoying pitchfork" :
 			itemData.indexOf( "lnecklace.gif" ) != -1 ? "lead necklace" :
 			itemData.indexOf( "ratbal.gif" ) != -1 ? "rat head balloon" :
-			FamiliarsDatabase.getFamiliarItem( this.id ).toLowerCase();
+			FamiliarsDatabase.getFamiliarItem( this.id );
 	}
 
 	public static final void registerFamiliarData( KoLmafia client, String searchText )
@@ -153,7 +153,21 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public int getModifiedWeight()
-	{	return weight + KoLCharacter.getFamiliarWeightAdjustment();
+	{
+		// Start with base weight
+		int total = weight;
+
+		// Add in adjustment due to equipment, skills, and effects
+		if ( id == 38 )
+			total += KoLCharacter.getDodecapedeWeightAdjustment();
+		else
+			total += KoLCharacter.getFamiliarWeightAdjustment();
+
+		// Finally, add in effect of current equipment
+		if ( !item.equals( EquipmentRequest.UNEQUIP ) )
+			total += itemWeightModifier( TradeableItemDatabase.getItemID( item ) );
+
+		return total;
 	}
 
 	public static int itemWeightModifier( int itemID )
