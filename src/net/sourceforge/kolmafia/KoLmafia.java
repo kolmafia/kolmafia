@@ -408,7 +408,6 @@ public abstract class KoLmafia implements KoLConstants
 		
 		KoLmafiaCLI.reset();
 		KoLMailManager.reset();
-		FamiliarData.reset();
 		MushroomPlot.reset();
 		StoreManager.reset();
 		CakeArenaManager.reset();
@@ -819,7 +818,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		KoLCharacter.getEffects().sort();
 		recentEffects.clear();
-		FamiliarData.updateWeightModifier();
 		KoLCharacter.recalculateAdjustments( false );
 	}
 
