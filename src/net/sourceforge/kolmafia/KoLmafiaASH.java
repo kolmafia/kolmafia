@@ -1288,22 +1288,21 @@ public class KoLmafiaASH extends StaticEntity
 
 	// **************** Execution *****************
 
-	private void captureValue()
+	private void captureValue( ScriptValue value )
 	{
 		// We've just executed a command in a context that captures the
 		// return value.
 
-		if ( client.refusesContinue() )
+		if ( client.refusesContinue() || value == null )
 		{
 			// User aborted
 			currentState = STATE_EXIT;
 			return;
 		}
 
-		// An error occurred, but since we captured the result, permit
-		// further execution.
-		if ( currentState == STATE_EXIT )
-			currentState = STATE_NORMAL;
+		// Even if an error occurred, since we captured the result,
+		// permit further execution.
+		currentState = STATE_NORMAL;
 		client.forceContinue();
 	}
 
@@ -2853,7 +2852,7 @@ public class KoLmafiaASH extends StaticEntity
 			trace( "Eval: " + returnValue );
 
 			ScriptValue result = returnValue.execute();
-			captureValue();
+			captureValue( result );
 
 			trace( "Set:  " + returnValue );
                         traceUnindent( oldPrefix );
@@ -2951,7 +2950,7 @@ public class KoLmafiaASH extends StaticEntity
 				trace( "Test: " + condition );
 
 				ScriptValue conditionResult = condition.execute();
-				captureValue();
+				captureValue( conditionResult );
 
 				trace( "[" + currentState + "] <- " + conditionResult );
 
@@ -3114,11 +3113,11 @@ public class KoLmafiaASH extends StaticEntity
 				trace( "param #" + paramCount + ": " + paramValue );
 
 				ScriptValue value = paramValue.execute();
-				captureValue();
+				captureValue( value );
 
 				trace( "[" + currentState + "] <- " + value );
 
-				if ( currentState == STATE_EXIT || value == null )
+				if ( currentState == STATE_EXIT )
 				{
 					traceUnindent( oldPrefix );
 					return null;
@@ -3206,12 +3205,12 @@ public class KoLmafiaASH extends StaticEntity
 			trace( "Eval: " + rhs );
 
 			ScriptValue value = rhs.execute();
-			captureValue();
+			captureValue( value );
 
 			trace( "Set:  " + value );
 			traceUnindent( oldPrefix );
 
-			if ( currentState == STATE_EXIT || value == null )
+			if ( currentState == STATE_EXIT )
 				return null;
 
 			if ( lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT ) )
@@ -3759,8 +3758,8 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs ) throws AdvancedScriptException
 		{
 			ScriptValue leftResult = lhs.execute();
-			captureValue();
-			if ( currentState == STATE_EXIT || leftResult == null )
+			captureValue( leftResult );
+			if ( currentState == STATE_EXIT )
 				return null;
 
 			// Unary Operators
@@ -3777,8 +3776,8 @@ public class KoLmafiaASH extends StaticEntity
 				if ( leftResult.intValue() == 1 )
 					return TRUE_VALUE;
 				ScriptValue rightResult = rhs.execute();
-				captureValue();
-				if ( currentState == STATE_EXIT || rightResult == null )
+				captureValue( rightResult );
+				if ( currentState == STATE_EXIT )
 					return null;
 				return rightResult;
 			}
@@ -3787,8 +3786,8 @@ public class KoLmafiaASH extends StaticEntity
 				if ( leftResult.intValue() == 0 )
 					return FALSE_VALUE;
 				ScriptValue rightResult = rhs.execute();
-				captureValue();
-				if ( currentState == STATE_EXIT || rightResult == null )
+				captureValue( rightResult);
+				if ( currentState == STATE_EXIT )
 					return null;
 				return rightResult;
 			}
@@ -3811,8 +3810,8 @@ public class KoLmafiaASH extends StaticEntity
 
 			// Binary operators
 			ScriptValue rightResult = rhs.execute();
-			captureValue();
-			if ( currentState == STATE_EXIT || rightResult == null )
+			captureValue( rightResult );
+			if ( currentState == STATE_EXIT )
 				return null;
 
 			// String operators
