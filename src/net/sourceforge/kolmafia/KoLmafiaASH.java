@@ -144,31 +144,29 @@ public class KoLmafiaASH extends StaticEntity
 
 	// **************** Tracing *****************
 
-	private boolean tracing = true;
-	private String prefix = null;
+	private static boolean tracing = true;
+	private static int traceIndentation = 0;
 
 	private void resetTracing()
 	{
-		prefix = null;
+		traceIndentation = 0;
 	}
 
-	private String traceIndent()
-	{
-		String oldPrefix = prefix;
-		if ( tracing )
-			prefix = ( prefix == null ) ? "" : prefix + "  ";
-		return oldPrefix;
+	private void traceIndent()
+	{	traceIndentation++;
 	}
 
-	private void traceUnindent( String oldPrefix )
-	{
-		prefix = oldPrefix;
+	private void traceUnindent()
+	{	traceIndentation--;
 	}
 
 	private void trace( String string )
 	{
 		if ( tracing )
-			KoLmafia.getDebugStream().println( prefix + string );
+		{
+			indentLine( traceIndentation );
+			KoLmafia.getDebugStream().println( string );
+		}
 	}
 
 	// **************** Parsing *****************
@@ -1321,8 +1319,7 @@ public class KoLmafiaASH extends StaticEntity
 			throw new AdvancedScriptException( "No commands or main function found." );
 
 		// First execute top-level commands;
-		traceIndent();
-		trace( "Evaluating top-level commands" );
+		trace( "Executing top-level commands" );
 
 		result = globalScope.execute();
 		if ( currentState == STATE_EXIT )
@@ -1331,7 +1328,7 @@ public class KoLmafiaASH extends StaticEntity
 		// Now execute main function, if any
 		if ( main != null )
 		{
-			trace( "Evaluating main function" );
+			trace( "Executing main function" );
 			requestUserParams( main );
 			result = main.execute();
 		}
@@ -1932,8 +1929,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptCommand current;
 			ScriptValue result = null;
-			String oldPrefix = traceIndent();
 
+			traceIndent();
 			for ( current = getFirstCommand(); current != null; current = getNextCommand( current ) )
 			{
 				trace( "Command: " + current );
@@ -1953,12 +1950,12 @@ public class KoLmafiaASH extends StaticEntity
 					case STATE_CONTINUE:
 					case STATE_EXIT:
 
-						traceUnindent( oldPrefix );
+						traceUnindent();
 						return result;
 				}
 			}
 
-			traceUnindent( oldPrefix );
+			traceUnindent();
 			return result;
 		}
 	}
@@ -2747,9 +2744,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			String oldPrefix = traceIndent();
+			traceIndent();
 			trace( toString() );
-			traceUnindent( oldPrefix );
+			traceUnindent();
 
 			if ( this.command == COMMAND_BREAK )
 			{
@@ -2846,14 +2843,14 @@ public class KoLmafiaASH extends StaticEntity
 			if ( returnValue == null )
 				return null;
 
-			String oldPrefix = traceIndent();
+			traceIndent();
 			trace( "Eval: " + returnValue );
 
 			ScriptValue result = returnValue.execute();
 			captureValue( result );
 
 			trace( "Returning: " + result );
-                        traceUnindent( oldPrefix );
+                        traceUnindent();
 
 			if ( currentState != STATE_EXIT )
 				currentState = STATE_RETURN;
@@ -2938,7 +2935,7 @@ public class KoLmafiaASH extends StaticEntity
 				return null;
 			}
 
-			String oldPrefix = traceIndent();
+			traceIndent();
 			trace( this.toString() );
 
 			boolean executed = false;
@@ -2954,7 +2951,7 @@ public class KoLmafiaASH extends StaticEntity
 
 				if (  conditionResult == null )
 				{
-					traceUnindent( oldPrefix );
+					traceUnindent();
 					return null;
 				}
 
@@ -2974,7 +2971,7 @@ public class KoLmafiaASH extends StaticEntity
 					if ( repeat )
 						currentState = STATE_NORMAL;
 
-					traceUnindent( oldPrefix );
+					traceUnindent();
 					return VOID_VALUE;
 				}
 
@@ -2982,7 +2979,7 @@ public class KoLmafiaASH extends StaticEntity
 				{
 					if ( !repeat )
 					{
-						traceUnindent( oldPrefix );
+						traceUnindent();
 						return VOID_VALUE;
 					}
 
@@ -2991,20 +2988,20 @@ public class KoLmafiaASH extends StaticEntity
 
 				if ( currentState == STATE_RETURN )
 				{
-					traceUnindent( oldPrefix );
+					traceUnindent();
 					return result;
 				}
 
 				if ( currentState == STATE_EXIT )
 				{
-					traceUnindent( oldPrefix );
+					traceUnindent();
 					return null;
 				}
 			}
 
 			if ( executed )
 			{
-				traceUnindent( oldPrefix );
+				traceUnindent();
 				return VOID_VALUE;
 			}
 
@@ -3014,12 +3011,12 @@ public class KoLmafiaASH extends StaticEntity
 				ScriptValue result = elseLoop.execute();
 				if ( currentState != STATE_NORMAL )
 				{
-					traceUnindent( oldPrefix );
+					traceUnindent();
 					return result;
 				}
 			}
 
-			traceUnindent( oldPrefix );
+			traceUnindent();
 			return VOID_VALUE;
 		}
 
@@ -3098,7 +3095,7 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptVariableReference paramVarRef = target.getFirstParam();
 			ScriptExpression paramValue = params.getFirstExpression();
 
-			String oldPrefix = traceIndent();
+			traceIndent();
 			int paramCount = 0;
 			while ( paramVarRef != null )
 			{
@@ -3115,7 +3112,7 @@ public class KoLmafiaASH extends StaticEntity
 
 				if ( currentState == STATE_EXIT )
 				{
-					traceUnindent( oldPrefix );
+					traceUnindent();
 					return null;
 				}
 
@@ -3135,11 +3132,11 @@ public class KoLmafiaASH extends StaticEntity
 			if ( paramValue != null )
 				throw new RuntimeException( "Internal error: illegal arguments" );
 
-			trace( "Calling function " + target.getName() );
+			trace( "Entering function " + target.getName() );
 			ScriptValue result = target.execute();
 
 			trace( "Function " + target.getName() + " returned: " + result );
-			traceUnindent( oldPrefix );
+			traceUnindent();
 
 			return result;
 		}
@@ -3198,14 +3195,14 @@ public class KoLmafiaASH extends StaticEntity
 				return null;
 			}
 
-			String oldPrefix = traceIndent();
+			traceIndent();
 			trace( "Eval: " + rhs );
 
 			ScriptValue value = rhs.execute();
 			captureValue( value );
 
-			trace( "Set:  " + value );
-			traceUnindent( oldPrefix );
+			trace( "Set: " + value );
+			traceUnindent();
 
 			if ( currentState == STATE_EXIT )
 				return null;
