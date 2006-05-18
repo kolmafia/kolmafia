@@ -7,10 +7,6 @@
 #
 # Last edited by Kittiwake on Fri Apr 14, 2006 4:48 am
 #
-# Missing data:
-#
-# Vampire Bat
-#
 # Questionable data:
 #
 # Baiowulf
@@ -301,7 +297,7 @@ Toothy Sklelton	HP: 50 Def: 58 Atk: 58  E: spooky	loose teeth (20)	loose teeth (
 Topiary Golem	HP: 150 Def: 180 Atk: 180	hedge maze puzzle (65)
 Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (30)	spooky stick (30)
 Undead Elbow Macaroni	HP: 1 Def: 1 Atk: 1 E: spooky	magicalness-in-a-can (25)
-Vampire Bat	
+Vampire Bat	HP: 10 Def: 16 Atk: 18
 Vampire Clam	HP: 14 Def: 19 Atk: 21
 Vicious Gnauga	HP: 40 Def: 45 Atk: 45	gnauga hide (10)
 Vine Gar	HP: 180 Def: 200 Atk: 200	vinegar (30)	vinegar (30)
