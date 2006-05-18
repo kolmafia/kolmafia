@@ -232,6 +232,7 @@ public class AdventureFrame extends KoLFrame
 	private class SafetyField extends JPanel implements Runnable, ActionListener
 	{
 		private JEditorPane safetyText;
+		private String savedText = "";
 
 		public SafetyField()
 		{
@@ -267,8 +268,15 @@ public class AdventureFrame extends KoLFrame
 
 			AreaCombatData combat = AdventureDatabase.getAreaCombatData( request.toString() );
 			String text = ( combat == null ) ? "" : combat.toString();
-			safetyText.setText( text );
-			safetyText.setCaretPosition( 0);
+			// Avoid rendering and screen flicker if no change.
+			// Compare with our own copy of what we set, since
+			// getText() returns a modified version.
+			if ( !text.equals( savedText ) )
+			{
+				savedText = text;
+				safetyText.setText( text );
+				safetyText.setCaretPosition( 0);
+			}
 		}
 	}
 
