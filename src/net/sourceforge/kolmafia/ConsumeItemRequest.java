@@ -537,6 +537,7 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "ironically" ) != -1 )
 			{
 				client.processResult( itemUsed.getInstance( -1 ) );
+				super.processResults();
 				return;
 			}
 			break;
