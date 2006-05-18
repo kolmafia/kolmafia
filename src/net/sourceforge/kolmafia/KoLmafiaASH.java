@@ -855,13 +855,13 @@ public class KoLmafiaASH extends StaticEntity
 		if ( currentToken().equalsIgnoreCase( "true" ) )
 		{
 			readToken();
-			return TRUE_VALUE;
+			return new ScriptValue( true );
 		}
 
 		if ( currentToken().equalsIgnoreCase( "false" ) )
 		{
 			readToken();
-			return FALSE_VALUE;
+			return new ScriptValue( false );
 		}
 
 		if ( (result = parseCall( scope )) != null )
@@ -1435,9 +1435,9 @@ public class KoLmafiaASH extends StaticEntity
 					BOOLEANS[0]
 				 );
 				if ( resultString.equalsIgnoreCase( "true" ) )
-					param.setValue( TRUE_VALUE );
+					param.setValue( new ScriptValue( true ) );
 				else if ( resultString.equalsIgnoreCase( "false" ) )
-					param.setValue( FALSE_VALUE );
+					param.setValue( new ScriptValue( false ) );
 				else
 					throw new RuntimeException( "Internal error: Illegal value for boolean" );
 			}
@@ -3964,11 +3964,11 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptListNode previous = null;
 
 			if ( firstNode == null )
-				{
+			{
 				firstNode = n;
 				n.setNext( null );
 				return true;
-				}
+			}
 			for ( current = firstNode; current != null; previous = current, current = current.getNext() )
 			{
 				if ( current.compareTo( n ) <= 0 )
@@ -3996,6 +3996,7 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptListNode current;
 			ScriptListNode previous = null;
 
+			n.setNext( null );
 			if ( firstNode == null )
 			{
 				firstNode = n;
