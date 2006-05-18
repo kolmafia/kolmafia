@@ -52,15 +52,6 @@ public class FamiliarData implements KoLConstants, Comparable
 	private static final Pattern SEARCH_PATTERN =
 		Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/(.*?).gif.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) kills?\\)(.*?)<(/tr|form)" );
 
-	private static int weightModifier;
-	private static int dodecaModifier;
-
-	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0 );
-	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0 );
-	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0 );
-	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0 );
-	private static final AdventureResult HEAVY_PETTING = new AdventureResult( "Heavy Petting", 0 );
-
 	private int id, weight;
 	private String name, race, item;
 
@@ -162,17 +153,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public int getModifiedWeight()
-	{
-		int modifiedWeight = weight;
-
-		if ( id == 38 )
-			modifiedWeight += dodecaModifier;
-		else
-			modifiedWeight += weightModifier;
-
-		modifiedWeight += itemWeightModifier( TradeableItemDatabase.getItemID( getItem() ) );
-
-		return modifiedWeight;
+	{	return weight + KoLCharacter.getFamiliarWeightAdjustment();
 	}
 
 	public static int itemWeightModifier( int itemID )
@@ -277,82 +258,6 @@ public class FamiliarData implements KoLConstants, Comparable
 
 			default:
 				return item.equals( FamiliarsDatabase.getFamiliarItem( id ) );
-		}
-	}
-
-	public static void reset()
-	{	updateWeightModifier();
-	}
-
-	/**
-	 * Calculates the amount of additional weight that is present
-	 * due to buffs and related things.
-	 */
-
-	public static void updateWeightModifier()
-	{
-		weightModifier = 0;
-
-		// First update the weight changes due to the
-		// accessories the character is wearing
-
-		int [] accessoryID = new int[3];
-		accessoryID[0] = TradeableItemDatabase.getItemID( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ) );
-		accessoryID[1] = TradeableItemDatabase.getItemID( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
-		accessoryID[2] = TradeableItemDatabase.getItemID( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
-
-		for ( int i = 0; i < 3; ++i )
-		{
-			if ( accessoryID[i] > 968 && accessoryID[i] < 989 )
-				++weightModifier;
-			else if ( accessoryID[i] >= 1377 && accessoryID[i] <= 1378 )
-				++weightModifier;
-		}
-
-		// Plexiglass Pith Helmet adds +5 pounds if equipped.
-
-                if ( TradeableItemDatabase.getItemID( KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) ) == 1231 )
-			weightModifier += 5;
-
-		// Next, update the weight due to the accessory
-		// that the familiar is wearing
-
-		dodecaModifier = weightModifier;
-
-		// Empathy and Leash of Linguini each add five pounds.
-		// So do Green and Black Tongue from eating snowcones.
-		// So does Heavy Petting from Knob Goblin pet-buffing spray
-		// The passive "Amphibian Sympathy" skill does too.
-
-		if ( KoLCharacter.getEffects().contains( EMPATHY ) )
-		{
-			weightModifier += 5;
-			dodecaModifier += 5;
-		}
-
-		if ( KoLCharacter.getEffects().contains( LEASH ) )
-		{
-			weightModifier += 5;
-			dodecaModifier += 5;
-		}
-
-		if ( KoLCharacter.getEffects().contains( GREEN_TONGUE ) ||
-		     KoLCharacter.getEffects().contains( BLACK_TONGUE ) )
-		{
-			weightModifier += 5;
-			dodecaModifier += 5;
-		}
-
-		if ( KoLCharacter.getEffects().contains( HEAVY_PETTING ) )
-		{
-			weightModifier += 5;
-			dodecaModifier += 5;
-		}
-
-		if ( KoLCharacter.hasAmphibianSympathy() )
-		{
-			weightModifier += 5;
-			dodecaModifier -= 5;
 		}
 	}
 
