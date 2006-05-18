@@ -214,8 +214,10 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptValue result = executeGlobalScope( global );
 
 			if ( !client.permitsContinue() || result == null || result.getType() == null )
+			{
+				DEFAULT_SHELL.printLine( "Script aborted!" );
 				return;
-
+			}
 			
 			if ( result.getType().equals( TYPE_VOID ) )
 				DEFAULT_SHELL.printLine( !client.permitsContinue() ? "Script failed!" : "Script succeeded!" );
@@ -2951,11 +2953,15 @@ public class KoLmafiaASH extends StaticEntity
 				ScriptValue conditionResult = condition.execute();
 				captureValue();
 
-				trace(	"<- " + conditionResult );
+				trace( "[" + currentState + "] <- " + conditionResult );
 
-				boolean conditionMet = conditionResult != null && conditionResult.intValue() == 1;
+				if (  conditionResult == null )
+				{
+					traceUnindent( oldPrefix );
+					return null;
+				}
 
-				if ( !conditionMet )
+				if ( conditionResult.intValue() != 1 )
 					break;
 
 				// The condition was satisfied at least once
@@ -3110,9 +3116,9 @@ public class KoLmafiaASH extends StaticEntity
 				ScriptValue value = paramValue.execute();
 				captureValue();
 
-				trace( "<- " + value );
+				trace( "[" + currentState + "] <- " + value );
 
-				if ( currentState == STATE_EXIT )
+				if ( currentState == STATE_EXIT || value == null )
 				{
 					traceUnindent( oldPrefix );
 					return null;
@@ -3205,7 +3211,7 @@ public class KoLmafiaASH extends StaticEntity
 			trace( "Set:  " + value );
 			traceUnindent( oldPrefix );
 
-			if ( currentState == STATE_EXIT )
+			if ( currentState == STATE_EXIT || value == null )
 				return null;
 
 			if ( lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT ) )
@@ -3754,7 +3760,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptValue leftResult = lhs.execute();
 			captureValue();
-			if ( currentState == STATE_EXIT )
+			if ( currentState == STATE_EXIT || leftResult == null )
 				return null;
 
 			// Unary Operators
@@ -3772,6 +3778,8 @@ public class KoLmafiaASH extends StaticEntity
 					return TRUE_VALUE;
 				ScriptValue rightResult = rhs.execute();
 				captureValue();
+				if ( currentState == STATE_EXIT || rightResult == null )
+					return null;
 				return rightResult;
 			}
 			if ( operator.equals( "&&" ) )
@@ -3780,6 +3788,8 @@ public class KoLmafiaASH extends StaticEntity
 					return FALSE_VALUE;
 				ScriptValue rightResult = rhs.execute();
 				captureValue();
+				if ( currentState == STATE_EXIT || rightResult == null )
+					return null;
 				return rightResult;
 			}
 
@@ -3802,7 +3812,7 @@ public class KoLmafiaASH extends StaticEntity
 			// Binary operators
 			ScriptValue rightResult = rhs.execute();
 			captureValue();
-			if ( currentState == STATE_EXIT )
+			if ( currentState == STATE_EXIT || rightResult == null )
 				return null;
 
 			// String operators
