@@ -261,11 +261,51 @@ public class LocalRelayServer implements Runnable
 		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
 		{
 			String header = null;
+			boolean hasPragmaHeader = false;
+			boolean hasCacheHeader = false;
+			boolean hasConnectionHeader = false;
+			
 			for ( int i = 0; null != ( header = request.getHeader( i ) ); ++i )
 			{
+				if ( header.startsWith( "Cache-Control" ) )
+				{
+					header = "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0";
+					hasCacheHeader = true;
+				}
+
+				if ( header.startsWith( "Pragma:" ) )
+				{
+					header = "Pragma: no-cache";
+					hasPragmaHeader = true;
+				}
+
+				if ( header.startsWith( "Connection:" ) )
+				{
+					header = "Connection: close";
+					hasConnectionHeader = true;
+				}
+				
 				printStream.print( header );
 				printStream.write( NEW_LINE );
 			}  	
+
+			if ( !hasCacheHeader )
+			{
+				printStream.print( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0" );
+				printStream.write( NEW_LINE );
+			}
+
+			if ( !hasPragmaHeader )
+			{
+				printStream.print( "Pragma: no-cache" );
+				printStream.write( NEW_LINE );
+			}
+
+			if ( !hasConnectionHeader )
+			{
+				printStream.print( "Connection: close" );
+				printStream.write( NEW_LINE );
+			}
 		}
 		
 		protected void performRelay() throws IOException
