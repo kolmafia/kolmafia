@@ -1321,6 +1321,9 @@ public class KoLmafiaASH extends StaticEntity
 			throw new AdvancedScriptException( "No commands or main function found." );
 
 		// First execute top-level commands;
+		traceIndent();
+		trace( "Evaluating top-level commands" );
+
 		result = globalScope.execute();
 		if ( currentState == STATE_EXIT )
 			return result;
@@ -1328,6 +1331,7 @@ public class KoLmafiaASH extends StaticEntity
 		// Now execute main function, if any
 		if ( main != null )
 		{
+			trace( "Evaluating main function" );
 			requestUserParams( main );
 			result = main.execute();
 		}
@@ -1932,7 +1936,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			for ( current = getFirstCommand(); current != null; current = getNextCommand( current ) )
 			{
-				trace( "[" + currentState + "] -> " + current );
+				trace( "Command: " + current );
 
 				result = current.execute();
 
@@ -2027,17 +2031,11 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			String oldPrefix = traceIndent();
-
-			trace( "Entering " + name );
-
 			ScriptValue result = scope.execute();
+
 			if ( currentState != STATE_EXIT )
 				currentState = STATE_NORMAL;
 
-			trace( "Returning " + result );
-
-			traceUnindent( oldPrefix );
 			return result;
 		}
 
@@ -2854,7 +2852,7 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptValue result = returnValue.execute();
 			captureValue( result );
 
-			trace( "Set:  " + returnValue );
+			trace( "Returning: " + result );
                         traceUnindent( oldPrefix );
 
 			if ( currentState != STATE_EXIT )
@@ -3101,8 +3099,6 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptExpression paramValue = params.getFirstExpression();
 
 			String oldPrefix = traceIndent();
-			trace( "Enter: " + target.getName() );
-
 			int paramCount = 0;
 			while ( paramVarRef != null )
 			{
@@ -3110,7 +3106,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( paramValue == null )
 					throw new RuntimeException( "Internal error: illegal arguments" );
 
-				trace( "param #" + paramCount + ": " + paramValue );
+				trace( "Param #" + paramCount + ": " + paramValue );
 
 				ScriptValue value = paramValue.execute();
 				captureValue( value );
@@ -3139,9 +3135,10 @@ public class KoLmafiaASH extends StaticEntity
 			if ( paramValue != null )
 				throw new RuntimeException( "Internal error: illegal arguments" );
 
+			trace( "Calling function " + target.getName() );
 			ScriptValue result = target.execute();
 
-			trace( "Return: " + result );
+			trace( "Function " + target.getName() + " returned: " + result );
 			traceUnindent( oldPrefix );
 
 			return result;
