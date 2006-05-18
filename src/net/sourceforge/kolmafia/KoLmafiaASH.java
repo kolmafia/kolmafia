@@ -1719,6 +1719,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addFunction( new ScriptExistingFunction( "council", VOID_TYPE, params ) );
 
+		params = new ScriptType[] {};
+		result.addFunction( new ScriptExistingFunction( "current_mind_control_level", INT_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE };
 		result.addFunction( new ScriptExistingFunction( "mind_control", BOOLEAN_TYPE, params ) );
 
@@ -2430,6 +2433,11 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				DEFAULT_SHELL.executeLine( "council" );
 				return VOID_VALUE;
+			}
+
+			if ( name.equalsIgnoreCase( "current_mind_control_level" ) )
+			{
+				return new ScriptValue( INT_TYPE, KoLCharacter.getMindControlLevel() );
 			}
 
 			if ( name.equalsIgnoreCase( "mind_control" ) )
