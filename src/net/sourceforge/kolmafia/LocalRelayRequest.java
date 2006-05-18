@@ -176,10 +176,7 @@ public class LocalRelayRequest extends KoLRequest
 		headers.add( status );
 		headers.add( "Date: " + ( new Date() ) );
 		headers.add( "Server: " + VERSION_NAME );
-		headers.add( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0" );
-		headers.add( "Pragma: no-cache" );
 		headers.add( "Content-Length: " + this.fullResponse.length() );
-		headers.add( "Connection: close" );
 		
 		if ( formURLString.endsWith( ".css" ) )
 			headers.add( "Content-Type: text/css; charset=UTF-8" );
@@ -241,6 +238,7 @@ public class LocalRelayRequest extends KoLRequest
 			filename = filename.substring( 9 );
 		
 		int index = filename.indexOf( "/" );
+		boolean writePseudoResponse = !isServerRequest;
 
 		BufferedReader reader = null;
 		StringBuffer replyBuffer = new StringBuffer();
@@ -248,42 +246,44 @@ public class LocalRelayRequest extends KoLRequest
 		
 		String name = filename.substring( index + 1 );
 		String directory = index == -1 ? "html" : "html/" + filename.substring( 0, index );
-
+		
 		reader = DataUtilities.getReader( directory, name );
 		if ( reader == null && filename.startsWith( "simulator" ) )
 		{
 			downloadSimulatorFile( name );
 			reader = DataUtilities.getReader( directory, name );
 		}
-			
-		if ( reader == null && isServerRequest )
-		{
-			// If there's no override file, go ahead and
-			// request the page from the server normally.
-
-			super.run();
-
-			if ( responseCode != 200 )
-				return;
-		}
-		else if ( reader == null )
-		{
-			sendNotFound();
-			return;
-		}
-		else
+		
+		if ( reader != null )
 		{
 			// Now that you know the reader exists, read the
 			// contents of the reader.
 
 			replyBuffer = readContents( reader, filename );
+			writePseudoResponse = true;	
+		}
+		else
+		{
+			if ( isServerRequest )
+			{
+				// If there's no override file, go ahead and
+				// request the page from the server normally.
+	
+				super.run();
+	
+				if ( responseCode != 200 )
+					return;
+			}
+			else
+			{
+				sendNotFound();
+				return;
+			}
 		}
 
 		// Add brand new Javascript to every single page.  Check
 		// to see if a reader exists for the file.
 		
-		boolean writePseudoResponse = !isServerRequest;
-
 		if ( !name.endsWith( ".js" ) )
 		{
 			reader = DataUtilities.getReader( directory, name.substring( 0, name.lastIndexOf( "." ) ) + ".js" );
