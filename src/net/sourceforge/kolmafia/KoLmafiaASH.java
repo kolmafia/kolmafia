@@ -147,26 +147,45 @@ public class KoLmafiaASH extends StaticEntity
 	private static boolean tracing = true;
 	private static int traceIndentation = 0;
 
-	private void resetTracing()
+	private static void resetTracing()
 	{
 		traceIndentation = 0;
 	}
 
-	private void traceIndent()
+	private static void traceIndent()
 	{	traceIndentation++;
 	}
 
-	private void traceUnindent()
+	private static void traceUnindent()
 	{	traceIndentation--;
 	}
 
-	private void trace( String string )
+	private static void trace( String string )
 	{
 		if ( tracing )
 		{
 			indentLine( traceIndentation );
 			KoLmafia.getDebugStream().println( string );
 		}
+	}
+
+	private static String executionStateString( int state )
+	{
+		switch ( state )
+		{
+		case STATE_NORMAL:
+			return "NORMAL";
+		case STATE_RETURN:
+			return "RETURN";
+		case STATE_BREAK:
+			return "BREAK";
+		case STATE_CONTINUE:
+			return "CONTINUE";
+		case STATE_EXIT:
+			return "EXIT";
+		}
+
+		return String.valueOf(state);
 	}
 
 	// **************** Parsing *****************
@@ -1278,7 +1297,7 @@ public class KoLmafiaASH extends StaticEntity
 		KoLmafia.getDebugStream().println( "<VARREF> " + varRef.getName() );
 	}
 
-	private void indentLine( int indent )
+	private static void indentLine( int indent )
 	{
 		for ( int i = 0; i < indent; ++i )
 			KoLmafia.getDebugStream().print( "   " );
@@ -1941,7 +1960,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( !client.permitsContinue() )
 					currentState = STATE_EXIT;
 
-				trace( "[" + currentState + "] <- " + result );
+				trace( "[" + executionStateString( currentState ) + "] <- " + result );
 
 				switch ( currentState )
 				{
@@ -2947,7 +2966,7 @@ public class KoLmafiaASH extends StaticEntity
 				ScriptValue conditionResult = condition.execute();
 				captureValue( conditionResult );
 
-				trace( "[" + currentState + "] <- " + conditionResult );
+				trace( "[" + executionStateString( currentState ) + "] <- " + conditionResult );
 
 				if (  conditionResult == null )
 				{
@@ -3108,7 +3127,7 @@ public class KoLmafiaASH extends StaticEntity
 				ScriptValue value = paramValue.execute();
 				captureValue( value );
 
-				trace( "[" + currentState + "] <- " + value );
+				trace( "[" + executionStateString( currentState ) + "] <- " + value );
 
 				if ( currentState == STATE_EXIT )
 				{
