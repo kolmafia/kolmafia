@@ -368,6 +368,15 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	/**
 	 * Utility method which determines the moonlight available,
+	 * given the current moon phases.
+	 */
+
+	public static final int getMoonlight()
+	{	return getMoonlight( RONALD_PHASE, GRIMACE_PHASE );
+	}
+
+	/**
+	 * Utility method which determines the moonlight available,
 	 * given the moon phases as stated.
 	 */
 

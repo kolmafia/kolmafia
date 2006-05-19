@@ -2821,6 +2821,7 @@ public abstract class KoLCharacter extends StaticEntity
 				break;
 			case JEKYLLIN:
 				// newItemDropPercentAdjustment depends on moon phase
+				newItemDropPercentAdjustment += 15 + MoonPhaseDatabase.getMoonlight() * 5;
 				break;
 			case HYPNODISK:
 			case MAYPOLE:
