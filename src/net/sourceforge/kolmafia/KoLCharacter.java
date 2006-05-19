@@ -2839,7 +2839,7 @@ public abstract class KoLCharacter extends StaticEntity
 				newItemDropPercentAdjustment += 15;
 				break;
 			case MONOCLE:
-				newItemDropPercentAdjustment += 12.5;
+				newItemDropPercentAdjustment += 10;
 				break;
 			case DUCK:
 			case MINERS_HELMET:
