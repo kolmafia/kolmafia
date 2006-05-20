@@ -102,7 +102,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverMP( int needed )
+		public void recoverMP( int needed, boolean isFallback )
 		{
 			if ( this == MYSTERY )
 			{
@@ -116,10 +116,10 @@ public abstract class MPRestoreItemList extends StaticEntity
 			int numberToUse = (int) Math.ceil( (double) mpShort / (double) mpPerUse );
 			int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() ) ;
 
-			if ( this == MYSTERY )
-				numberToUse = NPCStoreDatabase.contains( MYSTERY.toString() ) ? numberToUse : numberAvailable;
-			else if ( this != SODA_WATER )
+			if ( !isFallback )
 				numberToUse = Math.min( numberToUse, numberAvailable );
+			else if ( this == MYSTERY )
+				numberToUse = NPCStoreDatabase.contains( MYSTERY.toString() ) ? numberToUse : numberAvailable;
 
 			if ( numberToUse == 0 )
 				return;
