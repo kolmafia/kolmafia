@@ -119,9 +119,7 @@ public class SkillBuffPanel extends KoLPanel
 
 		String [] targets = StaticEntity.getClient().extractTargets( (String) targetSelect.getSelectedItem() );
 
-		int buffCount = !maxBuff ? KoLFrame.getQuantity( "Casting " + buffName + "...", Integer.MAX_VALUE, 1 ) :
-			(int) ( KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( buffName ) ) );
-
+		int buffCount = !maxBuff ? KoLFrame.getQuantity( "Casting " + buffName + "...", Integer.MAX_VALUE, 1 ) : Integer.MAX_VALUE;
 		if ( buffCount == 0 )
 			return;
 

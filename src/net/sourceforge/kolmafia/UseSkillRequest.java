@@ -107,8 +107,13 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
 			if ( this.skillName.equals( KoLmafia.BREAKFAST_SKILLS[i][0] ) )
 				buffCount = Math.min( Integer.parseInt( KoLmafia.BREAKFAST_SKILLS[i][1] ), buffCount );
+
+		if ( buffCount < 1 )
+			buffCount = 1;
+		else if ( buffCount == Integer.MAX_VALUE )
+			buffCount = (int) (KoLCharacter.getMaximumMP() / ClassSkillsDatabase.getMPConsumptionByID( skillID ));
 		
-		this.buffCount = buffCount < 1 ? 1 : buffCount;
+		this.buffCount = buffCount;
 	}
 
 	public int compareTo( Object o )
@@ -190,7 +195,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( skillID );
 		int maximumMP = KoLCharacter.getMaximumMP();
 
-		int currentCast, mpPerEvent;
+		int currentCast;
 
 		while ( castsRemaining > 0 )
 		{
@@ -198,13 +203,14 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( currentCast == 0 )
 				currentCast = Math.min( castsRemaining, (int) Math.floor( maximumMP / mpPerCast ) );
 			
-			mpPerEvent = mpPerCast * currentCast;
-			client.recoverMP( mpPerEvent );
+			client.recoverMP( mpPerCast * currentCast );
 
 			if ( !client.permitsContinue() )
 				return;
 
-			if ( KoLCharacter.getCurrentMP() < mpPerEvent )
+			currentCast = KoLCharacter.getCurrentMP() / mpPerCast;
+
+			if ( currentCast == 0 )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient MP to cast " + skillName );
 				return;
