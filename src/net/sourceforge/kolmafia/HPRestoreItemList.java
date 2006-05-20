@@ -149,8 +149,13 @@ public abstract class HPRestoreItemList extends StaticEntity
 			}
 			else if ( ClassSkillsDatabase.contains( itemName ) )
 			{
-				int mpPerUse = ClassSkillsDatabase.getMPConsumptionByID( skillID );
-				numberToUse = Math.min( numberToUse, KoLCharacter.getCurrentHP() / numberToUse );
+				if ( KoLCharacter.hasSkill( itemName ) )
+				{
+					int mpPerUse = ClassSkillsDatabase.getMPConsumptionByID( skillID );
+					numberToUse = Math.min( numberToUse, KoLCharacter.getCurrentHP() / numberToUse );
+				}
+				else
+					numberToUse = 0;
 			}
 
 			if ( numberToUse == 0 )
@@ -164,7 +169,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return;
 			}			
 
-			if ( this == WALRUS || this == OTTER )
+			if ( this == OTTER )
 			{
 				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
 					(new UseSkillRequest( client, toString(), "", 1 )).run();
@@ -175,7 +180,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			if ( ClassSkillsDatabase.contains( this.toString() ) )
 			{
 				if ( this != COCOON || hpShort >= 20 )
-				(new UseSkillRequest( client, this.toString(), "", numberToUse )).run();
+					(new UseSkillRequest( client, this.toString(), "", numberToUse )).run();
 			}
 			else
 			{
