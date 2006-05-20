@@ -1791,8 +1791,22 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addFunction( new ScriptExistingFunction( "retrieve_item", BOOLEAN_TYPE, params ) );
 
+		// Arithmetic utility functions
 		params = new ScriptType[] { INT_TYPE };
 		result.addFunction( new ScriptExistingFunction( "random", INT_TYPE, params ) );
+
+		// Float-to-int conversion functions
+		params = new ScriptType[] { FLOAT_TYPE };
+		result.addFunction( new ScriptExistingFunction( "round", INT_TYPE, params ) );
+
+		params = new ScriptType[] { FLOAT_TYPE };
+		result.addFunction( new ScriptExistingFunction( "truncate", INT_TYPE, params ) );
+
+		params = new ScriptType[] { FLOAT_TYPE };
+		result.addFunction( new ScriptExistingFunction( "floor", INT_TYPE, params ) );
+
+		params = new ScriptType[] { FLOAT_TYPE };
+		result.addFunction( new ScriptExistingFunction( "ceil", INT_TYPE, params ) );
 
 		return result;
 	}
@@ -2548,6 +2562,26 @@ public class KoLmafiaASH extends StaticEntity
 				if ( range < 2 )
 					throw new RuntimeException( "Random range must be at least 2" );
 				return new ScriptValue( INT_TYPE, RNG.nextInt( range ) );
+			}
+
+			if ( name.equalsIgnoreCase( "round" ) )
+			{
+				return new ScriptValue( INT_TYPE, (int)Math.round( variables[0].floatValue() ) );
+			}
+
+			if ( name.equalsIgnoreCase( "truncate" ) )
+			{
+				return new ScriptValue( INT_TYPE, (int)variables[0].floatValue() );
+			}
+
+			if ( name.equalsIgnoreCase( "floor" ) )
+			{
+				return new ScriptValue( INT_TYPE, (int)Math.floor( variables[0].floatValue() ) );
+			}
+
+			if ( name.equalsIgnoreCase( "ceil" ) )
+			{
+				return new ScriptValue( INT_TYPE, (int)Math.ceil( variables[0].floatValue() ) );
 			}
 
 			throw new RuntimeException( "Internal error: unknown library function " + name );
@@ -3680,6 +3714,9 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( oper.isBool() )
 				return BOOLEAN_TYPE;
+			// Anything concatenated with a string yields a string
+			if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) && oper.equals( "+" ) )
+				return STRING_TYPE;
 			if ( lhs.getType().equals( TYPE_FLOAT ) ) // int ( oper ) float evaluates to float.
 				return lhs.getType();
 			return rhs.getType();
@@ -3781,14 +3818,14 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs ) throws AdvancedScriptException
 		{
-			ScriptValue leftResult = lhs.execute();
-			captureValue( leftResult );
+			ScriptValue leftValue = lhs.execute();
+			captureValue( leftValue );
 			if ( currentState == STATE_EXIT )
 				return null;
 
 			// Unary Operators
 			if ( operator.equals( "!" ) )
-				return new ScriptValue( leftResult.intValue() == 0 );
+				return new ScriptValue( leftValue.intValue() == 0 );
 
 			// Unknown operator
 			if ( rhs == null )
@@ -3797,23 +3834,23 @@ public class KoLmafiaASH extends StaticEntity
 			// Binary operators with optional right values
 			if ( operator.equals( "||" ) )
 			{
-				if ( leftResult.intValue() == 1 )
+				if ( leftValue.intValue() == 1 )
 					return TRUE_VALUE;
-				ScriptValue rightResult = rhs.execute();
-				captureValue( rightResult );
+				ScriptValue rightValue = rhs.execute();
+				captureValue( rightValue );
 				if ( currentState == STATE_EXIT )
 					return null;
-				return rightResult;
+				return rightValue;
 			}
 			if ( operator.equals( "&&" ) )
 			{
-				if ( leftResult.intValue() == 0 )
+				if ( leftValue.intValue() == 0 )
 					return FALSE_VALUE;
-				ScriptValue rightResult = rhs.execute();
-				captureValue( rightResult);
+				ScriptValue rightValue = rhs.execute();
+				captureValue( rightValue);
 				if ( currentState == STATE_EXIT )
 					return null;
-				return rightResult;
+				return rightValue;
 			}
 
 			// Ensure type compatibility of operands
@@ -3833,8 +3870,8 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			// Binary operators
-			ScriptValue rightResult = rhs.execute();
-			captureValue( rightResult );
+			ScriptValue rightValue = rhs.execute();
+			captureValue( rightValue );
 			if ( currentState == STATE_EXIT )
 				return null;
 
@@ -3842,7 +3879,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( operator.equals( "+" ) )
 			{
 				if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) )
-					return new ScriptValue( TYPE_STRING, leftResult.toStringValue().toString() + rightResult.toStringValue().toString() );
+					return new ScriptValue( TYPE_STRING, leftValue.toStringValue().toString() + rightValue.toStringValue().toString() );
 			}
 
 			if ( operator.equals( "==" ) )
@@ -3850,7 +3887,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( lhs.getType().equals( TYPE_STRING ) ||
 				     lhs.getType().equals( TYPE_LOCATION ) ||
 				     lhs.getType().equals( TYPE_MONSTER ) )
-					return new ScriptValue( leftResult.toString().equalsIgnoreCase( rightResult.toString() ) );
+					return new ScriptValue( leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
 			}
 
 			if ( operator.equals( "!=" ) )
@@ -3858,7 +3895,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( lhs.getType().equals( TYPE_STRING ) ||
 				     lhs.getType().equals( TYPE_LOCATION ) ||
 				     lhs.getType().equals( TYPE_MONSTER ) )
-					return new ScriptValue( !leftResult.toString().equalsIgnoreCase( rightResult.toString() ) );
+					return new ScriptValue( !leftValue.toString().equalsIgnoreCase( rightValue.toString() ) );
 			}
 
 			// Arithmetic operators
@@ -3869,14 +3906,14 @@ public class KoLmafiaASH extends StaticEntity
 			if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
 			{
 				isInt = false;
-				lfloat = leftResult.toFloatValue().floatValue();
-				rfloat = rightResult.toFloatValue().floatValue();
+				lfloat = leftValue.toFloatValue().floatValue();
+				rfloat = rightValue.toFloatValue().floatValue();
 			}
 			else
 			{
 				isInt = true;
-				lint = leftResult.intValue();
-				rint = rightResult.intValue();
+				lint = leftValue.intValue();
+				rint = rightValue.intValue();
 			}
 
 			if ( operator.equals( "+" ) )
