@@ -208,7 +208,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( !client.permitsContinue() )
 				return;
 
-			currentCast = KoLCharacter.getCurrentMP() / mpPerCast;
+			currentCast = Math.min( castsRemaining, (int) Math.floor( KoLCharacter.getCurrentMP() / mpPerCast ) );
 
 			if ( currentCast == 0 )
 			{
