@@ -1077,6 +1077,21 @@ public abstract class KoLmafia implements KoLConstants
 		if ( current >= threshold && !refusesContinue() )
 			return true;
 
+		// Do the restoration, but without making any purchases
+		// from NPC/PC stores.
+
+		for ( int i = 0; i < fallbacks.length && current < threshold; ++i )
+		{
+			recoverOnce( fallbacks[i], fallbacks[i].toString(), needed, false );
+			current = ((Number)currentMethod.invoke( null, empty )).intValue();
+		}
+
+		// Fall-through check, just in case you've reached the
+		// desired value.
+
+		if ( current >= threshold && !refusesContinue() )
+			return true;
+
 		// Now, last check -- go ahead and call the method which
 		// invokes the fallback restores;
 
@@ -1153,10 +1168,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		if ( technique instanceof HPRestoreItemList.HPRestoreItem )
-			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( needed );
+			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( needed, isFallback );
 
 		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
-			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed );
+			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed, isFallback );
 	}
 
 	/**

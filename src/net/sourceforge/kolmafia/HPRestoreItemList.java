@@ -63,14 +63,18 @@ public abstract class HPRestoreItemList extends StaticEntity
 	private static final HPRestoreItem POWERNAP = new HPRestoreItem( "disco power nap", 40 );
 	private static final HPRestoreItem PHONICS = new HPRestoreItem( "phonics down", 48 );
 	private static final HPRestoreItem CAST = new HPRestoreItem( "cast", 17 );
+	private static final HPRestoreItem ELIXIR = new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 18 );
+	private static final HPRestoreItem BALM = new HPRestoreItem( "Doc Galaktik's Restorative Balm", 13 );
+	private static final HPRestoreItem UNGUENT = new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 4 );
 
-	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] { WALRUS, OTTER, REMEDY, TINY_HOUSE, COCOON, PHONICS, CAST, BANDAGES, POWERNAP, NAP };
+	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] { OTTER, REMEDY, TINY_HOUSE, COCOON,
+		PHONICS, CAST, ELIXIR, BALM, UNGUENT, WALRUS, BANDAGES, POWERNAP, NAP };
 
 	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
 	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
 
-	public static final HPRestoreItem [] FALLBACKS = new HPRestoreItem[] { SCROLL, HERBS, OINTMENT };
+	public static final HPRestoreItem [] FALLBACKS = new HPRestoreItem[] { HERBS, SCROLL, OINTMENT };
 
 	public static JCheckBox [] getCheckboxes()
 	{
@@ -112,7 +116,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverHP( int needed )
+		public void recoverHP( int needed, boolean isFallback )
 		{
 			// Remedies are only used if the player is beaten up.
 			// Otherwise, it is not used.
@@ -138,7 +142,9 @@ public abstract class HPRestoreItemList extends StaticEntity
 				
 				int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
 				
-				if ( this == HERBS )
+				if ( !isFallback )
+					numberAvailable = Math.min( numberToUse, numberAvailable );
+				else if ( this == HERBS )
 					numberAvailable = hpShort < 20 || !NPCStoreDatabase.contains( HERBS.toString() ) ? 0 : 1;
 				else if ( this == SCROLL && KoLCharacter.canInteract() )
 					numberAvailable = 1;
