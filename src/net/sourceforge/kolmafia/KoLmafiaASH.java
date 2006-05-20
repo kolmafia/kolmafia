@@ -1791,6 +1791,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addFunction( new ScriptExistingFunction( "retrieve_item", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] { INT_TYPE };
+		result.addFunction( new ScriptExistingFunction( "random", INT_TYPE, params ) );
+
 		return result;
 	}
 
@@ -2537,6 +2540,14 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				AdventureDatabase.retrieveItem( new AdventureResult( variables[1].intValue(), variables[0].intValue() ) );
 				return new ScriptValue( client.permitsContinue() );
+			}
+
+			if ( name.equalsIgnoreCase( "random" ) )
+			{
+				int range = variables[0].intValue();
+				if ( range < 2 )
+					throw new RuntimeException( "Random range must be at least 2" );
+				return new ScriptValue( INT_TYPE, RNG.nextInt( range ) );
 			}
 
 			throw new RuntimeException( "Internal error: unknown library function " + name );
