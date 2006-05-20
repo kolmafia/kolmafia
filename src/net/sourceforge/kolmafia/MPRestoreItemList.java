@@ -114,11 +114,12 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			int mpShort = needed - KoLCharacter.getCurrentMP();
 			int numberToUse = (int) Math.ceil( (double) mpShort / (double) mpPerUse );
+			int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() ) ;
 
 			if ( this == MYSTERY )
-				numberToUse = NPCStoreDatabase.contains( MYSTERY.toString() ) ? numberToUse : 0;
+				numberToUse = NPCStoreDatabase.contains( MYSTERY.toString() ) ? numberToUse : numberAvailable;
 			else if ( this != SODA_WATER )
-				numberToUse = Math.min( numberToUse, itemUsed.getCount( KoLCharacter.getInventory() ) );
+				numberToUse = Math.min( numberToUse, numberAvailable );
 
 			if ( numberToUse == 0 )
 				return;
