@@ -271,6 +271,12 @@ public class AutoSellRequest extends SendMessageRequest
 		{
 			// We placed stuff in the mall.
 			StoreManager.update( responseText, false );
+
+			if ( responseText.indexOf( "You don't have a store." ) != -1 )
+			{
+				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have a store." );
+				return;
+			}
 		}
 		else if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
 		{
