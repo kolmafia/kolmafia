@@ -298,12 +298,12 @@ public class AdventureRequest extends KoLRequest
 
 			if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You can now cross the Orc Chasm." );
+				DEFAULT_SHELL.updateDisplay( "You can now cross the Orc Chasm." );
 				client.processResult( BRIDGE );
 				return;
 			}
 
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You've already crossed the Orc Chasm." );
+			DEFAULT_SHELL.updateDisplay( "You've already crossed the Orc Chasm." );
 			return;
 		}
 
