@@ -242,7 +242,7 @@ public class GearChangeFrame extends KoLFrame
 		else
 		{
 			equipment[ KoLCharacter.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
-			pieces[ KoLCharacter.OFFHAND ] = EquipmentRequest.UNEQUIP;
+			pieces[ KoLCharacter.OFFHAND ] = KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).equals( EquipmentRequest.UNEQUIP ) ? null : EquipmentRequest.UNEQUIP;
 			equipment[ KoLCharacter.OFFHAND ].setEnabled( false );
 		}
 		
