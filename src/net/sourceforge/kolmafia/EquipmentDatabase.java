@@ -286,9 +286,9 @@ public class EquipmentDatabase extends KoLDatabase
 		if ( outfitID < 1 )
 			return;
 
-		String [] missingPieces = outfits.get( outfitID ).getMissingPieces();
-		for ( int i = 0; i < missingPieces.length; ++i )
-			DEFAULT_SHELL.executeConditionsCommand( "add " + missingPieces[i] );
+		String [] pieces = outfits.get( outfitID ).getPieces();
+		for ( int i = 0; i < pieces.length; ++i )
+			DEFAULT_SHELL.executeConditionsCommand( "add " + pieces[i] );
 	}
 
 	/**

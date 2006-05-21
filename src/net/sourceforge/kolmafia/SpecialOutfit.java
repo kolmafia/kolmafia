@@ -92,18 +92,15 @@ public class SpecialOutfit implements Comparable
 		return true;
 	}
 
-	public String [] getMissingPieces()
+	public String [] getPieces()
 	{
-		ArrayList missingPieces = new ArrayList();
+		ArrayList piecesList = new ArrayList();
 		for ( int i = 0; i < pieces.size(); ++i )
-			if ( !KoLCharacter.hasItem( (AdventureResult) pieces.get(i), false ) )
-				missingPieces.add( (AdventureResult) pieces.get(i) );
+			piecesList.add( ((AdventureResult) pieces.get(i)).getName() );
 
-		String [] missingArray = new String[ missingPieces.size() ];
-		for ( int i = 0; i < missingArray.length; ++i )
-			missingArray[i] = ((AdventureResult) pieces.get(i)).getName();
-
-		return missingArray;
+		String [] piecesArray = new String[ piecesList.size() ];
+		piecesList.toArray( piecesArray );
+		return piecesArray;
 	}
 
 
