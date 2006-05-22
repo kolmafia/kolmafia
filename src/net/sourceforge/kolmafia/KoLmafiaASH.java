@@ -1577,6 +1577,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addFunction( new ScriptExistingFunction( "storage_amount", INT_TYPE, params ) );
 
+		params = new ScriptType[] {};
+		result.addFunction( new ScriptExistingFunction( "refresh_stash", VOID_TYPE, params ) );
+
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addFunction( new ScriptExistingFunction( "stash_amount", INT_TYPE, params ) );
 
@@ -2194,11 +2197,19 @@ public class KoLmafiaASH extends StaticEntity
 				return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getStorage() ) );
 			}
 
-			if ( name.equals( "stash_amount" ) )
+			if ( name.equals( "refresh_stash" ) )
 			{
 				(new ClanStashRequest( client )).run();
+				return new ScriptValue( VOID_TYPE );
+			}
+
+			if ( name.equals( "stash_amount" ) )
+			{
+				List stash = ClanManager.getStash();
+				if ( stash.size() == 0 )
+					(new ClanStashRequest( client )).run();
 				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
-				return new ScriptValue( TYPE_INT, item.getCount( ClanManager.getStash() ) );
+				return new ScriptValue( TYPE_INT, item.getCount( stash ) );
 			}
 
 			if ( name.equals( "creatable_amount" ) )
