@@ -55,6 +55,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 //Parameter value requests
@@ -294,11 +295,6 @@ public class KoLmafiaASH extends StaticEntity
 	}
 
 
-	private ScriptScope parseScope( ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop ) throws AdvancedScriptException
-	{
-		return parseScope( null, expectedType, variables, parentScope, whileLoop );
-	}
-
 	private ScriptScope parseFile( String fileName, ScriptScope startScope, ScriptScope parentScope ) throws AdvancedScriptException, java.io.FileNotFoundException
 	{
 		ScriptScope result;
@@ -402,18 +398,10 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptFunction parseFunction( ScriptType t, ScriptScope parentScope ) throws AdvancedScriptException
 	{
-		String functionName;
-		ScriptFunction result;
-		ScriptType paramType = null;
-		ScriptVariable param = null;
-		ScriptVariable paramNext = null;
-		ScriptVariableList paramList = null;
-		ScriptVariableReference paramRef = null;
-
-		if ( parseIdentifier( currentToken() ) )
-			functionName = currentToken();
-		else
+		if ( !parseIdentifier( currentToken() ) )
 			return null;
+
+		String functionName = currentToken();
 
 		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
@@ -421,16 +409,21 @@ public class KoLmafiaASH extends StaticEntity
 		readToken(); //read Function name
 		readToken(); //read (
 
-		paramList = new ScriptVariableList();
+		ScriptFunction result = new ScriptFunction( functionName, t );
+		ScriptVariableList paramList = new ScriptVariableList();
 
-		result = new ScriptFunction( functionName, t );
 		while ( !currentToken().equals( ")" ) )
 		{
-			if ( (paramType = parseType()) == null )
+			ScriptType paramType = parseType();
+			if (paramType == null )
 				throw new AdvancedScriptException( " ')' Expected " + getLineAndFile() );
 
-			if ( (param = parseVariable( paramType, null )) == null )
+			ScriptVariable param = parseVariable( paramType, null );
+			if ( param == null )
 				throw new AdvancedScriptException( " Identifier expected " + getLineAndFile() );
+
+			if ( !paramList.addElement( param ) )
+				throw new AdvancedScriptException( "Variable " + param.getName() + " already defined " + getLineAndFile() );
 
 			if ( !currentToken().equals( ")" ) )
 			{
@@ -439,10 +432,9 @@ public class KoLmafiaASH extends StaticEntity
 
 				readToken(); //read comma
 			}
-			paramRef = new ScriptVariableReference( param );
+
+			ScriptVariableReference paramRef = new ScriptVariableReference( param );
 			result.addVariableReference( paramRef );
-			if ( !paramList.addElement( param ) )
-				throw new AdvancedScriptException( "Variable " + param.getName() + " already defined " + getLineAndFile() );
 		}
 
 		readToken(); //read )
@@ -451,6 +443,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			result.setScope( new ScriptScope( parseCommand( t, parentScope, false, false ), parentScope ) );
 
+			ScriptVariable param = null;
+			ScriptVariable paramNext = null;
 			for ( param = paramList.getFirstVariable(); param != null; param = paramNext )
 			{
 				paramNext = paramList.getNextVariable( param );
@@ -464,7 +458,7 @@ public class KoLmafiaASH extends StaticEntity
 		else
 		{
 			readToken(); //read {
-			result.setScope( parseScope( t, paramList, parentScope, false ) );
+			result.setScope( parseScope( null, t, paramList, parentScope, false ) );
 			if ( !currentToken().equals( "}" ) )
 				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
 			readToken(); //read }
@@ -481,13 +475,10 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptVariable parseVariable( ScriptType t, ScriptScope scope ) throws AdvancedScriptException
 	{
-		ScriptVariable result;
-
-		if ( parseIdentifier( currentToken() ) )
-			result = new ScriptVariable( currentToken(), t );
-		else
+		if ( !parseIdentifier( currentToken() ) )
 			return null;
 
+		ScriptVariable result = new ScriptVariable( currentToken(), t );
 		if ( scope != null && !scope.addVariable( result ) )
 			throw new AdvancedScriptException( "Variable " + result.getName() + " already defined " + getLineAndFile() );
 
@@ -524,7 +515,7 @@ public class KoLmafiaASH extends StaticEntity
 		else if ( currentToken().equalsIgnoreCase( "continue" ) )
 		{
 			if ( !whileLoop )
-				throw new AdvancedScriptException( "break outside of loop " + getLineAndFile() );
+				throw new AdvancedScriptException( "continue outside of loop " + getLineAndFile() );
 
 			result = new ScriptCommand( COMMAND_CONTINUE );
 			readToken(); //continue
@@ -680,7 +671,7 @@ public class KoLmafiaASH extends StaticEntity
 				else
 				{
 					readToken(); //read {
-					scope = parseScope( functionType, null, parentScope, (repeat || loop ) );
+					scope = parseScope( null, functionType, null, parentScope, (repeat || loop ) );
 
 					if ( currentToken() == null || !currentToken().equals( "}" ) )
 						throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
@@ -736,36 +727,28 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptCall parseCall( ScriptScope scope ) throws AdvancedScriptException
 	{
-		String name = null;
-		String varName;
-		ScriptCall result;
-		ScriptExpressionList params;
-		ScriptExpression val;
-
 		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
 
-		if ( parseIdentifier( currentToken() ) )
-			name = currentToken();
-		else
+		if ( !parseIdentifier( currentToken() ) )
 			return null;
+
+		String name = currentToken();
 
 		readToken(); //name
 		readToken(); //(
 
-		params = new ScriptExpressionList();
+		ScriptExpressionList params = new ScriptExpressionList();
 		while ( currentToken() != null && !currentToken().equals( ")" ) )
 		{
-			if ( (val = parseExpression( scope )) != null )
-			{
+			ScriptExpression val = parseExpression( scope );
+			if ( val != null )
 				params.addElement( val );
-			}
+
 			if ( !currentToken().equals( "," ) )
 			{
 				if ( !currentToken().equals( ")" ) )
-				{
 					throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
-				}
 			}
 			else
 			{
@@ -779,30 +762,26 @@ public class KoLmafiaASH extends StaticEntity
 			throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
 
 		readToken(); // )
-		result = new ScriptCall( name, scope, params );
 
+		ScriptCall result = new ScriptCall( name, scope, params );
 		return result;
 	}
 
 	private ScriptAssignment parseAssignment( ScriptScope scope ) throws AdvancedScriptException
 	{
-		String name;
-		ScriptVariableReference lhs;
-		ScriptExpression rhs;
-
 		if ( nextToken() == null || !nextToken().equals( "=" ) )
 			return null;
 
-		if ( parseIdentifier( currentToken() ) )
-			name = currentToken();
-		else
+		if ( !parseIdentifier( currentToken() ) )
 			return null;
+
+		String name = currentToken();
 
 		readToken(); //name
 		readToken(); //=
 
-		lhs = new ScriptVariableReference( name, scope );
-		rhs = parseExpression( scope );
+		ScriptVariableReference lhs = new ScriptVariableReference( name, scope );
+		ScriptExpression rhs = parseExpression( scope );
 		return new ScriptAssignment( lhs, rhs );
 	}
 
@@ -813,20 +792,21 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptExpression parseExpression( ScriptScope scope, ScriptOperator previousOper ) throws AdvancedScriptException
 	{
+		if ( currentToken() == null )
+			return null;
+
 		ScriptExpression lhs = null;
 		ScriptExpression rhs = null;
 		ScriptOperator oper = null;
 
-		if ( currentToken() == null )
-			return null;
-
-		if ( currentToken().equals( "!" ) )
+		if ( currentToken().equals( "!" )  || currentToken().equals( "-" ) )
 		{
+			String operator = currentToken();
 			readToken(); // !
 			if ( (lhs = parseValue( scope )) == null )
 				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
 
-			lhs = new ScriptExpression( lhs, null, new ScriptOperator( "!" ) );
+			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 		}
 		else
 		{
@@ -1180,10 +1160,12 @@ public class KoLmafiaASH extends StaticEntity
 		KoLmafia.getDebugStream().println( "<VARIABLES>" );
 		for ( currentVar = scope.getFirstVariable(); currentVar != null; currentVar = scope.getNextVariable( currentVar ) )
 			printVariable( currentVar, indent + 2 );
+
 		indentLine( indent + 1 );
 		KoLmafia.getDebugStream().println( "<FUNCTIONS>" );
 		for ( currentFunc = scope.getFirstFunction(); currentFunc != null; currentFunc = scope.getNextFunction( currentFunc ) )
 			printFunction( currentFunc, indent + 2 );
+
 		indentLine( indent + 1 );
 		KoLmafia.getDebugStream().println( "<COMMANDS>" );
 		for ( currentCommand = scope.getFirstCommand(); currentCommand != null; currentCommand = scope.getNextCommand( currentCommand ) )
@@ -1470,7 +1452,6 @@ public class KoLmafiaASH extends StaticEntity
 				throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
 		}
 	}
-
 
 	public String getLineAndFile()
 	{
@@ -1820,9 +1801,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptScope( ScriptScope parentScope )
 		{
-			functions = new ScriptFunctionList();
-			variables = new ScriptVariableList();
-			commands = new ScriptCommandList();
+			this.functions = new ScriptFunctionList();
+			this.variables = new ScriptVariableList();
+			this.commands = new ScriptCommandList();
 			this.parentScope = parentScope;
 		}
 
@@ -1844,24 +1825,12 @@ public class KoLmafiaASH extends StaticEntity
 			this.parentScope = parentScope;
 		}
 
-		public boolean addFunction( ScriptFunction f )
-		{
-			return functions.addElement( f );
-		}
-
-		public boolean addVariable( ScriptVariable v )
-		{
-			return variables.addElement( v );
-		}
-
-		public void addCommand( ScriptCommand c )
-		{
-			commands.addElement( c );
-		}
-
 		public ScriptScope getParentScope()
-		{
-			return parentScope;
+		{	return parentScope;
+		}
+
+		public boolean addFunction( ScriptFunction f )
+		{	return functions.addElement( f );
 		}
 
 		public ScriptFunction getFirstFunction()
@@ -1874,6 +1843,10 @@ public class KoLmafiaASH extends StaticEntity
 			return (ScriptFunction) functions.getNextElement( current );
 		}
 
+		public boolean addVariable( ScriptVariable v )
+		{	return variables.addElement( v );
+		}
+
 		public ScriptVariable getFirstVariable()
 		{
 			return (ScriptVariable) variables.getFirstElement();
@@ -1882,6 +1855,10 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptVariable getNextVariable( ScriptVariable current )
 		{
 			return (ScriptVariable) variables.getNextElement( current );
+		}
+
+		public void addCommand( ScriptCommand c )
+		{	commands.addElement( c );
 		}
 
 		public ScriptCommand getFirstCommand()
@@ -2004,9 +1981,34 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptFunction extends ScriptListNode
+	private class ScriptSymbol extends ScriptListNode
 	{
-		String name;
+		protected String name;
+
+		public ScriptSymbol()
+		{
+		}
+
+		public ScriptSymbol( String name )
+		{	this.name = name;
+		}
+
+		public String getName()
+		{	return name;
+		}
+
+		public int compareTo( Object o )
+		{
+			if ( !( o instanceof ScriptSymbol ) )
+				throw new ClassCastException();
+			if ( name == null)
+				return 1;
+			return name.compareToIgnoreCase( ((ScriptSymbol)o).name );
+		}
+	}
+
+	private class ScriptFunction extends ScriptSymbol
+	{
 		ScriptType type;
 		ScriptVariableReferenceList variableReferences;
 		ScriptScope scope;
@@ -2017,34 +2019,22 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptFunction( String name, ScriptType type )
 		{
-			this.name = name;
+			super( name );
 			this.type = type;
 			this.variableReferences = new ScriptVariableReferenceList();
 			this.scope = null;
 		}
 
 		public void addVariableReference( ScriptVariableReference v )
-		{
-			variableReferences.addElement( v );
+		{	variableReferences.addElement( v );
 		}
 
 		public void setScope( ScriptScope s )
-		{
-			scope = s;
+		{	scope = s;
 		}
 
 		public ScriptScope getScope()
-		{
-			return scope;
-		}
-
-		public int compareTo( Object o )
-		{	return name.compareTo( ((ScriptFunction)o).name );
-		}
-
-		public String getName()
-		{
-			return name;
+		{	return scope;
 		}
 
 		public ScriptVariableReference getFirstParam()
@@ -2058,8 +2048,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getType()
-		{
-			return type;
+		{	return type;
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
@@ -2077,14 +2066,13 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-
 	private class ScriptExistingFunction extends ScriptFunction
 	{
 		ScriptVariable [] variables;
 
 		public ScriptExistingFunction( String name, ScriptType type, ScriptType [] params )
 		{
-			super( name, type );
+			super( name.toLowerCase(), type );
 
 			variables = new ScriptVariable[ params.length ];
 
@@ -2116,67 +2104,67 @@ public class KoLmafiaASH extends StaticEntity
 			// Type conversion functions come first for easy
 			// tracking later.		
 
-			if ( name.toLowerCase().endsWith( "_to_int" ) )
+			if ( name.endsWith( "_to_int" ) )
 				return new ScriptValue( TYPE_INT, variables[0].intValue() );
 
-			if ( name.toLowerCase().endsWith( "_to_string" ) )
+			if ( name.endsWith( "_to_string" ) )
 				return variables[0].toStringValue();
 			
-			if ( name.equalsIgnoreCase( "int_to_item" ) )
+			if ( name.equals( "int_to_item" ) )
 				return new ScriptValue( TYPE_ITEM, variables[0].intValue() );
 
-			if ( name.equalsIgnoreCase( "int_to_skill" ) )
+			if ( name.equals( "int_to_skill" ) )
 				return new ScriptValue( TYPE_SKILL, variables[0].intValue() );
 
-			if ( name.equalsIgnoreCase( "int_to_effect" ) )
+			if ( name.equals( "int_to_effect" ) )
 				return new ScriptValue( TYPE_EFFECT, variables[0].intValue() );
 
-			if ( name.equalsIgnoreCase( "int_to_familiar" ) )
+			if ( name.equals( "int_to_familiar" ) )
 				return new ScriptValue( TYPE_FAMILIAR, variables[0].intValue() );
 
-			if ( name.equalsIgnoreCase( "int_to_slot" ) )
+			if ( name.equals( "int_to_slot" ) )
 				return new ScriptValue( TYPE_SLOT, variables[0].intValue() );
 
 			// Begin the functions which are documented in the KoLmafia
 			// Advanced Script Handling manual.
 
-			if ( name.equalsIgnoreCase( "adventure" ) )
+			if ( name.equals( "adventure" ) )
 			{
 				DEFAULT_SHELL.executeLine( "adventure " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "buy" ) )
+			if ( name.equals( "buy" ) )
 			{
 				DEFAULT_SHELL.executeLine( "buy " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "create" ) )
+			if ( name.equals( "create" ) )
 			{
 				DEFAULT_SHELL.executeLine( "create " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "use" ) || name.equalsIgnoreCase( "eat" ) || name.equalsIgnoreCase( "drink" ) )
+			if ( name.equals( "use" ) || name.equals( "eat" ) || name.equals( "drink" ) )
 			{
 				DEFAULT_SHELL.executeLine( "use " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "item_amount" ) )
+			if ( name.equals( "item_amount" ) )
 			{
 				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
 				return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getInventory() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "closet_amount" ) )
+			if ( name.equals( "closet_amount" ) )
 			{
 				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
 				return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCloset() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "museum_amount" ) )
+			if ( name.equals( "museum_amount" ) )
 			{
 				if ( KoLCharacter.getCollection().isEmpty() )
 					(new MuseumRequest( client )).run();
@@ -2185,7 +2173,7 @@ public class KoLmafiaASH extends StaticEntity
 				return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCollection() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "shop_amount" ) )
+			if ( name.equals( "shop_amount" ) )
 			{
 				(new StoreManageRequest( client )).run();
 
@@ -2200,105 +2188,105 @@ public class KoLmafiaASH extends StaticEntity
 				return new ScriptValue( TYPE_INT, item.getQuantity() );
 			}
 
-			if ( name.equalsIgnoreCase( "storage_amount" ) )
+			if ( name.equals( "storage_amount" ) )
 			{
 				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
 				return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getStorage() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "stash_amount" ) )
+			if ( name.equals( "stash_amount" ) )
 			{
 				(new ClanStashRequest( client )).run();
 				AdventureResult item = new AdventureResult( variables[0].intValue(), 0 );
 				return new ScriptValue( TYPE_INT, item.getCount( ClanManager.getStash() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "creatable_amount" ) )
+			if ( name.equals( "creatable_amount" ) )
 			{
 				ConcoctionsDatabase.refreshConcoctions();
 				ItemCreationRequest item = ItemCreationRequest.getInstance( client, variables[0].intValue(), 0 );
 				return new ScriptValue( TYPE_INT, item.getCount( ConcoctionsDatabase.getConcoctions() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "put_closet" ) )
+			if ( name.equals( "put_closet" ) )
 			{
 				DEFAULT_SHELL.executeLine( "closet put " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "put_shop" ) )
+			if ( name.equals( "put_shop" ) )
 			{
 				DEFAULT_SHELL.executeLine( "mallsell " + variables[2].toStringValue() + " " + variables[0].intValue() + " " + variables[1].intValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "put_stash" ) )
+			if ( name.equals( "put_stash" ) )
 			{
 				DEFAULT_SHELL.executeLine( "stash put " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 			
-			if ( name.equalsIgnoreCase( "put_display" ) )
+			if ( name.equals( "put_display" ) )
 			{
 				DEFAULT_SHELL.executeLine( "display put " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "take_closet" ) )
+			if ( name.equals( "take_closet" ) )
 			{
 				DEFAULT_SHELL.executeLine( "closet take " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "take_storage" ) )
+			if ( name.equals( "take_storage" ) )
 			{
 				DEFAULT_SHELL.executeLine( "hagnk " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "take_display" ) )
+			if ( name.equals( "take_display" ) )
 			{
 				DEFAULT_SHELL.executeLine( "display take " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 			
-			if ( name.equalsIgnoreCase( "sell_item" ) )
+			if ( name.equals( "sell_item" ) )
 			{
 				DEFAULT_SHELL.executeLine( "sell " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "print" ) )
+			if ( name.equals( "print" ) )
 			{
 				DEFAULT_SHELL.updateDisplay( variables[0].toStringValue().toString() );
 				return VOID_VALUE;
 			}
 
-			if ( name.equalsIgnoreCase( "my_name" ) )
+			if ( name.equals( "my_name" ) )
 				return new ScriptValue( TYPE_STRING, KoLCharacter.getUsername() );
 
-			if ( name.equalsIgnoreCase( "my_zodiac" ) )
+			if ( name.equals( "my_zodiac" ) )
 				return new ScriptValue( TYPE_ZODIAC, KoLCharacter.getSign() );
 
-			if ( name.equalsIgnoreCase( "my_class" ) )
+			if ( name.equals( "my_class" ) )
 				return new ScriptValue( TYPE_CLASS, KoLCharacter.getClassType() );
 
-			if ( name.equalsIgnoreCase( "my_level" ) )
+			if ( name.equals( "my_level" ) )
 				return new ScriptValue( TYPE_INT, KoLCharacter.getLevel() );
 
-			if ( name.equalsIgnoreCase( "my_hp" ) )
+			if ( name.equals( "my_hp" ) )
 				return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentHP() );
 
-			if ( name.equalsIgnoreCase( "my_maxhp" ) )
+			if ( name.equals( "my_maxhp" ) )
 				return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumHP() );
 
-			if ( name.equalsIgnoreCase( "my_mp" ) )
+			if ( name.equals( "my_mp" ) )
 				return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentMP() );
 
-			if ( name.equalsIgnoreCase( "my_maxmp" ) )
+			if ( name.equals( "my_maxmp" ) )
 				return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumMP() );
 
-			if ( name.equalsIgnoreCase( "my_basestat" ) )
+			if ( name.equals( "my_basestat" ) )
 			{
 				int stat = variables[0].intValue();
 
@@ -2312,7 +2300,7 @@ public class KoLmafiaASH extends StaticEntity
 				throw new RuntimeException( "Internal error: unknown stat" );
 			}
 
-			if ( name.equalsIgnoreCase( "my_buffedstat" ) )
+			if ( name.equals( "my_buffedstat" ) )
 			{
 				int stat = variables[0].intValue();
 
@@ -2326,59 +2314,59 @@ public class KoLmafiaASH extends StaticEntity
 				throw new RuntimeException( "Internal error: unknown stat" );
 			}
 
-			if ( name.equalsIgnoreCase( "my_meat" ) )
+			if ( name.equals( "my_meat" ) )
 				return new ScriptValue( TYPE_INT, KoLCharacter.getAvailableMeat() );
 
-			if ( name.equalsIgnoreCase( "my_closetmeat" ) )
+			if ( name.equals( "my_closetmeat" ) )
 				return new ScriptValue( TYPE_INT, KoLCharacter.getClosetMeat() );
 
-			if ( name.equalsIgnoreCase( "my_adventures" ) )
+			if ( name.equals( "my_adventures" ) )
 				return new ScriptValue( TYPE_INT, KoLCharacter.getAdventuresLeft() );
 
-			if ( name.equalsIgnoreCase( "my_inebriety" ) )
+			if ( name.equals( "my_inebriety" ) )
 				return new ScriptValue( TYPE_INT, KoLCharacter.getInebriety() );
 
-			if ( name.equalsIgnoreCase( "my_familiar" ) )
+			if ( name.equals( "my_familiar" ) )
 				return new ScriptValue( TYPE_FAMILIAR, KoLCharacter.getFamiliar().getID() == -1 ? "none" : KoLCharacter.getFamiliar().getRace() );
 
-			if ( name.equalsIgnoreCase( "have_effect" ) )
+			if ( name.equals( "have_effect" ) )
 			{
 				List potentialEffects = StatusEffectDatabase.getMatchingNames( variables[0].toStringValue().toString() );
 				AdventureResult effect = potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get(0), 0, true );
 				return new ScriptValue( TYPE_INT, effect == null ? 0 : effect.getCount( KoLCharacter.getEffects() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "have_skill" ) )
+			if ( name.equals( "have_skill" ) )
 				return new ScriptValue( KoLCharacter.hasSkill( variables[0].intValue() ) );
 
-			if ( name.equalsIgnoreCase( "use_skill" ) )
+			if ( name.equals( "use_skill" ) )
 			{
 				DEFAULT_SHELL.executeLine( "cast " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
 			}
 
-			if ( name.equalsIgnoreCase( "add_item_condition" ) )
+			if ( name.equals( "add_item_condition" ) )
 			{
 				DEFAULT_SHELL.executeLine( "conditions add " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return VOID_VALUE;
 			}
 
-			if ( name.equalsIgnoreCase( "can_eat" ) )
+			if ( name.equals( "can_eat" ) )
 				return new ScriptValue( KoLCharacter.canEat() );
 
-			if ( name.equalsIgnoreCase( "can_drink" ) )
+			if ( name.equals( "can_drink" ) )
 				return new ScriptValue( KoLCharacter.canDrink() );
 
-			if ( name.equalsIgnoreCase( "can_interact" ) )
+			if ( name.equals( "can_interact" ) )
 				return new ScriptValue( KoLCharacter.canInteract() );
 
-			if ( name.equalsIgnoreCase( "trade_hermit" ) )
+			if ( name.equals( "trade_hermit" ) )
 			{
 				DEFAULT_SHELL.executeLine( "hermit " + variables[0].intValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "bounty_hunter_wants" ) )
+			if ( name.equals( "bounty_hunter_wants" ) )
 			{
 				String itemName = variables[0].toStringValue().toString();
 
@@ -2392,171 +2380,171 @@ public class KoLmafiaASH extends StaticEntity
 				return FALSE_VALUE;
 			}
 
-			if ( name.equalsIgnoreCase( "trade_bounty_hunter" ) )
+			if ( name.equals( "trade_bounty_hunter" ) )
 			{
 				DEFAULT_SHELL.executeLine( "hunter " + variables[0].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "trade_trapper" ) )
+			if ( name.equals( "trade_trapper" ) )
 			{
 				DEFAULT_SHELL.executeLine( "trapper " + variables[0].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "equip" ) )
+			if ( name.equals( "equip" ) )
 			{
 				DEFAULT_SHELL.executeLine( "equip " + variables[0].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "equip_slot" ) )
+			if ( name.equals( "equip_slot" ) )
 			{
 				DEFAULT_SHELL.executeLine( "equip " + variables[0].toStringValue() + " " + variables[1].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "unequip" ) || name.equalsIgnoreCase( "unequip_slot" ) )
+			if ( name.equals( "unequip" ) || name.equals( "unequip_slot" ) )
 			{
 				DEFAULT_SHELL.executeLine( "unequip " + variables[0].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "current_equipment" ) )
+			if ( name.equals( "current_equipment" ) )
 			{
 				return new ScriptValue( TYPE_ITEM, KoLCharacter.getCurrentEquipmentName( variables[0].intValue() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "monster_base_attack" ) )
+			if ( name.equals( "monster_base_attack" ) )
 			{
                                 MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(variables[0].rawValue());
 				return new ScriptValue( TYPE_INT, monster.getAttack() );
 			}
 
-			if ( name.equalsIgnoreCase( "monster_base_defense" ) )
+			if ( name.equals( "monster_base_defense" ) )
 			{
                                 MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(variables[0].rawValue());
 				return new ScriptValue( TYPE_INT, monster.getDefense() );
 			}
 
-			if ( name.equalsIgnoreCase( "monster_base_HP" ) )
+			if ( name.equals( "monster_base_HP" ) )
 			{
                                 MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(variables[0].rawValue());
 				return new ScriptValue( TYPE_INT, monster.getHP() );
 			}
 
-			if ( name.equalsIgnoreCase( "weapon_hands" ) )
+			if ( name.equals( "weapon_hands" ) )
 			{
 				return new ScriptValue( TYPE_INT, EquipmentDatabase.getHands( variables[0].intValue() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "ranged_weapon" ) )
+			if ( name.equals( "ranged_weapon" ) )
 			{
 				return new ScriptValue( EquipmentDatabase.isRanged( variables[0].intValue() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "equip_familiar" ) )
+			if ( name.equals( "equip_familiar" ) )
 			{
 				DEFAULT_SHELL.executeLine( "familiar " + variables[0].toStringValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "council" ) )
+			if ( name.equals( "council" ) )
 			{
 				DEFAULT_SHELL.executeLine( "council" );
 				return VOID_VALUE;
 			}
 
-			if ( name.equalsIgnoreCase( "current_mind_control_level" ) )
+			if ( name.equals( "current_mind_control_level" ) )
 			{
 				return new ScriptValue( INT_TYPE, KoLCharacter.getMindControlLevel() );
 			}
 
-			if ( name.equalsIgnoreCase( "mind_control" ) )
+			if ( name.equals( "mind_control" ) )
 			{
 				DEFAULT_SHELL.executeLine( "mind-control " + variables[0].intValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "have_chef" ) )
+			if ( name.equals( "have_chef" ) )
 				return new ScriptValue( KoLCharacter.hasChef() );
 
-			if ( name.equalsIgnoreCase( "have_bartender" ) )
+			if ( name.equals( "have_bartender" ) )
 				return new ScriptValue( KoLCharacter.hasBartender() );
 
-			if ( name.equalsIgnoreCase( "cli_execute" ) )
+			if ( name.equals( "cli_execute" ) )
 			{
 				DEFAULT_SHELL.executeLine( variables[0].toStringValue().toString() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "wait" ) )
+			if ( name.equals( "wait" ) )
 			{
 				DEFAULT_SHELL.executeLine( "wait " + variables[0].intValue() );
 				return VOID_VALUE;
 			}
 
-			if ( name.equalsIgnoreCase( "entryway" ) )
+			if ( name.equals( "entryway" ) )
 			{
 				DEFAULT_SHELL.executeLine( "entryway" );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "hedgemaze" ) )
+			if ( name.equals( "hedgemaze" ) )
 			{
 				DEFAULT_SHELL.executeLine( "hedgemaze" );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "guardians" ) )
+			if ( name.equals( "guardians" ) )
 			{
 				int itemID = SorceressLair.fightTowerGuardians();
 				return new ScriptValue( TYPE_ITEM, itemID == -1 ? "none" : TradeableItemDatabase.getItemName( itemID ) );
 			}
 
-			if ( name.equalsIgnoreCase( "chamber" ) )
+			if ( name.equals( "chamber" ) )
 			{
 				DEFAULT_SHELL.executeLine( "chamber" );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "nemesis" ) )
+			if ( name.equals( "nemesis" ) )
 			{
 				DEFAULT_SHELL.executeLine( "nemesis" );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "guild" ) )
+			if ( name.equals( "guild" ) )
 			{
 				DEFAULT_SHELL.executeLine( "guild" );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "gourd" ) )
+			if ( name.equals( "gourd" ) )
 			{
 				DEFAULT_SHELL.executeLine( "gourd" );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "tavern" ) )
+			if ( name.equals( "tavern" ) )
 			{
 				int result = client.locateTavernFaucet();
 				return new ScriptValue( TYPE_INT, client.permitsContinue() ? result : -1 );
 			}
 
-			if ( name.equalsIgnoreCase( "train_familiar" ) )
+			if ( name.equals( "train_familiar" ) )
 			{
 				DEFAULT_SHELL.executeLine( "train " + variables[1].toStringValue() + " " + variables[0].intValue() );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "retrieve_item" ) )
+			if ( name.equals( "retrieve_item" ) )
 			{
 				AdventureDatabase.retrieveItem( new AdventureResult( variables[1].intValue(), variables[0].intValue() ) );
 				return new ScriptValue( client.permitsContinue() );
 			}
 
-			if ( name.equalsIgnoreCase( "random" ) )
+			if ( name.equals( "random" ) )
 			{
 				int range = variables[0].intValue();
 				if ( range < 2 )
@@ -2564,22 +2552,22 @@ public class KoLmafiaASH extends StaticEntity
 				return new ScriptValue( INT_TYPE, RNG.nextInt( range ) );
 			}
 
-			if ( name.equalsIgnoreCase( "round" ) )
+			if ( name.equals( "round" ) )
 			{
 				return new ScriptValue( INT_TYPE, (int)Math.round( variables[0].floatValue() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "truncate" ) )
+			if ( name.equals( "truncate" ) )
 			{
 				return new ScriptValue( INT_TYPE, (int)variables[0].floatValue() );
 			}
 
-			if ( name.equalsIgnoreCase( "floor" ) )
+			if ( name.equals( "floor" ) )
 			{
 				return new ScriptValue( INT_TYPE, (int)Math.floor( variables[0].floatValue() ) );
 			}
 
-			if ( name.equalsIgnoreCase( "ceil" ) )
+			if ( name.equals( "ceil" ) )
 			{
 				return new ScriptValue( INT_TYPE, (int)Math.ceil( variables[0].floatValue() ) );
 			}
@@ -2592,51 +2580,36 @@ public class KoLmafiaASH extends StaticEntity
 	{
 	}
 
-	private class ScriptVariable extends ScriptListNode
+	private class ScriptVariable extends ScriptSymbol
 	{
-		String name;
 		ScriptValue	content;
 
 		public ScriptVariable( ScriptType type )
 		{
-			this.name = null;
+			super( null );
 			content = new ScriptValue( type );
 		}
-
 
 		public ScriptVariable( String name, ScriptType type )
 		{
-			this.name = name;
+			super( name );
 			content = new ScriptValue( type );
 		}
 
-		public int compareTo( Object o )
-		{	return name == null ? 1 : name.compareTo( ((ScriptVariable)o).name );
-		}
-
 		public ScriptType getType()
-		{
-			return content.getType();
-		}
-
-		public String getName()
-		{
-			return name;
+		{	return content.getType();
 		}
 
 		public ScriptValue getValue()
-		{
-			return content;
+		{	return content;
 		}
 
 		public Object rawValue()
-		{
-			return content.rawValue();
+		{	return content.rawValue();
 		}
 
 		public int intValue()
-		{
-			return content.intValue();
+		{	return content.intValue();
 		}
 
 		public ScriptValue toStringValue()
@@ -2652,13 +2625,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public KoLAdventure getLocation()
-		{
-			return content.getLocation();
+		{	return content.getLocation();
 		}
 
 		public double floatValue()
-		{
-			return content.floatValue();
+		{	return content.floatValue();
 		}
 
 		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
@@ -2704,13 +2675,11 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptVariable target;
 
 		public ScriptVariableReference( ScriptVariable target )
-		{
-			this.target = target;
+		{	this.target = target;
 		}
 
 		public ScriptVariableReference( String varName, ScriptScope scope ) throws AdvancedScriptException
-		{
-			target = findVariable( varName, scope );
+		{	target = findVariable( varName, scope );
 		}
 
 		private ScriptVariable findVariable( String name, ScriptScope scope ) throws AdvancedScriptException
@@ -2719,12 +2688,10 @@ public class KoLmafiaASH extends StaticEntity
 
 			do
 			{
-				for (current = scope.getFirstVariable(); current != null; current = scope.getNextVariable( current ) )
+				for ( current = scope.getFirstVariable(); current != null; current = scope.getNextVariable( current ) )
 				{
 					if ( current.getName().equalsIgnoreCase( name ) )
-						{
 						return current;
-						}
 				}
 				scope = scope.getParentScope();
 			} while ( scope != null );
@@ -2733,28 +2700,23 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getType()
-		{
-			return target.getType();
+		{	return target.getType();
 		}
 
 		public String getName()
-		{
-			return target.getName();
+		{	return target.getName();
 		}
-
 
 		public int compareTo( Object o )
 		{	return target.getName().compareTo( ((ScriptVariableReference)o).target.getName() );
 		}
 
 		public ScriptValue execute()
-		{
-			return target.getValue();
+		{	return target.getValue();
 		}
 
 		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
-		{
-			target.setValue( targetValue );
+		{	target.setValue( targetValue );
 		}
 
 		public String toString()
@@ -2797,12 +2759,15 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{
-			if ( this.command == COMMAND_BREAK )
+			switch ( this.command)
+			{
+			case COMMAND_BREAK:
 				return "break";
-			else if ( this.command == COMMAND_CONTINUE )
+			case COMMAND_CONTINUE:
 				return "continue";
-			else if ( this.command == COMMAND_EXIT )
+			case COMMAND_EXIT:
 				return "exit";
+			}
 			return "<unknown command>";
 		}
 
@@ -2812,18 +2777,15 @@ public class KoLmafiaASH extends StaticEntity
 			trace( toString() );
 			traceUnindent();
 
-			if ( this.command == COMMAND_BREAK )
+			switch ( this.command)
 			{
+			case COMMAND_BREAK:
 				currentState = STATE_BREAK;
 				return VOID_VALUE;
-			}
-			else if ( this.command == COMMAND_CONTINUE )
-			{
+			case COMMAND_CONTINUE:
 				currentState = STATE_CONTINUE;
 				return VOID_VALUE;
-			}
-			else if ( this.command == COMMAND_EXIT )
-			{
+			case COMMAND_EXIT:
 				currentState = STATE_EXIT;
 				return null;
 			}
@@ -2959,30 +2921,24 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public boolean repeats()
-		{
-			return repeat;
+		{	return repeat;
 		}
 
 		public ScriptExpression getCondition()
-		{
-			return condition;
+		{	return condition;
 		}
 
 		public ScriptScope getScope()
-		{
-			return scope;
+		{	return scope;
 		}
 
 		public ScriptLoop getFirstElseLoop()
-		{
-			return ( ScriptLoop ) elseLoops.getFirstElement();
+		{	return ( ScriptLoop ) elseLoops.getFirstElement();
 		}
 
 		public ScriptLoop getNextElseLoop( ScriptLoop current )
-		{
-			return ( ScriptLoop ) elseLoops.getNextElement( current );
+		{	return ( ScriptLoop ) elseLoops.getNextElement( current );
 		}
-
 
 		public void addElseLoop( ScriptLoop elseLoop ) throws AdvancedScriptException
 		{
@@ -3129,23 +3085,19 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptFunction getTarget()
-		{
-			return target;
+		{	return target;
 		}
 
 		public ScriptExpression getFirstParam()
-		{
-			return ( ScriptExpression ) params.getFirstElement();
+		{	return ( ScriptExpression ) params.getFirstElement();
 		}
 
 		public ScriptExpression getNextParam( ScriptExpression current )
-		{
-			return ( ScriptExpression ) params.getNextElement( current );
+		{	return ( ScriptExpression ) params.getNextElement( current );
 		}
 
 		public ScriptType getType()
-		{
-			return target.getType();
+		{	return target.getType();
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
@@ -3712,8 +3664,13 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getType()
 		{
+			// Unary operators have no right hand side
+			if ( rhs == null )
+				return lhs.getType();
+
 			if ( oper.isBool() )
 				return BOOLEAN_TYPE;
+
 			// Anything concatenated with a string yields a string
 			if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) && oper.equals( "+" ) )
 				return STRING_TYPE;
@@ -3794,18 +3751,23 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			if ( operator.equals( "!" ) )
 				return 6;
+
 			if ( operator.equals( "*" ) || operator.equals( "/" ) || operator.equals( "%" ) )
 				return 5;
-			else if ( operator.equals( "+" ) || operator.equals( "-" ) )
+
+			if ( operator.equals( "+" ) || operator.equals( "-" ) )
 				return 4;
-			else if ( operator.equals( "<" ) || operator.equals( ">" ) || operator.equals( "<=" ) || operator.equals( ">=" ) )
+
+			if ( operator.equals( "<" ) || operator.equals( ">" ) || operator.equals( "<=" ) || operator.equals( ">=" ) )
 				return 3;
-			else if ( operator.equals( "==" ) || operator.equals( "!=" ) )
+
+			if ( operator.equals( "==" ) || operator.equals( "!=" ) )
 				return 2;
-			else if ( operator.equals( "||" ) || operator.equals( "&&" ) )
+
+			if ( operator.equals( "||" ) || operator.equals( "&&" ) )
 				return 1;
-			else
-				return -1;
+
+			return -1;
 		}
 
 		public boolean isBool()
@@ -3826,6 +3788,15 @@ public class KoLmafiaASH extends StaticEntity
 			// Unary Operators
 			if ( operator.equals( "!" ) )
 				return new ScriptValue( leftValue.intValue() == 0 );
+
+			if ( operator.equals( "-" ) && rhs == null )
+			{
+				if ( lhs.getType().equals( TYPE_INT ) )
+					return new ScriptValue( INT_TYPE, 0 - leftValue.intValue() );
+				if ( lhs.getType().equals( TYPE_FLOAT ) )
+					return new ScriptValue( 0.0 - leftValue.floatValue() );
+				throw new RuntimeException( "Unary minus can only be applied to numbers" );
+			}
 
 			// Unknown operator
 			if ( rhs == null )
