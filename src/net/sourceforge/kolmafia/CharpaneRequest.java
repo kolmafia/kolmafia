@@ -69,12 +69,12 @@ public class CharpaneRequest extends KoLRequest
 
 		return instance;
 	}
-	
+
 	protected void processResults()
 	{	processCharacterPane( this.responseText );
 	}
-	
-	public static void processCharacterPane( String responseText )
+
+	public static synchronized void processCharacterPane( String responseText )
 	{
 		// By refreshing the KoLCharacter pane, you can
 		// determine whether or not you are in compact
@@ -160,13 +160,13 @@ public class CharpaneRequest extends KoLRequest
 				KoLCharacter.getTotalMysticality(), modified[2], KoLCharacter.getTotalMoxie() );
 		}
 	}
-	
+
 	private static void handleMiscPoints( String responseText, String hpString, String mpString, String meatString, String advString, String spacer, String openTag, String closeTag ) throws Exception
 	{
 		// On the other hand, health and all that good stuff
 		// is complicated, has nested images, and lots of other
 		// weird stuff.  Handle it in a non-modular fashion.
-		
+
 		Matcher miscMatcher = Pattern.compile(
 			hpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" +
 			mpString + ".*?" + openTag + "(.*?)" + spacer + "/" + spacer + "(.*?)" + closeTag + ".*?" +
@@ -176,7 +176,7 @@ public class CharpaneRequest extends KoLRequest
 		{
 			String currentHP = miscMatcher.group(1).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			String maximumHP = miscMatcher.group(2).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-			
+
 			String currentMP = miscMatcher.group(3).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			String maximumMP = miscMatcher.group(4).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 
@@ -186,7 +186,7 @@ public class CharpaneRequest extends KoLRequest
 			String availableMeat = miscMatcher.group(5).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			KoLCharacter.setAvailableMeat( Integer.parseInt( availableMeat ) );
 
-			String adventuresLeft = miscMatcher.group(6).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );			
+			String adventuresLeft = miscMatcher.group(6).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			int oldAdventures = KoLCharacter.getAdventuresLeft();
 			int newAdventures = Integer.parseInt( adventuresLeft );
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
