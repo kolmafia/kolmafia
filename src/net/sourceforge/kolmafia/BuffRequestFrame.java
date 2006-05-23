@@ -73,9 +73,7 @@ public class BuffRequestFrame extends KoLFrame
 	public BuffRequestFrame()
 	{
 		super( "Purchase Buffs" );
-
-		CardLayout cards = new CardLayout( 10, 10 );
-		framePanel.setLayout( cards );
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
 
 		// Configure buffbot offerings
 

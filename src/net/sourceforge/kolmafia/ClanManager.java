@@ -34,16 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import javax.swing.JLabel;
-import javax.swing.JCheckBox;
-import javax.swing.JTextArea;
-import javax.swing.JDialog;
-import javax.swing.JTabbedPane;
-import javax.swing.JScrollPane;
-import java.awt.CardLayout;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -296,7 +286,7 @@ public class ClanManager extends StaticEntity
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e, "Failed to load cached profile" );
 				return;
 			}
@@ -324,7 +314,7 @@ public class ClanManager extends StaticEntity
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e, "Failed to load cached profile" );
 				return;
 			}
@@ -359,7 +349,7 @@ public class ClanManager extends StaticEntity
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e, "Failed to load cached ascension history" );
 				return;
 			}
@@ -387,7 +377,7 @@ public class ClanManager extends StaticEntity
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e, "Failed to load cached ascension history" );
 				return;
 			}
@@ -531,7 +521,7 @@ public class ClanManager extends StaticEntity
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Clan snapshot generation failed" );
 			return;
 		}
@@ -556,7 +546,7 @@ public class ClanManager extends StaticEntity
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Clan snapshot generation failed" );
 			return;
 		}
@@ -674,7 +664,7 @@ public class ClanManager extends StaticEntity
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Error opening <" + file.getAbsolutePath() + "> for output" );
 		}
 	}
@@ -709,7 +699,7 @@ public class ClanManager extends StaticEntity
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 				this.timestamp = new Date();
 			}
@@ -816,7 +806,7 @@ public class ClanManager extends StaticEntity
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e );
 				}
 			}
@@ -851,7 +841,7 @@ public class ClanManager extends StaticEntity
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e );
 				}
 			}
@@ -889,7 +879,7 @@ public class ClanManager extends StaticEntity
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e );
 				}
 			}

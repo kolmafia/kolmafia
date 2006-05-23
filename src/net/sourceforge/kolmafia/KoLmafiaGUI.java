@@ -119,7 +119,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 
 		String frameSetting = GLOBAL_SETTINGS.getProperty( "initialFrames" );
-		String desktopSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
+		String desktopSetting = GLOBAL_SETTINGS.getProperty( "initialDesktop" );
 
 		// Reset all the titles on all existing frames.
 
@@ -151,7 +151,7 @@ public class KoLmafiaGUI extends KoLmafia
 				constructFrame( initialFrames[i] );
 		}
 
-		if ( !GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).equals( "" ) )
+		if ( !GLOBAL_SETTINGS.getProperty( "initialDesktop" ).equals( "" ) )
 		{
 			if ( !KoLDesktop.getInstance().isVisible() )
 			{
@@ -160,7 +160,7 @@ public class KoLmafiaGUI extends KoLmafia
 				KoLDesktop.getInstance().setVisible( true );
 			}
 		}
-		
+
 		// If you've already loaded an adventure frame,
 		// or the login failed, then there's nothing left
 		// to do.  Return from the method.
@@ -173,7 +173,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		LoginFrame loginWindow = (LoginFrame) displayer.getCreation();
 		loginWindow.setVisible( false );
-		
+
 		displayer = new CreateFrameRunnable( AdventureFrame.class );
 		loginWindow.dispose();
 
@@ -203,13 +203,7 @@ public class KoLmafiaGUI extends KoLmafia
 			// Inside of the KoLRequest object, events frames are
 			// already automatically loaded on receipt of an event,
 			// so no additional processing needs to happen here.
-			
-			return;
-		}
-		else if ( frameName.equals( "SkillBuffPanel" ) )
-		{
-			CreateFrameRunnable displayer = new CreateFrameRunnable( KoLPanelFrame.class, new Object [] { "Skill Casting", new SkillBuffPanel() } );
-			displayer.run();
+
 			return;
 		}
 
@@ -223,7 +217,7 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}

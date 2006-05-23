@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 
 // layout
 import java.awt.Dimension;
-import java.awt.CardLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 
@@ -157,7 +156,7 @@ public class ChatFrame extends KoLFrame
 		super.dispose();
 		(new ChatRemoverThread()).start();
 	}
-	
+
 	private class ChatRemoverThread extends Thread
 	{
 		public void run()

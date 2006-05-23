@@ -37,7 +37,6 @@ package net.sourceforge.kolmafia;
 // layout
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 

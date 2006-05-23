@@ -38,7 +38,6 @@ import java.util.Date;
 import java.text.SimpleDateFormat;
 
 import java.awt.Color;
-import java.awt.CardLayout;
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
@@ -104,7 +103,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 
@@ -177,7 +176,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e1 );
 			}
 		}
@@ -491,7 +490,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 

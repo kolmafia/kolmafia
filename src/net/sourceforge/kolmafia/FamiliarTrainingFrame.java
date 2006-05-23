@@ -116,7 +116,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final int firstTinyPlasticCrimbo = 1377;
 	private static final int lastTinyPlasticCrimbo = 1378;
 
-	
+
 	// Available skills which affect weight
 	private static boolean sympathyAvailable;
 	private static boolean leashAvailable;
@@ -129,14 +129,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static int greenTongueActive;
 	private static int blackTongueActive;
 	private static int heavyPettingActive;
-	
+
 	public FamiliarTrainingFrame()
 	{
 		super( "Familiar Trainer" );
 
-		CardLayout cards = new CardLayout( 10, 10 );
-		framePanel.setLayout( cards );
-		
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		training = new FamiliarTrainingPanel();
 		framePanel.add( training, "" );
 
@@ -206,7 +204,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			winCount = new JLabel( "", JLabel.CENTER );
 			counterPanel.add( winCount );
 
-			// Next the prize counter 
+			// Next the prize counter
 			prizeCounter = new JLabel( "", JLabel.CENTER );
 			counterPanel.add( prizeCounter );
 
@@ -218,7 +216,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			weightListener = new KoLCharacterAdapter( new TotalWeightRefresher() );
 			KoLCharacter.addCharacterListener( weightListener );
 
-			// Show the counters 
+			// Show the counters
 			buttonContainer.add( counterPanel, BorderLayout.SOUTH );
 
 			add( buttonContainer, BorderLayout.EAST );
@@ -436,7 +434,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					{
 						// This should not happen.  Therefore, print
 						// a stack trace for debug purposes.
-						
+
 						StaticEntity.printStackTrace( ex );
 					}
 				}
@@ -1014,13 +1012,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			case BASE:
 				return ( status.baseWeight() >= goal );
-	
+
 			case BUFFED:
 			{
 				boolean goalReached = status.maxBuffedWeight() >= goal;
 				if ( goalReached || !KoLCharacter.canInteract() || goal != 20 )
 					return goalReached;
-				
+
 				// If the player is currently out of Ronin, then they have
 				// the option of automatically purchasing their familiar item,
 				// pet-buffing spray, empathy and a green snowcone, which will
@@ -1030,20 +1028,20 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 				// If you're out of Ronin, pet-buffing spray is still
 				// available in the mall.  Check this option first.
-				
+
 				if ( !heavyPettingAvailable && heavyPettingActive == 0 )
 				{
 					poundsNeeded -= 5;
 					DEFAULT_SHELL.executeLine( "acquire Knob Goblin pet-buffing spray" );
 					status = new FamiliarStatus();
 				}
-				
+
 				if ( poundsNeeded <= 0 )
 					return true;
 
 				// First, check their current familiar item.  If it's
 				// zero, then try to acquire the item and equip it.
-				
+
 				if ( status.familiarItemWeight != 5 )
 				{
 					poundsNeeded -= 5 - status.familiarItemWeight;
@@ -1057,7 +1055,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 				// Acquire tiny plastic items from the mall.  Randomly
 				// choose one of the items using a random number generator.
-				
+
 				if ( poundsNeeded <= 3 - status.tpCount )
 				{
 					String plasticItem = TradeableItemDatabase.getItemName(
@@ -1070,7 +1068,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 				// Finally, if they need empathy, tell them that they
 				// should consider requesting it from a buffbot.
-				
+
 				if ( !empathyAvailable && empathyActive == 0 )
 				{
 					stop = true;
@@ -1082,7 +1080,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				// a snowcone; any other circumstance and you would have
 				// had enough to get by.  But, only buy a snowcone if
 				// you're really short on adventures.
-				
+
 				if ( KoLCharacter.getAdventuresLeft() < 10 )
 				{
 					DEFAULT_SHELL.executeLine( "acquire green snowcone" );
@@ -1095,7 +1093,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 				return false;
 			}
-	
+
 			case TURNS:
 				return ( status.turnsUsed() >= goal );
 		}
@@ -1603,16 +1601,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( buffs )
 			{
 				int overallModifier = 0;
-				
+
 				if ( empathyAvailable && empathyActive == 0 )
 					overallModifier += 5;
-				
+
 				if ( leashAvailable && leashActive == 0 )
 					overallModifier += 5;
-				
+
 				if ( heavyPettingAvailable && heavyPettingActive == 0 )
 					overallModifier += 5;
-				
+
 				for ( int i = 5; i <= overallModifier; i += 5 )
 					getItemWeights( weight + i );
 			}
@@ -1819,7 +1817,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				// Remember it
 				empathyActive += 10;
 			}
-			
+
 			if ( next.spray && !current.spray )
 			{
 				DEFAULT_SHELL.executeLine( "use Knob Goblin pet-buffing spray" );
@@ -1864,32 +1862,32 @@ public class FamiliarTrainingFrame extends KoLFrame
 		{
 			// Handle base case of everything available right
 			// now with no additional casting.
-			
+
 			getHatGearSets( weight, leashActive > 0, empathyActive > 0, heavyPettingActive > 0 );
 
 			// Handle situations where you are allowed to cast
 			// buffs on yourself during training.
-			
+
 			if ( buffs )
 			{
 				boolean addLeash = buffs && leashAvailable && leashActive == 0;
 				boolean addEmpathy = buffs && empathyAvailable && empathyActive == 0;
 				boolean addSpray = buffs && heavyPettingAvailable && heavyPettingActive == 0;
-				
+
 				if ( addLeash )
 					getHatGearSets( weight, addLeash, empathyActive > 0, heavyPettingActive > 0 );
 				if ( addLeash )
 					getHatGearSets( weight, leashActive > 0, addEmpathy, heavyPettingActive > 0 );
 				if ( addSpray )
 					getHatGearSets( weight, leashActive > 0, empathyActive > 0, addSpray );
-		
+
 				if ( addLeash && addEmpathy )
 					getHatGearSets( weight, addLeash, addEmpathy, heavyPettingActive > 0 );
 				if ( addEmpathy && addSpray )
 					getHatGearSets( weight, leashActive > 0, addEmpathy, addSpray );
 				if ( addLeash && addSpray )
 					getHatGearSets( weight, addLeash, empathyActive > 0, addSpray );
-		
+
 				if ( addLeash && addEmpathy && addSpray )
 					getHatGearSets( weight, addLeash, addEmpathy, addSpray );
 			}
@@ -2376,7 +2374,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Turn everything off and back on again
 			// so that it's off to start.
-			
+
 			actionPerformed( null );
 			actionPerformed( null );
 		}
@@ -2392,8 +2390,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				setText( "Turn On " +  title );
 		}
 	}
-	
+
 	public static boolean executesConflictingRequest()
-	{	return true;		
+	{	return true;
 	}
 }

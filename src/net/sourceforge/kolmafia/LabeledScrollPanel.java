@@ -92,12 +92,20 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 
 		if ( isRootPane )
 		{
-			getContentPane().setLayout( new CardLayout( 10, 10 ) );
+			if ( requiresPadding() )
+				getContentPane().setLayout( new CardLayout( 10, 10 ) );
+			else
+				getContentPane().setLayout( new CardLayout() );
+
 			getContentPane().add( actualPanel, "" );
 		}
 		else
 		{
-			setLayout( new CardLayout( 10, 10 ) );
+			if ( requiresPadding() )
+				setLayout( new CardLayout( 10, 10 ) );
+			else
+				setLayout( new CardLayout() );
+
 			add( actualPanel, "" );
 		}
 
@@ -112,5 +120,9 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 		scrollComponent.setEnabled( isEnabled );
 		if ( buttonPanel != null )
 			buttonPanel.setEnabled( isEnabled );
+	}
+
+	protected boolean requiresPadding()
+	{	return true;
 	}
 }

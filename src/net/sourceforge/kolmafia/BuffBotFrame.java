@@ -35,14 +35,10 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import java.awt.Dimension;
 import java.awt.Color;
-import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import java.awt.Font;
 
 // event listeners
 import java.awt.event.ActionListener;
@@ -211,7 +207,7 @@ public class BuffBotFrame extends KoLFrame
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}

@@ -52,7 +52,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
  * user settings of <code>KoLmafia</code>.  In order to maintain issues
  * involving compatibility (J2SE 1.4 does not support XML output directly),
  * all data is written using {@link java.util.Properties#store(OutputStream,String)}.
- * Files are named according to the following convention: a tilde (<code>~</code>)
+ * Files are named according  to the following convention: a tilde (<code>~</code>)
  * preceeds the name of the character whose settings this object represents,
  * with the 'kcs' extension (KoLmafia Character Settings).  All global settings
  * are stored in <code>~.kcs</code>.
@@ -101,7 +101,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	public synchronized String getProperty( String name )
 	{	return super.getProperty( name );
 	}
-	
+
 	public synchronized Object setProperty( String name, String value )
 	{
 		Object returnValue = super.setProperty( name, value );
@@ -149,7 +149,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e1 );
 		}
 		catch ( Exception e2 )
@@ -207,7 +207,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "http.proxyPort", "" );
 		ensureProperty( "http.proxyUser", "" );
 		ensureProperty( "http.proxyPassword", "" );
-		ensureProperty( "initialDesktopTabs", "AdventureFrame,MallSearchFrame,SkillBuffPanel,RestoreOptionsFrame" );
+		ensureProperty( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame,RestoreOptionsFrame" );
 		ensureProperty( "initialFrames", "EventsFrame,MailboxFrame" );
 		ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		ensureProperty( "keepSessionLogs", "false" );
@@ -414,7 +414,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}

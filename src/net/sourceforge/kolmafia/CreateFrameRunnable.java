@@ -102,7 +102,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	public JFrame getCreation()
 	{	return creation;
 	}
-	
+
 	public void run()
 	{
 		// If there is no creation creation, then return
@@ -116,14 +116,14 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		// Run any needed requests before falling into
 		// the event dispatch thread.
-		
+
 		if ( !ranRequests )
 		{
 			ranRequests = runRequests();
 			if ( !ranRequests )
 				return;
 		}
-		
+
 		// If you are in the Swing thread, then wait
 		// until you are no longer in the Swing thread
 		// so you are able to see debug messages.
@@ -139,18 +139,18 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e, "Swing thread interrupted" );
-				return;				
+				return;
 			}
 		}
-		
+
 		// Now that you're guaranteed to be in the event
 		// dispatch thread, run the construction.
-		
+
 		runConstruction();
 	}
-	
+
 	private boolean runRequests()
 	{
 		if ( !StaticEntity.getClient().shouldMakeConflictingRequest() )
@@ -159,7 +159,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			{
 				Method m = creationType.getMethod( "executesConflictingRequest", NOPARAMS );
 				Boolean result = (Boolean) m.invoke( creationType, null );
-	
+
 				if ( result.equals( Boolean.TRUE ) )
 				{
 					DEFAULT_SHELL.updateDisplay( "You can't do that while adventuring." );
@@ -182,7 +182,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		String creationTypeName = (creationType == KoLPanelFrame.class ? parameters[1].getClass() : creationType).getName();
 		creationTypeName = creationTypeName.substring( creationTypeName.lastIndexOf( "." ) + 1 );
-		
+
 		for ( int i = 0; i < existingFrames.size() && this.creation == null; ++i )
 		{
 			currentFrame = (KoLFrame) existingFrames.get(i);
@@ -201,10 +201,10 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 					this.creation = currentFrame;
 			}
 		}
-		
+
 		// Now, test to see if any requests need to be run before
 		// you fall into the event dispatch thread.
-		
+
 		if ( this.creation == null )
 		{
 			if ( creationType == BuffRequestFrame.class )
@@ -212,15 +212,15 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			if ( creationType == CakeArenaFrame.class || creationType == FamiliarTrainingFrame.class )
 				CakeArenaManager.getOpponentList();
 		}
-		
+
 		// If it gets this far, then all requests were successfully
 		// run, so return true.
-		
+
 		return true;
 	}
 
 	private void runConstruction()
-	{		
+	{
 		// Now, if you aren't supposed to create a new instance,
 		// do not do so -- however, if it's okay to do so, then
 		// go ahead and create it.
@@ -229,8 +229,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		{
 			if ( this.creation == null )
 				this.creation = (JFrame) creator.newInstance( parameters );
-			
-			String tabSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
+
+			String tabSetting = GLOBAL_SETTINGS.getProperty( "initialDesktop" );
 			String searchString = this.creation instanceof ChatFrame ? "KoLMessenger" :
 				this.creation instanceof KoLFrame ? ((KoLFrame)this.creation).getFrameName() : "...";
 
@@ -268,6 +268,9 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			}
 
 			this.creation.pack();
+			if ( this.creation instanceof SkillBuffFrame && parameters.length == 1 )
+				((SkillBuffFrame)this.creation).setRecipient( (String) parameters[0] );
+
 			if ( !(this.creation instanceof KoLFrame) )
 				this.creation.setLocationRelativeTo( null );
 
@@ -288,7 +291,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Frame could not be loaded" );
 			return;
 		}

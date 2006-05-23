@@ -137,11 +137,10 @@ public class ContactListFrame extends KoLFrame
 
 	public void buffSelected()
 	{
-		Object [] parameters = new Object[2];
-		parameters[0] = "Mass Buff";
-		parameters[1] = new SkillBuffPanel( convertToCDL() );
+		Object [] parameters = new Object[1];
+		parameters[0] = convertToCDL();
 
-		(new RequestThread( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) )).start();
+		(new RequestThread( new CreateFrameRunnable( SkillBuffFrame.class, parameters ) )).start();
 	}
 
 	public void mailSelected()
