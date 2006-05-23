@@ -443,11 +443,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			result.setScope( new ScriptScope( parseCommand( t, parentScope, false, false ), parentScope ) );
 
-			ScriptVariable param = null;
-			ScriptVariable paramNext = null;
-			for ( param = paramList.getFirstVariable(); param != null; param = paramNext )
+			for ( ScriptVariable param = paramList.getFirstVariable(); param != null; param = paramList.getNextVariable() )
 			{
-				paramNext = paramList.getNextVariable( param );
 				if ( !result.getScope().addVariable( param ) )
 					throw new AdvancedScriptException( "Variable " + param.getName() + " already defined " + getLineAndFile() );
 			}
@@ -1149,26 +1146,22 @@ public class KoLmafiaASH extends StaticEntity
 
 	private void printScope( ScriptScope scope, int indent )
 	{
-		ScriptVariable currentVar;
-		ScriptFunction currentFunc;
-		ScriptCommand currentCommand;
-
 		indentLine( indent );
 		KoLmafia.getDebugStream().println( "<SCOPE>" );
 
 		indentLine( indent + 1 );
 		KoLmafia.getDebugStream().println( "<VARIABLES>" );
-		for ( currentVar = scope.getFirstVariable(); currentVar != null; currentVar = scope.getNextVariable( currentVar ) )
+		for ( ScriptVariable currentVar = scope.getFirstVariable(); currentVar != null; currentVar = scope.getNextVariable() )
 			printVariable( currentVar, indent + 2 );
 
 		indentLine( indent + 1 );
 		KoLmafia.getDebugStream().println( "<FUNCTIONS>" );
-		for ( currentFunc = scope.getFirstFunction(); currentFunc != null; currentFunc = scope.getNextFunction( currentFunc ) )
+		for ( ScriptFunction currentFunc = scope.getFirstFunction(); currentFunc != null; currentFunc = scope.getNextFunction() )
 			printFunction( currentFunc, indent + 2 );
 
 		indentLine( indent + 1 );
 		KoLmafia.getDebugStream().println( "<COMMANDS>" );
-		for ( currentCommand = scope.getFirstCommand(); currentCommand != null; currentCommand = scope.getNextCommand( currentCommand ) )
+		for ( ScriptCommand currentCommand = scope.getFirstCommand(); currentCommand != null; currentCommand = scope.getNextCommand( currentCommand ) )
 			printCommand( currentCommand, indent + 2 );
 	}
 
@@ -1841,8 +1834,8 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptFunction)functions.getFirstElement();
 		}
 
-		public ScriptFunction getNextFunction( ScriptFunction current )
-		{	return (ScriptFunction)functions.getNextElement( current );
+		public ScriptFunction getNextFunction()
+		{	return (ScriptFunction)functions.getNextElement();
 		}
 
 		public boolean addVariable( ScriptVariable v )
@@ -1853,8 +1846,8 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptVariable)variables.getFirstElement();
 		}
 
-		public ScriptVariable getNextVariable( ScriptVariable current )
-		{	return (ScriptVariable)variables.getNextElement( current );
+		public ScriptVariable getNextVariable()
+		{	return (ScriptVariable)variables.getNextElement();
 		}
 
 		public ScriptVariable findVariable( String name )
@@ -1918,7 +1911,7 @@ public class KoLmafiaASH extends StaticEntity
 
 					++paramIndex;
 					currentParam = current.getNextParam( currentParam );
-					currentValue = (ScriptExpression) params.getNextElement( currentValue );
+					currentValue = (ScriptExpression)params.getNextElement( currentValue );
 				}
 
 				if ( currentParam != null || currentValue != null )
@@ -2725,8 +2718,8 @@ public class KoLmafiaASH extends StaticEntity
 		{	return ( ScriptVariable)getFirstElement();
 		}
 
-		public ScriptVariable getNextVariable( ScriptVariable current )
-		{	return ( ScriptVariable)getNextElement( current );
+		public ScriptVariable getNextVariable()
+		{	return ( ScriptVariable)getNextElement();
 		}
 	}
 
@@ -3132,7 +3125,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptExpression getNextParam( ScriptExpression current )
-		{	return ( ScriptExpression ) params.getNextElement( current );
+		{	return ( ScriptExpression )params.getNextElement( current );
 		}
 
 		public ScriptType getType()
