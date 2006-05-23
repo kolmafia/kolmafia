@@ -1975,7 +1975,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptSymbol extends ScriptListNode implements Comparable
+	private class ScriptSymbol implements Comparable
 	{
 		protected String name;
 
@@ -2001,71 +2001,50 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptSymbolTable
+	private class ScriptSymbolTable extends SortedListModel
 	{
-		ScriptSymbol firstNode;
-
-		public ScriptSymbolTable()
-		{	firstNode = null;
-		}
+		int searchIndex = -1;
 
 		public boolean addElement( ScriptSymbol n )
 		{
-			ScriptSymbol current;
-			ScriptSymbol previous = null;
+			if ( findSymbol( n.getName() ) != null )
+			     return false;
 
-			if ( firstNode == null )
-			{
-				firstNode = n;
-				n.setNext( null );
-				return true;
-			}
-
-			for ( current = firstNode; current != null; previous = current, current = (ScriptSymbol)current.getNext() )
-			{
-				if ( current.compareTo( n ) <= 0 )
-					break;
-			}
-
-			if ( current != null && current.compareTo( n ) == 0 )
-			{
-				return false;
-			}
-
-			if ( previous == null ) //Insert in front of very first element
-			{
-				firstNode = n;
-				firstNode.setNext( current );
-			}
-			else
-			{
-				previous.setNext( n );
-				n.setNext( current );
-			}
+			add( n );
 			return true;
 		}
 
 		ScriptSymbol findSymbol( String name )
 		{
-			ScriptSymbol symbol = firstNode;
-
-			while ( symbol != null )
+			for ( int i = 0; i < size(); ++i )
 			{
+				ScriptSymbol symbol = (ScriptSymbol)get( i );
 				if ( name.equalsIgnoreCase( symbol.getName() ) )
 					return symbol;
-				symbol = (ScriptSymbol)symbol.getNext();
 			}
 
 			return null;
 		}
 
 		public ScriptSymbol getFirstElement()
-		{	return firstNode;
+		{
+			searchIndex = -1;
+			return getNextElement();
+		}
+
+		public ScriptSymbol getNextElement()
+		{
+			if ( ++searchIndex >= size() )
+				return null;
+			return (ScriptSymbol)get( searchIndex );
 		}
 
 		public ScriptSymbol getNextElement( ScriptSymbol n )
 		{
-			return (ScriptSymbol)n.getNext();
+			searchIndex = indexOf( n );
+			if ( searchIndex == -1 )
+				return null;
+			return getNextElement();
 		}
 	}
 
