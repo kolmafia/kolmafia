@@ -1161,7 +1161,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		indentLine( indent + 1 );
 		KoLmafia.getDebugStream().println( "<COMMANDS>" );
-		for ( ScriptCommand currentCommand = scope.getFirstCommand(); currentCommand != null; currentCommand = scope.getNextCommand( currentCommand ) )
+		for ( ScriptCommand currentCommand = scope.getFirstCommand(); currentCommand != null; currentCommand = scope.getNextCommand() )
 			printCommand( currentCommand, indent + 2 );
 	}
 
@@ -1175,7 +1175,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		indentLine( indent );
 		KoLmafia.getDebugStream().println( "<FUNC " + func.getType() + " " + func.getName() + ">" );
-		for ( ScriptVariableReference current = func.getFirstParam(); current != null; current = func.getNextParam( current ) )
+		for ( ScriptVariableReference current = func.getFirstParam(); current != null; current = func.getNextParam() )
 			printVariableReference( current, indent + 1 );
 		printScope( func.getScope(), indent + 1 );
 	}
@@ -1214,7 +1214,7 @@ public class KoLmafiaASH extends StaticEntity
 			KoLmafia.getDebugStream().println( "<IF>" );
 		printExpression( loop.getCondition(), indent + 1 );
 		printScope( loop.getScope(), indent + 1 );
-		for ( ScriptLoop currentElse = loop.getFirstElseLoop(); currentElse != null; currentElse = loop.getNextElseLoop( currentElse ) )
+		for ( ScriptLoop currentElse = loop.getFirstElseLoop(); currentElse != null; currentElse = loop.getNextElseLoop() )
 			printLoop( currentElse, indent + 1 );
 	}
 
@@ -1222,7 +1222,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		indentLine( indent );
 		KoLmafia.getDebugStream().println( "<CALL " + call.getTarget().getName() + ">" );
-		for ( ScriptExpression current = call.getFirstParam(); current != null; current = call.getNextParam( current ) )
+		for ( ScriptExpression current = call.getFirstParam(); current != null; current = call.getNextParam() )
 			printExpression( current, indent + 1 );
 	}
 
@@ -1335,7 +1335,7 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptVariableReference	param;
 		String resultString;
 
-		for ( param = targetFunction.getFirstParam(); param != null; param = targetFunction.getNextParam( param ) )
+		for ( param = targetFunction.getFirstParam(); param != null; param = targetFunction.getNextParam() )
 		{
 			if ( param.getType().equals( TYPE_ZODIAC ) )
 			{
@@ -1788,7 +1788,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private class ScriptScope extends ScriptListNode
+	private class ScriptScope
 	{
 		ScriptFunctionList	functions;
 		ScriptVariableList	variables;
@@ -1862,22 +1862,18 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptCommand)commands.getFirstElement();
 		}
 
-		public ScriptCommand getNextCommand( ScriptCommand current )
-		{	return (ScriptCommand)commands.getNextElement( current );
+		public ScriptCommand getNextCommand()
+		{	return (ScriptCommand)commands.getNextElement();
 		}
 
 		public boolean assertReturn()
 		{
-			ScriptCommand current, previous = null;
-
-			for ( current = getFirstCommand(); current != null; previous = current, current = getNextCommand( current ) );
-
-			if ( previous == null )
+			int size = commands.size();
+			if ( size == 0 )
 				return false;
-			if ( !( previous instanceof ScriptReturn ) )
-				return false;
-
-			return true;
+			if ( commands.get( size - 1 ) instanceof ScriptReturn )
+				return true;
+			return false;
 		}
 
 		public ScriptFunction findFunction( String name, ScriptExpressionList params ) throws AdvancedScriptException
@@ -1910,8 +1906,8 @@ public class KoLmafiaASH extends StaticEntity
 					}
 
 					++paramIndex;
-					currentParam = current.getNextParam( currentParam );
-					currentValue = (ScriptExpression)params.getNextElement( currentValue );
+					currentParam = current.getNextParam( );
+					currentValue = (ScriptExpression)params.getNextElement();
 				}
 
 				if ( currentParam != null || currentValue != null )
@@ -1932,7 +1928,7 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptValue result = null;
 
 			traceIndent();
-			for ( current = getFirstCommand(); current != null; current = getNextCommand( current ) )
+			for ( current = getFirstCommand(); current != null; current = getNextCommand() )
 			{
 				trace( "Command: " + current );
 
@@ -1996,7 +1992,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private class ScriptSymbolTable extends SortedListModel
 	{
-		int searchIndex = -1;
+		private int searchIndex = -1;
 
 		public boolean addElement( ScriptSymbol n )
 		{
@@ -2075,8 +2071,8 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptVariableReference)variableReferences.getFirstElement();
 		}
 
-		public ScriptVariableReference getNextParam( ScriptVariableReference current )
-		{	return (ScriptVariableReference)variableReferences.getNextElement( current );
+		public ScriptVariableReference getNextParam()
+		{	return (ScriptVariableReference)variableReferences.getNextElement();
 		}
 
 		public ScriptType getType()
@@ -2780,7 +2776,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptCommand extends ScriptListNode
+	private class ScriptCommand
 	{
 		int command;
 
@@ -2968,11 +2964,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptLoop getFirstElseLoop()
-		{	return ( ScriptLoop ) elseLoops.getFirstElement();
+		{	return ( ScriptLoop )elseLoops.getFirstElement();
 		}
 
-		public ScriptLoop getNextElseLoop( ScriptLoop current )
-		{	return ( ScriptLoop ) elseLoops.getNextElement( current );
+		public ScriptLoop getNextElseLoop()
+		{	return ( ScriptLoop )elseLoops.getNextElement();
 		}
 
 		public void addElseLoop( ScriptLoop elseLoop ) throws AdvancedScriptException
@@ -3061,7 +3057,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			// Conditional failed. Move to else clauses
-			for ( ScriptLoop elseLoop = elseLoops.getFirstScriptLoop(); elseLoop != null; elseLoop = elseLoops.getNextScriptLoop( elseLoop ) )
+			for ( ScriptLoop elseLoop = elseLoops.getFirstScriptLoop(); elseLoop != null; elseLoop = elseLoops.getNextScriptLoop() )
 			{
 				ScriptValue result = elseLoop.execute();
 				if ( currentState != STATE_NORMAL )
@@ -3091,8 +3087,8 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptLoop)getFirstElement();
 		}
 
-		public ScriptLoop getNextScriptLoop( ScriptLoop current )
-		{	return (ScriptLoop)getNextElement( current );
+		public ScriptLoop getNextScriptLoop()
+		{	return (ScriptLoop)getNextElement();
 		}
 	}
 
@@ -3121,11 +3117,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptExpression getFirstParam()
-		{	return ( ScriptExpression ) params.getFirstElement();
+		{	return ( ScriptExpression )params.getFirstElement();
 		}
 
-		public ScriptExpression getNextParam( ScriptExpression current )
-		{	return ( ScriptExpression )params.getNextElement( current );
+		public ScriptExpression getNextParam()
+		{	return ( ScriptExpression )params.getNextElement();
 		}
 
 		public ScriptType getType()
@@ -3173,8 +3169,8 @@ public class KoLmafiaASH extends StaticEntity
 				else
 					paramVarRef.setValue( value );
 
-				paramVarRef = target.getNextParam( paramVarRef );
-				paramValue = params.getNextExpression( paramValue );
+				paramVarRef = target.getNextParam();
+				paramValue = params.getNextExpression();
 			}
 
 			if ( paramValue != null )
@@ -3753,8 +3749,8 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptExpression)getFirstElement();
 		}
 
-		public ScriptExpression getNextExpression( ScriptExpression current )
-		{	return (ScriptExpression)getNextElement( current );
+		public ScriptExpression getNextExpression()
+		{	return (ScriptExpression)getNextElement();
 		}
 	}
 
@@ -3997,58 +3993,35 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptListNode
+	private class ScriptList extends ArrayList
 	{
-		ScriptListNode next = null;
+		private int searchIndex = -1;
 
-		public ScriptListNode()
+		public boolean addElement( Object n )
 		{
-		}
-
-		public ScriptListNode getNext()
-		{
-			return next;
-		}
-
-		public void setNext( ScriptListNode node )
-		{
-			next = node;
-		}
-	}
-
-	private class ScriptList
-	{
-		ScriptListNode firstNode;
-
-		public ScriptList()
-		{	firstNode = null;
-		}
-
-		public boolean addElement( ScriptListNode n )
-		{
-			ScriptListNode current;
-			ScriptListNode previous = null;
-
-			n.setNext( null );
-			if ( firstNode == null )
-			{
-				firstNode = n;
-				return true;
-			}
-
-			for ( current = firstNode; current != null; previous = current, current = current.getNext() )
-				;
-
-			previous.setNext( n );
+			add( n );
 			return true;
 		}
 
-		public ScriptListNode getFirstElement()
-		{	return firstNode;
+		public Object getFirstElement()
+		{
+			searchIndex = -1;
+			return getNextElement();
 		}
 
-		public ScriptListNode getNextElement( ScriptListNode n )
-		{	return n.getNext();
+		public Object getNextElement()
+		{
+			if ( ++searchIndex >= size() )
+				return null;
+			return get( searchIndex );
+		}
+
+		public Object getNextElement( Object n )
+		{
+			searchIndex = indexOf( n );
+			if ( searchIndex == -1 )
+				return null;
+			return getNextElement();
 		}
 	}
 
