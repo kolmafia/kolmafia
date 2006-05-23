@@ -45,6 +45,7 @@ public class SewerRequest extends KoLRequest
 	public static final AdventureResult CLOVER = new AdventureResult( "ten-leaf clover", -1 );
 	public static final AdventureResult GUM = new AdventureResult( "chewing gum on a string", -1 );
 
+	private boolean hasCost = true;
 	private boolean isLuckySewer;
 
 	/**
@@ -116,6 +117,7 @@ public class SewerRequest extends KoLRequest
 			// reason, you need to view this page before you can
 			// start submitting data.
 
+			hasCost = false;
 			super.run();
 
 			if ( responseCode != 200 )
@@ -123,6 +125,7 @@ public class SewerRequest extends KoLRequest
 
 			// Make a request to use from now on.
 
+			hasCost = true;
 			clearDataFields();
 			addFormField( "doodit", "1" );
 
@@ -194,6 +197,6 @@ public class SewerRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return responseCode == 200 ? 1 : 0;
+	{	return hasCost && responseCode == 200 ? 1 : 0;
 	}
 }
