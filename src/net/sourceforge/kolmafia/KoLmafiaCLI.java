@@ -86,7 +86,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public static void main( String [] args )
 	{
 		StringBuffer initialScript = new StringBuffer();
-		
+
 		for ( int i = 1; i < args.length; ++i )
 		{
 			initialScript.append( args[i] );
@@ -113,7 +113,7 @@ public class KoLmafiaCLI extends KoLmafia
 			String actualScript = initialScript.toString().trim();
 			if ( actualScript.startsWith( "script=" ) )
 				actualScript = actualScript.substring( 7 );
-			
+
 			DEFAULT_SHELL.executeLine( "call " + actualScript );
 			DEFAULT_SHELL.listenForCommands();
 		}
@@ -138,11 +138,19 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Error opening input stream." );
 		}
 
 		advancedHandler = new KoLmafiaASH();
+	}
+
+	public void getBreakfast( boolean checkSettings )
+	{
+		if ( this == StaticEntity.getClient() )
+			super.getBreakfast( checkSettings );
+		else
+			StaticEntity.getClient().getBreakfast( checkSettings );
 	}
 
 	public static void reset()
@@ -196,7 +204,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Error in login attempt" );
 		}
 	}
@@ -274,7 +282,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}
@@ -308,7 +316,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return null;
 		}
@@ -367,7 +375,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	private void executeCommand( String command, String parameters )
-	{		
+	{
 		// Insert random video game reference command to
 		// start things off.
 
@@ -406,7 +414,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		// First, handle the wait command, for however
 		// many seconds the user would like to wait.
-		
+
 		if ( command.equals( "wait" ) || command.equals( "pause" ) )
 		{
 			try
@@ -418,7 +426,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 
@@ -510,7 +518,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// Remove all of the frames which may have been loaded;
 				// this ensures a forced reload of the frame which will
 				// keep the parameters fresh.
-				
+
 				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 				existingFrames.toArray( frames );
 
@@ -688,7 +696,7 @@ public class KoLmafiaCLI extends KoLmafia
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e, "Error opening file <" + parameters + ">" );
 					return;
 				}
@@ -736,13 +744,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 		// Re-adding the breakfast command, just
 		// so people can add it in scripting.
-		
+
 		if ( command.equals( "breakfast" ) )
 		{
 			getBreakfast( false );
 			return;
 		}
-		
+
 		// Look!  It's the command to complete the
 		// Sorceress entryway.
 
@@ -873,15 +881,15 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			String oldSetting = StaticEntity.getProperty( "autoSatisfyChecks" );
 			StaticEntity.setProperty( "autoSatisfyChecks", "true" );
-			
-			// Handle lucky and unlucky retrieval of 
+
+			// Handle lucky and unlucky retrieval of
 			// worthless items via the sewer.
 
 			if ( parameters.equals( "worthless item" ) )
 			{
 				while ( KoLCharacter.getAdventuresLeft() > 0 && HermitRequest.getWorthlessItemCount() == 0 && StaticEntity.getClient().permitsContinue() )
 					executeLine( "buy 1 chewing gum on a string; adventure Unlucky Sewer" );
-				
+
 				if ( HermitRequest.getWorthlessItemCount() == 0 )
 				{
 					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unable to acquire a worthless item." );
@@ -901,8 +909,8 @@ public class KoLmafiaCLI extends KoLmafia
 					return;
 				}
 			}
-			
-			// Non-worthless-item requests default to 
+
+			// Non-worthless-item requests default to
 			// internal retrieveItem calls.
 
 			else if ( !parameters.startsWith( "worthless item" ) )
@@ -1095,7 +1103,7 @@ public class KoLmafiaCLI extends KoLmafia
 			else if ( parameters.equalsIgnoreCase( "none" ) || parameters.equalsIgnoreCase( "unequip" ) )
 			{
 				StaticEntity.getClient().makeRequest( new FamiliarRequest( StaticEntity.getClient(), FamiliarData.NO_FAMILIAR ), 1 );
-				return;				
+				return;
 			}
 
 			String lowerCaseName = parameters.toLowerCase();
@@ -1133,10 +1141,10 @@ public class KoLmafiaCLI extends KoLmafia
 			executeClosetManageRequest( parameters );
 			return;
 		}
-		
+
 		// More commands -- this time to put stuff into
 		// your display case (or remove them).
-		
+
 		if ( command.equals( "display" ) )
 		{
 			executeDisplayCaseRequest( parameters );
@@ -1169,10 +1177,10 @@ public class KoLmafiaCLI extends KoLmafia
 				executePrintCommand( "equip" );
 			return;
 		}
-		
+
 		// Another command involves saving the current
 		// gear into the KoLmafia checkpoint outfit.
-		
+
 		if ( command.equals( "checkpoint" ) )
 		{
 			SpecialOutfit.createCheckpoint();
@@ -1212,7 +1220,7 @@ public class KoLmafiaCLI extends KoLmafia
 				parameters = splitup[0];
 				desiredLimit = Integer.parseInt( parameters );
 			}
-			
+
 			StoreManager.searchMall( parameters, results, desiredLimit, true );
 			printList( results );
 			return;
@@ -1360,7 +1368,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeScriptCommand( String parameters )
 	{
 		parameters = parameters.replaceAll( "\\\"", "" );
-		
+
 		try
 		{
 			// Locate the script file.  In order of preference,
@@ -1449,7 +1457,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return;
 		}
@@ -1590,7 +1598,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			updateDisplay( ERROR_STATE, parameters + " is not a valid construct." );
 			return false;
 		}
@@ -1736,7 +1744,7 @@ public class KoLmafiaCLI extends KoLmafia
 				updateDisplay( "All non-stat conditions will be ORed together." );
 			else
 				updateDisplay( "All non-stat conditions will be ANDed together." );
-			
+
 			return true;
 		}
 		else if ( option.equals( "add" ) )
@@ -2160,10 +2168,10 @@ public class KoLmafiaCLI extends KoLmafia
 		// If you are equipping a two-handed weapon, and you
 		// originally were dual-wielding, unequip the offhand
 		// weapon first.
-		
+
 		if ( KoLCharacter.dualWielding() && EquipmentDatabase.getHands( match.getItemID() ) == 2 )
 			executeLine( "unequip off-hand" );
-		
+
 		StaticEntity.getClient().makeRequest(
 			new EquipmentRequest( StaticEntity.getClient(), match.getName(), slot ), 1 );
 	}
@@ -2258,7 +2266,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e, "Error opening file <" + parameterList[1] + ">" );
 				return;
 			}
@@ -2460,7 +2468,7 @@ public class KoLmafiaCLI extends KoLmafia
 		List source = null;
 		String [] nameArray = new String[ nameList.size() ];
 		nameList.toArray( nameArray );
-		
+
 		switch ( matchType )
 		{
 			case NOWHERE:
@@ -3048,7 +3056,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * A special module for instantiating display case management requests,
 	 * strictly for adding and removing things.
 	 */
-	
+
 	private void executeDisplayCaseRequest( String parameters )
 	{
 		Object [] items = getMatchingItemList( parameters.substring(4).trim(), parameters.startsWith( "take" ) ? NOWHERE : INVENTORY );
@@ -3112,7 +3120,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeChangeOutfitCommand( String parameters )
 	{
-		String lowercaseOutfitName = parameters.toLowerCase().trim();		
+		String lowercaseOutfitName = parameters.toLowerCase().trim();
 		Object [] outfits = new Object[ KoLCharacter.getOutfits().size() ];
 		KoLCharacter.getOutfits().toArray( outfits );
 
@@ -3157,7 +3165,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Error opening file <" + parameters + ">" );
 			return;
 		}
@@ -3465,10 +3473,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		// Don't bother with empty-string messages,
 		// as they serve no purpose under this setup.
-		
+
 		if ( message.equals( "" ) )
 			return;
-		
+
 		outputStream.println( message );
 		mirrorStream.println( message );
 
@@ -3496,7 +3504,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			if ( request instanceof KoLRequest )
 				commandString.append( ((KoLRequest)request).getCommandForm( iterations ) );
-	
+
 			if ( request instanceof KoLAdventure && ((KoLAdventure)request).getRequest() != null )
 				commandString.append( "adventure " + iterations + " " + ((KoLAdventure)request).getAdventureName() );
 		}
