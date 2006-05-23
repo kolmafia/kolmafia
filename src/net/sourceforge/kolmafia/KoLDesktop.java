@@ -36,8 +36,6 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Dimension;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import java.awt.CardLayout;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -155,7 +153,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	{
 		isInitializing = true;
 
-		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
+		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktop" );
 		String [] interfaceArray = interfaceSetting.split( "," );
 		for ( int i = 0; i < interfaceArray.length; ++i )
 			KoLmafiaGUI.constructFrame( interfaceArray[i] );
@@ -185,7 +183,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	public static boolean instanceExists()
 	{	return INSTANCE != null;
 	}
-	
+
 	public static KoLDesktop getInstance()
 	{
 		if ( INSTANCE == null )
@@ -251,7 +249,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	{
 		if ( INSTANCE != null )
 			INSTANCE.setTitle( INSTANCE.lastTitle );
-		
+
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
 

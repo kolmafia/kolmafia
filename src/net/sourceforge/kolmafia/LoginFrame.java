@@ -112,11 +112,11 @@ public class LoginFrame extends KoLFrame
 
 		JPanel breakfastPanel = new JPanel();
 		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
-		
+
 		breakfastPanel.add( new BreakfastPanel( "Softcore Characters", "softcore" ) );
 		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "hardcore" ) );
 		tabs.addTab( "Breakfast", breakfastPanel );
-		
+
 		JScrollPane scroller = new JScrollPane( new StartupFramesPanel(),
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
@@ -174,7 +174,7 @@ public class LoginFrame extends KoLFrame
 		private JCheckBox savePasswordCheckBox;
 		private JCheckBox autoLoginCheckBox;
 		private JCheckBox getBreakfastCheckBox;
-		
+
 		/**
 		 * Constructs a new <code>LoginPanel</code>, containing a place
 		 * for the users to input their login name and password.  This
@@ -189,7 +189,7 @@ public class LoginFrame extends KoLFrame
 			usernameField = GLOBAL_SETTINGS.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 			passwordField = new JPasswordField();
 			scriptField = new ScriptSelectPanel( new JTextField() );
-			
+
 			savePasswordCheckBox = new JCheckBox();
 			savePasswordCheckBox.addActionListener( this );
 
@@ -325,7 +325,7 @@ public class LoginFrame extends KoLFrame
 				{
 					passwordField.setText( "" );
 					setStatusMessage( " " );
-					
+
 					isBreakfastEnabled = true;
 					LoginPanel.this.setEnabled( true );
 					return;
@@ -348,7 +348,7 @@ public class LoginFrame extends KoLFrame
 
 				String loginScript = GLOBAL_SETTINGS.getProperty( "loginScript." + currentMatch.toLowerCase() );
 				String breakfastSetting = GLOBAL_SETTINGS.getProperty( "getBreakfast." + currentMatch.toLowerCase() );
-				
+
 				scriptField.setText( loginScript == null ? "" : loginScript );
 				getBreakfastCheckBox.setSelected( breakfastSetting != null && breakfastSetting.equals( "true" ) );
 
@@ -369,30 +369,30 @@ public class LoginFrame extends KoLFrame
 			}
 		}
 	}
-	
+
 	private class BreakfastPanel extends LabeledKoLPanel
 	{
 		private String breakfastType;
 		private JCheckBox [] skillOptions;
-		
+
 		public BreakfastPanel( String title, String breakfastType )
 		{
 			super( title, new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
-			
+
 			this.breakfastType = breakfastType;
 			skillOptions = new JCheckBox[ KoLmafia.BREAKFAST_SKILLS.length ];
 			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
 				skillOptions[i] = new JCheckBox();
-			
+
 			VerifiableElement [] elements = new VerifiableElement[ skillOptions.length ];
-			
+
 			for ( int i = 0; i < elements.length; ++i )
 				elements[i] = new VerifiableElement( KoLmafia.BREAKFAST_SKILLS[i][0], JLabel.LEFT, skillOptions[i] );
-			
+
 			setContent( elements, false );
 			actionCancelled();
 		}
-		
+
 		public void actionConfirmed()
 		{
 			StringBuffer skillString = new StringBuffer();
@@ -410,7 +410,7 @@ public class LoginFrame extends KoLFrame
 
 			GLOBAL_SETTINGS.setProperty( "breakfast." + breakfastType, skillString.toString() );
 		}
-		
+
 		public void actionCancelled()
 		{
 			String skillString = GLOBAL_SETTINGS.getProperty( "breakfast." + breakfastType );
@@ -440,7 +440,7 @@ public class LoginFrame extends KoLFrame
 			{ "Hagnk Storage", "HagnkStorageFrame" },
 
 			{ "Meat Manager", "MeatManageFrame" },
-			{ "Skill Casting", "SkillBuffPanel" },
+			{ "Skill Casting", "SkillBuffFrame" },
 			{ "Auto Restore", "RestoreOptionsFrame" },
 
 			{ "Buffbot Manager", "BuffBotFrame" },
@@ -522,13 +522,13 @@ public class LoginFrame extends KoLFrame
 			}
 
 			GLOBAL_SETTINGS.setProperty( "initialFrames", frameString.toString() );
-			GLOBAL_SETTINGS.setProperty( "initialDesktopTabs", desktopString.toString() );
+			GLOBAL_SETTINGS.setProperty( "initialDesktop", desktopString.toString() );
 		}
 
 		public void actionCancelled()
 		{
 			String frameString = GLOBAL_SETTINGS.getProperty( "initialFrames" );
-			String desktopString = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
+			String desktopString = GLOBAL_SETTINGS.getProperty( "initialDesktop" );
 
 			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
 			{
@@ -547,7 +547,7 @@ public class LoginFrame extends KoLFrame
 				super( text );
 				addActionListener( this );
 			}
-			
+
 			public void actionPerformed( ActionEvent e )
 			{	actionConfirmed();
 			}

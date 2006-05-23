@@ -138,7 +138,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e, "Error in proxy setup" );
 					System.setProperty( "http.proxyHost", proxyHost );
 				}
@@ -170,7 +170,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Error in proxy setup" );
 		}
 	}
@@ -231,10 +231,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.client = client;
 		this.data = new ArrayList();
 		this.followRedirects = followRedirects;
-		
+
 		constructURLString( formURLString );
 	}
-	
+
 	private void constructURLString( String newURLString )
 	{
 		this.data.clear();
@@ -303,7 +303,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return;
 		}
@@ -315,7 +315,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			String [] existingData = new String[ data.size() ];
 			data.toArray( existingData );
-			
+
 			for ( int i = 0; i < existingData.length; ++i )
 			{
 				if ( existingData[i].startsWith( encodedName ) )
@@ -350,7 +350,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// If you were in Valhalla on login, then
 			// make sure you discover the password hash
 			// in some other way.
-			
+
 			if ( (client.getPasswordHash() == null || client.getPasswordHash().equals( "" )) && currentComponent.length == 2 && currentComponent[1].length() > 0 )
 				client.setPasswordHash( currentComponent[1] );
 
@@ -380,7 +380,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return;
 		}
@@ -395,7 +395,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			addEncodedFormField( fields );
 			return;
 		}
-		
+
 		String [] tokens = fields.split( "&" );
 		for ( int i = 0; i < tokens.length; ++i )
 		{
@@ -457,7 +457,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			else
 				dataBuffer.append( elements[i] );
 		}
-		
+
 		if ( dataBuffer.indexOf( "whichskill=moxman" ) != -1 )
 			return "action=moxman";
 
@@ -478,18 +478,18 @@ public class KoLRequest implements Runnable, KoLConstants
 			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Unexpected request attempted mid-fight." );
 			return;
 		}
-		
+
 		KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
 		execute();
 
 		if ( getURLString().equals( "main.php?refreshtop=true&noobmessage=true" ) )
 			client.handleAscension();
 	}
-	
+
 	public void execute()
 	{
 		client.setCurrentRequest( this );
-		
+
 		if ( getClass() == KoLRequest.class )
 			client.getSessionStream().println( getURLString() );
 		else
@@ -501,10 +501,10 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
-		
+
 		if ( getURLString().equals( "lair6.php?place=5" ) )
 			KoLCharacter.getEffects().clear();
-		
+
 		do
 		{
 			statusChanged = false;
@@ -520,7 +520,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( !isDelayExempt() && !(this instanceof SearchMallRequest) )
 				showInBrowser( false );
-			
+
 			if ( getClass() == KoLRequest.class || this instanceof LocalRelayRequest )
 			{
 				if ( !shouldIgnoreResults() )
@@ -541,7 +541,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			formURLString.startsWith( "searchmall.php" ) || formURLString.startsWith( "clan" ) ||
 			formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) || formURLString.indexOf( "chat" ) != -1;
 	}
-	
+
 	/**
 	 * Utility method which waits for the default refresh rate
 	 * without using Thread.sleep() - this means CPU usage can
@@ -577,7 +577,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -622,7 +622,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Error in URL: " + KOL_ROOT + formURLString );
 			KoLRequest.delay();
 			return false;
@@ -764,7 +764,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e, "Page <" + formURLString + "> not found." );
 
 				// In this case, it's like a false redirect, but to
@@ -790,9 +790,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( this instanceof LocalRelayRequest && responseCode != 200 )
 			return true;
-		
-		boolean shouldStop = true;		
-		
+
+		boolean shouldStop = true;
+
 		if ( !(this instanceof ChatRequest) )
 			KoLmafia.getDebugStream().println( "Server response code: " + responseCode );
 
@@ -943,7 +943,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 
@@ -956,7 +956,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	}
 
 	/**
-	 * This method allows classes to process a raw, unfiltered 
+	 * This method allows classes to process a raw, unfiltered
 	 * server response.
 	 */
 
@@ -1021,7 +1021,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return 0;
 		}
@@ -1053,7 +1053,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return 0;
 		}
@@ -1093,7 +1093,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// Wild hare is exempt from beaten up status if you
 			// are beaten up in the middle of a battle.
-			
+
 			if ( !formURLString.equals( "fight.php" ) || KoLCharacter.getFamiliar().getID() != 50 )
 				client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 		}
@@ -1298,7 +1298,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	public String getCommandForm( int iterations )
 	{	return "";
 	}
-	
+
 	private void checkForNewEvents()
 	{
 		if ( responseText.indexOf( "bgcolor=orange><b>New Events:</b>") == -1 )
@@ -1306,7 +1306,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		// Capture the entire new events table in order to display the
 		// appropriate message.
-			
+
 		Matcher eventMatcher = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" ).matcher( responseText );
 		if ( !eventMatcher.find() )
 			return;
@@ -1374,7 +1374,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// the frame reloads.
 
 			boolean shouldLoadEventFrame = GLOBAL_SETTINGS.getProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
-			shouldLoadEventFrame |= GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).indexOf( "EventsFrame" ) != -1 &&
+			shouldLoadEventFrame |= GLOBAL_SETTINGS.getProperty( "initialDesktop" ).indexOf( "EventsFrame" ) != -1 &&
 				KoLDesktop.getInstance().isVisible();
 
 			if ( shouldLoadEventFrame )
@@ -1391,7 +1391,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			KoLMessenger.updateChat( "<font color=green>" + event + "</font>" );
 		}
 	}
-	
+
 	public String toString()
 	{	return getURLString();
 	}

@@ -36,8 +36,8 @@ package net.sourceforge.kolmafia;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.CardLayout;
 import java.awt.BorderLayout;
-import javax.swing.BorderFactory;
 
 import javax.swing.Box;
 import javax.swing.JList;
@@ -120,7 +120,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			int searchCount = getValue( countField, 5 );
 			if ( searchCount == 5 || searchCount < 0 )
 				countField.setText( "5" );
-			
+
 			setProperty( "defaultLimit", countField.getText() );
 			searchMall( new SearchMallRequest( StaticEntity.getClient(), searchField.getText(), searchCount, results ) );
 
@@ -217,9 +217,10 @@ public class MallSearchFrame extends KoLPanelFrame
 	{
 		public SearchResultsPanel()
 		{
-			setLayout( new BorderLayout() );
-			setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-			add( JComponentUtilities.createLabel( "Search Results", JLabel.CENTER,
+			setLayout( new CardLayout( 10, 10 ) );
+
+			JPanel resultsPanel = new JPanel( new BorderLayout() );
+			resultsPanel.add( JComponentUtilities.createLabel( "Search Results", JLabel.CENTER,
 				Color.black, Color.white ), BorderLayout.NORTH );
 
 			resultsList = new JList( results );
@@ -228,9 +229,10 @@ public class MallSearchFrame extends KoLPanelFrame
 			resultsList.setVisibleRowCount( 11 );
 
 			resultsList.addListSelectionListener( new PurchaseSelectListener() );
-
-			add( new JScrollPane( resultsList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			resultsPanel.add( new JScrollPane( resultsList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER ), BorderLayout.CENTER );
+
+			add( resultsPanel, "" );
 		}
 
 		/**

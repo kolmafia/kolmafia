@@ -151,7 +151,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 
@@ -164,7 +164,7 @@ public class AdventureFrame extends KoLFrame
 
 	private JPanel getAdventureSummary( int selectedIndex )
 	{
-		CardLayout resultCards = new CardLayout( 0, 0 );
+		CardLayout resultCards = new CardLayout();
 		JPanel resultPanel = new JPanel( resultCards );
 		JComboBox resultSelect = new JComboBox();
 
@@ -196,8 +196,8 @@ public class AdventureFrame extends KoLFrame
 			dropdown1 = resultSelect;
 		else
 			dropdown2 = resultSelect;
-		
-		resultSelect.setSelectedIndex( selectedIndex );		
+
+		resultSelect.setSelectedIndex( selectedIndex );
 		return containerPanel;
 	}
 
@@ -225,7 +225,7 @@ public class AdventureFrame extends KoLFrame
 			String index = String.valueOf( resultSelect.getSelectedIndex() );
 			resultCards.show( resultPanel, index );
 			setProperty( resultSelect == dropdown1 ? "defaultDropdown1" : "defaultDropdown2", index );
-			
+
 		}
 	}
 
@@ -242,7 +242,7 @@ public class AdventureFrame extends KoLFrame
 
 			JScrollPane textScroller = new JScrollPane( safetyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-			
+
 			JComponentUtilities.setComponentSize( textScroller, 100, 100 );
 			add( textScroller, BorderLayout.CENTER );
 
@@ -424,7 +424,7 @@ public class AdventureFrame extends KoLFrame
 				}
 
 				DEFAULT_SHELL.enableDisplay();
-				
+
 				if ( StaticEntity.getClient().conditions.size() > 1 )
 					DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 
@@ -510,11 +510,11 @@ public class AdventureFrame extends KoLFrame
 			battleStopSelect.addItem( "Never stop combat" );
 			for ( int i = 0; i <= 9; ++i )
 				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
-			
+
 			cloverProtectSelect = new JComboBox();
 			cloverProtectSelect.addItem( "Disassemble ten-leaf clovers" );
 			cloverProtectSelect.addItem( "Leave ten-leaf clovers alone" );
-			
+
 			castleWheelSelect = new JComboBox();
 			castleWheelSelect.addItem( "Turn to map quest position" );
 			castleWheelSelect.addItem( "Turn to muscle position" );
@@ -628,7 +628,7 @@ public class AdventureFrame extends KoLFrame
 					setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
 					break;
 			}
-			
+
 			switch ( spookyForestSelect.getSelectedIndex() )
 			{
 				case 0: // Seal clubber corpse
@@ -731,13 +731,13 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			castleWheelSelect.setSelectedIndex( index );
-			
+
 			// Now, determine what is located in choice adventure #26,
 			// which shows you which slot (in general) to use.
-			
+
 			index = Integer.parseInt( getProperty( "choiceAdventure26" ) );
 			index = index * 2 + Integer.parseInt( getProperty( "choiceAdventure" + (26 + index) ) ) - 3;
-			
+
 			spookyForestSelect.setSelectedIndex( index );
 		}
 
@@ -775,7 +775,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 
@@ -800,7 +800,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 

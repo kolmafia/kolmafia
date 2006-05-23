@@ -166,7 +166,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new KoLPanelFrameMenuItem( "Skill Casting", new SkillBuffPanel() ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Skill Casting", SkillBuffFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Auto Restore", RestoreOptionsFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
@@ -349,7 +349,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 					KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 					existingFrames.toArray( frames );
 
-					String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
+					String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktop" );
 
 					for ( int i = 0; i < frames.length; ++i )
 						if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
@@ -360,11 +360,11 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 					return;
 				}
-				
+
 				KoLFrame frame = (KoLFrame) frameReference.get();
 				if ( frame != null )
 				{
-					boolean appearsInTab = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" ).indexOf(
+					boolean appearsInTab = GLOBAL_SETTINGS.getProperty( "initialDesktop" ).indexOf(
 						frame instanceof ChatFrame ? "KoLMessenger" : frame.getFrameName() ) != -1;
 
 					if ( !appearsInTab )
@@ -775,7 +775,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}
@@ -795,7 +795,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}
@@ -905,7 +905,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 				return null;
 			}

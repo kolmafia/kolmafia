@@ -91,9 +91,7 @@ public class CharsheetFrame extends KoLFrame
 	{
 		super( "Player Status" );
 
-		CardLayout cards = new CardLayout( 10, 10 );
-		framePanel.setLayout( cards );
-
+		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		JPanel northPanel = new JPanel( new BorderLayout( 20, 20 ) );
 
 		northPanel.add( createStatusPanel(), BorderLayout.CENTER );
@@ -109,7 +107,7 @@ public class CharsheetFrame extends KoLFrame
 		framePanel.add( entirePanel, "" );
 		statusRefresher = new KoLCharacterAdapter( new StatusRefreshRunnable() );
 		KoLCharacter.addCharacterListener( statusRefresher );
-		
+
 		statusRefresher.updateStatus();
 	}
 

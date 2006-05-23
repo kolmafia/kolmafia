@@ -37,7 +37,6 @@ package net.sourceforge.kolmafia;
 // layout
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
@@ -105,30 +104,30 @@ public class ItemManageFrame extends KoLFrame
 		special = null;
 
 		tabs.addTab( "Consume", consume );
-		
+
 		if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
 		{
 			// If the person is in a mysticality sign, make sure
 			// you retrieve information from the restaurant.
-	
+
 			if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
 			{
 				special = new SpecialPanel( StaticEntity.getClient().getRestaurantItems() );
 				tabs.add( "Restaurant", special );
-	
+
 				if ( StaticEntity.getClient().getRestaurantItems().isEmpty() )
 					(new RequestThread( new RestaurantRequest( StaticEntity.getClient() ) )).start();
 			}
-	
+
 			// If the person is in a moxie sign and they have completed
 			// the beach quest, then retrieve information from the
 			// microbrewery.
-	
+
 			if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
 			{
 				special = new SpecialPanel( StaticEntity.getClient().getMicrobreweryItems() );
 				tabs.add( "Microbrewery", special );
-	
+
 				if ( StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
 					(new RequestThread( new MicrobreweryRequest( StaticEntity.getClient() ) )).start();
 			}
@@ -748,7 +747,7 @@ public class ItemManageFrame extends KoLFrame
 				int quantityDesired = createMultiple ? getQuantity( "Creating multiple " + selection.getName() + "...", selection.getQuantityNeeded() ) : 1;
 				if ( quantityDesired < 1 )
 					return;
-				
+
 				DEFAULT_SHELL.updateDisplay( "Verifying ingredients..." );
 				selection.setQuantityNeeded( quantityDesired );
 				(new RequestThread( selection )).start();

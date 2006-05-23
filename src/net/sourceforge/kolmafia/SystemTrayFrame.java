@@ -25,7 +25,7 @@ public class SystemTrayFrame extends KoLDesktop implements Runnable
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
 
-		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktopTabs" );
+		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktop" );
 
 		for ( int i = 0; i < frames.length; ++i )
 			if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
@@ -101,7 +101,7 @@ public class SystemTrayFrame extends KoLDesktop implements Runnable
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
