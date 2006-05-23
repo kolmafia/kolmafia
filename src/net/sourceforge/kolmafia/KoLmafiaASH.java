@@ -1814,7 +1814,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			functions = new ScriptFunctionList();
 			variables = new ScriptVariableList();
-			commands = new ScriptCommandList( command );
+			commands = new ScriptCommandList();
+			commands.addElement( command );
 			this.parentScope = parentScope;
 		}
 
@@ -1837,13 +1838,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptFunction getFirstFunction()
-		{
-			return (ScriptFunction) functions.getFirstElement();
+		{	return (ScriptFunction)functions.getFirstElement();
 		}
 
 		public ScriptFunction getNextFunction( ScriptFunction current )
-		{
-			return (ScriptFunction) functions.getNextElement( current );
+		{	return (ScriptFunction)functions.getNextElement( current );
 		}
 
 		public boolean addVariable( ScriptVariable v )
@@ -1851,13 +1850,15 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptVariable getFirstVariable()
-		{
-			return (ScriptVariable) variables.getFirstElement();
+		{	return (ScriptVariable)variables.getFirstElement();
 		}
 
 		public ScriptVariable getNextVariable( ScriptVariable current )
-		{
-			return (ScriptVariable) variables.getNextElement( current );
+		{	return (ScriptVariable)variables.getNextElement( current );
+		}
+
+		public ScriptVariable findVariable( String name )
+		{	return variables.findVariable( name );
 		}
 
 		public void addCommand( ScriptCommand c )
@@ -1865,13 +1866,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptCommand getFirstCommand()
-		{
-			return (ScriptCommand) commands.getFirstElement();
+		{	return (ScriptCommand)commands.getFirstElement();
 		}
 
 		public ScriptCommand getNextCommand( ScriptCommand current )
-		{
-			return (ScriptCommand) commands.getNextElement( current );
+		{	return (ScriptCommand)commands.getNextElement( current );
 		}
 
 		public boolean assertReturn()
@@ -1890,49 +1889,42 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptFunction findFunction( String name, ScriptExpressionList params ) throws AdvancedScriptException
 		{
-			ScriptFunction current;
-			ScriptVariableReference currentParam;
-			ScriptExpression currentValue;
-			int paramIndex;
-
-			for ( current = getFirstFunction(); current != null; current = getNextFunction( current ) )
+			ScriptFunction current = functions.findFunction( name );
+			if ( current != null )
 			{
-				if ( current.getName().equalsIgnoreCase( name ) )
+				if ( params == null )
+					return current;
+
+				ScriptVariableReference currentParam = current.getFirstParam();
+				ScriptExpression currentValue = (ScriptExpression) params.getFirstElement();
+				int paramIndex = 1;
+
+				while ( currentParam != null && currentValue != null )
 				{
-					if ( params == null )
-						return current;
-
-					paramIndex = 1;
-					currentParam = current.getFirstParam();
-					currentValue = (ScriptExpression) params.getFirstElement();
-
-					while ( currentParam != null && currentValue != null )
+					if ( !currentParam.getType().equals( currentValue.getType() ) )
 					{
-						if ( !currentParam.getType().equals( currentValue.getType() ) )
-						{
-							boolean validParameter = false;
+						boolean validParameter = false;
 
-							// float-check values
-							validParameter |= currentParam.getType().equals( TYPE_FLOAT ) && currentValue.getType().equals( TYPE_INT );
-							validParameter |= currentParam.getType().equals( TYPE_INT ) && currentValue.getType().equals( TYPE_FLOAT );
+						// float-check values
+						validParameter |= currentParam.getType().equals( TYPE_FLOAT ) && currentValue.getType().equals( TYPE_INT );
+						validParameter |= currentParam.getType().equals( TYPE_INT ) && currentValue.getType().equals( TYPE_FLOAT );
 
-							// string operations are valid
-							validParameter |= currentParam.getType().equals( TYPE_STRING );
+						// string operations are valid
+						validParameter |= currentParam.getType().equals( TYPE_STRING );
 
-							if ( !validParameter )
-								throw new AdvancedScriptException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile() );
-						}
-
-						++paramIndex;
-						currentParam = current.getNextParam( currentParam );
-						currentValue = (ScriptExpression) params.getNextElement( currentValue );
+						if ( !validParameter )
+							throw new AdvancedScriptException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile() );
 					}
 
-					if ( currentParam != null || currentValue != null )
-						throw new AdvancedScriptException( "Illegal amount of parameters for function " + name + " " + getLineAndFile() );
-
-					return current;
+					++paramIndex;
+					currentParam = current.getNextParam( currentParam );
+					currentValue = (ScriptExpression) params.getNextElement( currentValue );
 				}
+
+				if ( currentParam != null || currentValue != null )
+					throw new AdvancedScriptException( "Illegal amount of parameters for function " + name + " " + getLineAndFile() );
+
+				return current;
 			}
 
 			if ( parentScope != null )
@@ -1978,13 +1970,12 @@ public class KoLmafiaASH extends StaticEntity
 
 	private class ScriptScopeList extends ScriptList
 	{
-		public boolean addElement( ScriptListNode n )
-		{
-			return addElementSerial( n );
+		public boolean addElement( ScriptScope n )
+		{	return super.addElement( n );
 		}
 	}
 
-	private class ScriptSymbol extends ScriptListNode
+	private class ScriptSymbol extends ScriptListNode implements Comparable
 	{
 		protected String name;
 
@@ -2007,6 +1998,74 @@ public class KoLmafiaASH extends StaticEntity
 			if ( name == null)
 				return 1;
 			return name.compareToIgnoreCase( ((ScriptSymbol)o).name );
+		}
+	}
+
+	private class ScriptSymbolTable
+	{
+		ScriptSymbol firstNode;
+
+		public ScriptSymbolTable()
+		{	firstNode = null;
+		}
+
+		public boolean addElement( ScriptSymbol n )
+		{
+			ScriptSymbol current;
+			ScriptSymbol previous = null;
+
+			if ( firstNode == null )
+			{
+				firstNode = n;
+				n.setNext( null );
+				return true;
+			}
+
+			for ( current = firstNode; current != null; previous = current, current = (ScriptSymbol)current.getNext() )
+			{
+				if ( current.compareTo( n ) <= 0 )
+					break;
+			}
+
+			if ( current != null && current.compareTo( n ) == 0 )
+			{
+				return false;
+			}
+
+			if ( previous == null ) //Insert in front of very first element
+			{
+				firstNode = n;
+				firstNode.setNext( current );
+			}
+			else
+			{
+				previous.setNext( n );
+				n.setNext( current );
+			}
+			return true;
+		}
+
+		ScriptSymbol findSymbol( String name )
+		{
+			ScriptSymbol symbol = firstNode;
+
+			while ( symbol != null )
+			{
+				if ( name.equalsIgnoreCase( symbol.getName() ) )
+					return symbol;
+				symbol = (ScriptSymbol)symbol.getNext();
+			}
+
+			return null;
+		}
+
+		public ScriptSymbol getFirstElement()
+		{	return firstNode;
+		}
+
+		public ScriptSymbol getNextElement( ScriptSymbol n )
+		{
+			return (ScriptSymbol)n.getNext();
 		}
 	}
 
@@ -2041,13 +2100,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptVariableReference getFirstParam()
-		{
-			return (ScriptVariableReference) variableReferences.getFirstElement();
+		{	return (ScriptVariableReference)variableReferences.getFirstElement();
 		}
 
 		public ScriptVariableReference getNextParam( ScriptVariableReference current )
-		{
-			return (ScriptVariableReference) variableReferences.getNextElement( current );
+		{	return (ScriptVariableReference)variableReferences.getNextElement( current );
 		}
 
 		public ScriptType getType()
@@ -2587,8 +2644,15 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptFunctionList extends ScriptList
+	private class ScriptFunctionList extends ScriptSymbolTable
 	{
+		public boolean addElement( ScriptFunction n )
+		{	return super.addElement( n );
+		}
+
+		public ScriptFunction findFunction( String name )
+		{	return (ScriptFunction)super.findSymbol( name );
+		}
 	}
 
 	private class ScriptVariable extends ScriptSymbol
@@ -2668,16 +2732,22 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptVariableList extends ScriptList
+	private class ScriptVariableList extends ScriptSymbolTable
 	{
+		public boolean addElement( ScriptVariable n )
+		{	return super.addElement( n );
+		}
+
+		public ScriptVariable findVariable( String name )
+		{	return (ScriptVariable)super.findSymbol( name );
+		}
+
 		public ScriptVariable getFirstVariable()
-		{
-			return ( ScriptVariable ) getFirstElement();
+		{	return ( ScriptVariable)getFirstElement();
 		}
 
 		public ScriptVariable getNextVariable( ScriptVariable current )
-		{
-			return ( ScriptVariable ) getNextElement( current );
+		{	return ( ScriptVariable)getNextElement( current );
 		}
 	}
 
@@ -2695,17 +2765,13 @@ public class KoLmafiaASH extends StaticEntity
 
 		private ScriptVariable findVariable( String name, ScriptScope scope ) throws AdvancedScriptException
 		{
-			ScriptVariable current;
-
-			do
+			while ( scope != null )
 			{
-				for ( current = scope.getFirstVariable(); current != null; current = scope.getNextVariable( current ) )
-				{
-					if ( current.getName().equalsIgnoreCase( name ) )
-						return current;
-				}
+				ScriptVariable current = scope.findVariable( name );
+				if ( current != null )
+					return current;
 				scope = scope.getParentScope();
-			} while ( scope != null );
+			}
 
 			throw new AdvancedScriptException( "Undefined variable " + name + " " + getLineAndFile() );
 		}
@@ -2737,9 +2803,8 @@ public class KoLmafiaASH extends StaticEntity
 
 	private class ScriptVariableReferenceList extends ScriptList
 	{
-		public boolean addElement( ScriptListNode n )
-		{
-			return addElementSerial( n );
+		public boolean addElement( ScriptVariableReference n )
+		{	return super.addElement( n );
 		}
 	}
 
@@ -2764,8 +2829,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptCommand( int command )
-		{
-			this.command = command;
+		{	this.command = command;
 		}
 
 		public String toString()
@@ -2808,19 +2872,8 @@ public class KoLmafiaASH extends StaticEntity
 
 	private class ScriptCommandList extends ScriptList
 	{
-
-		public ScriptCommandList()
-		{
-		}
-
-		public ScriptCommandList( ScriptCommand c )
-		{
-			super( c );
-		}
-
-		public boolean addElement( ScriptListNode n ) //Command List has to remain in original order, so override addElement
-		{
-			return addElementSerial( n );
+		public boolean addElement( ScriptCommand n )
+		{	return super.addElement( n );
 		}
 	}
 
@@ -2863,8 +2916,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptExpression getExpression()
-		{
-			return returnValue;
+		{	return returnValue;
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
@@ -3059,19 +3111,16 @@ public class KoLmafiaASH extends StaticEntity
 
 	private class ScriptLoopList extends ScriptList
 	{
+		public boolean addElement( ScriptLoop n )
+		{	return super.addElement( n );
+		}
+
 		public ScriptLoop getFirstScriptLoop()
-		{
-			return ( ScriptLoop ) getFirstElement();
+		{	return (ScriptLoop)getFirstElement();
 		}
 
 		public ScriptLoop getNextScriptLoop( ScriptLoop current )
-		{
-			return ( ScriptLoop ) getNextElement( current );
-		}
-
-		public boolean addElement( ScriptListNode n )
-		{
-			return addElementSerial( n );
+		{	return (ScriptLoop)getNextElement( current );
 		}
 	}
 
@@ -3724,20 +3773,16 @@ public class KoLmafiaASH extends StaticEntity
 
 	private class ScriptExpressionList extends ScriptList
 	{
+		public boolean addElement( ScriptExpression n )
+		{	return super.addElement( n );
+		}
+
 		public ScriptExpression getFirstExpression()
-		{
-			return (ScriptExpression) getFirstElement();
+		{	return (ScriptExpression)getFirstElement();
 		}
 
 		public ScriptExpression getNextExpression( ScriptExpression current )
-		{
-			return (ScriptExpression) getNextElement( current );
-		}
-
-
-		public boolean addElement( ScriptListNode n ) //Expression List has to remain in original order, so override addElement
-		{
-			return addElementSerial( n );
+		{	return (ScriptExpression)getNextElement( current );
 		}
 	}
 
@@ -3980,8 +4025,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-
-	private class ScriptListNode implements Comparable
+	private class ScriptListNode
 	{
 		ScriptListNode next = null;
 
@@ -3998,10 +4042,6 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			next = node;
 		}
-
-		public int compareTo( Object o )
-		{	return 0;
-		}
 	}
 
 	private class ScriptList
@@ -4009,49 +4049,10 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptListNode firstNode;
 
 		public ScriptList()
-		{
-			firstNode = null;
-		}
-
-		public ScriptList( ScriptListNode node )
-		{
-			firstNode = node;
+		{	firstNode = null;
 		}
 
 		public boolean addElement( ScriptListNode n )
-		{
-			ScriptListNode current;
-			ScriptListNode previous = null;
-
-			if ( firstNode == null )
-			{
-				firstNode = n;
-				n.setNext( null );
-				return true;
-			}
-			for ( current = firstNode; current != null; previous = current, current = current.getNext() )
-			{
-				if ( current.compareTo( n ) <= 0 )
-					break;
-			}
-			if ( current != null && current.compareTo( n ) == 0 )
-			{
-				return false;
-			}
-			if ( previous == null ) //Insert in front of very first element
-			{
-				firstNode = n;
-				firstNode.setNext( current );
-			}
-			else
-			{
-				previous.setNext( n );
-				n.setNext( current );
-			}
-			return true;
-		}
-
-		public boolean addElementSerial( ScriptListNode n ) //Function for subprivate CLASSES to override addElement with
 		{
 			ScriptListNode current;
 			ScriptListNode previous = null;
@@ -4070,17 +4071,13 @@ public class KoLmafiaASH extends StaticEntity
 			return true;
 		}
 
-
 		public ScriptListNode getFirstElement()
-		{
-			return firstNode;
+		{	return firstNode;
 		}
 
 		public ScriptListNode getNextElement( ScriptListNode n )
-		{
-			return n.getNext();
+		{	return n.getNext();
 		}
-
 	}
 
 	private class AdvancedScriptException extends Exception
