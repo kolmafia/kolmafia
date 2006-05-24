@@ -199,6 +199,12 @@ public class AdventureRequest extends KoLRequest
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No one may know of its coming or going." );
 			return;
 		}
+		
+		if ( responseText.indexOf( "temporal rift in the plains has closed" ) != -1 )
+		{
+			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "The temporal rift has closed." );
+			return;
+		}
 
 		// Cold protection is required for the area.  This only happens at
 		// the peak.  Abort and notify.
