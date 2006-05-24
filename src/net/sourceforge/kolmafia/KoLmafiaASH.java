@@ -2006,13 +2006,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		ScriptSymbol findSymbol( String name )
 		{
-			for ( int i = 0; i < size(); ++i )
-			{
-				ScriptSymbol symbol = (ScriptSymbol)get( i );
-				if ( name.equalsIgnoreCase( symbol.getName() ) )
-					return symbol;
-			}
-
+			ScriptSymbol test = new ScriptSymbol( name );
+			int index = indexOf( test );
+			if ( index >= 0 )
+				return (ScriptSymbol)get( index );
 			return null;
 		}
 
