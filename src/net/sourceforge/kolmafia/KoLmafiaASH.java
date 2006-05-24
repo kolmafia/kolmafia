@@ -46,6 +46,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.NumberFormatException;
 
+import java.net.URLEncoder;
+import java.net.URLDecoder;
+import java.io.UnsupportedEncodingException;
+
 // utility imports
 import java.lang.reflect.Method;
 import java.util.Date;
@@ -2055,6 +2059,12 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { FLOAT_TYPE };
 		result.addElement( new ScriptExistingFunction( "ceil", INT_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "url_encode", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "url_decode", STRING_TYPE, params ) );
+
 		return result;
 	}
 
@@ -2877,7 +2887,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue ranged_weapon( ScriptVariable item )
-		{	return new ScriptValue( EquipmentDatabase.isRanged( variables[0].intValue() ) );
+		{	return new ScriptValue( EquipmentDatabase.isRanged( item.intValue() ) );
 		}
 
 		public ScriptValue equip_familiar( ScriptVariable familiar )
@@ -2995,15 +3005,23 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue truncate( ScriptVariable arg )
-		{	return new ScriptValue( (int)variables[0].floatValue() );
+		{	return new ScriptValue( (int)arg.floatValue() );
 		}
 
 		public ScriptValue floor( ScriptVariable arg )
-		{	return new ScriptValue( (int)Math.floor( variables[0].floatValue() ) );
+		{	return new ScriptValue( (int)Math.floor( arg.floatValue() ) );
 		}
 
 		public ScriptValue ceil( ScriptVariable arg )
-		{	return new ScriptValue( (int)Math.ceil( variables[0].floatValue() ) );
+		{	return new ScriptValue( (int)Math.ceil( arg.floatValue() ) );
+		}
+
+		public ScriptValue url_encode( ScriptVariable arg ) throws UnsupportedEncodingException
+		{	return new ScriptValue( URLEncoder.encode( arg.toStringValue().toString(), "UTF-8" ) );
+		}
+
+		public ScriptValue url_decode( ScriptVariable arg ) throws UnsupportedEncodingException
+		{	return new ScriptValue( URLDecoder.decode( arg.toStringValue().toString(), "UTF-8" ) );
 		}
 	}
 
