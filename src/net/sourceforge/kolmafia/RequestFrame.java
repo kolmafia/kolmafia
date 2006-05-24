@@ -339,7 +339,7 @@ public class RequestFrame extends KoLFrame
 			combatRound = ((FightRequest)request).getCombatRound();
 		else
 			combatRound = 1;
-		
+
 		this.currentRequest = request;
 	}
 
@@ -440,7 +440,9 @@ public class RequestFrame extends KoLFrame
 
 		private void updateClient()
 		{
-			StaticEntity.externalUpdate( request.getURLString(), request.responseText );
+			if ( request.getClass() == KoLRequest.class )
+				StaticEntity.externalUpdate( request.getURLString(), request.responseText );
+
 			if ( shouldEnable )
 				StaticEntity.getClient().enableDisplay();
 		}
@@ -596,7 +598,7 @@ public class RequestFrame extends KoLFrame
 	public static boolean willRefreshStatus()
 	{	return !REFRESHER.isEmpty() && refreshStatusEnabled && runBetweenBattleChecks != null && runBetweenBattleChecks.isEnabled();
 	}
-	
+
 	public static boolean isRefreshStatusEnabled()
 	{	return refreshStatusEnabled;
 	}

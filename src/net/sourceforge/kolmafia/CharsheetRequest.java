@@ -85,7 +85,7 @@ public class CharsheetRequest extends KoLRequest
 	{	parseStatus( responseText );
 	}
 
-	public static void parseStatus( String responseText )
+	public static synchronized void parseStatus( String responseText )
 	{
 		// Set the character's avatar.
 		Matcher avatarMatcher = Pattern.compile( "http://images.kingdomofloathing.com/([^>]*?)\\.gif" ).matcher( responseText );
@@ -121,7 +121,7 @@ public class CharsheetRequest extends KoLRequest
 		int maximumHP = intToken( cleanContent );
 		token = cleanContent.nextToken();
 		KoLCharacter.setHP( currentHP, maximumHP, retrieveBase( token, maximumHP ) );
-		
+
 		// Mana point parsing is exactly the same as hit point
 		// parsing - so this is just a copy-paste of the code.
 
@@ -140,7 +140,7 @@ public class CharsheetRequest extends KoLRequest
 		// this involves hunting for the stat point's name,
 		// skipping the appropriate number of tokens, and then
 		// reading in the numbers.
-		
+
 		int [] mus = findStatPoints( cleanContent, token, "Mus" );
 		int [] mys = findStatPoints( cleanContent, token, "Mys" );
 		int [] mox = findStatPoints( cleanContent, token, "Mox" );
@@ -156,7 +156,7 @@ public class CharsheetRequest extends KoLRequest
 		while ( !token.startsWith( "Temul" ) && !token.startsWith( "Inebr" ) && !token.startsWith( "Tipsi" ) &&
 			!token.startsWith( "Drunk" ) && !token.startsWith( "Adven" ) )
 				token = cleanContent.nextToken();
-		
+
 		if ( !token.startsWith( "Adven" ) )
 		{
 			KoLCharacter.setInebriety( intToken( cleanContent ) );
@@ -192,7 +192,7 @@ public class CharsheetRequest extends KoLRequest
 
 		// There may also be a "turns this run" field which
 		// allows you to have a Ronin countdown.
-		
+
 		if ( responseText.indexOf( "(this run)" ) != -1 )
 		{
 			while ( !token.startsWith( "Turns" ) || token.indexOf( "(this run)" ) == -1 )
@@ -217,7 +217,7 @@ public class CharsheetRequest extends KoLRequest
 
 		// Determine the current consumption restrictions
 		// the player possesses.
-		
+
 		KoLCharacter.setConsumptionRestriction(
 			responseText.indexOf( "You may not eat or drink anything." ) != -1 ? AscensionSnapshotTable.OXYGENARIAN :
 			responseText.indexOf( "You may not eat any food or drink any non-alcoholic beverages." ) != -1 ? AscensionSnapshotTable.BOOZETAFARIAN :
@@ -294,7 +294,7 @@ public class CharsheetRequest extends KoLRequest
 
 		KoLCharacter.setEquipment( equipment, null );
 		KoLCharacter.setFakeHands( fakeHands );
-		
+
 		// Determine whether or not the player has any
 		// active effects - if so, retrieve them.
 
@@ -308,18 +308,18 @@ public class CharsheetRequest extends KoLRequest
 
 			// Ensure that the effects are refreshed
 			// against the current list.
-			
+
 			token = cleanContent.nextToken();
 			while ( !token.startsWith( "Skill" ) )
 			{
 				// Skip the shrug-off link, which
 				// is encased in square brackets
-				
+
 				if ( token.startsWith( "[" ) )
 					skipTokens( cleanContent, 2 );
 				else
 					StaticEntity.getClient().parseEffect( token );
-				
+
 				token = cleanContent.nextToken();
 			}
 
@@ -392,7 +392,7 @@ public class CharsheetRequest extends KoLRequest
 	 * @param	defaultBase	The value to return, if no base value is found
 	 * @return	The parsed base value, or the default value if no base value is found
 	 */
-	
+
 	private static int retrieveBase( String token, int defaultBase )
 	{
 		try
@@ -404,7 +404,7 @@ public class CharsheetRequest extends KoLRequest
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return defaultBase;
 		}
