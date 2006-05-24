@@ -1160,7 +1160,7 @@ public abstract class KoLmafia implements KoLConstants
 		// then don't bother with this item -- however, if it is the only item
 		// present, then rethink it.
 
-		if ( TradeableItemDatabase.contains( techniqueName ) )
+		if ( !ClassSkillsDatabase.contains( techniqueName ) )
 		{
 			AdventureResult item = new AdventureResult( techniqueName, 0 );
 			if ( !KoLCharacter.getInventory().contains( item ) && !isFallback )

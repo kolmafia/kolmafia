@@ -112,7 +112,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			buffCount = 1;
 		else if ( buffCount == Integer.MAX_VALUE )
 			buffCount = (int) (KoLCharacter.getMaximumMP() / ClassSkillsDatabase.getMPConsumptionByID( skillID ));
-		
+
 		this.buffCount = buffCount;
 	}
 
@@ -126,7 +126,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		return mpDifference != 0 ? mpDifference : skillName.compareToIgnoreCase( ((UseSkillRequest)o).skillName );
 	}
-	
+
 	public int getSkillID()
 	{	return skillID;
 	}
@@ -202,19 +202,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			currentCast = Math.min( castsRemaining, (int) Math.floor( KoLCharacter.getCurrentMP() / mpPerCast ) );
 			if ( currentCast == 0 )
 				currentCast = Math.min( castsRemaining, (int) Math.floor( maximumMP / mpPerCast ) );
-			
+
 			client.recoverMP( mpPerCast * currentCast );
 
 			if ( !client.permitsContinue() )
 				return;
 
 			currentCast = Math.min( castsRemaining, (int) Math.floor( KoLCharacter.getCurrentMP() / mpPerCast ) );
-
 			if ( currentCast == 0 )
-			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient MP to cast " + skillName );
-				return;
-			}
+				continue;
 
 			// Attempt to cast the buff.  In the event that it
 			// fails, make sure to report it and return whether
@@ -298,7 +294,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( KoLCharacter.getLevel() < 4 )
 			return false;
-		
+
 		// If you're in a muscle sign, KoLmafia will finish the
 		// quest without problems.
 
