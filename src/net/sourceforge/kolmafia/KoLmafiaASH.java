@@ -94,9 +94,9 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int TYPE_SLOT = 108;
 	public static final int TYPE_MONSTER = 109;
 
-	public static final String [] ZODIACS = { "none", "wallaby", "mongoose", "vole", "platypus", "opossum", "marmot", "wombat", "blender", "packrat" };
-	public static final String [] CLASSES = { "seal clubber", "turtle tamer", "pastamancer", "sauceror", "disco bandit", "accordion thief" };
-	public static final String [] STATS = { "muscle", "mysticality", "moxie" };
+	public static final String [] ZODIACS = { "none", "Wallaby", "Mongoose", "Vole", "Platypus", "Opossum", "Marmot", "Wombat", "Blender", "Packrat" };
+	public static final String [] CLASSES = { "Seal Clubber", "Turtle Tamer", "Pastamancer", "Sauceror", "Disco Bandit", "Accordion Thief" };
+	public static final String [] STATS = { "Muscle", "Mysticality", "Moxie" };
 	public static final String [] BOOLEANS = { "true", "false" };
 
 	public static final int COMMAND_BREAK = 1;
@@ -109,18 +109,7 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int STATE_CONTINUE = 4;
 	public static final int STATE_EXIT = 5;
 
-	public int currentState = STATE_NORMAL;
-
 	private static final String escapeString = "//";
-
-	private ScriptScope global;
-	private String line;
-	private String nextLine;
-	private int lineNumber;
-
-	private static ArrayList imports = new ArrayList();
-	public String fileName;
-	public LineNumberReader commandStream;
 
 	private static final ScriptType VOID_TYPE = new ScriptType( TYPE_VOID );
 	private static final ScriptType BOOLEAN_TYPE = new ScriptType( TYPE_BOOLEAN );
@@ -139,9 +128,270 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptType SLOT_TYPE = new ScriptType( TYPE_SLOT );
 	private static final ScriptType MONSTER_TYPE = new ScriptType( TYPE_MONSTER );
 
-	private ScriptValue VOID_VALUE = new ScriptValue();
-	private ScriptValue TRUE_VALUE = new ScriptValue( true );
-	private ScriptValue FALSE_VALUE = new ScriptValue( false );
+	private static final ScriptValue VOID_VALUE = new ScriptValue();
+	private static final ScriptValue TRUE_VALUE = new ScriptValue( true );
+	private static final ScriptValue FALSE_VALUE = new ScriptValue( false );
+
+        // Variables used during parsing
+	private static ArrayList imports = new ArrayList();
+	public LineNumberReader commandStream;
+	public String fileName;
+	private String line;
+	private String nextLine;
+	private int lineNumber;
+
+        // Variables used during execution
+	private ScriptScope global;
+	public int currentState = STATE_NORMAL;
+
+	// **************** Data Types *****************
+
+	private ScriptValue parseValue( ScriptType type, String name ) throws AdvancedScriptException
+	{
+		switch ( type.getType() )
+		{
+		case TYPE_ITEM:
+			return parseItemValue( name );
+		case TYPE_ZODIAC:
+			return parseZodiacValue( name );
+		case TYPE_LOCATION:
+			return parseLocationValue( name );
+		case TYPE_CLASS:
+			return parseClassValue( name );
+		case TYPE_STAT:
+			return parseStatValue( name );
+		case TYPE_SKILL:
+			return parseSkillValue( name );
+		case TYPE_EFFECT:
+			return parseEffectValue( name );
+		case TYPE_FAMILIAR:
+			return parseFamiliarValue( name );
+		case TYPE_SLOT:
+			return parseSlotValue( name );
+		case TYPE_MONSTER:
+			return parseMonsterValue( name );
+		}
+		return null;
+        }
+
+	private ScriptValue parseItemValue( String name ) throws AdvancedScriptException
+	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return new ScriptValue( ITEM_TYPE, -1, name );
+
+		// Allow for an item number to be specified
+		// inside of the "item" construct.
+
+		int itemID;
+		for ( int i = 0; i < name.length(); ++i )
+		{
+			// If you get an actual item number, then store it
+			// inside of contentInt and return from the method.
+			// But, in this case, we're testing if it's not an item
+			// number -- use substring matching to make it
+			// user-friendlier.
+
+			if ( !Character.isDigit( name.charAt(i) ) )
+			{
+				AdventureResult item = DEFAULT_SHELL.getFirstMatchingItem( name, KoLmafiaCLI.NOWHERE );
+
+				// Otherwise, throw an AdvancedScriptException
+				// so that an unsuccessful parse happens before
+				// the script gets executed (consistent with
+				// paradigm).
+
+				if ( item == null )
+					throw new AdvancedScriptException( "Item " + name + " not found in database " + getLineAndFile() );
+
+				itemID = item.getItemID();
+				name = TradeableItemDatabase.getItemName( itemID );
+				return new ScriptValue( ITEM_TYPE, itemID, name );
+			}
+		}
+
+		// Since it is numeric, parse the integer value
+		// and store it inside of the contentInt.
+
+		itemID = Integer.parseInt( name );
+		name = TradeableItemDatabase.getItemName( itemID );
+		return new ScriptValue( ITEM_TYPE, itemID, name );
+	}
+
+	private ScriptValue makeItemValue( int num )
+	{
+		String name = TradeableItemDatabase.getItemName( num );
+
+		if ( name == null )
+			return new ScriptValue( ITEM_TYPE, -1, "none" );
+
+		return new ScriptValue( ITEM_TYPE, num, name );
+	}
+
+	private ScriptValue makeItemValue( String name )
+	{
+		int num = TradeableItemDatabase.getItemID( name );
+
+		if ( num == -1 )
+			return new ScriptValue( ITEM_TYPE, -1, "none" );
+
+		return new ScriptValue( ITEM_TYPE, num, name );
+	}
+
+	private int zodiacToInt( String name )
+	{
+		for ( int i = 0; i < ZODIACS.length; ++i )
+			if ( name.equalsIgnoreCase( ZODIACS[i] ) )
+				return i;
+		return -1;
+	}
+
+	private ScriptValue parseZodiacValue( String name ) throws AdvancedScriptException
+	{
+		int num = zodiacToInt( name );
+		if ( num < 0 )
+			throw new AdvancedScriptException( "Unknown zodiac " + name + " " + getLineAndFile() );
+		return new ScriptValue( ZODIAC_TYPE, num, ZODIACS[num] );
+	}
+
+	private ScriptValue makeZodiacValue( String name )
+	{
+		return new ScriptValue( ZODIAC_TYPE, zodiacToInt( name ), name );
+	}
+
+	private ScriptValue parseLocationValue( String name ) throws AdvancedScriptException
+	{
+		Object content = AdventureDatabase.getAdventure( name );
+		if ( content == null )
+			throw new AdvancedScriptException( "Location " + name + " not found in database " + getLineAndFile() );
+		return new ScriptValue( LOCATION_TYPE, content );
+	}
+
+	private int classToInt( String name )
+	{
+		for ( int i = 0; i < CLASSES.length; ++i )
+			if ( name.equalsIgnoreCase( CLASSES[i] ) )
+				return i;
+		return -1;
+	}
+
+	private ScriptValue parseClassValue( String name ) throws AdvancedScriptException
+	{
+		int num = classToInt( name );
+		if ( num < 0 )
+			throw new AdvancedScriptException( "Unknown class " + name + " " + getLineAndFile() );
+		return new ScriptValue( CLASS_TYPE, num, CLASSES[num] );
+	}
+
+	private ScriptValue makeClassValue( String name )
+	{
+		return new ScriptValue( CLASS_TYPE, classToInt( name ), name );
+	}
+
+	private int statToInt( String name )
+	{
+		for ( int i = 0; i < STATS.length; ++i )
+			if ( name.equalsIgnoreCase( STATS[i] ) )
+				return i;
+		return -1;
+	}
+
+	private ScriptValue parseStatValue( String name ) throws AdvancedScriptException
+	{
+		int num = statToInt( name );
+		if ( num < 0 )
+			throw new AdvancedScriptException( "Unknown stat " + name + " " + getLineAndFile() );
+		return new ScriptValue( STAT_TYPE, num, STATS[num] );
+	}
+
+	private ScriptValue parseSkillValue( String name ) throws AdvancedScriptException
+	{
+		List skills = ClassSkillsDatabase.getMatchingNames( name );
+
+		if ( skills.isEmpty() )
+			throw new AdvancedScriptException( "Skill " + name + " not found in database " + getLineAndFile() );
+
+		int num = ClassSkillsDatabase.getSkillID( (String)skills.get(0) );
+		name = ClassSkillsDatabase.getSkillName( num );
+		return new ScriptValue( SKILL_TYPE, num, name );
+	}
+
+	private ScriptValue makeSkillValue( int num )
+	{
+		String name = ClassSkillsDatabase.getSkillName( num );
+		if ( name == null )
+			return new ScriptValue( SKILL_TYPE, -1, "none" );
+
+		return new ScriptValue( SKILL_TYPE, num, name );
+	}
+
+	private ScriptValue parseEffectValue( String name ) throws AdvancedScriptException
+	{
+		AdventureResult effect = DEFAULT_SHELL.getFirstMatchingEffect( name );
+		if ( effect == null )
+			throw new AdvancedScriptException( "Effect " + name + " not found in database " + getLineAndFile() );
+
+		int num = StatusEffectDatabase.getEffectID( effect.getName() );
+		name = StatusEffectDatabase.getEffectName( num );
+		return new ScriptValue( EFFECT_TYPE, num, name );
+	}
+
+	private ScriptValue makeEffectValue( int num )
+	{
+		String name = StatusEffectDatabase.getEffectName( num );
+		if ( name == null )
+			return new ScriptValue( EFFECT_TYPE, -1, "none" );
+		return new ScriptValue( EFFECT_TYPE, num, name );
+	}
+
+	private ScriptValue parseFamiliarValue( String name ) throws AdvancedScriptException
+	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return new ScriptValue( FAMILIAR_TYPE, -1, "none" );
+
+		int num = FamiliarsDatabase.getFamiliarID( name );
+		if ( num == -1 )
+			throw new AdvancedScriptException( "Familiar " + name + " not found in database " + getLineAndFile() );
+
+		name = FamiliarsDatabase.getFamiliarName( num );
+		return new ScriptValue( FAMILIAR_TYPE, num, name );
+	}
+
+	private ScriptValue makeFamiliarValue( int num )
+	{
+		String name = FamiliarsDatabase.getFamiliarName( num );
+		if ( name == null )
+			return new ScriptValue( FAMILIAR_TYPE, -1, "none" );
+		return new ScriptValue( FAMILIAR_TYPE, num, name );
+	}
+
+	private ScriptValue parseSlotValue( String name ) throws AdvancedScriptException
+	{
+		int num = EquipmentRequest.slotNumber( name );
+		if ( num == -1 )
+			throw new AdvancedScriptException( "Bad slot name " + name + getLineAndFile() );
+		name = EquipmentRequest.slotNames[ num ];
+		return new ScriptValue( SLOT_TYPE, num, name );
+	}
+
+	private ScriptValue makeSlotValue( int num )
+	{
+		String name;
+
+		if ( num < 0 || num >= EquipmentRequest.slotNames.length ) 
+			name = "bogus";
+		else
+			name  = EquipmentRequest.slotNames[num];
+
+		return new ScriptValue( SLOT_TYPE, num, name );
+	}
+
+	private ScriptValue parseMonsterValue( String name ) throws AdvancedScriptException
+	{
+		MonsterDatabase.Monster monster = MonsterDatabase.findMonster( name );
+		if ( monster == null )
+			throw new AdvancedScriptException( "Bad monster name " + name + getLineAndFile() );
+		return new ScriptValue( MONSTER_TYPE, (Object)monster );
+	}
 
 	// **************** Tracing *****************
 
@@ -218,7 +468,7 @@ public class KoLmafiaASH extends StaticEntity
 			printStackTrace( e, e.getMessage() );
 		}
 	}
-	
+
 	public void execute( File scriptFile ) throws IOException
 	{
 		// Before you do anything, validate the script.
@@ -262,7 +512,6 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-
 	private String getNextLine()
 	{
 		try
@@ -293,7 +542,6 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		}
 	}
-
 
 	private ScriptScope parseFile( String fileName, ScriptScope startScope, ScriptScope parentScope ) throws AdvancedScriptException, java.io.FileNotFoundException
 	{
@@ -505,7 +753,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !whileLoop )
 				throw new AdvancedScriptException( "break outside of loop " + getLineAndFile() );
 
-			result = new ScriptCommand( COMMAND_BREAK );
+			result = new ScriptFlowControl( COMMAND_BREAK );
 			readToken(); //break
 		}
 
@@ -514,13 +762,13 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !whileLoop )
 				throw new AdvancedScriptException( "continue outside of loop " + getLineAndFile() );
 
-			result = new ScriptCommand( COMMAND_CONTINUE );
+			result = new ScriptFlowControl( COMMAND_CONTINUE );
 			readToken(); //continue
 		}
 
 		else if ( currentToken().equalsIgnoreCase( "exit" ) )
 		{
-			result = new ScriptCommand( COMMAND_EXIT );
+			result = new ScriptFlowControl( COMMAND_EXIT );
 			readToken(); //exit
 		}
 
@@ -626,7 +874,6 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptReturn( expression, expectedType );
 		}
 	}
-
 
 	private ScriptLoop parseLoop( ScriptType functionType, ScriptScope parentScope, boolean noElse, boolean loop ) throws AdvancedScriptException
 	{
@@ -824,6 +1071,8 @@ public class KoLmafiaASH extends StaticEntity
 			readToken(); //operator
 
 			rhs = parseExpression( scope, oper );
+                        if ( !validCoercion( lhs.getType(), rhs.getType(), oper.toString() ) )
+                                throw new AdvancedScriptException( "Cannot apply " + rhs.getType() + " to " + lhs + " " + getLineAndFile() );
 			lhs = new ScriptExpression( lhs, rhs, oper );
 		}
 		while ( true );
@@ -851,13 +1100,13 @@ public class KoLmafiaASH extends StaticEntity
 		if ( currentToken().equalsIgnoreCase( "true" ) )
 		{
 			readToken();
-			return new ScriptValue( true );
+			return TRUE_VALUE;
 		}
 
 		if ( currentToken().equalsIgnoreCase( "false" ) )
 		{
 			readToken();
-			return new ScriptValue( false );
+			return FALSE_VALUE;
 		}
 
 		if ( (result = parseCall( scope )) != null )
@@ -916,12 +1165,12 @@ public class KoLmafiaASH extends StaticEntity
 		}
 		else if ( currentToken().equals( "$" ) )
 		{
-			ScriptType type;
 			readToken();
-			type = parseType();
 
+			ScriptType type = parseType();
 			if ( type == null )
 				throw new AdvancedScriptException( "Unknown type " + currentToken() + " " + getLineAndFile() );
+
 			if ( !currentToken().equals( "[" ) )
 				throw new AdvancedScriptException( "'[' Expected " + getLineAndFile() );
 
@@ -940,7 +1189,7 @@ public class KoLmafiaASH extends StaticEntity
 				else if ( line.charAt( i ) == ']' )
 				{
 					line = line.substring( i + 1 ); //+1 to get rid of ']' token
-					return new ScriptValue( type, resultString.toString());
+					return parseValue( type, resultString.toString());
 				}
 				else
 				{
@@ -1029,6 +1278,25 @@ public class KoLmafiaASH extends StaticEntity
 			}
 		}
 
+	}
+
+	private static boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )
+	{
+		if ( lhs.equals( rhs ) )
+			return true;
+
+		// Int-float coercion values
+		if ( lhs.equals( TYPE_INT ) && rhs.equals( TYPE_FLOAT ) )
+		     return true;
+
+		if ( lhs.equals( TYPE_FLOAT ) && rhs.equals( TYPE_INT ) )
+		     return true;
+
+		// string operations are valid
+		if ( lhs.equals( TYPE_STRING ) || rhs.equals( TYPE_STRING ) )
+			return true;
+
+		return false;
 	}
 
 	private String currentToken()
@@ -1349,7 +1617,7 @@ public class KoLmafiaASH extends StaticEntity
 					ZODIACS,
 					ZODIACS[0]
 				 );
-				param.setValue( new ScriptValue( TYPE_ZODIAC, resultString ) );
+				param.setValue( parseZodiacValue( resultString ) );
 			}
 			else if ( param.getType().equals( TYPE_CLASS ) )
 			{
@@ -1363,7 +1631,7 @@ public class KoLmafiaASH extends StaticEntity
 					CLASSES,
 					CLASSES[0]
 				 );
-				param.setValue( new ScriptValue( TYPE_CLASS, resultString ) );
+				param.setValue( parseClassValue( resultString ) );
 			}
 			else if ( param.getType().equals( TYPE_STAT ) )
 			{
@@ -1377,7 +1645,7 @@ public class KoLmafiaASH extends StaticEntity
 					STATS,
 					STATS[0]
 				 );
-				param.setValue( new ScriptValue( TYPE_STAT, resultString ) );
+				param.setValue( parseStatValue( resultString ) );
 			}
 			else if
 			(
@@ -1392,7 +1660,7 @@ public class KoLmafiaASH extends StaticEntity
 			)
 			{
 				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType() + " " + param.getName() );
-				param.setValue( new ScriptValue( param.getType(), resultString ) );
+				param.setValue( parseValue( param.getType(), resultString ) );
 			}
 			else if ( param.getType().equals( TYPE_INT ) )
 			{
@@ -1431,9 +1699,9 @@ public class KoLmafiaASH extends StaticEntity
 					BOOLEANS[0]
 				 );
 				if ( resultString.equalsIgnoreCase( "true" ) )
-					param.setValue( new ScriptValue( true ) );
+					param.setValue( TRUE_VALUE );
 				else if ( resultString.equalsIgnoreCase( "false" ) )
-					param.setValue( new ScriptValue( false ) );
+					param.setValue( FALSE_VALUE );
 				else
 					throw new RuntimeException( "Internal error: Illegal value for boolean" );
 			}
@@ -1890,20 +2158,8 @@ public class KoLmafiaASH extends StaticEntity
 
 				while ( currentParam != null && currentValue != null )
 				{
-					if ( !currentParam.getType().equals( currentValue.getType() ) )
-					{
-						boolean validParameter = false;
-
-						// float-check values
-						validParameter |= currentParam.getType().equals( TYPE_FLOAT ) && currentValue.getType().equals( TYPE_INT );
-						validParameter |= currentParam.getType().equals( TYPE_INT ) && currentValue.getType().equals( TYPE_FLOAT );
-
-						// string operations are valid
-						validParameter |= currentParam.getType().equals( TYPE_STRING );
-
-						if ( !validParameter )
-							throw new AdvancedScriptException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile() );
-					}
+					if ( !validCoercion( currentParam.getType(), currentValue.getType(), null ) )
+						throw new AdvancedScriptException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile() );
 
 					++paramIndex;
 					currentParam = current.getNextParam( );
@@ -2205,40 +2461,40 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( val.intValue() );
 		}
 
-		public ScriptValue int_to_item( ScriptVariable val ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_ITEM, val.intValue() );
+		public ScriptValue int_to_item( ScriptVariable val )
+		{	return makeItemValue( val.intValue() );
 		}
 
 		public ScriptValue skill_to_int( ScriptVariable val )
 		{	return new ScriptValue( val.intValue() );
 		}
 
-		public ScriptValue int_to_skill( ScriptVariable val ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_SKILL, val.intValue() );
+		public ScriptValue int_to_skill( ScriptVariable val )
+		{	return makeSkillValue( val.intValue() );
 		}
 
 		public ScriptValue effect_to_int( ScriptVariable val )
 		{	return new ScriptValue( val.intValue() );
 		}
 
-		public ScriptValue int_to_effect( ScriptVariable val ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_EFFECT, val.intValue() );
+		public ScriptValue int_to_effect( ScriptVariable val )
+		{	return makeEffectValue( val.intValue() );
 		}
 
 		public ScriptValue familiar_to_int( ScriptVariable val )
 		{	return new ScriptValue( val.intValue() );
 		}
 
-		public ScriptValue int_to_familiar( ScriptVariable val ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_FAMILIAR, val.intValue() );
+		public ScriptValue int_to_familiar( ScriptVariable val )
+		{	return makeFamiliarValue( val.intValue() );
 		}
 
 		public ScriptValue slot_to_int( ScriptVariable val )
 		{	return new ScriptValue( val.intValue() );
 		}
 
-		public ScriptValue int_to_slot( ScriptVariable val ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_SLOT, val.intValue() );
+		public ScriptValue int_to_slot( ScriptVariable val )
+		{	return makeSlotValue( val.intValue() );
 		}
 
 		// Begin the functions which are documented in the KoLmafia
@@ -2401,12 +2657,12 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( KoLCharacter.getUsername() );
 		}
 
-		public ScriptValue my_zodiac() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_ZODIAC, KoLCharacter.getSign() );
+		public ScriptValue my_zodiac()
+		{	return makeZodiacValue( KoLCharacter.getSign() );
 		}
 
-		public ScriptValue my_class() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_CLASS, KoLCharacter.getClassType() );
+		public ScriptValue my_class()
+		{	return makeClassValue( KoLCharacter.getClassType() );
 		}
 
 		public ScriptValue my_level()
@@ -2473,8 +2729,8 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( KoLCharacter.getInebriety() );
 		}
 
-		public ScriptValue my_familiar() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_FAMILIAR, KoLCharacter.getFamiliar().getID() == -1 ? "none" : KoLCharacter.getFamiliar().getRace() );
+		public ScriptValue my_familiar()
+		{	return makeFamiliarValue( KoLCharacter.getFamiliar().getID() );
 		}
 
 		public ScriptValue have_effect( ScriptVariable arg )
@@ -2568,8 +2824,8 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
-		public ScriptValue current_equipment( ScriptVariable slot ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_ITEM, KoLCharacter.getCurrentEquipmentName( slot.intValue() ) );
+		public ScriptValue current_equipment( ScriptVariable slot )
+		{	return makeItemValue( KoLCharacter.getCurrentEquipmentName( slot.intValue() ) );
 		}
 
 		public ScriptValue monster_base_attack( ScriptVariable arg )
@@ -2654,10 +2910,10 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
-		public ScriptValue guardians() throws AdvancedScriptException
+		public ScriptValue guardians()
 		{
 			int itemID = SorceressLair.fightTowerGuardians();
-			return new ScriptValue( TYPE_ITEM, itemID == -1 ? "none" : TradeableItemDatabase.getItemName( itemID ) );
+			return makeItemValue( itemID );
 		}
 
 		public ScriptValue chamber()
@@ -2774,10 +3030,6 @@ public class KoLmafiaASH extends StaticEntity
 		{	return content.toStringValue();
 		}
 
-		public KoLAdventure getLocation()
-		{	return content.getLocation();
-		}
-
 		public double floatValue()
 		{	return content.floatValue();
 		}
@@ -2883,15 +3135,19 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptCommand
+	private static class ScriptCommand
+	{
+		public ScriptValue execute() throws AdvancedScriptException
+		{
+			return null;
+		}
+        }
+
+	private class ScriptFlowControl extends ScriptCommand
 	{
 		int command;
 
-		public ScriptCommand()
-		{
-		}
-
-		public ScriptCommand( String command ) throws AdvancedScriptException
+		public ScriptFlowControl( String command ) throws AdvancedScriptException
 		{
 			if ( command.equalsIgnoreCase( "break" ) )
 				this.command = COMMAND_BREAK;
@@ -2903,7 +3159,7 @@ public class KoLmafiaASH extends StaticEntity
 				throw new AdvancedScriptException( command + " is not a command " + getLineAndFile() );
 		}
 
-		public ScriptCommand( int command )
+		public ScriptFlowControl( int command )
 		{	this.command = command;
 		}
 
@@ -2941,7 +3197,6 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			throw new RuntimeException( "Internal error: unknown ScriptCommand type" );
-
 		}
 	}
 
@@ -2961,18 +3216,9 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.returnValue = returnValue;
 
-			if ( expectedType != null && returnValue != null && !returnValue.getType().equals( expectedType ) )
+			if ( expectedType != null && returnValue != null )
 			{
-				boolean validReturn = false;
-
-				// float-check values
-				validReturn |= expectedType.equals( TYPE_INT ) && returnValue.getType().equals( TYPE_FLOAT );
-				validReturn |= expectedType.equals( TYPE_FLOAT ) && returnValue.getType().equals( TYPE_INT );
-
-				// string operations are valid
-				validReturn |= expectedType.equals( TYPE_STRING );
-
-				if ( !validReturn )
+				if ( !validCoercion( returnValue.getType(), expectedType, null ) )
 					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType() + " to " + expectedType + " " + getLineAndFile() );
 			}
 
@@ -3306,21 +3552,9 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.lhs = lhs;
 			this.rhs = rhs;
-			
-			if ( !lhs.getType().equals( rhs.getType() ) )
-			{
-				boolean validOperation = false;
 
-				// float-check values
-				validOperation |= lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT );
-				validOperation |= lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT );
-
-				// string operations are valid
-				validOperation |= lhs.getType().equals( TYPE_STRING );
-
-				if ( !validOperation )
-					throw new AdvancedScriptException( "Cannot apply " + rhs.getType() + " to " + lhs + " " + getLineAndFile() );
-			}
+			if ( !validCoercion( lhs.getType(), rhs.getType(), null ) )
+			     throw new AdvancedScriptException( "Cannot apply " + rhs.getType() + " to " + lhs + " " + getLineAndFile() );
 		}
 
 		public ScriptVariableReference getLeftHandSide()
@@ -3384,6 +3618,10 @@ public class KoLmafiaASH extends StaticEntity
 			this.type = type;
 		}
 
+		public int getType()
+		{	return type;
+		}
+
 		public boolean equals( ScriptType type )
 		{
 			if ( this.type == type.type )
@@ -3434,7 +3672,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptValue extends ScriptExpression
+	private static class ScriptValue extends ScriptExpression
 	{
 		ScriptType type;
 
@@ -3476,27 +3714,17 @@ public class KoLmafiaASH extends StaticEntity
 			this.type = type;
 		}
 
-		public ScriptValue( int type, int contentInt ) throws AdvancedScriptException
-		{	this( new ScriptType( type ), contentInt );
-		}
-
-		public ScriptValue( ScriptType type, int contentInt ) throws AdvancedScriptException
+		public ScriptValue( ScriptType type, int contentInt, String contentString )
 		{
 			this.type = type;
 			this.contentInt = contentInt;
-			fillContent();
+			this.contentString = contentString;
 		}
 
-
-		public ScriptValue( int type, String contentString ) throws AdvancedScriptException
-		{	this( new ScriptType( type ), contentString );
-		}
-
-		public ScriptValue( ScriptType type, String contentString ) throws AdvancedScriptException
+		public ScriptValue( ScriptType type, Object content )
 		{
 			this.type = type;
-			this.contentString = contentString;
-			fillContent();
+			this.content = content;
 		}
 
 		public ScriptValue( ScriptValue original )
@@ -3507,7 +3735,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.content = original.content;
 		}
 
-		public ScriptValue toFloatValue() throws AdvancedScriptException
+		public ScriptValue toFloatValue()
 		{
 			if ( type.equals( TYPE_FLOAT ) )
 				return this;
@@ -3515,7 +3743,7 @@ public class KoLmafiaASH extends StaticEntity
 				return new ScriptValue( (double) contentInt );
 		}
 
-		public ScriptValue toIntValue() throws AdvancedScriptException
+		public ScriptValue toIntValue()
 		{
 			if ( type.equals( TYPE_INT ) )
 				return this;
@@ -3569,200 +3797,9 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			return this;
 		}
-
-		public void fillContent() throws AdvancedScriptException
-		{
-			if ( type.equals( TYPE_ITEM ) )
-			{
-				if ( contentString == null )
-				{
-					contentString = TradeableItemDatabase.getItemName( contentInt );
-					if ( contentString == null )
-					{
-						contentString = "none";
-						contentInt = -1;
-					}
-					return;
-				}
-
-				if ( contentString.equalsIgnoreCase( "none" ) )
-				{
-					contentInt = -1;
-					return;
-				}
-
-				// Allow for an item number to be specified
-				// inside of the "item" construct.
-
-				for ( int i = 0; i < contentString.length(); ++i )
-				{
-					// If you get an actual item number, then store it inside
-					// of contentInt and return from the method.  But, in this
-					// case, we're testing if it's not an item number -- use
-					// substring matching to make it user-friendlier.
-
-					if ( !Character.isDigit( contentString.charAt(i) ) )
-					{
-						AdventureResult item = DEFAULT_SHELL.getFirstMatchingItem( contentString, KoLmafiaCLI.NOWHERE );
-
-						// Otherwise, throw an AdvancedScriptException so that
-						// an unsuccessful parse happens before the script gets
-						// executed (consistent with paradigm).
-
-						if ( item == null )
-							throw new AdvancedScriptException( "Item " + contentString + " not found in database " + getLineAndFile() );
-
-						contentInt = item.getItemID();
-						contentString = TradeableItemDatabase.getItemName( contentInt );
-						return;
-					}
-				}
-
-				// Since it is numeric, parse the integer value
-				// and store it inside of the contentInt.
-
-				contentInt = Integer.parseInt( contentString );
-				contentString = TradeableItemDatabase.getItemName( contentInt );
-				return;
-			}
-			else if ( type.equals( TYPE_ZODIAC ) )
-			{
-				for ( int i = 0; i < ZODIACS.length; ++i )
-				{
-					if ( contentString.equalsIgnoreCase( ZODIACS[i] ) )
-					{
-						contentInt = i;
-						return;
-					}
-				}
-
-				throw new AdvancedScriptException( "Unknown zodiac " + contentString + " " + getLineAndFile() );
-			}
-			else if ( type.equals( TYPE_LOCATION ) )
-			{
-				if ( (content = AdventureDatabase.getAdventure( contentString )) == null )
-					throw new AdvancedScriptException( "Location " + contentString + " not found in database " + getLineAndFile() );
-			}
-			else if ( type.equals( TYPE_CLASS ) )
-			{
-				for ( int i = 0; i < CLASSES.length; ++i )
-				{
-					if ( contentString.equalsIgnoreCase( CLASSES[i] ) )
-					{
-						contentInt = i;
-						return;
-					}
-				}
-
-				throw new AdvancedScriptException( "Unknown private class " + contentString + " " + getLineAndFile() );
-			}
-			else if ( type.equals( TYPE_STAT ) )
-			{
-				for ( int i = 0; i < STATS.length; ++i )
-				{
-					if ( contentString.equalsIgnoreCase( STATS[i] ) )
-					{
-						contentInt = i;
-						return;
-					}
-				}
-
-				throw new AdvancedScriptException( "Unknown stat " + contentString + " " + getLineAndFile() );
-			}
-			else if ( type.equals( TYPE_SKILL ) )
-			{
-				if ( contentString == null )
-				{
-					contentString = ClassSkillsDatabase.getSkillName( contentInt );
-					if ( contentString == null )
-					{
-						contentString = "none";
-						contentInt = -1;
-					}
-					return;
-				}
-
-				List skills = ClassSkillsDatabase.getMatchingNames( contentString );
-
-				if ( skills.isEmpty() )
-					throw new AdvancedScriptException( "Skill " + contentString + " not found in database " + getLineAndFile() );
-
-				contentInt = ClassSkillsDatabase.getSkillID( (String) skills.get(0) );
-				contentString = ClassSkillsDatabase.getSkillName( contentInt );
-			}
-			else if ( type.equals( TYPE_EFFECT ) )
-			{
-				if ( contentString == null )
-				{
-					contentString = StatusEffectDatabase.getEffectName( contentInt );
-					if ( contentString == null )
-					{
-						contentString = "none";
-						contentInt = -1;
-					}
-					return;
-				}
-				
-				AdventureResult effect = DEFAULT_SHELL.getFirstMatchingEffect( contentString );
-				if ( effect == null )
-					throw new AdvancedScriptException( "Effect " + contentString + " not found in database " + getLineAndFile() );
-
-				contentInt = StatusEffectDatabase.getEffectID( effect.getName() );
-				contentString = StatusEffectDatabase.getEffectName( contentInt );
-			}
-			else if ( type.equals( TYPE_FAMILIAR ) )
-			{
-				if ( contentString == null )
-				{
-					contentString = FamiliarsDatabase.getFamiliarName( contentInt );
-					if ( contentString == null )
-					{
-						contentString = "none";
-						contentInt = -1;
-					}
-					return;
-				}
-
-				if ( contentString.equalsIgnoreCase( "none" ) )
-					contentInt = -1;
-				else if ( (contentInt = FamiliarsDatabase.getFamiliarID( contentString )) == -1 )
-					throw new AdvancedScriptException( "Familiar " + contentString + " not found in database " + getLineAndFile() );
-
-				contentString = FamiliarsDatabase.getFamiliarName( contentInt );
-			}
-			else if ( type.equals( TYPE_SLOT ) )
-			{
-				if ( contentString == null )
-				{
-					if ( contentInt < 0 || contentInt >= EquipmentRequest.slotNames.length ) 
-						throw new AdvancedScriptException( "Bad slot number " + getLineAndFile() );
-					contentString = EquipmentRequest.slotNames[contentInt];
-					return;
-				}
-
-				contentInt = EquipmentRequest.slotNumber( contentString );
-				if ( contentInt == -1 )
-					throw new AdvancedScriptException( "Bad slot name " + contentString + getLineAndFile() );
-			}
-			else if ( type.equals( TYPE_MONSTER ) )
-			{
-				MonsterDatabase.Monster monster = MonsterDatabase.findMonster( contentString );
-				if ( monster == null )
-					throw new AdvancedScriptException( "Bad monster name " + contentString + getLineAndFile() );
-				content = monster;
-			}
-		}
-
-		public KoLAdventure getLocation()
-		{
-			if ( !type.equals( TYPE_LOCATION ) )
-				throw new RuntimeException( "Internal error: getLocation() called on non-location" );
-			else
-				return ( KoLAdventure ) content;
-		}
 	}
 
-	private class ScriptExpression extends ScriptCommand
+	private static class ScriptExpression extends ScriptCommand
 	{
 		ScriptExpression lhs;
 		ScriptExpression rhs;
@@ -3776,22 +3813,6 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.lhs = lhs;
 			this.rhs = rhs;
-
-			if ( rhs != null && !lhs.getType().equals( rhs.getType() ) )
-			{
-				boolean validOperation = false;
-
-				// float-check values
-				validOperation |= lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT );
-				validOperation |= lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT );
-
-				// string operations are valid
-				validOperation |= lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING );
-
-				if ( !validOperation )
-					throw new AdvancedScriptException( "Cannot apply " + rhs.getType() + " to " + lhs + " " + getLineAndFile() );
-			}
-
 			this.oper = oper;
 		}
 
@@ -3954,20 +3975,8 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			// Ensure type compatibility of operands
-			if ( !rhs.getType().equals( lhs.getType() ) )
-			{
-				boolean validOperation = false;
-
-				// float-check values
-				validOperation |= lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT );
-				validOperation |= lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT );
-
-				// string operations are valid
-				validOperation |= (lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING )) && operator.equals( "+" );
-
-				if ( !validOperation )
-					throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond" );
-			}
+			if ( !validCoercion( lhs.getType(), rhs.getType(), operator ) )
+				throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond" );
 
 			// Binary operators
 			ScriptValue rightValue = rhs.execute();
