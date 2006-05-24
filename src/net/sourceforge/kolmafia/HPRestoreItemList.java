@@ -93,7 +93,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			restoreCheckbox[CONFIGURES.length + i].setSelected( true );
 			restoreCheckbox[CONFIGURES.length + i].setEnabled( false );
 		}
-		
+
 		return restoreCheckbox;
 	}
 
@@ -120,7 +120,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{
 			// Remedies are only used if the player is beaten up.
 			// Otherwise, it is not used.
-			
+
 			if ( this == REMEDY )
 			{
 				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
@@ -128,40 +128,36 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				return;
 			}
-			
+
 			// For all other instances, you will need to calculate
 			// the number of times this technique must be used.
-			
+
 			int hpShort = needed - KoLCharacter.getCurrentHP();
+			int belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
 			int numberToUse = (int) Math.ceil( (double) hpShort / (double) hpPerUse );
 
-			if ( TradeableItemDatabase.contains( itemName ) )
+			if ( ClassSkillsDatabase.contains( itemName ) )
+			{
+				if ( !KoLCharacter.hasSkill( itemName ) )
+					numberToUse = 0;
+			}
+			else if ( TradeableItemDatabase.contains( itemName ) )
 			{
 				// In certain instances, you are able to buy more of
 				// the given item from NPC stores, or from the mall.
-				
+
 				int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
-				
+
 				if ( !isFallback )
 					numberAvailable = Math.min( numberToUse, numberAvailable );
 				else if ( this == HERBS )
-					numberAvailable = hpShort < 20 || !NPCStoreDatabase.contains( HERBS.toString() ) ? 0 : 1;
+					numberAvailable = belowMax < 20 || !NPCStoreDatabase.contains( HERBS.toString() ) ? 0 : 1;
 				else if ( this == SCROLL && KoLCharacter.canInteract() )
 					numberAvailable = 1;
 				else if ( this == OINTMENT )
 					numberAvailable = numberToUse;
 
 				numberToUse = Math.min( numberToUse, numberAvailable );
-			}
-			else if ( ClassSkillsDatabase.contains( itemName ) )
-			{
-				if ( KoLCharacter.hasSkill( itemName ) )
-				{
-					int mpPerUse = ClassSkillsDatabase.getMPConsumptionByID( skillID );
-					numberToUse = Math.min( numberToUse, KoLCharacter.getCurrentHP() / numberToUse );
-				}
-				else
-					numberToUse = 0;
 			}
 
 			if ( numberToUse == 0 )
@@ -173,7 +169,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", 1 ) )).run();
 
 				return;
-			}			
+			}
 
 			if ( this == OTTER )
 			{
@@ -185,7 +181,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			if ( ClassSkillsDatabase.contains( this.toString() ) )
 			{
-				if ( this != COCOON || hpShort >= 20 )
+				if ( this != COCOON || belowMax >= 20 )
 					(new UseSkillRequest( client, this.toString(), "", numberToUse )).run();
 			}
 			else
