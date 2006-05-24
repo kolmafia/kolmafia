@@ -45,7 +45,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MonsterDatabase extends KoLDatabase
 {
-
 	public static final Map MONSTERS = new TreeMap();
 
 	// Elements
@@ -102,7 +101,7 @@ public class MonsterDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -118,7 +117,7 @@ public class MonsterDatabase extends KoLDatabase
 			return monster;
 
 		// parse parameters and make a new monster
-		int HP = 0;
+		int health = 0;
 		int attack = 0;
 		int defense = 0;
 		int attackElement = NONE;
@@ -136,7 +135,7 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						HP = Integer.parseInt( value );
+						health = Integer.parseInt( value );
 						continue;
 					}
 				}
@@ -210,14 +209,14 @@ public class MonsterDatabase extends KoLDatabase
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e, s );
 			}
 
 			return null;
 		}
 
-		return new Monster( name, HP, attack, defense, attackElement, defenseElement );
+		return new Monster( name, health, attack, defense, attackElement, defenseElement );
 	}
 
 	private static int parseElement( String s )
@@ -238,21 +237,21 @@ public class MonsterDatabase extends KoLDatabase
 	public static class Monster
 	{
 		private String name;
-		private int HP;
+		private int health;
 		private int attack;
 		private int defense;
-		private double XP;
+		private double statGain;
 		private int attackElement;
 		private int defenseElement;
 		private List items;
 
-		public Monster( String name, int HP, int attack, int defense, int attackElement, int defenseElement )
+		public Monster( String name, int health, int attack, int defense, int attackElement, int defenseElement )
 		{
 			this.name = name;
-			this.HP = HP;
+			this.health = health;
 			this.attack = attack;
 			this.defense = defense;
-			this.XP = (double)( attack + defense ) / 10.0 ;
+			this.statGain = (double)( attack + defense ) / 10.0 ;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
 			this.items = new ArrayList();
@@ -263,11 +262,11 @@ public class MonsterDatabase extends KoLDatabase
 		}
 
 		public int getHP()
-		{	return HP;
+		{	return health;
 		}
 
 		public int getAdjustedHP( int ml )
-		{	return HP + ml;
+		{	return health + ml;
 		}
 
 		public int getAttack()
@@ -295,20 +294,20 @@ public class MonsterDatabase extends KoLDatabase
 		}
 
 		public double getXP()
-		{	return Math.max( 1.0, XP );
+		{	return Math.max( 1.0, statGain );
 		}
 
 		public double getAdjustedXP( double modifier, int ml, FamiliarData familiar )
 		{
-			// +1 ML adds +1 HP, +1 Attack, +1 Defense
-			// Monster XP = ( attack + defense ) / 10
+			// +1 ML adds +1 health, +1 Attack, +1 Defense
+			// Monster statGain = ( attack + defense ) / 10
 			double adjustedML = (double)( attack + ml + defense + ml ) / 2.0;
-			XP =  adjustedML / 5.0;
-			// Add constant XP from items, effects, and familiars
-			XP += modifier;
-			// Add variable XP from familiars
-			XP += sombreroXPAdjustment( adjustedML, familiar );
-			return Math.max( 1.0, XP );
+			statGain =  adjustedML / 5.0;
+			// Add constant statGain from items, effects, and familiars
+			statGain += modifier;
+			// Add variable statGain from familiars
+			statGain += sombreroXPAdjustment( adjustedML, familiar );
+			return Math.max( 1.0, statGain );
 		}
 
 		private static final int SOMBRERO = 18;

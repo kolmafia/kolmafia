@@ -231,14 +231,13 @@ public class AdventureFrame extends KoLFrame
 
 	private class SafetyField extends JPanel implements Runnable, ActionListener
 	{
-		private JEditorPane safetyText;
-		private String savedText = "";
+		private JLabel safetyText = new JLabel( " " );
+		private String savedText = " ";
 
 		public SafetyField()
 		{
 			super( new BorderLayout() );
-			safetyText = new JEditorPane( "text/html", " " );
-			safetyText.setEditable( false );
+			safetyText.setVerticalAlignment( JLabel.TOP );
 
 			JScrollPane textScroller = new JScrollPane( safetyText, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
@@ -267,15 +266,16 @@ public class AdventureFrame extends KoLFrame
 				return;
 
 			AreaCombatData combat = AdventureDatabase.getAreaCombatData( request.toString() );
-			String text = ( combat == null ) ? "" : combat.toString();
+			String text = ( combat == null ) ? " " : combat.toString();
+
 			// Avoid rendering and screen flicker if no change.
 			// Compare with our own copy of what we set, since
 			// getText() returns a modified version.
+
 			if ( !text.equals( savedText ) )
 			{
 				savedText = text;
 				safetyText.setText( text );
-				safetyText.setCaretPosition( 0);
 			}
 		}
 	}
@@ -419,20 +419,21 @@ public class AdventureFrame extends KoLFrame
 					if ( StaticEntity.getClient().conditions.isEmpty() )
 					{
 						StaticEntity.getClient().updateDisplay( "All conditions already satisfied." );
+						DEFAULT_SHELL.enableDisplay();
 						return;
 					}
 				}
 
-				DEFAULT_SHELL.enableDisplay();
-
 				if ( StaticEntity.getClient().conditions.size() > 1 )
 					DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 
-				DEFAULT_SHELL.updateDisplay( "Conditions set.  Preparing for adventuring..." );
 				conditionField.setText( "" );
+				if ( countField.getText().equals( "" ) )
+					countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 			}
 
 			(new RequestThread( request, getValue( countField ) )).start();
+			countField.setText( "" );
 		}
 
 		protected void actionCancelled()

@@ -153,22 +153,24 @@ public class AreaCombatData implements KoLConstants
 		int minPerfectEvade = perfectHit( moxie, minEvade );
 		int maxPerfectEvade = perfectHit( moxie, maxEvade );
 
-		// XP constants
+		// statGain constants
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		double xpAdjustment = KoLCharacter.getFixedXPAdjustment();
 
 		// Area Combat percentage
 		double combatFactor = areaCombatPercent() / 100.0;
 
-		// Iterate once through monsters to calculate average XP
+		// Iterate once through monsters to calculate average statGain
 		double averageXP = 0.0;
 
 		for ( int i = 0; i < monsters.size(); ++i )
 		{
 			int weighting = getWeighting( i );
+
 			// Omit ultra-rare (-1) and one-time (0) monsters
 			if ( weighting < 1 )
 				continue;
+
 			MonsterDatabase.Monster monster = getMonster( i );
 			double weight = (double)weighting / (double)weights;
 			averageXP += weight * monster.getAdjustedXP( xpAdjustment, ml,  familiar );
@@ -181,31 +183,33 @@ public class AreaCombatData implements KoLConstants
 
 		buffer.append( "<br><b>Evade</b>: " );
 		buffer.append( getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, true ) );
-		buffer.append( "<br><b>Combat encounters</b>: " );
+		buffer.append( "<br><b>Combat Frequency</b>: " );
+
 		if ( combats > 0 )
 		{
-			buffer.append( ff.format( combatFactor * 100.0 ) + "%" );
-			buffer.append( "<br><b>Average XP/turn from Combat</b>: " + ff.format( averageXP * combatFactor ) );
+			buffer.append( format( combatFactor * 100.0 ) + "%" );
+			buffer.append( "<br><b>Average XP / Turn</b>: " + ff.format( averageXP * combatFactor ) );
 		}
 		else if ( combats == 0 )
 			buffer.append( "0%" );
 		else
 			buffer.append( "No data" );
-		buffer.append( "<br>" );
 
 		for ( int i = 0; i < monsters.size(); ++i )
 		{
-			MonsterDatabase.Monster monster = getMonster( i );
-			int weighting = getWeighting( i );
-			buffer.append( "<br>" );
-			buffer.append( getMonsterString( monster, moxie, hitstat, ml, weighting, combatFactor ) );
+			buffer.append( "<br><br>" );
+			buffer.append( getMonsterString( getMonster( i ), moxie, hitstat, ml, getWeighting( i ), combatFactor ) );
 		}
 
 		buffer.append( "</html>" );
 		return buffer.toString();
 	}
 
-        private double areaCombatPercent()
+	private String format( double percentage )
+	{	return String.valueOf( (int) percentage );
+	}
+
+	private double areaCombatPercent()
 	{
 		// If we don't have the data, pretend it's all combat
 		if ( combats < 0 )
@@ -219,10 +223,10 @@ public class AreaCombatData implements KoLConstants
 	{
 		StringBuffer buffer = new StringBuffer();
 
-		buffer.append( ff.format( minPercent ) );
+		buffer.append( format( minPercent ) );
 		buffer.append( "%/" );
 
-		buffer.append( ff.format( maxPercent ) );
+		buffer.append( format( maxPercent ) );
 		buffer.append( "% (" );
 
 		buffer.append( isMoxieTest ? "Moxie " : "Muscle " );
@@ -245,7 +249,7 @@ public class AreaCombatData implements KoLConstants
 	{
 		StringBuffer buffer = new StringBuffer();
 
-		buffer.append( ff.format( percent ) );
+		buffer.append( format( percent ) );
 		buffer.append( "% (" );
 		if ( margin >= 0 )
 			buffer.append( "+" );
@@ -266,8 +270,8 @@ public class AreaCombatData implements KoLConstants
 		double evadePercent = hitPercent( moxie, attack );
 		int perfectEvade = perfectHit( moxie, attack );
 
-		int HP = monster.getAdjustedHP( ml );
-		double XP = monster.getXP();
+		int health = monster.getAdjustedHP( ml );
+		double statGain = monster.getXP();
 
 		StringBuffer buffer = new StringBuffer();
 
@@ -284,32 +288,29 @@ public class AreaCombatData implements KoLConstants
 		else if ( weighting == 0 )
 			buffer.append( "one-time" );
 		else
-			buffer.append( ff.format( 100.0 * combatFactor * (double)weighting / (double)weights ) + "%" );
+			buffer.append( format( 100.0 * combatFactor * (double)weighting / (double)weights ) + "%" );
                 buffer.append( ")<br> - Hit: <font color=" + elementColor( ed ) + ">" );
-		buffer.append( ff.format( hitPercent ) );
+		buffer.append( format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + elementColor( ea ) + ">" );
-		buffer.append( ff.format( evadePercent ) );
-		buffer.append( "%</font><br> - HP: " + HP + ", XP: " + ff.format( XP ) );
-
-		printItemList( buffer, "<br> - Items: ", monster.getItems() );
+		buffer.append( format( evadePercent ) );
+		buffer.append( "%</font><br> - HP: " + health + ", XP: " + ff.format( statGain ) );
+		appendItemList( buffer, monster.getItems() );
 
 		return buffer.toString();
 	}
 
-        private void printItemList( StringBuffer buffer, String prefix, List items )
+	private void appendItemList( StringBuffer buffer, List items )
 	{
 		if ( items.size() == 0 )
 			return;
 
 		double itemModifier = ( 100.0 + KoLCharacter.getItemDropPercentAdjustment() ) / 100.0;
-		buffer.append( prefix );
+
 		for ( int i = 0; i < items.size(); ++i )
 		{
+			buffer.append( "<br> - Drops " );
 			AdventureResult item = (AdventureResult)items.get(i);
-			if ( i > 0 )
-				buffer.append( ", " );
-			double drop = Math.min( (double)item.getCount() * itemModifier, 100.0 );
-			buffer.append( item.getName() + " (" + ff.format( drop ) + "%)" );
+			buffer.append( item.getName() + " (" + format( Math.min( (double)item.getCount() * itemModifier, 100.0 ) ) + "%)" );
 		}
 	}
 
