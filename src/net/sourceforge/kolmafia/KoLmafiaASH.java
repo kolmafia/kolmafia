@@ -2129,6 +2129,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute()
 		{
+			if ( method == null )
+				throw new RuntimeException( "Internal error: no method for " + getName() );
+
 			try
 			{
 				// Invoke the method
@@ -2139,7 +2142,7 @@ public class KoLmafiaASH extends StaticEntity
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 				
-				printStackTrace( e, "Error encountered in ASH script" );
+				printStackTrace( e, "Exception during call to " + getName() );
 				return null;
 			}
 		}
