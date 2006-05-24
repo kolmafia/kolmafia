@@ -217,7 +217,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( ITEM_TYPE, itemID, name );
 	}
 
-	private ScriptValue makeItemValue( int num )
+	private static ScriptValue makeItemValue( int num )
 	{
 		String name = TradeableItemDatabase.getItemName( num );
 
@@ -227,7 +227,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( ITEM_TYPE, num, name );
 	}
 
-	private ScriptValue makeItemValue( String name )
+	private static ScriptValue makeItemValue( String name )
 	{
 		int num = TradeableItemDatabase.getItemID( name );
 
@@ -237,7 +237,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( ITEM_TYPE, num, name );
 	}
 
-	private int zodiacToInt( String name )
+	private static int zodiacToInt( String name )
 	{
 		for ( int i = 0; i < ZODIACS.length; ++i )
 			if ( name.equalsIgnoreCase( ZODIACS[i] ) )
@@ -253,7 +253,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( ZODIAC_TYPE, num, ZODIACS[num] );
 	}
 
-	private ScriptValue makeZodiacValue( String name )
+	private static ScriptValue makeZodiacValue( String name )
 	{
 		return new ScriptValue( ZODIAC_TYPE, zodiacToInt( name ), name );
 	}
@@ -266,7 +266,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( LOCATION_TYPE, content );
 	}
 
-	private int classToInt( String name )
+	private static int classToInt( String name )
 	{
 		for ( int i = 0; i < CLASSES.length; ++i )
 			if ( name.equalsIgnoreCase( CLASSES[i] ) )
@@ -282,12 +282,12 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( CLASS_TYPE, num, CLASSES[num] );
 	}
 
-	private ScriptValue makeClassValue( String name )
+	private static ScriptValue makeClassValue( String name )
 	{
 		return new ScriptValue( CLASS_TYPE, classToInt( name ), name );
 	}
 
-	private int statToInt( String name )
+	private static int statToInt( String name )
 	{
 		for ( int i = 0; i < STATS.length; ++i )
 			if ( name.equalsIgnoreCase( STATS[i] ) )
@@ -315,7 +315,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( SKILL_TYPE, num, name );
 	}
 
-	private ScriptValue makeSkillValue( int num )
+	private static ScriptValue makeSkillValue( int num )
 	{
 		String name = ClassSkillsDatabase.getSkillName( num );
 		if ( name == null )
@@ -335,7 +335,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( EFFECT_TYPE, num, name );
 	}
 
-	private ScriptValue makeEffectValue( int num )
+	private static ScriptValue makeEffectValue( int num )
 	{
 		String name = StatusEffectDatabase.getEffectName( num );
 		if ( name == null )
@@ -356,7 +356,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( FAMILIAR_TYPE, num, name );
 	}
 
-	private ScriptValue makeFamiliarValue( int num )
+	private static ScriptValue makeFamiliarValue( int num )
 	{
 		String name = FamiliarsDatabase.getFamiliarName( num );
 		if ( name == null )
@@ -373,7 +373,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( SLOT_TYPE, num, name );
 	}
 
-	private ScriptValue makeSlotValue( int num )
+	private static ScriptValue makeSlotValue( int num )
 	{
 		String name;
 
@@ -584,7 +584,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptScope parseScope( ScriptScope startScope, ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop ) throws AdvancedScriptException
 	{
-		ScriptFunction f = null;
+		ScriptUserDefinedFunction f = null;
 		ScriptVariable v = null;
 		ScriptCommand c = null;
 		ScriptType t = null;
@@ -644,7 +644,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptFunction parseFunction( ScriptType t, ScriptScope parentScope ) throws AdvancedScriptException
+	private ScriptUserDefinedFunction parseFunction( ScriptType t, ScriptScope parentScope ) throws AdvancedScriptException
 	{
 		if ( !parseIdentifier( currentToken() ) )
 			return null;
@@ -657,7 +657,7 @@ public class KoLmafiaASH extends StaticEntity
 		readToken(); //read Function name
 		readToken(); //read (
 
-		ScriptFunction result = new ScriptFunction( functionName, t );
+		ScriptUserDefinedFunction result = new ScriptUserDefinedFunction( functionName, t );
 		ScriptVariableList paramList = new ScriptVariableList();
 
 		while ( !currentToken().equals( ")" ) )
@@ -1445,7 +1445,7 @@ public class KoLmafiaASH extends StaticEntity
 		KoLmafia.getDebugStream().println( "<FUNC " + func.getType() + " " + func.getName() + ">" );
 		for ( ScriptVariableReference current = func.getFirstParam(); current != null; current = func.getNextParam() )
 			printVariableReference( current, indent + 1 );
-		printScope( func.getScope(), indent + 1 );
+		printScope( ((ScriptUserDefinedFunction)func).getScope(), indent + 1 );
 	}
 
 	private void printCommand( ScriptCommand command, int indent )
@@ -2213,14 +2213,14 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptScopeList extends ScriptList
+	private static class ScriptScopeList extends ScriptList
 	{
 		public boolean addElement( ScriptScope n )
 		{	return super.addElement( n );
 		}
 	}
 
-	private class ScriptSymbol implements Comparable
+	private static class ScriptSymbol implements Comparable
 	{
 		protected String name;
 
@@ -2246,7 +2246,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptSymbolTable extends SortedListModel
+	private static class ScriptSymbolTable extends SortedListModel
 	{
 		private int searchIndex = -1;
 
@@ -2290,34 +2290,24 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptFunction extends ScriptSymbol
+	private static class ScriptFunction extends ScriptSymbol
 	{
-		ScriptType type;
-		ScriptVariableReferenceList variableReferences;
-		ScriptScope scope;
-
-		public ScriptFunction()
-		{
-		}
+		protected ScriptType type;
+		protected ScriptVariableReferenceList variableReferences;
 
 		public ScriptFunction( String name, ScriptType type )
 		{
 			super( name );
 			this.type = type;
 			this.variableReferences = new ScriptVariableReferenceList();
-			this.scope = null;
+		}
+
+		public ScriptType getType()
+		{	return type;
 		}
 
 		public void addVariableReference( ScriptVariableReference v )
 		{	variableReferences.addElement( v );
-		}
-
-		public void setScope( ScriptScope s )
-		{	scope = s;
-		}
-
-		public ScriptScope getScope()
-		{	return scope;
 		}
 
 		public ScriptVariableReference getFirstParam()
@@ -2328,8 +2318,28 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptVariableReference)variableReferences.getNextElement();
 		}
 
-		public ScriptType getType()
-		{	return type;
+		public ScriptValue execute() throws AdvancedScriptException
+		{
+			return null;
+		}
+        }
+
+	private class ScriptUserDefinedFunction extends ScriptFunction
+	{
+		ScriptScope scope;
+
+		public ScriptUserDefinedFunction( String name, ScriptType type )
+		{
+			super( name, type );
+			this.scope = null;
+		}
+
+		public void setScope( ScriptScope s )
+		{	scope = s;
+		}
+
+		public ScriptScope getScope()
+		{	return scope;
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
@@ -2347,7 +2357,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptExistingFunction extends ScriptFunction
+	private static class ScriptExistingFunction extends ScriptFunction
 	{
 		private Method method;
 		private ScriptVariable [] variables;
@@ -2994,7 +3004,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptVariable extends ScriptSymbol
+	private static class ScriptVariable extends ScriptSymbol
 	{
 		ScriptValue	content;
 
@@ -3059,7 +3069,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptVariableList extends ScriptSymbolTable
+	private static class ScriptVariableList extends ScriptSymbolTable
 	{
 		public boolean addElement( ScriptVariable n )
 		{	return super.addElement( n );
@@ -3078,7 +3088,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptVariableReference extends ScriptValue
+	private static class ScriptVariableReference extends ScriptValue
 	{
 		ScriptVariable target;
 
@@ -3100,7 +3110,7 @@ public class KoLmafiaASH extends StaticEntity
 				scope = scope.getParentScope();
 			}
 
-			throw new AdvancedScriptException( "Undefined variable " + name + " " + getLineAndFile() );
+			return null;
 		}
 
 		public ScriptType getType()
@@ -3128,7 +3138,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptVariableReferenceList extends ScriptList
+	private static class ScriptVariableReferenceList extends ScriptList
 	{
 		public boolean addElement( ScriptVariableReference n )
 		{	return super.addElement( n );
@@ -3200,7 +3210,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptCommandList extends ScriptList
+	private static class ScriptCommandList extends ScriptList
 	{
 		public boolean addElement( ScriptCommand n )
 		{	return super.addElement( n );
@@ -3430,7 +3440,7 @@ public class KoLmafiaASH extends StaticEntity
 	}
 
 
-	private class ScriptLoopList extends ScriptList
+	private static class ScriptLoopList extends ScriptList
 	{
 		public boolean addElement( ScriptLoop n )
 		{	return super.addElement( n );
@@ -3865,7 +3875,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptExpressionList extends ScriptList
+	private static class ScriptExpressionList extends ScriptList
 	{
 		public boolean addElement( ScriptExpression n )
 		{	return super.addElement( n );
@@ -4107,7 +4117,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptList extends ArrayList
+	private static class ScriptList extends ArrayList
 	{
 		private int searchIndex = -1;
 
