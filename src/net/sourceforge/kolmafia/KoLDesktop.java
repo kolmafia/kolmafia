@@ -262,9 +262,13 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		if ( toolbarPanel != null )
 		{
 			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", CouncilFrame.class ) );
-			toolbarPanel.add( new InvocationButton( "Relay Browser", "browser.gif", StaticEntity.getClient(), "startRelayServer" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
 
+			if ( GLOBAL_SETTINGS.getProperty( "defaultToRelayBrowser" ).equals( "true" ) )
+				toolbarPanel.add( new InvocationButton( "Relay Browser", "browser.gif", StaticEntity.getClient(), "startRelayServer" ) );
+			else
+				toolbarPanel.add( new DisplayFrameButton( "Mini-Browser", "browser.gif", RequestFrame.class ) );
+
+			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
 			toolbarPanel.add( new JToolBar.Separator() );
 
 			toolbarPanel.add( new DisplayFrameButton( "IcePenguin Express", "mail.gif", MailboxFrame.class ) );

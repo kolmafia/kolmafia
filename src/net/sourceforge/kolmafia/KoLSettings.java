@@ -195,6 +195,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureProperty( "defaultDropdown1", "0" );
 		ensureProperty( "defaultDropdown2", "1" );
 		ensureProperty( "defaultLimit", "13" );
+		ensureProperty( "defaultToRelayBrowser", "true" );
 		ensureProperty( "eSoluScriptType", "0" );
 		ensureProperty( "fontSize", "3" );
 		ensureProperty( "forceReconnect", "false" );
