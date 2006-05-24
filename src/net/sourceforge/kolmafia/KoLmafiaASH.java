@@ -143,7 +143,6 @@ public class KoLmafiaASH extends StaticEntity
 	private ScriptValue TRUE_VALUE = new ScriptValue( true );
 	private ScriptValue FALSE_VALUE = new ScriptValue( false );
 
-
 	// **************** Tracing *****************
 
 	private static boolean tracing = true;
@@ -886,7 +885,7 @@ public class KoLmafiaASH extends StaticEntity
 			int resultInt = Integer.parseInt( currentToken() );
 			readToken(); // integer
 
-			return new ScriptValue( INT_TYPE, resultInt );
+			return new ScriptValue( resultInt );
 		}
 		else if ( currentToken().equals( "\"" ) )
 		{
@@ -906,7 +905,7 @@ public class KoLmafiaASH extends StaticEntity
 				else if ( line.charAt( i ) == '"' )
 				{
 					line = line.substring( i + 1 ); //+ 1 to get rid of '"' token
-					return new ScriptValue( STRING_TYPE, resultString.toString() );
+					return new ScriptValue( resultString.toString() );
 				}
 				else
 				{
@@ -962,7 +961,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			result = Double.parseDouble( currentToken() );
 			readToken(); //double
-			return new ScriptValue( TYPE_FLOAT, result );
+			return new ScriptValue( result );
 		}
 		catch( NumberFormatException e )
 		{
@@ -1400,7 +1399,7 @@ public class KoLmafiaASH extends StaticEntity
 				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType() + " " + param.getName() );
 				try
 				{
-					param.setValue( new ScriptValue( TYPE_INT, Integer.parseInt( resultString ) ) );
+					param.setValue( new ScriptValue( Integer.parseInt( resultString ) ) );
 				}
 				catch( NumberFormatException e )
 				{
@@ -1412,7 +1411,7 @@ public class KoLmafiaASH extends StaticEntity
 				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType() + " " + param.getName() );
 				try
 				{
-					param.setValue( new ScriptValue( TYPE_FLOAT, Double.parseDouble( resultString ) ) );
+					param.setValue( new ScriptValue( Double.parseDouble( resultString ) ) );
 				}
 				catch( NumberFormatException e )
 				{
@@ -1572,7 +1571,7 @@ public class KoLmafiaASH extends StaticEntity
 		result.addFunction( new ScriptExistingFunction( "storage_amount", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addFunction( new ScriptExistingFunction( "refresh_stash", VOID_TYPE, params ) );
+		result.addFunction( new ScriptExistingFunction( "refresh_stash", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addFunction( new ScriptExistingFunction( "stash_amount", INT_TYPE, params ) );
@@ -1886,7 +1885,7 @@ public class KoLmafiaASH extends StaticEntity
 					return current;
 
 				ScriptVariableReference currentParam = current.getFirstParam();
-				ScriptExpression currentValue = (ScriptExpression) params.getFirstElement();
+				ScriptExpression currentValue = params.getFirstExpression();
 				int paramIndex = 1;
 
 				while ( currentParam != null && currentValue != null )
@@ -1908,7 +1907,7 @@ public class KoLmafiaASH extends StaticEntity
 
 					++paramIndex;
 					currentParam = current.getNextParam( );
-					currentValue = (ScriptExpression)params.getNextElement();
+					currentValue = params.getNextExpression();
 				}
 
 				if ( currentParam != null || currentValue != null )
@@ -2144,6 +2143,10 @@ public class KoLmafiaASH extends StaticEntity
 			}
 		}
 
+		private ScriptValue continueValue()
+		{	return client.permitsContinue() ? TRUE_VALUE : FALSE_VALUE;
+		}
+
 		// Here are all the methods for built-in ASH functions
 
 		public ScriptValue boolean_to_string( ScriptVariable val )
@@ -2198,40 +2201,40 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue item_to_int( ScriptVariable val ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, val.intValue() );
+		public ScriptValue item_to_int( ScriptVariable val )
+		{	return new ScriptValue( val.intValue() );
 		}
 
 		public ScriptValue int_to_item( ScriptVariable val ) throws AdvancedScriptException
 		{	return new ScriptValue( TYPE_ITEM, val.intValue() );
 		}
 
-		public ScriptValue skill_to_int( ScriptVariable val ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, val.intValue() );
+		public ScriptValue skill_to_int( ScriptVariable val )
+		{	return new ScriptValue( val.intValue() );
 		}
 
 		public ScriptValue int_to_skill( ScriptVariable val ) throws AdvancedScriptException
 		{	return new ScriptValue( TYPE_SKILL, val.intValue() );
 		}
 
-		public ScriptValue effect_to_int( ScriptVariable val ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, val.intValue() );
+		public ScriptValue effect_to_int( ScriptVariable val )
+		{	return new ScriptValue( val.intValue() );
 		}
 
 		public ScriptValue int_to_effect( ScriptVariable val ) throws AdvancedScriptException
 		{	return new ScriptValue( TYPE_EFFECT, val.intValue() );
 		}
 
-		public ScriptValue familiar_to_int( ScriptVariable val ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, val.intValue() );
+		public ScriptValue familiar_to_int( ScriptVariable val )
+		{	return new ScriptValue( val.intValue() );
 		}
 
 		public ScriptValue int_to_familiar( ScriptVariable val ) throws AdvancedScriptException
 		{	return new ScriptValue( TYPE_FAMILIAR, val.intValue() );
 		}
 
-		public ScriptValue slot_to_int( ScriptVariable val ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, val.intValue() );
+		public ScriptValue slot_to_int( ScriptVariable val )
+		{	return new ScriptValue( val.intValue() );
 		}
 
 		public ScriptValue int_to_slot( ScriptVariable val ) throws AdvancedScriptException
@@ -2244,60 +2247,60 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue adventure( ScriptVariable count, ScriptVariable loc )
 		{
 			DEFAULT_SHELL.executeLine( "adventure " + count.intValue() + " " + loc.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue buy( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "buy " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue create( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "create " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue use( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue eat( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue drink( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
-		public ScriptValue item_amount( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue item_amount( ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getInventory() ) );
+			return new ScriptValue( item.getCount( KoLCharacter.getInventory() ) );
 		}
 
-		public ScriptValue closet_amount( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue closet_amount( ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCloset() ) );
+			return new ScriptValue( item.getCount( KoLCharacter.getCloset() ) );
 		}
 
-		public ScriptValue museum_amount( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue museum_amount( ScriptVariable arg )
 		{
 			if ( KoLCharacter.getCollection().isEmpty() )
 				(new MuseumRequest( client )).run();
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getCollection() ) );
+			return new ScriptValue( item.getCount( KoLCharacter.getCollection() ) );
 		}
 
-		public ScriptValue shop_amount( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue shop_amount( ScriptVariable arg )
 		{
 			(new StoreManageRequest( client )).run();
 
@@ -2306,86 +2309,86 @@ public class KoLmafiaASH extends StaticEntity
 			int index = list.indexOf( item );
 
 			if ( index < 0 )
-				return new ScriptValue( TYPE_INT, 0 );
+				return new ScriptValue( 0 );
 
 			item = (StoreManager.SoldItem) list.get( index );
-			return new ScriptValue( TYPE_INT, item.getQuantity() );
+			return new ScriptValue( item.getQuantity() );
 		}
 
-		public ScriptValue storage_amount( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue storage_amount( ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( TYPE_INT, item.getCount( KoLCharacter.getStorage() ) );
+			return new ScriptValue( item.getCount( KoLCharacter.getStorage() ) );
 		}
 
 		public ScriptValue refresh_stash()
 		{
 			(new ClanStashRequest( client )).run();
-			return VOID_VALUE;
+			return continueValue();
 		}
 
-		public ScriptValue stash_amount( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue stash_amount( ScriptVariable arg ) 
 		{
 			List stash = ClanManager.getStash();
 			if ( stash.size() == 0 )
 				(new ClanStashRequest( client )).run();
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( TYPE_INT, item.getCount( stash ) );
+			return new ScriptValue( item.getCount( stash ) );
 		}
 
-		public ScriptValue creatable_amount( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue creatable_amount( ScriptVariable arg )
 		{
 			ConcoctionsDatabase.refreshConcoctions();
 			ItemCreationRequest item = ItemCreationRequest.getInstance( client, arg.intValue(), 0 );
-			return new ScriptValue( TYPE_INT, item.getCount( ConcoctionsDatabase.getConcoctions() ) );
+			return new ScriptValue( item.getCount( ConcoctionsDatabase.getConcoctions() ) );
 		}
 
 		public ScriptValue put_closet( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "closet put " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue put_shop( ScriptVariable count, ScriptVariable price, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "mallsell " + item.toStringValue() + " " + count.intValue() + " " + price.intValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue put_stash( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "stash put " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 			
 		public ScriptValue put_display( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "display put " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue take_closet( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "closet take " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue take_storage( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "hagnk " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue take_display( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "display take " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 			
 		public ScriptValue sell_item( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "sell " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue print( ScriptVariable string )
@@ -2406,79 +2409,79 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( TYPE_CLASS, KoLCharacter.getClassType() );
 		}
 
-		public ScriptValue my_level() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, KoLCharacter.getLevel() );
+		public ScriptValue my_level()
+		{	return new ScriptValue( KoLCharacter.getLevel() );
 		}
 
-		public ScriptValue my_hp() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentHP() );
+		public ScriptValue my_hp()
+		{	return new ScriptValue( KoLCharacter.getCurrentHP() );
 		}
 
-		public ScriptValue my_maxhp() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumHP() );
+		public ScriptValue my_maxhp()
+		{	return new ScriptValue( KoLCharacter.getMaximumHP() );
 		}
 
-		public ScriptValue my_mp() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, KoLCharacter.getCurrentMP() );
+		public ScriptValue my_mp()
+		{	return new ScriptValue( KoLCharacter.getCurrentMP() );
 		}
 
-		public ScriptValue my_maxmp() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, KoLCharacter.getMaximumMP() );
+		public ScriptValue my_maxmp()
+		{	return new ScriptValue( KoLCharacter.getMaximumMP() );
 		}
 
-		public ScriptValue my_basestat( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue my_basestat( ScriptVariable arg )
 		{
 			int stat = arg.intValue();
 
 			if ( STATS[ stat ].equalsIgnoreCase( "muscle" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMuscle() );
+				return new ScriptValue( KoLCharacter.getBaseMuscle() );
 			if ( STATS[ stat ].equalsIgnoreCase( "mysticality" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMysticality() );
+				return new ScriptValue( KoLCharacter.getBaseMysticality() );
 			if ( STATS[ stat ].equalsIgnoreCase( "moxie" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getBaseMoxie() );
+				return new ScriptValue( KoLCharacter.getBaseMoxie() );
 
 			throw new RuntimeException( "Internal error: unknown stat" );
 		}
 
-		public ScriptValue my_buffedstat( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue my_buffedstat( ScriptVariable arg )
 		{
 			int stat = arg.intValue();
 
 			if ( STATS[ stat ].equalsIgnoreCase( "muscle" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMuscle() );
+				return new ScriptValue( KoLCharacter.getAdjustedMuscle() );
 			if ( STATS[ stat ].equalsIgnoreCase( "mysticality" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMysticality() );
+				return new ScriptValue( KoLCharacter.getAdjustedMysticality() );
 			if ( STATS[ stat ].equalsIgnoreCase( "moxie" ) )
-				return new ScriptValue( TYPE_INT, KoLCharacter.getAdjustedMoxie() );
+				return new ScriptValue( KoLCharacter.getAdjustedMoxie() );
 
 			throw new RuntimeException( "Internal error: unknown stat" );
 		}
 
-		public ScriptValue my_meat() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, KoLCharacter.getAvailableMeat() );
+		public ScriptValue my_meat()
+		{	return new ScriptValue( KoLCharacter.getAvailableMeat() );
 		}
 
-		public ScriptValue my_closetmeat() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, KoLCharacter.getClosetMeat() );
+		public ScriptValue my_closetmeat()
+		{	return new ScriptValue( KoLCharacter.getClosetMeat() );
 		}
 
-		public ScriptValue my_adventures() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, KoLCharacter.getAdventuresLeft() );
+		public ScriptValue my_adventures()
+		{	return new ScriptValue( KoLCharacter.getAdventuresLeft() );
 		}
 
-		public ScriptValue my_inebriety() throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, KoLCharacter.getInebriety() );
+		public ScriptValue my_inebriety()
+		{	return new ScriptValue( KoLCharacter.getInebriety() );
 		}
 
 		public ScriptValue my_familiar() throws AdvancedScriptException
 		{	return new ScriptValue( TYPE_FAMILIAR, KoLCharacter.getFamiliar().getID() == -1 ? "none" : KoLCharacter.getFamiliar().getRace() );
 		}
 
-		public ScriptValue have_effect( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue have_effect( ScriptVariable arg )
 		{
 			List potentialEffects = StatusEffectDatabase.getMatchingNames( arg.toStringValue().toString() );
 			AdventureResult effect = potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get(0), 0, true );
-			return new ScriptValue( TYPE_INT, effect == null ? 0 : effect.getCount( KoLCharacter.getEffects() ) );
+			return new ScriptValue( effect == null ? 0 : effect.getCount( KoLCharacter.getEffects() ) );
 		}
 
 		public ScriptValue have_skill( ScriptVariable arg )
@@ -2512,7 +2515,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue trade_hermit( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "hermit " + count.intValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue bounty_hunter_wants( ScriptVariable item )
@@ -2532,65 +2535,65 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue trade_bounty_hunter( ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "hunter " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue trade_trapper( ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "trapper " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue equip( ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "equip " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue equip_slot( ScriptVariable slot, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "equip " + slot.toStringValue() + " " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue unequip( ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "unequip " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue unequip_slot( ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "unequip " + item.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue current_equipment( ScriptVariable slot ) throws AdvancedScriptException
 		{	return new ScriptValue( TYPE_ITEM, KoLCharacter.getCurrentEquipmentName( slot.intValue() ) );
 		}
 
-		public ScriptValue monster_base_attack( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue monster_base_attack( ScriptVariable arg )
 		{
 			MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(arg.rawValue());
-			return new ScriptValue( TYPE_INT, monster.getAttack() );
+			return new ScriptValue( monster.getAttack() );
 		}
 
-		public ScriptValue monster_base_defense( ScriptVariable arg ) throws AdvancedScriptException
-		{
-			MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(arg.rawValue());
-
-			return new ScriptValue( TYPE_INT, monster.getDefense() );
-		}
-
-		public ScriptValue monster_base_HP( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue monster_base_defense( ScriptVariable arg )
 		{
 			MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(arg.rawValue());
 
-			return new ScriptValue( TYPE_INT, monster.getHP() );
+			return new ScriptValue( monster.getDefense() );
 		}
 
-		public ScriptValue weapon_hands( ScriptVariable item ) throws AdvancedScriptException
-		{	return new ScriptValue( TYPE_INT, EquipmentDatabase.getHands( item.intValue() ) );
+		public ScriptValue monster_base_HP( ScriptVariable arg )
+		{
+			MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(arg.rawValue());
+
+			return new ScriptValue( monster.getHP() );
+		}
+
+		public ScriptValue weapon_hands( ScriptVariable item )
+		{	return new ScriptValue( EquipmentDatabase.getHands( item.intValue() ) );
 		}
 
 		public ScriptValue ranged_weapon( ScriptVariable item )
@@ -2600,7 +2603,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue equip_familiar( ScriptVariable familiar )
 		{
 			DEFAULT_SHELL.executeLine( "familiar " + familiar.toStringValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue council()
@@ -2609,14 +2612,14 @@ public class KoLmafiaASH extends StaticEntity
 			return VOID_VALUE;
 		}
 
-		public ScriptValue current_mind_control_level() throws AdvancedScriptException
-		{	return new ScriptValue( INT_TYPE, KoLCharacter.getMindControlLevel() );
+		public ScriptValue current_mind_control_level()
+		{	return new ScriptValue( KoLCharacter.getMindControlLevel() );
 		}
 
 		public ScriptValue mind_control( ScriptVariable level )
 		{
 			DEFAULT_SHELL.executeLine( "mind-control " + level.intValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue have_chef()
@@ -2630,7 +2633,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue cli_execute( ScriptVariable string )
 		{
 			DEFAULT_SHELL.executeLine( string.toStringValue().toString() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue wait( ScriptVariable delay )
@@ -2642,13 +2645,13 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue entryway()
 		{
 			DEFAULT_SHELL.executeLine( "entryway" );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue hedgemaze()
 		{
 			DEFAULT_SHELL.executeLine( "hedgemaze" );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue guardians() throws AdvancedScriptException
@@ -2660,67 +2663,67 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue chamber()
 		{
 			DEFAULT_SHELL.executeLine( "chamber" );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue nemesis()
 		{
 			DEFAULT_SHELL.executeLine( "nemesis" );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue guild()
 		{
 			DEFAULT_SHELL.executeLine( "guild" );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue gourd()
 		{
 			DEFAULT_SHELL.executeLine( "gourd" );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
-		public ScriptValue tavern() throws AdvancedScriptException
+		public ScriptValue tavern()
 		{
 			int result = client.locateTavernFaucet();
-			return new ScriptValue( TYPE_INT, client.permitsContinue() ? result : -1 );
+			return new ScriptValue( client.permitsContinue() ? result : -1 );
 		}
 
 		public ScriptValue train_familiar( ScriptVariable weight, ScriptVariable familiar )
 		{
 			DEFAULT_SHELL.executeLine( "train " + familiar.toStringValue() + " " + weight.intValue() );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
 		public ScriptValue retrieve_item( ScriptVariable count, ScriptVariable item )
 		{
 			AdventureDatabase.retrieveItem( new AdventureResult( item.intValue(), count.intValue() ) );
-			return new ScriptValue( client.permitsContinue() );
+			return continueValue();
 		}
 
-		public ScriptValue random( ScriptVariable arg ) throws AdvancedScriptException
+		public ScriptValue random( ScriptVariable arg )
 		{
 			int range = arg.intValue();
 			if ( range < 2 )
 				throw new RuntimeException( "Random range must be at least 2" );
-			return new ScriptValue( INT_TYPE, RNG.nextInt( range ) );
+			return new ScriptValue( RNG.nextInt( range ) );
 		}
 
-		public ScriptValue round( ScriptVariable arg ) throws AdvancedScriptException
-		{	return new ScriptValue( INT_TYPE, (int)Math.round( arg.floatValue() ) );
+		public ScriptValue round( ScriptVariable arg )
+		{	return new ScriptValue( (int)Math.round( arg.floatValue() ) );
 		}
 
-		public ScriptValue truncate( ScriptVariable arg ) throws AdvancedScriptException
-		{	return new ScriptValue( INT_TYPE, (int)variables[0].floatValue() );
+		public ScriptValue truncate( ScriptVariable arg )
+		{	return new ScriptValue( (int)variables[0].floatValue() );
 		}
 
-		public ScriptValue floor( ScriptVariable arg ) throws AdvancedScriptException
-		{	return new ScriptValue( INT_TYPE, (int)Math.floor( variables[0].floatValue() ) );
+		public ScriptValue floor( ScriptVariable arg )
+		{	return new ScriptValue( (int)Math.floor( variables[0].floatValue() ) );
 		}
 
-		public ScriptValue ceil( ScriptVariable arg ) throws AdvancedScriptException
-		{	return new ScriptValue( INT_TYPE, (int)Math.ceil( variables[0].floatValue() ) );
+		public ScriptValue ceil( ScriptVariable arg )
+		{	return new ScriptValue( (int)Math.ceil( variables[0].floatValue() ) );
 		}
 	}
 
@@ -3444,6 +3447,12 @@ public class KoLmafiaASH extends StaticEntity
 		{	this.type = VOID_TYPE;
 		}
 
+		public ScriptValue( int value )
+		{
+			this.type = INT_TYPE;
+			this.contentInt = value;
+		}
+
 		public ScriptValue( boolean value )
 		{
 			this.type = BOOLEAN_TYPE;
@@ -3456,16 +3465,10 @@ public class KoLmafiaASH extends StaticEntity
 			this.contentString = value;
 		}
 
-		public ScriptValue( double content )
+		public ScriptValue( double value )
 		{
 			this.type = FLOAT_TYPE;
-			this.contentFloat = content;
-		}
-
-		public ScriptValue( int type ) throws AdvancedScriptException
-		{
-			this.type = new ScriptType( type );
-			fillContent();
+			this.contentFloat = value;
 		}
 
 		public ScriptValue( ScriptType type )
@@ -3496,14 +3499,6 @@ public class KoLmafiaASH extends StaticEntity
 			fillContent();
 		}
 
-		public ScriptValue( int type, double content ) throws AdvancedScriptException
-		{
-			if ( type != TYPE_FLOAT )
-				throw new AdvancedScriptException( "Internal error: cannot assign float value to non-float" );
-			this.type = FLOAT_TYPE;
-			this.contentFloat = content;
-		}
-
 		public ScriptValue( ScriptValue original )
 		{
 			this.type = original.type;
@@ -3517,7 +3512,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( type.equals( TYPE_FLOAT ) )
 				return this;
 			else
-				return new ScriptValue( TYPE_FLOAT, (double) contentInt );
+				return new ScriptValue( (double) contentInt );
 		}
 
 		public ScriptValue toIntValue() throws AdvancedScriptException
@@ -3525,7 +3520,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( type.equals( TYPE_INT ) )
 				return this;
 			else
-				return new ScriptValue( TYPE_INT, (int) contentFloat );
+				return new ScriptValue( (int) contentFloat );
 		}
 
 		public ScriptType getType()
@@ -3926,7 +3921,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( operator.equals( "-" ) && rhs == null )
 			{
 				if ( lhs.getType().equals( TYPE_INT ) )
-					return new ScriptValue( INT_TYPE, 0 - leftValue.intValue() );
+					return new ScriptValue( 0 - leftValue.intValue() );
 				if ( lhs.getType().equals( TYPE_FLOAT ) )
 					return new ScriptValue( 0.0 - leftValue.floatValue() );
 				throw new RuntimeException( "Unary minus can only be applied to numbers" );
@@ -3984,7 +3979,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( operator.equals( "+" ) )
 			{
 				if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) )
-					return new ScriptValue( TYPE_STRING, leftValue.toStringValue().toString() + rightValue.toStringValue().toString() );
+					return new ScriptValue( leftValue.toStringValue().toString() + rightValue.toStringValue().toString() );
 			}
 
 			if ( operator.equals( "==" ) )
@@ -4024,35 +4019,35 @@ public class KoLmafiaASH extends StaticEntity
 			if ( operator.equals( "+" ) )
 			{
 				if ( isInt )
-					return new ScriptValue( TYPE_INT, lint + rint );
+					return new ScriptValue( lint + rint );
 				return new ScriptValue( lfloat + rfloat );
 			}
 
 			if ( operator.equals( "-" ) )
 			{
 				if ( isInt )
-					return new ScriptValue( TYPE_INT, lint - rint );
+					return new ScriptValue( lint - rint );
 				return new ScriptValue( lfloat - rfloat );
 			}
 
 			if ( operator.equals( "*" ) )
 			{
 				if ( isInt )
-					return new ScriptValue( TYPE_INT, lint * rint );
+					return new ScriptValue( lint * rint );
 				return new ScriptValue( lfloat * rfloat );
 			}
 
 			if ( operator.equals( "/" ) )
 			{
 				if ( isInt )
-					return new ScriptValue( TYPE_INT, lint / rint );
+					return new ScriptValue( lint / rint );
 				return new ScriptValue( lfloat / rfloat );
 			}
 
 			if ( operator.equals( "%" ) )
 			{
 				if ( isInt )
-					return new ScriptValue( TYPE_INT, lint % rint );
+					return new ScriptValue( lint % rint );
 				return new ScriptValue( lfloat % rfloat );
 			}
 
