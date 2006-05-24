@@ -95,6 +95,18 @@ public class UntinkerRequest extends KoLRequest
 		KoLRequest questCompleter = new UntinkerRequest( client );
 		questCompleter.run();
 
+		// "I can take apart anything that's put together with meat
+		// paste, but you don't have anything like that..."
+
+		if ( questCompleter.responseText.indexOf( "you don't have anything like that" ) != -1 )
+		{
+			// They've completed the quest but have nothing the
+			// Untinker is willing to work on.
+
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have that item in your inventory." );
+			return;
+		}
+
 		// If they do not have a screwdriver, tell them they
 		// need to complete the untinker quest.
 
