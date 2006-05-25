@@ -53,13 +53,13 @@ public abstract class MPRestoreItemList extends StaticEntity
 {
 	private static final MPRestoreItem SODA_WATER = new MPRestoreItem( "soda water", 4 );
 	private static final MPRestoreItem MYSTERY = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
-	
+
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
 		new MPRestoreItem( "Dyspepsi-Cola", 12 ), new MPRestoreItem( "Cloaca-Cola", 12 ),
 		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tiny house", 22 ),
 		new MPRestoreItem( "Knob Goblin superseltzer", 27 ), new MPRestoreItem( "Knob Goblin seltzer", 10 ),
-		new MPRestoreItem( "blatantly Canadian", 22 )
+		new MPRestoreItem( "blatantly Canadian", 22 ), new MPRestoreItem( "tonic water", 40 )
 	};
 
 	public static final MPRestoreItem [] FALLBACKS = new MPRestoreItem [] { MYSTERY, SODA_WATER };
@@ -81,7 +81,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			restoreCheckbox[CONFIGURES.length + i].setSelected( true );
 			restoreCheckbox[CONFIGURES.length + i].setEnabled( false );
 		}
-		
+
 		return restoreCheckbox;
 	}
 
