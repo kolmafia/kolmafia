@@ -77,7 +77,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int CLOVER = 16;
 
 	public static final int STILL_BOOZE = 17;
-	public static final int STILL_FRUIT = 18;
+	public static final int STILL_MIXER = 18;
 
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
@@ -152,7 +152,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		else if ( mixingMethod == STILL_BOOZE )
 			addFormField( "action", "stillbooze" );
 
-		else if ( mixingMethod == STILL_FRUIT )
+		else if ( mixingMethod == STILL_MIXER )
 			addFormField( "action", "stillfruit" );
 
 		else if ( mixingMethod != SUBCLASS )
@@ -246,7 +246,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case CLOVER:
 				return new ItemCreationRequest( client, "multiuse.php", itemID, mixingMethod, quantityNeeded );
 
-			case STILL_FRUIT:
+			case STILL_MIXER:
 			case STILL_BOOZE:
 				return new ItemCreationRequest( client, "guild.php", itemID, mixingMethod, quantityNeeded );
 
@@ -398,7 +398,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	protected void processResults()
 	{
-		if ( mixingMethod == STILL_BOOZE || mixingMethod == STILL_FRUIT )
+		if ( mixingMethod == STILL_BOOZE || mixingMethod == STILL_MIXER )
 			KoLCharacter.setStillsAvailable( responseText );
 
 		AdventureResult createdItem = new AdventureResult( itemID, 0 );
