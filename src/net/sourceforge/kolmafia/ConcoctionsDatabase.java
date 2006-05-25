@@ -529,6 +529,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = PERMIT_METHOD[ ItemCreationRequest.MIX ] && KoLCharacter.canSummonShore();
 		ADVENTURE_USAGE[ ItemCreationRequest.MIX_SPECIAL ] = ADVENTURE_USAGE[ ItemCreationRequest.MIX ];
+
+		// Using Crosby Nash's Still is possible if the person has
+		// Superhuman Cocktailcrafting and is a Moxie class
+		// character. However, until we learn how to operate the still,
+		// we'll mark it unavailable
+		PERMIT_METHOD[ ItemCreationRequest.STILL ] = false;
+		ADVENTURE_USAGE[ ItemCreationRequest.STILL ] = 0;
 	}
 
 	private static boolean isAvailable( int servantID, int clockworkID )
