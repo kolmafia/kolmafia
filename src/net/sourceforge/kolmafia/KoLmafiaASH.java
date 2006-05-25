@@ -755,16 +755,28 @@ public class KoLmafiaASH extends StaticEntity
 			throw new AdvancedScriptException( "Variable " + result.getName() + " already defined " + getLineAndFile() );
 
 		readToken(); // If parsing of Identifier succeeded, go to next token.
-		
-		if ( scope != null && currentToken().equals( "=" ) )
+		// If we are parsing a parameter declaration, we are done
+		if ( scope == null )
 		{
-			readToken(); // Eat the equals sign
-
-			ScriptVariableReference lhs = new ScriptVariableReference( result.getName(), scope );
-			ScriptExpression rhs = parseExpression( scope );
-			scope.addCommand( new ScriptAssignment( lhs, rhs ) );
+			if ( currentToken().equals( "=" ) )
+				throw new AdvancedScriptException( "Cannot initialize parameter " + result.getName() + " " + getLineAndFile() );
+			return result;
 		}
 
+		// Otherwise, we must initialize the variable.
+
+		ScriptVariableReference lhs = new ScriptVariableReference( result.getName(), scope );
+		ScriptExpression rhs;
+
+		if ( currentToken().equals( "=" ) )
+		{
+			readToken(); // Eat the equals sign
+			rhs = parseExpression( scope );
+		}
+		else
+			rhs = t.initialValue();
+
+		scope.addCommand( new ScriptAssignment( lhs, rhs ) );
 		return result;
 	}
 
@@ -3733,6 +3745,44 @@ public class KoLmafiaASH extends StaticEntity
 			if ( type == TYPE_MONSTER )
 				return "monster";
 			return "unknown type";
+		}
+
+		public ScriptValue initialValue()
+		{
+			switch ( type )
+			{
+			case TYPE_VOID:
+				return VOID_VALUE;
+			case TYPE_BOOLEAN:
+				return BOOLEAN_INIT;
+			case TYPE_INT:
+				return INT_INIT;
+			case TYPE_FLOAT:
+				return FLOAT_INIT;
+			case TYPE_STRING:
+				return STRING_INIT;
+			case TYPE_ITEM:
+				return ITEM_INIT;
+			case TYPE_ZODIAC:
+				return ZODIAC_INIT;
+			case TYPE_LOCATION:
+				return LOCATION_INIT;
+			case TYPE_CLASS:
+				return CLASS_INIT;
+			case TYPE_STAT:
+				return STAT_INIT;
+			case TYPE_SKILL:
+				return SKILL_INIT;
+			case TYPE_EFFECT:
+				return EFFECT_INIT;
+			case TYPE_FAMILIAR:
+				return FAMILIAR_INIT;
+			case TYPE_SLOT:
+				return SLOT_INIT;
+			case TYPE_MONSTER:
+				return MONSTER_INIT;
+			}
+			return null;
 		}
 	}
 
