@@ -1,4 +1,4 @@
-<project name="KoLmafia" default="exec" basedir=".">
+<project name="KoLmafia" default="rejar" basedir=".">
 
 	<!-- ========================================== -->
 	<!--  set the global properties for this build  -->
