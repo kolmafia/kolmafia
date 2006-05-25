@@ -144,11 +144,15 @@ public class ExamineItemsFrame extends KoLFrame
 					if ( !(entry instanceof Map.Entry ) )
 						return;
 
-					String id = TradeableItemDatabase.getDescriptionID( ((Integer)((Map.Entry)entry).getKey()).intValue() );
 					elementList.ensureIndexIsVisible( index );
+					String id = IDNumberMapper( ((Integer)((Map.Entry)entry).getKey()).intValue() );
 					StaticEntity.openRequestFrame( "desc_" + type + ".php?" + which + "=" + id );
 				}
 			}
+		}
+
+		public String IDNumberMapper( int id )
+		{	return String.valueOf( id );
 		}
 	}
 
