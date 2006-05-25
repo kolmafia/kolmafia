@@ -123,7 +123,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}
@@ -136,7 +136,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -398,7 +398,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		concoctions.get( DENSE.getItemID() ).creatable = KoLCharacter.getAvailableMeat() / 1000;
 		concoctions.get( DENSE.getItemID() ).total = concoctions.get( DENSE.getItemID() ).initial + concoctions.get( DENSE.getItemID() ).creatable;
 	}
-	
+
 	/**
 	 * Utility method used to cache the current permissions on
 	 * item creation, based on the given client.
@@ -407,7 +407,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static void cachePermitted( List availableIngredients )
 	{
 		calculateMeatCombines( availableIngredients );
-		
+
 		// It is never possible to create items which are flagged
 		// NOCREATE, and it is always possible to create items
 		// through meat paste combination.
@@ -534,11 +534,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Superhuman Cocktailcrafting and is a Moxie class
 		// character. However, until we learn how to operate the still,
 		// we'll mark it unavailable
-		PERMIT_METHOD[ ItemCreationRequest.IMPROVE_BOOZE ] = false;
-		ADVENTURE_USAGE[ ItemCreationRequest.IMPROVE_BOOZE ] = 0;
 
-		PERMIT_METHOD[ ItemCreationRequest.IMPROVE_MIXER ] = false;
-		ADVENTURE_USAGE[ ItemCreationRequest.IMPROVE_MIXER ] = 0;
+		boolean hasStillsAvailable = KoLCharacter.getStillsAvailable() > 0;
+		PERMIT_METHOD[ ItemCreationRequest.STILL_FRUIT ] = hasStillsAvailable;
+		ADVENTURE_USAGE[ ItemCreationRequest.STILL_FRUIT ] = 0;
+
+		PERMIT_METHOD[ ItemCreationRequest.STILL_BOOZE ] = hasStillsAvailable;
+		ADVENTURE_USAGE[ ItemCreationRequest.STILL_BOOZE ] = 0;
 	}
 
 	private static boolean isAvailable( int servantID, int clockworkID )
@@ -836,7 +838,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 				for ( int j = 0; j < i; ++j )
 					shouldMark &= ingredientArray[i].getItemID() != ingredientArray[j].getItemID();
-				
+
 				if ( shouldMark )
 				{
 					for ( int j = i + 1; j < ingredientArray.length; ++j )

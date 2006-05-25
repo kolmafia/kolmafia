@@ -59,25 +59,30 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int COOK = 2;
 	public static final int MIX = 3;
 	public static final int SMITH = 4;
+
 	public static final int COOK_REAGENT = 5;
 	public static final int COOK_PASTA = 6;
 	public static final int MIX_SPECIAL = 7;
+
 	public static final int JEWELRY = 8;
 	public static final int STARCHART = 9;
 	public static final int PIXEL = 10;
 	public static final int ROLLING_PIN = 11;
+
 	public static final int TINKER = 12;
 	public static final int SMITH_WEAPON = 13;
 	public static final int SMITH_ARMOR = 14;
+
 	public static final int TOY = 15;
 	public static final int CLOVER = 16;
-	public static final int IMPROVE_BOOZE = 17;
-	public static final int IMPROVE_MIXER = 18;
+
+	public static final int STILL_BOOZE = 17;
+	public static final int STILL_FRUIT = 18;
 
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
 
-	private static final AdventureResult BOX = new AdventureResult( 427, 1 ); 
+	private static final AdventureResult BOX = new AdventureResult( 427, 1 );
 	private static final AdventureResult CHEF_SKULL = new AdventureResult( 437, 1 );
 	private static final AdventureResult CHEF_SKULL_BOX = new AdventureResult( 438, 1 );
 	private static final AdventureResult BARTENDER_SKULL = new AdventureResult( 439, 1 );
@@ -136,16 +141,19 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		this.mixingMethod = mixingMethod;
 		this.quantityNeeded = quantityNeeded;
 
-                addFormField( "pwd" );
+        addFormField( "pwd" );
 
 		if ( KoLCharacter.inMuscleSign() && mixingMethod == SMITH )
 			addFormField( "action", "smith" );
 
 		else if ( mixingMethod == CLOVER )
-		{
-			addFormField( "whichitem", String.valueOf( itemID == 24 ? 196 : 24 ) );
 			addFormField( "action", "useitem" );
-		}
+
+		else if ( mixingMethod == STILL_BOOZE )
+			addFormField( "action", "stillbooze" );
+
+		else if ( mixingMethod == STILL_FRUIT )
+			addFormField( "action", "stillfruit" );
 
 		else if ( mixingMethod != SUBCLASS )
 			addFormField( "action", "combine" );
@@ -238,10 +246,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case CLOVER:
 				return new ItemCreationRequest( client, "multiuse.php", itemID, mixingMethod, quantityNeeded );
 
-			case IMPROVE_BOOZE:
-			case IMPROVE_MIXER:
-				// Don't know how to do this yet.
-				return null;
+			case STILL_FRUIT:
+			case STILL_BOOZE:
+				return new ItemCreationRequest( client, "guild.php", itemID, mixingMethod, quantityNeeded );
 
 			default:
 				return null;
@@ -277,13 +284,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case ROLLING_PIN:
 
 				makeDough();
-				return;
-
-			case CLOVER:
-
-				ConsumeItemRequest cloverUser = new ConsumeItemRequest( client,
-					ConcoctionsDatabase.getIngredients( itemID )[0].getInstance( quantityNeeded ) );
-				cloverUser.run();
 				return;
 
 			default:
@@ -367,17 +367,28 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// this concoction.
 
 		makeIngredients();
-
-		if ( !autoRepairBoxServant() )
-			return;
-
-		// Now that the ingredients have been created, and
-		// there are no aborts, you can do the request!
-
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
-		for ( int i = 0; i < ingredients.length; ++i )
-			addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemID() ) );
+		if ( ingredients.length == 1 )
+		{
+			// If there is only one ingredient, then it probably
+			// only needs a "whichitem" field added to the request.
+
+			addFormField( "whichitem", String.valueOf( ingredients[0].getItemID() ) );
+		}
+		else
+		{
+			// Check to make sure that the box servant is available
+			// for this combine step.  This is extra overhead when
+			// no box servant is needed, but for easy readability,
+			// the test always occurs.
+
+			if ( !autoRepairBoxServant() )
+				return;
+
+			for ( int i = 0; i < ingredients.length; ++i )
+				addFormField( "item" + (i+1), String.valueOf( ingredients[i].getItemID() ) );
+		}
 
 		addFormField( "quantity", String.valueOf( quantityNeeded ) );
 
@@ -387,6 +398,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	protected void processResults()
 	{
+		if ( mixingMethod == STILL_BOOZE || mixingMethod == STILL_FRUIT )
+			KoLCharacter.setStillsAvailable( responseText );
+
 		AdventureResult createdItem = new AdventureResult( itemID, 0 );
 		int beforeQuantity = createdItem.getCount( KoLCharacter.getInventory() );
 
@@ -545,16 +559,16 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			// If they cannot afford to buy an NPC store item, that means
 			// it all depends on whether or not they currently have the item.
-			
+
 			if ( KoLCharacter.getAvailableMeat() < 1000 )
 			{
 				return isCreatePermitted &&
 					noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
 			}
-			
+
 			// If the player can construct the box servant with just a few
 			// more purchases, then do so.
-			
+
 			if ( KoLCharacter.hasItem( boxedItem, true ) )
 			{
 				usedServant = servant;
@@ -577,7 +591,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// have the servant in your inventory, so attempt
 		// to repair the box servant.
 
-		
+
 		(new ConsumeItemRequest( client, usedServant )).run();
 		return client.permitsContinue();
 	}

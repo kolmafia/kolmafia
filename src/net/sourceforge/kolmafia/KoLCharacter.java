@@ -36,6 +36,10 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -280,7 +284,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static SortedListModel familiars = new SortedListModel( FamiliarData.class );
 	private static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
+
 	private static int arenaWins = 0;
+	private static int stillsAvailable = 0;
 
 	// Listener-driven container items
 
@@ -362,6 +368,7 @@ public abstract class KoLCharacter extends StaticEntity
 		familiars.clear();
 		familiars.add( FamiliarData.NO_FAMILIAR );
 		arenaWins = 0;
+		stillsAvailable = -1;
 
 		beanstalkArmed = false;
 
@@ -1090,7 +1097,7 @@ public abstract class KoLCharacter extends StaticEntity
 			return fakeHands > 0 ? "fake hand" : null;
 		return getEquipmentName( getEquipment( type ) );
 	}
-	
+
 	/**
 	 * Accessor method to retrieve the name of a piece of equipment
 	 * @param	equipmentDescription	the description of equipment
@@ -1101,7 +1108,7 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		if ( equipmentDescription == null )
 			return null;
-		
+
 		// If slot not currently equipped, return null
 		if ( equipmentDescription.equals( EquipmentRequest.UNEQUIP ))
 			return null;
@@ -1207,16 +1214,16 @@ public abstract class KoLCharacter extends StaticEntity
 			default:
 				return;
 		}
-		
+
 		updateEquipmentList( equipmentLists[ listIndex ], consumeFilter, equippedItem );
 	}
-		
+
 	private static void updateEquipmentList( LockableListModel currentList, int consumeFilter, String equippedItem )
 	{
 		List newItems = getFilteredItems( consumeFilter, equippedItem );
 		if ( currentList.equals( newItems ) )
 			return;
-		
+
 		if ( currentList.size() < newItems.size() )
 		{
 			newItems.removeAll( currentList );
@@ -1226,7 +1233,7 @@ public abstract class KoLCharacter extends StaticEntity
 		{
 			currentList.retainAll( newItems );
 		}
-		
+
 		currentList.setSelectedItem( equippedItem );
 	}
 
@@ -2163,9 +2170,40 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		// Ensure that the arena opponent list is
 		// initialized.
-		
+
 		CakeArenaManager.getOpponentList();
 		return arenaWins;
+	}
+
+	public static int getStillsAvailable()
+	{
+		if ( stillsAvailable == -1 )
+		{
+			boolean canStill = hasSkill( "Superhuman Cocktailcrafting" ) && (getClassType().startsWith( "Di" ) || getClassType().startsWith( "Ac" ));
+			if ( !canStill )
+			{
+				stillsAvailable = 0;
+				return 0;
+			}
+
+			KoLRequest request = new KoLRequest( StaticEntity.getClient(), "guild.php?place=still" );
+			request.run();
+
+			setStillsAvailable( request.responseText );
+		}
+
+		return stillsAvailable;
+	}
+
+	public static void setStillsAvailable( String responseText )
+	{
+		Matcher stillMatcher = Pattern.compile(
+			"lack readout with (\\d+) bright green lights" ).matcher( responseText );
+
+		if ( stillMatcher.find() )
+			stillsAvailable = Integer.parseInt( stillMatcher.group(1) );
+		else
+			stillsAvailable = 0;
 	}
 
 	/**
