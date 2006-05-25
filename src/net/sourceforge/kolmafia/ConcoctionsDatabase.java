@@ -536,8 +536,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// we'll mark it unavailable
 
 		boolean hasStillsAvailable = KoLCharacter.getStillsAvailable() > 0;
-		PERMIT_METHOD[ ItemCreationRequest.STILL_FRUIT ] = hasStillsAvailable;
-		ADVENTURE_USAGE[ ItemCreationRequest.STILL_FRUIT ] = 0;
+		PERMIT_METHOD[ ItemCreationRequest.STILL_MIXER ] = hasStillsAvailable;
+		ADVENTURE_USAGE[ ItemCreationRequest.STILL_MIXER ] = 0;
 
 		PERMIT_METHOD[ ItemCreationRequest.STILL_BOOZE ] = hasStillsAvailable;
 		ADVENTURE_USAGE[ ItemCreationRequest.STILL_BOOZE ] = 0;
