@@ -437,7 +437,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Preconditions kickass, so they're handled right
 		// after the wait command.  (Right)
 
-		if ( command.equals( "conditions" ) )
+		if ( command.equals( "conditions" ) || command.equals( "objectives" ) )
 		{
 			executeConditionsCommand( parameters );
 			return;
@@ -1729,6 +1729,8 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.getClient().checkRequirements( StaticEntity.getClient().conditions );
 			StaticEntity.getClient().conditions.clear();
 			StaticEntity.getClient().conditions.addAll( StaticEntity.getClient().missingItems );
+
+			updateDisplay( "Conditions list validated against available items." );
 			return true;
 		}
 		else if ( option.equals( "mode" ) )
@@ -3355,8 +3357,8 @@ public class KoLmafiaCLI extends KoLmafia
 		String item = previousLine.substring( previousLine.indexOf( " " ) ).trim();
 		for ( int i = 0; i < items.size(); ++i )
 		{
-			String name = (String)items.get(i);
-			if ( name.indexOf( item ) != -1 )
+			String name = (String) items.get(i);
+			if ( name.toLowerCase().indexOf( item ) != -1 )
 			{
 				(new RestaurantRequest( StaticEntity.getClient(), name )).run();
 				return;
@@ -3418,8 +3420,8 @@ public class KoLmafiaCLI extends KoLmafia
 		String item = previousLine.substring( previousLine.indexOf( " " ) ).trim();
 		for ( int i = 0; i < items.size(); ++i )
 		{
-			String name = (String)items.get(i);
-			if ( name.indexOf( item ) != -1 )
+			String name = (String) items.get(i);
+			if ( name.toLowerCase().indexOf( item ) != -1 )
 			{
 				(new MicrobreweryRequest( StaticEntity.getClient(), name )).run();
 				return;

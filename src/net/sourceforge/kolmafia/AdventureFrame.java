@@ -301,16 +301,15 @@ public class AdventureFrame extends KoLFrame
 			locationSelect = new JComboBox( adventureList );
 
 			countField = new JTextField();
-			conditionField = new JTextField();
+			conditionField = new JTextField( "none" );
 
 			VerifiableElement [] elements = new VerifiableElement[4];
 			elements[0] = new VerifiableElement( "Location: ", locationSelect );
 			elements[1] = new VerifiableElement( "# of Visits: ", countField );
-			elements[2] = new VerifiableElement( "Combat Tactic: ", actionSelect );
-			elements[3] = new VerifiableElement( "Conditions: ", conditionField );
+			elements[2] = new VerifiableElement( "Combat Action: ", actionSelect );
+			elements[3] = new VerifiableElement( "Objective(s): ", conditionField );
 
 			setContent( elements );
-
 			int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( getProperty( "battleAction" ) );
 
 			if ( actionIndex == -1 )
@@ -371,13 +370,17 @@ public class AdventureFrame extends KoLFrame
 			// If there are conditions in the condition field, be
 			// sure to process them.
 
-			if ( conditionField.getText().trim().length() > 0 )
+			String conditionList = conditionField.getText().trim();
+			if ( conditionList.equalsIgnoreCase( "none" ) )
+				conditionList = "";
+
+			if ( conditionList.length() > 0 )
 			{
 				DEFAULT_SHELL.executeLine( "conditions clear" );
 
 				boolean verifyConditions = false;
 				boolean useDisjunction = false;
-				String [] conditions = conditionField.getText().split( "\\s*,\\s*" );
+				String [] conditions = conditionList.split( "\\s*,\\s*" );
 
 				for ( int i = 0; i < conditions.length; ++i )
 				{
