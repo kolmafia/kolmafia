@@ -51,7 +51,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int MEAT_STACK = 88;
 	public static final int DENSE_STACK = 258;
 
-	public static final int METHOD_COUNT = 18;
+	public static final int METHOD_COUNT = 19;
 	public static final int SUBCLASS = Integer.MAX_VALUE;
 
 	public static final int NOCREATE = 0;
@@ -71,7 +71,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int SMITH_ARMOR = 14;
 	public static final int TOY = 15;
 	public static final int CLOVER = 16;
-	public static final int STILL = 17;
+	public static final int IMPROVE_BOOZE = 17;
+	public static final int IMPROVE_MIXER = 18;
 
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
@@ -237,7 +238,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case CLOVER:
 				return new ItemCreationRequest( client, "multiuse.php", itemID, mixingMethod, quantityNeeded );
 
-			case STILL:
+			case IMPROVE_BOOZE:
+			case IMPROVE_MIXER:
 				// Don't know how to do this yet.
 				return null;
 

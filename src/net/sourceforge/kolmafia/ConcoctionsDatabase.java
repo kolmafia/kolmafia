@@ -534,8 +534,11 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Superhuman Cocktailcrafting and is a Moxie class
 		// character. However, until we learn how to operate the still,
 		// we'll mark it unavailable
-		PERMIT_METHOD[ ItemCreationRequest.STILL ] = false;
-		ADVENTURE_USAGE[ ItemCreationRequest.STILL ] = 0;
+		PERMIT_METHOD[ ItemCreationRequest.IMPROVE_BOOZE ] = false;
+		ADVENTURE_USAGE[ ItemCreationRequest.IMPROVE_BOOZE ] = 0;
+
+		PERMIT_METHOD[ ItemCreationRequest.IMPROVE_MIXER ] = false;
+		ADVENTURE_USAGE[ ItemCreationRequest.IMPROVE_MIXER ] = 0;
 	}
 
 	private static boolean isAvailable( int servantID, int clockworkID )
