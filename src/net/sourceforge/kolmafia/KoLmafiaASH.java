@@ -132,9 +132,31 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptType SLOT_TYPE = new ScriptType( TYPE_SLOT );
 	private static final ScriptType MONSTER_TYPE = new ScriptType( TYPE_MONSTER );
 
+	// Common values
+
 	private static final ScriptValue VOID_VALUE = new ScriptValue();
 	private static final ScriptValue TRUE_VALUE = new ScriptValue( true );
 	private static final ScriptValue FALSE_VALUE = new ScriptValue( false );
+	private static final ScriptValue ZERO_VALUE = new ScriptValue( 0 );
+	private static final ScriptValue ZERO_FLOAT_VALUE = new ScriptValue( 0.0 );
+
+	// Initial values for uninitialized variables
+
+	// VOID_TYPE omitted since no variable can have that type
+	private static final ScriptValue BOOLEAN_INIT = FALSE_VALUE;
+	private static final ScriptValue INT_INIT = ZERO_VALUE;
+	private static final ScriptValue FLOAT_INIT = ZERO_FLOAT_VALUE;
+	private static final ScriptValue STRING_INIT = new ScriptValue( "" );
+	private static final ScriptValue ITEM_INIT = new ScriptValue( ITEM_TYPE, -1, "none" );
+	private static final ScriptValue ZODIAC_INIT = new ScriptValue( ZODIAC_TYPE, -1, "none" );
+	private static final ScriptValue LOCATION_INIT = new ScriptValue( LOCATION_TYPE, "none", (Object)null );
+	private static final ScriptValue CLASS_INIT = new ScriptValue( CLASS_TYPE, -1, "none" );
+	private static final ScriptValue STAT_INIT = new ScriptValue( STAT_TYPE, -1, "none" );
+	private static final ScriptValue SKILL_INIT = new ScriptValue( SKILL_TYPE, -1, "none" );
+	private static final ScriptValue EFFECT_INIT = new ScriptValue( EFFECT_TYPE, -1, "none" );
+	private static final ScriptValue FAMILIAR_INIT = new ScriptValue( FAMILIAR_TYPE, -1, "none" );
+	private static final ScriptValue SLOT_INIT = new ScriptValue( SLOT_TYPE, -1, "none" );
+	private static final ScriptValue MONSTER_INIT = new ScriptValue( MONSTER_TYPE, "none", (Object)null );
 
         // Variables used during parsing
         private static final ScriptFunctionList existingFunctions = getExistingFunctions();
@@ -227,7 +249,7 @@ public class KoLmafiaASH extends StaticEntity
 		String name = TradeableItemDatabase.getItemName( num );
 
 		if ( name == null )
-			return new ScriptValue( ITEM_TYPE, -1, "none" );
+			return ITEM_INIT;
 
 		return new ScriptValue( ITEM_TYPE, num, name );
 	}
@@ -237,7 +259,7 @@ public class KoLmafiaASH extends StaticEntity
 		int num = TradeableItemDatabase.getItemID( name );
 
 		if ( num == -1 )
-			return new ScriptValue( ITEM_TYPE, -1, "none" );
+			return ITEM_INIT;
 
 		return new ScriptValue( ITEM_TYPE, num, name );
 	}
@@ -265,10 +287,10 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptValue parseLocationValue( String name ) throws AdvancedScriptException
 	{
-		Object content = AdventureDatabase.getAdventure( name );
+		KoLAdventure content = AdventureDatabase.getAdventure( name );
 		if ( content == null )
 			throw new AdvancedScriptException( "Location " + name + " not found in database " + getLineAndFile() );
-		return new ScriptValue( LOCATION_TYPE, content );
+		return new ScriptValue( LOCATION_TYPE, name, (Object)content );
 	}
 
 	private static int classToInt( String name )
@@ -324,7 +346,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		String name = ClassSkillsDatabase.getSkillName( num );
 		if ( name == null )
-			return new ScriptValue( SKILL_TYPE, -1, "none" );
+			return SKILL_INIT;
 
 		return new ScriptValue( SKILL_TYPE, num, name );
 	}
@@ -344,7 +366,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		String name = StatusEffectDatabase.getEffectName( num );
 		if ( name == null )
-			return new ScriptValue( EFFECT_TYPE, -1, "none" );
+			return EFFECT_INIT;
 		return new ScriptValue( EFFECT_TYPE, num, name );
 	}
 
@@ -365,7 +387,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		String name = FamiliarsDatabase.getFamiliarName( num );
 		if ( name == null )
-			return new ScriptValue( FAMILIAR_TYPE, -1, "none" );
+			return FAMILIAR_INIT;
 		return new ScriptValue( FAMILIAR_TYPE, num, name );
 	}
 
@@ -395,7 +417,7 @@ public class KoLmafiaASH extends StaticEntity
 		MonsterDatabase.Monster monster = MonsterDatabase.findMonster( name );
 		if ( monster == null )
 			throw new AdvancedScriptException( "Bad monster name " + name + getLineAndFile() );
-		return new ScriptValue( MONSTER_TYPE, (Object)monster );
+		return new ScriptValue( MONSTER_TYPE, name, (Object)monster );
 	}
 
 	// **************** Tracing *****************
@@ -3763,9 +3785,10 @@ public class KoLmafiaASH extends StaticEntity
 			this.contentString = contentString;
 		}
 
-		public ScriptValue( ScriptType type, Object content )
+		public ScriptValue( ScriptType type, String contentString, Object content )
 		{
 			this.type = type;
+			this.contentString = contentString;
 			this.content = content;
 		}
 
