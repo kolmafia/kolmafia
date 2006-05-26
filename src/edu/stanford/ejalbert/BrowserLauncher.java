@@ -612,7 +612,7 @@ public class BrowserLauncher {
 
 				for ( int i = 0; i < browsers.length && browser == null; ++i )
 				{
-					Process process = Runtime.getRuntime().exec( new String [] { "which", "netscape" } );
+					Process process = Runtime.getRuntime().exec( new String [] { "which", browsers[i] } );
 
 					try
 					{
