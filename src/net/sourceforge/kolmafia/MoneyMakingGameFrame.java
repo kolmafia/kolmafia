@@ -71,9 +71,7 @@ public class MoneyMakingGameFrame extends KoLFrame
 			MoneyMakingGameRequest analyzer = new MoneyMakingGameRequest( StaticEntity.getClient() );
 			analyzer.run();
 			elementList.setModel( analyzer.getBetSummary() );
-
 			DEFAULT_SHELL.updateDisplay( "Bet archive retrieved." );
-			StaticEntity.getClient().enableDisplay();
 		}
 
 		public void actionCancelled()
@@ -86,7 +84,6 @@ public class MoneyMakingGameFrame extends KoLFrame
 
 			DEFAULT_SHELL.executeLine( "sell * casino pass" );
 			JOptionPane.showMessageDialog( null, "Your casino passes have been sold to Jarlsberg." );
-			StaticEntity.getClient().enableDisplay();
 		}
 	}
 

@@ -130,7 +130,6 @@ public class CakeArenaManager extends StaticEntity
 		if ( opponentList.isEmpty() )
 			(new CakeArenaRequest( client )).run();
 
-		StaticEntity.getClient().enableDisplay();
 		return opponentList;
 	}
 

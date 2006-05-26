@@ -65,7 +65,7 @@ public class LocalRelayRequest extends KoLRequest
 	public String getFullResponse()
 	{	return fullResponse;
 	}
-	
+
 	protected void processRawResponse( String rawResponse )
 	{
 		super.processRawResponse( rawResponse );
@@ -73,7 +73,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( formURLString.startsWith( "http" ) )
 			return;
-		
+
 		if ( formURLString.indexOf( "compactmenu.php" ) != -1 )
 		{
 			// Mafiatize the function menu
@@ -93,7 +93,7 @@ public class LocalRelayRequest extends KoLRequest
 
 			// Remove only the logout option
 			// since it might cause problems.
-			
+
 			fullResponse = fullResponse.replaceAll( "<option value=.?logout.?php.?>Log Out</option>", "" );
 
 			// Mafiatize the goto menu
@@ -112,29 +112,29 @@ public class LocalRelayRequest extends KoLRequest
 		if ( formURLString.indexOf( "lchat.php" ) != -1 )
 		{
 			fullResponse = fullResponse.replaceAll(
-				"window.?location.?hostname", 
+				"window.?location.?hostname",
 				"\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
 
 			fullResponse = fullResponse.replaceAll(
-				"</head>", 
+				"</head>",
 				"<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script></head>" );
 		}
-		
+
 		// Fix KoLmafia getting outdated by events happening
 		// in the browser by using the sidepane.
-		
+
 		else if ( formURLString.indexOf( "charpane.php") != -1 )
 			CharpaneRequest.processCharacterPane( responseText );
 
 		// Fix it a little more by making sure that familiar
 		// changes and equipment changes are remembered.
-		
+
 		else
 			StaticEntity.externalUpdate( formURLString, responseText );
 
 		// Allow a way to get from KoL back to the gCLI
 		// using the chat launcher.
-		
+
 		if ( formURLString.indexOf( "chatlaunch" ) != -1 )
 		{
 			if ( StaticEntity.getProperty( "relayAddsCommandLineLinks" ).equals( "true" ) )
@@ -165,7 +165,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		return index >= headers.size() ? null : (String) headers.get( index );
 	}
-	
+
 	protected void pseudoResponse( String status, String fullResponse )
 	{
 		this.fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
@@ -177,14 +177,14 @@ public class LocalRelayRequest extends KoLRequest
 		headers.add( "Date: " + ( new Date() ) );
 		headers.add( "Server: " + VERSION_NAME );
 		headers.add( "Content-Length: " + this.fullResponse.length() );
-		
+
 		if ( formURLString.endsWith( ".css" ) )
 			headers.add( "Content-Type: text/css; charset=UTF-8" );
 		else if ( formURLString.endsWith( ".js" ) )
 			headers.add( "Content-Type: text/javascript; charset=UTF-8" );
 		else
 			headers.add( "Content-Type: text/html; charset=UTF-8" );
-	}	
+	}
 
 	private StringBuffer readContents( BufferedReader reader, String filename ) throws IOException
 	{
@@ -193,7 +193,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( reader == null )
 			return contentBuffer;
-		
+
 		while ( (line = reader.readLine()) != null )
 		{
 			if ( !filename.endsWith( ".js" ) && line.indexOf( "<img" ) != -1 )
@@ -218,7 +218,7 @@ public class LocalRelayRequest extends KoLRequest
 						imageMatcher.appendReplacement( lineBuffer, "$0" );
 					}
 				}
-				
+
 				imageMatcher.appendTail( lineBuffer );
 				line = lineBuffer.toString();
 			}
@@ -236,31 +236,31 @@ public class LocalRelayRequest extends KoLRequest
 		boolean isServerRequest = !filename.startsWith( "KoLmafia" );
 		if ( !isServerRequest )
 			filename = filename.substring( 9 );
-		
+
 		int index = filename.indexOf( "/" );
 		boolean writePseudoResponse = !isServerRequest;
 
 		BufferedReader reader = null;
 		StringBuffer replyBuffer = new StringBuffer();
 		StringBuffer scriptBuffer = new StringBuffer();
-		
+
 		String name = filename.substring( index + 1 );
 		String directory = index == -1 ? "html" : "html/" + filename.substring( 0, index );
-		
+
 		reader = DataUtilities.getReader( directory, name );
 		if ( reader == null && filename.startsWith( "simulator" ) )
 		{
 			downloadSimulatorFile( name );
 			reader = DataUtilities.getReader( directory, name );
 		}
-		
+
 		if ( reader != null )
 		{
 			// Now that you know the reader exists, read the
 			// contents of the reader.
 
 			replyBuffer = readContents( reader, filename );
-			writePseudoResponse = true;	
+			writePseudoResponse = true;
 		}
 		else
 		{
@@ -268,9 +268,9 @@ public class LocalRelayRequest extends KoLRequest
 			{
 				// If there's no override file, go ahead and
 				// request the page from the server normally.
-	
+
 				super.run();
-	
+
 				if ( responseCode != 200 )
 					return;
 			}
@@ -283,7 +283,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		// Add brand new Javascript to every single page.  Check
 		// to see if a reader exists for the file.
-		
+
 		if ( !name.endsWith( ".js" ) )
 		{
 			reader = DataUtilities.getReader( directory, name.substring( 0, name.lastIndexOf( "." ) ) + ".js" );
@@ -326,7 +326,7 @@ public class LocalRelayRequest extends KoLRequest
 			// Make sure to print the reply buffer to the
 			// response buffer for the local relay server.
 
-			pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );			
+			pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
 		}
 	}
 
@@ -343,12 +343,12 @@ public class LocalRelayRequest extends KoLRequest
 	private void replaceTag( StringBuffer buffer, String tag, int replaceWith )
 	{	replaceTag( buffer, tag, String.valueOf( replaceWith ) );
 	}
-	
+
 	private void replaceTag( StringBuffer buffer, String tag, String replaceWith )
 	{
 		if ( replaceWith == null )
 			replaceWith = "";
-		
+
 		// Using a regular expression, while faster, results
 		// in a lot of String allocation overhead.  So, use
 		// a statically-allocated StringBuffers.
@@ -360,20 +360,20 @@ public class LocalRelayRequest extends KoLRequest
 			lastIndex = buffer.indexOf( tag );
 		}
 	}
-	
+
 	private void handleSimulatorIndex( StringBuffer replyBuffer, StringBuffer scriptBuffer ) throws IOException
 	{
 		// This is the simple Javascript which can be added
 		// arbitrarily to the end without having to modify
 		// the underlying HTML.
-		
+
 		int classIndex = -1;
 		for ( int i = 0; i < KoLmafiaASH.CLASSES.length; ++i )
 			if ( KoLmafiaASH.CLASSES[i].equalsIgnoreCase( KoLCharacter.getClassType() ) )
 				classIndex = i;
 
 		// Basic additions of player state info
-		
+
 		replaceTag( scriptBuffer, "/*classIndex*/", classIndex );
 		replaceTag( scriptBuffer, "/*baseMuscle*/", KoLCharacter.getBaseMuscle() );
 		replaceTag( scriptBuffer, "/*baseMysticality*/", KoLCharacter.getBaseMysticality() );
@@ -381,7 +381,7 @@ public class LocalRelayRequest extends KoLRequest
 		replaceTag( scriptBuffer, "/*mindControl*/", KoLCharacter.getMindControlLevel() );
 
 		// Change the player's familiar to the current
-		// familiar.  Input the weight and change the 
+		// familiar.  Input the weight and change the
 		// familiar equipment.
 
 		replaceTag( scriptBuffer, "/*familiar*/",  KoLCharacter.getFamiliar().getRace() );
@@ -409,7 +409,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		// Load up the player's current skillset to figure
 		// out what passive skills are available.
-		
+
 		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getAvailableSkills().size() ];
 		KoLCharacter.getAvailableSkills().toArray( skills );
 
@@ -448,7 +448,7 @@ public class LocalRelayRequest extends KoLRequest
 		 *	Set the moon phases
 		 *
 		 *	simulator moonphase = ( RONALD_PHASE, GRIMACE_PHASE  )
-		 *       
+		 *
 		 * 	0  = ( 0, 0 )
 		 *	1  = ( 1, 0 )
 		 *	2  = ( 2, 1 )
@@ -468,14 +468,14 @@ public class LocalRelayRequest extends KoLRequest
 		 *
 		 *  Notice that, simulator moonphase equals GRIMACE_PHASE times 2 plus 1 if RONALD_PHASE is odd.
 		 *  We will do this mathematicaly with Math.floor() and Math.round().
-		 */		
+		 */
 
-		replaceTag( scriptBuffer, "/*moonPhase*/", (int) ((MoonPhaseDatabase.getGrimacePhase()-1) * 2 
+		replaceTag( scriptBuffer, "/*moonPhase*/", (int) ((MoonPhaseDatabase.getGrimacePhase()-1) * 2
 			+ Math.round( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f - Math.floor( (MoonPhaseDatabase.getRonaldPhase()-1) / 2.0f ) )) );
 
 		replyBuffer.insert( replyBuffer.indexOf( ";GoCalc()" ), ";loadKoLmafiaData()" );
 	}
-	
+
 	protected void submitCommand()
 	{
 		String command = getFormField( "cmd" );
@@ -483,15 +483,13 @@ public class LocalRelayRequest extends KoLRequest
 			return;
 
 		DEFAULT_SHELL.executeLine( command );
-		client.enableDisplay();
-
 		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
-	
+
 	protected void sendNotFound()
 	{	pseudoResponse( "HTTP/1.1 404 Not Found", "" );
 	}
-	
+
 	public void run()
 	{
 		if ( formURLString.endsWith( ".gif" ) )
@@ -513,11 +511,11 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
-	
+
 	private void downloadSimulatorFile( String filename )
 	{
 		LocalRelayRequest request = new LocalRelayRequest( client, "http://cif.rochester.edu/~code/kol/" + filename, false );

@@ -442,9 +442,6 @@ public class RequestFrame extends KoLFrame
 		{
 			if ( request.getClass() == KoLRequest.class )
 				StaticEntity.externalUpdate( request.getURLString(), request.responseText );
-
-			if ( shouldEnable )
-				StaticEntity.getClient().enableDisplay();
 		}
 	}
 

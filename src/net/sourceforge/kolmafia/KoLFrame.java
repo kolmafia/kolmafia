@@ -213,7 +213,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		if ( isVisible() )
 			rememberPosition();
-	
+
 		super.dispose();
 
 		// Determine which frame needs to be removed from
@@ -506,6 +506,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		switch ( displayState )
 		{
+			case ABORT_STATE:
 			case ERROR_STATE:
 
 				if ( refresher != null )
@@ -522,7 +523,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				setEnabled( true );
 				break;
 
-			case ABORT_STATE:
 			case CONTINUE_STATE:
 
 				if ( refresher != null )
@@ -745,7 +745,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		return desiredItems;
 	}
-	
+
 	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
@@ -833,7 +833,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}
@@ -853,7 +853,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}
@@ -944,7 +944,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return 0;
 		}
@@ -975,7 +975,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return 0;
 		}
@@ -1064,17 +1064,17 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		super.processWindowEvent( e );
 	}
-	
+
 	public void setVisible( boolean isVisible )
 	{
 		if ( isVisible )
 			restorePosition();
 		else
 			rememberPosition();
-		
+
 		super.setVisible( isVisible );
 	}
-	
+
 	protected class KoLHyperlinkAdapter extends HyperlinkAdapter
 	{
 		protected void handleInternalLink( String location )
@@ -1117,7 +1117,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected final String getProperty( String name )
 	{	return StaticEntity.getProperty( name );
 	}
-   
+
 	protected String getSettingString( JCheckBox [] restoreCheckbox )
 	{
 		StringBuffer restoreSetting = new StringBuffer();
@@ -1150,7 +1150,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		if ( !(this instanceof ChatFrame) )
 			super.pack();
-		
+
 		if ( !isVisible() )
 			restorePosition();
 	}

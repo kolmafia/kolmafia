@@ -81,8 +81,6 @@ public class BuffRequestFrame extends KoLFrame
 		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 		JComponentUtilities.setComponentSize( scroller, 600, 480 );
 		framePanel.add( scroller, "" );
-
-		StaticEntity.getClient().enableDisplay();
 	}
 
 	private class BuffRequestPanel extends JPanel

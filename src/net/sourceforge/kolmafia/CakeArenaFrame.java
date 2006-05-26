@@ -213,14 +213,12 @@ public class CakeArenaFrame extends KoLFrame
 
 				if ( battleCount > 0 )
 					CakeArenaManager.fightOpponent( opponents.get( row ).toString(), column, battleCount );
-
-				StaticEntity.getClient().enableDisplay();
 			}
 			catch ( Exception e1 )
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e1 );
 			}
 		}
@@ -276,6 +274,6 @@ public class CakeArenaFrame extends KoLFrame
 	}
 
 	public static boolean executesConflictingRequest()
-	{	return true;		
+	{	return true;
 	}
 }

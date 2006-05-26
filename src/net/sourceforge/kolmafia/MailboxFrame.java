@@ -285,12 +285,11 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					Object [] messages = getSelectedValues();
 					if ( messages.length == 0 )
 						return;
-					
+
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
 						KoLMailManager.deleteMessages( mailboxName, messages );
-						StaticEntity.getClient().enableDisplay();
 					}
 
 					return;
@@ -301,12 +300,11 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 					Object [] messages = getSelectedValues();
 					if ( messages.length == 0 )
 						return;
-					
+
 					if ( JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
 						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
 						KoLMailManager.saveMessages( messages );
-						StaticEntity.getClient().enableDisplay();
 					}
 
 					return;
@@ -318,7 +316,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 	private class SaveAllButton extends JButton implements ActionListener, Runnable
 	{
 		private Object [] messages = null;
-		
+
 		public SaveAllButton()
 		{
 			super( JComponentUtilities.getImage( "saveall.gif" ) );
@@ -342,7 +340,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 					"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 						return;
-			
+
 			(new RequestThread( this )).start();
 		}
 
@@ -378,11 +376,11 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 
 			if ( messages ==  null || messages.length == 0 )
 				return;
-			
+
 			if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
 					"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 						return;
-			
+
 			(new RequestThread( this )).start();
 		}
 

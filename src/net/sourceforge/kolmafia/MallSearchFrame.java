@@ -137,7 +137,6 @@ public class MallSearchFrame extends KoLPanelFrame
 			if ( currentlyBuying )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Purchases stopped." );
-				StaticEntity.getClient().enableDisplay();
 				return;
 			}
 
@@ -163,7 +162,6 @@ public class MallSearchFrame extends KoLPanelFrame
 			StaticEntity.getClient().makePurchases( results, purchases, count );
 			currentlyBuying = false;
 
-			StaticEntity.getClient().enableDisplay();
 			resultsList.updateUI();
 		}
 
@@ -179,7 +177,6 @@ public class MallSearchFrame extends KoLPanelFrame
 			results.addAll( request.getResults() );
 
 		DEFAULT_SHELL.updateDisplay( results.size() == 0 ? "No results found." : "Search complete." );
-		StaticEntity.getClient().enableDisplay();
 
 		// Now, do some garbage collection to avoid the
 		// potential for resource overusage.
