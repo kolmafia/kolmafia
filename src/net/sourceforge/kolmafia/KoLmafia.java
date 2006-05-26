@@ -1350,6 +1350,10 @@ public abstract class KoLmafia implements KoLConstants
 		return requiresRefresh;
 	}
 
+	public void makeRequest( Runnable request )
+	{	makeRequest( request, 1 );
+	}
+
 	/**
 	 * Makes the given request for the given number of iterations,
 	 * or until continues are no longer possible, either through
