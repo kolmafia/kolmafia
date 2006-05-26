@@ -293,7 +293,7 @@ public class AdventureFrame extends KoLFrame
 
 		public AdventureSelectPanel()
 		{
-			super( "begin advs", "stop all", new Dimension( 100, 20 ), new Dimension( 270, 20 ) );
+			super( "begin advs", "stop all", new Dimension( 130, 20 ), new Dimension( 270, 20 ) );
 
 			actionSelect = new JComboBox( KoLCharacter.getBattleSkillNames() );
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
