@@ -116,7 +116,7 @@ public class SkillBuffFrame extends KoLFrame
 
 			String [] targets = StaticEntity.getClient().extractTargets( (String) targetSelect.getSelectedItem() );
 
-			int buffCount = !maxBuff ? KoLFrame.getQuantity( "Casting " + buffName + "...", Integer.MAX_VALUE, 1 ) : Integer.MAX_VALUE;
+			int buffCount = !maxBuff ? getValue( amountField, 1 ) : Integer.MAX_VALUE;
 			if ( buffCount == 0 )
 				return;
 
