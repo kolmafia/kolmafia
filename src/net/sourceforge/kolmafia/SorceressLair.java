@@ -147,16 +147,16 @@ public abstract class SorceressLair extends StaticEntity
 		// not, acquire the item and use it;
 		// use the default acquisition mechanisms
 		// found in the item consumption request.
-	
+
 		if ( !KoLCharacter.getFamiliarList().contains( STARFISH ) )
 		{
 			(new ConsumeItemRequest( client, STARFISH_ITEM )).run();
 			if ( !client.permitsContinue() )
 				return false;
 		}
-		
+
 		// Make sure he's been given the quest
-		
+
 		KoLRequest request = new KoLRequest( client, "main.php", true );
 		request.run();
 
@@ -225,7 +225,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			if ( reached > max )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're already past this script." );
+				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You're already past this script." );
 				return false;
 			}
 		}
@@ -255,7 +255,7 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 
 		SpecialOutfit.createCheckpoint();
-		
+
 		// If you couldn't complete the gateway, then return
 		// from this method call.
 
@@ -332,7 +332,7 @@ public abstract class SorceressLair extends StaticEntity
 			DEFAULT_SHELL.executeLine( "untinker skeleton key" );
 			DEFAULT_SHELL.executeLine( "create bone rattle" );
 		}
-		
+
 		// Finally, arm the stone mariachis with their
 		// appropriate instruments.
 
@@ -483,7 +483,7 @@ public abstract class SorceressLair extends StaticEntity
 			{
 				if ( HermitRequest.isCloverDay() )
 					AdventureDatabase.retrieveItem( CLOVER );
-				
+
 				if ( !hasItem( CLOVER ) )
 				{
 					requirements.add( CLOVER );
@@ -1060,6 +1060,12 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static int fightGuardian( int towerLevel )
 	{
+		if ( KoLCharacter.getAdventuresLeft() == 0 )
+		{
+			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're out of adventures." );
+			return -1;
+		}
+
 		DEFAULT_SHELL.updateDisplay( "Fighting guardian on level " + towerLevel + " of the tower..." );
 
 		// Boldly climb the stairs.
@@ -1118,7 +1124,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Shouldn't get here.
 
-		DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unknown guardian!" );
+		DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
 		return new AdventureResult( 666, 1 );
 	}
 
@@ -1157,7 +1163,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( n < 0 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "I can't tell how far you've gotten into the Sorceress's Chamber yet." );
+			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
 			return;
 		}
 
@@ -1332,7 +1338,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		int maximumDamage = 22 + (int) Math.floor( KoLCharacter.getMaximumHP() / 5 ) + 3;
 		int minimumHealing = 25;
-		
+
 		// Suppose you have 126 HP, and assume maximum damage taken.
 		// We have the following results, assuming worst-case health
 		// restoration.  Calculate the leeway:
@@ -1350,26 +1356,26 @@ public abstract class SorceressLair extends StaticEntity
 		// your health three times.
 
 		int neededHealth = maximumDamage * 4 - minimumHealing * 3;
-		
+
 		if ( neededHealth > KoLCharacter.getCurrentHP() && KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
 			// This is not quite true in the case of elixirs, though
 			// (assume you have 33 maximum HP):
-			
+
 			// Round 1: You lose 22 + 7 + 3 = 32 damage (1 health)
 			//  - You gain 36, leaving you with 33 health
 			// Round 2: You lose 22 + 7 + 3 = 32 damage (1 health)
 			//  - You gain 36, leaving you with 33 health
 			// Round 3: You lose 22 + 7 + 3 = 32 damage (1 health)
 			//  - You gain 36, leaving you with 33 health
-			
+
 			// In this case, you are hit a maximum of three times,
 			// and you will recover your health twice.
 
 			option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
 			neededHealth = maximumDamage * 3 - minimumHealing * 2;
 		}
-		
+
 		// Now, if you have greater than the amount of needed
 		// health from the get-go, choose whichever one is least
 		// expensive based on what you currently have.
@@ -1426,7 +1432,7 @@ public abstract class SorceressLair extends StaticEntity
 		// Health restore tries to restore above the given
 		// amount; therefore, restore just below it and the
 		// restore will attempt to round up.
-		
+
 		client.recoverHP( neededHealth - 1 );
 		if ( KoLCharacter.getCurrentHP() < neededHealth )
 		{
@@ -1457,7 +1463,7 @@ public abstract class SorceressLair extends StaticEntity
 	private static void familiarBattle( int n )
 	{	familiarBattle( n, true );
 	}
-	
+
 	private static void familiarBattle( int n, boolean requiresHeal )
 	{
 		// Make sure that the familiar is at least twenty pounds.
@@ -1479,7 +1485,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			// Need more than 50 hit points.  Abort if this is
 			// not the case.
-	
+
 			if ( KoLCharacter.getCurrentHP() <= 50 )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You must have more than 50 HP to proceed." );

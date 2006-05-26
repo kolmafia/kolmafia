@@ -136,7 +136,7 @@ public class UntinkerRequest extends KoLRequest
 
 				// Make sure that paco has been visited, or else
 				// the knoll won't be available.
-				
+
 				KoLRequest request = new KoLRequest( client, "guild.php?place=paco", true );
 				request.run();
 
@@ -169,7 +169,7 @@ public class UntinkerRequest extends KoLRequest
 		DEFAULT_SHELL.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
 
 		super.run();
-		DEFAULT_SHELL.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) );
+		DEFAULT_SHELL.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) + "." );
 	}
 
 	protected void processResults()
