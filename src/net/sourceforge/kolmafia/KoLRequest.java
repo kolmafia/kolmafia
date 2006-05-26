@@ -343,23 +343,34 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void addFormField( String element )
 	{
-		String [] currentComponent = element.split( "=" );
+		int equalIndex = element.indexOf( "=" );
+		if ( equalIndex == -1 )
+		{
+			addFormField( element, "", false );
+			return;
+		}
 
-		if ( currentComponent[0].equals( "pwd" ) || currentComponent[0].equals( "phash" ) )
+		String name = element.substring( 0, equalIndex ).trim();
+		String value = element.substring( equalIndex + 1 ).trim();
+
+		if ( name.equals( "pwd" ) || name.equals( "phash" ) )
 		{
 			// If you were in Valhalla on login, then
 			// make sure you discover the password hash
 			// in some other way.
 
-			if ( (client.getPasswordHash() == null || client.getPasswordHash().equals( "" )) && currentComponent.length == 2 && currentComponent[1].length() > 0 )
-				client.setPasswordHash( currentComponent[1] );
+			if ( (client.getPasswordHash() == null || client.getPasswordHash().equals( "" )) && value.length() != 0 )
+				client.setPasswordHash( value );
 
-			addFormField( currentComponent[0], "", false );
+			addFormField( name, "", false );
 		}
-		else if ( currentComponent.length == 1 )
-			addFormField( currentComponent[0], "", true );
 		else
-			addFormField( currentComponent[0], currentComponent[1], true );
+		{
+			// Otherwise, add the name-value pair as was
+			// specified in the original method.
+
+			addFormField( name, value, true );
+		}
 	}
 
 	/**
