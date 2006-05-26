@@ -952,12 +952,12 @@ public abstract class SorceressLair extends StaticEntity
 		if ( responseText.indexOf( "There is a key here." ) == -1 )
 			return responseText;
 
-		responseText = rotateHedgePiece( responseText, "1", "form1.submit();\"><img alt=\"90 degree bend, exits south and east.\"" );
-		responseText = rotateHedgePiece( responseText, "2", "form2.submit();\"><img alt=\"Straight east/west passage.\"" );
-		responseText = rotateHedgePiece( responseText, "3", "form3.submit();\"><img alt=\"Dead end, exit to the west.  There is a key here.\"" );
-		responseText = rotateHedgePiece( responseText, "4", "form4.submit();\"><img alt=\"Straight north/south passage.\"" );
-		responseText = rotateHedgePiece( responseText, "7", "form7.submit();\"><img alt=\"90 degree bend, exits north and east.\"" );
-		responseText = rotateHedgePiece( responseText, "8", "form8.submit();\"><img alt=\"90 degree bend, exits south and west.\"" );
+		responseText = rotateHedgePiece( responseText, "3", "Upper-Right Tile: Dead end, exit to the west.  There is a key here." );
+		responseText = rotateHedgePiece( responseText, "2", "Upper-Middle Tile: Straight east/west passage." );
+		responseText = rotateHedgePiece( responseText, "1", "Upper-Left Tile: 90 degree bend, exits south and east." );
+		responseText = rotateHedgePiece( responseText, "4", "Middle-Left Tile: Straight north/south passage." );
+		responseText = rotateHedgePiece( responseText, "7", "Lower-Left Tile: 90 degree bend, exits north and east." );
+		responseText = rotateHedgePiece( responseText, "8", "Lower-Middle Tile: 90 degree bend, exits south and west." );
 
 		// The hedge maze has been properly rotated!  Now go ahead
 		// and retrieve the key from the maze.
@@ -985,11 +985,11 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static String finalizeHedgeMaze( String responseText )
 	{
-		responseText = rotateHedgePiece( responseText, "2", "form2.submit();\"><img alt=\"Straight north/south passage.\"" );
-		responseText = rotateHedgePiece( responseText, "5", "form5.submit();\"><img alt=\"90 degree bend, exits north and east.\"" );
-		responseText = rotateHedgePiece( responseText, "6", "form6.submit();\"><img alt=\"90 degree bend, exits south and west.\"" );
-		responseText = rotateHedgePiece( responseText, "9", "form9.submit();\"><img alt=\"90 degree bend, exits north and west.\"" );
-		responseText = rotateHedgePiece( responseText, "8", "form8.submit();\"><img alt=\"90 degree bend, exits south and east.\"" );
+		responseText = rotateHedgePiece( responseText, "2", "Upper-Middle Tile: Straight north/south passage." );
+		responseText = rotateHedgePiece( responseText, "5", "Center Tile: 90 degree bend, exits north and east." );
+		responseText = rotateHedgePiece( responseText, "6", "Middle-Right Tile: 90 degree bend, exits south and west." );
+		responseText = rotateHedgePiece( responseText, "9", "Lower-Right Tile: 90 degree bend, exits north and west." );
+		responseText = rotateHedgePiece( responseText, "8", "Lower-Middle Tile: 90 degree bend, exits south and east." );
 
 		// The hedge maze has been properly rotated!  Now go ahead
 		// and complete the hedge maze puzzle!
