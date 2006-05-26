@@ -50,11 +50,11 @@ public class RequestThread extends Thread implements KoLConstants
 	public RequestThread( Runnable [] requests )
 	{	this( requests, 1 );
 	}
-	
+
 	public RequestThread( Runnable [] requests, int repeatCount )
 	{
 		this.repeatCount = repeatCount;
-		
+
 		int requestCount = 0;
 		for ( int i = 0; i < requests.length; ++i )
 			if ( requests[i] != null )
@@ -75,7 +75,7 @@ public class RequestThread extends Thread implements KoLConstants
 	{
 		if ( requests.length > 0 && requests[0] instanceof KoLRequest && !(requests[0] instanceof ChatRequest) )
 			StaticEntity.getClient().forceContinue();
-		
+
 		for ( int i = 0; i < requests.length; ++i )
 		{
 			// Chat requests are only run once, no matter what
@@ -87,7 +87,7 @@ public class RequestThread extends Thread implements KoLConstants
 
 			// Setting it up so that derived classes can
 			// override the behavior of execution.
-			
+
 			else if ( requests[i] instanceof KoLRequest )
 			{
 				run( (KoLRequest) requests[i], repeatCount );
@@ -109,11 +109,8 @@ public class RequestThread extends Thread implements KoLConstants
 				for ( int j = 0; j < repeatCount; ++j )
 					requests[i].run();
 		}
-
-		if ( !(requests[0] instanceof ChatRequest) && !BuffBotHome.isBuffBotActive() )
-			StaticEntity.getClient().enableDisplay();
 	}
-	
+
 	protected void run( KoLRequest request, int repeatCount )
 	{
 		// Standard KoL requests are handled through the

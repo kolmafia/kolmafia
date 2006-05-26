@@ -164,7 +164,6 @@ public class MeatManageFrame extends KoLFrame
 			if ( fundTransferType > 1 && KoLCharacter.isHardcore() )
 			{
 				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You cannot pull meat from Hagnk's while in Hardcore." );
-				StaticEntity.getClient().enableDisplay();
 				return;
 			}
 
@@ -196,7 +195,6 @@ public class MeatManageFrame extends KoLFrame
 					if ( amountToTransfer <= 0 )
 					{
 						DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You must specify an amount to pull from Hagnk's." );
-						StaticEntity.getClient().enableDisplay();
 						return;
 					}
 
@@ -213,7 +211,6 @@ public class MeatManageFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "<html><font color=green>You <font color=red>lost</font>. Better luck next time.</font></html>" );
-			StaticEntity.getClient().enableDisplay();
 		}
 
 		private class ClosetUpdater implements Runnable

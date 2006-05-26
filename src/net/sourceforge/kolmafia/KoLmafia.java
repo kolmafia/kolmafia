@@ -263,7 +263,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 		commandBuffer.append( colorBuffer.toString() );
-		updateDisplayPanels( state, message );
+		updateDisplayPanels( state != CONTINUE_STATE ? state :
+			message.endsWith( "..." ) ? CONTINUE_STATE : ENABLE_STATE, message );
 	}
 
 	public void updateDisplayPanels( int state, String message )
@@ -296,12 +297,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( KoLDesktop.instanceExists() )
 			KoLDesktop.getInstance().updateDisplayState( state );
-	}
-
-	public void enableDisplay()
-	{
-		updateDisplayPanels( permitsContinue() ? ENABLE_STATE : ERROR_STATE, "" );
-		this.currentState = CONTINUE_STATE;
 	}
 
 	/**
@@ -2649,11 +2644,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void declareWorldPeace()
-	{
-		DEFAULT_SHELL.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
-
-		KoLRequest.delay( 5000 );
-		enableDisplay();
+	{	DEFAULT_SHELL.updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
 	}
 
 	public boolean shouldMakeConflictingRequest()
@@ -2747,7 +2738,5 @@ public abstract class KoLmafia implements KoLConstants
 		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 		sessionStream.println();
 		sessionStream.println();
-
-		enableDisplay();
 	}
 }

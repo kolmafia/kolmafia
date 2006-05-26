@@ -348,7 +348,6 @@ public class BuffBotFrame extends KoLFrame
 	{
 		BuffBotHome.deinitialize();
 		DEFAULT_SHELL.updateDisplay( "Buffbot deactivated." );
-		StaticEntity.getClient().enableDisplay();
 		super.dispose();
 	}
 }

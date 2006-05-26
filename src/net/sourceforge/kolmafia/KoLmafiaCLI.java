@@ -3460,10 +3460,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void updateDisplay( int state, String message )
 	{
-		// If it's the enableDisplay() called from the KoLmafia
-		// initializer, then outputStream and mirrorStream will
-		// be null -- check this before attempting to print.
-
 		if ( StaticEntity.getClient() == null )
 			return;
 

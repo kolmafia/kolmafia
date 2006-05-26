@@ -274,7 +274,6 @@ public class LoginFrame extends KoLFrame
 			GLOBAL_SETTINGS.setProperty( "getBreakfast." + username.toLowerCase(), String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
 			(new LoginRequest( StaticEntity.getClient(), username, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected() )).run();
-			StaticEntity.getClient().enableDisplay();
 		}
 
 		protected void actionCancelled()
