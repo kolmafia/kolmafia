@@ -632,7 +632,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
-		DEFAULT_SHELL.updateDisplay( "Starting training session." );
+		DEFAULT_SHELL.updateDisplay( "Starting training session..." );
 
 		// Iterate until we reach the goal
 		while ( !goalMet( status, goal, type) )
@@ -763,7 +763,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
-		DEFAULT_SHELL.updateDisplay( "Starting training session." );
+		DEFAULT_SHELL.updateDisplay( "Starting training session..." );
 
 		// XP earned indexed by [event][rank]
 		int [][] xp = new int[4][3];

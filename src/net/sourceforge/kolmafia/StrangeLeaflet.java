@@ -150,7 +150,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 	public static void leafletWithMagic()
 	{	robStrangeLeaflet( true );
 	}
-  
+
 	public static void robStrangeLeaflet( boolean invokeMagic )
 	{
 		// Make sure the player has the Strange Leaflet.
@@ -193,7 +193,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( !invokeMagic( invokeMagic ) )
 		{
 			KoLCharacter.refreshCalculatedLists();
-			DEFAULT_SHELL.updateDisplay( "Strange Leaflet partially robbed." );
+			DEFAULT_SHELL.updateDisplay( "Serpent-slaying quest complete." );
 			return;
 		}
 
@@ -204,7 +204,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		KoLCharacter.refreshCalculatedLists();
 
 		String extra = trophy ? " (trophy available)" : ( magic != null ) ? " (magic invoked)" : "";
-		DEFAULT_SHELL.updateDisplay( "Strange Leaflet robbed" + extra + "." );
+		DEFAULT_SHELL.updateDisplay( "The giant is now searching for a princess" + extra + "." );
 	}
 
 	private static void initialize()
@@ -308,7 +308,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 				break;
 
 			default:
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "I can't figure out where you are!" );
+				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
 				break;
 		}
 	}

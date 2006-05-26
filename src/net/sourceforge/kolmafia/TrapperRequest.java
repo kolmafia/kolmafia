@@ -91,8 +91,8 @@ public class TrapperRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		super.processResults();
+		DEFAULT_SHELL.updateDisplay( "Trapper has been looted." );
 		client.processResult( YETI_FUR.getInstance( 0 - quantity ) );
-		DEFAULT_SHELL.updateDisplay( "Trapper successfully looted!" );
+		super.processResults();
 	}
 }
