@@ -348,6 +348,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( StaticEntity.getProperty( "autoRepairBoxes" ).equals( "false" ) )
 			StaticEntity.setProperty( "autoRepairBoxes", String.valueOf( KoLCharacter.canInteract() ) );
+		if ( StaticEntity.getProperty( "createWithoutBoxServants").equals( "false" ) )
+			StaticEntity.setProperty( "createWithoutBoxServants", String.valueOf( KoLCharacter.isHardcore() ) );
 
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.

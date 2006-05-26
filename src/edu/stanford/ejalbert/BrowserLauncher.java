@@ -79,37 +79,37 @@ public class BrowserLauncher {
 
 	/** The com.apple.MacOS.AEDesc class */
 	private static Class aeDescClass;
-	
+
 	/** The <init>(int) method of com.apple.MacOS.AETarget */
 	private static Constructor aeTargetConstructor;
-	
+
 	/** The <init>(int, int, int) method of com.apple.MacOS.AppleEvent */
 	private static Constructor appleEventConstructor;
-	
+
 	/** The <init>(String) method of com.apple.MacOS.AEDesc */
 	private static Constructor aeDescConstructor;
-	
+
 	/** The findFolder method of com.apple.mrj.MRJFileUtils */
 	private static Method findFolder;
 
 	/** The getFileCreator method of com.apple.mrj.MRJFileUtils */
 	private static Method getFileCreator;
-	
+
 	/** The getFileType method of com.apple.mrj.MRJFileUtils */
 	private static Method getFileType;
-	
+
 	/** The openURL method of com.apple.mrj.MRJFileUtils */
 	private static Method openURL;
-	
+
 	/** The makeOSType method of com.apple.MacOS.OSUtils */
 	private static Method makeOSType;
-	
+
 	/** The putParameter method of com.apple.MacOS.AppleEvent */
 	private static Method putParameter;
-	
+
 	/** The sendNoReply method of com.apple.MacOS.AppleEvent */
 	private static Method sendNoReply;
-	
+
 	/** Actually an MRJOSType pointing to the System Folder on a Macintosh */
 	private static Object kSystemFolderType;
 
@@ -118,31 +118,31 @@ public class BrowserLauncher {
 
 	/** The kAutoGenerateReturnID AppleEvent code */
 	private static Integer kAutoGenerateReturnID;
-	
+
 	/** The kAnyTransactionID AppleEvent code */
 	private static Integer kAnyTransactionID;
 
 	/** The linkage object required for JDirect 3 on Mac OS X. */
 	private static Object linkage;
-	
+
 	/** The framework to reference on Mac OS X */
 	private static final String JDirect_MacOSX = "/System/Library/Frameworks/Carbon.framework/Frameworks/HIToolbox.framework/HIToolbox";
 
 	/** JVM constant for MRJ 2.0 */
 	private static final int MRJ_2_0 = 0;
-	
+
 	/** JVM constant for MRJ 2.1 or later */
 	private static final int MRJ_2_1 = 1;
 
 	/** JVM constant for Java on Mac OS X 10.0 (MRJ 3.0) */
 	private static final int MRJ_3_0 = 3;
-	
+
 	/** JVM constant for MRJ 3.1 */
 	private static final int MRJ_3_1 = 4;
 
 	/** JVM constant for any Windows NT JVM */
 	private static final int WINDOWS_NT = 5;
-	
+
 	/** JVM constant for any Windows 9x JVM */
 	private static final int WINDOWS_9x = 6;
 
@@ -171,7 +171,7 @@ public class BrowserLauncher {
 	private static final String NETSCAPE_REMOTE_PARAMETER = "-remote";
 	private static final String NETSCAPE_OPEN_PARAMETER_START = "'openURL(";
 	private static final String NETSCAPE_OPEN_PARAMETER_END = ")'";
-	
+
 	/**
 	 * The message from any exception thrown throughout the initialization process.
 	 */
@@ -218,7 +218,7 @@ public class BrowserLauncher {
 		} else {
 			jvm = OTHER;
 		}
-		
+
 		if (loadedWithoutErrors) {	// if we haven't hit any errors yet
 			loadedWithoutErrors = loadClasses();
 		}
@@ -228,7 +228,7 @@ public class BrowserLauncher {
 	 * This class should be never be instantiated; this just ensures so.
 	 */
 	private BrowserLauncher() { }
-	
+
 	/**
 	 * Called by a static initializer to load any classes, fields, and methods required at runtime
 	 * to locate the user's web browser.
@@ -462,7 +462,7 @@ public class BrowserLauncher {
 		if (browser == null) {
 			throw new IOException("Unable to locate browser: " + errorMessage);
 		}
-		
+
 		switch (jvm) {
 			case MRJ_2_0:
 			{
@@ -528,8 +528,8 @@ public class BrowserLauncher {
 				// default browser -- if it is, invoke it manually in order to
 				// get a new window to open.
 
-				Process process = Runtime.getRuntime().exec( new String [] { (String) browser, "/c",
-					"assoc", ".html" } );
+				Process process = Runtime.getRuntime().exec(
+					new String [] { (String) browser, "/c", "assoc", ".html" } );
 
 				boolean usingIE = false;
 
@@ -602,29 +602,54 @@ public class BrowserLauncher {
 				}
 				break;
 		    }
-			case OTHER:
-			{
-				// Assume that we're on Unix and that Netscape is installed				
-				// First, attempt to open the URL in a currently running session of Netscape
-				Process process = Runtime.getRuntime().exec(new String[] { (String) browser,
-													NETSCAPE_REMOTE_PARAMETER,
-													NETSCAPE_OPEN_PARAMETER_START +
-													url +
-													NETSCAPE_OPEN_PARAMETER_END });
-				try {
-					int exitCode = process.waitFor();
-					if (exitCode != 0) {	// if Netscape was not open
-						Runtime.getRuntime().exec(new String[] { (String) browser, url });
-					}
-				} catch (InterruptedException ie) {
-					throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
-				}
-				break;
-			}
 			default:
 			{
-				// This should never occur, but if it does, we'll try the simplest thing possible
-				Runtime.getRuntime().exec(new String[] { (String) browser, url });
+				// Determine whether or not Netscape exists on this system.
+				// If it does, use it.
+
+				String [] browsers = { "netscape", "firefox", "mozilla" };
+				browser = null;
+
+				for ( int i = 0; i < browsers.length && browser == null; ++i )
+				{
+					Process process = Runtime.getRuntime().exec( new String [] { "which", "netscape" } );
+
+					try
+					{
+						java.io.BufferedReader stream = new
+							java.io.BufferedReader( new java.io.InputStreamReader( process.getInputStream() ) );
+
+						if ( stream.readLine().indexOf( " " ) != -1 )
+							browser = browsers[i];
+
+						try {
+							process.waitFor();
+							process.exitValue();
+						} catch (InterruptedException ie) {
+							throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
+						}
+					}
+					catch ( Exception e )
+					{
+						// If we can't determine the default browser, then just
+						// move onto the next iteration of the loop.
+					}
+				}
+
+				if ( browser != null )
+				{
+					Process process = Runtime.getRuntime().exec(
+							new String[] { (String) browser, NETSCAPE_REMOTE_PARAMETER,
+							NETSCAPE_OPEN_PARAMETER_START + url + NETSCAPE_OPEN_PARAMETER_END } );
+
+					try {
+						process.waitFor();
+						process.exitValue();
+					} catch (InterruptedException ie) {
+						throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
+					}
+				}
+
 				break;
 			}
 		}
