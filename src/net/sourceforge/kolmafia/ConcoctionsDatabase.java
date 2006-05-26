@@ -78,8 +78,16 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final AdventureResult ROLLING_PIN = new AdventureResult( 873, 1 );
 	private static final AdventureResult UNROLLING_PIN = new AdventureResult( 873, 1 );
 
+	private static final int TOMATO = 246;
 	private static final int DOUGH = 159;
 	private static final int FLAT_DOUGH = 301;
+
+	private static final AdventureResult DYSPEPSI = new AdventureResult( 347, 1 );
+	private static final AdventureResult CLOACA = new AdventureResult( 1334, 1 );
+	private static final AdventureResult SCHLITZ = new AdventureResult( 41, 1 );
+	private static final AdventureResult WILLER = new AdventureResult( 81, 1 );
+	private static final AdventureResult KETCHUP = new AdventureResult( 106, 1 );
+	private static final AdventureResult CATSUP = new AdventureResult( 107, 1 );
 
 	static
 	{
@@ -159,36 +167,50 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// Handle plain pizza, which also allows flat dough
 			// to be used instead of wads of dough.
 
-			if ( ingredients[0].getItemID() == 246 && ingredients[1].getItemID() == 301 )
+			if ( ingredients[0].getItemID() == TOMATO && ingredients[1].getItemID() == FLAT_DOUGH )
 				return true;
-			if ( ingredients[1].getItemID() == 246 && ingredients[0].getItemID() == 301 )
+			if ( ingredients[1].getItemID() == TOMATO && ingredients[0].getItemID() == FLAT_DOUGH )
 				return true;
 
 			// Handle catsup recipes, which only exist in the
 			// item table as ketchup recipes.
 
-			if ( ingredients[0].getItemID() == 107 )
+			if ( ingredients[0].getItemID() == CATSUP.getItemID() )
 			{
-				ingredients[0] = new AdventureResult( 106, 1 );
+				ingredients[0] = KETCHUP;
 				return isKnownCombination( ingredients );
 			}
-			if ( ingredients[1].getItemID() == 107 )
+			if ( ingredients[1].getItemID() == CATSUP.getItemID() )
 			{
-				ingredients[1] = new AdventureResult( 106, 1 );
+				ingredients[1] = KETCHUP;
 				return isKnownCombination( ingredients );
 			}
 
 			// Handle ice-cold beer recipes, which only uses the
 			// recipe for item #41 at this time.
 
-			if ( ingredients[0].getItemID() == 81 )
+			if ( ingredients[0].getItemID() == WILLER.getItemID() )
 			{
-				ingredients[0] = new AdventureResult( 41, 1 );
+				ingredients[0] = SCHLITZ;
 				return isKnownCombination( ingredients );
 			}
-			if ( ingredients[1].getItemID() == 81 )
+			if ( ingredients[1].getItemID() == WILLER.getItemID() )
 			{
-				ingredients[1] = new AdventureResult( 41, 1 );
+				ingredients[1] = SCHLITZ;
+				return isKnownCombination( ingredients );
+			}
+
+			// Handle cloaca recipes, which only exist in the
+			// item table as dyspepsi cola.
+
+			if ( ingredients[0].getItemID() == CLOACA.getItemID() )
+			{
+				ingredients[0] = DYSPEPSI;
+				return isKnownCombination( ingredients );
+			}
+			if ( ingredients[1].getItemID() == CLOACA.getItemID() )
+			{
+				ingredients[1] = DYSPEPSI;
 				return isKnownCombination( ingredients );
 			}
 		}
@@ -314,6 +336,16 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Ice-cold beer and ketchup are special instances -- for the
 		// purposes of calculation, we assume that they will use the
 		// ingredient which is present in the greatest quantity.
+
+		int availableSoda = getBetterIngredient( DYSPEPSI, CLOACA, availableIngredients ).getCount( availableIngredients );
+
+		concoctions.get( DYSPEPSI.getItemID() ).initial = availableSoda;
+		concoctions.get( DYSPEPSI.getItemID() ).creatable = 0;
+		concoctions.get( DYSPEPSI.getItemID() ).total = availableSoda;
+
+		concoctions.get( CLOACA.getItemID() ).initial = availableSoda;
+		concoctions.get( CLOACA.getItemID() ).creatable = 0;
+		concoctions.get( CLOACA.getItemID() ).total = availableSoda;
 
 		int availableBeer = getBetterIngredient( SCHLITZ, WILLER, availableIngredients ).getCount( availableIngredients );
 
@@ -573,11 +605,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static int getMixingMethod( int itemID )
 	{	return concoctions.get( itemID ).getMixingMethod();
 	}
-
-	private static final AdventureResult SCHLITZ = new AdventureResult( 41, 1 );
-	private static final AdventureResult WILLER = new AdventureResult( 81, 1 );
-	private static final AdventureResult KETCHUP = new AdventureResult( 106, 1 );
-	private static final AdventureResult CATSUP = new AdventureResult( 107, 1 );
 
 	/**
 	 * Returns the item IDs of the ingredients for the given item.

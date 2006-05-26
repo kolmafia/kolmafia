@@ -76,14 +76,15 @@ public class NPCStoreDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
 
 	public static final MallPurchaseRequest getPurchaseRequest( String itemName )
 	{
-		int itemIndex = storeTable[4].indexOf( new Integer( TradeableItemDatabase.getItemID( itemName ) ) );
+		Integer itemID = new Integer( TradeableItemDatabase.getItemID( itemName ) );
+		int itemIndex = storeTable[4].indexOf( itemID );
 
 		// If the item is not present in the NPC store table, then
 		// the item is not available.
@@ -94,65 +95,74 @@ public class NPCStoreDatabase extends KoLDatabase
 		// Check for whether or not the purchase can be made from a
 		// guild store.  Store #1 is moxie classes, store #2 is for
 		// mysticality classes, and store #3 is for muscle classes.
-		
+
 		String classType = KoLCharacter.getClassType();
-		if ( storeTable[0].get(itemIndex).equals( "1" ) )
+		String storeID = (String) storeTable[0].get( itemIndex );
+
+		if ( storeID.equals( "1" ) )
 		{
 			if ( !classType.startsWith( "Di" ) && !classType.startsWith( "Ac" ) )
 				return null;
 		}
 
-		if ( storeTable[0].get(itemIndex).equals( "2" ) )
+		if ( storeID.equals( "2" ) )
 		{
 			if ( !classType.startsWith( "Pa" ) && !classType.startsWith( "Sa" ) &&
 				!(classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) )
 					return null;
 		}
 
-		if ( storeTable[0].get(itemIndex).equals( "3" ) )
+		if ( storeID.equals( "3" ) )
 		{
 			if ( !classType.startsWith( "Se" ) && !classType.startsWith( "Tu" ) &&
 				!(classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) )
 					return null;
 		}
-		
+
+		// If the person is trying to get one of the items from the bugbear
+		// store, then the item is not available if they don't have the
+		// bugbear outfit.  Of course, some items are available from the
+		// Degrassi knoll bakery, so fallback on that when possible.
+
+		if ( storeID.equals( "b" ) && !EquipmentDatabase.hasOutfit( 1 ) )
+		{
+			itemIndex = storeTable[4].lastIndexOf( itemID );
+			storeID = (String) storeTable[0].get( itemIndex );
+
+			if ( storeID.equals( "b" ) )
+				return null;
+		}
+
 		// If the person is not in a muscle sign, then items from the
 		// Degrassi Knoll are not available.
 
-		if ( storeTable[0].get(itemIndex).equals( "5" ) && !KoLCharacter.inMuscleSign() )
+		if ( (storeID.equals("4") || storeID.equals( "5" )) && !KoLCharacter.inMuscleSign() )
 			return null;
 
 		// If the person is not in a mysticality sign, then items from the
 		// Canadia Jewelers are not available.
 
-		if ( storeTable[0].get(itemIndex).equals( "j" ) && !KoLCharacter.inMysticalitySign() )
-			return null;
-
-		// If the person is trying to get one of the items from the bugbear
-		// store, then the item is not available if they don't have the
-		// bugbear outfit.
-
-		if ( storeTable[0].get(itemIndex).equals( "b" ) && !EquipmentDatabase.hasOutfit( 1 ) )
+		if ( storeID.equals( "j" ) && !KoLCharacter.inMysticalitySign() )
 			return null;
 
 		// If the person is trying to get the items from the laboratory,
 		// then the item is not available if they don't have the elite
 		// guard uniform.
 
-		if ( storeTable[0].get(itemIndex).equals( "g" ) && !EquipmentDatabase.hasOutfit( 5 ) )
+		if ( storeID.equals( "g" ) && !EquipmentDatabase.hasOutfit( 5 ) )
 			return null;
 
 		// If the person is trying to get one of the items from the hippy
 		// store, then the item is not available if they don't have the
 		// hippy outfit.
 
-		if ( storeTable[0].get(itemIndex).equals( "h" ) && !EquipmentDatabase.hasOutfit( 2 ) )
+		if ( storeID.equals( "h" ) && !EquipmentDatabase.hasOutfit( 2 ) )
 			return null;
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.
 
-		return new MallPurchaseRequest( client, (String) storeTable[1].get(itemIndex), (String) storeTable[0].get(itemIndex),
+		return new MallPurchaseRequest( client, (String) storeTable[1].get(itemIndex), storeID,
 			Integer.parseInt( (String) storeTable[2].get(itemIndex) ), Integer.parseInt( (String) storeTable[3].get(itemIndex) ) );
 	}
 
