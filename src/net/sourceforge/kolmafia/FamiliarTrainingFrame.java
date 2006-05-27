@@ -560,6 +560,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				FamiliarData selection = (FamiliarData)getSelectedItem();
 				(new FamiliarRequest( StaticEntity.getClient(), selection )).run();
+				StaticEntity.getClient().updateDisplay( "Familiar changed." );
 				familiar = KoLCharacter.getFamiliar();
 				isChanging = false;
 			}
