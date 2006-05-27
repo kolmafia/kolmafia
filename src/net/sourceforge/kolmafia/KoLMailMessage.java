@@ -41,7 +41,7 @@ import java.text.SimpleDateFormat;
 
 public class KoLMailMessage implements Comparable
 {
-	private static SimpleDateFormat sdf = new SimpleDateFormat( "EEEE, MMMM d, hh:mmaa", Locale.US );
+	private static SimpleDateFormat sdf = new SimpleDateFormat( "EEEE, MMMM dd, yyyy, hh:mmaa", Locale.US );
 
 	private String messageHTML;
 	private String messageID;
