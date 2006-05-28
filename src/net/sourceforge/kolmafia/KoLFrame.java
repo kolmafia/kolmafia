@@ -1129,7 +1129,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				if ( restoreSetting.length() != 0 )
 					restoreSetting.append( ';' );
 
-				restoreSetting.append( restoreCheckbox[i].getText() );
+				restoreSetting.append( restoreCheckbox[i].getText().toLowerCase() );
 			}
 		}
 

@@ -1047,7 +1047,7 @@ public abstract class KoLmafia implements KoLConstants
 		// using the selected items.  This involves a few extra
 		// reflection methods.
 
-		String restoreSetting = settings.getProperty( listProperty ).trim();
+		String restoreSetting = settings.getProperty( listProperty ).trim().toLowerCase();
 
 		// Iterate through every single restore item, checking to
 		// see if the settings wish to use this item.  If so, go ahead
@@ -1057,7 +1057,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < techniques.length && current < threshold; ++i )
 		{
-			currentTechniqueName = techniques[i].toString();
+			currentTechniqueName = techniques[i].toString().toLowerCase();
 			if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
 			{
 				last = -1;
