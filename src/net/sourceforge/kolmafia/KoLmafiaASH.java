@@ -404,7 +404,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		String name;
 
-		if ( num < 0 || num >= EquipmentRequest.slotNames.length ) 
+		if ( num < 0 || num >= EquipmentRequest.slotNames.length )
 			name = "bogus";
 		else
 			name  = EquipmentRequest.slotNames[num];
@@ -503,7 +503,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( this.commandStream == null )
 			return;
-		
+
 		try
 		{
 			ScriptValue result = executeGlobalScope( global );
@@ -513,7 +513,7 @@ public class KoLmafiaASH extends StaticEntity
 				DEFAULT_SHELL.printLine( "Script aborted!" );
 				return;
 			}
-			
+
 			if ( result.getType().equals( TYPE_VOID ) )
 				DEFAULT_SHELL.printLine( !client.permitsContinue() ? "Script failed!" : "Script succeeded!" );
 			else if ( result.getType().equals( TYPE_BOOLEAN ) )
@@ -533,9 +533,9 @@ public class KoLmafiaASH extends StaticEntity
 			// If it's an exception resulting from
 			// a premature abort, which causes void
 			// values to be return, ignore.
-			
+
 			if ( !e.getMessage().startsWith( "Cannot" ) )
-				printStackTrace( e, e.getMessage() );				
+				printStackTrace( e, e.getMessage() );
 		}
 	}
 
@@ -564,7 +564,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			printStackTrace( e );
 			return null;
 		}
@@ -1769,7 +1769,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		// Include all the to_string and to_int methods first
 		// so they're easier to add to later.
-		
+
 		params = new ScriptType[] { BOOLEAN_TYPE };
 		result.addElement( new ScriptExistingFunction( "boolean_to_string", STRING_TYPE, params ) );
 
@@ -1841,7 +1841,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		// Begin the functions which are documented in the KoLmafia
 		// Advanced Script Handling manual.
-		
+
 		params = new ScriptType[] { INT_TYPE, LOCATION_TYPE };
 		result.addElement( new ScriptExistingFunction( "adventure", BOOLEAN_TYPE, params ) );
 
@@ -1898,13 +1898,13 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "put_display", BOOLEAN_TYPE, params ) );
-		
+
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "take_closet", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "take_storage", BOOLEAN_TYPE, params ) );
-		
+
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "take_display", BOOLEAN_TYPE, params ) );
 
@@ -2098,6 +2098,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "url_decode", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "get_property", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "set_property", VOID_TYPE, params ) );
 
 		return result;
 	}
@@ -2461,7 +2467,7 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				printStackTrace( e, "Exception during call to " + getName() );
 				return null;
 			}
@@ -2489,7 +2495,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
-		public ScriptValue zodiac_to_string( ScriptVariable val ) 
+		public ScriptValue zodiac_to_string( ScriptVariable val )
 		{	return val.toStringValue();
 		}
 
@@ -2651,7 +2657,7 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
-		public ScriptValue stash_amount( ScriptVariable arg ) 
+		public ScriptValue stash_amount( ScriptVariable arg )
 		{
 			List stash = ClanManager.getStash();
 			if ( stash.size() == 0 )
@@ -2684,7 +2690,7 @@ public class KoLmafiaASH extends StaticEntity
 			DEFAULT_SHELL.executeLine( "stash put " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
-			
+
 		public ScriptValue put_display( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "display put " + count.intValue() + " " + item.toStringValue() );
@@ -2708,7 +2714,7 @@ public class KoLmafiaASH extends StaticEntity
 			DEFAULT_SHELL.executeLine( "display take " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
-			
+
 		public ScriptValue sell_item( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "sell " + count.intValue() + " " + item.toStringValue() );
@@ -3057,6 +3063,16 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue url_decode( ScriptVariable arg ) throws UnsupportedEncodingException
 		{	return new ScriptValue( URLDecoder.decode( arg.toStringValue().toString(), "UTF-8" ) );
 		}
+
+		public ScriptValue get_property( ScriptVariable name )
+		{	return new ScriptValue( StaticEntity.getProperty( name.toStringValue().toString() ) );
+		}
+
+		public ScriptValue set_property( ScriptVariable name, ScriptVariable value )
+		{
+			StaticEntity.setProperty( name.toStringValue().toString(), value.toStringValue().toString() );
+			return VOID_VALUE;
+		}
 	}
 
 	private static class ScriptFunctionList extends ScriptSymbolTable
@@ -3066,7 +3082,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptFunction findFunction( String name )
-		{	return (ScriptFunction)super.findSymbol( name );
+		{	return (ScriptFunction) super.findSymbol( name );
 		}
 	}
 
@@ -3878,7 +3894,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( contentString != null )
 				return contentString;
-			
+
 			if ( type.equals( TYPE_BOOLEAN ) )
 				return String.valueOf( contentInt != 0 );
 

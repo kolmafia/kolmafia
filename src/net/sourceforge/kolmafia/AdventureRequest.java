@@ -193,13 +193,13 @@ public class AdventureRequest extends KoLRequest
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't get to that area yet." );
 			return;
 		}
-		
+
 		if ( responseText.indexOf( "into the spectral mists" ) != -1 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No one may know of its coming or going." );
 			return;
 		}
-		
+
 		if ( responseText.indexOf( "temporal rift in the plains has closed" ) != -1 )
 		{
 			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "The temporal rift has closed." );
@@ -208,7 +208,7 @@ public class AdventureRequest extends KoLRequest
 
 		// Cold protection is required for the area.  This only happens at
 		// the peak.  Abort and notify.
-		
+
 		if ( responseText.indexOf( "need some sort of protection" ) != -1 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need cold protection." );
@@ -217,13 +217,13 @@ public class AdventureRequest extends KoLRequest
 
 		// Stench protection is required for the area.	This only
 		// happens at the Guano Junction.  Abort and notify.
-		
+
 		if ( responseText.indexOf( "need stench protection to adventure here" ) != -1 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need stench protection." );
 			return;
 		}
-		
+
 		// This is a server error. Hope for the
 		// best and repeat the request.
 
@@ -266,7 +266,7 @@ public class AdventureRequest extends KoLRequest
 			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You already defeated the Bonerdagon." );
 			return;
 		}
-		
+
 		if ( responseText.indexOf( "already undefiled" ) != -1 )
 		{
 			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Cyrpt area cleared." );
@@ -303,13 +303,8 @@ public class AdventureRequest extends KoLRequest
 			}
 
 			if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
-			{
-				DEFAULT_SHELL.updateDisplay( "You can now cross the Orc Chasm." );
 				client.processResult( BRIDGE );
-				return;
-			}
 
-			DEFAULT_SHELL.updateDisplay( "You've already crossed the Orc Chasm." );
 			return;
 		}
 
@@ -330,7 +325,7 @@ public class AdventureRequest extends KoLRequest
 				Matcher learnedMatcher = Pattern.compile( "You emerge with a (.*?) of Steel" ).matcher( responseText );
 				if ( learnedMatcher.find() )
 					KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1) + " of Steel", "", 1 ) );
-				
+
 				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Taint cleansed." );
 				return;
 			}
@@ -384,11 +379,11 @@ public class AdventureRequest extends KoLRequest
 		String urlString = request.getURLString();
 		if ( !(request instanceof AdventureRequest) && !containsEncounter( urlString, request.responseText ) )
 			return "";
-		
+
 		// The first round is unique in that there is no
 		// data fields.  Therefore, it will equal fight.php
 		// exactly every single time.
-		
+
 		if ( urlString.equals( "fight.php" ) )
 		{
 			Matcher encounterMatcher = Pattern.compile( "<span id='monname'>(.*?)</span>" ).matcher( request.responseText );
@@ -398,7 +393,7 @@ public class AdventureRequest extends KoLRequest
 				DEFAULT_SHELL.printLine( "Encounter: " + encounter );
 				StaticEntity.getClient().registerEncounter( encounter );
 				return encounter;
-			}			
+			}
 		}
 		else
 		{
@@ -411,10 +406,10 @@ public class AdventureRequest extends KoLRequest
 				return encounter;
 			}
 		}
-		
+
 		return "";
 	}
-	
+
 	private static boolean containsEncounter( String formSource, String responseText )
 	{
 		// The first round is unique in that there is no
@@ -426,7 +421,7 @@ public class AdventureRequest extends KoLRequest
 
 		// All other adventures can be identified via their
 		// form data and the place they point to.
-		
+
 		else if ( formSource.startsWith( "adventure.php" ) )
 			return true;
 		else if ( formSource.startsWith( "cave.php" ) && formSource.indexOf( "end" ) != -1 )
@@ -441,17 +436,17 @@ public class AdventureRequest extends KoLRequest
 			return true;
 		else if ( formSource.equals( "rats.php" ) )
 			return true;
-		
+
 		// It is not a known adventure.  Therefore,
 		// do not log the encounter yet.
-		
+
 		return false;
 	}
-	
+
 	public int getAdventuresUsed()
 	{	return client.permitsContinue() && ( responseText == null || responseText.indexOf( "oyster egg" ) == -1 ) ? adventuresUsed : 0;
 	}
-	
+
 	public String toString()
 	{	return adventureName;
 	}
