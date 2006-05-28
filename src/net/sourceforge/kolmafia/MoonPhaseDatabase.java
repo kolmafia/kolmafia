@@ -573,37 +573,35 @@ public class MoonPhaseDatabase extends StaticEntity
 		if ( !currentYear.equals( cachedYear ) )
 		{
 			cachedYear = currentYear;
-
 			Calendar holidayFinder = Calendar.getInstance();
-			holidayFinder.set( Calendar.YEAR, Integer.parseInt( currentYear ) );
+
+			// Apparently, Easter isn't the second Sunday in April;
+			// it actually depends on the occurrence of the first
+			// ecclesiastical full moon after the Spring Equinox
+			// (http://aa.usno.navy.mil/faq/docs/easter.html)
+
+			int y = Integer.parseInt( currentYear );
+			int c = y / 100;
+			int n = y - 19 * ( y / 19 );
+			int k = ( c - 17 ) / 25;
+			int i = c - c / 4 - ( c - k ) / 3 + 19 * n + 15;
+			i = i - 30 * ( i / 30 );
+			i = i - ( i / 28 ) * ( 1 - ( i / 28 ) * ( 29 / ( i + 1 ) ) * ( ( 21 - n ) / 11 ) );
+			int j = y + y / 4 + i + 2 - c + c / 4;
+			j = j - 7 * ( j / 7 );
+			int l = i - j;
+			int m = 3 + ( l + 40 ) / 44;
+			int d = l + 28 - 31 * ( m / 4 );
+
+			holidayFinder.set( Calendar.YEAR, y );
+			holidayFinder.set( Calendar.MONTH, m - 1 );
+			holidayFinder.set( Calendar.DAY_OF_MONTH, d );
+			easter = sdf.format( holidayFinder.getTime() );
+
+			// Calculating Thanksgiving is easier -- just detect
+			// what day is the start of November and adjust.
+
 			holidayFinder.set( Calendar.DAY_OF_MONTH, 1 );
-
-			holidayFinder.set( Calendar.MONTH, Calendar.APRIL );
-			switch ( holidayFinder.get( Calendar.DAY_OF_WEEK ) )
-			{
-				case Calendar.MONDAY:
-					easter = "0414";
-					break;
-				case Calendar.TUESDAY:
-					easter = "0413";
-					break;
-				case Calendar.WEDNESDAY:
-					easter = "0412";
-					break;
-				case Calendar.THURSDAY:
-					easter = "0411";
-					break;
-				case Calendar.FRIDAY:
-					easter = "0410";
-					break;
-				case Calendar.SATURDAY:
-					easter = "0409";
-					break;
-				case Calendar.SUNDAY:
-					easter = "0408";
-					break;
-			}
-
 			holidayFinder.set( Calendar.MONTH, Calendar.NOVEMBER );
 			switch ( holidayFinder.get( Calendar.DAY_OF_WEEK ) )
 			{
@@ -643,7 +641,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		if ( stringDate.endsWith( "0401" ) )
 			return "April Fool's Day";
 
-		if ( stringDate.endsWith( easter ) )
+		if ( stringDate.equals( easter ) )
 			return "Oyster Egg Day";
 
 		if ( stringDate.endsWith( "0919" ) )
