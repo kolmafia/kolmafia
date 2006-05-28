@@ -73,9 +73,6 @@ public class RequestThread extends Thread implements KoLConstants
 
 	public void run()
 	{
-		if ( requests.length > 0 && requests[0] instanceof KoLRequest && !(requests[0] instanceof ChatRequest) )
-			StaticEntity.getClient().forceContinue();
-
 		for ( int i = 0; i < requests.length; ++i )
 		{
 			// Chat requests are only run once, no matter what

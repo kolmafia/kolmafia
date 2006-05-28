@@ -305,7 +305,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
 
-		DEFAULT_SHELL.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")" );
+		DEFAULT_SHELL.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")..." );
 		super.run();
 	}
 
@@ -358,7 +358,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unexpected result.  Are you sure this store is available?" );
 			return;
 		}
-		
+
 		String result = responseText.substring( startIndex, stopIndex );
 
 		// One error is that the item price changed, or the item
@@ -419,7 +419,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 
@@ -453,7 +453,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return;
 		}

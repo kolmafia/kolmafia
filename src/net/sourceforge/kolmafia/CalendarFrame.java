@@ -426,7 +426,8 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	public static class OracleTable extends JTable
 	{
 		private CalendarTableModel model;
-		private DefaultTableCellRenderer normalRenderer, todayRenderer, specialRenderer, holidayRenderer, statdayRenderer;
+		private DefaultTableCellRenderer normalRenderer, todayRenderer, specialRenderer, holidayRenderer;
+		private DefaultTableCellRenderer muscleRenderer, mysticalityRenderer, moxieRenderer;
 
 		public OracleTable( CalendarTableModel model )
 		{
@@ -437,19 +438,27 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 			todayRenderer = new DefaultTableCellRenderer();
 			todayRenderer.setForeground( new Color( 255, 255, 255 ) );
-			todayRenderer.setBackground( new Color( 0, 0, 128 ) );
+			todayRenderer.setBackground( new Color( 128, 128, 128 ) );
 
 			specialRenderer = new DefaultTableCellRenderer();
 			specialRenderer.setForeground( new Color( 255, 255, 255 ) );
 			specialRenderer.setBackground( new Color( 0, 0, 0 ) );
 
 			holidayRenderer = new DefaultTableCellRenderer();
-			holidayRenderer.setForeground( new Color( 255, 255, 255 ) );
-			holidayRenderer.setBackground( new Color( 192, 0, 0 ) );
+			holidayRenderer.setForeground( new Color( 0, 0, 0 ) );
+			holidayRenderer.setBackground( new Color( 255, 255, 204 ) );
 
-			statdayRenderer = new DefaultTableCellRenderer();
-			statdayRenderer.setForeground( new Color( 0, 0, 0 ) );
-			statdayRenderer.setBackground( new Color( 192, 192, 0 ) );
+			muscleRenderer = new DefaultTableCellRenderer();
+			muscleRenderer.setForeground( new Color( 0, 0, 0 ) );
+			muscleRenderer.setBackground( new Color( 255, 204, 204 ) );
+
+			mysticalityRenderer = new DefaultTableCellRenderer();
+			mysticalityRenderer.setForeground( new Color( 0, 0, 0 ) );
+			mysticalityRenderer.setBackground( new Color( 204, 204, 255 ) );
+
+			moxieRenderer = new DefaultTableCellRenderer();
+			moxieRenderer.setForeground( new Color( 0, 0, 0 ) );
+			moxieRenderer.setBackground( new Color( 204, 255, 204 ) );
 		}
 
 		public TableCellRenderer getCellRenderer( int row, int column )
@@ -483,8 +492,14 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 				if ( MoonPhaseDatabase.isHoliday( cellDate ) )
 					return holidayRenderer;
 
-				if ( MoonPhaseDatabase.isStatDay( cellDate ) )
-					return statdayRenderer;
+				if ( MoonPhaseDatabase.isMuscleDay( cellDate ) )
+					return muscleRenderer;
+
+				if ( MoonPhaseDatabase.isMysticalityDay( cellDate ) )
+					return mysticalityRenderer;
+
+				if ( MoonPhaseDatabase.isMoxieDay( cellDate ) )
+					return moxieRenderer;
 			}
 			catch ( Exception e )
 			{

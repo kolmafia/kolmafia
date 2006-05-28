@@ -281,9 +281,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		helperMenu.add( new JSeparator() );
 
 		helperMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
-		helperMenu.add( new DisplayPageMenuItem( "Jinya's Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
-		helperMenu.add( new DisplayPageMenuItem( "Ohayou's Item Effects", "http://www.lysator.liu.se/~jhs/KoL/effects/" ) );
-		helperMenu.add( new DisplayPageMenuItem( "Moxie Survival Lookup", "http://kol.network-forums.com/cgi-bin/moxie.cgi" ) );
+		helperMenu.add( new DisplayPageMenuItem( "KoL Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
 
 		if ( !(container instanceof JMenuBar) )
 			container.add( new InvocationMenuItem( "End Session", SystemTrayFrame.class, "removeTrayIcon" ) );
