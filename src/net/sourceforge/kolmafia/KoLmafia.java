@@ -1371,6 +1371,7 @@ public abstract class KoLmafia implements KoLConstants
 		try
 		{
 			macroStream.print( KoLmafiaCLI.deriveCommand( request, iterations ) );
+			forceContinue();
 
 			// Handle the gym, which is the only adventure type
 			// which needs to be specially handled.
@@ -2312,6 +2313,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( purchases.length > 0 && purchases[0] instanceof MallPurchaseRequest )
 			macroStream.print( "buy " + maxPurchases + " " + ((MallPurchaseRequest)purchases[0]).getItemName() );
 
+		forceContinue();
 		MallPurchaseRequest currentRequest;
 		int purchaseCount = 0;
 

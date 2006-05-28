@@ -65,7 +65,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -87,7 +87,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -142,7 +142,10 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	public static final int SP_NOTHING = 0;
 	public static final int SP_HOLIDAY = 1;
-	public static int SP_STATDAY = 2;
+
+	public static int SP_MUSDAY = 2;
+	public static int SP_MYSDAY = 3;
+	public static int SP_MOXDAY = 4;
 
 	static
 	{
@@ -156,25 +159,25 @@ public class MoonPhaseDatabase extends StaticEntity
 		// KoL calendar.
 
 		for ( int i = 8; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
+			SPECIAL[i] = SP_MUSDAY;
 		for ( int i = 9; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
+			SPECIAL[i] = SP_MUSDAY;
 
 		// Mysticism days occur every phase 4 and phase 12 on the
 		// KoL calendar.
 
 		for ( int i = 4; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
+			SPECIAL[i] = SP_MYSDAY;
 		for ( int i = 12; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
+			SPECIAL[i] = SP_MYSDAY;
 
 		// Moxie days occur every phase 0 and phase 15 on the
 		// KoL calendar.
 
 		for ( int i = 0; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
+			SPECIAL[i] = SP_MOXDAY;
 		for ( int i = 15; i < 96; i += 16 )
-			SPECIAL[i] = SP_STATDAY;
+			SPECIAL[i] = SP_MOXDAY;
 
 		// Next, fill in the holidays.  These are manually
 		// computed based on the recurring day in the year
@@ -455,14 +458,38 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	/**
 	 * Returns whether or not the given day's most important
-	 * attribute is being a stat day.  Note that this ranks
+	 * attribute is being a muscle day.  Note that this ranks
 	 * behind being a holiday, so holidays which are also stat
 	 * days (Halloween and Oyster Egg Day, for example), will
 	 * not be recognized as "stat days" in this method.
 	 */
 
-	public static boolean isStatDay( Date time )
-	{	return SPECIAL[ getCalendarDay( time ) ] == SP_STATDAY;
+	public static boolean isMuscleDay( Date time )
+	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MUSDAY;
+	}
+
+	/**
+	 * Returns whether or not the given day's most important
+	 * attribute is being a mysticality day.  Note that this ranks
+	 * behind being a holiday, so holidays which are also stat
+	 * days (Halloween and Oyster Egg Day, for example), will
+	 * not be recognized as "stat days" in this method.
+	 */
+
+	public static boolean isMysticalityDay( Date time )
+	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MYSDAY;
+	}
+
+	/**
+	 * Returns whether or not the given day's most important
+	 * attribute is being a moxie day.  Note that this ranks
+	 * behind being a holiday, so holidays which are also stat
+	 * days (Halloween and Oyster Egg Day, for example), will
+	 * not be recognized as "stat days" in this method.
+	 */
+
+	public static boolean isMoxieDay( Date time )
+	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MOXDAY;
 	}
 
 	/**
