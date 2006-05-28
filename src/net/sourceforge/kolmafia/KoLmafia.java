@@ -1622,60 +1622,99 @@ public abstract class KoLmafia implements KoLConstants
 
 	public int locateTavernFaucet()
 	{
-		int faucetRow = 0;
-		int faucetColumn = 0;
+		// Determine if the faucet has already been solved
+		// before; if it has, don't bother trying again.
 
-		if ( KoLCharacter.getLevel() < 3 )
+		StringBuffer lastUse = new StringBuffer( StaticEntity.getProperty( "lastFaucetUse" ) );
+		Integer searchIndex = Integer.valueOf( StaticEntity.getProperty( "lastFaucetLocation" ) );
+
+		String lastUseString = lastUse.toString();
+
+		if ( !lastUseString.startsWith( String.valueOf( KoLCharacter.getAscensions() ) ) )
 		{
-			updateDisplay( ERROR_STATE, "You need to level up first." );
-			return -1;
+			lastUse.setLength(0);
+			lastUse.append( KoLCharacter.getAscensions() );
+			lastUse.append( ": " );
+
+			lastUseString = lastUse.toString();
+			searchIndex = new Integer( -1 );
 		}
 
-		if ( KoLCharacter.getAdventuresLeft() < 25 )
-		{
-			updateDisplay( ERROR_STATE, "You need to have at least 25 adventures to find the faucet." );
-			return -1;
-		}
-
-		(new KoLRequest( this, "council.php", true )).run();
-		updateDisplay( "Searching for faucet..." );
-
-		KoLAdventure adventure = new KoLAdventure( this, "", "rats.php", "", "Typical Tavern (Pre-Rat)" );
-		adventure.run();
+		// Determine which elements have already been checked
+		// so you don't check through them again.
 
 		ArrayList searchList = new ArrayList();
 		for ( int i = 1; i <= 25; ++i )
-			searchList.add( new Integer(i) );
-
-		Integer searchIndex = new Integer(0);
-
-		// Random guess instead of straightforward search
-		// for the location of the faucet (lowers the chance
-		// of bad results if the faucet is near the end).
-
-		while ( !searchList.isEmpty() && KoLCharacter.getCurrentHP() > 0 &&
-			(adventure.getRequest().responseText == null || adventure.getRequest().responseText.indexOf( "faucetoff" ) == -1) )
 		{
-			searchIndex = (Integer) searchList.get( RNG.nextInt( searchList.size() ) );
-			searchList.remove( searchIndex );
+			if ( lastUseString.indexOf( " " + i + " " ) == -1 )
+				searchList.add( new Integer(i) );
+		}
 
-			adventure.getRequest().addFormField( "where", searchIndex.toString() );
+		// If the faucet has not yet been found, then go through
+		// the process of trying to locate it.
+
+		if ( searchIndex.intValue() == -1 )
+		{
+			if ( KoLCharacter.getLevel() < 3 )
+			{
+				updateDisplay( ERROR_STATE, "You need to level up first." );
+				return -1;
+			}
+
+			KoLRequest request = new KoLRequest( this, "council.php", true );
+			request.run();
+
+			if ( request.responseText != null && request.responseText.indexOf( "rat problems" ) == -1 )
+			{
+				updateDisplay( ERROR_STATE, "This quest is not available." );
+				return -1;
+			}
+
+			updateDisplay( "Searching for faucet..." );
+
+			KoLAdventure adventure = new KoLAdventure( this, "", "rats.php", "", "Typical Tavern (Pre-Rat)" );
 			adventure.run();
+
+			// Random guess instead of straightforward search
+			// for the location of the faucet (lowers the chance
+			// of bad results if the faucet is near the end).
+
+			while ( !searchList.isEmpty() && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 &&
+				(adventure.getRequest().responseText == null || adventure.getRequest().responseText.indexOf( "faucetoff" ) == -1) )
+			{
+				searchIndex = (Integer) searchList.get( RNG.nextInt( searchList.size() ) );
+				searchList.remove( searchIndex );
+
+				lastUse.append( searchIndex );
+				lastUse.append( " " );
+
+				adventure.getRequest().addFormField( "where", searchIndex.toString() );
+				adventure.run();
+			}
 		}
 
-		// If you successfully find the location of the
-		// rat faucet, then you've got it.
+		// If you have not yet found the faucet, be sure
+		// to set the settings so that your next attempt
+		// does not repeat located squares.
 
-		if ( permitsContinue() )
+		StaticEntity.setProperty( "lastFaucetLocation", "-1" );
+		if ( !permitsContinue() )
 		{
-			KoLCharacter.processResult( new AdventureResult( AdventureResult.ADV, 1 ) );
-			faucetRow = (int) ((searchIndex.intValue() - 1) / 5) + 1;
-			faucetColumn = (searchIndex.intValue() - 1) % 5 + 1;
-			updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
-			return ( faucetRow - 1 ) * 5 + (faucetColumn - 1);
+			StaticEntity.setProperty( "lastFaucetUse", lastUse.toString() );
+
+			updateDisplay( ERROR_STATE, "Unable to find faucet.  " + searchList.size() + " squares unchecked." );
+			return -1;
 		}
 
-		return -1;
+		// Otherwise, you've found it!  So notify the user
+		// that the faucet has been found.
+
+		StaticEntity.setProperty( "lastFaucetLocation", searchIndex.toString() );
+		int faucetRow = (int) ((searchIndex.intValue() - 1) / 5) + 1;
+		int faucetColumn = (searchIndex.intValue() - 1) % 5 + 1;
+
+		updateDisplay( "Faucet found in row " + faucetRow + ", column " + faucetColumn );
+		return searchIndex.intValue();
 	}
 
 	/**

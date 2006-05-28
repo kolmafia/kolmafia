@@ -220,6 +220,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "initialFrames", "EventsFrame,MailboxFrame" );
 		hadChanges |= ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		hadChanges |= ensureProperty( "keepSessionLogs", "false" );
+		hadChanges |= ensureProperty( "lastFaucetLocation", "-1" );
+		hadChanges |= ensureProperty( "lastFaucetUse", "0: " );
 		hadChanges |= ensureProperty( "lastAdventure", "" );
 		hadChanges |= ensureProperty( "lastMessageID", "" );
 		hadChanges |= ensureProperty( "lastUsername", "" );
