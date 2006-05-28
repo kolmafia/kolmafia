@@ -198,53 +198,61 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		int currentMP = KoLCharacter.getCurrentMP();
 		int maximumMP = KoLCharacter.getMaximumMP();
 
-		while ( castsRemaining > 0 )
+		if ( client.refusesContinue() || maximumMP / mpPerCast == 0 )
+			return;
+
+		while ( !client.refusesContinue() && castsRemaining > 0 )
 		{
 			// Find out how many times we can cast with current MP
+
 			currentCast = Math.min( castsRemaining, (int) Math.floor( KoLCharacter.getCurrentMP() / mpPerCast ) );
 
-			// If none, see if MP recovery will help
-			if ( currentCast == 0 )
-                        {
-				currentCast = Math.min( castsRemaining, (int) Math.floor( maximumMP / mpPerCast ) );
+			// If none, attempt to recover MP in order to cast;
+			// take auto-recovery into account.
 
-				// If maximum MP are insufficient for one cast,
-				// give up
-				if ( currentCast == 0 )
-					break;
+			if ( currentCast == 0 )
+			{
+				currentCast = Math.min( castsRemaining, (int) Math.floor( maximumMP / mpPerCast ) );
 
 				currentMP = KoLCharacter.getCurrentMP();
 				client.recoverMP( mpPerCast * currentCast );
 
-				if ( !client.permitsContinue() || currentMP == KoLCharacter.getCurrentMP() )
+				// If no change occurred, that means the person was
+				// unable to recover MP; abort the process.
+
+				if ( currentMP == KoLCharacter.getCurrentMP() )
 					return;
 
 				currentCast = Math.min( castsRemaining, (int) Math.floor( KoLCharacter.getCurrentMP() / mpPerCast ) );
-				if ( currentCast == 0 )
-					continue;
 			}
 
-			// Attempt to cast the buff.  In the event that it
-			// fails, make sure to report it and return whether
-			// or not at least one cast was completed.
-
-			addFormField( countFieldID, String.valueOf( currentCast ), false );
-
-			if ( target == null || target.trim().length() == 0 )
-				DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " " + currentCast + " times..." );
-			else
-				DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " on " + target + " " + currentCast + " times..." );
-
-			super.run();
-
-			if ( !client.permitsContinue() )
+			if ( client.refusesContinue() )
 				return;
 
-			// Otherwise, you have completed the correct number
-			// of casts.  Deduct it from the number of casts
-			// remaining and continue.
+			if ( currentCast > 0 )
+			{
+				// Attempt to cast the buff.  In the event that it
+				// fails, make sure to report it and return whether
+				// or not at least one cast was completed.
 
-			castsRemaining -= currentCast;
+				addFormField( countFieldID, String.valueOf( currentCast ), false );
+
+				if ( target == null || target.trim().length() == 0 )
+					DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " " + currentCast + " times..." );
+				else
+					DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " on " + target + " " + currentCast + " times..." );
+
+				super.run();
+
+				if ( client.refusesContinue() )
+					return;
+
+				// Otherwise, you have completed the correct number
+				// of casts.  Deduct it from the number of casts
+				// remaining and continue.
+
+				castsRemaining -= currentCast;
+			}
 		}
 	}
 
