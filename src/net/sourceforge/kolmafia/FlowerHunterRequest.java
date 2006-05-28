@@ -157,5 +157,6 @@ public class FlowerHunterRequest extends KoLRequest
 
 		int index = responseText.indexOf( "<p>Player to attack" );
 		responseText = responseText.substring( 0, index == -1 ? responseText.length() : index );
+		super.processResults();
 	}
 }
