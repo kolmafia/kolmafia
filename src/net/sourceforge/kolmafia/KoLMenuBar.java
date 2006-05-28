@@ -676,6 +676,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			if ( executePath == null )
 				return;
 
+			StaticEntity.getClient().forceContinue();
 			DEFAULT_SHELL.executeLine( executePath );
 		}
 	}
