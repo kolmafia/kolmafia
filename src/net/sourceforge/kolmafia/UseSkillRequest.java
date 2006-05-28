@@ -193,12 +193,13 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		int castsRemaining = buffCount;
 		int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( skillID );
+
+		int currentCast = 0;
+		int currentMP = KoLCharacter.getCurrentMP();
 		int maximumMP = KoLCharacter.getMaximumMP();
 
 		while ( castsRemaining > 0 )
 		{
-			int currentCast;
-
 			// Find out how many times we can cast with current MP
 			currentCast = Math.min( castsRemaining, (int) Math.floor( KoLCharacter.getCurrentMP() / mpPerCast ) );
 
@@ -210,9 +211,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( currentCast == 0 )
 				break;
 
+			currentMP = KoLCharacter.getCurrentMP();
 			client.recoverMP( mpPerCast * currentCast );
 
-			if ( !client.permitsContinue() )
+			if ( !client.permitsContinue() || currentMP == KoLCharacter.getCurrentMP() )
 				return;
 
 			currentCast = Math.min( castsRemaining, (int) Math.floor( KoLCharacter.getCurrentMP() / mpPerCast ) );
