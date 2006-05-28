@@ -518,14 +518,14 @@ public class LocalRelayRequest extends KoLRequest
 
 	private void downloadSimulatorFile( String filename )
 	{
-		LocalRelayRequest request = new LocalRelayRequest( client, "http://cif.rochester.edu/~code/kol/" + filename, false );
+		LocalRelayRequest request = new LocalRelayRequest( client, "http://sol.kolmafia.us/" + filename, false );
 		request.run();
 
 		File directory = new File( "html/simulator/" );
 		directory.mkdirs();
 
 		request.fullResponse = request.fullResponse.replaceAll( "\"images/",
-			"\"http://cif.rochester.edu/~code/kol/images/" );
+			"\"http://sol.kolmafia.us/images/" );
 
 		try
 		{
