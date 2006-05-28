@@ -94,10 +94,7 @@ public class RequestThread extends Thread implements KoLConstants
 			// client.makeRequest() method.
 
 			else if ( requests[i] instanceof KoLAdventure )
-			{
-				if ( StaticEntity.getClient().permitsContinue() )
-					StaticEntity.getClient().makeRequest( requests[i], repeatCount );
-			}
+				StaticEntity.getClient().makeRequest( requests[i], repeatCount );
 
 			// All other runnables are run, as expected, with
 			// no updates to the client.

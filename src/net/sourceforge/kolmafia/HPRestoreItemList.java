@@ -54,13 +54,13 @@ public abstract class HPRestoreItemList extends StaticEntity
 	private static final HPRestoreItem REMEDY = new HPRestoreItem( "soft green echo eyedrop antidote", 0 );
 	private static final HPRestoreItem TINY_HOUSE = new HPRestoreItem( "tiny house", 22 );
 
-	public static final HPRestoreItem WALRUS = new HPRestoreItem( "tongue of the walrus", 35 );
-	public static final HPRestoreItem OTTER = new HPRestoreItem( "tongue of the otter", 15 );
+	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
+	public static final HPRestoreItem OTTER = new HPRestoreItem( "Tongue of the Otter", 15 );
 
-	private static final HPRestoreItem BANDAGES = new HPRestoreItem( "lasagna bandages", 24 );
-	private static final HPRestoreItem COCOON = new HPRestoreItem( "cannelloni cocoon", Integer.MAX_VALUE );
-	private static final HPRestoreItem NAP = new HPRestoreItem( "disco nap", 20 );
-	private static final HPRestoreItem POWERNAP = new HPRestoreItem( "disco power nap", 40 );
+	private static final HPRestoreItem BANDAGES = new HPRestoreItem( "Lasagna Bandages", 24 );
+	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
+	private static final HPRestoreItem NAP = new HPRestoreItem( "Disco Nap", 20 );
+	private static final HPRestoreItem POWERNAP = new HPRestoreItem( "Disco Power Nap", 40 );
 	private static final HPRestoreItem PHONICS = new HPRestoreItem( "phonics down", 48 );
 	private static final HPRestoreItem CAST = new HPRestoreItem( "cast", 17 );
 	private static final HPRestoreItem ELIXIR = new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 18 );
@@ -109,7 +109,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 			this.itemName = itemName;
 			this.hpPerUse = hpPerUse;
 			this.skillID = ClassSkillsDatabase.getSkillID( itemName );
-			this.itemUsed = new AdventureResult( itemName, 0 );
+			this.itemUsed = TradeableItemDatabase.contains( itemName ) ? new AdventureResult( itemName, 0 ) : null;
 		}
 
 		public AdventureResult getItem()

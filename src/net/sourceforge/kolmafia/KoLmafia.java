@@ -306,8 +306,11 @@ public abstract class KoLmafia implements KoLConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String username, String sessionID, boolean getBreakfast )
+	public synchronized void initialize( String username, String sessionID, boolean getBreakfast )
 	{
+		if ( this.sessionID != null )
+			return;
+
 		this.conditions.clear();
 
 		// Initialize the variables to their initial

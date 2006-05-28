@@ -106,7 +106,7 @@ public class KoLmafiaGUI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String username, String sessionID, boolean getBreakfast )
+	public synchronized void initialize( String username, String sessionID, boolean getBreakfast )
 	{
 		super.initialize( username, sessionID, getBreakfast );
 		if ( refusesContinue() )
