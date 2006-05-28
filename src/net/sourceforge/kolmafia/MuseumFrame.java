@@ -95,6 +95,8 @@ public class MuseumFrame extends KoLFrame
 		ordering = new OrderingPanel();
 
 		JScrollPane shelvesScroller = new JScrollPane( shelves, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JComponentUtilities.setComponentSize( shelvesScroller, 400, 300 );
+
 		JScrollPane orderingScroller = new JScrollPane( ordering, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		tabs = new JTabbedPane();
@@ -201,7 +203,7 @@ public class MuseumFrame extends KoLFrame
 	public class MuseumShelfList extends PanelList
 	{
 		public MuseumShelfList()
-		{	super( 2, 480, 200, MuseumManager.getShelves(), true );
+		{	super( 1, 480, 200, MuseumManager.getShelves(), true );
 		}
 
 		protected PanelListCell constructPanelListCell( Object value, int index )
