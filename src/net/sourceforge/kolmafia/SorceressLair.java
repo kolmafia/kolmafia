@@ -239,6 +239,10 @@ public abstract class SorceressLair extends StaticEntity
 	private static AdventureResult pickOne( AdventureResult [] itemOptions )
 	{
 		for ( int i = 0; i < itemOptions.length; ++i )
+			if ( KoLCharacter.getInventory().contains( itemOptions[i] ) )
+				return itemOptions[i];
+
+		for ( int i = 0; i < itemOptions.length; ++i )
 			if ( hasItem( itemOptions[i] ) )
 				return itemOptions[i];
 
