@@ -216,7 +216,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public void initialize( String username, String sessionID, boolean getBreakfast )
+	public synchronized void initialize( String username, String sessionID, boolean getBreakfast )
 	{
 		if ( StaticEntity.getClient() != this )
 		{
@@ -549,6 +549,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( KoLDesktop.instanceExists() )
 					KoLDesktop.getInstance().setVisible( false );
 
+				StaticEntity.getClient().deinitialize();
 				(new LoginRequest( StaticEntity.getClient(), parameters, password )).run();
 			}
 			else

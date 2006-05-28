@@ -43,6 +43,8 @@ package net.sourceforge.kolmafia;
 
 public class LoginRequest extends KoLRequest
 {
+	private static boolean INSTANCE_RUNNING = false;
+
 	private String username;
 	private String password;
 	private boolean savePassword;
@@ -64,7 +66,7 @@ public class LoginRequest extends KoLRequest
 				GLOBAL_SETTINGS.getProperty( "getBreakfast." + username ) != null &&
 				GLOBAL_SETTINGS.getProperty( "getBreakfast." + username ).equals( "true" ) );
 	}
-	
+
 	public LoginRequest( KoLmafia client, String username, String password, boolean savePassword, boolean getBreakfast )
 	{
 		super( client, "login.php" );
@@ -86,6 +88,19 @@ public class LoginRequest extends KoLRequest
 	 */
 
 	public void run()
+	{
+		if ( INSTANCE_RUNNING )
+			return;
+
+		synchronized ( LoginRequest.class )
+		{
+			INSTANCE_RUNNING = true;
+			executeLogin();
+			INSTANCE_RUNNING = false;
+		}
+	}
+
+	public void executeLogin()
 	{
 		DEFAULT_SHELL.updateDisplay( "Determining login server..." );
 		KoLRequest.applySettings();
