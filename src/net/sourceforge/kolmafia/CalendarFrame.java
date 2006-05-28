@@ -248,7 +248,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			return;
 		}
 
-
 		StringBuffer displayHTML = new StringBuffer();
 
 		// First display today's date along with the
@@ -356,11 +355,11 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( TODAY_FORMATTER.format( selectedDate ) );
 		displayHTML.append( "</u></b><br><i>" );
 		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( selectedDate ) );
-		displayHTML.append( "</i><br><br>" );
+		displayHTML.append( "</i>" );
 
 		// Next display the upcoming stat days.
 
-		displayHTML.append( "<b>Muscle Day</b>:&nbsp;" );
+		displayHTML.append( "<p><b>Muscle Day</b>:&nbsp;" );
 		displayHTML.append( MoonPhaseDatabase.getDayCountAsString( Math.min( (24 - phaseStep) % 16, (25 - phaseStep) % 16 ) ) );
 		displayHTML.append( "<br>" );
 
@@ -370,7 +369,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		displayHTML.append( "<b>Moxie Day</b>:&nbsp;" );
 		displayHTML.append( MoonPhaseDatabase.getDayCountAsString( Math.min( (16 - phaseStep) % 16, (31 - phaseStep) % 16 ) ) );
-		displayHTML.append( "<br><br>" );
+		displayHTML.append( "</p><p>" );
 
 		// Next display the upcoming holidays.  This is done
 		// through loop calculations in order to minimize the
@@ -383,6 +382,8 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 			displayHTML.append( holidayPredictions[i].replaceAll( ":", ":</b>&nbsp;" ) );
 			displayHTML.append( "<br>" );
 		}
+
+		displayHTML.append( "</p>" );
 
 		// Now that the HTML has been completely
 		// constructed, clear the display dailyBuffer
