@@ -3093,7 +3093,7 @@ public abstract class KoLCharacter extends StaticEntity
 			// Full volleyball equivalent familiar
 			// Full gravy fairy equivalent familiar
 			newFixedXPAdjustment += modifier / 4.0;
-			newItemDropPercentAdjustment += modifier / 40.0;
+			newItemDropPercentAdjustment += modifier * 2.5;
 			break;
 
 		case JILL:
