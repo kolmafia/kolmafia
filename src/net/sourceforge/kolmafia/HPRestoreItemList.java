@@ -84,7 +84,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 		for ( int i = 0; i < CONFIGURES.length; ++i )
 		{
 			restoreCheckbox[i] = new JCheckBox( CONFIGURES[i].toString() );
-			restoreCheckbox[i].setSelected( hpRestoreSetting.indexOf( CONFIGURES[i].toString() ) != -1 );
+			restoreCheckbox[i].setSelected( hpRestoreSetting.indexOf( CONFIGURES[i].toString().toLowerCase() ) != -1 );
 		}
 
 		for ( int i = 0; i < FALLBACKS.length; ++i )
@@ -179,15 +179,10 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return;
 			}
 
-			if ( ClassSkillsDatabase.contains( this.toString() ) )
-			{
-				if ( this != COCOON || belowMax >= 20 )
-					(new UseSkillRequest( client, this.toString(), "", numberToUse )).run();
-			}
+			if ( ClassSkillsDatabase.contains( itemName ) )
+				(new UseSkillRequest( client, itemName, "", numberToUse )).run();
 			else
-			{
 				(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
-			}
 		}
 
 		public String toString()
