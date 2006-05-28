@@ -57,8 +57,8 @@ public interface KoLConstants extends UtilityConstants
 	public static final JLabel BLANK_LABEL = new JLabel();
 	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
 
-	public static final String VERSION_NAME = "KoLmafia v7.7";
-	public static final String VERSION_DATE = "Released May 26, 2006";
+	public static final String VERSION_NAME = "KoLmafia v7.8";
+	public static final String VERSION_DATE = "Released May 28, 2006";
 
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings();
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
@@ -121,7 +121,7 @@ public interface KoLConstants extends UtilityConstants
 			"Accessing tower backdoor.  Fighting Naughty Sorceress...",
 			"Connection timed out during post.  Retrying...",
 			"Connection timed out during reply.  Retrying...",
-			"Your star power has expired.  You have been defeated!"
+			"Star power expired.  You slink away, dejected and defeated."
 		},
 
 		{
@@ -129,15 +129,15 @@ public interface KoLConstants extends UtilityConstants
 			"Original game concept by Jick (Asymmetric Publications).",
 			"Co-written by Mr. Skullhead, Riff, and the /dev team.",
 			"Special thanks to: the Mods, the Ascension testers, and you.",
-			"We present you a new quest, which is basically the same thing, only harder.",
-			"Crap!  You've been using KoLmafia so long you can't remember how to play!  Game Over."
+			"We present you a new quest, which is the same thing, only harder.",
+			"Segmentation fault.  Core dumped."
 		},
 
 		{
-			"Executing secret trail script...",
+			"Unlocking secret Arizona trail script...",
 			"Crossing first obstacle, admiring landmarks...",
 			"Path set to oxygenarian, familiar pace set to grue-ing...",
-			"You have died from KoLera.  Game Over."
+			"You have died from KoLera."
 		}
 	};
 }

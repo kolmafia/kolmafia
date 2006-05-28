@@ -356,6 +356,26 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Win game sanity check.  This will find its
+		// way back into the GUI ... one day.
+
+		if ( line.equalsIgnoreCase( "win game" ) )
+		{
+			String [] messages = WIN_GAME_TEXT[ RNG.nextInt( WIN_GAME_TEXT.length ) ];
+
+			updateDisplay( "Executing top-secret 'win game' script..." );
+			KoLRequest.delay( 3000 );
+
+			for ( int i = 0; i < messages.length - 1; ++i )
+			{
+				printLine( messages[i] );
+				KoLRequest.delay( 3000 );
+			}
+
+			updateDisplay( ERROR_STATE, messages[ messages.length - 1 ] );
+			return;
+		}
+
 		if ( line.length() != 0 )
 		{
 			String command = line.trim().split( " " )[0].toLowerCase().trim();
