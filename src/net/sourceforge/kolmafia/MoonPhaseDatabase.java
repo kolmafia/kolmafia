@@ -629,6 +629,10 @@ public class MoonPhaseDatabase extends StaticEntity
 			}
 		}
 
+		// Real-life holiday list borrowed from JRSiebz's
+		// variables for holidays on the KoL JS Almanac
+		// (http://home.cinci.rr.com/jrsiebz/KoL/almanac.html)
+
 		if ( stringDate.endsWith( "0202" ) )
 			return "Groundhog Day";
 
