@@ -194,25 +194,27 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		int castsRemaining = buffCount;
 		int mpPerCast = ClassSkillsDatabase.getMPConsumptionByID( skillID );
 
-		int currentCast = 0;
 		int currentMP = KoLCharacter.getCurrentMP();
 		int maximumMP = KoLCharacter.getMaximumMP();
 
-		if ( client.refusesContinue() || maximumMP / mpPerCast == 0 )
+		if ( client.refusesContinue() || maximumMP < mpPerCast )
 			return;
+
+		int currentCast = 0;
+		int maximumCast = maximumMP / mpPerCast;
 
 		while ( !client.refusesContinue() && castsRemaining > 0 )
 		{
 			// Find out how many times we can cast with current MP
 
-			currentCast = Math.min( castsRemaining, (int) Math.floor( KoLCharacter.getCurrentMP() / mpPerCast ) );
+			currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
 
 			// If none, attempt to recover MP in order to cast;
 			// take auto-recovery into account.
 
 			if ( currentCast == 0 )
 			{
-				currentCast = Math.min( castsRemaining, (int) Math.floor( maximumMP / mpPerCast ) );
+				currentCast = Math.min( castsRemaining, maximumCast );
 
 				currentMP = KoLCharacter.getCurrentMP();
 				client.recoverMP( mpPerCast * currentCast );
@@ -223,7 +225,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				if ( currentMP == KoLCharacter.getCurrentMP() )
 					return;
 
-				currentCast = Math.min( castsRemaining, (int) Math.floor( KoLCharacter.getCurrentMP() / mpPerCast ) );
+				currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
 			}
 
 			if ( client.refusesContinue() )
@@ -243,9 +245,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 					DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " on " + target + " " + currentCast + " times..." );
 
 				super.run();
-
-				if ( client.refusesContinue() )
-					return;
 
 				// Otherwise, you have completed the correct number
 				// of casts.  Deduct it from the number of casts
