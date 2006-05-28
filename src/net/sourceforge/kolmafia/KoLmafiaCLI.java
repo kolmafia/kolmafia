@@ -401,7 +401,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "priphea" ) )
 		{
-			if ( !KoLDesktop.getInstance().isVisible() )
+			if ( !KoLDesktop.instanceExists() )
 			{
 				KoLDesktop.getInstance().initializeTabs();
 				KoLDesktop.getInstance().pack();
@@ -546,7 +546,9 @@ public class KoLmafiaCLI extends KoLmafia
 					if ( !(frames[i] instanceof LoginFrame) )
 						frames[i].dispose();
 
-				KoLDesktop.getInstance().setVisible( false );
+				if ( KoLDesktop.instanceExists() )
+					KoLDesktop.getInstance().setVisible( false );
+
 				(new LoginRequest( StaticEntity.getClient(), parameters, password )).run();
 			}
 			else
