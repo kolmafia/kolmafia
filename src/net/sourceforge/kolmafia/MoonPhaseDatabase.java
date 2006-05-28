@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -453,7 +454,9 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static boolean isHoliday( Date time )
-	{	return SPECIAL[ getCalendarDay( time ) ] == SP_HOLIDAY;
+	{
+		return SPECIAL[ getCalendarDay( time ) ] == SP_HOLIDAY ||
+			getRealLifeHoliday( sdf.format( time ) ) != null;
 	}
 
 	/**
@@ -509,8 +512,29 @@ public class MoonPhaseDatabase extends StaticEntity
 			if ( SPECIAL[i] == SP_HOLIDAY )
 			{
 				calendarDayAsArray = convertCalendarDayToArray( i );
+				int currentEstimate = (i - currentCalendarDay + 96) % 96;
+
+				String holiday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
+
+				String testDate = null;
+				String testResult = null;
+
+				Calendar holidayTester = Calendar.getInstance();
+				holidayTester.setTime( time );
+
+				for ( int j = 0; j < currentEstimate; ++j )
+				{
+					testDate = sdf.format( holidayTester.getTime() );
+					testResult = getRealLifeHoliday( testDate );
+
+					if ( testResult != null && testResult.equals( holiday ) )
+						currentEstimate = j;
+
+					holidayTester.add( Calendar.DATE, 1 );
+				}
+
 				predictionsList.add( HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ] + ": " +
-					getDayCountAsString( (i - currentCalendarDay + 96) % 96 ) );
+					getDayCountAsString( currentEstimate ) );
 			}
 		}
 
@@ -527,6 +551,114 @@ public class MoonPhaseDatabase extends StaticEntity
 	public static final String getHoliday( Date time )
 	{
 		int [] calendarDayAsArray = convertCalendarDayToArray( getCalendarDay( time ) );
-		return HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
+		String gameHoliday = HOLIDAYS[ calendarDayAsArray[0] ][ calendarDayAsArray[1] ];
+
+		if ( gameHoliday.equals( "No known holiday today." ) )
+			gameHoliday = null;
+
+		String realHoliday = getRealLifeHoliday( sdf.format( time ) );
+
+		return gameHoliday == null && realHoliday == null ? "No known holiday today." :
+			gameHoliday == null ? realHoliday : realHoliday == null ? gameHoliday :
+			realHoliday + " / " + gameHoliday;
 	}
+
+	private static String cachedYear = "";
+	private static String easter = "";
+	private static String thanksgiving = "";
+
+	public static String getRealLifeHoliday( String stringDate )
+	{
+		String currentYear = stringDate.substring( 0, 4 );
+		if ( !currentYear.equals( cachedYear ) )
+		{
+			cachedYear = currentYear;
+
+			Calendar holidayFinder = Calendar.getInstance();
+			holidayFinder.set( Calendar.YEAR, Integer.parseInt( currentYear ) );
+			holidayFinder.set( Calendar.DAY_OF_MONTH, 1 );
+
+			holidayFinder.set( Calendar.MONTH, Calendar.APRIL );
+			switch ( holidayFinder.get( Calendar.DAY_OF_WEEK ) )
+			{
+				case Calendar.MONDAY:
+					easter = "0414";
+					break;
+				case Calendar.TUESDAY:
+					easter = "0413";
+					break;
+				case Calendar.WEDNESDAY:
+					easter = "0412";
+					break;
+				case Calendar.THURSDAY:
+					easter = "0411";
+					break;
+				case Calendar.FRIDAY:
+					easter = "0410";
+					break;
+				case Calendar.SATURDAY:
+					easter = "0409";
+					break;
+				case Calendar.SUNDAY:
+					easter = "0408";
+					break;
+			}
+
+			holidayFinder.set( Calendar.MONTH, Calendar.NOVEMBER );
+			switch ( holidayFinder.get( Calendar.DAY_OF_WEEK ) )
+			{
+				case Calendar.FRIDAY:
+					thanksgiving = "1128";
+					break;
+				case Calendar.SATURDAY:
+					thanksgiving = "1127";
+					break;
+				case Calendar.SUNDAY:
+					thanksgiving = "1126";
+					break;
+				case Calendar.MONDAY:
+					thanksgiving = "1125";
+					break;
+				case Calendar.TUESDAY:
+					thanksgiving = "1124";
+					break;
+				case Calendar.WEDNESDAY:
+					thanksgiving = "1123";
+					break;
+				case Calendar.THURSDAY:
+					thanksgiving = "1122";
+					break;
+			}
+		}
+
+		if ( stringDate.endsWith( "0202" ) )
+			return "Groundhog Day";
+
+		if ( stringDate.endsWith( "0214" ) )
+			return "Valentine's Day";
+
+		if ( stringDate.endsWith( "0317" ) )
+			return "St. Sneaky Pete's Day";
+
+		if ( stringDate.endsWith( "0401" ) )
+			return "April Fool's Day";
+
+		if ( stringDate.endsWith( easter ) )
+			return "Oyster Egg Day";
+
+		if ( stringDate.endsWith( "0919" ) )
+			return "Talk Like a Pirate Day";
+
+		if ( stringDate.endsWith( "1031" ) )
+			return "Halloween";
+
+		if ( stringDate.endsWith( thanksgiving ) )
+			return "Feast of Boris";
+
+		if ( stringDate.endsWith( "1225" ) )
+			return "Crimbo";
+
+		return null;
+	}
+
 }
