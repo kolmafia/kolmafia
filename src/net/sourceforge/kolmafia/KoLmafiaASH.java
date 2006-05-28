@@ -58,6 +58,8 @@ import java.util.ArrayList;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Map;
+import java.util.TreeMap;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -97,6 +99,8 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int TYPE_FAMILIAR = 107;
 	public static final int TYPE_SLOT = 108;
 	public static final int TYPE_MONSTER = 109;
+
+	public static final int TYPE_AGGREGATE = 1000;
 
 	public static final String [] ZODIACS = { "none", "Wallaby", "Mongoose", "Vole", "Platypus", "Opossum", "Marmot", "Wombat", "Blender", "Packrat" };
 	public static final String [] CLASSES = { "Seal Clubber", "Turtle Tamer", "Pastamancer", "Sauceror", "Disco Bandit", "Accordion Thief" };
@@ -170,6 +174,11 @@ public class KoLmafiaASH extends StaticEntity
         // Variables used during execution
 	private ScriptScope global;
 	public int currentState = STATE_NORMAL;
+
+	// Feature control;
+
+	// Disabled until and if we choose to document the feature
+	private static boolean arrays = false;
 
 	// **************** Data Types *****************
 
@@ -638,7 +647,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		while ( true )
 		{
-			if ( (t = parseType()) == null )
+			if ( (t = parseType( true )) == null )
 			{
 				if ( (c = parseCommand( expectedType, result, false, whileLoop )) != null )
 				{
@@ -689,7 +698,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		while ( !currentToken().equals( ")" ) )
 		{
-			ScriptType paramType = parseType();
+			ScriptType paramType = parseType( true );
 			if (paramType == null )
 				throw new AdvancedScriptException( " ')' Expected " + getLineAndFile() );
 
@@ -831,50 +840,116 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptType parseType()
+	private ScriptType parseType( boolean aggregates ) throws AdvancedScriptException
 	{
-		int type;
-
 		if ( currentToken() == null )
 			return null;
 
-		String typeString = currentToken();
+		int type = parseTypeString( currentToken() );
+                if ( type < 0 )
+                        return null;
 
-		if ( typeString.equalsIgnoreCase( "void" ) )
-			type = TYPE_VOID;
-		else if ( typeString.equalsIgnoreCase( "boolean" ) )
-			type = TYPE_BOOLEAN;
-		else if ( typeString.equalsIgnoreCase( "int" ) )
-			type = TYPE_INT;
-		else if ( typeString.equalsIgnoreCase( "float" ) )
-			type = TYPE_FLOAT;
-		else if ( typeString.equalsIgnoreCase( "string" ) )
-			type = TYPE_STRING;
-		else if ( typeString.equalsIgnoreCase( "item" ) )
-			type = TYPE_ITEM;
-		else if ( typeString.equalsIgnoreCase( "zodiac" ) )
-			type = TYPE_ZODIAC;
-		else if ( typeString.equalsIgnoreCase( "location" ) )
-			type = TYPE_LOCATION;
-		else if ( typeString.equalsIgnoreCase( "class" ) )
-			type = TYPE_CLASS;
-		else if ( typeString.equalsIgnoreCase( "stat" ) )
-			type = TYPE_STAT;
-		else if ( typeString.equalsIgnoreCase( "skill" ) )
-			type = TYPE_SKILL;
-		else if ( typeString.equalsIgnoreCase( "effect" ) )
-			type = TYPE_EFFECT;
-		else if ( typeString.equalsIgnoreCase( "familiar" ) )
-			type = TYPE_FAMILIAR;
-		else if ( typeString.equalsIgnoreCase( "slot" ) )
-			type = TYPE_SLOT;
-		else if ( typeString.equalsIgnoreCase( "monster" ) )
-			type = TYPE_MONSTER;
-		else
-			return null;
+		ScriptType valType = new ScriptType( type );
 
 		readToken();
-		return new ScriptType( type );
+
+		if ( aggregates && currentToken().equals( "[" ) )
+			return parseAggregateType( valType );
+
+		return valType;
+	}
+
+	private ScriptType parseAggregateType( ScriptType dataType ) throws AdvancedScriptException
+	{
+		readToken();	// [ or , 
+		if ( currentToken() == null )
+			throw new AdvancedScriptException( "Missing index token " + getLineAndFile() );
+
+		if ( arrays && integerToken() )
+		{
+			int size = Integer.parseInt( currentToken() );
+			readToken(); // integer
+			if ( currentToken() == null )
+				throw new AdvancedScriptException( "] expected " + getLineAndFile() );
+
+			if ( currentToken().equals( "]" ) )
+			{
+				readToken();	// ]
+				return new ScriptAggregateType( dataType, size );
+			}
+
+			if ( currentToken().equals( "," ) )
+				return new ScriptAggregateType( parseAggregateType( dataType ) , size );
+
+			throw new AdvancedScriptException( ", or ] expected " + getLineAndFile() );
+		}
+
+		int type = parseTypeString( currentToken() );
+		if ( type < 0 )
+			throw new AdvancedScriptException( "Bad index type: " + currentToken() + " " + getLineAndFile() );
+		ScriptType indexType = new ScriptType( type );
+
+		readToken();	// type name
+		if ( currentToken() == null )
+			throw new AdvancedScriptException( "] expected " + getLineAndFile() );
+
+		if ( currentToken().equals( "]" ) )
+		{
+			readToken();	// ]
+			return new ScriptAggregateType( dataType, indexType );
+		}
+
+		if ( currentToken().equals( "," ) )
+			return new ScriptAggregateType( parseAggregateType( dataType ) , indexType );
+
+		throw new AdvancedScriptException( ", or ] expected " + getLineAndFile() );
+	}
+
+        private boolean integerToken()
+	{
+                for ( int i = 0; i < currentToken().length(); ++i )
+                {
+                        if ( !Character.isDigit( currentToken().charAt( i ) ) )
+                                return false;
+                }
+
+                return true;
+        }
+
+	private int parseTypeString( String type )
+	{
+		if ( type.equalsIgnoreCase( "void" ) )
+			return TYPE_VOID;
+		if ( type.equalsIgnoreCase( "boolean" ) )
+			return TYPE_BOOLEAN;
+		if ( type.equalsIgnoreCase( "int" ) )
+			return TYPE_INT;
+		if ( type.equalsIgnoreCase( "float" ) )
+			return TYPE_FLOAT;
+		if ( type.equalsIgnoreCase( "string" ) )
+			return TYPE_STRING;
+		if ( type.equalsIgnoreCase( "item" ) )
+			return TYPE_ITEM;
+		if ( type.equalsIgnoreCase( "zodiac" ) )
+			return TYPE_ZODIAC;
+		if ( type.equalsIgnoreCase( "location" ) )
+			return TYPE_LOCATION;
+		if ( type.equalsIgnoreCase( "class" ) )
+			return TYPE_CLASS;
+		if ( type.equalsIgnoreCase( "stat" ) )
+			return TYPE_STAT;
+		if ( type.equalsIgnoreCase( "skill" ) )
+			return TYPE_SKILL;
+		if ( type.equalsIgnoreCase( "effect" ) )
+			return TYPE_EFFECT;
+		if ( type.equalsIgnoreCase( "familiar" ) )
+			return TYPE_FAMILIAR;
+		if ( type.equalsIgnoreCase( "slot" ) )
+			return TYPE_SLOT;
+		if ( type.equalsIgnoreCase( "monster" ) )
+			return TYPE_MONSTER;
+
+		return -1;
 	}
 
 	private boolean parseIdentifier( String identifier )
@@ -1046,26 +1121,90 @@ public class KoLmafiaASH extends StaticEntity
 
 		readToken(); // )
 
-		ScriptCall result = new ScriptCall( name, scope, params );
-		return result;
+		return new ScriptCall( name, scope, params );
 	}
 
 	private ScriptAssignment parseAssignment( ScriptScope scope ) throws AdvancedScriptException
 	{
-		if ( nextToken() == null || !nextToken().equals( "=" ) )
+		if ( nextToken() == null )
+			return null;
+
+		if ( !nextToken().equals( "=" ) && !nextToken().equals( "[" ) )
 			return null;
 
 		if ( !parseIdentifier( currentToken() ) )
 			return null;
 
-		String name = currentToken();
+		ScriptVariableReference lhs;
 
-		readToken(); //name
+		if ( nextToken().equals( "[" ) )
+		{
+			lhs = parseAggregateReference( scope );
+			if ( !currentToken().equals( "=" ) )
+				return null;
+		}
+		else
+			lhs = parseVariableReference( scope );
+
 		readToken(); //=
 
-		ScriptVariableReference lhs = new ScriptVariableReference( name, scope );
 		ScriptExpression rhs = parseExpression( scope );
 		return new ScriptAssignment( lhs, rhs );
+	}
+
+	private ScriptVariableReference parseAggregateReference( ScriptScope scope ) throws AdvancedScriptException
+	{
+		if ( nextToken() == null || !nextToken().equals( "[" ) )
+			return null;
+
+		String name = currentToken();
+		ScriptVariable var = scope.findVariable( name, true );
+
+		if ( var == null || !var.getType().equals( TYPE_AGGREGATE ) )
+			return null;
+
+		readToken(); //name
+		readToken(); //[
+
+		ScriptExpressionList indices = new ScriptExpressionList();
+		while ( currentToken() != null && !currentToken().equals( "]" ) )
+		{
+			ScriptExpression val = parseExpression( scope );
+			if ( val != null )
+				indices.addElement( val );
+
+			if ( !currentToken().equals( "," ) )
+			{
+				if ( !currentToken().equals( "]" ) )
+					throw new AdvancedScriptException( "']' Expected " + getLineAndFile() );
+			}
+			else
+			{
+				readToken();
+				if ( currentToken().equals( "]" ) )
+					throw new AdvancedScriptException( "Index expected " + getLineAndFile() );
+			}
+		}
+
+		if ( !currentToken().equals( "]" ) )
+			throw new AdvancedScriptException( "']' Expected " + getLineAndFile() );
+
+		readToken(); //]
+
+		// Validate the indices and give helpful error messages
+		ScriptType type = var.getType();
+		for ( int i = 0; i < indices.size(); ++i )
+		{
+			if ( !( type instanceof ScriptAggregateType ) )
+				throw new AdvancedScriptException( "Too many indices supplied for variable " + name + " " + getLineAndFile() );
+			ScriptType itype = ((ScriptAggregateType)type).getIndexType();
+			ScriptExpression exp = (ScriptExpression)indices.get(i);
+			if ( !exp.getType().equals( itype ) )
+				throw new AdvancedScriptException( "Index # " + i + " has wrong data type for variable " + name + " " + getLineAndFile() );
+			type = ((ScriptAggregateType)type).getDataType();
+		}
+
+		return new ScriptAggregateReference( var, indices );
 	}
 
 	private ScriptExpression parseExpression( ScriptScope scope ) throws AdvancedScriptException
@@ -1109,7 +1248,9 @@ public class KoLmafiaASH extends StaticEntity
 
 			readToken(); //operator
 
-			rhs = parseExpression( scope, oper );
+			if ( (rhs = parseExpression( scope, oper )) == null )
+				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
+
                         if ( !validCoercion( lhs.getType(), rhs.getType(), oper.toString() ) )
                                 throw new AdvancedScriptException( "Cannot apply " + rhs.getType() + " to " + lhs + " " + getLineAndFile() );
 			lhs = new ScriptExpression( lhs, rhs, oper );
@@ -1149,6 +1290,9 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		if ( (result = parseCall( scope )) != null )
+			return result;
+
+		if ( (result = parseAggregateReference( scope )) != null )
 			return result;
 
 		if ( (result = parseVariableReference( scope )) != null )
@@ -1206,7 +1350,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			readToken();
 
-			ScriptType type = parseType();
+			ScriptType type = parseType( false );
 			if ( type == null )
 				throw new AdvancedScriptException( "Unknown type " + currentToken() + " " + getLineAndFile() );
 
@@ -1268,13 +1412,12 @@ public class KoLmafiaASH extends StaticEntity
 			oper.equals( "+" ) || oper.equals( "-" ) ||
 			oper.equals( "<" ) || oper.equals( ">" ) || oper.equals( "<=" ) || oper.equals( ">=" ) ||
 			oper.equals( "==" ) || oper.equals( "!=" ) ||
-			oper.equals( "||" ) || oper.equals( "&&" )
+			oper.equals( "||" ) || oper.equals( "&&" ) || oper.equals( "contains" )
 		 )
 		{
 			return new ScriptOperator( oper );
 		}
-		else
-			return null;
+		return null;
 	}
 
 	private ScriptVariableReference parseVariableReference( ScriptScope scope ) throws AdvancedScriptException
@@ -1285,7 +1428,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String name = currentToken();
 			result = new ScriptVariableReference( name, scope );
-
+			if ( !result.valid() )
+				throw new AdvancedScriptException( "Unknown variable " + name + " " + getLineAndFile() );
 			readToken(); //name
 			return result;
 		}
@@ -1321,6 +1465,12 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )
 	{
+		if ( oper != null && oper.equals( "contains" ) )
+                {
+			return lhs.getType() == TYPE_AGGREGATE &&
+				((ScriptAggregateType)lhs).getIndexType().equals( rhs );
+                }
+
 		if ( lhs.equals( rhs ) )
 			return true;
 
@@ -1556,7 +1706,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	public void printValue( ScriptValue value, int indent )
 	{
-		if ( value instanceof ScriptVariableReference )
+		if ( value instanceof ScriptAggregateReference )
+			printAggregateReference( (ScriptAggregateReference) value, indent );
+		else if ( value instanceof ScriptVariableReference )
 			printVariableReference( (ScriptVariableReference) value, indent );
 		else if ( value instanceof ScriptCall )
 			printCall( (ScriptCall) value, indent );
@@ -1571,6 +1723,12 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		indentLine( indent );
 		KoLmafia.getDebugStream().println( "<OPER " + oper + ">" );
+	}
+
+	public void printAggregateReference( ScriptAggregateReference varRef, int indent )
+	{
+		indentLine( indent );
+		KoLmafia.getDebugStream().println( "<AGGREF> " + varRef.getName() );
 	}
 
 	public void printVariableReference( ScriptVariableReference varRef, int indent )
@@ -2183,7 +2341,17 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptVariable findVariable( String name )
-		{	return variables.findVariable( name );
+		{	return findVariable( name, false );
+		}
+
+		public ScriptVariable findVariable( String name, boolean recurse )
+		{
+			ScriptVariable current = variables.findVariable( name );
+			if ( current != null )
+				return current;
+			if ( recurse && parentScope != null )
+				return parentScope.findVariable( name, true );
+			return null;
 		}
 
 		public void addCommand( ScriptCommand c )
@@ -3172,27 +3340,18 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptVariableReference extends ScriptValue
 	{
-		ScriptVariable target;
+		protected ScriptVariable target;
 
 		public ScriptVariableReference( ScriptVariable target )
 		{	this.target = target;
 		}
 
-		public ScriptVariableReference( String varName, ScriptScope scope ) throws AdvancedScriptException
-		{	target = findVariable( varName, scope );
+		public ScriptVariableReference( String varName, ScriptScope scope )
+		{	target = scope.findVariable( varName, true );
 		}
 
-		private ScriptVariable findVariable( String name, ScriptScope scope ) throws AdvancedScriptException
-		{
-			while ( scope != null )
-			{
-				ScriptVariable current = scope.findVariable( name );
-				if ( current != null )
-					return current;
-				scope = scope.getParentScope();
-			}
-
-			return null;
+		public boolean valid()
+		{	return target != null;
 		}
 
 		public ScriptType getType()
@@ -3207,7 +3366,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return target.getName().compareTo( ((ScriptVariableReference)o).target.getName() );
 		}
 
-		public ScriptValue execute()
+		public ScriptValue execute() throws AdvancedScriptException
 		{	return target.getValue();
 		}
 
@@ -3219,6 +3378,142 @@ public class KoLmafiaASH extends StaticEntity
 		{	return target.getName();
 		}
 	}
+
+	private class ScriptAggregateReference extends ScriptVariableReference
+	{
+		private ScriptExpressionList indices;
+
+		// Derived from indices: Final slice and index into it
+		private ScriptAggregateValue slice;
+		private ScriptValue index;
+
+		public ScriptAggregateReference( ScriptVariable target, ScriptExpressionList indices )
+		{
+                        super( target );
+                        this.indices = indices;
+		}
+
+		public ScriptType getType()
+		{
+			ScriptType type = target.getType();
+			for ( int i = 0; i < indices.size(); ++i )
+				type = ((ScriptAggregateType)type).getDataType();
+			return type;
+		}
+
+		public String getName()
+		{	return target.getName() + "[]";
+		}
+
+		public ScriptValue execute() throws AdvancedScriptException
+		{	return getValue();
+		}
+
+		// Evaluate all the indices and step through the slices.
+		//
+		// When done, this.slice has the final slice and this.index has
+		// the final evaluated index.
+
+		private boolean getSlice() throws AdvancedScriptException
+		{
+			if ( !client.permitsContinue() )
+			{
+				currentState = STATE_EXIT;
+				return false;
+			}
+
+			slice = (ScriptAggregateValue)target.getValue();
+			index = null;
+
+			traceIndent();
+			trace( "AREF: " + slice.toString() );
+
+			int count = indices.size();
+			for ( int i = 0; i < count; ++i )
+			{
+				ScriptExpression exp = (ScriptExpression)indices.get(i);
+
+				trace( "Index #" + i + ": " + index );
+
+				index = exp.execute();
+				captureValue( index );
+
+				trace( "[" + executionStateString( currentState ) + "] <- " + index );
+
+				if ( currentState == STATE_EXIT )
+				{
+					traceUnindent();
+					return false;
+				}
+
+				// If this is the last index, stop now
+				if ( i == count - 1 )
+					break;
+
+				ScriptAggregateValue result = (ScriptAggregateValue)slice.aref( index );
+
+				// Create missing intermediate slices
+				if ( result == null )
+				{
+					result = (ScriptAggregateValue)slice.getAggregateType().getDataType().initialValue();
+					slice.aset( index, result );
+				}
+
+				slice = result;
+				
+				trace( "AREF: " + slice.toString() );
+			}
+
+			traceUnindent();
+
+			return true;
+		}
+
+		public ScriptValue getValue() throws AdvancedScriptException
+		{
+			// Iterate through indices to final slice
+			if ( getSlice() )
+			{
+				ScriptValue result = slice.aref( index );
+				if ( result == null )
+				{
+					result = slice.getAggregateType().getDataType().initialValue();
+					slice.aset( index, result );
+				}
+				return result;
+			}
+
+			return null;
+		}
+
+		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
+		{
+			// Iterate through indices to final slice
+			if ( getSlice() )
+				slice.aset( index, targetValue );
+		}
+
+
+		public boolean contains( ScriptValue index ) throws AdvancedScriptException
+		{
+			// Iterate through indices to final slice
+			if ( getSlice() )
+				return slice.aref( index ) != null;
+			return false;
+		}
+
+		public ScriptExpression getFirstIndex()
+		{	return ( ScriptExpression)indices.getFirstElement();
+		}
+
+		public ScriptExpression getNextIndex()
+		{	return ( ScriptExpression)indices.getNextElement();
+		}
+
+		public String toString()
+		{	return target.getName() + "[]";
+		}
+        }
 
 	private static class ScriptVariableReferenceList extends ScriptList
 	{
@@ -3266,7 +3561,7 @@ public class KoLmafiaASH extends StaticEntity
 			case COMMAND_EXIT:
 				return "exit";
 			}
-			return "<unknown command>";
+			return "unknown command";
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
@@ -3646,7 +3941,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.rhs = rhs;
 
 			if ( !validCoercion( lhs.getType(), rhs.getType(), null ) )
-			     throw new AdvancedScriptException( "Cannot apply " + rhs.getType() + " to " + lhs + " " + getLineAndFile() );
+			     throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " " + getLineAndFile() );
 		}
 
 		public ScriptVariableReference getLeftHandSide()
@@ -3763,6 +4058,10 @@ public class KoLmafiaASH extends StaticEntity
 			return "unknown type";
 		}
 
+		public ScriptType simpleType()
+		{	return this;
+		}
+
 		public ScriptValue initialValue()
 		{
 			switch ( type )
@@ -3802,14 +4101,93 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private static class ScriptValue extends ScriptExpression
+	private static class ScriptAggregateType extends ScriptType
 	{
-		ScriptType type;
+		private ScriptType dataType;
+		private ScriptType indexType;
+		private int size;
 
-		int contentInt = 0;
-		double contentFloat = 0.0;
-		String contentString = null;
-		Object content = null;
+		// Map
+		public ScriptAggregateType( ScriptType dataType, ScriptType indexType )
+		{
+			super( TYPE_AGGREGATE );
+			this.dataType = dataType;
+			this.indexType = indexType;
+			this.size = 0;
+		}
+
+		// Array
+		public ScriptAggregateType( ScriptType dataType, int size )
+		{
+			super( TYPE_AGGREGATE );
+			this.dataType = dataType;
+			this.indexType = INT_TYPE;
+			this.size = size;
+		}
+
+		public ScriptType getDataType()
+		{	return dataType;
+		}
+
+		public ScriptType getIndexType()
+		{	return indexType;
+		}
+
+		public int getSize()
+		{	return size;
+		}
+
+		public boolean equals( ScriptType o )
+		{
+			return ( o instanceof ScriptAggregateType &&
+				 size == ((ScriptAggregateType)o).size &&
+				 dataType.equals( ((ScriptAggregateType)o).dataType ) &&
+				 indexType.equals( ((ScriptAggregateType)o).indexType ) );
+		}
+
+		public ScriptType simpleType()
+		{
+			if ( dataType instanceof ScriptAggregateType )
+				return dataType.simpleType();
+			return dataType;
+		}
+
+		public String toString()
+		{
+			return simpleType().toString() + " [" + indexString() + "]";
+		}
+
+		public String indexString()
+		{
+			if ( dataType instanceof ScriptAggregateType )
+			{
+				String suffix = ", " + ((ScriptAggregateType)dataType).indexString();
+				if ( size != 0 )
+					return size + suffix;
+				return indexType.toString() + suffix;
+			}
+
+			if ( size != 0 )
+				return String.valueOf( size );
+			return indexType.toString();
+		}
+
+		public ScriptValue initialValue()
+		{
+                        if ( size != 0 )
+                                return new ScriptArray( this );
+                        return new ScriptMap( this );
+		}
+	}
+
+	private static class ScriptValue extends ScriptExpression implements Comparable
+	{
+		protected ScriptType type;
+
+		protected int contentInt = 0;
+		protected double contentFloat = 0.0;
+		protected String contentString = null;
+		protected Object content = null;
 
 		public ScriptValue()
 		{	this.type = VOID_TYPE;
@@ -3890,7 +4268,7 @@ public class KoLmafiaASH extends StaticEntity
 		public String toString()
 		{
 			if ( type.equals( TYPE_VOID ) )
-				return "<void>";
+				return "void";
 
 			if ( contentString != null )
 				return contentString;
@@ -3927,6 +4305,119 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			return this;
+		}
+
+		public int compareTo( Object o )
+		{
+			if ( !( o instanceof ScriptValue ) )
+				throw new ClassCastException();
+
+			ScriptValue it = (ScriptValue)o;
+
+			if ( contentString != null )
+				return contentString.compareTo( it.contentString );
+
+			if ( type == INT_TYPE )
+				return ( contentInt < it.contentInt ) ? -1 : (contentInt == it.contentInt ) ? 0 : 1;
+
+			if ( type == FLOAT_TYPE )
+				return ( contentFloat < it.contentFloat ) ? -1 : (contentFloat == it.contentFloat ) ? 0 : 1;
+
+			return -1;
+		}
+
+		public boolean contains( ScriptValue index ) throws AdvancedScriptException
+		{	return false;
+                }
+	}
+
+	private static class ScriptAggregateValue extends ScriptValue
+	{
+		public ScriptAggregateValue( ScriptAggregateType type )
+		{	super( type );
+		}
+
+		public ScriptAggregateType getAggregateType()
+		{	return (ScriptAggregateType)type;
+		}
+
+		public ScriptValue aref( ScriptValue index )
+		{	return null;
+                }
+
+		public void aset( ScriptValue index,  ScriptValue val )
+		{
+                }
+
+		public String toString()
+		{	return "aggregate " + type.toString();
+                }
+        }
+
+	private static class ScriptArray extends ScriptAggregateValue
+	{
+		public ScriptArray( ScriptAggregateType type )
+		{
+			super( type );
+
+			int size = type.getSize();
+			ScriptType dataType = type.getDataType();
+			ScriptValue [] content = new ScriptValue[ size ];
+			for ( int i = 0; i < size; ++i )
+				content[i] = dataType.initialValue();
+			this.content = content;
+		}
+
+		public ScriptValue aref( ScriptValue index )
+		{
+			ScriptValue [] array = (ScriptValue [])content;
+			int i = index.intValue();
+			if ( i < 0 || i > array.length )
+				throw new RuntimeException( "Array index out of bounds" );
+			return array[ i ];
+		}
+
+		public void aset( ScriptValue index,  ScriptValue val )
+		{
+			ScriptValue [] array = (ScriptValue [])content;
+			int i = index.intValue();
+			if ( i < 0 || i > array.length )
+				throw new RuntimeException( "Array index out of bounds" );
+			array[ i ] = val;
+		}
+
+		public boolean contains( ScriptValue index )
+		{
+			ScriptValue [] array = (ScriptValue [])content;
+			int i = index.intValue();
+			return ( i >= 0 && i < array.length );
+		}
+	}
+
+	private static class ScriptMap extends ScriptAggregateValue
+	{
+		public ScriptMap( ScriptAggregateType type )
+		{
+			super( type );
+			this.content = new TreeMap();
+		}
+
+		public ScriptValue aref( ScriptValue index )
+		{
+			TreeMap map = (TreeMap)content;
+			return (ScriptValue)map.get( index );
+		}
+
+		public void aset( ScriptValue index,  ScriptValue val )
+		{
+			TreeMap map = (TreeMap)content;
+			map.put( index, val );
+		}
+
+		public boolean contains( ScriptValue index )
+		{
+			TreeMap map = (TreeMap)content;
+			return map.containsKey( index );
 		}
 	}
 
@@ -4045,14 +4536,14 @@ public class KoLmafiaASH extends StaticEntity
 			if ( operator.equals( "==" ) || operator.equals( "!=" ) )
 				return 2;
 
-			if ( operator.equals( "||" ) || operator.equals( "&&" ) )
+			if ( operator.equals( "||" ) || operator.equals( "&&" ) || operator.equals( "contains" ) )
 				return 1;
 
 			return -1;
 		}
 
 		public boolean isBool()
-		{	return !operator.equals( "*" ) && !operator.equals( "/" ) && !operator.equals( "%" ) && !operator.equals( "+" ) && !operator.equals( "-" );
+		{	return !operator.equals( "*" ) && !operator.equals( "/" ) && !operator.equals( "%" ) && !operator.equals( "+" ) && !operator.equals( "-" ) ;
 		}
 
 		public String toString()
@@ -4094,6 +4585,7 @@ public class KoLmafiaASH extends StaticEntity
 					return null;
 				return rightValue;
 			}
+
 			if ( operator.equals( "&&" ) )
 			{
 				if ( leftValue.intValue() == 0 )
@@ -4108,6 +4600,16 @@ public class KoLmafiaASH extends StaticEntity
 			// Ensure type compatibility of operands
 			if ( !validCoercion( lhs.getType(), rhs.getType(), operator ) )
 				throw new RuntimeException( "Internal error: left hand side and right hand side do not correspond" );
+
+			// Special binary operator: <aggref> contains <any>
+			if ( operator.equals( "contains" ) )
+			{
+				ScriptValue rightValue = rhs.execute();
+				captureValue( rightValue);
+				if ( currentState == STATE_EXIT )
+					return null;
+				return new ScriptValue( leftValue.contains( rightValue) );
+			}
 
 			// Binary operators
 			ScriptValue rightValue = rhs.execute();
