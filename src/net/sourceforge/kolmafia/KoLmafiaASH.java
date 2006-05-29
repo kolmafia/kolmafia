@@ -60,6 +60,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.Set;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -824,7 +825,10 @@ public class KoLmafiaASH extends StaticEntity
 		else if ( (result = parseReturn( functionType, scope )) != null )
 			;
 		else if ( (result = parseLoop( functionType, scope, noElse, whileLoop )) != null )
-			//loop doesn't have a ; token
+			// loop doesn't have a ; token
+			return result;
+		else if ( (result = parseForeach( scope )) != null )
+			// foreach doesn't have a ; token
 			return result;
 		else if ( (result = parseCall( scope )) != null )
 			;
@@ -989,12 +993,12 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private ScriptLoop parseLoop( ScriptType functionType, ScriptScope parentScope, boolean noElse, boolean loop ) throws AdvancedScriptException
+	private ScriptConditional parseLoop( ScriptType functionType, ScriptScope parentScope, boolean noElse, boolean loop ) throws AdvancedScriptException
 	{
 		ScriptScope scope;
 		ScriptExpression expression;
-		ScriptLoop result = null;
-		ScriptLoop currentLoop = null;
+		ScriptConditional result = null;
+		ScriptConditional currentLoop = null;
 		ScriptCommand command = null;
 		boolean repeat = false;
 		boolean elseFound = false;
@@ -1024,7 +1028,7 @@ public class KoLmafiaASH extends StaticEntity
 					command = parseCommand( functionType, parentScope, !elseFound, (repeat || loop) );
 					scope = new ScriptScope( command, parentScope );
 					if ( result == null )
-						result = new ScriptLoop( scope, expression, repeat );
+						result = new ScriptConditional( scope, expression, repeat );
 				}
 				else
 				{
@@ -1036,9 +1040,9 @@ public class KoLmafiaASH extends StaticEntity
 
 					readToken(); //read }
 					if ( result == null )
-						result = new ScriptLoop( scope, expression, repeat );
+						result = new ScriptConditional( scope, expression, repeat );
 					else
-						result.addElseLoop( new ScriptLoop( scope, expression, false ) );
+						result.addElseLoop( new ScriptConditional( scope, expression, false ) );
 				}
 				if ( !repeat && !noElse && currentToken() != null && currentToken().equalsIgnoreCase( "else" ) )
 				{
@@ -1081,6 +1085,67 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 
 		return result;
+	}
+
+	private ScriptForeach parseForeach( ScriptScope parentScope ) throws AdvancedScriptException
+	{
+		// foreach key in aggregate {scope }
+
+		if ( currentToken() == null )
+			return null;
+
+		if ( !(currentToken().equalsIgnoreCase( "foreach" ) ) )
+			return null;
+
+		String name = nextToken();
+
+		if ( !parseIdentifier( name ) )
+			return null;
+
+		readToken();	// foreach
+		readToken();	// name
+
+		if ( !(currentToken().equalsIgnoreCase( "in" ) ) )
+			throw new AdvancedScriptException( "'in' expected " + getLineAndFile() );
+		readToken();	// in
+
+		// Get the aggregate reference
+		ScriptVariableReference aggregate = parseAggregateReference( parentScope );
+		if ( aggregate == null )
+			aggregate = parseVariableReference( parentScope );
+
+		if ( aggregate == null || !(aggregate.getType() instanceof ScriptAggregateType) )
+			throw new AdvancedScriptException( "Aggregate reference expected " + getLineAndFile() );
+
+		// Define a key variable of appropriate type
+                ScriptType itype = ((ScriptAggregateType)aggregate.getType()).getIndexType();
+		ScriptVariable keyvar = new ScriptVariable( name, itype );
+
+		// Put keyvar onto a list
+		ScriptVariableList varList = new ScriptVariableList();
+		varList.addElement( keyvar );
+
+		ScriptScope scope;
+
+		if ( currentToken().equals( "{" ) )
+		{
+			// Scope is a block
+
+			readToken(); // {
+
+			scope = parseScope( null, VOID_TYPE, varList, parentScope, false );
+			if ( !currentToken().equals( "}" ) )
+				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
+			readToken(); //read }
+		}
+		else
+		{
+			// Scope is a single command
+			scope = new ScriptScope( varList, parentScope );
+			scope.addCommand( parseCommand( VOID_TYPE, scope, false, false ) );
+		}
+
+		return new ScriptForeach( scope, new ScriptVariableReference( keyvar ), aggregate );
 	}
 
 	private ScriptCall parseCall( ScriptScope scope ) throws AdvancedScriptException
@@ -1152,7 +1217,7 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptAssignment( lhs, rhs );
 	}
 
-	private ScriptVariableReference parseAggregateReference( ScriptScope scope ) throws AdvancedScriptException
+	private ScriptAggregateReference parseAggregateReference( ScriptScope scope ) throws AdvancedScriptException
 	{
 		if ( nextToken() == null || !nextToken().equals( "[" ) )
 			return null;
@@ -1641,8 +1706,10 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		if ( command instanceof ScriptReturn )
 			printReturn( ( ScriptReturn ) command, indent );
-		else if ( command instanceof ScriptLoop )
-			printLoop( ( ScriptLoop ) command, indent );
+		else if ( command instanceof ScriptConditional )
+			printLoop( ( ScriptConditional ) command, indent );
+		else if ( command instanceof ScriptForeach )
+			printForeach( ( ScriptForeach ) command, indent );
 		else if ( command instanceof ScriptCall )
 			printCall( ( ScriptCall ) command, indent );
 		else if ( command instanceof ScriptAssignment )
@@ -1662,7 +1729,7 @@ public class KoLmafiaASH extends StaticEntity
 			printExpression( ret.getExpression(), indent + 1 );
 	}
 
-	private void printLoop( ScriptLoop loop, int indent )
+	private void printLoop( ScriptConditional loop, int indent )
 	{
 		indentLine( indent );
 		if ( loop.repeats() )
@@ -1671,8 +1738,17 @@ public class KoLmafiaASH extends StaticEntity
 			KoLmafia.getDebugStream().println( "<IF>" );
 		printExpression( loop.getCondition(), indent + 1 );
 		printScope( loop.getScope(), indent + 1 );
-		for ( ScriptLoop currentElse = loop.getFirstElseLoop(); currentElse != null; currentElse = loop.getNextElseLoop() )
+		for ( ScriptConditional currentElse = loop.getFirstElseLoop(); currentElse != null; currentElse = loop.getNextElseLoop() )
 			printLoop( currentElse, indent + 1 );
+	}
+
+	private void printForeach( ScriptForeach foreach, int indent )
+	{
+		indentLine( indent );
+		KoLmafia.getDebugStream().println( "<FOREACH>" );
+		printVariableReference( foreach.getVariable(), indent + 1 );
+		printVariableReference( foreach.getAggregate(), indent + 1 );
+		printScope( foreach.getScope(), indent + 1 );
 	}
 
 	private void printCall( ScriptCall call, int indent )
@@ -1706,9 +1782,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	public void printValue( ScriptValue value, int indent )
 	{
-		if ( value instanceof ScriptAggregateReference )
-			printAggregateReference( (ScriptAggregateReference) value, indent );
-		else if ( value instanceof ScriptVariableReference )
+		if ( value instanceof ScriptVariableReference )
 			printVariableReference( (ScriptVariableReference) value, indent );
 		else if ( value instanceof ScriptCall )
 			printCall( (ScriptCall) value, indent );
@@ -1733,6 +1807,11 @@ public class KoLmafiaASH extends StaticEntity
 
 	public void printVariableReference( ScriptVariableReference varRef, int indent )
 	{
+		if ( varRef instanceof ScriptAggregateReference )
+		{
+			printAggregateReference( (ScriptAggregateReference)varRef, indent );
+			return;
+		}
 		indentLine( indent );
 		KoLmafia.getDebugStream().println( "<VARREF> " + varRef.getName() );
 	}
@@ -3401,6 +3480,14 @@ public class KoLmafiaASH extends StaticEntity
 			return type;
 		}
 
+		public ScriptType getIndexType()
+		{
+			ScriptType type = ((ScriptAggregateType)target.getType()).getIndexType();
+			for ( int i = 0; i < indices.size(); ++i )
+				type = ((ScriptAggregateType)type).getIndexType();
+			return type;
+		}
+
 		public String getName()
 		{	return target.getName() + "[]";
 		}
@@ -3672,46 +3759,89 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-
 	private class ScriptLoop extends ScriptCommand
 	{
-		private boolean repeat;
-		private ScriptExpression condition;
-		private ScriptScope scope;
-		private ScriptLoopList elseLoops;
+		protected ScriptScope scope;
+		protected boolean repeat;
 
-		public ScriptLoop( ScriptScope scope, ScriptExpression condition, boolean repeat ) throws AdvancedScriptException
+		public ScriptLoop( ScriptScope scope, boolean repeat ) throws AdvancedScriptException
 		{
 			this.scope = scope;
-			this.condition = condition;
-			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
-				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getLineAndFile() );
-
 			this.repeat = repeat;
-			elseLoops = new ScriptLoopList();
-		}
-
-		public boolean repeats()
-		{	return repeat;
-		}
-
-		public ScriptExpression getCondition()
-		{	return condition;
 		}
 
 		public ScriptScope getScope()
 		{	return scope;
 		}
 
-		public ScriptLoop getFirstElseLoop()
-		{	return ( ScriptLoop )elseLoops.getFirstElement();
+		public boolean repeats()
+		{	return repeat;
 		}
 
-		public ScriptLoop getNextElseLoop()
-		{	return ( ScriptLoop )elseLoops.getNextElement();
+		public ScriptValue execute() throws AdvancedScriptException
+		{
+			ScriptValue result = scope.execute();
+
+			if ( !client.permitsContinue() )
+				currentState = STATE_EXIT;
+
+			switch ( currentState )
+			{
+			case STATE_EXIT:
+				return null;
+
+			case STATE_BREAK:
+				// Stay in state; superclass exits loop
+				return VOID_VALUE;
+
+			case STATE_RETURN:
+				// Stay in state; superclass exits loop
+				return result;
+
+			case STATE_CONTINUE:
+				if ( !repeat )
+					// Stay in state; superclass exits loop
+					return VOID_VALUE;
+				// Done with this iteration
+				currentState = STATE_NORMAL;
+				return result;
+
+			case STATE_NORMAL:
+				return result;
+			}
+
+			return result;
+		}
+	}
+
+	private class ScriptConditional extends ScriptLoop
+	{
+		private ScriptExpression condition;
+		private ScriptConditionalList elseLoops;
+
+		public ScriptConditional( ScriptScope scope, ScriptExpression condition, boolean repeat ) throws AdvancedScriptException
+		{
+			super( scope, repeat );
+			this.condition = condition;
+			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
+				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getLineAndFile() );
+
+			elseLoops = new ScriptConditionalList();
 		}
 
-		public void addElseLoop( ScriptLoop elseLoop ) throws AdvancedScriptException
+		public ScriptExpression getCondition()
+		{	return condition;
+		}
+
+		public ScriptConditional getFirstElseLoop()
+		{	return (ScriptConditional)elseLoops.getFirstElement();
+		}
+
+		public ScriptConditional getNextElseLoop()
+		{	return (ScriptConditional)elseLoops.getNextElement();
+		}
+
+		public void addElseLoop( ScriptConditional elseLoop ) throws AdvancedScriptException
 		{
 			if ( repeat == true )
 				throw new AdvancedScriptException( "Else without if " + getLineAndFile() );
@@ -3752,10 +3882,7 @@ public class KoLmafiaASH extends StaticEntity
 				// The condition was satisfied at least once
 				executed = true;
 
-				ScriptValue result = scope.execute();
-
-				if ( !client.permitsContinue() )
-					currentState = STATE_EXIT;
+				ScriptValue result = super.execute();
 
 				if ( currentState == STATE_BREAK )
 				{
@@ -3766,27 +3893,10 @@ public class KoLmafiaASH extends StaticEntity
 					return VOID_VALUE;
 				}
 
-				if ( currentState == STATE_CONTINUE )
-				{
-					if ( !repeat )
-					{
-						traceUnindent();
-						return VOID_VALUE;
-					}
-
-					currentState = STATE_NORMAL;
-				}
-
-				if ( currentState == STATE_RETURN )
+				if ( currentState != STATE_NORMAL )
 				{
 					traceUnindent();
 					return result;
-				}
-
-				if ( currentState == STATE_EXIT )
-				{
-					traceUnindent();
-					return null;
 				}
 			}
 
@@ -3797,7 +3907,7 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			// Conditional failed. Move to else clauses
-			for ( ScriptLoop elseLoop = elseLoops.getFirstScriptLoop(); elseLoop != null; elseLoop = elseLoops.getNextScriptLoop() )
+			for ( ScriptConditional elseLoop = elseLoops.getFirstScriptConditional(); elseLoop != null; elseLoop = elseLoops.getNextScriptConditional() )
 			{
 				ScriptValue result = elseLoop.execute();
 				if ( currentState != STATE_NORMAL )
@@ -3816,19 +3926,94 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-
-	private static class ScriptLoopList extends ScriptList
+	private class ScriptForeach extends ScriptLoop
 	{
-		public boolean addElement( ScriptLoop n )
+		private ScriptVariableReference variable;
+		private ScriptVariableReference aggregate;
+
+		public ScriptForeach( ScriptScope scope, ScriptVariableReference variable, ScriptVariableReference aggregate ) throws AdvancedScriptException
+		{
+			super( scope, true );
+			this.variable = variable;
+			this.aggregate = aggregate;
+		}
+
+		public ScriptVariableReference getVariable()
+		{	return variable;
+		}
+
+		public ScriptVariableReference getAggregate()
+		{	return aggregate;
+		}
+
+		public ScriptValue execute() throws AdvancedScriptException
+		{
+			if ( !client.permitsContinue() )
+			{
+				currentState = STATE_EXIT;
+				return null;
+			}
+
+			traceIndent();
+			trace( this.toString() );
+
+			// Evaluate the aggref to get the slice
+			ScriptAggregateValue slice = (ScriptAggregateValue)aggregate.execute();
+			captureValue( slice );
+			if ( currentState == STATE_EXIT )
+				return null;
+
+			// Get an array of keys for it
+			ScriptValue [] keys = slice.keys();
+
+			// While there are further keys
+			for ( int i = 0; i < keys.length; ++i )
+			{
+				// Get current key
+				ScriptValue key = keys[i];
+
+				// Bind variable to key
+				variable.setValue( key );
+
+				trace( "Key #" + i + ": " + key );
+
+				// execute scope
+				ScriptValue result = super.execute();
+
+				switch ( currentState )
+				{
+				case STATE_NORMAL:
+					break;
+				case STATE_BREAK:
+					currentState = STATE_NORMAL;
+					// Fall through
+				default:
+					traceUnindent();
+					return VOID_VALUE;
+				}
+			}
+
+			traceUnindent();
+			return VOID_VALUE;
+		}
+
+		public String toString()
+		{	return "foreach";
+		}
+	}
+
+	private static class ScriptConditionalList extends ScriptList
+	{
+		public boolean addElement( ScriptConditional n )
 		{	return super.addElement( n );
 		}
 
-		public ScriptLoop getFirstScriptLoop()
-		{	return (ScriptLoop)getFirstElement();
+		public ScriptConditional getFirstScriptConditional()
+		{	return (ScriptConditional)getFirstElement();
 		}
 
-		public ScriptLoop getNextScriptLoop()
-		{	return (ScriptLoop)getNextElement();
+		public ScriptConditional getNextScriptConditional()
+		{	return (ScriptConditional)getNextElement();
 		}
 	}
 
@@ -4349,6 +4534,14 @@ public class KoLmafiaASH extends StaticEntity
 		{
                 }
 
+		public boolean contains( ScriptValue index )
+		{	return false;
+		}
+
+		public ScriptValue [] keys()
+		{	return new ScriptValue[0];
+		}
+
 		public String toString()
 		{	return "aggregate " + type.toString();
                 }
@@ -4392,6 +4585,15 @@ public class KoLmafiaASH extends StaticEntity
 			int i = index.intValue();
 			return ( i >= 0 && i < array.length );
 		}
+
+		public ScriptValue [] keys()
+		{
+			int size = ((ScriptValue [])content).length;
+			ScriptValue [] result = new ScriptValue[ size ];
+			for ( int i = 0; i < size; ++i )
+				result[i] = new ScriptValue(i);
+			return result;
+		}
 	}
 
 	private static class ScriptMap extends ScriptAggregateValue
@@ -4418,6 +4620,14 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			TreeMap map = (TreeMap)content;
 			return map.containsKey( index );
+		}
+
+		public ScriptValue [] keys()
+		{	
+			Set set = ((TreeMap)content).keySet();
+			ScriptValue [] keys = new ScriptValue[ set.size() ];
+			set.toArray( keys );
+			return keys;
 		}
 	}
 
