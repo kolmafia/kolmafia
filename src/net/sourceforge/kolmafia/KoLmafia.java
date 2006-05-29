@@ -1082,8 +1082,14 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < fallbacks.length && current < threshold; ++i )
 		{
-			recoverOnce( fallbacks[i], fallbacks[i].toString(), needed, false );
-			current = ((Number)currentMethod.invoke( null, empty )).intValue();
+			last = -1;
+
+			while ( current < threshold && last != current && !refusesContinue() )
+			{
+				last = current;
+				recoverOnce( fallbacks[i], fallbacks[i].toString(), needed, false );
+				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+			}
 		}
 
 		// Fall-through check, just in case you've reached the
@@ -1097,8 +1103,14 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < fallbacks.length && current < threshold; ++i )
 		{
-			recoverOnce( fallbacks[i], fallbacks[i].toString(), needed, true );
-			current = ((Number)currentMethod.invoke( null, empty )).intValue();
+			last = -1;
+
+			while ( current < threshold && last != current && !refusesContinue() )
+			{
+				last = current;
+				recoverOnce( fallbacks[i], fallbacks[i].toString(), needed, true );
+				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+			}
 		}
 
 		// Fall-through check, just in case you've reached the
