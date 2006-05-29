@@ -1102,6 +1102,9 @@ public class KoLmafiaASH extends StaticEntity
 		if ( !parseIdentifier( name ) )
 			return null;
 
+		if ( parentScope.findVariable( name ) != null )
+			throw new AdvancedScriptException( "key variable " + name + " already defined " + getLineAndFile() );
+
 		readToken();	// foreach
 		readToken();	// name
 
@@ -1133,7 +1136,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			readToken(); // {
 
-			scope = parseScope( null, VOID_TYPE, varList, parentScope, false );
+			scope = parseScope( null, VOID_TYPE, varList, parentScope, true );
 			if ( !currentToken().equals( "}" ) )
 				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
 			readToken(); //read }
@@ -1142,7 +1145,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			// Scope is a single command
 			scope = new ScriptScope( varList, parentScope );
-			scope.addCommand( parseCommand( VOID_TYPE, scope, false, false ) );
+			scope.addCommand( parseCommand( VOID_TYPE, scope, false, true ) );
 		}
 
 		return new ScriptForeach( scope, new ScriptVariableReference( keyvar ), aggregate );
