@@ -3818,20 +3818,14 @@ public class KoLmafiaASH extends StaticEntity
 	private class ScriptLoop extends ScriptCommand
 	{
 		protected ScriptScope scope;
-		protected boolean repeat;
 
-		public ScriptLoop( ScriptScope scope, boolean repeat ) throws AdvancedScriptException
+		public ScriptLoop( ScriptScope scope ) throws AdvancedScriptException
 		{
 			this.scope = scope;
-			this.repeat = repeat;
 		}
 
 		public ScriptScope getScope()
 		{	return scope;
-		}
-
-		public boolean repeats()
-		{	return repeat;
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
@@ -3847,17 +3841,14 @@ public class KoLmafiaASH extends StaticEntity
 				return null;
 
 			case STATE_BREAK:
-				// Stay in state; superclass exits loop
+				// Stay in state; subclass exits loop
 				return VOID_VALUE;
 
 			case STATE_RETURN:
-				// Stay in state; superclass exits loop
+				// Stay in state; subclass exits loop
 				return result;
 
 			case STATE_CONTINUE:
-				if ( !repeat )
-					// Stay in state; superclass exits loop
-					return VOID_VALUE;
 				// Done with this iteration
 				currentState = STATE_NORMAL;
 				return result;
@@ -4025,7 +4016,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptForeach( ScriptScope scope, ScriptVariableReference variable, ScriptVariableReference aggregate ) throws AdvancedScriptException
 		{
-			super( scope, true );
+			super( scope );
 			this.variable = variable;
 			this.aggregate = aggregate;
 		}
@@ -4100,7 +4091,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptWhile( ScriptScope scope, ScriptExpression condition ) throws AdvancedScriptException
 		{
-			super( scope, true );
+			super( scope );
 			this.condition = condition;
 			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
 				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getLineAndFile() );
