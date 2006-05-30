@@ -44,8 +44,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.NumberFormatException;
 
+import java.lang.IllegalArgumentException;
+import java.lang.NumberFormatException;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.io.UnsupportedEncodingException;
@@ -183,35 +184,33 @@ public class KoLmafiaASH extends StaticEntity
 
 	// **************** Data Types *****************
 
-	private ScriptValue parseValue( ScriptType type, String name ) throws AdvancedScriptException
+        // For each simple data type X, we supply:
+        //
+        // private static ScriptValue parseXValue( String name );
+        //    throws IllegalArgumentException if can't parse
+
+	private static ScriptValue parseBooleanValue( String name ) throws IllegalArgumentException
 	{
-		switch ( type.getType() )
-		{
-		case TYPE_ITEM:
-			return parseItemValue( name );
-		case TYPE_ZODIAC:
-			return parseZodiacValue( name );
-		case TYPE_LOCATION:
-			return parseLocationValue( name );
-		case TYPE_CLASS:
-			return parseClassValue( name );
-		case TYPE_STAT:
-			return parseStatValue( name );
-		case TYPE_SKILL:
-			return parseSkillValue( name );
-		case TYPE_EFFECT:
-			return parseEffectValue( name );
-		case TYPE_FAMILIAR:
-			return parseFamiliarValue( name );
-		case TYPE_SLOT:
-			return parseSlotValue( name );
-		case TYPE_MONSTER:
-			return parseMonsterValue( name );
-		}
-		return null;
+                if ( name.equalsIgnoreCase( "true" ) )
+                        return TRUE_VALUE;
+                if ( name.equalsIgnoreCase( "false" ) )
+                        return FALSE_VALUE;
+                throw new IllegalArgumentException( "Can't interpret '" + name + "' as a boolean" );
         }
 
-	private ScriptValue parseItemValue( String name ) throws AdvancedScriptException
+	private static ScriptValue parseIntValue( String name ) throws NumberFormatException
+	{	return new ScriptValue( Integer.parseInt( name ) );
+        }
+
+	private static ScriptValue parseFloatValue( String name ) throws NumberFormatException
+	{	return new ScriptValue( Double.parseDouble( name ) );
+        }
+
+	private static ScriptValue parseStringValue( String name )
+	{	return new ScriptValue( name );
+        }
+
+	private static ScriptValue parseItemValue( String name ) throws IllegalArgumentException
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
 			return new ScriptValue( ITEM_TYPE, -1, name );
@@ -238,7 +237,7 @@ public class KoLmafiaASH extends StaticEntity
 				// paradigm).
 
 				if ( item == null )
-					throw new AdvancedScriptException( "Item " + name + " not found in database " + getLineAndFile() );
+					throw new IllegalArgumentException( "Item " + name + " not found in database" );
 
 				itemID = item.getItemID();
 				name = TradeableItemDatabase.getItemName( itemID );
@@ -253,6 +252,163 @@ public class KoLmafiaASH extends StaticEntity
 		name = TradeableItemDatabase.getItemName( itemID );
 		return new ScriptValue( ITEM_TYPE, itemID, name );
 	}
+
+	private static int zodiacToInt( String name )
+	{
+		for ( int i = 0; i < ZODIACS.length; ++i )
+			if ( name.equalsIgnoreCase( ZODIACS[i] ) )
+				return i;
+		return -1;
+	}
+
+	private static ScriptValue parseZodiacValue( String name ) throws IllegalArgumentException
+	{
+		int num = zodiacToInt( name );
+		if ( num < 0 )
+			throw new IllegalArgumentException( "Unknown zodiac " + name );
+		return new ScriptValue( ZODIAC_TYPE, num, ZODIACS[num] );
+	}
+
+	private static ScriptValue parseLocationValue( String name ) throws IllegalArgumentException
+	{
+		KoLAdventure content = AdventureDatabase.getAdventure( name );
+		if ( content == null )
+			throw new IllegalArgumentException( "Location " + name + " not found in database" );
+		return new ScriptValue( LOCATION_TYPE, name, (Object)content );
+	}
+
+	private static int classToInt( String name )
+	{
+		for ( int i = 0; i < CLASSES.length; ++i )
+			if ( name.equalsIgnoreCase( CLASSES[i] ) )
+				return i;
+		return -1;
+	}
+
+	private static ScriptValue parseClassValue( String name ) throws IllegalArgumentException
+	{
+		int num = classToInt( name );
+		if ( num < 0 )
+			throw new IllegalArgumentException( "Unknown class " + name );
+		return new ScriptValue( CLASS_TYPE, num, CLASSES[num] );
+	}
+
+	private static int statToInt( String name )
+	{
+		for ( int i = 0; i < STATS.length; ++i )
+			if ( name.equalsIgnoreCase( STATS[i] ) )
+				return i;
+		return -1;
+	}
+
+	private static ScriptValue parseStatValue( String name ) throws IllegalArgumentException
+	{
+		int num = statToInt( name );
+		if ( num < 0 )
+			throw new IllegalArgumentException( "Unknown stat " + name );
+		return new ScriptValue( STAT_TYPE, num, STATS[num] );
+	}
+
+	private static ScriptValue parseSkillValue( String name ) throws IllegalArgumentException
+	{
+		List skills = ClassSkillsDatabase.getMatchingNames( name );
+
+		if ( skills.isEmpty() )
+			throw new IllegalArgumentException( "Skill " + name + " not found in database" );
+
+		int num = ClassSkillsDatabase.getSkillID( (String)skills.get(0) );
+		name = ClassSkillsDatabase.getSkillName( num );
+		return new ScriptValue( SKILL_TYPE, num, name );
+	}
+
+	private static ScriptValue parseEffectValue( String name ) throws IllegalArgumentException
+	{
+		AdventureResult effect = DEFAULT_SHELL.getFirstMatchingEffect( name );
+		if ( effect == null )
+			throw new IllegalArgumentException( "Effect " + name + " not found in database" );
+
+		int num = StatusEffectDatabase.getEffectID( effect.getName() );
+		name = StatusEffectDatabase.getEffectName( num );
+		return new ScriptValue( EFFECT_TYPE, num, name );
+	}
+
+	private static ScriptValue parseFamiliarValue( String name ) throws IllegalArgumentException
+	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return new ScriptValue( FAMILIAR_TYPE, -1, "none" );
+
+		int num = FamiliarsDatabase.getFamiliarID( name );
+		if ( num == -1 )
+			throw new IllegalArgumentException( "Familiar " + name + " not found in database" );
+
+		name = FamiliarsDatabase.getFamiliarName( num );
+		return new ScriptValue( FAMILIAR_TYPE, num, name );
+	}
+
+	private static ScriptValue parseSlotValue( String name ) throws IllegalArgumentException
+	{
+		int num = EquipmentRequest.slotNumber( name );
+		if ( num == -1 )
+			throw new IllegalArgumentException( "Bad slot name " + name );
+		name = EquipmentRequest.slotNames[ num ];
+		return new ScriptValue( SLOT_TYPE, num, name );
+	}
+
+	private static ScriptValue parseMonsterValue( String name ) throws IllegalArgumentException
+	{
+		MonsterDatabase.Monster monster = MonsterDatabase.findMonster( name );
+		if ( monster == null )
+			throw new IllegalArgumentException( "Bad monster name " + name );
+		return new ScriptValue( MONSTER_TYPE, name, (Object)monster );
+	}
+
+	private ScriptValue parseValue( ScriptType type, String name ) throws AdvancedScriptException
+	{
+                try
+                {
+                        switch ( type.getType() )
+                        {
+                        case TYPE_BOOLEAN:
+                                return parseBooleanValue( name );
+                        case TYPE_INT:
+                                return parseIntValue( name );
+                        case TYPE_FLOAT:
+                                return parseFloatValue( name );
+                        case TYPE_STRING:
+                                return parseStringValue( name );
+                        case TYPE_ITEM:
+                                return parseItemValue( name );
+                        case TYPE_ZODIAC:
+                                return parseZodiacValue( name );
+                        case TYPE_LOCATION:
+                                return parseLocationValue( name );
+                        case TYPE_CLASS:
+                                return parseClassValue( name );
+                        case TYPE_STAT:
+                                return parseStatValue( name );
+                        case TYPE_SKILL:
+                                return parseSkillValue( name );
+                        case TYPE_EFFECT:
+                                return parseEffectValue( name );
+                        case TYPE_FAMILIAR:
+                                return parseFamiliarValue( name );
+                        case TYPE_SLOT:
+                                return parseSlotValue( name );
+                        case TYPE_MONSTER:
+                                return parseMonsterValue( name );
+                        }
+                }
+                catch (IllegalArgumentException e )
+                {
+                        throw new AdvancedScriptException( e.getMessage() + " " + getLineAndFile() );
+                }
+		return null;
+        }
+
+        // For data types which map to integers, also supply:
+        //
+        // private static ScriptValue makeXValue( int num )
+        //     throws nothing.
 
 	private static ScriptValue makeItemValue( int num )
 	{
@@ -274,82 +430,14 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( ITEM_TYPE, num, name );
 	}
 
-	private static int zodiacToInt( String name )
-	{
-		for ( int i = 0; i < ZODIACS.length; ++i )
-			if ( name.equalsIgnoreCase( ZODIACS[i] ) )
-				return i;
-		return -1;
-	}
-
-	private ScriptValue parseZodiacValue( String name ) throws AdvancedScriptException
-	{
-		int num = zodiacToInt( name );
-		if ( num < 0 )
-			throw new AdvancedScriptException( "Unknown zodiac " + name + " " + getLineAndFile() );
-		return new ScriptValue( ZODIAC_TYPE, num, ZODIACS[num] );
-	}
-
 	private static ScriptValue makeZodiacValue( String name )
 	{
 		return new ScriptValue( ZODIAC_TYPE, zodiacToInt( name ), name );
 	}
 
-	private ScriptValue parseLocationValue( String name ) throws AdvancedScriptException
-	{
-		KoLAdventure content = AdventureDatabase.getAdventure( name );
-		if ( content == null )
-			throw new AdvancedScriptException( "Location " + name + " not found in database " + getLineAndFile() );
-		return new ScriptValue( LOCATION_TYPE, name, (Object)content );
-	}
-
-	private static int classToInt( String name )
-	{
-		for ( int i = 0; i < CLASSES.length; ++i )
-			if ( name.equalsIgnoreCase( CLASSES[i] ) )
-				return i;
-		return -1;
-	}
-
-	private ScriptValue parseClassValue( String name ) throws AdvancedScriptException
-	{
-		int num = classToInt( name );
-		if ( num < 0 )
-			throw new AdvancedScriptException( "Unknown class " + name + " " + getLineAndFile() );
-		return new ScriptValue( CLASS_TYPE, num, CLASSES[num] );
-	}
-
 	private static ScriptValue makeClassValue( String name )
 	{
 		return new ScriptValue( CLASS_TYPE, classToInt( name ), name );
-	}
-
-	private static int statToInt( String name )
-	{
-		for ( int i = 0; i < STATS.length; ++i )
-			if ( name.equalsIgnoreCase( STATS[i] ) )
-				return i;
-		return -1;
-	}
-
-	private ScriptValue parseStatValue( String name ) throws AdvancedScriptException
-	{
-		int num = statToInt( name );
-		if ( num < 0 )
-			throw new AdvancedScriptException( "Unknown stat " + name + " " + getLineAndFile() );
-		return new ScriptValue( STAT_TYPE, num, STATS[num] );
-	}
-
-	private ScriptValue parseSkillValue( String name ) throws AdvancedScriptException
-	{
-		List skills = ClassSkillsDatabase.getMatchingNames( name );
-
-		if ( skills.isEmpty() )
-			throw new AdvancedScriptException( "Skill " + name + " not found in database " + getLineAndFile() );
-
-		int num = ClassSkillsDatabase.getSkillID( (String)skills.get(0) );
-		name = ClassSkillsDatabase.getSkillName( num );
-		return new ScriptValue( SKILL_TYPE, num, name );
 	}
 
 	private static ScriptValue makeSkillValue( int num )
@@ -361,17 +449,6 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( SKILL_TYPE, num, name );
 	}
 
-	private ScriptValue parseEffectValue( String name ) throws AdvancedScriptException
-	{
-		AdventureResult effect = DEFAULT_SHELL.getFirstMatchingEffect( name );
-		if ( effect == null )
-			throw new AdvancedScriptException( "Effect " + name + " not found in database " + getLineAndFile() );
-
-		int num = StatusEffectDatabase.getEffectID( effect.getName() );
-		name = StatusEffectDatabase.getEffectName( num );
-		return new ScriptValue( EFFECT_TYPE, num, name );
-	}
-
 	private static ScriptValue makeEffectValue( int num )
 	{
 		String name = StatusEffectDatabase.getEffectName( num );
@@ -380,34 +457,12 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( EFFECT_TYPE, num, name );
 	}
 
-	private ScriptValue parseFamiliarValue( String name ) throws AdvancedScriptException
-	{
-		if ( name.equalsIgnoreCase( "none" ) )
-			return new ScriptValue( FAMILIAR_TYPE, -1, "none" );
-
-		int num = FamiliarsDatabase.getFamiliarID( name );
-		if ( num == -1 )
-			throw new AdvancedScriptException( "Familiar " + name + " not found in database " + getLineAndFile() );
-
-		name = FamiliarsDatabase.getFamiliarName( num );
-		return new ScriptValue( FAMILIAR_TYPE, num, name );
-	}
-
 	private static ScriptValue makeFamiliarValue( int num )
 	{
 		String name = FamiliarsDatabase.getFamiliarName( num );
 		if ( name == null )
 			return FAMILIAR_INIT;
 		return new ScriptValue( FAMILIAR_TYPE, num, name );
-	}
-
-	private ScriptValue parseSlotValue( String name ) throws AdvancedScriptException
-	{
-		int num = EquipmentRequest.slotNumber( name );
-		if ( num == -1 )
-			throw new AdvancedScriptException( "Bad slot name " + name + getLineAndFile() );
-		name = EquipmentRequest.slotNames[ num ];
-		return new ScriptValue( SLOT_TYPE, num, name );
 	}
 
 	private static ScriptValue makeSlotValue( int num )
@@ -420,14 +475,6 @@ public class KoLmafiaASH extends StaticEntity
 			name  = EquipmentRequest.slotNames[num];
 
 		return new ScriptValue( SLOT_TYPE, num, name );
-	}
-
-	private ScriptValue parseMonsterValue( String name ) throws AdvancedScriptException
-	{
-		MonsterDatabase.Monster monster = MonsterDatabase.findMonster( name );
-		if ( monster == null )
-			throw new AdvancedScriptException( "Bad monster name " + name + getLineAndFile() );
-		return new ScriptValue( MONSTER_TYPE, name, (Object)monster );
 	}
 
 	// **************** Tracing *****************
@@ -1562,25 +1609,28 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )
 	{
+		// The "contains" operator requires an aggregate on the left
+		// and the correct index type on the right.
 		if ( oper != null && oper.equals( "contains" ) )
-                {
+		{
 			return lhs.getType() == TYPE_AGGREGATE &&
 				((ScriptAggregateType)lhs).getIndexType().equals( rhs );
-                }
+		}
 
+		// If the types are equal, no coercion is necessary
 		if ( lhs.equals( rhs ) )
 			return true;
 
-		// Int-float coercion values
+		// Anything coerces to a string for string concatenation
+		if ( oper != null && oper.equals( "+" ) && ( lhs.equals( TYPE_STRING ) || rhs.equals( TYPE_STRING ) ) )
+			return true;
+
+		// Int coerces to float
 		if ( lhs.equals( TYPE_INT ) && rhs.equals( TYPE_FLOAT ) )
 		     return true;
 
 		if ( lhs.equals( TYPE_FLOAT ) && rhs.equals( TYPE_INT ) )
 		     return true;
-
-		// string operations are valid
-		if ( lhs.equals( TYPE_STRING ) || rhs.equals( TYPE_STRING ) )
-			return true;
 
 		return false;
 	}
@@ -2060,74 +2110,116 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptFunctionList result = new ScriptFunctionList();
 		ScriptType [] params;
 
-		// Include all the to_string and to_int methods first
-		// so they're easier to add to later.
+		// All datatypes must supply xxx_to_string and string_to_xxx
+		// methods.
 
 		params = new ScriptType[] { BOOLEAN_TYPE };
 		result.addElement( new ScriptExistingFunction( "boolean_to_string", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_boolean", BOOLEAN_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "int_to_string", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_int", INT_TYPE, params ) );
 
 		params = new ScriptType[] { FLOAT_TYPE };
 		result.addElement( new ScriptExistingFunction( "float_to_string", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_float", FLOAT_TYPE, params ) );
+
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "item_to_string", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_item", ITEM_TYPE, params ) );
 
 		params = new ScriptType[] { ZODIAC_TYPE };
 		result.addElement( new ScriptExistingFunction( "zodiac_to_string", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_zodiac", ZODIAC_TYPE, params ) );
+
 		params = new ScriptType[] { LOCATION_TYPE };
 		result.addElement( new ScriptExistingFunction( "location_to_string", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_location", LOCATION_TYPE, params ) );
 
 		params = new ScriptType[] { CLASS_TYPE };
 		result.addElement( new ScriptExistingFunction( "class_to_string", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_class", CLASS_TYPE, params ) );
+
 		params = new ScriptType[] { STAT_TYPE };
 		result.addElement( new ScriptExistingFunction( "stat_to_string", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_stat", STAT_TYPE, params ) );
 
 		params = new ScriptType[] { SKILL_TYPE };
 		result.addElement( new ScriptExistingFunction( "skill_to_string", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_skill", SKILL_TYPE, params ) );
+
 		params = new ScriptType[] { EFFECT_TYPE };
 		result.addElement( new ScriptExistingFunction( "effect_to_string", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_effect", EFFECT_TYPE, params ) );
 
 		params = new ScriptType[] { FAMILIAR_TYPE };
 		result.addElement( new ScriptExistingFunction( "familiar_to_string", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_familiar", FAMILIAR_TYPE, params ) );
+
 		params = new ScriptType[] { SLOT_TYPE };
 		result.addElement( new ScriptExistingFunction( "slot_to_string", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_slot", SLOT_TYPE, params ) );
 
 		params = new ScriptType[] { MONSTER_TYPE };
 		result.addElement( new ScriptExistingFunction( "monster_to_string", STRING_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_monster", MONSTER_TYPE, params ) );
+
+		// Now include xxx_to_int and int_xxx methods for datatypes
+		// for which that makes sense
+
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "int_to_item", ITEM_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "int_to_skill", SKILL_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "int_to_effect", EFFECT_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "int_to_familiar", FAMILIAR_TYPE, params ) );
-
-		params = new ScriptType[] { INT_TYPE };
-		result.addElement( new ScriptExistingFunction( "int_to_slot", SLOT_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "item_to_int", INT_TYPE, params ) );
 
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "int_to_skill", SKILL_TYPE, params ) );
+
 		params = new ScriptType[] { SKILL_TYPE };
 		result.addElement( new ScriptExistingFunction( "skill_to_int", INT_TYPE, params ) );
+
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "int_to_effect", EFFECT_TYPE, params ) );
 
 		params = new ScriptType[] { EFFECT_TYPE };
 		result.addElement( new ScriptExistingFunction( "effect_to_int", INT_TYPE, params ) );
 
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "int_to_familiar", FAMILIAR_TYPE, params ) );
+
 		params = new ScriptType[] { FAMILIAR_TYPE };
 		result.addElement( new ScriptExistingFunction( "familiar_to_int", INT_TYPE, params ) );
+
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "int_to_slot", SLOT_TYPE, params ) );
 
 		params = new ScriptType[] { SLOT_TYPE };
 		result.addElement( new ScriptExistingFunction( "slot_to_int", INT_TYPE, params ) );
@@ -2786,52 +2878,104 @@ public class KoLmafiaASH extends StaticEntity
 		{	return val.toStringValue();
 		}
 
+		public ScriptValue string_to_boolean( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseBooleanValue( val.toStringValue().toString() );
+		}
+
 		public ScriptValue int_to_string( ScriptVariable val )
 		{	return val.toStringValue();
+		}
+
+		public ScriptValue string_to_int( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseIntValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue float_to_string( ScriptVariable val )
 		{	return val.toStringValue();
 		}
 
+		public ScriptValue string_to_float( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseFloatValue( val.toStringValue().toString() );
+		}
+
 		public ScriptValue item_to_string( ScriptVariable val )
 		{	return val.toStringValue();
+		}
+
+		public ScriptValue string_to_item( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseItemValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue zodiac_to_string( ScriptVariable val )
 		{	return val.toStringValue();
 		}
 
+		public ScriptValue string_to_zodiac( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseZodiacValue( val.toStringValue().toString() );
+		}
+
 		public ScriptValue location_to_string( ScriptVariable val )
 		{	return val.toStringValue();
+		}
+
+		public ScriptValue string_to_location( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseLocationValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue class_to_string( ScriptVariable val )
 		{	return val.toStringValue();
 		}
 
+		public ScriptValue string_to_class( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseClassValue( val.toStringValue().toString() );
+		}
+
 		public ScriptValue stat_to_string( ScriptVariable val )
 		{	return val.toStringValue();
+		}
+
+		public ScriptValue string_to_stat( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseStatValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue skill_to_string( ScriptVariable val )
 		{	return val.toStringValue();
 		}
 
+		public ScriptValue string_to_skill( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseSkillValue( val.toStringValue().toString() );
+		}
+
 		public ScriptValue effect_to_string( ScriptVariable val )
 		{	return val.toStringValue();
+		}
+
+		public ScriptValue string_to_effect( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseEffectValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue familiar_to_string( ScriptVariable val )
 		{	return val.toStringValue();
 		}
 
+		public ScriptValue string_to_familiar( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseFamiliarValue( val.toStringValue().toString() );
+		}
+
 		public ScriptValue slot_to_string( ScriptVariable val )
 		{	return val.toStringValue();
 		}
 
+		public ScriptValue string_to_slot( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseSlotValue( val.toStringValue().toString() );
+		}
+
 		public ScriptValue monster_to_string( ScriptVariable val )
 		{	return val.toStringValue();
+		}
+
+		public ScriptValue string_to_monster( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseMonsterValue( val.toStringValue().toString() );
 		}
 
 		public ScriptValue item_to_int( ScriptVariable val )
@@ -3815,52 +3959,6 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptLoop extends ScriptCommand
-	{
-		protected ScriptScope scope;
-
-		public ScriptLoop( ScriptScope scope ) throws AdvancedScriptException
-		{
-			this.scope = scope;
-		}
-
-		public ScriptScope getScope()
-		{	return scope;
-		}
-
-		public ScriptValue execute() throws AdvancedScriptException
-		{
-			ScriptValue result = scope.execute();
-
-			if ( !client.permitsContinue() )
-				currentState = STATE_EXIT;
-
-			switch ( currentState )
-			{
-			case STATE_EXIT:
-				return null;
-
-			case STATE_BREAK:
-				// Stay in state; subclass exits loop
-				return VOID_VALUE;
-
-			case STATE_RETURN:
-				// Stay in state; subclass exits loop
-				return result;
-
-			case STATE_CONTINUE:
-				// Done with this iteration
-				currentState = STATE_NORMAL;
-				return result;
-
-			case STATE_NORMAL:
-				return result;
-			}
-
-			return result;
-		}
-	}
-
 	private class ScriptConditional extends ScriptCommand
 	{
 		protected ScriptScope scope;
@@ -4006,6 +4104,67 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{	return "else";
+		}
+	}
+
+	private static class ScriptConditionalList extends ScriptList
+	{
+		public boolean addElement( ScriptConditional n )
+		{	return super.addElement( n );
+		}
+
+		public ScriptConditional getFirstScriptConditional()
+		{	return (ScriptConditional)getFirstElement();
+		}
+
+		public ScriptConditional getNextScriptConditional()
+		{	return (ScriptConditional)getNextElement();
+		}
+	}
+
+	private class ScriptLoop extends ScriptCommand
+	{
+		protected ScriptScope scope;
+
+		public ScriptLoop( ScriptScope scope ) throws AdvancedScriptException
+		{
+			this.scope = scope;
+		}
+
+		public ScriptScope getScope()
+		{	return scope;
+		}
+
+		public ScriptValue execute() throws AdvancedScriptException
+		{
+			ScriptValue result = scope.execute();
+
+			if ( !client.permitsContinue() )
+				currentState = STATE_EXIT;
+
+			switch ( currentState )
+			{
+			case STATE_EXIT:
+				return null;
+
+			case STATE_BREAK:
+				// Stay in state; subclass exits loop
+				return VOID_VALUE;
+
+			case STATE_RETURN:
+				// Stay in state; subclass exits loop
+				return result;
+
+			case STATE_CONTINUE:
+				// Done with this iteration
+				currentState = STATE_NORMAL;
+				return result;
+
+			case STATE_NORMAL:
+				return result;
+			}
+
+			return result;
 		}
 	}
 
@@ -4156,21 +4315,6 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private static class ScriptConditionalList extends ScriptList
-	{
-		public boolean addElement( ScriptConditional n )
-		{	return super.addElement( n );
-		}
-
-		public ScriptConditional getFirstScriptConditional()
-		{	return (ScriptConditional)getFirstElement();
-		}
-
-		public ScriptConditional getNextScriptConditional()
-		{	return (ScriptConditional)getNextElement();
-		}
-	}
-
 	private class ScriptCall extends ScriptValue
 	{
 		private ScriptFunction target;
@@ -4239,12 +4383,12 @@ public class KoLmafiaASH extends StaticEntity
 					return null;
 				}
 
-				if ( paramVarRef.getType().equals( TYPE_INT ) && paramValue.getType().equals( TYPE_FLOAT ) )
+				if ( paramVarRef.getType().equals( TYPE_STRING ) )
+					paramVarRef.setValue( value.toStringValue() );
+				else if ( paramVarRef.getType().equals( TYPE_INT ) && paramValue.getType().equals( TYPE_FLOAT ) )
 					paramVarRef.setValue( value.toIntValue() );
 				else if ( paramVarRef.getType().equals( TYPE_FLOAT ) && paramValue.getType().equals( TYPE_INT ) )
 					paramVarRef.setValue( value.toFloatValue() );
-				else if ( paramVarRef.getType().equals( TYPE_STRING ) )
-					paramVarRef.setValue( value.toStringValue() );
 				else
 					paramVarRef.setValue( value );
 
@@ -4318,12 +4462,12 @@ public class KoLmafiaASH extends StaticEntity
 			if ( currentState == STATE_EXIT )
 				return null;
 
-			if ( lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT ) )
+			if ( lhs.getType().equals( TYPE_STRING ) )
+				lhs.setValue( value.toStringValue() );
+			else if ( lhs.getType().equals( TYPE_INT ) && rhs.getType().equals( TYPE_FLOAT ) )
 				lhs.setValue( value.toIntValue() );
 			else if ( lhs.getType().equals( TYPE_FLOAT ) && rhs.getType().equals( TYPE_INT ) )
 				lhs.setValue( value.toFloatValue() );
-			else if ( lhs.getType().equals( TYPE_STRING ) )
-				lhs.setValue( value.toStringValue() );
 			else
 				lhs.setValue( value );
 
@@ -4804,19 +4948,28 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getType()
 		{
+			ScriptType leftType = lhs.getType();
+
 			// Unary operators have no right hand side
 			if ( rhs == null )
-				return lhs.getType();
+				return leftType;
 
-			if ( oper.isBool() )
+			ScriptType rightType = rhs.getType();
+
+			// String concatenation always yields a string
+			if ( oper.equals( "+" ) && ( leftType.equals( TYPE_STRING ) || rightType.equals( TYPE_STRING ) ) )
+				return STRING_TYPE;
+
+			// If it's not arithmetic, it's boolean
+			if ( !oper.isArithmetic() )
 				return BOOLEAN_TYPE;
 
-			// Anything concatenated with a string yields a string
-			if ( lhs.getType().equals( TYPE_STRING ) || rhs.getType().equals( TYPE_STRING ) && oper.equals( "+" ) )
-				return STRING_TYPE;
-			if ( lhs.getType().equals( TYPE_FLOAT ) ) // int ( oper ) float evaluates to float.
-				return lhs.getType();
-			return rhs.getType();
+			// Coerce int to float
+			if ( leftType.equals( TYPE_FLOAT ) ) // int ( oper ) float evaluates to float.
+				return FLOAT_TYPE;
+
+			// Otherwise result is whatever is on right
+			return rightType;
 		}
 
 		public ScriptExpression getLeftHandSide()
@@ -4878,6 +5031,10 @@ public class KoLmafiaASH extends StaticEntity
 			this.operator = operator;
 		}
 
+		public boolean equals( String op )
+		{	return operator.equals( op );
+		}
+
 		public boolean precedes( ScriptOperator oper )
 		{
 			return operStrength() > oper.operStrength();
@@ -4906,8 +5063,12 @@ public class KoLmafiaASH extends StaticEntity
 			return -1;
 		}
 
-		public boolean isBool()
-		{	return !operator.equals( "*" ) && !operator.equals( "/" ) && !operator.equals( "%" ) && !operator.equals( "+" ) && !operator.equals( "-" ) ;
+		public boolean isArithmetic()
+		{	return	operator.equals( "+" ) ||
+				operator.equals( "-" ) ||
+				operator.equals( "*" ) ||
+				operator.equals( "/" ) ||
+				operator.equals( "%" );
 		}
 
 		public String toString()
