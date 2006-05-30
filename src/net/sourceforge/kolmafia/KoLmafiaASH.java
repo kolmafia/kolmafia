@@ -138,6 +138,8 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptType SLOT_TYPE = new ScriptType( TYPE_SLOT );
 	private static final ScriptType MONSTER_TYPE = new ScriptType( TYPE_MONSTER );
 
+	private static final ScriptType AGGREGATE_TYPE = new ScriptType( TYPE_AGGREGATE );
+
 	// Common values
 
 	private static final ScriptValue VOID_VALUE = new ScriptValue();
@@ -1609,9 +1611,20 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )
 	{
+		// "oper" is either a standard operator or is a special name:
+		//
+		// "parameter" - value used as a function parameter
+		//	lhs = parameter type, rhs = expression type
+		//
+		// "return" - value returned as function value
+		//	lhs = function return type, rhs = expression type
+		//
+		// "assign" - value
+		//	lhs = variable type, rhs = expression type
+
 		// The "contains" operator requires an aggregate on the left
 		// and the correct index type on the right.
-		if ( oper != null && oper.equals( "contains" ) )
+		if ( oper.equals( "contains" ) )
 		{
 			return lhs.getType() == TYPE_AGGREGATE &&
 				((ScriptAggregateType)lhs).getIndexType().equals( rhs );
@@ -1621,8 +1634,12 @@ public class KoLmafiaASH extends StaticEntity
 		if ( lhs.equals( rhs ) )
 			return true;
 
-		// Anything coerces to a string for string concatenation
-		if ( oper != null && oper.equals( "+" ) && ( lhs.equals( TYPE_STRING ) || rhs.equals( TYPE_STRING ) ) )
+		// Anything coerces to a string as a parameter
+		if  ( oper.equals( "parameter" ) && lhs.equals( TYPE_STRING ) )
+			return true;
+
+		// Anything coerces to a string for concatenation
+		if ( oper.equals( "+" ) && ( lhs.equals( TYPE_STRING ) || rhs.equals( TYPE_STRING ) ) )
 			return true;
 
 		// Int coerces to float
@@ -2490,6 +2507,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "set_property", VOID_TYPE, params ) );
 
+		params = new ScriptType[] { AGGREGATE_TYPE };
+		result.addElement( new ScriptExistingFunction( "count", INT_TYPE, params ) );
+
 		return result;
 	}
 
@@ -2617,7 +2637,7 @@ public class KoLmafiaASH extends StaticEntity
 
 				while ( currentParam != null && currentValue != null )
 				{
-					if ( !validCoercion( currentParam.getType(), currentValue.getType(), null ) )
+					if ( !validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
 						throw new AdvancedScriptException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile() );
 
 					++paramIndex;
@@ -2831,7 +2851,7 @@ public class KoLmafiaASH extends StaticEntity
 			for ( int i = 0; i < params.length; ++i )
 			{
 				variables[i] = new ScriptVariable( params[i] );
-				variableReferences.addElement( new ScriptVariableReference( variables[i] ) );
+				addVariableReference( new ScriptVariableReference( variables[i] ) );
 				args[i] = ScriptVariable.class;
 			}
 
@@ -3520,6 +3540,10 @@ public class KoLmafiaASH extends StaticEntity
 			StaticEntity.setProperty( name.toStringValue().toString(), value.toStringValue().toString() );
 			return VOID_VALUE;
 		}
+
+		public ScriptValue count( ScriptVariable arg )
+		{	return new ScriptValue( arg.getValue().count() );
+		}
 	}
 
 	private static class ScriptFunctionList extends ScriptSymbolTable
@@ -3571,6 +3595,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public double floatValue()
 		{	return content.floatValue();
+		}
+
+		public void forceValue( ScriptValue targetValue )
+		{	content = targetValue;
 		}
 
 		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
@@ -3649,8 +3677,16 @@ public class KoLmafiaASH extends StaticEntity
 		{	return target.getValue();
 		}
 
+		public ScriptValue getValue() throws AdvancedScriptException
+		{	return target.getValue();
+		}
+
 		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
 		{	target.setValue( targetValue );
+		}
+
+		public void forceValue( ScriptValue targetValue )
+		{	target.forceValue( targetValue );
 		}
 
 		public String toString()
@@ -3892,7 +3928,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( expectedType != null && returnValue != null )
 			{
-				if ( !validCoercion( returnValue.getType(), expectedType, null ) )
+				if ( !validCoercion( returnValue.getType(), expectedType, "return" ) )
 					throw new AdvancedScriptException( "Cannot apply " + returnValue.getType() + " to " + expectedType + " " + getLineAndFile() );
 			}
 
@@ -4361,6 +4397,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			ScriptVariableReference paramVarRef = target.getFirstParam();
 			ScriptExpression paramValue = params.getFirstExpression();
+			ScriptList values = new ScriptList();
 
 			traceIndent();
 			int paramCount = 0;
@@ -4383,6 +4420,10 @@ public class KoLmafiaASH extends StaticEntity
 					return null;
 				}
 
+				// Save parameter's current value binding
+				values.addElement( paramVarRef.getValue() );
+
+				// Bind parameter to new value
 				if ( paramVarRef.getType().equals( TYPE_STRING ) )
 					paramVarRef.setValue( value.toStringValue() );
 				else if ( paramVarRef.getType().equals( TYPE_INT ) && paramValue.getType().equals( TYPE_FLOAT ) )
@@ -4405,6 +4446,16 @@ public class KoLmafiaASH extends StaticEntity
 			trace( "Function " + target.getName() + " returned: " + result );
 			traceUnindent();
 
+			// Restore parameter bindings
+			paramVarRef = target.getFirstParam();
+			ScriptValue value = (ScriptValue)values.getFirstElement();
+			while ( paramVarRef != null )
+			{
+				paramVarRef.forceValue( value );
+				paramVarRef = target.getNextParam();
+				value = (ScriptValue)values.getNextElement();
+			}
+
 			return result;
 		}
 
@@ -4423,7 +4474,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.lhs = lhs;
 			this.rhs = rhs;
 
-			if ( !validCoercion( lhs.getType(), rhs.getType(), null ) )
+			if ( !validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
 			     throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " " + getLineAndFile() );
 		}
 
@@ -4809,6 +4860,10 @@ public class KoLmafiaASH extends StaticEntity
 			return -1;
 		}
 
+		public int count()
+		{	return 1;
+		}
+
 		public boolean contains( ScriptValue index ) throws AdvancedScriptException
 		{	return false;
                 }
@@ -4831,6 +4886,10 @@ public class KoLmafiaASH extends StaticEntity
 		public void aset( ScriptValue index,  ScriptValue val )
 		{
                 }
+
+		public int count()
+		{	return 0;
+		}
 
 		public boolean contains( ScriptValue index )
 		{	return false;
@@ -4877,6 +4936,12 @@ public class KoLmafiaASH extends StaticEntity
 			array[ i ] = val;
 		}
 
+		public int count()
+		{
+			ScriptValue [] array = (ScriptValue [])content;
+			return array.length;
+		}
+
 		public boolean contains( ScriptValue index )
 		{
 			ScriptValue [] array = (ScriptValue [])content;
@@ -4912,6 +4977,12 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			TreeMap map = (TreeMap)content;
 			map.put( index, val );
+		}
+
+		public int count()
+		{
+			TreeMap map = (TreeMap)content;
+			return map.size();
 		}
 
 		public boolean contains( ScriptValue index )
@@ -5042,7 +5113,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		private int operStrength()
 		{
-			if ( operator.equals( "!" ) )
+			if ( operator.equals( "!" ) || operator.equals( "contains" ) )
 				return 6;
 
 			if ( operator.equals( "*" ) || operator.equals( "/" ) || operator.equals( "%" ) )
@@ -5057,7 +5128,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( operator.equals( "==" ) || operator.equals( "!=" ) )
 				return 2;
 
-			if ( operator.equals( "||" ) || operator.equals( "&&" ) || operator.equals( "contains" ) )
+			if ( operator.equals( "||" ) || operator.equals( "&&" ) )
 				return 1;
 
 			return -1;
