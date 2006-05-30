@@ -1452,7 +1452,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			if ( scriptFile.getPath().indexOf( ".ash" ) != -1 )
+			if ( isASHFile( scriptFile ) )
 			{
 				if ( previousLine.startsWith( "validate " ) )
 				{
@@ -1484,6 +1484,13 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.printStackTrace( e );
 			return;
 		}
+	}
+
+	private boolean isASHFile( File scriptFile )
+	{
+		String name = scriptFile.getPath();
+		int dot = name.lastIndexOf( "." );
+		return ( dot >= 0 && name.substring( dot + 1 ).equalsIgnoreCase( "ash" ));
 	}
 
 	/**
