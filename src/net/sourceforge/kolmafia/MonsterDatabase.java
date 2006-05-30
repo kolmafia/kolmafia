@@ -120,6 +120,8 @@ public class MonsterDatabase extends KoLDatabase
 		int health = 0;
 		int attack = 0;
 		int defense = 0;
+		int minMeat = 0;
+		int maxMeat = 0;
 		int attackElement = NONE;
 		int defenseElement = NONE;
 
@@ -203,6 +205,26 @@ public class MonsterDatabase extends KoLDatabase
 					}
 				}
 
+				else if ( option.equals( "Meat:" ) )
+				{
+					if ( tokens.hasMoreTokens() )
+					{
+						value = tokens.nextToken();
+						int dash = value.indexOf( "-" );
+						if ( dash >= 0 )
+						{
+							minMeat = Integer.parseInt( value.substring( 0, dash ) );
+							maxMeat = Integer.parseInt( value.substring( dash + 1 ) );
+						}
+						else
+						{
+							minMeat = Integer.parseInt( value );
+							maxMeat = minMeat;
+						}
+						continue;
+					}
+				}
+
 				System.out.println( "Monster: \"" + name + "\": unknown option: " + option );
 			}
 			catch ( Exception e )
@@ -216,7 +238,7 @@ public class MonsterDatabase extends KoLDatabase
 			return null;
 		}
 
-		return new Monster( name, health, attack, defense, attackElement, defenseElement );
+		return new Monster( name, health, attack, defense, attackElement, defenseElement, minMeat, maxMeat );
 	}
 
 	private static int parseElement( String s )
@@ -243,9 +265,11 @@ public class MonsterDatabase extends KoLDatabase
 		private double statGain;
 		private int attackElement;
 		private int defenseElement;
+		private int minMeat;
+		private int maxMeat;
 		private List items;
 
-		public Monster( String name, int health, int attack, int defense, int attackElement, int defenseElement )
+		public Monster( String name, int health, int attack, int defense, int attackElement, int defenseElement, int minMeat, int maxMeat )
 		{
 			this.name = name;
 			this.health = health;
@@ -254,6 +278,8 @@ public class MonsterDatabase extends KoLDatabase
 			this.statGain = (double)( attack + defense ) / 10.0 ;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
+			this.minMeat = minMeat;
+			this.maxMeat = maxMeat;
 			this.items = new ArrayList();
 		}
 
@@ -283,6 +309,14 @@ public class MonsterDatabase extends KoLDatabase
 
 		public int getDefenseElement()
 		{	return defenseElement;
+		}
+
+		public int getMinMeat()
+		{	return minMeat;
+		}
+
+		public int getMaxMeat()
+		{	return maxMeat;
 		}
 
 		public List getItems()
