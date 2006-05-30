@@ -294,9 +294,25 @@ public class AreaCombatData implements KoLConstants
 		buffer.append( "%</font>, Evade: <font color=" + elementColor( ea ) + ">" );
 		buffer.append( format( evadePercent ) );
 		buffer.append( "%</font><br> - HP: " + health + ", XP: " + ff.format( statGain ) );
+		appendMeatDrop( buffer, monster );
 		appendItemList( buffer, monster.getItems() );
 
 		return buffer.toString();
+	}
+
+	private void appendMeatDrop( StringBuffer buffer, MonsterDatabase.Monster monster )
+	{
+		int minMeat = monster.getMinMeat();
+		int maxMeat = monster.getMaxMeat();
+		if ( minMeat == 0 && maxMeat == 0 )
+			return;
+
+		double modifier = ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0 ) / 100.0;
+		buffer.append( "<br> - Meat: " +
+			       format( (double)minMeat * modifier ) + "-" + 
+			       format( (double)maxMeat * modifier ) + " (" +
+			       format( (double)( minMeat + maxMeat ) * modifier / 2.0 ) +
+			       " average)" );			     
 	}
 
 	private void appendItemList( StringBuffer buffer, List items )
