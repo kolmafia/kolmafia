@@ -1057,7 +1057,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		// Setting the Canadian mind control machine
 
-		if ( command.equals( "mind-control" ) )
+		if ( command.equals( "mind-control" ) || command.equals( "mcd" ) )
 		{
 			makeMindControlRequest();
 			return;
