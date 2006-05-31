@@ -804,7 +804,12 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		result.setScope( scope );
-		if ( !result.assertReturn() && !functionType.equals( TYPE_VOID ) )
+		if ( !result.assertReturn() && !functionType.equals( TYPE_VOID )
+		     // The following clause can't be correct. I think it
+		     // depends on the various conditional & loop constructs
+		     // returning a boolean. Or something. But without it,
+		     // existing scripts break. Aargh!
+		     && !functionType.equals( TYPE_BOOLEAN ) )
 			throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
 
 		return result;
