@@ -247,6 +247,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "little sump'm sump'ms" ) )
 			return 682;
 
+		// gibson pluralizes into carlisles
+
+		if ( canonicalName.equals( "carlisles" ) )
+			return 1570;
+
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.
 
