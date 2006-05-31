@@ -230,14 +230,11 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			if ( this.creation == null )
 				this.creation = (JFrame) creator.newInstance( parameters );
 
-			String tabSetting = GLOBAL_SETTINGS.getProperty( "initialDesktop" );
+			String tabSetting = "," + GLOBAL_SETTINGS.getProperty( "initialDesktop" ) + ",";
 			String searchString = this.creation instanceof ChatFrame ? "KoLMessenger" :
 				this.creation instanceof KoLFrame ? ((KoLFrame)this.creation).getFrameName() : "...";
 
-			boolean appearsInTab = this.creation instanceof KoLFrame;
-
-			appearsInTab &= tabSetting.startsWith( searchString + "," ) || tabSetting.endsWith( "," + searchString ) ||
-				tabSetting.indexOf( "," + searchString + "," ) != -1 || tabSetting.equals( searchString );
+			boolean appearsInTab = this.creation instanceof KoLFrame && tabSetting.indexOf( "," + searchString + "," ) != -1;
 
 			appearsInTab &= !(this.creation instanceof RequestFrame) ||
 				(this.creation.getClass() == RequestFrame.class && ((RequestFrame)this.creation).hasSideBar());
@@ -286,6 +283,21 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				this.creation.setVisible( true );
 
 			this.creation.requestFocus();
+
+			if ( StaticEntity.getProperty( "guiUsesOneWindow" ).equals( "true" ) )
+			{
+/*				if ( KoLDesktop.instanceExists() && !appearsInTab && tabSetting.indexOf( ",KoLMessenger," ) != -1 )
+					KoLDesktop.getInstance().dispose();					*/
+				if ( KoLDesktop.instanceExists() && !appearsInTab && tabSetting.indexOf( ",KoLMessenger," ) == -1 )
+					KoLDesktop.getInstance().dispose();
+
+				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+				existingFrames.toArray( frames );
+				for ( int i = 0; i < frames.length; ++i )
+					if ( frames[i] != this.creation && !(frames[i] instanceof ChatFrame) && !(frames[i] instanceof RequestFrame) &&
+						(tabSetting.indexOf( "," + frames[i].getFrameName() + "," ) == -1) )
+						frames[i].dispose(); 
+	    }
 		}
 		catch ( Exception e )
 		{

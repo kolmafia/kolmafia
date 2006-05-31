@@ -251,6 +251,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "useToolbars", "true" );
 		hadChanges |= ensureProperty( "whiteList", "" );
 		hadChanges |= ensureProperty( "zoneExcludeList", "Removed" );
+		hadChanges |= ensureProperty( "guiUsesOneWindow", "false" );
 
 		// These are settings related to choice adventures.
 		// Ensure that they exist, and if they do not, load
