@@ -63,6 +63,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	private boolean canPurchase;
 	public static final int MAX_QUANTITY = 10000000;
+	
+	private boolean attireChanged = false;
 
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> which retrieves
@@ -307,6 +309,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		DEFAULT_SHELL.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")..." );
 		super.run();
+		
+		if ( attireChanged )
+			SpecialOutfit.restoreCheckpoint();
 	}
 
 	public int compareTo( Object o )
@@ -345,6 +350,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		{
 			SpecialOutfit.createCheckpoint();
 			(new EquipmentRequest( client, EquipmentDatabase.getOutfit( neededOutfit ) )).run();
+			attireChanged = true;
 		}
 	}
 
