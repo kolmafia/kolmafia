@@ -420,6 +420,7 @@ linoleum helmet turtle	14	meaty helmet turtle	linoleum ore
 basic meat pants	4	meat stack	pants kit
 basic meat helmet	4	meat stack	helmet recipe
 meatloaf helmet	4	basic meat helmet	ketchup
+raspberry beret	4	basic meat helmet	raspberry
 
 basic meat fez	4	basic meat helmet	tassel
 sequined fez	4	basic meat fez	teeny-tiny ninja stars
@@ -563,16 +564,17 @@ star shirt	9	star chart	star (15)	line (15)
 # Pixel items.  These are items which are created at the Crackpot
 # mystic after collecting enough pixels.
 
+white pixel	10	red pixel	green pixel	blue pixel
 red pixel potion	10	black pixel (3)	red pixel (2)
 blue pixel potion	10	black pixel (3)	blue pixel (2)
 green pixel potion	10	black pixel (4)	green pixel (3)
+monster bait	10	red pixel (20)	white pixel (15)
 purple pixel pie	10	white pixel (5)	red pixel (2)	blue pixel (2)
 pixel hat	10	white pixel (10)	green pixel (15)
 pixel pants	10	black pixel (10)	red pixel (20)
 pixel sword	10	white pixel (20)	black pixel (10)	blue pixel (10)
+pixel shield	10	red pixel (20)	black pixel (10)	white pixel (10)
 digital key	10	white pixel (30)
-white pixel	10	red pixel	green pixel	blue pixel
-monster bait	10	red pixel (20)	white pixel (15)
 
 
 # Jewelry making recipes.  These are recipes which are only available
