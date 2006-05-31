@@ -1009,7 +1009,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private static boolean goalMet( FamiliarStatus status, int goal, int type )
 	{
-		switch (type)
+		switch ( type )
 		{
 			case BASE:
 				return ( status.baseWeight() >= goal );
@@ -1033,7 +1033,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( !heavyPettingAvailable && heavyPettingActive == 0 )
 				{
 					poundsNeeded -= 5;
-					DEFAULT_SHELL.executeLine( "acquire Knob Goblin pet-buffing spray" );
+					DEFAULT_SHELL.executeLine( "buy Knob Goblin pet-buffing spray" );
 					status = new FamiliarStatus();
 				}
 
@@ -1047,7 +1047,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				{
 					poundsNeeded -= 5 - status.familiarItemWeight;
 					String familiarItem = FamiliarsDatabase.getFamiliarItem( status.getFamiliar().getID() );
-					DEFAULT_SHELL.executeLine( "acquire " + familiarItem );
+					DEFAULT_SHELL.executeLine( "buy " + familiarItem );
 					status = new FamiliarStatus();
 				}
 
@@ -1062,7 +1062,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 					String plasticItem = TradeableItemDatabase.getItemName(
 						firstTinyPlastic + RNG.nextInt( lastTinyPlastic - firstTinyPlastic ) );
 
-					DEFAULT_SHELL.executeLine( "acquire " + poundsNeeded + " " + plasticItem );
+					DEFAULT_SHELL.executeLine( "buy " + poundsNeeded + " " + plasticItem );
 					status = new FamiliarStatus();
 					return true;
 				}
@@ -1084,7 +1084,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 				if ( KoLCharacter.getAdventuresLeft() < 10 )
 				{
-					DEFAULT_SHELL.executeLine( "acquire green snowcone" );
+					DEFAULT_SHELL.executeLine( "buy green snowcone" );
 					status = new FamiliarStatus();
 					return true;
 				}
