@@ -146,6 +146,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptValue TRUE_VALUE = new ScriptValue( true );
 	private static final ScriptValue FALSE_VALUE = new ScriptValue( false );
 	private static final ScriptValue ZERO_VALUE = new ScriptValue( 0 );
+	private static final ScriptValue ONE_VALUE = new ScriptValue( 1 );
 	private static final ScriptValue ZERO_FLOAT_VALUE = new ScriptValue( 0.0 );
 
 	// Initial values for uninitialized variables
@@ -881,6 +882,9 @@ public class KoLmafiaASH extends StaticEntity
 		else if ( (result = parseForeach( functionType, scope )) != null )
 			// foreach doesn't have a ; token
 			return result;
+		else if ( (result = parseFor( functionType, scope )) != null )
+			// for doesn't have a ; token
+			return result;
 		else if ( (result = parseConditional( functionType, scope, noElse, whileLoop )) != null )
 			// loop doesn't have a ; token
 			return result;
@@ -1204,6 +1208,63 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptScope scope = parseLoopScope( functionType, varList, parentScope );
 
 		return new ScriptForeach( scope, new ScriptVariableReference( keyvar ), aggregate );
+	}
+
+	private ScriptFor parseFor( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
+	{
+		// foreach key in aggregate {scope }
+
+		if ( currentToken() == null )
+			return null;
+
+		if ( !(currentToken().equalsIgnoreCase( "for" ) ) )
+			return null;
+
+		String name = nextToken();
+
+		if ( !parseIdentifier( name ) )
+			return null;
+
+		if ( parentScope.findVariable( name ) != null )
+			throw new AdvancedScriptException( "index variable " + name + " already defined " + getLineAndFile() );
+
+		readToken();	// for
+		readToken();	// name
+
+		if ( !(currentToken().equalsIgnoreCase( "from" ) ) )
+			throw new AdvancedScriptException( "'from' expected " + getLineAndFile() );
+		readToken();	// from
+
+		ScriptExpression initial = parseExpression( parentScope );
+
+		boolean up;
+		if ( currentToken().equalsIgnoreCase( "upto" ) )
+			up = true;
+		else if ( currentToken().equalsIgnoreCase( "downto" ) )
+			up = false;
+		else
+			throw new AdvancedScriptException( "'from' expected " + getLineAndFile() );
+		readToken();	// upto/downto
+
+		ScriptExpression last = parseExpression( parentScope );
+
+		ScriptExpression increment = ONE_VALUE;
+		if ( currentToken().equalsIgnoreCase( "by" ) )
+		{
+			readToken();	// by
+			increment = parseExpression( parentScope );
+		}
+
+		// Create integer index variable
+		ScriptVariable indexvar = new ScriptVariable( name, INT_TYPE );
+
+		// Put index variable onto a list
+		ScriptVariableList varList = new ScriptVariableList();
+		varList.addElement( indexvar );
+
+		ScriptScope scope = parseLoopScope( functionType, varList, parentScope );
+
+		return new ScriptFor( scope, new ScriptVariableReference( indexvar ), initial, last, increment, up );
 	}
 
 	private ScriptScope parseLoopScope( ScriptType functionType, ScriptVariableList varList, ScriptScope parentScope ) throws AdvancedScriptException
@@ -1813,6 +1874,8 @@ public class KoLmafiaASH extends StaticEntity
 			printWhile( ( ScriptWhile ) command, indent );
 		else if ( command instanceof ScriptForeach )
 			printForeach( ( ScriptForeach ) command, indent );
+		else if ( command instanceof ScriptFor )
+			printForeach( ( ScriptFor ) command, indent );
 		else if ( command instanceof ScriptCall )
 			printCall( ( ScriptCall ) command, indent );
 		else if ( command instanceof ScriptAssignment )
@@ -1873,6 +1936,17 @@ public class KoLmafiaASH extends StaticEntity
 		KoLmafia.getDebugStream().println( "<FOREACH>" );
 		printVariableReference( loop.getVariable(), indent + 1 );
 		printVariableReference( loop.getAggregate(), indent + 1 );
+		printScope( loop.getScope(), indent + 1 );
+	}
+
+	private void printForeach( ScriptFor loop, int indent )
+	{
+		indentLine( indent );
+		KoLmafia.getDebugStream().println( "<FOR " + ( loop.getUp() ? "upto" : "downto" ) + " >" );
+		printVariableReference( loop.getVariable(), indent + 1 );
+		printExpression( loop.getInitial(), indent + 1 );
+		printExpression( loop.getLast(), indent + 1 );
+		printExpression( loop.getIncrement(), indent + 1 );
 		printScope( loop.getScope(), indent + 1 );
 	}
 
@@ -4368,6 +4442,136 @@ public class KoLmafiaASH extends StaticEntity
 		{	return "while";
 		}
 	}
+
+	private class ScriptFor extends ScriptLoop
+	{
+		private ScriptVariableReference variable;
+		private ScriptExpression initial;
+		private ScriptExpression last;
+		private ScriptExpression increment;
+		private boolean up;
+
+		public ScriptFor( ScriptScope scope, ScriptVariableReference variable, ScriptExpression initial, ScriptExpression last, ScriptExpression increment, boolean up ) throws AdvancedScriptException
+		{
+			super( scope );
+			this.variable = variable;
+			this.initial = initial;
+			this.last = last;
+			this.increment = increment;
+			this.up = up;
+		}
+
+		public ScriptVariableReference getVariable()
+		{	return variable;
+		}
+
+		public ScriptExpression getInitial()
+		{	return initial;
+		}
+
+		public ScriptExpression getLast()
+		{	return last;
+		}
+
+		public ScriptExpression getIncrement()
+		{	return increment;
+		}
+
+		public boolean getUp()
+		{	return up;
+		}
+
+		public ScriptValue execute() throws AdvancedScriptException
+		{
+			if ( !client.permitsContinue() )
+			{
+				currentState = STATE_EXIT;
+				return null;
+			}
+
+			traceIndent();
+			trace( this.toString() );
+
+			// Get the initial value
+			trace( "Initial: " + initial );
+
+			ScriptValue initialValue = initial.execute();
+			captureValue( initialValue );
+
+			trace( "[" + executionStateString( currentState ) + "] <- " + initialValue );
+
+			if (  initialValue == null )
+			{
+				traceUnindent();
+				return null;
+			}
+
+			// Get the final value
+			trace( "Last: " + last );
+
+			ScriptValue lastValue = last.execute();
+			captureValue( lastValue );
+
+			trace( "[" + executionStateString( currentState ) + "] <- " + lastValue );
+
+			if (  lastValue == null )
+			{
+				traceUnindent();
+				return null;
+			}
+
+			// Get the increment
+			trace( "Increment: " + increment );
+
+			ScriptValue incrementValue = increment.execute();
+			captureValue( incrementValue );
+
+			trace( "[" + executionStateString( currentState ) + "] <- " + incrementValue );
+
+			if (  incrementValue == null )
+			{
+				traceUnindent();
+				return null;
+			}
+
+			int current = initialValue.intValue();
+			int adjustment = up ? incrementValue.intValue() : -incrementValue.intValue();
+			int end = lastValue.intValue();
+
+			while ( ( up && current <= end ) ||
+				( !up && current >= end ) )
+			{
+				// Bind variable to current value
+				variable.setValue( new ScriptValue( current ) );
+
+				// Execute the scope
+				ScriptValue result = super.execute();
+
+				if ( currentState == STATE_BREAK )
+				{
+					currentState = STATE_NORMAL;
+					traceUnindent();
+					return VOID_VALUE;
+				}
+
+				if ( currentState != STATE_NORMAL )
+				{
+					traceUnindent();
+					return result;
+				}
+
+				// Calculate next value
+				current += adjustment;
+			}
+
+			traceUnindent();
+			return VOID_VALUE;
+		}
+
+		public String toString()
+		{	return "foreach";
+		}
+	}	
 
 	private class ScriptCall extends ScriptValue
 	{
