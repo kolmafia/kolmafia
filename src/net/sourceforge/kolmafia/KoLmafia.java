@@ -392,6 +392,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + (KoLCharacter.isHardcore() ? "hardcore" : "softcore") );
 
+		if ( KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) )
+			BREAKFAST_SKILLS[4][1] = "5";
+
 		if ( skillSetting != null )
 			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
 				if ( (!checkSettings || skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1) && KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] ) )
