@@ -286,17 +286,18 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 			if ( StaticEntity.getProperty( "guiUsesOneWindow" ).equals( "true" ) )
 			{
-/*				if ( KoLDesktop.instanceExists() && !appearsInTab && tabSetting.indexOf( ",KoLMessenger," ) != -1 )
-					KoLDesktop.getInstance().dispose();					*/
 				if ( KoLDesktop.instanceExists() && !appearsInTab && tabSetting.indexOf( ",KoLMessenger," ) == -1 )
 					KoLDesktop.getInstance().dispose();
 
 				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 				existingFrames.toArray( frames );
 				for ( int i = 0; i < frames.length; ++i )
-					if ( frames[i] != this.creation && !(frames[i] instanceof ChatFrame) && !(frames[i] instanceof RequestFrame) &&
+				{
+					boolean IsMiniBrowser = frames[i] instanceof RequestFrame && ((RequestFrame) frames[i]).hasSideBar();
+					if ( frames[i] != this.creation && !(frames[i] instanceof ChatFrame) && !IsMiniBrowser &&
 						(tabSetting.indexOf( "," + frames[i].getFrameName() + "," ) == -1) )
-						frames[i].dispose(); 
+						frames[i].dispose();
+				}
 	    }
 		}
 		catch ( Exception e )
