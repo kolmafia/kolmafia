@@ -241,7 +241,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( newURLString.startsWith( "/" ) )
 			newURLString = newURLString.substring(1);
 
-		if ( newURLString.indexOf( "?" ) == -1 )
+		if ( newURLString.indexOf( "?" ) == -1 || newURLString.endsWith( "?" ) )
 		{
 			this.formURLString = newURLString;
 			return;
