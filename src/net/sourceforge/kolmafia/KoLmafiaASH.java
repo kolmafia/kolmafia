@@ -705,15 +705,14 @@ public class KoLmafiaASH extends StaticEntity
 
 					continue;
 				}
-				else
 				//No type and no command -> done.
-					break;
+				break;
 			}
 			if ( (f = parseFunction( t, result )) != null )
 			{
-				if ( !f.getName().equalsIgnoreCase( "main" ) || startScope == null ) //only upper level scope may define main.
-					if ( !result.addFunction( f ) )
-						throw new AdvancedScriptException( "Function " + f.getName() + " already defined " + getLineAndFile() );
+				if ( f.getName().equalsIgnoreCase( "main" ) && startScope != null ) //only upper level scope may define main.
+					throw new AdvancedScriptException( "Only outer script can define main Function " + getLineAndFile() );
+
 			}
 			else if ( (v = parseVariable( t, result )) != null )
 			{
@@ -735,10 +734,10 @@ public class KoLmafiaASH extends StaticEntity
 		if ( !parseIdentifier( currentToken() ) )
 			return null;
 
-		String functionName = currentToken();
-
 		if ( nextToken() == null || !nextToken().equals( "(" ) )
 			return null;
+
+		String functionName = currentToken();
 
 		readToken(); //read Function name
 		readToken(); //read (
@@ -773,33 +772,36 @@ public class KoLmafiaASH extends StaticEntity
 
 		readToken(); //read )
 
-		if ( !currentToken().equals( "{" ) ) //Scope is a single call
+		// Add the function to the parent scope before we parse the
+		// function scope to allow recursion.
+
+		if ( !parentScope.addFunction( result ) )
+			throw new AdvancedScriptException( "Function " + functionName + " already defined " + getLineAndFile() );
+
+		ScriptScope scope;
+
+		if ( currentToken() != null && currentToken().equals( "{" ) )
 		{
-			result.setScope( new ScriptScope( parseCommand( t, parentScope, false, false ), parentScope ) );
+			// Scope is a block
 
-			for ( ScriptVariable param = paramList.getFirstVariable(); param != null; param = paramList.getNextVariable() )
-			{
-				if ( !result.getScope().addVariable( param ) )
-					throw new AdvancedScriptException( "Variable " + param.getName() + " already defined " + getLineAndFile() );
-			}
+			readToken(); // {
 
-			if ( !result.getScope().assertReturn() )
-				throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
+			scope = parseScope( null, t, paramList, parentScope, false );
+			if ( currentToken() == null || !currentToken().equals( "}" ) )
+				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
+			readToken(); // }
 		}
 		else
 		{
-			readToken(); //read {
-			result.setScope( parseScope( null, t, paramList, parentScope, false ) );
-			if ( !currentToken().equals( "}" ) )
-				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
-			readToken(); //read }
+			// Scope is a single command
+			scope = new ScriptScope( paramList, parentScope );
+			scope.addCommand( parseCommand( t, parentScope, false, false ) );
 		}
 
-		if ( !result.assertReturn() )
-		{
-			if ( !( t == null ) && !t.equals( TYPE_VOID ) && !t.equals( TYPE_BOOLEAN ) )
-				throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
-		}
+		result.setScope( scope );
+
+		if ( !result.assertReturn() && !t.equals( TYPE_VOID ) )
+			throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
 
 		return result;
 	}
