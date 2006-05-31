@@ -671,7 +671,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptScope parseScope( ScriptScope startScope, ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop ) throws AdvancedScriptException
 	{
-		ScriptUserDefinedFunction f = null;
+		ScriptFunction f = null;
 		ScriptVariable v = null;
 		ScriptCommand c = null;
 		ScriptType t = null;
@@ -730,7 +730,7 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptUserDefinedFunction parseFunction( ScriptType t, ScriptScope parentScope ) throws AdvancedScriptException
+	private ScriptFunction parseFunction( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
 	{
 		if ( !parseIdentifier( currentToken() ) )
 			return null;
@@ -743,8 +743,8 @@ public class KoLmafiaASH extends StaticEntity
 		readToken(); //read Function name
 		readToken(); //read (
 
-		ScriptUserDefinedFunction result = new ScriptUserDefinedFunction( functionName, t );
 		ScriptVariableList paramList = new ScriptVariableList();
+		ScriptVariableReferenceList variableReferences = new ScriptVariableReferenceList();
 
 		while ( !currentToken().equals( ")" ) )
 		{
@@ -767,27 +767,31 @@ public class KoLmafiaASH extends StaticEntity
 				readToken(); //read comma
 			}
 
-			ScriptVariableReference paramRef = new ScriptVariableReference( param );
-			result.addVariableReference( paramRef );
+			variableReferences.addElement( new ScriptVariableReference( param ) );
 		}
 
 		readToken(); //read )
 
 		// Add the function to the parent scope before we parse the
-		// function scope to allow recursion.
+		// function scope to allow recursion. Replace an existing
+		// forward reference.
 
-		if ( !parentScope.addFunction( result ) )
-			throw new AdvancedScriptException( "Function " + functionName + " already defined " + getLineAndFile() );
+		ScriptUserDefinedFunction result = parentScope.replaceFunction( new ScriptUserDefinedFunction( functionName, functionType, variableReferences ) );
+		if ( currentToken() != null && currentToken().equals( ";" ) )
+		{
+			// Yes. Return forward reference
+			readToken(); // ;
+			return result;
+		}
 
 		ScriptScope scope;
-
 		if ( currentToken() != null && currentToken().equals( "{" ) )
 		{
 			// Scope is a block
 
 			readToken(); // {
 
-			scope = parseScope( null, t, paramList, parentScope, false );
+			scope = parseScope( null, functionType, paramList, parentScope, false );
 			if ( currentToken() == null || !currentToken().equals( "}" ) )
 				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
 			readToken(); // }
@@ -796,12 +800,11 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			// Scope is a single command
 			scope = new ScriptScope( paramList, parentScope );
-			scope.addCommand( parseCommand( t, parentScope, false, false ) );
+			scope.addCommand( parseCommand( functionType, parentScope, false, false ) );
 		}
 
 		result.setScope( scope );
-
-		if ( !result.assertReturn() && !t.equals( TYPE_VOID ) )
+		if ( !result.assertReturn() && !functionType.equals( TYPE_VOID ) )
 			throw new AdvancedScriptException( "Missing return value " + getLineAndFile() );
 
 		return result;
@@ -1861,7 +1864,8 @@ public class KoLmafiaASH extends StaticEntity
 		KoLmafia.getDebugStream().println( "<FUNC " + func.getType() + " " + func.getName() + ">" );
 		for ( ScriptVariableReference current = func.getFirstParam(); current != null; current = func.getNextParam() )
 			printVariableReference( current, indent + 1 );
-		printScope( ((ScriptUserDefinedFunction)func).getScope(), indent + 1 );
+		if ( func instanceof ScriptUserDefinedFunction )
+			printScope( ((ScriptUserDefinedFunction)func).getScope(), indent + 1 );
 	}
 
 	private void printCommand( ScriptCommand command, int indent )
@@ -2699,6 +2703,47 @@ public class KoLmafiaASH extends StaticEntity
 			return false;
 		}
 
+		public ScriptUserDefinedFunction replaceFunction( ScriptUserDefinedFunction f ) throws AdvancedScriptException
+		{
+			String functionName = f.getName();
+			ScriptUserDefinedFunction current = (ScriptUserDefinedFunction)functions.findFunction( functionName );
+			if ( current != null )
+			{
+				// The existing function must be a forward
+				// reference.
+				if ( current.getScope() != null )
+					throw new AdvancedScriptException( "Function " + functionName + " already defined " + getLineAndFile() );
+
+
+				// The types of the new function's parameters
+				// must exactly match the types of the existing
+				// function's parameters
+				ScriptVariableReference p1 = current.getFirstParam();
+				ScriptVariableReference p2 = f.getFirstParam();
+				int paramCount = 1;
+				while ( p1 != null && p2 != null )
+				{
+					if ( !p1.getType().equals( p2.getType() ) )
+						throw new AdvancedScriptException( "Function " + functionName + " parameter #" + paramCount + " previously declared to have type " + p1.getType().toString() + " " + getLineAndFile() );
+					p1 = current.getNextParam();
+					p2 = f.getNextParam();
+					++paramCount;
+				}
+
+				// There must be the same number of parameters
+				if ( p1 != null )
+					throw new AdvancedScriptException( "Function " + functionName + " previously declared to have more parameters " + getLineAndFile() );
+
+				if ( p2 != null )
+					throw new AdvancedScriptException( "Function " + functionName + " previously declared to have fewer parameters " + getLineAndFile() );
+
+				current.setVariableReferences( f.getVariableReferences() );
+				return current;
+			}
+			addFunction( f );
+			return f;
+		}
+
 		public ScriptFunction findFunction( String name, ScriptExpressionList params ) throws AdvancedScriptException
 		{
 			ScriptFunction current = functions.findFunction( name );
@@ -2850,15 +2895,28 @@ public class KoLmafiaASH extends StaticEntity
 		protected ScriptType type;
 		protected ScriptVariableReferenceList variableReferences;
 
-		public ScriptFunction( String name, ScriptType type )
+
+		public ScriptFunction( String name, ScriptType type, ScriptVariableReferenceList variableReferences )
 		{
 			super( name );
 			this.type = type;
-			this.variableReferences = new ScriptVariableReferenceList();
+			this.variableReferences = variableReferences;
+		}
+
+		public ScriptFunction( String name, ScriptType type )
+		{	this( name, type, new ScriptVariableReferenceList() );
 		}
 
 		public ScriptType getType()
 		{	return type;
+		}
+
+		public ScriptVariableReferenceList getVariableReferences()
+		{	return variableReferences;
+		}
+
+		public void setVariableReferences( ScriptVariableReferenceList variableReferences )
+		{	this.variableReferences = variableReferences;
 		}
 
 		public void addVariableReference( ScriptVariableReference v )
@@ -2891,9 +2949,9 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		ScriptScope scope;
 
-		public ScriptUserDefinedFunction( String name, ScriptType type )
+		public ScriptUserDefinedFunction( String name, ScriptType type, ScriptVariableReferenceList variableReferences )
 		{
-			super( name, type );
+			super( name, type, variableReferences );
 			this.scope = null;
 		}
 
@@ -2907,6 +2965,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
+			if ( scope == null )
+				throw new RuntimeException( "Calling undefined user function: " + getName() );
+
 			ScriptValue result = scope.execute();
 
 			if ( currentState != STATE_EXIT )
