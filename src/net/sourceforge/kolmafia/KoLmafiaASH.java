@@ -2797,6 +2797,14 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptVariableReference)variableReferences.getNextElement();
 		}
 
+		public void saveBindings()
+		{
+		}
+
+		public void restoreBindings()
+		{
+		}
+
 		public ScriptValue execute() throws AdvancedScriptException
 		{
 			return null;
@@ -2840,12 +2848,14 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		private Method method;
 		private ScriptVariable [] variables;
+		private ScriptValue [] values;
 
 		public ScriptExistingFunction( String name, ScriptType type, ScriptType [] params )
 		{
 			super( name.toLowerCase(), type );
 
 			variables = new ScriptVariable[ params.length ];
+			values = new ScriptValue[ params.length ];
 			Class [] args = new Class[ params.length ];
 
 			for ( int i = 0; i < params.length; ++i )
@@ -2866,6 +2876,20 @@ public class KoLmafiaASH extends StaticEntity
 				// simply print the bogus function to stdout
 				System.out.println( "No method found for built-in function: " + name );
 			}
+		}
+
+		public void saveBindings()
+		{
+			// Save current parameter value bindings
+			for ( int i = 0; i < variables.length; ++ i)
+				values[i] = variables[i].getValue();
+		}
+
+		public void restoreBindings()
+		{
+			// Restore  parameter value bindings
+			for ( int i = 0; i < variables.length; ++ i)
+				variables[i].forceValue( values[i] );
 		}
 
 		public ScriptValue execute()
@@ -3677,16 +3701,8 @@ public class KoLmafiaASH extends StaticEntity
 		{	return target.getValue();
 		}
 
-		public ScriptValue getValue() throws AdvancedScriptException
-		{	return target.getValue();
-		}
-
 		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
 		{	target.setValue( targetValue );
-		}
-
-		public void forceValue( ScriptValue targetValue )
-		{	target.forceValue( targetValue );
 		}
 
 		public String toString()
@@ -4397,9 +4413,12 @@ public class KoLmafiaASH extends StaticEntity
 
 			ScriptVariableReference paramVarRef = target.getFirstParam();
 			ScriptExpression paramValue = params.getFirstExpression();
-			ScriptList values = new ScriptList();
 
 			traceIndent();
+
+			// Save current variable bindings
+			target.saveBindings();
+
 			int paramCount = 0;
 			while ( paramVarRef != null )
 			{
@@ -4419,9 +4438,6 @@ public class KoLmafiaASH extends StaticEntity
 					traceUnindent();
 					return null;
 				}
-
-				// Save parameter's current value binding
-				values.addElement( paramVarRef.getValue() );
 
 				// Bind parameter to new value
 				if ( paramVarRef.getType().equals( TYPE_STRING ) )
@@ -4444,17 +4460,11 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptValue result = target.execute();
 
 			trace( "Function " + target.getName() + " returned: " + result );
-			traceUnindent();
 
-			// Restore parameter bindings
-			paramVarRef = target.getFirstParam();
-			ScriptValue value = (ScriptValue)values.getFirstElement();
-			while ( paramVarRef != null )
-			{
-				paramVarRef.forceValue( value );
-				paramVarRef = target.getNextParam();
-				value = (ScriptValue)values.getNextElement();
-			}
+			// Restore initial variable bindings
+			target.restoreBindings();
+
+			traceUnindent();
 
 			return result;
 		}
