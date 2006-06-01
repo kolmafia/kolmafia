@@ -15,11 +15,11 @@
 #
 # Missing Combat Percent Data (marked with -1):
 #
-# Battlefield (Dyspepsi Uniform)
 # Bugbear Pens
 # Dark Elbow of the Woods: Demoninja, G Imp, L Imp, Der Bierdieb
 # Dark Heart of the Woods: Fallen Archfiend, G Imp, P Imp, Friar No More
 # Dark Neck of the Woods: Hellion, P Imp, W Imp, On Wings of Fire
+# Degrassi Knoll
 # Dungeons of Doom
 # Spooky Gravy Barrow
 #
@@ -44,7 +44,7 @@
 Bat Hole Entryway	100	Albino Bat	Pine Bat	Regular Old Bat
 Batrat and Ratbat Burrow	100	Batrat	Ratbat
 Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier
-Battlefield (Dyspepsi Uniform)	-1	 Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier
+Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier
 Beanbat Chamber	100	Beanbat
 Bugbear Pens	-1	An Angry Bugbear	A Bugged Bugbear	Mad Bugbears	A Revolting Bugbear	A Revolving Bugbear	An Annoying Spooky Gravy Fairy: 0
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
