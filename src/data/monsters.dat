@@ -38,23 +38,17 @@
 # The Burrowing Bishop
 # The Skinflute
 # The Twig and Berries
-# Vampire Bat
 #
 # One Time monsters:
 #
-# Baron Von Ratsworth	
 # Conjoined Zmombie
 # Garganthulihc
 # Giant Skeelton
 # Huge Ghuol
-# The Bonerdagon
-# The Boss Bat
-# The Knob Goblin King
 #
 # Monsters from the following areas:
 #
 # Battlefield (Cloaca Uniform)
-# Battlefield (Dyspepsi Uniform)
 # Bugbear Pens
 # Dungeon of Doom
 # Degrassi Knoll
@@ -131,9 +125,9 @@ Drab Bard	HP: 55 Def: 65 Atk: 65 Meat: 34-54	drab sonata (30)	guitar pick (15)	o
 Drunk Goat	HP: 50 Def: 68 Atk: 68 Meat: 36-58	bottle of whiskey (25)	goat beard (5)
 Drunken Half-Orc Hobo	HP: 1 Def: 1 Atk: 1 E: stench	dirty hobo gloves (30)	Mad Train wine (60)	moxie weed (15)
 Drunken Rat	HP: 8 Def: 11 Atk: 9
-Dyspepsi-Cola General	HP: 40 Def: 30 Atk: 30
-Dyspepsi-Cola Knight	HP: 35 Def: 30 Atk: 30
-Dyspepsi-Cola Soldier	HP: 30 Def: 30 Atk: 30
+Dyspepsi-Cola General	HP: 40 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi-Cola d-rations (5)	Dyspepsi grenade (5)
+Dyspepsi-Cola Knight	HP: 35 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
+Dyspepsi-Cola Soldier	HP: 30 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
 Evil Olive	HP: 60 Def: 70 Atk: 70	bottle of gin (30)	olive (40)	jumbo olive (10)
 eXtreme Cross-Country Hippy	HP: 65 Def: 73 Atk: 73 E: stench	eXtreme mittens (5)	eXtreme scarf (10)	Mountain Stream soda (30)
 eXtreme Orcish Snowboarder	HP: 65 Def: 74 Atk: 76 Meat: 32-50 E: sleaze	eXtreme mittens (5)	Mountain Stream soda (30)	snowboarder pants (10)
@@ -303,7 +297,7 @@ Toothy Sklelton	HP: 50 Def: 58 Atk: 58  E: spooky	loose teeth (20)	loose teeth (
 Topiary Golem	HP: 150 Def: 180 Atk: 180	hedge maze puzzle (65)
 Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (30)	spooky stick (30)
 Undead Elbow Macaroni	HP: 1 Def: 1 Atk: 1 E: spooky Meat: 4-7	magicalness-in-a-can (25)
-Vampire Bat	HP: 10 Def: 16 Atk: 18
+Vampire Bat	HP: 10 Def: 16 Atk: 18	bat wing (15)	batgut (15)	sonar-in-a-biscuit (20)
 Vampire Clam	HP: 14 Def: 19 Atk: 21
 Vicious Gnauga	HP: 40 Def: 45 Atk: 45	gnauga hide (10)
 Vine Gar	HP: 180 Def: 200 Atk: 200	vinegar (30)	vinegar (30)
