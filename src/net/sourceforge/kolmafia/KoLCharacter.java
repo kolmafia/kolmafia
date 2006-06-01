@@ -353,6 +353,7 @@ public abstract class KoLCharacter extends StaticEntity
 		activeEffects.clear();
 		usableSkills.clear();
 		availableSkills.clear();
+		client.resetBreakfastSummonings();
 
 		isHardcore = false;
 		canInteract = true;
@@ -1853,6 +1854,11 @@ public abstract class KoLCharacter extends StaticEntity
 
 		for ( int i = 0; i < skillArray.length; ++i )
 			addAvailableSkill( skillArray[i] );
+
+		// Superhuman Cocktailcrafting affects # of summons for
+		// Advanced Cocktailcrafting
+		if ( hasSkill( "Superhuman Cocktailcrafting" ) )
+			client.setBreakfastSummonings( KoLmafia.COCKTAILCRAFTING, 5 );
 
 		// Add derived skills based on base skills
 		addDerivedSkills();
