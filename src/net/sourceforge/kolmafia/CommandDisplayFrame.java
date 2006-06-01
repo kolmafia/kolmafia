@@ -178,7 +178,6 @@ public class CommandDisplayFrame extends KoLFrame
 			else
 			{
 				KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br><br>" );
-				StaticEntity.getClient().forceContinue();
 				DEFAULT_SHELL.executeLine( command );
 			}
 		}

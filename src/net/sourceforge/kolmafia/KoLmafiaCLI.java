@@ -248,7 +248,6 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( StaticEntity.getClient() == this )
 				printBlankLine();
 
-			StaticEntity.getClient().forceContinue();
 			executeLine( line );
 
 			if ( StaticEntity.getClient() == this )
@@ -355,6 +354,8 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( ERROR_STATE, "Sorry.  You can only do that once per session." );
 			return;
 		}
+
+		StaticEntity.getClient().forceContinue();
 
 		// Win game sanity check.  This will find its
 		// way back into the GUI ... one day.
@@ -577,7 +578,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// login), so they should be handled before a test
 		// of login state needed for other commands.
 
-		if ( command.equals( "validate" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
+		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
 		{
 			executeScriptCommand( parameters );
 			return;
@@ -1454,7 +1455,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( isASHFile( scriptFile ) )
 			{
-				if ( previousLine.startsWith( "validate " ) )
+				if ( previousLine.startsWith( "validate " ) || previousLine.startsWith( "verify" ) )
 				{
 					advancedHandler.validate( scriptFile );
 					return;

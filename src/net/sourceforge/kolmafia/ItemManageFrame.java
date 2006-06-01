@@ -213,18 +213,16 @@ public class ItemManageFrame extends KoLFrame
 	{
 		private final int PURCHASE_ONE = 1;
 		private final int PURCHASE_MULTIPLE = 2;
-		private final int PURCHASE_MAX = 3;
 
 		public SpecialPanel( LockableListModel items )
 		{
 			super( "Sign-Specific Stuffs", items, false );
 
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			setButtons( new String [] { "buy one", "buy multiple", "buy maximum" },
+			setButtons( new String [] { "buy one", "buy multiple" },
 				new ActionListener [] {
 					new BuyListener( PURCHASE_ONE ),
-					new BuyListener( PURCHASE_MULTIPLE ),
-					new BuyListener( PURCHASE_MAX )
+					new BuyListener( PURCHASE_MULTIPLE )
 				} );
 		}
 
@@ -242,9 +240,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( item == null )
 					return;
 
-				int consumptionCount = purchaseType == PURCHASE_MULTIPLE ? getQuantity( "Buying multiple " + item + "...", Integer.MAX_VALUE, 1 ) :
-					purchaseType == PURCHASE_ONE ? 1 : 30;
-
+				int consumptionCount = purchaseType == PURCHASE_MULTIPLE ? getQuantity( "Buying multiple " + item + "...", Integer.MAX_VALUE, 1 ) : 1;
 				if ( consumptionCount == 0 )
 					return;
 
