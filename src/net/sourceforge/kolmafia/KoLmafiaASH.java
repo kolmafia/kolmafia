@@ -712,7 +712,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( (f = parseFunction( t, result )) != null )
 			{
 				if ( f.getName().equalsIgnoreCase( "main" ) && startScope != null ) //only upper level scope may define main.
-					throw new AdvancedScriptException( "Only outer script can define main Function " + getLineAndFile() );
+					throw new AdvancedScriptException( "Only outer script can define 'main' function " + getLineAndFile() );
 
 			}
 			else if ( (v = parseVariable( t, result )) != null )
@@ -893,6 +893,8 @@ public class KoLmafiaASH extends StaticEntity
 		else if ( (result = parseFor( functionType, scope )) != null )
 			// for doesn't have a ; token
 			return result;
+		else if ( (result = parseRepeat( functionType, scope )) != null )
+			;
 		else if ( (result = parseConditional( functionType, scope, noElse, whileLoop )) != null )
 			// loop doesn't have a ; token
 			return result;
@@ -1170,6 +1172,35 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptScope scope = parseLoopScope( functionType, null, parentScope );
 
 		return new ScriptWhile( scope, expression );
+	}
+
+	private ScriptRepeat parseRepeat( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
+	{
+		if ( currentToken() == null )
+			return null;
+
+		if ( !currentToken().equalsIgnoreCase( "repeat" ) )
+			return null;
+
+		readToken(); // repeat
+
+		ScriptScope scope = parseLoopScope( functionType, null, parentScope );
+		if ( currentToken() == null || !currentToken().equals( "until" ) )
+			throw new AdvancedScriptException( "until Expected " + getLineAndFile() );
+
+		if ( nextToken() == null || !nextToken().equals( "(" ) )
+			throw new AdvancedScriptException( "'(' Expected " + getLineAndFile() );
+
+		readToken(); // until
+		readToken(); // (
+
+		ScriptExpression expression = parseExpression( parentScope );
+		if ( currentToken() == null || !currentToken().equals( ")" ) )
+			throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
+
+		readToken(); // )
+
+		return new ScriptRepeat( scope, expression );
 	}
 
 	private ScriptForeach parseForeach( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
@@ -1881,6 +1912,8 @@ public class KoLmafiaASH extends StaticEntity
 			printConditional( ( ScriptConditional ) command, indent );
 		else if ( command instanceof ScriptWhile )
 			printWhile( ( ScriptWhile ) command, indent );
+		else if ( command instanceof ScriptRepeat )
+			printRepeat( ( ScriptRepeat ) command, indent );
 		else if ( command instanceof ScriptForeach )
 			printForeach( ( ScriptForeach ) command, indent );
 		else if ( command instanceof ScriptFor )
@@ -1937,6 +1970,14 @@ public class KoLmafiaASH extends StaticEntity
 		KoLmafia.getDebugStream().println( "<WHILE>" );
 		printExpression( loop.getCondition(), indent + 1 );
 		printScope( loop.getScope(), indent + 1 );
+	}
+
+	private void printRepeat( ScriptRepeat loop, int indent )
+	{
+		indentLine( indent );
+		KoLmafia.getDebugStream().println( "<REPEAT>" );
+		printScope( loop.getScope(), indent + 1 );
+		printExpression( loop.getCondition(), indent + 1 );
 	}
 
 	private void printForeach( ScriptForeach loop, int indent )
@@ -4506,6 +4547,77 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{	return "while";
+		}
+	}
+
+	private class ScriptRepeat extends ScriptLoop
+	{
+		private ScriptExpression condition;
+
+		public ScriptRepeat( ScriptScope scope, ScriptExpression condition ) throws AdvancedScriptException
+		{
+			super( scope );
+			this.condition = condition;
+			if ( !condition.getType().equals( TYPE_BOOLEAN ) )
+				throw new AdvancedScriptException( "Cannot apply " + condition.getType() + " to boolean " + getLineAndFile() );
+
+		}
+
+		public ScriptExpression getCondition()
+		{	return condition;
+		}
+
+		public ScriptValue execute() throws AdvancedScriptException
+		{
+			if ( !client.permitsContinue() )
+			{
+				currentState = STATE_EXIT;
+				return null;
+			}
+
+			traceIndent();
+			trace( this.toString() );
+
+			while ( true )
+			{
+				ScriptValue result = super.execute();
+
+				if ( currentState == STATE_BREAK )
+				{
+					currentState = STATE_NORMAL;
+					traceUnindent();
+					return VOID_VALUE;
+				}
+
+				if ( currentState != STATE_NORMAL )
+				{
+					traceUnindent();
+					return result;
+				}
+
+				trace( "Test: " + condition );
+
+				ScriptValue conditionResult = condition.execute();
+				captureValue( conditionResult );
+
+				trace( "[" + executionStateString( currentState ) + "] <- " + conditionResult );
+
+				if (  conditionResult == null )
+				{
+					traceUnindent();
+					return null;
+				}
+
+				if ( conditionResult.intValue() == 1 )
+					break;
+			}
+
+			traceUnindent();
+			return VOID_VALUE;
+		}
+
+		public String toString()
+		{	return "repeat";
 		}
 	}
 
