@@ -102,7 +102,13 @@ public abstract class KoLmafia implements KoLConstants
 		"packages.dat", "statuseffects.dat", "tradeitems.dat", "zonelist.dat"
 	};
 
-	public static final String [][] BREAKFAST_SKILLS =
+	public static final int SNOWCONE = 0;
+	public static final int HILARIOUS = 1;
+	public static final int SAUCECRAFTING = 2;
+	public static final int PASTAMASTERY = 3;
+	public static final int COCKTAILCRAFTING = 4;
+
+	public static String [][] BREAKFAST_SKILLS =
 	{
 		{ "Summon Snowcone", "1" },
 		{ "Summon Hilarious Objects", "1" },
@@ -381,6 +387,19 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
+	public void resetBreakfastSummonings()
+	{
+		setBreakfastSummonings( SNOWCONE, 1 );
+		setBreakfastSummonings( HILARIOUS, 1 );
+		setBreakfastSummonings( SAUCECRAFTING, 3 );
+		setBreakfastSummonings( PASTAMASTERY, 3 );
+		setBreakfastSummonings( COCKTAILCRAFTING, 3 );
+	}
+
+	public void setBreakfastSummonings( int index, int count )
+	{	BREAKFAST_SKILLS[index][1] = String.valueOf( count );
+	}
+
 	public void getBreakfast( boolean checkSettings )
 	{
 		if ( KoLCharacter.hasToaster() )
@@ -391,9 +410,6 @@ public abstract class KoLmafia implements KoLConstants
 			(new CampgroundRequest( this, "arches" )).run();
 
 		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + (KoLCharacter.isHardcore() ? "hardcore" : "softcore") );
-
-		if ( KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" ) )
-			BREAKFAST_SKILLS[4][1] = "5";
 
 		if ( skillSetting != null )
 			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
