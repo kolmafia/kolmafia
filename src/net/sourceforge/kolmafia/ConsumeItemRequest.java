@@ -168,7 +168,7 @@ public class ConsumeItemRequest extends KoLRequest
 			SorceressLair.completeHedgeMaze();
 			return;
 		}
-		
+
 		int iterations = 1;
 		if ( itemUsed.getCount() != 1 && consumptionType != ConsumeItemRequest.CONSUME_MULTIPLE && consumptionType != ConsumeItemRequest.CONSUME_RESTORE )
 		{
@@ -182,18 +182,9 @@ public class ConsumeItemRequest extends KoLRequest
 		for ( int i = 1; client.permitsContinue() && i <= iterations; ++i )
 			useOnce( i, iterations, useTypeAsString );
 	}
-	
+
 	public void useOnce( int currentIteration, int totalIterations, String useTypeAsString )
 	{
-		if ( !formURLString.startsWith( "inventory.php" ) )
-		{
-			if ( totalIterations == 1 )
-				DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().toString() + "..." );
-			else
-				DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().getName() +
-					" (" + currentIteration + " of " + totalIterations + ")..." );
-		}
-
 		if ( itemUsed.getItemID() == UneffectRequest.REMEDY.getItemID() )
 		{
 			client.makeUneffectRequest();
@@ -242,6 +233,15 @@ public class ConsumeItemRequest extends KoLRequest
 		AdventureDatabase.retrieveItem( itemUsed );
 		if ( !client.permitsContinue() )
 			return;
+
+		if ( !formURLString.startsWith( "inventory.php" ) )
+		{
+			if ( totalIterations == 1 )
+				DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().toString() + "..." );
+			else
+				DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().getName() +
+					" (" + currentIteration + " of " + totalIterations + ")..." );
+		}
 
 		super.run();
 
@@ -301,7 +301,7 @@ public class ConsumeItemRequest extends KoLRequest
 			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Consumption limit reached." );
 			return;
 		}
-		
+
 		if ( responseText.indexOf( "too drunk" ) != -1 )
 		{
 			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Inebriety limit reached." );
@@ -406,7 +406,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// crumble, it is not consumed
 
 			client.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
-			
+
 			if ( responseText.indexOf( "crumble" ) == -1 )
 			{
 				KoLCharacter.updateStatus();
@@ -414,11 +414,11 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 
 			break;
-		
+
 		case TEARS:
 			KoLCharacter.getEffects().remove( KoLAdventure.BEATEN_UP );
 			break;
-		
+
 		case ANTIDOTE:
 			KoLCharacter.getEffects().remove( POISON );
 			break;
