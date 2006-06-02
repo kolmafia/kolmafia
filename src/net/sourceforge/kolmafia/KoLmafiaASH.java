@@ -711,9 +711,17 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			if ( (f = parseFunction( t, result )) != null )
 			{
-				if ( f.getName().equalsIgnoreCase( "main" ) && startScope != null ) //only upper level scope may define main.
-					throw new AdvancedScriptException( "Only outer script can define 'main' function " + getLineAndFile() );
-
+				// People want to code scripts that work either
+				// standalone or imported into another script
+				//
+				// Therefore remove "main" functions that are
+				// defined in non-toplevel scopes
+				//
+				// We could just leave them; we only look for a
+				// "main" function in the outermost scope
+				if ( startScope != null && f.getName().equalsIgnoreCase( "main" ) )
+					// throw new AdvancedScriptException( "Only outer script can define 'main' function " + getLineAndFile() );
+					result.removeFunction( f );
 			}
 			else if ( (v = parseVariable( t, result )) != null )
 			{
@@ -2693,6 +2701,10 @@ public class KoLmafiaASH extends StaticEntity
 		{	return functions.addElement( f );
 		}
 
+		public boolean removeFunction( ScriptFunction f )
+		{	return functions.removeElement( f );
+		}
+
 		public ScriptFunction getFirstFunction()
 		{	return (ScriptFunction)functions.getFirstElement();
 		}
@@ -2903,6 +2915,10 @@ public class KoLmafiaASH extends StaticEntity
 
 			add( n );
 			return true;
+		}
+
+		public boolean removeElement( ScriptSymbol n )
+		{	return remove( n );
 		}
 
 		ScriptSymbol findSymbol( String name )
@@ -3757,6 +3773,10 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		public boolean addElement( ScriptFunction n )
 		{	return super.addElement( n );
+		}
+
+		public boolean removeElement( ScriptFunction n )
+		{	return super.removeElement( n );
 		}
 
 		public ScriptFunction findFunction( String name )
