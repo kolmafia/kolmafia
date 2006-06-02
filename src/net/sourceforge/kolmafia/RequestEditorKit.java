@@ -518,7 +518,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			// This can happen whenever there is bad internet
 			// or whenever the familiar is brand-new.
-			
+
 			return null;
 		}
 	}
@@ -664,7 +664,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		// Fix all the tables which decide to put a row end,
 		// but no row beginning.
-		
+
 		displayHTML = displayHTML.replaceAll( "</tr><td", "</tr><tr><td" );
 
 		// Fix all the super-small font displays used in the
@@ -708,10 +708,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// UNICODE characters using the table.
 
 		displayHTML = getUnicode( displayHTML );
-		
+
 		// Image links are mangled a little bit because they use
 		// Javascript now -- fix them.
-		
+
 		displayHTML = displayHTML.replaceAll( "<img([^>]*?) onClick=\'descitem\\((\\d+)\\);\'>",
 			"<a href=\"desc_item.php?whichitem=$2\"><img$1 border=0></a>" );
 
@@ -784,24 +784,24 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			displayHTML = sortItemList( "whichitem", displayHTML );
 			displayHTML = sortItemList( "whichitem2", displayHTML );
 		}
-		
+
 		// The clan gym buttons are a little mixed up, but
 		// it's possible to get everything to work by changing
 		// the table cells to line breaks.
-		
+
 		if ( displayHTML.indexOf( "action=clan_gym.php") != -1 )
 		{
 			displayHTML = displayHTML.replaceAll( "<td width=100 height=100>", "<tr><td width=100 height=100>" );
 			displayHTML = displayHTML.replaceAll( "</td><td valign=center>", "<br>" );
 			displayHTML = displayHTML.replaceAll( "</td></tr></form>", "</form></td></tr>" );
 		}
-		
+
 		// Doc Galaktik's page is going to get completely
 		// killed, except for the main purchases.
-		
+
 		if ( displayHTML.indexOf( "action=galaktik.php") != -1 )
 			displayHTML = displayHTML.replaceFirst( "<table><table.*", "" );
-		
+
 		// All HTML is now properly rendered!  Return the
 		// compiled string.  Print it to the debug log for
 		// reference purposes.
@@ -813,19 +813,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		displayHTML = getFeatureRichHTML( displayHTML );
 		return displayHTML;
 	}
-	
+
 	public static String getFeatureRichHTML( String text )
 	{
 		// Now, for a little fun HTML manipulation.  See
 		// if there's an item present, and if so, modify
 		// it so that you get a use link.
-		
+
 		if ( StaticEntity.getProperty( "relayAddsUseLinks" ).equals( "true" ) )
 			text = addUseLinks( text );
-		
+
 		if ( StaticEntity.getProperty( "relayMovesManeuver" ).equals( "true" ) )
 			text = moveManeuverButton( text );
-			
+
 		return text;
 	}
 
@@ -874,7 +874,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					break;
 
 				case ConsumeItemRequest.CONSUME_USE:
-					
+
 					if ( itemID == SorceressLair.PUZZLE_PIECE.getItemID() )
 					{
 						useType = "use";
@@ -895,12 +895,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					useLocation = "inv_equip.php?pwd=&which=2&action=equip&whichitem=";
 					break;
 			}
-			
+
 			if ( useType != null && useLocation != null )
 			{
 				useLinkMatcher.appendReplacement( linkedResponse,
 					"You acquire$1 <font size=1>[<a href=\"" + useLocation.toString() +
-					(useLocation.endsWith( "=" ) ? String.valueOf( itemID ) : "") + 
+					(useLocation.endsWith( "=" ) ? String.valueOf( itemID ) : "") +
 					"\">" + useType + "</a>]</font></td>" );
 			}
 			else
@@ -912,17 +912,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		useLinkMatcher.appendTail( linkedResponse );
 		return linkedResponse.toString();
 	}
-	
+
 	private static String moveManeuverButton( String text )
 	{
 		int moxmanIndex = text.indexOf( "<form name=moxman" );
 		if ( moxmanIndex == -1 )
 			return text;
-		
+
 		StringBuffer textBuffer = new StringBuffer( text );
-		int endIndex = text.indexOf( "</form>", moxmanIndex );	
+		int endIndex = text.indexOf( "</form>", moxmanIndex );
 		textBuffer.delete( moxmanIndex, endIndex );
-	
+
 		int skillIndex = textBuffer.indexOf( "skill)</option>" );
 		textBuffer.insert( skillIndex + 15, "<option value='moxman'>Moxious Maneuver (" +
 			KoLCharacter.getLevel() + " Muscularity Points)</option>" );
@@ -958,7 +958,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 
@@ -1114,7 +1114,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e );
 					request = new KoLRequest( StaticEntity.getClient(), actionString.toString(), true );
 				}
@@ -1131,7 +1131,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 							request.addEncodedFormField( elements[i] );
 			}
 
-			frame.refresh( request, true );
+			frame.refresh( request );
 		}
 
 		private RequestFrame findFrame( String value )
