@@ -2956,13 +2956,14 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		protected ScriptType type;
 		protected ScriptVariableReferenceList variableReferences;
-
+		protected ScriptValue [] values;
 
 		public ScriptFunction( String name, ScriptType type, ScriptVariableReferenceList variableReferences )
 		{
 			super( name );
 			this.type = type;
 			this.variableReferences = variableReferences;
+			this.values = new ScriptValue[ variableReferences.size() ];
 		}
 
 		public ScriptFunction( String name, ScriptType type )
@@ -2981,10 +2982,6 @@ public class KoLmafiaASH extends StaticEntity
 		{	this.variableReferences = variableReferences;
 		}
 
-		public void addVariableReference( ScriptVariableReference v )
-		{	variableReferences.addElement( v );
-		}
-
 		public ScriptVariableReference getFirstParam()
 		{	return (ScriptVariableReference)variableReferences.getFirstElement();
 		}
@@ -2993,12 +2990,30 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptVariableReference)variableReferences.getNextElement();
 		}
 
-		public void saveBindings()
+		public void saveBindings() throws AdvancedScriptException
 		{
+			// Save current parameter value bindings
+			ScriptVariableReference param = getFirstParam();
+			int index = 0;
+			while ( param != null )
+			{
+				values[index] = param.getValue();
+				param = getNextParam();
+				index++;
+			}
 		}
 
 		public void restoreBindings()
 		{
+			// Restore  parameter value bindings
+			ScriptVariableReference param = getFirstParam();
+			int index = 0;
+			while ( param != null )
+			{
+				param.forceValue( values[index] );
+				param = getNextParam();
+				index++;
+			}
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
@@ -3047,7 +3062,6 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		private Method method;
 		private ScriptVariable [] variables;
-		private ScriptValue [] values;
 
 		public ScriptExistingFunction( String name, ScriptType type, ScriptType [] params )
 		{
@@ -3060,7 +3074,7 @@ public class KoLmafiaASH extends StaticEntity
 			for ( int i = 0; i < params.length; ++i )
 			{
 				variables[i] = new ScriptVariable( params[i] );
-				addVariableReference( new ScriptVariableReference( variables[i] ) );
+				variableReferences.addElement( new ScriptVariableReference( variables[i] ) );
 				args[i] = ScriptVariable.class;
 			}
 
@@ -3075,20 +3089,6 @@ public class KoLmafiaASH extends StaticEntity
 				// simply print the bogus function to stdout
 				System.out.println( "No method found for built-in function: " + name );
 			}
-		}
-
-		public void saveBindings()
-		{
-			// Save current parameter value bindings
-			for ( int i = 0; i < variables.length; ++ i)
-				values[i] = variables[i].getValue();
-		}
-
-		public void restoreBindings()
-		{
-			// Restore  parameter value bindings
-			for ( int i = 0; i < variables.length; ++ i)
-				variables[i].forceValue( values[i] );
 		}
 
 		public ScriptValue execute()
@@ -3828,7 +3828,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	content = targetValue;
 		}
 
-		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
+		public void setValue( ScriptValue targetValue )
 		{
 			if ( getType().equals( targetValue.getType() ) )
 			{
@@ -3902,6 +3902,14 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{	return target.getValue();
+		}
+
+		public ScriptValue getValue() throws AdvancedScriptException
+		{	return target.getValue();
+		}
+
+		public void forceValue( ScriptValue targetValue )
+		{	target.forceValue( targetValue );
 		}
 
 		public void setValue( ScriptValue targetValue ) throws AdvancedScriptException
