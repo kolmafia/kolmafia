@@ -121,7 +121,6 @@ public class RequestFrame extends KoLFrame
 
 		setCurrentRequest( request );
 		this.mainDisplay = new JEditorPane();
-		this.mainDisplay.setEditable( false );
 
 		if ( !(this instanceof PendingTradesFrame) )
 			this.mainDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
@@ -143,7 +142,6 @@ public class RequestFrame extends KoLFrame
 		else
 		{
 			this.sideDisplay = new JEditorPane();
-			this.sideDisplay.setEditable( false );
 			this.sideDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 
 			this.sideBuffer = new LimitedSizeChatBuffer( "Sidebar" );

@@ -507,7 +507,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 				setLayout( new BorderLayout( 10, 10 ) );
 
 				JEditorPane resultsDisplay = new JEditorPane();
-				resultsDisplay.setEditable( false );
 				JScrollPane scroller = results.setChatDisplay( resultsDisplay );
 				JComponentUtilities.setComponentSize( scroller, 400, 400 );
 

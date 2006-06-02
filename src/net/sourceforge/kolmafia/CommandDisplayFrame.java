@@ -93,8 +93,6 @@ public class CommandDisplayFrame extends KoLFrame
 		public CommandDisplayPanel()
 		{
 			JEditorPane outputDisplay = new JEditorPane();
-			outputDisplay.setEditable( false );
-
 			JScrollPane scrollPane = KoLmafia.commandBuffer.setChatDisplay( outputDisplay );
 			JComponentUtilities.setComponentSize( scrollPane, 400, 300 );
 

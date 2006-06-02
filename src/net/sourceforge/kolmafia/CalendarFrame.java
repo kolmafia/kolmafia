@@ -114,13 +114,11 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		JEditorPane dailyDisplay = new JEditorPane();
 		JComponentUtilities.setComponentSize( dailyDisplay, 400, 300 );
-		dailyDisplay.setEditable( false );
 		dailyDisplay.addHyperlinkListener( new KoLHyperlinkAdapter() );
 		dailyBuffer.setChatDisplay( dailyDisplay );
 
 		JEditorPane predictDisplay = new JEditorPane();
 		JComponentUtilities.setComponentSize( predictDisplay, 400, 300 );
-		predictDisplay.setEditable( false );
 		predictBuffer.setChatDisplay( predictDisplay );
 
 		tabs = new JTabbedPane();
