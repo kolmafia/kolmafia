@@ -111,7 +111,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 		tabbedListDisplay.setMinimumSize( new Dimension( 0, 150 ) );
 
 		this.messageContent = new JEditorPane();
-		messageContent.setEditable( false );
 		messageContent.addHyperlinkListener( new MailLinkClickedListener() );
 
 		this.mailBuffer = new LimitedSizeChatBuffer( "KoL Mail Message", false );

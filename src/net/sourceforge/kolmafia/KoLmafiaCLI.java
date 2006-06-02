@@ -789,7 +789,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Sorceress hedge maze!  This is placed
 		// right after for consistency.
 
-		if ( command.equals( "hedgemaze" ) )
+		if ( command.equals( "maze" ) || command.equals( "hedgemaze" ) )
 		{
 			SorceressLair.completeHedgeMaze();
 			return;
@@ -799,7 +799,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// in the Sorceress's tower!  This is placed
 		// right after for consistency.
 
-		if ( command.equals( "guardians" ) )
+		if ( command.equals( "tower" ) || command.equals( "guardians" ) )
 		{
 			SorceressLair.fightTowerGuardians();
 			return;

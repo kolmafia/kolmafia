@@ -158,6 +158,7 @@ public class ChatBuffer
 	{
 		displayPane = display;
 		displayPane.setContentType( "text/html" );
+		displayPane.setEditable( false );
 		fireBufferChanged( DISPLAY_CHANGE, null );
 
 		JScrollPane scroller = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );

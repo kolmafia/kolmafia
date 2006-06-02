@@ -197,7 +197,6 @@ public class ChatFrame extends KoLFrame
 		{
 			super( new BorderLayout() );
 			chatDisplay = new JEditorPane();
-			chatDisplay.setEditable( false );
 			chatDisplay.addHyperlinkListener( new ChatLinkClickedListener() );
 			this.associatedContact = associatedContact;
 

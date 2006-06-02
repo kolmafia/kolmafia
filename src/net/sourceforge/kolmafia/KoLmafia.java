@@ -258,14 +258,23 @@ public abstract class KoLmafia implements KoLConstants
 		debugStream.println( message );
 
 		StringBuffer colorBuffer = new StringBuffer();
+
+		if ( message.indexOf( LINE_BREAK ) != -1 )
+			colorBuffer.append( "<pre>" );
+
 		if ( state == ERROR_STATE || state == ABORT_STATE )
 			colorBuffer.append( "<font color=red>" );
 		else
 			colorBuffer.append( "<font color=black>" );
 
-		colorBuffer.append( message.indexOf( LINE_BREAK ) != -1 ? ("<pre>" + message + "</pre>") : message );
-		colorBuffer.append( "</font><br>" );
+		colorBuffer.append( message );
+		colorBuffer.append( "</font>" );
+
+		if ( message.indexOf( LINE_BREAK ) != -1 )
+			colorBuffer.append( "</pre>" );
+
 		colorBuffer.append( LINE_BREAK );
+		colorBuffer.append( "<br>" );
 
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 		commandBuffer.append( colorBuffer.toString() );
