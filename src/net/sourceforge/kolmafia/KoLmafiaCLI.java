@@ -772,6 +772,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "breakfast" ) )
 		{
 			getBreakfast( false );
+			StaticEntity.getClient().forceContinue();
 			return;
 		}
 
@@ -3209,7 +3210,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		for ( int i = 0; i < effects.length; ++i )
 			if ( effects[i].getName().toLowerCase().indexOf( effectToUneffect ) != -1 )
-				(new UneffectRequest( StaticEntity.getClient(), effects[i] )).run();
+				StaticEntity.getClient().makeRequest( new UneffectRequest( StaticEntity.getClient(), effects[i] ) );
 	}
 
 	/**
