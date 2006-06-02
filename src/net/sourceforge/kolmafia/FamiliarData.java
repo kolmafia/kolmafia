@@ -187,6 +187,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		case 1489:	// miniature dormouse
 		case 1537:	// weegee sqouija
 		case 1539:	// lucky Tam O'Shatner
+		case 1623:	// badger badge
 			return 0;
 
 		case 865:	// lead necklace

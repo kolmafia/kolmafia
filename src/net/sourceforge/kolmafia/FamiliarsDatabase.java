@@ -228,6 +228,8 @@ public class FamiliarsDatabase extends KoLDatabase
 				return "itemimages/chatteeth.gif";
 			case 52:
 				return "itemimages/ghobo.gif";
+			case 53:
+				return "itemimages/badger.gif";
 			default:
 				return familiarID <= KNOWN_FAMILIARS ? "itemimages/familiar" + familiarID + ".gif" : "0star.gif";
 		}
