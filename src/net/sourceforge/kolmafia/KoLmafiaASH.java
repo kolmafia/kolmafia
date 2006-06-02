@@ -2817,7 +2817,7 @@ public class KoLmafiaASH extends StaticEntity
 				while ( currentParam != null && currentValue != null )
 				{
 					if ( !validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
-						throw new AdvancedScriptException( "Illegal parameter " + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile() );
+						throw new AdvancedScriptException( "Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile() );
 
 					++paramIndex;
 					currentParam = current.getNextParam( );
@@ -2993,27 +2993,15 @@ public class KoLmafiaASH extends StaticEntity
 		public void saveBindings() throws AdvancedScriptException
 		{
 			// Save current parameter value bindings
-			ScriptVariableReference param = getFirstParam();
-			int index = 0;
-			while ( param != null )
-			{
-				values[index] = param.getValue();
-				param = getNextParam();
-				index++;
-			}
+			for ( int i = 0; i < values.length; ++i )
+				values[i] = ((ScriptVariableReference)variableReferences.get(i)).getValue();
 		}
 
 		public void restoreBindings()
 		{
 			// Restore  parameter value bindings
-			ScriptVariableReference param = getFirstParam();
-			int index = 0;
-			while ( param != null )
-			{
-				param.forceValue( values[index] );
-				param = getNextParam();
-				index++;
-			}
+			for ( int i = 0; i < values.length; ++i )
+				((ScriptVariableReference)variableReferences.get(i)).forceValue( values[i] );
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
@@ -4823,13 +4811,13 @@ public class KoLmafiaASH extends StaticEntity
 				return null;
 			}
 
-			ScriptVariableReference paramVarRef = target.getFirstParam();
-			ScriptExpression paramValue = params.getFirstExpression();
-
 			traceIndent();
 
 			// Save current variable bindings
 			target.saveBindings();
+
+			ScriptVariableReference paramVarRef = target.getFirstParam();
+			ScriptExpression paramValue = params.getFirstExpression();
 
 			int paramCount = 0;
 			while ( paramVarRef != null )
