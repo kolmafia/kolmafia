@@ -367,6 +367,9 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
+		String scriptSetting = GLOBAL_SETTINGS.getProperty( "loginScript." + username.toLowerCase() );
+		if ( scriptSetting != null && !scriptSetting.equals( "" ) )
+			DEFAULT_SHELL.executeLine( scriptSetting );
 
 		if ( getBreakfast )
 		{
@@ -376,9 +379,6 @@ public abstract class KoLmafia implements KoLConstants
 			if ( lastBreakfast == null || !lastBreakfast.equals( today ) )
 			{
 				String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + (KoLCharacter.isHardcore() ? "hardcore" : "softcore") );
-				String scriptSetting = GLOBAL_SETTINGS.getProperty( "loginScript." + username.toLowerCase() );
-				if ( scriptSetting != null && !scriptSetting.equals( "" ) )
-					DEFAULT_SHELL.executeLine( scriptSetting );
 
 				getBreakfast( true );
 				if ( (skillSetting != null && !skillSetting.equals( "" )) || (scriptSetting != null && !scriptSetting.equals( "" )) )
