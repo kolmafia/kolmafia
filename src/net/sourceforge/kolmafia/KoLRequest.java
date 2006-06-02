@@ -1305,8 +1305,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// Only show the request if the response code is
 		// 200 (not a redirect or error).
 
-		if ( responseCode == 200 )
-			FightFrame.showRequest( this );
+		FightFrame.showRequest( this );
 	}
 
 	public String getCommandForm( int iterations )

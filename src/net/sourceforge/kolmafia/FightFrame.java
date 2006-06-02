@@ -70,22 +70,11 @@ public class FightFrame extends RequestFrame
 
 	public static void showRequest( KoLRequest request )
 	{
-		if ( request.responseText == null )
+		if ( request.getClass() == KoLRequest.class && request.responseText == null )
 			request.run();
 
-		// If you can find an instance of a fight frame,
-		// go ahead and refresh it.  Otherwise, create a
-		// new frame which renders the request.
-
-		StaticEntity.getClient().setCurrentRequest( request );
-
 		if ( INSTANCE == null )
-		{
-			// Parameters which will be used to render the
-			// request frame.
-
 			(new CreateFrameRunnable( FightFrame.class, new Object [] { request } )).run();
-		}
 		else
 			INSTANCE.refresh( request );
 	}
