@@ -744,19 +744,8 @@ public abstract class SorceressLair extends StaticEntity
 
 		// The three hero keys are needed to get the SCUBA gear
 
-		if ( isCheckOnly && !hasItem( SCUBA ) )
-		{
-			if ( !hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
-				requirements.add( BORIS );
-
-			if ( !hasItem( JARLSBERG ) && !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
-				requirements.add( JARLSBERG );
-
-			if ( !hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
-				requirements.add( SNEAKY_PETE );
-
+		if ( hasItem( SCUBA ) )
 			return requirements;
-		}
 
 		// Next, handle the three hero keys, which involve
 		// answering the riddles with the forms of fish.
@@ -764,7 +753,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
 			requirements.add( BORIS );
 
-		if ( hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
+		else if ( !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
 		{
 			AdventureDatabase.retrieveItem( BORIS );
 			DEFAULT_SHELL.updateDisplay( "Inserting Boris's key..." );
@@ -786,7 +775,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !hasItem( JARLSBERG ) && !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
 			requirements.add( JARLSBERG );
 
-		if ( hasItem( JARLSBERG ) && !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
+		else if ( !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
 		{
 			AdventureDatabase.retrieveItem( JARLSBERG );
 			DEFAULT_SHELL.updateDisplay( "Inserting Jarlsberg's key..." );
@@ -808,7 +797,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
 			requirements.add( SNEAKY_PETE );
 
-		if ( hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
+		else if ( !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
 		{
 			AdventureDatabase.retrieveItem( SNEAKY_PETE );
 			DEFAULT_SHELL.updateDisplay( "Inserting Sneaky Pete's key..." );

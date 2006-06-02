@@ -246,7 +246,7 @@ public class LoginFrame extends KoLFrame
 			usernameField.setEnabled( isEnabled );
 			passwordField.setEnabled( isEnabled );
 
-			scriptField.setEnabled( isEnabled && isBreakfastEnabled && getBreakfastCheckBox.isSelected() );
+			scriptField.setEnabled( isEnabled );
 			savePasswordCheckBox.setEnabled( isEnabled );
 			autoLoginCheckBox.setEnabled( isEnabled );
 			getBreakfastCheckBox.setEnabled( isEnabled && isBreakfastEnabled );
@@ -289,7 +289,6 @@ public class LoginFrame extends KoLFrame
 		{
 			if ( !savePasswordCheckBox.isSelected() && usernameField instanceof JComboBox )
 				StaticEntity.getClient().removeSaveState( (String) ((JComboBox)usernameField).getSelectedItem() );
-			scriptField.setEnabled( isBreakfastEnabled && getBreakfastCheckBox.isSelected() );
 		}
 
 		/**
