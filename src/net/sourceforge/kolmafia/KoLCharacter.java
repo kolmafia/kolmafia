@@ -2213,7 +2213,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void setStillsAvailable( String responseText )
 	{
 		Matcher stillMatcher = Pattern.compile(
-			"lack readout with (\\d+) bright green lights" ).matcher( responseText );
+			"lack readout with (\\d+) bright green light" ).matcher( responseText );
 
 		if ( stillMatcher.find() )
 			stillsAvailable = Integer.parseInt( stillMatcher.group(1) );
@@ -2457,8 +2457,9 @@ public abstract class KoLCharacter extends StaticEntity
 				totalSubpoints[2] += result.getCount();
 		}
 
-		// Refresh after every result processing.
-		refreshCalculatedLists();
+		// Refresh after every item
+		if ( result.isItem() )
+			refreshCalculatedLists();
 	}
 
 	/**
