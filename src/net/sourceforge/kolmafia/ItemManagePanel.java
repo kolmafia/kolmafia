@@ -34,7 +34,9 @@
 
 package net.sourceforge.kolmafia;
 
+import javax.swing.JList;
 import javax.swing.ListSelectionModel;
+import com.informit.guides.JDnDList;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -47,17 +49,22 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class ItemManagePanel extends LabeledScrollPanel
 {
-	protected ShowDescriptionList elementList;
+	protected JList elementList;
 
 	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements )
-	{	this( title, confirmedText, cancelledText, elements, true );
+	{	this( title, confirmedText, cancelledText, elements, true, false );
 	}
 
 	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements, boolean isRootPane )
-	{
-		super( title, confirmedText, cancelledText, new ShowDescriptionList( elements ), isRootPane );
+	{	this( title, confirmedText, cancelledText, elements, isRootPane, false );
+	}
 
-		elementList = (ShowDescriptionList) scrollComponent;
+	public ItemManagePanel( String title, String confirmedText, String cancelledText, LockableListModel elements, boolean isRootPane, boolean allowDragAndDrop )
+	{
+		super( title, confirmedText, cancelledText,
+			allowDragAndDrop ? (JList) new JDnDList( elements ) : (JList) new ShowDescriptionList( elements ), isRootPane );
+
+		elementList = (JList) scrollComponent;
 		elementList.setSelectionMode( ListSelectionModel.MULTIPLE_INTERVAL_SELECTION );
 		elementList.setVisibleRowCount( 8 );
 	}
