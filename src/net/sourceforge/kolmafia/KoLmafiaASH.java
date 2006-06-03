@@ -941,7 +941,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptType parseAggregateType( ScriptType dataType ) throws AdvancedScriptException
 	{
-		readToken();	// [ or , 
+		readToken();	// [ or ,
 		if ( currentToken() == null )
 			throw new AdvancedScriptException( "Missing index token " + getLineAndFile() );
 
@@ -2644,6 +2644,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { AGGREGATE_TYPE };
 		result.addElement( new ScriptExistingFunction( "count", INT_TYPE, params ) );
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "my_location", LOCATION_TYPE, params ) );
+
 		return result;
 	}
 
@@ -3755,6 +3758,12 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue count( ScriptVariable arg )
 		{	return new ScriptValue( arg.getValue().count() );
 		}
+
+		public ScriptValue my_location()
+		{
+			return KoLCharacter.getNextAdventure() == null ?
+				parseLocationValue( "Rest" ) : parseLocationValue( KoLCharacter.getNextAdventure().getAdventureName() );
+		}
 	}
 
 	private static class ScriptFunctionList extends ScriptSymbolTable
@@ -3998,7 +4007,7 @@ public class KoLmafiaASH extends StaticEntity
 				}
 
 				slice = result;
-				
+
 				trace( "AREF: " + slice.toString() );
 			}
 
@@ -4765,7 +4774,7 @@ public class KoLmafiaASH extends StaticEntity
 		public String toString()
 		{	return "foreach";
 		}
-	}	
+	}
 
 	private class ScriptCall extends ScriptValue
 	{
@@ -5402,7 +5411,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue [] keys()
-		{	
+		{
 			Set set = ((TreeMap)content).keySet();
 			ScriptValue [] keys = new ScriptValue[ set.size() ];
 			set.toArray( keys );
