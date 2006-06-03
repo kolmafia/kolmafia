@@ -772,6 +772,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 				this.creatable = concoctions.get( ingredientArray[0].getItemID() ).initial;
 				this.total = this.initial + this.creatable;
 			}
+			else if ( mixingMethod == ItemCreationRequest.STILL_MIXER || mixingMethod == ItemCreationRequest.STILL_BOOZE )
+			{
+				// Improving mixers or booze depends on the
+				// quantity of the ingredient as well as the
+				// number of Still usages remaining
+				this.creatable = Math.min( concoctions.get( ingredientArray[0].getItemID() ).initial, KoLCharacter.getStillsAvailable() );
+				this.total = this.initial + this.creatable;
+			}
 			else
 			{
 				this.total = Integer.MAX_VALUE;

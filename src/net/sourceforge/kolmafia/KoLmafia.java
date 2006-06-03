@@ -463,6 +463,14 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !permitsContinue() )
 			return;
 
+		// Retrieve the character sheet first. It's necessary to do
+		// this before concoctions have a chance to get refreshed.
+
+		(new CharsheetRequest( this )).run();
+
+		if ( !permitsContinue() )
+			return;
+
 		// Retrieve the list of outfits which are available to the
 		// character.  Due to lots of bug reports, this is no longer
 		// a skippable option.
@@ -485,15 +493,6 @@ public abstract class KoLmafia implements KoLConstants
 		// might be mid-transition.
 
 		if ( getPasswordHash() != null && getPasswordHash().equals( "" ) )
-			return;
-
-		// Retrieve the character sheet next -- because concoctions
-		// are refreshed at the end, it's more important to do this
-		// after so that you have updated dictionary data.
-
-		(new CharsheetRequest( this )).run();
-
-		if ( !permitsContinue() )
 			return;
 
 		// Update the player's account settings (including time-zone
