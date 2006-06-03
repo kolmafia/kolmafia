@@ -193,6 +193,20 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 	}
 
+	private static void chooseNewLoginServer()
+	{
+		DEFAULT_SHELL.updateDisplay( "Choosing new login server..." );
+		for ( int i = 0; i < SERVERS.length; ++i )
+			if ( SERVERS[i][0].equals( KOL_HOST ) )
+			{
+				int next = ( i + 1 ) % SERVERS.length;
+				KOL_HOST = SERVERS[next][0];
+				KOL_ROOT = "http://" + SERVERS[next][1] + "/";
+				DEFAULT_SHELL.updateDisplay( KOL_HOST + " selected." );
+				return;
+			}
+	}
+
 	/**
 	 * Static method used to return the server currently used by
 	 * this KoLmafia session.
@@ -661,7 +675,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !(this instanceof ChatRequest) )
 				KoLmafia.getDebugStream().println( "Error opening connection.  Retrying..." );
 
-			KoLRequest.delay();
+			if ( this instanceof LoginRequest)
+				chooseNewLoginServer();
+			else
+				KoLRequest.delay();
 			return false;
 		}
 
@@ -728,7 +745,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !(this instanceof ChatRequest) )
 				KoLmafia.getDebugStream().println( "Connection timed out during post.  Retrying..." );
 
-			KoLRequest.delay();
+			if ( this instanceof LoginRequest)
+				chooseNewLoginServer();
+			else
+				KoLRequest.delay();
 			return false;
 		}
 	}
@@ -795,10 +815,13 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !(this instanceof ChatRequest) )
 				KoLmafia.getDebugStream().println( "Connection timed out during response.  Retrying..." );
 
-			// Add in an extra delay in the event of a time-out in order
-			// to be nicer on the KoL servers.
+			// Add in an extra delay in the event of a time-out in
+			// order to be nicer on the KoL servers.
 
-			KoLRequest.delay();
+			if ( this instanceof LoginRequest)
+				chooseNewLoginServer();
+			else
+				KoLRequest.delay();
 			return false;
 		}
 
