@@ -107,15 +107,17 @@ public class NPCStoreDatabase extends KoLDatabase
 
 		if ( storeID.equals( "2" ) )
 		{
-			if ( !classType.startsWith( "Pa" ) && !classType.startsWith( "Sa" ) &&
-				!(classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) )
+			if ( !( classType.startsWith( "Pa" ) ||
+				classType.startsWith( "Sa" ) ||
+				( classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9 ) ) )
 					return null;
 		}
 
 		if ( storeID.equals( "3" ) )
 		{
-			if ( !classType.startsWith( "Se" ) && !classType.startsWith( "Tu" ) &&
-				!(classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) )
+			if ( !( classType.startsWith( "Se" ) ||
+				classType.startsWith( "Tu" ) ||
+				( classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) ) )
 					return null;
 		}
 
