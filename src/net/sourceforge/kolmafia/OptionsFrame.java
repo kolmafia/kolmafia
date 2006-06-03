@@ -47,6 +47,8 @@ import java.awt.FlowLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
 
 // containers
 import javax.swing.JComponent;
@@ -123,6 +125,7 @@ public class OptionsFrame extends KoLFrame
 		addTab( "Zone List", new AreaOptionsPanel() );
 		addTab( "Relay Browser", new RelayOptionsPanel() );
 		addTab( "Chat Options", new ChatOptionsPanel() );
+		addTab( "gCLI Buttons", new ScriptButtonPanel() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -183,7 +186,7 @@ public class OptionsFrame extends KoLFrame
 				optionBoxes[i].setSelected( getProperty( options[i][0] ).equals( "true" ) );
 		}
 	}
-	
+
 	private class GeneralOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
@@ -425,6 +428,74 @@ public class OptionsFrame extends KoLFrame
 			String excluded = getProperty( "zoneExcludeList" );
 			for ( int i = 0; i < zones.length; ++i )
 				options[i+2].setSelected( excluded.indexOf( zones[i] ) != -1 );
+		}
+	}
+
+	private class ScriptButtonPanel extends ItemManagePanel implements ListDataListener
+	{
+		private LockableListModel scriptList;
+
+		public ScriptButtonPanel()
+		{
+			super( "gCLI Toolbar Buttons", "add new", "remove", new LockableListModel(), true, true );
+
+			scriptList = (LockableListModel) elementList.getModel();
+			scriptList.addListDataListener( this );
+
+			String [] scriptList = getProperty( "scriptList" ).split( " \\| " );
+
+			for ( int i = 0; i < scriptList.length; ++i )
+				this.scriptList.add( scriptList[i] );
+		}
+
+		public void actionConfirmed()
+		{
+			String rootPath = SCRIPT_DIRECTORY.getAbsolutePath();
+			JFileChooser chooser = new JFileChooser( rootPath );
+			int returnVal = chooser.showOpenDialog( null );
+
+			if ( chooser.getSelectedFile() == null )
+				return;
+
+			if ( returnVal == JFileChooser.APPROVE_OPTION )
+			{
+				String scriptPath = chooser.getSelectedFile().getAbsolutePath();
+				if ( scriptPath.startsWith( rootPath ) )
+					scriptPath = scriptPath.substring( rootPath.length() + 1 );
+
+				scriptList.add( "call " + scriptPath );
+			}
+		}
+
+		public void actionCancelled()
+		{	scriptList.remove( elementList.getSelectedIndex() );
+		}
+
+		public void intervalAdded( ListDataEvent e )
+		{	saveSettings();
+		}
+
+		public void intervalRemoved( ListDataEvent e )
+		{	saveSettings();
+		}
+
+		public void contentsChanged( ListDataEvent e )
+		{	saveSettings();
+		}
+
+		private void saveSettings()
+		{
+			StringBuffer settingString = new StringBuffer();
+			if ( scriptList.size() != 0 )
+				settingString.append( (String) scriptList.get(0) );
+
+			for ( int i = 1; i < scriptList.size(); ++i )
+			{
+				settingString.append( " | " );
+				settingString.append( (String) scriptList.get(i) );
+			}
+
+			setProperty( "scriptList", settingString.toString() );
 		}
 	}
 }
