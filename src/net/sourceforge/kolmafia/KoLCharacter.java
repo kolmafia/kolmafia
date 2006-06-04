@@ -287,6 +287,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static int arenaWins = 0;
 	private static int stillsAvailable = 0;
+	private static boolean refreshEnabled = false;
 
 	// Listener-driven container items
 
@@ -370,7 +371,9 @@ public abstract class KoLCharacter extends StaticEntity
 		familiars.clear();
 		familiars.add( FamiliarData.NO_FAMILIAR );
 		arenaWins = 0;
+
 		stillsAvailable = -1;
+		refreshEnabled = false;
 
 		beanstalkArmed = false;
 
@@ -2357,8 +2360,17 @@ public abstract class KoLCharacter extends StaticEntity
 	 * the processing of results.
 	 */
 
+	public static void refreshCalculatedLists( boolean enabled )
+	{
+		refreshEnabled = enabled;
+		refreshCalculatedLists();
+	}
+
 	public static void refreshCalculatedLists()
 	{
+		if ( !refreshEnabled )
+			return;
+
 		if ( username.equals( "" ) )
 			return;
 
@@ -2391,7 +2403,6 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 		}
 	}
-
 
 	/**
 	 * Processes a result received through adventuring.
@@ -2457,9 +2468,7 @@ public abstract class KoLCharacter extends StaticEntity
 				totalSubpoints[2] += result.getCount();
 		}
 
-		// Refresh after every item
-		if ( result.isItem() )
-			refreshCalculatedLists();
+		refreshCalculatedLists();
 	}
 
 	/**
