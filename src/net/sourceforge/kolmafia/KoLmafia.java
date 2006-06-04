@@ -548,7 +548,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		ConcoctionsDatabase.getConcoctions().clear();
 		KoLCharacter.recalculateAdjustments( false );
-		KoLCharacter.refreshCalculatedLists();
+		KoLCharacter.refreshCalculatedLists( true );
 	}
 
 	/**
