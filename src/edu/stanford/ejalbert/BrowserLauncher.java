@@ -165,14 +165,6 @@ public class BrowserLauncher {
 	private static final String GURL_EVENT = "GURL";
 
 	/**
-	 * The shell parameters for Netscape that opens a given URL in an already-open copy of Netscape
-	 * on many command-line systems.
-	 */
-	private static final String NETSCAPE_REMOTE_PARAMETER = "-remote";
-	private static final String NETSCAPE_OPEN_PARAMETER_START = "'openURL(";
-	private static final String NETSCAPE_OPEN_PARAMETER_END = ")'";
-
-	/**
 	 * The message from any exception thrown throughout the initialization process.
 	 */
 	private static String errorMessage;
@@ -607,7 +599,7 @@ public class BrowserLauncher {
 				// Determine whether or not Netscape exists on this system.
 				// If it does, use it.
 
-				String [] browsers = { "netscape", "firefox", "mozilla" };
+				String [] browsers = { "firefox", "mozilla", "netscape" };
 				browser = null;
 
 				for ( int i = 0; i < browsers.length && browser == null; ++i )
@@ -619,7 +611,7 @@ public class BrowserLauncher {
 						java.io.BufferedReader stream = new
 							java.io.BufferedReader( new java.io.InputStreamReader( process.getInputStream() ) );
 
-						if ( stream.readLine().indexOf( " " ) != -1 )
+						if ( stream.readLine().indexOf( " " ) == -1 )
 							browser = browsers[i];
 
 						try {
@@ -637,18 +629,7 @@ public class BrowserLauncher {
 				}
 
 				if ( browser != null )
-				{
-					Process process = Runtime.getRuntime().exec(
-							new String[] { (String) browser, NETSCAPE_REMOTE_PARAMETER,
-							NETSCAPE_OPEN_PARAMETER_START + url + NETSCAPE_OPEN_PARAMETER_END } );
-
-					try {
-						process.waitFor();
-						process.exitValue();
-					} catch (InterruptedException ie) {
-						throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
-					}
-				}
+					Runtime.getRuntime().exec( new String[] { (String) browser, url, "&" } );
 
 				break;
 			}
