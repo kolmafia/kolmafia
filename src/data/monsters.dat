@@ -217,7 +217,7 @@ Ninja Snowman (Masked)	HP: 70 Def: 85 Atk: 85 E: cold	cold ninja mask (10)	frigi
 Ninja Snowman (Ricebowl)	HP: 70 Def: 85 Atk: 85 ED: cold	frigid ninja stars (20)	rice bowl (5)	chopsticks (5)
 Ninja Snowman Janitor	HP: 70 Def: 90 Atk: 70 ED: cold	frigid ninja stars (20)	ninja mop (5)	pail (10)
 Ninja Snowman Weaponmaster	HP: 80 Def: 90 Atk: 90 ED: cold	ridiculously overelaborate ninja weapon (5)	frigid ninja stars (20)	frozen nunchaku (5)
-Octoroc	HP: 15 Def: 25 Atk: 25	red pixel (70)	red pixel (70)	red pixel (70)
+Octorok	HP: 15 Def: 25 Atk: 25	red pixel (70)	red pixel (70)	red pixel (70)
 One-Eyed Gnoll	HP: 5 Def: 11 Atk: 11
 One-Eyed Willie	HP: 150 Def: 151 Atk: 149 E: sleaze	line (30)	line (30)	star (30)
 Orcish Frat Boy (French Maid)	HP: 30 Def: 41 Atk: 41 E: sleaze Meat: 24-39	bottle of gin (20)	Ice-cold Sir Schlitz (20)	Orcish cargo shorts (5)	deodorant (5)
@@ -310,3 +310,24 @@ Yeast Beast	HP: 8 Def: 17 Atk: 17 EA: sleaze	wad of dough (50)	wad of dough (50)
 Zmobie	HP: 10 Def: 20 Atk: 20 E: spooky Meat: 29-43	cranberries (20)	loose teeth (50)
 Zobmie	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 28-40	cranberries (20)	cranberries (20)
 Zol	HP: 15 Def: 25 Atk: 25	green pixel (70)	green pixel (70)	green pixel (70)
+
+# Bad Trip
+Swarm of Country Bats	HP: 20 Def: 20 Atk: 20	orange-frosted astral cupcake
+Trippy Floating Head (Sky)	HP: 20 Def: 20 Atk: 20	blue-frosted astral cupcake
+Trippy Floating Head (Stench)	HP: 20 Def: 20 Atk: 20	pink-frosted astral cupcake
+Trippy Floating Head (Todd)	HP: 20 Def: 20 Atk: 20	green-frosted astral cupcake
+Zombie Baby	HP: 20 Def: 20 Atk: 20	purple-frosted astral cupcake
+
+# Mediocre Trip
+Feeling That You're Being Watched	HP: 50 Def: 53 Atk: 53	pink-frosted astral cupcake
+Really Interesting Wallpaper	HP: 50 Def: 53 Atk: 53	green-frosted astral cupcake
+The Best Carpet Ever	HP: 50 Def: 53 Atk: 53	purple-frosted astral cupcake
+Urge to Stare at Your Hands	HP: 50 Def: 53 Atk: 53	blue-frosted astral cupcake
+Visible Music	HP: 50 Def: 53 Atk: 53	orange-frosted astral cupcake
+
+# Great Trip
+Angels of Avalon	HP: 150 Def: 145 Atk: 145	blue-frosted astral cupcake
+Bustle in the Hedgerow	HP: 150 Def: 145 Atk: 145	green-frosted astral cupcake
+Elders of the Gentle Race	HP: 150 Def: 145 Atk: 145	purple-frosted astral cupcake
+Gathering of Angels?	HP: 150 Def: 145 Atk: 145	orange-frosted astral cupcake
+Higher Plane Serpents	HP: 150 Def: 145 Atk: 145	pink-frosted astral cupcake
