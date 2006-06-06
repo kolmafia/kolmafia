@@ -351,9 +351,15 @@ public abstract class KoLmafia implements KoLConstants
 
 		GLOBAL_SETTINGS.setProperty( "lastUsername", username );
 		KoLCharacter.reset( username );
-		this.refreshSession( isQuickLogin );
-	
-		if ( !permitsContinue() )
+
+		if ( isQuickLogin )
+		{
+			(new AccountRequest( this )).run();
+			return;
+		}
+
+		this.refreshSession();
+		if ( this.refusesContinue() )
 		{
 			deinitialize();
 			return;
@@ -423,17 +429,17 @@ public abstract class KoLmafia implements KoLConstants
 			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
 				if ( (!checkSettings || skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1) && KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] ) )
 					getBreakfast( BREAKFAST_SKILLS[i][0], Integer.parseInt( BREAKFAST_SKILLS[i][1] ) );
+
+		forceContinue();
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
-	{	(new UseSkillRequest( this, skillname, "", standardCast )).run();
+	{
+		(new UseSkillRequest( this, skillname, "", standardCast )).run();
+		forceContinue();
 	}
 
 	public final void refreshSession()
-	{	refreshSession( true );
-	}
-	
-	public final void refreshSession( boolean isQuickRefresh )
 	{
 		KoLCharacter.reset( KoLCharacter.getUsername() );
 
@@ -474,13 +480,10 @@ public abstract class KoLmafia implements KoLConstants
 		// character.  Due to lots of bug reports, this is no longer
 		// a skippable option.
 
-		if ( !isQuickRefresh )
-		{
-			(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
-			SpecialOutfit.deleteCheckpoint();
-			if ( refusesContinue() )
-				return;
-		}
+		(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
+		SpecialOutfit.deleteCheckpoint();
+		if ( refusesContinue() )
+			return;
 
 		// Retrieve the items which are available for consumption
 		// and item creation.
@@ -499,21 +502,11 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		if ( !isQuickRefresh )
-		{
-			// Update the player's account settings (including time-zone
-			// and current autosell mode).
+		// Get current moon phases
 
-			(new AccountRequest( StaticEntity.getClient() )).run();
-			if ( refusesContinue() )
-				return;
-
-			// Get current moon phases
-
-			(new MoonPhaseRequest( this )).run();
-			if ( refusesContinue() )
-				return;
-		}
+		(new MoonPhaseRequest( this )).run();
+		if ( refusesContinue() )
+			return;
 	
 		// Retrieve the list of familiars which are available to
 		// the player, if they haven't opted to skip them.
