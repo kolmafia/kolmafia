@@ -149,7 +149,15 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 
 		reset();  isRunning = true;
-		(new RequestThread( new ChatRequest( client, null, "/listen" ) )).start();
+		boolean requestColors = client.shouldMakeConflictingRequest();
+		
+		Runnable [] requests = new Runnable[ requestColors ? 2 : 1 ];
+		requests[ requestColors ? 1 : 0 ] = new ChatRequest( client, null, "/listen" );
+
+		if ( requestColors )
+			requests[0] = new ContactListRequest( client );
+
+		(new RequestThread( requests )).start();
 
 		// Clear the highlights and add all the ones which
 		// were saved from the last session.

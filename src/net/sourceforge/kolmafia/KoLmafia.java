@@ -463,15 +463,11 @@ public abstract class KoLmafia implements KoLConstants
 		this.microbreweryItems.clear();
 		this.galaktikCures.clear();
 
-		if ( !permitsContinue() )
-			return;
-
 		// Retrieve the character sheet first. It's necessary to do
 		// this before concoctions have a chance to get refreshed.
 
 		(new CharsheetRequest( this )).run();
-
-		if ( !permitsContinue() )
+		if ( refusesContinue() )
 			return;
 
 		// Retrieve the list of outfits which are available to the
@@ -482,8 +478,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
 			SpecialOutfit.deleteCheckpoint();
-	
-			if ( !permitsContinue() )
+			if ( refusesContinue() )
 				return;
 		}
 
@@ -491,33 +486,40 @@ public abstract class KoLmafia implements KoLConstants
 		// and item creation.
 
 		(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
-
-		if ( !permitsContinue() )
+		if ( refusesContinue() )
 			return;
 
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.
 
-		if ( isQuickRefresh || (getPasswordHash() != null && getPasswordHash().equals( "" )) )
+		if ( getPasswordHash() != null && getPasswordHash().equals( "" ) )
 		{
 			ConcoctionsDatabase.getConcoctions().clear();
 			KoLCharacter.refreshCalculatedLists( true );
 			return;
 		}
 
-		// Update the player's account settings (including time-zone
-		// and current autosell mode).
+		if ( !isQuickRefresh )
+		{
+			// Update the player's account settings (including time-zone
+			// and current autosell mode).
 
-		(new AccountRequest( StaticEntity.getClient() )).run();
+			(new AccountRequest( StaticEntity.getClient() )).run();
+			if ( refusesContinue() )
+				return;
 
-		if ( !permitsContinue() )
-			return;
+			// Get current moon phases
 
-		// Get current moon phases
+			(new MoonPhaseRequest( this )).run();
+			if ( refusesContinue() )
+				return;
+		}
+	
+		// Retrieve the list of familiars which are available to
+		// the player, if they haven't opted to skip them.
 
-		(new MoonPhaseRequest( this )).run();
-
-		if ( !permitsContinue() )
+		(new FamiliarRequest( this )).run();
+		if ( refusesContinue() )
 			return;
 
 		// Retrieve campground data to see if the user is able to
@@ -525,32 +527,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		updateDisplay( "Retrieving campground data..." );
 		(new CampgroundRequest( this )).run();
-
-		if ( !permitsContinue() )
+		if ( refusesContinue() )
 			return;
-
-		// Retrieve the list of familiars which are available to
-		// the player, if they haven't opted to skip them.
-
-		(new FamiliarRequest( this )).run();
-
-		if ( !permitsContinue() )
-			return;
-
-		updateDisplay( "Retrieving contact list..." );
-		(new ContactListRequest( this )).run();
-
-		if ( !permitsContinue() )
-			return;
-
-		// Also update the contents of Hagnk's storage so that you
-		// do not have to re-run it all the time.
-
-		(new ItemStorageRequest( this )).run();
-
-		if ( !permitsContinue() )
-			return;
-
+		
 		DEFAULT_SHELL.updateDisplay( "Data refreshed." );
 
 		resetSession();
