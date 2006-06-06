@@ -635,7 +635,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		KoLmafia.updateDisplay( "Starting training session..." );
 
 		// Iterate until we reach the goal
-		while ( !goalMet( status, goal, type) )
+		while ( !goalMet( status, goal, type ) )
 		{
 			// If user canceled, bail now
 			if ( stop || !KoLmafia.permitsContinue() )
@@ -937,13 +937,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				// Change gear and buff up
 				status.changeGear( goal, needBuffs );
-
-				// If we failed to buff, give up
-				if ( familiar.getModifiedWeight() < weight )
-					break;
-
-				// Otherwise, we're good to go
-				return true;
+				if ( familiar.getModifiedWeight() >= weight )
+					return true;
 			}
 
 			// If we've already tried using buffs, give up now
@@ -1364,18 +1359,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		private void checkCurrentEquipment()
-		{	checkCurrentEquipment( KoLCharacter.getCurrentEquipment( KoLCharacter.HAT ),
-					       KoLCharacter.getCurrentEquipment( KoLCharacter.FAMILIAR ),
-					       KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY1 ),
-					       KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY2 ),
-					       KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY3 ) );
+		{
+			checkCurrentEquipment( KoLCharacter.getCurrentEquipment( KoLCharacter.HAT ),
+				KoLCharacter.getCurrentEquipment( KoLCharacter.FAMILIAR ),
+				KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY1 ),
+				KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY2 ),
+				KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY3 ) );
 		}
 
-		private void checkCurrentEquipment( AdventureResult hat,
-						    AdventureResult item,
-						    AdventureResult acc1,
-						    AdventureResult acc2,
-						    AdventureResult acc3 )
+		private void checkCurrentEquipment( AdventureResult hat, AdventureResult item,
+			AdventureResult acc1, AdventureResult acc2, AdventureResult acc3 )
 		{
 			// Initialize equipment to default
 			this.hat = null;
@@ -1841,12 +1834,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Iterate over all the GearSets and choose the first
 			// one which is closest to the current GearSet
+
 			GearSet choice = null;
 			int choiceSwaps = Integer.MAX_VALUE;
 			int count = gearSets.size();
+
 			for ( int i = 0; i < count; ++i )
 			{
-				GearSet gear = (GearSet)gearSets.get( i );
+				GearSet gear = (GearSet) gearSets.get(i);
 				int swaps = gear.compareTo( current );
 				if ( swaps < choiceSwaps )
 				{
@@ -1870,13 +1865,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( buffs )
 			{
-				boolean addLeash = buffs && leashAvailable && leashActive == 0;
-				boolean addEmpathy = buffs && empathyAvailable && empathyActive == 0;
-				boolean addSpray = buffs && heavyPettingAvailable && heavyPettingActive == 0;
+				boolean addLeash = leashAvailable && leashActive == 0;
+				boolean addEmpathy = empathyAvailable && empathyActive == 0;
+				boolean addSpray = heavyPettingAvailable && heavyPettingActive == 0;
 
 				if ( addLeash )
 					getHatGearSets( weight, addLeash, empathyActive > 0, heavyPettingActive > 0 );
-				if ( addLeash )
+				if ( addEmpathy )
 					getHatGearSets( weight, leashActive > 0, addEmpathy, heavyPettingActive > 0 );
 				if ( addSpray )
 					getHatGearSets( weight, leashActive > 0, empathyActive > 0, addSpray );

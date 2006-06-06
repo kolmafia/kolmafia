@@ -208,7 +208,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "fontSize", "3" );
 		hadChanges |= ensureProperty( "forceReconnect", "false" );
 		hadChanges |= ensureProperty( "hpAutoRecover", "-0.1" );
-		hadChanges |= ensureProperty( "hpAutoRecoverTarget", "1.0" );
+		hadChanges |= ensureProperty( "hpAutoRecoverTarget", "-0.1" );
 		hadChanges |= ensureProperty( "hpRecoveryScript", "" );
 		hadChanges |= ensureProperty( "hpRestores", "" );
 		hadChanges |= ensureProperty( "highlightList", "" );
@@ -227,8 +227,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "lastUsername", "" );
 		hadChanges |= ensureProperty( "loginServer", "0" );
 		hadChanges |= ensureProperty( "luckySewerAdventure", "stolen accordion" );
-		hadChanges |= ensureProperty( "mpAutoRecover", "-0.1" );
-		hadChanges |= ensureProperty( "mpAutoRecoverTarget", "1.0" );
+		hadChanges |= ensureProperty( "mpAutoRecover", "0.0" );
+		hadChanges |= ensureProperty( "mpAutoRecoverTarget", "0.0" );
 		hadChanges |= ensureProperty( "mpRecoveryScript", "" );
 		hadChanges |= ensureProperty( "mpRestores", "" );
 		hadChanges |= ensureProperty( "proxySet", "false" );
