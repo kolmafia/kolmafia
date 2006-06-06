@@ -220,7 +220,7 @@ public class ClanStashRequest extends SendMessageRequest
 
 		int lastFindIndex = 0;
 		Pattern qtyPattern = Pattern.compile( "\\(([\\d,]+)\\)" );
-		Matcher optionMatcher = Pattern.compile( "<option value=([\\d]+)>(.*?)</option>" ).matcher( stashMatcher.group() );
+		Matcher optionMatcher = Pattern.compile( "<option value=([\\d]+).*?>(.*?)</option>" ).matcher( stashMatcher.group() );
 
 		ArrayList intermediateList = new ArrayList();
 
