@@ -32,12 +32,6 @@
 #
 # http://kol.coldfront.net/thekolwiki/index.php/Parseable_Item_Statistics
 #
-# Missing Item Drop Data for the following:
-#
-# The Burrowing Bishop
-# The Skinflute
-# The Twig and Berries
-#
 # One Time monsters:
 #
 # Conjoined Zmombie
@@ -279,15 +273,15 @@ Tektite	HP: 15 Def: 20 Atk: 20	black pixel (50)	blue pixel (80)	white pixel (50)
 The Astronomer	HP: 150 Def: 168 Atk: 168	star chart (100)
 The Bonerdagon	HP: 120 Def: 90 Atk: 90 E: spooky
 The Boss Bat	HP: 40 Def: 33 Atk: 37
-The Burrowing Bishop	HP: 150 Def: 163 Atk: 163 E: sleaze
+The Burrowing Bishop	HP: 150 Def: 163 Atk: 163 E: sleaze	line (30)	line (30)	star (30)
 The Family Jewels	HP: 150 Def: 156 Atk: 156 E: sleaze	star (30)	star (30)	star (30)
 The Hooded Warrior	HP: 150 Def: 165 Atk: 165 E: sleaze	line (30)	star (30)	star (30)
 The Junk	HP: 150 Def: 159 Atk: 161 E: sleaze	line (30)	line (30)	star (30)
 The Knob Goblin King	HP: 50 Def: 53 Atk: 57
 The Pork Sword	HP: 150 Def: 162 Atk: 162 E: sleaze	line (30)	star (30)	star (30)
-The Skinflute	HP: 150 Def: 158 Atk: 158 E: sleaze
+The Skinflute	HP: 150 Def: 158 Atk: 158 E: sleaze	star (30)	star (30)	line (30)	line (30)
 The Trouser Snake	HP: 150 Def: 153 Atk: 153 E: sleaze	line (30)	line (30)	line (30)
-The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze
+The Twig and Berries	HP: 150 Def: 152 Atk: 152 E: sleaze	line (30)	star (30)	star (30)
 Tonic Water Elemental	HP: 14 Def: 18 Atk: 18
 Toothy Sklelton	HP: 50 Def: 58 Atk: 58  E: spooky	loose teeth (20)	loose teeth (20)	skeleton bone (20)
 Topiary Golem	HP: 150 Def: 180 Atk: 180	hedge maze puzzle (65)
