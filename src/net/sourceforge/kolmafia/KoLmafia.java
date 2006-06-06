@@ -321,7 +321,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public synchronized void initialize( String username, String sessionID, boolean getBreakfast )
+	public synchronized void initialize( String username, String sessionID, boolean getBreakfast, boolean isQuickLogin )
 	{
 		if ( this.sessionID != null )
 			return;
@@ -351,9 +351,8 @@ public abstract class KoLmafia implements KoLConstants
 
 		GLOBAL_SETTINGS.setProperty( "lastUsername", username );
 		KoLCharacter.reset( username );
-
-		this.refreshSession();
-
+		this.refreshSession( isQuickLogin );
+	
 		if ( !permitsContinue() )
 		{
 			deinitialize();
@@ -366,7 +365,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( StaticEntity.getProperty( "autoRepairBoxes" ).equals( "false" ) )
 			StaticEntity.setProperty( "autoRepairBoxes", String.valueOf( KoLCharacter.canInteract() ) );
-		if ( StaticEntity.getProperty( "createWithoutBoxServants").equals( "false" ) )
+		if ( StaticEntity.getProperty( "createWithoutBoxServants" ).equals( "false" ) )
 			StaticEntity.setProperty( "createWithoutBoxServants", String.valueOf( KoLCharacter.isHardcore() ) );
 
 		// If the password hash is non-null, then that means you
@@ -431,6 +430,10 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public final void refreshSession()
+	{	refreshSession( true );
+	}
+	
+	public final void refreshSession( boolean isQuickRefresh )
 	{
 		KoLCharacter.reset( KoLCharacter.getUsername() );
 
@@ -475,11 +478,14 @@ public abstract class KoLmafia implements KoLConstants
 		// character.  Due to lots of bug reports, this is no longer
 		// a skippable option.
 
-		(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
-		SpecialOutfit.deleteCheckpoint();
-
-		if ( !permitsContinue() )
-			return;
+		if ( !isQuickRefresh )
+		{
+			(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
+			SpecialOutfit.deleteCheckpoint();
+	
+			if ( !permitsContinue() )
+				return;
+		}
 
 		// Retrieve the items which are available for consumption
 		// and item creation.
@@ -492,8 +498,12 @@ public abstract class KoLmafia implements KoLConstants
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.
 
-		if ( getPasswordHash() != null && getPasswordHash().equals( "" ) )
+		if ( isQuickRefresh || (getPasswordHash() != null && getPasswordHash().equals( "" )) )
+		{
+			ConcoctionsDatabase.getConcoctions().clear();
+			KoLCharacter.refreshCalculatedLists( true );
 			return;
+		}
 
 		// Update the player's account settings (including time-zone
 		// and current autosell mode).
