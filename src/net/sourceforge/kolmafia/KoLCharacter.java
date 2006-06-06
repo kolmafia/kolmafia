@@ -2512,16 +2512,22 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasItem( AdventureResult item, boolean shouldCreate )
 	{
-		if ( item.getCount( getInventory() ) > 0 || item.getCount( getCloset() ) > 0 || hasEquipped( item ) )
+		int count = item.getCount( getInventory() ) + item.getCount( getCloset() ) +
+			(hasEquipped( item ) ? 1 : 0);
+
+		if ( count > 0 && count > item.getCount() )
 			return true;
 
 		if ( shouldCreate )
 		{
 			ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), 1 );
-			return creation != null && creation.getCount( ConcoctionsDatabase.getConcoctions() ) > 0;
+			if ( creation == null )
+				return false;
+
+			count += creation.getCount( ConcoctionsDatabase.getConcoctions() );
 		}
 
-		return false;
+		return count > 0 && count > item.getCount();
 	}
 
 	public static boolean hasEquipped( AdventureResult item )

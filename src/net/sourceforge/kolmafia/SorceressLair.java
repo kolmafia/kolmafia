@@ -1145,7 +1145,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( request.responseText.indexOf( "ascend.php" ) != -1 )
 		{
-			KoLmafia.updateDisplay( "You've already beaten Her Naughtiness. Go forth and ascend!" );
+			KoLmafia.updateDisplay( "You've already beaten Her Naughtiness." );
 			return;
 		}
 
@@ -1196,7 +1196,7 @@ public abstract class SorceressLair extends StaticEntity
 				return;
 		}
 
-		KoLmafia.updateDisplay( "Her Naughtiness awaits. Go battle her!" );
+		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
 	}
 
 	private static void findDoorCode()
@@ -1409,11 +1409,14 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		if ( option.getName().startsWith( "red" ) && !KoLCharacter.hasItem( option, true ) )
+		if ( option.getName().startsWith( "red" ) && !KoLCharacter.hasItem( option, true ) && KoLCharacter.isHardcore() )
 		{
-			AdventureResult egg = new AdventureResult( "red plastic oyster egg", 4 );
+			AdventureResult egg = new AdventureResult( "red plastic oyster egg", 3 );
 			if ( KoLCharacter.hasItem( egg, true ) )
+			{
 				option = egg;
+				neededHealth = maximumDamage * 3 - minimumHealing * 2;
+			}
 		}
 
 		requirements.add( option );
@@ -1423,7 +1426,7 @@ public abstract class SorceressLair extends StaticEntity
 		// If you're using any other method than elixir, you need
 		// at least 126 health for the battle.
 
-		if ( !option.getName().endsWith( "ixer" ) && KoLCharacter.getMaximumHP() < 126 )
+		if ( !option.getName().endsWith( "ixer" ) && !option.getName().endsWith( "egg" ) && KoLCharacter.getMaximumHP() < 126 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
 			return;
