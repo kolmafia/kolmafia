@@ -85,7 +85,7 @@ public class BuffBotDatabase extends KoLDatabase
 		{ new Integer(2009), "Empathy" },
 		{ new Integer(2010), "Tenacity" },
 		{ new Integer(2012), "Astral" },
-		
+
 		// Oddball Buffs
 		{ new Integer(3), "Smile" }
 	};
@@ -134,7 +134,7 @@ public class BuffBotDatabase extends KoLDatabase
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e, "Bad price: " + data[2] );
 					continue;
 				}
@@ -148,7 +148,7 @@ public class BuffBotDatabase extends KoLDatabase
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e, "Bad turns: " + data[3] );
 					continue;
 				}
@@ -162,7 +162,7 @@ public class BuffBotDatabase extends KoLDatabase
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e, "Bad free: " + data[2] );
 					continue;
 				}
@@ -180,7 +180,7 @@ public class BuffBotDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -265,7 +265,7 @@ public class BuffBotDatabase extends KoLDatabase
 		allBots = new BuffList();
 		allBots.addBuffList( staticBots );
 
-		DEFAULT_SHELL.updateDisplay( "Configuring dynamic buff prices..." );
+		KoLmafia.updateDisplay( "Configuring dynamic buff prices..." );
 
 		// Iterate over list of bots and configure each one
 		int botCount = bots.size();
@@ -279,17 +279,17 @@ public class BuffBotDatabase extends KoLDatabase
 			configureDynamicBot( client, name, id );
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Buff prices fetched." );
+		KoLmafia.updateDisplay( "Buff prices fetched." );
 	}
 
 	private static void configureDynamicBot( KoLmafia client, String name, String id )
 	{
-		DEFAULT_SHELL.updateDisplay( "Fetching buff prices from " + name + "..." );
+		KoLmafia.updateDisplay( "Fetching buff prices from " + name + "..." );
 
 		KoLRequest request = new KoLRequest( client, "displaycollection.php" );
 		request.addFormField( "who", id );
 		request.run();
-		
+
 		Matcher linkMatcher = Pattern.compile( "<a [^>]*href=\"([^>]*)\\.xml\">" ).matcher( request.responseText );
 		if ( linkMatcher.find() )
 		{
@@ -301,7 +301,7 @@ public class BuffBotDatabase extends KoLDatabase
 		else
 			textConfigure( name, request.responseText );
 	}
-	
+
 	private static void htmlConfigure( String name, String data )
 	{
 		// Now, for the infamous XML parse tree.  Rather than building
@@ -315,7 +315,7 @@ public class BuffBotDatabase extends KoLDatabase
 		Pattern turnPattern = Pattern.compile( "<turns>(.*?)</turns>" );
 		Pattern oncePattern = Pattern.compile( "<philanthropic>(.*?)</philanthropic>" );
 
-		BuffList buffs = new BuffList();		
+		BuffList buffs = new BuffList();
 		Matcher nameMatcher, priceMatcher, turnMatcher, onceMatcher;
 
 		while ( nodeMatcher.find() )
@@ -333,10 +333,10 @@ public class BuffBotDatabase extends KoLDatabase
 					onceMatcher.find() ? onceMatcher.group(1).trim().equals( "true" ) : false ) );
 			}
 		}
-		
+
 		allBots.addBuffList( buffs );
 	}
-	
+
 	private static void textConfigure( String name, String data )
 	{
 		// Look for start tag
@@ -402,7 +402,7 @@ public class BuffBotDatabase extends KoLDatabase
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 				continue;
 			}

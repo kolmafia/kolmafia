@@ -341,7 +341,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( square < 1 || square > 16 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
 			return false;
 		}
 
@@ -363,7 +363,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( sporeIndex == -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't plant that." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't plant that." );
 			return false;
 		}
 
@@ -391,19 +391,19 @@ public abstract class MushroomPlot extends StaticEntity
 		// Plant the requested spore.
 
 		MushroomPlotRequest request = new MushroomPlotRequest( square, sporeIndex );
-		DEFAULT_SHELL.updateDisplay( "Planting " + TradeableItemDatabase.getItemName( spore ) + " spore in square " + square + "..." );
+		KoLmafia.updateDisplay( "Planting " + TradeableItemDatabase.getItemName( spore ) + " spore in square " + square + "..." );
 		request.run();
 
 		// If it failed, bail.
 
-		if ( !client.permitsContinue() )
+		if ( !KoLmafia.permitsContinue() )
 			return false;
 
 		// Pay for the spore.  At this point, it's guaranteed
 		// that the client allows you to continue.
 
 		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - sporePrice ) );
-		DEFAULT_SHELL.updateDisplay( "Spore successfully planted." );
+		KoLmafia.updateDisplay( "Spore successfully planted." );
 		return true;
 	}
 
@@ -430,7 +430,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( square < 1 || square > 16 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Squares are numbered from 1 to 16." );
 			return false;
 		}
 
@@ -451,13 +451,13 @@ public abstract class MushroomPlot extends StaticEntity
 			if ( actualPlot[ row ][ col ] != SPROUT || pickSpores )
 			{
 				MushroomPlotRequest request = new MushroomPlotRequest( square );
-				DEFAULT_SHELL.updateDisplay( "Picking square " + square + "..." );
+				KoLmafia.updateDisplay( "Picking square " + square + "..." );
 				request.run();
-				DEFAULT_SHELL.updateDisplay( "Square picked." );
+				KoLmafia.updateDisplay( "Square picked." );
 			}
 		}
 
-		return client.permitsContinue();
+		return KoLmafia.permitsContinue();
 	}
 
 	/**
@@ -474,7 +474,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( !KoLCharacter.inMuscleSign() )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't find the mushroom fields." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the mushroom fields." );
 			return false;
 		}
 
@@ -488,7 +488,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		if ( ownsPlot == false )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You haven't bought a mushroom plot yet." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You haven't bought a mushroom plot yet." );
 			return false;
 		}
 

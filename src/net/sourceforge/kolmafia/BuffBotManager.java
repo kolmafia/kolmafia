@@ -108,7 +108,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				}
 			}
 		}
-		
+
 		saveBuffs();
 	}
 
@@ -199,30 +199,30 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			File xmlfile = new File( "buffs/" + KoLCharacter.getUsername() + ".xml" );
 			if ( xmlfile.exists() )
 				xmlfile.delete();
-			
+
 			document = new PrintStream( new FileOutputStream( xmlfile, false ) );
 		}
 		catch ( Exception e )
 		{
 			StaticEntity.printStackTrace( e );
 		}
-		
+
 		BuffBotCaster [] casters = new BuffBotCaster[ buffCostTable.size() ];
 		buffCostTable.toArray( casters );
-		
+
 		if ( document != null )
 		{
 			document.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" );
 			document.println( "<?xml-stylesheet type=\"text/xsl\" href=\"http://kolmafia.sourceforge.net/buffbot.xsl\"?>" );
 			document.println();
-			
+
 			document.println( "<botdata>" );
 			document.println( "<name>" + KoLCharacter.getUsername() + "</name>" );
 			document.println( "<playerid>" + KoLCharacter.getUserID() + "</playerid>" );
 
 			document.println( "<free-list>" );
 		}
-		
+
 		TreeMap [] nameMap = new TreeMap[4];
 		for ( int i = 0; i < 4; ++i )
 			nameMap[i] = new TreeMap();
@@ -233,7 +233,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		{
 			// First, append the buff to the setting string, then
 			// print the buff to the XML tree.
-			
+
 			if ( i > 0 )
 				sellerSetting.append( ';' );
 
@@ -241,7 +241,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			// Don't print the cast to the XML tree if it happens
 			// to be restricted.
-			
+
 			if ( casters[i].restricted || document == null )
 				continue;
 
@@ -260,7 +260,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				int index = casters[i].getBuffID() / 2000;
 				if ( !nameMap[ index ].containsKey( casters[i].getBuffName() ) )
 					nameMap[ index ].put( casters[i].getBuffName(), new ArrayList() );
-				
+
 				currentList = (ArrayList) nameMap[ index ].get( casters[i].getBuffName() );
 				currentList.add( casters[i] );
 			}
@@ -277,10 +277,10 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		{
 			if ( nameMap[k].isEmpty() )
 				continue;
-			
+
 			document.println( "\t<skillset>" );
 			document.print( "\t\t<name>" );
-			
+
 			switch ( k )
 			{
 				case 0:
@@ -296,40 +296,40 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 					document.print( "Accordion Thief Buffs" );
 					break;
 			}
-			
+
 			document.println( "</name>" );
 			Object [] keys = nameMap[k].keySet().toArray();
-		
+
 			for ( int j = 0; j < keys.length; ++j )
 			{
 				currentList = (ArrayList) nameMap[k].get( keys[j] );
 				casters = new BuffBotCaster[ currentList.size() ];
 				currentList.toArray( casters );
-	
+
 				document.println( "\t\t<buffset>" );
 				document.println( "\t\t\t<name>" + casters[0].getBuffName() + "</name>" );
-	
+
 				for ( int i = 0; i < casters.length; ++i )
 				{
 					document.println( "\t\t\t<buffdata>" );
-		
+
 					document.println( "\t\t\t\t<name>" + casters[i].getBuffName() + "</name>" );
 					document.println( "\t\t\t\t<skillid>" + casters[i].getBuffID() + "</skillid>" );
 					document.println( "\t\t\t\t<price>" + casters[i].getPrice() + "</price>" );
 					document.println( "\t\t\t\t<turns>" + casters[i].getTurnCount() + "</turns>" );
 					document.println( "\t\t\t\t<philanthropic>" + casters[i].philanthropic + "</philanthropic>" );
-		
+
 					document.println( "\t\t\t</buffdata>" );
 				}
-	
+
 				document.println( "\t\t</buffset>" );
 			}
-			
+
 			document.println( "\t</skillset>" );
 		}
 
 		document.println( "</normal-list>" );
-		
+
 		document.println( "</botdata>" );
 		document.close();
 	}
@@ -343,7 +343,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static void runBuffBot( int iterations )
 	{
 		BuffBotHome.setBuffBotActive( true );
-		DEFAULT_SHELL.updateDisplay( "Buffbot started." );
+		KoLmafia.updateDisplay( "Buffbot started." );
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
 		messageDisposalSetting = Integer.parseInt( getProperty( "buffBotMessageDisposal" ) );
 
@@ -366,7 +366,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
 			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
-			DEFAULT_SHELL.updateDisplay( "Buffbot is sleeping." );
+			KoLmafia.updateDisplay( "Buffbot is sleeping." );
 
 			// Sleep for a while and then try again (don't go
 			// away for more than 1 second at a time to avoid
@@ -381,7 +381,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// to reset the continue state.
 
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Buffbot stopped." );
-		DEFAULT_SHELL.updateDisplay( "Buffbot stopped." );
+		KoLmafia.updateDisplay( "Buffbot stopped." );
 		BuffBotHome.setBuffBotActive( false );
 	}
 
@@ -460,7 +460,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return success;
 		}
@@ -471,7 +471,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		if ( client.getRestoreCount() == 0 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unable to continue BuffBot!" );
+			KoLmafia.updateDisplay( ERROR_STATE, "Unable to continue BuffBot!" );
 			BuffBotHome.setBuffBotActive( false );
 			BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to process a buff message." );
 		}
@@ -625,7 +625,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		boolean receivedBuffs = false;
 		boolean gavePhilanthropicBuff = false;
 
-		for ( int i = 0; client.permitsContinue() && i < castList.size(); ++i )
+		for ( int i = 0; KoLmafia.permitsContinue() && i < castList.size(); ++i )
 		{
 			currentBuff = (BuffBotCaster) castList.get(i);
 			receivedBuffs |= executeBuff( currentBuff, message, meatSent );
@@ -735,7 +735,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			if ( castCount != 1 )
 				stringForm.append( "s" );
-			
+
 			stringForm.append( " (" );
 			stringForm.append( turnCount );
 			stringForm.append( " turns) for " );
@@ -807,7 +807,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		public int getBuffID()
 		{	return buffID;
 		}
-		
+
 		public String getBuffName()
 		{	return buffName;
 		}
@@ -819,7 +819,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		public int getTurnCount()
 		{	return turnCount;
 		}
-		
+
 		public int getCastCount()
 		{	return castCount;
 		}

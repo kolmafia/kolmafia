@@ -280,7 +280,7 @@ public class LoginFrame extends KoLFrame
 
 			if ( username == null || password == null || username.equals("") || password.equals("") )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Invalid login." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Invalid login." );
 				return;
 			}
 
@@ -294,7 +294,7 @@ public class LoginFrame extends KoLFrame
 
 			(new LoginRequest( StaticEntity.getClient(), username, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected(), isQuickLogin )).run();
 		}
-		
+
 		public void actionPerformed( ActionEvent e )
 		{
 			if ( !savePasswordCheckBox.isSelected() && usernameField instanceof JComboBox )

@@ -77,7 +77,7 @@ public class CharsheetRequest extends KoLRequest
 
 	public void run()
 	{
-		DEFAULT_SHELL.updateDisplay( "Retrieving character data..." );
+		KoLmafia.updateDisplay( "Retrieving character data..." );
 		super.run();
 	}
 

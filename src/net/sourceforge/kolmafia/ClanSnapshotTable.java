@@ -148,13 +148,13 @@ public class ClanSnapshotTable extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Rendering list (KoLmafia may temporary lock)..." );
+		KoLmafia.updateDisplay( "Rendering list (KoLmafia may temporary lock)..." );
 		filterList.addAll( interimList );
-		DEFAULT_SHELL.updateDisplay( "Search results rendered." );
+		KoLmafia.updateDisplay( "Search results rendered." );
 	}
 
 	private static ProfileRequest getProfile( String name )
@@ -206,7 +206,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 
@@ -613,7 +613,7 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		public void run()
 		{
-			DEFAULT_SHELL.updateDisplay( "Retrieving detailed roster..." );
+			KoLmafia.updateDisplay( "Retrieving detailed roster..." );
 			super.run();
 
 			Matcher rowMatcher = Pattern.compile( "<tr>(.*?)</tr>" ).matcher( responseText.substring( responseText.indexOf( "clan_detailedroster.php" ) ) );
@@ -646,7 +646,7 @@ public class ClanSnapshotTable extends KoLDatabase
 				}
 			}
 
-			DEFAULT_SHELL.updateDisplay( "Detail roster retrieved." );
+			KoLmafia.updateDisplay( "Detail roster retrieved." );
 		}
 	}
 }

@@ -89,7 +89,7 @@ public class RestaurantRequest extends KoLRequest
 	{
 		if ( !KoLCharacter.inMysticalitySign() )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't find the restaurant." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the restaurant." );
 			return;
 		}
 
@@ -97,24 +97,24 @@ public class RestaurantRequest extends KoLRequest
 		{
 			if ( price == 0 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The restaurant doesn't sell that." );
+				KoLmafia.updateDisplay( ERROR_STATE, "The restaurant doesn't sell that." );
 				return;
 			}
 
 			if ( price > KoLCharacter.getAvailableMeat() )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient funds." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds." );
 				return;
 			}
 
 			if ( !KoLCharacter.canEat() )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't eat. Why are you here?" );
+				KoLmafia.updateDisplay( ERROR_STATE, "You can't eat. Why are you here?" );
 				return;
 			}
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Visiting the restaurant..." );
+		KoLmafia.updateDisplay( "Visiting the restaurant..." );
 		super.run();
 	}
 
@@ -124,20 +124,20 @@ public class RestaurantRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You are too full to eat that." ) != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Consumption limit reached." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Consumption limit reached." );
 				return;
 			}
 
 			if ( responseText.indexOf( "You can't afford that item.") != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient funds." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds." );
 				return;
 			}
 
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
 			super.processResults();
 
-			DEFAULT_SHELL.updateDisplay( "Food purchased." );
+			KoLmafia.updateDisplay( "Food purchased." );
 			return;
 		}
 
@@ -153,6 +153,6 @@ public class RestaurantRequest extends KoLRequest
 			items.add( purchaseMatcher.group(1) );
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Menu retrieved." );
+		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
 }

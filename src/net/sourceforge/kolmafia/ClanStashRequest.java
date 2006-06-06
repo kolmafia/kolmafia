@@ -145,24 +145,24 @@ public class ClanStashRequest extends SendMessageRequest
 		switch ( moveType )
 		{
 			case REFRESH_ONLY:
-				DEFAULT_SHELL.updateDisplay( "Retrieving stash list..." );
+				KoLmafia.updateDisplay( "Retrieving stash list..." );
 				break;
 
 			case MEAT_TO_STASH:
-				DEFAULT_SHELL.updateDisplay( "Attempting clan donation..." );
+				KoLmafia.updateDisplay( "Attempting clan donation..." );
 				break;
 
 			case STASH_TO_ITEMS:
 
 				if ( !KoLCharacter.canInteract() )
 				{
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "KoLmafia cannot access your clan stash at this time." );
+					KoLmafia.updateDisplay( ERROR_STATE, "KoLmafia cannot access your clan stash at this time." );
 					return;
 				}
 
 			case ITEMS_TO_STASH:
 
-				DEFAULT_SHELL.updateDisplay( "Moving items..." );
+				KoLmafia.updateDisplay( "Moving items..." );
 				break;
 		}
 
@@ -175,19 +175,19 @@ public class ClanStashRequest extends SendMessageRequest
 		{
 			case REFRESH_ONLY:
 				parseStash();
-				DEFAULT_SHELL.updateDisplay( "Stash list retrieved." );
+				KoLmafia.updateDisplay( "Stash list retrieved." );
 				return;
 
 			case MEAT_TO_STASH:
 				parseStash();
-				DEFAULT_SHELL.updateDisplay( "Clan donation attempt complete." );
+				KoLmafia.updateDisplay( "Clan donation attempt complete." );
 				break;
 
 			case STASH_TO_ITEMS:
 			case ITEMS_TO_STASH:
 
-				if ( !client.permitsContinue() )
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Movement of items failed." );
+				if ( !KoLmafia.permitsContinue() )
+					KoLmafia.updateDisplay( ERROR_STATE, "Movement of items failed." );
 
 				parseStash();
 				break;
@@ -254,7 +254,7 @@ public class ClanStashRequest extends SendMessageRequest
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}

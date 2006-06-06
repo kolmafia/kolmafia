@@ -68,12 +68,12 @@ public class StarChartRequest extends ItemCreationRequest
 
 		makeIngredients();
 
-		if ( !client.permitsContinue() )
+		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		for ( int i = 1; i <= getQuantityNeeded(); ++i )
 		{
-			DEFAULT_SHELL.updateDisplay( "Creating " + getName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
+			KoLmafia.updateDisplay( "Creating " + getName() + " (" + i + " of " + getQuantityNeeded() + ")..." );
 			super.run();
 		}
 	}
@@ -88,7 +88,7 @@ public class StarChartRequest extends ItemCreationRequest
 
 		if ( responseText.indexOf( "reasonable picture" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't make that item." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't make that item." );
 			return;
 		}
 

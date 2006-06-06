@@ -196,7 +196,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionConfirmed()
 		{
-			DEFAULT_SHELL.updateDisplay( "Compiling reprice data..." );
+			KoLmafia.updateDisplay( "Compiling reprice data..." );
 
 			java.awt.Component [] components = storeItemList.getPanelListCells();
 			int [] itemID = new int[ components.length ];

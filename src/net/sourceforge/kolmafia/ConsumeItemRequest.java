@@ -179,7 +179,7 @@ public class ConsumeItemRequest extends KoLRequest
 		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "Eating" :
 			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "Drinking" : "Using";
 
-		for ( int i = 1; client.permitsContinue() && i <= iterations; ++i )
+		for ( int i = 1; KoLmafia.permitsContinue() && i <= iterations; ++i )
 			useOnce( i, iterations, useTypeAsString );
 	}
 
@@ -222,7 +222,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( alreadyInstalled )
 		{
-			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You already have one installed." );
+			KoLmafia.updateDisplay( PENDING_STATE, "You already have one installed." );
 			return;
 		}
 
@@ -231,15 +231,15 @@ public class ConsumeItemRequest extends KoLRequest
 		// return from the method.
 
 		AdventureDatabase.retrieveItem( itemUsed );
-		if ( !client.permitsContinue() )
+		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		if ( !formURLString.startsWith( "inventory.php" ) )
 		{
 			if ( totalIterations == 1 )
-				DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().toString() + "..." );
+				KoLmafia.updateDisplay( useTypeAsString + " " + getItemUsed().toString() + "..." );
 			else
-				DEFAULT_SHELL.updateDisplay( useTypeAsString + " " + getItemUsed().getName() +
+				KoLmafia.updateDisplay( useTypeAsString + " " + getItemUsed().getName() +
 					" (" + currentIteration + " of " + totalIterations + ")..." );
 		}
 
@@ -265,7 +265,7 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You already have that familiar." );
+				KoLmafia.updateDisplay( PENDING_STATE, "You already have that familiar." );
 				return;
 			}
 
@@ -282,13 +282,13 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "You may not" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Pathed ascension." );
+			KoLmafia.updateDisplay( PENDING_STATE, "Pathed ascension." );
 			return;
 		}
 
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Your spleen might go kabooie." );
+			KoLmafia.updateDisplay( PENDING_STATE, "Your spleen might go kabooie." );
 			return;
 		}
 
@@ -298,13 +298,13 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "too full" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Consumption limit reached." );
+			KoLmafia.updateDisplay( PENDING_STATE, "Consumption limit reached." );
 			return;
 		}
 
 		if ( responseText.indexOf( "too drunk" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Inebriety limit reached." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Inebriety limit reached." );
 			return;
 		}
 
@@ -329,7 +329,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// right now."
 			if ( responseText.indexOf( "You can't receive things" ) != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You can't open that package yet." );
+				KoLmafia.updateDisplay( PENDING_STATE, "You can't open that package yet." );
 				return;
 			}
 
@@ -386,7 +386,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// with some of my crazy imps, to do your bidding."
 			if ( responseText.indexOf( "pleased me greatly" ) == -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You music was inadequate." );
+				KoLmafia.updateDisplay( PENDING_STATE, "You music was inadequate." );
 				return;
 			}
 			break;
@@ -396,7 +396,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// another castle!"
 			if ( responseText.indexOf( "Sorceress is in another castle" ) == -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You couldn't make it all the way to the back door." );
+				KoLmafia.updateDisplay( PENDING_STATE, "You couldn't make it all the way to the back door." );
 				return;
 			}
 			break;
@@ -460,7 +460,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// the sea, and find his glorious treasure."
 			if ( responseText.indexOf( "find his glorious treasure" ) == -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You don't have everything you need." );
+				KoLmafia.updateDisplay( PENDING_STATE, "You don't have everything you need." );
 				return;
 			}
 			break;
@@ -470,7 +470,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// and find a chest engraved with the initials S. L."
 			if ( responseText.indexOf( "deepest part of the tank" ) == -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You don't have everything you need." );
+				KoLmafia.updateDisplay( PENDING_STATE, "You don't have everything you need." );
 				return;
 			}
 			break;
@@ -480,7 +480,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// at the exact same moment."
 			if ( responseText.indexOf( "exact same moment" ) == -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You don't have everything you need." );
+				KoLmafia.updateDisplay( PENDING_STATE, "You don't have everything you need." );
 				return;
 			}
 			break;
@@ -494,7 +494,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// now..."
 			if ( responseText.indexOf( "easily climb the branches" ) == -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You don't have everything you need." );
+				KoLmafia.updateDisplay( PENDING_STATE, "You don't have everything you need." );
 				return;
 			}
 			client.processResult( SAPLING );
@@ -505,7 +505,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// "You need some planks to build the dinghy."
 			if ( responseText.indexOf( "need some planks" ) != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You need some dingy planks." );
+				KoLmafia.updateDisplay( PENDING_STATE, "You need some dingy planks." );
 				return;
 			}
 			client.processResult( PLANKS );
@@ -552,7 +552,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// ate.	 Try again later."
 			if ( responseText.indexOf( "still cold" ) != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Your mouth is too cold." );
+				KoLmafia.updateDisplay( PENDING_STATE, "Your mouth is too cold." );
 				return;
 			}
 			break;
@@ -575,7 +575,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// sign as a book, and read it."
 			if ( responseText.indexOf( "you treat the plus sign as a book" ) == -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You don't know how to use it." );
+				KoLmafia.updateDisplay( PENDING_STATE, "You don't know how to use it." );
 				return;
 			}
 			break;

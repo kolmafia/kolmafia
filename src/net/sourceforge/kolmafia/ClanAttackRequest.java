@@ -50,12 +50,12 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		DEFAULT_SHELL.updateDisplay( "Attacking " + name + "..." );
+		KoLmafia.updateDisplay( "Attacking " + name + "..." );
 		super.run();
 	}
 
 	protected void processResults()
-	{	DEFAULT_SHELL.updateDisplay( "Attack request processed." );
+	{	KoLmafia.updateDisplay( "Attack request processed." );
 	}
 
 	public String toString()

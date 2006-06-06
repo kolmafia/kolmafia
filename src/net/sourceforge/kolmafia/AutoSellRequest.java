@@ -264,7 +264,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 	public void run()
 	{
-		DEFAULT_SHELL.updateDisplay( ( sellType == AUTOSELL ) ? "Autoselling items..." : "Placing items in the mall..." );
+		KoLmafia.updateDisplay( ( sellType == AUTOSELL ) ? "Autoselling items..." : "Placing items in the mall..." );
 		super.run();
 	}
 
@@ -277,7 +277,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 			if ( responseText.indexOf( "You don't have a store." ) != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have a store." );
+				KoLmafia.updateDisplay( ERROR_STATE, "You don't have a store." );
 				return;
 			}
 		}
@@ -298,7 +298,7 @@ public class AutoSellRequest extends SendMessageRequest
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}
@@ -306,7 +306,7 @@ public class AutoSellRequest extends SendMessageRequest
 		// Move out of inventory. Process meat gains, if old autosell
 		// interface.
 		super.processResults();
-		DEFAULT_SHELL.updateDisplay( "Items sold." );
+		KoLmafia.updateDisplay( "Items sold." );
 	}
 
 	protected String getSuccessMessage()

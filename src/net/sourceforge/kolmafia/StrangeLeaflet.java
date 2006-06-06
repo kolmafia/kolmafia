@@ -160,7 +160,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 				DEFAULT_SHELL.executeLine( "council" );
 			else
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You are too low level for that quest." );
+				KoLmafia.updateDisplay( ERROR_STATE, "You are too low level for that quest." );
 				return;
 			}
 		}
@@ -173,7 +173,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		initialize();
 
-		if ( !client.permitsContinue() )
+		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		// Solve the puzzles.
@@ -193,7 +193,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( !invokeMagic( invokeMagic ) )
 		{
 			KoLCharacter.refreshCalculatedLists();
-			DEFAULT_SHELL.updateDisplay( "Serpent-slaying quest complete." );
+			KoLmafia.updateDisplay( "Serpent-slaying quest complete." );
 			return;
 		}
 
@@ -204,7 +204,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		KoLCharacter.refreshCalculatedLists();
 
 		String extra = trophy ? " (trophy available)" : ( magic != null ) ? " (magic invoked)" : "";
-		DEFAULT_SHELL.updateDisplay( "The giant is now searching for a princess" + extra + "." );
+		KoLmafia.updateDisplay( "The giant is now searching for a princess" + extra + "." );
 	}
 
 	private static void initialize()
@@ -308,7 +308,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 				break;
 
 			default:
-				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
+				KoLmafia.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
 				break;
 		}
 	}
@@ -358,7 +358,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( leaflet )
 			return;
 
-		DEFAULT_SHELL.updateDisplay( "Retrieving mail..." );
+		KoLmafia.updateDisplay( "Retrieving mail..." );
 
 		goTo( FIELD );
 
@@ -380,7 +380,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( chest )
 			return;
 
-		DEFAULT_SHELL.updateDisplay( "Looking for treasure..." );
+		KoLmafia.updateDisplay( "Looking for treasure..." );
 
 		goTo( CAVE );
 		killSerpent();
@@ -398,7 +398,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( location > BANK )
 			return;
 
-		DEFAULT_SHELL.updateDisplay( "Hunting eggs..." );
+		KoLmafia.updateDisplay( "Hunting eggs..." );
 
 		// We can't tell if we've already done this. But, there's no
 		// harm in doing it twice.
@@ -416,7 +416,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( trophy )
 			return true;
 
-		DEFAULT_SHELL.updateDisplay( "Looking for knick-knacks..." );
+		KoLmafia.updateDisplay( "Looking for knick-knacks..." );
 
 		goTo( HOUSE );
 		parseMantelpiece( executeCommand( "examine fireplace" ) );
@@ -440,7 +440,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( ring )
 			return;
 
-		DEFAULT_SHELL.updateDisplay( "Stealing ring..." );
+		KoLmafia.updateDisplay( "Stealing ring..." );
 
 		if ( location < BOTTOM )
 			goTo( BOTTOM );

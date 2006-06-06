@@ -57,7 +57,7 @@ public abstract class Nemesis extends StaticEntity
 		if ( client == null )
 			return false;
 
-		DEFAULT_SHELL.updateDisplay( "Checking prerequisites..." );
+		KoLmafia.updateDisplay( "Checking prerequisites..." );
 
 		// Make sure the player has been given the quest
 
@@ -66,7 +66,7 @@ public abstract class Nemesis extends StaticEntity
 
 		if ( request.responseText.indexOf( "cave.php" ) == -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You haven't been given the quest to defeat your Nemesis!" );
+			KoLmafia.updateDisplay( ERROR_STATE, "You haven't been given the quest to defeat your Nemesis!" );
 			return false;
 		}
 
@@ -101,7 +101,7 @@ public abstract class Nemesis extends StaticEntity
 			region = 9;
 		else if ( request.responseText.indexOf( "cave9done" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You've already defeated your nemesis." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You've already defeated your nemesis." );
 			return;
 		}
 
@@ -173,19 +173,19 @@ public abstract class Nemesis extends StaticEntity
 					}
 
 					action = "flies";
-					DEFAULT_SHELL.updateDisplay( "Swatting flies..." );
+					KoLmafia.updateDisplay( "Swatting flies..." );
 					break;
 
 				case 5: // A Stone Door
 
 					action = "door1";
-					DEFAULT_SHELL.updateDisplay( "Activating the stone door..." );
+					KoLmafia.updateDisplay( "Activating the stone door..." );
 					break;
 
 				case 6: // Lavatory Troll 1
 
 					action = "troll1";
-					DEFAULT_SHELL.updateDisplay( "Feeding the first troll..." );
+					KoLmafia.updateDisplay( "Feeding the first troll..." );
 					break;
 
 				case 7:	// Salad-Covered Door
@@ -200,13 +200,13 @@ public abstract class Nemesis extends StaticEntity
 					}
 
 					action = "door2";
-					DEFAULT_SHELL.updateDisplay( "Plucking the salad door..." );
+					KoLmafia.updateDisplay( "Plucking the salad door..." );
 					break;
 
 				case 8: // Lavatory Troll 2
 
 					action = "troll2";
-					DEFAULT_SHELL.updateDisplay( "Feeding the second troll..." );
+					KoLmafia.updateDisplay( "Feeding the second troll..." );
 					break;
 
 				case 9: // Chamber of Epic Conflict
@@ -218,7 +218,7 @@ public abstract class Nemesis extends StaticEntity
 						DEFAULT_SHELL.executeLine( "equip " + weapon );
 
 					action = "end";
-					DEFAULT_SHELL.updateDisplay( "Fighting your nemesis..." );
+					KoLmafia.updateDisplay( "Fighting your nemesis..." );
 					break;
 			}
 
@@ -228,7 +228,7 @@ public abstract class Nemesis extends StaticEntity
 
 			if ( request.responseText != null && request.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're out of adventures." );
+				KoLmafia.updateDisplay( ERROR_STATE, "You're out of adventures." );
 				return;
 			}
 
@@ -259,10 +259,10 @@ public abstract class Nemesis extends StaticEntity
 		if ( client.getCurrentRequest() != null &&  client.getCurrentRequest().responseText != null &&
 			client.getCurrentRequest().responseText.indexOf( "WINWINWIN") == -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "KoLmafia was unable to defeat your nemesis." );
+			KoLmafia.updateDisplay( ERROR_STATE, "KoLmafia was unable to defeat your nemesis." );
 			return;
 		}
 
-		DEFAULT_SHELL.updateDisplay( "You defeated your nemesis. Congratulations!" );
+		KoLmafia.updateDisplay( "You defeated your nemesis. Congratulations!" );
 	}
 }

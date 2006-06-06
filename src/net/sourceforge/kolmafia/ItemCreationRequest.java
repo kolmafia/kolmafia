@@ -271,7 +271,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public void run()
 	{
 		completedRequest = false;
-		if ( !client.permitsContinue() || quantityNeeded <= 0 )
+		if ( !KoLmafia.permitsContinue() || quantityNeeded <= 0 )
 			return;
 
 		switch ( mixingMethod )
@@ -315,7 +315,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( tool == null )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't deduce correct tool to use." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Can't deduce correct tool to use." );
 			return;
 		}
 
@@ -327,7 +327,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( tool.getCount( KoLCharacter.getInventory() ) > 0 )
 		{
-			DEFAULT_SHELL.updateDisplay( "Using " + tool.getName() + "..." );
+			KoLmafia.updateDisplay( "Using " + tool.getName() + "..." );
 			(new ConsumeItemRequest( client, tool )).run();
 			return;
 		}
@@ -339,7 +339,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( quantityNeeded >= 10 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Please purchase a " + tool.getName() + " first." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Please purchase a " + tool.getName() + " first." );
 			return;
 		}
 
@@ -350,9 +350,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		ConsumeItemRequest request = new ConsumeItemRequest( client, input );
 		AdventureDatabase.retrieveItem( input.getInstance( quantityNeeded ) );
 
-		for ( int i = 1; client.permitsContinue() && i <= quantityNeeded; ++i )
+		for ( int i = 1; KoLmafia.permitsContinue() && i <= quantityNeeded; ++i )
 		{
-			DEFAULT_SHELL.updateDisplay( "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
+			KoLmafia.updateDisplay( "Creating " + name + " (" + i + " of " + quantityNeeded + ")..." );
 			request.run();
 		}
 	}
@@ -392,7 +392,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		addFormField( "quantity", String.valueOf( quantityNeeded ) );
 
-		DEFAULT_SHELL.updateDisplay( "Creating " + toString() + "..." );
+		KoLmafia.updateDisplay( "Creating " + toString() + "..." );
 		super.run();
 	}
 
@@ -410,13 +410,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( responseText.indexOf( "You don't have enough" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You're missing ingredients." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You're missing ingredients." );
 			return;
 		}
 
 		if ( responseText.indexOf( "You don't have that many adventures left" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have enough adventures." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have enough adventures." );
 			return;
 		}
 
@@ -451,7 +451,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( responseText.indexOf( "Smoke" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( "Your box servant has escaped!" );
+			KoLmafia.updateDisplay( "Your box servant has escaped!" );
 			ItemCreationRequest leftOver = ItemCreationRequest.getInstance( client, itemID, quantityNeeded - createdQuantity );
 
 			switch ( mixingMethod )
@@ -472,13 +472,13 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		}
 		else
 		{
-			DEFAULT_SHELL.updateDisplay( "Successfully created " + quantityNeeded + " " + getName() );
+			KoLmafia.updateDisplay( "Successfully created " + quantityNeeded + " " + getName() );
 		}
 	}
 
 	private boolean autoRepairBoxServant()
 	{
-		if ( !client.permitsContinue() )
+		if ( !KoLmafia.permitsContinue() )
 			return false;
 
 		// If we are not cooking or mixing, or if we already have the
@@ -525,9 +525,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		}
 
 		if ( !autoRepairSuccessful )
-			client.updateDisplay( ERROR_STATE, "Auto-repair was unsuccessful." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Auto-repair was unsuccessful." );
 
-		return autoRepairSuccessful && client.permitsContinue();
+		return autoRepairSuccessful && KoLmafia.permitsContinue();
 	}
 
 	private boolean useBoxServant( AdventureResult servant, AdventureResult clockworkServant, AdventureResult noServantItem, AdventureResult skullItem, AdventureResult boxedItem )
@@ -593,7 +593,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 
 		(new ConsumeItemRequest( client, usedServant )).run();
-		return client.permitsContinue();
+		return KoLmafia.permitsContinue();
 	}
 
 	protected void makeIngredients()
@@ -620,7 +620,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If this is a combining request, you will need
 		// to make meat paste as well.
 
-		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() && client.permitsContinue() )
+		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() && KoLmafia.permitsContinue() )
 			AdventureDatabase.retrieveItem( new AdventureResult( MEAT_PASTE, quantityNeeded ) );
 	}
 

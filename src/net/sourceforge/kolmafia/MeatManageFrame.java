@@ -163,7 +163,7 @@ public class MeatManageFrame extends KoLFrame
 
 			if ( fundTransferType > 1 && KoLCharacter.isHardcore() )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You cannot pull meat from Hagnk's while in Hardcore." );
+				KoLmafia.updateDisplay( ERROR_STATE, "You cannot pull meat from Hagnk's while in Hardcore." );
 				return;
 			}
 
@@ -194,7 +194,7 @@ public class MeatManageFrame extends KoLFrame
 
 					if ( amountToTransfer <= 0 )
 					{
-						DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You must specify an amount to pull from Hagnk's." );
+						KoLmafia.updateDisplay( ERROR_STATE, "You must specify an amount to pull from Hagnk's." );
 						return;
 					}
 
@@ -210,7 +210,7 @@ public class MeatManageFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "<html><font color=green>You <font color=red>lost</font>. Better luck next time.</font></html>" );
+			KoLmafia.updateDisplay( ERROR_STATE, "<html><font color=green>You <font color=red>lost</font>. Better luck next time.</font></html>" );
 		}
 
 		private class ClosetUpdater implements Runnable

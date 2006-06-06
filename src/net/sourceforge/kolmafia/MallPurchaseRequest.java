@@ -295,7 +295,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		if ( itemID == -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Item not recognized by KoLmafia database." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Item not recognized by KoLmafia database." );
 			return;
 		}
 
@@ -307,7 +307,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
 
-		DEFAULT_SHELL.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")..." );
+		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")..." );
 		super.run();
 		
 		if ( attireChanged )
@@ -361,7 +361,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		if ( startIndex == -1 || stopIndex == -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unexpected result.  Are you sure this store is available?" );
+			KoLmafia.updateDisplay( ERROR_STATE, "Unexpected result.  Are you sure this store is available?" );
 			return;
 		}
 
@@ -374,7 +374,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		if ( responseText.indexOf( "You can't afford" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Not enough funds." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Not enough funds." );
 			return;
 		}
 
@@ -401,7 +401,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 					if ( price >= newPrice )
 					{
-						DEFAULT_SHELL.updateDisplay( "Failed to yield.  Attempting repurchase..." );
+						KoLmafia.updateDisplay( "Failed to yield.  Attempting repurchase..." );
 						(new MallPurchaseRequest( client, itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice, Math.min( limit, quantity ), true )).run();
 					}
 					else
@@ -409,7 +409,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 						// In the event of a price switch, give the
 						// player the option to report it.
 
-						DEFAULT_SHELL.updateDisplay( "Price switch detected (#" + shopID + ").  Skipping..." );
+						KoLmafia.updateDisplay( "Price switch detected (#" + shopID + ").  Skipping..." );
 					}
 				}
 				else
@@ -418,7 +418,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 					// notify the user temporarily that the store
 					// failed to yield the item.
 
-					DEFAULT_SHELL.updateDisplay( "Failed to yield.  Skipping..." );
+					KoLmafia.updateDisplay( "Failed to yield.  Skipping..." );
 				}
 			}
 			catch ( Exception e )

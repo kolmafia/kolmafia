@@ -568,14 +568,14 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptValue result = executeGlobalScope( global );
 
-			if ( !client.permitsContinue() || result == null || result.getType() == null )
+			if ( !KoLmafia.permitsContinue() || result == null || result.getType() == null )
 			{
 				DEFAULT_SHELL.printLine( "Script aborted!" );
 				return;
 			}
 
 			if ( result.getType().equals( TYPE_VOID ) )
-				DEFAULT_SHELL.printLine( !client.permitsContinue() ? "Script failed!" : "Script succeeded!" );
+				DEFAULT_SHELL.printLine( !KoLmafia.permitsContinue() ? "Script failed!" : "Script succeeded!" );
 			else if ( result.getType().equals( TYPE_BOOLEAN ) )
 				DEFAULT_SHELL.printLine( result.intValue() == 0 ? "Script failed!" : "Script succeeded!" );
 			else if ( result.getType().equals( TYPE_STRING ) )
@@ -2086,7 +2086,7 @@ public class KoLmafiaASH extends StaticEntity
 		// We've just executed a command in a context that captures the
 		// return value.
 
-		if ( client.refusesContinue() || value == null )
+		if ( KoLmafia.refusesContinue() || value == null )
 		{
 			// User aborted
 			currentState = STATE_EXIT;
@@ -2852,7 +2852,7 @@ public class KoLmafiaASH extends StaticEntity
 				result = current.execute();
 
 				// Abort processing now if command failed
-				if ( !client.permitsContinue() )
+				if ( !KoLmafia.permitsContinue() )
 					currentState = STATE_EXIT;
 
 				trace( "[" + executionStateString( currentState ) + "] <- " + result );
@@ -3103,7 +3103,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		private ScriptValue continueValue()
-		{	return client.permitsContinue() ? TRUE_VALUE : FALSE_VALUE;
+		{	return KoLmafia.permitsContinue() ? TRUE_VALUE : FALSE_VALUE;
 		}
 
 		// Here are all the methods for built-in ASH functions
@@ -3404,7 +3404,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue print( ScriptVariable string )
 		{
-			DEFAULT_SHELL.updateDisplay( string.toStringValue().toString() );
+			KoLmafia.updateDisplay( string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 
@@ -3698,7 +3698,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue tavern()
 		{
 			int result = client.locateTavernFaucet();
-			return new ScriptValue( client.permitsContinue() ? result : -1 );
+			return new ScriptValue( KoLmafia.permitsContinue() ? result : -1 );
 		}
 
 		public ScriptValue train_familiar( ScriptVariable weight, ScriptVariable familiar )
@@ -3963,7 +3963,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		private boolean getSlice() throws AdvancedScriptException
 		{
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 			{
 				currentState = STATE_EXIT;
 				return false;
@@ -4176,7 +4176,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 				currentState = STATE_EXIT;
 
 			if ( currentState == STATE_EXIT )
@@ -4242,7 +4242,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 			{
 				currentState = STATE_EXIT;
 				return null;
@@ -4345,7 +4345,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 			{
 				currentState = STATE_EXIT;
 				return null;
@@ -4399,7 +4399,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptValue result = scope.execute();
 
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 				currentState = STATE_EXIT;
 
 			switch ( currentState )
@@ -4450,7 +4450,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 			{
 				currentState = STATE_EXIT;
 				return null;
@@ -4523,7 +4523,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 			{
 				currentState = STATE_EXIT;
 				return null;
@@ -4594,7 +4594,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 			{
 				currentState = STATE_EXIT;
 				return null;
@@ -4686,7 +4686,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 			{
 				currentState = STATE_EXIT;
 				return null;
@@ -4814,7 +4814,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 			{
 				currentState = STATE_EXIT;
 				return null;
@@ -4914,7 +4914,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue execute() throws AdvancedScriptException
 		{
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 			{
 				currentState = STATE_EXIT;
 				return null;

@@ -88,11 +88,11 @@ public class HeroDonationRequest extends KoLRequest
 	{
 		if ( !this.hasStatueKey )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have the appropriate key." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have the appropriate key." );
 			return;
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Donating " + amount + " to the shrine..." );
+		KoLmafia.updateDisplay( "Donating " + amount + " to the shrine..." );
 		super.run();
 
 	}
@@ -101,7 +101,7 @@ public class HeroDonationRequest extends KoLRequest
 	{
 		if ( responseText.indexOf( "You gain" ) == -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, responseText.indexOf( "That's not enough" ) == -1 ?
+			KoLmafia.updateDisplay( ERROR_STATE, responseText.indexOf( "That's not enough" ) == -1 ?
 				"Donation limit exceeded." : "Donation must be larger." );
 			return;
 		}
@@ -109,7 +109,7 @@ public class HeroDonationRequest extends KoLRequest
 		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
 		super.processResults();
 
-		DEFAULT_SHELL.updateDisplay( "Donation complete." );
+		KoLmafia.updateDisplay( "Donation complete." );
 	}
 
 	public String getCommandForm( int iterations )
