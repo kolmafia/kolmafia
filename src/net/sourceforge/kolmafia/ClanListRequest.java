@@ -65,7 +65,7 @@ public class ClanListRequest extends KoLRequest
 			Matcher nextMatcher = Pattern.compile( "<br>Your clan can attack again in (.*?)<p>" ).matcher( details.responseText );
 			nextMatcher.find();
 
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Your clan can attack again in " + nextMatcher.group(1) );
+			KoLmafia.updateDisplay( ERROR_STATE, "Your clan can attack again in " + nextMatcher.group(1) );
 		}
 	}
 }

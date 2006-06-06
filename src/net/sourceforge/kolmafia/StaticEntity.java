@@ -52,7 +52,7 @@ public abstract class StaticEntity implements KoLConstants
 	public static final void setClient( KoLmafia client )
 	{	StaticEntity.client = client;
 	}
-	
+
 	public static KoLmafia getClient()
 	{	return client;
 	}
@@ -115,7 +115,7 @@ public abstract class StaticEntity implements KoLConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Failed to open system browser" );
 		}
 	}
@@ -163,7 +163,7 @@ public abstract class StaticEntity implements KoLConstants
 
 		(new RequestThread( new CreateFrameRunnable( RequestFrame.class, parameters ) )).start();
 	}
-	
+
 	public static void externalUpdate( String location, String responseText )
 	{
 		// Keep the client updated of your current equipment and
@@ -187,7 +187,7 @@ public abstract class StaticEntity implements KoLConstants
 			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
 			KoLCharacter.addDerivedSkills();
 		}
-		
+
 		learnedMatcher = Pattern.compile( "You emerge with a (.*?) of Steel" ).matcher( responseText );
 		if ( learnedMatcher.find() )
 			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1) + " of Steel", "", 1 ) );
@@ -202,21 +202,21 @@ public abstract class StaticEntity implements KoLConstants
 
 		KoLCharacter.refreshCalculatedLists();
 	}
-	
+
 	public static final void executeCountdown( String message, int seconds )
 	{
-		for ( int i = 0; i < seconds && StaticEntity.getClient().permitsContinue(); ++i )
+		for ( int i = 0; i < seconds && KoLmafia.permitsContinue(); ++i )
 		{
-			StaticEntity.getClient().updateDisplay( message + (seconds - i) + " seconds..." );
+			KoLmafia.updateDisplay( message + (seconds - i) + " seconds..." );
 			KoLRequest.delay( 1000 );
 		}
 	}
-		
+
 	public static final void printStackTrace( Throwable t )
 	{	printStackTrace( t, "UNEXPECTED ERROR", EMPTY_STRING_ARRAY );
 	}
-	
-	
+
+
 	public static final void printStackTrace( Throwable t, String message )
 	{	printStackTrace( t, message, EMPTY_STRING_ARRAY );
 	}
@@ -228,7 +228,7 @@ public abstract class StaticEntity implements KoLConstants
 		if ( shouldOpenStream )
 			KoLmafia.openDebugStream();
 
-		DEFAULT_SHELL.updateDisplay( ABORT_STATE, message + ".  Debug log printed." );
+		KoLmafia.updateDisplay( ABORT_STATE, message + ".  Debug log printed." );
 		for ( int i = 0; i < logAssistMessages.length; ++i )
 		{
 			if ( logAssistMessages[i] != null )
@@ -237,13 +237,13 @@ public abstract class StaticEntity implements KoLConstants
 				KoLmafia.getDebugStream().println( logAssistMessages[i] );
 			}
 		}
-		
+
 		t.printStackTrace( KoLmafia.getDebugStream() );
 		t.printStackTrace();
 
 		if ( client.getCurrentRequest() != null )
 			KoLmafia.getDebugStream().println( "" + client.getCurrentRequest().responseText );
-		
+
 		if ( shouldOpenStream )
 			KoLmafia.closeDebugStream();
 	}

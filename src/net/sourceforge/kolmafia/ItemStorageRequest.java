@@ -199,30 +199,30 @@ public class ItemStorageRequest extends SendMessageRequest
 		switch ( moveType )
 		{
 			case EMPTY_STORAGE:
-				DEFAULT_SHELL.updateDisplay( "Emptying storage..." );
+				KoLmafia.updateDisplay( "Emptying storage..." );
 				break;
 
 			case STORAGE_TO_INVENTORY:
-				DEFAULT_SHELL.updateDisplay( "Moving items..." );
+				KoLmafia.updateDisplay( "Moving items..." );
 				break;
 
 			case RETRIEVE_STORAGE:
-				DEFAULT_SHELL.updateDisplay( "Retrieving storage contents..." );
+				KoLmafia.updateDisplay( "Retrieving storage contents..." );
 				break;
 
 			case INVENTORY_TO_CLOSET:
 			case CLOSET_TO_INVENTORY:
-				DEFAULT_SHELL.updateDisplay( "Moving items..." );
+				KoLmafia.updateDisplay( "Moving items..." );
 				break;
 
 			case CLOSET_YOUR_CLOVERS:
-				DEFAULT_SHELL.updateDisplay( "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
+				KoLmafia.updateDisplay( "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
 				break;
 
 			case MEAT_TO_CLOSET:
 			case MEAT_TO_INVENTORY:
 			case PULL_MEAT_FROM_STORAGE:
-				DEFAULT_SHELL.updateDisplay( "Executing transaction..." );
+				KoLmafia.updateDisplay( "Executing transaction..." );
 				break;
 		}
 
@@ -253,7 +253,7 @@ public class ItemStorageRequest extends SendMessageRequest
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}
@@ -317,7 +317,7 @@ public class ItemStorageRequest extends SendMessageRequest
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}

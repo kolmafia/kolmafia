@@ -54,7 +54,7 @@ public class MindControlRequest extends KoLRequest
 
 		if ( level < 0 || level > 11 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The dial only goes from 0 to 11." );
+			KoLmafia.updateDisplay( ERROR_STATE, "The dial only goes from 0 to 11." );
 			return;
 		}
 
@@ -62,17 +62,17 @@ public class MindControlRequest extends KoLRequest
 
 		if ( !KoLCharacter.inMysticalitySign() )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't find the Mind Control device." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the Mind Control device." );
 			return;
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Resetting mind control device..." );
+		KoLmafia.updateDisplay( "Resetting mind control device..." );
 		super.run();
 	}
 
 	protected void processResults()
 	{
-		DEFAULT_SHELL.updateDisplay( "Mind control device reset." );
+		KoLmafia.updateDisplay( "Mind control device reset." );
 		KoLCharacter.setMindControlLevel( level );
 	}
 }

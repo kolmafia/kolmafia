@@ -482,7 +482,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 								"Save arena parameters for the " + familiar.getRace() + "?",
 								"Save arena skills?", JOptionPane.YES_NO_OPTION ) )
 							FamiliarsDatabase.setFamiliarSkills( familiar.getRace(), skills );
-						DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
+						KoLmafia.updateDisplay( CONTINUE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
 
 					}
 				}
@@ -559,7 +559,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				FamiliarData selection = (FamiliarData)getSelectedItem();
 				(new FamiliarRequest( StaticEntity.getClient(), selection )).run();
-				StaticEntity.getClient().updateDisplay( "Familiar changed." );
+				KoLmafia.updateDisplay( "Familiar changed." );
 				familiar = KoLCharacter.getFamiliar();
 				isChanging = false;
 			}
@@ -632,13 +632,13 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
-		DEFAULT_SHELL.updateDisplay( "Starting training session..." );
+		KoLmafia.updateDisplay( "Starting training session..." );
 
 		// Iterate until we reach the goal
 		while ( !goalMet( status, goal, type) )
 		{
 			// If user canceled, bail now
-			if ( stop || !StaticEntity.getClient().permitsContinue() )
+			if ( stop || !KoLmafia.permitsContinue() )
 			{
 				statusMessage( ERROR_STATE, "Training session aborted." );
 				return false;
@@ -675,7 +675,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Change into appropriate gear
 			status.changeGear( tool.bestWeight(), buffs );
-			if ( !StaticEntity.getClient().permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 			{
 				if ( buffs )
 				{
@@ -763,7 +763,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarTool tool = new FamiliarTool( opponents );
 
 		// Let the battles begin!
-		DEFAULT_SHELL.updateDisplay( "Starting training session..." );
+		KoLmafia.updateDisplay( "Starting training session..." );
 
 		// XP earned indexed by [event][rank]
 		int [][] xp = new int[4][3];
@@ -792,7 +792,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 						continue;
 
 					// If user canceled, bail now
-					if ( stop || !StaticEntity.getClient().permitsContinue() )
+					if ( stop || !KoLmafia.permitsContinue() )
 					{
 						statusMessage( ERROR_STATE, "Training session aborted." );
 						return null;
@@ -826,7 +826,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 					// Change into appropriate gear
 					status.changeGear( tool.bestWeight(), false );
-					if ( !StaticEntity.getClient().permitsContinue() )
+					if ( !KoLmafia.permitsContinue() )
 					{
 						statusMessage( ERROR_STATE, "Training stopped: internal error." );
 						return null;
@@ -910,7 +910,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		FamiliarData familiar = KoLCharacter.getFamiliar();
 		if ( familiar == FamiliarData.NO_FAMILIAR )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
 			return false;
 		}
 
@@ -954,7 +954,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			needBuffs = true;
 		}
 
-		DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
+		KoLmafia.updateDisplay( ERROR_STATE, "Can't buff and equip familiar to reach " + weight + " lbs." );
 		return false;
 	}
 
@@ -969,7 +969,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		else
 			results.append( message + "<br>" );
 
-		DEFAULT_SHELL.updateDisplay( state, message );
+		KoLmafia.updateDisplay( state, message );
 	}
 
 	private static void printFamiliar( FamiliarStatus status, int goal, int type )
@@ -1142,7 +1142,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		results.append( text.toString() );
 
-		DEFAULT_SHELL.updateDisplay( "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
+		KoLmafia.updateDisplay( "Round " + round + ": " + familiar.getName() + " vs. " + opponent.getName() + "..." );
 	}
 
 	private static int fightMatch( FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent )
@@ -1152,7 +1152,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static int fightMatch( FamiliarStatus status, FamiliarTool tool, CakeArenaManager.ArenaOpponent opponent, int match )
 	{
 		// If user aborted, bail now
-		if ( !StaticEntity.getClient().permitsContinue())
+		if ( KoLmafia.refusesContinue() )
 			return 0;
 
 		// Tell the user about the match

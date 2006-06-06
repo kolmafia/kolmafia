@@ -97,7 +97,7 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -333,7 +333,7 @@ public class AdventureDatabase extends KoLDatabase
 		refreshAdventureList();
 		return adventures;
 	}
-	
+
 	public static void refreshAdventureList()
 	{
 		String [] zones = getProperty( "zoneExcludeList" ).split( "," );
@@ -359,7 +359,7 @@ public class AdventureDatabase extends KoLDatabase
 		}
 
 		if ( getProperty( "sortAdventures" ).equals( "true" ) )
-			adventures.sort();		
+			adventures.sort();
 	}
 
 	/**
@@ -380,7 +380,7 @@ public class AdventureDatabase extends KoLDatabase
 		int bestMatchIndex = -1;
 		int bestMatchLength = Integer.MAX_VALUE;
 		int bestMatchStartIndex = Integer.MAX_VALUE;
-		
+
 		for ( int i = 0; i < adventureTable[3].size(); ++i )
 		{
 			currentTest = adventureTable[3].get(i).toLowerCase();
@@ -400,7 +400,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		return bestMatchIndex == -1 ? null : getAdventure( bestMatchIndex );
 	}
-	
+
 	private static KoLAdventure getAdventure( int tableIndex )
 	{
 		return new KoLAdventure( client,
@@ -428,7 +428,7 @@ public class AdventureDatabase extends KoLDatabase
 			// Make sure the car is in the inventory
 			retrieveItem( ConcoctionsDatabase.CAR );
 
-			if ( !client.permitsContinue() )
+			if ( !KoLmafia.permitsContinue() )
 				return;
 
 			// Obviate following request by checking accomplishment:
@@ -439,13 +439,13 @@ public class AdventureDatabase extends KoLDatabase
 			// visited the council -- check the main map to see if
 			// the beach is unlocked.
 
-			DEFAULT_SHELL.updateDisplay( "Validating map location..." );
+			KoLmafia.updateDisplay( "Validating map location..." );
 			request = new KoLRequest( client, "main.php" );
 			request.run();
 
 			if ( request.responseText.indexOf( "beach.php" ) == -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
 				return;
 			}
 			return;
@@ -458,7 +458,7 @@ public class AdventureDatabase extends KoLDatabase
 			// "You have learned how to hunt Yetis from the L337
 			// Tr4pz0r."
 
-			DEFAULT_SHELL.updateDisplay( "Validating map location..." );
+			KoLmafia.updateDisplay( "Validating map location..." );
 			// See if we can get to the location already
 			request = new KoLRequest( client, "mclargehuge.php" );
 			request.run();
@@ -550,7 +550,7 @@ public class AdventureDatabase extends KoLDatabase
 
 					if ( !client.getConditions().isEmpty() )
 					{
-						DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unable to complete enchanted bean quest." );
+						KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete enchanted bean quest." );
 						client.getConditions().clear();
 						client.getConditions().addAll( temporary );
 						return;
@@ -578,7 +578,7 @@ public class AdventureDatabase extends KoLDatabase
 		if ( request == null )
 			return;
 
-		DEFAULT_SHELL.updateDisplay( "Validating map location..." );
+		KoLmafia.updateDisplay( "Validating map location..." );
 		request.run();
 
 		// Now that the zone is armed, check to see
@@ -588,7 +588,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( request.responseText.indexOf( adventure.getAdventureID() ) == -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
+			KoLmafia.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
 			return;
 		}
 	}
@@ -780,13 +780,13 @@ public class AdventureDatabase extends KoLDatabase
 			// then notify the client that there aren't enough items
 			// available to continue and cancel the request.
 
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
 		}
 		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -861,7 +861,7 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}

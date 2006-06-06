@@ -222,7 +222,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			int resultLimit = getValue( limitEntry, 100 );
 
 			resultCards.show( resultCardPanel, String.valueOf( index ) );
-			DEFAULT_SHELL.updateDisplay( "Conducting search..." );
+			KoLmafia.updateDisplay( "Conducting search..." );
 
 			while ( !resultsModel[ index ].getDataVector().isEmpty() )
 			{
@@ -236,16 +236,16 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			results = new ProfileRequest[ search.getSearchResults().size() ];
 			search.getSearchResults().toArray( results );
 
-			for ( int i = 0; i < resultLimit && i < results.length && StaticEntity.getClient().permitsContinue(); ++i )
+			for ( int i = 0; i < resultLimit && i < results.length && KoLmafia.permitsContinue(); ++i )
 			{
 				resultsModel[ index ].addRow( getRow( results[i], isSimple ) );
 				resultsModel[ index ].fireTableRowsInserted( i - 1, i - 1 );
 			}
 
-			if ( StaticEntity.getClient().permitsContinue() )
-				DEFAULT_SHELL.updateDisplay( "Search completed." );
+			if ( KoLmafia.permitsContinue() )
+				KoLmafia.updateDisplay( "Search completed." );
 			else
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Search halted." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Search halted." );
 		}
 
 		public Object [] getRow( ProfileRequest result, boolean isSimple )
@@ -254,7 +254,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 				return new Object [] { result.getPlayerName(), result.getClanName(), result.getClassType(),
 					result.getPlayerLevel(), result.getPvpRank() };
 
-			DEFAULT_SHELL.updateDisplay( "Retrieving profile for " + result.getPlayerName() + "..." );
+			KoLmafia.updateDisplay( "Retrieving profile for " + result.getPlayerName() + "..." );
 
 			return new Object [] { result.getPlayerName(), result.getClassType(), result.getRestriction(), result.getPlayerLevel(),
 				result.getPvpRank(), result.getDrink(), result.getEquipmentPower(), result.getCurrentRun(), result.getLastLogin() };
@@ -290,7 +290,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			isSimple = false;
 
 			resultCards.show( resultCardPanel, "1" );
-			DEFAULT_SHELL.updateDisplay( "Conducting search..." );
+			KoLmafia.updateDisplay( "Conducting search..." );
 
 			while ( !resultsModel[1].getDataVector().isEmpty() )
 			{
@@ -304,21 +304,21 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			results = new ProfileRequest[ search.getSearchResults().size() ];
 			search.getSearchResults().toArray( results );
 
-			for ( int i = 0; i < results.length && StaticEntity.getClient().permitsContinue(); ++i )
+			for ( int i = 0; i < results.length && KoLmafia.permitsContinue(); ++i )
 			{
 				resultsModel[1].addRow( getRow( results[i] ) );
 				resultsModel[1].fireTableRowsInserted( i - 1, i - 1 );
 			}
 
-			if ( StaticEntity.getClient().permitsContinue() )
-				DEFAULT_SHELL.updateDisplay( "Search completed." );
+			if ( KoLmafia.permitsContinue() )
+				KoLmafia.updateDisplay( "Search completed." );
 			else
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Search halted." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Search halted." );
 		}
 
 		public Object [] getRow( ProfileRequest result )
 		{
-			DEFAULT_SHELL.updateDisplay( "Retrieving profile for " + result.getPlayerName() + "..." );
+			KoLmafia.updateDisplay( "Retrieving profile for " + result.getPlayerName() + "..." );
 
 			return new Object [] { result.getPlayerName(), result.getClassType(), result.getRestriction(), result.getPlayerLevel(),
 				result.getPvpRank(), result.getDrink(), result.getEquipmentPower(), result.getCurrentRun(), result.getLastLogin() };
@@ -403,17 +403,18 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 			FlowerHunterRequest request = new FlowerHunterRequest( StaticEntity.getClient(), "",
 					stanceSelect.getSelectedIndex() + 1, mission, message.getText() );
-			
-			for ( int i = 0; i < selection.length && StaticEntity.getClient().permitsContinue(); ++i )
+
+			for ( int i = 0; i < selection.length && !KoLmafia.refusesContinue(); ++i )
 			{
-				DEFAULT_SHELL.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
+				KoLmafia.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
 				request.setTarget( selection[i].getPlayerID() );  request.run();
 				FightFrame.showRequest( request );
 
 				updateRank();
 			}
 
-			DEFAULT_SHELL.updateDisplay( "Attacks completed." );		}
+			KoLmafia.updateDisplay( "Attacks completed." );
+		}
 
 		private ProfileRequest [] getSelection()
 		{

@@ -62,7 +62,7 @@ public class MoonPhaseRequest extends KoLRequest
 
 	public void run()
 	{
-		DEFAULT_SHELL.updateDisplay( "Synchronizing moon data..." );
+		KoLmafia.updateDisplay( "Synchronizing moon data..." );
 		super.run();
 	}
 

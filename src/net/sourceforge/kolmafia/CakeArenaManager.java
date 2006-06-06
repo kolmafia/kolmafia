@@ -96,9 +96,9 @@ public class CakeArenaManager extends StaticEntity
 			Matcher victoryMatcher;
 			Pattern victoryPattern = Pattern.compile( "is the winner, and gains (\\d+) experience" );
 
-			for ( int j = 1; client.permitsContinue() && j <= repeatCount; ++j )
+			for ( int j = 1; KoLmafia.permitsContinue() && j <= repeatCount; ++j )
 			{
-				DEFAULT_SHELL.updateDisplay( "Arena battle, round " + j + " in progress..." );
+				KoLmafia.updateDisplay( "Arena battle, round " + j + " in progress..." );
 				client.makeRequest( request );
 
 				victoryMatcher = victoryPattern.matcher( request.responseText );
@@ -116,7 +116,7 @@ public class CakeArenaManager extends StaticEntity
 				FamiliarTrainingFrame.getResults().append( text.toString() );
 			}
 
-			DEFAULT_SHELL.updateDisplay( "Arena battles complete." );
+			KoLmafia.updateDisplay( "Arena battles complete." );
 		}
 	}
 

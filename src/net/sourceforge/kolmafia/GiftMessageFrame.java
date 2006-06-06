@@ -81,15 +81,15 @@ public class GiftMessageFrame extends SendMessageFrame
 		(new GiftMessageRequest( StaticEntity.getClient(), recipient, messages[0], messages[1], packageSelect.getSelectedItem(), getAttachedItems(), getAttachedMeat(), usingStorage )).run();
 		GiftMessageFrame.this.setEnabled( true );
 
-		if ( StaticEntity.getClient().permitsContinue() )
+		if ( KoLmafia.permitsContinue() )
 		{
-			DEFAULT_SHELL.updateDisplay( "Gift sent to " + recipient );
+			KoLmafia.updateDisplay( "Gift sent to " + recipient );
 			setTitle( "Gift sent to " + recipient );
 			return true;
 		}
 		else
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipient );
+			KoLmafia.updateDisplay( ERROR_STATE, "Failed to send gift to " + recipient );
 			setTitle( "Failed to send gift to " + recipient );
 			return false;
 		}

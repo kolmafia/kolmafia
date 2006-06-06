@@ -350,7 +350,7 @@ public class ItemManageFrame extends KoLFrame
 			{
 				if ( sellType == AutoSellRequest.AUTOMALL && !KoLCharacter.hasStore() )
 				{
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't own a store in the mall.");
+					KoLmafia.updateDisplay( ERROR_STATE, "You don't own a store in the mall.");
 					return;
 				}
 
@@ -404,7 +404,7 @@ public class ItemManageFrame extends KoLFrame
 
 				if ( !KoLCharacter.hasDisplayCase() )
 				{
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't own a display case in the Cannon Museum.");
+					KoLmafia.updateDisplay( ERROR_STATE, "You don't own a display case in the Cannon Museum.");
 					return;
 				}
 
@@ -518,7 +518,7 @@ public class ItemManageFrame extends KoLFrame
 				Matcher selectMatcher = Pattern.compile( "<select.*?</select>" ).matcher( request.responseText );
 				if ( !selectMatcher.find() )
 				{
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Method not currently available." );
+					KoLmafia.updateDisplay( ERROR_STATE, "Method not currently available." );
 					return;
 				}
 
@@ -555,16 +555,16 @@ public class ItemManageFrame extends KoLFrame
 				// Begin testing every single possible combination.
 
 				AdventureResult [] currentTest = new AdventureResult[2];
-				for ( int i = 0; i < coreArray.length && StaticEntity.getClient().permitsContinue(); ++i )
+				for ( int i = 0; i < coreArray.length && KoLmafia.permitsContinue(); ++i )
 				{
-					for ( int j = 0; j < availableArray.length && StaticEntity.getClient().permitsContinue(); ++j )
+					for ( int j = 0; j < availableArray.length && KoLmafia.permitsContinue(); ++j )
 					{
 						currentTest[0] = coreArray[i];
 						currentTest[1] = availableArray[j];
 
 						if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
 						{
-							DEFAULT_SHELL.updateDisplay( "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
+							KoLmafia.updateDisplay( "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
 							request.addFormField( "item1", String.valueOf( currentTest[0].getItemID() ) );
 							request.addFormField( "item2", String.valueOf( currentTest[1].getItemID() ) );
 
@@ -572,14 +572,14 @@ public class ItemManageFrame extends KoLFrame
 
 							if ( request.responseText.indexOf( "You acquire" ) != -1 )
 							{
-								DEFAULT_SHELL.updateDisplay( "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
+								KoLmafia.updateDisplay( "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() );
 								return;
 							}
 						}
 					}
 				}
 
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No new item combinations were found." );
+				KoLmafia.updateDisplay( ERROR_STATE, "No new item combinations were found." );
 				return;
 			}
 
@@ -595,7 +595,7 @@ public class ItemManageFrame extends KoLFrame
 				Matcher selectMatcher = Pattern.compile( "<select.*?</select>" ).matcher( request.responseText );
 				if ( !selectMatcher.find() )
 				{
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Method not currently available." );
+					KoLmafia.updateDisplay( ERROR_STATE, "Method not currently available." );
 					return;
 				}
 
@@ -632,11 +632,11 @@ public class ItemManageFrame extends KoLFrame
 				// Begin testing every single possible combination.
 
 				AdventureResult [] currentTest = new AdventureResult[3];
-				for ( int i = 0; i < coreArray.length && StaticEntity.getClient().permitsContinue(); ++i )
+				for ( int i = 0; i < coreArray.length && KoLmafia.permitsContinue(); ++i )
 				{
-					for ( int j = 0; j < availableArray.length && StaticEntity.getClient().permitsContinue(); ++j )
+					for ( int j = 0; j < availableArray.length && KoLmafia.permitsContinue(); ++j )
 					{
-						for ( int k = j; k < availableArray.length && StaticEntity.getClient().permitsContinue(); ++k )
+						for ( int k = j; k < availableArray.length && KoLmafia.permitsContinue(); ++k )
 						{
 							currentTest[0] = coreArray[i];
 							currentTest[1] = availableArray[j];
@@ -644,7 +644,7 @@ public class ItemManageFrame extends KoLFrame
 
 							if ( !ConcoctionsDatabase.isKnownCombination( currentTest ) )
 							{
-								DEFAULT_SHELL.updateDisplay( "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
+								KoLmafia.updateDisplay( "Testing combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
 								request.addFormField( "item1", String.valueOf( currentTest[0].getItemID() ) );
 								request.addFormField( "item2", String.valueOf( currentTest[1].getItemID() ) );
 								request.addFormField( "item3", String.valueOf( currentTest[1].getItemID() ) );
@@ -653,7 +653,7 @@ public class ItemManageFrame extends KoLFrame
 
 								if ( request.responseText.indexOf( "You acquire" ) != -1 )
 								{
-									DEFAULT_SHELL.updateDisplay( "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
+									KoLmafia.updateDisplay( "Found new item combination: " + currentTest[0].getName() + " + " + currentTest[1].getName() + " + " + currentTest[2].getName() );
 									return;
 								}
 							}
@@ -661,7 +661,7 @@ public class ItemManageFrame extends KoLFrame
 					}
 				}
 
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No new item combinations were found." );
+				KoLmafia.updateDisplay( ERROR_STATE, "No new item combinations were found." );
 				return;
 			}
 		}
@@ -744,7 +744,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( quantityDesired < 1 )
 					return;
 
-				DEFAULT_SHELL.updateDisplay( "Verifying ingredients..." );
+				KoLmafia.updateDisplay( "Verifying ingredients..." );
 				selection.setQuantityNeeded( quantityDesired );
 				(new RequestThread( selection )).start();
 			}

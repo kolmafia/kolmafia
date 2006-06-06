@@ -71,7 +71,7 @@ public class MoneyMakingGameFrame extends KoLFrame
 			MoneyMakingGameRequest analyzer = new MoneyMakingGameRequest( StaticEntity.getClient() );
 			analyzer.run();
 			elementList.setModel( analyzer.getBetSummary() );
-			DEFAULT_SHELL.updateDisplay( "Bet archive retrieved." );
+			KoLmafia.updateDisplay( "Bet archive retrieved." );
 		}
 
 		public void actionCancelled()

@@ -110,7 +110,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		if ( this.creator == null )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Frame could not be loaded." );
 			return;
 		}
 
@@ -162,7 +162,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 				if ( result.equals( Boolean.TRUE ) )
 				{
-					DEFAULT_SHELL.updateDisplay( "You can't do that while adventuring." );
+					KoLmafia.updateDisplay( "You can't do that while adventuring." );
 					return false;
 				}
 			}

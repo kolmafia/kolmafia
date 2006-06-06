@@ -89,7 +89,7 @@ public class MicrobreweryRequest extends KoLRequest
 	{
 		if ( !KoLCharacter.inMoxieSign() || !KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't find the micromicrobrewery." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the micromicrobrewery." );
 			return;
 		}
 
@@ -97,24 +97,24 @@ public class MicrobreweryRequest extends KoLRequest
 		{
 			if ( price == 0 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The micromicromicrobrewery doesn't sell that." );
+				KoLmafia.updateDisplay( ERROR_STATE, "The micromicromicrobrewery doesn't sell that." );
 				return;
 			}
 
 			if ( price > KoLCharacter.getAvailableMeat() )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient funds." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds." );
 				return;
 			}
 
 			if ( !KoLCharacter.canDrink() )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't drink. Why are you here?" );
+				KoLmafia.updateDisplay( ERROR_STATE, "You can't drink. Why are you here?" );
 				return;
 			}
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Visiting the micromicrobrewery..." );
+		KoLmafia.updateDisplay( "Visiting the micromicrobrewery..." );
 		super.run();
 	}
 
@@ -124,20 +124,20 @@ public class MicrobreweryRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You're way too drunk already." ) != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Consumption limit reached." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Consumption limit reached." );
 				return;
 			}
-			
+
 			if ( responseText.indexOf( "You can't afford that item.") != -1 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient funds." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds." );
 				return;
 			}
 
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
 			super.processResults();
 
-			DEFAULT_SHELL.updateDisplay( "Drink purchased." );
+			KoLmafia.updateDisplay( "Drink purchased." );
 			return;
 		}
 
@@ -150,6 +150,6 @@ public class MicrobreweryRequest extends KoLRequest
 			client.getMicrobreweryItems().add( purchaseMatcher.group(1) );
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Menu retrieved." );
+		KoLmafia.updateDisplay( "Menu retrieved." );
 	}
 }

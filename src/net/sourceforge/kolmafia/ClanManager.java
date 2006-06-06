@@ -133,7 +133,7 @@ public class ClanManager extends StaticEntity
 
 		public void run()
 		{
-			DEFAULT_SHELL.updateDisplay( "Retrieving list of ranks..." );
+			KoLmafia.updateDisplay( "Retrieving list of ranks..." );
 			super.run();
 
 			rankList.clear();
@@ -147,7 +147,7 @@ public class ClanManager extends StaticEntity
 					rankList.add( rankMatcher.group(1).toLowerCase() );
 			}
 
-			DEFAULT_SHELL.updateDisplay( "List of ranks retrieved." );
+			KoLmafia.updateDisplay( "List of ranks retrieved." );
 		}
 	}
 
@@ -162,7 +162,7 @@ public class ClanManager extends StaticEntity
 			clanName = cmr.getClanName();
 
 			SNAPSHOT_DIRECTORY = "clan" + File.separator + clanID + File.separator + DIRECTORY_FORMAT.format( new Date() ) + File.separator;
-			DEFAULT_SHELL.updateDisplay( "Clan data retrieved." );
+			KoLmafia.updateDisplay( "Clan data retrieved." );
 		}
 	}
 
@@ -236,15 +236,15 @@ public class ClanManager extends StaticEntity
 		// Now that it's known what the user wishes to continue,
 		// you begin initializing all the data.
 
-		DEFAULT_SHELL.updateDisplay( "Processing request..." );
+		KoLmafia.updateDisplay( "Processing request..." );
 
 		// Create a special HTML file for each of the
 		// players in the ClanSnapshotTable so that it can be
 		// navigated at leisure.
 
-		for ( int i = 0; i < names.length && client.permitsContinue(); ++i )
+		for ( int i = 0; i < names.length && KoLmafia.permitsContinue(); ++i )
 		{
-			DEFAULT_SHELL.updateDisplay( "Examining member " + (i+1) + " of " + names.length + "..." );
+			KoLmafia.updateDisplay( "Examining member " + (i+1) + " of " + names.length + "..." );
 
 			currentProfile = (String) profileMap.get( names[i] );
 			currentAscensionData = (String) ascensionMap.get( names[i] );
@@ -472,7 +472,7 @@ public class ClanManager extends StaticEntity
 
 		if ( !retrieveMemberData( retrieveProfileData, retrieveAscensionData ) )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Initialization failed." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Initialization failed." );
 			return;
 		}
 		if( standardFile != null)
@@ -488,7 +488,7 @@ public class ClanManager extends StaticEntity
 
 			if ( generateSnapshot )
 			{
-				DEFAULT_SHELL.updateDisplay( "Storing clan snapshot..." );
+				KoLmafia.updateDisplay( "Storing clan snapshot..." );
 
 				ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
 				ostream.println( ClanSnapshotTable.getStandardData() );
@@ -506,7 +506,7 @@ public class ClanManager extends StaticEntity
 
 			if ( retrieveAscensionData )
 			{
-				DEFAULT_SHELL.updateDisplay( "Storing ascension snapshot..." );
+				KoLmafia.updateDisplay( "Storing ascension snapshot..." );
 
 				ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
 				ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
@@ -526,7 +526,7 @@ public class ClanManager extends StaticEntity
 			return;
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Snapshot generation completed." );
+		KoLmafia.updateDisplay( "Snapshot generation completed." );
 
 		try
 		{
@@ -607,9 +607,9 @@ public class ClanManager extends StaticEntity
 				file.delete();
 			}
 
-			DEFAULT_SHELL.updateDisplay( "Retrieving clan stash log..." );
+			KoLmafia.updateDisplay( "Retrieving clan stash log..." );
 			(new StashLogRequest( client )).run();
-			DEFAULT_SHELL.updateDisplay( "Stash log retrieved." );
+			KoLmafia.updateDisplay( "Stash log retrieved." );
 
 			file.getParentFile().mkdirs();
 			file.createNewFile();

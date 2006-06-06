@@ -214,7 +214,7 @@ public class ClanManageFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			if ( isBuffing )
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Purchase attempts cancelled." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Purchase attempts cancelled." );
 		}
 	}
 
@@ -302,14 +302,14 @@ public class ClanManageFrame extends KoLFrame
 
 			public void run()
 			{
-				DEFAULT_SHELL.updateDisplay( "Purchasing clan materials..." );
+				KoLmafia.updateDisplay( "Purchasing clan materials..." );
 
 				super.run();
 
 				// Theoretically, there should be a test for error state,
 				// but because I'm lazy, that's not happening.
 
-				DEFAULT_SHELL.updateDisplay( "Purchase request processed." );
+				KoLmafia.updateDisplay( "Purchase request processed." );
 			}
 		}
 	}
@@ -439,7 +439,7 @@ public class ClanManageFrame extends KoLFrame
 			public void run()
 			{
 				ClanManager.applyFilter( matchSelect.getSelectedIndex() - 1, parameterSelect.getSelectedIndex(), valueField.getText() );
-				DEFAULT_SHELL.updateDisplay( "Search results retrieved." );
+				KoLmafia.updateDisplay( "Search results retrieved." );
 			}
 		}
 
@@ -451,7 +451,7 @@ public class ClanManageFrame extends KoLFrame
 		{
 			public void run()
 			{
-				DEFAULT_SHELL.updateDisplay( "Determining changes..." );
+				KoLmafia.updateDisplay( "Determining changes..." );
 
 				List titleChange = new ArrayList();
 				List newTitles = new ArrayList();
@@ -479,9 +479,9 @@ public class ClanManageFrame extends KoLFrame
 					}
 				}
 
-				DEFAULT_SHELL.updateDisplay( "Applying changes..." );
+				KoLmafia.updateDisplay( "Applying changes..." );
 				(new ClanMembersRequest( StaticEntity.getClient(), titleChange.toArray(), newTitles.toArray(), boots.toArray() )).run();
-				DEFAULT_SHELL.updateDisplay( "Changes have been applied." );
+				KoLmafia.updateDisplay( "Changes have been applied." );
 			}
 		}
 	}

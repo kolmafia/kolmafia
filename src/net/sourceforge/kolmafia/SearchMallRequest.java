@@ -113,11 +113,11 @@ public class SearchMallRequest extends KoLRequest
 		this.results = results;
 		this.retainAll = retainAll;
 	}
-	
+
 	private String getItemName( String searchString )
 	{
 		String itemName = searchString;
-	
+
 		if ( itemName.startsWith( "\"" ) || itemName.startsWith( "\'" ) )
 		{
 		}
@@ -176,7 +176,7 @@ public class SearchMallRequest extends KoLRequest
 
 		if ( searchString == null || searchString.trim().length() == 0 )
 		{
-			DEFAULT_SHELL.updateDisplay( retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
+			KoLmafia.updateDisplay( retainAll ? "Scanning store inventories..." : "Looking up favorite stores list..." );
 		}
 		else
 		{
@@ -198,7 +198,7 @@ public class SearchMallRequest extends KoLRequest
 				return;
 			}
 
-			DEFAULT_SHELL.updateDisplay( "Searching for items..." );
+			KoLmafia.updateDisplay( "Searching for items..." );
 		}
 
 		// Otherwise, conduct the normal mall search, processing
@@ -252,7 +252,7 @@ public class SearchMallRequest extends KoLRequest
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e );
 					return;
 				}
@@ -273,7 +273,7 @@ public class SearchMallRequest extends KoLRequest
 				results.addAll( individualStore.results );
 			}
 
-			DEFAULT_SHELL.updateDisplay( "Search complete." );
+			KoLmafia.updateDisplay( "Search complete." );
 		}
 	}
 

@@ -59,17 +59,17 @@ public class ZapRequest extends KoLRequest
 	{
 		if ( !KoLCharacter.getInventory().contains( wand ) )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have a " + wand.getName() + "." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + wand.getName() + "." );
 			return;
 		}
 
 		if ( !KoLCharacter.getInventory().contains( item ) )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have a " + item.getName() + "." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + item.getName() + "." );
 			return;
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Zapping " + item.getName() + "..." );
+		KoLmafia.updateDisplay( "Zapping " + item.getName() + "..." );
 		super.run();
 	}
 
@@ -80,7 +80,7 @@ public class ZapRequest extends KoLRequest
 
 		if ( responseText.indexOf( "nothing happens" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "The " + item.getName() + " is not zappable." );
+			KoLmafia.updateDisplay( ERROR_STATE, "The " + item.getName() + " is not zappable." );
 			return;
 		}
 
@@ -90,7 +90,7 @@ public class ZapRequest extends KoLRequest
 
 		// Remove old item and notify the user of success.
 		client.processResult( item.getInstance( -1 ) );
-		DEFAULT_SHELL.updateDisplay( item.getName() + " has been transformed." );
+		KoLmafia.updateDisplay( item.getName() + " has been transformed." );
 		super.processResults();
 	}
 }

@@ -81,17 +81,17 @@ public class TrapperRequest extends KoLRequest
 	{
 		if ( quantity == 0 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You do not have any furs." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You do not have any furs." );
 			return;
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Robbing the trapper..." );
+		KoLmafia.updateDisplay( "Robbing the trapper..." );
 		super.run();
 	}
 
 	protected void processResults()
 	{
-		DEFAULT_SHELL.updateDisplay( "Trapper has been looted." );
+		KoLmafia.updateDisplay( "Trapper has been looted." );
 		client.processResult( YETI_FUR.getInstance( 0 - quantity ) );
 		super.processResults();
 	}

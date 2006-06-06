@@ -86,7 +86,7 @@ public class MuseumManager extends StaticEntity
 		// on the client to reflect the change.
 
 		save( MuseumManager.shelves );
-		DEFAULT_SHELL.updateDisplay( "Display case updated." );
+		KoLmafia.updateDisplay( "Display case updated." );
 	}
 
 	public static void reorder( String [] headers )
@@ -149,7 +149,7 @@ public class MuseumManager extends StaticEntity
 
 		request.run();
 		(new MuseumRequest( client )).run();
-		DEFAULT_SHELL.updateDisplay( "Display case updated." );
+		KoLmafia.updateDisplay( "Display case updated." );
 	}
 
 	private static void save( List shelfOrder )

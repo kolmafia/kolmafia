@@ -70,7 +70,7 @@ public class BountyHunterRequest extends KoLRequest
 			if ( itemTraded.getCount() == 0 )
 				return;
 
-			DEFAULT_SHELL.updateDisplay( "Hunting rabbits (or something)..." );
+			KoLmafia.updateDisplay( "Hunting rabbits (or something)..." );
 		}
 
 		super.run();
@@ -83,7 +83,7 @@ public class BountyHunterRequest extends KoLRequest
 		if ( isExchange )
 		{
 			client.processResult( itemTraded.getNegation() );
-			DEFAULT_SHELL.updateDisplay( "Items successfully sold to hunter." );
+			KoLmafia.updateDisplay( "Items successfully sold to hunter." );
 			return;
 		}
 

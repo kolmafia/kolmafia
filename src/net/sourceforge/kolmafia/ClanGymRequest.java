@@ -128,18 +128,18 @@ public class ClanGymRequest extends KoLRequest
 	{
 		if ( KoLCharacter.getAdventuresLeft() < turnCount )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Insufficient adventures." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient adventures." );
 			return;
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Beginning workout..." );
+		KoLmafia.updateDisplay( "Beginning workout..." );
 		super.run();
 	}
 
 	protected void processResults()
 	{
 		super.processResults();
-		DEFAULT_SHELL.updateDisplay( "Workout completed." );
+		KoLmafia.updateDisplay( "Workout completed." );
 	}
 
 	/**

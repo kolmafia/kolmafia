@@ -195,14 +195,14 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private static void chooseNewLoginServer()
 	{
-		DEFAULT_SHELL.updateDisplay( "Choosing new login server..." );
+		KoLmafia.updateDisplay( "Choosing new login server..." );
 		for ( int i = 0; i < SERVERS.length; ++i )
 			if ( SERVERS[i][0].equals( KOL_HOST ) )
 			{
 				int next = ( i + 1 ) % SERVERS.length;
 				KOL_HOST = SERVERS[next][0];
 				KOL_ROOT = "http://" + SERVERS[next][1] + "/";
-				DEFAULT_SHELL.updateDisplay( KOL_HOST + " selected." );
+				KoLmafia.updateDisplay( KOL_HOST + " selected." );
 				return;
 			}
 	}
@@ -498,12 +498,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( !isDelayExempt() && client.refusesContinue() )
+		if ( !isDelayExempt() && KoLmafia.refusesContinue() )
 			return;
 
 		if ( !isDelayExempt() && !(this instanceof FightRequest) && client.getCurrentRequest() instanceof FightRequest && client.getCurrentRequest().getAdventuresUsed() == 0 )
 		{
-			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Unexpected request attempted mid-fight." );
+			KoLmafia.updateDisplay( ABORT_STATE, "Unexpected request attempted mid-fight." );
 			return;
 		}
 
@@ -844,12 +844,12 @@ public class KoLRequest implements Runnable, KoLConstants
 				// If the system is down for maintenance, the user must be
 				// notified that they should try again later.
 
-				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Nightly maintenance." );
+				KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
 				shouldStop = true;
 			}
 			else if ( redirectLocation.startsWith( "login.php" ) )
 			{
-				DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Session timed out." );
+				KoLmafia.updateDisplay( ABORT_STATE, "Session timed out." );
 				shouldStop = true;
 			}
 			else if ( followRedirects )
@@ -1183,7 +1183,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// be a bug in KoL itself. Bail now and let the user
 			// finish by hand.
 
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
 			request.showInBrowser( true );
 			return false;
 		}
@@ -1197,7 +1197,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( decision == null )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
+			KoLmafia.updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
 			request.showInBrowser( true );
 			return false;
 		}
@@ -1216,7 +1216,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( decision.equals( "0" ) )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
+			KoLmafia.updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
 			request.showInBrowser( true );
 			return false;
 		}

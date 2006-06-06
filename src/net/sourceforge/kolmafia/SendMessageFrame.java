@@ -260,7 +260,7 @@ public abstract class SendMessageFrame extends KoLFrame
 
 			if ( recipients.length > 11 )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Maximum number of users exceeded." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Maximum number of users exceeded." );
 				return;
 			}
 
@@ -273,11 +273,11 @@ public abstract class SendMessageFrame extends KoLFrame
 			// If one of them fails, however, immediately stop
 			// and notify the user that there was failure.
 
-			for ( int i = 0; i < recipients.length && StaticEntity.getClient().permitsContinue(); ++i )
+			for ( int i = 0; i < recipients.length && KoLmafia.permitsContinue(); ++i )
 				if ( !sendMessage( recipients[i], messages ) )
 					return;
 
-			if ( StaticEntity.getClient().permitsContinue() )
+			if ( KoLmafia.permitsContinue() )
 			{
 				recipientEntry.setSelectedIndex( -1 );
 				dispose();

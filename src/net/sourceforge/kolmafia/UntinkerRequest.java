@@ -68,7 +68,7 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( itemID == -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( "Visiting the Untinker..." );
+			KoLmafia.updateDisplay( "Visiting the Untinker..." );
 			super.run();
 			return;
 		}
@@ -79,7 +79,7 @@ public class UntinkerRequest extends KoLRequest
 
 		if ( ConcoctionsDatabase.getMixingMethod( itemID ) != ItemCreationRequest.COMBINE )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You cannot untinker that item." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You cannot untinker that item." );
 			return;
 		}
 
@@ -87,7 +87,7 @@ public class UntinkerRequest extends KoLRequest
 		// before starting.
 
 		if ( KoLCharacter.getLevel() < 4 )
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You cannot untinker items yet." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You cannot untinker items yet." );
 
 		// If the person does not have the accomplishment, visit
 		// the untinker to ensure that they get the quest.
@@ -103,7 +103,7 @@ public class UntinkerRequest extends KoLRequest
 			// They've completed the quest but have nothing the
 			// Untinker is willing to work on.
 
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have that item in your inventory." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have that item in your inventory." );
 			return;
 		}
 
@@ -143,7 +143,7 @@ public class UntinkerRequest extends KoLRequest
 				DEFAULT_SHELL.executeLine( "adventure * degrassi" );
 				if ( !client.getConditions().isEmpty() )
 				{
-					DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
+					KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
 					client.getConditions().clear();
 					client.getConditions().addAll( temporary );
 					return;
@@ -166,10 +166,10 @@ public class UntinkerRequest extends KoLRequest
 		if ( KoLCharacter.getInventory().contains( SCREWDRIVER ) )
 			client.processResult( SCREWDRIVER );
 
-		DEFAULT_SHELL.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
+		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );
 
 		super.run();
-		DEFAULT_SHELL.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) + "." );
+		KoLmafia.updateDisplay( "Successfully untinkered " + TradeableItemDatabase.getItemName( itemID ) + "." );
 	}
 
 	protected void processResults()

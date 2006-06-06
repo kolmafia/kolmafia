@@ -84,22 +84,6 @@ public class KoLmafiaGUI extends KoLmafia
 	}
 
 	/**
-	 * Updates the currently active display in the <code>KoLmafia</code>
-	 * session.
-	 */
-
-	public void updateDisplay( int state, String message )
-	{
-		// Only allow message to propogate if you
-		// are currently NOT in an abort state.
-
-		if ( currentState == ABORT_STATE && state != ABORT_STATE )
-			return;
-
-		super.updateDisplay( state, message );
-	}
-
-	/**
 	 * Initializes the <code>KoLmafia</code> session.  Called after
 	 * the login has been confirmed to notify the client that the
 	 * login was successful, the user-specific settings should be
@@ -178,7 +162,7 @@ public class KoLmafiaGUI extends KoLmafia
 		loginWindow.dispose();
 
 		if ( KoLMailManager.hasNewMessages() )
-			DEFAULT_SHELL.updateDisplay( "You have new mail." );
+			updateDisplay( "You have new mail." );
 	}
 
 	public static void constructFrame( String frameName )

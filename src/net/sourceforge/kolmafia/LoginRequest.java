@@ -104,11 +104,11 @@ public class LoginRequest extends KoLRequest
 
 	public void executeLogin()
 	{
-		DEFAULT_SHELL.updateDisplay( "Determining login server..." );
+		KoLmafia.updateDisplay( "Determining login server..." );
 		KoLRequest.applySettings();
 
-		DEFAULT_SHELL.updateDisplay( KoLRequest.getRootHostName() + " selected." );
-		DEFAULT_SHELL.updateDisplay( "Sending login..." );
+		KoLmafia.updateDisplay( KoLRequest.getRootHostName() + " selected." );
+		KoLmafia.updateDisplay( "Sending login..." );
 
 		super.run();
 
@@ -136,7 +136,7 @@ public class LoginRequest extends KoLRequest
 			// This means that the login failed.  Therefore, the user should
 			// re-input their username and password.
 
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Login failed." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Login failed." );
 		}
 	}
 }

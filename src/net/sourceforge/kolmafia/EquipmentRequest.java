@@ -115,7 +115,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	{
 		super( client, "inv_equip.php" );
 		addFormField( "which", "2" );
-		
+
 		addFormField( "action", "customoutfit" );
 		addFormField( "outfitname", outfitName );
 		requestType = SAVE_OUTFIT;
@@ -179,7 +179,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	private String getAction()
 	{
 		AdventureResult item = new AdventureResult( itemID, 0 );
-		if ( equipmentSlot != KoLCharacter.FAMILIAR && 
+		if ( equipmentSlot != KoLCharacter.FAMILIAR &&
 		     item.getCount( KoLCharacter.getInventory() ) == 0 )
 		{
 			error = "You don't have a " + item.getName();
@@ -317,7 +317,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// If we were given bogus parameters, report the error now
 		if ( error != null )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, error );
+			KoLmafia.updateDisplay( ERROR_STATE, error );
 			return;
 		}
 
@@ -359,7 +359,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				client.getConditions().addAll( temporaryList );
 
 				// Bail now if the conditions were not met
-				if ( !client.permitsContinue() )
+				if ( !KoLmafia.permitsContinue() )
 					return;
 			}
 		}
@@ -392,7 +392,7 @@ public class EquipmentRequest extends PasswordHashRequest
 						{
 							if ( familiars[i].getItem() != null && familiars[i].getItem().indexOf( changeItemName ) != -1 )
 							{
-								DEFAULT_SHELL.updateDisplay( "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
+								KoLmafia.updateDisplay( "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
 								KoLRequest unequip = new KoLRequest( client, "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID(), true );
 								unequip.run();
 
@@ -420,35 +420,35 @@ public class EquipmentRequest extends PasswordHashRequest
 		switch ( requestType )
 		{
 			case CLOSET:
-				DEFAULT_SHELL.updateDisplay( "Refreshing closet..." );
+				KoLmafia.updateDisplay( "Refreshing closet..." );
 				break;
 
 			case EQUIPMENT:
-				DEFAULT_SHELL.updateDisplay( "Retrieving equipment..." );
+				KoLmafia.updateDisplay( "Retrieving equipment..." );
 				break;
 
 			case SAVE_OUTFIT:
-				DEFAULT_SHELL.updateDisplay( "Saving outfit..." );
+				KoLmafia.updateDisplay( "Saving outfit..." );
 				break;
-				
+
 			case CHANGE_OUTFIT:
-				DEFAULT_SHELL.updateDisplay( "Putting on " + outfit + "..." );
+				KoLmafia.updateDisplay( "Putting on " + outfit + "..." );
 				break;
 
 			case CHANGE_ITEM:
-				DEFAULT_SHELL.updateDisplay( ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON ? "Wielding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
+				KoLmafia.updateDisplay( ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON ? "Wielding " : "Putting on " ) + TradeableItemDatabase.getItemName( itemID ) + "..." );
 				break;
 
 			case REMOVE_ITEM:
 				String item = KoLCharacter.getCurrentEquipmentName( equipmentSlot);
 				if ( item == null )
 					return;
-				
-				DEFAULT_SHELL.updateDisplay( "Taking off " + item + "..." );
+
+				KoLmafia.updateDisplay( "Taking off " + item + "..." );
 				break;
 
 			case UNEQUIP_ALL:
-				DEFAULT_SHELL.updateDisplay( "Taking off everything..." );
+				KoLmafia.updateDisplay( "Taking off everything..." );
 				break;
 		}
 
@@ -478,7 +478,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			{
 				parseCloset();
 				super.processResults();
-				DEFAULT_SHELL.updateDisplay( "Inventory retrieved." );
+				KoLmafia.updateDisplay( "Inventory retrieved." );
 			}
 			else
 			{
@@ -506,11 +506,11 @@ public class EquipmentRequest extends PasswordHashRequest
 				KoLCharacter.updateStatus();
 
 				if ( requestType == EQUIPMENT )
-					DEFAULT_SHELL.updateDisplay( "Equipment updated." );
+					KoLmafia.updateDisplay( "Equipment updated." );
 				else if ( requestType == SAVE_OUTFIT )
-					DEFAULT_SHELL.updateDisplay( "Outfit saved." );
+					KoLmafia.updateDisplay( "Outfit saved." );
 				else
-					DEFAULT_SHELL.updateDisplay( "Gear changed." );
+					KoLmafia.updateDisplay( "Gear changed." );
 			}
 
 			// After all the items have been switched,
@@ -522,7 +522,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -574,7 +574,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}
@@ -618,7 +618,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}

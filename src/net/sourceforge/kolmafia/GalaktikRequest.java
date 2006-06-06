@@ -81,17 +81,17 @@ public class GalaktikRequest extends KoLRequest
 	{
 		if ( price == 0 )
 		{
-			DEFAULT_SHELL.updateDisplay( CONTINUE_STATE, "You don't need that cure." );
+			KoLmafia.updateDisplay( CONTINUE_STATE, "You don't need that cure." );
 			return;
 		}
 
 		if ( price > KoLCharacter.getAvailableMeat() )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need " + ( price - KoLCharacter.getAvailableMeat() ) + " more meat." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You need " + ( price - KoLCharacter.getAvailableMeat() ) + " more meat." );
 			return;
 		}
 
-		DEFAULT_SHELL.updateDisplay( "Visiting Doc Galaktik..." );
+		KoLmafia.updateDisplay( "Visiting Doc Galaktik..." );
 		super.run();
 	}
 
@@ -121,7 +121,7 @@ public class GalaktikRequest extends KoLRequest
 			// This will only happen if we didn't track HP/MP
 			// correctly.
 
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't afford that cure." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't afford that cure." );
 			return;
 		}
 
@@ -133,7 +133,7 @@ public class GalaktikRequest extends KoLRequest
 			client.processResult( new AdventureResult( AdventureResult.MP, KoLCharacter.getMaximumMP() ) );
 
 		super.processResults();
-		DEFAULT_SHELL.updateDisplay( "Cure purchased." );
+		KoLmafia.updateDisplay( "Cure purchased." );
 	}
 
 	public String getCommandForm( int iterations )

@@ -427,7 +427,6 @@ public class RequestFrame extends KoLFrame
 
 			mainBuffer.append( renderText );
 			mainDisplay.setCaretPosition( 0 );
-			System.gc();
 		}
 
 		private void updateClient()

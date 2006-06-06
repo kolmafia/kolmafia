@@ -140,7 +140,7 @@ public class AdventureRequest extends KoLRequest
 		// Prevent the request from happening if the client attempted
 		// to cancel in the delay period.
 
-		if ( !client.permitsContinue() )
+		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		if ( getProperty( "cloverProtectActive" ).equals( "true" ) )
@@ -168,7 +168,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.trim().length() == 0 )
 		{
-			DEFAULT_SHELL.updateDisplay( "Empty response from server.  Retrying..." );
+			KoLmafia.updateDisplay( "Empty response from server.  Retrying..." );
 			this.run();
 			return;
 		}
@@ -179,7 +179,7 @@ public class AdventureRequest extends KoLRequest
 		if ( adventureID.equals( "80" ) && responseText.indexOf( "You shouldn't be here." ) != -1 )
 		{
 			(new AdventureRequest( client, "The Orc Chasm (Pre-Bridge)", "mountains.php", "" )).run();
-			if ( client.permitsContinue() )
+			if ( KoLmafia.permitsContinue() )
 				this.run();
 
 			return;
@@ -190,19 +190,19 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.indexOf( "You shouldn't be here." ) != -1 || responseText.indexOf( "not yet be accessible" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't get to that area yet." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't get to that area yet." );
 			return;
 		}
 
 		if ( responseText.indexOf( "into the spectral mists" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "No one may know of its coming or going." );
+			KoLmafia.updateDisplay( ERROR_STATE, "No one may know of its coming or going." );
 			return;
 		}
 
 		if ( responseText.indexOf( "temporal rift in the plains has closed" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "The temporal rift has closed." );
+			KoLmafia.updateDisplay( PENDING_STATE, "The temporal rift has closed." );
 			return;
 		}
 
@@ -211,7 +211,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.indexOf( "need some sort of protection" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need cold protection." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You need cold protection." );
 			return;
 		}
 
@@ -220,7 +220,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.indexOf( "need stench protection to adventure here" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need stench protection." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You need stench protection." );
 			return;
 		}
 
@@ -229,7 +229,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( responseText.indexOf( "No adventure data exists for this location" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( "Server error.  Repeating request..." );
+			KoLmafia.updateDisplay( "Server error.  Repeating request..." );
 			this.run();
 			return;
 		}
@@ -239,13 +239,13 @@ public class AdventureRequest extends KoLRequest
 		if ( responseText.indexOf( "This part of the cyrpt is already undefiled" ) != -1 ||
 		     responseText.indexOf( "You can't repeat an adventure here." ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Nothing more to do here." );
+			KoLmafia.updateDisplay( PENDING_STATE, "Nothing more to do here." );
 			return;
 		}
 
 		if ( responseText.indexOf( "You must have at least" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Your stats are too low for this location." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Your stats are too low for this location." );
 			return;
 		}
 
@@ -254,7 +254,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "knob.php" ) && responseText.indexOf( "You've already slain the Goblin King" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You already defeated the Goblin King." );
+			KoLmafia.updateDisplay( PENDING_STATE, "You already defeated the Goblin King." );
 			return;
 		}
 
@@ -263,13 +263,13 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "cyrpt.php" ) && responseText.indexOf( "Bonerdagon has been defeated" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "You already defeated the Bonerdagon." );
+			KoLmafia.updateDisplay( PENDING_STATE, "You already defeated the Bonerdagon." );
 			return;
 		}
 
 		if ( responseText.indexOf( "already undefiled" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Cyrpt area cleared." );
+			KoLmafia.updateDisplay( PENDING_STATE, "Cyrpt area cleared." );
 			return;
 		}
 
@@ -298,7 +298,7 @@ public class AdventureRequest extends KoLRequest
 				// Otherwise, the player is unable to cross the
 				// orc chasm at this time.
 
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
+				KoLmafia.updateDisplay( ERROR_STATE, "You can't cross the Orc Chasm." );
 				return;
 			}
 
@@ -326,7 +326,7 @@ public class AdventureRequest extends KoLRequest
 				if ( learnedMatcher.find() )
 					KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1) + " of Steel", "", 1 ) );
 
-				DEFAULT_SHELL.updateDisplay( PENDING_STATE, "Taint cleansed." );
+				KoLmafia.updateDisplay( PENDING_STATE, "Taint cleansed." );
 				return;
 			}
 
@@ -334,7 +334,7 @@ public class AdventureRequest extends KoLRequest
 			// "You don't appear to have all of the elements
 			// necessary to perform the ritual."
 
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't perform the ritual." );
 			return;
 		}
 
@@ -367,7 +367,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( formSource.equals( "trickortreat.php" ) && responseText.indexOf( "without a costume" ) != -1 )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You must wear a costume." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You must wear a costume." );
 			return;
 		}
 
@@ -444,7 +444,7 @@ public class AdventureRequest extends KoLRequest
 	}
 
 	public int getAdventuresUsed()
-	{	return client.permitsContinue() && ( responseText == null || responseText.indexOf( "oyster egg" ) == -1 ) ? adventuresUsed : 0;
+	{	return KoLmafia.permitsContinue() && ( responseText == null || responseText.indexOf( "oyster egg" ) == -1 ) ? adventuresUsed : 0;
 	}
 
 	public String toString()

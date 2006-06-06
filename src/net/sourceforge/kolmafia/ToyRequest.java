@@ -53,10 +53,10 @@ public class ToyRequest extends ItemCreationRequest
 
 		makeIngredients();
 
-		if ( !client.permitsContinue() )
+		if ( !KoLmafia.permitsContinue() )
 			return;
 
-		DEFAULT_SHELL.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );
+		KoLmafia.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );
 		addFormField( "quantity", String.valueOf( getQuantityNeeded() ) );
 		super.run();
 	}

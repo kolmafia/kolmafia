@@ -60,7 +60,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 
 	public void run()
 	{
-		DEFAULT_SHELL.updateDisplay( "Retrieving bet archive..." );
+		KoLmafia.updateDisplay( "Retrieving bet archive..." );
 		super.run();
 	}
 
@@ -198,7 +198,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 		}

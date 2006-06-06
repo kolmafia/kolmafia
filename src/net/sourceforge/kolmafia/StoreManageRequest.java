@@ -101,25 +101,25 @@ public class StoreManageRequest extends KoLRequest
 
 	private void viewStoreLogs()
 	{
-		DEFAULT_SHELL.updateDisplay( "Examining store logs..." );
+		KoLmafia.updateDisplay( "Examining store logs..." );
 		super.run();
 
 		StoreManager.parseLog( responseText );
-		DEFAULT_SHELL.updateDisplay( "Store purchase logs retrieved." );
+		KoLmafia.updateDisplay( "Store purchase logs retrieved." );
 	}
 
 	private void managePrices()
 	{
-		DEFAULT_SHELL.updateDisplay( "Requesting store inventory..." );
+		KoLmafia.updateDisplay( "Requesting store inventory..." );
 		super.run();
 
 		StoreManager.update( responseText, true );
-		DEFAULT_SHELL.updateDisplay( "Store inventory request complete." );
+		KoLmafia.updateDisplay( "Store inventory request complete." );
 	}
 
 	private void removeItem()
 	{
-		DEFAULT_SHELL.updateDisplay( "Removing " + TradeableItemDatabase.getItemName( this.takenItemID ) + " from store..." );
+		KoLmafia.updateDisplay( "Removing " + TradeableItemDatabase.getItemName( this.takenItemID ) + " from store..." );
 		AdventureResult takenItem = new AdventureResult( takenItemID, 0 );
 
 		super.run();
@@ -129,7 +129,7 @@ public class StoreManageRequest extends KoLRequest
 			client.processResult( takenItem.getInstance( Integer.parseInt( takenItemMatcher.group(1) ) - takenItem.getCount( KoLCharacter.getInventory() ) ) );
 
 		StoreManager.update( responseText, false );
-		DEFAULT_SHELL.updateDisplay( takenItem.getName() + " removed from your store." );
+		KoLmafia.updateDisplay( takenItem.getName() + " removed from your store." );
 	}
 
 	protected void processResults()

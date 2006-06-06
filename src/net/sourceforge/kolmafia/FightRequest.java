@@ -129,7 +129,7 @@ public class FightRequest extends KoLRequest
 
 			action1 = "attack";
 		}
-		else if ( action1.equals( "abort" ) || !client.permitsContinue() )
+		else if ( action1.equals( "abort" ) || !KoLmafia.permitsContinue() )
 		{
 			// If the user has chosen to abort
 			// combat, flag it.
@@ -221,9 +221,9 @@ public class FightRequest extends KoLRequest
 	{
 		nextRound();
 
-		if ( action1.equals( "..." ) || !client.permitsContinue() )
+		if ( action1.equals( "..." ) || !KoLmafia.permitsContinue() )
 		{
-			DEFAULT_SHELL.updateDisplay( ABORT_STATE, "Battle stopped.  Please finish in-browser." );
+			KoLmafia.updateDisplay( ABORT_STATE, "Battle stopped.  Please finish in-browser." );
 			showInBrowser( true );
 			return;
 		}
@@ -253,17 +253,17 @@ public class FightRequest extends KoLRequest
 			// The battle was won!  If the user canceled, say
 			// it's complete.
 
-			if ( !client.permitsContinue() )
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
+			if ( !KoLmafia.permitsContinue() )
+				KoLmafia.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
 
 			this.turnsUsed = 1;
 		}
 		else if ( responseText.indexOf( "You run away" ) != -1 )
 		{
-			if ( !client.permitsContinue() )
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
+			if ( !KoLmafia.permitsContinue() )
+				KoLmafia.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
 
-			this.turnsUsed = 1;			
+			this.turnsUsed = 1;
 		}
 		else if ( responseText.indexOf( "You lose." ) != -1 )
 		{
@@ -272,10 +272,10 @@ public class FightRequest extends KoLRequest
 			// also notify the client that an adventure was completed,
 			// but that the loop should be halted.
 
-			if ( !client.permitsContinue() )
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Battle completed, adventures aborted." );
+			if ( KoLmafia.refusesContinue() )
+				KoLmafia.updateDisplay( ABORT_STATE, "Battle completed, adventures aborted." );
 			else if ( KoLCharacter.getCurrentHP() == 0 )
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You were defeated!" );
+				KoLmafia.updateDisplay( ERROR_STATE, "You were defeated!" );
 
 			this.turnsUsed = 1;
 		}
@@ -341,7 +341,7 @@ public class FightRequest extends KoLRequest
 			if ( action2 != null )
 			{
 				int id2 = Integer.parseInt( action2.substring( 4 ) );
-			
+
 				if ( hasActionCost( id2 ) )
 					client.processResult( new AdventureResult( id2, -1 ) );
 			}

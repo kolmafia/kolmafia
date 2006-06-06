@@ -68,7 +68,7 @@ public class UneffectRequest extends KoLRequest
 			addFormField( "whicheffect", String.valueOf( effectID ) );
 		}
 	}
-	
+
 	private static final boolean isShruggable( String effectName )
 	{
 		int id = ClassSkillsDatabase.getSkillID( effectToSkill( effectName ) );
@@ -82,7 +82,7 @@ public class UneffectRequest extends KoLRequest
 	 * @param	effect	The name of the effect
 	 * @return	skill	The name of the skill
 	 */
-	
+
 	public static String effectToSkill( String effectName )
 	{
 		if ( effectName.equals( "Moxious Madrigal" ) ||
@@ -103,11 +103,11 @@ public class UneffectRequest extends KoLRequest
 	{
 		if ( !isShruggable && !KoLCharacter.getInventory().contains( REMEDY ) )
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
 			return;
 		}
 
-		DEFAULT_SHELL.updateDisplay( isShruggable ? "Shrugging off your buff..." : "Using soft green whatever..." );
+		KoLmafia.updateDisplay( isShruggable ? "Shrugging off your buff..." : "Using soft green whatever..." );
 		super.run();
 	}
 
@@ -119,15 +119,15 @@ public class UneffectRequest extends KoLRequest
 		if ( responseText != null && (isShruggable || responseText.indexOf( "Effect removed." ) != -1) )
 		{
 			KoLCharacter.getEffects().remove( effect );
-			
+
 			if ( isShruggable )
 				CharsheetRequest.parseStatus( responseText );
 			else
 				client.processResult( REMEDY );
 
-			DEFAULT_SHELL.updateDisplay( "Effect removed." );
+			KoLmafia.updateDisplay( "Effect removed." );
 		}
 		else if ( !isShruggable )
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Effect removal failed." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Effect removal failed." );
 	}
 }

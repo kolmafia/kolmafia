@@ -180,7 +180,7 @@ public abstract class SendMessageRequest extends KoLRequest
 					// For each broken-up request, you create a new ItemStorage request
 					// which will create the appropriate data to post.
 
-					if ( client.permitsContinue() )
+					if ( KoLmafia.permitsContinue() )
 						repeat( nextAttachments );
 
 					currentBaseIndex += getCapacity();
@@ -244,9 +244,9 @@ public abstract class SendMessageRequest extends KoLRequest
 		}
 		else
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Item/meat attachment failed." );
+			KoLmafia.updateDisplay( ERROR_STATE, "Item/meat attachment failed." );
 		}
-		
+
 		super.processResults();
 	}
 }

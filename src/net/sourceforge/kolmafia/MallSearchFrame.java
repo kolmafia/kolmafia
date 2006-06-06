@@ -136,7 +136,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		{
 			if ( currentlyBuying )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Purchases stopped." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Purchases stopped." );
 				return;
 			}
 
@@ -176,12 +176,7 @@ public class MallSearchFrame extends KoLPanelFrame
 		if ( results != request.getResults() )
 			results.addAll( request.getResults() );
 
-		DEFAULT_SHELL.updateDisplay( results.size() == 0 ? "No results found." : "Search complete." );
-
-		// Now, do some garbage collection to avoid the
-		// potential for resource overusage.
-
-		System.gc();
+		KoLmafia.updateDisplay( results.size() == 0 ? "No results found." : "Search complete." );
 	}
 
 	private String getPurchaseSummary( Object [] purchases )

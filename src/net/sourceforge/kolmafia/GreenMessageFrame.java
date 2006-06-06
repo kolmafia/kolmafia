@@ -67,15 +67,15 @@ public class GreenMessageFrame extends SendMessageFrame
 		(new GreenMessageRequest( StaticEntity.getClient(), recipient, messages[0], getAttachedItems(), getAttachedMeat() )).run();
 		GreenMessageFrame.this.setEnabled( true );
 
-		if ( StaticEntity.getClient().permitsContinue() )
+		if ( KoLmafia.permitsContinue() )
 		{
-			DEFAULT_SHELL.updateDisplay( "Message sent to " + recipient );
+			KoLmafia.updateDisplay( "Message sent to " + recipient );
 			setTitle( "Message sent to " + recipient );
 			return true;
 		}
 		else
 		{
-			DEFAULT_SHELL.updateDisplay( ERROR_STATE, "Failed to send message to " + recipient );
+			KoLmafia.updateDisplay( ERROR_STATE, "Failed to send message to " + recipient );
 			setTitle( "Failed to send message to " + recipient );
 			return false;
 		}

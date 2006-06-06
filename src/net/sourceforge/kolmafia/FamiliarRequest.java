@@ -70,15 +70,15 @@ public class FamiliarRequest extends KoLRequest
 	public void run()
 	{
 		if ( changeTo == null)
-			DEFAULT_SHELL.updateDisplay( "Retrieving familiar data..." );
+			KoLmafia.updateDisplay( "Retrieving familiar data..." );
 		else
 		{
 			FamiliarData familiar = KoLCharacter.getFamiliar();
 			if ( familiar != FamiliarData.NO_FAMILIAR )
-				DEFAULT_SHELL.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
+				KoLmafia.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
 
 			if (changeTo != FamiliarData.NO_FAMILIAR )
-				DEFAULT_SHELL.updateDisplay( "Taking " + changeTo.getName() + " the " + changeTo.getRace() + " out of terrarium..." );
+				KoLmafia.updateDisplay( "Taking " + changeTo.getName() + " the " + changeTo.getRace() + " out of terrarium..." );
 		}
 
 		super.run();
@@ -91,7 +91,7 @@ public class FamiliarRequest extends KoLRequest
 		KoLCharacter.updateEquipmentList( KoLCharacter.FAMILIAR );
 
 		if ( changeTo == null )
-			DEFAULT_SHELL.updateDisplay( "Familiar data retrieved." );
+			KoLmafia.updateDisplay( "Familiar data retrieved." );
 	}
 
 	public String getCommandForm( int iterations )

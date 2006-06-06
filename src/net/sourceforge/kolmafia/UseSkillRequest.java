@@ -150,7 +150,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			songWeapon = prepareAccordion();
 			if ( songWeapon == null )
 			{
-				DEFAULT_SHELL.updateDisplay( ERROR_STATE, "You need an accordion to play Accordion Thief songs." );
+				KoLmafia.updateDisplay( ERROR_STATE, "You need an accordion to play Accordion Thief songs." );
 				return;
 			}
 
@@ -197,13 +197,13 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		int currentMP = KoLCharacter.getCurrentMP();
 		int maximumMP = KoLCharacter.getMaximumMP();
 
-		if ( client.refusesContinue() || maximumMP < mpPerCast )
+		if ( KoLmafia.refusesContinue() || maximumMP < mpPerCast )
 			return;
 
 		int currentCast = 0;
 		int maximumCast = maximumMP / mpPerCast;
 
-		while ( !client.refusesContinue() && castsRemaining > 0 )
+		while ( !KoLmafia.refusesContinue() && castsRemaining > 0 )
 		{
 			// Find out how many times we can cast with current MP
 
@@ -228,7 +228,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				currentCast = Math.min( castsRemaining, KoLCharacter.getCurrentMP() / mpPerCast );
 			}
 
-			if ( client.refusesContinue() )
+			if ( KoLmafia.refusesContinue() )
 				return;
 
 			if ( currentCast > 0 )
@@ -240,9 +240,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				addFormField( countFieldID, String.valueOf( currentCast ), false );
 
 				if ( target == null || target.trim().length() == 0 )
-					DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " " + currentCast + " times..." );
+					KoLmafia.updateDisplay( "Casting " + skillName + " " + currentCast + " times..." );
 				else
-					DEFAULT_SHELL.updateDisplay( "Casting " + skillName + " on " + target + " " + currentCast + " times..." );
+					KoLmafia.updateDisplay( "Casting " + skillName + " on " + target + " " + currentCast + " times..." );
 
 				super.run();
 
@@ -442,7 +442,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( encounteredError )
 		{
-			DEFAULT_SHELL.updateDisplay( PENDING_STATE, lastUpdate );
+			KoLmafia.updateDisplay( PENDING_STATE, lastUpdate );
 
 			if ( BuffBotHome.isBuffBotActive() )
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.ERRORCOLOR, lastUpdate );
@@ -450,9 +450,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		else
 		{
 			if ( target == null )
-				DEFAULT_SHELL.updateDisplay( skillName + " was successfully cast." );
+				KoLmafia.updateDisplay( skillName + " was successfully cast." );
 			else
-				DEFAULT_SHELL.updateDisplay( skillName + " was successfully cast on " + target + "." );
+				KoLmafia.updateDisplay( skillName + " was successfully cast on " + target + "." );
 
 			// Tongue of the Walrus (1010) automatically
 			// removes any beaten up.

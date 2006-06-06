@@ -68,10 +68,10 @@ public class TinkerRequest extends ItemCreationRequest
 
 		makeIngredients();
 
-		if ( !client.permitsContinue() )
+		if ( !KoLmafia.permitsContinue() )
 			return;
 
-		DEFAULT_SHELL.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );
+		KoLmafia.updateDisplay( "Creating " + getQuantityNeeded() + " " + getName() + "..." );
 		addFormField( "qty", String.valueOf( getQuantityNeeded() ) );
 		super.run();
 	}
