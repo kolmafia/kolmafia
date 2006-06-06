@@ -1409,6 +1409,13 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
+		if ( option.getName().startsWith( "red" ) && !KoLCharacter.hasItem( option, true ) )
+		{
+			AdventureResult egg = new AdventureResult( "red plastic oyster egg", 4 );
+			if ( KoLCharacter.hasItem( egg, true ) )
+				option = egg;
+		}
+
 		requirements.add( option );
 		if ( !client.checkRequirements( requirements ) )
 			return;

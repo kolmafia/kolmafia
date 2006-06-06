@@ -234,14 +234,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			KoLMessenger.dispose();
 			StaticEntity.closeSession();
-
-			if ( this instanceof LoginFrame )
-			{
-				SystemTrayFrame.removeTrayIcon();
-				System.exit(0);
-			}
-			else
-				KoLmafiaGUI.main( new String[0] );
+			KoLmafiaGUI.main( new String[0] );
 		}
 	}
 

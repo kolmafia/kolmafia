@@ -143,9 +143,13 @@ public class LoginFrame extends KoLFrame
 
 	public void dispose()
 	{
+		if ( existingFrames.size() == 1 && StaticEntity.getClient() instanceof KoLmafiaGUI )
+		{
+			SystemTrayFrame.removeTrayIcon();
+			System.exit(0);
+		}
+
 		super.dispose();
-		if ( StaticEntity.getClient().getPasswordHash() == null )
-			System.exit( 0 );
 	}
 
 	public JPanel constructLoginPanel()
