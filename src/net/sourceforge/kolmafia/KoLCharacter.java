@@ -395,6 +395,9 @@ public abstract class KoLCharacter extends StaticEntity
 		}
 
 		updateEquipmentLists();
+
+		// Clear the violet fog path table
+		VioletFog.reset();
 	}
 
 	public static KoLAdventure getNextAdventure()
