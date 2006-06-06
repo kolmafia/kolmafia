@@ -49,6 +49,7 @@ public class LoginRequest extends KoLRequest
 	private String password;
 	private boolean savePassword;
 	private boolean getBreakfast;
+	private boolean isQuickLogin;
 
 	/**
 	 * Constructs a new <code>LoginRequest</code>.  The given
@@ -64,10 +65,10 @@ public class LoginRequest extends KoLRequest
 	{
 		this( client, username, password, true,
 				GLOBAL_SETTINGS.getProperty( "getBreakfast." + username ) != null &&
-				GLOBAL_SETTINGS.getProperty( "getBreakfast." + username ).equals( "true" ) );
+				GLOBAL_SETTINGS.getProperty( "getBreakfast." + username ).equals( "true" ), false );
 	}
 
-	public LoginRequest( KoLmafia client, String username, String password, boolean savePassword, boolean getBreakfast )
+	public LoginRequest( KoLmafia client, String username, String password, boolean savePassword, boolean getBreakfast, boolean isQuickLogin )
 	{
 		super( client, "login.php" );
 
@@ -75,6 +76,7 @@ public class LoginRequest extends KoLRequest
 		this.password = password;
 		this.savePassword = savePassword;
 		this.getBreakfast = getBreakfast;
+		this.isQuickLogin = isQuickLogin;
 
 		addFormField( "loggingin", "Yup." );
 		addFormField( "loginname", this.username + "/q" );
@@ -125,7 +127,7 @@ public class LoginRequest extends KoLRequest
 			if ( this.savePassword )
 				client.addSaveState( username, password );
 
-			client.initialize( username, formConnection.getHeaderField( "Set-Cookie" ), this.getBreakfast );
+			client.initialize( username, formConnection.getHeaderField( "Set-Cookie" ), this.getBreakfast, this.isQuickLogin );
 			client.cachedLogin = client.getPasswordHash() == null ? null :
 				new LoginRequest( client, username, password );
 		}

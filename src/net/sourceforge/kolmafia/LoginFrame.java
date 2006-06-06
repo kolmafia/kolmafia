@@ -184,7 +184,7 @@ public class LoginFrame extends KoLFrame
 
 		public LoginPanel()
 		{
-			super( "login", "cancel" );
+			super( "login", "qlogin", "cancel" );
 
 			usernameField = GLOBAL_SETTINGS.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 			passwordField = new JPasswordField();
@@ -253,6 +253,22 @@ public class LoginFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
+		{	login( false );
+		}
+
+		protected void actionCancelled()
+		{
+			if ( cancelledButton.getText().equals( "qlogin" ) )
+			{
+				login( true );
+				return;
+			}
+
+			StaticEntity.getClient().declareWorldPeace();
+			usernameField.requestFocus();
+		}
+
+		private void login( boolean isQuickLogin )
 		{
 			StaticEntity.getClient().forceContinue();
 
@@ -276,15 +292,9 @@ public class LoginFrame extends KoLFrame
 			GLOBAL_SETTINGS.setProperty( "loginScript." + username.toLowerCase(), scriptField.getText() );
 			GLOBAL_SETTINGS.setProperty( "getBreakfast." + username.toLowerCase(), String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
-			(new LoginRequest( StaticEntity.getClient(), username, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected() )).run();
+			(new LoginRequest( StaticEntity.getClient(), username, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected(), isQuickLogin )).run();
 		}
-
-		protected void actionCancelled()
-		{
-			StaticEntity.getClient().declareWorldPeace();
-			usernameField.requestFocus();
-		}
-
+		
 		public void actionPerformed( ActionEvent e )
 		{
 			if ( !savePasswordCheckBox.isSelected() && usernameField instanceof JComboBox )

@@ -106,13 +106,13 @@ public class KoLmafiaGUI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public synchronized void initialize( String username, String sessionID, boolean getBreakfast )
+	public synchronized void initialize( String username, String sessionID, boolean getBreakfast, boolean isQuickLogin )
 	{
-		super.initialize( username, sessionID, getBreakfast );
+		super.initialize( username, sessionID, getBreakfast, isQuickLogin );
 		if ( refusesContinue() )
 			return;
 
-		if ( getPasswordHash() != null )
+		if ( getPasswordHash() != null && !isQuickLogin )
 		{
 			(new MailboxRequest( this, "Inbox" )).run();
 			(new ChannelColorsRequest()).run();
