@@ -220,11 +220,11 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( StaticEntity.getClient() != this )
 		{
-			StaticEntity.getClient().initialize( username, sessionID, getBreakfast, true );
+			StaticEntity.getClient().initialize( username, sessionID, getBreakfast, isQuickLogin );
 			return;
 		}
 
-		super.initialize( username, sessionID, getBreakfast, true );
+		super.initialize( username, sessionID, getBreakfast, isQuickLogin );
 		printBlankLine();
 		executeCommand( "moons", "" );
 		printBlankLine();

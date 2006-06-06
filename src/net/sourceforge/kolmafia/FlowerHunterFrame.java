@@ -355,10 +355,9 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			elements[2] = new VerifiableElement( "Message: ", message );
 
 			setContent( elements, null, getRankLabel(), true, true );
-
-			if ( KoLCharacter.getClassType().startsWith( "Se" ) || KoLCharacter.getClassType().startsWith( "Tu" ) )
+			if ( KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMysticality() && KoLCharacter.getBaseMuscle() >= KoLCharacter.getBaseMoxie() )
 				stanceSelect.setSelectedIndex( 0 );
-			else if ( KoLCharacter.getClassType().startsWith( "Sa" ) || KoLCharacter.getClassType().startsWith( "Pa" ) )
+			if ( KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMuscle() && KoLCharacter.getBaseMysticality() >= KoLCharacter.getBaseMoxie() )
 				stanceSelect.setSelectedIndex( 1 );
 			else
 				stanceSelect.setSelectedIndex( 2 );
@@ -402,11 +401,14 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 					break;
 			}
 
+			FlowerHunterRequest request = new FlowerHunterRequest( StaticEntity.getClient(), "",
+					stanceSelect.getSelectedIndex() + 1, mission, message.getText() );
+			
 			for ( int i = 0; i < selection.length && StaticEntity.getClient().permitsContinue(); ++i )
 			{
 				DEFAULT_SHELL.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
-				FightFrame.showRequest( new FlowerHunterRequest( StaticEntity.getClient(), selection[i].getPlayerID(),
-					stanceSelect.getSelectedIndex() + 1, mission, message.getText() ) );
+				request.setTarget( selection[i].getPlayerID() );  request.run();
+				FightFrame.showRequest( request );
 
 				updateRank();
 			}

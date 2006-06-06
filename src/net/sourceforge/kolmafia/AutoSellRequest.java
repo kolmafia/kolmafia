@@ -168,6 +168,9 @@ public class AutoSellRequest extends SendMessageRequest
 		// Otherwise, if you are autoselling multiple items,
 		// then it depends on which mode you are using.
 
+		if ( KoLCharacter.getAutosellMode().equals( "" ) )
+			(new AccountRequest( client )).run();
+
 		int mode = KoLCharacter.getAutosellMode().equals( "detailed" ) ? 1 : 0;
 
 		AdventureResult currentAttachment;

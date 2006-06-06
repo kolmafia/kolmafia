@@ -292,7 +292,7 @@ public abstract class KoLCharacter extends StaticEntity
 	// Listener-driven container items
 
 	private static List listenerList = new ArrayList();
-	private static boolean beanstalkArmed;
+	private static boolean beanstalkArmed = false;
 
 	// Ascension-related variables
 
@@ -1745,8 +1745,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static void setAutosellMode( String mode )
-	{
-		KoLCharacter.autosellMode = mode;
+	{	KoLCharacter.autosellMode = mode;
 	}
 
 	/**

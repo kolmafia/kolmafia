@@ -36,7 +36,7 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-public class AccountRequest extends KoLRequest
+public class AccountRequest extends PasswordHashRequest
 {
 	public AccountRequest( KoLmafia client )
 	{	super( client, "account.php" );

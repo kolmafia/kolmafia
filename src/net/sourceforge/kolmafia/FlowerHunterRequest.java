@@ -82,7 +82,7 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "winmessage", message );
 		addFormField( "losemessage", message );
 	}
-
+	
 	public FlowerHunterRequest( KoLmafia client, String clanID )
 	{
 		super( client, "showclan.php" );
@@ -91,6 +91,10 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "whichclan", clanID );
 	}
 
+	public void setTarget( String target )
+	{	addFormField( "who", target );		
+	}
+	
 	public List getSearchResults()
 	{	return searchResults;
 	}

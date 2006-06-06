@@ -184,7 +184,7 @@ public class LoginFrame extends KoLFrame
 
 		public LoginPanel()
 		{
-			super( "fast-login", "full-login", "cancel" );
+			super( "login", "qlogin", "cancel" );
 
 			usernameField = GLOBAL_SETTINGS.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 			passwordField = new JPasswordField();
@@ -253,14 +253,14 @@ public class LoginFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	login( true );
+		{	login( false );
 		}
 
 		protected void actionCancelled()
 		{
-			if ( cancelledButton.getText().equals( "full-login" ) )
+			if ( cancelledButton.getText().equals( "qlogin" ) )
 			{
-				login( false );
+				login( true );
 				return;
 			}
 
