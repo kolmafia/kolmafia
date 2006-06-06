@@ -54,10 +54,14 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public abstract class KoLMessenger extends StaticEntity
 {
-	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm:ss a" );
+	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a" );
+
+	private static final String DEFAULT_TIMESTAMP_COLOR = "#7695B4";
+	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]" );
 
 	private static TreeMap colors = new TreeMap();
 	private static String CHATLOG_BASENAME = "";
+
 	private static final Color DEFAULT_HIGHLIGHT = new Color( 128, 0, 128 );
 
 	private static final String [] AVAILABLE_COLORS =
@@ -825,14 +829,17 @@ public abstract class KoLMessenger extends StaticEntity
 	
 			// Now that everything has been properly formatted,
 			// show the display HTML.
-	
-			buffer.append( displayHTML + "<br>" );
+			
+			StringBuffer timestamp = new StringBuffer();
+			timestamp.append( "<font color=\"" );
+			timestamp.append( DEFAULT_TIMESTAMP_COLOR );
+			timestamp.append( "\">" );			
+			timestamp.append( MESSAGE_TIMESTAMP.format( new Date() ) );
+			timestamp.append( "</font>" );
+			
+			buffer.append( timestamp.toString() + "&nbsp;" + displayHTML + "<br>" );
 			if ( displayHTML.startsWith( "<font color=green>" ) )
-			{
-				changeToUserTimeZone();
 				KoLCharacter.getEvents().add( EVENT_TIMESTAMP.format( new Date() ) + " - " + displayHTML.replaceAll( "<.*?>", "" ) );
-				changeToKoLTimeZone();
-			}
 
 			// Check to make sure that in the time it took for
 			// everything to be processed, chat didn't get closed.

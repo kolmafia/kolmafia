@@ -216,19 +216,18 @@ public class KoLmafiaCLI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public synchronized void initialize( String username, String sessionID, boolean getBreakfast )
+	public synchronized void initialize( String username, String sessionID, boolean getBreakfast, boolean isQuickLogin )
 	{
 		if ( StaticEntity.getClient() != this )
 		{
-			StaticEntity.getClient().initialize( username, sessionID, getBreakfast );
+			StaticEntity.getClient().initialize( username, sessionID, getBreakfast, true );
+			return;
 		}
-		else
-		{
-			super.initialize( username, sessionID, getBreakfast );
-			printBlankLine();
-			executeCommand( "moons", "" );
-			printBlankLine();
-		}
+
+		super.initialize( username, sessionID, getBreakfast, true );
+		printBlankLine();
+		executeCommand( "moons", "" );
+		printBlankLine();
 	}
 
 	/**
@@ -772,10 +771,23 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "breakfast" ) )
 		{
 			getBreakfast( false );
-			StaticEntity.getClient().forceContinue();
 			return;
 		}
 
+		if ( command.equals( "refresh" ) )
+		{
+			if ( parameters.equalsIgnoreCase( "all" ) )
+				StaticEntity.getClient().refreshSession();
+			else if ( parameters.equalsIgnoreCase( "status" ) || parameters.equalsIgnoreCase( "effects" ) )
+				(new CharsheetRequest( StaticEntity.getClient() )).run();
+			else if ( parameters.equalsIgnoreCase( "gear" ) || parameters.equalsIgnoreCase( "equipment" ) || parameters.equalsIgnoreCase( "outfits" ) )
+				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.EQUIPMENT )).run();
+			else if ( parameters.equalsIgnoreCase( "inventory" ) )
+				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET )).run();
+
+			return;
+		}
+		
 		// Look!  It's the command to complete the
 		// Sorceress entryway.
 
@@ -1303,20 +1315,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "send" ) || command.equals( "kmail" ) )
 		{
 			executeSendRequest( parameters );
-			return;
-		}
-
-		if ( (command.equals( "status" ) || command.equals( "effects" )) && parameters.startsWith( "refresh" ) )
-		{
-			(new CharsheetRequest( StaticEntity.getClient() )).run();
-			updateDisplay( "Status refreshed." );
-			parameters = parameters.length() == 7 ? "" : parameters.substring( 7 ).trim();
-		}
-
-		if ( command.startsWith( "inv" ) && parameters.equals( "refresh" ) )
-		{
-			(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET )).run();
-			updateDisplay( "Status refreshed." );
 			return;
 		}
 
