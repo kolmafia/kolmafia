@@ -497,6 +497,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 			else
 			{
+				parseQuestItems();
 				String [] oldEquipment = new String[9];
 				int oldFakeHands = KoLCharacter.getFakeHands();
 
@@ -507,16 +508,19 @@ public class EquipmentRequest extends PasswordHashRequest
 					oldEquipment[i] = KoLCharacter.getEquipment( i );
 
 				parseEquipment( this.responseText );
+				if ( KoLmafia.cachedLogin != null )
+				{
+					for ( int i = 0; i < 9; ++i )
+						switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
 
-				for ( int i = 0; i < 9; ++i )
-					switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
+					// Adjust inventory of fake hands
+					int newFakeHands = KoLCharacter.getFakeHands();
+					if ( oldFakeHands != newFakeHands )
+						AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, oldFakeHands - newFakeHands ) );
 
-				// Adjust inventory of fake hands
-				int newFakeHands = KoLCharacter.getFakeHands();
-				if ( oldFakeHands != newFakeHands )
-					AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, oldFakeHands - newFakeHands ) );
+					CharpaneRequest.getInstance().run();
+				}
 
-				CharpaneRequest.getInstance().run();
 				KoLCharacter.recalculateAdjustments( false );
 				KoLCharacter.updateStatus();
 
@@ -641,18 +645,15 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private void parseQuestItems()
 	{
-		Matcher questMatcher = Pattern.compile( "<font color=white>Quest Items:</font>.*?</div>" ).matcher( responseText );
-		if ( !questMatcher.find() )
-			return;
-
-		Matcher itemMatcher = Pattern.compile( "<b>([^<]+)</b>([^<]+)<font size=1>" ).matcher( questMatcher.group() );
+		Matcher itemMatcher = Pattern.compile( "<b>([^<]+)</b>([^<]+)<font size=1>" ).matcher( responseText );
 		while ( itemMatcher.find() )
 		{
 			String quantity = itemMatcher.group(2).trim();
 			AdventureResult item = new AdventureResult( itemMatcher.group(1),
 				quantity.length() == 0 ? 1 : Integer.parseInt( quantity.substring( 1, quantity.length() - 1 ) ) );
 
-			AdventureResult.addResultToList( KoLCharacter.getInventory(), item );
+			if ( !KoLCharacter.getInventory().contains( item ) )
+				AdventureResult.addResultToList( KoLCharacter.getInventory(), item );
 		}
 	}
 
