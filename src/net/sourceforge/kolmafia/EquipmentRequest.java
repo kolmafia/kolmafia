@@ -53,14 +53,15 @@ public class EquipmentRequest extends PasswordHashRequest
 	public static final String UNEQUIP = "(none)";
 
 	public static final int CLOSET = 1;
-	public static final int EQUIPMENT = 2;
+	public static final int QUESTS = 2;
+	public static final int EQUIPMENT = 3;
 
-	private static final int SAVE_OUTFIT = 3;
-	private static final int CHANGE_OUTFIT = 4;
+	private static final int SAVE_OUTFIT = 4;
+	private static final int CHANGE_OUTFIT = 5;
 
-	private static final int CHANGE_ITEM = 5;
-	private static final int REMOVE_ITEM = 6;
-	private static final int UNEQUIP_ALL = 7;
+	private static final int CHANGE_ITEM = 6;
+	private static final int REMOVE_ITEM = 7;
+	private static final int UNEQUIP_ALL = 8;
 
 	// Array indexed by equipment "slot" from KoLCharacter
 	//
@@ -93,7 +94,9 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public EquipmentRequest( KoLmafia client, int requestType )
 	{
-		super( client, requestType == CLOSET ? "closet.php" : requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
+		super( client, requestType == CLOSET ? "closet.php" :
+			requestType == UNEQUIP_ALL ? "inv_equip.php" : "inventory.php" );
+
 		this.requestType = requestType;
 		this.outfit = null;
 		this.error = null;
@@ -101,7 +104,9 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Otherwise, add the form field indicating which page
 		// of the inventory you want to request
 
-		if ( requestType != CLOSET )
+		if ( requestType == QUESTS )
+			addFormField( "which", "3" );
+		else if ( requestType != CLOSET )
 			addFormField( "which", "2" );
 
 		if ( requestType == UNEQUIP_ALL )
@@ -419,6 +424,10 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		switch ( requestType )
 		{
+			case QUESTS:
+				KoLmafia.updateDisplay( "Updating quest items..." );
+				break;
+
 			case CLOSET:
 				KoLmafia.updateDisplay( "Refreshing closet..." );
 				break;
@@ -479,6 +488,12 @@ public class EquipmentRequest extends PasswordHashRequest
 				parseCloset();
 				super.processResults();
 				KoLmafia.updateDisplay( "Inventory retrieved." );
+			}
+			if ( requestType == QUESTS )
+			{
+				parseQuestItems();
+				super.processResults();
+				KoLmafia.updateDisplay( "Quest item list retrieved." );
 			}
 			else
 			{
@@ -621,6 +636,24 @@ public class EquipmentRequest extends PasswordHashRequest
 
 				StaticEntity.printStackTrace( e );
 			}
+		}
+	}
+
+	private void parseQuestItems()
+	{
+		int itemIndex = responseText.indexOf( "<font color=white>Quest" );
+		if ( itemIndex == -1 )
+			return;
+
+		String questText = responseText.substring( itemIndex );
+		Matcher itemMatcher = Pattern.compile( "<b>([^<]+)</b>([^<]+)<font size=1>" ).matcher( questText );
+		while ( itemMatcher.find() )
+		{
+			String quantity = itemMatcher.group(2).trim();
+			AdventureResult item = new AdventureResult( itemMatcher.group(1),
+				quantity.length() == 0 ? 1 : Integer.parseInt( quantity.substring( 1, quantity.length() - 1 ) ) );
+
+			AdventureResult.addResultToList( KoLCharacter.getInventory(), item );
 		}
 	}
 
