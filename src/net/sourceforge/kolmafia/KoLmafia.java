@@ -307,11 +307,11 @@ public abstract class KoLmafia implements KoLConstants
 		// Finally, update all of the existing frames
 		// with the appropriate state.
 
-		updateDisplayState( permitsContinue() ? CONTINUE_STATE : PENDING_STATE );
+		updateDisplayState( CONTINUE_STATE );
 	}
 
 	public synchronized static void enableDisplay()
-	{	updateDisplayState( KoLmafia.permitsContinue() ? ABORT_STATE : ENABLE_STATE );
+	{	updateDisplayState( currentState == ABORT_STATE || currentState == ERROR_STATE ? ABORT_STATE : ENABLE_STATE );
 	}
 
 	public synchronized static void updateDisplayState( int state )
@@ -1585,7 +1585,7 @@ public abstract class KoLmafia implements KoLConstants
 				updateDisplay( "Conditions satisfied after " + (currentIteration - 1) +
 					((currentIteration == 2) ? " request." : " requests.") );
 
-			else if ( !(request instanceof UseSkillRequest ) )
+			else if ( !(request instanceof UseSkillRequest || request instanceof LoginRequest) )
 				updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
 		}
 		catch ( Exception e )
