@@ -103,24 +103,6 @@ public class VioletFog
 		{ 49, 51, 52 },			// 70
 	};
 
-	// Range of choice numbers with a goal
-	private static final int FIRST_GOAL_LOCATION = 62;
-	private static final int LAST_GOAL_LOCATION = 70;
-
-	private static final String FogGoals [] =
-	{
-		"(none)",			// 48-61
-		"Cerebral Cloche",		// 62
-		"Cerebral Crossbow",		// 63
-		"Cerebral Culottes",		// 64
-		"Muscle Training",		// 65
-		"Mysticality Training",		// 66
-		"Moxie Training",		// 67
-		"ice stein",			// 68
-		"munchies pill",		// 69
-		"homeopathic healing powder",	// 70
-	};
-
 	// The routing table.
 	//
 	// One row for each fog location (48 - 70)
@@ -273,9 +255,134 @@ public class VioletFog
 		stream.println( "</body></html>" );
 	}
 
-        // The choice table. TBD
+	// Range of choice numbers with a goal
+	private static final int FIRST_GOAL_LOCATION = 62;
+	private static final int LAST_GOAL_LOCATION = 70;
+
+	public static final String FogGoals [] =
+	{
+		"Escape from the Fog",		// 48-61
+		"Cerebral Cloche",		// 62
+		"Cerebral Crossbow",		// 63
+		"Cerebral Culottes",		// 64
+		"Muscle Training",		// 65
+		"Mysticality Training",		// 66
+		"Moxie Training",		// 67
+		"ice stein",			// 68
+		"munchies pill",		// 69
+		"homeopathic healing powder",	// 70
+	};
+
+	// The choice table.
+	//
+	// One row for each fog location (48 - 70)
+	// Each row contains four values, corresponding to choices 1 - 4
+	//
+	// -1	The "goal"
+	//  0	Unknown
+	// xx	A destination
+
+	private static int FogChoiceTable [][] = new int [ LAST_CHOICE - FIRST_CHOICE + 1][ 4 ];
+	private static int lastChoice = 0;
+	private static int lastDecision = 0;
 
 	public static void reset()
 	{
+		// Reset what we've "learned" about the fog choices
+		for ( int i = FIRST_CHOICE; i <= LAST_CHOICE; ++i )
+		{
+			int choice[] = FogChoiceTable[ i - FIRST_CHOICE ];
+			choice[0] = ( i < FIRST_GOAL_LOCATION ) ? 0 : -1;
+			choice[1] = 0;
+			choice[2] = 0;
+			choice[3] = ( i < FIRST_GOAL_LOCATION ) ? -1 : 0;
+		}
+
+		// We have made no violet fog choices yet
+                lastChoice = 0;
+                lastDecision = 0;
+	}
+
+	public static String handleChoice( String choice )
+	{
+		int source = Integer.parseInt( choice );
+
+		// We only handle Violet Fog choices
+		if ( source < FIRST_CHOICE || source > LAST_CHOICE )
+			return null;
+
+		// Were we mapping?
+		if ( lastChoice != 0 )
+		{
+			// Yes. Update the path table
+			FogChoiceTable[ lastChoice - FIRST_CHOICE ][ lastDecision ] = source;
+			lastChoice = 0;
+			lastDecision = 0;
+		}
+
+		// Get the user specified goal
+		int goal = Integer.parseInt( StaticEntity.getProperty( "violetFogGoal" ) );
+
+		// If no goal, return "4".
+		// - If we are not at a "goal" location, this will exit the fog
+		// - If we are at a "goal" location, this will send us to a non-"goal" location
+		if ( goal == 0 )
+			return "4";
+
+		// Find the location we must get to to achieve the goal
+		int destination = FIRST_GOAL_LOCATION + goal - 1;
+		if ( destination < FIRST_CHOICE || destination > LAST_CHOICE )
+			return null;
+
+		// Are we there yet?
+		if ( source == destination )
+			// The first decision will get us the goal we seek
+			return "1";
+
+		// We haven't reached the goal yet. Find the next hop.
+		int nextHop = nextHop( source, destination );
+
+		// Choose the path that will take us there
+		int path[] = FogChoiceTable[ source - FIRST_CHOICE ];
+		for ( int i = 0; i < path.length; ++i )
+		{
+			if ( path[i] == nextHop )
+				return String.valueOf( i + 1 );
+		}
+
+		// We don't know how to get there. Pick an unexplored path.
+		for ( int i = 0; i < path.length; ++i )
+		{
+			if ( path[i] == 0 )
+			{
+				// We don't know how to get to the Next Hop
+				lastChoice = source;
+				lastDecision = i;
+				return String.valueOf( i + 1 );
+			}
+		}
+
+		// This shouldn't happen
+		return null;
+	}
+
+	public static boolean freeAdventure( String choice, String decision )
+	{
+		// "choiceAdventureX"
+		int source = Integer.parseInt( choice.substring( 15 ) );
+
+		// Journey to the Center of your Mind
+		if ( source == 71 )
+		{
+			// We should switch location to the trip of choice...
+			return true;
+		}
+
+		// Make sure it's a fog adventure
+		if ( source < FIRST_CHOICE || source > LAST_CHOICE )
+			return false;
+
+		// It is. If it's a "goal" location, decision "1" takes an adventure.
+		return source < FIRST_GOAL_LOCATION ? true : !decision.equals( "1" );
 	}
 }

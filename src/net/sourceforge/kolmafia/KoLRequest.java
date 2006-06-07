@@ -1185,6 +1185,12 @@ public class KoLRequest implements Runnable, KoLConstants
 		String option = "choiceAdventure" + choice;
 		String decision = getProperty( option );
 
+		// If there is no setting which determines the
+		// decision, see if it's in the violet fog
+
+		if ( decision == null )
+			decision = VioletFog.handleChoice( choice );
+
 		// If there is currently no setting which determines the
 		// decision, give an error and bail.
 
