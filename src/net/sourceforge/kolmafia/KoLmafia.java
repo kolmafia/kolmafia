@@ -488,15 +488,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return;
 
-		// Retrieve the list of outfits which are available to the
-		// character.  Due to lots of bug reports, this is no longer
-		// a skippable option.
-
-		(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
-		SpecialOutfit.deleteCheckpoint();
-		if ( refusesContinue() )
-			return;
-
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
@@ -505,6 +496,11 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		(new EquipmentRequest( this, EquipmentRequest.QUESTS )).run();
+		if ( refusesContinue() )
+			return;
+
+		(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
+		SpecialOutfit.deleteCheckpoint();
 		if ( refusesContinue() )
 			return;
 
