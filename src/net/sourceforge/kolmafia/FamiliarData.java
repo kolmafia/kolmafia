@@ -49,6 +49,7 @@ public class FamiliarData implements KoLConstants, Comparable
 {
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
+	private static final Pattern REGISTER_PATTERN = Pattern.compile( "<option value=(\\d+)>([^<]*?), the (.*?)</option>" );
 	private static final Pattern SEARCH_PATTERN =
 		Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/(.*?).gif.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) kills?\\)(.*?)<(/tr|form)" );
 
@@ -80,7 +81,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			this.weight = 0;
 		}
@@ -88,13 +89,6 @@ public class FamiliarData implements KoLConstants, Comparable
 		this.name = dataMatcher.group(2);
 		this.race = dataMatcher.group(3);
 		this.id = FamiliarsDatabase.getFamiliarID( this.race );
-
-		// If it's an unknown familiar, deduce ID from image file name
-		if ( this.id < 0 && dataMatcher.group(1).startsWith( "familiar" ) )
-			this.id = Integer.parseInt( dataMatcher.group(1).substring( 8 ) );
-
-		if ( !FamiliarsDatabase.contains( this.race ) )
-			FamiliarsDatabase.registerFamiliar( this.id, this.race );
 
 		String itemData = dataMatcher.group(5);
 
@@ -111,11 +105,22 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	public static final void registerFamiliarData( KoLmafia client, String searchText )
 	{
+		// First, make sure that all the familiar IDs exist
+		// (This allows KoLmafia to detect new familiars).
+
+		Matcher familiarMatcher = REGISTER_PATTERN.matcher( searchText );
+		while ( familiarMatcher.find() )
+		{
+			String race = familiarMatcher.group(3);
+			if ( !FamiliarsDatabase.contains( race ) )
+				FamiliarsDatabase.registerFamiliar( Integer.parseInt( familiarMatcher.group(1) ), race );
+		}
+
 		// Assume he has no familiar
 		FamiliarData firstFamiliar = null;
 
 		// Examine all the familiars in the list
-		Matcher familiarMatcher = SEARCH_PATTERN.matcher( searchText );
+		familiarMatcher = SEARCH_PATTERN.matcher( searchText );
 		while ( familiarMatcher.find() )
 		{
 			FamiliarData examinedFamiliar = KoLCharacter.addFamiliar( new FamiliarData( client, familiarMatcher ) );
