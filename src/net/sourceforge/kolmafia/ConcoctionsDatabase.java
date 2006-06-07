@@ -643,6 +643,21 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return ingredients;
 	}
 
+	public static boolean hasAnyIngredient( int itemID )
+	{
+		boolean hasOneIngredient = false;
+		AdventureResult [] ingredients = concoctions.get( itemID ).getIngredients();
+
+		for ( int i = 0; i < ingredients.length; ++i )
+		{
+			hasOneIngredient |= KoLCharacter.getInventory().contains( ingredients[i] );
+			hasOneIngredient |= ingredients.length > 1 && hasAnyIngredient( ingredients[i].getItemID() );
+			hasOneIngredient |= NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemID ) );
+		}
+
+		return hasOneIngredient;
+	}
+
 	private static AdventureResult getBetterIngredient( AdventureResult ingredient1, AdventureResult ingredient2, List availableIngredients )
 	{	return ingredient1.getCount( availableIngredients ) > ingredient2.getCount( availableIngredients ) ? ingredient1 : ingredient2;
 	}
