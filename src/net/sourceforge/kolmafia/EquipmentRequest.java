@@ -641,12 +641,11 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private void parseQuestItems()
 	{
-		int itemIndex = responseText.indexOf( "<font color=white>Quest" );
-		if ( itemIndex == -1 )
+		Matcher questMatcher = Pattern.compile( "<font color=white>Quest Items:</font>.*?</div>" ).matcher( responseText );
+		if ( !questMatcher.find() )
 			return;
 
-		String questText = responseText.substring( itemIndex );
-		Matcher itemMatcher = Pattern.compile( "<b>([^<]+)</b>([^<]+)<font size=1>" ).matcher( questText );
+		Matcher itemMatcher = Pattern.compile( "<b>([^<]+)</b>([^<]+)<font size=1>" ).matcher( questMatcher.group() );
 		while ( itemMatcher.find() )
 		{
 			String quantity = itemMatcher.group(2).trim();
