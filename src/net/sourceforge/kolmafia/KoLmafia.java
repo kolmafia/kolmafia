@@ -1585,7 +1585,7 @@ public abstract class KoLmafia implements KoLConstants
 				updateDisplay( "Conditions satisfied after " + (currentIteration - 1) +
 					((currentIteration == 2) ? " request." : " requests.") );
 
-			else if ( !(request instanceof UseSkillRequest || request instanceof LoginRequest) )
+			else if ( !(request instanceof UseSkillRequest || request instanceof LoginRequest || request instanceof LogoutRequest) )
 				updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
 		}
 		catch ( Exception e )
