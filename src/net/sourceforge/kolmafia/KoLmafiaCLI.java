@@ -791,8 +791,8 @@ public class KoLmafiaCLI extends KoLmafia
 				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET )).run();
 			else if ( parameters.startsWith( "storage" ) )
 				(new ItemStorageRequest( StaticEntity.getClient() )).run();
-			else if ( parameters.startsWith( "familiar" ) )
-				(new ItemStorageRequest( StaticEntity.getClient() )).run();
+			else if ( parameters.startsWith( "familiar" ) || parameters.startsWith( "terrarium" ) )
+				(new FamiliarRequest( StaticEntity.getClient() )).run();
 
 			return;
 		}
