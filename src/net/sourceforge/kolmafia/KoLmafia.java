@@ -282,8 +282,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 		commandBuffer.append( colorBuffer.toString() );
-		updateDisplayPanels( state != CONTINUE_STATE ? state :
-			message.endsWith( "..." ) ? CONTINUE_STATE : ENABLE_STATE, message );
+		updateDisplayPanels( state, message );
 	}
 
 	public static synchronized final void updateDisplayPanels( int state, String message )
@@ -308,6 +307,17 @@ public abstract class KoLmafia implements KoLConstants
 		// Finally, update all of the existing frames
 		// with the appropriate state.
 
+		updateDisplayState( permitsContinue() ? CONTINUE_STATE : PENDING_STATE );
+	}
+
+	public synchronized static void enableDisplay()
+	{
+		try { throw new Exception(); } catch ( Exception e ) { e.printStackTrace(); }
+		updateDisplayState( KoLmafia.permitsContinue() ? ABORT_STATE : ENABLE_STATE );
+	}
+
+	public synchronized static void updateDisplayState( int state )
+	{
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
 

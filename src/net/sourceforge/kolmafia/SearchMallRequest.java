@@ -161,6 +161,10 @@ public class SearchMallRequest extends KoLRequest
 	{	return results;
 	}
 
+	public void setResults( List results )
+	{	this.results = results;
+	}
+
 	/**
 	 * Executes the search request.  In the event that no item is found, the
 	 * currently active frame will be notified.  Otherwise, all items

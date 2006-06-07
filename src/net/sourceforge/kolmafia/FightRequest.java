@@ -221,10 +221,17 @@ public class FightRequest extends KoLRequest
 	{
 		nextRound();
 
-		if ( action1.equals( "..." ) || !KoLmafia.permitsContinue() )
+		if ( KoLmafia.refusesContinue() || action1.equals( "..." ) )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Battle stopped.  Please finish in-browser." );
-			showInBrowser( true );
+			action1 = null;
+			action2 = null;
+
+			clearDataFields();
+			super.run();
+
+			if ( turnsUsed == 0 )
+				showInBrowser( true );
+
 			return;
 		}
 
@@ -328,6 +335,9 @@ public class FightRequest extends KoLRequest
 
 	private void payActionCost()
 	{
+		if ( action1 == null || action1.equals( "" ) || action1.equals( "..." ) )
+			return;
+
 		if ( action1.equals( "attack" ) || action1.equals( "runaway" ) )
 			return;
 
@@ -338,13 +348,13 @@ public class FightRequest extends KoLRequest
 			if ( hasActionCost( id1 ) )
 				client.processResult( new AdventureResult( id1, -1 ) );
 
-			if ( action2 != null )
-			{
-				int id2 = Integer.parseInt( action2.substring( 4 ) );
+			if ( action2 == null || action2.equals( "" ) || action2.equals( "..." ) )
+				return;
 
-				if ( hasActionCost( id2 ) )
-					client.processResult( new AdventureResult( id2, -1 ) );
-			}
+			int id2 = Integer.parseInt( action2.substring( 4 ) );
+
+			if ( hasActionCost( id2 ) )
+				client.processResult( new AdventureResult( id2, -1 ) );
 
 			return;
 		}

@@ -172,11 +172,8 @@ public class MallSearchFrame extends KoLPanelFrame
 
 	public void searchMall( SearchMallRequest request )
 	{
-		request.run();
-		if ( results != request.getResults() )
-			results.addAll( request.getResults() );
-
-		KoLmafia.updateDisplay( results.size() == 0 ? "No results found." : "Search complete." );
+		request.setResults( results );
+		(new RequestThread( request )).start();
 	}
 
 	private String getPurchaseSummary( Object [] purchases )

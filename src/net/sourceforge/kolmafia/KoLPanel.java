@@ -160,19 +160,19 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 				if ( elements[i].getInputField() instanceof JTextField )
 					((JTextField)elements[i].getInputField()).addKeyListener( listener );
 			}
-	
+
 			if ( shouldAddStatusLabel( elements ) )
 			{
 				JPanel statusContainer = new JPanel();
 				statusContainer.setLayout( new BoxLayout( statusContainer, BoxLayout.Y_AXIS ) );
-	
+
 				actionStatusPanel = new JPanel( new BorderLayout() );
 				actionStatusLabel = new StatusLabel();
 				actionStatusPanel.add( actionStatusLabel, BorderLayout.SOUTH );
-	
+
 				statusContainer.add( actionStatusPanel );
 				statusContainer.add( Box.createVerticalStrut( 20 ) );
-	
+
 				container.add( statusContainer, BorderLayout.SOUTH );
 			}
 		}
@@ -186,19 +186,19 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 		if ( elements[0].getInputField().isEnabled() == isEnabled )
 			return;
-		
+
 		for ( int i = 0; i < elements.length; ++i )
 			elements[i].getInputField().setEnabled( isEnabled );
 	}
-	
+
 	private class ActionConfirmListener extends KeyAdapter implements Runnable
 	{
 		public void keyReleased( KeyEvent e )
 		{
 			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-				(new RequestThread( this )).start();
+				(new Thread( this )).start();
 		}
-		
+
 		public void run()
 		{	actionConfirmed();
 		}
@@ -260,17 +260,17 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 
 			this.scriptField = scriptField;
 		}
-		
+
 		public void setEnabled( boolean isEnabled )
 		{
 			scriptField.setEnabled( isEnabled );
 			scriptButton.setEnabled( isEnabled );
 		}
-		
+
 		public String getText()
 		{	return scriptField.getText();
 		}
-		
+
 		public void setText( String text )
 		{	scriptField.setText( text );
 		}
@@ -290,7 +290,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	public void setStatusMessage( String s )
 	{	setStatusMessage( ENABLE_STATE, s );
 	}
-	
+
 	public void setStatusMessage( int displayState, String s )
 	{
 		if ( actionStatusLabel != null && !s.equals( "" ) )

@@ -77,7 +77,7 @@ public class RequestThread extends Thread implements KoLConstants
 			return;
 
 		if ( !(requests[0] instanceof ChatRequest) )
-			StaticEntity.getClient().forceContinue();
+			KoLmafia.forceContinue();
 
 		for ( int i = 0; i < requests.length; ++i )
 		{
@@ -109,6 +109,9 @@ public class RequestThread extends Thread implements KoLConstants
 				for ( int j = 0; j < repeatCount; ++j )
 					requests[i].run();
 		}
+
+		if ( !(requests[0] instanceof ChatRequest) )
+			KoLmafia.enableDisplay();
 	}
 
 	protected void run( KoLRequest request, int repeatCount )
