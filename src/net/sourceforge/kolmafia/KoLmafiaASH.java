@@ -2442,6 +2442,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "take_storage", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "take_stash", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "take_display", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
@@ -3387,6 +3390,12 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue take_storage( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "hagnk " + count.intValue() + " " + item.toStringValue() );
+			return continueValue();
+		}
+
+		public ScriptValue take_stash( ScriptVariable count, ScriptVariable item )
+		{
+			DEFAULT_SHELL.executeLine( "stash take " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
