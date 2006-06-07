@@ -771,18 +771,29 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( parameters.endsWith( "refresh" ) )
+		{
+			parameters = command;
+			command = "refresh";
+		}
+
 		if ( command.equals( "refresh" ) )
 		{
+			parameters = parameters.toLowerCase();
+
 			if ( parameters.equalsIgnoreCase( "all" ) )
 				StaticEntity.getClient().refreshSession();
-			else if ( parameters.equalsIgnoreCase( "status" ) || parameters.equalsIgnoreCase( "effects" ) )
+			else if ( parameters.startsWith( "status" ) || parameters.startsWith( "effects" ) )
 				(new CharsheetRequest( StaticEntity.getClient() )).run();
-			else if ( parameters.equalsIgnoreCase( "gear" ) || parameters.equalsIgnoreCase( "equipment" ) || parameters.equalsIgnoreCase( "outfits" ) )
+			else if ( parameters.startsWith( "gear" ) || parameters.startsWith( "equipment" ) || parameters.startsWith( "outfit" ) )
 				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.EQUIPMENT )).run();
-			else if ( parameters.equalsIgnoreCase( "inventory" ) )
+			else if ( parameters.startsWith( "inv" ) )
 				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET )).run();
-			else if ( parameters.equalsIgnoreCase( "storage" ) )
+			else if ( parameters.startsWith( "storage" ) )
 				(new ItemStorageRequest( StaticEntity.getClient() )).run();
+			else if ( parameters.startsWith( "familiar" ) )
+				(new ItemStorageRequest( StaticEntity.getClient() )).run();
+
 			return;
 		}
 
@@ -1105,7 +1116,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Another popular command involves changing
 		// a specific piece of equipment.
 
-		if ( command.startsWith( "equip" ) )
+		if ( command.startsWith( "equip" ) || command.startsWith( "wear" ) || command.startsWith( "wield" ) )
 		{
 			executeEquipCommand( parameters );
 			return;
@@ -1114,7 +1125,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		// You can remove a specific piece of equipment.
 
-		if ( command.startsWith( "unequip" ) )
+		if ( command.startsWith( "unequip" ) || command.startsWith( "remove" ) )
 		{
 			executeUnequipCommand( parameters );
 			return;
