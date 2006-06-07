@@ -123,15 +123,16 @@ public abstract class KoLmafia implements KoLConstants
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
 	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
 
-	protected static boolean isMakingRequest;
-	protected static KoLRequest currentRequest;
-	protected static LoginRequest cachedLogin;
+	private static boolean recoveryActive = false;
+	protected static boolean isMakingRequest = false;
+	protected static KoLRequest currentRequest = null;
+	protected static LoginRequest cachedLogin = null;
 	private static String currentIterationString = "";
 	protected static int currentState = CONTINUE_STATE;
 
 	protected String password, sessionID, passwordHash;
 
-	protected KoLSettings settings;
+	protected KoLSettings settings = null;
 	protected Properties LOCAL_SETTINGS = new Properties();
 
 	protected int [] initialStats = new int[3];
@@ -153,7 +154,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected LockableListModel microbreweryItems = new LockableListModel();
 	protected LockableListModel galaktikCures = new LockableListModel();
 
-	protected boolean useDisjunction;
+	protected boolean useDisjunction = false;
 	protected SortedListModel conditions = new SortedListModel();
 	protected LockableListModel adventureList = new LockableListModel();
 	protected SortedListModel encounterList = new SortedListModel();
@@ -1553,30 +1554,27 @@ public abstract class KoLmafia implements KoLConstants
 
 			currentIterationString = "";
 
-			if ( currentState == PENDING_STATE )
+			if ( !permitsContinue() )
 			{
-				// If we canceled the iteration without
-				// generating a real error, permit
-				// scripts to continue.
+				if ( currentState == PENDING_STATE )
+					currentState = CONTINUE_STATE;
 
-				forceContinue();
+				return;
 			}
-			else if ( permitsContinue() )
-			{
-				// If you've completed the requests, make sure to update
-				// the display.
 
-				if ( request instanceof KoLAdventure && !conditions.isEmpty() )
-					updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
-						((currentIteration == 2) ? " request." : " requests.") );
+			// If you've completed the requests, make sure to update
+			// the display.
 
-				else if ( initialConditions != 0 && conditions.isEmpty() )
-					updateDisplay( "Conditions satisfied after " + (currentIteration - 1) +
-						((currentIteration == 2) ? " request." : " requests.") );
+			if ( request instanceof KoLAdventure && !conditions.isEmpty() )
+				updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
+					((currentIteration == 2) ? " request." : " requests.") );
 
-				else if ( !(request instanceof UseSkillRequest ) )
-					updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
-			}
+			else if ( initialConditions != 0 && conditions.isEmpty() )
+				updateDisplay( "Conditions satisfied after " + (currentIteration - 1) +
+					((currentIteration == 2) ? " request." : " requests.") );
+
+			else if ( !(request instanceof UseSkillRequest ) )
+				updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
 		}
 		catch ( Exception e )
 		{
@@ -2670,17 +2668,24 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void runBetweenBattleChecks()
 	{
+		if ( recoveryActive || refusesContinue() )
+			return;
+
 		// Before running the request, make sure you have enough
 		// mana and health to continue.
 
 		if ( !(getCurrentRequest() instanceof CampgroundRequest) )
 		{
+			recoveryActive = true;
 			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
+
 			if ( !scriptPath.equals( "" ) )
 				DEFAULT_SHELL.executeLine( scriptPath );
 
 			recoverHP();
 			recoverMP();
+
+			recoveryActive = false;
 		}
 
 		if ( permitsContinue() )
