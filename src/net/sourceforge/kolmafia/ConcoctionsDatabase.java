@@ -651,6 +651,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
 			hasOneIngredient |= KoLCharacter.getInventory().contains( ingredients[i] );
+			hasOneIngredient |= KoLCharacter.getCloset().contains( ingredients[i] );
 			hasOneIngredient |= ingredients.length > 1 && hasAnyIngredient( ingredients[i].getItemID() );
 			hasOneIngredient |= NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemID ) );
 		}
