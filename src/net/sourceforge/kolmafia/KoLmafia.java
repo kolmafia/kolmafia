@@ -311,9 +311,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public synchronized static void enableDisplay()
-	{
-		try { throw new Exception(); } catch ( Exception e ) { e.printStackTrace(); }
-		updateDisplayState( KoLmafia.permitsContinue() ? ABORT_STATE : ENABLE_STATE );
+	{	updateDisplayState( KoLmafia.permitsContinue() ? ABORT_STATE : ENABLE_STATE );
 	}
 
 	public synchronized static void updateDisplayState( int state )
@@ -503,6 +501,10 @@ public abstract class KoLmafia implements KoLConstants
 		// and item creation.
 
 		(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
+		if ( refusesContinue() )
+			return;
+
+		(new EquipmentRequest( this, EquipmentRequest.QUESTS )).run();
 		if ( refusesContinue() )
 			return;
 
