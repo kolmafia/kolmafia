@@ -289,6 +289,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						"Would you like to delete the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
 						KoLMailManager.deleteMessages( mailboxName, messages );
+						KoLmafia.enableDisplay();
 					}
 
 					return;
@@ -304,6 +305,7 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 						"Would you like to save the selected messages?", "Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE ) )
 					{
 						KoLMailManager.saveMessages( messages );
+						KoLmafia.enableDisplay();
 					}
 
 					return;
