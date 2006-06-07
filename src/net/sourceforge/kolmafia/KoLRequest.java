@@ -498,16 +498,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( !isDelayExempt() && KoLmafia.refusesContinue() )
-			return;
+		isServerFriendly = getProperty( "serverFriendly" ).equals( "true" ) ||
+			getProperty( "showAllRequests" ).equals( "true" );
 
-		if ( !isDelayExempt() && !(this instanceof FightRequest) && client.getCurrentRequest() instanceof FightRequest && client.getCurrentRequest().getAdventuresUsed() == 0 )
-		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Unexpected request attempted mid-fight." );
-			return;
-		}
-
-		KoLRequest.isServerFriendly = getProperty( "serverFriendly" ).equals( "true" );
 		execute();
 
 		if ( getURLString().equals( "main.php?refreshtop=true&noobmessage=true" ) )
@@ -536,7 +529,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		do
 		{
 			statusChanged = false;
-			if ( !isDelayExempt() && ( getProperty( "showAllRequests" ).equals( "true" ) || isServerFriendly ) )
+			if ( !isDelayExempt() && isServerFriendly )
 				KoLRequest.delay();
 		}
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
