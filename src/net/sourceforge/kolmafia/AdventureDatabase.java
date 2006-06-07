@@ -707,7 +707,8 @@ public class AdventureDatabase extends KoLDatabase
 
 			boolean shouldPurchase = price != 0 && price != -1;
 			boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
-			boolean shouldAutoSatisfyEarly = canUseNPCStore;
+
+			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemID() );
 			boolean shouldUseMall = getProperty( "autoSatisfyChecks" ).equals( "true" );
 
 			switch ( ConcoctionsDatabase.getMixingMethod( item.getItemID() ) )
@@ -722,16 +723,10 @@ public class AdventureDatabase extends KoLDatabase
 					shouldAutoSatisfyEarly = true;
 			}
 
-			if ( shouldPurchase && shouldAutoSatisfyEarly && (canUseNPCStore || shouldUseMall) )
+			if ( shouldPurchase && shouldAutoSatisfyEarly )
 			{
-				// Ignore all items which have no autosell value,
-				// because these tend to get really ugly in the mall.
-
-				if ( creator == null )
-				{
-					if ( canUseNPCStore || KoLCharacter.canInteract() )
-						missingCount = retrieveItem( "buy", null, item, missingCount );
-				}
+				if ( canUseNPCStore || (KoLCharacter.canInteract() && shouldUseMall) )
+					missingCount = retrieveItem( "buy", null, item, missingCount );
 			}
 
 			if ( missingCount <= 0 )
