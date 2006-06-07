@@ -486,6 +486,7 @@ public class AdventureFrame extends KoLFrame
 
 		private JComboBox castleWheelSelect;
 		private JComboBox spookyForestSelect;
+		private JComboBox violetFogSelect;
 
 		/**
 		 * Constructs a new <code>ChoiceOptionsPanel</code>.
@@ -535,18 +536,23 @@ public class AdventureFrame extends KoLFrame
 			spookyForestSelect.addItem( "Loot Disco Bandit corpse" );
 			spookyForestSelect.addItem( "Loot Accordion Thief corpse" );
 
-			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 6 ];
+			violetFogSelect = new JComboBox();
+			for ( int i = 0; i < VioletFog.FogGoals.length; ++i )
+				violetFogSelect.addItem( VioletFog.FogGoals[i] );
+
+			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 7 ];
 			elements[0] = new VerifiableElement( "Combat Abort", battleStopSelect );
 			elements[1] = new VerifiableElement( "Clover Protect", cloverProtectSelect );
 
 			elements[2] = new VerifiableElement( "", new JLabel() );
 			elements[3] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
 			elements[4] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
-			elements[5] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
+			elements[5] = new VerifiableElement( "Violet Fog", violetFogSelect );
+			elements[6] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
 
-			elements[6] = new VerifiableElement( "", new JLabel() );
+			elements[7] = new VerifiableElement( "", new JLabel() );
 			for ( int i = 1; i < optionSelects.length; ++i )
-				elements[i+6] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i][1][0], optionSelects[i] );
+				elements[i+7] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i][1][0], optionSelects[i] );
 
 			setContent( elements );
 			actionCancelled();
@@ -556,6 +562,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "cloverProtectActive", String.valueOf( cloverProtectSelect.getSelectedIndex() == 0 ) );
+			setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
 			setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
@@ -670,6 +677,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
 			cloverProtectSelect.setSelectedIndex( getProperty( "cloverProtectActive" ).equals( "true" ) ? 0 : 1 );
+			violetFogSelect.setSelectedIndex( Integer.parseInt( getProperty( "violetFogGoal" ) ) );
 
 			optionSelects[0].setSelectedItem( getProperty( "luckySewerAdventure" ) );
 			for ( int i = 1; i < optionSelects.length; ++i )

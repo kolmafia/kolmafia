@@ -109,6 +109,8 @@ public class AdventureDatabase extends KoLDatabase
 		  { "seal-clubbing club", "seal tooth", "helmet turtle", "scroll of turtle summoning", "pasta spoon", "ravioli hat",
 		    "saucepan", "disco mask", "disco ball", "stolen accordion", "mariachi pants" } },
 
+		// Choice 1 is unknown
+
 		// Denim Axes Examined
 		{ { "choiceAdventure2" }, { "Palindome" },
 		  { "Trade for a denim axe", "Keep your rubber axe" } },
@@ -125,6 +127,8 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure5" }, { "Gravy Barrow 1" },
 		  { "Enter the cave", "Don't enter the cave" } },
 
+		// Choice 6 is unknown
+
 		// How Depressing
 		{ { "choiceAdventure7" }, { "Gravy Barrow 2" },
 		  { "Put your hand in the depression", "Leave the cave" } },
@@ -132,6 +136,8 @@ public class AdventureDatabase extends KoLDatabase
 		// On the Verge of a Dirge
 		{ { "choiceAdventure8" }, { "Gravy Barrow 3" },
 		  { "Enter the chamber", "Enter the chamber", "Enter the chamber" } },
+
+		// Choices 9 - 13 are unknown
 
 		// A Bard Day's Night
 		{ { "choiceAdventure14" }, { "Knob Goblin Harem" },
@@ -191,6 +197,8 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
 		  { "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } },
 
+		// Choices 26 - 39 are unknown
+
 		// The Effervescent Fray
 		{ { "choiceAdventure40" }, { "Cola Wars 1" },
 		  { "Cloaca-Cola fatigues", "Dyspepsi-Cola shield", "15 Mysticality" },
@@ -206,17 +214,25 @@ public class AdventureDatabase extends KoLDatabase
 		  { "Dyspepsi-Cola helmet", "Cloaca-Cola shield", "15 Moxie" },
 		  { "1326", "1327", null } },
 
+		// Choices 43 - 44 are unknown
+
 		// Maps and Legends
-		{ { "choiceAdventure45" }, { "Spooky Forest 3" },
+		{ { "choiceAdventure45" }, { "Spooky Forest 1" },
 		  { "Spooky Temple Map", "Ignore the monolith", "Nothing" } },
 
 		// An Interesting Choice
-		{ { "choiceAdventure46" }, { "Spooky Forest 4" },
+		{ { "choiceAdventure46" }, { "Spooky Forest 2" },
 		  { "Moxie", "Muscle", "Fight" } },
 
 		// Have a Heart
-		{ { "choiceAdventure47" }, { "Spooky Forest 5" },
+		{ { "choiceAdventure47" }, { "Spooky Forest 3" },
 		  { "Trade for used blood", "Keep your hearts" } },
+
+		// Choices 48 - 70 are violet fog adventures
+
+		// A Journey to the Center of Your Mind
+		{ { "choiceAdventure71" }, { "Half-Astral" },
+		  { "Take the Bad Trip", "Take the Mediocre Trip", "Take the Great Trip" } },
 	};
 
 	// Some choice adventures have a choice that behaves as an "ignore"
@@ -796,6 +812,10 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static boolean consumesAdventure( String choice, String decision )
 	{
+		// See if it's a free movement in the violet fog
+		if ( VioletFog.freeAdventure( choice, decision ) )
+			return false;
+
 		for ( int i = 0; i < IGNORABLE_CHOICES.length; ++i )
 			if ( choice.equals( IGNORABLE_CHOICES[i][0] ) )
 				return !decision.equals( IGNORABLE_CHOICES[i][1] );

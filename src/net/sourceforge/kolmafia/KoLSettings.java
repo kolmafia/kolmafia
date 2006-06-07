@@ -250,6 +250,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "useTabbedChat", "1" );
 		hadChanges |= ensureProperty( "useTextHeavySidepane", "true" );
 		hadChanges |= ensureProperty( "useToolbars", "true" );
+		hadChanges |= ensureProperty( "violetFogGoal", "0" );
 		hadChanges |= ensureProperty( "whiteList", "" );
 		hadChanges |= ensureProperty( "zoneExcludeList", "Removed" );
 		hadChanges |= ensureProperty( "guiUsesOneWindow", "false" );
@@ -297,6 +298,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "choiceAdventure45", "0" );
 		hadChanges |= ensureNonZeroProperty( "choiceAdventure46", "3" );
 		hadChanges |= ensureNonZeroProperty( "choiceAdventure47", "2" );
+		hadChanges |= ensureNonZeroProperty( "choiceAdventure71", "1" );
 
 		// Wheel choice adventures need special handling.
 		// This is where everything is validated for that.
