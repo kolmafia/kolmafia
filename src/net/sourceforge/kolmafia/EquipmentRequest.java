@@ -489,7 +489,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				super.processResults();
 				KoLmafia.updateDisplay( "Inventory retrieved." );
 			}
-			if ( requestType == QUESTS )
+			else if ( requestType == QUESTS )
 			{
 				parseQuestItems();
 				super.processResults();
