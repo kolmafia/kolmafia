@@ -568,7 +568,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 */
 
 	protected static void delay()
-	{	delay( 4000 );
+	{	delay( 1000 );
 	}
 
 	/**
@@ -642,7 +642,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e, "Error in URL: " + KOL_ROOT + formURLString );
-			KoLRequest.delay();
 			return false;
 		}
 
@@ -667,8 +666,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( this instanceof LoginRequest)
 				chooseNewLoginServer();
-			else
-				KoLRequest.delay();
+
 			return false;
 		}
 
@@ -735,10 +733,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !(this instanceof ChatRequest) )
 				KoLmafia.getDebugStream().println( "Connection timed out during post.  Retrying..." );
 
-			if ( this instanceof LoginRequest)
+			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
-			else
-				KoLRequest.delay();
+
 			return false;
 		}
 	}
@@ -812,6 +809,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				chooseNewLoginServer();
 			else
 				KoLRequest.delay();
+
 			return false;
 		}
 
