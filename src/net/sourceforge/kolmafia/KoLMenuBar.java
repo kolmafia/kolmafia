@@ -712,7 +712,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( new CreateFrameRunnable( frameClass, parameters ) )).start();
+		{	(new Thread( new CreateFrameRunnable( frameClass, parameters ) )).start();
 		}
 	}
 

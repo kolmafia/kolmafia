@@ -370,13 +370,11 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 		public void actionCancelled()
 		{
 			ProfileRequest [] selection = getSelection();
+			Object [] parameters = new Object[1];
 
 			for ( int i = 0; i < selection.length; ++i )
 			{
-				Object [] parameters = new Object[2];
-				parameters[0] = StaticEntity.getClient();
-				parameters[1] = selection[i];
-
+				parameters[0] = selection[i];
 				(new CreateFrameRunnable( ProfileFrame.class, parameters )).run();
 			}
 		}

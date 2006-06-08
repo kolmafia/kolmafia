@@ -257,71 +257,82 @@ public class ChatFrame extends KoLFrame
 
 			private void submitChat()
 			{
-				String currentMessage = entryField.getText();
-				if ( currentMessage.startsWith( "/clear" ) || currentMessage.startsWith( "/cls" ) || currentMessage.equals( "clear" ) || currentMessage.equals( "cls" ) )
+				String message = entryField.getText();
+				if ( message.startsWith( "/clear" ) || message.startsWith( "/cls" ) || message.equals( "clear" ) || message.equals( "cls" ) )
 				{
 					KoLMessenger.clearChatBuffers();
 					return;
 				}
 
-				KoLMessenger.setUpdateChannel( associatedContact );
-				ChatRequest [] requests;
-
-				if ( currentMessage.length() <= 256 )
-				{
-					// This is a standard-length message.  Send it
-					// without adding additional divisions.
-
-					requests = new ChatRequest[1];
-					requests[0] = new ChatRequest( StaticEntity.getClient(), associatedContact, currentMessage );
-				}
-				else if ( currentMessage.length() < 1000 || associatedContact.equals( "/clan" ) )
-				{
-					// If the message is too long for one message, then
-					// divide it into its component pieces.
-
-					String trimmedMessage;
-					List splitMessages = new ArrayList();
-					int prevSpaceIndex = 0, nextSpaceIndex = 0;
-
-					while ( nextSpaceIndex < currentMessage.length() )
-					{
-						nextSpaceIndex = prevSpaceIndex + 240 >= currentMessage.length() ? currentMessage.length() :
-							currentMessage.lastIndexOf( " ", Math.min( prevSpaceIndex + 240, currentMessage.length() ) );
-
-						if ( nextSpaceIndex == -1 )
-							nextSpaceIndex = Math.min( prevSpaceIndex + 240, currentMessage.length() );
-
-						trimmedMessage = currentMessage.substring( prevSpaceIndex, nextSpaceIndex ).trim();
-
-						if ( prevSpaceIndex != 0 )
-							trimmedMessage = "... " + trimmedMessage;
-						if ( nextSpaceIndex != currentMessage.length() )
-							trimmedMessage = trimmedMessage + " ...";
-						if ( currentMessage.startsWith( "/" ) )
-							trimmedMessage = "/me " + trimmedMessage.replaceFirst( "/[^\\s]*\\s+", "" );
-
-						splitMessages.add( trimmedMessage );
-						prevSpaceIndex = nextSpaceIndex;
-					}
-
-					requests = new ChatRequest[ splitMessages.size() ];
-					for ( int i = 0; i < splitMessages.size(); ++i )
-						requests[i] = new ChatRequest( StaticEntity.getClient(), associatedContact, (String) splitMessages.get(i) );
-				}
-				else
-				{
-					// If the person tried to send a message with more than
-					// 1000 characters to a normal channel, that would flood
-					// the chat too quickly.  Automatically truncate in this
-					// case.
-
-					requests = new ChatRequest[1];
-					requests[0] = new ChatRequest( StaticEntity.getClient(), associatedContact, currentMessage.substring( 0, 256 ) );
-				}
-
-				(new RequestThread( requests )).start();
+				(new Thread( new ChatSubmitter( message ) )).start();
 				entryField.setText( "" );
+			}
+
+			private class ChatSubmitter implements Runnable
+			{
+				private String message;
+
+				public ChatSubmitter( String message )
+				{	this.message = message;
+				}
+
+				public void run()
+				{
+					KoLMessenger.setUpdateChannel( associatedContact );
+					ChatRequest [] requests;
+
+					if ( message.length() <= 256 )
+					{
+						// This is a standard-length message.  Send it
+						// without adding additional divisions.
+
+						requests = new ChatRequest[1];
+						requests[0] = new ChatRequest( StaticEntity.getClient(), associatedContact, message );
+					}
+					else if ( message.length() < 1000 || associatedContact.equals( "/clan" ) )
+					{
+						// If the message is too long for one message, then
+						// divide it into its component pieces.
+
+						String trimmedMessage;
+						List splitMessages = new ArrayList();
+						int prevSpaceIndex = 0, nextSpaceIndex = 0;
+
+						while ( nextSpaceIndex < message.length() )
+						{
+							nextSpaceIndex = prevSpaceIndex + 240 >= message.length() ? message.length() :
+								message.lastIndexOf( " ", Math.min( prevSpaceIndex + 240, message.length() ) );
+
+							if ( nextSpaceIndex == -1 )
+								nextSpaceIndex = Math.min( prevSpaceIndex + 240, message.length() );
+
+							trimmedMessage = message.substring( prevSpaceIndex, nextSpaceIndex ).trim();
+
+							if ( prevSpaceIndex != 0 )
+								trimmedMessage = "... " + trimmedMessage;
+							if ( nextSpaceIndex != message.length() )
+								trimmedMessage = trimmedMessage + " ...";
+							if ( message.startsWith( "/" ) )
+								trimmedMessage = "/me " + trimmedMessage.replaceFirst( "/[^\\s]*\\s+", "" );
+
+							splitMessages.add( trimmedMessage );
+							prevSpaceIndex = nextSpaceIndex;
+						}
+
+						requests = new ChatRequest[ splitMessages.size() ];
+						for ( int i = 0; i < splitMessages.size(); ++i )
+							(new ChatRequest( StaticEntity.getClient(), associatedContact, (String) splitMessages.get(i) )).run();
+					}
+					else
+					{
+						// If the person tried to send a message with more than
+						// 1000 characters to a normal channel, that would flood
+						// the chat too quickly.  Automatically truncate in this
+						// case.
+
+						(new ChatRequest( StaticEntity.getClient(), associatedContact, message.substring( 0, 256 ) )).run();
+					}
+				}
 			}
 		}
 	}
