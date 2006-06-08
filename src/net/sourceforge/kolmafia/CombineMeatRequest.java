@@ -58,6 +58,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 
 	public void run()
 	{
+		KoLmafia.updateDisplay( "Creating " + getQuantityNeeded() + " " + TradeableItemDatabase.getItemName( meatType ) + "..." );
 		addFormField( "quantity", String.valueOf( getQuantityNeeded() ) );
 		super.run();
 	}
