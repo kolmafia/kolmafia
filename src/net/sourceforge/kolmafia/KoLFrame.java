@@ -1209,4 +1209,28 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 		}
 	}
+
+	protected class LoadScriptButton extends JButton implements Runnable, ActionListener
+	{
+		private String scriptPath;
+
+		public LoadScriptButton( int scriptID, String scriptPath )
+		{
+			super( String.valueOf( scriptID ) );
+
+			addActionListener( this );
+			this.scriptPath = scriptPath;
+			setToolTipText( scriptPath );
+
+			JComponentUtilities.setComponentSize( this, 30, 30 );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new RequestThread( this )).start();
+		}
+
+		public void run()
+		{	DEFAULT_SHELL.executeLine( scriptPath );
+		}
+	}
 }
