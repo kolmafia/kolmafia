@@ -287,8 +287,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !existingFrames.isEmpty() )
 			updateDisplayState( CONTINUE_STATE, message );
 	}
-	
-	
+
+
 
 	private static synchronized final void updateDisplayState( int state, String message )
 	{
@@ -357,8 +357,8 @@ public abstract class KoLmafia implements KoLConstants
 			settings.setProperty( "keepSessionLogs", "true" );
 			KoLmafia.openSessionStream();
 		}
-		else
-			KoLmafia.closeSessionStream();
+//		else
+//			KoLmafia.closeSessionStream();
 
 		GLOBAL_SETTINGS.setProperty( "lastUsername", username );
 		KoLCharacter.reset( username );
@@ -833,6 +833,9 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void applyRecentEffects()
 	{
+		if ( recentEffects.isEmpty() )
+			return;
+
 		for ( int j = 0; j < recentEffects.size(); ++j )
 			AdventureResult.addResultToList( KoLCharacter.getEffects(), (AdventureResult) recentEffects.get(j) );
 
@@ -1550,7 +1553,10 @@ public abstract class KoLmafia implements KoLConstants
 				// status, go ahead and refresh it.
 
 				if ( shouldRefreshStatus )
+				{
 					CharpaneRequest.getInstance().run();
+					KoLCharacter.recalculateAdjustments( false );
+				}
 			}
 
 			if ( shouldEnableRefreshStatus )
@@ -2453,8 +2459,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		// With all that information parsed out, we should
 		// refresh the lists at the very end.
-
-		KoLCharacter.refreshCalculatedLists();
 
 		if ( purchaseCount == maxPurchases || maxPurchases == Integer.MAX_VALUE )
 			updateDisplay( "Purchases complete." );
