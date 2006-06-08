@@ -369,7 +369,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			ronaldLight = getRonaldMoonlight( ronaldPhase, j % 11 );
 			grimaceLight = getGrimaceMoonlight( grimacePhase, j % 11 );
 
-			if ( ronaldPhase < 2 && grimacePhase < 2 && ronaldLight == grimaceLight )
+			if ( (ronaldPhase == 0 || ronaldPhase == 7) && (grimacePhase == 0 || grimacePhase == 7) && ronaldLight == grimaceLight )
 				return i - calendarDay;
 		}
 	}
@@ -576,7 +576,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		int ronaldLight = getRonaldMoonlight( ronaldPhase, hamburglarPosition );
 		int grimaceLight = getGrimaceMoonlight( grimacePhase, hamburglarPosition );
-		int hamburglarLight = hamburglarPosition == 10 ? 1 : 0;
+		int hamburglarLight = hamburglarPosition == 10 ? 2 : 0;
 		return ronaldLight + grimaceLight + hamburglarLight;
 	}
 

@@ -111,7 +111,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( formURLString.indexOf( "lchat.php" ) != -1 )
 		{
-			fullResponse = fullResponse.replaceAll( "cycles++", "" ).replaceAll(
+			fullResponse = fullResponse.replaceAll( "cycles\\+\\+", "count = 0" ).replaceAll(
 				"window.?location.?hostname", "\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
 
 			fullResponse = fullResponse.replaceAll(
