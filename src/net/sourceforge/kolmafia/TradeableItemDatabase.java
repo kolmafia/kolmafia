@@ -95,7 +95,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 
@@ -124,7 +124,7 @@ public class TradeableItemDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -246,6 +246,16 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		if ( canonicalName.equals( "little sump'm sump'ms" ) )
 			return 682;
+
+		// redrum pluralizes into redsrum
+
+		if ( canonicalName.equals( "redsrum" ) )
+			return 1352;
+
+		// kiwi pluralizes into kiwus
+
+		if ( canonicalName.equals( "kiwus" ) )
+			return 1562;
 
 		// gibson pluralizes into carlisles
 
