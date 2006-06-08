@@ -53,16 +53,16 @@ public class EquipmentRequest extends PasswordHashRequest
 	public static final String UNEQUIP = "(none)";
 
 	public static final int CLOSET = 1;
-
 	private static final int QUESTS = 2;
 	private static final int EQUIPMENT = 3;
+	private static final int CONSUMABLES = 4;
 
-	private static final int SAVE_OUTFIT = 4;
-	private static final int CHANGE_OUTFIT = 5;
+	private static final int SAVE_OUTFIT = 5;
+	private static final int CHANGE_OUTFIT = 6;
 
-	private static final int CHANGE_ITEM = 6;
-	private static final int REMOVE_ITEM = 7;
-	private static final int UNEQUIP_ALL = 8;
+	private static final int CHANGE_ITEM = 7;
+	private static final int REMOVE_ITEM = 8;
+	private static final int UNEQUIP_ALL = 9;
 
 	// Array indexed by equipment "slot" from KoLCharacter
 	//
@@ -107,6 +107,8 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( requestType == QUESTS )
 			addFormField( "which", "3" );
+		else if ( requestType == CONSUMABLES )
+			addFormField( "which", "1" );
 		else if ( requestType != CLOSET )
 			addFormField( "which", "2" );
 
@@ -490,8 +492,9 @@ public class EquipmentRequest extends PasswordHashRequest
 				super.processResults();
 				(new EquipmentRequest( client, EquipmentRequest.QUESTS )).run();
 				(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
+				(new EquipmentRequest( client, EquipmentRequest.CONSUMABLES )).run();
 			}
-			else if ( requestType == QUESTS )
+			else if ( requestType == QUESTS || requestType == CONSUMABLES )
 			{
 				parseQuestItems();
 				super.processResults();
