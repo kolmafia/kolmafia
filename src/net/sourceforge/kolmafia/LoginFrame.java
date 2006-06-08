@@ -329,6 +329,13 @@ public class LoginFrame extends KoLFrame
 				setPassword();
 			}
 
+			public void focusGained( FocusEvent e )
+			{
+				super.focusGained( e );
+				passwordField.setText( "" );
+				setStatusMessage( " " );
+			}
+
 			public void focusLost( FocusEvent e )
 			{
 				super.focusLost( e );

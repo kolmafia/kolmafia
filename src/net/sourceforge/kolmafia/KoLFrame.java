@@ -767,7 +767,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( new CreateFrameRunnable( frameClass ) )).start();
+		{	(new Thread( new CreateFrameRunnable( frameClass ) )).start();
 		}
 	}
 
@@ -874,7 +874,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) )).start();
+		{	(new Thread( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) )).start();
 		}
 	}
 

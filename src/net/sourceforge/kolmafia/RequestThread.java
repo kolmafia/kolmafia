@@ -76,9 +76,7 @@ public class RequestThread extends Thread implements KoLConstants
 		if ( requests.length == 0 )
 			return;
 
-		if ( !(requests[0] instanceof ChatRequest && (requests[0] instanceof KoLAdventure || requests[0] instanceof KoLRequest)) )
-			KoLmafia.forceContinue();
-
+		KoLmafia.forceContinue();
 		for ( int i = 0; i < requests.length; ++i )
 		{
 			// Chat requests are only run once, no matter what
@@ -110,8 +108,7 @@ public class RequestThread extends Thread implements KoLConstants
 					requests[i].run();
 		}
 
-		if ( !(requests[0] instanceof ChatRequest && (requests[0] instanceof KoLAdventure || requests[0] instanceof KoLRequest)) )
-			KoLmafia.enableDisplay();
+		KoLmafia.enableDisplay();
 	}
 
 	protected void run( KoLRequest request, int repeatCount )

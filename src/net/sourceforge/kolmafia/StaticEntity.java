@@ -161,7 +161,7 @@ public abstract class StaticEntity implements KoLConstants
 			parameters[0] = request;
 		}
 
-		(new RequestThread( new CreateFrameRunnable( RequestFrame.class, parameters ) )).start();
+		(new Thread( new CreateFrameRunnable( RequestFrame.class, parameters ) )).start();
 	}
 
 	public static void externalUpdate( String location, String responseText )
