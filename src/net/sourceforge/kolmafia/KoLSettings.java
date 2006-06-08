@@ -202,7 +202,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "createWithoutBoxServants", "false" );
 		hadChanges |= ensureProperty( "defaultDropdown1", "0" );
 		hadChanges |= ensureProperty( "defaultDropdown2", "1" );
-		hadChanges |= ensureProperty( "defaultLimit", "13" );
+		hadChanges |= ensureProperty( "defaultLimit", "5" );
 		hadChanges |= ensureProperty( "defaultToRelayBrowser", "true" );
 		hadChanges |= ensureProperty( "eSoluScriptType", "0" );
 		hadChanges |= ensureProperty( "fontSize", "3" );

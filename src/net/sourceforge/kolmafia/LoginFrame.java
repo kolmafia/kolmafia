@@ -288,7 +288,7 @@ public class LoginFrame extends KoLFrame
 
 			if ( username == null || password == null || username.equals("") || password.equals("") )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Invalid login." );
+				setStatusMessage( ERROR_STATE, "Invalid login." );
 				return;
 			}
 
