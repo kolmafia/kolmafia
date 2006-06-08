@@ -54,7 +54,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public static final int CLOSET = 1;
 	private static final int QUESTS = 2;
-	private static final int EQUIPMENT = 3;
+	public static final int EQUIPMENT = 3;
 	private static final int CONSUMABLES = 4;
 
 	private static final int SAVE_OUTFIT = 5;
