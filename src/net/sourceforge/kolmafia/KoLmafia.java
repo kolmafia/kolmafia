@@ -357,8 +357,8 @@ public abstract class KoLmafia implements KoLConstants
 			settings.setProperty( "keepSessionLogs", "true" );
 			KoLmafia.openSessionStream();
 		}
-//		else
-//			KoLmafia.closeSessionStream();
+		else
+			KoLmafia.closeSessionStream();
 
 		GLOBAL_SETTINGS.setProperty( "lastUsername", username );
 		KoLCharacter.reset( username );
@@ -491,15 +491,6 @@ public abstract class KoLmafia implements KoLConstants
 		// and item creation.
 
 		(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
-		if ( refusesContinue() )
-			return;
-
-		(new EquipmentRequest( this, EquipmentRequest.QUESTS )).run();
-		if ( refusesContinue() )
-			return;
-
-		(new EquipmentRequest( this, EquipmentRequest.EQUIPMENT )).run();
-		SpecialOutfit.deleteCheckpoint();
 		if ( refusesContinue() )
 			return;
 

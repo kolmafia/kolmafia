@@ -36,9 +36,12 @@ package net.sourceforge.kolmafia;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * A special request used specifically to search the mall for items and retrieve the
@@ -51,6 +54,7 @@ public class SearchMallRequest extends KoLRequest
 {
 	private List results;
 	private boolean retainAll;
+	private boolean sortAfter;
 	private String searchString;
 
 	/**
@@ -67,6 +71,7 @@ public class SearchMallRequest extends KoLRequest
 
 		this.results = new ArrayList();
 		this.retainAll = true;
+		this.sortAfter = false;
 	}
 
 	/**
@@ -82,7 +87,7 @@ public class SearchMallRequest extends KoLRequest
 	 */
 
 	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results )
-	{	this( client, searchString, cheapestCount, results, false );
+	{	this( client, searchString, cheapestCount, results, false, true );
 	}
 
 	/**
@@ -98,6 +103,23 @@ public class SearchMallRequest extends KoLRequest
 	 */
 
 	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results, boolean retainAll )
+	{	this( client, searchString, cheapestCount, results, retainAll, false );
+	}
+
+	/**
+	 * Constructs a new <code>SearchMallRequest</code> which searches for
+	 * the given item, storing the results in the given <code>ListModel</code>.
+	 * Note that the search string is exactly the same as the way KoL does
+	 * it at the current time.
+	 *
+	 * @param	client	The client to be notified in case of error
+	 * @param	searchString	The string (including wildcards) for the item to be found
+	 * @param	cheapestCount	The number of stores to show; use a non-positive number to show all
+	 * @param	results	The sorted list in which to store the results
+	 * @param	sortAfter	Whether the results should be resorted by price afterwards
+	 */
+
+	public SearchMallRequest( KoLmafia client, String searchString, int cheapestCount, List results, boolean retainAll, boolean sortAfter )
 	{
 		super( client, searchString == null || searchString.trim().length() == 0 ? "mall.php" : "searchmall.php" );
 
@@ -112,6 +134,7 @@ public class SearchMallRequest extends KoLRequest
 
 		this.results = results;
 		this.retainAll = retainAll;
+		this.sortAfter = sortAfter;
 	}
 
 	private String getItemName( String searchString )
@@ -388,6 +411,14 @@ public class SearchMallRequest extends KoLRequest
 		for ( int i = 0; i < names.length; ++i )
 			if ( NPCStoreDatabase.contains( names[i] ) )
 				results.add( NPCStoreDatabase.getPurchaseRequest( names[i] ) );
+
+		if ( this.sortAfter )
+		{
+			if ( results instanceof LockableListModel )
+				((LockableListModel)results).sort();
+			else
+				Collections.sort( results );
+		}
 	}
 
 	protected void processResults()

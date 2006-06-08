@@ -53,8 +53,9 @@ public class EquipmentRequest extends PasswordHashRequest
 	public static final String UNEQUIP = "(none)";
 
 	public static final int CLOSET = 1;
-	public static final int QUESTS = 2;
-	public static final int EQUIPMENT = 3;
+
+	private static final int QUESTS = 2;
+	private static final int EQUIPMENT = 3;
 
 	private static final int SAVE_OUTFIT = 4;
 	private static final int CHANGE_OUTFIT = 5;
@@ -487,7 +488,8 @@ public class EquipmentRequest extends PasswordHashRequest
 			{
 				parseCloset();
 				super.processResults();
-				KoLmafia.updateDisplay( "Inventory retrieved." );
+				(new EquipmentRequest( client, EquipmentRequest.QUESTS )).run();
+				(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
 			}
 			else if ( requestType == QUESTS )
 			{
