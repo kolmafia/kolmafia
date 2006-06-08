@@ -645,11 +645,11 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private void parseQuestItems()
 	{
-		Matcher itemMatcher = Pattern.compile( "<b>([^<]+)</b>([^<]*?)<font size=1>" ).matcher( responseText );
+		Matcher itemMatcher = Pattern.compile( "<b>(<a[^>]*>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" ).matcher( responseText );
 		while ( itemMatcher.find() )
 		{
-			String quantity = itemMatcher.group(2).trim();
-			AdventureResult item = new AdventureResult( itemMatcher.group(1),
+			String quantity = itemMatcher.group(4).trim();
+			AdventureResult item = new AdventureResult( itemMatcher.group(2),
 				quantity.length() == 0 ? 1 : Integer.parseInt( quantity.substring( 1, quantity.length() - 1 ) ) );
 
 			if ( !KoLCharacter.getInventory().contains( item ) )
