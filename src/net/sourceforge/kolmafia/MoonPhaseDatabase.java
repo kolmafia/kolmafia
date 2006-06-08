@@ -296,7 +296,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			return phaseStep == -1 ? "Could not determine moon phase." : STAT_EFFECT[ phaseStep ];
 		}
 
-		int hamburglarPosition = getHamburglarPosition( time ) - 1;
+		int hamburglarPosition = getHamburglarPosition( time );
 
 		int daysUntilMuscle = getDaysUntilMuscle( calendarDay, hamburglarPosition, time );
 		int daysUntilMysticality = getDaysUntilMysticality( calendarDay, hamburglarPosition, time );
@@ -337,9 +337,18 @@ public class MoonPhaseDatabase extends StaticEntity
 			return Math.min( (20 - phaseStep) % 16, (28 - phaseStep) % 16 );
 		}
 
+		int ronaldPhase, grimacePhase, ronaldLight, grimaceLight;
 		for ( int i = calendarDay, j = hamburglarPosition; ; ++i, j += 2 )
-			if ( getRonaldMoonlight( i % 8, j % 11 ) == 4 && getGrimaceMoonlight( (i % 16) / 2, j % 11 ) == 2 )
+		{
+			ronaldPhase = i % 8;
+			grimacePhase = (i % 16) / 2;
+
+			ronaldLight = getRonaldMoonlight( ronaldPhase, j % 11 );
+			grimaceLight = getGrimaceMoonlight( grimacePhase, j % 11 );
+
+			if ( ronaldLight == 4 && grimaceLight == 2 )
 				return i - calendarDay;
+		}
 	}
 
 	public static final int getDaysUntilMoxie( int calendarDay, int hamburglarPosition, Date time )
@@ -360,7 +369,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			ronaldLight = getRonaldMoonlight( ronaldPhase, j % 11 );
 			grimaceLight = getGrimaceMoonlight( grimacePhase, j % 11 );
 
-			if ( ronaldPhase == grimacePhase && ronaldLight == grimaceLight )
+			if ( ronaldPhase < 2 && grimacePhase < 2 && ronaldLight == grimaceLight )
 				return i - calendarDay;
 		}
 	}
@@ -375,38 +384,39 @@ public class MoonPhaseDatabase extends StaticEntity
 		//
 		//       8   9    10    0   1
 
-		int phaseModifier = 0;
+		int lightModifier = 0;
 		switch ( ronaldPhase )
 		{
 			case 0:
 				if ( hamburglarPosition == 8 || hamburglarPosition == 9 )
-					phaseModifier = 1;
+					lightModifier = 1;
 				break;
 			case 1:
 				if ( hamburglarPosition == 8 )
-					phaseModifier = -1;
+					lightModifier = -1;
 				if ( hamburglarPosition == 9 )
-					phaseModifier = 1;
+					lightModifier = 1;
 				break;
 			case 2:
 				if ( hamburglarPosition == 9 )
-					phaseModifier = 1;
+					lightModifier = 1;
 				break;
 			case 3:
 				if ( hamburglarPosition == 8 )
-					phaseModifier = -1;
+					lightModifier = -1;
 				if ( hamburglarPosition == 9 )
-					phaseModifier = 1;
+					lightModifier = 1;
 				break;
 			default:
 				if ( hamburglarPosition == 8 )
-					phaseModifier = 1;
+					lightModifier = 1;
 				if ( hamburglarPosition == 9 )
-					phaseModifier = -1;
+					lightModifier = -1;
 				break;
 		}
 
-		return (ronaldPhase > 4 ? 8 - ronaldPhase : ronaldPhase) + phaseModifier;
+		int baseLight = ronaldPhase > 4 ? 8 - ronaldPhase : ronaldPhase;
+		return baseLight + lightModifier;
 	}
 
 	public static final int getGrimaceMoonlight( int grimacePhase, int hamburglarPosition )
@@ -419,38 +429,39 @@ public class MoonPhaseDatabase extends StaticEntity
 		//
 		//       8   9    10    0   1
 
-		int phaseModifier = 0;
+		int lightModifier = 0;
 		switch ( grimacePhase )
 		{
 			case 0:
 				if ( hamburglarPosition == 0 || hamburglarPosition == 1 )
-					phaseModifier = 1;
+					lightModifier = 1;
 				break;
 			case 1:
 				if ( hamburglarPosition == 0 )
-					phaseModifier = -1;
+					lightModifier = -1;
 				if ( hamburglarPosition == 1 )
-					phaseModifier = 1;
+					lightModifier = 1;
 				break;
 			case 2:
 				if ( hamburglarPosition == 1 )
-					phaseModifier = 1;
+					lightModifier = 1;
 				break;
 			case 3:
 				if ( hamburglarPosition == 0 )
-					phaseModifier = -1;
+					lightModifier = -1;
 				if ( hamburglarPosition == 1 )
-					phaseModifier = 1;
+					lightModifier = 1;
 				break;
 			default:
 				if ( hamburglarPosition == 0 )
-					phaseModifier = 1;
+					lightModifier = 1;
 				if ( hamburglarPosition == 1 )
-					phaseModifier = -1;
+					lightModifier = -1;
 				break;
 		}
 
-		return (grimacePhase > 4 ? 8 - grimacePhase : grimacePhase) + phaseModifier;
+		int baseLight = grimacePhase > 4 ? 8 - grimacePhase : grimacePhase;
+		return baseLight + lightModifier;
 	}
 
 	/**
