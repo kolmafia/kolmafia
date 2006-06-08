@@ -54,6 +54,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	private static long NEWYEAR = 0;
 	private static long BOUNDARY = 0;
+	private static long COLLISION = 0;
 
 	static
 	{
@@ -61,6 +62,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		{
 			NEWYEAR = sdf.parse( "20050917" ).getTime();
 			BOUNDARY = sdf.parse( "20051027" ).getTime();
+			COLLISION = sdf.parse( "20060603" ).getTime();
 		}
 		catch ( Exception e )
 		{
@@ -73,6 +75,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	private static int RONALD_PHASE = -1;
 	private static int GRIMACE_PHASE = -1;
+	private static int HAMBURGLAR_POSITION = 0;
 
 	static
 	{
@@ -83,6 +86,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 			RONALD_PHASE = phaseStep % 8;
 			GRIMACE_PHASE = phaseStep / 2;
+			HAMBURGLAR_POSITION = getHamburglarPosition( new Date() );
 		}
 		catch ( Exception e )
 		{
@@ -216,6 +220,17 @@ public class MoonPhaseDatabase extends StaticEntity
 	{	return GRIMACE_PHASE + 1;
 	}
 
+	public static final int getHamburglarPosition( Date time )
+	{
+		long timeDifference = time.getTime();
+		if ( timeDifference < COLLISION )
+			return 0;
+
+		timeDifference -= COLLISION;
+		int dayDifference = (int) Math.floor( timeDifference / 86400000L );
+		return (((dayDifference * 2) % 11) + 11) % 11;
+	}
+
 	/**
 	 * Method to return which phase of the moon is currently
 	 * appearing over the Kingdom of Loathing, as a string.
@@ -261,7 +276,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static final String getMoonEffect()
-	{	return getMoonEffect( RONALD_PHASE, GRIMACE_PHASE );
+	{	return getMoonEffect( new Date() );
 	}
 
 	/**
@@ -270,10 +285,162 @@ public class MoonPhaseDatabase extends StaticEntity
 	 * given the phase value.
 	 */
 
-	public static final String getMoonEffect( int ronaldPhase, int grimacePhase )
+	public static final String getMoonEffect( Date time )
 	{
-		int phaseStep = getPhaseStep( ronaldPhase, grimacePhase );
-		return phaseStep == -1 || phaseStep >= STAT_EFFECT.length ? "Could not determine moon phase." : STAT_EFFECT[ phaseStep ];
+		int calendarDay = getCalendarDay( time );
+		long timeDifference = time.getTime();
+
+		if ( timeDifference < COLLISION )
+		{
+			int phaseStep = calendarDay % 16;
+			return phaseStep == -1 ? "Could not determine moon phase." : STAT_EFFECT[ phaseStep ];
+		}
+
+		int hamburglarPosition = getHamburglarPosition( time ) - 1;
+
+		int daysUntilMuscle = getDaysUntilMuscle( calendarDay, hamburglarPosition, time );
+		int daysUntilMysticality = getDaysUntilMysticality( calendarDay, hamburglarPosition, time );
+		int daysUntilMoxie = getDaysUntilMoxie( calendarDay, hamburglarPosition, time );
+
+		if ( daysUntilMuscle < daysUntilMysticality && daysUntilMuscle < daysUntilMoxie )
+			return daysUntilMuscle == 0 ? "Muscle day today." : daysUntilMuscle == 1 ?
+				"Muscle day tomorrow." : daysUntilMuscle + " days until Muscle.";
+
+		if ( daysUntilMysticality < daysUntilMuscle && daysUntilMysticality < daysUntilMoxie )
+			return daysUntilMysticality == 0 ? "Mysticality day today." : daysUntilMysticality == 1 ?
+				"Mysticality day tomorrow." : daysUntilMysticality + " days until Mysticism.";
+
+		return daysUntilMoxie == 0 ? "Moxie day today." : daysUntilMoxie == 1 ?
+			"Moxie day tomorrow." : daysUntilMoxie + " days until Moxie.";
+	}
+
+	public static final int getDaysUntilMuscle( int calendarDay, int hamburglarPosition, Date time )
+	{
+		long timeDifference = time.getTime();
+		if ( timeDifference < COLLISION )
+		{
+			int phaseStep = calendarDay % 16;
+			return Math.min( (24 - phaseStep) % 16, (25 - phaseStep) % 16 );
+		}
+
+		for ( int i = calendarDay, j = hamburglarPosition; ; ++i, j += 2 )
+			if ( getGrimaceMoonlight( (i % 16) / 2, j % 11 ) == 4 )
+				return i - calendarDay;
+	}
+
+	public static final int getDaysUntilMysticality( int calendarDay, int hamburglarPosition, Date time )
+	{
+		long timeDifference = time.getTime();
+		if ( timeDifference < COLLISION )
+		{
+			int phaseStep = calendarDay % 16;
+			return Math.min( (20 - phaseStep) % 16, (28 - phaseStep) % 16 );
+		}
+
+		for ( int i = calendarDay, j = hamburglarPosition; ; ++i, j += 2 )
+			if ( getRonaldMoonlight( i % 8, j % 11 ) == 4 && getGrimaceMoonlight( (i % 16) / 2, j % 11 ) == 2 )
+				return i - calendarDay;
+	}
+
+	public static final int getDaysUntilMoxie( int calendarDay, int hamburglarPosition, Date time )
+	{
+		long timeDifference = time.getTime();
+		if ( timeDifference < COLLISION )
+		{
+			int phaseStep = calendarDay % 16;
+			return Math.min( (16 - phaseStep) % 16, (31 - phaseStep) % 16 );
+		}
+
+		int ronaldPhase, grimacePhase, ronaldLight, grimaceLight;
+		for ( int i = calendarDay, j = hamburglarPosition; ; ++i, j += 2 )
+		{
+			ronaldPhase = i % 8;
+			grimacePhase = (i % 16) / 2;
+
+			ronaldLight = getRonaldMoonlight( ronaldPhase, j % 11 );
+			grimaceLight = getGrimaceMoonlight( grimacePhase, j % 11 );
+
+			if ( ronaldPhase == grimacePhase && ronaldLight == grimaceLight )
+				return i - calendarDay;
+		}
+	}
+
+	public static final int getRonaldMoonlight( int ronaldPhase, int hamburglarPosition )
+	{
+		//         6    5    4    3
+		//
+		//       /---\          /---\
+		//   7   | R |          | G |   2
+		//       \___/          \___/
+		//
+		//       8   9    10    0   1
+
+		int phaseModifier = 0;
+		switch ( ronaldPhase )
+		{
+			case 0:
+				if ( hamburglarPosition == 8 || hamburglarPosition == 9 )
+					phaseModifier = 1;
+				break;
+			case 1:
+			case 2:
+				if ( hamburglarPosition == 9 )
+					phaseModifier = 1;
+				break;
+			case 3:
+				if ( hamburglarPosition == 8 )
+					phaseModifier = -1;
+				if ( hamburglarPosition == 9 )
+					phaseModifier = 1;
+				break;
+			default:
+				if ( hamburglarPosition == 8 )
+					phaseModifier = 1;
+				if ( hamburglarPosition == 9 )
+					phaseModifier = -1;
+				break;
+		}
+
+		return (ronaldPhase > 4 ? 8 - ronaldPhase : ronaldPhase) + phaseModifier;
+	}
+
+	public static final int getGrimaceMoonlight( int grimacePhase, int hamburglarPosition )
+	{
+		//         6    5    4    3
+		//
+		//       /---\          /---\
+		//   7   | R |          | G |   2
+		//       \___/          \___/
+		//
+		//       8   9    10    0   1
+
+		int phaseModifier = 0;
+		switch ( grimacePhase )
+		{
+			case 0:
+				if ( hamburglarPosition == 0 || hamburglarPosition == 1 )
+					phaseModifier = 1;
+				break;
+			case 1:
+			case 2:
+				if ( hamburglarPosition == 1 )
+					phaseModifier = 1;
+				break;
+			case 3:
+				if ( hamburglarPosition == 0 )
+					phaseModifier = -1;
+				if ( hamburglarPosition == 1 )
+					phaseModifier = 1;
+				break;
+			default:
+				if ( hamburglarPosition == 0 )
+					phaseModifier = 1;
+				if ( hamburglarPosition == 1 )
+					phaseModifier = -1;
+				break;
+		}
+
+		return (grimacePhase > 4 ? 8 - grimacePhase : grimacePhase) + phaseModifier;
 	}
 
 	/**
@@ -303,7 +470,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static final boolean getGrueEffect()
-	{	return getGrueEffect( RONALD_PHASE, GRIMACE_PHASE );
+	{	return getGrueEffect( RONALD_PHASE, GRIMACE_PHASE, HAMBURGLAR_POSITION );
 	}
 
 	/**
@@ -311,8 +478,8 @@ public class MoonPhaseDatabase extends StaticEntity
 	 * given moon phases.
 	 */
 
-	public static final boolean getGrueEffect( int ronaldPhase, int grimacePhase )
-	{	return getMoonlight( ronaldPhase, grimacePhase ) < 5;
+	public static final boolean getGrueEffect( int ronaldPhase, int grimacePhase, int hamburglarPosition )
+	{	return getMoonlight( ronaldPhase, grimacePhase, hamburglarPosition ) < 5;
 	}
 
 	/**
@@ -321,7 +488,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static final int getBloodEffect()
-	{	return getBloodEffect( RONALD_PHASE, GRIMACE_PHASE );
+	{	return getBloodEffect( RONALD_PHASE, GRIMACE_PHASE, HAMBURGLAR_POSITION );
 	}
 
 	/**
@@ -329,8 +496,8 @@ public class MoonPhaseDatabase extends StaticEntity
 	 * of Blood of the Wereseal for the given moon phase.
 	 */
 
-	public static final int getBloodEffect( int ronaldPhase, int grimacePhase )
-	{	return (getMoonlight( ronaldPhase, grimacePhase ) - 4) * 25;
+	public static final int getBloodEffect( int ronaldPhase, int grimacePhase, int hamburglarPosition )
+	{	return (getMoonlight( ronaldPhase, grimacePhase, hamburglarPosition ) - 4) * 25;
 	}
 
 	/**
@@ -339,7 +506,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static final int getBaioEffect()
-	{	return getBaioEffect( RONALD_PHASE, GRIMACE_PHASE );
+	{	return getBaioEffect( RONALD_PHASE, GRIMACE_PHASE, HAMBURGLAR_POSITION );
 	}
 
 	/**
@@ -347,8 +514,8 @@ public class MoonPhaseDatabase extends StaticEntity
 	 * of the Talisman of Baio for the given moon phases.
 	 */
 
-	public static final int getBaioEffect( int ronaldPhase, int grimacePhase )
-	{	return getMoonlight( ronaldPhase, grimacePhase ) * 10;
+	public static final int getBaioEffect( int ronaldPhase, int grimacePhase, int hamburglarPosition )
+	{	return getMoonlight( ronaldPhase, grimacePhase, hamburglarPosition ) * 10;
 	}
 
 	/**
@@ -357,16 +524,16 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static final String getJekyllinEffect()
-	{	return getJekyllinEffect( RONALD_PHASE, GRIMACE_PHASE );
+	{	return getJekyllinEffect( RONALD_PHASE, GRIMACE_PHASE, HAMBURGLAR_POSITION );
 	}
 
 	/**
 	 * Returns the effect of the Jekyllin for the given moon phases
 	 */
 
-	public static final String getJekyllinEffect( int ronaldPhase, int grimacePhase )
+	public static final String getJekyllinEffect( int ronaldPhase, int grimacePhase, int hamburglarPosition )
 	{
-		int moonlight = getMoonlight( ronaldPhase, grimacePhase );
+		int moonlight = getMoonlight( ronaldPhase, grimacePhase, hamburglarPosition );
 		return "+" + (9 - moonlight) + " stats, " + (15 + moonlight * 5) + "% items";
 	}
 
@@ -376,7 +543,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static final int getMoonlight()
-	{	return getMoonlight( RONALD_PHASE, GRIMACE_PHASE );
+	{	return getMoonlight( RONALD_PHASE, GRIMACE_PHASE, HAMBURGLAR_POSITION );
 	}
 
 	/**
@@ -384,12 +551,12 @@ public class MoonPhaseDatabase extends StaticEntity
 	 * given the moon phases as stated.
 	 */
 
-	private static final int getMoonlight( int ronaldPhase, int grimacePhase )
+	private static final int getMoonlight( int ronaldPhase, int grimacePhase, int hamburglarPosition )
 	{
-		int ronaldLight = ronaldPhase > 4 ? 8 - ronaldPhase : ronaldPhase;
-		int grimaceLight = grimacePhase > 4 ? 8 - grimacePhase : grimacePhase;
-
-		return ronaldLight + grimaceLight;
+		int ronaldLight = getRonaldMoonlight( ronaldPhase, hamburglarPosition );
+		int grimaceLight = getGrimaceMoonlight( grimacePhase, hamburglarPosition );
+		int hamburglarLight = hamburglarPosition == 10 ? 1 : 0;
+		return ronaldLight + grimaceLight + hamburglarLight;
 	}
 
 	/**
@@ -468,7 +635,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static boolean isMuscleDay( Date time )
-	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MUSDAY;
+	{	return getMoonEffect( time ).startsWith( "Muscle day today" );
 	}
 
 	/**
@@ -480,7 +647,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static boolean isMysticalityDay( Date time )
-	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MYSDAY;
+	{	return getMoonEffect( time ).startsWith( "Mysticality day today" );
 	}
 
 	/**
@@ -492,7 +659,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static boolean isMoxieDay( Date time )
-	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MOXDAY;
+	{	return getMoonEffect( time ).startsWith( "Moxie day today" );
 	}
 
 	/**

@@ -77,8 +77,10 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	// They are made static as a design decision to allow the oracle
 	// table nested inside of this class the access it needs to data.
 
+	private static int calendarDay = 0;
 	private static int ronaldPhase = -1;
 	private static int grimacePhase = -1;
+	private static int hamburglarPosition = -1;
 
 	private static JCalendar calendar;
 	private static OracleTable oracleTable;
@@ -224,11 +226,12 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// formatter (which strips time information) and
 		// reparse the date.
 
-		int calendarDay = MoonPhaseDatabase.getCalendarDay( time );
+		calendarDay = MoonPhaseDatabase.getCalendarDay( time );
 		int phaseStep = ((calendarDay % 16) + 16) % 16;
 
 		ronaldPhase = phaseStep % 8;
 		grimacePhase = phaseStep / 2;
+		hamburglarPosition = MoonPhaseDatabase.getHamburglarPosition( time );
 	}
 
 	/**
@@ -253,7 +256,6 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// link shown in the clan calendar.
 
 		displayHTML.append( "<center><table><tr><td valign=top>" );
-
 		displayHTML.append( "<center><table border=1><tr><td align=center>drawn by <b>" );
 
 		// Display either girls or boys of loathing, as desired
@@ -298,26 +300,51 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// the uber-spiffy name for each phase.  Just
 		// like in the browser, Ronald then Grimace.
 
-		displayHTML.append( "<tr><td align=right><b>Ronald</b>:&nbsp;</td><td><img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
+		displayHTML.append( "<tr><td colspan=2 align=\"center\">" );
+
+		if ( hamburglarPosition == 7 )
+			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon2.gif\">" );
+
+		displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
 		displayHTML.append( ronaldPhase + 1 );
-		displayHTML.append( ".gif\">&nbsp; (" );
-		displayHTML.append( MoonPhaseDatabase.getPhaseName( ronaldPhase ) );
-		displayHTML.append( ")</td></tr>" );
-		displayHTML.append( "<tr><td align=right><b>Grimace</b>:&nbsp;</td><td><img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
+
+		if ( hamburglarPosition == 8 || hamburglarPosition == 9 )
+			displayHTML.append( hamburglarPosition == 8 ? "a" : "b" );
+
+		displayHTML.append( ".gif\">" );
+
+		if ( hamburglarPosition == 4 || hamburglarPosition == 5 || hamburglarPosition == 10 )
+			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon.gif\">" );
+
+		displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
 		displayHTML.append( grimacePhase + 1 );
-		displayHTML.append( ".gif\">&nbsp; (" );
+
+		if ( hamburglarPosition == 0 || hamburglarPosition == 1 )
+			displayHTML.append( hamburglarPosition == 0 ? "a" : "b" );
+
+		displayHTML.append( ".gif\">" );
+
+		if ( hamburglarPosition == 2 )
+			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon2.gif\">" );
+
+		displayHTML.append( "</td></tr><tr><td colspan=2></td></tr>" );
+
+		displayHTML.append( "<tr><td align=right><b>Ronald</b>:&nbsp;</td><td>" );
+		displayHTML.append( MoonPhaseDatabase.getPhaseName( ronaldPhase ) );
+		displayHTML.append( "</td></tr>" );
+		displayHTML.append( "<tr><td align=right><b>Grimace</b>:&nbsp;</td><td>" );
 		displayHTML.append( MoonPhaseDatabase.getPhaseName( grimacePhase ) );
-		displayHTML.append( ")</td></tr>" );
+		displayHTML.append( "</td></tr>" );
 		displayHTML.append( "<tr><td align=right><b>Stats</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getMoonEffect( ronaldPhase, grimacePhase ) );
+		displayHTML.append( MoonPhaseDatabase.getMoonEffect( selectedDate ) );
 		displayHTML.append( "</td></tr><td align=right><b>Grue</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getGrueEffect( ronaldPhase, grimacePhase ) ? "bloodlusty" : "pacifistic" );
+		displayHTML.append( MoonPhaseDatabase.getGrueEffect( ronaldPhase, grimacePhase, hamburglarPosition ) ? "bloodlusty" : "pacifistic" );
 		displayHTML.append( "</td></tr><td align=right><b>Blood</b>:&nbsp;</td><td>" );
-		appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBloodEffect( ronaldPhase, grimacePhase ) );
+		appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBloodEffect( ronaldPhase, grimacePhase, hamburglarPosition ) );
 		displayHTML.append( "</td></tr><td align=right><b>Baio</b>:&nbsp;</td><td>" );
-		appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBaioEffect( ronaldPhase, grimacePhase ) );
+		appendModifierPercentage( displayHTML, MoonPhaseDatabase.getBaioEffect( ronaldPhase, grimacePhase, hamburglarPosition ) );
 		displayHTML.append( "</td></tr><td align=right><b>Jekyllin</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getJekyllinEffect( ronaldPhase, grimacePhase ) );
+		displayHTML.append( MoonPhaseDatabase.getJekyllinEffect( ronaldPhase, grimacePhase, hamburglarPosition ) );
 		displayHTML.append( "</td></tr></table></center>" );
 
 		// That completes the table display!  More data
@@ -353,21 +380,24 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( TODAY_FORMATTER.format( selectedDate ) );
 		displayHTML.append( "</u></b><br><i>" );
 		displayHTML.append( MoonPhaseDatabase.getCalendarDayAsString( selectedDate ) );
-		displayHTML.append( "</i>" );
+		displayHTML.append( "</i><br>&nbsp;<br>" );
 
 		// Next display the upcoming stat days.
 
-		displayHTML.append( "<p><b>Muscle Day</b>:&nbsp;" );
-		displayHTML.append( MoonPhaseDatabase.getDayCountAsString( Math.min( (24 - phaseStep) % 16, (25 - phaseStep) % 16 ) ) );
+		displayHTML.append( "<b>Muscle Day</b>:&nbsp;" );
+		displayHTML.append( MoonPhaseDatabase.getDayCountAsString(
+			MoonPhaseDatabase.getDaysUntilMuscle( calendarDay, hamburglarPosition, selectedDate ) ) );
 		displayHTML.append( "<br>" );
 
 		displayHTML.append( "<b>Mysticality Day</b>:&nbsp;" );
-		displayHTML.append( MoonPhaseDatabase.getDayCountAsString( Math.min( (20 - phaseStep) % 16, (28 - phaseStep) % 16 ) ) );
+		displayHTML.append( MoonPhaseDatabase.getDayCountAsString(
+			MoonPhaseDatabase.getDaysUntilMysticality( calendarDay, hamburglarPosition, selectedDate ) ) );
 		displayHTML.append( "<br>" );
 
 		displayHTML.append( "<b>Moxie Day</b>:&nbsp;" );
-		displayHTML.append( MoonPhaseDatabase.getDayCountAsString( Math.min( (16 - phaseStep) % 16, (31 - phaseStep) % 16 ) ) );
-		displayHTML.append( "</p><p>" );
+		displayHTML.append( MoonPhaseDatabase.getDayCountAsString(
+			MoonPhaseDatabase.getDaysUntilMoxie( calendarDay, hamburglarPosition, selectedDate ) ) );
+		displayHTML.append( "<br>&nbsp;<br>" );
 
 		// Next display the upcoming holidays.  This is done
 		// through loop calculations in order to minimize the
