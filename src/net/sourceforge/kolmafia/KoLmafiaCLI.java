@@ -98,7 +98,7 @@ public class KoLmafiaCLI extends KoLmafia
 		System.out.println();
 
 		StaticEntity.setClient( DEFAULT_SHELL );
-		DEFAULT_SHELL.outputStream = System.out;
+		KoLmafia.outputStream = System.out;
 
 		if ( initialScript.length() == 0 )
 		{
@@ -124,9 +124,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public KoLmafiaCLI( InputStream inputStream )
 	{
-		if ( DEFAULT_SHELL != null )
-			outputStream = DEFAULT_SHELL.outputStream;
-
 		try
 		{
 			commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
