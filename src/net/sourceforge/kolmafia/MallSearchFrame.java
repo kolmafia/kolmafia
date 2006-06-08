@@ -163,6 +163,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			currentlyBuying = false;
 
 			resultsList.updateUI();
+			KoLmafia.enableDisplay();
 		}
 
 		public void requestFocus()
