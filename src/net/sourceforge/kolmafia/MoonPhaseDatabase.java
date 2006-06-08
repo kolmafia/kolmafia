@@ -75,7 +75,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	private static int RONALD_PHASE = -1;
 	private static int GRIMACE_PHASE = -1;
-	private static int HAMBURGLAR_POSITION = 0;
+	private static int HAMBURGLAR_POSITION = -1;
 
 	static
 	{
@@ -383,6 +383,11 @@ public class MoonPhaseDatabase extends StaticEntity
 					phaseModifier = 1;
 				break;
 			case 1:
+				if ( hamburglarPosition == 8 )
+					phaseModifier = -1;
+				if ( hamburglarPosition == 9 )
+					phaseModifier = 1;
+				break;
 			case 2:
 				if ( hamburglarPosition == 9 )
 					phaseModifier = 1;
@@ -422,6 +427,11 @@ public class MoonPhaseDatabase extends StaticEntity
 					phaseModifier = 1;
 				break;
 			case 1:
+				if ( hamburglarPosition == 0 )
+					phaseModifier = -1;
+				if ( hamburglarPosition == 1 )
+					phaseModifier = 1;
+				break;
 			case 2:
 				if ( hamburglarPosition == 1 )
 					phaseModifier = 1;
