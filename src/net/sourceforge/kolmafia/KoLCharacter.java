@@ -2469,8 +2469,6 @@ public abstract class KoLCharacter extends StaticEntity
 			else if ( result.isMoxieGain() )
 				totalSubpoints[2] += result.getCount();
 		}
-
-		refreshCalculatedLists();
 	}
 
 	/**

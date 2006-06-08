@@ -99,7 +99,12 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( getPasswordHash() != null && !isQuickLogin )
 		{
 			(new MailboxRequest( this, "Inbox" )).run();
-			(new ChannelColorsRequest()).run();
+
+			if ( StaticEntity.getProperty( "retrieveContacts" ).equals( "true" ) )
+			{
+				(new ContactListRequest( this )).run();
+				StaticEntity.setProperty( "retrieveContacts", String.valueOf( !contactList.isEmpty() ) );
+			}
 		}
 
 		String frameSetting = GLOBAL_SETTINGS.getProperty( "initialFrames" );
@@ -470,40 +475,5 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		(new RequestThread( new MindControlRequest( this, Integer.parseInt( selectedLevel.split( " " )[1] ) ) )).run();
-	}
-
-	private static class ChannelColorsRequest extends KoLRequest
-	{
-		public ChannelColorsRequest()
-		{	super( StaticEntity.getClient(), "account_chatcolors.php", true );
-		}
-
-		public void run()
-		{
-			super.run();
-
-			// First, add in all the colors for all of the
-			// channel tags (for people using standard KoL
-			// chatting mode).
-
-			Matcher colorMatcher = Pattern.compile( "<td>(.*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			while ( colorMatcher.find() )
-				KoLMessenger.setColor( colorMatcher.group(1).toLowerCase(), Integer.parseInt( colorMatcher.group(2) ) );
-
-			// Add in other custom colors which are available
-			// in the chat options.
-
-			colorMatcher = Pattern.compile( "<select name=chatcolorself>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorself", Integer.parseInt( colorMatcher.group(1) ) );
-
-			colorMatcher = Pattern.compile( "<select name=chatcolorcontacts>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorcontacts", Integer.parseInt( colorMatcher.group(1) ) );
-
-			colorMatcher = Pattern.compile( "<select name=chatcolorothers>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorothers", Integer.parseInt( colorMatcher.group(1) ) );
-		}
 	}
 }

@@ -108,6 +108,9 @@ public class RequestThread extends Thread implements KoLConstants
 					requests[i].run();
 		}
 
+		KoLCharacter.refreshCalculatedLists();
+		System.gc();
+
 		KoLmafia.enableDisplay();
 	}
 

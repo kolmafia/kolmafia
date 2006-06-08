@@ -51,6 +51,7 @@ import java.util.StringTokenizer;
 
 public class CharpaneRequest extends KoLRequest
 {
+	private boolean isRunning = false;
 	private static CharpaneRequest instance = null;
 
 	private CharpaneRequest( KoLmafia client )
@@ -68,6 +69,22 @@ public class CharpaneRequest extends KoLRequest
 			instance = new CharpaneRequest( StaticEntity.getClient() );
 
 		return instance;
+	}
+
+	public void run()
+	{
+		if ( isRunning )
+			return;
+
+		if ( !(Thread.currentThread() instanceof CharpaneThread) )
+		{
+			(new CharpaneThread()).start();
+			return;
+		}
+
+		isRunning = true;
+		super.run();
+		isRunning = false;
 	}
 
 	protected void processResults()
@@ -201,5 +218,12 @@ public class CharpaneRequest extends KoLRequest
 			KoLCharacter.setMindControlLevel( Integer.parseInt( matcher.group(2) ) );
 		else
 			KoLCharacter.setMindControlLevel( 0 );
+	}
+
+	private class CharpaneThread extends Thread
+	{
+		public void run()
+		{	CharpaneRequest.this.run();
+		}
 	}
 }

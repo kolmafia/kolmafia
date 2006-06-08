@@ -681,8 +681,8 @@ public class AdventureDatabase extends KoLDatabase
 			// Next, attempt to create the item from existing
 			// ingredients (if possible).
 
-			ItemCreationRequest creator = ItemCreationRequest.getInstance( client, item.getItemID(), item.getCount() );
-			if ( creator != null )
+			ItemCreationRequest creator = ItemCreationRequest.getInstance( client, item.getItemID(), missingCount );
+			if ( creator != null && ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) )
 			{
 				retrieveItem( creator, missingCount );
 				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );

@@ -71,6 +71,13 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
+	private static final AdventureResult [] WOODS_ITEMS = new AdventureResult[12];
+	static
+	{
+		for ( int i = 0; i < 12; ++i )
+			WOODS_ITEMS[i] = new AdventureResult( i + 1, 1 );
+	}
+
 	protected static boolean isCompactMode = false;
 	protected static boolean isServerFriendly = false;
 
@@ -1129,7 +1136,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( statusChanged && RequestFrame.willRefreshStatus() )
 			RequestFrame.refreshStatus();
 		else if ( statusChanged || needsRefresh )
+		{
 			CharpaneRequest.getInstance().run();
+			KoLCharacter.recalculateAdjustments( false );
+		}
 
 		KoLCharacter.updateStatus();
 	}
@@ -1179,6 +1189,16 @@ public class KoLRequest implements Runnable, KoLConstants
 		String choice = choiceMatcher.group(1);
 		String option = "choiceAdventure" + choice;
 		String decision = getProperty( option );
+
+		// If this happens to be adventure 26 or 27,
+		// check against the player's conditions.
+
+		if ( (choice.equals( "26" ) || choice.equals( "27" )) && !client.getConditions().isEmpty() )
+		{
+			for ( int i = 0; i < 12; ++i )
+				if ( WOODS_ITEMS[i].getCount( client.getConditions() ) > 0 )
+					decision = choice.equals( "26" ) ? String.valueOf( (i / 4) + 1 ) : String.valueOf( ((i % 4) / 2) + 1 );
+		}
 
 		// If there is no setting which determines the
 		// decision, see if it's in the violet fog

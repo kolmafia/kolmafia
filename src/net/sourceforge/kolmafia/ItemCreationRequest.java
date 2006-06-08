@@ -279,18 +279,20 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case SUBCLASS:
 
 				super.run();
-				return;
+				break;
 
 			case ROLLING_PIN:
 
 				makeDough();
-				return;
+				break;
 
 			default:
 
 				combineItems();
-				return;
+				break;
 		}
+
+		KoLCharacter.refreshCalculatedLists();
 	}
 
 	protected void makeDough()
