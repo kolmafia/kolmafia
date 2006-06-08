@@ -645,7 +645,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private void parseQuestItems()
 	{
-		Matcher itemMatcher = Pattern.compile( "<b>(<a[^>]*>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" ).matcher( responseText );
+		Matcher itemMatcher = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" ).matcher( responseText );
 		while ( itemMatcher.find() )
 		{
 			String quantity = itemMatcher.group(4).trim();
