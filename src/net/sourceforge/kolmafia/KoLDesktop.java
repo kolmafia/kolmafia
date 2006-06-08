@@ -202,6 +202,9 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		int tabIndex = INSTANCE.tabListing.indexOf( content );
 		if ( tabIndex == -1 )
 		{
+			if ( content.tabs != null )
+				content.tabs.setTabPlacement( JTabbedPane.BOTTOM );
+
 			INSTANCE.tabListing.add( content );
 			INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
 
