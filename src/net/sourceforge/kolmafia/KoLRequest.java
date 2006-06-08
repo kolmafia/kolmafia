@@ -202,7 +202,6 @@ public class KoLRequest implements Runnable, KoLConstants
 				int next = ( i + 1 ) % SERVERS.length;
 				KOL_HOST = SERVERS[next][0];
 				KOL_ROOT = "http://" + SERVERS[next][1] + "/";
-				KoLmafia.updateDisplay( KOL_HOST + " selected." );
 				return;
 			}
 	}
@@ -550,10 +549,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			else
 				processResults();
 		}
-		else
-		{
-			client.setCurrentRequest( null );
-		}
+
+		client.setCurrentRequest( null );
 	}
 
 	private boolean shouldIgnoreResults()

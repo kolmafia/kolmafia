@@ -65,6 +65,7 @@ import java.lang.reflect.Method;
 
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -282,10 +283,14 @@ public abstract class KoLmafia implements KoLConstants
 
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 		commandBuffer.append( colorBuffer.toString() );
-		updateDisplayPanels( state, message );
-	}
 
-	public static synchronized final void updateDisplayPanels( int state, String message )
+		if ( !existingFrames.isEmpty() )
+			updateDisplayState( CONTINUE_STATE, message );
+	}
+	
+	
+
+	private static synchronized final void updateDisplayState( int state, String message )
 	{
 		// Next, update all of the panels with the
 		// desired update message.
@@ -297,25 +302,13 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			if ( references[i].get() != null )
 			{
-				if ( references[i].get() instanceof KoLPanel )
+				if ( references[i].get() instanceof KoLPanel && message != null )
 					((KoLPanel) references[i].get()).setStatusMessage( state, message );
 
 				((Component)references[i].get()).setEnabled( state != CONTINUE_STATE );
 			}
 		}
 
-		// Finally, update all of the existing frames
-		// with the appropriate state.
-
-		updateDisplayState( CONTINUE_STATE );
-	}
-
-	public synchronized static void enableDisplay()
-	{	updateDisplayState( currentState == ABORT_STATE || currentState == ERROR_STATE ? ABORT_STATE : ENABLE_STATE );
-	}
-
-	public synchronized static void updateDisplayState( int state )
-	{
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
 
@@ -324,6 +317,12 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( KoLDesktop.instanceExists() )
 			KoLDesktop.getInstance().updateDisplayState( state );
+	}
+
+	public synchronized static void enableDisplay()
+	{
+		updateDisplayState(
+			currentState == ABORT_STATE || currentState == ERROR_STATE ? ABORT_STATE : ENABLE_STATE, null );
 	}
 
 	/**
