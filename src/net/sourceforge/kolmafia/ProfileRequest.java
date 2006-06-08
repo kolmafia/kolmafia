@@ -80,7 +80,7 @@ public class ProfileRequest extends KoLRequest
 		}
 
 		addFormField( "who", playerID );
-		
+
 		this.muscle = new Integer(0);
 		this.mysticism = new Integer(0);
 		this.moxie = new Integer(0);
@@ -164,11 +164,31 @@ public class ProfileRequest extends KoLRequest
 			else
 				this.currentRun = turnsPlayed;
 
+			String dateString = null;
 			while ( !st.nextToken().startsWith( "Account" ) );
-			this.created = INPUT_FORMAT.parse( st.nextToken().trim() );
+			try
+			{
+				dateString = st.nextToken().trim();
+				this.created = INPUT_FORMAT.parse( dateString );
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e, "Could not parse date \"" + dateString + "\"" );
+				this.created = new Date();
+			}
 
 			while ( !st.nextToken().startsWith( "Last" ) );
-			this.lastLogin = INPUT_FORMAT.parse( st.nextToken().trim() );
+
+			try
+			{
+				dateString = st.nextToken().trim();
+				this.lastLogin = INPUT_FORMAT.parse( dateString );
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e, "Could not parse date \"" + dateString + "\"" );
+				this.lastLogin = this.created;
+			}
 
 			if ( cleanHTML.indexOf( "\nFavorite Food" ) != -1 )
 			{
@@ -217,7 +237,7 @@ public class ProfileRequest extends KoLRequest
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Could not parse profile for " + playerName );
 		}
 	}
@@ -296,7 +316,7 @@ public class ProfileRequest extends KoLRequest
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Could not parse profile for " + playerName );
 		}
 
