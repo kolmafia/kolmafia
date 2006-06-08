@@ -682,13 +682,17 @@ public class AdventureDatabase extends KoLDatabase
 			// ingredients (if possible).
 
 			ItemCreationRequest creator = ItemCreationRequest.getInstance( client, item.getItemID(), missingCount );
-			if ( creator != null && ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) )
+			if ( creator != null )
 			{
-				retrieveItem( creator, missingCount );
-				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+				if ( ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.NOCREATE ||
+					ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) )
+				{
+					retrieveItem( creator, missingCount );
+					missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
-				if ( missingCount <= 0 )
-					return;
+					if ( missingCount <= 0 )
+						return;
+				}
 			}
 
 			// Next, hermit item retrieval is possible when
