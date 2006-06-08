@@ -784,7 +784,9 @@ public abstract class KoLMessenger extends StaticEntity
 
 				Matcher nameMatcher = Pattern.compile( "<a.*?>(.*?)</a>" ).matcher( message );
 				String contactName = nameMatcher.find() ? nameMatcher.group(1).replaceAll( "<.*?>", "" ) : message;
-				displayHTML = message.replaceFirst( contactName, "<font color=\"" + getColor( contactName ) + "\">" + contactName + "</font>" );
+
+				if ( contactName.indexOf( "*" ) == -1 )
+					displayHTML = message.replaceFirst( contactName, "<font color=\"" + getColor( contactName ) + "\">" + contactName + "</font>" );
 
 				// All messages which don't have a colon following the name
 				// are italicized messages from actions.
