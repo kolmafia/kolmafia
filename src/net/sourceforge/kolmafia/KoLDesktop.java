@@ -295,4 +295,18 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
 		}
 	}
+
+	public static void removeExtraTabs()
+	{
+		if ( INSTANCE == null )
+			return;
+		for ( int i = 0; i < INSTANCE.tabListing.size(); ++i )
+		{
+			KoLFrame frame = (KoLFrame) INSTANCE.tabListing.get( i );
+			if ( ( ("," + GLOBAL_SETTINGS.getProperty( "initialDesktop" ) + ",").indexOf( "," + frame.getFrameName() + "," ) != -1 ) ||
+				( frame instanceof ChatFrame ) )
+				continue;
+			frame.dispose();
+		}
+	}
 }

@@ -197,7 +197,7 @@ public class OptionsFrame extends KoLFrame
 			{ "keepSessionLogs", "Maintain dated player session log" },
 			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "autoSatisfyChecks", "Allow mall purchases on conditions check" },
-			{ "guiUsesOneWindow", "Close windows automatically" },
+			{ "guiUsesOneWindow", "Restrict interface to a single window" },
 		};
 
 		/**
