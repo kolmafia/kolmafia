@@ -111,13 +111,11 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( formURLString.indexOf( "lchat.php" ) != -1 )
 		{
-			fullResponse = fullResponse.replaceAll(
-				"window.?location.?hostname",
-				"\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
+			fullResponse = fullResponse.replaceAll( "cycles++", "" ).replaceAll(
+				"window.?location.?hostname", "\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
 
 			fullResponse = fullResponse.replaceAll(
-				"</head>",
-				"<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script></head>" );
+				"</head>", "<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script></head>" );
 		}
 
 		// Fix KoLmafia getting outdated by events happening
