@@ -364,7 +364,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			for ( int i = 0; i < messages.length - 1; ++i )
 			{
-				printLine( messages[i] );
+				updateDisplay( messages[i] );
 				KoLRequest.delay( 3000 );
 			}
 

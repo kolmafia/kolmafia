@@ -78,34 +78,13 @@ public class CommandDisplayFrame extends KoLFrame
 		if ( getProperty( "scriptList" ).equals( "" ) )
 			return;
 
-		JToolBar toolbarPanel = getToolbar();
-		String [] scriptList = getProperty( "scriptList" ).split( " \\| " );
-
-		for ( int i = 0; i < scriptList.length; ++i )
-			toolbarPanel.add( new LoadScriptButton( i + 1, scriptList[i] ) );
-	}
-
-	private class LoadScriptButton extends JButton implements Runnable, ActionListener
-	{
-		private String scriptPath;
-
-		public LoadScriptButton( int scriptID, String scriptPath )
+		if ( GLOBAL_SETTINGS.getProperty( "scriptButtonPosition" ).equals( "0" ) )
 		{
-			super( String.valueOf( scriptID ) );
+			JToolBar toolbarPanel = getToolbar();
+			String [] scriptList = getProperty( "scriptList" ).split( " \\| " );
 
-			addActionListener( this );
-			this.scriptPath = scriptPath;
-			setToolTipText( scriptPath );
-
-			JComponentUtilities.setComponentSize( this, 30, 30 );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
-		}
-
-		public void run()
-		{	DEFAULT_SHELL.executeLine( scriptPath );
+			for ( int i = 0; i < scriptList.length; ++i )
+				toolbarPanel.add( new LoadScriptButton( i + 1, scriptList[i] ) );
 		}
 	}
 

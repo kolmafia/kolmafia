@@ -239,6 +239,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "relayMovesManeuver", "true" );
 		hadChanges |= ensureProperty( "retrieveContacts", "true" );
 		hadChanges |= ensureProperty( "saveState", "" );
+		hadChanges |= ensureProperty( "scriptButtonPosition", "0" );
 		hadChanges |= ensureProperty( "scriptList", "win game" );
 		hadChanges |= ensureProperty( "serverFriendly", "false" );
 		hadChanges |= ensureProperty( "showAdventureZone", "true" );

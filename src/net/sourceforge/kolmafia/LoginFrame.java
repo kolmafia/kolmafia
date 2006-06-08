@@ -454,7 +454,6 @@ public class LoginFrame extends KoLFrame
 			{ "Request Synch", "FightFrame" },
 			{ "Relay Server", "LocalRelayServer" },
 
-			{ "Adventure", "AdventureFrame" },
 			{ "Purchases", "MallSearchFrame" },
 			{ "Graphical CLI", "CommandDisplayFrame" },
 
@@ -529,7 +528,7 @@ public class LoginFrame extends KoLFrame
 		public void actionConfirmed()
 		{
 			StringBuffer frameString = new StringBuffer();
-			StringBuffer desktopString = new StringBuffer();
+			StringBuffer desktopString = new StringBuffer( "AdventureFrame" );
 
 			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
 			{
@@ -542,8 +541,7 @@ public class LoginFrame extends KoLFrame
 
 				if ( interfaceOptions[i].isSelected() )
 				{
-					if ( desktopString.length() != 0 )
-						desktopString.append( "," );
+					desktopString.append( "," );
 					desktopString.append( FRAME_OPTIONS[i][1] );
 				}
 			}
@@ -599,12 +597,11 @@ public class LoginFrame extends KoLFrame
 		{
 			{ "useTextHeavySidepane", "Show detailed information in sidepane" },
 			{ "guiUsesOneWindow", "Restrict interface to a single window" },
-			{ "useToolbars", "Add shortcut buttons to main interface" },
 			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
 			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" }
 		};
 
-		private JComboBox servers, toolbars;
+		private JComboBox servers, toolbars, scripts;
 
 		public UserInterfacePanel()
 		{
@@ -619,12 +616,17 @@ public class LoginFrame extends KoLFrame
 			toolbars.addItem( "Show global menus only" );
 			toolbars.addItem( "Put toolbar along top of panel" );
 			toolbars.addItem( "Put toolbar along bottom of panel" );
-			toolbars.addItem( "Put toolbar left of panel" );
-			toolbars.addItem( "Put toolbar right of panel" );
+			toolbars.addItem( "Put toolbar along left of panel" );
 
-			VerifiableElement [] elements = new VerifiableElement[ 2 ];
+			scripts = new JComboBox();
+			scripts.addItem( "Do no show script bar on main interface" );
+			scripts.addItem( "Put script bar after normal toolbar" );
+			scripts.addItem( "Put script bar along right of panel" );
+
+			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Server: ", servers );
-			elements[1] = new VerifiableElement( "Toolbars: ", toolbars );
+			elements[1] = new VerifiableElement( "Toolbar: ", toolbars );
+			elements[2] = new VerifiableElement( "Scripts: ", scripts );
 
 			setContent( elements );
 			actionCancelled();
@@ -644,12 +646,14 @@ public class LoginFrame extends KoLFrame
 		{
 			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
+			GLOBAL_SETTINGS.setProperty( "scriptButtonPosition", String.valueOf( scripts.getSelectedIndex() ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
 		}
 
 		protected void actionCancelled()
 		{
 			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
+			scripts.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "scriptButtonPosition" ) ) );
 		}
 
 		private class InterfaceCheckboxPanel extends OptionsPanel
@@ -675,6 +679,14 @@ public class LoginFrame extends KoLFrame
 
 				setContent( elements, false );
 				actionCancelled();
+			}
+
+			protected void actionConfirmed()
+			{
+				for ( int i = 0; i < options.length; ++i )
+					setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+
+				super.actionConfirmed();
 			}
 
 			protected void actionCancelled()
