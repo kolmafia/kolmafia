@@ -207,6 +207,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "eSoluScriptType", "0" );
 		hadChanges |= ensureProperty( "fontSize", "3" );
 		hadChanges |= ensureProperty( "forceReconnect", "false" );
+		hadChanges |= ensureProperty( "guiUsesOneWindow", "false" );
 		hadChanges |= ensureProperty( "hpAutoRecover", "-0.1" );
 		hadChanges |= ensureProperty( "hpAutoRecoverTarget", "-0.1" );
 		hadChanges |= ensureProperty( "hpRecoveryScript", "" );
@@ -254,7 +255,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "violetFogGoal", "0" );
 		hadChanges |= ensureProperty( "whiteList", "" );
 		hadChanges |= ensureProperty( "zoneExcludeList", "Removed" );
-		hadChanges |= ensureProperty( "guiUsesOneWindow", "false" );
 
 		// These are settings related to choice adventures.
 		// Ensure that they exist, and if they do not, load

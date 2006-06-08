@@ -867,10 +867,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			setToolTipText( tooltip );
 			addActionListener( this );
 
-			parameters = new Object[3];
-			parameters[0] = StaticEntity.getClient();
-			parameters[1] = tooltip;
-			parameters[2] = panel;
+			parameters = new Object[2];
+			parameters[0] = tooltip;
+			parameters[1] = panel;
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -1175,5 +1174,39 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	public static boolean executesConflictingRequest()
 	{	return false;
+	}
+
+	/**
+	 * A generic panel which adds a label to the bottom of the KoLPanel
+	 * to update the panel's status.  It also provides a thread which is
+	 * guaranteed to be a daemon thread for updating the frame which
+	 * also retrieves a reference to the StaticEntity.getClient()'s current settings.
+	 */
+
+	protected abstract class OptionsPanel extends LabeledKoLPanel
+	{
+		public OptionsPanel()
+		{	this( new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+		}
+
+		public OptionsPanel( String panelTitle )
+		{	this( panelTitle, new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+		}
+
+		public OptionsPanel( Dimension left, Dimension right )
+		{	this( null, left, right );
+		}
+
+		public OptionsPanel( String panelTitle, Dimension left, Dimension right )
+		{	super( panelTitle, left, right );
+		}
+
+		public void setStatusMessage( int displayState, String message )
+		{
+		}
+
+		protected void actionConfirmed()
+		{
+		}
 	}
 }

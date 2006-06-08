@@ -155,8 +155,10 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 		String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktop" );
 		String [] interfaceArray = interfaceSetting.split( "," );
-		for ( int i = 0; i < interfaceArray.length; ++i )
-			KoLmafiaGUI.constructFrame( interfaceArray[i] );
+
+		if ( !interfaceSetting.equals( "" ) )
+			for ( int i = 0; i < interfaceArray.length; ++i )
+				KoLmafiaGUI.constructFrame( interfaceArray[i] );
 
 		if ( tabs.getTabCount() != 0 )
 			tabs.setSelectedIndex(0);
@@ -200,14 +202,14 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 		int tabIndex = INSTANCE.tabListing.indexOf( content );
 		if ( tabIndex == -1 )
 		{
-			if ( content.tabs != null )
-				content.tabs.setTabPlacement( JTabbedPane.BOTTOM );
-
 			INSTANCE.tabListing.add( content );
 			INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
 
 			tabIndex = INSTANCE.tabListing.size() - 1;
 		}
+
+		if ( !isInitializing )
+			INSTANCE.pack();
 
 		INSTANCE.tabs.setSelectedIndex( tabIndex );
 	}
@@ -300,12 +302,13 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	{
 		if ( INSTANCE == null )
 			return;
+
 		for ( int i = 0; i < INSTANCE.tabListing.size(); ++i )
 		{
 			KoLFrame frame = (KoLFrame) INSTANCE.tabListing.get( i );
-			if ( ( ("," + GLOBAL_SETTINGS.getProperty( "initialDesktop" ) + ",").indexOf( "," + frame.getFrameName() + "," ) != -1 ) ||
-				( frame instanceof ChatFrame ) )
+			if ( StaticEntity.getProperty( "initialDesktop" ).indexOf( frame.getFrameName() ) != -1 || frame instanceof ChatFrame )
 				continue;
+
 			frame.dispose();
 		}
 	}
