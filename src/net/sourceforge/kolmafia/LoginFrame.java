@@ -117,11 +117,11 @@ public class LoginFrame extends KoLFrame
 		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "hardcore" ) );
 		tabs.addTab( "Breakfast", breakfastPanel );
 
-		JScrollPane scroller = new JScrollPane( new StartupFramesPanel(),
+		JScrollPane scroller1 = new JScrollPane( new StartupFramesPanel(),
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-		JComponentUtilities.setComponentSize( scroller, 300, 300 );
-		tabs.addTab( "Displays", scroller );
+		JComponentUtilities.setComponentSize( scroller1, 300, 300 );
+		tabs.addTab( "Displays", scroller1 );
 
 		JPanel connectPanel = new JPanel();
 
@@ -129,7 +129,11 @@ public class LoginFrame extends KoLFrame
 		connectPanel.add( new UserInterfacePanel() );
 		connectPanel.add( new ProxyOptionsPanel() );
 
-		tabs.addTab( "Settings", connectPanel );
+		JScrollPane scroller2 = new JScrollPane( connectPanel,
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		JComponentUtilities.setComponentSize( scroller2, 300, 300 );
+		tabs.addTab( "Settings", scroller2 );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -563,6 +567,10 @@ public class LoginFrame extends KoLFrame
 			}
 		}
 
+		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
+		}
+
 		private class InterfaceRadioButton extends JRadioButton implements ActionListener
 		{
 			public InterfaceRadioButton( String text )
@@ -583,10 +591,20 @@ public class LoginFrame extends KoLFrame
 	 * to select the framing mode to use.
 	 */
 
-	private class UserInterfacePanel extends LabeledKoLPanel
+	private class UserInterfacePanel extends OptionsPanel
 	{
-		private JComboBox servers, textheavy, browser;
-		private JComboBox toolbars, windowing, trayicon;
+		private JCheckBox [] optionBoxes;
+
+		private final String [][] options =
+		{
+			{ "useTextHeavySidepane", "Show detailed information in sidepane" },
+			{ "guiUsesOneWindow", "Restrict interface to a single window" },
+			{ "useToolbars", "Add shortcut buttons to main interface" },
+			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
+			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" }
+		};
+
+		private JComboBox servers, toolbars;
 
 		public UserInterfacePanel()
 		{
@@ -597,14 +615,6 @@ public class LoginFrame extends KoLFrame
 			for ( int i = 1; i <= KoLRequest.SERVER_COUNT; ++i )
 				servers.addItem( "Login using login server " + i );
 
-			textheavy = new JComboBox();
-			textheavy.addItem( "Use graphical side pane" );
-			textheavy.addItem( "Use text-heavy side pane" );
-
-			browser = new JComboBox();
-			browser.addItem( "Toolbar button loads mini-browser" );
-			browser.addItem( "Toolbar button loads relay browser" );
-
 			toolbars = new JComboBox();
 			toolbars.addItem( "Show global menus only" );
 			toolbars.addItem( "Put toolbar along top of panel" );
@@ -612,45 +622,66 @@ public class LoginFrame extends KoLFrame
 			toolbars.addItem( "Put toolbar left of panel" );
 			toolbars.addItem( "Put toolbar right of panel" );
 
-			windowing = new JComboBox();
-			windowing.addItem( "Allow one taskbar icon (requires restart)" );
-			windowing.addItem( "Allow multiple taskbar icons (requires restart)" );
-
-			trayicon = new JComboBox();
-			trayicon.addItem( "Minimize KoLmafia to taskbar (requires restart)" );
-			trayicon.addItem( "Minimize KoLmafia to system tray (requires restart)" );
-
-			int elementCount = System.getProperty( "os.name" ).startsWith( "Windows" ) ? 5 : 4;
-
-			VerifiableElement [] elements = new VerifiableElement[ elementCount ];
+			VerifiableElement [] elements = new VerifiableElement[ 2 ];
 			elements[0] = new VerifiableElement( "Server: ", servers );
-			elements[1] = new VerifiableElement( "Sidebar: ", textheavy );
-			elements[2] = new VerifiableElement( "Browser: ", browser );
-			elements[3] = new VerifiableElement( "Toolbars: ", toolbars );
-
-			if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
-				elements[4] = new VerifiableElement( "SysTray: ", trayicon );
+			elements[1] = new VerifiableElement( "Toolbars: ", toolbars );
 
 			setContent( elements );
 			actionCancelled();
 		}
 
+		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
+		}
+
+		protected void setContent( VerifiableElement [] elements )
+		{
+			super.setContent( elements );
+			container.add( new InterfaceCheckboxPanel(), BorderLayout.SOUTH );
+		}
+
 		protected void actionConfirmed()
 		{
 			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
-			GLOBAL_SETTINGS.setProperty( "useTextHeavySidepane", String.valueOf( textheavy.getSelectedIndex() == 1 ) );
-			GLOBAL_SETTINGS.setProperty( "defaultToRelayBrowser", String.valueOf( browser.getSelectedIndex() == 1 ) );
 			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
-			GLOBAL_SETTINGS.setProperty( "useSystemTrayIcon", String.valueOf( trayicon.getSelectedIndex() == 1 ) );
 		}
 
 		protected void actionCancelled()
 		{
-			textheavy.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useTextHeavySidepane" ).equals( "true" ) ? 1 : 0 );
-			browser.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "defaultToRelayBrowser" ).equals( "true" ) ? 1 : 0 );
 			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
-			trayicon.setSelectedIndex( GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 0 );
+		}
+
+		private class InterfaceCheckboxPanel extends OptionsPanel
+		{
+			/**
+			 * Constructs a new <code>StartupOptionsPanel</code>, containing a
+			 * place for the users to select their desired server and for them
+			 * to modify any applicable proxy settings.
+			 */
+
+			public InterfaceCheckboxPanel()
+			{
+				super( new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+				VerifiableElement [] elements = new VerifiableElement[ options.length ];
+
+				optionBoxes = new JCheckBox[ options.length ];
+				for ( int i = 0; i < options.length; ++i )
+					optionBoxes[i] = new JCheckBox();
+
+
+				for ( int i = 0; i < options.length; ++i )
+					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+				setContent( elements, false );
+				actionCancelled();
+			}
+
+			protected void actionCancelled()
+			{
+				for ( int i = 0; i < options.length; ++i )
+					optionBoxes[i].setSelected( getProperty( options[i][0] ).equals( "true" ) );
+			}
 		}
 	}
 

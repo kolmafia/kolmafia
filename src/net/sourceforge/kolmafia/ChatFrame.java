@@ -113,7 +113,7 @@ public class ChatFrame extends KoLFrame
 			toolbarPanel.add( new JToolBar.Separator() );
 			toolbarPanel.add( new MessengerButton( "/who", "who2.gif", "checkChannel" ) );
 			toolbarPanel.add( new JToolBar.Separator() );
-			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
+			toolbarPanel.add( new KoLPanelFrameButton( "Preferences", "preferences.gif", new ChatOptionsPanel() ) );
 			toolbarPanel.add( new JToolBar.Separator() );
 		}
 
@@ -468,6 +468,94 @@ public class ChatFrame extends KoLFrame
 			(new RequestThread( new CreateFrameRunnable( frameClass, parameters ) )).start();
 		}
 	}
+
+	/**
+	 * Panel used for handling chat-related options and preferences,
+	 * including font size, window management and maybe, eventually,
+	 * coloring options for contacts.
+	 */
+
+	private class ChatOptionsPanel extends OptionsPanel
+	{
+		private JComboBox autoLogSelect;
+		private JComboBox fontSizeSelect;
+		private JComboBox chatStyleSelect;
+		private JComboBox useTabSelect;
+		private JComboBox popupSelect;
+		private JComboBox eSoluSelect;
+
+		public ChatOptionsPanel()
+		{
+			super( "Chat Preferences" );
+
+			autoLogSelect = new JComboBox();
+			autoLogSelect.addItem( "Do not log chat" );
+			autoLogSelect.addItem( "Automatically log chat" );
+
+			fontSizeSelect = new JComboBox();
+			for ( int i = 1; i <= 7; ++i )
+				fontSizeSelect.addItem( String.valueOf( i ) );
+
+			chatStyleSelect = new JComboBox();
+			chatStyleSelect.addItem( "All conversations separate" );
+			chatStyleSelect.addItem( "Channels separate, blues combined" );
+			chatStyleSelect.addItem( "Channels combined, blues separate" );
+
+			useTabSelect = new JComboBox();
+			useTabSelect.addItem( "Use windowed chat interface" );
+			useTabSelect.addItem( "Use tabbed chat interface" );
+
+			popupSelect = new JComboBox();
+			popupSelect.addItem( "Display /friends and /who in chat display" );
+			popupSelect.addItem( "Popup a window for /friends and /who" );
+
+			eSoluSelect = new JComboBox();
+			eSoluSelect.addItem( "Nameclick select bar only" );
+			eSoluSelect.addItem( "eSolu scriptlet chat links (color)" );
+			eSoluSelect.addItem( "eSolu scriptlet chat links (gray)" );
+
+			VerifiableElement [] elements = new VerifiableElement[6];
+			elements[0] = new VerifiableElement( "Chat Logs: ", autoLogSelect );
+			elements[1] = new VerifiableElement( "Font Size: ", fontSizeSelect );
+			elements[2] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
+			elements[3] = new VerifiableElement( "Tabbed Chat: ", useTabSelect );
+			elements[4] = new VerifiableElement( "Contact List: ", popupSelect );
+			elements[5] = new VerifiableElement( "eSolu Script: ", eSoluSelect );
+
+			setContent( elements );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			if ( autoLogSelect.getSelectedIndex() == 1 )
+				KoLMessenger.initializeChatLogs();
+
+			setProperty( "autoLogChat", String.valueOf( autoLogSelect.getSelectedIndex() == 1 ) );
+			setProperty( "fontSize", (String) fontSizeSelect.getSelectedItem() );
+			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
+
+			setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
+			setProperty( "useTabbedChat", String.valueOf( useTabSelect.getSelectedIndex() ) );
+			setProperty( "usePopupContacts", String.valueOf( popupSelect.getSelectedIndex() ) );
+			setProperty( "eSoluScriptType", String.valueOf( eSoluSelect.getSelectedIndex() ) );
+
+			super.actionConfirmed();
+		}
+
+		protected void actionCancelled()
+		{
+			autoLogSelect.setSelectedIndex( getProperty( "autoLogChat" ).equals( "true" ) ? 1 : 0 );
+			fontSizeSelect.setSelectedItem( getProperty( "fontSize" ) );
+			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( getProperty( "fontSize" ) ) );
+
+			chatStyleSelect.setSelectedIndex( Integer.parseInt( getProperty( "chatStyle" ) ) );
+			useTabSelect.setSelectedIndex( Integer.parseInt( getProperty( "useTabbedChat" ) ) );
+			popupSelect.setSelectedIndex( Integer.parseInt( getProperty( "usePopupContacts" ) ) );
+			eSoluSelect.setSelectedIndex( Integer.parseInt( getProperty( "eSoluScriptType" ) ) );
+		}
+	}
+
 
 	private class MessengerButton extends InvocationButton
 	{
