@@ -330,6 +330,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( line.indexOf( ";" ) != -1 )
 		{
+			StaticEntity.getClient().forceContinue();
 			String [] separateLines = line.split( ";" );
 			for ( int i = 0; i < separateLines.length && permitsContinue(); ++i )
 				if ( separateLines[i].length() > 0 )
