@@ -101,7 +101,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	private static final String [] OVERRIDE_DATA =
 	{
-		"adventures.dat", "buffbots.dat", "buffs.dat", "classskills.dat", "combat.dat", "concoctions.dat",
+		"adventures.dat", "buffbots.dat", "buffs.dat", "classskills.dat", "combats.dat", "concoctions.dat",
 		"equipment.dat", "familiars.dat", "itemdescs.dat", "monsters.dat", "npcstores.dat", "outfits.dat",
 		"packages.dat", "statuseffects.dat", "tradeitems.dat", "zonelist.dat"
 	};
@@ -1438,7 +1438,9 @@ public abstract class KoLmafia implements KoLConstants
 			// sure to check to see if you're allowed to continue
 			// after drunkenness.
 
-			if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && KoLCharacter.getInebriety() < 26 )
+			if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure &&
+				((KoLAdventure)request).getRequest() instanceof CampgroundRequest &&
+				KoLCharacter.getInebriety() < 26 )
 			{
 				updateDisplay( ERROR_STATE, "You are too drunk to continue." );
 				return;
@@ -1454,10 +1456,13 @@ public abstract class KoLmafia implements KoLConstants
 			// If this is an adventure request, make sure that it
 			// gets validated before running.
 
+			boolean usesAllAdventures = false;
+
 			if ( request instanceof KoLAdventure )
 			{
 				// Validate the adventure
 				AdventureDatabase.validateAdventure( (KoLAdventure) request );
+				usesAllAdventures = iterations == KoLCharacter.getAdventuresLeft();
 			}
 
 			// Begin the adventuring process, or the request execution
@@ -1471,6 +1476,9 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				// Account for the possibility that you could have run
 				// out of adventures mid-request.
+
+				if ( usesAllAdventures )
+					iterations = currentIteration + KoLCharacter.getAdventuresLeft() - 1;
 
 				if ( KoLCharacter.getAdventuresLeft() == 0 && request instanceof KoLAdventure )
 					break;
