@@ -228,7 +228,7 @@ public abstract class StaticEntity implements KoLConstants
 		if ( shouldOpenStream )
 			KoLmafia.openDebugStream();
 
-		KoLmafia.updateDisplay( ABORT_STATE, message + ".  Debug log printed." );
+		KoLmafia.updateDisplay( message + ".  Debug log printed." );
 		for ( int i = 0; i < logAssistMessages.length; ++i )
 		{
 			if ( logAssistMessages[i] != null )
