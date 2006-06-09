@@ -19,7 +19,6 @@
 # Dark Elbow of the Woods: Demoninja, G Imp, L Imp, Der Bierdieb
 # Dark Heart of the Woods: Fallen Archfiend, G Imp, P Imp, Friar No More
 # Dark Neck of the Woods: Hellion, P Imp, W Imp, On Wings of Fire
-# Degrassi Knoll
 # Spooky Gravy Barrow
 #
 # All monsters are usually equally likely to appear. For those areas
@@ -60,7 +59,7 @@ Defiled Alcove	100	Corpulent Zobmie	Grave Rober Zmobie	Conjoined Zmombie
 Defiled Cranny	100	Gluttonous Ghuol	Gaunt Ghuol	Huge Ghuol: 0
 Defiled Niche	100	Senile Lihc	Slick Lihc	Garganthulihc: 0
 Defiled Nook	100	Spiny Skelelton	Toothy Sklelton	Giant Skeelton: 0
-Degrassi Knoll	-1	Gnollish Bodybuilder	Gnollish Crossdresser	Gnollish Flyslayer	Gnollish Gearhead	Gnollish Piebaker	Gnollish Plungermaster	Gnollish Sorceress	Gnollish Tirejuggler	Gnollish War Chef	Guard Bugbear	One-Eyed Gnoll
+Degrassi Knoll	80	Gnollish Crossdresser: 2	Gnollish Flyslayer: 2	Gnollish Gearhead: 3	Gnollish Piebaker: 2	Gnollish Plungermaster: 2	Gnollish Tirejuggler: 2	Gnollish War Chef: 2	Guard Bugbear: 2	One-Eyed Gnoll: 2
 Dungeons of Doom	70	Swarm of Killer Bees	Acid Blob	Mind Flayer	Large Kobold	Quantum Mechanic	Mimic: 0
 eXtreme Slope	60	Sk8 Gnome	eXtreme Cross-Country Hippy	eXtreme Orcish Snowboarder
 Fernswarthy's Tower	100	Brainsweeper	Bread Golem	Chowder Golem	Weretaco	Yeast Beast	Lesser Fruit Golem
