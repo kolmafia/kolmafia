@@ -279,15 +279,13 @@ public class ChatFrame extends KoLFrame
 				public void run()
 				{
 					KoLMessenger.setUpdateChannel( associatedContact );
-					ChatRequest [] requests;
 
 					if ( message.length() <= 256 )
 					{
 						// This is a standard-length message.  Send it
 						// without adding additional divisions.
 
-						requests = new ChatRequest[1];
-						requests[0] = new ChatRequest( StaticEntity.getClient(), associatedContact, message );
+						(new ChatRequest( StaticEntity.getClient(), associatedContact, message )).run();
 					}
 					else if ( message.length() < 1000 || associatedContact.equals( "/clan" ) )
 					{
