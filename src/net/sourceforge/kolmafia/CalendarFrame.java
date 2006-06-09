@@ -336,7 +336,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( MoonPhaseDatabase.getPhaseName( grimacePhase ) );
 		displayHTML.append( "</td></tr>" );
 		displayHTML.append( "<tr><td align=right><b>Stats</b>:&nbsp;</td><td>" );
-		displayHTML.append( MoonPhaseDatabase.getMoonEffect( selectedDate ) );
+		displayHTML.append( MoonPhaseDatabase.getMoonEffect( ronaldPhase, grimacePhase ) );
 		displayHTML.append( "</td></tr><td align=right><b>Grue</b>:&nbsp;</td><td>" );
 		displayHTML.append( MoonPhaseDatabase.getGrueEffect( ronaldPhase, grimacePhase, hamburglarPosition ) ? "bloodlusty" : "pacifistic" );
 		displayHTML.append( "</td></tr><td align=right><b>Blood</b>:&nbsp;</td><td>" );
@@ -386,17 +386,17 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		displayHTML.append( "<b>Muscle Day</b>:&nbsp;" );
 		displayHTML.append( MoonPhaseDatabase.getDayCountAsString(
-			MoonPhaseDatabase.getDaysUntilMuscle( calendarDay, hamburglarPosition, selectedDate ) ) );
+			Math.min( (24 - phaseStep) % 16, (25 - phaseStep) % 16 ) ) );
 		displayHTML.append( "<br>" );
 
 		displayHTML.append( "<b>Mysticality Day</b>:&nbsp;" );
 		displayHTML.append( MoonPhaseDatabase.getDayCountAsString(
-			MoonPhaseDatabase.getDaysUntilMysticality( calendarDay, hamburglarPosition, selectedDate ) ) );
+			Math.min( (20 - phaseStep) % 16, (28 - phaseStep) % 16 ) ) );
 		displayHTML.append( "<br>" );
 
 		displayHTML.append( "<b>Moxie Day</b>:&nbsp;" );
 		displayHTML.append( MoonPhaseDatabase.getDayCountAsString(
-			MoonPhaseDatabase.getDaysUntilMoxie( calendarDay, hamburglarPosition, selectedDate ) ) );
+			Math.min( (16 - phaseStep) % 16, (31 - phaseStep) % 16 ) ) );
 		displayHTML.append( "<br>&nbsp;<br>" );
 
 		// Next display the upcoming holidays.  This is done

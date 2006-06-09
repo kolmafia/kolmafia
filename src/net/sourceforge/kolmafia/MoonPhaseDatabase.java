@@ -276,7 +276,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static final String getMoonEffect()
-	{	return getMoonEffect( new Date() );
+	{	return getMoonEffect( RONALD_PHASE, GRIMACE_PHASE );
 	}
 
 	/**
@@ -285,93 +285,10 @@ public class MoonPhaseDatabase extends StaticEntity
 	 * given the phase value.
 	 */
 
-	public static final String getMoonEffect( Date time )
+	public static final String getMoonEffect( int ronaldPhase, int grimacePhase )
 	{
-		int calendarDay = getCalendarDay( time );
-		long timeDifference = time.getTime();
-
-		if ( timeDifference < COLLISION )
-		{
-			int phaseStep = calendarDay % 16;
-			return phaseStep == -1 ? "Could not determine moon phase." : STAT_EFFECT[ phaseStep ];
-		}
-
-		int hamburglarPosition = getHamburglarPosition( time );
-
-		int daysUntilMuscle = getDaysUntilMuscle( calendarDay, hamburglarPosition, time );
-		int daysUntilMysticality = getDaysUntilMysticality( calendarDay, hamburglarPosition, time );
-		int daysUntilMoxie = getDaysUntilMoxie( calendarDay, hamburglarPosition, time );
-
-		if ( daysUntilMuscle < daysUntilMysticality && daysUntilMuscle < daysUntilMoxie )
-			return daysUntilMuscle == 0 ? "Muscle day today." : daysUntilMuscle == 1 ?
-				"Muscle day tomorrow." : daysUntilMuscle + " days until Muscle.";
-
-		if ( daysUntilMysticality < daysUntilMuscle && daysUntilMysticality < daysUntilMoxie )
-			return daysUntilMysticality == 0 ? "Mysticality day today." : daysUntilMysticality == 1 ?
-				"Mysticality day tomorrow." : daysUntilMysticality + " days until Mysticism.";
-
-		return daysUntilMoxie == 0 ? "Moxie day today." : daysUntilMoxie == 1 ?
-			"Moxie day tomorrow." : daysUntilMoxie + " days until Moxie.";
-	}
-
-	public static final int getDaysUntilMuscle( int calendarDay, int hamburglarPosition, Date time )
-	{
-		long timeDifference = time.getTime();
-		if ( timeDifference < COLLISION )
-		{
-			int phaseStep = calendarDay % 16;
-			return Math.min( (24 - phaseStep) % 16, (25 - phaseStep) % 16 );
-		}
-
-		for ( int i = calendarDay, j = hamburglarPosition; ; ++i, j += 2 )
-			if ( getGrimaceMoonlight( (i % 16) / 2, j % 11 ) == 4 )
-				return i - calendarDay;
-	}
-
-	public static final int getDaysUntilMysticality( int calendarDay, int hamburglarPosition, Date time )
-	{
-		long timeDifference = time.getTime();
-		if ( timeDifference < COLLISION )
-		{
-			int phaseStep = calendarDay % 16;
-			return Math.min( (20 - phaseStep) % 16, (28 - phaseStep) % 16 );
-		}
-
-		int ronaldPhase, grimacePhase, ronaldLight, grimaceLight;
-		for ( int i = calendarDay, j = hamburglarPosition; ; ++i, j += 2 )
-		{
-			ronaldPhase = i % 8;
-			grimacePhase = (i % 16) / 2;
-
-			ronaldLight = getRonaldMoonlight( ronaldPhase, j % 11 );
-			grimaceLight = getGrimaceMoonlight( grimacePhase, j % 11 );
-
-			if ( ronaldLight == 4 && grimaceLight == 2 )
-				return i - calendarDay;
-		}
-	}
-
-	public static final int getDaysUntilMoxie( int calendarDay, int hamburglarPosition, Date time )
-	{
-		long timeDifference = time.getTime();
-		if ( timeDifference < COLLISION )
-		{
-			int phaseStep = calendarDay % 16;
-			return Math.min( (16 - phaseStep) % 16, (31 - phaseStep) % 16 );
-		}
-
-		int ronaldPhase, grimacePhase, ronaldLight, grimaceLight;
-		for ( int i = calendarDay, j = hamburglarPosition; ; ++i, j += 2 )
-		{
-			ronaldPhase = i % 8;
-			grimacePhase = (i % 16) / 2;
-
-			ronaldLight = getRonaldMoonlight( ronaldPhase, j % 11 );
-			grimaceLight = getGrimaceMoonlight( grimacePhase, j % 11 );
-
-			if ( (ronaldPhase == 0 || ronaldPhase == 7) && (grimacePhase == 0 || grimacePhase == 7) && ronaldLight == grimaceLight )
-				return i - calendarDay;
-		}
+		int phaseStep = getPhaseStep( ronaldPhase, grimacePhase );
+		return phaseStep == -1 ? "Could not determine moon phase." : STAT_EFFECT[ phaseStep ];
 	}
 
 	public static final int getRonaldMoonlight( int ronaldPhase, int hamburglarPosition )
@@ -656,7 +573,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static boolean isMuscleDay( Date time )
-	{	return getMoonEffect( time ).startsWith( "Muscle day today" );
+	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MUSDAY;
 	}
 
 	/**
@@ -668,7 +585,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static boolean isMysticalityDay( Date time )
-	{	return getMoonEffect( time ).startsWith( "Mysticality day today" );
+	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MYSDAY;
 	}
 
 	/**
@@ -680,7 +597,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	 */
 
 	public static boolean isMoxieDay( Date time )
-	{	return getMoonEffect( time ).startsWith( "Moxie day today" );
+	{	return SPECIAL[ getCalendarDay( time ) ] == SP_MOXDAY;
 	}
 
 	/**
