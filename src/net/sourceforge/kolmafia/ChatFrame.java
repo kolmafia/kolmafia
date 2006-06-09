@@ -317,7 +317,6 @@ public class ChatFrame extends KoLFrame
 							prevSpaceIndex = nextSpaceIndex;
 						}
 
-						requests = new ChatRequest[ splitMessages.size() ];
 						for ( int i = 0; i < splitMessages.size(); ++i )
 							(new ChatRequest( StaticEntity.getClient(), associatedContact, (String) splitMessages.get(i) )).run();
 					}

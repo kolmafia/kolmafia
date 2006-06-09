@@ -35,6 +35,8 @@
 package net.sourceforge.kolmafia;
 
 import java.net.URL;
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.net.URLConnection;
@@ -1439,6 +1441,29 @@ public class KoLRequest implements Runnable, KoLConstants
 			int dash = events[i].indexOf( "-" );
 			String event = events[i].substring( dash + 2 );
 			KoLMessenger.updateChat( "<font color=green>" + event + "</font>" );
+		}
+	}
+
+	protected final void loadResponseFromFile( String filename )
+	{
+		try
+		{
+			BufferedReader buf = new BufferedReader( new InputStreamReader(
+				new FileInputStream( new File( filename ) ) ) );
+			String line;  StringBuffer response = new StringBuffer();
+
+			while ( (line = buf.readLine()) != null )
+				response.append( line );
+
+			responseText = response.toString();
+		}
+		catch ( Exception e )
+		{
+			// This means simply that there was no file from which
+			// to load the data.  Given that this is run during debug
+			// tests, only, we can ignore the error.
+
+			e.printStackTrace( KoLmafia.getDebugStream() );
 		}
 	}
 
