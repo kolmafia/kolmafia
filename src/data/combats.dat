@@ -16,10 +16,11 @@
 # Missing Combat Percent Data (marked with -1):
 #
 # Bugbear Pens
+# Spooky Gravy Barrow
+#
 # Dark Elbow of the Woods: Demoninja, G Imp, L Imp, Der Bierdieb
 # Dark Heart of the Woods: Fallen Archfiend, G Imp, P Imp, Friar No More
 # Dark Neck of the Woods: Hellion, P Imp, W Imp, On Wings of Fire
-# Spooky Gravy Barrow
 #
 # All monsters are usually equally likely to appear. For those areas
 # where some monsters are more heavily weighted than others, specify the
@@ -33,10 +34,6 @@
 # A weight of 0 means this is a one-time (boss) encounter in the area. A
 # weight of -1 means this is an ultra-rare encounter. Neither type of
 # monster will be included in average XP calculations.
-#
-# Assumptions:
-#
-# Hole in the Sky: Three new constellations - equally likely
 
 8-Bit Realm	100	Blooper	Bullet Bill	Buzzy Beetle	Goomba	Keese	Koopa Troopa	Octorok	Tektite	Zol
 Bat Hole Entryway	100	Albino Bat	Pine Bat	Regular Old Bat
