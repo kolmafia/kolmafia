@@ -738,6 +738,7 @@ public class AdventureDatabase extends KoLDatabase
 				case ItemCreationRequest.COOK_PASTA:
 				case ItemCreationRequest.MIX:
 				case ItemCreationRequest.MIX_SPECIAL:
+				case ItemCreationRequest.MIX_SUPER:
 				case ItemCreationRequest.PIXEL:
 
 					shouldAutoSatisfyEarly = true;

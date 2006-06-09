@@ -248,23 +248,6 @@ whiskey sour	3	bottle of whiskey	lemon
 white Canadian	3	bottle of vodka	glass of goat's milk
 wine spritzer	3	boxed wine	soda water
 
-# Beverages which can be made by anyone using ingredients available via
-# Superhuman Cocktailcrafting
-
-caipifruta	3	bottle of Lieutenant Freeman	kiwi
-gibson	3	bottle of Calcutta Emerald	cocktail onion
-gin and tonic	3	bottle of Calcutta Emerald	tonic water
-mimosette	3	boxed champagne	kumquat
-parisian cathouse	3	boxed champagne	raspberry
-rabbit punch	3	bottle of Domesticated Turkey	raspberry
-teqiwila	3	bottle of Jorge Sinsonte	kiwi
-tequila sunset	3	bottle of Jorge Sinsonte	tangerine
-vodka and tonic	3	bottle of Definit	tonic water
-vodka gibson	3	bottle of Definit	cocktail onion
-whiskey bittersweet	3	bottle of Domesticated Turkey	kumquat
-zmobie	3	bottle of Lieutenant Freeman	tangerine
-
-
 # Hilarious drinks makable by anyone.
 
 calle de miel with a fly in it	3	margarita	magical ice cube with a fly in it
@@ -276,8 +259,9 @@ Mae West with a fly in it	3	rabbit punch	magical ice cube with a fly in it
 tangarita with a fly in it	3	tequila sunset	magical ice cube with a fly in it
 # prussian cathouse with a fly in it	3	parisian cathouse	magical ice cube with a fly in it
 
-# Tier 3, 4 and 5 beverages which can only be made by DBs.
-# These include the popular umbrella, coconut and ice drinks.
+# Tier 3, 4 and 5 beverages which can only be made by someone with
+# Advanced Cocktailcrafting.  These include the popular umbrella,
+# coconut and ice drinks.
 
 a little sump'm sump'm	7	martini	little paper umbrella
 horizontal tango	7	wine spritzer	little paper umbrella
@@ -294,12 +278,27 @@ rockin' wagon	7	vodka martini	magical ice cubes
 perpendicular hula	7	strawberry daiquiri	magical ice cubes
 calle de miel	7	margarita	magical ice cubes
 
+# Beverages which can be made by Superhuman Cocktailcrafting
+
+caipifruta	19	bottle of Lieutenant Freeman	kiwi
+gibson	19	bottle of Calcutta Emerald	cocktail onion
+gin and tonic	19	bottle of Calcutta Emerald	tonic water
+mimosette	19	boxed champagne	kumquat
+parisian cathouse	19	boxed champagne	raspberry
+rabbit punch	19	bottle of Domesticated Turkey	raspberry
+teqiwila	19	bottle of Jorge Sinsonte	kiwi
+tequila sunset	19	bottle of Jorge Sinsonte	tangerine
+vodka and tonic	19	bottle of Definit	tonic water
+vodka gibson	19	bottle of Definit	cocktail onion
+whiskey bittersweet	19	bottle of Domesticated Turkey	kumquat
+zmobie	19	bottle of Lieutenant Freeman	tangerine
+
 # Beverages which can be made by Advanced Cocktailcrafting using
 # ingredients available via Superhuman Cocktailcrafting
 
 Divine	7	whiskey bittersweet	little paper umbrella
 gimlet	7	gin and tonic	little paper umbrella
-Gordon Bennet	7	mimosette	little paper umbrella
+Gordon Bennett	7	mimosette	little paper umbrella
 yellow brick road	7	vodka and tonic	little paper umbrella
 
 Mon Tiki	7	caipifruta	coconut shell

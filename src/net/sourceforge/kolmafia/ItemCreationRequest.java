@@ -51,7 +51,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int MEAT_STACK = 88;
 	public static final int DENSE_STACK = 258;
 
-	public static final int METHOD_COUNT = 19;
+	public static final int METHOD_COUNT = 20;
 	public static final int SUBCLASS = Integer.MAX_VALUE;
 
 	public static final int NOCREATE = 0;
@@ -78,6 +78,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 	public static final int STILL_BOOZE = 17;
 	public static final int STILL_MIXER = 18;
+	public static final int MIX_SUPER = 19;
 
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
@@ -141,7 +142,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		this.mixingMethod = mixingMethod;
 		this.quantityNeeded = quantityNeeded;
 
-        addFormField( "pwd" );
+		addFormField( "pwd" );
 
 		if ( KoLCharacter.inMuscleSign() && mixingMethod == SMITH )
 			addFormField( "action", "smith" );
@@ -210,6 +211,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case MIX:
 			case MIX_SPECIAL:
+			case MIX_SUPER:
 				return new ItemCreationRequest( client, "cocktail.php", itemID, mixingMethod, quantityNeeded );
 
 			case COOK:
@@ -467,6 +469,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 				case MIX:
 				case MIX_SPECIAL:
+				case MIX_SUPER:
 					KoLCharacter.setBartender( false );
 					leftOver.run();
 					break;
@@ -498,6 +501,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case MIX:
 			case MIX_SPECIAL:
+			case MIX_SUPER:
 
 				if ( KoLCharacter.hasBartender() )
 					return true;
@@ -522,6 +526,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case MIX:
 			case MIX_SPECIAL:
+			case MIX_SUPER:
 				autoRepairSuccessful = useBoxServant( BARTENDER, CLOCKWORK_BARTENDER, KIT, BARTENDER_SKULL, BARTENDER_SKULL_BOX );
 				break;
 		}
@@ -727,6 +732,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case MIX:
 			case MIX_SPECIAL:
+			case MIX_SUPER:
 				if ( !KoLCharacter.hasBartender() )
 					return quantityNeeded;
 				break;
