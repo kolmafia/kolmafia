@@ -3038,6 +3038,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 				case ItemCreationRequest.MIX:
 				case ItemCreationRequest.MIX_SPECIAL:
+				case ItemCreationRequest.MIX_SUPER:
 
 					if ( needServant )
 						updateDisplay( ERROR_STATE, "You cannot mix without a bartender-in-the-box." );

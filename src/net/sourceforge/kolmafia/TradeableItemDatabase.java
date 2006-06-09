@@ -257,6 +257,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "kiwus" ) )
 			return 1562;
 
+		// mimosette pluralizes into marmosets
+
+		if ( canonicalName.equals( "marmosets" ) )
+			return 1564;
+
 		// gibson pluralizes into carlisles
 
 		if ( canonicalName.equals( "carlisles" ) )

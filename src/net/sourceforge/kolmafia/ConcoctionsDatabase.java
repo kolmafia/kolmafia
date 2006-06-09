@@ -562,6 +562,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.MIX_SPECIAL ] = PERMIT_METHOD[ ItemCreationRequest.MIX ] && KoLCharacter.canSummonShore();
 		ADVENTURE_USAGE[ ItemCreationRequest.MIX_SPECIAL ] = ADVENTURE_USAGE[ ItemCreationRequest.MIX ];
 
+		// Mixing of super-special drinks is possible whenever the
+		// person can mix drinks and has the appropriate skill.
+
+		PERMIT_METHOD[ ItemCreationRequest.MIX_SUPER ] = PERMIT_METHOD[ ItemCreationRequest.MIX ] && KoLCharacter.hasSkill( "Superhuman Cocktailcrafting" );
+		ADVENTURE_USAGE[ ItemCreationRequest.MIX_SUPER ] = ADVENTURE_USAGE[ ItemCreationRequest.MIX ];
+
 		// Using Crosby Nash's Still is possible if the person has
 		// Superhuman Cocktailcrafting and is a Moxie class
 		// character. However, until we learn how to operate the still,
