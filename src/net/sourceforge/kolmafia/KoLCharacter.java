@@ -3077,7 +3077,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( PEELED.getCount( activeEffects ) > 0 )
 		{
-			newItemDropPercentAdjustment += 40;
+			newItemDropPercentAdjustment += 15;
 			newMeatDropPercentAdjustment -= 16;
 			newFixedXPAdjustment -= 1;
 		}

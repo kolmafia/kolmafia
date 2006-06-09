@@ -215,6 +215,10 @@ public class AreaCombatData implements KoLConstants
 		if ( combats < 0 )
 			return 100.0;
 
+		// Some areas are inherently all combat or no combat
+		if ( combats == 0 || combats == 100 )
+			return (double)combats;
+
 		double pct = (double)combats + KoLCharacter.getCombatPercentAdjustment();
 		return Math.max( 0.0, Math.min( 100.0, pct ) );
 	}
