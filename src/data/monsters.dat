@@ -3,7 +3,7 @@
 # Monster data from Kittiwake's Monster Survival Guide:
 #
 # http://forums.kingdomofloathing.com/viewtopic.php?t=39973&start=0
-# http://kol.network-forums.com/viewtopic.php?p=1757
+# http://forums.hardcoreoxygenation.com/viewtopic.php?t=218
 #
 # Last edited by Kittiwake on Fri Apr 14, 2006 4:48 am
 #
@@ -314,14 +314,14 @@ Zombie Baby	HP: 20 Def: 20 Atk: 20	purple-frosted astral cupcake
 
 # Mediocre Trip
 Feeling That You're Being Watched	HP: 50 Def: 53 Atk: 53	pink-frosted astral cupcake
-Really Interesting Wallpaper	HP: 50 Def: 53 Atk: 53	green-frosted astral cupcake
+Really Interesting Wallpaper	HP: 50 Def: 53 Atk: 53 EA: spooky	green-frosted astral cupcake
 The Best Carpet Ever	HP: 50 Def: 53 Atk: 53	purple-frosted astral cupcake
 Urge to Stare at Your Hands	HP: 50 Def: 53 Atk: 53	blue-frosted astral cupcake
 Visible Music	HP: 50 Def: 53 Atk: 53	orange-frosted astral cupcake
 
 # Great Trip
-Angels of Avalon	HP: 150 Def: 145 Atk: 145	blue-frosted astral cupcake
+Angels of Avalon	HP: 150 Def: 145 Atk: 145 EA: heat	blue-frosted astral cupcake
 Bustle in the Hedgerow	HP: 150 Def: 145 Atk: 145	green-frosted astral cupcake
-Elders of the Gentle Race	HP: 150 Def: 145 Atk: 145	purple-frosted astral cupcake
-Gathering of Angels?	HP: 150 Def: 145 Atk: 145	orange-frosted astral cupcake
+Elders of the Gentle Race	HP: 150 Def: 145 Atk: 145 EA: sleaze	purple-frosted astral cupcake
+Gathering of Angels?	HP: 150 Def: 145 Atk: 145 EA: sleaze	orange-frosted astral cupcake
 Higher Plane Serpents	HP: 150 Def: 145 Atk: 145	pink-frosted astral cupcake
