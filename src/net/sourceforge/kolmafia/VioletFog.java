@@ -374,7 +374,18 @@ public class VioletFog
 		// Journey to the Center of your Mind
 		if ( source == 71 )
 		{
-			// We should switch location to the trip of choice...
+			// We got diverted from where we thought we were going
+			StaticEntity.setProperty( "lastAdventure", "A Journey to the Center of Your Mind" );
+			// Switch location to the trip of choice.
+			String name = "";
+			if ( decision.equals( "1" ) )
+			     name = "An Incredibly Strange Place (Bad Trip)";
+			else if ( decision.equals( "2" ) )
+			     name = "An Incredibly Strange Place (Mediocre Trip)";
+			else if ( decision.equals( "3" ) )
+			     name = "An Incredibly Strange Place (Great Trip)";
+			StaticEntity.setProperty( "nextAdventure", name );
+			StaticEntity.setProperty( "chosenTrip", name );
 			return true;
 		}
 

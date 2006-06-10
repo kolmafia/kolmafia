@@ -197,6 +197,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "buffBotCasting", "" );
 		hadChanges |= ensureProperty( "buffBotMessageDisposal", "0" );
 		hadChanges |= ensureProperty( "chatStyle", "0" );
+		hadChanges |= ensureProperty( "chosenTrip", "" );
 		hadChanges |= ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		hadChanges |= ensureProperty( "cloverProtectActive", "false" );
 		hadChanges |= ensureProperty( "createWithoutBoxServants", "false" );
@@ -232,6 +233,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "mpAutoRecoverTarget", "0.0" );
 		hadChanges |= ensureProperty( "mpRecoveryScript", "" );
 		hadChanges |= ensureProperty( "mpRestores", "" );
+		hadChanges |= ensureProperty( "nextAdventure", "" );
 		hadChanges |= ensureProperty( "proxySet", "false" );
 		hadChanges |= ensureProperty( "relayAddsCommandLineLinks", "true" );
 		hadChanges |= ensureProperty( "relayAddsSimulatorLinks", "true" );

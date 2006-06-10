@@ -90,6 +90,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int BLUE = 1416;
 	private static final int BLACK = 1417;
 	private static final int HILARIOUS_TOME = 1498;
+	private static final int ASTRAL_MUSHROOM = 1622;
 
 	private static final int GIFT1 = 1167;
 	private static final int GIFT2 = 1168;
@@ -620,6 +621,23 @@ public class ConsumeItemRequest extends KoLRequest
 			if ( responseText.indexOf( "You pore over the tome" ) == -1 )
 				return;
 			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, "Summon Hilarious Objects", "", 1 ) );
+			break;
+
+		case ASTRAL_MUSHROOM:
+			// "You eat the mushroom, and are suddenly engulfed in
+			// a whirling maelstrom of colors and sensations as
+			// your awareness is whisked away to some strange
+			// alternate dimension. Who would have thought that a
+			// glowing, ethereal mushroom could have that kind of
+			// effect?"
+			//
+			// vs.
+			//
+			// "Whoo, man, lemme tell you, you don't need to be
+			// eating another one of those just now, okay?"
+			if ( responseText.indexOf( "whirling maelstrom" ) == -1 )
+				return;
+			StaticEntity.setProperty( "nextAdventure", "" );
 			break;
 		}
 

@@ -56,6 +56,7 @@ public class AdventureDatabase extends KoLDatabase
 	private static final AdventureResult SOCK = new AdventureResult( 609, 1 );
 	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
 	private static final AdventureResult BEAN = new AdventureResult( 186, 1 );
+	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
 
 	public static final Map ZONE_NAMES = new TreeMap();
 	public static final Map ZONE_DESCRIPTIONS = new TreeMap();
@@ -290,7 +291,7 @@ public class AdventureDatabase extends KoLDatabase
 		{ "choiceAdventure25", "2", "5000" }
 	};
 
-	// Some adventures don't actually cost a tuen
+	// Some adventures don't actually cost a turn
 	public static final String [] FREE_ADVENTURES =
 	{
 		"Rock-a-bye larva",
@@ -489,6 +490,68 @@ public class AdventureDatabase extends KoLDatabase
 			request = new KoLRequest( client, "mclargehuge.php" );
 		}
 
+		else if ( adventureID.equals( "96" ) || adventureID.equals( "97" ) || adventureID.equals( "98" ) )
+		{
+			// You must be Half-Astral to go on a trip
+			int astral = ASTRAL.getCount( ( KoLCharacter.getEffects() ) );
+			if ( astral == 0 )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Eat an astral mushroom to take a trip." );
+				return;
+			}
+
+			// If we haven't selected a trip yet, do so now
+			if ( astral == 5)
+			{
+				String nextAdventure = getProperty( "nextAdventure" );
+				if ( nextAdventure.indexOf( "An Incredibly Strange Place") == -1 )
+				{
+					String choice = "1";
+					if ( adventureID.equals( "96" ) )
+					{
+						choice = "1";
+						adventure = getAdventure( "Bad Trip" );
+					}
+					else if ( adventureID.equals( "98" ) )
+					{
+						choice = "2";
+						adventure = getAdventure( "Mediocre Trip" );
+					}
+					else
+					{
+						choice = "3";
+						adventure = getAdventure( "Great Trip" );
+					}
+
+					// Choose the trip
+					String name = adventure.getAdventureName();
+					StaticEntity.setProperty( "chosenTrip", name );
+
+					StaticEntity.setProperty( "choiceAdventure71", choice );
+
+					// Avoid infinite recursion
+					StaticEntity.setProperty( "nextAdventure", name );
+
+					// Arm the adventure by running it once to get
+					// the "Journey to the Center of your Mind" choice.
+					client.makeRequest( adventure, 1 );
+
+					return;
+				}
+			}
+
+			String chosenTrip = getProperty( "chosenTrip" );
+
+			// If we've already selected a trip, we can't switch
+			if ( !chosenTrip.equals( adventure.getAdventureName() ) )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You're already taking a different trip." );
+				return;
+			}
+
+			return;
+		}
+
 		// The casino is unlocked provided the player
 		// has a casino pass in their inventory.
 
@@ -561,7 +624,7 @@ public class AdventureDatabase extends KoLDatabase
 					client.getConditions().clear();
 					client.getConditions().add( BEAN );
 
-					KoLAdventure beanbat = AdventureDatabase.getAdventure( "beanbat" );
+					KoLAdventure beanbat = getAdventure( "beanbat" );
 					client.makeRequest( beanbat, KoLCharacter.getAdventuresLeft() );
 
 					if ( !client.getConditions().isEmpty() )

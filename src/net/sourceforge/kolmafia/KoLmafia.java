@@ -1462,6 +1462,7 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				// Validate the adventure
 				AdventureDatabase.validateAdventure( (KoLAdventure) request );
+				StaticEntity.setProperty( "lastAdventure", request.toString() );
 				usesAllAdventures = iterations == KoLCharacter.getAdventuresLeft();
 			}
 
@@ -1474,6 +1475,19 @@ public abstract class KoLmafia implements KoLConstants
 
 			while ( permitsContinue() && ++currentIteration <= iterations )
 			{
+				if ( request instanceof KoLAdventure )
+				{
+					String nextAdventure = StaticEntity.getProperty( "nextAdventure" );
+
+					// If we got redirected, get a new request
+					if ( !nextAdventure.equals( "" ) )
+					{
+						request = AdventureDatabase.getAdventure( nextAdventure );
+						StaticEntity.setProperty( "lastAdventure", request.toString() );
+						StaticEntity.setProperty( "nextAdventure", "" );
+					}
+				}
+
 				// Account for the possibility that you could have run
 				// out of adventures mid-request.
 
@@ -2472,7 +2486,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void registerAdventure( KoLAdventure adventureLocation )
 	{
-		String adventureName = adventureLocation.getAdventureName();
+		String adventureName = StaticEntity.getProperty( "lastAdventure" );
 		RegisteredEncounter lastAdventure = (RegisteredEncounter) adventureList.lastElement();
 
 		if ( lastAdventure != null && lastAdventure.name.equals( adventureName ) )
@@ -2484,6 +2498,8 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		else
 			adventureList.add( new RegisteredEncounter( adventureName ) );
+
+		StaticEntity.setProperty( "lastAdventure", adventureLocation.toString() );
 	}
 
 	/**
@@ -2493,7 +2509,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void registerEncounter( String encounterName )
 	{
-		encounterName = encounterName.toLowerCase().trim();
+		encounterName = encounterName.trim();
 
 		RegisteredEncounter [] encounters = new RegisteredEncounter[ encounterList.size() ];
 		encounterList.toArray( encounters );
