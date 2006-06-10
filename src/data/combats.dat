@@ -18,10 +18,6 @@
 # Bugbear Pens
 # Spooky Gravy Barrow
 #
-# Dark Elbow of the Woods: Demoninja, G Imp, L Imp, Der Bierdieb
-# Dark Heart of the Woods: Fallen Archfiend, G Imp, P Imp, Friar No More
-# Dark Neck of the Woods: Hellion, P Imp, W Imp, On Wings of Fire
-#
 # All monsters are usually equally likely to appear. For those areas
 # where some monsters are more heavily weighted than others, specify the
 # relative weights for each monster in the area following a colon:
@@ -51,9 +47,9 @@ Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Li
 Pre-Cyrpt Cemetary	100	Ghoul	Grave Rober	Lihc	Skleleton	Smart Skelton	Zmobie	Zobmie
 Crimbo Town Toy Factory	100	Striking Factory-Worker Elf	Striking Gift-Wrapper Elf	Striking Middle-Management Elf	Striking Pencil-Pusher Elf	Striking Stocking-Stuffer Elf
 Daily Dungeon	-1	Dairy Ooze	Dodecapede	Giant Giant Moth	Mayonnaise Wasp	Pencil Golem	Sabre-Toothed Lime	Tonic Water Elemental	Vampire Clam
-Dark Elbow of the Woods	-1	Demoninja	G Imp	L Imp
-Dark Heart of the Woods	-1	Fallen Archfiend	G Imp	P Imp
-Dark Neck of the Woods	-1	Hellion	P Imp	W Imp
+Dark Elbow of the Woods	95	Demoninja	G Imp	L Imp
+Dark Heart of the Woods	95	Fallen Archfiend	G Imp	P Imp
+Dark Neck of the Woods	95	Hellion	P Imp	W Imp
 Deep Fat Friar's Gate	95	Demoninja	Fallen Archfiend	G Imp	Hellion	L Imp	P Imp	W Imp	Hypnotist of Hey Deze: -1
 Defiled Alcove	100	Corpulent Zobmie	Grave Rober Zmobie	Conjoined Zmombie
 Defiled Cranny	100	Gluttonous Ghuol	Gaunt Ghuol	Huge Ghuol: 0
