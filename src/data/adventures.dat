@@ -109,15 +109,21 @@
 18	adventure.php	87	Battlefield (Dyspepsi Uniform)
 18	adventure.php	59	Icy Peak of the Past
 
+# Astral Plane
+
+19	adventure.php	96	An Incredibly Strange Place (Bad Trip)
+19	adventure.php	98	An Incredibly Strange Place (Mediocre Trip)
+19	adventure.php	97	An Incredibly Strange Place (Great Trip)
+
 # Holiday Locations
 
-19	adventure.php	37	Spectral Pickle Factory
-19	trickortreat.php	Yep.	Trick-or-Treating
-19	adventure.php	84	St. Sneaky Pete's Day Stupor
+20	adventure.php	37	Spectral Pickle Factory
+20	trickortreat.php	Yep.	Trick-or-Treating
+20	adventure.php	84	St. Sneaky Pete's Day Stupor
 
 # Discontinued Locations
 
-20	adventure.php	93	Crimbo Town Toy Factory
-20	adventure.php	88	Future Market Square
-20	adventure.php	89	Mall of the Future
-20	adventure.php	90	Future Wrong Side of the Tracks
+21	adventure.php	93	Crimbo Town Toy Factory
+21	adventure.php	88	Future Market Square
+21	adventure.php	89	Mall of the Future
+21	adventure.php	90	Future Wrong Side of the Tracks

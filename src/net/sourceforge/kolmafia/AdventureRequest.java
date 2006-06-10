@@ -194,6 +194,14 @@ public class AdventureRequest extends KoLRequest
 			return;
 		}
 
+		if ( responseText.indexOf( "in the regular dimension now" ) != -1 )
+		{
+			// "You're in the regular dimension now, and don't
+			// remember how to get back there."
+			KoLmafia.updateDisplay( PENDING_STATE, "You are no longer Half-Astral." );
+			return;
+		}
+
 		if ( responseText.indexOf( "into the spectral mists" ) != -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "No one may know of its coming or going." );

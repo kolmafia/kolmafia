@@ -242,6 +242,11 @@ public abstract class SendMessageRequest extends KoLRequest
 					client.processResult( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
 			}
 		}
+		else if ( responseText.indexOf( "zero karma items" ) != -1 )
+		{
+			// "You cannot take zero karma items from the stash."
+			KoLmafia.updateDisplay( ERROR_STATE, "You don't have permission to take that." );
+		}
 		else
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Item/meat attachment failed." );
