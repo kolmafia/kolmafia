@@ -251,10 +251,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static synchronized final void updateDisplay( int state, String message )
 	{
-		if ( message.equals( "" ) )
-			return;
-
-		if ( currentState == ABORT_STATE )
+		if ( currentState == ABORT_STATE || message.equals( "" ) )
 			return;
 
 		StaticEntity.getClient().currentState = state;
@@ -445,9 +442,7 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void getBreakfast( String skillname, int standardCast )
-	{
-		(new UseSkillRequest( this, skillname, "", standardCast )).run();
-		forceContinue();
+	{	(new UseSkillRequest( this, skillname, "", standardCast )).run();
 	}
 
 	public final void refreshSession()
@@ -1148,21 +1143,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Fall-through check, just in case you've reached the
 		// desired value.
 
-		if ( current >= threshold )
-			return true;
-
-		// If you failed to auto-recover and there are no settings,
-		// make sure the user is aware of this.
-
-		if ( scriptPath.equals( "" ) && restoreSetting.equals( "" ) )
-			updateDisplay( ERROR_STATE, "No auto-restore settings found." );
-
-		// Now you know for certain that you did not reach the
-		// desired value.  There will be an error message that
-		// is left over from previous attempts.
-
-		declareWorldPeace();
-		return false;
+		return current >= threshold;
 	}
 
 	/**
@@ -1549,7 +1530,7 @@ public abstract class KoLmafia implements KoLConstants
 			// Prevent drunkenness adventures from occurring by
 			// testing inebriety levels after the request is run.
 
-			if ( KoLCharacter.getInebriety() < 26 && !isCheckExempt )
+			if ( KoLCharacter.isFallingDown() && !isCheckExempt )
 			{
 				updateDisplay( ERROR_STATE, "You are too drunk to continue." );
 				return;
@@ -1571,12 +1552,7 @@ public abstract class KoLmafia implements KoLConstants
 		currentIterationString = "";
 
 		if ( !permitsContinue() )
-		{
-			if ( currentState == PENDING_STATE )
-				forceContinue();
-
 			return;
-		}
 
 		// If you've completed the requests, make sure to update
 		// the display.
@@ -2297,7 +2273,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void executeTimeInRequest()
 	{
-		deinitialize();  forceContinue();
+		deinitialize();
 		updateDisplay( "Timing in session..." );
 
 		cachedLogin.run();
@@ -2408,6 +2384,7 @@ public abstract class KoLmafia implements KoLConstants
 				if ( !KoLCharacter.canInteract() && currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
 				{
 					updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
+					KoLCharacter.refreshCalculatedLists();
 					return;
 				}
 
@@ -2458,6 +2435,8 @@ public abstract class KoLmafia implements KoLConstants
 			updateDisplay( "Purchases complete." );
 		else
 			updateDisplay( ERROR_STATE, "Desired purchase quantity not reached." );
+
+		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**
