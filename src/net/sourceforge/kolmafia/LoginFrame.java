@@ -278,8 +278,6 @@ public class LoginFrame extends KoLFrame
 
 		private void login( boolean isQuickLogin )
 		{
-			StaticEntity.getClient().forceContinue();
-
 			GLOBAL_SETTINGS.setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 			String username = ((String)(usernameField instanceof JComboBox ?
 				((JComboBox)usernameField).getSelectedItem() : ((JTextField)usernameField).getText() ));

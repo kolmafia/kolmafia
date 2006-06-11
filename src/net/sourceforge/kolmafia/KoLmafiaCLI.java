@@ -325,12 +325,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public synchronized void executeLine( String line )
 	{
+		KoLmafia.forceContinue();
+
 		// If it gets this far, that means the continue
 		// state can be reset.
 
 		if ( line.indexOf( ";" ) != -1 )
 		{
-			StaticEntity.getClient().forceContinue();
 			String [] separateLines = line.split( ";" );
 			for ( int i = 0; i < separateLines.length && permitsContinue(); ++i )
 				if ( separateLines[i].length() > 0 )
@@ -347,11 +348,9 @@ public class KoLmafiaCLI extends KoLmafia
 		line = line.replaceAll( "\\s+", " " ).trim();
 		if ( unrepeatableCommands.contains( line ) )
 		{
-			updateDisplay( ERROR_STATE, "Sorry.  You can only do that once per session." );
+			updateDisplay( ABORT_STATE, "Sorry.  You can only do that once per session." );
 			return;
 		}
-
-		StaticEntity.getClient().forceContinue();
 
 		// Win game sanity check.  This will find its
 		// way back into the GUI ... one day.
