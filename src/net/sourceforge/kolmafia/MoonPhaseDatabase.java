@@ -224,7 +224,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		long timeDifference = time.getTime();
 		if ( timeDifference < COLLISION )
-			return 0;
+			return -1;
 
 		timeDifference -= COLLISION;
 		int dayDifference = (int) Math.floor( timeDifference / 86400000L );
