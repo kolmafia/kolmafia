@@ -93,7 +93,7 @@ public abstract class StaticEntity implements KoLConstants
 		client.closeMacroStream();
 
 		KoLCharacter.reset( "" );
-		(new RequestThread( new LogoutRequest( client ) )).start();
+		(new LogoutRequest( client )).run();
 	}
 
 	public static final KoLSettings getSettings()
