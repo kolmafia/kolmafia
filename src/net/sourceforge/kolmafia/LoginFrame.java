@@ -320,9 +320,7 @@ public class LoginFrame extends KoLFrame
 		private class LoginNameComboBox extends MutableComboBox
 		{
 			public LoginNameComboBox()
-			{
-				super( saveStateNames );
-				this.getEditor().getEditorComponent().addKeyListener( new PasswordFocusListener() );
+			{	super( saveStateNames );
 			}
 
 			public void setSelectedItem( Object anObject )
@@ -331,16 +329,9 @@ public class LoginFrame extends KoLFrame
 				setPassword();
 			}
 
-			public void focusGained( FocusEvent e )
+			protected void findMatch( int keyCode )
 			{
-				super.focusGained( e );
-				passwordField.setText( "" );
-				setStatusMessage( " " );
-			}
-
-			public void focusLost( FocusEvent e )
-			{
-				super.focusLost( e );
+				super.findMatch( keyCode );
 				setPassword();
 			}
 
@@ -382,15 +373,6 @@ public class LoginFrame extends KoLFrame
 				LoginPanel.this.setEnabled( true );
 
 				setStatusMessage( isBreakfastEnabled ? " " : "Once-per-day options disabled (already executed today)" );
-			}
-
-			private class PasswordFocusListener extends KeyAdapter
-			{
-				public void keyReleased( KeyEvent e )
-				{
-					if ( e.getKeyCode() == KeyEvent.VK_ENTER )
-						passwordField.requestFocus();
-				}
 			}
 		}
 	}

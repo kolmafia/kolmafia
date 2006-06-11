@@ -192,7 +192,6 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		if ( !invokeMagic( invokeMagic ) )
 		{
-			KoLCharacter.refreshCalculatedLists();
 			KoLmafia.updateDisplay( "Serpent-slaying quest complete." );
 			return;
 		}
@@ -200,11 +199,8 @@ public abstract class StrangeLeaflet extends StaticEntity
 		// Get the ring
 		getRing();
 
-		// Add new items to "Usable" list
-		KoLCharacter.refreshCalculatedLists();
-
 		String extra = trophy ? " (trophy available)" : ( magic != null ) ? " (magic invoked)" : "";
-		KoLmafia.updateDisplay( "The giant is now searching for a princess" + extra + "." );
+		KoLmafia.updateDisplay( "Strange leaflet completed" + extra + "." );
 	}
 
 	private static void initialize()
