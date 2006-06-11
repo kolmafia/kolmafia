@@ -154,7 +154,10 @@ public class LocalRelayRequest extends KoLRequest
 			for ( int i = 1; formConnection.getHeaderFieldKey( i ) != null; ++i )
 			{
 				if ( formConnection.getHeaderFieldKey( i ).equals( "Content-Length" ) )
-					headers.add( "Content-Length: " + this.fullResponse.length() );
+				{
+					if ( this.fullResponse != null )
+						headers.add( "Content-Length: " + this.fullResponse.length() );
+				}
 				else if ( !formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
 					headers.add( formConnection.getHeaderFieldKey( i ) + ": " + formConnection.getHeaderField( i ) );
 			}
