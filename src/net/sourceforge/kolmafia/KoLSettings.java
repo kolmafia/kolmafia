@@ -113,9 +113,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		if ( oldValue != null && oldValue.equals( value ) )
 			return value;
 
-		if ( characterName.equals( "" ) )
-			saveSettings();
-
 		return super.setProperty( name, value );
 	}
 

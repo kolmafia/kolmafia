@@ -569,7 +569,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "exit" ) || command.equals( "quit" ) || command.equals( "logout" ) )
 		{
 			updateDisplay( "Logging out..." );
-			(new LogoutRequest( StaticEntity.getClient() )).run();
+			StaticEntity.closeSession();
 
 			updateDisplay( "Exiting KoLmafia..." );
 			System.exit(0);
@@ -3138,7 +3138,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( isExecutingCheckOnlyCommand )
 		{
-			printLine( adventure );
+			printLine( adventure.toString() );
 			return;
 		}
 
