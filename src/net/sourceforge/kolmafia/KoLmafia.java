@@ -724,12 +724,17 @@ public abstract class KoLmafia implements KoLConstants
 		if ( resultName == null )
 			return false;
 
+		boolean shouldRefresh = false;
+
 		// Process the adventure result in this section; if
 		// it's a status effect, then add it to the recent
 		// effect list.  Otherwise, add it to the tally.
 
 		if ( result.isStatusEffect() )
+		{
 			AdventureResult.addResultToList( recentEffects, result );
+			shouldRefresh |= !KoLCharacter.getEffects().containsAll( recentEffects );
+		}
 		else if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
 			AdventureResult.addResultToList( tally, result.getNegation() );
 
@@ -746,8 +751,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
-
-		boolean shouldRefresh = false;
 
 		if ( resultName.equals( AdventureResult.SUBSTATS ) && tally.size() >= 3 )
 		{
@@ -1415,7 +1418,6 @@ public abstract class KoLmafia implements KoLConstants
 		try
 		{
 			macroStream.print( KoLmafiaCLI.deriveCommand( request, iterations ) );
-			forceContinue();
 
 			// Handle the gym, which is the only adventure type
 			// which needs to be specially handled.
@@ -1430,10 +1432,6 @@ public abstract class KoLmafia implements KoLConstants
 				}
 			}
 
-			int currentEffectCount = KoLCharacter.getEffects().size();
-
-			boolean shouldRefreshStatus;
-
 			// Otherwise, you're handling a standard adventure.  Be
 			// sure to check to see if you're allowed to continue
 			// after drunkenness.
@@ -1446,161 +1444,10 @@ public abstract class KoLmafia implements KoLConstants
 				return;
 			}
 
-			// Check to see if there are any end conditions.  If
-			// there are conditions, be sure that they are checked
-			// during the iterations.
+			// Execute the request as initially intended by calling
+			// a subroutine.
 
-			int initialConditions = conditions.size();
-			int remainingConditions = initialConditions;
-
-			// If this is an adventure request, make sure that it
-			// gets validated before running.
-
-			boolean usesAllAdventures = false;
-
-			if ( request instanceof KoLAdventure )
-			{
-				// Validate the adventure
-				AdventureDatabase.validateAdventure( (KoLAdventure) request );
-				StaticEntity.setProperty( "lastAdventure", request.toString() );
-				usesAllAdventures = iterations == KoLCharacter.getAdventuresLeft();
-			}
-
-			// Begin the adventuring process, or the request execution
-			// process (whichever is applicable).
-
-			int currentIteration = 0;
-			boolean shouldEnableRefreshStatus = RequestFrame.isRefreshStatusEnabled();
-			RequestFrame.setRefreshStatusEnabled( false );
-
-			while ( permitsContinue() && ++currentIteration <= iterations )
-			{
-				if ( request instanceof KoLAdventure )
-				{
-					String nextAdventure = StaticEntity.getProperty( "nextAdventure" );
-
-					// If we got redirected, get a new request
-					if ( !nextAdventure.equals( "" ) )
-					{
-						request = AdventureDatabase.getAdventure( nextAdventure );
-						StaticEntity.setProperty( "lastAdventure", request.toString() );
-						StaticEntity.setProperty( "nextAdventure", "" );
-					}
-				}
-
-				// Account for the possibility that you could have run
-				// out of adventures mid-request.
-
-				if ( usesAllAdventures )
-					iterations = currentIteration + KoLCharacter.getAdventuresLeft() - 1;
-
-				if ( KoLCharacter.getAdventuresLeft() == 0 && request instanceof KoLAdventure )
-					break;
-
-				// If the conditions existed and have been satisfied,
-				// then you should stop.
-
-				if ( conditions.size() < remainingConditions )
-				{
-					if ( conditions.size() == 0 || useDisjunction )
-					{
-						conditions.clear();
-						remainingConditions = 0;
-						break;
-					}
-				}
-
-				remainingConditions = conditions.size();
-
-				// Otherwise, disable the display and update the user
-				// and the current request number.  Different requests
-				// have different displays.  They are handled here.
-
-				if ( request instanceof KoLAdventure && iterations > 1 )
-					currentIterationString = "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress...";
-				else if ( request instanceof KoLAdventure )
-					currentIterationString = "Visit to " + request.toString() + " in progress...";
-				else
-					currentIterationString = "";
-
-				if ( !(request instanceof KoLAdventure) )
-					updateDisplay( currentIterationString );
-
-				request.run();
-				applyRecentEffects();
-
-				// Decrement the counter to null out the increment
-				// effect on the next iteration of the loop.
-
-				if ( request instanceof KoLAdventure && permitsContinue() && ((KoLAdventure)request).getRequest().getAdventuresUsed() == 0 )
-					--currentIteration;
-
-				// Prevent drunkenness adventures from occurring by
-				// testing inebriety levels after the request is run.
-
-				if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && KoLCharacter.getInebriety() < 26 )
-				{
-					updateDisplay( ERROR_STATE, "You are too drunk to continue." );
-					return;
-				}
-
-				shouldRefreshStatus = currentEffectCount != KoLCharacter.getEffects().size();
-
-				// One circumstance where you need a refresh is if
-				// you gain/lose a status effect.
-
-				shouldRefreshStatus |= currentEffectCount != KoLCharacter.getEffects().size();
-				currentEffectCount = KoLCharacter.getEffects().size();
-
-				// Another instance is if the player's equipment
-				// results in recovery.
-
-				shouldRefreshStatus |= request instanceof KoLAdventure && KoLCharacter.hasRecoveringEquipment();
-
-				// However, if the request frame will refresh the
-				// player's status, then do not refresh.
-
-				shouldRefreshStatus &= !RequestFrame.willRefreshStatus();
-
-				// If it turns out that you need to refresh the player's
-				// status, go ahead and refresh it.
-
-				if ( shouldRefreshStatus )
-				{
-					CharpaneRequest.getInstance().run();
-					KoLCharacter.recalculateAdjustments( false );
-				}
-			}
-
-			if ( shouldEnableRefreshStatus )
-			{
-				RequestFrame.setRefreshStatusEnabled( true );
-				RequestFrame.refreshStatus();
-			}
-
-			currentIterationString = "";
-
-			if ( !permitsContinue() )
-			{
-				if ( currentState == PENDING_STATE )
-					currentState = CONTINUE_STATE;
-
-				return;
-			}
-
-			// If you've completed the requests, make sure to update
-			// the display.
-
-			if ( request instanceof KoLAdventure && !conditions.isEmpty() )
-				updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
-					((currentIteration == 2) ? " request." : " requests.") );
-
-			else if ( initialConditions != 0 && conditions.isEmpty() )
-				updateDisplay( "Conditions satisfied after " + (currentIteration - 1) +
-					((currentIteration == 2) ? " request." : " requests.") );
-
-			else if ( !(request instanceof UseSkillRequest || request instanceof LoginRequest || request instanceof LogoutRequest) )
-				updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
+			executeRequest( request, iterations );
 		}
 		catch ( Exception e )
 		{
@@ -1609,6 +1456,138 @@ public abstract class KoLmafia implements KoLConstants
 
 			StaticEntity.printStackTrace( e );
 		}
+	}
+
+	private void executeRequest( Runnable request, int iterations )
+	{
+		// Check to see if there are any end conditions.  If
+		// there are conditions, be sure that they are checked
+		// during the iterations.
+
+		int initialConditions = conditions.size();
+		int remainingConditions = initialConditions;
+
+		// If this is an adventure request, make sure that it
+		// gets validated before running.
+
+		if ( request instanceof KoLAdventure )
+		{
+			// Validate the adventure
+			AdventureDatabase.validateAdventure( (KoLAdventure) request );
+			StaticEntity.setProperty( "lastAdventure", request.toString() );
+		}
+
+		// Begin the adventuring process, or the request execution
+		// process (whichever is applicable).
+
+		int currentIteration = 0;
+		boolean shouldEnableRefreshStatus = RequestFrame.isRefreshStatusEnabled();
+		RequestFrame.setRefreshStatusEnabled( false );
+
+		while ( permitsContinue() && ++currentIteration <= iterations )
+		{
+			if ( request instanceof KoLAdventure )
+			{
+				String nextAdventure = StaticEntity.getProperty( "nextAdventure" );
+
+				// If we got redirected, get a new request
+				if ( !nextAdventure.equals( "" ) )
+				{
+					request = AdventureDatabase.getAdventure( nextAdventure );
+					StaticEntity.setProperty( "lastAdventure", request.toString() );
+					StaticEntity.setProperty( "nextAdventure", "" );
+				}
+			}
+
+			// Account for the possibility that you could have run
+			// out of adventures mid-request.
+
+			if ( KoLCharacter.getAdventuresLeft() == 0 && request instanceof KoLAdventure )
+			{
+				iterations = currentIteration;
+				break;
+			}
+
+			// If the conditions existed and have been satisfied,
+			// then you should stop.
+
+			if ( conditions.size() < remainingConditions )
+			{
+				if ( conditions.size() == 0 || useDisjunction )
+				{
+					conditions.clear();
+					remainingConditions = 0;
+					break;
+				}
+			}
+
+			remainingConditions = conditions.size();
+
+			// Otherwise, disable the display and update the user
+			// and the current request number.  Different requests
+			// have different displays.  They are handled here.
+
+			if ( request instanceof KoLAdventure && iterations > 1 )
+				currentIterationString = "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress...";
+			else if ( request instanceof KoLAdventure )
+				currentIterationString = "Visit to " + request.toString() + " in progress...";
+			else
+				currentIterationString = "";
+
+			if ( refusesContinue() )
+				return;
+
+			if ( !(request instanceof KoLAdventure) )
+				updateDisplay( currentIterationString );
+
+			request.run();
+			applyRecentEffects();
+
+			// Decrement the counter to null out the increment
+			// effect on the next iteration of the loop.
+
+			if ( request instanceof KoLAdventure && ((KoLAdventure)request).getRequest().getAdventuresUsed() == 0 )
+				--currentIteration;
+
+			// Prevent drunkenness adventures from occurring by
+			// testing inebriety levels after the request is run.
+
+			if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && KoLCharacter.getInebriety() < 26 )
+			{
+				updateDisplay( ERROR_STATE, "You are too drunk to continue." );
+				return;
+			}
+		}
+
+		if ( shouldEnableRefreshStatus )
+		{
+			RequestFrame.setRefreshStatusEnabled( true );
+			RequestFrame.refreshStatus();
+		}
+
+		currentIterationString = "";
+
+		if ( !permitsContinue() )
+		{
+			if ( currentState == PENDING_STATE )
+				forceContinue();
+
+			return;
+		}
+
+		// If you've completed the requests, make sure to update
+		// the display.
+
+		if ( request instanceof KoLAdventure && !conditions.isEmpty() )
+			updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
+				((currentIteration == 2) ? " request." : " requests.") );
+
+		else if ( initialConditions != 0 && conditions.isEmpty() )
+			updateDisplay( "Conditions satisfied after " + (currentIteration - 1) +
+				((currentIteration == 2) ? " request." : " requests.") );
+
+		else if ( !(request instanceof UseSkillRequest || request instanceof LoginRequest || request instanceof LogoutRequest) )
+			updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
 	}
 
 	/**
