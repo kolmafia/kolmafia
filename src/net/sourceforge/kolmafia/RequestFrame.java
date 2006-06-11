@@ -534,9 +534,7 @@ public class RequestFrame extends KoLFrame
 		public void run()
 		{
 			int adventuresBefore = KoLCharacter.getAdventuresLeft();
-
-			CharpaneRequest instance = CharpaneRequest.getInstance();
-			instance.run();
+			CharpaneRequest.getInstance().run( true );
 
 			if ( adventuresBefore > KoLCharacter.getAdventuresLeft() && runBetweenBattleChecks != null && runBetweenBattleChecks.isSelected() )
 			{
@@ -552,10 +550,10 @@ public class RequestFrame extends KoLFrame
 				gotoSelect.setEnabled( true );
 				functionSelect.setEnabled( true );
 
-				instance.run();
+				CharpaneRequest.getInstance().run( true );
 			}
 
-			refreshStatus( getDisplayHTML( instance.responseText ) );
+			refreshStatus( getDisplayHTML( CharpaneRequest.getInstance().responseText ) );
 		}
 
 		public void refreshStatus( String text )

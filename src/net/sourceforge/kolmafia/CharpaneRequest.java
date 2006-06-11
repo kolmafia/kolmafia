@@ -72,11 +72,15 @@ public class CharpaneRequest extends KoLRequest
 	}
 
 	public void run()
+	{	run( false );
+	}
+
+	public void run( boolean isSynchronous )
 	{
 		if ( isRunning )
 			return;
 
-		if ( !(Thread.currentThread() instanceof CharpaneThread) )
+		if ( !isSynchronous && !(Thread.currentThread() instanceof CharpaneThread) )
 		{
 			(new CharpaneThread()).start();
 			return;

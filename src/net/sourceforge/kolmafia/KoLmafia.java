@@ -1432,18 +1432,6 @@ public abstract class KoLmafia implements KoLConstants
 				}
 			}
 
-			// Otherwise, you're handling a standard adventure.  Be
-			// sure to check to see if you're allowed to continue
-			// after drunkenness.
-
-			if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure &&
-				((KoLAdventure)request).getRequest() instanceof CampgroundRequest &&
-				KoLCharacter.getInebriety() < 26 )
-			{
-				updateDisplay( ERROR_STATE, "You are too drunk to continue." );
-				return;
-			}
-
 			// Execute the request as initially intended by calling
 			// a subroutine.
 
@@ -1460,6 +1448,15 @@ public abstract class KoLmafia implements KoLConstants
 
 	private void executeRequest( Runnable request, int iterations )
 	{
+		boolean isCheckExempt = !(request instanceof KoLAdventure) || ((KoLAdventure)request).getRequest() instanceof CampgroundRequest ||
+			KoLCharacter.getInebriety() > 25;
+
+		if ( KoLCharacter.isFallingDown() && !isCheckExempt )
+		{
+			updateDisplay( ERROR_STATE, "You are too drunk to continue." );
+			return;
+		}
+
 		// Check to see if there are any end conditions.  If
 		// there are conditions, be sure that they are checked
 		// during the iterations.
@@ -1552,9 +1549,15 @@ public abstract class KoLmafia implements KoLConstants
 			// Prevent drunkenness adventures from occurring by
 			// testing inebriety levels after the request is run.
 
-			if ( KoLCharacter.isFallingDown() && request instanceof KoLAdventure && KoLCharacter.getInebriety() < 26 )
+			if ( KoLCharacter.getInebriety() < 26 && !isCheckExempt )
 			{
 				updateDisplay( ERROR_STATE, "You are too drunk to continue." );
+				return;
+			}
+
+			if ( KoLCharacter.getCurrentHP() == 0 && !isCheckExempt )
+			{
+				updateDisplay( ERROR_STATE, "Ran out of health." );
 				return;
 			}
 		}
@@ -2393,7 +2396,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( purchases.length > 0 && purchases[0] instanceof MallPurchaseRequest )
 			macroStream.print( "buy " + maxPurchases + " " + ((MallPurchaseRequest)purchases[0]).getItemName() );
 
-		forceContinue();
 		MallPurchaseRequest currentRequest;
 		int purchaseCount = 0;
 
@@ -2826,6 +2828,8 @@ public abstract class KoLmafia implements KoLConstants
 	protected void handleAscension()
 	{
 		refreshSession();
+		enableDisplay();
+
 		sessionStream.println();
 		sessionStream.println();
 		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
