@@ -187,12 +187,8 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( count < 2 )
 			return -1;
 
-		// If it's a snowcone, then reverse the word order
-		if ( canonicalName.startsWith( "snowcones" ) )
-			return getItemID( canonicalName.split( " " )[1] + " snowcone", count );
-
-		if ( canonicalName.equals( "chewing gums on strings" ) )
-			return SewerRequest.GUM.getItemID();
+		// Literal exceptions which don't follow a particular
+		// pattern (or rather, have a pattern we won't guess)
 
 		if ( canonicalName.equals( "little sump'm sump'ms" ) )
 			return getItemID( "a little sump'm sump'm" );
@@ -202,6 +198,9 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		if ( canonicalName.equals( "boxes of wine" ) )
 			return getItemID( "boxed wine" );
+
+		if ( canonicalName.equals( "chewing gums on strings" ) )
+			return SewerRequest.GUM.getItemID();
 
 		if ( canonicalName.equals( "dead guys' watches" ) )
 			return getItemID( "dead guy's watch" );
@@ -235,6 +234,10 @@ public class TradeableItemDatabase extends KoLDatabase
 
 		if ( canonicalName.equals( "zombie glands pineal" ) )
 			return getItemID( "zombie pineal gland" );
+
+		// If it's a snowcone, then reverse the word order
+		if ( canonicalName.startsWith( "snowcones" ) )
+			return getItemID( canonicalName.split( " " )[1] + " snowcone", count );
 
 		// Anything with "gibson" is pluralized to "carlisles"
 
@@ -389,7 +392,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	 * @return	true if item is tradeable
 	 */
 
-	public static final boolean tradeable( int itemID )
+	public static final boolean isTradeable( int itemID )
 	{
 		int price = priceByID.get( itemID );
 		return price == -1 || price > 0;
@@ -413,6 +416,16 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static final List getMatchingNames( String substring )
 	{	return getMatchingNames( itemIDByName, substring );
+	}
+
+	/**
+	 * Returns a list of all items which can be abbreviated
+	 * using the given substring.  This is really useful when
+	 * you don't feel like figuring out what letters match.
+	 */
+
+	public static final List getMatchingAbbreviations( String substring )
+	{	return getMatchingAbbreviations( itemIDByName, substring );
 	}
 
 	/**

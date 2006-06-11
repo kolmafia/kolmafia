@@ -74,11 +74,13 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int CREATION = 3;
 	public static final int CLOSET = 4;
 
-	protected String previousLine;
+	private String previousLine;
 	private BufferedReader commandStream;
 
 	private KoLmafiaCLI lastScript;
-	private KoLmafiaASH advancedHandler;
+
+	private static boolean isExecutingCheckOnlyCommand;
+	private static KoLmafiaASH advancedHandler = new KoLmafiaASH();
 
 	public static void main( String [] args )
 	{
@@ -135,8 +137,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 			StaticEntity.printStackTrace( e, "Error opening input stream." );
 		}
-
-		advancedHandler = new KoLmafiaASH();
 	}
 
 	public void getBreakfast( boolean checkSettings )
@@ -380,7 +380,14 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( !command.equals( "repeat" ) )
 				previousLine = line;
 
+			if ( command.endsWith( "?" ) )
+			{
+				isExecutingCheckOnlyCommand = true;
+				command = command.substring( 0, command.length() - 1 );
+			}
+
 			executeCommand( command, parameters );
+			isExecutingCheckOnlyCommand = false;
 		}
 	}
 
@@ -1346,7 +1353,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void showHTML( String text, String title )
 	{
-		DEFAULT_SHELL.printLine( text.replaceAll( "<br>", LINE_BREAK ).replaceAll( "<(p|blockquote)>", LINE_BREAK + LINE_BREAK ).replaceAll(
+		printLine( text.replaceAll( "<br>", LINE_BREAK ).replaceAll( "<(p|blockquote)>", LINE_BREAK + LINE_BREAK ).replaceAll(
 			LINE_BREAK + "(" + LINE_BREAK + ")+", LINE_BREAK + LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll( "&nbsp;", " " ).replaceAll(
 			"&trade;", " [tm]" ).replaceAll( "&ntilde;", "n" ).replaceAll( "&quot;", "" ) );
 	}
@@ -2541,11 +2548,14 @@ public class KoLmafiaCLI extends KoLmafia
 		// the amount, if the amount is 1.
 
 		List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
+		if ( matchingNames.isEmpty() )
+			matchingNames = TradeableItemDatabase.getMatchingAbbreviations( parameters );
+
 
 		// Next, check to see if any of the items matching appear
 		// in an NPC store.  If so, automatically default to it.
 
-		if ( matchingNames.size() != 0 )
+		if ( !matchingNames.isEmpty() )
 		{
 			itemID = getFirstMatchingItemID( matchingNames, matchType );
 			itemCount = defaultCount;
@@ -2561,8 +2571,10 @@ public class KoLmafiaCLI extends KoLmafia
 			String itemNameString = parameters.substring( itemCountString.length() ).trim();
 
 			matchingNames = TradeableItemDatabase.getMatchingNames( itemNameString );
+			if ( matchingNames.isEmpty() )
+				matchingNames = TradeableItemDatabase.getMatchingAbbreviations( parameters );
 
-			if ( matchingNames.size() == 0 )
+			if ( matchingNames.isEmpty() )
 			{
 				updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
 				return null;
@@ -2617,7 +2629,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( matchType == CREATION )
 		{
-			ConcoctionsDatabase.refreshConcoctions();
 			ItemCreationRequest request = ItemCreationRequest.getInstance( StaticEntity.getClient(), firstMatch );
 			matchCount = request == null ? 0 : request.getCount( ConcoctionsDatabase.getConcoctions() );
 		}
@@ -2637,23 +2648,9 @@ public class KoLmafiaCLI extends KoLmafia
 			firstMatch = firstMatch.getInstance( itemCount );
 		}
 
-		// Allow for attempts to purchase missing items as well as
-		// attempts to create missing items, if the desired location
-		// is the player's inventory.
-
-		if ( matchType == INVENTORY )
+		if ( isExecutingCheckOnlyCommand && firstMatch != null )
 		{
-			AdventureDatabase.retrieveItem( firstMatch );
-			if ( !permitsContinue() )
-				return null;
-		}
-
-		// If the number matching is less than the quantity desired,
-		// then be sure to create an error state.
-
-		else if ( matchType == CLOSET && matchCount < itemCount )
-		{
-			updateDisplay( ERROR_STATE, "Insufficient " + TradeableItemDatabase.getItemName( itemID ) + " to continue." );
+			printLine( firstMatch.toString() );
 			return null;
 		}
 
@@ -3139,7 +3136,12 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		updateDisplay( "Beginning " + adventureCount + " turnips to " + adventure.toString() + "..." );
+		if ( isExecutingCheckOnlyCommand )
+		{
+			printLine( adventure );
+			return;
+		}
+
 		StaticEntity.getClient().makeRequest( adventure, adventureCount );
 	}
 
@@ -3463,13 +3465,13 @@ public class KoLmafiaCLI extends KoLmafia
 	{	printLine( " " );
 	}
 
-	public void printLine( String line )
+	public static void printLine( String line )
 	{
 		outputStream.println( line );
 		mirrorStream.println( line );
 
-		KoLmafia.getDebugStream().println( line );
-		KoLmafia.getSessionStream().println( line );
+		getDebugStream().println( line );
+		getSessionStream().println( line );
 
 		StringBuffer colorBuffer = new StringBuffer();
 		colorBuffer.append( "<font color=black>" );

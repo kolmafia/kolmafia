@@ -55,7 +55,7 @@ public class KoLDatabase extends StaticEntity
 	{
 		if ( reader == null )
 			return null;
-		
+
 		try
 		{
 			String line;
@@ -75,7 +75,7 @@ public class KoLDatabase extends StaticEntity
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return null;
 		}
@@ -148,6 +148,38 @@ public class KoLDatabase extends StaticEntity
 			for ( int i = 0; i < names.length; ++i )
 				if ( names[i].indexOf( searchString ) != -1 )
 					substringList.add( names[i] );
+		}
+
+		return substringList;
+	}
+
+	/**
+	 * Returns a list of all elements which contain the given
+	 * abbreviation in their name.
+	 *
+	 * @param	nameMap	The map in which to search for the string
+	 * @param	substring	The substring for which to search
+	 */
+
+	public static final List getMatchingAbbreviations( Map nameMap, String substring )
+	{
+		List substringList = new ArrayList();
+		String searchString = getCanonicalName( substring.startsWith( "\"" ) ? substring.substring( 1, substring.length() - 1 ) : substring ).trim();
+
+		if ( substring.length() == 0 )
+			return substringList;
+
+		String [] names = new String[ nameMap.keySet().size() ];
+		nameMap.keySet().toArray( names );
+
+		for ( int i = 0; i < names.length; ++i )
+		{
+			int searchIndex = 0;
+			for ( int j = 0; j < substring.length() && searchIndex != -1; ++j )
+				searchIndex = names[i].indexOf( substring.charAt(j), searchIndex );
+
+			if ( searchIndex != -1 )
+				substringList.add( names[i] );
 		}
 
 		return substringList;
@@ -268,22 +300,22 @@ public class KoLDatabase extends StaticEntity
 
 			internalList.set( index, value );
 		}
-		
+
 		public void add( String s )
 		{	internalList.add( s );
 		}
-		
+
 		public void clear()
 		{	internalList.clear();
 		}
-		
+
 		public String [] toArray()
 		{
 			String [] array = new String[ internalList.size() ];
 			internalList.toArray( array );
 			return array;
 		}
-		
+
 		public int size()
 		{	return internalList.size();
 		}
