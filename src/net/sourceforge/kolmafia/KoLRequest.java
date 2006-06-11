@@ -851,7 +851,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 			else if ( redirectLocation.equals( "choice.php" ) )
 			{
-				shouldStop = processChoiceAdventure();
+				processChoiceAdventure();
+				shouldStop = true;
 			}
 			else if ( followRedirects )
 			{
@@ -1137,7 +1138,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( statusChanged && RequestFrame.willRefreshStatus() )
 			RequestFrame.refreshStatus();
-		else if ( statusChanged || needsRefresh )
+		else if ( needsRefresh )
 		{
 			CharpaneRequest.getInstance().run();
 			KoLCharacter.recalculateAdjustments( false );
@@ -1151,7 +1152,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * the given choice adventure.
 	 */
 
-	public boolean processChoiceAdventure()
+	public void processChoiceAdventure()
 	{
 		// You can no longer simply ignore a choice adventure.	One of
 		// the options may have that effect, but we must at least run
@@ -1160,10 +1161,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
 
-		boolean wasSuccessful = handleChoiceResponse( request );
+		handleChoiceResponse( request );
 		this.responseCode = request.responseCode;
 		this.responseText = request.responseText;
-		return !wasSuccessful;
 	}
 
 	/**
@@ -1171,7 +1171,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * adventure.
 	 */
 
-	private boolean handleChoiceResponse( KoLRequest request )
+	private void handleChoiceResponse( KoLRequest request )
 	{
 		String text = request.responseText;
 		Matcher encounterMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( text );
@@ -1187,7 +1187,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			KoLmafia.updateDisplay( ABORT_STATE, "Encountered choice adventure with no choices." );
 			request.showInBrowser( true );
-			return false;
+			return;
 		}
 
 		String choice = choiceMatcher.group(1);
@@ -1217,7 +1217,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Unsupported choice adventure #" + choice );
 			request.showInBrowser( true );
-			return false;
+			return;
 		}
 
 		// If the user wants to ignore this specific choice or all
@@ -1236,7 +1236,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Can't ignore choice adventure #" + choice );
 			request.showInBrowser( true );
-			return false;
+			return;
 		}
 
 		// Only change the decision if you are told to either
@@ -1284,9 +1284,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// without a redirect. Detect this and recurse, as needed.
 
 		if ( request.responseText.indexOf( "action=choice.php" ) != -1 )
-			return handleChoiceResponse( request );
-
-		return true;
+			handleChoiceResponse( request );
 	}
 
 	private String pickOutfitChoice( String option, String decision )
