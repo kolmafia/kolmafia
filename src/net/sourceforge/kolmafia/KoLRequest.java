@@ -1163,7 +1163,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		boolean wasSuccessful = handleChoiceResponse( request );
 		this.responseCode = request.responseCode;
 		this.responseText = request.responseText;
-		return wasSuccessful;
+		return !wasSuccessful;
 	}
 
 	/**
@@ -1244,7 +1244,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// non-empty list of conditions.
 
 		if ( decision.equals( "4" ) || !client.getConditions().isEmpty() )
-             decision = pickOutfitChoice( option, decision );
+			decision = pickOutfitChoice( option, decision );
 
 		// If there is currently a setting which determines the
 		// decision, make that decision and submit the form.
