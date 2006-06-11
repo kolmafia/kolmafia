@@ -1277,7 +1277,7 @@ public abstract class KoLmafia implements KoLConstants
 			lastDamageIndex = damageMatcher.end();
 			String message = "You lose " + damageMatcher.group(1) + " hit points";
 
-			DEFAULT_SHELL.printLine( message );
+			KoLmafiaCLI.printLine( message );
 			parseResult( message );
 		}
 
@@ -1289,7 +1289,7 @@ public abstract class KoLmafia implements KoLConstants
 			lastDamageIndex = damageMatcher.end();
 			String message = "You lose " + damageMatcher.group(1) + " hit points";
 
-			DEFAULT_SHELL.printLine( message );
+			KoLmafiaCLI.printLine( message );
 			parseResult( message );
 		}
 
@@ -1312,7 +1312,7 @@ public abstract class KoLmafia implements KoLConstants
 
 					if ( lastToken.indexOf( "an item" ) != -1 )
 					{
-						DEFAULT_SHELL.printLine( acquisition + " " + item );
+						KoLmafiaCLI.printLine( acquisition + " " + item );
 						parseItem( item );
 					}
 					else
@@ -1334,7 +1334,7 @@ public abstract class KoLmafia implements KoLConstants
 						else if ( itemName.equals( "evil golden arches" ) )
 							itemName = "evil golden arch";
 
-						DEFAULT_SHELL.printLine( acquisition + " " + item );
+						KoLmafiaCLI.printLine( acquisition + " " + item );
 						parseItem( itemName + " (" + countString + ")" );
 					}
 				}
@@ -1343,7 +1343,7 @@ public abstract class KoLmafia implements KoLConstants
 					String effectName = parsedResults.nextToken();
 					lastToken = parsedResults.nextToken();
 
-					DEFAULT_SHELL.printLine( acquisition + " " + effectName + " " + lastToken );
+					KoLmafiaCLI.printLine( acquisition + " " + effectName + " " + lastToken );
 
 					if ( lastToken.indexOf( "duration" ) == -1 )
 					{
@@ -1366,7 +1366,7 @@ public abstract class KoLmafia implements KoLConstants
 				if ( parenIndex != -1 )
 					lastToken = lastToken.substring( 0, parenIndex );
 
-				DEFAULT_SHELL.printLine( lastToken );
+				KoLmafiaCLI.printLine( lastToken );
 
 				requiresRefresh |= parseResult( lastToken.trim() );
 			}
@@ -2354,7 +2354,7 @@ public abstract class KoLmafia implements KoLConstants
 		printing.toArray( elements );
 
 		for ( int i = 0; i < elements.length; ++i )
-			DEFAULT_SHELL.printLine( elements[i].toString() );
+			KoLmafiaCLI.printLine( elements[i].toString() );
 	}
 
 	/**

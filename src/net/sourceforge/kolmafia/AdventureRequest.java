@@ -398,7 +398,7 @@ public class AdventureRequest extends KoLRequest
 			if ( encounterMatcher.find() )
 			{
 				String encounter = encounterMatcher.group(1).toLowerCase();
-				DEFAULT_SHELL.printLine( "Encounter: " + encounter );
+				KoLmafiaCLI.printLine( "Encounter: " + encounter );
 				StaticEntity.getClient().registerEncounter( encounter );
 				return encounter;
 			}
@@ -409,7 +409,7 @@ public class AdventureRequest extends KoLRequest
 			if ( encounterMatcher.find() )
 			{
 				String encounter = encounterMatcher.group(1).toLowerCase();
-				DEFAULT_SHELL.printLine( "Encounter: " + encounter );
+				KoLmafiaCLI.printLine( "Encounter: " + encounter );
 				StaticEntity.getClient().registerEncounter( encounter );
 				return encounter;
 			}

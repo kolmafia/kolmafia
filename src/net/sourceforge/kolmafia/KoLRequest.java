@@ -1404,7 +1404,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// Print everything to the default shell; this way, the
 			// graphical CLI is also notified of events.
 
-			DEFAULT_SHELL.printLine( event );
+			KoLmafiaCLI.printLine( event );
 		}
 
 		// If we're not a GUI and there are no GUI windows open
