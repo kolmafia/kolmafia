@@ -60,7 +60,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 	public AutoSellRequest( KoLmafia client, Object [] items, int [] prices, int [] limits, int sellType )
 	{
-		super( client, getSellPage( sellType ), items, 0 );
+		super( client, getSellPage( client, sellType ), items, 0 );
 		addFormField( "pwd" );
 
 		this.sellType = sellType;
@@ -81,10 +81,14 @@ public class AutoSellRequest extends SendMessageRequest
 		}
 	}
 
-	private static String getSellPage( int sellType )
+	private static String getSellPage( KoLmafia client, int sellType )
 	{
 		if ( sellType == AUTOMALL )
 			return "managestore.php";
+
+		// Get the autosell mode the first time we need it
+		if ( KoLCharacter.getAutosellMode().equals( "" ) )
+			(new AccountRequest( client )).run();
 
 		if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
 			return "sellstuff_ugly.php";
@@ -167,9 +171,6 @@ public class AutoSellRequest extends SendMessageRequest
 
 		// Otherwise, if you are autoselling multiple items,
 		// then it depends on which mode you are using.
-
-		if ( KoLCharacter.getAutosellMode().equals( "" ) )
-			(new AccountRequest( client )).run();
 
 		int mode = KoLCharacter.getAutosellMode().equals( "detailed" ) ? 1 : 0;
 
