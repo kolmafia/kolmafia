@@ -152,6 +152,8 @@ public class MallSearchFrame extends KoLPanelFrame
 				return;
 
 			currentlyBuying = true;
+
+			KoLmafia.forceContinue();
 			StaticEntity.getClient().makePurchases( results, purchases, count );
 			currentlyBuying = false;
 
