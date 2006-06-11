@@ -60,9 +60,9 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		try
 		{
-			NEWYEAR = sdf.parse( "20050917" ).getTime();
-			BOUNDARY = sdf.parse( "20051027" ).getTime();
-			COLLISION = sdf.parse( "20060603" ).getTime();
+			NEWYEAR = DATED_FILENAME_FORMAT.parse( "20050917" ).getTime();
+			BOUNDARY = DATED_FILENAME_FORMAT.parse( "20051027" ).getTime();
+			COLLISION = DATED_FILENAME_FORMAT.parse( "20060603" ).getTime();
 		}
 		catch ( Exception e )
 		{
@@ -81,7 +81,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		try
 		{
-			int calendarDay = getCalendarDay( sdf.parse( sdf.format( new Date() ) ) );
+			int calendarDay = getCalendarDay( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ) );
 			int phaseStep = ((calendarDay % 16) + 16) % 16;
 
 			RONALD_PHASE = phaseStep % 8;
@@ -561,7 +561,7 @@ public class MoonPhaseDatabase extends StaticEntity
 	public static boolean isHoliday( Date time )
 	{
 		return SPECIAL[ getCalendarDay( time ) ] == SP_HOLIDAY ||
-			getRealLifeHoliday( sdf.format( time ) ) != null;
+			getRealLifeHoliday( DATED_FILENAME_FORMAT.format( time ) ) != null;
 	}
 
 	/**
@@ -629,7 +629,7 @@ public class MoonPhaseDatabase extends StaticEntity
 
 				for ( int j = 0; j < currentEstimate; ++j )
 				{
-					testDate = sdf.format( holidayTester.getTime() );
+					testDate = DATED_FILENAME_FORMAT.format( holidayTester.getTime() );
 					testResult = getRealLifeHoliday( testDate );
 
 					if ( testResult != null && testResult.equals( holiday ) )
@@ -661,7 +661,7 @@ public class MoonPhaseDatabase extends StaticEntity
 		if ( gameHoliday.equals( "No known holiday today." ) )
 			gameHoliday = null;
 
-		String realHoliday = getRealLifeHoliday( sdf.format( time ) );
+		String realHoliday = getRealLifeHoliday( DATED_FILENAME_FORMAT.format( time ) );
 
 		return gameHoliday == null && realHoliday == null ? "No known holiday today." :
 			gameHoliday == null ? realHoliday : realHoliday == null ? gameHoliday :
@@ -701,7 +701,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			holidayFinder.set( Calendar.YEAR, y );
 			holidayFinder.set( Calendar.MONTH, m - 1 );
 			holidayFinder.set( Calendar.DAY_OF_MONTH, d );
-			easter = sdf.format( holidayFinder.getTime() );
+			easter = DATED_FILENAME_FORMAT.format( holidayFinder.getTime() );
 
 			// Calculating Thanksgiving is easier -- just detect
 			// what day is the start of November and adjust.

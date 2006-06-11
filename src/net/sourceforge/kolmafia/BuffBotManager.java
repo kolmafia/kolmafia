@@ -561,7 +561,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 
 		Matcher meatMatcher = Pattern.compile( MEAT_REGEX ).matcher( message.getMessageHTML() );
-		int meatSent = meatMatcher.find() ? df.parse( meatMatcher.group(1) ).intValue() : 0;
+		int meatSent = meatMatcher.find() ? COMMA_FORMAT.parse( meatMatcher.group(1) ).intValue() : 0;
 		List castList = (List) buffCostMap.get( new Integer( meatSent ) );
 
 		// If what is sent does not match anything in the buff table,
@@ -588,7 +588,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 				queueIncomingMessage( message, true );
 				BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Invalid amount (" + meatSent + " meat) received from " + message.getSenderName() );
-				sendRefund( message.getSenderName(), df.format( meatSent ) + " meat is not a valid buff price.  " + refundMessage, meatSent );
+				sendRefund( message.getSenderName(), COMMA_FORMAT.format( meatSent ) + " meat is not a valid buff price.  " + refundMessage, meatSent );
 				return;
 			}
 
@@ -672,7 +672,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 			BuffBotHome.update( BuffBotHome.NONBUFFCOLOR, "Received white list request from un-whitelisted player" );
 			BuffBotHome.update( BuffBotHome.ERRORCOLOR, " ---> Could not cast " + buff.getBuffName() + " on " + message.getSenderName() );
-			UseSkillRequest.lastUpdate = df.format( meatSent ) + " meat is not a valid buff price.";
+			UseSkillRequest.lastUpdate = COMMA_FORMAT.format( meatSent ) + " meat is not a valid buff price.";
 			return false;
 		}
 		else if ( buff.philanthropic && BuffBotHome.getInstanceCount( meatSent, message.getSenderName() ) > 0 )

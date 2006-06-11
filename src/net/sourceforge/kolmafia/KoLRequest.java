@@ -1050,7 +1050,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		try
 		{
 			String token = st.nextToken().substring( fromStart );
-			return (token.indexOf(",") == -1) ? Integer.parseInt( token ) : df.parse( token ).intValue();
+			return (token.indexOf(",") == -1) ? Integer.parseInt( token ) : COMMA_FORMAT.parse( token ).intValue();
 		}
 		catch ( Exception e )
 		{
@@ -1082,7 +1082,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			String token = st.nextToken();
 			token = token.substring( fromStart, token.length() - fromEnd );
-			return (token.indexOf(",") == -1) ? Integer.parseInt( token ) : df.parse( token ).intValue();
+			return (token.indexOf(",") == -1) ? Integer.parseInt( token ) : COMMA_FORMAT.parse( token ).intValue();
 		}
 		catch ( Exception e )
 		{

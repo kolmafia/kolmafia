@@ -247,17 +247,17 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			buffer.append( "unlimited" );
 		else
 		{
-			buffer.append( df.format( quantity ) );
+			buffer.append( COMMA_FORMAT.format( quantity ) );
 
 			if ( limit < quantity || !canPurchase )
 			{
 				buffer.append( " limit " );
-				buffer.append( df.format( limit ) );
+				buffer.append( COMMA_FORMAT.format( limit ) );
 			}
 		}
 
 		buffer.append( " @ " );
-		buffer.append( df.format( price ) );
+		buffer.append( COMMA_FORMAT.format( price ) );
 		buffer.append( "): " );
 		buffer.append( shopName );
 
@@ -307,7 +307,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
 
-		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + df.format( limit ) + " @ " + df.format( price ) + ")..." );
+		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( price ) + ")..." );
 		super.run();
 		
 		if ( attireChanged )
@@ -392,8 +392,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			{
 				if ( itemChangedMatcher.find() )
 				{
-					int limit = df.parse( itemChangedMatcher.group(1) ).intValue();
-					int newPrice = df.parse( itemChangedMatcher.group(2) ).intValue();
+					int limit = COMMA_FORMAT.parse( itemChangedMatcher.group(1) ).intValue();
+					int newPrice = COMMA_FORMAT.parse( itemChangedMatcher.group(2) ).intValue();
 
 					// If the item exists at a lower or equivalent
 					// price, then you should re-attempt the purchase
@@ -445,8 +445,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		{
 			if ( quantityMatcher.find() )
 			{
-				int limit = df.parse( quantityMatcher.group(1) ).intValue();
-				int alreadyPurchased = df.parse( quantityMatcher.group(2) ).intValue();
+				int limit = COMMA_FORMAT.parse( quantityMatcher.group(1) ).intValue();
+				int alreadyPurchased = COMMA_FORMAT.parse( quantityMatcher.group(2) ).intValue();
 
 				if ( limit != alreadyPurchased )
 					(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit, true )).run();
@@ -469,7 +469,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		int quantityAcquired = responseText.indexOf( "You acquire an item: <b>" ) != -1 ? 1 : 0;
 		for ( int i = limit; i > 0 && quantityAcquired == 0; --i )
-			if ( responseText.indexOf( "acquire <b>" + df.format( i ) ) != -1 )
+			if ( responseText.indexOf( "acquire <b>" + COMMA_FORMAT.format( i ) ) != -1 )
 				quantityAcquired = i;
 
 		client.processResult( new AdventureResult( itemID, quantityAcquired ) );

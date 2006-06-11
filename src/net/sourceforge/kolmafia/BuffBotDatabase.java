@@ -128,7 +128,7 @@ public class BuffBotDatabase extends KoLDatabase
 				int price;
 				try
 				{
-					price = df.parse( data[2] ).intValue();
+					price = COMMA_FORMAT.parse( data[2] ).intValue();
 				}
 				catch ( Exception e )
 				{
@@ -142,7 +142,7 @@ public class BuffBotDatabase extends KoLDatabase
 				int turns;
 				try
 				{
-					turns = df.parse( data[3] ).intValue();
+					turns = COMMA_FORMAT.parse( data[3] ).intValue();
 				}
 				catch ( Exception e )
 				{
@@ -156,7 +156,7 @@ public class BuffBotDatabase extends KoLDatabase
 				int free;
 				try
 				{
-					free = df.parse( data[4] ).intValue();
+					free = COMMA_FORMAT.parse( data[4] ).intValue();
 				}
 				catch ( Exception e )
 				{

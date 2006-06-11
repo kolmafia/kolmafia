@@ -554,7 +554,7 @@ public class ClanManageFrame extends KoLFrame
 			initialTitle = value.getTitle();
 			titleField = new JTextField();
 			bootCheckBox = new JCheckBox();
-			clanKarma = new JLabel( df.format( value.getKarma() ), JLabel.LEFT );
+			clanKarma = new JLabel( COMMA_FORMAT.format( value.getKarma() ), JLabel.LEFT );
 
 			JButton profileButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
 			profileButton.addActionListener( new ShowProfileListener() );
@@ -585,7 +585,7 @@ public class ClanManageFrame extends KoLFrame
 			profile = (ProfileRequest) value;
 			memberName.setText( profile.getPlayerName() );
 			titleField.setText( profile.getTitle() );
-			clanKarma.setText( df.format( profile.getKarma() ) );
+			clanKarma.setText( COMMA_FORMAT.format( profile.getKarma() ) );
 		}
 
 		private class ShowProfileListener implements ActionListener

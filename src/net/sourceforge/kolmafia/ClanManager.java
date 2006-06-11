@@ -790,7 +790,7 @@ public class ClanManager extends StaticEntity
 						stashMap.put( currentMember, new ArrayList() );
 
 					entryList = (List) stashMap.get( currentMember );
-					entryCount = df.parse( entryMatcher.group(3) ).intValue();
+					entryCount = COMMA_FORMAT.parse( entryMatcher.group(3) ).intValue();
 
 					lastItemID = TradeableItemDatabase.getItemID( entryMatcher.group(4) );
 					entryBuffer.append( (new AdventureResult( lastItemID, entryCount )).toString() );

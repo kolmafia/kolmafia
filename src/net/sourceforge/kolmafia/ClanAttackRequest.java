@@ -59,7 +59,7 @@ public class ClanAttackRequest extends KoLRequest implements Comparable
 	}
 
 	public String toString()
-	{	return name + " (" + df.format( goodies ) + " " + (goodies == 1 ? "bag" : "bags") + ")";
+	{	return name + " (" + COMMA_FORMAT.format( goodies ) + " " + (goodies == 1 ? "bag" : "bags") + ")";
 	}
 
 	public int compareTo( Object o )

@@ -140,7 +140,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 		{
 			return "<html><font color=" + (winAmount.intValue() > 0 ? "green" : "red") +
 				">" + client.getPlayerName( playerID ) + ": " + (winAmount.intValue() > 0 ? "+" : "") +
-				df.format( winAmount.intValue() ) + "</font></html>";
+				COMMA_FORMAT.format( winAmount.intValue() ) + "</font></html>";
 		}
 	}
 
@@ -176,7 +176,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 					Matcher amountMatcher = Pattern.compile( ">([\\d,]+) " ).matcher( results.group() );
 					if ( amountMatcher.find() )
 					{
-						betAmount = df.parse( amountMatcher.group(1) ).intValue();
+						betAmount = COMMA_FORMAT.parse( amountMatcher.group(1) ).intValue();
 						betAmount = (int) (((float) betAmount) * (isPositive ? 0.998f : -1.0f));
 					}
 				}

@@ -592,7 +592,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			try
 			{
 				String meatInCloset = meatInClosetMatcher.group();
-				KoLCharacter.setClosetMeat( df.parse( meatInCloset ).intValue() );
+				KoLCharacter.setClosetMeat( COMMA_FORMAT.parse( meatInCloset ).intValue() );
 			}
 			catch ( Exception e )
 			{
@@ -630,12 +630,12 @@ public class EquipmentRequest extends PasswordHashRequest
 			try
 			{
 				lastFindIndex = optionMatcher.end();
-				int itemID = df.parse( optionMatcher.group(1) ).intValue();
+				int itemID = COMMA_FORMAT.parse( optionMatcher.group(1) ).intValue();
 
 				if ( TradeableItemDatabase.getItemName( itemID ) == null )
 					TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
 
-				AdventureResult result = new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() );
+				AdventureResult result = new AdventureResult( itemID, COMMA_FORMAT.parse( optionMatcher.group(3) ).intValue() );
 				AdventureResult.addResultToList( resultList, result );
 			}
 			catch ( Exception e )

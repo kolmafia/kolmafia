@@ -138,7 +138,7 @@ public class MeatManageFrame extends KoLFrame
 			fundSource.addItem( "From Hagnk's to Closet" );
 
 			amountField = new JTextField();
-			closetField = new JTextField( df.format( KoLCharacter.getClosetMeat() ) );
+			closetField = new JTextField( COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Transfer: ", fundSource );
@@ -216,7 +216,7 @@ public class MeatManageFrame extends KoLFrame
 		private class ClosetUpdater implements Runnable
 		{
 			public void run()
-			{	closetField.setText( df.format( KoLCharacter.getClosetMeat() ) );
+			{	closetField.setText( COMMA_FORMAT.format( KoLCharacter.getClosetMeat() ) );
 			}
 		}
 	}

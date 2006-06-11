@@ -2328,7 +2328,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static String getAdvancement()
 	{
 		int level = getLevel();
-		return df.format( level * level + 4 - calculateBasePoints( getTotalPrime() ) ) + " " + AdventureResult.STAT_NAMES[ getPrimeIndex() ] +
+		return COMMA_FORMAT.format( level * level + 4 - calculateBasePoints( getTotalPrime() ) ) + " " + AdventureResult.STAT_NAMES[ getPrimeIndex() ] +
 			" until level " + (level + 1);
 	}
 

@@ -78,33 +78,28 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			// Mafiatize the function menu
 
-			fullResponse = fullResponse.replaceAll(
-				"<option value=.?inventory.?php.?>Inventory</option>",
-				"<option value=\"inventory.php?which=1\">Consumables</option>\n<option value=\"inventory.php?which=2\">Equipment</option>\n<option value=\"inventory.php?which=3\">Miscellaneous</option>" );
-			fullResponse = fullResponse.replaceAll(
-				"<option value=.?questlog.?php.?>Quests</option>",
-				"<option value=\"familiar.php\">Terrarium</option>" );
-			fullResponse = fullResponse.replaceAll(
-				"<option value=.?messages.?php.?>Read Messages</option>",
-				"<option value=\"questlog.php?which=1\">Quest Log</option>\n<option value=\"messages.php\">Read Messages</option>" );
+			fullResponse = fullResponse.replaceFirst(
+				"<option value=\"inventory\\.php\">Inventory</option>",
+				"<option value=\"inventory.php?which=1\">Consumables</option><option value=\"inventory.php?which=2\">Equipment</option><option value=\"inventory.php?which=3\">Miscellaneous</option>" );
 
-			fullResponse = fullResponse.replaceAll( ">Store</option>", ">Asymmetric Store</option>" );
-			fullResponse = fullResponse.replaceAll( ">Donate</option>", ">Donate to KoL</option>" );
+			fullResponse = fullResponse.replaceFirst(
+				"<option value=\"skills\\.php\">Skills</option>",
+				"<option value=\"skills\\.php\">Skills</option><option value=\"familiars.php\">Terrarium</option>" );
 
 			// Remove only the logout option
 			// since it might cause problems.
 
-			fullResponse = fullResponse.replaceAll( "<option value=.?logout.?php.?>Log Out</option>", "" );
+			fullResponse = fullResponse.replaceFirst( "<option value=\"logout\\.php\">Log Out</option>", "" );
 
 			// Mafiatize the goto menu
 
-			fullResponse = fullResponse.replaceAll(
-				"<option value=.?mountains.?php.?>",
-				"<option value=\"mclargehuge.php\">Mt. McLargeHuge</option>\n<option value=\"mountains.php\">" );
+			fullResponse = fullResponse.replaceFirst(
+				"<option value=\"mountains\\.php\">Big Mountains</a>",
+				"<option value=\"mclargehuge.php\">Mt. McLargeHuge</option>\n<option value=\"mountains.php\">Big Mountains</option>" );
 
-			fullResponse = fullResponse.replaceAll(
+			fullResponse = fullResponse.replaceFirst(
 				"Nearby Plains</a>",
-				"Nearby Plains</a>\n<option value=\"beanstalk.php\">Above Beanstalk</option>\n" );
+				"Nearby Plains</option><option value=\"beanstalk.php\">Above Beanstalk</option>" );
 		}
 
 		// Fix chat javascript problems with relay system
@@ -157,8 +152,12 @@ public class LocalRelayRequest extends KoLRequest
 			// This request was relayed to the server. Respond with those headers.
 			headers.add( formConnection.getHeaderField( 0 ) );
 			for ( int i = 1; formConnection.getHeaderFieldKey( i ) != null; ++i )
-				if ( !formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
+			{
+				if ( formConnection.getHeaderFieldKey( i ).equals( "Content-Length" ) )
+					headers.add( "Content-Length: " + this.fullResponse.length() );
+				else if ( !formConnection.getHeaderFieldKey( i ).equals( "Transfer-Encoding" ) )
 					headers.add( formConnection.getHeaderFieldKey( i ) + ": " + formConnection.getHeaderField( i ) );
+			}
 		}
 
 		return index >= headers.size() ? null : (String) headers.get( index );

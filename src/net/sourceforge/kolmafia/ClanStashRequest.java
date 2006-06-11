@@ -229,7 +229,7 @@ public class ClanStashRequest extends SendMessageRequest
 			try
 			{
 				lastFindIndex = optionMatcher.end();
-				int itemID = df.parse( optionMatcher.group(1) ).intValue();
+				int itemID = COMMA_FORMAT.parse( optionMatcher.group(1) ).intValue();
 
 				String itemString = optionMatcher.group(2);
 
@@ -245,7 +245,7 @@ public class ClanStashRequest extends SendMessageRequest
 				if ( itemString.indexOf( "(" ) != -1 )
 				{
 					Matcher qtyMatcher = qtyPattern.matcher( itemString.substring( itemString.indexOf( "(" ) ) );
-					quantity = qtyMatcher.find() ? df.parse( qtyMatcher.group(1) ).intValue() : 1;
+					quantity = qtyMatcher.find() ? COMMA_FORMAT.parse( qtyMatcher.group(1) ).intValue() : 1;
 				}
 
 				intermediateList.add( new AdventureResult( itemID, quantity ) );

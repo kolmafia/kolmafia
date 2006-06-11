@@ -180,11 +180,11 @@ public abstract class StoreManager extends StaticEntity
 					if ( TradeableItemDatabase.getItemName( itemID ) == null )
 						TradeableItemDatabase.registerItem( itemID, priceMatcher.group(1) );
 
-					quantity = df.parse( priceMatcher.group(2) ).intValue();
+					quantity = COMMA_FORMAT.parse( priceMatcher.group(2) ).intValue();
 
-					price = df.parse( priceMatcher.group(3) ).intValue();
-					limit = df.parse( priceMatcher.group(5) ).intValue();
-					lowest = df.parse( priceMatcher.group(6) ).intValue();
+					price = COMMA_FORMAT.parse( priceMatcher.group(3) ).intValue();
+					limit = COMMA_FORMAT.parse( priceMatcher.group(5) ).intValue();
+					lowest = COMMA_FORMAT.parse( priceMatcher.group(6) ).intValue();
 
 					// Now that all the data has been retrieved, register
 					// the item that was discovered.
@@ -233,7 +233,7 @@ public abstract class StoreManager extends StaticEntity
 					{
 						try
 						{
-							count = df.parse( parsedItem.nextToken() ).intValue();
+							count = COMMA_FORMAT.parse( parsedItem.nextToken() ).intValue();
 						}
 						catch ( Exception e )
 						{
@@ -245,12 +245,12 @@ public abstract class StoreManager extends StaticEntity
 					}
 					
 					item = new AdventureResult( name, count, false );
-					price = df.parse( itemMatcher.group(2) ).intValue();
+					price = COMMA_FORMAT.parse( itemMatcher.group(2) ).intValue();
 
 					// In this case, the limit could appear as "unlimited",
 					// which equates to a limit of 0.
 
-					limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : df.parse( itemMatcher.group(3) ).intValue();
+					limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : COMMA_FORMAT.parse( itemMatcher.group(3) ).intValue();
 
 					// Now that all the data has been retrieved, register
 					// the item that was discovered.
@@ -284,7 +284,7 @@ public abstract class StoreManager extends StaticEntity
 
 		for ( int i = 0; i < frames.length; ++i )
 			if ( frames[i] instanceof StoreManageFrame )
-				frames[i].setTitle( "Store Manager (potential earnings: " + df.format( potentialEarnings ) + " meat)" );
+				frames[i].setTitle( "Store Manager (potential earnings: " + COMMA_FORMAT.format( potentialEarnings ) + " meat)" );
 	}
 
 	public static void parseLog( String logText )
@@ -388,7 +388,7 @@ public abstract class StoreManager extends StaticEntity
 		prices.keySet().toArray( priceArray );
 
 		for ( int i = 0; i < priceArray.length; ++i )
-			resultSummary.add( "  " + df.format( ((Integer)prices.get( priceArray[i] )).intValue() ) + " @ " + df.format( priceArray[i].intValue() ) + " meat" );
+			resultSummary.add( "  " + COMMA_FORMAT.format( ((Integer)prices.get( priceArray[i] )).intValue() ) + " @ " + COMMA_FORMAT.format( priceArray[i].intValue() ) + " meat" );
 	}
 
 	/**
@@ -467,16 +467,16 @@ public abstract class StoreManager extends StaticEntity
 			buffer.append( TradeableItemDatabase.getItemName( itemID ) );
 			buffer.append( " (" );
 
-			buffer.append( df.format( quantity ) );
+			buffer.append( COMMA_FORMAT.format( quantity ) );
 
 			if ( limit < quantity )
 			{
 				buffer.append( " limit " );
-				buffer.append( df.format( limit ) );
+				buffer.append( COMMA_FORMAT.format( limit ) );
 			}
 
 			buffer.append( " @ " );
-			buffer.append( df.format( price ) );
+			buffer.append( COMMA_FORMAT.format( price ) );
 			buffer.append( ")" );
 
 			return buffer.toString();

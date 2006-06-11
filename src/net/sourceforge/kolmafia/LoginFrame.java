@@ -369,7 +369,7 @@ public class LoginFrame extends KoLFrame
 
 				passwordField.setText( password );
 
-				String todayString = sdf.format( new Date() );
+				String todayString = DATED_FILENAME_FORMAT.format( new Date() );
 
 				String loginScript = GLOBAL_SETTINGS.getProperty( "loginScript." + currentMatch.toLowerCase() );
 				String breakfastSetting = GLOBAL_SETTINGS.getProperty( "getBreakfast." + currentMatch.toLowerCase() );

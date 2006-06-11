@@ -257,7 +257,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 						// currently, this is [5]
 
 						inconsistency = true;
-						columnsNew[5] = String.valueOf( df.parse( columnsNew[5] ).intValue() - df.parse( columnsOld[5] ).intValue() );
+						columnsNew[5] = String.valueOf( COMMA_FORMAT.parse( columnsNew[5] ).intValue() - COMMA_FORMAT.parse( columnsOld[5] ).intValue() );
 
 						// Subtract columns[days] from columnsNew[days];
 						// currently, this is [6].  Ascensions count
@@ -379,7 +379,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				// in the third column, or index 2 in the array.
 
 				this.timestamp = ASCEND_DATE_FORMAT.parse( columns[1] );
-				this.level = df.parse( columns[2] ).intValue();
+				this.level = COMMA_FORMAT.parse( columns[2] ).intValue();
 
 				this.classID = columns[3].startsWith( "SC" ) ? AscensionSnapshotTable.SEAL_CLUBBER :
 					columns[3].startsWith( "T" ) ? AscensionSnapshotTable.TURTLE_TAMER :
@@ -388,8 +388,8 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 					columns[3].startsWith( "D" ) ? AscensionSnapshotTable.DISCO_BANDIT : AscensionSnapshotTable.ACCORDION_THIEF;
 
 				this.sign = columns[4];
-				this.turnCount = df.parse( columns[5] ).intValue();
-				this.dayCount = df.parse( columns[6] ).intValue();
+				this.turnCount = COMMA_FORMAT.parse( columns[5] ).intValue();
+				this.dayCount = COMMA_FORMAT.parse( columns[6] ).intValue();
 
 				String [] path = columns[7].split( "," );
 				this.isSoftcore = path[0].equals( "Normal" );

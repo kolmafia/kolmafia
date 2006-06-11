@@ -435,7 +435,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			try
 			{
-				int seconds = parameters.equals( "" ) ? 1 : df.parse( parameters ).intValue();
+				int seconds = parameters.equals( "" ) ? 1 : COMMA_FORMAT.parse( parameters ).intValue();
 				StaticEntity.executeCountdown( "Countdown: ", seconds );
 			}
 			catch ( Exception e )
@@ -608,7 +608,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				if ( previousLine != null )
 				{
-					int repeatCount = parameters.length() == 0 ? 1 : df.parse( parameters ).intValue();
+					int repeatCount = parameters.length() == 0 ? 1 : COMMA_FORMAT.parse( parameters ).intValue();
 					for ( int i = 0; i < repeatCount && permitsContinue(); ++i )
 						executeLine( previousLine );
 				}
@@ -641,7 +641,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			try
 			{
-				today = sdf.parse( sdf.format( today ) );
+				today = DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( today ) );
 			}
 			catch ( Exception e )
 			{
@@ -1843,7 +1843,7 @@ public class KoLmafiaCLI extends KoLmafia
 				try
 				{
 					String [] splitCondition = conditionString.split( "\\s+" );
-					int amount = df.parse( splitCondition[0] ).intValue();
+					int amount = COMMA_FORMAT.parse( splitCondition[0] ).intValue();
 
 					condition = new AdventureResult( AdventureResult.MEAT, amount );
 				}
@@ -1859,7 +1859,7 @@ public class KoLmafiaCLI extends KoLmafia
 				try
 				{
 					String [] splitCondition = conditionString.split( "\\s+" );
-					int points = df.parse( splitCondition[0] ).intValue();
+					int points = COMMA_FORMAT.parse( splitCondition[0] ).intValue();
 
 					int [] subpoints = new int[3];
 					int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
@@ -1903,7 +1903,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 					String numberString = conditionString.split( "\\s+" )[0];
 
-					int points = df.parse( numberString.endsWith( "%" ) ? numberString.substring( 0, numberString.length() - 1 ) :
+					int points = COMMA_FORMAT.parse( numberString.endsWith( "%" ) ? numberString.substring( 0, numberString.length() - 1 ) :
 						numberString ).intValue();
 
 					if ( numberString.endsWith( "%" ) )
@@ -1972,7 +1972,7 @@ public class KoLmafiaCLI extends KoLmafia
 		try
 		{
 			StaticEntity.getClient().makeRequest( new CampgroundRequest( StaticEntity.getClient(), parameterList[0] ),
-				parameterList.length == 1 ? 1 : df.parse( parameterList[1] ).intValue() );
+				parameterList.length == 1 ? 1 : COMMA_FORMAT.parse( parameterList[1] ).intValue() );
 		}
 		catch ( Exception e )
 		{
@@ -2050,7 +2050,7 @@ public class KoLmafiaCLI extends KoLmafia
 				buffCount = (int) ( KoLCharacter.getCurrentMP() /
 						    ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) );
 			else
-				buffCount = df.parse( buffCountString ).intValue();
+				buffCount = COMMA_FORMAT.parse( buffCountString ).intValue();
 		}
 		catch ( Exception e )
 		{
@@ -2140,7 +2140,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		try
 		{
-			amount = df.parse( parameterList[1] ).intValue();
+			amount = COMMA_FORMAT.parse( parameterList[1] ).intValue();
 		}
 		catch ( Exception e )
 		{
@@ -2329,8 +2329,8 @@ public class KoLmafiaCLI extends KoLmafia
 		else if ( desiredData.startsWith( "stat" ) )
 		{
 			printLine( "Lv: " + KoLCharacter.getLevel() );
-			printLine( "HP: " + KoLCharacter.getCurrentHP() + " / " + df.format( KoLCharacter.getMaximumHP() ) );
-			printLine( "MP: " + KoLCharacter.getCurrentMP() + " / " + df.format( KoLCharacter.getMaximumMP() ) );
+			printLine( "HP: " + KoLCharacter.getCurrentHP() + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
+			printLine( "MP: " + KoLCharacter.getCurrentMP() + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
 
 			printBlankLine();
 
@@ -2341,7 +2341,7 @@ public class KoLmafiaCLI extends KoLmafia
 			printBlankLine();
 
 			printLine( "Advs: " + KoLCharacter.getAdventuresLeft() );
-			printLine( "Meat: " + df.format( KoLCharacter.getAvailableMeat() ) );
+			printLine( "Meat: " + COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
 			printLine( "Drunk: " + KoLCharacter.getInebriety() );
 
 			printBlankLine();
@@ -2421,13 +2421,13 @@ public class KoLmafiaCLI extends KoLmafia
 	private static String getStatString( int base, int adjusted, int tnp )
 	{
 		StringBuffer statString = new StringBuffer();
-		statString.append( df.format( adjusted ) );
+		statString.append( COMMA_FORMAT.format( adjusted ) );
 
 		if ( base != adjusted )
-			statString.append( " (" + df.format( base ) + ")" );
+			statString.append( " (" + COMMA_FORMAT.format( base ) + ")" );
 
 		statString.append( ", tnp = " );
-		statString.append( df.format( tnp ) );
+		statString.append( COMMA_FORMAT.format( tnp ) );
 
 		return statString.toString();
 	}
@@ -2469,7 +2469,7 @@ public class KoLmafiaCLI extends KoLmafia
 			try
 			{
 				effectName = (String) matchingNames.get(0);
-				duration = durationString.equals( "*" ) ? 0 : df.parse( durationString ).intValue();
+				duration = durationString.equals( "*" ) ? 0 : COMMA_FORMAT.parse( durationString ).intValue();
 			}
 			catch ( Exception e )
 			{
@@ -2592,7 +2592,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 				try
 				{
-					itemCount = df.parse( itemCountString ).intValue();
+					itemCount = COMMA_FORMAT.parse( itemCountString ).intValue();
 				}
 				catch ( Exception e )
 				{
@@ -2730,7 +2730,7 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			String [] command = previousLine.split( " " );
 
-			int setting = df.parse( command[1] ).intValue();
+			int setting = COMMA_FORMAT.parse( command[1] ).intValue();
 			StaticEntity.getClient().makeRequest( new MindControlRequest( StaticEntity.getClient(), setting ) );
 		}
 		catch ( Exception e )
@@ -2799,7 +2799,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			try
 			{
-				square = df.parse( squareString ).intValue();
+				square = COMMA_FORMAT.parse( squareString ).intValue();
 			}
 			catch  ( Exception e )
 			{
@@ -2833,7 +2833,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			try
 			{
-				int square = df.parse( squareString ).intValue();
+				int square = COMMA_FORMAT.parse( squareString ).intValue();
 				MushroomPlot.pickMushroom( square, true );
 			}
 			catch  ( Exception e )
@@ -2872,7 +2872,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( itemNames[i].endsWith( "meat" ) )
 				{
 					String amountString = itemNames[i].split( " " )[0];
-					int amount = amountString.equals( "*" ) ? 0 : df.parse( amountString ).intValue();
+					int amount = amountString.equals( "*" ) ? 0 : COMMA_FORMAT.parse( amountString ).intValue();
 					firstMatch = new AdventureResult( AdventureResult.MEAT, amount > 0 ? amount : KoLCharacter.getAvailableMeat() + amount );
 
 				}
@@ -2952,7 +2952,7 @@ public class KoLmafiaCLI extends KoLmafia
 		try
 		{
 			StaticEntity.getClient().makeRequest( new AutoSellRequest( StaticEntity.getClient(), firstMatch,
-				df.parse( tokens[ tokens.length - 2 ] ).intValue(), df.parse( tokens[ tokens.length - 1 ] ).intValue() ) );
+				COMMA_FORMAT.parse( tokens[ tokens.length - 2 ] ).intValue(), COMMA_FORMAT.parse( tokens[ tokens.length - 1 ] ).intValue() ) );
 		}
 		catch ( Exception e )
 		{
@@ -3122,7 +3122,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			try
 			{
-				adventureCount = adventureCountString.equals( "*" ) ? 0 : df.parse( adventureCountString ).intValue();
+				adventureCount = adventureCountString.equals( "*" ) ? 0 : COMMA_FORMAT.parse( adventureCountString ).intValue();
 
 				if ( adventureCount <= 0 && adventure.getFormSource().equals( "shore.php" ) )
 					adventureCount += (int) Math.floor( KoLCharacter.getAdventuresLeft() / 3 );
@@ -3188,7 +3188,7 @@ public class KoLmafiaCLI extends KoLmafia
 		try
 		{
 			BuffBotHome.setBuffBotActive( true );
-			BuffBotManager.runBuffBot( df.parse( parameters ).intValue() );
+			BuffBotManager.runBuffBot( COMMA_FORMAT.parse( parameters ).intValue() );
 			updateDisplay( "Buffbot execution complete." );
 		}
 		catch ( Exception e )
@@ -3289,7 +3289,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			try
 			{
-				tradeCount = df.parse( itemCountString ).intValue();
+				tradeCount = COMMA_FORMAT.parse( itemCountString ).intValue();
 			}
 			catch ( Exception e )
 			{

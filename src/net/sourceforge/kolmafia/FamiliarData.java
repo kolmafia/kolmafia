@@ -74,7 +74,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	{
 		try
 		{
-			int kills = df.parse( dataMatcher.group(4) ).intValue();
+			int kills = COMMA_FORMAT.parse( dataMatcher.group(4) ).intValue();
 			this.weight = Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
 		}
 		catch ( Exception e )

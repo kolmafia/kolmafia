@@ -142,24 +142,24 @@ public class ProfileRequest extends KoLRequest
 				this.restriction = "No-Path";
 
 			while ( !st.nextToken().startsWith( "Meat" ) );
-			this.currentMeat = new Integer( df.parse( st.nextToken().trim() ).intValue() );
+			this.currentMeat = new Integer( COMMA_FORMAT.parse( st.nextToken().trim() ).intValue() );
 
 			if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
 			{
 				while ( !st.nextToken().startsWith( "Ascensions" ) );
 				st.nextToken();
-				this.ascensionCount = new Integer( df.parse( st.nextToken().trim() ).intValue() );
+				this.ascensionCount = new Integer( COMMA_FORMAT.parse( st.nextToken().trim() ).intValue() );
 			}
 			else
 				this.ascensionCount = new Integer( 0 );
 
 			while ( !st.nextToken().startsWith( "Turns" ) );
-			this.turnsPlayed = new Integer( df.parse( st.nextToken().trim() ).intValue() );
+			this.turnsPlayed = new Integer( COMMA_FORMAT.parse( st.nextToken().trim() ).intValue() );
 
 			if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
 			{
 				while ( !st.nextToken().startsWith( "Turns" ) );
-				this.currentRun = new Integer( df.parse( st.nextToken().trim() ).intValue() );
+				this.currentRun = new Integer( COMMA_FORMAT.parse( st.nextToken().trim() ).intValue() );
 			}
 			else
 				this.currentRun = turnsPlayed;
@@ -209,7 +209,7 @@ public class ProfileRequest extends KoLRequest
 			if ( cleanHTML.indexOf( "\nRanking" ) != -1 )
 			{
 				while ( !st.nextToken().startsWith( "Ranking" ) );
-				this.pvpRank = new Integer( df.parse( st.nextToken().trim() ).intValue() );
+				this.pvpRank = new Integer( COMMA_FORMAT.parse( st.nextToken().trim() ).intValue() );
 			}
 			else
 				this.pvpRank = new Integer( 0 );
@@ -283,13 +283,13 @@ public class ProfileRequest extends KoLRequest
 			// the next three fields of the table.
 
 			dataMatcher.find( dataMatcher.end() );
-			instance.muscle = new Integer( df.parse( dataMatcher.group(1) ).intValue() );
+			instance.muscle = new Integer( COMMA_FORMAT.parse( dataMatcher.group(1) ).intValue() );
 
 			dataMatcher.find( dataMatcher.end() );
-			instance.mysticism = new Integer( df.parse( dataMatcher.group(1) ).intValue() );
+			instance.mysticism = new Integer( COMMA_FORMAT.parse( dataMatcher.group(1) ).intValue() );
 
 			dataMatcher.find( dataMatcher.end() );
-			instance.moxie = new Integer( df.parse( dataMatcher.group(1) ).intValue() );
+			instance.moxie = new Integer( COMMA_FORMAT.parse( dataMatcher.group(1) ).intValue() );
 
 			// The next field contains the total power,
 			// and since this is calculated, it can be
@@ -310,7 +310,7 @@ public class ProfileRequest extends KoLRequest
 			// accumulated by this player.
 
 			dataMatcher.find( dataMatcher.end() );
-			instance.karma = new Integer( df.parse( dataMatcher.group(1) ).intValue() );
+			instance.karma = new Integer( COMMA_FORMAT.parse( dataMatcher.group(1) ).intValue() );
 		}
 		catch ( Exception e )
 		{
