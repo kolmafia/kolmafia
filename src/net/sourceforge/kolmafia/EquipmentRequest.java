@@ -498,7 +498,6 @@ public class EquipmentRequest extends PasswordHashRequest
 			{
 				parseQuestItems( responseText );
 				super.processResults();
-				KoLmafia.updateDisplay( "Quest item list retrieved." );
 			}
 			else
 			{
