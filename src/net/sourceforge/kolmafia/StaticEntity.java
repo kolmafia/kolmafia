@@ -190,6 +190,7 @@ public abstract class StaticEntity implements KoLConstants
 		{
 			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
 			KoLCharacter.addDerivedSkills();
+			KoLCharacter.refreshCalculatedLists();
 		}
 
 		learnedMatcher = Pattern.compile( "You emerge with a (.*?) of Steel" ).matcher( responseText );
@@ -202,9 +203,7 @@ public abstract class StaticEntity implements KoLConstants
 		// It simply says: "You leargn a new skill. Whee!"
 
 		if ( responseText.indexOf( "You leargn a new skill." ) != -1 )
-		     (new CharsheetRequest( client )).run();
-
-		KoLCharacter.refreshCalculatedLists();
+			(new CharsheetRequest( client )).run();
 	}
 
 	public static final void executeCountdown( String message, int seconds )

@@ -537,11 +537,6 @@ public class EquipmentRequest extends PasswordHashRequest
 				else
 					KoLmafia.updateDisplay( "Gear changed." );
 			}
-
-			// After all the items have been switched,
-			// update lists.
-
-			KoLCharacter.refreshCalculatedLists();
 		}
 		catch ( RuntimeException e )
 		{

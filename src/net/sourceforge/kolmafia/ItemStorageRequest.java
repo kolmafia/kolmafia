@@ -169,7 +169,14 @@ public class ItemStorageRequest extends SendMessageRequest
 		{
 			case EMPTY_STORAGE:
 				while ( !KoLCharacter.getStorage().isEmpty() )
-					client.processResult( (AdventureResult) KoLCharacter.getStorage().remove(0) );
+				{
+					AdventureResult item = (AdventureResult) KoLCharacter.getStorage().remove(0);
+					AdventureResult.addResultToList( KoLCharacter.getInventory(), item );
+					AdventureResult.addResultToList( StaticEntity.getClient().getSessionTally(), item );
+
+					KoLCharacter.refreshCalculatedLists();
+				}
+
 				break;
 
 			case STORAGE_TO_INVENTORY:
@@ -187,7 +194,6 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		super.processResults();
 		KoLCharacter.updateStatus();
-		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**

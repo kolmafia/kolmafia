@@ -242,7 +242,6 @@ public class KoLmafiaCLI extends KoLmafia
 				printBlankLine();
 
 			executeLine( line );
-			KoLCharacter.refreshCalculatedLists();
 			System.gc();
 
 			if ( StaticEntity.getClient() == this )

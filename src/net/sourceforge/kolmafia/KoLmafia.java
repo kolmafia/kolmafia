@@ -490,7 +490,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( getPasswordHash() != null && getPasswordHash().equals( "" ) )
 		{
 			ConcoctionsDatabase.getConcoctions().clear();
-			KoLCharacter.refreshCalculatedLists( true );
+			KoLCharacter.refreshCalculatedLists();
 			return;
 		}
 
@@ -522,7 +522,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		ConcoctionsDatabase.getConcoctions().clear();
 		KoLCharacter.recalculateAdjustments( false );
-		KoLCharacter.refreshCalculatedLists( true );
+		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**
@@ -735,7 +735,9 @@ public abstract class KoLmafia implements KoLConstants
 				AdventureResult.addResultToList( tally, result );
 		}
 
+		int effectCount = KoLCharacter.getEffects().size();
 		KoLCharacter.processResult( result );
+		shouldRefresh |= effectCount != KoLCharacter.getEffects().size();
 
 		if ( !shouldTally )
 			return shouldRefresh;
@@ -2380,7 +2382,6 @@ public abstract class KoLmafia implements KoLConstants
 				if ( !KoLCharacter.canInteract() && currentRequest.getQuantity() != MallPurchaseRequest.MAX_QUANTITY )
 				{
 					updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
-					KoLCharacter.refreshCalculatedLists();
 					return;
 				}
 
@@ -2431,8 +2432,6 @@ public abstract class KoLmafia implements KoLConstants
 			updateDisplay( "Purchases complete." );
 		else
 			updateDisplay( ERROR_STATE, "Desired purchase quantity not reached." );
-
-		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**

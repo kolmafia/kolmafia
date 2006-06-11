@@ -293,8 +293,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				combineItems();
 				break;
 		}
-
-		KoLCharacter.refreshCalculatedLists();
 	}
 
 	protected void makeDough()

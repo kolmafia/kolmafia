@@ -287,7 +287,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static int arenaWins = 0;
 	private static int stillsAvailable = 0;
-	private static boolean refreshEnabled = false;
 
 	// Listener-driven container items
 
@@ -373,8 +372,6 @@ public abstract class KoLCharacter extends StaticEntity
 		arenaWins = 0;
 
 		stillsAvailable = -1;
-		refreshEnabled = false;
-
 		beanstalkArmed = false;
 
 		ascensions = 0;
@@ -2362,17 +2359,8 @@ public abstract class KoLCharacter extends StaticEntity
 	 * the processing of results.
 	 */
 
-	public static void refreshCalculatedLists( boolean enabled )
-	{
-		refreshEnabled = enabled;
-		refreshCalculatedLists();
-	}
-
 	public static void refreshCalculatedLists()
 	{
-		if ( !refreshEnabled )
-			return;
-
 		if ( username.equals( "" ) )
 			return;
 
@@ -2425,7 +2413,10 @@ public abstract class KoLCharacter extends StaticEntity
 		String resultName = result.getName();
 
 		if ( result.isItem() )
+		{
 			AdventureResult.addResultToList( inventory, result );
+			refreshCalculatedLists();
+		}
 		else if ( resultName.equals( AdventureResult.HP ) )
 			setHP( getCurrentHP() + result.getCount(), getMaximumHP(), getBaseMaxHP() );
 		else if ( resultName.equals( AdventureResult.MP ) )
