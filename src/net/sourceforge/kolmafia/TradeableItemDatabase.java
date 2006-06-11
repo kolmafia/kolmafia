@@ -137,7 +137,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	public static void registerItem( int itemID, String itemName )
 	{
-		KoLmafia.getDebugStream().println( "New item: <" + itemName + "> (#" + itemID + ")" );
+		KoLmafia.getDebugStream().println( "New item: <" + itemName + "> (#" + itemID + " )" );
 
 		useTypeByID.set( itemID, 0 );
 		priceByID.set( itemID, 0 );
@@ -191,81 +191,55 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.startsWith( "snowcones" ) )
 			return getItemID( canonicalName.split( " " )[1] + " snowcone", count );
 
-		// If this is the pluralized version of chewing
-		// gum, then return the ID for chewing gum.
-
 		if ( canonicalName.equals( "chewing gums on strings" ) )
 			return SewerRequest.GUM.getItemID();
 
-		// If it's the plural form of boxed wine, which
-		// looks nothing like boxed wine, then return
-		// the ID for boxed wine.
-
-		if ( canonicalName.equals( "boxes of wine" ) )
-			return 1005;
-
-		// Black Lotuses are KoL-pluralized as Black Loti
-		// Not that you are likely to have lots of them.
+		if ( canonicalName.equals( "little sump'm sump'ms" ) )
+			return getItemID( "a little sump'm sump'm" );
 
 		if ( canonicalName.equals( "black loti" ) )
-			return 1188;
+			return getItemID( "black lotus" );
 
-		// Yo-yos are pluralized in a very strange way as
-		// well, and require special handling.
-
-		if ( canonicalName.equals( "yo-yo-yo" ) )
-			return 1389;
-
-		// Mr. Accessory Jrs. are also pluralized in an
-		// unconventional manner (slightly, anyway)
-
-		if ( canonicalName.equals( "mr. accessory jrs." ) )
-			return 896;
-
-		// One zombie pineal gland, Two zombie glands pineal.
-		// For some reason.
-
-		if ( canonicalName.equals( "zombie glands pineal" ) )
-			return 1343;
-
-		// Fedoras are pluralized 1337-style, so make sure
-		// they are recognized as well.
-
-		if ( canonicalName.equals( "f3d0r45" ) )
-			return 538;
-
-		// The dead guy's watch has a double plural -- so
-		// it's not just as easy as doing a possessive.
+		if ( canonicalName.equals( "boxes of wine" ) )
+			return getItemID( "boxed wine" );
 
 		if ( canonicalName.equals( "dead guys' watches" ) )
-			return 230;
+			return getItemID( "dead guy's watch" );
 
-		// A little sump'm sump'm loses the "a" and pluralizes
-		// itself -- therefore, it also must be handled in a
-		// different way.
+		if ( canonicalName.equals( "f3d0r45" ) )
+			return getItemID( "f3d0r4" );
 
-		if ( canonicalName.equals( "little sump'm sump'ms" ) )
-			return 682;
-
-		// redrum pluralizes into redsrum
-
-		if ( canonicalName.equals( "redsrum" ) )
-			return 1352;
-
-		// kiwi pluralizes into kiwus
+		if ( canonicalName.equals( "jynnan tonnix" ) )
+			return getItemID( "gin and tonic" );
 
 		if ( canonicalName.equals( "kiwus" ) )
-			return 1562;
-
-		// mimosette pluralizes into marmosets
+			return getItemID( "kiwi" );
 
 		if ( canonicalName.equals( "marmosets" ) )
-			return 1564;
+			return getItemID( "mimosette" );
 
-		// gibson pluralizes into carlisles
+		if ( canonicalName.equals( "mr. accessory jrs." ) )
+			return getItemID( "mr. accessory jr." );
 
-		if ( canonicalName.equals( "carlisles" ) )
-			return 1570;
+		if ( canonicalName.equals( "redsrum" ) )
+			return getItemID( "redrum" );
+
+		if ( canonicalName.equals( "teqiwiluses" ) )
+			return getItemID( "teqiwila" );
+
+		if ( canonicalName.equals( "yo-yo-yo" ) )
+			return getItemID( "yo-yo" );
+
+		if ( canonicalName.equals( "zombeis" ) )
+			return getItemID( "zmobie" );
+
+		if ( canonicalName.equals( "zombie glands pineal" ) )
+			return getItemID( "zombie pineal gland" );
+
+		// Anything with "gibson" is pluralized to "carlisles"
+
+		if ( canonicalName.endsWith( "carlisles" ) )
+			return getItemID( canonicalName.replaceFirst( "carlisles", "gibson" ) );
 
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.
