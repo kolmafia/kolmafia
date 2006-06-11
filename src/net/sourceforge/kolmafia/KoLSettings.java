@@ -103,16 +103,21 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 	public synchronized Object setProperty( String name, String value )
 	{
-		if ( value == null )
-			return value;
-
 		String oldValue = super.getProperty( name );
+		if ( value == null )
+		{
+			super.remove( name );
+			return oldValue;
+		}
+
 		if ( oldValue != null && oldValue.equals( value ) )
 			return value;
 
-		Object returnValue = super.setProperty( name, value );
-		storeSettings( settingsFile );
-		return returnValue;
+		return super.setProperty( name, value );
+	}
+
+	public synchronized void saveSettings()
+	{	storeSettings( settingsFile );
 	}
 
 	/**
