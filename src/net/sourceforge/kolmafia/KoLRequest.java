@@ -849,6 +849,10 @@ public class KoLRequest implements Runnable, KoLConstants
 				KoLmafia.updateDisplay( ABORT_STATE, "Session timed out." );
 				shouldStop = true;
 			}
+			else if ( redirectLocation.equals( "choice.php" ) )
+			{
+				shouldStop = processChoiceAdventure();
+			}
 			else if ( followRedirects )
 			{
 				// Re-setup this request to follow the redirect
@@ -871,10 +875,6 @@ public class KoLRequest implements Runnable, KoLConstants
 				battle.run();
 
 				return this instanceof AdventureRequest || getClass() == KoLRequest.class;
-			}
-			else if ( redirectLocation.equals( "choice.php" ) && !(this instanceof LocalRelayRequest) )
-			{
-				shouldStop = processChoiceAdventure();
 			}
 			else
 			{
@@ -1160,8 +1160,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
 
-		request.showInBrowser( false );
-		return handleChoiceResponse( request );
+		boolean wasSuccessful = handleChoiceResponse( request );
+		this.responseCode = request.responseCode;
+		this.responseText = request.responseText;
+		return wasSuccessful;
 	}
 
 	/**
@@ -1183,7 +1185,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// be a bug in KoL itself. Bail now and let the user
 			// finish by hand.
 
-			KoLmafia.updateDisplay( ERROR_STATE, "Encountered choice adventure with no choices." );
+			KoLmafia.updateDisplay( ABORT_STATE, "Encountered choice adventure with no choices." );
 			request.showInBrowser( true );
 			return false;
 		}
@@ -1213,7 +1215,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( decision == null )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Unsupported choice adventure #" + choice );
+			KoLmafia.updateDisplay( ABORT_STATE, "Unsupported choice adventure #" + choice );
 			request.showInBrowser( true );
 			return false;
 		}
@@ -1232,7 +1234,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( decision.equals( "0" ) )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Can't ignore choice adventure #" + choice );
+			KoLmafia.updateDisplay( ABORT_STATE, "Can't ignore choice adventure #" + choice );
 			request.showInBrowser( true );
 			return false;
 		}
@@ -1242,18 +1244,17 @@ public class KoLRequest implements Runnable, KoLConstants
 		// non-empty list of conditions.
 
 		if ( decision.equals( "4" ) || !client.getConditions().isEmpty() )
-                        decision = pickOutfitChoice( option, decision );
+             decision = pickOutfitChoice( option, decision );
 
 		// If there is currently a setting which determines the
 		// decision, make that decision and submit the form.
 
-		request = new KoLRequest( client, "choice.php" );
+		request.clearDataFields();
 		request.addFormField( "pwd" );
 		request.addFormField( "whichchoice", choice );
 		request.addFormField( "option", decision );
 
 		request.run();
-		request.showInBrowser( false );
 
 		// Manually process any adventure usage for choice adventures,
 		// since they necessarily consume an adventure.
