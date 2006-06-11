@@ -398,7 +398,7 @@ public class CharsheetRequest extends KoLRequest
 		try
 		{
 			Matcher baseMatcher = BASE_PATTERN.matcher( token );
-			return baseMatcher.find() ? df.parse( baseMatcher.group(1) ).intValue() : defaultBase;
+			return baseMatcher.find() ? COMMA_FORMAT.parse( baseMatcher.group(1) ).intValue() : defaultBase;
 		}
 		catch ( Exception e )
 		{

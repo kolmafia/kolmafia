@@ -162,11 +162,11 @@ public class RequestFrame extends KoLFrame
 			functionSelect.addItem( new BrowserComboBoxItem( "Consumables", "inventory.php?which=1" ) );
 			functionSelect.addItem( new BrowserComboBoxItem( "Equipment", "inventory.php?which=2" ) );
 			functionSelect.addItem( new BrowserComboBoxItem( "Miscellaneous", "inventory.php?which=3" ) );
-			functionSelect.addItem( new BrowserComboBoxItem( "Character Sheet", "charsheet.php" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Character", "charsheet.php" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Quests", "questlog.php" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "Skills", "skills.php" ) );
 			functionSelect.addItem( new BrowserComboBoxItem( "Terrarium", "familiar.php" ) );
-			functionSelect.addItem( new BrowserComboBoxItem( "Usable Skills", "skills.php" ) );
 			functionSelect.addItem( new BrowserComboBoxItem( "Read Messages", "messages.php" ) );
-			functionSelect.addItem( new BrowserComboBoxItem( "Quest Log", "questlog.php" ) );
 			functionSelect.addItem( new BrowserComboBoxItem( "Account Menu", "account.php" ) );
 
 			// Add the browser "goto" menu, because people

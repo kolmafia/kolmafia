@@ -177,11 +177,11 @@ public class ClanSnapshotTable extends KoLDatabase
 					break;
 
 				case LEVEL_FILTER:
-					compareValue = request.getPlayerLevel().intValue() - df.parse( filter ).intValue();
+					compareValue = request.getPlayerLevel().intValue() - COMMA_FORMAT.parse( filter ).intValue();
 					break;
 
 				case PVP_FILTER:
-					compareValue = request.getPvpRank().intValue() - df.parse( filter ).intValue();
+					compareValue = request.getPvpRank().intValue() - COMMA_FORMAT.parse( filter ).intValue();
 					break;
 
 				case CLASS_FILTER:
@@ -189,12 +189,12 @@ public class ClanSnapshotTable extends KoLDatabase
 					break;
 
 				case KARMA_FILTER:
-					compareValue = request.getKarma().intValue() - df.parse( filter ).intValue();
+					compareValue = request.getKarma().intValue() - COMMA_FORMAT.parse( filter ).intValue();
 					break;
 
 				case LOGIN_FILTER:
 
-					int daysIdle = df.parse( filter ).intValue();
+					int daysIdle = COMMA_FORMAT.parse( filter ).intValue();
 					long millisecondsIdle = 86400000L * daysIdle;
 					Date cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
 
@@ -348,34 +348,34 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
 		{
-			strbuf.append( "<li>PVP Rank: " + df.format( calculateAverage( pvpList ) ) + "</li>" );
+			strbuf.append( "<li>PVP Rank: " + COMMA_FORMAT.format( calculateAverage( pvpList ) ) + "</li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
-		strbuf.append( "<li>Muscle: " + df.format( calculateAverage( musList ) ) + "</li>" );
+		strbuf.append( "<li>Muscle: " + COMMA_FORMAT.format( calculateAverage( musList ) ) + "</li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Myst: " + df.format( calculateAverage( mysList ) ) + "</li>" );
+		strbuf.append( "<li>Myst: " + COMMA_FORMAT.format( calculateAverage( mysList ) ) + "</li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Moxie: " + df.format( calculateAverage( moxList ) ) + "</li>" );
+		strbuf.append( "<li>Moxie: " + COMMA_FORMAT.format( calculateAverage( moxList ) ) + "</li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Power: " + df.format( calculateAverage( powerList ) ) + "</li>" );
+		strbuf.append( "<li>Power: " + COMMA_FORMAT.format( calculateAverage( powerList ) ) + "</li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Karma: " + df.format( calculateAverage( karmaList ) ) + "</li>" );
+		strbuf.append( "<li>Karma: " + COMMA_FORMAT.format( calculateAverage( karmaList ) ) + "</li>" );
 		strbuf.append( LINE_BREAK );
 
 		if ( header.indexOf( "<td>Meat</td>" ) != -1 )
 		{
-			strbuf.append( "<li>Meat: " + df.format( calculateAverage( meatList ) ) + "</li>" );
+			strbuf.append( "<li>Meat: " + COMMA_FORMAT.format( calculateAverage( meatList ) ) + "</li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
 		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
 		{
-			strbuf.append( "<li>Turns: " + df.format( calculateAverage( turnsList ) ) + "</li>" );
+			strbuf.append( "<li>Turns: " + COMMA_FORMAT.format( calculateAverage( turnsList ) ) + "</li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
@@ -386,34 +386,34 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		if ( header.indexOf( "<td>PVP</td>" ) != -1 )
 		{
-			strbuf.append( "<li>PVP Rank: " + df.format( calculateTotal( pvpList ) ) + "</li>" );
+			strbuf.append( "<li>PVP Rank: " + COMMA_FORMAT.format( calculateTotal( pvpList ) ) + "</li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
-		strbuf.append( "<li>Muscle: " + df.format( calculateTotal( musList ) ) + "</li>" );
+		strbuf.append( "<li>Muscle: " + COMMA_FORMAT.format( calculateTotal( musList ) ) + "</li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Myst: " + df.format( calculateTotal( mysList ) ) + "</li>" );
+		strbuf.append( "<li>Myst: " + COMMA_FORMAT.format( calculateTotal( mysList ) ) + "</li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Moxie: " + df.format( calculateTotal( moxList ) ) + "</li>" );
+		strbuf.append( "<li>Moxie: " + COMMA_FORMAT.format( calculateTotal( moxList ) ) + "</li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Power: " + df.format( calculateTotal( powerList ) ) + "</li>" );
+		strbuf.append( "<li>Power: " + COMMA_FORMAT.format( calculateTotal( powerList ) ) + "</li>" );
 		strbuf.append( LINE_BREAK );
 
-		strbuf.append( "<li>Karma: " + df.format( calculateTotal( karmaList ) ) + "</li>" );
+		strbuf.append( "<li>Karma: " + COMMA_FORMAT.format( calculateTotal( karmaList ) ) + "</li>" );
 		strbuf.append( LINE_BREAK );
 
 		if ( header.indexOf( "<td>Meat</td>" ) != -1 )
 		{
-			strbuf.append( "<li>Meat: " + df.format( calculateTotal( meatList ) ) + "</li>" );
+			strbuf.append( "<li>Meat: " + COMMA_FORMAT.format( calculateTotal( meatList ) ) + "</li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
 		if ( header.indexOf( "<td>Turns</td>" ) != -1 )
 		{
-			strbuf.append( "<li>Turns: " + df.format( calculateTotal( turnsList ) ) + "</li>" );
+			strbuf.append( "<li>Turns: " + COMMA_FORMAT.format( calculateTotal( turnsList ) ) + "</li>" );
 			strbuf.append( LINE_BREAK );
 		}
 
@@ -489,25 +489,25 @@ public class ClanSnapshotTable extends KoLDatabase
 			if ( header[i].equals( "Mus" ) )
 			{
 				strbuf.append( "</td><td>" );
-				strbuf.append( df.format( memberLookup.getMuscle().intValue() ) );
+				strbuf.append( COMMA_FORMAT.format( memberLookup.getMuscle().intValue() ) );
 			}
 
 			if ( header[i].equals( "Mys" ) )
 			{
 				strbuf.append( "</td><td>" );
-				strbuf.append( df.format( memberLookup.getMysticism().intValue() ) );
+				strbuf.append( COMMA_FORMAT.format( memberLookup.getMysticism().intValue() ) );
 			}
 
 			if ( header[i].equals( "Mox" ) )
 			{
 				strbuf.append( "</td><td>" );
-				strbuf.append( df.format( memberLookup.getMoxie().intValue() ) );
+				strbuf.append( COMMA_FORMAT.format( memberLookup.getMoxie().intValue() ) );
 			}
 
 			if ( header[i].equals( "Total" ) )
 			{
 				strbuf.append( "</td><td>" );
-				strbuf.append( df.format( memberLookup.getPower().intValue() ) );
+				strbuf.append( COMMA_FORMAT.format( memberLookup.getPower().intValue() ) );
 			}
 
 			if ( header[i].equals( "Title" ) )
@@ -525,13 +525,13 @@ public class ClanSnapshotTable extends KoLDatabase
 			if ( header[i].equals( "Karma" ) )
 			{
 				strbuf.append( "</td><td>" );
-				strbuf.append( df.format( memberLookup.getKarma().intValue() ) );
+				strbuf.append( COMMA_FORMAT.format( memberLookup.getKarma().intValue() ) );
 			}
 
 			if ( header[i].equals( "PVP" ) )
 			{
 				strbuf.append( "</td><td>" );
-				strbuf.append( df.format( memberLookup.getPvpRank().intValue() ) );
+				strbuf.append( COMMA_FORMAT.format( memberLookup.getPvpRank().intValue() ) );
 			}
 
 			if ( header[i].equals( "Class" ) )
@@ -543,13 +543,13 @@ public class ClanSnapshotTable extends KoLDatabase
 			if ( header[i].equals( "Meat" ) )
 			{
 				strbuf.append( "</td><td>" );
-				strbuf.append( df.format( memberLookup.getCurrentMeat().intValue() ) );
+				strbuf.append( COMMA_FORMAT.format( memberLookup.getCurrentMeat().intValue() ) );
 			}
 
 			if ( header[i].equals( "Turns" ) )
 			{
 				strbuf.append( "</td><td>" );
-				strbuf.append( df.format( memberLookup.getCurrentRun().intValue() ) );
+				strbuf.append( COMMA_FORMAT.format( memberLookup.getCurrentRun().intValue() ) );
 			}
 
 			if ( header[i].equals( "Food" ) )
@@ -579,7 +579,7 @@ public class ClanSnapshotTable extends KoLDatabase
 			if ( header[i].equals( "Ascensions" ) )
 			{
 				strbuf.append( "</td><td>" );
-				strbuf.append( df.format( memberLookup.getAscensionCount().intValue() ) );
+				strbuf.append( COMMA_FORMAT.format( memberLookup.getAscensionCount().intValue() ) );
 			}
 
 			if ( header[i].equals( "Path" ) )

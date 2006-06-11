@@ -208,7 +208,7 @@ public class CakeArenaFrame extends KoLFrame
 				int currentSkillValue = FamiliarsDatabase.getFamiliarSkill( currentFamiliar.getRace(), column ).intValue();
 				String currentSkill = currentSkillValue == 1 ? "1 star (yours)" : currentSkillValue + " stars (yours)";
 
-				int battleCount = df.parse( JOptionPane.showInputDialog( "<html>" + opponents.get( row ).toString() + ", " +
+				int battleCount = COMMA_FORMAT.parse( JOptionPane.showInputDialog( "<html>" + opponents.get( row ).toString() + ", " +
 					CakeArenaManager.getEvent( column ) + "<br>" + currentSkill + " vs. " + skill + "</html>" ) ).intValue();
 
 				if ( battleCount > 0 )

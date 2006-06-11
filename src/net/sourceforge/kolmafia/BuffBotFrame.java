@@ -200,7 +200,7 @@ public class BuffBotFrame extends KoLFrame
 			try
 			{
 				BuffBotManager.addBuff( ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName(),
-					df.parse( priceField.getText() ).intValue(), df.parse( countField.getText() ).intValue(),
+					COMMA_FORMAT.parse( priceField.getText() ).intValue(), COMMA_FORMAT.parse( countField.getText() ).intValue(),
 						restrictBox.isSelected(), singletonBox.isSelected() );
 			}
 			catch ( Exception e )

@@ -247,7 +247,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		{
 			try
 			{
-				afterMeatInCloset = df.parse( meatInClosetMatcher.group(1) ).intValue();
+				afterMeatInCloset = COMMA_FORMAT.parse( meatInClosetMatcher.group(1) ).intValue();
 			}
 			catch ( Exception e )
 			{
@@ -305,12 +305,12 @@ public class ItemStorageRequest extends SendMessageRequest
 			try
 			{
 				lastFindIndex = optionMatcher.end();
-				int itemID = df.parse( optionMatcher.group(1) ).intValue();
+				int itemID = COMMA_FORMAT.parse( optionMatcher.group(1) ).intValue();
 
 				if ( TradeableItemDatabase.getItemName( itemID ) == null )
 					TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
 
-				AdventureResult result = new AdventureResult( itemID, df.parse( optionMatcher.group(3) ).intValue() );
+				AdventureResult result = new AdventureResult( itemID, COMMA_FORMAT.parse( optionMatcher.group(3) ).intValue() );
 				AdventureResult.addResultToList( storageContents, result );
 			}
 			catch ( Exception e )

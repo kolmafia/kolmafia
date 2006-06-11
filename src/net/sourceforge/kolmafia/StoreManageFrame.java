@@ -405,13 +405,13 @@ public class StoreManageFrame extends KoLPanelFrame
 		{
 			itemID = value.getItemID();
 			itemName = new JLabel( TradeableItemDatabase.getItemName( itemID ), JLabel.RIGHT );
-			itemQuantity = new JLabel( df.format( value.getQuantity() ), JLabel.CENTER );
+			itemQuantity = new JLabel( COMMA_FORMAT.format( value.getQuantity() ), JLabel.CENTER );
 
 			itemLimit = new JCheckBox();
 			itemLimit.setToolTipText( "limit to one per player" );
 
-			itemPrice = new JTextField( df.format( value.getPrice() ) );
-			lowestPrice = new JLabel( value.getLowest() == 0 ? "(unknown)" : df.format( value.getLowest() ), JLabel.CENTER );
+			itemPrice = new JTextField( COMMA_FORMAT.format( value.getPrice() ) );
+			lowestPrice = new JLabel( value.getLowest() == 0 ? "(unknown)" : COMMA_FORMAT.format( value.getLowest() ), JLabel.CENTER );
 
 			takeButton = new JButton( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
 			takeButton.addActionListener( new TakeButtonListener() );
@@ -452,10 +452,10 @@ public class StoreManageFrame extends KoLPanelFrame
 			itemID = smsi.getItemID();
 			itemName.setText( smsi.getItemName() );
 			itemName.setToolTipText( smsi.getItemName() );
-			itemQuantity.setText( df.format( smsi.getQuantity() ) );
+			itemQuantity.setText( COMMA_FORMAT.format( smsi.getQuantity() ) );
 			itemLimit.setSelected( smsi.getLimit() != 0 );
-			itemPrice.setText( df.format( smsi.getPrice() ) );
-			lowestPrice.setText( smsi.getLowest() == 0 ? "**" : df.format( smsi.getLowest() ) );
+			itemPrice.setText( COMMA_FORMAT.format( smsi.getPrice() ) );
+			lowestPrice.setText( smsi.getLowest() == 0 ? "**" : COMMA_FORMAT.format( smsi.getLowest() ) );
 		}
 
 		public void setEnabled( boolean isEnabled )
@@ -475,7 +475,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			try
 			{
 				return itemPrice.getText() == null || itemPrice.getText().length() == 0 ? 0 :
-					df.parse( itemPrice.getText() ).intValue();
+					COMMA_FORMAT.parse( itemPrice.getText() ).intValue();
 			}
 			catch ( Exception e )
 			{

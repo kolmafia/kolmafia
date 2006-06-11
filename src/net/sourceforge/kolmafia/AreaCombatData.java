@@ -188,7 +188,7 @@ public class AreaCombatData implements KoLConstants
 		if ( combats > 0 )
 		{
 			buffer.append( format( combatFactor * 100.0 ) + "%" );
-			buffer.append( "<br><b>Average XP / Turn</b>: " + ff.format( averageXP * combatFactor ) );
+			buffer.append( "<br><b>Average XP / Turn</b>: " + FLOAT_FORMAT.format( averageXP * combatFactor ) );
 		}
 		else if ( combats == 0 )
 			buffer.append( "0%" );
@@ -297,7 +297,7 @@ public class AreaCombatData implements KoLConstants
 		buffer.append( format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + elementColor( ea ) + ">" );
 		buffer.append( format( evadePercent ) );
-		buffer.append( "%</font><br> - HP: " + health + ", XP: " + ff.format( statGain ) );
+		buffer.append( "%</font><br> - HP: " + health + ", XP: " + FLOAT_FORMAT.format( statGain ) );
 		appendMeatDrop( buffer, monster );
 		appendItemList( buffer, monster.getItems() );
 

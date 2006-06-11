@@ -946,7 +946,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					if ( id == 0 )
 						continue;
 
-					int count = df.parse( itemMatcher.group(2) ).intValue();
+					int count = COMMA_FORMAT.parse( itemMatcher.group(2) ).intValue();
 					AdventureResult currentItem = new AdventureResult( id, count );
 					if ( itemMatcher.group().indexOf( "selected" ) != -1 )
 						selectedItem = id;

@@ -453,18 +453,18 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			drunkLabel.setText( String.valueOf( KoLCharacter.getInebriety() ) );
 
-			hpLabel.setText( df.format( KoLCharacter.getCurrentHP() ) + "/" + df.format( KoLCharacter.getMaximumHP() ) );
-			mpLabel.setText( df.format( KoLCharacter.getCurrentMP() ) + "/" + df.format( KoLCharacter.getMaximumMP() ) );
-			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
+			hpLabel.setText( COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + "/" + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
+			mpLabel.setText( COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + "/" + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
+			meatLabel.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
 			advLabel.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
 			int ml = KoLCharacter.getMonsterLevelAdjustment();
-			mlLabel.setText( df2.format( ml ) );
-			combatLabel.setText( sff.format( KoLCharacter.getCombatPercentAdjustment() ) + "%" );
-			initLabel.setText( sff.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
-			xpLabel.setText( sff.format( KoLCharacter.getFixedXPAdjustment() + (double)ml / 5.0 ) );
-			meatDropLabel.setText( sff.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
-			itemDropLabel.setText( sff.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
+			mlLabel.setText( MODIFIER_FORMAT.format( ml ) );
+			combatLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatPercentAdjustment() ) + "%" );
+			initLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
+			xpLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getFixedXPAdjustment() + (double)ml / 5.0 ) );
+			meatDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
+			itemDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 		}
 
 		protected void updateGraphical()
@@ -477,7 +477,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			mpLabel.setVerticalTextPosition( JLabel.BOTTOM );
 			mpLabel.setHorizontalTextPosition( JLabel.CENTER );
 
-			meatLabel.setText( df.format( KoLCharacter.getAvailableMeat() ) );
+			meatLabel.setText( COMMA_FORMAT.format( KoLCharacter.getAvailableMeat() ) );
 			meatLabel.setVerticalTextPosition( JLabel.BOTTOM );
 			meatLabel.setHorizontalTextPosition( JLabel.CENTER );
 
@@ -929,7 +929,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			if ( currentValue.equals( "*" ) )
 				return defaultValue;
 
-			return df.parse( field.getText().trim() ).intValue();
+			return COMMA_FORMAT.parse( field.getText().trim() ).intValue();
 		}
 		catch ( Exception e )
 		{
@@ -952,14 +952,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		try
 		{
-			String currentValue = JOptionPane.showInputDialog( title, df.format( defaultValue ) );
+			String currentValue = JOptionPane.showInputDialog( title, COMMA_FORMAT.format( defaultValue ) );
 			if ( currentValue == null )
 				return 0;
 
 			if ( currentValue.equals( "*" ) )
 				return maximumValue;
 
-			int desiredValue = df.parse( currentValue ).intValue();
+			int desiredValue = COMMA_FORMAT.parse( currentValue ).intValue();
 			return Math.max( 0, Math.min( desiredValue, maximumValue ) );
 		}
 		catch ( Exception e )

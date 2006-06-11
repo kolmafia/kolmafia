@@ -67,19 +67,19 @@ public interface KoLConstants extends UtilityConstants
 	public static final LockableListModel existingFrames = new LockableListModel();
 	public static final LockableListModel existingPanels = new LockableListModel();
 
-	public static final DecimalFormat df = new DecimalFormat(
+	public static final DecimalFormat COMMA_FORMAT = new DecimalFormat(
 		"#,##0", new DecimalFormatSymbols( Locale.US ) );
 
-	public static final DecimalFormat df2 = new DecimalFormat(
+	public static final DecimalFormat MODIFIER_FORMAT = new DecimalFormat(
 		"+#0;-#0", new DecimalFormatSymbols( Locale.US ) );
 
-	public static final DecimalFormat ff = new DecimalFormat(
+	public static final DecimalFormat FLOAT_FORMAT = new DecimalFormat(
 		"#,##0.00", new DecimalFormatSymbols( Locale.US ) );
 
-	public static final DecimalFormat sff = new DecimalFormat(
+	public static final DecimalFormat ROUNDED_MODIFIER_FORMAT = new DecimalFormat(
 		"+#0.00;-#0.00", new DecimalFormatSymbols( Locale.US ) );
 
-	public static final SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMdd" );
+	public static final SimpleDateFormat DATED_FILENAME_FORMAT = new SimpleDateFormat( "yyyyMMdd" );
 
 	public static final int ENABLE_STATE   = 1;
 	public static final int ERROR_STATE    = 2;

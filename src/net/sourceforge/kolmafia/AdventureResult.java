@@ -349,7 +349,7 @@ public class AdventureResult implements Comparable, KoLConstants
 				StringTokenizer parsedGain = new StringTokenizer( s, " ." );
 				parsedGain.nextToken();
 
-				int modifier = df.parse(
+				int modifier = COMMA_FORMAT.parse(
 					(parsedGain.nextToken().startsWith("gain") ? "" : "-") + parsedGain.nextToken() ).intValue();
 				String statname = parsedGain.nextToken();
 
@@ -390,7 +390,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			String parsedItemName = parsedItem.nextToken().trim();
 			String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
 
-			return new AdventureResult( parsedItemName, df.parse( parsedItemCount ).intValue() );
+			return new AdventureResult( parsedItemName, COMMA_FORMAT.parse( parsedItemCount ).intValue() );
 		}
 		catch ( Exception e )
 		{
@@ -416,24 +416,24 @@ public class AdventureResult implements Comparable, KoLConstants
 			return "(Unrecognized result)";
 
 		if ( name.equals(ADV) )
-			return " Advs Used: " + df.format(count[0]);
+			return " Advs Used: " + COMMA_FORMAT.format(count[0]);
 
 		if ( name.equals(MEAT) )
-			return " Meat Gained: " + df.format(count[0]);
+			return " Meat Gained: " + COMMA_FORMAT.format(count[0]);
 
 		if ( name.equals(CHOICE) )
-			return " Choices Left: " + df.format(count[0]);
+			return " Choices Left: " + COMMA_FORMAT.format(count[0]);
 
 		if ( name.equals(HP) || name.equals(MP) || name.equals(DRUNK) )
-			return " " + name + ": " + df.format(count[0]);
+			return " " + name + ": " + COMMA_FORMAT.format(count[0]);
 
 		if ( name.equals(SUBSTATS) || name.equals(FULLSTATS) )
-			return " " + name + ": " + df.format(count[0]) + " / " + df.format(count[1]) + " / " + df.format(count[2]);
+			return " " + name + ": " + COMMA_FORMAT.format(count[0]) + " / " + COMMA_FORMAT.format(count[1]) + " / " + COMMA_FORMAT.format(count[2]);
 
 		if ( name.equals(DIVIDER) )
 			return DIVIDER;
 
-		return name + " (" + df.format(count[0]) + ")";
+		return name + " (" + COMMA_FORMAT.format(count[0]) + ")";
 	}
 
 	/**
@@ -621,17 +621,17 @@ public class AdventureResult implements Comparable, KoLConstants
 				if ( !notrade )
 					return BLANK_LABEL;
 
-				stringForm.append( df.format( -autoSellValue ) + " meat, no-trade" );
+				stringForm.append( COMMA_FORMAT.format( -autoSellValue ) + " meat, no-trade" );
 			}
 			else
-				stringForm.append( df.format( autoSellValue ) + " meat" );
+				stringForm.append( COMMA_FORMAT.format( autoSellValue ) + " meat" );
 
 			stringForm.append( ")" );
 
 			if ( ar.count[0] > 1 )
 			{
 				stringForm.append( " (" );
-				stringForm.append( df.format( ar.count[0] ) );
+				stringForm.append( COMMA_FORMAT.format( ar.count[0] ) );
 				stringForm.append( ")" );
 			}
 
@@ -694,7 +694,7 @@ public class AdventureResult implements Comparable, KoLConstants
 					break;
 			}
 
-			String stringForm = name + " (" + df.format( count ) + ")";
+			String stringForm = name + " (" + COMMA_FORMAT.format( count ) + ")";
 			defaultComponent.setText( stringForm );
 			return defaultComponent;
 		}
@@ -771,7 +771,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			int power = EquipmentDatabase.getPower( ar.getName() );
 
-			String stringForm = ar.getName() + " (+" + df.format(power) + ")";
+			String stringForm = ar.getName() + " (+" + COMMA_FORMAT.format(power) + ")";
 
 			JLabel defaultComponent = (JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			defaultComponent.setText( stringForm );

@@ -79,7 +79,10 @@ public abstract class StaticEntity implements KoLConstants
 		if ( client == null )
 			return;
 
-		getSettings().saveSettings();
+		GLOBAL_SETTINGS.saveSettings();
+		if ( getSettings() != GLOBAL_SETTINGS )
+			getSettings().saveSettings();
+
 		Object [] frames = existingFrames.toArray();
 
 		for ( int i = 0; i < frames.length; ++i )

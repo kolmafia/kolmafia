@@ -193,13 +193,13 @@ public class CharsheetFrame extends KoLFrame
 		JLabel adjustedLabel = statusLabel[index1];
 		JLabel baseLabel = statusLabel[index2];
 
-		adjustedLabel.setText( df.format( adjustedValue ) );
-		baseLabel.setText( " (" + df.format( baseValue ) + ")" );
+		adjustedLabel.setText( COMMA_FORMAT.format( adjustedValue ) );
+		baseLabel.setText( " (" + COMMA_FORMAT.format( baseValue ) + ")" );
 
 		tnpDisplay[ displayIndex ].setMaximum( 2 * baseValue + 1 );
 		tnpDisplay[ displayIndex ].setValue( 2 * baseValue + 1 - tillNextPoint );
-		tnpDisplay[ displayIndex ].setString( df.format( tnpDisplay[ displayIndex ].getValue() ) + " / " +
-			df.format( tnpDisplay[ displayIndex ].getMaximum() ) );
+		tnpDisplay[ displayIndex ].setString( COMMA_FORMAT.format( tnpDisplay[ displayIndex ].getValue() ) + " / " +
+			COMMA_FORMAT.format( tnpDisplay[ displayIndex ].getMaximum() ) );
 	}
 
 	/**
@@ -272,11 +272,11 @@ public class CharsheetFrame extends KoLFrame
 
 			hpMeter.setMaximum( KoLCharacter.getMaximumHP() );
 			hpMeter.setValue( KoLCharacter.getCurrentHP() );
-			hpMeter.setString( df.format( KoLCharacter.getCurrentHP() ) + " / " + df.format( KoLCharacter.getMaximumHP() ) );
+			hpMeter.setString( COMMA_FORMAT.format( KoLCharacter.getCurrentHP() ) + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumHP() ) );
 
 			mpMeter.setMaximum( KoLCharacter.getMaximumMP() );
 			mpMeter.setValue( KoLCharacter.getCurrentMP() );
-			mpMeter.setString( df.format( KoLCharacter.getCurrentMP() ) + " / " + df.format( KoLCharacter.getMaximumMP() ) );
+			mpMeter.setString( COMMA_FORMAT.format( KoLCharacter.getCurrentMP() ) + " / " + COMMA_FORMAT.format( KoLCharacter.getMaximumMP() ) );
 
 			refreshValuePanel( 0, KoLCharacter.getBaseMuscle(), KoLCharacter.getAdjustedMuscle(), KoLCharacter.getMuscleTNP() );
 			refreshValuePanel( 1, KoLCharacter.getBaseMysticality(), KoLCharacter.getAdjustedMysticality(), KoLCharacter.getMysticalityTNP() );
@@ -291,7 +291,7 @@ public class CharsheetFrame extends KoLFrame
 			levelMeter.setString( "" );
 
 			levelPanel.setToolTipText( "<html>&nbsp;&nbsp;" + KoLCharacter.getAdvancement() + "&nbsp;&nbsp;<br>&nbsp;&nbsp;(" +
-				df.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
+				COMMA_FORMAT.format( nextLevel - totalPrime ) + " subpoints needed)&nbsp;&nbsp;</html>" );
 
 			// Set the current avatar
 			avatar.setIcon( JComponentUtilities.getImage( KoLCharacter.getAvatar() ) );

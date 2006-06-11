@@ -129,7 +129,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected static KoLRequest currentRequest = null;
 	protected static LoginRequest cachedLogin = null;
 	private static String currentIterationString = "";
-	protected static int currentState = CONTINUE_STATE;
+	protected static int continuationState = CONTINUE_STATE;
 
 	protected String password, sessionID, passwordHash;
 
@@ -251,10 +251,10 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static synchronized final void updateDisplay( int state, String message )
 	{
-		if ( currentState == ABORT_STATE || message.equals( "" ) )
+		if ( continuationState == ABORT_STATE || message.equals( "" ) )
 			return;
 
-		StaticEntity.getClient().currentState = state;
+		continuationState = state;
 		debugStream.println( message );
 		outputStream.println( message );
 		mirrorStream.println( message );
@@ -319,7 +319,7 @@ public abstract class KoLmafia implements KoLConstants
 	public synchronized static void enableDisplay()
 	{
 		updateDisplayState(
-			currentState == ABORT_STATE || currentState == ERROR_STATE ? ABORT_STATE : ENABLE_STATE, null );
+			continuationState == ABORT_STATE || continuationState == ERROR_STATE ? ABORT_STATE : ENABLE_STATE, null );
 	}
 
 	/**
@@ -395,17 +395,12 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( getBreakfast )
 		{
-			String today = sdf.format( new Date() );
+			String today = DATED_FILENAME_FORMAT.format( new Date() );
 			String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + username.toLowerCase() );
+			GLOBAL_SETTINGS.setProperty( "lastBreakfast." + username.toLowerCase(), today );
 
 			if ( lastBreakfast == null || !lastBreakfast.equals( today ) )
-			{
-				String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + (KoLCharacter.isHardcore() ? "hardcore" : "softcore") );
-
 				getBreakfast( true );
-				if ( (skillSetting != null && !skillSetting.equals( "" )) || (scriptSetting != null && !scriptSetting.equals( "" )) )
-					GLOBAL_SETTINGS.setProperty( "lastBreakfast." + username.toLowerCase(), today );
-			}
 		}
 	}
 
@@ -644,7 +639,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			try
 			{
-				count = df.parse( parsedItem.nextToken() ).intValue();
+				count = COMMA_FORMAT.parse( parsedItem.nextToken() ).intValue();
 			}
 			catch ( Exception e )
 			{
@@ -668,7 +663,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		try
 		{
-			processResult( new AdventureResult( parsedEffectName, df.parse( parsedDuration ).intValue(), true ) );
+			processResult( new AdventureResult( parsedEffectName, COMMA_FORMAT.parse( parsedDuration ).intValue(), true ) );
 		}
 		catch ( Exception e )
 		{
@@ -1885,7 +1880,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public static synchronized final boolean permitsContinue()
-	{	return currentState == CONTINUE_STATE;
+	{	return continuationState == CONTINUE_STATE;
 	}
 
 	/**
@@ -1897,7 +1892,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public static synchronized final boolean refusesContinue()
-	{	return currentState == ABORT_STATE;
+	{	return continuationState == ABORT_STATE;
 	}
 
 	/**
@@ -1908,7 +1903,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public static synchronized final void forceContinue()
-	{	currentState = CONTINUE_STATE;
+	{	continuationState = CONTINUE_STATE;
 	}
 
 	/**
@@ -1984,7 +1979,7 @@ public abstract class KoLmafia implements KoLConstants
 		try
 		{
 			File f = new File( "logs/" + KoLCharacter.getUsername() + "_" +
-				sdf.format( new Date() ) + ".txt" );
+				DATED_FILENAME_FORMAT.format( new Date() ) + ".txt" );
 
 			if ( !f.getParentFile().exists() )
 				f.mkdirs();
