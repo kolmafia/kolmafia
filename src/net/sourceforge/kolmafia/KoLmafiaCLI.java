@@ -1338,8 +1338,8 @@ public class KoLmafiaCLI extends KoLmafia
 		// their own commands, but are actually commands
 		// which are derived from other commands.
 
-		if ( command.startsWith( "inv" ) || command.equals( "session" ) || command.equals( "summary" ) ||
-			command.equals( "effects" ) || command.startsWith( "status" ) || command.equals( "encounters" ) )
+		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
+			command.equals( "effects" ) || command.startsWith( "status" ) || command.equals( "encounters" ) || command.equals( "skills" ) )
 		{
 			executePrintCommand( command + " " + parameters );
 			return;
@@ -1467,7 +1467,10 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			if ( isASHFile( scriptFile ) )
+			// Allow the ".ash" to appear anywhere in the filename
+			// in a case-insensitive manner.
+
+			if ( Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE ).matcher( scriptFile.getPath() ).find() )
 			{
 				if ( previousLine.startsWith( "validate " ) || previousLine.startsWith( "verify" ) )
 				{
@@ -1499,13 +1502,6 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.printStackTrace( e );
 			return;
 		}
-	}
-
-	private boolean isASHFile( File scriptFile )
-	{
-		String name = scriptFile.getPath();
-		int dot = name.lastIndexOf( "." );
-		return ( dot >= 0 && name.substring( dot + 1 ).equalsIgnoreCase( "ash" ));
 	}
 
 	/**
@@ -2398,7 +2394,8 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			List mainList = desiredData.equals( "closet" ) ? KoLCharacter.getCloset() : desiredData.equals( "summary" ) ? StaticEntity.getClient().tally :
 				desiredData.equals( "outfits" ) ? KoLCharacter.getOutfits() : desiredData.equals( "familiars" ) ? KoLCharacter.getFamiliarList() :
-				desiredData.equals( "effects" ) ? KoLCharacter.getEffects() : KoLCharacter.getInventory();
+				desiredData.equals( "effects" ) ? KoLCharacter.getEffects() : desiredData.equals( "skills" ) ? KoLCharacter.getAvailableSkills() :
+				desiredData.equals( "closet" ) ? KoLCharacter.getCloset() : KoLCharacter.getInventory();
 
 			String currentItem;
 			List resultList = new ArrayList();

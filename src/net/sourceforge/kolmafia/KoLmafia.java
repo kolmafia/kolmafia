@@ -653,7 +653,7 @@ public abstract class KoLmafia implements KoLConstants
 		processResult( new AdventureResult( name, count, false ) );
 	}
 
-	public void parseEffect( String result )
+	public boolean parseEffect( String result )
 	{
 		debugStream.println( "Parsing effect: " + result );
 
@@ -663,7 +663,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		try
 		{
-			processResult( new AdventureResult( parsedEffectName, COMMA_FORMAT.parse( parsedDuration ).intValue(), true ) );
+			return processResult( new AdventureResult( parsedEffectName, COMMA_FORMAT.parse( parsedDuration ).intValue(), true ) );
 		}
 		catch ( Exception e )
 		{
@@ -671,6 +671,7 @@ public abstract class KoLmafia implements KoLConstants
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
+			return false;
 		}
 	}
 
@@ -737,7 +738,7 @@ public abstract class KoLmafia implements KoLConstants
 		KoLCharacter.processResult( result );
 
 		if ( !shouldTally )
-			return false;
+			return shouldRefresh;
 
 		// Now, if it's an actual stat gain, be sure to update the
 		// list to reflect the current value of stats so far.
@@ -1352,7 +1353,7 @@ public abstract class KoLmafia implements KoLConstants
 					else
 					{
 						String duration = lastToken.substring( 11, lastToken.length() - 11 ).trim();
-						parseEffect( effectName + " (" + duration + ")" );
+						requiresRefresh |= parseEffect( effectName + " (" + duration + ")" );
 					}
 				}
 			}
