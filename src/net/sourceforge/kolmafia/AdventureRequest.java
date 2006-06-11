@@ -397,7 +397,7 @@ public class AdventureRequest extends KoLRequest
 			Matcher encounterMatcher = Pattern.compile( "<span id='monname'>(.*?)</span>" ).matcher( request.responseText );
 			if ( encounterMatcher.find() )
 			{
-				String encounter = encounterMatcher.group(1).toLowerCase();
+				String encounter = encounterMatcher.group(1);
 				KoLmafiaCLI.printLine( "Encounter: " + encounter );
 				StaticEntity.getClient().registerEncounter( encounter );
 				return encounter;
@@ -408,7 +408,7 @@ public class AdventureRequest extends KoLRequest
 			Matcher encounterMatcher = Pattern.compile( "<center><b>(.*?)</b>" ).matcher( request.responseText );
 			if ( encounterMatcher.find() )
 			{
-				String encounter = encounterMatcher.group(1).toLowerCase();
+				String encounter = encounterMatcher.group(1);
 				KoLmafiaCLI.printLine( "Encounter: " + encounter );
 				StaticEntity.getClient().registerEncounter( encounter );
 				return encounter;
