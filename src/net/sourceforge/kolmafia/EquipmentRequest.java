@@ -496,13 +496,15 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 			else if ( requestType == QUESTS || requestType == CONSUMABLES )
 			{
-				parseQuestItems();
+				parseQuestItems( responseText );
 				super.processResults();
 				KoLmafia.updateDisplay( "Quest item list retrieved." );
 			}
 			else
 			{
-				parseQuestItems();
+				// Skip past equipped gear
+				parseQuestItems( responseText.substring( responseText.indexOf( "Save as Custom Outfit" ) ) );
+
 				String [] oldEquipment = new String[9];
 				int oldFakeHands = KoLCharacter.getFakeHands();
 
@@ -648,9 +650,9 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	private void parseQuestItems()
+	private void parseQuestItems( String text)
 	{
-		Matcher itemMatcher = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" ).matcher( responseText );
+		Matcher itemMatcher = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" ).matcher( text );
 		while ( itemMatcher.find() )
 		{
 			String quantity = itemMatcher.group(4).trim();
