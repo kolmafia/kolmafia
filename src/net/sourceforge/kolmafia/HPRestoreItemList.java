@@ -51,30 +51,47 @@ import java.util.ArrayList;
 
 public abstract class HPRestoreItemList extends StaticEntity
 {
+	// Beaten-up removal restore tactics
+
+	public static final HPRestoreItem OTTER = new HPRestoreItem( "Tongue of the Otter", 15 );
 	private static final HPRestoreItem REMEDY = new HPRestoreItem( "soft green echo eyedrop antidote", 0 );
 	private static final HPRestoreItem TINY_HOUSE = new HPRestoreItem( "tiny house", 22 );
 
-	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
-	public static final HPRestoreItem OTTER = new HPRestoreItem( "Tongue of the Otter", 15 );
+	// Full restore tactics (skills and items which recover all health)
 
-	private static final HPRestoreItem BANDAGES = new HPRestoreItem( "Lasagna Bandages", 24 );
 	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
+	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
+	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
+
+	// Skills which recover partial health
+
+	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
+	private static final HPRestoreItem BANDAGES = new HPRestoreItem( "Lasagna Bandages", 24 );
 	private static final HPRestoreItem NAP = new HPRestoreItem( "Disco Nap", 20 );
 	private static final HPRestoreItem POWERNAP = new HPRestoreItem( "Disco Power Nap", 40 );
+
+	// Items which restore some health, but aren't available in NPC stores
+
 	private static final HPRestoreItem PHONICS = new HPRestoreItem( "phonics down", 48 );
 	private static final HPRestoreItem CAST = new HPRestoreItem( "cast", 17 );
+
+	// Items which restore health and are available in NPC stores
+
 	private static final HPRestoreItem ELIXIR = new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 18 );
 	private static final HPRestoreItem BALM = new HPRestoreItem( "Doc Galaktik's Restorative Balm", 13 );
 	private static final HPRestoreItem UNGUENT = new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 4 );
-
-	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] { OTTER, REMEDY, TINY_HOUSE, COCOON,
-		PHONICS, CAST, ELIXIR, BALM, UNGUENT, WALRUS, BANDAGES, POWERNAP, NAP };
-
-	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
-	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
 
-	public static final HPRestoreItem [] FALLBACKS = new HPRestoreItem[] { HERBS, SCROLL, OINTMENT };
+	// Finally, if HP restore is active and nothing is available,
+	// give people the option to rest.
+
+	private static final HPRestoreItem CAMPING = new HPRestoreItem( "rest at campground", 4 );
+
+	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] {
+		OTTER, REMEDY, TINY_HOUSE, COCOON, SCROLL, HERBS,
+		WALRUS, BANDAGES, POWERNAP, NAP, PHONICS, CAST, ELIXIR, BALM, UNGUENT, OINTMENT, CAMPING };
+
+	public static final HPRestoreItem [] FALLBACKS = new HPRestoreItem[0];
 
 	public static JCheckBox [] getCheckboxes()
 	{
@@ -85,13 +102,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{
 			restoreCheckbox[i] = new JCheckBox( CONFIGURES[i].toString() );
 			restoreCheckbox[i].setSelected( hpRestoreSetting.indexOf( CONFIGURES[i].toString().toLowerCase() ) != -1 );
-		}
-
-		for ( int i = 0; i < FALLBACKS.length; ++i )
-		{
-			restoreCheckbox[CONFIGURES.length + i] = new JCheckBox( FALLBACKS[i].toString() );
-			restoreCheckbox[CONFIGURES.length + i].setSelected( true );
-			restoreCheckbox[CONFIGURES.length + i].setEnabled( false );
 		}
 
 		return restoreCheckbox;
@@ -118,6 +128,12 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 		public void recoverHP( int needed, boolean isFallback )
 		{
+			if ( this == CAMPING )
+			{
+				DEFAULT_SHELL.executeLine( "rest" );
+				return;
+			}
+
 			// Remedies are only used if the player is beaten up.
 			// Otherwise, it is not used.
 
