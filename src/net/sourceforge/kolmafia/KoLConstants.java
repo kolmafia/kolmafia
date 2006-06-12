@@ -57,8 +57,8 @@ public interface KoLConstants extends UtilityConstants
 	public static final JLabel BLANK_LABEL = new JLabel();
 	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
 
-	public static final String VERSION_NAME = "KoLmafia v7.9";
-	public static final String VERSION_DATE = "Released June 8, 2006";
+	public static final String VERSION_NAME = "KoLmafia v8.0";
+	public static final String VERSION_DATE = "Released June 12, 2006";
 
 	public static final KoLSettings GLOBAL_SETTINGS = new KoLSettings();
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
