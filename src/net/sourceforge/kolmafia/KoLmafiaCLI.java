@@ -1795,15 +1795,22 @@ public class KoLmafiaCLI extends KoLmafia
 				StaticEntity.getClient().useDisjunction = true;
 
 			if ( StaticEntity.getClient().useDisjunction )
+			{
 				updateDisplay( "All non-stat conditions will be ORed together." );
+				sessionStream.println( "All non-stat objectives will be ORed together." );
+			}
 			else
+			{
 				updateDisplay( "All non-stat conditions will be ANDed together." );
+				sessionStream.println( "All non-stat objectives will be ANDed together." );
+			}
 
 			return true;
 		}
 		else if ( option.equals( "add" ) )
 		{
 			String conditionString = parameters.substring( option.length() ).trim();
+			sessionStream.println( "Objective: " + conditionString );
 
 			if ( conditionString.length() == 0 )
 				return true;
@@ -2275,6 +2282,8 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		PrintStream oldSessionStream = sessionStream;
+		sessionStream = NullStream.INSTANCE;
 		String [] parameterList = parameters.split( " " );
 
 		String filter = "";
@@ -2309,6 +2318,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// a stack trace for debug purposes.
 
 				StaticEntity.printStackTrace( e, "Error opening file <" + parameterList[1] + ">" );
+				sessionStream = oldSessionStream;
 				return;
 			}
 		}
@@ -2319,6 +2329,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( parameterList.length > 1 && !parameterList[1].equals( "filter" ) )
 			updateDisplay( "Data has been printed to \"" + parameterList[1] + "\"" );
+
+		sessionStream = oldSessionStream;
 	}
 
 	/**

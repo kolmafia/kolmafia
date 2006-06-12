@@ -259,6 +259,9 @@ public abstract class KoLmafia implements KoLConstants
 		outputStream.println( message );
 		mirrorStream.println( message );
 
+		if ( state == ERROR_STATE )
+			sessionStream.println( message );
+
 		StringBuffer colorBuffer = new StringBuffer();
 
 		if ( message.indexOf( LINE_BREAK ) != -1 )
@@ -349,6 +352,9 @@ public abstract class KoLmafia implements KoLConstants
 		this.sessionID = sessionID;
 		this.settings = new KoLSettings( username );
 
+		GLOBAL_SETTINGS.setProperty( "lastUsername", username );
+		KoLCharacter.reset( username );
+
 		if ( GLOBAL_SETTINGS.getProperty( "keepSessionLogs" ).equals( "true" ) || settings.getProperty( "keepSessionLogs" ).equals( "true" ) )
 		{
 			settings.setProperty( "keepSessionLogs", "true" );
@@ -356,9 +362,6 @@ public abstract class KoLmafia implements KoLConstants
 		}
 		else
 			KoLmafia.closeSessionStream();
-
-		GLOBAL_SETTINGS.setProperty( "lastUsername", username );
-		KoLCharacter.reset( username );
 
 		if ( isQuickLogin )
 		{
@@ -1404,9 +1407,10 @@ public abstract class KoLmafia implements KoLConstants
 			if ( request instanceof KoLAdventure )
 			{
 				KoLAdventure adventure = (KoLAdventure) request;
-				if ( adventure.getRequest() == null )
+				if ( adventure.getRequest() instanceof ClanGymRequest )
 				{
-					(new ClanGymRequest( this, Integer.parseInt( adventure.getAdventureID() ), iterations )).run();
+					((ClanGymRequest)adventure.getRequest()).setTurnCount( iterations );
+					((ClanGymRequest)adventure.getRequest()).run();
 					return;
 				}
 			}
@@ -1979,13 +1983,16 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !(sessionStream instanceof NullStream) )
 			return;
 
+		if ( KoLCharacter.getUsername().equals( "" ) )
+			return;
+
 		try
 		{
 			File f = new File( "logs/" + KoLCharacter.getUsername() + "_" +
 				DATED_FILENAME_FORMAT.format( new Date() ) + ".txt" );
 
 			if ( !f.getParentFile().exists() )
-				f.mkdirs();
+				f.getParentFile().mkdirs();
 
 			if ( !f.exists() )
 				f.createNewFile();
