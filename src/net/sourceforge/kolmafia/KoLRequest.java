@@ -1144,7 +1144,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// are beaten up in the middle of a battle.
 
 			if ( !formURLString.equals( "fight.php" ) || KoLCharacter.getFamiliar().getID() != 50 )
-				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
+				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 		}
 
 		if ( getAdventuresUsed() > 0 )
