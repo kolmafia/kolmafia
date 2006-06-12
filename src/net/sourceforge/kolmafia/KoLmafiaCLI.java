@@ -819,7 +819,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "entryway" ) )
 		{
-			SorceressLair.completeEntryway();
+			SorceressLair.completeCloveredEntryway();
 			return;
 		}
 

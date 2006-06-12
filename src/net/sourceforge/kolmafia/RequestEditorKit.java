@@ -720,8 +720,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		// The first of these is the familiar page, where the
 		// first "Take this one with you" link does not work.
+		// On a related note, the sewer page suffers from an
+		// odd problem as well, where you must remove cells in
+		// the table before it works.
 
 		displayHTML = displayHTML.replaceFirst( "<input class=button type=submit value=\"Take this one with you\">", "" );
+		displayHTML = displayHTML.replaceFirst( "</td></tr><tr><td align=center>(<input class=button type=submit value='Take Items'>)", "$1" );
 
 		// The second of these is the betting page.  Here, the
 		// problem is an "onClick" in the input field, if the
