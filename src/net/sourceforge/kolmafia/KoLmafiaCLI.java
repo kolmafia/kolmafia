@@ -1678,7 +1678,10 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( left.equals( "meat" ) )
 			return KoLCharacter.getAvailableMeat();
 
-		if ( left.equals( "inebriety") || left.equals( "drunkenness") || left.equals( "drunkness"))
+		if ( left.equals( "adventures" ) )
+			return KoLCharacter.getAdventuresLeft();
+
+		if ( left.equals( "inebriety") || left.equals( "drunkenness" ) || left.equals( "drunkness" ) )
 			return KoLCharacter.getInebriety();
 
 		// Items first for one reason: Knob Goblin perfume
