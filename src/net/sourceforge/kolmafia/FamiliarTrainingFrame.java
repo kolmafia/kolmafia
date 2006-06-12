@@ -696,7 +696,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		}
 
 		statusMessage( CONTINUE_STATE, "Training session completed." );
-		return true;
+		return buffs ? buffFamiliar( goal ) : true;
 	}
 
 	/**
@@ -1067,7 +1067,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( !empathyAvailable && empathyActive == 0 )
 				{
 					stop = true;
-					statusMessage( ERROR_STATE, "Ask a buffbot for empathy?" );
+					statusMessage( ABORT_STATE, "Ask a buffbot for empathy?" );
 					return false;
 				}
 
