@@ -57,7 +57,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	};
 
 	private Class creationType;
-	private KoLFrame creation;
+	private JFrame creation;
 
 	private Constructor creator;
 	private Object [] parameters;
@@ -228,11 +228,11 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		try
 		{
 			if ( this.creation == null )
-				this.creation = (KoLFrame) (JFrame) creator.newInstance( parameters );
+				this.creation = (JFrame) creator.newInstance( parameters );
 
 			String tabSetting = "," + GLOBAL_SETTINGS.getProperty( "initialDesktop" ) + ",";
 			String searchString = this.creation instanceof ChatFrame ? "KoLMessenger" :
-				this.creation instanceof KoLFrame ? this.creation.getFrameName() : "...";
+				this.creation instanceof KoLFrame ? ((KoLFrame)this.creation).getFrameName() : "...";
 
 			boolean appearsInTab = this.creation instanceof KoLFrame && tabSetting.indexOf( "," + searchString + "," ) != -1;
 
@@ -268,12 +268,14 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 			if ( !appearsInTab && this.creation instanceof KoLFrame )
 			{
-				this.creation.constructToolbar();
-				if ( this.creation.useSidePane() )
-					this.creation.addCompactPane();
+				((KoLFrame)this.creation).constructToolbar();
+				if ( ((KoLFrame)this.creation).useSidePane() )
+					((KoLFrame)this.creation).addCompactPane();
 
 				this.creation.setJMenuBar( new KoLMenuBar() );
 			}
+			else if ( !(this.creation instanceof KoLFrame) )
+				this.creation.setJMenuBar( new KoLMenuBar() );
 
 			this.creation.pack();
 			if ( this.creation instanceof SkillBuffFrame && parameters.length == 1 )
@@ -289,7 +291,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			this.creation.setEnabled( true );
 
 			if ( appearsInTab )
-				KoLDesktop.addTab( this.creation );
+				KoLDesktop.addTab( (KoLFrame) this.creation );
 			else
 				this.creation.setVisible( true );
 

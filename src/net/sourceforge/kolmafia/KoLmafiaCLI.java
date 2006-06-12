@@ -53,6 +53,7 @@ import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import jline.ConsoleReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
@@ -81,6 +82,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private static boolean isExecutingCheckOnlyCommand;
 	private static KoLmafiaASH advancedHandler = new KoLmafiaASH();
+	private static ConsoleReader CONSOLE = null;
 
 	public static void main( String [] args )
 	{
@@ -101,6 +103,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 		StaticEntity.setClient( DEFAULT_SHELL );
 		KoLmafia.outputStream = System.out;
+
+		try
+		{
+			CONSOLE = new ConsoleReader();
+		}
+		catch ( Exception e )
+		{
+		}
 
 		if ( initialScript.length() == 0 )
 		{
@@ -128,7 +138,8 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
+			if ( inputStream != System.in )
+				commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
 		}
 		catch ( Exception e )
 		{
@@ -167,7 +178,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				outputStream.println();
 				outputStream.print( "username: " );
-				username = commandStream.readLine();
+				username = CONSOLE == null ? commandStream.readLine() : CONSOLE.readLine();
 			}
 
 			if ( username == null || username.length() == 0 )
@@ -181,7 +192,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( password == null )
 			{
 				outputStream.print( "password: " );
-				password = commandStream.readLine();
+				password = CONSOLE == null ? commandStream.readLine() : CONSOLE.readLine( new Character( '*' ) );
 			}
 
 			if ( password == null || password.length() == 0 )
@@ -293,7 +304,8 @@ public class KoLmafiaCLI extends KoLmafia
 				// loop when you've read a valid line (which is a non-comment
 				// and a non-blank line) or when you've reached EOF.
 
-				line = commandStream.readLine();
+				line = DEFAULT_SHELL == this && CONSOLE != null ? CONSOLE.readLine() :
+					commandStream.readLine();
 			}
 			while ( line != null && (line.trim().length() == 0 || line.trim().startsWith( "#" ) || line.trim().startsWith( "//" ) || line.trim().startsWith( "\'" )) );
 

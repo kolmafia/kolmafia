@@ -89,9 +89,6 @@ public class LicenseDisplay extends javax.swing.JFrame
 		}
 
 		contentPanel.add( tabbedPane );
-
-		setResizable( false );
-		pack();  setVisible( true );
 	}
 
 	private JComponent getLicenseDisplay( int index )
@@ -126,10 +123,12 @@ public class LicenseDisplay extends javax.swing.JFrame
 				}
 
 				if ( fileNames[ index ].endsWith( ".txt" ) )
-					((JEditorPane)licenseDisplay).setContentType( "text/plain" );
-				else
-					((JEditorPane)licenseDisplay).setContentType( "text/html" );
+				{
+					licenseText.insert( 0, "<pre>" );
+					licenseText.append( "</pre>" );
+				}
 
+				((JEditorPane)licenseDisplay).setContentType( "text/html" );
 				((JEditorPane)licenseDisplay).setText( licenseText.toString() );
 				((JEditorPane)licenseDisplay).setCaretPosition( 0 );
 				((JEditorPane)licenseDisplay).setEditable( false );

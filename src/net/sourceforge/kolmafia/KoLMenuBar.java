@@ -87,8 +87,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	protected LockableListModel scripts = new LockableListModel();
 	protected SortedListModel bookmarks = new SortedListModel( String.class );
 
-	private static final String [] LICENSE_FILENAME = { "kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm", "sungraphics-license.txt", "systray-license.txt" };
-	private static final String [] LICENSE_NAME = { "KoLmafia BSD", "Spellcast BSD", "BrowserLauncher", "Sun Graphics", "System Tray" };
+	private static final String [] LICENSE_FILENAME = {
+		"kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm",
+		"sungraphics-license.txt", "systray-license.txt", "jline-license.txt" };
+	private static final String [] LICENSE_NAME = {
+		"KoLmafia", "Spellcast", "BrowserLauncher",
+		"Sun Graphics", "System Tray", "JLine" };
 
 	protected KoLMenuBar()
 	{	this( null );
@@ -700,7 +704,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			if ( frameClass == LicenseDisplay.class )
 			{
 				parameters = new Object[4];
-				parameters[0] = "KoLmafia: Copyright Notice";
+				parameters[0] = "KoLmafia: Copyright Notices";
 				parameters[1] = new VersionDataPanel();
 				parameters[2] = LICENSE_FILENAME;
 				parameters[3] = LICENSE_NAME;
