@@ -2580,7 +2580,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			matchingNames = TradeableItemDatabase.getMatchingNames( itemNameString );
 			if ( matchingNames.isEmpty() )
-				matchingNames = TradeableItemDatabase.getMatchingAbbreviations( parameters );
+				matchingNames = TradeableItemDatabase.getMatchingAbbreviations( itemNameString );
 
 			if ( matchingNames.isEmpty() )
 			{
