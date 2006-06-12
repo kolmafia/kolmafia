@@ -72,7 +72,7 @@ public class CharpaneRequest extends KoLRequest
 	}
 
 	public void run()
-	{	run( false );
+	{	run( true );
 	}
 
 	public void run( boolean isSynchronous )
