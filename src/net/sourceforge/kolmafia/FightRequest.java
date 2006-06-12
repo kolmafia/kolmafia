@@ -52,6 +52,7 @@ public class FightRequest extends KoLRequest
 	private int roundCount;
 	private int turnsUsed = 0;
 	private String action1, action2;
+	private MonsterDatabase.Monster monsterData;
 
 	private static String encounter = "";
 	private static final String [] RARE_MONSTERS =
@@ -87,6 +88,7 @@ public class FightRequest extends KoLRequest
 
 		FightRequest.encounter = "";
 		this.turnsUsed = 0;
+		this.monsterData = null;
 	}
 
 	public void nextRound()
@@ -228,12 +230,23 @@ public class FightRequest extends KoLRequest
 			if ( !KoLmafia.refusesContinue() )
 				nextRound();
 
-			super.run();
+			if ( action1 != null && action1.equals( "attack" ) && monsterData != null && monsterData.willAlwaysMiss() )
+			{
+				action1 = null;
+				action2 = null;
+			}
+			else
+			{
+				super.run();
+			}
 
 			if ( KoLmafia.refusesContinue() || action1 == null )
 			{
 				if ( turnsUsed == 0 )
+				{
 					showInBrowser( true );
+					KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+				}
 
 				return;
 			}
@@ -250,7 +263,10 @@ public class FightRequest extends KoLRequest
 		// you are fighting against.
 
 		if ( roundCount == 1 )
+		{
 			FightRequest.encounter = AdventureRequest.registerEncounter( this );
+			monsterData = MonsterDatabase.findMonster( FightRequest.encounter );
+		}
 
 		if ( responseText.indexOf( "fight.php" ) == -1 )
 		{
