@@ -51,9 +51,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private static final AdventureResult WAND = new AdventureResult( 626, 1 );
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1, true );
 
-	protected KoLmafia client;
+	private KoLmafia client;
 	private String zone, adventureID, formSource, adventureName;
 	private KoLRequest request;
+	private AreaCombatData areaSummary;
 
 	/**
 	 * Constructs a new <code>KoLAdventure</code> with the given
@@ -83,6 +84,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			this.request = new ClanGymRequest( client, Integer.parseInt( adventureID ) );
 		else
 			this.request = new AdventureRequest( client, adventureName, formSource, adventureID );
+
+		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
 	}
 
 	/**
@@ -186,6 +189,15 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
 			KoLCharacter.setNextAdventure( null );
+			return;
+		}
+
+		// If the person doesn't stand a chance of surviving,
+		// automatically quit and tell them so.
+
+		if ( action.equals( "attack" ) && areaSummary != null && !areaSummary.willHitSomething() )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "You don't stand a chance." );
 			return;
 		}
 

@@ -353,5 +353,14 @@ public class MonsterDatabase extends KoLDatabase
 			// ( sqrt(ML) * weight * 3 ) / 100
 			return Math.sqrt( ml ) * (double)familiar.getModifiedWeight() * sombreroFactor;
 		}
+
+		public boolean willAlwaysMiss()
+		{
+			boolean ranged = KoLCharacter.rangedWeapon();
+			int ml = KoLCharacter.getMonsterLevelAdjustment();
+			int moxie = KoLCharacter.getAdjustedMoxie() - ml;
+			int hitstat = ranged ? moxie : ( KoLCharacter.getAdjustedMuscle() - ml );
+			return AreaCombatData.hitPercent( hitstat, defense ) <= 0.0;
+		}
 	}
 }

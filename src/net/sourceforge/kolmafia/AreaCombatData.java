@@ -136,6 +136,15 @@ public class AreaCombatData implements KoLConstants
 	{	return maxEvade;
 	}
 
+	public boolean willHitSomething()
+	{
+		boolean ranged = KoLCharacter.rangedWeapon();
+		int ml = KoLCharacter.getMonsterLevelAdjustment();
+		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
+		int hitstat = ranged ? moxie : ( KoLCharacter.getAdjustedMuscle() - ml );
+		return hitPercent( hitstat, minHit ) > 0.0;
+	}
+
 	public String toString()
 	{
 		boolean ranged = KoLCharacter.rangedWeapon();
@@ -313,10 +322,10 @@ public class AreaCombatData implements KoLConstants
 
 		double modifier = ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0 ) / 100.0;
 		buffer.append( "<br> - Meat: " +
-			       format( (double)minMeat * modifier ) + "-" + 
+			       format( (double)minMeat * modifier ) + "-" +
 			       format( (double)maxMeat * modifier ) + " (" +
 			       format( (double)( minMeat + maxMeat ) * modifier / 2.0 ) +
-			       " average)" );			     
+			       " average)" );
 	}
 
 	private void appendItemList( StringBuffer buffer, List items )
