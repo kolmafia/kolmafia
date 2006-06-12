@@ -577,6 +577,9 @@ public class ConsoleReader
 	public boolean paste ()
 		throws IOException
 	{
+		if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			return false;
+
 		java.awt.datatransfer.Clipboard clipboard
 			= java.awt.Toolkit.getDefaultToolkit ().getSystemClipboard ();
 		if (clipboard == null)
@@ -590,17 +593,8 @@ public class ConsoleReader
 
 		try
 		{
-			Object content = transferable.getTransferData (
-				java.awt.datatransfer.DataFlavor.plainTextFlavor);
-
-			/*
-			 * This fix was suggested in bug #1060649 at
-			 * http://sourceforge.net/tracker/index.php?func=detail&aid=1060649&group_id=64033&atid=506056
-			 * to get around the deprecated DataFlavor.plainTextFlavor, but
-			 * it raises a UnsupportedFlavorException on Mac OS X
-			Object content = new java.awt.datatransfer.DataFlavor ().
+			Object content = new java.awt.datatransfer.DataFlavor().
 				getReaderForText (transferable);
-			*/
 
 			if (content == null)
 				return false;
