@@ -889,7 +889,8 @@ public class KoLRequest implements Runnable, KoLConstants
 				FightRequest battle = new FightRequest( client );
 				battle.run();
 
-				return this instanceof AdventureRequest || getClass() == KoLRequest.class;
+				return this instanceof AdventureRequest || getClass() == KoLRequest.class ||
+					battle.getAdventuresUsed() == 0;
 			}
 			else
 			{
