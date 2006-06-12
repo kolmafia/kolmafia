@@ -63,7 +63,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	private boolean canPurchase;
 	public static final int MAX_QUANTITY = 10000000;
-	
+
 	private boolean attireChanged = false;
 
 	/**
@@ -309,7 +309,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( price ) + ")..." );
 		super.run();
-		
+
 		if ( attireChanged )
 			SpecialOutfit.restoreCheckpoint();
 	}
@@ -477,5 +477,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		KoLCharacter.updateStatus();
 		RequestFrame.refreshStatus();
+	}
+
+	public String getCommandForm( int iterations )
+	{	return "buy " + limit + " " + itemName;
 	}
 }

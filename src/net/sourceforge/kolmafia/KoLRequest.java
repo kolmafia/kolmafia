@@ -519,20 +519,34 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		client.setCurrentRequest( this );
 
-		if ( getClass() == KoLRequest.class )
-			client.getSessionStream().println( getURLString() );
-		else
+		String commandForm = getCommandForm();
+		String urlString = getURLString();
+
+		if ( urlString.indexOf( "?" ) != -1 )
 		{
-			String requestName = getClass().getName();
-			requestName = requestName.substring( requestName.lastIndexOf( "." ) + 1 );
-			client.getSessionStream().println( requestName + ": " + toString() );
+			if ( getClass() == KoLRequest.class || getClass() == LocalRelayRequest.class )
+			{
+				if ( urlString.indexOf( "adv=" ) != -1 )
+					urlString = urlString.replaceFirst( "adv=", "snarfblat=" );
+
+				KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
+
+				if ( adventure != null )
+					adventure.recordToSession();
+				else if ( urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 )
+					client.getSessionStream().println( urlString );
+			}
+			else if ( !isDelayExempt() && !commandForm.equals( "" ) )
+				client.getSessionStream().println( commandForm );
 		}
 
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 
-		if ( getURLString().equals( "lair6.php?place=5" ) )
+		if ( getURLString().endsWith( "lair6.php?place=5" ) )
 			KoLCharacter.getEffects().clear();
+		if ( getURLString().endsWith( "lair6.php?place=6" ) )
+			KoLCharacter.setInteraction( true );
 
 		do
 		{
@@ -1344,6 +1358,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		// 200 (not a redirect or error).
 
 		FightFrame.showRequest( this );
+	}
+
+	public String getCommandForm()
+	{	return getCommandForm( 1 );
 	}
 
 	public String getCommandForm( int iterations )

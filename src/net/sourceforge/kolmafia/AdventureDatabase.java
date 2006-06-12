@@ -60,8 +60,10 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final Map ZONE_NAMES = new TreeMap();
 	public static final Map ZONE_DESCRIPTIONS = new TreeMap();
+
 	private static StringArray [] adventureTable = new StringArray[4];
 	private static final Map areaCombatData = new TreeMap();
+	private static final Map adventureLookup = new TreeMap();
 
 	static
 	{
@@ -361,6 +363,7 @@ public class AdventureDatabase extends KoLDatabase
 		String zoneName;
 
 		adventures.clear();
+		adventureLookup.clear();
 
 		for ( int i = 0; i < adventureTable[1].size(); ++i )
 		{
@@ -371,12 +374,20 @@ public class AdventureDatabase extends KoLDatabase
 				if ( zoneName.equals( zones[j] ) )
 					shouldAdd = false;
 
+			KoLAdventure adventure = getAdventure(i);
 			if ( shouldAdd )
-				adventures.add( getAdventure(i) );
+				adventures.add( adventure );
+
+			System.out.println( adventure.getRequest().getURLString() + " => " + adventure );
+			adventureLookup.put( adventure.getRequest().getURLString(), adventure );
 		}
 
 		if ( getProperty( "sortAdventures" ).equals( "true" ) )
 			adventures.sort();
+	}
+
+	public static KoLAdventure getAdventureByURL( String adventureURL )
+	{	return (KoLAdventure) adventureLookup.get( adventureURL );
 	}
 
 	/**

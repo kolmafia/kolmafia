@@ -80,7 +80,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		else if ( formSource.equals( "campground.php" ) )
 			this.request = new CampgroundRequest( client, adventureID );
 		else if ( formSource.equals( "clan_gym.php" ) )
-			this.request = null;
+			this.request = new ClanGymRequest( client, Integer.parseInt( adventureID ) );
 		else
 			this.request = new AdventureRequest( client, adventureName, formSource, adventureID );
 	}
@@ -192,9 +192,16 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// If the test is successful, then it is safe to run the
 		// request (without spamming the server).
 
+		recordToSession();
 		request.run();
-		client.registerAdventure( this );
 		client.runBetweenBattleChecks();
+	}
+
+	public void recordToSession()
+	{
+		KoLmafia.getSessionStream().println();
+		KoLmafia.getSessionStream().println( "[" + KoLCharacter.getTotalTurnsUsed() + "] " + getAdventureName() );
+		client.registerAdventure( this );
 	}
 
 	public int compareTo( Object o )
