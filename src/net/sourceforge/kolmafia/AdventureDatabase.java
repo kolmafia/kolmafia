@@ -378,7 +378,6 @@ public class AdventureDatabase extends KoLDatabase
 			if ( shouldAdd )
 				adventures.add( adventure );
 
-			System.out.println( adventure.getRequest().getURLString() + " => " + adventure );
 			adventureLookup.put( adventure.getRequest().getURLString(), adventure );
 		}
 
