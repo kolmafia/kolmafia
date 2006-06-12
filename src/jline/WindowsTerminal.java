@@ -36,6 +36,7 @@
 package jline;
 
 import java.io.*;
+import net.java.dev.spellcast.utilities.DataUtilities;
 
 // TODO: handle arrow keys, which might require completely implementing the
 // console input reading in the .dll. For example, see:
@@ -191,7 +192,7 @@ public class WindowsTerminal
 	public void initializeTerminal ()
 		throws Exception
 	{
-		loadLibrary ("jline");
+		loadLibrary();
 
 		final int originalMode = getConsoleMode ();
 
@@ -225,48 +226,25 @@ public class WindowsTerminal
 	}
 
 
-	private void loadLibrary (final String name)
+	private void loadLibrary ()
 		throws IOException
 	{
-		// store the DLL in the temporary directory for the System
-		String version = getClass ().getPackage ().getImplementationVersion ();
-		if (version == null)
-			version = "";
-		version = version.replace ('.', '_');
-
-		File f = new File (System.getProperty ("java.io.tmpdir"),
-			name + "_" + version + ".dll");
-		boolean exists = f.isFile (); // check if it already exists
-
-		// extract the embedded jline.dll file from the jar and save
-		// it to the current directory
-		InputStream in = new BufferedInputStream (getClass ()
-			.getResourceAsStream (name + ".dll"));
-
-		try
+		File library = new File( "data/jline.dll" );
+		if ( !library.exists() )
 		{
-			OutputStream fout = new BufferedOutputStream (
-				new FileOutputStream (f));
-			byte[] bytes = new byte [1024 * 10];
-			for (int n = 0; n != -1; n = in.read (bytes))
-				fout.write (bytes, 0, n);
+			InputStream input = DataUtilities.getInputStream( "", "jline.dll" );
+			OutputStream output = new FileOutputStream( library );
 
-			fout.close ();
-		}
-		catch (IOException ioe)
-		{
-			// We might get an IOException trying to overwrite an existing
-			// jline.dll file if there is another process using the DLL.
-			// If this happens, ignore errors.
-			if (!exists)
-				throw ioe;
-		}
+			byte [] buffer = new byte[ 1024 ];
+			int bufferLength;
+			while ( (bufferLength = input.read( buffer )) != -1 )
+				output.write( buffer, 0, bufferLength );
 
-		// try to clean up the DLL after the JVM exits
-		f.deleteOnExit ();
+			output.close();
+		}
 
 		// now actually load the DLL
-		System.load (f.getAbsolutePath ());
+		System.load( library.getAbsolutePath() );
 	}
 
 
