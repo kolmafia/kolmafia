@@ -264,8 +264,15 @@ public class FightRequest extends KoLRequest
 
 		if ( roundCount == 1 )
 		{
-			FightRequest.encounter = AdventureRequest.registerEncounter( this );
-			monsterData = MonsterDatabase.findMonster( FightRequest.encounter );
+			encounter = AdventureRequest.registerEncounter( this );
+			if ( encounter.startsWith( "a " ) )
+				encounter = encounter.substring( 2 );
+			else if ( encounter.startsWith( "an " ) )
+				encounter = encounter.substring( 3 );
+			else if ( encounter.startsWith( "the " ) )
+				encounter = encounter.substring( 4 );
+
+			monsterData = MonsterDatabase.findMonster( encounter );
 		}
 
 		if ( responseText.indexOf( "fight.php" ) == -1 )

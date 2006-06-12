@@ -1135,6 +1135,12 @@ public class KoLRequest implements Runnable, KoLConstants
 		int previousHP = KoLCharacter.getCurrentHP();
 		boolean needsRefresh = client.processResults( responseText );
 
+		if ( getAdventuresUsed() > 0 )
+		{
+			needsRefresh |= client.processResult( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
+			needsRefresh |= KoLCharacter.hasRecoveringEquipment();
+		}
+
 		// If the character's health drops below zero, make sure
 		// that beaten up is added to the effects.
 
@@ -1143,12 +1149,11 @@ public class KoLRequest implements Runnable, KoLConstants
 			// Wild hare is exempt from beaten up status if you
 			// are beaten up in the middle of a battle.
 
-			if ( !formURLString.equals( "fight.php" ) || KoLCharacter.getFamiliar().getID() != 50 )
+			if ( !formURLString.equals( "fight.php" ) || responseText.indexOf( "lair6.php" ) != -1 )
 				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
+			else if ( KoLCharacter.getFamiliar().getID() != 50 )
+				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 		}
-
-		if ( getAdventuresUsed() > 0 )
-			needsRefresh |= client.processResult( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
 
 		if ( statusChanged && RequestFrame.willRefreshStatus() )
 			RequestFrame.refreshStatus();
