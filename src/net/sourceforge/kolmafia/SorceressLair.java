@@ -42,6 +42,8 @@ import javax.swing.JOptionPane;
 
 public abstract class SorceressLair extends StaticEntity
 {
+	private static boolean useCloverForSkeleton = true;
+
 	// Items for the entryway
 
 	private static final AdventureResult SUGAR = new AdventureResult( "Sugar Rush", 0 );
@@ -251,6 +253,18 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static boolean hasItem( AdventureResult item )
 	{	return KoLCharacter.hasItem( item, true );
+	}
+
+	public static void completeCloveredEntryway()
+	{
+		useCloverForSkeleton = true;
+		completeEntryway();
+	}
+
+	public static void completeCloverlessEntryway()
+	{
+		useCloverForSkeleton = false;
+		completeEntryway();
 	}
 
 	public static void completeEntryway()
@@ -467,34 +481,21 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !hasItem( SKELETON ) )
 			requirements.add( SKELETON );
 
-		if ( isCheckOnly && !hasItem( CLOVER ) )
-			requirements.add( CLOVER );
-
-		if ( isCheckOnly || hasItem( RHYTHM ) || !requirements.isEmpty() )
-			return requirements;
-
-		if ( HermitRequest.getWorthlessItemCount() > 0 || (getProperty( "autoSatisfyChecks" ).equals( "true" ) && KoLCharacter.canInteract()) )
-			AdventureDatabase.retrieveItem( CLOVER );
-
-		if ( !hasItem( CLOVER ) )
+		if ( useCloverForSkeleton )
 		{
-			boolean shouldContinue = existingFrames.isEmpty() ? false :
-				JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
-				"Would you like to confront the skeleton without a clover?",
-				"Do ya feel lucky, punk?", JOptionPane.YES_NO_OPTION );
+			if ( hasItem( CLOVER ) )
+				AdventureDatabase.retrieveItem( CLOVER );
+			else if ( HermitRequest.getWorthlessItemCount() > 0 && HermitRequest.isCloverDay() )
+				AdventureDatabase.retrieveItem( CLOVER );
+			else if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) && KoLCharacter.canInteract() )
+				AdventureDatabase.retrieveItem( CLOVER );
 
-			if ( !shouldContinue )
-			{
-				if ( HermitRequest.isCloverDay() )
-					AdventureDatabase.retrieveItem( CLOVER );
-
-				if ( !hasItem( CLOVER ) )
-				{
-					requirements.add( CLOVER );
-					return requirements;
-				}
-			}
+			if ( !hasItem( CLOVER ) )
+				requirements.add( CLOVER );
 		}
+
+		if ( !requirements.isEmpty() )
+			return requirements;
 
 		while ( KoLmafia.permitsContinue() && !hasItem( RHYTHM ) )
 		{
@@ -502,10 +503,7 @@ public abstract class SorceressLair extends StaticEntity
 			// maximum HP (whichever is greater) in order to play
 			// the skeleton dice game, UNLESS you have a clover.
 
-			if ( hasItem( CLOVER ) )
-				AdventureDatabase.retrieveItem( CLOVER );
-
-			else
+			if ( !useCloverForSkeleton && hasItem( CLOVER ) )
 			{
 				int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
 				client.recoverHP( healthNeeded );
