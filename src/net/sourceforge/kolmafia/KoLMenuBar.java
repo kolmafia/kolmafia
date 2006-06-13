@@ -239,6 +239,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		questsMenu.add( new InvocationMenuItem( "Lucky Entryway", SorceressLair.class, "completeCloveredEntryway" ) );
 		questsMenu.add( new InvocationMenuItem( "Unlucky Entryway", SorceressLair.class, "completeCloverlessEntryway" ) );
+		questsMenu.add( new InvocationMenuItem( "Hedge Rotation", SorceressLair.class, "completeHedgeMaze" ) );
 		questsMenu.add( new InvocationMenuItem( "Tower Guardians", SorceressLair.class, "fightTowerGuardians" ) );
 		questsMenu.add( new InvocationMenuItem( "Final Chamber", SorceressLair.class, "completeSorceressChamber" ) );
 

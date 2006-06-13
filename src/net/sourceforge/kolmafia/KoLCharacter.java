@@ -3043,7 +3043,6 @@ public abstract class KoLCharacter extends StaticEntity
 			newMeatDropPercentAdjustment += 30;
 
 		// Only one cupcake effect can be active at a time
-		// Assumption: same as snowcone effects.
 
 		if ( BLUE_CUPCAKE.getCount( activeEffects ) > 0 )
 			newItemDropPercentAdjustment += 30;
