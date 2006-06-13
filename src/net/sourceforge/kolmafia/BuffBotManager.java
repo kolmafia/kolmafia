@@ -454,7 +454,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		try
 		{
 			processMessage( success );
-			client.forceContinue();
+
+			if ( !KoLmafia.refusesContinue() )
+				KoLmafia.forceContinue();
 		}
 		catch ( Exception e )
 		{

@@ -2095,8 +2095,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		// Even if an error occurred, since we captured the result,
 		// permit further execution.
-		currentState = STATE_NORMAL;
-		client.forceContinue();
+
+		if ( !KoLmafia.refusesContinue() )
+		{
+			currentState = STATE_NORMAL;
+			KoLmafia.forceContinue();
+		}
 	}
 
 	private ScriptValue executeGlobalScope( ScriptScope globalScope ) throws AdvancedScriptException
