@@ -336,7 +336,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public synchronized void executeLine( String line )
 	{
-		KoLmafia.forceContinue();
+		if ( refusesContinue() )
+			return;
 
 		// If it gets this far, that means the continue
 		// state can be reset.

@@ -456,8 +456,10 @@ public class LocalRelayRequest extends KoLRequest
 		if ( command == null )
 			return;
 
+		KoLmafia.forceContinue();
 		DEFAULT_SHELL.executeLine( command );
-		DEFAULT_SHELL.enableDisplay();
+		KoLmafia.enableDisplay();
+
 		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
 
