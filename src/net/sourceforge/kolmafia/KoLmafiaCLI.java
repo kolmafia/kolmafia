@@ -271,7 +271,7 @@ public class KoLmafiaCLI extends KoLmafia
 				line = getNextLine();
 
 				if ( line != null && line.startsWith( "y" ) || line.startsWith( "Y" ) )
-					DEFAULT_SHELL.forceContinue();
+					KoLmafia.forceContinue();
 			}
 		}
 
