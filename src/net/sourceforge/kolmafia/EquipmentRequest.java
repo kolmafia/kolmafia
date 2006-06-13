@@ -665,7 +665,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			AdventureResult item = new AdventureResult( itemMatcher.group(2),
 				quantity.length() == 0 ? 1 : Integer.parseInt( quantity.substring( 1, quantity.length() - 1 ) ) );
 
-			if ( !KoLCharacter.getInventory().contains( item ) )
+			if ( item.getItemID() != -1 && !KoLCharacter.getInventory().contains( item ) )
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), item );
 		}
 	}
