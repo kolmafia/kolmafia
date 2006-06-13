@@ -193,6 +193,9 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "little sump'm sump'ms" ) )
 			return getItemID( "a little sump'm sump'm" );
 
+		if ( canonicalName.equals( "beer cartilagia" ) )
+			return getItemID( "beer cartilage" );
+
 		if ( canonicalName.equals( "black loti" ) )
 			return getItemID( "black lotus" );
 

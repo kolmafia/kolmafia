@@ -2227,7 +2227,7 @@ public class KoLmafiaCLI extends KoLmafia
 	}
 
 	/**
-	 * A special module used specifically for  unequipping items.
+	 * A special module used specifically for unequipping items.
 	 */
 
 	private void executeUnequipCommand( String parameters )
