@@ -782,7 +782,7 @@
 782	Mr. Exploiter	8	250000000
 783	'Villa' document	0	125000000
 784	Acqua Del Piatto Merlot	2	-1
-785	Mystery Raffle Ticket #5	0	-1
+785	raffle ticket	0	-1
 786	strawberry	1	35
 787	bottle of rum	2	35
 788	strawberry daiquiri	2	65
@@ -1632,3 +1632,5 @@
 1632	Spanish fly trap	13	0
 1633	Spanish fly	0	0
 1634	around the world	2	0
+#????	Grimacite galoshes	8	-1
+#????	wedge of gray cheese	1	-1

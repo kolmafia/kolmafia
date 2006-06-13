@@ -1082,7 +1082,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static String getEquipment( int type )
 	{
 		if ( type >= HAT && type < FAMILIAR )
-			return (String) equipment.get( type );
+			return (String)equipment.get( type );
 
 		if ( type == FAMILIAR )
 			return getFamiliarItem();
@@ -1150,7 +1150,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static int weaponHandedness()
 	{
-		String name = getEquipmentName( (String) equipmentLists[ WEAPON ].getSelectedItem() );
+		String name = getCurrentEquipmentName( WEAPON );
 		return ( name == null) ? 0 : EquipmentDatabase.getHands( name );
 	}
 
@@ -1161,7 +1161,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean rangedWeapon()
 	{
-		String name = getEquipmentName( (String) equipmentLists[ WEAPON ].getSelectedItem() );
+		String name = getCurrentEquipmentName( WEAPON );
 		return name != null && EquipmentDatabase.isRanged( name );
 	}
 
@@ -1172,7 +1172,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean dualWielding()
 	{
-		String name = getEquipmentName( (String) equipmentLists[ OFFHAND ].getSelectedItem() );
+		String name = getCurrentEquipmentName( OFFHAND );
 		return name != null && EquipmentDatabase.getHands( name ) == 1;
 	}
 
