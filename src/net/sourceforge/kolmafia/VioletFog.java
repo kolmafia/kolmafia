@@ -38,6 +38,7 @@ package net.sourceforge.kolmafia;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.util.Arrays;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
@@ -395,5 +396,220 @@ public class VioletFog
 
 		// It is. If it's a "goal" location, decision "1" takes an adventure.
 		return source < FIRST_GOAL_LOCATION ? true : !decision.equals( "1" );
+	}
+
+	// The Wiki has a Violet Fog Map:
+	//
+	//     http://kol.coldfront.net/thekolwiki/index.php/Violet_Fog_Map
+	//
+	// The Wiki's numbering scheme mapped to Choice Adventure number:
+	//
+	//  1 = 61 (Huge Mountain)
+	//  2 = 49 (Man on Bicycle)
+	//  3 = 52 (Giant Chessboard)
+	//  4 = 68 (Alcohol Fish)
+	//  5 = 56 (Boat on a River)
+	//  6 = 50 (Pleasant-faced Man)
+	//  7 = 53 (Mustache)
+	//  8 = 51 (Man on Cornflake)
+	//  9 = 55 (Machine Elves)
+	// 10 = 70 (Medicine Fish)
+	// 11 = 54 (Birds)
+	// 12 = 67 (Moxie Training)
+	// 13 = 57 (Man in Sunglasses)
+	// 14 = 60 (Chorus Girls)
+	// 15 = 64 (Eye with Garment)
+	// 16 = 66 (Mysticality Training)
+	// 17 = 65 (Muscle Training)
+	// 18 = 69 (Food Fish)
+	// 19 = 58 (Caterpillar)
+	// 20 = 59 (This is not a Pipe)
+	// 21 = 62 (Eye with Hat)
+	// 22 = 63 (Eye with Weapon)
+
+	private static final int WikiToMafia [] =
+	{
+		61,		// 1
+		49,		// 2
+		52,		// 3
+		68,		// 4
+		56,		// 5
+		50,		// 6
+		53,		// 7
+		51,		// 8
+		55,		// 9
+		70,		// 10
+		54,		// 11
+		67,		// 12
+		57,		// 13
+		60,		// 14
+		64,		// 15
+		66,		// 16
+		65,		// 17
+		69,		// 18
+		58,		// 19
+		59,		// 20
+		62,		// 21
+		63,		// 22
+	};
+
+	private static int mafiaCode( int wikiCode )
+	{	return WikiToMafia[ wikiCode - 1 ];
+	}
+
+	private static final int MafiaToWiki [] =
+	{
+		2,		// 49
+		6,		// 50
+		8,		// 51
+		3,		// 52
+		7,		// 53
+		11,		// 54
+		9,		// 55
+		5,		// 56
+		13,		// 57
+		19,		// 58
+		20,		// 59
+		14,		// 60
+		1,		// 61
+		21,		// 62
+		22,		// 63
+		15,		// 64
+		17,		// 65
+		16,		// 66
+		12,		// 67
+		4,		// 68
+		18,		// 69
+		10,		// 70
+	};
+
+	private static int wikiCode( int mafiaCode )
+	{	return MafiaToWiki[ mafiaCode - FIRST_CHOICE - 1 ];
+	}
+
+	private static int WikiFogLocationExits [][];
+
+	static
+	{
+		buildWikiExits();
+	}
+
+	private static void buildWikiExits()
+	{
+		// Get a zeroed array to start things off.
+		WikiFogLocationExits = new int [ LAST_CHOICE - FIRST_CHOICE][ 3 ];
+
+		// Examine each node in Mafia order
+		for ( int source = FIRST_CHOICE + 1; source <= LAST_CHOICE; ++source )
+		{
+			// Get the array of exit paths
+			int mafiaExits[] = FogLocationExits[ source - FIRST_CHOICE ];
+			int wikiExits[] = WikiFogLocationExits[ wikiCode( source) - 1 ];
+
+			// Copy translated exit from Mafia exit table to Wiki exit table
+			for ( int i = 0; i < mafiaExits.length; ++i )
+				wikiExits[i] = wikiCode( mafiaExits[i] );
+
+			// Sort the exits in Wiki order
+			Arrays.sort( wikiExits );
+		}
+	}
+
+	// Gemelli has a tool that accepts a code and displays the map
+	// corresponding to it:
+	//
+	//     http://www.feesher.com/fog_mapper.php
+	//
+        // To get the code, examine the 22 nodes in Wiki order
+        // Examine each of the three destinations from each node, again in Wiki order.
+	// Generate a digit from 0-3:
+	//     0 = unmapped
+	//     1 = this way
+	//     2 = that way
+	//     3 = the other way
+        //
+        // Take the resulting 66 digit string and convert two digits at a time
+        // from base 4 to base 16, resulting in a 33 digit hex string
+
+	public static String gemelliCode()
+	{
+		int code[] = new int[66];
+		int codeIndex = 0;
+
+		// Examine each node in Wiki order
+		for ( int i = 1; i < FogChoiceTable.length; ++i )
+		{
+			// Get the choice adventure # corresponding to the Wiki code
+			int source = mafiaCode( i );
+
+			// Get the array of exit paths
+			int paths[] = getPaths( source );
+
+			// For each choice in Wiki order
+			int exits[] = WikiFogLocationExits[ i - 1];
+
+			for ( int j = 0; j < exits.length; ++j )
+			{
+				// Find the exit in the paths
+				for ( int index = 0; index < paths.length; ++index )
+					if ( paths[index] == mafiaCode( exits[j] ) )
+					{
+						int choice = ( source < FIRST_GOAL_LOCATION ) ? index + 1 : index;
+						code[ codeIndex ] = choice;
+						break;
+					}
+				++codeIndex;
+			}
+		}
+
+		// Convert the 66 element int array into a 33 character character array
+		char data[] = new char[33];
+		for ( int i = 0; i < code.length; i += 2 )
+		{
+			int hexDigit = code[i] * 4 + code[i+1];
+			data[i/2] = Character.forDigit( hexDigit, 16 );
+		}
+
+		return String.valueOf( data );
+	}
+
+	private static int [] getPaths( int source )
+	{
+		int paths[] = FogChoiceTable[ source - FIRST_CHOICE ];
+		int exits[] = FogLocationExits[ source - FIRST_CHOICE ];
+
+		// See if exactly one exit is unknown
+		int unknownIndex = -1;
+		for ( int i = 0; i < paths.length; ++i )
+		{
+			if ( paths[i] != 0 )
+				continue;
+			if ( unknownIndex != -1 )
+				return paths;
+			unknownIndex = i;
+		}
+
+		// Yes. Figure out which one it is
+		for ( int i = 0; i < exits.length; ++i )
+		{
+			boolean found = false;
+			for ( int j = 0; j < paths.length; ++j )
+				if ( exits[i] == paths[j] )
+				{
+					found = true;
+					break;
+				}
+			if ( !found )
+			{
+				paths[ unknownIndex ] = exits[i];
+				return paths;
+			}
+		}
+
+		return paths;
+	}
+
+	public static void showGemelliMap()
+	{	StaticEntity.openSystemBrowser( "http://www.feesher.com/fog_mapper.php?mapstring=" + gemelliCode() );
 	}
 }
