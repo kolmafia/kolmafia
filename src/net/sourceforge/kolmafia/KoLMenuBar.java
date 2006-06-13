@@ -287,6 +287,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		helperMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
 		helperMenu.add( new DisplayPageMenuItem( "KoL Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
+		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFog.class, "showGemelliMap" ) );
 
 		if ( !(container instanceof JMenuBar) )
 			container.add( new InvocationMenuItem( "End Session", SystemTrayFrame.class, "removeTrayIcon" ) );
