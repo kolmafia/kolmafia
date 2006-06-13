@@ -252,6 +252,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( StaticEntity.getClient() == this )
 				printBlankLine();
 
+			forceContinue();
 			executeLine( line );
 			System.gc();
 
@@ -271,7 +272,7 @@ public class KoLmafiaCLI extends KoLmafia
 				line = getNextLine();
 
 				if ( line != null && line.startsWith( "y" ) || line.startsWith( "Y" ) )
-					KoLmafia.forceContinue();
+					forceContinue();
 			}
 		}
 
