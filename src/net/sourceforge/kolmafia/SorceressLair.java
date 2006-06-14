@@ -503,7 +503,7 @@ public abstract class SorceressLair extends StaticEntity
 			// maximum HP (whichever is greater) in order to play
 			// the skeleton dice game, UNLESS you have a clover.
 
-			if ( !useCloverForSkeleton && hasItem( CLOVER ) )
+			if ( !useCloverForSkeleton && !hasItem( CLOVER ) )
 			{
 				int healthNeeded = Math.max( KoLCharacter.getMaximumHP() / 4, 50 );
 				client.recoverHP( healthNeeded );
