@@ -1442,25 +1442,25 @@
 1434	593246625	fruit basket
 1435	398407608	hot pink lipstick
 1436	203741164	hot stuffing
-1437
-1438
-1439
-1440
-1441
-1442
-1443
-1444
-1445
-1446
-1447
-1448
-1449
-1450
-1451
-1452
-1453
-1454
-1455
+1437	262479555	useless powder
+1438	118084156	twinkly powder
+1439	283451957	hot powder
+1440	568651176	cold powder
+1441	958687925	spooky powder
+1442	689907634	stench powder
+1443	134170686	sleaze powder
+1444	640354330	twinkly nuggets
+1445	211393758	hot nuggets
+1446	602336846	cold nuggets
+1447	341612749	spooky nuggets
+1448	582403510	stench nuggets
+1449	487343916	sleaze nuggets
+1450	503220568	twinkly wad
+1451	802361695	hot wad
+1452	787406705	cold wad
+1453	346006884	spooky wad
+1454	546916092	stench wad
+1455	273925143	sleaze wad
 1456	465944073	double daisy
 1457	703683283	miniature stuffed Goth Giant
 1458	980784871	Valentine's Day cake
@@ -1613,11 +1613,11 @@
 1605	513832221	delectable catalyst
 1606	
 1607	
-1608	
+1608	454119392	eyedrops of the ermine
 1609	
-1610	
-1611	
-1612	
+1610	732972916	eyedrops of the ocelot
+1611	844921127	potent potion of potency
+1612	342091891	concentrated cordial of concentration
 1613	395533477	coffin lid
 1614	860285539	white satin shield
 1615	845589896	Cerebral Cloche
@@ -1642,11 +1642,11 @@
 1634	268463703	around the world
 1635	945960359	scrumdiddlyumptious solution
 1636	
-1637	
-1638	
-1639	
-1640	
-1641	
+1637	737312329	phial of hotness
+1638	617090691	phial of coldness
+1639	304127983	phial of spookiness
+1640	644303640	phial of stench
+1641	361592233	phial of sleaziness
 1642	
 1643	
 1644	
@@ -1655,5 +1655,8 @@
 1647	
 1648	
 1649	456411411	brick
+1650	802819764	milk of magnesium
 #????	943696283	Grimacite galoshes
 #????	647526971	wedge of gray cheese
+#????	306546400	Grimacite garter
+#????	259609992	Grimacite Bock
