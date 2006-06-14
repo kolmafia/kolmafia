@@ -28,6 +28,7 @@
 1012	0	0	Claws of the Walrus
 1014	0	0	Eye of the Stoat
 1015	1	10	Rage of the Reindeer
+1016	0	0	Pulverize
 1017	0	0	Double-Fisted Skull Smashing
 1018	0	0	Northern Exposure
 1019	1	10	Musk of the Moose
@@ -73,6 +74,7 @@
 3016	0	0	Tolerance of the Kitchen
 # The following is the skill which appears on the character sheet
 3017	0	0	Flavour of Magic
+3018	0	0	Trancendental Noodlecraft
 # The 5 sub-skills of Flavour of Magic usable from the Use Skills page:
 3101	1	10	Spirit of Cayenne
 3102	1	10	Spirit of Peppermint
@@ -97,6 +99,7 @@
 4015	0	0	Impetuous Sauciness
 4016	0	0	Diminished Gag Reflex
 4017	0	0	Immaculate Seasoning
+4018	0	0	The Way of Sauce
 
 # Skills available to Bandits
 
