@@ -1434,25 +1434,25 @@
 1434	fruit basket	4	400
 1435	hot pink lipstick	7	-1
 1436	hot stuffing	0	100
-1437
-1438
-1439
-1440
-1441
-1442
-1443
-1444
-1445
-1446
-1447
-1448
-1449
-1450
-1451
-1452
-1453
-1454
-1455
+1437	useless powder	3	-1
+1438	twinkly powder	3	30
+1439	hot powder	3	30
+1440	cold powder	3	30
+1441	spooky powder	3	30
+1442	stench powder	3	30
+1443	sleaze powder	3	30
+1444	twinkly nuggets	3	60
+1445	hot nuggets	3	60
+1446	cold nuggets	3	60
+1447	spooky nuggets	3	60
+1448	stench nuggets	3	60
+1449	sleaze nuggets	3	60
+1450	twinkly wad	3	90
+1451	hot wad	3	90
+1452	cold wad	3	90
+1453	spooky wad	3	90
+1454	stench wad	3	90
+1455	sleaze wad	3	90
 1456	double daisy	0	10000
 1457	miniature stuffed Goth Giant	13	10000
 1458	Valentine's Day cake	1	10000
@@ -1605,11 +1605,11 @@
 1605	delectable catalyst	3	500
 1606
 1607
-1608
+1608	eyedrops of the ermine	4	36
 1609
-1610
-1611
-1612
+1610	eyedrops of the ocelot	4	36
+1611	potent potion of potency	4	36
+1612	concentrated cordial of concentration	4	36
 1613	coffin lid	13	55
 1614	white satin shield	13	85
 1615	Cerebral Cloche	9	100
@@ -1634,11 +1634,11 @@
 1634	around the world	2	0
 1635	scrumdiddlyumptious solution	0	-1
 1636	
-1637	
-1638	
-1639	
-1640	
-1641	
+1637	phial of hotness	4	-1
+1638	phial of coldness	4	-1
+1639	phial of spookiness	4	-1
+1640	phial of stench	4	-1
+1641	phial of sleaziness	4	-1
 1642	
 1643	
 1644	
@@ -1647,5 +1647,8 @@
 1647	
 1648	
 1649	brick	0	5
+1650	milk of magnesium	3	36
 #????	Grimacite galoshes	8	-1
 #????	wedge of gray cheese	1	-1
+#????	Grimacite garter	8	-1
+#????	Grimacite Bock	2	-1
