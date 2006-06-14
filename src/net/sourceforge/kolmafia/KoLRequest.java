@@ -533,7 +533,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				if ( adventure != null )
 					adventure.recordToSession();
-				else if ( urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 )
+				else if ( urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && urlString.indexOf( "chat" ) == -1 )
 					client.getSessionStream().println( urlString );
 			}
 			else if ( !isDelayExempt() && !commandForm.equals( "" ) )

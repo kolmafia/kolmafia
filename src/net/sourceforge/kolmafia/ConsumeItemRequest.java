@@ -683,6 +683,7 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 		commandString.append( itemUsed.getCount() );
+		commandString.append( ' ' );
 		commandString.append( itemUsed.getName() );
 		return commandString.toString();
 	}
