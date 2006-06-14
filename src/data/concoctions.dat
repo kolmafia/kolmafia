@@ -480,20 +480,22 @@ time sword	4	petrified time	sword hilt
 # Reagent potions.  Not to be confused with reagent broth mixtures
 # which can be combined with pasta by pastamancers.
 
-alarming strawberry juice	5	scrumptious reagent	strawberry
-arse-a'fire elixir	5	jaba&ntilde;ero pepper	scrumptious reagent
-cosmic lemonade	5	lemon	scrumptious reagent
-dill potion	5	dill	scrumptious reagent
-drab potion	5	olive	scrumptious reagent
-equilibrium juice	5	scrumptious reagent	lime
-grapefruit juice of powerful power	5	grapefruit	scrumptious reagent
-maraschino moxiosity potion	5	cherry	scrumptious reagent
-orangish aphrodisiac	5	orange	scrumptious reagent
-papotion of papower	5	papaya	scrumptious reagent
-potion of chalky equality	5	scrumptious reagent	cranberries
-potion of temporary gr8tness	5	scrumptious reagent	gr8ps
-tomato smoothie	5	tomato	scrumptious reagent
-wrath serum	5	grapes	scrumptious reagent
+# Recipes not known yet
+
+# cologne of contempt	5	dill	scrumptious reagent
+# Connery's Elixir of Audacity	5	cherry	scrumptious reagent
+# cordial of concentration	5	tomato	scrumptious reagent
+# Ferrigno's Elixir of Power	5	jaba&ntilde;ero pepper	scrumptious reagent
+# Hawking's Elixir of Brilliance	5	papaya	scrumptious reagent
+# oil of expertise	5	scrumptious reagent	lime
+# oil of slipperiness	5	scrumptious reagent	strawberry
+# oil of stability	5	scrumptious reagent	cranberries
+# ointment of the occult	5	lemon	scrumptious reagent
+# philter of phorce	5	grapes	scrumptious reagent
+# potion of potency	5	olive	scrumptious reagent
+# potion of temporary gr8tness	5	scrumptious reagent	gr8ps
+# serum of sarcasm	5	orange	scrumptious reagent
+# tomato juice of powerful power	5	grapefruit	scrumptious reagent
 
 
 # Simple pastamancer recipes.  Available to pastamancers only, and
