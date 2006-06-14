@@ -415,14 +415,14 @@
 415	leotarrrd	10	100
 416	safarrri hat	9	100
 417	henna tattoo	4	38
-418	arse-a'fire elixir	4	36
-419	orangish aphrodisiac	4	36
-420	grapefruit juice of powerful power	4	36
-421	wrath serum	4	36
-422	drab potion	4	36
-423	tomato smoothie	4	36
-424	cosmic lemonade	4	36
-425	equilibrium juice	4	36
+418	Ferrigno's Elixir of Power	4	36
+419	serum of sarcasm	4	36
+420	tomato juice of powerful power	4	36
+421	philter of phorce	4	36
+422	potion of potency	4	36
+423	cordial of concentration	4	36
+424	ointment of the occult	4	36
+425	oil of expertise	4	36
 426	potion of temporary gr8tness	4	36
 427	box	13	19
 428	nothing-in-the-box	0	26
@@ -764,7 +764,7 @@
 764	spectral pickle	1	352
 765	briny vinegar	0	160
 766	ghost pickle on a stick	5	450
-767	dill potion	4	77
+767	cologne of contempt	4	77
 768	spork	12	35
 769	voodoo doll	13	25
 770	basic meat fez	9	140
@@ -790,8 +790,8 @@
 790	grog	2	78
 791	Mafia bow tie	8	-1
 792	Golden Mr. Accessory	8	-1
-793	potion of chalky equality	4	36
-794	alarming strawberry juice	4	36
+793	oil of stability	4	36
+794	oil of slipperiness	4	36
 795	Acque Luride Grezze Cabernet	2	-1
 796	cement shoes	8	-1
 797	rockin' wagon	2	115
@@ -923,7 +923,7 @@
 923	broken cellular phone	0	-1
 924	crimbo elfling	5	-1
 925	dental pliers	7	75
-926	papotion of papower	4	38
+926	Hawking's Elixir of Brilliance	4	38
 927	Ferita Del Petto Zinfandel	2	-1
 928	fuzzy bracelets	8	0
 929	arse-shooting crossbow	12	0
@@ -1035,7 +1035,7 @@
 1035	penguin skin buckler	13	142
 1036	yakskin buckler	13	142
 1037	gnauga hide buckler	13	140
-1038	maraschino moxiosity potion	4	38
+1038	Connery's Elixir of Audacity	4	38
 1039
 1040	lucky Tam O'Shanter	7	-1
 1041	green beer	2	100
