@@ -1546,7 +1546,7 @@
 1546
 1547	Codex of Capsaicin Conjuration	13	2000
 1548	Gazpacho's Glacial Grimoire	13	2000
-1549
+1549	MSG	0	1000
 1550	second-hand knockoff engagement ring	8	0
 1551	bottle of Domesticated Turkey	2	70
 1552	bottle of Definit	2	70
@@ -1602,7 +1602,7 @@
 1602	prussian cathouse with a fly in it	0	130
 1603	Mae West with a fly in it	0	130
 1604	astronaut ice-cream	3	0
-1605
+1605	delectable catalyst	3	500
 1606
 1607
 1608
@@ -1632,5 +1632,6 @@
 1632	Spanish fly trap	13	0
 1633	Spanish fly	0	0
 1634	around the world	2	0
+1635	scrumdiddlyumptious solution	0	-1
 #????	Grimacite galoshes	8	-1
 #????	wedge of gray cheese	1	-1
