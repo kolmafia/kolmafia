@@ -1196,7 +1196,7 @@ public abstract class KoLmafia implements KoLConstants
 		updateDisplay( "Recovering using " + techniqueName + "..." );
 
 		if ( technique instanceof HPRestoreItemList.HPRestoreItem )
-			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( needed, isFallback );
+			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( needed );
 
 		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
 			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed, isFallback );

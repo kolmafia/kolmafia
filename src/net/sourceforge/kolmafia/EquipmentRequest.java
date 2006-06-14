@@ -505,6 +505,8 @@ public class EquipmentRequest extends PasswordHashRequest
 				(new EquipmentRequest( client, EquipmentRequest.QUESTS )).run();
 				(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
 				(new EquipmentRequest( client, EquipmentRequest.CONSUMABLES )).run();
+
+				KoLCharacter.setAvailableSkills( KoLCharacter.getAvailableSkills() );
 			}
 			else if ( requestType == QUESTS || requestType == CONSUMABLES )
 			{

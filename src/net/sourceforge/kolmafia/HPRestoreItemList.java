@@ -126,7 +126,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverHP( int needed, boolean isFallback )
+		public void recoverHP( int needed )
 		{
 			if ( this == CAMPING )
 			{
@@ -164,9 +164,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 				int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
 
-				if ( !isFallback )
-					numberAvailable = Math.min( numberToUse, numberAvailable );
-				else if ( this == HERBS )
+				if ( this == HERBS )
 					numberAvailable = belowMax < 20 || !NPCStoreDatabase.contains( HERBS.toString() ) ? 0 : 1;
 				else if ( this == SCROLL && KoLCharacter.canInteract() )
 					numberAvailable = 1;
