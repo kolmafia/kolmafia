@@ -1889,9 +1889,9 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( hasSkill( "Superhuman Cocktailcrafting" ) )
 			client.setBreakfastSummonings( KoLmafia.COCKTAILCRAFTING, 5 );
 
-		// Trancendental Noodlecraft affects # of summons for
+		// Transcendental Noodlecraft affects # of summons for
 		// Pastamastery
-		if ( hasSkill( "Trancendental Noodlecraft" ) )
+		if ( hasSkill( "Transcendental Noodlecraft" ) )
 			client.setBreakfastSummonings( KoLmafia.PASTAMASTERY, 5 );
 
 		// The Way of Sauce affects # of summons for
@@ -2252,7 +2252,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static boolean canUseWok()
-	{	return hasSkill( "Trancendental Noodlecraft" ) && isMysticalityClass();
+	{	return hasSkill( "Transcendental Noodlecraft" ) && isMysticalityClass();
 	}
 
 	public static boolean canUseMalus()
