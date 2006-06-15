@@ -586,7 +586,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		ADVENTURE_USAGE[ ItemCreationRequest.STILL_BOOZE ] = 0;
 
 		// Using the Wok of Ages is possible if the person has
-		// Trancendental Noodlecraft and is a Mysticality class
+		// Transcendental Noodlecraft and is a Mysticality class
 		// character.
 
 		PERMIT_METHOD[ ItemCreationRequest.WOK ] = KoLCharacter.canUseWok();
