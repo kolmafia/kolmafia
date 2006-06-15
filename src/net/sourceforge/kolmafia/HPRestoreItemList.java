@@ -145,6 +145,22 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return;
 			}
 
+			if ( this == TINY_HOUSE )
+			{
+				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
+					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", 1 ) )).run();
+
+				return;
+			}
+
+			if ( this == OTTER )
+			{
+				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
+					(new UseSkillRequest( client, toString(), "", 1 )).run();
+
+				return;
+			}
+
 			// For all other instances, you will need to calculate
 			// the number of times this technique must be used.
 
@@ -176,22 +192,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			if ( numberToUse == 0 )
 				return;
-
-			if ( this == TINY_HOUSE )
-			{
-				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
-					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", 1 ) )).run();
-
-				return;
-			}
-
-			if ( this == OTTER )
-			{
-				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
-					(new UseSkillRequest( client, toString(), "", 1 )).run();
-
-				return;
-			}
 
 			if ( ClassSkillsDatabase.contains( itemName ) )
 				(new UseSkillRequest( client, itemName, "", numberToUse )).run();

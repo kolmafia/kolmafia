@@ -39,7 +39,7 @@ public class UneffectRequest extends KoLRequest
 	private int effectID;
 	private boolean isShruggable;
 	private AdventureResult effect;
-	public static AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", -1 );
+	public static AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", 1 );
 
 	/**
 	 * Constructs a new <code>UneffectRequest</code>.
@@ -101,10 +101,15 @@ public class UneffectRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( !isShruggable && !KoLCharacter.getInventory().contains( REMEDY ) )
+		if ( !isShruggable )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
-			return;
+			if ( KoLCharacter.canInteract() )
+				DEFAULT_SHELL.executeLine( "acquire " + REMEDY.getName() );
+			else if ( !KoLCharacter.getInventory().contains( REMEDY ) )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
+				return;
+			}
 		}
 
 		KoLmafia.updateDisplay( isShruggable ? "Shrugging off your buff..." : "Using soft green whatever..." );
@@ -120,12 +125,20 @@ public class UneffectRequest extends KoLRequest
 		{
 			KoLCharacter.getEffects().remove( effect );
 
+
 			if ( isShruggable )
 				CharsheetRequest.parseStatus( responseText );
 			else
 				client.processResult( REMEDY );
 
 			KoLmafia.updateDisplay( "Effect removed." );
+
+			if ( RequestFrame.willRefreshStatus() )
+				RequestFrame.refreshStatus();
+			else
+				CharpaneRequest.getInstance().run();
+
+			KoLCharacter.recalculateAdjustments( false );
 		}
 		else if ( !isShruggable )
 			KoLmafia.updateDisplay( ERROR_STATE, "Effect removal failed." );

@@ -55,6 +55,7 @@ public class FightRequest extends KoLRequest
 	private MonsterDatabase.Monster monsterData;
 
 	private static String encounter = "";
+	private static String encounterLookup = "";
 	private static final String [] RARE_MONSTERS =
 	{
 		// Ultra-rare monsters
@@ -87,6 +88,8 @@ public class FightRequest extends KoLRequest
 		this.roundCount = 0;
 
 		FightRequest.encounter = "";
+		FightRequest.encounterLookup = "";
+
 		this.turnsUsed = 0;
 		this.monsterData = null;
 	}
@@ -105,12 +108,12 @@ public class FightRequest extends KoLRequest
 		action2 = null;
 
 		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
-			if ( encounter.toLowerCase().indexOf( RARE_MONSTERS[i] ) != -1 )
+			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
 				client.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
 
 		if ( roundCount > 1 && action1.equals( "custom" ) )
 		{
-			action1 = CombatSettings.getSetting( encounter, roundCount - 2 );
+			action1 = CombatSettings.getSetting( encounterLookup, roundCount - 2 );
 			if ( action1.startsWith( "item" ) )
 			{
 				String name = (String) TradeableItemDatabase.getMatchingNames( action1.substring(4).trim() ).get(0);
@@ -265,6 +268,7 @@ public class FightRequest extends KoLRequest
 		if ( roundCount == 1 )
 		{
 			encounter = AdventureRequest.registerEncounter( this );
+
 			if ( encounter.startsWith( "a " ) )
 				encounter = encounter.substring( 2 );
 			else if ( encounter.startsWith( "an " ) )
@@ -272,6 +276,7 @@ public class FightRequest extends KoLRequest
 			else if ( encounter.startsWith( "the " ) )
 				encounter = encounter.substring( 4 );
 
+			encounterLookup = encounter.toLowerCase();
 			monsterData = MonsterDatabase.findMonster( encounter );
 		}
 

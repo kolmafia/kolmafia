@@ -142,7 +142,7 @@ public abstract class CombatSettings implements UtilityConstants
 				line = line.trim();
 				if ( line.startsWith( "[" ) )
 				{
-					currentKey = line.substring( 1, line.length() - 2 ).trim().toLowerCase();
+					currentKey = line.substring( 1, line.length() - 1 ).trim().toLowerCase();
 					currentList = new CombatSettingNode( currentKey );
 
 					reference.put( currentKey, currentList );
@@ -162,7 +162,7 @@ public abstract class CombatSettings implements UtilityConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e1 );
 		}
 		catch ( Exception e2 )
@@ -228,7 +228,7 @@ public abstract class CombatSettings implements UtilityConstants
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -249,7 +249,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 		for ( int i = 0; i < keys.length; ++i )
 		{
-			if ( encounter.toLowerCase().indexOf( keys[i] ) != -1 )
+			if ( encounter.indexOf( keys[i] ) != -1 )
 			{
 				if ( keys[i].length() > longestMatchLength )
 				{

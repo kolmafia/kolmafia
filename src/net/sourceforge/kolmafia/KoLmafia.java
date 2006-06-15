@@ -990,6 +990,9 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return false;
 
+		boolean checkBeatenUp = settingName.startsWith( "hp" ) &&
+			KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP );
+
 		Object [] empty = new Object[0];
 		Method currentMethod, maximumMethod;
 
@@ -1074,18 +1077,19 @@ public abstract class KoLmafia implements KoLConstants
 
 		String currentTechniqueName;
 
-		for ( int i = 0; i < techniques.length && current < threshold; ++i )
+		for ( int i = 0; i < techniques.length && (current < threshold || checkBeatenUp); ++i )
 		{
 			currentTechniqueName = techniques[i].toString().toLowerCase();
 			if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
 			{
 				last = -1;
 
-				while ( current < threshold && last != current && !refusesContinue() )
+				while ( (current < threshold || checkBeatenUp) && last != current && !refusesContinue() )
 				{
 					last = current;
 					recoverOnce( techniques[i], currentTechniqueName, needed, false );
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
+					checkBeatenUp &= KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP );
 				}
 			}
 		}
@@ -1106,11 +1110,12 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			last = -1;
 
-			while ( current < threshold && last != current && !refusesContinue() )
+			while ( (current < threshold || checkBeatenUp) && last != current && !refusesContinue() )
 			{
 				last = current;
 				recoverOnce( fallbacks[i], fallbacks[i].toString(), needed, false );
 				current = ((Number)currentMethod.invoke( null, empty )).intValue();
+				checkBeatenUp &= KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP );
 			}
 		}
 
@@ -1185,13 +1190,6 @@ public abstract class KoLmafia implements KoLConstants
 		// If the technique is an item, and the item is not readily available,
 		// then don't bother with this item -- however, if it is the only item
 		// present, then rethink it.
-
-		if ( !ClassSkillsDatabase.contains( techniqueName ) )
-		{
-			AdventureResult item = new AdventureResult( techniqueName, 0 );
-			if ( !KoLCharacter.getInventory().contains( item ) && !isFallback )
-				return;
-		}
 
 		updateDisplay( "Recovering using " + techniqueName + "..." );
 
