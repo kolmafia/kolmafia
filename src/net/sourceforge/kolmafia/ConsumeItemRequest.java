@@ -104,6 +104,7 @@ public class ConsumeItemRequest extends KoLRequest
 	private static final int GIFT10 = 1176;
 	private static final int GIFT11 = 1177;
 	private static final int GIFTV = 1460;
+	private static final int GIFTR = 1534;
 
 	private static final AdventureResult POISON = new AdventureResult( "Poisoned", 1, true );
 	private static final AdventureResult SAPLING = new AdventureResult( 75, -1 );
@@ -324,6 +325,7 @@ public class ConsumeItemRequest extends KoLRequest
 		case GIFT10:
 		case GIFT11:
 		case GIFTV:
+		case GIFTR:
 			// If it's a gift package, get the inner message
 
 			// "You can't receive things from other players
