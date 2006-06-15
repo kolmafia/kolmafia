@@ -498,11 +498,13 @@ tomato juice of powerful power	5	scrumptious reagent	tomato
 
 scrumdiddlyumptious solution	20	delectable catalyst	scrumptious reagent
 
-hot wad	21	scrumdiddlyumptious solution	sleaze wad
-cold wad	21	scrumdiddlyumptious solution	hot wad
-spooky wad	21	scrumdiddlyumptious solution	cold wad
-stench wad	21	scrumdiddlyumptious solution	spooky wad
-sleaze wad	21	scrumdiddlyumptious solution	stench wad
+# The following recipes lead to infinite recursion...
+
+# hot wad	21	scrumdiddlyumptious solution	sleaze wad
+# cold wad	21	scrumdiddlyumptious solution	hot wad
+# spooky wad	21	scrumdiddlyumptious solution	cold wad
+# stench wad	21	scrumdiddlyumptious solution	spooky wad
+# sleaze wad	21	scrumdiddlyumptious solution	stench wad
 
 cologne of contempt	21	scrumdiddlyumptious solution	dill
 concentrated cordial of concentration	21	scrumdiddlyumptious solution	tonic water
@@ -572,11 +574,11 @@ rat appendix chow mein	22	rat appendix stir-fry	dry noodles	MSG
 spooky lo mein	22	spooky stir-fry	dry noodles	MSG
 tofu chow mein	22	tofu stir-fry	dry noodles	MSG
 
-# cold and sour sauce	21	
-# hot and sour sauce	21	
-# sleazy and sour sauce	21	
-# spooky and sour sauce	21	
-# stench and sour sauce	21	
+cold and sour sauce	21	scrumdiddlyumptious solution	cold nuggets
+hot and sour sauce	21	scrumdiddlyumptious solution	hot nuggets
+sleazy and sour sauce	21	scrumdiddlyumptious solution	sleaze nuggets
+spooky and sour sauce	21	scrumdiddlyumptious solution	spooky nuggets
+stench and sour sauce	21	scrumdiddlyumptious solution	stench nuggets
 
 # Top-end foods made by upgrading element-and-sour sauces at the Wok of Ages
 
