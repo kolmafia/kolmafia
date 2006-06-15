@@ -453,6 +453,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.CLOVER ] = true;
 		ADVENTURE_USAGE[ ItemCreationRequest.CLOVER ] = 0;
 
+		PERMIT_METHOD[ ItemCreationRequest.CATALYST ] = true;
+		ADVENTURE_USAGE[ ItemCreationRequest.CATALYST ] = 0;
+
 		// The gnomish tinkerer is available if the person is in a
 		// moxie sign and they have a bitchin' meat car.
 
@@ -540,6 +543,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.COOK_REAGENT ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.canSummonReagent();
 		ADVENTURE_USAGE[ ItemCreationRequest.COOK_REAGENT ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
 
+		PERMIT_METHOD[ ItemCreationRequest.SUPER_REAGENT ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.hasSkill( "The Way of Sauce" );
+;
+		ADVENTURE_USAGE[ ItemCreationRequest.SUPER_REAGENT ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
+
 		PERMIT_METHOD[ ItemCreationRequest.COOK_PASTA ] = PERMIT_METHOD[ ItemCreationRequest.COOK ] && KoLCharacter.canSummonNoodles();
 		ADVENTURE_USAGE[ ItemCreationRequest.COOK_PASTA ] = ADVENTURE_USAGE[ ItemCreationRequest.COOK ];
 
@@ -569,9 +576,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		ADVENTURE_USAGE[ ItemCreationRequest.MIX_SUPER ] = ADVENTURE_USAGE[ ItemCreationRequest.MIX ];
 
 		// Using Crosby Nash's Still is possible if the person has
-		// Superhuman Cocktailcrafting and is a Moxie class
-		// character. However, until we learn how to operate the still,
-		// we'll mark it unavailable
+		// Superhuman Cocktailcrafting and is a Moxie class character.
 
 		boolean hasStillsAvailable = KoLCharacter.getStillsAvailable() > 0;
 		PERMIT_METHOD[ ItemCreationRequest.STILL_MIXER ] = hasStillsAvailable;
@@ -579,6 +584,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ ItemCreationRequest.STILL_BOOZE ] = hasStillsAvailable;
 		ADVENTURE_USAGE[ ItemCreationRequest.STILL_BOOZE ] = 0;
+
+                // Using the Wok of Ages is possible if the person has
+                // Trancendental Noodlecraft and is a Mysticality class
+                // character.
+
+		PERMIT_METHOD[ ItemCreationRequest.WOK ] = false;
+		ADVENTURE_USAGE[ ItemCreationRequest.WOK ] = 0;
 	}
 
 	private static boolean isAvailable( int servantID, int clockworkID )

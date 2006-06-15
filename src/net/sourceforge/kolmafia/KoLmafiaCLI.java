@@ -3049,6 +3049,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				case ItemCreationRequest.COOK:
 				case ItemCreationRequest.COOK_REAGENT:
+				case ItemCreationRequest.SUPER_REAGENT:
 				case ItemCreationRequest.COOK_PASTA:
 
 					if ( needServant )
