@@ -1819,13 +1819,15 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void setAvailableSkills( List availableSkills )
 	{
-		if ( availableSkills != KoLCharacter.availableSkills )
+		if ( availableSkills == KoLCharacter.availableSkills )
 		{
-			KoLCharacter.availableSkills.clear();
-			KoLCharacter.usableSkills.clear();
-			KoLCharacter.combatSkills.clear();
+			addDictionary();
+			return;
 		}
 
+		KoLCharacter.availableSkills.clear();
+		KoLCharacter.usableSkills.clear();
+		KoLCharacter.combatSkills.clear();
 		KoLCharacter.battleSkillIDs.clear();
 		KoLCharacter.battleSkillNames.clear();
 
@@ -1860,9 +1862,6 @@ public abstract class KoLCharacter extends StaticEntity
 			battleSkillIDs.add( "moxman" );
 			battleSkillNames.add( "Special: Moxious Maneuver" );
 		}
-
-		if ( availableSkills == KoLCharacter.availableSkills )
-			return;
 
 		// Check all available skills to see if they
 		// qualify to be added as combat or usables.
