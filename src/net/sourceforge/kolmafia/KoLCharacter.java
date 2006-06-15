@@ -1877,6 +1877,16 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( hasSkill( "Superhuman Cocktailcrafting" ) )
 			client.setBreakfastSummonings( KoLmafia.COCKTAILCRAFTING, 5 );
 
+		// Trancendental Noodlecraft affects # of summons for
+		// Pastamastery
+		if ( hasSkill( "Trancendental Noodlecraft" ) )
+			client.setBreakfastSummonings( KoLmafia.PASTAMASTERY, 5 );
+
+		// The Way of Sauce affects # of summons for
+		// Advanced Saucecrafting
+		if ( hasSkill( "The Way of Sauce" ) )
+			client.setBreakfastSummonings( KoLmafia.SAUCECRAFTING, 5 );
+
 		// Add derived skills based on base skills
 		addDerivedSkills();
 
