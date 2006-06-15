@@ -1601,6 +1601,12 @@ public abstract class KoLmafia implements KoLConstants
 	public abstract void makeZapRequest();
 
 	/**
+	 * Makes a request which attempts to smash a chosen item
+	 */
+
+	public abstract void makePulverizeRequest();
+
+	/**
 	 * Makes a request to the hermit in order to trade worthless
 	 * items for more useful items.
 	 */

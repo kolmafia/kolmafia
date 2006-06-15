@@ -477,6 +477,22 @@ time helmet	4	petrified time	helmet recipe
 time trousers	4	petrified time	pants kit
 time sword	4	petrified time	sword hilt
 
+# Elemental powders can be compressed into nuggets and wads with the Malus
+
+twinkly nuggets	23	twinkly powder (5)
+hot nuggets	23	hot powder (5)
+cold nuggets	23	cold powder (5)
+spooky nuggets	23	spooky powder (5)
+stench nuggets	23	stench powder (5)
+sleaze nuggets	23	sleaze powder (5)
+
+twinkly wad	23	twinkly nuggets (5)
+hot wad	23	hot nuggets (5)
+cold wad	23	cold nuggets (5)
+spooky wad	23	spooky nuggets (5)
+stench wad	23	stench nuggets (5)
+sleaze wad	23	sleaze nuggets (5)
+
 # Reagent potions.  Not to be confused with reagent broth mixtures
 # which can be combined with pasta by pastamancers.
 

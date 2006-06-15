@@ -68,7 +68,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static final AdventureResult CAR = new AdventureResult( 134, 1 );
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
-	private static final AdventureResult HAMMER = new AdventureResult( 338, 1 );
+	public static final AdventureResult HAMMER = new AdventureResult( 338, 1 );
 	private static final AdventureResult PLIERS = new AdventureResult( 709, 1 );
 
 	private static final AdventureResult PASTE = new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 );
@@ -585,12 +585,18 @@ public class ConcoctionsDatabase extends KoLDatabase
 		PERMIT_METHOD[ ItemCreationRequest.STILL_BOOZE ] = hasStillsAvailable;
 		ADVENTURE_USAGE[ ItemCreationRequest.STILL_BOOZE ] = 0;
 
-                // Using the Wok of Ages is possible if the person has
-                // Trancendental Noodlecraft and is a Mysticality class
-                // character.
+		// Using the Wok of Ages is possible if the person has
+		// Trancendental Noodlecraft and is a Mysticality class
+		// character.
 
-		PERMIT_METHOD[ ItemCreationRequest.WOK ] = false;
-		ADVENTURE_USAGE[ ItemCreationRequest.WOK ] = 0;
+		PERMIT_METHOD[ ItemCreationRequest.WOK ] = KoLCharacter.canUseWok();
+		ADVENTURE_USAGE[ ItemCreationRequest.WOK ] = 1;
+
+		// Using the Malus of Forethought is possible if the person has
+		// Pulverize and is a Muscle class character.
+
+		PERMIT_METHOD[ ItemCreationRequest.MALUS ] = KoLCharacter.canUseMalus();
+		ADVENTURE_USAGE[ ItemCreationRequest.MALUS ] = 0;
 	}
 
 	private static boolean isAvailable( int servantID, int clockworkID )
