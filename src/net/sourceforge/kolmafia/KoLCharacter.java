@@ -533,6 +533,18 @@ public abstract class KoLCharacter extends StaticEntity
 			ACCORDION_THIEF.contains( classname ) ? "Accordion Thief" : "Sauceror";
 	}
 
+	public static boolean isMuscleClass()
+	{	return SEAL_CLUBBER.contains( classname ) || TURTLE_TAMER.contains( classname );
+	}
+
+	public static boolean isMysticalityClass()
+	{	return PASTAMANCER.contains( classname ) || SAUCEROR.contains( classname );
+	}
+
+	public static boolean isMoxieClass()
+	{	return DISCO_BANDIT.contains( classname ) || ACCORDION_THIEF.contains( classname );
+	}
+
 	/**
 	 * Accessor method to set the character's current health state.
 	 * @param	currentHP	The character's current HP value
@@ -1857,7 +1869,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// Add in moxious maneuver if the player
 		// is of the appropriate class.
 
-		if ( KoLCharacter.getClassType().startsWith( "Ac" ) || KoLCharacter.getClassType().startsWith( "Di" ) )
+		if ( isMoxieClass() )
 		{
 			battleSkillIDs.add( "moxman" );
 			battleSkillNames.add( "Special: Moxious Maneuver" );
@@ -2212,7 +2224,7 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		if ( stillsAvailable == -1 )
 		{
-			boolean canStill = hasSkill( "Superhuman Cocktailcrafting" ) && (getClassType().startsWith( "Di" ) || getClassType().startsWith( "Ac" ));
+			boolean canStill = hasSkill( "Superhuman Cocktailcrafting" ) && isMoxieClass();
 			if ( !canStill )
 			{
 				stillsAvailable = 0;
@@ -2237,6 +2249,14 @@ public abstract class KoLCharacter extends StaticEntity
 			stillsAvailable = Integer.parseInt( stillMatcher.group(1) );
 		else
 			stillsAvailable = 0;
+	}
+
+	public static boolean canUseWok()
+	{	return hasSkill( "Trancendental Noodlecraft" ) && isMysticalityClass();
+	}
+
+	public static boolean canUseMalus()
+	{	return hasSkill( "Pulverize" ) && isMuscleClass();
 	}
 
 	/**

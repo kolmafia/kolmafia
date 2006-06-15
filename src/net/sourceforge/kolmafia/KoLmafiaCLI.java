@@ -1034,6 +1034,14 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Smashing is a type of item usage
+
+		if ( command.equals( "smash" ) || command.equals( "pulverize" ) )
+		{
+			makePulverizeRequest();
+			return;
+		}
+
 		// Another item-related command is a creation
 		// request.  Again, complicated request, so
 		// delegate to the appropriate utility method.
@@ -3278,6 +3286,34 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 		(new ZapRequest( StaticEntity.getClient(), wand, item )).run();
+	}
+
+	/**
+	 * Attempts to smash the specified item
+	 */
+
+	public void makePulverizeRequest()
+	{
+		String command = previousLine.split( " " )[0];
+		String parameters = previousLine.substring( command.length() ).trim();
+		if ( parameters.length() == 0 )
+		{
+			updateDisplay( ERROR_STATE, "Smash what?" );
+			return;
+		}
+
+		AdventureResult item = getFirstMatchingItem( parameters, INVENTORY );
+		if ( item == null )
+			return;
+
+		if ( !TradeableItemDatabase.isTradeable( item.getItemID() ) )
+		{
+			// Force him to confirm this, somehow? That doesn't
+			// work in a script...
+			return;
+		}
+
+		(new PulverizeRequest( StaticEntity.getClient(), item )).run();
 	}
 
 	/**

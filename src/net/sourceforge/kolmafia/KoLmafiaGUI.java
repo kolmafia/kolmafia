@@ -238,8 +238,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 	/**
 	 * Makes a request which attempts to zap the chosen item
-	 * This method should prompt the user to determine which effect
-	 * the player would like to remove.
 	 */
 
 	public void makeZapRequest()
@@ -257,6 +255,35 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		(new RequestThread( new ZapRequest( this, wand, (AdventureResult) selectedValue ) )).run();
+	}
+
+	/**
+	 * Makes a request which attempts to smash the chosen item
+	 */
+
+	public void makePulverizeRequest()
+	{
+		Object selectedValue = JOptionPane.showInputDialog(
+			null, "I want to pulverize this item...", "Smash!", JOptionPane.INFORMATION_MESSAGE, null,
+			KoLCharacter.getInventory().toArray(), KoLCharacter.getInventory().get(0) );
+
+		if ( selectedValue == null )
+			return;
+
+		AdventureResult item = (AdventureResult)selectedValue;
+		int available = item.getCount( KoLCharacter.getInventory() );
+		int smashCount = ( available > 1 ) ? KoLFrame.getQuantity( "How many " + item.getName() + " to smash?", available ) : 1;
+
+		if ( smashCount == 0 )
+			return;
+
+		if ( !TradeableItemDatabase.isTradeable( item.getItemID() ) &&
+		     JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null,
+						"Are you sure you would like to smash that untradeable item?",
+						"Smash request nag screen!", JOptionPane.YES_NO_OPTION ) )
+			return;
+
+		(new RequestThread( new PulverizeRequest( this, item.getInstance( smashCount ) ) )).run();
 	}
 
 	/**
