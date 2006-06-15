@@ -1157,7 +1157,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 
 		if ( statusChanged && RequestFrame.willRefreshStatus() )
+		{
 			RequestFrame.refreshStatus();
+			KoLCharacter.recalculateAdjustments( false );
+		}
 		else if ( needsRefresh )
 		{
 			CharpaneRequest.getInstance().run();

@@ -250,7 +250,10 @@ public class KoLmafiaCLI extends KoLmafia
 		while ( (line = getNextLine()) != null && (permitsContinue() || StaticEntity.getClient() == this) )
 		{
 			if ( StaticEntity.getClient() == this )
+			{
+				enableDisplay();
 				printBlankLine();
+			}
 
 			forceContinue();
 			executeLine( line );
