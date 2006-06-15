@@ -1434,25 +1434,25 @@
 1434	fruit basket	4	400
 1435	hot pink lipstick	7	-1
 1436	hot stuffing	0	100
-1437	useless powder	3	-1
-1438	twinkly powder	3	30
-1439	hot powder	3	30
-1440	cold powder	3	30
-1441	spooky powder	3	30
-1442	stench powder	3	30
-1443	sleaze powder	3	30
-1444	twinkly nuggets	3	60
-1445	hot nuggets	3	60
-1446	cold nuggets	3	60
-1447	spooky nuggets	3	60
-1448	stench nuggets	3	60
-1449	sleaze nuggets	3	60
-1450	twinkly wad	3	90
-1451	hot wad	3	90
-1452	cold wad	3	90
-1453	spooky wad	3	90
-1454	stench wad	3	90
-1455	sleaze wad	3	90
+1437	useless powder	4	-1
+1438	twinkly powder	4	30
+1439	hot powder	4	30
+1440	cold powder	4	30
+1441	spooky powder	4	30
+1442	stench powder	4	30
+1443	sleaze powder	4	30
+1444	twinkly nuggets	4	60
+1445	hot nuggets	4	60
+1446	cold nuggets	4	60
+1447	spooky nuggets	4	60
+1448	stench nuggets	4	60
+1449	sleaze nuggets	4	60
+1450	twinkly wad	4	90
+1451	hot wad	4	90
+1452	cold wad	4	90
+1453	spooky wad	4	90
+1454	stench wad	4	90
+1455	sleaze wad	4	90
 1456	double daisy	0	10000
 1457	miniature stuffed Goth Giant	13	10000
 1458	Valentine's Day cake	1	10000
@@ -1584,16 +1584,16 @@
 1584	Mae West	2	160
 1585	Mon Tiki	2	160
 1586	teqiwila slammer	2	160
-1587
-1588
-1589
-1590
-1591
-1592
-1593
-1594
-1595
-1596
+1587	Knob lo mein	1	72
+1588	asparagus lo mein	1	72
+1589	Knoll lo mein	1	72
+1590	spooky lo mein	1	72
+1591	olive lo mein	1	72
+1592	hot hi mein	1	144
+1593	cold hi mein	1	144
+1594	spooky hi mein	1	144
+1595	stinky hi mein	1	144
+1596	sleazy hi mein	1	144
 1597	Junior LAAAAME merit badge	8	-1
 1598	Senior LAAAAME merit badge	8	-1
 1599	jazz soap	3	5
@@ -1602,11 +1602,11 @@
 1602	prussian cathouse with a fly in it	0	130
 1603	Mae West with a fly in it	0	130
 1604	astronaut ice-cream	3	0
-1605	delectable catalyst	3	500
+1605	delectable catalyst	4	500
 1606
-1607
+1607	libation of liveliness	4	36
 1608	eyedrops of the ermine	4	36
-1609
+1609	perfume of prejudice	4	36
 1610	eyedrops of the ocelot	4	36
 1611	potent potion of potency	4	36
 1612	concentrated cordial of concentration	4	36
@@ -1640,15 +1640,14 @@
 1640	phial of stench	4	-1
 1641	phial of sleaziness	4	-1
 1642	
-1643	
-1644	
-1645	
-1646	
-1647	
-1648	
+1643	wedge of gray cheese	1	-1
+1644	hot and sour sauce	0	100
+1645	cold and sour sauce	0	100
+1646	spooky and sour sauce	0	100
+1647	stench and sour sauce	0	100
+1648	sleazy and sour sauce	0	100
 1649	brick	0	5
 1650	milk of magnesium	3	36
 #????	Grimacite galoshes	8	-1
-#????	wedge of gray cheese	1	-1
 #????	Grimacite garter	8	-1
 #????	Grimacite Bock	2	-1

@@ -480,23 +480,44 @@ time sword	4	petrified time	sword hilt
 # Reagent potions.  Not to be confused with reagent broth mixtures
 # which can be combined with pasta by pastamancers.
 
-# Recipes not known yet
+cordial of concentration	5	scrumptious reagent	soda water
+eyedrops of the ermine	5	scrumptious reagent	strawberry
+libation of liveliness	5	scrumptious reagent	grapes
+milk of magnesium	5	scrumptious reagent	glass of goat's milk
+oil of expertise	5	scrumptious reagent	cherry
+oil of slipperiness	5	scrumptious reagent	jumbo olive
+oil of stability	5	scrumptious reagent	lime
+ointment of the occult	5	scrumptious reagent	grapefruit
+perfume of prejudice	5	scrumptious reagent	jaba&ntilde;ero pepper
+philter of phorce	5	scrumptious reagent	lemon
+potion of potency	5	scrumptious reagent	orange
+serum of sarcasm	5	scrumptious reagent	olive
+tomato juice of powerful power	5	scrumptious reagent	tomato
 
-# cologne of contempt	5	dill	scrumptious reagent
-# Connery's Elixir of Audacity	5	cherry	scrumptious reagent
-# cordial of concentration	5	tomato	scrumptious reagent
-# Ferrigno's Elixir of Power	5	jaba&ntilde;ero pepper	scrumptious reagent
-# Hawking's Elixir of Brilliance	5	papaya	scrumptious reagent
-# oil of expertise	5	scrumptious reagent	lime
-# oil of slipperiness	5	scrumptious reagent	strawberry
-# oil of stability	5	scrumptious reagent	cranberries
-# ointment of the occult	5	lemon	scrumptious reagent
-# philter of phorce	5	grapes	scrumptious reagent
-# potion of potency	5	olive	scrumptious reagent
-# potion of temporary gr8tness	5	scrumptious reagent	gr8ps
-# serum of sarcasm	5	orange	scrumptious reagent
-# tomato juice of powerful power	5	grapefruit	scrumptious reagent
+# Advanced Sauces
 
+scrumdiddlyumptious solution	20	delectable catalyst	scrumptious reagent
+
+hot wad	21	scrumdiddlyumptious solution	sleaze wad
+cold wad	21	scrumdiddlyumptious solution	hot wad
+spooky wad	21	scrumdiddlyumptious solution	cold wad
+stench wad	21	scrumdiddlyumptious solution	spooky wad
+sleaze wad	21	scrumdiddlyumptious solution	stench wad
+
+cologne of contempt	21	scrumdiddlyumptious solution	dill
+concentrated cordial of concentration	21	scrumdiddlyumptious solution	tonic water
+potent potion of potency	21	scrumdiddlyumptious solution	kumquat
+Connery's Elixir of Audacity	21	scrumdiddlyumptious solution	cocktail onion
+Hawking's Elixir of Brilliance	21	scrumdiddlyumptious solution	tangerine
+Ferrigno's Elixir of Power	21	scrumdiddlyumptious solution	kiwi
+eyedrops of the ocelot	21	scrumdiddlyumptious solution	raspberry
+potion of temporary gr8tness	21	scrumdiddlyumptious solution	gr8ps
+
+phial of hotness	5	scrumptious reagent	hot powder
+phial of coldness	5	scrumptious reagent	cold powder
+phial of spookiness	5	scrumptious reagent	spooky powder
+phial of stench	5	scrumptious reagent	stench powder
+phial of sleaziness	5	scrumptious reagent	sleaze powder
 
 # Simple pastamancer recipes.  Available to pastamancers only, and
 # creates pasta if you don't have finer ingredients.
@@ -522,9 +543,10 @@ gnocchetti di Nietzsche	6	Himalayan Hidalgo sauce	dry noodles
 Hell ramen	6	Hell broth	dry noodles
 spaghetti with Skullheads	6	sauce of the ages	dry noodles
 
-
 # Stir-fry items.  These are the main ingredients or are sub-ingredients
 # of chow mein items.
+
+secret blend of herbs and spices	2	herbs	spices
 
 asparagus stir-fry	2	stalk of asparagus	secret blend of herbs and spices
 bat wing stir-fry	2	bat wing	Knob stir-fry
@@ -534,19 +556,35 @@ Knoll stir-fry	2	Knoll mushroom	secret blend of herbs and spices
 olive stir-fry	2	secret blend of herbs and spices	olive
 pr0n stir-fry	2	pr0n legs	olive stir-fry
 rat appendix stir-fry	2	rat appendix	spooky stir-fry
-secret blend of herbs and spices	2	herbs	spices
 spooky stir-fry	2	spooky mushroom	secret blend of herbs and spices
 tofu stir-fry	2	wad of tofu	asparagus stir-fry
 
+# High-end foods made by upgrading stir-fries at the Wok of Ages
 
-# Easily the most popular food items in the game (next to spectral
-# pickles), these are the stir-fry chow meins in the game.
+asparagus lo mein	22	asparagus stir-fry	dry noodles	MSG
+bat wing chow mein	22	bat wing stir-fry	dry noodles	MSG
+Knob lo mein	22	Knob stir-fry	dry noodles	MSG
+Knob sausage chow mein	22	Knob sausage stir-fry	dry noodles	MSG
+Knoll lo mein	22	Knoll stir-fry	dry noodles	MSG
+olive lo mein	22	olive stir-fry	dry noodles	MSG
+pr0n chow mein	22	pr0n stir-fry	dry noodles	MSG
+rat appendix chow mein	22	rat appendix stir-fry	dry noodles	MSG
+spooky lo mein	22	spooky stir-fry	dry noodles	MSG
+tofu chow mein	22	tofu stir-fry	dry noodles	MSG
 
-bat wing chow mein	6	bat wing stir-fry	dry noodles
-Knob sausage chow mein	6	Knob sausage stir-fry	dry noodles
-pr0n chow mein	6	pr0n stir-fry	dry noodles
-rat appendix chow mein	6	rat appendix stir-fry	dry noodles
-tofu chow mein	6	tofu stir-fry	dry noodles
+# cold and sour sauce	21	
+# hot and sour sauce	21	
+# sleazy and sour sauce	21	
+# spooky and sour sauce	21	
+# stench and sour sauce	21	
+
+# Top-end foods made by upgrading element-and-sour sauces at the Wok of Ages
+
+cold hi mein	22	cold and sour sauce	dry noodles	MSG
+hot hi mein	22	hot and sour sauce	dry noodles	MSG
+sleazy hi mein	22	sleazy and sour sauce	dry noodles	MSG
+spooky hi mein	22	spooky and sour sauce	dry noodles	MSG
+stinky hi mein	22	stench and sour sauce	dry noodles	MSG
 
 # Star Chart items
 

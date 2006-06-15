@@ -51,7 +51,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int MEAT_STACK = 88;
 	public static final int DENSE_STACK = 258;
 
-	public static final int METHOD_COUNT = 20;
+	public static final int METHOD_COUNT = 23;
 	public static final int SUBCLASS = Integer.MAX_VALUE;
 
 	public static final int NOCREATE = 0;
@@ -79,6 +79,10 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	public static final int STILL_BOOZE = 17;
 	public static final int STILL_MIXER = 18;
 	public static final int MIX_SUPER = 19;
+
+	public static final int CATALYST = 20;
+	public static final int SUPER_REAGENT = 21;
+	public static final int WOK = 22;
 
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
@@ -147,7 +151,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( KoLCharacter.inMuscleSign() && mixingMethod == SMITH )
 			addFormField( "action", "smith" );
 
-		else if ( mixingMethod == CLOVER )
+		else if ( mixingMethod == CLOVER || mixingMethod == CATALYST )
 			addFormField( "action", "useitem" );
 
 		else if ( mixingMethod == STILL_BOOZE )
@@ -216,6 +220,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case COOK:
 			case COOK_REAGENT:
+			case SUPER_REAGENT:
 			case COOK_PASTA:
 				return new ItemCreationRequest( client, "cook.php", itemID, mixingMethod, quantityNeeded );
 
@@ -245,6 +250,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case TOY:
 				return new ToyRequest( client, itemID, quantityNeeded );
 
+			case CATALYST:
 			case CLOVER:
 				return new ItemCreationRequest( client, "multiuse.php", itemID, mixingMethod, quantityNeeded );
 
@@ -371,7 +377,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		makeIngredients();
 		AdventureResult [] ingredients = ConcoctionsDatabase.getIngredients( itemID );
 
-		if ( ingredients.length == 1 )
+		if ( ingredients.length == 1 || mixingMethod == CATALYST )
 		{
 			// If there is only one ingredient, then it probably
 			// only needs a "whichitem" field added to the request.
@@ -460,6 +466,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			{
 				case COOK:
 				case COOK_REAGENT:
+				case SUPER_REAGENT:
 				case COOK_PASTA:
 					KoLCharacter.setChef( false );
 					leftOver.run();
@@ -491,6 +498,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 			case COOK:
 			case COOK_REAGENT:
+			case SUPER_REAGENT:
 			case COOK_PASTA:
 
 				if ( KoLCharacter.hasChef() )
@@ -518,6 +526,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		{
 			case COOK:
 			case COOK_REAGENT:
+			case SUPER_REAGENT:
 			case COOK_PASTA:
 				autoRepairSuccessful = useBoxServant( CHEF, CLOCKWORK_CHEF, OVEN, CHEF_SKULL, CHEF_SKULL_BOX );
 				break;
@@ -723,6 +732,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 			case COOK:
 			case COOK_REAGENT:
+			case SUPER_REAGENT:
 			case COOK_PASTA:
 				if ( !KoLCharacter.hasChef() )
 					return quantityNeeded;

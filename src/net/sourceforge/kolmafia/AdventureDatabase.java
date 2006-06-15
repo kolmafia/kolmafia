@@ -808,6 +808,7 @@ public class AdventureDatabase extends KoLDatabase
 			{
 				case ItemCreationRequest.COOK:
 				case ItemCreationRequest.COOK_REAGENT:
+				case ItemCreationRequest.SUPER_REAGENT:
 				case ItemCreationRequest.COOK_PASTA:
 				case ItemCreationRequest.MIX:
 				case ItemCreationRequest.MIX_SPECIAL:
