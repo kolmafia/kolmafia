@@ -218,6 +218,13 @@
 			display.innerHTML += ( httpObject.responseText );
 			display.style.width = initwidth;
 			display.scrollTop = display.scrollHeight;
+
+			if ( !isRefreshing && httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
+			{
+				isRefreshing = true;
+				top.charpane.location.reload( true );
+				isRefreshing = false;
+			}
 		}
 	
 		httpObject.send( null );
