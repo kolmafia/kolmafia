@@ -229,6 +229,9 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( canonicalName.equals( "teqiwiluses" ) )
 			return getItemID( "teqiwila" );
 
+		if ( canonicalName.equals( "vodkas and tonics" ) )
+			return getItemID( "vodka and tonic" );
+
 		if ( canonicalName.equals( "yo-yo-yo" ) )
 			return getItemID( "yo-yo" );
 
