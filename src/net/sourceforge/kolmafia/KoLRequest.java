@@ -1183,10 +1183,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
-
 		handleChoiceResponse( request );
-		this.responseCode = request.responseCode;
-		this.responseText = request.responseText;
 	}
 
 	/**
@@ -1272,7 +1269,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// If there is currently a setting which determines the
 		// decision, make that decision and submit the form.
 
-		request.clearDataFields();
+		request = new KoLRequest( client, "choice.php" );
 		request.addFormField( "pwd" );
 		request.addFormField( "whichchoice", choice );
 		request.addFormField( "option", decision );
