@@ -57,6 +57,7 @@ public class TradeableItemDatabase extends KoLDatabase
 
 	private static Map nameByItemID = new TreeMap();
 	private static Map itemIDByName = new TreeMap();
+	private static Map itemIDByPlural = new TreeMap();
 
 	static
 	{
@@ -127,41 +128,36 @@ public class TradeableItemDatabase extends KoLDatabase
 
 			StaticEntity.printStackTrace( e );
 		}
-	}
 
-	// Items with weird pluralization
-	private static final String [][] PLURALS =
-	{
-		{ "a little sump'm sump'm", "little sump'm sump'ms" },
-		{ "beer cartilage", "beer cartilagia" },
-		{ "black lotus", "black loti" },
-		{ "boxed wine", "boxes of wine" },
-		{ "boxed champagne", "boxes of champagne" },
-		{ "chewing gum on a string", "chewing gums on strings" },
-		{ "dead guys' watches", "dead guy's watch" },
-		{ "f3d0r4", "f3d0r45" },
-		{ "gibson", "carlisle" },
-		{ "gin and tonic", "jynnan tonnix" },
-		{ "kiwi", "kiwus" },
-		{ "mimosette", "marmosets" },
-		{ "mr. accessory jr.", "mr. accessory jrs." },
-		{ "redrum", "redsrum" },
-		{ "teqiwila", "teqiwiluses" },
-		{ "vodka and tonic", "vodkas and tonics" },
-		{ "vodka gibson", "vodka carlisle" },
-		{ "yo-yo", "yo-yo-yo" },
-		{ "zmobie", "zombeis" },
-		{ "zombie pineal gland", "zombie glands pineal" },
-	};
+		// Next, retrieve the table of weird pluralizations
 
-	private static Map itemIDByPlural = new TreeMap();
+		reader = getReader( "plurals.dat" );
 
-	static
-	{
-		for ( int i = 0; i < PLURALS.length; ++i )
+		while ( (data = readData( reader )) != null )
 		{
-			Object itemID = itemIDByName.get( PLURALS[i][0] );
-			itemIDByPlural.put( PLURALS[i][1], itemID );
+			if ( data.length == 2 )
+			{
+				Object itemID = itemIDByName.get( data[0] );
+				if ( itemID == null )
+				{
+					System.out.println( "Bad item name in plurals file: " + data[0] );
+					continue;
+				}
+
+				itemIDByPlural.put( data[1] , itemID );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
 		}
 	}
 
