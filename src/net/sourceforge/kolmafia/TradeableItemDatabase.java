@@ -129,6 +129,42 @@ public class TradeableItemDatabase extends KoLDatabase
 		}
 	}
 
+	// Items with weird pluralization
+	private static final String [][] PLURALS =
+	{
+		{ "a little sump'm sump'm", "little sump'm sump'ms" },
+		{ "beer cartilage", "beer cartilagia" },
+		{ "black lotus", "black loti" },
+		{ "boxed wine", "boxes of wine" },
+		{ "boxed champagne", "boxes of champagne" },
+		{ "chewing gum on a string", "chewing gums on strings" },
+		{ "dead guys' watches", "dead guy's watch" },
+		{ "f3d0r4", "f3d0r45" },
+		{ "gibson", "carlisle" },
+		{ "gin and tonic", "jynnan tonnix" },
+		{ "kiwi", "kiwus" },
+		{ "mimosette", "marmosets" },
+		{ "mr. accessory jr.", "mr. accessory jrs." },
+		{ "redrum", "redsrum" },
+		{ "teqiwila", "teqiwiluses" },
+		{ "vodka and tonic", "vodkas and tonics" },
+		{ "vodka gibson", "vodka carlisle" },
+		{ "yo-yo", "yo-yo-yo" },
+		{ "zmobie", "zombeis" },
+		{ "zombie pineal gland", "zombie glands pineal" },
+	};
+
+	private static Map itemIDByPlural = new TreeMap();
+
+	static
+	{
+		for ( int i = 0; i < PLURALS.length; ++i )
+		{
+			Object itemID = itemIDByName.get( PLURALS[i][0] );
+			itemIDByPlural.put( PLURALS[i][1], itemID );
+		}
+	}
+
 	/**
 	 * Temporarily adds an item to the item database.  This
 	 * is used whenever KoLmafia encounters an unknown item
@@ -187,68 +223,17 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( count < 2 )
 			return -1;
 
-		// Literal exceptions which don't follow a particular
-		// pattern (or rather, have a pattern we won't guess)
+		// See if it's a weird pluralization with a pattern we can't
+		// guess.
 
-		if ( canonicalName.equals( "little sump'm sump'ms" ) )
-			return getItemID( "a little sump'm sump'm" );
+		itemID = itemIDByPlural.get( canonicalName );
 
-		if ( canonicalName.equals( "beer cartilagia" ) )
-			return getItemID( "beer cartilage" );
-
-		if ( canonicalName.equals( "black loti" ) )
-			return getItemID( "black lotus" );
-
-		if ( canonicalName.equals( "boxes of wine" ) )
-			return getItemID( "boxed wine" );
-
-		if ( canonicalName.equals( "chewing gums on strings" ) )
-			return SewerRequest.GUM.getItemID();
-
-		if ( canonicalName.equals( "dead guys' watches" ) )
-			return getItemID( "dead guy's watch" );
-
-		if ( canonicalName.equals( "f3d0r45" ) )
-			return getItemID( "f3d0r4" );
-
-		if ( canonicalName.equals( "jynnan tonnix" ) )
-			return getItemID( "gin and tonic" );
-
-		if ( canonicalName.equals( "kiwus" ) )
-			return getItemID( "kiwi" );
-
-		if ( canonicalName.equals( "marmosets" ) )
-			return getItemID( "mimosette" );
-
-		if ( canonicalName.equals( "mr. accessory jrs." ) )
-			return getItemID( "mr. accessory jr." );
-
-		if ( canonicalName.equals( "redsrum" ) )
-			return getItemID( "redrum" );
-
-		if ( canonicalName.equals( "teqiwiluses" ) )
-			return getItemID( "teqiwila" );
-
-		if ( canonicalName.equals( "vodkas and tonics" ) )
-			return getItemID( "vodka and tonic" );
-
-		if ( canonicalName.equals( "yo-yo-yo" ) )
-			return getItemID( "yo-yo" );
-
-		if ( canonicalName.equals( "zombeis" ) )
-			return getItemID( "zmobie" );
-
-		if ( canonicalName.equals( "zombie glands pineal" ) )
-			return getItemID( "zombie pineal gland" );
+		if ( itemID != null )
+			return ((Integer)itemID).intValue();
 
 		// If it's a snowcone, then reverse the word order
 		if ( canonicalName.startsWith( "snowcones" ) )
 			return getItemID( canonicalName.split( " " )[1] + " snowcone", count );
-
-		// Anything with "gibson" is pluralized to "carlisles"
-
-		if ( canonicalName.endsWith( "carlisles" ) )
-			return getItemID( canonicalName.replaceFirst( "carlisles", "gibson" ) );
 
 		// The word right before the dash may also be pluralized,
 		// so make sure the dashed words are recognized.
