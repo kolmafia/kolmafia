@@ -577,7 +577,6 @@ public class LoginFrame extends KoLFrame
 		{
 			{ "useTextHeavySidepane", "Show detailed information in sidepane" },
 			{ "guiUsesOneWindow", "Restrict interface to a single window" },
-			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
 			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" }
 		};
 

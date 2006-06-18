@@ -119,8 +119,9 @@ public class AdventureDatabase extends KoLDatabase
 		  { "Trade for a denim axe", "Keep your rubber axe" } },
 
 		// The Oracle Will See You Now
-		{ { "choiceAdventure3" }, { "Teleportitis" },
-		  { "Leave the oracle", "Pay for a minor consultation", "Pay for a major consultation" } },
+		// (This adventure cannot be customized)
+		// { { "choiceAdventure3" }, { "Teleportitis" },
+		//  { "Leave the oracle", "Pay for a minor consultation", "Pay for a major consultation" } },
 
 		// Finger-Lickin'... Death.
 		{ { "choiceAdventure4" }, { "South of the Border" },

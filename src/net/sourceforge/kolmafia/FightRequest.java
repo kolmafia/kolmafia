@@ -104,27 +104,12 @@ public class FightRequest extends KoLRequest
 
 		int haltTolerance = (int)( Double.parseDouble( getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
 
-		action1 = getProperty( "battleAction" );
+		action1 = CombatSettings.getShortCombatOptionName( getProperty( "battleAction" ) );
 		action2 = null;
 
 		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
 			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
 				client.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
-
-		if ( roundCount > 1 && action1.equals( "custom" ) )
-		{
-			action1 = CombatSettings.getSetting( encounterLookup, roundCount - 2 );
-			if ( action1.startsWith( "item" ) )
-			{
-				String name = (String) TradeableItemDatabase.getMatchingNames( action1.substring(4).trim() ).get(0);
-				action1 = name == null ? "attack" : "item" + TradeableItemDatabase.getItemID( name );
-			}
-			else if ( action1.startsWith( "skill" ) )
-			{
-				String name = KoLmafiaCLI.getCombatSkillName( action1.substring(5).trim() );
-				action1 = name == null ? "attack" : String.valueOf( ClassSkillsDatabase.getSkillID( name ) );
-			}
-		}
 
 		if ( roundCount == 1 )
 		{
@@ -133,6 +118,10 @@ public class FightRequest extends KoLRequest
 			// extra data.
 
 			action1 = "attack";
+		}
+		else if ( action1.equals( "custom" ) )
+		{
+			action1 = CombatSettings.getSetting( encounterLookup, roundCount - 2 );
 		}
 		else if ( action1.equals( "abort" ) || !KoLmafia.permitsContinue() )
 		{

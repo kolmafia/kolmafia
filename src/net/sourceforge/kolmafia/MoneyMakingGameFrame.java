@@ -60,30 +60,26 @@ public class MoneyMakingGameFrame extends KoLFrame
 		framePanel.add( new AnalysisPanel(), "" );
 	}
 
-	private class AnalysisPanel extends ItemManagePanel
+	private class AnalysisPanel extends ItemManagePanel implements Runnable
 	{
 		public AnalysisPanel()
 		{	super( "Bet History", "analyze", "cheat", new LockableListModel() );
 		}
 
 		public void actionConfirmed()
+		{	(new RequestThread( this )).start();
+		}
+
+		public void actionCancelled()
+		{	KoLmafia.updateDisplay( "Cheating in progress (please wait)..." );
+		}
+
+		public void run()
 		{
 			MoneyMakingGameRequest analyzer = new MoneyMakingGameRequest( StaticEntity.getClient() );
 			analyzer.run();
 			elementList.setModel( analyzer.getBetSummary() );
 			KoLmafia.updateDisplay( "Bet archive retrieved." );
-		}
-
-		public void actionCancelled()
-		{
-			if ( !KoLCharacter.getInventory().contains( CASINO_PASS ) )
-			{
-				JOptionPane.showMessageDialog( null, "You do not have a casino pass." );
-				return;
-			}
-
-			DEFAULT_SHELL.executeLine( "sell * casino pass" );
-			JOptionPane.showMessageDialog( null, "Your casino passes have been sold to Jarlsberg." );
 		}
 	}
 

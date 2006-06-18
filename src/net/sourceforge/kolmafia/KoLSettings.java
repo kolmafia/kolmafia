@@ -234,6 +234,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "lastUsername", "" );
 		hadChanges |= ensureProperty( "loginServer", "0" );
 		hadChanges |= ensureProperty( "luckySewerAdventure", "stolen accordion" );
+		hadChanges |= ensureProperty( "makeBrowserDecisions", "false" );
 		hadChanges |= ensureProperty( "mpAutoRecover", "0.0" );
 		hadChanges |= ensureProperty( "mpAutoRecoverTarget", "0.0" );
 		hadChanges |= ensureProperty( "mpRecoveryScript", "" );
@@ -276,7 +277,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// Choices that have no "ignore" setting: use ensureNonZeroProperty
 
 		hadChanges |= ensureProperty( "choiceAdventure2", "2" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure3", "1" );
+		setProperty( "choiceAdventure3", "3" );
 		hadChanges |= ensureProperty( "choiceAdventure4", "3" );
 		hadChanges |= ensureProperty( "choiceAdventure5", "2" );
 		hadChanges |= ensureProperty( "choiceAdventure7", "2" );

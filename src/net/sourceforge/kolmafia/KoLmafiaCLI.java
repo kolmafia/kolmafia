@@ -346,7 +346,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If it gets this far, that means the continue
 		// state can be reset.
 
-		if ( line.indexOf( ";" ) != -1 )
+		if ( line.indexOf( ";" ) != -1 && !line.startsWith( "set" ) )
 		{
 			String [] separateLines = line.split( ";" );
 			for ( int i = 0; i < separateLines.length && permitsContinue(); ++i )
@@ -521,6 +521,11 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			int splitIndex = parameters.indexOf( "=" );
 			StaticEntity.setProperty( parameters.substring( 0, splitIndex ).trim(), parameters.substring( splitIndex + 1 ).trim() );
+			return;
+		}
+		else if ( command.equals( "get" ) )
+		{
+			printLine( StaticEntity.getProperty( parameters ) );
 			return;
 		}
 
@@ -2530,7 +2535,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return new AdventureResult( effectName, duration, true );
 	}
 
-	public static int getFirstMatchingItemID( List nameList, int matchType )
+	public static int getFirstMatchingItemID( List nameList )
 	{
 		if ( nameList.isEmpty() )
 			return -1;
@@ -2539,34 +2544,11 @@ public class KoLmafiaCLI extends KoLmafia
 		String [] nameArray = new String[ nameList.size() ];
 		nameList.toArray( nameArray );
 
-		switch ( matchType )
-		{
-			case NOWHERE:
-				for ( int i = 0; i < nameArray.length; ++i )
-					if ( NPCStoreDatabase.contains( nameArray[i] ) )
-						return TradeableItemDatabase.getItemID( nameArray[i] );
-
-			case CREATION:
-				return TradeableItemDatabase.getItemID( nameArray[0] );
-
-			case INVENTORY:
-				source = KoLCharacter.getInventory();
-				break;
-
-			case CLOSET:
-				source = KoLCharacter.getCloset();
-				break;
-		}
-
-		AdventureResult currentItem = null;
 		for ( int i = 0; i < nameArray.length; ++i )
-		{
-			currentItem = new AdventureResult( nameArray[i], 0, false );
-			if ( source.contains( currentItem ) )
-				return currentItem.getItemID();
-		}
+			if ( NPCStoreDatabase.contains( nameArray[i] ) )
+				return TradeableItemDatabase.getItemID( nameArray[i] );
 
-		return currentItem.getItemID();
+		return TradeableItemDatabase.getItemID( nameArray[0] );
 	}
 
 	/**
@@ -2593,7 +2575,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( !matchingNames.isEmpty() )
 		{
-			itemID = getFirstMatchingItemID( matchingNames, matchType );
+			itemID = getFirstMatchingItemID( matchingNames );
 			itemCount = defaultCount;
 		}
 		else if ( parameters.indexOf( " " ) == -1 )
@@ -2616,7 +2598,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return null;
 			}
 
-			itemID = getFirstMatchingItemID( matchingNames, matchType );
+			itemID = getFirstMatchingItemID( matchingNames );
 
 			// Make sure what you're attempting to parse is a
 			// number -- if it's not, then the person was trying

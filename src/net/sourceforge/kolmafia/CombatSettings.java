@@ -276,23 +276,7 @@ public abstract class CombatSettings implements UtilityConstants
 		CombatActionNode setting = (CombatActionNode) match.getChildAt(
 			roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
 
-		if ( setting.startsWith( "abort" ) || setting.startsWith( "attack" ) || setting.startsWith( "moxman" ) || setting.startsWith( "item" ) || setting.startsWith( "skill" ) || setting.startsWith( "run" ) )
-			return setting.toString();
-
-		// Well, it's either a standard skill, or it's an item,
-		// or it's something you need to lookup in the tables.
-
-		String potentialSkill = KoLmafiaCLI.getCombatSkillName( setting.toString() );
-		if ( potentialSkill != null )
-			return "skill " + potentialSkill;
-
-		int itemID = setting.toString().equals( "" ) ? -1 : KoLmafiaCLI.getFirstMatchingItemID(
-			TradeableItemDatabase.getMatchingNames( setting.toString() ), KoLmafiaCLI.NOWHERE );
-
-		if ( itemID != -1 )
-			return "item " + TradeableItemDatabase.getItemName( itemID );
-
-		return getSetting( setting.toString(), roundCount - match.getChildCount() + 1 );
+		return getShortCombatOptionName( setting.toString() );
 	}
 
 	private static class CombatSettingNode extends DefaultMutableTreeNode
@@ -321,7 +305,7 @@ public abstract class CombatSettings implements UtilityConstants
 		public CombatActionNode( String action )
 		{
 			super( action, false );
-			this.action = action;
+			this.action = getLongCombatOptionName( action );
 		}
 
 		public boolean startsWith( String prefix )
@@ -331,5 +315,87 @@ public abstract class CombatSettings implements UtilityConstants
 		public String toString()
 		{	return action;
 		}
+	}
+
+	public static String getLongCombatOptionName( String action )
+	{
+		if ( action.equals( "custom" ) || action.startsWith( "abort" ) || action.startsWith( "attack" ) || action.startsWith( "moxman" ) || action.startsWith( "run" ) )
+			return action;
+
+		else if ( action.startsWith( "item" ) )
+			return "item " + (String) TradeableItemDatabase.getMatchingNames( action.substring(4).trim() ).get(0);
+
+		else if ( action.startsWith( "skill" ) )
+		{
+			String potentialSkill = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
+			if ( potentialSkill != null )
+				return "skill " + potentialSkill;
+		}
+
+		// Well, it's either a standard skill, or it's an item,
+		// or it's something you need to lookup in the tables.
+
+		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
+		if ( potentialSkill != null )
+			return "skill " + potentialSkill;
+
+		int itemID = action.equals( "" ) ? -1 :
+			KoLmafiaCLI.getFirstMatchingItemID( TradeableItemDatabase.getMatchingNames( action ) );
+
+		if ( itemID != -1 )
+			return "item " + TradeableItemDatabase.getItemName( itemID );
+
+		return "attack";
+	}
+
+	public static String getShortCombatOptionName( String action )
+	{
+		boolean isSkillNumber = true;
+		for ( int i = 0; i < action.length(); ++i )
+			isSkillNumber &= Character.isDigit( action.charAt(i) );
+
+		if ( isSkillNumber )
+			return action;
+
+		if ( action.startsWith( "abort" ) )
+			return "abort";
+
+		if ( action.startsWith( "attack" ) )
+			return "attack";
+
+		if ( action.startsWith( "moxman" ) )
+			return "moxman";
+
+		if ( action.startsWith( "run" ) )
+			return "runaway";
+
+		if ( action.startsWith( "skill" ) )
+		{
+			String verify = getLongCombatOptionName( action );
+			String name = KoLmafiaCLI.getCombatSkillName( verify.substring(5).trim() );
+			return name == null ? "attack" : String.valueOf( ClassSkillsDatabase.getSkillID( name ) );
+		}
+
+		if ( action.startsWith( "item" ) )
+		{
+			String name = action.substring(4).trim();
+			for ( int i = 0; i < name.length(); ++i )
+				if ( !Character.isDigit( name.charAt(i) ) )
+					return "item" + TradeableItemDatabase.getItemID( name );
+
+			return "item" + name;
+		}
+
+		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
+		if ( potentialSkill != null )
+			return String.valueOf( ClassSkillsDatabase.getSkillID( potentialSkill ) );
+
+		int itemID = action.equals( "" ) ? -1 :
+			KoLmafiaCLI.getFirstMatchingItemID( TradeableItemDatabase.getMatchingNames( action ) );
+
+		if ( itemID != -1 )
+			return "item" + itemID;
+
+		return "attack";
 	}
 }
