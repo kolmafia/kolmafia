@@ -165,10 +165,10 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			betweenBattleScriptField.setText( getProperty( "betweenBattleScript" ) );
-			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecover" ) ) * 10) + 1 );
-			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "hpAutoRecoverTarget" ) ) * 10) + 1 );
-			hpRecoveryScriptField.setText( getProperty( "hpRecoveryScript" ) );
+			betweenBattleScriptField.setText( GLOBAL_SETTINGS.getProperty( "betweenBattleScript" ) );
+			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( GLOBAL_SETTINGS.getProperty( "hpAutoRecover" ) ) * 10) + 1 );
+			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( GLOBAL_SETTINGS.getProperty( "hpAutoRecoverTarget" ) ) * 10) + 1 );
+			hpRecoveryScriptField.setText( GLOBAL_SETTINGS.getProperty( "hpRecoveryScript" ) );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -218,9 +218,9 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecover" ) ) * 10) + 1 );
-			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "mpAutoRecoverTarget" ) ) * 10) + 1 );
-			mpRecoveryScriptField.setText( getProperty( "mpRecoveryScript" ) );
+			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( GLOBAL_SETTINGS.getProperty( "mpAutoRecover" ) ) * 10) + 1 );
+			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( GLOBAL_SETTINGS.getProperty( "mpAutoRecoverTarget" ) ) * 10) + 1 );
+			mpRecoveryScriptField.setText( GLOBAL_SETTINGS.getProperty( "mpRecoveryScript" ) );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )

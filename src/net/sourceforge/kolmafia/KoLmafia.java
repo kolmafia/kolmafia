@@ -1157,10 +1157,11 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return false;
 
-		// Fall-through check, just in case you've reached the
-		// desired value.
+		if ( current >= threshold )
+			return true;
 
-		return current >= threshold;
+		updateDisplay( ABORT_STATE, "Autorecovery failed." );
+		return false;
 	}
 
 	/**
