@@ -549,7 +549,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( getURLString().endsWith( "lair6.php?place=5" ) )
 			KoLCharacter.getEffects().clear();
 		if ( getURLString().endsWith( "lair6.php?place=6" ) )
-			KoLCharacter.setInteraction( true );
+			KoLCharacter.setInteraction( KoLCharacter.getTotalTurnsUsed() >= 600 );
 
 		do
 		{
