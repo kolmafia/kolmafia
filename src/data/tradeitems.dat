@@ -1539,10 +1539,10 @@
 1539	lucky Tam O'Shatner	7	-1
 1540
 1541
-1542
-1543
-1544
-1545
+1542	Grimacite greaves	10	-1
+1543	Grimacite garter	8	-1
+1544	Grimacite galoshes	8	-1
+1545	Grimacite gorget	8	-1
 1546
 1547	Codex of Capsaicin Conjuration	13	2000
 1548	Gazpacho's Glacial Grimoire	13	2000
@@ -1633,7 +1633,7 @@
 1633	Spanish fly	0	0
 1634	around the world	2	0
 1635	scrumdiddlyumptious solution	0	-1
-1636	
+1636	Toddler-sized Dragon Costume	7	0
 1637	phial of hotness	4	-1
 1638	phial of coldness	4	-1
 1639	phial of spookiness	4	-1
@@ -1650,8 +1650,4 @@
 1650	milk of magnesium	3	36
 1651	foie gras	1	30
 1652	candy brain	4	54
-#????	Grimacite galoshes	8	-1
-#????	Grimacite garter	8	-1
-#????	Grimacite gorget	8	-1
-#????	Grimacite greaves	10	-1
 #????	Grimacite guayabera	11	-1
