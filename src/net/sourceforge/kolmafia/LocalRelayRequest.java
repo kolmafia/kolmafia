@@ -123,7 +123,7 @@ public class LocalRelayRequest extends KoLRequest
 		// changes and equipment changes are remembered.
 
 		else
-			StaticEntity.externalUpdate( formURLString, responseText );
+			StaticEntity.externalUpdate( getURLString(), responseText );
 
 		// Allow a way to get from KoL back to the gCLI
 		// using the chat launcher.

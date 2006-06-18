@@ -79,13 +79,6 @@ public class GearChangeFrame extends KoLFrame
 	private LockableListModel [] equipmentLists;
 	private ChangeComboBox outfitSelect, familiarSelect;
 
-	/**
-	 * Constructs a new character sheet, using the data located
-	 * in the provided session.
-	 *
-	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() containing the data associated with the character
-	 */
-
 	public GearChangeFrame()
 	{
 		super( "Gear Changer" );
@@ -119,7 +112,7 @@ public class GearChangeFrame extends KoLFrame
 			elements[4] = new VerifiableElement( "Pants: ", equipment[4] );
 
 			elements[5] = new VerifiableElement( "", new JLabel() );
-			
+
 			elements[6] = new VerifiableElement( "Accessory 1: ", equipment[5] );
 			elements[7] = new VerifiableElement( "Accessory 2: ", equipment[6] );
 			elements[8] = new VerifiableElement( "Accessory 3: ", equipment[7] );
@@ -137,7 +130,7 @@ public class GearChangeFrame extends KoLFrame
 			outfitButton = cancelledButton;
 			setEnabled( true );
 		}
-	
+
 		public void setEnabled( boolean isEnabled )
 		{
 			super.setEnabled( isEnabled );
@@ -170,10 +163,10 @@ public class GearChangeFrame extends KoLFrame
 			FamiliarData familiar = (FamiliarData) familiarSelect.getSelectedItem();
 			if ( familiar != null && !familiar.equals( KoLCharacter.getFamiliar() ) )
 				requestList.add( new FamiliarRequest( StaticEntity.getClient(), familiar ) );
-			
+
 			if ( requestList.isEmpty() )
 				return;
-			
+
 			Runnable [] requests = new Runnable[ requestList.size() ];
 			requestList.toArray( requests );
 
@@ -185,23 +178,23 @@ public class GearChangeFrame extends KoLFrame
 			String currentValue = JOptionPane.showInputDialog( "Name your outfit!", "KoLmafia Checkpoint" );
 			if ( currentValue == null )
 				return;
-			
+
 			(new RequestThread( new EquipmentRequest( StaticEntity.getClient(), currentValue ) )).start();
 		}
 	}
-	
+
 	private class ChangeComboBox extends JComboBox
 	{
 		public ChangeComboBox( LockableListModel slot )
 		{	super( slot );
 		}
-		
+
 		public void firePopupMenuWillBecomeInvisible()
 		{
 			super.firePopupMenuWillBecomeInvisible();
-			
+
 			if ( this == outfitSelect )
-			{				
+			{
 				Object outfit = getSelectedItem();
 				if ( outfit != null && !(outfit instanceof String) )
 					(new RequestThread( new EquipmentRequest( StaticEntity.getClient(), (SpecialOutfit) outfit ) )).start();
@@ -236,7 +229,7 @@ public class GearChangeFrame extends KoLFrame
 			equipment[ KoLCharacter.OFFHAND ].setEnabled( true );
 			String offhandItem = pieces[ KoLCharacter.OFFHAND ] == null ?
 				KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) : pieces[ KoLCharacter.OFFHAND ];
-			
+
 			KoLCharacter.updateEquipmentList( KoLCharacter.OFFHAND, offhandItem );
 		}
 		else
@@ -245,7 +238,7 @@ public class GearChangeFrame extends KoLFrame
 			pieces[ KoLCharacter.OFFHAND ] = KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).equals( EquipmentRequest.UNEQUIP ) ? null : EquipmentRequest.UNEQUIP;
 			equipment[ KoLCharacter.OFFHAND ].setEnabled( false );
 		}
-		
+
 		boolean enableOutfits = true;
 		for ( int i = 0; i < equipment.length; ++i )
 			enableOutfits &= pieces[i] == null;

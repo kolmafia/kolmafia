@@ -1053,15 +1053,32 @@ public abstract class KoLCharacter extends StaticEntity
 				continue;
 
 			if ( equipment[i] == null || equipment[i].equals( "none" ) || equipment[i].equals( EquipmentRequest.UNEQUIP ) )
+			{
 				KoLCharacter.equipment.set( i, EquipmentRequest.UNEQUIP );
-			else if ( TradeableItemDatabase.getConsumptionType( equipment[i] ) == ConsumeItemRequest.EQUIP_ACCESSORY )
-				KoLCharacter.equipment.set( i, equipment[i] );
+				equipmentLists[i].setSelectedItem( EquipmentRequest.UNEQUIP );
+			}
 			else
-				KoLCharacter.equipment.set( i, equipment[i] + " (+" + EquipmentDatabase.getPower( equipment[i] ) + ")" );
+			{
+				if ( TradeableItemDatabase.getConsumptionType( equipment[i] ) == ConsumeItemRequest.EQUIP_ACCESSORY )
+					KoLCharacter.equipment.set( i, equipment[i] );
+				else
+					KoLCharacter.equipment.set( i, equipment[i] + " (+" + EquipmentDatabase.getPower( equipment[i] ) + ")" );
+
+				for ( int j = 0; j < equipmentLists[i].size(); ++j )
+				{
+					if ( equipmentLists[i].get(j).toString().startsWith( equipment[i] ) )
+					{
+						equipmentLists[i].setSelectedIndex(j);
+						break;
+					}
+				}
+			}
 		}
 
 		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
+		{
 			currentFamiliar.setItem( equipment[FAMILIAR] );
+		}
 
 		// Rebuild outfits if given a new list
 		if ( customOutfits != null )
