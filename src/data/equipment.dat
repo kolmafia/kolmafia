@@ -120,7 +120,7 @@ gnauga hide chaps	80	Mox: 25
 gnauga hide kilt	80	Mox: 25
 gnauga hide skirt	80	Mox: 25
 grass skirt	80	Mox: 25
-# Grimacite greaves	125	Mox: 47
+Grimacite greaves	125	Mox: 47
 hippopotamus kilt	130	Mox: 50
 hippopotamus pants	130	Mox: 50
 hippopotamus skirt	130	Mox: 50
@@ -436,9 +436,9 @@ glowing red eye	0	Mys: 60
 gnatwing earring	0	Mys: 20
 gnoll-tooth necklace	0	Mys: 25
 Golden Mr. Accessory	0	none
-# Grimacite galoshes	0	Mys: 17
-# Grimacite garter	0	Mys: 17
-# Grimacite gorget	0	Mys: 17
+Grimacite galoshes	0	Mys: 17
+Grimacite garter	0	Mys: 17
+Grimacite gorget	0	Mys: 17
 hamethyst bracelet	0	Mys: 10
 hamethyst earring	0	Mys: 10
 hamethyst necklace	0	Mys: 10
