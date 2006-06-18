@@ -113,7 +113,10 @@ public class KoLSettings extends Properties implements UtilityConstants
 		if ( oldValue != null && oldValue.equals( value ) )
 			return value;
 
-		return super.setProperty( name, value );
+		super.setProperty( name, value );
+		saveSettings();
+
+		return oldValue;
 	}
 
 	public synchronized void saveSettings()
@@ -224,7 +227,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "http.proxyUser", "" );
 		hadChanges |= ensureProperty( "http.proxyPassword", "" );
 		hadChanges |= ensureProperty( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame,RestoreOptionsFrame" );
-		hadChanges |= ensureProperty( "initialFrames", "EventsFrame,MailboxFrame" );
+		hadChanges |= ensureProperty( "initialFrames", "EventsFrame" );
 		hadChanges |= ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		hadChanges |= ensureProperty( "keepSessionLogs", "false" );
 		hadChanges |= ensureProperty( "lastFaucetLocation", "-1" );
@@ -254,7 +257,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		hadChanges |= ensureProperty( "showAllRequests", "false" );
 		hadChanges |= ensureProperty( "showClosetDrivenCreations", "true" );
 		hadChanges |= ensureProperty( "sortAdventures", "false" );
-		hadChanges |= ensureProperty( "thanksMessage", "Thank you for the donation.  It is greatly appreciated." );
+		hadChanges |= ensureProperty( "thanksMessage", "Thank you for the donation!" );
 		hadChanges |= ensureProperty( "toolbarPosition", "1" );
 		hadChanges |= ensureProperty( "useSystemTrayIcon", "false" );
 		hadChanges |= ensureProperty( "usePopupContacts", "1" );

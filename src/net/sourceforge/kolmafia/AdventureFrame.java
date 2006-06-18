@@ -421,7 +421,8 @@ public class AdventureFrame extends KoLFrame
 					DEFAULT_SHELL.executeConditionsCommand( "check" );
 					if ( StaticEntity.getClient().conditions.isEmpty() )
 					{
-						StaticEntity.getClient().updateDisplay( "All conditions already satisfied." );
+						KoLmafia.updateDisplay( "All conditions already satisfied." );
+						KoLmafia.enableDisplay();
 						return;
 					}
 				}
