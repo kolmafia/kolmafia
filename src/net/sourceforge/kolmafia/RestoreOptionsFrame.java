@@ -89,16 +89,17 @@ public class RestoreOptionsFrame extends KoLFrame
 
 	private void saveRestoreSettings()
 	{
-		setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
-		setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-		setProperty( "hpAutoRecoverTarget", String.valueOf( ((double)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
-		setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
-		setProperty( "hpRestores", getSettingString( hpRestoreCheckbox ) );
+		GLOBAL_SETTINGS.setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
 
-		setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-		setProperty( "mpAutoRecoverTarget", String.valueOf( ((double)(mpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
-		setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
-		setProperty( "mpRestores", getSettingString( mpRestoreCheckbox ) );
+		GLOBAL_SETTINGS.setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+		GLOBAL_SETTINGS.setProperty( "hpAutoRecoverTarget", String.valueOf( ((double)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
+		GLOBAL_SETTINGS.setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
+		GLOBAL_SETTINGS.setProperty( "hpRestores", getSettingString( hpRestoreCheckbox ) );
+
+		GLOBAL_SETTINGS.setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+		GLOBAL_SETTINGS.setProperty( "mpAutoRecoverTarget", String.valueOf( ((double)(mpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
+		GLOBAL_SETTINGS.setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
+		GLOBAL_SETTINGS.setProperty( "mpRestores", getSettingString( mpRestoreCheckbox ) );
 	}
 
 	private class CheckboxListener implements ActionListener

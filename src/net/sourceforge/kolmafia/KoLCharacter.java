@@ -1908,7 +1908,7 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.battleSkillIDs.add( "custom" );
 		KoLCharacter.battleSkillNames.add( "Custom: Use Combat Script" );
 
-		battleSkillIDs.setSelectedItem( getProperty( "battleAction" ) );
+		battleSkillIDs.setSelectedItem( CombatSettings.getShortCombatOptionName( getProperty( "battleAction" ) ) );
 		if ( battleSkillIDs.getSelectedIndex() != -1 )
 			battleSkillNames.setSelectedIndex( battleSkillIDs.getSelectedIndex() );
 	}
@@ -1954,7 +1954,7 @@ public abstract class KoLCharacter extends StaticEntity
 				if ( dictionary.getCount() > 0 )
 				{
 					battleSkillIDs.add( 1, "item1316" );
-					battleSkillNames.add( 1, "Item: Use a Dictionary" );
+					battleSkillNames.add( 1, "Item: Use a Facsimile Dictionary" );
 					return;
 				}
 				else if ( dictionary.getCount() == -1 )

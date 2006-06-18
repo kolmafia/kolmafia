@@ -121,10 +121,11 @@ public class OptionsFrame extends KoLFrame
 		super( "Preferences" );
 		tabs = new JTabbedPane();
 
-		addTab( "General", new GeneralOptionsPanel() );
-		addTab( "Zone List", new AreaOptionsPanel() );
-		addTab( "Browser Mod", new RelayOptionsPanel() );
-		addTab( "Quick Scripts", new ScriptButtonPanel() );
+		addTab( "Globals", new GlobalOptionsPanel() );
+		addTab( "Items", new ItemOptionsPanel() );
+		addTab( "Zonest", new AreaOptionsPanel() );
+		addTab( "Browser", new RelayOptionsPanel() );
+		addTab( "Scriptbar", new ScriptButtonPanel() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -146,7 +147,8 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
 			{ "relayAddsCommandLineLinks", "Add gCLI tool links to chat launcher" },
 			{ "relayAddsSimulatorLinks", "Add Ayvuir's Simulator of Loathing link" },
-			{ "relayMovesManeuver", "Move moxious maneuver button into skills list" }
+			{ "relayMovesManeuver", "Move moxious maneuver button into skills list" },
+			{ "makeBrowserDecisions", "Browser modules automatically make decisions" }
 		};
 
 		/**
@@ -186,7 +188,7 @@ public class OptionsFrame extends KoLFrame
 		}
 	}
 
-	private class GeneralOptionsPanel extends OptionsPanel
+	private class GlobalOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
 
@@ -195,7 +197,60 @@ public class OptionsFrame extends KoLFrame
 			{ "showAllRequests", "Show requests in mini-browser" },
 			{ "keepSessionLogs", "Maintain dated player session log" },
 			{ "serverFriendly", "Use server-friendlier request speed" },
+			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" }
+		};
 
+		/**
+		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
+		 * place for the users to select their desired server and for them
+		 * to modify any applicable proxy settings.
+		 */
+
+		public GlobalOptionsPanel()
+		{
+			super( "Global Options", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+
+			optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			for ( int i = 0; i < options.length; ++i )
+				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements, false );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			for ( int i = 0; i < options.length; ++i )
+				GLOBAL_SETTINGS.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+
+			super.actionConfirmed();
+
+			if ( getProperty( "keepSessionLogs" ).equals( "true" ) )
+				KoLmafia.openSessionStream();
+			else
+				KoLmafia.closeSessionStream();
+
+			actionCancelled();
+			KoLCharacter.refreshCalculatedLists();
+		}
+
+		protected void actionCancelled()
+		{
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i].setSelected( GLOBAL_SETTINGS.getProperty( options[i][0] ).equals( "true" ) );
+		}
+	}
+
+	private class ItemOptionsPanel extends OptionsPanel
+	{
+		private JCheckBox [] optionBoxes;
+
+		private final String [][] options =
+		{
 			{ "showClosetDrivenCreations", "Get ingredients from closet if needed" },
 			{ "createWithoutBoxServants", "Create without requiring a box servant" },
 			{ "autoRepairBoxes", "Create and install new box servant after explosion" },
@@ -208,9 +263,9 @@ public class OptionsFrame extends KoLFrame
 		 * to modify any applicable proxy settings.
 		 */
 
-		public GeneralOptionsPanel()
+		public ItemOptionsPanel()
 		{
-			super( "General Options", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+			super( "Item Options", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
 			optionBoxes = new JCheckBox[ options.length ];
@@ -247,11 +302,11 @@ public class OptionsFrame extends KoLFrame
 
 			if ( getProperty( "autoRepairBoxes" ).equals( "true" ) )
 			{
-				optionBoxes[6].setSelected( true );
-				optionBoxes[6].setEnabled( false );
+				optionBoxes[3].setSelected( true );
+				optionBoxes[3].setEnabled( false );
 			}
 			else
-				optionBoxes[6].setEnabled( true );
+				optionBoxes[3].setEnabled( true );
 		}
 	}
 

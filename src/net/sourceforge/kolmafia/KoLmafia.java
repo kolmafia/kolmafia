@@ -369,11 +369,8 @@ public abstract class KoLmafia implements KoLConstants
 		GLOBAL_SETTINGS.setProperty( "lastUsername", username );
 		KoLCharacter.reset( username );
 
-		if ( GLOBAL_SETTINGS.getProperty( "keepSessionLogs" ).equals( "true" ) || settings.getProperty( "keepSessionLogs" ).equals( "true" ) )
-		{
-			settings.setProperty( "keepSessionLogs", "true" );
+		if ( GLOBAL_SETTINGS.getProperty( "keepSessionLogs" ).equals( "true" ) )
 			KoLmafia.openSessionStream();
-		}
 		else
 			KoLmafia.closeSessionStream();
 
@@ -1019,7 +1016,7 @@ public abstract class KoLmafia implements KoLConstants
 		// First, check against the restore trigger to see if
 		// any restoration needs to take place.
 
-		double setting = Double.parseDouble( settings.getProperty( settingName ) );
+		double setting = Double.parseDouble( GLOBAL_SETTINGS.getProperty( settingName ) );
 
 		if ( !BuffBotHome.isBuffBotActive() )
 		{
@@ -1053,7 +1050,7 @@ public abstract class KoLmafia implements KoLConstants
 		// far you need to go.
 
 		int threshold = needed;
-		setting = Double.parseDouble( settings.getProperty( settingName + "Target" ) );
+		setting = Double.parseDouble( GLOBAL_SETTINGS.getProperty( settingName + "Target" ) );
 
 		if ( initial == 0 )
 			needed = (int) ( setting * (double) maximum );
@@ -1064,7 +1061,7 @@ public abstract class KoLmafia implements KoLConstants
 		// the stat and makes sure that there's a change with every iteration.
 		// If there is no change, it exists the loop.
 
-		String scriptPath = settings.getProperty( scriptProperty ).trim();
+		String scriptPath = GLOBAL_SETTINGS.getProperty( scriptProperty ).trim();
 
 		if ( !scriptPath.equals( "" ) )
 		{
@@ -1083,7 +1080,7 @@ public abstract class KoLmafia implements KoLConstants
 		// using the selected items.  This involves a few extra
 		// reflection methods.
 
-		String restoreSetting = settings.getProperty( listProperty ).trim().toLowerCase();
+		String restoreSetting = GLOBAL_SETTINGS.getProperty( listProperty ).trim().toLowerCase();
 
 		// Iterate through every single restore item, checking to
 		// see if the settings wish to use this item.  If so, go ahead
@@ -2740,7 +2737,9 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public static synchronized final void declareWorldPeace()
-	{	updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
+	{
+		KoLmafiaCLI.printLine( "KoLmafia declares world peace." );
+		updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
 	}
 
 	public boolean shouldMakeConflictingRequest()
@@ -2836,5 +2835,13 @@ public abstract class KoLmafia implements KoLConstants
 		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 		sessionStream.println();
 		sessionStream.println();
+	}
+
+	public void loadPreferredBrowser()
+	{
+		if ( GLOBAL_SETTINGS.getProperty( "defaultToRelayBrowser" ).equals( "true" ) )
+			startRelayServer();
+		else
+			(new CreateFrameRunnable( RequestFrame.class )).run();
 	}
 }

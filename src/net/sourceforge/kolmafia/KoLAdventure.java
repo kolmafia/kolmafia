@@ -212,7 +212,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	public void recordToSession()
 	{
 		KoLmafia.getSessionStream().println();
-		KoLmafia.getSessionStream().println( "[" + KoLCharacter.getTotalTurnsUsed() + "] " + getAdventureName() );
+		KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] " + getAdventureName() );
 		client.registerAdventure( this );
 	}
 

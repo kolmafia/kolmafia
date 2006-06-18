@@ -106,6 +106,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected KoLmafia client;
 	protected boolean statusChanged;
+	protected boolean processedResults;
 
 	protected int responseCode;
 	protected String responseText;
@@ -506,10 +507,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		isServerFriendly = getProperty( "serverFriendly" ).equals( "true" ) ||
-			getProperty( "showAllRequests" ).equals( "true" );
+		isServerFriendly = GLOBAL_SETTINGS.getProperty( "serverFriendly" ).equals( "true" ) ||
+			GLOBAL_SETTINGS.getProperty( "showAllRequests" ).equals( "true" );
 
+		processedResults = false;
 		execute();
+		processedResults = true;
 
 		if ( getURLString().equals( "main.php?refreshtop=true&noobmessage=true" ) )
 			client.handleAscension();
@@ -580,7 +583,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		return formURLString.startsWith( "http" ) || formURLString.startsWith( "messages.php" ) || formURLString.startsWith( "mall.php" ) ||
 			formURLString.startsWith( "searchmall.php" ) || formURLString.startsWith( "clan" ) ||
-			formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) || formURLString.indexOf( "chat" ) != -1;
+			formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) || formURLString.indexOf( "chat" ) != -1 || processedResults;
 	}
 
 	/**
@@ -837,7 +840,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 
 		if ( this instanceof LocalRelayRequest && responseCode != 200 )
-			return true;
+		{
+			if ( redirectLocation.indexOf( "choice.php" ) != -1 || GLOBAL_SETTINGS.getProperty( "makeBrowserDecisions" ).equals( "false" ) )
+				return true;
+		}
 
 		boolean shouldStop = true;
 
@@ -866,6 +872,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			else if ( redirectLocation.equals( "choice.php" ) )
 			{
 				processChoiceAdventure();
+				processedResults = true;
 				shouldStop = true;
 			}
 			else if ( followRedirects )
@@ -1183,7 +1190,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
+
 		handleChoiceResponse( request );
+
+		this.responseCode = responseCode;
+		this.responseText = request.responseText;
+		this.formConnection = request.formConnection;
 	}
 
 	/**
@@ -1357,7 +1369,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( existingFrames.isEmpty() )
 			return;
 
-		if ( !exceptional && getProperty( "showAllRequests" ).equals( "false" ) )
+		if ( !exceptional && GLOBAL_SETTINGS.getProperty( "showAllRequests" ).equals( "false" ) )
 			return;
 
 		// Only show the request if the response code is
