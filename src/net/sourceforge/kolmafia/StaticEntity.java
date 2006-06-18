@@ -173,13 +173,13 @@ public abstract class StaticEntity implements KoLConstants
 		// Keep the client updated of your current equipment and
 		// familiars, if you visit the appropriate pages.
 
-		if ( location.startsWith( "inventory.php?which=2" ) )
+		if ( location.startsWith( "inventory.php" ) && location.indexOf( "which=2" ) != -1 )
 			EquipmentRequest.parseEquipment( responseText );
 
-		if ( location.startsWith( "familiar.php" ) )
+		if ( location.indexOf( "familiar.php" ) != -1 )
 			FamiliarData.registerFamiliarData( client, responseText );
 
-		if ( location.startsWith( "charsheet.php" ) )
+		if ( location.indexOf( "charsheet.php" ) != -1 )
 			CharsheetRequest.parseStatus( responseText );
 
 		// See if the person learned a new skill from using a
