@@ -2992,8 +2992,8 @@ public abstract class KoLCharacter extends StaticEntity
 				newItemDropPercentAdjustment += 3;
 				break;
 			case SAUCE_GLOVE:
-				// Who but a Sauceror would equip this?
-				rigatoniSkill = true;
+				if ( classtype.startsWith( "Sa" ) )
+					rigatoniSkill = true;
 				break;
 			case 77:	// spooky stick
 			case 103:	// spooky staff
