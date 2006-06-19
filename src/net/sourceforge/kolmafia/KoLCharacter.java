@@ -266,6 +266,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static double fixedXPAdjustment = 0.0;
 	private static double meatDropPercentAdjustment = 0.0;
 	private static double itemDropPercentAdjustment = 0.0;
+	private static boolean rigatoniActive = false;
 
 	// Travel information
 
@@ -335,6 +336,7 @@ public abstract class KoLCharacter extends StaticEntity
 		fixedXPAdjustment = 0.0;
 		meatDropPercentAdjustment = 0.0;
 		itemDropPercentAdjustment = 0.0;
+		rigatoniActive = false;
 
 		equipment.clear();
 		for ( int i = 0; i < 8; ++i )
@@ -1200,14 +1202,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static boolean rigatoniActive()
-	{
-		// Either the Pastamancer skill Spirit of Rigatoni, or a
-		// Special Sauce Glove for a Sauceror lets you use Mysticality
-		// rather than Muscle when wielding a staff
-		if ( !hasSkill( "Spirit of Rigatoni" ) )
-		     return false;
-		String name = getCurrentEquipmentName( WEAPON );
-		return name != null && EquipmentDatabase.isStaff( name );
+	{	return rigatoniActive;
 	}
 
 	/**
@@ -2810,6 +2805,10 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int DEMON = 41;
 	private static final int CRIMBO_ELF = 26;
 
+	// Items and skills that make Mysticality the To-Hit stat
+	private static final int SAUCE_GLOVE = 531;
+	private static final String SPIRIT_OF_RIGATONI = "Spirit of Rigatoni";
+
 	public static boolean recalculateAdjustments( boolean update )
 	{
 		int newMonsterLevelAdjustment = 0;
@@ -2821,6 +2820,10 @@ public abstract class KoLCharacter extends StaticEntity
 		double newFixedXPAdjustment = 0.0;
 		double newMeatDropPercentAdjustment = 0.0;
 		double newItemDropPercentAdjustment = 0.0;
+
+		boolean rigatoniSkill = false;
+		boolean hasStaff = false;
+		boolean newRigatoniActive = false;
 
 		int familiarID = currentFamiliar.getID();
 
@@ -2901,13 +2904,19 @@ public abstract class KoLCharacter extends StaticEntity
 			case SK8BOARD:
 				newInitiativeAdjustment += 15;
 				break;
-			case CLOCKWORK_PANTS:
 			case CROWBARRR:
+				hasStaff = true;
+				newInitiativeAdjustment += 10;
+				break;
+			case CLOCKWORK_PANTS:
 			case GNATWING_EARRING:
 			case INFERNAL_INSOLES:
 				newInitiativeAdjustment += 10;
 				break;
 			case PLASTIC_FORK:
+				hasStaff = true;
+				newInitiativeAdjustment -= 10;
+				break;
 			case SHOVEL:
 				newInitiativeAdjustment -= 10;
 				break;
@@ -2982,6 +2991,26 @@ public abstract class KoLCharacter extends StaticEntity
 			case GNAUGA_WHIP:
 				newItemDropPercentAdjustment += 3;
 				break;
+			case SAUCE_GLOVE:
+				// Who but a Sauceror would equip this?
+				rigatoniSkill = true;
+				break;
+			case 77:	// spooky stick
+			case 103:	// spooky staff
+			case 108:	// big stick
+			case 110:	// basic meat staff
+			case 114:	// dripping meat staff
+			case 148:	// eXtreme meat staff
+			case 228:	// Kentucky-fried meat staff
+			case 379:	// linoleum staff
+			case 382:	// asbestos staff
+			case 385:	// chrome staff
+			case 659:	// star staff
+			case 943:	// bow staff
+			case 1246:	// rib of the Bonerdagon
+			case 1467:	// 25-meat staff
+				hasStaff = true;
+				break;
 			}
 		}
 
@@ -2999,9 +3028,6 @@ public abstract class KoLCharacter extends StaticEntity
 		//
 		// Therefore, we'll simply call "hasSkill" on each skill of
 		// interest.
-
-		UseSkillRequest [] skills = new UseSkillRequest[ availableSkills.size() ];
-		availableSkills.toArray( skills );
 
 		if ( hasSkill( SYMPATHY ) )
                 {
@@ -3026,6 +3052,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( hasSkill( OBSERVATIOGN ) )
 			newItemDropPercentAdjustment += 10;
+
+		if ( hasSkill( SPIRIT_OF_RIGATONI ) )
+			rigatoniSkill = true;
 
 		// Look at status effects
 
@@ -3216,6 +3245,9 @@ public abstract class KoLCharacter extends StaticEntity
 			break;
 		}
 
+		// Determine if Mysticality is the current To-hit stat
+		newRigatoniActive = rigatoniSkill && hasStaff;
+
 		boolean changed = false;
 		if ( monsterLevelAdjustment != newMonsterLevelAdjustment )
 		{
@@ -3263,6 +3295,12 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( itemDropPercentAdjustment != newItemDropPercentAdjustment )
 		{
 			itemDropPercentAdjustment = newItemDropPercentAdjustment;
+			changed = true;
+		}
+
+		if ( rigatoniActive != newRigatoniActive )
+		{
+			rigatoniActive = newRigatoniActive;
 			changed = true;
 		}
 
