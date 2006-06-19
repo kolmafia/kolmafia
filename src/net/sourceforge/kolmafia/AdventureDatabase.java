@@ -655,11 +655,14 @@ public class AdventureDatabase extends KoLDatabase
 				// advantage of item consumption automatically doing
 				// what's needed in grabbing the item.
 
+				(new KoLRequest( client, "council.php" )).run();
 				(new ConsumeItemRequest( client, BEAN )).run();
 			}
 
 			request = new KoLRequest( client, "beanstalk.php" );
-			KoLCharacter.armBeanstalk();
+
+			if ( KoLCharacter.getLevel() >= 10 )
+				KoLCharacter.armBeanstalk();
 		}
 
 		// If you do not need to arm anything, then
