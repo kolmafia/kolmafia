@@ -356,10 +356,15 @@ public class MonsterDatabase extends KoLDatabase
 
 		public boolean willAlwaysMiss()
 		{
-			boolean ranged = KoLCharacter.rangedWeapon();
 			int ml = KoLCharacter.getMonsterLevelAdjustment();
-			int moxie = KoLCharacter.getAdjustedMoxie() - ml;
-			int hitstat = ranged ? moxie : ( KoLCharacter.getAdjustedMuscle() - ml );
+			int hitstat;
+			if ( KoLCharacter.rangedWeapon() )
+				hitstat = KoLCharacter.getAdjustedMoxie() - ml;
+			else if ( KoLCharacter.rigatoniActive() )
+				hitstat = KoLCharacter.getAdjustedMysticality() - ml;
+			else
+				hitstat = KoLCharacter.getAdjustedMuscle() - ml;
+
 			return AreaCombatData.hitPercent( hitstat, defense ) <= 0.0;
 		}
 	}
