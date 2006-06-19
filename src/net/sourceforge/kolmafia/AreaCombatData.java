@@ -138,20 +138,39 @@ public class AreaCombatData implements KoLConstants
 
 	public boolean willHitSomething()
 	{
-		boolean ranged = KoLCharacter.rangedWeapon();
 		int ml = KoLCharacter.getMonsterLevelAdjustment();
-		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
-		int hitstat = ranged ? moxie : ( KoLCharacter.getAdjustedMuscle() - ml );
+		int hitstat;
+		if ( KoLCharacter.rangedWeapon() )
+			hitstat = KoLCharacter.getAdjustedMoxie() - ml;
+		else if ( KoLCharacter.rigatoniActive() )
+			hitstat = KoLCharacter.getAdjustedMysticality() - ml;
+		else
+			hitstat = KoLCharacter.getAdjustedMuscle() - ml;
 		return hitPercent( hitstat, minHit ) > 0.0;
 	}
 
 	public String toString()
 	{
-		boolean ranged = KoLCharacter.rangedWeapon();
-
 		int ml = KoLCharacter.getMonsterLevelAdjustment();
 		int moxie = KoLCharacter.getAdjustedMoxie() - ml;
-		int hitstat = ranged ? moxie : ( KoLCharacter.getAdjustedMuscle() - ml );
+
+		int hitstat;
+		String statName;
+		if ( KoLCharacter.rangedWeapon() )
+		{
+			statName = "Moxie";
+			hitstat = moxie;
+		}
+		else if ( KoLCharacter.rigatoniActive() )
+		{
+			statName = "Mysticality";
+			hitstat = KoLCharacter.getAdjustedMysticality() - ml;
+		}
+		else
+		{
+			statName = "Muscle";
+			hitstat = KoLCharacter.getAdjustedMuscle() - ml;
+		}
 
 		double minHitPercent = hitPercent( hitstat, minHit );
 		double maxHitPercent = hitPercent( hitstat, maxHit );
@@ -188,10 +207,10 @@ public class AreaCombatData implements KoLConstants
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append( "<html><b>Hit</b>: " );
-		buffer.append( getRateString( minHitPercent, minPerfectHit, maxHitPercent, maxPerfectHit, ranged ) );
+		buffer.append( getRateString( minHitPercent, minPerfectHit, maxHitPercent, maxPerfectHit, statName ) );
 
 		buffer.append( "<br><b>Evade</b>: " );
-		buffer.append( getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, true ) );
+		buffer.append( getRateString( minEvadePercent, minPerfectEvade, maxEvadePercent, maxPerfectEvade, "Moxie" ) );
 		buffer.append( "<br><b>Combat Frequency</b>: " );
 
 		if ( combats > 0 )
@@ -232,7 +251,7 @@ public class AreaCombatData implements KoLConstants
 		return Math.max( 0.0, Math.min( 100.0, pct ) );
 	}
 
-	private String getRateString( double minPercent, int minMargin, double maxPercent, int maxMargin, boolean isMoxieTest )
+	private String getRateString( double minPercent, int minMargin, double maxPercent, int maxMargin, String statName )
 	{
 		StringBuffer buffer = new StringBuffer();
 
@@ -242,7 +261,7 @@ public class AreaCombatData implements KoLConstants
 		buffer.append( format( maxPercent ) );
 		buffer.append( "% (" );
 
-		buffer.append( isMoxieTest ? "Moxie " : "Muscle " );
+		buffer.append( statName );
 
 		if ( minMargin >= 0 )
 			buffer.append( "+" );

@@ -1195,6 +1195,22 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to determine if character is using Spirit of Rigatoni
+	 * @return	boolean	true if wielding a staff and has skill
+	 */
+
+	public static boolean rigatoniActive()
+	{
+		// Either the Pastamancer skill Spirit of Rigatoni, or a
+		// Special Sauce Glove for a Sauceror lets you use Mysticality
+		// rather than Muscle when wielding a staff
+		if ( !hasSkill( "Spirit of Rigatoni" ) )
+		     return false;
+		String name = getCurrentEquipmentName( WEAPON );
+		return name != null && EquipmentDatabase.isStaff( name );
+	}
+
+	/**
 	 * Accessor method to determine if character is currently dual-wielding
 	 * @return	boolean	true if character has two weapons equipped
 	 */

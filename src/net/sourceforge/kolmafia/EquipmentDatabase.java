@@ -170,6 +170,41 @@ public class EquipmentDatabase extends KoLDatabase
 		return isRanged( itemID );
 	}
 
+	public static boolean isStaff( int itemID )
+	{
+		switch ( itemID )
+		{
+		case 77:	// spooky stick
+		case 103:	// spooky staff
+		case 108:	// big stick
+		case 110:	// basic meat staff
+		case 114:	// dripping meat staff
+		case 148:	// eXtreme meat staff
+		case 228:	// Kentucky-fried meat staff
+		case 379:	// linoleum staff
+		case 382:	// asbestos staff
+		case 385:	// chrome staff
+		case 414:	// crowbarrr
+		case 659:	// star staff
+		case 943:	// bow staff
+		case 1151:	// giant discarded plastic fork
+		case 1246:	// rib of the Bonerdagon
+		case 1467:	// 25-meat staff
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean isStaff( String itemName )
+	{
+		int itemID = TradeableItemDatabase.getItemID( itemName );
+
+		if ( itemID == -1 )
+			return false;
+
+		return isStaff( itemID );
+	}
+
 	public static boolean dualWieldable( String itemName )
 	{
 		int itemID = TradeableItemDatabase.getItemID( itemName );
