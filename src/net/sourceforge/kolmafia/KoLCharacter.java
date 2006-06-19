@@ -2999,7 +2999,10 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( hasSkill( NIMBLE_FINGERS ) )
 			newMeatDropPercentAdjustment += 20;
 
-		if ( hasSkill( PANHANDLING ) || hasSkill( PICKPOCKETING ) )
+		if ( hasSkill( PANHANDLING ) )
+			newMeatDropPercentAdjustment += 10;
+
+		if ( hasSkill( PICKPOCKETING ) )
 			newMeatDropPercentAdjustment += 10;
 
 		if ( hasSkill( MAD_LOOTING_SKILLZ ) )
