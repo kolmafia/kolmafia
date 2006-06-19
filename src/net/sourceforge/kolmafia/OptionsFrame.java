@@ -123,7 +123,7 @@ public class OptionsFrame extends KoLFrame
 
 		addTab( "Globals", new GlobalOptionsPanel() );
 		addTab( "Items", new ItemOptionsPanel() );
-		addTab( "Zonest", new AreaOptionsPanel() );
+		addTab( "Zones", new AreaOptionsPanel() );
 		addTab( "Browser", new RelayOptionsPanel() );
 		addTab( "Scriptbar", new ScriptButtonPanel() );
 
