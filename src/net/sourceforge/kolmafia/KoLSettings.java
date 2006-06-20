@@ -61,9 +61,9 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class KoLSettings extends Properties implements UtilityConstants
 {
-	private static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
+	private static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
 
 	private File settingsFile;
 	private String characterName;
@@ -84,13 +84,14 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 		this.settingsFile = new File( DATA_DIRECTORY + "~" + noExtensionName + ".kcs" );
 		loadSettings( this.settingsFile );
+		ensureDefaults();
 	}
 
 	public synchronized String getProperty( String name )
 	{
-		boolean isGlobalProperty = CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" );
+		boolean isGlobalProperty = CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || GLOBAL_SETTINGS == null;
 
-		if ( isGlobalProperty && this != GLOBAL_SETTINGS )
+		if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
 			return GLOBAL_SETTINGS.getProperty( name );
 		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
 			return "";
@@ -100,9 +101,9 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 	public synchronized Object setProperty( String name, String value )
 	{
-		boolean isGlobalProperty = CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" );
+		boolean isGlobalProperty = CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || GLOBAL_SETTINGS == null;
 
-		if ( isGlobalProperty && this != GLOBAL_SETTINGS )
+		if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
 			return GLOBAL_SETTINGS.setProperty( name, value );
 		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
 			return "";
@@ -335,7 +336,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		Object [] keys = PLAYER_SETTINGS.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 			if ( !containsKey( keys[i] ) )
-				super.setProperty( (String) keys[i], (String) CLIENT_SETTINGS.get( keys[i] ) );
+				super.setProperty( (String) keys[i], (String) PLAYER_SETTINGS.get( keys[i] ) );
 
 		// Wheel choice adventures need special handling.
 		// This is where everything is validated for that.
