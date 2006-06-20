@@ -689,4 +689,43 @@ public class ConsumeItemRequest extends KoLRequest
 		commandString.append( itemUsed.getName() );
 		return commandString.toString();
 	}
+
+	public static boolean processRequest( KoLmafia client, String urlString )
+	{
+		int consumptionType = NO_CONSUME;
+		AdventureResult itemUsed = null;
+
+		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
+		if ( itemMatcher.find() )
+			itemUsed = new AdventureResult( Integer.parseInt( itemMatcher.group(1) ), 1 );
+
+		if ( urlString.indexOf( "inv_eat.php" ) != -1 )
+			consumptionType = CONSUME_EAT;
+		else if ( urlString.indexOf( "inv_booze.php" ) != -1 )
+			consumptionType = CONSUME_DRINK;
+		else if ( urlString.indexOf( "multiuse.php" ) != -1 )
+			consumptionType = CONSUME_MULTIPLE;
+		else if ( urlString.indexOf( "skills.php" ) != -1 )
+			consumptionType = CONSUME_RESTORE;
+		else if ( urlString.indexOf( "inv_familiar.php" ) != -1 )
+			consumptionType = GROW_FAMILIAR;
+		else if ( urlString.indexOf( "inv_use.php" ) != -1 )
+			consumptionType = CONSUME_USE;
+		else
+			return false;
+
+		if ( urlString.indexOf( "multiuse.php" ) != -1 || urlString.indexOf( "skills.php" ) != -1 )
+		{
+			Matcher quantityMatcher = Pattern.compile( "quantity=(\\d+)" ).matcher( urlString );
+			if ( quantityMatcher.find() )
+				itemUsed = itemUsed.getInstance( Integer.parseInt( quantityMatcher.group(1) ) );
+		}
+
+		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "eat " :
+			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "drink " : "use ";
+
+		KoLmafia.getSessionStream().println( useTypeAsString + itemUsed.getCount() + " " + itemUsed.getName() );
+		client.processResult( itemUsed.getNegation() );
+		return true;
+	}
 }
