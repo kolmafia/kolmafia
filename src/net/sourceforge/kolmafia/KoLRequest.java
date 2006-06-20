@@ -511,7 +511,20 @@ public class KoLRequest implements Runnable, KoLConstants
 			StaticEntity.getProperty( "showAllRequests" ).equals( "true" );
 
 		processedResults = false;
-		execute();
+
+		if ( getURLString().indexOf( "fight.php?action=plink" ) != -1 )
+		{
+			FightRequest request = new FightRequest( client );
+			request.run();
+
+			this.responseCode = request.responseCode;
+			this.responseText = request.responseText;
+		}
+		else
+		{
+			execute();
+		}
+
 		processedResults = true;
 
 		if ( getURLString().equals( "main.php?refreshtop=true&noobmessage=true" ) )
@@ -525,7 +538,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		String commandForm = getCommandForm();
 		String urlString = getURLString();
 
-		if ( urlString.indexOf( "?" ) != -1 )
+		if ( urlString.indexOf( "?" ) != -1 || urlString.indexOf( "sewer.php " ) != -1 )
 		{
 			if ( getClass() == KoLRequest.class || getClass() == LocalRelayRequest.class )
 			{
@@ -536,6 +549,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				if ( adventure != null )
 					adventure.recordToSession();
+				else if ( urlString.indexOf( "dungeon.php" ) != -1 )
+					KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Daily Dungeon" );
+				else if ( urlString.indexOf( "sewer.php " ) != -1 )
+					KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Market Sewer" );
+				else if ( urlString.indexOf( "whichitem" ) != -1 && ConsumeItemRequest.processRequest( client, urlString ) )
+					;
 				else if ( urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && urlString.indexOf( "chat" ) == -1 )
 					client.getSessionStream().println( urlString );
 			}
