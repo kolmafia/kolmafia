@@ -1282,11 +1282,20 @@ public class KoLRequest implements Runnable, KoLConstants
 		// If there is currently a setting which determines the
 		// decision, make that decision and submit the form.
 
+		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+		{
+			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
+			{
+				KoLmafiaCLI.printLine( "Choice: " +
+					AdventureDatabase.CHOICE_ADVS[i][1][0] + " => " +
+					AdventureDatabase.CHOICE_ADVS[i][2][ Integer.parseInt( decision ) - 1 ] );
+			}
+		}
+
 		request.clearDataFields();
 		request.addFormField( "pwd" );
 		request.addFormField( "whichchoice", choice );
 		request.addFormField( "option", decision );
-
 		request.run();
 
 		// Manually process any adventure usage for choice adventures,

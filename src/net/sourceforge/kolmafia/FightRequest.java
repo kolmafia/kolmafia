@@ -222,7 +222,9 @@ public class FightRequest extends KoLRequest
 			if ( !KoLmafia.refusesContinue() )
 				nextRound();
 
-			if ( action1 != null && action1.equals( "attack" ) && monsterData != null && monsterData.willAlwaysMiss() )
+			if ( action1 != null && action1.equals( "attack" ) && monsterData != null && monsterData.willAlwaysMiss() &&
+				!KoLCharacter.hasSkill( "Disco Eye-Poke" ) && !KoLCharacter.hasSkill( "Disco Dance of Doom" ) &&
+				!KoLCharacter.hasSkill( "Disco Dance II: Electric Boogaloo" ) && !KoLCharacter.hasSkill( "Disco Face Stab" ) )
 			{
 				action1 = null;
 				action2 = null;
