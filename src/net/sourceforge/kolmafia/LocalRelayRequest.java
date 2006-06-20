@@ -55,7 +55,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LocalRelayRequest extends KoLRequest
 {
-	protected String fullResponse;
 	protected List headers = new ArrayList();
 
 	public LocalRelayRequest( KoLmafia client, String formURLString, boolean followRedirects )
@@ -69,7 +68,6 @@ public class LocalRelayRequest extends KoLRequest
 	protected void processRawResponse( String rawResponse )
 	{
 		super.processRawResponse( rawResponse );
-		this.fullResponse = rawResponse;
 
 		if ( formURLString.startsWith( "http" ) )
 			return;

@@ -110,6 +110,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected int responseCode;
 	protected String responseText;
+	protected String fullResponse;
 	protected String redirectLocation;
 	protected HttpURLConnection formConnection;
 
@@ -514,11 +515,14 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( getURLString().indexOf( "fight.php?action=plink" ) != -1 )
 		{
-			FightRequest request = new FightRequest( client );
+			StaticEntity.setProperty( "battleAction", "attack" );
+			FightRequest request = new FightRequest( client, false );
 			request.run();
 
 			this.responseCode = request.responseCode;
 			this.responseText = request.responseText;
+			this.fullResponse = request.fullResponse;
+			this.formConnection = request.formConnection;
 		}
 		else
 		{
@@ -1041,6 +1045,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && rawResponse.indexOf( "charpane.php" ) != -1;
 		if ( statusChanged && !(this instanceof LocalRelayRequest) )
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
+
+		this.fullResponse = rawResponse;
 	}
 
 	/**
@@ -1215,6 +1221,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		this.responseCode = responseCode;
 		this.responseText = request.responseText;
+		this.fullResponse = request.fullResponse;
 		this.formConnection = request.formConnection;
 	}
 
