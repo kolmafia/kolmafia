@@ -106,7 +106,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		try
 		{
-			CONSOLE = new ConsoleReader();
+			if ( !System.getProperty( "os.name" ).startsWith( "Win" ) )
+				CONSOLE = new ConsoleReader();
 		}
 		catch ( Exception e )
 		{
@@ -138,7 +139,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		try
 		{
-			if ( inputStream != System.in )
+			if ( inputStream != System.in || System.getProperty( "os.name" ).startsWith( "Win" ) )
 				commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
 		}
 		catch ( Exception e )
@@ -187,6 +188,9 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
+			if ( username.startsWith( "login " ) )
+				username = username.substring( 6 );
+				
 			String password = StaticEntity.getClient().getSaveState( username );
 
 			if ( password == null )
