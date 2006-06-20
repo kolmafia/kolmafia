@@ -83,9 +83,13 @@ public class FightRequest extends KoLRequest
 	 */
 
 	public FightRequest( KoLmafia client )
+	{	this( client, true );
+	}
+
+	public FightRequest( KoLmafia client, boolean isFirstRound )
 	{
 		super( client, "fight.php" );
-		this.roundCount = 0;
+		this.roundCount = isFirstRound ? 0 : -100;
 
 		FightRequest.encounter = "";
 		FightRequest.encounterLookup = "";
@@ -238,8 +242,15 @@ public class FightRequest extends KoLRequest
 			{
 				if ( turnsUsed == 0 )
 				{
-					showInBrowser( true );
-					KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+					if ( client.getPasswordHash() != null )
+					{
+						showInBrowser( true );
+						KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
+					}
+					else
+					{
+						KoLmafia.updateDisplay( ABORT_STATE, "Please finish your battle in-browser first." );
+					}
 				}
 
 				return;

@@ -830,8 +830,25 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( StaticEntity.getProperty( "relayMovesManeuver" ).equals( "true" ) )
 			text = moveManeuverButton( text );
 
+		if ( StaticEntity.getProperty( "relayAddsPlinking" ).equals( "true" ) )
+			text = addPlinking( text );
+
 		text = addChoiceSpoilers( text );
 		return text;
+	}
+
+	private static String addPlinking( String text )
+	{
+		if ( text.indexOf( "fight.php" ) == -1 )
+			return text;
+
+		StringBuffer fightText = new StringBuffer( text );
+		int firstFormIndex = text.indexOf( "</form>" ) + 7;
+
+		fightText.insert( firstFormIndex,
+			"<tr><td align=center><form action=fight.php method=post><input type=hidden name=\"action\" value=\"plink\"><input type=\"submit\" value=\"Repeatedly\"></form></td></tr>" );
+
+		return fightText.toString();
 	}
 
 	private static String addUseLinks( String text )

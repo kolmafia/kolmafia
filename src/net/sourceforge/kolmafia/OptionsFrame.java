@@ -121,7 +121,7 @@ public class OptionsFrame extends KoLFrame
 		super( "Preferences" );
 		tabs = new JTabbedPane();
 
-		addTab( "Globals", new GlobalOptionsPanel() );
+		addTab( "General", new GeneralOptionsPanel() );
 		addTab( "Items", new ItemOptionsPanel() );
 		addTab( "Zones", new AreaOptionsPanel() );
 		addTab( "Browser", new RelayOptionsPanel() );
@@ -148,6 +148,7 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsCommandLineLinks", "Add gCLI tool links to chat launcher" },
 			{ "relayAddsSimulatorLinks", "Add Ayvuir's Simulator of Loathing link" },
 			{ "relayMovesManeuver", "Move moxious maneuver button into skills list" },
+			{ "relayAddsPlinking", "Add plinking-friendly button to attack screen" },
 			{ "makeBrowserDecisions", "Browser modules automatically make decisions" }
 		};
 
@@ -188,14 +189,13 @@ public class OptionsFrame extends KoLFrame
 		}
 	}
 
-	private class GlobalOptionsPanel extends OptionsPanel
+	private class GeneralOptionsPanel extends OptionsPanel
 	{
 		private JCheckBox [] optionBoxes;
 
 		private final String [][] options =
 		{
 			{ "showAllRequests", "Show requests in mini-browser" },
-			{ "keepSessionLogs", "Maintain dated player session log" },
 			{ "serverFriendly", "Use server-friendlier request speed" },
 			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" }
 		};
@@ -206,9 +206,9 @@ public class OptionsFrame extends KoLFrame
 		 * to modify any applicable proxy settings.
 		 */
 
-		public GlobalOptionsPanel()
+		public GeneralOptionsPanel()
 		{
-			super( "Global Options", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+			super( "General Options", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
 			VerifiableElement [] elements = new VerifiableElement[ options.length ];
 
 			optionBoxes = new JCheckBox[ options.length ];
