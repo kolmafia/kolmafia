@@ -395,7 +395,7 @@ public class RequestFrame extends KoLFrame
 			if ( request == null )
 				return;
 
-			if ( request.getClass() == KoLRequest.class && request.responseText == null || request.responseText.length() == 0 )
+			if ( request.getClass() == KoLRequest.class && (request.responseText == null || request.responseText.length() == 0) )
 			{
 				// New prevention mechanism: tell the requests that there
 				// will be no synchronization.
