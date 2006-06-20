@@ -3764,6 +3764,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue set_property( ScriptVariable name, ScriptVariable value )
 		{
+			GLOBAL_SETTINGS.setProperty( name.toStringValue().toString(), value.toStringValue().toString() );
 			StaticEntity.setProperty( name.toStringValue().toString(), value.toStringValue().toString() );
 			return VOID_VALUE;
 		}
