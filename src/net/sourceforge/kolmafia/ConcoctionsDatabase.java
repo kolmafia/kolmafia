@@ -65,7 +65,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final int BARTENDER = 440;
 	private static final int CLOCKWORK_BARTENDER = 1111;
 
-	public static final AdventureResult CAR = new AdventureResult( 134, 1 );
 	private static final AdventureResult OVEN = new AdventureResult( 157, 1 );
 	private static final AdventureResult KIT = new AdventureResult( 236, 1 );
 	public static final AdventureResult HAMMER = new AdventureResult( 338, 1 );
@@ -459,7 +458,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// The gnomish tinkerer is available if the person is in a
 		// moxie sign and they have a bitchin' meat car.
 
-		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( CAR );
+		PERMIT_METHOD[ ItemCreationRequest.TINKER ] = KoLCharacter.inMoxieSign();
 		ADVENTURE_USAGE[ ItemCreationRequest.TINKER ] = 0;
 
 		// Smithing of items is possible whenever the person

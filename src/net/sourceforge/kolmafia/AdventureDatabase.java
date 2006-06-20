@@ -453,9 +453,6 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( formSource.equals( "shore.php" ) || adventureID.equals( "45" ) )
 		{
-			// Make sure the car is in the inventory
-			retrieveItem( ConcoctionsDatabase.CAR );
-
 			if ( !KoLmafia.permitsContinue() )
 				return;
 
@@ -476,6 +473,7 @@ public class AdventureDatabase extends KoLDatabase
 				KoLmafia.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
 				return;
 			}
+
 			return;
 		}
 

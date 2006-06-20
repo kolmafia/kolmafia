@@ -83,8 +83,7 @@ public class ClanGymRequest extends KoLRequest
 
 		case MOXIE:
 			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
-			if ( KoLCharacter.inMoxieSign() &&
-			     KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR )  )
+			if ( KoLCharacter.inMoxieSign() )
 				return "gnomes.php";
 
 			// Otherwise, use the one in our clan - if we're in one.
@@ -109,8 +108,7 @@ public class ClanGymRequest extends KoLRequest
 
 		case MOXIE:
 			// If we are in a Moxie sign, the Gnomish Gnomads has a gym.
-			return ( KoLCharacter.inMoxieSign() &&
-				 KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR )  ) ? "train" : "tanningbed";
+			return KoLCharacter.inMoxieSign() ? "train" : "tanningbed";
 		}
 
 		return null;
