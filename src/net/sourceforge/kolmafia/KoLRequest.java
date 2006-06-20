@@ -1191,7 +1191,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
 
-		handleChoiceResponse( request );
+		if ( getClass() != KoLRequest.class || StaticEntity.getProperty( "makeBrowserDecisions" ).equals( "true" ) )
+			handleChoiceResponse( request );
 
 		this.responseCode = responseCode;
 		this.responseText = request.responseText;

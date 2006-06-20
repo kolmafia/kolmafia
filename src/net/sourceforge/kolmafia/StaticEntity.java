@@ -43,10 +43,10 @@ import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity implements KoLConstants
 {
+	private static KoLSettings settings = new KoLSettings( "" );
 	private static final String [] EMPTY_STRING_ARRAY = new String[0];
 
 	protected static KoLmafia client;
-	private static KoLSettings settings;
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
 

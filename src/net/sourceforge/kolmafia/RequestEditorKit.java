@@ -830,8 +830,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( StaticEntity.getProperty( "relayMovesManeuver" ).equals( "true" ) )
 			text = moveManeuverButton( text );
 
-
-
+		text = addChoiceSpoilers( text );
 		return text;
 	}
 
@@ -933,6 +932,60 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		textBuffer.insert( skillIndex + 15, "<option value='moxman'>Moxious Maneuver (" +
 			KoLCharacter.getLevel() + " Muscularity Points)</option>" );
 		return textBuffer.toString();
+	}
+
+	private static String addChoiceSpoilers( String text )
+	{
+		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( text );
+		if ( !choiceMatcher.find() )
+			return text;
+
+		String choice = choiceMatcher.group(1);
+		String option = "choiceAdventure" + choice;
+
+		// Find the options for the choice we've encountered
+		String [][] possibleDecisions = null;
+		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+		{
+			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
+			{
+				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i];
+				break;
+			}
+		}
+
+		if ( possibleDecisions == null )
+			return text;
+
+		String item, itemID;
+		int index1 = 0, index2 = 0;
+
+		StringBuffer newText = new StringBuffer();
+
+		for ( int i = 0; i < possibleDecisions[3].length; ++i )
+		{
+			item = possibleDecisions[2][i];
+			itemID = possibleDecisions[3][i];
+
+			index2 = text.indexOf( "</form>", index1 );
+			newText.append( text.substring( index1, index2 ) );
+			newText.append( "<br><font size=-1>(" );
+			newText.append( item );
+
+			if ( itemID != null )
+			{
+				newText.append( " - " );
+				AdventureResult result = new AdventureResult( Integer.parseInt( itemID ), 1 );
+				newText.append( result.getCount( KoLCharacter.getInventory() ) );
+				newText.append( " in inventory" );
+			}
+
+			newText.append( ")</font></form>" );
+			index1 = index2 + 7;
+		}
+
+		newText.append( text.substring( index1 ) );
+		return newText.toString();
 	}
 
 	private static String sortItemList( String select, String displayHTML )
