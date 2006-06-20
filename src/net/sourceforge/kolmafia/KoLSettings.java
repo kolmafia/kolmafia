@@ -42,6 +42,7 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.io.InputStreamReader;
 
+import java.util.TreeMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Properties;
@@ -60,16 +61,12 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public class KoLSettings extends Properties implements UtilityConstants
 {
+	private static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
+	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
+	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
+
 	private File settingsFile;
 	private String characterName;
-
-	/**
-	 * Constructs a global settings file.
-	 */
-
-	public KoLSettings()
-	{	this( "" );
-	}
 
 	/**
 	 * Constructs a settings file for a character with the specified name.
@@ -84,32 +81,33 @@ public class KoLSettings extends Properties implements UtilityConstants
 	{
 		this.characterName = characterName;
 		String noExtensionName = characterName.replaceAll( "\\/q", "" ).replaceAll( " ", "_" ).toLowerCase();
+
 		this.settingsFile = new File( DATA_DIRECTORY + "~" + noExtensionName + ".kcs" );
-
-		// Make sure that any settings that were applied in the default
-		// that did not exist before are applied universally.
-
-		if ( !characterName.equals( "" ) )
-			loadSettings( new File( DATA_DIRECTORY + "~.kcs" ) );
-
 		loadSettings( this.settingsFile );
-		if ( ensureDefaults() )
-			storeSettings( settingsFile );
 	}
 
 	public synchronized String getProperty( String name )
-	{	return super.getProperty( name );
+	{
+		boolean isGlobalProperty = CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" );
+
+		if ( isGlobalProperty && this != GLOBAL_SETTINGS )
+			return GLOBAL_SETTINGS.getProperty( name );
+		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
+			return "";
+
+		return super.getProperty( name );
 	}
 
 	public synchronized Object setProperty( String name, String value )
 	{
-		String oldValue = super.getProperty( name );
-		if ( value == null )
-		{
-			super.remove( name );
-			return oldValue;
-		}
+		boolean isGlobalProperty = CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" );
 
+		if ( isGlobalProperty && this != GLOBAL_SETTINGS )
+			return GLOBAL_SETTINGS.setProperty( name, value );
+		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
+			return "";
+
+		String oldValue = super.getProperty( name );
 		if ( oldValue != null && oldValue.equals( value ) )
 			return value;
 
@@ -178,95 +176,89 @@ public class KoLSettings extends Properties implements UtilityConstants
 		}
 	}
 
-	/**
-	 * Ensures that all the default keys are non-null.  This is
-	 * used so that there aren't lots of null checks whenever a
-	 * key is loaded.
-	 */
-
-	private synchronized boolean ensureDefaults()
+	private static synchronized void initializeMaps()
 	{
-		boolean hadChanges = false;
+		// Do not initialize the maps more than once, as this
+		// would not serve any purpose.
 
-		// The remaining settings are not related to choice
-		// adventures and require no special handling.
+		if ( !CLIENT_SETTINGS.isEmpty() )
+			return;
 
-		hadChanges |= ensureProperty( "alwaysGetBreakfast", "true" );
-		hadChanges |= ensureProperty( "autoLogin", "" );
-		hadChanges |= ensureProperty( "autoRepairBoxes", "false" );
-		hadChanges |= ensureProperty( "autoSatisfyChecks", "false" );
-		hadChanges |= ensureProperty( "autoLogChat", "false" );
-		hadChanges |= ensureProperty( "battleAction", "attack" );
-		hadChanges |= ensureProperty( "battleStop", "0.0" );
-		hadChanges |= ensureProperty( "betweenBattleScript", "" );
-		hadChanges |= ensureProperty( "breakfast.softcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
-		hadChanges |= ensureProperty( "breakfast.hardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
-		hadChanges |= ensureProperty( "browserBookmarks", "" );
-		hadChanges |= ensureProperty( "buffBotCasting", "" );
-		hadChanges |= ensureProperty( "buffBotMessageDisposal", "0" );
-		hadChanges |= ensureProperty( "chatStyle", "0" );
-		hadChanges |= ensureProperty( "chosenTrip", "" );
-		hadChanges |= ensureProperty( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
-		hadChanges |= ensureProperty( "cloverProtectActive", "false" );
-		hadChanges |= ensureProperty( "createWithoutBoxServants", "false" );
-		hadChanges |= ensureProperty( "defaultDropdown1", "0" );
-		hadChanges |= ensureProperty( "defaultDropdown2", "1" );
-		hadChanges |= ensureProperty( "defaultLimit", "5" );
-		hadChanges |= ensureProperty( "defaultToRelayBrowser", "true" );
-		hadChanges |= ensureProperty( "eSoluScriptType", "0" );
-		hadChanges |= ensureProperty( "fontSize", "3" );
-		hadChanges |= ensureProperty( "forceReconnect", "false" );
-		hadChanges |= ensureProperty( "guiUsesOneWindow", "false" );
-		hadChanges |= ensureProperty( "hpAutoRecover", "-0.1" );
-		hadChanges |= ensureProperty( "hpAutoRecoverTarget", "-0.1" );
-		hadChanges |= ensureProperty( "hpRecoveryScript", "" );
-		hadChanges |= ensureProperty( "hpRestores", "" );
-		hadChanges |= ensureProperty( "highlightList", "" );
-		hadChanges |= ensureProperty( "http.proxyHost", "" );
-		hadChanges |= ensureProperty( "http.proxyPort", "" );
-		hadChanges |= ensureProperty( "http.proxyUser", "" );
-		hadChanges |= ensureProperty( "http.proxyPassword", "" );
-		hadChanges |= ensureProperty( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame,RestoreOptionsFrame" );
-		hadChanges |= ensureProperty( "initialFrames", "EventsFrame" );
-		hadChanges |= ensureProperty( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
-		hadChanges |= ensureProperty( "keepSessionLogs", "false" );
-		hadChanges |= ensureProperty( "lastFaucetLocation", "-1" );
-		hadChanges |= ensureProperty( "lastFaucetUse", "0: " );
-		hadChanges |= ensureProperty( "lastAdventure", "" );
-		hadChanges |= ensureProperty( "lastMessageID", "" );
-		hadChanges |= ensureProperty( "lastUsername", "" );
-		hadChanges |= ensureProperty( "loginServer", "0" );
-		hadChanges |= ensureProperty( "luckySewerAdventure", "stolen accordion" );
-		hadChanges |= ensureProperty( "makeBrowserDecisions", "false" );
-		hadChanges |= ensureProperty( "mpAutoRecover", "0.0" );
-		hadChanges |= ensureProperty( "mpAutoRecoverTarget", "0.0" );
-		hadChanges |= ensureProperty( "mpRecoveryScript", "" );
-		hadChanges |= ensureProperty( "mpRestores", "" );
-		hadChanges |= ensureProperty( "nextAdventure", "" );
-		hadChanges |= ensureProperty( "proxySet", "false" );
-		hadChanges |= ensureProperty( "relayAddsCommandLineLinks", "true" );
-		hadChanges |= ensureProperty( "relayAddsSimulatorLinks", "true" );
-		hadChanges |= ensureProperty( "relayAddsUseLinks", "true" );
-		hadChanges |= ensureProperty( "relayMovesManeuver", "true" );
-		hadChanges |= ensureProperty( "retrieveContacts", "true" );
-		hadChanges |= ensureProperty( "saveState", "" );
-		hadChanges |= ensureProperty( "scriptButtonPosition", "0" );
-		hadChanges |= ensureProperty( "scriptList", "win game" );
-		hadChanges |= ensureProperty( "serverFriendly", "false" );
-		hadChanges |= ensureProperty( "showAdventureZone", "true" );
-		hadChanges |= ensureProperty( "showAllRequests", "false" );
-		hadChanges |= ensureProperty( "showClosetDrivenCreations", "true" );
-		hadChanges |= ensureProperty( "sortAdventures", "false" );
-		hadChanges |= ensureProperty( "thanksMessage", "Thank you for the donation!" );
-		hadChanges |= ensureProperty( "toolbarPosition", "1" );
-		hadChanges |= ensureProperty( "useSystemTrayIcon", "false" );
-		hadChanges |= ensureProperty( "usePopupContacts", "1" );
-		hadChanges |= ensureProperty( "useTabbedChat", "1" );
-		hadChanges |= ensureProperty( "useTextHeavySidepane", "true" );
-		hadChanges |= ensureProperty( "useToolbars", "true" );
-		hadChanges |= ensureProperty( "violetFogGoal", "0" );
-		hadChanges |= ensureProperty( "whiteList", "" );
-		hadChanges |= ensureProperty( "zoneExcludeList", "Removed" );
+		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "true" );
+		CLIENT_SETTINGS.put( "autoLogin", "" );
+		CLIENT_SETTINGS.put( "autoRepairBoxes", "false" );
+		CLIENT_SETTINGS.put( "autoSatisfyChecks", "false" );
+		CLIENT_SETTINGS.put( "autoSaveChatLogs", "true" );
+		CLIENT_SETTINGS.put( "battleStop", "0.0" );
+		CLIENT_SETTINGS.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
+		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
+		CLIENT_SETTINGS.put( "browserBookmarks", "" );
+		CLIENT_SETTINGS.put( "chatStyle", "0" );
+		CLIENT_SETTINGS.put( "chosenTrip", "" );
+		CLIENT_SETTINGS.put( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
+		CLIENT_SETTINGS.put( "cloverProtectActive", "false" );
+		CLIENT_SETTINGS.put( "createWithoutBoxServants", "false" );
+		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
+		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
+		CLIENT_SETTINGS.put( "defaultLimit", "5" );
+		CLIENT_SETTINGS.put( "defaultToRelayBrowser", "true" );
+		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
+		CLIENT_SETTINGS.put( "fontSize", "3" );
+		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
+		CLIENT_SETTINGS.put( "hpAutoRecover", "-0.1" );
+		CLIENT_SETTINGS.put( "hpAutoRecoverTarget", "-0.1" );
+		CLIENT_SETTINGS.put( "hpRecoveryScript", "" );
+		CLIENT_SETTINGS.put( "hpRestores", "" );
+		CLIENT_SETTINGS.put( "highlightList", "" );
+		CLIENT_SETTINGS.put( "http.proxyHost", "" );
+		CLIENT_SETTINGS.put( "http.proxyPort", "" );
+		CLIENT_SETTINGS.put( "http.proxyUser", "" );
+		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
+		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame,RestoreOptionsFrame" );
+		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
+		CLIENT_SETTINGS.put( "lastUsername", "" );
+		CLIENT_SETTINGS.put( "loginServer", "0" );
+		CLIENT_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
+		CLIENT_SETTINGS.put( "makeBrowserDecisions", "false" );
+		CLIENT_SETTINGS.put( "mpAutoRecover", "0.0" );
+		CLIENT_SETTINGS.put( "mpAutoRecoverTarget", "0.0" );
+		CLIENT_SETTINGS.put( "mpRecoveryScript", "" );
+		CLIENT_SETTINGS.put( "mpRestores", "" );
+		CLIENT_SETTINGS.put( "proxySet", "false" );
+		CLIENT_SETTINGS.put( "relayAddsCommandLineLinks", "true" );
+		CLIENT_SETTINGS.put( "relayAddsSimulatorLinks", "true" );
+		CLIENT_SETTINGS.put( "relayAddsUseLinks", "true" );
+		CLIENT_SETTINGS.put( "relayMovesManeuver", "true" );
+		CLIENT_SETTINGS.put( "saveState", "" );
+		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
+		CLIENT_SETTINGS.put( "scriptList", "win game" );
+		CLIENT_SETTINGS.put( "serverFriendly", "false" );
+		CLIENT_SETTINGS.put( "showAdventureZone", "true" );
+		CLIENT_SETTINGS.put( "showAllRequests", "false" );
+		CLIENT_SETTINGS.put( "showClosetDrivenCreations", "true" );
+		CLIENT_SETTINGS.put( "sortAdventures", "false" );
+		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
+		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );
+		CLIENT_SETTINGS.put( "usePopupContacts", "1" );
+		CLIENT_SETTINGS.put( "useTabbedChat", "1" );
+		CLIENT_SETTINGS.put( "useTextHeavySidepane", "true" );
+		CLIENT_SETTINGS.put( "useToolbars", "true" );
+		CLIENT_SETTINGS.put( "violetFogGoal", "0" );
+		CLIENT_SETTINGS.put( "zoneExcludeList", "Removed" );
+
+		PLAYER_SETTINGS.put( "battleAction", "attack" );
+		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
+		PLAYER_SETTINGS.put( "buffBotCasting", "" );
+		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
+		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
+		PLAYER_SETTINGS.put( "lastFaucetLocation", "-1" );
+		PLAYER_SETTINGS.put( "lastFaucetUse", "0: " );
+		PLAYER_SETTINGS.put( "lastAdventure", "" );
+		PLAYER_SETTINGS.put( "lastMessageID", "" );
+		PLAYER_SETTINGS.put( "nextAdventure", "" );
+		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
+		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );
+		PLAYER_SETTINGS.put( "whiteList", "" );
 
 		// These are settings related to choice adventures.
 		// Ensure that they exist, and if they do not, load
@@ -279,39 +271,71 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// Choices that have an "ignore" setting: use ensureProperty
 		// Choices that have no "ignore" setting: use ensureNonZeroProperty
 
-		hadChanges |= ensureProperty( "choiceAdventure2", "2" );
-		setProperty( "choiceAdventure3", "3" );
-		hadChanges |= ensureProperty( "choiceAdventure4", "3" );
-		hadChanges |= ensureProperty( "choiceAdventure5", "2" );
-		hadChanges |= ensureProperty( "choiceAdventure7", "2" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure8", "3" );
-		hadChanges |= ensureProperty( "choiceAdventure9", "1" );
-		hadChanges |= ensureProperty( "choiceAdventure10", "1" );
-		hadChanges |= ensureProperty( "choiceAdventure11", "3" );
-		hadChanges |= ensureProperty( "choiceAdventure12", "2" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure14", "4" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure15", "4" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure16", "4" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure17", "4" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure18", "4" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure19", "4" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure20", "4" );
-		hadChanges |= ensureProperty( "choiceAdventure21", "2" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure22", "4" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure23", "4" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure24", "4" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure25", "2" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure26", "3" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure27", "2" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure28", "2" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure29", "2" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure40", "3" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure41", "3" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure42", "3" );
-		hadChanges |= ensureProperty( "choiceAdventure45", "0" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure46", "3" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure47", "2" );
-		hadChanges |= ensureNonZeroProperty( "choiceAdventure71", "1" );
+		CLIENT_SETTINGS.put( "choiceAdventure2", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure3", "3" );
+		CLIENT_SETTINGS.put( "choiceAdventure4", "3" );
+		CLIENT_SETTINGS.put( "choiceAdventure5", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure7", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure8", "3" );
+		CLIENT_SETTINGS.put( "choiceAdventure9", "1" );
+		CLIENT_SETTINGS.put( "choiceAdventure10", "1" );
+		CLIENT_SETTINGS.put( "choiceAdventure11", "3" );
+		CLIENT_SETTINGS.put( "choiceAdventure12", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure14", "4" );
+		CLIENT_SETTINGS.put( "choiceAdventure15", "4" );
+		CLIENT_SETTINGS.put( "choiceAdventure16", "4" );
+		CLIENT_SETTINGS.put( "choiceAdventure17", "4" );
+		CLIENT_SETTINGS.put( "choiceAdventure18", "4" );
+		CLIENT_SETTINGS.put( "choiceAdventure19", "4" );
+		CLIENT_SETTINGS.put( "choiceAdventure20", "4" );
+		CLIENT_SETTINGS.put( "choiceAdventure21", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure22", "4" );
+		CLIENT_SETTINGS.put( "choiceAdventure23", "4" );
+		CLIENT_SETTINGS.put( "choiceAdventure24", "4" );
+		CLIENT_SETTINGS.put( "choiceAdventure25", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure26", "3" );
+		CLIENT_SETTINGS.put( "choiceAdventure27", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure28", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure29", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure40", "3" );
+		CLIENT_SETTINGS.put( "choiceAdventure41", "3" );
+		CLIENT_SETTINGS.put( "choiceAdventure42", "3" );
+		CLIENT_SETTINGS.put( "choiceAdventure45", "0" );
+		CLIENT_SETTINGS.put( "choiceAdventure46", "3" );
+		CLIENT_SETTINGS.put( "choiceAdventure47", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure71", "1" );
+	}
+
+	/**
+	 * Ensures that all the default keys are non-null.  This is
+	 * used so that there aren't lots of null checks whenever a
+	 * key is loaded.
+	 */
+
+	private synchronized void ensureDefaults()
+	{
+		initializeMaps();
+
+		// If this is the set of global settings, be sure
+		// to initialize the global settings.
+
+		if ( characterName.equals( "" ) )
+		{
+			Object [] keys = CLIENT_SETTINGS.keySet().toArray();
+			for ( int i = 0; i < keys.length; ++i )
+				if ( !containsKey( keys[i] ) )
+					super.setProperty( (String) keys[i], (String) CLIENT_SETTINGS.get( keys[i] ) );
+
+			return;
+		}
+
+		// Otherwise, initialize the client-specific settings.
+		// No global settings will be loaded.
+
+		Object [] keys = PLAYER_SETTINGS.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+			if ( !containsKey( keys[i] ) )
+				super.setProperty( (String) keys[i], (String) CLIENT_SETTINGS.get( keys[i] ) );
 
 		// Wheel choice adventures need special handling.
 		// This is where everything is validated for that.
@@ -371,45 +395,8 @@ public class KoLSettings extends Properties implements UtilityConstants
 			wheelChoice = "choiceAdventure" + (9+i);
 			wheelDecision = String.valueOf( wheelChoices[i] );
 			if ( !getProperty( wheelChoice ).equals( wheelDecision ) )
-			{
 				super.setProperty( wheelChoice, wheelDecision );
-				hadChanges = true;
-			}
 		}
-
-		// Return whether or not any changes were detected
-		// in the settings files.
-
-		return hadChanges;
-	}
-
-	/**
-	 * Ensures that the given property exists, and if it does not exist,
-	 * initializes it to the given value.
-	 */
-
-	private synchronized boolean ensureProperty( String key, String defaultValue )
-	{
-		if ( containsKey( key ) )
-			return false;
-
-		super.setProperty( key, defaultValue );
-		return true;
-	}
-
-	/**
-	 * Ensures that the given property exists, and if it does not exist,
-	 * initializes it to the given value. Additionally, if the property exists
-	 * and is 0, force it to the default value. This is for choice adventures.
-	 */
-
-	private synchronized boolean ensureNonZeroProperty( String key, String defaultValue )
-	{
-		if ( containsKey( key ) && !get( key ).equals( "0" ) )
-			return false;
-
-		super.setProperty( key, defaultValue );
-		return true;
 	}
 
 	/**

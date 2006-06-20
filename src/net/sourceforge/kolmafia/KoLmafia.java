@@ -97,7 +97,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected static PrintStream outputStream = NullStream.INSTANCE;
 	protected static PrintStream mirrorStream = NullStream.INSTANCE;
 
-	protected static LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", false );
+	protected static LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", true, false );
 
 	private static final String [] OVERRIDE_DATA =
 	{
@@ -146,8 +146,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected static int continuationState = CONTINUE_STATE;
 
 	protected String password, sessionID, passwordHash;
-
-	protected KoLSettings settings = null;
 	protected Properties LOCAL_SETTINGS = new Properties();
 
 	protected int [] initialStats = new int[3];
@@ -198,7 +196,7 @@ public abstract class KoLmafia implements KoLConstants
 		// All that completed, check to see if there is an auto-login
 		// which should occur.
 
-		String autoLogin = GLOBAL_SETTINGS.getProperty( "autoLogin" );
+		String autoLogin = StaticEntity.getProperty( "autoLogin" );
 		if ( !autoLogin.equals( "" ) )
 		{
 			// Make sure that a password was stored for this
@@ -219,9 +217,9 @@ public abstract class KoLmafia implements KoLConstants
 	public KoLmafia()
 	{
 		this.useDisjunction = false;
-		this.settings = GLOBAL_SETTINGS;
+		StaticEntity.reloadSettings();
 
-		String [] currentNames = GLOBAL_SETTINGS.getProperty( "saveState" ).split( "//" );
+		String [] currentNames = StaticEntity.getProperty( "saveState" ).split( "//" );
 		for ( int i = 0; i < currentNames.length; ++i )
 			saveStateNames.add( currentNames[i] );
 
@@ -235,11 +233,11 @@ public abstract class KoLmafia implements KoLConstants
 		// includes everything except for the adventure table,
 		// since changing that actually does something.
 
-		String version = GLOBAL_SETTINGS.getProperty( "previousUpdateVersion" );
+		String version = StaticEntity.getProperty( "previousUpdateVersion" );
 
 		if ( version == null || !version.equals( VERSION_NAME ) )
 		{
-			GLOBAL_SETTINGS.setProperty( "previousUpdateVersion", VERSION_NAME );
+			StaticEntity.setProperty( "previousUpdateVersion", VERSION_NAME );
 			for ( int i = 1; i < OVERRIDE_DATA.length; ++i )
 			{
 				File outdated = new File( "data/" + OVERRIDE_DATA[i] );
@@ -364,15 +362,11 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		this.sessionID = sessionID;
-		this.settings = new KoLSettings( username );
 
-		GLOBAL_SETTINGS.setProperty( "lastUsername", username );
+		StaticEntity.setProperty( "lastUsername", username );
 		KoLCharacter.reset( username );
-
-		if ( GLOBAL_SETTINGS.getProperty( "keepSessionLogs" ).equals( "true" ) )
-			KoLmafia.openSessionStream();
-		else
-			KoLmafia.closeSessionStream();
+		StaticEntity.reloadSettings();
+		KoLmafia.openSessionStream();
 
 		if ( isQuickLogin )
 		{
@@ -403,15 +397,15 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
-		String scriptSetting = GLOBAL_SETTINGS.getProperty( "loginScript." + username.toLowerCase() );
+		String scriptSetting = StaticEntity.getProperty( "loginScript." + username.toLowerCase() );
 		if ( scriptSetting != null && !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
 
 		if ( getBreakfast )
 		{
 			String today = DATED_FILENAME_FORMAT.format( new Date() );
-			String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + username.toLowerCase() );
-			GLOBAL_SETTINGS.setProperty( "lastBreakfast." + username.toLowerCase(), today );
+			String lastBreakfast = StaticEntity.getProperty( "lastBreakfast." + username.toLowerCase() );
+			StaticEntity.setProperty( "lastBreakfast." + username.toLowerCase(), today );
 
 			if ( lastBreakfast == null || !lastBreakfast.equals( today ) )
 				getBreakfast( true );
@@ -440,7 +434,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.hasArches() )
 			(new CampgroundRequest( this, "arches" )).run();
 
-		String skillSetting = GLOBAL_SETTINGS.getProperty( "breakfast." + (KoLCharacter.isHardcore() ? "hardcore" : "softcore") );
+		String skillSetting = StaticEntity.getProperty( "breakfast" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
 
 		if ( skillSetting != null )
 			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
@@ -1016,7 +1010,7 @@ public abstract class KoLmafia implements KoLConstants
 		// First, check against the restore trigger to see if
 		// any restoration needs to take place.
 
-		double setting = Double.parseDouble( GLOBAL_SETTINGS.getProperty( settingName ) );
+		double setting = Double.parseDouble( StaticEntity.getProperty( settingName ) );
 
 		if ( !BuffBotHome.isBuffBotActive() )
 		{
@@ -1050,7 +1044,7 @@ public abstract class KoLmafia implements KoLConstants
 		// far you need to go.
 
 		int threshold = needed;
-		setting = Double.parseDouble( GLOBAL_SETTINGS.getProperty( settingName + "Target" ) );
+		setting = Double.parseDouble( StaticEntity.getProperty( settingName + "Target" ) );
 
 		if ( initial == 0 )
 			needed = (int) ( setting * (double) maximum );
@@ -1061,7 +1055,7 @@ public abstract class KoLmafia implements KoLConstants
 		// the stat and makes sure that there's a change with every iteration.
 		// If there is no change, it exists the loop.
 
-		String scriptPath = GLOBAL_SETTINGS.getProperty( scriptProperty ).trim();
+		String scriptPath = StaticEntity.getProperty( scriptProperty ).trim();
 
 		if ( !scriptPath.equals( "" ) )
 		{
@@ -1080,7 +1074,7 @@ public abstract class KoLmafia implements KoLConstants
 		// using the selected items.  This involves a few extra
 		// reflection methods.
 
-		String restoreSetting = GLOBAL_SETTINGS.getProperty( listProperty ).trim().toLowerCase();
+		String restoreSetting = StaticEntity.getProperty( listProperty ).trim().toLowerCase();
 
 		// Iterate through every single restore item, checking to
 		// see if the settings wish to use this item.  If so, go ahead
@@ -1220,7 +1214,7 @@ public abstract class KoLmafia implements KoLConstants
 	public int getRestoreCount()
 	{
 		int restoreCount = 0;
-		String mpRestoreSetting = settings.getProperty( "mpRestores" );
+		String mpRestoreSetting = StaticEntity.getProperty( "mpRestores" );
 
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 			if ( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[i].toString() ) != -1 )
@@ -2004,7 +1998,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		try
 		{
-			File f = new File( "logs/" + KoLCharacter.getUsername() + "_" +
+			File f = new File( "sessions/" + KoLCharacter.getUsername() + "_" +
 				DATED_FILENAME_FORMAT.format( new Date() ) + ".txt" );
 
 			if ( !f.getParentFile().exists() )
@@ -2028,18 +2022,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		sessionStream.close();
 		sessionStream = NullStream.INSTANCE;
-	}
-
-	/**
-	 * Retrieves the current settings for the current session.  Note
-	 * that if this is invoked before initialization, this method
-	 * will return the global settings.
-	 *
-	 * @return	The settings for the current session
-	 */
-
-	public final KoLSettings getSettings()
-	{	return settings;
 	}
 
 	/**
@@ -2158,7 +2140,7 @@ public abstract class KoLmafia implements KoLConstants
 				}
 			}
 
-			GLOBAL_SETTINGS.setProperty( "saveState." + username.toLowerCase(), (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
+			StaticEntity.setProperty( "saveState." + username.toLowerCase(), (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
@@ -2217,17 +2199,7 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
-		GLOBAL_SETTINGS.setProperty( "saveState", saveStateBuffer.toString() );
-
-		// Now, removing any passwords that were stored
-		// which are no longer in the save state list
-
-		String [] settingsArray = new String[ GLOBAL_SETTINGS.keySet().size() ];
-		GLOBAL_SETTINGS.keySet().toArray( settingsArray );
-
-		for ( int i = 0; i < settingsArray.length; ++i )
-			if ( settingsArray[i].startsWith( "saveState." ) && !lowerCaseNames.contains( settingsArray[i].substring( 10 ) ) )
-				GLOBAL_SETTINGS.remove( settingsArray[i] );
+		StaticEntity.setProperty( "saveState", saveStateBuffer.toString() );
 	}
 
 	/**
@@ -2240,19 +2212,8 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			Object [] settingKeys = GLOBAL_SETTINGS.keySet().toArray();
-			String password = null;
-			String lowerCaseKey = "saveState." + loginname.toLowerCase();
-			String currentKey;
-
-			for ( int i = 0; i < settingKeys.length && password == null; ++i )
-			{
-				currentKey = (String) settingKeys[i];
-				if ( currentKey.equals( lowerCaseKey ) )
-					password = GLOBAL_SETTINGS.getProperty( currentKey );
-			}
-
-			if ( password == null )
+			String password = StaticEntity.getProperty( "saveState." + loginname.toLowerCase() );
+			if ( password == null || password.length() == 0 )
 				return null;
 
 			String hexString = (new BigInteger( password, 10 )).toString( 36 );
@@ -2552,7 +2513,7 @@ public abstract class KoLmafia implements KoLConstants
 	public String getLocalProperty( String property )
 	{
 		String value = LOCAL_SETTINGS.getProperty( property );
-		return ( value == null) ? "" : value;
+		return ( value == null ) ? "" : value;
 	}
 
 	public boolean getLocalBooleanProperty( String property )
@@ -2681,7 +2642,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !(getCurrentRequest() instanceof CampgroundRequest) )
 		{
 			recoveryActive = true;
-			String scriptPath = GLOBAL_SETTINGS.getProperty( "betweenBattleScript" );
+			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 
 			if ( !scriptPath.equals( "" ) )
 				DEFAULT_SHELL.executeLine( scriptPath );
@@ -2840,7 +2801,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void loadPreferredBrowser()
 	{
-		if ( GLOBAL_SETTINGS.getProperty( "defaultToRelayBrowser" ).equals( "true" ) )
+		if ( StaticEntity.getProperty( "defaultToRelayBrowser" ).equals( "true" ) )
 			startRelayServer();
 		else
 			(new CreateFrameRunnable( RequestFrame.class )).run();

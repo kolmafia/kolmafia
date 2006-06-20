@@ -113,8 +113,8 @@ public class LoginFrame extends KoLFrame
 		JPanel breakfastPanel = new JPanel();
 		breakfastPanel.setLayout( new BoxLayout( breakfastPanel, BoxLayout.Y_AXIS ) );
 
-		breakfastPanel.add( new BreakfastPanel( "Softcore Characters", "softcore" ) );
-		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "hardcore" ) );
+		breakfastPanel.add( new BreakfastPanel( "Softcore Characters", "Softcore" ) );
+		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "Hardcore" ) );
 		tabs.addTab( "Breakfast", breakfastPanel );
 
 		JScrollPane scroller1 = new JScrollPane( new StartupFramesPanel(),
@@ -194,7 +194,7 @@ public class LoginFrame extends KoLFrame
 		{
 			super( "login", "qlogin", "cancel" );
 
-			usernameField = GLOBAL_SETTINGS.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
+			usernameField = StaticEntity.getProperty( "saveState" ).equals( "" ) ? (JComponent)(new JTextField()) : (JComponent)(new LoginNameComboBox());
 			passwordField = new JPasswordField();
 			scriptField = new ScriptSelectPanel( new JTextField() );
 
@@ -227,9 +227,9 @@ public class LoginFrame extends KoLFrame
 			actionStatusPanel.add( new JLabel( " ", JLabel.CENTER ), BorderLayout.CENTER );
 			actionStatusPanel.add( checkBoxPanels, BorderLayout.NORTH );
 
-			String autoLoginSetting = GLOBAL_SETTINGS.getProperty( "autoLogin" );
+			String autoLoginSetting = StaticEntity.getProperty( "autoLogin" );
 			if ( autoLoginSetting.equals( "" ) )
-				autoLoginSetting = GLOBAL_SETTINGS.getProperty( "lastUsername" );
+				autoLoginSetting = StaticEntity.getProperty( "lastUsername" );
 			else
 				autoLoginCheckBox.setSelected( true );
 
@@ -244,7 +244,7 @@ public class LoginFrame extends KoLFrame
 				savePasswordCheckBox.setSelected( true );
 			}
 
-			getBreakfastCheckBox.setSelected( GLOBAL_SETTINGS.getProperty( "alwaysGetBreakfast" ).equals( "true" ) );
+			getBreakfastCheckBox.setSelected( StaticEntity.getProperty( "alwaysGetBreakfast" ).equals( "true" ) );
 			setDefaultButton( confirmedButton );
 		}
 
@@ -278,7 +278,7 @@ public class LoginFrame extends KoLFrame
 
 		private void login( boolean isQuickLogin )
 		{
-			GLOBAL_SETTINGS.setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
+			StaticEntity.setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 			String username = ((String)(usernameField instanceof JComboBox ?
 				((JComboBox)usernameField).getSelectedItem() : ((JTextField)usernameField).getText() ));
 
@@ -291,12 +291,12 @@ public class LoginFrame extends KoLFrame
 			}
 
 			if ( autoLoginCheckBox.isSelected() )
-				GLOBAL_SETTINGS.setProperty( "autoLogin", username );
+				StaticEntity.setProperty( "autoLogin", username );
 			else
-				GLOBAL_SETTINGS.setProperty( "autoLogin", "" );
+				StaticEntity.setProperty( "autoLogin", "" );
 
-			GLOBAL_SETTINGS.setProperty( "loginScript." + username.toLowerCase(), scriptField.getText() );
-			GLOBAL_SETTINGS.setProperty( "getBreakfast." + username.toLowerCase(), String.valueOf( getBreakfastCheckBox.isSelected() ) );
+			StaticEntity.setProperty( "loginScript." + username.toLowerCase(), scriptField.getText() );
+			StaticEntity.setProperty( "getBreakfast." + username.toLowerCase(), String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
 			(new RequestThread( new LoginRequest( StaticEntity.getClient(), username, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected(), isQuickLogin ) )).start();
 		}
@@ -362,13 +362,13 @@ public class LoginFrame extends KoLFrame
 
 				String todayString = DATED_FILENAME_FORMAT.format( new Date() );
 
-				String loginScript = GLOBAL_SETTINGS.getProperty( "loginScript." + currentMatch.toLowerCase() );
-				String breakfastSetting = GLOBAL_SETTINGS.getProperty( "getBreakfast." + currentMatch.toLowerCase() );
+				String loginScript = StaticEntity.getProperty( "loginScript." + currentMatch.toLowerCase() );
+				String breakfastSetting = StaticEntity.getProperty( "getBreakfast." + currentMatch.toLowerCase() );
 
 				scriptField.setText( loginScript == null ? "" : loginScript );
 				getBreakfastCheckBox.setSelected( breakfastSetting != null && breakfastSetting.equals( "true" ) );
 
-				String lastBreakfast = GLOBAL_SETTINGS.getProperty( "lastBreakfast." + currentMatch.toLowerCase() );
+				String lastBreakfast = StaticEntity.getProperty( "lastBreakfast." + currentMatch.toLowerCase() );
 				isBreakfastEnabled = lastBreakfast == null || !lastBreakfast.equals( todayString );
 				LoginPanel.this.setEnabled( true );
 
@@ -415,12 +415,12 @@ public class LoginFrame extends KoLFrame
 				}
 			}
 
-			GLOBAL_SETTINGS.setProperty( "breakfast." + breakfastType, skillString.toString() );
+			StaticEntity.setProperty( "breakfast" + breakfastType, skillString.toString() );
 		}
 
 		public void actionCancelled()
 		{
-			String skillString = GLOBAL_SETTINGS.getProperty( "breakfast." + breakfastType );
+			String skillString = StaticEntity.getProperty( "breakfast" + breakfastType );
 			for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
 				skillOptions[i].setSelected( skillString != null && skillString.indexOf( KoLmafia.BREAKFAST_SKILLS[i][0] ) != -1 );
 		}
@@ -526,14 +526,14 @@ public class LoginFrame extends KoLFrame
 				}
 			}
 
-			GLOBAL_SETTINGS.setProperty( "initialFrames", frameString.toString() );
-			GLOBAL_SETTINGS.setProperty( "initialDesktop", desktopString.toString() );
+			StaticEntity.setProperty( "initialFrames", frameString.toString() );
+			StaticEntity.setProperty( "initialDesktop", desktopString.toString() );
 		}
 
 		public void actionCancelled()
 		{
-			String frameString = GLOBAL_SETTINGS.getProperty( "initialFrames" );
-			String desktopString = GLOBAL_SETTINGS.getProperty( "initialDesktop" );
+			String frameString = StaticEntity.getProperty( "initialFrames" );
+			String desktopString = StaticEntity.getProperty( "initialDesktop" );
 
 			for ( int i = 0; i < FRAME_OPTIONS.length; ++i )
 			{
@@ -623,16 +623,16 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			GLOBAL_SETTINGS.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
-			GLOBAL_SETTINGS.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
-			GLOBAL_SETTINGS.setProperty( "scriptButtonPosition", String.valueOf( scripts.getSelectedIndex() ) );
-			GLOBAL_SETTINGS.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
+			StaticEntity.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
+			StaticEntity.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
+			StaticEntity.setProperty( "scriptButtonPosition", String.valueOf( scripts.getSelectedIndex() ) );
+			StaticEntity.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
 		}
 
 		protected void actionCancelled()
 		{
-			toolbars.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) );
-			scripts.setSelectedIndex( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "scriptButtonPosition" ) ) );
+			toolbars.setSelectedIndex( Integer.parseInt( StaticEntity.getProperty( "toolbarPosition" ) ) );
+			scripts.setSelectedIndex( Integer.parseInt( StaticEntity.getProperty( "scriptButtonPosition" ) ) );
 		}
 
 		private class InterfaceCheckboxPanel extends OptionsPanel
@@ -720,20 +720,20 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			GLOBAL_SETTINGS.setProperty( "proxySet", String.valueOf( proxySet.isSelected() && proxyHost.getText().trim().length() > 0 ) );
-			GLOBAL_SETTINGS.setProperty( "http.proxyHost", proxyHost.getText() );
-			GLOBAL_SETTINGS.setProperty( "http.proxyPort", proxyPort.getText() );
-			GLOBAL_SETTINGS.setProperty( "http.proxyUser", proxyLogin.getText() );
-			GLOBAL_SETTINGS.setProperty( "http.proxyPassword", proxyPassword.getText() );
+			StaticEntity.setProperty( "proxySet", String.valueOf( proxySet.isSelected() && proxyHost.getText().trim().length() > 0 ) );
+			StaticEntity.setProperty( "http.proxyHost", proxyHost.getText() );
+			StaticEntity.setProperty( "http.proxyPort", proxyPort.getText() );
+			StaticEntity.setProperty( "http.proxyUser", proxyLogin.getText() );
+			StaticEntity.setProperty( "http.proxyPassword", proxyPassword.getText() );
 		}
 
 		protected void actionCancelled()
 		{
-			proxySet.setSelected( GLOBAL_SETTINGS.getProperty( "proxySet" ).equals( "true" ) );
-			proxyHost.setText( GLOBAL_SETTINGS.getProperty( "http.proxyHost" ) );
-			proxyPort.setText( GLOBAL_SETTINGS.getProperty( "http.proxyPort" ) );
-			proxyLogin.setText( GLOBAL_SETTINGS.getProperty( "http.proxyUser" ) );
-			proxyPassword.setText( GLOBAL_SETTINGS.getProperty( "http.proxyPassword" ) );
+			proxySet.setSelected( StaticEntity.getProperty( "proxySet" ).equals( "true" ) );
+			proxyHost.setText( StaticEntity.getProperty( "http.proxyHost" ) );
+			proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );
+			proxyLogin.setText( StaticEntity.getProperty( "http.proxyUser" ) );
+			proxyPassword.setText( StaticEntity.getProperty( "http.proxyPassword" ) );
 
 			proxySet.actionPerformed( null );
 		}

@@ -78,7 +78,7 @@ public class CommandDisplayFrame extends KoLFrame
 		if ( getProperty( "scriptList" ).equals( "" ) )
 			return;
 
-		if ( GLOBAL_SETTINGS.getProperty( "scriptButtonPosition" ).equals( "0" ) )
+		if ( StaticEntity.getProperty( "scriptButtonPosition" ).equals( "0" ) )
 		{
 			JToolBar toolbarPanel = getToolbar();
 			String [] scriptList = getProperty( "scriptList" ).split( " \\| " );

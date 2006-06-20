@@ -64,8 +64,8 @@ public class LoginRequest extends KoLRequest
 	public LoginRequest( KoLmafia client, String username, String password )
 	{
 		this( client, username, password, true,
-				GLOBAL_SETTINGS.getProperty( "getBreakfast." + username ) != null &&
-				GLOBAL_SETTINGS.getProperty( "getBreakfast." + username ).equals( "true" ), false );
+				StaticEntity.getProperty( "getBreakfast." + username ) != null &&
+				StaticEntity.getProperty( "getBreakfast." + username ).equals( "true" ), false );
 	}
 
 	public LoginRequest( KoLmafia client, String username, String password, boolean savePassword, boolean getBreakfast, boolean isQuickLogin )

@@ -354,8 +354,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		whiteListArray = whiteListString.split( "\\s*,\\s*" );
 		Arrays.sort( whiteListArray );
 
-		refundMessage = client.getSettings().getProperty( "invalidBuffMessage" );
-		thanksMessage = client.getSettings().getProperty( "thanksMessage" );
+		refundMessage = StaticEntity.getProperty( "invalidBuffMessage" );
+		thanksMessage = StaticEntity.getProperty( "thanksMessage" );
 
 		// The outer loop goes until user cancels, or
 		// for however many iterations are needed.

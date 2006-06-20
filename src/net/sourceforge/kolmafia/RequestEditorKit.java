@@ -830,6 +830,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( StaticEntity.getProperty( "relayMovesManeuver" ).equals( "true" ) )
 			text = moveManeuverButton( text );
 
+
+
 		return text;
 	}
 

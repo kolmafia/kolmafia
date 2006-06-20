@@ -89,17 +89,17 @@ public class RestoreOptionsFrame extends KoLFrame
 
 	private void saveRestoreSettings()
 	{
-		GLOBAL_SETTINGS.setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
+		StaticEntity.setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
 
-		GLOBAL_SETTINGS.setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-		GLOBAL_SETTINGS.setProperty( "hpAutoRecoverTarget", String.valueOf( ((double)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
-		GLOBAL_SETTINGS.setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
-		GLOBAL_SETTINGS.setProperty( "hpRestores", getSettingString( hpRestoreCheckbox ) );
+		StaticEntity.setProperty( "hpAutoRecover", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+		StaticEntity.setProperty( "hpAutoRecoverTarget", String.valueOf( ((double)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
+		StaticEntity.setProperty( "hpRecoveryScript", hpRecoveryScriptField.getText() );
+		StaticEntity.setProperty( "hpRestores", getSettingString( hpRestoreCheckbox ) );
 
-		GLOBAL_SETTINGS.setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
-		GLOBAL_SETTINGS.setProperty( "mpAutoRecoverTarget", String.valueOf( ((double)(mpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
-		GLOBAL_SETTINGS.setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
-		GLOBAL_SETTINGS.setProperty( "mpRestores", getSettingString( mpRestoreCheckbox ) );
+		StaticEntity.setProperty( "mpAutoRecover", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+		StaticEntity.setProperty( "mpAutoRecoverTarget", String.valueOf( ((double)(mpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
+		StaticEntity.setProperty( "mpRecoveryScript", mpRecoveryScriptField.getText() );
+		StaticEntity.setProperty( "mpRestores", getSettingString( mpRestoreCheckbox ) );
 	}
 
 	private class CheckboxListener implements ActionListener
@@ -165,10 +165,10 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			betweenBattleScriptField.setText( GLOBAL_SETTINGS.getProperty( "betweenBattleScript" ) );
-			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( GLOBAL_SETTINGS.getProperty( "hpAutoRecover" ) ) * 10) + 1 );
-			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( GLOBAL_SETTINGS.getProperty( "hpAutoRecoverTarget" ) ) * 10) + 1 );
-			hpRecoveryScriptField.setText( GLOBAL_SETTINGS.getProperty( "hpRecoveryScript" ) );
+			betweenBattleScriptField.setText( StaticEntity.getProperty( "betweenBattleScript" ) );
+			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "hpAutoRecover" ) ) * 10) + 1 );
+			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "hpAutoRecoverTarget" ) ) * 10) + 1 );
+			hpRecoveryScriptField.setText( StaticEntity.getProperty( "hpRecoveryScript" ) );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -218,9 +218,9 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( GLOBAL_SETTINGS.getProperty( "mpAutoRecover" ) ) * 10) + 1 );
-			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( GLOBAL_SETTINGS.getProperty( "mpAutoRecoverTarget" ) ) * 10) + 1 );
-			mpRecoveryScriptField.setText( GLOBAL_SETTINGS.getProperty( "mpRecoveryScript" ) );
+			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "mpAutoRecover" ) ) * 10) + 1 );
+			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "mpAutoRecoverTarget" ) ) * 10) + 1 );
+			mpRecoveryScriptField.setText( StaticEntity.getProperty( "mpRecoveryScript" ) );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )

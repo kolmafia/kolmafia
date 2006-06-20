@@ -474,7 +474,6 @@ public class ChatFrame extends KoLFrame
 
 	private class ChatOptionsPanel extends OptionsPanel
 	{
-		private JComboBox autoLogSelect;
 		private JComboBox fontSizeSelect;
 		private JComboBox chatStyleSelect;
 		private JComboBox useTabSelect;
@@ -484,10 +483,6 @@ public class ChatFrame extends KoLFrame
 		public ChatOptionsPanel()
 		{
 			super( "Chat Preferences" );
-
-			autoLogSelect = new JComboBox();
-			autoLogSelect.addItem( "Do not log chat" );
-			autoLogSelect.addItem( "Automatically log chat" );
 
 			fontSizeSelect = new JComboBox();
 			for ( int i = 1; i <= 7; ++i )
@@ -511,13 +506,12 @@ public class ChatFrame extends KoLFrame
 			eSoluSelect.addItem( "eSolu scriptlet chat links (color)" );
 			eSoluSelect.addItem( "eSolu scriptlet chat links (gray)" );
 
-			VerifiableElement [] elements = new VerifiableElement[6];
-			elements[0] = new VerifiableElement( "Chat Logs: ", autoLogSelect );
-			elements[1] = new VerifiableElement( "Font Size: ", fontSizeSelect );
-			elements[2] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
-			elements[3] = new VerifiableElement( "Tabbed Chat: ", useTabSelect );
-			elements[4] = new VerifiableElement( "Contact List: ", popupSelect );
-			elements[5] = new VerifiableElement( "eSolu Script: ", eSoluSelect );
+			VerifiableElement [] elements = new VerifiableElement[5];
+			elements[0] = new VerifiableElement( "Font Size: ", fontSizeSelect );
+			elements[1] = new VerifiableElement( "Chat Style: ", chatStyleSelect );
+			elements[2] = new VerifiableElement( "Tabbed Chat: ", useTabSelect );
+			elements[3] = new VerifiableElement( "Contact List: ", popupSelect );
+			elements[4] = new VerifiableElement( "eSolu Script: ", eSoluSelect );
 
 			setContent( elements );
 			actionCancelled();
@@ -525,10 +519,6 @@ public class ChatFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			if ( autoLogSelect.getSelectedIndex() == 1 )
-				KoLMessenger.initializeChatLogs();
-
-			setProperty( "autoLogChat", String.valueOf( autoLogSelect.getSelectedIndex() == 1 ) );
 			setProperty( "fontSize", (String) fontSizeSelect.getSelectedItem() );
 			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
 
@@ -542,7 +532,6 @@ public class ChatFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			autoLogSelect.setSelectedIndex( getProperty( "autoLogChat" ).equals( "true" ) ? 1 : 0 );
 			fontSizeSelect.setSelectedItem( getProperty( "fontSize" ) );
 			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( getProperty( "fontSize" ) ) );
 

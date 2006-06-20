@@ -168,7 +168,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		JToolBar toolbarPanel = null;
 
-		switch ( Integer.parseInt( GLOBAL_SETTINGS.getProperty( "toolbarPosition" ) ) )
+		switch ( Integer.parseInt( StaticEntity.getProperty( "toolbarPosition" ) ) )
 		{
 			case 1:
 				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
@@ -258,7 +258,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( refresher != null )
 			return;
 
-		boolean useTextOnly = GLOBAL_SETTINGS.getProperty( "useTextHeavySidepane" ).equals( "true" );
+		boolean useTextOnly = StaticEntity.getProperty( "useTextHeavySidepane" ).equals( "true" );
 
 		refresher = new StatusRefresher( useTextOnly );
 		refresher.run();
@@ -1150,9 +1150,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		Point p = getLocation();
 		if ( this instanceof LoginFrame )
-			GLOBAL_SETTINGS.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+			StaticEntity.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 		else
-			StaticEntity.getSettings().setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
+			StaticEntity.setProperty( frameName, ((int)p.getX()) + "," + ((int)p.getY()) );
 	}
 
 	private void restorePosition()
@@ -1160,9 +1160,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		int xLocation = 0;
 		int yLocation = 0;
 		Dimension screenSize = TOOLKIT.getScreenSize();
-		if ( StaticEntity.getSettings().containsKey( frameName ) )
+		String position = StaticEntity.getProperty( frameName );
+
+		if ( position != null && position.indexOf( "," ) != -1 )
 		{
-			String [] location = StaticEntity.getSettings().getProperty( frameName ).split( "," );
+			String [] location = position.split( "," );
 			xLocation = Integer.parseInt( location[0] );
 			yLocation = Integer.parseInt( location[1] );
 		}

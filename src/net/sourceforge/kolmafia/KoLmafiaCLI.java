@@ -529,21 +529,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Adding another undocumented property setting command
-		// so people can configure variables in scripts.
-
-		if ( command.equals( "setglobal" ) )
-		{
-			int splitIndex = parameters.indexOf( "=" );
-			GLOBAL_SETTINGS.setProperty( parameters.substring( 0, splitIndex ).trim(), parameters.substring( splitIndex + 1 ).trim() );
-			return;
-		}
-		else if ( command.equals( "getglobal" ) )
-		{
-			printLine( GLOBAL_SETTINGS.getProperty( parameters ) );
-			return;
-		}
-
 		// Handle the if-statement and the while-statement.
 		// The while-statement will not get a separate comment
 		// because it is unloved.
