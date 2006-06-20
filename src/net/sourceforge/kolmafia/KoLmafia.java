@@ -2681,7 +2681,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !(getCurrentRequest() instanceof CampgroundRequest) )
 		{
 			recoveryActive = true;
-			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
+			String scriptPath = GLOBAL_SETTINGS.getProperty( "betweenBattleScript" );
 
 			if ( !scriptPath.equals( "" ) )
 				DEFAULT_SHELL.executeLine( scriptPath );
