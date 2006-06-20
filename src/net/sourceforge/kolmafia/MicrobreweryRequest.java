@@ -87,7 +87,7 @@ public class MicrobreweryRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( !KoLCharacter.inMoxieSign() || !KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
+		if ( !KoLCharacter.inMoxieSign() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't find the micromicrobrewery." );
 			return;

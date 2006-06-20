@@ -123,7 +123,7 @@ public class ItemManageFrame extends KoLFrame
 			// the beach quest, then retrieve information from the
 			// microbrewery.
 
-			if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() && KoLCharacter.getInventory().contains( ConcoctionsDatabase.CAR ) )
+			if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
 			{
 				special = new SpecialPanel( StaticEntity.getClient().getMicrobreweryItems() );
 				tabs.add( "Microbrewery", special );
