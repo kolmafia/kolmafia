@@ -230,7 +230,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			if ( this.creation == null )
 				this.creation = (JFrame) creator.newInstance( parameters );
 
-			String tabSetting = "," + GLOBAL_SETTINGS.getProperty( "initialDesktop" ) + ",";
+			String tabSetting = "," + StaticEntity.getProperty( "initialDesktop" ) + ",";
 			String searchString = this.creation instanceof ChatFrame ? "KoLMessenger" :
 				this.creation instanceof KoLFrame ? ((KoLFrame)this.creation).getFrameName() : "...";
 
@@ -243,7 +243,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// a tab and remove any extra tabs created this way perviouly.
 
 			if ( !(this.creation instanceof LoginFrame || this.creation instanceof OptionsFrame) &&
-				GLOBAL_SETTINGS.getProperty( "guiUsesOneWindow" ).equals( "true" ) )
+				StaticEntity.getProperty( "guiUsesOneWindow" ).equals( "true" ) )
 			{
 				if ( !appearsInTab )
 					KoLDesktop.removeExtraTabs();

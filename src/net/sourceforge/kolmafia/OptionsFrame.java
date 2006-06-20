@@ -225,7 +225,7 @@ public class OptionsFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			for ( int i = 0; i < options.length; ++i )
-				GLOBAL_SETTINGS.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 			super.actionConfirmed();
 
@@ -241,7 +241,7 @@ public class OptionsFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			for ( int i = 0; i < options.length; ++i )
-				optionBoxes[i].setSelected( GLOBAL_SETTINGS.getProperty( options[i][0] ).equals( "true" ) );
+				optionBoxes[i].setSelected( StaticEntity.getProperty( options[i][0] ).equals( "true" ) );
 		}
 	}
 

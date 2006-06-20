@@ -122,8 +122,7 @@ public abstract class KoLMessenger extends StaticEntity
 			tabbedFrame = (TabbedChatFrame) creator.getCreation();
 		}
 
-		if ( getProperty( "autoLogChat" ).equals( "true" ) )
-			initializeChatLogs();
+		initializeChatLogs();
 	}
 
 	protected static void setColor( String channel, int colorIndex )
@@ -164,7 +163,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		LimitedSizeChatBuffer.clearHighlights();
 
-		String [] highlights = GLOBAL_SETTINGS.getProperty( "highlightList" ).replaceAll( "\n\n+", "\n" ).trim().split( "\n" );
+		String [] highlights = StaticEntity.getProperty( "highlightList" ).replaceAll( "\n\n+", "\n" ).trim().split( "\n" );
 
 		if ( highlights.length > 1 )
 		{
@@ -948,7 +947,7 @@ public abstract class KoLMessenger extends StaticEntity
 					return;
 
 				LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " +
-					channel + " - Started " + Calendar.getInstance().getTime().toString(), true );
+					channel + " - Started " + Calendar.getInstance().getTime().toString(), true, true );
 				instantMessageBuffers.put( channel, buffer );
 
 				if ( channel.startsWith( "/" ) )
@@ -1053,11 +1052,11 @@ public abstract class KoLMessenger extends StaticEntity
 
 		StringBuffer newSetting = new StringBuffer();
 
-		newSetting.append( GLOBAL_SETTINGS.getProperty( "highlightList" ) );
+		newSetting.append( StaticEntity.getProperty( "highlightList" ) );
 		newSetting.append( "\n" );
 		newSetting.append( LimitedSizeChatBuffer.addHighlight( highlight, color ) );
 
-		GLOBAL_SETTINGS.setProperty( "highlightList", newSetting.toString().trim() );
+		StaticEntity.setProperty( "highlightList", newSetting.toString().trim() );
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
@@ -1101,7 +1100,7 @@ public abstract class KoLMessenger extends StaticEntity
 				String settingString = LimitedSizeChatBuffer.removeHighlight(i);
 				LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
-				String oldSetting = GLOBAL_SETTINGS.getProperty( "highlightList" );
+				String oldSetting = StaticEntity.getProperty( "highlightList" );
 				int startIndex = oldSetting.indexOf( settingString );
 				int endIndex = startIndex + settingString.length();
 
@@ -1111,7 +1110,7 @@ public abstract class KoLMessenger extends StaticEntity
 				if ( endIndex < oldSetting.length() )
 					newSetting.append( oldSetting.substring( endIndex ) );
 
-				GLOBAL_SETTINGS.setProperty( "highlightList", newSetting.toString().replaceAll( "\n\n+", "\n" ).trim() );
+				StaticEntity.setProperty( "highlightList", newSetting.toString().replaceAll( "\n\n+", "\n" ).trim() );
 			}
 		}
 

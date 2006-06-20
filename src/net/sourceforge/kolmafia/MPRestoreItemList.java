@@ -66,7 +66,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	public static JCheckBox [] getCheckboxes()
 	{
-		String mpRestoreSetting = GLOBAL_SETTINGS.getProperty( "mpRestores" );
+		String mpRestoreSetting = StaticEntity.getProperty( "mpRestores" );
 		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length + FALLBACKS.length ];
 
 		for ( int i = 0; i < CONFIGURES.length; ++i )

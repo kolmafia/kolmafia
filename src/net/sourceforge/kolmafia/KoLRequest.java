@@ -124,9 +124,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		try
 		{
-			String proxySet = GLOBAL_SETTINGS.getProperty( "proxySet" );
-			String proxyHost = GLOBAL_SETTINGS.getProperty( "http.proxyHost" );
-			String proxyUser = GLOBAL_SETTINGS.getProperty( "http.proxyUser" );
+			String proxySet = StaticEntity.getProperty( "proxySet" );
+			String proxyHost = StaticEntity.getProperty( "http.proxyHost" );
+			String proxyUser = StaticEntity.getProperty( "http.proxyUser" );
 
 			System.setProperty( "proxySet", proxySet );
 
@@ -153,7 +153,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					System.setProperty( "http.proxyHost", proxyHost );
 				}
 
-				System.setProperty( "http.proxyPort", GLOBAL_SETTINGS.getProperty( "http.proxyPort" ) );
+				System.setProperty( "http.proxyPort", StaticEntity.getProperty( "http.proxyPort" ) );
 			}
 
 			// Remove the proxy user from the system properties
@@ -166,13 +166,13 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 			else
 			{
-				System.setProperty( "http.proxyUser", GLOBAL_SETTINGS.getProperty( "http.proxyUser" ) );
-				System.setProperty( "http.proxyPassword", GLOBAL_SETTINGS.getProperty( "http.proxyPassword" ) );
+				System.setProperty( "http.proxyUser", StaticEntity.getProperty( "http.proxyUser" ) );
+				System.setProperty( "http.proxyPassword", StaticEntity.getProperty( "http.proxyPassword" ) );
 			}
 
 			// Determine the login server that will be used.
 
-			int setting = Integer.parseInt( GLOBAL_SETTINGS.getProperty( "loginServer" ) );
+			int setting = Integer.parseInt( StaticEntity.getProperty( "loginServer" ) );
 			int server = ( setting < 1 || setting > SERVER_COUNT ) ? RNG.nextInt( SERVER_COUNT ) : setting - 1;
 			setLoginServer( SERVERS[server][0] );
 		}
@@ -507,8 +507,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		isServerFriendly = GLOBAL_SETTINGS.getProperty( "serverFriendly" ).equals( "true" ) ||
-			GLOBAL_SETTINGS.getProperty( "showAllRequests" ).equals( "true" );
+		isServerFriendly = StaticEntity.getProperty( "serverFriendly" ).equals( "true" ) ||
+			StaticEntity.getProperty( "showAllRequests" ).equals( "true" );
 
 		processedResults = false;
 		execute();
@@ -841,7 +841,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( this instanceof LocalRelayRequest && responseCode != 200 )
 		{
-			if ( redirectLocation.indexOf( "choice.php" ) != -1 || GLOBAL_SETTINGS.getProperty( "makeBrowserDecisions" ).equals( "false" ) )
+			if ( redirectLocation.indexOf( "choice.php" ) != -1 || StaticEntity.getProperty( "makeBrowserDecisions" ).equals( "false" ) )
 				return true;
 		}
 
@@ -1369,7 +1369,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( existingFrames.isEmpty() )
 			return;
 
-		if ( !exceptional && GLOBAL_SETTINGS.getProperty( "showAllRequests" ).equals( "false" ) )
+		if ( !exceptional && StaticEntity.getProperty( "showAllRequests" ).equals( "false" ) )
 			return;
 
 		// Only show the request if the response code is
@@ -1460,8 +1460,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			// that the restore options are properly reset before
 			// the frame reloads.
 
-			boolean shouldLoadEventFrame = GLOBAL_SETTINGS.getProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
-			shouldLoadEventFrame |= GLOBAL_SETTINGS.getProperty( "initialDesktop" ).indexOf( "EventsFrame" ) != -1 &&
+			boolean shouldLoadEventFrame = StaticEntity.getProperty( "initialFrames" ).indexOf( "EventsFrame" ) != -1;
+			shouldLoadEventFrame |= StaticEntity.getProperty( "initialDesktop" ).indexOf( "EventsFrame" ) != -1 &&
 				KoLDesktop.getInstance().isVisible();
 
 			if ( shouldLoadEventFrame )

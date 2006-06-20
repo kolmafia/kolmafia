@@ -111,7 +111,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 	protected void compileBookmarks()
 	{
-		String [] bookmarkData = GLOBAL_SETTINGS.getProperty( "browserBookmarks" ).split( "\\|" );
+		String [] bookmarkData = StaticEntity.getProperty( "browserBookmarks" ).split( "\\|" );
 		String name, location, pwdhash;
 
 		if ( bookmarkData.length > 1 )
@@ -354,7 +354,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 					KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 					existingFrames.toArray( frames );
 
-					String interfaceSetting = GLOBAL_SETTINGS.getProperty( "initialDesktop" );
+					String interfaceSetting = StaticEntity.getProperty( "initialDesktop" );
 
 					for ( int i = 0; i < frames.length; ++i )
 						if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
@@ -369,7 +369,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				KoLFrame frame = (KoLFrame) frameReference.get();
 				if ( frame != null )
 				{
-					boolean appearsInTab = GLOBAL_SETTINGS.getProperty( "initialDesktop" ).indexOf(
+					boolean appearsInTab = StaticEntity.getProperty( "initialDesktop" ).indexOf(
 						frame instanceof ChatFrame ? "KoLMessenger" : frame.getFrameName() ) != -1;
 
 					if ( !appearsInTab )
@@ -577,7 +577,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			bookmarkData.append( (String)bookmarks.get(i) );
 		}
 
-		GLOBAL_SETTINGS.setProperty( "browserBookmarks", bookmarkData.toString() );
+		StaticEntity.setProperty( "browserBookmarks", bookmarkData.toString() );
 	}
 
 	private class ToggleDebugMenuItem extends JMenuItem implements ActionListener

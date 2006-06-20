@@ -131,7 +131,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public String toString()
 	{
-		boolean includeZoneName = client.getSettings().getProperty( "showAdventureZone" ).equals( "true" );
+		boolean includeZoneName = StaticEntity.getProperty( "showAdventureZone" ).equals( "true" );
 		return includeZoneName ? zone + ": " + adventureName : adventureName;
 	}
 

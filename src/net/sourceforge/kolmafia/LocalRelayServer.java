@@ -49,7 +49,7 @@ public class LocalRelayServer implements Runnable
 {
 	private static Thread relayThread = null;
 	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
-	
+
 	private static final byte [] NEW_LINE = {(byte)'\r', (byte)'\n' };
 	private static final int MAX_AGENT_THREADS = 9;
 	private static final int TIMEOUT = 5000;
@@ -70,15 +70,15 @@ public class LocalRelayServer implements Runnable
 	{
 		if ( relayThread != null )
 			return;
-		
+
 		relayThread = new Thread( INSTANCE );
 		relayThread.start();
 	}
-	
+
 	public static int getPort()
 	{	return port;
 	}
-	
+
 	public static boolean isRunning()
 	{	return listening;
 	}
@@ -98,7 +98,7 @@ public class LocalRelayServer implements Runnable
 			(new Thread( agent )).start();
 			agentThreads.add( agent );
 		}
-		
+
 		listening = true;
 		while ( listening )
 		{
@@ -117,7 +117,7 @@ public class LocalRelayServer implements Runnable
 		}
 
 		closeAgents();
-		
+
 		try
 		{
 			if ( serverSocket != null )
@@ -134,7 +134,7 @@ public class LocalRelayServer implements Runnable
 		agentThreads.clear();
 		relayThread = null;
 	}
-	
+
 	private boolean openServerSocket()
 	{
 		try
@@ -147,7 +147,7 @@ public class LocalRelayServer implements Runnable
 			return false;
 		}
 	}
-	
+
 	private void closeAgents()
 	{
 		synchronized ( agentThreads )
@@ -186,9 +186,14 @@ public class LocalRelayServer implements Runnable
 			// last buffer was cleared, that means no monitoring
 			// is happening, so you can clear the buffer and
 			// ignore the addition (since no one is checking).
-			
+
 			if ( lastRequest == 0 || lastRequest - System.currentTimeMillis() > 10000 )
+			{
+				if ( statusMessages.length() > 0 )
+					statusMessages.setLength( 0 );
+
 				return;
+			}
 
 			statusMessages.append( message );
 		}
@@ -198,27 +203,27 @@ public class LocalRelayServer implements Runnable
 	{
 		synchronized ( statusMessages )
 		{
-			lastRequest = System.currentTimeMillis();			
+			lastRequest = System.currentTimeMillis();
 			String newMessages = statusMessages.toString();
 			statusMessages.setLength(0);
 			return newMessages;
 		}
-	}	
+	}
 
-	private class RelayAgent implements Runnable 
-	{		
+	private class RelayAgent implements Runnable
+	{
 		protected Socket socket = null;
-		
+
 		boolean isWaiting()
 		{	return socket == null;
 		}
-		
+
 		synchronized void setSocket( Socket socket )
 		{
 			this.socket = socket;
 			notify();
 		}
-		
+
 		public synchronized void run()
 		{
 			while ( true )
@@ -240,7 +245,7 @@ public class LocalRelayServer implements Runnable
 						// interrupted.  Fall through.
 					}
 				}
-				
+
 				try
 				{
 					if ( socket != null )
@@ -250,21 +255,21 @@ public class LocalRelayServer implements Runnable
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e );
 				}
-				
+
 				socket = null;
 			}
 		}
-		
+
 		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
 		{
 			String header = null;
 			boolean hasPragmaHeader = false;
 			boolean hasCacheHeader = false;
 			boolean hasConnectionHeader = false;
-			
+
 			for ( int i = 0; null != ( header = request.getHeader( i ) ); ++i )
 			{
 				if ( header.startsWith( "Cache-Control" ) )
@@ -284,10 +289,10 @@ public class LocalRelayServer implements Runnable
 					header = "Connection: close";
 					hasConnectionHeader = true;
 				}
-				
+
 				printStream.print( header );
 				printStream.write( NEW_LINE );
-			}  	
+			}
 
 			if ( !hasCacheHeader )
 			{
@@ -307,38 +312,38 @@ public class LocalRelayServer implements Runnable
 				printStream.write( NEW_LINE );
 			}
 		}
-		
+
 		protected void performRelay() throws IOException
 		{
 			if ( socket == null )
 				return;
-			
+
 			socket.setSoTimeout( TIMEOUT );
 			socket.setTcpNoDelay( true );
-			
+
 			try
 			{
 				BufferedReader reader = new BufferedReader( new InputStreamReader( new BufferedInputStream( socket.getInputStream() ) ) );
 				PrintStream printStream = new PrintStream( socket.getOutputStream() );
-				
+
 				String line;
 				String path;
 				String method;
-				
+
 				line = reader.readLine();
 				if ( line == null )
 					return;
-				
+
 				String [] tokens = line.trim().split( " " );
 				method = tokens[0];
 				LocalRelayRequest request = new LocalRelayRequest( StaticEntity.getClient(), tokens[1], false );
-				
+
 				int contentLength = 0;
 				while ( (line = reader.readLine()) != null && line.trim().length() != 0 )
 				{
 					if ( line.indexOf( ": " ) == -1 )
 						continue;
-					
+
 					tokens = line.split( "(: )" );
 					if ( tokens[0].equals( "Content-Length" ) )
 						contentLength = Integer.parseInt( tokens[1].trim(), 10 );
@@ -351,12 +356,12 @@ public class LocalRelayServer implements Runnable
 
 					request.addEncodedFormFields( postBuffer.toString() );
 				}
-				
+
 				request.run();
 				sendHeaders( printStream, request );
 				printStream.write( NEW_LINE );
 				printStream.print( request.getFullResponse() );
-				
+
 			}
 			finally
 			{	socket.close();

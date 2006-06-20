@@ -46,6 +46,7 @@ public abstract class StaticEntity implements KoLConstants
 	private static final String [] EMPTY_STRING_ARRAY = new String[0];
 
 	protected static KoLmafia client;
+	private static KoLSettings settings;
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
 
@@ -61,7 +62,7 @@ public abstract class StaticEntity implements KoLConstants
 	{
 		if ( usesSystemTray == 0 )
 			usesSystemTray = System.getProperty( "os.name" ).startsWith( "Windows" ) &&
-				GLOBAL_SETTINGS.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 2;
+				StaticEntity.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 2;
 
 		return usesSystemTray == 1;
 	}
@@ -69,7 +70,7 @@ public abstract class StaticEntity implements KoLConstants
 	public static boolean usesRelayWindows()
 	{
 		if ( usesRelayWindows == 0 )
-			usesRelayWindows = GLOBAL_SETTINGS.getProperty( "useRelayWindows" ).equals( "true" ) ? 1 : 2;
+			usesRelayWindows = StaticEntity.getProperty( "useRelayWindows" ).equals( "true" ) ? 1 : 2;
 
 		return usesRelayWindows == 1;
 	}
@@ -78,10 +79,6 @@ public abstract class StaticEntity implements KoLConstants
 	{
 		if ( client == null )
 			return;
-
-		GLOBAL_SETTINGS.saveSettings();
-		if ( getSettings() != GLOBAL_SETTINGS )
-			getSettings().saveSettings();
 
 		Object [] frames = existingFrames.toArray();
 
@@ -96,17 +93,16 @@ public abstract class StaticEntity implements KoLConstants
 		(new Thread( new LogoutRequest( client ) )).start();
 	}
 
-	public static final KoLSettings getSettings()
-	{	return client == null ? GLOBAL_SETTINGS : client.getSettings();
+	public static void reloadSettings()
+	{	settings = new KoLSettings( KoLCharacter.getUsername() );
 	}
 
 	public static final void setProperty( String name, String value )
-	{
-		getSettings().setProperty( name, value );
+	{	settings.setProperty( name, value );
 	}
 
 	public static final String getProperty( String name )
-	{	return getSettings().getProperty( name );
+	{	return settings.getProperty( name );
 	}
 
 	public static void openSystemBrowser( String location )

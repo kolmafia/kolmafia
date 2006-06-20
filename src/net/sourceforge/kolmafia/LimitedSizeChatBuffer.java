@@ -54,7 +54,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 	protected static LimitedSizeChatBuffer highlightBuffer;
 
 	private int previousFontSize;
-	private boolean ignoresBufferLimit;
+	private boolean requiresTruncation;
 	private boolean affectsHighlightBuffer;
 
 	private static int fontSize = 3;
@@ -66,18 +66,11 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		setFontSize( fontSize );
 	}
 
-	public LimitedSizeChatBuffer( String title )
-	{
-		this( title, false );
-		this.ignoresBufferLimit = true;
-	}
-
-	public LimitedSizeChatBuffer( String title, boolean affectsHighlightBuffer )
+	public LimitedSizeChatBuffer( String title, boolean requiresTruncation, boolean affectsHighlightBuffer )
 	{
 		super( title );
 		previousFontSize = fontSize;
-
-		this.ignoresBufferLimit = false;
+		this.requiresTruncation = requiresTruncation;
 		this.affectsHighlightBuffer = affectsHighlightBuffer;
 	}
 
@@ -152,9 +145,9 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 	public void append( String message )
 	{
-		if ( !ignoresBufferLimit && displayBuffer.length() > MAXIMUM_SIZE )
+		if ( requiresTruncation && displayBuffer.length() > MAXIMUM_SIZE )
 		{
-			int lineIndex = displayBuffer.indexOf( "<br>", displayBuffer.length() - RESIZE_SIZE );
+			int lineIndex = displayBuffer.lastIndexOf( "<br>", RESIZE_SIZE );
 			displayBuffer.delete( 0, lineIndex == -1 ? displayBuffer.length() : lineIndex );
 			fireBufferChanged( DISPLAY_CHANGE, null );
 		}
