@@ -157,7 +157,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptValue FLOAT_INIT = ZERO_FLOAT_VALUE;
 	private static final ScriptValue STRING_INIT = new ScriptValue( "" );
 	private static final ScriptValue ITEM_INIT = new ScriptValue( ITEM_TYPE, -1, "none" );
-	private static final ScriptValue ZODIAC_INIT = new ScriptValue( ZODIAC_TYPE, -1, "none" );
+	private static final ScriptValue ZODIAC_INIT = new ScriptValue( ZODIAC_TYPE, 0, "none" );
 	private static final ScriptValue LOCATION_INIT = new ScriptValue( LOCATION_TYPE, "none", (Object)null );
 	private static final ScriptValue CLASS_INIT = new ScriptValue( CLASS_TYPE, -1, "none" );
 	private static final ScriptValue STAT_INIT = new ScriptValue( STAT_TYPE, -1, "none" );
@@ -216,7 +216,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static ScriptValue parseItemValue( String name ) throws IllegalArgumentException
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
-			return new ScriptValue( ITEM_TYPE, -1, name );
+			return ITEM_INIT;
 
 		// Allow for an item number to be specified
 		// inside of the "item" construct.
@@ -266,6 +266,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue parseZodiacValue( String name ) throws IllegalArgumentException
 	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return ZODIAC_INIT;
+
 		int num = zodiacToInt( name );
 		if ( num < 0 )
 			throw new IllegalArgumentException( "Unknown zodiac " + name );
@@ -274,6 +277,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue parseLocationValue( String name ) throws IllegalArgumentException
 	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return LOCATION_INIT;
+
 		KoLAdventure content = AdventureDatabase.getAdventure( name );
 		if ( content == null )
 			throw new IllegalArgumentException( "Location " + name + " not found in database" );
@@ -290,6 +296,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue parseClassValue( String name ) throws IllegalArgumentException
 	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return CLASS_INIT;
+
 		int num = classToInt( name );
 		if ( num < 0 )
 			throw new IllegalArgumentException( "Unknown class " + name );
@@ -306,6 +315,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue parseStatValue( String name ) throws IllegalArgumentException
 	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return STAT_INIT;
+
 		int num = statToInt( name );
 		if ( num < 0 )
 			throw new IllegalArgumentException( "Unknown stat " + name );
@@ -314,6 +326,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue parseSkillValue( String name ) throws IllegalArgumentException
 	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return SKILL_INIT;
+
 		List skills = ClassSkillsDatabase.getMatchingNames( name );
 
 		if ( skills.isEmpty() )
@@ -326,6 +341,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue parseEffectValue( String name ) throws IllegalArgumentException
 	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return EFFECT_INIT;
+
 		AdventureResult effect = DEFAULT_SHELL.getFirstMatchingEffect( name );
 		if ( effect == null )
 			throw new IllegalArgumentException( "Effect " + name + " not found in database" );
@@ -338,7 +356,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static ScriptValue parseFamiliarValue( String name ) throws IllegalArgumentException
 	{
 		if ( name.equalsIgnoreCase( "none" ) )
-			return new ScriptValue( FAMILIAR_TYPE, -1, "none" );
+			return FAMILIAR_INIT;
 
 		int num = FamiliarsDatabase.getFamiliarID( name );
 		if ( num == -1 )
@@ -350,6 +368,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue parseSlotValue( String name ) throws IllegalArgumentException
 	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return SLOT_INIT;
+
 		int num = EquipmentRequest.slotNumber( name );
 		if ( num == -1 )
 			throw new IllegalArgumentException( "Bad slot name " + name );
@@ -359,6 +380,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue parseMonsterValue( String name ) throws IllegalArgumentException
 	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return MONSTER_INIT;
+
 		MonsterDatabase.Monster monster = MonsterDatabase.findMonster( name );
 		if ( monster == null )
 			throw new IllegalArgumentException( "Bad monster name " + name );
