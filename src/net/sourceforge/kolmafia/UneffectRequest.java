@@ -121,7 +121,7 @@ public class UneffectRequest extends KoLRequest
 			if ( isShruggable )
 				CharsheetRequest.parseStatus( responseText );
 			else
-				client.processResult( REMEDY );
+				client.processResult( REMEDY.getNegation() );
 
 			KoLmafia.updateDisplay( "Effect removed." );
 
