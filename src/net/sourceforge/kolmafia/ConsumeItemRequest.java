@@ -693,11 +693,6 @@ public class ConsumeItemRequest extends KoLRequest
 	public static boolean processRequest( KoLmafia client, String urlString )
 	{
 		int consumptionType = NO_CONSUME;
-		AdventureResult itemUsed = null;
-
-		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
-		if ( itemMatcher.find() )
-			itemUsed = new AdventureResult( Integer.parseInt( itemMatcher.group(1) ), 1 );
 
 		if ( urlString.indexOf( "inv_eat.php" ) != -1 )
 			consumptionType = CONSUME_EAT;
@@ -713,6 +708,11 @@ public class ConsumeItemRequest extends KoLRequest
 			consumptionType = CONSUME_USE;
 		else
 			return false;
+
+		AdventureResult itemUsed = null;
+		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
+		if ( itemMatcher.find() )
+			itemUsed = new AdventureResult( Integer.parseInt( itemMatcher.group(1) ), 1 );
 
 		if ( urlString.indexOf( "multiuse.php" ) != -1 || urlString.indexOf( "skills.php" ) != -1 )
 		{
