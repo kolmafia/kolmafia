@@ -92,7 +92,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		"sungraphics-license.txt", "systray-license.txt", "jline-license.txt" };
 	private static final String [] LICENSE_NAME = {
 		"KoLmafia", "Spellcast", "BrowserLauncher",
-		"Sun Graphics", "System Tray", "JLine" };
+		"Sun Graphics", "System Tray", "JLine Terminal" };
 
 	protected KoLMenuBar()
 	{	this( null );
@@ -274,6 +274,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		container.add( helperMenu );
 
 		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", LicenseDisplay.class ) );
+		helperMenu.add( new DisplayPageMenuItem( "Donate to KoLmafia", "http://kolmafia.sourceforge.net/credits.html" ) );
 		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", CalendarFrame.class ) );
 		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
 
@@ -863,7 +864,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 			JButton donateButton = new JButton( JComponentUtilities.getImage( "paypal.gif" ) );
 			JComponentUtilities.setComponentSize( donateButton, 74, 31 );
-			donateButton.addActionListener( new DisplayPageMenuItem( "", "http://sourceforge.net/donate/index.php?user_id=813949" ) );
+			donateButton.addActionListener( new DisplayPageMenuItem( "", "http://sourceforge.net/project/project_donations.php?group_id=126572" ) );
 
 			JPanel donatePanel = new JPanel();
 			donatePanel.add( donateButton );

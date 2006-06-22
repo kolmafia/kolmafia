@@ -142,7 +142,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ) );
 
-			if ( holiday.startsWith( "No" ) )
+			if ( holiday.startsWith( "No" ) || holiday.indexOf( "Birthday" ) != -1 )
 				adventureSelect.setStatusMessage( MoonPhaseDatabase.getMoonEffect() );
 			else
 				adventureSelect.setStatusMessage( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
