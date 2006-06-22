@@ -1077,6 +1077,8 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 		}
 
+		addJoybuzzer();
+
 		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
 		{
 			currentFamiliar.setItem( equipment[FAMILIAR] );
@@ -1912,6 +1914,8 @@ public abstract class KoLCharacter extends StaticEntity
 		for ( int i = 0; i < skillArray.length; ++i )
 			addAvailableSkill( skillArray[i] );
 
+		addJoybuzzer();
+
 		// Superhuman Cocktailcrafting affects # of summons for
 		// Advanced Cocktailcrafting
 		if ( hasSkill( "Superhuman Cocktailcrafting" ) )
@@ -1939,6 +1943,28 @@ public abstract class KoLCharacter extends StaticEntity
 		battleSkillIDs.setSelectedItem( CombatSettings.getShortCombatOptionName( getProperty( "battleAction" ) ) );
 		if ( battleSkillIDs.getSelectedIndex() != -1 )
 			battleSkillNames.setSelectedIndex( battleSkillIDs.getSelectedIndex() );
+	}
+
+	public static void addJoybuzzer()
+	{
+		UseSkillRequest handshake = new UseSkillRequest( StaticEntity.getClient(), "Shake Hands", "", 1 );
+
+		if ( getEquipment( OFFHAND ).startsWith( "joybuzzer" ) )
+		{
+			if ( !KoLCharacter.battleSkillIDs.contains( "7002" ) )
+			{
+				KoLCharacter.battleSkillIDs.add( "7002" );
+				KoLCharacter.battleSkillNames.add( "Skill: Shake Hands" );
+				addAvailableSkill( handshake );
+			}
+		}
+		else
+		{
+			KoLCharacter.battleSkillIDs.remove( "7002" );
+			KoLCharacter.battleSkillNames.remove( "Skill: Shake Hands" );
+			availableSkills.remove( handshake );
+			combatSkills.remove( handshake );
+		}
 	}
 
 	public static void addDictionary()
