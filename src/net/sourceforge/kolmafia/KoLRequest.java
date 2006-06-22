@@ -105,6 +105,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	private List data;
 
 	protected KoLmafia client;
+	protected boolean needsRefresh;
 	protected boolean statusChanged;
 	protected boolean processedResults;
 
@@ -511,6 +512,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		isServerFriendly = StaticEntity.getProperty( "serverFriendly" ).equals( "true" ) ||
 			StaticEntity.getProperty( "showAllRequests" ).equals( "true" );
 
+		needsRefresh = false;
 		processedResults = false;
 
 		if ( getURLString().indexOf( "fight.php?action=plink" ) != -1 )
@@ -1166,7 +1168,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected void processResults()
 	{
 		int previousHP = KoLCharacter.getCurrentHP();
-		boolean needsRefresh = client.processResults( responseText );
+		needsRefresh |= client.processResults( responseText );
 
 		if ( getAdventuresUsed() > 0 )
 		{

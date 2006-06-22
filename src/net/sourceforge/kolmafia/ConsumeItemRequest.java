@@ -428,7 +428,10 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case TINY_HOUSE:
 			// Tiny houses remove lots of different effects.
+
+			int originalEffectCount = KoLCharacter.getEffects().size();
 			client.applyTinyHouseEffect();
+			needsRefresh = originalEffectCount != KoLCharacter.getEffects().size();
 			break;
 
 		case RAFFLE_TICKET:
