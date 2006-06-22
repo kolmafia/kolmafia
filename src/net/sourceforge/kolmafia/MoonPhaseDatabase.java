@@ -768,6 +768,9 @@ public class MoonPhaseDatabase extends StaticEntity
 		if ( stringDate.endsWith( "1022" ) )
 			return "Holatuwol's Birthday";
 
+		if ( stringDate.endsWith( "0923" ) )
+			return "Veracity's Birthday";
+
 		return null;
 	}
 
