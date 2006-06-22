@@ -190,7 +190,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( username.startsWith( "login " ) )
 				username = username.substring( 6 );
-				
+
 			String password = StaticEntity.getClient().getSaveState( username );
 
 			if ( password == null )
@@ -938,8 +938,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "cast" ) || command.equals( "skill" ) )
 		{
-			executeCastBuffRequest( parameters );
-			return;
+			if ( parameters.length() > 0 )
+			{
+				executeCastBuffRequest( parameters );
+				return;
+			}
 		}
 
 		// Uneffect with martians are related to buffs,
@@ -1370,6 +1373,9 @@ public class KoLmafiaCLI extends KoLmafia
 		// other words, commands that look like they're
 		// their own commands, but are actually commands
 		// which are derived from other commands.
+
+		if ( command.equals( "cast" ) || command.equals( "skill" ) )
+			command = "skills";
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
 			command.equals( "effects" ) || command.startsWith( "status" ) || command.equals( "encounters" ) || command.equals( "skills" ) )
@@ -2034,43 +2040,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCastBuffRequest( String parameters )
 	{
-		String [] splitParameters = parameters.replaceFirst( " [oO][nN] ", "\n" ).split( "\n" );
-
-		if ( splitParameters.length == 1 )
-		{
-			splitParameters = new String[2];
-			splitParameters[0] = parameters;
-			splitParameters[1] = null;
-		}
-
-		String skillNameString;
-		String buffCountString;
-
-		if ( splitParameters[0].startsWith( "\"" ) )
-		{
-			skillNameString = splitParameters[0].substring( 1, splitParameters[0].length() - 1 );
-			buffCountString = null;
-		}
-		else if ( splitParameters[0].startsWith( "*" ) ||
-			  Character.isDigit( splitParameters[0].charAt( 0 ) ) )
-		{
-			buffCountString = splitParameters[0].split( " " )[0];
-			String rest = splitParameters[0].substring( buffCountString.length() ).trim();
-
-			if ( rest.startsWith( "\"" ) )
-			{
-				skillNameString = rest.substring( 1, rest.length() - 1 );
-			}
-			else
-			{
-				skillNameString = rest;
-			}
-		}
-		else
-		{
-			skillNameString = splitParameters[0];
-			buffCountString = null;
-		}
+		String [] splitParameters = splitParameters( parameters );
+		String buffCountString = splitParameters[0];
+		String skillNameString = splitParameters[1];
 
 		String skillName = getUsableSkillName( skillNameString );
 		if ( skillName == null )
@@ -2111,6 +2083,49 @@ public class KoLmafiaCLI extends KoLmafia
 
 			StaticEntity.getClient().makeRequest( new UseSkillRequest( StaticEntity.getClient(), skillName, splitParameters[1], buffCount ) );
 		}
+	}
+
+	private String [] splitParameters( String parameters )
+	{
+		String [] splitParameters = parameters.replaceFirst( " [oO][nN] ", "\n" ).split( "\n" );
+
+		if ( splitParameters.length == 1 )
+		{
+			splitParameters = new String[2];
+			splitParameters[0] = parameters;
+			splitParameters[1] = null;
+		}
+
+		String nameString;
+		String countString;
+
+		if ( splitParameters[0].startsWith( "\"" ) )
+		{
+			nameString = splitParameters[0].substring( 1, splitParameters[0].length() - 1 );
+			countString = null;
+		}
+		else if ( splitParameters[0].startsWith( "*" ) ||
+			  Character.isDigit( splitParameters[0].charAt( 0 ) ) )
+		{
+			countString = splitParameters[0].split( " " )[0];
+			String rest = splitParameters[0].substring( countString.length() ).trim();
+
+			if ( rest.startsWith( "\"" ) )
+			{
+				nameString = rest.substring( 1, rest.length() - 1 );
+			}
+			else
+			{
+				nameString = rest;
+			}
+		}
+		else
+		{
+			nameString = splitParameters[0];
+			countString = null;
+		}
+
+		return new String [] { countString, nameString };
 	}
 
 	/**
@@ -3003,11 +3018,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeBuyCommand( String parameters )
 	{
+		if ( makeRestaurantRequest() || makeMicrobreweryRequest() )
+			return;
+
 		AdventureResult firstMatch = getFirstMatchingItem( parameters, NOWHERE );
 		if ( firstMatch == null )
 			return;
 
-		if ( !NPCStoreDatabase.contains( firstMatch.getName() ) && !KoLCharacter.canInteract() )
+		if ( !NPCStoreDatabase.contains( firstMatch.getName() ) )
 		{
 			updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
 			return;
@@ -3423,30 +3441,38 @@ public class KoLmafiaCLI extends KoLmafia
 	 * is not available, this method does not report an error.
 	 */
 
-	public void makeRestaurantRequest()
+	public boolean makeRestaurantRequest()
 	{
 		List items = StaticEntity.getClient().restaurantItems;
-		if ( items.isEmpty() )
+		if ( items.isEmpty() && KoLCharacter.inMysticalitySign() )
 			(new RestaurantRequest( StaticEntity.getClient() )).run();
 
 		if ( previousLine.indexOf( " " ) == -1 )
 		{
 			printList( items );
-			return;
+			return false;
 		}
 
 		String item = previousLine.substring( previousLine.indexOf( " " ) ).trim();
+		String [] splitParameters = splitParameters( item );
+		String countString = splitParameters[0];
+		String nameString = splitParameters[1];
+
 		for ( int i = 0; i < items.size(); ++i )
 		{
 			String name = (String) items.get(i);
-			if ( name.toLowerCase().indexOf( item ) != -1 )
+			if ( name.toLowerCase().indexOf( nameString ) != -1 )
 			{
-				(new RestaurantRequest( StaticEntity.getClient(), name )).run();
-				return;
+				int count = countString == null || countString.length() == 0 ? 1 :
+					Integer.parseInt( countString );
+
+				for ( int j = 0; j < count; ++j )
+					(new RestaurantRequest( StaticEntity.getClient(), name )).run();
+				return true;
 			}
 		}
 
-		updateDisplay( ERROR_STATE, "The restaurant isn't selling " + item + " today." );
+		return false;
 	}
 
 	/**
@@ -3486,30 +3512,38 @@ public class KoLmafiaCLI extends KoLmafia
 	 * item is not available, this method does not report an error.
 	 */
 
-	public void makeMicrobreweryRequest()
+	public boolean makeMicrobreweryRequest()
 	{
 		List items = StaticEntity.getClient().microbreweryItems;
-		if ( items.isEmpty() )
+		if ( items.isEmpty() && KoLCharacter.inMoxieSign() )
 			(new MicrobreweryRequest( StaticEntity.getClient() )).run();
 
 		if ( previousLine.indexOf( " " ) == -1 )
 		{
 			printList( items );
-			return;
+			return false;
 		}
 
 		String item = previousLine.substring( previousLine.indexOf( " " ) ).trim();
+		String [] splitParameters = splitParameters( item );
+		String countString = splitParameters[0];
+		String nameString = splitParameters[1];
+
 		for ( int i = 0; i < items.size(); ++i )
 		{
 			String name = (String) items.get(i);
-			if ( name.toLowerCase().indexOf( item ) != -1 )
+			if ( name.toLowerCase().indexOf( nameString ) != -1 )
 			{
-				(new MicrobreweryRequest( StaticEntity.getClient(), name )).run();
-				return;
+				int count = countString == null || countString.length() == 0 ? 1 :
+					Integer.parseInt( countString );
+
+				for ( int j = 0; j < count; ++j )
+					(new MicrobreweryRequest( StaticEntity.getClient(), name )).run();
+				return true;
 			}
 		}
 
-		updateDisplay( ERROR_STATE, "The microbrewery isn't selling " + item + " today." );
+		return false;
 	}
 
 	public void printBlankLine()
