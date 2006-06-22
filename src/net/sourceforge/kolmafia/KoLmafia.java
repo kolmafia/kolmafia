@@ -990,7 +990,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	private final boolean recover( int needed, String settingName, String currentName, String maximumName,
-		String scriptProperty, String listProperty, Object [] techniques, Object [] fallbacks ) throws Exception
+		Object [] techniques, Object [] fallbacks ) throws Exception
 	{
 		if ( refusesContinue() )
 			return false;
@@ -1049,32 +1049,11 @@ public abstract class KoLmafia implements KoLConstants
 		if ( initial == 0 )
 			needed = (int) ( setting * (double) maximum );
 
-		// First, attempt to recover using the appropriate script, if it exists.
-		// This uses a lot of excessive reflection, but the idea is that it
-		// checks the current value of the stat against the needed value of
-		// the stat and makes sure that there's a change with every iteration.
-		// If there is no change, it exists the loop.
-
-		String scriptPath = StaticEntity.getProperty( scriptProperty ).trim();
-
-		if ( !scriptPath.equals( "" ) )
-		{
-			while ( current < threshold && last != current && !refusesContinue() )
-			{
-				last = current;
-				DEFAULT_SHELL.executeLine( scriptPath );
-				current = ((Number)currentMethod.invoke( null, empty )).intValue();
-			}
-		}
-
-		if ( refusesContinue() )
-			return false;
-
 		// If it gets this far, then you should attempt to recover
 		// using the selected items.  This involves a few extra
 		// reflection methods.
 
-		String restoreSetting = StaticEntity.getProperty( listProperty ).trim().toLowerCase();
+		String restoreSetting = StaticEntity.getProperty( settingName + "Items" ).trim().toLowerCase();
 
 		// Iterate through every single restore item, checking to
 		// see if the settings wish to use this item.  If so, go ahead
@@ -1173,8 +1152,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			return recover( recover, "hpAutoRecover", "getCurrentHP", "getMaximumHP",
-				"hpRecoveryScript", "hpRestores", HPRestoreItemList.CONFIGURES, HPRestoreItemList.FALLBACKS );
+			return recover( recover, "hpAutoRecovery", "getCurrentHP", "getMaximumHP", HPRestoreItemList.CONFIGURES, HPRestoreItemList.FALLBACKS );
 		}
 		catch ( Exception e )
 		{
@@ -1196,8 +1174,6 @@ public abstract class KoLmafia implements KoLConstants
 		// If the technique is an item, and the item is not readily available,
 		// then don't bother with this item -- however, if it is the only item
 		// present, then rethink it.
-
-		updateDisplay( "Recovering using " + techniqueName + "..." );
 
 		if ( technique instanceof HPRestoreItemList.HPRestoreItem )
 			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( needed );
@@ -1246,8 +1222,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			return recover( mpNeeded, "mpAutoRecover", "getCurrentMP", "getMaximumMP",
-				"mpRecoveryScript", "mpRestores", MPRestoreItemList.CONFIGURES, MPRestoreItemList.FALLBACKS );
+			return recover( mpNeeded, "mpAutoRecovery", "getCurrentMP", "getMaximumMP", MPRestoreItemList.CONFIGURES, MPRestoreItemList.FALLBACKS );
 		}
 		catch ( Exception e )
 		{

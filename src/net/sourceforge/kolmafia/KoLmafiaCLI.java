@@ -266,6 +266,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( StaticEntity.getClient() == this )
 			{
 				printBlankLine();
+				enableDisplay();
 				outputStream.print( " > " );
 			}
 			else if ( StaticEntity.getClient() == DEFAULT_SHELL && !DEFAULT_SHELL.permitsContinue() )
