@@ -2041,9 +2041,18 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeCastBuffRequest( String parameters )
 	{
-		String [] splitParameters = splitParameters( parameters );
-		String buffCountString = splitParameters[0];
-		String skillNameString = splitParameters[1];
+		String [] splitParameters = parameters.replaceFirst( " [oO][nN] ", "\n" ).split( "\n" );
+
+		if ( splitParameters.length == 1 )
+		{
+			splitParameters = new String[2];
+			splitParameters[0] = parameters;
+			splitParameters[1] = null;
+		}
+
+		String [] buffParameters = splitCountAndName( parameters );
+		String buffCountString = buffParameters[0];
+		String skillNameString = buffParameters[1];
 
 		String skillName = getUsableSkillName( skillNameString );
 		if ( skillName == null )
@@ -2086,30 +2095,20 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 	}
 
-	private String [] splitParameters( String parameters )
+	private String [] splitCountAndName( String parameters )
 	{
-		String [] splitParameters = parameters.replaceFirst( " [oO][nN] ", "\n" ).split( "\n" );
-
-		if ( splitParameters.length == 1 )
-		{
-			splitParameters = new String[2];
-			splitParameters[0] = parameters;
-			splitParameters[1] = null;
-		}
-
 		String nameString;
 		String countString;
 
-		if ( splitParameters[0].startsWith( "\"" ) )
+		if ( parameters.startsWith( "\"" ) )
 		{
-			nameString = splitParameters[0].substring( 1, splitParameters[0].length() - 1 );
+			nameString = parameters.substring( 1, parameters.length() - 1 );
 			countString = null;
 		}
-		else if ( splitParameters[0].startsWith( "*" ) ||
-			  Character.isDigit( splitParameters[0].charAt( 0 ) ) )
+		else if ( parameters.startsWith( "*" ) || Character.isDigit( parameters.charAt( 0 ) ) )
 		{
-			countString = splitParameters[0].split( " " )[0];
-			String rest = splitParameters[0].substring( countString.length() ).trim();
+			countString = parameters.split( " " )[0];
+			String rest = parameters.substring( countString.length() ).trim();
 
 			if ( rest.startsWith( "\"" ) )
 			{
@@ -2122,7 +2121,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else
 		{
-			nameString = splitParameters[0];
+			nameString = parameters;
 			countString = null;
 		}
 
@@ -3455,7 +3454,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		String item = previousLine.substring( previousLine.indexOf( " " ) ).trim();
-		String [] splitParameters = splitParameters( item );
+		String [] splitParameters = splitCountAndName( item );
 		String countString = splitParameters[0];
 		String nameString = splitParameters[1];
 
@@ -3526,7 +3525,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		String item = previousLine.substring( previousLine.indexOf( " " ) ).trim();
-		String [] splitParameters = splitParameters( item );
+		String [] splitParameters = splitCountAndName( item );
 		String countString = splitParameters[0];
 		String nameString = splitParameters[1];
 
