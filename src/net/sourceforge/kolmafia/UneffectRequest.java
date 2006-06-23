@@ -106,7 +106,7 @@ public class UneffectRequest extends KoLRequest
 				DEFAULT_SHELL.executeLine( "acquire " + REMEDY.getName() );
 			else if ( !KoLCharacter.getInventory().contains( REMEDY ) )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You don't have any soft green fluffy martians." );
+				KoLmafia.updateDisplay( "You don't have any soft green fluffy martians." );
 				return;
 			}
 		}
@@ -140,6 +140,6 @@ public class UneffectRequest extends KoLRequest
 			KoLCharacter.recalculateAdjustments( false );
 		}
 		else if ( !isShruggable )
-			KoLmafia.updateDisplay( ERROR_STATE, "Effect removal failed." );
+			KoLmafia.updateDisplay( "Effect removal failed." );
 	}
 }
