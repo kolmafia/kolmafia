@@ -1500,7 +1500,6 @@ public abstract class KoLmafia implements KoLConstants
 				updateDisplay( currentIterationString );
 
 			request.run();
-			applyRecentEffects();
 
 			// Decrement the counter to null out the increment
 			// effect on the next iteration of the loop.

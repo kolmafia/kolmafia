@@ -1201,6 +1201,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			KoLCharacter.recalculateAdjustments( false );
 		}
 
+		client.applyRecentEffects();
 		KoLCharacter.updateStatus();
 	}
 

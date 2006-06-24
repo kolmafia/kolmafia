@@ -155,8 +155,8 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			if ( this == OTTER )
 			{
-				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) && KoLCharacter.hasSkill( itemName ) )
-					(new UseSkillRequest( client, toString(), "", 1 )).run();
+				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) && KoLCharacter.hasSkill( "Tongue of the Otter" ) )
+					(new UseSkillRequest( client, "Tongue of the Otter", "", 1 )).run();
 
 				return;
 			}

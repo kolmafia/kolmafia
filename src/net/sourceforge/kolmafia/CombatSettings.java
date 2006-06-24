@@ -357,6 +357,9 @@ public abstract class CombatSettings implements UtilityConstants
 		if ( isSkillNumber )
 			return action;
 
+		if ( action.startsWith( "custom" ) )
+			return "custom";
+		
 		if ( action.startsWith( "abort" ) )
 			return "abort";
 
