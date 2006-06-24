@@ -946,8 +946,22 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		textBuffer.delete( moxmanIndex, endIndex + 7 );
 
 		int skillIndex = textBuffer.indexOf( "skill)</option>" );
-		textBuffer.insert( skillIndex + 15, "<option value='moxman'>Moxious Maneuver (" +
-			KoLCharacter.getLevel() + " Mojo Points)</option>" );
+		
+		boolean lastRoundManeuver = text.indexOf( "With great Moxie," ) != -1 || text.indexOf( "Moxious maneuver failed " ) != -1 ||
+			text.indexOf( "Anyway, dirty tricks" ) != -1 || text.indexOf( "You try to pull a sneaky attack" ) != -1 ||
+			text.indexOf( "You try to trip the Sorceress" ) != -1;
+
+		if ( lastRoundManeuver )
+		{
+			textBuffer.insert( skillIndex + 15, "<option value='moxman' selected>Moxious Maneuver (" +
+					KoLCharacter.getLevel() + " Mojo Points)</option>" );			
+		}
+		else
+		{
+			textBuffer.insert( skillIndex + 15, "<option value='moxman'>Moxious Maneuver (" +
+					KoLCharacter.getLevel() + " Mojo Points)</option>" );			
+		}
+
 		return textBuffer.toString();
 	}
 
