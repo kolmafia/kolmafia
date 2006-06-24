@@ -462,9 +462,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			if ( skillID == OTTER_TONGUE || skillID == WALRUS_TONGUE )
 			{
-				int roundsBeatenUp = KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() );
-				if ( roundsBeatenUp != 0 )
-					client.processResult( KoLAdventure.BEATEN_UP.getInstance( 0 - roundsBeatenUp ) );
+				KoLCharacter.getEffects().remove( KoLAdventure.BEATEN_UP );
+				needsRefresh = true;
 			}
 
 			super.processResults();
