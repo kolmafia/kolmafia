@@ -974,15 +974,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( possibleDecisions == null )
 			return text;
 
-		String item, itemID;
 		int index1 = 0, index2 = 0;
-
 		StringBuffer newText = new StringBuffer();
 
-		for ( int i = 0; i < possibleDecisions[3].length; ++i )
+		for ( int i = 0; i < possibleDecisions[2].length; ++i )
 		{
-			item = possibleDecisions[2][i];
-			itemID = possibleDecisions[3][i];
+			String item = possibleDecisions[2][i];
+			String itemID =	 ( possibleDecisions.length > 3 ) ?
+				possibleDecisions[3][i] : null;
 
 			index2 = text.indexOf( "</form>", index1 );
 			newText.append( text.substring( index1, index2 ) );
