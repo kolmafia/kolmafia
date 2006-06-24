@@ -943,11 +943,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		StringBuffer textBuffer = new StringBuffer( text );
 		int endIndex = text.indexOf( "</form>", moxmanIndex );
-		textBuffer.delete( moxmanIndex, endIndex );
+		textBuffer.delete( moxmanIndex, endIndex + 7 );
 
 		int skillIndex = textBuffer.indexOf( "skill)</option>" );
 		textBuffer.insert( skillIndex + 15, "<option value='moxman'>Moxious Maneuver (" +
-			KoLCharacter.getLevel() + " Muscularity Points)</option>" );
+			KoLCharacter.getLevel() + " Mojo Points)</option>" );
 		return textBuffer.toString();
 	}
 
