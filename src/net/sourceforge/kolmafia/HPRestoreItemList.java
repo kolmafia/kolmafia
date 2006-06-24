@@ -181,7 +181,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
 
 				if ( this == HERBS )
-					numberAvailable = belowMax < 20 || !NPCStoreDatabase.contains( HERBS.toString() ) ? 0 : 1;
+					numberAvailable = belowMax < 20 || !NPCStoreDatabase.contains( HERBS.toString() ) || KoLCharacter.spleenLimitReached() ? 0 : 1;
 				else if ( this == SCROLL && KoLCharacter.canInteract() )
 					numberAvailable = 1;
 				else if ( this == OINTMENT )
