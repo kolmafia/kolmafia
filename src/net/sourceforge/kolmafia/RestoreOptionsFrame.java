@@ -160,8 +160,8 @@ public class RestoreOptionsFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			betweenBattleScriptField.setText( StaticEntity.getProperty( "betweenBattleScript" ) );
-			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "hpAutoRecover" ) ) * 10) + 1 );
-			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "hpAutoRecoverTarget" ) ) * 10) + 1 );
+			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "hpAutoRecovery" ) ) * 10) + 1 );
+			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "hpAutoRecoveryTarget" ) ) * 10) + 1 );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -208,8 +208,8 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "mpAutoRecover" ) ) * 10) + 1 );
-			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "mpAutoRecoverTarget" ) ) * 10) + 1 );
+			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "mpAutoRecovery" ) ) * 10) + 1 );
+			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "mpAutoRecoveryTarget" ) ) * 10) + 1 );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
