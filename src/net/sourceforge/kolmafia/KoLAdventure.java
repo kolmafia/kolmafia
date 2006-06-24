@@ -81,7 +81,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		else if ( formSource.equals( "campground.php" ) )
 			this.request = new CampgroundRequest( client, adventureID );
 		else if ( formSource.equals( "clan_gym.php" ) )
-			this.request = new ClanGymRequest( client, Integer.parseInt( adventureID ) );
+			this.request = new ClanGymRequest( client, StaticEntity.parseInt( adventureID ) );
 		else
 			this.request = new AdventureRequest( client, adventureName, formSource, adventureID );
 

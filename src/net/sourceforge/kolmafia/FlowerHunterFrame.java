@@ -169,11 +169,11 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 		Matcher powerMatcher = Pattern.compile( "\\+(\\d+)" ).matcher( KoLCharacter.getEquipment( KoLCharacter.HAT ) );
 		if ( powerMatcher.find() )
-			equipmentPower += Integer.parseInt( powerMatcher.group(1) );
+			equipmentPower += StaticEntity.parseInt( powerMatcher.group(1) );
 
 		powerMatcher = Pattern.compile( "\\+(\\d+)" ).matcher( KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
 		if ( powerMatcher.find() )
-			equipmentPower += Integer.parseInt( powerMatcher.group(1) );
+			equipmentPower += StaticEntity.parseInt( powerMatcher.group(1) );
 
 		JLabel [] rankLabels = new JLabel[ this.rankLabels.size() ];
 		this.rankLabels.toArray( rankLabels );

@@ -111,7 +111,7 @@ public abstract class KoLMessenger extends StaticEntity
 		instantMessageFrames.clear();
 		instantMessageBuffers.clear();
 
-		chattingStyle = Integer.parseInt( getProperty( "chatStyle" ) );
+		chattingStyle = StaticEntity.parseInt( getProperty( "chatStyle" ) );
 		contactsFrame = new ContactListFrame( onlineContacts );
 		useTabbedChat = getProperty( "useTabbedChat" ).equals( "1" );
 
@@ -1136,22 +1136,22 @@ public abstract class KoLMessenger extends StaticEntity
 
 			Matcher colorMatcher = Pattern.compile( "<td>(.*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" ).matcher( responseText );
 			while ( colorMatcher.find() )
-				KoLMessenger.setColor( colorMatcher.group(1).toLowerCase(), Integer.parseInt( colorMatcher.group(2) ) );
+				KoLMessenger.setColor( colorMatcher.group(1).toLowerCase(), StaticEntity.parseInt( colorMatcher.group(2) ) );
 
 			// Add in other custom colors which are available
 			// in the chat options.
 
 			colorMatcher = Pattern.compile( "<select name=chatcolorself>.*?<option value=(\\d+) selected>" ).matcher( responseText );
 			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorself", Integer.parseInt( colorMatcher.group(1) ) );
+				KoLMessenger.setColor( "chatcolorself", StaticEntity.parseInt( colorMatcher.group(1) ) );
 
 			colorMatcher = Pattern.compile( "<select name=chatcolorcontacts>.*?<option value=(\\d+) selected>" ).matcher( responseText );
 			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorcontacts", Integer.parseInt( colorMatcher.group(1) ) );
+				KoLMessenger.setColor( "chatcolorcontacts", StaticEntity.parseInt( colorMatcher.group(1) ) );
 
 			colorMatcher = Pattern.compile( "<select name=chatcolorothers>.*?<option value=(\\d+) selected>" ).matcher( responseText );
 			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorothers", Integer.parseInt( colorMatcher.group(1) ) );
+				KoLMessenger.setColor( "chatcolorothers", StaticEntity.parseInt( colorMatcher.group(1) ) );
 		}
 	}
 }

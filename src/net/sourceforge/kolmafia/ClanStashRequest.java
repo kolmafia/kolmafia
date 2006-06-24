@@ -226,37 +226,21 @@ public class ClanStashRequest extends SendMessageRequest
 
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
-			try
+			lastFindIndex = optionMatcher.end();
+			int itemID = StaticEntity.parseInt( optionMatcher.group(1) );
+
+			String itemString = optionMatcher.group(2);
+
+			if ( TradeableItemDatabase.getItemName( itemID ) == null )
 			{
-				lastFindIndex = optionMatcher.end();
-				int itemID = COMMA_FORMAT.parse( optionMatcher.group(1) ).intValue();
-
-				String itemString = optionMatcher.group(2);
-
-				if ( TradeableItemDatabase.getItemName( itemID ) == null )
-				{
-					TradeableItemDatabase.registerItem( itemID, itemString.indexOf( "(" ) == -1 ? itemString :
-						itemString.substring( 0, itemString.indexOf( "(" ) ).trim() );
-				}
-
-				// How many are actually in the stash
-				int quantity = 1;
-
-				if ( itemString.indexOf( "(" ) != -1 )
-				{
-					Matcher qtyMatcher = qtyPattern.matcher( itemString.substring( itemString.indexOf( "(" ) ) );
-					quantity = qtyMatcher.find() ? COMMA_FORMAT.parse( qtyMatcher.group(1) ).intValue() : 1;
-				}
-
-				intermediateList.add( new AdventureResult( itemID, quantity ) );
+				TradeableItemDatabase.registerItem( itemID, itemString.indexOf( "(" ) == -1 ? itemString :
+					itemString.substring( 0, itemString.indexOf( "(" ) ).trim() );
 			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e );
-			}
+			// How many are actually in the stash
+			Matcher qtyMatcher = qtyPattern.matcher( itemString.substring( itemString.indexOf( "(" ) ) );
+			int quantity = qtyMatcher.find() ? StaticEntity.parseInt( qtyMatcher.group(1) ) : 1;
+			intermediateList.add( new AdventureResult( itemID, quantity ) );
 		}
 
 		// Remove everything that is no longer in the

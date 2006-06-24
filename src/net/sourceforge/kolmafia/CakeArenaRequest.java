@@ -108,7 +108,7 @@ public class CakeArenaRequest extends KoLRequest
 			"You have won (\\d*) time" ).matcher( responseText );
 
 		if ( winMatcher.find() )
-			KoLCharacter.setArenaWins( Integer.parseInt( winMatcher.group(1) ) );
+			KoLCharacter.setArenaWins( StaticEntity.parseInt( winMatcher.group(1) ) );
 
 		// Retrieve list of opponents
 		int lastMatchIndex = 0;
@@ -118,10 +118,10 @@ public class CakeArenaRequest extends KoLRequest
 		while ( opponentMatcher.find( lastMatchIndex ) )
 		{
 			lastMatchIndex = opponentMatcher.end() + 1;
-			int id = Integer.parseInt( opponentMatcher.group(1) );
+			int id = StaticEntity.parseInt( opponentMatcher.group(1) );
 			String name = opponentMatcher.group(2);
 			String race = opponentMatcher.group(3);
-			int weight = Integer.parseInt( opponentMatcher.group(4) );
+			int weight = StaticEntity.parseInt( opponentMatcher.group(4) );
 			CakeArenaManager.registerOpponent( id, name, race, weight );
 		}
 

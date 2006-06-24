@@ -57,7 +57,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	private String name, race, item;
 
 	public FamiliarData( int id )
-	{       this( id, "", 1, EquipmentRequest.UNEQUIP );
+	{	this( id, "", 1, EquipmentRequest.UNEQUIP );
 	}
 
 	public FamiliarData( int id, String name, int weight, String item )
@@ -72,19 +72,8 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	private FamiliarData( KoLmafia client, Matcher dataMatcher )
 	{
-		try
-		{
-			int kills = COMMA_FORMAT.parse( dataMatcher.group(4) ).intValue();
-			this.weight = Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			this.weight = 0;
-		}
+		int kills = StaticEntity.parseInt( dataMatcher.group(4) );
+		this.weight = Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
 
 		this.name = dataMatcher.group(2);
 		this.race = dataMatcher.group(3);
@@ -113,7 +102,7 @@ public class FamiliarData implements KoLConstants, Comparable
 		{
 			String race = familiarMatcher.group(3);
 			if ( !FamiliarsDatabase.contains( race ) )
-				FamiliarsDatabase.registerFamiliar( Integer.parseInt( familiarMatcher.group(1) ), race );
+				FamiliarsDatabase.registerFamiliar( StaticEntity.parseInt( familiarMatcher.group(1) ), race );
 		}
 
 		// Assume he has no familiar

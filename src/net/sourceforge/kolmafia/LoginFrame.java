@@ -631,8 +631,8 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			toolbars.setSelectedIndex( Integer.parseInt( StaticEntity.getProperty( "toolbarPosition" ) ) );
-			scripts.setSelectedIndex( Integer.parseInt( StaticEntity.getProperty( "scriptButtonPosition" ) ) );
+			toolbars.setSelectedIndex( StaticEntity.parseInt( StaticEntity.getProperty( "toolbarPosition" ) ) );
+			scripts.setSelectedIndex( StaticEntity.parseInt( StaticEntity.getProperty( "scriptButtonPosition" ) ) );
 		}
 
 		private class InterfaceCheckboxPanel extends OptionsPanel

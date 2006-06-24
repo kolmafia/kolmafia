@@ -461,18 +461,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "wait" ) || command.equals( "pause" ) )
 		{
-			try
-			{
-				int seconds = parameters.equals( "" ) ? 1 : COMMA_FORMAT.parse( parameters ).intValue();
-				StaticEntity.executeCountdown( "Countdown: ", seconds );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
+			int seconds = parameters.equals( "" ) ? 1 : StaticEntity.parseInt( parameters );
+			StaticEntity.executeCountdown( "Countdown: ", seconds );
 
 			updateDisplay( "Waiting completed." );
 			return;
@@ -637,25 +627,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "repeat" ) )
 		{
-			try
+			if ( previousLine != null )
 			{
-				if ( previousLine != null )
-				{
-					int repeatCount = parameters.length() == 0 ? 1 : COMMA_FORMAT.parse( parameters ).intValue();
-					for ( int i = 0; i < repeatCount && permitsContinue(); ++i )
-						executeLine( previousLine );
-				}
-
-				return;
+				int repeatCount = parameters.length() == 0 ? 1 : StaticEntity.parseInt( parameters );
+				for ( int i = 0; i < repeatCount && permitsContinue(); ++i )
+					executeLine( previousLine );
 			}
-			catch ( Exception e )
-			{
-				// Notify the client that the command could not be repeated
-				// the given number of times.
 
-				updateDisplay( ERROR_STATE, parameters + " is not a number." );
-				return;
-			}
+			return;
 		}
 
 		// Next, print out the moon phase, if the user
@@ -1307,7 +1286,7 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				String [] splitup = parameters.split( "with limit" );
 				parameters = splitup[0];
-				desiredLimit = Integer.parseInt( parameters );
+				desiredLimit = StaticEntity.parseInt( parameters );
 			}
 
 			StoreManager.searchMall( parameters, results, desiredLimit, true );
@@ -1481,7 +1460,7 @@ public class KoLmafiaCLI extends KoLmafia
 					}
 				}
 
-				runCount = Integer.parseInt( runCountString );
+				runCount = StaticEntity.parseInt( runCountString );
 				String scriptName = parameters.substring( parameters.indexOf( " " ) ).trim();
 
 				scriptFile = new File( "scripts" + File.separator + scriptName );
@@ -1732,7 +1711,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( right.endsWith( "%" ) )
 		{
 			right = right.substring( 0, right.length() - 1 );
-			int value = Integer.parseInt( right );
+			int value = StaticEntity.parseInt( right );
 
 			if ( left.equals( "health" ) )
 				return(int) ((double) value * (double)KoLCharacter.getMaximumHP() / 100.0);
@@ -1770,7 +1749,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If it gets this far, then it must be numeric,
 		// so parse the number and return it.
 
-		return Integer.parseInt( right );
+		return StaticEntity.parseInt( right );
 	}
 
 	private AdventureResult effectParameter( String parameter )
@@ -1853,7 +1832,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// number of choice adventures the user wishes to do.
 
 				String [] splitCondition = conditionString.split( "\\s+" );
-				condition = new AdventureResult( AdventureResult.CHOICE, splitCondition.length > 1 ? Integer.parseInt( splitCondition[0] ) : 1 );
+				condition = new AdventureResult( AdventureResult.CHOICE, splitCondition.length > 1 ? StaticEntity.parseInt( splitCondition[0] ) : 1 );
 			}
 			else if ( conditionString.startsWith( "level" ) )
 			{
@@ -1862,7 +1841,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// add the substat points as a condition.
 
 				String [] splitCondition = conditionString.split( "\\s+" );
-				int level = Integer.parseInt( splitCondition[1] );
+				int level = StaticEntity.parseInt( splitCondition[1] );
 
 				int [] subpoints = new int[3];
 				int primeIndex = KoLCharacter.getPrimeIndex();
@@ -1893,96 +1872,68 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else if ( conditionString.endsWith( " meat" ) )
 			{
-				try
-				{
-					String [] splitCondition = conditionString.split( "\\s+" );
-					int amount = COMMA_FORMAT.parse( splitCondition[0] ).intValue();
-
-					condition = new AdventureResult( AdventureResult.MEAT, amount );
-				}
-				catch ( Exception e )
-				{
-					updateDisplay( conditionString + " is an invalid condition." );
-					condition = null;
-				}
+				String [] splitCondition = conditionString.split( "\\s+" );
+				int amount = StaticEntity.parseInt( splitCondition[0] );
+				condition = new AdventureResult( AdventureResult.MEAT, amount );
 			}
 			else if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) ||
 				conditionString.endsWith( "mys" ) || conditionString.endsWith( "myst" ) || conditionString.endsWith( "mysticality" ) )
 			{
-				try
+				String [] splitCondition = conditionString.split( "\\s+" );
+				int points = StaticEntity.parseInt( splitCondition[0] );
+
+				int [] subpoints = new int[3];
+				int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
+				subpoints[ statIndex ] = KoLCharacter.calculateSubpoints( points, 0 );
+
+				subpoints[ statIndex ] -= conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() :
+					conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() :
+					KoLCharacter.getTotalMoxie();
+
+				for ( int i = 0; i < subpoints.length; ++i )
+					subpoints[i] = Math.max( 0, subpoints[i] );
+
+				condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
+
+				// Make sure that if there was a previous substat condition,
+				// and it modifies the same stat as this condition, that the
+				// greater of the two remains and the two aren't added.
+
+				int previousIndex = StaticEntity.getClient().conditions.indexOf( condition );
+				if ( previousIndex != -1 )
 				{
-					String [] splitCondition = conditionString.split( "\\s+" );
-					int points = COMMA_FORMAT.parse( splitCondition[0] ).intValue();
-
-					int [] subpoints = new int[3];
-					int statIndex = conditionString.indexOf( "mus" ) != -1 ? 0 : conditionString.indexOf( "mys" ) != -1 ? 1 : 2;
-					subpoints[ statIndex ] = KoLCharacter.calculateSubpoints( points, 0 );
-
-					subpoints[ statIndex ] -= conditionString.indexOf( "mus" ) != -1 ? KoLCharacter.getTotalMuscle() :
-						conditionString.indexOf( "mys" ) != -1 ? KoLCharacter.getTotalMysticality() :
-						KoLCharacter.getTotalMoxie();
+					AdventureResult previousCondition = (AdventureResult) StaticEntity.getClient().conditions.get( previousIndex );
 
 					for ( int i = 0; i < subpoints.length; ++i )
-						subpoints[i] = Math.max( 0, subpoints[i] );
+						if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
+							subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
 
 					condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
-
-					// Make sure that if there was a previous substat condition,
-					// and it modifies the same stat as this condition, that the
-					// greater of the two remains and the two aren't added.
-
-					int previousIndex = StaticEntity.getClient().conditions.indexOf( condition );
-					if ( previousIndex != -1 )
-					{
-						AdventureResult previousCondition = (AdventureResult) StaticEntity.getClient().conditions.get( previousIndex );
-
-						for ( int i = 0; i < subpoints.length; ++i )
-							if ( subpoints[i] != 0 && previousCondition.getCount(i) != 0 )
-								subpoints[i] = Math.max( 0, subpoints[i] - previousCondition.getCount(i) );
-
-						condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
-					}
-				}
-				catch ( Exception e )
-				{
-					updateDisplay( conditionString + " is an invalid condition." );
-					condition = null;
 				}
 			}
 			else if ( conditionString.endsWith( "health" ) || conditionString.endsWith( "mana" ) )
 			{
-				try
+				String numberString = conditionString.split( "\\s+" )[0];
+				int points = StaticEntity.parseInt( numberString.endsWith( "%" ) ? numberString.substring( 0, numberString.length() - 1 ) : numberString );
+
+				if ( numberString.endsWith( "%" ) )
 				{
-
-					String numberString = conditionString.split( "\\s+" )[0];
-
-					int points = COMMA_FORMAT.parse( numberString.endsWith( "%" ) ? numberString.substring( 0, numberString.length() - 1 ) :
-						numberString ).intValue();
-
-					if ( numberString.endsWith( "%" ) )
-					{
-						if ( conditionString.endsWith( "health" ) )
-							points = (int) ((double) points * (double)KoLCharacter.getMaximumHP() / 100.0);
-						else if ( conditionString.endsWith( "mana" ) )
-							points = (int) ((double) points * (double)KoLCharacter.getMaximumMP() / 100.0);
-					}
-
-					points -= conditionString.endsWith( "health" ) ? KoLCharacter.getCurrentHP() :
-						KoLCharacter.getCurrentMP();
-
-					condition = new AdventureResult( conditionString.endsWith( "health" ) ? AdventureResult.HP : AdventureResult.MP, points );
-
-					int previousIndex = StaticEntity.getClient().conditions.indexOf( condition );
-					if ( previousIndex != -1 )
-					{
-						AdventureResult previousCondition = (AdventureResult) StaticEntity.getClient().conditions.get( previousIndex );
-						condition = condition.getInstance( condition.getCount() - previousCondition.getCount() );
-					}
+					if ( conditionString.endsWith( "health" ) )
+						points = (int) ((double) points * (double)KoLCharacter.getMaximumHP() / 100.0);
+					else if ( conditionString.endsWith( "mana" ) )
+						points = (int) ((double) points * (double)KoLCharacter.getMaximumMP() / 100.0);
 				}
-				catch ( Exception e )
+
+				points -= conditionString.endsWith( "health" ) ? KoLCharacter.getCurrentHP() :
+					KoLCharacter.getCurrentMP();
+
+				condition = new AdventureResult( conditionString.endsWith( "health" ) ? AdventureResult.HP : AdventureResult.MP, points );
+
+				int previousIndex = StaticEntity.getClient().conditions.indexOf( condition );
+				if ( previousIndex != -1 )
 				{
-					updateDisplay( conditionString + " is an invalid condition." );
-					condition = null;
+					AdventureResult previousCondition = (AdventureResult) StaticEntity.getClient().conditions.get( previousIndex );
+					condition = condition.getInstance( condition.getCount() - previousCondition.getCount() );
 				}
 			}
 			else
@@ -2021,17 +1972,8 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executeCampgroundRequest( String parameters )
 	{
 		String [] parameterList = parameters.split( " " );
-
-		try
-		{
-			StaticEntity.getClient().makeRequest( new CampgroundRequest( StaticEntity.getClient(), parameterList[0] ),
-				parameterList.length == 1 ? 1 : COMMA_FORMAT.parse( parameterList[1] ).intValue() );
-		}
-		catch ( Exception e )
-		{
-			updateDisplay( ERROR_STATE, parameterList[1] + " is not a number." );
-			return;
-		}
+		StaticEntity.getClient().makeRequest( new CampgroundRequest( StaticEntity.getClient(), parameterList[0] ),
+			parameterList.length == 1 ? 1 : StaticEntity.parseInt( parameterList[1] ) );
 	}
 
 	/**
@@ -2069,21 +2011,16 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		int buffCount;
-		try
+		int buffCount = 1;
+
+		if ( buffCountString != null && buffCountString.equals( "*" ) )
 		{
-			if ( buffCountString == null || buffCountString.length() == 0 )
-				buffCount = 1;
-			else if ( buffCountString.equals( "*" ) )
-				buffCount = (int) ( KoLCharacter.getCurrentMP() /
-						    ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) );
-			else
-				buffCount = COMMA_FORMAT.parse( buffCountString ).intValue();
+			buffCount = (int) ( KoLCharacter.getCurrentMP() /
+					    ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) );
 		}
-		catch ( Exception e )
+		else if ( buffCountString != null )
 		{
-			updateDisplay( ERROR_STATE, buffCountString + " is not a number." );
-			return;
+			buffCount = StaticEntity.parseInt( buffCountString );
 		}
 
 		if ( buffCount > 0 )
@@ -2188,31 +2125,24 @@ public class KoLmafiaCLI extends KoLmafia
 		String [] parameterList = parameters.split( " " );
 
 		if ( parameterList[0].startsWith( "boris" ) || parameterList[0].startsWith( "mus" ) )
+		{
 			heroID = HeroDonationRequest.BORIS;
+		}
 		else if ( parameterList[0].startsWith( "jarl" ) || parameterList[0].startsWith( "mys" ) )
+		{
 			heroID = HeroDonationRequest.JARLSBERG;
+		}
 		else if ( parameterList[0].startsWith( "pete" ) || parameterList[0].startsWith( "mox" ) )
+		{
 			heroID = HeroDonationRequest.PETE;
+		}
 		else
 		{
 			updateDisplay( ERROR_STATE, parameters + " is not a statue." );
 			return;
 		}
 
-		try
-		{
-			amount = COMMA_FORMAT.parse( parameterList[1] ).intValue();
-		}
-		catch ( Exception e )
-		{
-			if ( amount == -1 )
-				updateDisplay( ERROR_STATE, parameterList[1] + " is not a number." );
-			else
-				updateDisplay( ERROR_STATE, parameterList[2] + " is not a number." );
-
-			return;
-		}
-
+		amount = StaticEntity.parseInt( parameterList[1] );
 		updateDisplay( "Donating " + amount + " to the shrine..." );
 		StaticEntity.getClient().makeRequest( new HeroDonationRequest( StaticEntity.getClient(), heroID, amount ) );
 	}
@@ -2533,16 +2463,8 @@ public class KoLmafiaCLI extends KoLmafia
 				return null;
 			}
 
-			try
-			{
-				effectName = (String) matchingNames.get(0);
-				duration = durationString.equals( "*" ) ? 0 : COMMA_FORMAT.parse( durationString ).intValue();
-			}
-			catch ( Exception e )
-			{
-				updateDisplay( ERROR_STATE, durationString + " is not a number." );
-				return null;
-			}
+			effectName = (String) matchingNames.get(0);
+			duration = durationString.equals( "*" ) ? 0 : StaticEntity.parseInt( durationString );
 		}
 
 		if ( effectName == null )
@@ -2639,15 +2561,7 @@ public class KoLmafiaCLI extends KoLmafia
 					}
 				}
 
-				try
-				{
-					itemCount = COMMA_FORMAT.parse( itemCountString ).intValue();
-				}
-				catch ( Exception e )
-				{
-					updateDisplay( ERROR_STATE, itemCountString + " is not a number." );
-					return null;
-				}
+				itemCount = StaticEntity.parseInt( itemCountString );
 			}
 		}
 
@@ -2760,17 +2674,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeMindControlRequest()
 	{
-		try
-		{
-			String [] command = previousLine.split( " " );
-
-			int setting = COMMA_FORMAT.parse( command[1] ).intValue();
-			StaticEntity.getClient().makeRequest( new MindControlRequest( StaticEntity.getClient(), setting ) );
-		}
-		catch ( Exception e )
-		{
-			updateDisplay( ERROR_STATE, "Invalid setting for device." );
-		}
+		int setting = StaticEntity.parseInt( previousLine.split( " " )[1] );
+		StaticEntity.getClient().makeRequest( new MindControlRequest( StaticEntity.getClient(), setting ) );
 	}
 
 	/**
@@ -2804,7 +2709,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		String goalString = split[1];
-		int goal = Integer.parseInt( goalString );
+		int goal = StaticEntity.parseInt( goalString );
 
 		boolean buffs = ( split.length == 3 && split[2].equals( "yes" ) );
 
@@ -2829,17 +2734,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			String squareString = split[1];
-			int square;
-
-			try
-			{
-				square = COMMA_FORMAT.parse( squareString ).intValue();
-			}
-			catch  ( Exception e )
-			{
-				updateDisplay( ERROR_STATE, squareString + " is not a number." );
-				return;
-			}
+			int square = StaticEntity.parseInt( squareString );
 
 			// Skip past command and square
 			parameters = parameters.substring( command.length() ).trim();
@@ -2865,16 +2760,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 			String squareString = split[1];
 
-			try
-			{
-				int square = COMMA_FORMAT.parse( squareString ).intValue();
-				MushroomPlot.pickMushroom( square, true );
-			}
-			catch  ( Exception e )
-			{
-				updateDisplay( ERROR_STATE, squareString + " is not a number." );
-				return;
-			}
+			int square = StaticEntity.parseInt( squareString );
+			MushroomPlot.pickMushroom( square, true );
 		}
 		else if ( command.equals( "harvest" ) )
 			MushroomPlot.harvestMushrooms();
@@ -2901,23 +2788,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 		for ( int i = 0; i < itemNames.length; ++i )
 		{
-			try
+			if ( itemNames[i].endsWith( "meat" ) )
 			{
-				if ( itemNames[i].endsWith( "meat" ) )
-				{
-					String amountString = itemNames[i].split( " " )[0];
-					int amount = amountString.equals( "*" ) ? 0 : COMMA_FORMAT.parse( amountString ).intValue();
-					firstMatch = new AdventureResult( AdventureResult.MEAT, amount > 0 ? amount : KoLCharacter.getAvailableMeat() + amount );
-
-				}
-				else
-					firstMatch = getFirstMatchingItem( itemNames[i], location );
+				String amountString = itemNames[i].split( " " )[0];
+				int amount = amountString.equals( "*" ) ? 0 : StaticEntity.parseInt( amountString );
+				firstMatch = new AdventureResult( AdventureResult.MEAT, amount > 0 ? amount : KoLCharacter.getAvailableMeat() + amount );
 			}
-			catch ( Exception e )
-			{
-				updateDisplay( ERROR_STATE, itemNames[i] + " is not a valid list element." );
-				firstMatch = null;
-			}
+			else
+				firstMatch = getFirstMatchingItem( itemNames[i], location );
 
 			if ( firstMatch != null )
 				AdventureResult.addResultToList( items, firstMatch );
@@ -2983,16 +2861,8 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			return;
 
-		try
-		{
-			StaticEntity.getClient().makeRequest( new AutoSellRequest( StaticEntity.getClient(), firstMatch,
-				COMMA_FORMAT.parse( tokens[ tokens.length - 2 ] ).intValue(), COMMA_FORMAT.parse( tokens[ tokens.length - 1 ] ).intValue() ) );
-		}
-		catch ( Exception e )
-		{
-			updateDisplay( ERROR_STATE, "Invalid price/limit for automall request." );
-			return;
-		}
+		StaticEntity.getClient().makeRequest( new AutoSellRequest( StaticEntity.getClient(), firstMatch,
+			StaticEntity.parseInt( tokens[ tokens.length - 2 ] ), StaticEntity.parseInt( tokens[ tokens.length - 1 ] ) ) );
 	}
 
 	/**
@@ -3158,23 +3028,12 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			try
-			{
-				adventureCount = adventureCountString.equals( "*" ) ? 0 : COMMA_FORMAT.parse( adventureCountString ).intValue();
+			adventureCount = adventureCountString.equals( "*" ) ? 0 : StaticEntity.parseInt( adventureCountString );
 
-				if ( adventureCount <= 0 && adventure.getFormSource().equals( "shore.php" ) )
-					adventureCount += (int) Math.floor( KoLCharacter.getAdventuresLeft() / 3 );
-				else if ( adventureCount <= 0 )
-					adventureCount += KoLCharacter.getAdventuresLeft();
-			}
-			catch ( Exception e )
-			{
-				// Technically, this exception should not be thrown, but if
-				// it is, then print an error message and return.
-
-				updateDisplay( ERROR_STATE, adventureCountString + " is not a number." );
-				return;
-			}
+			if ( adventureCount <= 0 && adventure.getFormSource().equals( "shore.php" ) )
+				adventureCount += (int) Math.floor( KoLCharacter.getAdventuresLeft() / 3 );
+			else if ( adventureCount <= 0 )
+				adventureCount += KoLCharacter.getAdventuresLeft();
 		}
 
 		if ( isExecutingCheckOnlyCommand )
@@ -3228,20 +3087,9 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		try
-		{
-			BuffBotHome.setBuffBotActive( true );
-			BuffBotManager.runBuffBot( COMMA_FORMAT.parse( parameters ).intValue() );
-			updateDisplay( "Buffbot execution complete." );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e, "Error opening file <" + parameters + ">" );
-			return;
-		}
+		BuffBotHome.setBuffBotActive( true );
+		BuffBotManager.runBuffBot( StaticEntity.parseInt( parameters ) );
+		updateDisplay( "Buffbot execution complete." );
 	}
 
 	/**
@@ -3358,15 +3206,7 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 			}
 
-			try
-			{
-				tradeCount = COMMA_FORMAT.parse( itemCountString ).intValue();
-			}
-			catch ( Exception e )
-			{
-				updateDisplay( ERROR_STATE, itemCountString + " is not a number." );
-				return;
-			}
+			tradeCount = StaticEntity.parseInt( itemCountString );
 		}
 
 		for ( int i = 0; i < matchingNames.size(); ++i )
@@ -3464,7 +3304,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( name.toLowerCase().indexOf( nameString ) != -1 )
 			{
 				int count = countString == null || countString.length() == 0 ? 1 :
-					Integer.parseInt( countString );
+					StaticEntity.parseInt( countString );
 
 				for ( int j = 0; j < count; ++j )
 					(new RestaurantRequest( StaticEntity.getClient(), name )).run();
@@ -3535,7 +3375,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( name.toLowerCase().indexOf( nameString ) != -1 )
 			{
 				int count = countString == null || countString.length() == 0 ? 1 :
-					Integer.parseInt( countString );
+					StaticEntity.parseInt( countString );
 
 				for ( int j = 0; j < count; ++j )
 					(new MicrobreweryRequest( StaticEntity.getClient(), name )).run();

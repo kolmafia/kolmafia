@@ -71,7 +71,7 @@ public class AreaCombatData implements KoLConstants
 		int colon = name.indexOf( ":" );
 		if ( colon > 0 )
 		{
-			weighting = Integer.parseInt( name.substring( colon + 1 ).trim() );
+			weighting = StaticEntity.parseInt( name.substring( colon + 1 ).trim() );
 			name = name.substring( 0, colon );
 		}
 

@@ -199,16 +199,16 @@ public class MuseumManager extends StaticEntity
 		{
 			selectedMatcher = selectedPattern.matcher( optionMatcher.group(3) );
 
-			itemID = Integer.parseInt( optionMatcher.group(2) );
+			itemID = StaticEntity.parseInt( optionMatcher.group(2) );
 
 			itemString = optionMatcher.group(1).split( "[\\(\\)]" );
 			if ( TradeableItemDatabase.getItemName( itemID ) == null )
 				TradeableItemDatabase.registerItem( itemID, itemString[0].trim() );
 
-			itemCount = itemString.length == 1 ? 1 : Integer.parseInt( itemString[1] );
+			itemCount = itemString.length == 1 ? 1 : StaticEntity.parseInt( itemString[1] );
 
 			registerItem( new AdventureResult( itemID, itemCount ),
-				selectedMatcher.find() ? Integer.parseInt( selectedMatcher.group(1) ) : 0 );
+				selectedMatcher.find() ? StaticEntity.parseInt( selectedMatcher.group(1) ) : 0 );
 		}
 	}
 
@@ -228,7 +228,7 @@ public class MuseumManager extends StaticEntity
 			Matcher shelfMatcher = Pattern.compile( "<option value=(\\d+).*?>(.*?)</option>" ).matcher( selectMatcher.group() );
 			while ( shelfMatcher.find() )
 			{
-				currentShelf = Integer.parseInt( shelfMatcher.group(1) );
+				currentShelf = StaticEntity.parseInt( shelfMatcher.group(1) );
 
 				for ( int i = headers.size(); i < currentShelf; ++i )
 					headers.add( "(Deleted Shelf)" );

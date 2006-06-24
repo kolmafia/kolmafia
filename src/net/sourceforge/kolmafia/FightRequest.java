@@ -155,7 +155,7 @@ public class FightRequest extends KoLRequest
 		// If the player wants to use an item, make sure he has one
 		else if ( action1.startsWith( "item" ) )
 		{
-			int itemID = Integer.parseInt( action1.substring( 4 ) );
+			int itemID = StaticEntity.parseInt( action1.substring( 4 ) );
 			int itemCount = (new AdventureResult( itemID, 1 )).getCount( KoLCharacter.getInventory() );
 
 			if ( itemCount == 0 )
@@ -191,7 +191,7 @@ public class FightRequest extends KoLRequest
 		// If the player wants to use a skill, make sure he knows it
 		else
 		{
-			String skillName = ClassSkillsDatabase.getSkillName( Integer.parseInt( action1 ) );
+			String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( action1 ) );
 
 			if ( KoLmafiaCLI.getCombatSkillName( skillName ) == null )
 			{
@@ -307,7 +307,7 @@ public class FightRequest extends KoLRequest
 		if ( action1.equals( "moxman" ) )
 			return KoLCharacter.getLevel();
 
-		return ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action1 ) );
+		return ClassSkillsDatabase.getMPConsumptionByID( StaticEntity.parseInt( action1 ) );
 	}
 
 	private boolean hasActionCost( int itemID )
@@ -338,7 +338,7 @@ public class FightRequest extends KoLRequest
 
 		if ( action1.startsWith( "item" ) )
 		{
-			int id1 = Integer.parseInt( action1.substring( 4 ) );
+			int id1 = StaticEntity.parseInt( action1.substring( 4 ) );
 
 			if ( hasActionCost( id1 ) )
 				client.processResult( new AdventureResult( id1, -1 ) );
@@ -346,7 +346,7 @@ public class FightRequest extends KoLRequest
 			if ( action2 == null || action2.equals( "" ) )
 				return;
 
-			int id2 = Integer.parseInt( action2.substring( 4 ) );
+			int id2 = StaticEntity.parseInt( action2.substring( 4 ) );
 
 			if ( hasActionCost( id2 ) )
 				client.processResult( new AdventureResult( id2, -1 ) );
@@ -355,7 +355,7 @@ public class FightRequest extends KoLRequest
 		}
 
 		int mp = action1.equals( "moxman" ) ? KoLCharacter.getLevel() :
-			ClassSkillsDatabase.getMPConsumptionByID( Integer.parseInt( action1 ) );
+			ClassSkillsDatabase.getMPConsumptionByID( StaticEntity.parseInt( action1 ) );
 
 		if ( mp > 0 )
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - mp ) );

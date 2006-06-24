@@ -908,7 +908,7 @@ public class AdventureDatabase extends KoLDatabase
 		for ( int i = 0; i < CHOICE_MEAT_COST.length; ++i )
 			if ( choice.equals( CHOICE_MEAT_COST[i][0] ) &&
 			     decision.equals( CHOICE_MEAT_COST[i][1] ) )
-				return Integer.parseInt( CHOICE_MEAT_COST[i][2] );
+				return StaticEntity.parseInt( CHOICE_MEAT_COST[i][2] );
 		return 0;
 	}
 
@@ -939,7 +939,7 @@ public class AdventureDatabase extends KoLDatabase
 					continue;
 				}
 
-				int combats = Integer.parseInt( data[1] );
+				int combats = StaticEntity.parseInt( data[1] );
 				AreaCombatData combat = new AreaCombatData( combats );
 
 				for ( int i = 2; i < data.length; ++i )

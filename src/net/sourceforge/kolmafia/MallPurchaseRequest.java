@@ -388,45 +388,35 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			Matcher itemChangedMatcher = Pattern.compile(
 				"<td valign=center><b>" + itemName + "</b> \\(([\\d,]+)\\) </td><td>([\\d,]+) Meat" ).matcher( result );
 
-			try
+			if ( itemChangedMatcher.find() )
 			{
-				if ( itemChangedMatcher.find() )
+				int limit = StaticEntity.parseInt( itemChangedMatcher.group(1) );
+				int newPrice = StaticEntity.parseInt( itemChangedMatcher.group(2) );
+
+				// If the item exists at a lower or equivalent
+				// price, then you should re-attempt the purchase
+				// of the item.
+
+				if ( price >= newPrice )
 				{
-					int limit = COMMA_FORMAT.parse( itemChangedMatcher.group(1) ).intValue();
-					int newPrice = COMMA_FORMAT.parse( itemChangedMatcher.group(2) ).intValue();
-
-					// If the item exists at a lower or equivalent
-					// price, then you should re-attempt the purchase
-					// of the item.
-
-					if ( price >= newPrice )
-					{
-						KoLmafia.updateDisplay( "Failed to yield.  Attempting repurchase..." );
-						(new MallPurchaseRequest( client, itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice, Math.min( limit, quantity ), true )).run();
-					}
-					else
-					{
-						// In the event of a price switch, give the
-						// player the option to report it.
-
-						KoLmafia.updateDisplay( "Price switch detected (#" + shopID + ").  Skipping..." );
-					}
+					KoLmafia.updateDisplay( "Failed to yield.  Attempting repurchase..." );
+					(new MallPurchaseRequest( client, itemName, itemID, Math.min( limit, quantity ), shopID, shopName, newPrice, Math.min( limit, quantity ), true )).run();
 				}
 				else
 				{
-					// If the item was not found, just make sure to
-					// notify the user temporarily that the store
-					// failed to yield the item.
+					// In the event of a price switch, give the
+					// player the option to report it.
 
-					KoLmafia.updateDisplay( "Failed to yield.  Skipping..." );
+					KoLmafia.updateDisplay( "Price switch detected (#" + shopID + ").  Skipping..." );
 				}
 			}
-			catch ( Exception e )
+			else
 			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
+				// If the item was not found, just make sure to
+				// notify the user temporarily that the store
+				// failed to yield the item.
 
-				StaticEntity.printStackTrace( e );
+				KoLmafia.updateDisplay( "Failed to yield.  Skipping..." );
 			}
 
 			return;
@@ -441,26 +431,15 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		Matcher quantityMatcher = Pattern.compile(
 			"You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" ).matcher( result );
 
-		try
+		if ( quantityMatcher.find() )
 		{
-			if ( quantityMatcher.find() )
-			{
-				int limit = COMMA_FORMAT.parse( quantityMatcher.group(1) ).intValue();
-				int alreadyPurchased = COMMA_FORMAT.parse( quantityMatcher.group(2) ).intValue();
+			int limit = StaticEntity.parseInt( quantityMatcher.group(1) );
+			int alreadyPurchased = StaticEntity.parseInt( quantityMatcher.group(2) );
 
-				if ( limit != alreadyPurchased )
-					(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit, true )).run();
+			if ( limit != alreadyPurchased )
+				(new MallPurchaseRequest( client, itemName, itemID, limit - alreadyPurchased, shopID, shopName, price, limit, true )).run();
 
-				canPurchase = false;
-				return;
-			}
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
+			canPurchase = false;
 			return;
 		}
 

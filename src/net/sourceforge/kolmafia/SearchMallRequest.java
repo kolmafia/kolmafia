@@ -242,7 +242,7 @@ public class SearchMallRequest extends KoLRequest
 			Matcher shopMatcher = Pattern.compile( "<b>(.*?) \\(<a.*?who=(\\d+)\"" ).matcher( responseText );
 			shopMatcher.find();
 
-			int shopID = Integer.parseInt( shopMatcher.group(2) );
+			int shopID = StaticEntity.parseInt( shopMatcher.group(2) );
 
 			// Translate the shop name to its unicode form so
 			// it can be properly rendered.  In the process,
@@ -260,29 +260,18 @@ public class SearchMallRequest extends KoLRequest
 				lastFindIndex = priceMatcher.end();
 				String priceID = priceMatcher.group(1);
 
-				try
-				{
-					String itemName = priceMatcher.group(2);
+				String itemName = priceMatcher.group(2);
 
-					int itemID = Integer.parseInt( priceID.substring( 0, priceID.length() - 9 ) );
-					int quantity = COMMA_FORMAT.parse( priceMatcher.group(3) ).intValue();
-					int limit = quantity;
+				int itemID = StaticEntity.parseInt( priceID.substring( 0, priceID.length() - 9 ) );
+				int quantity = StaticEntity.parseInt( priceMatcher.group(3) );
+				int limit = quantity;
 
-					Matcher limitMatcher = limitPattern.matcher( priceMatcher.group(4) );
-					if ( limitMatcher.find() )
-						limit = COMMA_FORMAT.parse( limitMatcher.group(1) ).intValue();
+				Matcher limitMatcher = limitPattern.matcher( priceMatcher.group(4) );
+				if ( limitMatcher.find() )
+					limit = StaticEntity.parseInt( limitMatcher.group(1) );
 
-					int price = Integer.parseInt( priceID.substring( priceID.length() - 9 ) );
-					results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, true ) );
-				}
-				catch ( Exception e )
-				{
-					// This should not happen.  Therefore, print
-					// a stack trace for debug purposes.
-
-					StaticEntity.printStackTrace( e );
-					return;
-				}
+				int price = StaticEntity.parseInt( priceID.substring( priceID.length() - 9 ) );
+				results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, true ) );
 			}
 		}
 		else
@@ -294,7 +283,7 @@ public class SearchMallRequest extends KoLRequest
 			while ( storeMatcher.find( lastFindIndex ) )
 			{
 				lastFindIndex = storeMatcher.end();
-				individualStore = new SearchMallRequest( client, Integer.parseInt( storeMatcher.group(1) ) );
+				individualStore = new SearchMallRequest( client, StaticEntity.parseInt( storeMatcher.group(1) ) );
 				individualStore.run();
 
 				results.addAll( individualStore.results );
@@ -376,10 +365,10 @@ public class SearchMallRequest extends KoLRequest
 			// which means you don't need to consult thenext token.
 
 			String shopDetails = parsedResults.nextToken();
-			int shopID = Integer.parseInt( shopDetails.substring( shopDetails.indexOf( "store=" ) + 6, shopDetails.indexOf( "&searchitem" ) ) );
-			int itemID = Integer.parseInt( shopDetails.substring( shopDetails.indexOf( "item=" ) + 5, shopDetails.indexOf( "&searchprice" ) ) );
+			int shopID = StaticEntity.parseInt( shopDetails.substring( shopDetails.indexOf( "store=" ) + 6, shopDetails.indexOf( "&searchitem" ) ) );
+			int itemID = StaticEntity.parseInt( shopDetails.substring( shopDetails.indexOf( "item=" ) + 5, shopDetails.indexOf( "&searchprice" ) ) );
 			String shopName = shopDetails.substring( shopDetails.indexOf( "\">" ) + 2 );
-			int price = Integer.parseInt( shopDetails.substring( shopDetails.indexOf( "price=" ) + 6, shopDetails.indexOf( "\">" ) ) );
+			int price = StaticEntity.parseInt( shopDetails.substring( shopDetails.indexOf( "price=" ) + 6, shopDetails.indexOf( "\">" ) ) );
 
 			// The last token contains the price of the item, but
 			// you need to discard it.

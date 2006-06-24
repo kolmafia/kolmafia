@@ -526,7 +526,7 @@ public class ItemManageFrame extends KoLFrame
 				Matcher optionMatcher = Pattern.compile( "<option value=\"?(\\d+)" ).matcher( selectMatcher.group() );
 				while ( optionMatcher.find() )
 				{
-					itemID = Integer.parseInt( optionMatcher.group(1) );
+					itemID = StaticEntity.parseInt( optionMatcher.group(1) );
 					if ( itemID >= 1 )  availableItems.add( new AdventureResult( itemID, 1 ) );
 				}
 
@@ -603,7 +603,7 @@ public class ItemManageFrame extends KoLFrame
 				Matcher optionMatcher = Pattern.compile( "<option value=\"?(\\d+)" ).matcher( selectMatcher.group() );
 				while ( optionMatcher.find() )
 				{
-					itemID = Integer.parseInt( optionMatcher.group(1) );
+					itemID = StaticEntity.parseInt( optionMatcher.group(1) );
 					if ( itemID >= 1 )  availableItems.add( new AdventureResult( itemID, 1 ) );
 				}
 

@@ -82,7 +82,7 @@ public class FlowerHunterRequest extends KoLRequest
 		addFormField( "winmessage", message );
 		addFormField( "losemessage", message );
 	}
-	
+
 	public FlowerHunterRequest( KoLmafia client, String clanID )
 	{
 		super( client, "showclan.php" );
@@ -92,9 +92,9 @@ public class FlowerHunterRequest extends KoLRequest
 	}
 
 	public void setTarget( String target )
-	{	addFormField( "who", target );		
+	{	addFormField( "who", target );
 	}
-	
+
 	public List getSearchResults()
 	{	return searchResults;
 	}
@@ -154,7 +154,7 @@ public class FlowerHunterRequest extends KoLRequest
 
 		Matcher rankMatcher = Pattern.compile( "Your current PvP Ranking is (\\d+)" ).matcher( responseText );
 		if ( rankMatcher.find() )
-			KoLCharacter.setPvpRank( Integer.parseInt( rankMatcher.group(1) ) );
+			KoLCharacter.setPvpRank( StaticEntity.parseInt( rankMatcher.group(1) ) );
 
 		// Trim down the response text so it only includes
 		// the information related to the fight.

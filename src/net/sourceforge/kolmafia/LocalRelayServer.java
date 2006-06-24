@@ -346,7 +346,7 @@ public class LocalRelayServer implements Runnable
 
 					tokens = line.split( "(: )" );
 					if ( tokens[0].equals( "Content-Length" ) )
-						contentLength = Integer.parseInt( tokens[1].trim(), 10 );
+						contentLength = StaticEntity.parseInt( tokens[1].trim() );
 				}
 				if ( method.equals( "POST" ) )
 				{

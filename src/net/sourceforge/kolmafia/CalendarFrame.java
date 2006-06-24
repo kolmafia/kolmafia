@@ -197,7 +197,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 
 		int year = model.getCurrentYear();
 		int month = model.getCurrentMonth() + 1;
-		int day = Integer.parseInt( dayString );
+		int day = StaticEntity.parseInt( dayString );
 
 		StringBuffer dateString = new StringBuffer();
 		dateString.append( year );

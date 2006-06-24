@@ -1150,7 +1150,7 @@ public abstract class SorceressLair extends StaticEntity
 		int n = -1;
 		Matcher placeMatcher = Pattern.compile( "lair6.php\\?place=(\\d+)" ).matcher( request.responseText );
 		if ( placeMatcher.find() )
-			n = Integer.parseInt( placeMatcher.group(1) );
+			n = StaticEntity.parseInt( placeMatcher.group(1) );
 
 		if ( n < 0 )
 		{

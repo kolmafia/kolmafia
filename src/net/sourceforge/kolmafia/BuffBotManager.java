@@ -98,13 +98,13 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				String [] currentBuff = soldBuffs[i].split( ":" );
 				if ( currentBuff.length == 4 )
 				{
-					addBuff( ClassSkillsDatabase.getSkillName( Integer.parseInt( currentBuff[0] ) ), Integer.parseInt( currentBuff[1] ),
-						Integer.parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), false );
+					addBuff( ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( currentBuff[0] ) ), StaticEntity.parseInt( currentBuff[1] ),
+						StaticEntity.parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), false );
 				}
 				else if ( currentBuff.length == 5 )
 				{
-					addBuff( ClassSkillsDatabase.getSkillName( Integer.parseInt( currentBuff[0] ) ), Integer.parseInt( currentBuff[1] ),
-						Integer.parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), currentBuff[4].equals( "true" ) );
+					addBuff( ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( currentBuff[0] ) ), StaticEntity.parseInt( currentBuff[1] ),
+						StaticEntity.parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), currentBuff[4].equals( "true" ) );
 				}
 			}
 		}
@@ -345,7 +345,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		BuffBotHome.setBuffBotActive( true );
 		KoLmafia.updateDisplay( "Buffbot started." );
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
-		messageDisposalSetting = Integer.parseInt( getProperty( "buffBotMessageDisposal" ) );
+		messageDisposalSetting = StaticEntity.parseInt( getProperty( "buffBotMessageDisposal" ) );
 
 		String whiteListString = getProperty( "whiteList" ).toLowerCase();
 		if ( whiteListString.indexOf( "$clan" ) != -1 )
@@ -563,7 +563,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 
 		Matcher meatMatcher = Pattern.compile( MEAT_REGEX ).matcher( message.getMessageHTML() );
-		int meatSent = meatMatcher.find() ? COMMA_FORMAT.parse( meatMatcher.group(1) ).intValue() : 0;
+		int meatSent = meatMatcher.find() ? StaticEntity.parseInt( meatMatcher.group(1) ) : 0;
 		List castList = (List) buffCostMap.get( new Integer( meatSent ) );
 
 		// If what is sent does not match anything in the buff table,

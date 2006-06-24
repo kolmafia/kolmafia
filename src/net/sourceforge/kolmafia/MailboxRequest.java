@@ -106,15 +106,15 @@ public class MailboxRequest extends KoLRequest
 
 			if ( matcher.find() )
 			{
-				lastMessageID = Integer.parseInt( matcher.group(1) );
-				totalMessages = Integer.parseInt( matcher.group(2) );
+				lastMessageID = StaticEntity.parseInt( matcher.group(1) );
+				totalMessages = StaticEntity.parseInt( matcher.group(2) );
 			}
 			else
 			{
 				matcher = Pattern.compile( "Messages: \\w*?, page 1 \\((\\d*) messages\\)</b>" ).matcher( responseText );
 				if ( matcher.find() )
 				{
-					lastMessageID = Integer.parseInt( matcher.group(1) );
+					lastMessageID = StaticEntity.parseInt( matcher.group(1) );
 					totalMessages = lastMessageID;
 				}
 			}

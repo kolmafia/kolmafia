@@ -472,16 +472,8 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public int getPrice()
 		{
-			try
-			{
-				return itemPrice.getText() == null || itemPrice.getText().length() == 0 ? 0 :
-					COMMA_FORMAT.parse( itemPrice.getText() ).intValue();
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-				return 0;
-			}
+			return itemPrice.getText() == null || itemPrice.getText().length() == 0 ? 0 :
+				StaticEntity.parseInt( itemPrice.getText() );
 		}
 
 		private class TakeButtonListener implements ActionListener

@@ -168,7 +168,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		JToolBar toolbarPanel = null;
 
-		switch ( Integer.parseInt( StaticEntity.getProperty( "toolbarPosition" ) ) )
+		switch ( StaticEntity.parseInt( StaticEntity.getProperty( "toolbarPosition" ) ) )
 		{
 			case 1:
 				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
@@ -919,26 +919,15 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 	protected static final int getValue( JTextField field, int defaultValue )
 	{
-		try
-		{
-			String currentValue = field.getText();
+		String currentValue = field.getText();
 
-			if ( currentValue == null || currentValue.length() == 0 )
-				return defaultValue;
+		if ( currentValue == null || currentValue.length() == 0 )
+			return defaultValue;
 
-			if ( currentValue.equals( "*" ) )
-				return defaultValue;
+		if ( currentValue.equals( "*" ) )
+			return defaultValue;
 
-			return COMMA_FORMAT.parse( field.getText().trim() ).intValue();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return 0;
-		}
+		return StaticEntity.parseInt( field.getText().trim() );
 	}
 
 	protected static final int getQuantity( String title, int maximumValue, int defaultValue )
@@ -950,26 +939,15 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( maximumValue == 1 && maximumValue == defaultValue )
 			return 1;
 
-		try
-		{
-			String currentValue = JOptionPane.showInputDialog( title, COMMA_FORMAT.format( defaultValue ) );
-			if ( currentValue == null )
-				return 0;
-
-			if ( currentValue.equals( "*" ) )
-				return maximumValue;
-
-			int desiredValue = COMMA_FORMAT.parse( currentValue ).intValue();
-			return Math.max( 0, Math.min( desiredValue, maximumValue ) );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
+		String currentValue = JOptionPane.showInputDialog( title, COMMA_FORMAT.format( defaultValue ) );
+		if ( currentValue == null )
 			return 0;
-		}
+
+		if ( currentValue.equals( "*" ) )
+			return maximumValue;
+
+		int desiredValue = StaticEntity.parseInt( currentValue );
+		return desiredValue <= 0 ? maximumValue - desiredValue : Math.min( desiredValue, maximumValue );
 	}
 
 	protected static final int getQuantity( String title, int maximumValue )
@@ -1165,8 +1143,8 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( position != null && position.indexOf( "," ) != -1 )
 		{
 			String [] location = position.split( "," );
-			xLocation = Integer.parseInt( location[0] );
-			yLocation = Integer.parseInt( location[1] );
+			xLocation = StaticEntity.parseInt( location[0] );
+			yLocation = StaticEntity.parseInt( location[1] );
 		}
 		if ( xLocation > 0 && yLocation > 0 && xLocation < screenSize.getWidth() && yLocation < screenSize.getHeight() )
 			setLocation( xLocation, yLocation );

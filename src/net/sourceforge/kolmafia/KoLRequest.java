@@ -174,7 +174,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			// Determine the login server that will be used.
 
-			int setting = Integer.parseInt( StaticEntity.getProperty( "loginServer" ) );
+			int setting = StaticEntity.parseInt( StaticEntity.getProperty( "loginServer" ) );
 			int server = ( setting < 1 || setting > SERVER_COUNT ) ? RNG.nextInt( SERVER_COUNT ) : setting - 1;
 			setLoginServer( SERVERS[server][0] );
 		}
@@ -1096,19 +1096,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected static final int intToken( StringTokenizer st, int fromStart )
 	{
-		try
-		{
-			String token = st.nextToken().substring( fromStart );
-			return (token.indexOf(",") == -1) ? Integer.parseInt( token ) : COMMA_FORMAT.parse( token ).intValue();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return 0;
-		}
+		String token = st.nextToken().substring( fromStart );
+		return StaticEntity.parseInt( token );
 	}
 
 	/**
@@ -1127,20 +1116,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected static final int intToken( StringTokenizer st, int fromStart, int fromEnd )
 	{
-		try
-		{
-			String token = st.nextToken();
-			token = token.substring( fromStart, token.length() - fromEnd );
-			return (token.indexOf(",") == -1) ? Integer.parseInt( token ) : COMMA_FORMAT.parse( token ).intValue();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return 0;
-		}
+		String token = st.nextToken();
+		token = token.substring( fromStart, token.length() - fromEnd );
+		return StaticEntity.parseInt( token );
 	}
 
 	/**
@@ -1317,7 +1295,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			{
 				KoLmafiaCLI.printLine( "Choice: " +
 					AdventureDatabase.CHOICE_ADVS[i][1][0] + " => " +
-					AdventureDatabase.CHOICE_ADVS[i][2][ Integer.parseInt( decision ) - 1 ] );
+					AdventureDatabase.CHOICE_ADVS[i][2][ StaticEntity.parseInt( decision ) - 1 ] );
 			}
 		}
 
@@ -1382,7 +1360,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			if ( possibleDecisions[i] != null )
 			{
-				AdventureResult item = new AdventureResult( Integer.parseInt( possibleDecisions[i] ), 1 );
+				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
 				if ( !KoLCharacter.hasItem( item, false ) || client.getConditions().contains( item ) )
 					return String.valueOf( i + 1 );
 			}

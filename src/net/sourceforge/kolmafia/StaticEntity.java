@@ -246,4 +246,8 @@ public abstract class StaticEntity implements KoLConstants
 		if ( shouldOpenStream )
 			KoLmafia.closeDebugStream();
 	}
+
+	public static final int parseInt( String string )
+	{	return Integer.parseInt( string.replaceAll( "[^\\-0-9]", "" ) );
+	}
 }

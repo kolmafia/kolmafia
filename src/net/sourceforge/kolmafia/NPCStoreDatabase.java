@@ -165,7 +165,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		// for purchase from the NPC store.
 
 		return new MallPurchaseRequest( client, (String) storeTable[1].get(itemIndex), storeID,
-			Integer.parseInt( (String) storeTable[2].get(itemIndex) ), Integer.parseInt( (String) storeTable[3].get(itemIndex) ) );
+			StaticEntity.parseInt( (String) storeTable[2].get(itemIndex) ), StaticEntity.parseInt( (String) storeTable[3].get(itemIndex) ) );
 	}
 
 	public static final boolean contains( String itemName )

@@ -67,10 +67,10 @@ public class EquipmentDatabase extends KoLDatabase
 
 				if ( itemID != -1 )
 				{
-					power.set( itemID, Integer.parseInt( data[1] ) );
+					power.set( itemID, StaticEntity.parseInt( data[1] ) );
 					requirement.set( itemID, data[2] );
 
-					hands.set( itemID, ( data.length >= 4 ) ? Integer.parseInt( data[3] ) :
+					hands.set( itemID, ( data.length >= 4 ) ? StaticEntity.parseInt( data[3] ) :
 						TradeableItemDatabase.getConsumptionType( itemID ) == ConsumeItemRequest.EQUIP_WEAPON ? 1 : 0 );
 				}
 			}
@@ -84,7 +84,7 @@ public class EquipmentDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 
@@ -95,7 +95,7 @@ public class EquipmentDatabase extends KoLDatabase
 		{
 			if ( data.length == 3 )
 			{
-				outfitID = Integer.parseInt( data[0] );
+				outfitID = StaticEntity.parseInt( data[0] );
 				outfits.set( outfitID, new SpecialOutfit( outfitID, data[1] ) );
 
 				String [] pieces = data[2].split( "\\s*,\\s*" );
@@ -119,13 +119,13 @@ public class EquipmentDatabase extends KoLDatabase
 			return false;
 
 		if ( requirement.get( itemID ).startsWith( "Mus:" ) )
-			return KoLCharacter.getBaseMuscle() >= Integer.parseInt( requirement.get( itemID ).substring(5) );
+			return KoLCharacter.getBaseMuscle() >= StaticEntity.parseInt( requirement.get( itemID ).substring(5) );
 
 		if ( requirement.get( itemID ).startsWith( "Mys:" ) )
-			return KoLCharacter.getBaseMysticality() >= Integer.parseInt( requirement.get( itemID ).substring(5) );
+			return KoLCharacter.getBaseMysticality() >= StaticEntity.parseInt( requirement.get( itemID ).substring(5) );
 
 		if ( requirement.get( itemID ).startsWith( "Mox:" ) )
-			return KoLCharacter.getBaseMoxie() >= Integer.parseInt( requirement.get( itemID ).substring(5) );
+			return KoLCharacter.getBaseMoxie() >= StaticEntity.parseInt( requirement.get( itemID ).substring(5) );
 
 		return true;
 	}
