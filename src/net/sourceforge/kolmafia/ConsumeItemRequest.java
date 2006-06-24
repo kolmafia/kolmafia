@@ -224,7 +224,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( alreadyInstalled )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "You already have one installed." );
+			KoLmafia.updateDisplay( "You already have one installed." );
 			return;
 		}
 
@@ -267,7 +267,7 @@ public class ConsumeItemRequest extends KoLRequest
 		{
 			if ( responseText.indexOf( "You've already got a familiar of that type." ) != -1 )
 			{
-				KoLmafia.updateDisplay( PENDING_STATE, "You already have that familiar." );
+				KoLmafia.updateDisplay( "You already have that familiar." );
 				return;
 			}
 
@@ -290,7 +290,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
-			KoLmafia.updateDisplay( PENDING_STATE, "Your spleen might go kabooie." );
+			KoLmafia.updateDisplay( "Your spleen might go kabooie." );
 			return;
 		}
 
@@ -306,7 +306,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "too drunk" ) != -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Inebriety limit reached." );
+			KoLmafia.updateDisplay( PENDING_STATE, "Inebriety limit reached." );
 			return;
 		}
 
@@ -558,7 +558,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// ate.	 Try again later."
 			if ( responseText.indexOf( "still cold" ) != -1 )
 			{
-				KoLmafia.updateDisplay( PENDING_STATE, "Your mouth is too cold." );
+				KoLmafia.updateDisplay( "Your mouth is too cold." );
 				return;
 			}
 			break;
