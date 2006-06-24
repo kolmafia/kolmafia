@@ -3025,7 +3025,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			return;
 
-		if ( !NPCStoreDatabase.contains( firstMatch.getName() ) )
+		if ( !KoLCharacter.canInteract() && !NPCStoreDatabase.contains( firstMatch.getName() ) )
 		{
 			updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
 			return;
