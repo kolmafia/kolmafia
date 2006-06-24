@@ -946,7 +946,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		textBuffer.delete( moxmanIndex, endIndex + 7 );
 
 		int skillIndex = textBuffer.indexOf( "skill)</option>" );
-		
+
 		boolean lastRoundManeuver = text.indexOf( "With great Moxie," ) != -1 || text.indexOf( "Moxious maneuver failed " ) != -1 ||
 			text.indexOf( "Anyway, dirty tricks" ) != -1 || text.indexOf( "You try to pull a sneaky attack" ) != -1 ||
 			text.indexOf( "You try to trip the Sorceress" ) != -1;
@@ -954,12 +954,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( lastRoundManeuver )
 		{
 			textBuffer.insert( skillIndex + 15, "<option value='moxman' selected>Moxious Maneuver (" +
-					KoLCharacter.getLevel() + " Mojo Points)</option>" );			
+					KoLCharacter.getLevel() + " Mojo Points)</option>" );
 		}
 		else
 		{
 			textBuffer.insert( skillIndex + 15, "<option value='moxman'>Moxious Maneuver (" +
-					KoLCharacter.getLevel() + " Mojo Points)</option>" );			
+					KoLCharacter.getLevel() + " Mojo Points)</option>" );
 		}
 
 		return textBuffer.toString();
@@ -1005,7 +1005,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( itemID != null )
 			{
 				newText.append( " - " );
-				AdventureResult result = new AdventureResult( Integer.parseInt( itemID ), 1 );
+				AdventureResult result = new AdventureResult( StaticEntity.parseInt( itemID ), 1 );
 				newText.append( result.getCount( KoLCharacter.getInventory() ) );
 				newText.append( " in inventory" );
 			}
@@ -1027,28 +1027,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			int selectedItem = -1;
 			Matcher itemMatcher = Pattern.compile( "<option.*?value=(.*?)>.*?\\((.*?)\\)</option>" ).matcher( selectMatcher.group() );
 
-			try
+			while ( itemMatcher.find() )
 			{
-				while ( itemMatcher.find() )
-				{
-					int id = Integer.parseInt( itemMatcher.group(1) );
-					if ( id == 0 )
-						continue;
+				int id = StaticEntity.parseInt( itemMatcher.group(1) );
+				if ( id == 0 )
+					continue;
 
-					int count = COMMA_FORMAT.parse( itemMatcher.group(2) ).intValue();
-					AdventureResult currentItem = new AdventureResult( id, count );
-					if ( itemMatcher.group().indexOf( "selected" ) != -1 )
-						selectedItem = id;
+				int count = StaticEntity.parseInt( itemMatcher.group(2) );
+				AdventureResult currentItem = new AdventureResult( id, count );
+				if ( itemMatcher.group().indexOf( "selected" ) != -1 )
+					selectedItem = id;
 
-					items.add( currentItem );
-				}
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
+				items.add( currentItem );
 			}
 
 			Collections.sort( items );

@@ -193,6 +193,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		}
 
 		super.processResults();
+		KoLCharacter.refreshCalculatedLists();
 		KoLCharacter.updateStatus();
 	}
 
@@ -250,19 +251,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		Matcher meatInClosetMatcher = Pattern.compile( "<b>Your closet contains ([\\d,]+) meat\\.</b>" ).matcher( responseText );
 
 		if ( meatInClosetMatcher.find() )
-		{
-			try
-			{
-				afterMeatInCloset = COMMA_FORMAT.parse( meatInClosetMatcher.group(1) ).intValue();
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
-		}
+			afterMeatInCloset = StaticEntity.parseInt( meatInClosetMatcher.group(1) );
 
 		KoLCharacter.setClosetMeat( afterMeatInCloset );
 		client.processResult( new AdventureResult( AdventureResult.MEAT, beforeMeatInCloset - afterMeatInCloset ) );
@@ -308,24 +297,14 @@ public class ItemStorageRequest extends SendMessageRequest
 		Matcher optionMatcher = Pattern.compile( "<option[^>]* value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( storageMatcher.group() );
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
-			try
-			{
-				lastFindIndex = optionMatcher.end();
-				int itemID = COMMA_FORMAT.parse( optionMatcher.group(1) ).intValue();
+			lastFindIndex = optionMatcher.end();
+			int itemID = StaticEntity.parseInt( optionMatcher.group(1) );
 
-				if ( TradeableItemDatabase.getItemName( itemID ) == null )
-					TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
+			if ( TradeableItemDatabase.getItemName( itemID ) == null )
+				TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
 
-				AdventureResult result = new AdventureResult( itemID, COMMA_FORMAT.parse( optionMatcher.group(3) ).intValue() );
-				AdventureResult.addResultToList( storageContents, result );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
+			AdventureResult result = new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) );
+			AdventureResult.addResultToList( storageContents, result );
 		}
 	}
 

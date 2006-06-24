@@ -716,13 +716,13 @@ public class ConsumeItemRequest extends KoLRequest
 		AdventureResult itemUsed = null;
 		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
 		if ( itemMatcher.find() )
-			itemUsed = new AdventureResult( Integer.parseInt( itemMatcher.group(1) ), 1 );
+			itemUsed = new AdventureResult( StaticEntity.parseInt( itemMatcher.group(1) ), 1 );
 
 		if ( urlString.indexOf( "multiuse.php" ) != -1 || urlString.indexOf( "skills.php" ) != -1 )
 		{
 			Matcher quantityMatcher = Pattern.compile( "quantity=(\\d+)" ).matcher( urlString );
 			if ( quantityMatcher.find() )
-				itemUsed = itemUsed.getInstance( Integer.parseInt( quantityMatcher.group(1) ) );
+				itemUsed = itemUsed.getInstance( StaticEntity.parseInt( quantityMatcher.group(1) ) );
 		}
 
 		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "eat " :

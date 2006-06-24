@@ -109,7 +109,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 					if ( itemID != -1 )
 					{
-						int mixingMethod = Integer.parseInt( data[1] );
+						int mixingMethod = StaticEntity.parseInt( data[1] );
 						Concoction concoction = new Concoction( item, mixingMethod );
 
 						for ( int i = 2; i < data.length; ++i )
@@ -264,8 +264,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 			String itemIDString = data.substring( 0, closeBracketIndex ).replaceAll( "[\\[\\]]", "" ).trim();
 			String quantityString = data.substring( closeBracketIndex + 1 ).trim();
 
-			return new AdventureResult( Integer.parseInt( itemIDString ), quantityString.length() == 0 ? 1 :
-				Integer.parseInt( quantityString.replaceAll( "[\\(\\)]", "" ) ) );
+			return new AdventureResult( StaticEntity.parseInt( itemIDString ), quantityString.length() == 0 ? 1 :
+				StaticEntity.parseInt( quantityString.replaceAll( "[\\(\\)]", "" ) ) );
 		}
 
 		// Otherwise, it's a standard ingredient - use

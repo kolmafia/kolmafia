@@ -114,7 +114,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 		JToolBar toolbarPanel = null;
 
-		switch ( Integer.parseInt( StaticEntity.getProperty( "toolbarPosition" ) ) )
+		switch ( StaticEntity.parseInt( StaticEntity.getProperty( "toolbarPosition" ) ) )
 		{
 			case 1:
 				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );

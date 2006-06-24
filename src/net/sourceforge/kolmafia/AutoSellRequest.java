@@ -289,19 +289,9 @@ public class AutoSellRequest extends SendMessageRequest
 			// "You sell your 2 disturbing fanfics to an organ
 			// grinder's monkey for 264 Meat."
 
-			try
-			{
-				Matcher matcher = Pattern.compile( "for ([\\d,]+) [Mm]eat" ).matcher( responseText );
-				if ( matcher.find() )
-					client.processResult( new AdventureResult( AdventureResult.MEAT, COMMA_FORMAT.parse( matcher.group(1) ).intValue() ) );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
+			Matcher matcher = Pattern.compile( "for ([\\d,]+) [Mm]eat" ).matcher( responseText );
+			if ( matcher.find() )
+				client.processResult( new AdventureResult( AdventureResult.MEAT, StaticEntity.parseInt( matcher.group(1) ) ) );
 		}
 
 		// Move out of inventory. Process meat gains, if old autosell

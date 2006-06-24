@@ -96,13 +96,13 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		responseText = responseText.replaceAll( "<a[^>]*?>Back[^<?]</a>", "" );
 		refreshFields();
 	}
-	
+
 	private String getBackupFileData()
 	{
 		File clan = new File( "clan" );
 		if ( !clan.exists() )
 			return "";
-		
+
 		File [] resultFolders = clan.listFiles();
 
 		File backupFile = null;
@@ -121,15 +121,15 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				if ( !ascensionFolders[j].getName().startsWith( "2005" ) )
 					continue;
 
-				currentMonth = Integer.parseInt( ascensionFolders[j].getName().substring( 4, 6 ) );
-				currentWeek = Integer.parseInt( ascensionFolders[j].getName().substring( 8, 9 ) );
+				currentMonth = StaticEntity.parseInt( ascensionFolders[j].getName().substring( 4, 6 ) );
+				currentWeek = StaticEntity.parseInt( ascensionFolders[j].getName().substring( 8, 9 ) );
 
 				boolean shouldReplace = false;
 
 				shouldReplace |= currentMonth > bestMonth;
 				shouldReplace |= currentMonth == bestMonth && currentWeek > bestWeek;
 				shouldReplace &= currentMonth == 9 || currentMonth == 10;
-				
+
 				if ( shouldReplace )
 				{
 					File checkFile = new File( ascensionFolders[j], "ascensions" + File.separator + playerID + ".htm");
@@ -142,7 +142,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 				}
 			}
 		}
-		
+
 		if ( backupFile == null )
 			return "";
 
@@ -164,7 +164,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 			return "";
 		}
@@ -257,7 +257,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 						// currently, this is [5]
 
 						inconsistency = true;
-						columnsNew[5] = String.valueOf( COMMA_FORMAT.parse( columnsNew[5] ).intValue() - COMMA_FORMAT.parse( columnsOld[5] ).intValue() );
+						columnsNew[5] = String.valueOf( StaticEntity.parseInt( columnsNew[5] ) - StaticEntity.parseInt( columnsOld[5] ) );
 
 						// Subtract columns[days] from columnsNew[days];
 						// currently, this is [6].  Ascensions count
@@ -273,7 +273,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 					{
 						// This should not happen.  Therefore, print
 						// a stack trace for debug purposes.
-						
+
 						StaticEntity.printStackTrace( e );
 					}
 				}
@@ -374,12 +374,11 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 			try
 			{
-
 				// The level at which the ascension took place is found
 				// in the third column, or index 2 in the array.
 
 				this.timestamp = ASCEND_DATE_FORMAT.parse( columns[1] );
-				this.level = COMMA_FORMAT.parse( columns[2] ).intValue();
+				this.level = StaticEntity.parseInt( columns[2] );
 
 				this.classID = columns[3].startsWith( "SC" ) ? AscensionSnapshotTable.SEAL_CLUBBER :
 					columns[3].startsWith( "T" ) ? AscensionSnapshotTable.TURTLE_TAMER :
@@ -388,8 +387,8 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 					columns[3].startsWith( "D" ) ? AscensionSnapshotTable.DISCO_BANDIT : AscensionSnapshotTable.ACCORDION_THIEF;
 
 				this.sign = columns[4];
-				this.turnCount = COMMA_FORMAT.parse( columns[5] ).intValue();
-				this.dayCount = COMMA_FORMAT.parse( columns[6] ).intValue();
+				this.turnCount = StaticEntity.parseInt( columns[5] );
+				this.dayCount = StaticEntity.parseInt( columns[6] );
 
 				String [] path = columns[7].split( "," );
 				this.isSoftcore = path[0].equals( "Normal" );
@@ -402,7 +401,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			{
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
-				
+
 				StaticEntity.printStackTrace( e );
 			}
 

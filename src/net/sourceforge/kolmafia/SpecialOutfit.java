@@ -70,7 +70,7 @@ public class SpecialOutfit implements Comparable
 
 		if ( this.outfitName.equals( "Custom: KoLmafia Checkpoint" ) )
 			CHECKPOINT = this;
-		
+
 		this.pieces = new ArrayList();
 	}
 
@@ -127,7 +127,7 @@ public class SpecialOutfit implements Comparable
 
 		return outfitName.compareToIgnoreCase( ((SpecialOutfit)o).outfitName );
 	}
-	
+
 	/**
 	 * Creates a checkpoint.  This should be called whenever
 	 * the player needs an outfit marked to revert to.
@@ -136,12 +136,12 @@ public class SpecialOutfit implements Comparable
 	public static void createCheckpoint()
 	{	(new EquipmentRequest( StaticEntity.getClient(), "KoLmafia Checkpoint" )).run();
 	}
-	
+
 	/**
 	 * Restores a checkpoint.  This should be called whenever
 	 * the player needs to revert to their checkpointed outfit.
 	 */
-	
+
 	public static void restoreCheckpoint()
 	{
 		if ( CHECKPOINT != null )
@@ -150,7 +150,7 @@ public class SpecialOutfit implements Comparable
 			SpecialOutfit.deleteCheckpoint();
 		}
 	}
-	
+
 	/**
 	 * Deletes the checkpoint outfit, if present.  This should
 	 * be called whenever KoLmafia is done using the checkpoint.
@@ -166,7 +166,7 @@ public class SpecialOutfit implements Comparable
 			CHECKPOINT = null;
 		}
 	}
-	
+
 	/**
 	 * Static method used to determine all of the custom outfits,
 	 * based on the given HTML enclosed in <code><select></code> tags.
@@ -185,11 +185,11 @@ public class SpecialOutfit implements Comparable
 
 		while ( singleOutfitMatcher.find() )
 		{
-			outfitID = Integer.parseInt( singleOutfitMatcher.group(1) );
+			outfitID = StaticEntity.parseInt( singleOutfitMatcher.group(1) );
 			if ( outfitID < 0 )
 				outfits.add( new SpecialOutfit( outfitID, singleOutfitMatcher.group(2) ) );
 		}
-		
+
 		return outfits;
 	}
 }

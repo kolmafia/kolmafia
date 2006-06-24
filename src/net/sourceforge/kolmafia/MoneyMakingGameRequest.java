@@ -155,44 +155,18 @@ public class MoneyMakingGameRequest extends KoLRequest
 
 		public MoneyMakingGameResult( String resultText, boolean isPlacedBet )
 		{
+			this.isPlacedBet = isPlacedBet;
+			this.isPositive = resultText.indexOf( "color='green'>+" ) != -1;
+
+			Matcher results = Pattern.compile( "<td.*?</td>" ).matcher( resultText );
+
+			// The first cell in the row is the timestamp
+			// for the result.
+
 			try
 			{
-				this.isPlacedBet = isPlacedBet;
-				this.isPositive = resultText.indexOf( "color='green'>+" ) != -1;
-
-				Matcher results = Pattern.compile( "<td.*?</td>" ).matcher( resultText );
-
-				// The first cell in the row is the timestamp
-				// for the result.
-
 				if ( results.find() )
 					timestamp = RESULT_FORMAT.parse( results.group().replaceAll( "&nbsp;", " " ).replaceAll( "<.*?>", "" ) );
-
-				// Next is the amount which was bet.  In this
-				// case, parse out the value.
-
-				if ( results.find() )
-				{
-					Matcher amountMatcher = Pattern.compile( ">([\\d,]+) " ).matcher( results.group() );
-					if ( amountMatcher.find() )
-					{
-						betAmount = COMMA_FORMAT.parse( amountMatcher.group(1) ).intValue();
-						betAmount = (int) (((float) betAmount) * (isPositive ? 0.998f : -1.0f));
-					}
-				}
-
-				// The next is the name of the player who placed
-				// or took your bet.
-
-				if ( results.find() )
-				{
-					Matcher playerMatcher = Pattern.compile( "who=(\\d+).*?<b>(.*?)</b>" ).matcher( results.group() );
-					if ( playerMatcher.find() )
-					{
-						playerID = playerMatcher.group(1);
-						client.registerPlayer( playerMatcher.group(2), playerID );
-					}
-				}
 			}
 			catch ( Exception e )
 			{
@@ -200,6 +174,32 @@ public class MoneyMakingGameRequest extends KoLRequest
 				// a stack trace for debug purposes.
 
 				StaticEntity.printStackTrace( e );
+			}
+
+			// Next is the amount which was bet.  In this
+			// case, parse out the value.
+
+			if ( results.find() )
+			{
+				Matcher amountMatcher = Pattern.compile( ">([\\d,]+) " ).matcher( results.group() );
+				if ( amountMatcher.find() )
+				{
+					betAmount = StaticEntity.parseInt( amountMatcher.group(1) );
+					betAmount = (int) (((float) betAmount) * (isPositive ? 0.998f : -1.0f));
+				}
+			}
+
+			// The next is the name of the player who placed
+			// or took your bet.
+
+			if ( results.find() )
+			{
+				Matcher playerMatcher = Pattern.compile( "who=(\\d+).*?<b>(.*?)</b>" ).matcher( results.group() );
+				if ( playerMatcher.find() )
+				{
+					playerID = playerMatcher.group(1);
+					client.registerPlayer( playerMatcher.group(2), playerID );
+				}
 			}
 		}
 	}

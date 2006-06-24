@@ -125,47 +125,9 @@ public class BuffBotDatabase extends KoLDatabase
 					continue;
 				}
 
-				int price;
-				try
-				{
-					price = COMMA_FORMAT.parse( data[2] ).intValue();
-				}
-				catch ( Exception e )
-				{
-					// This should not happen.  Therefore, print
-					// a stack trace for debug purposes.
-
-					StaticEntity.printStackTrace( e, "Bad price: " + data[2] );
-					continue;
-				}
-
-				int turns;
-				try
-				{
-					turns = COMMA_FORMAT.parse( data[3] ).intValue();
-				}
-				catch ( Exception e )
-				{
-					// This should not happen.  Therefore, print
-					// a stack trace for debug purposes.
-
-					StaticEntity.printStackTrace( e, "Bad turns: " + data[3] );
-					continue;
-				}
-
-				int free;
-				try
-				{
-					free = COMMA_FORMAT.parse( data[4] ).intValue();
-				}
-				catch ( Exception e )
-				{
-					// This should not happen.  Therefore, print
-					// a stack trace for debug purposes.
-
-					StaticEntity.printStackTrace( e, "Bad free: " + data[2] );
-					continue;
-				}
+				int price = StaticEntity.parseInt( data[2] );
+				int turns = StaticEntity.parseInt( data[3] );
+				int free = StaticEntity.parseInt( data[4] );
 
 				// Add this offering to the buff
 				buff.addOffering( new Offering( bot, price, turns, free != 0 ) );
@@ -328,8 +290,8 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( nameMatcher.find() && priceMatcher.find() && turnMatcher.find() )
 			{
 				buffs.findAbbreviation( nameMatcher.group(1).trim() ).addOffering(
-					new Offering( name, Integer.parseInt( priceMatcher.group(1).trim() ),
-					Integer.parseInt( turnMatcher.group(1).trim() ),
+					new Offering( name, StaticEntity.parseInt( priceMatcher.group(1).trim() ),
+					StaticEntity.parseInt( turnMatcher.group(1).trim() ),
 					onceMatcher.find() ? onceMatcher.group(1).trim().equals( "true" ) : false ) );
 			}
 		}
@@ -391,21 +353,10 @@ public class BuffBotDatabase extends KoLDatabase
 			String num1 = line.substring( 0, hyphen );
 			String num2 = ( star > 0 ) ? line.substring( hyphen + 1, star ) : line.substring( hyphen + 1 );
 
-			try
-			{
-				int turns = Integer.parseInt( num1 );
-				int price = Integer.parseInt( num2 );
+			int turns = StaticEntity.parseInt( num1 );
+			int price = StaticEntity.parseInt( num2 );
 
-				current.addOffering( new Offering( name, price, turns, star > 0 ) );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-				continue;
-			}
+			current.addOffering( new Offering( name, price, turns, star > 0 ) );
 		}
 
 		// Add this bot's buffs to the global list

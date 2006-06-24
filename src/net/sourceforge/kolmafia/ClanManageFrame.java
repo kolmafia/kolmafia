@@ -687,10 +687,10 @@ public class ClanManageFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			int mostAscensionsBoardSize = mostAscensionsBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : Integer.parseInt( mostAscensionsBoardSizeField.getText() );
-			int mainBoardSize = mainBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : Integer.parseInt( mainBoardSizeField.getText() );
-			int classBoardSize = classBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : Integer.parseInt( classBoardSizeField.getText() );
-			int maxAge = maxAgeField.getText().equals( "" ) ? Integer.MAX_VALUE : Integer.parseInt( maxAgeField.getText() );
+			int mostAscensionsBoardSize = mostAscensionsBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : StaticEntity.parseInt( mostAscensionsBoardSizeField.getText() );
+			int mainBoardSize = mainBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : StaticEntity.parseInt( mainBoardSizeField.getText() );
+			int classBoardSize = classBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : StaticEntity.parseInt( classBoardSizeField.getText() );
+			int maxAge = maxAgeField.getText().equals( "" ) ? Integer.MAX_VALUE : StaticEntity.parseInt( maxAgeField.getText() );
 			boolean playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
 
 			String oldSetting = getProperty( "clanRosterHeader" );

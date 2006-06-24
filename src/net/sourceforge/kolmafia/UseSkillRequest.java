@@ -106,7 +106,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		for ( int i = 0; i < KoLmafia.BREAKFAST_SKILLS.length; ++i )
 			if ( this.skillName.equals( KoLmafia.BREAKFAST_SKILLS[i][0] ) )
-				buffCount = Math.min( Integer.parseInt( KoLmafia.BREAKFAST_SKILLS[i][1] ), buffCount );
+				buffCount = Math.min( StaticEntity.parseInt( KoLmafia.BREAKFAST_SKILLS[i][1] ), buffCount );
 
 		if ( buffCount < 1 )
 			buffCount = 1;

@@ -116,8 +116,8 @@ public class AdventureFrame extends KoLFrame
 		this.adventureSelect = new AdventureSelectPanel();
 
 		JPanel southPanel = new JPanel( new GridLayout( 1, 2, 5, 5 ) );
-		southPanel.add( getAdventureSummary( Integer.parseInt( getProperty( "defaultDropdown1" ) ) ) );
-		southPanel.add( getAdventureSummary( Integer.parseInt( getProperty( "defaultDropdown2" ) ) ) );
+		southPanel.add( getAdventureSummary( StaticEntity.parseInt( getProperty( "defaultDropdown1" ) ) ) );
+		southPanel.add( getAdventureSummary( StaticEntity.parseInt( getProperty( "defaultDropdown2" ) ) ) );
 
 		adventureContainer.add( adventureSelect, BorderLayout.NORTH );
 		adventureContainer.add( southPanel, BorderLayout.CENTER );
@@ -575,7 +575,7 @@ public class AdventureFrame extends KoLFrame
 				if ( ignorable || index != 0 )
 					setProperty( choice, String.valueOf( index ) );
 				else
-					optionSelects[i].setSelectedIndex( Integer.parseInt( getProperty( choice ) ) );
+					optionSelects[i].setSelectedIndex( StaticEntity.parseInt( getProperty( choice ) ) );
 			}
 
 			//              The Wheel:
@@ -678,11 +678,11 @@ public class AdventureFrame extends KoLFrame
 		{
 			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
 			cloverProtectSelect.setSelectedIndex( getProperty( "cloverProtectActive" ).equals( "true" ) ? 0 : 1 );
-			violetFogSelect.setSelectedIndex( Integer.parseInt( getProperty( "violetFogGoal" ) ) );
+			violetFogSelect.setSelectedIndex( StaticEntity.parseInt( getProperty( "violetFogGoal" ) ) );
 
 			optionSelects[0].setSelectedItem( getProperty( "luckySewerAdventure" ) );
 			for ( int i = 1; i < optionSelects.length; ++i )
-				optionSelects[i].setSelectedIndex( Integer.parseInt( getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) ) );
+				optionSelects[i].setSelectedIndex( StaticEntity.parseInt( getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) ) );
 
 			// Determine the desired wheel position by examining
 			// which choice adventure has the "3" value.
@@ -693,7 +693,7 @@ public class AdventureFrame extends KoLFrame
 			int option3 = 11;
 			for ( int i = 9; i < 13; ++i )
 			{
-				int choice = Integer.parseInt( getProperty( "choiceAdventure" + i ) );
+				int choice = StaticEntity.parseInt( getProperty( "choiceAdventure" + i ) );
 				counts[choice]++;
 				if ( choice == 3 )
 					option3 = i;
@@ -747,8 +747,8 @@ public class AdventureFrame extends KoLFrame
 			// Now, determine what is located in choice adventure #26,
 			// which shows you which slot (in general) to use.
 
-			index = Integer.parseInt( getProperty( "choiceAdventure26" ) );
-			index = index * 2 + Integer.parseInt( getProperty( "choiceAdventure" + (26 + index) ) ) - 3;
+			index = StaticEntity.parseInt( getProperty( "choiceAdventure26" ) );
+			index = index * 2 + StaticEntity.parseInt( getProperty( "choiceAdventure" + (26 + index) ) ) - 3;
 
 			spookyForestSelect.setSelectedIndex( index );
 		}

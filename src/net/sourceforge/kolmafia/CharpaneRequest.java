@@ -172,9 +172,9 @@ public class CharpaneRequest extends KoLRequest
 					statMatcher.group( i + 1 ) );
 
 				if ( modifiedMatcher.find() )
-					modified[i] = Integer.parseInt( modifiedMatcher.group(1) );
+					modified[i] = StaticEntity.parseInt( modifiedMatcher.group(1) );
 				else
-					modified[i] = Integer.parseInt( statMatcher.group( i + 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
+					modified[i] = StaticEntity.parseInt( statMatcher.group( i + 1 ).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" ) );
 			}
 
 			KoLCharacter.setStatPoints( modified[0], KoLCharacter.getTotalMuscle(), modified[1],
@@ -201,15 +201,15 @@ public class CharpaneRequest extends KoLRequest
 			String currentMP = miscMatcher.group(3).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			String maximumMP = miscMatcher.group(4).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 
-			KoLCharacter.setHP( Integer.parseInt( currentHP ), Integer.parseInt( maximumHP ), Integer.parseInt( maximumHP ) );
-			KoLCharacter.setMP( Integer.parseInt( currentMP ), Integer.parseInt( maximumMP ), Integer.parseInt( maximumMP ) );
+			KoLCharacter.setHP( StaticEntity.parseInt( currentHP ), StaticEntity.parseInt( maximumHP ), StaticEntity.parseInt( maximumHP ) );
+			KoLCharacter.setMP( StaticEntity.parseInt( currentMP ), StaticEntity.parseInt( maximumMP ), StaticEntity.parseInt( maximumMP ) );
 
 			String availableMeat = miscMatcher.group(5).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
-			KoLCharacter.setAvailableMeat( Integer.parseInt( availableMeat ) );
+			KoLCharacter.setAvailableMeat( StaticEntity.parseInt( availableMeat ) );
 
 			String adventuresLeft = miscMatcher.group(6).replaceAll( "<[^>]*>", "" ).replaceAll( "[^\\d]+", "" );
 			int oldAdventures = KoLCharacter.getAdventuresLeft();
-			int newAdventures = Integer.parseInt( adventuresLeft );
+			int newAdventures = StaticEntity.parseInt( adventuresLeft );
 			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.ADV, newAdventures - oldAdventures ) );
 		}
 	}
@@ -219,7 +219,7 @@ public class CharpaneRequest extends KoLRequest
 		Matcher matcher = Pattern.compile( mcString + "</a>: ?(</td><td>)?<b>(\\d+)</b>" ).matcher( responseText );
 
 		if ( matcher.find() )
-			KoLCharacter.setMindControlLevel( Integer.parseInt( matcher.group(2) ) );
+			KoLCharacter.setMindControlLevel( StaticEntity.parseInt( matcher.group(2) ) );
 		else
 			KoLCharacter.setMindControlLevel( 0 );
 	}

@@ -86,7 +86,7 @@ public class ProposeTradeFrame extends SendMessageFrame
 		// Send the offer / response
 
 		if ( offerID != null )
-			(new ProposeTradeRequest( StaticEntity.getClient(), Integer.parseInt( offerID ), messages[0], getAttachedItems(), getAttachedMeat() )).run();
+			(new ProposeTradeRequest( StaticEntity.getClient(), StaticEntity.parseInt( offerID ), messages[0], getAttachedItems(), getAttachedMeat() )).run();
 
 		Object [] parameters = new Object[1];
 		parameters[0] = offerID != null ? new ProposeTradeRequest( StaticEntity.getClient() ) :

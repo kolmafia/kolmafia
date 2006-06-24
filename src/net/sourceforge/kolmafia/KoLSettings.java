@@ -336,67 +336,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		for ( int i = 0; i < keys.length; ++i )
 			if ( !containsKey( keys[i] ) )
 				super.setProperty( (String) keys[i], (String) PLAYER_SETTINGS.get( keys[i] ) );
-
-		// Wheel choice adventures need special handling.
-		// This is where everything is validated for that.
-
-		// KoL no longer allows you to "ignore" a choice adventure.
-		// Fortunately, the wheel choices all provide a "leave the wheel alone" option
-		// which does exactly that - and doesn't use an adventure to take it.
-
-		int [] wheelChoices = new int[4];
-		for ( int i = 0; i < 4; ++i )
-			wheelChoices[i] = Integer.parseInt( getProperty( "choiceAdventure" + (9+i) ) );
-
-		int clockwiseCount = 0, counterClockwiseCount = 0;
-		for ( int i = 0; i < 4; ++i )
-		{
-			switch ( wheelChoices[i] )
-			{
-				case 0:
-					wheelChoices[i] = 3;
-					break;
-
-				case 1:
-					++clockwiseCount;
-					break;
-
-				case 2:
-					++counterClockwiseCount;
-					break;
-			}
-		}
-
-		// Check for valid settings:
-
-		// 1) Two clockwise, one counterclockwise, one leave alone
-		// 2) Two counterclockwise, one clockwise, one leave alone
-		// 3) Four clockwise
-		// 4) Four counterclockwise
-		// 5) All leave alone
-
-		if ( !( (clockwiseCount == 1 && counterClockwiseCount == 2) ||
-			(clockwiseCount == 2 && counterClockwiseCount == 1) ||
-			(clockwiseCount == 4) ||
-			(counterClockwiseCount == 4) ||
-			(clockwiseCount == 0 && counterClockwiseCount == 0) ) )
-		{
-			wheelChoices[0] = 1;
-			wheelChoices[1] = 1;
-			wheelChoices[2] = 3;
-			wheelChoices[3] = 2;
-		}
-
-		String wheelChoice = null;
-		String wheelDecision = null;
-
-		for ( int i = 0; i < 4; ++i )
-		{
-			wheelChoice = "choiceAdventure" + (9+i);
-			wheelDecision = String.valueOf( wheelChoices[i] );
-			if ( !getProperty( wheelChoice ).equals( wheelDecision ) )
-				super.setProperty( wheelChoice, wheelDecision );
-		}
 	}
 
 	/**

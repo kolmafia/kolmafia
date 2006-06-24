@@ -568,8 +568,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private static boolean levelFamiliar( int goal, int type )
 	{
-		boolean buffs = StaticEntity.getClient().getLocalBooleanProperty( "castBuffsWhileTraining" );
-		boolean debug = StaticEntity.getClient().getLocalBooleanProperty( "debugFamiliarTraining" );
+		boolean buffs = StaticEntity.getProperty( "castBuffsWhileTraining" ).equals( "true" );
+		boolean debug = StaticEntity.getProperty( "debugFamiliarTraining" ).equals( "true" );
 		return levelFamiliar( goal, type, buffs, debug );
 	}
 
@@ -2376,8 +2376,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			boolean toggleValue = !StaticEntity.getClient().getLocalBooleanProperty( property );
-			StaticEntity.getClient().setLocalProperty( property, toggleValue );
+			boolean toggleValue = StaticEntity.getProperty( property ).equals( "true" );
+			StaticEntity.setProperty( property, String.valueOf( toggleValue ) );
 
 			if ( toggleValue )
 				setText( "Turn Off " + title );

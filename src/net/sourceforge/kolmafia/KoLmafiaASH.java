@@ -202,7 +202,7 @@ public class KoLmafiaASH extends StaticEntity
         }
 
 	private static ScriptValue parseIntValue( String name ) throws NumberFormatException
-	{	return new ScriptValue( Integer.parseInt( name ) );
+	{	return new ScriptValue( StaticEntity.parseInt( name ) );
         }
 
 	private static ScriptValue parseFloatValue( String name ) throws NumberFormatException
@@ -251,7 +251,7 @@ public class KoLmafiaASH extends StaticEntity
 		// Since it is numeric, parse the integer value
 		// and store it inside of the contentInt.
 
-		itemID = Integer.parseInt( name );
+		itemID = StaticEntity.parseInt( name );
 		name = TradeableItemDatabase.getItemName( itemID );
 		return new ScriptValue( ITEM_TYPE, itemID, name );
 	}
@@ -971,7 +971,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( arrays && integerToken() )
 		{
-			int size = Integer.parseInt( currentToken() );
+			int size = StaticEntity.parseInt( currentToken() );
 			readToken(); // integer
 			if ( currentToken() == null )
 				throw new AdvancedScriptException( "] expected " + getLineAndFile() );
@@ -1594,7 +1594,7 @@ public class KoLmafiaASH extends StaticEntity
 				}
 			}
 
-			int resultInt = Integer.parseInt( currentToken() );
+			int resultInt = StaticEntity.parseInt( currentToken() );
 			readToken(); // integer
 
 			return new ScriptValue( resultInt );
@@ -2228,7 +2228,7 @@ public class KoLmafiaASH extends StaticEntity
 				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType() + " " + param.getName() );
 				try
 				{
-					param.setValue( new ScriptValue( Integer.parseInt( resultString ) ) );
+					param.setValue( new ScriptValue( StaticEntity.parseInt( resultString ) ) );
 				}
 				catch( NumberFormatException e )
 				{

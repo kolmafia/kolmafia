@@ -137,7 +137,7 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						health = Integer.parseInt( value );
+						health = StaticEntity.parseInt( value );
 						continue;
 					}
 				}
@@ -147,7 +147,7 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						attack = Integer.parseInt( value );
+						attack = StaticEntity.parseInt( value );
 						continue;
 					}
 				}
@@ -157,7 +157,7 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						defense = Integer.parseInt( value );
+						defense = StaticEntity.parseInt( value );
 						continue;
 					}
 				}
@@ -213,12 +213,12 @@ public class MonsterDatabase extends KoLDatabase
 						int dash = value.indexOf( "-" );
 						if ( dash >= 0 )
 						{
-							minMeat = Integer.parseInt( value.substring( 0, dash ) );
-							maxMeat = Integer.parseInt( value.substring( dash + 1 ) );
+							minMeat = StaticEntity.parseInt( value.substring( 0, dash ) );
+							maxMeat = StaticEntity.parseInt( value.substring( dash + 1 ) );
 						}
 						else
 						{
-							minMeat = Integer.parseInt( value );
+							minMeat = StaticEntity.parseInt( value );
 							maxMeat = minMeat;
 						}
 						continue;

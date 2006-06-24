@@ -74,6 +74,6 @@ public class MoonPhaseRequest extends KoLRequest
 
 		Matcher moonMatcher = Pattern.compile( "moon(.)[ab]?\\.gif.*moon(.)[ab]?\\.gif" ).matcher( responseText );
 		if ( moonMatcher.find() )
-			MoonPhaseDatabase.setMoonPhases( Integer.parseInt( moonMatcher.group(1) ) - 1, Integer.parseInt( moonMatcher.group(2) ) - 1 );
+			MoonPhaseDatabase.setMoonPhases( StaticEntity.parseInt( moonMatcher.group(1) ) - 1, StaticEntity.parseInt( moonMatcher.group(2) ) - 1 );
 	}
 }

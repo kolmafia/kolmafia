@@ -177,11 +177,11 @@ public class ClanSnapshotTable extends KoLDatabase
 					break;
 
 				case LEVEL_FILTER:
-					compareValue = request.getPlayerLevel().intValue() - COMMA_FORMAT.parse( filter ).intValue();
+					compareValue = request.getPlayerLevel().intValue() - StaticEntity.parseInt( filter );
 					break;
 
 				case PVP_FILTER:
-					compareValue = request.getPvpRank().intValue() - COMMA_FORMAT.parse( filter ).intValue();
+					compareValue = request.getPvpRank().intValue() - StaticEntity.parseInt( filter );
 					break;
 
 				case CLASS_FILTER:
@@ -189,12 +189,12 @@ public class ClanSnapshotTable extends KoLDatabase
 					break;
 
 				case KARMA_FILTER:
-					compareValue = request.getKarma().intValue() - COMMA_FORMAT.parse( filter ).intValue();
+					compareValue = request.getKarma().intValue() - StaticEntity.parseInt( filter );
 					break;
 
 				case LOGIN_FILTER:
 
-					int daysIdle = COMMA_FORMAT.parse( filter ).intValue();
+					int daysIdle = StaticEntity.parseInt( filter );
 					long millisecondsIdle = 86400000L * daysIdle;
 					Date cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
 

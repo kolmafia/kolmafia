@@ -146,7 +146,6 @@ public abstract class KoLmafia implements KoLConstants
 	protected static int continuationState = CONTINUE_STATE;
 
 	protected String password, sessionID, passwordHash;
-	protected Properties LOCAL_SETTINGS = new Properties();
 
 	protected int [] initialStats = new int[3];
 	protected int [] fullStatGain = new int[3];
@@ -439,7 +438,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( skillSetting != null )
 			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
 				if ( (!checkSettings || skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1) && KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] ) )
-					getBreakfast( BREAKFAST_SKILLS[i][0], Integer.parseInt( BREAKFAST_SKILLS[i][1] ) );
+					getBreakfast( BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( BREAKFAST_SKILLS[i][1] ) );
 
 		forceContinue();
 	}
@@ -644,19 +643,7 @@ public abstract class KoLmafia implements KoLConstants
 		int count = 1;
 
 		if ( parsedItem.hasMoreTokens() )
-		{
-			try
-			{
-				count = COMMA_FORMAT.parse( parsedItem.nextToken() ).intValue();
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
-		}
+			count = StaticEntity.parseInt( parsedItem.nextToken() );
 
 		processResult( new AdventureResult( name, count, false ) );
 	}
@@ -669,18 +656,7 @@ public abstract class KoLmafia implements KoLConstants
 		String parsedEffectName = parsedEffect.nextToken().trim();
 		String parsedDuration = parsedEffect.hasMoreTokens() ? parsedEffect.nextToken() : "1";
 
-		try
-		{
-			return processResult( new AdventureResult( parsedEffectName, COMMA_FORMAT.parse( parsedDuration ).intValue(), true ) );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-			return false;
-		}
+		return processResult( new AdventureResult( parsedEffectName, StaticEntity.parseInt( parsedDuration ), true ) );
 	}
 
 	/**
@@ -1749,7 +1725,7 @@ public abstract class KoLmafia implements KoLConstants
 				item = new AdventureResult( 27, 5 );
 		}
 
-		int neededCount = neededMatcher.find() ? Integer.parseInt( neededMatcher.group(1) ) : 26;
+		int neededCount = neededMatcher.find() ? StaticEntity.parseInt( neededMatcher.group(1) ) : 26;
 
 		while ( neededCount <= 25 && neededCount <= item.getCount( KoLCharacter.getInventory() ) )
 		{
@@ -2470,36 +2446,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void setCurrentRequest( KoLRequest request)
 	{	currentRequest = request;
-	}
-
-	public void setLocalProperty( String property, String value )
-	{	LOCAL_SETTINGS.setProperty( property, value );
-	}
-
-	public void setLocalProperty( String property, boolean value )
-	{	LOCAL_SETTINGS.setProperty( property, String.valueOf( value ) );
-	}
-
-	public void setLocalProperty( String property, int value )
-	{	LOCAL_SETTINGS.setProperty( property, String.valueOf( value ) );
-	}
-
-	public String getLocalProperty( String property )
-	{
-		String value = LOCAL_SETTINGS.getProperty( property );
-		return ( value == null ) ? "" : value;
-	}
-
-	public boolean getLocalBooleanProperty( String property )
-	{
-		String value = LOCAL_SETTINGS.getProperty( property );
-		return ( value == null) ? false : value.equals( "true" );
-	}
-
-	public int getLocalIntegerProperty( String property )
-	{
-		String value = LOCAL_SETTINGS.getProperty( property );
-		return ( value == null) ? 0 : Integer.parseInt( value );
 	}
 
 	public final String [] extractTargets( String targetList )

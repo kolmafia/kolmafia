@@ -393,7 +393,7 @@ public class ChatFrame extends KoLFrame
 			// Next, determine the option which had been
 			// selected in the link-click.
 
-			int linkOption = locationSplit.length == 2 ? 0 : Integer.parseInt( locationSplit[2] );
+			int linkOption = locationSplit.length == 2 ? 0 : StaticEntity.parseInt( locationSplit[2] );
 
 			if ( linkOption == 0 )
 				linkOption = nameClickSelect.getSelectedIndex();
@@ -435,7 +435,7 @@ public class ChatFrame extends KoLFrame
 						mall = (MallSearchFrame) creator.getCreation();
 					}
 
-					mall.searchMall( new SearchMallRequest( StaticEntity.getClient(), Integer.parseInt( KoLmafia.getPlayerID( (String) parameters[0] ) ) ) );
+					mall.searchMall( new SearchMallRequest( StaticEntity.getClient(), StaticEntity.parseInt( KoLmafia.getPlayerID( (String) parameters[0] ) ) ) );
 					return;
 
 				case 6:
@@ -520,7 +520,7 @@ public class ChatFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			setProperty( "fontSize", (String) fontSizeSelect.getSelectedItem() );
-			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
+			LimitedSizeChatBuffer.setFontSize( StaticEntity.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
 
 			setProperty( "chatStyle", String.valueOf( chatStyleSelect.getSelectedIndex() ) );
 			setProperty( "useTabbedChat", String.valueOf( useTabSelect.getSelectedIndex() ) );
@@ -533,12 +533,12 @@ public class ChatFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			fontSizeSelect.setSelectedItem( getProperty( "fontSize" ) );
-			LimitedSizeChatBuffer.setFontSize( Integer.parseInt( getProperty( "fontSize" ) ) );
+			LimitedSizeChatBuffer.setFontSize( StaticEntity.parseInt( getProperty( "fontSize" ) ) );
 
-			chatStyleSelect.setSelectedIndex( Integer.parseInt( getProperty( "chatStyle" ) ) );
-			useTabSelect.setSelectedIndex( Integer.parseInt( getProperty( "useTabbedChat" ) ) );
-			popupSelect.setSelectedIndex( Integer.parseInt( getProperty( "usePopupContacts" ) ) );
-			eSoluSelect.setSelectedIndex( Integer.parseInt( getProperty( "eSoluScriptType" ) ) );
+			chatStyleSelect.setSelectedIndex( StaticEntity.parseInt( getProperty( "chatStyle" ) ) );
+			useTabSelect.setSelectedIndex( StaticEntity.parseInt( getProperty( "useTabbedChat" ) ) );
+			popupSelect.setSelectedIndex( StaticEntity.parseInt( getProperty( "usePopupContacts" ) ) );
+			eSoluSelect.setSelectedIndex( StaticEntity.parseInt( getProperty( "eSoluScriptType" ) ) );
 		}
 	}
 

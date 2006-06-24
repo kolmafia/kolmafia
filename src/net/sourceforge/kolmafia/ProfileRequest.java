@@ -99,146 +99,136 @@ public class ProfileRequest extends KoLRequest
 		if  ( responseText.length() == 0 )
 			return;
 
+		// This is a massive replace which makes the profile easier to
+		// parse and re-represent inside of editor panes.
+
+		String cleanHTML = responseText.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" );
+		StringTokenizer st = new StringTokenizer( cleanHTML, "\n" );
+
+		String token = st.nextToken();
+		while ( !token.startsWith( "Level" ) )
+			token = st.nextToken();
+
+		// It's possible that the player recently ascended and therefore
+		// there's no data on the character.  Default the values and
+		// return, if this is the case.
+
+		if ( token.length() == 6 )
+		{
+			this.playerLevel = new Integer( 0 );
+			this.classType = "Recent Ascension";
+			this.currentMeat = new Integer( 0 );
+			this.ascensionCount = new Integer( 0 );
+			this.turnsPlayed = new Integer( 0 );
+			this.created = new Date();
+			this.lastLogin = new Date();
+			this.food = "none";
+			this.drink = "none";
+			this.pvpRank = new Integer( 0 );
+			return;
+		}
+
+		this.playerLevel = Integer.valueOf( token.substring(5).trim() );
+		this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
+
+		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 && cleanHTML.indexOf( "\nPath" ) != -1 )
+		{
+			while ( !st.nextToken().startsWith( "Path" ) );
+			this.restriction = st.nextToken().trim();
+		}
+		else
+			this.restriction = "No-Path";
+
+		while ( !st.nextToken().startsWith( "Meat" ) );
+		this.currentMeat = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
+
+		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
+		{
+			while ( !st.nextToken().startsWith( "Ascensions" ) );
+			st.nextToken();
+			this.ascensionCount = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
+		}
+		else
+			this.ascensionCount = new Integer( 0 );
+
+		while ( !st.nextToken().startsWith( "Turns" ) );
+		this.turnsPlayed = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
+
+		if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
+		{
+			while ( !st.nextToken().startsWith( "Turns" ) );
+			this.currentRun = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
+		}
+		else
+			this.currentRun = turnsPlayed;
+
+		String dateString = null;
+		while ( !st.nextToken().startsWith( "Account" ) );
 		try
 		{
-			// This is a massive replace which makes the profile easier to
-			// parse and re-represent inside of editor panes.
-
-			String cleanHTML = responseText.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" );
-			StringTokenizer st = new StringTokenizer( cleanHTML, "\n" );
-
-			String token = st.nextToken();
-			while ( !token.startsWith( "Level" ) )
-				token = st.nextToken();
-
-			// It's possible that the player recently ascended and therefore
-			// there's no data on the character.  Default the values and
-			// return, if this is the case.
-
-			if ( token.length() == 6 )
-			{
-				this.playerLevel = new Integer( 0 );
-				this.classType = "Recent Ascension";
-				this.currentMeat = new Integer( 0 );
-				this.ascensionCount = new Integer( 0 );
-				this.turnsPlayed = new Integer( 0 );
-				this.created = new Date();
-				this.lastLogin = new Date();
-				this.food = "none";
-				this.drink = "none";
-				this.pvpRank = new Integer( 0 );
-				return;
-			}
-
-			this.playerLevel = Integer.valueOf( token.substring(5).trim() );
-			this.classType = KoLCharacter.getClassType( st.nextToken().trim() );
-
-			if ( cleanHTML.indexOf( "\nAscensions" ) != -1 && cleanHTML.indexOf( "\nPath" ) != -1 )
-			{
-				while ( !st.nextToken().startsWith( "Path" ) );
-				this.restriction = st.nextToken().trim();
-			}
-			else
-				this.restriction = "No-Path";
-
-			while ( !st.nextToken().startsWith( "Meat" ) );
-			this.currentMeat = new Integer( COMMA_FORMAT.parse( st.nextToken().trim() ).intValue() );
-
-			if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
-			{
-				while ( !st.nextToken().startsWith( "Ascensions" ) );
-				st.nextToken();
-				this.ascensionCount = new Integer( COMMA_FORMAT.parse( st.nextToken().trim() ).intValue() );
-			}
-			else
-				this.ascensionCount = new Integer( 0 );
-
-			while ( !st.nextToken().startsWith( "Turns" ) );
-			this.turnsPlayed = new Integer( COMMA_FORMAT.parse( st.nextToken().trim() ).intValue() );
-
-			if ( cleanHTML.indexOf( "\nAscensions" ) != -1 )
-			{
-				while ( !st.nextToken().startsWith( "Turns" ) );
-				this.currentRun = new Integer( COMMA_FORMAT.parse( st.nextToken().trim() ).intValue() );
-			}
-			else
-				this.currentRun = turnsPlayed;
-
-			String dateString = null;
-			while ( !st.nextToken().startsWith( "Account" ) );
-			try
-			{
-				dateString = st.nextToken().trim();
-				this.created = INPUT_FORMAT.parse( dateString );
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e, "Could not parse date \"" + dateString + "\"" );
-				this.created = new Date();
-			}
-
-			while ( !st.nextToken().startsWith( "Last" ) );
-
-			try
-			{
-				dateString = st.nextToken().trim();
-				this.lastLogin = INPUT_FORMAT.parse( dateString );
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e, "Could not parse date \"" + dateString + "\"" );
-				this.lastLogin = this.created;
-			}
-
-			if ( cleanHTML.indexOf( "\nFavorite Food" ) != -1 )
-			{
-				while ( !st.nextToken().startsWith( "Favorite" ) );
-				this.food = st.nextToken().trim();
-			}
-			else
-				this.food = "none";
-
-			if ( cleanHTML.indexOf( "\nFavorite Booze" ) != -1 )
-			{
-				while ( !st.nextToken().startsWith( "Favorite" ) );
-				this.drink = st.nextToken().trim();
-			}
-			else
-				this.drink = "none";
-
-			if ( cleanHTML.indexOf( "\nRanking" ) != -1 )
-			{
-				while ( !st.nextToken().startsWith( "Ranking" ) );
-				this.pvpRank = new Integer( COMMA_FORMAT.parse( st.nextToken().trim() ).intValue() );
-			}
-			else
-				this.pvpRank = new Integer( 0 );
-
-			this.equipmentPower = 0;
-			if ( cleanHTML.indexOf( "\nEquipment" ) != -1 )
-			{
-				while ( !st.nextToken().startsWith( "Equipment" ) );
-
-				String currentItem;
-				while ( EquipmentDatabase.contains( currentItem = st.nextToken() ) )
-				{
-					switch ( TradeableItemDatabase.getConsumptionType( currentItem ) )
-					{
-						case ConsumeItemRequest.EQUIP_HAT:
-						case ConsumeItemRequest.EQUIP_PANTS:
-
-							this.equipmentPower += EquipmentDatabase.getPower( currentItem );
-							break;
-					}
-				}
-			}
+			dateString = st.nextToken().trim();
+			this.created = INPUT_FORMAT.parse( dateString );
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+			StaticEntity.printStackTrace( e, "Could not parse date \"" + dateString + "\"" );
+			this.created = new Date();
+		}
 
-			StaticEntity.printStackTrace( e, "Could not parse profile for " + playerName );
+		while ( !st.nextToken().startsWith( "Last" ) );
+
+		try
+		{
+			dateString = st.nextToken().trim();
+			this.lastLogin = INPUT_FORMAT.parse( dateString );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e, "Could not parse date \"" + dateString + "\"" );
+			this.lastLogin = this.created;
+		}
+
+		if ( cleanHTML.indexOf( "\nFavorite Food" ) != -1 )
+		{
+			while ( !st.nextToken().startsWith( "Favorite" ) );
+			this.food = st.nextToken().trim();
+		}
+		else
+			this.food = "none";
+
+		if ( cleanHTML.indexOf( "\nFavorite Booze" ) != -1 )
+		{
+			while ( !st.nextToken().startsWith( "Favorite" ) );
+			this.drink = st.nextToken().trim();
+		}
+		else
+			this.drink = "none";
+
+		if ( cleanHTML.indexOf( "\nRanking" ) != -1 )
+		{
+			while ( !st.nextToken().startsWith( "Ranking" ) );
+			this.pvpRank = new Integer( StaticEntity.parseInt( st.nextToken().trim() ) );
+		}
+		else
+			this.pvpRank = new Integer( 0 );
+
+		this.equipmentPower = 0;
+		if ( cleanHTML.indexOf( "\nEquipment" ) != -1 )
+		{
+			while ( !st.nextToken().startsWith( "Equipment" ) );
+
+			String currentItem;
+			while ( EquipmentDatabase.contains( currentItem = st.nextToken() ) )
+			{
+				switch ( TradeableItemDatabase.getConsumptionType( currentItem ) )
+				{
+					case ConsumeItemRequest.EQUIP_HAT:
+					case ConsumeItemRequest.EQUIP_PANTS:
+
+						this.equipmentPower += EquipmentDatabase.getPower( currentItem );
+						break;
+				}
+			}
 		}
 	}
 
@@ -265,60 +255,50 @@ public class ProfileRequest extends KoLRequest
 		instance.responseText = responseText;
 		instance.refreshFields();
 
-		try
-		{
-			// Next, parse out all the data in the
-			// row of the detail roster table.
+		// Next, parse out all the data in the
+		// row of the detail roster table.
 
-			Matcher dataMatcher = Pattern.compile( "<td.*?>(.*?)</td>" ).matcher( rosterRow );
+		Matcher dataMatcher = Pattern.compile( "<td.*?>(.*?)</td>" ).matcher( rosterRow );
 
-			// The name of the player occurs in the first
-			// field of the table.  Because you already
-			// know the name of the player, this can be
-			// arbitrarily skipped.
+		// The name of the player occurs in the first
+		// field of the table.  Because you already
+		// know the name of the player, this can be
+		// arbitrarily skipped.
 
-			dataMatcher.find();
+		dataMatcher.find();
 
-			// The player's three primary stats appear in
-			// the next three fields of the table.
+		// The player's three primary stats appear in
+		// the next three fields of the table.
 
-			dataMatcher.find( dataMatcher.end() );
-			instance.muscle = new Integer( COMMA_FORMAT.parse( dataMatcher.group(1) ).intValue() );
+		dataMatcher.find( dataMatcher.end() );
+		instance.muscle = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
 
-			dataMatcher.find( dataMatcher.end() );
-			instance.mysticism = new Integer( COMMA_FORMAT.parse( dataMatcher.group(1) ).intValue() );
+		dataMatcher.find( dataMatcher.end() );
+		instance.mysticism = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
 
-			dataMatcher.find( dataMatcher.end() );
-			instance.moxie = new Integer( COMMA_FORMAT.parse( dataMatcher.group(1) ).intValue() );
+		dataMatcher.find( dataMatcher.end() );
+		instance.moxie = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
 
-			// The next field contains the total power,
-			// and since this is calculated, it can be
-			// skipped in data retrieval.
+		// The next field contains the total power,
+		// and since this is calculated, it can be
+		// skipped in data retrieval.
 
-			dataMatcher.find();
+		dataMatcher.find();
 
-			// The next two fields contain the title and
-			// rank within the clan for the player.
+		// The next two fields contain the title and
+		// rank within the clan for the player.
 
-			dataMatcher.find( dataMatcher.end() );
-			instance.title = dataMatcher.group(1);
+		dataMatcher.find( dataMatcher.end() );
+		instance.title = dataMatcher.group(1);
 
-			dataMatcher.find( dataMatcher.end() );
-			instance.rank = dataMatcher.group(1);
+		dataMatcher.find( dataMatcher.end() );
+		instance.rank = dataMatcher.group(1);
 
-			// The last field contains the total karma
-			// accumulated by this player.
+		// The last field contains the total karma
+		// accumulated by this player.
 
-			dataMatcher.find( dataMatcher.end() );
-			instance.karma = new Integer( COMMA_FORMAT.parse( dataMatcher.group(1) ).intValue() );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e, "Could not parse profile for " + playerName );
-		}
+		dataMatcher.find( dataMatcher.end() );
+		instance.karma = new Integer( StaticEntity.parseInt( dataMatcher.group(1) ) );
 
 		return instance;
 	}

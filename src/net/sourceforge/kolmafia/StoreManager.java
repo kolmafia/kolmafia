@@ -49,7 +49,7 @@ public abstract class StoreManager extends StaticEntity
 	private static final int RECENT_FIRST = 1;
 	private static final int OLDEST_FIRST = 2;
 	private static final int GROUP_BY_NAME = 3;
-	
+
 	private static int currentLogSort = RECENT_FIRST;
 	private static boolean sortItemsByName = false;
 
@@ -124,7 +124,7 @@ public abstract class StoreManager extends StaticEntity
 	public static LockableListModel getSoldItemList()
 	{	return soldItemList;
 	}
-	
+
 	public static LockableListModel getSortedSoldItemList()
 	{	return sortedSoldItemList;
 	}
@@ -132,7 +132,7 @@ public abstract class StoreManager extends StaticEntity
 	public static LockableListModel getStoreLog()
 	{	return storeLog;
 	}
-	
+
 	public static void sortStoreLog( boolean cycleSortType )
 	{
 		if ( cycleSortType )
@@ -150,7 +150,7 @@ public abstract class StoreManager extends StaticEntity
 					break;
 			}
 		}
-		
+
 		// Because StoreLogEntry objects use the current
 		// internal variable to decide how to sort, a simple
 		// function call will suffice.
@@ -172,32 +172,22 @@ public abstract class StoreManager extends StaticEntity
 
 			Matcher priceMatcher = Pattern.compile( "<tr><td><b>(.*?)\\&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" ).matcher( storeText );
 
-			try
+			while ( priceMatcher.find() )
 			{
-				while ( priceMatcher.find() )
-				{
-					itemID = Integer.parseInt( priceMatcher.group(4) );
-					if ( TradeableItemDatabase.getItemName( itemID ) == null )
-						TradeableItemDatabase.registerItem( itemID, priceMatcher.group(1) );
+				itemID = StaticEntity.parseInt( priceMatcher.group(4) );
+				if ( TradeableItemDatabase.getItemName( itemID ) == null )
+					TradeableItemDatabase.registerItem( itemID, priceMatcher.group(1) );
 
-					quantity = COMMA_FORMAT.parse( priceMatcher.group(2) ).intValue();
+				quantity = StaticEntity.parseInt( priceMatcher.group(2) );
 
-					price = COMMA_FORMAT.parse( priceMatcher.group(3) ).intValue();
-					limit = COMMA_FORMAT.parse( priceMatcher.group(5) ).intValue();
-					lowest = COMMA_FORMAT.parse( priceMatcher.group(6) ).intValue();
+				price = StaticEntity.parseInt( priceMatcher.group(3) );
+				limit = StaticEntity.parseInt( priceMatcher.group(5) );
+				lowest = StaticEntity.parseInt( priceMatcher.group(6) );
 
-					// Now that all the data has been retrieved, register
-					// the item that was discovered.
+				// Now that all the data has been retrieved, register
+				// the item that was discovered.
 
-					newItems.add( registerItem( itemID, quantity, price, limit, lowest ) );
-				}
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-				
-				StaticEntity.printStackTrace( e );
+				newItems.add( registerItem( itemID, quantity, price, limit, lowest ) );
 			}
 		}
 		else
@@ -210,60 +200,38 @@ public abstract class StoreManager extends StaticEntity
 
 			Matcher itemMatcher = Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" ).matcher( storeText );
 
-			try
+			while ( itemMatcher.find() )
 			{
-				while ( itemMatcher.find() )
+				itemID = StaticEntity.parseInt( itemMatcher.group(4) );
+				if ( TradeableItemDatabase.getItemName( itemID ) == null )
 				{
-					itemID = Integer.parseInt( itemMatcher.group(4) );
-					if ( TradeableItemDatabase.getItemName( itemID ) == null )
-					{
-						String itemName = itemMatcher.group(1);
-						if ( itemName.indexOf( "(" ) != -1 )
-							itemName = itemName.substring( 0, itemName.indexOf( "(" ) ).trim();
+					String itemName = itemMatcher.group(1);
+					if ( itemName.indexOf( "(" ) != -1 )
+						itemName = itemName.substring( 0, itemName.indexOf( "(" ) ).trim();
 
-						TradeableItemDatabase.registerItem( itemID, itemName );
-					}
-
-					// Remove parenthesized number and match again.
-					StringTokenizer parsedItem = new StringTokenizer( itemMatcher.group(1), "()" );
-					String name = parsedItem.nextToken().trim();
-					int count = 1;
-
-					if ( parsedItem.hasMoreTokens() )
-					{
-						try
-						{
-							count = COMMA_FORMAT.parse( parsedItem.nextToken() ).intValue();
-						}
-						catch ( Exception e )
-						{
-							// This should not happen.  Therefore, print
-							// a stack trace for debug purposes.
-							
-							StaticEntity.printStackTrace( e );
-						}
-					}
-					
-					item = new AdventureResult( name, count, false );
-					price = COMMA_FORMAT.parse( itemMatcher.group(2) ).intValue();
-
-					// In this case, the limit could appear as "unlimited",
-					// which equates to a limit of 0.
-
-					limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : COMMA_FORMAT.parse( itemMatcher.group(3) ).intValue();
-
-					// Now that all the data has been retrieved, register
-					// the item that was discovered.
-
-					newItems.add( registerItem( item.getItemID(), item.getCount(), price, limit, 0 ) );
+					TradeableItemDatabase.registerItem( itemID, itemName );
 				}
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-				
-				StaticEntity.printStackTrace( e );
+
+				// Remove parenthesized number and match again.
+				StringTokenizer parsedItem = new StringTokenizer( itemMatcher.group(1), "()" );
+				String name = parsedItem.nextToken().trim();
+				int count = 1;
+
+				if ( parsedItem.hasMoreTokens() )
+					count = StaticEntity.parseInt( parsedItem.nextToken() );
+
+				item = new AdventureResult( name, count, false );
+				price = StaticEntity.parseInt( itemMatcher.group(2) );
+
+				// In this case, the limit could appear as "unlimited",
+				// which equates to a limit of 0.
+
+				limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : StaticEntity.parseInt( itemMatcher.group(3) );
+
+				// Now that all the data has been retrieved, register
+				// the item that was discovered.
+
+				newItems.add( registerItem( item.getItemID(), item.getCount(), price, limit, 0 ) );
 			}
 		}
 
@@ -296,22 +264,22 @@ public abstract class StoreManager extends StaticEntity
 		{
 			if ( logMatcher.group().indexOf( "<br>" ) == -1 )
 				return;
-			
+
 			String [] entries = logMatcher.group().split( "<br>" );
-		
+
 			for ( int i = 0; i < entries.length - 1; ++i )
 				storeLog.add( new StoreLogEntry( entries.length - i - 1, entries[i].replaceAll( "<.*?>", "" ) ) );
 
 			sortStoreLog( false );
 		}
 	}
-	
+
 	private static class StoreLogEntry implements Comparable
 	{
 		private int id;
 		private String text;
 		private String stringForm;
-		
+
 		public StoreLogEntry( int id, String text )
 		{
 			this.id = id;
@@ -320,16 +288,16 @@ public abstract class StoreManager extends StaticEntity
 			this.text = text.substring( pieces[0].length() + pieces[1].length() + 2 );
 			this.stringForm = id + ": " + text;
 		}
-		
+
 		public String toString()
 		{	return stringForm;
 		}
-		
+
 		public int compareTo( Object o )
 		{
 			if ( o == null || !(o instanceof StoreLogEntry) )
 				return -1;
-			
+
 			switch ( currentLogSort )
 			{
 				case RECENT_FIRST:
@@ -418,7 +386,7 @@ public abstract class StoreManager extends StaticEntity
 		public int getItemID()
 		{	return itemID;
 		}
-		
+
 		public String getItemName()
 		{	return itemName;
 		}
@@ -450,10 +418,10 @@ public abstract class StoreManager extends StaticEntity
 
 			if ( price != 999999999 && ((SoldItem)o).price == 999999999 )
 				return -1;
-			
+
 			if ( price == 999999999 && ((SoldItem)o).price != 999999999 )
 				return 1;
-			
+
 			if ( price == 999999999 && ((SoldItem)o).price == 999999999 )
 				return itemName.compareToIgnoreCase( ((SoldItem)o).itemName );
 

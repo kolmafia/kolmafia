@@ -1513,11 +1513,11 @@ public abstract class KoLCharacter extends StaticEntity
 	public static void armBeanstalk()
 	{	KoLCharacter.beanstalkArmed = true;
 	}
-	
+
 	public static boolean spleenLimitReached()
 	{	return spleenLimitReached;
 	}
-	
+
 	public static void reachSpleenLimit()
 	{	KoLCharacter.spleenLimitReached = true;
 	}
@@ -2311,7 +2311,7 @@ public abstract class KoLCharacter extends StaticEntity
 			"lack readout with (\\d+) bright green light" ).matcher( responseText );
 
 		if ( stillMatcher.find() )
-			stillsAvailable = Integer.parseInt( stillMatcher.group(1) );
+			stillsAvailable = StaticEntity.parseInt( stillMatcher.group(1) );
 		else
 			stillsAvailable = 0;
 	}

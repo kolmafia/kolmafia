@@ -501,6 +501,6 @@ public class KoLmafiaGUI extends KoLmafia
 		if ( selectedLevel == null)
 			return;
 
-		(new RequestThread( new MindControlRequest( this, Integer.parseInt( selectedLevel.split( " " )[1] ) ) )).run();
+		(new RequestThread( new MindControlRequest( this, StaticEntity.parseInt( selectedLevel.split( " " )[1] ) ) )).run();
 	}
 }

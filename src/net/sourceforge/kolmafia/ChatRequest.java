@@ -127,7 +127,7 @@ public class ChatRequest extends KoLRequest
 		int index = responseText.indexOf( "<!--lastseen:" );
 
 		if ( index != -1 )
-			lastSeen = Integer.parseInt( responseText.substring( index + 13, index + 23 ) );
+			lastSeen = StaticEntity.parseInt( responseText.substring( index + 13, index + 23 ) );
 
 		try
 		{

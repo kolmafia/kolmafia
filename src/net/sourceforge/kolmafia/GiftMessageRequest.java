@@ -55,7 +55,7 @@ public class GiftMessageRequest extends SendMessageRequest
 		String [] data;
 
 		while ( (data = KoLDatabase.readData( reader )) != null )
-			PACKAGES.add( new GiftWrapper( data[0], Integer.parseInt( data[1] ), Integer.parseInt( data[2] ), Integer.parseInt( data[3] ) ) );
+			PACKAGES.add( new GiftWrapper( data[0], StaticEntity.parseInt( data[1] ), StaticEntity.parseInt( data[2] ), StaticEntity.parseInt( data[3] ) ) );
 	}
 
 	private static class GiftWrapper

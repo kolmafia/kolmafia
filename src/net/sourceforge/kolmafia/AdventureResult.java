@@ -339,67 +339,55 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public static AdventureResult parseResult( String s )
 	{
-		try
+		if ( s.startsWith("You gain") || s.startsWith("You lose") )
 		{
-			if ( s.startsWith("You gain") || s.startsWith("You lose") )
+			// A stat has been modified - now you figure out which one it was,
+			// how much it's been modified by, and return the appropriate value
+
+			StringTokenizer parsedGain = new StringTokenizer( s, " ." );
+			parsedGain.nextToken();
+
+			int modifier = StaticEntity.parseInt( (parsedGain.nextToken().startsWith("gain") ? "" : "-") + parsedGain.nextToken() );
+			String statname = parsedGain.nextToken();
+
+			// Stats actually fall into one of four categories - simply pick the
+			// correct one and return the result.
+
+			if ( parsedGain.hasMoreTokens() )
 			{
-				// A stat has been modified - now you figure out which one it was,
-				// how much it's been modified by, and return the appropriate value
-
-				StringTokenizer parsedGain = new StringTokenizer( s, " ." );
-				parsedGain.nextToken();
-
-				int modifier = COMMA_FORMAT.parse(
-					(parsedGain.nextToken().startsWith("gain") ? "" : "-") + parsedGain.nextToken() ).intValue();
-				String statname = parsedGain.nextToken();
-
-				// Stats actually fall into one of four categories - simply pick the
-				// correct one and return the result.
-
-				if ( parsedGain.hasMoreTokens() )
-				{
-					char identifier = statname.charAt(0);
-					return new AdventureResult( ( identifier == 'H' || identifier == 'h' ) ? HP : MP, modifier );
-				}
-
-				if ( statname.startsWith( "Adv" ) )
-					return new AdventureResult( ADV, modifier );
-				else if ( statname.startsWith( "Dru" ) )
-					return new AdventureResult( DRUNK, modifier );
-				else if ( statname.startsWith( "Mea" ) )
-					return new AdventureResult( MEAT, modifier );
-
-				else
-				{
-					// In the current implementations, all stats gains are located
-					// inside of a generic adventure which indicates how much of
-					// each substat is gained.
-
-					int [] gained =
-					{
-						MUS_SUBSTAT.contains( statname ) ? modifier : 0,
-						MYS_SUBSTAT.contains( statname ) ? modifier : 0,
-						MOX_SUBSTAT.contains( statname ) ? modifier : 0
-					};
-
-					return new AdventureResult( SUBSTATS, gained );
-				}
+				char identifier = statname.charAt(0);
+				return new AdventureResult( ( identifier == 'H' || identifier == 'h' ) ? HP : MP, modifier );
 			}
 
-			StringTokenizer parsedItem = new StringTokenizer( s, "()" );
-			String parsedItemName = parsedItem.nextToken().trim();
-			String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
+			if ( statname.startsWith( "Adv" ) )
+				return new AdventureResult( ADV, modifier );
+			else if ( statname.startsWith( "Dru" ) )
+				return new AdventureResult( DRUNK, modifier );
+			else if ( statname.startsWith( "Mea" ) )
+				return new AdventureResult( MEAT, modifier );
 
-			return new AdventureResult( parsedItemName, COMMA_FORMAT.parse( parsedItemCount ).intValue() );
+			else
+			{
+				// In the current implementations, all stats gains are located
+				// inside of a generic adventure which indicates how much of
+				// each substat is gained.
+
+				int [] gained =
+				{
+					MUS_SUBSTAT.contains( statname ) ? modifier : 0,
+					MYS_SUBSTAT.contains( statname ) ? modifier : 0,
+					MOX_SUBSTAT.contains( statname ) ? modifier : 0
+				};
+
+				return new AdventureResult( SUBSTATS, gained );
+			}
 		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-			
-			StaticEntity.printStackTrace( e );
-			return null;
-		}
+
+		StringTokenizer parsedItem = new StringTokenizer( s, "()" );
+		String parsedItemName = parsedItem.nextToken().trim();
+		String parsedItemCount = parsedItem.hasMoreTokens() ? parsedItem.nextToken() : "1";
+
+		return new AdventureResult( parsedItemName, StaticEntity.parseInt( parsedItemCount ) );
 	}
 
 	/**
@@ -477,7 +465,7 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		if ( isStatusEffect() && getCount() != ar.getCount() )
 			return getCount() - ar.getCount();
-		
+
 		int nameComparison = name.compareToIgnoreCase( ar.name );
 		if ( nameComparison != 0 )
 			return nameComparison;

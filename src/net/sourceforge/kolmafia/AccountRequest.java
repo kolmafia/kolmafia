@@ -88,7 +88,7 @@ public class AccountRequest extends PasswordHashRequest
 				// synchronize timestamps with the server so
 				// that all kmail can be processed?
 
-				timeOffset = Integer.parseInt( matcher.group(1) );
+				timeOffset = StaticEntity.parseInt( matcher.group(1) );
 			}
 		}
 	}

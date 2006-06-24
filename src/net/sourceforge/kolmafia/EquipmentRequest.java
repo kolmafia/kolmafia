@@ -599,18 +599,8 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( meatInClosetMatcher.find() )
 		{
-			try
-			{
-				String meatInCloset = meatInClosetMatcher.group();
-				KoLCharacter.setClosetMeat( COMMA_FORMAT.parse( meatInCloset ).intValue() );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
+			String meatInCloset = meatInClosetMatcher.group();
+			KoLCharacter.setClosetMeat( StaticEntity.parseInt( meatInCloset ) );
 		}
 
 		Matcher inventoryMatcher = Pattern.compile( "<b>Put:.*?</select>" ).matcher( responseText );
@@ -637,24 +627,14 @@ public class EquipmentRequest extends PasswordHashRequest
 		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( content );
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
-			try
-			{
-				lastFindIndex = optionMatcher.end();
-				int itemID = COMMA_FORMAT.parse( optionMatcher.group(1) ).intValue();
+			lastFindIndex = optionMatcher.end();
+			int itemID = StaticEntity.parseInt( optionMatcher.group(1) );
 
-				if ( TradeableItemDatabase.getItemName( itemID ) == null )
-					TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
+			if ( TradeableItemDatabase.getItemName( itemID ) == null )
+				TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
 
-				AdventureResult result = new AdventureResult( itemID, COMMA_FORMAT.parse( optionMatcher.group(3) ).intValue() );
-				AdventureResult.addResultToList( resultList, result );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
+			AdventureResult result = new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) );
+			AdventureResult.addResultToList( resultList, result );
 		}
 	}
 
@@ -665,7 +645,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		{
 			String quantity = itemMatcher.group(4).trim();
 			AdventureResult item = new AdventureResult( itemMatcher.group(2),
-				quantity.length() == 0 ? 1 : Integer.parseInt( quantity.substring( 1, quantity.length() - 1 ) ) );
+				quantity.length() == 0 ? 1 : StaticEntity.parseInt( quantity.substring( 1, quantity.length() - 1 ) ) );
 
 			if ( item.getItemID() != -1 && !KoLCharacter.getInventory().contains( item ) )
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), item );
