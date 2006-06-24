@@ -290,6 +290,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( responseText.indexOf( "rupture" ) != -1 )
 		{
+			KoLCharacter.reachSpleenLimit();
 			KoLmafia.updateDisplay( "Your spleen might go kabooie." );
 			return;
 		}
