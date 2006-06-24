@@ -69,8 +69,10 @@ public class MoonPhaseRequest extends KoLRequest
 	protected void processResults()
 	{
 		// Get current phase of Ronald and Grimace
+		if ( responseText.indexOf( "minimoon2" ) != -1 )
+			responseText = responseText.replaceFirst( "minimoon2", "" );
 
-		Matcher moonMatcher = Pattern.compile( "moon(.)\\.gif.*moon(.)\\.gif" ).matcher( responseText );
+		Matcher moonMatcher = Pattern.compile( "moon(.)[ab]?\\.gif.*moon(.)[ab]?\\.gif" ).matcher( responseText );
 		if ( moonMatcher.find() )
 			MoonPhaseDatabase.setMoonPhases( Integer.parseInt( moonMatcher.group(1) ) - 1, Integer.parseInt( moonMatcher.group(2) ) - 1 );
 	}
