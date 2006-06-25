@@ -50,10 +50,24 @@ import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTree;
+import javax.swing.JTextArea;
+import javax.swing.tree.DefaultTreeModel;
+
+import java.io.BufferedReader;
+import java.io.PrintStream;
+import java.io.FileOutputStream;
+
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RestoreOptionsFrame extends KoLFrame
 {
+	private JTree displayTree;
+	private DefaultTreeModel displayModel;
+	private CardLayout combatCards;
+	private JPanel combatPanel;
+
+	private JComboBox battleStopSelect;
 	private JTextField betweenBattleScriptField;
 
 	private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect;
@@ -72,6 +86,9 @@ public class RestoreOptionsFrame extends KoLFrame
 		restorePanel.add( new HealthOptionsPanel() );
 		restorePanel.add( new ManaOptionsPanel() );
 
+		displayTree = new JTree();
+		displayModel = (DefaultTreeModel) displayTree.getModel();
+
 		CheckboxListener listener = new CheckboxListener();
 		for ( int i = 0; i < hpRestoreCheckbox.length; ++i )
 			hpRestoreCheckbox[i].addActionListener( listener );
@@ -83,12 +100,24 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		JComponentUtilities.setComponentSize( restoreScroller, 600, 300 );
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( restoreScroller, "" );
+
+		tabs = new JTabbedPane();
+		tabs.add( "Auto Recovery", restoreScroller );
+
+		combatCards = new CardLayout();
+		combatPanel = new JPanel( combatCards );
+		combatPanel.add( "tree", new CustomCombatTreePanel() );
+		combatPanel.add( "editor", new CustomCombatPanel() );
+
+		tabs.add( "Custom Combat", combatPanel );
+
+		framePanel.add( tabs, "" );
 	}
 
 	private void saveRestoreSettings()
 	{
 		StaticEntity.setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
+		StaticEntity.setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex() - 1) / 10.0) ) );
 
 		StaticEntity.setProperty( "hpAutoRecovery", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
 		StaticEntity.setProperty( "hpAutoRecoveryTarget", String.valueOf( ((double)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
@@ -113,6 +142,12 @@ public class RestoreOptionsFrame extends KoLFrame
 		public HealthOptionsPanel()
 		{
 			super( new Dimension( 160, 20 ), new Dimension( 300, 20 ) );
+
+			battleStopSelect = new JComboBox();
+			battleStopSelect.addItem( "Never stop combat" );
+			for ( int i = 0; i <= 9; ++i )
+				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
+
 			betweenBattleScriptField = new JTextField();
 
 			hpAutoRecoverSelect = new JComboBox();
@@ -128,9 +163,11 @@ public class RestoreOptionsFrame extends KoLFrame
 			// Add the elements to the panel
 
 			int currentElementCount = 0;
-			VerifiableElement [] elements = new VerifiableElement[5];
+			VerifiableElement [] elements = new VerifiableElement[6];
 
 			elements[ currentElementCount++ ] = new VerifiableElement( "Between Battles: ", new ScriptSelectPanel( betweenBattleScriptField ) );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Combat Abort", battleStopSelect );
+
 			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
 
 			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Trigger: ", hpAutoRecoverSelect );
@@ -160,6 +197,7 @@ public class RestoreOptionsFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			betweenBattleScriptField.setText( StaticEntity.getProperty( "betweenBattleScript" ) );
+			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
 			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "hpAutoRecovery" ) ) * 10) + 1 );
 			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "hpAutoRecoveryTarget" ) ) * 10) + 1 );
 		}
@@ -215,5 +253,102 @@ public class RestoreOptionsFrame extends KoLFrame
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
 		{	return false;
 		}
+	}
+
+	private class CustomCombatPanel extends LabeledScrollPanel
+	{
+		public CustomCombatPanel()
+		{
+			super( "Editor", "save", "help", new JTextArea( 12, 40 ) );
+
+			try
+			{
+				CombatSettings.reset();
+				BufferedReader reader = KoLDatabase.getReader( CombatSettings.settingsFileName() );
+
+				StringBuffer buffer = new StringBuffer();
+
+				String line;
+
+				while ( (line = reader.readLine()) != null )
+				{
+					buffer.append( line );
+					buffer.append( System.getProperty( "line.separator" ) );
+				}
+
+				reader.close();
+				reader = null;
+				((JTextArea)scrollComponent).setText( buffer.toString() );
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
+
+			refreshCombatTree();
+		}
+
+		protected void actionConfirmed()
+		{
+			try
+			{
+				PrintStream writer = new PrintStream( new FileOutputStream( DATA_DIRECTORY + CombatSettings.settingsFileName() ) );
+				writer.println( ((JTextArea)scrollComponent).getText() );
+				writer.close();
+				writer = null;
+
+				int customIndex = KoLCharacter.getBattleSkillIDs().indexOf( "custom" );
+				KoLCharacter.getBattleSkillIDs().setSelectedIndex( customIndex );
+				KoLCharacter.getBattleSkillNames().setSelectedIndex( customIndex );
+				setProperty( "battleAction", "custom" );
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
+
+			// After storing all the data on disk, go ahead
+			// and reload the data inside of the tree.
+
+			refreshCombatTree();
+			combatCards.show( combatPanel, "tree" );
+		}
+
+		protected void actionCancelled()
+		{	StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
+		}
+	}
+
+	private class CustomCombatTreePanel extends LabeledScrollPanel
+	{
+		public CustomCombatTreePanel()
+		{	super( "Tree View", "edit", "load", displayTree );
+		}
+
+		public void actionConfirmed()
+		{	combatCards.show( combatPanel, "editor" );
+		}
+
+		public void actionCancelled()
+		{
+		}
+	}
+
+	/**
+	 * Internal class used to handle everything related to
+	 * displaying custom combat.
+	 */
+
+	private void refreshCombatTree()
+	{
+		CombatSettings.reset();
+		displayModel.setRoot( CombatSettings.getRoot() );
+		displayTree.setRootVisible( false );
 	}
 }

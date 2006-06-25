@@ -319,7 +319,10 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public static String getLongCombatOptionName( String action )
 	{
-		if ( action.equals( "custom" ) || action.startsWith( "abort" ) || action.startsWith( "attack" ) || action.startsWith( "moxman" ) || action.startsWith( "run" ) )
+		if ( action == null || action.length() == 0 )
+			return "default";
+
+		if ( action.equals( "custom" ) || action.equals( "default" ) || action.startsWith( "abort" ) || action.startsWith( "attack" ) || action.startsWith( "moxman" ) || action.startsWith( "run" ) )
 			return action;
 
 		else if ( action.startsWith( "item" ) )
@@ -359,7 +362,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 		if ( action.startsWith( "custom" ) )
 			return "custom";
-		
+
 		if ( action.startsWith( "abort" ) )
 			return "abort";
 
