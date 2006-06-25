@@ -346,6 +346,7 @@ public class MonsterDatabase extends KoLDatabase
 
 		private static final int SOMBRERO = 18;
 		private static final double sombreroFactor = 3.0 / 100.0;
+
 		public static double sombreroXPAdjustment( double ml, FamiliarData familiar )
 		{
 			if ( familiar.getID() != SOMBRERO )
@@ -355,9 +356,20 @@ public class MonsterDatabase extends KoLDatabase
 		}
 
 		public boolean willAlwaysMiss()
+		{	return willAlwaysMiss( 0 );
+		}
+
+		public boolean hasAcceptableDodgeRate( int offenseModifier )
 		{
-			int ml = KoLCharacter.getMonsterLevelAdjustment();
+			int ml = KoLCharacter.getMonsterLevelAdjustment() + offenseModifier;
+			return KoLCharacter.getAdjustedMoxie() - attack + offenseModifier - 12 > 0;
+		}
+
+		public boolean willAlwaysMiss( int defenseModifier )
+		{
+			int ml = KoLCharacter.getMonsterLevelAdjustment() + defenseModifier;
 			int hitstat;
+
 			if ( KoLCharacter.rangedWeapon() )
 				hitstat = KoLCharacter.getAdjustedMoxie() - ml;
 			else if ( KoLCharacter.rigatoniActive() )

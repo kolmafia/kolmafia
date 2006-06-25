@@ -322,7 +322,7 @@ public abstract class CombatSettings implements UtilityConstants
 		if ( action == null || action.length() == 0 )
 			return "default";
 
-		if ( action.equals( "custom" ) || action.equals( "default" ) || action.startsWith( "abort" ) || action.startsWith( "attack" ) || action.startsWith( "moxman" ) || action.startsWith( "run" ) )
+		if ( action.equals( "custom" ) || action.equals( "delevel" ) || action.equals( "default" ) || action.startsWith( "abort" ) || action.startsWith( "attack" ) || action.startsWith( "moxman" ) || action.startsWith( "run" ) )
 			return action;
 
 		else if ( action.startsWith( "item" ) )
@@ -338,9 +338,9 @@ public abstract class CombatSettings implements UtilityConstants
 		// Well, it's either a standard skill, or it's an item,
 		// or it's something you need to lookup in the tables.
 
-		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action ).toLowerCase();
+		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
 		if ( potentialSkill != null )
-			return "skill " + potentialSkill;
+			return "skill " + potentialSkill.toLowerCase();
 
 		int itemID = action.equals( "" ) ? -1 :
 			KoLmafiaCLI.getFirstMatchingItemID( TradeableItemDatabase.getMatchingNames( action ) );
@@ -362,6 +362,9 @@ public abstract class CombatSettings implements UtilityConstants
 
 		if ( action.startsWith( "custom" ) )
 			return "custom";
+
+		if ( action.startsWith( "delevel" ) )
+			return "delevel";
 
 		if ( action.startsWith( "abort" ) )
 			return "abort";

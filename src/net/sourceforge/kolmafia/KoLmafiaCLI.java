@@ -521,7 +521,18 @@ public class KoLmafiaCLI extends KoLmafia
 			String value = parameters.substring( splitIndex + 1 ).trim();
 
 			if ( name.equals( "battleAction" ) )
+			{
 				value = CombatSettings.getLongCombatOptionName( value );
+				int index = KoLCharacter.getBattleSkillIDs().indexOf( value );
+				if ( index == -1 )
+				{
+					printLine( "Invalid value for combat option." );
+					return;
+				}
+
+				KoLCharacter.getBattleSkillIDs().setSelectedIndex( index );
+				KoLCharacter.getBattleSkillNames().setSelectedIndex( index );
+			}
 
 			printLine( name + " => " + value );
 			StaticEntity.setProperty( name, value );
