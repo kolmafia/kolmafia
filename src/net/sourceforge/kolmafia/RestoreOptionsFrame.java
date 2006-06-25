@@ -78,7 +78,7 @@ public class RestoreOptionsFrame extends KoLFrame
 
 	public RestoreOptionsFrame()
 	{
-		super( "Auto-Restore" );
+		super( "Combat Configuration" );
 
 		JPanel restorePanel = new JPanel();
 		restorePanel.setLayout( new BoxLayout( restorePanel, BoxLayout.Y_AXIS ) );
@@ -102,7 +102,7 @@ public class RestoreOptionsFrame extends KoLFrame
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 
 		tabs = new JTabbedPane();
-		tabs.add( "Auto Recovery", restoreScroller );
+		tabs.add( "Between Battle", restoreScroller );
 
 		combatCards = new CardLayout();
 		combatPanel = new JPanel( combatCards );
@@ -165,8 +165,8 @@ public class RestoreOptionsFrame extends KoLFrame
 			int currentElementCount = 0;
 			VerifiableElement [] elements = new VerifiableElement[6];
 
-			elements[ currentElementCount++ ] = new VerifiableElement( "Between Battles: ", new ScriptSelectPanel( betweenBattleScriptField ) );
-			elements[ currentElementCount++ ] = new VerifiableElement( "Combat Abort", battleStopSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Script Command: ", betweenBattleScriptField );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Combat Abort: ", battleStopSelect );
 
 			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
 
