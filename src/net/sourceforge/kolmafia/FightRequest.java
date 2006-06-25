@@ -33,10 +33,6 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.io.IOException;
-import java.util.StringTokenizer;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 /**
  * An extension of <code>KoLRequest</code> which handles fights
@@ -113,7 +109,7 @@ public class FightRequest extends KoLRequest
 
 		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
 			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
-				client.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
+				KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
 
 		if ( roundCount == 1 )
 		{

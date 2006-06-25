@@ -323,11 +323,11 @@ public abstract class CombatSettings implements UtilityConstants
 			return action;
 
 		else if ( action.startsWith( "item" ) )
-			return "item " + (String) TradeableItemDatabase.getMatchingNames( action.substring(4).trim() ).get(0);
+			return "item " + ((String) TradeableItemDatabase.getMatchingNames( action.substring(4).trim() ).get(0)).toLowerCase();
 
 		else if ( action.startsWith( "skill" ) )
 		{
-			String potentialSkill = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() );
+			String potentialSkill = KoLmafiaCLI.getCombatSkillName( action.substring(5).trim() ).toLowerCase();
 			if ( potentialSkill != null )
 				return "skill " + potentialSkill;
 		}
@@ -335,7 +335,7 @@ public abstract class CombatSettings implements UtilityConstants
 		// Well, it's either a standard skill, or it's an item,
 		// or it's something you need to lookup in the tables.
 
-		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );
+		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action ).toLowerCase();
 		if ( potentialSkill != null )
 			return "skill " + potentialSkill;
 
@@ -343,7 +343,7 @@ public abstract class CombatSettings implements UtilityConstants
 			KoLmafiaCLI.getFirstMatchingItemID( TradeableItemDatabase.getMatchingNames( action ) );
 
 		if ( itemID != -1 )
-			return "item " + TradeableItemDatabase.getItemName( itemID );
+			return "item " + TradeableItemDatabase.getItemName( itemID ).toLowerCase();
 
 		return "attack";
 	}

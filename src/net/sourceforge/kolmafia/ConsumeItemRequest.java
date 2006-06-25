@@ -357,13 +357,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 			// Remove the old dictionary
 			client.processResult( FightRequest.DICTIONARY1.getNegation() );
-
-			// If he was fighting with the old dictionary, switch
-			// to use the new one.
-
-			if ( getProperty( "battleAction" ).equals( "item0536" ) )
-				setProperty( "battleAction", "item1316" );
-
 			break;
 
 		case ENCHANTED_BEAN:

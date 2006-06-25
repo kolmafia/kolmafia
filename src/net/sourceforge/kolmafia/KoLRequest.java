@@ -517,9 +517,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( getURLString().indexOf( "fight.php?action=plink" ) != -1 )
 		{
+			String oldAction = StaticEntity.getProperty( "battleAction" ); 
 			StaticEntity.setProperty( "battleAction", "attack" );
 			FightRequest request = new FightRequest( client, false );
 			request.run();
+			
+			StaticEntity.setProperty( "battleAction", oldAction );
 
 			this.responseCode = request.responseCode;
 			this.responseText = request.responseText;
@@ -1213,6 +1216,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private void handleChoiceResponse( KoLRequest request )
 	{
+		client.processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
+		
 		String text = request.responseText;
 		Matcher encounterMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( text );
 		if ( encounterMatcher.find() )

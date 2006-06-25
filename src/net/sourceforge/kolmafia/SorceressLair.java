@@ -1445,14 +1445,14 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Start the battle!
 
-		String action = getProperty( "battleAction" );
-		setProperty( "battleAction", "item" + option.getItemID() );
+		String oldAction = getProperty( "battleAction" );
+		setProperty( "battleAction", "item " + option.getName().toLowerCase() );
 
 		KoLRequest request = new KoLRequest( client, "lair6.php" );
 		request.addFormField( "place", "2" );
 		request.run();
 
-		setProperty( "battleAction", action );
+		setProperty( "battleAction", oldAction );
 
 		if ( request.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
 		{
