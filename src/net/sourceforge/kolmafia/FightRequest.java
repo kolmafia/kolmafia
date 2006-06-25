@@ -284,35 +284,35 @@ public class FightRequest extends KoLRequest
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Eye-Poke" ) )
 		{
 			desiredSkill = 5003;
-			isAcceptable = isAcceptable( 1, 1 );
+			isAcceptable = isAcceptable( -1, -1 );
 		}
 
 		// Disco Dance of Doom
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Dance of Doom" ) )
 		{
 			desiredSkill = 5005;
-			isAcceptable = isAcceptable( 3, 3 );
+			isAcceptable = isAcceptable( -3, -3 );
 		}
 
 		// Disco Dance II: Electric Boogaloo
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Dance II: Electric Boogaloo" ) )
 		{
 			desiredSkill = 5008;
-			isAcceptable = isAcceptable( 3, 3 );
+			isAcceptable = isAcceptable( -3, -3 );
 		}
 
 		// Entangling Noodles
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Entangling Noodles" ) )
 		{
 			desiredSkill = 3004;
-			isAcceptable = isAcceptable( 6, 0 );
+			isAcceptable = isAcceptable( -6, 0 );
 		}
 
 		// Disco Face Stab
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Face Stab" ) )
 		{
 			desiredSkill = 5012;
-			isAcceptable = isAcceptable( 7, 7 );
+			isAcceptable = isAcceptable( -7, -7 );
 		}
 
 		return desiredSkill == 0 ? null : String.valueOf( desiredSkill );
