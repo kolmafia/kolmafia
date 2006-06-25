@@ -231,15 +231,30 @@ public class ClanStashRequest extends SendMessageRequest
 
 			String itemString = optionMatcher.group(2);
 
-			if ( TradeableItemDatabase.getItemName( itemID ) == null )
+			// See how many are actually in the stash
+			int paren = itemString.lastIndexOf( " (" );
+			int quantity = 1;
+			if ( paren != -1 )
 			{
-				TradeableItemDatabase.registerItem( itemID, itemString.indexOf( "(" ) == -1 ? itemString :
-					itemString.substring( 0, itemString.indexOf( "(" ) ).trim() );
+				// Make sure that only digits are inside the
+				// parentheses since items can have names with
+				// parentheses
+				Matcher qtyMatcher = qtyPattern.matcher( itemString.substring( paren ) );
+				if ( qtyMatcher.find() )
+					// All digits. It's a quantity
+					quantity = StaticEntity.parseInt( qtyMatcher.group(1) );
+				else
+					// Parentheses in item name
+					paren = -1;
 			}
 
-			// How many are actually in the stash
-			Matcher qtyMatcher = qtyPattern.matcher( itemString.substring( itemString.indexOf( "(" ) ) );
-			int quantity = qtyMatcher.find() ? StaticEntity.parseInt( qtyMatcher.group(1) ) : 1;
+			// If this is a previously unknown item, register it.
+			if ( TradeableItemDatabase.getItemName( itemID ) == null )
+			{
+				String name = paren == -1 ? itemString : itemString.substring( 0, paren );
+				TradeableItemDatabase.registerItem( itemID, name );
+			}
+
 			intermediateList.add( new AdventureResult( itemID, quantity ) );
 		}
 
