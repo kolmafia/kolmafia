@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.Map;
 import java.util.TreeMap;
@@ -214,7 +215,23 @@ public class ClassSkillsDatabase extends KoLDatabase
 		Object skillType = skillTypeByID.get( new Integer( skillID ) );
 		return skillType == null ? false : ((Integer)skillType).intValue() == type;
 	}
+	
+	/**
+	 * Returns all skills in the database of the given type.
+	 */
 
+	public static final List getSkillsByType( int type )
+	{
+		ArrayList list = new ArrayList();
+		
+		Object [] keys = skillTypeByID.keySet().toArray();
+		for ( int i = 0; i < keys.length; ++i )
+			if ( isType( ((Integer)keys[i]).intValue(), type ) )
+				list.add( new UseSkillRequest( client, getSkillName( ((Integer)keys[i]).intValue() ), "", 1 ) );
+
+		return list;
+	}
+	
 	/**
 	 * Returns whether or not an item with a given name
 	 * exists in the database; this is useful in the

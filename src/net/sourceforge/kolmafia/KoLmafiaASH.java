@@ -3788,7 +3788,13 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue set_property( ScriptVariable name, ScriptVariable value )
 		{
-			StaticEntity.setProperty( name.toStringValue().toString(), value.toStringValue().toString() );
+			String settingName = name.toStringValue().toString();
+			String settingValue = value.toStringValue().toString();
+
+			if ( settingName.equals( "battleAction" ) )
+				settingValue = CombatSettings.getLongCombatOptionName( settingValue );
+			
+			StaticEntity.setProperty( settingName, settingValue );			
 			return VOID_VALUE;
 		}
 

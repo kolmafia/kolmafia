@@ -115,7 +115,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( initialScript.length() == 0 )
 		{
-			DEFAULT_SHELL.attemptLogin();
+//			DEFAULT_SHELL.attemptLogin();
 			DEFAULT_SHELL.listenForCommands();
 		}
 		else
@@ -515,7 +515,16 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "set" ) )
 		{
 			int splitIndex = parameters.indexOf( "=" );
-			StaticEntity.setProperty( parameters.substring( 0, splitIndex ).trim(), parameters.substring( splitIndex + 1 ).trim() );
+
+			String name = parameters.substring( 0, splitIndex ).trim();
+			String value = parameters.substring( splitIndex + 1 ).trim();
+
+			if ( name.equals( "battleAction" ) )
+				value = CombatSettings.getLongCombatOptionName( value );
+
+			printLine( name + " => " + value );
+			StaticEntity.setProperty( name, value );
+
 			return;
 		}
 		else if ( command.equals( "get" ) )
@@ -2070,7 +2079,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * given a substring representing it.
 	 */
 
-	public static String getSkillName( String substring, LockableListModel list )
+	public static String getSkillName( String substring, List list )
 	{
 		UseSkillRequest [] skills = new UseSkillRequest[ list.size() ];
 		list.toArray( skills );
@@ -2110,7 +2119,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 */
 
 	public static String getCombatSkillName( String substring )
-	{	return getSkillName( substring, KoLCharacter.getCombatSkills() );
+	{	return getSkillName( substring, ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.COMBAT ) );
 	}
 
 	/**

@@ -144,7 +144,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	{
 		KoLCharacter.setNextAdventure( this );
 
-		String action = StaticEntity.getProperty( "battleAction" );
+		String action = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
 		int haltTolerance = (int)( Double.parseDouble( StaticEntity.getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
 
 		if ( ( action.equals( "item0536" ) && FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) < 1 ) ||

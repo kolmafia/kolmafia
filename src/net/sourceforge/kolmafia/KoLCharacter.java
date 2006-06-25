@@ -1898,13 +1898,13 @@ public abstract class KoLCharacter extends StaticEntity
 		// Add the three permanent starting items
 		// which can be used to attack.
 
-		KoLCharacter.battleSkillIDs.add( "item0002" );
+		KoLCharacter.battleSkillIDs.add( "item seal tooth" );
 		KoLCharacter.battleSkillNames.add( "Item: Use a Seal Tooth" );
 
-		KoLCharacter.battleSkillIDs.add( "item0004" );
+		KoLCharacter.battleSkillIDs.add( "item scroll of turtle summoning" );
 		KoLCharacter.battleSkillNames.add( "Item: Use a Scroll of Turtle Summoning" );
 
-		KoLCharacter.battleSkillIDs.add( "item0008" );
+		KoLCharacter.battleSkillIDs.add( "item spices" );
 		KoLCharacter.battleSkillNames.add( "Item: Use Spices" );
 
 		// Add in moxious maneuver if the player
@@ -1951,7 +1951,7 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.battleSkillIDs.add( "custom" );
 		KoLCharacter.battleSkillNames.add( "Custom: Use Combat Script" );
 
-		battleSkillIDs.setSelectedItem( CombatSettings.getShortCombatOptionName( getProperty( "battleAction" ) ) );
+		battleSkillIDs.setSelectedItem( getProperty( "battleAction" ) );
 		if ( battleSkillIDs.getSelectedIndex() != -1 )
 			battleSkillNames.setSelectedIndex( battleSkillIDs.getSelectedIndex() );
 	}
@@ -1962,19 +1962,26 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( getEquipment( OFFHAND ).startsWith( "joybuzzer" ) )
 		{
-			if ( !KoLCharacter.battleSkillIDs.contains( "7002" ) )
+			if ( !KoLCharacter.battleSkillIDs.contains( "skill shake hands" ) )
 			{
-				KoLCharacter.battleSkillIDs.add( "7002" );
+				KoLCharacter.battleSkillIDs.add( "skill shake hands" );
 				KoLCharacter.battleSkillNames.add( "Skill: Shake Hands" );
-				addAvailableSkill( handshake );
+
+				availableSkills.add( handshake );
+				combatSkills.add( handshake );
 			}
 		}
 		else
 		{
-			KoLCharacter.battleSkillIDs.remove( "7002" );
-			KoLCharacter.battleSkillNames.remove( "Skill: Shake Hands" );
-			availableSkills.remove( handshake );
-			combatSkills.remove( handshake );
+			int index = KoLCharacter.battleSkillIDs.indexOf( "skill shake hands" );
+			if ( index != -1 )
+			{
+				KoLCharacter.battleSkillIDs.remove( index );
+				KoLCharacter.battleSkillNames.remove( index );
+
+				availableSkills.remove( handshake );
+				combatSkills.remove( handshake );
+			}
 		}
 	}
 
@@ -1996,13 +2003,13 @@ public abstract class KoLCharacter extends StaticEntity
 
 				if ( dictionary.getCount() > 0 )
 				{
-					battleSkillIDs.add( 1, "item0536" );
+					battleSkillIDs.add( 1, "item dictionary" );
 					battleSkillNames.add( 1, "Item: Use a Dictionary" );
 					return;
 				}
 				else if ( dictionary.getCount() == -1 )
 				{
-					int index = battleSkillIDs.indexOf( "item0536" );
+					int index = battleSkillIDs.indexOf( "item dictionary" );
 					if ( index != -1 )
 					{
 						battleSkillIDs.remove( index );
@@ -2018,13 +2025,13 @@ public abstract class KoLCharacter extends StaticEntity
 
 				if ( dictionary.getCount() > 0 )
 				{
-					battleSkillIDs.add( 1, "item1316" );
+					battleSkillIDs.add( 1, "item facsimile dictionary" );
 					battleSkillNames.add( 1, "Item: Use a Facsimile Dictionary" );
 					return;
 				}
 				else if ( dictionary.getCount() == -1 )
 				{
-					int index = battleSkillIDs.indexOf( "item1316" );
+					int index = battleSkillIDs.indexOf( "item facsimile dictionary" );
 					if ( index != -1 )
 					{
 						battleSkillIDs.remove( index );
@@ -2046,38 +2053,38 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void addAvailableSkill( UseSkillRequest skill )
 	{
-		int id = ClassSkillsDatabase.getSkillID( skill.getSkillName() );
-
 		availableSkills.add( skill );
 
-		switch ( ClassSkillsDatabase.getSkillType( id ) )
+		switch ( skill.getSkillID() )
 		{
-		case ClassSkillsDatabase.PASSIVE:
-			// Flavour of Magic gives you access to five other
-			// castable skills
-			if ( skill.getSkillName().equals( "Flavour of Magic" ) )
-			{
-				usableSkills.add( new UseSkillRequest( client, "Spirit of Cayenne", "", 1 ) );
-				usableSkills.add( new UseSkillRequest( client, "Spirit of Peppermint", "", 1 ) );
-				usableSkills.add( new UseSkillRequest( client, "Spirit of Garlic", "", 1 ) );
-				usableSkills.add( new UseSkillRequest( client, "Spirit of Wormwood", "", 1 ) );
-				usableSkills.add( new UseSkillRequest( client, "Spirit of Bacon Grease", "", 1 ) );
-			}
-			break;
+			case ClassSkillsDatabase.PASSIVE:
+				// Flavour of Magic gives you access to five other
+				// castable skills
+				if ( skill.getSkillName().equals( "Flavour of Magic" ) )
+				{
+					usableSkills.add( new UseSkillRequest( client, "Spirit of Cayenne", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( client, "Spirit of Peppermint", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( client, "Spirit of Garlic", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( client, "Spirit of Wormwood", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( client, "Spirit of Bacon Grease", "", 1 ) );
+				}
+				break;
+	
+			case ClassSkillsDatabase.SKILL:
+			case ClassSkillsDatabase.BUFF:
 
-		case ClassSkillsDatabase.SKILL:
-		case ClassSkillsDatabase.BUFF:
-			usableSkills.add( skill );
-			break;
+				usableSkills.add( skill );
+				break;
+	
+			case ClassSkillsDatabase.COMBAT:
 
-		case ClassSkillsDatabase.COMBAT:
-			combatSkills.add( skill );
-			battleSkillIDs.add( String.valueOf( id ) );
-			battleSkillNames.add( "Skill: " + skill.getSkillName() );
-			break;
+				combatSkills.add( skill );
+				battleSkillIDs.add( "skill " + skill.getSkillName().toLowerCase() );
+				battleSkillNames.add( "Skill: " + skill.getSkillName() );
+				break;
 		}
 
-                recalculateAdjustments( true );
+		recalculateAdjustments( true );
 	}
 
 	/**
@@ -2109,15 +2116,11 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( hasSkill( name, combatSkills ) )
 			return;
 
-		// Find the skill
-		int id = ClassSkillsDatabase.getSkillID( name );
-		if ( id == -1 )
-			return;
-
 		// Add to lists
 		UseSkillRequest skill = new UseSkillRequest( client, name, "", 1 );
+
 		combatSkills.add( skill );
-		battleSkillIDs.add( String.valueOf( id ) );
+		battleSkillIDs.add( "skill " + name.toLowerCase() );
 		battleSkillNames.add( "Skill: " + name );
 	}
 
