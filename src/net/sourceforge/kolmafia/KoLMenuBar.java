@@ -138,13 +138,13 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		statusMenu.add( new DisplayFrameMenuItem( "Adventure", AdventureFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Purchases", MallSearchFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
 
 		statusMenu.add( new JSeparator() );
 
+		statusMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Combat Config", RestoreOptionsFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Mini-Browser", RequestFrame.class ) );
 		statusMenu.add( new InvocationMenuItem( "Relay Browser", StaticEntity.getClient(), "startRelayServer" ) );
-		statusMenu.add( new InvocationMenuItem( "KoL Simulator", StaticEntity.getClient(), "launchSimulator" ) );
 
 		statusMenu.add( new JSeparator() );
 
@@ -171,7 +171,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		toolsMenu.add( new JSeparator() );
 
 		toolsMenu.add( new DisplayFrameMenuItem( "Skill Casting", SkillBuffFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Auto Restore", RestoreOptionsFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
 

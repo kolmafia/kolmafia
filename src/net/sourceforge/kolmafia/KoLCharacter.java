@@ -2055,7 +2055,7 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		availableSkills.add( skill );
 
-		switch ( skill.getSkillID() )
+		switch ( ClassSkillsDatabase.getSkillType( skill.getSkillID() ) )
 		{
 			case ClassSkillsDatabase.PASSIVE:
 				// Flavour of Magic gives you access to five other
@@ -2069,13 +2069,13 @@ public abstract class KoLCharacter extends StaticEntity
 					usableSkills.add( new UseSkillRequest( client, "Spirit of Bacon Grease", "", 1 ) );
 				}
 				break;
-	
+
 			case ClassSkillsDatabase.SKILL:
 			case ClassSkillsDatabase.BUFF:
 
 				usableSkills.add( skill );
 				break;
-	
+
 			case ClassSkillsDatabase.COMBAT:
 
 				combatSkills.add( skill );
