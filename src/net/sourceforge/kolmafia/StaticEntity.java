@@ -248,6 +248,20 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static final int parseInt( String string )
-	{	return Integer.parseInt( string.replaceAll( "[^\\-0-9]", "" ) );
+	{
+		if ( string == null )
+			return 0;
+
+		String clean = string.replaceAll( "[^\\-0-9]", "" );
+		return clean.equals( "" ) ? 0 : Integer.parseInt( clean );
+	}
+
+	public static final double parseDouble( String string )
+	{
+		if ( string == null )
+			return 0.0;
+
+		String clean = string.replaceAll( "[^\\-\\.0-9]", "" );
+		return clean.equals( "" ) ? 0.0 : Double.parseDouble( clean );
 	}
 }

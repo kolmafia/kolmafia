@@ -109,7 +109,7 @@ public class FightRequest extends KoLRequest
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
 
-		int haltTolerance = (int)( Double.parseDouble( getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
+		int haltTolerance = (int)( StaticEntity.parseDouble( getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
 
 		action1 = CombatSettings.getShortCombatOptionName( getProperty( "battleAction" ) );
 		action2 = null;

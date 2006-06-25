@@ -50,10 +50,13 @@ import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.JTree;
 import javax.swing.JTextArea;
 import javax.swing.tree.DefaultTreeModel;
 
+import java.io.File;
 import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.io.FileOutputStream;
@@ -63,6 +66,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class RestoreOptionsFrame extends KoLFrame
 {
 	private JTree displayTree;
+	private JTextArea displayEditor;
 	private DefaultTreeModel displayModel;
 	private CardLayout combatCards;
 	private JPanel combatPanel;
@@ -197,9 +201,9 @@ public class RestoreOptionsFrame extends KoLFrame
 		protected void actionCancelled()
 		{
 			betweenBattleScriptField.setText( StaticEntity.getProperty( "betweenBattleScript" ) );
-			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
-			hpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "hpAutoRecovery" ) ) * 10) + 1 );
-			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "hpAutoRecoveryTarget" ) ) * 10) + 1 );
+			battleStopSelect.setSelectedIndex( (int)(StaticEntity.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
+			hpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.parseDouble( StaticEntity.getProperty( "hpAutoRecovery" ) ) * 10) + 1 );
+			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.parseDouble( StaticEntity.getProperty( "hpAutoRecoveryTarget" ) ) * 10) + 1 );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -246,8 +250,8 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			mpAutoRecoverSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "mpAutoRecovery" ) ) * 10) + 1 );
-			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(Double.parseDouble( StaticEntity.getProperty( "mpAutoRecoveryTarget" ) ) * 10) + 1 );
+			mpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.parseDouble( StaticEntity.getProperty( "mpAutoRecovery" ) ) * 10) + 1 );
+			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.parseDouble( StaticEntity.getProperty( "mpAutoRecoveryTarget" ) ) * 10) + 1 );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -260,35 +264,8 @@ public class RestoreOptionsFrame extends KoLFrame
 		public CustomCombatPanel()
 		{
 			super( "Editor", "save", "help", new JTextArea( 12, 40 ) );
-
-			try
-			{
-				CombatSettings.reset();
-				BufferedReader reader = KoLDatabase.getReader( CombatSettings.settingsFileName() );
-
-				StringBuffer buffer = new StringBuffer();
-
-				String line;
-
-				while ( (line = reader.readLine()) != null )
-				{
-					buffer.append( line );
-					buffer.append( System.getProperty( "line.separator" ) );
-				}
-
-				reader.close();
-				reader = null;
-				((JTextArea)scrollComponent).setText( buffer.toString() );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
-
-			refreshCombatTree();
+			displayEditor = (JTextArea) scrollComponent;
+			refreshCombatSettings();
 		}
 
 		protected void actionConfirmed()
@@ -337,7 +314,62 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
+			JFileChooser chooser = new JFileChooser( (new File( "data" )).getAbsolutePath() );
+			chooser.setFileFilter( CCS_FILTER );
+
+			int returnVal = chooser.showOpenDialog( null );
+
+			if ( chooser.getSelectedFile() == null || returnVal != JFileChooser.APPROVE_OPTION )
+				return;
+
+			CombatSettings.loadSettings( chooser.getSelectedFile() );
+			refreshCombatSettings();
 		}
+	}
+
+	private static final FileFilter CCS_FILTER = new FileFilter()
+	{
+		public boolean accept( File file )
+		{
+			String name = file.getName();
+			return !name.startsWith( "." ) && name.endsWith( ".ccs" );
+		}
+
+		public String getDescription()
+		{	return "Custom Combat Settings (*.ccs)";
+		}
+	};
+
+	private void refreshCombatSettings()
+	{
+		try
+		{
+			CombatSettings.reset();
+			BufferedReader reader = KoLDatabase.getReader( CombatSettings.settingsFileName() );
+
+			StringBuffer buffer = new StringBuffer();
+
+			String line;
+
+			while ( (line = reader.readLine()) != null )
+			{
+				buffer.append( line );
+				buffer.append( System.getProperty( "line.separator" ) );
+			}
+
+			reader.close();
+			reader = null;
+			displayEditor.setText( buffer.toString() );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+
+		refreshCombatTree();
 	}
 
 	/**

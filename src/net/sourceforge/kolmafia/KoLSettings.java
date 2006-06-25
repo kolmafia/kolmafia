@@ -92,11 +92,15 @@ public class KoLSettings extends Properties implements UtilityConstants
 		boolean isGlobalProperty = CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || GLOBAL_SETTINGS == null;
 
 		if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
-			return GLOBAL_SETTINGS.getProperty( name );
+		{
+			String value = GLOBAL_SETTINGS.getProperty( name );
+			return value == null ? "" : value;
+		}
 		else if ( !isGlobalProperty && this == GLOBAL_SETTINGS )
 			return "";
 
-		return super.getProperty( name );
+		String value = super.getProperty( name );
+		return value == null ? "" : value;
 	}
 
 	public synchronized Object setProperty( String name, String value )
@@ -206,9 +210,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
 		CLIENT_SETTINGS.put( "fontSize", "3" );
 		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
-		CLIENT_SETTINGS.put( "hpAutoRecovery", "0.3" );
-		CLIENT_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
-		CLIENT_SETTINGS.put( "hpAutoRecoveryItems", "tongue of the otter;soft green echo eyedrop antidote;tiny house;cannelloni cocoon;scroll of drastic healing;medicinal herb's medicinal herbs;tongue of the walrus;lasagna bandages;disco power nap;disco nap;phonics down;cast;doc galaktik's homeopathic elixir;doc galaktik's restorative balm;doc galaktik's pungent unguent;doc galaktik's ailment ointment" );
 		CLIENT_SETTINGS.put( "highlightList", "" );
 		CLIENT_SETTINGS.put( "http.proxyHost", "" );
 		CLIENT_SETTINGS.put( "http.proxyPort", "" );
@@ -220,9 +221,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "loginServer", "0" );
 		CLIENT_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		CLIENT_SETTINGS.put( "makeBrowserDecisions", "false" );
-		CLIENT_SETTINGS.put( "mpAutoRecovery", "0.0" );
-		CLIENT_SETTINGS.put( "mpAutoRecoveryTarget", "0.0" );
-		CLIENT_SETTINGS.put( "mpAutoRecoveryItems", "dyspepsi-cola;cloaca-cola;phonics down;knob goblin superseltzer;knob goblin seltzer;magical mystery juice;soda water" );
 		CLIENT_SETTINGS.put( "proxySet", "false" );
 		CLIENT_SETTINGS.put( "relayAddsCommandLineLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsSimulatorLinks", "true" );
@@ -250,11 +248,17 @@ public class KoLSettings extends Properties implements UtilityConstants
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
 		PLAYER_SETTINGS.put( "buffBotCasting", "" );
 		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
+		PLAYER_SETTINGS.put( "hpAutoRecovery", "0.3" );
+		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
+		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "tongue of the otter;soft green echo eyedrop antidote;tiny house;cannelloni cocoon;scroll of drastic healing;medicinal herb's medicinal herbs;tongue of the walrus;lasagna bandages;disco power nap;disco nap;phonics down;cast;doc galaktik's homeopathic elixir;doc galaktik's restorative balm;doc galaktik's pungent unguent;doc galaktik's ailment ointment" );
 		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		PLAYER_SETTINGS.put( "lastFaucetLocation", "-1" );
 		PLAYER_SETTINGS.put( "lastFaucetUse", "0: " );
 		PLAYER_SETTINGS.put( "lastAdventure", "" );
 		PLAYER_SETTINGS.put( "lastMessageID", "" );
+		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0" );
+		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.0" );
+		PLAYER_SETTINGS.put( "mpAutoRecoveryItems", "dyspepsi-cola;cloaca-cola;phonics down;knob goblin superseltzer;knob goblin seltzer;magical mystery juice;soda water" );
 		PLAYER_SETTINGS.put( "nextAdventure", "" );
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
 		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );

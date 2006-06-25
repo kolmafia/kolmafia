@@ -206,7 +206,7 @@ public class KoLmafiaASH extends StaticEntity
         }
 
 	private static ScriptValue parseFloatValue( String name ) throws NumberFormatException
-	{	return new ScriptValue( Double.parseDouble( name ) );
+	{	return new ScriptValue( StaticEntity.parseDouble( name ) );
         }
 
 	private static ScriptValue parseStringValue( String name )
@@ -1671,7 +1671,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			double result;
 
-			result = Double.parseDouble( currentToken() );
+			result = StaticEntity.parseDouble( currentToken() );
 			readToken(); //double
 			return new ScriptValue( result );
 		}
@@ -2240,7 +2240,7 @@ public class KoLmafiaASH extends StaticEntity
 				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType() + " " + param.getName() );
 				try
 				{
-					param.setValue( new ScriptValue( Double.parseDouble( resultString ) ) );
+					param.setValue( new ScriptValue( StaticEntity.parseDouble( resultString ) ) );
 				}
 				catch( NumberFormatException e )
 				{
