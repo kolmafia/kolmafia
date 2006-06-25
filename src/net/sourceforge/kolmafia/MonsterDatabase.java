@@ -362,7 +362,7 @@ public class MonsterDatabase extends KoLDatabase
 		public boolean hasAcceptableDodgeRate( int offenseModifier )
 		{
 			int ml = KoLCharacter.getMonsterLevelAdjustment() + offenseModifier;
-			return KoLCharacter.getAdjustedMoxie() - attack + offenseModifier - 12 > 0;
+			return KoLCharacter.getAdjustedMoxie() - (attack + offenseModifier) - 10 > 0;
 		}
 
 		public boolean willAlwaysMiss( int defenseModifier )
