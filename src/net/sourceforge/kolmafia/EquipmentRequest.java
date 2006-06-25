@@ -638,14 +638,14 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	private void parseQuestItems( String text)
+	private void parseQuestItems( String text )
 	{
 		Matcher itemMatcher = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" ).matcher( text );
 		while ( itemMatcher.find() )
 		{
 			String quantity = itemMatcher.group(4).trim();
 			AdventureResult item = new AdventureResult( itemMatcher.group(2),
-				quantity.length() == 0 ? 1 : StaticEntity.parseInt( quantity.substring( 1, quantity.length() - 1 ) ) );
+				quantity.length() == 0 ? 1 : StaticEntity.parseInt( quantity.substring( 1, quantity.length() - 1 ) ), false );
 
 			if ( item.getItemID() != -1 && !KoLCharacter.getInventory().contains( item ) )
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), item );
