@@ -47,11 +47,14 @@ public class FightRequest extends KoLRequest
 
 	private int roundCount;
 	private int turnsUsed = 0;
+	private int offenseModifier = 0, defenseModifier = 0;
+
 	private String action1, action2;
 	private MonsterDatabase.Monster monsterData;
 
-	private static String encounter = "";
-	private static String encounterLookup = "";
+	private String encounter = "";
+	private String encounterLookup = "";
+
 	private static final String [] RARE_MONSTERS =
 	{
 		// Ultra-rare monsters
@@ -79,7 +82,8 @@ public class FightRequest extends KoLRequest
 	 */
 
 	public FightRequest( KoLmafia client )
-	{	this( client, true );
+	{
+		this( client, true );
 	}
 
 	public FightRequest( KoLmafia client, boolean isFirstRound )
@@ -87,11 +91,14 @@ public class FightRequest extends KoLRequest
 		super( client, "fight.php" );
 		this.roundCount = isFirstRound ? 0 : -100;
 
-		FightRequest.encounter = "";
-		FightRequest.encounterLookup = "";
+		this.encounter = "";
+		this.encounterLookup = "";
 
 		this.turnsUsed = 0;
 		this.monsterData = null;
+
+		this.offenseModifier = 0;
+		this.defenseModifier = 0;
 	}
 
 	public void nextRound()
@@ -122,6 +129,10 @@ public class FightRequest extends KoLRequest
 		else if ( action1.equals( "custom" ) )
 		{
 			action1 = CombatSettings.getSetting( encounterLookup, roundCount - 2 );
+		}
+		else if ( action1.equals( "delevel" ) )
+		{
+			action1 = getMonsterWeakenAction();
 		}
 		else if ( action1.equals( "abort" ) || !KoLmafia.permitsContinue() )
 		{
@@ -222,9 +233,7 @@ public class FightRequest extends KoLRequest
 			if ( !KoLmafia.refusesContinue() )
 				nextRound();
 
-			if ( action1 != null && action1.equals( "attack" ) && monsterData != null && monsterData.willAlwaysMiss() &&
-				!KoLCharacter.hasSkill( "Disco Eye-Poke" ) && !KoLCharacter.hasSkill( "Disco Dance of Doom" ) &&
-				!KoLCharacter.hasSkill( "Disco Dance II: Electric Boogaloo" ) && !KoLCharacter.hasSkill( "Disco Face Stab" ) )
+			if ( action1 != null && action1.equals( "attack" ) && monsterData != null && monsterData.willAlwaysMiss( defenseModifier ) )
 			{
 				action1 = null;
 				action2 = null;
@@ -252,6 +261,61 @@ public class FightRequest extends KoLRequest
 				return;
 			}
 		}
+	}
+
+	private boolean isAcceptable( int offenseModifier, int defenseModifier )
+	{
+		if ( monsterData == null )
+			return true;
+
+		return monsterData.hasAcceptableDodgeRate( this.offenseModifier + offenseModifier ) &&
+			!monsterData.willAlwaysMiss( this.defenseModifier + defenseModifier );
+	}
+
+	private String getMonsterWeakenAction()
+	{
+		if ( isAcceptable( 0, 0 ) )
+			return "attack";
+
+		int desiredSkill = 0;
+		boolean isAcceptable = false;
+
+		// Disco Eye-Poke
+		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Eye-Poke" ) )
+		{
+			desiredSkill = 5003;
+			isAcceptable = isAcceptable( 1, 1 );
+		}
+
+		// Disco Dance of Doom
+		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Dance of Doom" ) )
+		{
+			desiredSkill = 5005;
+			isAcceptable = isAcceptable( 3, 3 );
+		}
+
+		// Disco Dance II: Electric Boogaloo
+		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Dance II: Electric Boogaloo" ) )
+		{
+			desiredSkill = 5008;
+			isAcceptable = isAcceptable( 3, 3 );
+		}
+
+		// Entangling Noodles
+		if ( !isAcceptable && KoLCharacter.hasSkill( "Entangling Noodles" ) )
+		{
+			desiredSkill = 3004;
+			isAcceptable = isAcceptable( 6, 0 );
+		}
+
+		// Disco Face Stab
+		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Face Stab" ) )
+		{
+			desiredSkill = 5012;
+			isAcceptable = isAcceptable( 7, 7 );
+		}
+
+		return desiredSkill == 0 ? null : String.valueOf( desiredSkill );
 	}
 
 	protected void processResults()
@@ -350,11 +414,47 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		int mp = action1.equals( "moxman" ) ? KoLCharacter.getLevel() :
-			ClassSkillsDatabase.getMPConsumptionByID( StaticEntity.parseInt( action1 ) );
+		int mpCost = 0;
 
-		if ( mp > 0 )
-			client.processResult( new AdventureResult( AdventureResult.MP, 0 - mp ) );
+		if ( action1.equals( "moxman" ) )
+		{
+			mpCost = KoLCharacter.getLevel();
+		}
+		else
+		{
+			int skillID = StaticEntity.parseInt( action1 );
+			ClassSkillsDatabase.getMPConsumptionByID( skillID );
+
+			switch ( skillID )
+			{
+				case 3004: // Entangling Noodles
+					offenseModifier -= 6;
+					break;
+
+				case 5003: // Disco Eye-Poke
+					offenseModifier -= 1;
+					defenseModifier -= 1;
+					break;
+
+				case 5005: // Disco Dance of Doom
+					offenseModifier -= 3;
+					defenseModifier -= 3;
+					break;
+
+				case 5008: // Disco Dance II: Electric Boogaloo
+					offenseModifier -= 5;
+					defenseModifier -= 5;
+					break;
+
+				case 5012: // Disco Face Stab
+					offenseModifier -= 7;
+					defenseModifier -= 7;
+					break;
+			}
+		}
+
+		if ( mpCost > 0 )
+			client.processResult( new AdventureResult( AdventureResult.MP, 0 - mpCost ) );
 	}
 
 	/**
