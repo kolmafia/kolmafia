@@ -229,11 +229,6 @@ public class OptionsFrame extends KoLFrame
 
 			super.actionConfirmed();
 
-			if ( getProperty( "keepSessionLogs" ).equals( "true" ) )
-				KoLmafia.openSessionStream();
-			else
-				KoLmafia.closeSessionStream();
-
 			actionCancelled();
 			KoLCharacter.refreshCalculatedLists();
 		}

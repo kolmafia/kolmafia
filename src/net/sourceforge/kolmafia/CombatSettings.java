@@ -233,13 +233,10 @@ public abstract class CombatSettings implements UtilityConstants
 		}
 	}
 
-	public synchronized static String getSetting( String encounter, int roundCount )
+	public synchronized static String getSetting( String encounter, KoLAdventure location, int roundCount )
 	{
 		if ( !characterName.equals( KoLCharacter.getUsername() ) )
 			CombatSettings.reset();
-
-		if ( encounter == null || encounter.equals( "" ) )
-			return getSetting( "default", roundCount );
 
 		// Allow for longer matches (closer to exact matches)
 		// by tracking the length of the match.
@@ -247,24 +244,43 @@ public abstract class CombatSettings implements UtilityConstants
 		int longestMatch = -1;
 		int longestMatchLength = 0;
 
-		for ( int i = 0; i < keys.length; ++i )
+		if ( encounter != null && !encounter.equals( "" ) )
 		{
-			if ( encounter.indexOf( keys[i] ) != -1 )
+			for ( int i = 0; i < keys.length; ++i )
 			{
-				if ( keys[i].length() > longestMatchLength )
+				if ( encounter.indexOf( keys[i] ) != -1 )
 				{
-					longestMatch = i;
-					longestMatchLength = keys[i].length();
+					if ( keys[i].length() > longestMatchLength )
+					{
+						longestMatch = i;
+						longestMatchLength = keys[i].length();
+					}
 				}
 			}
 		}
 
-		// If no matches were found, then resort to the normal
-		// default routine -- because default is stored, there
-		// will definitely be a match.
+		// If no matches were found, then see if there is a match
+		// against the adventure location.
+
+		if ( longestMatch == -1 && location != null )
+		{
+			String locationString = location.toString().toLowerCase();
+
+			for ( int i = 0; i < keys.length; ++i )
+			{
+				if ( locationString.indexOf( keys[i] ) != -1 )
+				{
+					if ( keys[i].length() > longestMatchLength )
+					{
+						longestMatch = i;
+						longestMatchLength = keys[i].length();
+					}
+				}
+			}
+		}
 
 		if ( longestMatch == -1 )
-			return getSetting( "default", roundCount );
+			return getSetting( "default", location, roundCount );
 
 		// Otherwise, you have a tactic for this round against
 		// the given monster.  Return that tactic.
