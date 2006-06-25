@@ -62,19 +62,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
-import javax.swing.JTextArea;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.JEditorPane;
 
 // other imports
 import java.util.Date;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-
-import java.io.BufferedReader;
-import java.io.PrintStream;
-import java.io.FileOutputStream;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -90,9 +83,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class AdventureFrame extends KoLFrame
 {
-	private JTree displayTree;
-	private DefaultTreeModel displayModel;
-
 	private JComboBox locationSelect;
 	private JComboBox dropdown1, dropdown2;
 	private AdventureSelectPanel adventureSelect;
@@ -128,15 +118,6 @@ public class AdventureFrame extends KoLFrame
 
 		JComponentUtilities.setComponentSize( choiceScroller, 560, 400 );
 		tabs.add( "Choice Options", choiceScroller );
-
-		displayTree = new JTree();
-		displayModel = (DefaultTreeModel) displayTree.getModel();
-
-		JScrollPane treeScroller = new JScrollPane( displayTree, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		tabs.add( "View CCS", treeScroller );
-		tabs.add( "Modify CCS", new CustomCombatPanel() );
 
 		try
 		{
@@ -475,11 +456,10 @@ public class AdventureFrame extends KoLFrame
 	{
 		private JComboBox [] optionSelects;
 
-		private JComboBox battleStopSelect;
 		private JComboBox cloverProtectSelect;
-
 		private JComboBox castleWheelSelect;
 		private JComboBox spookyForestSelect;
+		private JComboBox tripTypeSelect;
 		private JComboBox violetFogSelect;
 
 		/**
@@ -496,18 +476,11 @@ public class AdventureFrame extends KoLFrame
 				optionSelects[i] = new JComboBox();
 
 				boolean ignorable = AdventureDatabase.ignoreChoiceOption( AdventureDatabase.CHOICE_ADVS[i][0][0] ) != null;
-				optionSelects[i].addItem( ignorable ?
-										  "Ignore this adventure" :
-										  "Can't ignore this adventure" );
+				optionSelects[i].addItem( ignorable ? "Ignore this adventure" : "Can't ignore this adventure" );
 
 				for ( int j = 0; j < AdventureDatabase.CHOICE_ADVS[i][2].length; ++j )
 					optionSelects[i].addItem( AdventureDatabase.CHOICE_ADVS[i][2][j] );
 			}
-
-			battleStopSelect = new JComboBox();
-			battleStopSelect.addItem( "Never stop combat" );
-			for ( int i = 0; i <= 9; ++i )
-				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
 
 			cloverProtectSelect = new JComboBox();
 			cloverProtectSelect.addItem( "Disassemble ten-leaf clovers" );
@@ -530,18 +503,23 @@ public class AdventureFrame extends KoLFrame
 			spookyForestSelect.addItem( "Loot Disco Bandit corpse" );
 			spookyForestSelect.addItem( "Loot Accordion Thief corpse" );
 
+			tripTypeSelect = new JComboBox();
+			tripTypeSelect.addItem( "Can't ignore this adventure" );
+			tripTypeSelect.addItem( "Take the Bad Trip" );
+			tripTypeSelect.addItem( "Take the Mediocre Trip" );
+			tripTypeSelect.addItem( "Take the Great Trip" );
+
 			violetFogSelect = new JComboBox();
 			for ( int i = 0; i < VioletFog.FogGoals.length; ++i )
 				violetFogSelect.addItem( VioletFog.FogGoals[i] );
 
 			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 7 ];
-			elements[0] = new VerifiableElement( "Combat Abort", battleStopSelect );
-			elements[1] = new VerifiableElement( "Clover Protect", cloverProtectSelect );
-
-			elements[2] = new VerifiableElement( "", new JLabel() );
-			elements[3] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
-			elements[4] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
-			elements[5] = new VerifiableElement( "Violet Fog", violetFogSelect );
+			elements[0] = new VerifiableElement( "Clover Protect", cloverProtectSelect );
+			elements[1] = new VerifiableElement( "", new JLabel() );
+			elements[2] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
+			elements[3] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
+			elements[4] = new VerifiableElement( "Violet Fog 1", tripTypeSelect );
+			elements[5] = new VerifiableElement( "Violet Fog 2", violetFogSelect );
 			elements[6] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
 
 			elements[7] = new VerifiableElement( "", new JLabel() );
@@ -554,9 +532,9 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex() - 1) / 10.0) ) );
 			setProperty( "cloverProtectActive", String.valueOf( cloverProtectSelect.getSelectedIndex() == 0 ) );
 			setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
+			setProperty( "choiceAdventure71", String.valueOf( tripTypeSelect.getSelectedIndex() ) );
 			setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
@@ -669,7 +647,6 @@ public class AdventureFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			battleStopSelect.setSelectedIndex( (int)(Double.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
 			cloverProtectSelect.setSelectedIndex( getProperty( "cloverProtectActive" ).equals( "true" ) ? 0 : 1 );
 			violetFogSelect.setSelectedIndex( StaticEntity.parseInt( getProperty( "violetFogGoal" ) ) );
 
@@ -749,87 +726,5 @@ public class AdventureFrame extends KoLFrame
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
 		{	return false;
 		}
-	}
-
-	private class CustomCombatPanel extends LabeledScrollPanel
-	{
-		public CustomCombatPanel()
-		{
-			super( "Custom Combat", "save", "help", new JTextArea( 12, 40 ) );
-
-			try
-			{
-				CombatSettings.reset();
-				BufferedReader reader = KoLDatabase.getReader( CombatSettings.settingsFileName() );
-
-				StringBuffer buffer = new StringBuffer();
-
-				String line;
-
-				while ( (line = reader.readLine()) != null )
-				{
-					buffer.append( line );
-					buffer.append( System.getProperty( "line.separator" ) );
-				}
-
-				reader.close();
-				reader = null;
-				((JTextArea)scrollComponent).setText( buffer.toString() );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
-
-			refreshCombatTree();
-		}
-
-		protected void actionConfirmed()
-		{
-			try
-			{
-				PrintStream writer = new PrintStream( new FileOutputStream( DATA_DIRECTORY + CombatSettings.settingsFileName() ) );
-				writer.println( ((JTextArea)scrollComponent).getText() );
-				writer.close();
-				writer = null;
-
-				int customIndex = KoLCharacter.getBattleSkillIDs().indexOf( "custom" );
-				KoLCharacter.getBattleSkillIDs().setSelectedIndex( customIndex );
-				KoLCharacter.getBattleSkillNames().setSelectedIndex( customIndex );
-				setProperty( "battleAction", "custom" );
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
-
-			// After storing all the data on disk, go ahead
-			// and reload the data inside of the tree.
-
-			refreshCombatTree();
-			tabs.setSelectedIndex(3);
-		}
-
-		protected void actionCancelled()
-		{	StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
-		}
-	}
-
-	/**
-	 * Internal class used to handle everything related to
-	 * displaying custom combat.
-	 */
-
-	private void refreshCombatTree()
-	{
-		CombatSettings.reset();
-		displayModel.setRoot( CombatSettings.getRoot() );
-		displayTree.setRootVisible( false );
 	}
 }

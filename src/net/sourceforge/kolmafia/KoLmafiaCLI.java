@@ -113,9 +113,10 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 		}
 
-		if ( initialScript.length() == 0 )
+		if ( initialScript.length() == 0 || initialScript.indexOf( "TEST_ONLY" ) != -1 )
 		{
-//			DEFAULT_SHELL.attemptLogin();
+			if ( initialScript.indexOf( "TEST_ONLY" ) == -1 )
+				DEFAULT_SHELL.attemptLogin();
 			DEFAULT_SHELL.listenForCommands();
 		}
 		else

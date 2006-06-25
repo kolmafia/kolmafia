@@ -233,10 +233,7 @@ public class AdventureDatabase extends KoLDatabase
 		  { "Trade for used blood", "Keep your hearts" } },
 
 		// Choices 48 - 70 are violet fog adventures
-
-		// A Journey to the Center of Your Mind
-		{ { "choiceAdventure71" }, { "Half-Astral" },
-		  { "Take the Bad Trip", "Take the Mediocre Trip", "Take the Great Trip" } },
+		// Choice 71 is a special adventure
 	};
 
 	// Some choice adventures have a choice that behaves as an "ignore"
