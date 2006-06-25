@@ -93,6 +93,24 @@ public abstract class CombatSettings implements UtilityConstants
 		return root;
 	}
 
+	public synchronized static void loadSettings( File source )
+	{
+		if ( source == null )
+			return;
+
+		if ( settingsFile.getAbsolutePath().equals( source.getAbsolutePath() ) )
+			return;
+
+		File oldfile = settingsFile;
+		oldfile.delete();
+
+		settingsFile = source;
+		loadSettings();
+
+		settingsFile = oldfile;
+		saveSettings();
+	}
+
 	/**
 	 * Stores the settings maintained in this <code>KoLSettings</code>
 	 * object to disk for later retrieval.

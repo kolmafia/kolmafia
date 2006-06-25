@@ -986,7 +986,7 @@ public abstract class KoLmafia implements KoLConstants
 		// First, check against the restore trigger to see if
 		// any restoration needs to take place.
 
-		double setting = Double.parseDouble( StaticEntity.getProperty( settingName ) );
+		double setting = StaticEntity.parseDouble( StaticEntity.getProperty( settingName ) );
 
 		if ( !BuffBotHome.isBuffBotActive() )
 		{
@@ -1020,7 +1020,7 @@ public abstract class KoLmafia implements KoLConstants
 		// far you need to go.
 
 		int threshold = needed;
-		setting = Double.parseDouble( StaticEntity.getProperty( settingName + "Target" ) );
+		setting = StaticEntity.parseDouble( StaticEntity.getProperty( settingName + "Target" ) );
 
 		if ( initial == 0 )
 			needed = (int) ( setting * (double) maximum );
