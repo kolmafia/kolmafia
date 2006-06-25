@@ -128,9 +128,10 @@ public class FightRequest extends KoLRequest
 		}
 		else if ( action1.equals( "custom" ) )
 		{
-			action1 = CombatSettings.getSetting( encounterLookup, roundCount - 2 );
+			action1 = CombatSettings.getSetting( encounterLookup, KoLCharacter.getNextAdventure(), roundCount - 2 );
 		}
-		else if ( action1.equals( "delevel" ) )
+
+		if ( action1.equals( "delevel" ) )
 		{
 			action1 = getMonsterWeakenAction();
 		}
@@ -237,11 +238,10 @@ public class FightRequest extends KoLRequest
 			{
 				action1 = null;
 				action2 = null;
+				clearDataFields();
 			}
-			else
-			{
-				super.run();
-			}
+
+			super.run();
 
 			if ( KoLmafia.refusesContinue() || action1 == null )
 			{
