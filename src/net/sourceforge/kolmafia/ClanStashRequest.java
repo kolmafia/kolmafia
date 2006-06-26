@@ -232,7 +232,7 @@ public class ClanStashRequest extends SendMessageRequest
 			String itemString = optionMatcher.group(2);
 
 			// See how many are actually in the stash
-			int paren = itemString.lastIndexOf( " (" );
+			int paren = itemString.indexOf( " (" );
 			int quantity = 1;
 			if ( paren != -1 )
 			{
