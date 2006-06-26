@@ -131,11 +131,15 @@ public class FightRequest extends KoLRequest
 			action1 = CombatSettings.getSetting( encounterLookup, KoLCharacter.getNextAdventure(), roundCount - 2 );
 		}
 
+		// Let the de-level action figure out what
+		// should be done, and then re-process.
+
 		if ( action1.equals( "delevel" ) )
 		{
 			action1 = getMonsterWeakenAction();
 		}
-		else if ( action1.equals( "abort" ) || !KoLmafia.permitsContinue() )
+
+		if ( action1.equals( "abort" ) || !KoLmafia.permitsContinue() )
 		{
 			// If the user has chosen to abort
 			// combat, flag it.
