@@ -2256,7 +2256,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static boolean hasSkill( String skillName, LockableListModel list )
 	{
 		for ( int i = 0; i < list.size(); ++i )
-			if ( ((UseSkillRequest)list.get(i)).getSkillName().equals( skillName ) )
+			if ( ((UseSkillRequest)list.get(i)).getSkillName().equalsIgnoreCase( skillName ) )
 				return true;
 		return false;
 	}

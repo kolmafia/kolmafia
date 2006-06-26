@@ -50,6 +50,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 public class MoodSettings extends Properties implements KoLConstants
 {
 	public static String [] SKILL_NAMES = null;
+	private static AdventureResult [] EFFECT_NAMES = null;
 	
 	private String filename;
 	private File settingsFile;
@@ -64,10 +65,15 @@ public class MoodSettings extends Properties implements KoLConstants
 		skills.toArray( requests );
 		
 		SKILL_NAMES = new String[ requests.length ];
+		EFFECT_NAMES = new AdventureResult[ requests.length ];
+		
 		for ( int i = 0; i < requests.length; ++i )
+		{
 			SKILL_NAMES[i] = requests[i].getSkillName().toLowerCase();
+			EFFECT_NAMES[i] = new AdventureResult( UneffectRequest.skillToEffect( requests[i].getSkillName() ), 1, true );
+		}
 	}
-	
+		
 	public MoodSettings( String filename )
 	{
 		this.filename = filename;
@@ -108,6 +114,17 @@ public class MoodSettings extends Properties implements KoLConstants
 		DEFAULT_SHELL.executeLine( "equip acc2 " + getProperty( "accessory 2" ) );
 		DEFAULT_SHELL.executeLine( "equip acc3 " + getProperty( "accessory 3" ) );
 		DEFAULT_SHELL.executeLine( "familiar " + getProperty( "familiar" ) );
+		
+		for ( int i = 0; i < SKILL_NAMES.length; ++i )
+		{
+			if ( getProperty( SKILL_NAMES[i] ).equals( "active" ) && !KoLCharacter.getEffects().contains( EFFECT_NAMES[i] ) )
+			{
+				if ( KoLCharacter.hasSkill( SKILL_NAMES[i] ) )
+					DEFAULT_SHELL.executeLine( "cast " + SKILL_NAMES[i] );
+				else
+					KoLmafia.updateDisplay( ABORT_STATE, "Ran out of " + EFFECT_NAMES[i].getName() + "." );
+			}
+		}
 	}
 	
 	public synchronized Object setProperty( String name, String value )

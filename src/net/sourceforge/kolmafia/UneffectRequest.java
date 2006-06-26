@@ -97,6 +97,21 @@ public class UneffectRequest extends KoLRequest
 
 		return effectName;
 	}
+	
+	public static String skillToEffect( String skillName )
+	{
+		if ( skillName.equals( "The Polka of Plenty" ) ||
+			skillName.equals( "The Magical Mojomuscular Melody" ) ||
+			skillName.equals( "The Power Ballad of the Arrowsmith" ) ||
+			skillName.equals( "The Psalm of Pointiness" ) ||
+			skillName.equals( "The Ode to Booze" ) )
+				return skillName.substring(4);
+
+		if ( skillName.equals( "Empathy of the Newt" ) )
+			return "Empathy";
+
+		return skillName;
+	}
 
 	public void run()
 	{
