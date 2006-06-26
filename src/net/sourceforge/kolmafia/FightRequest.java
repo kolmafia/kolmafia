@@ -302,7 +302,7 @@ public class FightRequest extends KoLRequest
 		if ( !isAcceptable && KoLCharacter.hasSkill( "Disco Dance II: Electric Boogaloo" ) )
 		{
 			desiredSkill = 5008;
-			isAcceptable = isAcceptable( -3, -3 );
+			isAcceptable = isAcceptable( -5, -5 );
 		}
 
 		// Entangling Noodles
