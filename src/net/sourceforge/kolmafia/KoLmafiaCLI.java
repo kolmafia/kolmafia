@@ -1194,6 +1194,8 @@ public class KoLmafiaCLI extends KoLmafia
 				StaticEntity.getClient().makeRequest( new FamiliarRequest( StaticEntity.getClient(), FamiliarData.NO_FAMILIAR ) );
 				return;
 			}
+			else if ( parameters.indexOf( "(no change)" ) != -1 )
+				return;
 
 			String lowerCaseName = parameters.toLowerCase();
 			List familiars = KoLCharacter.getFamiliarList();
@@ -2186,6 +2188,9 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( parameters.indexOf( "(no change)" ) == -1 )
+			return;
+		
 		// Look for name of slot
 		String command = parameters.split( " " )[0];
 		int slot = EquipmentRequest.slotNumber( command );
@@ -2202,6 +2207,9 @@ public class KoLmafiaCLI extends KoLmafia
 			updateDisplay( ERROR_STATE, "No item matching substring \"" + match + "\"" );
 			return;
 		}
+		
+		if ( KoLCharacter.getEquipment( slot ).indexOf( match.getName().toLowerCase() ) != -1 )
+			return;
 
 		// If you are equipping a two-handed weapon, and you
 		// originally were dual-wielding, unequip the offhand
