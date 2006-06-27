@@ -327,17 +327,11 @@ public class AdventureFrame extends KoLFrame
 			// placed in the input fields.
 
 			if ( actionSelect.getSelectedItem() == null )
-			{
-				setStatusMessage( ERROR_STATE, "Please select a combat option." );
-				return;
-			}
+				DEFAULT_SHELL.executeLine( "set battleAction=attack" );
 
 			Runnable request = (Runnable) locationSelect.getSelectedItem();
 			if ( request == null )
-			{
-				setStatusMessage( ERROR_STATE, "Please select an adventure location." );
 				return;
-			}
 
 			setProperty( "lastAdventure", request.toString() );
 
