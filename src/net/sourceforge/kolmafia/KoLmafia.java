@@ -638,12 +638,15 @@ public abstract class KoLmafia implements KoLConstants
 		 }
 
 		// Remove parenthesized number and match again.
-		StringTokenizer parsedItem = new StringTokenizer( result, "()" );
-		String name = parsedItem.nextToken().trim();
+		String name = result;
 		int count = 1;
 
-		if ( parsedItem.hasMoreTokens() )
-			count = StaticEntity.parseInt( parsedItem.nextToken() );
+		int index = result.lastIndexOf( " (" );
+		if ( index != -1 )
+		{
+			name = result.substring( 0, index );
+			count = StaticEntity.parseInt( result.substring( index ) );
+		}
 
 		processResult( new AdventureResult( name, count, false ) );
 	}
