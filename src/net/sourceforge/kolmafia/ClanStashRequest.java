@@ -218,42 +218,22 @@ public class ClanStashRequest extends SendMessageRequest
 			return;
 		}
 
-		int lastFindIndex = 0;
-		Pattern qtyPattern = Pattern.compile( "\\(([\\d,]+)\\)" );
-		Matcher optionMatcher = Pattern.compile( "<option value=([\\d]+).*?>(.*?)</option>" ).matcher( stashMatcher.group() );
+		Matcher matcher = Pattern.compile( "<option value=([\\d]+).*?>(.*?)( \\([\\d,]+\\))?( \\(-[\\d,]*\\))?</option>" ).matcher( stashMatcher.group() );
 
+		int lastFindIndex = 0;
 		ArrayList intermediateList = new ArrayList();
 
-		while ( optionMatcher.find( lastFindIndex ) )
+		while ( matcher.find( lastFindIndex ) )
 		{
-			lastFindIndex = optionMatcher.end();
-			int itemID = StaticEntity.parseInt( optionMatcher.group(1) );
-
-			String itemString = optionMatcher.group(2);
-
-			// See how many are actually in the stash
-			int paren = itemString.indexOf( " (" );
-			int quantity = 1;
-			if ( paren != -1 )
-			{
-				// Make sure that only digits are inside the
-				// parentheses since items can have names with
-				// parentheses
-				Matcher qtyMatcher = qtyPattern.matcher( itemString.substring( paren ) );
-				if ( qtyMatcher.find() )
-					// All digits. It's a quantity
-					quantity = StaticEntity.parseInt( qtyMatcher.group(1) );
-				else
-					// Parentheses in item name
-					paren = -1;
-			}
+			lastFindIndex = matcher.end();
+			int itemID = StaticEntity.parseInt( matcher.group(1) );
+			String itemString = matcher.group(2);
+			int quantity = matcher.group(3) == null ? 1 :
+				StaticEntity.parseInt( matcher.group(3) );
 
 			// If this is a previously unknown item, register it.
 			if ( TradeableItemDatabase.getItemName( itemID ) == null )
-			{
-				String name = paren == -1 ? itemString : itemString.substring( 0, paren );
-				TradeableItemDatabase.registerItem( itemID, name );
-			}
+				TradeableItemDatabase.registerItem( itemID, itemString );
 
 			intermediateList.add( new AdventureResult( itemID, quantity ) );
 		}
