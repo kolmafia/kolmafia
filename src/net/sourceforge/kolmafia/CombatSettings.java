@@ -82,7 +82,7 @@ public abstract class CombatSettings implements UtilityConstants
 	}
 
 	public synchronized static final String settingsFileName()
-	{	return "~" + KoLCharacter.getUsername().replaceAll( "\\/q", "" ).replaceAll( " ", "_" ).toLowerCase() + ".ccs";
+	{	return "~" + KoLCharacter.baseUserName() + ".ccs";
 	}
 
 	public synchronized static final TreeNode getRoot()
