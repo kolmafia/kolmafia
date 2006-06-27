@@ -104,7 +104,7 @@ public class MoodSettings extends Properties implements KoLConstants
 	{
 		this.currentMood = currentMood;
 		StaticEntity.setProperty( "currentMood", this.currentMood );
-a	}
+	}
 	
 	public void ensureDefaults()
 	{	ensureDefaults( this.currentMood );
