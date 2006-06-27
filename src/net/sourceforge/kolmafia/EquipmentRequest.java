@@ -495,70 +495,60 @@ public class EquipmentRequest extends PasswordHashRequest
 	protected void processResults()
 	{
 		// Fetch updated equipment
-
-		try
+		if ( requestType == CLOSET )
 		{
-			if ( requestType == CLOSET )
-			{
-				parseCloset();
-				super.processResults();
-				(new EquipmentRequest( client, EquipmentRequest.QUESTS )).run();
-				(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
-				(new EquipmentRequest( client, EquipmentRequest.CONSUMABLES )).run();
+			parseCloset();
+			super.processResults();
+			(new EquipmentRequest( client, EquipmentRequest.QUESTS )).run();
+			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
+			(new EquipmentRequest( client, EquipmentRequest.CONSUMABLES )).run();
 
-				KoLCharacter.setAvailableSkills( KoLCharacter.getAvailableSkills() );
-			}
-			else if ( requestType == QUESTS || requestType == CONSUMABLES )
-			{
-				parseQuestItems( responseText );
-				super.processResults();
-			}
-			else
-			{
-				// Skip past equipped gear
-				parseQuestItems( responseText.substring( responseText.indexOf( "Save as Custom Outfit" ) ) );
-
-				String [] oldEquipment = new String[9];
-				int oldFakeHands = KoLCharacter.getFakeHands();
-
-				// Ensure that the inventory stays up-to-date by
-				// switching items around, as needed.
-
-				for ( int i = 0; i < 9; ++i )
-					oldEquipment[i] = KoLCharacter.getEquipment( i );
-
-				parseEquipment( this.responseText );
-				if ( KoLmafia.cachedLogin != null )
-				{
-					for ( int i = 0; i < 9; ++i )
-						switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
-
-					// Adjust inventory of fake hands
-					int newFakeHands = KoLCharacter.getFakeHands();
-					if ( oldFakeHands != newFakeHands )
-						AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, oldFakeHands - newFakeHands ) );
-
-					CharpaneRequest.getInstance().run();
-				}
-
-				KoLCharacter.recalculateAdjustments( false );
-				KoLCharacter.updateStatus();
-
-				if ( requestType == EQUIPMENT )
-					KoLmafia.updateDisplay( "Equipment updated." );
-				else if ( requestType == SAVE_OUTFIT )
-					KoLmafia.updateDisplay( "Outfit saved." );
-				else
-					KoLmafia.updateDisplay( "Gear changed." );
-			}
+			KoLCharacter.setAvailableSkills( KoLCharacter.getAvailableSkills() );
+			return;
 		}
-		catch ( RuntimeException e )
+
+		if ( requestType == QUESTS || requestType == CONSUMABLES )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
+			parseQuestItems( responseText );
+			super.processResults();
+			return;
 		}
+
+		// Skip past equipped gear
+		parseQuestItems( responseText.substring( responseText.indexOf( "Save as Custom Outfit" ) ) );
+
+		String [] oldEquipment = new String[9];
+		int oldFakeHands = KoLCharacter.getFakeHands();
+
+		// Ensure that the inventory stays up-to-date by switching
+		// items around, as needed.
+
+		for ( int i = 0; i < 9; ++i )
+			oldEquipment[i] = KoLCharacter.getEquipment( i );
+
+		parseEquipment( this.responseText );
+		if ( KoLmafia.cachedLogin != null )
+		{
+			for ( int i = 0; i < 9; ++i )
+				switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
+
+			// Adjust inventory of fake hands
+			int newFakeHands = KoLCharacter.getFakeHands();
+			if ( oldFakeHands > newFakeHands )
+				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
+
+			CharpaneRequest.getInstance().run();
+		}
+
+		KoLCharacter.recalculateAdjustments( false );
+		KoLCharacter.updateStatus();
+
+		if ( requestType == EQUIPMENT )
+			KoLmafia.updateDisplay( "Equipment updated." );
+		else if ( requestType == SAVE_OUTFIT )
+			KoLmafia.updateDisplay( "Outfit saved." );
+		else
+			KoLmafia.updateDisplay( "Gear changed." );
 	}
 
 	private void switchItem( String oldItem, String newItem )
@@ -580,13 +570,13 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( switchIn != switchOut )
 		{
-			// Manually add/subtract items from inventory to avoid
+			// Manually subtract item from inventory to avoid
 			// excessive list updating.
 			if ( switchIn != -1 )
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchIn, -1 ) );
 
-			if ( switchOut != -1 )
-				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchOut, 1 ) );
+			// Do not add item to inventory since we detected it
+			// when looking for quest items.
 		}
 	}
 
