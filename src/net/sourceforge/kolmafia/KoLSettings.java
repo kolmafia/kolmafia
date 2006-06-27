@@ -66,7 +66,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 	private static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
 
 	private File settingsFile;
-	private String characterName;
+	private String noExtensionName;
 
 	/**
 	 * Constructs a settings file for a character with the specified name.
@@ -74,14 +74,12 @@ public class KoLSettings extends Properties implements UtilityConstants
 	 * will be replaced with an underscore, and all other punctuation will
 	 * be removed.
 	 *
-	 * @param	characterName	The name of the character this settings file represents
+	 * @param	noExtensionName	The name of the character this settings file represents
 	 */
 
 	public KoLSettings( String characterName )
 	{
-		this.characterName = characterName;
-		String noExtensionName = characterName.replaceAll( "\\/q", "" ).replaceAll( " ", "_" ).toLowerCase();
-
+		this.noExtensionName = characterName.replaceAll( "\\/q", "" ).replaceAll( " ", "_" ).toLowerCase();
 		this.settingsFile = new File( DATA_DIRECTORY + "~" + noExtensionName + ".kcs" );
 		loadSettings( this.settingsFile );
 		ensureDefaults();
@@ -248,6 +246,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );
 		PLAYER_SETTINGS.put( "buffBotCasting", "" );
 		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
+		PLAYER_SETTINGS.put( "currentMood", "default" );
 		PLAYER_SETTINGS.put( "hpAutoRecovery", "0.3" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "tongue of the otter;soft green echo eyedrop antidote;tiny house;cannelloni cocoon;scroll of drastic healing;medicinal herb's medicinal herbs;tongue of the walrus;lasagna bandages;disco power nap;disco nap;phonics down;cast;doc galaktik's homeopathic elixir;doc galaktik's restorative balm;doc galaktik's pungent unguent;doc galaktik's ailment ointment" );
@@ -258,7 +257,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		PLAYER_SETTINGS.put( "lastMessageID", "" );
 		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.0" );
-		PLAYER_SETTINGS.put( "mpAutoRecoveryItems", "dyspepsi-cola;cloaca-cola;phonics down;knob goblin superseltzer;knob goblin seltzer;magical mystery juice;soda water" );
+		PLAYER_SETTINGS.put( "mpAutoRecoveryItems", "Dyspepsi-Cola;Cloaca-Cola;phonics down;Knob Goblin superseltzer;Knob Goblin seltzer;magical mystery juice;soda water" );
 		PLAYER_SETTINGS.put( "nextAdventure", "" );
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
 		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );
@@ -323,7 +322,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// If this is the set of global settings, be sure
 		// to initialize the global settings.
 
-		if ( characterName.equals( "" ) )
+		if ( noExtensionName.equals( "" ) )
 		{
 			Object [] keys = CLIENT_SETTINGS.keySet().toArray();
 			for ( int i = 0; i < keys.length; ++i )
@@ -375,13 +374,13 @@ public class KoLSettings extends Properties implements UtilityConstants
 			reader.close();
 			Collections.sort( contents );
 
-			File temporary = new File( DATA_DIRECTORY + "~" + characterName + ".tmp" );
+			File temporary = new File( DATA_DIRECTORY + "~" + noExtensionName + ".kcs.tmp" );
 			temporary.createNewFile();
 			temporary.deleteOnExit();
 
 			PrintStream writer = new PrintStream( new FileOutputStream( temporary ) );
 			for ( int i = 0; i < contents.size(); ++i )
-				if ( !((String) contents.get(i)).startsWith( "saveState" ) || characterName.equals( "" ) )
+				if ( !((String) contents.get(i)).startsWith( "saveState" ) || noExtensionName.equals( "" ) )
 					writer.println( (String) contents.get(i) );
 
 			writer.close();

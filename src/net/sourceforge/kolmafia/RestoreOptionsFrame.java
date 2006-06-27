@@ -42,8 +42,10 @@ import javax.swing.BoxLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
@@ -51,10 +53,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JFileChooser;
+import javax.swing.SpringLayout;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.JTree;
 import javax.swing.JTextArea;
 import javax.swing.tree.DefaultTreeModel;
+
+import com.sun.java.forums.SpringUtilities;
 
 import java.io.File;
 import java.io.BufferedReader;
@@ -115,6 +120,12 @@ public class RestoreOptionsFrame extends KoLFrame
 
 		tabs.add( "Custom Combat", combatPanel );
 
+		JScrollPane moodScroller = new JScrollPane( new MoodSwingEditorPanel(),
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+		JComponentUtilities.setComponentSize( moodScroller, 600, 300 );		
+		tabs.add( "Mood Swings", moodScroller );
+		
 		framePanel.add( tabs, "" );
 	}
 
@@ -324,6 +335,80 @@ public class RestoreOptionsFrame extends KoLFrame
 
 			CombatSettings.loadSettings( chooser.getSelectedFile() );
 			refreshCombatSettings();
+		}
+	}
+	
+	private class MoodSwingEditorPanel extends KoLPanel
+	{
+		private JRadioButton [] activeOptions;
+		private JRadioButton [] ignoreOptions;
+		private JRadioButton [] inactiveOptions;
+
+		public MoodSwingEditorPanel()
+		{
+			super( new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
+
+			activeOptions = new JRadioButton[ MoodSettings.EFFECTS.length ];
+			ignoreOptions = new JRadioButton[ MoodSettings.EFFECTS.length ];
+			inactiveOptions = new JRadioButton[ MoodSettings.EFFECTS.length ];
+
+			JPanel contentPanel = new JPanel( new SpringLayout() );
+
+			for ( int i = 0; i < MoodSettings.EFFECTS.length; ++i )
+			{
+				activeOptions[i] = new JRadioButton( "active" );
+				ignoreOptions[i] = new JRadioButton( "ignore" );
+				inactiveOptions[i] = new JRadioButton( "inactive" );
+
+				ButtonGroup holder = new ButtonGroup();
+				holder.add( activeOptions[i] );
+				holder.add( ignoreOptions[i] );
+				holder.add( inactiveOptions[i] );
+
+				contentPanel.add( new JLabel( MoodSettings.EFFECTS[i].getName() + ": ", JLabel.RIGHT ) );
+				contentPanel.add( activeOptions[i] );
+				contentPanel.add( ignoreOptions[i] );
+				contentPanel.add( inactiveOptions[i] );
+			}
+
+			setContent( new VerifiableElement[0], false );
+
+			SpringUtilities.makeCompactGrid( contentPanel, MoodSettings.EFFECTS.length, 4, 5, 5, 5, 5 );
+			container.add( contentPanel, BorderLayout.CENTER );
+			actionCancelled();
+		}
+
+		public void actionConfirmed()
+		{
+			for ( int i = 0; i < MoodSettings.SKILL_NAMES.length; ++i )
+			{
+				if ( activeOptions[i].isSelected() )
+					StaticEntity.setMoodProperty( MoodSettings.SKILL_NAMES[i], "active" );
+				else if ( inactiveOptions[i].isSelected() )
+					StaticEntity.setMoodProperty( MoodSettings.SKILL_NAMES[i], "inactive" );
+				else
+					StaticEntity.setMoodProperty( MoodSettings.SKILL_NAMES[i], "ignorea" );
+			}
+		}
+
+		public void actionCancelled()
+		{
+			String setting;
+			for ( int i = 0; i < MoodSettings.SKILL_NAMES.length; ++i )
+			{
+				setting = StaticEntity.getMoodProperty( MoodSettings.SKILL_NAMES[i] );
+
+				if ( setting.equals( "active" ) )
+					activeOptions[i].setSelected( true );
+				else if ( setting.equals( "inactive" ) )
+					inactiveOptions[i].setSelected( true );
+				else
+					ignoreOptions[i].setSelected( true );
+			}
+		}
+
+		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
 		}
 	}
 

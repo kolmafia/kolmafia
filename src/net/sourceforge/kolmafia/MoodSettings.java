@@ -50,9 +50,10 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 public class MoodSettings extends Properties implements KoLConstants
 {
 	public static String [] SKILL_NAMES = null;
-	private static AdventureResult [] EFFECT_NAMES = null;
+	public static AdventureResult [] EFFECTS = null;
 	
-	private String filename;
+	private String noExtensionName;
+	private String currentMood;
 	private File settingsFile;
 
 	static
@@ -63,42 +64,69 @@ public class MoodSettings extends Properties implements KoLConstants
 		
 		UseSkillRequest [] requests = new UseSkillRequest[ skills.size() ];
 		skills.toArray( requests );
-		
-		SKILL_NAMES = new String[ requests.length ];
-		EFFECT_NAMES = new AdventureResult[ requests.length ];
-		
+
+		ArrayList skillNames = new ArrayList();
+		ArrayList effects = new ArrayList();
+
+		String effectName;
 		for ( int i = 0; i < requests.length; ++i )
 		{
-			SKILL_NAMES[i] = requests[i].getSkillName().toLowerCase();
-			EFFECT_NAMES[i] = new AdventureResult( UneffectRequest.skillToEffect( requests[i].getSkillName() ), 1, true );
+			effectName = UneffectRequest.skillToEffect( requests[i].getSkillName() );
+			if ( requests[i].getSkillID() > 999 && StatusEffectDatabase.contains( effectName ) )
+			{
+				skillNames.add( requests[i].getSkillName().toLowerCase() );
+				effects.add( new AdventureResult( UneffectRequest.skillToEffect( requests[i].getSkillName() ), 1, true ) );
+			}
 		}
+
+		SKILL_NAMES = new String[ skillNames.size() ];
+		EFFECTS = new AdventureResult[ effects.size() ];
+
+		skillNames.toArray( SKILL_NAMES );
+		effects.toArray( EFFECTS );
 	}
-		
-	public MoodSettings( String filename )
+
+	public MoodSettings( String characterName )
 	{
-		this.filename = filename;
-		this.settingsFile = new File( DATA_DIRECTORY + filename );
+		this.currentMood = StaticEntity.getProperty( "currentMood" );
+		this.noExtensionName = characterName.replaceAll( "\\/q", "" ).replaceAll( " ", "_" ).toLowerCase();		
+		this.settingsFile = new File( DATA_DIRECTORY + noExtensionName + ".msd" );
 
 		loadSettings( this.settingsFile );
 		ensureDefaults();
 	}
 	
-	public void ensureDefaults()
+	public String getCurrentMood()
+	{	return currentMood;
+	}
+	
+	public void setCurrentMood( String currentMood )
 	{
-		if ( !keySet().isEmpty() )
+		this.currentMood = currentMood;
+		StaticEntity.setProperty( "currentMood", this.currentMood );
+a	}
+	
+	public void ensureDefaults()
+	{	ensureDefaults( this.currentMood );
+	}
+	
+	public void ensureDefaults( String desiredMood )
+	{
+		if ( desiredMood == null || getProperty( desiredMood ) != null )
 			return;
 		
-		setProperty( "hat", "(no change)" );
-		setProperty( "weapon", "(no change)" );
-		setProperty( "off-hand", "(no change)" );
-		setProperty( "pants", "(no change)" );
-		setProperty( "accessory 1", "(no change)" );
-		setProperty( "accessory 2", "(no change)" );
-		setProperty( "accessory 3", "(no change)" );
-		setProperty( "familiar", "(no change)" );
+		setProperty( desiredMood, "" );
+		setProperty( desiredMood + ": hat", "(no change)" );
+		setProperty( desiredMood + ": weapon", "(no change)" );
+		setProperty( desiredMood + ": off-hand", "(no change)" );
+		setProperty( desiredMood + ": pants", "(no change)" );
+		setProperty( desiredMood + ": accessory 1", "(no change)" );
+		setProperty( desiredMood + ": accessory 2", "(no change)" );
+		setProperty( desiredMood + ": accessory 3", "(no change)" );
+		setProperty( desiredMood + ": familiar", "(no change)" );
 		
 		for ( int i = 0; i < SKILL_NAMES.length; ++i )
-			setProperty( SKILL_NAMES[i], "ignore" );
+			setProperty( this.currentMood + ": " + SKILL_NAMES[i], "ignore" );
 	}
 	
 	public void execute()
@@ -106,23 +134,23 @@ public class MoodSettings extends Properties implements KoLConstants
 		// Change out all your gear first.  The new
 		// equipment will change how casting works.
 		
-		DEFAULT_SHELL.executeLine( "equip hat " + getProperty( "hat" ) );
-		DEFAULT_SHELL.executeLine( "equip weapon " + getProperty( "weapon" ) );
-		DEFAULT_SHELL.executeLine( "equip off-hand " + getProperty( "off-hand" ) );
-		DEFAULT_SHELL.executeLine( "equip pants " + getProperty( "pants" ) );
-		DEFAULT_SHELL.executeLine( "equip acc1 " + getProperty( "accessory 1" ) );
-		DEFAULT_SHELL.executeLine( "equip acc2 " + getProperty( "accessory 2" ) );
-		DEFAULT_SHELL.executeLine( "equip acc3 " + getProperty( "accessory 3" ) );
-		DEFAULT_SHELL.executeLine( "familiar " + getProperty( "familiar" ) );
+		DEFAULT_SHELL.executeLine( "equip hat " + getProperty( this.currentMood + ": hat" ) );
+		DEFAULT_SHELL.executeLine( "equip weapon " + getProperty( this.currentMood + ": weapon" ) );
+		DEFAULT_SHELL.executeLine( "equip off-hand " + getProperty( this.currentMood + ": off-hand" ) );
+		DEFAULT_SHELL.executeLine( "equip pants " + getProperty( this.currentMood + ": pants" ) );
+		DEFAULT_SHELL.executeLine( "equip acc1 " + getProperty( this.currentMood + ": accessory 1" ) );
+		DEFAULT_SHELL.executeLine( "equip acc2 " + getProperty( this.currentMood + ": accessory 2" ) );
+		DEFAULT_SHELL.executeLine( "equip acc3 " + getProperty( this.currentMood + ": accessory 3" ) );
+		DEFAULT_SHELL.executeLine( "familiar " + getProperty( this.currentMood + ": familiar" ) );
 		
 		for ( int i = 0; i < SKILL_NAMES.length; ++i )
 		{
-			if ( getProperty( SKILL_NAMES[i] ).equals( "active" ) && !KoLCharacter.getEffects().contains( EFFECT_NAMES[i] ) )
+			if ( getProperty( this.currentMood + ": " + SKILL_NAMES[i] ).equals( "active" ) && !KoLCharacter.getEffects().contains( EFFECTS[i] ) )
 			{
 				if ( KoLCharacter.hasSkill( SKILL_NAMES[i] ) )
 					DEFAULT_SHELL.executeLine( "cast " + SKILL_NAMES[i] );
 				else
-					KoLmafia.updateDisplay( ABORT_STATE, "Ran out of " + EFFECT_NAMES[i].getName() + "." );
+					KoLmafia.updateDisplay( ABORT_STATE, "Ran out of " + EFFECTS[i].getName() + "." );
 			}
 		}
 	}
@@ -176,13 +204,13 @@ public class MoodSettings extends Properties implements KoLConstants
 			reader.close();
 			Collections.sort( contents );
 
-			File temporary = new File( DATA_DIRECTORY + "~" + filename + ".tmp" );
+			File temporary = new File( DATA_DIRECTORY + "~" + noExtensionName + ".msd.tmp" );
 			temporary.createNewFile();
 			temporary.deleteOnExit();
 
 			PrintStream writer = new PrintStream( new FileOutputStream( temporary ) );
 			for ( int i = 0; i < contents.size(); ++i )
-				if ( !((String) contents.get(i)).startsWith( "saveState" ) || filename.equals( "" ) )
+				if ( !((String) contents.get(i)).startsWith( "saveState" ) || noExtensionName.equals( "" ) )
 					writer.println( (String) contents.get(i) );
 
 			writer.close();
