@@ -357,35 +357,28 @@ public class RequestFrame extends KoLFrame
 
 		public void run()
 		{
-			synchronized ( DisplayRequestThread.class )
+			mainBuffer.clearBuffer();
+			mainBuffer.append( "Retrieving..." );
+
+			currentLocation = request.getURLString();
+			setupRequest();
+
+			if ( request != null && request.responseText != null && request.responseText.length() != 0 )
 			{
-				mainBuffer.clearBuffer();
-				mainBuffer.append( "Retrieving..." );
-
-				currentLocation = request.getURLString();
-				setupRequest();
-
-				if ( request != null && request.responseText != null && request.responseText.length() != 0 )
-				{
-					StaticEntity.getClient().setCurrentRequest( request );
-					displayRequest( request.responseText );
-				}
-				else
-				{
-					// If this resulted in a redirect, then update the display
-					// to indicate that you were redirected and the display
-					// cannot be shown in the minibrowser.
-
-					mainBuffer.clearBuffer();
-					mainBuffer.append( "<b>Tried to access</b>: " + currentLocation );
-					mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
-					return;
-				}
+				StaticEntity.getClient().setCurrentRequest( request );
+				displayRequest( request.responseText );
 			}
+			else
+			{
+				// If this resulted in a redirect, then update the display
+				// to indicate that you were redirected and the display
+				// cannot be shown in the minibrowser.
 
-			// Have the StaticEntity.getClient() update occur outside of the
-			// synchronization block so that the appearance
-			// of a GUI lockup doesn't happen.
+				mainBuffer.clearBuffer();
+				mainBuffer.append( "<b>Tried to access</b>: " + currentLocation );
+				mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
+				return;
+			}
 
 			updateClient();
 		}
@@ -395,7 +388,7 @@ public class RequestFrame extends KoLFrame
 			if ( request == null )
 				return;
 
-			if ( request.getClass() == KoLRequest.class && (request.responseText == null || request.responseText.length() == 0) )
+			if ( request.responseCode != 302 && (request.responseText == null || request.responseText.length() == 0) )
 			{
 				// New prevention mechanism: tell the requests that there
 				// will be no synchronization.
