@@ -277,18 +277,12 @@ public abstract class SorceressLair extends StaticEntity
 		// If you couldn't complete the gateway, then return
 		// from this method call.
 
-		List requirements = new ArrayList();
-		requirements.addAll( completeGateway() );
+		completeGateway();
 
-		if ( !requirements.isEmpty() )
-		{
-			requirements.addAll( retrieveRhythm( true ) );
-			requirements.addAll( retrieveStrumming( true ) );
-			requirements.addAll( retrieveSqueezings( true ) );
-			client.checkRequirements( requirements );
-
+		if ( KoLmafia.refusesContinue() )
 			return;
-		}
+
+		List requirements = new ArrayList();
 
 		// Next, figure out which instruments are needed for the final
 		// stage of the entryway. If the person has a clover weapon,
@@ -339,7 +333,7 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.addAll( retrieveScubaGear( false ) );
 
 		SpecialOutfit.restoreCheckpoint();
-		if ( !client.checkRequirements( requirements ) || !KoLmafia.permitsContinue() )
+		if ( !client.checkRequirements( requirements ) || KoLmafia.refusesContinue() )
 			return;
 
 		// If you decided to use a broken skull because
@@ -396,13 +390,8 @@ public abstract class SorceressLair extends StaticEntity
 		KoLmafia.updateDisplay( "Sorceress entryway complete." );
 	}
 
-	private static List completeGateway()
+	private static void completeGateway()
 	{
-		// Remove his weapon so that everything is easier for
-		// the rest of the script.
-
-		List requirements = new ArrayList();
-
 		// Make sure the character has some candy, or at least
 		// the appropriate status effect.
 
@@ -418,17 +407,17 @@ public abstract class SorceressLair extends StaticEntity
 		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
 		{
 			if ( !KoLCharacter.getEffects().contains( SUGAR ) && !hasItem( candy ) )
-				requirements.add( candy );
+				AdventureDatabase.retrieveItem( candy );
 
 			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) && !hasItem( WUSSY_POTION ) )
-				requirements.add( WUSSY_POTION );
+				AdventureDatabase.retrieveItem( WUSSY_POTION );
 
 			if ( !KoLCharacter.getEffects().contains( MIASMA ) && !hasItem( BLACK_CANDLE ) )
-				requirements.add( BLACK_CANDLE );
+				AdventureDatabase.retrieveItem( BLACK_CANDLE );
 		}
 
-		if ( !requirements.isEmpty() )
-			return requirements;
+		if ( KoLmafia.refusesContinue() )
+			return;
 
 		// Use the rice candy, wussiness potion, and black candle
 		// and then cross through the first door.
@@ -467,8 +456,6 @@ public abstract class SorceressLair extends StaticEntity
 			request.addFormField( "action", "mirror" );
 			request.run();
 		}
-
-		return requirements;
 	}
 
 	private static List retrieveRhythm( boolean isCheckOnly )
