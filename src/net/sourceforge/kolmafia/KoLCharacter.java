@@ -424,6 +424,14 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return username;
 	}
 
+	public static String baseUserName()
+	{	return baseUserName( username);
+	}
+
+	public static String baseUserName( String name )
+	{	return name.replaceAll( "\\/q", "" ).trim().replaceAll( " ", "_" ).toLowerCase();
+	}
+
 	/**
 	 * Accessor method to set the user ID associated with this character.
 	 * @param	userID	The user ID associated with this character

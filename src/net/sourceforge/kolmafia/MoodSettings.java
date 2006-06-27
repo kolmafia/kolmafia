@@ -89,7 +89,7 @@ public class MoodSettings extends Properties implements KoLConstants
 	public MoodSettings( String characterName )
 	{
 		this.currentMood = StaticEntity.getProperty( "currentMood" );
-		this.noExtensionName = characterName.replaceAll( "\\/q", "" ).replaceAll( " ", "_" ).toLowerCase();		
+		this.noExtensionName = KoLCharacter.baseUserName( characterName );
 		this.settingsFile = new File( DATA_DIRECTORY + noExtensionName + ".msd" );
 
 		loadSettings( this.settingsFile );
