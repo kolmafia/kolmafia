@@ -178,6 +178,9 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 	public void initializeTabs()
 	{
+		if ( tabListing.size() != 0 || isInitializing )
+			return;
+		
 		isInitializing = true;
 
 		String interfaceSetting = StaticEntity.getProperty( "initialDesktop" );
