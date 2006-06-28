@@ -937,14 +937,19 @@ public class KoLmafiaCLI extends KoLmafia
 			// Handle lucky and unlucky retrieval of
 			// worthless items via the sewer.
 
-			if ( parameters.equals( "worthless item" ) )
+			if ( parameters.indexOf( "worthless item" ) != -1 )
 			{
-				while ( KoLCharacter.getAdventuresLeft() > 0 && HermitRequest.getWorthlessItemCount() == 0 && permitsContinue() )
+				int itemCount = 1;
+				
+				if ( !parameters.equals( "worthless item" ) )
+					itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
+					
+				while ( KoLCharacter.getAdventuresLeft() > 0 && HermitRequest.getWorthlessItemCount() < itemCount && permitsContinue() )
 					executeLine( "buy 1 chewing gum on a string; adventure Unlucky Sewer" );
 
-				if ( HermitRequest.getWorthlessItemCount() == 0 )
+				if ( HermitRequest.getWorthlessItemCount() < itemCount )
 				{
-					updateDisplay( ERROR_STATE, "Unable to acquire a worthless item." );
+					updateDisplay( ERROR_STATE, "Unable to acquire worthless item." );
 					return;
 				}
 			}
