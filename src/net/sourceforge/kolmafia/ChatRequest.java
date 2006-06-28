@@ -147,10 +147,6 @@ public class ChatRequest extends KoLRequest
 
 	private class ChatContinuationThread extends Thread
 	{
-		public ChatContinuationThread()
-		{	setDaemon( true );
-		}
-
 		public void run()
 		{
 			ChatRequest request = new ChatRequest( client, lastSeen );
@@ -161,8 +157,15 @@ public class ChatRequest extends KoLRequest
 				// refresh rate indicated - this is likely the default rate
 				// used for the KoLChat.
 
-				ChatRequest.delay( CHAT_DELAY );
-				request.run();
+				try
+				{
+					ChatRequest.delay( CHAT_DELAY );
+					request.run();
+				}
+				catch ( Exception e )
+				{
+					StaticEntity.printStackTrace( e );
+				}
 
 				request.addFormField( "lasttime", String.valueOf( lastSeen ) );
 			}

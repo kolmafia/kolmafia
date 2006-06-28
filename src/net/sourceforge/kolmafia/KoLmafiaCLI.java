@@ -43,19 +43,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.lang.NumberFormatException;
 
 // utility imports
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
-import java.text.DecimalFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import jline.ConsoleReader;
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.DataUtilities;
 
 /**
  * The main class for the <code>KoLmafia</code> package.  This
@@ -272,19 +268,6 @@ public class KoLmafiaCLI extends KoLmafia
 				enableDisplay();
 				outputStream.print( " > " );
 			}
-			else if ( StaticEntity.getClient() == DEFAULT_SHELL && !DEFAULT_SHELL.permitsContinue() )
-			{
-				outputStream.print( "Continue? [Y/N]" );
-				mirrorStream.print( "Continue? [Y/N]" );
-
-				printBlankLine();
-				outputStream.print( " > " );
-
-				line = getNextLine();
-
-				if ( line != null && line.startsWith( "y" ) || line.startsWith( "Y" ) )
-					forceContinue();
-			}
 		}
 
 		if ( line == null || line.trim().length() == 0 )
@@ -458,6 +441,12 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.getClient().startRelayServer();
 			return;
 		}
+		
+		if ( command.startsWith( "chat" ) )
+		{
+			KoLMessenger.initialize();
+			return;
+		}
 
 		// First, handle the wait command, for however
 		// many seconds the user would like to wait.
@@ -625,26 +614,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Next, handle continue commands, which allow
-		// you to resume where you left off in the
-		// last executing script.
-
-		if ( command.equals( "continue" ) )
-		{
-			if ( lastScript == null || lastScript.previousLine == null )
-			{
-				updateDisplay( ERROR_STATE, "No commands left to continue script." );
-				return;
-			}
-
-			lastScript.listenForCommands();
-
-			if ( lastScript.previousLine == null )
-				lastScript = null;
-
-			return;
-		}
-
 		// Next, handle repeat commands - these are a
 		// carry-over feature which made sense in CLI.
 
@@ -723,8 +692,8 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( command.indexOf( "end" ) != -1 || command.indexOf( "stop" ) != -1 || command.indexOf( "close" ) != -1 ||
 				parameters.length() == 0 || parameters.equals( "end" ) || parameters.equals( "stop" ) || parameters.equals( "close" ) )
 			{
-				this.mirrorStream.close();
-				this.mirrorStream = NullStream.INSTANCE;
+				mirrorStream.close();
+				mirrorStream = NullStream.INSTANCE;
 
 				updateDisplay( "Mirror stream closed." );
 			}
@@ -744,7 +713,7 @@ public class KoLmafiaCLI extends KoLmafia
 						outputFile.createNewFile();
 					}
 
-					this.mirrorStream = new PrintStream( new FileOutputStream( outputFile, true ), true );
+					mirrorStream = new PrintStream( new FileOutputStream( outputFile, true ), true );
 				}
 				catch ( IOException e )
 				{
@@ -1530,11 +1499,7 @@ public class KoLmafiaCLI extends KoLmafia
 				for ( int i = 0; i < runCount && permitsContinue(); ++i )
 				{
 					lastScript = new KoLmafiaCLI( new FileInputStream( scriptFile ) );
-					lastScript.commandBuffer = commandBuffer;
 					lastScript.listenForCommands();
-
-					if ( lastScript.previousLine == null )
-						lastScript = null;
 				}
 			}
 		}
@@ -2344,8 +2309,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executePrintCommand( String desiredData, String filter, PrintStream outputStream )
 	{
-		PrintStream originalStream = this.outputStream;
-		this.outputStream = outputStream;
+		PrintStream originalStream = outputStream;
+		outputStream = outputStream;
 
 		if ( desiredData.equals( "session" ) )
 		{
@@ -2436,14 +2401,14 @@ public class KoLmafiaCLI extends KoLmafia
 			printList( resultList );
 		}
 
-		if ( this.outputStream != originalStream )
+		if ( outputStream != originalStream )
 		{
-			this.outputStream.println();
-			this.outputStream.println();
-			this.outputStream.close();
+			outputStream.println();
+			outputStream.println();
+			outputStream.close();
 		}
 
-		this.outputStream = originalStream;
+		outputStream = originalStream;
 	}
 
 	private static String getStatString( int base, int adjusted, int tnp )
@@ -2512,15 +2477,25 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( nameList.isEmpty() )
 			return -1;
 
-		List source = null;
 		String [] nameArray = new String[ nameList.size() ];
 		nameList.toArray( nameArray );
 
+		int shortestIndex = -1;
+		int shortestLength = Integer.MAX_VALUE;
+
 		for ( int i = 0; i < nameArray.length; ++i )
+		{
 			if ( NPCStoreDatabase.contains( nameArray[i] ) )
 				return TradeableItemDatabase.getItemID( nameArray[i] );
 
-		return TradeableItemDatabase.getItemID( nameArray[0] );
+			if ( nameArray[i].length() < shortestLength )
+			{
+				shortestIndex = i;
+				shortestLength = nameArray[i].length();
+			}
+		}
+
+		return TradeableItemDatabase.getItemID( nameArray[ shortestIndex ] );
 	}
 
 	/**
@@ -2937,8 +2912,6 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		int itemID;  int mixingMethod;  int quantityNeeded;
-
 		AdventureResult firstMatch = getFirstMatchingItem( parameters );
 		if ( firstMatch == null )
 			return;
@@ -3121,7 +3094,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeUneffectRequest()
 	{
-		AdventureResult currentEffect;
 		String effectToUneffect = previousLine.trim().substring( previousLine.split( " " )[0].length() ).trim().toLowerCase();
 
 		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
@@ -3254,8 +3226,6 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		String command = previousLine.split( " " )[0];
 		String parameters = previousLine.substring( command.length() ).trim();
-
-		int furs = TrapperRequest.YETI_FUR.getCount( KoLCharacter.getInventory() );
 
 		// If he doesn't specify a number, use number of yeti furs
 		AdventureResult item = getFirstMatchingItem( parameters );
@@ -3454,4 +3424,3 @@ public class KoLmafiaCLI extends KoLmafia
 		return commandString.toString();
 	}
 }
-
