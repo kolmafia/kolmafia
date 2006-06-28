@@ -2909,9 +2909,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeBuyCommand( String parameters )
 	{
-		if ( makeRestaurantRequest() || makeMicrobreweryRequest() )
-			return;
-
 		AdventureResult firstMatch = getFirstMatchingItem( parameters );
 		if ( firstMatch == null )
 			return;
@@ -2995,7 +2992,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeConsumeItemRequest( String parameters )
 	{
-		int consumptionType;  String itemName;  int itemCount;
+		if ( makeRestaurantRequest() || makeMicrobreweryRequest() )
+			return;
+
+		String itemName;  int itemCount;
 
 		// Now, handle the instance where the first item is actually
 		// the quantity desired, and the next is the amount to use
