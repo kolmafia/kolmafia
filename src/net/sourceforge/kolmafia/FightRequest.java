@@ -192,11 +192,6 @@ public class FightRequest extends KoLRequest
 			action1 = "attack";
 			addFormField( "action", action1 );
 		}
-		else if ( action1.equals( "moxman" ) )
-		{
-			action1 = "moxman";
-			addFormField( "action", action1 );
-		}
 
 		// If the player wants to use a skill, make sure he knows it
 		else
@@ -366,9 +361,6 @@ public class FightRequest extends KoLRequest
 		if ( action1.startsWith( "item" ) )
 			return 0;
 
-		if ( action1.equals( "moxman" ) )
-			return KoLCharacter.getLevel();
-
 		return ClassSkillsDatabase.getMPConsumptionByID( StaticEntity.parseInt( action1 ) );
 	}
 
@@ -416,43 +408,34 @@ public class FightRequest extends KoLRequest
 			return;
 		}
 
-		int mpCost = 0;
+		int skillID = StaticEntity.parseInt( action1 );
+		int mpCost = ClassSkillsDatabase.getMPConsumptionByID( skillID );
 
-		if ( action1.equals( "moxman" ) )
+		switch ( skillID )
 		{
-			mpCost = KoLCharacter.getLevel();
-		}
-		else
-		{
-			int skillID = StaticEntity.parseInt( action1 );
-			ClassSkillsDatabase.getMPConsumptionByID( skillID );
+			case 3004: // Entangling Noodles
+				offenseModifier -= 6;
+				break;
 
-			switch ( skillID )
-			{
-				case 3004: // Entangling Noodles
-					offenseModifier -= 6;
-					break;
+			case 5003: // Disco Eye-Poke
+				offenseModifier -= 1;
+				defenseModifier -= 1;
+				break;
 
-				case 5003: // Disco Eye-Poke
-					offenseModifier -= 1;
-					defenseModifier -= 1;
-					break;
+			case 5005: // Disco Dance of Doom
+				offenseModifier -= 3;
+				defenseModifier -= 3;
+				break;
 
-				case 5005: // Disco Dance of Doom
-					offenseModifier -= 3;
-					defenseModifier -= 3;
-					break;
+			case 5008: // Disco Dance II: Electric Boogaloo
+				offenseModifier -= 5;
+				defenseModifier -= 5;
+				break;
 
-				case 5008: // Disco Dance II: Electric Boogaloo
-					offenseModifier -= 5;
-					defenseModifier -= 5;
-					break;
-
-				case 5012: // Disco Face Stab
-					offenseModifier -= 7;
-					defenseModifier -= 7;
-					break;
-			}
+			case 5012: // Disco Face Stab
+				offenseModifier -= 7;
+				defenseModifier -= 7;
+				break;
 		}
 
 		if ( mpCost > 0 )

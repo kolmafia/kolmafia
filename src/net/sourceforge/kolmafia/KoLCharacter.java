@@ -1915,15 +1915,6 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.battleSkillIDs.add( "item spices" );
 		KoLCharacter.battleSkillNames.add( "Item: Use Spices" );
 
-		// Add in moxious maneuver if the player
-		// is of the appropriate class.
-
-		if ( isMoxieClass() )
-		{
-			battleSkillIDs.add( "moxman" );
-			battleSkillNames.add( "Special: Moxious Maneuver" );
-		}
-
 		// Check all available skills to see if they
 		// qualify to be added as combat or usables.
 
