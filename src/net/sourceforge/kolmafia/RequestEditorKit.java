@@ -827,9 +827,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( StaticEntity.getProperty( "relayAddsUseLinks" ).equals( "true" ) )
 			text = addUseLinks( text );
 
-		if ( StaticEntity.getProperty( "relayMovesManeuver" ).equals( "true" ) )
-			text = moveManeuverButton( text );
-
 		if ( StaticEntity.getProperty( "relayAddsPlinking" ).equals( "true" ) )
 			text = addPlinking( text );
 
@@ -933,36 +930,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		useLinkMatcher.appendTail( linkedResponse );
 		return linkedResponse.toString();
-	}
-
-	private static String moveManeuverButton( String text )
-	{
-		int moxmanIndex = text.indexOf( "<form name=moxman" );
-		if ( moxmanIndex == -1 )
-			return text;
-
-		StringBuffer textBuffer = new StringBuffer( text );
-		int endIndex = text.indexOf( "</form>", moxmanIndex );
-		textBuffer.delete( moxmanIndex, endIndex + 7 );
-
-		int skillIndex = textBuffer.indexOf( "skill)</option>" );
-
-		boolean lastRoundManeuver = text.indexOf( "With great Moxie," ) != -1 || text.indexOf( "Moxious maneuver failed " ) != -1 ||
-			text.indexOf( "Anyway, dirty tricks" ) != -1 || text.indexOf( "You try to pull a sneaky attack" ) != -1 ||
-			text.indexOf( "You try to trip the Sorceress" ) != -1;
-
-		if ( lastRoundManeuver )
-		{
-			textBuffer.insert( skillIndex + 15, "<option value='moxman' selected>Moxious Maneuver (" +
-					KoLCharacter.getLevel() + " Mojo Points)</option>" );
-		}
-		else
-		{
-			textBuffer.insert( skillIndex + 15, "<option value='moxman'>Moxious Maneuver (" +
-					KoLCharacter.getLevel() + " Mojo Points)</option>" );
-		}
-
-		return textBuffer.toString();
 	}
 
 	private static String addChoiceSpoilers( String text )

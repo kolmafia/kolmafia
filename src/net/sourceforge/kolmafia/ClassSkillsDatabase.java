@@ -159,6 +159,11 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 	public static final int getMPConsumptionByID( int skillID )
 	{
+		// Moxious Maneuver has a special mana cost.
+		
+		if ( skillID == 7008 )
+			return Math.max( KoLCharacter.getLevel() + manaModifier, 1 );
+		
 		Object mpConsumption = mpConsumptionByID.get( new Integer( skillID ) );
 		return mpConsumption == null ? 0 : Math.max( ((Integer)mpConsumption).intValue() + manaModifier, 1 );
 	}

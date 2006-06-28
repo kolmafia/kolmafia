@@ -356,7 +356,7 @@ public abstract class CombatSettings implements UtilityConstants
 		if ( action == null || action.length() == 0 )
 			return "default";
 
-		if ( action.equals( "custom" ) || action.equals( "delevel" ) || action.equals( "default" ) || action.startsWith( "abort" ) || action.startsWith( "attack" ) || action.startsWith( "moxman" ) || action.startsWith( "run" ) )
+		if ( action.equals( "custom" ) || action.equals( "delevel" ) || action.equals( "default" ) || action.startsWith( "abort" ) || action.startsWith( "attack" ) || action.startsWith( "run" ) )
 			return action;
 
 		else if ( action.startsWith( "item" ) )
@@ -405,9 +405,6 @@ public abstract class CombatSettings implements UtilityConstants
 
 		if ( action.startsWith( "attack" ) )
 			return "attack";
-
-		if ( action.startsWith( "moxman" ) )
-			return "moxman";
 
 		if ( action.startsWith( "run" ) )
 			return "runaway";
