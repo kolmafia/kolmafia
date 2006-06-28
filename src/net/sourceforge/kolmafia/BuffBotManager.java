@@ -212,7 +212,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		if ( document != null )
 		{
-			document.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" );
+			document.println( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
 			document.println( "<?xml-stylesheet type=\"text/xsl\" href=\"http://kolmafia.sourceforge.net/buffbot.xsl\"?>" );
 			document.println();
 
