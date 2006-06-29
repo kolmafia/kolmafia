@@ -45,6 +45,7 @@ import java.net.MalformedURLException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
@@ -565,10 +566,10 @@ public class KoLRequest implements Runnable, KoLConstants
 				else if ( urlString.indexOf( "whichitem" ) != -1 && ConsumeItemRequest.processRequest( client, urlString ) )
 					;
 				else if ( urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && urlString.indexOf( "chat" ) == -1 )
-					client.getSessionStream().println( urlString );
+					KoLmafia.getSessionStream().println( urlString );
 			}
 			else if ( !isDelayExempt() && !commandForm.equals( "" ) )
-				client.getSessionStream().println( commandForm );
+				KoLmafia.getSessionStream().println( commandForm );
 		}
 
 		// If you're about to fight the Naughty Sorceress,
@@ -806,8 +807,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean retrieveServerReply()
 	{
-		BufferedReader istream;
-
+		InputStream istream;
+		
 		try
 		{
 			// In the event of redirects, the appropriate flags should be set
@@ -825,7 +826,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// reply - there really is only one cookie to worry about, so
 			// it will be stored here.
 
-			istream = new BufferedReader( new InputStreamReader( formConnection.getInputStream() ) );
+			istream = formConnection.getInputStream();
 			responseCode = formConnection.getResponseCode();
 			redirectLocation = formConnection.getHeaderField( "Location" );
 		}
@@ -937,11 +938,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			String line = null;
 			StringBuffer replyBuffer = new StringBuffer();
-			StringBuffer rawBuffer = new StringBuffer();
 
 			try
 			{
-				line = istream.readLine();
+				line = read( istream );
 
 				// There's a chance that there was no content in the reply
 				// (header-only reply) - if that's the case, the line will
@@ -950,6 +950,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				if ( line == null )
 				{
 					KoLmafia.getDebugStream().println( "No reply content.  Retrying..." );
+					return false;
 				}
 
 				// Check for MySQL errors, since those have been getting more
@@ -963,6 +964,8 @@ public class KoLRequest implements Runnable, KoLConstants
 				{
 					if ( !(this instanceof ChatRequest) )
 						KoLmafia.getDebugStream().println( "Encountered MySQL error.  Retrying..." );
+					
+					return false;
 				}
 
 				// The remaining lines form the rest of the content.  In order
@@ -977,23 +980,11 @@ public class KoLRequest implements Runnable, KoLConstants
 					// Line breaks bloat the log, but they are important
 					// inside <textarea> input fields.
 
-					boolean insideTextArea = false;
-
 					do
 					{
 						replyBuffer.append( line );
-						rawBuffer.append( line );
-						rawBuffer.append( LINE_BREAK );
-
-						if ( line.indexOf( "</textarea" ) != -1 )
-							insideTextArea = false;
-						else if ( line.indexOf( "<textarea" ) != -1 )
-							insideTextArea = true;
-
-						if ( insideTextArea )
-							replyBuffer.append( LINE_BREAK );
 					}
-					while ( (line = istream.readLine()) != null );
+					while ( (line = read( istream )) != null );
 				}
 			}
 			catch ( Exception e )
@@ -1017,7 +1008,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			checkForNewEvents();
-			processRawResponse( rawBuffer.toString() );
+			processRawResponse( replyBuffer.toString() );
 		}
 
 		try
@@ -1038,6 +1029,31 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		istream = null;
 		return shouldStop;
+	}
+	
+	private static String read( InputStream istream )
+	{
+		try
+		{
+			int available = istream.available();
+			for ( int i = 0; available == 0 && i < 10; ++i )
+			{
+				available = istream.available();
+				KoLRequest.delay( 100 );
+			}
+			
+			if ( available == 0 )
+				return null;
+			
+			byte [] array = new byte[ available ];
+			istream.read( array );
+			return new String( array );
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+			return null;
+		}
 	}
 
 	/**
