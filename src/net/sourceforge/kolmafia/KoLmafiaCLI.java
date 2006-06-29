@@ -64,6 +64,7 @@ import jline.ConsoleReader;
 
 public class KoLmafiaCLI extends KoLmafia
 {
+	private static final ArrayList commandQueue = new ArrayList();
 	private static final ArrayList unrepeatableCommands = new ArrayList();
 
 	public static final int NOWHERE = 1;
@@ -329,7 +330,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * yet another method.
 	 */
 
-	public synchronized void executeLine( String line )
+	public void executeLine( String line )
 	{
 		if ( refusesContinue() )
 			return;
@@ -341,12 +342,35 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			String [] separateLines = line.split( ";" );
 			for ( int i = 0; i < separateLines.length && permitsContinue(); ++i )
+			{
 				if ( separateLines[i].length() > 0 )
-					executeLine( separateLines[i] );
+				{
+					// Push the queued command onto the top
+					// of the command stack.
+					
+					commandQueue.add( 0, separateLines[i].trim() );
+					executeQueuedCommand();
+				}
+			}
 
 			previousLine = line;
 			return;
 		}
+		
+		if ( !commandQueue.isEmpty() )
+		{
+			commandQueue.add( line );
+			return;
+		}
+		
+		commandQueue.add( line );
+		while ( !commandQueue.isEmpty() )
+			executeQueuedCommand();
+	}
+	
+	public void executeQueuedCommand()
+	{
+		String line = (String) commandQueue.get(0);
 
 		// Trim the line, replace all double spaces with
 		// single spaces and compare the result against
@@ -356,6 +380,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( unrepeatableCommands.contains( line ) )
 		{
 			updateDisplay( ABORT_STATE, "Sorry.  You can only do that once per session." );
+			commandQueue.remove(0);
 			return;
 		}
 
@@ -376,26 +401,28 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			updateDisplay( ERROR_STATE, messages[ messages.length - 1 ] );
+			commandQueue.remove(0);
 			return;
 		}
 
-		if ( line.length() != 0 )
+		if ( line.length() == 0 )
+			return;
+
+		String command = line.trim().split( " " )[0].toLowerCase().trim();
+		String parameters = line.substring( command.length() ).trim();
+
+		if ( !command.equals( "repeat" ) )
+			previousLine = line;
+
+		if ( command.endsWith( "?" ) )
 		{
-			String command = line.trim().split( " " )[0].toLowerCase().trim();
-			String parameters = line.substring( command.length() ).trim();
-
-			if ( !command.equals( "repeat" ) )
-				previousLine = line;
-
-			if ( command.endsWith( "?" ) )
-			{
-				isExecutingCheckOnlyCommand = true;
-				command = command.substring( 0, command.length() - 1 );
-			}
-
-			executeCommand( command, parameters );
-			isExecutingCheckOnlyCommand = false;
+			isExecutingCheckOnlyCommand = true;
+			command = command.substring( 0, command.length() - 1 );
 		}
+
+		executeCommand( command, parameters );
+		isExecutingCheckOnlyCommand = false;
+		commandQueue.remove(0);
 	}
 
 	/**
