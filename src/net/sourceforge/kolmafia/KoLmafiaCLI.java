@@ -441,7 +441,7 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.getClient().startRelayServer();
 			return;
 		}
-		
+
 		if ( command.startsWith( "chat" ) )
 		{
 			KoLMessenger.initialize();
@@ -940,10 +940,10 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.indexOf( "worthless item" ) != -1 )
 			{
 				int itemCount = 1;
-				
+
 				if ( !parameters.equals( "worthless item" ) )
 					itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
-					
+
 				while ( KoLCharacter.getAdventuresLeft() > 0 && HermitRequest.getWorthlessItemCount() < itemCount && permitsContinue() )
 					executeLine( "buy 1 chewing gum on a string; adventure Unlucky Sewer" );
 
@@ -2037,7 +2037,7 @@ public class KoLmafiaCLI extends KoLmafia
 			nameString = parameters.substring( 1, parameters.length() - 1 );
 			countString = null;
 		}
-		else if ( parameters.startsWith( "*" ) || Character.isDigit( parameters.charAt( 0 ) ) )
+		else if ( parameters.startsWith( "*" ) || (parameters.indexOf( " " ) != -1 && Character.isDigit( parameters.charAt( 0 ) )) )
 		{
 			countString = parameters.split( " " )[0];
 			String rest = parameters.substring( countString.length() ).trim();
@@ -2970,7 +2970,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeConsumeItemRequest( String parameters )
 	{
-		if ( makeRestaurantRequest() || makeMicrobreweryRequest() )
+		if ( previousLine.startsWith( "eat" ) && makeRestaurantRequest() )
+			return;
+
+		if ( previousLine.startsWith( "drink" ) && makeMicrobreweryRequest() )
 			return;
 
 		String itemName;  int itemCount;
