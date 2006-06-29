@@ -68,7 +68,9 @@ public class CommandDisplayFrame extends KoLFrame
 {
 	private JTextField entryField;
 	private static int lastCommandIndex = 0;
-	private static ArrayList recentCommands = new ArrayList();
+
+	private static final ArrayList commandQueue = new ArrayList();
+	private static ArrayList commandHistory = new ArrayList();
 
 	public CommandDisplayFrame()
 	{
@@ -143,14 +145,14 @@ public class CommandDisplayFrame extends KoLFrame
 					if ( lastCommandIndex <= 0 )
 						return;
 
-					entryField.setText( (String) recentCommands.get( --lastCommandIndex ) );
+					entryField.setText( (String) commandHistory.get( --lastCommandIndex ) );
 				}
 				else if ( e.getKeyCode() == KeyEvent.VK_DOWN )
 				{
-					if ( lastCommandIndex + 1 >= recentCommands.size() )
+					if ( lastCommandIndex + 1 >= commandHistory.size() )
 						return;
 
-					entryField.setText( (String) recentCommands.get( ++lastCommandIndex ) );
+					entryField.setText( (String) commandHistory.get( ++lastCommandIndex ) );
 				}
 				else if ( e.getKeyCode() == KeyEvent.VK_ENTER )
 					submitCommand();
@@ -158,37 +160,42 @@ public class CommandDisplayFrame extends KoLFrame
 
 			private void submitCommand()
 			{
-				(new RequestThread( new CommandRunnable( entryField.getText() ) )).start();
+				String command = entryField.getText().trim();
+				if ( command.length() == 0 )
+					return;
+
+				if ( command.equalsIgnoreCase( "clear" ) || command.equalsIgnoreCase( "cls" ) )
+				{
+					KoLmafia.commandBuffer.clearBuffer();
+					return;
+				}
+
+				commandQueue.add( command );
+				commandHistory.add( command );
+				
 				entryField.setText( "" );
+
+				if ( commandQueue.size() > 1 )
+				{
+					KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp; <b>Queued command</b>: " + command + "</font><br><br>" );
+					return;
+				}
+
+				(new RequestThread( this )).start();
 			}
 
 			public void run()
 			{
+				while ( !commandQueue.isEmpty() )
+					executeQueuedCommand();
 			}
-		}
-	}
-
-	private class CommandRunnable implements Runnable
-	{
-		private String command;
-
-		public CommandRunnable( String command )
-		{
-			this.command = command.trim();
-			recentCommands.add( command );
-			lastCommandIndex = recentCommands.size();
-		}
-
-		public void run()
-		{
-			if ( command.equalsIgnoreCase( "clear" ) || command.equalsIgnoreCase( "cls" ) )
+			
+			private void executeQueuedCommand()
 			{
-				KoLmafia.commandBuffer.clearBuffer();
-			}
-			else
-			{
-				KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br><br>" );
-				DEFAULT_SHELL.executeLine( command );
+				String command = (String) commandQueue.get(0);				
+				KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br><br>" );			
+				DEFAULT_SHELL.executeLine( command );				
+				commandQueue.remove(0);
 			}
 		}
 	}

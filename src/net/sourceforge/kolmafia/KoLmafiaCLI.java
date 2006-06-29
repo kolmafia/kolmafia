@@ -64,7 +64,6 @@ import jline.ConsoleReader;
 
 public class KoLmafiaCLI extends KoLmafia
 {
-	private static final ArrayList commandQueue = new ArrayList();
 	private static final ArrayList unrepeatableCommands = new ArrayList();
 
 	public static final int NOWHERE = 1;
@@ -332,9 +331,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeLine( String line )
 	{
-		if ( refusesContinue() )
+		if ( refusesContinue() || line.trim().length() == 0 )
 			return;
-
+		
 		// If it gets this far, that means the continue
 		// state can be reset.
 
@@ -342,35 +341,11 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			String [] separateLines = line.split( ";" );
 			for ( int i = 0; i < separateLines.length && permitsContinue(); ++i )
-			{
-				if ( separateLines[i].length() > 0 )
-				{
-					// Push the queued command onto the top
-					// of the command stack.
-					
-					commandQueue.add( 0, separateLines[i].trim() );
-					executeQueuedCommand();
-				}
-			}
+				executeLine( separateLines[i] );
 
 			previousLine = line;
 			return;
 		}
-		
-		if ( !commandQueue.isEmpty() )
-		{
-			commandQueue.add( line );
-			return;
-		}
-		
-		commandQueue.add( line );
-		while ( !commandQueue.isEmpty() )
-			executeQueuedCommand();
-	}
-	
-	public void executeQueuedCommand()
-	{
-		String line = (String) commandQueue.get(0);
 
 		// Trim the line, replace all double spaces with
 		// single spaces and compare the result against
@@ -380,7 +355,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( unrepeatableCommands.contains( line ) )
 		{
 			updateDisplay( ABORT_STATE, "Sorry.  You can only do that once per session." );
-			commandQueue.remove(0);
 			return;
 		}
 
@@ -401,7 +375,6 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			updateDisplay( ERROR_STATE, messages[ messages.length - 1 ] );
-			commandQueue.remove(0);
 			return;
 		}
 
@@ -422,7 +395,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		executeCommand( command, parameters );
 		isExecutingCheckOnlyCommand = false;
-		commandQueue.remove(0);
 	}
 
 	/**
