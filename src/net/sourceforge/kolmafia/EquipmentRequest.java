@@ -514,8 +514,13 @@ public class EquipmentRequest extends PasswordHashRequest
 			return;
 		}
 
+		// In valhalla, you can't make outfits and have no inventory.
+		int outfitIndex = responseText.indexOf( "Save as Custom Outfit" );
+		if ( outfitIndex == -1 )
+			return;
+
 		// Skip past equipped gear
-		parseQuestItems( responseText.substring( responseText.indexOf( "Save as Custom Outfit" ) ) );
+		parseQuestItems( responseText.substring( outfitIndex ) );
 
 		String [] oldEquipment = new String[9];
 		int oldFakeHands = KoLCharacter.getFakeHands();
