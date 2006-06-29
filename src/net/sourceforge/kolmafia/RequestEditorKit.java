@@ -960,23 +960,37 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		for ( int i = 0; i < possibleDecisions[2].length; ++i )
 		{
-			String item = possibleDecisions[2][i];
-			String itemID =	 ( possibleDecisions.length > 3 ) ?
-				possibleDecisions[3][i] : null;
-
 			index2 = text.indexOf( "</form>", index1 );
+
+			// If KoL says we've run out of choices, quit now
+			if ( index2 == -1 )
+				break;
+
+			// Start spoiler text
 			newText.append( text.substring( index1, index2 ) );
 			newText.append( "<br><font size=-1>(" );
+
+			// Say what the choice will give you
+			String item = possibleDecisions[2][i];
 			newText.append( item );
 
-			if ( itemID != null )
+			// If this choice helps complete an outfit...
+			if ( possibleDecisions.length > 3 )
 			{
-				newText.append( " - " );
-				AdventureResult result = new AdventureResult( StaticEntity.parseInt( itemID ), 1 );
-				newText.append( result.getCount( KoLCharacter.getInventory() ) );
-				newText.append( " in inventory" );
+				String itemID = possibleDecisions[3][i];
+
+				// If this decision leads to an item...
+				if ( itemID != null )
+				{
+					// List # in inventory
+					newText.append( " - " );
+					AdventureResult result = new AdventureResult( StaticEntity.parseInt( itemID ), 1 );
+					newText.append( result.getCount( KoLCharacter.getInventory() ) );
+					newText.append( " in inventory" );
+				}
 			}
 
+			// Finish spoiler text
 			newText.append( ")</font></form>" );
 			index1 = index2 + 7;
 		}
