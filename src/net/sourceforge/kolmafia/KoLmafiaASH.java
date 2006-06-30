@@ -2592,7 +2592,7 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "outfit", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "have_outfit", SLOT_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "have_outfit", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_familiar", FAMILIAR_TYPE, params ) );
@@ -2705,7 +2705,7 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "my_location", LOCATION_TYPE, params ) );
 
 		params = new ScriptType[] {};
-		result.addElement( new ScriptExistingFunction( "owns_mushroom_plot", BOOLEAN_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "have_mushroom_plot", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "restore_hp", BOOLEAN_TYPE, params ) );
@@ -3710,14 +3710,18 @@ public class KoLmafiaASH extends StaticEntity
 			}
 		}
 
-		public ScriptValue outfit( ScriptValue outfit )
+		public ScriptValue outfit( ScriptVariable outfit )
 		{
 			DEFAULT_SHELL.executeLine( "outfit " + outfit.toStringValue().toString() );
 			return continueValue();
 		}
 
-		public ScriptValue has_outfit( ScriptValue value )
-		{	return new ScriptValue( KoLmafiaCLI.getMatchingOutfit( value.toStringValue().toString() ) != null );
+		public ScriptValue have_outfit( ScriptVariable outfit )
+		{	return new ScriptValue( KoLmafiaCLI.getMatchingOutfit( outfit.toStringValue().toString() ) != null );
+		}
+
+		public ScriptValue have_equipped( ScriptVariable item )
+		{	return new ScriptValue( KoLCharacter.hasEquipped( new AdventureResult( item.intValue(), 1 ) ) );
 		}
 
 		public ScriptValue monster_base_attack( ScriptVariable arg )
@@ -3729,14 +3733,12 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue monster_base_defense( ScriptVariable arg )
 		{
 			MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(arg.rawValue());
-
 			return new ScriptValue( monster.getDefense() );
 		}
 
 		public ScriptValue monster_base_hp( ScriptVariable arg )
 		{
 			MonsterDatabase.Monster monster = (MonsterDatabase.Monster)(arg.rawValue());
-
 			return new ScriptValue( monster.getHP() );
 		}
 
@@ -3905,7 +3907,7 @@ public class KoLmafiaASH extends StaticEntity
 				parseLocationValue( "Rest" ) : parseLocationValue( KoLCharacter.getNextAdventure().getAdventureName() );
 		}
 
-		public ScriptValue owns_mushroom_plot()
+		public ScriptValue have_mushroom_plot()
 		{	return new ScriptValue( MushroomPlot.ownsPlot() );
 		}
 
