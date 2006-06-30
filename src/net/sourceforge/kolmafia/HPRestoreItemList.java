@@ -91,12 +91,10 @@ public abstract class HPRestoreItemList extends StaticEntity
 		OTTER, REMEDY, TINY_HOUSE, COCOON, SCROLL, HERBS,
 		WALRUS, BANDAGES, POWERNAP, NAP, PHONICS, CAST, ELIXIR, BALM, UNGUENT, OINTMENT, CAMPING };
 
-	public static final HPRestoreItem [] FALLBACKS = new HPRestoreItem[0];
-
 	public static JCheckBox [] getCheckboxes()
 	{
 		String hpRestoreSetting = StaticEntity.getProperty( "hpAutoRecoveryItems" );
-		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length + FALLBACKS.length ];
+		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length ];
 
 		for ( int i = 0; i < CONFIGURES.length; ++i )
 		{

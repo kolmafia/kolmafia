@@ -1316,6 +1316,14 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "restore" ) || command.equals( "recover" ) )
+		{
+			if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
+				StaticEntity.getClient().recoverHP();
+			if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) )
+				StaticEntity.getClient().recoverMP();
+		}
+
 		if ( command.equals( "restaurant" ) )
 		{
 			makeRestaurantRequest();
@@ -3053,16 +3061,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeChangeOutfitCommand( String parameters )
 	{
-		String lowercaseOutfitName = parameters.toLowerCase().trim();
-		Object [] outfits = new Object[ KoLCharacter.getOutfits().size() ];
-		KoLCharacter.getOutfits().toArray( outfits );
-
-		SpecialOutfit intendedOutfit = lowercaseOutfitName.equals( "birthday suit" ) ?
-			SpecialOutfit.BIRTHDAY_SUIT: null;
-
-		for ( int i = 0; intendedOutfit == null && i < outfits.length; ++i )
-			if ( outfits[i] instanceof SpecialOutfit && outfits[i].toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
-				intendedOutfit = (SpecialOutfit) outfits[i];
+		SpecialOutfit intendedOutfit = getMatchingOutfit( parameters );
 
 		if ( intendedOutfit == null )
 		{
@@ -3072,6 +3071,23 @@ public class KoLmafiaCLI extends KoLmafia
 
 		(new EquipmentRequest( StaticEntity.getClient(), intendedOutfit )).run();
 	}
+
+	public static SpecialOutfit getMatchingOutfit( String name )
+	{
+		String lowercaseOutfitName = name.toLowerCase().trim();
+		if ( lowercaseOutfitName.equals( "birthday suit" ) || lowercaseOutfitName.equals( "nothing" ) )
+			return SpecialOutfit.BIRTHDAY_SUIT;
+
+		Object [] outfits = new Object[ KoLCharacter.getOutfits().size() ];
+		KoLCharacter.getOutfits().toArray( outfits );
+
+		for ( int i = 0; i < outfits.length; ++i )
+			if ( outfits[i] instanceof SpecialOutfit && outfits[i].toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
+				return (SpecialOutfit) outfits[i];
+
+		return null;
+	}
+
 	/**
 	 * A special module used specifically for properly instantiating
 	 * the BuffBot and running it

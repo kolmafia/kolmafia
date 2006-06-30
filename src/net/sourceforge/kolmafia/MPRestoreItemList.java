@@ -57,29 +57,20 @@ public abstract class MPRestoreItemList extends StaticEntity
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
 		new MPRestoreItem( "Dyspepsi-Cola", 12 ), new MPRestoreItem( "Cloaca-Cola", 12 ),
-		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tiny house", 22 ),
-		new MPRestoreItem( "Knob Goblin superseltzer", 27 ), new MPRestoreItem( "Knob Goblin seltzer", 10 ),
-		new MPRestoreItem( "blatantly Canadian", 22 ), new MPRestoreItem( "tonic water", 40 )
+		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "Knob Goblin superseltzer", 27 ),
+		new MPRestoreItem( "Knob Goblin seltzer", 10 ), new MPRestoreItem( "blatantly Canadian", 22 ),
+		new MPRestoreItem( "tonic water", 40 ), MYSTERY, SODA_WATER
 	};
-
-	public static final MPRestoreItem [] FALLBACKS = new MPRestoreItem [] { MYSTERY, SODA_WATER };
 
 	public static JCheckBox [] getCheckboxes()
 	{
 		String mpRestoreSetting = StaticEntity.getProperty( "mpAutoRecoveryItems" );
-		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length + FALLBACKS.length ];
+		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length ];
 
 		for ( int i = 0; i < CONFIGURES.length; ++i )
 		{
 			restoreCheckbox[i] = new JCheckBox( CONFIGURES[i].toString() );
 			restoreCheckbox[i].setSelected( mpRestoreSetting.indexOf( CONFIGURES[i].toString() ) != -1 );
-		}
-
-		for ( int i = 0; i < FALLBACKS.length; ++i )
-		{
-			restoreCheckbox[CONFIGURES.length + i] = new JCheckBox( FALLBACKS[i].toString() );
-			restoreCheckbox[CONFIGURES.length + i].setSelected( true );
-			restoreCheckbox[CONFIGURES.length + i].setEnabled( false );
 		}
 
 		return restoreCheckbox;
@@ -102,7 +93,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		{	return itemUsed;
 		}
 
-		public void recoverMP( int needed, boolean isFallback )
+		public void recoverMP( int needed )
 		{
 			if ( this == MYSTERY )
 			{
@@ -116,11 +107,15 @@ public abstract class MPRestoreItemList extends StaticEntity
 			int numberToUse = (int) Math.ceil( (double) mpShort / (double) mpPerUse );
 			int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
 
-			if ( !isFallback )
-				numberToUse = Math.min( numberToUse, numberAvailable );
-			else if ( this == MYSTERY )
+			if ( this == MYSTERY || this == SODA_WATER )
+			{
 				numberToUse = NPCStoreDatabase.contains( MYSTERY.toString() ) ? numberToUse :
 					Math.min( numberAvailable, numberToUse );
+			}
+			else
+			{
+				numberToUse = Math.min( numberToUse, numberAvailable );
+			}
 
 			if ( numberToUse == 0 )
 				return;

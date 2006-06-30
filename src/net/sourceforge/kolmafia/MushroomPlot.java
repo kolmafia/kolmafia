@@ -495,6 +495,14 @@ public abstract class MushroomPlot extends StaticEntity
 		return true;
 	}
 
+	public static boolean ownsPlot()
+	{
+		if ( !initialized )
+			(new MushroomPlotRequest()).run();
+
+		return ownsPlot;
+	}
+
 	private static class MushroomPlotRequest extends KoLRequest
 	{
 		public MushroomPlotRequest()
