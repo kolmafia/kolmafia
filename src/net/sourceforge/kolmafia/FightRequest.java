@@ -158,8 +158,9 @@ public class FightRequest extends KoLRequest
 		}
 		else if ( action1.equals( "attack" ) )
 		{
-			action1 = "attack";
-			addFormField( "action", action1 );
+			action1 = "attack";			
+			if ( roundCount != 1 )
+				addFormField( "action", action1 );
 		}
 
 		// If the player wants to use an item, make sure he has one
@@ -323,7 +324,7 @@ public class FightRequest extends KoLRequest
 
 		// If this is the first round, then register the opponent
 		// you are fighting against.
-
+		
 		if ( roundCount == 1 )
 		{
 			encounter = AdventureRequest.registerEncounter( this );
