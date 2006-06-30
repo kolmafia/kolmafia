@@ -45,7 +45,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MonsterDatabase extends KoLDatabase
 {
-	public static final Map MONSTERS = new TreeMap();
+	private static final Map MONSTER_NAMES = new TreeMap();
+	private static final Map MONSTER_DATA = new TreeMap();
 
 	// Elements
 	public static final int NONE = 0;
@@ -62,7 +63,8 @@ public class MonsterDatabase extends KoLDatabase
 
 	public static final void refreshMonsterTable()
 	{
-		MONSTERS.clear();
+		MONSTER_DATA.clear();
+		MONSTER_NAMES.clear();
 
 		BufferedReader reader = getReader( "monsters.dat" );
 		String [] data;
@@ -89,7 +91,10 @@ public class MonsterDatabase extends KoLDatabase
 				}
 
 				if ( !bad )
-					MONSTERS.put( data[0], monster );
+				{
+					MONSTER_DATA.put( data[0], monster );
+					MONSTER_NAMES.put( data[0].toLowerCase(), data[0] );
+				}
 			}
 		}
 
@@ -106,11 +111,13 @@ public class MonsterDatabase extends KoLDatabase
 		}
 	}
 
-	public static Monster findMonster ( String name )
-	{	return (Monster)MONSTERS.get( name );
+	public static Monster findMonster( String name )
+	{
+		String realName = (String) MONSTER_NAMES.get( name.toLowerCase() );
+		return realName == null ? null : (Monster) MONSTER_DATA.get( realName );
 	}
 
-	public static Monster registerMonster ( String name, String s )
+	public static Monster registerMonster( String name, String s )
 	{
 		Monster monster = findMonster( name );
 		if ( monster != null )
@@ -362,9 +369,7 @@ public class MonsterDatabase extends KoLDatabase
 		public boolean hasAcceptableDodgeRate( int offenseModifier )
 		{
 			int ml = KoLCharacter.getMonsterLevelAdjustment() + offenseModifier;
-			int dodgeRate = KoLCharacter.getAdjustedMoxie() - (attack + offenseModifier) - 10;
-
-			KoLmafiaCLI.printLine( "Monster attack adjustment needed: " + dodgeRate );
+			int dodgeRate = KoLCharacter.getAdjustedMoxie() - (attack + ml) - 6;
 			return dodgeRate > 0;
 		}
 
