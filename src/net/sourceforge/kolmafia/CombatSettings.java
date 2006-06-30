@@ -167,7 +167,10 @@ public abstract class CombatSettings implements UtilityConstants
 					root.add( currentList );
 				}
 				else if ( line.length() != 0 )
-					currentList.add( new CombatActionNode( line ) );
+				{
+					if ( currentList.getChildCount() < 15 )
+						currentList.add( new CombatActionNode( currentList.getChildCount() + 1, line ) );
+				}
 			}
 
 			reader.close();
@@ -207,7 +210,7 @@ public abstract class CombatSettings implements UtilityConstants
 			CombatSettingNode defaultList = new CombatSettingNode( key );
 			String [] elements = defaultValue.split( "\\s*;\\s*" );
 			for ( int i = 0; i < elements.length; ++i )
-				defaultList.add( new CombatActionNode( elements[i] ) );
+				defaultList.add( new CombatActionNode( i + 1, elements[i] ) );
 
 			reference.put( key, defaultList );
 			root.add( defaultList );
@@ -310,12 +313,13 @@ public abstract class CombatSettings implements UtilityConstants
 		CombatActionNode setting = (CombatActionNode) match.getChildAt(
 			roundCount < match.getChildCount() ? roundCount : match.getChildCount() - 1 );
 
-		return getShortCombatOptionName( setting.toString() );
+		return getShortCombatOptionName( setting.getAction() );
 	}
 
 	private static class CombatSettingNode extends DefaultMutableTreeNode
 	{
 		private String name;
+		private boolean willDelevel = false;
 
 		public CombatSettingNode()
 		{	this( "" );
@@ -326,6 +330,15 @@ public abstract class CombatSettings implements UtilityConstants
 			super( name, true );
 			this.name = name;
 		}
+		
+		public void add( CombatActionNode node )
+		{
+			if ( willDelevel )
+				return;
+			
+			willDelevel |= node.getAction().equalsIgnoreCase( "delevel" );
+			super.add( node );
+		}
 
 		public String toString()
 		{	return name;
@@ -334,20 +347,27 @@ public abstract class CombatSettings implements UtilityConstants
 
 	private static class CombatActionNode extends DefaultMutableTreeNode
 	{
+		private int index;
 		private String action;
 
-		public CombatActionNode( String action )
+		public CombatActionNode( int index, String action )
 		{
 			super( action, false );
+			
+			this.index = index;
 			this.action = getLongCombatOptionName( action );
 		}
 
 		public boolean startsWith( String prefix )
 		{	return action.startsWith( prefix );
 		}
+		
+		public String getAction()
+		{	return action;
+		}
 
 		public String toString()
-		{	return action;
+		{	return index + ": " + action;
 		}
 	}
 
