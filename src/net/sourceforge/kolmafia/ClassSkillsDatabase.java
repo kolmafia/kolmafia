@@ -100,7 +100,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -160,10 +160,12 @@ public class ClassSkillsDatabase extends KoLDatabase
 	public static final int getMPConsumptionByID( int skillID )
 	{
 		// Moxious Maneuver has a special mana cost.
-		
+
 		if ( skillID == 7008 )
 			return Math.max( KoLCharacter.getLevel() + manaModifier, 1 );
-		
+		else if ( getSkillType( skillID ) == PASSIVE )
+			return 0;
+
 		Object mpConsumption = mpConsumptionByID.get( new Integer( skillID ) );
 		return mpConsumption == null ? 0 : Math.max( ((Integer)mpConsumption).intValue() + manaModifier, 1 );
 	}
@@ -220,7 +222,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		Object skillType = skillTypeByID.get( new Integer( skillID ) );
 		return skillType == null ? false : ((Integer)skillType).intValue() == type;
 	}
-	
+
 	/**
 	 * Returns all skills in the database of the given type.
 	 */
@@ -228,7 +230,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 	public static final List getSkillsByType( int type )
 	{
 		ArrayList list = new ArrayList();
-		
+
 		Object [] keys = skillTypeByID.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 			if ( isType( ((Integer)keys[i]).intValue(), type ) )
@@ -236,7 +238,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 
 		return list;
 	}
-	
+
 	/**
 	 * Returns whether or not an item with a given name
 	 * exists in the database; this is useful in the

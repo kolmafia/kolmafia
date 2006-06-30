@@ -433,12 +433,26 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLCharacter.hasArches() )
 			(new CampgroundRequest( this, "arches" )).run();
 
+		boolean shouldCast = false;
 		String skillSetting = StaticEntity.getProperty( "breakfast" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
 
 		if ( skillSetting != null )
 			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
-				if ( (!checkSettings || skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1) && KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] ) )
+			{
+				shouldCast = !checkSettings || skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1;
+				shouldCast &= KoLCharacter.hasSkill( BREAKFAST_SKILLS[i][0] );
+
+				if ( checkSettings && shouldCast && KoLCharacter.isHardcore() )
+				{
+					if ( BREAKFAST_SKILLS[i][0].equals( "Pastamastery" ) && !KoLCharacter.canEat() )
+						shouldCast = false;
+					if ( BREAKFAST_SKILLS[i][0].equals( "Advanced Cocktailcrafting" ) && !KoLCharacter.canDrink() )
+						shouldCast = false;
+				}
+
+				if ( shouldCast )
 					getBreakfast( BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( BREAKFAST_SKILLS[i][1] ) );
+			}
 
 		forceContinue();
 	}
@@ -968,8 +982,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * and if not, calls the appropriate scripts to do so.
 	 */
 
-	private final boolean recover( int needed, String settingName, String currentName, String maximumName,
-		Object [] techniques, Object [] fallbacks ) throws Exception
+	private final boolean recover( int needed, String settingName, String currentName, String maximumName, Object [] techniques ) throws Exception
 	{
 		if ( refusesContinue() )
 			return false;
@@ -992,13 +1005,7 @@ public abstract class KoLmafia implements KoLConstants
 		double setting = StaticEntity.parseDouble( StaticEntity.getProperty( settingName ) );
 
 		if ( !BuffBotHome.isBuffBotActive() )
-		{
-			needed = setting < 0 ? -1 : needed != 0 ? needed :
-				(int) Math.max( setting * (double) maximum, (double) needed );
-
-			if ( needed < 0 )
-				return true;
-		}
+			needed = needed != 0 ? needed : (int) Math.max( setting * (double) maximum, (double) needed );
 
 		int last = -1;
 		int current = ((Number)currentMethod.invoke( null, empty )).intValue();
@@ -1050,7 +1057,7 @@ public abstract class KoLmafia implements KoLConstants
 				while ( (current < threshold || checkBeatenUp) && last != current && !refusesContinue() )
 				{
 					last = current;
-					recoverOnce( techniques[i], currentTechniqueName, needed, false );
+					recoverOnce( techniques[i], currentTechniqueName, needed );
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 					checkBeatenUp &= KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP );
 				}
@@ -1059,52 +1066,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		// Fall-through check, just in case you've reached the
 		// desired value.
-
-		if ( refusesContinue() )
-			return false;
-
-		if ( current >= threshold )
-			return true;
-
-		// Do the restoration, but without making any purchases
-		// from NPC/PC stores.
-
-		for ( int i = 0; i < fallbacks.length && current < threshold; ++i )
-		{
-			last = -1;
-
-			while ( (current < threshold || checkBeatenUp) && last != current && !refusesContinue() )
-			{
-				last = current;
-				recoverOnce( fallbacks[i], fallbacks[i].toString(), needed, false );
-				current = ((Number)currentMethod.invoke( null, empty )).intValue();
-				checkBeatenUp &= KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP );
-			}
-		}
-
-		if ( refusesContinue() )
-			return false;
-
-		// Fall-through check, just in case you've reached the
-		// desired value.
-
-		if ( current >= threshold )
-			return true;
-
-		// Now, last check -- go ahead and call the method which
-		// invokes the fallback restores;
-
-		for ( int i = 0; i < fallbacks.length && current < threshold; ++i )
-		{
-			last = -1;
-
-			while ( current < threshold && last != current && !refusesContinue() )
-			{
-				last = current;
-				recoverOnce( fallbacks[i], fallbacks[i].toString(), needed, true );
-				current = ((Number)currentMethod.invoke( null, empty )).intValue();
-			}
-		}
 
 		if ( refusesContinue() )
 			return false;
@@ -1131,7 +1092,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			return recover( recover, "hpAutoRecovery", "getCurrentHP", "getMaximumHP", HPRestoreItemList.CONFIGURES, HPRestoreItemList.FALLBACKS );
+			return recover( recover, "hpAutoRecovery", "getCurrentHP", "getMaximumHP", HPRestoreItemList.CONFIGURES );
 		}
 		catch ( Exception e )
 		{
@@ -1148,7 +1109,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * in a script) in order to restore.
 	 */
 
-	private final void recoverOnce( Object technique, String techniqueName, int needed, boolean isFallback )
+	private final void recoverOnce( Object technique, String techniqueName, int needed )
 	{
 		// If the technique is an item, and the item is not readily available,
 		// then don't bother with this item -- however, if it is the only item
@@ -1158,7 +1119,7 @@ public abstract class KoLmafia implements KoLConstants
 			((HPRestoreItemList.HPRestoreItem)technique).recoverHP( needed );
 
 		if ( technique instanceof MPRestoreItemList.MPRestoreItem )
-			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed, isFallback );
+			((MPRestoreItemList.MPRestoreItem)technique).recoverMP( needed );
 	}
 
 	/**
@@ -1174,9 +1135,6 @@ public abstract class KoLmafia implements KoLConstants
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 			if ( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[i].toString() ) != -1 )
 				restoreCount += MPRestoreItemList.CONFIGURES[i].getItem().getCount( KoLCharacter.getInventory() );
-
-		for ( int i = 0; i < MPRestoreItemList.FALLBACKS.length; ++i )
-			restoreCount += MPRestoreItemList.FALLBACKS[i].getItem().getCount( KoLCharacter.getInventory() );
 
 		return restoreCount;
 	}
@@ -1201,7 +1159,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			return recover( mpNeeded, "mpAutoRecovery", "getCurrentMP", "getMaximumMP", MPRestoreItemList.CONFIGURES, MPRestoreItemList.FALLBACKS );
+			return recover( mpNeeded, "mpAutoRecovery", "getCurrentMP", "getMaximumMP", MPRestoreItemList.CONFIGURES );
 		}
 		catch ( Exception e )
 		{
