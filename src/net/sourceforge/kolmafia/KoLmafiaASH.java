@@ -576,7 +576,9 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.commandStream.close();
 			this.commandStream = null;
-			printStackTrace( e, e.getMessage() );
+
+			// Only error message, not stack trace, for a parse error
+			KoLmafia.updateDisplay( e.getMessage() );
 		}
 	}
 
