@@ -172,6 +172,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 				commandQueue.add( command );
 				commandHistory.add( command );
+				++lastCommandIndex;
 				
 				entryField.setText( "" );
 
