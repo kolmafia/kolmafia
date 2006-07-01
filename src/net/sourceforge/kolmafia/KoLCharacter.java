@@ -261,6 +261,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int familiarWeightAdjustment = 0;
 	private static int dodecapedeWeightAdjustment = 0;
 	private static int familiarItemWeightAdjustment = 0;
+	private static int manaCostModifier = 0;
 	private static double combatPercentAdjustment = 0.0;
 	private static double initiativeAdjustment = 0.0;
 	private static double fixedXPAdjustment = 0.0;
@@ -333,6 +334,7 @@ public abstract class KoLCharacter extends StaticEntity
 		familiarWeightAdjustment = 0;
 		dodecapedeWeightAdjustment = 0;
 		familiarItemWeightAdjustment = 0;
+		manaCostModifier = 0;
 		combatPercentAdjustment = 0.0;
 		initiativeAdjustment = 0.0;
 		fixedXPAdjustment = 0.0;
@@ -992,6 +994,10 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return familiarItemWeightAdjustment;
 	}
 
+	public static int getManaCostModifier()
+	{	return manaCostModifier;
+	}
+
 	/**
 	 * Accessor method to retrieve the total current combat percent
 	 * adjustment
@@ -1103,7 +1109,6 @@ public abstract class KoLCharacter extends StaticEntity
 			EquipmentDatabase.updateOutfits();
 		}
 
-		ClassSkillsDatabase.updateManaModifier();
 		recalculateAdjustments( false );
 		updateStatus();
 	}
@@ -2848,12 +2853,19 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int SAUCE_GLOVE = 531;
 	private static final String SPIRIT_OF_RIGATONI = "Spirit of Rigatoni";
 
+	// Items that modify Mana cost of skills
+	private static final int BACONSTONE_BRACELET = 717;
+	private static final int STAINLESS_SOLITAIRE = 1226;
+	private static final int PLEXIGLASS_POCKETWATCH = 1232;
+	private static final int WIZARD_HAT = 1653;
+
 	public static boolean recalculateAdjustments( boolean update )
 	{
 		int newMonsterLevelAdjustment = 0;
 		int newFamiliarWeightAdjustment = 0;
 		int newDodecapedeWeightAdjustment = 0;
 		int newFamiliarItemWeightAdjustment = 0;
+		int newManaCostModifier = 0;
 		double newCombatPercentAdjustment = 0.0;
 		double newInitiativeAdjustment = 0.0;
 		double newFixedXPAdjustment = 0.0;
@@ -3049,6 +3061,16 @@ public abstract class KoLCharacter extends StaticEntity
 			case 1246:	// rib of the Bonerdagon
 			case 1467:	// 25-meat staff
 				hasStaff = true;
+				break;
+			case BACONSTONE_BRACELET:
+			case WIZARD_HAT:
+				newManaCostModifier -= 1;
+				break;
+			case STAINLESS_SOLITAIRE:
+				newManaCostModifier -= 2;
+				break;
+			case PLEXIGLASS_POCKETWATCH:
+				newManaCostModifier -= 3;
 				break;
 			}
 		}
@@ -3287,6 +3309,11 @@ public abstract class KoLCharacter extends StaticEntity
 		// Determine if Mysticality is the current To-hit stat
 		newRigatoniActive = rigatoniSkill && hasStaff;
 
+		// Make sure the mana modifier is no more than
+		// three, no matter what.
+
+		newManaCostModifier = Math.max( newManaCostModifier, -3 );
+
 		boolean changed = false;
 		if ( monsterLevelAdjustment != newMonsterLevelAdjustment )
 		{
@@ -3304,6 +3331,12 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( familiarItemWeightAdjustment != newFamiliarItemWeightAdjustment )
 		{
 			familiarItemWeightAdjustment = newFamiliarItemWeightAdjustment;
+			changed = true;
+		}
+
+		if ( manaCostModifier != newManaCostModifier )
+		{
+			manaCostModifier = newManaCostModifier;
 			changed = true;
 		}
 
