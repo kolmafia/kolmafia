@@ -1047,14 +1047,14 @@ public abstract class KoLmafia implements KoLConstants
 
 		String currentTechniqueName;
 
-		for ( int i = 0; i < techniques.length && (current < threshold || checkBeatenUp); ++i )
+		for ( int i = 0; i < techniques.length && (current < needed || checkBeatenUp); ++i )
 		{
 			currentTechniqueName = techniques[i].toString().toLowerCase();
 			if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
 			{
 				last = -1;
 
-				while ( (current < threshold || checkBeatenUp) && last != current && !refusesContinue() )
+				while ( (current < needed || checkBeatenUp) && last != current && !refusesContinue() )
 				{
 					last = current;
 					recoverOnce( techniques[i], currentTechniqueName, needed );
