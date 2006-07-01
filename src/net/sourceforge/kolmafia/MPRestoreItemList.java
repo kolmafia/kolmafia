@@ -109,7 +109,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 			if ( this == MYSTERY || this == SODA_WATER )
 			{
-				numberToUse = NPCStoreDatabase.contains( MYSTERY.toString() ) ? numberToUse :
+				numberToUse = NPCStoreDatabase.contains( this.toString() ) ? numberToUse :
 					Math.min( numberAvailable, numberToUse );
 			}
 			else
