@@ -289,7 +289,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		// If there's nothing inside storage, return
 		// because there's nothing to parse.
 
-		storageMatcher = Pattern.compile( "name=\"whichitem1\".*?</select>" ).matcher( responseText );
+		storageMatcher = Pattern.compile( "name=\"whichitem1\".*?</select>", Pattern.DOTALL ).matcher( responseText );
 		if ( !storageMatcher.find() )
 			return;
 
