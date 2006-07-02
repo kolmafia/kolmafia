@@ -73,7 +73,7 @@ public class AccountRequest extends PasswordHashRequest
 		// Also parse out the player's current time
 		// zone in the process.
 
-		matcher = Pattern.compile( "<select name=timezone>.*?</select>" ).matcher( responseText );
+		matcher = Pattern.compile( "<select name=timezone>.*?</select>", Pattern.DOTALL ).matcher( responseText );
 
 		if ( matcher.find() )
 		{
