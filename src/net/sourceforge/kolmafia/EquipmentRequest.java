@@ -598,16 +598,15 @@ public class EquipmentRequest extends PasswordHashRequest
 			KoLCharacter.setClosetMeat( StaticEntity.parseInt( meatInCloset ) );
 		}
 
-		Matcher inventoryMatcher = Pattern.compile( "<b>Put:.*?</select>" ).matcher( responseText );
+		Matcher inventoryMatcher = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL ).matcher( responseText );
 		if ( inventoryMatcher.find() )
 		{
 			List inventory = KoLCharacter.getInventory();
 			inventory.clear();
-
 			parseCloset( inventoryMatcher.group(), inventory, true );
 		}
 
-		Matcher closetMatcher = Pattern.compile( "<b>Take:.*?</select>" ).matcher( responseText );
+		Matcher closetMatcher = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL ).matcher( responseText );
 		if ( closetMatcher.find() )
 		{
 			List closet = KoLCharacter.getCloset();
