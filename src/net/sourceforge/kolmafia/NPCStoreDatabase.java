@@ -126,7 +126,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		// bugbear outfit.  Of course, some items are available from the
 		// Degrassi knoll bakery, so fallback on that when possible.
 
-		if ( storeID.equals( "b" ) && !EquipmentDatabase.hasOutfit( 1 ) )
+		if ( storeID.equals( "b" ) && (!EquipmentDatabase.hasOutfit( 1 ) || KoLCharacter.canInteract()) )
 		{
 			itemIndex = storeTable[4].lastIndexOf( itemID );
 			storeID = (String) storeTable[0].get( itemIndex );
@@ -151,14 +151,14 @@ public class NPCStoreDatabase extends KoLDatabase
 		// then the item is not available if they don't have the elite
 		// guard uniform.
 
-		if ( storeID.equals( "g" ) && !EquipmentDatabase.hasOutfit( 5 ) )
+		if ( storeID.equals( "g" ) && (!EquipmentDatabase.hasOutfit( 5 ) || KoLCharacter.canInteract()) )
 			return null;
 
 		// If the person is trying to get one of the items from the hippy
 		// store, then the item is not available if they don't have the
 		// hippy outfit.
 
-		if ( storeID.equals( "h" ) && !EquipmentDatabase.hasOutfit( 2 ) )
+		if ( storeID.equals( "h" ) && (!EquipmentDatabase.hasOutfit( 2 ) || KoLCharacter.canInteract()) )
 			return null;
 
 		// If it gets this far, then the item is definitely available
