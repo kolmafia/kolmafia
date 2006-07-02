@@ -3655,7 +3655,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue trade_trapper( ScriptVariable item )
 		{
-			DEFAULT_SHELL.executeLine( "trapper " + item.toStringValue() );
+			DEFAULT_SHELL.executeLine( "trapper * " + item.toStringValue() );
 			return continueValue();
 		}
 
