@@ -1280,13 +1280,13 @@ public class KoLRequest implements Runnable, KoLConstants
 		// If there is no setting which determines the
 		// decision, see if it's in the violet fog
 
-		if ( decision == null )
+		if ( decision.equals( "" ) )
 			decision = VioletFog.handleChoice( choice );
 
 		// If there is currently no setting which determines the
 		// decision, give an error and bail.
 
-		if ( decision == null )
+		if ( decision.equals( "" ) )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Unsupported choice adventure #" + choice );
 			request.showInBrowser( true );

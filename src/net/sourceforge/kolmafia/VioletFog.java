@@ -310,7 +310,7 @@ public class VioletFog
 
 		// We only handle Violet Fog choices
 		if ( source < FIRST_CHOICE || source > LAST_CHOICE )
-			return null;
+			return "";
 
 		// Were we mapping?
 		if ( lastChoice != 0 )
@@ -333,7 +333,7 @@ public class VioletFog
 		// Find the location we must get to to achieve the goal
 		int destination = FIRST_GOAL_LOCATION + goal - 1;
 		if ( destination < FIRST_CHOICE || destination > LAST_CHOICE )
-			return null;
+			return "";
 
 		// Are we there yet?
 		if ( source == destination )
@@ -364,7 +364,7 @@ public class VioletFog
 		}
 
 		// This shouldn't happen
-		return null;
+		return "";
 	}
 
 	public static boolean freeAdventure( String choice, String decision )
