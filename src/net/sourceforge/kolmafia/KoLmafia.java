@@ -2640,7 +2640,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			if ( TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 )
 			{
-				if ( NPCStoreDatabase.contains( items[i].getName() ) )
+				if ( NPCStoreDatabase.contains( items[i].getName(), false ) )
 					autosell.add( items[i] );
 				else
 					automall.add( items[i] );

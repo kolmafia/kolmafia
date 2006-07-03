@@ -81,7 +81,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		}
 	}
 
-	public static final MallPurchaseRequest getPurchaseRequest( String itemName )
+	public static final MallPurchaseRequest getPurchaseRequest( String itemName, boolean validate )
 	{
 		Integer itemID = new Integer( TradeableItemDatabase.getItemID( itemName ) );
 		int itemIndex = storeTable[4].indexOf( itemID );
@@ -98,7 +98,12 @@ public class NPCStoreDatabase extends KoLDatabase
 
 		String classType = KoLCharacter.getClassType();
 		String storeID = (String) storeTable[0].get( itemIndex );
+		MallPurchaseRequest itemRequest = new MallPurchaseRequest( client, (String) storeTable[1].get(itemIndex), storeID,
+				StaticEntity.parseInt( (String) storeTable[2].get(itemIndex) ), StaticEntity.parseInt( (String) storeTable[3].get(itemIndex) ) );
 
+		if ( !validate )
+			return itemRequest;
+		
 		if ( storeID.equals( "1" ) )
 		{
 			if ( !classType.startsWith( "Di" ) && !classType.startsWith( "Ac" ) )
@@ -164,11 +169,15 @@ public class NPCStoreDatabase extends KoLDatabase
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.
 
-		return new MallPurchaseRequest( client, (String) storeTable[1].get(itemIndex), storeID,
-			StaticEntity.parseInt( (String) storeTable[2].get(itemIndex) ), StaticEntity.parseInt( (String) storeTable[3].get(itemIndex) ) );
+		return itemRequest;
 	}
 
 	public static final boolean contains( String itemName )
-	{	return getPurchaseRequest( itemName ) != null;
+	{	return contains( itemName, true );
 	}
+
+	public static final boolean contains( String itemName, boolean validate )
+	{	return getPurchaseRequest( itemName, validate ) != null;
+	}
+	
 }
