@@ -2581,7 +2581,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static boolean hasRecoveringEquipment()
 	{
 		// Plexiglass Pith Helmet
-		if ( getEquipment( HAT ).startsWith( "plexiglass pith helmet" ) )
+		if ( getEquipment( HAT ).startsWith( "plexiglass" ) || getEquipment( HAT ).startsWith( "jewel-eyed wizard hat" ) )
 			return true;
 
 		for ( int i = ACCESSORY1; i <= ACCESSORY3; ++i )
