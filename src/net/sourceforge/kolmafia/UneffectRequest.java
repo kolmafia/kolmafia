@@ -39,7 +39,9 @@ public class UneffectRequest extends KoLRequest
 	private int effectID;
 	private boolean isShruggable;
 	private AdventureResult effect;
+
 	public static AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", 1 );
+	public static AdventureResult TINY_HOUSE = new AdventureResult( "tiny house", 1 );
 
 	/**
 	 * Constructs a new <code>UneffectRequest</code>.
@@ -97,7 +99,7 @@ public class UneffectRequest extends KoLRequest
 
 		return effectName;
 	}
-	
+
 	public static String skillToEffect( String skillName )
 	{
 		if ( skillName.equals( "The Polka of Plenty" ) ||
