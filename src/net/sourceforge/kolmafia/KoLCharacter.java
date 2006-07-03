@@ -2530,7 +2530,10 @@ public abstract class KoLCharacter extends StaticEntity
 		else if ( resultName.equals( AdventureResult.MP ) )
 			setMP( getCurrentMP() + result.getCount(), getMaximumMP(), getBaseMaxMP() );
 		else if ( resultName.equals( AdventureResult.MEAT ) )
+		{
 			setAvailableMeat( getAvailableMeat() + result.getCount() );
+			refreshCalculatedLists();
+		}
 		else if ( resultName.equals( AdventureResult.ADV ) )
 		{
 			setAdventuresLeft( getAdventuresLeft() + result.getCount() );

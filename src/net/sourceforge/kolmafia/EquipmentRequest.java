@@ -130,6 +130,10 @@ public class EquipmentRequest extends PasswordHashRequest
 	}
 
 	public EquipmentRequest( KoLmafia client, String change, int equipmentSlot )
+	{	this( client, change, equipmentSlot, false );
+	}
+
+	public EquipmentRequest( KoLmafia client, String change, int equipmentSlot, boolean force )
 	{
 		super( client, "inv_equip.php" );
 		addFormField( "which", "2" );
@@ -159,7 +163,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			this.equipmentSlot = chooseEquipmentSlot();
 
 		// Make sure you can equip it in the requested slot
-		String action = getAction();
+		String action = getAction( force );
 		if ( action == null )
 			return;
 
@@ -184,7 +188,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		this.error = null;
 	}
 
-	private String getAction()
+	private String getAction( boolean force )
 	{
 		AdventureResult item = new AdventureResult( itemID, 0 );
 		if ( equipmentSlot != KoLCharacter.FAMILIAR &&
@@ -204,9 +208,9 @@ public class EquipmentRequest extends PasswordHashRequest
 		case KoLCharacter.WEAPON:
 			if ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON )
 			{
-				String offhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
-				if ( KoLCharacter.dualWielding() )
+				if ( !force && KoLCharacter.dualWielding() )
 				{
+					String offhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
 					if ( EquipmentDatabase.isRanged( itemID ) && !EquipmentDatabase.isRanged( offhand ) )
 					{
 						error = "You can't equip a ranged weapon in your main hand with a melee weapon in your off-hand.";
@@ -228,17 +232,17 @@ public class EquipmentRequest extends PasswordHashRequest
 
 			if ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON )
 			{
-				if ( KoLCharacter.weaponHandedness() != 1 )
+				if ( !force && KoLCharacter.weaponHandedness() != 1 )
 				{
 					error = "You must have a 1-handed weapon equipped first.";
 					return null;
 				}
-				if ( KoLCharacter.rangedWeapon() && !EquipmentDatabase.isRanged( itemID ) )
+				if ( !force && KoLCharacter.rangedWeapon() && !EquipmentDatabase.isRanged( itemID ) )
 				{
 					error = "You can't equip a melee weapon in your off-hand with a ranged weapon in your main hand.";
 					return null;
 				}
-				if ( !KoLCharacter.rangedWeapon() && EquipmentDatabase.isRanged( itemID ) )
+				if ( !force && !KoLCharacter.rangedWeapon() && EquipmentDatabase.isRanged( itemID ) )
 				{
 					error = "You can't equip a ranged weapon in your off-hand with a melee weapon in your main hand.";
 					return null;
