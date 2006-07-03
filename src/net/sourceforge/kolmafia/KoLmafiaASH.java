@@ -167,8 +167,8 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptValue SLOT_INIT = new ScriptValue( SLOT_TYPE, -1, "none" );
 	private static final ScriptValue MONSTER_INIT = new ScriptValue( MONSTER_TYPE, "none", (Object)null );
 
-    // Variables used during parsing
-    private static final ScriptFunctionList existingFunctions = getExistingFunctions();
+	// Variables used during parsing
+	private static final ScriptFunctionList existingFunctions = getExistingFunctions();
 	private static ArrayList imports = new ArrayList();
 	public LineNumberReader commandStream;
 	public String fileName;
@@ -176,7 +176,7 @@ public class KoLmafiaASH extends StaticEntity
 	private String nextLine;
 	private int lineNumber;
 
-        // Variables used during execution
+	// Variables used during execution
 	private ScriptScope global;
 	public int currentState = STATE_NORMAL;
 
@@ -187,31 +187,31 @@ public class KoLmafiaASH extends StaticEntity
 
 	// **************** Data Types *****************
 
-        // For each simple data type X, we supply:
-        //
-        // private static ScriptValue parseXValue( String name );
-        //    throws IllegalArgumentException if can't parse
+	// For each simple data type X, we supply:
+	//
+	// private static ScriptValue parseXValue( String name );
+	//    throws IllegalArgumentException if can't parse
 
 	private static ScriptValue parseBooleanValue( String name ) throws IllegalArgumentException
 	{
-                if ( name.equalsIgnoreCase( "true" ) )
-                        return TRUE_VALUE;
-                if ( name.equalsIgnoreCase( "false" ) )
-                        return FALSE_VALUE;
-                throw new IllegalArgumentException( "Can't interpret '" + name + "' as a boolean" );
-        }
+		if ( name.equalsIgnoreCase( "true" ) )
+			return TRUE_VALUE;
+		if ( name.equalsIgnoreCase( "false" ) )
+			return FALSE_VALUE;
+		throw new IllegalArgumentException( "Can't interpret '" + name + "' as a boolean" );
+	}
 
 	private static ScriptValue parseIntValue( String name ) throws NumberFormatException
 	{	return new ScriptValue( StaticEntity.parseInt( name ) );
-        }
+	}
 
 	private static ScriptValue parseFloatValue( String name ) throws NumberFormatException
 	{	return new ScriptValue( StaticEntity.parseDouble( name ) );
-        }
+	}
 
 	private static ScriptValue parseStringValue( String name )
 	{	return new ScriptValue( name );
-        }
+	}
 
 	private static ScriptValue parseItemValue( String name ) throws IllegalArgumentException
 	{
@@ -1654,13 +1654,12 @@ public class KoLmafiaASH extends StaticEntity
 				else if ( line.charAt( i ) == ']' )
 				{
 					line = line.substring( i + 1 ); //+1 to get rid of ']' token
-					return parseValue( type, resultString.toString());
+					return parseValue( type, resultString.toString().trim());
 				}
 				else
 				{
 					resultString.append( line.charAt( i ) );
 				}
-
 			}
 		}
 
@@ -2599,6 +2598,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { FAMILIAR_TYPE };
 		result.addElement( new ScriptExistingFunction( "equip_familiar", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { FAMILIAR_TYPE };
+		result.addElement( new ScriptExistingFunction( "have_familiar", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { MONSTER_TYPE };
 		result.addElement( new ScriptExistingFunction( "monster_base_attack", INT_TYPE, params ) );
@@ -3586,6 +3588,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue my_familiar()
 		{	return makeFamiliarValue( KoLCharacter.getFamiliar().getID() );
+		}
+
+		public ScriptValue have_familiar( ScriptVariable familiar )
+		{	return new ScriptValue( KoLCharacter.findFamiliar( familiar.toStringValue().toString() ) != null );
 		}
 
 		public ScriptValue have_effect( ScriptVariable arg )
