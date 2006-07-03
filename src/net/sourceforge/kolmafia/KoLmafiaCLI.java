@@ -435,13 +435,13 @@ public class KoLmafiaCLI extends KoLmafia
 		// Maybe the person wants to load up their browser
 		// from the KoLmafia CLI?
 
-		if ( command.startsWith( "relay" ) || command.startsWith( "serve" ) )
+		if ( command.equals( "relay" ) || command.equals( "serve" ) )
 		{
 			StaticEntity.getClient().startRelayServer();
 			return;
 		}
 
-		if ( command.startsWith( "chat" ) )
+		if ( command.equals( "chat" ) )
 		{
 			KoLMessenger.initialize();
 			return;
@@ -631,7 +631,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Next, print out the moon phase, if the user
 		// wishes to know what moon phase it is.
 
-		if ( command.startsWith( "moon" ) )
+		if ( command.equals( "moon" ) )
 		{
 			updateDisplay( "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
 			updateDisplay( "Grimace: " + MoonPhaseDatabase.getGrimacePhaseAsString() );
@@ -669,11 +669,11 @@ public class KoLmafiaCLI extends KoLmafia
 		// Next, handle requests to start or stop
 		// debug mode.
 
-		if ( command.startsWith( "debug" ) )
+		if ( command.equals( "debug" ) )
 		{
-			if ( parameters.startsWith( "on" ) )
+			if ( parameters.equals( "on" ) )
 				openDebugStream();
-			else if ( parameters.startsWith( "off" ) )
+			else if ( parameters.equals( "off" ) )
 				closeDebugStream();
 			else
 			{
@@ -781,19 +781,17 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "refresh" ) )
 		{
-			parameters = parameters.toLowerCase();
-
-			if ( parameters.equalsIgnoreCase( "all" ) )
+			if ( parameters.equals( "all" ) )
 				StaticEntity.getClient().refreshSession();
-			else if ( parameters.startsWith( "status" ) || parameters.startsWith( "effects" ) )
+			else if ( parameters.equals( "status" ) || parameters.equals( "effects" ) )
 				(new CharsheetRequest( StaticEntity.getClient() )).run();
-			else if ( parameters.startsWith( "gear" ) || parameters.startsWith( "equipment" ) || parameters.startsWith( "outfit" ) )
+			else if ( parameters.equals( "gear" ) || parameters.equals( "equipment" ) || parameters.equals( "outfit" ) )
 				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.EQUIPMENT )).run();
 			else if ( parameters.startsWith( "inv" ) )
 				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET )).run();
-			else if ( parameters.startsWith( "storage" ) )
+			else if ( parameters.equals( "storage" ) )
 				(new ItemStorageRequest( StaticEntity.getClient() )).run();
-			else if ( parameters.startsWith( "familiar" ) || parameters.startsWith( "terrarium" ) )
+			else if ( parameters.equals( "familiar" ) || parameters.equals( "terrarium" ) )
 				(new FamiliarRequest( StaticEntity.getClient() )).run();
 
 			return;
@@ -1134,7 +1132,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Another popular command involves changing
 		// a specific piece of equipment.
 
-		if ( command.startsWith( "equip" ) || command.startsWith( "wear" ) || command.startsWith( "wield" ) )
+		if ( command.equals( "equip" ) || command.equals( "wear" ) || command.equals( "wield" ) )
 		{
 			executeEquipCommand( parameters );
 			return;
@@ -1143,7 +1141,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		// You can remove a specific piece of equipment.
 
-		if ( command.startsWith( "unequip" ) || command.startsWith( "remove" ) )
+		if ( command.equals( "unequip" ) || command.equals( "remove" ) )
 		{
 			executeUnequipCommand( parameters );
 			return;
@@ -1152,9 +1150,9 @@ public class KoLmafiaCLI extends KoLmafia
 		// Another popular command involves changing
 		// your current familiar.
 
-		if ( command.startsWith( "familiar" ) )
+		if ( command.equals( "familiar" ) )
 		{
-			if ( parameters.startsWith( "list" ) )
+			if ( parameters.equals( "list" ) )
 			{
 				executePrintCommand( "familiars " + parameters.substring(4).trim() );
 				return;
@@ -1191,9 +1189,9 @@ public class KoLmafiaCLI extends KoLmafia
 		// Another popular command involves managing
 		// your player's closet!  Which can be fun.
 
-		if ( command.startsWith( "closet" ) )
+		if ( command.equals( "closet" ) )
 		{
-			if ( parameters.startsWith( "list" ) )
+			if ( parameters.equals( "list" ) )
 			{
 				executePrintCommand( "closet " + parameters.substring(4).trim() );
 				return;
@@ -1220,9 +1218,9 @@ public class KoLmafiaCLI extends KoLmafia
 		// Yet another popular command involves changing
 		// your outfit.
 
-		if ( command.startsWith( "outfit" ) )
+		if ( command.equals( "outfit" ) )
 		{
-			if ( parameters.startsWith( "list" ) )
+			if ( parameters.equals( "list" ) )
 			{
 				executePrintCommand( "outfits " + parameters.substring(4).trim() );
 				return;
@@ -1364,7 +1362,7 @@ public class KoLmafiaCLI extends KoLmafia
 			command = "skills";
 
 		if ( command.startsWith( "inv" ) || command.equals( "closet" ) || command.equals( "session" ) || command.equals( "summary" ) ||
-			command.equals( "effects" ) || command.startsWith( "status" ) || command.equals( "encounters" ) || command.equals( "skills" ) )
+			command.equals( "effects" ) || command.equals( "status" ) || command.equals( "encounters" ) || command.equals( "skills" ) )
 		{
 			executePrintCommand( command + " " + parameters );
 			return;
@@ -1497,7 +1495,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE ).matcher( scriptFile.getPath() ).find() )
 			{
-				if ( previousLine.startsWith( "validate " ) || previousLine.startsWith( "verify" ) )
+				if ( previousLine.startsWith( "validate" ) || previousLine.startsWith( "verify" ) )
 				{
 					advancedHandler.validate( scriptFile );
 					return;
