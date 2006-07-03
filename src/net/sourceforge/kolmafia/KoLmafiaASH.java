@@ -2566,7 +2566,7 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "trade_bounty_hunter", BOOLEAN_TYPE, params ) );
 
-		params = new ScriptType[] { ITEM_TYPE };
+		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "trade_trapper", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
@@ -3659,9 +3659,9 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
-		public ScriptValue trade_trapper( ScriptVariable item )
+		public ScriptValue trade_trapper( ScriptVariable count, ScriptVariable item )
 		{
-			DEFAULT_SHELL.executeLine( "trapper * " + item.toStringValue() );
+			DEFAULT_SHELL.executeLine( "trapper " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
