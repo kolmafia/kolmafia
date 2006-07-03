@@ -138,14 +138,23 @@ public abstract class HPRestoreItemList extends StaticEntity
 			if ( this == REMEDY )
 			{
 				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
-					(new UneffectRequest( client, KoLAdventure.BEATEN_UP )).run();
+				{
+					boolean canUneffect = KoLCharacter.canInteract() && StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" );
+					canUneffect |= UneffectRequest.REMEDY.getCount( KoLCharacter.getInventory() ) > 0;
+
+					if ( canUneffect && KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
+						(new UneffectRequest( client, KoLAdventure.BEATEN_UP )).run();
+				}
 
 				return;
 			}
 
 			if ( this == TINY_HOUSE )
 			{
-				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
+				boolean canUneffect = KoLCharacter.canInteract() && StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" );
+				canUneffect |= UneffectRequest.TINY_HOUSE.getCount( KoLCharacter.getInventory() ) > 0;
+
+				if ( canUneffect && KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
 					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", 1 ) )).run();
 
 				return;
