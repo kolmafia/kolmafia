@@ -55,6 +55,7 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 import java.util.ArrayList;
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
@@ -2566,6 +2567,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "trade_bounty_hunter", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "trade_trapper", BOOLEAN_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "trade_trapper", BOOLEAN_TYPE, params ) );
 
@@ -2844,18 +2848,19 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptUserDefinedFunction replaceFunction( ScriptUserDefinedFunction f ) throws AdvancedScriptException
 		{
 			String functionName = f.getName();
-			ScriptUserDefinedFunction current = (ScriptUserDefinedFunction)functions.findFunction( functionName );
+			ScriptUserDefinedFunction current = (ScriptUserDefinedFunction) functions.findFunction( functionName );
 			if ( current != null )
 			{
 				// The existing function must be a forward
 				// reference.
+
 				if ( current.getScope() != null )
 					throw new AdvancedScriptException( "Function " + functionName + " already defined " + getLineAndFile() );
-
 
 				// The types of the new function's parameters
 				// must exactly match the types of the existing
 				// function's parameters
+
 				ScriptVariableReference p1 = current.getFirstParam();
 				ScriptVariableReference p2 = f.getFirstParam();
 				int paramCount = 1;
@@ -2869,6 +2874,7 @@ public class KoLmafiaASH extends StaticEntity
 				}
 
 				// There must be the same number of parameters
+
 				if ( p1 != null )
 					throw new AdvancedScriptException( "Function " + functionName + " previously declared to have more parameters " + getLineAndFile() );
 
@@ -2884,9 +2890,17 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptFunction findFunction( String name, ScriptExpressionList params ) throws AdvancedScriptException
 		{
-			ScriptFunction current = functions.findFunction( name );
-			if ( current != null )
+			String errorMessage = null;
+System.out.println( name );
+
+			int currentIndex = functions.indexOf( name, 0 );
+System.out.println( currentIndex );
+			while ( currentIndex != -1 )
 			{
+				errorMessage = null;
+				ScriptFunction current = functions.findFunction( name, currentIndex );
+				currentIndex = functions.indexOf( name, currentIndex + 1 );
+
 				if ( params == null )
 					return current;
 
@@ -2894,21 +2908,25 @@ public class KoLmafiaASH extends StaticEntity
 				ScriptExpression currentValue = params.getFirstExpression();
 				int paramIndex = 1;
 
-				while ( currentParam != null && currentValue != null )
+				while ( errorMessage == null && currentParam != null && currentValue != null )
 				{
 					if ( !validCoercion( currentParam.getType(), currentValue.getType(), "parameter" ) )
-						throw new AdvancedScriptException( "Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile() );
+						errorMessage = "Illegal parameter #" + paramIndex + " for function " + name + ", got " + currentValue.getType() + ", need " + currentParam.getType() + " " + getLineAndFile();
 
 					++paramIndex;
-					currentParam = current.getNextParam( );
+					currentParam = current.getNextParam();
 					currentValue = params.getNextExpression();
 				}
 
-				if ( currentParam != null || currentValue != null )
-					throw new AdvancedScriptException( "Illegal amount of parameters for function " + name + " " + getLineAndFile() );
+				if ( errorMessage == null && (currentParam != null || currentValue != null) )
+					errorMessage = "Illegal amount of parameters for function " + name + " " + getLineAndFile();
 
-				return current;
+				if ( errorMessage == null )
+					return current;
 			}
+
+			if ( errorMessage != null )
+				throw new AdvancedScriptException( errorMessage );
 
 			if ( parentScope != null )
 				return parentScope.findFunction( name, params );
@@ -2984,7 +3002,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private static class ScriptSymbolTable extends SortedListModel
+	private static class ScriptSymbolTable extends Vector
 	{
 		private int searchIndex = -1;
 
@@ -2993,20 +3011,20 @@ public class KoLmafiaASH extends StaticEntity
 			if ( findSymbol( n.getName() ) != null )
 			     return false;
 
-			add( n );
+			super.addElement( n );
 			return true;
 		}
 
-		public boolean removeElement( ScriptSymbol n )
-		{	return remove( n );
-		}
-
-		ScriptSymbol findSymbol( String name )
+		public ScriptSymbol findSymbol( String name )
 		{
-			ScriptSymbol test = new ScriptSymbol( name );
-			int index = indexOf( test );
-			if ( index >= 0 )
-				return (ScriptSymbol)get( index );
+			ScriptSymbol currentSymbol = null;
+			for ( int i = 0; i < size(); ++i )
+			{
+				currentSymbol = (ScriptSymbol) get(i);
+				if ( currentSymbol.getName().equalsIgnoreCase( name ) )
+					return currentSymbol;
+			}
+
 			return null;
 		}
 
@@ -3659,6 +3677,12 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
+		public ScriptValue trade_trapper( ScriptVariable item )
+		{
+			DEFAULT_SHELL.executeLine( "trapper " + item.toStringValue() );
+			return continueValue();
+		}
+
 		public ScriptValue trade_trapper( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "trapper " + count.intValue() + " " + item.toStringValue() );
@@ -3947,15 +3971,32 @@ public class KoLmafiaASH extends StaticEntity
 	private static class ScriptFunctionList extends ScriptSymbolTable
 	{
 		public boolean addElement( ScriptFunction n )
-		{	return super.addElement( n );
+		{
+			super.add( n );
+			return true;
 		}
 
-		public boolean removeElement( ScriptFunction n )
-		{	return super.removeElement( n );
+		public int indexOf( String name )
+		{	return indexOf( name, 0 );
+		}
+
+		public int indexOf( String name, int searchIndex )
+		{
+			for ( int i = searchIndex; i < size(); ++i )
+				if ( ((ScriptFunction) get(i)).getName().equalsIgnoreCase( name ) )
+					return i;
+
+			return -1;
 		}
 
 		public ScriptFunction findFunction( String name )
-		{	return (ScriptFunction) super.findSymbol( name );
+		{	return findFunction( name, 0 );
+		}
+
+		public ScriptFunction findFunction( String name, int searchIndex )
+		{
+			int index = indexOf( name, searchIndex );
+			return index < 0 ? null : (ScriptFunction) get( index );
 		}
 	}
 

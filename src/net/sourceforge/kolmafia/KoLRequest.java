@@ -110,6 +110,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected boolean statusChanged;
 	protected boolean processedResults;
 
+	private int readInputLength;
+	private int totalInputLength;
+
 	protected int responseCode;
 	protected String responseText;
 	protected String fullResponse;
@@ -518,11 +521,11 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( getURLString().indexOf( "fight.php?action=plink" ) != -1 )
 		{
-			String oldAction = StaticEntity.getProperty( "battleAction" ); 
+			String oldAction = StaticEntity.getProperty( "battleAction" );
 			StaticEntity.setProperty( "battleAction", "attack" );
 			FightRequest request = new FightRequest( client, false );
 			request.run();
-			
+
 			StaticEntity.setProperty( "battleAction", oldAction );
 
 			this.responseCode = request.responseCode;
@@ -543,6 +546,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void execute()
 	{
+		readInputLength = 0;
+		totalInputLength = 0;
+
 		client.setCurrentRequest( this );
 
 		String commandForm = getCommandForm();
@@ -808,7 +814,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	private boolean retrieveServerReply()
 	{
 		InputStream istream;
-		
+
 		try
 		{
 			// In the event of redirects, the appropriate flags should be set
@@ -829,6 +835,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			istream = formConnection.getInputStream();
 			responseCode = formConnection.getResponseCode();
 			redirectLocation = formConnection.getHeaderField( "Location" );
+			totalInputLength = StaticEntity.parseInt( formConnection.getHeaderField( "Content-Length" ) );
 		}
 		catch ( Exception e )
 		{
@@ -964,7 +971,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				{
 					if ( !(this instanceof ChatRequest) )
 						KoLmafia.getDebugStream().println( "Encountered MySQL error.  Retrying..." );
-					
+
 					return false;
 				}
 
@@ -1030,9 +1037,12 @@ public class KoLRequest implements Runnable, KoLConstants
 		istream = null;
 		return shouldStop;
 	}
-	
-	private static String read( InputStream istream )
+
+	private String read( InputStream istream )
 	{
+		if ( totalInputLength != 0 && readInputLength >= totalInputLength )
+			return null;
+
 		try
 		{
 			int available = istream.available();
@@ -1041,12 +1051,14 @@ public class KoLRequest implements Runnable, KoLConstants
 				available = istream.available();
 				KoLRequest.delay( 100 );
 			}
-			
+
 			if ( available == 0 )
 				return null;
-			
+
 			byte [] array = new byte[ available ];
 			istream.read( array );
+
+			readInputLength += available;
 			return new String( array );
 		}
 		catch ( Exception e )
@@ -1233,7 +1245,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	private void handleChoiceResponse( KoLRequest request )
 	{
 		client.processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
-		
+
 		String text = request.responseText;
 		Matcher encounterMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( text );
 		if ( encounterMatcher.find() )

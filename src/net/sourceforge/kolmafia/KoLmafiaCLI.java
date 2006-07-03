@@ -333,7 +333,7 @@ public class KoLmafiaCLI extends KoLmafia
 	{
 		if ( refusesContinue() || line.trim().length() == 0 )
 			return;
-		
+
 		// If it gets this far, that means the continue
 		// state can be reset.
 
@@ -631,7 +631,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Next, print out the moon phase, if the user
 		// wishes to know what moon phase it is.
 
-		if ( command.equals( "moon" ) )
+		if ( command.startsWith( "moon" ) )
 		{
 			updateDisplay( "Ronald: " + MoonPhaseDatabase.getRonaldPhaseAsString() );
 			updateDisplay( "Grimace: " + MoonPhaseDatabase.getGrimacePhaseAsString() );
@@ -3254,7 +3254,8 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 
 		int itemID = item.getItemID();
-		int tradeCount = item.getCount();
+		int tradeCount = Character.isDigit( parameters.charAt(0) ) ? item.getCount() :
+			TrapperRequest.YETI_FUR.getCount( KoLCharacter.getInventory() );
 
 		// Ensure that the requested item is available from the trapper
 		for ( int i = 0; i < trapperItemNumbers.length; ++i )
