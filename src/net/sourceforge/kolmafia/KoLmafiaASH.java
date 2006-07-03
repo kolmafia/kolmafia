@@ -2891,10 +2891,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptFunction findFunction( String name, ScriptExpressionList params ) throws AdvancedScriptException
 		{
 			String errorMessage = null;
-System.out.println( name );
-
 			int currentIndex = functions.indexOf( name, 0 );
-System.out.println( currentIndex );
 			while ( currentIndex != -1 )
 			{
 				errorMessage = null;
@@ -3173,6 +3170,7 @@ System.out.println( currentIndex );
 				// This should not happen; it denotes a coding
 				// error that must be fixed before release. So,
 				// simply print the bogus function to stdout
+
 				System.out.println( "No method found for built-in function: " + name );
 			}
 		}
