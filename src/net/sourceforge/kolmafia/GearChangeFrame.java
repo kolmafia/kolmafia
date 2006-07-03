@@ -56,9 +56,11 @@ import java.awt.event.FocusListener;
 import java.lang.reflect.Constructor;
 
 // utilities
+import java.util.List;
 import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * An extension of <code>KoLFrame</code> used to display the character
@@ -76,7 +78,8 @@ public class GearChangeFrame extends KoLFrame
 
 	private EquipPanel equip;
 	private ChangeComboBox [] equipment;
-	private LockableListModel [] equipmentLists;
+	private SortedListModel weapons = new SortedListModel();
+	private SortedListModel offhands = new SortedListModel();
 	private ChangeComboBox outfitSelect, familiarSelect;
 
 	public GearChangeFrame()
@@ -84,10 +87,20 @@ public class GearChangeFrame extends KoLFrame
 		super( "Gear Changer" );
 
 		equipment = new ChangeComboBox[9];
-		equipmentLists = KoLCharacter.getEquipmentLists();
 
-		for ( int i = 0; i < 9; ++i )
-			equipment[i] = new ChangeComboBox( equipmentLists[i] );
+		LockableListModel [] lists = KoLCharacter.getEquipmentLists();
+		// We maintain our own lists of valid weapons and offhand items
+		for ( int i = 0; i < equipment.length; ++i )
+		{
+			LockableListModel list;
+			if ( i == KoLCharacter.WEAPON )
+				list = weapons;
+			else if ( i == KoLCharacter.OFFHAND )
+				list = offhands;
+			else
+				list = lists[i];
+			equipment[i] = new ChangeComboBox( list );
+		}
 
 		familiarSelect = new ChangeComboBox( KoLCharacter.getFamiliarList() );
 		outfitSelect = new ChangeComboBox( KoLCharacter.getOutfits() );
@@ -95,6 +108,7 @@ public class GearChangeFrame extends KoLFrame
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( equip = new EquipPanel(), "" );
 		KoLCharacter.updateEquipmentLists();
+		ensureValidSelections();
 	}
 
 	private class EquipPanel extends KoLPanel
@@ -144,18 +158,23 @@ public class GearChangeFrame extends KoLFrame
 		{
 			ArrayList requestList = new ArrayList();
 
-			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) == 1 &&
-				EquipmentDatabase.getHands( pieces[ KoLCharacter.WEAPON ] ) > 1 )
+			String offhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
+			String weapon = KoLCharacter.getEquipmentName( pieces[ KoLCharacter.WEAPON ] );
+
+			// If current offhand item is not compatible with new
+			// weapon, unequip it first.
+			if ( EquipmentDatabase.getHands( offhand ) == 1 &&
+			     ( EquipmentDatabase.getHands( weapon ) > 1 ||
+			       EquipmentDatabase.isRanged( weapon) != EquipmentDatabase.isRanged( offhand ) ) )
 			{
-				requestList.add( new EquipmentRequest( StaticEntity.getClient(), pieces[ KoLCharacter.OFFHAND ], KoLCharacter.OFFHAND ) );
-				pieces[ KoLCharacter.OFFHAND ] = null;
+				requestList.add( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
 			}
 
 			for ( int i = 0; i < pieces.length; ++i )
 			{
 				if ( pieces[i] != null )
 				{
-					requestList.add( new EquipmentRequest( StaticEntity.getClient(), pieces[i], i ) );
+					requestList.add( new EquipmentRequest( StaticEntity.getClient(), pieces[i], i, true ) );
 					pieces[i] = null;
 				}
 			}
@@ -224,19 +243,45 @@ public class GearChangeFrame extends KoLFrame
 	{
 		equipment[ KoLCharacter.SHIRT ].setEnabled( KoLCharacter.hasSkill( "Torso Awaregness" ) );
 
-		if ( KoLCharacter.weaponHandedness() < 2 )
-		{
-			equipment[ KoLCharacter.OFFHAND ].setEnabled( true );
-			String offhandItem = pieces[ KoLCharacter.OFFHAND ] == null ?
-				KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) : pieces[ KoLCharacter.OFFHAND ];
+		String weaponItem = pieces[ KoLCharacter.WEAPON ];
+		String currentWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
+		if ( weaponItem == null )
+			weaponItem = currentWeapon;
 
-			KoLCharacter.updateEquipmentList( KoLCharacter.OFFHAND, offhandItem );
+		List weaponItems = validWeaponItems( currentWeapon );
+		updateEquipmentList( weapons, weaponItems, weaponItem );
+
+		String weapon = KoLCharacter.getEquipmentName( weaponItem );
+		int weaponHands = EquipmentDatabase.getHands( weapon );
+		if ( weaponHands > 1 )
+		{
+			// Equipping 2 or more handed weapon: nothing in off-hand
+			equipment[ KoLCharacter.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
+			pieces[ KoLCharacter.OFFHAND ] = null;
+			equipment[ KoLCharacter.OFFHAND ].setEnabled( false );
 		}
 		else
 		{
-			equipment[ KoLCharacter.OFFHAND ].setSelectedItem( EquipmentRequest.UNEQUIP );
-			pieces[ KoLCharacter.OFFHAND ] = KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).equals( EquipmentRequest.UNEQUIP ) ? null : EquipmentRequest.UNEQUIP;
-			equipment[ KoLCharacter.OFFHAND ].setEnabled( false );
+			String offhandItem = pieces[ KoLCharacter.OFFHAND ];
+			String currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+			if ( offhandItem == null )
+				offhandItem = currentOffhand;
+
+			String offhand = KoLCharacter.getEquipmentName( offhandItem );
+			if ( EquipmentDatabase.getHands( offhand ) > 0 )
+			{
+				// Weapon in offhand. Must have compatible
+				// weapon in weapon hand
+				if ( weaponHands == 0 || EquipmentDatabase.isRanged( weapon ) != EquipmentDatabase.isRanged( offhand ) )
+				{
+					pieces[ KoLCharacter.OFFHAND ] = null;
+					offhandItem = EquipmentRequest.UNEQUIP;
+				}
+			}
+
+			List offhandItems = validOffhandItems( weapon, offhandItem );
+			updateEquipmentList( offhands, offhandItems, offhandItem );
+			equipment[ KoLCharacter.OFFHAND ].setEnabled( true );
 		}
 
 		boolean enableOutfits = true;
@@ -246,4 +291,109 @@ public class GearChangeFrame extends KoLFrame
 		outfitSelect.setEnabled( enableOutfits );
 		outfitButton.setEnabled( enableOutfits );
 	}
+
+	private static List validWeaponItems( String currentWeapon )
+	{
+		List items = new ArrayList();
+
+		// Search inventory for weapons
+                
+		for ( int i = 0; i < KoLCharacter.getInventory().size(); ++i )
+		{
+			String currentItem = ((AdventureResult)KoLCharacter.getInventory().get(i)).getName();
+			int type = TradeableItemDatabase.getConsumptionType( currentItem );
+
+			if ( type != ConsumeItemRequest.EQUIP_WEAPON )
+				continue;
+
+			// Make sure we meet requirements
+			if ( !EquipmentDatabase.canEquip( currentItem ) )
+				continue;
+
+			items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
+		}
+
+		// Add the current weapon
+		if ( !items.contains( currentWeapon ) )
+			items.add( currentWeapon );
+
+		// Add "(none)"
+		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
+			items.add( EquipmentRequest.UNEQUIP );
+
+		return items;
+	}
+
+	private static List validOffhandItems( String weapon, String offhandItem )
+	{
+		List items = new ArrayList();
+
+		// Find all offhand items that are compatible with the selected
+		// weapon.
+
+		// We can have weapons if we can dual wield and there is
+		// one-handed weapon in the main hand
+		boolean weapons = EquipmentDatabase.getHands( weapon ) == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
+
+		// The type of weapon in the off hand - ranged or melee - must
+		// agree with the weapon in the main hand
+		boolean ranged = EquipmentDatabase.isRanged( weapon );
+
+		// Search inventory for suitable items
+		
+		for ( int i = 0; i < KoLCharacter.getInventory().size(); ++i )
+		{
+			String currentItem = ((AdventureResult)KoLCharacter.getInventory().get(i)).getName();
+			if ( validOffhandItem( currentItem, weapons, ranged ) )
+				items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
+		}
+
+		// Add the selected off-hand item
+		if ( !items.contains( offhandItem ) )
+			items.add( offhandItem );
+
+		// Possibly add the current off-hand item
+		String currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+		if ( !items.contains( currentOffhand ) &&
+		     validOffhandItem( KoLCharacter.getEquipmentName( currentOffhand ), weapons, ranged )  )
+			items.add( currentOffhand );
+
+		// Add "(none)"
+		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
+			items.add( EquipmentRequest.UNEQUIP );
+
+		return items;
+	}
+
+	private static boolean validOffhandItem( String currentItem, boolean weapons, boolean ranged )
+	{
+		switch ( TradeableItemDatabase.getConsumptionType( currentItem ) )
+		{
+		case ConsumeItemRequest.EQUIP_WEAPON:
+			if ( !weapons )
+				return false;
+			if ( EquipmentDatabase.getHands( currentItem ) != 1 )
+				return false;
+			if ( ranged != EquipmentDatabase.isRanged( currentItem ) )
+				return false;
+			// Fall through
+		case ConsumeItemRequest.EQUIP_OFFHAND:
+			// Make sure we meet requirements
+			if ( EquipmentDatabase.canEquip( currentItem ) )
+				return true;
+			break;
+		}
+		return false;
+	}
+
+	private void updateEquipmentList( LockableListModel currentList, List newItems, String equippedItem )
+	{
+		if ( currentList.equals( newItems ) )
+			return;
+
+		currentList.clear();
+		currentList.addAll( newItems );
+		currentList.setSelectedItem( equippedItem );
+        }
+
 }

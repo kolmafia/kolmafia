@@ -174,7 +174,6 @@ public class ItemStorageRequest extends SendMessageRequest
 					AdventureResult.addResultToList( KoLCharacter.getInventory(), item );
 					AdventureResult.addResultToList( StaticEntity.getClient().getSessionTally(), item );
 
-					KoLCharacter.refreshCalculatedLists();
 				}
 
 				break;
