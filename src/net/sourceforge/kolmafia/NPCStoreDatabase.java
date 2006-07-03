@@ -107,7 +107,7 @@ public class NPCStoreDatabase extends KoLDatabase
 
 		if ( !validate )
 			return itemRequest;
-		
+
 		if ( storeID.equals( "1" ) )
 		{
 			if ( !classType.startsWith( "Di" ) && !classType.startsWith( "Ac" ) )
@@ -135,7 +135,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		// bugbear outfit.  Of course, some items are available from the
 		// Degrassi knoll bakery, so fallback on that when possible.
 
-		if ( storeID.equals( "b" ) && (!EquipmentDatabase.hasOutfit( 1 ) || KoLCharacter.canInteract()) )
+		if ( storeID.equals( "b" ) && !EquipmentDatabase.hasOutfit( 1 ) )
 		{
 			itemIndex = storeTable[4].lastIndexOf( itemID );
 			storeID = (String) storeTable[0].get( itemIndex );
@@ -147,7 +147,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		// If the person is not in a muscle sign, then items from the
 		// Degrassi Knoll are not available.
 
-		if ( (storeID.equals("4") || storeID.equals( "5" )) && !KoLCharacter.inMuscleSign() )
+		if ( (storeID.equals( "4" ) || storeID.equals( "5" )) && !KoLCharacter.inMuscleSign() )
 			return null;
 
 		// If the person is not in a mysticality sign, then items from the
@@ -167,7 +167,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		// store, then the item is not available if they don't have the
 		// hippy outfit.
 
-		if ( storeID.equals( "h" ) && (!EquipmentDatabase.hasOutfit( 2 ) || KoLCharacter.canInteract()) )
+		if ( storeID.equals( "h" ) && !EquipmentDatabase.hasOutfit( 2 ) )
 			return null;
 
 		// If it gets this far, then the item is definitely available
@@ -183,5 +183,5 @@ public class NPCStoreDatabase extends KoLDatabase
 	public static final boolean contains( String itemName, boolean validate )
 	{	return getPurchaseRequest( itemName, validate ) != null;
 	}
-	
+
 }
