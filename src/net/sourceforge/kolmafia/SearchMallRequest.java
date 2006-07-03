@@ -215,9 +215,9 @@ public class SearchMallRequest extends KoLRequest
 			// are available from NPC stores, since that's all that
 			// can be used in this circumstance.
 
-			boolean npcStoreExists = false;
+			boolean npcStoreExists = true;
 			for ( int i = 0; i < itemNames.size(); ++i )
-				npcStoreExists |= NPCStoreDatabase.contains( (String) itemNames.get(i) );
+				npcStoreExists &= NPCStoreDatabase.contains( (String) itemNames.get(i) );
 
 			if ( npcStoreExists )
 			{
@@ -374,11 +374,12 @@ public class SearchMallRequest extends KoLRequest
 			// you need to discard it.
 
 			parsedResults.nextToken();
-
-			// Now, check to see if you should add the NPC
-			// store at the current time
-
-			results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, canPurchase ) );
+			
+			// Only add mall store results if the NPC store option
+			// is not available.
+			
+			if ( !NPCStoreDatabase.contains( itemName ) )
+				results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, canPurchase ) );
 		}
 
 		// Once the search is complete, add in any remaining NPC
