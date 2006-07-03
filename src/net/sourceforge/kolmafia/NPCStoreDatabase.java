@@ -81,6 +81,10 @@ public class NPCStoreDatabase extends KoLDatabase
 		}
 	}
 
+	public static final MallPurchaseRequest getPurchaseRequest( String itemName )
+	{	return getPurchaseRequest( itemName, true );
+	}
+
 	public static final MallPurchaseRequest getPurchaseRequest( String itemName, boolean validate )
 	{
 		Integer itemID = new Integer( TradeableItemDatabase.getItemID( itemName ) );
