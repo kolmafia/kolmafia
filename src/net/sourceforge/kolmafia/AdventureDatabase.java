@@ -150,17 +150,17 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Yeti Nother Hippy
 		{ { "choiceAdventure15" }, { "eXtreme Slope 1" },
-		  { "eXtreme mittens", "eXtreme scarf", "75 meat", "Complete the outfit" },
+		  { "eXtreme mittens", "eXtreme scarf", "200 meat", "Complete the outfit" },
 		  { "399", "355", null } },
 
 		// Saint Beernard
 		{ { "choiceAdventure16" }, { "eXtreme Slope 2" },
-		  { "snowboarder pants", "eXtreme scarf", "75 meat", "Complete the outfit" },
+		  { "snowboarder pants", "eXtreme scarf", "200 meat", "Complete the outfit" },
 		  { "356", "355", null } },
 
 		// Generic Teen Comedy
 		{ { "choiceAdventure17" }, { "eXtreme Slope 3" },
-		  { "eXtreme mittens", "snowboarder pants", "75 meat", "Complete the outfit" },
+		  { "eXtreme mittens", "snowboarder pants", "200 meat", "Complete the outfit" },
 		  { "399", "356", null } },
 
 		// A Flat Miner
