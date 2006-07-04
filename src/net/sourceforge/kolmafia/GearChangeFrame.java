@@ -158,16 +158,21 @@ public class GearChangeFrame extends KoLFrame
 		{
 			ArrayList requestList = new ArrayList();
 
-			String offhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
-			String weapon = KoLCharacter.getEquipmentName( pieces[ KoLCharacter.WEAPON ] );
-
 			// If current offhand item is not compatible with new
 			// weapon, unequip it first.
-			if ( EquipmentDatabase.getHands( offhand ) == 1 &&
-			     ( EquipmentDatabase.getHands( weapon ) > 1 ||
-			       EquipmentDatabase.isRanged( weapon) != EquipmentDatabase.isRanged( offhand ) ) )
+			String offhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
+			if ( EquipmentDatabase.getHands( offhand ) == 1 )
 			{
-				requestList.add( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
+				String weapon = pieces[ KoLCharacter.WEAPON ];
+				if ( weapon != null )
+				{
+					weapon = KoLCharacter.getEquipmentName( weapon );
+					if ( EquipmentDatabase.getHands( weapon ) > 1 ||
+					     EquipmentDatabase.isRanged( weapon) != EquipmentDatabase.isRanged( offhand ) )
+					{
+						requestList.add( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
+					}
+				}
 			}
 
 			for ( int i = 0; i < pieces.length; ++i )
