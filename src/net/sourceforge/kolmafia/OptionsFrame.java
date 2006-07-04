@@ -112,7 +112,7 @@ public class OptionsFrame extends KoLFrame
 
 	private JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect;
 	private JCheckBox [] mpRestoreCheckbox;
-	
+
 
 	/**
 	 * Constructs a new <code>OptionsFrame</code> that will be
@@ -129,17 +129,17 @@ public class OptionsFrame extends KoLFrame
 		tabs = new JTabbedPane();
 
 		// Components of the general tab
-		
+
 		JPanel generalPanel = new JPanel();
 		BoxLayout generalLayout = new BoxLayout( generalPanel, BoxLayout.Y_AXIS );
 		generalPanel.setLayout( generalLayout );
-		
+
 		generalPanel.add( new GeneralOptionsPanel() );
 		generalPanel.add( new ItemOptionsPanel() );
 		generalPanel.add( new RelayOptionsPanel() );
 
 		// Components of restoration
-		
+
 		JPanel restorePanel = new JPanel();
 		restorePanel.setLayout( new BoxLayout( restorePanel, BoxLayout.Y_AXIS ) );
 
@@ -147,7 +147,7 @@ public class OptionsFrame extends KoLFrame
 		restorePanel.add( new ManaOptionsPanel() );
 
 		// Components of custom combat
-		
+
 		displayTree = new JTree();
 		displayModel = (DefaultTreeModel) displayTree.getModel();
 
@@ -161,12 +161,12 @@ public class OptionsFrame extends KoLFrame
 		combatPanel = new JPanel( combatCards );
 		combatPanel.add( "tree", new CustomCombatTreePanel() );
 		combatPanel.add( "editor", new CustomCombatPanel() );
-		
+
 		addTab( "General", generalPanel );
-		addTab( "Scriptbar", new ScriptButtonPanel() );
+		tabs.addTab( "Scriptbar", new ScriptButtonPanel() );
 		addTab( "Choices", new ChoiceOptionsPanel() );
 		addTab( "Restores", restorePanel );
-		addTab( "Combats", combatPanel );
+		tabs.addTab( "Combats", combatPanel );
 		addTab( "Moods", new MoodSwingEditorPanel() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
@@ -243,7 +243,7 @@ public class OptionsFrame extends KoLFrame
 			{ "sortAdventures", "Sort adventure list display alphabetically by name" },
 			{ "showAdventureZone", "Include name of zone in adventure list display" }
 		};
-		
+
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
 		 * place for the users to select their desired server and for them
@@ -907,7 +907,7 @@ public class OptionsFrame extends KoLFrame
 			refreshCombatSettings();
 		}
 	}
-	
+
 	private class MoodSwingEditorPanel extends KoLPanel
 	{
 		private JRadioButton [] activeOptions;
