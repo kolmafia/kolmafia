@@ -195,6 +195,8 @@ public class KoLmafiaGUI extends KoLmafia
 
 			return;
 		}
+		else if ( frameName.equals( "RestoreOptionsFrame" ) )
+			frameName = "OptionsFrame";
 
 		try
 		{

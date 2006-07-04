@@ -447,7 +447,6 @@ public class LoginFrame extends KoLFrame
 
 			{ "Meat Manager", "MeatManageFrame" },
 			{ "Skill Casting", "SkillBuffFrame" },
-			{ "Auto Restore", "RestoreOptionsFrame" },
 
 			{ "Buffbot Manager", "BuffBotFrame" },
 			{ "Purchase Buffs", "BuffRequestFrame" },
@@ -543,6 +542,8 @@ public class LoginFrame extends KoLFrame
 				if ( !startupOptions[i].isSelected() && !interfaceOptions[i].isSelected() )
 					nullOptions[i].setSelected( true );
 			}
+
+			actionConfirmed();
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
