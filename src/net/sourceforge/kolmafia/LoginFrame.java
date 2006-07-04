@@ -464,6 +464,7 @@ public class LoginFrame extends KoLFrame
 			{ "Encyclopedia", "ExamineItemsFrame" },
 
 			{ "The Meatsink", "MoneyMakingGameFrame" },
+			{ "User Preferences", "OptionsFrame" }
 		};
 
 		private InterfaceRadioButton [] nullOptions;

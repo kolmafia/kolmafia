@@ -242,8 +242,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// If the gui is limited to one frame, then make this frame
 			// a tab and remove any extra tabs created this way perviouly.
 
-			if ( !(this.creation instanceof LoginFrame || this.creation instanceof OptionsFrame) &&
-				StaticEntity.getProperty( "guiUsesOneWindow" ).equals( "true" ) )
+			if ( !(this.creation instanceof LoginFrame) && StaticEntity.getProperty( "guiUsesOneWindow" ).equals( "true" ) )
 			{
 				if ( !appearsInTab )
 					KoLDesktop.removeExtraTabs();
