@@ -142,7 +142,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		statusMenu.add( new JSeparator() );
 
 		statusMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Combat Config", RestoreOptionsFrame.class ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Mini-Browser", RequestFrame.class ) );
 		statusMenu.add( new InvocationMenuItem( "Relay Browser", StaticEntity.getClient(), "startRelayServer" ) );
 
