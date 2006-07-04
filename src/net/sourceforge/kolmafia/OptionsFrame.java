@@ -238,6 +238,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "showAllRequests", "Show requests in mini-browser" },
 			{ "serverFriendly", "Use server-friendlier request speed" },
+			{ "useNonBlockingReader", "Use non-blocking response readers (risky)" },
 			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
 
 			{ "sortAdventures", "Sort adventure list display alphabetically by name" },

@@ -233,6 +233,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "showClosetDrivenCreations", "true" );
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
+		CLIENT_SETTINGS.put( "useNonBlockingReader", "false" );
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );
 		CLIENT_SETTINGS.put( "usePopupContacts", "1" );
 		CLIENT_SETTINGS.put( "useTabbedChat", "1" );

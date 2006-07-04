@@ -813,7 +813,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean retrieveServerReply()
 	{
-		InputStream istream;
+		InputStream istream = null;
+		BufferedReader reader = null;
 
 		try
 		{
@@ -833,6 +834,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			// it will be stored here.
 
 			istream = formConnection.getInputStream();
+
+			if ( StaticEntity.getProperty( "useNonBlockingReader" ).equals( "false" ) )
+				reader = new BufferedReader( new InputStreamReader( istream ) );
+
 			responseCode = formConnection.getResponseCode();
 			redirectLocation = formConnection.getHeaderField( "Location" );
 			totalInputLength = StaticEntity.parseInt( formConnection.getHeaderField( "Content-Length" ) );
@@ -948,7 +953,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			try
 			{
-				line = read( istream );
+				line = reader == null ? read( istream ) : reader.readLine();
 
 				// There's a chance that there was no content in the reply
 				// (header-only reply) - if that's the case, the line will
@@ -990,8 +995,10 @@ public class KoLRequest implements Runnable, KoLConstants
 					do
 					{
 						replyBuffer.append( line );
+						if ( reader != null )
+							replyBuffer.append( LINE_BREAK );
 					}
-					while ( (line = read( istream )) != null );
+					while ( (line = reader == null ? read( istream ) : reader.readLine()) != null );
 				}
 			}
 			catch ( Exception e )
