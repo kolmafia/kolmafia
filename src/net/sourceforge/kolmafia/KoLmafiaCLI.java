@@ -420,6 +420,69 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Allow access to individual frames so you can
+		// do things in the GUI.
+
+		if ( command.startsWith( "chat" ) )
+		{
+			KoLMessenger.initialize();
+			return;
+		}
+
+		if ( command.startsWith( "mail" ) )
+		{
+			KoLmafiaGUI.constructFrame( "MailboxFrame" );
+			return;
+		}
+
+		if ( command.startsWith( "event" ) )
+		{
+			KoLmafiaGUI.constructFrame( "EventsFrame" );
+			return;
+		}
+
+		if ( command.startsWith( "compose" ) )
+		{
+			KoLmafiaGUI.constructFrame( "GreenMessageFrame" );
+			return;
+		}
+
+		if ( command.startsWith( "gift" ) )
+		{
+			KoLmafiaGUI.constructFrame( "GiftMessageFrame" );
+			return;
+		}
+
+		if ( command.startsWith( "option" ) )
+		{
+			KoLmafiaGUI.constructFrame( "OptionsFrame" );
+			return;
+		}
+
+		if ( command.startsWith( "item" ) )
+		{
+			KoLmafiaGUI.constructFrame( "ItemManageFrame" );
+			return;
+		}
+
+		if ( command.startsWith( "clan" ) )
+		{
+			KoLmafiaGUI.constructFrame( "ClanManageFrame" );
+			return;
+		}
+
+		if ( command.startsWith( "gear" ) )
+		{
+			KoLmafiaGUI.constructFrame( "GearChangeFrame" );
+			return;
+		}
+
+		if ( command.startsWith( "pvp" ) )
+		{
+			KoLmafiaGUI.constructFrame( "FlowerHunterFrame" );
+			return;
+		}
+
 		// Maybe the person is trying to load a raw URL
 		// to test something without creating a brand new
 		// KoLRequest object to handle it yet?
@@ -441,9 +504,9 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "chat" ) )
+		if ( command.startsWith( "forum" ) )
 		{
-			KoLMessenger.initialize();
+			StaticEntity.openSystemBrowser( "http://forums.kingdomofloathing.com/" );
 			return;
 		}
 

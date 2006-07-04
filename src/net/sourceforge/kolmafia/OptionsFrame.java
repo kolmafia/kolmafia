@@ -35,53 +35,44 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
 import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
 
 // events
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseAdapter;
-import javax.swing.SwingUtilities;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.tree.DefaultTreeModel;
 
 // containers
 import javax.swing.JComponent;
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
 import javax.swing.JFileChooser;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.JColorChooser;
 import javax.swing.JScrollPane;
-import javax.swing.JOptionPane;
-import javax.swing.AbstractButton;
-import javax.swing.Box;
+import javax.swing.JTree;
+import javax.swing.SpringLayout;
+
+import com.sun.java.forums.SpringUtilities;
 
 // utilities
-import java.util.List;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
 import java.io.File;
 import java.io.BufferedReader;
 import java.io.PrintStream;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.DataUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -107,6 +98,22 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class OptionsFrame extends KoLFrame
 {
+	private JTree displayTree;
+	private JTextArea displayEditor;
+	private DefaultTreeModel displayModel;
+	private CardLayout combatCards;
+	private JPanel combatPanel;
+
+	private JComboBox battleStopSelect;
+	private JTextField betweenBattleScriptField;
+
+	private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect;
+	private JCheckBox [] hpRestoreCheckbox;
+
+	private JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect;
+	private JCheckBox [] mpRestoreCheckbox;
+	
+
 	/**
 	 * Constructs a new <code>OptionsFrame</code> that will be
 	 * associated with the given client.  When this frame is
@@ -121,11 +128,46 @@ public class OptionsFrame extends KoLFrame
 		super( "Preferences" );
 		tabs = new JTabbedPane();
 
-		addTab( "General", new GeneralOptionsPanel() );
-		addTab( "Items", new ItemOptionsPanel() );
-		addTab( "Zones", new AreaOptionsPanel() );
-		addTab( "Browser", new RelayOptionsPanel() );
+		// Components of the general tab
+		
+		JPanel generalPanel = new JPanel();
+		BoxLayout generalLayout = new BoxLayout( generalPanel, BoxLayout.Y_AXIS );
+		generalPanel.setLayout( generalLayout );
+		
+		generalPanel.add( new GeneralOptionsPanel() );
+		generalPanel.add( new ItemOptionsPanel() );
+		generalPanel.add( new RelayOptionsPanel() );
+
+		// Components of restoration
+		
+		JPanel restorePanel = new JPanel();
+		restorePanel.setLayout( new BoxLayout( restorePanel, BoxLayout.Y_AXIS ) );
+
+		restorePanel.add( new HealthOptionsPanel() );
+		restorePanel.add( new ManaOptionsPanel() );
+
+		// Components of custom combat
+		
+		displayTree = new JTree();
+		displayModel = (DefaultTreeModel) displayTree.getModel();
+
+		CheckboxListener listener = new CheckboxListener();
+		for ( int i = 0; i < hpRestoreCheckbox.length; ++i )
+			hpRestoreCheckbox[i].addActionListener( listener );
+		for ( int i = 0; i < mpRestoreCheckbox.length; ++i )
+			mpRestoreCheckbox[i].addActionListener( listener );
+
+		combatCards = new CardLayout();
+		combatPanel = new JPanel( combatCards );
+		combatPanel.add( "tree", new CustomCombatTreePanel() );
+		combatPanel.add( "editor", new CustomCombatPanel() );
+		
+		addTab( "General", generalPanel );
 		addTab( "Scriptbar", new ScriptButtonPanel() );
+		addTab( "Choices", new ChoiceOptionsPanel() );
+		addTab( "Restores", restorePanel );
+		addTab( "Combats", combatPanel );
+		addTab( "Moods", new MoodSwingEditorPanel() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -196,9 +238,12 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "showAllRequests", "Show requests in mini-browser" },
 			{ "serverFriendly", "Use server-friendlier request speed" },
-			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" }
-		};
+			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
 
+			{ "sortAdventures", "Sort adventure list display alphabetically by name" },
+			{ "showAdventureZone", "Include name of zone in adventure list display" }
+		};
+		
 		/**
 		 * Constructs a new <code>StartupOptionsPanel</code>, containing a
 		 * place for the users to select their desired server and for them
@@ -227,9 +272,10 @@ public class OptionsFrame extends KoLFrame
 				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 			super.actionConfirmed();
-
 			actionCancelled();
+
 			KoLCharacter.refreshCalculatedLists();
+			AdventureDatabase.refreshAdventureList();
 		}
 
 		protected void actionCancelled()
@@ -304,74 +350,6 @@ public class OptionsFrame extends KoLFrame
 		}
 	}
 
-	private class AreaOptionsPanel extends OptionsPanel
-	{
-		private String [] zones;
-		private JCheckBox [] options;
-
-		public AreaOptionsPanel()
-		{
-			super( "Adventure List", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
-
-			zones = new String[ AdventureDatabase.ZONE_NAMES.size() ];
-			options = new JCheckBox[ AdventureDatabase.ZONE_NAMES.size() + 2 ];
-
-			for ( int i = 0; i < options.length; ++i )
-				options[i] = new JCheckBox();
-
-			VerifiableElement [] elements = new VerifiableElement[ AdventureDatabase.ZONE_NAMES.size() + 3 ];
-
-			elements[0] = new VerifiableElement( "Sort adventure list", JLabel.LEFT, options[0] );
-			elements[1] = new VerifiableElement( "Show associated zone", JLabel.LEFT, options[1] );
-			elements[2] = new VerifiableElement( " ", new JLabel( "" ) );
-
-			String [] names = new String[ AdventureDatabase.ZONE_NAMES.keySet().size() ];
-			AdventureDatabase.ZONE_NAMES.keySet().toArray( names );
-
-			for ( int i = 0; i < names.length; ++i )
-			{
-				zones[i] = (String) AdventureDatabase.ZONE_NAMES.get( names[i] );
-				elements[i+3] = new VerifiableElement( "Hide " + AdventureDatabase.ZONE_DESCRIPTIONS.get( names[i] ), JLabel.LEFT, options[i+2] );
-			}
-
-			setContent( elements, false );
-			actionCancelled();
-		}
-
-		protected void actionConfirmed()
-		{
-			setProperty( "sortAdventures", String.valueOf( options[0].isSelected() ) );
-			setProperty( "showAdventureZone", String.valueOf( options[1].isSelected() ) );
-
-			StringBuffer areas = new StringBuffer();
-
-			for ( int i = 2; i < options.length; ++i )
-			{
-				if ( options[i].isSelected() )
-				{
-					if ( areas.length() != 0 )
-						areas.append( ',' );
-
-					areas.append( zones[i-2] );
-				}
-			}
-
-			setProperty( "zoneExcludeList", areas.toString() );
-			super.actionConfirmed();
-			AdventureDatabase.refreshAdventureList();
-		}
-
-		protected void actionCancelled()
-		{
-			options[0].setSelected( getProperty( "sortAdventures" ).equals( "true" ) );
-			options[1].setSelected( getProperty( "showAdventureZone" ).equals( "true" ) );
-
-			String excluded = getProperty( "zoneExcludeList" );
-			for ( int i = 0; i < zones.length; ++i )
-				options[i+2].setSelected( excluded.indexOf( zones[i] ) != -1 );
-		}
-	}
-
 	private class ScriptButtonPanel extends ItemManagePanel implements ListDataListener
 	{
 		private LockableListModel scriptList;
@@ -438,5 +416,626 @@ public class OptionsFrame extends KoLFrame
 
 			setProperty( "scriptList", settingString.toString() );
 		}
+	}
+
+	/**
+	 * This panel allows the user to select which item they would like
+	 * to do for each of the different choice adventures.
+	 */
+
+	private class ChoiceOptionsPanel extends KoLPanel
+	{
+		private JComboBox [] optionSelects;
+
+		private JComboBox cloverProtectSelect;
+		private JComboBox castleWheelSelect;
+		private JComboBox spookyForestSelect;
+		private JComboBox tripTypeSelect;
+		private JComboBox violetFogSelect;
+
+		/**
+		 * Constructs a new <code>ChoiceOptionsPanel</code>.
+		 */
+
+		public ChoiceOptionsPanel()
+		{
+			super( new Dimension( 130, 20 ), new Dimension( 260, 20 ) );
+
+			optionSelects = new JComboBox[ AdventureDatabase.CHOICE_ADVS.length ];
+			for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+			{
+				optionSelects[i] = new JComboBox();
+
+				boolean ignorable = AdventureDatabase.ignoreChoiceOption( AdventureDatabase.CHOICE_ADVS[i][0][0] ) != null;
+				optionSelects[i].addItem( ignorable ? "Ignore this adventure" : "Can't ignore this adventure" );
+
+				for ( int j = 0; j < AdventureDatabase.CHOICE_ADVS[i][2].length; ++j )
+					optionSelects[i].addItem( AdventureDatabase.CHOICE_ADVS[i][2][j] );
+			}
+
+			cloverProtectSelect = new JComboBox();
+			cloverProtectSelect.addItem( "Disassemble ten-leaf clovers" );
+			cloverProtectSelect.addItem( "Leave ten-leaf clovers alone" );
+
+			castleWheelSelect = new JComboBox();
+			castleWheelSelect.addItem( "Turn to map quest position" );
+			castleWheelSelect.addItem( "Turn to muscle position" );
+			castleWheelSelect.addItem( "Turn to mysticality position" );
+			castleWheelSelect.addItem( "Turn to moxie position" );
+			castleWheelSelect.addItem( "Turn clockwise" );
+			castleWheelSelect.addItem( "Turn counterclockwise" );
+			castleWheelSelect.addItem( "Ignore this adventure" );
+
+			spookyForestSelect = new JComboBox();
+			spookyForestSelect.addItem( "Loot Seal Clubber corpse" );
+			spookyForestSelect.addItem( "Loot Turtle Tamer corpse" );
+			spookyForestSelect.addItem( "Loot Pastamancer corpse" );
+			spookyForestSelect.addItem( "Loot Sauceror corpse" );
+			spookyForestSelect.addItem( "Loot Disco Bandit corpse" );
+			spookyForestSelect.addItem( "Loot Accordion Thief corpse" );
+
+			tripTypeSelect = new JComboBox();
+			tripTypeSelect.addItem( "Can't ignore this adventure" );
+			tripTypeSelect.addItem( "Take the Bad Trip" );
+			tripTypeSelect.addItem( "Take the Mediocre Trip" );
+			tripTypeSelect.addItem( "Take the Great Trip" );
+
+			violetFogSelect = new JComboBox();
+			for ( int i = 0; i < VioletFog.FogGoals.length; ++i )
+				violetFogSelect.addItem( VioletFog.FogGoals[i] );
+
+			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 7 ];
+			elements[0] = new VerifiableElement( "Clover Protect", cloverProtectSelect );
+			elements[1] = new VerifiableElement( "", new JLabel() );
+			elements[2] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
+			elements[3] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
+			elements[4] = new VerifiableElement( "Violet Fog 1", tripTypeSelect );
+			elements[5] = new VerifiableElement( "Violet Fog 2", violetFogSelect );
+			elements[6] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
+
+			elements[7] = new VerifiableElement( "", new JLabel() );
+			for ( int i = 1; i < optionSelects.length; ++i )
+				elements[i+7] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i][1][0], optionSelects[i] );
+
+			setContent( elements );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			setProperty( "cloverProtectActive", String.valueOf( cloverProtectSelect.getSelectedIndex() == 0 ) );
+			setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
+			setProperty( "choiceAdventure71", String.valueOf( tripTypeSelect.getSelectedIndex() ) );
+			setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
+
+			for ( int i = 1; i < optionSelects.length; ++i )
+			{
+				int index = optionSelects[i].getSelectedIndex();
+				String choice = AdventureDatabase.CHOICE_ADVS[i][0][0];
+				boolean ignorable = AdventureDatabase.ignoreChoiceOption( choice ) != null;
+
+				if ( ignorable || index != 0 )
+					setProperty( choice, String.valueOf( index ) );
+				else
+					optionSelects[i].setSelectedIndex( StaticEntity.parseInt( getProperty( choice ) ) );
+			}
+
+			//              The Wheel:
+
+			//              Muscle
+			// Moxie          +         Mysticality
+			//            Map Quest
+
+			// Option 1: Turn the wheel clockwise
+			// Option 2: Turn the wheel counterclockwise
+			// Option 3: Leave the wheel alone
+
+			switch ( castleWheelSelect.getSelectedIndex() )
+			{
+				case 0: // Map quest position (choice adventure 11)
+					setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
+					setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
+					setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
+					setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
+					break;
+
+				case 1: // Muscle position (choice adventure 9)
+					setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
+					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
+					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
+					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
+					break;
+
+				case 2: // Mysticality position (choice adventure 10)
+					setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
+					setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
+					setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
+					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
+					break;
+
+				case 3: // Moxie position (choice adventure 12)
+					setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
+					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
+					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
+					setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
+					break;
+
+				case 4: // Turn the wheel clockwise
+					setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
+					setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
+					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
+					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
+					break;
+
+				case 5: // Turn the wheel counterclockwise
+					setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
+					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
+					setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
+					setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
+					break;
+
+				case 6: // Ignore this adventure
+					setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
+					setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
+					setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
+					setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
+					break;
+			}
+
+			switch ( spookyForestSelect.getSelectedIndex() )
+			{
+				case 0: // Seal clubber corpse
+					setProperty( "choiceAdventure26", "1" );
+					setProperty( "choiceAdventure27", "1" );
+					break;
+
+				case 1: // Turtle tamer corpse
+					setProperty( "choiceAdventure26", "1" );
+					setProperty( "choiceAdventure27", "2" );
+					break;
+
+				case 2: // Pastamancer corpse
+					setProperty( "choiceAdventure26", "2" );
+					setProperty( "choiceAdventure28", "1" );
+					break;
+
+				case 3: // Sauceror corpse
+					setProperty( "choiceAdventure26", "2" );
+					setProperty( "choiceAdventure28", "2" );
+					break;
+
+				case 4: // Disco bandit corpse
+					setProperty( "choiceAdventure26", "3" );
+					setProperty( "choiceAdventure29", "1" );
+					break;
+
+				case 5: // Accordion thief corpse
+					setProperty( "choiceAdventure26", "3" );
+					setProperty( "choiceAdventure29", "2" );
+					break;
+			}
+		}
+
+		protected void actionCancelled()
+		{
+			cloverProtectSelect.setSelectedIndex( getProperty( "cloverProtectActive" ).equals( "true" ) ? 0 : 1 );
+			violetFogSelect.setSelectedIndex( StaticEntity.parseInt( getProperty( "violetFogGoal" ) ) );
+
+			optionSelects[0].setSelectedItem( getProperty( "luckySewerAdventure" ) );
+			for ( int i = 1; i < optionSelects.length; ++i )
+				optionSelects[i].setSelectedIndex( StaticEntity.parseInt( getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) ) );
+
+			// Determine the desired wheel position by examining
+			// which choice adventure has the "3" value.
+			// If none are "3", may be clockwise or counterclockwise
+			// If they are all "3", leave wheel alone
+
+			int [] counts = { 0, 0, 0, 0 };
+			int option3 = 11;
+			for ( int i = 9; i < 13; ++i )
+			{
+				int choice = StaticEntity.parseInt( getProperty( "choiceAdventure" + i ) );
+				counts[choice]++;
+				if ( choice == 3 )
+					option3 = i;
+			}
+
+			int index = 0;
+
+			if ( counts[1] == 4 )
+			{
+				// All choices say turn clockwise
+				index = 4;
+			}
+			else if ( counts[2] == 4 )
+			{
+				// All choices say turn counterclockwise
+				index = 5;
+			}
+			else if ( counts[3] == 4 )
+			{
+				// All choices say leave alone
+				index = 6;
+			}
+			else if ( counts[3] != 1 )
+			{
+				// Bogus. Assume map quest
+				index = 0;
+			}
+			else if ( option3 == 9)
+			{
+				// Muscle says leave alone
+				index = 1;
+			}
+			else if ( option3 == 10)
+			{
+				// Mysticality says leave alone
+				index = 2;
+			}
+			else if ( option3 == 11)
+			{
+				// Map Quest says leave alone
+				index = 0;
+			}
+			else if ( option3 == 12)
+			{
+				// Moxie says leave alone
+				index = 3;
+			}
+
+			castleWheelSelect.setSelectedIndex( index );
+
+			// Now, determine what is located in choice adventure #26,
+			// which shows you which slot (in general) to use.
+
+			index = StaticEntity.parseInt( getProperty( "choiceAdventure26" ) );
+			index = index * 2 + StaticEntity.parseInt( getProperty( "choiceAdventure" + (26 + index) ) ) - 3;
+
+			spookyForestSelect.setSelectedIndex( index );
+		}
+
+		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
+		}
+	}
+
+	private void saveRestoreSettings()
+	{
+		StaticEntity.setProperty( "betweenBattleScript", betweenBattleScriptField.getText() );
+		StaticEntity.setProperty( "battleStop", String.valueOf( ((double)(battleStopSelect.getSelectedIndex() - 1) / 10.0) ) );
+
+		StaticEntity.setProperty( "hpAutoRecovery", String.valueOf( ((double)(hpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+		StaticEntity.setProperty( "hpAutoRecoveryTarget", String.valueOf( ((double)(hpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
+		StaticEntity.setProperty( "hpAutoRecoveryItems", getSettingString( hpRestoreCheckbox ) );
+
+		StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( ((double)(mpAutoRecoverSelect.getSelectedIndex() - 1) / 10.0) ) );
+		StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( ((double)(mpAutoRecoverTargetSelect.getSelectedIndex() - 1) / 10.0) ) );
+		StaticEntity.setProperty( "mpAutoRecoveryItems", getSettingString( mpRestoreCheckbox ) );
+	}
+
+	private class CheckboxListener implements ActionListener
+	{
+		public void actionPerformed( ActionEvent e )
+		{	saveRestoreSettings();
+		}
+	}
+
+	private class HealthOptionsPanel extends KoLPanel
+	{
+		private boolean refreshSoon = false;
+
+		public HealthOptionsPanel()
+		{
+			super( new Dimension( 160, 20 ), new Dimension( 300, 20 ) );
+
+			battleStopSelect = new JComboBox();
+			battleStopSelect.addItem( "Never stop combat" );
+			for ( int i = 0; i <= 9; ++i )
+				battleStopSelect.addItem( "Autostop at " + (i*10) + "% HP" );
+
+			betweenBattleScriptField = new JTextField();
+
+			hpAutoRecoverSelect = new JComboBox();
+			hpAutoRecoverSelect.addItem( "Do not autorecover HP" );
+			for ( int i = 0; i <= 10; ++i )
+				hpAutoRecoverSelect.addItem( "Autorecover HP at " + (i * 10) + "%" );
+
+			hpAutoRecoverTargetSelect = new JComboBox();
+			hpAutoRecoverTargetSelect.addItem( "Do not autorecover HP" );
+			for ( int i = 0; i <= 10; ++i )
+				hpAutoRecoverTargetSelect.addItem( "Autorecover HP to " + (i * 10) + "%" );
+
+			// Add the elements to the panel
+
+			int currentElementCount = 0;
+			VerifiableElement [] elements = new VerifiableElement[6];
+
+			elements[ currentElementCount++ ] = new VerifiableElement( "Script Command: ", betweenBattleScriptField );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Combat Abort: ", battleStopSelect );
+
+			elements[ currentElementCount++ ] = new VerifiableElement( "", new JLabel() );
+
+			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Trigger: ", hpAutoRecoverSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "HP Recovery Target: ", hpAutoRecoverTargetSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( hpRestoreCheckbox = HPRestoreItemList.getCheckboxes() ) );
+
+			setContent( elements );
+			actionCancelled();
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+			if ( !isEnabled )
+				refreshSoon = true;
+
+			if ( isEnabled && refreshSoon )
+			{
+				actionCancelled();
+				refreshSoon = false;
+			}
+		}
+
+		protected void actionConfirmed()
+		{	saveRestoreSettings();
+		}
+
+		protected void actionCancelled()
+		{
+			betweenBattleScriptField.setText( StaticEntity.getProperty( "betweenBattleScript" ) );
+			battleStopSelect.setSelectedIndex( (int)(StaticEntity.parseDouble( getProperty( "battleStop" ) ) * 10) + 1 );
+			hpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.parseDouble( StaticEntity.getProperty( "hpAutoRecovery" ) ) * 10) + 1 );
+			hpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.parseDouble( StaticEntity.getProperty( "hpAutoRecoveryTarget" ) ) * 10) + 1 );
+		}
+
+		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
+		}
+	}
+
+	private class ManaOptionsPanel extends KoLPanel
+	{
+		public ManaOptionsPanel()
+		{
+			super( new Dimension( 160, 20 ), new Dimension( 300, 20 ) );
+
+			mpAutoRecoverSelect = new JComboBox();
+			mpAutoRecoverSelect.addItem( "Do not autorecover MP" );
+			for ( int i = 0; i <= 10; ++i )
+				mpAutoRecoverSelect.addItem( "Autorecover MP at " + (i * 10) + "%" );
+
+			mpAutoRecoverTargetSelect = new JComboBox();
+			mpAutoRecoverTargetSelect.addItem( "Do not autorecover MP" );
+			for ( int i = 0; i <= 10; ++i )
+				mpAutoRecoverTargetSelect.addItem( "Autorecover MP to " + (i * 10) + "%" );
+
+			// Add the elements to the panel
+
+			int currentElementCount = 0;
+			VerifiableElement [] elements = new VerifiableElement[3];
+
+			elements[ currentElementCount++ ] = new VerifiableElement( "MP Recovery Trigger: ", mpAutoRecoverSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "MP Recovery Target: ", mpAutoRecoverTargetSelect );
+			elements[ currentElementCount++ ] = new VerifiableElement( "Use these restores: ", constructScroller( mpRestoreCheckbox = MPRestoreItemList.getCheckboxes() ) );
+
+			setContent( elements );
+			actionCancelled();
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+		}
+
+		protected void actionConfirmed()
+		{	saveRestoreSettings();
+		}
+
+		protected void actionCancelled()
+		{
+			mpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.parseDouble( StaticEntity.getProperty( "mpAutoRecovery" ) ) * 10) + 1 );
+			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.parseDouble( StaticEntity.getProperty( "mpAutoRecoveryTarget" ) ) * 10) + 1 );
+		}
+
+		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
+		}
+	}
+
+	private class CustomCombatPanel extends LabeledScrollPanel
+	{
+		public CustomCombatPanel()
+		{
+			super( "Editor", "save", "help", new JTextArea( 12, 40 ) );
+			displayEditor = (JTextArea) scrollComponent;
+			refreshCombatSettings();
+		}
+
+		protected void actionConfirmed()
+		{
+			try
+			{
+				PrintStream writer = new PrintStream( new FileOutputStream( DATA_DIRECTORY + CombatSettings.settingsFileName() ) );
+				writer.println( ((JTextArea)scrollComponent).getText() );
+				writer.close();
+				writer = null;
+
+				int customIndex = KoLCharacter.getBattleSkillIDs().indexOf( "custom" );
+				KoLCharacter.getBattleSkillIDs().setSelectedIndex( customIndex );
+				KoLCharacter.getBattleSkillNames().setSelectedIndex( customIndex );
+				setProperty( "battleAction", "custom" );
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
+
+			// After storing all the data on disk, go ahead
+			// and reload the data inside of the tree.
+
+			refreshCombatTree();
+			combatCards.show( combatPanel, "tree" );
+		}
+
+		protected void actionCancelled()
+		{	StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
+		}
+	}
+
+	private class CustomCombatTreePanel extends LabeledScrollPanel
+	{
+		public CustomCombatTreePanel()
+		{	super( "Tree View", "edit", "load", displayTree );
+		}
+
+		public void actionConfirmed()
+		{	combatCards.show( combatPanel, "editor" );
+		}
+
+		public void actionCancelled()
+		{
+			JFileChooser chooser = new JFileChooser( (new File( "data" )).getAbsolutePath() );
+			chooser.setFileFilter( CCS_FILTER );
+
+			int returnVal = chooser.showOpenDialog( null );
+
+			if ( chooser.getSelectedFile() == null || returnVal != JFileChooser.APPROVE_OPTION )
+				return;
+
+			CombatSettings.loadSettings( chooser.getSelectedFile() );
+			refreshCombatSettings();
+		}
+	}
+	
+	private class MoodSwingEditorPanel extends KoLPanel
+	{
+		private JRadioButton [] activeOptions;
+		private JRadioButton [] ignoreOptions;
+		private JRadioButton [] inactiveOptions;
+
+		public MoodSwingEditorPanel()
+		{
+			super( new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
+
+			activeOptions = new JRadioButton[ MoodSettings.EFFECTS.length ];
+			ignoreOptions = new JRadioButton[ MoodSettings.EFFECTS.length ];
+			inactiveOptions = new JRadioButton[ MoodSettings.EFFECTS.length ];
+
+			JPanel contentPanel = new JPanel( new SpringLayout() );
+
+			for ( int i = 0; i < MoodSettings.EFFECTS.length; ++i )
+			{
+				activeOptions[i] = new JRadioButton( "active" );
+				ignoreOptions[i] = new JRadioButton( "ignore" );
+				inactiveOptions[i] = new JRadioButton( "inactive" );
+
+				ButtonGroup holder = new ButtonGroup();
+				holder.add( activeOptions[i] );
+				holder.add( ignoreOptions[i] );
+				holder.add( inactiveOptions[i] );
+
+				contentPanel.add( new JLabel( MoodSettings.EFFECTS[i].getName() + ": ", JLabel.RIGHT ) );
+				contentPanel.add( activeOptions[i] );
+				contentPanel.add( ignoreOptions[i] );
+				contentPanel.add( inactiveOptions[i] );
+			}
+
+			setContent( new VerifiableElement[0], false );
+
+			SpringUtilities.makeCompactGrid( contentPanel, MoodSettings.EFFECTS.length, 4, 5, 5, 5, 5 );
+			container.add( contentPanel, BorderLayout.CENTER );
+			actionCancelled();
+		}
+
+		public void actionConfirmed()
+		{
+			for ( int i = 0; i < MoodSettings.SKILL_NAMES.length; ++i )
+			{
+				if ( activeOptions[i].isSelected() )
+					StaticEntity.setMoodProperty( MoodSettings.SKILL_NAMES[i], "active" );
+				else if ( inactiveOptions[i].isSelected() )
+					StaticEntity.setMoodProperty( MoodSettings.SKILL_NAMES[i], "inactive" );
+				else
+					StaticEntity.setMoodProperty( MoodSettings.SKILL_NAMES[i], "ignorea" );
+			}
+		}
+
+		public void actionCancelled()
+		{
+			String setting;
+			for ( int i = 0; i < MoodSettings.SKILL_NAMES.length; ++i )
+			{
+				setting = StaticEntity.getMoodProperty( MoodSettings.SKILL_NAMES[i] );
+
+				if ( setting.equals( "active" ) )
+					activeOptions[i].setSelected( true );
+				else if ( setting.equals( "inactive" ) )
+					inactiveOptions[i].setSelected( true );
+				else
+					ignoreOptions[i].setSelected( true );
+			}
+		}
+
+		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return false;
+		}
+	}
+
+	private static final FileFilter CCS_FILTER = new FileFilter()
+	{
+		public boolean accept( File file )
+		{
+			String name = file.getName();
+			return !name.startsWith( "." ) && name.endsWith( ".ccs" );
+		}
+
+		public String getDescription()
+		{	return "Custom Combat Settings (*.ccs)";
+		}
+	};
+
+	private void refreshCombatSettings()
+	{
+		try
+		{
+			CombatSettings.reset();
+			BufferedReader reader = KoLDatabase.getReader( CombatSettings.settingsFileName() );
+
+			StringBuffer buffer = new StringBuffer();
+
+			String line;
+
+			while ( (line = reader.readLine()) != null )
+			{
+				buffer.append( line );
+				buffer.append( System.getProperty( "line.separator" ) );
+			}
+
+			reader.close();
+			reader = null;
+			displayEditor.setText( buffer.toString() );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+
+		refreshCombatTree();
+	}
+
+	/**
+	 * Internal class used to handle everything related to
+	 * displaying custom combat.
+	 */
+
+	private void refreshCombatTree()
+	{
+		CombatSettings.reset();
+		displayModel.setRoot( CombatSettings.getRoot() );
+		displayTree.setRootVisible( false );
 	}
 }
