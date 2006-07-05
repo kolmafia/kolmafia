@@ -234,6 +234,21 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Choices 48 - 70 are violet fog adventures
 		// Choice 71 is a special adventure
+
+		// The Only Thing About Him is the Way That He Walks
+		{ { "choiceAdventure73" }, { "Whitey's Grove 1" },
+		  { "Muscle", "white picket fence", "piece of wedding cake" },
+		  { null, "270", "262" } },
+
+		// The Only Thing About Him is the Way That He Walks
+		{ { "choiceAdventure74" }, { "Whitey's Grove 2" },
+		  { "Moxie", "boxed wine", "mullet wig" },
+		  { null, "1005", "267" } },
+
+		// Rapido!
+		{ { "choiceAdventure75" }, { "Whitey's Grove 3" },
+		  { "Mysticality", "white lightning", "white collar" },
+		  { null, "266", "1655" } }
 	};
 
 	// Some choice adventures have a choice that behaves as an "ignore"
