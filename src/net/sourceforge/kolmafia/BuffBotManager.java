@@ -250,8 +250,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				document.println( "\t<buffdata>" );
 				document.println( "\t\t<name>" + casters[i].getBuffName() + "</name>" );
 				document.println( "\t\t<skillid>" + casters[i].getBuffID() + "</skillid>" );
-				document.println( "\t\t<price>" + casters[i].getPrice() + "</price>" );
-				document.println( "\t\t<turns>" + casters[i].getTurnCount() + "</turns>" );
+				document.println( "\t\t<price>" + COMMA_FORMAT.format( casters[i].getPrice() ) + "</price>" );
+				document.println( "\t\t<turns>" + COMMA_FORMAT.format( casters[i].getTurnCount() ) + "</turns>" );
 				document.println( "\t\t<philanthropic>" + casters[i].philanthropic + "</philanthropic>" );
 				document.println( "\t</buffdata>" );
 			}
@@ -315,8 +315,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 					document.println( "\t\t\t\t<name>" + casters[i].getBuffName() + "</name>" );
 					document.println( "\t\t\t\t<skillid>" + casters[i].getBuffID() + "</skillid>" );
-					document.println( "\t\t\t\t<price>" + casters[i].getPrice() + "</price>" );
-					document.println( "\t\t\t\t<turns>" + casters[i].getTurnCount() + "</turns>" );
+					document.println( "\t\t\t\t<price>" + COMMA_FORMAT.format( casters[i].getPrice() ) + "</price>" );
+					document.println( "\t\t\t\t<turns>" + COMMA_FORMAT.format( casters[i].getTurnCount() ) + "</turns>" );
 					document.println( "\t\t\t\t<philanthropic>" + casters[i].philanthropic + "</philanthropic>" );
 
 					document.println( "\t\t\t</buffdata>" );
@@ -720,8 +720,16 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			this.buffName = buffName;
 			this.price = price;
 			this.castCount = castCount;
-			this.turnCount = buffID > 6000 ? castCount * 15 : buffID < 1000 ? castCount * 5 : castCount * 10;
 
+			int multiplier = 10;
+			if ( buffID > 6000 && buffID < 7000 )
+				multiplier += 5;
+			if ( KoLCharacter.hasItem( UseSkillRequest.WIZARD_HAT, false ) )
+				multiplier += 5;
+			if ( buffID == 3 )
+				multiplier = 40;
+
+			this.turnCount = castCount * multiplier;
 			this.restricted = restricted;
 			this.philanthropic = philanthropic;
 

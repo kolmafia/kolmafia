@@ -43,8 +43,8 @@ import java.io.PrintStream;
 import java.io.InputStreamReader;
 
 import java.util.TreeMap;
+import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * An extension of {@link java.util.Properties} which handles all the
@@ -63,7 +63,8 @@ public abstract class MoodSettings implements KoLConstants
 	private static String characterName = "";
 	private static TreeMap reference = new TreeMap();
 
-	private static LockableListModel triggers = new LockableListModel();
+	private static ArrayList thiefTriggers = new ArrayList();
+	private static SortedListModel triggers = new SortedListModel();
 	private static SortedListModel availableMoods = new SortedListModel();
 
 	static { MoodSettings.reset(); }
@@ -84,8 +85,12 @@ public abstract class MoodSettings implements KoLConstants
 		loadSettings();
 	}
 
-	public static LockableListModel getAvailableMoods()
-	{	return availableMoods;
+	public static SortedListModel getAvailableMoods()
+	{
+		if ( !characterName.equals( KoLCharacter.getUsername() ) )
+			MoodSettings.reset();
+
+		return availableMoods;
 	}
 
 	/**
@@ -94,11 +99,15 @@ public abstract class MoodSettings implements KoLConstants
 	 * for the given mood if no data exists.
 	 */
 
-	public static LockableListModel setMood( String mood )
+	public static SortedListModel setMood( String mood )
 	{
+		if ( !characterName.equals( KoLCharacter.getUsername() ) )
+			MoodSettings.reset();
+
 		ensureProperty( mood );
+
 		StaticEntity.setProperty( "currentMood", mood );
-		triggers = (LockableListModel) reference.get( mood );
+		triggers = (SortedListModel) reference.get( mood );
 
 		return triggers;
 	}
@@ -107,7 +116,7 @@ public abstract class MoodSettings implements KoLConstants
 	 * Retrieves the model associated with the given mood.
 	 */
 
-	public static LockableListModel getTriggers()
+	public static SortedListModel getTriggers()
 	{	return triggers;
 	}
 
@@ -116,11 +125,34 @@ public abstract class MoodSettings implements KoLConstants
 	 */
 
 	public static void addTrigger( String type, String name, String action )
-	{
-		MoodTrigger node = MoodTrigger.constructNode( type + " " + name + " => " + action );
+	{	addTrigger( MoodTrigger.constructNode( type + " " + name + " => " + action ) );
+	}
 
-		if ( !triggers.contains( node ))
-			triggers.add( node );
+	private static void addTrigger( MoodTrigger node )
+	{
+		if ( !characterName.equals( KoLCharacter.getUsername() ) )
+			MoodSettings.reset();
+
+		if ( triggers.contains( node ) )
+			return;
+
+		// Check to make sure that there are fewer than three thief
+		// triggers if this is a thief trigger.
+
+		if ( node.isThiefTrigger() )
+		{
+			int thiefTriggerCount = 0;
+			for ( int i = 0; i < triggers.size(); ++i )
+				if ( ((MoodTrigger)triggers.get(i)).isThiefTrigger() )
+					++thiefTriggerCount;
+
+			if ( thiefTriggerCount == 3 )
+				return;
+		}
+
+		triggers.add( node );
+		if ( node.isThiefTrigger() )
+			thiefTriggers.add( node );
 
 		saveSettings();
 	}
@@ -131,8 +163,16 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void removeTriggers( Object [] triggers )
 	{
+		if ( !characterName.equals( KoLCharacter.getUsername() ) )
+			MoodSettings.reset();
+
 		for ( int i = 0; i < triggers.length; ++i )
+		{
 			MoodSettings.triggers.remove( triggers[i] );
+			if ( thiefTriggers.contains( triggers[i] ) )
+				thiefTriggers.remove( triggers[i] );
+		}
+
 		saveSettings();
 	}
 
@@ -142,23 +182,64 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void autoFillTriggers()
 	{
+		if ( !characterName.equals( KoLCharacter.getUsername() ) )
+			MoodSettings.reset();
+
 		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getAvailableSkills().size() ];
 		KoLCharacter.getAvailableSkills().toArray( skills );
+
+		ArrayList thiefSkills = new ArrayList();
 
 		for ( int i = 0; i < skills.length; ++i )
 		{
 			if ( skills[i].getSkillID() < 1000 )
 				continue;
 
+			if ( skills[i].getSkillID() > 6000 && skills[i].getSkillID() < 7000 )
+			{
+				thiefSkills.add( skills[i].getSkillName() );
+				continue;
+			}
+
 			String effectName = UneffectRequest.skillToEffect( skills[i].getSkillName() );
 			if ( StatusEffectDatabase.contains( effectName ) )
 				addTrigger( "lose_effect", effectName, "cast " + skills[i].getSkillName() );
 		}
 
+		if ( !thiefSkills.isEmpty() && thiefSkills.size() < 4 )
+		{
+			String [] skillNames = new String[ thiefSkills.size() ];
+			thiefSkills.toArray( skillNames );
+
+			for ( int i = 0; i < skillNames.length; ++i )
+				addTrigger( "lose_effect", UneffectRequest.skillToEffect( skillNames[i] ), "cast " + skillNames[i] );
+		}
+
+		addTrigger( "lose_effect", "Butt-Rock Hair", "use 1 can of hair spray" );
+
+		// Beaten-up removal, as a demo of how to handle beaten-up
+		// and poisoned statuses.
+
+		addTrigger( "gain_effect", "Poisoned", "use 1 anti-anti-antidote" );
+
 		if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
 			addTrigger( "gain_effect", "Beaten Up", "cast Tongue of the Otter" );
 		else if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
 			addTrigger( "gain_effect", "Beaten Up", "cast Tongue of the Walrus" );
+
+		// If there's any effects the player currently has and there
+		// is a known way to re-acquire it (internally known, anyway),
+		// make sure to add those as well.
+
+		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
+		KoLCharacter.getEffects().toArray( effects );
+
+		for ( int i = 0; i < effects.length; ++i )
+		{
+			String action = getDefaultAction( "lose_effect", effects[i].getName() );
+			if ( action != null && !action.equals( "" ) )
+				addTrigger( "lose_effect", effects[i].getName(), action );
+		}
 	}
 
 	/**
@@ -169,6 +250,44 @@ public abstract class MoodSettings implements KoLConstants
 	{
 		if ( !characterName.equals( KoLCharacter.getUsername() ) )
 			MoodSettings.reset();
+
+		MoodTrigger current = null;
+
+		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
+		KoLCharacter.getEffects().toArray( effects );
+
+		ArrayList thiefBuffs = new ArrayList();
+		for ( int i = 0; i < effects.length; ++i )
+		{
+			String skillName = UneffectRequest.effectToSkill( effects[i].getName() );
+			if ( ClassSkillsDatabase.contains( skillName ) )
+			{
+				int skillID = ClassSkillsDatabase.getSkillID( skillName );
+				if ( skillID > 6000 && skillID < 7000 )
+					thiefBuffs.add( effects[i] );
+			}
+		}
+
+		// If you have too many accordion thief buffs to execute
+		// your triggers, then shrug off your extra buffs.
+
+		for ( int i = 0; i < triggers.size(); ++i )
+		{
+			current = (MoodTrigger) triggers.get(i);
+			if ( current.isThiefTrigger() )
+			{
+				if ( thiefBuffs.contains( current.effect ) )
+					continue;
+
+				if ( thiefBuffs.size() == 3 )
+					DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.remove(0)).getName() );
+
+				thiefBuffs.add( current.effect );
+			}
+		}
+
+		// Now that everything is prepared, go ahead and execute
+		// the triggers which have been set.
 
 		for ( int i = 0; i < triggers.size(); ++i )
 			((MoodTrigger)triggers.get(i)).execute();
@@ -185,10 +304,10 @@ public abstract class MoodSettings implements KoLConstants
 		{
 			PrintStream writer = new PrintStream( new FileOutputStream( settingsFile ) );
 
-			LockableListModel triggerList;
+			SortedListModel triggerList;
 			for ( int i = 0; i < availableMoods.size(); ++i )
 			{
-				triggerList = (LockableListModel) reference.get( availableMoods.get(i) );
+				triggerList = (SortedListModel) reference.get( availableMoods.get(i) );
 				writer.println( "[ " + availableMoods.get(i) + " ]" );
 
 				for ( int j = 0; j < triggerList.size(); ++j )
@@ -237,7 +356,6 @@ public abstract class MoodSettings implements KoLConstants
 
 			String line;
 			String currentKey = "";
-			LockableListModel currentList = new LockableListModel();
 
 			while ( (line = reader.readLine()) != null )
 			{
@@ -245,14 +363,14 @@ public abstract class MoodSettings implements KoLConstants
 				if ( line.startsWith( "[" ) )
 				{
 					currentKey = line.substring( 1, line.length() - 1 ).trim().toLowerCase();
-					currentList = new LockableListModel();
+					triggers = new SortedListModel();
 
-					reference.put( currentKey, currentList );
+					reference.put( currentKey, triggers );
 					availableMoods.add( currentKey );
 				}
 				else if ( line.length() != 0 )
 				{
-					currentList.add( MoodTrigger.constructNode( line ) );
+					addTrigger( MoodTrigger.constructNode( line ) );
 				}
 			}
 
@@ -280,6 +398,45 @@ public abstract class MoodSettings implements KoLConstants
 		}
 	}
 
+	public static String getDefaultAction( String type, String name )
+	{
+		if ( type == null || name == null || !type.equals( "lose_effect" ) )
+			return "";
+
+		if ( name.equals( "Butt-Rock Hair" ) )
+			return "use 1 can of hair spray";
+
+		// Tongues require snowcones
+
+		if ( name.endsWith( "Tongue" ) )
+			return "use 1 " + name.substring( 0, name.indexOf( " " ) ).toLowerCase() + " snowcone";
+
+		// Laboratory effects
+
+		if ( name.equals( "Wasabi Sinuses" ) )
+			return "use 1 Knob Goblin nasal spray";
+
+		if ( name.equals( "Peeled Eyeballs" ) )
+			return "use 1 Knob Goblin eyedrops";
+
+		if ( name.equals( "Sharp Weapon" ) )
+			return "use 1 Knob Goblin sharpening spray";
+
+		if ( name.equals( "Heavy Petting" ) )
+			return "use 1 Knob Goblin pet-buffing spray";
+
+		if ( name.equals( "Big Veiny Brain" ) )
+			return "use 1 Knob Goblin learning pill";
+
+		// Finally, fall back on skills
+
+		String skillName = UneffectRequest.effectToSkill( name );
+		if ( ClassSkillsDatabase.contains( skillName ) )
+			return ClassSkillsDatabase.getSkillID( skillName ) == 3 ? "" : "cast " + skillName;
+
+		return "";
+	}
+
 	/**
 	 * Ensures that the given property exists, and if it does not exist,
 	 * initializes it to the given value.
@@ -289,7 +446,7 @@ public abstract class MoodSettings implements KoLConstants
 	{
 		if ( !reference.containsKey( key ) )
 		{
-			LockableListModel defaultList = new LockableListModel();
+			SortedListModel defaultList = new SortedListModel();
 			defaultList.addAll( triggers );
 
 			reference.put( key, defaultList );
@@ -308,9 +465,10 @@ public abstract class MoodSettings implements KoLConstants
 	 * @param	destination	The file to which the settings will be stored.
 	 */
 
-	private static class MoodTrigger
+	private static class MoodTrigger implements Comparable
 	{
 		private AdventureResult effect;
+		private boolean isThiefTrigger = false;
 		private String stringForm, triggerType, triggerName, action;
 
 		public MoodTrigger( String stringForm, String triggerType, String triggerName, String action )
@@ -322,6 +480,16 @@ public abstract class MoodSettings implements KoLConstants
 			this.action = action;
 
 			this.effect = triggerName == null ? null : new AdventureResult( triggerName, 1, true );
+
+			if ( triggerType != null && triggerType.equals( "lose_effect" ) && effect != null )
+			{
+				String skillName = UneffectRequest.effectToSkill( effect.getName() );
+				if ( ClassSkillsDatabase.contains( skillName ) )
+				{
+					int skillID = ClassSkillsDatabase.getSkillID( skillName );
+					isThiefTrigger = skillID > 6000 && skillID < 7000;
+				}
+			}
 		}
 
 		public String toString()
@@ -349,6 +517,68 @@ public abstract class MoodSettings implements KoLConstants
 
 			if ( shouldExecute )
 				DEFAULT_SHELL.executeLine( action );
+		}
+
+		public boolean isThiefTrigger()
+		{	return isThiefTrigger;
+		}
+
+		public int compareTo( Object o )
+		{
+			if ( o == null || !(o instanceof MoodTrigger) )
+				return -1;
+
+			String otherTriggerType = ((MoodTrigger)o).triggerType;
+			String otherTriggerName = ((MoodTrigger)o).triggerName;
+			String otherTriggerAction = ((MoodTrigger)o).action;
+
+			int compareResult = 0;
+
+			if ( triggerType.equals( "unconditional" ) )
+			{
+				if ( otherTriggerType.equals( "unconditional" ) )
+				{
+					compareResult = triggerName.compareToIgnoreCase( otherTriggerName );
+					if ( compareResult == 0 )
+						compareResult = action.compareToIgnoreCase( otherTriggerAction );
+				}
+				else
+				{
+					compareResult = -1;
+				}
+			}
+			else if ( triggerType.equals( "gain_effect" ) )
+			{
+				if ( otherTriggerType.equals( "unconditional" ) )
+				{
+					compareResult = 1;
+				}
+				else if ( otherTriggerType.equals( "gain_effect" ) )
+				{
+					compareResult = triggerName.compareToIgnoreCase( otherTriggerName );
+					if ( compareResult == 0 )
+						compareResult = action.compareToIgnoreCase( otherTriggerAction );
+				}
+				else
+				{
+					compareResult = -1;
+				}
+			}
+			else if ( triggerType.equals( "lose_effect" ) )
+			{
+				if ( otherTriggerType.equals( "lose_effect" ) )
+				{
+					compareResult = triggerName.compareToIgnoreCase( otherTriggerName );
+					if ( compareResult == 0 )
+						compareResult = action.compareToIgnoreCase( otherTriggerAction );
+				}
+				else
+				{
+					compareResult = 1;
+				}
+			}
+
+			return compareResult;
 		}
 
 		public static MoodTrigger constructNode( String line )

@@ -976,7 +976,8 @@ public class OptionsFrame extends KoLFrame
 		private LockableListModel EMPTY_MODEL = new LockableListModel();
 		private LockableListModel EFFECT_MODEL = new LockableListModel();
 
-		private JComboBox typeSelect, valueSelect;
+		private TypeComboBox typeSelect;
+		private ValueComboBox valueSelect;
 		private JTextField commandField;
 
 		public AddTriggerPanel()
@@ -991,7 +992,7 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < names.length; ++i )
 				EFFECT_MODEL.add( names[i] );
 
-			valueSelect = new JComboBox( EFFECT_MODEL );
+			valueSelect = new ValueComboBox();
 			commandField = new JTextField();
 
 			VerifiableElement [] elements = new VerifiableElement[3];
@@ -1007,6 +1008,20 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{	MoodSettings.autoFillTriggers();
+		}
+
+		private class ValueComboBox extends JComboBox implements ActionListener
+		{
+			public ValueComboBox()
+			{
+				super( EFFECT_MODEL );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				commandField.setText( MoodSettings.getDefaultAction( typeSelect.getSelectedType(), (String) getSelectedItem() ) );
+			}
 		}
 
 		private class TypeComboBox extends JComboBox implements ActionListener
