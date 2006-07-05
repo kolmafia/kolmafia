@@ -2205,6 +2205,9 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				AdventureDatabase.retrieveItem( requirementsArray[i] );
 				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( KoLCharacter.getInventory() );
+
+				if ( KoLCharacter.hasEquipped( requirementsArray[i] ) )
+					--missingCount;
 			}
 			else if ( requirementsArray[i].isStatusEffect() )
 			{
