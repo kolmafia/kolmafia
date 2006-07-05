@@ -44,8 +44,7 @@ import edu.stanford.ejalbert.BrowserLauncher;
 public abstract class StaticEntity implements KoLConstants
 {
 	private static KoLSettings settings = new KoLSettings( "" );
-	private static MoodSettings moods = new MoodSettings( "" );
-	
+
 	private static final String [] EMPTY_STRING_ARRAY = new String[0];
 
 	protected static KoLmafia client;
@@ -105,14 +104,6 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static final String getProperty( String name )
 	{	return settings.getProperty( name );
-	}
-	
-	public static final void setMoodProperty( String name, String value )
-	{	moods.setProperty( moods.getCurrentMood() + ": " + name, value );
-	}
-	
-	public static final String getMoodProperty( String name )
-	{	return moods.getProperty( moods.getCurrentMood() + ": " + name );
 	}
 
 	public static void openSystemBrowser( String location )

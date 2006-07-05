@@ -64,8 +64,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	private boolean canPurchase;
 	public static final int MAX_QUANTITY = 10000000;
 
-	private boolean attireChanged = false;
-
 	/**
 	 * Constructs a new <code>MallPurchaseRequest</code> which retrieves
 	 * things from NPC stores.
@@ -302,7 +300,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Check to make sure that the person is wearing the appropriate
 		// outfit for making the purchase.
 
-		ensureProperAttire();
+		boolean attireChanged = ensureProperAttire();
 
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
@@ -324,10 +322,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	{	return price - mpr.price;
 	}
 
-	private void ensureProperAttire()
+	public boolean ensureProperAttire()
 	{
 		if ( !isNPCStore )
-			return;
+			return false;
 
 		int neededOutfit = 0;
 
@@ -341,7 +339,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			neededOutfit = 2;
 
 		if ( neededOutfit == 0 )
-			return;
+			return false;
 
 		// Only switch outfits if the person is not
 		// currently wearing the outfit.
@@ -350,8 +348,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		{
 			SpecialOutfit.createCheckpoint();
 			(new EquipmentRequest( client, EquipmentDatabase.getOutfit( neededOutfit ) )).run();
-			attireChanged = true;
+			return true;
 		}
+
+		return false;
 	}
 
 	protected void processResults()
@@ -456,6 +456,12 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		KoLCharacter.updateStatus();
 		RequestFrame.refreshStatus();
+	}
+
+	public boolean equals( Object o )
+	{
+		return o == null || !(o instanceof MallPurchaseRequest) ? false :
+			shopName.equals( ((MallPurchaseRequest)o).shopName );
 	}
 
 	public String getCommandForm( int iterations )
