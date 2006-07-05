@@ -2514,20 +2514,29 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void runBetweenBattleChecks()
 	{
+		// Do not run between battle checks if you are in the middle
+		// of your checks or if you have aborted.
+
 		if ( recoveryActive || refusesContinue() )
 			return;
-
-		// Before running the request, make sure you have enough
-		// mana and health to continue.
 
 		if ( !(getCurrentRequest() instanceof CampgroundRequest) )
 		{
 			recoveryActive = true;
+
+			// First, run the between battle script defined by the
+			// user, which may make it so that none of the built
+			// in behavior needs to run.
+
 			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 
 			if ( !scriptPath.equals( "" ) )
 				DEFAULT_SHELL.executeLine( scriptPath );
 
+			// Now, run the built-in behavior to take care of
+			// any loose ends.
+
+			MoodSettings.execute();
 			recoverHP();
 			recoverMP();
 

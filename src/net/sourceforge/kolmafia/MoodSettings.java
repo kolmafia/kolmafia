@@ -34,190 +34,138 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.BufferedReader;
-import java.util.Set;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Properties;
-import net.java.dev.spellcast.utilities.UtilityConstants;
+import java.io.InputStreamReader;
 
-public class MoodSettings extends Properties implements KoLConstants
+import java.util.TreeMap;
+import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.LockableListModel;
+
+/**
+ * An extension of {@link java.util.Properties} which handles all the
+ * user settings of <code>KoLmafia</code>.  In order to maintain issues
+ * involving compatibility (J2SE 1.4 does not support XML output directly),
+ * all data is written using {@link java.util.Properties#store(OutputStream,String)}.
+ * Files are named according to the following convention: a tilde (<code>~</code>)
+ * preceeds the name of the character whose settings this object represents,
+ * with the 'kcs' extension (KoLmafia Character Settings).  All global settings
+ * are stored in <code>~.kcs</code>.
+ */
+
+public abstract class MoodSettings implements KoLConstants
 {
-	public static String [] SKILL_NAMES = null;
-	public static AdventureResult [] EFFECTS = null;
-	
-	private String noExtensionName;
-	private String currentMood;
-	private File settingsFile;
+	private static String [] keys;
+	private static final File MOODS_FILE = new File( DATA_DIRECTORY + "moods.txt" );
+	private static TreeMap reference = new TreeMap();
 
-	static
+	private static String mood = "default";
+	private static LockableListModel triggers = new LockableListModel();
+	private static SortedListModel availableMoods = new SortedListModel();
+
+	static { loadSettings(); };
+
+	public static LockableListModel getAvailableMoods()
 	{
-		ArrayList skills = new ArrayList();
-		skills.addAll( ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.BUFF ) );
-		skills.addAll( ClassSkillsDatabase.getSkillsByType( ClassSkillsDatabase.SKILL ) );
-		
-		UseSkillRequest [] requests = new UseSkillRequest[ skills.size() ];
-		skills.toArray( requests );
+		if ( availableMoods.isEmpty() )
+			availableMoods.addAll( reference.keySet() );
 
-		ArrayList skillNames = new ArrayList();
-		ArrayList effects = new ArrayList();
-
-		String effectName;
-		for ( int i = 0; i < requests.length; ++i )
-		{
-			effectName = UneffectRequest.skillToEffect( requests[i].getSkillName() );
-			if ( requests[i].getSkillID() > 999 && StatusEffectDatabase.contains( effectName ) )
-			{
-				skillNames.add( requests[i].getSkillName().toLowerCase() );
-				effects.add( new AdventureResult( UneffectRequest.skillToEffect( requests[i].getSkillName() ), 1, true ) );
-			}
-		}
-
-		SKILL_NAMES = new String[ skillNames.size() ];
-		EFFECTS = new AdventureResult[ effects.size() ];
-
-		skillNames.toArray( SKILL_NAMES );
-		effects.toArray( EFFECTS );
+		return availableMoods;
 	}
 
-	public MoodSettings( String characterName )
+	/**
+	 * Sets the current mood to be executed to the given
+	 * mood.  Also ensures that all defaults are loaded
+	 * for the given mood if no data exists.
+	 */
+
+	public static LockableListModel setMood( String mood )
 	{
-		this.currentMood = StaticEntity.getProperty( "currentMood" );
-		this.noExtensionName = KoLCharacter.baseUserName( characterName );
-		this.settingsFile = new File( DATA_DIRECTORY + noExtensionName + ".msd" );
+		MoodSettings.mood = mood;
 
-		loadSettings( this.settingsFile );
-		ensureDefaults();
-	}
-	
-	public String getCurrentMood()
-	{	return currentMood;
-	}
-	
-	public void setCurrentMood( String currentMood )
-	{
-		this.currentMood = currentMood;
-		StaticEntity.setProperty( "currentMood", this.currentMood );
-	}
-	
-	public void ensureDefaults()
-	{	ensureDefaults( this.currentMood );
-	}
-	
-	public void ensureDefaults( String desiredMood )
-	{
-		if ( desiredMood == null || getProperty( desiredMood ) != null )
-			return;
-		
-		setProperty( desiredMood, "" );
-		setProperty( desiredMood + ": hat", "(no change)" );
-		setProperty( desiredMood + ": weapon", "(no change)" );
-		setProperty( desiredMood + ": off-hand", "(no change)" );
-		setProperty( desiredMood + ": pants", "(no change)" );
-		setProperty( desiredMood + ": accessory 1", "(no change)" );
-		setProperty( desiredMood + ": accessory 2", "(no change)" );
-		setProperty( desiredMood + ": accessory 3", "(no change)" );
-		setProperty( desiredMood + ": familiar", "(no change)" );
-		
-		for ( int i = 0; i < SKILL_NAMES.length; ++i )
-			setProperty( this.currentMood + ": " + SKILL_NAMES[i], "ignore" );
-	}
-	
-	public void execute()
-	{
-		// Change out all your gear first.  The new
-		// equipment will change how casting works.
-		
-		DEFAULT_SHELL.executeLine( "equip hat " + getProperty( this.currentMood + ": hat" ) );
-		DEFAULT_SHELL.executeLine( "equip weapon " + getProperty( this.currentMood + ": weapon" ) );
-		DEFAULT_SHELL.executeLine( "equip off-hand " + getProperty( this.currentMood + ": off-hand" ) );
-		DEFAULT_SHELL.executeLine( "equip pants " + getProperty( this.currentMood + ": pants" ) );
-		DEFAULT_SHELL.executeLine( "equip acc1 " + getProperty( this.currentMood + ": accessory 1" ) );
-		DEFAULT_SHELL.executeLine( "equip acc2 " + getProperty( this.currentMood + ": accessory 2" ) );
-		DEFAULT_SHELL.executeLine( "equip acc3 " + getProperty( this.currentMood + ": accessory 3" ) );
-		DEFAULT_SHELL.executeLine( "familiar " + getProperty( this.currentMood + ": familiar" ) );
-		
-		for ( int i = 0; i < SKILL_NAMES.length; ++i )
-		{
-			if ( getProperty( this.currentMood + ": " + SKILL_NAMES[i] ).equals( "active" ) && !KoLCharacter.getEffects().contains( EFFECTS[i] ) )
-			{
-				if ( KoLCharacter.hasSkill( SKILL_NAMES[i] ) )
-					DEFAULT_SHELL.executeLine( "cast " + SKILL_NAMES[i] );
-				else
-					KoLmafia.updateDisplay( ABORT_STATE, "Ran out of " + EFFECTS[i].getName() + "." );
-			}
-		}
-	}
-	
-	public synchronized Object setProperty( String name, String value )
-	{
-		String oldValue = super.getProperty( name );
-		if ( oldValue != null && oldValue.equals( value ) )
-			return value;
+		ensureProperty( mood );
+		StaticEntity.setProperty( "currentMood", mood );
+		triggers = (LockableListModel) reference.get( mood );
 
-		super.setProperty( name, value );
+		return triggers;
+	}
+
+	/**
+	 * Retrieves the model associated with the given mood.
+	 */
+
+	public static LockableListModel getTriggers()
+	{	return triggers;
+	}
+
+	/**
+	 * Adds a trigger to the temporary mood settings.
+	 */
+
+	public static void addTrigger( String type, String name, String action )
+	{
+		triggers.add( MoodTrigger.constructNode( type + " " + name + " => " + action ) );
 		saveSettings();
-
-		return oldValue;
 	}
 
-	public synchronized void saveSettings()
-	{	storeSettings( settingsFile );
+	/**
+	 * Removes all the current triggers.
+	 */
+
+	public static void removeTriggers( Object [] triggers )
+	{
+		for ( int i = 0; i < triggers.length; ++i )
+			MoodSettings.triggers.remove( triggers[i] );
+		saveSettings();
+	}
+
+	/**
+	 * Fills up the trigger list automatically.
+	 */
+
+	public static void autoFillTriggers()
+	{
+	}
+
+	/**
+	 * Executes all the mood triggers for the current mood.
+	 */
+
+	public static void execute()
+	{
+		LockableListModel triggers = (LockableListModel) reference.get( mood );
+		for ( int i = 0; i < triggers.size(); ++i )
+			((MoodTrigger)triggers.get(i)).execute();
 	}
 
 	/**
 	 * Stores the settings maintained in this <code>KoLSettings</code>
-	 * to the noted file.  Note that this method ALWAYS overwrites
-	 * the given file.
-	 *
-	 * @param	destination	The file to which the settings will be stored.
+	 * object to disk for later retrieval.
 	 */
 
-	private synchronized void storeSettings( File destination )
+	public synchronized static void saveSettings()
 	{
 		try
 		{
-			// Determine the contents of the file by
-			// actually printing them.
+			PrintStream writer = new PrintStream( new FileOutputStream( MOODS_FILE ) );
 
-			FileOutputStream ostream = new FileOutputStream( destination );
-			store( ostream, "KoLmafia Settings" );
-			ostream.close();
+			LockableListModel combatOptions;
+			for ( int i = 0; i < keys.length; ++i )
+			{
+				writer.println( "[ " + keys[i] + " ]" );
 
-			// Make sure that all of the settings are
-			// in a sorted order.
+				combatOptions = (LockableListModel) reference.get( keys[i] );
+				for ( int j = 0; j < combatOptions.size(); ++j )
+					writer.println( ((MoodTrigger)combatOptions.get(j)).toSetting() );
 
-			ArrayList contents = new ArrayList();
-			BufferedReader reader = new BufferedReader( new InputStreamReader(
-				new FileInputStream( destination ) ) );
-
-			String line;
-			while ( (line = reader.readLine()) != null )
-				contents.add( line );
-
-			reader.close();
-			Collections.sort( contents );
-
-			File temporary = new File( DATA_DIRECTORY + "~" + noExtensionName + ".msd.tmp" );
-			temporary.createNewFile();
-			temporary.deleteOnExit();
-
-			PrintStream writer = new PrintStream( new FileOutputStream( temporary ) );
-			for ( int i = 0; i < contents.size(); ++i )
-				if ( !((String) contents.get(i)).startsWith( "saveState" ) || noExtensionName.equals( "" ) )
-					writer.println( (String) contents.get(i) );
+				writer.println();
+			}
 
 			writer.close();
-			destination.delete();
-			temporary.renameTo( destination );
-
-			ostream = null;
 		}
 		catch ( IOException e )
 		{
@@ -228,32 +176,57 @@ public class MoodSettings extends Properties implements KoLConstants
 		}
 	}
 
-	private synchronized void loadSettings( File source )
+	/**
+	 * Loads the settings located in the given file into this object.
+	 * Note that all settings are overridden; if the given file does
+	 * not exist, the current global settings will also be rewritten
+	 * into the appropriate file.
+	 *
+	 * @param	source	The file that contains (or will contain) the character data
+	 */
+
+	public synchronized static void loadSettings()
 	{
 		try
 		{
 			// First guarantee that a settings file exists with
 			// the appropriate Properties data.
 
-			if ( !source.exists() )
+			if ( !MOODS_FILE.exists() )
 			{
-				source.getParentFile().mkdirs();
-				source.createNewFile();
+				MOODS_FILE.getParentFile().mkdirs();
+				MOODS_FILE.createNewFile();
 
-				// Then, store the results into the designated
-				// file by calling the appropriate subroutine.
-
-				if ( source != settingsFile )
-					storeSettings( source );
+				ensureProperty( "default" );
+				return;
 			}
 
-			// Now that it is guaranteed that an XML file exists
-			// with the appropriate properties, load the file.
+			BufferedReader reader = new BufferedReader( new InputStreamReader( new FileInputStream( MOODS_FILE ) ) );
 
-			FileInputStream istream = new FileInputStream( source );
-			load( istream );
-			istream.close();
-			istream = null;
+			String line;
+			String currentKey = "";
+			LockableListModel currentList = new LockableListModel();
+
+			while ( (line = reader.readLine()) != null )
+			{
+				line = line.trim();
+				if ( line.startsWith( "[" ) )
+				{
+					currentKey = line.substring( 1, line.length() - 1 ).trim().toLowerCase();
+					currentList = new LockableListModel();
+					reference.put( currentKey, currentList );
+				}
+				else if ( line.length() != 0 )
+				{
+					currentList.add( MoodTrigger.constructNode( line ) );
+				}
+			}
+
+			reader.close();
+			reader = null;
+
+			keys = new String[ reference.keySet().size() ];
+			reference.keySet().toArray( keys );
 		}
 		catch ( IOException e1 )
 		{
@@ -269,8 +242,122 @@ public class MoodSettings extends Properties implements KoLConstants
 			// the current file is deleted.
 
 			StaticEntity.printStackTrace( e2 );
-			source.delete();
-			loadSettings( source );
+			MOODS_FILE.delete();
+			loadSettings();
+		}
+	}
+
+	/**
+	 * Ensures that the given property exists, and if it does not exist,
+	 * initializes it to the given value.
+	 */
+
+	private synchronized static void ensureProperty( String key )
+	{
+		if ( !reference.containsKey( key ) )
+		{
+			LockableListModel defaultList = new LockableListModel();
+			defaultList.addAll( triggers );
+
+			reference.put( key, defaultList );
+			availableMoods.add( key );
+
+			keys = new String[ reference.keySet().size() ];
+			reference.keySet().toArray( keys );
+
+			availableMoods.setSelectedItem( key );
+			saveSettings();
+		}
+	}
+
+	/**
+	 * Stores the settings maintained in this <code>KoLSettings</code>
+	 * to the noted file.  Note that this method ALWAYS overwrites
+	 * the given file.
+	 *
+	 * @param	destination	The file to which the settings will be stored.
+	 */
+
+	private static class MoodTrigger
+	{
+		private AdventureResult effect;
+		private String stringForm, triggerType, triggerName, action;
+
+		public MoodTrigger( String stringForm, String triggerType, String triggerName, String action )
+		{
+			this.stringForm = stringForm;
+			this.triggerType = triggerType;
+
+			this.triggerName = triggerName;
+			this.action = action;
+
+			this.effect = triggerName == null ? null : new AdventureResult( triggerName, 1, true );
+		}
+
+		public String toString()
+		{	return stringForm;
+		}
+
+		public String toSetting()
+		{	return effect == null ? triggerType + " => " + action : triggerType + " " + triggerName + " => " + action;
+		}
+
+		public void execute()
+		{
+			boolean shouldExecute = false;
+
+			if ( effect == null )
+				shouldExecute = true;
+			else if ( triggerType.equals( "gain_effect" ) )
+				shouldExecute = KoLCharacter.getEffects().contains( effect );
+			else if ( triggerType.equals( "lose_effect" ) )
+				shouldExecute = !KoLCharacter.getEffects().contains( effect );
+
+			if ( shouldExecute )
+				DEFAULT_SHELL.executeLine( action );
+		}
+
+		public static MoodTrigger constructNode( String line )
+		{
+			String [] pieces = line.split( " => " );
+			if ( pieces.length != 2 )
+				return null;
+
+			StringBuffer stringForm = new StringBuffer();
+			String type = null;
+
+			if ( pieces[0].startsWith( "gain_effect" ) )
+			{
+				type = "gain_effect";
+				stringForm.append( "When I am affected by" );
+			}
+			else if ( pieces[0].startsWith( "lose_effect" ) )
+			{
+				type = "lose_effect";
+				stringForm.append( "When I run out of" );
+			}
+			else if ( pieces[0].startsWith( "unconditional" ) )
+			{
+				type = "unconditional";
+				stringForm.append( "No matter what" );
+			}
+
+			if ( type == null )
+				return null;
+
+			String name = type.equals( "unconditional" ) ? null :
+				pieces[0].substring( pieces[0].indexOf( " " ) ).trim();
+
+			if ( name != null )
+			{
+				stringForm.append( " " );
+				stringForm.append( name );
+			}
+
+			stringForm.append( ", " );
+			stringForm.append( pieces[1] );
+
+			return new MoodTrigger( stringForm.toString(), type, name, pieces[1] );
 		}
 	}
 }

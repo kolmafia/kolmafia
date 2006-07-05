@@ -34,17 +34,12 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.BufferedReader;
-
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Set;
 import java.util.List;
-import java.util.StringTokenizer;
-
-import net.java.dev.spellcast.utilities.DataUtilities;
+import java.util.Collection;
 
 /**
  * A static class which retrieves all the tradeable items available in
@@ -97,7 +92,7 @@ public class StatusEffectDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -125,11 +120,16 @@ public class StatusEffectDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns the set of status effects keyed by name
-	 * @return	The set of status effects keyed by name
+	 * Returns the set of status effects keyed by ID
+	 * @return	The set of status effects keyed by ID
 	 */
+
 	public static Set entrySet()
 	{	return effectByID.entrySet();
+	}
+
+	public static Collection values()
+	{	return effectByID.values();
 	}
 
 	/**

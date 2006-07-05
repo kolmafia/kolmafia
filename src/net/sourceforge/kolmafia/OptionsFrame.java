@@ -50,6 +50,7 @@ import javax.swing.tree.DefaultTreeModel;
 
 // containers
 import javax.swing.JComponent;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
@@ -58,13 +59,9 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
 import javax.swing.JFileChooser;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JScrollPane;
+import javax.swing.JOptionPane;
 import javax.swing.JTree;
-import javax.swing.SpringLayout;
-
-import com.sun.java.forums.SpringUtilities;
 
 // utilities
 import java.io.File;
@@ -72,6 +69,7 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.io.FileOutputStream;
 
+import java.util.Arrays;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -98,11 +96,13 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class OptionsFrame extends KoLFrame
 {
-	private JTree displayTree;
-	private JTextArea displayEditor;
-	private DefaultTreeModel displayModel;
+	private JTree combatTree;
+	private JTextArea combatEditor;
+	private DefaultTreeModel combatModel;
 	private CardLayout combatCards;
 	private JPanel combatPanel;
+
+	private JList moodList;
 
 	private JComboBox battleStopSelect;
 	private JTextField betweenBattleScriptField;
@@ -148,26 +148,30 @@ public class OptionsFrame extends KoLFrame
 
 		// Components of custom combat
 
-		displayTree = new JTree();
-		displayModel = (DefaultTreeModel) displayTree.getModel();
-
 		CheckboxListener listener = new CheckboxListener();
 		for ( int i = 0; i < hpRestoreCheckbox.length; ++i )
 			hpRestoreCheckbox[i].addActionListener( listener );
 		for ( int i = 0; i < mpRestoreCheckbox.length; ++i )
 			mpRestoreCheckbox[i].addActionListener( listener );
 
+		combatTree = new JTree();
+		combatModel = (DefaultTreeModel) combatTree.getModel();
+
 		combatCards = new CardLayout();
 		combatPanel = new JPanel( combatCards );
 		combatPanel.add( "tree", new CustomCombatTreePanel() );
 		combatPanel.add( "editor", new CustomCombatPanel() );
+
+		JPanel moodPanel = new JPanel( new BorderLayout() );
+		moodPanel.add( new AddTriggerPanel(), BorderLayout.NORTH );
+		moodPanel.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
 
 		addTab( "General", generalPanel );
 		tabs.addTab( "Scriptbar", new ScriptButtonPanel() );
 		addTab( "Choices", new ChoiceOptionsPanel() );
 		addTab( "Restores", restorePanel );
 		tabs.addTab( "Combats", combatPanel );
-		addTab( "Moods", new MoodSwingEditorPanel() );
+		tabs.addTab( "Moods", moodPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -846,7 +850,7 @@ public class OptionsFrame extends KoLFrame
 		public CustomCombatPanel()
 		{
 			super( "Editor", "save", "help", new JTextArea( 12, 40 ) );
-			displayEditor = (JTextArea) scrollComponent;
+			combatEditor = (JTextArea) scrollComponent;
 			refreshCombatSettings();
 		}
 
@@ -887,7 +891,7 @@ public class OptionsFrame extends KoLFrame
 	private class CustomCombatTreePanel extends LabeledScrollPanel
 	{
 		public CustomCombatTreePanel()
-		{	super( "Tree View", "edit", "load", displayTree );
+		{	super( "Tree View", "edit", "load", combatTree );
 		}
 
 		public void actionConfirmed()
@@ -906,80 +910,6 @@ public class OptionsFrame extends KoLFrame
 
 			CombatSettings.loadSettings( chooser.getSelectedFile() );
 			refreshCombatSettings();
-		}
-	}
-
-	private class MoodSwingEditorPanel extends KoLPanel
-	{
-		private JRadioButton [] activeOptions;
-		private JRadioButton [] ignoreOptions;
-		private JRadioButton [] inactiveOptions;
-
-		public MoodSwingEditorPanel()
-		{
-			super( new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
-
-			activeOptions = new JRadioButton[ MoodSettings.EFFECTS.length ];
-			ignoreOptions = new JRadioButton[ MoodSettings.EFFECTS.length ];
-			inactiveOptions = new JRadioButton[ MoodSettings.EFFECTS.length ];
-
-			JPanel contentPanel = new JPanel( new SpringLayout() );
-
-			for ( int i = 0; i < MoodSettings.EFFECTS.length; ++i )
-			{
-				activeOptions[i] = new JRadioButton( "active" );
-				ignoreOptions[i] = new JRadioButton( "ignore" );
-				inactiveOptions[i] = new JRadioButton( "inactive" );
-
-				ButtonGroup holder = new ButtonGroup();
-				holder.add( activeOptions[i] );
-				holder.add( ignoreOptions[i] );
-				holder.add( inactiveOptions[i] );
-
-				contentPanel.add( new JLabel( MoodSettings.EFFECTS[i].getName() + ": ", JLabel.RIGHT ) );
-				contentPanel.add( activeOptions[i] );
-				contentPanel.add( ignoreOptions[i] );
-				contentPanel.add( inactiveOptions[i] );
-			}
-
-			setContent( new VerifiableElement[0], false );
-
-			SpringUtilities.makeCompactGrid( contentPanel, MoodSettings.EFFECTS.length, 4, 5, 5, 5, 5 );
-			container.add( contentPanel, BorderLayout.CENTER );
-			actionCancelled();
-		}
-
-		public void actionConfirmed()
-		{
-			for ( int i = 0; i < MoodSettings.SKILL_NAMES.length; ++i )
-			{
-				if ( activeOptions[i].isSelected() )
-					StaticEntity.setMoodProperty( MoodSettings.SKILL_NAMES[i], "active" );
-				else if ( inactiveOptions[i].isSelected() )
-					StaticEntity.setMoodProperty( MoodSettings.SKILL_NAMES[i], "inactive" );
-				else
-					StaticEntity.setMoodProperty( MoodSettings.SKILL_NAMES[i], "ignorea" );
-			}
-		}
-
-		public void actionCancelled()
-		{
-			String setting;
-			for ( int i = 0; i < MoodSettings.SKILL_NAMES.length; ++i )
-			{
-				setting = StaticEntity.getMoodProperty( MoodSettings.SKILL_NAMES[i] );
-
-				if ( setting.equals( "active" ) )
-					activeOptions[i].setSelected( true );
-				else if ( setting.equals( "inactive" ) )
-					inactiveOptions[i].setSelected( true );
-				else
-					ignoreOptions[i].setSelected( true );
-			}
-		}
-
-		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
-		{	return false;
 		}
 	}
 
@@ -1015,7 +945,7 @@ public class OptionsFrame extends KoLFrame
 
 			reader.close();
 			reader = null;
-			displayEditor.setText( buffer.toString() );
+			combatEditor.setText( buffer.toString() );
 		}
 		catch ( Exception e )
 		{
@@ -1036,7 +966,123 @@ public class OptionsFrame extends KoLFrame
 	private void refreshCombatTree()
 	{
 		CombatSettings.reset();
-		displayModel.setRoot( CombatSettings.getRoot() );
-		displayTree.setRootVisible( false );
+		combatModel.setRoot( CombatSettings.getRoot() );
+		combatTree.setRootVisible( false );
+	}
+
+	/**
+	 * Internal class used to handle everything related to
+	 * BuffBot options management
+	 */
+
+	private class AddTriggerPanel extends KoLPanel
+	{
+		private LockableListModel EMPTY_MODEL = new LockableListModel();
+		private LockableListModel EFFECT_MODEL = new LockableListModel();
+
+		private JComboBox typeSelect, valueSelect;
+		private JTextField commandField;
+
+		public AddTriggerPanel()
+		{
+			super( "add entry", "auto-fill" );
+
+			typeSelect = new TypeComboBox();
+
+			Object [] names = StatusEffectDatabase.values().toArray();
+			Arrays.sort( names );
+
+			for ( int i = 0; i < names.length; ++i )
+				EFFECT_MODEL.add( names[i] );
+
+			valueSelect = new JComboBox( EFFECT_MODEL );
+			commandField = new JTextField();
+
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Trigger On: ", typeSelect );
+			elements[1] = new VerifiableElement( "Check For: ", valueSelect );
+			elements[2] = new VerifiableElement( "Command: ", commandField );
+			setContent( elements );
+		}
+
+		protected void actionConfirmed()
+		{	MoodSettings.addTrigger( (String) typeSelect.getSelectedItem(), (String) valueSelect.getSelectedItem(), commandField.getText() );
+		}
+
+		public void actionCancelled()
+		{	MoodSettings.autoFillTriggers();
+		}
+
+		private class TypeComboBox extends JComboBox implements ActionListener
+		{
+			public TypeComboBox()
+			{
+				addItem( "When an effect is lost" );
+				addItem( "When an effect is gained" );
+				addItem( "Unconditional trigger" );
+
+				addActionListener( this );
+			}
+
+			public String getSelectedType()
+			{
+				switch ( getSelectedIndex() )
+				{
+					case 0:
+						return "lose_effect";
+					case 1:
+						return "gain_effect";
+					case 2:
+						return "unconditional";
+					default:
+						return null;
+				}
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	valueSelect.setModel( getSelectedIndex() == 2 ? EMPTY_MODEL : EFFECT_MODEL );
+			}
+		}
+	}
+
+	private class MoodTriggerListPanel extends LabeledScrollPanel
+	{
+		private JComboBox moodSelect;
+
+		public MoodTriggerListPanel()
+		{
+			super( "", "new list", "remove", new JList( MoodSettings.getTriggers() ) );
+
+			moodSelect = new MoodComboBox();
+			actualPanel.add( moodSelect, BorderLayout.NORTH );
+			moodList = (JList) scrollComponent;
+		}
+
+		public void actionConfirmed()
+		{
+			String name = JOptionPane.showInputDialog( "Give your list a name!" );
+			if ( name == null )
+				return;
+
+			MoodSettings.setMood( name );
+		}
+
+		public void actionCancelled()
+		{	MoodSettings.removeTriggers( moodList.getSelectedValues() );
+		}
+
+		private class MoodComboBox extends JComboBox implements ActionListener
+		{
+			public MoodComboBox()
+			{
+				super( MoodSettings.getAvailableMoods() );
+				setSelectedItem( StaticEntity.getProperty( "currentMood" ) );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	moodList.setModel( MoodSettings.setMood( (String) getSelectedItem() ) );
+			}
+		}
 	}
 }

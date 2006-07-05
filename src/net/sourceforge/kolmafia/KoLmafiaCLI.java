@@ -1377,12 +1377,16 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "restore" ) || command.equals( "recover" ) )
+		if ( command.startsWith( "restore" ) || command.startsWith( "recover" ) || command.startsWith( "check" ) )
 		{
-			if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
+			if ( parameters.equals( "" ) )
+				StaticEntity.getClient().runBetweenBattleChecks();
+			else if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
 				StaticEntity.getClient().recoverHP();
-			if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) )
+			else if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) )
 				StaticEntity.getClient().recoverMP();
+
+			return;
 		}
 
 		if ( command.equals( "restaurant" ) )
@@ -1391,7 +1395,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( command.equals( "microbrewery" ) )
+		if ( command.indexOf( "brewery" ) != -1 )
 		{
 			makeMicrobreweryRequest();
 			return;
