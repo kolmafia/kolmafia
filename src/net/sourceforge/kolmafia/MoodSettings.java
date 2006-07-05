@@ -67,7 +67,7 @@ public abstract class MoodSettings implements KoLConstants
 	private static LockableListModel triggers = new LockableListModel();
 	private static SortedListModel availableMoods = new SortedListModel();
 
-	static { loadSettings(); };
+	static { loadSettings(); }
 
 	public static LockableListModel getAvailableMoods()
 	{
@@ -129,6 +129,23 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void autoFillTriggers()
 	{
+		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getAvailableSkills().size() ];
+		KoLCharacter.getAvailableSkills().toArray( skills );
+
+		for ( int i = 0; i < skills.length; ++i )
+		{
+			if ( skills[i].getSkillID() < 1000 )
+				continue;
+
+			String effectName = UneffectRequest.skillToEffect( skills[i].getSkillName() );
+			if ( StatusEffectDatabase.contains( effectName ) )
+				addTrigger( "lose_effect", effectName, "cast " + skills[i].getSkillName() );
+		}
+
+		if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
+			addTrigger( "gain_effect", "Beaten Up", "cast Tongue of the Otter" );
+		else if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
+			addTrigger( "gain_effect", "Beaten Up", "cast Tongue of the Walrus" );
 	}
 
 	/**
@@ -137,7 +154,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void execute()
 	{
-		LockableListModel triggers = (LockableListModel) reference.get( mood );
 		for ( int i = 0; i < triggers.size(); ++i )
 			((MoodTrigger)triggers.get(i)).execute();
 	}
@@ -153,14 +169,14 @@ public abstract class MoodSettings implements KoLConstants
 		{
 			PrintStream writer = new PrintStream( new FileOutputStream( MOODS_FILE ) );
 
-			LockableListModel combatOptions;
+			LockableListModel triggerList;
 			for ( int i = 0; i < keys.length; ++i )
 			{
+				triggerList = (LockableListModel) reference.get( keys[i] );
 				writer.println( "[ " + keys[i] + " ]" );
 
-				combatOptions = (LockableListModel) reference.get( keys[i] );
-				for ( int j = 0; j < combatOptions.size(); ++j )
-					writer.println( ((MoodTrigger)combatOptions.get(j)).toSetting() );
+				for ( int j = 0; j < triggerList.size(); ++j )
+					writer.println( ((MoodTrigger)triggerList.get(j)).toSetting() );
 
 				writer.println();
 			}
@@ -227,6 +243,8 @@ public abstract class MoodSettings implements KoLConstants
 
 			keys = new String[ reference.keySet().size() ];
 			reference.keySet().toArray( keys );
+
+			setMood( StaticEntity.getProperty( "currentMood" ) );
 		}
 		catch ( IOException e1 )
 		{
