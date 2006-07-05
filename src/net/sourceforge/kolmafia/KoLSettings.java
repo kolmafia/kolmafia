@@ -307,6 +307,9 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "choiceAdventure46", "3" );
 		CLIENT_SETTINGS.put( "choiceAdventure47", "2" );
 		CLIENT_SETTINGS.put( "choiceAdventure71", "1" );
+		CLIENT_SETTINGS.put( "choiceAdventure73", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure74", "2" );
+		CLIENT_SETTINGS.put( "choiceAdventure75", "3" );
 	}
 
 	/**
