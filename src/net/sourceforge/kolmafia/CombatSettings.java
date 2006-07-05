@@ -238,7 +238,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 				combatOptions = (CombatSettingNode) reference.get( keys[i] );
 				for ( int j = 0; j < combatOptions.getChildCount(); ++j )
-					writer.println( combatOptions.getChildAt(j) );
+					writer.println( ((CombatActionNode)combatOptions.getChildAt(j)).getAction() );
 
 				writer.println();
 			}
@@ -330,12 +330,12 @@ public abstract class CombatSettings implements UtilityConstants
 			super( name, true );
 			this.name = name;
 		}
-		
+
 		public void add( CombatActionNode node )
 		{
 			if ( willDelevel )
 				return;
-			
+
 			willDelevel |= node.getAction().equalsIgnoreCase( "delevel" );
 			super.add( node );
 		}
@@ -353,7 +353,7 @@ public abstract class CombatSettings implements UtilityConstants
 		public CombatActionNode( int index, String action )
 		{
 			super( action, false );
-			
+
 			this.index = index;
 			this.action = getLongCombatOptionName( action );
 		}
@@ -361,7 +361,7 @@ public abstract class CombatSettings implements UtilityConstants
 		public boolean startsWith( String prefix )
 		{	return action.startsWith( prefix );
 		}
-		
+
 		public String getAction()
 		{	return action;
 		}
