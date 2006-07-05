@@ -729,16 +729,16 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			stringForm.append( "Cast " );
 			stringForm.append( this.buffName );
 			stringForm.append( ' ' );
-			stringForm.append( castCount );
+			stringForm.append( COMMA_FORMAT.format( castCount ) );
 			stringForm.append( " time" );
 
 			if ( castCount != 1 )
 				stringForm.append( "s" );
 
 			stringForm.append( " (" );
-			stringForm.append( turnCount );
+			stringForm.append( COMMA_FORMAT.format( turnCount ) );
 			stringForm.append( " turns) for " );
-			stringForm.append( price );
+			stringForm.append( COMMA_FORMAT.format( price ) );
 			stringForm.append( " meat" );
 
 			if ( restricted )
@@ -747,7 +747,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				stringForm.append( " (philanthropic)" );
 
 			this.stringForm = stringForm.toString();
-			this.settingString = buffID + ":" + price + ":" + castCount + ":" + restricted + ":" + philanthropic;
+			this.settingString = buffID + ":" + COMMA_FORMAT.format( price ) + ":" +
+				COMMA_FORMAT.format( castCount ) + ":" + restricted + ":" + philanthropic;
 		}
 
 		public boolean equals( Object o )
