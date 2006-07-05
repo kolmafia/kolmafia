@@ -59,22 +59,33 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class MoodSettings implements KoLConstants
 {
-	private static String [] keys;
-	private static final File MOODS_FILE = new File( DATA_DIRECTORY + "moods.txt" );
+	private static File settingsFile = null;
+	private static String characterName = "";
 	private static TreeMap reference = new TreeMap();
 
-	private static String mood = "default";
 	private static LockableListModel triggers = new LockableListModel();
 	private static SortedListModel availableMoods = new SortedListModel();
 
-	static { loadSettings(); }
+	static { MoodSettings.reset(); }
+
+	public synchronized static final String settingsFileName()
+	{	return "~" + KoLCharacter.baseUserName() + ".kms";
+	}
+
+	public synchronized static final void reset()
+	{
+		reference.clear();
+		triggers.clear();
+		availableMoods.clear();
+
+		MoodSettings.characterName = KoLCharacter.getUsername();
+		MoodSettings.settingsFile = new File( DATA_DIRECTORY + settingsFileName() );
+
+		loadSettings();
+	}
 
 	public static LockableListModel getAvailableMoods()
-	{
-		if ( availableMoods.isEmpty() )
-			availableMoods.addAll( reference.keySet() );
-
-		return availableMoods;
+	{	return availableMoods;
 	}
 
 	/**
@@ -85,8 +96,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static LockableListModel setMood( String mood )
 	{
-		MoodSettings.mood = mood;
-
 		ensureProperty( mood );
 		StaticEntity.setProperty( "currentMood", mood );
 		triggers = (LockableListModel) reference.get( mood );
@@ -108,7 +117,11 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void addTrigger( String type, String name, String action )
 	{
-		triggers.add( MoodTrigger.constructNode( type + " " + name + " => " + action ) );
+		MoodTrigger node = MoodTrigger.constructNode( type + " " + name + " => " + action );
+
+		if ( !triggers.contains( node ))
+			triggers.add( node );
+
 		saveSettings();
 	}
 
@@ -154,6 +167,9 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void execute()
 	{
+		if ( !characterName.equals( KoLCharacter.getUsername() ) )
+			MoodSettings.reset();
+
 		for ( int i = 0; i < triggers.size(); ++i )
 			((MoodTrigger)triggers.get(i)).execute();
 	}
@@ -167,13 +183,13 @@ public abstract class MoodSettings implements KoLConstants
 	{
 		try
 		{
-			PrintStream writer = new PrintStream( new FileOutputStream( MOODS_FILE ) );
+			PrintStream writer = new PrintStream( new FileOutputStream( settingsFile ) );
 
 			LockableListModel triggerList;
-			for ( int i = 0; i < keys.length; ++i )
+			for ( int i = 0; i < availableMoods.size(); ++i )
 			{
-				triggerList = (LockableListModel) reference.get( keys[i] );
-				writer.println( "[ " + keys[i] + " ]" );
+				triggerList = (LockableListModel) reference.get( availableMoods.get(i) );
+				writer.println( "[ " + availableMoods.get(i) + " ]" );
 
 				for ( int j = 0; j < triggerList.size(); ++j )
 					writer.println( ((MoodTrigger)triggerList.get(j)).toSetting() );
@@ -208,16 +224,16 @@ public abstract class MoodSettings implements KoLConstants
 			// First guarantee that a settings file exists with
 			// the appropriate Properties data.
 
-			if ( !MOODS_FILE.exists() )
+			if ( !settingsFile.exists() )
 			{
-				MOODS_FILE.getParentFile().mkdirs();
-				MOODS_FILE.createNewFile();
+				settingsFile.getParentFile().mkdirs();
+				settingsFile.createNewFile();
 
-				ensureProperty( "default" );
+				setMood( "default" );
 				return;
 			}
 
-			BufferedReader reader = new BufferedReader( new InputStreamReader( new FileInputStream( MOODS_FILE ) ) );
+			BufferedReader reader = new BufferedReader( new InputStreamReader( new FileInputStream( settingsFile ) ) );
 
 			String line;
 			String currentKey = "";
@@ -230,7 +246,9 @@ public abstract class MoodSettings implements KoLConstants
 				{
 					currentKey = line.substring( 1, line.length() - 1 ).trim().toLowerCase();
 					currentList = new LockableListModel();
+
 					reference.put( currentKey, currentList );
+					availableMoods.add( currentKey );
 				}
 				else if ( line.length() != 0 )
 				{
@@ -240,9 +258,6 @@ public abstract class MoodSettings implements KoLConstants
 
 			reader.close();
 			reader = null;
-
-			keys = new String[ reference.keySet().size() ];
-			reference.keySet().toArray( keys );
 
 			setMood( StaticEntity.getProperty( "currentMood" ) );
 		}
@@ -260,7 +275,7 @@ public abstract class MoodSettings implements KoLConstants
 			// the current file is deleted.
 
 			StaticEntity.printStackTrace( e2 );
-			MOODS_FILE.delete();
+			settingsFile.delete();
 			loadSettings();
 		}
 	}
@@ -279,9 +294,6 @@ public abstract class MoodSettings implements KoLConstants
 
 			reference.put( key, defaultList );
 			availableMoods.add( key );
-
-			keys = new String[ reference.keySet().size() ];
-			reference.keySet().toArray( keys );
 
 			availableMoods.setSelectedItem( key );
 			saveSettings();
@@ -318,6 +330,10 @@ public abstract class MoodSettings implements KoLConstants
 
 		public String toSetting()
 		{	return effect == null ? triggerType + " => " + action : triggerType + " " + triggerName + " => " + action;
+		}
+
+		public boolean equals( Object o )
+		{	return o != null && toString().equals( o.toString() );
 		}
 
 		public void execute()
