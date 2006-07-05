@@ -235,7 +235,7 @@ public class AdventureDatabase extends KoLDatabase
 		// Choices 48 - 70 are violet fog adventures
 		// Choice 71 is a special adventure
 
-		// The Only Thing About Him is the Way That He Walks
+		// Don't Fence Me In
 		{ { "choiceAdventure73" }, { "Whitey's Grove 1" },
 		  { "Muscle", "white picket fence", "piece of wedding cake" },
 		  { null, "270", "262" } },
