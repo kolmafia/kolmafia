@@ -257,8 +257,8 @@
 257	extra-spicy bloody mary	2	66
 258	dense meat stack	0	1000
 259	whitesnake skin	0	25
-260	White Castle fries	1	11
-261	White Castle burger	1	12
+260	White Citadel fries	1	40
+261	White Citadel burger	1	50
 262	piece of wedding cake	1	12
 263	white chocolate chips	1	24
 264	white chocolate chip cookies	1	44
@@ -1331,7 +1331,7 @@
 1331	Cloaca-Cola helmet	9	35
 1332	Cloaca-Cola knapsack	3	200
 1333	Dyspepsi-Cola knapsack	3	200
-1334	Cloaca-Cola	4	52
+1334	Cloaca-Cola	14	52
 1335	Dyspepsi grenade	0	150
 1336	Cloaca grenade	0	150
 1337
