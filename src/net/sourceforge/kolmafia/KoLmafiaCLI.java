@@ -2583,7 +2583,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public static AdventureResult getFirstMatchingItem( String parameters )
 	{
-		boolean isCreationMatch = previousLine.startsWith( "create" );
+		boolean isCreationMatch = previousLine != null && previousLine.startsWith( "create" );
 
 		int itemID = -1;
 		int itemCount = 0;

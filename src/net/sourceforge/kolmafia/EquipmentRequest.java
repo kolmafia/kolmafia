@@ -371,16 +371,9 @@ public class EquipmentRequest extends PasswordHashRequest
 					return;
 
 				// Next, ensure that you have all the pieces for the
-				// given outfit -- do this by adding all of the items
-				// as conditions and then issuing a check.
+				// given outfit.
 
-				ArrayList temporaryList = new ArrayList();
-				temporaryList.addAll( client.getConditions() );
-				client.getConditions().clear();
-
-				EquipmentDatabase.addOutfitConditions( outfit.getOutfitID() );
-				DEFAULT_SHELL.executeConditionsCommand( "check" );
-				client.getConditions().addAll( temporaryList );
+				EquipmentDatabase.retrieveOutfit( id );
 
 				// Bail now if the conditions were not met
 				if ( !KoLmafia.permitsContinue() )

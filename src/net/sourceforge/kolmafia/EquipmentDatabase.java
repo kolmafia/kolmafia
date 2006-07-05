@@ -313,6 +313,13 @@ public class EquipmentDatabase extends KoLDatabase
 		return false;
 	}
 
+	public static void retrieveOutfit( int outfitID )
+	{
+		String [] pieces = outfits.get( outfitID ).getPieces();
+		for ( int i = 0; i < pieces.length; ++i )
+			DEFAULT_SHELL.executeLine( "acquire " + pieces[i] );
+	}
+
 	public static void addOutfitConditions( int outfitID )
 	{
 		// Ignore custom outfits, since there's
