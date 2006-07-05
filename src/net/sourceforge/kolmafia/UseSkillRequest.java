@@ -49,6 +49,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	private static final AdventureResult ACCORDION = new AdventureResult( 11, 1 );
 	public static final AdventureResult ROCKNROLL_LEGEND = new AdventureResult( 50, 1 );
+	public static final AdventureResult WIZARD_HAT = new AdventureResult( 1653, 1 );
+
 	private static final AdventureResult ROLL = new AdventureResult( 47, 1 );
 	private static final AdventureResult BIG_ROCK = new AdventureResult( 30, 1 );
 	private static final AdventureResult HEART = new AdventureResult( 48, 1 );
@@ -143,6 +145,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 	{
 		String initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		String initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+		String initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
 
 		AdventureResult songWeapon = null;
 		if ( skillID > 6000 && skillID < 7000 )
@@ -160,6 +163,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			if ( songWeapon != ACCORDION && KoLCharacter.hasEquipped( ACCORDION ) )
 				(new EquipmentRequest( client, EquipmentRequest.UNEQUIP, KoLCharacter.WEAPON )).run();
 		}
+
+		if ( KoLCharacter.getInventory().contains( WIZARD_HAT ) )
+			DEFAULT_SHELL.executeLine( "equip hat " + WIZARD_HAT.getName() );
 
 		// Cast the skill as many times as needed
 
@@ -184,6 +190,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		// If we unequipped an off-hand weapon, equip it again
 		if ( !initialOffhand.equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
 			(new EquipmentRequest( client, initialOffhand, KoLCharacter.OFFHAND )).run();
+
+		// If we unequipped a hat, equip it again
+		if ( !initialHat.equals( KoLCharacter.getEquipment( KoLCharacter.HAT ) ) )
+			(new EquipmentRequest( client, initialHat, KoLCharacter.HAT )).run();
 	}
 
 	private void useSkillLoop()

@@ -152,7 +152,6 @@ public class BuffBotFrame extends KoLFrame
 		{
 			BuffBotHome.setBuffBotActive( false );
 			BuffBotHome.updateStatus( "BuffBot stopped by user." );
-			KoLmafia.updateDisplay( ERROR_STATE, "Buffbot stopped by user." );
 		}
 	}
 
@@ -337,7 +336,6 @@ public class BuffBotFrame extends KoLFrame
 	public void dispose()
 	{
 		BuffBotHome.deinitialize();
-		KoLmafia.updateDisplay( "Buffbot deactivated." );
 		super.dispose();
 	}
 }
