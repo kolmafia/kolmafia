@@ -50,7 +50,6 @@ public class LocalRelayServer implements Runnable
 	private static Thread relayThread = null;
 	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
 
-	private static final byte [] NEW_LINE = {(byte)'\r', (byte)'\n' };
 	private static final int MAX_AGENT_THREADS = 9;
 	private static final int TIMEOUT = 5000;
 
@@ -290,26 +289,22 @@ public class LocalRelayServer implements Runnable
 					hasConnectionHeader = true;
 				}
 
-				printStream.print( header );
-				printStream.write( NEW_LINE );
+				printStream.println( header );
 			}
 
 			if ( !hasCacheHeader )
 			{
-				printStream.print( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0" );
-				printStream.write( NEW_LINE );
+				printStream.println( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0" );
 			}
 
 			if ( !hasPragmaHeader )
 			{
-				printStream.print( "Pragma: no-cache" );
-				printStream.write( NEW_LINE );
+				printStream.println( "Pragma: no-cache" );
 			}
 
 			if ( !hasConnectionHeader )
 			{
-				printStream.print( "Connection: close" );
-				printStream.write( NEW_LINE );
+				printStream.println( "Connection: close" );
 			}
 		}
 
@@ -348,6 +343,7 @@ public class LocalRelayServer implements Runnable
 					if ( tokens[0].equals( "Content-Length" ) )
 						contentLength = StaticEntity.parseInt( tokens[1].trim() );
 				}
+
 				if ( method.equals( "POST" ) )
 				{
 					StringBuffer postBuffer = new StringBuffer();
@@ -358,10 +354,11 @@ public class LocalRelayServer implements Runnable
 				}
 
 				request.run();
-				sendHeaders( printStream, request );
-				printStream.write( NEW_LINE );
-				printStream.print( request.getFullResponse() );
 
+				sendHeaders( printStream, request );
+				printStream.println();
+				printStream.print( request.getFullResponse() );
+				printStream.close();
 			}
 			finally
 			{	socket.close();
