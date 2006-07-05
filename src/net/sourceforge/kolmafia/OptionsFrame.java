@@ -330,12 +330,6 @@ public class OptionsFrame extends KoLFrame
 				setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
 			super.actionConfirmed();
-
-			if ( getProperty( "keepSessionLogs" ).equals( "true" ) )
-				KoLmafia.openSessionStream();
-			else
-				KoLmafia.closeSessionStream();
-
 			actionCancelled();
 			KoLCharacter.refreshCalculatedLists();
 		}
@@ -348,6 +342,8 @@ public class OptionsFrame extends KoLFrame
 			if ( getProperty( "autoRepairBoxes" ).equals( "true" ) )
 			{
 				optionBoxes[3].setSelected( true );
+				setProperty( "autoSatisfyChecks", "true" );
+
 				optionBoxes[3].setEnabled( false );
 			}
 			else
