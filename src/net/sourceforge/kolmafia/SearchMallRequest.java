@@ -37,7 +37,6 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -167,7 +166,7 @@ public class SearchMallRequest extends KoLRequest
 		// All items with double quotes can be matched
 		// by searching on everything before the double
 
-		else if ( itemName.indexOf( "\"" ) != -1 )
+		else if ( itemName.indexOf( "\"" ) > 0 )
 			itemName = itemName.substring( 0, itemName.indexOf( "\"" ) );
 
 		else if ( TradeableItemDatabase.contains( searchString ) )
@@ -303,81 +302,54 @@ public class SearchMallRequest extends KoLRequest
 		// tags to make everything easy to parse.
 
 		int startIndex = responseText.indexOf( "Search Results:" );
-		String storeListResult = responseText.substring( startIndex == -1 ? 0 : startIndex );
-		String plainTextResult = storeListResult.replaceAll( "<br>", " " ).replaceAll( "</?b>", "\n" ).replaceAll(
-			"</?p>", "" ).replaceAll( "</c.*?>", "" ).replaceAll( "<tr><td style", "\n...\n<tr><td style" ).replaceAll( "</?t.*?>", "\n" ).replaceAll( "</a>", "\n" );
+		String storeListResult = responseText.substring( startIndex < 0 ? 0 : startIndex );
 
-		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
+		Matcher linkMatcher = Pattern.compile( "<tr>.*?</a>" ).matcher( storeListResult );
+		String linkText = null;
 
-		// Now, check to see if there was actually
-		// no results in a limited search
+		int previousItemID = -1;
 
-		if ( startIndex == -1 || parsedResults.countTokens() < 9 )
+		while ( linkMatcher.find() )
 		{
-			finalizeList( itemNames );
-			return;
-		}
+			linkText = linkMatcher.group();
 
-		// The first four tokens are just the table
-		// headers, and so they can be discarded
+			Matcher quantityMatcher = Pattern.compile( "\\([\\d,]+\\)" ).matcher( linkText );
+			int quantity = 0;
 
-		skipTokens( parsedResults, 4 );
+			if ( quantityMatcher.find() )
+				quantity =	StaticEntity.parseInt( quantityMatcher.group() );
 
-		String lastItemName = "";
-		while ( parsedResults.countTokens() > 1 )
-		{
-			boolean canPurchase = true;
+			int limit = quantity;
 
-			// The first token contains the item name
-
-			String itemName = parsedResults.nextToken().trim();
-
-			if ( itemName.equals( "..." ) )
-			{
-				canPurchase = false;
-				itemName = parsedResults.nextToken().trim();
-			}
-
-			if ( !itemName.equals( lastItemName ) )
-			{
-				// Theoretically, you could do a check to see if you
-				// should add in the NPC store price; however, if
-				// it wasn't in the top list, then don't bother.
-				// Now, figure out if an NPC item exists for the
-				// most recently encountered item type.
-
-				lastItemName = itemName;
-				itemNames.remove( itemName );
-
-				if ( NPCStoreDatabase.contains( itemName ) )
-					results.add( NPCStoreDatabase.getPurchaseRequest( itemName ) );
-			}
-
-			// The next token contains the number of items being sold
-			// in addition to any limits imposed on those items
-
-			StringTokenizer buyDetails = new StringTokenizer( parsedResults.nextToken(), " &nbsp;()/day" );
-			int quantity = intToken( buyDetails );
-			int limit = buyDetails.hasMoreTokens() ? intToken( buyDetails ) : quantity;
+			Matcher limitMatcher = Pattern.compile( "([\\d,]+)\\&nbsp;\\/\\&nbsp;day" ).matcher( linkText );
+			if ( limitMatcher.find() )
+				limit = StaticEntity.parseInt( limitMatcher.group(1) );
 
 			// The next token contains data which identifies the shop
 			// and the item (which will be used later), and the price!
 			// which means you don't need to consult thenext token.
 
-			String shopDetails = parsedResults.nextToken();
-			int shopID = StaticEntity.parseInt( shopDetails.substring( shopDetails.indexOf( "store=" ) + 6, shopDetails.indexOf( "&searchitem" ) ) );
-			int itemID = StaticEntity.parseInt( shopDetails.substring( shopDetails.indexOf( "item=" ) + 5, shopDetails.indexOf( "&searchprice" ) ) );
-			String shopName = shopDetails.substring( shopDetails.indexOf( "\">" ) + 2 );
-			int price = StaticEntity.parseInt( shopDetails.substring( shopDetails.indexOf( "price=" ) + 6, shopDetails.indexOf( "\">" ) ) );
+			Matcher detailsMatcher = Pattern.compile( "whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\">(.*?)</a>" ).matcher( linkText );
+			if ( !detailsMatcher.find() )
+				continue;
 
-			// The last token contains the price of the item, but
-			// you need to discard it.
+			int shopID = StaticEntity.parseInt( detailsMatcher.group(1) );
+			int itemID = StaticEntity.parseInt( detailsMatcher.group(2) );
+			int price = StaticEntity.parseInt( detailsMatcher.group(3) );
 
-			parsedResults.nextToken();
-			
+			String shopName = detailsMatcher.group(4).replaceAll( "<br>", " " );
+			String itemName = TradeableItemDatabase.getItemName( itemID );
+			boolean canPurchase = linkText.indexOf( "<td style=" ) == -1;
+
 			// Only add mall store results if the NPC store option
 			// is not available.
-			
+
+			if ( previousItemID != itemID )
+			{
+				previousItemID = itemID;
+				addNPCStoreItem( itemName );
+			}
+
 			if ( !NPCStoreDatabase.contains( itemName ) )
 				results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, canPurchase ) );
 		}
@@ -386,6 +358,18 @@ public class SearchMallRequest extends KoLRequest
 		// store data and finalize the list.
 
 		finalizeList( itemNames );
+	}
+
+	private void addNPCStoreItem( String itemName )
+	{
+		if ( NPCStoreDatabase.contains( itemName, false ) )
+		{
+			MallPurchaseRequest npcitem = NPCStoreDatabase.getPurchaseRequest( itemName, false );
+			npcitem.setCanPurchase( NPCStoreDatabase.contains( itemName, true ) );
+
+			if ( !results.contains( npcitem ) )
+				results.add( npcitem );
+		}
 	}
 
 	private void finalizeList( List itemNames )
@@ -399,8 +383,7 @@ public class SearchMallRequest extends KoLRequest
 		itemNames.toArray( names );
 
 		for ( int i = 0; i < names.length; ++i )
-			if ( NPCStoreDatabase.contains( names[i] ) )
-				results.add( NPCStoreDatabase.getPurchaseRequest( names[i] ) );
+			addNPCStoreItem( names[i] );
 
 		if ( this.sortAfter )
 		{

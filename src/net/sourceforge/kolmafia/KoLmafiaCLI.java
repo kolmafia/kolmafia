@@ -2957,19 +2957,31 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void executeBuyCommand( String parameters )
 	{
-		AdventureResult firstMatch = getFirstMatchingItem( parameters );
-		if ( firstMatch == null )
-			return;
+		boolean revertToCheckpoint = false;
+		Object [] matches = getMatchingItemList( parameters );
 
-		if ( !KoLCharacter.canInteract() && !NPCStoreDatabase.contains( firstMatch.getName() ) )
+		for ( int i = 0; i < matches.length; ++i )
 		{
-			updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
-			return;
+			AdventureResult match = (AdventureResult) matches[i];
+
+			if ( !KoLCharacter.canInteract() && !NPCStoreDatabase.contains( match.getName() ) )
+			{
+				updateDisplay( ERROR_STATE, "You are not yet out of ronin." );
+				return;
+			}
+
+			ArrayList results = new ArrayList();
+			StoreManager.searchMall( '\"' + match.getName() + '\"', results, 10, false );
+
+			Object [] resultArray = results.toArray();
+			if ( resultArray.length > 0 )
+				revertToCheckpoint |= ((MallPurchaseRequest)resultArray[0]).ensureProperAttire();
+
+			StaticEntity.getClient().makePurchases( results, resultArray, match.getCount() );
 		}
 
-		ArrayList results = new ArrayList();
-		StoreManager.searchMall( '\"' + firstMatch.getName() + '\"', results, 10, false );
-		StaticEntity.getClient().makePurchases( results, results.toArray(), firstMatch.getCount() );
+		if ( revertToCheckpoint )
+			SpecialOutfit.restoreCheckpoint();
 	}
 
 	/**
