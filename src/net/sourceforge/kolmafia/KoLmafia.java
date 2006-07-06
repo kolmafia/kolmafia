@@ -1573,14 +1573,18 @@ public abstract class KoLmafia implements KoLConstants
 
 		String lastUseString = lastUse.toString();
 
-		if ( !lastUseString.startsWith( String.valueOf( KoLCharacter.getAscensions() ) ) )
+		if ( !lastUseString.startsWith( KoLCharacter.getAscensions() + ":" ) )
 		{
-			lastUse.setLength(0);
+			searchIndex = new Integer( -1 );
+
+			lastUse.setLength( 0 );
 			lastUse.append( KoLCharacter.getAscensions() );
 			lastUse.append( ": " );
 
 			lastUseString = lastUse.toString();
-			searchIndex = new Integer( -1 );
+
+			StaticEntity.setProperty( "lastFaucetUse", lastUseString );
+			StaticEntity.setProperty( "lastFaucetLocation", "-1" );
 		}
 
 		// Determine which elements have already been checked
@@ -1589,14 +1593,17 @@ public abstract class KoLmafia implements KoLConstants
 		ArrayList searchList = new ArrayList();
 		for ( int i = 1; i <= 25; ++i )
 		{
-			if ( lastUseString.indexOf( " " + i + " " ) == -1 )
+			if ( lastUseString.indexOf( "[" + i + "]" ) == -1 )
 				searchList.add( new Integer(i) );
 		}
 
 		// If the faucet has not yet been found, then go through
 		// the process of trying to locate it.
 
-		if ( searchIndex.intValue() == -1 )
+		KoLAdventure adventure = new KoLAdventure( this, "", "rats.php", "", "Typical Tavern (Pre-Rat)" );
+		boolean foundFaucet = false;
+
+		if ( searchIndex.intValue() < 0 )
 		{
 			if ( KoLCharacter.getLevel() < 3 )
 			{
@@ -1614,37 +1621,38 @@ public abstract class KoLmafia implements KoLConstants
 			}
 
 			updateDisplay( "Searching for faucet..." );
-
-			KoLAdventure adventure = new KoLAdventure( this, "", "rats.php", "", "Typical Tavern (Pre-Rat)" );
 			adventure.run();
 
 			// Random guess instead of straightforward search
 			// for the location of the faucet (lowers the chance
 			// of bad results if the faucet is near the end).
 
-			while ( !searchList.isEmpty() && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 &&
-				(adventure.getRequest().responseText == null || adventure.getRequest().responseText.indexOf( "faucetoff" ) == -1) )
+			do
 			{
-				searchIndex = (Integer) searchList.get( RNG.nextInt( searchList.size() ) );
-				searchList.remove( searchIndex );
+				searchIndex = (Integer) searchList.remove( RNG.nextInt( searchList.size() ) );
 
+				lastUse.append( '[' );
 				lastUse.append( searchIndex );
-				lastUse.append( " " );
+				lastUse.append( ']' );
 
+				StaticEntity.setProperty( "lastFaucetUse", lastUse.toString() );
+
+				adventure.getRequest().clearDataFields();
 				adventure.getRequest().addFormField( "where", searchIndex.toString() );
 				adventure.run();
+
+				foundFaucet = adventure.getRequest().responseText != null &&
+					adventure.getRequest().responseText.indexOf( "faucetoff" ) != -1;
 			}
+			while ( !foundFaucet && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 );
 		}
 
 		// If you have not yet found the faucet, be sure
 		// to set the settings so that your next attempt
 		// does not repeat located squares.
 
-		StaticEntity.setProperty( "lastFaucetLocation", "-1" );
-		if ( !permitsContinue() )
+		if ( !foundFaucet )
 		{
-			StaticEntity.setProperty( "lastFaucetUse", lastUse.toString() );
-
 			updateDisplay( ERROR_STATE, "Unable to find faucet.  " + searchList.size() + " squares unchecked." );
 			return -1;
 		}
