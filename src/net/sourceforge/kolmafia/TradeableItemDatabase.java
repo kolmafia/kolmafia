@@ -406,16 +406,6 @@ public class TradeableItemDatabase extends KoLDatabase
 	}
 
 	/**
-	 * Returns a list of all items which can be abbreviated
-	 * using the given substring.  This is really useful when
-	 * you don't feel like figuring out what letters match.
-	 */
-
-	public static final List getMatchingAbbreviations( String substring )
-	{	return getMatchingAbbreviations( itemIDByName, substring );
-	}
-
-	/**
 	 * Returns whether or not an item with a given name
 	 * exists in the database; this is useful in the
 	 * event that an item is encountered which is not
