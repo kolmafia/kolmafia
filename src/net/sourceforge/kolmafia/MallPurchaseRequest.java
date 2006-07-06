@@ -359,11 +359,13 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			return false;
 		}
 
-		SpecialOutfit.createCheckpoint();
+		if ( StaticEntity.getProperty( "autoCheckpoint" ).equals( "true" ) )
+			SpecialOutfit.createCheckpoint();
+
 		(new EquipmentRequest( client, EquipmentDatabase.getOutfit( neededOutfit ) )).run();
 
 		MoodSettings.hasChangedOutfit = true;
-		return true;
+		return StaticEntity.getProperty( "autoCheckpoint" ).equals( "true" );
 	}
 
 	protected void processResults()
