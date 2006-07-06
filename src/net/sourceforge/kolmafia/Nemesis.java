@@ -50,6 +50,9 @@ public abstract class Nemesis extends StaticEntity
 
 	private static boolean checkPrerequisites()
 	{
+		if ( KoLCharacter.isFallingDown() )
+			return false;
+
 		KoLRequest request;
 
 		// If the client has not yet been set, then there is no cave
