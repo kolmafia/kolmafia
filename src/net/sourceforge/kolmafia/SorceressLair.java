@@ -1315,7 +1315,6 @@ public abstract class SorceressLair extends StaticEntity
 		AdventureResult option = new AdventureResult( "red pixel potion", 4 );
 
 		int maximumDamage = 22 + (int) Math.floor( KoLCharacter.getMaximumHP() / 5 ) + 3;
-		int minimumHealing = 25;
 
 		// Suppose you have 126 HP, and assume maximum damage taken.
 		// We have the following results, assuming worst-case health
@@ -1333,7 +1332,7 @@ public abstract class SorceressLair extends StaticEntity
 		// shadow for maximum damage four times and you will recover
 		// your health three times.
 
-		int neededHealth = maximumDamage * 4 - minimumHealing * 3;
+		int neededHealth = maximumDamage * 4 - 75;
 
 		if ( neededHealth > KoLCharacter.getCurrentHP() && KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
@@ -1351,7 +1350,7 @@ public abstract class SorceressLair extends StaticEntity
 			// and you will recover your health twice.
 
 			option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
-			neededHealth = maximumDamage * 3 - minimumHealing * 2;
+			neededHealth = maximumDamage * 3 - 72;
 		}
 
 		// Now, if you have greater than the amount of needed
@@ -1400,7 +1399,7 @@ public abstract class SorceressLair extends StaticEntity
 			if ( KoLCharacter.hasItem( egg, true ) )
 			{
 				option = egg;
-				neededHealth = maximumDamage * 3 - minimumHealing * 2;
+				neededHealth = maximumDamage * 3 - 50;
 			}
 		}
 
