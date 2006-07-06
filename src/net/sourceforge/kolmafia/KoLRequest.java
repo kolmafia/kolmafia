@@ -594,7 +594,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
 
-		if ( responseCode == 200 )
+		if ( responseCode == 200 && responseText != null )
 		{
 			if ( !(this instanceof FightRequest) )
 				AdventureRequest.registerEncounter( this );
@@ -961,23 +961,20 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				if ( line == null )
 				{
-					KoLmafia.getDebugStream().println( "No reply content.  Retrying..." );
-					return false;
+					responseText = null;
+					return true;
 				}
 
 				// Check for MySQL errors, since those have been getting more
 				// frequent, and would cause an IOException to be thrown
 				// unnecessarily, when a re-request would do.  I'm not sure
 				// how they work right now (which line the MySQL error is
-				// printed to), but for now, assume
-				// that it's the first line.
+				// printed to), but for now, assume that it's the first line.
 
 				else if ( line.indexOf( "error" ) != -1 )
 				{
-					if ( !(this instanceof ChatRequest) )
-						KoLmafia.getDebugStream().println( "Encountered MySQL error.  Retrying..." );
-
-					return false;
+					responseText = null;
+					return true;
 				}
 
 				// The remaining lines form the rest of the content.  In order
