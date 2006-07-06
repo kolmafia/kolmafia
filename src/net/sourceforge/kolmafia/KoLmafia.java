@@ -1032,7 +1032,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, check against the restore target to see how
 		// far you need to go.
 
-		int threshold = needed;
+		int threshold = initial == 0 ? needed : needed - 1;
 		setting = StaticEntity.parseDouble( StaticEntity.getProperty( settingName + "Target" ) );
 
 		if ( initial == 0 )
@@ -1050,14 +1050,14 @@ public abstract class KoLmafia implements KoLConstants
 
 		String currentTechniqueName;
 
-		for ( int i = 0; i < techniques.length && (current < needed || checkBeatenUp); ++i )
+		for ( int i = 0; i < techniques.length && (current <= threshold || checkBeatenUp); ++i )
 		{
 			currentTechniqueName = techniques[i].toString().toLowerCase();
 			if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
 			{
 				last = -1;
 
-				while ( (current < needed || checkBeatenUp) && last != current && !refusesContinue() )
+				while ( (current <= threshold || checkBeatenUp) && last != current && !refusesContinue() )
 				{
 					last = current;
 					recoverOnce( techniques[i], currentTechniqueName, needed );
@@ -1073,7 +1073,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return false;
 
-		if ( current >= threshold )
+		if ( current > threshold )
 			return true;
 
 		updateDisplay( ABORT_STATE, "Autorecovery failed." );
@@ -2696,6 +2696,8 @@ public abstract class KoLmafia implements KoLConstants
 	protected void handleAscension()
 	{
 		refreshSession();
+		MoodSettings.setMood( "apathetic" );
+
 		enableDisplay();
 
 		sessionStream.println();

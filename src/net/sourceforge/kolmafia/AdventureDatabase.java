@@ -326,6 +326,9 @@ public class AdventureDatabase extends KoLDatabase
 		{
 			if ( data.length == 4 )
 			{
+				if ( data[1].indexOf( "send" ) != -1 )
+					continue;
+
 				String zone = (String) ZONE_NAMES.get( data[0] );
 
 				// Be defensive: user can supply a broken data file
