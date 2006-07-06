@@ -260,7 +260,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		PLAYER_SETTINGS.put( "lastBreakfast", "19691231" );
 		PLAYER_SETTINGS.put( "lastFaucetLocation", "-1" );
-		PLAYER_SETTINGS.put( "lastFaucetUse", "0: " );
+		PLAYER_SETTINGS.put( "lastFaucetUse", "A: " );
 		PLAYER_SETTINGS.put( "lastAdventure", "" );
 		PLAYER_SETTINGS.put( "lastMessageID", "" );
 		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0" );

@@ -38,33 +38,25 @@ import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JComboBox;
-import javax.swing.JToolBar;
-import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 
 import java.awt.Dimension;
-import java.awt.Component;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.GridLayout;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import javax.swing.ToolTipManager;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
 
 import java.util.Vector;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import com.sun.java.forums.TableSorter;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 {
@@ -406,7 +398,6 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 			{
 				KoLmafia.updateDisplay( "Attacking " + selection[i].getPlayerName() + "..." );
 				request.setTarget( selection[i].getPlayerID() );  request.run();
-				FightFrame.showRequest( request );
 
 				updateRank();
 			}
