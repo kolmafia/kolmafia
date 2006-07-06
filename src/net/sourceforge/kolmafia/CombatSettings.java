@@ -42,6 +42,8 @@ import java.io.BufferedReader;
 import java.io.PrintStream;
 import java.io.InputStreamReader;
 
+import java.util.List;
+import java.util.ArrayList;
 import java.util.TreeMap;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -149,6 +151,9 @@ public abstract class CombatSettings implements UtilityConstants
 				line = line.trim();
 				if ( line.startsWith( "[" ) )
 				{
+					if ( currentList != root && currentList.getChildCount() == 0 )
+						currentList.add( new CombatActionNode( 1, "attack" ) );
+
 					currentKey = line.substring( 1, line.length() - 1 ).trim().toLowerCase();
 					currentList = new CombatSettingNode( currentKey );
 
@@ -210,6 +215,32 @@ public abstract class CombatSettings implements UtilityConstants
 			settingsFile.delete();
 			loadSettings();
 		}
+	}
+
+	public synchronized static void setDefaultAction( String actionList )
+	{
+		if ( !characterName.equals( KoLCharacter.getUsername() ) )
+			CombatSettings.reset();
+
+		CombatSettingNode currentList = (CombatSettingNode) reference.get( "default" );
+		currentList.removeAllChildren();
+
+		String [] rounds = actionList.split( "\\s*;\\s*" );
+		for ( int i = 0; i < rounds.length; ++i )
+			currentList.add( new CombatActionNode( i + 1, rounds[i] ) );
+	}
+
+	public synchronized static List getDefaultAction()
+	{
+		if ( !characterName.equals( KoLCharacter.getUsername() ) )
+			CombatSettings.reset();
+
+		ArrayList nodeList = new ArrayList();
+		CombatSettingNode currentList = (CombatSettingNode) reference.get( "default" );
+		for ( int i = 0; i < currentList.getChildCount(); ++i )
+			nodeList.add( currentList.getChildAt(i) );
+
+		return nodeList;
 	}
 
 	/**
