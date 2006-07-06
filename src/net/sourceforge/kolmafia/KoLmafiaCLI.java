@@ -575,6 +575,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( name.equals( "battleAction" ) )
 			{
+				if ( value.indexOf( ";" ) != -1 )
+				{
+					CombatSettings.setDefaultAction( value );
+					value = "custom";
+				}
+
 				value = CombatSettings.getLongCombatOptionName( value );
 				int index = KoLCharacter.getBattleSkillIDs().indexOf( value );
 				if ( index == -1 )
@@ -589,6 +595,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 			printLine( name + " => " + value );
 			StaticEntity.setProperty( name, value );
+
+			if ( name.equals( "battleAction" ) && value.equals( "custom" ) )
+				printList( CombatSettings.getDefaultAction() );
 
 			return;
 		}
@@ -1396,6 +1405,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( split.length == 3 )
 				MoodSettings.addTrigger( split[0], split[1], split[2] );
 
+			printList( MoodSettings.getTriggers() );
 			return;
 		}
 
@@ -1406,7 +1416,9 @@ public class KoLmafiaCLI extends KoLmafia
 			else if ( !parameters.equals( "" ) )
 				MoodSettings.setMood( parameters );
 
+			printList( MoodSettings.getTriggers() );
 			MoodSettings.execute();
+			printLine( "Mood swing complete." );
 			return;
 		}
 
