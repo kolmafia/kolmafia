@@ -336,15 +336,20 @@ public class CharsheetRequest extends KoLRequest
 		token = cleanContent.nextToken();
 
 		List availableSkills = new ArrayList();
-		while ( !token.startsWith( "Current" ) && cleanContent.hasMoreTokens() )
+		// Loop until we get to Current Familiar
+		while ( !token.startsWith( "Current" ) )
 		{
-			if ( token.startsWith( "(" ) )
+			if ( token.startsWith( "(" ) || token.startsWith( " (" ) )
 			{
-				if ( token.length() == 1 )
+				if ( token.length() <= 2 )
 					skipTokens( cleanContent, 2 );
 			}
 			else if ( ClassSkillsDatabase.contains( token ) )
 				availableSkills.add( new UseSkillRequest( StaticEntity.getClient(), token, "", 1 ) );
+
+			// No more tokens if no familiar equipped
+			if ( !cleanContent.hasMoreTokens() )
+				break;
 
 			token = cleanContent.nextToken();
 		}
