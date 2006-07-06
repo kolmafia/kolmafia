@@ -223,8 +223,6 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < options.length; ++i )
 				setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
-
-			super.actionConfirmed();
 		}
 
 		protected void actionCancelled()
@@ -276,9 +274,7 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < options.length; ++i )
 				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
-			super.actionConfirmed();
 			actionCancelled();
-
 			KoLCharacter.refreshCalculatedLists();
 			AdventureDatabase.refreshAdventureList();
 		}
@@ -330,7 +326,6 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < options.length; ++i )
 				setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 
-			super.actionConfirmed();
 			actionCancelled();
 			KoLCharacter.refreshCalculatedLists();
 		}
@@ -699,6 +694,10 @@ public class OptionsFrame extends KoLFrame
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
 		{	return false;
 		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+		}
 	}
 
 	private void saveRestoreSettings()
@@ -765,18 +764,6 @@ public class OptionsFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		public void setEnabled( boolean isEnabled )
-		{
-			if ( !isEnabled )
-				refreshSoon = true;
-
-			if ( isEnabled && refreshSoon )
-			{
-				actionCancelled();
-				refreshSoon = false;
-			}
-		}
-
 		protected void actionConfirmed()
 		{	saveRestoreSettings();
 		}
@@ -791,6 +778,10 @@ public class OptionsFrame extends KoLFrame
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
 		{	return false;
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
 		}
 	}
 
@@ -823,10 +814,6 @@ public class OptionsFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		public void setEnabled( boolean isEnabled )
-		{
-		}
-
 		protected void actionConfirmed()
 		{	saveRestoreSettings();
 		}
@@ -839,6 +826,10 @@ public class OptionsFrame extends KoLFrame
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
 		{	return false;
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
 		}
 	}
 
@@ -883,6 +874,10 @@ public class OptionsFrame extends KoLFrame
 		protected void actionCancelled()
 		{	StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
 		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+		}
 	}
 
 	private class CustomCombatTreePanel extends LabeledScrollPanel
@@ -909,6 +904,10 @@ public class OptionsFrame extends KoLFrame
 
 			CombatSettings.loadSettings( chooser.getSelectedFile() );
 			refreshCombatSettings();
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
 		}
 	}
 
@@ -1013,6 +1012,10 @@ public class OptionsFrame extends KoLFrame
 		{	MoodSettings.autoFillTriggers();
 		}
 
+		public void setEnabled( boolean isEnabled )
+		{
+		}
+
 		private class ValueComboBox extends JComboBox implements ActionListener
 		{
 			public ValueComboBox()
@@ -1083,6 +1086,10 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{	MoodSettings.removeTriggers( moodList.getSelectedValues() );
+		}
+
+		public void setEnabled( boolean isEnabled )
+		{
 		}
 
 		private class MoodComboBox extends JComboBox implements ActionListener

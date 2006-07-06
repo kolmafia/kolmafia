@@ -246,7 +246,7 @@ public abstract class MoodSettings implements KoLConstants
 		for ( int i = 0; i < effects.length; ++i )
 		{
 			String action = getDefaultAction( "lose_effect", effects[i].getName() );
-			if ( action != null && !action.equals( "" ) )
+			if ( action != null && !action.equals( "" ) && !action.startsWith( "cast" ) )
 				addTrigger( "lose_effect", effects[i].getName(), action );
 		}
 	}
@@ -522,7 +522,12 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		public boolean equals( Object o )
-		{	return o != null && toString().equals( o.toString() );
+		{
+			if ( o == null || !(o instanceof MoodTrigger) )
+				return false;
+
+			MoodTrigger mt = (MoodTrigger) o;
+			return triggerType.equals( mt.triggerType ) && triggerName.equals( mt.triggerName );
 		}
 
 		public void execute()
