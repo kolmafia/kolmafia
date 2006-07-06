@@ -312,7 +312,6 @@ public class SearchMallRequest extends KoLRequest
 		while ( linkMatcher.find() )
 		{
 			linkText = linkMatcher.group();
-
 			Matcher quantityMatcher = Pattern.compile( "\\([\\d,]+\\)" ).matcher( linkText );
 			int quantity = 0;
 
@@ -345,6 +344,7 @@ public class SearchMallRequest extends KoLRequest
 			{
 				previousItemID = itemID;
 				addNPCStoreItem( itemName );
+				itemNames.remove( itemName );
 			}
 
 			// Only add mall store results if the NPC store option
@@ -364,8 +364,6 @@ public class SearchMallRequest extends KoLRequest
 		if ( NPCStoreDatabase.contains( itemName, false ) )
 		{
 			MallPurchaseRequest npcitem = NPCStoreDatabase.getPurchaseRequest( itemName );
-			npcitem.setCanPurchase( NPCStoreDatabase.contains( itemName, true ) );
-
 			if ( !results.contains( npcitem ) )
 				results.add( npcitem );
 		}

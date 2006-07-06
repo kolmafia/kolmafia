@@ -673,6 +673,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
 		{
 			executeScriptCommand( parameters );
+			printLine( "Script verification complete." );
 			return;
 		}
 
@@ -2612,9 +2613,6 @@ public class KoLmafiaCLI extends KoLmafia
 		// the amount, if the amount is 1.
 
 		List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
-		if ( matchingNames.isEmpty() )
-			matchingNames = TradeableItemDatabase.getMatchingAbbreviations( parameters );
-
 
 		// Next, check to see if any of the items matching appear
 		// in an NPC store.  If so, automatically default to it.
@@ -2635,8 +2633,6 @@ public class KoLmafiaCLI extends KoLmafia
 			String itemNameString = parameters.substring( itemCountString.length() ).trim();
 
 			matchingNames = TradeableItemDatabase.getMatchingNames( itemNameString );
-			if ( matchingNames.isEmpty() )
-				matchingNames = TradeableItemDatabase.getMatchingAbbreviations( itemNameString );
 
 			if ( matchingNames.isEmpty() )
 			{

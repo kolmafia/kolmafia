@@ -150,6 +150,9 @@ public class KoLDatabase extends StaticEntity
 					substringList.add( names[i] );
 		}
 
+		if ( substringList.isEmpty() )
+			substringList.addAll( getMatchingAbbreviations( nameMap, searchString ) );
+
 		return substringList;
 	}
 
@@ -161,7 +164,7 @@ public class KoLDatabase extends StaticEntity
 	 * @param	substring	The substring for which to search
 	 */
 
-	public static final List getMatchingAbbreviations( Map nameMap, String substring )
+	private static final List getMatchingAbbreviations( Map nameMap, String substring )
 	{
 		List substringList = new ArrayList();
 		String searchString = getCanonicalName( substring.startsWith( "\"" ) ? substring.substring( 1, substring.length() - 1 ) : substring ).trim();
