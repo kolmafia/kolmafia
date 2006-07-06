@@ -299,7 +299,8 @@ public class OptionsFrame extends KoLFrame
 			{ "showClosetDrivenCreations", "Get ingredients from closet if needed" },
 			{ "createWithoutBoxServants", "Create without requiring a box servant" },
 			{ "autoRepairBoxes", "Create and install new box servant after explosion" },
-			{ "autoSatisfyChecks", "Allow mall purchases on conditions check" }
+			{ "autoSatisfyChecks", "Allow mall purchases on conditions check" },
+			{ "autoCheckpoint", "Allow outfit checkpointing during NPC store purchases" }
 		};
 
 		/**

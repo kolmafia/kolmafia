@@ -194,6 +194,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 			return;
 
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "true" );
+		CLIENT_SETTINGS.put( "autoCheckpoint", "true" );
 		CLIENT_SETTINGS.put( "autoLogin", "" );
 		CLIENT_SETTINGS.put( "autoRepairBoxes", "false" );
 		CLIENT_SETTINGS.put( "autoSatisfyChecks", "true" );
