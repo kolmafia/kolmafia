@@ -892,7 +892,9 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public void actionConfirmed()
-		{	combatCards.show( combatPanel, "editor" );
+		{
+			refreshCombatSettings();
+			combatCards.show( combatPanel, "editor" );
 		}
 
 		public void actionCancelled()

@@ -48,17 +48,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
-/**
- * An extension of {@link java.util.Properties} which handles all the
- * user settings of <code>KoLmafia</code>.  In order to maintain issues
- * involving compatibility (J2SE 1.4 does not support XML output directly),
- * all data is written using {@link java.util.Properties#store(OutputStream,String)}.
- * Files are named according to the following convention: a tilde (<code>~</code>)
- * preceeds the name of the character whose settings this object represents,
- * with the 'kcs' extension (KoLmafia Character Settings).  All global settings
- * are stored in <code>~.kcs</code>.
- */
-
 public abstract class CombatSettings implements UtilityConstants
 {
 	private static String [] keys;
@@ -168,8 +157,33 @@ public abstract class CombatSettings implements UtilityConstants
 				}
 				else if ( line.length() != 0 )
 				{
-					if ( currentList.getChildCount() < 15 )
-						currentList.add( new CombatActionNode( currentList.getChildCount() + 1, line ) );
+					CombatActionNode node = null;
+
+					if ( Character.isDigit( line.charAt(0) ) )
+					{
+						String [] pieces = line.split( "\\s*:\\s*" );
+						int desiredIndex = StaticEntity.parseInt( pieces[0] );
+
+						if ( pieces.length == 2 && desiredIndex >= currentList.getChildCount() )
+						{
+							if ( currentList.getChildCount() > 0 )
+								node = (CombatActionNode) currentList.getLastChild();
+							else
+								node = new CombatActionNode( 1, "attack" );
+
+							while ( currentList.getChildCount() < desiredIndex - 1 )
+								currentList.add( new CombatActionNode( currentList.getChildCount() + 1, node.action ) );
+
+							node = new CombatActionNode( desiredIndex, pieces[1] );
+						}
+					}
+					else
+					{
+						node = new CombatActionNode( currentList.getChildCount() + 1, line );
+					}
+
+					if ( node != null )
+						currentList.add( node );
 				}
 			}
 
@@ -237,8 +251,26 @@ public abstract class CombatSettings implements UtilityConstants
 				writer.println( "[ " + keys[i] + " ]" );
 
 				combatOptions = (CombatSettingNode) reference.get( keys[i] );
+				String action = null, newAction = null;
+
 				for ( int j = 0; j < combatOptions.getChildCount(); ++j )
-					writer.println( ((CombatActionNode)combatOptions.getChildAt(j)).getAction() );
+				{
+					if ( action == null )
+					{
+						action = ((CombatActionNode)combatOptions.getChildAt(j)).getAction();
+						if ( !action.equals( "attack" ) )
+							writer.println( combatOptions.getChildAt(j) );
+					}
+					else
+					{
+						newAction = ((CombatActionNode)combatOptions.getChildAt(j)).getAction();
+						if ( !action.equals( newAction ) )
+						{
+							action = newAction;
+							writer.println( combatOptions.getChildAt(j) );
+						}
+					}
+				}
 
 				writer.println();
 			}
