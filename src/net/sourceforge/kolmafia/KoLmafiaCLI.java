@@ -1389,6 +1389,26 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.startsWith( "trigger" ) )
+		{
+			String [] split = parameters.split( "\\s*,\\s*" );
+			if ( split.length == 3 )
+				MoodSettings.addTrigger( split[0], split[1], split[2] );
+
+			return;
+		}
+
+		if ( command.startsWith( "mood" ) )
+		{
+			if ( parameters.equals( "autofill" ) )
+				MoodSettings.autoFillTriggers();
+			else if ( !parameters.equals( "" ) )
+				MoodSettings.setMood( parameters );
+
+			MoodSettings.execute();
+			return;
+		}
+
 		if ( command.equals( "restaurant" ) )
 		{
 			makeRestaurantRequest();
