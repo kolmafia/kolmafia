@@ -105,7 +105,6 @@ public class RequestThread extends Thread implements KoLConstants
 					requests[i].run();
 		}
 
-		System.gc();
 		KoLmafia.enableDisplay();
 	}
 

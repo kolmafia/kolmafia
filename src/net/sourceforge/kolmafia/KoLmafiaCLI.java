@@ -489,6 +489,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.indexOf( ".php" ) != -1 )
 		{
+			if ( command.indexOf( "?" ) != -1 && command.substring( 0, command.indexOf( "?" ) ).indexOf( "send" ) != -1 )
+				return;
+
 			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), previousLine, true );
 			StaticEntity.getClient().makeRequest( desired );
 			StaticEntity.externalUpdate( desired.getURLString(), desired.responseText );
@@ -1411,7 +1414,9 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "mood" ) )
 		{
-			if ( parameters.equals( "autofill" ) )
+			if ( parameters.equals( "clear" ) )
+				MoodSettings.removeTriggers( MoodSettings.getTriggers().toArray() );
+			else if ( parameters.equals( "autofill" ) )
 				MoodSettings.autoFillTriggers();
 			else if ( !parameters.equals( "" ) )
 				MoodSettings.setMood( parameters );
@@ -1449,6 +1454,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "send" ) || command.equals( "kmail" ) )
 		{
+			if ( KoLmafia.isRunningBetweenBattleChecks() )
+			{
+				printLine( "Send request \"" + parameters + "\" ignored in between-battle execution." );
+				return;
+			}
+
 			executeSendRequest( parameters );
 			return;
 		}

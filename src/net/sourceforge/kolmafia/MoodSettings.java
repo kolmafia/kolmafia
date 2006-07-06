@@ -86,6 +86,8 @@ public abstract class MoodSettings implements KoLConstants
 		MoodSettings.settingsFile = new File( DATA_DIRECTORY + settingsFileName() );
 
 		loadSettings();
+		ensureProperty( "default" );
+		ensureProperty( "apathetic" );
 	}
 
 	public static SortedListModel getAvailableMoods()
@@ -137,7 +139,7 @@ public abstract class MoodSettings implements KoLConstants
 		if ( !characterName.equals( KoLCharacter.getUsername() ) )
 			MoodSettings.reset();
 
-		if ( triggers.contains( node ) )
+		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) || triggers.contains( node ) )
 			return;
 
 		// Check to make sure that there are fewer than three thief
@@ -188,6 +190,9 @@ public abstract class MoodSettings implements KoLConstants
 	{
 		if ( !characterName.equals( KoLCharacter.getUsername() ) )
 			MoodSettings.reset();
+
+		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
+			return;
 
 		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getAvailableSkills().size() ];
 		KoLCharacter.getAvailableSkills().toArray( skills );
@@ -543,7 +548,7 @@ public abstract class MoodSettings implements KoLConstants
 
 			if ( shouldExecute )
 			{
-				if ( isThiefTrigger() && songWeapon == null )
+				if ( skillID != -1 && songWeapon == null )
 					UseSkillRequest.optimizeEquipment( skillID );
 
 				DEFAULT_SHELL.executeLine( action );
