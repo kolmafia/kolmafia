@@ -315,7 +315,7 @@ public abstract class MoodSettings implements KoLConstants
 		if ( hasChangedOutfit )
 			SpecialOutfit.restoreCheckpoint();
 
-		UseSkillRequest.restoreEquipment( null, null, null, null );
+		UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
 	}
 
 	/**
@@ -549,7 +549,10 @@ public abstract class MoodSettings implements KoLConstants
 			if ( shouldExecute )
 			{
 				if ( skillID != -1 && songWeapon == null )
-					UseSkillRequest.optimizeEquipment( skillID );
+					songWeapon = UseSkillRequest.optimizeEquipment( skillID );
+
+				if ( isThiefTrigger() && songWeapon == null )
+					return;
 
 				DEFAULT_SHELL.executeLine( action );
 			}
