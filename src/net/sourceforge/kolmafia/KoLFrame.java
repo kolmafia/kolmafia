@@ -1188,6 +1188,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		protected void actionConfirmed()
 		{
 		}
+
+		public void setEnabled( boolean isEnabled )
+		{
+		}
 	}
 
 	protected class LoadScriptButton extends JButton implements Runnable, ActionListener
