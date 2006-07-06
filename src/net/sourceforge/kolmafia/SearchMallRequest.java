@@ -341,17 +341,16 @@ public class SearchMallRequest extends KoLRequest
 			String itemName = TradeableItemDatabase.getItemName( itemID );
 			boolean canPurchase = linkText.indexOf( "<td style=" ) == -1;
 
-			// Only add mall store results if the NPC store option
-			// is not available.
-
 			if ( previousItemID != itemID )
 			{
 				previousItemID = itemID;
 				addNPCStoreItem( itemName );
 			}
 
-			if ( !NPCStoreDatabase.contains( itemName ) )
-				results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, canPurchase ) );
+			// Only add mall store results if the NPC store option
+			// is not available.
+
+			results.add( new MallPurchaseRequest( client, itemName, itemID, quantity, shopID, shopName, price, limit, canPurchase ) );
 		}
 
 		// Once the search is complete, add in any remaining NPC
@@ -364,7 +363,7 @@ public class SearchMallRequest extends KoLRequest
 	{
 		if ( NPCStoreDatabase.contains( itemName, false ) )
 		{
-			MallPurchaseRequest npcitem = NPCStoreDatabase.getPurchaseRequest( itemName, false );
+			MallPurchaseRequest npcitem = NPCStoreDatabase.getPurchaseRequest( itemName );
 			npcitem.setCanPurchase( NPCStoreDatabase.contains( itemName, true ) );
 
 			if ( !results.contains( npcitem ) )

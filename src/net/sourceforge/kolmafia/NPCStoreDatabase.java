@@ -82,10 +82,6 @@ public class NPCStoreDatabase extends KoLDatabase
 	}
 
 	public static final MallPurchaseRequest getPurchaseRequest( String itemName )
-	{	return getPurchaseRequest( itemName, true );
-	}
-
-	public static final MallPurchaseRequest getPurchaseRequest( String itemName, boolean validate )
 	{
 		Integer itemID = new Integer( TradeableItemDatabase.getItemID( itemName ) );
 		int itemIndex = storeTable[4].indexOf( itemID );
@@ -103,31 +99,23 @@ public class NPCStoreDatabase extends KoLDatabase
 		String classType = KoLCharacter.getClassType();
 		String storeID = (String) storeTable[0].get( itemIndex );
 		MallPurchaseRequest itemRequest = new MallPurchaseRequest( client, (String) storeTable[1].get(itemIndex), storeID,
-				StaticEntity.parseInt( (String) storeTable[2].get(itemIndex) ), StaticEntity.parseInt( (String) storeTable[3].get(itemIndex) ) );
-
-		if ( !validate )
-			return itemRequest;
+			StaticEntity.parseInt( (String) storeTable[2].get(itemIndex) ), StaticEntity.parseInt( (String) storeTable[3].get(itemIndex) ) );
 
 		if ( storeID.equals( "1" ) )
 		{
-			if ( !classType.startsWith( "Di" ) && !classType.startsWith( "Ac" ) )
-				return null;
+			itemRequest.setCanPurchase( classType.startsWith( "Di" ) || classType.startsWith( "Ac" ) );
 		}
 
-		if ( storeID.equals( "2" ) )
+		else if ( storeID.equals( "2" ) )
 		{
-			if ( !( classType.startsWith( "Pa" ) ||
-				classType.startsWith( "Sa" ) ||
-				( classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9 ) ) )
-					return null;
+			itemRequest.setCanPurchase( classType.startsWith( "Pa" ) || classType.startsWith( "Sa" ) ||
+				(classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) );
 		}
 
-		if ( storeID.equals( "3" ) )
+		else if ( storeID.equals( "3" ) )
 		{
-			if ( !( classType.startsWith( "Se" ) ||
-				classType.startsWith( "Tu" ) ||
-				( classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) ) )
-					return null;
+			itemRequest.setCanPurchase( classType.startsWith( "Se" ) || classType.startsWith( "Tu" ) ||
+				(classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) );
 		}
 
 		// If the person is trying to get one of the items from the bugbear
@@ -135,40 +123,52 @@ public class NPCStoreDatabase extends KoLDatabase
 		// bugbear outfit.  Of course, some items are available from the
 		// Degrassi knoll bakery, so fallback on that when possible.
 
-		if ( storeID.equals( "b" ) && !EquipmentDatabase.hasOutfit( 1 ) )
+		else if ( storeID.equals( "b" ) )
 		{
-			itemIndex = storeTable[4].lastIndexOf( itemID );
-			storeID = (String) storeTable[0].get( itemIndex );
+			if ( !EquipmentDatabase.hasOutfit( 1 ) )
+			{
+				itemIndex = storeTable[4].lastIndexOf( itemID );
+				storeID = (String) storeTable[0].get( itemIndex );
 
-			if ( storeID.equals( "b" ) )
-				return null;
+				if ( storeID.equals( "b" ) )
+				{
+					itemRequest.setCanPurchase( false );
+				}
+				else
+				{
+					itemRequest = new MallPurchaseRequest( client, (String) storeTable[1].get(itemIndex), storeID,
+						StaticEntity.parseInt( (String) storeTable[2].get(itemIndex) ), StaticEntity.parseInt( (String) storeTable[3].get(itemIndex) ) );
+
+					itemRequest.setCanPurchase( KoLCharacter.inMuscleSign() );
+				}
+			}
 		}
 
 		// If the person is not in a muscle sign, then items from the
 		// Degrassi Knoll are not available.
 
-		if ( (storeID.equals( "4" ) || storeID.equals( "5" )) && !KoLCharacter.inMuscleSign() )
-			return null;
+		else if ( (storeID.equals( "4" ) || storeID.equals( "5" )) )
+			itemRequest.setCanPurchase( KoLCharacter.inMuscleSign() );
 
 		// If the person is not in a mysticality sign, then items from the
 		// Canadia Jewelers are not available.
 
-		if ( storeID.equals( "j" ) && !KoLCharacter.inMysticalitySign() )
-			return null;
+		else if ( storeID.equals( "j" ) )
+			itemRequest.setCanPurchase( KoLCharacter.inMysticalitySign() );
 
 		// If the person is trying to get the items from the laboratory,
 		// then the item is not available if they don't have the elite
-		// guard uniform.
+		// guard uniform, and not available if out of Ronin.
 
-		if ( storeID.equals( "g" ) && (!EquipmentDatabase.hasOutfit( 5 ) || KoLCharacter.canInteract()) )
-			return null;
+		else if ( storeID.equals( "g" ) )
+			itemRequest.setCanPurchase( EquipmentDatabase.hasOutfit( 5 ) );
 
 		// If the person is trying to get one of the items from the hippy
 		// store, then the item is not available if they don't have the
 		// hippy outfit.
 
-		if ( storeID.equals( "h" ) && !EquipmentDatabase.hasOutfit( 2 ) )
-			return null;
+		else if ( storeID.equals( "h" ) )
+			itemRequest.setCanPurchase( EquipmentDatabase.hasOutfit( 2 ) );
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.
@@ -181,7 +181,8 @@ public class NPCStoreDatabase extends KoLDatabase
 	}
 
 	public static final boolean contains( String itemName, boolean validate )
-	{	return getPurchaseRequest( itemName, validate ) != null;
+	{
+		MallPurchaseRequest itemRequest = getPurchaseRequest( itemName );
+		return itemRequest == null ? false : validate ? itemRequest.canPurchase() : true;
 	}
-
 }

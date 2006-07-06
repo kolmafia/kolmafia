@@ -162,14 +162,8 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, KoLCharacter.WEAPON )).run();
 		}
 
-		// If there's a stolen accordion equipped, unequip it so the
-		// Rock and Roll Legend in inventory is used to play the song
-
-		if ( songWeapon != ACCORDION && KoLCharacter.hasEquipped( ACCORDION ) )
-			(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, KoLCharacter.WEAPON )).run();
-
 		if ( KoLCharacter.getInventory().contains( WIZARD_HAT ) )
-			DEFAULT_SHELL.executeLine( "equip hat " + WIZARD_HAT.getName() );
+			(new EquipmentRequest( StaticEntity.getClient(), WIZARD_HAT.getName(), KoLCharacter.WEAPON )).run();
 
 		return songWeapon;
 	}
@@ -185,28 +179,38 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		AdventureResult songWeapon = optimizeEquipment( skillID );
 		useSkillLoop();
 
+		if ( !KoLmafia.isRunningBetweenBattleChecks() )
+			restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
+	}
+
+	public static void restoreEquipment( AdventureResult songWeapon, String initialWeapon, String initialOffhand, String initialHat )
+	{
 		// If we untinkered a Clover Weapon and built a Rock and Roll
 		// Legend, undo it all.
 
 		if ( songWeapon != null && songWeapon != ACCORDION && songWeapon != ROCKNROLL_LEGEND )
 		{
 			// Untinker the Rock and Roll Legend we constructed and,
-			// rebuild the weapon we started with.
+			// rebuild the weapon we started with, but only if that
+			// weapon was equipped!
 
-			untinkerCloverWeapon( ROCKNROLL_LEGEND );
-			ItemCreationRequest.getInstance( StaticEntity.getClient(), songWeapon ).run();
+			if ( initialWeapon != null && initialWeapon.equalsIgnoreCase( songWeapon.getName() ) )
+			{
+				untinkerCloverWeapon( ROCKNROLL_LEGEND );
+				ItemCreationRequest.getInstance( StaticEntity.getClient(), songWeapon ).run();
+			}
 		}
 
 		// If we unequipped a weapon, equip it again
-		if ( !initialWeapon.equals( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) ) )
+		if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) ) )
 			(new EquipmentRequest( StaticEntity.getClient(), initialWeapon, KoLCharacter.WEAPON )).run();
 
 		// If we unequipped an off-hand weapon, equip it again
-		if ( !initialOffhand.equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
+		if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
 			(new EquipmentRequest( StaticEntity.getClient(), initialOffhand, KoLCharacter.OFFHAND )).run();
 
 		// If we unequipped a hat, equip it again
-		if ( !initialHat.equals( KoLCharacter.getEquipment( KoLCharacter.HAT ) ) )
+		if ( initialHat != null && !initialHat.equals( KoLCharacter.getEquipment( KoLCharacter.HAT ) ) )
 			(new EquipmentRequest( StaticEntity.getClient(), initialHat, KoLCharacter.HAT )).run();
 	}
 
@@ -292,6 +296,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			return ROCKNROLL_LEGEND;
 		}
 
+		if ( KoLCharacter.canInteract() )
+		{
+			DEFAULT_SHELL.executeLine( "buy " + ROCKNROLL_LEGEND.getName() );
+			return ROCKNROLL_LEGEND;
+		}
+
 		// He must have at least a stolen accordion
 
 		if ( !KoLCharacter.hasItem( ACCORDION, false ) )
@@ -307,7 +317,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		AdventureResult cloverWeapon = null;
 		for ( int i = 0; i < CLOVER_WEAPONS.length; ++i )
-			if ( KoLCharacter.hasItem( CLOVER_WEAPONS[i], false  ) )
+			if ( KoLCharacter.hasItem( CLOVER_WEAPONS[i], false ) )
 				cloverWeapon = CLOVER_WEAPONS[i];
 
 		// If not, just use existing stolen accordion
@@ -327,6 +337,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		AdventureDatabase.retrieveItem( cloverWeapon );
 		untinkerCloverWeapon( cloverWeapon );
+
 		AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
 		return cloverWeapon;
 	}

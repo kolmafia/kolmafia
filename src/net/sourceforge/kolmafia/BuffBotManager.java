@@ -342,6 +342,11 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 	public static void runBuffBot( int iterations )
 	{
+		// Make sure that the buffbot is wearing the best
+		// equipment they have available.
+
+		UseSkillRequest.optimizeEquipment( 6003 );
+
 		BuffBotHome.setBuffBotActive( true );
 		KoLmafia.updateDisplay( "Buffbot started." );
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );

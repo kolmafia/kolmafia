@@ -85,9 +85,15 @@ public class KoLSettings extends Properties implements UtilityConstants
 		ensureDefaults();
 	}
 
+	public static boolean isGlobalProperty( String name )
+	{
+		return CLIENT_SETTINGS.containsKey( name ) || GLOBAL_SETTINGS == null ||
+			name.startsWith( "saveState" ) || name.startsWith( "loginScript" ) || name.startsWith( "getBreakfast" );
+	}
+
 	public synchronized String getProperty( String name )
 	{
-		boolean isGlobalProperty = CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || GLOBAL_SETTINGS == null;
+		boolean isGlobalProperty = isGlobalProperty( name );
 
 		if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
 		{
@@ -103,7 +109,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 
 	public synchronized Object setProperty( String name, String value )
 	{
-		boolean isGlobalProperty = CLIENT_SETTINGS.containsKey( name ) || name.startsWith( "saveState" ) || GLOBAL_SETTINGS == null;
+		boolean isGlobalProperty = isGlobalProperty( name );
 
 		if ( isGlobalProperty && (GLOBAL_SETTINGS == null || this != GLOBAL_SETTINGS) )
 			return GLOBAL_SETTINGS.setProperty( name, value );
@@ -251,6 +257,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "tongue of the otter;soft green echo eyedrop antidote;tiny house;cannelloni cocoon;scroll of drastic healing;medicinal herb's medicinal herbs;tongue of the walrus;lasagna bandages;disco power nap;disco nap;phonics down;cast;doc galaktik's homeopathic elixir;doc galaktik's restorative balm;doc galaktik's pungent unguent;doc galaktik's ailment ointment" );
 		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
+		PLAYER_SETTINGS.put( "lastBreakfast", "19691231" );
 		PLAYER_SETTINGS.put( "lastFaucetLocation", "-1" );
 		PLAYER_SETTINGS.put( "lastFaucetUse", "0: " );
 		PLAYER_SETTINGS.put( "lastAdventure", "" );

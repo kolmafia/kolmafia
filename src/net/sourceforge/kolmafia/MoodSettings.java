@@ -63,6 +63,9 @@ public abstract class MoodSettings implements KoLConstants
 	private static String characterName = "";
 	private static TreeMap reference = new TreeMap();
 
+	private static AdventureResult songWeapon = null;
+	public static boolean hasChangedOutfit = false;
+
 	private static ArrayList thiefTriggers = new ArrayList();
 	private static SortedListModel triggers = new SortedListModel();
 	private static SortedListModel availableMoods = new SortedListModel();
@@ -203,7 +206,12 @@ public abstract class MoodSettings implements KoLConstants
 
 			String effectName = UneffectRequest.skillToEffect( skills[i].getSkillName() );
 			if ( StatusEffectDatabase.contains( effectName ) )
-				addTrigger( "lose_effect", effectName, "cast " + skills[i].getSkillName() );
+			{
+				if ( skills[i].getSkillID() % 1000 == 0 )
+					addTrigger( "lose_effect", effectName, "cast 3 " + skills[i].getSkillName() );
+				else
+					addTrigger( "lose_effect", effectName, "cast " + skills[i].getSkillName() );
+			}
 		}
 
 		if ( !thiefSkills.isEmpty() && thiefSkills.size() < 4 )
@@ -215,12 +223,12 @@ public abstract class MoodSettings implements KoLConstants
 				addTrigger( "lose_effect", UneffectRequest.skillToEffect( skillNames[i] ), "cast " + skillNames[i] );
 		}
 
-		addTrigger( "lose_effect", "Butt-Rock Hair", "use 1 can of hair spray" );
+		addTrigger( "lose_effect", "Butt-Rock Hair", "use 5 can of hair spray" );
 
 		// Beaten-up removal, as a demo of how to handle beaten-up
 		// and poisoned statuses.
 
-		addTrigger( "gain_effect", "Poisoned", "use 1 anti-anti-antidote" );
+		addTrigger( "gain_effect", "Poisoned", "use anti-anti-antidote" );
 
 		if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
 			addTrigger( "gain_effect", "Beaten Up", "cast Tongue of the Otter" );
@@ -248,6 +256,12 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void execute()
 	{
+		String initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
+		String initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+		String initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
+
+		hasChangedOutfit = false;
+
 		if ( !characterName.equals( KoLCharacter.getUsername() ) )
 			MoodSettings.reset();
 
@@ -291,6 +305,11 @@ public abstract class MoodSettings implements KoLConstants
 
 		for ( int i = 0; i < triggers.size(); ++i )
 			((MoodTrigger)triggers.get(i)).execute();
+
+		if ( hasChangedOutfit )
+			SpecialOutfit.restoreCheckpoint();
+
+		UseSkillRequest.restoreEquipment( null, null, null, null );
 	}
 
 	/**
@@ -404,34 +423,34 @@ public abstract class MoodSettings implements KoLConstants
 			return "";
 
 		if ( name.equals( "Butt-Rock Hair" ) )
-			return "use 1 can of hair spray";
+			return "use 5 can of hair spray";
 
 		// Tongues require snowcones
 
 		if ( name.endsWith( "Tongue" ) )
-			return "use 1 " + name.substring( 0, name.indexOf( " " ) ).toLowerCase() + " snowcone";
+			return "use " + name.substring( 0, name.indexOf( " " ) ).toLowerCase() + " snowcone";
 
 		// Laboratory effects
 
 		if ( name.equals( "Wasabi Sinuses" ) )
-			return "use 1 Knob Goblin nasal spray";
+			return "use Knob Goblin nasal spray";
 
 		if ( name.equals( "Peeled Eyeballs" ) )
-			return "use 1 Knob Goblin eyedrops";
+			return "use Knob Goblin eyedrops";
 
 		if ( name.equals( "Sharp Weapon" ) )
-			return "use 1 Knob Goblin sharpening spray";
+			return "use Knob Goblin sharpening spray";
 
 		if ( name.equals( "Heavy Petting" ) )
-			return "use 1 Knob Goblin pet-buffing spray";
+			return "use Knob Goblin pet-buffing spray";
 
 		if ( name.equals( "Big Veiny Brain" ) )
-			return "use 1 Knob Goblin learning pill";
+			return "use Knob Goblin learning pill";
 
 		// Finally, fall back on skills
 
 		String skillName = UneffectRequest.effectToSkill( name );
-		if ( ClassSkillsDatabase.contains( skillName ) )
+		if ( KoLCharacter.hasSkill( skillName ) )
 			return ClassSkillsDatabase.getSkillID( skillName ) == 3 ? "" : "cast " + skillName;
 
 		return "";
@@ -467,6 +486,7 @@ public abstract class MoodSettings implements KoLConstants
 
 	private static class MoodTrigger implements Comparable
 	{
+		private int skillID = -1;
 		private AdventureResult effect;
 		private boolean isThiefTrigger = false;
 		private String stringForm, triggerType, triggerName, action;
@@ -486,7 +506,7 @@ public abstract class MoodSettings implements KoLConstants
 				String skillName = UneffectRequest.effectToSkill( effect.getName() );
 				if ( ClassSkillsDatabase.contains( skillName ) )
 				{
-					int skillID = ClassSkillsDatabase.getSkillID( skillName );
+					skillID = ClassSkillsDatabase.getSkillID( skillName );
 					isThiefTrigger = skillID > 6000 && skillID < 7000;
 				}
 			}
@@ -516,7 +536,12 @@ public abstract class MoodSettings implements KoLConstants
 				shouldExecute = !KoLCharacter.getEffects().contains( effect );
 
 			if ( shouldExecute )
+			{
+				if ( isThiefTrigger() && songWeapon == null )
+					UseSkillRequest.optimizeEquipment( skillID );
+
 				DEFAULT_SHELL.executeLine( action );
+			}
 		}
 
 		public boolean isThiefTrigger()
