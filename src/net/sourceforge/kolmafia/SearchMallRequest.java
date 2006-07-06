@@ -214,11 +214,14 @@ public class SearchMallRequest extends KoLRequest
 			// are available from NPC stores, since that's all that
 			// can be used in this circumstance.
 
-			boolean npcStoreExists = true;
+			boolean canAvoidSearch = true;
 			for ( int i = 0; i < itemNames.size(); ++i )
-				npcStoreExists &= NPCStoreDatabase.contains( (String) itemNames.get(i) );
+			{
+				int autoSellPrice = TradeableItemDatabase.getPriceByID( TradeableItemDatabase.getItemID( (String) itemNames.get(i) ) );
+				canAvoidSearch &= NPCStoreDatabase.contains( (String) itemNames.get(i) ) || autoSellPrice == 0 || autoSellPrice < -1;
+			}
 
-			if ( npcStoreExists )
+			if ( canAvoidSearch )
 			{
 				finalizeList( itemNames );
 				return;
@@ -376,11 +379,8 @@ public class SearchMallRequest extends KoLRequest
 		// add - this is just in case some of the items become notrade
 		// so items can still be bought from the NPC stores.
 
-		String [] names = new String[ itemNames.size() ];
-		itemNames.toArray( names );
-
-		for ( int i = 0; i < names.length; ++i )
-			addNPCStoreItem( names[i] );
+		for ( int i = 0; i < itemNames.size(); ++i )
+			addNPCStoreItem( (String) itemNames.get(i) );
 
 		if ( this.sortAfter )
 		{
