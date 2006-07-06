@@ -475,7 +475,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	public boolean equals( Object o )
 	{
 		return o == null || !(o instanceof MallPurchaseRequest) ? false :
-			shopName.equals( ((MallPurchaseRequest)o).shopName );
+			shopName.equals( ((MallPurchaseRequest)o).shopName ) && itemID == ((MallPurchaseRequest)o).itemID;
 	}
 
 	public String getCommandForm( int iterations )
