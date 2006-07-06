@@ -39,25 +39,16 @@ import java.awt.Dimension;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import java.awt.CardLayout;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.SpringLayout;
 
 // event listeners
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 // containers
-import javax.swing.JToolBar;
 import javax.swing.JTabbedPane;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -66,14 +57,11 @@ import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 // other imports
-import java.util.Date;
 import com.sun.java.forums.SpringUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -175,8 +163,6 @@ public class LoginFrame extends KoLFrame
 
 	private class LoginPanel extends KoLPanel implements ActionListener
 	{
-		private boolean isBreakfastEnabled = true;
-
 		private JPasswordField passwordField;
 		private ScriptSelectPanel scriptField;
 		private JCheckBox savePasswordCheckBox;
@@ -257,7 +243,7 @@ public class LoginFrame extends KoLFrame
 			scriptField.setEnabled( isEnabled );
 			savePasswordCheckBox.setEnabled( isEnabled );
 			autoLoginCheckBox.setEnabled( isEnabled );
-			getBreakfastCheckBox.setEnabled( isEnabled && isBreakfastEnabled );
+			getBreakfastCheckBox.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
@@ -272,7 +258,7 @@ public class LoginFrame extends KoLFrame
 				return;
 			}
 
-			StaticEntity.getClient().declareWorldPeace();
+			KoLmafia.declareWorldPeace();
 			usernameField.requestFocus();
 		}
 
@@ -342,7 +328,6 @@ public class LoginFrame extends KoLFrame
 					passwordField.setText( "" );
 					setStatusMessage( " " );
 
-					isBreakfastEnabled = true;
 					LoginPanel.this.setEnabled( true );
 					return;
 				}
@@ -353,26 +338,18 @@ public class LoginFrame extends KoLFrame
 					passwordField.setText( "" );
 					setStatusMessage( " " );
 
-					isBreakfastEnabled = true;
 					LoginPanel.this.setEnabled( true );
 					return;
 				}
 
 				passwordField.setText( password );
 
-				String todayString = DATED_FILENAME_FORMAT.format( new Date() );
-
 				String loginScript = StaticEntity.getProperty( "loginScript." + currentMatch.toLowerCase() );
 				String breakfastSetting = StaticEntity.getProperty( "getBreakfast." + currentMatch.toLowerCase() );
 
 				scriptField.setText( loginScript == null ? "" : loginScript );
 				getBreakfastCheckBox.setSelected( breakfastSetting != null && breakfastSetting.equals( "true" ) );
-
-				String lastBreakfast = StaticEntity.getProperty( "lastBreakfast." + currentMatch.toLowerCase() );
-				isBreakfastEnabled = lastBreakfast == null || !lastBreakfast.equals( todayString );
 				LoginPanel.this.setEnabled( true );
-
-				setStatusMessage( isBreakfastEnabled ? " " : "Once-per-day options disabled (already executed today)" );
 			}
 		}
 	}

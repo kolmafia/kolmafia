@@ -396,9 +396,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
-		String scriptSetting = StaticEntity.getProperty( "loginScript." + username.toLowerCase() );
-		if ( scriptSetting != null && !scriptSetting.equals( "" ) )
-			DEFAULT_SHELL.executeLine( scriptSetting );
 
 		if ( getBreakfast )
 		{
@@ -409,6 +406,10 @@ public abstract class KoLmafia implements KoLConstants
 			if ( lastBreakfast == null || !lastBreakfast.equals( today ) )
 				getBreakfast( true );
 		}
+
+		String scriptSetting = StaticEntity.getProperty( "loginScript." + username.toLowerCase() );
+		if ( !scriptSetting.equals( "" ) )
+			DEFAULT_SHELL.executeLine( scriptSetting );
 	}
 
 	public void resetBreakfastSummonings()
@@ -437,6 +438,7 @@ public abstract class KoLmafia implements KoLConstants
 		String skillSetting = StaticEntity.getProperty( "breakfast" + (KoLCharacter.isHardcore() ? "Hardcore" : "Softcore") );
 
 		if ( skillSetting != null )
+		{
 			for ( int i = 0; i < BREAKFAST_SKILLS.length; ++i )
 			{
 				shouldCast = !checkSettings || skillSetting.indexOf( BREAKFAST_SKILLS[i][0] ) != -1;
@@ -453,6 +455,7 @@ public abstract class KoLmafia implements KoLConstants
 				if ( shouldCast )
 					getBreakfast( BREAKFAST_SKILLS[i][0], StaticEntity.parseInt( BREAKFAST_SKILLS[i][1] ) );
 			}
+		}
 
 		forceContinue();
 	}
@@ -2513,6 +2516,10 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		updateDisplay( "Download completed.  Please restart to complete the update." );
+	}
+
+	public static boolean isRunningBetweenBattleChecks()
+	{	return recoveryActive;
 	}
 
 	public void runBetweenBattleChecks()

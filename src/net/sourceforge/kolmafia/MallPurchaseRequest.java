@@ -274,6 +274,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	{	this.canPurchase = canPurchase;
 	}
 
+	public boolean canPurchase()
+	{	return canPurchase;
+	}
+
 	/**
 	 * Executes the purchase request.  This calculates the number
 	 * of items which will be purchased and adds it to the list.
@@ -301,6 +305,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// outfit for making the purchase.
 
 		boolean attireChanged = ensureProperAttire();
+		if ( !canPurchase )
+			return;
 
 		// Now that everything's ensured, go ahead and execute the
 		// actual purchase request.
@@ -308,7 +314,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( price ) + ")..." );
 		super.run();
 
-		if ( attireChanged )
+		if ( attireChanged && !KoLmafia.isRunningBetweenBattleChecks() )
 			SpecialOutfit.restoreCheckpoint();
 	}
 
@@ -344,14 +350,20 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Only switch outfits if the person is not
 		// currently wearing the outfit.
 
-		if ( !EquipmentDatabase.isWearingOutfit( neededOutfit ) )
+		if ( EquipmentDatabase.isWearingOutfit( neededOutfit ) )
+			return false;
+
+		if ( !EquipmentDatabase.hasOutfit( neededOutfit ) )
 		{
-			SpecialOutfit.createCheckpoint();
-			(new EquipmentRequest( client, EquipmentDatabase.getOutfit( neededOutfit ) )).run();
-			return true;
+			canPurchase = false;
+			return false;
 		}
 
-		return false;
+		SpecialOutfit.createCheckpoint();
+		(new EquipmentRequest( client, EquipmentDatabase.getOutfit( neededOutfit ) )).run();
+
+		MoodSettings.hasChangedOutfit = true;
+		return true;
 	}
 
 	protected void processResults()
