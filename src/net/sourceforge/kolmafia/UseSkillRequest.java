@@ -163,7 +163,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		}
 
 		if ( KoLCharacter.getInventory().contains( WIZARD_HAT ) )
-			(new EquipmentRequest( StaticEntity.getClient(), WIZARD_HAT.getName(), KoLCharacter.WEAPON )).run();
+			(new EquipmentRequest( StaticEntity.getClient(), WIZARD_HAT.getName(), KoLCharacter.HAT )).run();
 
 		return songWeapon;
 	}
