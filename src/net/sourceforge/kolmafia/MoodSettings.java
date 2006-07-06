@@ -107,6 +107,7 @@ public abstract class MoodSettings implements KoLConstants
 		if ( !characterName.equals( KoLCharacter.getUsername() ) )
 			MoodSettings.reset();
 
+		mood = mood.toLowerCase().trim();
 		ensureProperty( mood );
 
 		StaticEntity.setProperty( "currentMood", mood );

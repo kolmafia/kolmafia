@@ -77,19 +77,16 @@ public class RequestThread extends Thread implements KoLConstants
 			return;
 
 		KoLmafia.forceContinue();
-		for ( int i = 0; i < requests.length; ++i )
+
+		if ( !(requests[0] instanceof LoginRequest) )
+			MoodSettings.execute();
+
+		for ( int i = 0; i < requests.length && KoLmafia.permitsContinue(); ++i )
 		{
-			// Chat requests are only run once, no matter what
-			// the repeat count is.  This is also to avoid the
-			// message prompts you get otherwise.
-
-			if ( requests[i] instanceof ChatRequest )
-				requests[i].run();
-
 			// Setting it up so that derived classes can
 			// override the behavior of execution.
 
-			else if ( requests[i] instanceof KoLRequest )
+			if ( requests[i] instanceof KoLRequest )
 			{
 				run( (KoLRequest) requests[i], repeatCount );
 			}
