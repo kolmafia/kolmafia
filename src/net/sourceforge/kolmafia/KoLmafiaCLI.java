@@ -704,7 +704,10 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				int repeatCount = parameters.length() == 0 ? 1 : StaticEntity.parseInt( parameters );
 				for ( int i = 0; i < repeatCount && permitsContinue(); ++i )
+				{
+					printLine( "Repetition of [" + previousLine + "] (" + (i+1) + " of " + repeatCount + ")..." );
 					executeLine( previousLine );
+				}
 			}
 
 			return;

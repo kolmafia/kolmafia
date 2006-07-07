@@ -100,9 +100,7 @@ public class ChatBuffer
 	protected JEditorPane displayPane;
 	protected Runnable scrollBarResizer;
 	protected PrintWriter activeLogWriter;
-
 	protected StringBuffer displayBuffer;
-	protected JScrollBar verticalScroller;
 
 	protected static final String EMPTY_STRING = "";
 	protected static final String NEW_LINE = System.getProperty( "line.separator" );
@@ -159,17 +157,10 @@ public class ChatBuffer
 		displayPane = display;
 		displayPane.setContentType( "text/html" );
 		displayPane.setEditable( false );
+
 		fireBufferChanged( DISPLAY_CHANGE, null );
-
-		JScrollPane scroller = new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		verticalScroller = scroller.getVerticalScrollBar();
-		return scroller;
+		return new JScrollPane( display, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 	}
-
-	/**
-	 * Sets the vertical scrollbar for the chat display.  Returns the
-	 * appropriate display buffer.
-	 */
 
 	/**
 	 * Sets the log file used to actively record messages that are being
@@ -335,8 +326,7 @@ public class ChatBuffer
 					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
 
 				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
-				verticalScroller.setValue( verticalScroller.getMaximum() );
-				displayPane.validate();
+				displayPane.setCaretPosition( currentHTML.getLength() );
 			}
 			catch ( Exception e )
 			{
