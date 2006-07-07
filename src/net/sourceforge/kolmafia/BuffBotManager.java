@@ -34,7 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +44,6 @@ import java.util.TreeMap;
 import java.util.Arrays;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -59,6 +57,8 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 {
 	public static final int SAVEBOX = 0;
 	public static final int DISPOSE = 1;
+
+	private static final int REFUND_THRESHOLD = 5;
 
 	private static ArrayList saveList = new ArrayList();
 	private static ArrayList deleteList = new ArrayList();
@@ -629,40 +629,53 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		boolean receivedBuffs = false;
 		boolean gavePhilanthropicBuff = false;
 
-		for ( int i = 0; KoLmafia.permitsContinue() && i < castList.size(); ++i )
+		int failureCount = BuffBotHome.getInstanceCount( 0, message.getSenderName() );
+
+		if ( failureCount < REFUND_THRESHOLD )
 		{
-			currentBuff = (BuffBotCaster) castList.get(i);
-			receivedBuffs |= executeBuff( currentBuff, message, meatSent );
-			gavePhilanthropicBuff |= currentBuff.philanthropic;
-		}
+			boolean lastBuffSuccessful = false;
 
-		if ( receivedBuffs && gavePhilanthropicBuff )
-			BuffBotHome.addToRecipientList( meatSent, message.getSenderName() );
-
-		if ( !receivedBuffs )
-		{
-			// Record the inability to buff inside of a separate
-			// file which stores how many refunds were sent that day.
-
-			BuffBotHome.addToRecipientList( 0, message.getSenderName() );
-			int failureCount = BuffBotHome.getInstanceCount( 0, message.getSenderName() );
-
-			if ( failureCount == 9 )
+			for ( int i = 0; KoLmafia.permitsContinue() && i < castList.size(); ++i )
 			{
-				// Nine refunds in a single day is pretty bad.  So,
-				// send a notification that they will no longer be
-				// refunded for buffs cast today.
+				if ( !lastBuffSuccessful && receivedBuffs )
+					break;
 
-				sendRefund( message.getSenderName(), "This is a message to notify you that you have sent 9 requests which were refunded.  " +
-					"To prevent the possibility of intentional sabatoge, this will be the last refund you will receive today.  Thanks for understanding.", meatSent );
+				currentBuff = (BuffBotCaster) castList.get(i);
+				lastBuffSuccessful = executeBuff( currentBuff, message, meatSent );
+
+				receivedBuffs |= lastBuffSuccessful;
+				gavePhilanthropicBuff |= currentBuff.philanthropic;
 			}
-			else if ( failureCount < 9 )
-			{
-				// If the person sent something and received no buffs,
-				// then make sure they're refunded.
 
-				sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
-					"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
+			if ( receivedBuffs && gavePhilanthropicBuff )
+				BuffBotHome.addToRecipientList( meatSent, message.getSenderName() );
+
+			if ( !receivedBuffs )
+			{
+				++failureCount;
+				BuffBotHome.addToRecipientList( 0, message.getSenderName() );
+
+				// Record the inability to buff inside of a separate
+				// file which stores how many refunds were sent that day.
+
+				if ( failureCount == REFUND_THRESHOLD )
+				{
+					// Nine refunds in a single day is pretty bad.  So,
+					// send a notification that they will no longer be
+					// refunded for buffs cast today.
+
+					sendRefund( message.getSenderName(), "This is a message to notify you that you have sent " + REFUND_THRESHOLD + " requests which were refunded.  " +
+						"To prevent the possibility of intentional sabatoge, any buff requests received over the next 24 hours will be treated as donations.  " +
+						"Thanks for understanding.", meatSent );
+				}
+				else if ( failureCount < REFUND_THRESHOLD )
+				{
+					// If the person sent something and received no buffs,
+					// then make sure they're refunded.
+
+					sendRefund( message.getSenderName(), "This buffbot was unable to process your request.  " + UseSkillRequest.lastUpdate +
+						"  Please try again later." + LINE_BREAK + LINE_BREAK + refundMessage, meatSent );
+				}
 			}
 		}
 	}

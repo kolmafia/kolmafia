@@ -251,12 +251,21 @@ public class ChatBuffer
 		{
 			try
 			{
-				DisplayPaneUpdater runner = new DisplayPaneUpdater( newContents );
+				if ( newContents == null )
+				{
+					displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+					displayPane.validate();
+					return;
+				}
 
-				if ( SwingUtilities.isEventDispatchThread() )
-					runner.run();
-				else
-					SwingUtilities.invokeAndWait( runner );
+				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
+				Element parentElement = currentHTML.getDefaultRootElement();
+
+				while ( !parentElement.isLeaf() )
+					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
+
+				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+				displayPane.setCaretPosition( currentHTML.getLength() );
 			}
 			catch ( Exception e )
 			{
@@ -289,53 +298,6 @@ public class ChatBuffer
 		{
 			activeLogWriter.print( chatContent );
 			activeLogWriter.flush();
-		}
-	}
-
-	/**
-	 * An internal runnable which attempts to update the text in
-	 * the HTML document and appropriately scroll the scrollbar.
-	 * This occurs inside of the Swing thread in order to prevent
-	 * the user interface from locking and to help avoid Swing
-	 * thread errors.
-	 */
-
-	private class DisplayPaneUpdater implements Runnable
-	{
-		private String newContents;
-
-		public DisplayPaneUpdater( String newContents )
-		{	this.newContents = newContents;
-		}
-
-		public void run()
-		{
-			if ( newContents == null )
-			{
-				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-				displayPane.validate();
-				return;
-			}
-
-			try
-			{
-				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-				Element parentElement = currentHTML.getDefaultRootElement();
-
-				while ( !parentElement.isLeaf() )
-					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
-
-				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
-				displayPane.setCaretPosition( currentHTML.getLength() );
-			}
-			catch ( Exception e )
-			{
-				// In case someone happens to be running with a console,
-				// print the debug information to the screen.
-
-				e.printStackTrace();
-				return;
-			}
 		}
 	}
 }

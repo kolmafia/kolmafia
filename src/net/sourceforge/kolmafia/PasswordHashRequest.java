@@ -51,6 +51,6 @@ public abstract class PasswordHashRequest extends KoLRequest
 	{
 		Matcher pwdmatch = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\'](.*?)[\"\']" ).matcher( responseText );
 		if ( pwdmatch.find() )
-			client.setPasswordHash( pwdmatch.group(1) );
+			passwordHash = pwdmatch.group(1);
 	}
 }

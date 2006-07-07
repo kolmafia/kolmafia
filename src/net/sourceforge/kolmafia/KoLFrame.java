@@ -71,6 +71,8 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
@@ -1215,6 +1217,39 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void run()
 		{	DEFAULT_SHELL.executeLine( scriptPath );
+		}
+	}
+
+	/**
+	 * Utility class used to forward events to JButtons enclosed inside
+	 * of a JTable object.
+	 */
+
+	protected class ButtonEventListener extends MouseAdapter
+	{
+		private JTable table;
+
+		public ButtonEventListener( JTable table )
+		{	this.table = table;
+		}
+
+		public void mouseReleased( MouseEvent e )
+		{
+		    TableColumnModel columnModel = table.getColumnModel();
+
+		    int row = e.getY() / table.getRowHeight();
+		    int column = columnModel.getColumnIndexAtX( e.getX() );
+
+			if ( row >= 0 && row < table.getRowCount() && column >= 0 && column < table.getColumnCount() )
+			{
+				Object value = table.getValueAt( row, column );
+
+				if ( value instanceof JButton )
+				{
+					((JButton) value).dispatchEvent( SwingUtilities.convertMouseEvent( table, e, (JButton) value ) );
+					table.repaint();
+				}
+			}
 		}
 	}
 }

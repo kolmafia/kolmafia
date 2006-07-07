@@ -74,6 +74,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
+	protected static String sessionID = null;
+	protected static String passwordHash = null;
+
 	private static final AdventureResult [] WOODS_ITEMS = new AdventureResult[12];
 	static
 	{
@@ -102,7 +105,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	private boolean followRedirects;
 	protected String formURLString;
 
-	private String sessionID;
 	private List data;
 
 	protected KoLmafia client;
@@ -388,8 +390,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			// make sure you discover the password hash
 			// in some other way.
 
-			if ( (client.getPasswordHash() == null || client.getPasswordHash().equals( "" )) && value.length() != 0 )
-				client.setPasswordHash( value );
+			if ( (passwordHash == null || passwordHash.equals( "" )) && value.length() != 0 )
+				passwordHash = value;
 
 			addFormField( name, "", false );
 		}
@@ -491,7 +493,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				if ( includeHash )
 				{
 					dataBuffer.append( "=" );
-					dataBuffer.append( client.getPasswordHash() );
+					dataBuffer.append( passwordHash );
 				}
 			}
 			else
@@ -678,8 +680,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( !(this instanceof ChatRequest) )
 			KoLmafia.getDebugStream().println( "Connecting to " + formURLString + "..." );
 
-		this.sessionID = client.getSessionID();
-
 		// Make sure that all variables are reset before you reopen
 		// the connection.  Invoke the garbage collector to minimize
 		// memory consumption.
@@ -773,8 +773,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			String dataString = getDataString( true );
 
-			if ( client.getPasswordHash() != null && !(this instanceof ChatRequest) )
-				KoLmafia.getDebugStream().println( dataString.replaceAll( client.getPasswordHash(), "" ) );
+			if ( passwordHash != null && !(this instanceof ChatRequest) )
+				KoLmafia.getDebugStream().println( dataString.replaceAll( passwordHash, "" ) );
 
 			formConnection.setRequestMethod( "POST" );
 			BufferedWriter ostream = new BufferedWriter( new OutputStreamWriter( formConnection.getOutputStream() ) );
@@ -926,7 +926,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 			else if ( redirectLocation.startsWith( "valhalla.php" ) )
 			{
-				client.setPasswordHash( "" );
+				passwordHash = "";
 				shouldStop = true;
 			}
 			else if ( redirectLocation.equals( "fight.php" ) && !(this instanceof LocalRelayRequest) )
@@ -1012,8 +1012,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !(this instanceof ChatRequest) )
 			{
 				// Remove password hash before logging
-				String response = ( client.getPasswordHash() != null ) ?
-					responseText.replaceAll( client.getPasswordHash(), "" ) :
+				String response = ( passwordHash != null ) ?
+					responseText.replaceAll( passwordHash, "" ) :
 					responseText.replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" );
 				KoLmafia.getDebugStream().println( response );
 			}
