@@ -506,7 +506,7 @@ public abstract class CombatSettings implements UtilityConstants
 				if ( !Character.isDigit( name.charAt(i) ) )
 					return "item" + TradeableItemDatabase.getItemID( name );
 
-			return "item" + name;
+			return "item" + StaticEntity.parseInt( name );
 		}
 
 		String potentialSkill = KoLmafiaCLI.getCombatSkillName( action );

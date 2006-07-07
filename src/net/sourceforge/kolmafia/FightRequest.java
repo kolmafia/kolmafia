@@ -137,6 +137,35 @@ public class FightRequest extends KoLRequest
 		if ( action1.equals( "delevel" ) )
 			action1 = getMonsterWeakenAction();
 
+		// Disallow stasis-like strategies when the player is
+		// out of Ronin.
+
+		if ( KoLCharacter.canInteract() && action1 != null )
+		{
+			// The joy buzzer is the only known skill which causes zero
+			// damage against a monster.
+
+			if ( action1.equals( "7002" ) )
+				action1 = "attack";
+
+			// Items which cause little (or no) damage without being consumed
+			// (thereby ideal for stasis) include the dictionaries, seal teeth,
+			// scrolls of turtle summoning, and spices.
+
+			else if ( action1.startsWith( "item" ) )
+			{
+				if ( action1.equals( "item536" ) || action1.equals( "item1316" ) )
+				{
+					if ( !KoLCharacter.getNextAdventure().getAdventureID().equals( "80" ) )
+						action1 = "attack";
+				}
+				else if ( action1.equals( "item2" ) || action1.equals( "item4" ) || action1.equals( "item8" ) )
+				{
+					action1 = "attack";
+				}
+			}
+		}
+
 		if ( action1 == null || action1.equals( "abort" ) || !KoLmafia.permitsContinue() )
 		{
 			// If the user has chosen to abort
@@ -158,7 +187,7 @@ public class FightRequest extends KoLRequest
 		}
 		else if ( action1.equals( "attack" ) )
 		{
-			action1 = "attack";			
+			action1 = "attack";
 			if ( roundCount != 1 )
 				addFormField( "action", action1 );
 		}
@@ -324,7 +353,7 @@ public class FightRequest extends KoLRequest
 
 		// If this is the first round, then register the opponent
 		// you are fighting against.
-		
+
 		if ( roundCount == 1 )
 		{
 			encounter = AdventureRequest.registerEncounter( this );
