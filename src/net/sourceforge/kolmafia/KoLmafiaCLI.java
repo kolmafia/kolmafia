@@ -2435,7 +2435,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executePrintCommand( String desiredData, String filter, PrintStream outputStream )
 	{
-		PrintStream originalStream = outputStream;
+		PrintStream originalStream = KoLmafia.outputStream;
 		KoLmafia.outputStream = outputStream;
 
 		if ( desiredData.equals( "session" ) )
