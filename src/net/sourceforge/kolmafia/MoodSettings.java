@@ -475,7 +475,9 @@ public abstract class MoodSettings implements KoLConstants
 		if ( !reference.containsKey( key ) )
 		{
 			SortedListModel defaultList = new SortedListModel();
-			defaultList.addAll( triggers );
+
+			if ( !key.equals( "apathetic" ) )
+				defaultList.addAll( triggers );
 
 			reference.put( key, defaultList );
 			availableMoods.add( key );

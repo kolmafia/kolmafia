@@ -35,24 +35,19 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import javax.swing.Box;
 import javax.swing.BoxLayout;
-import java.awt.Color;
+
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import javax.swing.BorderFactory;
 
 // event listeners
-import javax.swing.SwingUtilities;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
 
 // containers
-import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JButton;
@@ -64,19 +59,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 
+import javax.swing.JTable;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import com.sun.java.forums.TableSorter;
+
 // other imports
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-import java.lang.reflect.Method;
-
-import java.util.List;
+import java.util.Vector;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.text.DecimalFormat;
-import java.text.ParseException;
 
-import net.java.dev.spellcast.utilities.PanelList;
-import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -87,6 +80,7 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ClanManageFrame extends KoLFrame
 {
+	private JTable members;
 	private ClanBuffPanel clanBuff;
 	private StoragePanel storing;
 	private WithdrawPanel withdrawal;
@@ -96,7 +90,6 @@ public class ClanManageFrame extends KoLFrame
 	private SnapshotPanel snapshot;
 	private AscensionPanel ascension;
 	private MemberSearchPanel search;
-	private ClanMemberPanelList results;
 
 	public ClanManageFrame()
 	{
@@ -140,38 +133,40 @@ public class ClanManageFrame extends KoLFrame
 
 		tabs.addTab( "Clan Buffs", purchasePanel );
 
-		results = new ClanMemberPanelList();
-		JComponent [] header = new JComponent[4];
-		header[0] = new JLabel( "Member Name", JLabel.LEFT );
-		header[1] = new JLabel( "Clan Title", JLabel.LEFT );
-		header[2] = new JLabel( "Karma", JLabel.LEFT );
-		header[3] = new BootCheckBox();
+		members = new JTable( new MemberTableModel() );
+		members.setModel( new TableSorter( members.getModel(), members.getTableHeader() ) );
 
-		JComponentUtilities.setComponentSize( header[0], 160, 20 );
-		JComponentUtilities.setComponentSize( header[1], 210, 20 );
-		JComponentUtilities.setComponentSize( header[2], 80, 20 );
-		JComponentUtilities.setComponentSize( header[3], 20, 20 );
+		members.setRowSelectionAllowed( false );
+		members.setAutoResizeMode( JTable.AUTO_RESIZE_NEXT_COLUMN );
+		members.addMouseListener( new ButtonEventListener( members ) );
 
-		JPanel headerPanel = new JPanel();
-		headerPanel.setLayout( new BoxLayout( headerPanel, BoxLayout.X_AXIS ) );
-		headerPanel.add( Box.createHorizontalStrut( 25 ) );
+		members.setShowGrid( false );
+		members.setRowHeight( 30 );
 
-		for ( int i = 0; i < header.length; ++i )
-		{
-			headerPanel.add( Box.createHorizontalStrut( 10 ) );
-			headerPanel.add( header[i] );
-		}
+		members.getColumnModel().getColumn(0).setMinWidth( 30 );
+		members.getColumnModel().getColumn(0).setMaxWidth( 30 );
+		members.setDefaultRenderer( JButton.class, new ProfileButtonRenderer() );
 
-		headerPanel.add( Box.createHorizontalStrut( 5 ) );
+		members.getColumnModel().getColumn(1).setMinWidth( 120 );
+		members.getColumnModel().getColumn(1).setMaxWidth( 120 );
 
-		JPanel resultsPanel = new JPanel( new BorderLayout() );
-		resultsPanel.add( headerPanel, BorderLayout.NORTH );
-		resultsPanel.add( new JScrollPane( results, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-			JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS ), BorderLayout.CENTER );
+		members.getColumnModel().getColumn(3).setMinWidth( 120 );
+		members.getColumnModel().getColumn(3).setMaxWidth( 120 );
+
+		members.getColumnModel().getColumn(4).setMinWidth( 45 );
+		members.getColumnModel().getColumn(4).setMaxWidth( 45 );
+
+		JScrollPane results = new JScrollPane( members,
+			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		JPanel searchPanel = new JPanel( new BorderLayout() );
 		searchPanel.add( search, BorderLayout.NORTH );
+
+		JPanel resultsPanel = new JPanel( new BorderLayout() );
+		resultsPanel.add( members.getTableHeader(), BorderLayout.NORTH );
+		resultsPanel.add( results, BorderLayout.CENTER );
 		searchPanel.add( resultsPanel, BorderLayout.CENTER );
+
 		tabs.addTab( "Member Search", searchPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
@@ -452,31 +447,26 @@ public class ClanManageFrame extends KoLFrame
 			public void run()
 			{
 				KoLmafia.updateDisplay( "Determining changes..." );
-
-				List titleChange = new ArrayList();
-				List newTitles = new ArrayList();
-				List boots = new ArrayList();
-
-				Object currentComponent;
-				ClanMemberPanel currentMember;
-				Object desiredTitle;
-
-				for ( int i = 0; i < results.getComponentCount(); ++i )
+				if ( members.isEditing() )
 				{
-					currentComponent = results.getComponent(i);
-					if ( currentComponent instanceof ClanMemberPanel )
-					{
-						currentMember = (ClanMemberPanel) currentComponent;
-						if ( currentMember.bootCheckBox.isSelected() )
-							boots.add( currentMember.memberName.getText() );
+					int row = members.getEditingRow();
+					int col = members.getEditingColumn();
+					members.getCellEditor( row, col ).stopCellEditing();
 
-						desiredTitle = currentMember.titleField.getText();
-						if ( desiredTitle != null && !desiredTitle.equals( currentMember.initialTitle ) )
-						{
-							titleChange.add( currentMember.memberName.getText() );
-							newTitles.add( (String) desiredTitle );
-						}
-					}
+					System.out.println( "Editor: " + members.getValueAt( row, col ) );
+				}
+
+				ArrayList titleChange = new ArrayList();
+				ArrayList newTitles = new ArrayList();
+				ArrayList boots = new ArrayList();
+
+				for ( int i = 0; i < members.getRowCount(); ++i )
+				{
+					if ( ((Boolean)members.getValueAt( i, 4 )).booleanValue() )
+						boots.add( members.getValueAt( i, 1 ) );
+
+					titleChange.add( members.getValueAt( i, 1 ) );
+					newTitles.add( members.getValueAt( i, 2 ) );
 				}
 
 				KoLmafia.updateDisplay( "Applying changes..." );
@@ -486,118 +476,170 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class BootCheckBox extends JCheckBox implements ActionListener
+	private class MemberTableModel extends DefaultTableModel implements ListDataListener
 	{
-		private boolean shouldSelect;
-
-		public BootCheckBox()
+		public MemberTableModel()
 		{
-			addActionListener( this );
-			setToolTipText( "Boot" );
-			shouldSelect = true;
+			super( 0, 5 );
+			ClanSnapshotTable.getFilteredList().addListDataListener( this );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public String getColumnName( int index )
 		{
-			Object currentComponent;
-			ClanMemberPanel currentMember;
-
-			for ( int i = 0; i < results.getComponentCount(); ++i )
+			switch ( index )
 			{
-				currentComponent = results.getComponent(i);
-				if ( currentComponent instanceof ClanMemberPanel )
-				{
-					currentMember = (ClanMemberPanel) currentComponent;
-					currentMember.bootCheckBox.setSelected( shouldSelect );
-				}
+				case 0:  return " ";
+				case 1:  return "Name";
+				case 2:  return "Clan Title";
+				case 3:  return "Total Karma";
+				case 4:  return "Boot";
+				default:  return "";
 			}
-
-			shouldSelect = !shouldSelect;
-		}
-	}
-
-	public class ClanMemberPanelList extends PanelList
-	{
-		public ClanMemberPanelList()
-		{	super( 9, 540, 30, ClanSnapshotTable.getFilteredList() );
 		}
 
-		protected PanelListCell constructPanelListCell( Object value, int index )
+		public Class getColumnClass( int column )
 		{
-			ClanMemberPanel toConstruct = new ClanMemberPanel( (ProfileRequest) value );
-			toConstruct.updateDisplay( this, value, index );
-			return toConstruct;
+			switch ( column )
+			{
+				case 0:  return JButton.class;
+				case 1:  return String.class;
+				case 2:  return String.class;
+				case 3:  return Integer.class;
+				case 4:  return Boolean.class;
+				default:  return Object.class;
+			}
+		}
+
+		private Vector constructVector( ProfileRequest p )
+		{
+			Vector value = new Vector();
+
+			JButton profileButton = new ShowProfileButton( p );
+			JComponentUtilities.setComponentSize( profileButton, 20, 20 );
+
+			value.add( profileButton );
+			value.add( p.getPlayerName() );
+			value.add( p.getTitle() );
+			value.add( p.getKarma() );
+			value.add( new Boolean( false ) );
+
+			return value;
+		}
+
+		public boolean isCellEditable( int row, int column )
+		{
+			switch ( column )
+			{
+				case 0:  return false;
+				case 1:  return false;
+				case 2:  return true;
+				case 3:  return false;
+				case 4:  return true;
+				default:  return false;
+			}
+		}
+
+		/**
+		 * Called whenever contents have been added to the original list; a
+		 * function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public void intervalAdded( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 >= source.size() || source.size() == getRowCount() )
+				return;
+
+			for ( int i = index0; i <= index1; ++i )
+				insertRow( i, constructVector( (ProfileRequest) source.get(i) ) );
+		}
+
+		/**
+		 * Called whenever contents have been removed from the original list;
+		 * a function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public void intervalRemoved( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 >= getRowCount() || source.size() == getRowCount() )
+				return;
+
+			for ( int i = index1; i >= index0; --i )
+				removeRow(i);
+		}
+
+		/**
+		 * Called whenever contents in the original list have changed; a
+		 * function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public void contentsChanged( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 >= getRowCount() )
+				return;
+
+			for ( int i = index1; i >= index0; --i )
+			{
+				removeRow(i);
+				insertRow( i, constructVector( (ProfileRequest) source.get(i) ) );
+			}
 		}
 	}
 
-	public class ClanMemberPanel extends JPanel implements PanelListCell
+	private class ProfileButtonRenderer implements TableCellRenderer
 	{
-		private JLabel memberName;
-		private JTextField titleField;
-		private JLabel clanKarma;
-		private JCheckBox bootCheckBox;
+		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
+		{	return (JButton) value;
+		}
+	}
 
-		private String initialRank, initialTitle;
+	private class ShowProfileButton extends JButton implements MouseListener
+	{
 		private ProfileRequest profile;
 
-		public ClanMemberPanel( ProfileRequest value )
+		public ShowProfileButton( ProfileRequest profile )
 		{
-			this.profile = value;
-
-			memberName = new JLabel( value.getPlayerName(), JLabel.LEFT );
-
-			// In the event that they were just searching for fun purposes,
-			// there will be no ranks.  So it still looks like something,
-			// add the rank manually.
-
-			initialRank = value.getRank();
-			initialTitle = value.getTitle();
-			titleField = new JTextField();
-			bootCheckBox = new JCheckBox();
-			clanKarma = new JLabel( COMMA_FORMAT.format( value.getKarma() ), JLabel.LEFT );
-
-			JButton profileButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
-			profileButton.addActionListener( new ShowProfileListener() );
-
-			JComponentUtilities.setComponentSize( profileButton, 20, 20 );
-			JComponentUtilities.setComponentSize( memberName, 160, 20 );
-			JComponentUtilities.setComponentSize( titleField, 210, 20 );
-			JComponentUtilities.setComponentSize( clanKarma, 80, 20 );
-			JComponentUtilities.setComponentSize( bootCheckBox, 20, 20 );
-
-			JPanel corePanel = new JPanel();
-			corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
-			corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( profileButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( memberName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( titleField ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( clanKarma ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( bootCheckBox ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-
-			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-			add( Box.createVerticalStrut( 3 ) );
-			add( corePanel );
-			add( Box.createVerticalStrut( 2 ) );
+			super( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
+			this.profile = profile;
 		}
 
-		public void updateDisplay( PanelList list, Object value, int index )
+		public void mouseReleased( MouseEvent e )
 		{
-			profile = (ProfileRequest) value;
-			memberName.setText( profile.getPlayerName() );
-			titleField.setText( profile.getTitle() );
-			clanKarma.setText( COMMA_FORMAT.format( profile.getKarma() ) );
+			Object [] parameters = new Object[2];
+			parameters[0] = StaticEntity.getClient();
+			parameters[1] = profile;
+
+			(new RequestThread( new CreateFrameRunnable( ProfileFrame.class, parameters ) )).start();
 		}
 
-		private class ShowProfileListener implements ActionListener
+		public void mouseClicked( MouseEvent e )
 		{
-			public void actionPerformed( ActionEvent e )
-			{
-				Object [] parameters = new Object[2];
-				parameters[0] = StaticEntity.getClient();
-				parameters[1] = profile;
+		}
 
-				(new RequestThread( new CreateFrameRunnable( ProfileFrame.class, parameters ) )).start();
-			}
+		public void mouseEntered( MouseEvent e )
+		{
+		}
+
+		public void mouseExited( MouseEvent e )
+		{
+		}
+
+		public void mousePressed( MouseEvent e )
+		{
 		}
 	}
 

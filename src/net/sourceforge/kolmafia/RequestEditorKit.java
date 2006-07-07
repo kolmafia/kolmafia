@@ -810,7 +810,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// compiled string.  Print it to the debug log for
 		// reference purposes.
 
-		String pwd = StaticEntity.getClient().getPasswordHash();
+		String pwd = KoLRequest.passwordHash;
 		String text = pwd == null ? displayHTML : displayHTML.replaceAll( pwd, "" );
 		KoLmafia.getDebugStream().println( text );
 

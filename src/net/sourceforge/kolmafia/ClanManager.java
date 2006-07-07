@@ -51,7 +51,6 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.util.Collections;
 import java.text.SimpleDateFormat;
-import javax.swing.SwingUtilities;
 import javax.swing.JOptionPane;
 
 import edu.stanford.ejalbert.BrowserLauncher;

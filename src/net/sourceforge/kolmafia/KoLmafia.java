@@ -43,7 +43,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -52,7 +51,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.ArrayList;
-import java.util.Properties;
 
 import java.util.Arrays;
 import java.math.BigInteger;
@@ -65,7 +63,6 @@ import java.lang.reflect.Method;
 
 import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -138,14 +135,11 @@ public abstract class KoLmafia implements KoLConstants
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
 	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
 
-	private static boolean inLoginState = false;
 	private static boolean recoveryActive = false;
 	protected static boolean isMakingRequest = false;
 	protected static KoLRequest currentRequest = null;
 	private static String currentIterationString = "";
 	protected static int continuationState = CONTINUE_STATE;
-
-	protected String password, sessionID, passwordHash;
 
 	protected int [] initialStats = new int[3];
 	protected int [] fullStatGain = new int[3];
@@ -343,16 +337,8 @@ public abstract class KoLmafia implements KoLConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public synchronized void initialize( String username, String sessionID, boolean getBreakfast, boolean isQuickLogin )
+	public synchronized void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
 	{
-		inLoginState = true;
-
-		if ( this.sessionID != null )
-		{
-			inLoginState = false;
-			return;
-		}
-
 		this.conditions.clear();
 
 		// Initialize the variables to their initial
@@ -365,8 +351,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		this.sessionID = sessionID;
-
 		StaticEntity.setProperty( "lastUsername", username );
 		KoLCharacter.reset( username );
 		StaticEntity.reloadSettings();
@@ -375,7 +359,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( isQuickLogin )
 		{
 			(new AccountRequest( this )).run();
-			inLoginState = false;
 			return;
 		}
 
@@ -398,11 +381,8 @@ public abstract class KoLmafia implements KoLConstants
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.
 
-		if ( getPasswordHash() != null && getPasswordHash().equals( "" ) )
-		{
-			inLoginState = false;
+		if ( KoLRequest.passwordHash != null &&  KoLRequest.passwordHash.equals( "" ) )
 			return;
-		}
 
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
 
@@ -419,12 +399,6 @@ public abstract class KoLmafia implements KoLConstants
 		String scriptSetting = StaticEntity.getProperty( "loginScript." + username.toLowerCase() );
 		if ( !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
-
-		inLoginState = false;
-	}
-
-	public static final boolean inLoginState()
-	{	return inLoginState;
 	}
 
 	public void resetBreakfastSummonings()
@@ -526,7 +500,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.
 
-		if ( getPasswordHash() != null && getPasswordHash().equals( "" ) )
+		if ( KoLRequest.passwordHash != null && KoLRequest.passwordHash.equals( "" ) )
 		{
 			ConcoctionsDatabase.getConcoctions().clear();
 			KoLCharacter.refreshCalculatedLists();
@@ -576,9 +550,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void deinitialize()
 	{
-		sessionID = null;
-		passwordHash = null;
-		inLoginState = false;
+		KoLRequest.sessionID = null;
+		KoLRequest.passwordHash = null;
 
 		closeDebugStream();
 		closeMacroStream();
@@ -905,33 +878,6 @@ public abstract class KoLmafia implements KoLConstants
 		registerPlayer( playerName, playerID );
 		if ( !contactList.contains( playerName ) )
 			contactList.add( playerName );
-	}
-
-	/**
-	 * Retrieves the session ID for this <code>KoLmafia</code> session.
-	 * @return	The session ID of the current session
-	 */
-
-	public String getSessionID()
-	{	return sessionID;
-	}
-
-	/**
-	 * Stores the password hash for this <code>KoLmafia</code> session.
-	 * @param	passwordHash	The password hash for this session
-	 */
-
-	public void setPasswordHash( String passwordHash )
-	{	this.passwordHash = passwordHash;
-	}
-
-	/**
-	 * Retrieves the password hash for this <code>KoLmafia</code> session.
-	 * @return	The password hash of the current session
-	 */
-
-	public String getPasswordHash()
-	{	return passwordHash;
 	}
 
 	/**
@@ -2189,24 +2135,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public LockableListModel getEncounterList()
 	{	return encounterList;
-	}
-
-	public void executeTimeInRequest()
-	{
-		deinitialize();
-		updateDisplay( "Timing in session..." );
-
-		DEFAULT_SHELL.executeLine( "login " + KoLCharacter.getUsername() );
-		if ( getPasswordHash() == null )
-			DEFAULT_SHELL.executeLine( "login " + KoLCharacter.getUsername() );
-
-		while ( getPasswordHash() == null )
-		{
-			StaticEntity.executeCountdown( "Next login in ", 300 );
-			DEFAULT_SHELL.executeLine( "login " + KoLCharacter.getUsername() );
-		}
-
-		updateDisplay( "Session timed in." );
 	}
 
 	public boolean checkRequirements( List requirements )

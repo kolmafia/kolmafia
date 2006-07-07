@@ -274,7 +274,7 @@ public class FightRequest extends KoLRequest
 			{
 				if ( turnsUsed == 0 )
 				{
-					if ( client.getPasswordHash() != null )
+					if ( passwordHash != null )
 					{
 						showInBrowser( true );
 						KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );

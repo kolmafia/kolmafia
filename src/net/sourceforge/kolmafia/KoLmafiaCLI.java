@@ -224,15 +224,15 @@ public class KoLmafiaCLI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public synchronized void initialize( String username, String sessionID, boolean getBreakfast, boolean isQuickLogin )
+	public synchronized void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
 	{
 		if ( StaticEntity.getClient() != this )
 		{
-			StaticEntity.getClient().initialize( username, sessionID, getBreakfast, isQuickLogin );
+			StaticEntity.getClient().initialize( username, getBreakfast, isQuickLogin );
 			return;
 		}
 
-		super.initialize( username, sessionID, getBreakfast, isQuickLogin );
+		super.initialize( username, getBreakfast, isQuickLogin );
 		printBlankLine();
 		executeCommand( "moons", "" );
 		printBlankLine();
@@ -631,7 +631,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "relogin" ) || command.equals( "timein" ) )
 		{
-			executeTimeInRequest();
+			LoginRequest.executeTimeInRequest();
 			return;
 		}
 
@@ -640,12 +640,6 @@ public class KoLmafiaCLI extends KoLmafia
 			String password = StaticEntity.getClient().getSaveState( parameters );
 			if ( password != null )
 			{
-				if ( StaticEntity.getClient().getPasswordHash() != null )
-				{
-					updateDisplay( "Logging out..." );
-					(new LogoutRequest( StaticEntity.getClient() )).run();
-				}
-
 				// Remove all of the frames which may have been loaded;
 				// this ensures a forced reload of the frame which will
 				// keep the parameters fresh.
@@ -2450,8 +2444,8 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( desiredData.equals( "session" ) )
 		{
 			printLine( "Player: " + KoLCharacter.getUsername() );
-			printLine( "Session ID: " + StaticEntity.getClient().getSessionID() );
-			printLine( "Password Hash: " + StaticEntity.getClient().getPasswordHash() );
+			printLine( "Session ID: " + KoLRequest.sessionID );
+			printLine( "Password Hash: " + KoLRequest.passwordHash );
 		}
 		else if ( desiredData.startsWith( "stat" ) )
 		{

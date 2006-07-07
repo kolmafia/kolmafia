@@ -165,7 +165,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		toolsMenu.add( new InvocationMenuItem( "Clear Results", StaticEntity.getClient(), "resetSession" ) );
 		toolsMenu.add( new StopEverythingItem() );
 		toolsMenu.add( new InvocationMenuItem( "Refresh All", StaticEntity.getClient(), "refreshSession" ) );
-		toolsMenu.add( new InvocationMenuItem( "Session Time-In", StaticEntity.getClient(), "executeTimeInRequest" ) );
+		toolsMenu.add( new InvocationMenuItem( "Session Time-In", LoginRequest.class, "executeTimeInRequest" ) );
 
 		toolsMenu.add( new JSeparator() );
 
