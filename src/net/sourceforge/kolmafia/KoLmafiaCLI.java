@@ -2383,21 +2383,20 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		PrintStream oldSessionStream = sessionStream;
-		sessionStream = NullStream.INSTANCE;
-		String [] parameterList = parameters.split( " " );
+		parameters = parameters.trim();
+		int spaceIndex = parameters.indexOf( " " );
 
-		String filter = "";
-		PrintStream desiredOutputStream;
+		String list = spaceIndex == -1 ? parameters : parameters.substring( 0, spaceIndex ).trim();
+		String filter = spaceIndex == -1 ? "" : parameters.substring( spaceIndex ).trim();
 
-		if ( parameterList.length > 1 && parameterList[1].equals( "filter" ) )
+		PrintStream desiredOutputStream = KoLmafia.outputStream;
+
+		if ( !filter.equals( "" ) &&
+			(parameters.startsWith( "summary" ) || parameters.startsWith( "session" ) || parameters.startsWith( "stat" ) || parameters.startsWith( "equip" ) || parameters.startsWith( "encounters" )) )
 		{
-			filter = parameters.substring( parameters.indexOf( "filter" ) + 6 ).toLowerCase().trim();
-			desiredOutputStream = outputStream;
-		}
-		else if ( parameterList.length > 1 )
-		{
-			File outputFile = new File( parameterList[1] );
+			File outputFile = new File( filter );
+			filter = "";
+
 			outputFile = new File( outputFile.getAbsolutePath() );
 
 			// If the output file does not exist, create it first
@@ -2418,20 +2417,12 @@ public class KoLmafiaCLI extends KoLmafia
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e, "Error opening file <" + parameterList[1] + ">" );
-				sessionStream = oldSessionStream;
+				StaticEntity.printStackTrace( e, "Error opening file for output." );
 				return;
 			}
 		}
-		else
-			desiredOutputStream = outputStream;
 
-		executePrintCommand( parameterList[0].toLowerCase(), filter, desiredOutputStream );
-
-		if ( parameterList.length > 1 && !parameterList[1].equals( "filter" ) )
-			updateDisplay( "Data has been printed to \"" + parameterList[1] + "\"" );
-
-		sessionStream = oldSessionStream;
+		executePrintCommand( list, filter, desiredOutputStream );
 	}
 
 	/**
@@ -2445,7 +2436,7 @@ public class KoLmafiaCLI extends KoLmafia
 	private void executePrintCommand( String desiredData, String filter, PrintStream outputStream )
 	{
 		PrintStream originalStream = outputStream;
-		outputStream = outputStream;
+		KoLmafia.outputStream = outputStream;
 
 		if ( desiredData.equals( "session" ) )
 		{
@@ -2480,9 +2471,10 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 			printLine( "Hat: " + KoLCharacter.getEquipment( KoLCharacter.HAT ) );
 			printLine( "Weapon: " + KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
-			int fakeHands = KoLCharacter.getFakeHands();
-			for ( int i = 0; i < fakeHands; ++i )
-				printLine( "Off-hand: fake hand" );
+
+			if ( KoLCharacter.getFakeHands() > 0 )
+				printLine( "Fake Hands: " + KoLCharacter.getFakeHands() );
+
 			printLine( "Off-hand: " + KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) );
 			printLine( "Shirt: " + KoLCharacter.getEquipment( KoLCharacter.SHIRT ) );
 			printLine( "Pants: " + KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
@@ -2543,7 +2535,7 @@ public class KoLmafiaCLI extends KoLmafia
 			outputStream.close();
 		}
 
-		outputStream = originalStream;
+		KoLmafia.outputStream = originalStream;
 	}
 
 	private static String getStatString( int base, int adjusted, int tnp )
