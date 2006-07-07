@@ -128,8 +128,6 @@ public class LoginRequest extends KoLRequest
 				client.addSaveState( username, password );
 
 			client.initialize( username, formConnection.getHeaderField( "Set-Cookie" ), this.getBreakfast, this.isQuickLogin );
-			client.cachedLogin = client.getPasswordHash() == null ? null :
-				new LoginRequest( client, username, password );
 		}
 		else
 		{

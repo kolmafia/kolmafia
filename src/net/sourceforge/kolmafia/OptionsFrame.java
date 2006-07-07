@@ -1005,7 +1005,7 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		protected void actionConfirmed()
-		{	MoodSettings.addTrigger( (String) typeSelect.getSelectedItem(), (String) valueSelect.getSelectedItem(), commandField.getText() );
+		{	MoodSettings.addTrigger( (String) typeSelect.getSelectedType(), (String) valueSelect.getSelectedItem(), commandField.getText() );
 		}
 
 		public void actionCancelled()

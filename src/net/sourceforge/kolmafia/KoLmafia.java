@@ -138,10 +138,10 @@ public abstract class KoLmafia implements KoLConstants
 	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
 	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
 
+	private static boolean inLoginState = false;
 	private static boolean recoveryActive = false;
 	protected static boolean isMakingRequest = false;
 	protected static KoLRequest currentRequest = null;
-	protected static LoginRequest cachedLogin = null;
 	private static String currentIterationString = "";
 	protected static int continuationState = CONTINUE_STATE;
 
@@ -345,8 +345,13 @@ public abstract class KoLmafia implements KoLConstants
 
 	public synchronized void initialize( String username, String sessionID, boolean getBreakfast, boolean isQuickLogin )
 	{
+		inLoginState = true;
+
 		if ( this.sessionID != null )
+		{
+			inLoginState = false;
 			return;
+		}
 
 		this.conditions.clear();
 
@@ -370,6 +375,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( isQuickLogin )
 		{
 			(new AccountRequest( this )).run();
+			inLoginState = false;
 			return;
 		}
 
@@ -393,7 +399,10 @@ public abstract class KoLmafia implements KoLConstants
 		// might be mid-transition.
 
 		if ( getPasswordHash() != null && getPasswordHash().equals( "" ) )
+		{
+			inLoginState = false;
 			return;
+		}
 
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
 
@@ -410,6 +419,12 @@ public abstract class KoLmafia implements KoLConstants
 		String scriptSetting = StaticEntity.getProperty( "loginScript." + username.toLowerCase() );
 		if ( !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
+
+		inLoginState = false;
+	}
+
+	public static final boolean inLoginState()
+	{	return inLoginState;
 	}
 
 	public void resetBreakfastSummonings()
@@ -563,6 +578,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		sessionID = null;
 		passwordHash = null;
+		inLoginState = false;
 
 		closeDebugStream();
 		closeMacroStream();
@@ -2180,14 +2196,14 @@ public abstract class KoLmafia implements KoLConstants
 		deinitialize();
 		updateDisplay( "Timing in session..." );
 
-		cachedLogin.run();
+		DEFAULT_SHELL.executeLine( "login " + KoLCharacter.getUsername() );
 		if ( getPasswordHash() == null )
-			cachedLogin.run();
+			DEFAULT_SHELL.executeLine( "login " + KoLCharacter.getUsername() );
 
 		while ( getPasswordHash() == null )
 		{
 			StaticEntity.executeCountdown( "Next login in ", 300 );
-			cachedLogin.run();
+			DEFAULT_SHELL.executeLine( "login " + KoLCharacter.getUsername() );
 		}
 
 		updateDisplay( "Session timed in." );

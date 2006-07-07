@@ -139,6 +139,9 @@ public abstract class MoodSettings implements KoLConstants
 		if ( !characterName.equals( KoLCharacter.getUsername() ) )
 			MoodSettings.reset();
 
+		if ( node == null )
+			return;
+
 		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) || triggers.contains( node ) )
 			return;
 
