@@ -185,7 +185,7 @@ public class CakeArenaFrame extends KoLFrame
 		}
 	}
 
-	private class OpponentButton extends JButton implements MouseListener
+	private class OpponentButton extends NestedInsideTableButton implements MouseListener
 	{
 		private int row, column;
 		private String skill;
@@ -211,22 +211,6 @@ public class CakeArenaFrame extends KoLFrame
 
 			if ( battleCount > 0 )
 				CakeArenaManager.fightOpponent( opponents.get( row ).toString(), column, battleCount );
-		}
-
-		public void mouseClicked( MouseEvent e )
-		{
-		}
-
-		public void mouseEntered( MouseEvent e )
-		{
-		}
-
-		public void mouseExited( MouseEvent e )
-		{
-		}
-
-		public void mousePressed( MouseEvent e )
-		{
 		}
 	}
 
