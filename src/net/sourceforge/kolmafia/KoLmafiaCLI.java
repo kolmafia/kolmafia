@@ -629,7 +629,13 @@ public class KoLmafiaCLI extends KoLmafia
 		// Next, handle any requests to login or relogin.
 		// This will be done by calling a utility method.
 
-		if ( command.equals( "login" ) || command.equals( "relogin" ) )
+		if ( command.equals( "relogin" ) || command.equals( "timein" ) )
+		{
+			executeTimeInRequest();
+			return;
+		}
+
+		if ( command.equals( "login" ) )
 		{
 			String password = StaticEntity.getClient().getSaveState( parameters );
 			if ( password != null )
@@ -1404,6 +1410,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "trigger" ) )
 		{
+			if ( parameters.equals( "clear" ) )
+				MoodSettings.removeTriggers( MoodSettings.getTriggers().toArray() );
+			else if ( parameters.equals( "autofill" ) )
+				MoodSettings.autoFillTriggers();
+
 			String [] split = parameters.split( "\\s*,\\s*" );
 			if ( split.length == 3 )
 				MoodSettings.addTrigger( split[0], split[1], split[2] );

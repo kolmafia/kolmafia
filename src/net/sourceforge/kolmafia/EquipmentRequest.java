@@ -529,7 +529,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			oldEquipment[i] = KoLCharacter.getEquipment( i );
 
 		parseEquipment( this.responseText );
-		if ( KoLmafia.cachedLogin != null )
+		if ( !KoLmafia.inLoginState() )
 		{
 			for ( int i = 0; i < 9; ++i )
 				switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
