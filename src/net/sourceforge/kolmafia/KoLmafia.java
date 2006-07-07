@@ -970,7 +970,7 @@ public abstract class KoLmafia implements KoLConstants
 		double setting = StaticEntity.parseDouble( StaticEntity.getProperty( settingName ) );
 
 		if ( !BuffBotHome.isBuffBotActive() )
-			needed = needed != 0 ? needed : (int) Math.max( setting * (double) maximum, (double) needed );
+			needed = Math.max( needed, (int) Math.max( setting * (double) maximum, (double) needed ) )
 
 		int last = -1;
 		int current = ((Number)currentMethod.invoke( null, empty )).intValue();
