@@ -476,42 +476,19 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class MemberTableModel extends DefaultTableModel implements ListDataListener
+	private class MemberTableModel extends ListWrapperTableModel
 	{
 		public MemberTableModel()
 		{
-			super( 0, 5 );
-			ClanSnapshotTable.getFilteredList().addListDataListener( this );
+			super( new String [] { " ", "Name", "Clan Title", "Total Karma", "Boot" },
+				new Class [] { JButton.class, String.class, String.class, Integer.class, Boolean.class },
+				new boolean [] { false, false, true, false, true }, ClanSnapshotTable.getFilteredList() );
 		}
 
-		public String getColumnName( int index )
+		protected Vector constructVector( Object o )
 		{
-			switch ( index )
-			{
-				case 0:  return " ";
-				case 1:  return "Name";
-				case 2:  return "Clan Title";
-				case 3:  return "Total Karma";
-				case 4:  return "Boot";
-				default:  return "";
-			}
-		}
+			ProfileRequest p = (ProfileRequest) o;
 
-		public Class getColumnClass( int column )
-		{
-			switch ( column )
-			{
-				case 0:  return JButton.class;
-				case 1:  return String.class;
-				case 2:  return String.class;
-				case 3:  return Integer.class;
-				case 4:  return Boolean.class;
-				default:  return Object.class;
-			}
-		}
-
-		private Vector constructVector( ProfileRequest p )
-		{
 			Vector value = new Vector();
 
 			JButton profileButton = new ShowProfileButton( p );
@@ -525,79 +502,6 @@ public class ClanManageFrame extends KoLFrame
 
 			return value;
 		}
-
-		public boolean isCellEditable( int row, int column )
-		{
-			switch ( column )
-			{
-				case 0:  return false;
-				case 1:  return false;
-				case 2:  return true;
-				case 3:  return false;
-				case 4:  return true;
-				default:  return false;
-			}
-		}
-
-		/**
-		 * Called whenever contents have been added to the original list; a
-		 * function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public void intervalAdded( ListDataEvent e )
-		{
-			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
-
-			if ( index1 >= source.size() || source.size() == getRowCount() )
-				return;
-
-			for ( int i = index0; i <= index1; ++i )
-				insertRow( i, constructVector( (ProfileRequest) source.get(i) ) );
-		}
-
-		/**
-		 * Called whenever contents have been removed from the original list;
-		 * a function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public void intervalRemoved( ListDataEvent e )
-		{
-			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
-
-			if ( index1 >= getRowCount() || source.size() == getRowCount() )
-				return;
-
-			for ( int i = index1; i >= index0; --i )
-				removeRow(i);
-		}
-
-		/**
-		 * Called whenever contents in the original list have changed; a
-		 * function required by every <code>ListDataListener</code>.
-		 *
-		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
-		 */
-
-		public void contentsChanged( ListDataEvent e )
-		{
-			LockableListModel source = (LockableListModel) e.getSource();
-			int index0 = e.getIndex0();  int index1 = e.getIndex1();
-
-			if ( index1 >= getRowCount() )
-				return;
-
-			for ( int i = index1; i >= index0; --i )
-			{
-				removeRow(i);
-				insertRow( i, constructVector( (ProfileRequest) source.get(i) ) );
-			}
-		}
 	}
 
 	private class ProfileButtonRenderer implements TableCellRenderer
@@ -607,7 +511,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class ShowProfileButton extends JButton implements MouseListener
+	private class ShowProfileButton extends NestedInsideTableButton implements MouseListener
 	{
 		private ProfileRequest profile;
 
@@ -624,22 +528,6 @@ public class ClanManageFrame extends KoLFrame
 			parameters[1] = profile;
 
 			(new RequestThread( new CreateFrameRunnable( ProfileFrame.class, parameters ) )).start();
-		}
-
-		public void mouseClicked( MouseEvent e )
-		{
-		}
-
-		public void mouseEntered( MouseEvent e )
-		{
-		}
-
-		public void mouseExited( MouseEvent e )
-		{
-		}
-
-		public void mousePressed( MouseEvent e )
-		{
 		}
 	}
 

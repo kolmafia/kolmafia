@@ -65,6 +65,9 @@ import java.awt.CardLayout;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 // event listeners
@@ -73,6 +76,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
@@ -86,6 +90,7 @@ import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 // other stuff
 import javax.swing.SwingUtilities;
@@ -1249,6 +1254,129 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 					((JButton) value).dispatchEvent( SwingUtilities.convertMouseEvent( table, e, (JButton) value ) );
 					table.repaint();
 				}
+			}
+		}
+	}
+
+	protected abstract class NestedInsideTableButton extends JButton implements MouseListener
+	{
+		public NestedInsideTableButton( ImageIcon icon )
+		{	super( icon );
+		}
+
+		public abstract void mouseReleased( MouseEvent e );
+
+		public void mouseClicked( MouseEvent e )
+		{
+		}
+
+		public void mouseEntered( MouseEvent e )
+		{
+		}
+
+		public void mouseExited( MouseEvent e )
+		{
+		}
+
+		public void mousePressed( MouseEvent e )
+		{
+		}
+	}
+
+	protected abstract class ListWrapperTableModel extends DefaultTableModel implements ListDataListener
+	{
+		private String [] headers;
+		private Class [] types;
+		private boolean [] editable;
+
+		public ListWrapperTableModel( String [] headers, Class [] types, boolean [] editable, LockableListModel list )
+		{
+			super( 0, headers.length );
+
+			this.headers = headers;
+			this.types = types;
+			this.editable = editable;
+
+			synchronized ( list )
+			{
+				for ( int i = 0; i < list.size(); ++i )
+					addRow( constructVector( list.get(i) ) );
+
+				list.addListDataListener( this );
+			}
+		}
+
+		public String getColumnName( int index )
+		{	return index < 0 || index >= headers.length ? "" : headers[ index ];
+		}
+
+		public Class getColumnClass( int column )
+		{	return column < 0 || column >= types.length ? Object.class : types[ column ];
+		}
+
+		protected abstract Vector constructVector( Object o );
+
+		public boolean isCellEditable( int row, int column )
+		{	return column < 0 || column >= editable.length ? false : editable[ column ];
+		}
+
+		/**
+		 * Called whenever contents have been added to the original list; a
+		 * function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public void intervalAdded( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 >= source.size() || source.size() == getRowCount() )
+				return;
+
+			for ( int i = index0; i <= index1; ++i )
+				insertRow( i, constructVector( source.get(i) ) );
+		}
+
+		/**
+		 * Called whenever contents have been removed from the original list;
+		 * a function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public void intervalRemoved( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 >= getRowCount() || source.size() == getRowCount() )
+				return;
+
+			for ( int i = index1; i >= index0; --i )
+				removeRow(i);
+		}
+
+		/**
+		 * Called whenever contents in the original list have changed; a
+		 * function required by every <code>ListDataListener</code>.
+		 *
+		 * @param	e	the <code>ListDataEvent</code> that triggered this function call
+		 */
+
+		public void contentsChanged( ListDataEvent e )
+		{
+			LockableListModel source = (LockableListModel) e.getSource();
+			int index0 = e.getIndex0();  int index1 = e.getIndex1();
+
+			if ( index1 >= getRowCount() )
+				return;
+
+			for ( int i = index1; i >= index0; --i )
+			{
+				removeRow(i);
+				insertRow( i, constructVector( source.get(i) ) );
 			}
 		}
 	}
