@@ -363,7 +363,10 @@ public class AdventureFrame extends KoLFrame
 					else
 					{
 						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + conditions[i] ) )
+						{
+							KoLmafia.enableDisplay();
 							return;
+						}
 					}
 				}
 

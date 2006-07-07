@@ -146,6 +146,18 @@ public class AdventureRequest extends KoLRequest
 		if ( getProperty( "cloverProtectActive" ).equals( "true" ) )
 			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 
+		if ( formSource.equals( "mountains.php" ) )
+		{
+			KoLRequest check = new KoLRequest( client, "mountains.php" );
+			check.run();
+
+			if ( check.responseText.indexOf( "value=80" ) != -1 )
+			{
+				KoLmafia.updateDisplay( PENDING_STATE, "The Orc Chasm has already been bridged." );
+				return;
+			}
+		}
+
 		super.run();
 
 		if ( getProperty( "cloverProtectActive" ).equals( "true" ) )
@@ -178,7 +190,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( adventureID.equals( "80" ) && responseText.indexOf( "You shouldn't be here." ) != -1 )
 		{
-			(new AdventureRequest( client, "The Orc Chasm (Pre-Bridge)", "mountains.php", "" )).run();
+			(new AdventureRequest( client, "Bridge the Orc Chasm", "mountains.php", "80" )).run();
 			if ( KoLmafia.permitsContinue() )
 				this.run();
 
@@ -311,7 +323,10 @@ public class AdventureRequest extends KoLRequest
 			}
 
 			if ( responseText.indexOf( "the path to the Valley is clear" ) != -1 )
+			{
+				KoLmafia.updateDisplay( PENDING_STATE, "You have bridged the Orc Chasm." );
 				client.processResult( BRIDGE );
+			}
 
 			return;
 		}
