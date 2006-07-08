@@ -137,6 +137,7 @@ public class OptionsFrame extends KoLFrame
 		generalPanel.add( new GeneralOptionsPanel() );
 		generalPanel.add( new ItemOptionsPanel() );
 		generalPanel.add( new RelayOptionsPanel() );
+		generalPanel.add( new AreaOptionsPanel() );
 
 		// Components of restoration
 
@@ -344,6 +345,63 @@ public class OptionsFrame extends KoLFrame
 			}
 			else
 				optionBoxes[3].setEnabled( true );
+		}
+	}
+
+	private class AreaOptionsPanel extends OptionsPanel
+	{
+		private String [] zones;
+		private JCheckBox [] options;
+
+		public AreaOptionsPanel()
+		{
+			super( "Adventure List", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
+
+			zones = new String[ AdventureDatabase.ZONE_NAMES.size() ];
+			options = new JCheckBox[ AdventureDatabase.ZONE_NAMES.size() ];
+
+			for ( int i = 0; i < options.length; ++i )
+				options[i] = new JCheckBox();
+
+			VerifiableElement [] elements = new VerifiableElement[ AdventureDatabase.ZONE_NAMES.size() ];
+			String [] names = new String[ AdventureDatabase.ZONE_NAMES.keySet().size() ];
+			AdventureDatabase.ZONE_NAMES.keySet().toArray( names );
+
+			for ( int i = 0; i < names.length; ++i )
+			{
+				zones[i] = (String) AdventureDatabase.ZONE_NAMES.get( names[i] );
+				elements[i] = new VerifiableElement( "Hide " + AdventureDatabase.ZONE_DESCRIPTIONS.get( names[i] ), JLabel.LEFT, options[i] );
+			}
+
+			setContent( elements, false );
+			actionCancelled();
+		}
+
+		protected void actionConfirmed()
+		{
+			StringBuffer areas = new StringBuffer();
+
+			for ( int i = 0; i < options.length; ++i )
+			{
+				if ( options[i].isSelected() )
+				{
+					if ( areas.length() != 0 )
+						areas.append( ',' );
+
+					areas.append( zones[i] );
+				}
+			}
+
+			setProperty( "zoneExcludeList", areas.toString() );
+			super.actionConfirmed();
+			AdventureDatabase.refreshAdventureList();
+		}
+
+		protected void actionCancelled()
+		{
+			String excluded = getProperty( "zoneExcludeList" );
+			for ( int i = 0; i < zones.length; ++i )
+				options[i].setSelected( excluded.indexOf( zones[i] ) != -1 );
 		}
 	}
 
