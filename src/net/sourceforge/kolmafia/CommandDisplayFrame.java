@@ -161,6 +161,8 @@ public class CommandDisplayFrame extends KoLFrame
 			private void submitCommand()
 			{
 				String command = entryField.getText().trim();
+				entryField.setText( "" );
+
 				if ( command.length() == 0 )
 					return;
 
@@ -173,8 +175,6 @@ public class CommandDisplayFrame extends KoLFrame
 				commandQueue.add( command );
 				commandHistory.add( command );
 				++lastCommandIndex;
-				
-				entryField.setText( "" );
 
 				if ( commandQueue.size() > 1 )
 				{
@@ -190,12 +190,12 @@ public class CommandDisplayFrame extends KoLFrame
 				while ( !commandQueue.isEmpty() )
 					executeQueuedCommand();
 			}
-			
+
 			private void executeQueuedCommand()
 			{
-				String command = (String) commandQueue.get(0);				
-				KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br><br>" );			
-				DEFAULT_SHELL.executeLine( command );				
+				String command = (String) commandQueue.get(0);
+				KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br><br>" );
+				DEFAULT_SHELL.executeLine( command );
 				commandQueue.remove(0);
 			}
 		}

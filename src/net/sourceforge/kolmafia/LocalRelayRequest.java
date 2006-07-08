@@ -450,14 +450,7 @@ public class LocalRelayRequest extends KoLRequest
 
 	protected void submitCommand()
 	{
-		String command = getFormField( "cmd" );
-		if ( command == null )
-			return;
-
-		KoLmafia.forceContinue();
-		DEFAULT_SHELL.executeLine( command );
-		KoLmafia.enableDisplay();
-
+		(new CommandRunnable( getFormField( "cmd" ) )).run();
 		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
 
@@ -465,11 +458,40 @@ public class LocalRelayRequest extends KoLRequest
 	{	pseudoResponse( "HTTP/1.1 404 Not Found", "" );
 	}
 
+	private class CommandRunnable implements Runnable
+	{
+		private String command;
+
+		public CommandRunnable( String command )
+		{	this.command = command;
+		}
+
+		public void run()
+		{
+			if ( command == null )
+				return;
+
+			KoLmafia.forceContinue();
+			DEFAULT_SHELL.executeLine( command );
+			KoLmafia.enableDisplay();
+		}
+
+	}
+
 	public void run()
 	{
 		if ( formURLString.endsWith( ".gif" ) )
 		{
 			sendNotFound();
+			return;
+		}
+
+		String graf = getFormField( "graf" );
+		if ( graf != null && graf.startsWith( "/run" ) )
+		{
+			pseudoResponse( "HTTP/1.1 200 OK", "<br/><font color=olive> &gt; " + graf.substring( 5 ) + "</font><br/><br/>" );
+			(new Thread( new CommandRunnable( graf.substring( 5 ) ) )).start();
+
 			return;
 		}
 

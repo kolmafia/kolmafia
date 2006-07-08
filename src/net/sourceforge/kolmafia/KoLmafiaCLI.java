@@ -2117,25 +2117,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 		String skillName = getUsableSkillName( skillNameString );
 		if ( skillName == null )
-		{
-			String error;
-			if ( getCombatSkillName( skillNameString ) != null )
-				error = "Skill not available outside of combat";
-			else if ( getSkillName( skillNameString ) != null )
-				error = "Skill not castable";
-			else
-				error = "Skill not available";
-
-			updateDisplay( ERROR_STATE, error );
 			return;
-		}
 
 		int buffCount = 1;
 
 		if ( buffCountString != null && buffCountString.equals( "*" ) )
 		{
 			buffCount = (int) ( KoLCharacter.getCurrentMP() /
-					    ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) );
+				ClassSkillsDatabase.getMPConsumptionByID( ClassSkillsDatabase.getSkillID( skillName ) ) );
 		}
 		else if ( buffCountString != null )
 		{
@@ -2143,12 +2132,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		if ( buffCount > 0 )
-		{
-			if ( splitParameters[1] != null )
-				unrepeatableCommands.add( "cast " + parameters );
-
 			StaticEntity.getClient().makeRequest( new UseSkillRequest( StaticEntity.getClient(), skillName, splitParameters[1], buffCount ) );
-		}
 	}
 
 	private String [] splitCountAndName( String parameters )

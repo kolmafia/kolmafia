@@ -170,6 +170,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
+		if ( !KoLCharacter.hasSkill( skillName ) )
+			return;
+
 		String initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		String initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 		String initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );

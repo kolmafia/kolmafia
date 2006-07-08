@@ -116,6 +116,18 @@ public class ChatRequest extends KoLRequest
 		this.lastSeen = lastSeen;
 	}
 
+	public void run()
+	{
+		String graf = getFormField( "graf" );
+		if ( graf != null && graf.startsWith( "/run" ) )
+		{
+			DEFAULT_SHELL.executeLine( graf.substring( 5 ) );
+			return;
+		}
+
+		super.run();
+	}
+
 	protected void processResults()
 	{
 		if ( KoLMessenger.isRunning() && thread == null )

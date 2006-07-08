@@ -251,21 +251,45 @@ public class ChatBuffer
 
 		if ( changeType != LOGFILE_CHANGE && displayPane != null )
 		{
-			try
+			if ( newContents != null && newContents.indexOf( "<body" ) == -1 )
 			{
-				DisplayPaneUpdater runner = new DisplayPaneUpdater( newContents );
+				try
+				{
+					HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
+					Element parentElement = currentHTML.getDefaultRootElement();
 
-				if ( SwingUtilities.isEventDispatchThread() )
-					runner.run();
-				else
-					SwingUtilities.invokeAndWait( runner );
+					while ( !parentElement.isLeaf() )
+						parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
+
+					currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+					displayPane.setCaretPosition( currentHTML.getLength() );
+				}
+				catch ( Exception e )
+				{
+					// In case someone happens to be running with a console,
+					// print the debug information to the screen.
+
+					e.printStackTrace();
+				}
 			}
-			catch ( Exception e )
+			else
 			{
-				// Print the stack trace to show that
-				// an interruption occurred.
+				try
+				{
+					DisplayPaneUpdater runner = new DisplayPaneUpdater( newContents );
 
-				e.printStackTrace();
+					if ( SwingUtilities.isEventDispatchThread() )
+						runner.run();
+					else
+						SwingUtilities.invokeAndWait( runner );
+				}
+				catch ( Exception e )
+				{
+					// Print the stack trace to show that
+					// an interruption occurred.
+
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -312,7 +336,7 @@ public class ChatBuffer
 
 		public void run()
 		{
-			if ( newContents == null || newContents.indexOf( "<body" ) != -1 )
+			try
 			{
 				if ( newContents != null )
 				{
@@ -330,27 +354,10 @@ public class ChatBuffer
 
 				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 				displayPane.setCaretPosition( displayPane.getDocument().getLength() );
-				return;
-			}
-
-			try
-			{
-				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-				Element parentElement = currentHTML.getDefaultRootElement();
-
-				while ( !parentElement.isLeaf() )
-					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
-
-				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
-				displayPane.setCaretPosition( currentHTML.getLength() );
 			}
 			catch ( Exception e )
 			{
-				// In case someone happens to be running with a console,
-				// print the debug information to the screen.
-
 				e.printStackTrace();
-				return;
 			}
 		}
 	}
