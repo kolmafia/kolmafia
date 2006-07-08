@@ -543,8 +543,8 @@ public abstract class MoodSettings implements KoLConstants
 				return false;
 
 			MoodTrigger mt = (MoodTrigger) o;
-			if ( triggerType.equals( mt.triggerType ) )
-				return true;
+			if ( !triggerType.equals( mt.triggerType ) )
+				return false;
 
 			if ( triggerName == null )
 				return mt.triggerName == null;
