@@ -79,6 +79,8 @@ import javax.swing.SwingUtilities;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * A multi-purpose message buffer which stores all sorts of the messages
@@ -251,21 +253,12 @@ public class ChatBuffer
 		{
 			try
 			{
-				if ( newContents == null )
-				{
-					displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-					displayPane.validate();
-					return;
-				}
+				DisplayPaneUpdater runner = new DisplayPaneUpdater( newContents );
 
-				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-				Element parentElement = currentHTML.getDefaultRootElement();
-
-				while ( !parentElement.isLeaf() )
-					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
-
-				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
-				displayPane.setCaretPosition( currentHTML.getLength() );
+				if ( SwingUtilities.isEventDispatchThread() )
+					runner.run();
+				else
+					SwingUtilities.invokeAndWait( runner );
 			}
 			catch ( Exception e )
 			{
@@ -298,6 +291,67 @@ public class ChatBuffer
 		{
 			activeLogWriter.print( chatContent );
 			activeLogWriter.flush();
+		}
+	}
+
+	/**
+	 * An internal runnable which attempts to update the text in
+	 * the HTML document and appropriately scroll the scrollbar.
+	 * This occurs inside of the Swing thread in order to prevent
+	 * the user interface from locking and to help avoid Swing
+	 * thread errors.
+	 */
+
+	private class DisplayPaneUpdater implements Runnable
+	{
+		private String newContents;
+
+		public DisplayPaneUpdater( String newContents )
+		{	this.newContents = newContents;
+		}
+
+		public void run()
+		{
+			if ( newContents == null || newContents.indexOf( "<body" ) != -1 )
+			{
+				if ( newContents != null )
+				{
+					String text = displayBuffer.toString();
+
+					Matcher matcher = Pattern.compile( "<style.*?</style>", Pattern.DOTALL ).matcher( text );
+					text = matcher.replaceAll( "" );
+
+					matcher = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( text );
+					text = matcher.replaceAll( "" );
+
+					displayBuffer.setLength( 0 );
+					displayBuffer.append( text );
+				}
+
+				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+				displayPane.setCaretPosition( displayPane.getDocument().getLength() );
+				return;
+			}
+
+			try
+			{
+				HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
+				Element parentElement = currentHTML.getDefaultRootElement();
+
+				while ( !parentElement.isLeaf() )
+					parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
+
+				currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+				displayPane.setCaretPosition( currentHTML.getLength() );
+			}
+			catch ( Exception e )
+			{
+				// In case someone happens to be running with a console,
+				// print the debug information to the screen.
+
+				e.printStackTrace();
+				return;
+			}
 		}
 	}
 }
