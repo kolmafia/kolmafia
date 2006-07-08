@@ -2625,7 +2625,21 @@ public class KoLmafiaCLI extends KoLmafia
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
 
-		List matchingNames = TradeableItemDatabase.getMatchingNames( parameters );
+		List matchingNames = new ArrayList();
+
+		if ( parameters.indexOf( " " ) != -1 )
+		{
+			boolean isNumeric = true;
+			for ( int i = 0; i < parameters.length() && parameters.charAt(i) != ' '; ++i )
+				isNumeric &= Character.isDigit( parameters.charAt(i) );
+
+			if ( isNumeric )
+				matchingNames.addAll( TradeableItemDatabase.getMatchingNames( parameters.substring( parameters.indexOf( " " ) ).trim() ) );
+			else
+				matchingNames.addAll( TradeableItemDatabase.getMatchingNames( parameters ) );
+		}
+		else
+			matchingNames.addAll( TradeableItemDatabase.getMatchingNames( parameters ) );
 
 		// Next, check to see if any of the items matching appear
 		// in an NPC store.  If so, automatically default to it.
