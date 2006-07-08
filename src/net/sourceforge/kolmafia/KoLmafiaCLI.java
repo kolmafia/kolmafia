@@ -2620,7 +2620,7 @@ public class KoLmafiaCLI extends KoLmafia
 		boolean isCreationMatch = previousLine != null && previousLine.startsWith( "create" );
 
 		int itemID = -1;
-		int itemCount = 0;
+		int itemCount = 1;
 
 		// First, allow for the person to type without specifying
 		// the amount, if the amount is 1.
@@ -2651,7 +2651,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( !matchingNames.isEmpty() )
 		{
 			itemID = getFirstMatchingItemID( matchingNames );
-			itemCount = 1;
 		}
 		else if ( parameters.indexOf( " " ) == -1 )
 		{
