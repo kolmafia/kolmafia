@@ -564,17 +564,17 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
 			return getProperty( "createWithoutBoxServants" ).equals( "true" ) && noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
 
-		if ( KoLCharacter.hasItem( servant, false ) )
-			usedServant = servant;
-
-		else if ( KoLCharacter.hasItem( clockworkServant, false ) )
+		if ( KoLCharacter.hasItem( clockworkServant, false ) )
 			usedServant = clockworkServant;
 
-		else if ( KoLCharacter.hasItem( servant, true ) )
+		else if ( KoLCharacter.hasItem( servant, false ) )
 			usedServant = servant;
 
 		else if ( KoLCharacter.hasItem( clockworkServant, true ) )
 			usedServant = clockworkServant;
+
+		else if ( KoLCharacter.hasItem( servant, true ) )
+			usedServant = servant;
 
 		if ( usedServant == null )
 		{
