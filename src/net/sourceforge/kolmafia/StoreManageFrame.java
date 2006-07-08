@@ -198,9 +198,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			setDefaultRenderer( Integer.class, new IntegerRenderer() );
 			setDefaultRenderer( JButton.class, new ButtonRenderer() );
 
-			setShowVerticalLines( false );
-			setShowHorizontalLines( true );
-
+			setShowGrid( false );
 			setIntercellSpacing( new Dimension( 5, 5 ) );
 			setRowHeight( 25 );
 
