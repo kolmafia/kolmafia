@@ -142,12 +142,18 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public void run()
 	{
+		if ( getFormSource().equals( "shore.php" ) && KoLCharacter.getAvailableMeat() < 500 )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds for shore vacation." );
+			return;
+		}
+
 		KoLCharacter.setNextAdventure( this );
 
 		String action = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
 		int haltTolerance = (int)( StaticEntity.parseDouble( StaticEntity.getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
 
-		if ( ( action.equals( "item0536" ) && FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) < 1 ) ||
+		if ( ( action.equals( "item536" ) && FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) < 1 ) ||
 			 ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) < 1 ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
@@ -184,7 +190,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// person is not adventuring at the chasm.
 
 		if ( !adventureID.equals( "80" ) && request instanceof AdventureRequest &&
-			request.getAdventuresUsed() == 1 && (action.equals( "item0536" ) || action.equals( "item1316" )) &&
+			request.getAdventuresUsed() == 1 && (action.equals( "item536" ) || action.equals( "item1316" )) &&
 			KoLCharacter.getFamiliar().getID() != 16 && KoLCharacter.getFamiliar().getID() != 17 && KoLCharacter.getFamiliar().getID() != 48 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
