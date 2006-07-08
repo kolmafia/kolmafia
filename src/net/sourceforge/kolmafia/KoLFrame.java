@@ -57,6 +57,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
 
 // layout
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -68,6 +69,8 @@ import javax.swing.BoxLayout;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 // event listeners
@@ -1240,7 +1243,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		public void mouseReleased( MouseEvent e )
 		{
-		    TableColumnModel columnModel = table.getColumnModel();
+			TableColumnModel columnModel = table.getColumnModel();
 
 		    int row = e.getY() / table.getRowHeight();
 		    int column = columnModel.getColumnIndexAtX( e.getX() );
@@ -1261,7 +1264,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected abstract class NestedInsideTableButton extends JButton implements MouseListener
 	{
 		public NestedInsideTableButton( ImageIcon icon )
-		{	super( icon );
+		{
+			super( icon );
+			addMouseListener( this );
 		}
 
 		public abstract void mouseReleased( MouseEvent e );
@@ -1300,7 +1305,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			synchronized ( list )
 			{
 				for ( int i = 0; i < list.size(); ++i )
-					addRow( constructVector( list.get(i) ) );
+					insertRow( i, constructVector( list.get(i) ) );
 
 				list.addListDataListener( this );
 			}
@@ -1378,6 +1383,27 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				removeRow(i);
 				insertRow( i, constructVector( source.get(i) ) );
 			}
+		}
+	}
+
+	protected class IntegerRenderer extends DefaultTableCellRenderer
+	{
+		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
+		{
+			Component c = super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
+			if ( !(value instanceof Integer) )
+				return c;
+
+			((JLabel)c).setHorizontalAlignment( JLabel.RIGHT );
+			((JLabel)c).setText( COMMA_FORMAT.format( ((Integer)value).intValue() ) );
+			return c;
+		}
+	}
+
+	protected class ButtonRenderer implements TableCellRenderer
+	{
+		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
+		{	return (JButton) value;
 		}
 	}
 }

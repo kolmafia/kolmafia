@@ -44,6 +44,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.util.Vector;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -51,16 +53,18 @@ import javax.swing.JList;
 import javax.swing.JLabel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.DefaultCellEditor;
+import com.sun.java.forums.TableSorter;
 
 // spellcast-related imports
-import net.java.dev.spellcast.utilities.PanelList;
-import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -93,18 +97,260 @@ public class StoreManageFrame extends KoLPanelFrame
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
 
-	private class StoreLogPanel extends ItemManagePanel
+	private class StoreManagePanel extends KoLPanel implements Runnable
 	{
-		public StoreLogPanel()
-		{	super( "Transactions Log", "refresh", "resort", StoreManager.getStoreLog() );
+		private JTable manageTable;
+
+		public StoreManagePanel()
+		{
+			super( "save changes", "auto-undercut", true );
+
+			JTable addTable = new StoreListTable( new LockableListModel() );
+			JScrollPane addScroller = new JScrollPane( addTable,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			JComponentUtilities.setComponentSize( addScroller, 500, 50 );
+			JPanel addPanel = new JPanel( new BorderLayout() );
+
+			addPanel.add( addTable.getTableHeader(), BorderLayout.NORTH );
+			addPanel.add( addScroller, BorderLayout.CENTER );
+
+			manageTable = new StoreListTable( StoreManager.getSoldItemList() );
+			JScrollPane manageScroller = new JScrollPane( manageTable,
+				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+
+			JPanel managePanel = new JPanel( new BorderLayout() );
+			managePanel.add( manageTable.getTableHeader(), BorderLayout.NORTH );
+			managePanel.add( manageScroller, BorderLayout.CENTER );
+
+			JPanel storePanel = new JPanel( new BorderLayout() );
+			storePanel.add( addPanel, BorderLayout.NORTH );
+			storePanel.add( managePanel, BorderLayout.CENTER );
+
+			searchResults = new SearchResultsPanel();
+			setContent( null, null, searchResults, true, true );
+			container.add( storePanel, BorderLayout.CENTER );
 		}
 
 		public void actionConfirmed()
-		{	(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), true ) )).start();
+		{
+			if ( manageTable.isEditing() )
+			{
+				int row = manageTable.getEditingRow();
+				int col = manageTable.getEditingColumn();
+				manageTable.getCellEditor( row, col ).stopCellEditing();
+
+				if ( manageTable.isEditing() )
+				{
+					JOptionPane.showMessageDialog( null, "One or more fields contain invalid values.\n(Note: they are currently outlined in red)" );
+					return;
+				}
+			}
+
+			KoLmafia.updateDisplay( "Compiling reprice data..." );
+			int rowCount = manageTable.getRowCount();
+
+			int [] itemID = new int[ rowCount ];
+			int [] prices = new int[ rowCount ];
+			int [] limits = new int[ rowCount ];
+
+			for ( int i = 0; i < rowCount; ++i )
+			{
+				itemID[i] = ((AdventureResult)manageTable.getValueAt( i, 0 )).getItemID();
+				prices[i] = ((Integer) manageTable.getValueAt( i, 1 )).intValue();
+				limits[i] = ((Boolean)manageTable.getValueAt( i, 4 )).booleanValue() ? 1 : 0;
+			}
+
+			(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), itemID, prices, limits ) )).start();
 		}
 
 		public void actionCancelled()
-		{	StoreManager.sortStoreLog( true );
+		{	(new RequestThread( this )).start();
+		}
+
+		public void run()
+		{	StaticEntity.getClient().priceItemsAtLowestPrice();
+		}
+	}
+
+	private class StoreListTable extends JTable
+	{
+		public StoreListTable( LockableListModel model )
+		{
+			super( new StoreManageTableModel( model ) );
+
+			if ( model != StoreManager.getSoldItemList() )
+			{
+				getColumnModel().getColumn(0).setCellEditor(
+					new DefaultCellEditor( ((StoreManageTableModel)getModel()).getSellingList() ) );
+			}
+			else
+			{
+				setModel( new TableSorter( getModel(), getTableHeader() ) );
+			}
+
+			getTableHeader().setReorderingAllowed( false );
+
+			setRowSelectionAllowed( false );
+			setAutoResizeMode( JTable.AUTO_RESIZE_NEXT_COLUMN );
+
+			addMouseListener( new ButtonEventListener( this ) );
+			setDefaultRenderer( Integer.class, new IntegerRenderer() );
+			setDefaultRenderer( JButton.class, new ButtonRenderer() );
+
+			setShowVerticalLines( false );
+			setShowHorizontalLines( true );
+
+			setIntercellSpacing( new Dimension( 5, 5 ) );
+			setRowHeight( 25 );
+
+			getColumnModel().getColumn(1).setMinWidth( 100 );
+			getColumnModel().getColumn(1).setMaxWidth( 100 );
+
+			getColumnModel().getColumn(2).setMinWidth( 100 );
+			getColumnModel().getColumn(2).setMaxWidth( 100 );
+
+			getColumnModel().getColumn(3).setMinWidth( 50 );
+			getColumnModel().getColumn(3).setMaxWidth( 50 );
+
+			getColumnModel().getColumn(4).setMinWidth( 30 );
+			getColumnModel().getColumn(4).setMaxWidth( 30 );
+
+			getColumnModel().getColumn(5).setMinWidth( 30 );
+			getColumnModel().getColumn(5).setMaxWidth( 30 );
+
+			getColumnModel().getColumn(6).setMinWidth( 30 );
+			getColumnModel().getColumn(6).setMaxWidth( 30 );
+		}
+	}
+
+	private class StoreManageTableModel extends ListWrapperTableModel
+	{
+		private JComboBox sellingList = null;
+
+		public StoreManageTableModel( LockableListModel model )
+		{
+			super( new String [] { "Item Name", "Price", "Lowest", "Qty", "Lim", " ", " " },
+					new Class [] { AdventureResult.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
+					new boolean [] { model != StoreManager.getSoldItemList(), true, false, model != StoreManager.getSoldItemList(), true, false, false }, model );
+
+			if ( model != StoreManager.getSoldItemList() )
+			{
+				sellingList = new JComboBox( KoLCharacter.getSellables() );
+
+				Vector value = new Vector();
+				value.add( new AdventureResult( "- select an item -", 1, false ) );
+				value.add( new Integer(0) );
+				value.add( new Integer(0) );
+				value.add( new Integer(0) );
+				value.add( new Boolean( false ) );
+				model.add( value );
+			}
+		}
+
+		public JComboBox getSellingList()
+		{	return sellingList;
+		}
+
+		protected Vector constructVector( Object o )
+		{
+			Vector value = (Vector) o;
+			if ( value.size() < 7 )
+			{
+				if ( sellingList == null )
+				{
+					value.add( new RemoveItemButton( ((AdventureResult) value.get(0)).getName() ) );
+					value.add( new SearchItemButton( ((AdventureResult) value.get(0)).getName() ) );
+				}
+				else
+				{
+					value.add( new AddItemButton() );
+					value.add( new SearchItemButton() );
+				}
+			}
+
+			return value;
+		}
+
+		private class AddItemButton extends NestedInsideTableButton
+		{
+			public AddItemButton()
+			{
+				super( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
+				setToolTipText( "add selected item" );
+			}
+
+			public void mouseReleased( MouseEvent e )
+			{
+				AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
+				if ( soldItem == null )
+					return;
+
+				int price = ((Integer) getValueAt( 0, 1 )).intValue();
+				int quantity = ((Integer) getValueAt( 0, 3 )).intValue();
+
+				if ( quantity <= 0 )
+					quantity = soldItem.getCount() - quantity;
+
+				int limit = ((Boolean) getValueAt( 0, 3 )).booleanValue() ? 1 : 0;
+				soldItem = new AdventureResult( soldItem.getItemID(), quantity );
+
+				if ( price > 10 )
+					(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), soldItem, price, limit ) )).start();
+			}
+		}
+
+		private class SearchItemButton extends NestedInsideTableButton implements Runnable
+		{
+			private String itemName;
+
+			public SearchItemButton()
+			{	this( null );
+			}
+
+			public SearchItemButton( String itemName )
+			{
+				super( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
+				this.itemName = itemName;
+				setToolTipText( "price analysis" );
+			}
+
+			public void mouseReleased( MouseEvent e )
+			{	(new RequestThread( this )).start();
+			}
+
+			public void run()
+			{
+				String searchName = itemName;
+				if ( searchName == null )
+				{
+					AdventureResult item = (AdventureResult) sellingList.getSelectedItem();
+					if ( item == null )
+						return;
+
+					searchName = item.getName();
+				}
+
+				StoreManager.searchMall( searchName, priceSummary, 10, true );
+				searchLabel.setText( searchName );
+				KoLmafia.updateDisplay( "Price analysis complete." );
+			}
+		}
+
+		private class RemoveItemButton extends NestedInsideTableButton
+		{
+			private int itemID;
+
+			public RemoveItemButton( String itemName )
+			{
+				super( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
+				this.itemID = TradeableItemDatabase.getItemID( itemName );
+				setToolTipText( "remove item from store" );
+			}
+
+			public void mouseReleased( MouseEvent e )
+			{	(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), itemID ) )).start();
+			}
 		}
 	}
 
@@ -167,63 +413,6 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	private class StoreManagePanel extends KoLPanel implements Runnable
-	{
-		private StoreItemPanelList storeItemList;
-
-		public StoreManagePanel()
-		{
-			super( "save changes", "auto-undercut", true );
-
-			storeItemList = new StoreItemPanelList();
-			JScrollPane storeItemScrollArea = new JScrollPane( storeItemList,
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-			JComponentUtilities.setComponentSize( storeItemScrollArea, 600, 300 );
-
-			JPanel headerPanel = new JPanel( new BorderLayout() );
-			headerPanel.add( new AddItemPanel(), BorderLayout.WEST );
-			headerPanel.add( Box.createVerticalStrut( 10 ), BorderLayout.SOUTH );
-
-			JPanel elementsPanel = new JPanel( new BorderLayout() );
-			elementsPanel.add( headerPanel, BorderLayout.NORTH );
-			elementsPanel.add( storeItemScrollArea );
-
-			searchResults = new SearchResultsPanel();
-			setContent( null, null, searchResults, true, true );
-			container.add( elementsPanel, BorderLayout.CENTER );
-		}
-
-		public void actionConfirmed()
-		{
-			KoLmafia.updateDisplay( "Compiling reprice data..." );
-
-			java.awt.Component [] components = storeItemList.getPanelListCells();
-			int [] itemID = new int[ components.length ];
-			int [] prices = new int[ components.length ];
-			int [] limits = new int[ components.length ];
-
-			StoreItemPanel currentPanel;
-			for ( int i = 0; i < components.length; ++i )
-			{
-				currentPanel = (StoreItemPanel) components[i];
-				itemID[i] = currentPanel.getItemID();
-				prices[i] = currentPanel.getPrice();
-				limits[i] = currentPanel.hasLimit() ? 1 : 0;
-			}
-
-			(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), itemID, prices, limits ) )).start();
-		}
-
-		public void actionCancelled()
-		{	(new RequestThread( this )).start();
-		}
-
-		public void run()
-		{	StaticEntity.getClient().priceItemsAtLowestPrice();
-		}
-	}
-
 	/**
 	 * An internal class which represents the panel used for tallying the
 	 * results of the mall search request.  Note that all of the tallying
@@ -258,239 +447,18 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	private class AddItemPanel extends JPanel
+	private class StoreLogPanel extends ItemManagePanel
 	{
-		private JLabel lowestPrice;
-		private JComboBox sellingList;
-		private JTextField itemPrice, itemQuantity;
-		private JCheckBox itemLimit;
-		private JButton addButton, searchButton;
-
-		public AddItemPanel()
-		{
-			sellingList = new JComboBox( KoLCharacter.getSellables() );
-			sellingList.setRenderer( AdventureResult.getAutoSellCellRenderer() );
-
-			itemPrice = new JTextField( "" );
-			itemQuantity = new JTextField( "" );
-			itemLimit = new JCheckBox();
-			itemLimit.setToolTipText( "limit to one per player" );
-
-			lowestPrice = new JLabel( "(unknown)", JLabel.CENTER );
-
-			addButton = new JButton( JComponentUtilities.getImage( "icon_success_sml.gif" ) );
-			addButton.addActionListener( new AddButtonListener() );
-			addButton.setToolTipText( "add item to store" );
-
-			searchButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
-			searchButton.addActionListener( new SearchButtonListener() );
-			searchButton.setToolTipText( "price analysis" );
-
-			JComponentUtilities.setComponentSize( sellingList, 240, 20 );
-			JComponentUtilities.setComponentSize( itemPrice, 90, 20 );
-			JComponentUtilities.setComponentSize( lowestPrice, 90, 20 );
-			JComponentUtilities.setComponentSize( itemQuantity, 50, 20 );
-			JComponentUtilities.setComponentSize( itemLimit, 30, 20 );
-			JComponentUtilities.setComponentSize( addButton, 30, 20 );
-			JComponentUtilities.setComponentSize( searchButton, 30, 20 );
-
-			JPanel corePanel = new JPanel();
-			corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
-			corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( sellingList ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( lowestPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( itemQuantity ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( itemLimit ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( addButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 30 ) );
-
-			JLabel [] label = new JLabel[6];
-			label[0] = new JLabel( "Item Name", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[0], 240, 20 );
-			label[1] = new JLabel( "Price", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[1], 90, 20 );
-			label[2] = new JLabel( "Lowest", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[2], 90, 20 );
-			label[3] = new JLabel( "Qty", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[3], 50, 20 );
-			label[4] = new JLabel( "Lim", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[4], 30, 20 );
-			label[5] = new JLabel( "Action", JLabel.CENTER );  JComponentUtilities.setComponentSize( label[5], 70, 20 );
-
-			JPanel labelPanel = new JPanel();
-			labelPanel.setLayout( new BoxLayout( labelPanel, BoxLayout.X_AXIS ) );
-			labelPanel.add( Box.createHorizontalStrut( 10 ) );
-			for ( int i = 0; i < label.length; ++i )
-			{
-				labelPanel.add( label[i] );
-				labelPanel.add( Box.createHorizontalStrut( 10 ) );
-			}
-
-			labelPanel.add( Box.createHorizontalStrut( 20 ) );
-
-			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-			add( Box.createVerticalStrut( 5 ) );
-			add( labelPanel );
-			add( Box.createVerticalStrut( 5 ) );
-			add( corePanel );
+		public StoreLogPanel()
+		{	super( "Transactions Log", "refresh", "resort", StoreManager.getStoreLog() );
 		}
 
-		public void setEnabled( boolean isEnabled )
-		{
-			sellingList.setEnabled( isEnabled );
-			itemPrice.setEnabled( isEnabled );
-			itemQuantity.setEnabled( isEnabled );
-			itemLimit.setEnabled( isEnabled );
-			addButton.setEnabled( isEnabled );
-			searchButton.setEnabled( isEnabled );
+		public void actionConfirmed()
+		{	(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), true ) )).start();
 		}
 
-		private class AddButtonListener implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				if ( !KoLCharacter.hasStore() )
-				{
-					JOptionPane.showMessageDialog( null, "Sorry, you don't have a store." );
-					return;
-				}
-
-				AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
-				if ( soldItem == null )
-					return;
-
-				int price = getValue( itemPrice, StoreManager.getPrice( soldItem.getItemID() ) );
-				int quantity = getValue( itemQuantity, soldItem.getCount() );
-				int limit = itemLimit.isSelected() ? 1 : 0;
-
-				soldItem = new AdventureResult( soldItem.getItemID(), quantity );
-
-				if ( price > 10 )
-					(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), soldItem, price, limit ) )).start();
-			}
-		}
-
-		private class SearchButtonListener extends ListeningRunnable
-		{
-			public void run()
-			{
-				if ( sellingList.getSelectedItem() == null )
-					return;
-
-				StoreManager.searchMall( ((AdventureResult)sellingList.getSelectedItem()).getName(), priceSummary, 10, true );
-				searchLabel.setText( ((AdventureResult)sellingList.getSelectedItem()).getName() );
-			}
-		}
-	}
-
-	private class StoreItemPanelList extends PanelList
-	{
-		public StoreItemPanelList()
-		{	super( 16, 640, 24, StoreManager.getSoldItemList() );
-		}
-
-		protected PanelListCell constructPanelListCell( Object value, int index )
-		{
-			StoreItemPanel toConstruct = new StoreItemPanel( (StoreManager.SoldItem) value );
-			toConstruct.updateDisplay( this, value, index );
-			return toConstruct;
-		}
-	}
-
-	private class StoreItemPanel extends JPanel implements PanelListCell
-	{
-		private int itemID;
-		private JLabel itemName, itemQuantity, lowestPrice;
-		private JTextField itemPrice;
-		private JCheckBox itemLimit;
-		private JButton takeButton, searchButton;
-
-		public StoreItemPanel( StoreManager.SoldItem value )
-		{
-			itemID = value.getItemID();
-			itemName = new JLabel( TradeableItemDatabase.getItemName( itemID ), JLabel.RIGHT );
-			itemQuantity = new JLabel( COMMA_FORMAT.format( value.getQuantity() ), JLabel.CENTER );
-
-			itemLimit = new JCheckBox();
-			itemLimit.setToolTipText( "limit to one per player" );
-
-			itemPrice = new JTextField( COMMA_FORMAT.format( value.getPrice() ) );
-			lowestPrice = new JLabel( value.getLowest() == 0 ? "(unknown)" : COMMA_FORMAT.format( value.getLowest() ), JLabel.CENTER );
-
-			takeButton = new JButton( JComponentUtilities.getImage( "icon_error_sml.gif" ) );
-			takeButton.addActionListener( new TakeButtonListener() );
-			takeButton.setToolTipText( "remove item from store" );
-
-			searchButton = new JButton( JComponentUtilities.getImage( "icon_warning_sml.gif" ) );
-			searchButton.addActionListener( new SearchButtonListener() );
-			searchButton.setToolTipText( "price analysis" );
-
-			JComponentUtilities.setComponentSize( itemName, 240, 20 );
-			JComponentUtilities.setComponentSize( itemPrice, 90, 20 );
-			JComponentUtilities.setComponentSize( lowestPrice, 90, 20 );
-			JComponentUtilities.setComponentSize( itemQuantity, 50, 20 );
-			JComponentUtilities.setComponentSize( itemLimit, 30, 20 );
-			JComponentUtilities.setComponentSize( takeButton, 30, 20 );
-			JComponentUtilities.setComponentSize( searchButton, 30, 20 );
-
-			JPanel corePanel = new JPanel();
-			corePanel.setLayout( new BoxLayout( corePanel, BoxLayout.X_AXIS ) );
-			corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( itemName ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( itemPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( lowestPrice ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( itemQuantity ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( itemLimit ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( takeButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-			corePanel.add( searchButton ); corePanel.add( Box.createHorizontalStrut( 10 ) );
-
-			setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-			add( Box.createVerticalStrut( 5 ) );
-			add( corePanel );
-		}
-
-		public void updateDisplay( PanelList list, Object value, int index )
-		{
-			StoreManager.SoldItem smsi = (StoreManager.SoldItem) value;
-
-			itemID = smsi.getItemID();
-			itemName.setText( smsi.getItemName() );
-			itemName.setToolTipText( smsi.getItemName() );
-			itemQuantity.setText( COMMA_FORMAT.format( smsi.getQuantity() ) );
-			itemLimit.setSelected( smsi.getLimit() != 0 );
-			itemPrice.setText( COMMA_FORMAT.format( smsi.getPrice() ) );
-			lowestPrice.setText( smsi.getLowest() == 0 ? "**" : COMMA_FORMAT.format( smsi.getLowest() ) );
-		}
-
-		public void setEnabled( boolean isEnabled )
-		{
-		}
-
-		public int getItemID()
-		{	return itemID;
-		}
-
-		public boolean hasLimit()
-		{	return itemLimit.isSelected();
-		}
-
-		public int getPrice()
-		{
-			return itemPrice.getText() == null || itemPrice.getText().length() == 0 ? 0 :
-				StaticEntity.parseInt( itemPrice.getText() );
-		}
-
-		private class TakeButtonListener implements ActionListener
-		{
-			public void actionPerformed( ActionEvent e )
-			{	(new RequestThread( new StoreManageRequest( StaticEntity.getClient(), itemID ) )).start();
-			}
-		}
-
-		private class SearchButtonListener extends ListeningRunnable
-		{
-			public void run()
-			{
-				StoreManager.searchMall( TradeableItemDatabase.getItemName( itemID ), priceSummary, 100, true );
-				searchLabel.setText( itemName.getText() );
-				searchLabel.setToolTipText( itemName.getText() );
-			}
+		public void actionCancelled()
+		{	StoreManager.sortStoreLog( true );
 		}
 	}
 }

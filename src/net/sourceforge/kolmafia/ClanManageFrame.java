@@ -135,17 +135,20 @@ public class ClanManageFrame extends KoLFrame
 
 		members = new JTable( new MemberTableModel() );
 		members.setModel( new TableSorter( members.getModel(), members.getTableHeader() ) );
+		members.getTableHeader().setReorderingAllowed( false );
 
 		members.setRowSelectionAllowed( false );
 		members.setAutoResizeMode( JTable.AUTO_RESIZE_NEXT_COLUMN );
+
 		members.addMouseListener( new ButtonEventListener( members ) );
+		members.setDefaultRenderer( JButton.class, new ButtonRenderer() );
 
 		members.setShowGrid( false );
-		members.setRowHeight( 30 );
+		members.setIntercellSpacing( new Dimension( 5, 5 ) );
+		members.setRowHeight( 25 );
 
 		members.getColumnModel().getColumn(0).setMinWidth( 30 );
 		members.getColumnModel().getColumn(0).setMaxWidth( 30 );
-		members.setDefaultRenderer( JButton.class, new ProfileButtonRenderer() );
 
 		members.getColumnModel().getColumn(1).setMinWidth( 120 );
 		members.getColumnModel().getColumn(1).setMaxWidth( 120 );
@@ -159,6 +162,7 @@ public class ClanManageFrame extends KoLFrame
 		JScrollPane results = new JScrollPane( members,
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
+		results.setOpaque( false );
 		JPanel searchPanel = new JPanel( new BorderLayout() );
 		searchPanel.add( search, BorderLayout.NORTH );
 
@@ -452,8 +456,6 @@ public class ClanManageFrame extends KoLFrame
 					int row = members.getEditingRow();
 					int col = members.getEditingColumn();
 					members.getCellEditor( row, col ).stopCellEditing();
-
-					System.out.println( "Editor: " + members.getValueAt( row, col ) );
 				}
 
 				ArrayList titleChange = new ArrayList();
@@ -504,14 +506,7 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private class ProfileButtonRenderer implements TableCellRenderer
-	{
-		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
-		{	return (JButton) value;
-		}
-	}
-
-	private class ShowProfileButton extends NestedInsideTableButton implements MouseListener
+	private class ShowProfileButton extends NestedInsideTableButton
 	{
 		private ProfileRequest profile;
 
