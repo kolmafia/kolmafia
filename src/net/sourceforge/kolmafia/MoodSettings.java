@@ -434,6 +434,12 @@ public abstract class MoodSettings implements KoLConstants
 		if ( name.equals( "Butt-Rock Hair" ) )
 			return "use 5 can of hair spray";
 
+		if ( name.equals( "Ticking Clock" ) )
+			return "use 1 cheap wind-up clock";
+
+		if ( name.equals( "Temporary Lycanthropy" ) )
+			return "use 1 blood of the Wereseal";
+
 		// Tongues require snowcones
 
 		if ( name.endsWith( "Tongue" ) )
@@ -545,11 +551,18 @@ public abstract class MoodSettings implements KoLConstants
 			boolean shouldExecute = false;
 
 			if ( effect == null )
+			{
 				shouldExecute = true;
+			}
 			else if ( triggerType.equals( "gain_effect" ) )
+			{
 				shouldExecute = KoLCharacter.getEffects().contains( effect );
+			}
 			else if ( triggerType.equals( "lose_effect" ) )
+			{
 				shouldExecute = !KoLCharacter.getEffects().contains( effect );
+				shouldExecute &= !triggerName.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
+			}
 
 			if ( shouldExecute )
 			{
@@ -661,6 +674,9 @@ public abstract class MoodSettings implements KoLConstants
 				stringForm.append( " " );
 				stringForm.append( name );
 			}
+
+			if ( type.equals( "lose_effect" ) && name != null && name.equals( "Temporary Lycanthropy" ) )
+				stringForm.append( " and there's enough moonlight" );
 
 			stringForm.append( ", " );
 			stringForm.append( pieces[1] );
