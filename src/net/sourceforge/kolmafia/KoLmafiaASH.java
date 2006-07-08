@@ -284,7 +284,7 @@ public class KoLmafiaASH extends StaticEntity
 		KoLAdventure content = AdventureDatabase.getAdventure( name );
 		if ( content == null )
 			throw new IllegalArgumentException( "Location " + name + " not found in database" );
-		return new ScriptValue( LOCATION_TYPE, name, (Object)content );
+		return new ScriptValue( LOCATION_TYPE, name, (Object) content );
 	}
 
 	private static int classToInt( String name )
@@ -2468,6 +2468,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "take_closet", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "pulls_remaining", INT_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "take_storage", BOOLEAN_TYPE, params ) );
 
@@ -2532,10 +2535,19 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "my_closetmeat", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "stills_available", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_adventures", INT_TYPE, params ) );
 
 		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "my_turncount", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_inebriety", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "inebriety_limit", INT_TYPE, params ) );
 
 		params = new ScriptType[] { SKILL_TYPE };
 		result.addElement( new ScriptExistingFunction( "have_skill", BOOLEAN_TYPE, params ) );
@@ -2727,6 +2739,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { SKILL_TYPE };
 		result.addElement( new ScriptExistingFunction( "mp_cost", INT_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "can_equip", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { FAMILIAR_TYPE };
+		result.addElement( new ScriptExistingFunction( "familiar_equipment", ITEM_TYPE, params ) );
 
 		return result;
 	}
@@ -3477,6 +3495,10 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
+		public ScriptValue pulls_remaining()
+		{	return new ScriptValue( HagnkStorageFrame.getPullsRemaining() );
+		}
+
 		public ScriptValue take_storage( ScriptVariable count, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "hagnk " + count.intValue() + " " + item.toStringValue() );
@@ -3594,12 +3616,24 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( KoLCharacter.getClosetMeat() );
 		}
 
+		public ScriptValue stills_available()
+		{	return new ScriptValue( KoLCharacter.getStillsAvailable() );
+		}
+
 		public ScriptValue my_adventures()
 		{	return new ScriptValue( KoLCharacter.getAdventuresLeft() );
 		}
 
+		public ScriptValue my_turncount()
+		{	return new ScriptValue( KoLCharacter.getTotalTurnsUsed() );
+		}
+
 		public ScriptValue my_inebriety()
 		{	return new ScriptValue( KoLCharacter.getInebriety() );
+		}
+
+		public ScriptValue inebriety_limit()
+		{	return new ScriptValue( !KoLCharacter.canDrink() ? 0 : KoLCharacter.hasSkill( "Liver of Steel" ) ? 20 : 15 );
 		}
 
 		public ScriptValue my_familiar()
@@ -3963,6 +3997,14 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue mp_cost( ScriptVariable skill )
 		{	return new ScriptValue( ClassSkillsDatabase.getMPConsumptionByID( skill.intValue() ) );
+		}
+
+		public ScriptValue can_equip( ScriptVariable item )
+		{	return new ScriptValue( EquipmentDatabase.canEquip( TradeableItemDatabase.getItemName( item.intValue() ) ) );
+		}
+
+		public ScriptValue familiar_equipment( ScriptVariable familiar )
+		{	return parseItemValue( FamiliarsDatabase.getFamiliarItem( familiar.intValue() ) );
 		}
 	}
 

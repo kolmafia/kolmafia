@@ -528,6 +528,12 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return;
 
+		// Finally, if the player is in Ronin (and not in hardcore),
+		// then pull their storage data.
+
+		if ( !KoLCharacter.canInteract() && !KoLCharacter.isHardcore() )
+			(new ItemStorageRequest( this )).run();
+
 		updateDisplay( "Data refreshed." );
 
 		resetSession();
