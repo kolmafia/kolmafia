@@ -450,13 +450,10 @@ public class ClanManageFrame extends KoLFrame
 		{
 			public void run()
 			{
+				if ( !finalizeTable( members ) )
+					return;
+
 				KoLmafia.updateDisplay( "Determining changes..." );
-				if ( members.isEditing() )
-				{
-					int row = members.getEditingRow();
-					int col = members.getEditingColumn();
-					members.getCellEditor( row, col ).stopCellEditing();
-				}
 
 				ArrayList titleChange = new ArrayList();
 				ArrayList newTitles = new ArrayList();
