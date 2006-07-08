@@ -1334,15 +1334,8 @@ public abstract class KoLmafia implements KoLConstants
 		int initialConditions = conditions.size();
 		int remainingConditions = initialConditions;
 
-		// If this is an adventure request, make sure that it
-		// gets validated before running.
-
 		if ( request instanceof KoLAdventure )
-		{
-			// Validate the adventure
-			AdventureDatabase.validateAdventure( (KoLAdventure) request );
 			StaticEntity.setProperty( "lastAdventure", request.toString() );
-		}
 
 		// Begin the adventuring process, or the request execution
 		// process (whichever is applicable).
@@ -1568,7 +1561,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If the faucet has not yet been found, then go through
 		// the process of trying to locate it.
 
-		KoLAdventure adventure = new KoLAdventure( this, "", "rats.php", "", "Typical Tavern (Pre-Rat)" );
+		KoLAdventure adventure = new KoLAdventure( this, "", "0", "0", "rats.php", "", "Typical Tavern (Pre-Rat)" );
 		boolean foundFaucet = false;
 
 		if ( searchIndex.intValue() < 0 )

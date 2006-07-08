@@ -247,6 +247,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "useTextHeavySidepane", "true" );
 		CLIENT_SETTINGS.put( "useToolbars", "true" );
 		CLIENT_SETTINGS.put( "violetFogGoal", "0" );
+		CLIENT_SETTINGS.put( "zoneExcludeList", "Holiday,Removed" );
 
 		PLAYER_SETTINGS.put( "battleAction", "attack" );
 		PLAYER_SETTINGS.put( "betweenBattleScript", "" );

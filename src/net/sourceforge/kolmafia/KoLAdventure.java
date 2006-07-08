@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.ArrayList;
 
 /**
  * An auxiliary class which stores runnable adventures so that they
@@ -49,9 +50,17 @@ import java.io.FileInputStream;
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
 	private static final AdventureResult WAND = new AdventureResult( 626, 1 );
+	private static final AdventureResult CASINO = new AdventureResult( 40, 1 );
+	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
+	private static final AdventureResult SOCK = new AdventureResult( 609, 1 );
+	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
+	private static final AdventureResult BEAN = new AdventureResult( 186, 1 );
+	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1, true );
 
 	private KoLmafia client;
+	private boolean isValidAdventure = false;
+	private int baseRequirement, buffedRequirement;
 	private String zone, adventureID, formSource, adventureName;
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
@@ -66,10 +75,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	 * @param	adventureName	The string form, or name of this adventure
 	 */
 
-	public KoLAdventure( KoLmafia client, String zone, String formSource, String adventureID, String adventureName )
+	public KoLAdventure( KoLmafia client, String zone, String baseRequirement, String buffedRequirement, String formSource, String adventureID, String adventureName )
 	{
 		this.client = client;
 		this.zone = zone;
+		this.baseRequirement = StaticEntity.parseInt( baseRequirement );
+		this.buffedRequirement = StaticEntity.parseInt( buffedRequirement );
 		this.formSource = formSource;
 		this.adventureID = adventureID;
 		this.adventureName = adventureName;
@@ -89,7 +100,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
-	 * Returns the form source for this adventure.
+	 * Returns the form source for this
 	 */
 
 	public String getFormSource()
@@ -97,7 +108,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
-	 * Returns the name of this adventure.
+	 * Returns the name of this
 	 */
 
 	public String getAdventureName()
@@ -105,7 +116,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
-	 * Returns the adventure ID for this adventure.
+	 * Returns the adventure ID for this
 	 * @return	The adventure ID for this adventure
 	 */
 
@@ -114,7 +125,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
-	 * Returns the request associated with this adventure.
+	 * Returns the request associated with this
 	 * @return	The request for this adventure
 	 */
 
@@ -122,17 +133,332 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	{	return request;
 	}
 
+	private boolean meetsGeneralRequirements()
+	{
+		if ( zone.equals( "MusSign" ) && !KoLCharacter.inMuscleSign() )
+		{
+			isValidAdventure = false;
+			return false;
+		}
+
+		if ( zone.equals( "MysSign" ) && !KoLCharacter.inMysticalitySign() )
+		{
+			isValidAdventure = false;
+			return false;
+		}
+
+		if ( zone.equals( "MoxSign" ) && !KoLCharacter.inMoxieSign() )
+		{
+			isValidAdventure = false;
+			return false;
+		}
+
+		int baseValue = 0;
+		int buffedValue = 0;
+
+		switch ( KoLCharacter.getPrimeIndex() )
+		{
+			case 0:
+				baseValue = KoLCharacter.getBaseMuscle();
+				buffedValue = KoLCharacter.getAdjustedMuscle();
+				break;
+			case 1:
+				baseValue = KoLCharacter.getBaseMysticality();
+				buffedValue = KoLCharacter.getBaseMysticality();
+				break;
+			case 2:
+				baseValue = KoLCharacter.getBaseMoxie();
+				buffedValue = KoLCharacter.getAdjustedMoxie();
+				break;
+		}
+
+		return baseValue >= baseRequirement && buffedValue >= buffedRequirement;
+	}
+
+	/**
+	 * Checks the map location of the given zone.  This is to ensure that
+	 * KoLmafia arms any needed flags (such as for the beanstalk).
+	 */
+
+	private void validate()
+	{
+		if ( isValidAdventure )
+			return;
+
+		KoLRequest request = null;
+
+		// The beach is unlocked provided the player has the meat car
+		// accomplishment and a meatcar in inventory.
+
+		if ( formSource.equals( "shore.php" ) || adventureID.equals( "45" ) )
+		{
+			if ( !KoLmafia.permitsContinue() )
+				return;
+
+			// Obviate following request by checking accomplishment:
+			// questlog.php?which=3
+			// "You have built your own Bitchin' Meat Car."
+
+			// Sometimes, the player has just built the meatcar and
+			// visited the council -- check the main map to see if
+			// the beach is unlocked.
+
+			KoLmafia.updateDisplay( "Validating map location..." );
+			request = new KoLRequest( client, "main.php" );
+			request.run();
+
+			if ( request.responseText.indexOf( "beach.php" ) == -1 )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
+				return;
+			}
+
+			return;
+		}
+
+		else if ( adventureID.equals( "60" ) || adventureID.equals( "61" ) || adventureID.equals( "62" ) || adventureID.equals( "63" ) || adventureID.equals( "64" ) )
+		{
+			// Obviate following request by checking accomplishment:
+			// questlog.php?which=2
+			// "You have learned how to hunt Yetis from the L337
+			// Tr4pz0r."
+
+			KoLmafia.updateDisplay( "Validating map location..." );
+			// See if we can get to the location already
+			request = new KoLRequest( client, "mclargehuge.php" );
+			request.run();
+			if ( request.responseText.indexOf( adventureID ) != -1 )
+				return;
+
+			// No. See if the trapper will give it to us
+			request = new KoLRequest( client, "trapper.php" );
+			request.run();
+
+			// See if we can now get to the location
+			request = new KoLRequest( client, "mclargehuge.php" );
+		}
+
+		else if ( adventureID.equals( "96" ) || adventureID.equals( "97" ) || adventureID.equals( "98" ) )
+		{
+			// You must be Half-Astral to go on a trip
+			int astral = ASTRAL.getCount( ( KoLCharacter.getEffects() ) );
+			if ( astral == 0 )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Eat an astral mushroom to take a trip." );
+				return;
+			}
+
+			// If we haven't selected a trip yet, do so now
+			if ( astral == 5)
+			{
+				String nextAdventure = StaticEntity.getProperty( "nextAdventure" );
+				KoLAdventure adventure = this;
+
+				if ( nextAdventure.indexOf( "An Incredibly Strange Place") == -1 )
+				{
+					String choice = "1";
+					if ( adventureID.equals( "96" ) )
+					{
+						choice = "1";
+						adventure = AdventureDatabase.getAdventure( "Bad Trip" );
+					}
+					else if ( adventureID.equals( "98" ) )
+					{
+						choice = "2";
+						adventure = AdventureDatabase.getAdventure( "Mediocre Trip" );
+					}
+					else
+					{
+						choice = "3";
+						adventure = AdventureDatabase.getAdventure( "Great Trip" );
+					}
+
+					// Choose the trip
+					String name = getAdventureName();
+					StaticEntity.setProperty( "chosenTrip", name );
+
+					StaticEntity.setProperty( "choiceAdventure71", choice );
+
+					// Avoid infinite recursion
+					StaticEntity.setProperty( "nextAdventure", name );
+
+					// Arm the adventure by running it once to get
+					// the "Journey to the Center of your Mind" choice.
+					client.makeRequest( adventure, 1 );
+
+					return;
+				}
+			}
+
+			String chosenTrip = StaticEntity.getProperty( "chosenTrip" );
+
+			// If we've already selected a trip, we can't switch
+			if ( !chosenTrip.equals( getAdventureName() ) )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You're already taking a different trip." );
+				return;
+			}
+
+			return;
+		}
+
+		// The casino is unlocked provided the player
+		// has a casino pass in their inventory.
+
+		else if ( formSource.equals( "casino.php" ) || adventureID.equals( "70" ) || adventureID.equals( "71" ) )
+		{
+			AdventureDatabase.retrieveItem( CASINO );
+			return;
+		}
+
+		// The island is unlocked provided the player
+		// has a dingy dinghy in their inventory.
+
+		else if ( adventureID.equals( "26" ) || adventureID.equals( "65" ) || adventureID.equals( "27" ) || adventureID.equals( "29" ) || adventureID.equals( "66" ) || adventureID.equals( "67") )
+		{
+			AdventureDatabase.retrieveItem( DINGHY );
+			return;
+		}
+
+		// The Castle in the Clouds in the Sky is unlocked provided the
+		// character has either a S.O.C.K. or an intragalactic rowboat
+
+		else if ( adventureID.equals( "82" ) )
+		{
+			if ( KoLCharacter.hasItem( ROWBOAT, false ) )
+				AdventureDatabase.retrieveItem( ROWBOAT );
+			else
+				AdventureDatabase.retrieveItem( SOCK );
+			return;
+		}
+
+		// The Hole in the Sky is unlocked provided the player has an
+		// intragalactic rowboat in their inventory.
+
+		else if ( adventureID.equals( "83" ) )
+		{
+			AdventureDatabase.retrieveItem( ROWBOAT );
+			return;
+		}
+
+		// The beanstalk is unlocked when the player
+		// has planted a beanstalk -- but, the zone
+		// needs to be armed first.
+
+		else if ( adventureID.equals( "81" ) && !KoLCharacter.beanstalkArmed() )
+		{
+			// If the character has a S.O.C.K. or an intragalactic
+			// rowboat, they can get to the airship
+
+			if ( KoLCharacter.hasItem( SOCK, false ) || KoLCharacter.hasItem( ROWBOAT, false ) )
+				return;
+
+			// Obviate following request by checking accomplishment:
+			// questlog.php?which=3
+			// "You have planted a Beanstalk in the Nearby Plains."
+
+			request = new KoLRequest( client, "plains.php" );
+			request.run();
+
+			if ( request.responseText.indexOf( "beanstalk.php" ) == -1 )
+			{
+				// If not, check to see if the player has an enchanted
+				// bean which can be used.  If they don't, then try to
+				// find one through adventuring.
+
+				if ( !KoLCharacter.hasItem( BEAN, false ) )
+				{
+					ArrayList temporary = new ArrayList();
+					temporary.addAll( client.getConditions() );
+
+					client.getConditions().clear();
+					client.getConditions().add( BEAN );
+
+					KoLAdventure beanbat = AdventureDatabase.getAdventure( "beanbat" );
+					client.makeRequest( beanbat, KoLCharacter.getAdventuresLeft() );
+
+					if ( !client.getConditions().isEmpty() )
+					{
+						KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete enchanted bean quest." );
+						client.getConditions().clear();
+						client.getConditions().addAll( temporary );
+						return;
+					}
+
+					client.getConditions().clear();
+					client.getConditions().addAll( temporary );
+				}
+
+				// Now that you've retrieved the bean, ensure that
+				// it is in your inventory, and then use it.  Take
+				// advantage of item consumption automatically doing
+				// what's needed in grabbing the item.
+
+				(new KoLRequest( client, "council.php" )).run();
+				(new ConsumeItemRequest( client, BEAN )).run();
+			}
+
+			request = new KoLRequest( client, "beanstalk.php" );
+
+			if ( KoLCharacter.getLevel() >= 10 )
+				KoLCharacter.armBeanstalk();
+		}
+
+		// If you do not need to arm anything, then
+		// return from this method.
+
+		if ( request == null )
+		{
+			isValidAdventure = true;
+			return;
+		}
+
+		KoLmafia.updateDisplay( "Validating map location..." );
+		request.run();
+
+		// Now that the zone is armed, check to see
+		// if the adventure is even available.	If
+		// it's not, cancel the request before it's
+		// even made to minimize server hits.
+
+		if ( request.responseText.indexOf( getAdventureID() ) == -1 )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
+			return;
+		}
+
+		isValidAdventure = true;
+	}
+
 	/**
 	 * Retrieves the string form of the adventure contained within this
-	 * encapsulation, which is generally the name of the adventure.
+	 * encapsulation, which is generally the name of the
 	 *
 	 * @return	The string form of the adventure
 	 */
 
 	public String toString()
 	{
-		boolean includeZoneName = StaticEntity.getProperty( "showAdventureZone" ).equals( "true" );
-		return includeZoneName ? zone + ": " + adventureName : adventureName;
+		StringBuffer stringForm = new StringBuffer();
+		boolean hasHTML = false;
+
+		if ( !meetsGeneralRequirements() )
+		{
+			hasHTML = true;
+			stringForm.append( "<html><font color=gray>" );
+		}
+
+		if ( StaticEntity.getProperty( "showAdventureZone" ).equals( "true" ) )
+		{
+			stringForm.append( zone );
+			stringForm.append( ": " );
+		}
+
+		stringForm.append( adventureName );
+		if ( hasHTML )
+			stringForm.append( "</font></html>" );
+
+		return stringForm.toString();
 	}
 
 	/**
@@ -142,6 +468,19 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public void run()
 	{
+		// Validate the adventure before running it.
+		// If it's invalid, return and do nothing.
+
+		if ( !meetsGeneralRequirements() )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient stats for this location." );
+			return;
+		}
+
+		validate();
+		if ( !isValidAdventure )
+			return;
+
 		if ( getFormSource().equals( "shore.php" ) && KoLCharacter.getAvailableMeat() < 500 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient funds for shore vacation." );
