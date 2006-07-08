@@ -100,7 +100,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
-	 * Returns the form source for this
+	 * Returns the form source for this adventure.
 	 */
 
 	public String getFormSource()
@@ -108,7 +108,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
-	 * Returns the name of this
+	 * Returns the name of this adventure.
 	 */
 
 	public String getAdventureName()
@@ -116,7 +116,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
-	 * Returns the adventure ID for this
+	 * Returns the adventure ID for this adventure.
 	 * @return	The adventure ID for this adventure
 	 */
 
@@ -125,7 +125,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
-	 * Returns the request associated with this
+	 * Returns the request associated with this adventure.
 	 * @return	The request for this adventure
 	 */
 
@@ -442,7 +442,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	/**
 	 * Retrieves the string form of the adventure contained within this
-	 * encapsulation, which is generally the name of the
+	 * encapsulation, which is generally the name of the adventure.
 	 *
 	 * @return	The string form of the adventure
 	 */
