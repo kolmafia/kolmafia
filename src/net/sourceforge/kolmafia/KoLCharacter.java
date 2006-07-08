@@ -1902,6 +1902,9 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.battleSkillIDs.add( "attack" );
 		KoLCharacter.battleSkillNames.add( "Normal: Attack with Weapon" );
 
+		if ( KoLCharacter.getClassType().startsWith( "Di" ) || KoLCharacter.getClassType().startsWith( "At" ) )
+			addAvailableSkill( new UseSkillRequest( StaticEntity.getClient(), "Moxious Maneuver", "", 1 ) );
+
 		// If the player has a dictionary, add it
 		// to the available skills list.
 
