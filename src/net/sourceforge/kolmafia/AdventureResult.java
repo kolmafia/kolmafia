@@ -206,7 +206,8 @@ public class AdventureResult implements Comparable, KoLConstants
 			if ( this.itemID == 0 || this.itemID == -1 )
 				this.itemID = TradeableItemDatabase.getItemID( name, this.count[0] );
 
-			this.name = TradeableItemDatabase.getItemName( this.itemID );
+			if ( this.itemID != -1 )
+				this.name = TradeableItemDatabase.getItemName( this.itemID );
 		}
 	}
 
@@ -420,6 +421,9 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		if ( name.equals(DIVIDER) )
 			return DIVIDER;
+
+		if ( priority == ITEM_PRIORITY && count[0] == 1 )
+			return name;
 
 		return name + " (" + COMMA_FORMAT.format(count[0]) + ")";
 	}

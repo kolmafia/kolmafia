@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.List;
+import java.util.Vector;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
@@ -364,7 +365,7 @@ public abstract class StoreManager extends StaticEntity
 	 * of an item sold in a player's store.
 	 */
 
-	public static class SoldItem implements Comparable
+	public static class SoldItem extends Vector implements Comparable
 	{
 		private int itemID;
 		private String itemName;
@@ -381,6 +382,12 @@ public abstract class StoreManager extends StaticEntity
 			this.price = price;
 			this.limit = limit;
 			this.lowest = lowest;
+
+			super.add( new AdventureResult( itemID, quantity ) );
+			super.add( new Integer( price ) );
+			super.add( new Integer( lowest ) );
+			super.add( new Integer( quantity ) );
+			super.add( new Boolean( limit != 0 ) );
 		}
 
 		public int getItemID()
