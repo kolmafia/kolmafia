@@ -63,8 +63,11 @@ public class FightRequest extends KoLRequest
 		"crazy bastard",
 		"hockey elemental",
 		"hypnotist of hey deze",
-		"infinite meat bug",
+		"infinite meat bug"
+	};
 
+	private static final String [] HOLIDAY_MONSTERS =
+	{
 		// Monsters that scale with player level and can't be defeated
 		// with normal tactics
 
@@ -117,6 +120,13 @@ public class FightRequest extends KoLRequest
 		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
 			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
 				KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
+
+		if ( !action1.equals( "custom" ) )
+		{
+			for ( int i = 0; i < HOLIDAY_MONSTERS.length; ++i )
+				if ( encounterLookup.indexOf( HOLIDAY_MONSTERS[i] ) != -1 )
+					KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
+		}
 
 		if ( roundCount == 1 )
 		{
