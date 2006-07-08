@@ -371,29 +371,13 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static void refreshAdventureList()
 	{
-		String [] zones = getProperty( "zoneExcludeList" ).split( "," );
-		if ( zones.length == 1 && zones[0].length() == 0 )
-			zones[0] = "-";
-
-		boolean shouldAdd = true;
-		String zoneName;
-
 		adventures.clear();
 		adventureLookup.clear();
 
 		for ( int i = 0; i < adventureTable[1].size(); ++i )
 		{
-			shouldAdd = true;
-			zoneName = (String) adventureTable[0].get(i);
-
-			for ( int j = 0; j < zones.length && shouldAdd; ++j )
-				if ( zoneName.equals( zones[j] ) )
-					shouldAdd = false;
-
 			KoLAdventure adventure = getAdventure(i);
-			if ( shouldAdd )
-				adventures.add( adventure );
-
+			adventures.add( adventure );
 			adventureLookup.put( adventure.getRequest().getURLString(), adventure );
 		}
 
