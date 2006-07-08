@@ -73,6 +73,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	private JLabel searchLabel;
 	private LockableListModel priceSummary;
 	private JPanel searchResults;
+	private JTable addTable, manageTable;
 
 	public StoreManageFrame()
 	{
@@ -99,13 +100,11 @@ public class StoreManageFrame extends KoLPanelFrame
 
 	private class StoreManagePanel extends KoLPanel implements Runnable
 	{
-		private JTable manageTable;
-
 		public StoreManagePanel()
 		{
 			super( "save changes", "auto-undercut", true );
 
-			JTable addTable = new StoreListTable( new LockableListModel() );
+			addTable = new StoreListTable( new LockableListModel() );
 			JScrollPane addScroller = new JScrollPane( addTable,
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
@@ -134,18 +133,8 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public void actionConfirmed()
 		{
-			if ( manageTable.isEditing() )
-			{
-				int row = manageTable.getEditingRow();
-				int col = manageTable.getEditingColumn();
-				manageTable.getCellEditor( row, col ).stopCellEditing();
-
-				if ( manageTable.isEditing() )
-				{
-					JOptionPane.showMessageDialog( null, "One or more fields contain invalid values.\n(Note: they are currently outlined in red)" );
-					return;
-				}
-			}
+			if ( !finalizeTable( manageTable ) )
+				return;
 
 			KoLmafia.updateDisplay( "Compiling reprice data..." );
 			int rowCount = manageTable.getRowCount();
@@ -280,6 +269,9 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			public void mouseReleased( MouseEvent e )
 			{
+				if ( !finalizeTable( addTable ) )
+					return;
+
 				AdventureResult soldItem = (AdventureResult) sellingList.getSelectedItem();
 				if ( soldItem == null )
 					return;

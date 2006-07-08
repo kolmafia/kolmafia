@@ -1406,4 +1406,22 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{	return (JButton) value;
 		}
 	}
+
+	protected boolean finalizeTable( JTable table )
+	{
+		if ( table.isEditing() )
+		{
+			int row = table.getEditingRow();
+			int col = table.getEditingColumn();
+			table.getCellEditor( row, col ).stopCellEditing();
+
+			if ( table.isEditing() )
+			{
+				JOptionPane.showMessageDialog( null, "One or more fields contain invalid values.\n(Note: they are currently outlined in red)" );
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
