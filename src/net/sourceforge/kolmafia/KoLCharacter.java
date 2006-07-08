@@ -413,8 +413,7 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static boolean isFallingDown()
-	{
-		return getInebriety() > (hasSkill( "Liver of Steel" ) ? 19 : 14);
+	{	return getInebriety() > (hasSkill( "Liver of Steel" ) ? 19 : 14);
 	}
 
 	/**

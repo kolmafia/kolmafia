@@ -268,16 +268,11 @@ public class ItemStorageRequest extends SendMessageRequest
 		{
 			storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
 			if ( storageMatcher.find() )
-			{
-				if ( storageMatcher.group().startsWith( "1 " ) )
-					HagnkStorageFrame.setPullsRemaining( storageMatcher.group() + " pull remaining" );
-				else
-					HagnkStorageFrame.setPullsRemaining( storageMatcher.group() + " pulls remaining" );
-			}
+				HagnkStorageFrame.setPullsRemaining( StaticEntity.parseInt( storageMatcher.group(1) ) );
 			else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
-				HagnkStorageFrame.setPullsRemaining( "No more pulls remaining" );
+				HagnkStorageFrame.setPullsRemaining( 0 );
 			else
-				HagnkStorageFrame.setPullsRemaining( "Unlimited pulls remaining" );
+				HagnkStorageFrame.setPullsRemaining( -1 );
 		}
 
 		// Start with an empty list

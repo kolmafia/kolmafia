@@ -56,12 +56,12 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class HagnkStorageFrame extends KoLFrame
 {
 	private HagnkStoragePanel all, equip;
-	private static String pullsRemaining = "";
+	private static int pullsRemaining = 0;
 
 	public HagnkStorageFrame()
 	{
 		super( "Ancestral Storage" );
-		setTitle( pullsRemaining );
+		setPullsRemaining( pullsRemaining );
 
 		// Finally, add the actual content to the
 		// storage frame.
@@ -79,7 +79,11 @@ public class HagnkStorageFrame extends KoLFrame
 			(new RequestThread( new ItemStorageRequest( StaticEntity.getClient() ) )).start();
 	}
 
-	public static void setPullsRemaining( String pullsRemaining )
+	public static int getPullsRemaining()
+	{	return pullsRemaining;
+	}
+
+	public static void setPullsRemaining( int pullsRemaining )
 	{
 		HagnkStorageFrame.pullsRemaining = pullsRemaining;
 
@@ -88,7 +92,22 @@ public class HagnkStorageFrame extends KoLFrame
 
 		for ( int i = 0; i < frames.length; ++i )
 			if ( frames[i] instanceof HagnkStorageFrame )
-				frames[i].setTitle( pullsRemaining );
+			{
+				switch ( pullsRemaining )
+				{
+					case 0:
+						frames[i].setTitle( "No pulls remaining" );
+						break;
+					case -1:
+						frames[i].setTitle( "Ronin cleared" );
+						break;
+					case 1:
+						frames[i].setTitle( "1 pull remaining" );
+						break;
+					default:
+						frames[i].setTitle( pullsRemaining + " pulls remaining" );
+				}
+			}
 	}
 
 	private class HagnkStoragePanel extends MultiButtonPanel
