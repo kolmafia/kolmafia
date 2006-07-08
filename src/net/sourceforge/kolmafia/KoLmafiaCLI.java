@@ -2634,7 +2634,11 @@ public class KoLmafiaCLI extends KoLmafia
 				isNumeric &= Character.isDigit( parameters.charAt(i) );
 
 			if ( isNumeric )
+			{
 				matchingNames.addAll( TradeableItemDatabase.getMatchingNames( parameters.substring( parameters.indexOf( " " ) ).trim() ) );
+				if ( !matchingNames.isEmpty() )
+					itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
+			}
 			else
 				matchingNames.addAll( TradeableItemDatabase.getMatchingNames( parameters ) );
 		}
