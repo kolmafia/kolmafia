@@ -213,6 +213,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				return;
 			}
 
+			isValidAdventure = true;
 			return;
 		}
 
@@ -299,6 +300,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				return;
 			}
 
+			isValidAdventure = true;
 			return;
 		}
 
@@ -308,6 +310,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		else if ( formSource.equals( "casino.php" ) || adventureID.equals( "70" ) || adventureID.equals( "71" ) )
 		{
 			AdventureDatabase.retrieveItem( CASINO );
+			isValidAdventure = KoLmafia.permitsContinue();
 			return;
 		}
 
@@ -317,6 +320,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		else if ( adventureID.equals( "26" ) || adventureID.equals( "65" ) || adventureID.equals( "27" ) || adventureID.equals( "29" ) || adventureID.equals( "66" ) || adventureID.equals( "67") )
 		{
 			AdventureDatabase.retrieveItem( DINGHY );
+			isValidAdventure = KoLmafia.permitsContinue();
 			return;
 		}
 
@@ -329,6 +333,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				AdventureDatabase.retrieveItem( ROWBOAT );
 			else
 				AdventureDatabase.retrieveItem( SOCK );
+
+			isValidAdventure = KoLmafia.permitsContinue();
 			return;
 		}
 
@@ -338,6 +344,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		else if ( adventureID.equals( "83" ) )
 		{
 			AdventureDatabase.retrieveItem( ROWBOAT );
+			isValidAdventure = KoLmafia.permitsContinue();
 			return;
 		}
 
@@ -351,7 +358,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// rowboat, they can get to the airship
 
 			if ( KoLCharacter.hasItem( SOCK, false ) || KoLCharacter.hasItem( ROWBOAT, false ) )
+			{
+				isValidAdventure = true;
 				return;
+			}
 
 			// Obviate following request by checking accomplishment:
 			// questlog.php?which=3
