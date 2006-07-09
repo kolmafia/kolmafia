@@ -37,13 +37,8 @@ package net.sourceforge.kolmafia;
 import java.awt.Component;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
 
-import javax.swing.JOptionPane;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.Vector;
 
@@ -51,17 +46,16 @@ import javax.swing.Box;
 import javax.swing.JPanel;
 import javax.swing.JList;
 import javax.swing.JLabel;
-import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.BorderFactory;
 import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JComponent;
+import javax.swing.table.TableCellRenderer;
 import com.sun.java.forums.TableSorter;
 
 // spellcast-related imports
@@ -162,7 +156,7 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	private class StoreListTable extends JTable
+	private class StoreListTable extends TransparentTable
 	{
 		public StoreListTable( LockableListModel model )
 		{
@@ -187,8 +181,9 @@ public class StoreManageFrame extends KoLPanelFrame
 			setDefaultRenderer( Integer.class, new IntegerRenderer() );
 			setDefaultRenderer( JButton.class, new ButtonRenderer() );
 
+			setOpaque( false );
 			setShowGrid( false );
-			setIntercellSpacing( new Dimension( 5, 5 ) );
+
 			setRowHeight( 25 );
 
 			getColumnModel().getColumn(1).setMinWidth( 100 );
@@ -200,8 +195,8 @@ public class StoreManageFrame extends KoLPanelFrame
 			getColumnModel().getColumn(3).setMinWidth( 50 );
 			getColumnModel().getColumn(3).setMaxWidth( 50 );
 
-			getColumnModel().getColumn(4).setMinWidth( 30 );
-			getColumnModel().getColumn(4).setMaxWidth( 30 );
+			getColumnModel().getColumn(4).setMinWidth( 35 );
+			getColumnModel().getColumn(4).setMaxWidth( 35 );
 
 			getColumnModel().getColumn(5).setMinWidth( 30 );
 			getColumnModel().getColumn(5).setMaxWidth( 30 );
@@ -209,7 +204,7 @@ public class StoreManageFrame extends KoLPanelFrame
 			getColumnModel().getColumn(6).setMinWidth( 30 );
 			getColumnModel().getColumn(6).setMaxWidth( 30 );
 		}
-	}
+    }
 
 	private class StoreManageTableModel extends ListWrapperTableModel
 	{
