@@ -2808,6 +2808,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int BOX_IN_BOX_IN_BOX = 447;
 	private static final int BOX_IN_BOX = 445;
 	private static final int BOX = 427;
+	private static final int RABBITS_FOOT = 1485;
 
 	// Familiars that modify Meat Drops
 	private static final int LEPRECHAUN = 2;
@@ -3016,6 +3017,10 @@ public abstract class KoLCharacter extends StaticEntity
 				break;
 			case BOX:
 				newMeatDropPercentAdjustment += 1;
+				break;
+			case RABBITS_FOOT:
+				newMeatDropPercentAdjustment += 7;
+				newItemDropPercentAdjustment += 7;
 				break;
 			case JEKYLLIN:
 				// newItemDropPercentAdjustment depends on moon phase
