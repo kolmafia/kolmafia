@@ -39,7 +39,6 @@ import java.awt.BorderLayout;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class SkillBuffFrame extends KoLFrame
@@ -130,7 +129,7 @@ public class SkillBuffFrame extends KoLFrame
 			else
 			{
 				requests = new Runnable[ targets.length ];
-				for ( int i = 0; i < requests.length && StaticEntity.getClient().permitsContinue(); ++i )
+				for ( int i = 0; i < requests.length && KoLmafia.permitsContinue(); ++i )
 					if ( targets[i] != null )
 						requests[i] = new UseSkillRequest( StaticEntity.getClient(), buffName, targets[i], buffCount );
 			}

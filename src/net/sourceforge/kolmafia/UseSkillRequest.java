@@ -113,7 +113,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( buffCount < 1 )
 			buffCount = 1;
 		else if ( buffCount == Integer.MAX_VALUE )
-			buffCount = (int) (KoLCharacter.getMaximumMP() / ClassSkillsDatabase.getMPConsumptionByID( skillID ));
+			buffCount = (int) (KoLCharacter.getCurrentMP() / ClassSkillsDatabase.getMPConsumptionByID( skillID ));
 
 		this.buffCount = buffCount;
 	}
@@ -170,7 +170,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		if ( !KoLCharacter.hasSkill( skillName ) )
+		if ( !KoLCharacter.hasSkill( skillName ) || buffCount == 0 )
 			return;
 
 		String initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
