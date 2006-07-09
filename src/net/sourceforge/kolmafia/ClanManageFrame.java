@@ -133,7 +133,7 @@ public class ClanManageFrame extends KoLFrame
 
 		tabs.addTab( "Clan Buffs", purchasePanel );
 
-		members = new JTable( new MemberTableModel() );
+		members = new TransparentTable( new MemberTableModel() );
 		members.setModel( new TableSorter( members.getModel(), members.getTableHeader() ) );
 		members.getTableHeader().setReorderingAllowed( false );
 

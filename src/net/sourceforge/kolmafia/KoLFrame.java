@@ -36,16 +36,16 @@ package net.sourceforge.kolmafia;
 
 // containers
 import java.awt.Image;
+
+import javax.swing.JComponent;
 import javax.swing.JToolBar;
 import javax.swing.JFrame;
-import javax.swing.JDialog;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.JFileChooser;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.Box;
@@ -53,14 +53,13 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
+import javax.swing.table.TableModel;
 
 // layout
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.GridLayout;
@@ -74,25 +73,15 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 // event listeners
-import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
 
 // basic utilities
-import java.io.FileInputStream;
 import java.lang.reflect.Method;
-
-import java.util.List;
-import java.util.Comparator;
-import java.util.ArrayList;
-import java.util.Properties;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 // other stuff
@@ -103,7 +92,6 @@ import java.lang.ref.WeakReference;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * An extended <code>JFrame</code> which provides all the frames in
@@ -1383,6 +1371,22 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				removeRow(i);
 				insertRow( i, constructVector( source.get(i) ) );
 			}
+		}
+	}
+
+	protected class TransparentTable extends JTable
+	{
+		public TransparentTable( TableModel t )
+		{	super( t );
+		}
+
+		public Component prepareRenderer( TableCellRenderer renderer, int row, int column )
+		{
+			Component c = super.prepareRenderer( renderer, row, column );
+			if ( c instanceof JComponent )
+				((JComponent)c).setOpaque( false );
+
+			return c;
 		}
 	}
 
