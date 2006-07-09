@@ -67,8 +67,6 @@ public class RequestThread extends Thread implements KoLConstants
 		for ( int i = 0; i < requests.length; ++i )
 			if ( requests[i] != null )
 				this.requests[ requestCount++ ] = requests[i];
-
-		setDaemon( true );
 	}
 
 	public void run()
@@ -77,9 +75,6 @@ public class RequestThread extends Thread implements KoLConstants
 			return;
 
 		KoLmafia.forceContinue();
-
-		if ( !(requests[0] instanceof LoginRequest) )
-			MoodSettings.execute();
 
 		for ( int i = 0; i < requests.length && KoLmafia.permitsContinue(); ++i )
 		{

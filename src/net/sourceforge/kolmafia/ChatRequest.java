@@ -122,6 +122,7 @@ public class ChatRequest extends KoLRequest
 		if ( graf != null && graf.startsWith( "/run" ) )
 		{
 			DEFAULT_SHELL.executeLine( graf.substring( 5 ) );
+			KoLmafia.enableDisplay();
 			return;
 		}
 
