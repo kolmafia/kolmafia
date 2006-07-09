@@ -229,7 +229,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			request = new KoLRequest( client, "mclargehuge.php" );
 			request.run();
 			if ( request.responseText.indexOf( adventureID ) != -1 )
+			{
+				isValidAdventure = true;
 				return;
+			}
 
 			// No. See if the trapper will give it to us
 			request = new KoLRequest( client, "trapper.php" );
