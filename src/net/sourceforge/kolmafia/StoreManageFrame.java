@@ -217,7 +217,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 		public StoreManageTableModel( LockableListModel model )
 		{
-			super( new String [] { "Item Name", "Price", "Lowest", "Qty", "Lim", " ", " " },
+			super( new String [] { "Item Name", "Price", model == StoreManager.getSoldItemList() ? "Lowest" : " ", "Qty", "Lim", " ", " " },
 					new Class [] { AdventureResult.class, Integer.class, Integer.class, Integer.class, Boolean.class, JButton.class, JButton.class },
 					new boolean [] { model != StoreManager.getSoldItemList(), true, false, model != StoreManager.getSoldItemList(), true, false, false }, model );
 
@@ -282,11 +282,10 @@ public class StoreManageFrame extends KoLPanelFrame
 				if ( quantity <= 0 )
 					quantity = soldItem.getCount() - quantity;
 
-				int limit = ((Boolean) getValueAt( 0, 3 )).booleanValue() ? 1 : 0;
+				int limit = ((Boolean) getValueAt( 0, 4 )).booleanValue() ? 1 : 0;
 				soldItem = new AdventureResult( soldItem.getItemID(), quantity );
 
-				if ( price > 10 )
-					(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), soldItem, price, limit ) )).start();
+				(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), soldItem, price, limit ) )).start();
 			}
 		}
 
