@@ -709,10 +709,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		while ( (importString = parseImport()) != null )
 		{
-			if ( currentToken().equals( ";" ) )
-				readToken(); //read ;
-			else
-				throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
 			try
 			{
 				result = new KoLmafiaASH().parseFile( importString, result, parentScope );
@@ -1721,28 +1717,25 @@ public class KoLmafiaASH extends StaticEntity
 
 	private String parseImport() throws AdvancedScriptException
 	{
-		int i;
-
-		if ( !currentToken().equalsIgnoreCase( "import" ) )
+		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "import" ) )
 			return null;
 		readToken(); //import
 
-		if ( !currentToken().equals( "<" ) )
+		if ( currentToken() == null || !currentToken().equals( "<" ) )
 			throw new AdvancedScriptException( "'<' Expected " + getLineAndFile() );
-		for ( i = 1; ; ++i )
-		{
-			if ( i == line.length() )
-			{
-				throw new AdvancedScriptException( "No closing '>' found " + getLineAndFile() );
-			}
-			if ( line.charAt(i ) == '>' )
-			{
-				String resultString = line.substring( 1, i );
-				line = line.substring( i + 1 ); //+1 to get rid of '>' token
-				return resultString;
-			}
-		}
 
+		int index = line.indexOf( ">" );
+		if ( index == -1 )
+			throw new AdvancedScriptException( "No closing '>' found " + getLineAndFile() );
+
+		String resultString = line.substring( 1, index );
+		line = line.substring( index + 1 ); //+1 to get rid of '>' token
+
+		if ( !currentToken().equals( ";" ) )
+			throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
+		readToken(); //read ;
+
+		return resultString;
 	}
 
 	private static boolean validCoercion( ScriptType lhs, ScriptType rhs, String oper )
