@@ -668,7 +668,7 @@
 668	spiked femur	12	105
 669	ghuol guolash	1	29
 670	lihc face	9	95
-671	grave robbing shovel	12	80
+671	rusty grave robbing shovel	12	80
 672	cranberries	1	29
 673	vodka and cranberry	2	60
 674	whiskey sour	2	65
@@ -1658,3 +1658,6 @@
 1658	Cherry Cloaca Cola	14	40
 1659	Diet Cloaca Cola	14	40
 1660	Regular Cloaca Cola	14	40
+1661	fraudwort	0	0
+1662	shysterweed	0	0
+1663	swindleblossom	0	0
