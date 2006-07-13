@@ -1003,10 +1003,10 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			if ( !(this instanceof ChatRequest) )
 			{
-				// Remove password hash before logging
-				String response = ( passwordHash != null ) ?
-					responseText.replaceAll( passwordHash, "" ) :
-					responseText.replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" );
+				// Remove password hash before logging and strip out
+				// all new lines to make debug logs easier to read.
+
+				String response = responseText.replaceAll( "\r\n", "" ).replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" );
 				KoLmafia.getDebugStream().println( response );
 			}
 

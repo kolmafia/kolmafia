@@ -2601,12 +2601,22 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < items.length; ++i )
 		{
-			if ( TradeableItemDatabase.getPriceByID( items[i].getItemID() ) != 0 )
+			switch ( items[i].getItemID() )
 			{
-				if ( NPCStoreDatabase.contains( items[i].getName(), false ) )
+				case ItemCreationRequest.MEAT_PASTE:
+				case ItemCreationRequest.MEAT_STACK:
+				case ItemCreationRequest.DENSE_STACK:
 					autosell.add( items[i] );
-				else
-					automall.add( items[i] );
+
+				default:
+					int standardPrice = TradeableItemDatabase.getPriceByID( items[i].getItemID() );
+					if ( standardPrice > 0 )
+					{
+						if ( NPCStoreDatabase.contains( items[i].getName(), false ) )
+							autosell.add( items[i] );
+						else
+							automall.add( items[i] );
+					}
 			}
 		}
 
