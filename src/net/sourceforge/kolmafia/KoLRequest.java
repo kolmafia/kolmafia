@@ -569,10 +569,14 @@ public class KoLRequest implements Runnable, KoLConstants
 					adventure.recordToSession();
 				else if ( urlString.indexOf( "dungeon.php" ) != -1 )
 					KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Daily Dungeon" );
-				else if ( urlString.indexOf( "sewer.php " ) != -1 )
+				else if ( urlString.indexOf( "sewer.php" ) != -1 )
 					KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Market Sewer" );
-				else if ( urlString.indexOf( "whichitem" ) != -1 && ConsumeItemRequest.processRequest( client, urlString ) )
-					;
+				else if ( urlString.indexOf( "rats.php" ) != -1 )
+					KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Typical Tavern Quest" );
+				else if ( urlString.indexOf( "barrels.php" ) != -1 )
+					KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Barrel Full of Barrels" );
+				else if ( urlString.indexOf( "whichitem" ) != -1 )
+					ConsumeItemRequest.processRequest( client, urlString );
 				else if ( urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && urlString.indexOf( "chat" ) == -1 )
 					KoLmafia.getSessionStream().println( urlString );
 			}
@@ -960,18 +964,6 @@ public class KoLRequest implements Runnable, KoLConstants
 				// be null and you've hit an error state.
 
 				if ( line == null )
-				{
-					responseText = null;
-					return true;
-				}
-
-				// Check for MySQL errors, since those have been getting more
-				// frequent, and would cause an IOException to be thrown
-				// unnecessarily, when a re-request would do.  I'm not sure
-				// how they work right now (which line the MySQL error is
-				// printed to), but for now, assume that it's the first line.
-
-				else if ( line.indexOf( "error" ) != -1 )
 				{
 					responseText = null;
 					return true;
