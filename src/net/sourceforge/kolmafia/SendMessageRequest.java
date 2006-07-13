@@ -223,23 +223,16 @@ public abstract class SendMessageRequest extends KoLRequest
 
 			for ( int i = 0; i < attachments.length; ++i )
 			{
-				if ( client != null && source == KoLCharacter.getInventory() )
-					client.processResult( ((AdventureResult)attachments[i]).getNegation() );
-				else
-					AdventureResult.addResultToList( source, ((AdventureResult)attachments[i]).getNegation() );
-
-				if ( client != null && destination == KoLCharacter.getInventory() )
-					client.processResult( (AdventureResult) attachments[i] );
-				else
-					AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
+				AdventureResult.addResultToList( source, ((AdventureResult)attachments[i]).getNegation() );
+				AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
 			}
 
 			if ( meatAttachment > 0 )
 			{
 				if ( source == KoLCharacter.getInventory() )
-					client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meatAttachment ) );
+					KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() - meatAttachment );
 				else
-					client.processResult( new AdventureResult( AdventureResult.MEAT, meatAttachment ) );
+					KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + meatAttachment );
 			}
 		}
 		else if ( responseText.indexOf( "zero karma items" ) != -1 )

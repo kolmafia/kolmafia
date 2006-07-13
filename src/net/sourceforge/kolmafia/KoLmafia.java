@@ -994,7 +994,7 @@ public abstract class KoLmafia implements KoLConstants
 			needed = maximum - 1;
 		}
 
-		if ( current >= needed )
+		if ( needed > 0 && current >= needed )
 			return true;
 
 		// Next, check against the restore target to see how
@@ -1414,12 +1414,6 @@ public abstract class KoLmafia implements KoLConstants
 			if ( KoLCharacter.isFallingDown() && !isCheckExempt )
 			{
 				updateDisplay( ERROR_STATE, "You are too drunk to continue." );
-				return;
-			}
-
-			if ( KoLCharacter.getCurrentHP() == 0 && !isCheckExempt )
-			{
-				updateDisplay( ERROR_STATE, "Ran out of health." );
 				return;
 			}
 		}
