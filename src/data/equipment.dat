@@ -253,7 +253,7 @@ Gnollish flyswatter	35	Mus: 2
 Gnollish nunchaku	45	Mus: 7	2
 Gnollish plunger	35	Mus: 2
 grass blade	80	Mus: 25
-rusty grave robbing shovel	80	Mus: 25	2
+grave robbing shovel	30	none	2
 Grimacite glaive	125	Mus: 47
 halfberd	30	none
 heavy metal thunderrr guitarrr	120	Mox: 45	2
@@ -292,6 +292,7 @@ ridiculously huge sword	140	Mus: 55	3
 ridiculously overelaborate ninja weapon	100	Mus: 35	3
 Rock and Roll Legend	50	Mox: 10	2
 rubber axe	40	Mus: 5	2
+rusty grave robbing shovel	80	Mus: 25	2
 sabre teeth	60	Mus: 15
 sack of doorknobs	110	Mox: 50	2
 saucepan	10	none
@@ -305,8 +306,10 @@ spooky staff	35	Mus: 2	2
 spooky stick	30	none	2
 spork	30	none
 stainless steel shillelagh	90	Mus: 30
+star boomerang	135	Mox: 52
 star crossbow	165	Mox: 67	2
 star staff	165	Mus: 67	2
+star stiletto	135	Mus: 52
 star sword	165	Mus: 67	2
 stolen accordion	10	Mox: 0	2
 stone banjo	25	Mox: 0	2
@@ -477,6 +480,12 @@ porquoise bracelet	0	Mys: 10
 porquoise eyebrow ring	0	Mys: 10
 porquoise necklace	0	Mys: 10
 porquoise ring	0	Mys: 10
+Radio KoL Keychain	0	none
+Radio KoL Antenna Ball	0	none
+Radio KoL Flashlight	0	none
+Radio KoL Maracas	0	none
+Radio KoL Bottle Opener	0	none
+Radio KoL Patch	0	none
 ring of adornment	0	Mys: 25
 ring of aggravate monster	0	Mys: 25
 ring of cold resistance	0	Mys: 25

@@ -1407,10 +1407,9 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !client.checkRequirements( requirements ) )
 			return;
 
-		// If you're using any other method than elixir, you need
-		// at least 126 health for the battle.
+		// Make sure you can get enough health
 
-		if ( !option.getName().endsWith( "ixer" ) && !option.getName().endsWith( "egg" ) && KoLCharacter.getMaximumHP() < 126 )
+		if ( KoLCharacter.getMaximumHP() < neededHealth )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
 			return;
