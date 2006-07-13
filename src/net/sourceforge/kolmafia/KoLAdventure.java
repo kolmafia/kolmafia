@@ -164,7 +164,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				break;
 			case 1:
 				baseValue = KoLCharacter.getBaseMysticality();
-				buffedValue = KoLCharacter.getBaseMysticality();
+				buffedValue = KoLCharacter.getAdjustedMysticality();
 				break;
 			case 2:
 				baseValue = KoLCharacter.getBaseMoxie();
