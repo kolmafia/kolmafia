@@ -250,7 +250,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		String line = null;
 
-		while ( (line = getNextLine()) != null && (permitsContinue() || StaticEntity.getClient() == this) )
+		while ( (permitsContinue() || StaticEntity.getClient() == this) && (line = getNextLine()) != null )
 		{
 			if ( StaticEntity.getClient() == this )
 			{
@@ -260,7 +260,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 			forceContinue();
 			executeLine( line );
-			System.gc();
 
 			if ( StaticEntity.getClient() == this )
 			{
@@ -551,6 +550,21 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "continue" ) )
+		{
+			if ( lastScript != null && lastScript.previousLine != null && lastScript.previousLine.length() != 0 )
+			{
+				forceContinue();
+				lastScript.listenForCommands();
+			}
+			else
+			{
+				printLine( "No script to continue." );
+			}
+
+			return;
+		}
+
 		// Adding the requested echo command.  I guess this is
 		// useful for people who want to echo things...
 
@@ -822,17 +836,9 @@ public class KoLmafiaCLI extends KoLmafia
 			request.run();
 
 			if ( StaticEntity.getClient() instanceof KoLmafiaGUI )
-			{
-				Object [] params = new Object[2];
-				params[0] = StaticEntity.getClient();
-				params[1] = request;
-
-				(new CreateFrameRunnable( RequestFrame.class, params )).run();
-			}
+				(new CreateFrameRunnable( RequestFrame.class, new Object[] { request } )).run();
 			else
-			{
 				showHTML( request.responseText, "Item Description" );
-			}
 
 			return;
 		}
