@@ -668,23 +668,37 @@ public class AdventureResult implements Comparable, KoLConstants
 
 		public Component getRendererComponent( JLabel defaultComponent, int itemID, String name, int count )
 		{
-			switch ( TradeableItemDatabase.getConsumptionType( name ) )
+			boolean shouldDisplay = true;
+
+			// Anything that you can cook is considered a food
+			// and anything involving the still is consider a
+			// booze item.
+
+			switch ( ConcoctionsDatabase.getMixingMethod( itemID ) )
 			{
-				case ConsumeItemRequest.CONSUME_EAT:
-					if ( !food )
-						return BLANK_LABEL;
+				case ItemCreationRequest.COOK:
+				case ItemCreationRequest.COOK_REAGENT:
+				case ItemCreationRequest.SUPER_REAGENT:
+				case ItemCreationRequest.COOK_PASTA:
+				case ItemCreationRequest.WOK:
+					shouldDisplay = food;
 					break;
 
-				case ConsumeItemRequest.CONSUME_DRINK:
-					if ( !booze )
-						return BLANK_LABEL;
+				case ItemCreationRequest.MIX:
+				case ItemCreationRequest.MIX_SPECIAL:
+				case ItemCreationRequest.STILL_BOOZE:
+				case ItemCreationRequest.STILL_MIXER:
+				case ItemCreationRequest.MIX_SUPER:
+					shouldDisplay = booze;
 					break;
 
 				default:
-					if ( !other )
-						return BLANK_LABEL;
+					shouldDisplay = other;
 					break;
 			}
+
+			if ( !shouldDisplay )
+				return BLANK_LABEL;
 
 			String stringForm = name + " (" + COMMA_FORMAT.format( count ) + ")";
 			defaultComponent.setText( stringForm );
