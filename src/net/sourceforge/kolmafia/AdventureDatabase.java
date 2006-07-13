@@ -50,6 +50,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class AdventureDatabase extends KoLDatabase
 {
 	private static LockableListModel adventures = new LockableListModel();
+	private static String [] adventureNames = new String[0];
+
 	public static final Map ZONE_NAMES = new TreeMap();
 	public static final Map ZONE_DESCRIPTIONS = new TreeMap();
 
@@ -391,6 +393,10 @@ public class AdventureDatabase extends KoLDatabase
 
 		if ( getProperty( "sortAdventures" ).equals( "true" ) )
 			adventures.sort();
+
+		adventureNames = new String[ adventures.size() ];
+		for ( int i = 0; i < adventureNames.length; ++i )
+			adventureNames[i] = adventures.get(i).toString().toLowerCase();
 	}
 
 	public static KoLAdventure getAdventureByURL( String adventureURL )
@@ -404,36 +410,12 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static KoLAdventure getAdventure( String adventureName )
 	{
-		String lowerCaseName = adventureName.toLowerCase();
-		while ( lowerCaseName.indexOf( ":" ) != -1 )
-			lowerCaseName = lowerCaseName.substring( lowerCaseName.indexOf( ":" ) + 1 );
-		lowerCaseName = lowerCaseName.trim();
+		adventureName = adventureName.toLowerCase();
+		for ( int i = 0; i < adventureNames.length; ++i )
+			if ( adventureNames[i].indexOf( adventureName ) != -1 )
+				return (KoLAdventure) adventures.get(i);
 
-		int matchStartIndex;
-		String currentTest;
-
-		int bestMatchIndex = -1;
-		int bestMatchLength = Integer.MAX_VALUE;
-		int bestMatchStartIndex = Integer.MAX_VALUE;
-
-		for ( int i = 0; i < adventureTable[5].size(); ++i )
-		{
-			currentTest = adventureTable[5].get(i).toLowerCase();
-			matchStartIndex = currentTest.indexOf( lowerCaseName );
-
-			if ( matchStartIndex != -1 )
-			{
-				if ( bestMatchIndex == -1 || matchStartIndex < bestMatchStartIndex ||
-					(matchStartIndex == bestMatchStartIndex && currentTest.length() < bestMatchLength) )
-				{
-					bestMatchIndex = i;
-					bestMatchStartIndex = matchStartIndex;
-					bestMatchLength = currentTest.length();
-				}
-			}
-		}
-
-		return bestMatchIndex == -1 ? null : getAdventure( bestMatchIndex );
+		return null;
 	}
 
 	private static KoLAdventure getAdventure( int tableIndex )

@@ -1536,9 +1536,9 @@ public abstract class KoLmafia implements KoLConstants
 			lastUse.append( KoLCharacter.getAscensions() );
 			lastUse.append( ": " );
 
-			lastUseString = lastUse.toString();
+			lastUseString = "";
 
-			StaticEntity.setProperty( "lastFaucetUse", lastUseString );
+			StaticEntity.setProperty( "lastFaucetUse", lastUse.toString() );
 			StaticEntity.setProperty( "lastFaucetLocation", "-1" );
 		}
 
@@ -1556,7 +1556,7 @@ public abstract class KoLmafia implements KoLConstants
 		// the process of trying to locate it.
 
 		KoLAdventure adventure = new KoLAdventure( this, "", "0", "0", "rats.php", "", "Typical Tavern (Pre-Rat)" );
-		boolean foundFaucet = false;
+		boolean foundFaucet = searchList.size() < 2;
 
 		if ( searchIndex.intValue() < 0 )
 		{
@@ -1582,7 +1582,7 @@ public abstract class KoLmafia implements KoLConstants
 			// for the location of the faucet (lowers the chance
 			// of bad results if the faucet is near the end).
 
-			do
+			while ( !foundFaucet && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 )
 			{
 				searchIndex = (Integer) searchList.remove( RNG.nextInt( searchList.size() ) );
 
@@ -1599,7 +1599,6 @@ public abstract class KoLmafia implements KoLConstants
 				foundFaucet = adventure.getRequest().responseText != null &&
 					adventure.getRequest().responseText.indexOf( "faucetoff" ) != -1;
 			}
-			while ( !foundFaucet && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 );
 		}
 
 		// If you have not yet found the faucet, be sure

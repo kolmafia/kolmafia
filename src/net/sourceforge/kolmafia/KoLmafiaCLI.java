@@ -328,7 +328,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * yet another method.
 	 */
 
-	public void executeLine( String line )
+	public synchronized void executeLine( String line )
 	{
 		if ( refusesContinue() || line.trim().length() == 0 )
 			return;
