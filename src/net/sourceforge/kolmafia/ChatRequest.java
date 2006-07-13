@@ -113,7 +113,7 @@ public class ChatRequest extends KoLRequest
 	{
 		super( client, "newchatmessages.php" );
 		addFormField( "lasttime", String.valueOf( lastSeen ) );
-		this.lastSeen = lastSeen;
+		ChatRequest.lastSeen = lastSeen;
 	}
 
 	public void run()
@@ -173,13 +173,20 @@ public class ChatRequest extends KoLRequest
 				try
 				{
 					ChatRequest.delay( CHAT_DELAY );
+
+					int previousLastSeen = lastSeen;
 					request.run();
+
+					if ( lastSeen == previousLastSeen )
+						lastSeen = 0;
 				}
 				catch ( Exception e )
 				{
 					StaticEntity.printStackTrace( e );
+					lastSeen = 0;
 				}
 
+				request.clearDataFields();
 				request.addFormField( "lasttime", String.valueOf( lastSeen ) );
 			}
 
