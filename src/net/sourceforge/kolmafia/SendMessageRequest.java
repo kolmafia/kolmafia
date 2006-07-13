@@ -223,8 +223,15 @@ public abstract class SendMessageRequest extends KoLRequest
 
 			for ( int i = 0; i < attachments.length; ++i )
 			{
-				AdventureResult.addResultToList( source, ((AdventureResult)attachments[i]).getNegation() );
-				AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
+				if ( source == KoLCharacter.getInventory() )
+					KoLCharacter.processResult( ((AdventureResult)attachments[i]).getNegation() );
+				else
+					AdventureResult.addResultToList( source, ((AdventureResult)attachments[i]).getNegation() );
+
+				if ( destination == KoLCharacter.getInventory() )
+					KoLCharacter.processResult( (AdventureResult) attachments[i] );
+				else
+					AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
 			}
 
 			if ( meatAttachment > 0 )
