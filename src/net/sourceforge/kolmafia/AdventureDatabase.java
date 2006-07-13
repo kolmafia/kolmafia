@@ -410,6 +410,9 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static KoLAdventure getAdventure( String adventureName )
 	{
+		if ( adventures.isEmpty() )
+			refreshAdventureList();
+
 		adventureName = adventureName.toLowerCase();
 		for ( int i = 0; i < adventureNames.length; ++i )
 			if ( adventureNames[i].indexOf( adventureName ) != -1 )
