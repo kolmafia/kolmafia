@@ -3361,36 +3361,54 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue adventure( ScriptVariable count, ScriptVariable loc )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "adventure " + count.intValue() + " " + loc.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue buy( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "buy " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue create( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "create " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue use( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue eat( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue drink( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
@@ -3460,30 +3478,45 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue put_closet( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "closet put " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue put_shop( ScriptVariable count, ScriptVariable price, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "mallsell " + item.toStringValue() + " " + count.intValue() + " " + price.intValue() );
 			return continueValue();
 		}
 
 		public ScriptValue put_stash( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "stash put " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue put_display( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "display put " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue take_closet( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "closet take " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
@@ -3494,24 +3527,36 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue take_storage( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "hagnk " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue take_stash( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "stash take " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue take_display( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "display take " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
 
 		public ScriptValue sell_item( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "sell " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
@@ -3650,12 +3695,18 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue use_skill( ScriptVariable count, ScriptVariable skill )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "cast " + count.intValue() + " " + skill.toStringValue() );
 			return new ScriptValue( UseSkillRequest.lastUpdate.equals( "" ) );
 		}
 
 		public ScriptValue add_item_condition( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return VOID_VALUE;
+
 			DEFAULT_SHELL.executeLine( "conditions add " + count.intValue() + " " + item.toStringValue() );
 			return VOID_VALUE;
 		}
@@ -3678,6 +3729,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue trade_hermit( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "hermit " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
@@ -3710,6 +3764,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue trade_trapper( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			DEFAULT_SHELL.executeLine( "trapper " + count.intValue() + " " + item.toStringValue() );
 			return continueValue();
 		}
@@ -3903,6 +3960,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue retrieve_item( ScriptVariable count, ScriptVariable item )
 		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
 			AdventureDatabase.retrieveItem( new AdventureResult( item.intValue(), count.intValue() ) );
 			return continueValue();
 		}
