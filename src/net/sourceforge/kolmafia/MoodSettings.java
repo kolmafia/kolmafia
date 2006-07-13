@@ -265,6 +265,9 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void execute()
 	{
+		if ( KoLmafia.refusesContinue() )
+			return;
+
 		String initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		String initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 		String initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
@@ -557,6 +560,9 @@ public abstract class MoodSettings implements KoLConstants
 
 		public void execute()
 		{
+			if ( KoLmafia.refusesContinue() )
+				return;
+
 			boolean shouldExecute = false;
 
 			if ( effect == null )

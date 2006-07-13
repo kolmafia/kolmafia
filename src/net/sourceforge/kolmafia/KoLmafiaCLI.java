@@ -1404,9 +1404,9 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.equals( "" ) )
 				StaticEntity.getClient().runBetweenBattleChecks();
 			else if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
-				StaticEntity.getClient().recoverHP();
+				StaticEntity.getClient().recoverHP( KoLCharacter.getMaximumHP() );
 			else if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) )
-				StaticEntity.getClient().recoverMP();
+				StaticEntity.getClient().recoverMP( KoLCharacter.getMaximumMP() );
 
 			return;
 		}
