@@ -2111,7 +2111,7 @@ public class KoLmafiaCLI extends KoLmafia
 			splitParameters[1] = null;
 		}
 
-		String [] buffParameters = splitCountAndName( parameters );
+		String [] buffParameters = splitCountAndName( splitParameters[0] );
 		String buffCountString = buffParameters[0];
 		String skillNameString = buffParameters[1];
 
