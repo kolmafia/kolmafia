@@ -657,27 +657,38 @@ public class AdventureResult implements Comparable, KoLConstants
 				break;
 
 			default:
-				switch ( ConcoctionsDatabase.getMixingMethod( itemID ) )
+
+				if ( value instanceof AdventureResult )
 				{
-					case ItemCreationRequest.COOK:
-					case ItemCreationRequest.COOK_REAGENT:
-					case ItemCreationRequest.SUPER_REAGENT:
-					case ItemCreationRequest.COOK_PASTA:
-					case ItemCreationRequest.WOK:
-						isVisibleWithFilter = food;
-						break;
+					// Milk of magnesium is marked as food, as are
+					// munchies pills; all others are marked as expected.
 
-					case ItemCreationRequest.MIX:
-					case ItemCreationRequest.MIX_SPECIAL:
-					case ItemCreationRequest.STILL_BOOZE:
-					case ItemCreationRequest.STILL_MIXER:
-					case ItemCreationRequest.MIX_SUPER:
-						isVisibleWithFilter = booze;
-						break;
+					isVisibleWithFilter = name.equals( "milk of magnesium" ) || name.equals( "munchies pills" ) ? food : other;
+				}
+				else
+				{
+					switch ( ConcoctionsDatabase.getMixingMethod( itemID ) )
+					{
+						case ItemCreationRequest.COOK:
+						case ItemCreationRequest.COOK_REAGENT:
+						case ItemCreationRequest.SUPER_REAGENT:
+						case ItemCreationRequest.COOK_PASTA:
+						case ItemCreationRequest.WOK:
+							isVisibleWithFilter = food;
+							break;
 
-					default:
-						isVisibleWithFilter = other;
-						break;
+						case ItemCreationRequest.MIX:
+						case ItemCreationRequest.MIX_SPECIAL:
+						case ItemCreationRequest.STILL_BOOZE:
+						case ItemCreationRequest.STILL_MIXER:
+						case ItemCreationRequest.MIX_SUPER:
+							isVisibleWithFilter = booze;
+							break;
+
+						default:
+							isVisibleWithFilter = other;
+							break;
+					}
 				}
 		}
 
