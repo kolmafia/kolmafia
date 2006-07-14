@@ -186,6 +186,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 
 		KoLRequest request = null;
+		DEFAULT_SHELL.executeLine( "council" );
 
 		// The beach is unlocked provided the player has the meat car
 		// accomplishment and a meatcar in inventory.
@@ -407,7 +408,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				// advantage of item consumption automatically doing
 				// what's needed in grabbing the item.
 
-				(new KoLRequest( client, "council.php" )).run();
 				(new ConsumeItemRequest( client, BEAN )).run();
 			}
 

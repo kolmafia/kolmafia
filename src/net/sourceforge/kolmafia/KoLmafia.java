@@ -1574,7 +1574,7 @@ public abstract class KoLmafia implements KoLConstants
 			KoLRequest request = new KoLRequest( this, "council.php", true );
 			request.run();
 
-			if ( request.responseText != null && request.responseText.indexOf( "rat problems" ) == -1 )
+			if ( request.responseText == null || request.responseText.indexOf( "rat problems" ) == -1 )
 			{
 				updateDisplay( ERROR_STATE, "This quest is not available." );
 				return -1;

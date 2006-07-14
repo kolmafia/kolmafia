@@ -569,24 +569,8 @@ public class AdventureResult implements Comparable, KoLConstants
 				return defaultComponent;
 
 			AdventureResult ar = (AdventureResult) value;
-
-			switch ( TradeableItemDatabase.getConsumptionType( ar.getName() ) )
-			{
-				case ConsumeItemRequest.CONSUME_EAT:
-					if ( !food )
-						return BLANK_LABEL;
-					break;
-
-				case ConsumeItemRequest.CONSUME_DRINK:
-					if ( !booze )
-						return BLANK_LABEL;
-					break;
-
-				default:
-					if ( !other )
-						return BLANK_LABEL;
-					break;
-			}
+			if ( !isVisibleWithFilter( ar, food, booze, other, notrade, nosell ) )
+				return BLANK_LABEL;
 
 			int autoSellValue = TradeableItemDatabase.getPriceByID( ar.getItemID() );
 
@@ -595,26 +579,11 @@ public class AdventureResult implements Comparable, KoLConstants
 			stringForm.append( " (" );
 
 			if ( autoSellValue == -1 )
-			{
-				if ( !nosell )
-					return BLANK_LABEL;
-
 				stringForm.append( "no-autosell" );
-			}
 			else if ( autoSellValue == 0 )
-			{
-				if ( !nosell || !notrade )
-					return BLANK_LABEL;
-
 				stringForm.append( "no-trade" );
-			}
 			else if ( autoSellValue < -1 )
-			{
-				if ( !notrade )
-					return BLANK_LABEL;
-
 				stringForm.append( COMMA_FORMAT.format( -autoSellValue ) + " meat, no-trade" );
-			}
 			else
 				stringForm.append( COMMA_FORMAT.format( autoSellValue ) + " meat" );
 
@@ -653,57 +622,75 @@ public class AdventureResult implements Comparable, KoLConstants
 		{
 			JLabel defaultComponent = (JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
-			return value == null ? defaultComponent : value instanceof AdventureResult ?
-				getRendererComponent( defaultComponent, (AdventureResult) value ) : value instanceof ItemCreationRequest ?
-				getRendererComponent( defaultComponent, (ItemCreationRequest) value ) : defaultComponent;
+			return value == null ? defaultComponent : value instanceof AdventureResult || value instanceof ItemCreationRequest ?
+				getRendererComponent( defaultComponent, value ) : defaultComponent;
 		}
 
-		public Component getRendererComponent( JLabel defaultComponent, AdventureResult value )
-		{	return getRendererComponent( defaultComponent, value.getItemID(), value.getName(), value.getCount() );
-		}
-
-		public Component getRendererComponent( JLabel defaultComponent, ItemCreationRequest value )
-		{	return getRendererComponent( defaultComponent, value.getItemID(), value.getName(), value.getQuantityNeeded() );
-		}
-
-		public Component getRendererComponent( JLabel defaultComponent, int itemID, String name, int count )
+		public Component getRendererComponent( JLabel defaultComponent, Object value )
 		{
-			boolean shouldDisplay = true;
-
-			// Anything that you can cook is considered a food
-			// and anything involving the still is consider a
-			// booze item.
-
-			switch ( ConcoctionsDatabase.getMixingMethod( itemID ) )
-			{
-				case ItemCreationRequest.COOK:
-				case ItemCreationRequest.COOK_REAGENT:
-				case ItemCreationRequest.SUPER_REAGENT:
-				case ItemCreationRequest.COOK_PASTA:
-				case ItemCreationRequest.WOK:
-					shouldDisplay = food;
-					break;
-
-				case ItemCreationRequest.MIX:
-				case ItemCreationRequest.MIX_SPECIAL:
-				case ItemCreationRequest.STILL_BOOZE:
-				case ItemCreationRequest.STILL_MIXER:
-				case ItemCreationRequest.MIX_SUPER:
-					shouldDisplay = booze;
-					break;
-
-				default:
-					shouldDisplay = other;
-					break;
-			}
-
-			if ( !shouldDisplay )
+			if ( !isVisibleWithFilter( value, food, booze, other, true, true ) )
 				return BLANK_LABEL;
+
+			String name = value instanceof AdventureResult ? ((AdventureResult)value).getName() : ((ItemCreationRequest)value).getName();
+			int count = value instanceof AdventureResult ? ((AdventureResult)value).getCount() : ((ItemCreationRequest)value).getQuantityNeeded();
 
 			String stringForm = name + " (" + COMMA_FORMAT.format( count ) + ")";
 			defaultComponent.setText( stringForm );
 			return defaultComponent;
 		}
+	}
+
+	public static boolean isVisibleWithFilter( Object value, boolean food, boolean booze, boolean other, boolean nosell, boolean notrade )
+	{
+		boolean isVisibleWithFilter = true;
+		String name = value instanceof AdventureResult ? ((AdventureResult)value).getName() : ((ItemCreationRequest)value).getName();
+		int itemID = TradeableItemDatabase.getItemID( name );
+
+		switch ( TradeableItemDatabase.getConsumptionType( itemID ) )
+		{
+			case ConsumeItemRequest.CONSUME_EAT:
+				isVisibleWithFilter = food;
+				break;
+
+			case ConsumeItemRequest.CONSUME_DRINK:
+				isVisibleWithFilter = booze;
+				break;
+
+			default:
+				switch ( ConcoctionsDatabase.getMixingMethod( itemID ) )
+				{
+					case ItemCreationRequest.COOK:
+					case ItemCreationRequest.COOK_REAGENT:
+					case ItemCreationRequest.SUPER_REAGENT:
+					case ItemCreationRequest.COOK_PASTA:
+					case ItemCreationRequest.WOK:
+						isVisibleWithFilter = food;
+						break;
+
+					case ItemCreationRequest.MIX:
+					case ItemCreationRequest.MIX_SPECIAL:
+					case ItemCreationRequest.STILL_BOOZE:
+					case ItemCreationRequest.STILL_MIXER:
+					case ItemCreationRequest.MIX_SUPER:
+						isVisibleWithFilter = booze;
+						break;
+
+					default:
+						isVisibleWithFilter = other;
+						break;
+				}
+		}
+
+		int autoSellValue = TradeableItemDatabase.getPriceByID( itemID );
+
+		if ( autoSellValue == -1 )
+			isVisibleWithFilter &= nosell;
+		else if ( autoSellValue == 0 )
+			isVisibleWithFilter &= nosell && notrade;
+		else if ( autoSellValue < -1 )
+			isVisibleWithFilter &= notrade;
+
+		return isVisibleWithFilter;
 	}
 
 	public static DefaultListCellRenderer getEquipmentCellRenderer( boolean weapon, boolean offhand, boolean hat, boolean shirt, boolean pants, boolean accessory, boolean familiar )
