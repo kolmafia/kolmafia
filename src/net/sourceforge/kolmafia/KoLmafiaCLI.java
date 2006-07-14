@@ -1027,7 +1027,7 @@ public class KoLmafiaCLI extends KoLmafia
 					itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
 
 				while ( KoLCharacter.getAdventuresLeft() > 0 && HermitRequest.getWorthlessItemCount() < itemCount && permitsContinue() )
-					executeLine( "buy 1 chewing gum on a string; adventure Unlucky Sewer" );
+					executeLine( "acquire 1 chewing gum on a string; adventure Unlucky Sewer" );
 
 				if ( HermitRequest.getWorthlessItemCount() < itemCount )
 				{
