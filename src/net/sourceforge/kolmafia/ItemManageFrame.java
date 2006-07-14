@@ -149,8 +149,9 @@ public class ItemManageFrame extends KoLFrame
 		{
 			super( "Usable Items", KoLCharacter.getUsables(), false );
 
-			setButtons( new String [] { "use one", "use multiple" },
-				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ) } );
+			setButtons( new String [] { "use one", "use multiple", "refresh" },
+				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
+				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 
 			filters = new JCheckBox[3];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", KoLCharacter.canEat() );
@@ -275,11 +276,7 @@ public class ItemManageFrame extends KoLFrame
 
 		protected Object [] getDesiredItems( String message )
 		{
-			filterSelection( filters[0].isSelected(),
-					 filters[1].isSelected(),
-					 filters[2].isSelected(),
-					 filters[3].isSelected(),
-					 filters[4].isSelected() );
+			filterSelection( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(), filters[4].isSelected() );
 			return super.getDesiredItems( message );
 		}
 
@@ -418,13 +415,14 @@ public class ItemManageFrame extends KoLFrame
 		public OutsideClosetPanel()
 		{
 			super( "Inside Inventory", KoLCharacter.getInventory() );
-			setButtons( new String [] { "closet", "sell", "mall", "museum", "clan" },
+			setButtons( new String [] { "closet", "sell", "mall", "museum", "clan", "refresh" },
 				new ActionListener [] {
 					new PutInClosetListener( false, elementList ),
 					new AutoSellListener( false, AutoSellRequest.AUTOSELL, elementList ),
 					new AutoSellListener( false, AutoSellRequest.AUTOMALL, elementList ),
 					new PutOnDisplayListener( false, elementList ),
-					new GiveToClanListener( false, elementList ) } );
+					new GiveToClanListener( false, elementList ),
+					new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 		}
 	}
 
@@ -433,13 +431,14 @@ public class ItemManageFrame extends KoLFrame
 		public InsideClosetPanel()
 		{
 			super( "Inside Closet", KoLCharacter.getCloset() );
-			setButtons( new String [] { "backpack", "sell", "mall", "museum", "clan" },
+			setButtons( new String [] { "backpack", "sell", "mall", "museum", "clan", "refresh" },
 				new ActionListener [] {
 					new PutInClosetListener( true, elementList ),
 					new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ),
 					new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ),
 					new PutOnDisplayListener( true, elementList ),
-					new GiveToClanListener( true, elementList ) } );
+					new GiveToClanListener( true, elementList ),
+					new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 		}
 	}
 
@@ -677,8 +676,9 @@ public class ItemManageFrame extends KoLFrame
 			super( "Create an Item", ConcoctionsDatabase.getConcoctions(), false );
 
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			setButtons( new String [] { "create one", "create multiple" },
-				new ActionListener [] { new CreateListener( false ), new CreateListener( true ) } );
+			setButtons( new String [] { "create one", "create multiple", "refresh" },
+				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
+				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 
 			JCheckBox [] filters = new JCheckBox[6];
 

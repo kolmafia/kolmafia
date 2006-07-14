@@ -620,43 +620,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				movers[2].isSelected() ? TAKE_MULTIPLE : TAKE_ONE );
 		}
 
-		protected void filterSelection( boolean eat, boolean drink, boolean other, boolean sell, boolean trade )
+		protected void filterSelection( boolean eat, boolean drink, boolean other, boolean nosell, boolean notrade )
 		{
 			Object [] elements = elementList.getSelectedValues();
 			for ( int i = 0; i < elements.length; ++i )
 			{
 				int actualIndex = ((LockableListModel)elementList.getModel()).indexOf( elements[i] );
-				switch ( TradeableItemDatabase.getConsumptionType( ((AdventureResult)elements[i]).getName() ) )
-				{
-				case ConsumeItemRequest.CONSUME_EAT:
-
-					if ( !eat )
-						elementList.removeSelectionInterval( actualIndex, actualIndex );
-
-					break;
-
-				case ConsumeItemRequest.CONSUME_DRINK:
-
-					if ( !drink )
-						elementList.removeSelectionInterval( actualIndex, actualIndex );
-
-					break;
-
-				default:
-
-					if ( !other )
-						elementList.removeSelectionInterval( actualIndex, actualIndex );
-
-					break;
-				}
-
-
-				int autoSellValue = TradeableItemDatabase.getPriceByID( ((AdventureResult)elements[i]).getItemID() );
-
-				if ( !sell && ( autoSellValue == 0 || autoSellValue == -1 ) )
-					elementList.removeSelectionInterval( actualIndex, actualIndex );
-
-				if ( !trade && ( autoSellValue == 0 || autoSellValue < -1 ) )
+				if ( !AdventureResult.isVisibleWithFilter( ((LockableListModel)elementList.getModel()).get( actualIndex ), eat, drink, other, nosell, notrade ) )
 					elementList.removeSelectionInterval( actualIndex, actualIndex );
 			}
 		}
