@@ -974,7 +974,7 @@ public abstract class KoLmafia implements KoLConstants
 		// any restoration needs to take place.
 
 		double setting = StaticEntity.parseDouble( StaticEntity.getProperty( settingName ) );
-		if ( setting < 0 )
+		if ( needed == 0 && setting < 0 )
 			return true;
 
 		if ( !BuffBotHome.isBuffBotActive() )
@@ -1005,7 +1005,7 @@ public abstract class KoLmafia implements KoLConstants
 		int threshold = initial == 0 ? needed : needed - 1;
 		setting = StaticEntity.parseDouble( StaticEntity.getProperty( settingName + "Target" ) );
 
-		if ( setting < 0 )
+		if ( needed == 0 && setting < 0 )
 			return true;
 
 		if ( initial == 0 )
