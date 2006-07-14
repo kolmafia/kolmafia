@@ -84,9 +84,9 @@
 13	13	45	adventure.php	66	Pirate Cove
 13	13	45	adventure.php	67	Pirate Cove In Disguise
 
-14	85	0	adventure.php	81	Penultimate Fantasy Airship
-14	85	0	adventure.php	82	Castle in the Clouds in the Sky
-14	85	0	adventure.php	83	Hole in the Sky
+14	85	90	adventure.php	81	Penultimate Fantasy Airship
+14	85	95	adventure.php	82	Castle in the Clouds in the Sky
+14	85	100	adventure.php	83	Hole in the Sky
 
 15	0	13	adventure.php	47	Bugbear Pens
 15	0	40	adventure.php	48	Spooky Gravy Barrow
