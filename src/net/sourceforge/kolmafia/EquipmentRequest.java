@@ -500,6 +500,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
 			(new EquipmentRequest( client, EquipmentRequest.CONSUMABLES )).run();
 
+			KoLCharacter.refreshCalculatedLists();
 			KoLCharacter.setAvailableSkills( KoLCharacter.getAvailableSkills() );
 			return;
 		}
