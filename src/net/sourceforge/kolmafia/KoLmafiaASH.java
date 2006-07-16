@@ -1509,6 +1509,15 @@ public class KoLmafiaASH extends StaticEntity
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 		}
+		else if ( currentToken().equals( "remove" ) )
+		{
+			String operator = currentToken();
+			readToken(); // remove
+			if ( ( lhs = parseAggregateReference( scope ) ) == null )
+				throw new AdvancedScriptException( "Aggregate value expected " + getLineAndFile() );
+
+			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
+		}
 		else
 		{
 			if ( (lhs = parseValue( scope )) == null )
@@ -1690,7 +1699,8 @@ public class KoLmafiaASH extends StaticEntity
 			oper.equals( "+" ) || oper.equals( "-" ) ||
 			oper.equals( "<" ) || oper.equals( ">" ) || oper.equals( "<=" ) || oper.equals( ">=" ) ||
 			oper.equals( "==" ) || oper.equals( "!=" ) ||
-			oper.equals( "||" ) || oper.equals( "&&" ) || oper.equals( "contains" )
+			oper.equals( "||" ) || oper.equals( "&&" ) ||
+			oper.equals( "contains" ) || oper.equals( "remove" )
 		 )
 		{
 			return new ScriptOperator( oper );
@@ -4311,7 +4321,7 @@ public class KoLmafiaASH extends StaticEntity
 				// Create missing intermediate slices
 				if ( result == null )
 				{
-					result = (ScriptAggregateValue)slice.getAggregateType().getDataType().initialValue();
+					result = (ScriptAggregateValue)slice.initialValue();
 					slice.aset( index, result );
 				}
 
@@ -4333,7 +4343,7 @@ public class KoLmafiaASH extends StaticEntity
 				ScriptValue result = slice.aref( index );
 				if ( result == null )
 				{
-					result = slice.getAggregateType().getDataType().initialValue();
+					result = slice.initialValue();
 					slice.aset( index, result );
 				}
 				return result;
@@ -4349,6 +4359,18 @@ public class KoLmafiaASH extends StaticEntity
 				slice.aset( index, targetValue );
 		}
 
+		public ScriptValue removeKey() throws AdvancedScriptException
+		{
+			// Iterate through indices to final slice
+			if ( getSlice() )
+			{
+				ScriptValue result = slice.remove( index );
+				if ( result != null )
+					return result;
+				return slice.initialValue();
+			}
+			return null;
+		}
 
 		public boolean contains( ScriptValue index ) throws AdvancedScriptException
 		{
@@ -5607,13 +5629,25 @@ public class KoLmafiaASH extends StaticEntity
 		{	return (ScriptAggregateType)type;
 		}
 
+		public ScriptType getDataType()
+		{	return ((ScriptAggregateType)type).getDataType();
+		}
+
+		public ScriptValue initialValue()
+		{	return ((ScriptAggregateType)type).getDataType().initialValue();
+		}
+
 		public ScriptValue aref( ScriptValue index )
 		{	return null;
                 }
 
 		public void aset( ScriptValue index,  ScriptValue val )
 		{
-                }
+		}
+
+		public ScriptValue remove( ScriptValue index )
+		{	return null;
+		}
 
 		public int count()
 		{	return 0;
@@ -5664,6 +5698,17 @@ public class KoLmafiaASH extends StaticEntity
 			array[ i ] = val;
 		}
 
+		public ScriptValue remove( ScriptValue index )
+		{
+			ScriptValue [] array = (ScriptValue [])content;
+			int i = index.intValue();
+			if ( i < 0 || i > array.length )
+				throw new RuntimeException( "Array index out of bounds" );
+			ScriptValue result = array[ i ];
+			array[ i ] = getDataType().initialValue();
+			return result;
+		}
+
 		public int count()
 		{
 			ScriptValue [] array = (ScriptValue [])content;
@@ -5705,6 +5750,12 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			TreeMap map = (TreeMap)content;
 			map.put( index, val );
+		}
+
+		public ScriptValue remove( ScriptValue index )
+		{
+			TreeMap map = (TreeMap)content;
+			return (ScriptValue)map.remove( index );
 		}
 
 		public int count()
@@ -5841,7 +5892,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		private int operStrength()
 		{
-			if ( operator.equals( "!" ) || operator.equals( "contains" ) )
+			if ( operator.equals( "!" ) || operator.equals( "contains" ) || operator.equals( "remove" ) )
 				return 6;
 
 			if ( operator.equals( "*" ) || operator.equals( "/" ) || operator.equals( "%" ) )
@@ -5876,6 +5927,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue applyTo( ScriptExpression lhs, ScriptExpression rhs ) throws AdvancedScriptException
 		{
+			// Unary operator with special evaluation of argument
+			if ( operator.equals( "remove" ) )
+				return ((ScriptAggregateReference)lhs).removeKey();
+
 			ScriptValue leftValue = lhs.execute();
 			captureValue( leftValue );
 			if ( currentState == STATE_EXIT )
