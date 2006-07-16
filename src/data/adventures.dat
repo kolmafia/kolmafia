@@ -47,11 +47,11 @@
 07	8	8	adventure.php	33	Beanbat Chamber
 07	8	8	adventure.php	34	The Boss Bat's Lair
 
-08	40	0	adventure.php	54	Defiled Nook
-08	40	0	adventure.php	55	Defiled Cranny
-08	40	0	adventure.php	56	Defiled Alcove
-08	40	0	adventure.php	57	Defiled Niche
-08	40	0	cyrpt.php	Yep.	Haert of the Cyrpt
+08	40	40	adventure.php	54	Defiled Nook
+08	40	40	adventure.php	55	Defiled Cranny
+08	40	40	adventure.php	56	Defiled Alcove
+08	40	40	adventure.php	57	Defiled Niche
+08	40	40	cyrpt.php	Yep.	Haert of the Cyrpt
 
 09	5	0	adventure.php	15	Spooky Forest
 09	5	0	adventure.php	17	Hidden Temple
