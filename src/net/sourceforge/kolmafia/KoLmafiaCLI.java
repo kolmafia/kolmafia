@@ -1710,7 +1710,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( dayMatcher.find() )
 		{
 			String statDayInformation = MoonPhaseDatabase.getMoonEffect().toLowerCase();
-			return statDayInformation.startsWith( dayMatcher.group(2) + " " + dayMatcher.group(1) );
+			return statDayInformation.startsWith( dayMatcher.group(2) + " bonus " + dayMatcher.group(1) );
 		}
 
 		// Check for the bounty hunter's current desired

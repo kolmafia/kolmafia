@@ -102,10 +102,10 @@ public class MoonPhaseDatabase extends StaticEntity
 
 	private static final String [] STAT_EFFECT =
 	{
-		"Moxie day today and yesterday.", "3 days until Mysticism.", "2 days until Mysticism.", "Mysticism tomorrow (not today).",
-		"Mysticism day today (not tomorrow).", "3 days until Muscle.", "2 days until Muscle.", "Muscle tomorrow (not today).",
-		"Muscle day today and tomorrow.", "Muscle day today and yesterday.", "2 days until Mysticism.", "Mysticism tomorrow (not today).",
-		"Mysticism day today (not tomorrow).", "2 days until Moxie.", "Moxie tomorrow (not today).", "Moxie day today and tomorrow."
+		"Moxie bonus today and yesterday.", "3 days until Mysticism.", "2 days until Mysticism.", "Mysticism bonus tomorrow (not today).",
+		"Mysticism bonus today (not tomorrow).", "3 days until Muscle.", "2 days until Muscle.", "Muscle bonus tomorrow (not today).",
+		"Muscle bonus today and tomorrow.", "Muscle bonus today and yesterday.", "2 days until Mysticism.", "Mysticism bonus tomorrow (not today).",
+		"Mysticism bonus today (not tomorrow).", "2 days until Moxie.", "Moxie bonus tomorrow (not today).", "Moxie bonus today and tomorrow."
 	};
 
 	// Static array of month names, as they exist within
