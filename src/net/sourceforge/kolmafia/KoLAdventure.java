@@ -185,6 +185,57 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( isValidAdventure )
 			return;
 
+		// If we're trying to take a trip, make sure it's the right one
+		if ( adventureID.equals( "96" ) || adventureID.equals( "97" ) || adventureID.equals( "98" ) )
+		{
+			// You must be Half-Astral to go on a trip
+			int astral = ASTRAL.getCount( ( KoLCharacter.getEffects() ) );
+			if ( astral == 0 )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Eat an astral mushroom to take a trip." );
+				isValidAdventure = false;
+				return;
+			}
+
+			// If we haven't selected a trip yet, do so now
+			if ( astral == 5 )
+			{
+				String choice;
+				if ( adventureID.equals( "96" ) )
+					choice = "1";
+				else if ( adventureID.equals( "98" ) )
+					choice = "2";
+				else
+					choice = "3";
+
+				// Choose the trip
+				StaticEntity.setProperty( "choiceAdventure71", choice );
+
+				String name = getAdventureName();
+				StaticEntity.setProperty( "chosenTrip", name );
+
+				// Arm the adventure by running it once
+				// to get the "Journey to the Center of
+				// your Mind" choice.
+				isValidAdventure = true;
+				client.makeRequest( this, 1 );
+				return;
+			}
+
+			String chosenTrip = StaticEntity.getProperty( "chosenTrip" );
+
+			// If we've already selected a trip, we can't switch
+			if ( !chosenTrip.equals( getAdventureName() ) )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You're already taking a different trip." );
+				isValidAdventure = false;
+				return;
+			}
+
+			isValidAdventure = true;
+			return;
+		}
+
 		KoLRequest request = null;
 		DEFAULT_SHELL.executeLine( "council" );
 
@@ -241,71 +292,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			// See if we can now get to the location
 			request = new KoLRequest( client, "mclargehuge.php" );
-		}
-
-		else if ( adventureID.equals( "96" ) || adventureID.equals( "97" ) || adventureID.equals( "98" ) )
-		{
-			// You must be Half-Astral to go on a trip
-			int astral = ASTRAL.getCount( ( KoLCharacter.getEffects() ) );
-			if ( astral == 0 )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Eat an astral mushroom to take a trip." );
-				return;
-			}
-
-			// If we haven't selected a trip yet, do so now
-			if ( astral == 5)
-			{
-				String nextAdventure = StaticEntity.getProperty( "nextAdventure" );
-				KoLAdventure adventure = this;
-
-				if ( nextAdventure.indexOf( "An Incredibly Strange Place") == -1 )
-				{
-					String choice = "1";
-					if ( adventureID.equals( "96" ) )
-					{
-						choice = "1";
-						adventure = AdventureDatabase.getAdventure( "Bad Trip" );
-					}
-					else if ( adventureID.equals( "98" ) )
-					{
-						choice = "2";
-						adventure = AdventureDatabase.getAdventure( "Mediocre Trip" );
-					}
-					else
-					{
-						choice = "3";
-						adventure = AdventureDatabase.getAdventure( "Great Trip" );
-					}
-
-					// Choose the trip
-					String name = getAdventureName();
-					StaticEntity.setProperty( "chosenTrip", name );
-
-					StaticEntity.setProperty( "choiceAdventure71", choice );
-
-					// Avoid infinite recursion
-					StaticEntity.setProperty( "nextAdventure", name );
-
-					// Arm the adventure by running it once to get
-					// the "Journey to the Center of your Mind" choice.
-					client.makeRequest( adventure, 1 );
-
-					return;
-				}
-			}
-
-			String chosenTrip = StaticEntity.getProperty( "chosenTrip" );
-
-			// If we've already selected a trip, we can't switch
-			if ( !chosenTrip.equals( getAdventureName() ) )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "You're already taking a different trip." );
-				return;
-			}
-
-			isValidAdventure = true;
-			return;
 		}
 
 		// The casino is unlocked provided the player
@@ -443,6 +429,18 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		isValidAdventure = true;
 	}
 
+	private void postValidate()
+	{
+		// If we're trying to take a trip, make sure we're still
+		// half-astral
+		if ( adventureID.equals( "96" ) || adventureID.equals( "97" ) || adventureID.equals( "98" ) )
+		{
+			if ( ASTRAL.getCount( ( KoLCharacter.getEffects() ) ) == 0 )
+				isValidAdventure = false;
+			return;
+		}
+	}
+
 	/**
 	 * Retrieves the string form of the adventure contained within this
 	 * encapsulation, which is generally the name of the adventure.
@@ -565,6 +563,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		recordToSession();
 		request.run();
 		client.runBetweenBattleChecks();
+		postValidate();
 	}
 
 	public void recordToSession()
