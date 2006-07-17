@@ -254,7 +254,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		PLAYER_SETTINGS.put( "buffBotCasting", "" );
 		PLAYER_SETTINGS.put( "buffBotMessageDisposal", "0" );
 		PLAYER_SETTINGS.put( "currentMood", "default" );
-		PLAYER_SETTINGS.put( "hpAutoRecovery", "0.3" );
+		PLAYER_SETTINGS.put( "hpAutoRecovery", "-0.1" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryTarget", "1.0" );
 		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "tongue of the otter;soft green echo eyedrop antidote;tiny house;cannelloni cocoon;scroll of drastic healing;medicinal herb's medicinal herbs;tongue of the walrus;lasagna bandages;disco power nap;disco nap;phonics down;cast;doc galaktik's homeopathic elixir;doc galaktik's restorative balm;doc galaktik's pungent unguent;doc galaktik's ailment ointment" );
 		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
