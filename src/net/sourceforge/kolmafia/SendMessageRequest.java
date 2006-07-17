@@ -97,6 +97,9 @@ public abstract class SendMessageRequest extends KoLRequest
 		int currentSize = attachments.length;
 		for ( int i = 0; i < attachments.length; ++i )
 		{
+			if ( attachments[i] == null )
+				continue;
+
 			if ( ((AdventureResult)attachments[i]).getName().equals( AdventureResult.MEAT ) )
 			{
 				this.meatAttachment += ((AdventureResult)attachments[i]).getCount();
@@ -108,8 +111,13 @@ public abstract class SendMessageRequest extends KoLRequest
 		currentSize = 0;
 
 		for ( int i = 0; i < attachments.length; ++i )
+		{
+			if ( attachments[i] == null )
+				continue;
+
 			if ( !((AdventureResult)attachments[i]).getName().equals( AdventureResult.MEAT ) )
 				this.attachments[ currentSize++ ] = attachments[i];
+		}
 
 		this.source = KoLCharacter.getInventory();
 		this.destination = new ArrayList();
@@ -196,10 +204,14 @@ public abstract class SendMessageRequest extends KoLRequest
 			if ( getCapacity() > 1 )
 			{
 				for ( int i = 1; i <= attachments.length; ++i )
-					attachItem( (AdventureResult) attachments[i-1], i );
+					if ( attachments[i-1] != null )
+						attachItem( (AdventureResult) attachments[i-1], i );
 			}
 			else if ( getCapacity() == 1 )
 			{
+				if ( attachments[0] == null )
+					return;
+
 				attachItem( (AdventureResult) attachments[0], 0 );
 			}
 		}
@@ -216,13 +228,16 @@ public abstract class SendMessageRequest extends KoLRequest
 		// Make sure that the message was actually sent -
 		// the person could have input an invalid player ID
 
-		if ( responseText.indexOf( getSuccessMessage() ) != -1 )
+		if ( getSuccessMessage().equals( "" ) || responseText.indexOf( getSuccessMessage() ) != -1 )
 		{
 			// With that done, the client needs to be updated
 			// to note that the items were sent.
 
 			for ( int i = 0; i < attachments.length; ++i )
 			{
+				if ( attachments[i] == null )
+					continue;
+
 				if ( source == KoLCharacter.getInventory() )
 					KoLCharacter.processResult( ((AdventureResult)attachments[i]).getNegation() );
 				else
