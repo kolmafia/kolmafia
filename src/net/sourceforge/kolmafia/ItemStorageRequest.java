@@ -327,30 +327,42 @@ public class ItemStorageRequest extends SendMessageRequest
 		// together on one line, print out one line at
 		// a time to the buffered string.
 
+		switch ( moveType )
+		{
+			case ItemStorageRequest.INVENTORY_TO_CLOSET:
+				commandString.append( "closet put " );
+				break;
+
+			case ItemStorageRequest.CLOSET_TO_INVENTORY:
+				commandString.append( "closet take " );
+				break;
+
+			case ItemStorageRequest.STORAGE_TO_INVENTORY:
+				commandString.append( "hagnk " );
+				break;
+		}
+
+		boolean needsComma = false;
+		if ( this.meatAttachment != 0 )
+		{
+			commandString.append( this.meatAttachment );
+			commandString.append( " meat" );
+			needsComma = true;
+		}
+
 		for ( int i = 0; i < items.length; ++i )
 		{
-			if ( i != 0 )
-				commandString.append( LINE_BREAK );
+			if ( items[i] == null )
+				continue;
 
-			switch ( moveType )
-			{
-				case ItemStorageRequest.INVENTORY_TO_CLOSET:
-					commandString.append( "closet put *" );
-					break;
+			if ( needsComma )
+				commandString.append( ", " );
 
-				case ItemStorageRequest.CLOSET_TO_INVENTORY:
-					commandString.append( "closet take *" );
-					break;
-
-				case ItemStorageRequest.STORAGE_TO_INVENTORY:
-					commandString.append( "hagnk " );
-					commandString.append( items[i].getCount() );
-					break;
-			}
-
+			commandString.append( items[i].getCount() );
 			commandString.append( " \"" );
 			commandString.append( items[i].getName() );
 			commandString.append( '\"' );
+			needsComma = true;
 		}
 
 		return commandString.toString();

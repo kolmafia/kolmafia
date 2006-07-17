@@ -2940,6 +2940,23 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( items.length == 0 )
 			return;
 
+		int meatAttachmentCount = 0;
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			if ( ((AdventureResult)items[i]).getName().equals( AdventureResult.MEAT ) )
+			{
+				StaticEntity.getClient().makeRequest( new ItemStorageRequest( StaticEntity.getClient(),
+					((AdventureResult)items[i]).getCount(), ItemStorageRequest.PULL_MEAT_FROM_STORAGE ) );
+
+				items[i] = null;
+				++meatAttachmentCount;
+			}
+		}
+
+		if ( meatAttachmentCount == items.length )
+			return;
+
 		StaticEntity.getClient().makeRequest( new ItemStorageRequest( StaticEntity.getClient(),
 			ItemStorageRequest.STORAGE_TO_INVENTORY, items ) );
 	}
@@ -2959,6 +2976,23 @@ public class KoLmafiaCLI extends KoLmafia
 
 		Object [] items = getMatchingItemList( parameters.substring(4).trim() );
 		if ( items.length == 0 )
+			return;
+
+		int meatAttachmentCount = 0;
+
+		for ( int i = 0; i < items.length; ++i )
+		{
+			if ( ((AdventureResult)items[i]).getName().equals( AdventureResult.MEAT ) )
+			{
+				StaticEntity.getClient().makeRequest( new ItemStorageRequest( StaticEntity.getClient(), ((AdventureResult)items[i]).getCount(),
+					parameters.startsWith( "take" ) ? ItemStorageRequest.MEAT_TO_INVENTORY : ItemStorageRequest.MEAT_TO_CLOSET ) );
+
+				items[i] = null;
+				++meatAttachmentCount;
+			}
+		}
+
+		if ( meatAttachmentCount == items.length )
 			return;
 
 		StaticEntity.getClient().makeRequest( new ItemStorageRequest( StaticEntity.getClient(),
