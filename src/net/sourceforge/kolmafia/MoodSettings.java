@@ -575,7 +575,7 @@ public abstract class MoodSettings implements KoLConstants
 			}
 			else if ( triggerType.equals( "lose_effect" ) )
 			{
-				shouldExecute = !KoLCharacter.getEffects().contains( effect );
+				shouldExecute = effect.getCount( KoLCharacter.getEffects() ) < 2;
 				shouldExecute &= !triggerName.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
 			}
 
