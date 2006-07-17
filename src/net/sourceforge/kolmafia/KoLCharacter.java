@@ -1294,16 +1294,8 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( currentList.equals( newItems ) )
 			return;
 
-		if ( currentList.size() < newItems.size() )
-		{
-			newItems.removeAll( currentList );
-			currentList.addAll( newItems );
-		}
-		else
-		{
-			currentList.retainAll( newItems );
-		}
-
+		currentList.clear();
+		currentList.addAll( newItems );
 		currentList.setSelectedItem( equippedItem );
 	}
 

@@ -272,10 +272,27 @@ public class EquipmentRequest extends PasswordHashRequest
 			break;
 
 		case KoLCharacter.ACCESSORY1:
+			if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
+			{
+				addFormField( "slot", "1" );
+				return "equip";
+			}
+			break;
+
 		case KoLCharacter.ACCESSORY2:
+			if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
+			{
+				addFormField( "slot", "2" );
+				return "equip";
+			}
+			break;
+
 		case KoLCharacter.ACCESSORY3:
 			if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
+			{
+				addFormField( "slot", "3" );
 				return "equip";
+			}
 			break;
 
 		case KoLCharacter.FAMILIAR:
@@ -321,6 +338,15 @@ public class EquipmentRequest extends PasswordHashRequest
 			return KoLCharacter.FAMILIAR;
 
 		case ConsumeItemRequest.EQUIP_ACCESSORY:
+			if ( KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY1 ).equals( UNEQUIP ) )
+				return KoLCharacter.ACCESSORY1;
+			if ( KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY2 ).equals( UNEQUIP ) )
+				return KoLCharacter.ACCESSORY2;
+			if ( KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY3 ).equals( UNEQUIP ) )
+				return KoLCharacter.ACCESSORY3;
+			// All accessory slots are in use. Pick #1
+			return KoLCharacter.ACCESSORY1;
+
 		default:
 			return -1;
 		}
@@ -381,56 +407,46 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 		}
 
-		// If we are changing an accessory or familiar equipment, first
-		// we must remove the old one in the slot.
-
 		if ( requestType == CHANGE_ITEM )
 		{
-			// Do not submit a request if the item matches what you want
-			// to equip on the character.
+			// Do not submit a request if the item matches what you
+			// want to equip on the character.
 
 			if ( KoLCharacter.getEquipment( equipmentSlot ).indexOf( changeItemName ) != -1 )
 				return;
 
-			switch ( equipmentSlot )
+			// If we are changing familiar equipment, first we must
+			// remove the old one in the slot.
+			if ( equipmentSlot == KoLCharacter.FAMILIAR)
 			{
-				case KoLCharacter.FAMILIAR:
 
-					// If we are requesting another familiar's
-					// equipment, make it available.
+				// If we are requesting another familiar's
+				// equipment, make it available.
 
-					AdventureResult result = new AdventureResult( itemID, 1 );
-					if ( !KoLCharacter.getInventory().contains( result ) )
+				AdventureResult result = new AdventureResult( itemID, 1 );
+				if ( !KoLCharacter.getInventory().contains( result ) )
+				{
+					// Find first familiar with item
+					FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
+					KoLCharacter.getFamiliarList().toArray( familiars );
+					for ( int i = 0; i < familiars.length; ++i )
 					{
-						// Find first familiar with item
-						FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
-						KoLCharacter.getFamiliarList().toArray( familiars );
-						for ( int i = 0; i < familiars.length; ++i )
+						if ( familiars[i].getItem() != null && familiars[i].getItem().indexOf( changeItemName ) != -1 )
 						{
-							if ( familiars[i].getItem() != null && familiars[i].getItem().indexOf( changeItemName ) != -1 )
-							{
-								KoLmafia.updateDisplay( "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
-								KoLRequest unequip = new KoLRequest( client, "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID(), true );
-								unequip.run();
+							KoLmafia.updateDisplay( "Stealing " + result.getName() + " from " + familiars[i].getRace() + "..." );
+							KoLRequest unequip = new KoLRequest( client, "familiar.php?pwd=&action=unequip&famid=" + familiars[i].getID(), true );
+							unequip.run();
 
-								familiars[i].setItem( UNEQUIP );
-								client.processResult( result, false );
+							familiars[i].setItem( UNEQUIP );
+							client.processResult( result, false );
 
-								break;
-							}
+							break;
 						}
 					}
+				}
 
-					// Fall through
-
-				case KoLCharacter.ACCESSORY1:
-				case KoLCharacter.ACCESSORY2:
-				case KoLCharacter.ACCESSORY3:
-
-					if ( !KoLCharacter.getEquipment( equipmentSlot ).equals( UNEQUIP ) )
-						(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
-
-					 break;
+				if ( !KoLCharacter.getEquipment( equipmentSlot ).equals( UNEQUIP ) )
+					(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
 			}
 		}
 
@@ -540,6 +556,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( oldFakeHands > newFakeHands )
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
 
+			KoLCharacter.updateEquipmentLists();
 			CharpaneRequest.getInstance().run();
 		}
 
@@ -578,8 +595,8 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( switchIn != -1 )
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchIn, -1 ) );
 
-			// Do not add item to inventory since we detected it
-			// when looking for quest items.
+			if ( switchOut != -1 )
+				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchOut, 1 ) );
 		}
 	}
 
