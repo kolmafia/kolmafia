@@ -59,8 +59,6 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import java.io.File;
-import java.io.InputStream;
-import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -657,7 +655,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// and remove all <HR> tags.
 
 		KoLmafia.getDebugStream().println( "Rendering hypertext..." );
-		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" );
+		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" ).replaceAll( "[\r\n]+", "" ).replaceAll( "<!--(.*?)-->", "" );
 
 		// The default Java browser doesn't display blank lines correctly
 		displayHTML = displayHTML.replaceAll( "<br><br>", "<br>&nbsp;<br>" );
@@ -686,7 +684,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// turn:  <form...><td...>...</td></form>
 		// into:  <td...><form...>...</form></td>
 
-		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)(<td[^>]*>)", "$4$1$2" );
+		displayHTML = displayHTML.replaceAll( "(<form[^>]*>)((<input[^>]*>)*)?(<td[^>]*>)", "$4$1$2" );
 		displayHTML = displayHTML.replaceAll( "</td></form>", "</form></td>" );
 
 		// KoL also has really crazy nested Javascript links, and
