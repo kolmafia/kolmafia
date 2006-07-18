@@ -104,6 +104,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	private URL formURL;
 	private boolean followRedirects;
 	protected String formURLString;
+	private boolean isChatRequest = false;
 
 	private List data;
 
@@ -280,6 +281,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		String [] splitURLString = newURLString.split( "\\?" );
 		this.formURLString = splitURLString[0];
+		this.isChatRequest = this instanceof ChatRequest || this.formURLString.indexOf( "chat" ) != -1;
 		addEncodedFormFields( splitURLString[1] );
 	}
 
@@ -577,7 +579,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Barrel Full of Barrels" );
 				else if ( urlString.indexOf( "whichitem" ) != -1 )
 					ConsumeItemRequest.processRequest( client, urlString );
-				else if ( urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && urlString.indexOf( "chat" ) == -1 )
+				else if ( urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && !isChatRequest )
 					KoLmafia.getSessionStream().println( urlString );
 			}
 			else if ( !isDelayExempt() && !commandForm.equals( "" ) )
@@ -624,7 +626,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		return formURLString.startsWith( "http" ) || formURLString.startsWith( "messages.php" ) || formURLString.startsWith( "mall.php" ) ||
 			formURLString.startsWith( "searchmall.php" ) || formURLString.startsWith( "clan" ) ||
-			formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) || formURLString.indexOf( "chat" ) != -1 || processedResults;
+			formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) || isChatRequest || processedResults;
 	}
 
 	/**
@@ -681,7 +683,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean prepareConnection()
 	{
-		if ( !(this instanceof ChatRequest) )
+		if ( !isChatRequest )
 			KoLmafia.getDebugStream().println( "Connecting to " + formURLString + "..." );
 
 		// Make sure that all variables are reset before you reopen
@@ -715,7 +717,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// For now, because there isn't HTTPS support, just open the
 			// connection and directly cast it into an HttpURLConnection
 
-			if ( !(this instanceof ChatRequest) )
+			if ( !isChatRequest )
 				KoLmafia.getDebugStream().println( "Attempting to establish connection..." );
 
 			formConnection = (HttpURLConnection) formURL.openConnection();
@@ -726,7 +728,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// that there was a timeout; return false and let the loop
 			// attempt to connect again
 
-			if ( !(this instanceof ChatRequest) )
+			if ( !isChatRequest )
 				KoLmafia.getDebugStream().println( "Error opening connection.  Retrying..." );
 
 			if ( this instanceof LoginRequest)
@@ -735,7 +737,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			return false;
 		}
 
-		if ( !(this instanceof ChatRequest) )
+		if ( !isChatRequest )
 			KoLmafia.getDebugStream().println( "Connection established." );
 
 		formConnection.setDoInput( true );
@@ -770,14 +772,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( data.isEmpty() )
 			return true;
 
-		if ( !(this instanceof ChatRequest) )
+		if ( !isChatRequest )
 			KoLmafia.getDebugStream().println( "Posting form data..." );
 
 		try
 		{
 			String dataString = getDataString( true );
 
-			if ( passwordHash != null && !(this instanceof ChatRequest) )
+			if ( passwordHash != null && !isChatRequest )
 				KoLmafia.getDebugStream().println( dataString.replaceAll( passwordHash, "" ) );
 
 			formConnection.setRequestMethod( "POST" );
@@ -788,14 +790,14 @@ public class KoLRequest implements Runnable, KoLConstants
 			ostream.close();
 			ostream = null;
 
-			if ( !(this instanceof ChatRequest) )
+			if ( !isChatRequest )
 				KoLmafia.getDebugStream().println( "Posting data posted." );
 
 			return true;
 		}
 		catch ( Exception e )
 		{
-			if ( !(this instanceof ChatRequest) )
+			if ( !isChatRequest )
 				KoLmafia.getDebugStream().println( "Connection timed out during post.  Retrying..." );
 
 			if ( this instanceof LoginRequest )
@@ -827,7 +829,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// one that results in something happening), or an error-type one
 			// (ie: maintenance).
 
-			if ( !(this instanceof ChatRequest) )
+			if ( !isChatRequest )
 				KoLmafia.getDebugStream().println( "Retrieving server reply..." );
 
 			responseText = "";
@@ -870,7 +872,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				return true;
 			}
 
-			if ( !(this instanceof ChatRequest) )
+			if ( !isChatRequest )
 				KoLmafia.getDebugStream().println( "Connection timed out during response.  Retrying..." );
 
 			// Add in an extra delay in the event of a time-out in
@@ -892,7 +894,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		boolean shouldStop = true;
 
-		if ( !(this instanceof ChatRequest) )
+		if ( !isChatRequest )
 			KoLmafia.getDebugStream().println( "Server response code: " + responseCode );
 
 		if ( responseCode >= 300 && responseCode <= 399 )
@@ -975,7 +977,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				else
 				{
-					if ( !(this instanceof ChatRequest) )
+					if ( !isChatRequest )
 						KoLmafia.getDebugStream().println( "Reading page content..." );
 
 					// Line breaks bloat the log, but they are important
@@ -995,13 +997,13 @@ public class KoLRequest implements Runnable, KoLConstants
 				// An Exception is clearly an error; here it will be reported
 				// to the client, but another attempt will be made
 
-				if ( !(this instanceof ChatRequest) )
+				if ( !isChatRequest )
 					KoLmafia.getDebugStream().println( "Error reading server reply.  Retrying..." );
 			}
 
 			responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
 
-			if ( !(this instanceof ChatRequest) )
+			if ( !isChatRequest )
 			{
 				// Remove password hash before logging and strip out
 				// all new lines to make debug logs easier to read.
@@ -1227,7 +1229,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( getClass() != KoLRequest.class || StaticEntity.getProperty( "makeBrowserDecisions" ).equals( "true" ) )
 			handleChoiceResponse( request );
 
-		this.responseCode = responseCode;
+		this.responseCode = request.responseCode;
 		this.responseText = request.responseText;
 		this.fullResponse = request.fullResponse;
 		this.formConnection = request.formConnection;
