@@ -67,6 +67,7 @@ public class AdventureDatabase extends KoLDatabase
 		AdventureDatabase.refreshZoneTable();
 		AdventureDatabase.refreshAdventureTable();
 		AdventureDatabase.refreshCombatsTable();
+		AdventureDatabase.refreshAdventureList();
 	}
 
 	public static final void refreshZoneTable()
@@ -400,7 +401,11 @@ public class AdventureDatabase extends KoLDatabase
 	}
 
 	public static KoLAdventure getAdventureByURL( String adventureURL )
-	{	return (KoLAdventure) adventureLookup.get( adventureURL );
+	{
+		if ( adventureLookup.isEmpty() )
+			refreshAdventureList();
+
+		return (KoLAdventure) adventureLookup.get( adventureURL );
 	}
 
 	/**
