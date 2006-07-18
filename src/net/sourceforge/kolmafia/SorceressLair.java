@@ -101,7 +101,7 @@ public abstract class SorceressLair extends StaticEntity
 	// Items for the hedge maze
 
 	public static final AdventureResult PUZZLE_PIECE = new AdventureResult( 727, 1 );
-	private static final AdventureResult HEDGE_KEY = new AdventureResult( 728, 1 );
+	public static final AdventureResult HEDGE_KEY = new AdventureResult( 728, 1 );
 
 	private static final AdventureResult BANJO_STRING = new AdventureResult( 52, 1 );
 	private static final AdventureResult [] CLOVER_WEAPONS = { new AdventureResult( 32, 1 ), new AdventureResult( 50, 1 ), new AdventureResult( 57, 1 ), new AdventureResult( 60, 1 ), new AdventureResult( 68, 1 ) };
@@ -995,6 +995,20 @@ public abstract class SorceressLair extends StaticEntity
 	{
 		if ( !checkPrerequisites( 4, 5 ) )
 			return 0;
+
+		// To avoid wasting turns, buy a can of hair spray before
+		// climbing the tower.  Also, if the person has an NG,
+		// make sure to construct it first.  If there are any
+		// tower items sitting in the closet or that have not
+		// been constructed, pull them out.
+
+		for ( int i = 0; i < GUARDIAN_DATA.length; ++i )
+		{
+			AdventureResult item = new AdventureResult( GUARDIAN_DATA[i][1], 1, false );
+			if ( !KoLCharacter.getInventory().contains( item ) )
+				if ( KoLCharacter.hasItem( item, true ) || NPCStoreDatabase.contains( GUARDIAN_DATA[i][1] ) )
+					AdventureDatabase.retrieveItem( item );
+		}
 
 		// Determine which level you actually need to start from.
 
