@@ -35,33 +35,23 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.CardLayout;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
 import java.awt.GridLayout;
-import java.awt.FlowLayout;
 
 // events
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.SwingUtilities;
 
 // containers
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
-import javax.swing.JTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
-import javax.swing.ImageIcon;
 
 // utilities
 import java.util.Arrays;
@@ -75,7 +65,6 @@ import java.util.regex.Matcher;
 
 import java.lang.ref.WeakReference;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.ChatBuffer;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -107,15 +96,18 @@ public class FamiliarTrainingFrame extends KoLFrame
 	private static final AdventureResult HEAVY_PETTING = new AdventureResult( "Heavy Petting", 0, true );
 
 	// Familiar buffing items
-	private static final AdventureResult PITH_HELMET = new AdventureResult( "plexiglass pith helmet", 0, false );
-	private static final AdventureResult LEAD_NECKLACE = new AdventureResult( "lead necklace", 0, false );
-	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( "rat head balloon", 0, false );
+	private static final AdventureResult BUFFING_SPRAY = new AdventureResult( 1512, 1 );
+	private static final AdventureResult PITH_HELMET = new AdventureResult( 1231, 1 );
+	private static final AdventureResult LEAD_NECKLACE = new AdventureResult( 865, 1 );
+	private static final AdventureResult RAT_HEAD_BALLOON = new AdventureResult( 1218, 1 );
+
+	private static final AdventureResult GREEN_SNOWCONE = new AdventureResult( 1413, 1 );
+	private static final AdventureResult BLACK_SNOWCONE = new AdventureResult( 1417, 1 );
 
 	private static final int firstTinyPlastic = 969;
 	private static final int lastTinyPlastic = 988;
 	private static final int firstTinyPlasticCrimbo = 1377;
 	private static final int lastTinyPlasticCrimbo = 1378;
-
 
 	// Available skills which affect weight
 	private static boolean sympathyAvailable;
@@ -300,9 +292,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 				matchup = new DisplayFrameButton( "View Matchup", CakeArenaFrame.class );
 				containerPanel.add( matchup );
-
-				changer = new LocalSettingChanger( "Buff-Casting", "castBuffsWhileTraining" );
-				containerPanel.add( changer );
 
 				containerPanel.add( new JLabel() );
 
@@ -568,7 +557,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private static boolean levelFamiliar( int goal, int type )
 	{
-		boolean buffs = StaticEntity.getProperty( "castBuffsWhileTraining" ).equals( "true" );
+		boolean buffs = type == BUFFED;
 		boolean debug = StaticEntity.getProperty( "debugFamiliarTraining" ).equals( "true" );
 		return levelFamiliar( goal, type, buffs, debug );
 	}
@@ -1010,8 +999,29 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			case BUFFED:
 			{
-				boolean goalReached = status.maxBuffedWeight() >= goal;
-				if ( goalReached || !KoLCharacter.canInteract() || goal != 20 )
+				int maxBuffedWeight = status.maxBuffedWeight();
+				boolean goalReached = maxBuffedWeight >= goal;
+
+				if ( goal != 20 )
+					return goalReached;
+
+				if ( maxBuffedWeight >= 15 && greenTongueActive == 0 && blackTongueActive == 0 )
+				{
+					if ( KoLCharacter.hasItem( GREEN_SNOWCONE, false ) )
+					{
+						DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
+						greenTongueActive = 20;
+						goalReached = true;
+					}
+					else if ( KoLCharacter.hasItem( BLACK_SNOWCONE, false ) )
+					{
+						DEFAULT_SHELL.executeLine( "use 1 black snowcone" );
+						blackTongueActive = 20;
+						goalReached = true;
+					}
+				}
+
+				if ( goalReached || !KoLCharacter.canInteract() )
 					return goalReached;
 
 				// If the player is currently out of Ronin, then they have
@@ -1019,7 +1029,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				// pet-buffing spray, empathy and a green snowcone, which will
 				// boost you straight to 20 pounds without any skills.
 
-				int poundsNeeded = goal - status.maxBuffedWeight();
+				int poundsNeeded = goal - maxBuffedWeight;
 
 				// If you're out of Ronin, pet-buffing spray is still
 				// available in the mall.  Check this option first.
@@ -1027,8 +1037,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( !heavyPettingAvailable && heavyPettingActive == 0 )
 				{
 					poundsNeeded -= 5;
-					DEFAULT_SHELL.executeLine( "buy Knob Goblin pet-buffing spray" );
-					status = new FamiliarStatus();
+					heavyPettingAvailable = true;
+//					DEFAULT_SHELL.executeBuyCommand( "1 Knob Goblin pet-buffing spray" );
 				}
 
 				if ( poundsNeeded <= 0 )
@@ -1041,8 +1051,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				{
 					poundsNeeded -= 5 - status.familiarItemWeight;
 					String familiarItem = FamiliarsDatabase.getFamiliarItem( status.getFamiliar().getID() );
-					DEFAULT_SHELL.executeLine( "buy " + familiarItem );
-					status = new FamiliarStatus();
+					DEFAULT_SHELL.executeBuyCommand( "1 " + familiarItem );
 				}
 
 				if ( poundsNeeded <= 0 )
@@ -1056,36 +1065,26 @@ public class FamiliarTrainingFrame extends KoLFrame
 					String plasticItem = TradeableItemDatabase.getItemName(
 						firstTinyPlastic + RNG.nextInt( lastTinyPlastic - firstTinyPlastic ) );
 
-					DEFAULT_SHELL.executeLine( "buy " + poundsNeeded + " " + plasticItem );
+					DEFAULT_SHELL.executeBuyCommand( poundsNeeded + " " + plasticItem );
 					status = new FamiliarStatus();
 					return true;
-				}
-
-				// Finally, if they need empathy, tell them that they
-				// should consider requesting it from a buffbot.
-
-				if ( !empathyAvailable && empathyActive == 0 )
-				{
-					stop = true;
-					statusMessage( ABORT_STATE, "Ask a buffbot for empathy?" );
-					return false;
 				}
 
 				// Otherwise, if it gets this far, you definitely need
 				// a snowcone; any other circumstance and you would have
-				// had enough to get by.  But, only buy a snowcone if
-				// you're really short on adventures.
+				// had enough to get by.
 
-				if ( KoLCharacter.getAdventuresLeft() < 10 )
-				{
-					DEFAULT_SHELL.executeLine( "buy green snowcone" );
-					status = new FamiliarStatus();
+				DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
+				poundsNeeded -= 5;
+
+				if ( poundsNeeded <= 0 )
 					return true;
-				}
 
-				// Now, the fall-through state is when the goal reached is
-				// definitely false.  Return this just to make certain.
+				// Finally, if they need empathy, tell them that they
+				// should consider requesting it from a buffbot.
 
+				stop = true;
+				statusMessage( ABORT_STATE, "Ask a buffbot for empathy?" );
 				return false;
 			}
 
@@ -1347,7 +1346,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
 			empathyAvailable = KoLCharacter.hasSkill( "Empathy of the Newt" );
 			leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
-			heavyPettingAvailable = NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
+			heavyPettingAvailable = KoLCharacter.getInventory().contains( BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
 
 			// Look at effects to decide which ones are active;
 			LockableListModel active = KoLCharacter.getEffects();
@@ -1813,7 +1812,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			if ( next.spray && !current.spray )
 			{
-				DEFAULT_SHELL.executeLine( "use Knob Goblin pet-buffing spray" );
+				DEFAULT_SHELL.executeLine( "use 1 Knob Goblin pet-buffing spray" );
 				heavyPettingActive += 10;
 			}
 		}
