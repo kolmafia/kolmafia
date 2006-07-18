@@ -595,8 +595,9 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( switchIn != -1 )
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchIn, -1 ) );
 
-			if ( switchOut != -1 )
-				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchOut, 1 ) );
+                        // Items will be found when we parse quest items
+			// if ( switchOut != -1 )
+			// 	AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchOut, 1 ) );
 		}
 	}
 
