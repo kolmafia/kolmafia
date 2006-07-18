@@ -891,18 +891,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					break;
 
 				case ConsumeItemRequest.CONSUME_USE:
-
-					if ( itemID == SorceressLair.PUZZLE_PIECE.getItemID() )
-					{
-						useType = "use";
-						useLocation = "hedgepuzzle.php";
-					}
-					else
-					{
-						useType = "use";
-						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
-					}
-
+					useType = "use";
+					useLocation = "inv_use.php?pwd=&which=3&whichitem=";
 					break;
 
 				case ConsumeItemRequest.EQUIP_HAT:
@@ -911,6 +901,19 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					useType = "equip";
 					useLocation = "inv_equip.php?pwd=&which=2&action=equip&whichitem=";
 					break;
+
+				default:
+
+					if ( itemID == SorceressLair.PUZZLE_PIECE.getItemID() )
+					{
+						useType = "maze";
+						useLocation = "hedgepuzzle.php";
+					}
+					else if ( itemID == SorceressLair.HEDGE_KEY.getItemID() )
+					{
+						useType = "maze";
+						useLocation = "hedgepuzzle.php";
+					}
 			}
 
 			if ( useType != null && useLocation != null )
