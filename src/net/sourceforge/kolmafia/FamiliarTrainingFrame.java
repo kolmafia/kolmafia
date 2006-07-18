@@ -1038,7 +1038,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 				{
 					poundsNeeded -= 5;
 					heavyPettingAvailable = true;
-//					DEFAULT_SHELL.executeBuyCommand( "1 Knob Goblin pet-buffing spray" );
+					DEFAULT_SHELL.executeBuyCommand( "1 Knob Goblin pet-buffing spray" );
 				}
 
 				if ( poundsNeeded <= 0 )
