@@ -1,10 +1,10 @@
 00	0	0	campground.php	rest	Rest at Campsite
 00	0	0	campground.php	relax	Relax in Beanbag
 
-01	13	0	shore.php	1	Muscle Vacation
-01	13	0	shore.php	2	Mysticality Vacation
-01	13	0	shore.php	3	Moxie Vacation
-01	13	0	adventure.php	45	South of the Border
+01	0	0	shore.php	1	Muscle Vacation
+01	0	0	shore.php	2	Mysticality Vacation
+01	0	0	shore.php	3	Moxie Vacation
+01	0	0	adventure.php	45	South of the Border
 
 02	0	0	sewer.php	0	Unlucky Sewer
 02	0	0	luckysewer.php	0	Sewer With Clovers
