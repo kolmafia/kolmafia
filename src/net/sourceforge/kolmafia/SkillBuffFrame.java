@@ -134,6 +134,7 @@ public class SkillBuffFrame extends KoLFrame
 						requests[i] = new UseSkillRequest( StaticEntity.getClient(), buffName, targets[i], buffCount );
 			}
 
+			amountField.setText( "" );
 			(new RequestThread( requests )).start();
 		}
 	}
