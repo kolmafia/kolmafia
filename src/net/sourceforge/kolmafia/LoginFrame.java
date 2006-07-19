@@ -76,25 +76,12 @@ public class LoginFrame extends KoLFrame
 	private SortedListModel saveStateNames;
 
 	public LoginFrame()
-	{	this( new SortedListModel() );
-	}
-
-	/**
-	 * Constructs a new <code>LoginFrame</code> which allows the user to
-	 * log into the Kingdom of Loathing.  The <code>LoginFrame</code>
-	 * assigns its <code>LoginPanel</code> as the content panel used by
-	 * <code>KoLPanel</code> and other classes for updating its display,
-	 * and derived classes may access the <code>LoginPanel</code> indirectly
-	 * in this fashion.
-	 */
-
-	public LoginFrame( SortedListModel saveStateNames )
 	{
 		super( VERSION_NAME + ": Login" );
 		tabs = new JTabbedPane();
 
 		this.saveStateNames = new SortedListModel();
-		this.saveStateNames.addAll( saveStateNames );
+		this.saveStateNames.addAll( StaticEntity.getClient().saveStateNames );
 
 		tabs.addTab( "KoL Login", constructLoginPanel() );
 

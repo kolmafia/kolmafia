@@ -1233,6 +1233,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.responseText = request.responseText;
 		this.fullResponse = request.fullResponse;
 		this.formConnection = request.formConnection;
+		this.processedResults = true;
 	}
 
 	/**

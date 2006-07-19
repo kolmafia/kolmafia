@@ -232,7 +232,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			KoLMessenger.dispose();
 			StaticEntity.closeSession();
-			KoLmafiaGUI.main( new String[0] );
+			(new CreateFrameRunnable( LoginFrame.class )).run();
 		}
 	}
 
