@@ -440,7 +440,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		// Figure out how many items were created
 
-		String itemName = TradeableItemDatabase.getItemName( itemID );
 		int createdQuantity = createdItem.getCount( KoLCharacter.getInventory() ) - beforeQuantity;
 
 		if ( createdQuantity > 0 )
@@ -757,5 +756,108 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		}
 
 		return 0;
+	}
+
+	public static boolean processRequest( KoLmafia client, String urlString )
+	{
+		// First, delegate subclasses, if it's a subclass request.
+
+		if ( urlString.indexOf( "starchart.php" ) != -1 )
+			return StarChartRequest.processRequest( client, urlString );
+
+		if ( urlString.indexOf( "action=makepixel" ) != -1 )
+			return PixelRequest.processRequest( client, urlString );
+
+		if ( urlString.indexOf( "action=tinksomething" ) != -1 )
+			return TinkerRequest.processRequest( client, urlString );
+
+		if ( urlString.indexOf( "action=makepaste" ) != -1 )
+			return CombineMeatRequest.processRequest( client, urlString );
+
+		// Now that we know it's not a special subclass instance,
+		// all we do is parse out the ingredients which were used
+		// and then print the attempt to the screen.
+
+		boolean usesTurns = false;
+		boolean isCreationURL = false;
+
+		StringBuffer command = new StringBuffer();
+		Matcher itemMatcher = Pattern.compile( "item\\d=(\\d+)" ).matcher( urlString );
+		Matcher quantityMatcher = Pattern.compile( "quantity=(\\d+)" ).matcher( urlString );
+
+		if ( urlString.indexOf( "combine.php" ) != -1 )
+		{
+			isCreationURL = true;
+			command.append( "Combine " );
+		}
+		else if ( urlString.indexOf( "cocktail.php" ) != -1 )
+		{
+			isCreationURL = true;
+			command.append( "Mix " );
+			usesTurns = KoLCharacter.hasBartender();
+		}
+		else if ( urlString.indexOf( "cook.php" ) != -1 )
+		{
+			isCreationURL = true;
+			command.append( "Cook " );
+			usesTurns = KoLCharacter.hasChef();
+		}
+		else if ( urlString.indexOf( "smith.php" ) != -1 )
+		{
+			isCreationURL = true;
+			command.append( "Smith " );
+			usesTurns = true;
+		}
+		else if ( urlString.indexOf( "jewelry.php" ) != -1 )
+		{
+			isCreationURL = true;
+			command.append( "Ply " );
+			usesTurns = true;
+		}
+		else if ( urlString.indexOf( "action=stillbooze" ) != -1 || urlString.indexOf( "action=stillfruit" ) != -1 )
+		{
+			isCreationURL = true;
+			command.append( "Distill " );
+			usesTurns = true;
+		}
+		else if ( urlString.indexOf( "action=wokcook" ) != -1 )
+		{
+			isCreationURL = true;
+			command.append( "Wok " );
+			usesTurns = true;
+		}
+		else if ( urlString.indexOf( "action=malussmash" ) != -1 )
+		{
+			isCreationURL = true;
+			command.append( "Pulverize " );
+			usesTurns = false;
+		}
+
+		if ( !isCreationURL )
+			return false;
+
+		boolean needsPlus = false;
+		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group(1) ) : 1;
+
+		while ( isCreationURL && itemMatcher.find() )
+		{
+			if ( needsPlus )
+				command.append( " + " );
+
+			int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
+
+			command.append( quantity );
+			command.append( ' ' );
+			command.append( TradeableItemDatabase.getItemName( itemID ) );
+
+			client.processResult( new AdventureResult( itemID, 0 - quantity ) );
+			needsPlus = true;
+		}
+
+		if ( usesTurns )
+			command.insert( 0, "[" + KoLCharacter.getTotalTurnsUsed() + "] " );
+
+		KoLmafia.sessionStream.println( command.toString() );
+		return true;
 	}
 }

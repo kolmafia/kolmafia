@@ -61,4 +61,8 @@ public class PixelRequest extends ItemCreationRequest
 		addFormField( "quantity", String.valueOf( getQuantityNeeded() ) );
 		super.run();
 	}
+
+	public static boolean processRequest( KoLmafia client, String urlString )
+	{	return true;
+	}
 }

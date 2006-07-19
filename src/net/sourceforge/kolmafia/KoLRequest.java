@@ -551,37 +551,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		totalInputLength = 0;
 
 		client.setCurrentRequest( this );
-
-		String commandForm = getCommandForm();
-		String urlString = getURLString();
-
-		if ( urlString.indexOf( "?" ) != -1 || urlString.indexOf( "sewer.php " ) != -1 )
-		{
-			if ( getClass() == KoLRequest.class || getClass() == LocalRelayRequest.class )
-			{
-				if ( urlString.indexOf( "adv=" ) != -1 )
-					urlString = urlString.replaceFirst( "adv=", "snarfblat=" );
-
-				KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
-
-				if ( adventure != null )
-					adventure.recordToSession();
-				else if ( urlString.indexOf( "dungeon.php" ) != -1 )
-					KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Daily Dungeon" );
-				else if ( urlString.indexOf( "sewer.php" ) != -1 )
-					KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Market Sewer" );
-				else if ( urlString.indexOf( "rats.php" ) != -1 )
-					KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Typical Tavern Quest" );
-				else if ( urlString.indexOf( "barrels.php" ) != -1 )
-					KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Barrel Full of Barrels" );
-				else if ( urlString.indexOf( "whichitem" ) != -1 )
-					ConsumeItemRequest.processRequest( client, urlString );
-				else if ( urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && !isChatRequest )
-					KoLmafia.getSessionStream().println( urlString );
-			}
-			else if ( !isDelayExempt() && !commandForm.equals( "" ) )
-				KoLmafia.getSessionStream().println( commandForm );
-		}
+		registerRequest();
 
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
@@ -617,6 +587,45 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 
 		client.setCurrentRequest( null );
+	}
+
+	protected void registerRequest()
+	{
+		String urlString = getURLString();
+
+		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php " ) == -1 )
+			return;
+
+		String commandForm = getCommandForm();
+
+		if ( !commandForm.equals( "" ) )
+		{
+			KoLmafia.getSessionStream().println( commandForm );
+			return;
+		}
+
+		if ( urlString.indexOf( "adv=" ) != -1 )
+			urlString = urlString.replaceFirst( "adv=", "snarfblat=" );
+
+		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
+
+		if ( adventure != null )
+			adventure.recordToSession();
+		else if ( urlString.indexOf( "dungeon.php" ) != -1 )
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Daily Dungeon" );
+		else if ( urlString.indexOf( "sewer.php" ) != -1 )
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Market Sewer" );
+		else if ( urlString.indexOf( "rats.php" ) != -1 )
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Typical Tavern Quest" );
+		else if ( urlString.indexOf( "barrels.php" ) != -1 )
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Barrel Full of Barrels" );
+		else
+		{
+			if ( ConsumeItemRequest.processRequest( client, urlString ) );
+			else if ( ItemCreationRequest.processRequest( client, urlString ) );
+			else if ( urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && !isChatRequest )
+				KoLmafia.getSessionStream().println( urlString );
+		}
 	}
 
 	private boolean shouldIgnoreResults()

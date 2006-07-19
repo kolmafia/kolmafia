@@ -97,6 +97,9 @@ public class UneffectRequest extends KoLRequest
 		if ( effectName.equals( "Empathy" ) )
 			return "Empathy of the Newt";
 
+		if ( effectName.equals( "Smooth Movements" ) )
+			return "Smooth Movement";
+
 		return effectName;
 	}
 
@@ -111,6 +114,9 @@ public class UneffectRequest extends KoLRequest
 
 		if ( skillName.equals( "Empathy of the Newt" ) )
 			return "Empathy";
+
+		if ( skillName.equals( "Smooth Movement" ) )
+			return "Smooth Movements";
 
 		return skillName;
 	}

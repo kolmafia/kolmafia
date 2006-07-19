@@ -33,9 +33,6 @@
  */
 
 package net.sourceforge.kolmafia;
-
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 
 /**
@@ -559,7 +556,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// If the test is successful, then it is safe to run the
 		// request (without spamming the server).
 
-		recordToSession();
 		request.run();
 		client.runBetweenBattleChecks();
 		postValidate();

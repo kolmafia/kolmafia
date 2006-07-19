@@ -99,4 +99,8 @@ public class StarChartRequest extends ItemCreationRequest
 		client.processResult( CHART );
 		client.processResult( new AdventureResult( getItemID(), 1 ) );
 	}
+
+	public static boolean processRequest( KoLmafia client, String urlString )
+	{	return true;
+	}
 }

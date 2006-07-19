@@ -75,4 +75,8 @@ public class TinkerRequest extends ItemCreationRequest
 		addFormField( "qty", String.valueOf( getQuantityNeeded() ) );
 		super.run();
 	}
+
+	public static boolean processRequest( KoLmafia client, String urlString )
+	{	return true;
+	}
 }

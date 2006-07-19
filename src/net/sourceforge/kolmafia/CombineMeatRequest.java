@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * A special class made to create meat paste.  This class
@@ -67,5 +69,20 @@ public class CombineMeatRequest extends ItemCreationRequest
 	{
 		client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * getQuantityNeeded() ) );
 		super.processResults();
+	}
+
+	public static boolean processRequest( KoLmafia client, String urlString )
+	{
+		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
+		if ( !itemMatcher.find() )
+			return false;
+
+		Matcher quantityMatcher = Pattern.compile( "quantity=(\\d+)" ).matcher( urlString );
+		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group(1) ) : 1;
+
+		KoLmafia.sessionStream.println( "Make " + quantity + " " +
+			TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) ) );
+
+		return true;
 	}
 }
