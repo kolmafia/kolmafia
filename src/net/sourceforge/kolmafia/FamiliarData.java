@@ -197,6 +197,7 @@ public class FamiliarData implements KoLConstants, Comparable
 			return 15;
 
 		case 1526:	// pet rock "Snooty" disguise
+		case 1678:	// pet rock "Groucho" disguise
 			return 11;
 
 		default:
