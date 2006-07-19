@@ -171,6 +171,13 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
+		if ( itemUsed.getCount() < 1 )
+			return;
+
+		int price = TradeableItemDatabase.getPriceByID( itemUsed.getItemID() );
+		if ( price > 0 )
+			AdventureDatabase.retrieveItem( itemUsed );
+
 		int iterations = 1;
 		if ( itemUsed.getCount() != 1 && consumptionType != ConsumeItemRequest.CONSUME_MULTIPLE && consumptionType != ConsumeItemRequest.CONSUME_RESTORE )
 		{
