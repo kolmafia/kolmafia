@@ -1347,15 +1347,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( meat > 0 )
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meat ) );
 
-		AdventureResult loseAdventure = new AdventureResult( AdventureResult.CHOICE, -1 );
-
-		if ( loseAdventure.getCount( client.getConditions() ) > 0 )
-		{
-			AdventureResult.addResultToList( client.getConditions(), loseAdventure );
-			if ( loseAdventure.getCount( client.getConditions() ) == 0 )
-				client.getConditions().remove( client.getConditions().indexOf( loseAdventure ) );
-		}
-
 		// Choice adventures can lead to other choice adventures
 		// without a redirect. Detect this and recurse, as needed.
 

@@ -610,7 +610,10 @@ public abstract class KoLmafia implements KoLConstants
 		// do nothing (eventhough it's technically bad style).
 
 		if ( trimResult.startsWith( "You gain a" ) || trimResult.startsWith( "You gain some" ) )
+		{
+			DEFAULT_SHELL.executeLine( "council" );
 			return false;
+		}
 
 		try
 		{
