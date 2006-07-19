@@ -39,14 +39,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
-import java.net.URLConnection;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.BufferedReader;
@@ -60,7 +58,6 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
@@ -610,8 +607,13 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !isDelayExempt() && !(this instanceof SearchMallRequest) )
 				showInBrowser( false );
 
-			if ( !shouldIgnoreResults() )
-				processResults();
+			if ( !processedResults )
+			{
+				if ( getClass() != KoLRequest.class && !(this instanceof LocalRelayRequest) )
+					processResults();
+				else if ( !shouldIgnoreResults() )
+					processResults();
+			}
 		}
 
 		client.setCurrentRequest( null );
@@ -619,7 +621,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean shouldIgnoreResults()
 	{
-		return processedResults || formURLString.startsWith( "http" ) || formURLString.startsWith( "messages.php" ) ||
+		return formURLString.startsWith( "http" ) || formURLString.startsWith( "messages.php" ) ||
 			formURLString.startsWith( "mall.php" ) || formURLString.startsWith( "searchmall.php" ) || formURLString.startsWith( "clan" ) ||
 			formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) || isChatRequest;
 	}
