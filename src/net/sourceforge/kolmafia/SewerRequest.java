@@ -73,6 +73,10 @@ public class SewerRequest extends KoLRequest
 
 	public void run()
 	{
+		AdventureDatabase.retrieveItem( GUM.getNegation() );
+		if ( !KoLmafia.permitsContinue() )
+			return;
+
 		if ( isLuckySewer )
 			runLuckySewer();
 		else
@@ -88,12 +92,6 @@ public class SewerRequest extends KoLRequest
 		if ( !client.isLuckyCharacter() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of ten-leaf clovers." );
-			return;
-		}
-
-		if ( !KoLCharacter.getInventory().contains( GUM ) )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
 			return;
 		}
 
@@ -152,15 +150,6 @@ public class SewerRequest extends KoLRequest
 		if ( client.isLuckyCharacter() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
-			return;
-		}
-
-		// The unlucky sewer adventure consumes one piece of gum per
-		// invocation.
-
-		if ( !KoLCharacter.getInventory().contains( GUM ) )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of chewing gum." );
 			return;
 		}
 

@@ -390,7 +390,6 @@ public class AdventureFrame extends KoLFrame
 			}
 
 			(new RequestThread( request, getValue( countField, 1 ) )).start();
-			countField.setText( "" );
 		}
 
 		protected void actionCancelled()

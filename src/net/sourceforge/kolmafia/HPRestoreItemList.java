@@ -51,12 +51,6 @@ import java.util.ArrayList;
 
 public abstract class HPRestoreItemList extends StaticEntity
 {
-	// Beaten-up removal restore tactics
-
-	public static final HPRestoreItem OTTER = new HPRestoreItem( "Tongue of the Otter", 15 );
-	private static final HPRestoreItem REMEDY = new HPRestoreItem( "soft green echo eyedrop antidote", 0 );
-	private static final HPRestoreItem TINY_HOUSE = new HPRestoreItem( "tiny house", 22 );
-
 	// Full restore tactics (skills and items which recover all health)
 
 	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
@@ -88,8 +82,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 	private static final HPRestoreItem CAMPING = new HPRestoreItem( "rest at campground", 4 );
 
 	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] {
-		OTTER, REMEDY, TINY_HOUSE, COCOON, SCROLL, HERBS,
-		WALRUS, BANDAGES, POWERNAP, NAP, PHONICS, CAST, ELIXIR, BALM, UNGUENT, OINTMENT, CAMPING };
+		COCOON, SCROLL, HERBS, WALRUS, BANDAGES, POWERNAP, NAP, PHONICS, CAST, ELIXIR, BALM, UNGUENT, OINTMENT, CAMPING };
 
 	public static JCheckBox [] getCheckboxes()
 	{
@@ -107,7 +100,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 	public static class HPRestoreItem
 	{
-		private int skillID;
 		private String itemName;
 		private int hpPerUse;
 		private AdventureResult itemUsed;
@@ -116,7 +108,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 		{
 			this.itemName = itemName;
 			this.hpPerUse = hpPerUse;
-			this.skillID = ClassSkillsDatabase.getSkillID( itemName );
 			this.itemUsed = TradeableItemDatabase.contains( itemName ) ? new AdventureResult( itemName, 0 ) : null;
 		}
 
@@ -129,42 +120,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 			if ( this == CAMPING )
 			{
 				DEFAULT_SHELL.executeLine( "rest" );
-				return;
-			}
-
-			// Remedies are only used if the player is beaten up.
-			// Otherwise, it is not used.
-
-			if ( this == REMEDY )
-			{
-				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
-				{
-					boolean canUneffect = KoLCharacter.canInteract() && StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" );
-					canUneffect |= UneffectRequest.REMEDY.getCount( KoLCharacter.getInventory() ) > 0;
-
-					if ( canUneffect && KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
-						(new UneffectRequest( client, KoLAdventure.BEATEN_UP )).run();
-				}
-
-				return;
-			}
-
-			if ( this == TINY_HOUSE )
-			{
-				boolean canUneffect = KoLCharacter.canInteract() && StaticEntity.getProperty( "autoSatisfyChecks" ).equals( "true" );
-				canUneffect |= UneffectRequest.TINY_HOUSE.getCount( KoLCharacter.getInventory() ) > 0;
-
-				if ( canUneffect && KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) )
-					(new ConsumeItemRequest( client, new AdventureResult( "tiny house", 1 ) )).run();
-
-				return;
-			}
-
-			if ( this == OTTER )
-			{
-				if ( KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP ) && KoLCharacter.hasSkill( "Tongue of the Otter" ) )
-					(new UseSkillRequest( client, "Tongue of the Otter", "", 1 )).run();
-
 				return;
 			}
 
