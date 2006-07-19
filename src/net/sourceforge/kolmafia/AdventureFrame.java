@@ -389,13 +389,13 @@ public class AdventureFrame extends KoLFrame
 					countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 			}
 
-			(new RequestThread( request, getValue( countField ) )).start();
+			(new RequestThread( request, getValue( countField, 1 ) )).start();
 			countField.setText( "" );
 		}
 
 		protected void actionCancelled()
 		{
-			StaticEntity.getClient().declareWorldPeace();
+			KoLmafia.declareWorldPeace();
 			locationSelect.requestFocus();
 		}
 
