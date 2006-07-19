@@ -553,25 +553,11 @@ public class AdventureDatabase extends KoLDatabase
 
 			int price = TradeableItemDatabase.getPriceByID( item.getItemID() );
 
-			boolean shouldPurchase = price != 0 && price != -1;
+			boolean shouldPurchase = price > 0;
 			boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
 
-			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemID() );
+			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) || ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.PIXEL;
 			boolean shouldUseMall = getProperty( "autoSatisfyChecks" ).equals( "true" );
-
-			switch ( ConcoctionsDatabase.getMixingMethod( item.getItemID() ) )
-			{
-				case ItemCreationRequest.COOK:
-				case ItemCreationRequest.COOK_REAGENT:
-				case ItemCreationRequest.SUPER_REAGENT:
-				case ItemCreationRequest.COOK_PASTA:
-				case ItemCreationRequest.MIX:
-				case ItemCreationRequest.MIX_SPECIAL:
-				case ItemCreationRequest.MIX_SUPER:
-				case ItemCreationRequest.PIXEL:
-
-					shouldAutoSatisfyEarly = true;
-			}
 
 			if ( shouldPurchase && shouldAutoSatisfyEarly )
 			{
