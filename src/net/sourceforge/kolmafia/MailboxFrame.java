@@ -132,11 +132,6 @@ public class MailboxFrame extends KoLFrame implements ChangeListener
 			toolbarPanel.add( new DeleteButton() );
 			toolbarPanel.add( new RefreshButton() );
 		}
-
-		if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
-			(new RequestMailboxThread( "Inbox" )).start();
-		else
-			mailBuffer.append( "You are currently adventuring, so the mailbox won't be loaded." );
 	}
 
 	public void setEnabled( boolean isEnabled )
