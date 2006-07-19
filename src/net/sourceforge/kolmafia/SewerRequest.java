@@ -180,10 +180,13 @@ public class SewerRequest extends KoLRequest
 	{
 		super.processResults();
 
-		if ( client.isLuckyCharacter() )
-			client.processResult( CLOVER );
+		if ( hasCost )
+		{
+			if ( client.isLuckyCharacter() )
+				client.processResult( CLOVER );
 
-		client.processResult( GUM );
+			client.processResult( GUM );
+		}
 	}
 
 	/**
