@@ -2638,8 +2638,15 @@ public class KoLmafiaCLI extends KoLmafia
 		// the amount, if the amount is 1.
 
 		List matchingNames = new ArrayList();
+		matchingNames.addAll( TradeableItemDatabase.getMatchingNames( parameters ) );
+		if ( !matchingNames.isEmpty() )
+		{
+			String itemName = (String) matchingNames.get(0);
+			if ( itemName.indexOf( parameters ) == -1 )
+				matchingNames.clear();
+		}
 
-		if ( parameters.indexOf( " " ) != -1 )
+		if ( matchingNames.isEmpty() )
 		{
 			boolean isNumeric = true;
 			for ( int i = 0; i < parameters.length() && parameters.charAt(i) != ' '; ++i )
@@ -2660,53 +2667,8 @@ public class KoLmafiaCLI extends KoLmafia
 		// Next, check to see if any of the items matching appear
 		// in an NPC store.  If so, automatically default to it.
 
-		if ( !matchingNames.isEmpty() )
-		{
+		if ( !matchingNames.isEmpty() && itemID == -1 )
 			itemID = getFirstMatchingItemID( matchingNames );
-		}
-		else if ( parameters.indexOf( " " ) == -1 )
-		{
-			updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
-			return null;
-		}
-		else
-		{
-			String itemCountString = parameters.split( " " )[0];
-			String itemNameString = parameters.substring( itemCountString.length() ).trim();
-
-			matchingNames = TradeableItemDatabase.getMatchingNames( itemNameString );
-
-			if ( matchingNames.isEmpty() )
-			{
-				updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
-				return null;
-			}
-
-			itemID = getFirstMatchingItemID( matchingNames );
-
-			// Make sure what you're attempting to parse is a
-			// number -- if it's not, then the person was trying
-			// to match the full substring.
-
-			if ( itemCountString.equals( "*" ) )
-			{
-				itemCount = 0;
-			}
-			else
-			{
-				for ( int i = 0; i < itemCountString.length(); ++i )
-				{
-					char c = itemCountString.charAt(i);
-					if ( !Character.isDigit( c ) && c != '-' && c != '+' )
-					{
-						updateDisplay( ERROR_STATE, "[" + parameters + "] does not match anything in the item database." );
-						return null;
-					}
-				}
-
-				itemCount = StaticEntity.parseInt( itemCountString );
-			}
-		}
 
 		if ( itemID == -1 )
 		{
