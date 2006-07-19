@@ -383,6 +383,14 @@ basic meat sword	4	sword hilt	meat stack
 basic meat foon	4	foon	meat stack
 basic meat spork	4	meat stack	spork
 
+bubblewrap sword	4	basic meat sword	bubblewrap ore
+bubblewrap staff	4	basic meat staff	bubblewrap ore
+bubblewrap crossbow	4	basic meat crossbow	bubblewrap ore
+
+cardboard sword	4	basic meat sword	cardboard ore
+cardboard staff	4	basic meat staff	cardboard ore
+cardboard crossbow	4	basic meat crossbow	cardboard ore
+
 chrome crossbow	13	chrome crossbow string	chrome meat stack
 chrome staff	13	chrome stick	chrome meat stack
 chrome sword	13	chrome sword hilt	chrome meat stack
@@ -402,6 +410,10 @@ Kentucky-fried meat sword	4	secret blend of herbs and spices	basic meat sword
 linoleum crossbow	13	linoleum meat stack	linoleum crossbow string
 linoleum staff	13	linoleum meat stack	linoleum stick
 linoleum sword	13	linoleum meat stack	linoleum sword hilt
+
+styrofoam sword	4	basic meat sword	styrofoam ore
+styrofoam staff	4	basic meat staff	styrofoam ore
+styrofoam crossbow	4	basic meat crossbow	styrofoam ore
 
 hippo whip	13	hippopotamus skin	whip kit
 penguin whip	13	penguin skin	whip kit
