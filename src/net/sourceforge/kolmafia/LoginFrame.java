@@ -564,7 +564,7 @@ public class LoginFrame extends KoLFrame
 			toolbars.addItem( "Put toolbar along left of panel" );
 
 			scripts = new JComboBox();
-			scripts.addItem( "Do no show script bar on main interface" );
+			scripts.addItem( "Do not show script bar on main interface" );
 			scripts.addItem( "Put script bar after normal toolbar" );
 			scripts.addItem( "Put script bar along right of panel" );
 
