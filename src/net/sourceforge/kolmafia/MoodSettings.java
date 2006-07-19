@@ -446,24 +446,37 @@ public abstract class MoodSettings implements KoLConstants
 		// Tongues require snowcones
 
 		if ( name.endsWith( "Tongue" ) )
-			return "use " + name.substring( 0, name.indexOf( " " ) ).toLowerCase() + " snowcone";
+			return "use 1 " + name.substring( 0, name.indexOf( " " ) ).toLowerCase() + " snowcone";
+
+		// Cupcake effects require cupcakes
+
+		if ( name.equals( "Cupcake of Choice" ) )
+			return "use 1 blue-frosted astral cupcake";
+		if ( name.equals( "The Cupcake of Wrath" ) )
+			return "use 1 green-frosted astral cupcake";
+		if ( name.equals( "Shiny Happy Cupcake" ) )
+			return "use 1 orange-frosted astral cupcake";
+		if ( name.equals( "Your Cupcake Senses Are Tingling" ) )
+			return "use 1 pink-frosted astral cupcake";
+		if ( name.equals( "Tiny Bubbles in the Cupcake" ) )
+			return "use 1 purple-frosted astral cupcake";
 
 		// Laboratory effects
 
 		if ( name.equals( "Wasabi Sinuses" ) )
-			return "use Knob Goblin nasal spray";
+			return "use 1 Knob Goblin nasal spray";
 
 		if ( name.equals( "Peeled Eyeballs" ) )
-			return "use Knob Goblin eyedrops";
+			return "use 1 Knob Goblin eyedrops";
 
 		if ( name.equals( "Sharp Weapon" ) )
-			return "use Knob Goblin sharpening spray";
+			return "use 1 Knob Goblin sharpening spray";
 
 		if ( name.equals( "Heavy Petting" ) )
-			return "use Knob Goblin pet-buffing spray";
+			return "use 1 Knob Goblin pet-buffing spray";
 
 		if ( name.equals( "Big Veiny Brain" ) )
-			return "use Knob Goblin learning pill";
+			return "use 1 Knob Goblin learning pill";
 
 		// Finally, fall back on skills
 
@@ -575,7 +588,9 @@ public abstract class MoodSettings implements KoLConstants
 			}
 			else if ( triggerType.equals( "lose_effect" ) )
 			{
-				shouldExecute = effect.getCount( KoLCharacter.getEffects() ) < 2;
+				shouldExecute = action.indexOf( "cupcake" ) != -1 || action.indexOf( "snowcone" ) != -1 ?
+					!KoLCharacter.getEffects().contains( effect ) : effect.getCount( KoLCharacter.getEffects() ) < 2;
+
 				shouldExecute &= !triggerName.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
 			}
 
