@@ -57,9 +57,6 @@ import java.lang.ref.WeakReference;
 
 public class KoLmafiaGUI extends KoLmafia
 {
-	private CreateFrameRunnable displayer;
-	private LimitedSizeChatBuffer buffer;
-
 	/**
 	 * The main method.  Currently, it instantiates a single instance
 	 * of the <code>KoLmafia</code> client after setting the default
@@ -75,12 +72,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		KoLmafiaGUI session = new KoLmafiaGUI();
 		StaticEntity.setClient( session );
-
-		Object [] parameters = new Object[1];
-		parameters[0] = session.saveStateNames;
-
-		session.displayer = new CreateFrameRunnable( LoginFrame.class, parameters );
-		session.displayer.run();
+		(new CreateFrameRunnable( LoginFrame.class )).run();
 	}
 
 	/**
@@ -150,21 +142,16 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 		}
 
-		// If you've already loaded an adventure frame,
-		// or the login failed, then there's nothing left
-		// to do.  Return from the method.
-
-		if ( !(displayer.getCreation() instanceof LoginFrame) )
-			return;
-
 		// Figure out which user interface is being
 		// used -- account for minimalist loadings.
 
-		LoginFrame loginWindow = (LoginFrame) displayer.getCreation();
-		loginWindow.setVisible( false );
-
-		displayer = new CreateFrameRunnable( AdventureFrame.class );
-		loginWindow.dispose();
+		Object [] frames = existingFrames.toArray();
+		for ( int i = 0; i < frames.length; ++i )
+			if ( frames[i] instanceof LoginFrame )
+			{
+				((LoginFrame)frames[i]).setVisible( false );
+				((LoginFrame)frames[i]).dispose();
+			}
 
 		if ( KoLMailManager.hasNewMessages() )
 			updateDisplay( "You have new mail." );
@@ -201,8 +188,7 @@ public class KoLmafiaGUI extends KoLmafia
 		try
 		{
 			Class associatedClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
-			CreateFrameRunnable displayer = new CreateFrameRunnable( associatedClass );
-			displayer.run();
+			(new CreateFrameRunnable( associatedClass )).run();
 		}
 		catch ( ClassNotFoundException e )
 		{

@@ -52,4 +52,30 @@ public class LogoutRequest extends KoLRequest
 	public LogoutRequest( KoLmafia client )
 	{	super( client, "logout.php", true );
 	}
+
+	public void run()
+	{
+		// Remove all of the frames which may have been loaded;
+		// this ensures a forced reload of the frame which will
+		// keep the parameters fresh.
+
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		for ( int i = 0; i < frames.length; ++i )
+			if ( !(frames[i] instanceof LoginFrame) )
+				frames[i].dispose();
+
+		if ( KoLDesktop.instanceExists() )
+			KoLDesktop.getInstance().setVisible( false );
+
+		super.run();
+
+		ConcoctionsDatabase.getConcoctions().clear();
+		BuffBotHome.setBuffBotActive( false );
+		KoLmafia.closeMacroStream();
+
+		KoLCharacter.reset( "" );
+		StaticEntity.getClient().deinitialize();
+	}
 }

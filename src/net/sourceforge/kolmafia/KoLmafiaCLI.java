@@ -651,26 +651,10 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) )
 		{
+			(new LogoutRequest( StaticEntity.getClient() )).run();
 			String password = StaticEntity.getClient().getSaveState( parameters );
 			if ( password != null )
-			{
-				// Remove all of the frames which may have been loaded;
-				// this ensures a forced reload of the frame which will
-				// keep the parameters fresh.
-
-				KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-				existingFrames.toArray( frames );
-
-				for ( int i = 0; i < frames.length; ++i )
-					if ( !(frames[i] instanceof LoginFrame) )
-						frames[i].dispose();
-
-				if ( KoLDesktop.instanceExists() )
-					KoLDesktop.getInstance().setVisible( false );
-
-				StaticEntity.getClient().deinitialize();
 				(new LoginRequest( StaticEntity.getClient(), parameters, password )).run();
-			}
 			else
 				updateDisplay( ERROR_STATE, "No password saved for that username." );
 
