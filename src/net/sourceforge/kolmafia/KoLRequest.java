@@ -610,12 +610,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !isDelayExempt() && !(this instanceof SearchMallRequest) )
 				showInBrowser( false );
 
-			if ( getClass() == KoLRequest.class || this instanceof LocalRelayRequest )
-			{
-				if ( !shouldIgnoreResults() )
-					processResults();
-			}
-			else
+			if ( !shouldIgnoreResults() )
 				processResults();
 		}
 
@@ -624,9 +619,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private boolean shouldIgnoreResults()
 	{
-		return formURLString.startsWith( "http" ) || formURLString.startsWith( "messages.php" ) || formURLString.startsWith( "mall.php" ) ||
-			formURLString.startsWith( "searchmall.php" ) || formURLString.startsWith( "clan" ) ||
-			formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) || isChatRequest || processedResults;
+		return processedResults || formURLString.startsWith( "http" ) || formURLString.startsWith( "messages.php" ) ||
+			formURLString.startsWith( "mall.php" ) || formURLString.startsWith( "searchmall.php" ) || formURLString.startsWith( "clan" ) ||
+			formURLString.startsWith( "manage" ) || formURLString.startsWith( "sell" ) || isChatRequest;
 	}
 
 	/**
