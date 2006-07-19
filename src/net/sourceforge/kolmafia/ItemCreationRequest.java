@@ -336,6 +336,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			return;
 		}
 
+		AdventureDatabase.retrieveItem( input.getInstance( quantityNeeded ) );
+
 		// If we have the correct tool, use it to
 		// create the needed dough type.
 
@@ -365,7 +367,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		String name = output.getName();
 		ConsumeItemRequest request = new ConsumeItemRequest( client, input );
-		AdventureDatabase.retrieveItem( input.getInstance( quantityNeeded ) );
 
 		for ( int i = 1; KoLmafia.permitsContinue() && i <= quantityNeeded; ++i )
 		{
