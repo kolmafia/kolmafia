@@ -1443,11 +1443,10 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Campground commands, like retrieving toast, relaxing
-		// at the beanbag, resting at your house/tent, and visiting
-		// the evil golden arches.
+		// Campground commands, like relaxing at the beanbag, or
+		// resting at your house/tent.
 
-		if ( command.equals( "toast" ) || command.equals( "rest" ) || command.equals( "relax" ) || command.equals( "arches" ) )
+		if ( command.equals( "rest" ) || command.equals( "relax" ) )
 		{
 			executeCampgroundRequest( command + " " + parameters );
 			return;

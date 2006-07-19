@@ -90,8 +90,6 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( KoLRequest.passwordHash != null && !isQuickLogin )
 		{
-			(new MailboxRequest( this, "Inbox" )).run();
-
 			if ( StaticEntity.getProperty( "retrieveContacts" ).equals( "true" ) )
 			{
 				(new ContactListRequest( this )).run();
@@ -171,8 +169,18 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "MailboxFrame" ) )
 		{
-			if ( KoLMailManager.getMessages( "Inbox" ).isEmpty() )
+			if ( !StaticEntity.getClient().shouldMakeConflictingRequest() )
+			{
+				updateDisplay( "You are currently adventuring." );
 				return;
+			}
+
+			(new MailboxRequest( StaticEntity.getClient(), "Inbox" )).run();
+			if ( KoLMailManager.getMessages( "Inbox" ).isEmpty() )
+			{
+				updateDisplay( "Your mailbox is empty." );
+				return;
+			}
 		}
 		else if ( frameName.equals( "EventsFrame" ) )
 		{
