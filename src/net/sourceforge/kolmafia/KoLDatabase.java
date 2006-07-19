@@ -167,7 +167,6 @@ public class KoLDatabase extends StaticEntity
 	private static final List getMatchingAbbreviations( Map nameMap, String substring )
 	{
 		List substringList = new ArrayList();
-		String searchString = getCanonicalName( substring.startsWith( "\"" ) ? substring.substring( 1, substring.length() - 1 ) : substring ).trim();
 
 		if ( substring.length() == 0 )
 			return substringList;
@@ -179,7 +178,11 @@ public class KoLDatabase extends StaticEntity
 		{
 			int searchIndex = 0;
 			for ( int j = 0; j < substring.length() && searchIndex != -1; ++j )
+			{
 				searchIndex = names[i].indexOf( substring.charAt(j), searchIndex );
+				if ( searchIndex > -1 )
+					++searchIndex;
+			}
 
 			if ( searchIndex != -1 )
 				substringList.add( names[i] );
