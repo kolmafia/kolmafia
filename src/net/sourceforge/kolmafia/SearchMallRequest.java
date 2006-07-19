@@ -227,6 +227,12 @@ public class SearchMallRequest extends KoLRequest
 				return;
 			}
 
+			if ( itemNames.size() == 1 )
+			{
+				searchString = "\"" + itemNames.get(0) + "\"";
+				addFormField( "whichitem", this.searchString );
+			}
+
 			KoLmafia.updateDisplay( "Searching for items..." );
 		}
 
