@@ -715,8 +715,10 @@ public class ConsumeItemRequest extends KoLRequest
 
 		AdventureResult itemUsed = null;
 		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
-		if ( itemMatcher.find() )
-			itemUsed = new AdventureResult( StaticEntity.parseInt( itemMatcher.group(1) ), 1 );
+		if ( !itemMatcher.find() )
+			return false;
+
+		itemUsed = new AdventureResult( StaticEntity.parseInt( itemMatcher.group(1) ), 1 );
 
 		if ( urlString.indexOf( "multiuse.php" ) != -1 || urlString.indexOf( "skills.php" ) != -1 )
 		{
