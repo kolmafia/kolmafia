@@ -237,7 +237,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		}
 
 		KoLRequest request = null;
-		DEFAULT_SHELL.executeLine( "council" );
 
 		// The beach is unlocked provided the player has the meat car
 		// accomplishment and a meatcar in inventory.
