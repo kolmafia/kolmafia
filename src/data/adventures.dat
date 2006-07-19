@@ -77,12 +77,12 @@
 12	53	0	adventure.php	63	eXtreme Slope
 12	53	0	adventure.php	64	Icy Peak
 
-13	13	30	adventure.php	26	Hippy Camp
-13	13	30	adventure.php	65	Hippy Camp In Disguise
-13	13	30	adventure.php	27	Frat House
-13	13	30	adventure.php	29	Frat House In Disguise
-13	13	45	adventure.php	66	Pirate Cove
-13	13	45	adventure.php	67	Pirate Cove In Disguise
+13	0	30	adventure.php	26	Hippy Camp
+13	0	30	adventure.php	65	Hippy Camp In Disguise
+13	0	30	adventure.php	27	Frat House
+13	0	30	adventure.php	29	Frat House In Disguise
+13	0	45	adventure.php	66	Pirate Cove
+13	0	45	adventure.php	67	Pirate Cove In Disguise
 
 14	85	90	adventure.php	81	Penultimate Fantasy Airship
 14	85	95	adventure.php	82	Castle in the Clouds in the Sky
