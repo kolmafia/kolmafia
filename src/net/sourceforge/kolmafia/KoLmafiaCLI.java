@@ -73,7 +73,7 @@ public class KoLmafiaCLI extends KoLmafia
 	public static final int FOOD = 4;
 	public static final int BOOZE = 5;
 
-	private static String previousLine;
+	private String previousLine;
 	private BufferedReader commandStream;
 
 	private KoLmafiaCLI lastScript;
@@ -842,7 +842,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( parameters.endsWith( "refresh" ) )
+		if ( parameters.equals( "refresh" ) )
 		{
 			parameters = command;
 			command = "refresh";
@@ -863,6 +863,7 @@ public class KoLmafiaCLI extends KoLmafia
 			else if ( parameters.equals( "familiar" ) || parameters.equals( "terrarium" ) )
 				(new FamiliarRequest( StaticEntity.getClient() )).run();
 
+			executePrintCommand( parameters );
 			return;
 		}
 
@@ -2610,7 +2611,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * specify an item quantity before the string.
 	 */
 
-	public static AdventureResult getFirstMatchingItem( String parameters )
+	public AdventureResult getFirstMatchingItem( String parameters )
 	{
 		boolean isCreationMatch = previousLine != null && previousLine.startsWith( "create" );
 

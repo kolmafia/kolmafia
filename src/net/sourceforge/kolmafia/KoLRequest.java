@@ -91,6 +91,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		{ "www3.kingdomofloathing.com", "69.16.150.198" },
 		{ "www4.kingdomofloathing.com", "69.16.150.199" },
 		{ "www5.kingdomofloathing.com", "69.16.150.200" },
+		{ "www6.kingdomofloathing.com", "69.16.150.205" },
+		{ "www7.kingdomofloathing.com", "69.16.150.206" },
+		{ "www8.kingdomofloathing.com", "69.16.150.207" },
 	};
 
 	public static final int SERVER_COUNT = SERVERS.length;
