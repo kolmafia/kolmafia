@@ -2297,7 +2297,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// originally were dual-wielding, unequip the offhand
 		// weapon first.
 
-		if ( KoLCharacter.dualWielding() )
+		if ( KoLCharacter.dualWielding() && (slot == KoLCharacter.WEAPON || slot == KoLCharacter.OFFHAND) )
 		{
 			boolean desiredType = EquipmentDatabase.isRanged( match.getItemID() );
 			boolean currentType = EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );

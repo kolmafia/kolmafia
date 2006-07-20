@@ -212,6 +212,9 @@ public class EquipmentRequest extends PasswordHashRequest
 				if ( !force && KoLCharacter.dualWielding() )
 				{
 					String offhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
+					if ( offhand == null )
+						return "equip";
+
 					if ( EquipmentDatabase.isRanged( itemID ) && !EquipmentDatabase.isRanged( offhand ) )
 					{
 						error = "You can't equip a ranged weapon in your main hand with a melee weapon in your off-hand.";
@@ -339,14 +342,19 @@ public class EquipmentRequest extends PasswordHashRequest
 			return KoLCharacter.FAMILIAR;
 
 		case ConsumeItemRequest.EQUIP_ACCESSORY:
-			if ( KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY1 ).equals( UNEQUIP ) )
+		{
+			if ( KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY1 ) == null )
 				return KoLCharacter.ACCESSORY1;
-			if ( KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY2 ).equals( UNEQUIP ) )
+
+			if ( KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY2 ) == null )
 				return KoLCharacter.ACCESSORY2;
-			if ( KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY3 ).equals( UNEQUIP ) )
+
+			if ( KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY3 ) == null )
 				return KoLCharacter.ACCESSORY3;
+
 			// All accessory slots are in use. Pick #1
 			return KoLCharacter.ACCESSORY1;
+		}
 
 		default:
 			return -1;
@@ -478,7 +486,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				break;
 
 			case REMOVE_ITEM:
-				String item = KoLCharacter.getCurrentEquipmentName( equipmentSlot);
+				String item = KoLCharacter.getCurrentEquipmentName( equipmentSlot );
 				if ( item == null )
 					return;
 
