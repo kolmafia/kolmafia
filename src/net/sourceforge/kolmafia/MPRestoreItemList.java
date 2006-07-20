@@ -33,16 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
-
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
-
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JCheckBox;
-import javax.swing.JScrollPane;
-
-import java.util.ArrayList;
 
 /**
  * A special class used as a holder class to hold all of the
@@ -51,14 +42,18 @@ import java.util.ArrayList;
 
 public abstract class MPRestoreItemList extends StaticEntity
 {
+	private static final MPRestoreItem GALAKTIK = new MPRestoreItem( "Galaktik's Fizzy Invigorating Tonic", Integer.MAX_VALUE );
+	private static final MPRestoreItem CAMPING = new MPRestoreItem( "rest at campground", Integer.MAX_VALUE );
+	private static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in beanbag", Integer.MAX_VALUE );
 	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
-		new MPRestoreItem( "Dyspepsi-Cola", 12 ), new MPRestoreItem( "Cloaca-Cola", 12 ),
-		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "Knob Goblin superseltzer", 27 ),
-		new MPRestoreItem( "blatantly Canadian", 22 ), new MPRestoreItem( "tonic water", 40 ),
-		MYSTERY_JUICE, new MPRestoreItem( "Knob Goblin seltzer", 10 ),
+		GALAKTIK, new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ),
+		new MPRestoreItem( "Knob Goblin superseltzer", 27 ), new MPRestoreItem( "Blatantly Canadian", 22 ),
+		new MPRestoreItem( "tiny house", 22 ), new MPRestoreItem( "Dyspepsi-Cola", 12 ),
+		new MPRestoreItem( "Cloaca-Cola", 12 ), new MPRestoreItem( "Mountain Stream soda", 8 ),
+		BEANBAG, CAMPING, MYSTERY_JUICE, new MPRestoreItem( "Knob Goblin seltzer", 10 ),
 		new MPRestoreItem( "Cherry Cloaca Cola", 8 ), new MPRestoreItem( "soda water", 4 )
 	};
 
@@ -70,7 +65,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		for ( int i = 0; i < CONFIGURES.length; ++i )
 		{
 			restoreCheckbox[i] = new JCheckBox( CONFIGURES[i].toString() );
-			restoreCheckbox[i].setSelected( mpRestoreSetting.indexOf( CONFIGURES[i].toString() ) != -1 );
+			restoreCheckbox[i].setSelected( mpRestoreSetting.indexOf( CONFIGURES[i].toString().toLowerCase() ) != -1 );
 		}
 
 		return restoreCheckbox;
@@ -95,6 +90,24 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 		public void recoverMP( int needed )
 		{
+			if ( this == GALAKTIK )
+			{
+				DEFAULT_SHELL.executeLine( "galaktik mp" );
+				return;
+			}
+
+			if ( this == CAMPING )
+			{
+				DEFAULT_SHELL.executeLine( "rest" );
+				return;
+			}
+
+			if ( this == BEANBAG )
+			{
+				DEFAULT_SHELL.executeLine( "relax" );
+				return;
+			}
+
 			if ( this == MYSTERY_JUICE )
 			{
 				// The restore rate on magical mystery juice changes
