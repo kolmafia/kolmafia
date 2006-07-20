@@ -243,7 +243,7 @@ public abstract class SendMessageRequest extends KoLRequest
 				else
 					AdventureResult.addResultToList( source, ((AdventureResult)attachments[i]).getNegation() );
 
-				if ( source == KoLCharacter.getStorage() && destination == KoLCharacter.getInventory() )
+				if ( source == KoLCharacter.getStorage() && destination == KoLCharacter.getInventory() && KoLCharacter.canInteract() )
 					KoLCharacter.processResult( (AdventureResult) attachments[i] );
 				else if ( destination == KoLCharacter.getInventory() )
 					client.processResult( (AdventureResult) attachments[i] );

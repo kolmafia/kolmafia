@@ -274,49 +274,42 @@ public class KoLSettings extends Properties implements UtilityConstants
 		// Ensure that they exist, and if they do not, load
 		// them to their default settings.
 
-		// KoL no longer allows you to "ignore" a choice adventure,
-		// although some of them have a setting that is the equivalent
-		// of "ignore".
-
-		// Choices that have an "ignore" setting: use ensureProperty
-		// Choices that have no "ignore" setting: use ensureNonZeroProperty
-
-		CLIENT_SETTINGS.put( "choiceAdventure2", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure3", "3" );
-		CLIENT_SETTINGS.put( "choiceAdventure4", "3" );
-		CLIENT_SETTINGS.put( "choiceAdventure5", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure7", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure8", "3" );
-		CLIENT_SETTINGS.put( "choiceAdventure9", "1" );
-		CLIENT_SETTINGS.put( "choiceAdventure10", "1" );
-		CLIENT_SETTINGS.put( "choiceAdventure11", "3" );
-		CLIENT_SETTINGS.put( "choiceAdventure12", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure14", "4" );
-		CLIENT_SETTINGS.put( "choiceAdventure15", "4" );
-		CLIENT_SETTINGS.put( "choiceAdventure16", "4" );
-		CLIENT_SETTINGS.put( "choiceAdventure17", "4" );
-		CLIENT_SETTINGS.put( "choiceAdventure18", "4" );
-		CLIENT_SETTINGS.put( "choiceAdventure19", "4" );
-		CLIENT_SETTINGS.put( "choiceAdventure20", "4" );
-		CLIENT_SETTINGS.put( "choiceAdventure21", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure22", "4" );
-		CLIENT_SETTINGS.put( "choiceAdventure23", "4" );
-		CLIENT_SETTINGS.put( "choiceAdventure24", "4" );
-		CLIENT_SETTINGS.put( "choiceAdventure25", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure26", "3" );
-		CLIENT_SETTINGS.put( "choiceAdventure27", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure28", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure29", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure40", "3" );
-		CLIENT_SETTINGS.put( "choiceAdventure41", "3" );
-		CLIENT_SETTINGS.put( "choiceAdventure42", "3" );
-		CLIENT_SETTINGS.put( "choiceAdventure45", "0" );
-		CLIENT_SETTINGS.put( "choiceAdventure46", "3" );
-		CLIENT_SETTINGS.put( "choiceAdventure47", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure71", "1" );
-		CLIENT_SETTINGS.put( "choiceAdventure73", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure74", "2" );
-		CLIENT_SETTINGS.put( "choiceAdventure75", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure2", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure3", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure4", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure5", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure7", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure8", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure9", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure10", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure11", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure12", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure14", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure15", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure16", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure17", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure18", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure19", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure20", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure21", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure22", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure23", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure24", "4" );
+		PLAYER_SETTINGS.put( "choiceAdventure25", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure26", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure27", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure28", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure29", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure40", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure41", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure42", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure45", "0" );
+		PLAYER_SETTINGS.put( "choiceAdventure46", "3" );
+		PLAYER_SETTINGS.put( "choiceAdventure47", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure71", "1" );
+		PLAYER_SETTINGS.put( "choiceAdventure73", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure74", "2" );
+		PLAYER_SETTINGS.put( "choiceAdventure75", "3" );
 	}
 
 	/**

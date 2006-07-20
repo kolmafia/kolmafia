@@ -37,38 +37,24 @@ package net.sourceforge.kolmafia;
 // layout
 import java.awt.Dimension;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
 
 // event listeners
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import javax.swing.SwingUtilities;
 
 // containers
 import javax.swing.JToolBar;
-import javax.swing.JOptionPane;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JFileChooser;
 import javax.swing.JComboBox;
 
 // other imports
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Calendar;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extension of <code>KoLFrame</code> used to display the current
@@ -388,7 +374,11 @@ public class ChatFrame extends KoLFrame
 			// First, determine the parameters inside of the
 			// location which will be passed to frame classes.
 
-			Object [] parameters = new Object[] { StaticEntity.getClient().getPlayerName( locationSplit[1] ) };
+			String playerName = KoLmafia.getPlayerName( locationSplit[1] );
+			if ( playerName == null )
+				playerName = "#" + locationSplit[1];
+
+			Object [] parameters = new Object[] { playerName };
 
 			// Next, determine the option which had been
 			// selected in the link-click.
