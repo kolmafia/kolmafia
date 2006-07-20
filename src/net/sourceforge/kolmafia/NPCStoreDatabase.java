@@ -45,13 +45,13 @@ import java.util.ArrayList;
 
 public class NPCStoreDatabase extends KoLDatabase
 {
-	private static List [] storeTable;
+	private static List [] storeTable = new ArrayList[5];
+	private static final AdventureResult RABBIT_FOOT = new AdventureResult( KoLCharacter.RABBIT_FOOT, 1 );
 
 	static
 	{
 		BufferedReader reader = getReader( "npcstores.dat" );
 
-		storeTable = new ArrayList[5];
 		for ( int i = 0; i < 5; ++i )
 			storeTable[i] = new ArrayList();
 
@@ -169,6 +169,14 @@ public class NPCStoreDatabase extends KoLDatabase
 
 		else if ( storeID.equals( "h" ) )
 			itemRequest.setCanPurchase( EquipmentDatabase.hasOutfit( 2 ) );
+
+		// Check for a lucky rabbit's foot when determining whether or not
+		// the person has access to the Citadel, and only allow hardcore
+		// players to purchase items from there; all other players can use
+		// the mall instead for these items.
+
+		else if ( storeID.equals( "w" ) )
+			itemRequest.setCanPurchase( KoLCharacter.isHardcore() && KoLCharacter.hasItem( RABBIT_FOOT, false ) );
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.

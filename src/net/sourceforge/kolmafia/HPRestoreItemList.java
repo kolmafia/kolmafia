@@ -155,7 +155,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				numberToUse = Math.min( numberToUse, numberAvailable );
 			}
 
-			if ( numberToUse == 0 )
+			if ( numberToUse <= 0 )
 				return;
 
 			if ( ClassSkillsDatabase.contains( itemName ) )
