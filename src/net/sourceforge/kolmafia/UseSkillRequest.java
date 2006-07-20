@@ -173,9 +173,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( !KoLCharacter.hasSkill( skillName ) || buffCount == 0 )
 			return;
 
-		String initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
-		String initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-		String initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
+		String initialWeapon = KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON );
+		String initialOffhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
+		String initialHat = KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT );
 
 		// Cast the skill as many times as needed
 
@@ -205,15 +205,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		}
 
 		// If we unequipped a weapon, equip it again
-		if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) ) )
+		if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) ) )
 			(new EquipmentRequest( StaticEntity.getClient(), initialWeapon, KoLCharacter.WEAPON )).run();
 
 		// If we unequipped an off-hand weapon, equip it again
-		if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
+		if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) ) )
 			(new EquipmentRequest( StaticEntity.getClient(), initialOffhand, KoLCharacter.OFFHAND )).run();
 
 		// If we unequipped a hat, equip it again
-		if ( initialHat != null && !initialHat.equals( KoLCharacter.getEquipment( KoLCharacter.HAT ) ) )
+		if ( initialHat != null && !initialHat.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) ) )
 			(new EquipmentRequest( StaticEntity.getClient(), initialHat, KoLCharacter.HAT )).run();
 	}
 

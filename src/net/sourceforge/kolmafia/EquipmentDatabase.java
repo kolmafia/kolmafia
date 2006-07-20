@@ -146,6 +146,9 @@ public class EquipmentDatabase extends KoLDatabase
 
 	public static int getHands( String itemName )
 	{
+		if ( itemName == null )
+			return 0;
+
 		int itemID = TradeableItemDatabase.getItemID( itemName );
 
 		if ( itemID == -1 )
@@ -162,6 +165,9 @@ public class EquipmentDatabase extends KoLDatabase
 
 	public static boolean isRanged( String itemName )
 	{
+		if ( itemName == null )
+			return false;
+
 		int itemID = TradeableItemDatabase.getItemID( itemName );
 
 		if ( itemID == -1 )
