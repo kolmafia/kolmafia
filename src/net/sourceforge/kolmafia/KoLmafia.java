@@ -245,7 +245,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * session.
 	 */
 
-	public static synchronized final void updateDisplay( String message )
+	public static final void updateDisplay( String message )
 	{	updateDisplay( CONTINUE_STATE, message );
 	}
 
@@ -254,7 +254,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * session.
 	 */
 
-	public static synchronized final void updateDisplay( int state, String message )
+	public static final void updateDisplay( int state, String message )
 	{
 		if ( continuationState == ABORT_STATE || message.equals( "" ) )
 			return;
@@ -295,7 +295,7 @@ public abstract class KoLmafia implements KoLConstants
 
 
 
-	private static synchronized final void updateDisplayState( int state, String message )
+	private static final void updateDisplayState( int state, String message )
 	{
 		// Next, update all of the panels with the
 		// desired update message.
@@ -324,7 +324,7 @@ public abstract class KoLmafia implements KoLConstants
 			KoLDesktop.getInstance().updateDisplayState( state );
 	}
 
-	public synchronized static void enableDisplay()
+	public static void enableDisplay()
 	{
 		updateDisplayState(
 			continuationState == ABORT_STATE || continuationState == ERROR_STATE ? ABORT_STATE : ENABLE_STATE, null );
@@ -337,7 +337,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public synchronized void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
+	public void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
 	{
 		this.conditions.clear();
 
@@ -1784,7 +1784,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @return	<code>true</code> if requests are allowed to continue
 	 */
 
-	public static synchronized final boolean permitsContinue()
+	public static final boolean permitsContinue()
 	{	return continuationState == CONTINUE_STATE;
 	}
 
@@ -1796,7 +1796,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @return	<code>true</code> if requests are allowed to continue
 	 */
 
-	public static synchronized final boolean refusesContinue()
+	public static final boolean refusesContinue()
 	{	return continuationState == ABORT_STATE;
 	}
 
@@ -1807,7 +1807,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * @return	<code>true</code> if requests are allowed to continue
 	 */
 
-	public static synchronized final void forceContinue()
+	public static final void forceContinue()
 	{	continuationState = CONTINUE_STATE;
 	}
 
@@ -2554,7 +2554,7 @@ public abstract class KoLmafia implements KoLConstants
 		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/KoLmafia/simulator/index.html" );
 	}
 
-	public static synchronized final void declareWorldPeace()
+	public static final void declareWorldPeace()
 	{
 		KoLmafiaCLI.printLine( "KoLmafia declares world peace." );
 		updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );

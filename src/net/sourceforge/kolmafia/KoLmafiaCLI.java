@@ -224,7 +224,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * loaded, and the user can begin adventuring.
 	 */
 
-	public synchronized void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
+	public void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
 	{
 		if ( StaticEntity.getClient() != this )
 		{
