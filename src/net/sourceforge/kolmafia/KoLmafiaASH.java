@@ -2459,6 +2459,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "put_closet", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "put_closet", BOOLEAN_TYPE, params ) );
+
 		params = new ScriptType[] { INT_TYPE, INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "put_shop", BOOLEAN_TYPE, params ) );
 
@@ -2469,6 +2472,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "put_display", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "take_closet", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { INT_TYPE };
 		result.addElement( new ScriptExistingFunction( "take_closet", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
@@ -3495,6 +3501,15 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
+		public ScriptValue put_closet( ScriptVariable meat )
+		{
+			if ( meat.intValue() <= 0 )
+				return continueValue();
+
+			DEFAULT_SHELL.executeLine( "closet put " + meat.intValue() + " meat" );
+			return continueValue();
+		}
+
 		public ScriptValue put_shop( ScriptVariable price, ScriptVariable limit, ScriptVariable item )
 		{
 			DEFAULT_SHELL.executeLine( "mallsell " + item.toStringValue() + " " + price.intValue() + " " + limit.intValue() );
@@ -3525,6 +3540,15 @@ public class KoLmafiaASH extends StaticEntity
 				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "closet take " + count.intValue() + " " + item.toStringValue() );
+			return continueValue();
+		}
+
+		public ScriptValue take_closet( ScriptVariable meat )
+		{
+			if ( meat.intValue() <= 0 )
+				return continueValue();
+
+			DEFAULT_SHELL.executeLine( "closet take " + meat.intValue() + " meat" );
 			return continueValue();
 		}
 

@@ -1301,17 +1301,33 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static void reflectEnergyBolt()
 	{
-		KoLRequest request;
 		AdventureDatabase.retrieveItem( SHARD );
 
+		// Get current equipment
+		String initialWeapon = KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON );
+		String initialOffhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
+
+		// Unequip a ranged off-hand weapon
+		if ( EquipmentDatabase.isRanged( initialOffhand ) )
+			DEFAULT_SHELL.executeLine( "unequip off-hand" );
+
 		// Equip the huge mirror shard
-		DEFAULT_SHELL.executeLine( "equip huge mirror shard" );
-		KoLmafia.updateDisplay( "Reflecting energy bolt..." );
+		if ( initialWeapon != null && !initialWeapon.equals( "huge mirror shard" ) )
+			DEFAULT_SHELL.executeLine( "equip huge mirror shard" );
 
 		// Reflect the energy bolt
-		request = new KoLRequest( client, "lair6.php", true );
+		KoLmafia.updateDisplay( "Reflecting energy bolt..." );
+		KoLRequest request = new KoLRequest( client, "lair6.php", true );
 		request.addFormField( "place", "1" );
 		request.run();
+
+		// If we unequipped a weapon, equip it again
+		if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) ) )
+			DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon );
+
+		// If we unequipped an off-hand weapon, equip it again
+		if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) ) )
+			DEFAULT_SHELL.executeLine( "equip off-hand " + initialWeapon );
 	}
 
 	private static void fightShadow()
