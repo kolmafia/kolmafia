@@ -51,15 +51,15 @@ import java.util.ArrayList;
 
 public abstract class MPRestoreItemList extends StaticEntity
 {
-	private static final MPRestoreItem SODA_WATER = new MPRestoreItem( "soda water", 4 );
-	private static final MPRestoreItem MYSTERY = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
+	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
 		new MPRestoreItem( "Dyspepsi-Cola", 12 ), new MPRestoreItem( "Cloaca-Cola", 12 ),
 		new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "Knob Goblin superseltzer", 27 ),
-		new MPRestoreItem( "Knob Goblin seltzer", 10 ), new MPRestoreItem( "blatantly Canadian", 22 ),
-		new MPRestoreItem( "tonic water", 40 ), MYSTERY, SODA_WATER
+		new MPRestoreItem( "blatantly Canadian", 22 ), new MPRestoreItem( "tonic water", 40 ),
+		MYSTERY_JUICE, new MPRestoreItem( "Knob Goblin seltzer", 10 ),
+		new MPRestoreItem( "Cherry Cloaca Cola", 8 ), new MPRestoreItem( "soda water", 4 )
 	};
 
 	public static JCheckBox [] getCheckboxes()
@@ -95,7 +95,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 		public void recoverMP( int needed )
 		{
-			if ( this == MYSTERY )
+			if ( this == MYSTERY_JUICE )
 			{
 				// The restore rate on magical mystery juice changes
 				// based on your current level.
@@ -110,17 +110,10 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( numberToUse == 0 )
 				numberToUse = 1;
 
-			if ( this == MYSTERY || this == SODA_WATER )
-			{
-				numberToUse = NPCStoreDatabase.contains( this.toString() ) ? numberToUse :
-					Math.min( numberAvailable, numberToUse );
-			}
-			else
-			{
-				numberToUse = Math.min( numberToUse, numberAvailable );
-			}
+			numberToUse = NPCStoreDatabase.contains( this.toString() ) ? numberToUse :
+				Math.min( numberAvailable, numberToUse );
 
-			if ( numberToUse == 0 )
+			if ( numberToUse <= 0 )
 				return;
 
 			(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();

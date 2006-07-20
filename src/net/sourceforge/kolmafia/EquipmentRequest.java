@@ -51,9 +51,10 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class EquipmentRequest extends PasswordHashRequest
 {
 	public static final String UNEQUIP = "(none)";
+	private static final AdventureResult PASTE = new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 );
 
 	public static final int CLOSET = 1;
-	private static final int QUESTS = 2;
+	private static final int MISCELLANEOUS = 2;
 	public static final int EQUIPMENT = 3;
 	private static final int CONSUMABLES = 4;
 
@@ -105,7 +106,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Otherwise, add the form field indicating which page
 		// of the inventory you want to request
 
-		if ( requestType == QUESTS )
+		if ( requestType == MISCELLANEOUS )
 			addFormField( "which", "3" );
 		else if ( requestType == CONSUMABLES )
 			addFormField( "which", "1" );
@@ -452,7 +453,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		switch ( requestType )
 		{
-			case QUESTS:
+			case MISCELLANEOUS:
 				KoLmafia.updateDisplay( "Updating quest items..." );
 				break;
 
@@ -512,16 +513,40 @@ public class EquipmentRequest extends PasswordHashRequest
 		{
 			parseCloset();
 			super.processResults();
-			(new EquipmentRequest( client, EquipmentRequest.QUESTS )).run();
+
+			// If the person has meat paste, or is able to create
+			// meat paste, then do so and then parse the combines
+			// page.  Otherwise, go to the equipment pages.
+
+			KoLCharacter.refreshCalculatedLists();
+
+			if ( KoLCharacter.hasItem( PASTE, true ) )
+			{
+				AdventureDatabase.retrieveItem( PASTE );
+				KoLRequest combines = new KoLRequest( client, "combine.php" );
+				combines.run();
+
+				Matcher selectMatcher = Pattern.compile( "<select.*?</select>", Pattern.DOTALL ).matcher( combines.responseText );
+				if ( selectMatcher.find() )
+				{
+					KoLCharacter.getInventory().clear();
+					parseCloset( selectMatcher.group(), KoLCharacter.getInventory() );
+				}
+			}
+			else
+			{
+				(new EquipmentRequest( client, EquipmentRequest.MISCELLANEOUS )).run();
+				(new EquipmentRequest( client, EquipmentRequest.CONSUMABLES )).run();
+			}
+
 			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
-			(new EquipmentRequest( client, EquipmentRequest.CONSUMABLES )).run();
 
 			KoLCharacter.refreshCalculatedLists();
 			KoLCharacter.setAvailableSkills( KoLCharacter.getAvailableSkills() );
 			return;
 		}
 
-		if ( requestType == QUESTS || requestType == CONSUMABLES )
+		if ( requestType == MISCELLANEOUS || requestType == CONSUMABLES )
 		{
 			parseQuestItems( responseText );
 			super.processResults();
@@ -595,9 +620,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( switchIn != -1 )
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchIn, -1 ) );
 
-                        // Items will be found when we parse quest items
-			// if ( switchOut != -1 )
-			// 	AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchOut, 1 ) );
+            // Items will be found when we parse quest items
 		}
 	}
 
@@ -619,7 +642,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		{
 			List inventory = KoLCharacter.getInventory();
 			inventory.clear();
-			parseCloset( inventoryMatcher.group(), inventory, true );
+			parseCloset( inventoryMatcher.group(), inventory );
 		}
 
 		Matcher closetMatcher = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL ).matcher( responseText );
@@ -627,21 +650,23 @@ public class EquipmentRequest extends PasswordHashRequest
 		{
 			List closet = KoLCharacter.getCloset();
 			closet.clear();
-			parseCloset( closetMatcher.group(), closet, false );
+			parseCloset( closetMatcher.group(), closet );
 		}
 	}
 
-	private void parseCloset( String content, List resultList, boolean updateUsableList )
+	private void parseCloset( String content, List resultList )
 	{
 		int lastFindIndex = 0;
-		Matcher optionMatcher = Pattern.compile( "<option value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( content );
+		Matcher optionMatcher = Pattern.compile( "<option value='?([\\d]+)'?>([^>]*?) \\(([\\d,]+)\\)</option>" ).matcher( content );
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = optionMatcher.end();
 			int itemID = StaticEntity.parseInt( optionMatcher.group(1) );
+			String itemName = TradeableItemDatabase.getCanonicalName( TradeableItemDatabase.getItemName( itemID ) );
+			String realName = TradeableItemDatabase.getCanonicalName( optionMatcher.group(2).toLowerCase() );
 
-			if ( TradeableItemDatabase.getItemName( itemID ) == null )
-				TradeableItemDatabase.registerItem( itemID, optionMatcher.group(2).trim() );
+			if ( itemName == null || !realName.equals( itemName ) )
+				TradeableItemDatabase.registerItem( itemID, realName );
 
 			AdventureResult result = new AdventureResult( itemID, StaticEntity.parseInt( optionMatcher.group(3) ) );
 			AdventureResult.addResultToList( resultList, result );
@@ -654,11 +679,29 @@ public class EquipmentRequest extends PasswordHashRequest
 		while ( itemMatcher.find() )
 		{
 			String quantity = itemMatcher.group(4).trim();
-			AdventureResult item = new AdventureResult( itemMatcher.group(2),
-				quantity.length() == 0 ? 1 : StaticEntity.parseInt( quantity.substring( 1, quantity.length() - 1 ) ), false );
+			String realName = itemMatcher.group(2);
 
-			if ( item.getItemID() != -1 && !KoLCharacter.getInventory().contains( item ) )
+			// We have encountered a brand new item, the person
+			// has no meat paste, and we're in trouble.  Do not
+			// continue if this is the case.
+
+			if ( !TradeableItemDatabase.contains( realName ) )
+				return;
+
+			int quantityValue = quantity.length() == 0 ? 1 : StaticEntity.parseInt( quantity.substring( 1, quantity.length() - 1 ) );
+			int itemID = TradeableItemDatabase.getItemID( realName );
+
+			AdventureResult item = new AdventureResult( itemID, quantityValue );
+			int inventoryCount = item.getCount( KoLCharacter.getInventory() );
+
+			// Add the difference between your existing count
+			// and the original count.
+
+			if ( inventoryCount < quantityValue )
+			{
+				item = item.getInstance( quantityValue - inventoryCount );
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), item );
+			}
 		}
 	}
 
