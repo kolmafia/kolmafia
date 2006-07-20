@@ -1116,7 +1116,7 @@ public abstract class KoLmafia implements KoLConstants
 		String mpRestoreSetting = StaticEntity.getProperty( "mpRestores" );
 
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
-			if ( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[i].toString() ) != -1 )
+			if ( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[i].toString().toLowerCase() ) != -1 )
 				restoreCount += MPRestoreItemList.CONFIGURES[i].getItem().getCount( KoLCharacter.getInventory() );
 
 		return restoreCount;

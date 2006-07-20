@@ -33,16 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
-
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
-
-import javax.swing.JPanel;
-import javax.swing.JLabel;
 import javax.swing.JCheckBox;
-import javax.swing.JScrollPane;
-
-import java.util.ArrayList;
 
 /**
  * A special class used as a holder class to hold all of the
@@ -53,36 +44,36 @@ public abstract class HPRestoreItemList extends StaticEntity
 {
 	// Full restore tactics (skills and items which recover all health)
 
+	private static final HPRestoreItem GALAKTIK = new HPRestoreItem( "Galaktik's Curative Nostrum", Integer.MAX_VALUE );
 	private static final HPRestoreItem COCOON = new HPRestoreItem( "Cannelloni Cocoon", Integer.MAX_VALUE );
-	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
 	private static final HPRestoreItem HERBS = new HPRestoreItem( "Medicinal Herb's medicinal herbs", Integer.MAX_VALUE );
+	private static final HPRestoreItem SCROLL = new HPRestoreItem( "scroll of drastic healing", Integer.MAX_VALUE );
 
 	// Skills which recover partial health
 
+	private static final HPRestoreItem POWERNAP = new HPRestoreItem( "Disco Power Nap", 40 );
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 	private static final HPRestoreItem BANDAGES = new HPRestoreItem( "Lasagna Bandages", 24 );
 	private static final HPRestoreItem NAP = new HPRestoreItem( "Disco Nap", 20 );
-	private static final HPRestoreItem POWERNAP = new HPRestoreItem( "Disco Power Nap", 40 );
 
 	// Items which restore some health, but aren't available in NPC stores
 
-	private static final HPRestoreItem PHONICS = new HPRestoreItem( "phonics down", 48 );
-	private static final HPRestoreItem CAST = new HPRestoreItem( "cast", 17 );
+	private static final HPRestoreItem CAST = new HPRestoreItem( "cast", 18 );
 
 	// Items which restore health and are available in NPC stores
 
 	private static final HPRestoreItem ELIXIR = new HPRestoreItem( "Doc Galaktik's Homeopathic Elixir", 18 );
 	private static final HPRestoreItem BALM = new HPRestoreItem( "Doc Galaktik's Restorative Balm", 13 );
-	private static final HPRestoreItem UNGUENT = new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 4 );
-	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
+	private static final HPRestoreItem UNGUENT = new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 13 );
 
 	// Finally, if HP restore is active and nothing is available,
 	// give people the option to rest.
 
-	private static final HPRestoreItem CAMPING = new HPRestoreItem( "rest at campground", 4 );
+	private static final HPRestoreItem CAMPING = new HPRestoreItem( "rest at campground", Integer.MAX_VALUE );
+	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
 
 	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] {
-		COCOON, SCROLL, HERBS, WALRUS, BANDAGES, POWERNAP, NAP, PHONICS, CAST, ELIXIR, BALM, UNGUENT, OINTMENT, CAMPING };
+		GALAKTIK, COCOON, HERBS, SCROLL, POWERNAP, WALRUS, BANDAGES, NAP, CAST, ELIXIR, BALM, UNGUENT, CAMPING, OINTMENT };
 
 	public static JCheckBox [] getCheckboxes()
 	{
@@ -117,6 +108,12 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 		public void recoverHP( int needed )
 		{
+			if ( this == GALAKTIK )
+			{
+				DEFAULT_SHELL.executeLine( "galaktik hp" );
+				return;
+			}
+
 			if ( this == CAMPING )
 			{
 				DEFAULT_SHELL.executeLine( "rest" );
