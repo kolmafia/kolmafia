@@ -91,15 +91,11 @@ public class BuffBotDatabase extends KoLDatabase
 	};
 
 	// Buffs obtainable from statically configured buffbots
-	private static BuffList staticBots;
+	private static BuffList staticBots = new BuffList();
 
 	// buffs.dat configures the statically configured buffbots
 	static
 	{
-		// Initialize data.
-
-		staticBots = new BuffList();
-
 		// Open the data file
 		BufferedReader reader = getReader( "buffs.dat" );
 
@@ -148,15 +144,11 @@ public class BuffBotDatabase extends KoLDatabase
 	}
 
 	// List of supported buffbots with parsable display cases
-	private static ArrayList bots;
+	private static ArrayList bots = new ArrayList();
 
 	// buffbots.dat lists dynamically configured buffbots
 	static
 	{
-		// Initialize data.
-
-		bots = new ArrayList();
-
 		// Open the data file
 		BufferedReader reader = getReader( "buffbots.dat" );
 
@@ -164,18 +156,8 @@ public class BuffBotDatabase extends KoLDatabase
 
 		String [] data;
 		while ( (data = readData( reader )) != null )
-		{
-			if ( data.length == 2 )
-			{
-				// { bot name, bot ID }
-				String [] pair = new String[2];
-
-				pair[0] = data[0];
-				pair[1] = data[1];
-
-				bots.add( pair );
-			}
-		}
+			if ( data.length == 3 )
+				bots.add( data );
 	}
 
 	// Buffs obtainable from all public buffbots
@@ -234,48 +216,29 @@ public class BuffBotDatabase extends KoLDatabase
 
 		for ( int i = 0; i < botCount; ++i )
 		{
-			String [] entry = (String [])bots.get(i);
-			String name = entry[0];
-			String id = entry[1];
-
-			configureDynamicBot( client, name, id );
+			String [] entry = (String []) bots.get(i);
+			configureDynamicBot( client, entry[0], entry[1], entry[2] );
 		}
 
 		KoLmafia.updateDisplay( "Buff prices fetched." );
 	}
 
-	private static void configureDynamicBot( KoLmafia client, String name, String id )
+	private static void configureDynamicBot( KoLmafia client, String name, String id, String location )
 	{
 		KoLmafia.updateDisplay( "Fetching buff prices from " + name + "..." );
-
-		KoLRequest request = new KoLRequest( client, "displaycollection.php" );
-		request.addFormField( "who", id );
+		KoLRequest request = new KoLRequest( client, location );
 		request.run();
 
-		Matcher linkMatcher = Pattern.compile( "<a [^>]*href=\"([^>]*)\\.xml\">" ).matcher( request.responseText );
-		if ( linkMatcher.find() )
-		{
-			request = new KoLRequest( client, linkMatcher.group(1) + ".xml" );
-			request.run();
-
-			htmlConfigure( name, request.responseText );
-		}
-		else
-			textConfigure( name, request.responseText );
-	}
-
-	private static void htmlConfigure( String name, String data )
-	{
 		// Now, for the infamous XML parse tree.  Rather than building
 		// a tree (which would probably be smarter), simply do regular
 		// expression matching and assume we have a properly-structured
 		// XML file -- which is assumed because of the XSLT.
 
-		Matcher nodeMatcher = Pattern.compile( "<buffdata>(.*?)</buffdata>" ).matcher( data );
-		Pattern namePattern = Pattern.compile( "<name>(.*?)</name>" );
-		Pattern pricePattern = Pattern.compile( "<price>(.*?)</price>" );
-		Pattern turnPattern = Pattern.compile( "<turns>(.*?)</turns>" );
-		Pattern oncePattern = Pattern.compile( "<philanthropic>(.*?)</philanthropic>" );
+		Matcher nodeMatcher = Pattern.compile( "<buffdata>(.*?)</buffdata>", Pattern.DOTALL ).matcher( request.responseText );
+		Pattern namePattern = Pattern.compile( "<name>(.*?)</name>", Pattern.DOTALL );
+		Pattern pricePattern = Pattern.compile( "<price>(.*?)</price>", Pattern.DOTALL );
+		Pattern turnPattern = Pattern.compile( "<turns>(.*?)</turns>", Pattern.DOTALL );
+		Pattern oncePattern = Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
 
 		BuffList buffs = new BuffList();
 		Matcher nameMatcher, priceMatcher, turnMatcher, onceMatcher;
@@ -299,6 +262,7 @@ public class BuffBotDatabase extends KoLDatabase
 		allBots.addBuffList( buffs );
 	}
 
+/*
 	private static void textConfigure( String name, String data )
 	{
 		// Look for start tag
@@ -362,7 +326,7 @@ public class BuffBotDatabase extends KoLDatabase
 		// Add this bot's buffs to the global list
 		allBots.addBuffList( buffs );
 	}
-
+*/
 	private static class BuffList
 	{
 		private ArrayList buffs;

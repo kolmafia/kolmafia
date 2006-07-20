@@ -399,6 +399,8 @@ public abstract class KoLmafia implements KoLConstants
 		String scriptSetting = StaticEntity.getProperty( "loginScript." + username.toLowerCase() );
 		if ( !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
+
+		AdventureDatabase.refreshAdventureList();
 	}
 
 	public void resetBreakfastSummonings()
