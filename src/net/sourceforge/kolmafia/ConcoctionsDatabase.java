@@ -37,7 +37,6 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.BufferedReader;
-import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
@@ -329,7 +328,10 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Adventures are considered Item #0 in the event that the
 		// concoction will use ADVs.
 
+		concoctions.get(0).initial = KoLCharacter.getAdventuresLeft();
+		concoctions.get(0).creatable = 0;
 		concoctions.get(0).total = KoLCharacter.getAdventuresLeft();
+
 		calculateMeatCombines( availableIngredients );
 
 		// Ice-cold beer and ketchup are special instances -- for the
@@ -530,7 +532,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) )
 		{
-			PERMIT_METHOD[ ItemCreationRequest.COOK ] = true;
+			PERMIT_METHOD[ ItemCreationRequest.COOK ] = KoLCharacter.getAdventuresLeft() > 0;
 			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 1;
 		}
 		else
@@ -556,7 +558,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded && KoLCharacter.getInventory().contains( KIT ) )
 		{
-			PERMIT_METHOD[ ItemCreationRequest.MIX ] = true;
+			PERMIT_METHOD[ ItemCreationRequest.MIX ] = KoLCharacter.getAdventuresLeft() > 0;
 			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 1;
 		}
 		else
