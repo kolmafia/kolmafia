@@ -1,11 +1,7 @@
-# Bot	ID
+# Bot	Player ID	XML File URL
 
-# Otori buffbots
-Testudinata	537858
-sneaksie	79826
+# Testudinata	537858
+# sneaksie	79826
+# IocaineBot	792443
 
-# Iocaine Powder buffbots
-IocaineBot	792443
-
-# Other buffbots
-Niten	353078
+Niten	353078	http://www.hardcoreoxygenation.com/NitraMo/Buffbot/Niten.xml

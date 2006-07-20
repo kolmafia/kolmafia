@@ -223,7 +223,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
-		CLIENT_SETTINGS.put( "loginServer", "0" );
 		CLIENT_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		CLIENT_SETTINGS.put( "makeBrowserDecisions", "false" );
 		CLIENT_SETTINGS.put( "proxySet", "false" );

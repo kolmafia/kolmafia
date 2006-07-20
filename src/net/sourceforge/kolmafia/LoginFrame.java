@@ -546,16 +546,11 @@ public class LoginFrame extends KoLFrame
 			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" }
 		};
 
-		private JComboBox servers, toolbars, scripts;
+		private JComboBox toolbars, scripts;
 
 		public UserInterfacePanel()
 		{
 			super( "User Interface", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
-
-			servers = new JComboBox();
-			servers.addItem( "Auto-select login server" );
-			for ( int i = 1; i <= KoLRequest.SERVER_COUNT; ++i )
-				servers.addItem( "Login using login server " + i );
 
 			toolbars = new JComboBox();
 			toolbars.addItem( "Show global menus only" );
@@ -568,10 +563,9 @@ public class LoginFrame extends KoLFrame
 			scripts.addItem( "Put script bar after normal toolbar" );
 			scripts.addItem( "Put script bar along right of panel" );
 
-			VerifiableElement [] elements = new VerifiableElement[3];
-			elements[0] = new VerifiableElement( "Server: ", servers );
-			elements[1] = new VerifiableElement( "Toolbar: ", toolbars );
-			elements[2] = new VerifiableElement( "Scripts: ", scripts );
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Toolbar: ", toolbars );
+			elements[1] = new VerifiableElement( "Scripts: ", scripts );
 
 			setContent( elements );
 			actionCancelled();
@@ -589,7 +583,6 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			StaticEntity.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
 			StaticEntity.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			StaticEntity.setProperty( "scriptButtonPosition", String.valueOf( scripts.getSelectedIndex() ) );
 			StaticEntity.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );

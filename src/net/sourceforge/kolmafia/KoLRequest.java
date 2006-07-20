@@ -180,10 +180,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			// Determine the login server that will be used.
-
-			int setting = StaticEntity.parseInt( StaticEntity.getProperty( "loginServer" ) );
-			int server = ( setting < 1 || setting > SERVER_COUNT ) ? RNG.nextInt( SERVER_COUNT ) : setting - 1;
-			setLoginServer( SERVERS[server][0] );
+			setLoginServer( SERVERS[ RNG.nextInt( SERVER_COUNT ) ][0] );
 		}
 		catch ( Exception e )
 		{
