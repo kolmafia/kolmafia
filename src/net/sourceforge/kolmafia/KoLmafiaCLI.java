@@ -1491,9 +1491,15 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void showHTML( String text, String title )
 	{
-		printLine( text.replaceAll( "<br>", LINE_BREAK ).replaceAll( "<(p|blockquote)>", LINE_BREAK + LINE_BREAK ).replaceAll(
-			LINE_BREAK + "(" + LINE_BREAK + ")+", LINE_BREAK + LINE_BREAK ).replaceAll( "<.*?>", "" ).replaceAll( "&nbsp;", " " ).replaceAll(
-			"&trade;", " [tm]" ).replaceAll( "&ntilde;", "n" ).replaceAll( "&quot;", "" ) );
+		String displayText = text.replaceAll( "<br>", "\n" ).replaceAll( "<(p|blockquote)>", "\n\n" );
+		displayText = Pattern.compile( "<.*?>", Pattern.DOTALL ).matcher( displayText ).replaceAll( "" );
+		displayText = displayText.replaceAll( "&nbsp;", " " ).replaceAll(
+			"&trade;", " [tm]" ).replaceAll( "&ntilde;", "n" ).replaceAll( "&quot;", "" );
+
+		displayText = displayText.replaceAll( "[\r\n]", "\n" ).replaceAll( "\n\\s+", "\n\n" );
+		displayText = displayText.replaceAll( "\n\n\n+", "\n\n" ).replaceAll( "\n", LINE_BREAK );
+
+		printLine( displayText.trim() );
 	}
 
 	private void executeSendRequest( String parameters )
