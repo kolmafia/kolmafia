@@ -590,7 +590,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Transcendental Noodlecraft and is a Mysticality class
 		// character.
 
-		PERMIT_METHOD[ ItemCreationRequest.WOK ] = KoLCharacter.canUseWok();
+		PERMIT_METHOD[ ItemCreationRequest.WOK ] = KoLCharacter.canUseWok() && KoLCharacter.getAdventuresLeft() > 0;
 		ADVENTURE_USAGE[ ItemCreationRequest.WOK ] = 1;
 
 		// Using the Malus of Forethought is possible if the person has
