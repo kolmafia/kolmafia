@@ -57,7 +57,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		if ( saveMessage )
 			addFormField( "savecopy", "on" );
 
-		addFormField( "message", message );
+		addFormField( "messagesend", message );
 
 		this.recipient = KoLmafia.getPlayerID( recipient );
 		this.message = message;
@@ -79,7 +79,7 @@ public class GreenMessageRequest extends SendMessageRequest
 		if ( saveMessage )
 			addFormField( "savecopy", "on" );
 
-		addFormField( "message", message );
+		addFormField( "messagesend", message );
 
 		this.recipient = KoLmafia.getPlayerID( recipient );
 		this.message = message;
