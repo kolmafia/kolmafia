@@ -126,6 +126,7 @@ public class ChatRequest extends KoLRequest
 			return;
 		}
 
+		processedResults = false;
 		super.run();
 	}
 
