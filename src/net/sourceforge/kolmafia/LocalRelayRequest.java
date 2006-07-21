@@ -140,6 +140,22 @@ public class LocalRelayRequest extends KoLRequest
 			}
 		}
 
+		// Check if you're viewing the top menu bar, and if so,
+		// edit in a drop-down select.
+
+		if ( formURLString.endsWith( "menu.php" ) )
+		{
+			StringBuffer selectBuffer = new StringBuffer();
+			selectBuffer.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><form name=\"gcli\">" );
+			selectBuffer.append( "<select name=\"scriptbar\">" );
+			selectBuffer.append( "<option value=\"win game\">1: win game</option>" );
+			selectBuffer.append( "</select></td><td>&nbsp;</td><td>" );
+			selectBuffer.append( "<input type=\"button\" value=\"exec\" onClick=\"submitCommand();\">" );
+			selectBuffer.append( "</form></td></tr></table>" );
+
+			fullResponse = fullResponse.replaceFirst( "</tr>\\s*</table>\\s*</center>", selectBuffer.toString() );
+		}
+
 		fullResponse = RequestEditorKit.getFeatureRichHTML( fullResponse );
 	}
 
@@ -454,6 +470,12 @@ public class LocalRelayRequest extends KoLRequest
 		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
 
+	protected void executeCommand()
+	{
+		(new CommandRunnable( getFormField( "cmd" ) )).run();
+		pseudoResponse( "HTTP/1.1 200 OK", "" );
+	}
+
 	protected void sendNotFound()
 	{	pseudoResponse( "HTTP/1.1 404 Not Found", "" );
 	}
@@ -499,6 +521,8 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			if ( formURLString.endsWith( "submitCommand" ) )
 				submitCommand();
+			else if ( formURLString.endsWith( "executeCommand" ) )
+				executeCommand();
 			else if ( formURLString.endsWith( "getNewMessages" ) )
 				pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 			else

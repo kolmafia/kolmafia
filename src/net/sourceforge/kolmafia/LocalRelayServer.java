@@ -58,7 +58,6 @@ public class LocalRelayServer implements Runnable
 	private static int port = 60080;
 	private static boolean listening = false;
 
-	private static long lastRequest = 0;
 	private static StringBuffer statusMessages = new StringBuffer();
 
 	private LocalRelayServer()
@@ -179,22 +178,10 @@ public class LocalRelayServer implements Runnable
 
 	public static void addStatusMessage( String message )
 	{
-		synchronized ( statusMessages )
+		synchronized( statusMessages )
 		{
-			// If it's been more than 10 seconds, since the
-			// last buffer was cleared, that means no monitoring
-			// is happening, so you can clear the buffer and
-			// ignore the addition (since no one is checking).
-
-			if ( lastRequest == 0 || lastRequest - System.currentTimeMillis() > 10000 )
-			{
-				if ( statusMessages.length() > 0 )
-					statusMessages.setLength( 0 );
-
-				return;
-			}
-
-			statusMessages.append( message );
+			if ( !LoginRequest.isInstanceRunning() )
+				statusMessages.append( message );
 		}
 	}
 
@@ -202,7 +189,6 @@ public class LocalRelayServer implements Runnable
 	{
 		synchronized ( statusMessages )
 		{
-			lastRequest = System.currentTimeMillis();
 			String newMessages = statusMessages.toString();
 			statusMessages.setLength(0);
 			return newMessages;

@@ -655,7 +655,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// and remove all <HR> tags.
 
 		KoLmafia.getDebugStream().println( "Rendering hypertext..." );
-		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" ).replaceAll( "[\r\n]+", "" ).replaceAll( "<!--(.*?)-->", "" );
+		String displayHTML = responseText.replaceAll( "<[Bb][Rr]( ?/)?>", "<br>" ).replaceAll( "<[Hh][Rr].*?>", "<br>" ).replaceAll( "[\r\n]+", "" );
 
 		// The default Java browser doesn't display blank lines correctly
 		displayHTML = displayHTML.replaceAll( "<br><br>", "<br>&nbsp;<br>" );
