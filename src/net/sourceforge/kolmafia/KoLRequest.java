@@ -1030,7 +1030,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			checkForNewEvents();
-			processRawResponse( responseText );
+			processRawResponse( replyBuffer.toString() );
 		}
 
 		try
@@ -1090,7 +1090,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void processRawResponse( String rawResponse )
 	{
-		statusChanged = formURLString.indexOf( "charpane.php" ) == -1 && rawResponse.indexOf( "charpane.php" ) != -1;
+		statusChanged = rawResponse.indexOf( "charpane.php" ) != -1;
 		if ( statusChanged && !(this instanceof LocalRelayRequest) )
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 

@@ -232,7 +232,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "relayAddsPlinking", "false" );
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
-		CLIENT_SETTINGS.put( "scriptList", "win game" );
+		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
 		CLIENT_SETTINGS.put( "serverFriendly", "false" );
 		CLIENT_SETTINGS.put( "showAdventureZone", "true" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );

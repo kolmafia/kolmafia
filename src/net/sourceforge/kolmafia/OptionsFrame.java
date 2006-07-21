@@ -43,6 +43,9 @@ import javax.swing.BoxLayout;
 // events
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.filechooser.FileFilter;
@@ -411,10 +414,12 @@ public class OptionsFrame extends KoLFrame
 
 		public ScriptButtonPanel()
 		{
-			super( "gCLI Toolbar Buttons", "add new", "remove", new LockableListModel(), true, true );
+			super( "gCLI Toolbar Buttons", "new script", "new command", new LockableListModel(), true, true );
 
 			scriptList = (LockableListModel) elementList.getModel();
 			scriptList.addListDataListener( this );
+
+			((JList)scrollComponent).addKeyListener( new RemoveScriptListener() );
 
 			String [] scriptList = getProperty( "scriptList" ).split( " \\| " );
 
@@ -442,7 +447,23 @@ public class OptionsFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	scriptList.remove( elementList.getSelectedIndex() );
+		{
+			String currentValue = JOptionPane.showInputDialog( "CLI Command", "" );
+			if ( currentValue != null && currentValue.length() != 0 )
+				scriptList.add( currentValue );
+		}
+
+		private class RemoveScriptListener extends KeyAdapter
+		{
+			public void keyPressed( KeyEvent e )
+			{
+				if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE )
+				{
+					Object [] values = ((JList)scrollComponent).getSelectedValues();
+					for ( int i = 0; i < values.length; ++i )
+						scriptList.remove( values[i] );
+				}
+			}
 		}
 
 		public void intervalAdded( ListDataEvent e )

@@ -109,6 +109,8 @@ public class LocalRelayRequest extends KoLRequest
 
 			fullResponse = fullResponse.replaceAll(
 				"</head>", "<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script></head>" );
+
+			fullResponse = fullResponse.replaceAll( "onLoad='", "onLoad='setInterval( getNewMessages, 1000 ); " );
 		}
 
 		// Fix KoLmafia getting outdated by events happening
@@ -148,7 +150,19 @@ public class LocalRelayRequest extends KoLRequest
 			StringBuffer selectBuffer = new StringBuffer();
 			selectBuffer.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><form name=\"gcli\">" );
 			selectBuffer.append( "<select name=\"scriptbar\">" );
-			selectBuffer.append( "<option value=\"win game\">1: win game</option>" );
+
+			String [] scriptList = getProperty( "scriptList" ).split( " \\| " );
+			for ( int i = 0; i < scriptList.length; ++i )
+			{
+				selectBuffer.append( "<option value=\"" );
+				selectBuffer.append( scriptList[i] );
+				selectBuffer.append( "\">" );
+				selectBuffer.append( i + 1 );
+				selectBuffer.append( ": " );
+				selectBuffer.append( scriptList[i] );
+				selectBuffer.append( "</option>" );
+			}
+
 			selectBuffer.append( "</select></td><td>&nbsp;</td><td>" );
 			selectBuffer.append( "<input type=\"button\" value=\"exec\" onClick=\"submitCommand();\">" );
 			selectBuffer.append( "</form></td></tr></table>" );
