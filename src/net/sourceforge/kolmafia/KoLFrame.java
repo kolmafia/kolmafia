@@ -712,11 +712,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * the request for viewing frames.
 	 */
 
-	protected static class DisplayFrameButton extends JButton implements ActionListener
+	protected static class DisplayFrameButton extends JButton implements ActionListener, Runnable
 	{
-		private Class frameClass;
+		private String frameClass;
 
-		public DisplayFrameButton( String text, Class frameClass )
+		public DisplayFrameButton( String text, String frameClass )
 		{
 			super( text );
 
@@ -724,7 +724,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.frameClass = frameClass;
 		}
 
-		public DisplayFrameButton( String tooltip, String icon, Class frameClass )
+		public DisplayFrameButton( String tooltip, String icon, String frameClass )
 		{
 			super( JComponentUtilities.getImage( icon ) );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
@@ -735,7 +735,11 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new Thread( new CreateFrameRunnable( frameClass ) )).start();
+		{	(new RequestThread( this )).start();
+		}
+
+		public void run()
+		{	KoLmafiaGUI.constructFrame( frameClass );
 		}
 	}
 

@@ -90,6 +90,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	private static final String [] LICENSE_FILENAME = {
 		"kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm",
 		"sungraphics-license.txt", "systray-license.txt", "jline-license.txt" };
+
 	private static final String [] LICENSE_NAME = {
 		"KoLmafia", "Spellcast", "BrowserLauncher",
 		"Sun Graphics", "System Tray", "JLine Terminal" };
@@ -135,27 +136,27 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		// Add the refresh menu, which holds the ability to refresh
 		// everything in the session.
 
-		statusMenu.add( new DisplayFrameMenuItem( "Adventure", AdventureFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Purchases", MallSearchFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", CommandDisplayFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Adventure", "AdventureFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Purchases", "MallSearchFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", "CommandDisplayFrame" ) );
 
 		statusMenu.add( new JSeparator() );
 
-		statusMenu.add( new DisplayFrameMenuItem( "Preferences", OptionsFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Mini-Browser", RequestFrame.class ) );
-		statusMenu.add( new InvocationMenuItem( "Relay Browser", StaticEntity.getClient(), "startRelayServer" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Preferences", "OptionsFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Mini-Browser", "RequestFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Relay Browser", "LocalRelayServer" ) );
 
 		statusMenu.add( new JSeparator() );
 
-		statusMenu.add( new DisplayFrameMenuItem( "Player Status", CharsheetFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", ItemManageFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", GearChangeFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Player Status", "CharsheetFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", "ItemManageFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", "GearChangeFrame" ) );
 
 		statusMenu.add( new JSeparator() );
 
-		statusMenu.add( new DisplayFrameMenuItem( "Store Manager", StoreManageFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Display Case", MuseumFrame.class ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", HagnkStorageFrame.class ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Store Manager", "StoreManageFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Display Case", "MuseumFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", "HagnkStorageFrame" ) );
 
 		// Add specialized tools.
 
@@ -169,36 +170,36 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new DisplayFrameMenuItem( "Skill Casting", SkillBuffFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", BuffBotFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", BuffRequestFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Skill Casting", "SkillBuffFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", "BuffBotFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new DisplayFrameMenuItem( "Flower Hunter", FlowerHunterFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", MushroomFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", FamiliarTrainingFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Flower Hunter", "FlowerHunterFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", "MushroomFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", "FamiliarTrainingFrame" ) );
 
 		toolsMenu.add( new JSeparator() );
-		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", MeatManageFrame.class ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "The Meatsink", MoneyMakingGameFrame.class ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", "MeatManageFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "The Meatsink", "MoneyMakingGameFrame" ) );
 
 		// Add the old-school people menu.
 
 		JMenu peopleMenu = new JMenu( "People" );
 		container.add( peopleMenu );
 
-		peopleMenu.add( new DisplayFrameMenuItem( "Read KoLmail", MailboxFrame.class ) );
-		peopleMenu.add( new InvocationMenuItem( "KoLmafia Chat", KoLMessenger.class, "initialize" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", ClanManageFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Recent Events", EventsFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Read KoLmail", "MailboxFrame" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "KoLmafia Chat", "KoLMessenger" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Clan Manager", "ClanManageFrame" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Recent Events", "EventsFrame" ) );
 
 		peopleMenu.add( new JSeparator() );
 
-		peopleMenu.add( new DisplayFrameMenuItem( "Write a KoLmail", GreenMessageFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Send Gift Package", GiftMessageFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Propose a Trade", ProposeTradeFrame.class ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Pending Trades", PendingTradesFrame.class ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Write a KoLmail", "GreenMessageFrame" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Send Gift Package", "GiftMessageFrame" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Propose a Trade", "ProposeTradeFrame" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Pending Trades", "PendingTradesFrame" ) );
 
 		// Add in common tasks menu
 
@@ -271,10 +272,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		JMenu helperMenu = new JMenu( "Help" );
 		container.add( helperMenu );
 
-		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", LicenseDisplay.class ) );
+		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", "LicenseDisplay" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Donate to KoLmafia", "http://kolmafia.sourceforge.net/credits.html" ) );
-		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", CalendarFrame.class ) );
-		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", ExamineItemsFrame.class ) );
+		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", "CalendarFrame" ) );
+		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", "ExamineItemsFrame" ) );
 
 		helperMenu.add( new JSeparator() );
 
@@ -411,7 +412,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
-			headers[2] = new DisplayFrameMenuItem( "Council of Loathing", CouncilFrame.class );
+			headers[2] = new DisplayFrameMenuItem( "Council of Loathing", "CouncilFrame" );
 
 			return headers;
 		}
@@ -637,13 +638,26 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
+	protected abstract class RequestThreadMenuItem extends JMenuItem implements ActionListener, Runnable
+	{
+		public RequestThreadMenuItem( String title )
+		{
+			super( title );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new RequestThread( this )).start();
+		}
+	}
+
 	/**
 	 * In order to keep the user interface from freezing (or at least
 	 * appearing to freeze), this internal class is used to process
 	 * the request for loading a script.
 	 */
 
-	private class LoadScriptMenuItem extends JMenuItem implements ActionListener, Runnable
+	private class LoadScriptMenuItem extends RequestThreadMenuItem
 	{
 		private String scriptPath;
 
@@ -657,10 +671,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			addActionListener( this );
 
 			this.scriptPath = scriptPath;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
 		}
 
 		public void run()
@@ -692,33 +702,33 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * the request for viewing frames.
 	 */
 
-	protected class DisplayFrameMenuItem extends JMenuItem implements ActionListener
+	protected class DisplayFrameMenuItem extends RequestThreadMenuItem
 	{
-		private Class frameClass;
-		private Object [] parameters;
+		private String frameClass;
 
-		public DisplayFrameMenuItem( String title, Class frameClass )
+		public DisplayFrameMenuItem( String title, String frameClass )
 		{
 			super( title );
 			addActionListener( this );
 			this.frameClass = frameClass;
+		}
 
-			if ( frameClass == LicenseDisplay.class )
+		public void run()
+		{
+			if ( frameClass.equals( "LicenseDisplay" ) )
 			{
-				parameters = new Object[4];
+				Object [] parameters = new Object[4];
 				parameters[0] = "KoLmafia: Copyright Notices";
 				parameters[1] = new VersionDataPanel();
 				parameters[2] = LICENSE_FILENAME;
 				parameters[3] = LICENSE_NAME;
+
+				(new CreateFrameRunnable( LicenseDisplay.class, parameters )).run();
 			}
 			else
 			{
-				parameters = new Object[0];
+				KoLmafiaGUI.constructFrame( frameClass );
 			}
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new Thread( new CreateFrameRunnable( frameClass, parameters ) )).start();
 		}
 	}
 
@@ -751,7 +761,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * of an additional class is unnecessary.
 	 */
 
-	protected class InvocationMenuItem extends JMenuItem implements ActionListener, Runnable
+	protected class InvocationMenuItem extends RequestThreadMenuItem
 	{
 		private Object object;
 		private Method method;
@@ -784,10 +794,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			}
 		}
 
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
-		}
-
 		public void run()
 		{
 			try
@@ -810,7 +816,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * using a local panel inside of the adventure frame.
 	 */
 
-	protected class KoLPanelFrameMenuItem extends JMenuItem implements ActionListener
+	protected class KoLPanelFrameMenuItem extends RequestThreadMenuItem
 	{
 		private CreateFrameRunnable creator;
 
@@ -826,7 +832,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
 		}
 
-		public void actionPerformed( ActionEvent e )
+		public void run()
 		{	creator.run();
 		}
 	}

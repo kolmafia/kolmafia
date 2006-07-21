@@ -290,7 +290,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			{
 				JPanel containerPanel = new JPanel( new GridLayout( 11, 1, 5, 5 ) );
 
-				matchup = new DisplayFrameButton( "View Matchup", CakeArenaFrame.class );
+				matchup = new DisplayFrameButton( "View Matchup", "CakeArenaFrame" );
 				containerPanel.add( matchup );
 
 				containerPanel.add( new JLabel() );
