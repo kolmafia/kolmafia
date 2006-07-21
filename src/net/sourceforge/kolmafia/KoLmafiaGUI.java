@@ -37,6 +37,9 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.JOptionPane;
 
 /**
@@ -157,7 +160,12 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "KoLMessenger" ) )
 		{
+			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+				(new ChannelColorsRequest()).run();
+
 			KoLMessenger.initialize();
+			(new ChatRequest( StaticEntity.getClient(), null, "/listen" )).run();
+
 			return;
 		}
 		else if ( frameName.equals( "MailboxFrame" ) )
@@ -492,9 +500,44 @@ public class KoLmafiaGUI extends KoLmafia
 			null, "Set the device to what level?", "Change mind control device from level " + KoLCharacter.getMindControlLevel(),
 				JOptionPane.INFORMATION_MESSAGE, null, levelArray, levelArray[ KoLCharacter.getMindControlLevel() ] );
 
-		if ( selectedLevel == null)
+		if ( selectedLevel == null )
 			return;
 
 		(new RequestThread( new MindControlRequest( this, StaticEntity.parseInt( selectedLevel.split( " " )[1] ) ) )).run();
+	}
+
+	private static class ChannelColorsRequest extends KoLRequest
+	{
+		public ChannelColorsRequest()
+		{	super( StaticEntity.getClient(), "account_chatcolors.php", true );
+		}
+
+		public void run()
+		{
+			super.run();
+
+			// First, add in all the colors for all of the
+			// channel tags (for people using standard KoL
+			// chatting mode).
+
+			Matcher colorMatcher = Pattern.compile( "<td>(.*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			while ( colorMatcher.find() )
+				KoLMessenger.setColor( colorMatcher.group(1).toLowerCase(), StaticEntity.parseInt( colorMatcher.group(2) ) );
+
+			// Add in other custom colors which are available
+			// in the chat options.
+
+			colorMatcher = Pattern.compile( "<select name=chatcolorself>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			if ( colorMatcher.find() )
+				KoLMessenger.setColor( "chatcolorself", StaticEntity.parseInt( colorMatcher.group(1) ) );
+
+			colorMatcher = Pattern.compile( "<select name=chatcolorcontacts>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			if ( colorMatcher.find() )
+				KoLMessenger.setColor( "chatcolorcontacts", StaticEntity.parseInt( colorMatcher.group(1) ) );
+
+			colorMatcher = Pattern.compile( "<select name=chatcolorothers>.*?<option value=(\\d+) selected>" ).matcher( responseText );
+			if ( colorMatcher.find() )
+				KoLMessenger.setColor( "chatcolorothers", StaticEntity.parseInt( colorMatcher.group(1) ) );
+		}
 	}
 }
