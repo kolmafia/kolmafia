@@ -50,7 +50,7 @@ public abstract class PasswordHashRequest extends KoLRequest
 	protected void processResults()
 	{
 		Matcher pwdmatch = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\'](.*?)[\"\']" ).matcher( responseText );
-		if ( pwdmatch.find() )
+		if ( pwdmatch.find() && pwdmatch.group(1).length() > 0 )
 			passwordHash = pwdmatch.group(1);
 	}
 }
