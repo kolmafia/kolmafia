@@ -148,15 +148,6 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 
 		reset();  isRunning = true;
-		boolean requestColors = client.shouldMakeConflictingRequest();
-
-		Runnable [] requests = new Runnable[ requestColors ? 2 : 1 ];
-		requests[ requestColors ? 1 : 0 ] = new ChatRequest( client, null, "/listen" );
-
-		if ( requestColors )
-			requests[0] = new ChannelColorsRequest();
-
-		(new RequestThread( requests )).start();
 
 		// Clear the highlights and add all the ones which
 		// were saved from the last session.
@@ -1118,40 +1109,5 @@ public abstract class KoLMessenger extends StaticEntity
 		for ( int i = 0; i < keys.length; ++i )
 			if ( !keys[i].equals( "[highs]" ) )
 				getChatBuffer( (String) keys[i] ).applyHighlights();
-	}
-
-	private static class ChannelColorsRequest extends KoLRequest
-	{
-		public ChannelColorsRequest()
-		{	super( StaticEntity.getClient(), "account_chatcolors.php", true );
-		}
-
-		public void run()
-		{
-			super.run();
-
-			// First, add in all the colors for all of the
-			// channel tags (for people using standard KoL
-			// chatting mode).
-
-			Matcher colorMatcher = Pattern.compile( "<td>(.*?)&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			while ( colorMatcher.find() )
-				KoLMessenger.setColor( colorMatcher.group(1).toLowerCase(), StaticEntity.parseInt( colorMatcher.group(2) ) );
-
-			// Add in other custom colors which are available
-			// in the chat options.
-
-			colorMatcher = Pattern.compile( "<select name=chatcolorself>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorself", StaticEntity.parseInt( colorMatcher.group(1) ) );
-
-			colorMatcher = Pattern.compile( "<select name=chatcolorcontacts>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorcontacts", StaticEntity.parseInt( colorMatcher.group(1) ) );
-
-			colorMatcher = Pattern.compile( "<select name=chatcolorothers>.*?<option value=(\\d+) selected>" ).matcher( responseText );
-			if ( colorMatcher.find() )
-				KoLMessenger.setColor( "chatcolorothers", StaticEntity.parseInt( colorMatcher.group(1) ) );
-		}
 	}
 }
