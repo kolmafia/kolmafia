@@ -1007,7 +1007,7 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLmafia.getDebugStream().println( "Error reading server reply.  Retrying..." );
 			}
 
-			if ( this instanceof LocalRelayRequest )
+			if ( this instanceof LocalRelayRequest || this instanceof ChatRequest )
 			{
 				responseText = replyBuffer.toString();
 			}
