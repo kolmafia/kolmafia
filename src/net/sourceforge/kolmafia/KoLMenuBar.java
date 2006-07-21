@@ -668,8 +668,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		public LoadScriptMenuItem( String scriptName, String scriptPath )
 		{
 			super( scriptName );
-			addActionListener( this );
-
 			this.scriptPath = scriptPath;
 		}
 
@@ -709,7 +707,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		public DisplayFrameMenuItem( String title, String frameClass )
 		{
 			super( title );
-			addActionListener( this );
 			this.frameClass = frameClass;
 		}
 
@@ -775,7 +772,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		public InvocationMenuItem( String title, Class c, String methodName )
 		{
 			super( title );
-			addActionListener( this );
 
 			if ( c == null )
 				return;
@@ -823,7 +819,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		public KoLPanelFrameMenuItem( String title, ActionPanel panel )
 		{
 			super( title );
-			addActionListener( this );
 
 			Object [] parameters = new Object[2];
 			parameters[0] = title;

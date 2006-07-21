@@ -712,15 +712,13 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * the request for viewing frames.
 	 */
 
-	protected static class DisplayFrameButton extends JButton implements ActionListener, Runnable
+	protected static class DisplayFrameButton extends ThreadedActionButton
 	{
 		private String frameClass;
 
 		public DisplayFrameButton( String text, String frameClass )
 		{
 			super( text );
-
-			addActionListener( this );
 			this.frameClass = frameClass;
 		}
 
@@ -730,16 +728,30 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			JComponentUtilities.setComponentSize( this, 32, 32 );
 			setToolTipText( tooltip );
 
-			addActionListener( this );
 			this.frameClass = frameClass;
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
 		}
 
 		public void run()
 		{	KoLmafiaGUI.constructFrame( frameClass );
+		}
+	}
+
+	protected static abstract class ThreadedActionButton extends JButton implements ActionListener, Runnable
+	{
+		public ThreadedActionButton( String text )
+		{
+			super( text );
+			addActionListener( this );
+		}
+
+		public ThreadedActionButton( ImageIcon icon )
+		{
+			super( icon );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	(new Thread( this )).start();
 		}
 	}
 
@@ -750,7 +762,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * of an additional class is unnecessary.
 	 */
 
-	protected static class InvocationButton extends JButton implements ActionListener, Runnable
+	protected static class InvocationButton extends ThreadedActionButton
 	{
 		protected Object object;
 		protected Method method;
@@ -787,8 +799,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		protected void completeConstruction( Class c, String methodName )
 		{
-			addActionListener( this );
-
 			try
 			{
 				this.method = c.getMethod( methodName, NOPARAMS );
@@ -802,16 +812,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
-		}
-
 		public void run()
 		{
 			try
 			{
 				if ( method != null )
 					method.invoke( object, null );
+
+				KoLmafia.enableDisplay();
 			}
 			catch ( Exception e )
 			{
@@ -828,7 +836,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	 * using a local panel inside of the adventure frame.
 	 */
 
-	protected static class KoLPanelFrameButton extends JButton implements ActionListener
+	protected static class KoLPanelFrameButton extends ThreadedActionButton
 	{
 		protected Object [] parameters;
 
@@ -837,19 +845,18 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			super( JComponentUtilities.getImage( icon ) );
 			JComponentUtilities.setComponentSize( this, 32, 32 );
 			setToolTipText( tooltip );
-			addActionListener( this );
 
 			parameters = new Object[2];
 			parameters[0] = tooltip;
 			parameters[1] = panel;
 		}
 
-		public void actionPerformed( ActionEvent e )
-		{	(new Thread( new CreateFrameRunnable( KoLPanelFrame.class, parameters ) )).start();
+		public void run()
+		{	(new CreateFrameRunnable( KoLPanelFrame.class, parameters )).run();
 		}
 	}
 
-	protected static class RequestButton extends JButton implements ActionListener
+	protected static class RequestButton extends ThreadedActionButton
 	{
 		protected KoLRequest request;
 
@@ -857,7 +864,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		{
 			super( title );
 			this.request = request;
-			addActionListener( this );
 		}
 
 		public RequestButton( String title, String icon, KoLRequest request )
@@ -865,11 +871,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			super( JComponentUtilities.getImage( icon ) );
 			setToolTipText( title );
 			this.request = request;
-			addActionListener( this );
 		}
 
-		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( request )).start();
+		public void run()
+		{
+			request.run();
+			KoLmafia.enableDisplay();
 		}
 	}
 
