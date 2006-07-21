@@ -466,15 +466,18 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Smithing of items is possible whenever the person
 		// has a hammer.
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = KoLCharacter.getInventory().contains( HAMMER );
+		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = KoLCharacter.getInventory().contains( HAMMER ) &&
+			KoLCharacter.getAdventuresLeft() > 0;
 
 		// Advanced smithing is available whenever the person can
 		// smith and has access to the appropriate skill.
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH_WEAPON ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] && KoLCharacter.canSmithWeapons();
+		PERMIT_METHOD[ ItemCreationRequest.SMITH_WEAPON ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] &&
+			KoLCharacter.canSmithWeapons() && KoLCharacter.getAdventuresLeft() > 0;
 		ADVENTURE_USAGE[ ItemCreationRequest.SMITH_WEAPON ] = 1;
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH_ARMOR ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] && KoLCharacter.canSmithArmor();
+		PERMIT_METHOD[ ItemCreationRequest.SMITH_ARMOR ] = PERMIT_METHOD[ ItemCreationRequest.SMITH ] &&
+			KoLCharacter.canSmithArmor() && KoLCharacter.getAdventuresLeft() > 0;
 		ADVENTURE_USAGE[ ItemCreationRequest.SMITH_ARMOR ] = 1;
 
 		// Standard smithing is also possible if the person is in
@@ -486,12 +489,15 @@ public class ConcoctionsDatabase extends KoLDatabase
 			ADVENTURE_USAGE[ ItemCreationRequest.SMITH ] = 0;
 		}
 		else
+		{
 			ADVENTURE_USAGE[ ItemCreationRequest.SMITH ] = 1;
+		}
 
 		// Jewelry making is possible as long as the person has the
 		// appropriate pliers.
 
-		PERMIT_METHOD[ ItemCreationRequest.JEWELRY ] = KoLCharacter.getInventory().contains( PLIERS );
+		PERMIT_METHOD[ ItemCreationRequest.JEWELRY ] = KoLCharacter.getInventory().contains( PLIERS ) &&
+			KoLCharacter.getAdventuresLeft() > 2;
 		ADVENTURE_USAGE[ ItemCreationRequest.JEWELRY ] = 3;
 
 		// Star charts and pixel chart recipes are available to all
@@ -590,7 +596,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Transcendental Noodlecraft and is a Mysticality class
 		// character.
 
-		PERMIT_METHOD[ ItemCreationRequest.WOK ] = KoLCharacter.canUseWok() && KoLCharacter.getAdventuresLeft() > 0;
+		PERMIT_METHOD[ ItemCreationRequest.WOK ] = KoLCharacter.canUseWok() &&
+			KoLCharacter.getAdventuresLeft() > 0;
 		ADVENTURE_USAGE[ ItemCreationRequest.WOK ] = 1;
 
 		// Using the Malus of Forethought is possible if the person has
@@ -826,6 +833,9 @@ public class ConcoctionsDatabase extends KoLDatabase
 				this.total = Integer.MAX_VALUE;
 				for ( int i = 0; i < ingredientArray.length; ++i )
 					this.total = Math.min( this.total, concoctions.get( ingredientArray[i].getItemID() ).quantity() );
+
+				if ( ADVENTURE_USAGE[ mixingMethod ] != 0 )
+					this.total = Math.min( this.total, concoctions.get(0).quantity() );
 
 				// The total available for other creations is equal
 				// to the total, less the initial.
