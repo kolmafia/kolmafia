@@ -1007,7 +1007,18 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLmafia.getDebugStream().println( "Error reading server reply.  Retrying..." );
 			}
 
-			responseText = replyBuffer.toString().replaceAll( "<script.*?</script>", "" );
+			if ( this instanceof LocalRelayRequest )
+			{
+				responseText = replyBuffer.toString();
+			}
+			else
+			{
+				Matcher responseMatcher = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( replyBuffer.toString() );
+				responseText = responseMatcher.replaceAll( "" );
+
+				responseMatcher = Pattern.compile( "<!--.*?-->", Pattern.DOTALL ).matcher( responseText );
+				responseText = responseMatcher.replaceAll( "" );
+			}
 
 			if ( !isChatRequest )
 			{
@@ -1019,7 +1030,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			checkForNewEvents();
-			processRawResponse( replyBuffer.toString() );
+			processRawResponse( responseText );
 		}
 
 		try
