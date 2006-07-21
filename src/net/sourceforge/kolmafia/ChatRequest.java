@@ -54,7 +54,7 @@ public class ChatRequest extends KoLRequest
 	 */
 
 	public ChatRequest( KoLmafia client )
-	{	this( client, 0 );
+	{	this( client, 1 );
 	}
 
 	/**
@@ -178,12 +178,12 @@ public class ChatRequest extends KoLRequest
 					request.run();
 
 					if ( lastSeen == previousLastSeen )
-						lastSeen = 0;
+						lastSeen = 1;
 				}
 				catch ( Exception e )
 				{
 					StaticEntity.printStackTrace( e );
-					lastSeen = 0;
+					lastSeen = 1;
 				}
 
 				request.clearDataFields();
