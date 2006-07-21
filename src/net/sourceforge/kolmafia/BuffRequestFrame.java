@@ -35,31 +35,17 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.CardLayout;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
 import javax.swing.SpringLayout;
 
-// events
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.SwingUtilities;
-
 // containers
-import javax.swing.JComponent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 
 // utilities
-import java.util.ArrayList;
 import java.lang.ref.WeakReference;
 import com.sun.java.forums.SpringUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -74,8 +60,6 @@ public class BuffRequestFrame extends KoLFrame
 	{
 		super( "Purchase Buffs" );
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
-
-		// Configure buffbot offerings
 
 		BuffRequestPanel buffs = new BuffRequestPanel();
 		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );

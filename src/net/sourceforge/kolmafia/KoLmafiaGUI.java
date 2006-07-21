@@ -37,14 +37,7 @@ package net.sourceforge.kolmafia;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import java.awt.Component;
-import javax.swing.JEditorPane;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
-import java.lang.ref.WeakReference;
 
 /**
  * The main class for the <code>KoLmafia</code> package.  This
@@ -181,6 +174,11 @@ public class KoLmafiaGUI extends KoLmafia
 				updateDisplay( "Your mailbox is empty." );
 				return;
 			}
+		}
+		else if ( frameName.equals( "BuffRequestFrame" ) )
+		{
+			System.out.println( "Got here." );
+			BuffBotDatabase.configureBuffBots();
 		}
 		else if ( frameName.equals( "EventsFrame" ) )
 		{

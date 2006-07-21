@@ -180,7 +180,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	{
 		if ( tabListing.size() != 0 || isInitializing )
 			return;
-		
+
 		isInitializing = true;
 
 		String interfaceSetting = StaticEntity.getProperty( "initialDesktop" );
@@ -296,33 +296,33 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 	{
 		if ( toolbarPanel != null )
 		{
-			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", CouncilFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Council", "council.gif", "CouncilFrame" ) );
 			toolbarPanel.add( new InvocationButton( "Load in Browser", "browser.gif", StaticEntity.getClient(), "loadPreferredBrowser" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", CommandDisplayFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Graphical CLI", "command.gif", "CommandDisplayFrame" ) );
 			toolbarPanel.add( new JToolBar.Separator() );
 
-			toolbarPanel.add( new DisplayFrameButton( "IcePenguin Express", "mail.gif", MailboxFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "IcePenguin Express", "mail.gif", "MailboxFrame" ) );
 			toolbarPanel.add( new InvocationButton( "KoLmafia Chat", "chat.gif", KoLMessenger.class, "initialize" ) );
-			toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", ClanManageFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Clan Manager", "clan.gif", "ClanManageFrame" ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
-			toolbarPanel.add( new DisplayFrameButton( "Player Status", "hp.gif", CharsheetFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", ItemManageFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Equipment Manager", "equipment.gif", GearChangeFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", StoreManageFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", HagnkStorageFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Player Status", "hp.gif", "CharsheetFrame" ) );
+			toolbarPanel.add( new DisplayFrameButton( "Item Manager", "inventory.gif", "ItemManageFrame" ) );
+			toolbarPanel.add( new DisplayFrameButton( "Equipment Manager", "equipment.gif", "GearChangeFrame" ) );
+			toolbarPanel.add( new DisplayFrameButton( "Store Manager", "mall.gif", "StoreManageFrame") );
+			toolbarPanel.add( new DisplayFrameButton( "Hagnk's Storage", "hagnk.gif", "HagnkStorageFrame" ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
-			toolbarPanel.add( new DisplayFrameButton( "Purchase Buffs", "buff.gif", BuffRequestFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", FamiliarTrainingFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Player vs. Player", "flower.gif", FlowerHunterFrame.class ) );
-			toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", MushroomFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Purchase Buffs", "buff.gif", "BuffRequestFrame" ) );
+			toolbarPanel.add( new DisplayFrameButton( "Familiar Trainer", "arena.gif", "FamiliarTrainingFrame" ) );
+			toolbarPanel.add( new DisplayFrameButton( "Player vs. Player", "flower.gif", "FlowerHunterFrame" ) );
+			toolbarPanel.add( new DisplayFrameButton( "Mushroom Plot", "mushroom.gif", "MushroomFrame" ) );
 
 			toolbarPanel.add( new JToolBar.Separator() );
 
-			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", OptionsFrame.class ) );
+			toolbarPanel.add( new DisplayFrameButton( "Preferences", "preferences.gif", "OptionsFrame" ) );
 		}
 	}
 

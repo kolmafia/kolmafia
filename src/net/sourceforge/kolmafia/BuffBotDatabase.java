@@ -161,6 +161,7 @@ public class BuffBotDatabase extends KoLDatabase
 	}
 
 	// Buffs obtainable from all public buffbots
+	private static boolean isInitialized = false;
 	private static BuffList allBots = new BuffList();
 
 	public static int buffCount()
@@ -205,61 +206,98 @@ public class BuffBotDatabase extends KoLDatabase
 
 	public static void configureBuffBots()
 	{
+		if ( isInitialized )
+			return;
+
 		// List of all bots includes static + dynamic
 		allBots = new BuffList();
 		allBots.addBuffList( staticBots );
 
 		KoLmafia.updateDisplay( "Configuring dynamic buff prices..." );
 
-		// Iterate over list of bots and configure each one
+		// Iterate over list of bots and configure each one in a
+		// separate thread; since it's all located on separate
+		// servers, it's possible to do this.
+
 		int botCount = bots.size();
+		DynamicBotFetcher [] botfetches = new DynamicBotFetcher[ botCount ];
 
 		for ( int i = 0; i < botCount; ++i )
 		{
 			String [] entry = (String []) bots.get(i);
-			configureDynamicBot( client, entry[0], entry[1], entry[2] );
+
+			KoLmafia.registerPlayer( entry[1], entry[2] );
+			botfetches[i] = new DynamicBotFetcher( entry[0], entry[2] );
+			(new Thread( botfetches[i] )).start();
+		}
+
+		// Iterate over the fetching runnables to see if the
+		// configuration is complete.  Continue waiting until
+		// it is complete.
+
+		boolean configurationComplete = false;
+		while ( !configurationComplete )
+		{
+			KoLRequest.delay( 500 );
+			configurationComplete = true;
+			for ( int i = 0; i < botCount; ++i )
+				configurationComplete &= botfetches[i].completedFetch;
 		}
 
 		KoLmafia.updateDisplay( "Buff prices fetched." );
+		isInitialized = true;
 	}
 
-	private static void configureDynamicBot( KoLmafia client, String name, String id, String location )
+	private static class DynamicBotFetcher implements Runnable
 	{
-		KoLmafia.updateDisplay( "Fetching buff prices from " + name + "..." );
-		KoLRequest request = new KoLRequest( client, location );
-		request.run();
+		private String name, location;
+		private boolean completedFetch;
 
-		// Now, for the infamous XML parse tree.  Rather than building
-		// a tree (which would probably be smarter), simply do regular
-		// expression matching and assume we have a properly-structured
-		// XML file -- which is assumed because of the XSLT.
-
-		Matcher nodeMatcher = Pattern.compile( "<buffdata>(.*?)</buffdata>", Pattern.DOTALL ).matcher( request.responseText );
-		Pattern namePattern = Pattern.compile( "<name>(.*?)</name>", Pattern.DOTALL );
-		Pattern pricePattern = Pattern.compile( "<price>(.*?)</price>", Pattern.DOTALL );
-		Pattern turnPattern = Pattern.compile( "<turns>(.*?)</turns>", Pattern.DOTALL );
-		Pattern oncePattern = Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
-
-		BuffList buffs = new BuffList();
-		Matcher nameMatcher, priceMatcher, turnMatcher, onceMatcher;
-
-		while ( nodeMatcher.find() )
+		public DynamicBotFetcher( String name, String location )
 		{
-			nameMatcher = namePattern.matcher( nodeMatcher.group(1) );
-			priceMatcher = pricePattern.matcher( nodeMatcher.group(1) );
-			turnMatcher = turnPattern.matcher( nodeMatcher.group(1) );
-			onceMatcher = oncePattern.matcher( nodeMatcher.group(1) );
-
-			if ( nameMatcher.find() && priceMatcher.find() && turnMatcher.find() )
-			{
-				buffs.findAbbreviation( nameMatcher.group(1).trim() ).addOffering(
-					new Offering( name, StaticEntity.parseInt( priceMatcher.group(1).trim() ),
-					StaticEntity.parseInt( turnMatcher.group(1).trim() ),
-					onceMatcher.find() ? onceMatcher.group(1).trim().equals( "true" ) : false ) );
-			}
+			this.name = name;
+			this.location = location;
+			this.completedFetch = false;
 		}
 
-		allBots.addBuffList( buffs );
+		public void run()
+		{
+			KoLRequest request = new KoLRequest( client, location );
+			request.run();
+
+			// Now, for the infamous XML parse tree.  Rather than building
+			// a tree (which would probably be smarter), simply do regular
+			// expression matching and assume we have a properly-structured
+			// XML file -- which is assumed because of the XSLT.
+
+			Matcher nodeMatcher = Pattern.compile( "<buffdata>(.*?)</buffdata>", Pattern.DOTALL ).matcher( request.responseText );
+			Pattern namePattern = Pattern.compile( "<name>(.*?)</name>", Pattern.DOTALL );
+			Pattern pricePattern = Pattern.compile( "<price>(.*?)</price>", Pattern.DOTALL );
+			Pattern turnPattern = Pattern.compile( "<turns>(.*?)</turns>", Pattern.DOTALL );
+			Pattern oncePattern = Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
+
+			BuffList buffs = new BuffList();
+			Matcher nameMatcher, priceMatcher, turnMatcher, onceMatcher;
+
+			while ( nodeMatcher.find() )
+			{
+				nameMatcher = namePattern.matcher( nodeMatcher.group(1) );
+				priceMatcher = pricePattern.matcher( nodeMatcher.group(1) );
+				turnMatcher = turnPattern.matcher( nodeMatcher.group(1) );
+				onceMatcher = oncePattern.matcher( nodeMatcher.group(1) );
+
+				if ( nameMatcher.find() && priceMatcher.find() && turnMatcher.find() )
+				{
+					buffs.findAbbreviation( nameMatcher.group(1).trim() ).addOffering(
+						new Offering( name, StaticEntity.parseInt( priceMatcher.group(1).trim() ),
+						StaticEntity.parseInt( turnMatcher.group(1).trim() ),
+						onceMatcher.find() ? onceMatcher.group(1).trim().equals( "true" ) : false ) );
+				}
+			}
+
+			allBots.addBuffList( buffs );
+			completedFetch = true;
+		}
 	}
 
 /*
