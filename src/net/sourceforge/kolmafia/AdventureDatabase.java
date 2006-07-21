@@ -553,7 +553,7 @@ public class AdventureDatabase extends KoLDatabase
 
 			int price = TradeableItemDatabase.getPriceByID( item.getItemID() );
 
-			boolean shouldPurchase = price != 0 && price != -1;
+			boolean shouldPurchase = (price != 0 && price != -1) || item.getName().indexOf( "clover" ) != -1;
 			boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
 
 			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) || ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.PIXEL;

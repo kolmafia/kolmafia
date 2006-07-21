@@ -560,9 +560,19 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// of creation.
 
 		AdventureResult usedServant = null;
+		boolean isCreatePermitted = getProperty( "createWithoutBoxServants" ).equals( "true" );
+		boolean hasNoServantItem = KoLCharacter.getInventory().contains( noServantItem ) || KoLCharacter.getAvailableMeat() >= 1000;
 
 		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
-			return getProperty( "createWithoutBoxServants" ).equals( "true" ) && noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
+		{
+			if ( !isCreatePermitted )
+				return false;
+
+			if ( hasNoServantItem )
+				AdventureDatabase.retrieveItem( noServantItem );
+
+			return hasNoServantItem;
+		}
 
 		if ( KoLCharacter.hasItem( clockworkServant, false ) )
 			usedServant = clockworkServant;
@@ -578,17 +588,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		if ( usedServant == null )
 		{
-			boolean isCreatePermitted = getProperty( "createWithoutBoxServants" ).equals( "true" );
-
-			// If they cannot afford to buy an NPC store item, that means
-			// it all depends on whether or not they currently have the item.
-
-			if ( KoLCharacter.getAvailableMeat() < 1000 )
-			{
-				return isCreatePermitted &&
-					noServantItem.getCount( KoLCharacter.getInventory() ) > 0;
-			}
-
 			// If the player can construct the box servant with just a few
 			// more purchases, then do so.
 
@@ -601,13 +600,20 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 				if ( KoLCharacter.hasItem( skullItem, true ) && KoLCharacter.hasItem( BOX, false ) )
 					usedServant = servant;
 			}
+			else if ( isCreatePermitted )
+			{
+				if ( hasNoServantItem )
+					AdventureDatabase.retrieveItem( noServantItem );
+
+				return hasNoServantItem;
+			}
 			else if ( KoLCharacter.canInteract() && getProperty( "autoSatisfyChecks" ).equals( "true" ) )
 			{
-				usedServant = clockworkServant;
+				usedServant = servant;
 			}
 
 			if ( usedServant == null )
-				return isCreatePermitted;
+				return false;
 		}
 
 		// Once you hit this point, you're guaranteed to
