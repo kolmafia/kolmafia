@@ -94,6 +94,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected static PrintStream outputStream = NullStream.INSTANCE;
 	protected static PrintStream mirrorStream = NullStream.INSTANCE;
 
+	private static boolean isEnabled = true;
 	protected static LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", true, false );
 
 	private static final String [] OVERRIDE_DATA =
@@ -322,10 +323,15 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( KoLDesktop.instanceExists() )
 			KoLDesktop.getInstance().updateDisplayState( state );
+
+		isEnabled = (state == ERROR_STATE || state == ENABLE_STATE);
 	}
 
 	public static void enableDisplay()
 	{
+		if ( isEnabled )
+			return;
+
 		updateDisplayState(
 			continuationState == ABORT_STATE || continuationState == ERROR_STATE ? ABORT_STATE : ENABLE_STATE, null );
 	}

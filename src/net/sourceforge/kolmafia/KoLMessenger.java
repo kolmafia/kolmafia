@@ -338,7 +338,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		isRunning = false;
 
-		(new RequestThread( new ChatRequest( client, currentChannel, "/exit" ) )).start();
+		(new Thread( new ChatRequest( client, currentChannel, "/exit" ) )).start();
 		removeChat( currentChannel );
 
 		currentChannel = "";
