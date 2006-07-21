@@ -203,6 +203,7 @@ public class KoLmafiaGUI extends KoLmafia
 		{
 			Class associatedClass = Class.forName( "net.sourceforge.kolmafia." + frameName );
 			(new CreateFrameRunnable( associatedClass )).run();
+			enableDisplay();
 		}
 		catch ( ClassNotFoundException e )
 		{
