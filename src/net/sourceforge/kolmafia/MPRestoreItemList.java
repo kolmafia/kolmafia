@@ -120,9 +120,6 @@ public abstract class MPRestoreItemList extends StaticEntity
 			int numberToUse = (int) Math.ceil( (double) mpShort / (double) mpPerUse );
 			int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
 
-			if ( numberToUse == 0 )
-				numberToUse = 1;
-
 			numberToUse = NPCStoreDatabase.contains( this.toString() ) ? numberToUse :
 				Math.min( numberAvailable, numberToUse );
 
