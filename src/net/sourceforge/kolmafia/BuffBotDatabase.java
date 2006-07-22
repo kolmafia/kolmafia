@@ -90,59 +90,6 @@ public class BuffBotDatabase extends KoLDatabase
 		{ new Integer(3), "Smile" }
 	};
 
-	// Buffs obtainable from statically configured buffbots
-	private static BuffList staticBots = new BuffList();
-
-	// buffs.dat configures the statically configured buffbots
-	static
-	{
-		// Open the data file
-		BufferedReader reader = getReader( "buffs.dat" );
-
-		// Read a line at a time
-
-		String [] data;
-		while ( (data = readData( reader )) != null )
-		{
-			if ( data.length == 5 )
-			{
-				// Get the fields
-
-				String bot = data[0];
-
-				// Validate the fields
-
-				String skillName = data[1];
-				Buff buff = staticBots.findBuff( skillName );
-
-				if ( buff == null )
-				{
-					System.out.println( "Unknown buff: " + skillName );
-					continue;
-				}
-
-				int price = StaticEntity.parseInt( data[2] );
-				int turns = StaticEntity.parseInt( data[3] );
-				int free = StaticEntity.parseInt( data[4] );
-
-				// Add this offering to the buff
-				buff.addOffering( new Offering( bot, price, turns, free != 0 ) );
-			}
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
 	// List of supported buffbots with parsable display cases
 	private static ArrayList bots = new ArrayList();
 
@@ -211,7 +158,6 @@ public class BuffBotDatabase extends KoLDatabase
 
 		// List of all bots includes static + dynamic
 		allBots = new BuffList();
-		allBots.addBuffList( staticBots );
 
 		KoLmafia.updateDisplay( "Configuring dynamic buff prices..." );
 
