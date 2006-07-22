@@ -149,13 +149,13 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	protected void fireIntervalRemoved( Object source, int index0, int index1 )
 	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 )).run();
 	}
-	
+
 	public void sort()
 	{
 		Collections.sort( elements );
 		fireContentsChanged( this, 0, size() - 1 );
 	}
-	
+
 	public void sort( Comparator c )
 	{
 		Collections.sort( elements, c );
@@ -276,13 +276,8 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	{	return elements.containsAll( c );
 	}
 
-	/**
-	 * Please refer to {@link java.util.List#equals(Object)} for more
-	 * information regarding this function.
-	 */
-
 	public boolean equals( Object o )
-	{	return elements.equals( o );
+	{	return this == o;
 	}
 
 	/**
@@ -323,7 +318,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public boolean isEmpty()
 	{	return elements.isEmpty();
 	}
-	
+
 	/**
 	 * Internal class used to handle iterators.  This is done to
 	 * ensure that all applicable interface structures are notified
@@ -334,11 +329,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	{
 		private int nextIndex, previousIndex;
 		private boolean isIncrementing;
-		
+
 		public ListModelIterator()
 		{	this( 0 );
 		}
-		
+
 		public ListModelIterator( int initialIndex )
 		{
 			nextIndex = 0;
@@ -349,7 +344,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		public boolean hasPrevious()
 		{	return previousIndex > 0;
 		}
-		
+
 		public boolean hasNext()
 		{	return nextIndex < LockableListModel.this.size();
 		}
@@ -358,32 +353,32 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		{
 			isIncrementing = true;
 			Object nextObject = LockableListModel.this.get( nextIndex );
-			++nextIndex;  ++previousIndex;			
+			++nextIndex;  ++previousIndex;
 			return nextObject;
 		}
-		
+
 		public Object previous()
 		{
 			isIncrementing = false;
 			Object previousObject = LockableListModel.this.get( previousIndex );
-			--nextIndex;  --previousIndex;			
+			--nextIndex;  --previousIndex;
 			return previousObject;
 		}
-		
+
 		public int nextIndex()
 		{	return nextIndex;
 		}
-		
+
 		public int previousIndex()
 		{	return previousIndex;
 		}
-		
+
 		public void add( Object o )
 		{
 			LockableListModel.this.add( nextIndex, o );
 			++nextIndex;  ++previousIndex;
 		}
-		
+
 		public void remove()
 		{
 			if ( isIncrementing )
@@ -397,7 +392,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 				LockableListModel.this.remove( previousIndex );
 			}
 		}
-		
+
 		public void set( Object o )
 		{
 			LockableListModel.this.set( isIncrementing ?
