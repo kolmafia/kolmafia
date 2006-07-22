@@ -185,7 +185,6 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{
-			System.out.println( "Got here." );
 			BuffBotDatabase.configureBuffBots();
 		}
 		else if ( frameName.equals( "EventsFrame" ) )
