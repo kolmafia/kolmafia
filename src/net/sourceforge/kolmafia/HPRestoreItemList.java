@@ -127,9 +127,6 @@ public abstract class HPRestoreItemList extends StaticEntity
 			int belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
 			int numberToUse = (int) Math.ceil( (double) hpShort / (double) hpPerUse );
 
-			if ( numberToUse == 0 )
-				numberToUse = 1;
-
 			if ( ClassSkillsDatabase.contains( itemName ) )
 			{
 				if ( !KoLCharacter.hasSkill( itemName ) )
