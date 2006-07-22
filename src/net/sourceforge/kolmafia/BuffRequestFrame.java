@@ -78,12 +78,20 @@ public class BuffRequestFrame extends KoLFrame
 
 			// Add a panel for each available buff
 			int buffCount = BuffBotDatabase.buffCount();
-			boxes = new BuffRequestBox[buffCount];
+			int actualBuffCount = 0;
 
 			for ( int i = 0; i < buffCount; ++i )
-				boxes[i] = new BuffRequestBox( i );
+				if ( BuffBotDatabase.getBuffOfferingCount(i) > 0 )
+					++actualBuffCount;
 
-			SpringUtilities.makeCompactGrid( this, buffCount, 3, 5, 5, 5, 5 );
+			boxes = new BuffRequestBox[ actualBuffCount ];
+			int buffRequestIndex = 0;
+
+			for ( int i = 0; i < buffCount; ++i )
+				if ( BuffBotDatabase.getBuffOfferingCount(i) > 0 )
+					boxes[buffRequestIndex++] = new BuffRequestBox( i );
+
+			SpringUtilities.makeCompactGrid( this, actualBuffCount, 3, 5, 5, 5, 5 );
 		}
 
 		public void setEnabled( boolean isEnabled )
