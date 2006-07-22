@@ -59,6 +59,9 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class MoodSettings implements KoLConstants
 {
+	private static int thiefTriggerLimit = 3;
+	private static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
+
 	private static File settingsFile = null;
 	private static String characterName = "";
 	private static TreeMap reference = new TreeMap();
@@ -148,6 +151,8 @@ public abstract class MoodSettings implements KoLConstants
 		// Check to make sure that there are fewer than three thief
 		// triggers if this is a thief trigger.
 
+		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
+
 		if ( node.isThiefTrigger() )
 		{
 			int thiefTriggerCount = 0;
@@ -155,7 +160,7 @@ public abstract class MoodSettings implements KoLConstants
 				if ( ((MoodTrigger)triggers.get(i)).isThiefTrigger() )
 					++thiefTriggerCount;
 
-			if ( thiefTriggerCount == 3 )
+			if ( thiefTriggerCount >= thiefTriggerLimit )
 				return;
 		}
 
@@ -223,7 +228,9 @@ public abstract class MoodSettings implements KoLConstants
 			}
 		}
 
-		if ( !thiefSkills.isEmpty() && thiefSkills.size() < 4 )
+		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
+
+		if ( !thiefSkills.isEmpty() && thiefSkills.size() <= thiefTriggerLimit )
 		{
 			String [] skillNames = new String[ thiefSkills.size() ];
 			thiefSkills.toArray( skillNames );
@@ -294,23 +301,23 @@ public abstract class MoodSettings implements KoLConstants
 			}
 		}
 
-		// If you have too many accordion thief buffs to execute
-		// your triggers, then shrug off your extra buffs.
-
+		ArrayList thiefSkills = new ArrayList();
 		for ( int i = 0; i < triggers.size(); ++i )
 		{
 			current = (MoodTrigger) triggers.get(i);
 			if ( current.isThiefTrigger() )
-			{
-				if ( thiefBuffs.contains( current.effect ) )
-					continue;
-
-				if ( thiefBuffs.size() == 3 )
-					DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.remove(0)).getName() );
-
-				thiefBuffs.add( current.effect );
-			}
+				thiefSkills.add( current.effect );
 		}
+
+		// If you have too many accordion thief buffs to execute
+		// your triggers, then shrug off your extra buffs.
+
+		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
+		thiefBuffs.removeAll( thiefSkills );
+
+		for ( int i = 0; i < thiefBuffs.size() && thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit; ++i )
+			if ( !thiefSkills.contains( thiefBuffs.get(i) ) )
+				DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.remove(i--)).getName() );
 
 		// Now that everything is prepared, go ahead and execute
 		// the triggers which have been set.

@@ -440,7 +440,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		else if ( responseText.indexOf( "too many songs" ) != -1 )
 		{
 			encounteredError = true;
-			lastUpdate = target + " has 3 AT buffs already.";
+			lastUpdate = "Selected target has 3 AT buffs already.";
 		}
 		else if ( responseText.indexOf( "casts left of the Smile of Mr. A" ) != -1 )
 		{
@@ -450,17 +450,17 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		else if ( responseText.indexOf( "Invalid target player" ) != -1 )
 		{
 			encounteredError = true;
-			lastUpdate = target + " is not a valid target.";
+			lastUpdate = "Selected target is not a valid target.";
 		}
 		else if ( responseText.indexOf( "busy fighting" ) != -1 )
 		{
 			encounteredError = true;
-			lastUpdate = target + " is busy fighting.";
+			lastUpdate = "Selected target is busy fighting.";
 		}
 		else if ( responseText.indexOf( "receive buffs" ) != -1 )
 		{
 			encounteredError = true;
-			lastUpdate = target + " cannot receive buffs.";
+			lastUpdate = "Selected target cannot receive buffs.";
 		}
 		else if ( responseText.indexOf( "accordion equipped" ) != -1 )
 		{
