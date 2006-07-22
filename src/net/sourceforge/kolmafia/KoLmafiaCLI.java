@@ -424,7 +424,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.startsWith( "chat" ) )
 		{
-			KoLMessenger.initialize();
+			KoLmafiaGUI.constructFrame( "KoLMessenger" );
 			return;
 		}
 
