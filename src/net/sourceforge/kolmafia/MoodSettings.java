@@ -114,7 +114,6 @@ public abstract class MoodSettings implements KoLConstants
 
 		mood = mood == null || mood.trim().equals( "" ) ? "default" : mood.toLowerCase().trim();
 
-		// If this is a new mood, do not load with current mood's triggers
 		ensureProperty( mood );
 
 		StaticEntity.setProperty( "currentMood", mood );
