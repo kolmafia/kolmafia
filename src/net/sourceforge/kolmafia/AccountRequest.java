@@ -44,6 +44,8 @@ public class AccountRequest extends PasswordHashRequest
 
 	protected void processResults()
 	{
+		super.processResults();
+
 		// Parse response text -- make sure you
 		// aren't accidentally parsing profiles.
 
