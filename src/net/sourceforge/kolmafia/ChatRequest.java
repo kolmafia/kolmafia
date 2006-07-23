@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 /**
@@ -45,7 +47,7 @@ public class ChatRequest extends KoLRequest
 {
 	private static final int CHAT_DELAY = 8000;
 
-	private static int lastSeen;
+	private static String lastSeen;
 	private static ChatContinuationThread thread = null;
 
 	/**
@@ -54,7 +56,7 @@ public class ChatRequest extends KoLRequest
 	 */
 
 	public ChatRequest( KoLmafia client )
-	{	this( client, 1 );
+	{	this( client, "1" );
 	}
 
 	/**
@@ -109,10 +111,10 @@ public class ChatRequest extends KoLRequest
 	 * appropriate value should be.
 	 */
 
-	private ChatRequest( KoLmafia client, int lastSeen )
+	private ChatRequest( KoLmafia client, String lastSeen )
 	{
 		super( client, "newchatmessages.php" );
-		addFormField( "lasttime", String.valueOf( lastSeen ) );
+		addFormField( "lasttime", lastSeen );
 		ChatRequest.lastSeen = lastSeen;
 	}
 
@@ -140,10 +142,9 @@ public class ChatRequest extends KoLRequest
 			thread.start();
 		}
 
-		int index = responseText.indexOf( "<!--lastseen:" );
-
-		if ( index != -1 )
-			lastSeen = StaticEntity.parseInt( responseText.substring( index + 13, index + 23 ) );
+		Matcher lastSeenMatcher = Pattern.compile( "<!--.*?:(\\d+)-->" ).matcher( responseText );
+		if ( lastSeenMatcher.find() )
+			lastSeen = lastSeenMatcher.group(1);
 
 		try
 		{
@@ -177,16 +178,16 @@ public class ChatRequest extends KoLRequest
 				{
 					ChatRequest.delay( CHAT_DELAY );
 
-					int previousLastSeen = lastSeen;
+					String previousLastSeen = lastSeen;
 					request.run();
 
-					if ( lastSeen == previousLastSeen )
-						lastSeen = 1;
+					if ( lastSeen.equals( previousLastSeen ) )
+						lastSeen = "1";
 				}
 				catch ( Exception e )
 				{
 					StaticEntity.printStackTrace( e );
-					lastSeen = 1;
+					lastSeen = "1";
 				}
 
 				request.clearDataFields();
