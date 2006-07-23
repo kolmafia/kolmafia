@@ -123,7 +123,8 @@ public class KoLmafiaGUI extends KoLmafia
 			initialFrameList.toArray( initialFrames );
 
 			for ( int i = 0; i < initialFrames.length; ++i )
-				constructFrame( initialFrames[i] );
+				if ( !initialFrames[i].equals( "EventsFrame" ) )
+					constructFrame( initialFrames[i] );
 		}
 
 		if ( !StaticEntity.getProperty( "initialDesktop" ).equals( "" ) )
@@ -200,14 +201,6 @@ public class KoLmafiaGUI extends KoLmafia
 				enableDisplay();
 				return;
 			}
-		}
-		else if ( frameName.equals( "EventsFrame" ) )
-		{
-			// Inside of the KoLRequest object, events frames are
-			// already automatically loaded on receipt of an event,
-			// so no additional processing needs to happen here.
-
-			return;
 		}
 		else if ( frameName.equals( "RestoreOptionsFrame" ) )
 			frameName = "OptionsFrame";
