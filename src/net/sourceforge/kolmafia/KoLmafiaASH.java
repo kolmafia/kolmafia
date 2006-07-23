@@ -4846,7 +4846,7 @@ public class KoLmafiaASH extends StaticEntity
 					// Fall through
 				default:
 					traceUnindent();
-					return VOID_VALUE;
+					return result;
 				}
 			}
 
