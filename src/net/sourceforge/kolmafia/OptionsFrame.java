@@ -1160,7 +1160,7 @@ public class OptionsFrame extends KoLFrame
 			if ( name == null )
 				return;
 
-			MoodSettings.setMood( name );
+			moodList.setModel( MoodSettings.setMood( name ) );
 		}
 
 		public void actionCancelled()
