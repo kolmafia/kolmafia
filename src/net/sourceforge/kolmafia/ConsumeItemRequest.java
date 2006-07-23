@@ -318,6 +318,8 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
+		int originalEffectCount = KoLCharacter.getEffects().size();
+
 		// Perform item-specific processing
 		switch ( itemUsed.getItemID() )
 		{
@@ -429,10 +431,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		case TINY_HOUSE:
 			// Tiny houses remove lots of different effects.
-
-			int originalEffectCount = KoLCharacter.getEffects().size();
 			client.applyTinyHouseEffect();
-			needsRefresh = originalEffectCount != KoLCharacter.getEffects().size();
 			break;
 
 		case RAFFLE_TICKET:
@@ -646,6 +645,9 @@ public class ConsumeItemRequest extends KoLRequest
 			StaticEntity.setProperty( "nextAdventure", "" );
 			break;
 		}
+
+		// We might have removed - or added - an effect
+		needsRefresh |= originalEffectCount != KoLCharacter.getEffects().size();
 
 		// If we get here, we know that the item is consumed by being
 		// used. Do so.
