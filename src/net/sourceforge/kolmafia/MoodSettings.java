@@ -113,6 +113,8 @@ public abstract class MoodSettings implements KoLConstants
 			MoodSettings.reset();
 
 		mood = mood == null || mood.trim().equals( "" ) ? "default" : mood.toLowerCase().trim();
+
+		// If this is a new mood, do not load with current mood's triggers
 		ensureProperty( mood );
 
 		StaticEntity.setProperty( "currentMood", mood );
@@ -499,14 +501,11 @@ public abstract class MoodSettings implements KoLConstants
 	 * initializes it to the given value.
 	 */
 
-	private synchronized static void ensureProperty( String key )
+	private static void ensureProperty( String key )
 	{
 		if ( !reference.containsKey( key ) )
 		{
 			SortedListModel defaultList = new SortedListModel();
-
-			if ( !key.equals( "apathetic" ) )
-				defaultList.addAll( triggers );
 
 			reference.put( key, defaultList );
 			availableMoods.add( key );

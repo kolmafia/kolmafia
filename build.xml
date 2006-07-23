@@ -61,7 +61,6 @@
 
 	</target>
 
-
 	<!-- ============================= -->
 	<!--  generate the executable JAR  -->
 	<!-- ============================= -->
@@ -76,7 +75,6 @@
 
 	</target>
 
-
 	<!-- ================================================ -->
 	<!--  generate the executable JAR from a clean state  -->
 	<!-- ================================================ -->
@@ -85,6 +83,32 @@
 		<ant target="jar"/>
 	</target>
 
+	<!-- ================================================ -->
+	<!--  generate the debugging JAR                      -->
+	<!-- ================================================ -->
+
+	<target name="debug" depends="clean,init">
+
+		<javac source="1.4" srcdir="${src}" destdir="${build}" classpath="${lib}/*.jar"
+			debug="true" debuglevel="lines,vars,source" />
+
+		<copy todir="${build}" preservelastmodified="true">
+			<fileset dir="${src}">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${build}" preservelastmodified="true">
+			<fileset dir="${lib}"/>
+		</copy>
+	
+		<jar destfile="${jarfile}" basedir="${build}" update="true" index="yes">
+			<manifest>
+				<attribute name="Main-Class" value="${main-class}"/>
+			</manifest>
+		</jar>
+
+	</target>
 
 	<!-- =========================== -->
 	<!--  generate the distribution  -->
