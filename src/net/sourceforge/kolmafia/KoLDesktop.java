@@ -34,51 +34,18 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Dimension;
 import java.awt.BorderLayout;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
-import javax.swing.JTextField;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JComponent;
-import javax.swing.JFileChooser;
-import javax.swing.JRootPane;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-
-import java.io.File;
-import java.io.FilenameFilter;
+import java.util.Date;
 import java.util.ArrayList;
-import java.lang.reflect.Method;
-import java.lang.ref.WeakReference;
-
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import javax.swing.SwingUtilities;
-
-import net.java.dev.spellcast.utilities.ActionPanel;
-import net.java.dev.spellcast.utilities.LicenseDisplay;
-import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
-
-import com.sun.java.forums.CloseableTabbedPane;
-import com.sun.java.forums.CloseableTabbedPaneListener;
 
 public class KoLDesktop extends KoLFrame implements ChangeListener
 {
@@ -192,6 +159,30 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 		if ( tabs.getTabCount() != 0 )
 			tabs.setSelectedIndex(0);
+
+		if ( KoLMailManager.hasNewMessages() )
+		{
+			KoLmafia.updateDisplay( "You have new mail." );
+		}
+		else
+		{
+			try
+			{
+				String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ) );
+
+				if ( holiday.startsWith( "No" ) )
+					KoLmafia.updateDisplay( MoonPhaseDatabase.getMoonEffect() );
+				else
+					KoLmafia.updateDisplay( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
+			}
+			catch ( Exception e )
+			{
+				// This should not happen.  Therefore, print
+				// a stack trace for debug purposes.
+
+				StaticEntity.printStackTrace( e );
+			}
+		}
 
 		isInitializing = false;
 	}

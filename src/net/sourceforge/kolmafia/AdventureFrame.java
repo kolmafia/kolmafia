@@ -97,23 +97,6 @@ public class AdventureFrame extends KoLFrame
 		adventureContainer.add( adventureSelect, BorderLayout.NORTH );
 		adventureContainer.add( southPanel, BorderLayout.CENTER );
 
-		try
-		{
-			String holiday = MoonPhaseDatabase.getHoliday( DATED_FILENAME_FORMAT.parse( DATED_FILENAME_FORMAT.format( new Date() ) ) );
-
-			if ( holiday.startsWith( "No" ) || holiday.indexOf( "Birthday" ) != -1 )
-				adventureSelect.setStatusMessage( MoonPhaseDatabase.getMoonEffect() );
-			else
-				adventureSelect.setStatusMessage( holiday + ", " + MoonPhaseDatabase.getMoonEffect() );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-
 		getContentPane().add( adventureContainer, BorderLayout.CENTER );
 	}
 
