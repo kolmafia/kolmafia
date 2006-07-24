@@ -63,7 +63,8 @@ public class FightRequest extends KoLRequest
 		"crazy bastard",
 		"hockey elemental",
 		"hypnotist of hey deze",
-		"infinite meat bug"
+		"infinite meat bug",
+		"master of thieves"
 	};
 
 	private static final String [] HOLIDAY_MONSTERS =
