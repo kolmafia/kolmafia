@@ -35,20 +35,19 @@
 package net.sourceforge.kolmafia;
 
 // layout
+import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import javax.swing.SpringLayout;
 
 // containers
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 // utilities
-import java.lang.ref.WeakReference;
-import com.sun.java.forums.SpringUtilities;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * A Frame to provide access to supported buffbots
@@ -56,114 +55,90 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffRequestFrame extends KoLFrame
 {
+	private int buffIndex = -1;
+	private JList buffRequestList;
+	private JComboBox buffOptions;
+	private LockableListModel buffRequests = new LockableListModel();
+
 	public BuffRequestFrame()
 	{
 		super( "Purchase Buffs" );
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
-
-		BuffRequestPanel buffs = new BuffRequestPanel();
-		JScrollPane scroller = new JScrollPane( buffs, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		JComponentUtilities.setComponentSize( scroller, 600, 480 );
-		framePanel.add( scroller, "" );
+		framePanel.add( new BuffRequestPanel(), "" );
 	}
 
-	private class BuffRequestPanel extends JPanel
+	private class BuffRequestPanel extends LabeledScrollPanel
 	{
-		BuffRequestBox [] boxes;
-
 		public BuffRequestPanel()
 		{
-			super( new SpringLayout() );
-			existingPanels.add( new WeakReference( this ) );
+			super( "", "request", "online?", new JList( buffRequests ) );
 
-			// Add a panel for each available buff
-			int buffCount = BuffBotDatabase.buffCount();
-			int actualBuffCount = 0;
-
-			for ( int i = 0; i < buffCount; ++i )
-				if ( BuffBotDatabase.getBuffOfferingCount(i) > 0 )
-					++actualBuffCount;
-
-			boxes = new BuffRequestBox[ actualBuffCount ];
-			int buffRequestIndex = 0;
-
-			for ( int i = 0; i < buffCount; ++i )
-				if ( BuffBotDatabase.getBuffOfferingCount(i) > 0 )
-					boxes[buffRequestIndex++] = new BuffRequestBox( i );
-
-			SpringUtilities.makeCompactGrid( this, actualBuffCount, 3, 5, 5, 5, 5 );
+			buffOptions = new BuffOptionsComboBox();
+			actualPanel.add( buffOptions, BorderLayout.NORTH );
+			buffRequestList = (JList) scrollComponent;
 		}
 
-		public void setEnabled( boolean isEnabled )
+		public void actionConfirmed()
 		{
-			super.setEnabled( isEnabled );
+			String buff = BuffBotDatabase.getBuffName( buffIndex );
+			int selection = buffRequestList.getSelectedIndex();
+			String bot = BuffBotDatabase.getBuffBot( buffIndex, selection );
+			int price = BuffBotDatabase.getBuffPrice( buffIndex, selection );
+			int turns = BuffBotDatabase.getBuffTurns( buffIndex, selection );
 
-			if ( boxes == null )
+			KoLmafia.updateDisplay( "Buying " + turns + " turns of " + buff + " from " + bot + "..." );
+			(new GreenMessageRequest( StaticEntity.getClient(), bot, VERSION_NAME,
+				new AdventureResult( AdventureResult.MEAT, price ), false )).run();
+
+			KoLmafia.updateDisplay( "Buff request complete." );
+			KoLmafia.enableDisplay();
+		}
+
+		public void actionCancelled()
+		{
+			int selection = buffRequestList.getSelectedIndex();
+			String bot = BuffBotDatabase.getBuffBot( buffIndex, selection );
+
+			ChatRequest request = new ChatRequest( StaticEntity.getClient(), "", "/whois " + bot );
+			request.run();
+
+			if ( request.responseText != null && request.responseText.indexOf( "online" ) != -1 )
+				JOptionPane.showMessageDialog( null, "This bot is online." );
+			else
+				JOptionPane.showMessageDialog( null, "This bot is probably not online." );
+		}
+	}
+
+	private class BuffOptionsComboBox extends JComboBox implements ActionListener
+	{
+		public BuffOptionsComboBox()
+		{
+			for ( int i = 0; i < BuffBotDatabase.ABBREVIATIONS.length; ++i )
+				addItem( UneffectRequest.skillToEffect( ClassSkillsDatabase.getSkillName( ((Integer)BuffBotDatabase.ABBREVIATIONS[i][0]).intValue() ) ) );
+
+			addActionListener( this );
+			setSelectedIndex( 0 );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			String selectedItem = (String) getSelectedItem();
+
+			int buffCount = BuffBotDatabase.buffCount();
+			buffIndex = -1;
+
+			for ( int i = 0; i < buffCount; ++i )
+				if ( selectedItem.indexOf( BuffBotDatabase.getBuffAbbreviation( i ) ) != -1 )
+					buffIndex = i;
+
+			if ( buffIndex == -1 )
 				return;
 
-			for ( int i = 0; i < boxes.length; ++i )
-				if ( boxes[i] != null )
-					boxes[i].setEnabled( isEnabled );
-		}
+			buffRequests.clear();
 
-		private class BuffRequestBox
-		{
-			private int index;
-			JComboBox selects;
-			JButton button;
-
-			public BuffRequestBox( int index )
-			{
-				this.index = index;
-
-				// Make a combo box and fill it with offerings
-				selects = new JComboBox();
-
-				int count = BuffBotDatabase.getBuffOfferingCount( index );
-				for (int j = 0; j < count; ++j )
-				{
-					String label = BuffBotDatabase.getBuffLabel( index, j );
-					selects.addItem( label );
-				}
-
-				// Label the box with the Skill name
-				String name = BuffBotDatabase.getBuffAbbreviation( index );
-				JLabel label = new JLabel( name, JLabel.RIGHT );
-
-				// Add a button to purchase this buff
-				button = new JButton( "Buy" );
-				button.addActionListener( new BuyBuffListener() );
-
-				BuffRequestPanel.this.add( label );
-				BuffRequestPanel.this.add( selects );
-				BuffRequestPanel.this.add( button );
-			}
-
-			public void setEnabled( boolean isEnabled )
-			{
-				if ( selects != null )
-					selects.setEnabled( isEnabled );
-				if ( button != null )
-					button.setEnabled( isEnabled );
-			}
-
-			private class BuyBuffListener extends ListeningRunnable
-			{
-				public void run()
-				{
-					selects.requestFocus();
-
-					String buff = BuffBotDatabase.getBuffName( index );
-					int selection = selects.getSelectedIndex();
-					String bot = BuffBotDatabase.getBuffBot( index, selection );
-					int price = BuffBotDatabase.getBuffPrice( index, selection );
-					int turns = BuffBotDatabase.getBuffTurns( index, selection );
-
-					KoLmafia.updateDisplay( "Buying " + turns + " turns of " + buff + " from " + bot );
-					(new GreenMessageRequest( StaticEntity.getClient(), bot, VERSION_NAME, new AdventureResult( AdventureResult.MEAT, price ), false )).run();
-					KoLmafia.updateDisplay( "Buff request complete." );
-				}
-			}
+			int offeringCount = BuffBotDatabase.getBuffOfferingCount( buffIndex );
+			for ( int j = 0; j < offeringCount; ++j )
+				buffRequests.add( BuffBotDatabase.getBuffLabel( buffIndex, j ) );
 		}
 	}
 }
