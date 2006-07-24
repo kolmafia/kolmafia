@@ -87,15 +87,13 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 	 * first tab added, the name of the contact will be reset.
 	 */
 
-	public ChatPanel addTab( String tabName )
+	public void addTab( String tabName )
 	{
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			if ( tabs.getTitleAt(i).trim().equals( tabName ) )
-				return (ChatPanel) tabs.getComponentAt(i);
+				return;
 
-		TabAdder adder = new TabAdder( tabName );
-		adder.run();
-		return adder.createdPanel;
+		SwingUtilities.invokeLater( new TabAdder( tabName ) );
 	}
 
 	public boolean closeTab( int tabIndexToClose )
@@ -112,72 +110,47 @@ public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneLis
 		for ( int i = 0; i < tabs.getTabCount(); ++i )
 			if ( tabName.equals( tabs.getTitleAt(i).trim() ) )
 			{
-				(new TabHighlighter( i )).run();
+				SwingUtilities.invokeLater( new TabHighlighter( i ) );
 				return;
 			}
 	}
-	
+
 	private class TabAdder implements Runnable
 	{
 		private String tabName;
 		private ChatPanel createdPanel;
-		
+
 		private TabAdder( String tabName )
 		{	this.tabName = tabName;
 		}
-		
+
 		public void run()
 		{
-			try
-			{
-				if ( !SwingUtilities.isEventDispatchThread() )
-				{
-					SwingUtilities.invokeAndWait( this );
-					return;
-				}
+			createdPanel = new ChatPanel( tabName );
 
-				createdPanel = new ChatPanel( tabName );
+			// Add a little bit of whitespace to make the
+			// chat tab larger and easier to click.
 
-				// Add a little bit of whitespace to make the
-				// chat tab larger and easier to click.
-
-				tabs.addTab( "  " + tabName + "           ", createdPanel );
-				createdPanel.requestFocus();
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );				
-			}
+			tabs.addTab( "  " + tabName + "           ", createdPanel );
+			createdPanel.requestFocus();
 		}
 	}
 
 	private class TabHighlighter implements Runnable
 	{
 		private int tabIndex;
+
 		public TabHighlighter( int tabIndex )
 		{	this.tabIndex = tabIndex;
 		}
-		
+
 		public void run()
 		{
-			try
-			{				
-				if ( tabs.getSelectedIndex() == tabIndex )
-					return;
-				
-				if ( !SwingUtilities.isEventDispatchThread() )
-				{
-					SwingUtilities.invokeAndWait( this );
-					return;
-				}
-	
-				tabs.setBackgroundAt( tabIndex, new Color( 0, 0, 128 ) );
-				tabs.setForegroundAt( tabIndex, Color.white );
-			}
-			catch ( Exception e )
-			{
-				StaticEntity.printStackTrace( e );
-			}
+			if ( tabs.getSelectedIndex() == tabIndex )
+				return;
+
+			tabs.setBackgroundAt( tabIndex, new Color( 0, 0, 128 ) );
+			tabs.setForegroundAt( tabIndex, Color.white );
 		}
 	}
 }

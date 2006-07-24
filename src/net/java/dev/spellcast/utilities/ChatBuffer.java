@@ -274,22 +274,7 @@ public class ChatBuffer
 			}
 			else
 			{
-				try
-				{
-					DisplayPaneUpdater runner = new DisplayPaneUpdater( newContents );
-
-					if ( SwingUtilities.isEventDispatchThread() )
-						runner.run();
-					else
-						SwingUtilities.invokeAndWait( runner );
-				}
-				catch ( Exception e )
-				{
-					// Print the stack trace to show that
-					// an interruption occurred.
-
-					e.printStackTrace();
-				}
+				SwingUtilities.invokeLater( new DisplayPaneUpdater( newContents ) );
 			}
 		}
 

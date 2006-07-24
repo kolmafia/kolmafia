@@ -96,7 +96,6 @@ public abstract class KoLMessenger extends StaticEntity
 	private static TabbedChatFrame tabbedFrame = null;
 
 	private static ArrayList currentlyActive = new ArrayList();
-	private static TreeMap instantMessageFrames = new TreeMap();
 	private static TreeMap instantMessageBuffers = new TreeMap();
 	private static SortedListModel onlineContacts = new SortedListModel();
 
@@ -108,7 +107,6 @@ public abstract class KoLMessenger extends StaticEntity
 	{
 		isRunning = false;
 		onlineContacts.clear();
-		instantMessageFrames.clear();
 		instantMessageBuffers.clear();
 
 		chattingStyle = StaticEntity.parseInt( getProperty( "chatStyle" ) );
@@ -215,33 +213,6 @@ public abstract class KoLMessenger extends StaticEntity
 	}
 
 	/**
-	 * Retrieves the chat frame associated with the currently
-	 * running chat.  These frames are used to track active
-	 * and inactive state for the frames.
-	 */
-
-	public static ChatFrame getChatFrame( String contact )
-	{
-		String neededFrameName = getBufferKey( contact );
-		return (ChatFrame) instantMessageFrames.get( neededFrameName );
-	}
-
-	/**
-	 * Sets the title of the frame to the given value, if and
-	 * only if the given channel name exists as a part of the
-	 * title to the frame.
-	 */
-
-	public static void setChatFrameTitle( String contact, String title )
-	{
-		ChatFrame neededFrame = getChatFrame( contact );
-		if ( neededFrame == null || neededFrame.getTitle().indexOf( contact ) == -1 )
-			return;
-
-		neededFrame.setTitle( title );
-	}
-
-	/**
 	 * Retrieves the key which will be needed, given the contact
 	 * name.  In other words, it translates the contact name to
 	 * a key value used by the buffers and frames.
@@ -271,7 +242,6 @@ public abstract class KoLMessenger extends StaticEntity
 		// If this key does not exist, then go ahead and try
 		// to remove the key.
 
-		ChatFrame removedFrame = (ChatFrame) instantMessageFrames.remove( contact );
 		LimitedSizeChatBuffer removedBuffer = (LimitedSizeChatBuffer) instantMessageBuffers.remove( contact );
 
 		// Make sure you close any active logging on the channel
@@ -280,12 +250,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 		if ( removedBuffer != null )
 			removedBuffer.closeActiveLogFile();
-
-		if ( removedFrame != null )
-		{
-			removedFrame.setVisible( false );
-			removedFrame.dispose();
-		}
 
 		// If chat is no longer running, you don't have to do
 		// anything more.
@@ -301,8 +265,8 @@ public abstract class KoLMessenger extends StaticEntity
 			// When you exit chat, you go ahead and remove all
 			// of the chat pannels from the listener lists.
 
-			String [] channels = new String[ instantMessageFrames.keySet().size() ];
-			instantMessageFrames.keySet().toArray( channels );
+			String [] channels = new String[ instantMessageBuffers.keySet().size() ];
+			instantMessageBuffers.keySet().toArray( channels );
 
 			for ( int i = 0; i < channels.length; ++i )
 				removeChat( channels[i] );
@@ -506,7 +470,6 @@ public abstract class KoLMessenger extends StaticEntity
 			{
 				channelKey = "/" + channels[i].replaceAll( "<.*?>", "" ).trim();
 				openInstantMessage( getBufferKey( channelKey ) );
-				setChatFrameTitle( channelKey, "KoLmafia Chat: " + channelKey + " (listening)" );
 			}
 
 			return;
@@ -535,17 +498,6 @@ public abstract class KoLMessenger extends StaticEntity
 
 			else
 				processChatMessage( lines[i].trim() );
-		}
-
-		// Finally, update the title to the frame in which
-		// you are currently talking.
-
-		if ( !currentChannel.equals( "" ) )
-		{
-			if ( useTabbedChat )
-				tabbedFrame.setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
-			else
-				getChatFrame( currentChannel ).setTitle( "KoLmafia Chat: You are talking in " + currentChannel );
 		}
 	}
 
@@ -595,25 +547,7 @@ public abstract class KoLMessenger extends StaticEntity
 			return;
 
 		if ( !currentChannel.equals( "" ) )
-		{
-			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (inactive)" );
 			currentlyActive.remove( currentChannel );
-		}
-	}
-
-	/**
-	 * Notifies the chat that the user has stopped talking but will
-	 * still be listening to the current channel - this only happens
-	 * after the /switch command is used to switch to a different channel.
-	 */
-
-	public static void switchConversation()
-	{
-		if ( !isRunning() )
-			return;
-
-		if ( !currentChannel.equals( "" ) )
-			setChatFrameTitle( currentChannel, "KoLmafia Chat: " + currentChannel + " (listening)" );
 	}
 
 	/**
@@ -649,7 +583,6 @@ public abstract class KoLMessenger extends StaticEntity
 			String channel = "/" + message.substring( 1, startIndex - 2 );
 
 			processChatMessage( channel, message.substring( startIndex ) );
-			setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (listening)" );
 		}
 		else if ( message.startsWith( "No longer listening to channel: " ) )
 		{
@@ -657,7 +590,6 @@ public abstract class KoLMessenger extends StaticEntity
 			String channel = "/" + message.substring( startIndex );
 
 			processChatMessage( channel, message );
-			setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (inactive)" );
 			currentlyActive.remove( channel );
 		}
 		else if ( message.startsWith( "Now listening to channel: " ) )
@@ -666,7 +598,6 @@ public abstract class KoLMessenger extends StaticEntity
 			String channel = "/" + message.substring( startIndex );
 
 			processChatMessage( channel, message );
-			setChatFrameTitle( channel, "KoLmafia Chat: " + channel + " (listening)" );
 		}
 		else if ( message.startsWith( "You are now talking in channel: " ) )
 		{
@@ -896,84 +827,40 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( instantMessageBuffers.containsKey( channel ) )
 			return;
 
-		Runnable openMessage = new OpenMessageRunnable( channel );
-
 		try
 		{
-			if ( SwingUtilities.isEventDispatchThread() )
-				openMessage.run();
+			if ( !isRunning )
+				return;
+
+			LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " +
+				channel + " - Started " + Calendar.getInstance().getTime().toString(), true, true );
+
+			instantMessageBuffers.put( channel, buffer );
+			if ( channel.startsWith( "/" ) )
+				currentlyActive.add( channel );
+
+			if ( useTabbedChat )
+				tabbedFrame.addTab( channel );
 			else
-				SwingUtilities.invokeAndWait( openMessage );
+				(new CreateFrameRunnable( ChatFrame.class, new String [] { channel } )).run();
+
+			if ( CHATLOG_BASENAME != null && !CHATLOG_BASENAME.equals( "" ) )
+			{
+				String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) :
+					KoLmafia.getPlayerID( channel )) + ".html";
+				buffer.setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() +
+					" (" + Calendar.getInstance().getTime().toString() + ")" );
+			}
+
+			if ( highlighting && !channel.equals( "[highs]" ) )
+				buffer.applyHighlights();
 		}
-		catch ( Throwable e )
+		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	/**
-	 * This internal class is used to open an instant message or
-	 * new channel in a new tab or window.  Because it is only
-	 * called internally, and it is always invoked in the Swing
-	 * thread, there is no need to use the CreateFrameRunnable
-	 * to ensure it gets opened in the Swing thread.
-	 */
-
-	private static class OpenMessageRunnable implements Runnable
-	{
-		private String channel;
-
-		public OpenMessageRunnable( String channel )
-		{	this.channel = channel;
-		}
-
-		public void run()
-		{
-			try
-			{
-				if ( !isRunning )
-					return;
-
-				LimitedSizeChatBuffer buffer = new LimitedSizeChatBuffer( KoLCharacter.getUsername() + ": " +
-					channel + " - Started " + Calendar.getInstance().getTime().toString(), true, true );
-				instantMessageBuffers.put( channel, buffer );
-
-				if ( channel.startsWith( "/" ) )
-					currentlyActive.add( channel );
-
-				if ( useTabbedChat )
-				{
-					ChatFrame.ChatPanel panel = tabbedFrame.addTab( channel );
-				}
-				else
-				{
-					CreateFrameRunnable creator = new CreateFrameRunnable( ChatFrame.class, new String [] { channel } );
-					creator.run();
-
-					instantMessageFrames.put( channel, creator.getCreation() );
-				}
-
-				if ( CHATLOG_BASENAME != null && !CHATLOG_BASENAME.equals( "" ) )
-				{
-					String filename = CHATLOG_BASENAME + (channel.startsWith( "/" ) ? channel.substring( 1 ) :
-						KoLmafia.getPlayerID( channel )) + ".html";
-					buffer.setActiveLogFile( filename, "Loathing Chat: " + KoLCharacter.getUsername() +
-						" (" + Calendar.getInstance().getTime().toString() + ")" );
-				}
-
-				if ( highlighting && !channel.equals( "[highs]" ) )
-					buffer.applyHighlights();
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
-
-				StaticEntity.printStackTrace( e );
-			}
 		}
 	}
 
