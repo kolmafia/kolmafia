@@ -271,7 +271,7 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setProperty( "loginScript." + username.toLowerCase(), scriptField.getText() );
 			StaticEntity.setProperty( "getBreakfast." + username.toLowerCase(), String.valueOf( getBreakfastCheckBox.isSelected() ) );
 
-			(new RequestThread( new LoginRequest( StaticEntity.getClient(), username, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected(), isQuickLogin ) )).start();
+			(new Thread( new LoginRequest( StaticEntity.getClient(), username, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected(), isQuickLogin ) )).start();
 		}
 
 		public void actionPerformed( ActionEvent e )

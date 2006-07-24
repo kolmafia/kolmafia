@@ -395,9 +395,11 @@ public class AdventureDatabase extends KoLDatabase
 		if ( getProperty( "sortAdventures" ).equals( "true" ) )
 			adventures.sort();
 
-		adventureNames = new String[ adventures.size() ];
-		for ( int i = 0; i < adventureNames.length; ++i )
-			adventureNames[i] = adventures.get(i).toString().toLowerCase();
+		Object [] keys = adventureLookup.keySet().toArray();
+		adventureNames = new String[ keys.length ];
+
+		for ( int i = 0; i < keys.length; ++i )
+			adventureNames[i] = ((KoLAdventure)adventureLookup.get( keys[i] )).getAdventureName().toLowerCase();
 	}
 
 	public static KoLAdventure getAdventureByURL( String adventureURL )

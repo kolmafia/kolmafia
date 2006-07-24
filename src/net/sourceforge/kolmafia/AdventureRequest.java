@@ -420,7 +420,9 @@ public class AdventureRequest extends KoLRequest
 		}
 		else
 		{
-			Matcher encounterMatcher = Pattern.compile( "<center><b>(.*?)</b>" ).matcher( request.responseText );
+			Matcher encounterMatcher = Pattern.compile( request instanceof AdventureRequest ?
+				"<center><b>(.*?)</b>" : "<b>(.*?)</b>" ).matcher( request.responseText );
+
 			if ( encounterMatcher.find() )
 			{
 				String encounter = encounterMatcher.group(1);
@@ -435,11 +437,14 @@ public class AdventureRequest extends KoLRequest
 
 	private static boolean containsEncounter( String formSource, String responseText )
 	{
+		if ( responseText.indexOf( "Results" ) != -1 )
+			return false;
+
 		// The first round is unique in that there is no
 		// data fields.  Therefore, it will equal fight.php
 		// exactly every single time.
 
-		if ( formSource.startsWith( "fight.php" ) )
+		else if ( formSource.startsWith( "fight.php" ) )
 			return formSource.equals( "fight.php" );
 
 		// All other adventures can be identified via their
@@ -449,15 +454,17 @@ public class AdventureRequest extends KoLRequest
 			return true;
 		else if ( formSource.startsWith( "cave.php" ) && formSource.indexOf( "end" ) != -1 )
 			return true;
-		else if ( formSource.equals( "shore.php" ) && formSource.indexOf( "whichtrip" ) != -1 )
+		else if ( formSource.startsWith( "shore.php" ) && formSource.indexOf( "whichtrip" ) != -1 )
 			return true;
-		else if ( formSource.equals( "dungeon.php" ) && formSource.indexOf( "action" ) != -1 )
+		else if ( formSource.startsWith( "dungeon.php" ) && formSource.indexOf( "action" ) != -1 )
 			return true;
-		else if ( formSource.equals( "knob.php" ) && formSource.indexOf( "king" ) != -1 )
+		else if ( formSource.startsWith( "knob.php" ) && formSource.indexOf( "king" ) != -1 )
 			return true;
-		else if ( formSource.equals( "cyrpt.php" ) && formSource.indexOf( "action" ) != -1 )
+		else if ( formSource.startsWith( "cyrpt.php" ) && formSource.indexOf( "action" ) != -1 )
 			return true;
-		else if ( formSource.equals( "rats.php" ) )
+		else if ( formSource.startsWith( "rats.php" ) )
+			return true;
+		else if ( formSource.startsWith( "choice.php" ) )
 			return true;
 
 		// It is not a known adventure.  Therefore,
