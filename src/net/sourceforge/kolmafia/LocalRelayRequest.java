@@ -507,6 +507,12 @@ public class LocalRelayRequest extends KoLRequest
 			if ( command == null )
 				return;
 
+			if ( command.startsWith( "abort" ) )
+			{
+				KoLmafia.declareWorldPeace();
+				return;
+			}
+
 			KoLmafia.forceContinue();
 			DEFAULT_SHELL.executeLine( command );
 			KoLmafia.enableDisplay();
