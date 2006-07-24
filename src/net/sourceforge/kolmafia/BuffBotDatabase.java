@@ -76,8 +76,8 @@ public class BuffBotDatabase extends KoLDatabase
 
 		// Sauceress Buffs
 		{ new Integer(4007), "Elemental" },
-		{ new Integer(4008), "Jalapeno" },
-		{ new Integer(4011), "Jabanero" },
+		{ new Integer(4008), "Jala" },
+		{ new Integer(4011), "Jaba" },
 
 		// Turtle Tamer Buffs
 		{ new Integer(2007), "Ghostly" },
@@ -211,6 +211,12 @@ public class BuffBotDatabase extends KoLDatabase
 			KoLRequest request = new KoLRequest( client, location );
 			request.run();
 
+			if ( request.responseText == null )
+			{
+				completedFetch = true;
+				return;
+			}
+
 			// Now, for the infamous XML parse tree.  Rather than building
 			// a tree (which would probably be smarter), simply do regular
 			// expression matching and assume we have a properly-structured
@@ -227,10 +233,12 @@ public class BuffBotDatabase extends KoLDatabase
 
 			while ( nodeMatcher.find() )
 			{
-				nameMatcher = namePattern.matcher( nodeMatcher.group(1) );
-				priceMatcher = pricePattern.matcher( nodeMatcher.group(1) );
-				turnMatcher = turnPattern.matcher( nodeMatcher.group(1) );
-				onceMatcher = oncePattern.matcher( nodeMatcher.group(1) );
+				String buffMatch = nodeMatcher.group(1);
+
+				nameMatcher = namePattern.matcher( buffMatch );
+				priceMatcher = pricePattern.matcher( buffMatch );
+				turnMatcher = turnPattern.matcher( buffMatch );
+				onceMatcher = oncePattern.matcher( buffMatch );
 
 				if ( nameMatcher.find() && priceMatcher.find() && turnMatcher.find() )
 				{
