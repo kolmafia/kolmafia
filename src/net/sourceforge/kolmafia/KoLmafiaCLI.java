@@ -1234,6 +1234,9 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else if ( parameters.equalsIgnoreCase( "none" ) || parameters.equalsIgnoreCase( "unequip" ) )
 			{
+				if ( KoLCharacter.getFamiliar() == null || KoLCharacter.getFamiliar().equals( FamiliarData.NO_FAMILIAR ) )
+					return;
+
 				StaticEntity.getClient().makeRequest( new FamiliarRequest( StaticEntity.getClient(), FamiliarData.NO_FAMILIAR ) );
 				return;
 			}
@@ -1247,7 +1250,11 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				if ( familiars.get(i).toString().toLowerCase().indexOf( lowerCaseName ) != -1 )
 				{
-					StaticEntity.getClient().makeRequest( new FamiliarRequest( StaticEntity.getClient(), (FamiliarData) familiars.get(i) ) );
+					FamiliarData newFamiliar = (FamiliarData) familiars.get(i);
+					if ( KoLCharacter.getFamiliar() != null && KoLCharacter.getFamiliar().equals( newFamiliar ) )
+						return;
+
+					StaticEntity.getClient().makeRequest( new FamiliarRequest( StaticEntity.getClient(), newFamiliar ) );
 					return;
 				}
 			}
