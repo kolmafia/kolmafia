@@ -571,14 +571,14 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( responseCode == 200 && responseText != null )
 		{
-			if ( !(this instanceof FightRequest) )
-				AdventureRequest.registerEncounter( this );
-
 			if ( !isDelayExempt() && !(this instanceof SearchMallRequest) )
 				showInBrowser( false );
 
 			if ( !processedResults )
 			{
+				if ( !(this instanceof FightRequest) )
+					AdventureRequest.registerEncounter( this );
+
 				if ( getClass() != KoLRequest.class && !(this instanceof LocalRelayRequest) )
 					processResults();
 				else if ( !shouldIgnoreResults() )
@@ -1334,19 +1334,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( decision.equals( "4" ) || !client.getConditions().isEmpty() )
 			decision = pickOutfitChoice( option, decision );
-
-		// If there is currently a setting which determines the
-		// decision, make that decision and submit the form.
-
-		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
-		{
-			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
-			{
-				KoLmafiaCLI.printLine( "Choice: " +
-					AdventureDatabase.CHOICE_ADVS[i][1][0] + " => " +
-					AdventureDatabase.CHOICE_ADVS[i][2][ StaticEntity.parseInt( decision ) - 1 ] );
-			}
-		}
 
 		request.clearDataFields();
 		request.addFormField( "pwd" );
