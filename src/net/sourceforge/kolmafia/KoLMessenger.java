@@ -495,6 +495,9 @@ public abstract class KoLMessenger extends StaticEntity
 			if ( lines[i] == null )
 				continue;
 
+			else if ( lines[i].indexOf( ">Mod Warning<" ) != -1 || lines[i].indexOf( ">System Message<" ) != -1 )
+				processChatMessage( lines[i].trim() );
+
 			else if ( lines[i].startsWith( "[haiku]" ) )
 				processChatMessage( lines[i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() + "<br>" + lines[++i].trim() );
 
