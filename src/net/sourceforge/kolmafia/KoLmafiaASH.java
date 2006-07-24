@@ -3489,7 +3489,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ConcoctionsDatabase.refreshConcoctions();
 			ItemCreationRequest item = ItemCreationRequest.getInstance( client, arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( ConcoctionsDatabase.getConcoctions() ) );
+			return new ScriptValue( item == null ? 0 : item.getCount( ConcoctionsDatabase.getConcoctions() ) );
 		}
 
 		public ScriptValue put_closet( ScriptVariable count, ScriptVariable item )
