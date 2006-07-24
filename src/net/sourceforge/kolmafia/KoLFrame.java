@@ -731,7 +731,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.frameClass = frameClass;
 		}
 
-		public void run()
+		public void executeTask()
 		{	KoLmafiaGUI.constructFrame( frameClass );
 		}
 	}
@@ -751,8 +751,24 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new Thread( this )).start();
+		{
+			if ( makesRequest() )
+				(new RequestThread( this )).start();
+			else
+				(new Thread( this )).start();
 		}
+
+		public boolean makesRequest()
+		{	return false;
+		}
+
+		public final void run()
+		{
+			executeTask();
+			KoLmafia.enableDisplay();
+		}
+
+		protected abstract void executeTask();
 	}
 
 	/**
@@ -812,7 +828,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		public void run()
+		public void executeTask()
 		{
 			try
 			{
@@ -851,7 +867,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			parameters[1] = panel;
 		}
 
-		public void run()
+		public void executeTask()
 		{	(new CreateFrameRunnable( KoLPanelFrame.class, parameters )).run();
 		}
 	}
@@ -873,10 +889,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.request = request;
 		}
 
-		public void run()
+		public void executeTask()
 		{
 			request.run();
 			KoLmafia.enableDisplay();
+		}
+
+		public boolean makesRequest()
+		{	return true;
 		}
 	}
 
