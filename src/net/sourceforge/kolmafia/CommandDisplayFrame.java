@@ -213,7 +213,16 @@ public class CommandDisplayFrame extends KoLFrame
 					// command to clear out the queue.
 				}
 
-				commandQueue.remove(0);
+				try
+				{
+					if ( !commandQueue.isEmpty() )
+						commandQueue.remove(0);
+				}
+				catch ( Exception e )
+				{
+					// This is only due to a race condition
+					// and should not happen.
+				}
 			}
 		}
 	}
