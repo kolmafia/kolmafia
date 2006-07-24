@@ -56,6 +56,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 public class LocalRelayRequest extends KoLRequest
 {
 	protected List headers = new ArrayList();
+	private static final ArrayList commandQueue = new ArrayList();
 
 	public LocalRelayRequest( KoLmafia client, String formURLString, boolean followRedirects )
 	{	super( client, formURLString, followRedirects );
@@ -480,14 +481,30 @@ public class LocalRelayRequest extends KoLRequest
 
 	protected void submitCommand()
 	{
-		(new CommandRunnable( getFormField( "cmd" ) )).run();
+		runCommand( getFormField( "cmd" ) );
 		pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 	}
 
 	protected void executeCommand()
 	{
-		(new CommandRunnable( getFormField( "cmd" ) )).run();
+		runCommand( getFormField( "cmd" ) );
 		pseudoResponse( "HTTP/1.1 200 OK", "" );
+	}
+
+	private void runCommand( String command )
+	{
+		if ( command.equals( "abort" ) )
+		{
+			KoLmafia.declareWorldPeace();
+			commandQueue.clear();
+			return;
+		}
+
+		boolean shouldStartThread = commandQueue.isEmpty();
+		commandQueue.add( command );
+
+		if ( shouldStartThread )
+			(new Thread( new CommandRunnable() )).start();
 	}
 
 	protected void sendNotFound()
@@ -496,25 +513,38 @@ public class LocalRelayRequest extends KoLRequest
 
 	private class CommandRunnable implements Runnable
 	{
-		private String command;
-
-		public CommandRunnable( String command )
-		{	this.command = command;
-		}
-
 		public void run()
 		{
-			if ( command == null )
-				return;
-
-			if ( command.startsWith( "abort" ) )
+			while ( !commandQueue.isEmpty() )
 			{
-				KoLmafia.declareWorldPeace();
-				return;
+				String command = (String) commandQueue.get(0);
+				if ( command == null )
+					return;
+
+				KoLmafia.forceContinue();
+
+				try
+				{
+					DEFAULT_SHELL.executeLine( command );
+				}
+				catch ( Exception e )
+				{
+					// This is usually a result of a user error.
+					// Therefore, fall through.
+				}
+
+				try
+				{
+					if ( !commandQueue.isEmpty() )
+						commandQueue.remove(0);
+				}
+				catch ( Exception e )
+				{
+					// This is only due to a race condition
+					// and should not happen.
+				}
 			}
 
-			KoLmafia.forceContinue();
-			DEFAULT_SHELL.executeLine( command );
 			KoLmafia.enableDisplay();
 		}
 
@@ -532,7 +562,7 @@ public class LocalRelayRequest extends KoLRequest
 		if ( graf != null && graf.startsWith( "/run" ) )
 		{
 			pseudoResponse( "HTTP/1.1 200 OK", "<br/><font color=olive> &gt; " + graf.substring( 5 ) + "</font><br/><br/>" );
-			(new Thread( new CommandRunnable( graf.substring( 5 ) ) )).start();
+			runCommand( graf.substring( 5 ) );
 
 			return;
 		}
