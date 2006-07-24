@@ -100,27 +100,6 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		public void run()
 		{
-			// If you are not in the Swing thread, then wait
-			// until you are in the Swing thread before making
-			// the object to avoid deadlocks.
-
-			try
-			{
-				if ( !SwingUtilities.isEventDispatchThread() )
-				{
-					SwingUtilities.invokeAndWait( this );
-					return;
-				}
-			}
-			catch ( Exception e )
-			{
-				// The only exception thrown is an interrupted
-				// exception, which means you should do nothing,
-				// because you're no longer in the Swing thread.
-
-				return;
-			}
-
 			switch ( changeType )
 			{
 				case ListDataEvent.CONTENTS_CHANGED:
@@ -139,15 +118,15 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	}
 
 	protected void fireContentsChanged( Object source, int index0, int index1 )
-	{	(new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 )).run();
+	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 ) );
 	}
 
 	protected void fireIntervalAdded( Object source, int index0, int index1 )
-	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 )).run();
+	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 ) );
 	}
 
 	protected void fireIntervalRemoved( Object source, int index0, int index1 )
-	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 )).run();
+	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 ) );
 	}
 
 	public void sort()

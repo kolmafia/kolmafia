@@ -50,9 +50,11 @@ import java.util.ArrayList;
 public class KoLDesktop extends KoLFrame implements ChangeListener
 {
 	private static KoLDesktop INSTANCE = null;
+
 	private boolean addedCompactPane = false;
 	private static boolean isInitializing = false;
 
+	private int expectedTabCount = 0;
 	private JTabbedPane tabs = new JTabbedPane();
 	private ArrayList tabListing = new ArrayList();
 
@@ -157,9 +159,6 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			for ( int i = 0; i < interfaceArray.length; ++i )
 				KoLmafiaGUI.constructFrame( interfaceArray[i] );
 
-		if ( tabs.getTabCount() != 0 )
-			tabs.setSelectedIndex(0);
-
 		if ( KoLMailManager.hasNewMessages() )
 		{
 			KoLmafia.updateDisplay( "You have new mail." );
@@ -184,7 +183,8 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			}
 		}
 
-		isInitializing = false;
+		if ( !tabListing.isEmpty() )
+			tabs.setSelectedIndex( 0 );
 	}
 
 	public static boolean isInitializing()
