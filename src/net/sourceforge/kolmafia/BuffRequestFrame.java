@@ -99,7 +99,10 @@ public class BuffRequestFrame extends KoLFrame
 			int selection = buffRequestList.getSelectedIndex();
 			String bot = BuffBotDatabase.getBuffBot( buffIndex, selection );
 
-			ChatRequest request = new ChatRequest( StaticEntity.getClient(), "", "/whois " + bot );
+			KoLRequest request = new KoLRequest( StaticEntity.getClient(), "submitnewchat.php" );
+			request.addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
+			request.addFormField( "pwd" );
+			request.addFormField( "graf", "/whois " + bot );
 			request.run();
 
 			if ( request.responseText != null && request.responseText.indexOf( "online" ) != -1 )
