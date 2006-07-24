@@ -53,6 +53,10 @@ import com.sun.java.forums.CloseableTabbedPaneListener;
 
 public class TabbedChatFrame extends ChatFrame implements CloseableTabbedPaneListener, ChangeListener
 {
+	public TabbedChatFrame()
+	{	setTitle( "KoLmafia Chat" );
+	}
+
 	public void stateChanged( ChangeEvent e )
 	{
 		int selectedIndex = tabs.getSelectedIndex();

@@ -134,7 +134,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		this.frameName = getClass().getName();
 		this.frameName = frameName.substring( frameName.lastIndexOf( "." ) + 1 );
 
-		if ( !(this instanceof KoLDesktop) )
+		boolean shouldAddFrame = !(this instanceof KoLDesktop) && !(this instanceof ContactListFrame);
+
+		if ( this instanceof ChatFrame )
+			shouldAddFrame = !KoLMessenger.usingTabbedChat() || this instanceof TabbedChatFrame;
+
+		if ( shouldAddFrame )
 			existingFrames.add( this );
 	}
 
@@ -145,7 +150,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		super.setTitle( KoLCharacter.getUsername().length() > 0 ?
 			KoLCharacter.getUsername() + ": " + this.lastTitle : this.lastTitle );
-
 	}
 
 	public void requestFocus()

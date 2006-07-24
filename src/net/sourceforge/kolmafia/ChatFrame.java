@@ -131,9 +131,9 @@ public class ChatFrame extends KoLFrame
 		if ( mainPanel != null && associatedContact != null )
 		{
 			if ( associatedContact.startsWith( "/" ) )
-				setTitle( "KoLmafia Chat: " + associatedContact );
+				setTitle( "KoL Chat: " + associatedContact );
 			else
-				setTitle( "KoLmafia NSIPM: " + KoLCharacter.getUsername() + " / " + associatedContact );
+				setTitle( "KoL PM: " + KoLCharacter.getUsername() + " / " + associatedContact );
 		}
 	}
 

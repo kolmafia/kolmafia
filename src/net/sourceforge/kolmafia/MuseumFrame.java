@@ -94,10 +94,13 @@ public class MuseumFrame extends KoLFrame
 		shelves = new MuseumShelfList();
 		ordering = new OrderingPanel();
 
-		JScrollPane shelvesScroller = new JScrollPane( shelves, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-		JComponentUtilities.setComponentSize( shelvesScroller, 400, 300 );
+		JScrollPane shelvesScroller = new JScrollPane( shelves, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-		JScrollPane orderingScroller = new JScrollPane( ordering, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+		JComponentUtilities.setComponentSize( shelvesScroller, 500, 300 );
+
+		JScrollPane orderingScroller = new JScrollPane( ordering, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+			JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		tabs = new JTabbedPane();
 		tabs.addTab( "General", general );
