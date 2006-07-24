@@ -35,11 +35,11 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
-import net.java.dev.spellcast.utilities.SortedListModel;
 
 
 /**
@@ -55,7 +55,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class BuffBotDatabase extends KoLDatabase
 {
 	// All buffs: skill #, display name, abbreviation
-	private static final Object [][] buffData =
+	public static final Object [][] ABBREVIATIONS =
 	{
 		// Accordion Thief Buffs
 		{ new Integer(6003), "Antiphon" },
@@ -318,7 +318,7 @@ public class BuffBotDatabase extends KoLDatabase
 		public BuffList()
 		{
 			this.buffs = new ArrayList();
-			for ( int i = 0; i < buffData.length; ++i )
+			for ( int i = 0; i < ABBREVIATIONS.length; ++i )
 				buffs.add( new Buff( i ) );
 		}
 
@@ -435,20 +435,21 @@ public class BuffBotDatabase extends KoLDatabase
 		private int skill;
 		private String name;
 		private String abbreviation;
-		private SortedListModel offerings;
+		private ArrayList offerings;
 
 		public Buff( int index )
 		{
-			Object [] data = buffData[index];
+			Object [] data = ABBREVIATIONS[index];
 			this.skill = ((Integer)data[0]).intValue();
 			this.name = ClassSkillsDatabase.getSkillName( skill );
 			this.abbreviation = (String)data[1];
-			this.offerings = new SortedListModel();
+			this.offerings = new ArrayList();
 		}
 
 		public void addOffering( Offering off )
 		{
 			offerings.add( off );
+			Collections.sort( offerings );
 		}
 
 		public int getSkill()
@@ -552,10 +553,7 @@ public class BuffBotDatabase extends KoLDatabase
 				return false;
 
 			Offering off = (Offering) o;
-			return bot.equals( off.bot ) &&
-				price == off.price &&
-				turns == off.turns &&
-				free == off.free;
+			return bot.equals( off.bot ) && price == off.price && turns == off.turns && free == off.free;
 		}
 
 		public int compareTo( Object o )
@@ -565,22 +563,16 @@ public class BuffBotDatabase extends KoLDatabase
 
 			Offering off = (Offering) o;
 
-			// First compare rates
-			if ( rate < off.rate )
-				return -1;
+			// First compare turns
+			if ( turns != off.turns )
+				return off.turns - turns;
 
-			if ( rate > off.rate )
-				return 1;
+			// Then compare rates
+			if ( rate != off.rate )
+				return (int) (rate - off.rate);
 
-			// If rates are equal compare turns
-
-			if ( turns < off.turns )
-				return -1;
-
-			if ( turns > off.turns )
-				return 1;
-
-			return 0;
+			// Then, compare the names of the bots
+			return bot.compareToIgnoreCase( off.bot );
 		}
 	}
 }

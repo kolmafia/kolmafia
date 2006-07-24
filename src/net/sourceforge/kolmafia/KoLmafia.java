@@ -99,23 +99,9 @@ public abstract class KoLmafia implements KoLConstants
 
 	private static final String [] OVERRIDE_DATA =
 	{
-		"adventures.dat",
-		"buffbots.dat",
-		"buffs.dat",
-		"classskills.dat",
-		"combats.dat",
-		"concoctions.dat",
-		"equipment.dat",
-		"familiars.dat",
-		"itemdescs.dat",
-		"monsters.dat",
-		"npcstores.dat",
-		"outfits.dat",
-		"packages.dat",
-		"plurals.dat",
-		"statuseffects.dat",
-		"tradeitems.dat",
-		"zonelist.dat"
+		"adventures.dat", "buffbots.dat", "classskills.dat", "combats.dat", "concoctions.dat",
+		"equipment.dat", "familiars.dat", "itemdescs.dat", "monsters.dat", "npcstores.dat",
+		"outfits.dat", "packages.dat", "plurals.dat", "statuseffects.dat", "tradeitems.dat", "zonelist.dat"
 	};
 
 	public static final int SNOWCONE = 0;
