@@ -42,7 +42,6 @@ import java.io.PrintStream;
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.net.InetAddress;
-import java.net.HttpURLConnection;
 import java.util.Vector;
 
 public class LocalRelayServer implements Runnable
@@ -231,18 +230,8 @@ public class LocalRelayServer implements Runnable
 					}
 				}
 
-				try
-				{
-					if ( socket != null )
-						performRelay();
-				}
-				catch ( Exception e )
-				{
-					// This should not happen.  Therefore, print
-					// a stack trace for debug purposes.
-
-					StaticEntity.printStackTrace( e );
-				}
+				if ( socket != null )
+					performRelay();
 
 				socket = null;
 			}
@@ -294,38 +283,66 @@ public class LocalRelayServer implements Runnable
 			}
 		}
 
-		protected void performRelay() throws IOException
+		protected void performRelay()
 		{
 			if ( socket == null )
 				return;
 
-			socket.setSoTimeout( TIMEOUT );
-			socket.setTcpNoDelay( true );
+			try
+			{
+				socket.setSoTimeout( TIMEOUT );
+				socket.setTcpNoDelay( true );
+			}
+			catch ( Exception e )
+			{
+				// If there's a problem setting up the socket,
+				// then close the socket and return.
+
+				closeRelay( socket, null );
+				return;
+			}
+
+			BufferedReader reader = null;
+			PrintStream printStream = System.out;
+			LocalRelayRequest request = null;
+
+			String line = null;
+			String method = "GET";
+			int contentLength = 0;
 
 			try
 			{
-				BufferedReader reader = new BufferedReader( new InputStreamReader( new BufferedInputStream( socket.getInputStream() ) ) );
-				PrintStream printStream = new PrintStream( socket.getOutputStream() );
+				reader = new BufferedReader( new InputStreamReader( new BufferedInputStream( socket.getInputStream() ) ) );
+				printStream = new PrintStream( socket.getOutputStream() );
 
-				String line;
-				String path;
-				String method;
-
-				line = reader.readLine();
-				if ( line == null )
+				if ( (line = reader.readLine()) == null )
 					return;
 
-				String [] tokens = line.trim().split( " " );
-				method = tokens[0];
-				LocalRelayRequest request = new LocalRelayRequest( StaticEntity.getClient(), tokens[1], false );
+				int spaceIndex = line.indexOf( " " );
+				if ( spaceIndex == -1 )
+					return;
 
-				int contentLength = 0;
+				method = line.trim().substring( 0, spaceIndex );
+				request = new LocalRelayRequest( StaticEntity.getClient(),
+					line.substring( spaceIndex ).trim(), false );
+			}
+			catch ( Exception e )
+			{
+				// If there's a problem setting up the request,
+				// then close the socket and return.
+
+				closeRelay( socket, printStream );
+				return;
+			}
+
+			try
+			{
 				while ( (line = reader.readLine()) != null && line.trim().length() != 0 )
 				{
 					if ( line.indexOf( ": " ) == -1 )
 						continue;
 
-					tokens = line.split( "(: )" );
+					String [] tokens = line.split( ": " );
 					if ( tokens[0].equals( "Content-Length" ) )
 						contentLength = StaticEntity.parseInt( tokens[1].trim() );
 				}
@@ -338,7 +355,19 @@ public class LocalRelayServer implements Runnable
 
 					request.addEncodedFormFields( postBuffer.toString() );
 				}
+			}
+			catch ( Exception e )
+			{
+				// As before, if there's an error figuring out what
+				// data needs to be submitted, close the socket and
+				// return from the function call.
 
+				closeRelay( socket, printStream );
+				return;
+			}
+
+			try
+			{
 				request.run();
 
 				sendHeaders( printStream, request );
@@ -346,8 +375,38 @@ public class LocalRelayServer implements Runnable
 				printStream.print( request.getFullResponse() );
 				printStream.close();
 			}
-			finally
-			{	socket.close();
+			catch ( Exception e )
+			{
+				// In the event that we have failure when responding
+				// to the browser, close everything.
+
+				closeRelay( socket, printStream );
+				return;
+			}
+		}
+
+		private void closeRelay( Socket socket, PrintStream printStream )
+		{
+			try
+			{
+				if ( socket != null )
+					socket.close();
+			}
+			catch ( Exception e )
+			{
+				// The only time this happens is if the
+				// socket is already closed.  Ignore.
+			}
+
+			try
+			{
+				if ( printStream != null )
+					printStream.close();
+			}
+			catch ( Exception e )
+			{
+				// The only time this happens is if the
+				// print stream is already closed.  Ignore.
 			}
 		}
 	}
