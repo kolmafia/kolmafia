@@ -34,20 +34,13 @@
 
 package net.sourceforge.kolmafia;
 
-import java.net.HttpURLConnection;
-
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 
 import java.util.List;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Vector;
 
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -55,6 +48,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LocalRelayRequest extends KoLRequest
 {
+	private static boolean isRunningCommand = false;
 	protected List headers = new ArrayList();
 	private static final ArrayList commandQueue = new ArrayList();
 
@@ -117,7 +111,7 @@ public class LocalRelayRequest extends KoLRequest
 		// Fix KoLmafia getting outdated by events happening
 		// in the browser by using the sidepane.
 
-		else if ( formURLString.indexOf( "charpane.php") != -1 )
+		else if ( formURLString.indexOf( "charpane.php") != -1 && !isRunningCommand )
 			CharpaneRequest.processCharacterPane( responseText );
 
 		// Fix it a little more by making sure that familiar
@@ -515,6 +509,8 @@ public class LocalRelayRequest extends KoLRequest
 	{
 		public void run()
 		{
+			isRunningCommand = true;
+
 			while ( !commandQueue.isEmpty() )
 			{
 				String command = (String) commandQueue.get(0);
@@ -546,6 +542,7 @@ public class LocalRelayRequest extends KoLRequest
 			}
 
 			KoLmafia.enableDisplay();
+			isRunningCommand = false;
 		}
 
 	}
