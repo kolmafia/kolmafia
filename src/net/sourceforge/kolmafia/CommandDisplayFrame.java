@@ -172,6 +172,13 @@ public class CommandDisplayFrame extends KoLFrame
 					return;
 				}
 
+				if ( command.equals( "abort" ) )
+				{
+					commandQueue.clear();
+					KoLmafia.declareWorldPeace();
+					return;
+				}
+
 				commandQueue.add( command );
 				commandHistory.add( command );
 				++lastCommandIndex;
@@ -193,9 +200,19 @@ public class CommandDisplayFrame extends KoLFrame
 
 			private void executeQueuedCommand()
 			{
-				String command = (String) commandQueue.get(0);
-				KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br><br>" );
-				DEFAULT_SHELL.executeLine( command );
+				try
+				{
+					String command = (String) commandQueue.get(0);
+					KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br><br>" );
+					DEFAULT_SHELL.executeLine( command );
+				}
+				catch ( Exception e )
+				{
+					// This is usually a result of a user error.
+					// Therefore, fall through and remove the
+					// command to clear out the queue.
+				}
+
 				commandQueue.remove(0);
 			}
 		}
