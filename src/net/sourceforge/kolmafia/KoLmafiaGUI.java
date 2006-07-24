@@ -148,9 +148,6 @@ public class KoLmafiaGUI extends KoLmafia
 				((LoginFrame)frames[i]).dispose();
 			}
 
-		if ( KoLMailManager.hasNewMessages() )
-			updateDisplay( "You have new mail." );
-
 		enableDisplay();
 	}
 

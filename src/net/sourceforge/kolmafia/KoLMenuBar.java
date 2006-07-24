@@ -34,12 +34,10 @@
 
 package net.sourceforge.kolmafia;
 
-import java.awt.Dimension;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.CardLayout;
 
-import javax.swing.JFrame;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
 import javax.swing.JPanel;
@@ -63,7 +61,6 @@ import java.io.FilenameFilter;
 import java.lang.reflect.Method;
 import java.lang.ref.WeakReference;
 
-import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LicenseDisplay;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -638,17 +635,25 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 	}
 
-	protected abstract class RequestThreadMenuItem extends JMenuItem implements ActionListener, Runnable
+	protected abstract class ThreadedMenuItem extends JMenuItem implements ActionListener, Runnable
 	{
-		public RequestThreadMenuItem( String title )
+		public ThreadedMenuItem( String title )
 		{
 			super( title );
 			addActionListener( this );
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	(new RequestThread( this )).start();
+		{	(new Thread( this )).start();
 		}
+
+		public final void run()
+		{
+			executeTask();
+			KoLmafia.enableDisplay();
+		}
+
+		protected abstract void executeTask();
 	}
 
 	/**
@@ -657,7 +662,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * the request for loading a script.
 	 */
 
-	private class LoadScriptMenuItem extends RequestThreadMenuItem
+	private class LoadScriptMenuItem extends ThreadedMenuItem
 	{
 		private String scriptPath;
 
@@ -671,7 +676,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.scriptPath = scriptPath;
 		}
 
-		public void run()
+		public void executeTask()
 		{
 			String executePath = scriptPath;
 
@@ -700,7 +705,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * the request for viewing frames.
 	 */
 
-	protected class DisplayFrameMenuItem extends RequestThreadMenuItem
+	protected class DisplayFrameMenuItem extends ThreadedMenuItem
 	{
 		private String frameClass;
 
@@ -710,7 +715,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			this.frameClass = frameClass;
 		}
 
-		public void run()
+		public void executeTask()
 		{
 			if ( frameClass.equals( "LicenseDisplay" ) )
 			{
@@ -758,7 +763,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * of an additional class is unnecessary.
 	 */
 
-	protected class InvocationMenuItem extends RequestThreadMenuItem
+	protected class InvocationMenuItem extends ThreadedMenuItem
 	{
 		private Object object;
 		private Method method;
@@ -790,7 +795,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			}
 		}
 
-		public void run()
+		public void executeTask()
 		{
 			try
 			{
@@ -812,7 +817,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * using a local panel inside of the adventure frame.
 	 */
 
-	protected class KoLPanelFrameMenuItem extends RequestThreadMenuItem
+	protected class KoLPanelFrameMenuItem extends ThreadedMenuItem
 	{
 		private CreateFrameRunnable creator;
 
@@ -827,7 +832,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			creator = new CreateFrameRunnable( KoLPanelFrame.class, parameters );
 		}
 
-		public void run()
+		public void executeTask()
 		{	creator.run();
 		}
 	}
