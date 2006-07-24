@@ -96,9 +96,6 @@ public class ChatRequest extends KoLRequest
 		if ( (actualMessage.equals( "/c" ) || actualMessage.equals( "/channel" )) && actualMessage.indexOf( " " ) != -1 )
 			KoLMessenger.stopConversation();
 
-		if ( (actualMessage.equals( "/s" ) || actualMessage.equals( "/switch" )) && actualMessage.indexOf( " " ) != -1 )
-			KoLMessenger.switchConversation();
-
 		if ( actualMessage.equals( "/exit" ) )
 			KoLMessenger.dispose();
 	}
