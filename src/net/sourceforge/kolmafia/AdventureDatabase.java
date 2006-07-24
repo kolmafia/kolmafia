@@ -50,6 +50,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class AdventureDatabase extends KoLDatabase
 {
 	private static LockableListModel adventures = new LockableListModel();
+	private static KoLAdventure [] allAdventures = new KoLAdventure[0];
 	private static String [] adventureNames = new String[0];
 
 	public static final Map ZONE_NAMES = new TreeMap();
@@ -396,10 +397,15 @@ public class AdventureDatabase extends KoLDatabase
 			adventures.sort();
 
 		Object [] keys = adventureLookup.keySet().toArray();
+
+		allAdventures = new KoLAdventure[ keys.length ];
 		adventureNames = new String[ keys.length ];
 
 		for ( int i = 0; i < keys.length; ++i )
-			adventureNames[i] = ((KoLAdventure)adventureLookup.get( keys[i] )).getAdventureName().toLowerCase();
+		{
+			allAdventures[i] = (KoLAdventure) adventureLookup.get( keys[i] );
+			adventureNames[i] = allAdventures[i].getAdventureName().toLowerCase();
+		}
 	}
 
 	public static KoLAdventure getAdventureByURL( String adventureURL )
@@ -420,12 +426,19 @@ public class AdventureDatabase extends KoLDatabase
 		if ( adventures.isEmpty() )
 			refreshAdventureList();
 
+		int adventureIndex = -1;
+		int minimalLengthMatch = Integer.MAX_VALUE;
 		adventureName = adventureName.toLowerCase();
+
 		for ( int i = 0; i < adventureNames.length; ++i )
 			if ( adventureNames[i].indexOf( adventureName ) != -1 )
-				return (KoLAdventure) adventures.get(i);
+				if ( adventureNames[i].length() < minimalLengthMatch )
+				{
+					adventureIndex = i;
+					minimalLengthMatch = adventureNames[i].length();
+				}
 
-		return null;
+		return adventureIndex == -1 ? null : allAdventures[ adventureIndex ];
 	}
 
 	private static KoLAdventure getAdventure( int tableIndex )
