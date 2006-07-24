@@ -2762,6 +2762,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeMindControlRequest()
 	{
+		if ( previousLine == null )
+			return;
+
+		if ( !previousLine.startsWith( "mcd" ) && !previousLine.startsWith( "mind-control" ) )
+			return;
+
 		int setting = StaticEntity.parseInt( previousLine.split( " " )[1] );
 		StaticEntity.getClient().makeRequest( new MindControlRequest( StaticEntity.getClient(), setting ) );
 	}
@@ -3243,6 +3249,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeUneffectRequest()
 	{
+		if ( previousLine == null )
+			return;
+
+		if ( !previousLine.startsWith( "uneffect" ) || previousLine.indexOf( " " ) == -1 )
+			return;
+
 		String effectToUneffect = previousLine.trim().substring( previousLine.split( " " )[0].length() ).trim().toLowerCase();
 
 		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
@@ -3259,6 +3271,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeZapRequest()
 	{
+		if ( previousLine == null )
+			return;
+
+		if ( !previousLine.startsWith( "zap" ) || previousLine.indexOf( " " ) == -1 )
+			return;
+
 		AdventureResult wand = KoLCharacter.getZapper();
 
 		if ( wand == null )
@@ -3288,13 +3306,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makePulverizeRequest()
 	{
+		if ( previousLine == null )
+			return;
+
+		if ( !previousLine.startsWith( "pulverize" ) || previousLine.indexOf( " " ) == -1 )
+			return;
+
 		String command = previousLine.split( " " )[0];
 		String parameters = previousLine.substring( command.length() ).trim();
-		if ( parameters.length() == 0 )
-		{
-			updateDisplay( ERROR_STATE, "Smash what?" );
-			return;
-		}
 
 		AdventureResult item = getFirstMatchingItem( parameters );
 		if ( item == null )
@@ -3317,6 +3336,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeHermitRequest()
 	{
+		if ( previousLine == null )
+			return;
+
+		if ( !previousLine.startsWith( "hermit" ) )
+			return;
+
 		String oldLine = previousLine;
 		boolean clovers = HermitRequest.isCloverDay();
 
@@ -3373,6 +3398,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeTrapperRequest()
 	{
+		if ( previousLine == null )
+			return;
+
+		if ( !previousLine.startsWith( "trapper" ) || previousLine.indexOf( " " ) == -1 )
+			return;
+
 		String command = previousLine.split( " " )[0];
 		String parameters = previousLine.substring( command.length() ).trim();
 
@@ -3402,6 +3433,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeHunterRequest()
 	{
+		if ( previousLine == null )
+			return;
+
+		if ( !previousLine.startsWith( "hunter" ) )
+			return;
+
 		if ( StaticEntity.getClient().hunterItems.isEmpty() )
 			(new BountyHunterRequest( StaticEntity.getClient() )).run();
 
@@ -3424,6 +3461,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public boolean makeRestaurantRequest()
 	{
+		if ( previousLine == null )
+			return false;
+
+		if ( !previousLine.startsWith( "eat" ) && !previousLine.startsWith( "restaurant" ) )
+			return false;
+
 		List items = StaticEntity.getClient().restaurantItems;
 		if ( items.isEmpty() && KoLCharacter.inMysticalitySign() )
 			(new RestaurantRequest( StaticEntity.getClient() )).run();
@@ -3463,6 +3506,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void makeGalaktikRequest()
 	{
+		if ( previousLine == null )
+			return;
+
+		if ( !previousLine.startsWith( "galaktik" ) )
+			return;
+
 		if ( previousLine.indexOf( " " ) == -1 )
 		{
 			List cures = GalaktikRequest.retrieveCures( StaticEntity.getClient() );
@@ -3495,6 +3544,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public boolean makeMicrobreweryRequest()
 	{
+		if ( previousLine == null )
+			return false;
+
+		if ( !previousLine.startsWith( "drink" ) && previousLine.indexOf( "brewery" ) == -1 )
+			return false;
+
 		List items = StaticEntity.getClient().microbreweryItems;
 		if ( items.isEmpty() && KoLCharacter.inMoxieSign() )
 			(new MicrobreweryRequest( StaticEntity.getClient() )).run();
