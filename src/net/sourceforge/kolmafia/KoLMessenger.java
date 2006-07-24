@@ -123,6 +123,11 @@ public abstract class KoLMessenger extends StaticEntity
 		initializeChatLogs();
 	}
 
+
+	protected static final boolean usingTabbedChat()
+	{	return useTabbedChat;
+	}
+
 	protected static void setColor( String channel, int colorIndex )
 	{	colors.put( channel, AVAILABLE_COLORS[ colorIndex ] );
 	}

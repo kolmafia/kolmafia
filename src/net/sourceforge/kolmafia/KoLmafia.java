@@ -349,6 +349,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( isQuickLogin )
 		{
 			(new AccountRequest( this )).run();
+			(new CharsheetRequest( this )).run();
 			return;
 		}
 
@@ -1826,18 +1827,6 @@ public abstract class KoLmafia implements KoLConstants
 				f.createNewFile();
 
 			debugStream = new LogStream( f );
-
-			debugStream.println();
-			debugStream.println();
-			debugStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-			debugStream.println( "            Beginning New Logging Session (" + VERSION_NAME + ")" );
-			debugStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-			debugStream.println( " Please note: do not post these logs in the KoLmafia thread.  If " );
-			debugStream.println( " you would like us to look at the log, please instead email logs " );
-			debugStream.println( " to holatuwol@hotmail.com using the subject [KoLmafia] Debug Log " );
-			debugStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-			debugStream.println();
-			debugStream.println();
 		}
 		catch ( IOException e )
 		{

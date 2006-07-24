@@ -118,15 +118,15 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	}
 
 	protected void fireContentsChanged( Object source, int index0, int index1 )
-	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 ) );
+	{	(new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 )).run();
 	}
 
 	protected void fireIntervalAdded( Object source, int index0, int index1 )
-	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 ) );
+	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 )).run();
 	}
 
 	protected void fireIntervalRemoved( Object source, int index0, int index1 )
-	{	SwingUtilities.invokeLater( new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 ) );
+	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 )).run();
 	}
 
 	public void sort()
@@ -906,11 +906,11 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 		private void contentsChanged( LockableListModel source, int index0, int index1 )
 		{
-			if ( mirrorImage == null || source == null || index1 < 0 || index1 >= mirrorImage.size() )
+			if ( mirrorImage == null || source == null || index1 < 0 )
 				return;
 
-			for ( int i = index1; i >= index0; --i )
-				mirrorImage.set( mirrorImage.indexOf( source.get(i) ), source.get(i) );
+			for ( int i = index0; i <= index1; ++i )
+				mirrorImage.set( i, source.get(i) );
 		}
 	}
 }
