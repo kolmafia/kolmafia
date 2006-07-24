@@ -241,7 +241,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * session.
 	 */
 
-	public static final void updateDisplay( int state, String message )
+	public static synchronized final void updateDisplay( int state, String message )
 	{
 		if ( continuationState == ABORT_STATE || message.equals( "" ) )
 			return;
@@ -280,9 +280,7 @@ public abstract class KoLmafia implements KoLConstants
 			updateDisplayState( CONTINUE_STATE, message );
 	}
 
-
-
-	private static final void updateDisplayState( int state, String message )
+	private static synchronized final void updateDisplayState( int state, String message )
 	{
 		// Next, update all of the panels with the
 		// desired update message.
