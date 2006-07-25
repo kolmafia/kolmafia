@@ -282,6 +282,9 @@ public class AdventureFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
+			if ( actionSelect == null )
+				return;
+
 			super.setEnabled( isEnabled );
 			actionSelect.setEnabled( true );
 		}

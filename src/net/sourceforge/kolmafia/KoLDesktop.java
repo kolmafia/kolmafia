@@ -50,11 +50,8 @@ import java.util.ArrayList;
 public class KoLDesktop extends KoLFrame implements ChangeListener
 {
 	private static KoLDesktop INSTANCE = null;
-
-	private boolean addedCompactPane = false;
 	private static boolean isInitializing = false;
 
-	private int expectedTabCount = 0;
 	private JTabbedPane tabs = new JTabbedPane();
 	private ArrayList tabListing = new ArrayList();
 
@@ -183,8 +180,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			}
 		}
 
-		if ( !tabListing.isEmpty() )
-			tabs.setSelectedIndex( 0 );
+		isInitializing = false;
 	}
 
 	public static boolean isInitializing()
@@ -228,14 +224,18 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 			INSTANCE.tabListing.add( content );
 			INSTANCE.tabs.addTab( content.lastTitle, content.getContentPane() );
-
-			tabIndex = INSTANCE.tabListing.size() - 1;
+			INSTANCE.tabs.setSelectedIndex( 0 );
 		}
+		else
+		{
+			INSTANCE.tabs.setSelectedIndex( tabIndex );
+		}
+	}
 
-		if ( !isInitializing )
-			INSTANCE.pack();
-
-		INSTANCE.tabs.setSelectedIndex( tabIndex );
+	public void pack()
+	{
+		super.pack();
+		tabs.setSelectedIndex( 0 );
 	}
 
 	public static void removeTab( KoLFrame content )

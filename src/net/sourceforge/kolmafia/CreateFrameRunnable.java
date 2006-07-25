@@ -124,7 +124,11 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		// Run any needed requests before falling into
 		// the event dispatch thread.
 
-		loadPreviousFrame();
+		if ( loadPreviousFrame() )
+		{
+			this.creation.setVisible( true );
+			return;
+		}
 
 		// If you are in the Swing thread, then wait
 		// until you are no longer in the Swing thread
@@ -132,19 +136,12 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		if ( !SwingUtilities.isEventDispatchThread() )
 		{
-			try
-			{
-				SwingUtilities.invokeAndWait( this );
-				return;
-			}
-			catch ( Exception e )
-			{
-				// This should not happen.  Therefore, print
-				// a stack trace for debug purposes.
+			SwingUtilities.invokeLater( this );
 
-				StaticEntity.printStackTrace( e, "Swing thread interrupted" );
-				return;
-			}
+			while ( this.creation == null )
+				KoLRequest.delay( 500 );
+
+			return;
 		}
 
 		// Now that you're guaranteed to be in the event
@@ -153,7 +150,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		runConstruction();
 	}
 
-	private void loadPreviousFrame()
+	private boolean loadPreviousFrame()
 	{
 		// Check to see if this is a frame that should
 		// only be loaded once, based on the static list.
@@ -183,6 +180,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 					this.creation = currentFrame;
 			}
 		}
+
+		return this.creation != null;
 	}
 
 	private void runConstruction()
@@ -195,6 +194,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		{
 			if ( this.creation == null )
 				this.creation = (JFrame) creator.newInstance( parameters );
+
+			// After that, add the frame to the list of frames
 
 			String tabSetting = "," + StaticEntity.getProperty( "initialDesktop" ) + ",";
 			String searchString = this.creation instanceof ChatFrame ? "KoLMessenger" :
@@ -214,17 +215,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 					KoLDesktop.removeExtraTabs();
 
 				appearsInTab = true;
-			}
-
-			// If the person is requesting a this.creation that is meant
-			// to appear in the KoLDesktop interface, then make
-			// sure you initialize it.
-
-			if ( appearsInTab && !KoLDesktop.isInitializing() )
-			{
-				KoLDesktop.getInstance().initializeTabs();
-				KoLDesktop.getInstance().pack();
-				KoLDesktop.getInstance().setVisible( true );
 			}
 
 			// Load the KoL frame to the appropriate location
@@ -249,13 +239,13 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			if ( !(this.creation instanceof KoLFrame) )
 				this.creation.setLocationRelativeTo( null );
 
+			this.creation.setEnabled( true );
+
 			// With the location set set on screen, make sure
 			// to disable it (if necessary), ensure the frame's
 			// visibility on screen and request focus.
 
-			this.creation.setEnabled( true );
-
-			if ( appearsInTab )
+			if ( appearsInTab && KoLDesktop.instanceExists() )
 				KoLDesktop.addTab( (KoLFrame) this.creation );
 			else
 				this.creation.setVisible( true );

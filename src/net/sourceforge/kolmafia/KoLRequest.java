@@ -642,8 +642,8 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * friendly delay speed.
 	 */
 
-	protected static void delay()
-	{	delay( 1000 );
+	protected static boolean delay()
+	{	return delay( 1000 );
 	}
 
 	/**
@@ -652,10 +652,10 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * reduced.
 	 */
 
-	protected static void delay( long milliseconds )
+	protected static boolean delay( long milliseconds )
 	{
 		if ( milliseconds == 0 )
-			return;
+			return true;
 
 		Object waitObject = new Object();
 		try
@@ -673,6 +673,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			StaticEntity.printStackTrace( e );
 		}
+
+		return true;
 	}
 
 	private boolean isDelayExempt()

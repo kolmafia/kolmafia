@@ -67,10 +67,11 @@ public class LogoutRequest extends KoLRequest
 				frames[i].dispose();
 
 		if ( KoLDesktop.instanceExists() )
-			KoLDesktop.getInstance().setVisible( false );
+			KoLDesktop.getInstance().dispose();
 
 		super.run();
 
+		KoLMessenger.dispose();
 		ConcoctionsDatabase.getConcoctions().clear();
 		BuffBotHome.setBuffBotActive( false );
 		KoLmafia.closeMacroStream();

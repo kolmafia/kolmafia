@@ -128,12 +128,9 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( !StaticEntity.getProperty( "initialDesktop" ).equals( "" ) )
 		{
-			if ( !KoLDesktop.getInstance().isVisible() )
-			{
-				KoLDesktop.getInstance().initializeTabs();
-				KoLDesktop.getInstance().pack();
-				KoLDesktop.getInstance().setVisible( true );
-			}
+			KoLDesktop.getInstance().initializeTabs();
+			KoLDesktop.getInstance().pack();
+			KoLDesktop.getInstance().setVisible( true );
 		}
 
 		// Figure out which user interface is being
@@ -142,10 +139,7 @@ public class KoLmafiaGUI extends KoLmafia
 		Object [] frames = existingFrames.toArray();
 		for ( int i = 0; i < frames.length; ++i )
 			if ( frames[i] instanceof LoginFrame )
-			{
 				((LoginFrame)frames[i]).setVisible( false );
-				((LoginFrame)frames[i]).dispose();
-			}
 
 		enableDisplay();
 	}

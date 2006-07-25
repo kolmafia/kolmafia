@@ -246,12 +246,12 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
-			super.setEnabled( isEnabled );
+			if ( buttonPanel == null || familiars == null )
+				return;
 
-			if ( buttonPanel != null )
-				buttonPanel.setEnabled( isEnabled );
-			if ( familiars != null )
-				familiars.setEnabled( isEnabled );
+			super.setEnabled( isEnabled );
+			buttonPanel.setEnabled( isEnabled );
+			familiars.setEnabled( isEnabled );
 		}
 
 		private class OpponentsPanel extends JPanel
@@ -332,18 +332,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			public void setEnabled( boolean isEnabled )
 			{
-				super.setEnabled( isEnabled );
+				if ( base == null || buffed == null || turns == null || save == null || changer == null )
+					return;
 
-				if ( base != null )
-					base.setEnabled( isEnabled );
-				if ( buffed != null )
-					buffed.setEnabled( isEnabled );
-				if ( turns != null )
-					turns.setEnabled( isEnabled );
-				if ( save != null )
-					save.setEnabled( isEnabled );
-				if ( changer != null )
-					changer.setEnabled( isEnabled );
+				super.setEnabled( isEnabled );
+				base.setEnabled( isEnabled );
+				buffed.setEnabled( isEnabled );
+				turns.setEnabled( isEnabled );
+				save.setEnabled( isEnabled );
+				changer.setEnabled( isEnabled );
 			}
 
 			private class BaseListener extends ListeningRunnable

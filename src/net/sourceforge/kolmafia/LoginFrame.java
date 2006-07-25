@@ -122,13 +122,8 @@ public class LoginFrame extends KoLFrame
 
 	public void dispose()
 	{
-		if ( existingFrames.size() == 1 && StaticEntity.getClient() instanceof KoLmafiaGUI )
-		{
-			SystemTrayFrame.removeTrayIcon();
-			System.exit(0);
-		}
-
-		super.dispose();
+		SystemTrayFrame.removeTrayIcon();
+		System.exit(0);
 	}
 
 	public JPanel constructLoginPanel()
@@ -223,11 +218,18 @@ public class LoginFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
+			if ( usernameField == null || passwordField == null || scriptField == null )
+				return;
+
+			if ( savePasswordCheckBox == null || autoLoginCheckBox == null || getBreakfastCheckBox == null )
+				return;
+
 			super.setEnabled( isEnabled );
+
 			usernameField.setEnabled( isEnabled );
 			passwordField.setEnabled( isEnabled );
-
 			scriptField.setEnabled( isEnabled );
+
 			savePasswordCheckBox.setEnabled( isEnabled );
 			autoLoginCheckBox.setEnabled( isEnabled );
 			getBreakfastCheckBox.setEnabled( isEnabled );

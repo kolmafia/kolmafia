@@ -303,8 +303,10 @@ public abstract class SendMessageFrame extends KoLFrame
 
 	public void setEnabled( boolean isEnabled )
 	{
-		if ( sendMessageButton != null )
-			sendMessageButton.setEnabled( isEnabled );
+		if ( sendMessageButton == null )
+			return;
+
+		sendMessageButton.setEnabled( isEnabled );
 	}
 
 	protected Object [] getAttachedItems()

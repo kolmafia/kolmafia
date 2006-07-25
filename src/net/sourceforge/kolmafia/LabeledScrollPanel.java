@@ -117,9 +117,11 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 
 	public void setEnabled( boolean isEnabled )
 	{
+		if ( scrollComponent == null || buttonPanel == null )
+			return;
+
 		scrollComponent.setEnabled( isEnabled );
-		if ( buttonPanel != null )
-			buttonPanel.setEnabled( isEnabled );
+		buttonPanel.setEnabled( isEnabled );
 	}
 
 	protected boolean requiresPadding()
