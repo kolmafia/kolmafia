@@ -2384,8 +2384,4 @@ public class FamiliarTrainingFrame extends KoLFrame
 				setText( "Turn On " +  title );
 		}
 	}
-
-	public static boolean executesConflictingRequest()
-	{	return true;
-	}
 }

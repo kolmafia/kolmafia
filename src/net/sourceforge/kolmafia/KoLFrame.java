@@ -1155,10 +1155,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			setLocationRelativeTo( null );
 	}
 
-	public static boolean executesConflictingRequest()
-	{	return false;
-	}
-
 	/**
 	 * A generic panel which adds a label to the bottom of the KoLPanel
 	 * to update the panel's status.  It also provides a thread which is

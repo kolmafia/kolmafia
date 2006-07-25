@@ -246,36 +246,12 @@ public class ChatBuffer
 
 	protected void fireBufferChanged( int changeType, String newContents )
 	{
-		if ( newContents != null )
-			displayBuffer.append( newContents );
-
-		if ( changeType != LOGFILE_CHANGE && displayPane != null )
+		if ( changeType != LOGFILE_CHANGE )
 		{
-			if ( newContents != null && newContents.indexOf( "<body" ) == -1 )
-			{
-				try
-				{
-					HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-					Element parentElement = currentHTML.getDefaultRootElement();
-
-					while ( !parentElement.isLeaf() )
-						parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
-
-					currentHTML.insertAfterEnd( parentElement, newContents.trim() );
-					displayPane.setCaretPosition( currentHTML.getLength() );
-				}
-				catch ( Exception e )
-				{
-					// In case someone happens to be running with a console,
-					// print the debug information to the screen.
-
-					e.printStackTrace();
-				}
-			}
-			else
-			{
+			if ( displayPane != null )
 				SwingUtilities.invokeLater( new DisplayPaneUpdater( newContents ) );
-			}
+			else if ( newContents != null )
+				displayBuffer.append( newContents );
 		}
 
 		if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
@@ -321,24 +297,42 @@ public class ChatBuffer
 
 		public void run()
 		{
+			boolean scrollToTop = displayBuffer.length() == 0 || newContents == null;
+			if ( newContents != null )
+				displayBuffer.append( newContents );
+
 			try
 			{
-				if ( newContents != null )
+				if ( newContents != null && newContents.indexOf( "<body" ) == -1 )
 				{
-					String text = displayBuffer.toString();
+					HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
+					Element parentElement = currentHTML.getDefaultRootElement();
 
-					Matcher matcher = Pattern.compile( "<style.*?</style>", Pattern.DOTALL ).matcher( text );
-					text = matcher.replaceAll( "" );
+					while ( !parentElement.isLeaf() )
+						parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
 
-					matcher = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( text );
-					text = matcher.replaceAll( "" );
-
-					displayBuffer.setLength( 0 );
-					displayBuffer.append( text );
+					currentHTML.insertAfterEnd( parentElement, newContents.trim() );
+					displayPane.setCaretPosition( scrollToTop ? 0 : currentHTML.getLength() );
 				}
+				else
+				{
+					if ( newContents != null )
+					{
+						String text = displayBuffer.toString();
 
-				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-				displayPane.setCaretPosition( displayPane.getDocument().getLength() );
+						Matcher matcher = Pattern.compile( "<style.*?</style>", Pattern.DOTALL ).matcher( text );
+						text = matcher.replaceAll( "" );
+
+						matcher = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( text );
+						text = matcher.replaceAll( "" );
+
+						displayBuffer.setLength( 0 );
+						displayBuffer.append( text );
+					}
+
+					displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+					displayPane.setCaretPosition( scrollToTop ? 0 : displayPane.getDocument().getLength() );
+				}
 			}
 			catch ( Exception e )
 			{

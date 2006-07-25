@@ -124,12 +124,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		// Run any needed requests before falling into
 		// the event dispatch thread.
 
-		if ( !ranRequests )
-		{
-			ranRequests = runRequests();
-			if ( !ranRequests )
-				return;
-		}
+		loadPreviousFrame();
 
 		// If you are in the Swing thread, then wait
 		// until you are no longer in the Swing thread
@@ -158,28 +153,8 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		runConstruction();
 	}
 
-	private boolean runRequests()
+	private void loadPreviousFrame()
 	{
-		if ( !StaticEntity.getClient().shouldMakeConflictingRequest() )
-		{
-			try
-			{
-				Method m = creationType.getMethod( "executesConflictingRequest", NOPARAMS );
-				Boolean result = (Boolean) m.invoke( creationType, null );
-
-				if ( result.equals( Boolean.TRUE ) )
-				{
-					KoLmafia.updateDisplay( "You can't do that while adventuring." );
-					return false;
-				}
-			}
-			catch ( Exception e )
-			{
-				// In this case, you know for sure that the
-				// method does not exist.  So, do nothing.
-			}
-		}
-
 		// Check to see if this is a frame that should
 		// only be loaded once, based on the static list.
 
@@ -208,22 +183,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 					this.creation = currentFrame;
 			}
 		}
-
-		// Now, test to see if any requests need to be run before
-		// you fall into the event dispatch thread.
-
-		if ( this.creation == null )
-		{
-			if ( creationType == BuffRequestFrame.class )
-				BuffBotDatabase.configureBuffBots();
-			if ( creationType == CakeArenaFrame.class || creationType == FamiliarTrainingFrame.class )
-				CakeArenaManager.getOpponentList();
-		}
-
-		// If it gets this far, then all requests were successfully
-		// run, so return true.
-
-		return true;
 	}
 
 	private void runConstruction()
