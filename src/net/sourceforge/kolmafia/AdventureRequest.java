@@ -437,14 +437,11 @@ public class AdventureRequest extends KoLRequest
 
 	private static boolean containsEncounter( String formSource, String responseText )
 	{
-		if ( responseText.indexOf( "Results" ) != -1 )
-			return false;
-
 		// The first round is unique in that there is no
 		// data fields.  Therefore, it will equal fight.php
 		// exactly every single time.
 
-		else if ( formSource.startsWith( "fight.php" ) )
+		if ( formSource.startsWith( "fight.php" ) )
 			return formSource.equals( "fight.php" );
 
 		// All other adventures can be identified via their
@@ -464,7 +461,7 @@ public class AdventureRequest extends KoLRequest
 			return true;
 		else if ( formSource.startsWith( "rats.php" ) )
 			return true;
-		else if ( formSource.startsWith( "choice.php" ) )
+		else if ( formSource.equals( "choice.php" ) )
 			return true;
 
 		// It is not a known adventure.  Therefore,
