@@ -377,6 +377,9 @@ public class AdventureDatabase extends KoLDatabase
 		adventures.clear();
 		adventureLookup.clear();
 
+		allAdventures = new KoLAdventure[ adventureTable[3].size() ];
+		adventureNames = new String[ allAdventures.length ];
+
 		for ( int i = 0; i < adventureTable[3].size(); ++i )
 		{
 			shouldAdd = true;
@@ -386,26 +389,17 @@ public class AdventureDatabase extends KoLDatabase
 				if ( zoneName.equals( zones[j] ) )
 					shouldAdd = false;
 
-			KoLAdventure adventure = getAdventure(i);
-			if ( shouldAdd )
-				adventures.add( adventure );
+			allAdventures[i] = getAdventure(i);
+			adventureNames[i] = allAdventures[i].getAdventureName().toLowerCase();
 
-			adventureLookup.put( adventure.getRequest().getURLString(), adventure );
+			if ( shouldAdd )
+				adventures.add( allAdventures[i] );
+
+			adventureLookup.put( allAdventures[i].getRequest().getURLString(), allAdventures[i] );
 		}
 
 		if ( getProperty( "sortAdventures" ).equals( "true" ) )
 			adventures.sort();
-
-		Object [] keys = adventureLookup.keySet().toArray();
-
-		allAdventures = new KoLAdventure[ keys.length ];
-		adventureNames = new String[ keys.length ];
-
-		for ( int i = 0; i < keys.length; ++i )
-		{
-			allAdventures[i] = (KoLAdventure) adventureLookup.get( keys[i] );
-			adventureNames[i] = allAdventures[i].getAdventureName().toLowerCase();
-		}
 	}
 
 	public static KoLAdventure getAdventureByURL( String adventureURL )
@@ -423,7 +417,7 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static KoLAdventure getAdventure( String adventureName )
 	{
-		if ( adventures.isEmpty() )
+		if ( adventureLookup.isEmpty() )
 			refreshAdventureList();
 
 		int adventureIndex = -1;
