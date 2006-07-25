@@ -195,7 +195,10 @@ public class CommandDisplayFrame extends KoLFrame
 			public void run()
 			{
 				while ( !commandQueue.isEmpty() )
+				{
+					KoLmafia.forceContinue();
 					executeQueuedCommand();
+				}
 			}
 
 			private void executeQueuedCommand()
