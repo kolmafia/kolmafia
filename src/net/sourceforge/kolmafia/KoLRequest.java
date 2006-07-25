@@ -1263,11 +1263,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	private void handleChoiceResponse( KoLRequest request )
 	{
 		client.processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
-
 		String text = request.responseText;
-		Matcher encounterMatcher = Pattern.compile( "<b>(.*?)</b>" ).matcher( text );
-		if ( encounterMatcher.find() )
-			client.registerEncounter( encounterMatcher.group(1) );
 
 		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( text );
 		if ( !choiceMatcher.find() )
