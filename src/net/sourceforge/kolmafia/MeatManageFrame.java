@@ -151,6 +151,9 @@ public class MeatManageFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
+			if ( closetField == null )
+				return;
+
 			super.setEnabled( isEnabled );
 			closetField.setEnabled( false );
 		}

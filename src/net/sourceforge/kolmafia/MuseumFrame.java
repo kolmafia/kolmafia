@@ -133,6 +133,9 @@ public class MuseumFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
+			if ( inventoryPanel == null || displayPanel == null )
+				return;
+
 			super.setEnabled( isEnabled );
 			inventoryPanel.setEnabled( isEnabled );
 			displayPanel.setEnabled( isEnabled );

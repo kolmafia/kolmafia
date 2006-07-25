@@ -77,11 +77,7 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static void closeSession()
-	{
-		if ( client == null )
-			return;
-
-		(new Thread( new LogoutRequest( client ) )).start();
+	{	(new Thread( new LogoutRequest( client ) )).start();
 	}
 
 	public static void reloadSettings()

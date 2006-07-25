@@ -90,13 +90,13 @@ public class SkillBuffFrame extends KoLFrame
 
 		public void setEnabled( boolean isEnabled )
 		{
+			if ( skillSelect == null || targetSelect == null )
+				return;
+
 			super.setEnabled( isEnabled );
 
-			if ( skillSelect != null && targetSelect != null )
-			{
-				skillSelect.setEnabled( isEnabled );
-				targetSelect.setEnabled( isEnabled );
-			}
+			skillSelect.setEnabled( isEnabled );
+			targetSelect.setEnabled( isEnabled );
 		}
 
 		protected void actionConfirmed()
