@@ -520,10 +520,9 @@ public class LocalRelayRequest extends KoLRequest
 				if ( command == null )
 					return;
 
-				KoLmafia.forceContinue();
-
 				try
 				{
+					KoLmafia.forceContinue();
 					DEFAULT_SHELL.executeLine( command );
 				}
 				catch ( Exception e )
