@@ -246,8 +246,4 @@ public class CakeArenaFrame extends KoLFrame
 			return component;
 		}
 	}
-
-	public static boolean executesConflictingRequest()
-	{	return true;
-	}
 }

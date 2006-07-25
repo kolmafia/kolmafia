@@ -34,25 +34,15 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
-import javax.swing.JTabbedPane;
-import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JOptionPane;
-import javax.swing.JSeparator;
-import javax.swing.JList;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -63,14 +53,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-import javax.swing.ListSelectionModel;
 
-import java.net.URL;
-import java.util.List;
 import java.util.ArrayList;
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
@@ -417,9 +401,7 @@ public class RequestFrame extends KoLFrame
 
 			locationField.setText( location );
 			locationIndex = shownHTML.size();
-
 			mainBuffer.append( renderText );
-			mainDisplay.setCaretPosition( 0 );
 		}
 
 		private void updateClient()
@@ -560,7 +542,6 @@ public class RequestFrame extends KoLFrame
 				{
 					frames[i].sideBuffer.clearBuffer();
 					frames[i].sideBuffer.append( text );
-					frames[i].sideDisplay.setCaretPosition( 0 );
 				}
 			}
 		}

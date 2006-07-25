@@ -812,15 +812,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String text = pwd == null ? displayHTML : displayHTML.replaceAll( pwd, "" );
 		KoLmafia.getDebugStream().println( text );
 
-		displayHTML = getFeatureRichHTML( displayHTML );
+		displayHTML = getFeatureRichHTML( "", displayHTML );
 		return displayHTML;
 	}
 
-	public static String getFeatureRichHTML( String text )
+	public static String getFeatureRichHTML( String location, String text )
 	{
 		// Now, for a little fun HTML manipulation.  See
 		// if there's an item present, and if so, modify
 		// it so that you get a use link.
+
+		if ( text.indexOf( "charsheet.php" ) != -1 )
+			text = addShrugOffLinks( text );
 
 		if ( StaticEntity.getProperty( "relayAddsUseLinks" ).equals( "true" ) )
 			text = addUseLinks( text );
@@ -829,6 +832,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			text = addPlinking( text );
 
 		text = addChoiceSpoilers( text );
+
 		return text;
 	}
 
@@ -998,6 +1002,45 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		newText.append( text.substring( index1 ) );
 		return newText.toString();
+	}
+
+	private static String addShrugOffLinks( String text )
+	{
+		StringBuffer responseBuffer = new StringBuffer();
+
+		int startingIndex = 0;
+		int lastAppendIndex = 0;
+
+		while ( startingIndex != -1 )
+		{
+			startingIndex = text.indexOf( "onClick='eff", lastAppendIndex + 1 );
+			if ( startingIndex != -1 )
+			{
+				int nextAppendIndex = text.indexOf( "(", startingIndex + 14 ) + 1;
+				responseBuffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+				lastAppendIndex = nextAppendIndex;
+
+				int effectID = StaticEntity.parseInt(
+					text.substring( startingIndex + 14, text.indexOf( "\"", startingIndex + 15 ) ) );
+
+				String effectName = StatusEffectDatabase.getEffectName( effectID );
+
+				if ( effectName != null && ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillID( UneffectRequest.effectToSkill( effectName ) ) ) == ClassSkillsDatabase.BUFF )
+				{
+					responseBuffer.append( "<a href=\"charsheet.php?pwd&action=unbuff&whichbuff=" );
+					responseBuffer.append( effectID );
+					responseBuffer.append( "\" target=\"mainpane\">" );
+
+					nextAppendIndex = text.indexOf( ")", lastAppendIndex );
+					responseBuffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
+					responseBuffer.append( "</a>" );
+					lastAppendIndex = nextAppendIndex;
+				}
+			}
+		}
+
+		responseBuffer.append( text.substring( lastAppendIndex ) );
+		return responseBuffer.toString();
 	}
 
 	private static String sortItemList( String select, String displayHTML )

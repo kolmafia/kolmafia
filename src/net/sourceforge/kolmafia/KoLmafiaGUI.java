@@ -39,7 +39,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import javax.swing.JOptionPane;
 
 /**
@@ -153,6 +152,9 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public static void constructFrame( String frameName )
 	{
+		// Now, test to see if any requests need to be run before
+		// you fall into the event dispatch thread.
+
 		if ( frameName.equals( "LocalRelayServer" ) )
 		{
 			StaticEntity.getClient().startRelayServer();
@@ -201,8 +203,40 @@ public class KoLmafiaGUI extends KoLmafia
 				return;
 			}
 		}
+		else if ( frameName.equals( "CakeArenaFrame" ) || frameName.equals( "FamiliarTrainingFrame" ) )
+		{
+			if ( !StaticEntity.getClient().shouldMakeConflictingRequest() )
+			{
+				updateDisplay( "You can't do that while adventuring." );
+				return;
+			}
+
+			CakeArenaManager.getOpponentList();
+		}
+		else if ( frameName.equals( "ItemManageFrame" ) )
+		{
+			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+			{
+				// If the person is in a mysticality sign, make sure
+				// you retrieve information from the restaurant.
+
+				if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
+					if ( StaticEntity.getClient().getRestaurantItems().isEmpty() )
+						(new RestaurantRequest( StaticEntity.getClient() )).run();
+
+				// If the person is in a moxie sign and they have completed
+				// the beach quest, then retrieve information from the
+				// microbrewery.
+
+				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
+					if ( StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
+						(new MicrobreweryRequest( StaticEntity.getClient() )).run();
+			}
+		}
 		else if ( frameName.equals( "RestoreOptionsFrame" ) )
+		{
 			frameName = "OptionsFrame";
+		}
 
 		try
 		{

@@ -115,42 +115,6 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			if ( !isRunningCommand )
 				CharpaneRequest.processCharacterPane( responseText );
-
-			StringBuffer responseBuffer = new StringBuffer();
-
-			int startingIndex = 0;
-			int lastAppendIndex = 0;
-
-			while ( startingIndex != -1 )
-			{
-				startingIndex = fullResponse.indexOf( "onClick='eff", lastAppendIndex + 1 );
-				if ( startingIndex != -1 )
-				{
-					int nextAppendIndex = fullResponse.indexOf( "(", startingIndex + 14 ) + 1;
-					responseBuffer.append( fullResponse.substring( lastAppendIndex, nextAppendIndex ) );
-					lastAppendIndex = nextAppendIndex;
-
-					int effectID = StaticEntity.parseInt(
-						fullResponse.substring( startingIndex + 14, fullResponse.indexOf( "\"", startingIndex + 15 ) ) );
-
-					String effectName = StatusEffectDatabase.getEffectName( effectID );
-
-					if ( effectName != null && ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillID( UneffectRequest.effectToSkill( effectName ) ) ) == ClassSkillsDatabase.BUFF )
-					{
-						responseBuffer.append( "<a href=\"charsheet.php?pwd&action=unbuff&whichbuff=" );
-						responseBuffer.append( effectID );
-						responseBuffer.append( "\" target=\"mainpane\">" );
-
-						nextAppendIndex = fullResponse.indexOf( ")", lastAppendIndex );
-						responseBuffer.append( fullResponse.substring( lastAppendIndex, nextAppendIndex ) );
-						responseBuffer.append( "</a>" );
-						lastAppendIndex = nextAppendIndex;
-					}
-				}
-			}
-
-			responseBuffer.append( fullResponse.substring( lastAppendIndex ) );
-			fullResponse = responseBuffer.toString();
 		}
 
 		// Fix it a little more by making sure that familiar
@@ -204,7 +168,7 @@ public class LocalRelayRequest extends KoLRequest
 			fullResponse = fullResponse.replaceFirst( "</tr>\\s*</table>\\s*</center>", selectBuffer.toString() );
 		}
 
-		fullResponse = RequestEditorKit.getFeatureRichHTML( fullResponse );
+		fullResponse = RequestEditorKit.getFeatureRichHTML( formURLString.toString(), fullResponse );
 	}
 
 	public String getHeader( int index )

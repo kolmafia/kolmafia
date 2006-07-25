@@ -110,26 +110,20 @@ public class ItemManageFrame extends KoLFrame
 			// If the person is in a mysticality sign, make sure
 			// you retrieve information from the restaurant.
 
-			if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
+			if ( !StaticEntity.getClient().getRestaurantItems().isEmpty() )
 			{
 				special = new SpecialPanel( StaticEntity.getClient().getRestaurantItems() );
 				tabs.add( "Restaurant", special );
-
-				if ( StaticEntity.getClient().getRestaurantItems().isEmpty() )
-					(new RequestThread( new RestaurantRequest( StaticEntity.getClient() ) )).start();
 			}
 
 			// If the person is in a moxie sign and they have completed
 			// the beach quest, then retrieve information from the
 			// microbrewery.
 
-			if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
+			if ( !StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
 			{
 				special = new SpecialPanel( StaticEntity.getClient().getMicrobreweryItems() );
 				tabs.add( "Microbrewery", special );
-
-				if ( StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
-					(new RequestThread( new MicrobreweryRequest( StaticEntity.getClient() ) )).start();
 			}
 		}
 
