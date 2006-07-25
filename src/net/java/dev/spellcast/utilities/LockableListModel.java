@@ -66,7 +66,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	implements Cloneable, java.util.List, javax.swing.ListModel, javax.swing.ComboBoxModel, javax.swing.MutableComboBoxModel
 {
 	private Vector elements;
-	private int selectedIndex;
+	private Object selectedValue;
 
 	/**
 	 * Constructs a new <code>LockableListModel</code>.
@@ -75,7 +75,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	public LockableListModel()
 	{
 		elements = new Vector();
-		selectedIndex = -1;
+		selectedValue = null;
 	}
 
 	public LockableListModel( Collection c )
@@ -562,7 +562,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
      */
 
     public Object getSelectedItem()
-    {	return get( getSelectedIndex() );
+    {	return selectedValue;
 	}
 
 	/**
@@ -575,7 +575,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 	 */
 
 	public int getSelectedIndex()
-	{	return selectedIndex;
+	{	return indexOf( selectedValue );
 	}
 
     /**
@@ -595,7 +595,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public void setSelectedIndex( int index )
 	{
-		selectedIndex = index;
+		selectedValue = get( index );
 		fireContentsChanged( this, -1, -1 );
 	}
 
