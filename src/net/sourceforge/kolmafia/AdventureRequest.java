@@ -461,7 +461,7 @@ public class AdventureRequest extends KoLRequest
 			return true;
 		else if ( formSource.startsWith( "rats.php" ) )
 			return true;
-		else if ( formSource.equals( "choice.php" ) )
+		else if ( formSource.startsWith( "choice.php" ) && responseText.indexOf( "choice.php" ) != -1 )
 			return true;
 
 		// It is not a known adventure.  Therefore,
