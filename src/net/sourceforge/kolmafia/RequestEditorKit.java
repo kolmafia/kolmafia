@@ -479,6 +479,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		String localname = filename.replaceAll( "http://images.kingdomofloathing.com/", "" ).replaceAll( "/",
 			File.separator.replaceAll( "\\\\", "\\\\\\\\" ) );
 
+		filename = filename.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
 		File localfile = new File( "images" + File.separator + localname );
 
 		try
