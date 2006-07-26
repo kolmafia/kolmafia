@@ -188,23 +188,28 @@ bat haggis	2	batgut	spices
 bat wing kabob	2	bat wing	skewer
 carob brownies	2	carob chunks	Uncle Jick's Brownie Mix
 carob chunk cookies	2	carob chunks	wad of dough
+catgut taco	2	catgut	taco shell
 chorizo taco	2	uncooked chorizo	taco shell
 ghuol egg quiche	2	ghuol egg	pie crust
 ghuol-ear kabob	2	ghuol ears	skewer
+goat cheese taco	2	goat cheese	taco shell
 grue egg omelette	2	grue egg	spooky mushroom
 hot stuffing	2	heavy hot sauce	stuffing
+jumping bean taco	2	jumping beans	taco shell
 Knob shroomkabob	2	Knob mushroom	skewer
 Knoll shroomkabob	2	Knoll mushroom	skewer
 lihc eye pie	2	lihc eye	pie crust
 menudo	2	catgut	spices
 papaya taco	2	papaya	taco shell
 pr0n cocktail	2	pr0n legs	ketchup
+pr0n taco	2	pr0n legs	taco shell
 rat appendix-kabob	2	rat appendix	skewer
 rat scrapple	2	ratgut	spices
 skewered cat appendix	2	cat appendix	skewer
 spooky shroomkabob	2	spooky mushroom	skewer
 stuffed spooky mushroom	2	spooky mushroom	goat cheese
 tofu casserole	2	wad of tofu	Gnollish casserole dish
+tofu taco	2	wad of tofu	taco shell
 white chocolate chip cookies	2	white chocolate chips	wad of dough
 
 
@@ -525,6 +530,8 @@ tomato juice of powerful power	5	scrumptious reagent	tomato
 salamander slurry	5	scrumptious reagent	salamander spleen
 eyedrops of newt	5	scrumptious reagent	eye of newt
 Frogade	5	scrumptious reagent	squashed frog
+
+papotion of papower	5	scrumptious reagent	papaya
 
 # Advanced Sauces
 
