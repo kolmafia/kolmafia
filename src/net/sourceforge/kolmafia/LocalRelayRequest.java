@@ -169,6 +169,8 @@ public class LocalRelayRequest extends KoLRequest
 		}
 
 		fullResponse = RequestEditorKit.getFeatureRichHTML( formURLString.toString(), fullResponse );
+		fullResponse = fullResponse.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
+
 	}
 
 	public String getHeader( int index )

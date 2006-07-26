@@ -91,6 +91,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final Color ENABLED_COLOR = new Color( 192, 255, 192 );
 	public static final Color DISABLED_COLOR = null;
 
+	public static final String IMAGE_SERVER = "69.16.150.201";
 	public static final String [][] WIN_GAME_TEXT = new String [][]
 	{
 		{
