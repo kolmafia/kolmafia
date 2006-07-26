@@ -1709,22 +1709,28 @@ public abstract class KoLmafia implements KoLConstants
 		KoLRequest request = new KoLRequest( this, "guild.php?place=challenge", true );
 		request.run();
 
-		for ( int i = 1; i <= 4; ++i )
+		boolean success = false;
+		updateDisplay( "Completing guild tasks..." );
+
+		while ( !success && KoLCharacter.getAdventuresLeft() > 0 )
 		{
-			updateDisplay( "Completing guild task " + i + "..." );
 			request = new KoLRequest( this, "guild.php?action=chal", true );
 			request.run();
+
+			success |= request.responseText != null &&
+				request.responseText.indexOf( "You've already beaten all of the challenges for your Guild." ) != -1;
+
+			if ( !success )
+				processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 		}
 
-		processResult( new AdventureResult( AdventureResult.ADV, -4 ) );
+		request = new KoLRequest( this, "guild.php?place=paco", true );
+		request.run();
 
-		if ( KoLCharacter.getLevel() >= 4 )
-		{
-			request = new KoLRequest( this, "guild.php?place=paco", true );
-			request.run();
-		}
-
-		updateDisplay( "Guild store unlocked (maybe)." );
+		if ( success )
+			updateDisplay( "Guild store successfully unlocked." );
+		else
+			updateDisplay( "Guild store was not unlocked." );
 	}
 
 	public void priceItemsAtLowestPrice()
