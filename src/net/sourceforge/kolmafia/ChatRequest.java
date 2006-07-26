@@ -174,12 +174,7 @@ public class ChatRequest extends KoLRequest
 				try
 				{
 					ChatRequest.delay( CHAT_DELAY );
-
-					String previousLastSeen = lastSeen;
 					request.run();
-
-					if ( lastSeen.equals( previousLastSeen ) )
-						lastSeen = "1";
 				}
 				catch ( Exception e )
 				{
