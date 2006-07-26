@@ -390,8 +390,6 @@ public abstract class KoLmafia implements KoLConstants
 		String scriptSetting = StaticEntity.getProperty( "loginScript." + username.toLowerCase() );
 		if ( !scriptSetting.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptSetting );
-
-		AdventureDatabase.refreshAdventureList();
 	}
 
 	public void resetBreakfastSummonings()
@@ -480,6 +478,7 @@ public abstract class KoLmafia implements KoLConstants
 		// this before concoctions have a chance to get refreshed.
 
 		(new CharsheetRequest( this )).run();
+
 		if ( refusesContinue() )
 			return;
 

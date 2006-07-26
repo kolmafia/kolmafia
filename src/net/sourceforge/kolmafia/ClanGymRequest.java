@@ -46,6 +46,7 @@ public class ClanGymRequest extends KoLRequest
 	public static final int MOXIE = 3;
 
 	private int turnCount;
+	private int equipmentID;
 
 	/**
 	 * Constructs a new <code>ClanGymRequest</code>.
@@ -57,8 +58,8 @@ public class ClanGymRequest extends KoLRequest
 
 	public ClanGymRequest( KoLmafia client, int equipmentID )
 	{
-		super( client, chooseGym( client, equipmentID ) );
-		addFormField( "action", chooseAction( client, equipmentID ) );
+		super( client, "clan_gym.php" );
+		this.equipmentID = equipmentID;
 	}
 
 	private static String chooseGym( KoLmafia client, int equipmentID )
@@ -125,6 +126,8 @@ public class ClanGymRequest extends KoLRequest
 
 	public void run()
 	{
+		constructURLString( chooseGym( client, equipmentID ) );
+		addFormField( "action", chooseAction( client, equipmentID ) );
 		addFormField( "numturns", String.valueOf( turnCount ) );
 
 		if ( KoLCharacter.getAdventuresLeft() < turnCount )
