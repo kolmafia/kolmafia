@@ -83,6 +83,10 @@ public class ChatFrame extends KoLFrame
 
 	public ChatFrame( String associatedContact )
 	{
+		super( associatedContact == null || associatedContact.equals( "" ) ? "KoLmafia Chat" :
+			associatedContact.startsWith( "/" ) ? "KoL Chat: " + associatedContact :
+				"KoL PM: " + KoLCharacter.getUsername() + " / " + associatedContact );
+
 		framePanel.setLayout( new BorderLayout( 5, 5 ) );
 		initialize( associatedContact );
 
