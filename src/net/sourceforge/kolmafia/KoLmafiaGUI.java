@@ -176,11 +176,6 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 
 			(new MailboxRequest( StaticEntity.getClient(), "Inbox" )).run();
-			if ( KoLMailManager.getMessages( "Inbox" ).isEmpty() )
-			{
-				updateDisplay( "Your mailbox is empty." );
-				return;
-			}
 		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{
