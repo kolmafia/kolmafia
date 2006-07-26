@@ -66,13 +66,11 @@ public class RequestFrame extends KoLFrame
 	private ArrayList history = new ArrayList();
 	private ArrayList shownHTML = new ArrayList();
 
-	private int combatRound;
 	private RequestFrame parent;
 	private String currentLocation;
 	private KoLRequest currentRequest;
-	private LimitedSizeChatBuffer mainBuffer;
 
-	private boolean isRefreshing = false;
+	private LimitedSizeChatBuffer mainBuffer;
 	private LimitedSizeChatBuffer sideBuffer;
 
 	protected JEditorPane sideDisplay;
@@ -312,13 +310,7 @@ public class RequestFrame extends KoLFrame
 	}
 
 	private void setCurrentRequest( KoLRequest request )
-	{
-		if ( request != null && request instanceof FightRequest )
-			combatRound = ((FightRequest)request).getCombatRound();
-		else
-			combatRound = 1;
-
-		this.currentRequest = request;
+	{	this.currentRequest = request;
 	}
 
 	protected static String getDisplayHTML( String responseText )
@@ -493,7 +485,7 @@ public class RequestFrame extends KoLFrame
 		{
 			KoLAdventure adventure = AdventureDatabase.getAdventure( locationField.getText() );
 			KoLRequest request = RequestEditorKit.extractRequest( adventure == null ? locationField.getText() : adventure.getRequest().getURLString() );
-			StaticEntity.getClient().getMacroStream().println( request.getURLString() );
+			KoLmafia.getMacroStream().println( request.getURLString() );
 			refresh( request );
 		}
 
@@ -555,7 +547,7 @@ public class RequestFrame extends KoLFrame
 		if ( REFRESHER.isEmpty() || !refreshStatusEnabled || (runBetweenBattleChecks != null && !runBetweenBattleChecks.isEnabled()) )
 			return;
 
-		(new Thread( REFRESHER )).start();
+		REFRESHER.run();
 	}
 
 	public static boolean willRefreshStatus()
