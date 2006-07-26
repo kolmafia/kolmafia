@@ -264,7 +264,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		constructURLString( formURLString );
 	}
 
-	private void constructURLString( String newURLString )
+	protected void constructURLString( String newURLString )
 	{
 		this.data.clear();
 		if ( newURLString.startsWith( "/" ) )
