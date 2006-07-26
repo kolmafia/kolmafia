@@ -303,7 +303,7 @@ public class RequestFrame extends KoLFrame
 
 			// Only record raw mini-browser requests
 			if ( request.getClass() == KoLRequest.class )
-				StaticEntity.getClient().getMacroStream().println( location );
+				KoLmafia.getMacroStream().println( location );
 
 			(new DisplayRequestThread( request )).start();
 		}
@@ -341,6 +341,9 @@ public class RequestFrame extends KoLFrame
 
 		public void run()
 		{
+			if ( mainBuffer == null || request == null )
+				return;
+
 			mainBuffer.clearBuffer();
 			mainBuffer.append( "Retrieving..." );
 
