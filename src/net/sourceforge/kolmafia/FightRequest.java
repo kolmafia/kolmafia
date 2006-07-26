@@ -46,7 +46,6 @@ public class FightRequest extends KoLRequest
 	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
 
 	private int roundCount;
-	private int turnsUsed = 0;
 	private int offenseModifier = 0, defenseModifier = 0;
 
 	private String action1, action2;
@@ -98,7 +97,6 @@ public class FightRequest extends KoLRequest
 		this.encounter = "";
 		this.encounterLookup = "";
 
-		this.turnsUsed = 0;
 		this.monsterData = null;
 
 		this.offenseModifier = 0;
@@ -263,7 +261,7 @@ public class FightRequest extends KoLRequest
 
 	public void run()
 	{
-		while ( this.turnsUsed == 0 )
+		while ( KoLmafia.permitsContinue() && (responseText == null || responseText.indexOf( "fight.php" ) != -1) )
 		{
 			clearDataFields();
 			action1 = null;
@@ -283,20 +281,15 @@ public class FightRequest extends KoLRequest
 
 			if ( KoLmafia.refusesContinue() || action1 == null )
 			{
-				if ( turnsUsed == 0 )
+				if ( passwordHash != null )
 				{
-					if ( passwordHash != null )
-					{
-						showInBrowser( true );
-						KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
-					}
-					else
-					{
-						KoLmafia.updateDisplay( ABORT_STATE, "Please finish your battle in-browser first." );
-					}
+					showInBrowser( true );
+					KoLmafia.updateDisplay( ABORT_STATE, "You're on your own, partner." );
 				}
-
-				return;
+				else
+				{
+					KoLmafia.updateDisplay( ABORT_STATE, "Please finish your battle in-browser first." );
+				}
 			}
 		}
 	}
@@ -382,7 +375,6 @@ public class FightRequest extends KoLRequest
 
 		if ( responseText.indexOf( "fight.php" ) == -1 )
 		{
-			this.turnsUsed = 1;
 			if ( KoLCharacter.getCurrentHP() == 0 )
 				KoLmafia.updateDisplay( ERROR_STATE, "You were defeated!" );
 		}
@@ -494,6 +486,6 @@ public class FightRequest extends KoLRequest
 	 */
 
 	public int getAdventuresUsed()
-	{	return turnsUsed;
+	{	return responseText == null ? 0 : responseText.indexOf( "fight.php" ) == -1 ? 1 : 0;
 	}
 }

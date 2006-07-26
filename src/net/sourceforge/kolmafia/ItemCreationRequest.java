@@ -734,9 +734,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		switch ( mixingMethod )
 		{
 			case SMITH:
-				if ( !KoLCharacter.inMuscleSign() )
-					return quantityNeeded;
-				break;
+				return KoLCharacter.inMuscleSign() ? 0 : quantityNeeded;
 
 			case SMITH_ARMOR:
 			case SMITH_WEAPON:
@@ -749,16 +747,15 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			case COOK_REAGENT:
 			case SUPER_REAGENT:
 			case COOK_PASTA:
-				if ( !KoLCharacter.hasChef() )
-					return quantityNeeded;
-				break;
+				return KoLCharacter.hasChef() ? 0 : quantityNeeded;
 
 			case MIX:
 			case MIX_SPECIAL:
 			case MIX_SUPER:
-				if ( !KoLCharacter.hasBartender() )
-					return quantityNeeded;
-				break;
+				return KoLCharacter.hasBartender() ? 0 : quantityNeeded;
+
+			case WOK:
+				return quantityNeeded;
 		}
 
 		return 0;
