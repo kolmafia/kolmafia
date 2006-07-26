@@ -151,10 +151,9 @@ public abstract class Nemesis extends StaticEntity
 		if ( !client.checkRequirements( requirements ) )
 			return;
 
-		// Save currently equipped weapon so we can re-equip it for the final battle.
-
-		String weapon = KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON );
-		boolean needsWeapon = false;
+		// Get current equipment
+		String initialWeapon = KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON );
+		String initialOffhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
 
 		// Pass the obstacles one at a time.
 
@@ -166,13 +165,16 @@ public abstract class Nemesis extends StaticEntity
 			{
 				case 4: // The Fly Bend
 
-					// Equip fly swatter, but only do so if the
-					// person has not equipped it already.
+					// Equip fly swatter, but only if it's
+					// not currently equipped
 
-					if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).indexOf( "fly" ) == -1 )
+					if ( !initialWeapon.equals( "Gnollish flyswatter" ) )
 					{
+						// Unequip ranged off-hand weapon
+						if ( EquipmentDatabase.isRanged( initialOffhand ) )
+							DEFAULT_SHELL.executeLine( "unequip off-hand" );
+
 						DEFAULT_SHELL.executeLine( "equip Gnollish flyswatter" );
-						needsWeapon = true;
 					}
 
 					action = "flies";
@@ -193,13 +195,16 @@ public abstract class Nemesis extends StaticEntity
 
 				case 7:	// Salad-Covered Door
 
-					// Equip tongs, but only do so if the person
-					// has not equipped it already.
+					// Equip tongs, but only if it's not
+					// currently equipped
 
-					if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).indexOf( "tongs" ) == -1 )
+					if ( !KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ).equals( "Knob Goblin tongs" ) )
 					{
+						// Unequip ranged off-hand weapon
+						if ( EquipmentDatabase.isRanged( KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) ) )
+							DEFAULT_SHELL.executeLine( "unequip off-hand" );
+
 						DEFAULT_SHELL.executeLine( "equip Knob Goblin tongs" );
-						needsWeapon = true;
 					}
 
 					action = "door2";
@@ -214,11 +219,13 @@ public abstract class Nemesis extends StaticEntity
 
 				case 9: // Chamber of Epic Conflict
 
-					// Equip your original weapon if your weapon
-					// changed (according to variable resets).
+					// If we unequipped a weapon, equip it again
+					if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) ) )
+						DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon );
 
-					if ( needsWeapon )
-						DEFAULT_SHELL.executeLine( "equip " + weapon );
+					// If we unequipped an off-hand weapon, equip it again
+					if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) ) )
+						DEFAULT_SHELL.executeLine( "equip off-hand " + initialWeapon );
 
 					action = "end";
 					KoLmafia.updateDisplay( "Fighting your nemesis..." );
