@@ -233,6 +233,12 @@ public class KoLmafiaGUI extends KoLmafia
 				(new StoreManageRequest( StaticEntity.getClient(), true )).run();
 			}
 		}
+		else if ( frameName.equals( "HagnkStorageFrame" ) )
+		{
+			if ( KoLCharacter.getStorage().isEmpty() && StaticEntity.getClient().shouldMakeConflictingRequest() )
+				(new ItemStorageRequest( StaticEntity.getClient() )).run();
+		}
+
 		else if ( frameName.equals( "RestoreOptionsFrame" ) )
 		{
 			frameName = "OptionsFrame";
