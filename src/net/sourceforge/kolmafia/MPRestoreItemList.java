@@ -49,11 +49,11 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
-		GALAKTIK, new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ),
+		BEANBAG, CAMPING, GALAKTIK, new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ),
 		new MPRestoreItem( "Knob Goblin superseltzer", 27 ), new MPRestoreItem( "Blatantly Canadian", 22 ),
 		new MPRestoreItem( "tiny house", 22 ), new MPRestoreItem( "Dyspepsi-Cola", 12 ),
 		new MPRestoreItem( "Cloaca-Cola", 12 ), new MPRestoreItem( "Mountain Stream soda", 8 ),
-		BEANBAG, CAMPING, MYSTERY_JUICE, new MPRestoreItem( "Knob Goblin seltzer", 10 ),
+		MYSTERY_JUICE, new MPRestoreItem( "Knob Goblin seltzer", 10 ),
 		new MPRestoreItem( "Cherry Cloaca Cola", 8 ), new MPRestoreItem( "soda water", 4 )
 	};
 

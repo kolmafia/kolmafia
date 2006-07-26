@@ -73,7 +73,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 	private static final HPRestoreItem OINTMENT = new HPRestoreItem( "Doc Galaktik's Ailment Ointment", 9 );
 
 	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] {
-		GALAKTIK, COCOON, HERBS, SCROLL, POWERNAP, WALRUS, BANDAGES, NAP, CAST, ELIXIR, BALM, UNGUENT, CAMPING, OINTMENT };
+		CAMPING, GALAKTIK, COCOON, HERBS, SCROLL, POWERNAP, WALRUS, BANDAGES, NAP, CAST, ELIXIR, BALM, UNGUENT, OINTMENT };
 
 	public static JCheckBox [] getCheckboxes()
 	{
