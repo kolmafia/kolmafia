@@ -232,7 +232,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// a login frame involves exiting, and ending the
 		// session for all other frames is calling main.
 
-		if ( existingFrames.size() == 1 && StaticEntity.getClient() instanceof KoLmafiaGUI )
+		if ( existingFrames.isEmpty() && StaticEntity.getClient() instanceof KoLmafiaGUI )
 		{
 			StaticEntity.closeSession();
 			(new CreateFrameRunnable( LoginFrame.class )).run();

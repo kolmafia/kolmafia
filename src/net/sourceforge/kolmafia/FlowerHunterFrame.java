@@ -75,7 +75,7 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 	public FlowerHunterFrame()
 	{
-		super( "Hardcore Flower Hunter" );
+		super( "Flower Hunter" );
 
 		tabs = new JTabbedPane();
 		tabs.add( "Search", new SearchPanel() );

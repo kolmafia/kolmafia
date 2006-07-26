@@ -139,7 +139,10 @@ public class KoLmafiaGUI extends KoLmafia
 		Object [] frames = existingFrames.toArray();
 		for ( int i = 0; i < frames.length; ++i )
 			if ( frames[i] instanceof LoginFrame )
+			{
 				((LoginFrame)frames[i]).setVisible( false );
+				((LoginFrame)frames[i]).dispose();
+			}
 
 		enableDisplay();
 	}
@@ -225,6 +228,14 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
 					if ( StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
 						(new MicrobreweryRequest( StaticEntity.getClient() )).run();
+			}
+		}
+		else if ( frameName.equals( "StoreManageFrame" ) )
+		{
+			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+			{
+				(new StoreManageRequest( StaticEntity.getClient() )).run();
+				(new StoreManageRequest( StaticEntity.getClient(), true )).run();
 			}
 		}
 		else if ( frameName.equals( "RestoreOptionsFrame" ) )
