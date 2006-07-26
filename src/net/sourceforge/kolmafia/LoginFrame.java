@@ -122,8 +122,13 @@ public class LoginFrame extends KoLFrame
 
 	public void dispose()
 	{
-		SystemTrayFrame.removeTrayIcon();
-		System.exit(0);
+		if ( existingFrames.size() == 1 )
+		{
+			SystemTrayFrame.removeTrayIcon();
+			System.exit(0);
+		}
+
+		super.dispose();
 	}
 
 	public JPanel constructLoginPanel()
@@ -397,7 +402,6 @@ public class LoginFrame extends KoLFrame
 		private final String [][] FRAME_OPTIONS =
 		{
 			{ "Mini-Browser", "RequestFrame" },
-			{ "Request Synch", "FightFrame" },
 			{ "Relay Server", "LocalRelayServer" },
 
 			{ "Purchases", "MallSearchFrame" },
@@ -409,7 +413,7 @@ public class LoginFrame extends KoLFrame
 
 			{ "Store Manager", "StoreManageFrame" },
 			{ "Display Case", "MuseumFrame" },
-			{ "Hagnk Storage", "HagnkStorageFrame" },
+			{ "Ancestral Storage", "HagnkStorageFrame" },
 
 			{ "Meat Manager", "MeatManageFrame" },
 			{ "Skill Casting", "SkillBuffFrame" },
@@ -425,7 +429,7 @@ public class LoginFrame extends KoLFrame
 			{ "KoLmafia Chat", "KoLMessenger" },
 			{ "Recent Events", "EventsFrame" },
 
-			{ "Clan Manager", "ClanManageFrame" },
+			{ "Clan Management", "ClanManageFrame" },
 			{ "Farmer's Almanac", "CalendarFrame" },
 			{ "Encyclopedia", "ExamineItemsFrame" },
 

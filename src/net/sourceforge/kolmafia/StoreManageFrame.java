@@ -73,16 +73,6 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		super( "Store Manager" );
 
-		if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
-		{
-			Runnable [] requests = new Runnable [] {
-				new StoreManageRequest( StaticEntity.getClient() ),
-				new StoreManageRequest( StaticEntity.getClient(), true )
-			};
-
-			(new RequestThread( requests )).start();
-		}
-
 		tabs = new JTabbedPane();
 		tabs.add( "Price Setup", new StoreManagePanel() );
 		tabs.add( "Additions", new StoreAddPanel() );
