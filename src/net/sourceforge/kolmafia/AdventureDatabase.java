@@ -419,16 +419,24 @@ public class AdventureDatabase extends KoLDatabase
 			refreshAdventureList();
 
 		int adventureIndex = -1;
-		int minimalLengthMatch = Integer.MAX_VALUE;
+
+		int startIndex = -1;
+		int minimalStartIndex = Integer.MAX_VALUE;
+
 		adventureName = adventureName.toLowerCase();
 
 		for ( int i = 0; i < adventureNames.length; ++i )
-			if ( adventureNames[i].indexOf( adventureName ) != -1 )
-				if ( adventureNames[i].length() < minimalLengthMatch )
+		{
+			startIndex = adventureNames[i].indexOf( adventureName );
+			if ( startIndex != -1 )
+			{
+				if ( startIndex < minimalStartIndex )
 				{
 					adventureIndex = i;
-					minimalLengthMatch = adventureNames[i].length();
+					minimalStartIndex = startIndex;
 				}
+			}
+		}
 
 		return adventureIndex == -1 ? null : allAdventures[ adventureIndex ];
 	}
