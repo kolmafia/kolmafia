@@ -139,9 +139,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		statusMenu.add( new JSeparator() );
 
-		statusMenu.add( new DisplayFrameMenuItem( "User Preferences", "OptionsFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Preferences", "OptionsFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Mini-Browser", "RequestFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Relay Browser", "LocalRelayServer" ) );
+		statusMenu.add( new InvocationMenuItem( "KoL Simulator", StaticEntity.getClient(), "launchSimulator" ) );
 
 		statusMenu.add( new JSeparator() );
 
@@ -153,7 +154,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		statusMenu.add( new DisplayFrameMenuItem( "Store Manager", "StoreManageFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Display Case", "MuseumFrame" ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Ancestral Storage", "HagnkStorageFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", "HagnkStorageFrame" ) );
 
 		// Add specialized tools.
 

@@ -148,10 +148,7 @@ public class SewerRequest extends KoLRequest
 	private void runUnluckySewer()
 	{
 		if ( client.isLuckyCharacter() )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You have a ten-leaf clover." );
-			return;
-		}
+			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 
 		super.run();
 

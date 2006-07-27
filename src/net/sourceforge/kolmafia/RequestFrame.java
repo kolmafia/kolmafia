@@ -322,12 +322,13 @@ public class RequestFrame extends KoLFrame
 	 * refresh the frame with data do not long the Swing thread.
 	 */
 
-	protected class DisplayRequestThread extends Thread
+	protected class DisplayRequestThread extends RequestThread
 	{
 		private KoLRequest request;
 
 		public DisplayRequestThread( KoLRequest request )
 		{
+			super( request );
 			this.request = request;
 		}
 
@@ -374,7 +375,7 @@ public class RequestFrame extends KoLFrame
 
 				String original = getProperty( "showAllRequests" );
 				setProperty( "showAllRequests", "false" );
-				request.run();
+				super.run();
 				setProperty( "showAllRequests", original );
 			}
 		}

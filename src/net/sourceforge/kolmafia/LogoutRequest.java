@@ -59,6 +59,7 @@ public class LogoutRequest extends KoLRequest
 		// this ensures a forced reload of the frame which will
 		// keep the parameters fresh.
 
+		KoLmafia.declareWorldPeace();
 		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 		existingFrames.toArray( frames );
 

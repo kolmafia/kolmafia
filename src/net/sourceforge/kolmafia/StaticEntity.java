@@ -189,13 +189,31 @@ public abstract class StaticEntity implements KoLConstants
 			(new CharsheetRequest( client )).run();
 	}
 
-	public static final void executeCountdown( String message, int seconds )
+	public static final boolean executeCountdown( String message, int seconds )
 	{
-		for ( int i = 0; i < seconds && KoLmafia.permitsContinue(); ++i )
+		StringBuffer actualMessage = new StringBuffer( message );
+
+		for ( int i = seconds; i > 0 && KoLmafia.permitsContinue(); --i )
 		{
-			KoLmafia.updateDisplay( message + (seconds - i) + " seconds..." );
+			actualMessage.setLength( message.length() );
+
+			if ( i >= 60 )
+			{
+				int minutes = i / 60;
+				actualMessage.append( minutes );
+				actualMessage.append( minutes == 1 ? " minute" : " minutes" );
+				actualMessage.append( ", " );
+			}
+
+			actualMessage.append( i % 60 );
+			actualMessage.append( (i % 60) == 1 ? " second" : " seconds" );
+			actualMessage.append( "..." );
+
+			KoLmafia.updateDisplay( actualMessage.toString() );
 			KoLRequest.delay( 1000 );
 		}
+
+		return true;
 	}
 
 	public static final void printStackTrace( Throwable t )
