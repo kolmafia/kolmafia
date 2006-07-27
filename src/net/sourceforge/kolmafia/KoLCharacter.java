@@ -2587,6 +2587,9 @@ public abstract class KoLCharacter extends StaticEntity
 			     return true;
 		}
 
+		if ( EquipmentDatabase.isWearingOutfit( 23 ) || EquipmentDatabase.isWearingOutfit( 24 ) )
+			return true;
+
 		return false;
 	}
 

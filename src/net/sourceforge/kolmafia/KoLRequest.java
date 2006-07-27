@@ -1216,6 +1216,8 @@ public class KoLRequest implements Runnable, KoLConstants
 				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
 		}
 
+		needsRefresh &= !(this instanceof LocalRelayRequest);
+
 		if ( statusChanged && RequestFrame.willRefreshStatus() )
 		{
 			RequestFrame.refreshStatus();
