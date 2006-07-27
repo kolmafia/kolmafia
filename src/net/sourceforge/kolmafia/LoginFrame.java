@@ -433,7 +433,7 @@ public class LoginFrame extends KoLFrame
 			{ "Farmer's Almanac", "CalendarFrame" },
 			{ "Encyclopedia", "ExamineItemsFrame" },
 
-			{ "The Meatsink", "MoneyMakingGameFrame" },
+			{ "Coin Toss Game", "MoneyMakingGameFrame" },
 			{ "User Preferences", "OptionsFrame" }
 		};
 

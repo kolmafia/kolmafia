@@ -139,7 +139,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		statusMenu.add( new JSeparator() );
 
-		statusMenu.add( new DisplayFrameMenuItem( "Preferences", "OptionsFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "User Preferences", "OptionsFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Mini-Browser", "RequestFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Relay Browser", "LocalRelayServer" ) );
 
@@ -153,7 +153,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		statusMenu.add( new DisplayFrameMenuItem( "Store Manager", "StoreManageFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Display Case", "MuseumFrame" ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", "HagnkStorageFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Ancestral Storage", "HagnkStorageFrame" ) );
 
 		// Add specialized tools.
 
@@ -179,7 +179,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		toolsMenu.add( new JSeparator() );
 		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", "MeatManageFrame" ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "The Meatsink", "MoneyMakingGameFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Coin Toss Game", "MoneyMakingGameFrame" ) );
 
 		// Add the old-school people menu.
 
@@ -229,8 +229,8 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		questsMenu.add( new JSeparator() );
 
 		questsMenu.add( new InvocationMenuItem( "Nemesis Quest", Nemesis.class, "faceNemesis" ) );
-		questsMenu.add( new InvocationMenuItem( "Leaflet (No Magic)", StrangeLeaflet.class, "leafletNoMagic" ) );
-		questsMenu.add( new InvocationMenuItem( "Leaflet (With Magic)", StrangeLeaflet.class, "leafletWithMagic" ) );
+		questsMenu.add( new InvocationMenuItem( "Leaflet (No Stats)", StrangeLeaflet.class, "leafletNoMagic" ) );
+		questsMenu.add( new InvocationMenuItem( "Leaflet (With Stats)", StrangeLeaflet.class, "leafletWithMagic" ) );
 
 		questsMenu.add( new JSeparator() );
 
@@ -784,7 +784,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 			try
 			{
-				this.object = object;
+				this.object = c;
 				this.method = c.getMethod( methodName, NOPARAMS );
 			}
 			catch ( Exception e )
