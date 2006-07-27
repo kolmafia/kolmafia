@@ -50,7 +50,7 @@ public class MoneyMakingGameFrame extends KoLFrame
 
 	public MoneyMakingGameFrame()
 	{
-		super( "The Meatsink" );
+		super( "Coin Toss Game" );
 
 		// tabs = new JTabbedPane();
 		// tabs.addTab( "Analysis", new AnalysisPanel() );
