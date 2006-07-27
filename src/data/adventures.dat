@@ -24,11 +24,11 @@
 04	47	0	adventure.php	39	Dungeons of Doom
 04	15	0	dungeon.php	1	Daily Dungeon
 
-05	10	10	adventure.php	18	Degrassi Knoll
+05	0	10	adventure.php	18	Degrassi Knoll
 05	15	0	adventure.php	20	Fun House
 05	18	0	adventure.php	21	Pre-Cyrpt Cemetary
 05	12	0	adventure.php	22	Fernswarthy's Tower
-05	0	0	adventure.php	58	Post-Cyrpt Cemetary
+05	40	0	adventure.php	58	Post-Cyrpt Cemetary
 05	0	65	adventure.php	78	Palindome
 
 06	0	0	adventure.php	11	Outskirts of The Knob
