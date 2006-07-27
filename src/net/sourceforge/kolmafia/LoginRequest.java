@@ -43,7 +43,9 @@ package net.sourceforge.kolmafia;
 
 public class LoginRequest extends KoLRequest
 {
-	private static LoginRequest INSTANCE = null;
+	private static String lastUsername;
+	private static String lastPassword;
+
 	private static boolean instanceRunning = false;
 
 	private String username;
@@ -95,29 +97,31 @@ public class LoginRequest extends KoLRequest
 		if ( instanceRunning )
 			return;
 
+		lastUsername = username;
+		lastPassword = password;
+
 		synchronized ( LoginRequest.class )
 		{
 			instanceRunning = true;
 			executeLogin();
 			instanceRunning = false;
 		}
-
-		INSTANCE = this;
 	}
 
 	public static void executeTimeInRequest()
 	{
-		if ( INSTANCE != null )
-		{
-			StaticEntity.getClient().deinitialize();
-			INSTANCE.run();
+		StaticEntity.getClient().deinitialize();
+		KoLmafia.forceContinue();
 
-			if ( sessionID != null )
-			{
-				(new AccountRequest( StaticEntity.getClient() )).run();
-				KoLmafia.updateDisplay( "Session timed-in." );
-			}
+		do
+		{
+			(new LoginRequest( StaticEntity.getClient(), lastUsername, lastPassword, false, false, true )).run();
+			KoLmafia.forceContinue();
 		}
+		while ( !KoLmafia.refusesContinue() && sessionID == null && StaticEntity.executeCountdown( "Next login attempt in ", 10 ) );
+
+		if ( sessionID != null )
+			KoLmafia.updateDisplay( "Session timed-in." );
 	}
 
 	public static boolean isInstanceRunning()
@@ -126,6 +130,8 @@ public class LoginRequest extends KoLRequest
 
 	public void executeLogin()
 	{
+		sessionID = null;
+
 		KoLmafia.updateDisplay( "Determining login server..." );
 		KoLRequest.applySettings();
 
@@ -150,9 +156,7 @@ public class LoginRequest extends KoLRequest
 				client.addSaveState( username, password );
 
 			sessionID = formConnection.getHeaderField( "Set-Cookie" );
-
-			if ( this != INSTANCE )
-				client.initialize( username, this.getBreakfast, this.isQuickLogin );
+			client.initialize( username, this.getBreakfast, this.isQuickLogin );
 		}
 		else
 		{

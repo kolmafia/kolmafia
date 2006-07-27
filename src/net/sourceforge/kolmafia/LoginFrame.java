@@ -413,7 +413,7 @@ public class LoginFrame extends KoLFrame
 
 			{ "Store Manager", "StoreManageFrame" },
 			{ "Display Case", "MuseumFrame" },
-			{ "Ancestral Storage", "HagnkStorageFrame" },
+			{ "Hagnk Storage", "HagnkStorageFrame" },
 
 			{ "Meat Manager", "MeatManageFrame" },
 			{ "Skill Casting", "SkillBuffFrame" },
@@ -434,7 +434,7 @@ public class LoginFrame extends KoLFrame
 			{ "Encyclopedia", "ExamineItemsFrame" },
 
 			{ "Coin Toss Game", "MoneyMakingGameFrame" },
-			{ "User Preferences", "OptionsFrame" }
+			{ "Preferences", "OptionsFrame" }
 		};
 
 		private InterfaceRadioButton [] nullOptions;

@@ -128,7 +128,7 @@ public class OptionsFrame extends KoLFrame
 
 	public OptionsFrame()
 	{
-		super( "User Preferences" );
+		super( "Preferences" );
 		tabs = new JTabbedPane();
 
 		// Components of the general tab
