@@ -198,6 +198,7 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsCommandLineLinks", "Add gCLI tool links to chat launcher" },
 			{ "relayAddsSimulatorLinks", "Add Ayvuir's Simulator of Loathing link" },
 			{ "relayAddsPlinking", "Add plinking-friendly button to attack screen" },
+			{ "relayAddsShrugOffLinks", "Add shrug off links to effect duration in side pane" },
 			{ "makeBrowserDecisions", "Browser modules automatically make decisions" }
 		};
 

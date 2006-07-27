@@ -823,7 +823,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// if there's an item present, and if so, modify
 		// it so that you get a use link.
 
-		if ( location.indexOf( "charpane.php" ) != -1 )
+		if ( location.indexOf( "charpane.php" ) != -1 && StaticEntity.getProperty( "relayAddsShrugOffLinks" ).equals( "true" ) )
 			text = addShrugOffLinks( text );
 
 		if ( StaticEntity.getProperty( "relayAddsUseLinks" ).equals( "true" ) )

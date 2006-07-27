@@ -226,6 +226,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		CLIENT_SETTINGS.put( "makeBrowserDecisions", "false" );
 		CLIENT_SETTINGS.put( "proxySet", "false" );
+		CLIENT_SETTINGS.put( "relayAddsShrugOffLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsCommandLineLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsSimulatorLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsUseLinks", "true" );
