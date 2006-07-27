@@ -298,12 +298,12 @@ public class LocalRelayServer implements Runnable
 				// If there's a problem setting up the socket,
 				// then close the socket and return.
 
-				closeRelay( socket, null );
+				closeRelay( socket, null, null );
 				return;
 			}
 
 			BufferedReader reader = null;
-			PrintStream printStream = System.out;
+			PrintStream writer = System.out;
 			LocalRelayRequest request = null;
 
 			String line = null;
@@ -313,7 +313,7 @@ public class LocalRelayServer implements Runnable
 			try
 			{
 				reader = new BufferedReader( new InputStreamReader( new BufferedInputStream( socket.getInputStream() ) ) );
-				printStream = new PrintStream( socket.getOutputStream() );
+				writer = new PrintStream( socket.getOutputStream() );
 
 				if ( (line = reader.readLine()) == null )
 					return;
@@ -332,7 +332,7 @@ public class LocalRelayServer implements Runnable
 				// If there's a problem setting up the request,
 				// then close the socket and return.
 
-				closeRelay( socket, printStream );
+				closeRelay( socket, reader, writer );
 				return;
 			}
 
@@ -363,7 +363,7 @@ public class LocalRelayServer implements Runnable
 				// data needs to be submitted, close the socket and
 				// return from the function call.
 
-				closeRelay( socket, printStream );
+				closeRelay( socket, reader, writer );
 				return;
 			}
 
@@ -371,23 +371,45 @@ public class LocalRelayServer implements Runnable
 			{
 				request.run();
 
-				sendHeaders( printStream, request );
-				printStream.println();
-				printStream.print( request.getFullResponse() );
-				printStream.close();
+				sendHeaders( writer, request );
+				writer.println();
+				writer.print( request.getFullResponse() );
+				closeRelay( socket, reader, writer );
 			}
 			catch ( Exception e )
 			{
 				// In the event that we have failure when responding
 				// to the browser, close everything.
 
-				closeRelay( socket, printStream );
+				closeRelay( socket, reader, writer );
 				return;
 			}
 		}
 
-		private void closeRelay( Socket socket, PrintStream printStream )
+		private void closeRelay( Socket socket, BufferedReader reader, PrintStream writer )
 		{
+			try
+			{
+				if ( reader != null )
+					reader.close();
+			}
+			catch ( Exception e )
+			{
+				// The only time this happens is if the
+				// print stream is already closed.  Ignore.
+			}
+
+			try
+			{
+				if ( writer != null )
+					writer.close();
+			}
+			catch ( Exception e )
+			{
+				// The only time this happens is if the
+				// print stream is already closed.  Ignore.
+			}
+
 			try
 			{
 				if ( socket != null )
@@ -399,16 +421,6 @@ public class LocalRelayServer implements Runnable
 				// socket is already closed.  Ignore.
 			}
 
-			try
-			{
-				if ( printStream != null )
-					printStream.close();
-			}
-			catch ( Exception e )
-			{
-				// The only time this happens is if the
-				// print stream is already closed.  Ignore.
-			}
 		}
 	}
 }
