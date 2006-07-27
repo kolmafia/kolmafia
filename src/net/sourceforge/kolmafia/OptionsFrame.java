@@ -697,7 +697,6 @@ public class OptionsFrame extends KoLFrame
 			cloverProtectSelect.setSelectedIndex( getProperty( "cloverProtectActive" ).equals( "true" ) ? 0 : 1 );
 			violetFogSelect.setSelectedIndex( StaticEntity.parseInt( getProperty( "violetFogGoal" ) ) );
 
-			optionSelects[0].setSelectedItem( getProperty( "luckySewerAdventure" ) );
 			for ( int i = 1; i < optionSelects.length; ++i )
 				optionSelects[i].setSelectedIndex( StaticEntity.parseInt( getProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) ) );
 
@@ -708,10 +707,12 @@ public class OptionsFrame extends KoLFrame
 
 			int [] counts = { 0, 0, 0, 0 };
 			int option3 = 11;
+
 			for ( int i = 9; i < 13; ++i )
 			{
 				int choice = StaticEntity.parseInt( getProperty( "choiceAdventure" + i ) );
 				counts[choice]++;
+
 				if ( choice == 3 )
 					option3 = i;
 			}
@@ -753,7 +754,7 @@ public class OptionsFrame extends KoLFrame
 				// Map Quest says leave alone
 				index = 0;
 			}
-			else if ( option3 == 12)
+			else if ( option3 == 12 )
 			{
 				// Moxie says leave alone
 				index = 3;
@@ -767,7 +768,7 @@ public class OptionsFrame extends KoLFrame
 			index = StaticEntity.parseInt( getProperty( "choiceAdventure26" ) );
 			index = index * 2 + StaticEntity.parseInt( getProperty( "choiceAdventure" + (26 + index) ) ) - 3;
 
-			spookyForestSelect.setSelectedIndex( index );
+			spookyForestSelect.setSelectedIndex( index < 0 ? 5 : index );
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
