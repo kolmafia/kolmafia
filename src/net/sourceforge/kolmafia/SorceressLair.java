@@ -279,7 +279,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		completeGateway();
 
-		if ( KoLmafia.refusesContinue() )
+		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		List requirements = new ArrayList();
@@ -406,17 +406,17 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
 		{
-			if ( !KoLCharacter.getEffects().contains( SUGAR ) && !hasItem( candy ) )
+			if ( !KoLCharacter.getEffects().contains( SUGAR ) )
 				AdventureDatabase.retrieveItem( candy );
 
-			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) && !hasItem( WUSSY_POTION ) )
+			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) )
 				AdventureDatabase.retrieveItem( WUSSY_POTION );
 
-			if ( !KoLCharacter.getEffects().contains( MIASMA ) && !hasItem( BLACK_CANDLE ) )
+			if ( !KoLCharacter.getEffects().contains( MIASMA ) )
 				AdventureDatabase.retrieveItem( BLACK_CANDLE );
 		}
 
-		if ( KoLmafia.refusesContinue() )
+		if ( !KoLmafia.permitsContinue() )
 			return;
 
 		// Use the rice candy, wussiness potion, and black candle
