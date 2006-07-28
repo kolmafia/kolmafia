@@ -33,7 +33,9 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.ArrayList;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * An auxiliary class which stores runnable adventures so that they
@@ -315,7 +317,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( adventureID.equals( "82" ) )
 		{
-			if ( KoLCharacter.hasItem( ROWBOAT, false ) )
+			if ( KoLCharacter.hasItem( ROWBOAT, true ) )
 				AdventureDatabase.retrieveItem( ROWBOAT );
 			else
 				AdventureDatabase.retrieveItem( SOCK );
@@ -563,6 +565,13 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 	public void recordToSession()
 	{
+		StaticEntity.setProperty( "lastAdventure", adventureName );
+		LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
+
+		for ( int i = 0; i < adventureList.size(); ++i )
+			if ( adventureList.get(i).toString().indexOf( adventureName ) != -1 )
+				adventureList.setSelectedItem( adventureList.get(i) );
+
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] " + getAdventureName() );
 		client.registerAdventure( this );

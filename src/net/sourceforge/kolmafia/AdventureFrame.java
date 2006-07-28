@@ -267,7 +267,7 @@ public class AdventureFrame extends KoLFrame
 			String lastAdventure = getProperty( "lastAdventure" );
 
 			for ( int i = 0; i < adventureList.size(); ++i )
-				if ( adventureList.get(i).toString().equals( lastAdventure ) )
+				if ( adventureList.get(i).toString().indexOf( lastAdventure ) != -1 )
 					locationSelect.setSelectedItem( adventureList.get(i) );
 		}
 
@@ -301,8 +301,6 @@ public class AdventureFrame extends KoLFrame
 			Runnable request = (Runnable) locationSelect.getSelectedItem();
 			if ( request == null )
 				return;
-
-			setProperty( "lastAdventure", request.toString() );
 
 			// If there are conditions in the condition field, be
 			// sure to process them.

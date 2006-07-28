@@ -359,7 +359,9 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final LockableListModel getAsLockableListModel()
 	{
-		refreshAdventureList();
+		if ( adventures.isEmpty() )
+			refreshAdventureList();
+
 		return adventures;
 	}
 
