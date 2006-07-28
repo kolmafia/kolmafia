@@ -46,6 +46,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 	private static final MPRestoreItem CAMPING = new MPRestoreItem( "rest at campground", Integer.MAX_VALUE );
 	private static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in beanbag", Integer.MAX_VALUE );
 	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
+	private static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10 );
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
@@ -53,8 +54,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 		new MPRestoreItem( "Knob Goblin superseltzer", 27 ), new MPRestoreItem( "Blatantly Canadian", 22 ),
 		new MPRestoreItem( "tiny house", 22 ), new MPRestoreItem( "Dyspepsi-Cola", 12 ),
 		new MPRestoreItem( "Cloaca-Cola", 12 ), new MPRestoreItem( "Mountain Stream soda", 8 ),
-		MYSTERY_JUICE, new MPRestoreItem( "Knob Goblin seltzer", 10 ),
-		new MPRestoreItem( "Cherry Cloaca Cola", 8 ), new MPRestoreItem( "soda water", 4 )
+		MYSTERY_JUICE, SELTZER, new MPRestoreItem( "Cherry Cloaca Cola", 8 ), new MPRestoreItem( "soda water", 4 )
 	};
 
 	public static JCheckBox [] getCheckboxes()
@@ -117,11 +117,23 @@ public abstract class MPRestoreItemList extends StaticEntity
 			}
 
 			int mpShort = needed - KoLCharacter.getCurrentMP();
+
+
 			int numberToUse = (int) Math.ceil( (double) mpShort / (double) mpPerUse );
 			int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
 
-			numberToUse = NPCStoreDatabase.contains( this.toString() ) ? numberToUse :
-				Math.min( numberAvailable, numberToUse );
+			if ( NPCStoreDatabase.contains( this.toString() ) )
+			{
+				if ( this == SELTZER && numberToUse > numberAvailable )
+				{
+					AdventureDatabase.retrieveItem( new AdventureResult( this.toString(),
+						(int) Math.ceil( (double) KoLCharacter.getMaximumMP() / (double) mpPerUse ), false ) );
+				}
+			}
+			else
+			{
+				numberToUse = Math.min( numberAvailable, numberToUse );
+			}
 
 			if ( numberToUse <= 0 )
 				return;
