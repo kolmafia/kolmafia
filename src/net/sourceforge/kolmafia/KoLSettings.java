@@ -59,7 +59,7 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
  * are stored in <code>~.kcs</code>.
  */
 
-public class KoLSettings extends Properties implements UtilityConstants
+public class KoLSettings extends Properties implements UtilityConstants, KoLConstants
 {
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
@@ -225,6 +225,7 @@ public class KoLSettings extends Properties implements UtilityConstants
 		CLIENT_SETTINGS.put( "lastUsername", "" );
 		CLIENT_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		CLIENT_SETTINGS.put( "makeBrowserDecisions", "false" );
+		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
 		CLIENT_SETTINGS.put( "proxySet", "false" );
 		CLIENT_SETTINGS.put( "relayAddsShrugOffLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsCommandLineLinks", "true" );

@@ -73,15 +73,11 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class LoginFrame extends KoLFrame
 {
 	private JComponent usernameField;
-	private SortedListModel saveStateNames;
 
 	public LoginFrame()
 	{
 		super( VERSION_NAME + ": Login" );
 		tabs = new JTabbedPane();
-
-		this.saveStateNames = new SortedListModel();
-		this.saveStateNames.addAll( StaticEntity.getClient().saveStateNames );
 
 		tabs.addTab( "KoL Login", constructLoginPanel() );
 
@@ -301,7 +297,7 @@ public class LoginFrame extends KoLFrame
 		private class LoginNameComboBox extends MutableComboBox
 		{
 			public LoginNameComboBox()
-			{	super( saveStateNames );
+			{	super( KoLmafia.saveStateNames );
 			}
 
 			public void setSelectedItem( Object anObject )

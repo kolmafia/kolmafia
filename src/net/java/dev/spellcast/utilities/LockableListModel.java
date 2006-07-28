@@ -595,7 +595,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 
 	public void setSelectedIndex( int index )
 	{
-		selectedValue = get( index );
+		selectedValue = index == -1 ? null : get( index );
 		fireContentsChanged( this, -1, -1 );
 	}
 

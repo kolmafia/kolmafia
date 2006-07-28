@@ -131,7 +131,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected int [] initialStats = new int[3];
 	protected int [] fullStatGain = new int[3];
 
-	protected SortedListModel saveStateNames = new SortedListModel();
+	protected static SortedListModel saveStateNames = new SortedListModel();
 	protected List recentEffects = new ArrayList();
 
 	private static TreeMap seenPlayerIDs = new TreeMap();
@@ -199,15 +199,18 @@ public abstract class KoLmafia implements KoLConstants
 		this.useDisjunction = false;
 		StaticEntity.reloadSettings();
 
-		String [] currentNames = StaticEntity.getProperty( "saveState" ).split( "//" );
-		for ( int i = 0; i < currentNames.length; ++i )
-			saveStateNames.add( currentNames[i] );
+		if ( saveStateNames.isEmpty() )
+		{
+			String [] currentNames = StaticEntity.getProperty( "saveState" ).split( "//" );
+			for ( int i = 0; i < currentNames.length; ++i )
+				saveStateNames.add( currentNames[i] );
 
-		// This line is added to clear out data from previous
-		// releases of KoLmafia - the extra disk access does
-		// affect performance, but not significantly.
+			// This line is added to clear out data from previous
+			// releases of KoLmafia - the extra disk access does
+			// affect performance, but not significantly.
 
-		storeSaveStates();
+			storeSaveStates();
+		}
 
 		// Also clear out any outdated data files -- this
 		// includes everything except for the adventure table,
