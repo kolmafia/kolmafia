@@ -191,14 +191,6 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private String getAction( boolean force )
 	{
-		AdventureResult item = new AdventureResult( itemID, 0 );
-		if ( equipmentSlot != KoLCharacter.FAMILIAR &&
-		     item.getCount( KoLCharacter.getInventory() ) == 0 )
-		{
-			error = "You don't have a " + item.getName();
-			return null;
-		}
-
 		switch ( equipmentSlot )
 		{
 		case KoLCharacter.HAT:
@@ -208,26 +200,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		case KoLCharacter.WEAPON:
 			if ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON )
-			{
-				if ( !force && KoLCharacter.dualWielding() )
-				{
-					String offhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
-					if ( offhand == null )
-						return "equip";
-
-					if ( EquipmentDatabase.isRanged( itemID ) && !EquipmentDatabase.isRanged( offhand ) )
-					{
-						error = "You can't equip a ranged weapon in your main hand with a melee weapon in your off-hand.";
-						return null;
-					}
-					if ( !EquipmentDatabase.isRanged( itemID ) && EquipmentDatabase.isRanged( offhand ) )
-					{
-						error = "You can't equip a melee weapon in your main hand with a ranged weapon in your off-hand.";
-						return null;
-					}
-				}
 				return "equip";
-			}
 			break;
 
 		case KoLCharacter.OFFHAND:
@@ -235,34 +208,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				return "equip";
 
 			if ( equipmentType == ConsumeItemRequest.EQUIP_WEAPON )
-			{
-				if ( !force && KoLCharacter.weaponHandedness() != 1 )
-				{
-					error = "You must have a 1-handed weapon equipped first.";
-					return null;
-				}
-				if ( !force && KoLCharacter.rangedWeapon() && !EquipmentDatabase.isRanged( itemID ) )
-				{
-					error = "You can't equip a melee weapon in your off-hand with a ranged weapon in your main hand.";
-					return null;
-				}
-				if ( !force && !KoLCharacter.rangedWeapon() && EquipmentDatabase.isRanged( itemID ) )
-				{
-					error = "You can't equip a ranged weapon in your off-hand with a melee weapon in your main hand.";
-					return null;
-				}
-				if ( EquipmentDatabase.getHands( itemID ) > 1 )
-				{
-					error = "That weapon is too big to wield in your off-hand.";
-					return null;
-				}
-				if ( !KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" ) )
-				{
-					error = "You don't know how to wield two weapons.";
-					return null;
-				}
 				return "dualwield";
-			}
 			break;
 
 		case KoLCharacter.SHIRT:
@@ -304,15 +250,13 @@ public class EquipmentRequest extends PasswordHashRequest
 				return "equip";
 			break;
 
-		case -1:
-			return "equip";
-
 		default:
-			error = "Internal error: bad slot (" + String.valueOf( equipmentSlot ) + ")";
-			return null;
+			return "equip";
 		}
 
-		error = "You can't put your " + TradeableItemDatabase.getItemName( itemID ) + " there.";
+		error = "You can't equip a " + TradeableItemDatabase.getItemName( itemID ) + " in the " +
+			slotNames[equipmentSlot] + " slot.";
+
 		return null;
 	}
 
@@ -565,6 +509,21 @@ public class EquipmentRequest extends PasswordHashRequest
 		int outfitIndex = responseText.indexOf( "Save as Custom Outfit" );
 		if ( outfitIndex == -1 )
 			return;
+
+		// Detect possible failure
+		if ( requestType == CHANGE_ITEM || requestType == CHANGE_OUTFIT )
+		{
+			Matcher resultMatcher = Pattern.compile( "<td>(.*?)</td>" ).matcher( responseText );
+			if ( resultMatcher.find() )
+			{
+				String result = resultMatcher.group(1).replaceAll( "</?b>", "" );
+				if ( result.indexOf( "You put" ) == -1 && result.indexOf( "You equip" ) == -1 && result.indexOf( "Item equipped" ) == -1 )
+				{
+					KoLmafia.updateDisplay( ERROR_STATE, result );
+					return;
+				}
+			}
+		}
 
 		// Skip past equipped gear
 		parseQuestItems( responseText.substring( outfitIndex ) );
