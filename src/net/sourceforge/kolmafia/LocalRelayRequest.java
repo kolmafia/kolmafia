@@ -601,7 +601,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		try
 		{
-			LogStream writer = new LogStream( "html/simulator/" + filename );
+			PrintStream writer = new LogStream( "html/simulator/" + filename );
 			writer.print( request.fullResponse );
 			writer.close();
 		}
