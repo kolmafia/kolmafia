@@ -2,7 +2,7 @@
 <title>KoLmafia gCLI</title>
 <link rel="stylesheet" type="text/css" href="http://images.kingdomofloathing.com/styles.css">
 
-<style type=text/css><!--
+<style type=text/css>
 
 	input.text, textarea
 	{
@@ -62,9 +62,9 @@
 		spacing: 0px;
 	}
 
---></style>
+</style>
 
-<script language=Javascript><!--
+<script language=Javascript>
 
 	var initwidth = 0;
 	var timeout = 0;
@@ -136,6 +136,29 @@
 		return httpObject;
 	};
 
+	function refreshSidebar()
+	{
+		var httpObject = getHttpObject();
+		if ( !httpObject )
+		return true;
+
+		isRefreshing = true;
+		httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/charpane.php" );
+		httpObject.onreadystatechange = function()
+		{
+			if ( httpObject.readyState != 4 )
+				return;
+
+            top.charpane.document.getElementsByTagName( "html" )[0].innerHTML =
+                httpObject.responseText.replace( new RegExp( "</?html>", "g" ), "" );
+
+			isRefreshing = false;
+		}
+
+		httpObject.send( null );
+	}
+
+
 	function getNewMessages()
 	{
 		var display = document.getElementById( "CmdWindow" );
@@ -167,11 +190,7 @@
 			display.scrollTop = display.scrollHeight;
 
 			if ( !isRefreshing && httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
-			{
-				isRefreshing = true;
-				top.charpane.location.reload( true );
-				isRefreshing = false;
-			}
+				refreshSidebar();
 		}
 
 		httpObject.send( null );
@@ -220,11 +239,7 @@
 			display.scrollTop = display.scrollHeight;
 
 			if ( !isRefreshing && httpObject.responseText.indexOf("<!-- REFRESH -->") != -1 )
-			{
-				isRefreshing = true;
-				top.charpane.location.reload( true );
-				isRefreshing = false;
-			}
+				refreshSidebar();
 		}
 
 		httpObject.send( null );
@@ -322,7 +337,7 @@
 		 return plaintext;
 	};
 
---></script>
+</script>
 
 </head>
 
