@@ -166,24 +166,11 @@ public class AdventureRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		// If this is a lucky adventure, then remove a clover
-		// from the player's inventory -- this will occur when
-		// you see either "Your ten-leaf clover" or "your
-		// ten-leaf clover" (shorten to "our ten-leaf clover"
-		// for substring matching)
-
-		if ( responseText.indexOf( "our ten-leaf clover" ) != -1 )
-			client.processResult( SewerRequest.CLOVER );
-
 		// Sometimes, there's no response from the server.
-		// In this case, simply rerun the request.
+		// In this case, skip and continue onto the next one.
 
 		if ( responseText.trim().length() == 0 )
-		{
-			KoLmafia.updateDisplay( "Empty response from server.  Retrying..." );
-			this.run();
 			return;
-		}
 
 		// If you haven't unlocked the orc chasm yet,
 		// try doing so now.
