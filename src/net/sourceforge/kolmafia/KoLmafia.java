@@ -1002,7 +1002,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, check against the restore target to see how
 		// far you need to go.
 
-		int threshold = initial == 0 ? needed : needed - 1;
+		int threshold = initial == 0 ? needed : settingName.startsWith( "mp" ) ? current : needed - 1;
 		setting = StaticEntity.parseDouble( StaticEntity.getProperty( settingName + "Target" ) );
 
 		if ( needed == 0 && setting <= 0 )
@@ -1036,6 +1036,14 @@ public abstract class KoLmafia implements KoLConstants
 					recoverOnce( techniques[i], currentTechniqueName, needed );
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
 					checkBeatenUp &= KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP );
+
+					// Do not allow seltzer to be used more than once,
+					// as this indicates MP changes due to outfits.
+					// Simply break the loop and move onto cola or soda
+					// water as the next restore.
+
+					if ( techniques[i] == MPRestoreItemList.SELTZER )
+						break;
 				}
 			}
 		}
@@ -1049,7 +1057,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( current > threshold )
 			return true;
 
-		updateDisplay( ABORT_STATE, "Autorecovery failed." );
+		updateDisplay( ERROR_STATE, "Autorecovery failed." );
 		return false;
 	}
 
