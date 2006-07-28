@@ -4093,7 +4093,11 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue restore_mp( ScriptVariable amount )
-		{	return new ScriptValue( StaticEntity.getClient().recoverMP( amount.intValue() ) );
+		{
+			int desiredMP = amount.intValue();
+			while ( !KoLmafia.refusesContinue() && desiredMP > KoLCharacter.getCurrentMP() )
+				StaticEntity.getClient().recoverMP( desiredMP );
+			return continueValue();
 		}
 
 		public ScriptValue skill_to_effect( ScriptVariable skill )
