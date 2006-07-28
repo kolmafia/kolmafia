@@ -23,6 +23,28 @@ function getHttpObject()
     return httpObject;
 };
 
+function refreshSidebar()
+{
+	  	var httpObject = getHttpObject();
+  		if ( !httpObject )
+		     	return true;
+
+    isRefreshing = true;
+  		httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/charpane.php" );
+	  	httpObject.onreadystatechange = function()
+		  {
+		     	if ( httpObject.readyState != 4 )
+				        return;
+
+        top.charpane.document.getElementsByTagName( "html" )[0].innerHTML =
+            httpObject.responseText.replace( new RegExp( "</?html>", "g" ), "" );
+
+        isRefreshing = false;
+    }
+
+		  httpObject.send( null );
+}
+
 // Steal the container used to display quick skill effects
 // so that there's no scary stacking.
 
@@ -62,12 +84,7 @@ function submitCommand()
         }
 
        	if ( !isRefreshing && httpObject.responseText.indexOf( "<!-- REFRESH -->" ) != -1 )
-	       {
-		          isRefreshing = true;
-		          top.charpane.location.reload( true );
-    		      isRefreshing = false;
-    	   }
-
+       	    refreshSidebar();
     }
 
     httpObject.send( null );
