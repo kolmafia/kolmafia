@@ -341,7 +341,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If we have the correct tool, use it to
 		// create the needed dough type.
 
-		if ( quantityNeeded >= 10 )
+		if ( quantityNeeded >= 10 || KoLCharacter.hasItem( tool, false ) )
 			AdventureDatabase.retrieveItem( tool );
 
 		if ( tool.getCount( KoLCharacter.getInventory() ) > 0 )
@@ -649,7 +649,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		// If this is a combining request, you will need
 		// to make meat paste as well.
 
-		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() && KoLmafia.permitsContinue() )
+		if ( mixingMethod == COMBINE && !KoLCharacter.inMuscleSign() )
 			AdventureDatabase.retrieveItem( new AdventureResult( MEAT_PASTE, quantityNeeded ) );
 	}
 

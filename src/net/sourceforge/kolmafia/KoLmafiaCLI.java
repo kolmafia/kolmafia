@@ -2298,12 +2298,18 @@ public class KoLmafiaCLI extends KoLmafia
 			// No item exists which matches the given
 			// substring - error out.
 
-			updateDisplay( ERROR_STATE, "No item matching substring \"" + match + "\"" );
+			updateDisplay( ERROR_STATE, "No item matching substring \"" + parameters + "\"" );
 			return;
 		}
 
 		if ( KoLCharacter.getEquipment( slot ).indexOf( match.getName().toLowerCase() ) != -1 )
 			return;
+
+		if ( !KoLCharacter.hasItem( match, false ) )
+		{
+			updateDisplay( ERROR_STATE, "You do not have a " + match.getName() + " to equip." );
+			return;
+		}
 
 		// If you are equipping a two-handed weapon, and you
 		// originally were dual-wielding, unequip the offhand
