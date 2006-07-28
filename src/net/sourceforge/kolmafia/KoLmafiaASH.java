@@ -1236,7 +1236,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptForeach parseForeach( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
 	{
-		// foreach key in aggregate {scope }
+		// foreach key [, key ... ] in aggregate { scope }
 
 		if ( currentToken() == null )
 			return null;
@@ -1244,20 +1244,40 @@ public class KoLmafiaASH extends StaticEntity
 		if ( !(currentToken().equalsIgnoreCase( "foreach" ) ) )
 			return null;
 
-		String name = nextToken();
-
-		if ( !parseIdentifier( name ) )
-			return null;
-
-		if ( parentScope.findVariable( name ) != null )
-			throw new AdvancedScriptException( "key variable " + name + " already defined " + getLineAndFile() );
-
 		readToken();	// foreach
-		readToken();	// name
 
-		if ( !(currentToken().equalsIgnoreCase( "in" ) ) )
+		ArrayList names = new ArrayList();
+
+		while ( true )
+		{
+			String name = currentToken();
+
+			if ( !parseIdentifier( name ) )
+				throw new AdvancedScriptException( "key variable name expected " + getLineAndFile() );
+
+			if ( parentScope.findVariable( name ) != null )
+				throw new AdvancedScriptException( "key variable " + name + " already defined " + getLineAndFile() );
+
+			names.add( name );
+			readToken();	// name
+
+			if ( currentToken() != null )
+			{
+				if ( currentToken().equals( "," ) )
+				{
+					readToken();	// ,
+					continue;
+				}
+			
+				if ( currentToken().equalsIgnoreCase( "in" ) )
+				{
+					readToken();	// in
+					break;
+				}
+			}
+
 			throw new AdvancedScriptException( "'in' expected " + getLineAndFile() );
-		readToken();	// in
+		}
 
 		// Get the aggregate reference
 		ScriptVariableReference aggregate = parseAggregateReference( parentScope );
@@ -1267,17 +1287,27 @@ public class KoLmafiaASH extends StaticEntity
 		if ( aggregate == null || !(aggregate.getType() instanceof ScriptAggregateType) )
 			throw new AdvancedScriptException( "Aggregate reference expected " + getLineAndFile() );
 
-		// Define a key variable of appropriate type
-		ScriptType itype = ((ScriptAggregateType)aggregate.getType()).getIndexType();
-		ScriptVariable keyvar = new ScriptVariable( name, itype );
-
-		// Put keyvar onto a list
+		// Define key variables of appropriate type
 		ScriptVariableList varList = new ScriptVariableList();
-		varList.addElement( keyvar );
+		ScriptVariableReferenceList variableReferences = new ScriptVariableReferenceList();
+		ScriptType type = aggregate.getType();
 
+		for ( int i = 0; i < names.size(); ++i )
+		{
+			if ( !( type instanceof ScriptAggregateType ) )
+				throw new AdvancedScriptException( "Too many key variables specified " + getLineAndFile() );
+			ScriptType itype = ((ScriptAggregateType)type).getIndexType();
+			ScriptVariable keyvar = new ScriptVariable( (String)names.get( i ), itype );
+			varList.addElement( keyvar );
+			variableReferences.addElement( new ScriptVariableReference( keyvar ) );
+			type = ((ScriptAggregateType)type).getDataType();
+		}
+
+		// Parse the scope with the list of keyVars
 		ScriptScope scope = parseLoopScope( functionType, varList, parentScope );
 
-		return new ScriptForeach( scope, new ScriptVariableReference( keyvar ), aggregate );
+		// Add the foreach node with the list of varRefs
+		return new ScriptForeach( scope, variableReferences, aggregate );
 	}
 
 	private ScriptFor parseFor( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
@@ -1954,7 +1984,7 @@ public class KoLmafiaASH extends StaticEntity
 		else if ( command instanceof ScriptForeach )
 			printForeach( ( ScriptForeach ) command, indent );
 		else if ( command instanceof ScriptFor )
-			printForeach( ( ScriptFor ) command, indent );
+			printFor( ( ScriptFor ) command, indent );
 		else if ( command instanceof ScriptCall )
 			printCall( ( ScriptCall ) command, indent );
 		else if ( command instanceof ScriptAssignment )
@@ -2021,12 +2051,13 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		indentLine( indent );
 		KoLmafia.getDebugStream().println( "<FOREACH>" );
-		printVariableReference( loop.getVariable(), indent + 1 );
+		for ( ScriptVariableReference current = loop.getFirstVariableReference(); current != null; current = loop.getNextVariableReference() )
+			printVariableReference( current, indent + 1 );
 		printVariableReference( loop.getAggregate(), indent + 1 );
 		printScope( loop.getScope(), indent + 1 );
 	}
 
-	private void printForeach( ScriptFor loop, int indent )
+	private void printFor( ScriptFor loop, int indent )
 	{
 		indentLine( indent );
 		KoLmafia.getDebugStream().println( "<FOR " + ( loop.getUp() ? "upto" : "downto" ) + " >" );
@@ -4422,6 +4453,18 @@ public class KoLmafiaASH extends StaticEntity
 		public boolean addElement( ScriptVariableReference n )
 		{	return super.addElement( n );
 		}
+
+		public ScriptVariableReference getFirstVariableReference()
+		{	return (ScriptVariableReference)getFirstElement();
+		}
+
+		public ScriptVariableReference getNextVariableReference()
+		{	return (ScriptVariableReference)getNextElement();
+		}
+
+		public ScriptVariableReference getNextVariableReference( ScriptVariableReference current )
+		{	return (ScriptVariableReference)getNextElement( current );
+		}
 	}
 
 	private static class ScriptCommand
@@ -4785,18 +4828,26 @@ public class KoLmafiaASH extends StaticEntity
 
 	private class ScriptForeach extends ScriptLoop
 	{
-		private ScriptVariableReference variable;
+		private ScriptVariableReferenceList variableReferences;
 		private ScriptVariableReference aggregate;
 
-		public ScriptForeach( ScriptScope scope, ScriptVariableReference variable, ScriptVariableReference aggregate ) throws AdvancedScriptException
+		public ScriptForeach( ScriptScope scope, ScriptVariableReferenceList variableReferences, ScriptVariableReference aggregate ) throws AdvancedScriptException
 		{
 			super( scope );
-			this.variable = variable;
+			this.variableReferences = variableReferences;
 			this.aggregate = aggregate;
 		}
 
-		public ScriptVariableReference getVariable()
-		{	return variable;
+		public ScriptVariableReferenceList getVariableReferences()
+		{	return variableReferences;
+		}
+
+		public ScriptVariableReference getFirstVariableReference()
+		{	return variableReferences.getFirstVariableReference();
+		}
+
+		public ScriptVariableReference getNextVariableReference()
+		{	return variableReferences.getNextVariableReference();
 		}
 
 		public ScriptVariableReference getAggregate()
@@ -4820,8 +4871,18 @@ public class KoLmafiaASH extends StaticEntity
 			if ( currentState == STATE_EXIT )
 				return null;
 
-			// Get an array of keys for it
+			// Iterate over the slice with bound keyvar
+			return executeSlice( slice, variableReferences.getFirstVariableReference() );
+
+		}
+
+		private ScriptValue executeSlice( ScriptAggregateValue slice, ScriptVariableReference variable ) throws AdvancedScriptException
+		{
+			// Get an array of keys for the slice
 			ScriptValue [] keys = slice.keys();
+
+			// Get the next key variable
+			ScriptVariableReference nextVariable = variableReferences.getNextVariableReference( variable );
 
 			// While there are further keys
 			for ( int i = 0; i < keys.length; ++i )
@@ -4834,9 +4895,19 @@ public class KoLmafiaASH extends StaticEntity
 
 				trace( "Key #" + i + ": " + key );
 
-				// execute scope
-				ScriptValue result = super.execute();
-
+				// If there are more indices to bind, recurse
+				ScriptValue result;
+				if ( nextVariable != null )
+				{
+					ScriptAggregateValue nextSlice = (ScriptAggregateValue)slice.aref( key );
+					traceIndent();
+					result = executeSlice( nextSlice, nextVariable );
+				}
+				else
+				{
+					// Otherwise, execute scope
+					result = super.execute();
+				}
 				switch ( currentState )
 				{
 				case STATE_NORMAL:
