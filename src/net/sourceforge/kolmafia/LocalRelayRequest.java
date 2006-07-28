@@ -35,8 +35,10 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintStream;
 
 import java.util.List;
 import java.util.Date;
@@ -601,7 +603,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		try
 		{
-			PrintStream writer = new LogStream( "html/simulator/" + filename );
+			PrintStream writer = new PrintStream( new FileOutputStream( "html/simulator/" + filename, true ) );
 			writer.print( request.fullResponse );
 			writer.close();
 		}
