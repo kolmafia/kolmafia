@@ -1268,7 +1268,7 @@ public class KoLmafiaASH extends StaticEntity
 					readToken();	// ,
 					continue;
 				}
-			
+
 				if ( currentToken().equalsIgnoreCase( "in" ) )
 				{
 					readToken();	// in
@@ -3439,7 +3439,7 @@ public class KoLmafiaASH extends StaticEntity
 				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
 		public ScriptValue eat( ScriptVariable count, ScriptVariable item )
@@ -3448,7 +3448,7 @@ public class KoLmafiaASH extends StaticEntity
 				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
 		public ScriptValue drink( ScriptVariable count, ScriptVariable item )
@@ -3457,7 +3457,7 @@ public class KoLmafiaASH extends StaticEntity
 				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
 		public ScriptValue item_amount( ScriptVariable arg )
