@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.net.URL;
+import java.net.Socket;
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URLEncoder;
@@ -73,6 +74,7 @@ public class KoLRequest implements Runnable, KoLConstants
 {
 	protected static String sessionID = null;
 	protected static String passwordHash = null;
+	protected static boolean usingValidConnection = true;
 
 	private static final AdventureResult [] WOODS_ITEMS = new AdventureResult[12];
 	static
@@ -181,13 +183,26 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			// Determine the login server that will be used.
 			setLoginServer( SERVERS[ RNG.nextInt( SERVER_COUNT ) ][0] );
+
+			if ( proxySet.equals( "true" ) )
+			{
+				KoLmafia.updateDisplay( "Validating proxy settings..." );
+				int portNumber = StaticEntity.parseInt( StaticEntity.getProperty( "http.proxyPort" ) );
+
+				Socket s = new Socket( StaticEntity.getProperty( "http.proxyHost" ), portNumber == 0 ? 80 : portNumber );
+	            BufferedWriter out = new BufferedWriter( new OutputStreamWriter( s.getOutputStream() ) );
+	            out.close();  s.close();
+			}
+
+			usingValidConnection = true;
 		}
 		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Error in proxy setup" );
+			e.printStackTrace();
+			usingValidConnection = false;
 		}
 	}
 
@@ -514,6 +529,12 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
+		if ( !usingValidConnection )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Unable to establish connection with proxy server." );
+			return;
+		}
+
 		isServerFriendly = StaticEntity.getProperty( "serverFriendly" ).equals( "true" ) ||
 			StaticEntity.getProperty( "showAllRequests" ).equals( "true" );
 
@@ -547,6 +568,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void execute()
 	{
+		boolean isRatQuest = formURLString.indexOf( "rats.php" ) != -1;
+
 		readInputLength = 0;
 		totalInputLength = 0;
 
@@ -568,6 +591,9 @@ public class KoLRequest implements Runnable, KoLConstants
 				KoLRequest.delay();
 		}
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
+
+		if ( isRatQuest )
+			KoLmafia.addTavernLocation( this );
 
 		if ( responseCode == 200 && responseText != null )
 		{
@@ -891,7 +917,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			else
 				KoLRequest.delay();
 
-			return false;
+			return formURLString.startsWith( "http://" );
 		}
 
 		if ( this instanceof LocalRelayRequest && responseCode != 200 )
@@ -1193,6 +1219,15 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void processResults()
 	{
+		// If this is a lucky adventure, then remove a clover
+		// from the player's inventory -- this will occur when
+		// you see either "Your ten-leaf clover" or "your
+		// ten-leaf clover" (shorten to "our ten-leaf clover"
+		// for substring matching)
+
+		if ( responseText.indexOf( "our ten-leaf clover" ) != -1 )
+			client.processResult( SewerRequest.CLOVER );
+
 		int previousHP = KoLCharacter.getCurrentHP();
 		needsRefresh |= client.processResults( responseText );
 

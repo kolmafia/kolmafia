@@ -1516,43 +1516,51 @@ public abstract class KoLmafia implements KoLConstants
 
 	public abstract void makeMindControlRequest();
 
+	public static void validateFaucetQuest()
+	{
+		int lastAscension = StaticEntity.parseInt( StaticEntity.getProperty( "lastTavernAscension" ) );
+		if ( lastAscension != KoLCharacter.getAscensions() )
+		{
+			StaticEntity.setProperty( "lastTavernAscension", String.valueOf( KoLCharacter.getAscensions() ) );
+			for ( int i = 1; i <= 25; ++i )
+				StaticEntity.setProperty( "tavernSquare" + i, "0" );
+		}
+	}
+
+	public static void addTavernLocation( KoLRequest request )
+	{
+		KoLmafia.validateFaucetQuest();
+		if ( request.getFormField( "where" ) == null )
+			return;
+
+		// Handle fighting rats.  If this was done through
+		// the mini-browser, you'll have response text; else,
+		// the response text will be null.
+
+		if ( request.responseText != null && request.responseText.indexOf( "faucetoff" ) != -1 )
+			StaticEntity.setProperty( "tavernSquare" + request.getFormField( "where" ), "3" );
+		else if ( request.responseText != null && request.responseText.indexOf( "You acquire an item" ) != -1 )
+			StaticEntity.setProperty( "tavernSquare" + request.getFormField( "where" ), "2" );
+		else if ( request.responseText == null || request.responseText.indexOf( "beaten up" ) == -1 )
+			StaticEntity.setProperty( "tavernSquare" + request.getFormField( "where" ), "1" );
+	}
+
 	/**
 	 * Completes the infamous tavern quest.
 	 */
 
 	public int locateTavernFaucet()
 	{
-		// Determine if the faucet has already been solved
-		// before; if it has, don't bother trying again.
-
-		StringBuffer lastUse = new StringBuffer( StaticEntity.getProperty( "lastFaucetUse" ) );
-		Integer searchIndex = Integer.valueOf( StaticEntity.getProperty( "lastFaucetLocation" ) );
-
-		String lastUseString = lastUse.toString();
-
-		if ( !lastUseString.startsWith( KoLCharacter.getAscensions() + ":" ) )
-		{
-			searchIndex = new Integer( -1 );
-
-			lastUse.setLength( 0 );
-			lastUse.append( KoLCharacter.getAscensions() );
-			lastUse.append( ": " );
-
-			lastUseString = "";
-
-			StaticEntity.setProperty( "lastFaucetUse", lastUse.toString() );
-			StaticEntity.setProperty( "lastFaucetLocation", "-1" );
-		}
+		validateFaucetQuest();
 
 		// Determine which elements have already been checked
 		// so you don't check through them again.
 
 		ArrayList searchList = new ArrayList();
+		Integer searchIndex = null;
+
 		for ( int i = 1; i <= 25; ++i )
-		{
-			if ( lastUseString.indexOf( "[" + i + "]" ) == -1 )
-				searchList.add( new Integer(i) );
-		}
+			searchList.add( new Integer(i) );
 
 		// If the faucet has not yet been found, then go through
 		// the process of trying to locate it.
@@ -1560,47 +1568,38 @@ public abstract class KoLmafia implements KoLConstants
 		KoLAdventure adventure = new KoLAdventure( this, "", "0", "0", "rats.php", "", "Typical Tavern (Pre-Rat)" );
 		boolean foundFaucet = searchList.size() < 2;
 
-		if ( searchIndex.intValue() < 0 )
+		if ( KoLCharacter.getLevel() < 3 )
 		{
-			if ( KoLCharacter.getLevel() < 3 )
-			{
-				updateDisplay( ERROR_STATE, "You need to level up first." );
-				return -1;
-			}
+			updateDisplay( ERROR_STATE, "You need to level up first." );
+			return -1;
+		}
 
-			KoLRequest request = new KoLRequest( this, "council.php", true );
-			request.run();
+		KoLRequest request = new KoLRequest( this, "council.php", true );
+		request.run();
 
-			if ( request.responseText == null || request.responseText.indexOf( "rat problems" ) == -1 )
-			{
-				updateDisplay( ERROR_STATE, "This quest is not available." );
-				return -1;
-			}
+		if ( request.responseText == null || request.responseText.indexOf( "rat problems" ) == -1 )
+		{
+			updateDisplay( ERROR_STATE, "This quest is not available." );
+			return -1;
+		}
 
-			updateDisplay( "Searching for faucet..." );
+		updateDisplay( "Searching for faucet..." );
+		adventure.run();
+
+		// Random guess instead of straightforward search
+		// for the location of the faucet (lowers the chance
+		// of bad results if the faucet is near the end).
+
+		while ( !foundFaucet && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 )
+		{
+			searchIndex = (Integer) searchList.remove( RNG.nextInt( searchList.size() ) );
+
+			adventure.getRequest().clearDataFields();
+			adventure.getRequest().addFormField( "where", searchIndex.toString() );
 			adventure.run();
 
-			// Random guess instead of straightforward search
-			// for the location of the faucet (lowers the chance
-			// of bad results if the faucet is near the end).
-
-			while ( !foundFaucet && KoLCharacter.getCurrentHP() > 0 && KoLCharacter.getAdventuresLeft() > 0 )
-			{
-				searchIndex = (Integer) searchList.remove( RNG.nextInt( searchList.size() ) );
-
-				lastUse.append( '[' );
-				lastUse.append( searchIndex );
-				lastUse.append( ']' );
-
-				StaticEntity.setProperty( "lastFaucetUse", lastUse.toString() );
-
-				adventure.getRequest().clearDataFields();
-				adventure.getRequest().addFormField( "where", searchIndex.toString() );
-				adventure.run();
-
-				foundFaucet = adventure.getRequest().responseText != null &&
-					adventure.getRequest().responseText.indexOf( "faucetoff" ) != -1;
-			}
+			foundFaucet = adventure.getRequest().responseText != null &&
+				adventure.getRequest().responseText.indexOf( "faucetoff" ) != -1;
 		}
 
 		// If you have not yet found the faucet, be sure
@@ -1609,14 +1608,13 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !foundFaucet )
 		{
-			updateDisplay( ERROR_STATE, "Unable to find faucet.  " + searchList.size() + " squares unchecked." );
+			updateDisplay( ERROR_STATE, "Unable to find faucet." );
 			return -1;
 		}
 
 		// Otherwise, you've found it!  So notify the user
 		// that the faucet has been found.
 
-		StaticEntity.setProperty( "lastFaucetLocation", searchIndex.toString() );
 		int faucetRow = (int) ((searchIndex.intValue() - 1) / 5) + 1;
 		int faucetColumn = (searchIndex.intValue() - 1) % 5 + 1;
 
@@ -1673,32 +1671,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void unlockGuildStore()
 	{
-		// Refresh the player's stats in order to get current
-		// stat values to see if the quests can be completed.
-
-		(new CharsheetRequest( this )).run();
-
-		int baseStatValue = 0;
-		int totalStatValue = 0;
-
-		switch ( KoLCharacter.getPrimeIndex() )
-		{
-			case 0:
-				baseStatValue = KoLCharacter.getBaseMuscle();
-				totalStatValue = baseStatValue + KoLCharacter.getAdjustedMuscle();
-				break;
-
-			case 1:
-				baseStatValue = KoLCharacter.getBaseMysticality();
-				totalStatValue = baseStatValue + KoLCharacter.getAdjustedMysticality();
-				break;
-
-			case 2:
-				baseStatValue = KoLCharacter.getBaseMoxie();
-				totalStatValue = baseStatValue + KoLCharacter.getAdjustedMoxie();
-				break;
-		}
-
 		// The wiki claims that your prime stats are somehow connected,
 		// but the exact procedure is uncertain.  Therefore, just allow
 		// the person to attempt to unlock their store, regardless of

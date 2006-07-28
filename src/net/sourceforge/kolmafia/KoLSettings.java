@@ -259,8 +259,6 @@ public class KoLSettings extends Properties implements UtilityConstants
 		PLAYER_SETTINGS.put( "hpAutoRecoveryItems", "cannelloni cocoon;medicinal herb's medicinal herbs;scroll of drastic healing;disco power nap;tongue of the walrus;lasagna bandages;disco nap;cast;doc galaktik's homeopathic elixir;doc galaktik's restorative balm;doc galaktik's pungent unguent;doc galaktik's ailment ointment" );
 		PLAYER_SETTINGS.put( "invalidBuffMessage", "You sent an amount which was not a valid buff amount." );
 		PLAYER_SETTINGS.put( "lastBreakfast", "19691231" );
-		PLAYER_SETTINGS.put( "lastFaucetLocation", "-1" );
-		PLAYER_SETTINGS.put( "lastFaucetUse", "A: " );
 		PLAYER_SETTINGS.put( "lastAdventure", "" );
 		PLAYER_SETTINGS.put( "lastMessageID", "" );
 		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0" );
@@ -270,6 +268,13 @@ public class KoLSettings extends Properties implements UtilityConstants
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
 		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );
 		PLAYER_SETTINGS.put( "whiteList", "" );
+
+		// These are settings related to the tavern faucet
+		// used to make the interface friendlier.
+
+		PLAYER_SETTINGS.put( "lastTavernAscension", "0" );
+		for ( int i = 1; i <= 25; ++i )
+			PLAYER_SETTINGS.put( "tavernSquare" + i, "0" );
 
 		// These are settings related to choice adventures.
 		// Ensure that they exist, and if they do not, load

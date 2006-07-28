@@ -834,6 +834,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		text = addChoiceSpoilers( text );
 
+		// Now, if you find out that this is the tavern
+		// quest, make sure to make all adjustments which
+		// show previously seen locations.
+
+		text = addTavernSpoilers( text );
+
 		return text;
 	}
 
@@ -1005,6 +1011,40 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		return newText.toString();
 	}
 
+	private static String addTavernSpoilers( String text )
+	{
+		if ( text.indexOf( "rats.php" ) == -1 )
+			return text;
+
+		for ( int i = 1; i <= 25; ++i )
+		{
+			int squareType = StaticEntity.parseInt( StaticEntity.getProperty( "tavernSquare" + i ) );
+
+			switch ( squareType )
+			{
+				case 0:
+					break;
+
+				case 1:
+					text = text.replaceFirst( "(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
+						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/adventureimages/rat.gif\"></a>" );
+					break;
+
+				case 2:
+					text = text.replaceFirst( "(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
+						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/otherimages/sigils/fratboy.gif\"></a>" );
+					break;
+
+				case 3:
+					text = text.replaceFirst( "(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
+						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/adventureimages/faucet.gif\" height=60 width=60></a>" );
+					break;
+			}
+		}
+
+		return text;
+	}
+
 	private static String addShrugOffLinks( String text )
 	{
 		StringBuffer responseBuffer = new StringBuffer();
@@ -1170,8 +1210,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			String [] elements = data.split( "&" );
 			String [] fields = new String[ elements.length ];
-
-			int valueIndex = 0;
 
 			if ( elements[0].length() > 0 )
 			{

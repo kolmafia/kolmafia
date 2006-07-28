@@ -106,6 +106,8 @@ public class LoginRequest extends KoLRequest
 			executeLogin();
 			instanceRunning = false;
 		}
+
+		KoLmafia.enableDisplay();
 	}
 
 	public static void executeTimeInRequest()
@@ -131,12 +133,9 @@ public class LoginRequest extends KoLRequest
 	public void executeLogin()
 	{
 		sessionID = null;
-
-		KoLmafia.updateDisplay( "Determining login server..." );
 		KoLRequest.applySettings();
 
-		KoLmafia.updateDisplay( KoLRequest.getRootHostName() + " selected." );
-		KoLmafia.updateDisplay( "Sending login..." );
+		KoLmafia.updateDisplay( "Sending login request..." );
 
 		super.run();
 
