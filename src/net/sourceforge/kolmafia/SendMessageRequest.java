@@ -270,5 +270,6 @@ public abstract class SendMessageRequest extends KoLRequest
 		}
 
 		super.processResults();
+		KoLCharacter.refreshCalculatedLists();
 	}
 }
