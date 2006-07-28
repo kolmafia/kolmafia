@@ -208,11 +208,11 @@ public class AdventureFrame extends KoLFrame
 
 		private void setSafetyString()
 		{
-			Runnable request = (Runnable) locationSelect.getSelectedItem();
+			KoLAdventure request = (KoLAdventure) locationSelect.getSelectedItem();
 			if ( request == null )
 				return;
 
-			AreaCombatData combat = AdventureDatabase.getAreaCombatData( request.toString() );
+			AreaCombatData combat = AdventureDatabase.getAreaCombatData( request.getAdventureName() );
 			String text = ( combat == null ) ? " " : combat.toString();
 
 			// Avoid rendering and screen flicker if no change.
