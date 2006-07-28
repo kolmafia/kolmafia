@@ -173,6 +173,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( !KoLCharacter.hasSkill( skillName ) || buffCount == 0 )
 			return;
 
+		lastUpdate = "";
 		String initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		String initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 		String initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
@@ -469,10 +470,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			encounteredError = true;
 			lastUpdate = "You need an accordion to play Accordion Thief songs.";
-		}
-		else
-		{
-			lastUpdate = "";
 		}
 
 		// Now that all the checks are complete, proceed
