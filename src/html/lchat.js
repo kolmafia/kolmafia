@@ -36,8 +36,8 @@ function refreshSidebar()
 		     	if ( httpObject.readyState != 4 )
 				        return;
 
-        top.charpane.document.getElementsByTagName( "html" )[0].innerHTML =
-            httpObject.responseText.replace( new RegExp( "</?html>", "g" ), "" );
+        top.charpane.document.getElementsByTagName( "body" )[0].innerHTML =
+            httpObject.responseText.replace( new RegExp( "<html>.*<body[^>]*>", "g" ), "" ).replace( new RegExp( "</body>.*</html>", "g" ), "" );
 
         isRefreshing = false;
     }

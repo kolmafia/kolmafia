@@ -149,8 +149,8 @@
 			if ( httpObject.readyState != 4 )
 				return;
 
-            top.charpane.document.getElementsByTagName( "html" )[0].innerHTML =
-                httpObject.responseText.replace( new RegExp( "</?html>", "g" ), "" );
+            top.charpane.document.getElementsByTagName( "body" )[0].innerHTML =
+                httpObject.responseText.replace( new RegExp( "<html>.*<body[^>]*>", "g" ), "" ).replace( new RegExp( "</body>.*</html>", "g" ), "" );
 
 			isRefreshing = false;
 		}
@@ -342,7 +342,7 @@
 </head>
 
 
- <body link=black alink=black vlink=black onLoad='initSizes(); setInterval( getNewMessages, 8000 );' onResize='initSizes();'>
+ <body link=black alink=black vlink=black onLoad='initSizes(); setInterval( getNewMessages, 2000 );' onResize='initSizes();'>
 
   <div id="ToggleDisplay" class=toggledisplay><center><b>KoLmafia gCLI</b><br>[ <u><a href="/chatlaunch.php">Announcements</a></u> ]</center></div>
   <div id="CmdWindow" class=cmddisplay></div>
