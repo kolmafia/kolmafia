@@ -46,7 +46,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 	private static final MPRestoreItem CAMPING = new MPRestoreItem( "rest at campground", Integer.MAX_VALUE );
 	private static final MPRestoreItem BEANBAG = new MPRestoreItem( "relax in beanbag", Integer.MAX_VALUE );
 	private static final MPRestoreItem MYSTERY_JUICE = new MPRestoreItem( "magical mystery juice", Integer.MAX_VALUE );
-	private static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10 );
+	public static final MPRestoreItem SELTZER = new MPRestoreItem( "Knob Goblin seltzer", 10 );
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
@@ -122,18 +122,8 @@ public abstract class MPRestoreItemList extends StaticEntity
 			int numberToUse = (int) Math.ceil( (double) mpShort / (double) mpPerUse );
 			int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
 
-			if ( NPCStoreDatabase.contains( this.toString() ) )
-			{
-				if ( this == SELTZER && numberToUse > numberAvailable )
-				{
-					AdventureDatabase.retrieveItem( new AdventureResult( this.toString(),
-						(int) Math.ceil( (double) KoLCharacter.getMaximumMP() / (double) mpPerUse ), false ) );
-				}
-			}
-			else
-			{
+			if ( !NPCStoreDatabase.contains( this.toString() ) )
 				numberToUse = Math.min( numberAvailable, numberToUse );
-			}
 
 			if ( numberToUse <= 0 )
 				return;
