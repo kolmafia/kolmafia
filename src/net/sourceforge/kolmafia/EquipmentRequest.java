@@ -548,8 +548,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( oldFakeHands > newFakeHands )
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
 
-			KoLCharacter.updateEquipmentLists();
-			ConcoctionsDatabase.refreshConcoctions();
+			KoLCharacter.refreshCalculatedLists();
 			CharpaneRequest.getInstance().run();
 		}
 
