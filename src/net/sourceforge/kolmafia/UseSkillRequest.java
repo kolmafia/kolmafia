@@ -159,11 +159,11 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// Rock and Roll Legend in inventory is used to play the song
 
 			if ( songWeapon != ACCORDION && KoLCharacter.hasEquipped( ACCORDION ) )
-				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, KoLCharacter.WEAPON )).run();
+				DEFAULT_SHELL.executeLine( "unequip weapon" );
 		}
 
 		if ( ClassSkillsDatabase.isBuff( skillID ) && skillID > 1000 && KoLCharacter.getInventory().contains( WIZARD_HAT ) )
-			(new EquipmentRequest( StaticEntity.getClient(), WIZARD_HAT.getName(), KoLCharacter.HAT )).run();
+			DEFAULT_SHELL.executeLine( "equip jewel-eyed wizard hat" );
 
 		return songWeapon;
 	}
@@ -174,9 +174,10 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			return;
 
 		lastUpdate = "";
-		String initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
-		String initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-		String initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
+
+		String initialWeapon = KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON );
+		String initialOffhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
+		String initialHat = KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT );
 
 		// Cast the skill as many times as needed
 
@@ -198,24 +199,24 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// rebuild the weapon we started with, but only if that
 			// weapon was equipped!
 
-			if ( initialWeapon != null && initialWeapon.equalsIgnoreCase( songWeapon.getName() ) )
+			if ( initialWeapon != null && initialWeapon.equals( songWeapon.getName() ) )
 			{
 				untinkerCloverWeapon( ROCKNROLL_LEGEND );
-				ItemCreationRequest.getInstance( StaticEntity.getClient(), songWeapon ).run();
+				DEFAULT_SHELL.executeLine( "create " + songWeapon );
 			}
 		}
 
 		// If we unequipped a weapon, equip it again
-		if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) ) )
-			(new EquipmentRequest( StaticEntity.getClient(), initialWeapon, KoLCharacter.WEAPON )).run();
+		if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) ) )
+			DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon );
 
 		// If we unequipped an off-hand weapon, equip it again
-		if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
-			(new EquipmentRequest( StaticEntity.getClient(), initialOffhand, KoLCharacter.OFFHAND )).run();
+		if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) ) )
+			DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand );
 
 		// If we unequipped a hat, equip it again
-		if ( initialHat != null && !initialHat.equals( KoLCharacter.getEquipment( KoLCharacter.HAT ) ) )
-			(new EquipmentRequest( StaticEntity.getClient(), initialHat, KoLCharacter.HAT )).run();
+		if ( initialHat != null && !initialHat.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) ) )
+			DEFAULT_SHELL.executeLine( "equip hat " + initialHat );
 	}
 
 	private void useSkillLoop()
@@ -303,7 +304,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( KoLCharacter.canInteract() )
 		{
 			DEFAULT_SHELL.executeLine( "buy " + ROCKNROLL_LEGEND.getName() );
-			return ROCKNROLL_LEGEND;
+			if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND, false ) )
+				return ROCKNROLL_LEGEND;
+			KoLmafia.forceContinue();
 		}
 
 		// He must have at least a stolen accordion
@@ -335,13 +338,17 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( !canUntinker() )
 			return ACCORDION;
 
-		// Unequip the clover weapon, if necessary, and turn the
-		// clover weapon into a big rock.  Then, build a rock and
-		// roll legend.
-
+		// Get the clover weapon from the closet, if it is there
 		AdventureDatabase.retrieveItem( cloverWeapon );
+
+		// Otherwise, unequip it
+		if ( cloverWeapon.getCount( KoLCharacter.getInventory() ) < 1 )
+			DEFAULT_SHELL.executeLine( "unequip weapon" );
+
+		// Turn it into a big rock
 		untinkerCloverWeapon( cloverWeapon );
 
+		// Build the Rock and Roll Legend
 		AdventureDatabase.retrieveItem( ROCKNROLL_LEGEND );
 		return cloverWeapon;
 	}
@@ -373,28 +380,28 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		switch ( item.getItemID() )
 		{
 			case 32:	// Bjorn's Hammer
-				( new UntinkerRequest( StaticEntity.getClient(), 32 ) ).run();
-				( new UntinkerRequest( StaticEntity.getClient(), 31 ) ).run();
+				DEFAULT_SHELL.executeLine( "untinker Bjorn's Hammer" );
+				DEFAULT_SHELL.executeLine( "untinker seal-toothed rock" );
 				break;
 			case 50:	// Rock and Roll Legend
-				( new UntinkerRequest( StaticEntity.getClient(), 50 ) ).run();
-				( new UntinkerRequest( StaticEntity.getClient(), 48 ) ).run();
+				DEFAULT_SHELL.executeLine( "untinker Rock and Roll Legend" );
+				DEFAULT_SHELL.executeLine( "untinker heart of rock and roll" );
 				break;
 			case 54:	// Disco Banjo
-				( new UntinkerRequest( StaticEntity.getClient(), 54 ) ).run();
-				( new UntinkerRequest( StaticEntity.getClient(), 53 ) ).run();
+				DEFAULT_SHELL.executeLine( "untinker Disco Banjo" );
+				DEFAULT_SHELL.executeLine( "untinker stone banjo" );
 				break;
 			case 57:	// 5-Alarm Saucepan
-				( new UntinkerRequest( StaticEntity.getClient(), 57 ) ).run();
-				( new UntinkerRequest( StaticEntity.getClient(), 56 ) ).run();
+				DEFAULT_SHELL.executeLine( "untinker 5-Alarm Saucepan" );
+				DEFAULT_SHELL.executeLine( "untinker heavy hot sauce" );
 				break;
 			case 60:	// Turtleslinger
-				( new UntinkerRequest( StaticEntity.getClient(), 60 ) ).run();
-				( new UntinkerRequest( StaticEntity.getClient(), 58 ) ).run();
+				DEFAULT_SHELL.executeLine( "untinker Turtleslinger" );
+				DEFAULT_SHELL.executeLine( "untinker turtle factory" );
 				break;
 			case 68:	// Pasta of Peril
-				( new UntinkerRequest( StaticEntity.getClient(), 68 ) ).run();
-				( new UntinkerRequest( StaticEntity.getClient(), 67 ) ).run();
+				DEFAULT_SHELL.executeLine( "untinker Pasta of Peril" );
+				DEFAULT_SHELL.executeLine( "untinker spaghetti with rock-balls" );
 				break;
 		}
 	}

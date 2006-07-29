@@ -276,9 +276,9 @@ public abstract class MoodSettings implements KoLConstants
 		if ( KoLmafia.refusesContinue() )
 			return;
 
-		String initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
-		String initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-		String initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
+		String initialWeapon = KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON );
+		String initialOffhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
+		String initialHat = KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT );
 
 		hasChangedOutfit = false;
 
