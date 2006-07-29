@@ -549,6 +549,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
 
 			KoLCharacter.updateEquipmentLists();
+			ConcoctionsDatabase.refreshConcoctions();
 			CharpaneRequest.getInstance().run();
 		}
 
