@@ -650,6 +650,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public final void run()
 		{
+			KoLmafia.forceContinue();
 			executeTask();
 			KoLmafia.enableDisplay();
 		}
