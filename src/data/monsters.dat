@@ -46,17 +46,12 @@
 # Garganthulihc
 # Giant Skeelton
 # Huge Ghuol
-#
-# Monsters from the following areas:
-#
-# Bugbear Pens
-# Spooky Gravy Barrow
 
 1335 HaXx0r	HP: 71 Def: 81 Atk: 81 Meat: 24-38	334 scroll (20)	Dyspepsi-Cola (70)	1337 7r0uZ0RZ (15)
 7-Foot Dwarf (Moil)	HP: 40 Def: 53 Atk: 53 Meat: 32-51	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
 7-Foot Dwarf (Royale)	HP: 40 Def: 53 Atk: 53 Meat: 32-51	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
 7-Foot Dwarf Foreman	HP: 50 Def: 57 Atk: 57 Meat: 48-77	7-Foot Dwarven mattock (3)	miner's helmet (3)	miner's pants (3)
-A Bugged Bugbear	HP: 14 Def: 18 Atk: 14
+A Bugged Bugbear	HP: 14 Def: 18 Atk: 14	gnoll teeth (30)	gnoll lips (30)
 A Revolting Bugbear	HP: 10 Def: 13 Atk: 13
 A Revolving Bugbear	HP: 11 Def: 15 Atk: 15
 Acid Blob	HP: 40 Def: 38 Atk: 38
@@ -114,7 +109,7 @@ Doughbat	HP: 8 Def: 14 Atk: 14 EA: sleaze Meat: 17-27	sonar-in-a-biscuit (20)	wa
 Drab Bard	HP: 55 Def: 65 Atk: 65 Meat: 34-54	drab sonata (30)	guitar pick (15)	olive (40)
 Drunk Goat	HP: 50 Def: 68 Atk: 68 Meat: 36-58	bottle of whiskey (25)	goat beard (5)
 Drunken Half-Orc Hobo	HP: 1 Def: 1 Atk: 1 E: stench	dirty hobo gloves (30)	Mad Train wine (60)	moxie weed (15)
-Drunken Rat	HP: 8 Def: 11 Atk: 9
+Drunken Rat	HP: 8 Def: 11 Atk: 9 Meat: 8-12	rat whisker (100)	rat appendix (20)
 Dyspepsi-Cola General	HP: 40 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi-Cola d-rations (5)	Dyspepsi grenade (5)
 Dyspepsi-Cola Knight	HP: 35 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
 Dyspepsi-Cola Soldier	HP: 30 Def: 30 Atk: 30	Dyspepsi-Cola (15)	Dyspepsi-Cola (15)	Dyspepsi grenade (5)
@@ -137,7 +132,7 @@ Furry Giant	HP: 150 Def: 135 Atk: 135 EA: sleaze Meat: 120-182	furry fur (35)	di
 G Imp	HP: 46 Def: 46 Atk: 46 E: heat Meat: 24-39	hot wing (30)	Imp Ale (30)	leather mask (5)
 Garganthulihc	HP: 60  Def: 73 Atk: 77 E: spooky
 Gaunt Ghuol	HP: 50 Def: 56 Atk: 54 E: spooky	ghuol ears (20)	ghuol egg (20)
-Ghost Miner	HP: 31  Def: 30 Atk: 30 E: spooky
+Ghost Miner	HP: 31  Def: 30 Atk: 30 E: spooky	bubblewrap ore (10)	bubblewrap ore (10)	cardboard ore (10)	cardboard ore (10)	styrofoam ore (10)	styrofoam ore (10)
 Ghostly Pickle Factory Worker	HP: 180 Def: 200 Atk: 200	ghost cucumber (30)	ghost cucumber (30)
 Ghoul	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 28-40	ghuol egg (25)	ghuol ears (25)
 Giant Giant Moth	HP: 11 Def: 12 Atk: 11
@@ -168,6 +163,7 @@ Handsome Mariachi	HP: 15 Def: 17 Atk: 23 Meat: 4-7	bottle of tequila (30)	choriz
 Hellion	HP: 52 Def: 52 Atk: 52 E: heat	Hellion cube (30)
 Hockey Elemental	HP: 40 Def: 65 Atk: 65	hockey stick of furious angry rage (100)
 Huge Ghuol	HP: 60 Def: 71 Atk: 79 E: spooky
+Hung-over Half-Orc Hobo	HP: 1 Def: 1 Atk: 1 E: stench	dirty hobo gloves (30)	Mad Train wine (60)	moxie weed (15)
 Hypnotist of Hey Deze	HP: 80 Def: 50 Atk: 50	hypnodisk (100)
 Infinite Meat Bug	HP: 50 Def: 45 Atk: 45	incredibly dense meat gem (100)
 Irate Mariachi	HP: 17 Def: 20 Atk: 20 Meat: 4-7	bottle of tequila (35)	irate sombrero (20)	mariachi G-string (30)
@@ -254,9 +250,9 @@ Smart Skelton	HP: 11 Def: 20 Atk: 20 E: spooky	smart skull (50)
 Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze Meat: 24-38	30669 scroll (30)	Spam Witch sammich (50)
 Spectral Jellyfish	HP: 60 Def: 70 Atk: 70
 Spiny Skelelton	HP: 50 Def: 54 Atk: 54 E: spooky	skeleton bone (40)	smart skull (50)	spiked femur (10)
-Spooky Gravy Fairy Guard	HP: 45 Def: 54 Atk: 56 E: spooky
-Spooky Gravy Fairy Ninja	HP: 55 Def: 65 Atk: 65 E: spooky
-Spooky Gravy Fairy Warlock	HP: 50 Def: 60 Atk: 60 E: spooky
+Spooky Gravy Fairy Guard	HP: 45 Def: 54 Atk: 56 E: spooky	spooky mushroom (40)	halfberd (5)	small leather glove (10)
+Spooky Gravy Fairy Ninja	HP: 55 Def: 65 Atk: 65 E: spooky	spooky mushroom (40)	teeny-tiny ninja stars (5)	tiny ninja sword (5)
+Spooky Gravy Fairy Warlock	HP: 50 Def: 60 Atk: 60 E: spooky	spooky mushroom (40)	enchanted toothpick (5)
 Spooky Mummy	HP: 3 Def: 4 Atk: 1 E: spooky Meat: 8-13	dried face (10)	spooky shrunken head (20)
 Spooky Vampire	HP: 2 Def: 4 Atk: 1 E: spooky Meat: 4-7
 Spunky Princess	HP: 75 Def: 89 Atk: 91 Meat: 62-141	cocoa eggshell fragment (30)	tiny house (30)	titanium assault umbrella (10)
@@ -308,22 +304,22 @@ Zobmie	HP: 10 Def: 19 Atk: 19 E: spooky Meat: 28-40	cranberries (20)	cranberries
 Zol	HP: 15 Def: 25 Atk: 25	green pixel (70)	green pixel (70)	green pixel (70)
 
 # Bad Trip
-Swarm of Country Bats	HP: 20 Def: 20 Atk: 20	orange-frosted astral cupcake
-Trippy Floating Head (Sky)	HP: 20 Def: 20 Atk: 20	blue-frosted astral cupcake
-Trippy Floating Head (Stench)	HP: 20 Def: 20 Atk: 20	pink-frosted astral cupcake
-Trippy Floating Head (Todd)	HP: 20 Def: 20 Atk: 20	green-frosted astral cupcake
-Zombie Baby	HP: 20 Def: 20 Atk: 20	purple-frosted astral cupcake
+Swarm of Country Bats	HP: 20 Def: 20 Atk: 20	orange-frosted astral cupcake (15)
+Trippy Floating Head (Sky)	HP: 20 Def: 20 Atk: 20	blue-frosted astral cupcake (15)
+Trippy Floating Head (Stench)	HP: 20 Def: 20 Atk: 20	pink-frosted astral cupcake (15)
+Trippy Floating Head (Todd)	HP: 20 Def: 20 Atk: 20	green-frosted astral cupcake (15)
+Zombie Baby	HP: 20 Def: 20 Atk: 20	purple-frosted astral cupcake (15)
 
 # Mediocre Trip
-Feeling That You're Being Watched	HP: 50 Def: 53 Atk: 53	pink-frosted astral cupcake
-Really Interesting Wallpaper	HP: 50 Def: 53 Atk: 53 EA: spooky	green-frosted astral cupcake
-The Best Carpet Ever	HP: 50 Def: 53 Atk: 53	purple-frosted astral cupcake
-Urge to Stare at Your Hands	HP: 50 Def: 53 Atk: 53	blue-frosted astral cupcake
-Visible Music	HP: 50 Def: 53 Atk: 53	orange-frosted astral cupcake
+Feeling That You're Being Watched	HP: 50 Def: 53 Atk: 53	pink-frosted astral cupcake (15)
+Really Interesting Wallpaper	HP: 50 Def: 53 Atk: 53 EA: spooky	green-frosted astral cupcake (15)
+The Best Carpet Ever	HP: 50 Def: 53 Atk: 53	purple-frosted astral cupcake (15)
+Urge to Stare at Your Hands	HP: 50 Def: 53 Atk: 53	blue-frosted astral cupcake (15)
+Visible Music	HP: 50 Def: 53 Atk: 53	orange-frosted astral cupcake (15)
 
 # Great Trip
-Angels of Avalon	HP: 150 Def: 145 Atk: 145 EA: heat	blue-frosted astral cupcake
-Bustle in the Hedgerow	HP: 150 Def: 145 Atk: 145	green-frosted astral cupcake
-Elders of the Gentle Race	HP: 150 Def: 145 Atk: 145 EA: sleaze	purple-frosted astral cupcake
-Gathering of Angels?	HP: 150 Def: 145 Atk: 145 EA: sleaze	orange-frosted astral cupcake
-Higher Plane Serpents	HP: 150 Def: 145 Atk: 145	pink-frosted astral cupcake
+Angels of Avalon	HP: 150 Def: 145 Atk: 145 EA: heat	blue-frosted astral cupcake (15)
+Bustle in the Hedgerow	HP: 150 Def: 145 Atk: 145	green-frosted astral cupcake (15)
+Elders of the Gentle Race	HP: 150 Def: 145 Atk: 145 EA: sleaze	purple-frosted astral cupcake (15)
+Gathering of Angels?	HP: 150 Def: 145 Atk: 145 EA: sleaze	orange-frosted astral cupcake (15)
+Higher Plane Serpents	HP: 150 Def: 145 Atk: 145	pink-frosted astral cupcake (15)

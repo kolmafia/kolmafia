@@ -15,9 +15,6 @@
 #
 # Missing Combat Percent Data (marked with -1):
 #
-# Bugbear Pens
-# Spooky Gravy Barrow
-#
 # All monsters are usually equally likely to appear. For those areas
 # where some monsters are more heavily weighted than others, specify the
 # relative weights for each monster in the area following a colon:
@@ -40,7 +37,7 @@ Batrat and Ratbat Burrow	100	Batrat	Ratbat
 Battlefield (Cloaca Uniform)	95	Dyspepsi-Cola General	Dyspepsi-Cola Knight	Dyspepsi-Cola Soldier
 Battlefield (Dyspepsi Uniform)	95	Cloaca-Cola Catapult Engineer	Cloaca-Cola Footsoldier	Cloaca-Cola Soldier
 Beanbat Chamber	100	Beanbat
-Bugbear Pens	-1	An Angry Bugbear	A Bugged Bugbear	Mad Bugbears	A Revolting Bugbear	A Revolving Bugbear	An Annoying Spooky Gravy Fairy: 0
+Bugbear Pens	100	An Angry Bugbear: 3	A Bugged Bugbear: 3	Mad Bugbears: 3	A Revolting Bugbear: 3	A Revolving Bugbear: 3	An Annoying Spooky Gravy Fairy: 2
 Camp Logging Camp	80	Decent Lumberjack	Lumberjack Supervisor	Lumberjill	Lumberjuan	Hockey Elemental: -1
 Castle in the Clouds in the Sky	75	Alphabet Giant	Goth Giant	Furry Giant	Possibility Giant	Procrastination Giant	Raver Giant
 Post-Cyrpt Cemetary	100	Corpulent Zobmie	Grave Rober Zmobie	Senile Lihc	Slick Lihc	Gluttonous Ghuol	Gaunt Ghuol	Spiny Skelelton	Toothy Sklelton	Count Bakula: -1
@@ -87,11 +84,11 @@ Sorceress' Hedge Maze	100	Topiary Golem
 South of the Border	50	Angry Pi&ntilde;ata	Handsome Mariachi	Irate Mariachi	Mariachi Calavera	Raging Bull
 Spectral Pickle Factory	75	Carnivorous Dill Plant	Ghostly Pickle Factory Worker	Vine Gar
 Spooky Forest	100	Bar	Spooky Mummy	Spooky Vampire	Triffid	Warwelf	Wolfman	Baiowulf: -1
-Spooky Gravy Barrow	-1	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
+Spooky Gravy Barrow	80	Spooky Gravy Fairy Guard	Spooky Gravy Fairy Ninja	Spooky Gravy Fairy Warlock	Felonia, Queen of the Spooky Gravy Fairies: 0
 The Boss Bat's Lair	100	The Boss Bat
 The Dire Warren	100	Fluffy Bunny
 The King's Chamber	100	The Knob Goblin King
-The Knob Shaft	-1	Ghost Miner
+The Knob Shaft	85	Ghost Miner
 Thugnderdome	100	Gnarly Gnome	Gnasty Gnome	Gnefarious Gnome	Gnomester Blomester	Gnu Jack Gnome	Vicious Gnauga
 Valley Beyond Orc Chasm	100	1335 HaXx0r	Anime Smiley	Flaming Troll	Lamz0r N00b	Me4t BegZ0r	Spam Witch	XXX pr0n
-Whitey's Grove	50	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
+Whitey's Grove	75	Knight in White Satin	White Chocolate Golem	White Lion	Whitesnake
