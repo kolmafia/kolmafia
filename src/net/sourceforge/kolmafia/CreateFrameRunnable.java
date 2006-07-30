@@ -192,30 +192,39 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		try
 		{
-			if ( this.creation == null )
-				this.creation = (JFrame) creator.newInstance( parameters );
-
 			// After that, add the frame to the list of frames
 
 			String tabSetting = "," + StaticEntity.getProperty( "initialDesktop" ) + ",";
-			String searchString = this.creation instanceof ChatFrame ? "KoLMessenger" :
-				this.creation instanceof KoLFrame ? ((KoLFrame)this.creation).getFrameName() : "...";
+			String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
+				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
 
-			boolean appearsInTab = this.creation instanceof KoLFrame && tabSetting.indexOf( "," + searchString + "," ) != -1;
+			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) &&
+				tabSetting.indexOf( "," + searchString + "," ) != -1 && !RequestFrame.class.isAssignableFrom( creationType );
 
-			appearsInTab &= !(this.creation instanceof RequestFrame) ||
-				(this.creation.getClass() == RequestFrame.class && ((RequestFrame)this.creation).hasSideBar());
-
-			// If the gui is limited to one frame, then make this frame
-			// a tab and remove any extra tabs created this way perviouly.
-
-			if ( !(this.creation instanceof LoginFrame) && StaticEntity.getProperty( "guiUsesOneWindow" ).equals( "true" ) )
+			if ( creationType != LoginFrame.class && StaticEntity.getProperty( "guiUsesOneWindow" ).equals( "true" ) )
 			{
 				if ( !appearsInTab )
 					KoLDesktop.removeExtraTabs();
 
 				appearsInTab = true;
 			}
+
+			// If the gui is limited to one frame, then make this frame
+			// a tab and remove any extra tabs created this way perviouly.
+
+			if ( appearsInTab && !KoLDesktop.instanceExists() )
+			{
+				KoLDesktop.getInstance().initializeTabs();
+				KoLDesktop.getInstance().pack();
+				KoLDesktop.getInstance().setVisible( true );
+				return;
+			}
+
+			if ( this.creation == null )
+				this.creation = (JFrame) creator.newInstance( parameters );
+
+			if ( creationType == RequestFrame.class )
+				appearsInTab &= ((RequestFrame)this.creation).hasSideBar();
 
 			// Load the KoL frame to the appropriate location
 			// on the screen now that the frame has been packed
@@ -245,7 +254,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			// to disable it (if necessary), ensure the frame's
 			// visibility on screen and request focus.
 
-			if ( appearsInTab && KoLDesktop.instanceExists() )
+			if ( appearsInTab )
 				KoLDesktop.addTab( (KoLFrame) this.creation );
 			else
 				this.creation.setVisible( true );
