@@ -2781,7 +2781,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	// Effects that modify Meat Drops
 	private static final AdventureResult RED_TONGUE = new AdventureResult( "Red Tongue", 0 );
-	private static final AdventureResult TACTICS = new AdventureResult( "Eggs-stortionary Tactics", 0 );
+	private static final AdventureResult TACTICS = new AdventureResult( "Egg-stortionary Tactics", 0 );
 	private static final AdventureResult POLKA = new AdventureResult( "Polka of Plenty", 0 );
 	private static final AdventureResult PINK_CUPCAKE = new AdventureResult( "Your Cupcake Senses Are Tingling", 0 );
 
