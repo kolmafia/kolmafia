@@ -1706,7 +1706,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * meat and status effects.
 	 */
 
-	private boolean testConditional( String parameters )
+	public static boolean testConditional( String parameters )
 	{
 		if ( !permitsContinue() )
 			return false;
@@ -1718,7 +1718,8 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( dayMatcher.find() )
 		{
 			String statDayInformation = MoonPhaseDatabase.getMoonEffect().toLowerCase();
-			return statDayInformation.startsWith( dayMatcher.group(2) + " bonus " + dayMatcher.group(1) );
+			return statDayInformation.indexOf( dayMatcher.group(2) + " bonus" ) != -1 &&
+				statDayInformation.indexOf( "not " + dayMatcher.group(1) ) == -1;
 		}
 
 		// Check for the bounty hunter's current desired
@@ -1805,7 +1806,7 @@ public class KoLmafiaCLI extends KoLmafia
 			false;
 	}
 
-	private int lvalue( String left )
+	private static int lvalue( String left )
 	{
 		if ( left.equals( "level" ) )
 			return KoLCharacter.getLevel();
@@ -1839,7 +1840,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return 0;
 	}
 
-	private int rvalue( String left, String right )
+	private static int rvalue( String left, String right )
 	{
 		if ( right.endsWith( "%" ) )
 		{
@@ -1885,7 +1886,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return StaticEntity.parseInt( right );
 	}
 
-	private AdventureResult effectParameter( String parameter )
+	private static AdventureResult effectParameter( String parameter )
 	{
 		List potentialEffects = StatusEffectDatabase.getMatchingNames( parameter );
 		if ( potentialEffects.isEmpty() )
@@ -1894,7 +1895,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return new AdventureResult(  (String) potentialEffects.get(0), 0, true );
 	}
 
-	private AdventureResult itemParameter( String parameter )
+	private static AdventureResult itemParameter( String parameter )
 	{
 		List potentialItems = TradeableItemDatabase.getMatchingNames( parameter );
 		if ( potentialItems.isEmpty() )
