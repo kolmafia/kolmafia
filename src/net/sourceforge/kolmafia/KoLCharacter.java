@@ -2692,6 +2692,9 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int SCARF = 1227;
 	private static final int AGGRAVATE_MONSTER = 835;
 	private static final int PITCHFORK = 1116;
+	private static final int STYROFOAM_SWORD = 1684;
+	private static final int STYROFOAM_STAFF = 1685;
+	private static final int STYROFOAM_CROSSBOW = 1686;
 
         // Effects that modify Familiar Weight
 	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0 );
@@ -2928,6 +2931,11 @@ public abstract class KoLCharacter extends StaticEntity
 			case AGGRAVATE_MONSTER:
 			case PITCHFORK:
 				newMonsterLevelAdjustment += 5;
+				break;
+			case STYROFOAM_SWORD:
+			case STYROFOAM_STAFF:
+			case STYROFOAM_CROSSBOW:
+				newMonsterLevelAdjustment += 3;
 				break;
 			case PLEXIGLASS_PITH_HELMET:
 				newFamiliarWeightAdjustment += 5;
