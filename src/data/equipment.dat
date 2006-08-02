@@ -215,11 +215,13 @@ Bigger Bugfinder Blade	200	Mus: 85	2
 bill bec-de-bardiche glaive-guisarme	150	Mus: 60	2
 Bjorn's Hammer	50	Mus: 10
 bow staff	100	Mus: 35	2
+bubble bauble bow	80	Mox: 20	2
 bubblewrap crossbow	60	Mox: 15	2
 bubblewrap staff	60	Mus: 15	2
 bubblewrap sword	60	Mus: 15
 bugbear-smiting sword	150	Mus: 60	2
 Bugfinder Blade	180	Mus: 75	2
+can cannon	75	Mox: 20	2
 can of fake snow	100	Mox: 35
 can of maces	50	Mox: 10
 cardboard crossbow	60	Mox: 15	2
@@ -237,6 +239,7 @@ cool whip	10	none
 crazy bastard sword	75	Mus: 22	2
 Crimbo sword	100	Mus: 35	2
 crowbarrr	80	Mus: 25	2
+curdflinger	45	Mox: 5
 denim axe	120	Mus: 45	2
 diamond-studded cane	60	Mus: 15
 disco ball	10	Mox: 0
@@ -252,16 +255,21 @@ eXtreme meat crossbow	60	Mox: 15	2
 eXtreme meat staff	60	Mus: 15	2
 eXtreme meat sword	60	Mus: 15	2
 fetus-smashing club	200	Mus: 85	2
+flaming cardboard sword	70	Mus: 20
 flaming crutch	60	Mus: 15
+flypaper staff	80	Mus: 20	2
+Frost&trade; brand sword	70	Mus: 20
 frozen nunchaku	80	Mus: 25	2
 giant discarded plastic fork	155	Mus: 62	3
 giant needle	150	Mus: 60	2
+glistening staff	60	Mus: 15	2
 gnauga hide whip	20	none
 Gnollish autoplunger	60	Mus: 15	3
 Gnollish flyswatter	35	Mus: 2
 Gnollish nunchaku	45	Mus: 7	2
 Gnollish plunger	35	Mus: 2
 grass blade	80	Mus: 25
+grease gun	65	Mox: 25
 grave robbing shovel	30	none	2
 Grimacite glaive	125	Mus: 47
 halfberd	30	none
@@ -288,14 +296,18 @@ little paper umbrella	30	none
 lucky ball-and-chain	130	Mox: 50	2
 Mafia violin case	100	Mus: 35
 Mjolnir Jr.	200	Mus: 85
+muculent machete	60	Mus: 15
 ninja mop	90	Mus: 30	2
 Pasta of Peril	50	Mus: 10
 pasta spoon	10	none
 penguin whip	20	none
+pestoblade	50	Mus: 10
 pixel sword	50	Mus: 10
 plexiglass pike pike	180	Mus: 75	2
 portable corkscrew	30	none
+poutine pole	55	Mus: 10	2
 Radio Free Foil	150	Mus: 60
+repeating crossbow	65	Mox: 15	2
 rib of the Bonerdagon	80	Mus: 25	2
 ridiculously huge sword	140	Mus: 55	3
 ridiculously overelaborate ninja weapon	100	Mus: 35	3
@@ -314,12 +326,16 @@ spooky bicycle chain	80	Mus: 25
 spooky staff	35	Mus: 2	2
 spooky stick	30	none	2
 spork	30	none
+squeaky staff	75	Mus: 20	2
 stainless steel shillelagh	90	Mus: 30
 star boomerang	135	Mox: 52
 star crossbow	165	Mox: 67	2
 star staff	165	Mus: 67	2
 star stiletto	135	Mus: 52
 star sword	165	Mus: 67	2
+starchy crossbow	40	Mox: 5
+starchy staff	40	Mus: 5	2
+starchy sword	40	Mus: 5
 stolen accordion	10	Mox: 0	2
 stone banjo	25	Mox: 0	2
 styrofoam crossbow	60	Mox: 15	2
@@ -327,6 +343,7 @@ styrofoam staff	60	Mus: 15	2
 styrofoam sword	60	Mus: 15
 suede shortsword	40	Mus: 5
 sweet ninja sword	20	none
+sword of static	75	Mus: 20
 time sword	100	Mus: 35
 tiny ninja sword	20	none
 tiny plastic sword	10	none
@@ -339,6 +356,7 @@ vorpal blade	90	Mus: 30
 Wand of Nagamar	30	none
 white sword	40	Mus: 5
 wholeberd	80	Mus: 25	2
+wiffle-flail	75	Mus: 20	2
 wooden axe	60	Mus: 15	2
 wooden stakes	25	none	2
 yak whip	20	none

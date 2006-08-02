@@ -2695,6 +2695,9 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int STYROFOAM_SWORD = 1684;
 	private static final int STYROFOAM_STAFF = 1685;
 	private static final int STYROFOAM_CROSSBOW = 1686;
+	private static final int FROST_BRAND_SWORD = 1712;
+	private static final int SQUEAKY_STAFF = 1713;
+	private static final int CAN_CANNON = 1714;
 
         // Effects that modify Familiar Weight
 	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0 );
@@ -2932,10 +2935,19 @@ public abstract class KoLCharacter extends StaticEntity
 			case PITCHFORK:
 				newMonsterLevelAdjustment += 5;
 				break;
+			case FROST_BRAND_SWORD:
 			case STYROFOAM_SWORD:
-			case STYROFOAM_STAFF:
 			case STYROFOAM_CROSSBOW:
+			case CAN_CANNON:
 				newMonsterLevelAdjustment += 3;
+				break;
+			case STYROFOAM_STAFF:
+				hasStaff = true;
+				newMonsterLevelAdjustment += 3;
+				break;
+			case SQUEAKY_STAFF:
+				hasStaff = true;
+				newMonsterLevelAdjustment += 6;
 				break;
 			case PLEXIGLASS_PITH_HELMET:
 				newFamiliarWeightAdjustment += 5;
@@ -3073,6 +3085,12 @@ public abstract class KoLCharacter extends StaticEntity
 			case 943:	// bow staff
 			case 1246:	// rib of the Bonerdagon
 			case 1467:	// 25-meat staff
+			case 1680:	// cardboard staff
+			case 1682:	// bubblewrap staff
+			case 1707:	// flypaper staff
+			case 1716:	// starchy staff
+			case 1719:	// poutine pole
+			case 1722:	// glistening staff
 				hasStaff = true;
 				break;
 			case BACONSTONE_BRACELET:

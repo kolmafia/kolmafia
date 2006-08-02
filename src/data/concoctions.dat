@@ -389,21 +389,30 @@ basic meat sword	4	sword hilt	meat stack
 basic meat foon	4	foon	meat stack
 basic meat spork	4	meat stack	spork
 
-bubblewrap sword	4	basic meat sword	bubblewrap ore
-bubblewrap staff	4	basic meat staff	bubblewrap ore
 bubblewrap crossbow	4	basic meat crossbow	bubblewrap ore
+bubble bauble bow	4	bubblewrap crossbow	bling-bling
+bubblewrap staff	4	basic meat staff	bubblewrap ore
+wiffle-flail	4	bubblewrap staff	baseball
+bubblewrap sword	4	basic meat sword	bubblewrap ore
+sword of static	4	bubblewrap sword	long skinny balloon
 
-cardboard sword	4	basic meat sword	cardboard ore
-cardboard staff	4	basic meat staff	cardboard ore
 cardboard crossbow	4	basic meat crossbow	cardboard ore
+grease gun	4	cardboard crossbow	 White Citadel burger
+cardboard staff	4	basic meat staff	cardboard ore
+flypaper staff	4	cardboard staff	 pine tar
+cardboard sword	4	basic meat sword	cardboard ore
+flaming cardboard sword	4	cardboard sword	 hot powder
 
 chrome crossbow	13	chrome crossbow string	chrome meat stack
 chrome staff	13	chrome stick	chrome meat stack
 chrome sword	13	chrome sword hilt	chrome meat stack
 
 dripping meat crossbow	4	basic meat crossbow	ketchup
+repeating crossbow	4	dripping meat crossbow	meat engine
 dripping meat staff	4	basic meat staff	ketchup
+glistening staff	4	dripping meat staff	sleaze powder
 dripping meat sword	4	basic meat sword	ketchup
+muculent machete	4	dripping meat sword	forest tears
 
 eXtreme meat crossbow	4	basic meat crossbow	stone of eXtreme power
 eXtreme meat staff	4	basic meat staff	stone of eXtreme power
@@ -417,14 +426,25 @@ linoleum crossbow	13	linoleum meat stack	linoleum crossbow string
 linoleum staff	13	linoleum meat stack	linoleum stick
 linoleum sword	13	linoleum meat stack	linoleum sword hilt
 
-styrofoam sword	4	basic meat sword	styrofoam ore
-styrofoam staff	4	basic meat staff	styrofoam ore
+starchy crossbow	4	basic meat crossbow	dry noodles
+curdflinger	4	starchy crossbow	bowl of cottage cheese
+starchy staff	4	basic meat staff	dry noodles
+poutine pole	4	starchy staff	poutine
+starchy sword	4	basic meat sword	dry noodles
+pestoblade	4	starchy sword	spices
+
 styrofoam crossbow	4	basic meat crossbow	styrofoam ore
+can cannon	4	styrofoam crossbow	razor-sharp can lid
+styrofoam staff	4	basic meat staff	styrofoam ore
+squeaky staff	4	styrofoam staff	sonar-in-a-biscuit
+styrofoam sword	4	basic meat sword	styrofoam ore
+Frost&trade; brand sword	4	styrofoam sword	cold powder
 
 hippo whip	13	hippopotamus skin	whip kit
 penguin whip	13	penguin skin	whip kit
 yak whip	13	yak skin	whip kit
 gnauga hide whip	13	gnauga hide	whip kit
+
 
 # Meat-smithing armor pieces.  These items are helmets, pants,
 # and sometimes accessories which are created in smithing.
