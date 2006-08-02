@@ -497,6 +497,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		}
 
 		KoLCharacter.setNextAdventure( this );
+		StaticEntity.setProperty( "nextAdventure", adventureName );
 
 		String action = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
 		int haltTolerance = (int)( StaticEntity.parseDouble( StaticEntity.getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );

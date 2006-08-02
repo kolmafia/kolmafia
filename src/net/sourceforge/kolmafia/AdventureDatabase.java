@@ -390,7 +390,7 @@ public class AdventureDatabase extends KoLDatabase
 					shouldAdd = false;
 
 			allAdventures[i] = getAdventure(i);
-			adventureNames[i] = zoneName.toLowerCase() + ": " + allAdventures[i].getAdventureName().toLowerCase();
+			adventureNames[i] = allAdventures[i].getAdventureName().toLowerCase();
 
 			if ( shouldAdd )
 				adventures.add( allAdventures[i] );
