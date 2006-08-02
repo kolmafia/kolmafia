@@ -390,7 +390,7 @@ public class AdventureDatabase extends KoLDatabase
 					shouldAdd = false;
 
 			allAdventures[i] = getAdventure(i);
-			adventureNames[i] = allAdventures[i].getAdventureName().toLowerCase();
+			adventureNames[i] = zoneName.toLowerCase() + ": " + allAdventures[i].getAdventureName().toLowerCase();
 
 			if ( shouldAdd )
 				adventures.add( allAdventures[i] );
@@ -422,7 +422,9 @@ public class AdventureDatabase extends KoLDatabase
 
 		int adventureIndex = -1;
 
+		int length = -1;
 		int startIndex = -1;
+		int minimalLength = Integer.MAX_VALUE;
 		int minimalStartIndex = Integer.MAX_VALUE;
 
 		adventureName = adventureName.toLowerCase();
@@ -430,11 +432,14 @@ public class AdventureDatabase extends KoLDatabase
 		for ( int i = 0; i < adventureNames.length; ++i )
 		{
 			startIndex = adventureNames[i].indexOf( adventureName );
+			length = adventureNames[i].length();
+
 			if ( startIndex != -1 )
 			{
-				if ( startIndex < minimalStartIndex )
+				if ( startIndex < minimalStartIndex || (startIndex == minimalStartIndex && length < minimalLength) )
 				{
 					adventureIndex = i;
+					minimalLength = length;
 					minimalStartIndex = startIndex;
 				}
 			}

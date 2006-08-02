@@ -263,12 +263,7 @@ public class AdventureFrame extends KoLFrame
 				actionSelect.setSelectedIndex( actionIndex );
 
 			actionSelect.addActionListener( new BattleActionListener() );
-
-			String lastAdventure = getProperty( "lastAdventure" );
-
-			for ( int i = 0; i < adventureList.size(); ++i )
-				if ( adventureList.get(i).toString().indexOf( lastAdventure ) != -1 )
-					locationSelect.setSelectedItem( adventureList.get(i) );
+			locationSelect.setSelectedItem( AdventureDatabase.getAdventure( getProperty( "lastAdventure" ) ) );
 		}
 
 		private class BattleActionListener implements ActionListener

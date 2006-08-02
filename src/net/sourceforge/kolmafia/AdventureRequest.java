@@ -407,7 +407,7 @@ public class AdventureRequest extends KoLRequest
 		}
 		else
 		{
-			Matcher encounterMatcher = Pattern.compile( request instanceof AdventureRequest ?
+			Matcher encounterMatcher = Pattern.compile( request.responseText.indexOf( "<center><b>" ) != -1 ?
 				"<center><b>(.*?)</b>" : "<b>(.*?)</b>" ).matcher( request.responseText );
 
 			if ( encounterMatcher.find() )

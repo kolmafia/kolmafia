@@ -568,9 +568,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		StaticEntity.setProperty( "lastAdventure", adventureName );
 		LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 
-		for ( int i = 0; i < adventureList.size(); ++i )
-			if ( adventureList.get(i).toString().indexOf( adventureName ) != -1 )
-				adventureList.setSelectedItem( adventureList.get(i) );
+		adventureList.setSelectedItem( this );
 
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] " + getAdventureName() );
