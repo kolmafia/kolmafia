@@ -390,53 +390,54 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( MONSTER_TYPE, name, (Object)monster );
 	}
 
-	private ScriptValue parseValue( ScriptType type, String name ) throws AdvancedScriptException
+	private static ScriptValue parseValue( ScriptType type, String name ) throws AdvancedScriptException
 	{
-                try
-                {
-                        switch ( type.getType() )
-                        {
-                        case TYPE_BOOLEAN:
-                                return parseBooleanValue( name );
-                        case TYPE_INT:
-                                return parseIntValue( name );
-                        case TYPE_FLOAT:
-                                return parseFloatValue( name );
-                        case TYPE_STRING:
-                                return parseStringValue( name );
-                        case TYPE_ITEM:
-                                return parseItemValue( name );
-                        case TYPE_ZODIAC:
-                                return parseZodiacValue( name );
-                        case TYPE_LOCATION:
-                                return parseLocationValue( name );
-                        case TYPE_CLASS:
-                                return parseClassValue( name );
-                        case TYPE_STAT:
-                                return parseStatValue( name );
-                        case TYPE_SKILL:
-                                return parseSkillValue( name );
-                        case TYPE_EFFECT:
-                                return parseEffectValue( name );
-                        case TYPE_FAMILIAR:
-                                return parseFamiliarValue( name );
-                        case TYPE_SLOT:
-                                return parseSlotValue( name );
-                        case TYPE_MONSTER:
-                                return parseMonsterValue( name );
-                        }
-                }
-                catch (IllegalArgumentException e )
-                {
-                        throw new AdvancedScriptException( e.getMessage() + " " + getLineAndFile() );
-                }
-		return null;
+        try
+        {
+            switch ( type.getType() )
+            {
+                case TYPE_BOOLEAN:
+                        return parseBooleanValue( name );
+                case TYPE_INT:
+                        return parseIntValue( name );
+                case TYPE_FLOAT:
+                        return parseFloatValue( name );
+                case TYPE_STRING:
+                        return parseStringValue( name );
+                case TYPE_ITEM:
+                        return parseItemValue( name );
+                case TYPE_ZODIAC:
+                        return parseZodiacValue( name );
+                case TYPE_LOCATION:
+                        return parseLocationValue( name );
+                case TYPE_CLASS:
+                        return parseClassValue( name );
+                case TYPE_STAT:
+                        return parseStatValue( name );
+                case TYPE_SKILL:
+                        return parseSkillValue( name );
+                case TYPE_EFFECT:
+                        return parseEffectValue( name );
+                case TYPE_FAMILIAR:
+                        return parseFamiliarValue( name );
+                case TYPE_SLOT:
+                        return parseSlotValue( name );
+                case TYPE_MONSTER:
+                        return parseMonsterValue( name );
+            }
+        }
+        catch ( IllegalArgumentException e )
+        {
+        	throw new AdvancedScriptException( e.getMessage() );
         }
 
-        // For data types which map to integers, also supply:
-        //
-        // private static ScriptValue makeXValue( int num )
-        //     throws nothing.
+        return null;
+	}
+
+    // For data types which map to integers, also supply:
+    //
+    // private static ScriptValue makeXValue( int num )
+    //     throws nothing.
 
 	private static ScriptValue makeItemValue( int num )
 	{
@@ -2759,6 +2760,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { AGGREGATE_TYPE };
 		result.addElement( new ScriptExistingFunction( "count", INT_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE, AGGREGATE_TYPE };
+		result.addElement( new ScriptExistingFunction( "file_to_map", VOID_TYPE, params ) );
+
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_location", LOCATION_TYPE, params ) );
 
@@ -4084,6 +4088,62 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( arg.getValue().count() );
 		}
 
+		public ScriptValue file_to_map( ScriptVariable filename, ScriptVariable map_variable )
+		{
+			BufferedReader reader = KoLDatabase.getReader( filename.toStringValue().toString() );
+			String [] data = null;
+
+			while ( (data = KoLDatabase.readData( reader )) != null )
+			{
+				ScriptValue index = null;
+				ScriptAggregateValue result = (ScriptAggregateValue) map_variable.getValue();
+				ScriptAggregateValue slice = result;
+				ScriptAggregateType dataType = slice.getAggregateType();
+
+				try
+				{
+					for ( int i = 0; i < data.length - 2; ++i )
+					{
+						// Create missing intermediate slices while storing
+						// the slice where the value is ultimately stored.
+
+						index = parseValue( dataType.getIndexType(), data[i] );
+						result = (ScriptAggregateValue) slice.aref( index );
+
+						if ( result == null )
+						{
+							result = (ScriptAggregateValue) slice.initialValue();
+							slice.aset( index, result );
+						}
+
+						slice = result;
+						dataType = slice.getAggregateType();
+					}
+
+					index = parseValue( dataType.getIndexType(), data[ data.length - 2 ] );
+					slice.aset( index, parseValue( dataType.getDataType(), data[ data.length - 1 ] ) );
+				}
+				catch ( AdvancedScriptException e )
+				{
+					// Okay, runtime error.  Indicate that there was a bad line
+					// in the data file and print the stack trace.
+
+					StringBuffer buffer = new StringBuffer( "Invalid line in data file:" );
+					buffer.append( LINE_BREAK );
+
+					for ( int i = 0; i < data.length; ++i )
+					{
+						buffer.append( '\t' );
+						buffer.append( data[i] );
+					}
+
+					StaticEntity.printStackTrace( e, buffer.toString() );
+				}
+			}
+
+			return VOID_VALUE;
+		}
+
 		public ScriptValue my_location()
 		{
 			return KoLCharacter.getNextAdventure() == null ?
@@ -4326,8 +4386,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptAggregateReference( ScriptVariable target, ScriptExpressionList indices )
 		{
-                        super( target );
-                        this.indices = indices;
+			super( target );
+			this.indices = indices;
 		}
 
 		public ScriptType getType()
@@ -5577,9 +5637,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue initialValue()
 		{
-                        if ( size != 0 )
-                                return new ScriptArray( this );
-                        return new ScriptMap( this );
+            if ( size != 0 )
+                    return new ScriptArray( this );
+            return new ScriptMap( this );
 		}
 	}
 
@@ -5715,16 +5775,16 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !( o instanceof ScriptValue ) )
 				throw new ClassCastException();
 
-			ScriptValue it = (ScriptValue)o;
+			ScriptValue it = (ScriptValue) o;
 
 			if ( contentString != null )
 				return contentString.compareTo( it.contentString );
 
-			if ( type == INT_TYPE )
-				return ( contentInt < it.contentInt ) ? -1 : (contentInt == it.contentInt ) ? 0 : 1;
+			if ( type == BOOLEAN_TYPE || type == INT_TYPE )
+				return contentInt < it.contentInt ? -1 : contentInt == it.contentInt ? 0 : 1;
 
 			if ( type == FLOAT_TYPE )
-				return ( contentFloat < it.contentFloat ) ? -1 : (contentFloat == it.contentFloat ) ? 0 : 1;
+				return contentFloat < it.contentFloat ? -1 : contentFloat == it.contentFloat ? 0 : 1;
 
 			return -1;
 		}
@@ -5735,7 +5795,11 @@ public class KoLmafiaASH extends StaticEntity
 
 		public boolean contains( ScriptValue index ) throws AdvancedScriptException
 		{	return false;
-                }
+		}
+
+		public boolean equals( Object o )
+		{	return o == null || !(o instanceof ScriptValue) ? false : this.compareTo( (Comparable) o ) == 0;
+		}
 	}
 
 	private static class ScriptAggregateValue extends ScriptValue
@@ -5758,7 +5822,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue aref( ScriptValue index )
 		{	return null;
-                }
+		}
 
 		public void aset( ScriptValue index,  ScriptValue val )
 		{
@@ -5975,16 +6039,12 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptExpressionList extends ScriptList
 	{
-		public boolean addElement( ScriptExpression n )
-		{	return super.addElement( n );
-		}
-
 		public ScriptExpression getFirstExpression()
-		{	return (ScriptExpression)getFirstElement();
+		{	return (ScriptExpression) getFirstElement();
 		}
 
 		public ScriptExpression getNextExpression()
-		{	return (ScriptExpression)getNextElement();
+		{	return (ScriptExpression) getNextElement();
 		}
 	}
 
@@ -6270,11 +6330,10 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class AdvancedScriptException extends Exception
+	private static class AdvancedScriptException extends Exception
 	{
 		AdvancedScriptException( String s )
-		{
-			super( s );
+		{	super( s );
 		}
 	}
 }
