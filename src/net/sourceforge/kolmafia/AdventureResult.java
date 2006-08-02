@@ -107,9 +107,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public AdventureResult( String name )
-	{
-		this( name, name.equals( SUBSTATS ) ? new int[3] : new int[1] );
-		validateName();
+	{	this( name, name.equals( SUBSTATS ) ? new int[3] : new int[1] );
 	}
 
 	/**
@@ -122,9 +120,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public AdventureResult( int itemID, int count )
-	{
-		this( TradeableItemDatabase.getItemName( itemID ), count, false );
-		this.itemID = itemID;
+	{	this( TradeableItemDatabase.getItemName( itemID ), count, false );
 	}
 
 	/**
@@ -140,7 +136,6 @@ public class AdventureResult implements Comparable, KoLConstants
 	{
 		this( name, new int[1] );
 		this.count[0] = count;
-		validateName();
 	}
 
 	/**
@@ -156,16 +151,11 @@ public class AdventureResult implements Comparable, KoLConstants
 	public AdventureResult( String name, int [] count )
 	{
 		this( name, count, name == null ? ITEM_PRIORITY :
-			name.equals(HP) ? HP_PRIORITY :
-			name.equals(MP) ? MP_PRIORITY :
-			name.equals(ADV) ? ADV_PRIORITY :
-			name.equals(CHOICE) ? ADV_PRIORITY :
-			name.equals(DRUNK) ? DRUNK_PRIORITY :
-			name.equals(MEAT) ? MEAT_PRIORITY :
-			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY :
-			name.equals(FULLSTATS) ? FULLSTAT_PRIORITY :
-			name.equals(DIVIDER) ? DIVIDER_PRIORITY :
-			StatusEffectDatabase.contains( name ) ? EFFECT_PRIORITY : ITEM_PRIORITY );
+			name.equals(HP) ? HP_PRIORITY : name.equals(MP) ? MP_PRIORITY :
+			name.equals(ADV) ? ADV_PRIORITY : name.equals(CHOICE) ? ADV_PRIORITY :
+			name.equals(DRUNK) ? DRUNK_PRIORITY : name.equals(MEAT) ? MEAT_PRIORITY :
+			name.equals(SUBSTATS) ? SUBSTAT_PRIORITY : name.equals(FULLSTATS) ? FULLSTAT_PRIORITY :
+			name.equals(DIVIDER) ? DIVIDER_PRIORITY : StatusEffectDatabase.contains( name ) ? EFFECT_PRIORITY : ITEM_PRIORITY );
 	}
 
 	/**
@@ -182,33 +172,6 @@ public class AdventureResult implements Comparable, KoLConstants
 	{
 		this( name, new int[1], isStatusEffect ? EFFECT_PRIORITY : ITEM_PRIORITY );
 		this.count[0] = count;
-		validateName();
-	}
-
-	/**
-	 * Utility method which validates the name for this
-	 * adventure result.
-	 */
-
-	private void validateName()
-	{
-		if ( isStatusEffect() )
-		{
-			this.itemID = StatusEffectDatabase.getEffectID( this.name );
-			String originalName = this.name;
-			this.name = StatusEffectDatabase.getEffectName( this.itemID );
-
-			if ( this.name.startsWith( "Unknown" ) )
-				this.name = originalName;
-		}
-		else if ( isItem() )
-		{
-			if ( this.itemID == 0 || this.itemID == -1 )
-				this.itemID = TradeableItemDatabase.getItemID( name, this.count[0] );
-
-			if ( this.itemID != -1 )
-				this.name = TradeableItemDatabase.getItemName( this.itemID );
-		}
 	}
 
 	/**
@@ -230,6 +193,19 @@ public class AdventureResult implements Comparable, KoLConstants
 			this.count[i] = count[i];
 
 		this.priority = priority;
+
+		if ( priority == EFFECT_PRIORITY )
+		{
+			this.itemID = StatusEffectDatabase.getEffectID( this.name );
+			if ( this.itemID > 0 )
+				this.name = StatusEffectDatabase.getEffectName( this.itemID );
+		}
+		else if ( priority == ITEM_PRIORITY )
+		{
+			this.itemID = TradeableItemDatabase.getItemID( name, this.count[0] );
+			if ( this.itemID > 0 )
+				this.name = TradeableItemDatabase.getItemName( this.itemID );
+		}
 	}
 
 	/**
@@ -802,13 +778,16 @@ public class AdventureResult implements Comparable, KoLConstants
 
 	public AdventureResult getInstance( int quantity )
 	{
-		return isItem() ? new AdventureResult( itemID, quantity ) :
+		return isItem() ? new AdventureResult( name, quantity, false ) :
 			isStatusEffect() ? new AdventureResult( name, quantity, true ) :
 				new AdventureResult( name, quantity );
 	}
 
 	private AdventureResult getInstance( int [] count )
-	{	return isItem() ? new AdventureResult( itemID, count[0] ) : new AdventureResult( name, count );
+	{
+		return isItem() ? new AdventureResult( name, count[0], false ) :
+			isStatusEffect() ? new AdventureResult( name, count[0], true ) :
+				new AdventureResult( name, count );
 	}
 
 	/**
