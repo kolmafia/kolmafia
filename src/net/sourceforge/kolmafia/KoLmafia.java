@@ -1347,9 +1347,6 @@ public abstract class KoLmafia implements KoLConstants
 		int initialConditions = conditions.size();
 		int remainingConditions = initialConditions;
 
-		if ( request instanceof KoLAdventure )
-			StaticEntity.setProperty( "lastAdventure", request.toString() );
-
 		// Begin the adventuring process, or the request execution
 		// process (whichever is applicable).
 
@@ -1359,19 +1356,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		while ( permitsContinue() && ++currentIteration <= iterations )
 		{
-			if ( request instanceof KoLAdventure )
-			{
-				String nextAdventure = StaticEntity.getProperty( "nextAdventure" );
-
-				// If we got redirected, get a new request
-				if ( !nextAdventure.equals( "" ) )
-				{
-					request = AdventureDatabase.getAdventure( nextAdventure );
-					StaticEntity.setProperty( "lastAdventure", request.toString() );
-					StaticEntity.setProperty( "nextAdventure", "" );
-				}
-			}
-
 			// Account for the possibility that you could have run
 			// out of adventures mid-request.
 
@@ -1430,6 +1414,9 @@ public abstract class KoLmafia implements KoLConstants
 				return;
 			}
 		}
+
+		if ( request instanceof KoLAdventure )
+			StaticEntity.setProperty( "nextAdventure", "" );
 
 		if ( shouldEnableRefreshStatus )
 		{
@@ -2265,20 +2252,19 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void registerAdventure( KoLAdventure adventureLocation )
 	{
-		String adventureName = StaticEntity.getProperty( "lastAdventure" );
-		RegisteredEncounter lastAdventure = (RegisteredEncounter) adventureList.lastElement();
+		String adventureName = adventureLocation.getAdventureName();
+		RegisteredEncounter previousAdventure = (RegisteredEncounter) adventureList.lastElement();
 
-		if ( lastAdventure != null && lastAdventure.name.equals( adventureName ) )
+		if ( previousAdventure != null && previousAdventure.name.equals( adventureName ) )
 		{
-			++lastAdventure.encounterCount;
-
 			// Manually set to force repainting in GUI
-			adventureList.set( adventureList.size() - 1, lastAdventure );
+			++previousAdventure.encounterCount;
+			adventureList.set( adventureList.size() - 1, previousAdventure );
 		}
 		else
+		{
 			adventureList.add( new RegisteredEncounter( adventureName ) );
-
-		StaticEntity.setProperty( "lastAdventure", adventureLocation.toString() );
+		}
 	}
 
 	/**
