@@ -2317,6 +2317,24 @@ public class KoLmafiaASH extends StaticEntity
 		return "at line " + lineNumber + " in file " + fileName;
 	}
 
+	private static void printMap( PrintStream writer, String prefix, ScriptAggregateValue map_value )
+	{
+		ScriptValue [] keys = map_value.keys();
+		if ( keys.length == 0 )
+			return;
+
+		if ( map_value.getAggregateType().getDataType() instanceof ScriptAggregateType )
+		{
+			for ( int i = 0; i < keys.length; ++i )
+				printMap( writer, prefix + keys[i] + "\t", (ScriptAggregateValue) map_value.aref( keys[i] ) );
+		}
+		else
+		{
+			for (  int i = 0; i < keys.length; ++i )
+				writer.println( prefix + keys[i] + "\t" + map_value.aref( keys[i] ).toStringValue().toString() );
+		}
+	}
+
 	public ScriptScope getExistingFunctionScope()
 	{	return new ScriptScope( existingFunctions, null );
 	}
@@ -2762,6 +2780,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { STRING_TYPE, AGGREGATE_TYPE };
 		result.addElement( new ScriptExistingFunction( "file_to_map", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE, AGGREGATE_TYPE };
+		result.addElement( new ScriptExistingFunction( "map_to_file", VOID_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_location", LOCATION_TYPE, params ) );
@@ -4142,6 +4163,27 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			return VOID_VALUE;
+		}
+
+		public ScriptValue map_to_file( ScriptVariable filename, ScriptVariable map_variable )
+		{
+			try
+			{
+				File data = new File( DATA_DIRECTORY + "/" + filename.toStringValue().toString() );
+				if ( data.exists() )
+					data.delete();
+
+				PrintStream writer = new PrintStream( new FileOutputStream( data, true ) );
+				printMap( writer, "", (ScriptAggregateValue) map_variable.getValue() );
+				writer.close();
+			}
+			catch ( Exception e )
+			{
+				StaticEntity.printStackTrace( e );
+			}
+
+			return VOID_VALUE;
+
 		}
 
 		public ScriptValue my_location()
