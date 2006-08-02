@@ -133,9 +133,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public AdventureResult( String name, int count )
-	{
-		this( name, new int[1] );
-		this.count[0] = count;
+	{	this( name, new int[] { count } );
 	}
 
 	/**
@@ -169,9 +167,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public AdventureResult( String name, int count, boolean isStatusEffect )
-	{
-		this( name, new int[1], isStatusEffect ? EFFECT_PRIORITY : ITEM_PRIORITY );
-		this.count[0] = count;
+	{	this( name, new int[] { count }, isStatusEffect ? EFFECT_PRIORITY : ITEM_PRIORITY );
 	}
 
 	/**
