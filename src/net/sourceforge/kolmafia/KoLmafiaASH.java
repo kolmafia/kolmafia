@@ -2781,7 +2781,7 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE, AGGREGATE_TYPE };
 		result.addElement( new ScriptExistingFunction( "file_to_map", VOID_TYPE, params ) );
 
-		params = new ScriptType[] { STRING_TYPE, AGGREGATE_TYPE };
+		params = new ScriptType[] { AGGREGATE_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "map_to_file", VOID_TYPE, params ) );
 
 		params = new ScriptType[] {};
@@ -4165,7 +4165,7 @@ public class KoLmafiaASH extends StaticEntity
 			return VOID_VALUE;
 		}
 
-		public ScriptValue map_to_file( ScriptVariable filename, ScriptVariable map_variable )
+		public ScriptValue map_to_file( ScriptVariable map_variable, ScriptVariable filename )
 		{
 			try
 			{
