@@ -363,15 +363,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		// Always reset the auto-repair settings, because the
-		// auto-repair situation is usually desired unless
-		// the person is trying to explode boxes.
-
-		if ( StaticEntity.getProperty( "autoRepairBoxes" ).equals( "false" ) )
-			StaticEntity.setProperty( "autoRepairBoxes", String.valueOf( KoLCharacter.canInteract() ) );
-		if ( StaticEntity.getProperty( "createWithoutBoxServants" ).equals( "false" ) )
-			StaticEntity.setProperty( "createWithoutBoxServants", String.valueOf( KoLCharacter.isHardcore() ) );
-
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.
 

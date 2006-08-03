@@ -649,7 +649,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			if ( ConsumeItemRequest.processRequest( client, urlString ) );
 			else if ( ItemCreationRequest.processRequest( client, urlString ) );
-			else if ( urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && !isChatRequest )
+			else if ( !(this instanceof LoginRequest) && urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && !isChatRequest )
 				KoLmafia.getSessionStream().println( urlString );
 		}
 	}
