@@ -1676,16 +1676,16 @@
 1676	styrofoam ore	0	50
 1677	bubblewrap ore	0	50
 1678	pet rock "Groucho" disguise	7	5
-1679	cardboard sword	12	0
-1680	cardboard staff	12	0
-1681	bubblewrap sword	12	0
-1682	bubblewrap staff	12	0
+1679	cardboard sword	12	65
+1680	cardboard staff	12	65
+1681	bubblewrap sword	12	65
+1682	bubblewrap staff	12	65
 1683	bubblewrap crossbow	12	65
-1684	styrofoam sword	12	0
-1685	styrofoam staff	12	0
-1686	styrofoam crossbow	12	0
+1684	styrofoam sword	12	65
+1685	styrofoam staff	12	65
+1686	styrofoam crossbow	12	65
 1687	Platinum Yendorian Express Card	0	-1
-1688	cardboard crossbow	12	0
+1688	cardboard crossbow	12	65
 1689	blue ribbon	8	0
 1690	giant discarded bottlecap	9	205
 1691	giant discarded torn-up glove	10	205
