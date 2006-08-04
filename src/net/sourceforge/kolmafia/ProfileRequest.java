@@ -35,16 +35,16 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Date;
+import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-
 import java.text.SimpleDateFormat;
 
 public class ProfileRequest extends KoLRequest
 {
-	private static final SimpleDateFormat INPUT_FORMAT = new SimpleDateFormat( "MMMM d, yyyy" );
-	private static final SimpleDateFormat OUTPUT_FORMAT = new SimpleDateFormat( "yyyy-MM-dd" );
+	private static final SimpleDateFormat INPUT_FORMAT = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
+	private static final SimpleDateFormat OUTPUT_FORMAT = new SimpleDateFormat( "yyyy-MM-dd", Locale.US );
 
 	private String playerName;
 	private String playerID;

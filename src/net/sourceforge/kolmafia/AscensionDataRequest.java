@@ -37,6 +37,7 @@ package net.sourceforge.kolmafia;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import java.text.SimpleDateFormat;
@@ -49,7 +50,7 @@ import java.io.FileInputStream;
 public class AscensionDataRequest extends KoLRequest implements Comparable
 {
 	private static boolean isSoftcoreComparator = true;
-	private static final SimpleDateFormat ASCEND_DATE_FORMAT = new SimpleDateFormat( "MM/dd/yy" );
+	private static final SimpleDateFormat ASCEND_DATE_FORMAT = new SimpleDateFormat( "MM/dd/yy", Locale.US );
 
 	private String playerName;
 	private String playerID;

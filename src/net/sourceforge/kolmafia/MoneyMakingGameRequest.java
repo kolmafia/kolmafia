@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Date;
+import java.util.Locale;
 import java.util.TreeMap;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -51,8 +52,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class MoneyMakingGameRequest extends KoLRequest
 {
 	private SortedListModel betSummary = new SortedListModel();
-	private static final SimpleDateFormat RESULT_FORMAT = new SimpleDateFormat( "MM/dd/yy hh:mma" );
-
+	private static final SimpleDateFormat RESULT_FORMAT = new SimpleDateFormat( "MM/dd/yy hh:mma", Locale.US );
 
 	public MoneyMakingGameRequest( KoLmafia client )
 	{	super( client, "betarchive.php" );
