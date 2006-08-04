@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.ArrayList;
@@ -70,8 +71,8 @@ public class ClanManager extends StaticEntity
 	private static final String CLAN_BOOT = "boot";
 
 	private static final String TIME_REGEX = "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M)";
-	private static final SimpleDateFormat STASH_FORMAT = new SimpleDateFormat( "MM/dd/yy, hh:mma" );
-	private static final SimpleDateFormat DIRECTORY_FORMAT = new SimpleDateFormat( "yyyyMM_'w'W" );
+	private static final SimpleDateFormat STASH_FORMAT = new SimpleDateFormat( "MM/dd/yy, hh:mma", Locale.US );
+	private static final SimpleDateFormat DIRECTORY_FORMAT = new SimpleDateFormat( "yyyyMM_'w'W", Locale.US );
 
 	private static String SNAPSHOT_DIRECTORY = "clan" + File.separator;
 

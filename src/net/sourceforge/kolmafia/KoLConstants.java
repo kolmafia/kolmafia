@@ -78,7 +78,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final DecimalFormat ROUNDED_MODIFIER_FORMAT = new DecimalFormat(
 		"+#0.00;-#0.00", new DecimalFormatSymbols( Locale.US ) );
 
-	public static final SimpleDateFormat DATED_FILENAME_FORMAT = new SimpleDateFormat( "yyyyMMdd" );
+	public static final SimpleDateFormat DATED_FILENAME_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
 
 	public static final int ENABLE_STATE   = 1;
 	public static final int ERROR_STATE    = 2;

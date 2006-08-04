@@ -36,28 +36,26 @@ package net.sourceforge.kolmafia;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.TreeMap;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.StringTokenizer;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 public abstract class KoLMessenger extends StaticEntity
 {
-	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a" );
+	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a", Locale.US );
 
 	private static final String DEFAULT_TIMESTAMP_COLOR = "#7695B4";
-	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]" );
+	private static final SimpleDateFormat MESSAGE_TIMESTAMP = new SimpleDateFormat( "[HH:mm]", Locale.US );
 
 	private static TreeMap colors = new TreeMap();
 	private static String CHATLOG_BASENAME = "";

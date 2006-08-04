@@ -35,12 +35,12 @@
 package net.sourceforge.kolmafia;
 
 import java.util.Date;
+import java.util.Locale;
 import java.text.SimpleDateFormat;
 
 import java.awt.Color;
 import java.awt.BorderLayout;
 
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTabbedPane;
 import javax.swing.JEditorPane;
@@ -71,7 +71,7 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 	// Special date formatter which formats according to
 	// the standard Western format of month, day, year.
 
-	public static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy" );
+	public static final SimpleDateFormat TODAY_FORMATTER = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
 
 	// The following are static variables used to track the calendar.
 	// They are made static as a design decision to allow the oracle
