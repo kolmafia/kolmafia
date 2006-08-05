@@ -65,14 +65,6 @@ public class BuffBotDatabase extends KoLDatabase
 	private static int buffBotsAvailable = 0;
 	private static int buffBotsConfigured = 0;
 
-	public static Object [] getStandardBotList()
-	{	return normalOfferings.keySet().toArray();
-	}
-
-	public static SortedListModel getStandardOfferings( String botName )
-	{	return botName != null && normalOfferings.containsKey( botName ) ? (SortedListModel) normalOfferings.get( botName ) : new SortedListModel();
-	}
-
 	public static boolean hasOfferings()
 	{
 		if ( !isInitialized )
@@ -81,9 +73,23 @@ public class BuffBotDatabase extends KoLDatabase
 		return !normalOfferings.isEmpty() || !freeOfferings.isEmpty();
 	}
 
-	public static Object [] getPhilanthropicBotList()
-	{	return freeOfferings.keySet().toArray();
+	public static Object [] getCompleteBotList()
+	{
+		ArrayList completeList = new ArrayList();
+		completeList.addAll( normalOfferings.keySet() );
+
+		Object [] philanthropic = freeOfferings.keySet().toArray();
+		for ( int i = 0; i < philanthropic.length; ++i )
+			if ( !completeList.contains( philanthropic[i] ) )
+				completeList.add( philanthropic[i] );
+
+		return completeList.toArray();
 	}
+
+	public static SortedListModel getStandardOfferings( String botName )
+	{	return botName != null && normalOfferings.containsKey( botName ) ? (SortedListModel) normalOfferings.get( botName ) : new SortedListModel();
+	}
+
 
 	public static SortedListModel getPhilanthropicOfferings( String botName )
 	{	return botName != null && freeOfferings.containsKey( botName ) ? (SortedListModel) freeOfferings.get( botName ) : new SortedListModel();
@@ -264,15 +270,12 @@ public class BuffBotDatabase extends KoLDatabase
 		{
 			StringBuffer buffer = new StringBuffer();
 
-			buffer.append( "<html><u>" );
-			buffer.append( price );
-			buffer.append( " meat" );
+			buffer.append( "<html>" );
+			buffer.append( turns[0] );
+			buffer.append( " turns of " );
+			buffer.append( buffs[0] );
 
-			if ( free )
-				buffer.append( " (once per day)" );
-
-			buffer.append( "</u>" );
-			for ( int i = 0; i < buffs.length; ++i )
+			for ( int i = 1; i < buffs.length; ++i )
 			{
 				buffer.append( "<br>" );
 				buffer.append( turns[i] );
