@@ -96,9 +96,9 @@ public class HermitRequest extends KoLRequest
 			KoLmafia.updateDisplay( ERROR_STATE, "Zero is not a valid quantity." );
 			return;
 		}
-		else if ( getWorthlessItemCount() == 0 )
+		else if ( quantity > getWorthlessItemCount() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You do not have any worthless items." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You do not have enough worthless items." );
 			return;
 		}
 
@@ -115,14 +115,12 @@ public class HermitRequest extends KoLRequest
 
 			if ( responseText.indexOf( "you're not allowed to visit" ) != -1 )
 			{
-				if ( KoLCharacter.getAvailableMeat() >= 100 )
-				{
-					DEFAULT_SHELL.executeLine( "buy 1 hermit permit" );
+				AdventureDatabase.retrieveItem( PERMIT.getInstance( quantity ) );
+				if ( KoLmafia.permitsContinue() )
 					this.run();
-					return;
-				}
+				else
+					KoLmafia.updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
 
-				KoLmafia.updateDisplay( ERROR_STATE, "You're not allowed to visit the Hermit." );
 				return;
 			}
 
@@ -168,12 +166,9 @@ public class HermitRequest extends KoLRequest
 		{
 			// Figure out how many you do have.
 
-			int permits = PERMIT.getCount( KoLCharacter.getInventory() );
 			AdventureDatabase.retrieveItem( PERMIT.getInstance( quantity ) );
-
-			permits = PERMIT.getCount( KoLCharacter.getInventory() );
 			if ( KoLmafia.permitsContinue() )
-				(new HermitRequest( client, itemID, permits )).run();
+				this.run();
 
 			return;
 		}
@@ -184,10 +179,14 @@ public class HermitRequest extends KoLRequest
 		{
 			// Figure out how many items you do have.
 
+			(new EquipmentRequest( client, EquipmentRequest.CLOSET )).run();
 			int actualQuantity = getWorthlessItemCount();
 
 			if ( actualQuantity > 0 )
+			{
 				(new HermitRequest( client, itemID, actualQuantity )).run();
+				return;
+			}
 
 			KoLmafia.updateDisplay( ERROR_STATE, "Ran out of worthless junk." );
 			return;
