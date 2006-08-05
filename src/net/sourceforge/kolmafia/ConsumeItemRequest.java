@@ -122,6 +122,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 	private int consumptionType;
 	private AdventureResult itemUsed;
+	private boolean isResultPage = false;
 
 	public ConsumeItemRequest( KoLmafia client, AdventureResult item )
 	{	this( client, TradeableItemDatabase.getConsumptionType( item.getName() ), item );
@@ -271,6 +272,7 @@ public class ConsumeItemRequest extends KoLRequest
 			// that it processes the right result.
 
 			ConsumeItemRequest message = new ConsumeItemRequest( client, redirectLocation, consumptionType, itemUsed );
+			message.isResultPage = true;
 			message.run();
 		}
 	}
@@ -696,6 +698,10 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public String getCommandForm( int iterations )
 	{
+System.out.println( "Called: " + isResultPage );
+		if ( isResultPage )
+			return "";
+
 		StringBuffer commandString = new StringBuffer();
 
 		switch ( getConsumptionType() )
