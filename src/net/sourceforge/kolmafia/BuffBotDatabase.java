@@ -241,6 +241,10 @@ public class BuffBotDatabase extends KoLDatabase
 		{	return price;
 		}
 
+		public int [] getTurns()
+		{	return turns;
+		}
+
 		public String toString()
 		{	return stringForm;
 		}
