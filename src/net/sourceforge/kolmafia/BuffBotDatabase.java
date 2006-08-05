@@ -254,28 +254,34 @@ public class BuffBotDatabase extends KoLDatabase
 
 		private void constructStringForm()
 		{
-			if ( free && price < 100 )
+			StringBuffer buffer = new StringBuffer();
+
+			buffer.append( turns[0] );
+			buffer.append( " turns of " );
+			buffer.append( buffs[0] );
+
+			for ( int i = 1; i < buffs.length; ++i )
 			{
-				StringBuffer buffer = new StringBuffer();
-
-				buffer.append( turns[0] );
+				buffer.append( ", " );
+				buffer.append( turns[i] );
 				buffer.append( " turns of " );
-				buffer.append( buffs[0] );
-
-				for ( int i = 1; i < buffs.length; ++i )
-				{
-					buffer.append( ", " );
-					buffer.append( turns[i] );
-					buffer.append( " turns of " );
-					buffer.append( buffs[i] );
-				}
-
-				this.stringForm = buffer.toString();
+				buffer.append( buffs[i] );
 			}
-			else if ( !free )
-				this.stringForm = turns + " turns for " + price + " meat from " + botName;
-			else
-				this.stringForm = turns + " turns for " + price + " meat from " + botName + " (once per day)";
+
+			buffer.append( " for " );
+			buffer.append( price );
+			buffer.append( " meat" );
+
+			if ( !free || price >= 100 )
+			{
+				buffer.append( " from " );
+				buffer.append( botName );
+
+				if ( free )
+					buffer.append( " (once per day)" );
+			}
+
+			this.stringForm = buffer.toString();
 		}
 
 		public boolean equals( Object o )
