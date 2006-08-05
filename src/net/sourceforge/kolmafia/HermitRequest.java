@@ -115,7 +115,7 @@ public class HermitRequest extends KoLRequest
 
 			if ( responseText.indexOf( "you're not allowed to visit" ) != -1 )
 			{
-				AdventureDatabase.retrieveItem( PERMIT.getInstance( quantity ) );
+				AdventureDatabase.retrieveItem( PERMIT.getInstance( 1 ) );
 				if ( KoLmafia.permitsContinue() )
 					this.run();
 				else
