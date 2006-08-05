@@ -3622,29 +3622,4 @@ public class KoLmafiaCLI extends KoLmafia
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 		commandBuffer.append( colorBuffer.toString() );
 	}
-
-	/**
-	 * A utility command which determines, based on the
-	 * request, what KoLmafiaCLI command is used to redo
-	 * the execution of it.  Note that only post-login
-	 * scripts have derived commands.
-	 */
-
-	public static final String deriveCommand( Runnable request, int iterations )
-	{
-		StringBuffer commandString = new StringBuffer();
-		if ( iterations > 0 )
-		{
-			if ( request instanceof KoLRequest )
-				commandString.append( ((KoLRequest)request).getCommandForm( iterations ) );
-
-			if ( request instanceof KoLAdventure && ((KoLAdventure)request).getRequest() != null )
-				commandString.append( "adventure " + iterations + " " + ((KoLAdventure)request).getAdventureName() );
-		}
-
-		if ( commandString.length() > 0 )
-			commandString.append( LINE_BREAK );
-
-		return commandString.toString();
-	}
 }

@@ -106,7 +106,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	private URL formURL;
 	private boolean followRedirects;
 	protected String formURLString;
+
 	private boolean isChatRequest = false;
+	private boolean isConsumeRequest = false;
 
 	private List data;
 
@@ -618,11 +620,12 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected void registerRequest()
 	{
 		String urlString = getURLString();
+		isConsumeRequest = this instanceof ConsumeItemRequest;
 
 		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php " ) == -1 )
 			return;
 
-		String commandForm = getCommandForm();
+		String commandForm = getCommandForm( 0 );
 
 		if ( !commandForm.equals( "" ) )
 		{
@@ -645,10 +648,26 @@ public class KoLRequest implements Runnable, KoLConstants
 			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Typical Tavern Quest" );
 		else if ( urlString.indexOf( "barrels.php" ) != -1 )
 			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Barrel Full of Barrels" );
+		else if ( urlString.indexOf( "arena.php" ) != -1 && urlString.indexOf( "action" ) != -1 )
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Cake-Shaped Arena" );
+		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level1" ) != -1 )
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 1" );
+		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level2" ) != -1 )
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 2" );
+		else if ( urlString.indexOf( "lair4.php" ) != -1 && urlString.indexOf( "level3" ) != -1 )
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 3" );
+		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level1" ) != -1 )
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 4" );
+		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level2" ) != -1 )
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 5" );
+		else if ( urlString.indexOf( "lair5.php" ) != -1 && urlString.indexOf( "level3" ) != -1 )
+			KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] Sorceress Tower: Level 6" );
 		else
 		{
-			if ( ConsumeItemRequest.processRequest( client, urlString ) );
-			else if ( ItemCreationRequest.processRequest( client, urlString ) );
+			if ( ConsumeItemRequest.processRequest( client, urlString ) )
+				isConsumeRequest = true;
+			else if ( ItemCreationRequest.processRequest( client, urlString ) )
+				;
 			else if ( !(this instanceof LoginRequest) && urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && !isChatRequest )
 				KoLmafia.getSessionStream().println( urlString );
 		}
@@ -1226,7 +1245,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// ten-leaf clover" (shorten to "our ten-leaf clover"
 		// for substring matching)
 
-		if ( responseText.indexOf( "our ten-leaf clover" ) != -1 )
+		if ( !isConsumeRequest && responseText.indexOf( "our ten-leaf clover" ) != -1 && responseText.indexOf( "puff of smoke" ) != -1 )
 			client.processResult( SewerRequest.CLOVER );
 
 		int previousHP = KoLCharacter.getCurrentHP();
@@ -1456,10 +1475,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		// 200 (not a redirect or error).
 
 		FightFrame.showRequest( this );
-	}
-
-	public String getCommandForm()
-	{	return getCommandForm( 1 );
 	}
 
 	public String getCommandForm( int iterations )
