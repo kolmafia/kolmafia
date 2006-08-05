@@ -46,7 +46,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 /**
  * A static class which handles the officially "supported" buffbots.
  *
- * Buffbots can have their buff offerings statically listed in buffs.dat
+ * Buffbots can have their buff normalOfferings statically listed in buffs.dat
  *
  * Alternatively, if they keep their display case up-to-date with the current
  * price list - and use a "standard" format for listing prices, the bot is
@@ -56,7 +56,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 public class BuffBotDatabase extends KoLDatabase
 {
 	private static boolean isInitialized = false;
-	private static TreeMap offerings = new TreeMap();
+	private static TreeMap normalOfferings = new TreeMap();
 	private static TreeMap freeOfferings = new TreeMap();
 
 	// Variables to know whether or not the buffbot database
@@ -65,12 +65,12 @@ public class BuffBotDatabase extends KoLDatabase
 	private static int buffBotsAvailable = 0;
 	private static int buffBotsConfigured = 0;
 
-	public static Object [] getOfferingList()
-	{	return offerings.keySet().toArray();
+	public static Object [] getStandardBotList()
+	{	return normalOfferings.keySet().toArray();
 	}
 
-	public static SortedListModel getOfferings( String buffName )
-	{	return buffName != null && offerings.containsKey( buffName ) ? (SortedListModel) offerings.get( buffName ) : new SortedListModel();
+	public static SortedListModel getStandardOfferings( String botName )
+	{	return botName != null && normalOfferings.containsKey( botName ) ? (SortedListModel) normalOfferings.get( botName ) : new SortedListModel();
 	}
 
 	public static boolean hasOfferings()
@@ -78,7 +78,7 @@ public class BuffBotDatabase extends KoLDatabase
 		if ( !isInitialized )
 			configureBuffBots();
 
-		return !offerings.isEmpty() || !freeOfferings.isEmpty();
+		return !normalOfferings.isEmpty() || !freeOfferings.isEmpty();
 	}
 
 	public static Object [] getPhilanthropicBotList()
@@ -146,6 +146,8 @@ public class BuffBotDatabase extends KoLDatabase
 			Pattern freePattern = Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
 
 			SortedListModel freeBuffs = new SortedListModel();
+			SortedListModel normalBuffs = new SortedListModel();
+
 			Matcher nameMatcher, priceMatcher, turnMatcher, freeMatcher;
 
 			while ( nodeMatcher.find() )
@@ -164,12 +166,7 @@ public class BuffBotDatabase extends KoLDatabase
 					int turns = StaticEntity.parseInt( turnMatcher.group(1).trim() );
 					boolean philanthropic = freeMatcher.find() ? freeMatcher.group(1).trim().equals( "true" ) : false;
 
-					SortedListModel tester = philanthropic && price < 100 ? freeBuffs : (SortedListModel) offerings.get( name );
-					if ( tester == null )
-					{
-						offerings.put( name, new SortedListModel() );
-						tester = (SortedListModel) offerings.get( name );
-					}
+					SortedListModel tester = philanthropic && price < 100 ? freeBuffs : normalBuffs;
 
 					Offering priceMatch = null;
 					Offering currentTest = null;
@@ -194,6 +191,9 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( !freeBuffs.isEmpty() )
 				freeOfferings.put( botName, freeBuffs );
 
+			if ( !normalBuffs.isEmpty() )
+				normalOfferings.put( botName, normalBuffs );
+
 			// Now that the buffbot is configured, increment
 			// the counter to notify the thread that configuration
 			// has been completed for this bot.
@@ -208,27 +208,31 @@ public class BuffBotDatabase extends KoLDatabase
 		private int price;
 		private boolean free;
 
+		private int lowestBuffID;
 		private String [] buffs;
 		private int [] turns;
 
-		private long rate;
 		private String stringForm;
 
 		public Offering( String buffName, String botName, int price, int turns, boolean free )
 		{
 			this.buffs = new String [] { buffName };
 			this.turns = new int [] { turns };
+			this.lowestBuffID = ClassSkillsDatabase.getSkillID( buffName );
 
 			this.botName = botName;
 			this.price = price;
 			this.free = free;
 
-			this.rate = (100 * (long)price) / turns;
 			constructStringForm();
 		}
 
 		public String getBotName()
 		{	return botName;
+		}
+
+		public int getPrice()
+		{	return price;
 		}
 
 		public String toString()
@@ -249,6 +253,10 @@ public class BuffBotDatabase extends KoLDatabase
 			this.buffs[ this.buffs.length - 1 ] = buffName;
 			this.turns[ this.turns.length - 1 ] = turns;
 
+			int skillID = ClassSkillsDatabase.getSkillID( buffName );
+			if ( skillID < lowestBuffID )
+				this.lowestBuffID = skillID;
+
 			constructStringForm();
 		}
 
@@ -256,31 +264,23 @@ public class BuffBotDatabase extends KoLDatabase
 		{
 			StringBuffer buffer = new StringBuffer();
 
-			buffer.append( turns[0] );
-			buffer.append( " turns of " );
-			buffer.append( buffs[0] );
+			buffer.append( "<html><u>" );
+			buffer.append( price );
+			buffer.append( " meat" );
 
-			for ( int i = 1; i < buffs.length; ++i )
+			if ( free )
+				buffer.append( " (once per day)" );
+
+			buffer.append( "</u>" );
+			for ( int i = 0; i < buffs.length; ++i )
 			{
-				buffer.append( ", " );
+				buffer.append( "<br>" );
 				buffer.append( turns[i] );
 				buffer.append( " turns of " );
 				buffer.append( buffs[i] );
 			}
 
-			buffer.append( " for " );
-			buffer.append( price );
-			buffer.append( " meat" );
-
-			if ( !free || price >= 100 )
-			{
-				buffer.append( " from " );
-				buffer.append( botName );
-
-				if ( free )
-					buffer.append( " (once per day)" );
-			}
-
+			buffer.append( "</html>" );
 			this.stringForm = buffer.toString();
 		}
 
@@ -310,13 +310,13 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( free )
 				return price - off.price;
 
+			// Compare the ID of the lowest ID buffs
+			if ( lowestBuffID != off.lowestBuffID )
+				return lowestBuffID - off.lowestBuffID;
+
 			// First compare turns
 			if ( turns[0] != off.turns[0] )
-				return off.turns[0] - turns[0];
-
-			// Then compare rates
-			if ( rate != off.rate )
-				return (int) (rate - off.rate);
+				return turns[0] - off.turns[0];
 
 			// Then, compare the names of the bots
 			return botName.compareToIgnoreCase( off.botName );

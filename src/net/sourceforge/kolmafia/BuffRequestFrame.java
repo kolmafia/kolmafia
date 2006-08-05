@@ -37,16 +37,12 @@ package net.sourceforge.kolmafia;
 // layout
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Dimension;
 
 // containers
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
-import javax.swing.JList;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
@@ -55,6 +51,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 // utilities
+import java.util.TreeMap;
 import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -65,36 +62,23 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffRequestFrame extends KoLFrame
 {
-	private JList buffRequestList;
-	private BuffOptionsComboBox buffOptions;
-	private SortedListModel buffRequests = new SortedListModel();
-
-	private JPanel philanthropyContainer = new JPanel();
-	private CardLayout philanthropyCards = new CardLayout( 10, 10 );
-
 	public BuffRequestFrame()
 	{
 		super( "Purchase Buffs" );
 
 		tabs = new JTabbedPane();
 
-		tabs.addTab( "Standard Buffs", new BuffRequestPanel() );
-		Object [] list = BuffBotDatabase.getPhilanthropicBotList();
-
-		JPanel philanthropyPanel = new JPanel( new BorderLayout() );
-		philanthropyPanel.add( new PhilanthropyComboBox( list ), BorderLayout.NORTH );
-		philanthropyContainer.setLayout( philanthropyCards );
-
-		philanthropyContainer.add( new PhilanthropyPanel( null ), "" );
-		for ( int i = 0; i < list.length; ++i )
-			philanthropyContainer.add( new PhilanthropyPanel( (String) list[i] ), (String) list[i] );
-
-		philanthropyCards.show( philanthropyContainer, "" );
-		philanthropyPanel.add( philanthropyContainer, BorderLayout.CENTER );
-		tabs.addTab( "Philanthropic Buffs", philanthropyPanel );
+		addTab( "Standard Buffs", false );
+		addTab( "Philanthropic Buffs", true );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
+	}
+
+	public void addTab( String tabName, boolean isFree )
+	{
+		tabs.addTab( tabName, new BuffRequestPanel( isFree ) );
+
 	}
 
 	private void isBotOnline( String botName )
@@ -112,104 +96,53 @@ public class BuffRequestFrame extends KoLFrame
 			JOptionPane.showMessageDialog( null, botName + " is probably not online." );
 	}
 
-	private class BuffRequestPanel extends LabeledScrollPanel
-	{
-		public BuffRequestPanel()
-		{
-			super( "", "request", "online?", new JList( buffRequests ) );
-
-			buffOptions = new BuffOptionsComboBox( BuffBotDatabase.getOfferingList() );
-
-			actualPanel.add( buffOptions, BorderLayout.NORTH );
-			buffRequestList = (JList) scrollComponent;
-		}
-
-		public void actionConfirmed()
-		{
-			Object [] values = buffRequestList.getSelectedValues();
-			Runnable [] runnables = new Runnable[ values.length ];
-
-			for ( int i = 0; i < values.length; ++i )
-				runnables[i] = ((BuffBotDatabase.Offering)values[i]).toRequest();
-
-			(new RequestThread( runnables )).start();
-		}
-
-		public void actionCancelled()
-		{
-			BuffBotDatabase.Offering selected = (BuffBotDatabase.Offering) buffRequestList.getSelectedValue();
-			if ( selected != null )
-				isBotOnline( selected.getBotName() );
-		}
-	}
-
-	private class BuffOptionsComboBox extends JComboBox implements ActionListener
-	{
-		public BuffOptionsComboBox( Object [] data )
-		{
-			super( data );
-			setSelectedItem( null );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			buffRequests.clear();
-			buffRequests.addAll( BuffBotDatabase.getOfferings( (String) getSelectedItem() ) );
-		}
-	}
-
-	private class PhilanthropyComboBox extends JComboBox implements ActionListener
-	{
-		public PhilanthropyComboBox( Object [] data )
-		{
-			super( data );
-			setSelectedItem( null );
-			addActionListener( this );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{	philanthropyCards.show( philanthropyContainer, (String) getSelectedItem() );
-		}
-	}
-
-	private class PhilanthropyPanel extends KoLPanel
+	private class BuffRequestPanel extends KoLPanel
 	{
 		private String botName;
-		private JCheckBox [] checkboxes;
-		private BuffBotDatabase.Offering [] offerings;
+		private TreeMap panelMap;
+		private JPanel requestContainer;
+		private CardLayout requestCards;
 
-		public PhilanthropyPanel( String botName )
+		public BuffRequestPanel( boolean isFree )
 		{
 			super( "request", "online?" );
 
-			this.botName = botName;
-			SortedListModel list = BuffBotDatabase.getPhilanthropicOfferings( botName );
+			Object [] list = isFree ? BuffBotDatabase.getPhilanthropicBotList() :
+				BuffBotDatabase.getStandardBotList();
 
-			offerings = new BuffBotDatabase.Offering[ list.size() ];
-			list.toArray( offerings );
+			panelMap = new TreeMap();
+			requestCards = new CardLayout( 10, 10 );
+			requestContainer = new JPanel( requestCards );
 
-			JPanel centerPanel = new JPanel();
-			centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );
+			VerifiableElement [] elements = new VerifiableElement[1];
+			elements[0] = new VerifiableElement( "Bot Name: ", new NameComboBox( list ) );
 
-			checkboxes = new JCheckBox[ offerings.length ];
-			for ( int i = 0; i < checkboxes.length; ++i )
+			setContent( elements );
+
+			requestContainer.add( new RequestPanel( isFree, null ), "" );
+			for ( int i = 0; i < list.length; ++i )
 			{
-				checkboxes[i] = new JCheckBox( offerings[i].toString() );
-				centerPanel.add( checkboxes[i] );
+				RequestPanel panel = new RequestPanel( isFree, (String) list[i] );
+
+				panelMap.put( (String) list[i], panel );
+				requestContainer.add( panel, (String) list[i] );
 			}
 
-			setContent( new VerifiableElement[0] );
+			requestCards.show( requestContainer, "" );
+			southContainer.add( requestContainer, BorderLayout.CENTER );
+		}
 
-			JScrollPane scroller = new JScrollPane( centerPanel,
-					JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
-
-			JComponentUtilities.setComponentSize( scroller, 400, 400 );
-			container.add( scroller, BorderLayout.CENTER );
+		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
+		{	return true;
 		}
 
 		public void actionConfirmed()
 		{
+			RequestPanel panel = (RequestPanel) panelMap.get( botName );
+
+			JCheckBox [] checkboxes = panel.checkboxes;
+			BuffBotDatabase.Offering [] offerings = panel.offerings;
+
 			ArrayList requests = new ArrayList();
 			for ( int i = 0; i < checkboxes.length; ++i )
 				if ( checkboxes[i].isSelected() )
@@ -226,6 +159,79 @@ public class BuffRequestFrame extends KoLFrame
 
 		public void actionCancelled()
 		{	isBotOnline( botName );
+		}
+
+		private class NameComboBox extends JComboBox implements ActionListener
+		{
+			public NameComboBox( Object [] data )
+			{
+				super( data );
+				setSelectedItem( null );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				botName = (String) getSelectedItem();
+				requestCards.show( requestContainer, botName );
+			}
+		}
+
+		private class RequestPanel extends JPanel
+		{
+			private String botName;
+			private JCheckBox [] checkboxes;
+			private BuffBotDatabase.Offering [] offerings;
+
+			public RequestPanel( boolean isFree, String botName )
+			{
+				this.botName = botName;
+				SortedListModel list = isFree ? BuffBotDatabase.getPhilanthropicOfferings( botName ) :
+					BuffBotDatabase.getStandardOfferings( botName );
+
+				offerings = new BuffBotDatabase.Offering[ list.size() ];
+				list.toArray( offerings );
+
+				JPanel centerPanel = new JPanel();
+				centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );
+
+				checkboxes = new JCheckBox[ offerings.length ];
+				TotalPriceUpdater priceUpdater = new TotalPriceUpdater();
+
+				for ( int i = 0; i < checkboxes.length; ++i )
+				{
+					checkboxes[i] = new JCheckBox( offerings[i].toString() );
+					checkboxes[i].setVerticalTextPosition( JCheckBox.TOP );
+					checkboxes[i].addActionListener( priceUpdater );
+					centerPanel.add( checkboxes[i] );
+				}
+
+				JScrollPane scroller = new JScrollPane( centerPanel,
+					JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+
+				JComponentUtilities.setComponentSize( scroller, 300, 400 );
+
+				setLayout( new BorderLayout() );
+				add( scroller, BorderLayout.CENTER );
+			}
+		}
+
+		private class TotalPriceUpdater implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				int price = 0;
+				RequestPanel panel = (RequestPanel) panelMap.get( botName );
+
+				JCheckBox [] checkboxes = panel.checkboxes;
+				BuffBotDatabase.Offering [] offerings = panel.offerings;
+
+				for ( int i = 0; i < checkboxes.length; ++i )
+					if ( checkboxes[i].isSelected() )
+						price += offerings[i].getPrice();
+
+				setStatusMessage( ENABLE_STATE, COMMA_FORMAT.format( price ) + " meat will be sent to " + botName );
+			}
 		}
 	}
 }
