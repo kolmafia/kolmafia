@@ -62,23 +62,19 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class BuffRequestFrame extends KoLFrame
 {
+	private JPanel requestContainer;
+	private CardLayout requestCards;
+
 	public BuffRequestFrame()
 	{
 		super( "Purchase Buffs" );
 
 		tabs = new JTabbedPane();
-
-		addTab( "Standard Buffs", false );
-		addTab( "Philanthropic Buffs", true );
+		requestCards = new CardLayout( 10, 10 );
+		requestContainer = new JPanel( requestCards );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( tabs, "" );
-	}
-
-	public void addTab( String tabName, boolean isFree )
-	{
-		tabs.addTab( tabName, new BuffRequestPanel( isFree ) );
-
+		framePanel.add( new BuffRequestPanel(), "" );
 	}
 
 	private void isBotOnline( String botName )
@@ -100,35 +96,38 @@ public class BuffRequestFrame extends KoLFrame
 	{
 		private String botName;
 		private TreeMap panelMap;
-		private JPanel requestContainer;
-		private CardLayout requestCards;
 
-		public BuffRequestPanel( boolean isFree )
+		private SetComboBox sets;
+		private NameComboBox names;
+
+		public BuffRequestPanel()
 		{
 			super( "request", "online?" );
 
-			Object [] list = isFree ? BuffBotDatabase.getPhilanthropicBotList() :
-				BuffBotDatabase.getStandardBotList();
+			Object [] list = BuffBotDatabase.getCompleteBotList();
 
 			panelMap = new TreeMap();
-			requestCards = new CardLayout( 10, 10 );
-			requestContainer = new JPanel( requestCards );
 
-			VerifiableElement [] elements = new VerifiableElement[1];
-			elements[0] = new VerifiableElement( "Bot Name: ", new NameComboBox( list ) );
-
-			setContent( elements );
-
-			requestContainer.add( new RequestPanel( isFree, null ), "" );
 			for ( int i = 0; i < list.length; ++i )
 			{
-				RequestPanel panel = new RequestPanel( isFree, (String) list[i] );
+				RequestPanel panel = new RequestPanel( true, (String) list[i] );
+				panelMap.put( list[i] + " : 1", panel );
+				requestContainer.add( panel, list[i] + " : 1" );
 
-				panelMap.put( (String) list[i], panel );
-				requestContainer.add( panel, (String) list[i] );
+				panel = new RequestPanel( false, (String) list[i] );
+				panelMap.put( list[i] + " : 2", panel );
+				requestContainer.add( panel, list[i] + " : 2" );
 			}
 
-			requestCards.show( requestContainer, "" );
+			names = new NameComboBox( list );
+			sets = new SetComboBox();
+
+			VerifiableElement [] elements = new VerifiableElement[2];
+			elements[0] = new VerifiableElement( "Bot Name: ", names );
+			elements[1] = new VerifiableElement( "Buff Set: ", sets );
+
+			setContent( elements );
+			names.setSelectedIndex( RNG.nextInt( list.length ) );
 			southContainer.add( requestContainer, BorderLayout.CENTER );
 		}
 
@@ -138,7 +137,7 @@ public class BuffRequestFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			RequestPanel panel = (RequestPanel) panelMap.get( botName );
+			RequestPanel panel = (RequestPanel) panelMap.get( getCardID() );
 
 			JCheckBox [] checkboxes = panel.checkboxes;
 			BuffBotDatabase.Offering [] offerings = panel.offerings;
@@ -161,19 +160,39 @@ public class BuffRequestFrame extends KoLFrame
 		{	isBotOnline( botName );
 		}
 
+		private String getCardID()
+		{
+			botName = (String) names.getSelectedItem();
+			return botName + " : " + (sets.getSelectedIndex() + 1);
+		}
+
+		private void resetCard()
+		{	requestCards.show( requestContainer, getCardID() );
+		}
+
 		private class NameComboBox extends JComboBox implements ActionListener
 		{
 			public NameComboBox( Object [] data )
 			{
 				super( data );
-				setSelectedItem( null );
 				addActionListener( this );
 			}
 
 			public void actionPerformed( ActionEvent e )
+			{	resetCard();
+			}
+		}
+
+		private class SetComboBox extends JComboBox implements ActionListener
+		{
+			public SetComboBox()
 			{
-				botName = (String) getSelectedItem();
-				requestCards.show( requestContainer, botName );
+				super( new String [] { "Philanthropic buffs", "Standard cost buffs" } );
+				addActionListener( this );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{	resetCard();
 			}
 		}
 
@@ -221,7 +240,7 @@ public class BuffRequestFrame extends KoLFrame
 			public void actionPerformed( ActionEvent e )
 			{
 				int price = 0;
-				RequestPanel panel = (RequestPanel) panelMap.get( botName );
+				RequestPanel panel = (RequestPanel) panelMap.get( getCardID() );
 
 				JCheckBox [] checkboxes = panel.checkboxes;
 				BuffBotDatabase.Offering [] offerings = panel.offerings;
