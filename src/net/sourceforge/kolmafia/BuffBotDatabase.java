@@ -36,11 +36,12 @@ package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
 
+import java.util.TreeMap;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
+import net.java.dev.spellcast.utilities.SortedListModel;
 
 /**
  * A static class which handles the officially "supported" buffbots.
@@ -54,141 +55,56 @@ import java.util.regex.Matcher;
 
 public class BuffBotDatabase extends KoLDatabase
 {
-	// All buffs: skill #, display name, abbreviation
-	public static final Object [][] ABBREVIATIONS =
-	{
-		// Accordion Thief Buffs
-		{ new Integer(6003), "Antiphon" },
-		{ new Integer(6004), "Madrigal" },
-		{ new Integer(6005), "Celerity" },
-		{ new Integer(6006), "Polka" },
-		{ new Integer(6007), "Melody" },
-		{ new Integer(6008), "Ballad" },
-		{ new Integer(6009), "Anthem" },
-		{ new Integer(6010), "Phat Loot" },
-		{ new Integer(6011), "Psalm" },
-		{ new Integer(6012), "Symphony" },
-		{ new Integer(6013), "Shanty" },
-		{ new Integer(6014), "Ode" },
-		{ new Integer(6015), "Sneakiness" },
-		{ new Integer(6016), "Cantata" },
-		{ new Integer(6017), "Aria" },
-
-		// Sauceress Buffs
-		{ new Integer(4007), "Elemental" },
-		{ new Integer(4008), "Jala" },
-		{ new Integer(4011), "Jaba" },
-
-		// Turtle Tamer Buffs
-		{ new Integer(2007), "Ghostly" },
-		{ new Integer(2008), "Fortitude" },
-		{ new Integer(2009), "Empathy" },
-		{ new Integer(2010), "Tenacity" },
-		{ new Integer(2012), "Astral" },
-
-		// Oddball Buffs
-		{ new Integer(3), "Smile" }
-	};
-
-	// List of supported buffbots with parsable display cases
-	private static ArrayList bots = new ArrayList();
-
-	// buffbots.dat lists dynamically configured buffbots
-	static
-	{
-		// Open the data file
-		BufferedReader reader = getReader( "buffbots.dat" );
-
-		// Read a line at a time
-
-		String [] data;
-		while ( (data = readData( reader )) != null )
-			if ( data.length == 3 )
-				bots.add( data );
-	}
-
-	// Buffs obtainable from all public buffbots
 	private static boolean isInitialized = false;
-	private static BuffList allBots = new BuffList();
+	private static TreeMap offerings = new TreeMap();
+	private static TreeMap freeOfferings = new TreeMap();
 
-	public static int buffCount()
-	{	return allBots.buffCount();
+	// Variables to know whether or not the buffbot database
+	// has been fully initialized during initialization.
+
+	private static int buffBotsAvailable = 0;
+	private static int buffBotsConfigured = 0;
+
+	public static Object [] getOfferingList()
+	{	return offerings.keySet().toArray();
 	}
 
-	public static String getBuffName( int index )
-	{	return allBots.getBuffName( index );
+	public static SortedListModel getOfferings( String buffName )
+	{	return buffName != null && offerings.containsKey( buffName ) ? (SortedListModel) offerings.get( buffName ) : new SortedListModel();
 	}
 
-	public static String getBuffAbbreviation( int index )
-	{	return allBots.getBuffAbbreviation( index );
+	public static boolean hasOfferings()
+	{
+		if ( !isInitialized )
+			configureBuffBots();
+
+		return !offerings.isEmpty() || !freeOfferings.isEmpty();
 	}
 
-	public static int getBuffOfferingCount( int index )
-	{	return allBots.getBuffOfferingCount( index );
+	public static Object [] getPhilanthropicBotList()
+	{	return freeOfferings.keySet().toArray();
 	}
 
-	public static String getBuffBot( int index1, int index2 )
-	{	return allBots.getBuffBot( index1, index2 );
+	public static SortedListModel getPhilanthropicOfferings( String botName )
+	{	return botName != null && freeOfferings.containsKey( botName ) ? (SortedListModel) freeOfferings.get( botName ) : new SortedListModel();
 	}
 
-	public static int getBuffPrice( int index1, int index2 )
-	{	return allBots.getBuffPrice( index1, index2 );
-	}
-
-	public static int getBuffTurns( int index1, int index2 )
-	{	return allBots.getBuffTurns( index1, index2 );
-	}
-
-	public static long getBuffRate( int index1, int index2 )
-	{	return allBots.getBuffRate( index1, index2 );
-	}
-
-	public static boolean getBuffFree( int index1, int index2 )
-	{	return allBots.getBuffFree( index1, index2 );
-	}
-
-	public static String getBuffLabel( int index1, int index2 )
-	{	return allBots.getBuffLabel( index1, index2 );
-	}
-
-	public static void configureBuffBots()
+	private static void configureBuffBots()
 	{
 		if ( isInitialized )
 			return;
 
-		// List of all bots includes static + dynamic
-		allBots = new BuffList();
-
 		KoLmafia.updateDisplay( "Configuring dynamic buff prices..." );
 
-		// Iterate over list of bots and configure each one in a
-		// separate thread; since it's all located on separate
-		// servers, it's possible to do this.
+		String [] data = null;
+		BufferedReader reader = getReader( "buffbots.dat" );
 
-		int botCount = bots.size();
-		DynamicBotFetcher [] botfetches = new DynamicBotFetcher[ botCount ];
+		while ( (data = readData( reader )) != null )
+			if ( data.length == 3 )
+				(new Thread( new DynamicBotFetcher( data ) )).start();
 
-		for ( int i = 0; i < botCount; ++i )
-		{
-			String [] entry = (String []) bots.get(i);
-
-			KoLmafia.registerPlayer( entry[1], entry[2] );
-			botfetches[i] = new DynamicBotFetcher( entry[0], entry[2] );
-			(new Thread( botfetches[i] )).start();
-		}
-
-		// Iterate over the fetching runnables to see if the
-		// configuration is complete.  Continue waiting until
-		// it is complete.
-
-		boolean configurationComplete = false;
-		while ( !configurationComplete )
-		{
+		while ( buffBotsAvailable != buffBotsConfigured )
 			KoLRequest.delay( 500 );
-			configurationComplete = true;
-			for ( int i = 0; i < botCount; ++i )
-				configurationComplete &= botfetches[i].completedFetch;
-		}
 
 		KoLmafia.updateDisplay( "Buff prices fetched." );
 		isInitialized = true;
@@ -196,14 +112,15 @@ public class BuffBotDatabase extends KoLDatabase
 
 	private static class DynamicBotFetcher implements Runnable
 	{
-		private String name, location;
-		private boolean completedFetch;
+		private String botName, location;
 
-		public DynamicBotFetcher( String name, String location )
+		public DynamicBotFetcher( String [] data )
 		{
-			this.name = name;
-			this.location = location;
-			this.completedFetch = false;
+			this.botName = data[0];
+			this.location = data[2];
+
+			++buffBotsAvailable;
+			KoLmafia.registerPlayer( data[0], data[1] );
 		}
 
 		public void run()
@@ -213,7 +130,7 @@ public class BuffBotDatabase extends KoLDatabase
 
 			if ( request.responseText == null )
 			{
-				completedFetch = true;
+				++buffBotsConfigured;
 				return;
 			}
 
@@ -226,10 +143,10 @@ public class BuffBotDatabase extends KoLDatabase
 			Pattern namePattern = Pattern.compile( "<name>(.*?)</name>", Pattern.DOTALL );
 			Pattern pricePattern = Pattern.compile( "<price>(.*?)</price>", Pattern.DOTALL );
 			Pattern turnPattern = Pattern.compile( "<turns>(.*?)</turns>", Pattern.DOTALL );
-			Pattern oncePattern = Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
+			Pattern freePattern = Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
 
-			BuffList buffs = new BuffList();
-			Matcher nameMatcher, priceMatcher, turnMatcher, onceMatcher;
+			SortedListModel freeBuffs = new SortedListModel();
+			Matcher nameMatcher, priceMatcher, turnMatcher, freeMatcher;
 
 			while ( nodeMatcher.find() )
 			{
@@ -238,321 +155,127 @@ public class BuffBotDatabase extends KoLDatabase
 				nameMatcher = namePattern.matcher( buffMatch );
 				priceMatcher = pricePattern.matcher( buffMatch );
 				turnMatcher = turnPattern.matcher( buffMatch );
-				onceMatcher = oncePattern.matcher( buffMatch );
+				freeMatcher = freePattern.matcher( buffMatch );
 
 				if ( nameMatcher.find() && priceMatcher.find() && turnMatcher.find() )
 				{
-					buffs.findAbbreviation( nameMatcher.group(1).trim() ).addOffering(
-						new Offering( name, StaticEntity.parseInt( priceMatcher.group(1).trim() ),
-						StaticEntity.parseInt( turnMatcher.group(1).trim() ),
-						onceMatcher.find() ? onceMatcher.group(1).trim().equals( "true" ) : false ) );
+					String name = nameMatcher.group(1).trim();
+					int price = StaticEntity.parseInt( priceMatcher.group(1).trim() );
+					int turns = StaticEntity.parseInt( turnMatcher.group(1).trim() );
+					boolean philanthropic = freeMatcher.find() ? freeMatcher.group(1).trim().equals( "true" ) : false;
+
+					SortedListModel tester = philanthropic && price < 100 ? freeBuffs : (SortedListModel) offerings.get( name );
+					if ( tester == null )
+					{
+						offerings.put( name, new SortedListModel() );
+						tester = (SortedListModel) offerings.get( name );
+					}
+
+					Offering priceMatch = null;
+					Offering currentTest = null;
+
+					for ( int i = 0; i < tester.size(); ++i )
+					{
+						currentTest = (Offering) tester.get(i);
+						if ( currentTest.price == price )
+							priceMatch = currentTest;
+					}
+
+					if ( priceMatch == null )
+						tester.add( new Offering( name, botName, price, turns, philanthropic ) );
+					else
+						priceMatch.addBuff( name, turns );
 				}
 			}
 
-			allBots.addBuffList( buffs );
-			completedFetch = true;
+			// If the bot offers some philanthropic buffs, then
+			// add them to the philanthropic bot list.
+
+			if ( !freeBuffs.isEmpty() )
+				freeOfferings.put( botName, freeBuffs );
+
+			// Now that the buffbot is configured, increment
+			// the counter to notify the thread that configuration
+			// has been completed for this bot.
+
+			++buffBotsConfigured;
 		}
 	}
 
-/*
-	private static void textConfigure( String name, String data )
+	public static class Offering implements Comparable
 	{
-		// Look for start tag
-		int start = data.indexOf( "CONDENSED PRICE LIST" );
-		if ( start < 0 )
-			return;
+		private String botName;
+		private int price;
+		private boolean free;
 
-		// Look for end tag
-		int end = data.indexOf( "</td></tr></table>", start );
-		if ( end < 0 )
-			return;
+		private String [] buffs;
+		private int [] turns;
 
-		// Focus on the data of interest
-		data = data.substring( start, end );
+		private long rate;
+		private String stringForm;
 
-		// Split it into lines
-		String lines[] = data.split( "<br>" );
-
-		// Make a BuffList to store what we parse
-		BuffList buffs = new BuffList();
-
-		// Parse data and add buffs to list
-
-		Buff current = null;
-		for (int i = 0; i < lines.length; ++i )
+		public Offering( String buffName, String botName, int price, int turns, boolean free )
 		{
-			String line = lines[i];
+			this.buffs = new String [] { buffName };
+			this.turns = new int [] { turns };
 
-			if ( line.length() == 0 )
-				continue;
-
-			// If the line doesn't start with a digit, assume this
-			// is a buff abbreviation
-			if ( !Character.isDigit( line.charAt( 0 ) ) )
-			{
-				// Look up abbreviated buff name
-				current = buffs.findAbbreviation( line.trim() );
-				continue;
-			}
-
-			// If the line does start with a digit, it's a buff
-			// price. Make sure we have a buff.
-			if ( current == null )
-				continue;
-
-			// Parse standard format: <turns>-<price>(*)?
-			int hyphen = line.indexOf( "-" );
-			if ( hyphen < 0 )
-				continue;
-
-			int star = line.indexOf( "*" );
-			String num1 = line.substring( 0, hyphen );
-			String num2 = ( star > 0 ) ? line.substring( hyphen + 1, star ) : line.substring( hyphen + 1 );
-
-			int turns = StaticEntity.parseInt( num1 );
-			int price = StaticEntity.parseInt( num2 );
-
-			current.addOffering( new Offering( name, price, turns, star > 0 ) );
-		}
-
-		// Add this bot's buffs to the global list
-		allBots.addBuffList( buffs );
-	}
-*/
-	private static class BuffList
-	{
-		private ArrayList buffs;
-
-		public BuffList()
-		{
-			this.buffs = new ArrayList();
-			for ( int i = 0; i < ABBREVIATIONS.length; ++i )
-				buffs.add( new Buff( i ) );
-		}
-
-		public Buff findBuff( String name )
-		{
-			int skill = ClassSkillsDatabase.getSkillID( name );
-			Buff [] buffArray = new Buff[ buffs.size() ];
-			buffs.toArray( buffArray );
-
-			for ( int i = 0; i < buffArray.length; ++i )
-				if ( skill == buffArray[i].getSkill() )
-					return buffArray[i];
-
-			return null;
-		}
-
-		public Buff findAbbreviation( String name )
-		{
-
-			Buff [] buffArray = new Buff[ buffs.size() ];
-			buffs.toArray( buffArray );
-
-			for ( int i = 0; i < buffArray.length; ++i )
-				if ( name.indexOf( buffArray[i].getAbbreviation() ) != -1 )
-					return buffArray[i];
-
-			return null;
-		}
-
-		public int buffCount()
-		{	return buffs.size();
-		}
-
-		private Buff getBuff( int index )
-		{	return (Buff) buffs.get( index );
-		}
-
-		public String getBuffName( int index )
-		{	return getBuff( index ).getName();
-		}
-
-		public String getBuffAbbreviation( int index )
-		{	return getBuff( index ).getAbbreviation();
-		}
-
-		public int getBuffOfferingCount( int index )
-		{	return getBuff( index ).getOfferingCount();
-		}
-
-		public Offering getBuffOffering( int index1, int index2 )
-		{	return getBuff( index1 ).getOffering( index2 );
-		}
-
-		public String getBuffBot( int index1, int index2 )
-		{	return getBuff( index1 ).getOfferingBot( index2 );
-		}
-
-		public int getBuffPrice( int index1, int index2 )
-		{	return getBuff( index1 ).getOfferingPrice( index2 );
-		}
-
-		public int getBuffTurns( int index1, int index2 )
-		{	return getBuff( index1 ).getOfferingTurns( index2 );
-		}
-
-		public long getBuffRate( int index1, int index2 )
-		{	return getBuff( index1 ).getOfferingRate( index2 );
-		}
-
-		public boolean getBuffFree( int index1, int index2 )
-		{	return getBuff( index1 ).getOfferingFree( index2 );
-		}
-
-		public String getBuffLabel( int index1, int index2 )
-		{	return getBuff( index1 ).getOfferingLabel( index2 );
-		}
-
-		public void addBuffList( BuffList bl )
-		{
-			// All BuffList objects have the same number of
-			// Buff structures in the sorted list.
-
-			int buffCount = buffCount();
-
-			for ( int i = 0; i < buffCount; ++i )
-			{
-				Buff buff = getBuff( i );
-				int offerings = bl.getBuffOfferingCount( i );
-
-				for ( int j = 0; j < offerings; ++j )
-					buff.addOffering( bl.getBuffOffering( i, j ) );
-			}
-		}
-
-		private void print()
-		{
-			int count = buffCount();
-			System.out.println( count + " available buffs." );
-			for ( int i = 0; i < count; ++i )
-			{
-				String name = getBuffName( i );
-				String abbreviation = getBuffAbbreviation( i );
-				System.out.println( name + " (" + abbreviation + ")" );
-
-				int offerings = getBuffOfferingCount( i );
-				for (int j = 0; j < offerings; ++j )
-					System.out.println( "  " + getBuffLabel( i, j ) );
-			}
-		}
-	}
-
-	private static class Buff
-	{
-		private int skill;
-		private String name;
-		private String abbreviation;
-		private ArrayList offerings;
-
-		public Buff( int index )
-		{
-			Object [] data = ABBREVIATIONS[index];
-			this.skill = ((Integer)data[0]).intValue();
-			this.name = ClassSkillsDatabase.getSkillName( skill );
-			this.abbreviation = (String)data[1];
-			this.offerings = new ArrayList();
-		}
-
-		public void addOffering( Offering off )
-		{
-			offerings.add( off );
-			Collections.sort( offerings );
-		}
-
-		public int getSkill()
-		{	return skill;
-		}
-
-		public String getName()
-		{	return name;
-		}
-
-		public String getAbbreviation()
-		{	return abbreviation;
-		}
-
-		public int getOfferingCount()
-		{	return offerings.size();
-		}
-
-		public Offering getOffering( int index )
-		{	return (Offering)offerings.get( index );
-		}
-
-		public String getOfferingBot( int index )
-		{	return getOffering( index).getBot();
-		}
-
-		public int getOfferingPrice( int index )
-		{	return getOffering( index).getPrice();
-		}
-
-		public int getOfferingTurns( int index )
-		{	return getOffering( index).getTurns();
-		}
-
-		public boolean getOfferingFree( int index )
-		{	return getOffering( index).getFree();
-		}
-
-		public long getOfferingRate( int index )
-		{	return getOffering( index ).getRate();
-		}
-
-		public String getOfferingLabel( int index )
-		{	return getOffering( index ).getLabel();
-		}
-
-		public boolean equals( Object o )
-		{
-			if ( !(o instanceof Buff) || o == null )
-				return false;
-
-			Buff buff = (Buff) o;
-			return abbreviation.equals( buff.abbreviation );
-		}
-	}
-
-	private static class Offering implements Comparable
-	{
-		String bot;
-		int price;
-		int turns;
-		boolean free;
-		long rate;
-
-		public Offering( String bot, int price, int turns, boolean free )
-		{
-			this.bot = bot;
+			this.botName = botName;
 			this.price = price;
-			this.turns = turns;
 			this.free = free;
+
 			this.rate = (100 * (long)price) / turns;
+			constructStringForm();
 		}
 
-		public String getBot()
-		{	return bot;
+		public String getBotName()
+		{	return botName;
 		}
 
-		public int getPrice()
-		{	return price;
+		public String toString()
+		{	return stringForm;
 		}
 
-		public int getTurns()
-		{	return turns;
+		private void addBuff( String buffName, int turns )
+		{
+			String [] tempNames = new String[ this.buffs.length + 1 ];
+			int [] tempTurns = new int[ this.turns.length + 1 ];
+
+			System.arraycopy( this.buffs, 0, tempNames, 0, this.buffs.length );
+			System.arraycopy( this.turns, 0, tempTurns, 0, this.buffs.length );
+
+			this.buffs = tempNames;
+			this.turns = tempTurns;
+
+			this.buffs[ this.buffs.length - 1 ] = buffName;
+			this.turns[ this.turns.length - 1 ] = turns;
+
+			constructStringForm();
 		}
 
-		public boolean getFree()
-		{	return free;
-		}
+		private void constructStringForm()
+		{
+			if ( free && price < 100 )
+			{
+				StringBuffer buffer = new StringBuffer();
 
-		public long getRate()
-		{	return rate;
-		}
+				buffer.append( turns[0] );
+				buffer.append( " turns of " );
+				buffer.append( buffs[0] );
 
-		public String getLabel()
-		{	return turns + " turns for " + price + " meat from " + bot + (free ? " (once a day)" : "");
+				for ( int i = 1; i < buffs.length; ++i )
+				{
+					buffer.append( ", " );
+					buffer.append( turns[i] );
+					buffer.append( " turns of " );
+					buffer.append( buffs[i] );
+				}
+
+				this.stringForm = buffer.toString();
+			}
+			else if ( !free )
+				this.stringForm = turns + " turns for " + price + " meat from " + botName;
+			else
+				this.stringForm = turns + " turns for " + price + " meat from " + botName + " (once per day)";
 		}
 
 		public boolean equals( Object o )
@@ -561,7 +284,13 @@ public class BuffBotDatabase extends KoLDatabase
 				return false;
 
 			Offering off = (Offering) o;
-			return bot.equals( off.bot ) && price == off.price && turns == off.turns && free == off.free;
+			return botName.equalsIgnoreCase( off.botName ) && price == off.price && turns == off.turns && free == off.free;
+		}
+
+		public GreenMessageRequest toRequest()
+		{
+			return new GreenMessageRequest( StaticEntity.getClient(), botName, VERSION_NAME,
+				new AdventureResult( AdventureResult.MEAT, price ), false );
 		}
 
 		public int compareTo( Object o )
@@ -571,16 +300,20 @@ public class BuffBotDatabase extends KoLDatabase
 
 			Offering off = (Offering) o;
 
+			// Philanthropic buffs compare price
+			if ( free )
+				return price - off.price;
+
 			// First compare turns
-			if ( turns != off.turns )
-				return off.turns - turns;
+			if ( turns[0] != off.turns[0] )
+				return off.turns[0] - turns[0];
 
 			// Then compare rates
 			if ( rate != off.rate )
 				return (int) (rate - off.rate);
 
 			// Then, compare the names of the bots
-			return bot.compareToIgnoreCase( off.bot );
+			return botName.compareToIgnoreCase( off.botName );
 		}
 	}
 }
