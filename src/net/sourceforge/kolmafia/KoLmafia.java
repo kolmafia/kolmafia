@@ -2389,7 +2389,7 @@ public abstract class KoLmafia implements KoLConstants
 			for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
 			{
 				BufferedReader reader = new BufferedReader( new InputStreamReader(
-					(InputStream) (new URL( "http://kolmafia.sourceforge.net/data/" + OVERRIDE_DATA[i] )).getContent() ) );
+					(InputStream) (new URL( "http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] )).getContent() ) );
 
 				File output = new File( "data/" + OVERRIDE_DATA[i] );
 				if ( output.exists() )
