@@ -37,34 +37,79 @@ package net.sourceforge.kolmafia;
 // layout
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.Dimension;
 
 // containers
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JPanel;
 import javax.swing.JList;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JComboBox;
+import javax.swing.JCheckBox;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 // utilities
-import net.java.dev.spellcast.utilities.LockableListModel;
+import java.util.ArrayList;
+import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
- * A Frame to provide access to supported buffbots
+ * A frame to provide access to supported buffbots
  */
 
 public class BuffRequestFrame extends KoLFrame
 {
-	private int buffIndex = -1;
 	private JList buffRequestList;
-	private JComboBox buffOptions;
-	private LockableListModel buffRequests = new LockableListModel();
+	private BuffOptionsComboBox buffOptions;
+	private SortedListModel buffRequests = new SortedListModel();
+
+	private JPanel philanthropyContainer = new JPanel();
+	private CardLayout philanthropyCards = new CardLayout( 10, 10 );
 
 	public BuffRequestFrame()
 	{
 		super( "Purchase Buffs" );
+
+		tabs = new JTabbedPane();
+
+		tabs.addTab( "Standard Buffs", new BuffRequestPanel() );
+		Object [] list = BuffBotDatabase.getPhilanthropicBotList();
+
+		JPanel philanthropyPanel = new JPanel( new BorderLayout() );
+		philanthropyPanel.add( new PhilanthropyComboBox( list ), BorderLayout.NORTH );
+		philanthropyContainer.setLayout( philanthropyCards );
+
+		philanthropyContainer.add( new PhilanthropyPanel( null ), "" );
+		for ( int i = 0; i < list.length; ++i )
+			philanthropyContainer.add( new PhilanthropyPanel( (String) list[i] ), (String) list[i] );
+
+		philanthropyCards.show( philanthropyContainer, "" );
+		philanthropyPanel.add( philanthropyContainer, BorderLayout.CENTER );
+		tabs.addTab( "Philanthropic Buffs", philanthropyPanel );
+
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( new BuffRequestPanel(), "" );
+		framePanel.add( tabs, "" );
+	}
+
+	private void isBotOnline( String botName )
+	{
+		KoLRequest request = new KoLRequest( StaticEntity.getClient(), "submitnewchat.php" );
+
+		request.addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
+		request.addFormField( "pwd" );
+		request.addFormField( "graf", "/whois " + botName );
+		request.run();
+
+		if ( request.responseText != null && request.responseText.indexOf( "online" ) != -1 )
+			JOptionPane.showMessageDialog( null, botName + " is online." );
+		else
+			JOptionPane.showMessageDialog( null, botName + " is probably not online." );
 	}
 
 	private class BuffRequestPanel extends LabeledScrollPanel
@@ -73,75 +118,114 @@ public class BuffRequestFrame extends KoLFrame
 		{
 			super( "", "request", "online?", new JList( buffRequests ) );
 
-			buffOptions = new BuffOptionsComboBox();
+			buffOptions = new BuffOptionsComboBox( BuffBotDatabase.getOfferingList() );
+
 			actualPanel.add( buffOptions, BorderLayout.NORTH );
 			buffRequestList = (JList) scrollComponent;
 		}
 
 		public void actionConfirmed()
 		{
-			String buff = BuffBotDatabase.getBuffName( buffIndex );
-			int selection = buffRequestList.getSelectedIndex();
-			String bot = BuffBotDatabase.getBuffBot( buffIndex, selection );
-			int price = BuffBotDatabase.getBuffPrice( buffIndex, selection );
-			int turns = BuffBotDatabase.getBuffTurns( buffIndex, selection );
+			Object [] values = buffRequestList.getSelectedValues();
+			Runnable [] runnables = new Runnable[ values.length ];
 
-			KoLmafia.updateDisplay( "Buying " + turns + " turns of " + buff + " from " + bot + "..." );
-			(new GreenMessageRequest( StaticEntity.getClient(), bot, VERSION_NAME,
-				new AdventureResult( AdventureResult.MEAT, price ), false )).run();
+			for ( int i = 0; i < values.length; ++i )
+				runnables[i] = ((BuffBotDatabase.Offering)values[i]).toRequest();
 
-			KoLmafia.updateDisplay( "Buff request complete." );
-			KoLmafia.enableDisplay();
+			(new RequestThread( runnables )).start();
 		}
 
 		public void actionCancelled()
 		{
-			int selection = buffRequestList.getSelectedIndex();
-			String bot = BuffBotDatabase.getBuffBot( buffIndex, selection );
-
-			KoLRequest request = new KoLRequest( StaticEntity.getClient(), "submitnewchat.php" );
-			request.addFormField( "playerid", String.valueOf( KoLCharacter.getUserID() ) );
-			request.addFormField( "pwd" );
-			request.addFormField( "graf", "/whois " + bot );
-			request.run();
-
-			if ( request.responseText != null && request.responseText.indexOf( "online" ) != -1 )
-				JOptionPane.showMessageDialog( null, "This bot is online." );
-			else
-				JOptionPane.showMessageDialog( null, "This bot is probably not online." );
+			BuffBotDatabase.Offering selected = (BuffBotDatabase.Offering) buffRequestList.getSelectedValue();
+			if ( selected != null )
+				isBotOnline( selected.getBotName() );
 		}
 	}
 
 	private class BuffOptionsComboBox extends JComboBox implements ActionListener
 	{
-		public BuffOptionsComboBox()
+		public BuffOptionsComboBox( Object [] data )
 		{
-			for ( int i = 0; i < BuffBotDatabase.ABBREVIATIONS.length; ++i )
-				addItem( UneffectRequest.skillToEffect( ClassSkillsDatabase.getSkillName( ((Integer)BuffBotDatabase.ABBREVIATIONS[i][0]).intValue() ) ) );
-
+			super( data );
+			setSelectedItem( null );
 			addActionListener( this );
-			setSelectedIndex( 0 );
 		}
 
 		public void actionPerformed( ActionEvent e )
 		{
-			String selectedItem = (String) getSelectedItem();
+			buffRequests.clear();
+			buffRequests.addAll( BuffBotDatabase.getOfferings( (String) getSelectedItem() ) );
+		}
+	}
 
-			int buffCount = BuffBotDatabase.buffCount();
-			buffIndex = -1;
+	private class PhilanthropyComboBox extends JComboBox implements ActionListener
+	{
+		public PhilanthropyComboBox( Object [] data )
+		{
+			super( data );
+			setSelectedItem( null );
+			addActionListener( this );
+		}
 
-			for ( int i = 0; i < buffCount; ++i )
-				if ( selectedItem.indexOf( BuffBotDatabase.getBuffAbbreviation( i ) ) != -1 )
-					buffIndex = i;
+		public void actionPerformed( ActionEvent e )
+		{	philanthropyCards.show( philanthropyContainer, (String) getSelectedItem() );
+		}
+	}
 
-			if ( buffIndex == -1 )
+	private class PhilanthropyPanel extends KoLPanel
+	{
+		private String botName;
+		private JCheckBox [] checkboxes;
+		private BuffBotDatabase.Offering [] offerings;
+
+		public PhilanthropyPanel( String botName )
+		{
+			super( "request", "online?" );
+
+			this.botName = botName;
+			SortedListModel list = BuffBotDatabase.getPhilanthropicOfferings( botName );
+
+			offerings = new BuffBotDatabase.Offering[ list.size() ];
+			list.toArray( offerings );
+
+			JPanel centerPanel = new JPanel();
+			centerPanel.setLayout( new BoxLayout( centerPanel, BoxLayout.Y_AXIS ) );
+
+			checkboxes = new JCheckBox[ offerings.length ];
+			for ( int i = 0; i < checkboxes.length; ++i )
+			{
+				checkboxes[i] = new JCheckBox( offerings[i].toString() );
+				centerPanel.add( checkboxes[i] );
+			}
+
+			setContent( new VerifiableElement[0] );
+
+			JScrollPane scroller = new JScrollPane( centerPanel,
+					JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+
+			JComponentUtilities.setComponentSize( scroller, 400, 400 );
+			container.add( scroller, BorderLayout.CENTER );
+		}
+
+		public void actionConfirmed()
+		{
+			ArrayList requests = new ArrayList();
+			for ( int i = 0; i < checkboxes.length; ++i )
+				if ( checkboxes[i].isSelected() )
+					requests.add( offerings[i].toRequest() );
+
+			if ( requests.isEmpty() )
 				return;
 
-			buffRequests.clear();
+			Runnable [] runnables = new Runnable[ requests.size() ];
+			requests.toArray( runnables );
 
-			int offeringCount = BuffBotDatabase.getBuffOfferingCount( buffIndex );
-			for ( int j = 0; j < offeringCount; ++j )
-				buffRequests.add( BuffBotDatabase.getBuffLabel( buffIndex, j ) );
+			(new RequestThread( runnables )).start();
+		}
+
+		public void actionCancelled()
+		{	isBotOnline( botName );
 		}
 	}
 }

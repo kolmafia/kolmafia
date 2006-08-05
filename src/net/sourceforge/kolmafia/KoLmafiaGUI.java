@@ -179,16 +179,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{
-			BuffBotDatabase.configureBuffBots();
-
-			int buffCount = BuffBotDatabase.buffCount();
-			int actualBuffCount = 0;
-
-			for ( int i = 0; i < buffCount; ++i )
-				if ( BuffBotDatabase.getBuffOfferingCount(i) > 0 )
-					++actualBuffCount;
-
-			if ( actualBuffCount == 0 )
+			if ( !BuffBotDatabase.hasOfferings() )
 			{
 				updateDisplay( "No buffs found to purchase." );
 				enableDisplay();
