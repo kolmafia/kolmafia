@@ -222,6 +222,11 @@ public class BuffRequestFrame extends KoLFrame
 					checkboxes[i] = new JCheckBox( offerings[i].toString() );
 					checkboxes[i].setVerticalTextPosition( JCheckBox.TOP );
 					checkboxes[i].addActionListener( priceUpdater );
+					int price = offerings[i].getPrice();
+					int [] turns = offerings[i].getTurns();
+					String tooltip = price + " meat (" + FLOAT_FORMAT.format( (double)turns[0] / (double)price ) + " turns/meat)";
+					checkboxes[i].setToolTipText( tooltip );
+
 					centerPanel.add( checkboxes[i] );
 				}
 
