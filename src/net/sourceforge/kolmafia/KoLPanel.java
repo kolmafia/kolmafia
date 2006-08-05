@@ -66,6 +66,8 @@ import net.java.dev.spellcast.utilities.ActionVerifyPanel;
 public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 {
 	private VerifiableElement [] elements;
+
+	protected JPanel southContainer;
 	protected JPanel actionStatusPanel;
 	protected StatusLabel actionStatusLabel;
 
@@ -173,7 +175,9 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 				statusContainer.add( actionStatusPanel );
 				statusContainer.add( Box.createVerticalStrut( 20 ) );
 
-				container.add( statusContainer, BorderLayout.SOUTH );
+				southContainer = new JPanel( new BorderLayout() );
+				southContainer.add( statusContainer, BorderLayout.NORTH );
+				container.add( southContainer, BorderLayout.SOUTH );
 			}
 		}
 	}
