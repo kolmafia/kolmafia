@@ -171,12 +171,10 @@ public class NPCStoreDatabase extends KoLDatabase
 			itemRequest.setCanPurchase( EquipmentDatabase.hasOutfit( 2 ) );
 
 		// Check for a lucky rabbit's foot when determining whether or not
-		// the person has access to the Citadel, and only allow hardcore
-		// players to purchase items from there; all other players can use
-		// the mall instead for these items.
+		// the person has access to the Citadel.
 
 		else if ( storeID.equals( "w" ) )
-			itemRequest.setCanPurchase( KoLCharacter.isHardcore() && KoLCharacter.hasItem( RABBIT_FOOT, false ) );
+			itemRequest.setCanPurchase( KoLCharacter.hasItem( RABBIT_FOOT, false ) );
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.

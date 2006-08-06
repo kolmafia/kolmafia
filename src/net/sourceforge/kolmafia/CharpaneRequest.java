@@ -34,12 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
-import java.util.ArrayList;
-
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.StringTokenizer;
 
 /**
  * An extension of <code>KoLRequest</code> which retrieves the character's
@@ -218,6 +214,7 @@ public class CharpaneRequest extends KoLRequest
 	private static void refreshEffects( String responseText )
 	{
 		KoLCharacter.getEffects().clear();
+		StaticEntity.getClient().recentEffects.clear();
 
 		int searchIndex = 0;
 		int lastSearchIndex = 0;
@@ -239,8 +236,11 @@ public class CharpaneRequest extends KoLRequest
 				if ( effectName != null )
 				{
 					nextSearchIndex = responseText.indexOf( ")", lastSearchIndex );
-					KoLCharacter.getEffects().add( new AdventureResult( effectName,
-						StaticEntity.parseInt( responseText.substring( lastSearchIndex, nextSearchIndex ) ), true ) );
+					String duration = responseText.substring( lastSearchIndex, nextSearchIndex );
+
+					if ( duration.indexOf( "&" ) == -1 && duration.indexOf( "<" ) == -1 )
+						AdventureResult.addResultToList( KoLCharacter.getEffects(), new AdventureResult( effectName, StaticEntity.parseInt( duration ), true ) );
+
 					lastSearchIndex = nextSearchIndex;
 				}
 			}
