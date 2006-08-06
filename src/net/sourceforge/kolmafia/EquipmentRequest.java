@@ -161,7 +161,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		// If unspecified slot, pick based on type of item
 		if ( this.equipmentSlot == -1 )
-			this.equipmentSlot = chooseEquipmentSlot();
+			this.equipmentSlot = chooseEquipmentSlot( equipmentType );
 
 		// Make sure you can equip it in the requested slot
 		String action = getAction( force );
@@ -260,11 +260,8 @@ public class EquipmentRequest extends PasswordHashRequest
 		return null;
 	}
 
-	private int chooseEquipmentSlot()
+	public static int chooseEquipmentSlot( int equipmentType )
 	{
-		if ( equipmentSlot != -1 )
-			return equipmentSlot;
-
 		switch ( equipmentType )
 		{
 		case ConsumeItemRequest.EQUIP_HAT:
