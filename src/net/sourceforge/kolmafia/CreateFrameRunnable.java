@@ -126,7 +126,25 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		if ( loadPreviousFrame() )
 		{
-			this.creation.setVisible( true );
+			String tabSetting = "," + StaticEntity.getProperty( "initialDesktop" ) + ",";
+			String searchString = ChatFrame.class.isAssignableFrom( creationType ) ? "KoLMessenger" :
+				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
+
+			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) &&
+				tabSetting.indexOf( "," + searchString + "," ) != -1 && !RequestFrame.class.isAssignableFrom( creationType );
+
+			if ( appearsInTab )
+			{
+				KoLDesktop.getInstance().setVisible( true );
+				KoLDesktop.getInstance().requestFocus();
+				KoLDesktop.addTab( (KoLFrame) this.creation );
+			}
+			else
+			{
+				this.creation.setVisible( true );
+				this.creation.requestFocus();
+			}
+
 			return;
 		}
 

@@ -2303,8 +2303,20 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( KoLCharacter.getEquipment( slot ).indexOf( match.getName().toLowerCase() ) != -1 )
-			return;
+		if ( slot != -1 )
+		{
+			if ( KoLCharacter.getEquipment( slot ).indexOf( match.getName().toLowerCase() ) != -1 )
+				return;
+		}
+		else
+		{
+			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
+			{
+				String name = KoLCharacter.getCurrentEquipmentName( i );
+				if ( name != null && name.toLowerCase().indexOf( parameters ) != -1 )
+					return;
+			}
+		}
 
 		if ( !KoLCharacter.hasItem( match, false ) )
 		{
@@ -2358,21 +2370,15 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// The following loop removes the first item with
-		// the specified name.
+		// The following loop removes all items with the
+		// specified name.
 
 		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 		{
 			String name = KoLCharacter.getCurrentEquipmentName( i );
 			if ( name != null && name.toLowerCase().indexOf( parameters ) != -1 )
-			{
 				StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, i ) );
-				return;
-			}
 		}
-
-		updateDisplay( ERROR_STATE, "No equipment found matching string \"" + parameters + "\"" );
-		return;
 	}
 
 	/**
