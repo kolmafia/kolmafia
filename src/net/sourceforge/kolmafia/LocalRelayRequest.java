@@ -79,7 +79,7 @@ public class LocalRelayRequest extends KoLRequest
 
 			fullResponse = fullResponse.replaceFirst(
 				"<option value=\"skills\\.php\">Skills</option>",
-				"<option value=\"skills\\.php\">Skills</option><option value=\"familiars.php\">Terrarium</option>" );
+				"<option value=\"skills\\.php\">Skills</option><option value=\"familiar.php\">Terrarium</option>" );
 
 			// Remove only the logout option
 			// since it might cause problems.
