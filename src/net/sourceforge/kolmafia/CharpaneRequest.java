@@ -115,6 +115,7 @@ public class CharpaneRequest extends KoLRequest
 			KoLCharacter.setMindControlLevel( 0 );
 		}
 
+		refreshEffects( responseText );
 		KoLCharacter.updateStatus();
 	}
 
@@ -214,10 +215,35 @@ public class CharpaneRequest extends KoLRequest
 			KoLCharacter.setMindControlLevel( 0 );
 	}
 
-	private class CharpaneThread extends Thread
+	private static void refreshEffects( String responseText )
 	{
-		public void run()
-		{	CharpaneRequest.this.run();
+		KoLCharacter.getEffects().clear();
+
+		int searchIndex = 0;
+		int lastSearchIndex = 0;
+
+		while ( searchIndex != -1 )
+		{
+			searchIndex = responseText.indexOf( "onClick='eff", lastSearchIndex + 1 );
+
+			if ( searchIndex != -1 )
+			{
+				int nextSearchIndex = responseText.indexOf( "(", searchIndex + 14 ) + 1;
+				lastSearchIndex = nextSearchIndex;
+
+				int effectID = StaticEntity.parseInt(
+					responseText.substring( searchIndex + 14, responseText.indexOf( "\"", searchIndex + 15 ) ) );
+
+				String effectName = StatusEffectDatabase.getEffectName( effectID );
+
+				if ( effectName != null )
+				{
+					nextSearchIndex = responseText.indexOf( ")", lastSearchIndex );
+					KoLCharacter.getEffects().add( new AdventureResult( effectName,
+						StaticEntity.parseInt( responseText.substring( lastSearchIndex, nextSearchIndex ) ), true ) );
+					lastSearchIndex = nextSearchIndex;
+				}
+			}
 		}
 	}
 }

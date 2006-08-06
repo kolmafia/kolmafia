@@ -698,7 +698,6 @@ public class ConsumeItemRequest extends KoLRequest
 
 	public String getCommandForm( int iterations )
 	{
-System.out.println( "Called: " + isResultPage );
 		if ( isResultPage )
 			return "";
 
