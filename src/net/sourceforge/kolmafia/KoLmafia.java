@@ -522,9 +522,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		updateDisplay( "Data refreshed." );
 
-		resetSession();
 		applyRecentEffects();
-
 		ConcoctionsDatabase.getConcoctions().clear();
 		KoLCharacter.recalculateAdjustments( false );
 		KoLCharacter.refreshCalculatedLists();
