@@ -493,8 +493,27 @@ public class MoonPhaseDatabase extends StaticEntity
 	{
 		int ronaldLight = getRonaldMoonlight( ronaldPhase, hamburglarPosition );
 		int grimaceLight = getGrimaceMoonlight( grimacePhase, hamburglarPosition );
-		int hamburglarLight = hamburglarPosition == 10 ? 2 : 0;
+		int hamburglarLight = getHamburglarLight( ronaldPhase, grimacePhase, hamburglarPosition );
 		return ronaldLight + grimaceLight + hamburglarLight;
+	}
+
+	public static int getHamburglarLight( int ronaldPhase, int grimacePhase, int hamburglarPosition )
+	{
+		switch ( hamburglarPosition )
+		{
+			case 2:
+				return grimacePhase > 3 ? 1 : 0;
+			case 4:
+				return grimacePhase > 0 && grimacePhase < 5 ? 1 : 0;
+			case 5:
+				return ronaldPhase > 3 ? 1 : 0;
+			case 7:
+				return ronaldPhase > 0 && ronaldPhase < 5 ? 1 : 0;
+			case 10:
+				return ronaldPhase > 3 || (grimacePhase > 0 && grimacePhase < 5) ? 1 : 0;
+			default:
+				return 0;
+		}
 	}
 
 	/**

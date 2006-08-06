@@ -301,9 +301,15 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		// like in the browser, Ronald then Grimace.
 
 		displayHTML.append( "<tr><td colspan=2 align=\"center\">" );
+		int hamburglarLight = MoonPhaseDatabase.getHamburglarLight( ronaldPhase, grimacePhase, hamburglarPosition );
 
 		if ( hamburglarPosition == 7 )
-			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon2.gif\">" );
+		{
+			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon" );
+			if ( hamburglarLight == 0 )
+				displayHTML.append( "2" );
+			displayHTML.append( ".gif\">" );
+		}
 
 		displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
 		displayHTML.append( ronaldPhase + 1 );
@@ -314,7 +320,12 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( ".gif\">" );
 
 		if ( hamburglarPosition == 4 || hamburglarPosition == 5 || hamburglarPosition == 10 )
-			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon.gif\">" );
+		{
+			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon" );
+			if ( hamburglarLight == 0 )
+				displayHTML.append( "2" );
+			displayHTML.append( ".gif\">" );
+		}
 
 		displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/smoon" );
 		displayHTML.append( grimacePhase + 1 );
@@ -325,7 +336,12 @@ public class CalendarFrame extends KoLFrame implements ListSelectionListener
 		displayHTML.append( ".gif\">" );
 
 		if ( hamburglarPosition == 2 )
-			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon2.gif\">" );
+		{
+			displayHTML.append( "<img src=\"http://images.kingdomofloathing.com/itemimages/minimoon" );
+			if ( hamburglarLight == 0 )
+				displayHTML.append( "2" );
+			displayHTML.append( ".gif\">" );
+		}
 
 		displayHTML.append( "</td></tr><tr><td colspan=2></td></tr>" );
 
