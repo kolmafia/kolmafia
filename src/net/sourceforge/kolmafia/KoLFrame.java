@@ -1404,7 +1404,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
 		{
-			Component c = super.getTableCellRendererComponent( table, value, isSelected, hasFocus, row, column );
+			Component c = super.getTableCellRendererComponent( table, value, false, hasFocus, row, column );
 			if ( !(value instanceof Integer) )
 				return c;
 
@@ -1417,7 +1417,14 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected class ButtonRenderer implements TableCellRenderer
 	{
 		public Component getTableCellRendererComponent( JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column )
-		{	return (JButton) value;
+		{
+			JPanel panel = new JPanel();
+			panel.setOpaque( false );
+
+			JComponentUtilities.setComponentSize( (JButton) value, 20, 20 );
+			panel.add( (JButton) value );
+
+			return panel;
 		}
 	}
 
