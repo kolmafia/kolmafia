@@ -165,7 +165,6 @@ public class StoreManageFrame extends KoLPanelFrame
 			getTableHeader().setReorderingAllowed( false );
 
 			setRowSelectionAllowed( false );
-			setAutoResizeMode( JTable.AUTO_RESIZE_NEXT_COLUMN );
 
 			addMouseListener( new ButtonEventListener( this ) );
 			setDefaultRenderer( Integer.class, new IntegerRenderer() );
@@ -174,25 +173,18 @@ public class StoreManageFrame extends KoLPanelFrame
 			setOpaque( false );
 			setShowGrid( false );
 
-			setRowHeight( 25 );
+			setRowHeight( 28 );
 
-			getColumnModel().getColumn(1).setMinWidth( 100 );
-			getColumnModel().getColumn(1).setMaxWidth( 100 );
-
-			getColumnModel().getColumn(2).setMinWidth( 100 );
-			getColumnModel().getColumn(2).setMaxWidth( 100 );
-
-			getColumnModel().getColumn(3).setMinWidth( 50 );
-			getColumnModel().getColumn(3).setMaxWidth( 50 );
+			getColumnModel().getColumn(0).setMinWidth( 200 );
 
 			getColumnModel().getColumn(4).setMinWidth( 35 );
 			getColumnModel().getColumn(4).setMaxWidth( 35 );
 
-			getColumnModel().getColumn(5).setMinWidth( 30 );
-			getColumnModel().getColumn(5).setMaxWidth( 30 );
+			getColumnModel().getColumn(5).setMinWidth( 40 );
+			getColumnModel().getColumn(5).setMaxWidth( 40 );
 
-			getColumnModel().getColumn(6).setMinWidth( 30 );
-			getColumnModel().getColumn(6).setMaxWidth( 30 );
+			getColumnModel().getColumn(6).setMinWidth( 40 );
+			getColumnModel().getColumn(6).setMaxWidth( 40 );
 		}
     }
 
@@ -270,6 +262,7 @@ public class StoreManageFrame extends KoLPanelFrame
 				int limit = ((Boolean) getValueAt( 0, 4 )).booleanValue() ? 1 : 0;
 				soldItem = new AdventureResult( soldItem.getItemID(), quantity );
 
+				setValueAt( new AdventureResult( "-select an item-", 1, false ), 0, 0 );
 				(new RequestThread( new AutoSellRequest( StaticEntity.getClient(), soldItem, price, limit ) )).start();
 			}
 		}

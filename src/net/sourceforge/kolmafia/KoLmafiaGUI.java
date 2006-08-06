@@ -218,6 +218,13 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "StoreManageFrame" ) )
 		{
+			if ( !KoLCharacter.hasStore() )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a store." );
+				KoLmafia.enableDisplay();
+				return;
+			}
+
 			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
 			{
 				(new StoreManageRequest( StaticEntity.getClient() )).run();

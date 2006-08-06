@@ -105,13 +105,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( creationType == StoreManageFrame.class && !KoLCharacter.hasStore() )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a store." );
-			KoLmafia.enableDisplay();
-			return;
-		}
-
 		// If there is no creation creation, then return
 		// from the method because there's nothing to do.
 
