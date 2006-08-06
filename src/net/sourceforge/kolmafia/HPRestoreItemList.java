@@ -153,9 +153,9 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return;
 
 			if ( ClassSkillsDatabase.contains( itemName ) )
-				(new UseSkillRequest( client, itemName, "", numberToUse )).run();
+				StaticEntity.getClient().makeRequest( new UseSkillRequest( client, itemName, "", numberToUse ) );
 			else
-				(new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) )).run();
+				StaticEntity.getClient().makeRequest( new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) ) );
 		}
 
 		public String toString()

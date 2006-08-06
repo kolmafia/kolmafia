@@ -1291,6 +1291,8 @@ public abstract class KoLmafia implements KoLConstants
 			if ( request instanceof KoLAdventure )
 			{
 				KoLAdventure adventure = (KoLAdventure) request;
+				macroStream.print( "adventure " + iterations + " " + adventure.getAdventureName() );
+
 				if ( adventure.getRequest() instanceof ClanGymRequest )
 				{
 					((ClanGymRequest)adventure.getRequest()).setTurnCount( iterations );
@@ -2226,7 +2228,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( purchaseCount == maxPurchases || maxPurchases == Integer.MAX_VALUE )
 			updateDisplay( "Purchases complete." );
 		else
-			updateDisplay( ERROR_STATE, "Desired purchase quantity not reached." );
+			updateDisplay( "Desired purchase quantity not reached." );
 	}
 
 	/**
