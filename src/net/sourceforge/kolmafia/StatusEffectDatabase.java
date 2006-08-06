@@ -53,7 +53,6 @@ public class StatusEffectDatabase extends KoLDatabase
 {
 	private static Map effectByID = new TreeMap();
 	private static Map effectByName = new TreeMap();
-	private static Map tinyHouseByName = new TreeMap();
 
 	static
 	{
@@ -71,16 +70,13 @@ public class StatusEffectDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 3 )
+			if ( data.length == 2 )
 			{
-				name = data[2];
+				name = data[1];
 				effectID = Integer.valueOf( data[0] );
 
 				effectByID.put( effectID, getDisplayName( name ) );
 				effectByName.put( getCanonicalName( name ), effectID );
-
-				if ( data[1].equals( "1" ) )
-					tinyHouseByName.put( getCanonicalName( name ), data[1] );
 			}
 		}
 
@@ -144,19 +140,6 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	public static final boolean contains( String effectName )
 	{	return effectByName.containsKey( getCanonicalName( effectName ) );
-	}
-
-	/**
-	 * Return whether or not the item with the given
-	 * name is automatically removed through the use
-	 * of a tiny house.
-	 *
-	 * @param	effectName	The name of the effect to lookup
-	 * @return	<code>true</code> if the effect is automatically removed by a tiny house
-	 */
-
-	public static final boolean isTinyHouseClearable( String effectName )
-	{	return tinyHouseByName.containsKey( getCanonicalName( effectName ) );
 	}
 
 	/**

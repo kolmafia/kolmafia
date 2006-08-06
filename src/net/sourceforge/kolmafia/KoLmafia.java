@@ -519,7 +519,7 @@ public abstract class KoLmafia implements KoLConstants
 		(new ItemStorageRequest( this )).run();
 		updateDisplay( "Data refreshed." );
 
-		applyRecentEffects();
+		applyEffects();
 		ConcoctionsDatabase.getConcoctions().clear();
 		KoLCharacter.recalculateAdjustments( false );
 		KoLCharacter.refreshCalculatedLists();
@@ -552,7 +552,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		tally.clear();
 
-		this.recentEffects.clear();
+		clearEffects();
 		this.missingItems.clear();
 
 		this.encounterList.clear();
@@ -797,13 +797,19 @@ public abstract class KoLmafia implements KoLConstants
 		return shouldRefresh;
 	}
 
+	public void clearEffects()
+	{
+		recentEffects.clear();
+		KoLCharacter.getEffects().clear();
+	}
+
 	/**
 	 * Adds the recent effects accumulated so far to the actual effects.
 	 * This should be called after the previous effects were decremented,
 	 * if adventuring took place.
 	 */
 
-	public void applyRecentEffects()
+	public void applyEffects()
 	{
 		if ( recentEffects.isEmpty() )
 			return;
@@ -1428,25 +1434,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		else if ( !(request instanceof UseSkillRequest || request instanceof LoginRequest || request instanceof LogoutRequest) )
 			updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
-	}
-
-	/**
-	 * Removes the effects which are removed through a tiny house.
-	 * This checks each status effect and checks the database to
-	 * see if a tiny house will remove it.
-	 */
-
-	public void applyTinyHouseEffect()
-	{
-		Object [] effects = KoLCharacter.getEffects().toArray();
-		AdventureResult currentEffect;
-
-		for ( int i = effects.length - 1; i >= 0; --i )
-		{
-			currentEffect = (AdventureResult) effects[i];
-			if ( StatusEffectDatabase.isTinyHouseClearable( currentEffect.getName() ) )
-				KoLCharacter.getEffects().remove(i);
-		}
 	}
 
 	/**

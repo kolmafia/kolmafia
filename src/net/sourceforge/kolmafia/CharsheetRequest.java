@@ -298,8 +298,7 @@ public class CharsheetRequest extends KoLRequest
 		// Determine whether or not the player has any
 		// active effects - if so, retrieve them.
 
-		StaticEntity.getClient().applyRecentEffects();
-		KoLCharacter.getEffects().clear();
+		StaticEntity.getClient().clearEffects();
 
 		if ( responseText.indexOf( "Effects:" ) != -1 )
 		{
@@ -323,7 +322,7 @@ public class CharsheetRequest extends KoLRequest
 				token = cleanContent.nextToken();
 			}
 
-			StaticEntity.getClient().applyRecentEffects();
+			StaticEntity.getClient().applyEffects();
 		}
 
 		while ( !token.startsWith( "Skill" ) )

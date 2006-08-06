@@ -66,17 +66,6 @@ public class FightRequest extends KoLRequest
 		"master of thieves"
 	};
 
-	private static final String [] HOLIDAY_MONSTERS =
-	{
-		// Monsters that scale with player level and can't be defeated
-		// with normal tactics
-
-		"candied yam golem",
-		"malevolent tofurkey",
-		"possessed can of cranberry sauce",
-		"stuffing golem"
-	};
-
 	/**
 	 * Constructs a new <code>FightRequest</code>.  The client provided will
 	 * be used to determine whether or not the fight should be started and/or
@@ -120,13 +109,6 @@ public class FightRequest extends KoLRequest
 			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
 				KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
 
-		if ( !action1.equals( "custom" ) )
-		{
-			for ( int i = 0; i < HOLIDAY_MONSTERS.length; ++i )
-				if ( encounterLookup.indexOf( HOLIDAY_MONSTERS[i] ) != -1 )
-					KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
-		}
-
 		if ( roundCount == 1 )
 		{
 			// If this is the first round, you
@@ -145,35 +127,6 @@ public class FightRequest extends KoLRequest
 
 		if ( action1.equals( "delevel" ) )
 			action1 = getMonsterWeakenAction();
-
-		// Disallow stasis-like strategies when the player is
-		// out of Ronin.
-
-		if ( KoLCharacter.canInteract() && action1 != null )
-		{
-			// The joy buzzer is the only known skill which causes zero
-			// damage against a monster.
-
-			if ( action1.equals( "7002" ) )
-				action1 = "attack";
-
-			// Items which cause little (or no) damage without being consumed
-			// (thereby ideal for stasis) include the dictionaries, seal teeth,
-			// scrolls of turtle summoning, and spices.
-
-			else if ( action1.startsWith( "item" ) )
-			{
-				if ( action1.equals( "item536" ) || action1.equals( "item1316" ) )
-				{
-					if ( !KoLCharacter.getNextAdventure().getAdventureID().equals( "80" ) )
-						action1 = "attack";
-				}
-				else if ( action1.equals( "item2" ) || action1.equals( "item4" ) || action1.equals( "item8" ) )
-				{
-					action1 = "attack";
-				}
-			}
-		}
 
 		if ( action1 == null || action1.equals( "abort" ) || !KoLmafia.permitsContinue() )
 		{

@@ -213,8 +213,7 @@ public class CharpaneRequest extends KoLRequest
 
 	private static void refreshEffects( String responseText )
 	{
-		KoLCharacter.getEffects().clear();
-		StaticEntity.getClient().recentEffects.clear();
+		StaticEntity.getClient().clearEffects();
 
 		int searchIndex = 0;
 		int lastSearchIndex = 0;
@@ -245,5 +244,7 @@ public class CharpaneRequest extends KoLRequest
 				}
 			}
 		}
+
+		StaticEntity.getClient().applyEffects();
 	}
 }
