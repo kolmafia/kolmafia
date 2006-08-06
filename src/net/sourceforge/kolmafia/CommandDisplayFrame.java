@@ -181,7 +181,7 @@ public class CommandDisplayFrame extends KoLFrame
 
 				commandQueue.add( command );
 				commandHistory.add( command );
-				++lastCommandIndex;
+				lastCommandIndex = commandHistory.size();
 
 				if ( commandQueue.size() > 1 )
 				{
