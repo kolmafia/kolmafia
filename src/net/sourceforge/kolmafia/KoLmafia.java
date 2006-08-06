@@ -357,6 +357,8 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		this.refreshSession();
+		this.resetSession();
+
 		if ( refusesContinue() )
 		{
 			deinitialize();
@@ -366,7 +368,7 @@ public abstract class KoLmafia implements KoLConstants
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.
 
-		if ( KoLRequest.passwordHash != null &&  KoLRequest.passwordHash.equals( "" ) )
+		if ( KoLRequest.passwordHash != null && KoLRequest.passwordHash.equals( "" ) )
 			return;
 
 		registerPlayer( username, String.valueOf( KoLCharacter.getUserID() ) );
