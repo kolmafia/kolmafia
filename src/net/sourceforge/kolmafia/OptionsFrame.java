@@ -535,7 +535,8 @@ public class OptionsFrame extends KoLFrame
 			cloverProtectSelect.addItem( "Leave ten-leaf clovers alone" );
 
 			castleWheelSelect = new JComboBox();
-			castleWheelSelect.addItem( "Turn to map quest position" );
+			castleWheelSelect.addItem( "Turn to map quest position (via moxie)" );
+			castleWheelSelect.addItem( "Turn to map quest position (via mysticality)" );
 			castleWheelSelect.addItem( "Turn to muscle position" );
 			castleWheelSelect.addItem( "Turn to mysticality position" );
 			castleWheelSelect.addItem( "Turn to moxie position" );
@@ -610,48 +611,57 @@ public class OptionsFrame extends KoLFrame
 			switch ( castleWheelSelect.getSelectedIndex() )
 			{
 				case 0: // Map quest position (choice adventure 11)
+                                        // Muscle goes through moxie
 					setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
 					setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
 					setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
 					setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
 					break;
 
-				case 1: // Muscle position (choice adventure 9)
+				case 1: // Map quest position (choice adventure 11)
+                                        // Muscle goes through mysticality
+					setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
+					setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
+					setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
+					setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
+					break;
+
+				case 2: // Muscle position (choice adventure 9)
 					setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
 					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
 					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
 					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
 					break;
 
-				case 2: // Mysticality position (choice adventure 10)
+				case 3: // Mysticality position (choice adventure 10)
 					setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
 					setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
 					setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
 					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
 					break;
 
-				case 3: // Moxie position (choice adventure 12)
+				case 4: // Moxie position (choice adventure 12)
 					setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
 					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
 					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
 					setProperty( "choiceAdventure12", "3" );  // Leave the moxie position alone
 					break;
 
-				case 4: // Turn the wheel clockwise
+				case 5: // Turn the wheel clockwise
 					setProperty( "choiceAdventure9", "1" );	  // Turn the muscle position clockwise
 					setProperty( "choiceAdventure10", "1" );  // Turn the mysticality position clockwise
 					setProperty( "choiceAdventure11", "1" );  // Turn the map quest position clockwise
 					setProperty( "choiceAdventure12", "1" );  // Turn the moxie position clockwise
 					break;
 
-				case 5: // Turn the wheel counterclockwise
+				case 6: // Turn the wheel counterclockwise
 					setProperty( "choiceAdventure9", "2" );	  // Turn the muscle position counterclockwise
 					setProperty( "choiceAdventure10", "2" );  // Turn the mysticality position counterclockwise
 					setProperty( "choiceAdventure11", "2" );  // Turn the map quest position counterclockwise
 					setProperty( "choiceAdventure12", "2" );  // Turn the moxie position counterclockwise
 					break;
 
-				case 6: // Ignore this adventure
+				case 7: // Ignore this adventure
 					setProperty( "choiceAdventure9", "3" );	  // Leave the muscle position alone
 					setProperty( "choiceAdventure10", "3" );  // Leave the mysticality position alone
 					setProperty( "choiceAdventure11", "3" );  // Leave the map quest position alone
@@ -723,17 +733,17 @@ public class OptionsFrame extends KoLFrame
 			if ( counts[1] == 4 )
 			{
 				// All choices say turn clockwise
-				index = 4;
+				index = 5;
 			}
 			else if ( counts[2] == 4 )
 			{
 				// All choices say turn counterclockwise
-				index = 5;
+				index = 6;
 			}
 			else if ( counts[3] == 4 )
 			{
 				// All choices say leave alone
-				index = 6;
+				index = 7;
 			}
 			else if ( counts[3] != 1 )
 			{
@@ -743,22 +753,24 @@ public class OptionsFrame extends KoLFrame
 			else if ( option3 == 9)
 			{
 				// Muscle says leave alone
-				index = 1;
+				index = 2;
 			}
 			else if ( option3 == 10)
 			{
 				// Mysticality says leave alone
-				index = 2;
+				index = 3;
 			}
 			else if ( option3 == 11)
 			{
-				// Map Quest says leave alone
-				index = 0;
+				// Map Quest says leave alone. If we turn
+				// clockwise twice, we are going through
+				// mysticality. Otherwise, through moxie.
+				index = ( counts[1] == 2 ) ? 1 : 0;
 			}
 			else if ( option3 == 12 )
 			{
 				// Moxie says leave alone
-				index = 3;
+				index = 4;
 			}
 
 			castleWheelSelect.setSelectedIndex( index );
