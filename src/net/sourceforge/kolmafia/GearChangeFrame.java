@@ -167,7 +167,7 @@ public class GearChangeFrame extends KoLFrame
 				if ( weapon != null )
 				{
 					weapon = KoLCharacter.getEquipmentName( weapon );
-					if ( EquipmentDatabase.getHands( weapon ) > 1 ||
+					if ( EquipmentDatabase.getHands( weapon ) == 1 &&
 					     EquipmentDatabase.isRanged( weapon) != EquipmentDatabase.isRanged( offhand ) )
 					{
 						requestList.add( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );

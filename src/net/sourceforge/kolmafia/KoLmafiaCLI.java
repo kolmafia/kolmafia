@@ -2303,19 +2303,32 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		if ( slot != -1 )
+		// If he didn't specify slot name, decide where this item goes.
+		if ( slot == -1 )
 		{
-			if ( KoLCharacter.getEquipment( slot ).indexOf( match.getName().toLowerCase() ) != -1 )
-				return;
-		}
-		else
-		{
+			// If it's already equipped anywhere, give up
 			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 			{
 				String name = KoLCharacter.getCurrentEquipmentName( i );
 				if ( name != null && name.toLowerCase().indexOf( parameters ) != -1 )
 					return;
 			}
+
+			// It's not equipped. Choose a slot for it
+			slot = EquipmentRequest.chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( match.getItemID() ) );
+
+			// If it can't be equipped, give up
+			if ( slot == -1 )
+			{
+				updateDisplay( ERROR_STATE, "You can't equip a	" + match.getName() );
+				return;
+			}
+		}
+		else
+		{
+			// See if desired item is already in selected slot
+			if ( KoLCharacter.getEquipment( slot ).indexOf( match.getName().toLowerCase() ) != -1 )
+				return;
 		}
 
 		if ( !KoLCharacter.hasItem( match, false ) )
@@ -2324,18 +2337,40 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// If you are equipping a two-handed weapon, and you
-		// originally were dual-wielding, unequip the offhand
-		// weapon first.
+		// If you are currently dual-wielding and the new weapon type
+		// (melee or ranged) doesn't match the offhand weapon, unequip
+		// the off-hand weapon
 
-		if ( KoLCharacter.dualWielding() && (slot == KoLCharacter.WEAPON || slot == KoLCharacter.OFFHAND) )
-		{
-			boolean desiredType = EquipmentDatabase.isRanged( match.getItemID() );
-			boolean currentType = EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) );
+		if ( KoLCharacter.dualWielding() && ( slot == KoLCharacter.WEAPON || slot == KoLCharacter.OFFHAND ) )
+                {
+                        int itemID = match.getItemID();
+                        int desiredHands = EquipmentDatabase.getHands( itemID );
+			boolean desiredType = EquipmentDatabase.isRanged( itemID );
+			boolean currentType = EquipmentDatabase.isRanged( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) );
 
-			if ( EquipmentDatabase.getHands( match.getItemID() ) == 2 || desiredType != currentType )
-				executeLine( "unequip off-hand" );
-		}
+                        // If we are equipping a new weapon, a two-handed
+                        // weapon will unequip any pair of weapons. But a
+                        // one-handed weapon much match the type of the
+                        // off-hand weapon. If it doesn't, unequip the off-hand
+                        // weapon first
+                        if ( slot == KoLCharacter.WEAPON )
+                        {
+                                if ( desiredHands < 2 && desiredType != currentType )
+                                        executeLine( "unequip off-hand" );
+                        }
+
+                        // If we are equipping an off-hand weapon, fail the
+                        // request if its type does not agree with the type of
+                        // the main weapon.
+                        else if ( slot == KoLCharacter.OFFHAND )
+                        {
+                                if ( desiredHands == 1 && desiredType != currentType )
+                                {
+                                        updateDisplay( ERROR_STATE, "You can't wield a " + ( desiredType ? "ranged" : "melee" ) + " weapon in your off-hand with a " + ( currentType ? "ranged" : "melee" ) + " weapon in your main hand." );
+                                        return;
+                                }
+                        }
+                }
 
 		StaticEntity.getClient().makeRequest(
 			new EquipmentRequest( StaticEntity.getClient(), match.getName(), slot ) );
