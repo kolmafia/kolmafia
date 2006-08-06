@@ -338,7 +338,7 @@ public class ItemStorageRequest extends SendMessageRequest
 				break;
 
 			case ItemStorageRequest.STORAGE_TO_INVENTORY:
-				commandString.append( "hagnk " );
+				commandString.append( "pull " );
 				break;
 		}
 
@@ -368,4 +368,38 @@ public class ItemStorageRequest extends SendMessageRequest
 		return commandString.toString();
 	}
 
+	public static boolean processRequest( KoLmafia client, String urlString )
+	{
+		if ( urlString.indexOf( "storage.php" ) == -1 || urlString.indexOf( "action=takeall" ) != -1 || urlString.indexOf( "action=takemeat" ) != -1 )
+			return false;
+
+		ArrayList itemList = new ArrayList();
+		StringBuffer itemListBuffer = new StringBuffer();
+
+		Matcher itemMatcher = Pattern.compile( "whichitem\\d*=(\\d*)" ).matcher( urlString );
+		Matcher quantityMatcher = Pattern.compile( "howmany\\d*=(\\d*)" ).matcher( urlString );
+
+		while ( itemMatcher.find() && quantityMatcher.find() )
+		{
+			int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
+			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+			AdventureResult item = new AdventureResult( itemID, quantity );
+
+			if ( quantity == 0 )
+				quantity = item.getCount( KoLCharacter.getStorage() );
+
+			if ( itemListBuffer.length() > 0 )
+				itemListBuffer.append( ", " );
+
+			itemListBuffer.append( quantity );
+			itemListBuffer.append( " " );
+			itemListBuffer.append( TradeableItemDatabase.getItemName( itemID ) );
+		}
+
+		KoLmafia.getSessionStream().println( "pull " + itemListBuffer.toString() );
+		for ( int i = 0; i < itemList.size(); ++i )
+			client.processResult( (AdventureResult) itemList.get(i) );
+
+		return true;
+	}
 }

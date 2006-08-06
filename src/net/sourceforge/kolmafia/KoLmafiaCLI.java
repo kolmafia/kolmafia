@@ -1147,7 +1147,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// This one is the one that allows you to pull
 		// things from storage.
 
-		if ( command.equals( "hagnk" ) )
+		if ( command.equals( "hagnk" ) || command.equals( "pull" ) )
 		{
 			executeHagnkRequest( parameters );
 			return;
