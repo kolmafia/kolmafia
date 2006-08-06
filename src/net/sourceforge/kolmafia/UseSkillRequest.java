@@ -500,7 +500,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 			// removes any beaten up.
 
 			client.processResult( new AdventureResult( AdventureResult.MP, 0 - (ClassSkillsDatabase.getMPConsumptionByID( skillID ) * buffCount) ) );
-			client.applyRecentEffects();
+			client.applyEffects();
 
 			if ( skillID == OTTER_TONGUE || skillID == WALRUS_TONGUE )
 			{

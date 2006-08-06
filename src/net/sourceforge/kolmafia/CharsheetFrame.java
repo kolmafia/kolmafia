@@ -267,7 +267,7 @@ public class CharsheetFrame extends KoLFrame
 	{
 		public void run()
 		{
-			StaticEntity.getClient().applyRecentEffects();
+			StaticEntity.getClient().applyEffects();
 			levelLabel.setText( "Level " + KoLCharacter.getLevel() + " " + KoLCharacter.getClassName() );
 
 			hpMeter.setMaximum( KoLCharacter.getMaximumHP() );

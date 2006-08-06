@@ -582,7 +582,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		// clear your list of effects.
 
 		if ( getURLString().endsWith( "lair6.php?place=5" ) )
+		{
 			KoLCharacter.getEffects().clear();
+			needsRefresh = true;
+		}
 		if ( getURLString().endsWith( "lair6.php?place=6" ) )
 			KoLCharacter.setInteraction( KoLCharacter.getTotalTurnsUsed() >= 600 );
 
@@ -1260,7 +1263,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			KoLCharacter.recalculateAdjustments( false );
 		}
 
-		client.applyRecentEffects();
+		client.applyEffects();
 		KoLCharacter.updateStatus();
 	}
 
