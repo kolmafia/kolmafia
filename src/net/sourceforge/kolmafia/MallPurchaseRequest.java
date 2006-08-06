@@ -287,7 +287,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		if ( limit < 1 || !canPurchase )
+		if ( limit < 1 || !canPurchase || shopID == KoLCharacter.getUserID() )
 			return;
 
 		addFormField( isNPCStore ? "howmany" : "quantity", String.valueOf( limit ) );
