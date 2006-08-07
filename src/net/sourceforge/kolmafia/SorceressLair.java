@@ -954,8 +954,8 @@ public abstract class SorceressLair extends StaticEntity
 				return responseText;
 			}
 
-			// Decrement adventure tally
-			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			if ( !request.needsRefresh )
+				CharpaneRequest.getInstance().run();
 		}
 
 		return responseText;
@@ -985,7 +985,8 @@ public abstract class SorceressLair extends StaticEntity
 			}
 
 			// Decrement adventure tally
-			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			if ( !request.needsRefresh )
+				CharpaneRequest.getInstance().run();
 		}
 
 		return responseText;
@@ -1042,6 +1043,8 @@ public abstract class SorceressLair extends StaticEntity
 		for ( int towerLevel = currentLevel; towerLevel <= 6; ++towerLevel )
 		{
 			requiredItemID = fightGuardian( towerLevel );
+			CharpaneRequest.getInstance().run();
+
 			if ( requiredItemID != -1 )
 				return requiredItemID;
 		}
@@ -1071,9 +1074,6 @@ public abstract class SorceressLair extends StaticEntity
 			KoLmafia.updateDisplay( ERROR_STATE, "You're out of adventures." );
 			return -1;
 		}
-
-		// Decrement adventure tally
-		client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
 
 		// Parse response to see which item we need.
 		AdventureResult guardianItem = getGuardianItem( request.responseText );

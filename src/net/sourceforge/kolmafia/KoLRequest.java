@@ -1228,13 +1228,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			client.processResult( SewerRequest.CLOVER );
 
 		int previousHP = KoLCharacter.getCurrentHP();
-		needsRefresh |= client.processResults( responseText );
 
-		if ( getAdventuresUsed() > 0 )
-		{
-			needsRefresh |= client.processResult( new AdventureResult( AdventureResult.ADV, 0 - getAdventuresUsed() ) );
-			needsRefresh |= KoLCharacter.hasRecoveringEquipment();
-		}
+		needsRefresh |= client.processResults( responseText );
+		needsRefresh |= getAdventuresUsed() > 0;
 
 		// If the character's health drops below zero, make sure
 		// that beaten up is added to the effects.
@@ -1375,20 +1371,23 @@ public class KoLRequest implements Runnable, KoLConstants
 		request.addFormField( "option", decision );
 		request.run();
 
-		// Manually process any adventure usage for choice adventures,
-		// since they necessarily consume an adventure.
-
-		if ( AdventureDatabase.consumesAdventure( option, decision ) )
-		{
-			client.processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
-			KoLCharacter.updateStatus();
-		}
-
 		// Certain choices cost meat when selected
 
 		int meat = AdventureDatabase.consumesMeat( option, decision );
 		if ( meat > 0 )
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - meat ) );
+
+		// Manually process any adventure usage for choice adventures,
+		// since they necessarily consume an adventure.
+
+		if ( AdventureDatabase.consumesAdventure( option, decision ) )
+		{
+			if ( !request.needsRefresh )
+			{
+				CharpaneRequest.getInstance().run();
+				KoLCharacter.updateStatus();
+			}
+		}
 
 		// Choice adventures can lead to other choice adventures
 		// without a redirect. Detect this and recurse, as needed.

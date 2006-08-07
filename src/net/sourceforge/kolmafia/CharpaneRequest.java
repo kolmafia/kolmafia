@@ -33,7 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
-
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -213,10 +213,10 @@ public class CharpaneRequest extends KoLRequest
 
 	private static void refreshEffects( String responseText )
 	{
-		StaticEntity.getClient().clearEffects();
-
 		int searchIndex = 0;
 		int lastSearchIndex = 0;
+
+		ArrayList visibleEffects = new ArrayList();
 
 		while ( searchIndex != -1 )
 		{
@@ -238,7 +238,17 @@ public class CharpaneRequest extends KoLRequest
 					String duration = responseText.substring( lastSearchIndex, nextSearchIndex );
 
 					if ( duration.indexOf( "&" ) == -1 && duration.indexOf( "<" ) == -1 )
-						AdventureResult.addResultToList( KoLCharacter.getEffects(), new AdventureResult( effectName, StaticEntity.parseInt( duration ), true ) );
+					{
+						int durationValue = StaticEntity.parseInt( duration );
+						AdventureResult effect = new AdventureResult( effectName, durationValue, true );
+						if ( effect.getCount( KoLCharacter.getEffects() ) != durationValue )
+						{
+							KoLCharacter.getEffects().remove( effect );
+							StaticEntity.getClient().processResult( effect );
+						}
+
+						visibleEffects.add( effect );
+					}
 
 					lastSearchIndex = nextSearchIndex;
 				}
@@ -246,5 +256,6 @@ public class CharpaneRequest extends KoLRequest
 		}
 
 		StaticEntity.getClient().applyEffects();
+		KoLCharacter.getEffects().retainAll( visibleEffects );
 	}
 }

@@ -353,6 +353,7 @@ public abstract class KoLmafia implements KoLConstants
 		{
 			(new AccountRequest( this )).run();
 			(new CharsheetRequest( this )).run();
+			CharpaneRequest.getInstance().run();
 			return;
 		}
 
@@ -517,9 +518,12 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 
 		(new ItemStorageRequest( this )).run();
+		if ( refusesContinue() )
+			return;
+
+		CharpaneRequest.getInstance().run();
 		updateDisplay( "Data refreshed." );
 
-		applyEffects();
 		ConcoctionsDatabase.getConcoctions().clear();
 		KoLCharacter.recalculateAdjustments( false );
 		KoLCharacter.refreshCalculatedLists();
@@ -1660,8 +1664,8 @@ public abstract class KoLmafia implements KoLConstants
 			success |= request.responseText != null &&
 				request.responseText.indexOf( "You've already beaten all of the challenges for your Guild." ) != -1;
 
-			if ( !success )
-				processResult( new AdventureResult( AdventureResult.ADV, -1 ) );
+			if ( !success && !request.needsRefresh )
+				CharpaneRequest.getInstance().run();
 		}
 
 		request = new KoLRequest( this, "guild.php?place=paco", true );

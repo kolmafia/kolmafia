@@ -295,36 +295,6 @@ public class CharsheetRequest extends KoLRequest
 		KoLCharacter.setEquipment( equipment, null );
 		KoLCharacter.setFakeHands( fakeHands );
 
-		// Determine whether or not the player has any
-		// active effects - if so, retrieve them.
-
-		StaticEntity.getClient().clearEffects();
-
-		if ( responseText.indexOf( "Effects:" ) != -1 )
-		{
-			while ( !token.startsWith( "Eff" ) )
-				token = cleanContent.nextToken();
-
-			// Ensure that the effects are refreshed
-			// against the current list.
-
-			token = cleanContent.nextToken();
-			while ( !token.startsWith( "Skill" ) )
-			{
-				// Skip the shrug-off link, which
-				// is encased in square brackets
-
-				if ( token.startsWith( "[" ) )
-					skipTokens( cleanContent, 2 );
-				else
-					StaticEntity.getClient().parseEffect( token );
-
-				token = cleanContent.nextToken();
-			}
-
-			StaticEntity.getClient().applyEffects();
-		}
-
 		while ( !token.startsWith( "Skill" ) )
 			token = cleanContent.nextToken();
 
