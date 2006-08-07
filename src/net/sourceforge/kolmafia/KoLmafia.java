@@ -552,9 +552,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		tally.clear();
 
-		clearEffects();
 		this.missingItems.clear();
-
 		this.encounterList.clear();
 		this.adventureList.clear();
 

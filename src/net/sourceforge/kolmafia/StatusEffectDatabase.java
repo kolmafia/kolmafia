@@ -35,11 +35,14 @@
 package net.sourceforge.kolmafia;
 
 import java.io.BufferedReader;
+
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.Set;
 import java.util.List;
 import java.util.Collection;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * A static class which retrieves all the tradeable items available in
@@ -53,16 +56,11 @@ public class StatusEffectDatabase extends KoLDatabase
 {
 	private static Map effectByID = new TreeMap();
 	private static Map effectByName = new TreeMap();
+	private static Map modifierMap = new TreeMap();
 
 	static
 	{
-		// This begins by opening up the data file and preparing
-		// a buffered reader; once this is done, every line is
-		// examined and double-referenced: once in the name-lookup,
-		// and again in the ID lookup.
-
 		BufferedReader reader = getReader( "statuseffects.dat" );
-
 		String [] data;
 
 		String name;
@@ -79,6 +77,23 @@ public class StatusEffectDatabase extends KoLDatabase
 				effectByName.put( getCanonicalName( name ), effectID );
 			}
 		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+
+		reader = getReader( "modifiers.dat" );
+		while ( (data = readData( reader )) != null )
+			if ( data.length == 2 )
+				modifierMap.put( data[0].toLowerCase(), data[1] );
 
 		try
 		{
@@ -150,5 +165,39 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	public static final List getMatchingNames( String substring )
 	{	return getMatchingNames( effectByName, substring );
+	}
+
+	public static final int FAMILIAR_WEIGHT_MODIFIER = 0;
+	public static final int MONSTER_LEVEL_MODIFIER = 1;
+	public static final int COMBAT_RATE_MODIFIER = 2;
+	public static final int INITIATIVE_MODIFIER = 3;
+	public static final int EXPERIENCE_MODIFIER = 4;
+	public static final int ITEMDROP_MODIFIER = 5;
+	public static final int MEATDROP_MODIFIER = 6;
+
+	private static final Pattern [] MODIFIER_PATTERNS = new Pattern [] {
+		Pattern.compile( "Weight: ([+-]\\d+)" ), Pattern.compile( "ML: ([+-]\\d+)" ), Pattern.compile( "Combat: ([+-][\\d.]+)" ), Pattern.compile( "Init: ([+-][\\d.]+)" ),
+		Pattern.compile( "Exp: ([+-][\\d.]+)" ), Pattern.compile( "Item: ([+-][\\d.]+)" ), Pattern.compile( "Meat: ([+-][\\d.]+)" )
+	};
+
+	private static final double [] NO_MODIFIERS = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+
+	public static final double [] getModifiers( String name )
+	{
+		if ( name == null )
+			return NO_MODIFIERS;
+
+		String modifier = (String) modifierMap.get( name.toLowerCase() );
+		if ( modifier == null )
+			return NO_MODIFIERS;
+
+		double [] modifiers = new double[ MODIFIER_PATTERNS.length ];
+		for ( int i = 0; i < modifiers.length; ++i )
+		{
+			Matcher effectMatcher = MODIFIER_PATTERNS[ i ].matcher( modifier );
+			modifiers[i] = effectMatcher.find() ? Double.parseDouble( effectMatcher.group(1) ) : 0.0;
+		}
+
+		return modifiers;
 	}
 }
