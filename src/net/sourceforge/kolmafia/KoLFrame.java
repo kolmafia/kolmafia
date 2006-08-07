@@ -407,7 +407,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 			JPanel refreshPanel = new JPanel();
 			refreshPanel.setOpaque( false );
-			refreshPanel.add( new InvocationButton( "Refresh Status", "refresh.gif", StaticEntity.getClient(), "refreshSession" ) );
+			refreshPanel.add( new RequestButton( "Refresh Status", "refresh.gif", CharpaneRequest.getInstance() ) );
 
 			compactPane = new JPanel( new BorderLayout() );
 			compactPane.add( compactCard, BorderLayout.NORTH );
