@@ -2568,32 +2568,6 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Returns whether or not the character is wearing an item where
-	 * auto-recovery occurs between adventures.
-	 */
-
-	public static boolean hasRecoveringEquipment()
-	{
-		// Plexiglass Pith Helmet
-		if ( getEquipment( HAT ).startsWith( "plexiglass" ) || getEquipment( HAT ).startsWith( "jewel-eyed wizard hat" ) )
-			return true;
-
-		for ( int i = ACCESSORY1; i <= ACCESSORY3; ++i )
-		{
-			String accessory = getEquipment( i );
-			if ( accessory.equals( "ring of half-assed regeneration" ) )
-			     return true;
-			if ( accessory.compareToIgnoreCase( "tiny plastic crimbo wreath" ) == 0 )
-			     return true;
-		}
-
-		if ( EquipmentDatabase.isWearingOutfit( 23 ) || EquipmentDatabase.isWearingOutfit( 24 ) )
-			return true;
-
-		return false;
-	}
-
-	/**
 	 * Returns the character's zapping wand, if any
 	 */
 
