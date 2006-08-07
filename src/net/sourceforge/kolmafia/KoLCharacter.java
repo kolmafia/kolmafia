@@ -2681,6 +2681,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
 	private static final AdventureResult GREEN_CUPCAKE = new AdventureResult( "Cupcake of Wrath", 0 );
+	private static final AdventureResult EMANATIONS = new AdventureResult( "Contemptible Emanations", 0 );
+	private static final AdventureResult ENMITY = new AdventureResult( "Eau D'enmity", 0 );
+	private static final AdventureResult HANDSOME = new AdventureResult( "Mysteriously Handsome", 0 );
 
 	// Items that modify ML:
 
@@ -3274,6 +3277,15 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( OBJECT_DETECTION.getCount( activeEffects ) > 0 )
 			newItemDropPercentAdjustment += 12.5;
+
+		if ( EMANATIONS.getCount( activeEffects ) > 0 )
+			newMonsterLevelAdjustment += 20;
+
+		if ( ENMITY.getCount( activeEffects ) > 0 )
+			newMonsterLevelAdjustment += 5;
+
+		if ( HANDSOME.getCount( activeEffects ) > 0 )
+			newMonsterLevelAdjustment += 3;
 
 		// Now that we have calculated the familiar weight adjustment,
 		// look at familiar.
