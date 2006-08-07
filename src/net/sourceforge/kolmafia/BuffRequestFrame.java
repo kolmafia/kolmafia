@@ -128,6 +128,8 @@ public class BuffRequestFrame extends KoLFrame
 
 			setContent( elements );
 			names.setSelectedIndex( RNG.nextInt( list.length ) );
+			sets.setSelectedIndex( 1 );
+
 			southContainer.add( requestContainer, BorderLayout.CENTER );
 		}
 
