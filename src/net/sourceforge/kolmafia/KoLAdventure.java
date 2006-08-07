@@ -191,9 +191,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			int astral = ASTRAL.getCount( ( KoLCharacter.getEffects() ) );
 			if ( astral == 0 )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Eat an astral mushroom to take a trip." );
-				isValidAdventure = false;
-				return;
+				DEFAULT_SHELL.executeLine( "use 1 astral mushroom" );
+				if ( !KoLmafia.permitsContinue() )
+				{
+					isValidAdventure = false;
+					return;
+				}
 			}
 
 			// If we haven't selected a trip yet, do so now
