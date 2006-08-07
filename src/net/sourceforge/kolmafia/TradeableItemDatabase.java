@@ -227,6 +227,11 @@ public class TradeableItemDatabase extends KoLDatabase
 		if ( itemID != null )
 			return ((Integer)itemID).intValue();
 
+		// Work around a specific KoL bug: the "less-than-three-shaped
+		// box" is sometimes listed as a "less-than-three- shaped box"
+		if ( canonicalName.equals( "less-than-three- shaped box" ) )
+			return 1168;
+
 		// If it's a snowcone, then reverse the word order
 		if ( canonicalName.startsWith( "snowcones" ) )
 			return getItemID( canonicalName.split( " " )[1] + " snowcone", count );
