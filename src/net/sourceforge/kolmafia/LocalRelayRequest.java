@@ -104,12 +104,12 @@ public class LocalRelayRequest extends KoLRequest
 			{
 				gotoMenu.append( "<option value=\"nothing\">- Bookmarks -</option>" );
 
-				for ( int i = 0; i < bookmarkData.length; i += 2 )
+				for ( int i = 0; i < bookmarkData.length; i += 3 )
 				{
 					gotoMenu.append( "<option value=\"" );
+					gotoMenu.append( bookmarkData[i+1] );
+					gotoMenu.append( "\">" );
 					gotoMenu.append( bookmarkData[i] );
-					gotoMenu.append( "\"></option>" );
-					gotoMenu.append( bookmarkData[++i] );
 					gotoMenu.append( "</option>" );
 				}
 			}
