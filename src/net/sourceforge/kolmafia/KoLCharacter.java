@@ -2636,8 +2636,7 @@ public abstract class KoLCharacter extends StaticEntity
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
 		{
 			case ConsumeItemRequest.EQUIP_WEAPON:
-				return getEquipment( WEAPON ).startsWith( name ) ||
-					getEquipment( OFFHAND ).startsWith( name );
+				return getEquipment( WEAPON ).startsWith( name ) || getEquipment( OFFHAND ).startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_OFFHAND:
 				return getEquipment( OFFHAND ).startsWith( name );
@@ -2652,9 +2651,7 @@ public abstract class KoLCharacter extends StaticEntity
 				return getEquipment( PANTS ).startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_ACCESSORY:
-				return getEquipment( ACCESSORY1 ).startsWith( name ) ||
-					getEquipment( ACCESSORY2 ).startsWith( name ) ||
-					getEquipment( ACCESSORY3 ).startsWith( name );
+				return getEquipment( ACCESSORY1 ).startsWith( name ) || getEquipment( ACCESSORY2 ).startsWith( name ) || getEquipment( ACCESSORY3 ).startsWith( name );
 		}
 
 		return false;
@@ -2678,108 +2675,9 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	// Effects that modify ML:
-
 	private static final AdventureResult ARIA = new AdventureResult( "Ur-Kel's Aria of Annoyance", 0 );
-	private static final AdventureResult GREEN_CUPCAKE = new AdventureResult( "Cupcake of Wrath", 0 );
-	private static final AdventureResult EMANATIONS = new AdventureResult( "Contemptible Emanations", 0 );
-	private static final AdventureResult ENMITY = new AdventureResult( "Eau D'enmity", 0 );
-	private static final AdventureResult HANDSOME = new AdventureResult( "Mysteriously Handsome", 0 );
-
-	// Items that modify ML:
-
-	private static final int ICE_SICKLE = 1424;
-	private static final int HIPPO_WHIP = 1029;
-	private static final int GIANT_NEEDLE = 619;
-	private static final int GOTH_KID = 703;
-	private static final int HOCKEY_STICK = 1236;
-	private static final int SCARF = 1227;
-	private static final int AGGRAVATE_MONSTER = 835;
-	private static final int PITCHFORK = 1116;
-	private static final int STYROFOAM_SWORD = 1684;
-	private static final int STYROFOAM_STAFF = 1685;
-	private static final int STYROFOAM_CROSSBOW = 1686;
-	private static final int FROST_BRAND_SWORD = 1712;
-	private static final int SQUEAKY_STAFF = 1713;
-	private static final int CAN_CANNON = 1714;
-
-        // Effects that modify Familiar Weight
-	private static final AdventureResult GREEN_TONGUE = new AdventureResult( "Green Tongue", 0 );
-	private static final AdventureResult EMPATHY = new AdventureResult( "Empathy", 0 );
-	private static final AdventureResult LEASH = new AdventureResult( "Leash of Linguini", 0 );
-	private static final AdventureResult HEAVY_PETTING = new AdventureResult( "Heavy Petting", 0 );
-
-        // Skills that modify Familiar Weight
-	private static final String SYMPATHY = "Amphibian Sympathy";
-
-        // Items that modify Familiar Weight
-	private static final int PLEXIGLASS_PITH_HELMET = 1231;
-	private static final int firstTinyPlastic = 969;
-	private static final int lastTinyPlastic = 988;
-	private static final int firstTinyPlasticCrimbo = 1377;
-	private static final int lastTinyPlasticCrimbo = 1378;
-
-	// Familiars with special handling for weight
-
-	private static final int DODECAPEDE = 38;
-
-	// Effects that modify Combat Frequency
-	private static final AdventureResult CANTATA = new AdventureResult( "Carlweather's Cantata of Confrontation", 0 );
-	private static final AdventureResult SONATA = new AdventureResult( "The Sonata of Sneakiness", 0 );
-	private static final AdventureResult MUSK = new AdventureResult( "Musk of the Moose", 0 );
-	private static final AdventureResult SMOOTH = new AdventureResult( "Smooth Movements", 0 );
-	private static final AdventureResult STENCH = new AdventureResult( "Hippy Stench", 0 );
-	private static final AdventureResult SCENT = new AdventureResult( "Fresh Scent", 0 );
-
-	// Items that modify Combat Frequency
-	private static final int CONFLICT = 1298;
-	private static final int BAIT = 1300;
-
-	// Effects that modify Initiative
-  	private static final AdventureResult FUSILLI = new AdventureResult( "Springy Fusilli", 0 );
-	private static final AdventureResult CANTICLE = new AdventureResult( "Cletus's Canticle of Celerity", 0 );
-	private static final AdventureResult TICKING_CLOCK = new AdventureResult( "Ticking Clock", 0 );
-	private static final AdventureResult RELAXATION = new AdventureResult( "Extreme Muscle Relaxation", 0 );
-
-	// Skills that modify Initiative
-	private static final String SELF_PRESERVATION = "Overdeveloped Sense of Self Preservation";
-
-	// Items that modify Initiative
-	private static final int BONERDAGON_NECKLACE = 1248;
-	private static final int CRIMBO_PANTS = 650;
-	private static final int CHOPSTICKS = 1490;
-	private static final int PENGUIN_SHORTS = 396;
-	private static final int PENGUIN_KILT = 1281;
-	private static final int PENGUIN_SKIRT = 1280;
-	private static final int STAR_PANTS = 660;
-	private static final int COLD_NINJA_MASK = 348;
-	private static final int ICE_SKATES = 1427;
-	private static final int LEOTARRD = 415;
-	private static final int PIXEL_SWORD = 690;
-	private static final int SK8BOARD = 410;
-	private static final int CLOCKWORK_PANTS = 1099;
-	private static final int CROWBARRR = 414;
-	private static final int GNATWING_EARRING = 505;
-	private static final int INFERNAL_INSOLES = 477;
-	private static final int PLASTIC_FORK = 1151;
-	private static final int SHOVEL = 671;
-
-	// Effects that modify earned XP:
-
-	private static final AdventureResult ANTIPHON = new AdventureResult( "Aloysius' Antiphon of Aptitude", 0 );
-	private static final AdventureResult BLACK_TONGUE = new AdventureResult( "Black Tongue", 0 );
-	private static final AdventureResult ORANGE_TONGUE = new AdventureResult( "Orange Tongue", 0 );
-	private static final AdventureResult VEINY = new AdventureResult( "Big Veiny Brain", 0 );
-	private static final AdventureResult PEELED = new AdventureResult( "Peeled Eyeballs", 0 );
-	private static final AdventureResult WASABI = new AdventureResult( "Wasabi Sinuses", 0 );
-	private static final AdventureResult ORANGE_CUPCAKE = new AdventureResult( "Shiny Happy Cupcake", 0 );
-
-	// Items that modify earned XP:
-
-	private static final int ICE_BABY = 1425;
-	private static final int WAX_LIPS = 1260;
 
 	// Familiars that modify earned XP:
-
 	private static final int VOLLEYBALL = 12;
 	private static final int CHESHIRE = 23;
 	private static final int JILL = 24;
@@ -2788,59 +2686,15 @@ public abstract class KoLCharacter extends StaticEntity
 	private static final int HARE = 50;
 	private static final int HOBO = 52;
 
-	// Effects that modify Meat Drops
-	private static final AdventureResult RED_TONGUE = new AdventureResult( "Red Tongue", 0 );
-	private static final AdventureResult TACTICS = new AdventureResult( "Egg-stortionary Tactics", 0 );
-	private static final AdventureResult POLKA = new AdventureResult( "Polka of Plenty", 0 );
-	private static final AdventureResult PINK_CUPCAKE = new AdventureResult( "Your Cupcake Senses Are Tingling", 0 );
-
-	// Skills that modify Meat Drops
-	private static final String NIMBLE_FINGERS = "Nimble Fingers";
-	private static final String PANHANDLING = "Expert Panhandling";
-	private static final String PICKPOCKETING = "Gnefarious Pickpocketing";
-
 	// Items that modify Meat Drops
-	private static final int TAM1 = 1040;
-	private static final int TAM2 = 1539;
-	private static final int MEAT_GEM = 876;
-	private static final int STAINLESS_SLACKS = 1228;
-	private static final int MONEY_CLIP = 1313;
-	private static final int PORQUOISE_NECKLACE = 720;
-	private static final int TOY_TRAIN = 1399;
-	private static final int TP_HERMIT = 990;
-	private static final int PENGUIN_WHIP = 1030;
-	private static final int BOX_IN_BOX_IN_BOX = 447;
-	private static final int BOX_IN_BOX = 445;
-	private static final int BOX = 427;
 	public static final int RABBIT_FOOT = 1485;
 
 	// Familiars that modify Meat Drops
 	private static final int LEPRECHAUN = 2;
 	private static final int TURKEY = 25;
 
-	// Effects that modify Item Drops
-	private static final AdventureResult PERCEPTION = new AdventureResult( "Eggs-tra Sensory Perception", 0 );
-	private static final AdventureResult BLUE_TONGUE = new AdventureResult( "Blue Tongue", 0 );
-	private static final AdventureResult PHAT_LOOT = new AdventureResult( "Fat Leon's Phat Loot Lyric", 0 );
-	private static final AdventureResult OBJECT_DETECTION = new AdventureResult( "Object Detection", 0 );
-	private static final AdventureResult BLUE_CUPCAKE = new AdventureResult( "Cupcake of Choice", 0 );
-
-	// Skills that modify Item Drops
-	private static final String MAD_LOOTING_SKILLZ = "Mad Looting Skillz";
-	private static final String OBSERVATIOGN = "Powers of Observatiogn";
-
 	// Items that modify Item Drops
 	private static final int JEKYLLIN = 1291;
-	private static final int HYPNODISK = 878;
-	private static final int MAYPOLE = 1152;
-	private static final int MRAJR = 896;
-	private static final int PLEXIGLASS_PANTS = 1234;
-	private static final int RICE_BOWL = 1491;
-	private static final int ICE_PICK = 1426;
-	private static final int MONOCLE = 1312;
-	private static final int DUCK = 1396;
-	private static final int MINERS_HELMET = 360;
-	private static final int GNAUGA_WHIP = 1032;
 
 	// KoLmafia does not support the "containers" slot.
 
@@ -2861,7 +2715,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	// Items and skills that make Mysticality the To-Hit stat
 	private static final int SAUCE_GLOVE = 531;
-	private static final String SPIRIT_OF_RIGATONI = "Spirit of Rigatoni";
 
 	// Items that modify Mana cost of skills
 	private static final int BACONSTONE_BRACELET = 717;
@@ -2876,6 +2729,7 @@ public abstract class KoLCharacter extends StaticEntity
 		int newDodecapedeWeightAdjustment = 0;
 		int newFamiliarItemWeightAdjustment = 0;
 		int newManaCostModifier = 0;
+
 		double newCombatPercentAdjustment = 0.0;
 		double newInitiativeAdjustment = 0.0;
 		double newFixedXPAdjustment = 0.0;
@@ -2898,455 +2752,187 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( item == null )
 				continue;
 
-			int itemID = item.getItemID();
+			double [] modifiers = StatusEffectDatabase.getModifiers( item.getName() );
+
+			newMonsterLevelAdjustment += modifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ];
+			newFamiliarWeightAdjustment += modifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
+			newDodecapedeWeightAdjustment += modifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
+			newCombatPercentAdjustment += modifiers[ StatusEffectDatabase.COMBAT_RATE_MODIFIER ];
+			newInitiativeAdjustment += modifiers[ StatusEffectDatabase.INITIATIVE_MODIFIER ];
+			newFixedXPAdjustment += modifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ];
+			newMeatDropPercentAdjustment += modifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ];
+			newItemDropPercentAdjustment += modifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ];
 
 			if ( slot == FAMILIAR )
-			{
-				newFamiliarItemWeightAdjustment = FamiliarData.itemWeightModifier( itemID );
-				if ( newFamiliarItemWeightAdjustment != 0 )
-					continue;
+				newFamiliarItemWeightAdjustment = FamiliarData.itemWeightModifier( item.getItemID() );
 
-				// Other familiar items have special effects
-				// which we handle below
-			}
-
-			if ( ( itemID >= firstTinyPlastic && itemID <= lastTinyPlastic ) ||
-			     ( itemID >= firstTinyPlasticCrimbo && itemID <= lastTinyPlasticCrimbo ) )
+			switch ( item.getItemID() )
 			{
-				newFamiliarWeightAdjustment += 1;
-				newDodecapedeWeightAdjustment += 1;
-				continue;
-			}
+				case JEKYLLIN:
+					newItemDropPercentAdjustment += 15 + MoonPhaseDatabase.getMoonlight() * 5;
+					break;
 
-			switch ( itemID )
-			{
-			case HOCKEY_STICK:
-				newMonsterLevelAdjustment += 30;
-				break;
-			case SCARF:
-				newMonsterLevelAdjustment += 20;
-				break;
-			case ICE_SICKLE:
-				newMonsterLevelAdjustment += 15;
-				break;
-			case HIPPO_WHIP:
-				newMonsterLevelAdjustment += 10;
-				break;
-			case GIANT_NEEDLE:
-			case GOTH_KID:
-			case AGGRAVATE_MONSTER:
-			case PITCHFORK:
-				newMonsterLevelAdjustment += 5;
-				break;
-			case FROST_BRAND_SWORD:
-			case STYROFOAM_SWORD:
-			case STYROFOAM_CROSSBOW:
-			case CAN_CANNON:
-				newMonsterLevelAdjustment += 3;
-				break;
-			case STYROFOAM_STAFF:
-				hasStaff = true;
-				newMonsterLevelAdjustment += 3;
-				break;
-			case SQUEAKY_STAFF:
-				hasStaff = true;
-				newMonsterLevelAdjustment += 6;
-				break;
-			case PLEXIGLASS_PITH_HELMET:
-				newFamiliarWeightAdjustment += 5;
-				newDodecapedeWeightAdjustment += 5;
-				break;
-			case BAIT:
-				newCombatPercentAdjustment += 5;
-				break;
-			case CONFLICT:
-				newCombatPercentAdjustment -= 5;
-				break;
-			case BONERDAGON_NECKLACE:
-			case CRIMBO_PANTS:
-				newInitiativeAdjustment += 30;
-				break;
-			case CHOPSTICKS:
-			case PENGUIN_SHORTS:
-			case PENGUIN_KILT:
-			case PENGUIN_SKIRT:
-			case STAR_PANTS:
-				newInitiativeAdjustment += 20;
-				break;
-			case COLD_NINJA_MASK:
-			case LEOTARRD:
-			case PIXEL_SWORD:
-			case SK8BOARD:
-				newInitiativeAdjustment += 15;
-				break;
-			case CROWBARRR:
-				hasStaff = true;
-				newInitiativeAdjustment += 10;
-				break;
-			case CLOCKWORK_PANTS:
-			case GNATWING_EARRING:
-			case INFERNAL_INSOLES:
-				newInitiativeAdjustment += 10;
-				break;
-			case PLASTIC_FORK:
-				hasStaff = true;
-				newInitiativeAdjustment -= 10;
-				break;
-			case SHOVEL:
-				newInitiativeAdjustment -= 10;
-				break;
-			case WAX_LIPS:
-				newFixedXPAdjustment += 2.5;
-				break;
-			case ICE_BABY:
-				newFixedXPAdjustment += 1.0;
-				break;
-			case TAM1:
-			case TAM2:
-				newMeatDropPercentAdjustment += 50;
-				break;
-			case MEAT_GEM:
-				newMeatDropPercentAdjustment += 25;
-				break;
-			case STAINLESS_SLACKS:
-				newInitiativeAdjustment += 15;
-				newMeatDropPercentAdjustment += 20;
-				break;
-			case ICE_SKATES:
-				newInitiativeAdjustment += 15;
-				newMeatDropPercentAdjustment += 15;
-				break;
-			case MONEY_CLIP:
-				newMeatDropPercentAdjustment += 15;
-				break;
-			case PORQUOISE_NECKLACE:
-			case TOY_TRAIN:
-				newMeatDropPercentAdjustment += 10;
-				break;
-			case TP_HERMIT:
-				newMeatDropPercentAdjustment += 6;
-				break;
-			case PENGUIN_WHIP:
-			case BOX_IN_BOX_IN_BOX:
-				newMeatDropPercentAdjustment += 3;
-				break;
-			case BOX_IN_BOX:
-				newMeatDropPercentAdjustment += 2;
-				break;
-			case BOX:
-				newMeatDropPercentAdjustment += 1;
-				break;
-			case RABBIT_FOOT:
-				newMeatDropPercentAdjustment += 7;
-				newItemDropPercentAdjustment += 7;
-				break;
-			case JEKYLLIN:
-				// newItemDropPercentAdjustment depends on moon phase
-				newItemDropPercentAdjustment += 15 + MoonPhaseDatabase.getMoonlight() * 5;
-				break;
-			case HYPNODISK:
-			case MAYPOLE:
-			case MRAJR:
-				newItemDropPercentAdjustment += 25;
-				break;
-			case PLEXIGLASS_PANTS:
-				newItemDropPercentAdjustment += 20;
-				newInitiativeAdjustment += 25;
-				break;
-			case RICE_BOWL:
-				// newItemDropPercentAdjustment += 20;
-				// Food items only
-				break;
-			case ICE_PICK:
-				newItemDropPercentAdjustment += 15;
-				break;
-			case MONOCLE:
-				newItemDropPercentAdjustment += 10;
-				break;
-			case DUCK:
-			case MINERS_HELMET:
-				newItemDropPercentAdjustment += 5;
-				break;
-			case GNAUGA_WHIP:
-				newItemDropPercentAdjustment += 3;
-				break;
-			case SAUCE_GLOVE:
-				if ( classtype.startsWith( "Sa" ) )
-					rigatoniSkill = true;
-				break;
-			case 77:	// spooky stick
-			case 103:	// spooky staff
-			case 108:	// big stick
-			case 110:	// basic meat staff
-			case 114:	// dripping meat staff
-			case 148:	// eXtreme meat staff
-			case 228:	// Kentucky-fried meat staff
-			case 379:	// linoleum staff
-			case 382:	// asbestos staff
-			case 385:	// chrome staff
-			case 659:	// star staff
-			case 943:	// bow staff
-			case 1246:	// rib of the Bonerdagon
-			case 1467:	// 25-meat staff
-			case 1680:	// cardboard staff
-			case 1682:	// bubblewrap staff
-			case 1707:	// flypaper staff
-			case 1716:	// starchy staff
-			case 1719:	// poutine pole
-			case 1722:	// glistening staff
-				hasStaff = true;
-				break;
-			case BACONSTONE_BRACELET:
-			case WIZARD_HAT:
-				newManaCostModifier -= 1;
-				break;
-			case STAINLESS_SOLITAIRE:
-				newManaCostModifier -= 2;
-				break;
-			case PLEXIGLASS_POCKETWATCH:
-				newManaCostModifier -= 3;
-				break;
+				case SAUCE_GLOVE:
+					if ( classtype.startsWith( "Sa" ) )
+						rigatoniSkill = true;
+					break;
+
+				case 77:	// spooky stick
+				case 103:	// spooky staff
+				case 108:	// big stick
+				case 110:	// basic meat staff
+				case 114:	// dripping meat staff
+				case 148:	// eXtreme meat staff
+				case 228:	// Kentucky-fried meat staff
+				case 379:	// linoleum staff
+				case 382:	// asbestos staff
+				case 385:	// chrome staff
+				case 414:   // crowbarrr
+				case 659:	// star staff
+				case 943:	// bow staff
+				case 1246:	// rib of the Bonerdagon
+				case 1467:	// 25-meat staff
+				case 1680:	// cardboard staff
+				case 1682:	// bubblewrap staff
+				case 1685:  // styrofoam staff
+				case 1707:	// flypaper staff
+				case 1713:  // squeaky staff
+				case 1716:	// starchy staff
+				case 1719:	// poutine pole
+				case 1722:	// glistening staff
+					hasStaff = true;
+					break;
+
+				case BACONSTONE_BRACELET:
+				case WIZARD_HAT:
+					newManaCostModifier -= 1;
+					break;
+
+				case STAINLESS_SOLITAIRE:
+					newManaCostModifier -= 2;
+					break;
+
+				case PLEXIGLASS_POCKETWATCH:
+					newManaCostModifier -= 3;
+					break;
 			}
 		}
 
-		// Look at skills
+		// Because there are a limited number of passive skills,
+		// it is much more efficient to execute one check for
+		// each of the known skills.
 
-		// Assume the character knows 50 skills and we have 10 that
-		// we're checking.
-		//
-		// If we iterate over the 50 skills, we make 10 string
-		// comparisons per skill, for a total of 500 comparisons
-		//
-		// If we look up the 10 skills one after the other, depending
-		// on how the skills are stored and whether the character knows
-		// it, it will take anywhere from 1 to 50 string comparisons
-		//
-		// Therefore, we'll simply call "hasSkill" on each skill of
-		// interest.
-
-		if ( hasSkill( SYMPATHY ) )
-                {
+		if ( hasSkill( "Amphibian Sympathy" ) )
+		{
 			newFamiliarWeightAdjustment += 5;
-			newDodecapedeWeightAdjustment -= 5;
-                }
+			newDodecapedeWeightAdjustment += 5;
+		}
 
-		if ( hasSkill( SELF_PRESERVATION ) )
-			newInitiativeAdjustment += 20;
-
-		if ( hasSkill( NIMBLE_FINGERS ) )
-			newMeatDropPercentAdjustment += 20;
-
-		if ( hasSkill( PANHANDLING ) )
+		if ( hasSkill( "Expert Panhandling" ) )
 			newMeatDropPercentAdjustment += 10;
 
-		if ( hasSkill( PICKPOCKETING ) )
+		if ( hasSkill( "Gnefarious Pickpocketing" ) )
 			newMeatDropPercentAdjustment += 10;
 
-		if ( hasSkill( MAD_LOOTING_SKILLZ ) )
+		if ( hasSkill( "Mad Looting Skillz" ) )
 			newItemDropPercentAdjustment += 20;
 
-		if ( hasSkill( OBSERVATIOGN ) )
+		if ( hasSkill( "Nimble Fingers" ) )
+			newMeatDropPercentAdjustment += 20;
+
+		if ( hasSkill( "Overdeveloped Sense of Self Preservation" ) )
+			newInitiativeAdjustment += 20;
+
+		if ( hasSkill( "Powers of Observatiogn" ) )
 			newItemDropPercentAdjustment += 10;
 
-		if ( hasSkill( SPIRIT_OF_RIGATONI ) )
+		if ( hasSkill( "Spirit of Rigatoni" ) )
 			rigatoniSkill = true;
 
-		// Look at status effects
+		// For the sake of easier maintenance, execute a lot of extra
+		// extra string comparisons when looking at status effects.
 
-		// A similar argument holds for why we should simply look up
-		// effects rather iterate over the list.
+		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
+		KoLCharacter.getEffects().toArray( effects );
+
+		for ( int i = 0; i < effects.length; ++i )
+		{
+			double [] modifiers = StatusEffectDatabase.getModifiers( effects[i].getName() );
+
+			newMonsterLevelAdjustment += modifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ];
+			newFamiliarWeightAdjustment += modifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
+			newDodecapedeWeightAdjustment += modifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
+			newCombatPercentAdjustment += modifiers[ StatusEffectDatabase.COMBAT_RATE_MODIFIER ];
+			newInitiativeAdjustment += modifiers[ StatusEffectDatabase.INITIATIVE_MODIFIER ];
+			newFixedXPAdjustment += modifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ];
+			newMeatDropPercentAdjustment += modifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ];
+			newItemDropPercentAdjustment += modifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ];
+		}
 
 		if ( ARIA.getCount( activeEffects ) > 0 )
 			newMonsterLevelAdjustment += 2 * getLevel();
 
-		if ( ANTIPHON.getCount( activeEffects ) > 0 )
-			newFixedXPAdjustment += 3;
-
-		if ( PHAT_LOOT.getCount( activeEffects ) > 0 )
-			newItemDropPercentAdjustment += 20;
-
-		if ( POLKA.getCount( activeEffects ) > 0 )
-			newMeatDropPercentAdjustment += 50;
-
-		if ( CANTATA.getCount( activeEffects ) > 0 )
-			newCombatPercentAdjustment += 5;
-
-		if ( SONATA.getCount( activeEffects ) > 0 )
-			newCombatPercentAdjustment -= 5;
-
-		if ( CANTICLE.getCount( activeEffects ) > 0 )
-			newInitiativeAdjustment += 30;
-
-		if ( EMPATHY.getCount( activeEffects ) > 0 )
-		{
-			newFamiliarWeightAdjustment += 5;
-			newDodecapedeWeightAdjustment += 5;
-		}
-
-		if ( LEASH.getCount( activeEffects ) > 0 )
-		{
-			newFamiliarWeightAdjustment += 5;
-			newDodecapedeWeightAdjustment += 5;
-		}
-
-		if ( HEAVY_PETTING.getCount( activeEffects ) > 0 )
-		{
-			newFamiliarWeightAdjustment += 5;
-			newDodecapedeWeightAdjustment += 5;
-		}
-
-		if ( FUSILLI.getCount( activeEffects ) > 0 )
-			newInitiativeAdjustment += 40;
-
-		if ( TICKING_CLOCK.getCount( activeEffects ) > 0 )
-			newInitiativeAdjustment += 20;
-
-		if ( RELAXATION.getCount( activeEffects ) > 0 )
-			newInitiativeAdjustment -= 25;
-
-		if ( MUSK.getCount( activeEffects ) > 0 )
-			newCombatPercentAdjustment += 5;
-
-		if ( SMOOTH.getCount( activeEffects ) > 0 )
-			newCombatPercentAdjustment -= 5;
-
-		if ( STENCH.getCount( activeEffects ) > 0 )
-			newCombatPercentAdjustment += 5;
-
-		if ( SCENT.getCount( activeEffects ) > 0 )
-			newCombatPercentAdjustment -= 5;
-
-		// Only one snowcone effect can be active at a time
-
-		if ( BLACK_TONGUE.getCount( activeEffects ) > 0 )
-		{
-			newFamiliarWeightAdjustment += 5;
-			newDodecapedeWeightAdjustment += 5;
-			newFixedXPAdjustment += 3;
-			newItemDropPercentAdjustment += 30;
-			newMeatDropPercentAdjustment += 30;
-		}
-		else if ( BLUE_TONGUE.getCount( activeEffects ) > 0 )
-			newItemDropPercentAdjustment += 30;
-		else if ( GREEN_TONGUE.getCount( activeEffects ) > 0 )
-		{
-			newFamiliarWeightAdjustment += 5;
-			newDodecapedeWeightAdjustment += 5;
-		}
-		else if ( ORANGE_TONGUE.getCount( activeEffects ) > 0 )
-			newFixedXPAdjustment += 3;
-		else if ( RED_TONGUE.getCount( activeEffects ) > 0 )
-			newMeatDropPercentAdjustment += 30;
-
-		// Only one cupcake effect can be active at a time
-
-		if ( BLUE_CUPCAKE.getCount( activeEffects ) > 0 )
-			newItemDropPercentAdjustment += 30;
-		else if ( GREEN_CUPCAKE.getCount( activeEffects ) > 0 )
-			newMonsterLevelAdjustment += 10;
-		else if ( ORANGE_CUPCAKE.getCount( activeEffects ) > 0 )
-			newFixedXPAdjustment += 3;
-		else if ( PINK_CUPCAKE.getCount( activeEffects ) > 0 )
-			newMeatDropPercentAdjustment += 30;
-
-		if ( PERCEPTION.getCount( activeEffects ) > 0 )
-			newItemDropPercentAdjustment += 30;
-
-		if ( TACTICS.getCount( activeEffects ) > 0 )
-			newMeatDropPercentAdjustment += 50;
-
-		if ( VEINY.getCount( activeEffects ) > 0 )
-		{
-			newFixedXPAdjustment += 2;
-			newMeatDropPercentAdjustment -= 20;
-		}
-
-		if ( PEELED.getCount( activeEffects ) > 0 )
-		{
-			newItemDropPercentAdjustment += 15;
-			newMeatDropPercentAdjustment -= 16;
-			newFixedXPAdjustment -= 1;
-		}
-
-		if ( WASABI.getCount( activeEffects ) > 0 )
-		{
-			newMeatDropPercentAdjustment += 30;
-			newItemDropPercentAdjustment -= 10;
-			newFixedXPAdjustment -= 1;
-		}
-
-		if ( OBJECT_DETECTION.getCount( activeEffects ) > 0 )
-			newItemDropPercentAdjustment += 12.5;
-
-		if ( EMANATIONS.getCount( activeEffects ) > 0 )
-			newMonsterLevelAdjustment += 20;
-
-		if ( ENMITY.getCount( activeEffects ) > 0 )
-			newMonsterLevelAdjustment += 5;
-
-		if ( HANDSOME.getCount( activeEffects ) > 0 )
-			newMonsterLevelAdjustment += 3;
-
 		// Now that we have calculated the familiar weight adjustment,
 		// look at familiar.
+
 		double modifier = (double)( currentFamiliar.getWeight() + newFamiliarWeightAdjustment + newFamiliarItemWeightAdjustment );
 		switch ( familiarID )
 		{
-		case BABY_GRAVY_FAIRY:
-		case FLAMING_GRAVY_FAIRY:
-		case FROZEN_GRAVY_FAIRY:
-		case STINKY_GRAVY_FAIRY:
-		case SPOOKY_GRAVY_FAIRY:
-		case SLEAZY_GRAVY_FAIRY:
-		case CRIMBO_ELF:
-			// Full gravy fairy equivalent familiar
-			newItemDropPercentAdjustment += modifier * 2.5;
-			break;
+			case BABY_GRAVY_FAIRY:
+			case FLAMING_GRAVY_FAIRY:
+			case FROZEN_GRAVY_FAIRY:
+			case STINKY_GRAVY_FAIRY:
+			case SPOOKY_GRAVY_FAIRY:
+			case SLEAZY_GRAVY_FAIRY:
+			case CRIMBO_ELF:
+				// Full gravy fairy equivalent familiar
+				newItemDropPercentAdjustment += modifier * 2.5;
+				break;
 
-		case PIXIE:
-		case DEMON:
-			// Full gravy fairy equivalent familiar
-			// Full leprechaun equivalent familiar
-			newItemDropPercentAdjustment += modifier * 2.5;
-			newMeatDropPercentAdjustment += modifier * 5;
-			break;
+			case PIXIE:
+			case DEMON:
+				// Full gravy fairy equivalent familiar
+				// Full leprechaun equivalent familiar
+				newItemDropPercentAdjustment += modifier * 2.5;
+				newMeatDropPercentAdjustment += modifier * 5;
+				break;
 
-		case VOLLEYBALL:
-		case HOBO:
-			// Full volleyball equivalent familiar
-			newFixedXPAdjustment += modifier / 4.0;
-			break;
+			case VOLLEYBALL:
+			case HOBO:
+				// Full volleyball equivalent familiar
+				newFixedXPAdjustment += modifier / 4.0;
+				break;
 
-		case LEPRECHAUN:
-		case TURKEY:
-			// Full leprechaun equivalent familiar
-			newMeatDropPercentAdjustment += modifier * 5;
-			break;
+			case LEPRECHAUN:
+			case TURKEY:
+				// Full leprechaun equivalent familiar
+				newMeatDropPercentAdjustment += modifier * 5;
+				break;
 
-		case CHESHIRE:
-		case MONKEY:
-			// Full volleyball equivalent familiar
-			// Full leprechaun equivalent familiar
-			newFixedXPAdjustment += modifier / 4.0;
-			newMeatDropPercentAdjustment += modifier * 5;
-			break;
+			case CHESHIRE:
+			case MONKEY:
+				// Full volleyball equivalent familiar
+				// Full leprechaun equivalent familiar
+				newFixedXPAdjustment += modifier / 4.0;
+				newMeatDropPercentAdjustment += modifier * 5;
+				break;
 
-		case SHAMAN:
-			// Full volleyball equivalent familiar
-			// Full gravy fairy equivalent familiar
-			newFixedXPAdjustment += modifier / 4.0;
-			newItemDropPercentAdjustment += modifier * 2.5;
-			break;
+			case SHAMAN:
+				// Full volleyball equivalent familiar
+				// Full gravy fairy equivalent familiar
+				newFixedXPAdjustment += modifier / 4.0;
+				newItemDropPercentAdjustment += modifier * 2.5;
+				break;
 
-		case JILL:
-			// Half volleyball equivalent familiar
-			newFixedXPAdjustment += modifier / 8.0;
-			break;
+			case JILL:
+				// Half volleyball equivalent familiar
+				newFixedXPAdjustment += modifier / 8.0;
+				break;
 
-		case HARE:
-			// Full volleyball equivalent 1/4 of the time
-			newFixedXPAdjustment += modifier / 16.0;
-			break;
+			case HARE:
+				// Full volleyball equivalent 1/4 of the time
+				newFixedXPAdjustment += modifier / 16.0;
+				break;
 		}
 
 		// Determine if Mysticality is the current To-hit stat
@@ -3357,67 +2943,43 @@ public abstract class KoLCharacter extends StaticEntity
 
 		newManaCostModifier = Math.max( newManaCostModifier, -3 );
 
+		// Determine whether or not data has changed
+
 		boolean changed = false;
-		if ( monsterLevelAdjustment != newMonsterLevelAdjustment )
-		{
-			monsterLevelAdjustment = newMonsterLevelAdjustment;
-			changed = true;
-		}
 
-		if ( familiarWeightAdjustment != newFamiliarWeightAdjustment )
-		{
-			familiarWeightAdjustment = newFamiliarWeightAdjustment;
-			dodecapedeWeightAdjustment = newDodecapedeWeightAdjustment;
-			changed = true;
-		}
+		changed |= monsterLevelAdjustment != newMonsterLevelAdjustment;
+		monsterLevelAdjustment = newMonsterLevelAdjustment;
 
-		if ( familiarItemWeightAdjustment != newFamiliarItemWeightAdjustment )
-		{
-			familiarItemWeightAdjustment = newFamiliarItemWeightAdjustment;
-			changed = true;
-		}
+		changed |= familiarWeightAdjustment != newFamiliarWeightAdjustment;
+		familiarWeightAdjustment = newFamiliarWeightAdjustment;
+		dodecapedeWeightAdjustment = newDodecapedeWeightAdjustment;
 
-		if ( manaCostModifier != newManaCostModifier )
-		{
-			manaCostModifier = newManaCostModifier;
-			changed = true;
-		}
+		changed |= familiarItemWeightAdjustment != newFamiliarItemWeightAdjustment;
+		familiarItemWeightAdjustment = newFamiliarItemWeightAdjustment;
 
-		if ( combatPercentAdjustment != newCombatPercentAdjustment )
-		{
-			combatPercentAdjustment = newCombatPercentAdjustment;
-			changed = true;
-		}
+		changed |= manaCostModifier != newManaCostModifier;
+		manaCostModifier = newManaCostModifier;
 
-		if ( initiativeAdjustment != newInitiativeAdjustment )
-		{
-			initiativeAdjustment = newInitiativeAdjustment;
-			changed = true;
-		}
+		changed |= combatPercentAdjustment != newCombatPercentAdjustment;
+		combatPercentAdjustment = newCombatPercentAdjustment;
 
-		if ( fixedXPAdjustment != newFixedXPAdjustment )
-		{
-			fixedXPAdjustment = newFixedXPAdjustment;
-			changed = true;
-		}
+		changed |= initiativeAdjustment != newInitiativeAdjustment;
+		initiativeAdjustment = newInitiativeAdjustment;
 
-		if ( meatDropPercentAdjustment != newMeatDropPercentAdjustment )
-		{
-			meatDropPercentAdjustment = newMeatDropPercentAdjustment;
-			changed = true;
-		}
+		changed |= fixedXPAdjustment != newFixedXPAdjustment;
+		fixedXPAdjustment = newFixedXPAdjustment;
 
-		if ( itemDropPercentAdjustment != newItemDropPercentAdjustment )
-		{
-			itemDropPercentAdjustment = newItemDropPercentAdjustment;
-			changed = true;
-		}
+		changed |= meatDropPercentAdjustment != newMeatDropPercentAdjustment;
+		meatDropPercentAdjustment = newMeatDropPercentAdjustment;
 
-		if ( rigatoniActive != newRigatoniActive )
-		{
-			rigatoniActive = newRigatoniActive;
-			changed = true;
-		}
+		changed |= itemDropPercentAdjustment != newItemDropPercentAdjustment;
+		itemDropPercentAdjustment = newItemDropPercentAdjustment;
+
+		changed |= rigatoniActive != newRigatoniActive;
+		rigatoniActive = newRigatoniActive;
+
+		// If the recalculation requires an update, and there was a
+		// change detected, then update.
 
 		if ( changed && update )
 			updateStatus();
