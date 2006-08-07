@@ -63,6 +63,41 @@ public interface KoLConstants extends UtilityConstants
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
 	public static final File SCRIPT_DIRECTORY = new File( "scripts" );
 
+	public static final String [][] FUNCTION_MENU = new String[][] {
+		{ "Consumables", "inventory.php?which=1" },
+		{ "Equipment", "inventory.php?which=2" },
+		{ "Miscellaneous", "inventory.php?which=3" },
+		{ "Character", "charsheet.php" },
+		{ "Quests", "questlog.php" },
+		{ "Skills", "skills.php" },
+		{ "Terrarium", "familiar.php" },
+		{ "Read Messages", "messages.php" },
+		{ "Account Menu", "account.php" },
+		{ "Documentation", "doc.php?topic=home" },
+		{ "Forums", "http://forums.kingdomofloathing.com/" },
+		{ "Radio", "http://www.kingdomofloathing.com/radio.php" },
+		{ "Report Bug", "sendmessage.php?toid=Jick" },
+		{ "Store", "http://store.asymmetric.net/" }
+	};
+
+	public static final String [][] GOTO_MENU = new String[][] {
+		{ "Main Map", "main.php" },
+		{ "Seaside Town", "town.php" },
+		{ "Town Council", "council.php" },
+		{ "Class Guild", "guild.php" },
+		{ "Clan Hall", "clan_hall.php" },
+		{ "Search Mall", "mall.php" },
+		{ "Campground", "campground.php" },
+		{ "Big Mountains", "mountains.php" },
+		{ "Mt. McLargeHuge", "mclargehuge.php" },
+		{ "Nearby Plains", "plains.php" },
+		{ "Above Beanstalk", "beanstalk.php" },
+		{ "Sorceress' Lair", "lair.php" },
+		{ "Desert Beach", "beach.php" },
+		{ "Distant Woods", "woods.php" },
+		{ "Mysterious Island", "island.php" }
+	};
+
 	public static final LockableListModel existingFrames = new LockableListModel();
 	public static final LockableListModel existingPanels = new LockableListModel();
 
