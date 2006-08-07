@@ -82,7 +82,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	protected JMenuItem debugMenuItem = new ToggleDebugMenuItem();
 	protected JMenuItem macroMenuItem = new ToggleMacroMenuItem();
 	protected LockableListModel scripts = new LockableListModel();
-	protected SortedListModel bookmarks = new SortedListModel( String.class );
+	protected static SortedListModel bookmarks = new SortedListModel( String.class );
 
 	private static final String [] LICENSE_FILENAME = {
 		"kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm",
@@ -107,10 +107,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * current server settings.
 	 */
 
-	protected void compileBookmarks()
+	protected static void compileBookmarks()
 	{
+		bookmarks.clear();
 		String [] bookmarkData = StaticEntity.getProperty( "browserBookmarks" ).split( "\\|" );
-		String name, location, pwdhash;
 
 		if ( bookmarkData.length > 1 )
 			for ( int i = 0; i < bookmarkData.length; ++i )
@@ -406,11 +406,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[3];
+			JComponent [] headers = new JComponent[2];
 
 			headers[0] = new AddBookmarkMenuItem();
 			headers[1] = new KoLPanelFrameMenuItem( "Manage Bookmarks", new BookmarkManagePanel() );
-			headers[2] = new DisplayFrameMenuItem( "Council of Loathing", "CouncilFrame" );
 
 			return headers;
 		}
@@ -465,6 +464,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				{
 					// Strip pwdhash out of location and
 					// set third parameter correctly
+
 					bookmarks.add( nameField.getText() + "|" + locationField.getText() + "|false" );
 					saveBookmarks();
 
@@ -515,6 +515,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 			bookmarks.remove( index );
 			bookmarks.add( newName + "|" + location + "|" + pwdhash );
+
 			saveBookmarks();
 		}
 

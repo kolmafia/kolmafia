@@ -73,28 +73,59 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			// Mafiatize the function menu
 
-			fullResponse = fullResponse.replaceFirst(
-				"<option value=\"inventory\\.php\">Inventory</option>",
-				"<option value=\"inventory.php?which=1\">Consumables</option><option value=\"inventory.php?which=2\">Equipment</option><option value=\"inventory.php?which=3\">Miscellaneous</option>" );
+			StringBuffer functionMenu = new StringBuffer();
+			functionMenu.append( "<select name=\"loc\" onChange=\"goloc();\">" );
+			functionMenu.append( "<option value=\"nothing\">- Select -</option>" );
 
-			fullResponse = fullResponse.replaceFirst(
-				"<option value=\"skills\\.php\">Skills</option>",
-				"<option value=\"skills\\.php\">Skills</option><option value=\"familiar.php\">Terrarium</option>" );
+			for ( int i = 0; i < FUNCTION_MENU.length; ++i )
+			{
+				functionMenu.append( "<option value=\"" );
+				functionMenu.append( FUNCTION_MENU[i][1] );
+				functionMenu.append( "\">" );
+				functionMenu.append( FUNCTION_MENU[i][0] );
+				functionMenu.append( "</option>" );
+			}
 
-			// Remove only the logout option
-			// since it might cause problems.
+			functionMenu.append( "<option value=\"donatepopup.php?pid=" );
+			functionMenu.append( KoLCharacter.getUserID() );
+			functionMenu.append( "\">Donate</option>" );
+			functionMenu.append( "</select>" );
 
-			fullResponse = fullResponse.replaceFirst( "<option value=\"logout\\.php\">Log Out</option>", "" );
+			fullResponse = Pattern.compile( "<select name=\"loc\".*?</select>", Pattern.DOTALL ).matcher( fullResponse ).replaceFirst( functionMenu.toString() );
 
 			// Mafiatize the goto menu
 
-			fullResponse = fullResponse.replaceFirst(
-				"<option value=\"mountains\\.php\">Big Mountains</a>",
-				"<option value=\"mclargehuge.php\">Mt. McLargeHuge</option>\n<option value=\"mountains.php\">Big Mountains</option>" );
+			StringBuffer gotoMenu = new StringBuffer();
+			gotoMenu.append( "<select name=location onChange='move();'>" );
 
-			fullResponse = fullResponse.replaceFirst(
-				"Nearby Plains</a>",
-				"Nearby Plains</option><option value=\"beanstalk.php\">Above Beanstalk</option>" );
+			String [] bookmarkData = StaticEntity.getProperty( "browserBookmarks" ).split( "\\|" );
+
+			if ( bookmarkData.length > 1 )
+			{
+				gotoMenu.append( "<option value=\"nothing\">- Bookmarks -</option>" );
+
+				for ( int i = 0; i < bookmarkData.length; i += 2 )
+				{
+					gotoMenu.append( "<option value=\"" );
+					gotoMenu.append( bookmarkData[i] );
+					gotoMenu.append( "\"></option>" );
+					gotoMenu.append( bookmarkData[++i] );
+					gotoMenu.append( "</option>" );
+				}
+			}
+
+			gotoMenu.append( "<option value=\"nothing\">- Select -</option>" );
+			for ( int i = 0; i < GOTO_MENU.length; ++i )
+			{
+				gotoMenu.append( "<option value=\"" );
+				gotoMenu.append( GOTO_MENU[i][1] );
+				gotoMenu.append( "\">" );
+				gotoMenu.append( GOTO_MENU[i][0] );
+				gotoMenu.append( "</option>" );
+			}
+
+			gotoMenu.append( "</select>" );
+			fullResponse = Pattern.compile( "<select name=location.*?</select>", Pattern.DOTALL ).matcher( fullResponse ).replaceFirst( gotoMenu.toString() );
 		}
 
 		// Fix chat javascript problems with relay system

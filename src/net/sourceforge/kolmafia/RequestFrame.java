@@ -46,7 +46,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JCheckBox;
 import javax.swing.Box;
 
 import java.awt.event.KeyEvent;
@@ -76,8 +75,8 @@ public class RequestFrame extends KoLFrame
 	protected JEditorPane sideDisplay;
 	protected JEditorPane mainDisplay;
 
-	private static BrowserComboBox functionSelect, gotoSelect;
-	private static JCheckBox runBetweenBattleChecks;
+	private JComboBox scriptSelect;
+	private BrowserComboBox functionSelect, gotoSelect;
 	private JTextField locationField = new JTextField();
 
 	public RequestFrame()
@@ -139,43 +138,27 @@ public class RequestFrame extends KoLFrame
 			// information, skills and account setup.
 
 			functionSelect = new BrowserComboBox();
-			functionSelect.addItem( new BrowserComboBoxItem( " - Function - ", "" ) );
+			functionSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
 
-			functionSelect.addItem( new BrowserComboBoxItem( "Consumables", "inventory.php?which=1" ) );
-			functionSelect.addItem( new BrowserComboBoxItem( "Equipment", "inventory.php?which=2" ) );
-			functionSelect.addItem( new BrowserComboBoxItem( "Miscellaneous", "inventory.php?which=3" ) );
-			functionSelect.addItem( new BrowserComboBoxItem( "Character", "charsheet.php" ) );
-			functionSelect.addItem( new BrowserComboBoxItem( "Quests", "questlog.php" ) );
-			functionSelect.addItem( new BrowserComboBoxItem( "Skills", "skills.php" ) );
-			functionSelect.addItem( new BrowserComboBoxItem( "Terrarium", "familiar.php" ) );
-			functionSelect.addItem( new BrowserComboBoxItem( "Read Messages", "messages.php" ) );
-			functionSelect.addItem( new BrowserComboBoxItem( "Account Menu", "account.php" ) );
+			for ( int i = 0; i < FUNCTION_MENU.length; ++i )
+				functionSelect.addItem( new BrowserComboBoxItem( FUNCTION_MENU[i][0], FUNCTION_MENU[i][1] ) );
 
 			// Add the browser "goto" menu, because people
 			// are familiar with seeing this as well.  But,
 			// place it all inside of a "travel" menu.
 
 			gotoSelect = new BrowserComboBox();
-			gotoSelect.addItem( new BrowserComboBoxItem( " - Goto (Maki) - ", "" ) );
-
-			gotoSelect.addItem( new BrowserComboBoxItem( "Main Map", "main.php" ) );
-			gotoSelect.addItem( new BrowserComboBoxItem( "Seaside Town", "town.php" ) );
-			gotoSelect.addItem( new BrowserComboBoxItem( "Clan Hall", "clan_hall.php" ) );
-			gotoSelect.addItem( new BrowserComboBoxItem( "Campground", "campground.php" ) );
-			gotoSelect.addItem( new BrowserComboBoxItem( "Big Mountains", "mountains.php" ) );
-			gotoSelect.addItem( new BrowserComboBoxItem( "Mt. McLargeHuge", "mclargehuge.php" ) );
-			gotoSelect.addItem( new BrowserComboBoxItem( "Nearby Plains", "plains.php" ) );
-			gotoSelect.addItem( new BrowserComboBoxItem( "Above Beanstalk", "beanstalk.php" ) );
-			gotoSelect.addItem( new BrowserComboBoxItem( "Sorceress' Lair", "lair.php" ) );
-			gotoSelect.addItem( new BrowserComboBoxItem( "Desert Beach", "beach.php" ) );
-			gotoSelect.addItem( new BrowserComboBoxItem( "Distant Woods", "woods.php" ) );
-			gotoSelect.addItem( new BrowserComboBoxItem( "Mysterious Island", "island.php" ) );
+			gotoSelect.addItem( new BrowserComboBoxItem( "- Select -", "" ) );
+			for ( int i = 0; i < GOTO_MENU.length; ++i )
+				gotoSelect.addItem( new BrowserComboBoxItem( GOTO_MENU[i][0], GOTO_MENU[i][1] ) );
 
 			JPanel topMenu = new JPanel();
 			topMenu.setOpaque( true );
 			topMenu.setBackground( Color.white );
 
+			topMenu.add( new JLabel( "Function:" ) );
 			topMenu.add( functionSelect );
+			topMenu.add( new JLabel( "Go To:" ) );
 			topMenu.add( gotoSelect );
 			topMenu.add( Box.createHorizontalStrut( 20 ) );
 
@@ -186,8 +169,14 @@ public class RequestFrame extends KoLFrame
 			topMenu.add( new JLabel( JComponentUtilities.getImage( "itemimages/smoon" + MoonPhaseDatabase.getGrimacePhase() + ".gif" ) ) );
 
 			topMenu.add( Box.createHorizontalStrut( 20 ) );
-			topMenu.add( runBetweenBattleChecks = new JCheckBox( "Run between-battle scripts" ) );
-			runBetweenBattleChecks.setOpaque( false );
+
+			scriptSelect = new JComboBox();
+			String [] scriptList = getProperty( "scriptList" ).split( " \\| " );
+			for ( int i = 0; i < scriptList.length; ++i )
+				scriptSelect.addItem( (i+1) + ": " + scriptList[i] );
+
+			topMenu.add( scriptSelect );
+			topMenu.add( new ExecuteScriptButton() );
 
 			functionSelect.setSelectedIndex( 0 );
 			gotoSelect.setSelectedIndex( 0 );
@@ -244,6 +233,23 @@ public class RequestFrame extends KoLFrame
 				refresh( new KoLRequest( StaticEntity.getClient(), selected.getLocation() ) );
 
 			source.setSelectedIndex( 0 );
+		}
+	}
+
+	private class ExecuteScriptButton extends ThreadedActionButton
+	{
+		public ExecuteScriptButton()
+		{	super( "exec" );
+		}
+
+		public void executeTask()
+		{
+			String command = (String) scriptSelect.getSelectedItem();
+			if ( command == null )
+				return;
+
+			command = command.substring( command.indexOf( ":" ) + 1 ).trim();
+			DEFAULT_SHELL.executeLine( command );
 		}
 	}
 
@@ -322,7 +328,7 @@ public class RequestFrame extends KoLFrame
 	 * refresh the frame with data do not long the Swing thread.
 	 */
 
-	protected class DisplayRequestThread extends RequestThread
+	protected class DisplayRequestThread extends Thread
 	{
 		private KoLRequest request;
 
@@ -501,26 +507,7 @@ public class RequestFrame extends KoLFrame
 	{
 		public void run()
 		{
-			int adventuresBefore = KoLCharacter.getAdventuresLeft();
 			CharpaneRequest.getInstance().run();
-
-			if ( adventuresBefore > KoLCharacter.getAdventuresLeft() && runBetweenBattleChecks != null && runBetweenBattleChecks.isSelected() )
-			{
-				refreshStatus( "" );
-
-				functionSelect.setEnabled( false );
-				gotoSelect.setEnabled( false );
-				runBetweenBattleChecks.setEnabled( false );
-
-				StaticEntity.getClient().runBetweenBattleChecks();
-
-				runBetweenBattleChecks.setEnabled( true );
-				gotoSelect.setEnabled( true );
-				functionSelect.setEnabled( true );
-
-				CharpaneRequest.getInstance().run();
-			}
-
 			refreshStatus( getDisplayHTML( CharpaneRequest.getInstance().responseText ) );
 		}
 
@@ -542,14 +529,14 @@ public class RequestFrame extends KoLFrame
 
 	public static void refreshStatus()
 	{
-		if ( REFRESHER.isEmpty() || !refreshStatusEnabled || (runBetweenBattleChecks != null && !runBetweenBattleChecks.isEnabled()) )
+		if ( REFRESHER.isEmpty() || !refreshStatusEnabled )
 			return;
 
 		REFRESHER.run();
 	}
 
 	public static boolean willRefreshStatus()
-	{	return !REFRESHER.isEmpty() && refreshStatusEnabled && runBetweenBattleChecks != null && runBetweenBattleChecks.isEnabled();
+	{	return !REFRESHER.isEmpty() && refreshStatusEnabled;
 	}
 
 	public static boolean isRefreshStatusEnabled()
