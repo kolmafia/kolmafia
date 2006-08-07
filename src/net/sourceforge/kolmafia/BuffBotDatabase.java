@@ -172,7 +172,7 @@ public class BuffBotDatabase extends KoLDatabase
 					int turns = StaticEntity.parseInt( turnMatcher.group(1).trim() );
 					boolean philanthropic = freeMatcher.find() ? freeMatcher.group(1).trim().equals( "true" ) : false;
 
-					SortedListModel tester = philanthropic && price < 100 ? freeBuffs : normalBuffs;
+					SortedListModel tester = philanthropic ? freeBuffs : normalBuffs;
 
 					Offering priceMatch = null;
 					Offering currentTest = null;
@@ -275,14 +275,19 @@ public class BuffBotDatabase extends KoLDatabase
 			StringBuffer buffer = new StringBuffer();
 
 			buffer.append( "<html>" );
-			buffer.append( turns[0] );
-			buffer.append( " turns of " );
-			buffer.append( buffs[0] );
 
-			for ( int i = 1; i < buffs.length; ++i )
+			buffer.append( COMMA_FORMAT.format( price ) );
+			buffer.append( " meat for " );
+
+			if ( turns.length == 1 )
+				buffer.append( "a single buff:" );
+			else
+				buffer.append( "a Buff Pack which includes:" );
+
+			for ( int i = 0; i < buffs.length; ++i )
 			{
-				buffer.append( "<br>" );
-				buffer.append( turns[i] );
+				buffer.append( "<br> - " );
+				buffer.append( COMMA_FORMAT.format( turns[i] ) );
 				buffer.append( " turns of " );
 				buffer.append( buffs[i] );
 			}
