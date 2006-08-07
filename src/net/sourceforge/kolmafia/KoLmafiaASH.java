@@ -934,6 +934,8 @@ public class KoLmafiaASH extends StaticEntity
 			;
 		else if ( (result = parseAssignment( scope )) != null )
 			;
+		else if ( (result = parseRemove( scope )) != null )
+			;
 		else
 			return null;
 
@@ -1460,6 +1462,19 @@ public class KoLmafiaASH extends StaticEntity
 
 		ScriptExpression rhs = parseExpression( scope );
 		return new ScriptAssignment( lhs, rhs );
+	}
+
+	private ScriptExpression parseRemove( ScriptScope scope ) throws AdvancedScriptException
+	{
+		if ( currentToken() == null || !currentToken().equals( "remove" ) )
+			return null;
+
+		ScriptExpression lhs = parseExpression( scope );
+
+		if ( lhs == null )
+			throw new AdvancedScriptException( "Bad 'remove' statement " + getLineAndFile() );
+
+		return lhs;
 	}
 
 	private ScriptAggregateReference parseAggregateReference( ScriptScope scope ) throws AdvancedScriptException
