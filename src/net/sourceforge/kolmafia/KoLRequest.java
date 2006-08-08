@@ -359,19 +359,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		// submit duplicate fields.
 
 		if ( !allowDuplicates )
-		{
-			String [] existingData = new String[ data.size() ];
-			data.toArray( existingData );
-
-			for ( int i = 0; i < existingData.length; ++i )
-			{
-				if ( existingData[i].startsWith( encodedName ) )
-				{
-					data.set( i, encodedName + encodedValue );
-					return;
-				}
-			}
-		}
+			for ( int i = 0; i < data.size(); ++i )
+				if ( ((String)data.get(i)).startsWith( encodedName ) )
+					data.remove( i );
 
 		// If the data did not already exist, then
 		// add it to the end of the array.
