@@ -43,14 +43,8 @@ public class GalaktikRequest extends KoLRequest
 	public static final int HP = 1;
 	public static final int MP = 2;
 
-	private int price;
+	private int restoreAmount;
 	private int type;
-
-	public GalaktikRequest( KoLmafia client )
-	{
-		super( client, "galaktik.php" );
-		this.price = -1;
-	}
 
 	public GalaktikRequest( KoLmafia client, int type )
 	{
@@ -59,35 +53,29 @@ public class GalaktikRequest extends KoLRequest
 		this.type = type;
 		switch ( type )
 		{
-		case HP:
-			addFormField( "action", "curehp" );
-			addFormField( "pwd" );
-			this.price =  ( KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP() ) * 10;
-			break;
+			case HP:
+				addFormField( "action", "curehp" );
+				addFormField( "pwd" );
+				this.restoreAmount = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
+				break;
 
-		case MP:
-			addFormField( "action", "curemp" );
-			addFormField( "pwd" );
-			this.price =  ( KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP() ) * 20;
-			break;
+			case MP:
+				addFormField( "action", "curemp" );
+				addFormField( "pwd" );
+				this.restoreAmount = KoLCharacter.getMaximumMP() - KoLCharacter.getCurrentMP();
+				break;
 
-		default:
-			this.price = 0;
-			break;
+			default:
+				this.restoreAmount = 0;
+				break;
 		}
 	}
 
 	public void run()
 	{
-		if ( price == 0 )
+		if ( restoreAmount == 0 )
 		{
 			KoLmafia.updateDisplay( CONTINUE_STATE, "You don't need that cure." );
-			return;
-		}
-
-		if ( price > KoLCharacter.getAvailableMeat() )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You need " + ( price - KoLCharacter.getAvailableMeat() ) + " more meat." );
 			return;
 		}
 
@@ -95,21 +83,15 @@ public class GalaktikRequest extends KoLRequest
 		super.run();
 	}
 
-	public static List retrieveCures( KoLmafia client )
+	public static LockableListModel retrieveCures( KoLmafia client )
 	{
 		LockableListModel cures = new LockableListModel();
 
-		int currentHP = KoLCharacter.getCurrentHP();
-		int maxHP = KoLCharacter.getMaximumHP();
+		if ( KoLCharacter.getCurrentHP() < KoLCharacter.getMaximumHP() )
+			cures.add( "Restore all HP with Curative Nostrum" );
 
-		if ( currentHP < maxHP )
-			cures.add( "Restore all HP for " + ( maxHP - currentHP ) * 10 + " Meat" );
-
-		int currentMP = KoLCharacter.getCurrentMP();
-		int maxMP = KoLCharacter.getMaximumMP();
-
-		if ( currentMP < maxMP )
-			cures.add( "Restore all MP for " + ( maxMP - currentMP ) * 20 + " Meat" );
+		if ( KoLCharacter.getCurrentMP() < KoLCharacter.getMaximumMP() )
+			cures.add( "Restore all MP with Fizzy Invigorating Tonic" );
 
 		return cures;
 	}
@@ -118,21 +100,12 @@ public class GalaktikRequest extends KoLRequest
 	{
 		if ( responseText.indexOf( "You can't afford that" ) != -1 )
 		{
-			// This will only happen if we didn't track HP/MP
-			// correctly.
-
 			KoLmafia.updateDisplay( ERROR_STATE, "You can't afford that cure." );
 			return;
 		}
 
-		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
-
-		if ( type == HP )
-			client.processResult( new AdventureResult( AdventureResult.HP, KoLCharacter.getMaximumHP() ) );
-		else
-			client.processResult( new AdventureResult( AdventureResult.MP, KoLCharacter.getMaximumMP() ) );
-
 		super.processResults();
+		CharpaneRequest.getInstance().run();
 		KoLmafia.updateDisplay( "Cure purchased." );
 	}
 
