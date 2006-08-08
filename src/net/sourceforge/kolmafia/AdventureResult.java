@@ -644,6 +644,9 @@ public class AdventureResult implements Comparable, KoLConstants
 						case ItemCreationRequest.COOK:
 						case ItemCreationRequest.COOK_REAGENT:
 						case ItemCreationRequest.SUPER_REAGENT:
+							isVisibleWithFilter = food || other;
+							break;
+
 						case ItemCreationRequest.COOK_PASTA:
 						case ItemCreationRequest.WOK:
 							isVisibleWithFilter = food;
