@@ -674,7 +674,7 @@ public class ItemManageFrame extends KoLFrame
 				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 
-			JCheckBox [] filters = new JCheckBox[6];
+			JCheckBox [] filters = new JCheckBox[7];
 
 			filters[0] = new FilterCheckBox( filters, elementList, "Show cookables", KoLCharacter.canEat() );
 			filters[1] = new FilterCheckBox( filters, elementList, "Show mixables", KoLCharacter.canDrink() );
@@ -682,9 +682,11 @@ public class ItemManageFrame extends KoLFrame
 
 			filters[3] = new CreateSettingCheckbox( "Allow closet", "showClosetDrivenCreations",
 				"Get ingredients from closet if needed" );
-			filters[4] = new CreateSettingCheckbox( "Allow no-box", "createWithoutBoxServants",
+			filters[4] = new CreateSettingCheckbox( "Allow npcs", "assumeInfiniteNPCItems",
+				"Assume infinite NPC items for item creation" );
+			filters[5] = new CreateSettingCheckbox( "Allow no-box", "createWithoutBoxServants",
 				"Create without requiring a box servant" );
-			filters[5] = new CreateSettingCheckbox( "Auto-repair", "autoRepairBoxes",
+			filters[6] = new CreateSettingCheckbox( "Auto-repair", "autoRepairBoxes",
 				"Create and install new box servant after explosion" );
 
 			for ( int i = 0; i < filters.length; ++i )
