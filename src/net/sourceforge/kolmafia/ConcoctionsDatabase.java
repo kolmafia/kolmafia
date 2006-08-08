@@ -284,15 +284,6 @@ public class ConcoctionsDatabase extends KoLDatabase
 		List availableIngredients = new ArrayList();
 		availableIngredients.addAll( KoLCharacter.getInventory() );
 
-		boolean showClosetDrivenCreations = getProperty( "showClosetDrivenCreations" ).equals( "true" );
-
-		if ( showClosetDrivenCreations )
-		{
-			List closetList = (List) KoLCharacter.getCloset();
-			for ( int i = 0; i < closetList.size(); ++i )
-				AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
-		}
-
 		// First, zero out the quantities table.  Though this is not
 		// actually necessary, it's a good safety and doesn't use up
 		// that much CPU time.

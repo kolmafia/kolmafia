@@ -607,7 +607,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 				return hasNoServantItem;
 			}
-			else if ( KoLCharacter.canInteract() && getProperty( "autoSatisfyChecks" ).equals( "true" ) )
+			else if ( KoLCharacter.canInteract() )
 			{
 				usedServant = servant;
 			}

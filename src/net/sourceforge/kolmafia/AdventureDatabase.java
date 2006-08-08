@@ -590,11 +590,9 @@ public class AdventureDatabase extends KoLDatabase
 			if ( missingCount <= 0 )
 				return;
 
-			// Finally, if it's creatable, rather than seeing
-			// what main ingredient is missing, show what
-			// sub-ingredients are missing; but only do this
-			// if it's not a clover or a wad of dough, which
-			// causes infinite recursion.
+			// If it's creatable, rather than seeing what main ingredient is missing,
+			// show what  sub-ingredients are missing; but only do this if it's not
+			// clovers or dough, which causes infinite recursion.
 
 			if ( creator != null )
 			{
@@ -615,10 +613,21 @@ public class AdventureDatabase extends KoLDatabase
 				}
 			}
 
-			// Try to purchase the item from the mall, if the
-			// user wishes to autosatisfy through purchases,
-			// but only for combinable items (non-combinables
-			// would have been handled earlier).
+			// See if the item can be retrieved from the clan stash.  If it can,
+			// go ahead and pull as many items as possible from there.
+
+			if ( KoLCharacter.canInteract() )
+			{
+				if ( ClanManager.getStash().isEmpty() )
+					(new ClanStashRequest( client )).run();
+
+				missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
+				if ( missingCount <= 0 )
+					return;
+			}
+
+			// Try to purchase the item from the mall, if the user wishes to allow
+			// purchases for item acquisition.
 
 			if ( shouldPurchase && !shouldAutoSatisfyEarly )
 			{
