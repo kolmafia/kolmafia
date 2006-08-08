@@ -457,9 +457,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		try
 		{
 			processMessage( success );
-
-			if ( !KoLmafia.refusesContinue() )
-				KoLmafia.forceContinue();
+			KoLmafia.forceContinue();
 		}
 		catch ( Exception e )
 		{
@@ -817,6 +815,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				target + " for " + price + " meat... " );
 
 			(new UseSkillRequest( client, buffName, target, castCount )).run();
+			KoLmafia.forceContinue();
 
 			if ( UseSkillRequest.lastUpdate.equals( "" ) )
 			{
