@@ -73,11 +73,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	private static final AdventureResult STACK = new AdventureResult( ItemCreationRequest.MEAT_STACK, 1 );
 	private static final AdventureResult DENSE = new AdventureResult( ItemCreationRequest.DENSE_STACK, 1 );
 
-	private static final AdventureResult ROLLING_PIN = new AdventureResult( 873, 1 );
-	private static final AdventureResult UNROLLING_PIN = new AdventureResult( 873, 1 );
-
 	private static final int TOMATO = 246;
-	private static final int DOUGH = 159;
 	private static final int FLAT_DOUGH = 301;
 
 	private static final AdventureResult DYSPEPSI = new AdventureResult( 347, 1 );
@@ -310,6 +306,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// is not needed.
 
 		cachePermitted( availableIngredients );
+		boolean infiniteNPCStoreItems = StaticEntity.getProperty( "assumeInfiniteNPCItems" ).equals( "true" );
 
 		// Next, do calculations on all mixing methods which cannot
 		// be created at this time.
@@ -320,6 +317,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 			if ( !isPermittedMethod( current.getMixingMethod() ) )
 			{
 				current.initial = current.concoction.getCount( availableIngredients );
+				current.creatable = 0;
+				current.total = current.initial;
+			}
+			else if ( infiniteNPCStoreItems && NPCStoreDatabase.contains( current.concoction.getName() ) )
+			{
+				current.initial = Integer.MAX_VALUE;
 				current.creatable = 0;
 				current.total = current.initial;
 			}
