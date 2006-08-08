@@ -635,7 +635,9 @@ public class AdventureResult implements Comparable, KoLConstants
 					// Milk of magnesium is marked as food, as are
 					// munchies pills; all others are marked as expected.
 
-					isVisibleWithFilter = name.equals( "milk of magnesium" ) || name.equals( "munchies pills" ) ? food : other;
+					isVisibleWithFilter = other;
+					if ( name.equals( "milk of magnesium" ) || name.equals( "munchies pills" ) )
+						isVisibleWithFilter |= food;
 				}
 				else
 				{
