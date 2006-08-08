@@ -54,6 +54,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
+import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class RequestFrame extends KoLFrame
@@ -309,7 +310,11 @@ public class RequestFrame extends KoLFrame
 			if ( request.getClass() == KoLRequest.class )
 				KoLmafia.getMacroStream().println( location );
 
-			(new DisplayRequestThread( request )).start();
+			DisplayRequestThread thread = new DisplayRequestThread( request );
+			if ( SwingUtilities.isEventDispatchThread() )
+				thread.start();
+			else
+				thread.run();
 		}
 		else
 			parent.refresh( request );
@@ -344,6 +349,8 @@ public class RequestFrame extends KoLFrame
 				return;
 
 			currentLocation = request.getURLString();
+
+			mainBuffer.clearBuffer();
 			setupRequest();
 
 			if ( request != null && request.responseText != null && request.responseText.length() != 0 )
@@ -357,7 +364,6 @@ public class RequestFrame extends KoLFrame
 				// to indicate that you were redirected and the display
 				// cannot be shown in the minibrowser.
 
-				mainBuffer.clearBuffer();
 				mainBuffer.append( "<b>Tried to access</b>: " + currentLocation );
 				mainBuffer.append( "<br><b>Redirected</b>: " + request.redirectLocation );
 				return;
@@ -385,8 +391,6 @@ public class RequestFrame extends KoLFrame
 
 		private void displayRequest( String text )
 		{
-			mainBuffer.clearBuffer();
-
 			// Function exactly like a history in a normal browser -
 			// if you open a new frame after going back, all the ones
 			// in the future get removed.
@@ -396,10 +400,16 @@ public class RequestFrame extends KoLFrame
 			history.add( request.getURLString() );
 			shownHTML.add( renderText );
 
+			if ( history.size() > 10 )
+			{
+				history.remove(0);
+				shownHTML.remove(0);
+			}
+
 			String location = request.getURLString();
 
 			locationField.setText( location );
-			locationIndex = shownHTML.size();
+			locationIndex = shownHTML.size() - 1;
 			mainBuffer.append( renderText );
 		}
 
@@ -433,12 +443,12 @@ public class RequestFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( locationIndex > 1 )
+			if ( locationIndex > 0 )
 			{
 				--locationIndex;
 				mainBuffer.clearBuffer();
-				mainBuffer.append( (String) shownHTML.get( locationIndex - 1 ) );
-				locationField.setText( (String) history.get( locationIndex - 1 ) );
+				mainBuffer.append( (String) shownHTML.get( locationIndex ) );
+				locationField.setText( (String) history.get( locationIndex ) );
 			}
 		}
 	}
@@ -455,10 +465,10 @@ public class RequestFrame extends KoLFrame
 		{
 			if ( locationIndex + 1 < shownHTML.size() )
 			{
+				++locationIndex;
 				mainBuffer.clearBuffer();
 				mainBuffer.append( (String) shownHTML.get( locationIndex ) );
 				locationField.setText( (String) history.get( locationIndex ) );
-				++locationIndex;
 			}
 		}
 	}
