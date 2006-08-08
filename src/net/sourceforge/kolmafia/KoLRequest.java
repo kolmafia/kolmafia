@@ -1406,6 +1406,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// Bail if it doesn't complete an outfit
 				if ( AdventureDatabase.CHOICE_ADVS[i].length < 4 )
 					return decision;
+
 				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
 				break;
 			}
@@ -1415,13 +1416,24 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( possibleDecisions == null )
 			return decision;
 
-		// Choose an item that the player does not have
+		// Choose an item in the conditions first
 		for ( int i = 0; i < possibleDecisions.length; ++i )
 		{
 			if ( possibleDecisions[i] != null )
 			{
 				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
-				if ( !KoLCharacter.hasItem( item, false ) || client.getConditions().contains( item ) )
+				if ( client.getConditions().contains( item ) )
+					return String.valueOf( i + 1 );
+			}
+		}
+
+		// Choose an item the player does not have
+		for ( int i = 0; i < possibleDecisions.length; ++i )
+		{
+			if ( possibleDecisions[i] != null )
+			{
+				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
+				if ( !KoLCharacter.hasItem( item, false ) )
 					return String.valueOf( i + 1 );
 			}
 		}

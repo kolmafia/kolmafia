@@ -260,70 +260,70 @@ public class EquipmentDatabase extends KoLDatabase
 	{	return outfits.get( outfitID ) != null && outfits.get( outfitID ).isWearing();
 	}
 
-	public static boolean addOutfitConditions( KoLAdventure adventure )
+	public static int getOutfitID( KoLAdventure adventure )
 	{
-		LockableListModel conditions = client.getConditions();
 		String adventureID = adventure.getAdventureID();
 
+		// Knob goblin treasury has the elite guard outfit
 		if ( adventureID.equals( "41" ) )
-		{
-			addOutfitConditions( 5 );
-			return true;
-		}
+			return 5;
 
+		// Knob goblin harem has the harem girl disguise
 		if ( adventureID.equals( "42" ) )
-		{
-			addOutfitConditions( 4 );
-			return true;
-		}
+			return 4;
 
+		// The mine has mining gear
 		if ( adventureID.equals( "61" ) )
-		{
-			addOutfitConditions( 8 );
-			return true;
-		}
+			return 8;
 
+		// The slope has eXtreme cold weather gear
 		if ( adventureID.equals( "63" ) )
-		{
-			addOutfitConditions( 7 );
-			return true;
-		}
+			return 7;
 
-		if ( adventureID.equals( "26" ) )
-		{
-			addOutfitConditions( 2 );
-			return true;
-		}
+		// Hippies have a filthy hippy disguise
+		if ( adventureID.equals( "26" ) || adventureID.equals( "65" ) )
+			return 2;
 
-		if ( adventureID.equals( "27" ) )
-		{
-			addOutfitConditions( 3 );
-			return true;
-		}
+		// Frat house has a frat house ensemble
+		if ( adventureID.equals( "27" ) || adventureID.equals( "29" ) )
+			return 3;
 
-		if ( adventureID.equals( "66" ) )
-		{
-			addOutfitConditions( 9 );
-			return true;
-		}
+		// Pirates have a swashbuckling getup
+		if ( adventureID.equals( "66" ) || adventureID.equals( "67" ) )
+			return 9;
 
+		// Choose the uniform randomly
 		if ( adventureID.equals( "85" ) )
-		{
-			addOutfitConditions( 23 );
-			return true;
-		}
+			return RNG.nextInt(2) == 0 ? 23 : 24;
 
-		// No outfit existed for this are; therefore,
-		// return false.
+		// Cloaca area requires cloaca uniforms
+		if ( adventureID.equals( "86" ) )
+			return 23;
 
-		return false;
+		// Dyspepsi area requires dyspepsi uniforms
+		if ( adventureID.equals( "87" ) )
+			return 24;
+
+		// No outfit existed for this area
+		return 0;
+	}
+
+	public static boolean addOutfitConditions( KoLAdventure adventure )
+	{
+		int outfitID = getOutfitID( adventure );
+		if ( outfitID == 0 )
+			return false;
+
+		addOutfitConditions( outfitID );
+		return true;
 	}
 
 	public static void retrieveOutfit( int outfitID )
 	{
 		String [] pieces = outfits.get( outfitID ).getPieces();
 		for ( int i = 0; i < pieces.length; ++i )
-			DEFAULT_SHELL.executeLine( "acquire " + pieces[i] );
+			if ( !KoLCharacter.hasEquipped( new AdventureResult( pieces[i], 1, true ) ) )
+				DEFAULT_SHELL.executeLine( "acquire " + pieces[i] );
 	}
 
 	public static void addOutfitConditions( int outfitID )
@@ -336,7 +336,8 @@ public class EquipmentDatabase extends KoLDatabase
 
 		String [] pieces = outfits.get( outfitID ).getPieces();
 		for ( int i = 0; i < pieces.length; ++i )
-			DEFAULT_SHELL.executeConditionsCommand( "add " + pieces[i] );
+			if ( !KoLCharacter.hasEquipped( new AdventureResult( pieces[i], 1, true ) ) )
+				DEFAULT_SHELL.executeConditionsCommand( "add " + pieces[i] );
 	}
 
 	/**
