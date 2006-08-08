@@ -216,6 +216,7 @@ public class CharpaneRequest extends KoLRequest
 		int searchIndex = 0;
 		int lastSearchIndex = 0;
 
+		StaticEntity.getClient().recentEffects.clear();
 		ArrayList visibleEffects = new ArrayList();
 
 		while ( searchIndex != -1 )

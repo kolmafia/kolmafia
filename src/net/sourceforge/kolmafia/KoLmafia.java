@@ -348,6 +348,10 @@ public abstract class KoLmafia implements KoLConstants
 		KoLCharacter.reset( username );
 		StaticEntity.reloadSettings();
 		KoLmafia.openSessionStream();
+		AdventureDatabase.refreshAdventureTable();
+
+		recentEffects.clear();
+		KoLCharacter.getEffects().clear();
 
 		if ( isQuickLogin )
 		{
@@ -797,12 +801,6 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		return shouldRefresh;
-	}
-
-	public void clearEffects()
-	{
-		recentEffects.clear();
-		KoLCharacter.getEffects().clear();
 	}
 
 	/**
