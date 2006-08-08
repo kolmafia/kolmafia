@@ -297,12 +297,11 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "showClosetDrivenCreations", "Get ingredients from closet if needed" },
 			{ "assumeInfiniteNPCItems", "Assume infinite NPC items for item creation" },
 			{ "createWithoutBoxServants", "Create without requiring a box servant" },
 			{ "autoRepairBoxes", "Create and install new box servant after explosion" },
-			{ "autoSatisfyChecks", "Allow mall purchases on conditions check" },
-			{ "autoCheckpoint", "Allow outfit checkpointing during NPC store purchases" }
+			{ "autoCheckpoint", "Allow outfit checkpointing during NPC store purchases" },
+			{ "autoSatisfyChecks", "Get items from the mall whenever needed" },
 		};
 
 		/**

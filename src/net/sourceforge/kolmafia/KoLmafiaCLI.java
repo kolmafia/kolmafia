@@ -1003,9 +1003,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "retrieve" ) || command.equals( "acquire" ) )
 		{
-			String oldSetting = StaticEntity.getProperty( "autoSatisfyChecks" );
-			StaticEntity.setProperty( "autoSatisfyChecks", "true" );
-
 			// Handle lucky and unlucky retrieval of
 			// worthless items via the sewer.
 
@@ -1049,7 +1046,6 @@ public class KoLmafiaCLI extends KoLmafia
 					AdventureDatabase.retrieveItem( item );
 			}
 
-			StaticEntity.setProperty( "autoSatisfyChecks", oldSetting );
 			return;
  		}
 

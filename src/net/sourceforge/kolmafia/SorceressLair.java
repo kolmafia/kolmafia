@@ -474,7 +474,7 @@ public abstract class SorceressLair extends StaticEntity
 				AdventureDatabase.retrieveItem( CLOVER );
 			else if ( HermitRequest.getWorthlessItemCount() > 0 && HermitRequest.isCloverDay() )
 				AdventureDatabase.retrieveItem( CLOVER );
-			else if ( getProperty( "autoSatisfyChecks" ).equals( "true" ) && KoLCharacter.canInteract() )
+			else if ( KoLCharacter.canInteract() )
 				AdventureDatabase.retrieveItem( CLOVER );
 
 			if ( !hasItem( CLOVER ) )

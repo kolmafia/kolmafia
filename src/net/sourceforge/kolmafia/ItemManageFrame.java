@@ -705,9 +705,6 @@ public class ItemManageFrame extends KoLFrame
 			public void actionPerformed( ActionEvent e )
 			{
 				setProperty( setting, String.valueOf( isSelected() ) );
-				if ( setting.equals( "autoRepairBoxes" ) )
-					setProperty( "autoSatisfyChecks", "true" );
-
 				ConcoctionsDatabase.refreshConcoctions();
 			}
 		}
