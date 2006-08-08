@@ -396,7 +396,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( urlString.equals( "fight.php" ) )
 		{
-			Matcher encounterMatcher = Pattern.compile( "<span id='monname'>(.*?)</span>" ).matcher( request.responseText );
+			Matcher encounterMatcher = Pattern.compile( "<span id='monname'>([^:]*?)</span>" ).matcher( request.responseText );
 			if ( encounterMatcher.find() )
 			{
 				String encounter = encounterMatcher.group(1);
@@ -408,7 +408,7 @@ public class AdventureRequest extends KoLRequest
 		else
 		{
 			Matcher encounterMatcher = Pattern.compile( request.responseText.indexOf( "<center><b>" ) != -1 ?
-				"<center><b>(.*?)</b>" : "<b>(.*?)</b>" ).matcher( request.responseText );
+				"<center><b>([^:]*?)</b>" : "<b>([^:]*?)</b>" ).matcher( request.responseText );
 
 			if ( encounterMatcher.find() )
 			{
