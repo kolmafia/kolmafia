@@ -76,6 +76,8 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.SwingUtilities;
 
+import net.sourceforge.kolmafia.StaticEntity;
+
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.FileOutputStream;
@@ -249,7 +251,14 @@ public class ChatBuffer
 		if ( changeType != LOGFILE_CHANGE )
 		{
 			if ( displayPane != null )
-				SwingUtilities.invokeLater( new DisplayPaneUpdater( newContents ) );
+			{
+				DisplayPaneUpdater updater = new DisplayPaneUpdater( newContents );
+				if ( SwingUtilities.isEventDispatchThread() )
+					updater.run();
+				else
+					SwingUtilities.invokeLater( updater );
+
+			}
 			else if ( newContents != null )
 				displayBuffer.append( newContents );
 		}
@@ -290,6 +299,7 @@ public class ChatBuffer
 	private class DisplayPaneUpdater implements Runnable
 	{
 		private String newContents;
+		private boolean finishedUpdate = false;
 
 		public DisplayPaneUpdater( String newContents )
 		{	this.newContents = newContents;
@@ -338,6 +348,8 @@ public class ChatBuffer
 			{
 				e.printStackTrace();
 			}
+
+			finishedUpdate = true;
 		}
 	}
 }
