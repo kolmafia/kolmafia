@@ -399,6 +399,11 @@ public class FightRequest extends KoLRequest
 
 		switch ( skillID )
 		{
+			case 2005: // Shieldbutt
+				offenseModifier -= 5;
+				defenseModifier -= 5;
+				break;
+
 			case 3004: // Entangling Noodles
 				offenseModifier -= 6;
 				break;
