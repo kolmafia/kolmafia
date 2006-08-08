@@ -340,16 +340,6 @@ public class OptionsFrame extends KoLFrame
 		{
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i].setSelected( getProperty( options[i][0] ).equals( "true" ) );
-
-			if ( getProperty( "autoRepairBoxes" ).equals( "true" ) )
-			{
-				optionBoxes[3].setSelected( true );
-				setProperty( "autoSatisfyChecks", "true" );
-
-				optionBoxes[3].setEnabled( false );
-			}
-			else
-				optionBoxes[3].setEnabled( true );
 		}
 	}
 
