@@ -1,8 +1,10 @@
-<project name="KoLmafia" default="rejar" basedir=".">
+<project name="KoLmafia" default="debug" basedir=".">
 
 	<!-- ========================================== -->
 	<!--  set the global properties for this build  -->
 	<!-- ========================================== -->
+
+	<property name="debug" value="true"/>
 
 	<property name="root" location="."/>
 	<property name="src" location="src"/>
@@ -41,56 +43,14 @@
 	</target>
 
 
-	<!-- ==================== -->
-	<!--  compile the source  -->
-	<!-- ==================== -->
-
-	<target name="compile" depends="init">
-
-		<javac source="1.4" srcdir="${src}" destdir="${build}" classpath="${lib}/*.jar" />
-
-		<copy todir="${build}" preservelastmodified="true">
-			<fileset dir="${src}">
-				<exclude name="**/*.java"/>
-			</fileset>
-		</copy>
-
-		<copy todir="${build}" preservelastmodified="true">
-			<fileset dir="${lib}"/>
-		</copy>
-
-	</target>
-
 	<!-- ============================= -->
 	<!--  generate the executable JAR  -->
 	<!-- ============================= -->
 
-	<target name="jar" depends="compile">
-
-		<jar destfile="${jarfile}" basedir="${build}" update="true" index="yes">
-			<manifest>
-				<attribute name="Main-Class" value="${main-class}"/>
-			</manifest>
-		</jar>
-
-	</target>
-
-	<!-- ================================================ -->
-	<!--  generate the executable JAR from a clean state  -->
-	<!-- ================================================ -->
-
-	<target name="rejar" depends="clean">
-		<ant target="jar"/>
-	</target>
-
-	<!-- ================================================ -->
-	<!--  generate the debugging JAR                      -->
-	<!-- ================================================ -->
-
-	<target name="debug" depends="clean,init">
+	<target name="createjar" depends="init">
 
 		<javac source="1.4" srcdir="${src}" destdir="${build}" classpath="${lib}/*.jar"
-			debug="true" debuglevel="lines,vars,source" />
+			debug="${debug}" debuglevel="lines,vars,source"/>
 
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${src}">
@@ -101,7 +61,7 @@
 		<copy todir="${build}" preservelastmodified="true">
 			<fileset dir="${lib}"/>
 		</copy>
-	
+
 		<jar destfile="${jarfile}" basedir="${build}" update="true" index="yes">
 			<manifest>
 				<attribute name="Main-Class" value="${main-class}"/>
@@ -109,6 +69,14 @@
 		</jar>
 
 	</target>
+
+
+	<!-- ============================ -->
+	<!--  generate the debugging JAR  -->
+	<!-- ============================ -->
+
+	<target name="debug" depends="clean,createjar"/>
+
 
 	<!-- =========================== -->
 	<!--  generate the distribution  -->
@@ -116,7 +84,10 @@
 
 	<target name="dist">
 
-		<ant target="rejar"/>
+		<antcall target="clean"/>
+		<antcall target="createjar">
+			<param name="debug" value="false"/>
+		</antcall>
 
 		<tar destfile="${tarfile}" basedir="${root}" compression="gzip">
 			<exclude name="CVS/**"/>
@@ -132,13 +103,8 @@
 	<!--  runs program with all needed libraries in the path  -->
 	<!-- ==================================================== -->
 
-	<target name="exec" depends="jar">
-
-		<java fork="true" jar="${jarfile}" dir="${dist}">
-			<env key="PATH" path="${lib}/:${java.library.path}"/>
-			<env key="Path" path="${lib}/:${java.library.path}"/>
-		</java>
-
+	<target name="exec" depends="createjar">
+		<java fork="true" jar="${jarfile}" dir="${dist}"/>
 	</target>
 
 
@@ -146,7 +112,7 @@
 	<!--  generate the javadocs from sourcecode  -->
 	<!-- ======================================= -->
 
-	<target name="javadoc" depends="compile">
+	<target name="javadoc" depends="init">
 
 		<mkdir dir="${docs}"/>
 		<mkdir dir="${docs}/api"/>
