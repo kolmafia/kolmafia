@@ -9,32 +9,34 @@ function getHttpObject()
     if ( window.ActiveXObject )
     {
        	try
-    	   {
-    		      httpObject = new ActiveXObject( "Msxml2.XMLHTTP" );
-    	   }
+        {
+            httpObject = new ActiveXObject( "Msxml2.XMLHTTP" );
+        }
        	catch ( e )
        	{
-    		      httpObject = new ActiveXObject( "Microsoft.XMLHTTP" );
-    	   }
-     }
-     else
-    	    httpObject = new XMLHttpRequest();
+            httpObject = new ActiveXObject( "Microsoft.XMLHTTP" );
+        }
+    }
+    else
+    {
+         httpObject = new XMLHttpRequest();
+    }
 
     return httpObject;
 };
 
 function refreshSidebar()
 {
-	  	var httpObject = getHttpObject();
-  		if ( !httpObject )
-		     	return true;
+    var httpObject = getHttpObject();
+    if ( !httpObject )
+        return true;
 
     isRefreshing = true;
-  		httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/charpane.php" );
-	  	httpObject.onreadystatechange = function()
-		  {
-		     	if ( httpObject.readyState != 4 )
-				        return;
+    httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/charpane.php" );
+    httpObject.onreadystatechange = function()
+    {
+        if ( httpObject.readyState != 4 )
+            return;
 
         top.charpane.document.getElementsByTagName( "body" )[0].innerHTML =
             httpObject.responseText.replace( new RegExp( "<html>.*<body[^>]*>", "g" ), "" ).replace( new RegExp( "</body>.*</html>", "g" ), "" );
@@ -42,27 +44,27 @@ function refreshSidebar()
         isRefreshing = false;
     }
 
-		  httpObject.send( null );
+    httpObject.send( null );
 }
 
 function getNewMessages()
 {
-	  	var httpObject = getHttpObject();
-  		if ( !httpObject )
-		     	return true;
+    var httpObject = getHttpObject();
+    if ( !httpObject )
+        return true;
 
-  		httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/getNewMessages" );
-	  	httpObject.onreadystatechange = function()
-		  {
-		     	if ( httpObject.readyState != 4 )
-				        return;
+    httpObject.open( "GET", "http://<!--MAFIA_HOST_PORT-->/KoLmafia/getNewMessages" );
+    httpObject.onreadystatechange = function()
+    {
+        if ( httpObject.readyState != 4 )
+            return;
 
         if ( httpObject.responseText == null || httpObject.responseText.length < 2 )
             return;
 
-     			if ( !isRefreshing && httpObject.responseText.indexOf( "<!-- REFRESH -->" ) != -1 )
-			         refreshSidebar();
-		  }
+        if ( !isRefreshing && httpObject.responseText.indexOf( "<!-- REFRESH -->" ) != -1 )
+            refreshSidebar();
+    }
 
-		  httpObject.send( null );
+    httpObject.send( null );
 };

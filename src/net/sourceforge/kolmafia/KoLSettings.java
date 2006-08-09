@@ -235,7 +235,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "relayAddsPlinking", "false" );
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
-		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
+		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp | mood execute | use astral mushroom" );
 		CLIENT_SETTINGS.put( "serverFriendly", "false" );
 		CLIENT_SETTINGS.put( "showAdventureZone", "true" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );

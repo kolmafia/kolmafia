@@ -1431,7 +1431,7 @@ public class KoLmafiaCLI extends KoLmafia
 				MoodSettings.removeTriggers( MoodSettings.getTriggers().toArray() );
 			else if ( parameters.equals( "autofill" ) )
 				MoodSettings.autoFillTriggers();
-			else if ( !parameters.equals( "" ) )
+			else if ( !parameters.equals( "" ) && !parameters.equals( "execute" ) )
 				MoodSettings.setMood( parameters );
 
 			printList( MoodSettings.getTriggers() );
