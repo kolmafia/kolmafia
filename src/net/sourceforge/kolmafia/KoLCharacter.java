@@ -58,6 +58,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static List SEAL_CLUBBER = new ArrayList();
 	static
 	{
+		SEAL_CLUBBER.add( "Lemming Trampler" );
 		SEAL_CLUBBER.add( "Tern Slapper" );
 		SEAL_CLUBBER.add( "Puffin Intimidator" );
 		SEAL_CLUBBER.add( "Ermine Thumper" );
