@@ -196,6 +196,12 @@ public class KoLmafiaGUI extends KoLmafia
 
 			CakeArenaManager.getOpponentList();
 		}
+		else if ( frameName.equals( "ClanManageFrame" ) )
+		{
+			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
+				(new ClanStashRequest( StaticEntity.getClient() )).run();
+
+		}
 		else if ( frameName.equals( "ItemManageFrame" ) )
 		{
 			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )

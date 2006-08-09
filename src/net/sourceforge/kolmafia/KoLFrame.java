@@ -946,7 +946,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		// Check parameters; avoid programmer error.
 		if ( defaultValue > maximumValue )
-			return 0;
+			defaultValue = maximumValue;
 
 		if ( maximumValue == 1 && maximumValue == defaultValue )
 			return 1;

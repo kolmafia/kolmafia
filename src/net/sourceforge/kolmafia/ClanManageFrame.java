@@ -167,9 +167,6 @@ public class ClanManageFrame extends KoLFrame
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
-
-		if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
-			(new RequestThread( new ClanStashRequest( StaticEntity.getClient() ) )).start();
 	}
 
 	/**
@@ -413,7 +410,7 @@ public class ClanManageFrame extends KoLFrame
 
 			setButtons( new String [] { "take one", "take multiple", "refresh" },
 				new ActionListener [] { new WithdrawListener( false ), new WithdrawListener( true ),
-				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
+				new RequestButton( "Refresh Items", new ClanStashRequest( StaticEntity.getClient() ) ) } );
 
 			filters = new JCheckBox[3];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", true );
@@ -454,7 +451,7 @@ public class ClanManageFrame extends KoLFrame
 				{
 					currentItem = (AdventureResult) items[i];
 					if ( stashMultiple )
-						lastQuantity = getQuantity( "Withdrawing multiple " + currentItem.getName() + "...", lastQuantity );
+						lastQuantity = getQuantity( "Withdrawing multiple " + currentItem.getName() + "...", currentItem.getCount(), lastQuantity );
 
 					items[i] = currentItem.getInstance( stashMultiple ? lastQuantity : 1 );
 				}

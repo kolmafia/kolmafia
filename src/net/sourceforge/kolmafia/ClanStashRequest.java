@@ -101,7 +101,6 @@ public class ClanStashRequest extends SendMessageRequest
 			this.whichField = "whichitem";
 			this.quantityField = "quantity";
 			source = new ArrayList();
-                        // processResults() will pick up items
 			destination = new ArrayList();
 		}
 
