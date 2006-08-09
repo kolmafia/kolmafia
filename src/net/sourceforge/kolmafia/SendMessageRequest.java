@@ -188,7 +188,7 @@ public abstract class SendMessageRequest extends KoLRequest
 					// For each broken-up request, you create a new ItemStorage request
 					// which will create the appropriate data to post.
 
-					if ( KoLmafia.permitsContinue() )
+					if ( !KoLmafia.refusesContinue() )
 						repeat( nextAttachments );
 
 					currentBaseIndex += getCapacity();
@@ -259,14 +259,15 @@ public abstract class SendMessageRequest extends KoLRequest
 					KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + meatAttachment );
 			}
 		}
-		else if ( responseText.indexOf( "zero karma items" ) != -1 )
-		{
-			// "You cannot take zero karma items from the stash."
-			KoLmafia.updateDisplay( ERROR_STATE, "You don't have permission to take that." );
-		}
 		else
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Item/meat attachment failed." );
+			if ( attachments.length > 1 )
+			{
+				for ( int i = 0; i < attachments.length; ++i )
+					KoLmafia.updateDisplay( PENDING_STATE, "Transfer may have failed for " + attachments[i].toString() );
+			}
+			else
+				KoLmafia.updateDisplay( PENDING_STATE, "Transfer failed for " + attachments[0].toString() );
 		}
 
 		super.processResults();
