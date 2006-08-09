@@ -37,14 +37,13 @@ package net.sourceforge.kolmafia;
 // layout
 import javax.swing.BoxLayout;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.CardLayout;
-import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
 // event listeners
-import java.awt.event.MouseListener;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 
 // containers
@@ -54,23 +53,17 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
-import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 
 import javax.swing.JTable;
-import javax.swing.event.ListDataEvent;
-import javax.swing.event.ListDataListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 import com.sun.java.forums.TableSorter;
 
 // other imports
 import java.util.Vector;
 import java.util.ArrayList;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -106,32 +99,29 @@ public class ClanManageFrame extends KoLFrame
 		this.search = new MemberSearchPanel();
 		this.tabs = new JTabbedPane();
 
-		JPanel stashPanel = new JPanel( new GridLayout( 2, 1, 10, 10 ) );
-		stashPanel.add( storing );
-		stashPanel.add( withdrawal );
-
-		tabs.addTab( "Stash Manager", stashPanel );
+		tabs.addTab( "Deposit", storing );
+		tabs.addTab( "Withdraw", withdrawal );
 
 		JPanel snapPanel = new JPanel();
 		snapPanel.setLayout( new BoxLayout( snapPanel, BoxLayout.Y_AXIS ) );
 		snapPanel.add( snapshot );
 		snapPanel.add( ascension );
 
-		tabs.addTab( "Clan Snapshot", snapPanel );
+		tabs.addTab( "Snapshot", snapPanel );
 
 		JPanel warfarePanel = new JPanel();
 		warfarePanel.setLayout( new BoxLayout( warfarePanel, BoxLayout.Y_AXIS ) );
 		warfarePanel.add( attacks );
 		warfarePanel.add( warfare );
 
-		tabs.addTab( "Clan Warfare", warfarePanel );
+		tabs.addTab( "Warfare", warfarePanel );
 
 		JPanel purchasePanel = new JPanel();
 		purchasePanel.setLayout( new BoxLayout( purchasePanel, BoxLayout.Y_AXIS ) );
 		purchasePanel.add( donation );
 		purchasePanel.add( clanBuff );
 
-		tabs.addTab( "Clan Buffs", purchasePanel );
+		tabs.addTab( "Buffs", purchasePanel );
 
 		members = new TransparentTable( new MemberTableModel() );
 		members.setModel( new TableSorter( members.getModel(), members.getTableHeader() ) );
@@ -171,7 +161,7 @@ public class ClanManageFrame extends KoLFrame
 		resultsPanel.add( results, BorderLayout.CENTER );
 		searchPanel.add( resultsPanel, BorderLayout.CENTER );
 
-		tabs.addTab( "Member Search", searchPanel );
+		tabs.addTab( "Members", searchPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -341,35 +331,58 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	/**
-	 * Internal class used to handle everything related to
-	 * placing items into the stash.
-	 */
-
-	private class StoragePanel extends ItemManagePanel
+	private class StoragePanel extends MultiButtonPanel
 	{
+		private JCheckBox [] filters;
+
 		public StoragePanel()
 		{
-			super( "Inside Inventory", "put in stash", "put in closet", KoLCharacter.getInventory() );
-			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
+			super( "", KoLCharacter.getInventory(), false );
+
+			setButtons( new String [] { "stash one", "stash multiple", "refresh" },
+				new ActionListener [] { new StorageListener( false ), new StorageListener( true ),
+				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
+
+			filters = new JCheckBox[3];
+			filters[0] = new FilterCheckBox( filters, elementList, "Show food", true );
+			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", true );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
+
+			for ( int i = 0; i < filters.length; ++i )
+				optionPanel.add( filters[i] );
+
+			elementList.setCellRenderer(
+				AdventureResult.getAutoSellCellRenderer( true, true, true, false, false ) );
 		}
 
-		protected void actionConfirmed()
+		protected Object [] getDesiredItems( String message )
 		{
-			Object [] items = getDesiredItems( elementList, "Donate", TAKE_MULTIPLE );
-			if ( items == null || items.length == 0 )
-				return;
-			(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),
-				items, ClanStashRequest.ITEMS_TO_STASH ) )).start();
+			filterSelection( filters[0].isSelected(),
+				 filters[1].isSelected(), filters[2].isSelected(), false, false );
+			return super.getDesiredItems( message );
 		}
 
-		protected void actionCancelled()
+		private class StorageListener implements ActionListener
 		{
-			Object [] items = getDesiredItems( elementList, "Closet", TAKE_MULTIPLE );
-			if ( items == null || items.length == 0 )
-				return;
-			(new RequestThread( new ItemStorageRequest( StaticEntity.getClient(), ItemStorageRequest.INVENTORY_TO_CLOSET,
-				items ) )).start();
+			private boolean stashMultiple;
+
+			public StorageListener( boolean stashMultiple )
+			{	this.stashMultiple = stashMultiple;
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				Object [] items = getDesiredItems( "Deposit" );
+				if ( items.length == 0 )
+					return;
+
+				if ( !stashMultiple )
+					for ( int i = 0; i < items.length; ++i )
+						items[i] = ((AdventureResult)items[i]).getInstance( 1 );
+
+				(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),
+					items, ClanStashRequest.ITEMS_TO_STASH ) )).start();
+			}
 		}
 	}
 
@@ -378,25 +391,58 @@ public class ClanManageFrame extends KoLFrame
 	 * placing items into the stash.
 	 */
 
-	private class WithdrawPanel extends ItemManagePanel
+	private class WithdrawPanel extends MultiButtonPanel
 	{
+		private JCheckBox [] filters;
+
 		public WithdrawPanel()
 		{
-			super( "Inside Clan Stash", "put in bag", "refresh", ClanManager.getStash() );
-			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+			super( "", ClanManager.getStash(), false );
+
+			setButtons( new String [] { "take one", "take multiple", "refresh" },
+				new ActionListener [] { new WithdrawListener( false ), new WithdrawListener( true ),
+				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
+
+			filters = new JCheckBox[3];
+			filters[0] = new FilterCheckBox( filters, elementList, "Show food", true );
+			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", true );
+			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
+
+			for ( int i = 0; i < filters.length; ++i )
+				optionPanel.add( filters[i] );
+
+			elementList.setCellRenderer(
+				AdventureResult.getAutoSellCellRenderer( true, true, true, false, false ) );
 		}
 
-		protected void actionConfirmed()
+		protected Object [] getDesiredItems( String message )
 		{
-			Object [] items = getDesiredItems( elementList, "Withdraw", TAKE_MULTIPLE );
-			if ( items == null || items.length == 0 )
-				return;
-			(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),
-				items, ClanStashRequest.STASH_TO_ITEMS ) )).start();
+			filterSelection( filters[0].isSelected(),
+				 filters[1].isSelected(), filters[2].isSelected(), false, false );
+			return super.getDesiredItems( message );
 		}
 
-		protected void actionCancelled()
-		{	(new RequestThread( new ClanStashRequest( StaticEntity.getClient() ) )).start();
+		private class WithdrawListener implements ActionListener
+		{
+			private boolean stashMultiple;
+
+			public WithdrawListener( boolean stashMultiple )
+			{	this.stashMultiple = stashMultiple;
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				Object [] items = getDesiredItems( "Take" );
+				if ( items.length == 0 )
+					return;
+
+				if ( !stashMultiple )
+					for ( int i = 0; i < items.length; ++i )
+						items[i] = ((AdventureResult)items[i]).getInstance( 1 );
+
+				(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),
+					items, ClanStashRequest.STASH_TO_ITEMS ) )).start();
+			}
 		}
 	}
 
