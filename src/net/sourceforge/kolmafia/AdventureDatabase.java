@@ -578,6 +578,19 @@ public class AdventureDatabase extends KoLDatabase
 
 			if ( shouldPurchase && shouldAutoSatisfyEarly )
 			{
+				// If you should auto-satisfy early, check the clan stash to see
+				// if the item is available from there.
+
+				if ( KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+				{
+					if ( !ClanManager.isStashRetrieved() )
+						(new ClanStashRequest( client )).run();
+
+					missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
+					if ( missingCount <= 0 )
+						return;
+				}
+
 				if ( canUseNPCStore || (KoLCharacter.canInteract() && shouldUseMall) )
 					missingCount = retrieveItem( "buy", null, item, missingCount );
 			}
@@ -611,9 +624,9 @@ public class AdventureDatabase extends KoLDatabase
 			// See if the item can be retrieved from the clan stash.  If it can,
 			// go ahead and pull as many items as possible from there.
 
-			if ( KoLCharacter.canInteract() )
+			if ( KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 			{
-				if ( ClanManager.getStash().isEmpty() )
+				if ( !ClanManager.isStashRetrieved() )
 					(new ClanStashRequest( client )).run();
 
 				missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );

@@ -141,6 +141,11 @@ public class ClanStashRequest extends SendMessageRequest
 
 	public void run()
 	{
+		ClanManager.setStashRetrieved();
+
+		if ( !KoLCharacter.hasClan() )
+			return;
+
 		switch ( moveType )
 		{
 			case REFRESH_ONLY:

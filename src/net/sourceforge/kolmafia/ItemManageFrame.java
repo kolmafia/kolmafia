@@ -674,13 +674,15 @@ public class ItemManageFrame extends KoLFrame
 				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 
-			JCheckBox [] filters = new JCheckBox[4];
+			JCheckBox [] filters = new JCheckBox[6];
 
 			filters[0] = new FilterCheckBox( filters, elementList, "Show cookables", KoLCharacter.canEat() );
 			filters[1] = new FilterCheckBox( filters, elementList, "Show mixables", KoLCharacter.canDrink() );
 			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
-			filters[3] = new CreateSettingCheckbox( "Allow no-box", "createWithoutBoxServants",
-				"Create without requiring a box servant" );
+
+			filters[3] = new CreateSettingCheckbox( "Allow no-box", "createWithoutBoxServants", "Create without requiring a box servant" );
+			filters[4] = new CreateSettingCheckbox( "Allow closet", "showClosetIngredients", "List items creatable when adding the closet" );
+			filters[5] = new CreateSettingCheckbox( "Allow stash", "showStashIngredients", "List items creatable when adding the clan stash" );
 
 			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
@@ -705,6 +707,13 @@ public class ItemManageFrame extends KoLFrame
 			public void actionPerformed( ActionEvent e )
 			{
 				setProperty( setting, String.valueOf( isSelected() ) );
+
+				if ( setting.equals( "showStashIngredients" ) && KoLCharacter.hasClan() && isSelected() &&
+					StaticEntity.getClient().shouldMakeConflictingRequest() && !ClanManager.isStashRetrieved() )
+				{
+					(new RequestThread( new ClanStashRequest( StaticEntity.getClient() ) )).start();
+				}
+
 				ConcoctionsDatabase.refreshConcoctions();
 			}
 		}

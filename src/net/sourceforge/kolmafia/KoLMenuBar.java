@@ -303,13 +303,17 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public DisplayRequestMenuItem( String label, String location )
 		{
-			super( label.replaceAll( "\\|", "" ) );
-			addActionListener( this );
+			super( label );
 			this.location = location;
+			addActionListener( this );
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	StaticEntity.openRequestFrame( location );
+		{
+			if ( location.startsWith( "http" ) )
+				StaticEntity.openSystemBrowser( location );
+			else
+				StaticEntity.openRequestFrame( location );
 		}
 
 		public String toString()
@@ -573,7 +577,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		{
 			if ( i > 0 )
 				bookmarkData.append( '|' );
-			bookmarkData.append( (String)bookmarks.get(i) );
+			bookmarkData.append( (String) bookmarks.get(i) );
 		}
 
 		StaticEntity.setProperty( "browserBookmarks", bookmarkData.toString() );
