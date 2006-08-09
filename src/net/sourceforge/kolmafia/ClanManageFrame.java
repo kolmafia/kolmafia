@@ -161,7 +161,7 @@ public class ClanManageFrame extends KoLFrame
 		resultsPanel.add( results, BorderLayout.CENTER );
 		searchPanel.add( resultsPanel, BorderLayout.CENTER );
 
-		tabs.addTab( "Members", searchPanel );
+		tabs.addTab( "Member Search", searchPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -331,6 +331,10 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
+	private static final int MOVE_ONE = 1;
+	private static final int MOVE_ALL = 2;
+	private static final int MOVE_ALL_BUT_ONE = 3;
+
 	private class StoragePanel extends MultiButtonPanel
 	{
 		private JCheckBox [] filters;
@@ -339,8 +343,8 @@ public class ClanManageFrame extends KoLFrame
 		{
 			super( "", KoLCharacter.getInventory(), false );
 
-			setButtons( new String [] { "stash one", "stash multiple", "refresh" },
-				new ActionListener [] { new StorageListener( false ), new StorageListener( true ),
+			setButtons( new String [] { "stash one", "stash all", "stash all but one", "refresh" },
+				new ActionListener [] { new StorageListener( MOVE_ONE ), new StorageListener( MOVE_ALL ), new StorageListener( MOVE_ALL_BUT_ONE ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 
 			filters = new JCheckBox[3];
@@ -364,10 +368,10 @@ public class ClanManageFrame extends KoLFrame
 
 		private class StorageListener implements ActionListener
 		{
-			private boolean stashMultiple;
+			private int moveType;
 
-			public StorageListener( boolean stashMultiple )
-			{	this.stashMultiple = stashMultiple;
+			public StorageListener( int moveType )
+			{	this.moveType = moveType;
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -376,9 +380,15 @@ public class ClanManageFrame extends KoLFrame
 				if ( items.length == 0 )
 					return;
 
-				if ( !stashMultiple )
+				if ( moveType != MOVE_ALL )
+				{
+					AdventureResult currentItem = null;
 					for ( int i = 0; i < items.length; ++i )
-						items[i] = ((AdventureResult)items[i]).getInstance( 1 );
+					{
+						currentItem = (AdventureResult) items[i];
+						items[i] = currentItem.getInstance( moveType == MOVE_ONE ? 1 : currentItem.getCount() - 1 );
+					}
+				}
 
 				(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),
 					items, ClanStashRequest.ITEMS_TO_STASH ) )).start();
@@ -436,9 +446,13 @@ public class ClanManageFrame extends KoLFrame
 				if ( items.length == 0 )
 					return;
 
-				if ( !stashMultiple )
-					for ( int i = 0; i < items.length; ++i )
-						items[i] = ((AdventureResult)items[i]).getInstance( 1 );
+				AdventureResult currentItem = null;
+				for ( int i = 0; i < items.length; ++i )
+				{
+					currentItem = (AdventureResult) items[i];
+					items[i] = currentItem.getInstance( !stashMultiple ? 1 :
+						getQuantity( "Withdrawing multiple " + currentItem.getName() + "...", currentItem.getCount() ) );
+				}
 
 				(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),
 					items, ClanStashRequest.STASH_TO_ITEMS ) )).start();
