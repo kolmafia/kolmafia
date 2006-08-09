@@ -722,7 +722,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		private int castCount;
 		private int turnCount;
 
-		private String target;
 		private boolean restricted;
 		private boolean philanthropic;
 		private String stringForm;
@@ -737,13 +736,9 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			this.price = price;
 			this.castCount = castCount;
 
-			int multiplier = 10;
-			if ( buffID > 6000 && buffID < 7000 )
-				multiplier += 5;
+			int multiplier = buffID == 3 ? 40 : buffID > 6000 && buffID < 7000 ? 15 : 10;
 			if ( KoLCharacter.hasItem( UseSkillRequest.WIZARD_HAT, false ) )
 				multiplier += 5;
-			if ( buffID == 3 )
-				multiplier = 40;
 
 			this.turnCount = castCount * multiplier;
 			this.restricted = restricted;

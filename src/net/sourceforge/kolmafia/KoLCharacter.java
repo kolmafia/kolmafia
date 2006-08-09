@@ -58,7 +58,6 @@ public abstract class KoLCharacter extends StaticEntity
 	private static List SEAL_CLUBBER = new ArrayList();
 	static
 	{
-		SEAL_CLUBBER.add( "Lemming Trampler" );
 		SEAL_CLUBBER.add( "Tern Slapper" );
 		SEAL_CLUBBER.add( "Puffin Intimidator" );
 		SEAL_CLUBBER.add( "Ermine Thumper" );
@@ -1130,7 +1129,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static String getEquipment( int type )
 	{
 		if ( type >= HAT && type < FAMILIAR )
-			return (String)equipment.get( type );
+			return (String) equipment.get( type );
 
 		if ( type == FAMILIAR )
 			return getFamiliarItem();
@@ -2586,8 +2585,8 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasItem( AdventureResult item, boolean shouldCreate )
 	{
-		int count = item.getCount( getInventory() ) + item.getCount( getCloset() ) +
-			(hasEquipped( item ) ? 1 : 0);
+		int count = hasEquipped( item ) ? 1 : 0;
+		count += item.getCount( getInventory() ) + item.getCount( getCloset() );
 
 		if ( count > 0 && count >= item.getCount() )
 			return true;
@@ -2606,26 +2605,28 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasEquipped( AdventureResult item )
 	{
-		String name = item.getName();
+		String name = item.getName().toLowerCase();
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
 		{
 			case ConsumeItemRequest.EQUIP_WEAPON:
-				return getEquipment( WEAPON ).startsWith( name ) || getEquipment( OFFHAND ).startsWith( name );
+				return getEquipment( WEAPON ).toLowerCase().startsWith( name ) || getEquipment( OFFHAND ).toLowerCase().startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_OFFHAND:
-				return getEquipment( OFFHAND ).startsWith( name );
+				return getEquipment( OFFHAND ).toLowerCase().startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_HAT:
-				return getEquipment( HAT ).startsWith( name );
+				return getEquipment( HAT ).toLowerCase().startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_SHIRT:
-				return getEquipment( SHIRT ).startsWith( name );
+				return getEquipment( SHIRT ).toLowerCase().startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_PANTS:
-				return getEquipment( PANTS ).startsWith( name );
+				return getEquipment( PANTS ).toLowerCase().startsWith( name );
 
 			case ConsumeItemRequest.EQUIP_ACCESSORY:
-				return getEquipment( ACCESSORY1 ).startsWith( name ) || getEquipment( ACCESSORY2 ).startsWith( name ) || getEquipment( ACCESSORY3 ).startsWith( name );
+				return getEquipment( ACCESSORY1 ).toLowerCase().startsWith( name ) ||
+					getEquipment( ACCESSORY2 ).toLowerCase().startsWith( name ) ||
+					getEquipment( ACCESSORY3 ).toLowerCase().startsWith( name );
 		}
 
 		return false;
