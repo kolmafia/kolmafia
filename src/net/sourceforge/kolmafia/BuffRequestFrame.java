@@ -37,8 +37,12 @@ package net.sourceforge.kolmafia;
 // layout
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.awt.GridLayout;
+import java.awt.Color;
 
 // containers
+import javax.swing.Box;
+import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -53,7 +57,7 @@ import java.awt.event.ActionListener;
 // utilities
 import java.util.TreeMap;
 import java.util.ArrayList;
-import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -73,8 +77,12 @@ public class BuffRequestFrame extends KoLFrame
 		requestCards = new CardLayout( 10, 10 );
 		requestContainer = new JPanel( requestCards );
 
+		JPanel centerPanel = new JPanel( new BorderLayout() );
+		centerPanel.add( new BuffRequestPanel(), BorderLayout.NORTH );
+		centerPanel.add( requestContainer, BorderLayout.CENTER );
+
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
-		framePanel.add( new BuffRequestPanel(), "" );
+		framePanel.add( centerPanel, "" );
 	}
 
 	private void isBotOnline( String botName )
@@ -127,10 +135,7 @@ public class BuffRequestFrame extends KoLFrame
 			elements[1] = new VerifiableElement( "Buff Set: ", sets );
 
 			setContent( elements );
-			names.setSelectedIndex( RNG.nextInt( list.length ) );
-			sets.setSelectedIndex( 1 );
-
-			southContainer.add( requestContainer, BorderLayout.CENTER );
+			resetCard();
 		}
 
 		protected boolean shouldAddStatusLabel( VerifiableElement [] elements )
@@ -191,7 +196,7 @@ public class BuffRequestFrame extends KoLFrame
 		{
 			public SetComboBox()
 			{
-				super( new String [] { "Philanthropic buffs", "Standard cost buffs" } );
+				super( new String [] { "Once-per-day offerings", "Standard offerings" } );
 				addActionListener( this );
 			}
 
@@ -209,7 +214,7 @@ public class BuffRequestFrame extends KoLFrame
 			public RequestPanel( boolean isFree, String botName )
 			{
 				this.botName = botName;
-				SortedListModel list = isFree ? BuffBotDatabase.getPhilanthropicOfferings( botName ) :
+				LockableListModel list = isFree ? BuffBotDatabase.getPhilanthropicOfferings( botName ) :
 					BuffBotDatabase.getStandardOfferings( botName );
 
 				offerings = new BuffBotDatabase.Offering[ list.size() ];
@@ -221,15 +226,96 @@ public class BuffRequestFrame extends KoLFrame
 				checkboxes = new JCheckBox[ offerings.length ];
 				TotalPriceUpdater priceUpdater = new TotalPriceUpdater();
 
+				boolean addedAnyLabel = false;
+				boolean addedPackLabel = false;
+				boolean addedSingleLabel = false;
+
+				boolean addedTurtleLabel = false;
+				boolean addedSaucerorLabel = false;
+				boolean addedThiefLabel = false;
+
 				for ( int i = 0; i < checkboxes.length; ++i )
 				{
 					checkboxes[i] = new JCheckBox( offerings[i].toString() );
 					checkboxes[i].setVerticalTextPosition( JCheckBox.TOP );
 					checkboxes[i].addActionListener( priceUpdater );
+
 					int price = offerings[i].getPrice();
 					int [] turns = offerings[i].getTurns();
 					String tooltip = price + " meat (" + FLOAT_FORMAT.format( (double)turns[0] / (double)price ) + " turns/meat)";
 					checkboxes[i].setToolTipText( tooltip );
+
+					if ( turns.length > 1 )
+					{
+						if ( !addedPackLabel )
+						{
+							centerPanel.add( new JLabel( "<html><h2>Buff Packs</h2></html>" ) );
+							centerPanel.add( Box.createVerticalStrut( 10 ) );
+
+							addedAnyLabel = true;
+							addedPackLabel = true;
+						}
+					}
+					else if ( isFree )
+					{
+						if ( !addedSingleLabel )
+						{
+							if ( addedAnyLabel )
+								centerPanel.add( Box.createVerticalStrut( 20 ) );
+
+							centerPanel.add( new JLabel( "<html><h2>Individual Buffs</h2></html>" ) );
+							centerPanel.add( Box.createVerticalStrut( 10 ) );
+
+							addedAnyLabel = true;
+							addedSingleLabel = true;
+						}
+					}
+					else
+					{
+						int buffID = offerings[i].getLowestBuffID();
+						if ( buffID > 2000 && buffID < 3000 )
+						{
+							if ( !addedTurtleLabel )
+							{
+								if ( addedAnyLabel )
+									centerPanel.add( Box.createVerticalStrut( 20 ) );
+
+								centerPanel.add( new JLabel( "<html><h2>Turtle Tamer Buffs</h2></html>" ) );
+								centerPanel.add( Box.createVerticalStrut( 10 ) );
+
+								addedAnyLabel = true;
+								addedTurtleLabel = true;
+							}
+						}
+						if ( buffID > 4000 && buffID < 5000 )
+						{
+							if ( !addedSaucerorLabel )
+							{
+								if ( addedAnyLabel )
+									centerPanel.add( Box.createVerticalStrut( 20 ) );
+
+								centerPanel.add( new JLabel( "<html><h2>Sauceror Buffs</h2></html>" ) );
+								centerPanel.add( Box.createVerticalStrut( 10 ) );
+
+								addedAnyLabel = true;
+								addedSaucerorLabel = true;
+							}
+						}
+						if ( buffID > 6000 && buffID < 7000 )
+						{
+							if ( !addedThiefLabel )
+							{
+								if ( addedAnyLabel )
+									centerPanel.add( Box.createVerticalStrut( 20 ) );
+
+								centerPanel.add( new JLabel( "<html><h2>Accordion Thief Buffs</h2></html>" ) );
+								centerPanel.add( Box.createVerticalStrut( 10 ) );
+
+								addedAnyLabel = true;
+								addedThiefLabel = true;
+							}
+						}
+					}
 
 					centerPanel.add( checkboxes[i] );
 				}
@@ -237,7 +323,7 @@ public class BuffRequestFrame extends KoLFrame
 				JScrollPane scroller = new JScrollPane( centerPanel,
 					JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
 
-				JComponentUtilities.setComponentSize( scroller, 300, 400 );
+				JComponentUtilities.setComponentSize( scroller, 500, 400 );
 
 				setLayout( new BorderLayout() );
 				add( scroller, BorderLayout.CENTER );

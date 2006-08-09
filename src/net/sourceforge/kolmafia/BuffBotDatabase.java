@@ -38,10 +38,12 @@ import java.io.BufferedReader;
 
 import java.util.TreeMap;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Collections;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import net.java.dev.spellcast.utilities.SortedListModel;
+import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
  * A static class which handles the officially "supported" buffbots.
@@ -65,6 +67,8 @@ public class BuffBotDatabase extends KoLDatabase
 	private static int buffBotsAvailable = 0;
 	private static int buffBotsConfigured = 0;
 
+	private static final CaseInsensitiveComparator NAME_COMPARATOR = new CaseInsensitiveComparator();
+
 	public static boolean hasOfferings()
 	{
 		if ( !isInitialized )
@@ -83,16 +87,30 @@ public class BuffBotDatabase extends KoLDatabase
 			if ( !completeList.contains( philanthropic[i] ) )
 				completeList.add( philanthropic[i] );
 
+		Collections.sort( completeList, NAME_COMPARATOR );
+		completeList.add( 0, "" );
+
 		return completeList.toArray();
 	}
 
-	public static SortedListModel getStandardOfferings( String botName )
-	{	return botName != null && normalOfferings.containsKey( botName ) ? (SortedListModel) normalOfferings.get( botName ) : new SortedListModel();
+	private static class CaseInsensitiveComparator implements Comparator
+	{
+		public int compare( Object o1, Object o2 )
+		{	return ((String)o1).compareToIgnoreCase( (String) o2 );
+		}
+
+		public boolean equals( Object o )
+		{	return o instanceof CaseInsensitiveComparator;
+		}
+	}
+
+	public static LockableListModel getStandardOfferings( String botName )
+	{	return botName != null && normalOfferings.containsKey( botName ) ? (LockableListModel) normalOfferings.get( botName ) : new LockableListModel();
 	}
 
 
-	public static SortedListModel getPhilanthropicOfferings( String botName )
-	{	return botName != null && freeOfferings.containsKey( botName ) ? (SortedListModel) freeOfferings.get( botName ) : new SortedListModel();
+	public static LockableListModel getPhilanthropicOfferings( String botName )
+	{	return botName != null && freeOfferings.containsKey( botName ) ? (LockableListModel) freeOfferings.get( botName ) : new LockableListModel();
 	}
 
 	private static void configureBuffBots()
@@ -151,8 +169,8 @@ public class BuffBotDatabase extends KoLDatabase
 			Pattern turnPattern = Pattern.compile( "<turns>(.*?)</turns>", Pattern.DOTALL );
 			Pattern freePattern = Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
 
-			SortedListModel freeBuffs = new SortedListModel();
-			SortedListModel normalBuffs = new SortedListModel();
+			LockableListModel freeBuffs = new LockableListModel();
+			LockableListModel normalBuffs = new LockableListModel();
 
 			Matcher nameMatcher, priceMatcher, turnMatcher, freeMatcher;
 
@@ -172,7 +190,7 @@ public class BuffBotDatabase extends KoLDatabase
 					int turns = StaticEntity.parseInt( turnMatcher.group(1).trim() );
 					boolean philanthropic = freeMatcher.find() ? freeMatcher.group(1).trim().equals( "true" ) : false;
 
-					SortedListModel tester = philanthropic ? freeBuffs : normalBuffs;
+					LockableListModel tester = philanthropic ? freeBuffs : normalBuffs;
 
 					Offering priceMatch = null;
 					Offering currentTest = null;
@@ -195,10 +213,16 @@ public class BuffBotDatabase extends KoLDatabase
 			// add them to the philanthropic bot list.
 
 			if ( !freeBuffs.isEmpty() )
+			{
+				freeBuffs.sort();
 				freeOfferings.put( botName, freeBuffs );
+			}
 
 			if ( !normalBuffs.isEmpty() )
+			{
+				normalBuffs.sort();
 				normalOfferings.put( botName, normalBuffs );
+			}
 
 			// Now that the buffbot is configured, increment
 			// the counter to notify the thread that configuration
@@ -245,6 +269,10 @@ public class BuffBotDatabase extends KoLDatabase
 		{	return turns;
 		}
 
+		public int getLowestBuffID()
+		{	return lowestBuffID;
+		}
+
 		public String toString()
 		{	return stringForm;
 		}
@@ -280,16 +308,22 @@ public class BuffBotDatabase extends KoLDatabase
 			buffer.append( " meat for " );
 
 			if ( turns.length == 1 )
-				buffer.append( "a single buff:" );
+			{
+				buffer.append( COMMA_FORMAT.format( turns[0] ) );
+				buffer.append( " turns of " );
+				buffer.append( buffs[0] );
+			}
 			else
+			{
 				buffer.append( "a Buff Pack which includes:" );
 
-			for ( int i = 0; i < buffs.length; ++i )
-			{
-				buffer.append( "<br> - " );
-				buffer.append( COMMA_FORMAT.format( turns[i] ) );
-				buffer.append( " turns of " );
-				buffer.append( buffs[i] );
+				for ( int i = 0; i < buffs.length; ++i )
+				{
+					buffer.append( "<br> - " );
+					buffer.append( COMMA_FORMAT.format( turns[i] ) );
+					buffer.append( " turns of " );
+					buffer.append( buffs[i] );
+				}
 			}
 
 			buffer.append( "</html>" );
@@ -318,8 +352,15 @@ public class BuffBotDatabase extends KoLDatabase
 
 			Offering off = (Offering) o;
 
+			// First, buffpacks should come before standard offerings
+			if ( (turns.length == 1 || off.turns.length == 1) && turns.length != off.turns.length )
+				return off.turns.length - turns.length;
+
+			// Next, cheaper buffpacks should come before more expensive buffpacks,
+			// and philanthropic buffs compare prices as well
+
 			// Philanthropic buffs compare price
-			if ( free )
+			if ( free || turns.length > 1 || off.turns.length > 1 )
 				return price - off.price;
 
 			// Compare the ID of the lowest ID buffs
