@@ -73,6 +73,11 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ClanManageFrame extends KoLFrame
 {
+	private static final int MOVE_ONE = 1;
+	private static final int MOVE_ALL = 2;
+	private static final int MOVE_ALL_BUT = 3;
+	private static final int MOVE_MULTIPLE = 4;
+
 	private static int lastQuantity = 0;
 
 	private JTable members;
@@ -330,10 +335,6 @@ public class ClanManageFrame extends KoLFrame
 		}
 	}
 
-	private static final int MOVE_ONE = 1;
-	private static final int MOVE_ALL = 2;
-	private static final int MOVE_ALL_BUT_ONE = 3;
-
 	private class StoragePanel extends MultiButtonPanel
 	{
 		private JCheckBox [] filters;
@@ -343,7 +344,7 @@ public class ClanManageFrame extends KoLFrame
 			super( "", KoLCharacter.getInventory(), false );
 
 			setButtons( new String [] { "stash one", "stash all", "stash all but one", "refresh" },
-				new ActionListener [] { new StorageListener( MOVE_ONE ), new StorageListener( MOVE_ALL ), new StorageListener( MOVE_ALL_BUT_ONE ),
+				new ActionListener [] { new StorageListener( MOVE_ONE ), new StorageListener( MOVE_ALL ), new StorageListener( MOVE_ALL_BUT ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 
 			filters = new JCheckBox[3];
@@ -408,8 +409,8 @@ public class ClanManageFrame extends KoLFrame
 		{
 			super( "", ClanManager.getStash(), false );
 
-			setButtons( new String [] { "take one", "take multiple", "refresh" },
-				new ActionListener [] { new WithdrawListener( false ), new WithdrawListener( true ),
+			setButtons( new String [] { "take all", "take all but #", "take multiple", "refresh" },
+				new ActionListener [] { new WithdrawListener( MOVE_ALL ), new WithdrawListener( MOVE_ALL_BUT ), new WithdrawListener( MOVE_MULTIPLE ),
 				new RequestButton( "Refresh Items", new ClanStashRequest( StaticEntity.getClient() ) ) } );
 
 			filters = new JCheckBox[3];
@@ -433,10 +434,10 @@ public class ClanManageFrame extends KoLFrame
 
 		private class WithdrawListener implements ActionListener
 		{
-			private boolean stashMultiple;
+			private int moveType;
 
-			public WithdrawListener( boolean stashMultiple )
-			{	this.stashMultiple = stashMultiple;
+			public WithdrawListener( int moveType )
+			{	this.moveType = moveType;
 			}
 
 			public void actionPerformed( ActionEvent e )
@@ -447,13 +448,21 @@ public class ClanManageFrame extends KoLFrame
 
 				AdventureResult currentItem = null;
 
-				for ( int i = 0; i < items.length; ++i )
+				if ( moveType != MOVE_ALL )
 				{
-					currentItem = (AdventureResult) items[i];
-					if ( stashMultiple )
-						lastQuantity = getQuantity( "Withdrawing multiple " + currentItem.getName() + "...", currentItem.getCount(), lastQuantity );
+					lastQuantity = getQuantity( "Maximum number of each item allowed in the stash?", 100 );
 
-					items[i] = currentItem.getInstance( stashMultiple ? lastQuantity : 1 );
+					for ( int i = 0; i < items.length; ++i )
+					{
+						currentItem = (AdventureResult) items[i];
+						if ( moveType == MOVE_MULTIPLE )
+						{
+							lastQuantity = getQuantity( "Withdrawing multiple " + currentItem.getName() + "...", currentItem.getCount(), lastQuantity );
+							items[i] = currentItem.getInstance( lastQuantity );
+						}
+						else
+							items[i] = currentItem.getInstance( Math.max( 0, currentItem.getCount() - lastQuantity ) );
+					}
 				}
 
 				(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),

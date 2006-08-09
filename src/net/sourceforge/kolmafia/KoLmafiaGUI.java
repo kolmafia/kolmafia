@@ -199,8 +199,16 @@ public class KoLmafiaGUI extends KoLmafia
 		else if ( frameName.equals( "ClanManageFrame" ) )
 		{
 			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
-				(new ClanStashRequest( StaticEntity.getClient() )).run();
+			{
+				if ( !KoLCharacter.hasClan() )
+				{
+					updateDisplay( "You are not in a clan." );
+					return;
+				}
+			}
 
+			if ( !ClanManager.isStashRetrieved() )
+				(new ClanStashRequest( StaticEntity.getClient() )).run();
 		}
 		else if ( frameName.equals( "ItemManageFrame" ) )
 		{
@@ -220,6 +228,12 @@ public class KoLmafiaGUI extends KoLmafia
 				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
 					if ( StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
 						(new MicrobreweryRequest( StaticEntity.getClient() )).run();
+
+				if ( StaticEntity.getProperty( "showStashIngredients" ).equals( "true" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+				{
+					if ( !ClanManager.isStashRetrieved() )
+						(new ClanStashRequest( StaticEntity.getClient() )).run();
+				}
 			}
 		}
 		else if ( frameName.equals( "StoreManageFrame" ) )

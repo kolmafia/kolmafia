@@ -79,6 +79,7 @@ public class ClanManager extends StaticEntity
 	private static String clanID;
 	private static String clanName;
 
+	private static boolean stashRetrieved = false;
 	private static boolean ranksRetrieved = false;
 	private static Map profileMap = ClanSnapshotTable.getProfileMap();
 	private static Map ascensionMap = AscensionSnapshotTable.getAscensionMap();
@@ -93,13 +94,23 @@ public class ClanManager extends StaticEntity
 		ClanSnapshotTable.reset();
 		AscensionSnapshotTable.reset();
 
+		stashRetrieved = false;
 		ranksRetrieved = false;
+
 		profileMap.clear();
 		ascensionMap.clear();
 		stashMap.clear();
 		battleList.clear();
 		rankList.clear();
 		stashContents.clear();
+	}
+
+	public static void setStashRetrieved()
+	{	stashRetrieved = true;
+	}
+
+	public static boolean isStashRetrieved()
+	{	return stashRetrieved;
 	}
 
 	public static String getClanID()

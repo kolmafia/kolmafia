@@ -284,6 +284,24 @@ public class ConcoctionsDatabase extends KoLDatabase
 		List availableIngredients = new ArrayList();
 		availableIngredients.addAll( KoLCharacter.getInventory() );
 
+		if ( StaticEntity.getProperty( "showClosetIngredients" ).equals( "true" ) )
+		{
+			AdventureResult [] items = new AdventureResult[ KoLCharacter.getCloset().size() ];
+			KoLCharacter.getCloset().toArray( items );
+
+			for ( int i = 0; i < items.length; ++i )
+				AdventureResult.addResultToList( availableIngredients, items[i] );
+		}
+
+		if ( StaticEntity.getProperty( "showStashIngredients" ).equals( "true" ) && KoLCharacter.canInteract() )
+		{
+			AdventureResult [] items = new AdventureResult[ ClanManager.getStash().size() ];
+			ClanManager.getStash().toArray( items );
+
+			for ( int i = 0; i < items.length; ++i )
+				AdventureResult.addResultToList( availableIngredients, items[i] );
+		}
+
 		// First, zero out the quantities table.  Though this is not
 		// actually necessary, it's a good safety and doesn't use up
 		// that much CPU time.

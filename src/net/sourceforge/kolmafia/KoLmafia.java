@@ -482,6 +482,12 @@ public abstract class KoLmafia implements KoLConstants
 		this.microbreweryItems.clear();
 		this.galaktikCures.clear();
 
+		// Get current moon phases
+
+		(new MoonPhaseRequest( this )).run();
+		if ( refusesContinue() )
+			return;
+
 		// Retrieve the character sheet first. It's necessary to do
 		// this before concoctions have a chance to get refreshed.
 
@@ -506,12 +512,6 @@ public abstract class KoLmafia implements KoLConstants
 			KoLCharacter.refreshCalculatedLists();
 			return;
 		}
-
-		// Get current moon phases
-
-		(new MoonPhaseRequest( this )).run();
-		if ( refusesContinue() )
-			return;
 
 		// Retrieve the list of familiars which are available to
 		// the player, if they haven't opted to skip them.

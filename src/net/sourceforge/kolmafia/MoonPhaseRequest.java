@@ -68,12 +68,16 @@ public class MoonPhaseRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		// Get current phase of Ronald and Grimace
-		if ( responseText.indexOf( "minimoon2" ) != -1 )
-			responseText = responseText.replaceFirst( "minimoon2", "" );
+		String parseText = responseText;
 
-		Matcher moonMatcher = Pattern.compile( "moon(.)[ab]?\\.gif.*moon(.)[ab]?\\.gif" ).matcher( responseText );
+		// Get current phase of Ronald and Grimace
+		if ( parseText.indexOf( "minimoon" ) != -1 )
+			parseText = parseText.replaceAll( "minimoon", "" );
+
+		Matcher moonMatcher = Pattern.compile( "moon(.)[ab]?\\.gif.*moon(.)[ab]?\\.gif" ).matcher( parseText );
 		if ( moonMatcher.find() )
 			MoonPhaseDatabase.setMoonPhases( StaticEntity.parseInt( moonMatcher.group(1) ) - 1, StaticEntity.parseInt( moonMatcher.group(2) ) - 1 );
+
+		KoLCharacter.setClan( responseText.indexOf( "clan_hall.php" ) != -1 );
 	}
 }
