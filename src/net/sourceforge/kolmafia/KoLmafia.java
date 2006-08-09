@@ -173,6 +173,13 @@ public abstract class KoLmafia implements KoLConstants
 		else
 			KoLmafiaCLI.main( args );
 
+		// Check for legacy script bar settings and reset them to
+		// reflect commonly desired activities.
+
+		String scriptbar = StaticEntity.getProperty( "scriptList" );
+		if ( scriptbar == null || scriptbar.equals( "win game" ) || scriptbar.equals( "restore hp | restore mp" ) )
+			StaticEntity.setProperty( "scriptList", "restore hp | restore mp | mood execute | use astral mushroom" );
+
 		// All that completed, check to see if there is an auto-login
 		// which should occur.
 
