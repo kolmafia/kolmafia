@@ -73,6 +73,8 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ClanManageFrame extends KoLFrame
 {
+	private static int lastQuantity = 0;
+
 	private JTable members;
 	private ClanBuffPanel clanBuff;
 	private StoragePanel storing;
@@ -447,11 +449,14 @@ public class ClanManageFrame extends KoLFrame
 					return;
 
 				AdventureResult currentItem = null;
+
 				for ( int i = 0; i < items.length; ++i )
 				{
 					currentItem = (AdventureResult) items[i];
-					items[i] = currentItem.getInstance( !stashMultiple ? 1 :
-						getQuantity( "Withdrawing multiple " + currentItem.getName() + "...", currentItem.getCount() ) );
+					if ( stashMultiple )
+						lastQuantity = getQuantity( "Withdrawing multiple " + currentItem.getName() + "...", lastQuantity );
+
+					items[i] = currentItem.getInstance( stashMultiple ? lastQuantity : 1 );
 				}
 
 				(new RequestThread( new ClanStashRequest( StaticEntity.getClient(),
