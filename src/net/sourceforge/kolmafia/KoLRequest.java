@@ -1507,6 +1507,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			// <name> has given you the Tenacity of the Snapper
 			// <name> has fortified you with Empathy of the Newt
 
+			if ( event.indexOf( " has " ) != -1 )
+				needsRefresh = true;
+
 			// Add the event to the event list
 
 			if ( !KoLMessenger.isRunning() )

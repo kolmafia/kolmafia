@@ -722,6 +722,9 @@ public abstract class KoLMessenger extends StaticEntity
 					displayHTML = "<i>" + displayHTML + "</i>";
 			}
 
+			if ( displayHTML.startsWith( "<font color=green>" ) && displayHTML.indexOf( " has " ) != -1 )
+				CharpaneRequest.getInstance().run();
+
 			// Add the appropriate eSolu scriptlet additions to the
 			// processed chat message.
 
