@@ -183,9 +183,12 @@ public class ItemStorageRequest extends SendMessageRequest
 				parseStorage();
 				break;
 
+			case PULL_MEAT_FROM_STORAGE:
+				parseStorage();
+				// Fall through and handle meat changes.
+
 			case MEAT_TO_CLOSET:
 			case MEAT_TO_INVENTORY:
-			case PULL_MEAT_FROM_STORAGE:
 				handleMeat();
 				break;
 
@@ -384,9 +387,9 @@ public class ItemStorageRequest extends SendMessageRequest
 			int itemID = StaticEntity.parseInt( itemMatcher.group(1) );
 			int quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
 			AdventureResult item = new AdventureResult( itemID, quantity );
-			
+
 			itemList.add (item);
-			
+
 			if ( quantity == 0 )
 				quantity = item.getCount( KoLCharacter.getStorage() );
 
