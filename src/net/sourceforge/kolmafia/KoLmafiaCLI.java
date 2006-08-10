@@ -2705,9 +2705,13 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( isNumeric )
 			{
-				matchingNames.addAll( TradeableItemDatabase.getMatchingNames( parameters.substring( parameters.indexOf( " " ) ).trim() ) );
-				if ( !matchingNames.isEmpty() )
-					itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
+				itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
+
+				String itemName = parameters.substring( parameters.indexOf( " " ) ).trim();
+				itemID = TradeableItemDatabase.getItemID( itemName, itemCount );
+
+				if ( itemID == -1 )
+					matchingNames.addAll( TradeableItemDatabase.getMatchingNames( itemName ) );
 			}
 			else if ( parameters.charAt(0) == '*' )
 			{
