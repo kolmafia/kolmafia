@@ -232,8 +232,13 @@ public class FightRequest extends KoLRequest
 
 			super.run();
 
-			if ( (KoLmafia.refusesContinue() || action1 == null) && getAdventuresUsed() == 0 )
+			if ( KoLmafia.refusesContinue() || action1 == null )
 			{
+				if ( getAdventuresUsed() == 1 )
+				{
+					KoLmafia.updateDisplay( ABORT_STATE, "Battle completed." );
+					return;
+				}
 				if ( passwordHash != null )
 				{
 					showInBrowser( true );
