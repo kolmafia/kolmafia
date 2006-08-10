@@ -852,7 +852,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		int firstFormIndex = text.indexOf( "</form>" ) + 7;
 
 		fightText.insert( firstFormIndex,
-			"<tr><td align=center><form action=fight.php method=post><input type=hidden name=\"action\" value=\"plink\"><input type=\"submit\" value=\"Repeatedly\"></form></td></tr>" );
+			"<tr><td align=center><form action=fight.php method=post><input type=hidden name=\"action\" value=\"plink\"><input class=\"button\" type=\"submit\" value=\"Repeatedly\"></form></td></tr>" );
 
 		return fightText.toString();
 	}
