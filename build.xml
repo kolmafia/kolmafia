@@ -78,16 +78,24 @@
 	<target name="debug" depends="clean,createjar"/>
 
 
+	<!-- ============================= -->
+	<!--  regenerate the standard JAR  -->
+	<!-- ============================= -->
+
+	<target name="rejar" depends="clean">
+
+		<antcall target="createjar">
+			<param name="debug" value="false"/>
+		</antcall>
+
+	</target>
+
+
 	<!-- =========================== -->
 	<!--  generate the distribution  -->
 	<!-- =========================== -->
 
-	<target name="dist">
-
-		<antcall target="clean"/>
-		<antcall target="createjar">
-			<param name="debug" value="false"/>
-		</antcall>
+	<target name="dist" depends="rejar">
 
 		<tar destfile="${tarfile}" basedir="${root}" compression="gzip">
 			<exclude name="CVS/**"/>
