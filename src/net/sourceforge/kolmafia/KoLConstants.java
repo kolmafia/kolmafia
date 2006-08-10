@@ -57,20 +57,18 @@ public interface KoLConstants extends UtilityConstants
 	public static final JLabel BLANK_LABEL = new JLabel();
 	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
 
-	public static final String VERSION_NAME = "KoLmafia v8.5";
-	public static final String VERSION_DATE = "Released July 28, 2006";
+	public static final String VERSION_NAME = "KoLmafia v8.6";
+	public static final String VERSION_DATE = "Released August 10, 2006";
 
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
 	public static final File SCRIPT_DIRECTORY = new File( "scripts" );
 
 	public static final String [][] FUNCTION_MENU = new String[][] {
-		{ "Consumables", "inventory.php?which=1" },
+		{ "Inventory", "inventory.php?which=1" },
 		{ "Equipment", "inventory.php?which=2" },
-		{ "Miscellaneous", "inventory.php?which=3" },
 		{ "Character", "charsheet.php" },
 		{ "Quests", "questlog.php" },
 		{ "Skills", "skills.php" },
-		{ "Terrarium", "familiar.php" },
 		{ "Read Messages", "messages.php" },
 		{ "Account Menu", "account.php" },
 		{ "Documentation", "doc.php?topic=home" },
@@ -85,7 +83,7 @@ public interface KoLConstants extends UtilityConstants
 		{ "Seaside Town", "town.php" },
 		{ "Council", "council.php" },
 		{ "Clan Hall", "clan_hall.php" },
-		{ "Search Mall", "mall.php" },
+		{ "The Mall", "mall.php" },
 		{ "Campground", "campground.php" },
 		{ "Big Mountains", "mountains.php" },
 		{ "Mt. McLargeHuge", "mclargehuge.php" },
