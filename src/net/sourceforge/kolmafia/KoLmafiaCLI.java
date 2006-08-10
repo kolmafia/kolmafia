@@ -2706,12 +2706,11 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( isNumeric )
 			{
 				itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
-
 				String itemName = parameters.substring( parameters.indexOf( " " ) ).trim();
-				itemID = TradeableItemDatabase.getItemID( itemName, itemCount );
+				matchingNames.addAll( TradeableItemDatabase.getMatchingNames( itemName ) );
 
-				if ( itemID == -1 )
-					matchingNames.addAll( TradeableItemDatabase.getMatchingNames( itemName ) );
+				if ( matchingNames.isEmpty() )
+					itemID = TradeableItemDatabase.getItemID( itemName, itemCount );
 			}
 			else if ( parameters.charAt(0) == '*' )
 			{
