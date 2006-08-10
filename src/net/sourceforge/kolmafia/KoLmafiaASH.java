@@ -53,6 +53,7 @@ import java.io.UnsupportedEncodingException;
 
 // utility imports
 import java.lang.reflect.Method;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -1666,7 +1667,48 @@ public class KoLmafiaASH extends StaticEntity
 				}
 				else if ( line.charAt( i ) == '\\' )
 				{
-					resultString.append( line.charAt( ++i ) );
+					char ch = line.charAt( ++i );
+
+					switch ( ch )
+					{
+						case 'n':
+							resultString.append( '\n' );
+							break;
+
+						case 'r':
+							resultString.append( '\r' );
+							break;
+
+						case 't':
+							resultString.append( '\t' );
+							break;
+
+						case '\\':
+						case '\'':
+						case '\"':
+							resultString.append( ch );
+							break;
+
+						case 'x':
+							BigInteger hex08 = new BigInteger( line.substring( i + 1, i + 3 ), 16 );
+							resultString.append( (char) hex08.intValue() );
+							i += 2;
+							break;
+
+						case 'u':
+							BigInteger hex16 = new BigInteger( line.substring( i + 1, i + 5 ), 16 );
+							resultString.append( (char) hex16.intValue() );
+							i += 4;
+							break;
+
+						default:
+							if ( Character.isDigit( ch ) )
+							{
+								BigInteger octal = new BigInteger( line.substring( i, i + 3 ), 8 );
+								resultString.append( (char) octal.intValue() );
+								i += 2;
+							}
+					}
 				}
 				else if ( line.charAt( i ) == '"' )
 				{
