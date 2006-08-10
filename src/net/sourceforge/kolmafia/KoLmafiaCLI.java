@@ -1827,16 +1827,39 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( left.equals( "inebriety") || left.equals( "drunkenness" ) || left.equals( "drunkness" ) )
 			return KoLCharacter.getInebriety();
 
-		// Items first for one reason: Knob Goblin perfume
 		AdventureResult item = itemParameter( left );
+		AdventureResult effect = effectParameter( left );
+
+		// If there is no question you're looking for one or
+		// the other, then return the appropriate match.
+
+		if ( item != null && effect == null )
+			return item.getCount( KoLCharacter.getInventory() );
+
+		if ( item == null && effect != null )
+			return effect.getCount( KoLCharacter.getEffects() );
+
+		// This breaks away from fuzzy matching so that a
+		// substring match is preferred over a fuzzy match.
+		// Items first for one reason: Knob Goblin perfume.
+
+		if ( item != null && item.getName().toLowerCase().indexOf( left.toLowerCase() ) != -1 )
+			return item.getCount( KoLCharacter.getInventory() );
+
+		if ( effect != null && effect.getName().toLowerCase().indexOf( left.toLowerCase() ) != -1 )
+			return effect.getCount( KoLCharacter.getEffects() );
+
+		// Now, allow fuzzy match results to return a value.
+		// Again, following the previous precident, items are
+		// preferred over effects.
 
 		if ( item != null )
 			return item.getCount( KoLCharacter.getInventory() );
 
-		AdventureResult effect = effectParameter( left );
-
 		if ( effect != null )
 			return effect.getCount( KoLCharacter.getEffects() );
+
+		// No match.  The value is zero by default.
 
 		return 0;
 	}
