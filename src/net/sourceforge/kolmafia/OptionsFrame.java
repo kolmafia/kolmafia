@@ -65,6 +65,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import javax.swing.JOptionPane;
 import javax.swing.JTree;
+import javax.swing.JButton;
 
 // utilities
 import java.io.File;
@@ -1148,14 +1149,19 @@ public class OptionsFrame extends KoLFrame
 	private class MoodTriggerListPanel extends LabeledScrollPanel
 	{
 		private JComboBox moodSelect;
-
+		private CopyMoodButton moodCopy;
+		
 		public MoodTriggerListPanel()
 		{
+			
 			super( "", "new list", "remove", new JList( MoodSettings.getTriggers() ) );
 
 			moodSelect = new MoodComboBox();
+			moodCopy = new CopyMoodButton();
+			
 			actualPanel.add( moodSelect, BorderLayout.NORTH );
 			moodList = (JList) scrollComponent;
+			buttonPanel.add(moodCopy, BorderLayout.SOUTH);
 		}
 
 		public void actionConfirmed()
@@ -1186,6 +1192,27 @@ public class OptionsFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{	moodList.setModel( MoodSettings.setMood( (String) getSelectedItem() ) );
+			}
+		}
+		
+		private class CopyMoodButton extends JButton implements ActionListener
+		{
+			public CopyMoodButton()
+			{
+				super ( "copy list" );
+				addActionListener(this);
+			}
+			public void actionPerformed (ActionEvent e)
+			{
+				String moodName = JOptionPane.showInputDialog("Make a copy of current mood list called:");
+				if (moodName == null)
+					return;
+				
+				if ( moodName.equals("default"))
+					return;
+				
+				MoodSettings.copyTriggers(moodName);
+				moodList.setModel(MoodSettings.setMood(moodName));	
 			}
 		}
 	}
