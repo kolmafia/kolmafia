@@ -195,7 +195,7 @@ public class LocalRelayRequest extends KoLRequest
 			}
 
 			selectBuffer.append( "</select></td><td>&nbsp;</td><td>" );
-			selectBuffer.append( "<input type=\"button\" value=\"exec\" onClick=\"submitCommand();\">" );
+			selectBuffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onClick=\"submitCommand();\">" );
 			selectBuffer.append( "</form></td></tr></table>" );
 
 			fullResponse = fullResponse.replaceFirst( "</tr>\\s*</table>\\s*</center>", selectBuffer.toString() );
