@@ -232,7 +232,7 @@ public class FightRequest extends KoLRequest
 
 			super.run();
 
-			if ( KoLmafia.refusesContinue() || action1 == null )
+			if ( (KoLmafia.refusesContinue() || action1 == null) && getAdventuresUsed() == 0 )
 			{
 				if ( passwordHash != null )
 				{
