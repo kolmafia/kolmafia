@@ -2587,6 +2587,8 @@ public abstract class KoLmafia implements KoLConstants
 	protected void handleAscension()
 	{
 		refreshSession();
+		resetSession();
+
 		MoodSettings.setMood( "apathetic" );
 
 		enableDisplay();
