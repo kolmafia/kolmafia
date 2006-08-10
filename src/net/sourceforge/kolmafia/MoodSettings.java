@@ -266,7 +266,43 @@ public abstract class MoodSettings implements KoLConstants
 				addTrigger( "lose_effect", effects[i].getName(), action );
 		}
 	}
+	/**
+	 * Duplicates the current trigger list into a new list 
+	 */
 
+	public static void copyTriggers(String newListName ) 
+	{
+		String currentMood = StaticEntity.getProperty( "currentMood" );
+		
+		if (newListName == "")
+			return;
+		
+		if ( currentMood.equals( "apathetic" ) )
+			return;
+			
+		if ( newListName.equals( "apathetic") ) // Can't copy into apathetic list
+			return;
+
+		// Copy triggers from current list
+		SortedListModel oldTriggers = (SortedListModel) getTriggers().clone();
+	
+		// Create and switch to new list
+		setMood(newListName);
+		
+		// Clear new list
+		removeTriggers( triggers.toArray() );
+		
+		for ( int i = 0; i < oldTriggers.size(); ++i )
+		{
+			MoodTrigger currentTrigger = (MoodTrigger) oldTriggers.getElementAt(i);
+			addTrigger ( currentTrigger.triggerType, currentTrigger.triggerName, currentTrigger.action);
+		}
+		
+		saveSettings();
+
+		// Revert back to original mood in case this is used from CLI (NYI)
+		setMood(currentMood);
+	}
 	/**
 	 * Executes all the mood triggers for the current mood.
 	 */
