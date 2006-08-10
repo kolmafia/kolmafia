@@ -1659,9 +1659,11 @@ public abstract class KoLmafia implements KoLConstants
 		request.run();
 
 		boolean success = false;
+		int attempts = 0;
+
 		updateDisplay( "Completing guild tasks..." );
 
-		while ( !success && KoLCharacter.getAdventuresLeft() > 0 )
+		while ( !success && KoLCharacter.getAdventuresLeft() > 0 && ++attempts <= 6 )
 		{
 			request = new KoLRequest( this, "guild.php?action=chal", true );
 			request.run();

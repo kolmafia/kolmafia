@@ -37,14 +37,6 @@ package net.sourceforge.kolmafia;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JList;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.DefaultListCellRenderer;
-
 /**
  * An extension of <code>KoLRequest</code> which handles the purchase of
  * items from the Mall of Loathing.
@@ -375,7 +367,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		if ( startIndex == -1 || stopIndex == -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Unexpected result.  Are you sure this store is available?" );
+			KoLmafia.updateDisplay( "Store unavailable.  Skipping..." );
 			return;
 		}
 
