@@ -2094,6 +2094,40 @@ public class KoLmafiaCLI extends KoLmafia
 					condition = condition.getInstance( condition.getCount() - previousCondition.getCount() );
 				}
 			}
+			else if ( conditionString.endsWith( "outfit" ) )
+			{
+				// Usage: conditions add <location> outfit
+				String outfitLocation;
+				
+				if (conditionString.equals("outfit"))
+					outfitLocation = StaticEntity.getProperty("lastAdventure");
+				else
+				{
+					outfitLocation = conditionString.replace("outfit","");
+					outfitLocation = outfitLocation.trim();
+				}
+				
+				// Try to support outfit names by mapping some outfits to their locations
+				if (outfitLocation.equals("guard") || outfitLocation.equals("elite") || outfitLocation.equals("elite guard"))
+					outfitLocation = "treasury";
+
+				if (outfitLocation.equals("rift"))
+					outfitLocation = "battlefield";
+				
+				if (outfitLocation.equals("cloaca-cola") || outfitLocation.equals("cloaca cola"))
+					outfitLocation = "cloaca";
+				
+				if( outfitLocation.equals("dyspepsi-cola") || outfitLocation.equals("dyspepsi cola"))
+					outfitLocation = "dyspepsi";
+				
+				KoLAdventure lastAdventure = AdventureDatabase.getAdventure( outfitLocation );
+
+				if ( !(lastAdventure instanceof KoLAdventure) )
+					updateDisplay( ERROR_STATE, "Unrecognized location: "+ outfitLocation);
+				
+				else if ( !EquipmentDatabase.addOutfitConditions(lastAdventure ))
+					updateDisplay( ERROR_STATE, "No outfit corresponds to " + lastAdventure.getAdventureName() + ".");
+			}
 			else
 			{
 				// Otherwise, it's an item or status-effect condition, so parse
