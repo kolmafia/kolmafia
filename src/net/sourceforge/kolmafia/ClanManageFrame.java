@@ -78,8 +78,6 @@ public class ClanManageFrame extends KoLFrame
 	private static final int MOVE_ALL_BUT = 3;
 	private static final int MOVE_MULTIPLE = 4;
 
-	private static int lastQuantity = 0;
-
 	private JTable members;
 	private ClanBuffPanel clanBuff;
 	private StoragePanel storing;
@@ -446,22 +444,25 @@ public class ClanManageFrame extends KoLFrame
 				if ( items.length == 0 )
 					return;
 
-				AdventureResult currentItem = null;
-
 				if ( moveType != MOVE_ALL )
 				{
-					lastQuantity = getQuantity( "Maximum number of each item allowed in the stash?", 100 );
+					int quantity = 0;
+
+					if (moveType == MOVE_ALL_BUT)
+						quantity = getQuantity( "Maximum number of each item allowed in the stash?", 100 );
 
 					for ( int i = 0; i < items.length; ++i )
 					{
-						currentItem = (AdventureResult) items[i];
+						AdventureResult currentItem = (AdventureResult) items[i];
 						if ( moveType == MOVE_MULTIPLE )
 						{
-							lastQuantity = getQuantity( "Withdrawing multiple " + currentItem.getName() + "...", currentItem.getCount(), lastQuantity );
-							items[i] = currentItem.getInstance( lastQuantity );
+							quantity = getQuantity( "Withdrawing multiple " + currentItem.getName() + "...", currentItem.getCount(), currentItem.getCount() );
+							if ( quantity == 0 )
+								return;
+							items[i] = currentItem.getInstance( quantity );
 						}
 						else
-							items[i] = currentItem.getInstance( Math.max( 0, currentItem.getCount() - lastQuantity ) );
+							items[i] = currentItem.getInstance( Math.max( 0, currentItem.getCount() - quantity ) );
 					}
 				}
 
