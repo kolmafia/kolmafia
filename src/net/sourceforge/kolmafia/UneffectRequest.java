@@ -99,6 +99,18 @@ public class UneffectRequest extends KoLRequest
 		if ( effectName.equals( "Smooth Movements" ) )
 			return "Smooth Movement";
 
+		if ( effectName.equals( "Pasta Oneness" ) )
+			return "Manicotti Meditation";
+
+		if ( effectName.equals( "Saucemastery" ) )
+			return "Sauce Contemplation";
+
+		if ( effectName.equals( "Disco State of Mind" ) )
+			return "Disco Aerobics";
+
+		if ( effectName.equals( "Mariachi Mood" ) )
+			return "Moxie of the Mariachi";
+
 		return effectName;
 	}
 
@@ -115,6 +127,18 @@ public class UneffectRequest extends KoLRequest
 
 		if ( skillName.equals( "Smooth Movement" ) )
 			return "Smooth Movements";
+
+		if ( skillName.equals( "Manicotti Meditation" ) )
+			return "Pasta Oneness";
+
+		if ( skillName.equals( "Sauce Contemplation" ) )
+			return "Saucemastery";
+
+		if ( skillName.equals( "Disco Aerobics" ) )
+			return "Disco State of Mind";
+
+		if ( skillName.equals( "Moxie of the Mariachi" ) )
+			return "Mariachi Mood";
 
 		return skillName;
 	}
