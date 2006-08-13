@@ -270,11 +270,11 @@ public abstract class KoLCharacter extends StaticEntity
 	private static boolean rigatoniActive = false;
 	private static int damageAbsorption = 0;
 	private static int damageReduction = 0;
-	private static int coldResistance = 0;
-	private static int hotResistance = 0;
-	private static int sleazeResistance = 0;
-	private static int spookyResistance = 0;
-	private static int stenchResistance = 0;
+	private static double coldResistance = 0;
+	private static double hotResistance = 0;
+	private static double sleazeResistance = 0;
+	private static double spookyResistance = 0;
+	private static double stenchResistance = 0;
 
 	// Travel information
 
@@ -1262,7 +1262,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Cold Resistance
 	 */
 
-	public static int getColdResistance()
+	public static double getColdResistance()
 	{	return coldResistance;
 	}
 
@@ -1272,7 +1272,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Hot Resistance
 	 */
 
-	public static int getHotResistance()
+	public static double getHotResistance()
 	{	return hotResistance;
 	}
 
@@ -1282,7 +1282,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Sleaze Resistance
 	 */
 
-	public static int getSleazeResistance()
+	public static double getSleazeResistance()
 	{	return sleazeResistance;
 	}
 
@@ -1292,7 +1292,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Spooky Resistance
 	 */
 
-	public static int getSpookyResistance()
+	public static double getSpookyResistance()
 	{	return spookyResistance;
 	}
 
@@ -1302,7 +1302,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Stench Resistance
 	 */
 
-	public static int getStenchResistance()
+	public static double getStenchResistance()
 	{	return stenchResistance;
 	}
 
@@ -2802,11 +2802,11 @@ public abstract class KoLCharacter extends StaticEntity
 
 		int newDamageAbsorption = 0;
 		int newDamageReduction = 0;
-		int newColdResistance = 0;
-		int newHotResistance = 0;
-		int newSleazeResistance = 0;
-		int newSpookyResistance = 0;
-		int newStenchResistance = 0;
+		double newColdResistance = 0;
+		double newHotResistance = 0;
+		double newSleazeResistance = 0;
+		double newSpookyResistance = 0;
+		double newStenchResistance = 0;
 
 		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
