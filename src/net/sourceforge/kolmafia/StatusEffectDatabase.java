@@ -174,13 +174,32 @@ public class StatusEffectDatabase extends KoLDatabase
 	public static final int EXPERIENCE_MODIFIER = 4;
 	public static final int ITEMDROP_MODIFIER = 5;
 	public static final int MEATDROP_MODIFIER = 6;
+	public static final int DAMAGE_ABSORPTION_MODIFIER = 7;
+	public static final int DAMAGE_REDUCTION_MODIFIER = 8;
+	public static final int COLD_RESISTANCE_MODIFIER = 9;
+	public static final int HOT_RESISTANCE_MODIFIER = 10;
+	public static final int SLEAZE_RESISTANCE_MODIFIER = 11;
+	public static final int SPOOKY_RESISTANCE_MODIFIER = 12;
+	public static final int STENCH_RESISTANCE_MODIFIER = 13;
 
 	private static final Pattern [] MODIFIER_PATTERNS = new Pattern [] {
-		Pattern.compile( "Weight: ([+-]\\d+)" ), Pattern.compile( "ML: ([+-]\\d+)" ), Pattern.compile( "Combat: ([+-][\\d.]+)" ), Pattern.compile( "Init: ([+-][\\d.]+)" ),
-		Pattern.compile( "Exp: ([+-][\\d.]+)" ), Pattern.compile( "Item: ([+-][\\d.]+)" ), Pattern.compile( "Meat: ([+-][\\d.]+)" )
+		Pattern.compile( "Weight: ([+-]\\d+)" ),
+                Pattern.compile( "ML: ([+-]\\d+)" ),
+                Pattern.compile( "Combat: ([+-][\\d.]+)" ),
+                Pattern.compile( "Init: ([+-][\\d.]+)" ),
+		Pattern.compile( "Exp: ([+-][\\d.]+)" ),
+                Pattern.compile( "Item: ([+-][\\d.]+)" ),
+                Pattern.compile( "Meat: ([+-][\\d.]+)" ),
+                Pattern.compile( "DA: ([+-]\\d+)" ),
+                Pattern.compile( "DR: (\\d+)" ),
+                Pattern.compile( "Cold: ([+-]\\d+)" ),
+                Pattern.compile( "Hot: ([+-]\\d+)" ),
+                Pattern.compile( "Sleaze: ([+-]\\d+)" ),
+                Pattern.compile( "Spooky: ([+-]\\d+)" ),
+                Pattern.compile( "Stench: ([+-]\\d+)" ),
 	};
 
-	private static final double [] NO_MODIFIERS = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	private static final double [] NO_MODIFIERS = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
 
 	public static final double [] getModifiers( String name )
 	{

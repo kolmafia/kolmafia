@@ -1,9 +1,33 @@
+asbestos helmet turtle	Hot: +10
+asshat	Stench: +10
+balaclava	Cold: +10
+balloon helmet	DA: +20
+blue traffic cone	Hot: +20
+bum cheek	Stench: +10
+Cloaca-Cola helmet	DA: +10
+clockwork hat	Spooky: +10
+coconut shell	DA: +1
 cold ninja mask	Init: +15.0
+Crimbo hat	Spooky: +10
+Dyspepsi-Cola helmet	DA: +10
+gasmask	Stench: +30
+giant discarded bottlecap	DR: 3
+green traffic cone	Stench: +20
 ice pick	Item: +15.0
+Knob Goblin harem veil	Stench: +10
+lihc face	Spooky: +20
 miner's helmet	Item: +5.0
+orange traffic cone	Spooky: +20
+pail	DA: +10
 plexiglass pith helmet	Weight: +5
+raspberry beret	Hot: +20
+red traffic cone	Cold: +20
+spooky hockey mask	Spooky: +20
+stainless steel skullcap	DA: +60
+yellow traffic cone	Sleaze: +20
 
 can cannon	ML: +3
+can of maces	Sleaze: +10
 crowbarrr	Init: +10.0
 duck-on-a-string	Item: +5.0
 Frost&trade; brand sword	ML: +3
@@ -18,44 +42,74 @@ squeaky staff	ML: +6
 styrofoam crossbow	ML: +3
 styrofoam staff	ML: +3
 styrofoam sword	ML: +3
+titanium assault umbrella	Sleaze: +10, Spooky: +10
 
 box	Meat: +1.0
 box-in-the-box	Meat: +2.0
 box-in-the-box-in-the-box	Meat: +3.0
 chopsticks	Init: +20.0
+Cloaca-cola shield	DR: 4
+coffin lid	DR: 3, Spooky: +10
+Dyspepsi-cola shield	DR: 4
+gnauga hide buckler	DR: 5
+hippo skin buckler	DR: 5
 hypnodisk	Item: +25.0
 ice baby	Exp: +1.0
+penguin skin buckler	DR: 5
+pixel shield	DR: 3
 ricebowl	Item: +20.0
+star buckler	DR: 10
+White satin shield	DR: 5
+yakskin buckler	DR: 5
 
+clockwork trenchcoat	DA: +15
 goth kid t-shirt	ML: +5
 
 clockwork pants	Init: +10.0
 Crimbo pants	Init: +30.0
+demonskin trousers	Hot: +20
+dungeoneer's dungarees	Cold: +10, Hot: +10, Spooky: +10
+gnauga hide chaps	DA: +30
+gnauga hide kilt	DA: +30
+gnauga hide skirt	DA: +30
 leotarrrd	Init: +15.0
+los chinos	DA: +20
+miner's pants	DA: +20
+pants of the Slug Lord	Stench: +10
 penguin kilt	Init: +20.0
 penguin shorts	Init: +20.0
 penguin skirt	Init: +20.0
 plexiglass pants	Init: +25.0, Item: +20.0
+snowboarder pants	DA: +20
 stainless steel slacks	Init: +15.0, Meat: +20.0
 star pants	Init: +20.0
+white satin pants	Sleaze: +10
 
 Baron Von Ratsworth's money clip	Meat: +15.0
 Baron Von Ratsworth's monocle	Item: +10.0
 Bonerdagon necklace	Init: +30.0
+disbelief suspenders	Sleaze: +10
+glowing red eye	Spooky: +20
 gnatwing earring	Init: +10.0
 hockey stick of furious angry rage	ML: +30
 ice skates	Init: +15.0, Meat: +15.0
 incredibly dense meat gem	Meat: +25.0
-infernal insoles	Init: +10.0
+infernal insoles	Hot: +10, Init: +10.0
 lucky rabbit's foot	Item: +7.0, Meat: +7.0
+makeshift SCUBA gear	Stench: +20
 monster bait	Combat: +5.0
 Mr. Accessory Jr.	Item: +25.0
 penguin whip	Meat: +3.0
+Pine-Fresh air freshener	Stench: +10
+plexiglass pinky ring	Cold: +30, Hot: +30, Sleaze: +30, Spooky: +30, Stench: +30, 
 porquoise necklace	Meat: +10.0
 ring of aggravate monster	ML: +5
+ring of cold resistance	Cold: +20
 ring of conflict	Combat: -5.0
+ring of fire resistance	Hot: +20
 sk8board	Init: +15.0
 stainless steel scarf	ML: +20
+stainless steel suspenders	DA: +60
 tiny plastic angry goat	Weight: +1
 tiny plastic baby gravy fairy	Weight: +1
 tiny plastic barrrnacle	Weight: +1
@@ -86,24 +140,33 @@ miniature gravy-covered maypole	Item: +25.0
 wax lips	Exp: +2.5
 
 Aloysius' Antiphon of Aptitude	Exp: +3.0
+Astral Shell	DA: +80, Cold: +10, Hot: +10, Sleaze: +10, Spooky: +10, Stench: +10, 
 Blue Tongue	Item: +30.0
 Big Veiny Brain	Exp: +2.0, Meat: -20.0
 Black Tongue	Weight: +5, Exp: +3.0, Item: +30.0, Meat: +30.0
 Carlweather's Cantata of Confrontation	Combat: +5
 Cletus's Canticle of Celerity	Init: +30.0
+Cold Blooded	Cold: +20
 Contemptible Emanations	ML: +20
 Cupcake of Choice	Item: +30.0
 Cupcake of Wrath	ML: +5
 Egg-stortionary Tactics	Meat: +50.0
 Eggs-tra Sensory Perception	Item: +30.0
+Elemental Saucesphere	Cold: +20, Hot: +20, Sleaze: +20, Spooky: +20, Stench: +20, 
 Empathy	Weight: +5
 Eau D'enmity	ML: +5
 Extreme Muscle Relaxation	Init: -25.0
+Eye of the Lihc	Spooky: +10
 Fat Leon's Phat Loot Lyric	Item: +20.0
+Flame-Retardent Trousers	Hot: +20
 Fresh Scent	Combat: -5
+Ghostly Shell	DA: +80
 Green Tongue	Weight: +5
 Heavy Petting	Weight: +5
 Hippy Stench	Combat: +5
+Hombre Muerto Caminando	Spooky: +10
+Hot Blooded	Hot: +20
+Insulated Trousers	Cold: +20
 Leash of Linguini	Weight: +5
 Musk of the Moose	Combat: +5.0
 Mysteriously Handsome	ML: +3
@@ -113,17 +176,35 @@ Peeled Eyeballs	Exp: -1.0, Item: +15.0, Meat: -16.0
 Polka of Plenty	Meat: +50.0
 Red Tongue	Meat: +30.0
 Shiny Happy Cupcake	Exp: +3.0
+Sleaze-Resistant Trousers	Sleaze: +20
+Smelly Pants	Stench: +20
 Smooth Movements	Combat: -5
 Springy Fusilli	Init: +40.0
+Spooky Demeanor	Spooky: +20
+Spookypants	Spooky: +20
+Stenchtastic	Stench: +20
+Supafly	Sleaze: +20
 The Sonata of Sneakiness	Combat: -5.0
 Ticking Clock	Init: +20.0
 Wasabi Sinuses	Exp: -1.0, Item: -10.0, Meat: +30.0
 Your Cupcake Senses Are Tingling	Meat: +30.0
 
 Amphibian Sympathy	Weight: +5
+Cold Blooded Fearlessness	Spooky: +20
+Diminished Gag Reflex	Stench: +20
 Expert Panhandling	Meat: +10.0
 Gnefarious Pickpocketing	Meat: +10.0
+Heart of Polyester	Sleaze: +20
+Hide of the Otter	DA: +20
+Hide of the Walrus	DA: +40
 Mad Looting Skillz	Item: +20.0
 Nimble Fingers	Meat: +20.0
+Northern Exposure	Cold: +20
 Overdeveloped Sense of Self Preservation	Init: +20.0
 Powers of Observatiogn	Item: +10.0
+Skin of the Leatherback	
+Tolerance of the Kitchen	Hot: +20
+
+Arboreal Raiment	Stench: +10
+eXtreme Cold-Weather Gear	Cold: +30
+Hot and Cold Running Ninja Suit	Cold: +20, Hot: +20
