@@ -2102,10 +2102,7 @@ public class KoLmafiaCLI extends KoLmafia
 				if (conditionString.equals("outfit"))
 					outfitLocation = StaticEntity.getProperty("lastAdventure");
 				else
-				{
-					outfitLocation = conditionString.replace("outfit","");
-					outfitLocation = outfitLocation.trim();
-				}
+					outfitLocation = conditionString.substring(0, conditionString.length() - 7);
 				
 				// Try to support outfit names by mapping some outfits to their locations
 				if (outfitLocation.equals("guard") || outfitLocation.equals("elite") || outfitLocation.equals("elite guard"))
