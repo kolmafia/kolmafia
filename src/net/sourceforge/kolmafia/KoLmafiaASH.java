@@ -877,7 +877,7 @@ public class KoLmafiaASH extends StaticEntity
 			rhs = parseExpression( scope );
 		}
 		else
-			rhs = t.initialValue();
+			rhs = t.initialValueExpression();
 
 		scope.addCommand( new ScriptAssignment( lhs, rhs ) );
 		return result;
@@ -2839,10 +2839,10 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "count", INT_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE, AGGREGATE_TYPE };
-		result.addElement( new ScriptExistingFunction( "file_to_map", VOID_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "file_to_map", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { AGGREGATE_TYPE, STRING_TYPE };
-		result.addElement( new ScriptExistingFunction( "map_to_file", VOID_TYPE, params ) );
+		result.addElement( new ScriptExistingFunction( "map_to_file", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "my_location", LOCATION_TYPE, params ) );
@@ -4206,8 +4206,9 @@ public class KoLmafiaASH extends StaticEntity
 				}
 				catch ( AdvancedScriptException e )
 				{
-					// Okay, runtime error.  Indicate that there was a bad line
-					// in the data file and print the stack trace.
+					// Okay, runtime error. Indicate that
+					// there was a bad line in the data
+					// file and print the stack trace.
 
 					StringBuffer buffer = new StringBuffer( "Invalid line in data file:" );
 					buffer.append( LINE_BREAK );
@@ -4219,10 +4220,11 @@ public class KoLmafiaASH extends StaticEntity
 					}
 
 					StaticEntity.printStackTrace( e, buffer.toString() );
+					return FALSE_VALUE;
 				}
 			}
 
-			return VOID_VALUE;
+			return TRUE_VALUE;
 		}
 
 		public ScriptValue map_to_file( ScriptVariable map_variable, ScriptVariable filename )
@@ -4240,10 +4242,10 @@ public class KoLmafiaASH extends StaticEntity
 			catch ( Exception e )
 			{
 				StaticEntity.printStackTrace( e );
+				return FALSE_VALUE;
 			}
 
-			return VOID_VALUE;
-
+			return TRUE_VALUE;
 		}
 
 		public ScriptValue my_location()
@@ -5664,6 +5666,10 @@ public class KoLmafiaASH extends StaticEntity
 			}
 			return null;
 		}
+
+		public ScriptExpression initialValueExpression()
+		{	return initialValue();
+		}
 	}
 
 	private static class ScriptAggregateType extends ScriptType
@@ -5739,9 +5745,34 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue initialValue()
 		{
-            if ( size != 0 )
-                    return new ScriptArray( this );
-            return new ScriptMap( this );
+			if ( size != 0 )
+				return new ScriptArray( this );
+			return new ScriptMap( this );
+		}
+
+		public ScriptExpression initialValueExpression()
+		{	return new ScriptAggregateInitializer( this );
+		}
+	}
+
+	private static class ScriptAggregateInitializer extends ScriptValue
+	{
+		protected ScriptAggregateType type;
+
+		public ScriptAggregateInitializer( ScriptAggregateType type )
+		{	this.type = type;
+		}
+
+		public ScriptType getType()
+		{	return type;
+		}
+
+		public ScriptValue execute() throws AdvancedScriptException
+		{	return type.initialValue();
+		}
+
+		public String toString()
+		{	return "init";
 		}
 	}
 
