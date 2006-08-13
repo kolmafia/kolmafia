@@ -130,14 +130,21 @@ public class EquipmentDatabase extends KoLDatabase
 		return true;
 	}
 
+	public static int getPower( int itemID )
+	{	return power.get( itemID );
+	}
+
 	public static int getPower( String itemName )
 	{
+		if ( itemName == null )
+			return 0;
+
 		int itemID = TradeableItemDatabase.getItemID( itemName );
 
 		if ( itemID == -1 )
 			return 0;
 
-		return power.get( itemID );
+		return getPower( itemID );
 	}
 
 	public static int getHands( int itemID )

@@ -56,6 +56,19 @@ public class MonsterDatabase extends KoLDatabase
 	public static final int SPOOKY = 4;
 	public static final int SLEAZE = 5;
 
+	public static final String [] elementNames =
+	{
+		"hot", "cold", "stench", "spooky", "sleaze"
+	};
+
+	public static int elementNumber( String name )
+	{
+		for ( int i = 0; i < elementNames.length; ++i )
+			if ( name.equals( elementNames[i] ) )
+				return i;
+		return -1;
+	}
+
 	static
 	{
 		refreshMonsterTable();

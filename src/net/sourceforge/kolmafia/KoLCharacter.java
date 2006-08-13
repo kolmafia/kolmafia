@@ -268,6 +268,13 @@ public abstract class KoLCharacter extends StaticEntity
 	private static double meatDropPercentAdjustment = 0.0;
 	private static double itemDropPercentAdjustment = 0.0;
 	private static boolean rigatoniActive = false;
+	private static int damageAbsorption = 0;
+	private static int damageReduction = 0;
+	private static int coldResistance = 0;
+	private static int hotResistance = 0;
+	private static int sleazeResistance = 0;
+	private static int spookyResistance = 0;
+	private static int stenchResistance = 0;
 
 	// Travel information
 
@@ -341,6 +348,13 @@ public abstract class KoLCharacter extends StaticEntity
 		meatDropPercentAdjustment = 0.0;
 		itemDropPercentAdjustment = 0.0;
 		rigatoniActive = false;
+		damageAbsorption = 0;
+		damageReduction = 0;
+		coldResistance = 0;
+		hotResistance = 0;
+		sleazeResistance = 0;
+		spookyResistance = 0;
+		stenchResistance = 0;
 
 		equipment.clear();
 		for ( int i = 0; i < 8; ++i )
@@ -1220,6 +1234,76 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean rigatoniActive()
 	{	return rigatoniActive;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current damage absorption
+	 *
+	 * @return	Total Current Damage Absorption
+	 */
+
+	public static int getDamageAbsorption()
+	{	return damageAbsorption;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current damage reduction
+	 *
+	 * @return	Total Current Damage Reduction
+	 */
+
+	public static int getDamageReduction()
+	{	return damageReduction;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current cold resistance
+	 *
+	 * @return	Total Current Cold Resistance
+	 */
+
+	public static int getColdResistance()
+	{	return coldResistance;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current hot resistance
+	 *
+	 * @return	Total Current Hot Resistance
+	 */
+
+	public static int getHotResistance()
+	{	return hotResistance;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current sleazw resistance
+	 *
+	 * @return	Total Current Sleaze Resistance
+	 */
+
+	public static int getSleazeResistance()
+	{	return sleazeResistance;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current spooky resistance
+	 *
+	 * @return	Total Current Spooky Resistance
+	 */
+
+	public static int getSpookyResistance()
+	{	return spookyResistance;
+	}
+
+	/**
+	 * Accessor method to retrieve the total current stench resistance
+	 *
+	 * @return	Total Current Stench Resistance
+	 */
+
+	public static int getStenchResistance()
+	{	return stenchResistance;
 	}
 
 	/**
@@ -2716,6 +2800,16 @@ public abstract class KoLCharacter extends StaticEntity
 		boolean hasStaff = false;
 		boolean newRigatoniActive = false;
 
+		int newDamageAbsorption = 0;
+		int newDamageReduction = 0;
+		int newColdResistance = 0;
+		int newHotResistance = 0;
+		int newSleazeResistance = 0;
+		int newSpookyResistance = 0;
+		int newStenchResistance = 0;
+
+		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
+
 		int familiarID = currentFamiliar.getID();
 
 		// Look at mind control level
@@ -2738,9 +2832,29 @@ public abstract class KoLCharacter extends StaticEntity
 			newFixedXPAdjustment += modifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ];
 			newMeatDropPercentAdjustment += modifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ];
 			newItemDropPercentAdjustment += modifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ];
+			newDamageAbsorption += modifiers[ StatusEffectDatabase.DAMAGE_ABSORPTION_MODIFIER ];
+			newDamageReduction += modifiers[ StatusEffectDatabase.DAMAGE_REDUCTION_MODIFIER ];
+			newColdResistance += modifiers[ StatusEffectDatabase.COLD_RESISTANCE_MODIFIER ];
+			newHotResistance += modifiers[ StatusEffectDatabase.HOT_RESISTANCE_MODIFIER ];
+			newSleazeResistance += modifiers[ StatusEffectDatabase.SLEAZE_RESISTANCE_MODIFIER ];
+			newSpookyResistance += modifiers[ StatusEffectDatabase.SPOOKY_RESISTANCE_MODIFIER ];
+			newStenchResistance += modifiers[ StatusEffectDatabase.STENCH_RESISTANCE_MODIFIER ];
 
-			if ( slot == FAMILIAR )
+			switch ( slot )
+			{
+			case FAMILIAR:
 				newFamiliarItemWeightAdjustment = FamiliarData.itemWeightModifier( item.getItemID() );
+				break;
+
+			case HAT:
+			case PANTS:
+				newDamageAbsorption += taoFactor * EquipmentDatabase.getPower( item.getItemID() );
+				break;
+
+			case SHIRT:
+				newDamageAbsorption += EquipmentDatabase.getPower( item.getItemID() );
+				break;
+			}
 
 			switch ( item.getItemID() )
 			{
@@ -2763,16 +2877,16 @@ public abstract class KoLCharacter extends StaticEntity
 				case 379:	// linoleum staff
 				case 382:	// asbestos staff
 				case 385:	// chrome staff
-				case 414:   // crowbarrr
+				case 414:	// crowbarrr
 				case 659:	// star staff
 				case 943:	// bow staff
 				case 1246:	// rib of the Bonerdagon
 				case 1467:	// 25-meat staff
 				case 1680:	// cardboard staff
 				case 1682:	// bubblewrap staff
-				case 1685:  // styrofoam staff
+				case 1685:	// styrofoam staff
 				case 1707:	// flypaper staff
-				case 1713:  // squeaky staff
+				case 1713:	// squeaky staff
 				case 1716:	// starchy staff
 				case 1719:	// poutine pole
 				case 1722:	// glistening staff
@@ -2794,6 +2908,24 @@ public abstract class KoLCharacter extends StaticEntity
 			}
 		}
 
+		// Certain outfits give benefits to the character
+		if ( EquipmentDatabase.isWearingOutfit( 6 ) )
+		{
+			// Hot and Cold Running Ninja Suit
+			newColdResistance += 20;
+			newHotResistance += 20;
+		}
+		else if ( EquipmentDatabase.isWearingOutfit( 7 ) )
+		{
+			// eXtreme Cold-Weather Gear
+			newColdResistance += 30;
+		}
+		else if ( EquipmentDatabase.isWearingOutfit( 25 ) )
+		{
+			// Arboreal Raiment
+			newStenchResistance += 10;
+		}
+
 		// Because there are a limited number of passive skills,
 		// it is much more efficient to execute one check for
 		// each of the known skills.
@@ -2804,11 +2936,26 @@ public abstract class KoLCharacter extends StaticEntity
 			newDodecapedeWeightAdjustment += 5;
 		}
 
+		if ( hasSkill( "Cold Blooded Fearlessness" ) )
+			newSpookyResistance += 20;
+
+		if ( hasSkill( "Diminished Gag Reflex" ) )
+			newStenchResistance += 20;
+
 		if ( hasSkill( "Expert Panhandling" ) )
 			newMeatDropPercentAdjustment += 10;
 
 		if ( hasSkill( "Gnefarious Pickpocketing" ) )
 			newMeatDropPercentAdjustment += 10;
+
+		if ( hasSkill( "Heart of Polyester" ) )
+			newSleazeResistance += 20;
+
+		if ( hasSkill( "Hide of the Otter" ) )
+			newDamageAbsorption += 20;
+
+		if ( hasSkill( "Hide of the Walrus" ) )
+			newDamageAbsorption += 40;
 
 		if ( hasSkill( "Mad Looting Skillz" ) )
 			newItemDropPercentAdjustment += 20;
@@ -2816,14 +2963,24 @@ public abstract class KoLCharacter extends StaticEntity
 		if ( hasSkill( "Nimble Fingers" ) )
 			newMeatDropPercentAdjustment += 20;
 
+		if ( hasSkill( "Northern Exposure" ) )
+			newColdResistance += 20;
+
 		if ( hasSkill( "Overdeveloped Sense of Self Preservation" ) )
 			newInitiativeAdjustment += 20;
 
 		if ( hasSkill( "Powers of Observatiogn" ) )
 			newItemDropPercentAdjustment += 10;
 
+		if ( hasSkill( "Skin of the Leatherback" ) )
+			// Unknown Damage Absorption or Reduction Effect
+			;
+
 		if ( hasSkill( "Spirit of Rigatoni" ) )
 			rigatoniSkill = true;
+
+		if ( hasSkill( "Tolerance of the Kitchen" ) )
+			newHotResistance += 20;
 
 		// For the sake of easier maintenance, execute a lot of extra
 		// extra string comparisons when looking at status effects.
@@ -2843,6 +3000,13 @@ public abstract class KoLCharacter extends StaticEntity
 			newFixedXPAdjustment += modifiers[ StatusEffectDatabase.EXPERIENCE_MODIFIER ];
 			newMeatDropPercentAdjustment += modifiers[ StatusEffectDatabase.MEATDROP_MODIFIER ];
 			newItemDropPercentAdjustment += modifiers[ StatusEffectDatabase.ITEMDROP_MODIFIER ];
+			newDamageAbsorption += modifiers[ StatusEffectDatabase.DAMAGE_ABSORPTION_MODIFIER ];
+			newDamageReduction += modifiers[ StatusEffectDatabase.DAMAGE_REDUCTION_MODIFIER ];
+			newColdResistance += modifiers[ StatusEffectDatabase.COLD_RESISTANCE_MODIFIER ];
+			newHotResistance += modifiers[ StatusEffectDatabase.HOT_RESISTANCE_MODIFIER ];
+			newSleazeResistance += modifiers[ StatusEffectDatabase.SLEAZE_RESISTANCE_MODIFIER ];
+			newSpookyResistance += modifiers[ StatusEffectDatabase.SPOOKY_RESISTANCE_MODIFIER ];
+			newStenchResistance += modifiers[ StatusEffectDatabase.STENCH_RESISTANCE_MODIFIER ];
 		}
 
 		if ( ARIA.getCount( activeEffects ) > 0 )
@@ -2953,6 +3117,27 @@ public abstract class KoLCharacter extends StaticEntity
 
 		changed |= rigatoniActive != newRigatoniActive;
 		rigatoniActive = newRigatoniActive;
+
+		changed |= newDamageAbsorption != damageAbsorption;
+		damageAbsorption = newDamageAbsorption;
+
+		changed |= newDamageReduction != damageReduction;
+		damageReduction = newDamageReduction;
+
+		changed |= newColdResistance != coldResistance;
+		coldResistance = newColdResistance;
+
+		changed |= newHotResistance != hotResistance;
+		hotResistance = newHotResistance;
+
+		changed |= newSleazeResistance != sleazeResistance;
+		sleazeResistance = newSleazeResistance;
+
+		changed |= newSpookyResistance != spookyResistance;
+		spookyResistance = newSpookyResistance;
+
+		changed |= newStenchResistance != stenchResistance;
+		stenchResistance = newStenchResistance;
 
 		// If the recalculation requires an update, and there was a
 		// change detected, then update.

@@ -103,6 +103,7 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int TYPE_FAMILIAR = 107;
 	public static final int TYPE_SLOT = 108;
 	public static final int TYPE_MONSTER = 109;
+	public static final int TYPE_ELEMENT = 110;
 
 	public static final int TYPE_AGGREGATE = 1000;
 
@@ -139,6 +140,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptType FAMILIAR_TYPE = new ScriptType( TYPE_FAMILIAR );
 	private static final ScriptType SLOT_TYPE = new ScriptType( TYPE_SLOT );
 	private static final ScriptType MONSTER_TYPE = new ScriptType( TYPE_MONSTER );
+	private static final ScriptType ELEMENT_TYPE = new ScriptType( TYPE_ELEMENT );
 
 	private static final ScriptType AGGREGATE_TYPE = new ScriptType( TYPE_AGGREGATE );
 
@@ -168,6 +170,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptValue FAMILIAR_INIT = new ScriptValue( FAMILIAR_TYPE, -1, "none" );
 	private static final ScriptValue SLOT_INIT = new ScriptValue( SLOT_TYPE, -1, "none" );
 	private static final ScriptValue MONSTER_INIT = new ScriptValue( MONSTER_TYPE, "none", (Object)null );
+	private static final ScriptValue ELEMENT_INIT = new ScriptValue( ELEMENT_TYPE, "none", (Object)null );
 
 	// Variables used during parsing
 	private static final ScriptFunctionList existingFunctions = getExistingFunctions();
@@ -391,6 +394,18 @@ public class KoLmafiaASH extends StaticEntity
 		return new ScriptValue( MONSTER_TYPE, name, (Object)monster );
 	}
 
+	private static ScriptValue parseElementValue( String name ) throws IllegalArgumentException
+	{
+		if ( name.equalsIgnoreCase( "none" ) )
+			return ELEMENT_INIT;
+
+		int num = MonsterDatabase.elementNumber( name );
+		if ( num == -1 )
+			throw new IllegalArgumentException( "Bad element name " + name );
+		name = MonsterDatabase.elementNames[ num ];
+		return new ScriptValue( ELEMENT_TYPE, num, name );
+	}
+
 	private static ScriptValue parseValue( ScriptType type, String name ) throws AdvancedScriptException
 	{
         try
@@ -425,6 +440,8 @@ public class KoLmafiaASH extends StaticEntity
                         return parseSlotValue( name );
                 case TYPE_MONSTER:
                         return parseMonsterValue( name );
+                case TYPE_ELEMENT:
+                        return parseElementValue( name );
             }
         }
         catch ( IllegalArgumentException e )
@@ -505,6 +522,18 @@ public class KoLmafiaASH extends StaticEntity
 			name  = EquipmentRequest.slotNames[num];
 
 		return new ScriptValue( SLOT_TYPE, num, name );
+	}
+
+	private static ScriptValue makeElementValue( int num )
+	{
+		String name;
+
+		if ( num < 0 || num >= MonsterDatabase.elementNames.length )
+			name = "bogus";
+		else
+			name  = MonsterDatabase.elementNames[num];
+
+		return new ScriptValue( ELEMENT_TYPE, num, name );
 	}
 
 	// **************** Tracing *****************
@@ -1055,6 +1084,8 @@ public class KoLmafiaASH extends StaticEntity
 			return TYPE_SLOT;
 		if ( type.equalsIgnoreCase( "monster" ) )
 			return TYPE_MONSTER;
+		if ( type.equalsIgnoreCase( "element" ) )
+			return TYPE_ELEMENT;
 
 		return -1;
 	}
@@ -2311,7 +2342,8 @@ public class KoLmafiaASH extends StaticEntity
 				param.getType().equals( TYPE_EFFECT ) ||
 				param.getType().equals( TYPE_FAMILIAR ) ||
 				param.getType().equals( TYPE_SLOT ) ||
-				param.getType().equals( TYPE_MONSTER )
+				param.getType().equals( TYPE_MONSTER ) ||
+				param.getType().equals( TYPE_ELEMENT )
 			)
 			{
 				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType() + " " + param.getName() );
@@ -2482,6 +2514,12 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "string_to_monster", MONSTER_TYPE, params ) );
 
+		params = new ScriptType[] { ELEMENT_TYPE };
+		result.addElement( new ScriptExistingFunction( "element_to_string", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "string_to_element", ELEMENT_TYPE, params ) );
+
 		// Now include xxx_to_int and int_xxx methods for datatypes
 		// for which that makes sense
 
@@ -2514,6 +2552,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { SLOT_TYPE };
 		result.addElement( new ScriptExistingFunction( "slot_to_int", INT_TYPE, params ) );
+
+		params = new ScriptType[] { INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "int_to_element", ELEMENT_TYPE, params ) );
+
+		params = new ScriptType[] { ELEMENT_TYPE };
+		result.addElement( new ScriptExistingFunction( "element_to_int", INT_TYPE, params ) );
 
 		// Begin the functions which are documented in the KoLmafia
 		// Advanced Script Handling manual.
@@ -2876,6 +2920,60 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "stat_bonus_tomorrow", STAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "monster_level_adjustment", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "familiar_weight_adjustment", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "mana_cost_modifier", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "raw_damage_absorption", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "damage_absorption_percent", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "damage_reduction", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "cold_resistance", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "hot_resistance", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "sleaze_resistance", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "spooky_resistance", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "stench_resistance", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "combat_percent_modifier", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "initiative_modifier", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "fixed_experience_bonus", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "meat_drop_modifier", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "item_drop_modifier", FLOAT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "buffed_hit_stat", INT_TYPE, params ) );
+
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "current_hit_stat", STAT_TYPE, params ) );
 
 		return result;
 	}
@@ -3454,6 +3552,14 @@ public class KoLmafiaASH extends StaticEntity
 		{	return parseMonsterValue( val.toStringValue().toString() );
 		}
 
+		public ScriptValue element_to_string( ScriptVariable val )
+		{	return val.toStringValue();
+		}
+
+		public ScriptValue string_to_element( ScriptVariable val ) throws IllegalArgumentException
+		{	return parseElementValue( val.toStringValue().toString() );
+		}
+
 		public ScriptValue item_to_int( ScriptVariable val )
 		{	return new ScriptValue( val.intValue() );
 		}
@@ -3492,6 +3598,14 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue int_to_slot( ScriptVariable val )
 		{	return makeSlotValue( val.intValue() );
+		}
+
+		public ScriptValue element_to_int( ScriptVariable val )
+		{	return new ScriptValue( val.intValue() );
+		}
+
+		public ScriptValue int_to_element( ScriptVariable val )
+		{	return makeElementValue( val.intValue() );
 		}
 
 		// Begin the functions which are documented in the KoLmafia
@@ -4308,6 +4422,99 @@ public class KoLmafiaASH extends StaticEntity
 			return KoLmafiaCLI.testConditional( "tomorrow is muscle day" ) ? parseStatValue( "muscle" ) :
 				KoLmafiaCLI.testConditional( "tomorrow is mysticism day" ) ? parseStatValue( "mysticality" ) :
 				KoLmafiaCLI.testConditional( "tomorrow is moxie day" ) ? parseStatValue( "moxie" ) : STAT_INIT;
+		}
+
+		public ScriptValue monster_level_adjustment()
+		{	return new ScriptValue( KoLCharacter.getMonsterLevelAdjustment() );
+		}
+
+		public ScriptValue familiar_weight_adjustment()
+		{
+			// Weight from skills and effects
+			int val = (KoLCharacter.getFamiliar().getID() == 38 ) ? KoLCharacter.getDodecapedeWeightAdjustment() : KoLCharacter.getFamiliarWeightAdjustment();
+			// plus weight from equipment
+			val += KoLCharacter.getFamiliarItemWeightAdjustment();
+			return new ScriptValue( val );
+		}
+
+		public ScriptValue mana_cost_modifier()
+		{	return new ScriptValue( KoLCharacter.getManaCostModifier() );
+		}
+
+		public ScriptValue raw_damage_absorption()
+		{	return new ScriptValue( KoLCharacter.getDamageAbsorption() );
+		}
+
+		public ScriptValue damage_absorption_percent()
+		{
+			int raw = KoLCharacter.getDamageAbsorption();
+			if ( raw == 0 )
+				return ZERO_FLOAT_VALUE;
+			// 1 - 2^(-DA/350)
+			double percent = 100.0 * ( 1.0 - Math.pow( 2.0, -raw / 350.0 ) );
+			return new ScriptValue( percent );
+		}
+
+		public ScriptValue damage_reduction()
+		{	return new ScriptValue( KoLCharacter.getDamageReduction() );
+		}
+
+		public ScriptValue cold_resistance()
+		{	return new ScriptValue( KoLCharacter.getColdResistance() );
+		}
+
+		public ScriptValue hot_resistance()
+		{	return new ScriptValue( KoLCharacter.getHotResistance() );
+		}
+
+		public ScriptValue sleaze_resistance()
+		{	return new ScriptValue( KoLCharacter.getSleazeResistance() );
+		}
+
+		public ScriptValue spooky_resistance()
+		{	return new ScriptValue( KoLCharacter.getSpookyResistance() );
+		}
+
+		public ScriptValue stench_resistance()
+		{	return new ScriptValue( KoLCharacter.getStenchResistance() );
+		}
+
+		public ScriptValue combat_percent_modifier()
+		{	return new ScriptValue( KoLCharacter.getCombatPercentAdjustment() );
+		}
+
+		public ScriptValue initiative_modifier()
+		{	return new ScriptValue( KoLCharacter.getInitiativeAdjustment() );
+		}
+
+		public ScriptValue fixed_experience_bonus()
+                        {	return new ScriptValue( KoLCharacter.getFixedXPAdjustment() + (double)KoLCharacter.getMonsterLevelAdjustment() / 5.0 );
+		}
+
+		public ScriptValue meat_drop_modifier()
+		{	return new ScriptValue( KoLCharacter.getMeatDropPercentAdjustment() );
+		}
+
+		public ScriptValue item_drop_modifier()
+		{	return new ScriptValue( KoLCharacter.getItemDropPercentAdjustment() );
+		}
+
+		public ScriptValue buffed_hit_stat()
+		{
+			if ( KoLCharacter.rigatoniActive() )
+				return new ScriptValue( KoLCharacter.getAdjustedMysticality() );
+			if ( KoLCharacter.rangedWeapon() )
+				return new ScriptValue( KoLCharacter.getAdjustedMoxie() );
+			return new ScriptValue( KoLCharacter.getAdjustedMuscle() );
+		}
+
+		public ScriptValue current_hit_stat()
+		{
+			if ( KoLCharacter.rigatoniActive() )
+				return parseStatValue( "mysticality" );
+			if ( KoLCharacter.rangedWeapon() )
+				return parseStatValue( "moxie" );
+			return parseStatValue( "muscle" );
 		}
 	}
 
@@ -5622,6 +5829,8 @@ public class KoLmafiaASH extends StaticEntity
 				return "slot";
 			if ( type == TYPE_MONSTER )
 				return "monster";
+			if ( type == TYPE_ELEMENT )
+				return "element";
 			return "unknown type";
 		}
 
@@ -5663,6 +5872,8 @@ public class KoLmafiaASH extends StaticEntity
 				return SLOT_INIT;
 			case TYPE_MONSTER:
 				return MONSTER_INIT;
+			case TYPE_ELEMENT:
+				return ELEMENT_INIT;
 			}
 			return null;
 		}
