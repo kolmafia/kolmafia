@@ -2435,6 +2435,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		// All datatypes must supply xxx_to_string and string_to_xxx
 		// methods.
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "refresh_status", VOID_TYPE, params ) );
 
 		params = new ScriptType[] { BOOLEAN_TYPE };
 		result.addElement( new ScriptExistingFunction( "boolean_to_string", STRING_TYPE, params ) );
@@ -2468,6 +2470,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { LOCATION_TYPE };
 		result.addElement( new ScriptExistingFunction( "location_to_string", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { LOCATION_TYPE };
+		result.addElement( new ScriptExistingFunction( "location_to_url", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "string_to_location", LOCATION_TYPE, params ) );
@@ -2816,6 +2821,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "cli_execute", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "visit_url", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "contains_text", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "bounty_hunter_wants", BOOLEAN_TYPE, params ) );
@@ -3451,6 +3462,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		// Here are all the methods for built-in ASH functions
 
+		public ScriptValue refresh_status()
+		{
+			DEFAULT_SHELL.executeLine( "refresh status" );
+			return VOID_VALUE;
+		}
+
 		public ScriptValue boolean_to_string( ScriptVariable val )
 		{	return val.toStringValue();
 		}
@@ -3493,6 +3510,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue location_to_string( ScriptVariable val )
 		{	return val.toStringValue();
+		}
+
+		public ScriptValue location_to_url( ScriptVariable val )
+		{
+			KoLAdventure adventure = (KoLAdventure) val.rawValue();
+			return new ScriptValue( adventure.getRequest().getURLString() );
 		}
 
 		public ScriptValue string_to_location( ScriptVariable val ) throws IllegalArgumentException
@@ -4168,10 +4191,30 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( KoLCharacter.hasBartender() );
 		}
 
+		public ScriptValue contains_text( ScriptVariable source, ScriptVariable search )
+		{	return new ScriptValue( source.toStringValue().toString().indexOf( search.toStringValue().toString() ) != -1 );
+		}
+
 		public ScriptValue cli_execute( ScriptVariable string )
 		{
 			DEFAULT_SHELL.executeLine( string.toStringValue().toString() );
 			return continueValue();
+		}
+
+		public ScriptValue visit_url( ScriptVariable string )
+		{
+			String location = string.toStringValue().toString();
+			String url = location.indexOf( "?" ) != -1 ? location.substring( 0, location.indexOf( "?" ) ) : location;
+			if ( url.indexOf( "send" ) != -1 || url.indexOf( "chat" ) != -1 )
+				return STRING_INIT;
+
+			KoLRequest request = new KoLRequest( client, url, true );
+			request.run();
+
+			if ( request.getURLString().indexOf( "choice.php" ) != -1 && StaticEntity.getProperty( "makeBrowserDecisions" ).equals( "false" ) )
+				request.handleChoiceResponse( request );
+
+			return new ScriptValue( request.responseText == null ? "" : request.responseText );
 		}
 
 		public ScriptValue wait( ScriptVariable delay )

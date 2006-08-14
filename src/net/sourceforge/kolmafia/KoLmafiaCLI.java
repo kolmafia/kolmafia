@@ -488,7 +488,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.indexOf( ".php" ) != -1 )
 		{
-			if ( command.indexOf( "?" ) != -1 && command.substring( 0, command.indexOf( "?" ) ).indexOf( "send" ) != -1 )
+			String url = command.indexOf( "?" ) != -1 ? command.substring( 0, command.indexOf( "?" ) ) : command;
+			if ( url.indexOf( "send" ) != -1 || url.indexOf( "chat" ) != -1 )
 				return;
 
 			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), previousLine, true );
@@ -858,7 +859,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( parameters.equals( "all" ) )
 				StaticEntity.getClient().refreshSession();
 			else if ( parameters.equals( "status" ) || parameters.equals( "effects" ) )
-				(new CharsheetRequest( StaticEntity.getClient() )).run();
+				CharpaneRequest.getInstance().run();
 			else if ( parameters.equals( "gear" ) || parameters.equals( "equipment" ) || parameters.equals( "outfit" ) )
 				(new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.EQUIPMENT )).run();
 			else if ( parameters.startsWith( "inv" ) )
@@ -2098,30 +2099,30 @@ public class KoLmafiaCLI extends KoLmafia
 			{
 				// Usage: conditions add <location> outfit
 				String outfitLocation;
-				
+
 				if (conditionString.equals("outfit"))
 					outfitLocation = StaticEntity.getProperty("lastAdventure");
 				else
 					outfitLocation = conditionString.substring(0, conditionString.length() - 7);
-				
+
 				// Try to support outfit names by mapping some outfits to their locations
 				if (outfitLocation.equals("guard") || outfitLocation.equals("elite") || outfitLocation.equals("elite guard"))
 					outfitLocation = "treasury";
 
 				if (outfitLocation.equals("rift"))
 					outfitLocation = "battlefield";
-				
+
 				if (outfitLocation.equals("cloaca-cola") || outfitLocation.equals("cloaca cola"))
 					outfitLocation = "cloaca";
-				
+
 				if( outfitLocation.equals("dyspepsi-cola") || outfitLocation.equals("dyspepsi cola"))
 					outfitLocation = "dyspepsi";
-				
+
 				KoLAdventure lastAdventure = AdventureDatabase.getAdventure( outfitLocation );
 
 				if ( !(lastAdventure instanceof KoLAdventure) )
 					updateDisplay( ERROR_STATE, "Unrecognized location: "+ outfitLocation);
-				
+
 				else if ( !EquipmentDatabase.addOutfitConditions(lastAdventure ))
 					updateDisplay( ERROR_STATE, "No outfit corresponds to " + lastAdventure.getAdventureName() + ".");
 			}
