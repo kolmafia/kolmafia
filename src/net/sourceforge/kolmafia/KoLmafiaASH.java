@@ -2781,6 +2781,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { FAMILIAR_TYPE };
 		result.addElement( new ScriptExistingFunction( "have_familiar", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] { FAMILIAR_TYPE };
+		result.addElement( new ScriptExistingFunction( "familiar_weight", INT_TYPE, params ) );
+
 		params = new ScriptType[] { MONSTER_TYPE };
 		result.addElement( new ScriptExistingFunction( "monster_base_attack", INT_TYPE, params ) );
 
@@ -3947,6 +3950,12 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue have_familiar( ScriptVariable familiar )
 		{	return new ScriptValue( KoLCharacter.findFamiliar( familiar.toStringValue().toString() ) != null );
+		}
+
+		public ScriptValue familiar_weight( ScriptVariable familiar )
+		{
+			FamiliarData fam = KoLCharacter.findFamiliar( familiar.toStringValue().toString() );
+			return new ScriptValue( (fam == null ) ? 0 : fam.getWeight() );
 		}
 
 		public ScriptValue have_effect( ScriptVariable arg )
