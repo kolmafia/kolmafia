@@ -26,6 +26,8 @@ spooky hockey mask	Spooky: +20
 stainless steel skullcap	DA: +60
 yellow traffic cone	Sleaze: +20
 
+acoustic guitarrr	Meat: +2.0
+bubble bauble bow	Item: +5.0
 can cannon	ML: +3
 can of maces	Sleaze: +10
 crowbarrr	Init: +10.0
@@ -34,8 +36,10 @@ Frost&trade; brand sword	ML: +3
 giant discarded plastic fork	Init: -10.0
 giant needle	ML: +5
 gnauga hide whip	Item: +3.0
+Grimacite galoshes	Meat: +25.0
 hippo whip	ML: +10
 ice sickle	ML: +15
+muculent machete	Meat: +5.0
 pixel sword	Init: +15.0
 rusty grave robbing shovel	Init: -10.0
 squeaky staff	ML: +6
@@ -132,6 +136,7 @@ tiny plastic stab bat	Weight: +1
 tiny plastic star starfish	Weight: +1
 tiny plastic hermit	Meat: +6.0
 toy train	Meat: +10.0
+white collar	Meat: +3.0
 
 annoying pitchfork	ML: +5
 lucky Tam O'Shanter	Meat: +50.0
