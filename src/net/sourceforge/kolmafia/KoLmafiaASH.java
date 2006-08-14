@@ -84,7 +84,7 @@ import javax.swing.JOptionPane;
 public class KoLmafiaASH extends StaticEntity
 {
 	/* Variables for Advanced Scripting */
-	public final static char [] tokenList = { ' ', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '/', '%', '[', ']', '!', ';', '<', '>' };
+	public final static char [] tokenList = { ' ', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
 	public final static String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&" };
 
 	public static final int TYPE_VOID = 0;
@@ -1814,7 +1814,7 @@ public class KoLmafiaASH extends StaticEntity
 		if
 		(
 			oper.equals( "!" ) ||
-			oper.equals( "*" ) || oper.equals( "/" ) || oper.equals( "%" ) ||
+			oper.equals( "*" ) || oper.equals( "^" ) || oper.equals( "/" ) || oper.equals( "%" ) ||
 			oper.equals( "+" ) || oper.equals( "-" ) ||
 			oper.equals( "<" ) || oper.equals( ">" ) || oper.equals( "<=" ) || oper.equals( ">=" ) ||
 			oper.equals( "==" ) || oper.equals( "!=" ) ||
@@ -6425,6 +6425,9 @@ public class KoLmafiaASH extends StaticEntity
 		private int operStrength()
 		{
 			if ( operator.equals( "!" ) || operator.equals( "contains" ) || operator.equals( "remove" ) )
+				return 7;
+
+			if ( operator.equals( "^" ) )
 				return 6;
 
 			if ( operator.equals( "*" ) || operator.equals( "/" ) || operator.equals( "%" ) )
@@ -6449,6 +6452,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return	operator.equals( "+" ) ||
 				operator.equals( "-" ) ||
 				operator.equals( "*" ) ||
+				operator.equals( "^" ) ||
 				operator.equals( "/" ) ||
 				operator.equals( "%" );
 		}
@@ -6588,6 +6592,13 @@ public class KoLmafiaASH extends StaticEntity
 				if ( isInt )
 					return new ScriptValue( lint * rint );
 				return new ScriptValue( lfloat * rfloat );
+			}
+
+			if ( operator.equals( "^" ) )
+			{
+				if ( isInt )
+					return new ScriptValue( (int) Math.pow( lint, rint ) );
+				return new ScriptValue( Math.pow( lfloat, rfloat ) );
 			}
 
 			if ( operator.equals( "/" ) )
