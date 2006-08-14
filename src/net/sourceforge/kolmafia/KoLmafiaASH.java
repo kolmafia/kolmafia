@@ -3678,7 +3678,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
+			DEFAULT_SHELL.executeLine( "eat " + count.intValue() + " " + item.toStringValue() );
 			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
@@ -3687,7 +3687,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
-			DEFAULT_SHELL.executeLine( "use " + count.intValue() + " " + item.toStringValue() );
+			DEFAULT_SHELL.executeLine( "drink " + count.intValue() + " " + item.toStringValue() );
 			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 
