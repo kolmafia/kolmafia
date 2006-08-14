@@ -36,7 +36,6 @@ Frost&trade; brand sword	ML: +3
 giant discarded plastic fork	Init: -10.0
 giant needle	ML: +5
 gnauga hide whip	Item: +3.0
-Grimacite galoshes	Meat: +25.0
 hippo whip	ML: +10
 ice sickle	ML: +15
 muculent machete	Meat: +5.0
@@ -76,6 +75,7 @@ dungeoneer's dungarees	Cold: +10, Hot: +10, Spooky: +10
 gnauga hide chaps	DA: +30
 gnauga hide kilt	DA: +30
 gnauga hide skirt	DA: +30
+Grimacite greaves	Init: +20.0
 leotarrrd	Init: +15.0
 los chinos	DA: +20
 miner's pants	DA: +20
@@ -95,6 +95,8 @@ Bonerdagon necklace	Init: +30.0
 disbelief suspenders	Sleaze: +10
 glowing red eye	Spooky: +20
 gnatwing earring	Init: +10.0
+Grimacite galoshes	Meat: +25.0
+Grimacite garget	Item: +25.0
 hockey stick of furious angry rage	ML: +30
 ice skates	Init: +15.0, Meat: +15.0
 incredibly dense meat gem	Meat: +25.0
