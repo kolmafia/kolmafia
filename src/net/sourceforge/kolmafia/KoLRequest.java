@@ -1282,7 +1282,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * adventure.
 	 */
 
-	private void handleChoiceResponse( KoLRequest request )
+	public void handleChoiceResponse( KoLRequest request )
 	{
 		client.processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
 		String text = request.responseText;
