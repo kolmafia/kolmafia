@@ -2973,8 +2973,7 @@ public abstract class KoLCharacter extends StaticEntity
 			newItemDropPercentAdjustment += 10;
 
 		if ( hasSkill( "Skin of the Leatherback" ) )
-			// Unknown Damage Absorption or Reduction Effect
-			;
+			newDamageReduction += 4;
 
 		if ( hasSkill( "Spirit of Rigatoni" ) )
 			rigatoniSkill = true;
