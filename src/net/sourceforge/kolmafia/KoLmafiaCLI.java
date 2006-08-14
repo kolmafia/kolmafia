@@ -3256,6 +3256,37 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( firstMatch == null )
 			return;
 
+		if ( previousLine.startsWith( "eat" ) )
+		{
+			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemID() ) != ConsumeItemRequest.CONSUME_EAT )
+			{
+				updateDisplay( ERROR_STATE, firstMatch.getName() + " cannot be consumed." );
+				return;
+			}
+		}
+
+		if ( previousLine.startsWith( "drink" ) )
+		{
+			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemID() ) != ConsumeItemRequest.CONSUME_DRINK )
+			{
+				updateDisplay( ERROR_STATE, firstMatch.getName() + " is not an alcoholic beverage." );
+				return;
+			}
+		}
+
+		if ( previousLine.startsWith( "use" ) )
+		{
+			switch ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemID() ) )
+			{
+				case ConsumeItemRequest.CONSUME_EAT:
+					updateDisplay( ERROR_STATE, firstMatch.getName() + " must be eaten." );
+					return;
+				case ConsumeItemRequest.CONSUME_DRINK:
+					updateDisplay( ERROR_STATE, firstMatch.getName() + " is an alcoholic beverage." );
+					return;
+			}
+		}
+
 		itemName = firstMatch.getName();
 		itemCount = firstMatch.getCount();
 		StaticEntity.getClient().makeRequest( new ConsumeItemRequest(
