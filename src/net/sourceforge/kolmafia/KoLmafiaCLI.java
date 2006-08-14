@@ -2710,14 +2710,27 @@ public class KoLmafiaCLI extends KoLmafia
 		nameList.toArray( nameArray );
 
 		int shortestIndex = -1;
+		boolean npcStoreMatch = false;
 		int shortestLength = Integer.MAX_VALUE;
 
 		for ( int i = 0; i < nameArray.length; ++i )
 		{
 			if ( NPCStoreDatabase.contains( nameArray[i] ) )
-				return TradeableItemDatabase.getItemID( nameArray[i] );
+			{
+				if ( !npcStoreMatch )
+				{
+					npcStoreMatch = true;
+					shortestIndex = i;
+					shortestLength = nameArray[i].length();
+				}
+				else if ( nameArray[i].length() < shortestLength )
+				{
+					shortestIndex = i;
+					shortestLength = nameArray[i].length();
+				}
+			}
 
-			if ( nameArray[i].length() < shortestLength )
+			if ( !npcStoreMatch && nameArray[i].length() < shortestLength )
 			{
 				shortestIndex = i;
 				shortestLength = nameArray[i].length();
