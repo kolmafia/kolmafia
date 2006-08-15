@@ -274,7 +274,7 @@ public abstract class KoLmafia implements KoLConstants
 		else
 			colorBuffer.append( "<font color=black>" );
 
-		colorBuffer.append( message );
+		colorBuffer.append( message.replaceAll( "<", "&lt;" ) );
 		colorBuffer.append( "</font>" );
 
 		if ( message.indexOf( LINE_BREAK ) != -1 )

@@ -4214,7 +4214,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( request.getURLString().indexOf( "choice.php" ) != -1 && StaticEntity.getProperty( "makeBrowserDecisions" ).equals( "false" ) )
 				request.handleChoiceResponse( request );
 
-			return new ScriptValue( request.responseText == null ? "" : request.responseText );
+			return new ScriptValue( request.fullResponse == null ? "" : request.fullResponse );
 		}
 
 		public ScriptValue wait( ScriptVariable delay )
