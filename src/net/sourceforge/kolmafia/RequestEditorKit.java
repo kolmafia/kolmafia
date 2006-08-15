@@ -466,6 +466,37 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
+	private static void downloadFile( File local, String remote )
+	{
+		try
+		{
+			BufferedInputStream in = new BufferedInputStream( (new URL( remote )).openConnection().getInputStream() );
+
+			ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 1024 );
+			byte [] buffer = new byte[1024];
+
+			int offset;
+			while ((offset = in.read(buffer)) > 0)
+				outbytes.write(buffer, 0, offset);
+
+			in.close();
+			outbytes.flush();
+
+			buffer = outbytes.toByteArray();
+
+			FileOutputStream out = new FileOutputStream( local );
+			out.write( buffer, 0, buffer.length );
+
+			out.flush();
+			out.close();
+		}
+		catch ( Exception e )
+		{
+			// This can happen whenever there is bad internet
+			// or whenever the familiar is brand-new.
+		}
+	}
+
 	/**
 	 * Downloads the given file from the KoL images server
 	 * and stores it locally.
@@ -481,34 +512,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		filename = filename.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
 		File localfile = new File( "images" + "/" + localname );
 
+		// If the file has already been downloaded, then there
+		// is nothing more to do - return from this method.
+
+		boolean downloadRequired = !localfile.exists() || localfile.length() == 0;
+		localfile.getParentFile().mkdirs();
+
+		if ( downloadRequired )
+			downloadFile( localfile, filename );
+
 		try
 		{
-			// If the file has already been downloaded, then there
-			// is nothing more to do - return from this method.
-
-			BufferedInputStream in = new BufferedInputStream( localfile.exists() ? new FileInputStream( localfile ) :
-				(new URL( filename )).openConnection().getInputStream() );
-			localfile.getParentFile().mkdirs();
-
-			ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 1024 );
-			byte [] buffer = new byte[1024];
-
-			int offset;
-			while ((offset = in.read(buffer)) > 0)
-				outbytes.write(buffer, 0, offset);
-
-			in.close();
-			outbytes.flush();
-
-			buffer = outbytes.toByteArray();
-
-			FileOutputStream out = new FileOutputStream( localfile );
-			out.write( buffer, 0, buffer.length );
-
-			in.close();
-			out.flush();
-			out.close();
-
 			images.put( filename, localfile.toURL() );
 			return (URL) images.get( filename );
 		}
