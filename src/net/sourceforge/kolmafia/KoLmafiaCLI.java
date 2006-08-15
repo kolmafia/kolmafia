@@ -1574,11 +1574,11 @@ public class KoLmafiaCLI extends KoLmafia
 
 			int runCount = 1;
 
-			File scriptFile = new File( "scripts" + File.separator + parameters );
+			File scriptFile = new File( "scripts/" + parameters );
 			if ( !scriptFile.exists() )
-				scriptFile = new File( "scripts" + File.separator + parameters + ".txt" );
+				scriptFile = new File( "scripts/" + parameters + ".txt" );
 			if ( !scriptFile.exists() )
-				scriptFile = new File( "scripts" + File.separator + parameters + ".ash" );
+				scriptFile = new File( "scripts/" + parameters + ".ash" );
 			if ( !scriptFile.exists() )
 				scriptFile = new File( parameters );
 			if ( !scriptFile.exists() )
@@ -1602,11 +1602,11 @@ public class KoLmafiaCLI extends KoLmafia
 				runCount = StaticEntity.parseInt( runCountString );
 				String scriptName = parameters.substring( parameters.indexOf( " " ) ).trim();
 
-				scriptFile = new File( "scripts" + File.separator + scriptName );
+				scriptFile = new File( "scripts/" + scriptName );
 				if ( !scriptFile.exists() )
-					scriptFile = new File( "scripts" + File.separator + scriptName + ".txt" );
+					scriptFile = new File( "scripts/" + scriptName + ".txt" );
 				if ( !scriptFile.exists() )
-					scriptFile = new File( "scripts" + File.separator + scriptName + ".ash" );
+					scriptFile = new File( "scripts/" + scriptName + ".ash" );
 				if ( !scriptFile.exists() )
 					scriptFile = new File( scriptName );
 				if ( !scriptFile.exists() )

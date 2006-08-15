@@ -476,11 +476,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		if ( images.containsKey( filename ) )
 			return (URL) images.get( filename );
 
-		String localname = filename.replaceAll( "http://images.kingdomofloathing.com/", "" ).replaceAll( "/",
-			File.separator.replaceAll( "\\\\", "\\\\\\\\" ) );
+		String localname = filename.replaceAll( "http://images.kingdomofloathing.com/", "" );
 
 		filename = filename.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
-		File localfile = new File( "images" + File.separator + localname );
+		File localfile = new File( "images" + "/" + localname );
 
 		try
 		{
@@ -1027,17 +1026,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				case 1:
 					text = text.replaceFirst( "(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
-						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/adventureimages/rat.gif\"></a>" );
+						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/adventureimages/rat.gif\" border=0></a>" );
 					break;
 
 				case 2:
 					text = text.replaceFirst( "(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
-						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/otherimages/sigils/fratboy.gif\"></a>" );
+						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/otherimages/sigils/fratboy.gif\" border=0></a>" );
 					break;
 
 				case 3:
 					text = text.replaceFirst( "(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
-						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/adventureimages/faucet.gif\" height=60 width=60></a>" );
+						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/adventureimages/faucet.gif\" height=60 width=60 border=0></a>" );
 					break;
 			}
 		}

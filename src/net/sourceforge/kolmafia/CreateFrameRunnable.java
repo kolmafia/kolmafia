@@ -51,7 +51,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 	private static final Class [] MULTI_INSTANCE =
 	{
 		ChatFrame.class,
-		RequestFrame.class,
 		ProfileFrame.class,
 		SendMessageFrame.class
 	};
@@ -124,7 +123,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
 
 			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) &&
-				tabSetting.indexOf( "," + searchString + "," ) != -1 && !RequestFrame.class.isAssignableFrom( creationType );
+				tabSetting.indexOf( "," + searchString + "," ) != -1;
 
 			if ( appearsInTab )
 			{
@@ -168,7 +167,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 
 		KoLFrame currentFrame;
 		Class currentType;
-		String currentTypeName;
 
 		String creationTypeName = (creationType == KoLPanelFrame.class ? parameters[1].getClass() : creationType).getName();
 		creationTypeName = creationTypeName.substring( creationTypeName.lastIndexOf( "." ) + 1 );
@@ -176,13 +174,12 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 		for ( int i = 0; i < existingFrames.size() && this.creation == null; ++i )
 		{
 			currentFrame = (KoLFrame) existingFrames.get(i);
-			currentTypeName = currentFrame.getFrameName();
+			currentType = currentFrame.getClass();
 
-			if ( currentTypeName.equals( creationTypeName ) )
+			if ( currentType == creationType )
 			{
-				currentType = currentFrame.getClass();
+				boolean allowMultiple = currentType == RequestFrame.class && parameters.length > 0;
 
-				boolean allowMultiple = false;
 				for ( int j = 0; j < MULTI_INSTANCE.length; ++j )
 					if ( currentType == MULTI_INSTANCE[j] )
 						allowMultiple = true;
@@ -210,7 +207,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 				KoLFrame.class.isAssignableFrom( creationType ) ? creationType.toString().substring( creationType.toString().lastIndexOf( "." ) + 1 ) : "...";
 
 			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) &&
-				tabSetting.indexOf( "," + searchString + "," ) != -1 && !RequestFrame.class.isAssignableFrom( creationType );
+				tabSetting.indexOf( "," + searchString + "," ) != -1;
 
 			if ( creationType != LoginFrame.class && StaticEntity.getProperty( "guiUsesOneWindow" ).equals( "true" ) )
 			{
@@ -218,6 +215,14 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 					KoLDesktop.removeExtraTabs();
 
 				appearsInTab = true;
+			}
+			else if ( appearsInTab && creationType == RequestFrame.class )
+			{
+				// Check to see if there's already a request frame.
+				// If there is, this one won't appear in a tab.
+
+				for ( int i = 0; i < existingFrames.size(); ++i )
+					appearsInTab &= existingFrames.get(i).getClass() != RequestFrame.class;
 			}
 
 			// If the gui is limited to one frame, then make this frame

@@ -259,9 +259,9 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			if ( !filename.endsWith( ".js" ) && line.indexOf( "<img" ) != -1 )
 			{
-				String directory = (new File( "html" + File.separator + filename )).getParent();
-				if ( !directory.endsWith( File.separator ) )
-					directory += File.separator;
+				String directory = (new File( "html/" + filename )).getParent();
+				if ( !directory.endsWith( "/" ) )
+					directory += "/";
 
 				StringBuffer lineBuffer = new StringBuffer();
 

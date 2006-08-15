@@ -114,7 +114,7 @@ public class BuffBotHome extends StaticEntity
 		String characterName = client == null ? "" : KoLCharacter.getUsername();
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
 
-		return new File( "buffs" + File.separator + noExtensionName + "_" + dayOfYear + extension );
+		return new File( "buffs/" + noExtensionName + "_" + dayOfYear + extension );
 	}
 
 	/**

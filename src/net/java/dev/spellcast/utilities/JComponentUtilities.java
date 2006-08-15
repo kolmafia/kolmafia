@@ -40,7 +40,6 @@ import java.awt.Dimension;
 
 // file-related I/O
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URL;
 
 // components
@@ -146,39 +145,34 @@ public class JComponentUtilities implements UtilityConstants
 
 	public static ImageIcon getImage( String directory, String filename )
 	{
-		if ( directory.length() > 0 && !directory.endsWith( File.separator ) && !directory.endsWith( "/" ) )
-			directory += File.separator;
+		directory = directory.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+		filename = filename.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+
+		if ( directory.length() > 0 && !directory.endsWith( "/" ) )
+			directory += "/";
 
 		ImageIcon result =  null;
 		String fullname = directory + filename;
-		String jarname = fullname.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 
 		File override = new File( fullname );
 		if ( override.exists() )
 			return new ImageIcon( fullname );
 
-		result = getImage( SYSTEM_CLASSLOADER, fullname, jarname );
+		result = getImage( SYSTEM_CLASSLOADER, fullname );
 		if ( result != null )
 			return result;
 
-		result = getImage( MAINCLASS_CLASSLOADER, fullname, jarname );
+		result = getImage( MAINCLASS_CLASSLOADER, fullname );
 		if ( result != null )
 			return result;
 
 		// if it's gotten this far, the image icon does not exist
 		return null;
 	}
-	
-	private static ImageIcon getImage( ClassLoader loader, String filename, String jarname )
+
+	private static ImageIcon getImage( ClassLoader loader, String filename )
 	{
 		URL filenameAsURL = loader.getResource( filename );
-		if ( filenameAsURL != null )
-			return new ImageIcon( filenameAsURL );
-		
-		filenameAsURL = loader.getResource( jarname );
-		if ( filenameAsURL != null )
-			return new ImageIcon( filenameAsURL );
-	
-		return null;
+		return filenameAsURL == null ? null : new ImageIcon( filenameAsURL );
 	}
 }
