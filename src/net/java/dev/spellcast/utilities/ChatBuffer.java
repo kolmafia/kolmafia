@@ -68,15 +68,9 @@
 
 package net.java.dev.spellcast.utilities;
 
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JEditorPane;
-import javax.swing.text.Element;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.html.HTMLDocument;
 import javax.swing.SwingUtilities;
-
-import net.sourceforge.kolmafia.StaticEntity;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -299,7 +293,6 @@ public class ChatBuffer
 	private class DisplayPaneUpdater implements Runnable
 	{
 		private String newContents;
-		private boolean finishedUpdate = false;
 
 		public DisplayPaneUpdater( String newContents )
 		{	this.newContents = newContents;
@@ -313,43 +306,14 @@ public class ChatBuffer
 
 			try
 			{
-				if ( newContents != null && newContents.indexOf( "<body" ) == -1 )
-				{
-					HTMLDocument currentHTML = (HTMLDocument) displayPane.getDocument();
-					Element parentElement = currentHTML.getDefaultRootElement();
-
-					while ( !parentElement.isLeaf() )
-						parentElement = parentElement.getElement( parentElement.getElementCount() - 1 );
-
-					currentHTML.insertAfterEnd( parentElement, newContents.trim() );
-					displayPane.setCaretPosition( scrollToTop ? 0 : currentHTML.getLength() );
-				}
-				else
-				{
-					if ( newContents != null )
-					{
-						String text = displayBuffer.toString();
-
-						Matcher matcher = Pattern.compile( "<style.*?</style>", Pattern.DOTALL ).matcher( text );
-						text = matcher.replaceAll( "" );
-
-						matcher = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( text );
-						text = matcher.replaceAll( "" );
-
-						displayBuffer.setLength( 0 );
-						displayBuffer.append( text );
-					}
-
-					displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-					displayPane.setCaretPosition( scrollToTop ? 0 : displayPane.getDocument().getLength() );
-				}
+				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+				if ( scrollToTop )
+					displayPane.setCaretPosition( 0 );
 			}
 			catch ( Exception e )
 			{
 				e.printStackTrace();
 			}
-
-			finishedUpdate = true;
 		}
 	}
 }
