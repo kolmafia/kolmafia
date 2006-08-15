@@ -105,7 +105,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 			if ( prices.length == 0 )
 			{
-				addFormField( "price" + index, "999999999" );
+				addFormField( "price" + index, "0" );
 				addFormField( "limit" + index, "0" );
 			}
 			else

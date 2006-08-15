@@ -447,7 +447,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		String [] tokens = fields.split( "&" );
 		for ( int i = 0; i < tokens.length; ++i )
 		{
-			if ( tokens[i].indexOf( " " ) == -1 )
+			if ( tokens[i].indexOf( " " ) != -1 )
 				addFormField( tokens[i] );
 			else
 				addEncodedFormField( tokens[i] );

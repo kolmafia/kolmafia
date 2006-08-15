@@ -498,6 +498,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	}
 
 	/**
+	 * Allow mass download of images so that you are always
+	 * using a local image cache.
+	 */
+
+	public static void downloadImages( String text )
+	{
+		Matcher imageMatcher = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\">]+" ).matcher( text );
+		while ( imageMatcher.find() )
+			downloadImage( imageMatcher.group() );
+	}
+
+	/**
 	 * Downloads the given file from the KoL images server
 	 * and stores it locally.
 	 */
@@ -508,15 +520,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			return (URL) images.get( filename );
 
 		String localname = filename.replaceAll( "http://images.kingdomofloathing.com/", "" );
-
 		filename = filename.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
-		File localfile = new File( "images" + "/" + localname );
+
+		File localfile = new File( "images/" + localname );
+		localfile.getParentFile().mkdirs();
 
 		// If the file has already been downloaded, then there
 		// is nothing more to do - return from this method.
 
 		boolean downloadRequired = !localfile.exists() || localfile.length() == 0;
-		localfile.getParentFile().mkdirs();
 
 		if ( downloadRequired )
 			downloadFile( localfile, filename );

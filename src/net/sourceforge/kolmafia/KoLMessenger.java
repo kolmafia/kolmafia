@@ -60,8 +60,6 @@ public abstract class KoLMessenger extends StaticEntity
 	private static TreeMap colors = new TreeMap();
 	private static String CHATLOG_BASENAME = "";
 
-	private static final Color DEFAULT_HIGHLIGHT = new Color( 128, 0, 128 );
-
 	private static final String [] AVAILABLE_COLORS =
 	{
 		"#000000", // default (0)
@@ -97,7 +95,10 @@ public abstract class KoLMessenger extends StaticEntity
 	private static TreeMap instantMessageBuffers = new TreeMap();
 	private static SortedListModel onlineContacts = new SortedListModel();
 
-	private static int chattingStyle = 0;
+	private static boolean enableMonitor = false;
+	private static boolean channelsSeparate = false;
+	private static boolean privateSeparate = false;
+
 	private static boolean useTabbedChat = false;
 	private static boolean highlighting = false;
 
@@ -107,7 +108,12 @@ public abstract class KoLMessenger extends StaticEntity
 		onlineContacts.clear();
 		instantMessageBuffers.clear();
 
-		chattingStyle = StaticEntity.parseInt( getProperty( "chatStyle" ) );
+		int chattingStyle = StaticEntity.parseInt( getProperty( "chatStyle" ) );
+
+		enableMonitor = chattingStyle == 4 || chattingStyle == 5;
+		channelsSeparate = chattingStyle == 0 || chattingStyle == 1 || chattingStyle == 4 || chattingStyle == 5;
+		privateSeparate = chattingStyle == 0 || chattingStyle == 2 || chattingStyle == 4;
+
 		contactsFrame = new ContactListFrame( onlineContacts );
 		useTabbedChat = getProperty( "useTabbedChat" ).equals( "1" );
 
@@ -148,7 +154,11 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( isRunning )
 			return;
 
-		reset();  isRunning = true;
+		reset();
+		isRunning = true;
+
+		if ( enableMonitor )
+			openInstantMessage( "[chat]" );
 
 		// Clear the highlights and add all the ones which
 		// were saved from the last session.
@@ -224,7 +234,7 @@ public abstract class KoLMessenger extends StaticEntity
 	private static String getBufferKey( String contact )
 	{
 		return contact == null ? currentChannel : contact.startsWith( "[" ) ? contact :
-			chattingStyle == 1 && !contact.startsWith( "/" ) ? "[blues]" : chattingStyle == 2 && contact.startsWith( "/" ) ? "[chat]" : contact;
+			!privateSeparate && !contact.startsWith( "/" ) ? "[blues]" : !channelsSeparate && contact.startsWith( "/" ) ? "[chat]" : contact;
 	}
 
 	/**
@@ -469,6 +479,7 @@ public abstract class KoLMessenger extends StaticEntity
 			channelList.toArray( channels );
 
 			openInstantMessage( getBufferKey( currentChannel ) );
+
 			for ( int i = 0; i < channels.length; ++i )
 			{
 				channelKey = "/" + channels[i].replaceAll( "<.*?>", "" ).trim();
@@ -648,17 +659,22 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( !isRunning() || channel == null || message == null || channel.length() == 0 || message.length() == 0 )
 			return;
 
-		LimitedSizeChatBuffer buffer = null;
 		String bufferKey = getBufferKey( channel );
+		if ( message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( bufferKey ) )
+			return;
+
+		processChatMessage( channel, message, bufferKey );
+		if ( enableMonitor && channelsSeparate )
+			processChatMessage( channel, message, "[chat]" );
+	}
+
+	private static void processChatMessage( String channel, String message, String bufferKey )
+	{
 		String displayHTML = "";
 
 		try
 		{
-
-			if ( message.startsWith( "No longer" ) && !instantMessageBuffers.containsKey( bufferKey ) )
-				return;
-
-			buffer = getChatBuffer( bufferKey );
+			LimitedSizeChatBuffer buffer = getChatBuffer( bufferKey );
 
 			// Figure out what the properly formatted HTML looks like
 			// first, based on who sent the message and whether or not
@@ -793,8 +809,7 @@ public abstract class KoLMessenger extends StaticEntity
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e, "Error in channel " + channel,
-				new String [] { "Channel: " + channel, "Buffer key: " + bufferKey, "Object signature: " + buffer,
-					"Use tabs: " + useTabbedChat, "Tabbed frame: " + tabbedFrame, "Collection signature: " + instantMessageBuffers,
+				new String [] { "Channel: " + channel, "Buffer key: " + bufferKey,
 					"Message: " + message, "Rendered: " + displayHTML, "" } );
 		}
 	}
@@ -811,6 +826,13 @@ public abstract class KoLMessenger extends StaticEntity
 
 		if ( colors.containsKey( lowercase ) )
 			return (String) colors.get( lowercase );
+
+		if ( channel.startsWith( "/" ) )
+		{
+			Color color = getRandomColor();
+			colors.put( lowercase, color );
+			return DataUtilities.toHexString( color );
+		}
 
 		if ( lowercase.equals( KoLCharacter.getUsername().toLowerCase() ) )
 			return (String) colors.get( "chatcolorself" );
@@ -908,6 +930,20 @@ public abstract class KoLMessenger extends StaticEntity
 			clearChatBuffer( (String) keys[i] );
 	}
 
+	private static Color getRandomColor()
+	{
+		int [] colors = new int[3];
+
+		do
+		{
+			for ( int i = 0; i < 3; ++i )
+				colors[i] = 48 + RNG.nextInt( 144 );
+		}
+		while ( colors[0] > 80 && colors[1] > 80 && colors[2] > 80 );
+
+		return new Color( colors[0], colors[1], colors[2] );
+	}
+
 	/**
 	 * Utility method to add a highlight word to the list of words currently
 	 * being handled by the highlighter.  This method will prompt the user
@@ -922,17 +958,8 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( highlight == null )
 			return;
 
-		int [] colors = new int[3];
-
-		do
-		{
-			for ( int i = 0; i < 3; ++i )
-				colors[i] = 48 + RNG.nextInt( 144 );
-		}
-		while ( colors[0] > 80 && colors[1] > 80 && colors[2] > 80 );
-
-		Color color = new Color( colors[0], colors[1], colors[2] );
 		highlighting = true;
+		Color color = getRandomColor();
 
 		LimitedSizeChatBuffer.highlightBuffer = getChatBuffer( "[highs]" );
 		LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
