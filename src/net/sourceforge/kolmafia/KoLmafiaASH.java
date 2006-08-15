@@ -4205,7 +4205,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String location = string.toStringValue().toString();
 			String url = location.indexOf( "?" ) != -1 ? location.substring( 0, location.indexOf( "?" ) ) : location;
-			if ( url.indexOf( "send" ) != -1 || url.indexOf( "chat" ) != -1 )
+			if ( url.indexOf( "send" ) != -1 || url.indexOf( "chat" ) != -1 || url.indexOf( "search" ) != -1 )
 				return STRING_INIT;
 
 			KoLRequest request = new KoLRequest( client, url, true );
