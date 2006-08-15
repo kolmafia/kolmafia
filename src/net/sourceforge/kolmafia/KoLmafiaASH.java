@@ -693,9 +693,9 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptScope result;
 		this.fileName = fileName;
 
-		File scriptFile = new File( "scripts" + File.separator + fileName );
+		File scriptFile = new File( "scripts/" + fileName );
 		if ( !scriptFile.exists() )
-			scriptFile = new File( "scripts" + File.separator + fileName + ".ash" );
+			scriptFile = new File( "scripts/" + fileName + ".ash" );
 
 		if ( scriptFile.exists() )
 		{

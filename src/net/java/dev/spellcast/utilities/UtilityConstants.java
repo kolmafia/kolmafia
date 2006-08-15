@@ -47,6 +47,6 @@ public interface UtilityConstants
 	public static final ClassLoader SYSTEM_CLASSLOADER    = ClassLoader.getSystemClassLoader();
 	public static final ClassLoader MAINCLASS_CLASSLOADER = net.java.dev.spellcast.utilities.UtilityConstants.class.getClassLoader();
 
-	public static final String DATA_DIRECTORY = "data" + java.io.File.separator;
-	public static final String IMAGE_DIRECTORY = "images" + java.io.File.separator;
+	public static final String DATA_DIRECTORY = "data/";
+	public static final String IMAGE_DIRECTORY = "images/";
 }

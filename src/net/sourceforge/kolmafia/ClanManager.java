@@ -74,7 +74,7 @@ public class ClanManager extends StaticEntity
 	private static final SimpleDateFormat STASH_FORMAT = new SimpleDateFormat( "MM/dd/yy, hh:mma", Locale.US );
 	private static final SimpleDateFormat DIRECTORY_FORMAT = new SimpleDateFormat( "yyyyMM_'w'W", Locale.US );
 
-	private static String SNAPSHOT_DIRECTORY = "clan" + File.separator;
+	private static String SNAPSHOT_DIRECTORY = "clan/";
 
 	private static String clanID;
 	private static String clanName;
@@ -172,7 +172,7 @@ public class ClanManager extends StaticEntity
 			clanID = cmr.getClanID();
 			clanName = cmr.getClanName();
 
-			SNAPSHOT_DIRECTORY = "clan" + File.separator + clanID + File.separator + DIRECTORY_FORMAT.format( new Date() ) + File.separator;
+			SNAPSHOT_DIRECTORY = "clan/" + clanID + "/" + DIRECTORY_FORMAT.format( new Date() ) + "/";
 			KoLmafia.updateDisplay( "Clan data retrieved." );
 		}
 	}
@@ -194,8 +194,8 @@ public class ClanManager extends StaticEntity
 			currentProfile = (String) profileMap.get( names[i] );
 			currentAscensionData = (String) ascensionMap.get( names[i] );
 
-			profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + KoLmafia.getPlayerID( names[i] ) + ".htm" );
-			ascensionData = new File( SNAPSHOT_DIRECTORY + "ascensions" + File.separator + KoLmafia.getPlayerID( names[i] ) + ".htm" );
+			profile = new File( SNAPSHOT_DIRECTORY + "profiles/" + KoLmafia.getPlayerID( names[i] ) + ".htm" );
+			ascensionData = new File( SNAPSHOT_DIRECTORY + "ascensions/" + KoLmafia.getPlayerID( names[i] ) + ".htm" );
 
 			if ( retrieveProfileData )
 			{
@@ -272,7 +272,7 @@ public class ClanManager extends StaticEntity
 
 	private static void initializeProfile( String name )
 	{
-		File profile = new File( SNAPSHOT_DIRECTORY + "profiles" + File.separator + KoLmafia.getPlayerID( name ) + ".htm" );
+		File profile = new File( SNAPSHOT_DIRECTORY + "profiles/" + KoLmafia.getPlayerID( name ) + ".htm" );
 
 		if ( profile.exists() )
 		{
@@ -335,7 +335,7 @@ public class ClanManager extends StaticEntity
 
 	private static void initializeAscensionData( String name )
 	{
-		File ascension = new File( SNAPSHOT_DIRECTORY + "ascensions" + File.separator + KoLmafia.getPlayerID( name ) + ".htm" );
+		File ascension = new File( SNAPSHOT_DIRECTORY + "ascensions/" + KoLmafia.getPlayerID( name ) + ".htm" );
 
 		if ( ascension.exists() )
 		{
@@ -574,7 +574,7 @@ public class ClanManager extends StaticEntity
 	public static void saveStashLog()
 	{
 		retrieveClanData();
-		File file = new File( "clan" + File.separator + clanID + File.separator + "stashlog.htm" );
+		File file = new File( "clan/" + clanID + "/stashlog.htm" );
 
 		try
 		{

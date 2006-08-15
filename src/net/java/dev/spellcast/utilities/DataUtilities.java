@@ -76,7 +76,7 @@ public class DataUtilities implements UtilityConstants
 	public static BufferedReader getReader( String filename )
 	{	return getReader( DATA_DIRECTORY, filename );
 	}
-	
+
 	/**
 	 * A public function used to retrieve the reader for a file.  Allows the
 	 * referencing of files contained within a JAR, inside of a class tree,
@@ -107,13 +107,17 @@ public class DataUtilities implements UtilityConstants
 
 	public static InputStream getInputStream( String directory, String filename )
 	{
-		if ( directory.length() > 0 && !directory.endsWith( File.separator ) && !directory.endsWith( "/" ) )
-			directory += File.separator;
+		// Reformat the name of the directory and the
+		// filename to use strictly forward slashes.
+
+		directory = directory.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+		filename = filename.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
+
+		if ( directory.length() > 0 && !directory.endsWith( "/" ) )
+			directory += "/";
 
 		InputStream locationAsInputStream;
-
 		String fullname = directory + filename;
-		String jarname = fullname.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 
 		File override = new File( fullname );
 		if ( override.exists() )
@@ -128,30 +132,20 @@ public class DataUtilities implements UtilityConstants
 			}
 		}
 
-		locationAsInputStream = getInputStream( SYSTEM_CLASSLOADER, fullname, jarname );
+		locationAsInputStream = getInputStream( SYSTEM_CLASSLOADER, fullname );
 		if ( locationAsInputStream != null )
 			return locationAsInputStream;
 
-		locationAsInputStream = getInputStream( MAINCLASS_CLASSLOADER, fullname, jarname );
+		locationAsInputStream = getInputStream( MAINCLASS_CLASSLOADER, fullname );
 		if ( locationAsInputStream != null )
 			return locationAsInputStream;
 
 		// if it's gotten this far, the file does not exist
 		return null;
 	}
-	
-	private static InputStream getInputStream( ClassLoader loader, String filename, String jarname )
-	{
-		InputStream locationAsInputStream = loader.getResourceAsStream( filename );
-		if ( locationAsInputStream != null )
-			return locationAsInputStream;
 
-		// attempt to retrieve the file from the system class tree (JAR)
-		locationAsInputStream = loader.getResourceAsStream( jarname );
-		if ( locationAsInputStream != null )
-			return locationAsInputStream;
-
-		return null;
+	private static InputStream getInputStream( ClassLoader loader, String filename )
+	{	return loader.getResourceAsStream( filename );
 	}
 
 	/**
