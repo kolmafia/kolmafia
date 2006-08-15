@@ -67,6 +67,8 @@ public class FamiliarsDatabase extends KoLDatabase
 	private static Map familiarItemByID = new TreeMap();
 	private static Map familiarLarvaByID = new TreeMap();
 
+	private static Map familiarImageByID = new TreeMap();
+
 	private static Map [] eventSkillByName = new TreeMap[4];
 
 	static
@@ -111,7 +113,7 @@ public class FamiliarsDatabase extends KoLDatabase
 				{
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
-					
+
 					StaticEntity.printStackTrace( e );
 				}
 			}
@@ -125,7 +127,7 @@ public class FamiliarsDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e );
 		}
 	}
@@ -138,6 +140,9 @@ public class FamiliarsDatabase extends KoLDatabase
 
 	public static void registerFamiliar( int familiarID, String familiarName )
 	{
+		if ( familiarByName.containsKey( familiarName ) )
+			return;
+
 		KoLmafia.getDebugStream().println( "New familiar: \"" + familiarID + "\" (" + familiarName + ")" );
 
 		// Because I'm intelligent, assume that both the familiar item
@@ -183,7 +188,6 @@ public class FamiliarsDatabase extends KoLDatabase
 	public static final int getFamiliarID( String substring )
 	{
 		String searchString = substring.toLowerCase();
-		String currentFamiliarName;
 
 		String [] familiarNames = new String[ familiarByName.keySet().size() ];
 		familiarByName.keySet().toArray( familiarNames );
@@ -210,8 +214,20 @@ public class FamiliarsDatabase extends KoLDatabase
 		return familiarID == null ? -1 : ((Integer)familiarID).intValue();
 	}
 
+	public static void setFamiliarImageLocation( int familiarID, String location )
+	{
+		familiarImageByID.put( new Integer( familiarID ), location );
+	}
+
 	public static String getFamiliarImageLocation( int familiarID )
 	{
+		String location = (String) familiarImageByID.get( new Integer( familiarID ) );
+		if ( location != null )
+			return location;
+
+		// If the HTML on the familiar page changes, then the map lookup
+		// strategy will not work.  Revert to the old behavior.
+
 		switch ( familiarID )
 		{
 			case 18:
@@ -339,7 +355,7 @@ public class FamiliarsDatabase extends KoLDatabase
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
-			
+
 			StaticEntity.printStackTrace( e, "Error in recording familiar data" );
 		}
 	}

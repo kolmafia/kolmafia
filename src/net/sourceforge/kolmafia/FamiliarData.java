@@ -49,9 +49,8 @@ public class FamiliarData implements KoLConstants, Comparable
 {
 	public static final FamiliarData NO_FAMILIAR = new FamiliarData( -1 );
 
-	private static final Pattern REGISTER_PATTERN = Pattern.compile( "<option value=(\\d+)>([^<]*?), the (.*?)</option>" );
-	private static final Pattern SEARCH_PATTERN =
-		Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/(.*?).gif.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) kills?\\)(.*?)<(/tr|form)" );
+	private static final Pattern REGISTER_PATTERN =
+		Pattern.compile( "<img src=\"http://images\\.kingdomofloathing\\.com/([^\"]*?)\" class=hand onClick='fam\\((\\d+)\\)'>.*?<b>(.*?)</b>.*?\\d+-pound (.*?) \\(([\\d,]+) kills?\\)(.*?)<(/tr|form)" );
 
 	private int id, weight;
 	private String name, race, item;
@@ -72,14 +71,18 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	private FamiliarData( KoLmafia client, Matcher dataMatcher )
 	{
-		int kills = StaticEntity.parseInt( dataMatcher.group(4) );
+		this.id = StaticEntity.parseInt( dataMatcher.group(2) );
+		this.race = dataMatcher.group(4);
+
+		FamiliarsDatabase.registerFamiliar( id, race );
+		FamiliarsDatabase.setFamiliarImageLocation( id, dataMatcher.group(1) );
+
+		int kills = StaticEntity.parseInt( dataMatcher.group(5) );
 		this.weight = Math.max( Math.min( 20, (int) Math.sqrt( kills ) ), 1 );
 
-		this.name = dataMatcher.group(2);
-		this.race = dataMatcher.group(3);
-		this.id = FamiliarsDatabase.getFamiliarID( this.race );
+		this.name = dataMatcher.group(3);
 
-		String itemData = dataMatcher.group(5);
+		String itemData = dataMatcher.group(6);
 
 		this.item = itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
 			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" :
@@ -94,22 +97,10 @@ public class FamiliarData implements KoLConstants, Comparable
 
 	public static final void registerFamiliarData( KoLmafia client, String searchText )
 	{
-		// First, make sure that all the familiar IDs exist
-		// (This allows KoLmafia to detect new familiars).
-
-		Matcher familiarMatcher = REGISTER_PATTERN.matcher( searchText );
-		while ( familiarMatcher.find() )
-		{
-			String race = familiarMatcher.group(3);
-			if ( !FamiliarsDatabase.contains( race ) )
-				FamiliarsDatabase.registerFamiliar( StaticEntity.parseInt( familiarMatcher.group(1) ), race );
-		}
-
 		// Assume he has no familiar
 		FamiliarData firstFamiliar = null;
 
-		// Examine all the familiars in the list
-		familiarMatcher = SEARCH_PATTERN.matcher( searchText );
+		Matcher familiarMatcher = REGISTER_PATTERN.matcher( searchText );
 		while ( familiarMatcher.find() )
 		{
 			FamiliarData examinedFamiliar = KoLCharacter.addFamiliar( new FamiliarData( client, familiarMatcher ) );

@@ -201,9 +201,14 @@ public class LocalRelayRequest extends KoLRequest
 			fullResponse = fullResponse.replaceFirst( "</tr>\\s*</table>\\s*</center>", selectBuffer.toString() );
 		}
 
+		// Though this might slow down loading of things a bit browser-side
+		// the first time around, it makes the mini-browser a lot more useful.
+
+		if ( StaticEntity.getProperty( "cacheRelayImages" ).equals( "true" ) )
+			RequestEditorKit.downloadImages( fullResponse );
+
 		fullResponse = RequestEditorKit.getFeatureRichHTML( formURLString.toString(), fullResponse );
 		fullResponse = fullResponse.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
-
 	}
 
 	public String getHeader( int index )

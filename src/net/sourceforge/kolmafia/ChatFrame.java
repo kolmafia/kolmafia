@@ -476,16 +476,19 @@ public class ChatFrame extends KoLFrame
 
 		public ChatOptionsPanel()
 		{
-			super( "Chat Preferences" );
+			super( "" );
 
 			fontSizeSelect = new JComboBox();
 			for ( int i = 1; i <= 7; ++i )
 				fontSizeSelect.addItem( String.valueOf( i ) );
 
 			chatStyleSelect = new JComboBox();
-			chatStyleSelect.addItem( "All conversations separate" );
+			chatStyleSelect.addItem( "Channels separate, blues separate" );
 			chatStyleSelect.addItem( "Channels separate, blues combined" );
 			chatStyleSelect.addItem( "Channels combined, blues separate" );
+			chatStyleSelect.addItem( "Channels combined, blues combined" );
+			chatStyleSelect.addItem( "Monitoring style, blues separate" );
+			chatStyleSelect.addItem( "Monitoring style, blues combined" );
 
 			useTabSelect = new JComboBox();
 			useTabSelect.addItem( "Use windowed chat interface" );

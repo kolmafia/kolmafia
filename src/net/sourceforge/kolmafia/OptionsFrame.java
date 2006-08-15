@@ -200,7 +200,8 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsSimulatorLinks", "Add Ayvuir's Simulator of Loathing link" },
 			{ "relayAddsPlinking", "Add plinking-friendly button to attack screen" },
 			{ "relayAddsShrugOffLinks", "Add shrug off links to effect duration in side pane" },
-			{ "makeBrowserDecisions", "Browser modules automatically make decisions" }
+			{ "makeBrowserDecisions", "Browser modules automatically make decisions" },
+			{ "cacheRelayImages", "Cache images seen in relay browser for mini browser" }
 		};
 
 		/**
@@ -1150,15 +1151,15 @@ public class OptionsFrame extends KoLFrame
 	{
 		private JComboBox moodSelect;
 		private CopyMoodButton moodCopy;
-		
+
 		public MoodTriggerListPanel()
 		{
-			
+
 			super( "", "new list", "remove", new JList( MoodSettings.getTriggers() ) );
 
 			moodSelect = new MoodComboBox();
 			moodCopy = new CopyMoodButton();
-			
+
 			actualPanel.add( moodSelect, BorderLayout.NORTH );
 			moodList = (JList) scrollComponent;
 			buttonPanel.add(moodCopy, BorderLayout.SOUTH);
@@ -1194,7 +1195,7 @@ public class OptionsFrame extends KoLFrame
 			{	moodList.setModel( MoodSettings.setMood( (String) getSelectedItem() ) );
 			}
 		}
-		
+
 		private class CopyMoodButton extends JButton implements ActionListener
 		{
 			public CopyMoodButton()
@@ -1207,12 +1208,12 @@ public class OptionsFrame extends KoLFrame
 				String moodName = JOptionPane.showInputDialog("Make a copy of current mood list called:");
 				if (moodName == null)
 					return;
-				
+
 				if ( moodName.equals("default"))
 					return;
-				
+
 				MoodSettings.copyTriggers(moodName);
-				moodList.setModel(MoodSettings.setMood(moodName));	
+				moodList.setModel(MoodSettings.setMood(moodName));
 			}
 		}
 	}

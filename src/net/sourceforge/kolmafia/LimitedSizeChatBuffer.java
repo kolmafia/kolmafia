@@ -159,10 +159,7 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 		// Download all the images outside of the Swing thread
 		// by downloading them here.
 
-		Matcher imageMatcher = Pattern.compile( "http://images\\.kingdomofloathing\\.com/.*?\\.(gif|jpg|css)" ).matcher( message );
-
-		while ( imageMatcher.find() )
-			RequestEditorKit.downloadImage( imageMatcher.group() );
+		RequestEditorKit.downloadImages( message );
 
 		if ( previousFontSize != fontSize && fontSize < 0 )
 			fontSize = 0 - fontSize;
