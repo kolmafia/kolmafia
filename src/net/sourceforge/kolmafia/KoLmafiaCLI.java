@@ -1979,13 +1979,22 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 		else if ( option.equals( "add" ) )
 		{
-			String conditionString = parameters.substring( option.length() ).trim();
+			String conditionString = parameters.substring( option.length() ).toLowerCase().trim();
 			sessionStream.println( "Objective: " + conditionString );
 
 			if ( conditionString.length() == 0 )
 				return true;
 
-			if ( conditionString.endsWith( "choiceadv" ) )
+			Matcher meatMatcher = Pattern.compile( "[\\d,]+ meat" ).matcher( conditionString );
+			boolean isMeatCondition = meatMatcher.find() ? meatMatcher.group().length() == conditionString.length() : false;
+
+			if ( isMeatCondition )
+			{
+				String [] splitCondition = conditionString.split( "\\s+" );
+				int amount = StaticEntity.parseInt( splitCondition[0] );
+				condition = new AdventureResult( AdventureResult.MEAT, amount );
+			}
+			else if ( conditionString.endsWith( "choiceadv" ) || conditionString.endsWith( "choices" ) || conditionString.endsWith( "choice" ) )
 			{
 				// If it's a choice adventure condition, parse out the
 				// number of choice adventures the user wishes to do.
@@ -2028,12 +2037,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 					condition = new AdventureResult( AdventureResult.SUBSTATS, subpoints );
 				}
-			}
-			else if ( conditionString.endsWith( " meat" ) )
-			{
-				String [] splitCondition = conditionString.split( "\\s+" );
-				int amount = StaticEntity.parseInt( splitCondition[0] );
-				condition = new AdventureResult( AdventureResult.MEAT, amount );
 			}
 			else if ( conditionString.endsWith( "mus" ) || conditionString.endsWith( "muscle" ) || conditionString.endsWith( "moxie" ) ||
 				conditionString.endsWith( "mys" ) || conditionString.endsWith( "myst" ) || conditionString.endsWith( "mysticality" ) )
