@@ -173,17 +173,16 @@ public class ChatRequest extends KoLRequest
 
 				try
 				{
-					ChatRequest.delay( CHAT_DELAY );
+					request.clearDataFields();
+					request.addFormField( "lasttime", String.valueOf( lastSeen ) );
+
 					request.run();
+					ChatRequest.delay( CHAT_DELAY );
 				}
 				catch ( Exception e )
 				{
 					StaticEntity.printStackTrace( e );
-					lastSeen = "1";
 				}
-
-				request.clearDataFields();
-				request.addFormField( "lasttime", String.valueOf( lastSeen ) );
 			}
 
 			thread = null;

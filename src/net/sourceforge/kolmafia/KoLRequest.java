@@ -461,19 +461,28 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		for ( int i = 0; i < elements.length; ++i )
 		{
-			if ( elements[i].indexOf( "=" ) == -1 )
-				continue;
-
-			String [] tokens = elements[i].split( "=" );
-			if ( tokens[0].equals( key ) )
+			int splitIndex = elements[i].indexOf( "=" );
+			if ( splitIndex != -1 )
 			{
-				try
+				String name = elements[i].substring( 0, splitIndex );
+				if ( name.equalsIgnoreCase( key ) )
 				{
-					return URLDecoder.decode( tokens[1], "UTF-8" );
-				}
-				catch ( Exception e )
-				{
-					return tokens[1];
+					String value = elements[i].substring( splitIndex + 1 );
+
+					try
+					{
+						// Everything was encoded as UTF-8, so go
+						// ahead and decode it that way.
+
+						return URLDecoder.decode( value, "UTF-8" );
+					}
+					catch ( Exception e )
+					{
+						// This shouldn't happen, but since you did
+						// manage to find the key, return the value.
+
+						return value;
+					}
 				}
 			}
 		}
