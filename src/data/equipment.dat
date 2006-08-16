@@ -219,6 +219,7 @@ bubble bauble bow	80	Mox: 20	2
 bubblewrap crossbow	60	Mox: 15	2
 bubblewrap staff	60	Mus: 15	2
 bubblewrap sword	60	Mus: 15
+buffalo blade	120	Mus: 45	2
 bugbear-smiting sword	150	Mus: 60	2
 Bugfinder Blade	180	Mus: 75	2
 can cannon	75	Mox: 20	2
@@ -227,6 +228,7 @@ can of maces	50	Mox: 10
 cardboard crossbow	60	Mox: 15	2
 cardboard staff	60	Mus: 15	2
 cardboard sword	60	Mus: 15
+carob cannon	135	Mox: 45	2
 Cerebral Crossbow	90	Mox: 30
 cheap plastic bottle opener	30	none
 chopsticks	75	Mus: 23
@@ -241,6 +243,9 @@ Crimbo sword	100	Mus: 35	2
 crowbarrr	80	Mus: 25	2
 curdflinger	45	Mox: 5
 denim axe	120	Mus: 45	2
+dense meat sword	60	Mus: 15	2
+dense meat staff	60	Mus: 15	2
+dense meat crossbow	60	Mox: 15	2
 diamond-studded cane	60	Mus: 15
 disco ball	10	Mox: 0
 Disco Banjo	50	Mox: 10	2
@@ -261,6 +266,7 @@ flypaper staff	80	Mus: 20	2
 Frost&trade; brand sword	70	Mus: 20
 frozen nunchaku	80	Mus: 25	2
 giant discarded plastic fork	155	Mus: 62	3
+giant cheesestick	120	Mus: 45	2
 giant needle	150	Mus: 60	2
 glistening staff	60	Mus: 15	2
 gnauga hide whip	20	none
@@ -268,15 +274,18 @@ Gnollish autoplunger	60	Mus: 15	3
 Gnollish flyswatter	35	Mus: 2
 Gnollish nunchaku	45	Mus: 7	2
 Gnollish plunger	35	Mus: 2
+goulauncher	100	Mox: 35	2
 grass blade	80	Mus: 25
 grease gun	65	Mox: 25
 grave robbing shovel	30	none	2
 Grimacite glaive	125	Mus: 47
+hairy staff	135	Mus: 45	2
 halfberd	30	none
 heavy metal thunderrr guitarrr	120	Mox: 45	2
 heteroerotic frat-paddle	150	Mus: 60
 hippo whip	20	none
 homoerotic frat-paddle	70	Mus: 20
+hot cross bow	130	Mox: 45	2
 huge mirror shard	30	none
 ice sickle	100	none	1
 icy-hot katana	90	Mus: 30	2
@@ -295,6 +304,7 @@ linoleum sword	100	Mus: 35	2
 little paper umbrella	30	none
 lucky ball-and-chain	130	Mox: 50	2
 Mafia violin case	100	Mus: 35
+meatspout staff	125	Mus: 45	2
 Mjolnir Jr.	200	Mus: 85
 muculent machete	60	Mus: 15
 ninja mop	90	Mus: 30	2
@@ -305,7 +315,9 @@ pestoblade	50	Mus: 10
 pixel sword	50	Mus: 10
 plexiglass pike pike	180	Mus: 75	2
 portable corkscrew	30	none
+potato pistol	120	Mox: 45
 poutine pole	55	Mus: 10	2
+projectile icemaker	125	Mox: 45	2
 Radio Free Foil	150	Mus: 60
 repeating crossbow	65	Mox: 15	2
 rib of the Bonerdagon	80	Mus: 25	2
@@ -317,11 +329,18 @@ rusty grave robbing shovel	80	Mus: 25	2
 sabre teeth	60	Mus: 15
 sack of doorknobs	110	Mox: 50	2
 saucepan	10	none
+savory sword	80	Mus: 25
+savory staff	80	Mus: 25	2
+savory crossbow	80	Mox: 25	2
 seal-clubbing club	10	none
+shuddersword	125	Mus: 45	2
 skeleton bone	30	none
 slightly peevedbow	60	Mox: 15	2
 slingshot	20	Mox: 0	2
+smoldering staff	130	Mus: 45	2
+soylent staff	100	Mus: 35	2
 spiked femur	100	Mus: 35
+Spirit Precipice	130	Mus: 45	2
 spooky bicycle chain	80	Mus: 25
 spooky staff	35	Mus: 2	2
 spooky stick	30	none	2
@@ -342,7 +361,9 @@ styrofoam crossbow	60	Mox: 15	2
 styrofoam staff	60	Mus: 15	2
 styrofoam sword	60	Mus: 15
 suede shortsword	40	Mus: 5
+Super Magic Power Sword X	100	Mus: 35
 sweet ninja sword	20	none
+sword behind inappropriate prepositions	130	Mus: 45	2
 sword of static	75	Mus: 20
 time sword	100	Mus: 35
 tiny ninja sword	20	none
@@ -375,6 +396,7 @@ clockwork detective skull	0	Mox: 25
 Codex of Capsaicin Conjuration	0	none
 coffin lid	0	Mus: 10
 continuum transfunctioner	0	none
+defective skull	0	none
 detective skull	0	Mox: 15
 Dyspepsi-Cola shield	0	none
 easter egg balloon	0	Mys: 35
