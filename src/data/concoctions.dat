@@ -359,32 +359,55 @@ tonic water	18	soda water
 # Super-advanced Meatsmithing base ingredients.  These items are used
 # later in the construction of meat-smithing weapons.
 
-asbestos crossbow string	13	crossbow string	asbestos ore
 asbestos meat stack	13	asbestos ore	dense meat stack
-asbestos stick	13	big stick	asbestos ore
-asbestos sword hilt	13	asbestos ore	sword hilt
+chrome meat stack	13	chrome ore	dense meat stack
+linoleum meat stack	13	linoleum ore	dense meat stack
 
-chrome crossbow string	13	chrome ore	crossbow string
-chrome meat stack	13	dense meat stack	chrome ore
-chrome stick	13	big stick	chrome ore
-chrome sword hilt	13	chrome ore	sword hilt
+# Super-advanced Meatsmithing weapons.
 
-linoleum crossbow string	13	linoleum ore	crossbow string
-linoleum meat stack	13	dense meat stack	linoleum ore
-linoleum stick	13	big stick	linoleum ore
-linoleum sword hilt	13	linoleum ore	sword hilt
+asbestos crossbow	13	sinewy crossbow string	asbestos meat stack
+asbestos staff	13	bigger stick	asbestos meat stack
+asbestos sword	13	sturdy sword hilt	asbestos meat stack
+hot cross bow	13	asbestos crossbow	hot nuggets
+smoldering staff	13	asbestos staff	patchouli incense stick
+Spirit Precipice	13	asbestos sword	glowing red eye
 
+chrome crossbow	13	sinewy crossbow string	chrome meat stack
+chrome staff	13	bigger stick	chrome meat stack
+chrome sword	13	sturdy sword hilt	chrome meat stack
+carob cannon	13	chrome crossbow	carob chunks
+meatspout staff	13	chrome staff	meat vortex
+sword behind inappropriate prepositions	13	chrome sword	facsimile dictionary
+
+linoleum crossbow	13	sinewy crossbow string	linoleum meat stack
+linoleum staff	13	bigger stick	linoleum meat stack
+linoleum sword	13	sturdy sword hilt	linoleum meat stack
+projectile icemaker	13	linoleum crossbow	cold nuggets
+hairy staff	13	linoleum staff	goat beard
+shuddersword	13	linoleum sword	spooky nuggets
+
+hippo whip	13	hippopotamus skin	whip kit
+penguin whip	13	penguin skin	whip kit
+yak whip	13	yak skin	whip kit
+gnauga hide whip	13	gnauga hide	whip kit
 
 # Meat-smithing weapons.  These items are grouped based on the
 # type of base material used in their creation.
 
-asbestos crossbow	13	asbestos crossbow string	asbestos meat stack
-asbestos staff	13	asbestos stick	asbestos meat stack
-asbestos sword	13	asbestos meat stack	asbestos sword hilt
-
 basic meat crossbow	4	crossbow string	meat stack
 basic meat staff	4	big stick	meat stack
 basic meat sword	4	sword hilt	meat stack
+
+dense meat crossbow	4	sinewy crossbow string	dense meat stack
+dense meat staff	4	bigger stick	dense meat stack
+dense meat sword	4	sturdy sword hilt	dense meat stack
+
+savory crossbow	4	dense meat crossbow	scrumptious reagent
+savory staff	4	dense meat staff	scrumptious reagent
+savory sword	4	dense meat sword	scrumptious reagent
+goulauncher	4	savory crossbow	ghuol guolash
+soylent staff	4	savory staff	wad of tofu
+Super Magic Power Sword X	4	savory sword	Tasty Fun Good rice candy
 
 basic meat foon	4	foon	meat stack
 basic meat spork	4	meat stack	spork
@@ -403,10 +426,6 @@ flypaper staff	4	cardboard staff	pine tar
 cardboard sword	4	basic meat sword	cardboard ore
 flaming cardboard sword	4	cardboard sword	hot powder
 
-chrome crossbow	13	chrome crossbow string	chrome meat stack
-chrome staff	13	chrome stick	chrome meat stack
-chrome sword	13	chrome sword hilt	chrome meat stack
-
 dripping meat crossbow	4	basic meat crossbow	ketchup
 repeating crossbow	4	dripping meat crossbow	meat engine
 dripping meat staff	4	basic meat staff	ketchup
@@ -418,13 +437,12 @@ eXtreme meat crossbow	4	basic meat crossbow	stone of eXtreme power
 eXtreme meat staff	4	basic meat staff	stone of eXtreme power
 eXtreme meat sword	4	stone of eXtreme power	basic meat sword
 
-Kentucky-fried meat crossbow	4	secret blend of herbs and spices	basic meat crossbow
-Kentucky-fried meat staff	4	secret blend of herbs and spices	basic meat staff
-Kentucky-fried meat sword	4	secret blend of herbs and spices	basic meat sword
-
-linoleum crossbow	13	linoleum meat stack	linoleum crossbow string
-linoleum staff	13	linoleum meat stack	linoleum stick
-linoleum sword	13	linoleum meat stack	linoleum sword hilt
+Kentucky-fried meat crossbow	4	secret blend of herbs and spices	dense meat crossbow
+Kentucky-fried meat staff	4	secret blend of herbs and spices	dense meat staff
+Kentucky-fried meat sword	4	secret blend of herbs and spices	dense meat sword
+potato pistol	4	Kentucky-fried meat crossbow	t8r tots
+giant cheesestick	4	Kentucky-fried meat staff	goat cheese
+buffalo blade	4	Kentucky-fried meat sword	hot wing
 
 starchy crossbow	4	basic meat crossbow	dry noodles
 curdflinger	4	starchy crossbow	bowl of cottage cheese
@@ -439,11 +457,6 @@ styrofoam staff	4	basic meat staff	styrofoam ore
 squeaky staff	4	styrofoam staff	sonar-in-a-biscuit
 styrofoam sword	4	basic meat sword	styrofoam ore
 Frost&trade; brand sword	4	styrofoam sword	cold powder
-
-hippo whip	13	hippopotamus skin	whip kit
-penguin whip	13	penguin skin	whip kit
-yak whip	13	yak skin	whip kit
-gnauga hide whip	13	gnauga hide	whip kit
 
 
 # Meat-smithing armor pieces.  These items are helmets, pants,

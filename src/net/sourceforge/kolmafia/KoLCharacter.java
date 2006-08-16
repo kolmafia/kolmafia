@@ -2890,6 +2890,14 @@ public abstract class KoLCharacter extends StaticEntity
 				case 1716:	// starchy staff
 				case 1719:	// poutine pole
 				case 1722:	// glistening staff
+				case 1725:	// bigger stick
+				case 1729:	// dense meat staff
+				case 1732:	// smoldering staff
+				case 1735:	// meatspout staff
+				case 1738:	// hairy staff
+				case 1741:	// giant cheesestick
+				case 1744:	// savory staff
+				case 1747:	// soylent staff
 					hasStaff = true;
 					break;
 
