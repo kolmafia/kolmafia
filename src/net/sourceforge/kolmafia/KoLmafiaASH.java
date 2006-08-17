@@ -2925,6 +2925,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "damage_reduction", INT_TYPE, params ) );
 
+		params = new ScriptType[] { ELEMENT_TYPE };
+		result.addElement( new ScriptExistingFunction( "elemental_resistance", FLOAT_TYPE, params ) );
+
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "cold_resistance", FLOAT_TYPE, params ) );
 
@@ -4589,6 +4592,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue damage_reduction()
 		{	return new ScriptValue( KoLCharacter.getDamageReduction() );
+		}
+
+		public ScriptValue elemental_resistance( ScriptVariable element )
+		{	return new ScriptValue( KoLCharacter.getElementalResistance( element.intValue() ) );
 		}
 
 		public ScriptValue cold_resistance()

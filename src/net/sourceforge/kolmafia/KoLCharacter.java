@@ -1257,6 +1257,31 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
+	 * Accessor method to retrieve the current elemental resistance
+	 *
+	 * @return	Total Current  Resistance to specified element
+	 */
+
+	public static double getElementalResistance( int element )
+	{
+		switch ( element )
+		{
+		case MonsterDatabase.COLD:
+			return coldResistance;
+		case MonsterDatabase.HEAT:
+			return hotResistance;
+		case MonsterDatabase.SLEAZE:
+			return sleazeResistance;
+		case MonsterDatabase.SPOOKY:
+			return spookyResistance;
+		case MonsterDatabase.STENCH:
+			return stenchResistance;
+		}
+
+		return 0.0;
+	}
+
+	/**
 	 * Accessor method to retrieve the total current cold resistance
 	 *
 	 * @return	Total Current Cold Resistance
