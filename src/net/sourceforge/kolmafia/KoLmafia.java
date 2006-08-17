@@ -266,6 +266,9 @@ public abstract class KoLmafia implements KoLConstants
 
 		StringBuffer colorBuffer = new StringBuffer();
 
+		if ( message.indexOf( "<" ) != -1 )
+			return;
+
 		if ( message.indexOf( LINE_BREAK ) != -1 )
 			colorBuffer.append( "<pre>" );
 
@@ -274,7 +277,7 @@ public abstract class KoLmafia implements KoLConstants
 		else
 			colorBuffer.append( "<font color=black>" );
 
-		colorBuffer.append( message.replaceAll( "<", "&lt;" ) );
+		colorBuffer.append( message );
 		colorBuffer.append( "</font>" );
 
 		if ( message.indexOf( LINE_BREAK ) != -1 )
@@ -286,7 +289,7 @@ public abstract class KoLmafia implements KoLConstants
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );
 		commandBuffer.append( colorBuffer.toString() );
 
-		if ( !existingFrames.isEmpty() )
+		if ( !existingFrames.isEmpty() && message.indexOf( LINE_BREAK ) == -1 )
 			updateDisplayState( CONTINUE_STATE, message );
 	}
 
@@ -1170,8 +1173,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( results.indexOf( "gains a pound" ) != -1 )
 			KoLCharacter.incrementFamilarWeight();
 
-		String plainTextResult = results.replaceAll( "<.*?>", "\n" );
-		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, "\n" );
+		String plainTextResult = results.replaceAll( "<.*?>", LINE_BREAK );
+		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, LINE_BREAK );
 		String lastToken = null;
 
 		Matcher damageMatcher = Pattern.compile( "you for ([\\d,]+) damage" ).matcher( plainTextResult );
@@ -2149,8 +2152,15 @@ public abstract class KoLmafia implements KoLConstants
 		Object [] elements = new Object[ printing.size() ];
 		printing.toArray( elements );
 
+		StringBuffer buffer = new StringBuffer();
+
 		for ( int i = 0; i < elements.length; ++i )
-			KoLmafiaCLI.printLine( elements[i].toString() );
+		{
+			buffer.append( elements[i].toString() );
+			buffer.append( LINE_BREAK );
+		}
+
+		KoLmafiaCLI.printLine( buffer.toString() );
 	}
 
 	/**
