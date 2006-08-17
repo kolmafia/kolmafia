@@ -410,6 +410,12 @@ soylent staff	4	savory staff	wad of tofu
 Super Magic Power Sword X	4	savory sword	Tasty Fun Good rice candy
 
 basic meat foon	4	foon	meat stack
+foon of fulmination	4	basic meat foon	hot powder
+foon of frigidity	4	basic meat foon	cold powder
+foon of foulness	4	basic meat foon	stench powder
+foon of fearfulness	4	basic meat foon	spooky powder
+foon of fleshiness	4	basic meat foon	sleaze powder
+
 basic meat spork	4	meat stack	spork
 
 bubblewrap crossbow	4	basic meat crossbow	bubblewrap ore
@@ -668,6 +674,7 @@ star buckler	9	star chart	star (4)	line (6)
 star crossbow	9	star chart	star (5)	line (6)
 star hat	9	star chart	star (5)	line (3)
 star pants	9	star chart	star (7)	line (7)
+star spatula	9	star chart	star (5)	line (5)
 star staff	9	star chart	star (6)	line (5)
 star starfish	9	star chart	star (6)	line (4)
 star stiletto	9	star chart	star (5)	line (4)

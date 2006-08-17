@@ -2981,7 +2981,8 @@ public abstract class KoLCharacter extends StaticEntity
 			newItemDropPercentAdjustment += 10;
 
 		if ( hasSkill( "Skin of the Leatherback" ) )
-			newDamageReduction += 4;
+			// Varies according to level, somehow
+			;
 
 		if ( hasSkill( "Spirit of Rigatoni" ) )
 			rigatoniSkill = true;
