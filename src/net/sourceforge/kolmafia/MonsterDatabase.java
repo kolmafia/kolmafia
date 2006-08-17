@@ -50,15 +50,15 @@ public class MonsterDatabase extends KoLDatabase
 
 	// Elements
 	public static final int NONE = 0;
-	public static final int HEAT = 1;
-	public static final int COLD = 2;
-	public static final int STENCH = 3;
+	public static final int COLD = 1;
+	public static final int HEAT = 2;
+	public static final int SLEAZE = 3;
 	public static final int SPOOKY = 4;
-	public static final int SLEAZE = 5;
+	public static final int STENCH = 5;
 
 	public static final String [] elementNames =
 	{
-		"hot", "cold", "stench", "spooky", "sleaze"
+		"none", "cold", "hot", "sleaze", "spooky", "stench"
 	};
 
 	public static int elementNumber( String name )
