@@ -34,11 +34,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.TimeZone;
-
-import javax.swing.SwingUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity implements KoLConstants
@@ -248,8 +246,18 @@ public abstract class StaticEntity implements KoLConstants
 		if ( client.getCurrentRequest() != null )
 			KoLmafia.getDebugStream().println( "" + client.getCurrentRequest().responseText );
 
-		if ( shouldOpenStream )
-			KoLmafia.closeDebugStream();
+		try
+		{
+			if ( shouldOpenStream )
+			{
+				KoLmafia.closeDebugStream();
+				BrowserLauncher.openURL( (new File( "KoLmafia.log" )).toURL().toString() );
+			}
+		}
+		catch ( Exception e )
+		{
+
+		}
 	}
 
 	public static final int parseInt( String string )
