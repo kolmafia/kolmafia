@@ -2768,7 +2768,7 @@ public class KoLmafiaCLI extends KoLmafia
 				matchingNames.clear();
 		}
 
-		if ( matchingNames.isEmpty() )
+		if ( matchingNames.isEmpty() && parameters.indexOf( " " ) != -1 )
 		{
 			boolean isNumeric = true;
 			for ( int i = 0; i < parameters.length() && parameters.charAt(i) != ' '; ++i )
@@ -3762,7 +3762,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		StringBuffer colorBuffer = new StringBuffer();
 		colorBuffer.append( "<font color=black>" );
-		colorBuffer.append( line );
+		colorBuffer.append( line.replaceAll( "\n", "\n<br>" ) );
 		colorBuffer.append( "</font><br>" );
 		colorBuffer.append( LINE_BREAK );
 
