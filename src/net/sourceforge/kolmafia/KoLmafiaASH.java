@@ -124,25 +124,26 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static final String escapeString = "//";
 
-	private static final ScriptType VOID_TYPE = new ScriptType( TYPE_VOID );
-	private static final ScriptType BOOLEAN_TYPE = new ScriptType( TYPE_BOOLEAN );
-	private static final ScriptType INT_TYPE = new ScriptType( TYPE_INT );
-	private static final ScriptType FLOAT_TYPE = new ScriptType( TYPE_FLOAT );
-	private static final ScriptType STRING_TYPE = new ScriptType( TYPE_STRING );
 
-	private static final ScriptType ITEM_TYPE = new ScriptType( TYPE_ITEM );
-	private static final ScriptType ZODIAC_TYPE = new ScriptType( TYPE_ZODIAC );
-	private static final ScriptType LOCATION_TYPE = new ScriptType( TYPE_LOCATION );
-	private static final ScriptType CLASS_TYPE = new ScriptType( TYPE_CLASS );
-	private static final ScriptType STAT_TYPE = new ScriptType( TYPE_STAT );
-	private static final ScriptType SKILL_TYPE = new ScriptType( TYPE_SKILL );
-	private static final ScriptType EFFECT_TYPE = new ScriptType( TYPE_EFFECT );
-	private static final ScriptType FAMILIAR_TYPE = new ScriptType( TYPE_FAMILIAR );
-	private static final ScriptType SLOT_TYPE = new ScriptType( TYPE_SLOT );
-	private static final ScriptType MONSTER_TYPE = new ScriptType( TYPE_MONSTER );
-	private static final ScriptType ELEMENT_TYPE = new ScriptType( TYPE_ELEMENT );
+	private static final ScriptType VOID_TYPE = new ScriptType( "void", TYPE_VOID );
+	private static final ScriptType BOOLEAN_TYPE = new ScriptType( "boolean", TYPE_BOOLEAN );
+	private static final ScriptType INT_TYPE = new ScriptType( "int", TYPE_INT );
+	private static final ScriptType FLOAT_TYPE = new ScriptType( "float", TYPE_FLOAT );
+	private static final ScriptType STRING_TYPE = new ScriptType( "string", TYPE_STRING );
 
-	private static final ScriptType AGGREGATE_TYPE = new ScriptType( TYPE_AGGREGATE );
+	private static final ScriptType ITEM_TYPE = new ScriptType( "item", TYPE_ITEM );
+	private static final ScriptType ZODIAC_TYPE = new ScriptType( "zodiac", TYPE_ZODIAC );
+	private static final ScriptType LOCATION_TYPE = new ScriptType( "location", TYPE_LOCATION );
+	private static final ScriptType CLASS_TYPE = new ScriptType( "class", TYPE_CLASS );
+	private static final ScriptType STAT_TYPE = new ScriptType( "stat", TYPE_STAT );
+	private static final ScriptType SKILL_TYPE = new ScriptType( "skill", TYPE_SKILL );
+	private static final ScriptType EFFECT_TYPE = new ScriptType( "effect", TYPE_EFFECT );
+	private static final ScriptType FAMILIAR_TYPE = new ScriptType( "familiar", TYPE_FAMILIAR );
+	private static final ScriptType SLOT_TYPE = new ScriptType( "slot", TYPE_SLOT );
+	private static final ScriptType MONSTER_TYPE = new ScriptType( "monster", TYPE_MONSTER );
+	private static final ScriptType ELEMENT_TYPE = new ScriptType( "element", TYPE_ELEMENT );
+
+	private static final ScriptType AGGREGATE_TYPE = new ScriptType( "aggregate", TYPE_AGGREGATE );
 
 	// Common values
 
@@ -174,6 +175,7 @@ public class KoLmafiaASH extends StaticEntity
 
 	// Variables used during parsing
 	private static final ScriptFunctionList existingFunctions = getExistingFunctions();
+	private static final ScriptTypeList simpleTypes = getSimpleTypes();
 	private static ArrayList imports = new ArrayList();
 	public LineNumberReader commandStream;
 	public String fileName;
@@ -752,7 +754,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		while ( true )
 		{
-			if ( (t = parseType( true )) == null )
+			if ( (t = parseType( true, result )) == null )
 			{
 				if ( (c = parseCommand( expectedType, result, false, whileLoop )) != null )
 				{
@@ -810,7 +812,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		while ( !currentToken().equals( ")" ) )
 		{
-			ScriptType paramType = parseType( true );
+			ScriptType paramType = parseType( true, parentScope );
 			if (paramType == null )
 				throw new AdvancedScriptException( " ')' Expected " + getLineAndFile() );
 
@@ -976,26 +978,24 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptType parseType( boolean aggregates ) throws AdvancedScriptException
+	private ScriptType parseType( boolean aggregates, ScriptScope scope ) throws AdvancedScriptException
 	{
 		if ( currentToken() == null )
 			return null;
 
-		int type = parseTypeString( currentToken() );
-                if ( type < 0 )
-                        return null;
-
-		ScriptType valType = new ScriptType( type );
+                ScriptType valType = scope.findType( currentToken() );
+		if ( valType == null )
+			return null;
 
 		readToken();
 
 		if ( aggregates && currentToken().equals( "[" ) )
-			return parseAggregateType( valType );
+			return parseAggregateType( valType, scope );
 
 		return valType;
 	}
 
-	private ScriptType parseAggregateType( ScriptType dataType ) throws AdvancedScriptException
+	private ScriptType parseAggregateType( ScriptType dataType, ScriptScope scope ) throws AdvancedScriptException
 	{
 		readToken();	// [ or ,
 		if ( currentToken() == null )
@@ -1015,15 +1015,17 @@ public class KoLmafiaASH extends StaticEntity
 			}
 
 			if ( currentToken().equals( "," ) )
-				return new ScriptAggregateType( parseAggregateType( dataType ) , size );
+				return new ScriptAggregateType( parseAggregateType( dataType, scope ) , size );
 
 			throw new AdvancedScriptException( ", or ] expected " + getLineAndFile() );
 		}
 
-		int type = parseTypeString( currentToken() );
-		if ( type < 0 )
-			throw new AdvancedScriptException( "Bad index type: " + currentToken() + " " + getLineAndFile() );
-		ScriptType indexType = new ScriptType( type );
+		ScriptType indexType = scope.findType( currentToken() );
+		if ( indexType == null )
+			throw new AdvancedScriptException( "Invalid type name: " + currentToken() + " " + getLineAndFile() );
+
+		if ( !indexType.isPrimitive() )
+			throw new AdvancedScriptException( "Index type: " + currentToken() + " is not a primitive type " + getLineAndFile() );
 
 		readToken();	// type name
 		if ( currentToken() == null )
@@ -1036,7 +1038,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		if ( currentToken().equals( "," ) )
-			return new ScriptAggregateType( parseAggregateType( dataType ) , indexType );
+			return new ScriptAggregateType( parseAggregateType( dataType, scope ) , indexType );
 
 		throw new AdvancedScriptException( ", or ] expected " + getLineAndFile() );
 	}
@@ -1051,44 +1053,6 @@ public class KoLmafiaASH extends StaticEntity
 
                 return true;
         }
-
-	private int parseTypeString( String type )
-	{
-		if ( type.equalsIgnoreCase( "void" ) )
-			return TYPE_VOID;
-		if ( type.equalsIgnoreCase( "boolean" ) )
-			return TYPE_BOOLEAN;
-		if ( type.equalsIgnoreCase( "int" ) )
-			return TYPE_INT;
-		if ( type.equalsIgnoreCase( "float" ) )
-			return TYPE_FLOAT;
-		if ( type.equalsIgnoreCase( "string" ) )
-			return TYPE_STRING;
-		if ( type.equalsIgnoreCase( "item" ) )
-			return TYPE_ITEM;
-		if ( type.equalsIgnoreCase( "zodiac" ) )
-			return TYPE_ZODIAC;
-		if ( type.equalsIgnoreCase( "location" ) )
-			return TYPE_LOCATION;
-		if ( type.equalsIgnoreCase( "class" ) )
-			return TYPE_CLASS;
-		if ( type.equalsIgnoreCase( "stat" ) )
-			return TYPE_STAT;
-		if ( type.equalsIgnoreCase( "skill" ) )
-			return TYPE_SKILL;
-		if ( type.equalsIgnoreCase( "effect" ) )
-			return TYPE_EFFECT;
-		if ( type.equalsIgnoreCase( "familiar" ) )
-			return TYPE_FAMILIAR;
-		if ( type.equalsIgnoreCase( "slot" ) )
-			return TYPE_SLOT;
-		if ( type.equalsIgnoreCase( "monster" ) )
-			return TYPE_MONSTER;
-		if ( type.equalsIgnoreCase( "element" ) )
-			return TYPE_ELEMENT;
-
-		return -1;
-	}
 
 	private boolean parseIdentifier( String identifier )
 	{
@@ -1757,7 +1721,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			readToken();
 
-			ScriptType type = parseType( false );
+			ScriptType type = parseType( false, scope );
 			if ( type == null )
 				throw new AdvancedScriptException( "Unknown type " + currentToken() + " " + getLineAndFile() );
 
@@ -2425,7 +2389,7 @@ public class KoLmafiaASH extends StaticEntity
 	}
 
 	public ScriptScope getExistingFunctionScope()
-	{	return new ScriptScope( existingFunctions, null );
+	{	return new ScriptScope( existingFunctions, null, simpleTypes );
 	}
 
 	public static ScriptFunctionList getExistingFunctions()
@@ -2992,10 +2956,33 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
+	public static ScriptTypeList getSimpleTypes()
+	{
+		ScriptTypeList result = new ScriptTypeList();
+		result.addElement( VOID_TYPE );
+		result.addElement( BOOLEAN_TYPE );
+		result.addElement( INT_TYPE );
+		result.addElement( FLOAT_TYPE );
+		result.addElement( STRING_TYPE );
+		result.addElement( ITEM_TYPE );
+		result.addElement( ZODIAC_TYPE );
+		result.addElement( LOCATION_TYPE );
+		result.addElement( CLASS_TYPE );
+		result.addElement( STAT_TYPE );
+		result.addElement( SKILL_TYPE );
+		result.addElement( EFFECT_TYPE );
+		result.addElement( FAMILIAR_TYPE );
+		result.addElement( SLOT_TYPE );
+		result.addElement( MONSTER_TYPE );
+		result.addElement( ELEMENT_TYPE );
+		return result;
+	}
+
 	private class ScriptScope
 	{
 		ScriptFunctionList	functions;
 		ScriptVariableList	variables;
+		ScriptTypeList		types;
 		ScriptCommandList	commands;
 		ScriptScope		parentScope;
 
@@ -3003,6 +2990,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.functions = new ScriptFunctionList();
 			this.variables = new ScriptVariableList();
+			this.types = new ScriptTypeList();
 			this.commands = new ScriptCommandList();
 			this.parentScope = parentScope;
 		}
@@ -3011,6 +2999,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			this.functions = new ScriptFunctionList();
 			this.variables = new ScriptVariableList();
+			this.types = new ScriptTypeList();
 			this.commands = new ScriptCommandList();
 			this.commands.addElement( command );
 			this.parentScope = parentScope;
@@ -3022,11 +3011,12 @@ public class KoLmafiaASH extends StaticEntity
 			if ( variables == null )
 				variables = new ScriptVariableList();
 			this.variables = variables;
+			this.types = new ScriptTypeList();
 			this.commands = new ScriptCommandList();
 			this.parentScope = parentScope;
 		}
 
-		public ScriptScope( ScriptFunctionList functions, ScriptVariableList variables  )
+		public ScriptScope( ScriptFunctionList functions, ScriptVariableList variables, ScriptTypeList types  )
 		{
 			if ( functions == null )
 				functions = new ScriptFunctionList();
@@ -3034,6 +3024,9 @@ public class KoLmafiaASH extends StaticEntity
 			if ( variables == null )
 				variables = new ScriptVariableList();
 			this.variables = variables;
+			if ( types == null )
+				types = new ScriptTypeList();
+			this.types = types;
 			this.commands = new ScriptCommandList();
 			this.parentScope = null;
 		}
@@ -3081,6 +3074,28 @@ public class KoLmafiaASH extends StaticEntity
 				return current;
 			if ( recurse && parentScope != null )
 				return parentScope.findVariable( name, true );
+			return null;
+		}
+
+		public boolean addType( ScriptType t )
+		{	return types.addElement( t );
+		}
+
+		public ScriptType getFirstType()
+		{	return (ScriptType)types.getFirstElement();
+		}
+
+		public ScriptType getNextType()
+		{	return (ScriptType)types.getNextElement();
+		}
+
+		public ScriptType findType( String name )
+		{
+			ScriptType current = types.findType( name );
+			if ( current != null )
+				return current;
+			if ( parentScope != null )
+				return parentScope.findType( name );
 			return null;
 		}
 
@@ -5822,17 +5837,24 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private static class ScriptType
+	private static class ScriptType extends ScriptSymbol
 	{
-		int type;
+		protected boolean primitive;
+		private int type;
 
-		public ScriptType( int type )
+		public ScriptType( String name, int type )
 		{
+			super( name );
+			this.primitive = true;
 			this.type = type;
 		}
 
 		public int getType()
 		{	return type;
+		}
+
+		public boolean isPrimitive()
+		{	return primitive;
 		}
 
 		public boolean equals( ScriptType type )
@@ -5850,40 +5872,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{
-			if ( type == TYPE_VOID )
-				return "void";
-			if ( type == TYPE_BOOLEAN )
-				return "boolean";
-			if ( type == TYPE_INT )
-				return "int";
-			if ( type == TYPE_FLOAT )
-				return "float";
-			if ( type == TYPE_STRING )
-				return "string";
-			if ( type == TYPE_ITEM )
-				return "item";
-			if ( type == TYPE_ZODIAC )
-				return "zodiac";
-			if ( type == TYPE_LOCATION )
-				return "location";
-			if ( type == TYPE_CLASS )
-				return "class";
-			if ( type == TYPE_STAT )
-				return "stat";
-			if ( type == TYPE_SKILL )
-				return "skill";
-			if ( type == TYPE_EFFECT )
-				return "effect";
-			if ( type == TYPE_FAMILIAR )
-				return "familiar";
-			if ( type == TYPE_SLOT )
-				return "slot";
-			if ( type == TYPE_MONSTER )
-				return "monster";
-			if ( type == TYPE_ELEMENT )
-				return "element";
-			return "unknown type";
+		{	return name;
 		}
 
 		public ScriptType simpleType()
@@ -5944,7 +5933,8 @@ public class KoLmafiaASH extends StaticEntity
 		// Map
 		public ScriptAggregateType( ScriptType dataType, ScriptType indexType )
 		{
-			super( TYPE_AGGREGATE );
+			super( "aggregate", TYPE_AGGREGATE );
+			this.primitive = false;
 			this.dataType = dataType;
 			this.indexType = indexType;
 			this.size = 0;
@@ -5953,7 +5943,8 @@ public class KoLmafiaASH extends StaticEntity
 		// Array
 		public ScriptAggregateType( ScriptType dataType, int size )
 		{
-			super( TYPE_AGGREGATE );
+			super( "aggregate", TYPE_AGGREGATE );
+			this.primitive = false;
 			this.dataType = dataType;
 			this.indexType = INT_TYPE;
 			this.size = size;
@@ -6036,6 +6027,25 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{	return "init";
+		}
+	}
+
+	private static class ScriptTypeList extends ScriptSymbolTable
+	{
+		public boolean addElement( ScriptType n )
+		{	return super.addElement( n );
+		}
+
+		public ScriptType findType( String name )
+		{	return (ScriptType)super.findSymbol( name );
+		}
+
+		public ScriptType getFirstType()
+		{	return (ScriptType)getFirstElement();
+		}
+
+		public ScriptType getNextType()
+		{	return (ScriptType)getNextElement();
 		}
 	}
 
