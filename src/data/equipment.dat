@@ -260,6 +260,7 @@ eXtreme meat crossbow	60	Mox: 15	2
 eXtreme meat staff	60	Mus: 15	2
 eXtreme meat sword	60	Mus: 15	2
 fetus-smashing club	200	Mus: 85	2
+filthy pestle	60	Mus: 15
 flaming cardboard sword	70	Mus: 20
 flaming crutch	60	Mus: 15
 flypaper staff	80	Mus: 20	2
@@ -273,7 +274,9 @@ gnauga hide whip	20	none
 Gnollish autoplunger	60	Mus: 15	3
 Gnollish flyswatter	35	Mus: 2
 Gnollish nunchaku	45	Mus: 7	2
+Gnollish pie server	20	none
 Gnollish plunger	35	Mus: 2
+Gnollish slotted spoon	25	none
 goulauncher	100	Mox: 35	2
 grass blade	80	Mus: 25
 grease gun	65	Mox: 25
@@ -287,6 +290,7 @@ hippo whip	20	none
 homoerotic frat-paddle	70	Mus: 20
 hot cross bow	130	Mox: 45	2
 huge mirror shard	30	none
+huge spoon	90	Mus: 30
 ice sickle	100	none	1
 icy-hot katana	90	Mus: 30	2
 iron pasta spoon	110	Mus: 40
@@ -295,7 +299,9 @@ Kentucky-fried meat staff	80	Mus: 25	2
 Kentucky-fried meat sword	80	Mus: 25	2
 kneecapping stick	90	Mus: 30
 Knob Goblin elite polearm	60	Mus: 15	2
+Knob Goblin melon baller	80	Mus: 25
 Knob Goblin scimitar	15	none
+Knob Goblin spatula	30	none
 Knob Goblin tongs	20	none
 lead yo-yo	80	Mox: 25
 linoleum crossbow	100	Mox: 35	2
@@ -308,6 +314,7 @@ meatspout staff	125	Mus: 45	2
 Mjolnir Jr.	200	Mus: 85
 muculent machete	60	Mus: 15
 ninja mop	90	Mus: 30	2
+oversized pizza cutter	100	Mus: 35
 Pasta of Peril	50	Mus: 10
 pasta spoon	10	none
 penguin whip	20	none
@@ -349,6 +356,7 @@ squeaky staff	75	Mus: 20	2
 stainless steel shillelagh	90	Mus: 30
 star boomerang	135	Mox: 52
 star crossbow	165	Mox: 67	2
+star spatula	150	Mus: 60
 star staff	165	Mus: 67	2
 star stiletto	135	Mus: 52
 star sword	165	Mus: 67	2
@@ -404,6 +412,11 @@ enchanted brass knuckles	0	Mys: 10
 fake hand	0	none
 flaming talons	0	Mys: 30
 foon	0	none
+foon of fulmination	0	Mus: 10
+foon of frigidity	0	Mus: 10
+foon of foulness	0	Mus: 10
+foon of fearfulness	0	Mus: 10
+foon of fleshiness	0	Mus: 10
 Gazpacho's Glacial Grimoire	0	none
 giant stuffed bugbear	0	none
 Glass Balls of the Goblin King	0	Mys: 20
