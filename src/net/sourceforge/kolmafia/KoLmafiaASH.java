@@ -124,7 +124,6 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static final String escapeString = "//";
 
-
 	private static final ScriptType VOID_TYPE = new ScriptType( "void", TYPE_VOID );
 	private static final ScriptType BOOLEAN_TYPE = new ScriptType( "boolean", TYPE_BOOLEAN );
 	private static final ScriptType INT_TYPE = new ScriptType( "int", TYPE_INT );
@@ -176,6 +175,8 @@ public class KoLmafiaASH extends StaticEntity
 	// Variables used during parsing
 	private static final ScriptFunctionList existingFunctions = getExistingFunctions();
 	private static final ScriptTypeList simpleTypes = getSimpleTypes();
+	private static final ScriptSymbolTable reservedWords = getReservedWords();
+
 	private static ArrayList imports = new ArrayList();
 	public LineNumberReader commandStream;
 	public String fileName;
@@ -804,6 +805,9 @@ public class KoLmafiaASH extends StaticEntity
 
 		String functionName = currentToken();
 
+		if ( isReservedWord( functionName ) )
+			throw new AdvancedScriptException( "'" + functionName + "' is a reserved word " + getLineAndFile() );
+
 		readToken(); //read Function name
 		readToken(); //read (
 
@@ -884,7 +888,11 @@ public class KoLmafiaASH extends StaticEntity
 		if ( !parseIdentifier( currentToken() ) )
 			return null;
 
-		ScriptVariable result = new ScriptVariable( currentToken(), t );
+		String variableName = currentToken();
+		if ( isReservedWord( variableName ) )
+			throw new AdvancedScriptException( "'" + variableName + "' is a reserved word " + getLineAndFile() );
+
+		ScriptVariable result = new ScriptVariable( variableName, t );
 		if ( scope != null && !scope.addVariable( result ) )
 			throw new AdvancedScriptException( "Variable " + result.getName() + " already defined " + getLineAndFile() );
 
@@ -1606,7 +1614,7 @@ public class KoLmafiaASH extends StaticEntity
 			return result;
 		}
 
-		//Parse true and false first since they are reserved words.
+		// Parse true and false first since they are reserved words.
 		if ( currentToken().equalsIgnoreCase( "true" ) )
 		{
 			readToken();
@@ -2976,6 +2984,63 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( MONSTER_TYPE );
 		result.addElement( ELEMENT_TYPE );
 		return result;
+	}
+
+	public static ScriptSymbolTable getReservedWords()
+	{
+		ScriptSymbolTable result = new ScriptSymbolTable();
+
+		// Constants
+		result.addElement( new ScriptSymbol( "true" ) );
+		result.addElement( new ScriptSymbol( "false" ) );
+
+		// Operators
+		result.addElement( new ScriptSymbol( "contains" ) );
+		result.addElement( new ScriptSymbol( "remove" ) );
+
+		// Control flow
+		result.addElement( new ScriptSymbol( "if" ) );
+		result.addElement( new ScriptSymbol( "else" ) );
+		result.addElement( new ScriptSymbol( "foreach" ) );
+		result.addElement( new ScriptSymbol( "in" ) );
+		result.addElement( new ScriptSymbol( "for" ) );
+		result.addElement( new ScriptSymbol( "from" ) );
+		result.addElement( new ScriptSymbol( "upto" ) );
+		result.addElement( new ScriptSymbol( "downto" ) );
+		result.addElement( new ScriptSymbol( "by" ) );
+		result.addElement( new ScriptSymbol( "while" ) );
+		result.addElement( new ScriptSymbol( "repeat" ) );
+		result.addElement( new ScriptSymbol( "until" ) );
+		result.addElement( new ScriptSymbol( "break" ) );
+		result.addElement( new ScriptSymbol( "continue" ) );
+		result.addElement( new ScriptSymbol( "return" ) );
+		result.addElement( new ScriptSymbol( "exit" ) );
+
+		// Data types
+		result.addElement( new ScriptSymbol( "void" ) );
+		result.addElement( new ScriptSymbol( "boolean" ) );
+		result.addElement( new ScriptSymbol( "int" ) );
+		result.addElement( new ScriptSymbol( "float" ) );
+		result.addElement( new ScriptSymbol( "string" ) );
+		result.addElement( new ScriptSymbol( "item" ) );
+		result.addElement( new ScriptSymbol( "zodiac" ) );
+		result.addElement( new ScriptSymbol( "location" ) );
+		result.addElement( new ScriptSymbol( "class" ) );
+		result.addElement( new ScriptSymbol( "stat" ) );
+		result.addElement( new ScriptSymbol( "skill" ) );
+		result.addElement( new ScriptSymbol( "effect" ) );
+		result.addElement( new ScriptSymbol( "familiar" ) );
+		result.addElement( new ScriptSymbol( "slot" ) );
+		result.addElement( new ScriptSymbol( "monster" ) );
+		result.addElement( new ScriptSymbol( "element" ) );
+
+		result.addElement( new ScriptSymbol( "record" ) );
+
+		return result;
+	}
+
+	public static boolean isReservedWord( String name )
+	{	return reservedWords.findSymbol( name ) != null;
 	}
 
 	private class ScriptScope
