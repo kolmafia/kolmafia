@@ -570,18 +570,20 @@ public class AdventureDatabase extends KoLDatabase
 
 			int price = TradeableItemDatabase.getPriceByID( item.getItemID() );
 
+			boolean shouldUseMall = getProperty( "autoSatisfyWithMall" ).equals( "true" );
+			boolean shouldUseStash = getProperty( "autoSatisfyWithStash" ).equals( "true" );
+
 			boolean shouldPurchase = (price != 0 && price != -1) || item.getName().indexOf( "clover" ) != -1;
 			boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
 
 			boolean shouldAutoSatisfyEarly = canUseNPCStore || !ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) || ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.PIXEL;
-			boolean shouldUseMall = getProperty( "autoSatisfyChecks" ).equals( "true" );
 
 			if ( shouldPurchase && shouldAutoSatisfyEarly )
 			{
 				// If you should auto-satisfy early, check the clan stash to see
 				// if the item is available from there.
 
-				if ( KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+				if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 				{
 					if ( !ClanManager.isStashRetrieved() )
 						(new ClanStashRequest( client )).run();
@@ -624,7 +626,7 @@ public class AdventureDatabase extends KoLDatabase
 			// See if the item can be retrieved from the clan stash.  If it can,
 			// go ahead and pull as many items as possible from there.
 
-			if ( KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+			if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 			{
 				if ( !ClanManager.isStashRetrieved() )
 					(new ClanStashRequest( client )).run();

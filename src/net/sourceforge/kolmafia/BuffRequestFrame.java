@@ -160,9 +160,14 @@ public class BuffRequestFrame extends KoLFrame
 			Runnable [] runnables = new Runnable[ requests.size() ];
 			requests.toArray( runnables );
 
-			KoLmafia.updateDisplay( "Submitting buff requests to " + botName + "..." );
-			(new RequestThread( runnables )).start();
+			for ( int i = 0; i < runnables.length; ++i )
+			{
+				KoLmafia.updateDisplay( "Submitting buff request " + (i+1) + " of " + runnables.length + " to " + botName + "..." );
+				runnables[i].run();
+			}
+
 			KoLmafia.updateDisplay( "Buff requests complete." );
+			KoLmafia.enableDisplay();
 		}
 
 		public void actionCancelled()

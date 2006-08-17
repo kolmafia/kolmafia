@@ -299,11 +299,15 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "autoCheckpoint", "Allow outfit checkpointing during NPC store purchases" },
 			{ "assumeInfiniteNPCItems", "Assume infinite NPC items for item creation" },
+
 			{ "createWithoutBoxServants", "Create without requiring a box servant" },
 			{ "autoRepairBoxes", "Create and install new box servant after explosion" },
-			{ "autoCheckpoint", "Allow outfit checkpointing during NPC store purchases" },
-			{ "autoSatisfyChecks", "Get items from the mall whenever needed" },
+
+			{ "autoSatisfyWithMall", "Buy items from the mall whenever needed" },
+			{ "autoSatisfyWithNPCs", "Buy items from NPC stores whenever needed" },
+			{ "autoSatisfyWithStash", "Take items from the clan stash whenever needed" }
 		};
 
 		/**

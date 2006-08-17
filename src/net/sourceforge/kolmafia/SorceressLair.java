@@ -1007,8 +1007,10 @@ public abstract class SorceressLair extends StaticEntity
 		{
 			AdventureResult item = new AdventureResult( GUARDIAN_DATA[i][1], 1, false );
 			if ( !KoLCharacter.getInventory().contains( item ) )
+			{
 				if ( KoLCharacter.hasItem( item, true ) || NPCStoreDatabase.contains( GUARDIAN_DATA[i][1] ) )
 					AdventureDatabase.retrieveItem( item );
+			}
 		}
 
 		// Determine which level you actually need to start from.

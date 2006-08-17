@@ -189,6 +189,6 @@ public class NPCStoreDatabase extends KoLDatabase
 	public static final boolean contains( String itemName, boolean validate )
 	{
 		MallPurchaseRequest itemRequest = getPurchaseRequest( itemName );
-		return itemRequest == null ? false : validate ? itemRequest.canPurchase() : true;
+		return itemRequest == null ? false : validate ? getProperty( "autoSatisfyWithNPCs" ).equals( "true" ) && itemRequest.canPurchase() : true;
 	}
 }
