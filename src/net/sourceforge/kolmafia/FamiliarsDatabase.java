@@ -140,7 +140,7 @@ public class FamiliarsDatabase extends KoLDatabase
 
 	public static void registerFamiliar( int familiarID, String familiarName )
 	{
-		if ( familiarByName.containsKey( familiarName ) )
+		if ( familiarByName.containsKey( getCanonicalName( familiarName ) ) )
 			return;
 
 		KoLmafia.getDebugStream().println( "New familiar: \"" + familiarID + "\" (" + familiarName + ")" );
@@ -151,10 +151,10 @@ public class FamiliarsDatabase extends KoLDatabase
 		Integer dummyID = new Integer( familiarID );
 
 		familiarByID.put( dummyID, familiarName );
-		familiarByName.put( getCanonicalName(familiarName), dummyID );
+		familiarByName.put( getCanonicalName( familiarName ), dummyID );
 		familiarByLarva.put( DEFAULT_LARVA, dummyID );
 		familiarItemByID.put( dummyID, DEFAULT_ITEM );
-		familiarByItem.put( getCanonicalName(DEFAULT_ITEM), dummyID );
+		familiarByItem.put( getCanonicalName( DEFAULT_ITEM ), dummyID );
 	}
 
 	/**
