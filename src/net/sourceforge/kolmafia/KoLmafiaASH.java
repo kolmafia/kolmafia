@@ -6107,6 +6107,30 @@ public class KoLmafiaASH extends StaticEntity
 		{	return fieldTypes[index];
 		}
 
+		public int indexOf( ScriptValue key )
+		{
+			ScriptType type = key.getType();
+
+			if ( type.equals( TYPE_INT ) )
+			{
+				int index = key.intValue();
+				if ( index < 0 || index >= fieldNames.length )
+					return -1;
+				return index;
+			}
+
+			if ( type.equals( TYPE_STRING ) )
+			{
+				String val = key.toString().toLowerCase();
+				for ( int index = 0; index < fieldNames.length; ++ index )
+					if ( val.equals( fieldNames[index] ) )
+						return index;
+				return -1;
+			}
+
+			return -1;
+		}
+
 		public boolean equals( ScriptType o )
 		{
 			return ( o instanceof ScriptRecordType &&
@@ -6535,22 +6559,22 @@ public class KoLmafiaASH extends StaticEntity
 			this.content = content;
 		}
 
-		public ScriptValue aref( ScriptValue index )
+		public ScriptValue aref( ScriptValue key )
 		{
-			ScriptValue [] array = (ScriptValue [])content;
-			int i = index.intValue();
-			if ( i < 0 || i > array.length )
+			int index = ((ScriptRecordType)type).indexOf( key );
+			if ( index < 0 )
 				throw new RuntimeException( "Internal error: field index out of bounds" );
-			return array[ i ];
+			ScriptValue [] array = (ScriptValue [])content;
+			return array[ index ];
 		}
 
-		public void aset( ScriptValue index,  ScriptValue val )
+		public void aset( ScriptValue key,  ScriptValue val )
 		{
-			ScriptValue [] array = (ScriptValue [])content;
-			int i = index.intValue();
-			if ( i < 0 || i > array.length )
+			int index = ((ScriptRecordType)type).indexOf( key );
+			if ( index < 0 )
 				throw new RuntimeException( "Internal error: field index out of bounds" );
-			array[ i ] = val;
+			ScriptValue [] array = (ScriptValue [])content;
+			array[ index ] = val;
 		}
 
 		public String toString()
