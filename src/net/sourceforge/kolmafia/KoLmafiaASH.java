@@ -106,6 +106,7 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int TYPE_ELEMENT = 110;
 
 	public static final int TYPE_AGGREGATE = 1000;
+	public static final int TYPE_RECORD = 1001;
 
 	public static final String [] ZODIACS = { "none", "Wallaby", "Mongoose", "Vole", "Platypus", "Opossum", "Marmot", "Wombat", "Blender", "Packrat" };
 	public static final String [] CLASSES = { "Seal Clubber", "Turtle Tamer", "Pastamancer", "Sauceror", "Disco Bandit", "Accordion Thief" };
@@ -6077,15 +6078,84 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptExpression initialValueExpression()
-		{	return new ScriptAggregateInitializer( this );
+		{	return new ScriptTypeInitializer( this );
 		}
 	}
 
-	private static class ScriptAggregateInitializer extends ScriptValue
+	private static class ScriptRecordType extends ScriptType
 	{
-		protected ScriptAggregateType type;
+		private String [] fieldNames;
+		private ScriptType [] fieldTypes;
 
-		public ScriptAggregateInitializer( ScriptAggregateType type )
+		public ScriptRecordType( String name, String [] fieldNames,ScriptType [] fieldTypes )
+		{
+			super( name, TYPE_RECORD );
+			this.primitive = false;
+			this.fieldNames = fieldNames;
+			this.fieldTypes = fieldTypes;
+		}
+
+		public String [] getFieldNames()
+		{	return fieldNames;
+                }
+
+		public ScriptType [] getFieldTypes()
+		{	return fieldTypes;
+                }
+
+		public ScriptType getDataType( int index )
+		{	return fieldTypes[index];
+		}
+
+		public boolean equals( ScriptType o )
+		{
+			return ( o instanceof ScriptRecordType &&
+				 name == ((ScriptRecordType)o).name );
+		}
+
+		public ScriptType simpleType()
+		{	return this;
+		}
+
+		public String toString()
+		{	return name;
+		}
+
+		public ScriptValue initialValue()
+		{	return new ScriptRecord( this );
+		}
+
+		public ScriptExpression initialValueExpression()
+		{	return new ScriptTypeInitializer( this );
+		}
+	}
+
+	private static class ScriptTypeInitializer extends ScriptValue
+	{
+		protected ScriptType type;
+
+		public ScriptTypeInitializer( ScriptType type )
+		{	this.type = type;
+		}
+
+		public ScriptType getType()
+		{	return type;
+		}
+
+		public ScriptValue execute() throws AdvancedScriptException
+		{	return type.initialValue();
+		}
+
+		public String toString()
+		{	return "init";
+		}
+	}
+
+	private static class ScriptRecordInitializer extends ScriptValue
+	{
+		protected ScriptRecordType type;
+
+		public ScriptRecordInitializer( ScriptRecordType type )
 		{	this.type = type;
 		}
 
@@ -6280,7 +6350,26 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private static class ScriptAggregateValue extends ScriptValue
+	private static class ScriptCompositeValue extends ScriptValue
+	{
+		public ScriptCompositeValue( ScriptType type )
+		{	super( type );
+		}
+
+		public ScriptValue aref( ScriptValue index )
+		{	return null;
+		}
+
+		public void aset( ScriptValue index,  ScriptValue val )
+		{
+		}
+
+		public String toString()
+		{	return "composite " + type.toString();
+		}
+	}
+
+	private static class ScriptAggregateValue extends ScriptCompositeValue
 	{
 		public ScriptAggregateValue( ScriptAggregateType type )
 		{	super( type );
@@ -6296,14 +6385,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue initialValue()
 		{	return ((ScriptAggregateType)type).getDataType().initialValue();
-		}
-
-		public ScriptValue aref( ScriptValue index )
-		{	return null;
-		}
-
-		public void aset( ScriptValue index,  ScriptValue val )
-		{
 		}
 
 		public ScriptValue remove( ScriptValue index )
@@ -6437,6 +6518,43 @@ public class KoLmafiaASH extends StaticEntity
 			ScriptValue [] keys = new ScriptValue[ set.size() ];
 			set.toArray( keys );
 			return keys;
+		}
+	}
+
+	private static class ScriptRecord extends ScriptCompositeValue
+	{
+		public ScriptRecord( ScriptRecordType type )
+		{
+			super( type );
+
+			ScriptType [] dataTypes = type.getFieldTypes();
+                        int size = dataTypes.length;
+			ScriptValue [] content = new ScriptValue[ size ];
+			for ( int i = 0; i < size; ++i )
+				content[i] = dataTypes[i].initialValue();
+			this.content = content;
+		}
+
+		public ScriptValue aref( ScriptValue index )
+		{
+			ScriptValue [] array = (ScriptValue [])content;
+			int i = index.intValue();
+			if ( i < 0 || i > array.length )
+				throw new RuntimeException( "Internal error: field index out of bounds" );
+			return array[ i ];
+		}
+
+		public void aset( ScriptValue index,  ScriptValue val )
+		{
+			ScriptValue [] array = (ScriptValue [])content;
+			int i = index.intValue();
+			if ( i < 0 || i > array.length )
+				throw new RuntimeException( "Internal error: field index out of bounds" );
+			array[ i ] = val;
+		}
+
+		public String toString()
+		{	return "record " + type.toString();
 		}
 	}
 
