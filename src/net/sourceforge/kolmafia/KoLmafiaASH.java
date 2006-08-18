@@ -733,10 +733,6 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptScope parseScope( ScriptScope startScope, ScriptType expectedType, ScriptVariableList variables, ScriptScope parentScope, boolean whileLoop ) throws AdvancedScriptException
 	{
-		ScriptFunction f = null;
-		ScriptVariable v = null;
-		ScriptCommand c = null;
-		ScriptType t = null;
 		ScriptScope result;
 		String importString;
 
@@ -756,18 +752,33 @@ public class KoLmafiaASH extends StaticEntity
 
 		while ( true )
 		{
-			if ( (t = parseType( true, result )) == null )
+			ScriptType t = parseType( result, true, true );
+
+			// If there is no data type, it's a command of some sort
+			if ( t == null )
 			{
-				if ( (c = parseCommand( expectedType, result, false, whileLoop )) != null )
+				// See if it's a regular command
+				ScriptCommand c = parseCommand( expectedType, result, false, whileLoop );
+				if ( c != null )
 				{
 					result.addCommand( c );
 
 					continue;
 				}
-				//No type and no command -> done.
+
+				// No type and no command -> done.
 				break;
 			}
-			if ( (f = parseFunction( t, result )) != null )
+
+			// If this is a new record definition, enter it
+			if ( t.getType() == TYPE_RECORD && currentToken() != null && currentToken().equals( ";" ) )
+			{
+				readToken();	// read ;
+				continue;
+			}
+
+			ScriptFunction f = parseFunction( t, result );
+			if ( f != null )
 			{
 				// People want to code scripts that work either
 				// standalone or imported into another script
@@ -780,20 +791,115 @@ public class KoLmafiaASH extends StaticEntity
 				if ( startScope != null && f.getName().equalsIgnoreCase( "main" ) )
 					// throw new AdvancedScriptException( "Only outer script can define 'main' function " + getLineAndFile() );
 					result.removeFunction( f );
+				continue;
 			}
-			else if ( (v = parseVariable( t, result )) != null )
+
+			ScriptVariable v = parseVariable( t, result );
+			if ( v != null )
 			{
-				if ( currentToken().equals( ";" ) )
-					readToken(); //read ;
-				else
+				if ( !currentToken().equals( ";" ) )
 					throw new AdvancedScriptException( "';' Expected " + getLineAndFile() );
+				readToken(); //read ;
+				continue;
 			}
-			else
-				//Found a type but no function or variable to tie it to
-				throw new AdvancedScriptException( "Script parse error " + getLineAndFile() );
+
+			//Found a type but no function or variable to tie it to
+			throw new AdvancedScriptException( "Script parse error " + getLineAndFile() );
 		}
 
 		return result;
+	}
+
+	private ScriptType parseRecord( ScriptScope parentScope ) throws AdvancedScriptException
+	{
+		if ( currentToken() == null || !currentToken().equalsIgnoreCase( "record" ) )
+			return null;
+
+		readToken(); // read record
+
+		if ( currentToken() == null )
+			throw new AdvancedScriptException( "Record name expected " + getLineAndFile() );
+
+		// Allow anonymous records
+		String recordName = null;
+
+		if ( !currentToken().equals( "{" ) )
+		{
+			// Named record
+			recordName = currentToken();
+
+			if ( !parseIdentifier( recordName ) )
+				throw new AdvancedScriptException( "Invalid record name: '" + recordName + "' " + getLineAndFile() );
+
+			if ( isReservedWord( recordName ) )
+				throw new AdvancedScriptException( "'" + recordName + "' is a reserved word " + getLineAndFile() );
+
+			if ( parentScope.findType( recordName ) != null )
+				throw new AdvancedScriptException( "'" + recordName + "' is already defined " + getLineAndFile() );
+
+			readToken(); // read name
+		}
+
+		if ( currentToken() == null || !currentToken().equals( "{" ) )
+			throw new AdvancedScriptException( "'{' Expected " + getLineAndFile() );
+
+		readToken(); // read {
+
+		// Loop collecting fields
+		ArrayList fieldTypes = new ArrayList();
+		ArrayList fieldNames = new ArrayList();
+
+		while ( true )
+		{
+			// Get the field type
+			ScriptType fieldType = parseType( parentScope, true, true );
+			if ( fieldType == null )
+				throw new AdvancedScriptException( "Type name Expected " + getLineAndFile() );
+
+			// Get the field name
+			String fieldName = currentToken();
+			if ( fieldName == null )
+				throw new AdvancedScriptException( "Field name Expected " + getLineAndFile() );
+
+			if ( !parseIdentifier( fieldName ) )
+				throw new AdvancedScriptException( "Invalid field name: '" + fieldName + "' " + getLineAndFile() );
+
+			if ( isReservedWord( fieldName ) )
+				throw new AdvancedScriptException( "'" + fieldName + "' is a reserved word " + getLineAndFile() );
+
+			if ( fieldNames.contains( fieldName ) )
+				throw new AdvancedScriptException( "'" + fieldName + "' is already defined " + getLineAndFile() );
+
+			readToken(); // read name
+
+			if ( currentToken() == null || !currentToken().equals( ";" ) )
+				throw new AdvancedScriptException( " ';' Expected " + getLineAndFile() );
+
+			readToken(); // read ;
+
+			fieldTypes.add( fieldType );
+			fieldNames.add( fieldName );
+
+			if ( currentToken() == null )
+				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
+			if ( currentToken().equals( "}" ) )
+			     break;
+		}
+
+		readToken(); // read }
+
+		String [] fieldNameArray = new String[ fieldNames.size() ];
+		ScriptType [] fieldTypeArray = new ScriptType[ fieldTypes.size() ];
+		fieldNames.toArray( fieldNameArray );
+		fieldTypes.toArray( fieldTypeArray );
+
+		ScriptRecordType rec = new ScriptRecordType( recordName == null ? "(anonymous record)" : recordName , fieldNameArray, fieldTypeArray );
+
+		if ( recordName != null )
+			// Enter into type table
+			parentScope.addType( rec );
+
+		return rec;
 	}
 
 	private ScriptFunction parseFunction( ScriptType functionType, ScriptScope parentScope ) throws AdvancedScriptException
@@ -817,7 +923,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		while ( !currentToken().equals( ")" ) )
 		{
-			ScriptType paramType = parseType( true, parentScope );
+			ScriptType paramType = parseType( parentScope, true, false );
 			if (paramType == null )
 				throw new AdvancedScriptException( " ')' Expected " + getLineAndFile() );
 
@@ -987,14 +1093,29 @@ public class KoLmafiaASH extends StaticEntity
 		return result;
 	}
 
-	private ScriptType parseType( boolean aggregates, ScriptScope scope ) throws AdvancedScriptException
+	private ScriptType parseType( ScriptScope scope, boolean aggregates, boolean records ) throws AdvancedScriptException
 	{
 		if ( currentToken() == null )
 			return null;
 
-                ScriptType valType = scope.findType( currentToken() );
+		ScriptType valType = scope.findType( currentToken() );
 		if ( valType == null )
+		{
+			if ( records && currentToken().equalsIgnoreCase( "record" ) )
+			{
+				valType = parseRecord( scope );
+
+				if ( valType == null )
+					return null;
+
+				if ( aggregates && currentToken().equals( "[" ) )
+					return parseAggregateType( valType, scope );
+
+				return valType;
+			}
+
 			return null;
+		}
 
 		readToken();
 
@@ -1730,7 +1851,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			readToken();
 
-			ScriptType type = parseType( false, scope );
+			ScriptType type = parseType( scope, false, false );
 			if ( type == null )
 				throw new AdvancedScriptException( "Unknown type " + currentToken() + " " + getLineAndFile() );
 
