@@ -2770,8 +2770,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( matchingNames.isEmpty() && parameters.indexOf( " " ) != -1 )
 		{
-			boolean isNumeric = true;
-			for ( int i = 0; i < parameters.length() && parameters.charAt(i) != ' '; ++i )
+			boolean isNumeric = parameters.charAt(0) == '-' || Character.isDigit( parameters.charAt(0) );
+			for ( int i = 1; i < parameters.length() && parameters.charAt(i) != ' '; ++i )
 				isNumeric &= Character.isDigit( parameters.charAt(i) );
 
 			if ( isNumeric )
