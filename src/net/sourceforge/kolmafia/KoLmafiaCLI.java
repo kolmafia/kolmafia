@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -545,6 +546,12 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "clear" ) || command.equals( "cls" ) )
+		{
+			commandBuffer.clearBuffer();
+			return;
+		}
+
 		if ( command.equals( "abort" ) )
 		{
 			updateDisplay( ABORT_STATE, parameters.length() == 0 ? "Script abort." : parameters );
@@ -965,7 +972,7 @@ public class KoLmafiaCLI extends KoLmafia
 			KoLRequest request = new KoLRequest( StaticEntity.getClient(), "council.php", true );
 			request.run();
 
-			showHTML( request.responseText, "Council quests" );
+			showHTML( request.responseText.replaceFirst( "<a href=\"town.php\">Back to Seaside Town</a>", "" ), "Available Quests" );
 			return;
 		}
 
@@ -1500,14 +1507,28 @@ public class KoLmafiaCLI extends KoLmafia
 
 	public void showHTML( String text, String title )
 	{
-		String displayText = text.replaceAll( "<br>", "\n" ).replaceAll( "<(p|blockquote)>", "\n\n" );
+		// Strip out all the new lines found in the source
+		// so you don't accidentally add more new lines than
+		// necessary.
+
+		String displayText = text.replaceAll( "[\r\n]+", "" );
+
+		// Replace all things symbolizing paragraph breaks
+		// with actual new lines.
+
+		displayText = displayText.replaceAll( "<(br|tr)[^>]*>", "\n" ).replaceAll( "<(p|blockquote)[^>]*>", "\n\n" );
+
+		// Replace HTML character entities with something
+		// which is more readily printable.
+
 		displayText = Pattern.compile( "<.*?>", Pattern.DOTALL ).matcher( displayText ).replaceAll( "" );
 		displayText = displayText.replaceAll( "&nbsp;", " " ).replaceAll(
 			"&trade;", " [tm]" ).replaceAll( "&ntilde;", "n" ).replaceAll( "&quot;", "" );
 
-		displayText = displayText.replaceAll( "[\r\n]", "\n" ).replaceAll( "\n\\s+", "\n\n" );
-		displayText = displayText.replaceAll( "\n\n\n+", "\n\n" ).replaceAll( "\n", LINE_BREAK );
+		// Allow only one new line at a time in the HTML
+		// that is printed.
 
+		displayText = displayText.replaceAll( "\n\n\n+", "\n\n" );
 		printLine( displayText.trim() );
 	}
 
@@ -3752,17 +3773,48 @@ public class KoLmafiaCLI extends KoLmafia
 	{	printLine( " " );
 	}
 
+	private static final int MAXIMUM_LINE_LENGTH = 72;
+
 	public static void printLine( String line )
 	{
-		outputStream.println( line );
-		mirrorStream.println( line );
+		StringBuffer wordWrappedLine = new StringBuffer();
+		StringTokenizer lineTokens = new StringTokenizer( line, LINE_BREAK, true );
 
-		getDebugStream().println( line );
-		getSessionStream().println( line );
+		while ( lineTokens.hasMoreTokens() )
+		{
+			String currentToken = lineTokens.nextToken();
+			String remainingString = currentToken;
+
+			while ( remainingString.length() > 0 )
+			{
+				if ( remainingString.indexOf( " " ) == -1 || remainingString.length() < MAXIMUM_LINE_LENGTH )
+				{
+					wordWrappedLine.append( remainingString );
+					remainingString = "";
+				}
+				else
+				{
+					int splitIndex = remainingString.lastIndexOf( " ", MAXIMUM_LINE_LENGTH );
+					if ( splitIndex == -1 )
+						splitIndex = remainingString.indexOf( " ", MAXIMUM_LINE_LENGTH );
+
+					wordWrappedLine.append( remainingString.substring( 0, splitIndex ) );
+					wordWrappedLine.append( LINE_BREAK );
+
+					remainingString = remainingString.substring( splitIndex + 1 );
+				}
+			}
+		}
+
+		outputStream.println( wordWrappedLine.toString() );
+		mirrorStream.println( wordWrappedLine.toString() );
+
+		getDebugStream().println( wordWrappedLine.toString() );
+		getSessionStream().println( wordWrappedLine.toString() );
 
 		StringBuffer colorBuffer = new StringBuffer();
 		colorBuffer.append( "<font color=black>" );
-		colorBuffer.append( line.replaceAll( "\n", "\n<br>" ) );
+		colorBuffer.append( wordWrappedLine.toString().replaceAll( "\n", "<br>" ) );
 		colorBuffer.append( "</font><br>" );
 		colorBuffer.append( LINE_BREAK );
 
