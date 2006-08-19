@@ -72,21 +72,7 @@ public class DataUtilities implements UtilityConstants
 	 */
 
 	public static BufferedReader getReader( String filename )
-	{
-		try
-		{
-			if ( filename.startsWith( "http://" ) )
-				return new BufferedReader( new InputStreamReader( (new URL( filename )).openConnection().getInputStream() ) );
-		}
-		catch ( Exception e )
-		{
-			// If the remote URL could not be read, then
-			// return an empty file location.
-
-			return null;
-		}
-
-		return getReader( DATA_DIRECTORY, filename );
+	{	return getReader( DATA_DIRECTORY, filename );
 	}
 
 	/**
@@ -103,6 +89,19 @@ public class DataUtilities implements UtilityConstants
 
 	public static BufferedReader getReader( String directory, String filename )
 	{
+		try
+		{
+			if ( filename.startsWith( "http://" ) )
+				return new BufferedReader( new InputStreamReader( (new URL( filename )).openConnection().getInputStream() ) );
+		}
+		catch ( Exception e )
+		{
+			// If the remote URL could not be read, then
+			// return an empty file location.
+
+			return null;
+		}
+
 		InputStream istream = getInputStream( directory, filename );
 		return istream == null ? null : new BufferedReader( new InputStreamReader( istream ) );
 	}

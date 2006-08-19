@@ -36,7 +36,6 @@ package net.sourceforge.kolmafia;
 
 // input and output
 import java.io.LineNumberReader;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -54,19 +53,13 @@ import java.io.UnsupportedEncodingException;
 // utility imports
 import java.lang.reflect.Method;
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.ArrayList;
-import java.text.DecimalFormat;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.Set;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.DataUtilities;
 
 //Parameter value requests
@@ -4542,7 +4535,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue file_to_map( ScriptVariable filename, ScriptVariable map_variable )
 		{
-			BufferedReader reader = KoLDatabase.getReader( filename.toStringValue().toString() );
+			BufferedReader reader = DataUtilities.getReader( "", filename.toStringValue().toString() );
 			String [] data = null;
 
 			while ( (data = KoLDatabase.readData( reader )) != null )
@@ -4572,8 +4565,11 @@ public class KoLmafiaASH extends StaticEntity
 						dataType = slice.getAggregateType();
 					}
 
-					index = parseValue( dataType.getIndexType(), data[ data.length - 2 ] );
-					slice.aset( index, parseValue( dataType.getDataType(), data[ data.length - 1 ] ) );
+					if ( data.length > 2 )
+					{
+						index = parseValue( dataType.getIndexType(), data[ data.length - 2 ] );
+						slice.aset( index, parseValue( dataType.getDataType(), data[ data.length - 1 ] ) );
+					}
 				}
 				catch ( AdvancedScriptException e )
 				{
@@ -4602,7 +4598,9 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			try
 			{
-				File data = new File( DATA_DIRECTORY + "/" + filename.toStringValue().toString() );
+				File data = new File( filename.toStringValue().toString() );
+
+				data.getParentFile().mkdirs();
 				if ( data.exists() )
 					data.delete();
 
