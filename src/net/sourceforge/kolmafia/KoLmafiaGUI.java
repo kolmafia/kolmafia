@@ -40,6 +40,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 
 /**
  * The main class for the <code>KoLmafia</code> package.  This
@@ -60,7 +61,50 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public static void main( String [] args )
 	{
-		javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
+		String lookAndFeel = StaticEntity.getProperty( "desiredLookAndFeel" );
+		boolean foundLookAndFeel = false;
+
+		if ( lookAndFeel.equals( "" ) )
+		{
+			if ( !System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			{
+				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
+				StaticEntity.setProperty( "desiredLookAndFeel", lookAndFeel );
+				foundLookAndFeel = true;
+			}
+		}
+		else
+		{
+			javax.swing.UIManager.LookAndFeelInfo [] installed = javax.swing.UIManager.getInstalledLookAndFeels();
+			Object [] installedLooks = new Object[ installed.length ];
+
+			for ( int i = 0; i < installedLooks.length; ++i )
+				installedLooks[i] = installed[i].getClassName();
+
+			for ( int i = 0; i < installedLooks.length; ++i )
+				foundLookAndFeel |= ((String)installedLooks[i]).startsWith( lookAndFeel );
+		}
+
+		if ( foundLookAndFeel )
+		{
+			try
+			{
+				javax.swing.UIManager.setLookAndFeel( lookAndFeel );
+				javax.swing.JFrame.setDefaultLookAndFeelDecorated( lookAndFeel.equals( UIManager.getSystemLookAndFeelClassName() ) );
+			}
+			catch ( Exception e )
+			{
+				// This should not happen, as we checked to see if
+				// the look and feel was installed first.
+
+				javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
+			}
+		}
+		else
+		{
+			StaticEntity.setProperty( "desiredLookAndFeel", "" );
+			javax.swing.JFrame.setDefaultLookAndFeelDecorated( true );
+		}
 
 		if ( StaticEntity.usesSystemTray() )
 			SystemTrayFrame.addTrayIcon();

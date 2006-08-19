@@ -58,6 +58,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JScrollPane;
+import javax.swing.UIManager;
 
 // other imports
 import com.sun.java.forums.SpringUtilities;
@@ -88,23 +89,18 @@ public class LoginFrame extends KoLFrame
 		breakfastPanel.add( new BreakfastPanel( "Hardcore Characters", "Hardcore" ) );
 		tabs.addTab( "Breakfast", breakfastPanel );
 
-		JScrollPane scroller1 = new JScrollPane( new StartupFramesPanel(),
+		JPanel displayPanel = new JPanel();
+		displayPanel.setLayout( new BoxLayout( displayPanel, BoxLayout.Y_AXIS ) );
+		displayPanel.add( new UserInterfacePanel() );
+		displayPanel.add( new StartupFramesPanel() );
+
+		JScrollPane scroller = new JScrollPane( displayPanel,
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
-		JComponentUtilities.setComponentSize( scroller1, 300, 300 );
-		tabs.addTab( "Displays", scroller1 );
+		JComponentUtilities.setComponentSize( scroller, 300, 300 );
 
-		JPanel connectPanel = new JPanel();
-
-		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
-		connectPanel.add( new UserInterfacePanel() );
-		connectPanel.add( new ProxyOptionsPanel() );
-
-		JScrollPane scroller2 = new JScrollPane( connectPanel,
-			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
-
-		JComponentUtilities.setComponentSize( scroller2, 300, 300 );
-		tabs.addTab( "Settings", scroller2 );
+		tabs.addTab( "Display", scroller );
+		tabs.addTab( "Proxy", new ProxyOptionsPanel() );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -394,7 +390,7 @@ public class LoginFrame extends KoLFrame
 		}
 	}
 
-	private class StartupFramesPanel extends KoLPanel
+	private class StartupFramesPanel extends LabeledKoLPanel
 	{
 		private final String [][] FRAME_OPTIONS =
 		{
@@ -440,7 +436,7 @@ public class LoginFrame extends KoLFrame
 
 		public StartupFramesPanel()
 		{
-			super( new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
+			super( "Startup Windows", new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
 
 			nullOptions = new InterfaceRadioButton[ FRAME_OPTIONS.length ];
 			startupOptions = new InterfaceRadioButton[ FRAME_OPTIONS.length ];
@@ -462,6 +458,10 @@ public class LoginFrame extends KoLFrame
 				contentPanel.add( new JLabel( FRAME_OPTIONS[i][0] + ": ", JLabel.RIGHT ) );
 				contentPanel.add( nullOptions[i] );
 				contentPanel.add( startupOptions[i] );
+
+				if ( FRAME_OPTIONS[i][1].equals( "LocalRelayServer" ) )
+					interfaceOptions[i].setEnabled( false );
+
 				contentPanel.add( interfaceOptions[i] );
 			}
 
@@ -549,11 +549,19 @@ public class LoginFrame extends KoLFrame
 			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" }
 		};
 
-		private JComboBox toolbars, scripts;
+		private JComboBox looks, toolbars, scripts;
 
 		public UserInterfacePanel()
 		{
-			super( "User Interface", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
+			super( "Look and Feel", new Dimension( 80, 20 ), new Dimension( 280, 20 ) );
+
+			javax.swing.UIManager.LookAndFeelInfo [] installed = javax.swing.UIManager.getInstalledLookAndFeels();
+			Object [] installedLooks = new Object[ installed.length ];
+
+			for ( int i = 0; i < installedLooks.length; ++i )
+				installedLooks[i] = installed[i].getClassName();
+
+			looks = new JComboBox( installedLooks );
 
 			toolbars = new JComboBox();
 			toolbars.addItem( "Show global menus only" );
@@ -566,9 +574,10 @@ public class LoginFrame extends KoLFrame
 			scripts.addItem( "Put script bar after normal toolbar" );
 			scripts.addItem( "Put script bar along right of panel" );
 
-			VerifiableElement [] elements = new VerifiableElement[2];
-			elements[0] = new VerifiableElement( "Toolbar: ", toolbars );
-			elements[1] = new VerifiableElement( "Scripts: ", scripts );
+			VerifiableElement [] elements = new VerifiableElement[3];
+			elements[0] = new VerifiableElement( "Java L&F: ", looks );
+			elements[1] = new VerifiableElement( "Toolbar: ", toolbars );
+			elements[2] = new VerifiableElement( "Scripts: ", scripts );
 
 			setContent( elements );
 			actionCancelled();
@@ -586,6 +595,10 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
+			String lookAndFeel = (String) looks.getSelectedItem();
+			if ( lookAndFeel != null )
+				StaticEntity.setProperty( "desiredLookAndFeel", lookAndFeel );
+
 			StaticEntity.setProperty( "useToolbars", String.valueOf( toolbars.getSelectedIndex() != 0 ) );
 			StaticEntity.setProperty( "scriptButtonPosition", String.valueOf( scripts.getSelectedIndex() ) );
 			StaticEntity.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
@@ -593,6 +606,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
+			looks.setSelectedItem( StaticEntity.getProperty( "desiredLookAndFeel" ) );
 			toolbars.setSelectedIndex( StaticEntity.parseInt( StaticEntity.getProperty( "toolbarPosition" ) ) );
 			scripts.setSelectedIndex( StaticEntity.parseInt( StaticEntity.getProperty( "scriptButtonPosition" ) ) );
 		}
@@ -643,7 +657,7 @@ public class LoginFrame extends KoLFrame
 	 * options (if applicable).
 	 */
 
-	private class ProxyOptionsPanel extends LabeledKoLPanel
+	private class ProxyOptionsPanel extends KoLPanel
 	{
 		private ProxySettingsCheckBox proxySet;
 
@@ -660,7 +674,7 @@ public class LoginFrame extends KoLFrame
 
 		public ProxyOptionsPanel()
 		{
-			super( "Proxy Setup", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
 			proxySet = new ProxySettingsCheckBox();
 

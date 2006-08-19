@@ -216,6 +216,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
 		CLIENT_SETTINGS.put( "defaultLimit", "5" );
 		CLIENT_SETTINGS.put( "defaultToRelayBrowser", "true" );
+		CLIENT_SETTINGS.put( "desiredLookAndFeel", "" );
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
 		CLIENT_SETTINGS.put( "fontSize", "3" );
 		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
@@ -247,6 +248,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
 		CLIENT_SETTINGS.put( "useNonBlockingReader", "false" );
+
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );
 		CLIENT_SETTINGS.put( "usePopupContacts", "1" );
 		CLIENT_SETTINGS.put( "useTabbedChat", "1" );
