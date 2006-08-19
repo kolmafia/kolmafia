@@ -34,7 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -329,7 +328,7 @@ public class EquipmentDatabase extends KoLDatabase
 	{
 		String [] pieces = outfits.get( outfitID ).getPieces();
 		for ( int i = 0; i < pieces.length; ++i )
-			if ( !KoLCharacter.hasEquipped( new AdventureResult( pieces[i], 1, true ) ) )
+			if ( !KoLCharacter.hasEquipped( new AdventureResult( pieces[i], 1, false ) ) )
 				DEFAULT_SHELL.executeLine( "acquire " + pieces[i] );
 	}
 
@@ -343,7 +342,7 @@ public class EquipmentDatabase extends KoLDatabase
 
 		String [] pieces = outfits.get( outfitID ).getPieces();
 		for ( int i = 0; i < pieces.length; ++i )
-			if ( !KoLCharacter.hasEquipped( new AdventureResult( pieces[i], 1, true ) ) )
+			if ( !KoLCharacter.hasEquipped( new AdventureResult( pieces[i], 1, false ) ) )
 				DEFAULT_SHELL.executeConditionsCommand( "add " + pieces[i] );
 	}
 

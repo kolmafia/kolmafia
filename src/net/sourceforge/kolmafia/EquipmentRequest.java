@@ -362,14 +362,13 @@ public class EquipmentRequest extends PasswordHashRequest
 			// Do not submit a request if the item matches what you
 			// want to equip on the character.
 
-			if ( KoLCharacter.getEquipment( equipmentSlot ).indexOf( changeItemName ) != -1 )
+			if ( KoLCharacter.hasEquipped( changeItemName, equipmentSlot ) )
 				return;
 
 			// If we are changing familiar equipment, first we must
 			// remove the old one in the slot.
-			if ( equipmentSlot == KoLCharacter.FAMILIAR)
+			if ( equipmentSlot == KoLCharacter.FAMILIAR )
 			{
-
 				// If we are requesting another familiar's
 				// equipment, make it available.
 
