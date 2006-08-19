@@ -588,6 +588,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( getURLString().endsWith( "lair6.php?place=6" ) )
 			KoLCharacter.setInteraction( KoLCharacter.getTotalTurnsUsed() >= 600 );
 
+		if ( isRatQuest )
+			KoLmafia.validateFaucetQuest();
+
 		do
 		{
 			statusChanged = false;
