@@ -332,7 +332,7 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( CANDLES );
 				client.processResult( BUTTERKNIFE );
 
-				Matcher learnedMatcher = Pattern.compile( "You emerge with a (.*?) of Steel" ).matcher( responseText );
+				Matcher learnedMatcher = Pattern.compile( "emerge with a (.*?) of Steel" ).matcher( responseText );
 				if ( learnedMatcher.find() )
 					KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1) + " of Steel", "", 1 ) );
 

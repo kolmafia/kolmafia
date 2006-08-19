@@ -232,6 +232,8 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 
 			(new MailboxRequest( StaticEntity.getClient(), "Inbox" )).run();
+			if ( LoginRequest.isInstanceRunning() && !KoLMailManager.hasNewMessages() )
+				return;
 		}
 		else if ( frameName.equals( "BuffRequestFrame" ) )
 		{
