@@ -130,7 +130,7 @@ public class JComponentUtilities implements UtilityConstants
 	 */
 
 	public static ImageIcon getImage( String filename )
-	{	return getImage( IMAGE_DIRECTORY, filename );
+	{	return filename.startsWith( "http://" ) ? new ImageIcon( filename ) : getImage( IMAGE_DIRECTORY, filename );
 	}
 
 	/**

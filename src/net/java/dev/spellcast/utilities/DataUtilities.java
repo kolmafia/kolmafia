@@ -36,20 +36,18 @@ package net.java.dev.spellcast.utilities;
 
 // layout
 import java.awt.Color;
-import java.awt.Dimension;
 
 // file-related I/O
 import java.io.File;
+import java.net.URL;
 import java.io.InputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 // readers
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 
 // Java utilities
-import java.util.StringTokenizer;
 import java.math.BigInteger;
 
 /**
@@ -74,7 +72,21 @@ public class DataUtilities implements UtilityConstants
 	 */
 
 	public static BufferedReader getReader( String filename )
-	{	return getReader( DATA_DIRECTORY, filename );
+	{
+		try
+		{
+			if ( filename.startsWith( "http://" ) )
+				return new BufferedReader( new InputStreamReader( (new URL( filename )).openConnection().getInputStream() ) );
+		}
+		catch ( Exception e )
+		{
+			// If the remote URL could not be read, then
+			// return an empty file location.
+
+			return null;
+		}
+
+		return getReader( DATA_DIRECTORY, filename );
 	}
 
 	/**
