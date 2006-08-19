@@ -1033,17 +1033,13 @@ public class KoLRequest implements Runnable, KoLConstants
 					KoLmafia.getDebugStream().println( "Error reading server reply.  Retrying..." );
 			}
 
-			if ( this instanceof LocalRelayRequest || this instanceof ChatRequest )
-			{
-				responseText = replyBuffer.toString();
-			}
-			else
-			{
-				Matcher responseMatcher = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( replyBuffer.toString() );
-				responseText = responseMatcher.replaceAll( "" );
+			responseText = replyBuffer.toString();
 
-				responseMatcher = Pattern.compile( "<!--.*?-->", Pattern.DOTALL ).matcher( responseText );
-				responseText = responseMatcher.replaceAll( "" );
+			if ( !(this instanceof LocalRelayRequest) && !isChatRequest )
+			{
+				responseText = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
+				responseText = Pattern.compile( "<style.*?</style>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
+				responseText = Pattern.compile( "<!--.*?-->", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
 			}
 
 			if ( !isChatRequest )

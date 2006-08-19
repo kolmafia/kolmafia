@@ -267,9 +267,8 @@ public abstract class KoLmafia implements KoLConstants
 		StringBuffer colorBuffer = new StringBuffer();
 
 		if ( message.indexOf( "<" ) != -1 )
-			return;
-
-		if ( message.indexOf( LINE_BREAK ) != -1 )
+			message = message.replaceAll( "<", "&lt;" );
+		else if ( message.indexOf( LINE_BREAK ) != -1 )
 			colorBuffer.append( "<pre>" );
 
 		if ( state == ERROR_STATE || state == ABORT_STATE )
@@ -280,7 +279,7 @@ public abstract class KoLmafia implements KoLConstants
 		colorBuffer.append( message );
 		colorBuffer.append( "</font>" );
 
-		if ( message.indexOf( LINE_BREAK ) != -1 )
+		if ( message.indexOf( "<" ) == -1 && message.indexOf( LINE_BREAK ) != -1 )
 			colorBuffer.append( "</pre>" );
 
 		colorBuffer.append( LINE_BREAK );

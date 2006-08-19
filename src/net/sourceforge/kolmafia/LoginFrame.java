@@ -74,6 +74,10 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 public class LoginFrame extends KoLFrame
 {
 	private JComponent usernameField;
+	private JTextField proxyHost;
+	private JTextField proxyPort;
+	private JTextField proxyLogin;
+	private JTextField proxyPassword;
 
 	public LoginFrame()
 	{
@@ -99,8 +103,14 @@ public class LoginFrame extends KoLFrame
 
 		JComponentUtilities.setComponentSize( scroller, 300, 300 );
 
-		tabs.addTab( "Display", scroller );
-		tabs.addTab( "Proxy", new ProxyOptionsPanel() );
+		tabs.addTab( "Displays", scroller );
+
+		JPanel connectPanel = new JPanel();
+		connectPanel.setLayout( new BoxLayout( connectPanel, BoxLayout.Y_AXIS ) );
+		connectPanel.add( new ConnectionOptionsPanel() );
+		connectPanel.add( new ProxyOptionsPanel() );
+
+		tabs.addTab( "Connection", connectPanel );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( tabs, "" );
@@ -653,20 +663,77 @@ public class LoginFrame extends KoLFrame
 		}
 	}
 
+	private class ConnectionOptionsPanel extends LabeledKoLPanel
+	{
+		private JCheckBox proxySet = null;
+		private JCheckBox [] optionBoxes;
+
+		private final String [][] options =
+		{
+			{ "serverFriendly", "Use server-friendlier request speed" },
+			{ "useNonBlockingReader", "Use non-blocking response readers (risky)" },
+			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" }
+		};
+
+		public ConnectionOptionsPanel()
+		{
+			super( "Connection Options", new Dimension( 380, 20 ), new Dimension( 20, 20 ) );
+
+			optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i] = new JCheckBox();
+
+			proxySet = optionBoxes[2];
+			proxyHost = new JTextField();
+			proxyPort = new JTextField();
+			proxyLogin = new JTextField();
+			proxyPassword = new JPasswordField();
+
+			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+
+			for ( int i = 0; i < elements.length; ++i )
+				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements, false );
+			actionCancelled();
+		}
+
+		public void actionConfirmed()
+		{
+			if ( proxySet == null )
+				return;
+
+			for ( int i = 0; i < optionBoxes.length; ++i )
+				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+
+			proxyHost.setEnabled( proxySet.isSelected() );
+			proxyPort.setEnabled( proxySet.isSelected() );
+			proxyLogin.setEnabled( proxySet.isSelected() );
+			proxyPassword.setEnabled( proxySet.isSelected() );
+		}
+
+		public void actionCancelled()
+		{
+			if ( proxySet == null )
+				return;
+
+			for ( int i = 0; i < optionBoxes.length; ++i )
+				optionBoxes[i].setSelected( StaticEntity.getProperty( options[i][0] ).equals( "true" ) );
+
+			proxyHost.setEnabled( proxySet.isSelected() );
+			proxyPort.setEnabled( proxySet.isSelected() );
+			proxyLogin.setEnabled( proxySet.isSelected() );
+			proxyPassword.setEnabled( proxySet.isSelected() );
+		}
+	}
+
 	/**
 	 * This panel handles all of the things related to proxy
 	 * options (if applicable).
 	 */
 
-	private class ProxyOptionsPanel extends KoLPanel
+	private class ProxyOptionsPanel extends LabeledKoLPanel
 	{
-		private ProxySettingsCheckBox proxySet;
-
-		private JTextField proxyHost;
-		private JTextField proxyPort;
-		private JTextField proxyLogin;
-		private JTextField proxyPassword;
-
 		/**
 		 * Constructs a new <code>ProxyOptionsPanel</code>, containing a
 		 * place for the users to select their desired server and for them
@@ -675,21 +742,13 @@ public class LoginFrame extends KoLFrame
 
 		public ProxyOptionsPanel()
 		{
-			super( new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
+			super( "Proxy Settings", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			proxySet = new ProxySettingsCheckBox();
-
-			proxyHost = new JTextField();
-			proxyPort = new JTextField();
-			proxyLogin = new JTextField();
-			proxyPassword = new JPasswordField();
-
-			VerifiableElement [] elements = new VerifiableElement[5];
-			elements[0] = new VerifiableElement( "Use Proxy: ", proxySet );
-			elements[1] = new VerifiableElement( "Host: ", proxyHost );
-			elements[2] = new VerifiableElement( "Port: ", proxyPort );
-			elements[3] = new VerifiableElement( "Login: ", proxyLogin );
-			elements[4] = new VerifiableElement( "Password: ", proxyPassword );
+			VerifiableElement [] elements = new VerifiableElement[4];
+			elements[0] = new VerifiableElement( "Host: ", proxyHost );
+			elements[1] = new VerifiableElement( "Port: ", proxyPort );
+			elements[2] = new VerifiableElement( "Login: ", proxyLogin );
+			elements[3] = new VerifiableElement( "Password: ", proxyPassword );
 
 			setContent( elements, true );
 			actionCancelled();
@@ -697,7 +756,7 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			StaticEntity.setProperty( "proxySet", String.valueOf( proxySet.isSelected() && proxyHost.getText().trim().length() > 0 ) );
+			StaticEntity.setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() > 0 ) );
 			StaticEntity.setProperty( "http.proxyHost", proxyHost.getText() );
 			StaticEntity.setProperty( "http.proxyPort", proxyPort.getText() );
 			StaticEntity.setProperty( "http.proxyUser", proxyLogin.getText() );
@@ -706,28 +765,10 @@ public class LoginFrame extends KoLFrame
 
 		protected void actionCancelled()
 		{
-			proxySet.setSelected( StaticEntity.getProperty( "proxySet" ).equals( "true" ) );
 			proxyHost.setText( StaticEntity.getProperty( "http.proxyHost" ) );
 			proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );
 			proxyLogin.setText( StaticEntity.getProperty( "http.proxyUser" ) );
 			proxyPassword.setText( StaticEntity.getProperty( "http.proxyPassword" ) );
-
-			proxySet.actionPerformed( null );
-		}
-
-		private class ProxySettingsCheckBox extends JCheckBox implements ActionListener
-		{
-			public ProxySettingsCheckBox()
-			{	addActionListener( this );
-			}
-
-			public void actionPerformed( ActionEvent e )
-			{
-				proxyHost.setEnabled( isSelected() );
-				proxyPort.setEnabled( isSelected() );
-				proxyLogin.setEnabled( isSelected() );
-				proxyPassword.setEnabled( isSelected() );
-			}
 		}
 	}
 }
