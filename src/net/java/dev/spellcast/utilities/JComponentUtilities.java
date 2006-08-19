@@ -130,7 +130,7 @@ public class JComponentUtilities implements UtilityConstants
 	 */
 
 	public static ImageIcon getImage( String filename )
-	{	return filename.startsWith( "http://" ) ? new ImageIcon( filename ) : getImage( IMAGE_DIRECTORY, filename );
+	{	return getImage( IMAGE_DIRECTORY, filename );
 	}
 
 	/**
@@ -145,6 +145,9 @@ public class JComponentUtilities implements UtilityConstants
 
 	public static ImageIcon getImage( String directory, String filename )
 	{
+		if ( filename.startsWith( "http://" ) )
+			return new ImageIcon( filename );
+
 		directory = directory.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 		filename = filename.replaceAll( File.separator.replaceAll( "\\\\", "\\\\\\\\" ), "/" );
 
