@@ -217,6 +217,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "defaultLimit", "5" );
 		CLIENT_SETTINGS.put( "defaultToRelayBrowser", "true" );
 		CLIENT_SETTINGS.put( "desiredLookAndFeel", "" );
+		CLIENT_SETTINGS.put( "desiredLookAndFeelTitle", String.valueOf( System.getProperty( "os.name" ).startsWith( "Mac" ) ) );
 		CLIENT_SETTINGS.put( "eSoluScriptType", "0" );
 		CLIENT_SETTINGS.put( "fontSize", "3" );
 		CLIENT_SETTINGS.put( "guiUsesOneWindow", "false" );
@@ -227,6 +228,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "http.proxyPassword", "" );
 		CLIENT_SETTINGS.put( "initialDesktop", "AdventureFrame,MallSearchFrame,SkillBuffFrame" );
 		CLIENT_SETTINGS.put( "initialFrames", "EventsFrame" );
+		CLIENT_SETTINGS.put( "lastOperatingSystem", System.getProperty( "os.name" ) );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
 		CLIENT_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		CLIENT_SETTINGS.put( "makeBrowserDecisions", "false" );

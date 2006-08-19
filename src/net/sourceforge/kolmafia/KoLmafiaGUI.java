@@ -64,12 +64,23 @@ public class KoLmafiaGUI extends KoLmafia
 		String lookAndFeel = StaticEntity.getProperty( "desiredLookAndFeel" );
 		boolean foundLookAndFeel = false;
 
+		if ( !StaticEntity.getProperty( "lastOperatingSystem" ).equals( System.getProperty( "os.name" ) ) )
+			lookAndFeel = "";
+
 		if ( lookAndFeel.equals( "" ) )
 		{
-			if ( !System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			if ( System.getProperty( "os.name" ).startsWith( "Mac" ) )
+			{
+				lookAndFeel = UIManager.getSystemLookAndFeelClassName();
+				StaticEntity.setProperty( "desiredLookAndFeel", lookAndFeel );
+				StaticEntity.setProperty( "desiredLookAndFeelTitle", "true" );
+				foundLookAndFeel = true;
+			}
+			else
 			{
 				lookAndFeel = UIManager.getCrossPlatformLookAndFeelClassName();
 				StaticEntity.setProperty( "desiredLookAndFeel", lookAndFeel );
+				StaticEntity.setProperty( "desiredLookAndFeelTitle", "false" );
 				foundLookAndFeel = true;
 			}
 		}
@@ -90,7 +101,8 @@ public class KoLmafiaGUI extends KoLmafia
 			try
 			{
 				javax.swing.UIManager.setLookAndFeel( lookAndFeel );
-				javax.swing.JFrame.setDefaultLookAndFeelDecorated( lookAndFeel.equals( UIManager.getSystemLookAndFeelClassName() ) );
+				javax.swing.JFrame.setDefaultLookAndFeelDecorated(
+					StaticEntity.getProperty( "desiredLookAndFeelTitle" ).equals( "true" ) );
 			}
 			catch ( Exception e )
 			{

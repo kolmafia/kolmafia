@@ -546,6 +546,7 @@ public class LoginFrame extends KoLFrame
 		{
 			{ "useTextHeavySidepane", "Show detailed information in sidepane" },
 			{ "guiUsesOneWindow", "Restrict interface to a single window" },
+			{ "desiredLookAndFeelTitle", "Use title bar for selected Java L&F" },
 			{ "useSystemTrayIcon", "Minimize to system tray (Windows only)" }
 		};
 
