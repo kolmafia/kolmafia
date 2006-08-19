@@ -2384,14 +2384,14 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void downloadAdventureOverride()
 	{
-		updateDisplay( "Downloading override data files..." );
-
 		try
 		{
 			for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
 			{
-				BufferedReader reader = new BufferedReader( new InputStreamReader(
-					(InputStream) (new URL( "http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] )).getContent() ) );
+				updateDisplay( "Downloading " + OVERRIDE_DATA[i] + "..." );
+
+				BufferedReader reader = KoLDatabase.getReader(
+					"http://svn.sourceforge.net/viewvc/*checkout*/kolmafia/src/data/" + OVERRIDE_DATA[i] );
 
 				File output = new File( "data/" + OVERRIDE_DATA[i] );
 				if ( output.exists() )
@@ -2404,9 +2404,10 @@ public abstract class KoLmafia implements KoLConstants
 					writer.println( line );
 
 				writer.close();
+				reader.close();
 			}
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
