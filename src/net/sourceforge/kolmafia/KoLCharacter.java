@@ -2713,30 +2713,43 @@ public abstract class KoLCharacter extends StaticEntity
 		return count > 0 && count >= item.getCount();
 	}
 
+	public static boolean hasEquipped( String itemName, int equipmentSlot )
+	{
+		String itemInSlot = getEquipment( equipmentSlot );
+		if ( itemInSlot.equals( EquipmentRequest.UNEQUIP ) )
+			return false;
+
+		if ( itemInSlot.indexOf( "(" ) != -1 )
+			itemInSlot = itemInSlot.substring( 0, itemInSlot.indexOf( "(" ) ).trim();
+
+		return itemInSlot.equals( itemName );
+	}
+
 	public static boolean hasEquipped( AdventureResult item )
 	{
 		String name = item.getName().toLowerCase();
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
 		{
 			case ConsumeItemRequest.EQUIP_WEAPON:
-				return getEquipment( WEAPON ).toLowerCase().startsWith( name ) || getEquipment( OFFHAND ).toLowerCase().startsWith( name );
+				return hasEquipped( name, WEAPON ) || hasEquipped( name, OFFHAND );
 
 			case ConsumeItemRequest.EQUIP_OFFHAND:
-				return getEquipment( OFFHAND ).toLowerCase().startsWith( name );
+				return hasEquipped( name, OFFHAND );
 
 			case ConsumeItemRequest.EQUIP_HAT:
-				return getEquipment( HAT ).toLowerCase().startsWith( name );
+				return hasEquipped( name, HAT );
 
 			case ConsumeItemRequest.EQUIP_SHIRT:
-				return getEquipment( SHIRT ).toLowerCase().startsWith( name );
+				return hasEquipped( name, SHIRT );
 
 			case ConsumeItemRequest.EQUIP_PANTS:
-				return getEquipment( PANTS ).toLowerCase().startsWith( name );
+				return hasEquipped( name, PANTS );
 
 			case ConsumeItemRequest.EQUIP_ACCESSORY:
-				return getEquipment( ACCESSORY1 ).toLowerCase().startsWith( name ) ||
-					getEquipment( ACCESSORY2 ).toLowerCase().startsWith( name ) ||
-					getEquipment( ACCESSORY3 ).toLowerCase().startsWith( name );
+				return hasEquipped( name, ACCESSORY1 ) || hasEquipped( name, ACCESSORY2 ) || hasEquipped( name, ACCESSORY3 );
+
+			case ConsumeItemRequest.EQUIP_FAMILIAR:
+				return hasEquipped( name, FAMILIAR );
 		}
 
 		return false;

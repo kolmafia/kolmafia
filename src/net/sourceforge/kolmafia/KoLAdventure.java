@@ -187,12 +187,15 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( adventureName.indexOf( "In Disguise" ) != -1 || adventureName.indexOf( "Cloaca Uniform" ) != -1 || adventureName.indexOf( "Dyspepsi Uniform" ) != -1 )
 		{
 			int outfitID = EquipmentDatabase.getOutfitID( this );
-			EquipmentDatabase.retrieveOutfit( outfitID );
 
-			if ( !KoLmafia.permitsContinue() )
-				return;
+			if ( !EquipmentDatabase.isWearingOutfit( outfitID ) )
+			{
+				EquipmentDatabase.retrieveOutfit( outfitID );
+				if ( !KoLmafia.permitsContinue() )
+					return;
 
-			(new EquipmentRequest( client, EquipmentDatabase.getOutfit( outfitID ) )).run();
+				(new EquipmentRequest( client, EquipmentDatabase.getOutfit( outfitID ) )).run();
+			}
 		}
 
 		// If we're trying to take a trip, make sure it's the right one
