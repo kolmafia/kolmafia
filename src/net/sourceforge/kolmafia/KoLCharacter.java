@@ -1074,10 +1074,9 @@ public abstract class KoLCharacter extends StaticEntity
 	 * or the empty string.
 	 *
 	 * @param	equipment	All of the available equipment, stored in an array index by the constants
-	 * @param	customOutfits	A listing of available outfits
 	 */
 
-	public static void setEquipment( String [] equipment, List customOutfits )
+	public static void setEquipment( String [] equipment )
 	{
 		for ( int i = 0; i < KoLCharacter.equipment.size(); ++i )
 		{
@@ -1114,16 +1113,20 @@ public abstract class KoLCharacter extends StaticEntity
 			currentFamiliar.setItem( equipment[FAMILIAR] );
 		}
 
-		// Rebuild outfits if given a new list
-		if ( customOutfits != null )
-		{
-			KoLCharacter.customOutfits.clear();
-			KoLCharacter.customOutfits.addAll( customOutfits );
-			EquipmentDatabase.updateOutfits();
-		}
-
 		recalculateAdjustments( false );
 		updateStatus();
+	}
+
+	public static void setOutfits( List newOutfits )
+	{
+		// Rebuild outfits if given a new list
+		if ( newOutfits != null )
+		{
+			customOutfits.clear();
+			customOutfits.addAll( newOutfits );
+		}
+
+		EquipmentDatabase.updateOutfits();
 	}
 
 	/**
@@ -2695,8 +2698,27 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasItem( AdventureResult item, boolean shouldCreate )
 	{
-		int count = hasEquipped( item ) ? 1 : 0;
-		count += item.getCount( getInventory() ) + item.getCount( getCloset() );
+		int count = item.getCount( getInventory() ) + item.getCount( getCloset() );
+		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
+		{
+			case ConsumeItemRequest.EQUIP_HAT:
+			case ConsumeItemRequest.EQUIP_PANTS:
+			case ConsumeItemRequest.EQUIP_FAMILIAR:
+			case ConsumeItemRequest.EQUIP_OFFHAND:
+				if ( hasEquipped( item ) )  ++count;
+				break;
+
+			case ConsumeItemRequest.EQUIP_WEAPON:
+				if ( hasEquipped( item.getName(), WEAPON ) )  ++count;
+				if ( hasEquipped( item.getName(), OFFHAND ) )  ++count;
+				break;
+
+			case ConsumeItemRequest.EQUIP_ACCESSORY:
+				if ( hasEquipped( item.getName(), ACCESSORY1 ) )  ++count;
+				if ( hasEquipped( item.getName(), ACCESSORY2 ) )  ++count;
+				if ( hasEquipped( item.getName(), ACCESSORY3 ) )  ++count;
+				break;
+		}
 
 		if ( count > 0 && count >= item.getCount() )
 			return true;
@@ -2715,7 +2737,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasEquipped( String itemName, int equipmentSlot )
 	{
-		String itemInSlot = getEquipment( equipmentSlot );
+		itemName = KoLDatabase.getCanonicalName( itemName );
+		String itemInSlot = KoLDatabase.getCanonicalName( getEquipment( equipmentSlot ) );
+
 		if ( itemInSlot.equals( EquipmentRequest.UNEQUIP ) )
 			return false;
 
@@ -2727,7 +2751,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasEquipped( AdventureResult item )
 	{
-		String name = item.getName().toLowerCase();
+		String name = item.getName();
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
 		{
 			case ConsumeItemRequest.EQUIP_WEAPON:

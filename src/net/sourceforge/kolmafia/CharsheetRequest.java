@@ -292,7 +292,7 @@ public class CharsheetRequest extends KoLRequest
 			}
 		}
 
-		KoLCharacter.setEquipment( equipment, null );
+		KoLCharacter.setEquipment( equipment );
 		KoLCharacter.setFakeHands( fakeHands );
 
 		while ( !token.startsWith( "Skill" ) )
