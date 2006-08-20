@@ -267,37 +267,37 @@ public abstract class MoodSettings implements KoLConstants
 		}
 	}
 	/**
-	 * Duplicates the current trigger list into a new list 
+	 * Duplicates the current trigger list into a new list
 	 */
 
-	public static void copyTriggers(String newListName ) 
+	public static void copyTriggers(String newListName )
 	{
 		String currentMood = StaticEntity.getProperty( "currentMood" );
-		
+
 		if (newListName == "")
 			return;
-		
+
 		if ( currentMood.equals( "apathetic" ) )
 			return;
-			
+
 		if ( newListName.equals( "apathetic") ) // Can't copy into apathetic list
 			return;
 
 		// Copy triggers from current list
 		SortedListModel oldTriggers = (SortedListModel) getTriggers().clone();
-	
+
 		// Create and switch to new list
 		setMood(newListName);
-		
+
 		// Clear new list
 		removeTriggers( triggers.toArray() );
-		
+
 		for ( int i = 0; i < oldTriggers.size(); ++i )
 		{
 			MoodTrigger currentTrigger = (MoodTrigger) oldTriggers.getElementAt(i);
 			addTrigger ( currentTrigger.triggerType, currentTrigger.triggerName, currentTrigger.action);
 		}
-		
+
 		saveSettings();
 
 		// Revert back to original mood in case this is used from CLI (NYI)
@@ -361,9 +361,6 @@ public abstract class MoodSettings implements KoLConstants
 
 		for ( int i = 0; i < triggers.size(); ++i )
 			((MoodTrigger)triggers.get(i)).execute();
-
-		if ( hasChangedOutfit )
-			SpecialOutfit.restoreCheckpoint();
 
 		UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
 	}
