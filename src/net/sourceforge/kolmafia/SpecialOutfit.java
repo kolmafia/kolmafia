@@ -37,7 +37,6 @@ package net.sourceforge.kolmafia;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.StringTokenizer;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.SortedListModel;
 

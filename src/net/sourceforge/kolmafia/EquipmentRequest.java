@@ -35,8 +35,6 @@
 package net.sourceforge.kolmafia;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -445,12 +443,8 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseCode == 302 && !redirectLocation.equals( "maint.php" ) )
 		{
-			KoLRequest message = new KoLRequest( client, redirectLocation );
-			message.run();
-
-			responseCode = message.responseCode;
-			responseText = message.responseText;
-			processResults();
+			constructURLString( redirectLocation );
+			super.run();
 		}
 	}
 
@@ -796,6 +790,9 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public boolean isChangeRequest()
 	{
+		if ( getURLString().indexOf( "action=message" ) != -1 )
+			return false;
+
 		return requestType == CHANGE_OUTFIT || requestType == CHANGE_ITEM ||
 			requestType == REMOVE_ITEM || requestType == UNEQUIP_ALL;
 	}
@@ -858,7 +855,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		String itemName = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
 
 		if ( urlString.indexOf( "dualwield" ) != -1 )
-			KoLmafia.getSessionStream().println( "equip offhand " + itemName );
+			KoLmafia.getSessionStream().println( "equip off-hand " + itemName );
 		else
 			KoLmafia.getSessionStream().println( "equip " + itemName );
 
