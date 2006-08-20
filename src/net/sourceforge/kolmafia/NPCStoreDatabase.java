@@ -161,10 +161,7 @@ public class NPCStoreDatabase extends KoLDatabase
 		// guard uniform, and not available if out of Ronin.
 
 		else if ( storeID.equals( "g" ) )
-		{
-			System.out.println( EquipmentDatabase.hasOutfit( 5 ) );
 			itemRequest.setCanPurchase( EquipmentDatabase.hasOutfit( 5 ) );
-		}
 
 		// If the person is trying to get one of the items from the hippy
 		// store, then the item is not available if they don't have the
