@@ -659,6 +659,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( adventure != null )
 			adventure.recordToSession();
 		else if ( KoLAdventure.recordToSession( urlString ) );
+		else if ( FightRequest.processRequest( client, urlString ) );
 		else if ( FamiliarRequest.processRequest( client, urlString ) );
 		else if ( ConsumeItemRequest.processRequest( client, urlString ) )
 			isConsumeRequest = true;

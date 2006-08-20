@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * An extension of <code>KoLRequest</code> which handles fights
@@ -451,4 +453,48 @@ public class FightRequest extends KoLRequest
 	public int getAdventuresUsed()
 	{	return responseText == null ? 0 : responseText.indexOf( "fight.php" ) == -1 ? 1 : 0;
 	}
+
+	public static boolean processRequest( KoLmafia client, String urlString )
+	{
+		if ( urlString.indexOf( "fight.php?" ) == -1 )
+			return false;
+
+		Matcher skillMatcher = Pattern.compile( "whichskill=(\\d+)" ).matcher( urlString );
+		if ( skillMatcher.find() )
+		{
+			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
+			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " casts the enchanted spell of " + skill + "!" );
+			return true;
+		}
+
+		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
+		if ( itemMatcher.find() )
+		{
+			String item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
+			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " uses the " + item + "!" );
+
+			itemMatcher = Pattern.compile( "whichitem2=(\\d+)" ).matcher( urlString );
+			if ( itemMatcher.find() )
+			{
+				item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
+				KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " uses the " + item + "!" );
+			}
+
+			return true;
+		}
+
+		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).equals( EquipmentRequest.UNEQUIP ) )
+		{
+			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with " +
+				"fear-inducing body language (+0)!" );
+		}
+		else
+		{
+			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with their " +
+				KoLCharacter.getEquipment( KoLCharacter.WEAPON ) + "!" );
+		}
+
+		return true;
+	}
+
 }
