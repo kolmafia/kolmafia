@@ -1170,7 +1170,13 @@ public abstract class KoLmafia implements KoLConstants
 		debugStream.println( "Processing results..." );
 
 		if ( results.indexOf( "gains a pound" ) != -1 )
+		{
 			KoLCharacter.incrementFamilarWeight();
+
+			sessionStream.println();
+			sessionStream.println( "familiar " + KoLCharacter.getFamiliar() );
+			sessionStream.println();
+		}
 
 		String plainTextResult = results.replaceAll( "<.*?>", LINE_BREAK );
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, LINE_BREAK );
