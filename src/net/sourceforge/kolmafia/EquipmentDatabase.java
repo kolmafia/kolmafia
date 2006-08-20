@@ -99,7 +99,7 @@ public class EquipmentDatabase extends KoLDatabase
 
 				String [] pieces = data[2].split( "\\s*,\\s*" );
 				for ( int i = 0; i < pieces.length; ++i )
-					outfits.get( outfitID ).addPiece( new AdventureResult( pieces[i], 1 ) );
+					outfits.get( outfitID ).addPiece( new AdventureResult( pieces[i], 1, false ) );
 			}
 		}
 	}
@@ -239,8 +239,10 @@ public class EquipmentDatabase extends KoLDatabase
 	{
 		SortedListModel available = new SortedListModel();
 		for ( int i = 0; i < outfits.size(); ++i )
+		{
 			if ( outfits.get(i) != null && outfits.get(i).hasAllPieces() )
 					available.add( outfits.get(i) );
+		}
 
 		// Rebuild the list of outfits
 		LockableListModel outfits = KoLCharacter.getOutfits();

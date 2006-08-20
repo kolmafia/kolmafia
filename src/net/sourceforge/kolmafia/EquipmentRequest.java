@@ -780,7 +780,9 @@ public class EquipmentRequest extends PasswordHashRequest
 		LockableListModel outfits = outfitsMatcher.find() ?
 			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
 
-		KoLCharacter.setEquipment( equipment, outfits );
+		KoLCharacter.setEquipment( equipment );
+		KoLCharacter.setOutfits( outfits );
+		EquipmentDatabase.updateOutfits();
 		KoLCharacter.setFakeHands( fakeHands );
 	}
 

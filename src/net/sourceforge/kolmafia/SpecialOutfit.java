@@ -77,8 +77,13 @@ public class SpecialOutfit implements Comparable
 	public boolean hasAllPieces()
 	{
 		for ( int i = 0; i < pieces.size(); ++i )
-			if ( !KoLCharacter.hasItem( (AdventureResult) pieces.get(i), false ) || !EquipmentDatabase.canEquip( ((AdventureResult) pieces.get(i)).getName() ) )
+		{
+			boolean itemAvailable = KoLCharacter.hasItem( (AdventureResult) pieces.get(i), true ) &&
+				EquipmentDatabase.canEquip( ((AdventureResult) pieces.get(i)).getName() );
+
+			if ( !itemAvailable )
 				return false;
+		}
 
 		return true;
 	}
