@@ -1009,8 +1009,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( needed == 0 && setting <= 0 )
 			return true;
 
-		if ( initial == 0 )
-			needed = (int) ( setting * (double) maximum );
+		needed = Math.max( (int) ( setting * (double) maximum ), needed );
 
 		// If it gets this far, then you should attempt to recover
 		// using the selected items.  This involves a few extra
@@ -2457,6 +2456,7 @@ public abstract class KoLmafia implements KoLConstants
 			recoverHP();
 			recoverMP();
 
+			SpecialOutfit.restoreCheckpoint();
 			recoveryActive = false;
 		}
 

@@ -3195,7 +3195,7 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.getClient().makePurchases( results, resultArray, match.getCount() );
 		}
 
-		if ( revertToCheckpoint )
+		if ( revertToCheckpoint && !isRunningBetweenBattleChecks() )
 			SpecialOutfit.restoreCheckpoint();
 	}
 
