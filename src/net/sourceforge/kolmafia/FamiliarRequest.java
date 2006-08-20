@@ -99,4 +99,31 @@ public class FamiliarRequest extends KoLRequest
 		String familiarName = getFamiliarChange();
 		return familiarName == null ? "" : "familiar " + familiarName;
 	}
+
+	public static boolean processRequest( KoLmafia client, String urlString )
+	{
+		if ( urlString.indexOf( "familiar.php?" ) == -1 )
+			return false;
+
+		if ( urlString.indexOf( "action=putback" ) != -1 )
+		{
+			KoLmafia.getSessionStream().println( "familiar none" );
+			return true;
+		}
+
+		Matcher familiarMatcher = Pattern.compile( "newfam=(\\d+)" ).matcher( urlString );
+		if ( familiarMatcher.find() )
+		{
+			FamiliarData changeTo = new FamiliarData( StaticEntity.parseInt( familiarMatcher.group(1) ) );
+			int index = KoLCharacter.getFamiliarList().indexOf( changeTo );
+
+			if ( index != -1 )
+			{
+				KoLmafia.getSessionStream().println( "familiar " + KoLCharacter.getFamiliarList().get(index).toString() );
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
