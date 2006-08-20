@@ -2564,6 +2564,8 @@ public class KoLmafiaCLI extends KoLmafia
 		PrintStream originalStream = KoLmafia.outputStream;
 		KoLmafia.outputStream = outputStream;
 
+		KoLmafiaCLI.printBlankLine();
+
 		if ( desiredData.equals( "session" ) )
 		{
 			printLine( "Player: " + KoLCharacter.getUsername() );
@@ -2654,10 +2656,11 @@ public class KoLmafiaCLI extends KoLmafia
 			printList( resultList );
 		}
 
+		KoLmafiaCLI.printBlankLine();
+
 		if ( outputStream != originalStream )
 		{
-			outputStream.println();
-			outputStream.println();
+			KoLmafiaCLI.printBlankLine();
 			outputStream.close();
 		}
 
@@ -3810,7 +3813,7 @@ public class KoLmafiaCLI extends KoLmafia
 		mirrorStream.println( wordWrappedLine.toString() );
 
 		getDebugStream().println( wordWrappedLine.toString() );
-		getSessionStream().println( wordWrappedLine.toString() );
+		sessionStream.println( wordWrappedLine.toString() );
 
 		StringBuffer colorBuffer = new StringBuffer();
 		colorBuffer.append( "<font color=black>" );

@@ -295,7 +295,6 @@ public abstract class SorceressLair extends StaticEntity
 		if ( untinkerCloverWeapon )
 		{
 			cloverWeapon = pickOne( CLOVER_WEAPONS );
-			String cloverWeaponName = cloverWeapon.getName();
 
 			if ( hasItem( BANJO_STRING ) && hasItem( cloverWeapon ) )
 			{
@@ -465,18 +464,13 @@ public abstract class SorceressLair extends StaticEntity
 
 		List requirements = new ArrayList();
 
+		AdventureDatabase.retrieveItem( SKELETON );
 		if ( !hasItem( SKELETON ) )
 			requirements.add( SKELETON );
 
 		if ( useCloverForSkeleton )
 		{
-			if ( hasItem( CLOVER ) )
-				AdventureDatabase.retrieveItem( CLOVER );
-			else if ( HermitRequest.getWorthlessItemCount() > 0 && HermitRequest.isCloverDay() )
-				AdventureDatabase.retrieveItem( CLOVER );
-			else if ( KoLCharacter.canInteract() )
-				AdventureDatabase.retrieveItem( CLOVER );
-
+			AdventureDatabase.retrieveItem( CLOVER );
 			if ( !hasItem( CLOVER ) )
 				requirements.add( CLOVER );
 		}
@@ -686,7 +680,11 @@ public abstract class SorceressLair extends StaticEntity
 		List requirements = new ArrayList();
 
 		if ( !hasItem( SQUEEZINGS ) && !hasItem( DIGITAL ) )
-			requirements.add( DIGITAL );
+		{
+			AdventureDatabase.retrieveItem( DIGITAL );
+			if ( !hasItem( DIGITAL ) )
+				requirements.add( DIGITAL );
+		}
 
 		if ( isCheckOnly || hasItem( SQUEEZINGS ) || !requirements.isEmpty() )
 			return requirements;
@@ -694,7 +692,6 @@ public abstract class SorceressLair extends StaticEntity
 		// Now handle the form for the digital key to get
 		// the Squeezings of Woe.
 
-		AdventureDatabase.retrieveItem( DIGITAL );
 		KoLmafia.updateDisplay( "Inserting digital key..." );
 
 		KoLRequest request = new KoLRequest( client, "lair2.php" );
@@ -736,11 +733,14 @@ public abstract class SorceressLair extends StaticEntity
 		// answering the riddles with the forms of fish.
 
 		if ( !hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
-			requirements.add( BORIS );
+		{
+			AdventureDatabase.retrieveItem( BORIS );
+			if ( !hasItem( BORIS ) )
+				requirements.add( BORIS );
+		}
 
 		else if ( !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
 		{
-			AdventureDatabase.retrieveItem( BORIS );
 			KoLmafia.updateDisplay( "Inserting Boris's key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
@@ -758,11 +758,14 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		if ( !hasItem( JARLSBERG ) && !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
-			requirements.add( JARLSBERG );
+		{
+			AdventureDatabase.retrieveItem( JARLSBERG );
+			if ( !hasItem( JARLSBERG ) )
+				requirements.add( JARLSBERG );
+		}
 
 		else if ( !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
 		{
-			AdventureDatabase.retrieveItem( JARLSBERG );
 			KoLmafia.updateDisplay( "Inserting Jarlsberg's key..." );
 
 			request = new KoLRequest( client, "lair2.php" );
@@ -780,7 +783,11 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		if ( !hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
-			requirements.add( SNEAKY_PETE );
+		{
+			AdventureDatabase.retrieveItem( SNEAKY_PETE );
+			if ( !hasItem( SNEAKY_PETE ) )
+				requirements.add( SNEAKY_PETE );
+		}
 
 		else if ( !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
 		{

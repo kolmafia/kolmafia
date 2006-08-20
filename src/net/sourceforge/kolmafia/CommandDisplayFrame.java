@@ -35,21 +35,13 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import java.awt.Dimension;
 import java.awt.BorderLayout;
-import javax.swing.BoxLayout;
 
 // event listeners
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyAdapter;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
-import javax.swing.SwingUtilities;
 
 // containers
 import javax.swing.JToolBar;
@@ -57,9 +49,7 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JEditorPane;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
-import javax.swing.JToolBar;
 
 import java.util.ArrayList;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
