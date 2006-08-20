@@ -108,6 +108,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected String formURLString;
 
 	private boolean isChatRequest = false;
+	private boolean isEquipRequest = false;
 	private boolean isConsumeRequest = false;
 
 	private List data;
@@ -563,6 +564,16 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		processedResults = true;
 
+		// If this is an equipment request, then reprint the
+		// player's current equipment information.
+
+		if ( isEquipRequest )
+		{
+			KoLmafiaCLI.printBlankLine();
+			DEFAULT_SHELL.executeLine( "equip" );
+			KoLmafiaCLI.printBlankLine();
+		}
+
 		if ( getURLString().equals( "main.php?refreshtop=true&noobmessage=true" ) )
 			client.handleAscension();
 	}
@@ -625,6 +636,8 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected void registerRequest()
 	{
 		String urlString = getURLString();
+
+		isEquipRequest = this instanceof EquipmentRequest && ((EquipmentRequest)this).isChangeRequest();
 		isConsumeRequest = this instanceof ConsumeItemRequest;
 
 		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php " ) == -1 )
@@ -646,8 +659,11 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( adventure != null )
 			adventure.recordToSession();
 		else if ( KoLAdventure.recordToSession( urlString ) );
+		else if ( FamiliarRequest.processRequest( client, urlString ) );
 		else if ( ConsumeItemRequest.processRequest( client, urlString ) )
 			isConsumeRequest = true;
+		else if ( EquipmentRequest.processRequest( client, urlString ) )
+			isEquipRequest = true;
 		else if ( ItemCreationRequest.processRequest( client, urlString ) );
 		else if ( ItemStorageRequest.processRequest( client, urlString ) );
 		else if ( !(this instanceof LoginRequest) && urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && urlString.indexOf( "searchmall" ) == -1 && !isChatRequest )

@@ -1323,8 +1323,6 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 
 			executeChangeOutfitCommand( parameters );
-			if ( permitsContinue() )
-				executePrintCommand( "equip" );
 			return;
 		}
 
@@ -2422,35 +2420,37 @@ public class KoLmafiaCLI extends KoLmafia
 		// the off-hand weapon
 
 		if ( KoLCharacter.dualWielding() && ( slot == KoLCharacter.WEAPON || slot == KoLCharacter.OFFHAND ) )
-                {
-                        int itemID = match.getItemID();
-                        int desiredHands = EquipmentDatabase.getHands( itemID );
+        {
+			int itemID = match.getItemID();
+			int desiredHands = EquipmentDatabase.getHands( itemID );
 			boolean desiredType = EquipmentDatabase.isRanged( itemID );
 			boolean currentType = EquipmentDatabase.isRanged( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) );
 
-                        // If we are equipping a new weapon, a two-handed
-                        // weapon will unequip any pair of weapons. But a
-                        // one-handed weapon much match the type of the
-                        // off-hand weapon. If it doesn't, unequip the off-hand
-                        // weapon first
-                        if ( slot == KoLCharacter.WEAPON )
-                        {
-                                if ( desiredHands < 2 && desiredType != currentType )
-                                        executeLine( "unequip off-hand" );
-                        }
+            // If we are equipping a new weapon, a two-handed
+            // weapon will unequip any pair of weapons. But a
+            // one-handed weapon much match the type of the
+            // off-hand weapon. If it doesn't, unequip the off-hand
+            // weapon first
 
-                        // If we are equipping an off-hand weapon, fail the
-                        // request if its type does not agree with the type of
-                        // the main weapon.
-                        else if ( slot == KoLCharacter.OFFHAND )
-                        {
-                                if ( desiredHands == 1 && desiredType != currentType )
-                                {
-                                        updateDisplay( ERROR_STATE, "You can't wield a " + ( desiredType ? "ranged" : "melee" ) + " weapon in your off-hand with a " + ( currentType ? "ranged" : "melee" ) + " weapon in your main hand." );
-                                        return;
-                                }
-                        }
-                }
+			if ( slot == KoLCharacter.WEAPON )
+            {
+            	if ( desiredHands < 2 && desiredType != currentType )
+            		executeLine( "unequip off-hand" );
+            }
+
+            // If we are equipping an off-hand weapon, fail the
+            // request if its type does not agree with the type of
+            // the main weapon.
+
+			else if ( slot == KoLCharacter.OFFHAND )
+			{
+				if ( desiredHands == 1 && desiredType != currentType )
+				{
+				updateDisplay( ERROR_STATE, "You can't wield a " + ( desiredType ? "ranged" : "melee" ) + " weapon in your off-hand with a " + ( currentType ? "ranged" : "melee" ) + " weapon in your main hand." );
+				return;
+				}
+			}
+		}
 
 		StaticEntity.getClient().makeRequest(
 			new EquipmentRequest( StaticEntity.getClient(), match.getName(), slot ) );
@@ -3769,7 +3769,7 @@ public class KoLmafiaCLI extends KoLmafia
 		return false;
 	}
 
-	public void printBlankLine()
+	public static void printBlankLine()
 	{	printLine( " " );
 	}
 

@@ -2598,12 +2598,10 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected void handleAscension()
 	{
-		refreshSession();
-		resetSession();
-
 		MoodSettings.setMood( "apathetic" );
 
-		enableDisplay();
+		refreshSession();
+		resetSession();
 
 		sessionStream.println();
 		sessionStream.println();
@@ -2611,7 +2609,13 @@ public abstract class KoLmafia implements KoLConstants
 		sessionStream.println( "           Beginning New Ascension           " );
 		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 		sessionStream.println();
+
+		DEFAULT_SHELL.executeLine( "skills" );
+
 		sessionStream.println();
+		sessionStream.println();
+
+		enableDisplay();
 	}
 
 	public void loadPreferredBrowser()

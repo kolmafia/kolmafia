@@ -54,16 +54,16 @@ public class EquipmentRequest extends PasswordHashRequest
 	private static final AdventureResult PASTE = new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 );
 
 	public static final int CLOSET = 1;
-	private static final int MISCELLANEOUS = 2;
+	public static final int MISCELLANEOUS = 2;
 	public static final int EQUIPMENT = 3;
-	private static final int CONSUMABLES = 4;
+	public static final int CONSUMABLES = 4;
 
-	private static final int SAVE_OUTFIT = 5;
-	private static final int CHANGE_OUTFIT = 6;
+	public static final int SAVE_OUTFIT = 5;
+	public static final int CHANGE_OUTFIT = 6;
 
-	private static final int CHANGE_ITEM = 7;
-	private static final int REMOVE_ITEM = 8;
-	private static final int UNEQUIP_ALL = 9;
+	public static final int CHANGE_ITEM = 7;
+	public static final int REMOVE_ITEM = 8;
+	public static final int UNEQUIP_ALL = 9;
 
 	// Array indexed by equipment "slot" from KoLCharacter
 	//
@@ -794,8 +794,18 @@ public class EquipmentRequest extends PasswordHashRequest
 		return -1;
 	}
 
+	public boolean isChangeRequest()
+	{
+		return requestType == CHANGE_OUTFIT || requestType == CHANGE_ITEM ||
+			requestType == REMOVE_ITEM || requestType == UNEQUIP_ALL;
+	}
+
+
 	public String getCommandForm( int iterations )
 	{
+		if ( !isChangeRequest() || requestType == UNEQUIP_ALL )
+			return "";
+
 		String outfitName = getOutfitName();
 
 		if ( outfitName != null )
@@ -804,13 +814,54 @@ public class EquipmentRequest extends PasswordHashRequest
 		if ( requestType == REMOVE_ITEM )
 			return "unequip " + slotNames[ equipmentSlot ];
 
-		if ( requestType == CHANGE_ITEM )
+		return equipmentSlot == -1 ? "equip " + changeItemName :
+			"equip " + slotNames[ equipmentSlot ] + " " + changeItemName;
+	}
+
+	public static boolean processRequest( KoLmafia client, String urlString )
+	{
+		if ( urlString.indexOf( "inv_equip.php" ) == -1 )
+			return false;
+
+		Matcher outfitMatcher = Pattern.compile( "whichoutfit=(\\d+)" ).matcher( urlString );
+		if ( outfitMatcher.find() )
 		{
-			if ( equipmentSlot == -1 )
-				return "equip " + changeItemName;
-			return "equip " + slotNames[ equipmentSlot ] + " " + changeItemName;
+			int outfitID = StaticEntity.parseInt( outfitMatcher.group(1) );
+			if ( outfitID > 0 )
+			{
+				KoLmafia.getSessionStream().println( "outfit " + EquipmentDatabase.getOutfit( outfitID ) );
+				return true;
+			}
+			else
+			{
+				KoLmafia.getSessionStream().println( "outfit [unknown custom outfit]" );
+				return true;
+			}
 		}
 
-		return "";
+		if ( urlString.indexOf( "action=unequip" ) != -1 )
+		{
+			Matcher slotMatcher = Pattern.compile( "type=([a-z]+)" ).matcher( urlString );
+			if ( slotMatcher.find() )
+			{
+				KoLmafia.getSessionStream().println( "unequip " + slotMatcher.group(1) );
+				return true;
+			}
+
+			return false;
+		}
+
+		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
+		if ( !itemMatcher.find() )
+			return false;
+
+		String itemName = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
+
+		if ( urlString.indexOf( "dualwield" ) != -1 )
+			KoLmafia.getSessionStream().println( "equip offhand " + itemName );
+		else
+			KoLmafia.getSessionStream().println( "equip " + itemName );
+
+		return true;
 	}
 }

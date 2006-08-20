@@ -122,18 +122,20 @@ public class AdventureDatabase extends KoLDatabase
 		  { "Bet on Tapajunta Del Maiz", "Bet on Cuerno De...  the other one", "Walk away in disgust" } },
 
 		// Heart of Very, Very Dark Darkness
-		{ { "choiceAdventure5" }, { "Gravy Barrow 1" },
+		{ { "choiceAdventure5" }, { "Gravy Barrow" },
 		  { "Enter the cave", "Don't enter the cave" } },
 
 		// Choice 6 is unknown
 
 		// How Depressing
-		{ { "choiceAdventure7" }, { "Gravy Barrow 2" },
-		  { "Put your hand in the depression", "Leave the cave" } },
+		// (This adventure cannot be customized)
+		// { { "choiceAdventure7" }, { "Gravy Barrow 2" },
+		//  { "Put your hand in the depression", "Leave the cave" } },
 
 		// On the Verge of a Dirge
-		{ { "choiceAdventure8" }, { "Gravy Barrow 3" },
-		  { "Enter the chamber", "Enter the chamber", "Enter the chamber" } },
+		// (This adventure cannot be customized)
+		// { { "choiceAdventure8" }, { "Gravy Barrow 3" },
+		//  { "Enter the chamber", "Enter the chamber", "Enter the chamber" } },
 
 		// Choices 9 - 13 are unknown
 
@@ -224,10 +226,14 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Have a Heart
 		{ { "choiceAdventure47" }, { "Spooky Forest 3" },
-		  { "Trade for used blood", "Keep your hearts" } },
+		  { "Trade for bottle of used blood", "Keep your hearts" } },
 
 		// Choices 48 - 70 are violet fog adventures
 		// Choice 71 is a special adventure
+
+		// Lording Over The Flies
+		{ { "choiceAdventure72" }, { "Frat House" },
+		  { "Trade for around the world", "Keep your flies" } },
 
 		// Don't Fence Me In
 		{ { "choiceAdventure73" }, { "Whitey's Grove 1" },
