@@ -261,13 +261,15 @@ public abstract class SendMessageRequest extends KoLRequest
 		}
 		else
 		{
-			if ( attachments.length > 1 )
+			if ( attachments.length > 0 )
 			{
 				for ( int i = 0; i < attachments.length; ++i )
 					KoLmafia.updateDisplay( PENDING_STATE, "Transfer may have failed for " + attachments[i].toString() );
 			}
 			else
-				KoLmafia.updateDisplay( PENDING_STATE, "Transfer failed for " + attachments[0].toString() );
+			{
+				KoLmafia.updateDisplay( PENDING_STATE, "Transfer failed when attempting to send " + meatAttachment + " meat." );
+			}
 		}
 
 		super.processResults();
