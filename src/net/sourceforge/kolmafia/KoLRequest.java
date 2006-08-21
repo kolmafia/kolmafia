@@ -636,6 +636,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		isEquipResult = urlString.indexOf( "which=2" ) != -1 && urlString.indexOf( "action=message" ) != -1;
 		isConsumeRequest = this instanceof ConsumeItemRequest;
 
+		if ( isChatRequest || this instanceof LoginRequest || urlString.indexOf( "fight" ) != -1 || urlString.indexOf( "searchmall" ) == -1 )
+			return;
+
 		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php " ) == -1 )
 			return;
 
@@ -662,7 +665,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		else if ( this instanceof EquipmentRequest || EquipmentRequest.processRequest( client, urlString ) );
 		else if ( ItemCreationRequest.processRequest( client, urlString ) );
 		else if ( ItemStorageRequest.processRequest( client, urlString ) );
-		else if ( !(this instanceof LoginRequest) && urlString.indexOf( "inventory" ) == -1 && urlString.indexOf( "fight" ) == -1 && urlString.indexOf( "searchmall" ) == -1 && !isChatRequest )
+		else if ( urlString.indexOf( "inventory" ) == -1 )
 			KoLmafia.getSessionStream().println( urlString );
 	}
 
@@ -1061,22 +1064,19 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			responseText = replyBuffer.toString();
+			responseText = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
+			responseText = Pattern.compile( "<style.*?</style>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
+			responseText = Pattern.compile( "<!--.*?-->", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
 
-			if ( !(this instanceof LocalRelayRequest) && !isChatRequest )
-			{
-				responseText = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
-				responseText = Pattern.compile( "<style.*?</style>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
-				responseText = Pattern.compile( "<!--.*?-->", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
-			}
+			// Remove password hash before logging and strip out
+			// all new lines to make debug logs easier to read.
 
 			if ( !isChatRequest )
 			{
-				// Remove password hash before logging and strip out
-				// all new lines to make debug logs easier to read.
-
 				String response = responseText.replaceAll( "[\r\n]+", "" ).replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" );
 				KoLmafia.getDebugStream().println( response );
 			}
+
 
 			checkForNewEvents();
 			processRawResponse( replyBuffer.toString() );

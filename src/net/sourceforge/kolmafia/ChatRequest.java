@@ -35,7 +35,6 @@
 package net.sourceforge.kolmafia;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import net.java.dev.spellcast.utilities.DataUtilities;
 
 /**
  * Responsible for handling all requests related to the Kingdom of Loathing
@@ -47,7 +46,7 @@ public class ChatRequest extends KoLRequest
 {
 	private static final int CHAT_DELAY = 8000;
 
-	private static String lastSeen;
+	private static String lastSeen = "";
 	private static ChatContinuationThread thread = null;
 
 	/**
@@ -139,14 +138,14 @@ public class ChatRequest extends KoLRequest
 			thread.start();
 		}
 
-		Matcher lastSeenMatcher = Pattern.compile( "<!--.*?:(\\d+)-->" ).matcher( responseText );
+		Matcher lastSeenMatcher = Pattern.compile( "<!--lastseen:(\\d+)-->" ).matcher( fullResponse );
 		if ( lastSeenMatcher.find() )
 			lastSeen = lastSeenMatcher.group(1);
 
 		try
 		{
 			if ( KoLMessenger.isRunning() )
-				KoLMessenger.updateChat( responseText );
+				KoLMessenger.updateChat( fullResponse );
 		}
 		catch ( Exception e )
 		{
@@ -163,9 +162,10 @@ public class ChatRequest extends KoLRequest
 	{
 		public void run()
 		{
+			lastSeen = "";
 			ChatRequest request = new ChatRequest( client, lastSeen );
 
-			while ( KoLMessenger.isRunning() )
+			while ( delay( CHAT_DELAY ) && KoLMessenger.isRunning() )
 			{
 				// Before running the next request, you should wait for the
 				// refresh rate indicated - this is likely the default rate
@@ -173,11 +173,9 @@ public class ChatRequest extends KoLRequest
 
 				try
 				{
+					request.run();
 					request.clearDataFields();
 					request.addFormField( "lasttime", String.valueOf( lastSeen ) );
-
-					request.run();
-					ChatRequest.delay( CHAT_DELAY );
 				}
 				catch ( Exception e )
 				{
