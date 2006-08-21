@@ -956,11 +956,23 @@ public class KoLRequest implements Runnable, KoLConstants
 				// notified that they should try again later.
 
 				KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
+				if ( !LoginRequest.isInstanceRunning() && StaticEntity.getProperty( "autoExecuteTimeIn" ).equals( "true" ) )
+				{
+					LoginRequest.executeTimeInRequest( true );
+					return sessionID == null;
+				}
+
 				shouldStop = true;
 			}
 			else if ( redirectLocation.startsWith( "login.php" ) )
 			{
 				KoLmafia.updateDisplay( ABORT_STATE, "Session timed out." );
+				if ( !LoginRequest.isInstanceRunning() && StaticEntity.getProperty( "autoExecuteTimeIn" ).equals( "true" ) )
+				{
+					LoginRequest.executeTimeInRequest();
+					return sessionID == null;
+				}
+
 				shouldStop = true;
 			}
 			else if ( redirectLocation.equals( "choice.php" ) )
