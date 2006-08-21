@@ -288,6 +288,9 @@ public class AdventureDatabase extends KoLDatabase
 
 		// Have a Heart
 		{ "choiceAdventure47", "2" },
+
+		// Lording Over The Flies
+		{ "choiceAdventure72", "2" },
 	};
 
 	// Some choice adventures have options that cost meat
