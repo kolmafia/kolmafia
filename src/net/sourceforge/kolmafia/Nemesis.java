@@ -88,6 +88,12 @@ public abstract class Nemesis extends StaticEntity
 		KoLRequest request = new KoLRequest( client, "cave.php", true );
 		request.run();
 
+		if ( request.responseText == null )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Unable to find quest." );
+			return;
+		}
+
 		int region = 0;
 
 		if ( request.responseText.indexOf( "value='flies'" ) != -1 )
@@ -155,6 +161,12 @@ public abstract class Nemesis extends StaticEntity
 		String initialWeapon = KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON );
 		String initialOffhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
 
+		if ( initialWeapon == null )
+			initialWeapon = "";
+
+		if ( initialOffhand == null )
+			initialOffhand = "";
+
 		// Pass the obstacles one at a time.
 
 		for ( int i = region; i <= 9; i++ )
@@ -168,15 +180,7 @@ public abstract class Nemesis extends StaticEntity
 					// Equip fly swatter, but only if it's
 					// not currently equipped
 
-					if ( !initialWeapon.equals( "Gnollish flyswatter" ) )
-					{
-						// Unequip ranged off-hand weapon
-						if ( EquipmentDatabase.isRanged( initialOffhand ) )
-							DEFAULT_SHELL.executeLine( "unequip off-hand" );
-
-						DEFAULT_SHELL.executeLine( "equip Gnollish flyswatter" );
-					}
-
+					DEFAULT_SHELL.executeLine( "equip Gnollish flyswatter" );
 					action = "flies";
 					KoLmafia.updateDisplay( "Swatting flies..." );
 					break;
@@ -195,18 +199,7 @@ public abstract class Nemesis extends StaticEntity
 
 				case 7:	// Salad-Covered Door
 
-					// Equip tongs, but only if it's not
-					// currently equipped
-
-					if ( !KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ).equals( "Knob Goblin tongs" ) )
-					{
-						// Unequip ranged off-hand weapon
-						if ( EquipmentDatabase.isRanged( KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) ) )
-							DEFAULT_SHELL.executeLine( "unequip off-hand" );
-
-						DEFAULT_SHELL.executeLine( "equip Knob Goblin tongs" );
-					}
-
+					DEFAULT_SHELL.executeLine( "equip Knob Goblin tongs" );
 					action = "door2";
 					KoLmafia.updateDisplay( "Plucking the salad door..." );
 					break;
@@ -219,13 +212,11 @@ public abstract class Nemesis extends StaticEntity
 
 				case 9: // Chamber of Epic Conflict
 
-					// If we unequipped a weapon, equip it again
-					if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) ) )
+					if ( initialWeapon != null )
 						DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon );
 
-					// If we unequipped an off-hand weapon, equip it again
-					if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) ) )
-						DEFAULT_SHELL.executeLine( "equip off-hand " + initialWeapon );
+					if ( initialOffhand != null )
+						DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand );
 
 					action = "end";
 					KoLmafia.updateDisplay( "Fighting your nemesis..." );
@@ -266,8 +257,8 @@ public abstract class Nemesis extends StaticEntity
 			}
 		}
 
-		if ( client.getCurrentRequest() != null &&  client.getCurrentRequest().responseText != null &&
-			client.getCurrentRequest().responseText.indexOf( "WINWINWIN") == -1 )
+		if ( client.getCurrentRequest() != null && client.getCurrentRequest().responseText != null &&
+			client.getCurrentRequest().responseText.indexOf( "WINWINWIN" ) == -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "KoLmafia was unable to defeat your nemesis." );
 			return;
