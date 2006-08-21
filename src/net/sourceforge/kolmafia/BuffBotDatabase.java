@@ -149,11 +149,21 @@ public class BuffBotDatabase extends KoLDatabase
 
 		public void run()
 		{
-			KoLRequest request = new KoLRequest( client, location );
-			request.run();
+			BufferedReader reader = KoLDatabase.getReader( location );
+			StringBuffer dataBuffer = new StringBuffer();
 
-			if ( request.responseText == null )
+			try
 			{
+				String line;
+				while ( (line = reader.readLine()) != null )
+					dataBuffer.append( line );
+			}
+			catch ( Exception e )
+			{
+				// If an exception happens, just catch the
+				// exception, incremental the buffbots which
+				// have been parsed, and return.
+
 				++buffBotsConfigured;
 				return;
 			}
@@ -163,7 +173,7 @@ public class BuffBotDatabase extends KoLDatabase
 			// expression matching and assume we have a properly-structured
 			// XML file -- which is assumed because of the XSLT.
 
-			Matcher nodeMatcher = Pattern.compile( "<buffdata>(.*?)</buffdata>", Pattern.DOTALL ).matcher( request.responseText );
+			Matcher nodeMatcher = Pattern.compile( "<buffdata>(.*?)</buffdata>", Pattern.DOTALL ).matcher( dataBuffer.toString() );
 			Pattern namePattern = Pattern.compile( "<name>(.*?)</name>", Pattern.DOTALL );
 			Pattern pricePattern = Pattern.compile( "<price>(.*?)</price>", Pattern.DOTALL );
 			Pattern turnPattern = Pattern.compile( "<turns>(.*?)</turns>", Pattern.DOTALL );
