@@ -111,16 +111,17 @@ public class LoginRequest extends KoLRequest
 	}
 
 	public static void executeTimeInRequest()
-	{
-		StaticEntity.getClient().deinitialize();
-		KoLmafia.forceContinue();
+	{	executeTimeInRequest( false );
+	}
 
+	public static void executeTimeInRequest( boolean isRollover )
+	{
 		do
 		{
-			(new LoginRequest( StaticEntity.getClient(), lastUsername, lastPassword, false, false, true )).run();
 			KoLmafia.forceContinue();
+			(new LoginRequest( StaticEntity.getClient(), lastUsername, lastPassword, false, false, true )).run();
 		}
-		while ( !KoLmafia.refusesContinue() && sessionID == null && StaticEntity.executeCountdown( "Next login attempt in ", 10 ) );
+		while ( sessionID == null && StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 10 ) );
 
 		if ( sessionID != null )
 			KoLmafia.updateDisplay( "Session timed-in." );
