@@ -65,15 +65,6 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 //Parameter value requests
 import javax.swing.JOptionPane;
 
-/**
-
- * private class encapsulates most of the data relevant to any given
- * session of <code>Kingdom of Loathing</code> and currently
- * functions as the blackboard in the architecture.  When data
- * listeners are implemented, it will continue to manage most
- * of the interactions.
- */
-
 public class KoLmafiaASH extends StaticEntity
 {
 	/* Variables for Advanced Scripting */
