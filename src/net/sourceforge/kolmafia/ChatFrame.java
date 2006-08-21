@@ -248,14 +248,28 @@ public class ChatFrame extends KoLFrame
 			private void submitChat()
 			{
 				String message = entryField.getText();
+				entryField.setText( "" );
+				LimitedSizeChatBuffer buffer = KoLMessenger.getChatBuffer( associatedContact );
+
 				if ( message.startsWith( "/clear" ) || message.startsWith( "/cls" ) || message.equals( "clear" ) || message.equals( "cls" ) )
 				{
-					KoLMessenger.clearChatBuffers();
+					buffer.clearBuffer();
+					return;
+				}
+
+				if ( message.startsWith( "/m" ) || message.startsWith( "/mark" ) )
+				{
+					buffer.append( "<br><hr width=\"60%\"><br>" );
+					return;
+				}
+
+				if ( message.startsWith( "/?" ) || message.startsWith( "/help" ) )
+				{
+					StaticEntity.openSystemBrowser( "http://www.kingdomofloathing.com/doc.php?topic=chat_commands" );
 					return;
 				}
 
 				(new Thread( new ChatSubmitter( message ) )).start();
-				entryField.setText( "" );
 			}
 
 			private class ChatSubmitter implements Runnable

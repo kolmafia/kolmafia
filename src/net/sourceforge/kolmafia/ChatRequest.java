@@ -79,16 +79,26 @@ public class ChatRequest extends KoLRequest
 			actualMessage = message;
 		else if ( message.equals( "/friend" ) || message.equals( "/ignore" ) || message.equals( "/baleet" ) )
 			actualMessage = message + " " + contactID;
-		else if ( contact.startsWith( "/" ) && (!message.startsWith( "/" ) || message.startsWith( "/me" ) || message.startsWith( "/em" ) || message.startsWith( "/warn" ) || message.startsWith( "/ann" )) )
-			actualMessage = contact + " " + message;
-		else if ( contact.startsWith( "[" ) )
-			actualMessage = message;
-		else if ( (message.equals( "/who" ) || message.equals( "/w" )) && contact.startsWith( "/" ) )
-			actualMessage = "/who " + contact.substring(1);
-		else if ( message.startsWith( "/" ) )
+		else if ( message.startsWith( "/w " ) || message.startsWith( "/whisper" ) || message.startsWith( "/r" ) || message.startsWith( "/v" ) || message.startsWith( "/conv" ) )
 			actualMessage = message;
 		else
-			actualMessage = "/msg " + contactID.replaceAll( " ", "_" ) + " " + message;
+		{
+			boolean foundMacro = false;
+			for ( int i = 1; i <= 20; ++i )
+				if ( message.startsWith( "/" + i ) )
+					foundMacro = true;
+
+			if ( foundMacro || contact.startsWith( "[" ) )
+				actualMessage = message;
+			else if ( contact.startsWith( "/" ) && (!message.startsWith( "/" ) || message.startsWith( "/me" ) || message.startsWith( "/em" ) || message.startsWith( "/warn" ) || message.startsWith( "/ann" )) )
+				actualMessage = contact + " " + message;
+			else if ( (message.equals( "/who" ) || message.equals( "/w" )) && contact.startsWith( "/" ) )
+				actualMessage = "/who " + contact.substring(1);
+			else if ( contact.startsWith( "/" ) && message.startsWith( "/" ) )
+				actualMessage = message;
+			else
+				actualMessage = "/msg " + contactID.replaceAll( " ", "_" ) + " " + message;
+		}
 
 		addFormField( "graf", actualMessage );
 

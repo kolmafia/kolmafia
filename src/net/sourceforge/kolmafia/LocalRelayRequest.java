@@ -138,7 +138,7 @@ public class LocalRelayRequest extends KoLRequest
 			fullResponse = fullResponse.replaceAll(
 				"</head>", "<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script></head>" );
 
-			fullResponse = fullResponse.replaceAll( "onLoad='", "onLoad='setInterval( getNewMessages, 2000 ); " );
+			fullResponse = fullResponse.replaceAll( "onLoad='", "onLoad='setInterval( getNewMessages, 8000 ); " );
 		}
 
 		// Fix KoLmafia getting outdated by events happening
