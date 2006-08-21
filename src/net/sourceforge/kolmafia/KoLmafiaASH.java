@@ -66,7 +66,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import javax.swing.JOptionPane;
 
 /**
- * The main private class for the <code>KoLmafia</code> package.  This
+
  * private class encapsulates most of the data relevant to any given
  * session of <code>Kingdom of Loathing</code> and currently
  * functions as the blackboard in the architecture.  When data
@@ -77,7 +77,7 @@ import javax.swing.JOptionPane;
 public class KoLmafiaASH extends StaticEntity
 {
 	/* Variables for Advanced Scripting */
-	public final static char [] tokenList = { ' ', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
+	public final static char [] tokenList = { ' ', '.', ',', '{', '}', '(', ')', '$', '!', '+', '-', '=', '"', '*', '^', '/', '%', '[', ']', '!', ';', '<', '>' };
 	public final static String [] multiCharTokenList = { "==", "!=", "<=", ">=", "||", "&&" };
 
 	public static final int TYPE_VOID = 0;
@@ -405,54 +405,20 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static ScriptValue parseValue( ScriptType type, String name ) throws AdvancedScriptException
 	{
-        try
-        {
-            switch ( type.getType() )
-            {
-                case TYPE_BOOLEAN:
-                        return parseBooleanValue( name );
-                case TYPE_INT:
-                        return parseIntValue( name );
-                case TYPE_FLOAT:
-                        return parseFloatValue( name );
-                case TYPE_STRING:
-                        return parseStringValue( name );
-                case TYPE_ITEM:
-                        return parseItemValue( name );
-                case TYPE_ZODIAC:
-                        return parseZodiacValue( name );
-                case TYPE_LOCATION:
-                        return parseLocationValue( name );
-                case TYPE_CLASS:
-                        return parseClassValue( name );
-                case TYPE_STAT:
-                        return parseStatValue( name );
-                case TYPE_SKILL:
-                        return parseSkillValue( name );
-                case TYPE_EFFECT:
-                        return parseEffectValue( name );
-                case TYPE_FAMILIAR:
-                        return parseFamiliarValue( name );
-                case TYPE_SLOT:
-                        return parseSlotValue( name );
-                case TYPE_MONSTER:
-                        return parseMonsterValue( name );
-                case TYPE_ELEMENT:
-                        return parseElementValue( name );
-            }
-        }
-        catch ( IllegalArgumentException e )
-        {
-        	throw new AdvancedScriptException( e.getMessage() );
-        }
-
-        return null;
+		try
+		{
+			return type.parseValue( name );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			throw new AdvancedScriptException( e.getMessage() );
+		}
 	}
 
-    // For data types which map to integers, also supply:
-    //
-    // private static ScriptValue makeXValue( int num )
-    //     throws nothing.
+	// For data types which map to integers, also supply:
+	//
+	// private static ScriptValue makeXValue( int num )
+	//     throws nothing.
 
 	private static ScriptValue makeItemValue( int num )
 	{
@@ -871,7 +837,7 @@ public class KoLmafiaASH extends StaticEntity
 			readToken(); // read ;
 
 			fieldTypes.add( fieldType );
-			fieldNames.add( fieldName );
+			fieldNames.add( fieldName.toLowerCase() );
 
 			if ( currentToken() == null )
 				throw new AdvancedScriptException( " '}' Expected " + getLineAndFile() );
@@ -1401,12 +1367,10 @@ public class KoLmafiaASH extends StaticEntity
 			throw new AdvancedScriptException( "'in' expected " + getLineAndFile() );
 		}
 
-		// Get the aggregate reference
-		ScriptVariableReference aggregate = parseAggregateReference( parentScope );
-		if ( aggregate == null )
-			aggregate = parseVariableReference( parentScope );
+		// Get an aggregate reference
+		ScriptVariableReference aggregate = parseVariableReference( parentScope );
 
-		if ( aggregate == null || !(aggregate.getType() instanceof ScriptAggregateType) )
+		if ( aggregate == null || !( aggregate.getType() instanceof ScriptAggregateType ) )
 			throw new AdvancedScriptException( "Aggregate reference expected " + getLineAndFile() );
 
 		// Define key variables of appropriate type
@@ -1560,22 +1524,19 @@ public class KoLmafiaASH extends StaticEntity
 		if ( nextToken() == null )
 			return null;
 
-		if ( !nextToken().equals( "=" ) && !nextToken().equals( "[" ) )
+		if ( !nextToken().equals( "=" ) && !nextToken().equals( "["  ) && !nextToken().equals( "." ) )
 			return null;
 
 		if ( !parseIdentifier( currentToken() ) )
 			return null;
 
-		ScriptVariableReference lhs;
+		ScriptVariableReference lhs = parseVariableReference( scope );
 
-		if ( nextToken().equals( "[" ) )
-		{
-			lhs = parseAggregateReference( scope );
-			if ( !currentToken().equals( "=" ) )
-				return null;
-		}
-		else
-			lhs = parseVariableReference( scope );
+                if ( lhs == null )
+			throw new AdvancedScriptException( "Variable reference expected " + getLineAndFile() );
+
+		if ( !currentToken().equals( "=" ) )
+			return null;
 
 		readToken(); //=
 
@@ -1596,61 +1557,6 @@ public class KoLmafiaASH extends StaticEntity
 		return lhs;
 	}
 
-	private ScriptAggregateReference parseAggregateReference( ScriptScope scope ) throws AdvancedScriptException
-	{
-		if ( nextToken() == null || !nextToken().equals( "[" ) )
-			return null;
-
-		String name = currentToken();
-		ScriptVariable var = scope.findVariable( name, true );
-
-		if ( var == null || !var.getType().equals( TYPE_AGGREGATE ) )
-			return null;
-
-		readToken(); //name
-		readToken(); //[
-
-		ScriptExpressionList indices = new ScriptExpressionList();
-		while ( currentToken() != null && !currentToken().equals( "]" ) )
-		{
-			ScriptExpression val = parseExpression( scope );
-			if ( val != null )
-				indices.addElement( val );
-
-			if ( !currentToken().equals( "," ) )
-			{
-				if ( !currentToken().equals( "]" ) )
-					throw new AdvancedScriptException( "']' Expected " + getLineAndFile() );
-			}
-			else
-			{
-				readToken();
-				if ( currentToken().equals( "]" ) )
-					throw new AdvancedScriptException( "Index expected " + getLineAndFile() );
-			}
-		}
-
-		if ( !currentToken().equals( "]" ) )
-			throw new AdvancedScriptException( "']' Expected " + getLineAndFile() );
-
-		readToken(); //]
-
-		// Validate the indices and give helpful error messages
-		ScriptType type = var.getType();
-		for ( int i = 0; i < indices.size(); ++i )
-		{
-			if ( !( type instanceof ScriptAggregateType ) )
-				throw new AdvancedScriptException( "Too many indices supplied for variable " + name + " " + getLineAndFile() );
-			ScriptType itype = ((ScriptAggregateType)type).getIndexType();
-			ScriptExpression exp = (ScriptExpression)indices.get(i);
-			if ( !exp.getType().equals( itype ) )
-				throw new AdvancedScriptException( "Index # " + i + " has wrong data type for variable " + name + " " + getLineAndFile() );
-			type = ((ScriptAggregateType)type).getDataType();
-		}
-
-		return new ScriptAggregateReference( var, indices );
-	}
-
 	private ScriptExpression parseExpression( ScriptScope scope ) throws AdvancedScriptException
 	{
 		return parseExpression( scope, null );
@@ -1665,8 +1571,22 @@ public class KoLmafiaASH extends StaticEntity
 		ScriptExpression rhs = null;
 		ScriptOperator oper = null;
 
-		if ( currentToken().equals( "!" )  || currentToken().equals( "-" ) )
+		if ( currentToken().equals( "!" ) )
 		{
+			String operator = currentToken();
+			readToken(); // !
+			if ( (lhs = parseValue( scope )) == null )
+				throw new AdvancedScriptException( "Value expected " + getLineAndFile() );
+
+			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
+		}
+		else if ( currentToken().equals( "-" ) )
+		{
+			// See if it's a negative numeric constant
+			if ( (lhs = parseValue( scope )) != null )
+				return lhs;
+
+			// Nope. Must be unary minus.
 			String operator = currentToken();
 			readToken(); // !
 			if ( (lhs = parseValue( scope )) == null )
@@ -1678,8 +1598,10 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String operator = currentToken();
 			readToken(); // remove
-			if ( ( lhs = parseAggregateReference( scope ) ) == null )
-				throw new AdvancedScriptException( "Aggregate value expected " + getLineAndFile() );
+
+			lhs = parseVariableReference( scope );
+                        if ( lhs == null || !( lhs instanceof ScriptCompositeReference ) )
+				throw new AdvancedScriptException( "Aggregate reference expected " + getLineAndFile() );
 
 			lhs = new ScriptExpression( lhs, null, new ScriptOperator( operator ) );
 		}
@@ -1713,14 +1635,16 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptExpression parseValue( ScriptScope scope ) throws AdvancedScriptException
 	{
-		ScriptExpression result;
-
 		if ( currentToken() == null )
 			return null;
 
+		ScriptExpression result;
+
+                // Parse parenthesized expressions
 		if ( currentToken().equals( "(" ) )
 		{
-			readToken();// (
+			readToken();	// (
+
 			result = parseExpression( scope );
 			if ( currentToken() == null || !currentToken().equals( ")" ) )
 				throw new AdvancedScriptException( "')' Expected " + getLineAndFile() );
@@ -1729,7 +1653,8 @@ public class KoLmafiaASH extends StaticEntity
 			return result;
 		}
 
-		// Parse true and false first since they are reserved words.
+                // Parse constant values
+		// true and false are reserved words
 		if ( currentToken().equalsIgnoreCase( "true" ) )
 		{
 			readToken();
@@ -1742,155 +1667,193 @@ public class KoLmafiaASH extends StaticEntity
 			return FALSE_VALUE;
 		}
 
+                // numbers
+		if ( (result = parseNumber()) != null )
+			return result;
+
+                // strings
+		if ( currentToken().equals( "\"" ) )
+                        return parseString();
+
+                // typed constants
+		if ( currentToken().equals( "$" ) )
+                        return parseTypedConstant( scope );
+
+                // Function calls
 		if ( (result = parseCall( scope )) != null )
 			return result;
 
-		if ( (result = parseAggregateReference( scope )) != null )
-			return result;
-
+                // Variable and aggregate references
 		if ( (result = parseVariableReference( scope )) != null )
 			return result;
-
-		if ( Character.isDigit( currentToken().charAt( 0 ) ) || currentToken().charAt( 0 ) == '-' )
-		{
-			for ( int i = 0; i < currentToken().length(); ++i )
-			{
-				if ( !Character.isDigit( currentToken().charAt( i ) ) )
-				{
-					if ( i == 0 && currentToken().charAt(i) == '-' )
-						continue;
-
-					if ( currentToken().charAt(i) == '.' )
-						return parseDouble();
-
-					throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile() );
-				}
-			}
-
-			int resultInt = StaticEntity.parseInt( currentToken() );
-			readToken(); // integer
-
-			return new ScriptValue( resultInt );
-		}
-		else if ( currentToken().equals( "\"" ) )
-		{
-			// Directly work with line - ignore any "tokens" you meet until the string is closed
-
-			StringBuffer resultString = new StringBuffer();
-			for ( int i = 1; ; ++i )
-			{
-				if ( i == line.length() )
-				{
-					throw new AdvancedScriptException( "No closing '\"' found " + getLineAndFile() );
-				}
-				else if ( line.charAt( i ) == '\\' )
-				{
-					char ch = line.charAt( ++i );
-
-					switch ( ch )
-					{
-						case 'n':
-							resultString.append( '\n' );
-							break;
-
-						case 'r':
-							resultString.append( '\r' );
-							break;
-
-						case 't':
-							resultString.append( '\t' );
-							break;
-
-						case '\\':
-						case '\'':
-						case '\"':
-							resultString.append( ch );
-							break;
-
-						case 'x':
-							BigInteger hex08 = new BigInteger( line.substring( i + 1, i + 3 ), 16 );
-							resultString.append( (char) hex08.intValue() );
-							i += 2;
-							break;
-
-						case 'u':
-							BigInteger hex16 = new BigInteger( line.substring( i + 1, i + 5 ), 16 );
-							resultString.append( (char) hex16.intValue() );
-							i += 4;
-							break;
-
-						default:
-							if ( Character.isDigit( ch ) )
-							{
-								BigInteger octal = new BigInteger( line.substring( i, i + 3 ), 8 );
-								resultString.append( (char) octal.intValue() );
-								i += 2;
-							}
-					}
-				}
-				else if ( line.charAt( i ) == '"' )
-				{
-					line = line.substring( i + 1 ); //+ 1 to get rid of '"' token
-					return new ScriptValue( resultString.toString() );
-				}
-				else
-				{
-					resultString.append( line.charAt( i ) );
-				}
-			}
-
-		}
-		else if ( currentToken().equals( "$" ) )
-		{
-			readToken();
-
-			ScriptType type = parseType( scope, false, false );
-			if ( type == null )
-				throw new AdvancedScriptException( "Unknown type " + currentToken() + " " + getLineAndFile() );
-
-			if ( !currentToken().equals( "[" ) )
-				throw new AdvancedScriptException( "'[' Expected " + getLineAndFile() );
-
-			StringBuffer resultString = new StringBuffer();
-
-			for ( int i = 1; ; ++i )
-			{
-				if ( i == line.length() )
-				{
-					throw new AdvancedScriptException( "No closing ']' found " + getLineAndFile() );
-				}
-				else if ( line.charAt( i ) == '\\' )
-				{
-					resultString.append( line.charAt( ++i ) );
-				}
-				else if ( line.charAt( i ) == ']' )
-				{
-					line = line.substring( i + 1 ); //+1 to get rid of ']' token
-					return parseValue( type, resultString.toString().trim());
-				}
-				else
-				{
-					resultString.append( line.charAt( i ) );
-				}
-			}
-		}
 
 		return null;
 	}
 
-	private ScriptValue parseDouble() throws AdvancedScriptException
+	private ScriptValue parseNumber() throws AdvancedScriptException
 	{
-		try
-		{
-			double result;
+		if ( currentToken() == null )
+			return null;
 
-			result = StaticEntity.parseDouble( currentToken() );
-			readToken(); //double
-			return new ScriptValue( result );
-		}
-		catch( NumberFormatException e )
+		int sign = 1;
+
+		if ( currentToken().equals( "-" ) )
 		{
-			throw new AdvancedScriptException( "Failed to parse numeric value " + getLineAndFile() );
+			String next = nextToken();
+
+			if ( next == null )
+				return null;
+
+			if ( !next.equals( ".") && !readIntegerToken( next ) )
+				// Unary minus
+				return null;
+
+			sign = -1;
+			readToken();	// Read -
+		}
+
+		if ( currentToken().equals( "." ) )
+		{
+			readToken();
+			String fraction = currentToken();
+			if ( !readIntegerToken( fraction ) )
+				throw new AdvancedScriptException( "Bad numeric value " + getLineAndFile() );
+			readToken();	// integer
+			return new ScriptValue( sign * StaticEntity.parseDouble( "0." + fraction ) );
+		}
+
+		String integer = currentToken();
+		if ( !readIntegerToken( integer ) )
+			return null;
+		readToken();	// integer
+
+		if ( currentToken().equals( "." ) )
+		{
+			readToken();	// .
+			String fraction = currentToken();
+			if ( !readIntegerToken( fraction ) )
+				return new ScriptValue( sign * StaticEntity.parseDouble( integer ) );
+			readToken();	// fraction
+			return new ScriptValue( sign * StaticEntity.parseDouble( integer + "." + fraction ) );
+		}
+
+		return new ScriptValue( sign * StaticEntity.parseInt( integer ) );
+	}
+
+	private boolean readIntegerToken( String token )
+	{
+		if ( token == null )
+			return false;
+
+		for ( int i = 0; i < token.length(); ++i )
+			if ( !Character.isDigit( token.charAt( i ) ) )
+				return false;
+
+		return true;
+	}
+
+	private ScriptValue parseString() throws AdvancedScriptException
+	{
+		// Directly work with line - ignore any "tokens" you meet until
+		// the string is closed
+
+		StringBuffer resultString = new StringBuffer();
+
+		for ( int i = 1; ; ++i )
+		{
+			if ( i == line.length() )
+				throw new AdvancedScriptException( "No closing '\"' found " + getLineAndFile() );
+
+			if ( line.charAt( i ) == '\\' )
+			{
+				char ch = line.charAt( ++i );
+
+				switch ( ch )
+				{
+				case 'n':
+					resultString.append( '\n' );
+					break;
+
+				case 'r':
+					resultString.append( '\r' );
+					break;
+
+				case 't':
+					resultString.append( '\t' );
+					break;
+
+				case '\\':
+				case '\'':
+				case '\"':
+					resultString.append( ch );
+					break;
+
+				case 'x':
+					BigInteger hex08 = new BigInteger( line.substring( i + 1, i + 3 ), 16 );
+					resultString.append( (char) hex08.intValue() );
+					i += 2;
+					break;
+
+				case 'u':
+					BigInteger hex16 = new BigInteger( line.substring( i + 1, i + 5 ), 16 );
+					resultString.append( (char) hex16.intValue() );
+					i += 4;
+					break;
+
+				default:
+					if ( Character.isDigit( ch ) )
+					{
+						BigInteger octal = new BigInteger( line.substring( i, i + 3 ), 8 );
+						resultString.append( (char) octal.intValue() );
+						i += 2;
+					}
+				}
+			}
+			else if ( line.charAt( i ) == '"' )
+			{
+				line = line.substring( i + 1 ); //+ 1 to get rid of '"' token
+				return new ScriptValue( resultString.toString() );
+			}
+			else
+			{
+				resultString.append( line.charAt( i ) );
+			}
+		}
+	}
+
+	private ScriptValue parseTypedConstant( ScriptScope scope ) throws AdvancedScriptException
+	{
+		readToken();    // read $
+
+		String name = currentToken();
+		ScriptType type = parseType( scope, false, false );
+		if ( type == null || !type.isPrimitive() )
+			throw new AdvancedScriptException( "Unknown type " + name + " " + getLineAndFile() );
+
+		if ( !currentToken().equals( "[" ) )
+			throw new AdvancedScriptException( "'[' Expected " + getLineAndFile() );
+
+		StringBuffer resultString = new StringBuffer();
+
+		for ( int i = 1; ; ++i )
+		{
+			if ( i == line.length() )
+			{
+				throw new AdvancedScriptException( "No closing ']' found " + getLineAndFile() );
+			}
+			else if ( line.charAt( i ) == '\\' )
+			{
+				resultString.append( line.charAt( ++i ) );
+			}
+			else if ( line.charAt( i ) == ']' )
+			{
+				line = line.substring( i + 1 ); //+1 to get rid of ']' token
+				return parseValue( type, resultString.toString().trim());
+			}
+			else
+			{
+				resultString.append( line.charAt( i ) );
+			}
 		}
 	}
 
@@ -1916,19 +1879,89 @@ public class KoLmafiaASH extends StaticEntity
 
 	private ScriptVariableReference parseVariableReference( ScriptScope scope ) throws AdvancedScriptException
 	{
-		ScriptVariableReference result = null;
-
-		if ( parseIdentifier( currentToken() ) )
-		{
-			String name = currentToken();
-			result = new ScriptVariableReference( name, scope );
-			if ( !result.valid() )
-				throw new AdvancedScriptException( "Unknown variable " + name + " " + getLineAndFile() );
-			readToken(); //name
-			return result;
-		}
-		else
+		if ( currentToken() == null || !parseIdentifier( currentToken() ) )
 			return null;
+
+		String name = currentToken();
+		ScriptVariable var = scope.findVariable( name, true );
+
+		if ( var == null )
+			throw new AdvancedScriptException( "Unknown variable " + name + " " + getLineAndFile() );
+
+		readToken(); // read name
+
+		if ( currentToken() == null || (!currentToken().equals( "[" ) && !currentToken().equals( "." ) ) )
+			return new ScriptVariableReference( var );
+
+		ScriptType type = var.getType();
+		ScriptExpressionList indices = new ScriptExpressionList();
+		boolean aggregate = currentToken().equals( "[" );
+
+		while ( true )
+		{
+			readToken(); // read [ or . or ,
+
+			ScriptExpression index;
+
+			if ( aggregate )
+			{
+				if ( !( type instanceof ScriptAggregateType ) )
+				{
+					if ( indices.isEmpty() )
+						throw new AdvancedScriptException( name + " is not an aggregate " + getLineAndFile() );
+					else
+						throw new AdvancedScriptException( "Too many keys " + getLineAndFile() );
+				}
+
+				ScriptAggregateType atype = (ScriptAggregateType)type;
+				index = parseExpression( scope );
+				if ( index == null )
+					throw new AdvancedScriptException( "Index expression expected " + getLineAndFile() );
+
+				if ( !index.getType().equals( atype.getIndexType() ) )
+					throw new AdvancedScriptException( "Index has wrong data type " + getLineAndFile() );
+				type = atype.getDataType();
+			}
+			else
+			{
+				if ( !( type instanceof ScriptRecordType ) )
+					throw new AdvancedScriptException( "Record expected " + getLineAndFile() );
+				ScriptRecordType rtype = (ScriptRecordType)type;
+
+				String field = currentToken();
+				if ( field == null || !parseIdentifier( field ) )
+					throw new AdvancedScriptException( "Field name expected " + getLineAndFile() );
+
+				index = rtype.getFieldIndex( field );
+				if ( index == null )
+					throw new AdvancedScriptException( "Invalid field name " + getLineAndFile() );
+				readToken(); // read name
+				type = rtype.getDataType( index );
+			}
+
+			indices.addElement( index );
+
+			if ( aggregate )
+			{
+				if ( currentToken() == null )
+					throw new AdvancedScriptException( "] expected " + getLineAndFile() );
+				if ( currentToken().equals( "," ) )
+					continue;
+
+				if ( !currentToken().equals( "]" ) )
+					throw new AdvancedScriptException( "] expected " + getLineAndFile() );
+
+				readToken(); // read ]
+				aggregate = false;
+			}
+
+			if ( currentToken() == null || ( !currentToken().equals( "[" ) && !currentToken().equals( "." ) ) )
+				break;
+
+			aggregate = currentToken().equals( "[" );
+		}
+
+		return new ScriptCompositeReference( var, indices );
 	}
 
 	private String parseImport() throws AdvancedScriptException
@@ -2292,7 +2325,7 @@ public class KoLmafiaASH extends StaticEntity
 		KoLmafia.getDebugStream().println( "<OPER " + oper + ">" );
 	}
 
-	public void printAggregateReference( ScriptAggregateReference varRef, int indent )
+	public void printCompositeReference( ScriptCompositeReference varRef, int indent )
 	{
 		indentLine( indent );
 		KoLmafia.getDebugStream().println( "<AGGREF> " + varRef.getName() );
@@ -2300,9 +2333,9 @@ public class KoLmafiaASH extends StaticEntity
 
 	public void printVariableReference( ScriptVariableReference varRef, int indent )
 	{
-		if ( varRef instanceof ScriptAggregateReference )
+		if ( varRef instanceof ScriptCompositeReference )
 		{
-			printAggregateReference( (ScriptAggregateReference)varRef, indent );
+			printCompositeReference( (ScriptCompositeReference)varRef, indent );
 			return;
 		}
 		indentLine( indent );
@@ -2493,21 +2526,52 @@ public class KoLmafiaASH extends StaticEntity
 		return "at line " + lineNumber + " in file " + fileName;
 	}
 
-	private static void printMap( PrintStream writer, String prefix, ScriptAggregateValue map_value )
+	private static void readMap( ScriptCompositeValue result, String [] data ) throws AdvancedScriptException
+	{
+		ScriptCompositeValue slice = result;
+		ScriptCompositeType dataType = slice.getCompositeType();
+		ScriptValue index = null;
+
+		for ( int i = 0; i < data.length - 2; ++i )
+		{
+			// Create missing intermediate slices while storing
+			// the slice where the value is ultimately stored.
+
+			index = parseValue( dataType.getIndexType(), data[i] );
+			result = (ScriptCompositeValue) slice.aref( index );
+
+			if ( result == null )
+			{
+				result = (ScriptCompositeValue) slice.initialValue( index );
+				slice.aset( index, result );
+			}
+
+			slice = result;
+			dataType = slice.getCompositeType();
+		}
+
+		if ( data.length > 2 )
+		{
+			index = parseValue( dataType.getIndexType(), data[ data.length - 2 ] );
+			slice.aset( index, parseValue( dataType.getDataType( index ), data[ data.length - 1 ] ) );
+		}
+	}
+
+	private static void printMap( PrintStream writer, String prefix, ScriptCompositeValue map_value )
 	{
 		ScriptValue [] keys = map_value.keys();
 		if ( keys.length == 0 )
 			return;
 
-		if ( map_value.getAggregateType().getDataType() instanceof ScriptAggregateType )
+		for ( int i = 0; i < keys.length; ++i )
 		{
-			for ( int i = 0; i < keys.length; ++i )
-				printMap( writer, prefix + keys[i] + "\t", (ScriptAggregateValue) map_value.aref( keys[i] ) );
-		}
-		else
-		{
-			for (  int i = 0; i < keys.length; ++i )
-				writer.println( prefix + keys[i] + "\t" + map_value.aref( keys[i] ).toStringValue().toString() );
+			ScriptValue key = keys[i];
+			ScriptValue value = map_value.aref( key );
+			String first = prefix + key + "\t";
+			if ( map_value.getCompositeType().getDataType( key ) instanceof ScriptCompositeType )
+				printMap( writer, first, (ScriptCompositeValue)value );
+			else
+				writer.println( first + value.toStringValue().toString() );
 		}
 	}
 
@@ -4536,42 +4600,16 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue file_to_map( ScriptVariable filename, ScriptVariable map_variable )
 		{
 			BufferedReader reader = DataUtilities.getReader( "", filename.toStringValue().toString() );
+			ScriptAggregateValue result = (ScriptAggregateValue) map_variable.getValue();
 			String [] data = null;
 
 			while ( (data = KoLDatabase.readData( reader )) != null )
 			{
-				ScriptValue index = null;
-				ScriptAggregateValue result = (ScriptAggregateValue) map_variable.getValue();
-				ScriptAggregateValue slice = result;
-				ScriptAggregateType dataType = slice.getAggregateType();
-
 				try
 				{
-					for ( int i = 0; i < data.length - 2; ++i )
-					{
-						// Create missing intermediate slices while storing
-						// the slice where the value is ultimately stored.
-
-						index = parseValue( dataType.getIndexType(), data[i] );
-						result = (ScriptAggregateValue) slice.aref( index );
-
-						if ( result == null )
-						{
-							result = (ScriptAggregateValue) slice.initialValue();
-							slice.aset( index, result );
-						}
-
-						slice = result;
-						dataType = slice.getAggregateType();
-					}
-
-					if ( data.length > 2 )
-					{
-						index = parseValue( dataType.getIndexType(), data[ data.length - 2 ] );
-						slice.aset( index, parseValue( dataType.getDataType(), data[ data.length - 1 ] ) );
-					}
+					readMap( result, data );
 				}
-				catch ( AdvancedScriptException e )
+				catch ( Exception e )
 				{
 					// Okay, runtime error. Indicate that
 					// there was a bad line in the data
@@ -4600,7 +4638,9 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				File data = new File( filename.toStringValue().toString() );
 
-				data.getParentFile().mkdirs();
+				if ( data.getParentFile() != null )
+					data.getParentFile().mkdirs();
+
 				if ( data.exists() )
 					data.delete();
 
@@ -4946,15 +4986,15 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private class ScriptAggregateReference extends ScriptVariableReference
+	private class ScriptCompositeReference extends ScriptVariableReference
 	{
 		private ScriptExpressionList indices;
 
 		// Derived from indices: Final slice and index into it
-		private ScriptAggregateValue slice;
+		private ScriptCompositeValue slice;
 		private ScriptValue index;
 
-		public ScriptAggregateReference( ScriptVariable target, ScriptExpressionList indices )
+		public ScriptCompositeReference( ScriptVariable target, ScriptExpressionList indices )
 		{
 			super( target );
 			this.indices = indices;
@@ -4964,15 +5004,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			ScriptType type = target.getType();
 			for ( int i = 0; i < indices.size(); ++i )
-				type = ((ScriptAggregateType)type).getDataType();
-			return type;
-		}
-
-		public ScriptType getIndexType()
-		{
-			ScriptType type = ((ScriptAggregateType)target.getType()).getIndexType();
-			for ( int i = 0; i < indices.size(); ++i )
-				type = ((ScriptAggregateType)type).getIndexType();
+				type = ((ScriptCompositeType)type).getDataType( indices.get(i) );
 			return type;
 		}
 
@@ -4997,7 +5029,7 @@ public class KoLmafiaASH extends StaticEntity
 				return false;
 			}
 
-			slice = (ScriptAggregateValue)target.getValue();
+			slice = (ScriptCompositeValue)target.getValue();
 			index = null;
 
 			traceIndent();
@@ -5025,12 +5057,12 @@ public class KoLmafiaASH extends StaticEntity
 				if ( i == count - 1 )
 					break;
 
-				ScriptAggregateValue result = (ScriptAggregateValue)slice.aref( index );
+				ScriptCompositeValue result = (ScriptCompositeValue)slice.aref( index );
 
 				// Create missing intermediate slices
 				if ( result == null )
 				{
-					result = (ScriptAggregateValue)slice.initialValue();
+					result = (ScriptCompositeValue)slice.initialValue( index );
 					slice.aset( index, result );
 				}
 
@@ -5052,7 +5084,7 @@ public class KoLmafiaASH extends StaticEntity
 				ScriptValue result = slice.aref( index );
 				if ( result == null )
 				{
-					result = slice.initialValue();
+					result = slice.initialValue( index );
 					slice.aset( index, result );
 				}
 				return result;
@@ -5076,7 +5108,7 @@ public class KoLmafiaASH extends StaticEntity
 				ScriptValue result = slice.remove( index );
 				if ( result != null )
 					return result;
-				return slice.initialValue();
+				return slice.initialValue( index );
 			}
 			return null;
 		}
@@ -5974,7 +6006,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.rhs = rhs;
 
 			if ( !validCoercion( lhs.getType(), rhs.getType(), "assign" ) )
-			     throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " " + getLineAndFile() );
+				throw new AdvancedScriptException( "Cannot store " + rhs.getType() + " in " + lhs + " " + getLineAndFile() );
 		}
 
 		public ScriptVariableReference getLeftHandSide()
@@ -6111,12 +6143,67 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		}
 
+		public ScriptValue parseValue( String name ) throws AdvancedScriptException
+		{
+			switch ( type )
+			{
+			case TYPE_BOOLEAN:
+				return parseBooleanValue( name );
+			case TYPE_INT:
+				return parseIntValue( name );
+			case TYPE_FLOAT:
+				return parseFloatValue( name );
+			case TYPE_STRING:
+				return parseStringValue( name );
+			case TYPE_ITEM:
+				return parseItemValue( name );
+			case TYPE_ZODIAC:
+				return parseZodiacValue( name );
+			case TYPE_LOCATION:
+				return parseLocationValue( name );
+			case TYPE_CLASS:
+				return parseClassValue( name );
+			case TYPE_STAT:
+				return parseStatValue( name );
+			case TYPE_SKILL:
+				return parseSkillValue( name );
+			case TYPE_EFFECT:
+				return parseEffectValue( name );
+			case TYPE_FAMILIAR:
+				return parseFamiliarValue( name );
+			case TYPE_SLOT:
+				return parseSlotValue( name );
+			case TYPE_MONSTER:
+				return parseMonsterValue( name );
+			case TYPE_ELEMENT:
+				return parseElementValue( name );
+			}
+			return null;
+		}
+
 		public ScriptExpression initialValueExpression()
 		{	return initialValue();
 		}
 	}
 
-	private static class ScriptAggregateType extends ScriptType
+	private static class ScriptCompositeType extends ScriptType
+	{
+		public ScriptCompositeType( String name, int type)
+		{
+			super( name, type );
+			this.primitive = false;
+		}
+
+		public ScriptType getIndexType()
+		{	return null;
+		}
+
+		public ScriptType getDataType( Object key )
+		{	return null;
+		}
+        }
+
+	private static class ScriptAggregateType extends ScriptCompositeType
 	{
 		private ScriptType dataType;
 		private ScriptType indexType;
@@ -6126,7 +6213,6 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptAggregateType( ScriptType dataType, ScriptType indexType )
 		{
 			super( "aggregate", TYPE_AGGREGATE );
-			this.primitive = false;
 			this.dataType = dataType;
 			this.indexType = indexType;
 			this.size = 0;
@@ -6143,6 +6229,10 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptType getDataType()
+		{	return dataType;
+		}
+
+		public ScriptType getDataType( Object key )
 		{	return dataType;
 		}
 
@@ -6201,7 +6291,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private static class ScriptRecordType extends ScriptType
+	private static class ScriptRecordType extends ScriptCompositeType
 	{
 		private String [] fieldNames;
 		private ScriptType [] fieldTypes;
@@ -6209,7 +6299,6 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptRecordType( String name, String [] fieldNames,ScriptType [] fieldTypes )
 		{
 			super( name, TYPE_RECORD );
-			this.primitive = false;
 			this.fieldNames = fieldNames;
 			this.fieldTypes = fieldTypes;
 		}
@@ -6222,8 +6311,27 @@ public class KoLmafiaASH extends StaticEntity
 		{	return fieldTypes;
                 }
 
-		public ScriptType getDataType( int index )
-		{	return fieldTypes[index];
+		public ScriptType getIndexType()
+		{	return STRING_TYPE;
+		}
+
+		public ScriptType getDataType( Object key )
+		{
+                        if ( !( key instanceof ScriptValue ) )
+				throw new RuntimeException( "Internal error: key is not a ScriptValue" );
+			int index = indexOf( (ScriptValue)key );
+			if ( index < 0 || index >= fieldTypes.length )
+				return null;
+			return fieldTypes[index];
+		}
+
+		public ScriptValue getFieldIndex( String field )
+		{
+			String val = field.toLowerCase();
+			for ( int index = 0; index < fieldNames.length; ++ index )
+				if ( val.equals( fieldNames[index] ) )
+					return new ScriptValue( index );
+			return null;
 		}
 
 		public int indexOf( ScriptValue key )
@@ -6495,16 +6603,32 @@ public class KoLmafiaASH extends StaticEntity
 
 	private static class ScriptCompositeValue extends ScriptValue
 	{
-		public ScriptCompositeValue( ScriptType type )
+		public ScriptCompositeValue( ScriptCompositeType type )
 		{	super( type );
 		}
 
-		public ScriptValue aref( ScriptValue index )
+		public ScriptCompositeType getCompositeType()
+		{	return (ScriptCompositeType)type;
+		}
+
+		public ScriptValue aref( ScriptValue key )
 		{	return null;
 		}
 
-		public void aset( ScriptValue index,  ScriptValue val )
+		public void aset( ScriptValue key, ScriptValue val )
 		{
+		}
+
+		public ScriptValue remove( ScriptValue key )
+		{	return null;
+		}
+
+		public ScriptValue [] keys()
+		{	return new ScriptValue[0];
+		}
+
+		public ScriptValue initialValue( Object key )
+		{	return ((ScriptCompositeType)type).getDataType( key).initialValue();
 		}
 
 		public String toString()
@@ -6518,20 +6642,8 @@ public class KoLmafiaASH extends StaticEntity
 		{	super( type );
 		}
 
-		public ScriptAggregateType getAggregateType()
-		{	return (ScriptAggregateType)type;
-		}
-
 		public ScriptType getDataType()
 		{	return ((ScriptAggregateType)type).getDataType();
-		}
-
-		public ScriptValue initialValue()
-		{	return ((ScriptAggregateType)type).getDataType().initialValue();
-		}
-
-		public ScriptValue remove( ScriptValue index )
-		{	return null;
 		}
 
 		public int count()
@@ -6540,10 +6652,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		public boolean contains( ScriptValue index )
 		{	return false;
-		}
-
-		public ScriptValue [] keys()
-		{	return new ScriptValue[0];
 		}
 
 		public String toString()
@@ -6574,23 +6682,23 @@ public class KoLmafiaASH extends StaticEntity
 			return array[ i ];
 		}
 
-		public void aset( ScriptValue index,  ScriptValue val )
+		public void aset( ScriptValue key,  ScriptValue val )
 		{
 			ScriptValue [] array = (ScriptValue [])content;
-			int i = index.intValue();
-			if ( i < 0 || i > array.length )
+			int index = key.intValue();
+			if ( index < 0 || index > array.length )
 				throw new RuntimeException( "Array index out of bounds" );
-			array[ i ] = val;
+			array[ index ] = val;
 		}
 
-		public ScriptValue remove( ScriptValue index )
+		public ScriptValue remove( ScriptValue key )
 		{
 			ScriptValue [] array = (ScriptValue [])content;
-			int i = index.intValue();
-			if ( i < 0 || i > array.length )
+			int index = key.intValue();
+			if ( index < 0 || index > array.length )
 				throw new RuntimeException( "Array index out of bounds" );
-			ScriptValue result = array[ i ];
-			array[ i ] = getDataType().initialValue();
+			ScriptValue result = array[ index ];
+			array[ index ] = getDataType().initialValue();
 			return result;
 		}
 
@@ -6600,11 +6708,11 @@ public class KoLmafiaASH extends StaticEntity
 			return array.length;
 		}
 
-		public boolean contains( ScriptValue index )
+		public boolean contains( ScriptValue key )
 		{
 			ScriptValue [] array = (ScriptValue [])content;
-			int i = index.intValue();
-			return ( i >= 0 && i < array.length );
+			int index = key.intValue();
+			return ( index >= 0 && index < array.length );
 		}
 
 		public ScriptValue [] keys()
@@ -6625,22 +6733,22 @@ public class KoLmafiaASH extends StaticEntity
 			this.content = new TreeMap();
 		}
 
-		public ScriptValue aref( ScriptValue index )
+		public ScriptValue aref( ScriptValue key )
 		{
 			TreeMap map = (TreeMap)content;
-			return (ScriptValue)map.get( index );
+			return (ScriptValue)map.get( key );
 		}
 
-		public void aset( ScriptValue index,  ScriptValue val )
+		public void aset( ScriptValue key,  ScriptValue val )
 		{
 			TreeMap map = (TreeMap)content;
-			map.put( index, val );
+			map.put( key, val );
 		}
 
-		public ScriptValue remove( ScriptValue index )
+		public ScriptValue remove( ScriptValue key )
 		{
 			TreeMap map = (TreeMap)content;
-			return (ScriptValue)map.remove( index );
+			return (ScriptValue)map.remove( key );
 		}
 
 		public int count()
@@ -6649,10 +6757,10 @@ public class KoLmafiaASH extends StaticEntity
 			return map.size();
 		}
 
-		public boolean contains( ScriptValue index )
+		public boolean contains( ScriptValue key )
 		{
 			TreeMap map = (TreeMap)content;
-			return map.containsKey( index );
+			return map.containsKey( key );
 		}
 
 		public ScriptValue [] keys()
@@ -6678,6 +6786,10 @@ public class KoLmafiaASH extends StaticEntity
 			this.content = content;
 		}
 
+		public ScriptType getDataType( ScriptValue key )
+		{	return ((ScriptRecordType)type).getDataType( key );
+		}
+
 		public ScriptValue aref( ScriptValue key )
 		{
 			int index = ((ScriptRecordType)type).indexOf( key );
@@ -6694,6 +6806,28 @@ public class KoLmafiaASH extends StaticEntity
 				throw new RuntimeException( "Internal error: field index out of bounds" );
 			ScriptValue [] array = (ScriptValue [])content;
 			array[ index ] = val;
+		}
+
+		public ScriptValue remove( ScriptValue key )
+		{
+			int index = ((ScriptRecordType)type).indexOf( key );
+			if ( index < 0 )
+				throw new RuntimeException( "Internal error: field index out of bounds" );
+			ScriptValue [] array = (ScriptValue [])content;
+			ScriptValue result = array[ index ];
+			array[ index ] = getDataType( key ).initialValue();
+			return result;
+		}
+
+		public ScriptValue [] keys()
+		{
+			ScriptRecordType type = (ScriptRecordType)this.type;
+			String [] fields = type.getFieldNames();
+			int size = fields.length;
+			ScriptValue [] result = new ScriptValue[ size ];
+			for ( int i = 0; i < size; ++i )
+				result[i] = new ScriptValue( fields[i] );
+			return result;
 		}
 
 		public String toString()
@@ -6772,7 +6906,10 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return lhs + " " + oper.toString() + " " + rhs;
+		{
+			if ( rhs == null )
+				return oper.toString() + " " + lhs;
+			return lhs + " " + oper.toString() + " " + rhs;
 		}
 	}
 
@@ -6851,7 +6988,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			// Unary operator with special evaluation of argument
 			if ( operator.equals( "remove" ) )
-				return ((ScriptAggregateReference)lhs).removeKey();
+				return ((ScriptCompositeReference)lhs).removeKey();
 
 			ScriptValue leftValue = lhs.execute();
 			captureValue( leftValue );
