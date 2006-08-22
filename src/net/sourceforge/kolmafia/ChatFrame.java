@@ -257,7 +257,7 @@ public class ChatFrame extends KoLFrame
 					return;
 				}
 
-				if ( message.startsWith( "/m" ) || message.startsWith( "/mark" ) )
+				if ( message.equals( "/m" ) || message.startsWith( "/mark" ) )
 				{
 					buffer.append( "<br><hr width=\"60%\"><br>" );
 					return;
