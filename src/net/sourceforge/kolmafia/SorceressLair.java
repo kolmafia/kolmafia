@@ -273,6 +273,7 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 
 		SpecialOutfit.createCheckpoint();
+		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
 		// If you couldn't complete the gateway, then return
 		// from this method call.
@@ -332,6 +333,8 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.addAll( retrieveScubaGear( false ) );
 
 		SpecialOutfit.restoreCheckpoint();
+		DEFAULT_SHELL.executeLine( "familiar " + currentFamiliar.getRace() );
+
 		if ( !client.checkRequirements( requirements ) || KoLmafia.refusesContinue() )
 			return;
 
@@ -1179,6 +1182,8 @@ public abstract class SorceressLair extends StaticEntity
 			CharpaneRequest.getInstance().run();
 		}
 
+		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
+
 		for ( ; n < 5; ++n )
 		{
 			switch ( n )
@@ -1204,6 +1209,7 @@ public abstract class SorceressLair extends StaticEntity
 				return;
 		}
 
+		DEFAULT_SHELL.executeLine( "familiar " + currentFamiliar.getRace() );
 		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
 	}
 
