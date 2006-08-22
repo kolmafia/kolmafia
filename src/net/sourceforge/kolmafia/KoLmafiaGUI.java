@@ -136,10 +136,11 @@ public class KoLmafiaGUI extends KoLmafia
 	public void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
 	{
 		super.initialize( username, getBreakfast, isQuickLogin );
-		if ( refusesContinue() )
+
+		if ( refusesContinue() || isQuickLogin )
 			return;
 
-		if ( KoLRequest.passwordHash != null && !isQuickLogin )
+		if ( KoLRequest.passwordHash != null )
 		{
 			if ( StaticEntity.getProperty( "retrieveContacts" ).equals( "true" ) )
 			{

@@ -354,13 +354,6 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		StaticEntity.setProperty( "lastUsername", username );
-		KoLCharacter.reset( username );
-		StaticEntity.reloadSettings();
-		KoLmafia.openSessionStream();
-		AdventureDatabase.refreshAdventureTable();
-
-		recentEffects.clear();
-		KoLCharacter.getEffects().clear();
 
 		if ( isQuickLogin )
 		{
@@ -369,6 +362,14 @@ public abstract class KoLmafia implements KoLConstants
 			CharpaneRequest.getInstance().run();
 			return;
 		}
+
+		KoLCharacter.reset( username );
+		StaticEntity.reloadSettings();
+		KoLmafia.openSessionStream();
+		AdventureDatabase.refreshAdventureTable();
+
+		recentEffects.clear();
+		KoLCharacter.getEffects().clear();
 
 		this.refreshSession();
 		this.resetSession();
