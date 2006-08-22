@@ -50,11 +50,11 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	public static final MPRestoreItem [] CONFIGURES = new MPRestoreItem []
 	{
-		BEANBAG, CAMPING, GALAKTIK, new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ),
+		GALAKTIK, BEANBAG, CAMPING, new MPRestoreItem( "phonics down", 48 ), new MPRestoreItem( "tonic water", 40 ),
 		new MPRestoreItem( "Knob Goblin superseltzer", 27 ), new MPRestoreItem( "Blatantly Canadian", 22 ),
-		new MPRestoreItem( "tiny house", 22 ), new MPRestoreItem( "Dyspepsi-Cola", 12 ),
-		new MPRestoreItem( "Cloaca-Cola", 12 ), new MPRestoreItem( "Mountain Stream soda", 8 ),
-		MYSTERY_JUICE, SELTZER, new MPRestoreItem( "Cherry Cloaca Cola", 8 ), new MPRestoreItem( "soda water", 4 )
+		new MPRestoreItem( "Dyspepsi-Cola", 12 ), new MPRestoreItem( "Cloaca-Cola", 12 ),
+		new MPRestoreItem( "Mountain Stream soda", 8 ), MYSTERY_JUICE, SELTZER,
+		new MPRestoreItem( "Cherry Cloaca Cola", 8 ), new MPRestoreItem( "soda water", 4 )
 	};
 
 	public static JCheckBox [] getCheckboxes()
