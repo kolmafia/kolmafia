@@ -58,6 +58,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static final int SAVEBOX = 0;
 	public static final int DISPOSE = 1;
 
+	private static int initialRestores = 0;
 	private static final int REFUND_THRESHOLD = 5;
 
 	private static ArrayList saveList = new ArrayList();
@@ -361,24 +362,64 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		refundMessage = StaticEntity.getProperty( "invalidBuffMessage" );
 		thanksMessage = StaticEntity.getProperty( "thanksMessage" );
+		initialRestores = client.getRestoreCount();
+
+		String restoreItems = StaticEntity.getProperty( "mpAutoRecoveryItems" );
+		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" );
 
 		// The outer loop goes until user cancels, or
 		// for however many iterations are needed.
 
 		for ( int i = iterations; BuffBotHome.isBuffBotActive() && i > 0; --i )
 		{
-			BuffBotManager.runOnce();
+			// If you run out of adventures and/or restores, then
+			// check to see if you need to abort.
 
-			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
-			BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
+			if ( client.getRestoreCount() == 0 )
+			{
+				if ( !usingAdventures || KoLCharacter.getAdventuresLeft() == 0 )
+				{
+					if ( initialRestores == 0 )
+					{
+						BuffBotHome.setBuffBotActive( false );
+						BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to continue processing buff messages." );
+					}
+					else if ( NPCStoreDatabase.contains( "magical mystery juice" ) )
+					{
+						KoLmafia.forceContinue();
+						AdventureDatabase.retrieveItem( new AdventureResult( "magical mystery juice", initialRestores ) );
+						BuffBotHome.setBuffBotActive( KoLmafia.permitsContinue() );
+					}
+					else
+					{
+						KoLmafia.forceContinue();
+						AdventureDatabase.retrieveItem( new AdventureResult( "phonics down", initialRestores ) );
+						BuffBotHome.setBuffBotActive( KoLmafia.permitsContinue() );
+					}
+				}
+			}
 
-			// Sleep for a while and then try again (don't go
-			// away for more than 1 second at a time to avoid
-			// automatic re-enabling problems).
+			// If no abort happened due to lack of restores, then you
+			// can proceed with the next iteration.
 
-			for ( int j = 0; i != 1 && j < 60; ++j )
-				if ( BuffBotHome.isBuffBotActive() )
-					KoLRequest.delay( 1000 );
+			if ( BuffBotHome.isBuffBotActive() )
+			{
+				BuffBotManager.runOnce();
+
+				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
+				if ( initialRestores > 0 )
+					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
+				else if ( usingAdventures )
+					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLCharacter.getAdventuresLeft() + " adventures remaining)" );
+
+				// Sleep for a while and then try again (don't go
+				// away for more than 1 second at a time to avoid
+				// automatic re-enabling problems).
+
+				for ( int j = 0; i != 1 && j < 60; ++j )
+					if ( BuffBotHome.isBuffBotActive() )
+						KoLRequest.delay( 1000 );
+			}
 		}
 
 		// After the buffbot is finished running, make sure
@@ -471,12 +512,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		// Abort the buffbot only when you run out of MP
 		// restores -- otherwise, it's always okay to
 		// continue using the buffbot.
-
-		if ( client.getRestoreCount() == 0 )
-		{
-			BuffBotHome.setBuffBotActive( false );
-			BuffBotHome.update( BuffBotHome.ERRORCOLOR, "Unable to process a buff message." );
-		}
 
 		if ( !sendList.isEmpty() )
 		{
