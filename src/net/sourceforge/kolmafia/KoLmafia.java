@@ -1320,6 +1320,10 @@ public abstract class KoLmafia implements KoLConstants
 					((ClanGymRequest)adventure.getRequest()).run();
 					return;
 				}
+				else if ( adventure.getRequest() instanceof SewerRequest )
+				{
+					AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) );
+				}
 			}
 
 			// Execute the request as initially intended by calling
