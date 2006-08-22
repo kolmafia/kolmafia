@@ -270,8 +270,11 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				String battleAction = (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() );
 				if ( actionSelect.getSelectedIndex() != -1 )
-					setProperty( "battleAction", (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() ) );
+					setProperty( "battleAction", battleAction );
+
+				FightRequest.setAutoRecovery( battleAction );
 			}
 		}
 
