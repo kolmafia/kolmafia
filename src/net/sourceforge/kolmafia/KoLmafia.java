@@ -253,7 +253,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static synchronized final void updateDisplay( int state, String message )
 	{
-		if ( continuationState == ABORT_STATE || message.equals( "" ) )
+		if ( continuationState == ABORT_STATE && message.equals( "" ) )
 			return;
 
 		continuationState = state;
@@ -2510,7 +2510,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static final void declareWorldPeace()
 	{
-		KoLmafiaCLI.printLine( "KoLmafia declares world peace." );
+		commandQueue.clear();
 		updateDisplay( ABORT_STATE, "KoLmafia declares world peace." );
 	}
 

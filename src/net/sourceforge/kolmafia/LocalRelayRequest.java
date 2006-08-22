@@ -52,7 +52,6 @@ public class LocalRelayRequest extends KoLRequest
 {
 	private static boolean isRunningCommand = false;
 	protected List headers = new ArrayList();
-	private static final ArrayList commandQueue = new ArrayList();
 
 	public LocalRelayRequest( KoLmafia client, String formURLString, boolean followRedirects )
 	{	super( client, formURLString, followRedirects );

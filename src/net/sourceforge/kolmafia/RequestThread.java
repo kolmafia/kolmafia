@@ -74,7 +74,8 @@ public class RequestThread extends Thread implements KoLConstants
 		if ( requests.length == 0 )
 			return;
 
-		KoLmafia.forceContinue();
+		if ( requests[0] instanceof KoLRequest )
+			KoLmafia.forceContinue();
 
 		for ( int i = 0; i < requests.length && KoLmafia.permitsContinue(); ++i )
 		{
@@ -90,14 +91,18 @@ public class RequestThread extends Thread implements KoLConstants
 			// client.makeRequest() method.
 
 			else if ( requests[i] instanceof KoLAdventure )
+			{
 				StaticEntity.getClient().makeRequest( requests[i], repeatCount );
+			}
 
 			// All other runnables are run, as expected, with
 			// no updates to the client.
 
 			else
+			{
 				for ( int j = 0; j < repeatCount; ++j )
 					requests[i].run();
+			}
 		}
 
 		KoLmafia.enableDisplay();
