@@ -3904,8 +3904,10 @@ public class KoLmafiaASH extends StaticEntity
 			if ( count.intValue() <= 0 )
 				return continueValue();
 
+			AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
+			int initialAmount = itemToBuy.getCount( KoLCharacter.getInventory() );
 			DEFAULT_SHELL.executeLine( "buy " + count.intValue() + " " + item.toStringValue() );
-			return continueValue();
+			return initialAmount + count.intValue() == itemToBuy.getCount( KoLCharacter.getInventory() ) ? TRUE_VALUE : FALSE_VALUE;
 		}
 
 		public ScriptValue create( ScriptVariable count, ScriptVariable item )
