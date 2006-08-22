@@ -35,6 +35,7 @@
 package net.sourceforge.kolmafia;
 
 import java.awt.Color;
+import java.util.Vector;
 import java.util.Random;
 import java.util.Locale;
 import java.text.DecimalFormat;
@@ -95,6 +96,7 @@ public interface KoLConstants extends UtilityConstants
 		{ "Mysterious Island", "island.php" }
 	};
 
+	public static final Vector commandQueue = new Vector();
 	public static final LockableListModel existingFrames = new LockableListModel();
 	public static final LockableListModel existingPanels = new LockableListModel();
 

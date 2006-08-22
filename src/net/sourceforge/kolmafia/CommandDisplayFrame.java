@@ -58,8 +58,6 @@ public class CommandDisplayFrame extends KoLFrame
 {
 	private JTextField entryField;
 	private static int lastCommandIndex = 0;
-
-	private static final ArrayList commandQueue = new ArrayList();
 	private static ArrayList commandHistory = new ArrayList();
 
 	public CommandDisplayFrame()
@@ -162,11 +160,19 @@ public class CommandDisplayFrame extends KoLFrame
 					return;
 				}
 
-				if ( command.equals( "abort" ) )
+				if ( command.startsWith( "abort" ) )
 				{
-					commandQueue.clear();
-					KoLmafia.declareWorldPeace();
+					DEFAULT_SHELL.executeLine( command );
 					return;
+				}
+
+				if ( command.indexOf( "refresh" ) == -1 )
+				{
+					if ( command.startsWith( "inv" ) || command.startsWith( "status" ) || command.startsWith( "equip" ) )
+					{
+						DEFAULT_SHELL.executeLine( command );
+						return;
+					}
 				}
 
 				commandQueue.add( command );
