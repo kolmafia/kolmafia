@@ -365,7 +365,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		initialRestores = client.getRestoreCount();
 
 		String restoreItems = StaticEntity.getProperty( "mpAutoRecoveryItems" );
-		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" );
+		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" ) != -1;
 
 		// The outer loop goes until user cancels, or
 		// for however many iterations are needed.
