@@ -2455,11 +2455,15 @@ public abstract class KoLmafia implements KoLConstants
 			// Now, run the built-in behavior to take care of
 			// any loose ends.
 
+			String hat = KoLCharacter.getEquipment( KoLCharacter.HAT );
+
 			MoodSettings.execute();
 			recoverHP();
 			recoverMP();
 
-			SpecialOutfit.restoreCheckpoint();
+			if ( !KoLCharacter.getEquipment( KoLCharacter.HAT ).equals( hat ) )
+				SpecialOutfit.restoreCheckpoint();
+
 			recoveryActive = false;
 		}
 
