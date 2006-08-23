@@ -442,6 +442,9 @@ public class FightRequest extends KoLRequest
 
 	public static void setAutoRecovery( String action )
 	{
+		if ( action == null )
+			return;
+
 		boolean isNumeric = true;
 		for ( int i = 0; i < action.length(); ++i )
 			isNumeric &= Character.isDigit( action.charAt(i) );
