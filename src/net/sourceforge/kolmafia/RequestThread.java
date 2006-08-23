@@ -40,7 +40,7 @@ public class RequestThread extends Thread implements KoLConstants
 	private Runnable [] requests;
 
 	public RequestThread( Runnable request )
-	{	this( request, 1 );
+	{	this( new Runnable [] { request }, 1 );
 	}
 
 	public RequestThread( Runnable request, int repeatCount )
@@ -54,52 +54,39 @@ public class RequestThread extends Thread implements KoLConstants
 	public RequestThread( Runnable [] requests, int repeatCount )
 	{
 		this.repeatCount = repeatCount;
-
-		int requestCount = 0;
-		for ( int i = 0; i < requests.length; ++i )
-			if ( requests[i] != null )
-				++requestCount;
-
-		this.requests = new Runnable[ requestCount ];
-
-		requestCount = 0;
-
-		for ( int i = 0; i < requests.length; ++i )
-			if ( requests[i] != null )
-				this.requests[ requestCount++ ] = requests[i];
+		this.requests = requests;
 	}
 
 	public void run()
 	{
-		if ( requests.length == 0 )
-			return;
-
-		if ( requests[0] instanceof KoLRequest )
-			KoLmafia.forceContinue();
+		KoLmafia.forceContinue();
 
 		for ( int i = 0; i < requests.length && KoLmafia.permitsContinue(); ++i )
 		{
-			// Setting it up so that derived classes can
-			// override the behavior of execution.
-
-			if ( requests[i] instanceof KoLRequest )
+			if ( requests[i] == null )
 			{
+				// If it's null, then there's nothing that
+				// can be done, so skip it.
+			}
+			else if ( requests[i] instanceof KoLRequest )
+			{
+				// Setting it up so that derived classes can
+				// override the behavior of execution.
+
 				run( (KoLRequest) requests[i], repeatCount );
 			}
-
-			// Standard KoL adventures are handled through the
-			// client.makeRequest() method.
-
 			else if ( requests[i] instanceof KoLAdventure )
 			{
+				// Standard KoL adventures are handled through the
+				// client.makeRequest() method.
+
 				StaticEntity.getClient().makeRequest( requests[i], repeatCount );
 			}
-
-			// All other runnables are run, as expected, with
-			// no updates to the client.
-
 			else
 			{
+				// All other runnables are run, as expected, with
+				// no updates to the client.
+
 				for ( int j = 0; j < repeatCount; ++j )
 					requests[i].run();
 			}
@@ -109,11 +96,6 @@ public class RequestThread extends Thread implements KoLConstants
 	}
 
 	protected void run( KoLRequest request, int repeatCount )
-	{
-		// Standard KoL requests are handled through the
-		// makeRequest() method.
-
-		if ( KoLmafia.permitsContinue() )
-			StaticEntity.getClient().makeRequest( request, repeatCount );
+	{	StaticEntity.getClient().makeRequest( request, repeatCount );
 	}
 }
