@@ -244,6 +244,7 @@ public class AdventureRequest extends KoLRequest
 		// Nothing more to do in this area
 
 		if ( responseText.indexOf( "This part of the cyrpt is already undefiled" ) != -1 ||
+		     responseText.indexOf( "You've already found the Citadel." ) != -1 ||
 		     responseText.indexOf( "You can't repeat an adventure here." ) != -1 )
 		{
 			KoLmafia.updateDisplay( PENDING_STATE, "Nothing more to do here." );
