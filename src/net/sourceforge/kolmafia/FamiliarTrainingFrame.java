@@ -1008,13 +1008,14 @@ public class FamiliarTrainingFrame extends KoLFrame
 					{
 						DEFAULT_SHELL.executeLine( "use 1 green snowcone" );
 						greenTongueActive = 20;
-						goalReached = true;
+						return true;
 					}
-					else if ( KoLCharacter.hasItem( BLACK_SNOWCONE, false ) )
+
+					if ( KoLCharacter.hasItem( BLACK_SNOWCONE, false ) )
 					{
 						DEFAULT_SHELL.executeLine( "use 1 black snowcone" );
 						blackTongueActive = 20;
-						goalReached = true;
+						return true;
 					}
 				}
 
@@ -1041,14 +1042,16 @@ public class FamiliarTrainingFrame extends KoLFrame
 				if ( poundsNeeded <= 0 )
 					return true;
 
-				// First, check their current familiar item.  If it's
-				// zero, then try to acquire the item and equip it.
+				// First, check their current familiar's
+				// item. If it affects weight (positively) and
+				// they don't have one, buy one in the mall
 
-				if ( status.familiarItemWeight != 5 )
+				if ( status.familiarItem != null && status.specItem != status.familiarItem && status.familiarItemWeight > 0 )
 				{
-					poundsNeeded -= 5 - status.familiarItemWeight;
-					String familiarItem = FamiliarsDatabase.getFamiliarItem( status.getFamiliar().getID() );
+					poundsNeeded -= status.familiarItemWeight;
+					String familiarItem = status.familiarItem.getName();
 					DEFAULT_SHELL.executeBuyCommand( "1 " + familiarItem );
+					status.updateStatus();
 				}
 
 				if ( poundsNeeded <= 0 )
@@ -1063,7 +1066,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 						firstTinyPlastic + RNG.nextInt( lastTinyPlastic - firstTinyPlastic ) );
 
 					DEFAULT_SHELL.executeBuyCommand( poundsNeeded + " " + plasticItem );
-					status = new FamiliarStatus();
+					status.updateStatus();
 					return true;
 				}
 
@@ -1229,7 +1232,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 		int turns;
 
 		// Details about its special familiar item
-		AdventureResult familiarItem ;
+		AdventureResult familiarItem;
 		int familiarItemWeight;
 
 		// Currently equipped gear which affects weight
@@ -1264,15 +1267,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 			familiarItem = new AdventureResult( name, 1, false );
 			familiarItemWeight = FamiliarData.itemWeightModifier( familiarItem.getItemID() );
 
-			// Check available skills
-			checkSkills();
-
-			// Check current equipment
-			checkCurrentEquipment();
-
-			// Check available equipment
-			checkAvailableEquipment( KoLCharacter.getInventory() );
-
 			// No turns have been used yet
 			turns = 0;
 
@@ -1281,7 +1275,22 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// Initialize the list of GearSets
 			gearSets = new ArrayList();
+
+                        // Check skills and equipment
+                        updateStatus();
 		}
+
+                public void updateStatus()
+		{
+			// Check available skills
+			checkSkills();
+
+			// Check current equipment
+			checkCurrentEquipment();
+
+			// Check available equipment
+			checkAvailableEquipment( KoLCharacter.getInventory() );
+                }
 
 		/*
 		// Debug initializer
@@ -1446,8 +1455,8 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 			// If current familiar item is not the special item and
 			// such an item affects weight, search inventory
-			if ( familiarItemWeight != 0 &&
-			     !familiarItem.equals( item ) &&
+			if ( familiarItem != item  &&
+			     familiarItemWeight != 0 &&
 			     familiarItem.getCount( inventory ) > 0 )
 			{
 				specItem = familiarItem;

@@ -2517,55 +2517,6 @@ public class KoLmafiaASH extends StaticEntity
 		return "at line " + lineNumber + " in file " + fileName;
 	}
 
-	private static void readMap( ScriptCompositeValue result, String [] data ) throws AdvancedScriptException
-	{
-		ScriptCompositeValue slice = result;
-		ScriptCompositeType dataType = slice.getCompositeType();
-		ScriptValue index = null;
-
-		for ( int i = 0; i < data.length - 2; ++i )
-		{
-			// Create missing intermediate slices while storing
-			// the slice where the value is ultimately stored.
-
-			index = parseValue( dataType.getIndexType(), data[i] );
-			result = (ScriptCompositeValue) slice.aref( index );
-
-			if ( result == null )
-			{
-				result = (ScriptCompositeValue) slice.initialValue( index );
-				slice.aset( index, result );
-			}
-
-			slice = result;
-			dataType = slice.getCompositeType();
-		}
-
-		if ( data.length > 2 )
-		{
-			index = parseValue( dataType.getIndexType(), data[ data.length - 2 ] );
-			slice.aset( index, parseValue( dataType.getDataType( index ), data[ data.length - 1 ] ) );
-		}
-	}
-
-	private static void printMap( PrintStream writer, String prefix, ScriptCompositeValue map_value )
-	{
-		ScriptValue [] keys = map_value.keys();
-		if ( keys.length == 0 )
-			return;
-
-		for ( int i = 0; i < keys.length; ++i )
-		{
-			ScriptValue key = keys[i];
-			ScriptValue value = map_value.aref( key );
-			String first = prefix + key + "\t";
-			if ( map_value.getCompositeType().getDataType( key ) instanceof ScriptCompositeType )
-				printMap( writer, first, (ScriptCompositeValue)value );
-			else
-				writer.println( first + value.toStringValue().toString() );
-		}
-	}
-
 	public ScriptScope getExistingFunctionScope()
 	{	return new ScriptScope( existingFunctions, null, simpleTypes );
 	}
@@ -3041,7 +2992,13 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE, AGGREGATE_TYPE };
 		result.addElement( new ScriptExistingFunction( "file_to_map", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE, AGGREGATE_TYPE, BOOLEAN_TYPE };
+		result.addElement( new ScriptExistingFunction( "file_to_map", BOOLEAN_TYPE, params ) );
+
 		params = new ScriptType[] { AGGREGATE_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "map_to_file", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { AGGREGATE_TYPE, STRING_TYPE, BOOLEAN_TYPE };
 		result.addElement( new ScriptExistingFunction( "map_to_file", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
@@ -4590,25 +4547,43 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( arg.getValue().count() );
 		}
 
-		public ScriptValue file_to_map( ScriptVariable filename, ScriptVariable map_variable )
+		public ScriptValue file_to_map( ScriptVariable var1, ScriptVariable var2 )
 		{
-			BufferedReader reader = DataUtilities.getReader( "", filename.toStringValue().toString() );
-			ScriptAggregateValue result = (ScriptAggregateValue) map_variable.getValue();
+			String filename = var1.toStringValue().toString();
+			ScriptCompositeValue map_variable = (ScriptCompositeValue) var2.getValue();
+			return readMap( filename, map_variable, true );
+		}
+
+		public ScriptValue file_to_map( ScriptVariable var1, ScriptVariable var2, ScriptVariable var3 )
+		{
+			String filename = var1.toStringValue().toString();
+			ScriptCompositeValue map_variable = (ScriptCompositeValue) var2.getValue();
+			boolean compact = var3.intValue() == 1;
+			return readMap( filename, map_variable, compact );
+		}
+
+		private ScriptValue readMap(  String filename, ScriptCompositeValue result, boolean compact )
+		{
+			BufferedReader reader = DataUtilities.getReader( "", filename );
 			String [] data = null;
 
-			while ( (data = KoLDatabase.readData( reader )) != null )
+			try
 			{
-				try
+				while ( (data = KoLDatabase.readData( reader )) != null )
 				{
-					readMap( result, data );
+					int n = result.read( data, 0, compact );
+					// assert n == data.length
 				}
-				catch ( Exception e )
-				{
-					// Okay, runtime error. Indicate that
-					// there was a bad line in the data
-					// file and print the stack trace.
+			}
+			catch ( Exception e )
+			{
+				// Okay, runtime error. Indicate that there was
+				// a bad line in the data file and print the
+				// stack trace.
 
-					StringBuffer buffer = new StringBuffer( "Invalid line in data file:" );
+				StringBuffer buffer = new StringBuffer( "Invalid line in data file:" );
+				if ( data != null )
+				{
 					buffer.append( LINE_BREAK );
 
 					for ( int i = 0; i < data.length; ++i )
@@ -4616,20 +4591,36 @@ public class KoLmafiaASH extends StaticEntity
 						buffer.append( '\t' );
 						buffer.append( data[i] );
 					}
-
-					StaticEntity.printStackTrace( e, buffer.toString() );
-					return FALSE_VALUE;
 				}
+
+				StaticEntity.printStackTrace( e, buffer.toString() );
+				return FALSE_VALUE;
 			}
 
 			return TRUE_VALUE;
 		}
 
-		public ScriptValue map_to_file( ScriptVariable map_variable, ScriptVariable filename )
+		public ScriptValue map_to_file( ScriptVariable var1, ScriptVariable var2 )
 		{
+			ScriptCompositeValue map_variable = (ScriptCompositeValue) var1.getValue();
+			String filename = var2.toStringValue().toString();
+			return printMap( map_variable, filename, true );
+		}
+
+		public ScriptValue map_to_file( ScriptVariable var1, ScriptVariable var2, ScriptVariable var3 )
+		{
+			ScriptCompositeValue map_variable = (ScriptCompositeValue) var1.getValue();
+			String filename = var2.toStringValue().toString();
+			boolean compact = var3.intValue() == 1;
+			return printMap( map_variable, filename, compact );
+		}
+
+		private ScriptValue printMap( ScriptCompositeValue map_variable, String filename, boolean compact )
+		{
+			PrintStream writer = null;
 			try
 			{
-				File data = new File( filename.toStringValue().toString() );
+				File data = new File( filename );
 
 				if ( data.getParentFile() != null )
 					data.getParentFile().mkdirs();
@@ -4637,14 +4628,19 @@ public class KoLmafiaASH extends StaticEntity
 				if ( data.exists() )
 					data.delete();
 
-				PrintStream writer = new PrintStream( new FileOutputStream( data, true ) );
-				printMap( writer, "", (ScriptAggregateValue) map_variable.getValue() );
+				writer = new PrintStream( new FileOutputStream( data, true ) );
+				map_variable.dump( writer, "", compact );
 				writer.close();
 			}
 			catch ( Exception e )
 			{
 				StaticEntity.printStackTrace( e );
 				return FALSE_VALUE;
+			}
+			finally
+			{
+				if ( writer != null )
+					writer.close();
 			}
 
 			return TRUE_VALUE;
@@ -6177,6 +6173,10 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptExpression initialValueExpression()
 		{	return initialValue();
 		}
+
+		public boolean containsAggregate()
+		{	return false;
+		}
 	}
 
 	private static class ScriptCompositeType extends ScriptType
@@ -6193,6 +6193,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType getDataType( Object key )
 		{	return null;
+		}
+
+		public ScriptExpression initialValueExpression()
+		{	return new ScriptTypeInitializer( this );
 		}
         }
 
@@ -6279,8 +6283,8 @@ public class KoLmafiaASH extends StaticEntity
 			return new ScriptMap( this );
 		}
 
-		public ScriptExpression initialValueExpression()
-		{	return new ScriptTypeInitializer( this );
+		public boolean containsAggregate()
+		{	return true;
 		}
 	}
 
@@ -6292,6 +6296,8 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptRecordType( String name, String [] fieldNames,ScriptType [] fieldTypes )
 		{
 			super( name, TYPE_RECORD );
+			if ( fieldNames.length != fieldTypes.length )
+				throw new IllegalArgumentException( "Internal error: wrong number of field types" );
 			this.fieldNames = fieldNames;
 			this.fieldTypes = fieldTypes;
 		}
@@ -6302,6 +6308,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType [] getFieldTypes()
 		{	return fieldTypes;
+                }
+
+		public int fieldCount()
+		{	return fieldTypes.length;
                 }
 
 		public ScriptType getIndexType()
@@ -6369,8 +6379,12 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptRecord( this );
 		}
 
-		public ScriptExpression initialValueExpression()
-		{	return new ScriptTypeInitializer( this );
+		public boolean containsAggregate()
+		{
+			for ( int i = 0; i < fieldTypes.length; ++i )
+				if ( fieldTypes[i].containsAggregate() )
+					return true;
+			return false;
 		}
 	}
 
@@ -6592,6 +6606,14 @@ public class KoLmafiaASH extends StaticEntity
 		public boolean equals( Object o )
 		{	return o == null || !(o instanceof ScriptValue) ? false : this.compareTo( (Comparable) o ) == 0;
 		}
+
+		public void dumpValue( PrintStream writer )
+		{	writer.print( toStringValue().toString() );
+		}
+
+		public void dump( PrintStream writer, String prefix, boolean compact )
+		{	writer.println( prefix + toStringValue().toString() );
+		}
 	}
 
 	private static class ScriptCompositeValue extends ScriptValue
@@ -6622,6 +6644,56 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue initialValue( Object key )
 		{	return ((ScriptCompositeType)type).getDataType( key).initialValue();
+		}
+
+		public void dump( PrintStream writer, String prefix, boolean compact )
+		{
+			ScriptValue [] keys = keys();
+			if ( keys.length == 0 )
+				return;
+
+			for ( int i = 0; i < keys.length; ++i )
+			{
+				ScriptValue key = keys[i];
+				ScriptValue value = aref( key );
+				String first = prefix + key + "\t";
+				value.dump( writer, first, compact );
+			}
+		}
+
+		public void dumpValue( PrintStream writer )
+		{
+                }
+
+		// Returns number of fields consumed
+		public int read( String [] data, int index, boolean compact ) throws AdvancedScriptException
+		{
+			// There must be a key and a value remaining
+			if ( data.length - index < 2 )
+				throw new RuntimeException( "Internal error: Insufficient fields in data" );
+
+			ScriptCompositeType type = (ScriptCompositeType)this.type;
+			ScriptValue key = parseValue( type.getIndexType(), data[ index ] );
+
+			// If there's only a key and a value, parse the value
+			// and store it in the composite
+			if ( data.length - index == 2 )
+			{
+				aset( key, parseValue( type.getDataType( key ), data[ index + 1 ] ) );
+				return 2;
+			}
+
+			// Otherwise, recurse until we get the final slice
+			ScriptCompositeValue slice = (ScriptCompositeValue)aref( key );
+
+			// Create missing intermediate slice
+			if ( slice == null )
+			{
+				slice = (ScriptCompositeValue)initialValue( key );
+				aset( key, slice );
+			}
+
+			return slice.read( data, index + 1, compact ) + 1;
 		}
 
 		public String toString()
@@ -6779,6 +6851,10 @@ public class KoLmafiaASH extends StaticEntity
 			this.content = content;
 		}
 
+		public ScriptRecordType getRecordType()
+		{	return (ScriptRecordType)type;
+		}
+
 		public ScriptType getDataType( ScriptValue key )
 		{	return ((ScriptRecordType)type).getDataType( key );
 		}
@@ -6792,10 +6868,30 @@ public class KoLmafiaASH extends StaticEntity
 			return array[ index ];
 		}
 
-		public void aset( ScriptValue key,  ScriptValue val )
+		public ScriptValue aref( int index )
+		{
+			ScriptRecordType type = (ScriptRecordType)this.type;
+			int size = type.fieldCount();
+			if ( index < 0 || index >= size )
+				throw new RuntimeException( "Internal error: field index out of bounds" );
+			ScriptValue [] array = (ScriptValue [])content;
+			return array[ index ];
+		}
+
+		public void aset( ScriptValue key, ScriptValue val )
 		{
 			int index = ((ScriptRecordType)type).indexOf( key );
 			if ( index < 0 )
+				throw new RuntimeException( "Internal error: field index out of bounds" );
+			ScriptValue [] array = (ScriptValue [])content;
+			array[ index ] = val;
+		}
+
+		public void aset( int index, ScriptValue val )
+		{
+			ScriptRecordType type = (ScriptRecordType)this.type;
+			int size = type.fieldCount();
+			if ( index < 0 || index >= size )
 				throw new RuntimeException( "Internal error: field index out of bounds" );
 			ScriptValue [] array = (ScriptValue [])content;
 			array[ index ] = val;
@@ -6821,6 +6917,64 @@ public class KoLmafiaASH extends StaticEntity
 			for ( int i = 0; i < size; ++i )
 				result[i] = new ScriptValue( fields[i] );
 			return result;
+		}
+
+		public void dump( PrintStream writer, String prefix, boolean compact )
+		{
+			if ( !compact || type.containsAggregate() )
+			{
+				super.dump( writer, prefix, compact );
+				return;
+			}
+
+			writer.print( prefix );
+			dumpValue( writer );
+			writer.println();
+		}
+
+		public void dumpValue( PrintStream writer )
+		{
+			int size = ((ScriptRecordType)type).getFieldTypes().length;
+			for ( int i = 0; i < size; ++i )
+			{
+				ScriptValue value = aref( i );
+				if ( i > 0  )
+					writer.print( "\t" );
+				value.dumpValue( writer );
+			}
+		}
+
+		public int read( String [] data, int index, boolean compact ) throws AdvancedScriptException
+		{
+			if ( !compact || type.containsAggregate() )
+				return super.read( data, index, compact );
+
+			ScriptType [] dataTypes = ((ScriptRecordType)this.type).getFieldTypes();
+			ScriptValue [] array = (ScriptValue [])content;
+			int size = dataTypes.length;
+			int first = index;
+
+			// Consume remaining data values and store them
+			for ( int offset = 0; offset < size; ++offset )
+			{
+				if ( index == data.length )
+					throw new RuntimeException( "Internal error: field index out of bounds" );
+
+				ScriptType valType = dataTypes[offset];
+				if ( valType instanceof ScriptRecordType )
+				{
+					ScriptRecord rec = (ScriptRecord)array[offset];
+					index += rec.read( data, index, true );
+				}
+				else
+				{
+					array[offset] = parseValue( valType, data[ index ] );
+					index += 1;
+				}
+			}
+
+			// assert index == data.length
+			return index - first;
 		}
 
 		public String toString()
