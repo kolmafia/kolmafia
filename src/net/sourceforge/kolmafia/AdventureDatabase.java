@@ -137,7 +137,12 @@ public class AdventureDatabase extends KoLDatabase
 		// { { "choiceAdventure8" }, { "Gravy Barrow 3" },
 		//  { "Enter the chamber", "Enter the chamber", "Enter the chamber" } },
 
-		// Choices 9 - 13 are unknown
+		// Choice 9 is the Giant Castle Chore Wheel: Muscle position
+		// Choice 10 is the Giant Castle Chore Wheel: Mysticality position
+		// Choice 11 is the Giant Castle Chore Wheel: Map Quest position
+		// Choice 12 is the Giant Castle Chore Wheel: Moxie position
+
+		// Choice 13 is unknown
 
 		// A Bard Day's Night
 		{ { "choiceAdventure14" }, { "Knob Goblin Harem" },
@@ -229,7 +234,7 @@ public class AdventureDatabase extends KoLDatabase
 		  { "Trade for bottle of used blood", "Keep your hearts" } },
 
 		// Choices 48 - 70 are violet fog adventures
-		// Choice 71 is a special adventure
+		// Choice 71 is A Journey to the Center of Your Mind
 
 		// Lording Over The Flies
 		{ { "choiceAdventure72" }, { "Frat House" },
