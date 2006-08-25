@@ -59,7 +59,7 @@ public class KoLDatabase extends StaticEntity
 			// Read in all of the comment lines, or until
 			// the end of file, whichever comes first.
 
-			while ( (line = reader.readLine()) != null && line.startsWith( "#" ) );
+			while ( (line = reader.readLine()) != null && (line.startsWith( "#" ) || line.length() == 0) );
 
 			// If you've reached the end of file, then
 			// return null.  Otherwise, return the line
