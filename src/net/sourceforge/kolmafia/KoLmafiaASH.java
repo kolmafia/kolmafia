@@ -2140,6 +2140,11 @@ public class KoLmafiaASH extends StaticEntity
 		KoLmafia.getDebugStream().println( "<SCOPE>" );
 
 		indentLine( indent + 1 );
+		KoLmafia.getDebugStream().println( "<TYPES>" );
+		for ( ScriptType currentType = scope.getFirstType(); currentType != null; currentType = scope.getNextType() )
+			printType( currentType, indent + 2 );
+
+		indentLine( indent + 1 );
 		KoLmafia.getDebugStream().println( "<VARIABLES>" );
 		for ( ScriptVariable currentVar = scope.getFirstVariable(); currentVar != null; currentVar = scope.getNextVariable() )
 			printVariable( currentVar, indent + 2 );
@@ -2153,6 +2158,12 @@ public class KoLmafiaASH extends StaticEntity
 		KoLmafia.getDebugStream().println( "<COMMANDS>" );
 		for ( ScriptCommand currentCommand = scope.getFirstCommand(); currentCommand != null; currentCommand = scope.getNextCommand() )
 			printCommand( currentCommand, indent + 2 );
+	}
+
+	private void printType( ScriptType type, int indent )
+	{
+		indentLine( indent );
+		KoLmafia.getDebugStream().println( "<TYPE " + type + ">" );
 	}
 
 	private void printVariable( ScriptVariable var, int indent )
@@ -2279,9 +2290,23 @@ public class KoLmafiaASH extends StaticEntity
 	private void printAssignment( ScriptAssignment assignment, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<ASSIGN " + assignment.getLeftHandSide().getName() + ">" );
+		ScriptVariableReference lhs = assignment.getLeftHandSide();
+		KoLmafia.getDebugStream().println( "<ASSIGN " + lhs.getName() + ">" );
+		printIndices( lhs.getIndices(), indent + 1 );
 		printExpression( assignment.getRightHandSide(), indent + 1 );
+	}
 
+	private void printIndices( ScriptExpressionList indices, int indent )
+	{
+		if ( indices != null )
+		{
+			for ( ScriptExpression current = indices.getFirstExpression(); current != null; current = indices.getNextExpression() )
+			{
+				indentLine( indent );
+				KoLmafia.getDebugStream().println( "<KEY>" );
+				printExpression( current, indent + 1 );
+			}
+		}
 	}
 
 	private void printExpression( ScriptExpression expression, int indent )
@@ -2319,7 +2344,9 @@ public class KoLmafiaASH extends StaticEntity
 	public void printCompositeReference( ScriptCompositeReference varRef, int indent )
 	{
 		indentLine( indent );
-		KoLmafia.getDebugStream().println( "<AGGREF> " + varRef.getName() );
+		KoLmafia.getDebugStream().println( "<AGGREF " + varRef.getName() + ">" );
+
+		printIndices( varRef.getIndices(), indent + 1 );
 	}
 
 	public void printVariableReference( ScriptVariableReference varRef, int indent )
@@ -4950,6 +4977,10 @@ public class KoLmafiaASH extends StaticEntity
 		{	return target.getName();
 		}
 
+                public ScriptExpressionList getIndices()
+		{	return null;
+		}
+
 		public int compareTo( Object o )
 		{	return target.getName().compareTo( ((ScriptVariableReference)o).target.getName() );
 		}
@@ -4999,6 +5030,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String getName()
 		{	return target.getName() + "[]";
+		}
+
+                public ScriptExpressionList getIndices()
+		{	return indices;
 		}
 
 		public ScriptValue execute() throws AdvancedScriptException
@@ -6292,6 +6327,7 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		private String [] fieldNames;
 		private ScriptType [] fieldTypes;
+		private ScriptValue[] fieldIndices;
 
 		public ScriptRecordType( String name, String [] fieldNames,ScriptType [] fieldTypes )
 		{
@@ -6300,6 +6336,15 @@ public class KoLmafiaASH extends StaticEntity
 				throw new IllegalArgumentException( "Internal error: wrong number of field types" );
 			this.fieldNames = fieldNames;
 			this.fieldTypes = fieldTypes;
+
+			// Build field index values.
+			// These can be either integers or strings.
+			//   Integers don't require a lookup
+			//   Strings make debugging easier.
+
+			this.fieldIndices = new ScriptValue[ fieldNames.length ];
+			for ( int i = 0; i < fieldNames.length; ++i )
+				fieldIndices[i] = new ScriptValue( fieldNames[i] );
 		}
 
 		public String [] getFieldNames()
@@ -6308,6 +6353,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptType [] getFieldTypes()
 		{	return fieldTypes;
+                }
+
+		public ScriptValue [] getFieldIndices()
+		{	return fieldIndices;
                 }
 
 		public int fieldCount()
@@ -6333,7 +6382,7 @@ public class KoLmafiaASH extends StaticEntity
 			String val = field.toLowerCase();
 			for ( int index = 0; index < fieldNames.length; ++ index )
 				if ( val.equals( fieldNames[index] ) )
-					return new ScriptValue( index );
+					return fieldIndices[index];
 			return null;
 		}
 
@@ -6351,9 +6400,8 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( type.equals( TYPE_STRING ) )
 			{
-				String val = key.toString().toLowerCase();
-				for ( int index = 0; index < fieldNames.length; ++ index )
-					if ( val.equals( fieldNames[index] ) )
+				for ( int index = 0; index < fieldIndices.length; ++ index )
+					if ( key == fieldIndices[index] )
 						return index;
 				return -1;
 			}
