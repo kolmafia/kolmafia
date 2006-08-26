@@ -47,6 +47,7 @@ public class LoginRequest extends KoLRequest
 	private static String lastPassword;
 
 	private static boolean instanceRunning = false;
+	private static boolean isTimingIn = false;
 
 	private String username;
 	private String password;
@@ -116,15 +117,23 @@ public class LoginRequest extends KoLRequest
 
 	public static void executeTimeInRequest( boolean isRollover )
 	{
-		do
+		isTimingIn = true;
+
+		sessionID = null;
+		LoginRequest loginAttempt = new LoginRequest( StaticEntity.getClient(), lastUsername, lastPassword, false, false, true );
+
+		while ( sessionID == null && StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 15 ) );
 		{
 			KoLmafia.forceContinue();
-			(new LoginRequest( StaticEntity.getClient(), lastUsername, lastPassword, false, false, true )).run();
+			loginAttempt.run();
+
+			isRollover = loginAttempt.redirectLocation.indexOf( "maint" ) != -1;
 		}
-		while ( sessionID == null && StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 10 ) );
 
 		if ( sessionID != null )
 			KoLmafia.updateDisplay( "Session timed-in." );
+
+		isTimingIn = false;
 	}
 
 	public static boolean isInstanceRunning()
@@ -142,6 +151,8 @@ public class LoginRequest extends KoLRequest
 
 		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
 		{
+			if ( !isTimingIn )
+				executeTimeInRequest( true );
 		}
 		else if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
 		{

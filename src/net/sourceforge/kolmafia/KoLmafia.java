@@ -355,6 +355,12 @@ public abstract class KoLmafia implements KoLConstants
 
 		StaticEntity.setProperty( "lastUsername", username );
 
+		if ( !isQuickLogin )
+		{
+			KoLCharacter.reset( username );
+			KoLmafia.openSessionStream();
+		}
+
 		if ( isQuickLogin )
 		{
 			(new AccountRequest( this )).run();
@@ -363,9 +369,7 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		KoLCharacter.reset( username );
 		StaticEntity.reloadSettings();
-		KoLmafia.openSessionStream();
 		AdventureDatabase.refreshAdventureTable();
 
 		recentEffects.clear();
@@ -1825,7 +1829,7 @@ public abstract class KoLmafia implements KoLConstants
 		// class the current log stream is.
 
 		if ( !(sessionStream instanceof NullStream) )
-			return;
+			sessionStream.close();
 
 		if ( KoLCharacter.getUsername().equals( "" ) )
 			return;
