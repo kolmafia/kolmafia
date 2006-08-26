@@ -515,9 +515,6 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 		}
 
-		// Skip past equipped gear
-		parseQuestItems( responseText.substring( outfitIndex ) );
-
 		String [] oldEquipment = new String[9];
 		int oldFakeHands = KoLCharacter.getFakeHands();
 
@@ -541,6 +538,9 @@ public class EquipmentRequest extends PasswordHashRequest
 			KoLCharacter.refreshCalculatedLists();
 			CharpaneRequest.getInstance().run();
 		}
+
+		// Skip past equipped gear
+		parseQuestItems( responseText.substring( outfitIndex ) );
 
 		KoLCharacter.recalculateAdjustments( false );
 		KoLCharacter.updateStatus();
@@ -654,7 +654,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			// Add the difference between your existing count
 			// and the original count.
 
-			if ( inventoryCount < quantityValue )
+			if ( inventoryCount != quantityValue )
 			{
 				item = item.getInstance( quantityValue - inventoryCount );
 				AdventureResult.addResultToList( KoLCharacter.getInventory(), item );

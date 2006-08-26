@@ -659,8 +659,6 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) )
 		{
-			StaticEntity.setProperty( "lastUsername", parameters );
-
 			(new LogoutRequest( StaticEntity.getClient() )).run();
 			KoLmafia.forceContinue();
 
