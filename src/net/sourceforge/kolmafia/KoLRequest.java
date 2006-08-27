@@ -187,7 +187,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			// Determine the login server that will be used.
-			setLoginServer( SERVERS[ RNG.nextInt( SERVER_COUNT ) ][0] );
+			int setting = StaticEntity.parseInt( StaticEntity.getProperty( "loginServer" ) );
+			int server = ( setting < 1 || setting > SERVER_COUNT ) ? RNG.nextInt( SERVER_COUNT ) : setting - 1;
+			setLoginServer( SERVERS[server][0] );
 
 			if ( proxySet.equals( "true" ) )
 			{
