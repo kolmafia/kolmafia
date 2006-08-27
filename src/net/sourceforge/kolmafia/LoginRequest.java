@@ -105,6 +105,7 @@ public class LoginRequest extends KoLRequest
 		lastPassword = password;
 
 		boolean shouldContinue = false;
+		KoLRequest.applySettings();
 
 		do
 		{
