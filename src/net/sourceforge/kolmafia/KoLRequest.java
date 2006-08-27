@@ -966,7 +966,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// 300 and 399.  All these notify the user of a location
 			// to return to; deal with the ones which are errors.
 
-			if ( redirectLocation.equals( "maint.php" ) )
+			if ( redirectLocation.indexOf( "maint.php" ) != -1 )
 			{
 				// If the system is down for maintenance, the user must be
 				// notified that they should try again later.
@@ -980,18 +980,18 @@ public class KoLRequest implements Runnable, KoLConstants
 
 				shouldStop = true;
 			}
-			else if ( redirectLocation.startsWith( "login.php" ) )
+			else if ( redirectLocation.indexOf( "login.php" ) != -1 )
 			{
 				KoLmafia.updateDisplay( ABORT_STATE, "Session timed out." );
 				if ( !LoginRequest.isInstanceRunning() && StaticEntity.getProperty( "autoExecuteTimeIn" ).equals( "true" ) )
 				{
-					LoginRequest.executeTimeInRequest();
+					LoginRequest.executeTimeInRequest( false );
 					return sessionID == null;
 				}
 
 				shouldStop = true;
 			}
-			else if ( redirectLocation.equals( "choice.php" ) )
+			else if ( redirectLocation.indexOf( "choice.php" ) != -1 )
 			{
 				processChoiceAdventure();
 				processedResults = true;
@@ -1005,12 +1005,12 @@ public class KoLRequest implements Runnable, KoLConstants
 				constructURLString( redirectLocation );
 				return false;
 			}
-			else if ( redirectLocation.startsWith( "valhalla.php" ) )
+			else if ( redirectLocation.indexOf( "valhalla.php" ) != -1 )
 			{
 				passwordHash = "";
 				shouldStop = true;
 			}
-			else if ( redirectLocation.equals( "fight.php" ) && !(this instanceof LocalRelayRequest) )
+			else if ( redirectLocation.indexOf( "fight.php" ) != -1 && !(this instanceof LocalRelayRequest) )
 			{
 				// You have been redirected to a fight!  Here, you need
 				// to complete the fight before you can continue.

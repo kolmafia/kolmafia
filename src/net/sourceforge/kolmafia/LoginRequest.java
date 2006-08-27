@@ -33,8 +33,6 @@
  */
 
 package net.sourceforge.kolmafia;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
 
 /**
  * An extension of <code>KoLRequest</code> which handles logins.
@@ -48,8 +46,8 @@ public class LoginRequest extends KoLRequest
 	private static String lastUsername;
 	private static String lastPassword;
 
+	private static boolean isRollover = false;
 	private static boolean instanceRunning = false;
-	private static boolean isTimingIn = false;
 
 	private String username;
 	private String password;
@@ -97,23 +95,23 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
-		redirectLocation = "";
-		
 		if ( instanceRunning )
 			return;
 
+		instanceRunning = true;
 		lastUsername = username;
 		lastPassword = password;
 
-		synchronized ( LoginRequest.class )
+		do
 		{
-			instanceRunning = true;
-			while ( executeLogin() )
-				;
-			instanceRunning = false;
+			KoLmafia.forceContinue();
+			isRollover |= responseCode != 200 && redirectLocation != null &&
+				redirectLocation.indexOf( "maint.php" ) != -1;
 		}
+		while ( executeLogin() && StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 75 ) );
 
-		KoLmafia.enableDisplay();
+		isRollover = false;
+		instanceRunning = false;
 	}
 
 	public static void executeTimeInRequest()
@@ -122,25 +120,15 @@ public class LoginRequest extends KoLRequest
 
 	public static void executeTimeInRequest( boolean isRollover )
 	{
-		isTimingIn = true;
-
 		sessionID = null;
+		LoginRequest.isRollover = isRollover;
+
 		LoginRequest loginAttempt = new LoginRequest( StaticEntity.getClient(), lastUsername, lastPassword, false, false, true );
-
-		do
-		{
-			KoLmafia.forceContinue();
-			loginAttempt.run();
-
-			isRollover = loginAttempt.responseCode != 200 && loginAttempt.redirectLocation != null &&
-				loginAttempt.redirectLocation.indexOf( "maint" ) != -1;
-		}
-		while ( sessionID == null && StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 75 ) );
+		loginAttempt.run();
 
 		if ( sessionID != null )
 			KoLmafia.updateDisplay( "Session timed-in." );
 
-		isTimingIn = false;
 	}
 
 	public static boolean isInstanceRunning()
@@ -158,8 +146,11 @@ public class LoginRequest extends KoLRequest
 
 		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
 		{
-			if ( !isTimingIn )
-				executeTimeInRequest( true );
+			// Nightly maintenance, so KoLmafia should retry.
+			// Therefore, return true.
+
+			isRollover = true;
+			return true;
 		}
 		else if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
 		{
@@ -175,26 +166,15 @@ public class LoginRequest extends KoLRequest
 
 			sessionID = formConnection.getHeaderField( "Set-Cookie" );
 			client.initialize( username, this.getBreakfast, this.isQuickLogin );
+
+			return !KoLmafia.refusesContinue();
 		}
 		else if ( responseText.indexOf( "Please wait a minute" ) != -1 )
 		{
 			// Ooh, logged in too fast.  KoLmafia should recognize this and
 			// try again automatically in 75 seconds.
-			StaticEntity.executeCountdown( "Next login attempt in ", 75 );
+
 			return true;
-		}
-		else if ( responseText.indexOf( "Redirecting to www" ) != -1 )
-		{
-			// If it's a redirect, attempt to send the login request
-			// one more time after resetting the server.
-
-			Matcher newServerMatcher = Pattern.compile( "Redirecting to www(\\d)" ).matcher( responseText );
-			if ( newServerMatcher.find() )
-				KoLRequest.setLoginServer( "www" + newServerMatcher.group(1) + ".kingdomofloathing.com" );
-			else
-				KoLRequest.setLoginServer( "www.kingdomofloathing.com" );
-
-			this.executeLogin();
 		}
 		else
 		{
@@ -202,7 +182,7 @@ public class LoginRequest extends KoLRequest
 			// re-input their username and password.
 
 			KoLmafia.updateDisplay( ERROR_STATE, "Login failed." );
+			return false;
 		}
-		return false;
 	}
 }
