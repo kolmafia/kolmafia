@@ -1515,6 +1515,7 @@ public abstract class KoLmafia implements KoLConstants
 		int lastAscension = StaticEntity.parseInt( StaticEntity.getProperty( "lastTavernAscension" ) );
 		if ( lastAscension != KoLCharacter.getAscensions() )
 		{
+			StaticEntity.setProperty( "lastTavernSquare", "0" );
 			StaticEntity.setProperty( "lastTavernAscension", String.valueOf( KoLCharacter.getAscensions() ) );
 			for ( int i = 1; i <= 25; ++i )
 				StaticEntity.setProperty( "tavernSquare" + i, "0" );
@@ -1524,19 +1525,37 @@ public abstract class KoLmafia implements KoLConstants
 	public static void addTavernLocation( KoLRequest request )
 	{
 		KoLmafia.validateFaucetQuest();
-		if ( request.getFormField( "where" ) == null )
-			return;
 
-		// Handle fighting rats.  If this was done through
-		// the mini-browser, you'll have response text; else,
-		// the response text will be null.
+		if ( request.getURLString().indexOf( "fight" ) != -1 )
+		{
+			String lastSquare = StaticEntity.getProperty( "lastTavernSquare" );
+			if ( request.fullResponse != null )
+				StaticEntity.setProperty( lastSquare, request.fullResponse.indexOf( "Baron" ) != -1 ? "4" : "1" );
+		}
+		else
+		{
+			String urlString = request.getURLString();
+			if ( urlString.indexOf( "charpane" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.equals( "rats.php" ) )
+				return;
 
-		if ( request.responseText != null && request.responseText.indexOf( "faucetoff" ) != -1 )
-			StaticEntity.setProperty( "tavernSquare" + request.getFormField( "where" ), "3" );
-		else if ( request.responseText != null && request.responseText.indexOf( "You acquire an item" ) != -1 )
-			StaticEntity.setProperty( "tavernSquare" + request.getFormField( "where" ), "2" );
-		else if ( request.responseText == null || request.responseText.indexOf( "beaten up" ) == -1 )
-			StaticEntity.setProperty( "tavernSquare" + request.getFormField( "where" ), "1" );
+			Matcher squareMatcher = Pattern.compile( "where=(\\d+)" ).matcher( urlString );
+			if ( !squareMatcher.find() )
+				return;
+
+			// Handle fighting rats.  If this was done through
+			// the mini-browser, you'll have response text; else,
+			// the response text will be null.
+
+			String lastSquare = "tavernSquare" + squareMatcher.group(1);
+			StaticEntity.setProperty( "lastTavernSquare", lastSquare );
+
+			if ( request.fullResponse != null && request.fullResponse.indexOf( "faucetoff" ) != -1 )
+				StaticEntity.setProperty( lastSquare, "3" );
+			else if ( request.fullResponse != null && request.fullResponse.indexOf( "You acquire" ) != -1 )
+				StaticEntity.setProperty( lastSquare, "2" );
+			else
+				StaticEntity.setProperty( lastSquare, "1" );
+		}
 	}
 
 	/**

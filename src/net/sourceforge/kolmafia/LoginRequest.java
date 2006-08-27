@@ -122,13 +122,14 @@ public class LoginRequest extends KoLRequest
 		sessionID = null;
 		LoginRequest loginAttempt = new LoginRequest( StaticEntity.getClient(), lastUsername, lastPassword, false, false, true );
 
-		while ( sessionID == null && StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 15 ) );
+		do
 		{
 			KoLmafia.forceContinue();
 			loginAttempt.run();
 
-			isRollover = loginAttempt.redirectLocation.indexOf( "maint" ) != -1;
+			isRollover = loginAttempt.responseCode != 200 && loginAttempt.redirectLocation.indexOf( "maint" ) != -1;
 		}
+		while ( sessionID == null && StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 75 ) );
 
 		if ( sessionID != null )
 			KoLmafia.updateDisplay( "Session timed-in." );
@@ -168,6 +169,13 @@ public class LoginRequest extends KoLRequest
 
 			sessionID = formConnection.getHeaderField( "Set-Cookie" );
 			client.initialize( username, this.getBreakfast, this.isQuickLogin );
+		}
+		else if ( responseText.indexOf( "Please wait a minute" ) != -1 )
+		{
+			// Ooh, logged in too fast.  KoLmafia should recognize this and
+			// try again automatically in 75 seconds.
+
+			executeTimeInRequest( false );
 		}
 		else
 		{

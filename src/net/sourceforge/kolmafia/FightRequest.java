@@ -104,12 +104,19 @@ public class FightRequest extends KoLRequest
 
 		int haltTolerance = (int)( StaticEntity.parseDouble( getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
 
-		action1 = CombatSettings.getShortCombatOptionName( getProperty( "battleAction" ) );
-		action2 = null;
+		if ( passwordHash == null )
+		{
+			action1 = "attack";
+		}
+		else
+		{
+			action1 = CombatSettings.getShortCombatOptionName( getProperty( "battleAction" ) );
+			action2 = null;
 
-		for ( int i = 0; i < RARE_MONSTERS.length; ++i )
-			if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
-				KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
+			for ( int i = 0; i < RARE_MONSTERS.length; ++i )
+				if ( encounterLookup.indexOf( RARE_MONSTERS[i] ) != -1 )
+					KoLmafia.updateDisplay( ABORT_STATE, "You have encountered the " + encounter );
+		}
 
 		if ( roundCount == 1 )
 		{
@@ -224,13 +231,6 @@ public class FightRequest extends KoLRequest
 
 			if ( !KoLmafia.refusesContinue() )
 				nextRound();
-
-			if ( action1 != null && action1.equals( "attack" ) && monsterData != null && monsterData.willAlwaysMiss( defenseModifier ) )
-			{
-				action1 = null;
-				action2 = null;
-				clearDataFields();
-			}
 
 			super.run();
 

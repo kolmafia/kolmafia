@@ -283,6 +283,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		// These are settings related to the tavern faucet
 		// used to make the interface friendlier.
 
+		PLAYER_SETTINGS.put( "lastTavernSquare", "0" );
 		PLAYER_SETTINGS.put( "lastTavernAscension", "0" );
 		for ( int i = 1; i <= 25; ++i )
 			PLAYER_SETTINGS.put( "tavernSquare" + i, "0" );

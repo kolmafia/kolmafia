@@ -1052,17 +1052,22 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				case 1:
 					text = text.replaceFirst( "(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
-						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/adventureimages/rat.gif\" border=0></a>" );
+						" align=center valign=center$1<img src=\"http://images.kingdomofloathing.com/adventureimages/rat.gif\" border=0></a>" );
 					break;
 
 				case 2:
 					text = text.replaceFirst( "(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
-						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/otherimages/sigils/fratboy.gif\" border=0></a>" );
+						" align=center valign=center$1<img src=\"http://images.kingdomofloathing.com/otherimages/sigils/fratboy.gif\" border=0></a>" );
 					break;
 
 				case 3:
 					text = text.replaceFirst( "(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
-						" align=center valign=center$1<img src=\"http://" + IMAGE_SERVER + "/adventureimages/faucet.gif\" height=60 width=60 border=0></a>" );
+						" align=center valign=center$1<img src=\"http://images.kingdomofloathing.com/adventureimages/faucet.gif\" height=60 width=60 border=0></a>" );
+					break;
+
+				case 4:
+					text = text.replaceFirst( "(><a href=\"rats\\.php\\?where=" + i + "\">).*?</a>",
+						" align=center valign=center$1<img src=\"http://images.kingdomofloathing.com/adventureimages/ratsworth.gif\" height=60 width=60 border=0></a>" );
 					break;
 			}
 		}
