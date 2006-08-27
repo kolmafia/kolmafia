@@ -104,13 +104,17 @@ public class LoginRequest extends KoLRequest
 		lastUsername = username;
 		lastPassword = password;
 
+		boolean shouldContinue = false;
+
 		do
 		{
 			KoLmafia.forceContinue();
 			isRollover |= responseCode != 200 && redirectLocation != null &&
 				redirectLocation.indexOf( "maint.php" ) != -1;
+
+			shouldContinue = executeLogin();
 		}
-		while ( executeLogin() && StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 75 ) );
+		while ( shouldContinue && StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 75 ) );
 
 		isRollover = false;
 		instanceRunning = false;
