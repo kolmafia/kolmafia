@@ -668,89 +668,54 @@ public class LoginFrame extends KoLFrame
 
 		public ConnectionOptionsPanel()
 		{
-			super( "Connection Options", new Dimension( 80, 20 ), new Dimension( 380, 20 ) );
+			super( "Connection Options", new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
 
-			servers = new JComboBox();
-			servers.addItem( "Auto-select login server" );
-			for ( int i = 1; i <= KoLRequest.SERVER_COUNT; ++i )
-				servers.addItem( "Login using login server " + i );
+			optionBoxes = new JCheckBox[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i] = new JCheckBox();
 
-			VerifiableElement [] elements = new VerifiableElement[ 1 ];
-                        elements[0] = new VerifiableElement( "Server:", servers );
+			proxySet = optionBoxes[2];
+			proxyHost = new JTextField();
+			proxyPort = new JTextField();
+			proxyLogin = new JTextField();
+			proxyPassword = new JPasswordField();
 
-			setContent( elements );
+			VerifiableElement [] elements = new VerifiableElement[ options.length ];
+			for ( int i = 0; i < options.length; ++i )
+				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
+
+			setContent( elements, false );
 			actionCancelled();
 		}
 
-		protected void setContent( VerifiableElement [] elements )
+		protected void actionConfirmed()
 		{
-			super.setContent( elements );
-			container.add( new ConnectionCheckboxPanel(), BorderLayout.SOUTH );
+			super.actionConfirmed();
+
+			for ( int i = 0; i < optionBoxes.length; ++i )
+				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
+
+			if ( proxySet == null )
+				return;
+
+			proxyHost.setEnabled( proxySet.isSelected() );
+			proxyPort.setEnabled( proxySet.isSelected() );
+			proxyLogin.setEnabled( proxySet.isSelected() );
+			proxyPassword.setEnabled( proxySet.isSelected() );
 		}
 
-		public void actionConfirmed()
+		protected void actionCancelled()
 		{
-			StaticEntity.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
-		}
+			for ( int i = 0; i < options.length; ++i )
+				optionBoxes[i].setSelected( getProperty( options[i][0] ).equals( "true" ) );
 
-		public void actionCancelled()
-		{
-			servers.setSelectedItem( StaticEntity.getProperty( "loginServer" ) );
-		}
+			if ( proxySet == null )
+				return;
 
-		private class ConnectionCheckboxPanel extends OptionsPanel
-		{
-			public ConnectionCheckboxPanel()
-			{
-				super( new Dimension( 370, 16 ), new Dimension( 20, 16 ) );
-
-				optionBoxes = new JCheckBox[ options.length ];
-				for ( int i = 0; i < options.length; ++i )
-					optionBoxes[i] = new JCheckBox();
-
-                                proxySet = optionBoxes[2];
-                                proxyHost = new JTextField();
-                                proxyPort = new JTextField();
-                                proxyLogin = new JTextField();
-                                proxyPassword = new JPasswordField();
-
-				VerifiableElement [] elements = new VerifiableElement[ options.length ];
-				for ( int i = 0; i < options.length; ++i )
-					elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
-
-				setContent( elements, false );
-				actionCancelled();
-			}
-
-			protected void actionConfirmed()
-			{
-				super.actionConfirmed();
-
-				for ( int i = 0; i < optionBoxes.length; ++i )
-					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
-
-				if ( proxySet == null )
-					return;
-
-				proxyHost.setEnabled( proxySet.isSelected() );
-				proxyPort.setEnabled( proxySet.isSelected() );
-				proxyLogin.setEnabled( proxySet.isSelected() );
-				proxyPassword.setEnabled( proxySet.isSelected() );
-			}
-
-			protected void actionCancelled()
-			{
-				for ( int i = 0; i < options.length; ++i )
-					optionBoxes[i].setSelected( getProperty( options[i][0] ).equals( "true" ) );
-
-				if ( proxySet == null )
-					return;
-
-				proxyHost.setEnabled( proxySet.isSelected() );
-				proxyPort.setEnabled( proxySet.isSelected() );
-				proxyLogin.setEnabled( proxySet.isSelected() );
-				proxyPassword.setEnabled( proxySet.isSelected() );
-			}
+			proxyHost.setEnabled( proxySet.isSelected() );
+			proxyPort.setEnabled( proxySet.isSelected() );
+			proxyLogin.setEnabled( proxySet.isSelected() );
+			proxyPassword.setEnabled( proxySet.isSelected() );
 		}
 	}
 

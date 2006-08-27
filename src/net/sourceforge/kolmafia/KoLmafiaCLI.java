@@ -2424,12 +2424,6 @@ public class KoLmafiaCLI extends KoLmafia
 				return;
 		}
 
-		if ( !KoLCharacter.hasItem( match, false ) )
-		{
-			updateDisplay( ERROR_STATE, "You do not have a " + match.getName() + " to equip." );
-			return;
-		}
-
 		// If you are currently dual-wielding and the new weapon type
 		// (melee or ranged) doesn't match the offhand weapon, unequip
 		// the off-hand weapon
@@ -3415,12 +3409,19 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( lowercaseOutfitName.equals( "birthday suit" ) || lowercaseOutfitName.equals( "nothing" ) )
 			return SpecialOutfit.BIRTHDAY_SUIT;
 
-		Object [] outfits = new Object[ KoLCharacter.getOutfits().size() ];
+		Object [] outfits = new Object[ KoLCharacter.getCustomOutfits().size() ];
 		KoLCharacter.getOutfits().toArray( outfits );
 
 		for ( int i = 0; i < outfits.length; ++i )
 			if ( outfits[i] instanceof SpecialOutfit && outfits[i].toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
 				return (SpecialOutfit) outfits[i];
+
+		for ( int i = 0; i < EquipmentDatabase.getOutfitCount(); ++i )
+		{
+			SpecialOutfit test = EquipmentDatabase.getOutfit( i );
+			if ( test != null && test.toString().toLowerCase().indexOf( lowercaseOutfitName ) != -1 )
+				return test;
+		}
 
 		return null;
 	}

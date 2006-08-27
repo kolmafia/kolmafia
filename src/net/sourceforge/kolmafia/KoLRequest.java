@@ -223,7 +223,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	 * @param	server	The hostname of the server to be used.
 	 */
 
-	private static void setLoginServer( String server )
+	public static void setLoginServer( String server )
 	{
 		for ( int i = 0; i < SERVERS.length; ++i )
 			if ( SERVERS[i][0].equals( server ) )
@@ -1074,33 +1074,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			responseText = replyBuffer.toString();
-			
-			// KoL sometimes switches servers while logging in. It returns a hidden form
-			// with responseCode 200.
-	
-			// <html>
-			//   <body>
-			//     <form name=formredirect method=post action="http://www.kingdomofloathing.com/login.php">
-			//       <input type=hidden name=loginname value="xxx">
-			//       <input type=hidden name=loggingin value="Yup.">
-			//       <input type=hidden name=password value="xxx">
-			//     </form>
-			//   </body>
-			// </html>Redirecting to www.
-			
-			if ( responseCode == 200 && this instanceof LoginRequest && responseText.indexOf( "name=formredirect" ) != -1 )
-			{
-				Matcher matcher = Pattern.compile( "http://(.*?)/login.php", Pattern.DOTALL ).matcher( responseText );
-				if ( matcher.find() )
-				{
-					redirectLocation = matcher.group();
-					String server = matcher.group( 1 );
-					if ( server != null )
-						setLoginServer( server );
-				}
-				return false;
-			}
-			
 			responseText = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
 			responseText = Pattern.compile( "<style.*?</style>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
 			responseText = Pattern.compile( "<!--.*?-->", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
@@ -1410,21 +1383,13 @@ public class KoLRequest implements Runnable, KoLConstants
 				decision = ignoreChoice;
 		}
 
-		// Make sure that we've resolved to a non-0 choice.
+		// Make sure that we've resolved to a non-zero choice.  If it's
+		// a zero choice, or a complete the outfit (decision 4) or if
+		// you have a non-empty list of conditions, then use the outfit
+		// selection algorithm.
 
-		if ( decision.equals( "0" ) )
-		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Can't ignore choice adventure #" + choice );
-			request.showInBrowser( true );
-			return;
-		}
-
-		// Only change the decision if you are told to either
-		// complete the outfit (decision 4) or if you have a
-		// non-empty list of conditions.
-
-		if ( decision.equals( "4" ) || !client.getConditions().isEmpty() )
-			decision = pickOutfitChoice( option, decision );
+		if ( decision.equals( "0" ) || decision.equals( "4" ) || !client.getConditions().isEmpty() )
+			pickOutfitChoice( option, decision );
 
 		request.clearDataFields();
 		request.addFormField( "pwd" );
@@ -1489,18 +1454,29 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 
 		// Choose an item the player does not have
-		for ( int i = 0; i < possibleDecisions.length; ++i )
+
+		if ( decision.equals( "0" ) || decision.equals( "4" ) )
 		{
-			if ( possibleDecisions[i] != null )
+			for ( int i = 0; i < possibleDecisions.length; ++i )
 			{
-				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
-				if ( !KoLCharacter.hasItem( item, false ) )
-					return String.valueOf( i + 1 );
+				if ( possibleDecisions[i] != null )
+				{
+					AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
+					if ( !KoLCharacter.hasItem( item, false ) )
+						return String.valueOf( i + 1 );
+				}
 			}
+
+			// If they have everything and it's an ignore choice, then use
+			// randomization to select which decision to make.
+
+			return String.valueOf( RNG.nextInt(3) + 1 );
 		}
 
-		// If they have everything, just make a random choice.
-		return String.valueOf( RNG.nextInt(3) + 1 );
+		// Otherwise, return the original decision
+		// made by the player.
+
+		return decision;
 	}
 
 	/*

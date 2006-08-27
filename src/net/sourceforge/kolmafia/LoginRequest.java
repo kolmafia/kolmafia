@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * An extension of <code>KoLRequest</code> which handles logins.
@@ -130,7 +132,8 @@ public class LoginRequest extends KoLRequest
 			KoLmafia.forceContinue();
 			loginAttempt.run();
 
-			isRollover = loginAttempt.responseCode != 200 && loginAttempt.redirectLocation.indexOf( "maint" ) != -1;
+			isRollover = loginAttempt.responseCode != 200 && loginAttempt.redirectLocation != null &&
+				loginAttempt.redirectLocation.indexOf( "maint" ) != -1;
 		}
 		while ( sessionID == null && StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 75 ) );
 
@@ -179,6 +182,19 @@ public class LoginRequest extends KoLRequest
 			// try again automatically in 75 seconds.
 			StaticEntity.executeCountdown( "Next login attempt in ", 75 );
 			return true;
+		}
+		else if ( responseText.indexOf( "Redirecting to www" ) != -1 )
+		{
+			// If it's a redirect, attempt to send the login request
+			// one more time after resetting the server.
+
+			Matcher newServerMatcher = Pattern.compile( "Redirecting to www(\\d)" ).matcher( responseText );
+			if ( newServerMatcher.find() )
+				KoLRequest.setLoginServer( "www" + newServerMatcher.group(1) + ".kingdomofloathing.com" );
+			else
+				KoLRequest.setLoginServer( "www.kingdomofloathing.com" );
+
+			this.executeLogin();
 		}
 		else
 		{
