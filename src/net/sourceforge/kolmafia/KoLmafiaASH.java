@@ -2705,6 +2705,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "drink", BOOLEAN_TYPE, params ) );
 
+		params = new ScriptType[] { INT_TYPE, ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "hobo_drink", BOOLEAN_TYPE, params ) );
+
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "item_amount", INT_TYPE, params ) );
 
@@ -3927,6 +3930,15 @@ public class KoLmafiaASH extends StaticEntity
 				return continueValue();
 
 			DEFAULT_SHELL.executeLine( "drink " + count.intValue() + " " + item.toStringValue() );
+			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
+		}
+
+		public ScriptValue hobo_drink( ScriptVariable count, ScriptVariable item )
+		{
+			if ( count.intValue() <= 0 )
+				return continueValue();
+
+			DEFAULT_SHELL.executeLine( "hobodrink " + count.intValue() + " " + item.toStringValue() );
 			return ConsumeItemRequest.lastUpdate.equals( "" ) ? continueValue() : FALSE_VALUE;
 		}
 

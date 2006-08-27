@@ -207,7 +207,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "browserBookmarks", "" );
-		CLIENT_SETTINGS.put( "cacheRelayImages", "true" );
+		CLIENT_SETTINGS.put( "cacheRelayImages", "false" );
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
 		CLIENT_SETTINGS.put( "chosenTrip", "" );
 		CLIENT_SETTINGS.put( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
@@ -250,6 +250,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "showStashIngredients", "false" );
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
+		CLIENT_SETTINGS.put( "trackLocationChanges", "false" );
 		CLIENT_SETTINGS.put( "useNonBlockingReader", "false" );
 
 		CLIENT_SETTINGS.put( "useSystemTrayIcon", "false" );

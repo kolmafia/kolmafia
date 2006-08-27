@@ -499,6 +499,23 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// Allow a version which lets you see the resulting
+		// text without loading a mini/relay browser window.
+
+		if ( command.equals( "text" ) )
+		{
+			if ( parameters.indexOf( "send" ) != -1 || parameters.indexOf( "chat" ) != -1 )
+				return;
+
+			KoLRequest desired = new KoLRequest( StaticEntity.getClient(), previousLine, true );
+			StaticEntity.getClient().makeRequest( desired );
+			StaticEntity.externalUpdate( desired.getURLString(), desired.responseText );
+
+			showHTML( desired.getURLString(), desired.responseText );
+			return;
+
+		}
+
 		// Maybe the person wants to load up their browser
 		// from the KoLmafia CLI?
 
@@ -1069,9 +1086,9 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		// One command available after login is a request
-		// to print the current state of the StaticEntity.getClient().  This
+		// to print the current state of the client.  This
 		// should be handled in a separate method, since
-		// there are many things the StaticEntity.getClient() may want to print
+		// there are many things the client may want to print
 
 		if ( command.equals( "print" ) || command.equals( "list" ) || command.equals( "show" ) )
 		{
@@ -1083,7 +1100,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// requests are complicated, so delegate to the
 		// appropriate utility method.
 
-		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) )
+		if ( command.equals( "eat" ) || command.equals( "drink" ) || command.equals( "use" ) || command.equals( "hobodrink" ) )
 		{
 			executeConsumeItemRequest( parameters );
 			return;
@@ -3290,7 +3307,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		if ( previousLine.startsWith( "drink" ) )
+		if ( previousLine.startsWith( "drink" ) || previousLine.startsWith( "hobodrink" ) )
 		{
 			if ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemID() ) != ConsumeItemRequest.CONSUME_DRINK )
 			{
@@ -3312,10 +3329,10 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		itemName = firstMatch.getName();
-		itemCount = firstMatch.getCount();
-		StaticEntity.getClient().makeRequest( new ConsumeItemRequest(
-			StaticEntity.getClient(), new AdventureResult( itemName, itemCount, false ) ) );
+		ConsumeItemRequest request = !previousLine.startsWith( "hobodrink" ) ? new ConsumeItemRequest( StaticEntity.getClient(), firstMatch ) :
+			new ConsumeItemRequest( StaticEntity.getClient(), ConsumeItemRequest.CONSUME_HOBO, firstMatch );
+
+		StaticEntity.getClient().makeRequest( request );
 	}
 
 	/**
