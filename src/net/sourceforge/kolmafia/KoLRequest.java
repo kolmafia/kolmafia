@@ -225,6 +225,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public static void setLoginServer( String server )
 	{
+		if ( server == null )
+			return;
+
 		for ( int i = 0; i < SERVERS.length; ++i )
 			if ( SERVERS[i][0].equals( server ) )
 			{

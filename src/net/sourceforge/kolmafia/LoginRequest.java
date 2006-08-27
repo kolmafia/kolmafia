@@ -176,7 +176,7 @@ public class LoginRequest extends KoLRequest
 
 			return true;
 		}
-		else if ( responseText.indexOf( "formredirect" ) != -1 )
+		else if ( responseText.indexOf( "login.php" ) != -1 )
 		{
 			// KoL sometimes switches servers while logging in. It returns a hidden form
 			// with responseCode 200.
@@ -191,7 +191,7 @@ public class LoginRequest extends KoLRequest
 			//   </body>
 			// </html>Redirecting to www.
 
-			Matcher matcher = Pattern.compile( "http://(.*?)/login.php", Pattern.DOTALL ).matcher( responseText );
+			Matcher matcher = Pattern.compile( "http://(.*?)/login\\.php", Pattern.DOTALL ).matcher( responseText );
 			if ( matcher.find() )
 			{
 				redirectLocation = matcher.group();
