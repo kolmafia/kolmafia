@@ -672,8 +672,10 @@ public class LoginFrame extends KoLFrame
 
 			servers = new JComboBox();
 			servers.addItem( "Select random login server" );
-			for ( int i = 1; i <= KoLRequest.SERVER_COUNT; ++i )
-				servers.addItem( "Login using " + i );
+			servers.addItem( "Login using www.kingdomofloathing.com" );
+
+			for ( int i = 2; i <= KoLRequest.SERVER_COUNT; ++i )
+				servers.addItem( "Login using www" + i + ".kingdomofloathing.com" );
 
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Server: ", servers );
