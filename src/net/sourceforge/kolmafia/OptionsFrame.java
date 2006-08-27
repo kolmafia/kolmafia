@@ -249,7 +249,7 @@ public class OptionsFrame extends KoLFrame
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
 			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
 			{ "sortAdventures", "Sort adventure list display by moxie evade rating" },
-			{ "allowStasisTactics", "Allow stasis-type commands for non-combat" }
+			{ "allowStasisTactics", "Allow stasis-type commands when using combat familiars" }
 		};
 
 		/**

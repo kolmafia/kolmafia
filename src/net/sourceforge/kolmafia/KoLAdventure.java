@@ -554,22 +554,31 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Check for dictionaries as a battle strategy, if the
 		// person is not adventuring at the chasm.
 
-		if ( !allowStasis && !adventureID.equals( "80" ) && request instanceof AdventureRequest &&
+		if ( !adventureID.equals( "80" ) && request instanceof AdventureRequest &&
 			request.getAdventuresUsed() == 1 && (action.equals( "item536" ) || action.equals( "item1316" )) &&
 			KoLCharacter.getFamiliar().getID() != 16 && KoLCharacter.getFamiliar().getID() != 17 && KoLCharacter.getFamiliar().getID() != 48 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
-			KoLCharacter.setNextAdventure( null );
-			return;
+			// Only allow damage-dealing familiars when using
+			// stasis techniques.
+
+			if ( !allowStasis || !KoLCharacter.getFamiliar().isCombatFamiliar() )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
+				KoLCharacter.setNextAdventure( null );
+				return;
+			}
 		}
 
 		// If the person doesn't stand a chance of surviving,
 		// automatically quit and tell them so.
 
-		if ( !allowStasis && action.equals( "attack" ) && areaSummary != null && !areaSummary.willHitSomething() )
+		if ( action.equals( "attack" ) && areaSummary != null && !areaSummary.willHitSomething() )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "You can't hit anything there." );
-			return;
+			if ( !allowStasis || !KoLCharacter.getFamiliar().isCombatFamiliar() )
+			{
+				KoLmafia.updateDisplay( ABORT_STATE, "You can't hit anything there." );
+				return;
+			}
 		}
 
 		if ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) &&
