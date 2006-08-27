@@ -95,6 +95,8 @@ public class LoginRequest extends KoLRequest
 
 	public void run()
 	{
+		redirectLocation = "";
+		
 		if ( instanceRunning )
 			return;
 
@@ -104,7 +106,8 @@ public class LoginRequest extends KoLRequest
 		synchronized ( LoginRequest.class )
 		{
 			instanceRunning = true;
-			executeLogin();
+			while ( executeLogin() )
+				;
 			instanceRunning = false;
 		}
 
@@ -141,7 +144,7 @@ public class LoginRequest extends KoLRequest
 	{	return instanceRunning;
 	}
 
-	public void executeLogin()
+	public boolean executeLogin()
 	{
 		sessionID = null;
 		KoLRequest.applySettings();
@@ -174,8 +177,8 @@ public class LoginRequest extends KoLRequest
 		{
 			// Ooh, logged in too fast.  KoLmafia should recognize this and
 			// try again automatically in 75 seconds.
-
-			executeTimeInRequest( false );
+			StaticEntity.executeCountdown( "Next login attempt in ", 75 );
+			return true;
 		}
 		else
 		{
@@ -184,5 +187,6 @@ public class LoginRequest extends KoLRequest
 
 			KoLmafia.updateDisplay( ERROR_STATE, "Login failed." );
 		}
+		return false;
 	}
 }
