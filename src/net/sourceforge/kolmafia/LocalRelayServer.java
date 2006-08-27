@@ -324,8 +324,9 @@ public class LocalRelayServer implements Runnable
 
 				method = line.trim().substring( 0, spaceIndex );
 				int lastSpaceIndex = line.lastIndexOf( " " );
+
 				String path = line.substring( spaceIndex, lastSpaceIndex ).trim();
-				request = new LocalRelayRequest( StaticEntity.getClient(), path, false );
+				request = new LocalRelayRequest( StaticEntity.getClient(), path );
 			}
 			catch ( Exception e )
 			{

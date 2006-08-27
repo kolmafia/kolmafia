@@ -74,7 +74,9 @@ public class KoLRequest implements Runnable, KoLConstants
 {
 	protected static String sessionID = null;
 	protected static String passwordHash = null;
+
 	protected static boolean usingValidConnection = true;
+	protected static boolean isRatQuest = false;
 
 	private static final AdventureResult [] WOODS_ITEMS = new AdventureResult[12];
 	static
@@ -103,13 +105,13 @@ public class KoLRequest implements Runnable, KoLConstants
 	private static String KOL_HOST = SERVERS[0][0];
 	private static String KOL_ROOT = "http://" + SERVERS[0][1] + "/";
 
-	private URL formURL;
-	private boolean followRedirects;
+	protected URL formURL;
+	protected boolean followRedirects;
 	protected String formURLString;
 
-	private boolean isChatRequest = false;
-	private boolean isEquipResult = false;
-	private boolean isConsumeRequest = false;
+	protected boolean isChatRequest = false;
+	protected boolean isEquipResult = false;
+	protected boolean isConsumeRequest = false;
 
 	private List data;
 
@@ -279,6 +281,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.data = new ArrayList();
 		this.followRedirects = followRedirects;
 
+		if ( formURLString.startsWith( "/" ) )
+			formURLString = formURLString.substring(1);
+
 		constructURLString( formURLString );
 	}
 
@@ -288,16 +293,17 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( newURLString.startsWith( "/" ) )
 			newURLString = newURLString.substring(1);
 
-		if ( newURLString.indexOf( "?" ) == -1 || newURLString.endsWith( "?" ) )
+		int formSplitIndex = newURLString.indexOf( "?" );
+
+		if ( formSplitIndex == -1 )
 		{
 			this.formURLString = newURLString;
 			return;
 		}
 
-		String [] splitURLString = newURLString.split( "\\?" );
-		this.formURLString = splitURLString[0];
+		this.formURLString = newURLString.substring( 0, formSplitIndex );
 		this.isChatRequest = this instanceof ChatRequest || this.formURLString.indexOf( "chat" ) != -1;
-		addEncodedFormFields( splitURLString[1] );
+		addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
 	}
 
 	/**
@@ -547,6 +553,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			String oldAction = StaticEntity.getProperty( "battleAction" );
 			StaticEntity.setProperty( "battleAction", "attack" );
+
 			FightRequest request = new FightRequest( client, false );
 			request.run();
 
@@ -576,7 +583,15 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void execute()
 	{
-		boolean isRatQuest = formURLString.indexOf( "rats.php" ) != -1;
+		// If this is the rat quest, then go ahead and pre-set the data
+		// to reflect a fight sequence (mini-browser compatibility).
+
+		isRatQuest |= formURLString.indexOf( "rats.php" ) != -1;
+		if ( !isChatRequest && formURLString.indexOf( "charpane" ) == -1 && formURLString.indexOf( "rats.php" ) == -1 )
+			isRatQuest &= formURLString.indexOf( "fight.php" ) != -1;
+
+		if ( isRatQuest )
+			KoLmafia.addTavernLocation( this );
 
 		readInputLength = 0;
 		totalInputLength = 0;
@@ -595,9 +610,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( getURLString().endsWith( "lair6.php?place=6" ) )
 			KoLCharacter.setInteraction( KoLCharacter.getTotalTurnsUsed() >= 600 );
 
-		if ( isRatQuest )
-			KoLmafia.validateFaucetQuest();
-
 		do
 		{
 			statusChanged = false;
@@ -605,9 +617,6 @@ public class KoLRequest implements Runnable, KoLConstants
 				KoLRequest.delay();
 		}
 		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
-
-		if ( isRatQuest )
-			KoLmafia.addTavernLocation( this );
 
 		if ( responseCode == 200 && responseText != null )
 		{
@@ -1144,6 +1153,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			LocalRelayServer.addStatusMessage( "<!-- REFRESH -->" );
 
 		this.fullResponse = rawResponse;
+
+		if ( isRatQuest )
+			KoLmafia.addTavernLocation( this );
 	}
 
 	/**

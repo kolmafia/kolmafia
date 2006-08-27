@@ -53,8 +53,8 @@ public class LocalRelayRequest extends KoLRequest
 	private static boolean isRunningCommand = false;
 	protected List headers = new ArrayList();
 
-	public LocalRelayRequest( KoLmafia client, String formURLString, boolean followRedirects )
-	{	super( client, formURLString, followRedirects );
+	public LocalRelayRequest( KoLmafia client, String formURLString )
+	{	super( client, formURLString );
 	}
 
 	public String getFullResponse()
@@ -627,7 +627,7 @@ public class LocalRelayRequest extends KoLRequest
 
 	private void downloadSimulatorFile( String filename )
 	{
-		LocalRelayRequest request = new LocalRelayRequest( client, "http://sol.kolmafia.us/" + filename, false );
+		LocalRelayRequest request = new LocalRelayRequest( client, "http://sol.kolmafia.us/" + filename );
 		request.run();
 
 		File directory = new File( "html/simulator/" );
