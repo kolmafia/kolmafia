@@ -671,11 +671,11 @@ public class LoginFrame extends KoLFrame
 			super( "Connection Options", new Dimension( 80, 20 ), new Dimension( 380, 20 ) );
 
 			servers = new JComboBox();
-			servers.addItem( "Select random login server" );
-			servers.addItem( "Login using www.kingdomofloathing.com" );
+			servers.addItem( "Select random server for login attempt" );
+			servers.addItem( "Attempt to use www.kingdomofloathing.com" );
 
 			for ( int i = 2; i <= KoLRequest.SERVER_COUNT; ++i )
-				servers.addItem( "Login using www" + i + ".kingdomofloathing.com" );
+				servers.addItem( "Attempt to use www" + i + ".kingdomofloathing.com" );
 
 			VerifiableElement [] elements = new VerifiableElement[1];
 			elements[0] = new VerifiableElement( "Server: ", servers );
