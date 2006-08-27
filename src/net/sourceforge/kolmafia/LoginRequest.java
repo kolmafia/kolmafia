@@ -167,7 +167,7 @@ public class LoginRequest extends KoLRequest
 			sessionID = formConnection.getHeaderField( "Set-Cookie" );
 			client.initialize( username, this.getBreakfast, this.isQuickLogin );
 
-			return !KoLmafia.refusesContinue();
+			return false;
 		}
 		else if ( responseText.indexOf( "Please wait a minute" ) != -1 )
 		{
