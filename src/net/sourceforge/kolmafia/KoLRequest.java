@@ -58,6 +58,8 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.Map;
+import java.util.Iterator;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -939,7 +941,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			// Add in an extra delay in the event of a time-out in
 			// order to be nicer on the KoL servers.
 
-			if ( this instanceof LoginRequest)
+			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 			else
 				KoLRequest.delay();
@@ -1048,22 +1050,19 @@ public class KoLRequest implements Runnable, KoLConstants
 				// to make it easier for string parsing, the line breaks will
 				// ultimately be preserved.
 
-				else
+				if ( !isChatRequest )
+					KoLmafia.getDebugStream().println( "Reading page content..." );
+
+				// Line breaks bloat the log, but they are important
+				// inside <textarea> input fields.
+
+				do
 				{
-					if ( !isChatRequest )
-						KoLmafia.getDebugStream().println( "Reading page content..." );
-
-					// Line breaks bloat the log, but they are important
-					// inside <textarea> input fields.
-
-					do
-					{
-						replyBuffer.append( line );
-						if ( reader != null )
-							replyBuffer.append( LINE_BREAK );
-					}
-					while ( (line = reader == null ? read( istream ) : reader.readLine()) != null );
+					replyBuffer.append( line );
+					if ( reader != null )
+						replyBuffer.append( LINE_BREAK );
 				}
+				while ( (line = reader == null ? read( istream ) : reader.readLine()) != null );
 			}
 			catch ( Exception e )
 			{
@@ -1075,6 +1074,33 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			responseText = replyBuffer.toString();
+			
+			// KoL sometimes switches servers while logging in. It returns a hidden form
+			// with responseCode 200.
+	
+			// <html>
+			//   <body>
+			//     <form name=formredirect method=post action="http://www.kingdomofloathing.com/login.php">
+			//       <input type=hidden name=loginname value="xxx">
+			//       <input type=hidden name=loggingin value="Yup.">
+			//       <input type=hidden name=password value="xxx">
+			//     </form>
+			//   </body>
+			// </html>Redirecting to www.
+			
+			if ( responseCode == 200 && this instanceof LoginRequest && responseText.indexOf( "name=formredirect" ) != -1 )
+			{
+				Matcher matcher = Pattern.compile( "http://(.*?)/login.php", Pattern.DOTALL ).matcher( responseText );
+				if ( matcher.find() )
+				{
+					redirectLocation = matcher.group();
+					String server = matcher.group( 1 );
+					if ( server != null )
+						setLoginServer( server );
+				}
+				return false;
+			}
+			
 			responseText = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
 			responseText = Pattern.compile( "<style.*?</style>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
 			responseText = Pattern.compile( "<!--.*?-->", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
@@ -1087,7 +1113,6 @@ public class KoLRequest implements Runnable, KoLConstants
 				String response = responseText.replaceAll( "[\r\n]+", "" ).replaceAll( "name=pwd value=\"?[^>]*>", "" ).replaceAll( "pwd=[0-9a-f]+", "" );
 				KoLmafia.getDebugStream().println( response );
 			}
-
 
 			checkForNewEvents();
 			processRawResponse( replyBuffer.toString() );
@@ -1628,5 +1653,32 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public String toString()
 	{	return getURLString();
+	}
+
+	private void printHeaderFields()
+	{
+		Map headerFields = formConnection.getHeaderFields();
+		KoLmafia.getDebugStream().println( headerFields.size() + " header fields" );
+
+		Iterator iterator = headerFields.entrySet().iterator();
+		while ( iterator.hasNext() )
+		{
+			Map.Entry entry = (Map.Entry)iterator.next();
+			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
+		}
+	}
+
+	private void printRequestProperties()
+	{
+
+		Map requestProperties = formConnection.getRequestProperties();
+		KoLmafia.getDebugStream().println( requestProperties.size() + " request properties" );
+
+		Iterator iterator = requestProperties.entrySet().iterator();
+		while ( iterator.hasNext() )
+		{
+			Map.Entry entry = (Map.Entry)iterator.next();
+			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
+		}
 	}
 }
