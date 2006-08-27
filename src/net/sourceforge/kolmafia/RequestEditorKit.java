@@ -1022,7 +1022,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					// List # in inventory
 					newText.append( " - " );
 					AdventureResult result = new AdventureResult( StaticEntity.parseInt( itemID ), 1 );
-					newText.append( result.getCount( KoLCharacter.getInventory() ) );
+
+					int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
+					available += result.getCount( KoLCharacter.getInventory() );
+
+					newText.append( available );
 					newText.append( " in inventory" );
 				}
 			}

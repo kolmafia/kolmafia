@@ -193,6 +193,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		if ( !CLIENT_SETTINGS.isEmpty() )
 			return;
 
+		CLIENT_SETTINGS.put( "allowStasisTactics", "false" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "true" );
 		CLIENT_SETTINGS.put( "assumeInfiniteNPCItems", "false" );
 		CLIENT_SETTINGS.put( "autoCheckpoint", "true" );
@@ -245,7 +246,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp | mood execute | use astral mushroom" );
 		CLIENT_SETTINGS.put( "serverFriendly", "false" );
-		CLIENT_SETTINGS.put( "showAdventureZone", "true" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
 		CLIENT_SETTINGS.put( "showClosetIngredients", "true" );
 		CLIENT_SETTINGS.put( "showStashIngredients", "false" );

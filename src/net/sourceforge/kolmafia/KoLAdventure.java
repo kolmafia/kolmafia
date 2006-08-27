@@ -474,11 +474,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			stringForm.append( "<html><font color=gray>" );
 		}
 
-		if ( StaticEntity.getProperty( "showAdventureZone" ).equals( "true" ) )
-		{
-			stringForm.append( zone );
-			stringForm.append( ": " );
-		}
+		stringForm.append( zone );
+		stringForm.append( ": " );
 
 		stringForm.append( adventureName );
 		if ( hasHTML )
@@ -552,10 +549,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
+		boolean allowStasis = StaticEntity.getProperty( "allowStasisTactics" ).equals( "true" );
+
 		// Check for dictionaries as a battle strategy, if the
 		// person is not adventuring at the chasm.
 
-		if ( !adventureID.equals( "80" ) && request instanceof AdventureRequest &&
+		if ( !allowStasis && !adventureID.equals( "80" ) && request instanceof AdventureRequest &&
 			request.getAdventuresUsed() == 1 && (action.equals( "item536" ) || action.equals( "item1316" )) &&
 			KoLCharacter.getFamiliar().getID() != 16 && KoLCharacter.getFamiliar().getID() != 17 && KoLCharacter.getFamiliar().getID() != 48 )
 		{
@@ -567,9 +566,16 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// If the person doesn't stand a chance of surviving,
 		// automatically quit and tell them so.
 
-		if ( action.equals( "attack" ) && areaSummary != null && !areaSummary.willHitSomething() )
+		if ( !allowStasis && action.equals( "attack" ) && areaSummary != null && !areaSummary.willHitSomething() )
 		{
-			KoLmafia.updateDisplay( ABORT_STATE, "You don't stand a chance." );
+			KoLmafia.updateDisplay( ABORT_STATE, "You can't hit anything there." );
+			return;
+		}
+
+		if ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) &&
+			EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) ) )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smacks should use non-ranged weapons." );
 			return;
 		}
 
@@ -664,6 +670,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	public int compareTo( KoLAdventure ka )
-	{	return toString().compareToIgnoreCase( ka.toString() );
+	{	return areaSummary.minEvade() - ka.areaSummary.minEvade();
 	}
 }

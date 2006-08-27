@@ -246,10 +246,10 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "showAllRequests", "Show requests in mini-browser" },
+			{ "showAllRequests", "Show requests synchronously in mini-browser" },
 			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
-			{ "sortAdventures", "Sort adventure list display alphabetically by name" },
-			{ "showAdventureZone", "Include name of zone in adventure list display" }
+			{ "sortAdventures", "Sort adventure list display by moxie evade rating" },
+			{ "allowStasisTactics", "Allow stasis-type commands for non-combat" }
 		};
 
 		/**
@@ -518,7 +518,7 @@ public class OptionsFrame extends KoLFrame
 				optionSelects[i] = new JComboBox();
 
 				boolean ignorable = AdventureDatabase.ignoreChoiceOption( AdventureDatabase.CHOICE_ADVS[i][0][0] ) != null;
-				optionSelects[i].addItem( ignorable ? "Ignore this adventure" : "Can't ignore this adventure" );
+				optionSelects[i].addItem( ignorable ? "Ignore this adventure" : "Make semi-random decision" );
 
 				for ( int j = 0; j < AdventureDatabase.CHOICE_ADVS[i][2].length; ++j )
 					optionSelects[i].addItem( AdventureDatabase.CHOICE_ADVS[i][2][j] );
@@ -547,7 +547,6 @@ public class OptionsFrame extends KoLFrame
 			spookyForestSelect.addItem( "Loot Accordion Thief corpse" );
 
 			tripTypeSelect = new JComboBox();
-			tripTypeSelect.addItem( "Can't ignore this adventure" );
 			tripTypeSelect.addItem( "Take the Bad Trip" );
 			tripTypeSelect.addItem( "Take the Mediocre Trip" );
 			tripTypeSelect.addItem( "Take the Great Trip" );
@@ -577,7 +576,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			setProperty( "cloverProtectActive", String.valueOf( cloverProtectSelect.getSelectedIndex() == 0 ) );
 			setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
-			setProperty( "choiceAdventure71", String.valueOf( tripTypeSelect.getSelectedIndex() ) );
+			setProperty( "choiceAdventure71", String.valueOf( tripTypeSelect.getSelectedIndex() + 1 ) );
 			setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
 
 			for ( int i = 1; i < optionSelects.length; ++i )

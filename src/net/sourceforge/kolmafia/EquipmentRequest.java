@@ -363,6 +363,10 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( KoLCharacter.hasEquipped( changeItemName, equipmentSlot ) )
 				return;
 
+			AdventureDatabase.retrieveItem( new AdventureResult( changeItemName, 1, false ) );
+			if ( !KoLmafia.permitsContinue() )
+				return;
+
 			// If we are changing familiar equipment, first we must
 			// remove the old one in the slot.
 			if ( equipmentSlot == KoLCharacter.FAMILIAR )

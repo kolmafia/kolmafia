@@ -104,6 +104,10 @@ public class EquipmentDatabase extends KoLDatabase
 		}
 	}
 
+	public static int getOutfitCount()
+	{	return outfits.size();
+	}
+
 	public static boolean contains( String itemName )
 	{
 		int itemID = TradeableItemDatabase.getItemID( itemName );
