@@ -198,16 +198,12 @@ public class LoginRequest extends KoLRequest
 				setLoginServer( matcher.group(1) );
 				return true;
 			}
-
-			return false;
 		}
-		else
-		{
-			// This means that the login failed.  Therefore, the user should
-			// re-input their username and password.
 
-			KoLmafia.updateDisplay( ERROR_STATE, "Login failed." );
-			return false;
-		}
+		// This means that the login failed.  Therefore, the user should
+		// re-input their username and password.
+
+		KoLmafia.updateDisplay( ERROR_STATE, "Login failed." );
+		return false;
 	}
 }
