@@ -33,6 +33,8 @@
  */
 
 package net.sourceforge.kolmafia;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 /**
  * An extension of <code>KoLRequest</code> which handles logins.
@@ -138,8 +140,6 @@ public class LoginRequest extends KoLRequest
 	public boolean executeLogin()
 	{
 		sessionID = null;
-		KoLRequest.applySettings();
-
 		KoLmafia.updateDisplay( "Sending login request..." );
 
 		super.run();
@@ -175,6 +175,31 @@ public class LoginRequest extends KoLRequest
 			// try again automatically in 75 seconds.
 
 			return true;
+		}
+		else if ( responseText.indexOf( "formredirect" ) != -1 )
+		{
+			// KoL sometimes switches servers while logging in. It returns a hidden form
+			// with responseCode 200.
+
+			// <html>
+			//   <body>
+			//     <form name=formredirect method=post action="http://www.kingdomofloathing.com/login.php">
+			//       <input type=hidden name=loginname value="xxx">
+			//       <input type=hidden name=loggingin value="Yup.">
+			//       <input type=hidden name=password value="xxx">
+			//     </form>
+			//   </body>
+			// </html>Redirecting to www.
+
+			Matcher matcher = Pattern.compile( "http://(.*+)/login.php", Pattern.DOTALL ).matcher( responseText );
+			if ( matcher.find() )
+			{
+				redirectLocation = matcher.group();
+				setLoginServer( matcher.group(1) );
+				return true;
+			}
+
+			return false;
 		}
 		else
 		{
