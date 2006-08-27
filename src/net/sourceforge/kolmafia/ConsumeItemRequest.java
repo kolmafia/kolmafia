@@ -55,6 +55,7 @@ public class ConsumeItemRequest extends KoLRequest
 	public static final int EQUIP_WEAPON = 12;
 	public static final int EQUIP_OFFHAND = 13;
 	public static final int CONSUME_RESTORE = 14;
+	public static final int CONSUME_HOBO = 15;
 
 	private static final int DOLPHIN_KING_MAP = 26;
 	private static final int SPOOKY_TEMPLE_MAP = 74;
@@ -128,11 +129,12 @@ public class ConsumeItemRequest extends KoLRequest
 	{	this( client, TradeableItemDatabase.getConsumptionType( item.getName() ), item );
 	}
 
-	private ConsumeItemRequest( KoLmafia client, int consumptionType, AdventureResult item )
+	public ConsumeItemRequest( KoLmafia client, int consumptionType, AdventureResult item )
 	{
 		this( client, consumptionType == CONSUME_EAT ? "inv_eat.php" : consumptionType == CONSUME_DRINK ? "inv_booze.php" :
 			consumptionType == CONSUME_MULTIPLE ? "multiuse.php" : consumptionType == GROW_FAMILIAR ? "inv_familiar.php" :
-			consumptionType == CONSUME_RESTORE ? "skills.php" : "inv_use.php", consumptionType, item );
+			consumptionType == CONSUME_RESTORE ? "skills.php" : consumptionType == CONSUME_HOBO ? "inventory.php" :
+			"inv_use.php", consumptionType, item );
 	}
 
 	private ConsumeItemRequest( KoLmafia client, String location, int consumptionType, AdventureResult item )
@@ -144,10 +146,17 @@ public class ConsumeItemRequest extends KoLRequest
 			addFormField( "action", "useitem" );
 			addFormField( "quantity", String.valueOf( item.getCount() ) );
 		}
+
 		if ( consumptionType == CONSUME_RESTORE )
 		{
 			addFormField( "action", "useitem" );
 			addFormField( "itemquantity", String.valueOf( item.getCount() ) );
+		}
+
+		if ( consumptionType == CONSUME_HOBO )
+		{
+			addFormField( "action", "hobo" );
+			addFormField( "which", "1" );
 		}
 
 		addFormField( "whichitem", "" + item.getItemID() );
