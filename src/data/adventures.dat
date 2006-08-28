@@ -26,8 +26,8 @@
 
 05	0	10	adventure.php	18	Degrassi Knoll	gnollish toolbox, tires
 05	15	0	adventure.php	20	Fun House
-05	18	0	adventure.php	21	Pre-Cyrpt Cemetary	smart skull
-05	12	0	adventure.php	22	Fernswarthy's Tower	disembodied brain
+05	18	0	adventure.php	21	Pre-Cyrpt Cemetary
+05	12	0	adventure.php	22	Fernswarthy's Tower
 05	40	0	adventure.php	58	Post-Cyrpt Cemetary
 05	0	65	adventure.php	78	Palindome
 
@@ -86,7 +86,7 @@
 13	0	45	adventure.php	67	Pirate Cove In Disguise	abridged dictionary
 
 14	85	90	adventure.php	81	Penultimate Fantasy Airship	S.O.C.K.
-14	85	95	adventure.php	82	Castle in the Clouds in the Sky
+14	85	95	adventure.php	82	Castle in the Clouds in the Sky	1 choiceadv
 14	85	100	adventure.php	83	Hole in the Sky
 
 15	0	13	adventure.php	47	Bugbear Pens	annoying pitchfork
