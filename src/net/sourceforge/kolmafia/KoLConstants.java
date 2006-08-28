@@ -58,7 +58,7 @@ public interface KoLConstants extends UtilityConstants
 	public static final JLabel BLANK_LABEL = new JLabel();
 	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
 
-	public static final String VERSION_NAME = "KoLmafia v8.7";
+	public static final String VERSION_NAME = "KoLmafia v8.8";
 	public static final String VERSION_DATE = "Released August 28, 2006";
 
 	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
@@ -69,14 +69,12 @@ public interface KoLConstants extends UtilityConstants
 		{ "Equipment", "inventory.php?which=2" },
 		{ "Misc Items", "inventory.php?which=3" },
 		{ "Character", "charsheet.php" },
-		{ "Quests", "questlog.php" },
+		{ "Quest Log", "questlog.php" },
 		{ "Skills", "skills.php" },
 		{ "Read Messages", "messages.php" },
 		{ "Account Menu", "account.php" },
 		{ "Documentation", "doc.php?topic=home" },
-		{ "Forums", "http://forums.kingdomofloathing.com/" },
-		{ "Radio", "http://www.kingdomofloathing.com/radio.php" },
-		{ "Report Bug", "sendmessage.php?toid=Jick" },
+		{ "KoL Forums", "http://forums.kingdomofloathing.com/" },
 		{ "Store", "http://store.asymmetric.net/" }
 	};
 

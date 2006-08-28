@@ -283,7 +283,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private class ButtonPanel extends JPanel
 		{
-			private JButton matchup, base, buffed, turns, stop, save, changer, learn;
+			private JButton matchup, base, buffed, turns, stop, save, changer, learn, equip;
 			// private JButton debug;
 
 			public ButtonPanel()
@@ -322,6 +322,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 				learn = new JButton( "Learn Familiar Strengths" );
 				learn.addActionListener( new LearnListener() );
 				containerPanel.add( learn );
+
+				equip = new JButton( "Equip All Familiars" );
+				equip.addActionListener( new EquipAllListener() );
+				containerPanel.add( equip );
 
 				// debug = new JButton( "Debug" );
 				// debug.addActionListener( new DebugListener() );
@@ -471,6 +475,34 @@ public class FamiliarTrainingFrame extends KoLFrame
 						KoLmafia.updateDisplay( CONTINUE_STATE, "Learned skills are " + ( changed ? "different from" : "the same as" ) + " those in familiar database." );
 
 					}
+				}
+			}
+
+			private class EquipAllListener extends ListeningRunnable
+			{
+				public void run()
+				{
+					FamiliarData current = KoLCharacter.getFamiliar();
+
+					FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
+					KoLCharacter.getFamiliarList().toArray( familiars );
+
+					for ( int i = 0; i < familiars.length; ++i )
+					{
+						String itemName = FamiliarsDatabase.getFamiliarItem( familiars[i].getID() );
+
+						if ( itemName != null && !familiars[i].getItem().equals( itemName ) )
+						{
+							AdventureResult item = new AdventureResult( itemName, 1, false );
+							if ( KoLCharacter.hasItem( item, false ) )
+							{
+								(new FamiliarRequest( StaticEntity.getClient(), familiars[i] )).run();
+								(new EquipmentRequest( StaticEntity.getClient(), itemName, KoLCharacter.FAMILIAR )).run();
+							}
+						}
+					}
+
+					(new FamiliarRequest( StaticEntity.getClient(), current )).run();
 				}
 			}
 
