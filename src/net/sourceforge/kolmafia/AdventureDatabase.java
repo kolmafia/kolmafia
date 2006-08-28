@@ -57,6 +57,7 @@ public class AdventureDatabase extends KoLDatabase
 	private static StringArray [] adventureTable = new StringArray[6];
 	private static final Map areaCombatData = new TreeMap();
 	private static final Map adventureLookup = new TreeMap();
+	private static final Map conditionLookup = new TreeMap();
 
 	static
 	{
@@ -332,7 +333,7 @@ public class AdventureDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 6 )
+			if ( data.length > 5 )
 			{
 				if ( data[1].indexOf( "send" ) != -1 )
 					continue;
@@ -347,8 +348,11 @@ public class AdventureDatabase extends KoLDatabase
 				}
 
 				adventureTable[0].add( zone );
-				for ( int i = 1; i < data.length; ++i )
+				for ( int i = 1; i < 6; ++i )
 					adventureTable[i].add( data[i] );
+
+				if ( data.length == 7 )
+					conditionLookup.put( data[5], data[6] );
 			}
 		}
 
@@ -377,6 +381,12 @@ public class AdventureDatabase extends KoLDatabase
 			refreshAdventureList();
 
 		return adventures;
+	}
+
+	public static String getCondition( KoLAdventure location )
+	{
+		String condition = (String) conditionLookup.get( location.getAdventureName() );
+		return condition == null ? "none" : condition;
 	}
 
 	public static void refreshAdventureList()
