@@ -1379,20 +1379,23 @@ public class KoLRequest implements Runnable, KoLConstants
 		// If the user wants to ignore this specific choice or all
 		// choices, see if this choice is ignorable.
 
+		boolean willIgnore = false;
+
 		if ( decision.equals( "0" ) )
 		{
 			String ignoreChoice = AdventureDatabase.ignoreChoiceOption( option );
 			if ( ignoreChoice != null )
+			{
+				willIgnore = true;
 				decision = ignoreChoice;
+			}
 		}
 
-		// Make sure that we've resolved to a non-zero choice.  If it's
-		// a zero choice, or a complete the outfit (decision 4) or if
-		// you have a non-empty list of conditions, then use the outfit
-		// selection algorithm.
+		// Always change the option whenever it's not an ignore option
+		// and remember to store the result.
 
-		if ( decision.equals( "0" ) || decision.equals( "4" ) || !client.getConditions().isEmpty() )
-			pickOutfitChoice( option, decision );
+		if ( !willIgnore )
+			decision = pickOutfitChoice( option, decision );
 
 		request.clearDataFields();
 		request.addFormField( "pwd" );
@@ -1428,24 +1431,25 @@ public class KoLRequest implements Runnable, KoLConstants
 	private String pickOutfitChoice( String option, String decision )
 	{
 		// Find the options for the choice we've encountered
+
 		String [] possibleDecisions = null;
 		for ( int i = 0; i < AdventureDatabase.CHOICE_ADVS.length; ++i )
+		{
 			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
 			{
-				// Bail if it doesn't complete an outfit
-				if ( AdventureDatabase.CHOICE_ADVS[i].length < 4 )
-					return decision;
-
 				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
 				break;
 			}
+		}
 
 		// If it's not in the table (the castle wheel, for example)
 		// return the player's chose descision.
+
 		if ( possibleDecisions == null )
-			return decision;
+			return decision.equals( "0" ) || decision.equals( "4" ) ? "1" : decision;
 
 		// Choose an item in the conditions first
+
 		for ( int i = 0; i < possibleDecisions.length; ++i )
 		{
 			if ( possibleDecisions[i] != null )
@@ -1469,17 +1473,12 @@ public class KoLRequest implements Runnable, KoLConstants
 						return String.valueOf( i + 1 );
 				}
 			}
-
-			// If they have everything and it's an ignore choice, then use
-			// randomization to select which decision to make.
-
-			return String.valueOf( RNG.nextInt(3) + 1 );
 		}
 
-		// Otherwise, return the original decision
-		// made by the player.
+		// If they have everything and it's an ignore choice, then use
+		// the first choice no matter what.
 
-		return decision;
+		return "1";
 	}
 
 	/*
