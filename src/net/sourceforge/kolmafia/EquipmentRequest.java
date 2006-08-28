@@ -118,14 +118,22 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	public EquipmentRequest( KoLmafia client, String outfitName )
+	public EquipmentRequest( KoLmafia client, String changeName )
 	{
 		super( client, "inv_equip.php" );
-		addFormField( "which", "2" );
 
-		addFormField( "action", "customoutfit" );
-		addFormField( "outfitname", outfitName );
-		requestType = SAVE_OUTFIT;
+		if ( TradeableItemDatabase.contains( changeName ) )
+		{
+			initializeChangeData( changeName,
+				chooseEquipmentSlot( TradeableItemDatabase.getConsumptionType( changeName ) ), false );
+		}
+		else
+		{
+			addFormField( "which", "2" );
+			addFormField( "action", "customoutfit" );
+			addFormField( "outfitname", changeName );
+			requestType = SAVE_OUTFIT;
+		}
 	}
 
 	public EquipmentRequest( KoLmafia client, String change, int equipmentSlot )
@@ -135,6 +143,11 @@ public class EquipmentRequest extends PasswordHashRequest
 	public EquipmentRequest( KoLmafia client, String change, int equipmentSlot, boolean force )
 	{
 		super( client, "inv_equip.php" );
+		initializeChangeData( change, equipmentSlot, force );
+	}
+
+	private void initializeChangeData( String change, int equipmentSlot, boolean force )
+	{
 		addFormField( "which", "2" );
 		this.equipmentSlot = equipmentSlot;
 

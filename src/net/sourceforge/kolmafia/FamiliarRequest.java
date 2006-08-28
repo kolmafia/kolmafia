@@ -69,15 +69,18 @@ public class FamiliarRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( changeTo == null)
+		if ( changeTo == null )
 			KoLmafia.updateDisplay( "Retrieving familiar data..." );
 		else
 		{
 			FamiliarData familiar = KoLCharacter.getFamiliar();
+			if ( familiar.getID() == changeTo.getID() )
+				return;
+
 			if ( familiar != FamiliarData.NO_FAMILIAR )
 				KoLmafia.updateDisplay( "Putting " + familiar.getName() + " the " + familiar.getRace() + " back into terrarium..." );
 
-			if (changeTo != FamiliarData.NO_FAMILIAR )
+			if ( changeTo != FamiliarData.NO_FAMILIAR )
 				KoLmafia.updateDisplay( "Taking " + changeTo.getName() + " the " + changeTo.getRace() + " out of terrarium..." );
 		}
 

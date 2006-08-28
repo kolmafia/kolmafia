@@ -273,7 +273,6 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 
 		SpecialOutfit.createCheckpoint();
-		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
 
 		// If you couldn't complete the gateway, then return
 		// from this method call.
@@ -333,7 +332,6 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.addAll( retrieveScubaGear( false ) );
 
 		SpecialOutfit.restoreCheckpoint();
-		DEFAULT_SHELL.executeLine( "familiar " + currentFamiliar.getRace() );
 
 		if ( !client.checkRequirements( requirements ) || KoLmafia.refusesContinue() )
 			return;
@@ -536,6 +534,8 @@ public abstract class SorceressLair extends StaticEntity
 		List requirements = new ArrayList();
 		AdventureResult starWeapon;
 
+		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
+
 		// See which ones are available
 
 		boolean hasSword = KoLCharacter.hasItem( STAR_SWORD, false );
@@ -673,6 +673,7 @@ public abstract class SorceressLair extends StaticEntity
 				KoLmafia.updateDisplay( ERROR_STATE, "Failed to equip star starfish." );
 		}
 
+		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
 		return requirements;
 	}
 
@@ -1182,7 +1183,7 @@ public abstract class SorceressLair extends StaticEntity
 			CharpaneRequest.getInstance().run();
 		}
 
-		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
+		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
 
 		for ( ; n < 5; ++n )
 		{
@@ -1209,7 +1210,7 @@ public abstract class SorceressLair extends StaticEntity
 				return;
 		}
 
-		DEFAULT_SHELL.executeLine( "familiar " + currentFamiliar.getRace() );
+		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
 		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
 	}
 
@@ -1500,8 +1501,8 @@ public abstract class SorceressLair extends StaticEntity
 		// Make sure that the familiar is at least twenty pounds.
 		// Otherwise, it's a wasted request.
 
-		FamiliarData currentFamiliar = KoLCharacter.getFamiliar();
-		if ( currentFamiliar == null )
+		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
+		if ( originalFamiliar == null )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a familiar equipped." );
 			return;
@@ -1559,7 +1560,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		// Switch to the required familiar
 
-		if ( currentFamiliar != familiar )
+		if ( originalFamiliar != familiar )
 			(new FamiliarRequest( client, familiar )).run();
 
 		// If we can buff it to 20 pounds, try again.
