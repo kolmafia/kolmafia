@@ -281,7 +281,7 @@ public abstract class MoodSettings implements KoLConstants
 			}
 		}
 
-		if ( !KoLCharacter.canInteract() )
+		if ( KoLCharacter.isHardcore() )
 			addTrigger( "lose_effect", "Butt-Rock Hair", "use 5 can of hair spray" );
 
 		// Beaten-up removal, as a demo of how to handle beaten-up
