@@ -271,6 +271,9 @@ public class AdventureFrame extends KoLFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
+				if ( StaticEntity.getProperty( "autoSetConditions" ).equals( "false" ) )
+					return;
+
 				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedItem();
 				conditionField.setText( AdventureDatabase.getCondition( location ) );
 			}
@@ -378,6 +381,9 @@ public class AdventureFrame extends KoLFrame
 
 				if ( countField.getText().equals( "" ) )
 					countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
+
+				if ( StaticEntity.getProperty( "autoSetConditions" ).equals( "false" ) )
+					conditionField.setText( "" );
 			}
 
 			int requestCount = getValue( countField, 1 );
