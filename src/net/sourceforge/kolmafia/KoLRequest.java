@@ -652,7 +652,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		isEquipResult = urlString.indexOf( "which=2" ) != -1 && urlString.indexOf( "action=message" ) != -1;
 		isConsumeRequest = this instanceof ConsumeItemRequest;
 
-		if ( isChatRequest || this instanceof LoginRequest || urlString.indexOf( "fight" ) != -1 || urlString.indexOf( "searchmall" ) == -1 )
+		if ( isChatRequest || this instanceof LoginRequest || urlString.indexOf( "fight" ) != -1 || urlString.indexOf( "searchmall" ) != -1 )
 			return;
 
 		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php " ) == -1 )
