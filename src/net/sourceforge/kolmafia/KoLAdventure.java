@@ -48,8 +48,6 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLAdventure implements Runnable, KoLConstants, Comparable
 {
-	private static final AdventureResult WAND = new AdventureResult( 626, 1 );
-	private static final AdventureResult CASINO = new AdventureResult( 40, 1 );
 	private static final AdventureResult DINGHY = new AdventureResult( 141, 1 );
 	private static final AdventureResult SOCK = new AdventureResult( 609, 1 );
 	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
@@ -179,7 +177,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	 * KoLmafia arms any needed flags (such as for the beanstalk).
 	 */
 
-	private void validate()
+	private void validate( boolean visitedCouncil )
 	{
 		if ( isValidAdventure )
 			return;
@@ -259,16 +257,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( formSource.equals( "shore.php" ) || adventureID.equals( "45" ) )
 		{
-			if ( !KoLmafia.permitsContinue() )
-				return;
-
 			// Obviate following request by checking accomplishment:
 			// questlog.php?which=3
 			// "You have built your own Bitchin' Meat Car."
-
-			// Sometimes, the player has just built the meatcar and
-			// visited the council -- check the main map to see if
-			// the beach is unlocked.
 
 			KoLmafia.updateDisplay( "Validating map location..." );
 			request = new KoLRequest( client, "main.php" );
@@ -276,6 +267,19 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			if ( request.responseText.indexOf( "beach.php" ) == -1 )
 			{
+				// If the beach hasn't been unlocked, then visit Paco
+				// with your meatcar.
+
+				AdventureDatabase.retrieveItem( "bitchin' meatcar" );
+
+				if ( KoLmafia.permitsContinue() )
+				{
+					isValidAdventure = true;
+					request = new KoLRequest( client, "guild.php?place=paco", true );
+					request.run();
+					return;
+				}
+
 				KoLmafia.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
 				return;
 			}
@@ -292,6 +296,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// Tr4pz0r."
 
 			KoLmafia.updateDisplay( "Validating map location..." );
+
 			// See if we can get to the location already
 			request = new KoLRequest( client, "mclargehuge.php" );
 			request.run();
@@ -302,6 +307,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			}
 
 			// No. See if the trapper will give it to us
+			if ( request.responseText.indexOf( "trapper.php" ) == -1 )
+				DEFAULT_SHELL.executeLine( "council" );
+
 			request = new KoLRequest( client, "trapper.php" );
 			request.run();
 
@@ -314,7 +322,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( formSource.equals( "casino.php" ) || adventureID.equals( "70" ) || adventureID.equals( "71" ) )
 		{
-			AdventureDatabase.retrieveItem( CASINO );
+			AdventureDatabase.retrieveItem( "casino pass" );
 			isValidAdventure = KoLmafia.permitsContinue();
 			return;
 		}
@@ -324,7 +332,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( adventureID.equals( "26" ) || adventureID.equals( "65" ) || adventureID.equals( "27" ) || adventureID.equals( "29" ) || adventureID.equals( "66" ) || adventureID.equals( "67") )
 		{
-			AdventureDatabase.retrieveItem( DINGHY );
+			if ( KoLCharacter.hasItem( DINGHY, false ) )
+				AdventureDatabase.retrieveItem( DINGHY );
+			else
+			{
+				AdventureDatabase.retrieveItem( "dingy plans" );
+				AdventureDatabase.retrieveItem( "dingy plans" );
+			}
+
 			isValidAdventure = KoLmafia.permitsContinue();
 			return;
 		}
@@ -386,11 +401,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 					ArrayList temporary = new ArrayList();
 					temporary.addAll( client.getConditions() );
 
-					client.getConditions().clear();
-					client.getConditions().add( BEAN );
-
-					KoLAdventure beanbat = AdventureDatabase.getAdventure( "beanbat" );
-					client.makeRequest( beanbat, KoLCharacter.getAdventuresLeft() );
+					DEFAULT_SHELL.executeConditionsCommand( "clear" );
+					DEFAULT_SHELL.executeConditionsCommand( "add enchanted bean" );
+					DEFAULT_SHELL.executeLine( "adventure * beanbat" );
 
 					if ( !client.getConditions().isEmpty() )
 					{
@@ -413,9 +426,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			}
 
 			request = new KoLRequest( client, "beanstalk.php" );
-
-			if ( KoLCharacter.getLevel() >= 10 )
-				KoLCharacter.armBeanstalk();
+			KoLCharacter.armBeanstalk();
 		}
 
 		// If you do not need to arm anything, then
@@ -437,8 +448,17 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( request.responseText.indexOf( getAdventureID() ) == -1 )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
-			return;
+			if ( visitedCouncil )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
+				return;
+			}
+			else
+			{
+				DEFAULT_SHELL.executeLine( "council" );
+				validate( true );
+				return;
+			}
 		}
 
 		isValidAdventure = true;
@@ -500,7 +520,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		validate();
+		validate( false );
 		if ( !isValidAdventure )
 			return;
 

@@ -504,6 +504,10 @@ public class AdventureDatabase extends KoLDatabase
 		}
 	}
 
+	public static final void retrieveItem( String itemName )
+	{	retrieveItem( new AdventureResult( itemName, 1, false ) );
+	}
+
 	public static final void retrieveItem( AdventureResult item )
 	{
 		try

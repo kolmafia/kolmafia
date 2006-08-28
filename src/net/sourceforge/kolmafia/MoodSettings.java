@@ -222,7 +222,7 @@ public abstract class MoodSettings implements KoLConstants
 			String effectName = UneffectRequest.skillToEffect( skills[i].getSkillName() );
 			if ( StatusEffectDatabase.contains( effectName ) )
 			{
-				if ( skills[i].getSkillID() % 1000 == 0 )
+				if ( skills[i].getSkillID() % 1000 == 0 || skills[i].getSkillID() == 1015 )
 					addTrigger( "lose_effect", effectName, "cast 3 " + skills[i].getSkillName() );
 				else
 					addTrigger( "lose_effect", effectName, "cast " + skills[i].getSkillName() );
@@ -237,10 +237,52 @@ public abstract class MoodSettings implements KoLConstants
 			thiefSkills.toArray( skillNames );
 
 			for ( int i = 0; i < skillNames.length; ++i )
-				addTrigger( "lose_effect", UneffectRequest.skillToEffect( skillNames[i] ), "cast " + skillNames[i] );
+			{
+				int skillID = ClassSkillsDatabase.getSkillID( skillNames[i] );
+				if ( skillID % 1000 == 0 || skillID == 1015 )
+					addTrigger( "lose_effect", UneffectRequest.skillToEffect( skillNames[i] ), "cast 3 " + skillNames[i] );
+				else
+					addTrigger( "lose_effect", UneffectRequest.skillToEffect( skillNames[i] ), "cast " + skillNames[i] );
+			}
+		}
+		else if ( !thiefSkills.isEmpty() )
+		{
+			// To make things more convenient for testing, automatically
+			// add some of the common accordion thief buffs if they are
+			// available skills.
+
+			String [] rankedBuffs = null;
+
+			if ( KoLCharacter.isHardcore() )
+			{
+				rankedBuffs = new String [] {
+					"Aloysius' Antiphon of Aptitude", "Ur-Kel's Aria of Annoyance",
+					"Fat Leon's Phat Loot Lyric", "Cletus's Canticle of Celerity",
+					"The Psalm of Pointiness", "The Moxious Madrigal"
+				};
+			}
+			else
+			{
+				rankedBuffs = new String [] {
+					"Fat Leon's Phat Loot Lyric", "Aloysius' Antiphon of Aptitude",
+					"Ur-Kel's Aria of Annoyance", "The Sonata of Sneakiness",
+					"Cletus's Canticle of Celerity", "Jackasses' Symphony of Destruction"
+				};
+			}
+
+			int foundSkillCount = 0;
+			for ( int i = 0; i < rankedBuffs.length && foundSkillCount < thiefTriggerLimit; ++i )
+			{
+				if ( KoLCharacter.hasSkill( rankedBuffs[i] ) )
+				{
+					++foundSkillCount;
+					addTrigger( "lose_effect", UneffectRequest.skillToEffect( rankedBuffs[i] ), "cast " + rankedBuffs[i] );
+				}
+			}
 		}
 
-		addTrigger( "lose_effect", "Butt-Rock Hair", "use 5 can of hair spray" );
+		if ( !KoLCharacter.canInteract() )
+			addTrigger( "lose_effect", "Butt-Rock Hair", "use 5 can of hair spray" );
 
 		// Beaten-up removal, as a demo of how to handle beaten-up
 		// and poisoned statuses.
@@ -270,38 +312,27 @@ public abstract class MoodSettings implements KoLConstants
 	 * Duplicates the current trigger list into a new list
 	 */
 
-	public static void copyTriggers(String newListName )
+	public static void copyTriggers( String newListName )
 	{
 		String currentMood = StaticEntity.getProperty( "currentMood" );
 
-		if (newListName == "")
+		if ( newListName == "" )
 			return;
 
-		if ( currentMood.equals( "apathetic" ) )
+		// Can't copy into apathetic list
+		if ( currentMood.equals( "apathetic" ) || newListName.equals( "apathetic" ) )
 			return;
 
-		if ( newListName.equals( "apathetic") ) // Can't copy into apathetic list
-			return;
+		// Copy triggers from current list, then
+		// create and switch to new list
 
-		// Copy triggers from current list
-		SortedListModel oldTriggers = (SortedListModel) getTriggers().clone();
+		SortedListModel oldTriggers = getTriggers();
+		setMood( newListName );
 
-		// Create and switch to new list
-		setMood(newListName);
-
-		// Clear new list
-		removeTriggers( triggers.toArray() );
-
-		for ( int i = 0; i < oldTriggers.size(); ++i )
-		{
-			MoodTrigger currentTrigger = (MoodTrigger) oldTriggers.getElementAt(i);
-			addTrigger ( currentTrigger.triggerType, currentTrigger.triggerName, currentTrigger.action);
-		}
+		triggers.clear();
+		triggers.addAll( oldTriggers );
 
 		saveSettings();
-
-		// Revert back to original mood in case this is used from CLI (NYI)
-		setMood(currentMood);
 	}
 	/**
 	 * Executes all the mood triggers for the current mood.
