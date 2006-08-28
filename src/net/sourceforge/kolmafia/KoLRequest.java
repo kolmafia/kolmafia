@@ -1446,7 +1446,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// return the player's chose descision.
 
 		if ( possibleDecisions == null )
-			return decision.equals( "0" ) || decision.equals( "4" ) ? "1" : decision;
+			return decision.equals( "0" ) ? "1" : decision;
 
 		// Choose an item in the conditions first
 
