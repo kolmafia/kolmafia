@@ -229,7 +229,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			return;
 
 		for ( int i = 0; i < SERVERS.length; ++i )
-			if ( SERVERS[i][0].equals( server ) )
+			if ( SERVERS[i][0].equals( server ) || SERVERS[i][1].equals( server ) )
 			{
 				KOL_HOST = SERVERS[i][0];
 				KOL_ROOT = "http://" + SERVERS[i][1] + "/";
