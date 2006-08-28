@@ -578,6 +578,29 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		processedResults = true;
 
+		// If this is the trapper page, make sure to check to
+		// see if there's any changes to your inventory.
+
+		if ( formURLString.indexOf( "trapper.php" ) != -1 )
+		{
+			if ( responseText.indexOf( "You acquire" ) != -1 )
+			{
+				if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
+				{
+					client.processResult( new AdventureResult( "goat cheese", -6, false ) );
+				}
+				else if ( responseText.indexOf( "crossbow" ) != -1 || responseText.indexOf( "staff" ) != -1 || responseText.indexOf( "sword" ) != -1 )
+				{
+					if ( responseText.indexOf( "asbestos" ) != -1 )
+						client.processResult( new AdventureResult( "asbestos ore", -3, false ) );
+					else if ( responseText.indexOf( "linoleum" ) != -1 )
+						client.processResult( new AdventureResult( "linoleum ore", -3, false ) );
+					else
+						client.processResult( new AdventureResult( "chrome ore", -3, false ) );
+				}
+			}
+		}
+
 		// If this is an equipment request, then reprint the
 		// player's current equipment information.
 

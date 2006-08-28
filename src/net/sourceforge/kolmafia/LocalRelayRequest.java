@@ -642,12 +642,6 @@ public class LocalRelayRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( formURLString.endsWith( ".gif" ) && formURLString.indexOf( "images/" ) == -1 )
-		{
-			sendNotFound();
-			return;
-		}
-
 		String graf = getFormField( "graf" );
 		if ( graf != null && graf.startsWith( "/run" ) )
 		{
@@ -672,10 +666,11 @@ public class LocalRelayRequest extends KoLRequest
 		}
 		catch ( Exception e )
 		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
+			// This should not happen.  However, if it does,
+			// that means the browser is asking for a bad URL.
+			// Go ahead and return a 404 in this case.
 
-			StaticEntity.printStackTrace( e );
+			sendNotFound();
 		}
 	}
 

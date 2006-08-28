@@ -84,6 +84,72 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		addAll( c );
 	}
 
+	private class FireListEventRunnable implements Runnable
+	{
+		private int changeType;
+		private Object source;
+		private int index0, index1;
+
+		public FireListEventRunnable( int changeType, Object source, int index0, int index1 )
+		{
+			this.changeType = changeType;
+			this.source = source;
+			this.index0 = index0;
+			this.index1 = index1;
+		}
+
+		public void run()
+		{
+			// If you are not in the Swing thread, then wait
+			// until you are in the Swing thread before making
+			// the object to avoid deadlocks.
+
+			try
+			{
+				if ( !SwingUtilities.isEventDispatchThread() )
+				{
+					SwingUtilities.invokeAndWait( this );
+					return;
+				}
+			}
+			catch ( Exception e )
+			{
+				// The only exception thrown is an interrupted
+				// exception, which means you should do nothing,
+				// because you're no longer in the Swing thread.
+
+				return;
+			}
+
+			switch ( changeType )
+			{
+				case ListDataEvent.CONTENTS_CHANGED:
+					LockableListModel.super.fireContentsChanged( source, index0, index1 );
+					break;
+
+				case ListDataEvent.INTERVAL_ADDED:
+					LockableListModel.super.fireIntervalAdded( source, index0, index1 );
+					break;
+
+				case ListDataEvent.INTERVAL_REMOVED:
+					LockableListModel.super.fireIntervalRemoved( source, index0, index1 );
+					break;
+			}
+		}
+	}
+
+	protected void fireContentsChanged( Object source, int index0, int index1 )
+	{	(new FireListEventRunnable( ListDataEvent.CONTENTS_CHANGED, source, index0, index1 )).run();
+	}
+
+	protected void fireIntervalAdded( Object source, int index0, int index1 )
+	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_ADDED, source, index0, index1 )).run();
+	}
+
+	protected void fireIntervalRemoved( Object source, int index0, int index1 )
+	{	(new FireListEventRunnable( ListDataEvent.INTERVAL_REMOVED, source, index0, index1 )).run();
+	}
+
 	public void sort()
 	{
 		Collections.sort( elements );
