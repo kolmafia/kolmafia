@@ -3310,7 +3310,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		if ( previousLine.startsWith( "use" ) )
+		if ( previousLine.startsWith( "use" ) && StaticEntity.getProperty( "allowGenericUse" ).equals( "false" ) )
 		{
 			switch ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemID() ) )
 			{
