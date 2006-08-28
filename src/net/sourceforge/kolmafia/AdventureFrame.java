@@ -263,7 +263,17 @@ public class AdventureFrame extends KoLFrame
 				actionSelect.setSelectedIndex( actionIndex );
 
 			actionSelect.addActionListener( new BattleActionListener() );
+			locationSelect.addActionListener( new ConditionChangeListener() );
 			locationSelect.setSelectedItem( AdventureDatabase.getAdventure( getProperty( "lastAdventure" ) ) );
+		}
+
+		private class ConditionChangeListener implements ActionListener
+		{
+			public void actionPerformed( ActionEvent e )
+			{
+				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedItem();
+				conditionField.setText( AdventureDatabase.getCondition( location ) );
+			}
 		}
 
 		private class BattleActionListener implements ActionListener
@@ -309,7 +319,7 @@ public class AdventureFrame extends KoLFrame
 
 			if ( conditionList.length() > 0 )
 			{
-				DEFAULT_SHELL.executeLine( "conditions clear" );
+				DEFAULT_SHELL.executeConditionsCommand( "clear" );
 
 				boolean verifyConditions = false;
 				boolean useDisjunction = false;
@@ -366,12 +376,15 @@ public class AdventureFrame extends KoLFrame
 				if ( StaticEntity.getClient().conditions.size() > 1 )
 					DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 
-				conditionField.setText( "" );
 				if ( countField.getText().equals( "" ) )
 					countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 			}
 
-			(new RequestThread( request, getValue( countField, 1 ) )).start();
+			int requestCount = getValue( countField, 1 );
+			if ( requestCount == KoLCharacter.getAdventuresLeft() )
+				countField.setText( "" );
+
+			(new RequestThread( request, requestCount )).start();
 		}
 
 		protected void actionCancelled()

@@ -16,25 +16,25 @@
 03	0	0	adventure.php	70	Roulette Tables
 03	0	0	adventure.php	71	Poker Room
 
-04	0	0	adventure.php	9	Sleazy Back Alley
-04	0	0	adventure.php	10	Haunted Pantry
-04	0	5	adventure.php	16	Haiku Dungeon
+04	0	0	adventure.php	9	Sleazy Back Alley	spider web
+04	0	0	adventure.php	10	Haunted Pantry	razor-sharp can lid
+04	0	5	adventure.php	16	Haiku Dungeon	fairy gravy
 04	19	0	adventure.php	19	Limerick Dungeon
-04	47	0	adventure.php	38	Enormous Greater-Than Sign
-04	47	0	adventure.php	39	Dungeons of Doom
+04	47	0	adventure.php	38	Enormous Greater-Than Sign	plus sign
+04	47	0	adventure.php	39	Dungeons of Doom	dead mimic
 04	15	0	dungeon.php	1	Daily Dungeon
 
-05	0	10	adventure.php	18	Degrassi Knoll
+05	0	10	adventure.php	18	Degrassi Knoll	gnollish toolbox, tires
 05	15	0	adventure.php	20	Fun House
-05	18	0	adventure.php	21	Pre-Cyrpt Cemetary
-05	12	0	adventure.php	22	Fernswarthy's Tower
+05	18	0	adventure.php	21	Pre-Cyrpt Cemetary	smart skull
+05	12	0	adventure.php	22	Fernswarthy's Tower	disembodied brain
 05	40	0	adventure.php	58	Post-Cyrpt Cemetary
 05	0	65	adventure.php	78	Palindome
 
-06	0	0	adventure.php	11	Outskirts of The Knob
+06	0	0	adventure.php	11	Outskirts of The Knob	chef's hat
 06	20	0	adventure.php	40	Knob Goblin Kitchens
-06	20	0	adventure.php	41	Knob Goblin Treasury
-06	20	0	adventure.php	42	Knob Goblin Harem
+06	20	0	adventure.php	41	Knob Goblin Treasury	outfit
+06	20	0	adventure.php	42	Knob Goblin Harem	outfit, Knob Goblin perfume
 06	20	0	knob.php	0	The King's Chamber
 06	20	30	adventure.php	50	Knob Goblin Laboratory
 06	20	35	adventure.php	51	Menagerie 1
@@ -42,8 +42,8 @@
 06	20	45	adventure.php	53	Menagerie 3
 06	20	0	adventure.php	101	The Knob Shaft
 
-07	8	8	adventure.php	30	Bat Hole Entryway
-07	8	8	adventure.php	31	Guano Junction
+07	8	8	adventure.php	30	Bat Hole Entryway	Pine-Fresh air freshener
+07	8	8	adventure.php	31	Guano Junction	3 sonar-in-a-biscuit
 07	8	8	adventure.php	32	Batrat and Ratbat Burrow
 07	8	8	adventure.php	33	Beanbat Chamber
 07	8	8	adventure.php	34	The Boss Bat's Lair
@@ -54,42 +54,42 @@
 08	40	40	adventure.php	57	Defiled Niche
 08	40	40	cyrpt.php	Yep.	Haert of the Cyrpt
 
-09	5	0	adventure.php	15	Spooky Forest
+09	5	0	adventure.php	15	Spooky Forest	mosquito larva
 09	5	0	adventure.php	17	Hidden Temple
-09	5	0	adventure.php	25	Typical Tavern
+09	5	0	adventure.php	25	Typical Tavern	2 beer lens
 09	20	0	adventure.php	73	8-Bit Realm
 09	36	0	adventure.php	100	Whitey's Grove
 09	36	0	adventure.php	99	The Road to the White Citadel
 
-10	29	29	adventure.php	75	Dark Neck of the Woods
-10	29	29	adventure.php	76	Dark Heart of the Woods
-10	29	29	adventure.php	77	Dark Elbow of the Woods
+10	29	29	adventure.php	75	Dark Neck of the Woods	wussiness potion, dodecagram
+10	29	29	adventure.php	76	Dark Heart of the Woods	box of birthday candles
+10	29	29	adventure.php	77	Dark Elbow of the Woods	eldritch butterknife
 10	29	29	friars.php	0	Friar Ceremony Location
 10	29	29	adventure.php	79	Deep Fat Friar's Gate
 
 11	0	0	adventure.php	91	Noob Cave
-11	0	0	adventure.php	92	The Dire Warren
+11	0	0	adventure.php	92	The Dire Warren	level 2
 11	68	0	mountains.php	80	Bridge the Orc Chasm
-11	68	0	adventure.php	80	Valley Beyond Orc Chasm
+11	68	0	adventure.php	80	Valley Beyond Orc Chasm	2 334 scroll, 1 30669 scroll, 1 33398 scroll
 
-12	53	0	adventure.php	60	Goatlet
-12	53	0	adventure.php	61	Itznotyerzitz Mine
-12	53	0	adventure.php	62	Ninja Snowmen
-12	53	0	adventure.php	63	eXtreme Slope
-12	53	0	adventure.php	64	Icy Peak
+12	53	0	adventure.php	60	Goatlet	6 goat cheese
+12	53	0	adventure.php	61	Itznotyerzitz Mine	outfit
+12	53	0	adventure.php	62	Ninja Snowmen	1 frigid ninja star
+12	53	0	adventure.php	63	eXtreme Slope	outfit
+12	53	0	adventure.php	64	Icy Peak	level 10
 
-13	0	30	adventure.php	26	Hippy Camp
+13	0	30	adventure.php	26	Hippy Camp	outfit
 13	0	30	adventure.php	65	Hippy Camp In Disguise
 13	0	30	adventure.php	27	Frat House
 13	0	30	adventure.php	29	Frat House In Disguise
-13	0	45	adventure.php	66	Pirate Cove
-13	0	45	adventure.php	67	Pirate Cove In Disguise
+13	0	45	adventure.php	66	Pirate Cove	outfit
+13	0	45	adventure.php	67	Pirate Cove In Disguise	abridged dictionary
 
-14	85	90	adventure.php	81	Penultimate Fantasy Airship
+14	85	90	adventure.php	81	Penultimate Fantasy Airship	S.O.C.K.
 14	85	95	adventure.php	82	Castle in the Clouds in the Sky
 14	85	100	adventure.php	83	Hole in the Sky
 
-15	0	13	adventure.php	47	Bugbear Pens
+15	0	13	adventure.php	47	Bugbear Pens	annoying pitchfork
 15	0	40	adventure.php	48	Spooky Gravy Barrow
 15	0	40	adventure.php	49	Post-Quest Bugbear Pens
 16	0	0	adventure.php	43	Outskirts of Camp
@@ -102,12 +102,12 @@
 
 # Sorceress Lair
 
-19	104	0	lair3.php	hedge	Sorceress' Hedge Maze
+19	104	0	lair3.php	hedge	Sorceress' Hedge Maze	hedge maze puzzle
 19	104	0	lair6.php	5	Fight the Naughty Sorceress
 
 # Rift Locations
 
-20	13	0	adventure.php	85	Battlefield (No Uniform)
+20	13	0	adventure.php	85	Battlefield (No Uniform)	outfit
 20	13	0	adventure.php	86	Battlefield (Cloaca Uniform)
 20	13	0	adventure.php	87	Battlefield (Dyspepsi Uniform)
 20	53	0	adventure.php	59	Icy Peak of the Past
