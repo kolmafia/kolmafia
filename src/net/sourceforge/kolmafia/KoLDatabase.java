@@ -172,10 +172,23 @@ public class KoLDatabase extends StaticEntity
 
 		for ( int i = 0; i < names.length; ++i )
 		{
+			int spaceIndex = 0;
 			int searchIndex = 0;
+
 			for ( int j = 0; j < substring.length() && searchIndex != -1; ++j )
 			{
+				spaceIndex = names[i].indexOf( ' ', searchIndex );
 				searchIndex = names[i].indexOf( substring.charAt(j), searchIndex );
+
+				// If a space occurs in the middle of an item,
+				// and you're doing fuzzy matching, and the
+				// next matching letter occurs after the space
+				// and it's not the first letter, it's not the
+				// item you're looking for (probably).
+
+				if ( spaceIndex != -1 && spaceIndex + 1 < searchIndex )
+					searchIndex = -1;
+
 				if ( searchIndex > -1 )
 					++searchIndex;
 			}

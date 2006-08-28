@@ -246,6 +246,7 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
+			{ "allowGenericUse", "Have use be a generic consumption command" },
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
 			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
 			{ "sortAdventures", "Sort adventure list display by moxie evade rating" },

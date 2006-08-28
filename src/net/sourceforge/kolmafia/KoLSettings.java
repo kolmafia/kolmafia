@@ -193,6 +193,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		if ( !CLIENT_SETTINGS.isEmpty() )
 			return;
 
+		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
 		CLIENT_SETTINGS.put( "allowStasisTactics", "false" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "true" );
 		CLIENT_SETTINGS.put( "assumeInfiniteNPCItems", "false" );
