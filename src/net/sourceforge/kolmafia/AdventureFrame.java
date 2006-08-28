@@ -286,8 +286,6 @@ public class AdventureFrame extends KoLFrame
 				String battleAction = (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() );
 				if ( actionSelect.getSelectedIndex() != -1 )
 					setProperty( "battleAction", battleAction );
-
-				FightRequest.setAutoRecovery( battleAction );
 			}
 		}
 

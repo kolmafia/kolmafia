@@ -445,22 +445,25 @@ public class FightRequest extends KoLRequest
 		if ( action == null )
 			return;
 
-		boolean isNumeric = true;
-		for ( int i = 0; i < action.length(); ++i )
-			isNumeric &= Character.isDigit( action.charAt(i) );
-
-		if ( !isNumeric )
+		if ( !action.startsWith( "skill" ) )
 			return;
 
-		int skillID = StaticEntity.parseInt( action );
+		int skillID = ClassSkillsDatabase.getSkillID( action.substring( 6 ) );
 		int mpCost = ClassSkillsDatabase.getMPConsumptionByID( skillID );
 
 		double threshold = Double.parseDouble( StaticEntity.getProperty( "mpAutoRecovery" ) );
-		double required = Math.min( ((double) mpCost / (double) KoLCharacter.getMaximumMP()) + 0.1, 1.0 );
-		if ( threshold <= required )
+		if ( threshold == 0.0 )
 		{
-			StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( required ) );
-			StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( required ) );
+			double required = Math.min( (double) mpCost / (double) KoLCharacter.getMaximumMP(), 1.0 );
+
+			if ( required != 1.0 )
+				required = Math.ceil( required * 10.0 ) / 10.0;
+
+			if ( threshold <= required )
+			{
+				StaticEntity.setProperty( "mpAutoRecovery", String.valueOf( required ) );
+				StaticEntity.setProperty( "mpAutoRecoveryTarget", String.valueOf( required ) );
+			}
 		}
 	}
 
