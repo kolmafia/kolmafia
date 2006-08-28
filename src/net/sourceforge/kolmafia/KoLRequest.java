@@ -905,10 +905,13 @@ public class KoLRequest implements Runnable, KoLConstants
 			// it will be stored here.
 
 			istream = formConnection.getInputStream();
+			String encoding = formConnection.getContentEncoding();
+
+			if ( encoding == null )
+				encoding = "ISO-8859-1";
 
 			if ( StaticEntity.getProperty( "useNonBlockingReader" ).equals( "false" ) )
-				reader = new BufferedReader( new InputStreamReader(
-					istream, formURLString.indexOf( ".xml" ) != -1 ? "ISO-8859-1" : "UTF-8" ) );
+				reader = new BufferedReader( new InputStreamReader( istream, encoding ) );
 
 			responseCode = formConnection.getResponseCode();
 			redirectLocation = formConnection.getHeaderField( "Location" );

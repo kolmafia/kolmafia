@@ -41,6 +41,7 @@ import java.awt.Color;
 import java.io.File;
 import java.net.URL;
 import java.io.InputStream;
+import java.net.URLConnection;
 import java.io.FileInputStream;
 
 // readers
@@ -92,7 +93,17 @@ public class DataUtilities implements UtilityConstants
 		try
 		{
 			if ( filename.startsWith( "http://" ) )
-				return new BufferedReader( new InputStreamReader( (new URL( filename )).openConnection().getInputStream() ) );
+			{
+				URLConnection connection = (new URL( filename )).openConnection();
+
+				InputStream istream = connection.getInputStream();
+				String encoding = connection.getContentEncoding();
+
+				if ( encoding == null )
+					encoding = "ISO-8859-1";
+
+				return new BufferedReader( new InputStreamReader( istream, encoding ) );
+			}
 		}
 		catch ( Exception e )
 		{
