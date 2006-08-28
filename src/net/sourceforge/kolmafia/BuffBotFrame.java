@@ -260,7 +260,7 @@ public class BuffBotFrame extends KoLFrame
 		protected void actionConfirmed()
 		{
 			setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
-			setProperty( "mpRestores", getSettingString( mpRestoreCheckbox ) );
+			setProperty( "mpAutoRecoveryItems", getSettingString( mpRestoreCheckbox ) );
 		}
 
 		public void actionCancelled()
