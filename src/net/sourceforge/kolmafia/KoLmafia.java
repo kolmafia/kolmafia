@@ -1435,6 +1435,8 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		currentIterationString = "";
+		if ( continuationState == PENDING_STATE )
+			forceContinue();
 
 		if ( !permitsContinue() )
 			return;
