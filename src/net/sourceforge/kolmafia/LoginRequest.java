@@ -104,18 +104,19 @@ public class LoginRequest extends KoLRequest
 		lastUsername = username;
 		lastPassword = password;
 
-		boolean shouldContinue = false;
 		KoLRequest.applySettings();
-
-		do
+		if ( executeLogin() )
 		{
 			KoLmafia.forceContinue();
-			isRollover |= responseCode != 200 && redirectLocation != null &&
-				redirectLocation.indexOf( "maint.php" ) != -1;
+			while ( executeLogin() )
+			{
+				KoLmafia.forceContinue();
+				isRollover |= responseCode != 200 && redirectLocation != null &&
+					redirectLocation.indexOf( "maint.php" ) != -1;
 
-			shouldContinue = executeLogin();
+				StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 75 );
+			}
 		}
-		while ( shouldContinue && StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 75 ) );
 
 		isRollover = false;
 		instanceRunning = false;
@@ -196,7 +197,7 @@ public class LoginRequest extends KoLRequest
 			//   </body>
 			// </html>Redirecting to www.
 
-			Matcher matcher = Pattern.compile( "http://(.*?)/login\\.php", Pattern.DOTALL ).matcher( responseText );
+			Matcher matcher = Pattern.compile( "http://(www\\d?\\.kingdomofloathing\\.com)/login\\.php" ).matcher( responseText );
 			if ( matcher.find() )
 			{
 				redirectLocation = matcher.group();
