@@ -277,6 +277,7 @@ public abstract class SorceressLair extends StaticEntity
 		// If you couldn't complete the gateway, then return
 		// from this method call.
 
+		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
 		completeGateway();
 
 		if ( !KoLmafia.permitsContinue() )
@@ -331,6 +332,7 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.addAll( retrieveSqueezings( false ) );
 		requirements.addAll( retrieveScubaGear( false ) );
 
+		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
 		SpecialOutfit.restoreCheckpoint();
 
 		if ( !client.checkRequirements( requirements ) || KoLmafia.refusesContinue() )
@@ -534,8 +536,6 @@ public abstract class SorceressLair extends StaticEntity
 		List requirements = new ArrayList();
 		AdventureResult starWeapon;
 
-		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
-
 		// See which ones are available
 
 		boolean hasSword = KoLCharacter.hasItem( STAR_SWORD, false );
@@ -673,7 +673,6 @@ public abstract class SorceressLair extends StaticEntity
 				KoLmafia.updateDisplay( ERROR_STATE, "Failed to equip star starfish." );
 		}
 
-		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
 		return requirements;
 	}
 
@@ -736,79 +735,85 @@ public abstract class SorceressLair extends StaticEntity
 		// Next, handle the three hero keys, which involve
 		// answering the riddles with the forms of fish.
 
-		if ( !hasItem( BORIS ) && !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
+		if ( !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
 		{
 			AdventureDatabase.retrieveItem( BORIS );
 			if ( !hasItem( BORIS ) )
-				requirements.add( BORIS );
-		}
-
-		else if ( !hasItem( BOWL ) && !hasItem( HOSE_BOWL ) )
-		{
-			KoLmafia.updateDisplay( "Inserting Boris's key..." );
-
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "preaction", "key" );
-			request.addFormField( "whichkey", String.valueOf( BORIS.getItemID() ) );
-			request.run();
-
-			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
 			{
+				KoLmafia.forceContinue();
+				requirements.add( BORIS );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( "Inserting Boris's key..." );
+
 				request = new KoLRequest( client, "lair2.php" );
-				request.addFormField( "prepreaction", "sorcriddle1" );
-				request.addFormField( "answer", "fish" );
+				request.addFormField( "preaction", "key" );
+				request.addFormField( "whichkey", String.valueOf( BORIS.getItemID() ) );
 				request.run();
+
+				if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+				{
+					request = new KoLRequest( client, "lair2.php" );
+					request.addFormField( "prepreaction", "sorcriddle1" );
+					request.addFormField( "answer", "fish" );
+					request.run();
+				}
 			}
 		}
 
-		if ( !hasItem( JARLSBERG ) && !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
+		if ( !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
 		{
 			AdventureDatabase.retrieveItem( JARLSBERG );
 			if ( !hasItem( JARLSBERG ) )
-				requirements.add( JARLSBERG );
-		}
-
-		else if ( !hasItem( TANK ) && !hasItem( HOSE_TANK ) )
-		{
-			KoLmafia.updateDisplay( "Inserting Jarlsberg's key..." );
-
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "preaction", "key" );
-			request.addFormField( "whichkey", String.valueOf( JARLSBERG.getItemID() ) );
-			request.run();
-
-			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
 			{
+				KoLmafia.forceContinue();
+				requirements.add( JARLSBERG );
+			}
+			else
+			{
+				KoLmafia.updateDisplay( "Inserting Jarlsberg's key..." );
+
 				request = new KoLRequest( client, "lair2.php" );
-				request.addFormField( "prepreaction", "sorcriddle2" );
-				request.addFormField( "answer", "phish" );
+				request.addFormField( "preaction", "key" );
+				request.addFormField( "whichkey", String.valueOf( JARLSBERG.getItemID() ) );
 				request.run();
+
+				if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+				{
+					request = new KoLRequest( client, "lair2.php" );
+					request.addFormField( "prepreaction", "sorcriddle2" );
+					request.addFormField( "answer", "phish" );
+					request.run();
+				}
 			}
 		}
 
-		if ( !hasItem( SNEAKY_PETE ) && !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
+		if ( !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
 		{
 			AdventureDatabase.retrieveItem( SNEAKY_PETE );
 			if ( !hasItem( SNEAKY_PETE ) )
-				requirements.add( SNEAKY_PETE );
-		}
-
-		else if ( !hasItem( HOSE ) && !hasItem( HOSE_TANK ) && !hasItem( HOSE_BOWL ) )
-		{
-			AdventureDatabase.retrieveItem( SNEAKY_PETE );
-			KoLmafia.updateDisplay( "Inserting Sneaky Pete's key..." );
-
-			request = new KoLRequest( client, "lair2.php" );
-			request.addFormField( "preaction", "key" );
-			request.addFormField( "whichkey", String.valueOf( SNEAKY_PETE.getItemID() ) );
-			request.run();
-
-			if ( request.responseText.indexOf( "prepreaction" ) != -1 )
 			{
+				KoLmafia.forceContinue();
+				requirements.add( SNEAKY_PETE );
+			}
+			else
+			{
+				AdventureDatabase.retrieveItem( SNEAKY_PETE );
+				KoLmafia.updateDisplay( "Inserting Sneaky Pete's key..." );
+
 				request = new KoLRequest( client, "lair2.php" );
-				request.addFormField( "prepreaction", "sorcriddle3" );
-				request.addFormField( "answer", "fsh" );
+				request.addFormField( "preaction", "key" );
+				request.addFormField( "whichkey", String.valueOf( SNEAKY_PETE.getItemID() ) );
 				request.run();
+
+				if ( request.responseText.indexOf( "prepreaction" ) != -1 )
+				{
+					request = new KoLRequest( client, "lair2.php" );
+					request.addFormField( "prepreaction", "sorcriddle3" );
+					request.addFormField( "answer", "fsh" );
+					request.run();
+				}
 			}
 		}
 

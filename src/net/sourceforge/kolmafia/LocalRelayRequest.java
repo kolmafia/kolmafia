@@ -34,11 +34,14 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URL;
 
 import java.util.List;
 import java.util.Date;
@@ -51,7 +54,9 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 public class LocalRelayRequest extends KoLRequest
 {
 	private static boolean isRunningCommand = false;
+
 	protected List headers = new ArrayList();
+	protected byte [] rawByteBuffer = null;
 
 	public LocalRelayRequest( KoLmafia client, String formURLString )
 	{	super( client, formURLString );
@@ -207,7 +212,11 @@ public class LocalRelayRequest extends KoLRequest
 			RequestEditorKit.downloadImages( fullResponse );
 
 		fullResponse = RequestEditorKit.getFeatureRichHTML( formURLString.toString(), fullResponse );
-		fullResponse = fullResponse.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
+
+		if ( StaticEntity.getProperty( "cacheRelayImages" ).equals( "true" ) )
+			fullResponse = fullResponse.replaceAll( "http://images\\.kingdomofloathing\\.com", "images" );
+		else
+			fullResponse = fullResponse.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
 	}
 
 	public String getHeader( int index )
@@ -241,14 +250,36 @@ public class LocalRelayRequest extends KoLRequest
 		headers.add( status );
 		headers.add( "Date: " + ( new Date() ) );
 		headers.add( "Server: " + VERSION_NAME );
-		headers.add( "Content-Length: " + this.fullResponse.length() );
+		headers.add( "Content-Length: " + (this.rawByteBuffer == null ? this.fullResponse.length() : this.rawByteBuffer.length) );
+
+		String contentType = null;
 
 		if ( formURLString.endsWith( ".css" ) )
-			headers.add( "Content-Type: text/css; charset=UTF-8" );
+			contentType = "text/css";
 		else if ( formURLString.endsWith( ".js" ) )
-			headers.add( "Content-Type: text/javascript; charset=UTF-8" );
-		else
-			headers.add( "Content-Type: text/html; charset=UTF-8" );
+			contentType = "text/javascript";
+		else if ( formURLString.endsWith( ".php" ) || formURLString.endsWith( ".htm" ) || formURLString.endsWith( ".html" ) )
+			contentType = "text/html";
+		else if ( formURLString.endsWith( ".txt" ) )
+			contentType = "text/plain";
+		else if ( formURLString.endsWith( ".gif" ) )
+			contentType = "image/gif";
+		else if ( formURLString.endsWith( ".png" ) )
+			contentType = "image/png";
+		else if ( formURLString.endsWith( ".jpg" ) || formURLString.endsWith( ".jpeg" ) )
+			contentType = "image/jpeg";
+
+		if ( contentType != null )
+		{
+			if ( contentType.startsWith( "text/" ) )
+			{
+				String encoding = formConnection == null ? null : formConnection.getContentEncoding();
+				if ( encoding != null )
+					contentType += "; charset=" + encoding;
+			}
+
+			headers.add( "Content-Type: " + contentType );
+		}
 	}
 
 	private StringBuffer readContents( BufferedReader reader, String filename ) throws IOException
@@ -294,6 +325,27 @@ public class LocalRelayRequest extends KoLRequest
 
 		reader.close();
 		return contentBuffer;
+	}
+
+	private void sendLocalImage( String filename ) throws IOException
+	{
+		// The word "KoLmafia" prefixes all of the local
+		// images.  Therefore, make sure it's removed.
+
+		BufferedInputStream in = new BufferedInputStream( (new File( filename )).toURL().openConnection().getInputStream() );
+
+		ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 1024 );
+		byte [] buffer = new byte[1024];
+
+		int offset;
+		while ((offset = in.read(buffer)) > 0)
+			outbytes.write(buffer, 0, offset);
+
+		in.close();
+		outbytes.flush();
+
+		this.rawByteBuffer = outbytes.toByteArray();
+		pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
 	private void sendSharedFile( String filename ) throws IOException
@@ -590,7 +642,7 @@ public class LocalRelayRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( formURLString.endsWith( ".gif" ) )
+		if ( formURLString.endsWith( ".gif" ) && formURLString.indexOf( "images/" ) == -1 )
 		{
 			sendNotFound();
 			return;
@@ -613,6 +665,8 @@ public class LocalRelayRequest extends KoLRequest
 				executeCommand();
 			else if ( formURLString.endsWith( "getNewMessages" ) )
 				pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
+			else if ( formURLString.indexOf( "images/" ) != -1 )
+				sendLocalImage( formURLString );
 			else
 				sendSharedFile( formURLString );
 		}

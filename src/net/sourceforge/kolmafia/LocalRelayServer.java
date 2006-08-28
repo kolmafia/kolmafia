@@ -374,7 +374,12 @@ public class LocalRelayServer implements Runnable
 
 				sendHeaders( writer, request );
 				writer.println();
-				writer.print( request.getFullResponse() );
+
+				if ( request.rawByteBuffer != null )
+					writer.write( request.rawByteBuffer );
+				else
+					writer.print( request.getFullResponse() );
+
 				closeRelay( socket, reader, writer );
 			}
 			catch ( Exception e )
