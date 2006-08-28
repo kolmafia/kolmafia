@@ -175,6 +175,20 @@ public class LoginRequest extends KoLRequest
 
 			return false;
 		}
+		else if ( responseCode == 302 )
+		{
+			// It's possible that KoL will eventually make the redirect
+			// the way it used to be, but enforce the redirect.  If this
+			// happens, then validate here.
+
+			Matcher matcher = Pattern.compile( "http://(.*?)/login\\.php", Pattern.DOTALL ).matcher( redirectLocation );
+			if ( matcher.find() )
+			{
+				redirectLocation = matcher.group();
+				setLoginServer( matcher.group(1) );
+				return true;
+			}
+		}
 		else if ( responseText.indexOf( "Please wait a minute" ) != -1 )
 		{
 			// Ooh, logged in too fast.  KoLmafia should recognize this and
