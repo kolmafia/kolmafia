@@ -197,7 +197,7 @@ public class LoginRequest extends KoLRequest
 			//   </body>
 			// </html>Redirecting to www.
 
-			Matcher matcher = Pattern.compile( "http://(www\\d?\\.kingdomofloathing\\.com)/login\\.php" ).matcher( responseText );
+			Matcher matcher = Pattern.compile( "http://(.*?)/login\\.php", Pattern.DOTALL ).matcher( responseText );
 			if ( matcher.find() )
 			{
 				redirectLocation = matcher.group();
