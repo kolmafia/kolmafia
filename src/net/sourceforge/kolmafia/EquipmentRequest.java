@@ -480,7 +480,14 @@ public class EquipmentRequest extends PasswordHashRequest
 			KoLCharacter.refreshCalculatedLists();
 			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
 
-			if ( KoLCharacter.hasItem( PASTE, true ) && StaticEntity.getProperty( "lazyLoadInventory" ).equals( "false" ) )
+			boolean hasMeatPaste = KoLCharacter.hasItem( PASTE, false );
+			if ( !hasMeatPaste )
+			{
+				hasMeatPaste = StaticEntity.getProperty( "lazyLoadInventory" ).equals( "false" ) &&
+					KoLCharacter.hasItem( PASTE, true );
+			}
+
+			if ( hasMeatPaste )
 			{
 				AdventureDatabase.retrieveItem( PASTE );
 				KoLRequest combines = new KoLRequest( client, "combine.php" );
