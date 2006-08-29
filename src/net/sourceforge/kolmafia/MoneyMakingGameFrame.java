@@ -71,13 +71,24 @@ public class MoneyMakingGameFrame extends KoLFrame
 		}
 
 		public void actionCancelled()
-		{	KoLmafia.updateDisplay( "Cheating in progress (please wait)..." );
+		{
+			KoLmafia.updateDisplay( "Cheating in progress (please wait)..." );
+			KoLRequest.delay( 5000 );
+
+			int fakedLossAmount = Math.min( 100000000, KoLCharacter.getAvailableMeat() );
+			KoLmafia.updateDisplay( ERROR_STATE, "<html><font color=green><b>shwei</b> took your " +
+				COMMA_FORMAT.format( fakedLossAmount ) + " Meat bet, and you <font color=red>lost</font>. Better luck next time.</font></html>" );
+
+			StaticEntity.getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - fakedLossAmount ) );
+			KoLCharacter.updateStatus();
+			KoLmafia.enableDisplay();
 		}
 
 		public void run()
 		{
 			MoneyMakingGameRequest analyzer = new MoneyMakingGameRequest( StaticEntity.getClient() );
 			analyzer.run();
+
 			elementList.setModel( analyzer.getBetSummary() );
 			KoLmafia.updateDisplay( "Bet archive retrieved." );
 		}
