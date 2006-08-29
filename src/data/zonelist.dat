@@ -3,22 +3,24 @@
 02	Sewer	Seaside Town (sewer)
 03	Casino	Seaside Town (casino)
 04	Town	Seaside Town (general)
-05	Plains	Nearby Plains
-06	Knob	Cobb's Knob
-07	BatHole	Bat Hole
-08	Cyrpt	Defiled Cyrpt
-09	Woods	Distant Woods
+05	Woods	Distant Woods
+06	BatHole	Bat Hole
+07	Rift	Temporal Rifts
+08	Plains	Nearby Plains
+09	Knob	Cobb's Knob
 10	Friars	Deep Fat Friar's
-11	Mountain	Big Mountains
+11	Cyrpt	Defiled Cyrpt
 12	McLarge	Mt. McLargeHuge
 13	Island	Mysterious Island
-14	Beanstalk	Above the Beanstalk
-15	MusSign	Muscle-Sign Areas
-16	MysSign	Mysticality-Sign Areas
-17	MoxSign	Moxie-Sign Areas
-18	Gym	Clan/Signed Gyms
-19	Lair	Sorceress Lair
-20	Rift	Temporal Rifts
+14	Mountain	Big Mountains
+15	Beanstalk	Above the Beanstalk
+16	Lair	Sorceress Lair
+
+17	MusSign	Muscle-Sign Areas
+18	MysSign	Mysticality-Sign Areas
+19	MoxSign	Moxie-Sign Areas
+20	Gym	Clan/Signed Gyms
+
 21	Astral	Astral Plane
 22	Holiday	Holiday Zones
 23	Removed	Removed Areas

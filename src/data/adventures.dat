@@ -12,7 +12,6 @@
 03	0	0	casino.php	1	Goat Party
 03	0	0	casino.php	2	Pirate Party
 03	0	0	casino.php	11	Lemon Party
-
 03	0	0	adventure.php	70	Roulette Tables
 03	0	0	adventure.php	71	Poker Room
 
@@ -24,42 +23,41 @@
 04	47	0	adventure.php	39	Dungeons of Doom	dead mimic
 04	15	0	dungeon.php	1	Daily Dungeon
 
-05	0	10	adventure.php	18	Degrassi Knoll	gnollish toolbox, tires
-05	15	0	adventure.php	20	Fun House
-05	18	0	adventure.php	21	Pre-Cyrpt Cemetary
-05	12	0	adventure.php	22	Fernswarthy's Tower
-05	40	0	adventure.php	58	Post-Cyrpt Cemetary
-05	0	65	adventure.php	78	Palindome
+05	5	0	adventure.php	15	Spooky Forest	mosquito larva
+05	5	0	adventure.php	17	Hidden Temple
+05	5	0	adventure.php	25	Typical Tavern	2 beer lens
+05	20	0	adventure.php	73	8-Bit Realm
+05	36	0	adventure.php	100	Whitey's Grove
+05	36	0	adventure.php	99	The Road to the White Citadel
 
-06	0	0	adventure.php	11	Outskirts of The Knob	chef's hat
-06	20	0	adventure.php	40	Knob Goblin Kitchens
-06	20	0	adventure.php	41	Knob Goblin Treasury	outfit
-06	20	0	adventure.php	42	Knob Goblin Harem	outfit, Knob Goblin perfume
-06	20	0	knob.php	0	The King's Chamber
-06	20	30	adventure.php	50	Knob Goblin Laboratory
-06	20	35	adventure.php	51	Menagerie 1
-06	20	40	adventure.php	52	Menagerie 2
-06	20	45	adventure.php	53	Menagerie 3
-06	20	0	adventure.php	101	The Knob Shaft
+06	8	8	adventure.php	30	Bat Hole Entryway	Pine-Fresh air freshener
+06	8	8	adventure.php	31	Guano Junction	3 sonar-in-a-biscuit
+06	8	8	adventure.php	32	Batrat and Ratbat Burrow
+06	8	8	adventure.php	33	Beanbat Chamber
+06	8	8	adventure.php	34	The Boss Bat's Lair
 
-07	8	8	adventure.php	30	Bat Hole Entryway	Pine-Fresh air freshener
-07	8	8	adventure.php	31	Guano Junction	3 sonar-in-a-biscuit
-07	8	8	adventure.php	32	Batrat and Ratbat Burrow
-07	8	8	adventure.php	33	Beanbat Chamber
-07	8	8	adventure.php	34	The Boss Bat's Lair
+07	13	0	adventure.php	85	Battlefield (No Uniform)	outfit
+07	13	0	adventure.php	86	Battlefield (Cloaca Uniform)
+07	13	0	adventure.php	87	Battlefield (Dyspepsi Uniform)
+07	53	0	adventure.php	59	Icy Peak of the Past
 
-08	40	40	adventure.php	54	Defiled Nook
-08	40	40	adventure.php	55	Defiled Cranny
-08	40	40	adventure.php	56	Defiled Alcove
-08	40	40	adventure.php	57	Defiled Niche
-08	40	40	cyrpt.php	Yep.	Haert of the Cyrpt
+08	0	10	adventure.php	18	Degrassi Knoll	gnollish toolbox, tires
+08	15	0	adventure.php	20	Fun House
+08	18	0	adventure.php	21	Pre-Cyrpt Cemetary
+08	12	0	adventure.php	22	Fernswarthy's Tower
+08	40	0	adventure.php	58	Post-Cyrpt Cemetary
+08	0	65	adventure.php	78	Palindome
 
-09	5	0	adventure.php	15	Spooky Forest	mosquito larva
-09	5	0	adventure.php	17	Hidden Temple
-09	5	0	adventure.php	25	Typical Tavern	2 beer lens
-09	20	0	adventure.php	73	8-Bit Realm
-09	36	0	adventure.php	100	Whitey's Grove
-09	36	0	adventure.php	99	The Road to the White Citadel
+09	0	0	adventure.php	11	Outskirts of The Knob	chef's hat
+09	20	0	adventure.php	40	Knob Goblin Kitchens
+09	20	0	adventure.php	41	Knob Goblin Treasury	outfit
+09	20	0	adventure.php	42	Knob Goblin Harem	outfit, Knob Goblin perfume
+09	20	0	knob.php	0	The King's Chamber
+09	20	30	adventure.php	50	Knob Goblin Laboratory
+09	20	35	adventure.php	51	Menagerie 1
+09	20	40	adventure.php	52	Menagerie 2
+09	20	45	adventure.php	53	Menagerie 3
+09	20	0	adventure.php	101	The Knob Shaft
 
 10	29	29	adventure.php	75	Dark Neck of the Woods	wussiness potion, dodecagram
 10	29	29	adventure.php	76	Dark Heart of the Woods	box of birthday candles
@@ -67,10 +65,11 @@
 10	29	29	friars.php	0	Friar Ceremony Location
 10	29	29	adventure.php	79	Deep Fat Friar's Gate
 
-11	0	0	adventure.php	91	Noob Cave
-11	0	0	adventure.php	92	The Dire Warren	level 2
-11	68	0	mountains.php	80	Bridge the Orc Chasm
-11	68	0	adventure.php	80	Valley Beyond Orc Chasm	2 334 scroll, 1 30669 scroll, 1 33398 scroll
+11	40	40	adventure.php	54	Defiled Nook
+11	40	40	adventure.php	55	Defiled Cranny
+11	40	40	adventure.php	56	Defiled Alcove
+11	40	40	adventure.php	57	Defiled Niche
+11	40	40	cyrpt.php	Yep.	Haert of the Cyrpt
 
 12	53	0	adventure.php	60	Goatlet	6 goat cheese
 12	53	0	adventure.php	61	Itznotyerzitz Mine	outfit
@@ -85,32 +84,30 @@
 13	0	45	adventure.php	66	Pirate Cove	outfit
 13	0	45	adventure.php	67	Pirate Cove In Disguise	abridged dictionary
 
-14	85	90	adventure.php	81	Penultimate Fantasy Airship	S.O.C.K.
-14	85	95	adventure.php	82	Castle in the Clouds in the Sky	1 choiceadv
-14	85	100	adventure.php	83	Hole in the Sky
+14	0	0	adventure.php	91	Noob Cave
+14	0	0	adventure.php	92	The Dire Warren	level 2
+14	68	0	mountains.php	80	Bridge the Orc Chasm
+14	68	0	adventure.php	80	Valley Beyond Orc Chasm	2 334 scroll, 1 30669 scroll, 1 33398 scroll
 
-15	0	13	adventure.php	47	Bugbear Pens	annoying pitchfork
-15	0	40	adventure.php	48	Spooky Gravy Barrow
-15	0	40	adventure.php	49	Post-Quest Bugbear Pens
-16	0	0	adventure.php	43	Outskirts of Camp
-16	0	30	adventure.php	44	Camp Logging Camp
-17	13	25	adventure.php	46	Thugnderdome
+15	85	90	adventure.php	81	Penultimate Fantasy Airship	S.O.C.K.
+15	85	95	adventure.php	82	Castle in the Clouds in the Sky	1 choiceadv
+15	85	100	adventure.php	83	Hole in the Sky
 
-18	0	0	clan_gym.php	1	Pump Up Muscle
-18	0	0	clan_gym.php	2	Pump Up Mysticality
-18	0	0	clan_gym.php	3	Pump Up Moxie
+16	104	0	lair3.php	hedge	Sorceress' Hedge Maze	hedge maze puzzle
+16	104	0	lair6.php	5	Fight the Naughty Sorceress
 
-# Sorceress Lair
+17	0	13	adventure.php	47	Bugbear Pens	annoying pitchfork
+17	0	40	adventure.php	48	Spooky Gravy Barrow
+17	0	40	adventure.php	49	Post-Quest Bugbear Pens
 
-19	104	0	lair3.php	hedge	Sorceress' Hedge Maze	hedge maze puzzle
-19	104	0	lair6.php	5	Fight the Naughty Sorceress
+18	0	0	adventure.php	43	Outskirts of Camp
+18	0	30	adventure.php	44	Camp Logging Camp
 
-# Rift Locations
+19	13	25	adventure.php	46	Thugnderdome
 
-20	13	0	adventure.php	85	Battlefield (No Uniform)	outfit
-20	13	0	adventure.php	86	Battlefield (Cloaca Uniform)
-20	13	0	adventure.php	87	Battlefield (Dyspepsi Uniform)
-20	53	0	adventure.php	59	Icy Peak of the Past
+20	0	0	clan_gym.php	1	Pump Up Muscle
+20	0	0	clan_gym.php	2	Pump Up Mysticality
+20	0	0	clan_gym.php	3	Pump Up Moxie
 
 # Astral Plane
 
