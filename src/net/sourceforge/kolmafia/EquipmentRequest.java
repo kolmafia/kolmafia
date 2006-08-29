@@ -478,8 +478,9 @@ public class EquipmentRequest extends PasswordHashRequest
 			// page.  Otherwise, go to the equipment pages.
 
 			KoLCharacter.refreshCalculatedLists();
+			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
 
-			if ( KoLCharacter.hasItem( PASTE, true ) )
+			if ( KoLCharacter.hasItem( PASTE, true ) && StaticEntity.getProperty( "lazyLoadInventory" ).equals( "false" ) )
 			{
 				AdventureDatabase.retrieveItem( PASTE );
 				KoLRequest combines = new KoLRequest( client, "combine.php" );
@@ -497,8 +498,6 @@ public class EquipmentRequest extends PasswordHashRequest
 				(new EquipmentRequest( client, EquipmentRequest.MISCELLANEOUS )).run();
 				(new EquipmentRequest( client, EquipmentRequest.CONSUMABLES )).run();
 			}
-
-			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
 
 			KoLCharacter.refreshCalculatedLists();
 			KoLCharacter.setAvailableSkills( KoLCharacter.getAvailableSkills() );

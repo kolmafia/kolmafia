@@ -659,6 +659,7 @@ public class LoginFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "serverFriendly", "Use server-friendlier request speed" },
+			{ "lazyLoadInventory", "Lazy inventory loading (may be inaccurate)" },
 			{ "useNonBlockingReader", "Use non-blocking response readers (risky)" },
 			{ "autoExecuteTimeIn", "Automatically time-in whenever you're timed-out" },
 			{ "proxySet", "Use a proxy to connect to the Kingdom of Loathing" }
