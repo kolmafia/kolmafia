@@ -288,14 +288,94 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		else if ( adventureID.equals( "60" ) || adventureID.equals( "61" ) || adventureID.equals( "62" ) || adventureID.equals( "63" ) || adventureID.equals( "64" ) )
+		// The casino is unlocked provided the player
+		// has a casino pass in their inventory.
+
+		else if ( zone.equals( "Casino" ) )
+		{
+			AdventureDatabase.retrieveItem( "casino pass" );
+			isValidAdventure = KoLmafia.permitsContinue();
+			return;
+		}
+
+		else if ( zone.equals( "BatHole" ) )
+		{
+			// Check to see if the Knob is unlocked; all areas are
+			// automatically present when this is true.
+
+			request = new KoLRequest( client, "plains.php" );
+			request.run();
+
+			if ( request.responseText.indexOf( "bathole.php" ) == -1 )
+			{
+				if ( visitedCouncil )
+				{
+					KoLmafia.updateDisplay( "The bat hole is not yet unlocked." );
+				}
+				else
+				{
+					DEFAULT_SHELL.executeLine( "council" );
+					validate( true );
+				}
+
+				return;
+			}
+
+			isValidAdventure = true;
+			return;
+		}
+
+		else if ( zone.equals( "Knob" ) && !adventureID.equals( "11" ) )
+		{
+			// Check to see if the Knob is unlocked; all areas are
+			// automatically present when this is true.
+
+			request = new KoLRequest( client, "plains.php" );
+			request.run();
+
+			if ( request.responseText.indexOf( "knob.php" ) == -1 )
+			{
+				if ( visitedCouncil )
+				{
+					KoLmafia.updateDisplay( "The Knob is not yet unlocked." );
+				}
+				else
+				{
+					DEFAULT_SHELL.executeLine( "council" );
+					validate( true );
+				}
+
+				return;
+			}
+
+			isValidAdventure = true;
+			return;
+		}
+
+
+		// The island is unlocked provided the player
+		// has a dingy dinghy in their inventory.
+
+		else if ( zone.equals( "Island" ) )
+		{
+			if ( KoLCharacter.hasItem( DINGHY, false ) )
+				AdventureDatabase.retrieveItem( DINGHY );
+			else
+			{
+				AdventureDatabase.retrieveItem( "dingy planks" );
+				DEFAULT_SHELL.executeLine( "use dinghy plans" );
+			}
+
+			isValidAdventure = KoLmafia.permitsContinue();
+			return;
+		}
+
+		else if ( zone.equals( "McLarge" ) )
 		{
 			// Obviate following request by checking accomplishment:
 			// questlog.php?which=2
 			// "You have learned how to hunt Yetis from the L337
 			// Tr4pz0r."
-
-			KoLmafia.updateDisplay( "Validating map location..." );
 
 			// See if we can get to the location already
 			request = new KoLRequest( client, "mclargehuge.php" );
@@ -315,33 +395,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			// See if we can now get to the location
 			request = new KoLRequest( client, "mclargehuge.php" );
-		}
-
-		// The casino is unlocked provided the player
-		// has a casino pass in their inventory.
-
-		else if ( formSource.equals( "casino.php" ) || adventureID.equals( "70" ) || adventureID.equals( "71" ) )
-		{
-			AdventureDatabase.retrieveItem( "casino pass" );
-			isValidAdventure = KoLmafia.permitsContinue();
-			return;
-		}
-
-		// The island is unlocked provided the player
-		// has a dingy dinghy in their inventory.
-
-		else if ( adventureID.equals( "26" ) || adventureID.equals( "65" ) || adventureID.equals( "27" ) || adventureID.equals( "29" ) || adventureID.equals( "66" ) || adventureID.equals( "67") )
-		{
-			if ( KoLCharacter.hasItem( DINGHY, false ) )
-				AdventureDatabase.retrieveItem( DINGHY );
-			else
-			{
-				AdventureDatabase.retrieveItem( "dingy plans" );
-				AdventureDatabase.retrieveItem( "dingy plans" );
-			}
-
-			isValidAdventure = KoLmafia.permitsContinue();
-			return;
 		}
 
 		// The Castle in the Clouds in the Sky is unlocked provided the
