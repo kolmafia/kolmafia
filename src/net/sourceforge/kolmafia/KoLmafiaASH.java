@@ -6468,10 +6468,6 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptRecord( this );
 		}
 
-		public ScriptExpression initialValueExpression()
-		{	return new ScriptRecordInitializer( this );
-		}
-
 		public boolean containsAggregate()
 		{
 			for ( int i = 0; i < fieldTypes.length; ++i )
@@ -6499,27 +6495,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		public String toString()
 		{	return "<initial value>";
-		}
-	}
-
-	private static class ScriptRecordInitializer extends ScriptValue
-	{
-		protected ScriptRecordType type;
-
-		public ScriptRecordInitializer( ScriptRecordType type )
-		{	this.type = type;
-		}
-
-		public ScriptType getType()
-		{	return type;
-		}
-
-		public ScriptValue execute() throws AdvancedScriptException
-		{	return type.initialValue();
-		}
-
-		public String toString()
-		{	return "record initializer";
 		}
 	}
 
