@@ -53,6 +53,7 @@ import java.io.UnsupportedEncodingException;
 // utility imports
 import java.lang.reflect.Method;
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import java.util.ArrayList;
@@ -2562,6 +2563,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] {};
 		result.addElement( new ScriptExistingFunction( "refresh_status", VOID_TYPE, params ) );
 
+		params = new ScriptType[] {};
+		result.addElement( new ScriptExistingFunction( "today_to_string", STRING_TYPE, params ) );
+
 		params = new ScriptType[] { BOOLEAN_TYPE };
 		result.addElement( new ScriptExistingFunction( "boolean_to_string", STRING_TYPE, params ) );
 
@@ -3710,6 +3714,10 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			DEFAULT_SHELL.executeLine( "refresh status" );
 			return VOID_VALUE;
+		}
+
+		public ScriptValue today_to_string()
+		{	return parseStringValue( DATED_FILENAME_FORMAT.format( new Date() ) );
 		}
 
 		public ScriptValue boolean_to_string( ScriptVariable val )
