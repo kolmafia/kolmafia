@@ -508,6 +508,10 @@ public class KoLmafiaASH extends StaticEntity
 	{	traceIndentation--;
 	}
 
+	private static void traceUnindent( int levels )
+	{	traceIndentation -= levels;
+	}
+
 	private static void trace( String string )
 	{
 		if ( tracing )
@@ -3448,7 +3452,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( !KoLmafia.permitsContinue() )
 					currentState = STATE_EXIT;
 
-				trace( "[" + executionStateString( currentState ) + "] <- " + result );
+				trace( "[" + executionStateString( currentState ) + "] <- " + result.toQuotedString() );
 
 				switch ( currentState )
 				{
@@ -5076,12 +5080,14 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				ScriptExpression exp = (ScriptExpression)indices.get(i);
 
-				trace( "Index #" + i + ": " + index );
+				traceIndent();
+				trace( "Key #" + ( i + 1 ) + ": " + exp.toQuotedString() );
 
 				index = exp.execute();
 				captureValue( index );
 
-				trace( "[" + executionStateString( currentState ) + "] <- " + index );
+				trace( "[" + executionStateString( currentState ) + "] <- " + index.toQuotedString() );
+				traceUnindent();
 
 				if ( currentState == STATE_EXIT )
 				{
@@ -5104,7 +5110,7 @@ public class KoLmafiaASH extends StaticEntity
 
 				slice = result;
 
-				trace( "AREF: " + slice.toString() );
+				trace( "AREF <- " + slice.toString() );
 			}
 
 			traceUnindent();
@@ -5118,6 +5124,9 @@ public class KoLmafiaASH extends StaticEntity
 			if ( getSlice() )
 			{
 				ScriptValue result = slice.aref( index );
+				traceIndent();
+				trace( "AREF <- " + result.toQuotedString() );
+				traceUnindent();
 				if ( result == null )
 				{
 					result = slice.initialValue( index );
@@ -5133,7 +5142,12 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			// Iterate through indices to final slice
 			if ( getSlice() )
+			{
 				slice.aset( index, targetValue );
+				traceIndent();
+				trace( "ASET: " + targetValue.toQuotedString() );
+				traceUnindent();
+			}
 		}
 
 		public ScriptValue removeKey() throws AdvancedScriptException
@@ -5142,19 +5156,26 @@ public class KoLmafiaASH extends StaticEntity
 			if ( getSlice() )
 			{
 				ScriptValue result = slice.remove( index );
-				if ( result != null )
-					return result;
-				return slice.initialValue( index );
+				if ( result == null )
+					result = slice.initialValue( index );
+				traceIndent();
+				trace( "remove <- " + result.toQuotedString() );
+				traceUnindent();
+				return result;
 			}
 			return null;
 		}
 
 		public boolean contains( ScriptValue index ) throws AdvancedScriptException
 		{
+			boolean result = false;
 			// Iterate through indices to final slice
 			if ( getSlice() )
-				return slice.aref( index ) != null;
-			return false;
+				result = slice.aref( index ) != null;
+			traceIndent();
+			trace( "contains <- " + result );
+			traceUnindent();
+			return result;
 		}
 
 		public ScriptExpression getFirstIndex()
@@ -5983,12 +6004,12 @@ public class KoLmafiaASH extends StaticEntity
 				if ( paramValue == null )
 					throw new RuntimeException( "Internal error: illegal arguments" );
 
-				trace( "Param #" + paramCount + ": " + paramValue );
+				trace( "Param #" + paramCount + ": " + paramValue.toQuotedString() );
 
 				ScriptValue value = paramValue.execute();
 				captureValue( value );
 
-				trace( "[" + executionStateString( currentState ) + "] <- " + value );
+				trace( "[" + executionStateString( currentState ) + "] <- " + value.toQuotedString() );
 
 				if ( currentState == STATE_EXIT )
 				{
@@ -6439,6 +6460,10 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptRecord( this );
 		}
 
+		public ScriptExpression initialValueExpression()
+		{	return new ScriptRecordInitializer( this );
+		}
+
 		public boolean containsAggregate()
 		{
 			for ( int i = 0; i < fieldTypes.length; ++i )
@@ -6465,7 +6490,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return "init";
+		{	return "<initial value>";
 		}
 	}
 
@@ -6486,7 +6511,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public String toString()
-		{	return "init";
+		{	return "record initializer";
 		}
 	}
 
@@ -6609,6 +6634,13 @@ public class KoLmafiaASH extends StaticEntity
 				return String.valueOf( contentFloat );
 
 			return String.valueOf( contentInt );
+		}
+
+		public String toQuotedString()
+		{
+			if ( contentString != null )
+				return "\"" + contentString + "\"";
+			return toString();
 		}
 
 		public ScriptValue toStringValue()
@@ -7115,8 +7147,12 @@ public class KoLmafiaASH extends StaticEntity
 		public String toString()
 		{
 			if ( rhs == null )
-				return oper.toString() + " " + lhs;
-			return lhs + " " + oper.toString() + " " + rhs;
+				return oper.toString() + " " + lhs.toQuotedString();
+			return "( " + lhs.toQuotedString() + " " + oper.toString() + " " + rhs.toQuotedString() + " )";
+		}
+
+		public String toQuotedString()
+		{	return toString();
 		}
 	}
 
