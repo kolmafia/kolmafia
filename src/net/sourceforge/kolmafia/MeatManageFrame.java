@@ -212,8 +212,7 @@ public class MeatManageFrame extends KoLFrame
 		}
 
 		protected void actionCancelled()
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "<html><font color=green>You <font color=red>lost</font>. Better luck next time.</font></html>" );
+		{	KoLmafiaGUI.constructFrame( "MoneyMakingGameFrame" );
 		}
 
 		private class ClosetUpdater implements Runnable
