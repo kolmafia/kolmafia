@@ -711,7 +711,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
 		{
 			executeScriptCommand( parameters );
-			printLine( "Script verification complete." );
 			return;
 		}
 
@@ -1597,6 +1596,20 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeScriptCommand( String parameters )
 	{
+		String [] arguments = null;
+
+		int paren = parameters.indexOf( "(" );
+		if ( paren != -1 )
+		{
+			arguments = parseScriptArguments( parameters.substring( paren + 1 ) );
+			if ( arguments == null )
+			{
+				updateDisplay( ERROR_STATE, "Failed to parse arguments" );
+				return;
+			}
+			parameters = parameters.substring( 0, paren );
+		}
+
 		parameters = parameters.replaceAll( "\\\"", "" );
 
 		try
@@ -1667,14 +1680,21 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( previousLine.startsWith( "validate" ) || previousLine.startsWith( "verify" ) )
 				{
 					advancedHandler.validate( scriptFile );
+                                        printLine( "Script verification complete." );
 					return;
 				}
 
 				for ( int i = 0; i < runCount && permitsContinue(); ++i )
-					advancedHandler.execute( scriptFile, null );
+					advancedHandler.execute( scriptFile, arguments );
 			}
 			else
 			{
+				if ( arguments != null )
+				{
+					updateDisplay( ERROR_STATE, "You can only specify arguments for an ASH script" );
+					return;
+				}
+
 				for ( int i = 0; i < runCount && permitsContinue(); ++i )
 				{
 					lastScript = new KoLmafiaCLI( new FileInputStream( scriptFile ) );
@@ -1690,6 +1710,25 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.printStackTrace( e );
 			return;
 		}
+	}
+
+	private String [] parseScriptArguments( String parameters )
+	{
+		int rparen = parameters.lastIndexOf( ")" );
+		if ( rparen == -1 )
+			return null;
+		parameters = parameters.substring( 0, rparen );
+
+		String [] result =  parameters.split( "," );
+		for ( int i = 0; i < result.length; ++i )
+		{
+			String s = result[i].trim();
+			if ( s.charAt(0) == '"' && s.charAt( s.length() - 1 ) == '"' )
+				s = s.substring( 1, s.length() - 1 );
+			result[i] = s;
+		}
+
+		return result;
 	}
 
 	/**
