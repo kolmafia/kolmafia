@@ -464,6 +464,7 @@ squeaky staff	4	styrofoam staff	sonar-in-a-biscuit
 styrofoam sword	4	basic meat sword	styrofoam ore
 Frost&trade; brand sword	4	styrofoam sword	cold powder
 
+ram-battering staff	4	ram horns	ram stick
 
 # Meat-smithing armor pieces.  These items are helmets, pants,
 # and sometimes accessories which are created in smithing.
@@ -475,6 +476,7 @@ linoleum helmet turtle	14	meaty helmet turtle	linoleum ore
 
 basic meat pants	4	meat stack	pants kit
 basic meat helmet	4	meat stack	helmet recipe
+enchantlers	4	basic meat helmet	ram horns
 meatloaf helmet	4	basic meat helmet	ketchup
 raspberry beret	4	basic meat helmet	raspberry
 
