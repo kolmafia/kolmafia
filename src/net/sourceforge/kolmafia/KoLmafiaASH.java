@@ -228,7 +228,7 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				AdventureResult item = DEFAULT_SHELL.getFirstMatchingItem( name );
 
-				// Otherwise, throw an AdvancedScriptException
+				// Otherwise, throw an IllegalArgumentException
 				// so that an unsuccessful parse happens before
 				// the script gets executed (consistent with
 				// paradigm).
@@ -573,7 +573,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	public void execute( File scriptFile ) throws IOException
+	public void execute( File scriptFile, String [] parameters ) throws IOException
 	{
 		// Before you do anything, validate the script.
 		validate( scriptFile );
@@ -583,7 +583,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		try
 		{
-			ScriptValue result = executeGlobalScope( global );
+			ScriptValue result = executeGlobalScope( global, parameters );
 
 			if ( !KoLmafia.permitsContinue() || result == null || result.getType() == null )
 			{
@@ -2395,7 +2395,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private ScriptValue executeGlobalScope( ScriptScope globalScope ) throws AdvancedScriptException
+	private ScriptValue executeGlobalScope( ScriptScope globalScope, String [] parameters ) throws AdvancedScriptException
 	{
 		ScriptFunction main;
 		ScriptValue result = null;
@@ -2420,127 +2420,143 @@ public class KoLmafiaASH extends StaticEntity
 		if ( main != null )
 		{
 			trace( "Executing main function" );
-			requestUserParams( main );
+			if ( !requestUserParams( main, parameters ) )
+				return null;
 			result = main.execute();
 		}
 
 		return result;
 	}
 
-	private void requestUserParams( ScriptFunction targetFunction ) throws AdvancedScriptException
+	private boolean requestUserParams( ScriptFunction targetFunction, String [] parameters ) throws AdvancedScriptException
 	{
+		int args = ( parameters == null ) ? 0 : parameters.length;
 		ScriptVariableReference	param;
-		String resultString;
+		int index = 0;
 
 		for ( param = targetFunction.getFirstParam(); param != null; param = targetFunction.getNextParam() )
 		{
-			if ( param.getType().equals( TYPE_ZODIAC ) )
+			ScriptType type = param.getType();
+			String name = param.getName();
+			ScriptValue value = null;
+
+			while ( value == null )
 			{
-				resultString = ( String ) JOptionPane.showInputDialog
-				(
-					null,
-					"Please input a value for " + param.getType() + " " + param.getName(),
-					"Input Variable",
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					ZODIACS,
-					ZODIACS[0]
-				 );
-				param.setValue( parseZodiacValue( resultString ) );
-			}
-			else if ( param.getType().equals( TYPE_CLASS ) )
-			{
-				resultString = ( String ) JOptionPane.showInputDialog
-				(
-					null,
-					"Please input a value for " + param.getType() + " " + param.getName(),
-					"Input Variable",
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					CLASSES,
-					CLASSES[0]
-				 );
-				param.setValue( parseClassValue( resultString ) );
-			}
-			else if ( param.getType().equals( TYPE_STAT ) )
-			{
-				resultString = ( String ) JOptionPane.showInputDialog
-				(
-					null,
-					"Please input a value for " + param.getType() + " " + param.getName(),
-					"Input Variable",
-					JOptionPane.INFORMATION_MESSAGE,
-					null,
-					STATS,
-					STATS[0]
-				 );
-				param.setValue( parseStatValue( resultString ) );
-			}
-			else if
-			(
-				param.getType().equals( TYPE_ITEM ) ||
-				param.getType().equals( TYPE_LOCATION ) ||
-				param.getType().equals( TYPE_STRING ) ||
-				param.getType().equals( TYPE_SKILL ) ||
-				param.getType().equals( TYPE_EFFECT ) ||
-				param.getType().equals( TYPE_FAMILIAR ) ||
-				param.getType().equals( TYPE_SLOT ) ||
-				param.getType().equals( TYPE_MONSTER ) ||
-				param.getType().equals( TYPE_ELEMENT )
-			)
-			{
-				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType() + " " + param.getName() );
-				param.setValue( parseValue( param.getType(), resultString ) );
-			}
-			else if ( param.getType().equals( TYPE_INT ) )
-			{
-				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType() + " " + param.getName() );
+				if ( type == VOID_TYPE )
+				{
+					value = VOID_VALUE;
+					break;
+				}
+
+				String input = null;
+
+				if ( index >= args )
+					input = promptForValue( type, name );
+				else
+					input = parameters[ index ];
+
+				// User declined to supply a parameter
+				if ( input == null )
+					return false;
+
 				try
 				{
-					param.setValue( new ScriptValue( StaticEntity.parseInt( resultString ) ) );
+					value = parseValue( type, input );
 				}
-				catch( NumberFormatException e )
+				catch ( AdvancedScriptException e )
 				{
-					throw new AdvancedScriptException( "Incorrect value for integer." );
+					KoLmafiaCLI.printLine( e.getMessage() );
+
+					// Punt if parameter came from the CLI
+					if ( index < args )
+						return false;
 				}
 			}
-			else if ( param.getType().equals( TYPE_FLOAT ) )
-			{
-				resultString = JOptionPane.showInputDialog( "Please input a value for " + param.getType() + " " + param.getName() );
-				try
-				{
-					param.setValue( new ScriptValue( StaticEntity.parseDouble( resultString ) ) );
-				}
-				catch( NumberFormatException e )
-				{
-					throw new AdvancedScriptException( "Incorrect value for float." );
-				}
-			}
-			else if ( param.getType().equals( TYPE_BOOLEAN ) )
-			{
-				resultString = ( String ) JOptionPane.showInputDialog
+
+			param.setValue( value );
+			index++;
+		}
+
+		if ( index < args )
+		{
+			KoLmafiaCLI.printLine( "Too many arguments supplied" );
+			return false;
+		}
+
+		return true;
+	}
+
+	private String promptForValue( ScriptType type, String name )
+	{
+		switch ( type.getType() )
+		{
+		case TYPE_BOOLEAN:
+			return ( String ) JOptionPane.showInputDialog
 				(
 					null,
-					"Please input a value for " + param.getType() + " " + param.getName(),
+					"Please input a value for " + type + " " + name,
 					"Input Variable",
 					JOptionPane.INFORMATION_MESSAGE,
 					null,
 					BOOLEANS,
 					BOOLEANS[0]
-				 );
-				if ( resultString.equalsIgnoreCase( "true" ) )
-					param.setValue( TRUE_VALUE );
-				else if ( resultString.equalsIgnoreCase( "false" ) )
-					param.setValue( FALSE_VALUE );
-				else
-					throw new RuntimeException( "Internal error: Illegal value for boolean" );
-			}
-			else if ( param.getType().equals( TYPE_VOID ) )
-			{
-				param.setValue( VOID_VALUE );
-			}
-			else
-				throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
+					);
+
+		case TYPE_INT:
+			return JOptionPane.showInputDialog( "Please input a value for " + type + " " + name );
+
+		case TYPE_FLOAT:
+			return JOptionPane.showInputDialog( "Please input a value for " + type + " " + name );
+
+		case TYPE_STRING:
+		case TYPE_ITEM:
+		case TYPE_LOCATION:
+		case TYPE_SKILL:
+		case TYPE_EFFECT:
+		case TYPE_FAMILIAR:
+		case TYPE_SLOT:
+		case TYPE_MONSTER:
+		case TYPE_ELEMENT:
+			return JOptionPane.showInputDialog( "Please input a value for " + type + " " + name );
+
+		case TYPE_ZODIAC:
+			return ( String ) JOptionPane.showInputDialog
+				(
+					null,
+					"Please input a value for " + type + " " + name,
+					"Input Variable",
+					JOptionPane.INFORMATION_MESSAGE,
+					null,
+					ZODIACS,
+					ZODIACS[0]
+					);
+
+		case TYPE_CLASS:
+			return ( String ) JOptionPane.showInputDialog
+				(
+					null,
+					"Please input a value for " + type + " " + name,
+					"Input Variable",
+					JOptionPane.INFORMATION_MESSAGE,
+					null,
+					CLASSES,
+					CLASSES[0]
+					);
+
+		case TYPE_STAT:
+			return ( String ) JOptionPane.showInputDialog
+				(
+					null,
+					"Please input a value for " + type + " " + name,
+					"Input Variable",
+					JOptionPane.INFORMATION_MESSAGE,
+					null,
+					STATS,
+					STATS[0]
+					);
+
+		default:
+			throw new RuntimeException( "Internal error: Illegal type for main() parameter" );
 		}
 	}
 

@@ -1671,7 +1671,7 @@ public class KoLmafiaCLI extends KoLmafia
 				}
 
 				for ( int i = 0; i < runCount && permitsContinue(); ++i )
-					advancedHandler.execute( scriptFile );
+					advancedHandler.execute( scriptFile, null );
 			}
 			else
 			{
