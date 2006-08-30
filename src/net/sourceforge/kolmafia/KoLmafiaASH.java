@@ -6297,6 +6297,10 @@ public class KoLmafiaASH extends StaticEntity
 		{	return null;
 		}
 
+		public ScriptValue getKey( ScriptValue key )
+		{	return key;
+		}
+
 		public ScriptExpression initialValueExpression()
 		{	return new ScriptTypeInitializer( this );
 		}
@@ -6453,6 +6457,30 @@ public class KoLmafiaASH extends StaticEntity
 			return null;
 		}
 
+		public ScriptValue getKey( ScriptValue key )
+		{
+			ScriptType type = key.getType();
+
+			if ( type.equals( TYPE_INT ) )
+			{
+				int index = key.intValue();
+				if ( index < 0 || index >= fieldNames.length )
+					return null;
+				return fieldIndices[ index ];
+			}
+
+			if ( type.equals( TYPE_STRING ) )
+			{
+				String str = key.toString();
+				for ( int index = 0; index < fieldNames.length; ++ index )
+					if ( fieldNames[index].equals( str ) )
+						return fieldIndices[ index ];
+				return null;
+			}
+
+			return null;
+		}
+
 		public int indexOf( ScriptValue key )
 		{
 			ScriptType type = key.getType();
@@ -6467,9 +6495,8 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( type.equals( TYPE_STRING ) )
 			{
-				String str = key.toString();
 				for ( int index = 0; index < fieldNames.length; ++ index )
-					if ( fieldNames[index].equals( str ) )
+					if ( key == fieldIndices[index] )
 						return index;
 				return -1;
 			}
@@ -6783,7 +6810,7 @@ public class KoLmafiaASH extends StaticEntity
 				throw new RuntimeException( "Internal error: Insufficient fields in data" );
 
 			ScriptCompositeType type = (ScriptCompositeType)this.type;
-			ScriptValue key = parseValue( type.getIndexType(), data[ index ] );
+			ScriptValue key = type.getKey( parseValue( type.getIndexType(), data[ index ] ) );
 
 			// If there's only a key and a value, parse the value
 			// and store it in the composite
