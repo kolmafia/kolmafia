@@ -3043,6 +3043,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { AGGREGATE_TYPE };
 		result.addElement( new ScriptExistingFunction( "count", INT_TYPE, params ) );
 
+		params = new ScriptType[] { AGGREGATE_TYPE };
+		result.addElement( new ScriptExistingFunction( "clear", VOID_TYPE, params ) );
+
 		params = new ScriptType[] { STRING_TYPE, AGGREGATE_TYPE };
 		result.addElement( new ScriptExistingFunction( "file_to_map", BOOLEAN_TYPE, params ) );
 
@@ -4613,6 +4616,12 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( arg.getValue().count() );
 		}
 
+		public ScriptValue clear( ScriptVariable arg )
+		{
+			arg.getValue().clear();
+			return VOID_VALUE;
+		}
+
 		public ScriptValue file_to_map( ScriptVariable var1, ScriptVariable var2 )
 		{
 			String filename = var1.toStringValue().toString();
@@ -4632,6 +4641,8 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			BufferedReader reader = DataUtilities.getReader( "", filename );
 			String [] data = null;
+
+			result.clear();
 
 			try
 			{
@@ -6456,8 +6467,9 @@ public class KoLmafiaASH extends StaticEntity
 
 			if ( type.equals( TYPE_STRING ) )
 			{
-				for ( int index = 0; index < fieldIndices.length; ++ index )
-					if ( key == fieldIndices[index] )
+				String str = key.toString();
+				for ( int index = 0; index < fieldNames.length; ++ index )
+					if ( fieldNames[index].equals( str ) )
 						return index;
 				return -1;
 			}
@@ -6689,6 +6701,10 @@ public class KoLmafiaASH extends StaticEntity
 		{	return 1;
 		}
 
+		public void clear()
+		{
+		}
+
 		public boolean contains( ScriptValue index ) throws AdvancedScriptException
 		{	return false;
 		}
@@ -6726,6 +6742,10 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue remove( ScriptValue key )
 		{	return null;
+		}
+
+		public void clear()
+		{
 		}
 
 		public ScriptValue [] keys()
@@ -6857,6 +6877,13 @@ public class KoLmafiaASH extends StaticEntity
 			return result;
 		}
 
+		public void clear()
+		{
+			ScriptValue [] array = (ScriptValue [])content;
+			for ( int index = 0; index < array.length; ++index )
+				array[ index ] = getDataType().initialValue();
+		}
+
 		public int count()
 		{
 			ScriptValue [] array = (ScriptValue [])content;
@@ -6904,6 +6931,12 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			TreeMap map = (TreeMap)content;
 			return (ScriptValue)map.remove( key );
+		}
+
+		public void clear()
+		{
+			TreeMap map = (TreeMap)content;
+			map.clear();
 		}
 
 		public int count()
@@ -6998,15 +7031,16 @@ public class KoLmafiaASH extends StaticEntity
 			return result;
 		}
 
-		public ScriptValue [] keys()
+		public void clear()
 		{
-			ScriptRecordType type = (ScriptRecordType)this.type;
-			String [] fields = type.getFieldNames();
-			int size = fields.length;
-			ScriptValue [] result = new ScriptValue[ size ];
-			for ( int i = 0; i < size; ++i )
-				result[i] = new ScriptValue( fields[i] );
-			return result;
+			ScriptType [] dataTypes = ((ScriptRecordType)type).getFieldTypes();
+			ScriptValue [] array = (ScriptValue [])content;
+			for ( int index = 0; index < array.length; ++index )
+				array[ index ] = dataTypes[index].initialValue();
+		}
+
+		public ScriptValue [] keys()
+		{	return ((ScriptRecordType)type).getFieldIndices();
 		}
 
 		public void dump( PrintStream writer, String prefix, boolean compact )
