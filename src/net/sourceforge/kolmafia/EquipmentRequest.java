@@ -806,7 +806,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	public static int slotNumber( String name )
 	{
 		for ( int i = 0; i < slotNames.length; ++i )
-			if ( name.equals( slotNames[i] ) )
+			if ( name.equalsIgnoreCase( slotNames[i] ) )
 				return i;
 		return -1;
 	}
