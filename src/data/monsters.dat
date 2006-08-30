@@ -46,6 +46,15 @@
 # Garganthulihc
 # Giant Skeelton
 # Huge Ghuol
+#
+# New or changed monsters:
+#
+# Angry Raccoon Puppet
+# Business Hippy
+# eXtreme Sports Orc
+# Knott Yeti
+# Snow Queen
+# Upgraded Ram
 
 1335 HaXx0r	HP: 71 Def: 81 Atk: 81 Meat: 24-38	334 scroll (20)	Dyspepsi-Cola (70)	1337 7r0uZ0RZ (15)
 7-Foot Dwarf (Moil)	HP: 40 Def: 53 Atk: 53 Meat: 32-51	miner's helmet (3)	miner's pants (3)	7-Foot Dwarven mattock (3)
@@ -250,6 +259,7 @@ Sleeping Knob Goblin Guard	HP: 1 Def: 1 Atk: 1 Meat: 4-8	viking helmet (30)	Knob
 Slick Lihc	HP: 50 Def: 60 Atk: 58 E: spooky	lihc eye (20)	lihc face (10)
 Smarmy Pirate	HP: 55 Def: 65 Atk: 65 E: sleaze Meat: 22-34	bottle of rum (50)	charrrm (20)	eyepatch (10)
 Smart Skelton	HP: 11 Def: 20 Atk: 20 E: spooky	smart skull (50)
+Snow Queen	HP: 70 Def: 104 Atk: 104 E: cold
 Spam Witch	HP: 75 Def: 85 Atk: 85 EA: sleaze Meat: 24-38	30669 scroll (30)	Spam Witch sammich (50)
 Spectral Jellyfish	HP: 60 Def: 70 Atk: 70
 Spiny Skelelton	HP: 50 Def: 54 Atk: 54 E: spooky	skeleton bone (40)	smart skull (50)	spiked femur (10)
@@ -288,6 +298,7 @@ Toothy Sklelton	HP: 50 Def: 58 Atk: 58  E: spooky	loose teeth (20)	loose teeth (
 Topiary Golem	HP: 150 Def: 180 Atk: 180	hedge maze puzzle (65)
 Triffid	HP: 6 Def: 5 Atk: 1	moxie weed (30)	spooky stick (30)
 Undead Elbow Macaroni	HP: 1 Def: 1 Atk: 1 E: spooky Meat: 4-7	magicalness-in-a-can (25)
+Upgraded Ram	HP: 95 Def: 104 Atk: 104
 Vampire Bat	HP: 10 Def: 16 Atk: 18 Meat: 34-54	bat wing (15)	batgut (15)	sonar-in-a-biscuit (20)
 Vampire Clam	HP: 14 Def: 19 Atk: 21
 Vicious Gnauga	HP: 40 Def: 45 Atk: 45	gnauga hide (10)
