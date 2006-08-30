@@ -2960,6 +2960,7 @@ public abstract class KoLCharacter extends StaticEntity
 				case 1741:	// giant cheesestick
 				case 1744:	// savory staff
 				case 1747:	// soylent staff
+				case 1780:	// ram stick
 					hasStaff = true;
 					break;
 
