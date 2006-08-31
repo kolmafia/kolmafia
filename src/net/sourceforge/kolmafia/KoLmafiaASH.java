@@ -2949,6 +2949,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "weapon_hands", INT_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
+		result.addElement( new ScriptExistingFunction( "weapon_type", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "ranged_weapon", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] {};
@@ -2974,6 +2977,18 @@ public class KoLmafiaASH extends StaticEntity
 
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "contains_text", BOOLEAN_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "index_of", INT_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE, STRING_TYPE, INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "index_of", INT_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE, INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "substring", STRING_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE, INT_TYPE, INT_TYPE };
+		result.addElement( new ScriptExistingFunction( "substring", STRING_TYPE, params ) );
 
 		params = new ScriptType[] { ITEM_TYPE };
 		result.addElement( new ScriptExistingFunction( "bounty_hunter_wants", BOOLEAN_TYPE, params ) );
@@ -4439,6 +4454,12 @@ public class KoLmafiaASH extends StaticEntity
 		{	return new ScriptValue( EquipmentDatabase.getHands( item.intValue() ) );
 		}
 
+		public ScriptValue weapon_type( ScriptVariable item )
+		{
+			String type = EquipmentDatabase.getType( item.intValue() );
+			return new ScriptValue( type == null ? "unknown" : type );
+		}
+
 		public ScriptValue ranged_weapon( ScriptVariable item )
 		{	return new ScriptValue( EquipmentDatabase.isRanged( item.intValue() ) );
 		}
@@ -4475,6 +4496,36 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue contains_text( ScriptVariable source, ScriptVariable search )
 		{	return new ScriptValue( source.toStringValue().toString().indexOf( search.toStringValue().toString() ) != -1 );
+		}
+
+		public ScriptValue index_of( ScriptVariable source, ScriptVariable search )
+		{
+			String string = source.toStringValue().toString();
+			String substring = search.toStringValue().toString();
+			return new ScriptValue( string.indexOf( substring ) );
+		}
+
+		public ScriptValue index_of( ScriptVariable source, ScriptVariable search, ScriptVariable start )
+		{
+			String string = source.toStringValue().toString();
+			String substring = search.toStringValue().toString();
+			int begin = start.intValue();
+			return new ScriptValue( string.indexOf( substring, begin ) );
+		}
+
+		public ScriptValue substring( ScriptVariable source, ScriptVariable start )
+		{
+			String string = source.toStringValue().toString();
+			int begin = start.intValue();
+			return new ScriptValue( string.substring( begin ) );
+		}
+
+		public ScriptValue substring( ScriptVariable source, ScriptVariable start, ScriptVariable finish )
+		{
+			String string = source.toStringValue().toString();
+			int begin = start.intValue();
+			int end = finish.intValue();
+			return new ScriptValue( string.substring( begin, end ) );
 		}
 
 		public ScriptValue cli_execute( ScriptVariable string )

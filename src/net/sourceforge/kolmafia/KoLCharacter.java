@@ -2904,6 +2904,10 @@ public abstract class KoLCharacter extends StaticEntity
 
 			switch ( slot )
 			{
+			case WEAPON:
+				hasStaff = EquipmentDatabase.isStaff( item.getItemID() );
+				break;
+
 			case FAMILIAR:
 				newFamiliarItemWeightAdjustment = FamiliarData.itemWeightModifier( item.getItemID() );
 				break;
@@ -2920,62 +2924,27 @@ public abstract class KoLCharacter extends StaticEntity
 
 			switch ( item.getItemID() )
 			{
-				case JEKYLLIN:
-					newItemDropPercentAdjustment += 15 + MoonPhaseDatabase.getMoonlight() * 5;
-					break;
+			case JEKYLLIN:
+				newItemDropPercentAdjustment += 15 + MoonPhaseDatabase.getMoonlight() * 5;
+				break;
 
-				case SAUCE_GLOVE:
-					if ( classtype.startsWith( "Sa" ) )
-						rigatoniSkill = true;
-					break;
+			case SAUCE_GLOVE:
+				if ( classtype.startsWith( "Sa" ) )
+					rigatoniSkill = true;
+				break;
 
-				case 77:	// spooky stick
-				case 103:	// spooky staff
-				case 108:	// big stick
-				case 110:	// basic meat staff
-				case 114:	// dripping meat staff
-				case 148:	// eXtreme meat staff
-				case 228:	// Kentucky-fried meat staff
-				case 379:	// linoleum staff
-				case 382:	// asbestos staff
-				case 385:	// chrome staff
-				case 414:	// crowbarrr
-				case 659:	// star staff
-				case 943:	// bow staff
-				case 1246:	// rib of the Bonerdagon
-				case 1467:	// 25-meat staff
-				case 1680:	// cardboard staff
-				case 1682:	// bubblewrap staff
-				case 1685:	// styrofoam staff
-				case 1707:	// flypaper staff
-				case 1713:	// squeaky staff
-				case 1716:	// starchy staff
-				case 1719:	// poutine pole
-				case 1722:	// glistening staff
-				case 1725:	// bigger stick
-				case 1729:	// dense meat staff
-				case 1732:	// smoldering staff
-				case 1735:	// meatspout staff
-				case 1738:	// hairy staff
-				case 1741:	// giant cheesestick
-				case 1744:	// savory staff
-				case 1747:	// soylent staff
-				case 1780:	// ram stick
-					hasStaff = true;
-					break;
+			case BACONSTONE_BRACELET:
+			case WIZARD_HAT:
+				newManaCostModifier -= 1;
+				break;
 
-				case BACONSTONE_BRACELET:
-				case WIZARD_HAT:
-					newManaCostModifier -= 1;
-					break;
+			case STAINLESS_SOLITAIRE:
+				newManaCostModifier -= 2;
+				break;
 
-				case STAINLESS_SOLITAIRE:
-					newManaCostModifier -= 2;
-					break;
-
-				case PLEXIGLASS_POCKETWATCH:
-					newManaCostModifier -= 3;
-					break;
+			case PLEXIGLASS_POCKETWATCH:
+				newManaCostModifier -= 3;
+				break;
 			}
 		}
 
