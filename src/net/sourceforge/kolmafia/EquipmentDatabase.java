@@ -48,6 +48,7 @@ public class EquipmentDatabase extends KoLDatabase
 {
 	private static IntegerArray power = new IntegerArray();
 	private static IntegerArray hands = new IntegerArray();
+	private static StringArray type = new StringArray();
 	private static StringArray requirement = new StringArray();
 	private static SpecialOutfitArray outfits = new SpecialOutfitArray();
 
@@ -69,8 +70,17 @@ public class EquipmentDatabase extends KoLDatabase
 					power.set( itemID, StaticEntity.parseInt( data[1] ) );
 					requirement.set( itemID, data[2] );
 
-					hands.set( itemID, ( data.length >= 4 ) ? StaticEntity.parseInt( data[3] ) :
-						TradeableItemDatabase.getConsumptionType( itemID ) == ConsumeItemRequest.EQUIP_WEAPON ? 1 : 0 );
+					int hval = 0;
+					String tval = null;
+					if ( data.length >= 4 )
+					{
+						String str = data[3];
+						hval = StaticEntity.parseInt( str.substring(0,1) );
+						tval = str.substring( str.indexOf( " " ) + 1 );
+					}
+
+					hands.set( itemID, hval );
+					type.set( itemID, tval );
 				}
 			}
 		}
@@ -167,6 +177,23 @@ public class EquipmentDatabase extends KoLDatabase
 		return getHands( itemID );
 	}
 
+	public static String getType( int itemID )
+	{	return type.get( itemID );
+	}
+
+	public static String getType( String itemName )
+	{
+		if ( itemName == null )
+			return null;
+
+		int itemID = TradeableItemDatabase.getItemID( itemName );
+
+		if ( itemID == -1 )
+			return null;
+
+		return getType( itemID );
+	}
+
 	public static boolean isRanged( int itemID )
 	{
 		String req = requirement.get( itemID );
@@ -188,27 +215,8 @@ public class EquipmentDatabase extends KoLDatabase
 
 	public static boolean isStaff( int itemID )
 	{
-		switch ( itemID )
-		{
-		case 77:	// spooky stick
-		case 103:	// spooky staff
-		case 108:	// big stick
-		case 110:	// basic meat staff
-		case 114:	// dripping meat staff
-		case 148:	// eXtreme meat staff
-		case 228:	// Kentucky-fried meat staff
-		case 379:	// linoleum staff
-		case 382:	// asbestos staff
-		case 385:	// chrome staff
-		case 414:	// crowbarrr
-		case 659:	// star staff
-		case 943:	// bow staff
-		case 1151:	// giant discarded plastic fork
-		case 1246:	// rib of the Bonerdagon
-		case 1467:	// 25-meat staff
-			return true;
-		}
-		return false;
+		String type = getType( itemID );
+		return type != null && type.equals( "staff" );
 	}
 
 	public static boolean isStaff( String itemName )
