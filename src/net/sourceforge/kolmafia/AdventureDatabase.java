@@ -351,6 +351,8 @@ public class AdventureDatabase extends KoLDatabase
 				for ( int i = 1; i < 6; ++i )
 					adventureTable[i].add( data[i] );
 
+				System.out.println( data.length );
+
 				if ( data.length == 7 )
 					conditionLookup.put( data[5], data[6] );
 			}
@@ -385,6 +387,9 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static String getCondition( KoLAdventure location )
 	{
+		if ( location == null )
+			return "none";
+
 		String condition = (String) conditionLookup.get( location.getAdventureName() );
 		return condition == null ? "none" : condition;
 	}
