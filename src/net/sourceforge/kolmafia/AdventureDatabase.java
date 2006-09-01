@@ -351,8 +351,6 @@ public class AdventureDatabase extends KoLDatabase
 				for ( int i = 1; i < 6; ++i )
 					adventureTable[i].add( data[i] );
 
-				System.out.println( data.length );
-
 				if ( data.length == 7 )
 					conditionLookup.put( data[5], data[6] );
 			}
