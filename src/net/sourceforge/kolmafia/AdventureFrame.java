@@ -275,6 +275,9 @@ public class AdventureFrame extends KoLFrame
 					return;
 
 				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedItem();
+
+				System.out.println( location );
+				System.out.println( AdventureDatabase.getCondition( location ) );
 				conditionField.setText( AdventureDatabase.getCondition( location ) );
 			}
 		}
