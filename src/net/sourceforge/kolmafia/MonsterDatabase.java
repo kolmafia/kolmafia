@@ -106,7 +106,7 @@ public class MonsterDatabase extends KoLDatabase
 				if ( !bad )
 				{
 					MONSTER_DATA.put( data[0], monster );
-					MONSTER_NAMES.put( data[0].toLowerCase(), data[0] );
+					MONSTER_NAMES.put( CombatSettings.encounterKey( data[0] ), data[0] );
 				}
 			}
 		}
@@ -126,7 +126,7 @@ public class MonsterDatabase extends KoLDatabase
 
 	public static Monster findMonster( String name )
 	{
-		String realName = (String) MONSTER_NAMES.get( name.toLowerCase() );
+		String realName = (String) MONSTER_NAMES.get( CombatSettings.encounterKey( name ) );
 		return realName == null ? null : (Monster) MONSTER_DATA.get( realName );
 	}
 

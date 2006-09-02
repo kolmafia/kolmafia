@@ -143,7 +143,6 @@ public abstract class CombatSettings implements UtilityConstants
 			BufferedReader reader = new BufferedReader( new InputStreamReader( new FileInputStream( settingsFile ) ) );
 
 			String line;
-			String currentKey = "";
 			CombatSettingNode currentList = root;
 
 			while ( (line = reader.readLine()) != null )
@@ -154,7 +153,7 @@ public abstract class CombatSettings implements UtilityConstants
 					if ( currentList != root && currentList.getChildCount() == 0 )
 						currentList.add( new CombatActionNode( 1, "attack" ) );
 
-					currentKey = line.substring( 1, line.length() - 1 ).trim().toLowerCase();
+					String currentKey = encounterKey( line.substring( 1, line.length() - 1 ) );
 					currentList = new CombatSettingNode( currentKey );
 
 					reference.put( currentKey, currentList );
@@ -216,6 +215,20 @@ public abstract class CombatSettings implements UtilityConstants
 			loadSettings();
 		}
 	}
+
+        public static String encounterKey(String line )
+	{
+                String key = line.trim().toLowerCase();
+
+                if ( key.startsWith( "a " ) )
+                        key = key.substring( 2 );
+                else if ( key.startsWith( "an " ) )
+                        key = key.substring( 3 );
+                else if ( key.startsWith( "the " ) )
+                        key = key.substring( 4 );
+
+                return key;
+        }
 
 	public synchronized static void setDefaultAction( String actionList )
 	{
