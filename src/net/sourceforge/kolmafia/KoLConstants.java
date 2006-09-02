@@ -82,7 +82,7 @@ public interface KoLConstants extends UtilityConstants
 		{ "Main Map", "main.php" },
 		{ "Seaside Town", "town.php" },
 		{ "Council", "council.php" },
-		{ "Clan Guild", "guild.php" },
+		{ "Guild Hall", "guild.php" },
 		{ "Clan Hall", "clan_hall.php" },
 		{ "The Mall", "mall.php" },
 		{ "Campground", "campground.php" },
