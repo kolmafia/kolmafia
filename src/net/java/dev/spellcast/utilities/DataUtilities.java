@@ -100,9 +100,9 @@ public class DataUtilities implements UtilityConstants
 				String encoding = connection.getContentEncoding();
 
 				if ( encoding == null )
-					encoding = "ISO-8859-1";
-
-				return new BufferedReader( new InputStreamReader( istream, encoding ) );
+					return new BufferedReader( new InputStreamReader( istream ) );
+				else
+					return new BufferedReader( new InputStreamReader( istream, encoding ) );
 			}
 		}
 		catch ( Exception e )

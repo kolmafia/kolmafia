@@ -644,9 +644,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			statusChanged = false;
 			if ( !isDelayExempt() && isServerFriendly )
-				KoLRequest.delay();
+				delay();
 		}
-		while ( !prepareConnection() || !postClientData() || !retrieveServerReply() );
+		while ( !prepareConnection() || !postClientData() || (!retrieveServerReply() && delay( 5000 )) );
 
 		if ( responseCode == 200 && responseText != null )
 		{
@@ -886,7 +886,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		catch ( Exception e )
 		{
 			if ( !isChatRequest )
+			{
 				KoLmafia.getDebugStream().println( "Connection timed out during post.  Retrying..." );
+				StaticEntity.printStackTrace( e );
+			}
 
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
@@ -930,11 +933,13 @@ public class KoLRequest implements Runnable, KoLConstants
 			istream = formConnection.getInputStream();
 			String encoding = formConnection.getContentEncoding();
 
-			if ( encoding == null )
-				encoding = "ISO-8859-1";
-
 			if ( StaticEntity.getProperty( "useNonBlockingReader" ).equals( "false" ) )
-				reader = new BufferedReader( new InputStreamReader( istream, encoding ) );
+			{
+				if ( encoding == null )
+					reader = new BufferedReader( new InputStreamReader( istream ) );
+				else
+					reader = new BufferedReader( new InputStreamReader( istream, encoding ) );
+			}
 
 			responseCode = formConnection.getResponseCode();
 			redirectLocation = formConnection.getHeaderField( "Location" );
@@ -965,15 +970,16 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			if ( !isChatRequest )
+			{
 				KoLmafia.getDebugStream().println( "Connection timed out during response.  Retrying..." );
+				e.printStackTrace( KoLmafia.getDebugStream() );
+			}
 
 			// Add in an extra delay in the event of a time-out in
 			// order to be nicer on the KoL servers.
 
 			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
-			else
-				KoLRequest.delay();
 
 			return formURLString.startsWith( "http://" );
 		}
@@ -1151,7 +1157,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			for ( int i = 0; available == 0 && i < 10; ++i )
 			{
 				available = istream.available();
-				KoLRequest.delay( 100 );
+				delay( 100 );
 			}
 
 			if ( available == 0 )
@@ -1659,7 +1665,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	return getURLString();
 	}
 
-	private void printHeaderFields()
+	protected void printHeaderFields()
 	{
 		Map headerFields = formConnection.getHeaderFields();
 		KoLmafia.getDebugStream().println( headerFields.size() + " header fields" );
@@ -1672,7 +1678,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		}
 	}
 
-	private void printRequestProperties()
+	protected void printRequestProperties()
 	{
 
 		Map requestProperties = formConnection.getRequestProperties();
