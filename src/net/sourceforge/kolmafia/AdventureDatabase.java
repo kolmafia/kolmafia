@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.ArrayList;
 
 import java.io.BufferedReader;
 import net.java.dev.spellcast.utilities.LockableListModel;
@@ -59,6 +60,8 @@ public class AdventureDatabase extends KoLDatabase
 	private static final Map adventureLookup = new TreeMap();
 	private static final Map conditionLookup = new TreeMap();
 
+	private static final Map zoneValidations = new TreeMap();
+
 	static
 	{
 		for ( int i = 0; i < 6; ++i )
@@ -80,10 +83,19 @@ public class AdventureDatabase extends KoLDatabase
 
 		while ( (data = readData( reader )) != null )
 		{
-			if ( data.length == 3 )
+			if ( data.length >= 3 )
 			{
 				ZONE_NAMES.put( data[0], data[1] );
 				ZONE_DESCRIPTIONS.put( data[0], data[2] );
+
+				if ( data.length > 3 )
+				{
+					ArrayList validationRequests = new ArrayList();
+					for ( int i = 3; i < data.length; ++i )
+						validationRequests.add( data[i] );
+
+					zoneValidations.put( data[1], validationRequests );
+				}
 			}
 		}
 
@@ -321,6 +333,30 @@ public class AdventureDatabase extends KoLDatabase
 		"Rock-a-bye larva",
 		"Cobb's Knob lab key"
 	};
+
+	public static final boolean validateZone( String zoneName, String locationID )
+	{
+		ArrayList validationRequests = (ArrayList) zoneValidations.get( zoneName );
+		if ( validationRequests.isEmpty() )
+			return true;
+
+		boolean isValidZone = true;
+
+		for ( int i = 1; isValidZone && i < validationRequests.size() - 1; ++i )
+		{
+			KoLRequest request = new KoLRequest( getClient(), (String) validationRequests.get(0) );
+			request.run();
+
+			isValidZone &= request.responseText != null &&
+				request.responseText.indexOf( (String) validationRequests.get(i) ) != -1;
+		}
+
+		KoLRequest request = new KoLRequest( getClient(), (String) validationRequests.get( validationRequests.size() - 1 ) );
+		request.run();
+		isValidZone &= request.responseText != null && request.responseText.indexOf( locationID ) != -1;
+
+		return isValidZone;
+	}
 
 	public static final void refreshAdventureTable()
 	{

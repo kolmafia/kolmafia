@@ -252,106 +252,15 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		KoLRequest request = null;
 
-		// The beach is unlocked provided the player has the meat car
-		// accomplishment and a meatcar in inventory.
-
-		if ( formSource.equals( "shore.php" ) || adventureID.equals( "45" ) )
-		{
-			// Obviate following request by checking accomplishment:
-			// questlog.php?which=3
-			// "You have built your own Bitchin' Meat Car."
-
-			KoLmafia.updateDisplay( "Validating map location..." );
-			request = new KoLRequest( client, "main.php" );
-			request.run();
-
-			if ( request.responseText.indexOf( "beach.php" ) == -1 )
-			{
-				// If the beach hasn't been unlocked, then visit Paco
-				// with your meatcar.
-
-				AdventureDatabase.retrieveItem( "bitchin' meatcar" );
-
-				if ( KoLmafia.permitsContinue() )
-				{
-					isValidAdventure = true;
-					request = new KoLRequest( client, "guild.php?place=paco", true );
-					request.run();
-					return;
-				}
-
-				KoLmafia.updateDisplay( ERROR_STATE, "Beach is not yet unlocked." );
-				return;
-			}
-
-			isValidAdventure = true;
-			return;
-		}
-
 		// The casino is unlocked provided the player
 		// has a casino pass in their inventory.
 
-		else if ( zone.equals( "Casino" ) )
+		if ( zone.equals( "Casino" ) )
 		{
 			AdventureDatabase.retrieveItem( "casino pass" );
 			isValidAdventure = KoLmafia.permitsContinue();
 			return;
 		}
-
-		else if ( zone.equals( "BatHole" ) )
-		{
-			// Check to see if the Knob is unlocked; all areas are
-			// automatically present when this is true.
-
-			request = new KoLRequest( client, "plains.php" );
-			request.run();
-
-			if ( request.responseText.indexOf( "bathole.php" ) == -1 )
-			{
-				if ( visitedCouncil )
-				{
-					KoLmafia.updateDisplay( "The bat hole is not yet unlocked." );
-				}
-				else
-				{
-					DEFAULT_SHELL.executeLine( "council" );
-					validate( true );
-				}
-
-				return;
-			}
-
-			isValidAdventure = true;
-			return;
-		}
-
-		else if ( zone.equals( "Knob" ) && !adventureID.equals( "11" ) )
-		{
-			// Check to see if the Knob is unlocked; all areas are
-			// automatically present when this is true.
-
-			request = new KoLRequest( client, "plains.php" );
-			request.run();
-
-			if ( request.responseText.indexOf( "knob.php" ) == -1 )
-			{
-				if ( visitedCouncil )
-				{
-					KoLmafia.updateDisplay( "The Knob is not yet unlocked." );
-				}
-				else
-				{
-					DEFAULT_SHELL.executeLine( "council" );
-					validate( true );
-				}
-
-				return;
-			}
-
-			isValidAdventure = true;
-			return;
-		}
-
 
 		// The island is unlocked provided the player
 		// has a dingy dinghy in their inventory.
@@ -377,24 +286,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			// "You have learned how to hunt Yetis from the L337
 			// Tr4pz0r."
 
-			// See if we can get to the location already
-			request = new KoLRequest( client, "mclargehuge.php" );
-			request.run();
-			if ( request.responseText.indexOf( adventureID ) != -1 )
-			{
-				isValidAdventure = true;
-				return;
-			}
+			// See if the trapper will give it to us
 
-			// No. See if the trapper will give it to us
-			if ( request.responseText.indexOf( "trapper.php" ) == -1 )
-				DEFAULT_SHELL.executeLine( "council" );
-
+			DEFAULT_SHELL.executeLine( "council" );
 			request = new KoLRequest( client, "trapper.php" );
 			request.run();
 
-			// See if we can now get to the location
-			request = new KoLRequest( client, "mclargehuge.php" );
+			validate( true );
+			return;
 		}
 
 		// The Castle in the Clouds in the Sky is unlocked provided the
@@ -479,42 +378,70 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			}
 
 			request = new KoLRequest( client, "beanstalk.php" );
+			request.run();
+
 			KoLCharacter.armBeanstalk();
+			return;
 		}
-
-		// If you do not need to arm anything, then
-		// return from this method.
-
-		if ( request == null )
+		else if ( adventureID.equals( "11" ) )
 		{
 			isValidAdventure = true;
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Validating map location..." );
-		request.run();
+		// If a zone validation is sufficient, then validate the
+		// zone normally.
 
-		// Now that the zone is armed, check to see
-		// if the adventure is even available.	If
-		// it's not, cancel the request before it's
-		// even made to minimize server hits.
-
-		if ( request.responseText.indexOf( getAdventureID() ) == -1 )
+		if ( AdventureDatabase.validateZone( zone, adventureID ) )
 		{
-			if ( visitedCouncil )
-			{
-				KoLmafia.updateDisplay( ERROR_STATE, "This adventure is not yet unlocked." );
-				return;
-			}
-			else
-			{
-				DEFAULT_SHELL.executeLine( "council" );
+			isValidAdventure = true;
+			return;
+		}
+
+		// Attempt to unlock the Degrassi Knoll by visiting Paco.
+		// Though we can unlock the guild quest, sometimes people
+		// don't want to open up the guild store right now.  So,
+		// just keep trying until paco is unlocked.
+
+		if ( adventureID.equals( "10" ) )
+		{
+			client.unlockGuildStore( true );
+			if ( KoLmafia.permitsContinue() )
 				validate( true );
+
+			return;
+		}
+
+		// The beach is unlocked provided the player has the meat car
+		// accomplishment and a meatcar in inventory.
+
+		if ( zone.equals( "Beach" ) )
+		{
+			// If the beach hasn't been unlocked, then visit Paco
+			// with your meatcar.
+
+			visitedCouncil = true;
+			AdventureDatabase.retrieveItem( "bitchin' meatcar" );
+
+			if ( KoLmafia.permitsContinue() )
+			{
+				client.unlockGuildStore( true );
+				isValidAdventure = KoLmafia.permitsContinue();
 				return;
 			}
 		}
 
-		isValidAdventure = true;
+		// Check to see if the Knob is unlocked; all areas are
+		// automatically present when this is true.
+
+		if ( visitedCouncil )
+		{
+			KoLmafia.updateDisplay( "This adventure is not yet unlocked." );
+			return;
+		}
+
+		DEFAULT_SHELL.executeLine( "council" );
+		validate( true );
 	}
 
 	private void postValidate()

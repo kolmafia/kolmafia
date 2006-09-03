@@ -92,6 +92,8 @@ public class ChatBuffer
 	protected static final int DISPLAY_CHANGE = 1;
 	protected static final int LOGFILE_CHANGE = 2;
 
+	private static final Pattern TRIPLE_LINE_PATTERN = Pattern.compile( "<br>\\s*<br>\\s*(<br>\\s*)+" );
+
 	private String title;
 	private String header;
 
@@ -233,6 +235,13 @@ public class ChatBuffer
 		fireBufferChanged( CONTENT_CHANGE, message );
 	}
 
+	private void normalizeBuffer()
+	{
+		Matcher tripleMatcher = TRIPLE_LINE_PATTERN.matcher( displayBuffer.toString() );
+		if ( tripleMatcher.find() )
+			displayBuffer = new StringBuffer( tripleMatcher.replaceAll( "<br><br>" ) );
+	}
+
 	/**
 	 * An internal function used to indicate that something has changed with
 	 * regards to the <code>ChatBuffer</code>.  This includes any addition
@@ -247,14 +256,25 @@ public class ChatBuffer
 			if ( displayPane != null )
 			{
 				DisplayPaneUpdater updater = new DisplayPaneUpdater( newContents );
-				if ( SwingUtilities.isEventDispatchThread() )
-					updater.run();
-				else
-					SwingUtilities.invokeLater( updater );
+
+				try
+				{
+					if ( SwingUtilities.isEventDispatchThread() )
+						updater.run();
+					else
+						SwingUtilities.invokeAndWait( updater );
+				}
+				catch ( Exception e )
+				{
+					e.printStackTrace();
+				}
 
 			}
 			else if ( newContents != null )
+			{
 				displayBuffer.append( newContents );
+				normalizeBuffer();
+			}
 		}
 
 		if ( changeType == CONTENT_CHANGE && activeLogWriter != null && newContents != null )
@@ -302,18 +322,14 @@ public class ChatBuffer
 		{
 			boolean scrollToTop = displayBuffer.length() == 0 || newContents == null;
 			if ( newContents != null )
+			{
 				displayBuffer.append( newContents );
+				normalizeBuffer();
+			}
 
-			try
-			{
-				displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
-				if ( scrollToTop )
-					displayPane.setCaretPosition( 0 );
-			}
-			catch ( Exception e )
-			{
-				e.printStackTrace();
-			}
+			displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
+			if ( scrollToTop )
+				displayPane.setCaretPosition( 0 );
 		}
 	}
 }

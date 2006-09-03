@@ -170,6 +170,7 @@ public class CommandDisplayFrame extends KoLFrame
 				{
 					if ( command.startsWith( "inv" ) || command.startsWith( "status" ) || command.startsWith( "equip" ) )
 					{
+						KoLmafia.commandBuffer.append( "<br><font color=olive>&nbsp;&gt;&nbsp;" + command + "</font><br><br>" );
 						DEFAULT_SHELL.executeLine( command );
 						return;
 					}

@@ -1676,6 +1676,10 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	public void unlockGuildStore()
+	{	unlockGuildStore( false );
+	}
+
+	public void unlockGuildStore( boolean stopAtPaco )
 	{
 		// The wiki claims that your prime stats are somehow connected,
 		// but the exact procedure is uncertain.  Therefore, just allow
@@ -1686,7 +1690,9 @@ public abstract class KoLmafia implements KoLConstants
 		KoLRequest request = new KoLRequest( this, "guild.php?place=challenge", true );
 		request.run();
 
-		boolean success = false;
+		boolean success = stopAtPaco ? request.responseText.indexOf( "paco" ) != -1 :
+			request.responseText.indexOf( "store.php" ) != -1;
+
 		updateDisplay( "Completing guild tasks..." );
 
 		for ( int i = 0; i < 6 && !success && KoLCharacter.getAdventuresLeft() > 0 && permitsContinue(); ++i )
@@ -1694,17 +1700,25 @@ public abstract class KoLmafia implements KoLConstants
 			request = new KoLRequest( this, "guild.php?action=chal", true );
 			request.run();
 
-			success |= request.responseText != null &&
-				request.responseText.indexOf( "You've already beaten all of the challenges for your Guild." ) != -1;
+			if ( request.responseText != null )
+			{
+				success |= stopAtPaco ? request.responseText.indexOf( "paco" ) != -1 :
+					request.responseText.indexOf( "You've already beaten" ) != -1;
+			}
 
 			if ( !success && !request.needsRefresh )
 				CharpaneRequest.getInstance().run();
 		}
 
-		request = new KoLRequest( this, "guild.php?place=paco", true );
-		request.run();
+		if ( success && KoLCharacter.getLevel() > 3 )
+		{
+			request = new KoLRequest( this, "guild.php?place=paco", true );
+			request.run();
+		}
 
-		if ( success )
+		if ( success && stopAtPaco )
+			updateDisplay( "You have unlocked the guild meatcar quest." );
+		else if ( success )
 			updateDisplay( "Guild store successfully unlocked." );
 		else
 			updateDisplay( "Guild store was not unlocked." );
