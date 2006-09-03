@@ -53,77 +53,78 @@
 09	20	0	adventure.php	41	Knob Goblin Treasury	outfit
 09	20	0	adventure.php	42	Knob Goblin Harem	outfit, Knob Goblin perfume
 09	20	0	knob.php	0	The King's Chamber
-09	20	30	adventure.php	50	Knob Goblin Laboratory
-09	20	35	adventure.php	51	Menagerie 1
-09	20	40	adventure.php	52	Menagerie 2
-09	20	45	adventure.php	53	Menagerie 3
-09	20	0	adventure.php	101	The Knob Shaft
 
-10	29	29	adventure.php	75	Dark Neck of the Woods	wussiness potion, ruby W, dodecagram
-10	29	29	adventure.php	76	Dark Heart of the Woods	box of birthday candles
-10	29	29	adventure.php	77	Dark Elbow of the Woods	eldritch butterknife
-10	29	29	friars.php	0	Friar Ceremony Location
-10	29	29	adventure.php	79	Deep Fat Friar's Gate
+10	20	30	adventure.php	50	Knob Goblin Laboratory
+10	20	35	adventure.php	51	Menagerie 1
+10	20	40	adventure.php	52	Menagerie 2
+10	20	45	adventure.php	53	Menagerie 3
+10	20	0	adventure.php	101	The Knob Shaft
 
-11	40	40	adventure.php	54	Defiled Nook
-11	40	40	adventure.php	55	Defiled Cranny
-11	40	40	adventure.php	56	Defiled Alcove
-11	40	40	adventure.php	57	Defiled Niche
-11	40	40	cyrpt.php	Yep.	Haert of the Cyrpt
+11	29	29	adventure.php	75	Dark Neck of the Woods	wussiness potion, ruby W, dodecagram
+11	29	29	adventure.php	76	Dark Heart of the Woods	box of birthday candles
+11	29	29	adventure.php	77	Dark Elbow of the Woods	eldritch butterknife
+11	29	29	friars.php	0	Friar Ceremony Location
+11	29	29	adventure.php	79	Deep Fat Friar's Gate
 
-12	53	0	adventure.php	60	Goatlet	6 goat cheese
-12	53	0	adventure.php	61	Itznotyerzitz Mine	outfit
-12	53	0	adventure.php	62	Ninja Snowmen	1 frigid ninja star
-12	53	0	adventure.php	63	eXtreme Slope	outfit
-12	53	0	adventure.php	110	Icy Peak	level 10
+12	40	40	adventure.php	54	Defiled Nook
+12	40	40	adventure.php	55	Defiled Cranny
+12	40	40	adventure.php	56	Defiled Alcove
+12	40	40	adventure.php	57	Defiled Niche
+12	40	40	cyrpt.php	Yep.	Haert of the Cyrpt
 
-13	0	30	adventure.php	26	Hippy Camp	outfit
-13	0	30	adventure.php	65	Hippy Camp In Disguise
-13	0	30	adventure.php	27	Frat House
-13	0	30	adventure.php	29	Frat House In Disguise
-13	0	45	adventure.php	66	Pirate Cove	outfit
-13	0	45	adventure.php	67	Pirate Cove In Disguise	abridged dictionary
+13	53	0	adventure.php	60	Goatlet	6 goat cheese
+13	53	0	adventure.php	61	Itznotyerzitz Mine	outfit
+13	53	0	adventure.php	62	Ninja Snowmen	1 frigid ninja star
+13	53	0	adventure.php	63	eXtreme Slope	outfit
+13	53	0	adventure.php	110	Icy Peak	level 10
 
-14	0	0	adventure.php	91	Noob Cave
-14	0	0	adventure.php	92	The Dire Warren	level 2
-14	68	0	mountains.php	80	Bridge the Orc Chasm
-14	68	0	adventure.php	80	Valley Beyond Orc Chasm	2 334 scroll, 1 30669 scroll, 1 33398 scroll
+14	0	30	adventure.php	26	Hippy Camp	outfit
+14	0	30	adventure.php	65	Hippy Camp In Disguise
+14	0	30	adventure.php	27	Frat House
+14	0	30	adventure.php	29	Frat House In Disguise
+14	0	45	adventure.php	66	Pirate Cove	outfit
+14	0	45	adventure.php	67	Pirate Cove In Disguise	abridged dictionary
 
-15	85	90	adventure.php	81	Penultimate Fantasy Airship	S.O.C.K.
-15	85	95	adventure.php	82	Castle in the Clouds in the Sky	1 choiceadv
-15	85	100	adventure.php	83	Hole in the Sky
+15	0	0	adventure.php	91	Noob Cave
+15	0	0	adventure.php	92	The Dire Warren	level 2
+15	68	0	mountains.php	80	Bridge the Orc Chasm
+15	68	0	adventure.php	80	Valley Beyond Orc Chasm	2 334 scroll, 1 30669 scroll, 1 33398 scroll
 
-16	104	0	lair3.php	hedge	Sorceress' Hedge Maze	hedge maze puzzle
-16	104	0	lair6.php	5	Fight the Naughty Sorceress
+16	85	90	adventure.php	81	Penultimate Fantasy Airship	S.O.C.K.
+16	85	95	adventure.php	82	Castle in the Clouds in the Sky	1 choiceadv
+16	85	100	adventure.php	83	Hole in the Sky
 
-17	0	13	adventure.php	47	Bugbear Pens	annoying pitchfork
-17	0	40	adventure.php	48	Spooky Gravy Barrow
-17	0	40	adventure.php	49	Post-Quest Bugbear Pens
+17	104	0	lair3.php	hedge	Sorceress' Hedge Maze	hedge maze puzzle
+17	104	0	lair6.php	5	Fight the Naughty Sorceress
 
-18	0	0	adventure.php	43	Outskirts of Camp
-18	0	30	adventure.php	44	Camp Logging Camp
+18	0	13	adventure.php	47	Bugbear Pens	annoying pitchfork
+18	0	40	adventure.php	48	Spooky Gravy Barrow
+18	0	40	adventure.php	49	Post-Quest Bugbear Pens
 
-19	13	25	adventure.php	46	Thugnderdome
+19	0	0	adventure.php	43	Outskirts of Camp
+19	0	30	adventure.php	44	Camp Logging Camp
 
-20	0	0	clan_gym.php	1	Pump Up Muscle
-20	0	0	clan_gym.php	2	Pump Up Mysticality
-20	0	0	clan_gym.php	3	Pump Up Moxie
+20	13	25	adventure.php	46	Thugnderdome
+
+21	0	0	clan_gym.php	1	Pump Up Muscle
+21	0	0	clan_gym.php	2	Pump Up Mysticality
+21	0	0	clan_gym.php	3	Pump Up Moxie
 
 # Astral Plane
 
-21	0	0	adventure.php	96	An Incredibly Strange Place (Bad Trip)
-21	0	0	adventure.php	98	An Incredibly Strange Place (Mediocre Trip)
-21	0	0	adventure.php	97	An Incredibly Strange Place (Great Trip)
+22	0	0	adventure.php	96	An Incredibly Strange Place (Bad Trip)
+22	0	0	adventure.php	98	An Incredibly Strange Place (Mediocre Trip)
+22	0	0	adventure.php	97	An Incredibly Strange Place (Great Trip)
 
 # Holiday Locations
 
-22	0	150	adventure.php	37	Spectral Pickle Factory
-22	0	0	trickortreat.php	Yep.	Trick-or-Treating
-22	0	0	adventure.php	84	St. Sneaky Pete's Day Stupor
+23	0	150	adventure.php	37	Spectral Pickle Factory
+23	0	0	trickortreat.php	Yep.	Trick-or-Treating
+23	0	0	adventure.php	84	St. Sneaky Pete's Day Stupor
 
 # Discontinued Locations
 
-23	0	0	adventure.php	93	Crimbo Town Toy Factory
-23	0	0	adventure.php	88	Future Market Square
-23	0	0	adventure.php	89	Mall of the Future
-23	0	0	adventure.php	90	Future Wrong Side of the Tracks
+24	0	0	adventure.php	93	Crimbo Town Toy Factory
+24	0	0	adventure.php	88	Future Market Square
+24	0	0	adventure.php	89	Mall of the Future
+24	0	0	adventure.php	90	Future Wrong Side of the Tracks

@@ -3953,9 +3953,18 @@ public class KoLmafiaCLI extends KoLmafia
 		sessionStream.println( wordWrappedLine.toString() );
 
 		StringBuffer colorBuffer = new StringBuffer();
-		colorBuffer.append( "<font color=black>" );
-		colorBuffer.append( wordWrappedLine.toString().replaceAll( "\n", "<br>" ) );
-		colorBuffer.append( "</font><br>" );
+
+		if ( line.trim().equals( "" ) )
+		{
+			colorBuffer.append( "<br>" );
+		}
+		else
+		{
+			colorBuffer.append( "<font color=black>" );
+			colorBuffer.append( wordWrappedLine.toString().replaceAll( "\n", "<br>" ) );
+			colorBuffer.append( "</font><br>" );
+		}
+
 		colorBuffer.append( LINE_BREAK );
 
 		LocalRelayServer.addStatusMessage( colorBuffer.toString() );

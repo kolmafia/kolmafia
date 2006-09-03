@@ -1,26 +1,27 @@
 00	Camp	Campground
-01	Beach	Desert Beach
+01	Beach	Desert Beach	main.php	beach.php
 02	Sewer	Seaside Town (sewer)
 03	Casino	Seaside Town (casino)
 04	Town	Seaside Town (general)
-05	Woods	Distant Woods
-06	BatHole	Bat Hole
+05	Woods	Distant Woods	woods.php
+06	BatHole	Bat Hole	plains.php	bathole.php
 07	Rift	Temporal Rifts
-08	Plains	Nearby Plains
-09	Knob	Cobb's Knob
-10	Friars	Deep Fat Friar's
-11	Cyrpt	Defiled Cyrpt
-12	McLarge	Mt. McLargeHuge
-13	Island	Mysterious Island
-14	Mountain	Big Mountains
-15	Beanstalk	Above the Beanstalk
-16	Lair	Sorceress Lair
+08	Plains	Nearby Plains	plains.php
+09	Knob	Cobb's Knob	plains.php	knob.php
+10	Lab	Knob Lab	plains.php	knob.php	knob2.php
+11	Friars	Deep Fat Friar's	woods.php	friars.php
+12	Cyrpt	Defiled Cyrpt	plains.php	cyrpt.php
+13	McLarge	Mt. McLargeHuge	mclargehuge.php
+14	Island	Mysterious Island
+15	Mountain	Big Mountains
+16	Beanstalk	Above the Beanstalk
+17	Lair	Sorceress Lair
 
-17	MusSign	Muscle-Sign Areas
-18	MysSign	Mysticality-Sign Areas
-19	MoxSign	Moxie-Sign Areas
-20	Gym	Clan/Signed Gyms
+18	MusSign	Muscle-Sign Areas
+19	MysSign	Mysticality-Sign Areas
+20	MoxSign	Moxie-Sign Areas
+21	Gym	Clan/Signed Gyms
 
-21	Astral	Astral Plane
-22	Holiday	Holiday Zones
-23	Removed	Removed Areas
+22	Astral	Astral Plane
+23	Holiday	Holiday Zones
+24	Removed	Removed Areas
