@@ -161,6 +161,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptSymbolTable reservedWords = getReservedWords();
 
 	private static ArrayList imports = new ArrayList();
+
 	public LineNumberReader commandStream;
 	public String fileName;
 	private String line;
@@ -571,17 +572,50 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	public void execute( File scriptFile, String [] parameters ) throws IOException
+	public void execute( File scriptFile, String functionName, String [] parameters ) throws IOException
 	{
-		// Before you do anything, validate the script.
-		validate( scriptFile );
+		// Before you do anything, validate the script, if one
+		// is provided.  One will not be provided in the event
+		// that we are using a global namespace.
 
-		if ( this.commandStream == null )
-			return;
+		if ( scriptFile != null )
+		{
+			validate( scriptFile );
+			if ( this.commandStream == null )
+				return;
+		}
+		else
+		{
+			imports.clear();
+
+			String importString = getProperty( "commandLineNamespace" );
+			if ( importString.equals( "" ) )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "No available namespace with function <" + functionName + ">" );
+				return;
+			}
+
+			this.global = new ScriptScope( new ScriptVariableList(), getExistingFunctionScope() );
+			ScriptScope result = this.global;
+
+			String [] importList = importString.split( "," );
+
+			try
+			{
+				for ( int i = 0; i < importList.length; ++i )
+					result = new KoLmafiaASH().parseFile( importList[i], result, this.global.parentScope );
+			}
+			catch ( Exception e )
+			{
+				printStackTrace( e, e.getMessage() );
+				return;
+			}
+
+		}
 
 		try
 		{
-			ScriptValue result = executeGlobalScope( global, parameters );
+			ScriptValue result = executeScope( global, functionName, parameters );
 
 			if ( !KoLmafia.permitsContinue() || result == null || result.getType() == null )
 			{
@@ -607,7 +641,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			// If it's an exception resulting from
 			// a premature abort, which causes void
-			// values to be return, ignore.
+			// values to be returned, ignore.
 
 			if ( !e.getMessage().startsWith( "Cannot" ) )
 				printStackTrace( e, e.getMessage() );
@@ -2393,7 +2427,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 	}
 
-	private ScriptValue executeGlobalScope( ScriptScope globalScope, String [] parameters ) throws AdvancedScriptException
+	private ScriptValue executeScope( ScriptScope topScope, String functionName, String [] parameters ) throws AdvancedScriptException
 	{
 		ScriptFunction main;
 		ScriptValue result = null;
@@ -2401,17 +2435,20 @@ public class KoLmafiaASH extends StaticEntity
 		currentState = STATE_NORMAL;
 		resetTracing();
 
-		main = globalScope.findFunction( "main", null );
+		main = topScope.findFunction( functionName, null );
 
-		if ( main == null && globalScope.getFirstCommand() == null )
+		if ( main == null && topScope.getFirstCommand() == null )
 			throw new AdvancedScriptException( "No commands or main function found." );
 
 		// First execute top-level commands;
-		trace( "Executing top-level commands" );
 
-		result = globalScope.execute();
-		if ( currentState == STATE_EXIT )
-			return result;
+		if ( functionName.equals( "main" ) )
+		{
+			trace( "Executing top-level commands" );
+			result = topScope.execute();
+			if ( currentState == STATE_EXIT )
+				return result;
+		}
 
 		// Now execute main function, if any
 		if ( main != null )

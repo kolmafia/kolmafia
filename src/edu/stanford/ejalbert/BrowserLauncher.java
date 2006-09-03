@@ -599,10 +599,15 @@ public class BrowserLauncher {
 					}
 				}
 
-				if ( jvm == WINDOWS_9x || executable.equals( "notepad" ) )
+				if ( jvm == WINDOWS_9x )
 				{
 					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
 						executable, parameters, url } );
+				}
+				else if ( executable.equals( "notepad" ) )
+				{
+					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
+						"start", "\"\"", executable, parameters, url } );
 				}
 				else if ( usingIE )
 				{

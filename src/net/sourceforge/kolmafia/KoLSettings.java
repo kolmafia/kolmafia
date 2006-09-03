@@ -215,6 +215,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "chosenTrip", "" );
 		CLIENT_SETTINGS.put( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
 		CLIENT_SETTINGS.put( "cloverProtectActive", "false" );
+		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
 		CLIENT_SETTINGS.put( "createWithoutBoxServants", "false" );
 		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );
 		CLIENT_SETTINGS.put( "defaultDropdown2", "1" );
@@ -240,14 +241,15 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "makeBrowserDecisions", "false" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );
 		CLIENT_SETTINGS.put( "proxySet", "false" );
-		CLIENT_SETTINGS.put( "relayAddsShrugOffLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsCommandLineLinks", "true" );
+		CLIENT_SETTINGS.put( "relayAddsPlinking", "false" );
+		CLIENT_SETTINGS.put( "relayAddsScriptList", "true" );
+		CLIENT_SETTINGS.put( "relayAddsShrugOffLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsSimulatorLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsUseLinks", "true" );
-		CLIENT_SETTINGS.put( "relayAddsPlinking", "false" );
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
-		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp | mood execute | use astral mushroom" );
+		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
 		CLIENT_SETTINGS.put( "serverFriendly", "false" );
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
 		CLIENT_SETTINGS.put( "showClosetIngredients", "true" );
