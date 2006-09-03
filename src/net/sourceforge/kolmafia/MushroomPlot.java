@@ -46,7 +46,7 @@ public abstract class MushroomPlot extends StaticEntity
 	//  9 10 11 12
 	// 13 14 15 16
 
-	private static int [][] actualPlot = new int[4][4];
+	private static String [][] actualPlot = new String[4][4];
 
 	private static boolean initialized = false;
 	private static boolean ownsPlot = false;
@@ -81,26 +81,26 @@ public abstract class MushroomPlot extends StaticEntity
 	public static final Object [][] MUSHROOMS =
 	{
 		// Sprout and emptiness
-		{ new Integer( EMPTY ), "dirt1.gif", "__", new Integer( 0 ) },
-		{ new Integer( SPROUT ), "mushsprout.gif", "..", new Integer( 0 ) },
+		{ new Integer( EMPTY ), "dirt1.gif", "__", "__", new Integer( 0 ) },
+		{ new Integer( SPROUT ), "mushsprout.gif", "..", "..", new Integer( 0 ) },
 
 		// First generation mushrooms
-		{ new Integer( KNOB ), "mushroom.gif", "Kb", new Integer( 1 ) },
-		{ new Integer( KNOLL ), "bmushroom.gif", "Kn", new Integer( 2 ) },
-		{ new Integer( SPOOKY ), "spooshroom.gif", "Sp", new Integer( 3 ) },
+		{ new Integer( KNOB ), "mushroom.gif", "kb", "KB", new Integer( 1 ) },
+		{ new Integer( KNOLL ), "bmushroom.gif", "kn", "KN", new Integer( 2 ) },
+		{ new Integer( SPOOKY ), "spooshroom.gif", "sp", "SP", new Integer( 3 ) },
 
 		// Second generation mushrooms
-		{ new Integer( WARM ), "flatshroom.gif", "Wa", new Integer( 4 ) },
-		{ new Integer( COOL ), "plaidroom.gif", "Co", new Integer( 5 ) },
-		{ new Integer( POINTY ), "tallshroom.gif", "Po", new Integer( 6 ) },
+		{ new Integer( WARM ), "flatshroom.gif", "wa", "WA", new Integer( 4 ) },
+		{ new Integer( COOL ), "plaidroom.gif", "co", "CO", new Integer( 5 ) },
+		{ new Integer( POINTY ), "tallshroom.gif", "po", "PO", new Integer( 6 ) },
 
 		// Third generation mushrooms
-		{ new Integer( FLAMING ), "fireshroom.gif", "Fl", new Integer( 0 ) },
-		{ new Integer( FROZEN ), "iceshroom.gif", "Fr", new Integer( 0 ) },
-		{ new Integer( STINKY ), "stinkshroo.gif", "St", new Integer( 0 ) },
+		{ new Integer( FLAMING ), "fireshroom.gif", "fl", "FL", new Integer( 7 ) },
+		{ new Integer( FROZEN ), "iceshroom.gif", "fr", "FR", new Integer( 8 ) },
+		{ new Integer( STINKY ), "stinkshroo.gif", "st", "ST", new Integer( 9 ) },
 
 		// Special mushrooms
-		{ new Integer( GLOOMY ), "blackshroo.gif", "Gl", new Integer( 0 ) },
+		{ new Integer( GLOOMY ), "blackshroo.gif", "gl", "GL", new Integer( 10 ) },
 	};
 
 	static
@@ -111,15 +111,19 @@ public abstract class MushroomPlot extends StaticEntity
 
 	public static final int [][] BREEDING =
 	{
-		// EMPTY,   KNOB,    KNOLL,   SPOOKY,  WARM,    COOL,    POINTY
+		// EMPTY,   KNOB,    KNOLL,   SPOOKY,  WARM,    COOL,    POINTY   FLAMING  FROZEN   STINKY   GLOOMY
 
-		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY   },  // EMPTY
-		{  EMPTY,   KNOB,    COOL,    WARM,    EMPTY,   EMPTY,   EMPTY   },  // KNOB
-		{  EMPTY,   COOL,    KNOLL,   POINTY,  EMPTY,   EMPTY,   EMPTY   },  // KNOLL
-		{  EMPTY,   WARM,    POINTY,  SPOOKY,  EMPTY,   EMPTY,   EMPTY   },  // SPOOKY
-		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   WARM,    STINKY,  FLAMING },  // WARM
-		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   STINKY,  COOL,    FROZEN  },  // COOL
-		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   FLAMING, FROZEN,  POINTY  }   // POINTY
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // EMPTY
+		{  EMPTY,   KNOB,    COOL,    WARM,    EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // KNOB
+		{  EMPTY,   COOL,    KNOLL,   POINTY,  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // KNOLL
+		{  EMPTY,   WARM,    POINTY,  SPOOKY,  EMPTY,   EMPTY,   EMPTY,   EMPTY,   GLOOMY,  EMPTY,   EMPTY  },  // SPOOKY
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   WARM,    STINKY,  FLAMING, EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // WARM
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   STINKY,  COOL,    FROZEN,  EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // COOL
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   FLAMING, FROZEN,  POINTY,  EMPTY,   EMPTY,   EMPTY,   EMPTY  },  // POINTY
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   FLAMING, EMPTY,   EMPTY,   EMPTY  },  // FLAMING
+		{  EMPTY,   EMPTY,   EMPTY,   GLOOMY,  EMPTY,   EMPTY,   EMPTY,   EMPTY,   FROZEN,  EMPTY,   EMPTY  },  // FROZEN
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   STINKY,  EMPTY  },  // STINKY
+		{  EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY,   EMPTY  }   // GLOOMY
 	};
 
 	// Spore data - includes price of the spore
@@ -144,13 +148,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 	public static String getMushroomPlot( boolean isDataOnly )
 	{
-		// If for some reason, the plot was invalid, then
-		// the flag would have been set on the getClient().  In
-		// this case, return a message.
-
-		if ( !initialize() )
-			return "Your plot is unavailable.";
-
+		initialize();
 		return getMushroomPlot( isDataOnly, actualPlot );
 	}
 
@@ -164,52 +162,69 @@ public abstract class MushroomPlot extends StaticEntity
 	{	return getForecastedPlot( isDataOnly, actualPlot );
 	}
 
-	public static String getForecastedPlot( boolean isDataOnly, int [][] plot )
+	public static String getForecastedPlot( boolean isDataOnly, String [][] plot )
 	{
-		// If for some reason, the plot was invalid, then
-		// the flag would have been set on the getClient().  In
-		// this case, return a message.
-
-		if ( !initialize() )
-			return "Your plot is unavailable.";
-
 		// Construct the forecasted plot now.
-		int [][] forecastPlot = new int[4][4];
+
+		boolean [][] changeList = new boolean[4][4];
+		String [][] forecastPlot = new String[4][4];
 
 		for ( int row = 0; row < 4; ++row )
+		{
 			for ( int col = 0; col < 4; ++col )
-				forecastPlot[ row ][ col ] = getForecastSquare( row, col, plot );
-
-		// Whenever the forecasted plot doesn't
-		// match the original plot, the surrounding
-		// mushrooms are assumed to disappear.
-
-		for ( int row = 0; row < 4; ++row )
-			for ( int col = 0; col < 4; ++col )
-				if ( forecastPlot[ row ][ col ] != EMPTY && plot[ row ][ col ] != forecastPlot[ row ][ col ] )
+			{
+				if ( plot[ row ][ col ].equals( "__" ) || plot[ row ][ col ].equals( ".." ) )
 				{
-					if ( row != 0 )  forecastPlot[ row - 1 ][ col ] = EMPTY;
-					if ( row != 3 )  forecastPlot[ row + 1 ][ col ] = EMPTY;
-					if ( col != 0 )  forecastPlot[ row ][ col - 1 ] = EMPTY;
-					if ( col != 3 )  forecastPlot[ row ][ col + 1 ] = EMPTY;
+					forecastPlot[ row ][ col ] = getForecastSquare( row, col, plot );
+					changeList[ row ][ col ] = !forecastPlot[ row ][ col ].equals( "__" ) && !forecastPlot[ row ][ col ].equals( ".." );
 				}
+				else if ( plot[ row ][ col ].equals( plot[ row ][ col ].toLowerCase() ) )
+				{
+					forecastPlot[ row ][ col ] = plot[ row ][ col ].toUpperCase();
+					changeList[ row ][ col ] = false;
+				}
+				else
+				{
+					forecastPlot[ row ][ col ] = plot[ row ][ col ];
+					changeList[ row ][ col ] = false;
+				}
+			}
+		}
+
+		// Whenever the forecasted plot doesn't match the original plot, the
+		// surrounding mushrooms are assumed to disappear.  Also forecast the
+		// growth of the mushrooms.
+
+		for ( int row = 0; row < 4; ++row )
+		{
+			for ( int col = 0; col < 4; ++col )
+			{
+				if ( changeList[ row ][ col ] )
+				{
+					if ( row != 0 )  forecastPlot[ row - 1 ][ col ] = "__";
+					if ( row != 3 )  forecastPlot[ row + 1 ][ col ] = "__";
+					if ( col != 0 )  forecastPlot[ row ][ col - 1 ] = "__";
+					if ( col != 3 )  forecastPlot[ row ][ col + 1 ] = "__";
+				}
+			}
+		}
 
 		return getMushroomPlot( isDataOnly, forecastPlot );
 	}
 
-	private static int getForecastSquare( int row, int col, int [][] plot )
+	private static String getForecastSquare( int row, int col, String [][] plot )
 	{
-		int [] touched = new int[4];
+		String [] touched = new String[4];
 
 		// First, determine what kinds of mushrooms
 		// touch the square.
 
-		touched[0] = row == 0 ? EMPTY : plot[ row - 1 ][ col ];
-		touched[1] = row == 3 ? EMPTY : plot[ row + 1 ][ col ];
-		touched[2] = col == 0 ? EMPTY : plot[ row ][ col - 1 ];
-		touched[3] = col == 3 ? EMPTY : plot[ row ][ col + 1 ];
+		touched[0] = row == 0 ? "__" : plot[ row - 1 ][ col ];
+		touched[1] = row == 3 ? "__" : plot[ row + 1 ][ col ];
+		touched[2] = col == 0 ? "__" : plot[ row ][ col - 1 ];
+		touched[3] = col == 3 ? "__" : plot[ row ][ col + 1 ];
 
-		// Determine how many mushrooms total touch
+		// Determine how many adult mushrooms total touch
 		// the square.
 
 		int [] touchIndex = new int[4];
@@ -217,28 +232,41 @@ public abstract class MushroomPlot extends StaticEntity
 
 		for ( int i = 0; i < 4; ++i )
 		{
-			if ( touched[i] != EMPTY && touched[i] != SPROUT )
+			if ( !touched[i].equals( "__" ) && !touched[i].equals( ".." ) )
 			{
 				for ( int j = 0; j < MUSHROOMS.length; ++j )
-					if ( touched[i] == ((Integer)MUSHROOMS[j][0]).intValue() )
-						touchIndex[ touchCount ] = ((Integer)MUSHROOMS[j][3]).intValue();
+					if ( touched[i].equals( MUSHROOMS[j][3] ) )
+						touchIndex[ touchCount ] = ((Integer)MUSHROOMS[j][4]).intValue();
 
 				++touchCount;
 			}
 		}
 
-		// If exactly two mushrooms are touching the
+		// If exactly two adult mushrooms are touching the
 		// square, then return the result of the breed.
+
+		if ( touchCount == 2 && BREEDING[ touchIndex[0] ][ touchIndex[1] ] != EMPTY )
+			return getShorthand( BREEDING[ touchIndex[0] ][ touchIndex[1] ], false );
+
 		// Otherwise, it'll be the same as whatever is
 		// there right now.
 
-		return touchCount == 2 ? BREEDING[ touchIndex[0] ][ touchIndex[1] ] : plot[ row ][ col ];
+		return plot[ row ][ col ];
 	}
 
-	private static String getMushroomPlot( boolean isDataOnly, int [][] plot )
+	private static String getShorthand( int mushroomType, boolean isAdult )
+	{
+		for ( int i = 0; i < MUSHROOMS.length; ++i )
+			if ( mushroomType == ((Integer)MUSHROOMS[i][0]).intValue() )
+				return isAdult ? (String) MUSHROOMS[i][3] : (String) MUSHROOMS[i][2];
+
+		return "__";
+	}
+
+	private static String getMushroomPlot( boolean isDataOnly, String [][] plot )
 	{
 		// Otherwise, you need to construct the string form
-		// of the mushroom plot.  Shorthand and hpertext are
+		// of the mushroom plot.  Shorthand and hypertext are
 		// the only two versions at the moment.
 
 		StringBuffer buffer = new StringBuffer();
@@ -260,12 +288,12 @@ public abstract class MushroomPlot extends StaticEntity
 				if ( !isDataOnly )
 					buffer.append( "  " );
 
-				int square = plot[ row ][ col ];
+				String square = plot[ row ][ col ];
 
 				// Mushroom images are used in hypertext documents, while
 				// shorthand notation is used in non-hypertext documents.
 
-				buffer.append( isDataOnly ? mushroomImage( square ) : mushroomShorthand( square ) );
+				buffer.append( square == null ? "__" : square );
 
 				// Hypertext documents need to have their cells closed before
 				// another cell can be printed.
@@ -289,11 +317,15 @@ public abstract class MushroomPlot extends StaticEntity
 	 * with the given mushroom type.
 	 */
 
-	public static String mushroomImage( int mushroomType )
+	public static String getMushroomImage( String mushroomType )
 	{
 		for ( int i = 0; i < MUSHROOMS.length; ++i )
-			if ( mushroomType == ((Integer) MUSHROOMS[i][0]).intValue() )
+		{
+			if ( mushroomType.equals( MUSHROOMS[i][2] ) )
+				return (String) MUSHROOMS[i][2];
+			if ( mushroomType.equals( MUSHROOMS[i][3] ) )
 				return "itemimages/" + MUSHROOMS[i][1];
+		}
 
 		return "itemimages/dirt1.gif";
 	}
@@ -303,27 +335,13 @@ public abstract class MushroomPlot extends StaticEntity
 	 * associated with the given image.
 	 */
 
-	public static int mushroomType( String mushroomImage )
+	public static int getMushroomType( String mushroomImage )
 	{
 		for ( int i = 0; i < MUSHROOMS.length; ++i )
 			if ( mushroomImage.endsWith( "/" + MUSHROOMS[i][1] ) )
 				return ((Integer) MUSHROOMS[i][0]).intValue();
 
 		return EMPTY;
-	}
-
-	/**
-	 * Utility method which retrieves the shorthand notation
-	 * for the given mushroom type.
-	 */
-
-	public static String mushroomShorthand( int mushroomType )
-	{
-		for ( int i = 0; i < MUSHROOMS.length; ++i )
-			if ( mushroomType == ((Integer) MUSHROOMS[i][0]).intValue() )
-				return (String) MUSHROOMS[i][2];
-
-		return "??";
 	}
 
 	/**
@@ -383,7 +401,7 @@ public abstract class MushroomPlot extends StaticEntity
 		int row = (square - 1) / 4;
 		int col = (square - 1) % 4;
 
-		if ( actualPlot[ row ][ col ] != EMPTY && !pickMushroom( square, true ) )
+		if ( !actualPlot[ row ][ col ].equals( "__" ) && !pickMushroom( square, true ) )
 			return false;
 
 		// Plant the requested spore.
@@ -444,9 +462,9 @@ public abstract class MushroomPlot extends StaticEntity
 		int row = (square - 1) / 4;
 		int col = (square - 1) % 4;
 
-		if ( actualPlot[ row ][ col ] != EMPTY )
+		if ( !actualPlot[ row ][ col ].equals( "__" ) )
 		{
-			if ( actualPlot[ row ][ col ] != SPROUT || pickSpores )
+			if ( (!actualPlot[ row ][ col ].equals( ".." ) && !actualPlot[ row ][ col ].equals( actualPlot[ row ][ col ].toLowerCase() )) || pickSpores )
 			{
 				MushroomPlotRequest request = new MushroomPlotRequest( square );
 				KoLmafia.updateDisplay( "Picking square " + square + "..." );
@@ -535,7 +553,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 		for ( int row = 0; row < 4; ++row )
 			for ( int col = 0; col < 4; ++col )
-				actualPlot[ row ][ col ] = EMPTY;
+				actualPlot[ row ][ col ] = "__";
 
 		Matcher plotMatcher = Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" ).matcher( text );
 		ownsPlot = plotMatcher.find();
@@ -552,10 +570,10 @@ public abstract class MushroomPlot extends StaticEntity
 
 		for ( int row = 0; row < 4; ++row )
 			for ( int col = 0; col < 4 && squareMatcher.find(); ++col )
-				actualPlot[ row ][ col ] = parseSquare( squareMatcher.group(1) );
-
-		// Tell MushroomFrame that the plot has changed
-		plotChanged();
+			{
+				int result = parseSquare( squareMatcher.group(1) );
+				actualPlot[ row ][ col ] = getShorthand( result, true );
+			}
 	}
 
 	private static int parseSquare( String text )
@@ -574,23 +592,5 @@ public abstract class MushroomPlot extends StaticEntity
 		}
 
 		return EMPTY;
-	}
-
-	/*
-	 * Method to tell the Mushroom Frame that the plot has changed
-	 */
-
-	private static void plotChanged()
-	{
-		Object [] frames = existingFrames.toArray();
-
-		for ( int i = 0; i < frames.length; ++i )
-		{
-			if ( frames[i] instanceof MushroomFrame )
-			{
-				((MushroomFrame)frames[i]).plotChanged();
-				break;
-			}
-		}
 	}
 }
