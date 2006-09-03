@@ -53,6 +53,9 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 	public static final HPRestoreItem WALRUS = new HPRestoreItem( "Tongue of the Walrus", 35 );
 	private static final HPRestoreItem BANDAGES = new HPRestoreItem( "Lasagna Bandages", 24 );
+	private static final HPRestoreItem POWER_NAP = new HPRestoreItem( "Disco Power Nap", 40 );
+	private static final HPRestoreItem DISCO_NAP = new HPRestoreItem( "Disco Nap", 20 );
+
 
 	// Finally, if HP restore is active and nothing is available,
 	// give people the option to rest.
@@ -63,7 +66,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 	private static final HPRestoreItem UNGUENT = new HPRestoreItem( "Doc Galaktik's Pungent Unguent", 3 );
 
 	public static final HPRestoreItem [] CONFIGURES = new HPRestoreItem [] {
-		GALAKTIK, CAMPING, HERBS, SCROLL, COCOON, PHONICS, WALRUS, BANDAGES, OINTMENT, UNGUENT };
+		GALAKTIK, CAMPING, HERBS, SCROLL, COCOON, PHONICS, WALRUS, BANDAGES, POWER_NAP, DISCO_NAP, OINTMENT, UNGUENT };
 
 	public static JCheckBox [] getCheckboxes()
 	{

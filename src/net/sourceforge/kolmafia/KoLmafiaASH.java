@@ -3758,7 +3758,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		private ScriptValue continueValue()
-		{	return KoLmafia.permitsContinue() ? TRUE_VALUE : FALSE_VALUE;
+		{	return KoLmafia.permitsContinue() && !KoLmafia.hadPendingState() ? TRUE_VALUE : FALSE_VALUE;
 		}
 
 		// Here are all the methods for built-in ASH functions
