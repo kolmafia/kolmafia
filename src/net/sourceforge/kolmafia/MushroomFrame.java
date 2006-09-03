@@ -44,138 +44,92 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JFileChooser;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MushroomFrame extends KoLFrame
 {
-	private boolean doingLayout = false;
-	private String [] currentData;
-	private String [] layoutData;
+	private static final int MAX_FORECAST = 11;
 
-	private final MushroomButton [][] currentButtons;
-	private final MushroomButton [][] layoutButtons;
-	private final MushroomButton [][] forecastButtons;
+	private final String [][] planningData;
+	private final String [][] originalData;
+
+	private final MushroomButton [][][] planningButtons;
 
 	public MushroomFrame()
 	{
 		super( "Mushroom Plot" );
 
-		JPanel currentPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
-		JPanel layoutPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
-		JPanel forecastPlot = new JPanel( new GridLayout( 4, 4, 0, 0 ) );
+		planningData = new String[MAX_FORECAST][16];
+		originalData = new String[MAX_FORECAST][16];
 
-		currentButtons = new MushroomButton[4][4];
-		layoutButtons = new MushroomButton[4][4];
-		forecastButtons = new MushroomButton[4][4];
-
-		for ( int i = 0; i < 4; ++i )
+		for ( int i = 0; i < MAX_FORECAST; ++i )
 		{
-			for ( int j = 0; j < 4; ++j )
+			for ( int j = 0; j < 16; ++j )
 			{
-				currentButtons[i][j] = new MushroomButton( i * 4 + j, false );
-				layoutButtons[i][j] = new MushroomButton( i * 4 + j, true );
-				forecastButtons[i][j] = new MushroomButton( i * 4 + j, false );
-
-				currentPlot.add( currentButtons[i][j] );
-				layoutPlot.add( layoutButtons[i][j] );
-				forecastPlot.add( forecastButtons[i][j] );
+				planningData[i][j] = "__";
+				originalData[i][j] = "__";
 			}
 		}
 
-		JPanel centerPanel = new JPanel( new GridLayout( 1, 3, 20, 20 ) );
-		centerPanel.add( constructPanel( "Current Plot", currentPlot ) );
-		centerPanel.add( constructPanel( "Layout Plot", layoutPlot ) );
-		centerPanel.add( constructPanel( "Forecasted Plot", forecastPlot ) );
+		planningButtons = new MushroomButton[MAX_FORECAST][4][4];
+		JPanel centerPanel = new JPanel( new GridLayout( 3, 4, 20, 20 ) );
 
-		JPanel completePanel = new JPanel( new BorderLayout( 20, 20 ) );
-		completePanel.add( centerPanel, BorderLayout.CENTER );
+		for ( int i = 0; i < MAX_FORECAST; ++i )
+		{
+			JPanel currentPlot = new JPanel( new GridLayout( 4, 4, 0, 2 ) );
+			for ( int j = 0; j < 4; ++j )
+			{
+				for ( int k = 0; k < 4; ++k )
+				{
+					planningButtons[i][j][k] = new MushroomButton( i, j * 4 + k );
+					currentPlot.add( planningButtons[i][j][k] );
+				}
+			}
+
+			centerPanel.add( constructPanel( "Day " + (i+1), currentPlot ) );
+		}
 
 		// Dummy buttons for the mushroom plot (just for layout
 		// viewing purposes.  To be replaced with real functionality
 		// at a later date.
 
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.add( new InvocationButton( "Harvest All", MushroomPlot.class, "harvestMushrooms" ) );
-		buttonPanel.add( new InvocationButton( "Do Layout", this, "executeLayout" ) );
-		buttonPanel.add( new InvocationButton( "Script Layout", this, "scriptLayout" ) );
-		completePanel.add( buttonPanel, BorderLayout.SOUTH );
+		centerPanel.add( buttonPanel );
+
+		JPanel completePanel = new JPanel( new BorderLayout( 20, 20 ) );
+		completePanel.add( centerPanel, BorderLayout.CENTER );
 
 		framePanel.setLayout( new CardLayout( 40, 40 ) );
 		framePanel.add( completePanel, "" );
 
-		plotChanged();
+		updateForecasts( 1 );
 		setResizable( false );
 	}
 
-	public void executeLayout()
+	public void updateForecasts( int startDay )
 	{
-		// Change any mushrooms which no longer
-		// match the existing plot.
-
-		doingLayout = true;
-		for ( int i = 0; i < 16; ++i )
+		for ( int i = startDay; i < MAX_FORECAST; ++i )
 		{
-			if ( !currentData[i].equals( layoutData[i] ) )
+			String [][] holdingData = new String[4][4];
+			for ( int j = 0; j < 4; ++j )
+				for ( int k = 0; k < 4; ++k )
+					holdingData[j][k] = planningData[ i - 1 ][ j * 4 + k ];
+
+			String [] forecastData = MushroomPlot.getForecastedPlot( true, holdingData ).split( ";" );
+			for ( int j = 0; j < 16; ++j )
 			{
-				MushroomPlot.pickMushroom( i + 1, false );
-				if ( !layoutData[i].endsWith( "/dirt1.gif" ) && !layoutData[i].endsWith( "/mushsprout.gif" ) )
-					MushroomPlot.plantMushroom( i + 1, MushroomPlot.mushroomType( layoutData[i] ) );
+				planningData[i][j] = forecastData[j];
+				originalData[i][j] = forecastData[j];
 			}
 		}
 
-		doingLayout = false;
-	}
-
-	public void scriptLayout()
-	{
-		JFileChooser chooser = new JFileChooser( "scripts" );
-		int returnVal = chooser.showSaveDialog( this );
-
-		File output = chooser.getSelectedFile();
-
-		if ( output == null )
-			return;
-
-		try
-		{
-			PrintWriter ostream = new PrintWriter( new FileOutputStream( output, false ), false );
-			ostream.println( "field harvest" );
-
-			for ( int i = 0; i < 16; ++i )
-			{
-				int mushroomType = MushroomPlot.mushroomType( layoutData[i] );
-				switch ( mushroomType )
-				{
-					case MushroomPlot.SPOOKY:
-					case MushroomPlot.KNOB:
-					case MushroomPlot.KNOLL:
-						ostream.println( "field pick " + (i + 1) );
-						ostream.println( "field plant " + (i + 1) + " " + TradeableItemDatabase.getItemName( mushroomType ) );
-						break;
-
-					case MushroomPlot.EMPTY:
-						ostream.println( "field pick " + (i + 1) );
-						break;
-				}
-			}
-
-			ostream.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-			
-			StaticEntity.printStackTrace( e, "Error saving file <" + output.getAbsolutePath() + ">" );
-		}
+		for ( int i = 0; i < MAX_FORECAST; ++i )
+			for ( int j = 0; j < 4; ++j )
+				for ( int k = 0; k < 4; ++k )
+					planningButtons[i][j][k].updateImage();
 	}
 
 	public JPanel constructPanel( String label, Component c )
@@ -188,74 +142,15 @@ public class MushroomFrame extends KoLFrame
 		return panel;
 	}
 
-	/*
-	 * Method invoked by MushroomPlot when the field has changed
-	 */
-
-	public void plotChanged()
-	{	(new RequestThread( new PlotChanger() )).start();
-	}
-
-	private class PlotChanger implements Runnable
-	{
-		public void run()
-		{
-			// Get the layout state of the field and update
-
-			currentData = MushroomPlot.getMushroomPlot( true ).split( ";" );
-
-			// Only update the layout data if you're
-			// not currently doing any layouts.
-
-			if ( !doingLayout )
-				layoutData = MushroomPlot.getMushroomPlot( true ).split( ";" );
-
-			// With everything that you need updated,
-			// feel free to refresh the layout.
-
-			refresh();
-		}
-	}
-
-	public void refresh()
-	{
-		// Do nothing if you don't have a plot
-		if ( layoutData[0].equals( "Your plot is unavailable." ) )
-			return;
-
-		// Convert each piece of layout data into the appropriate
-		// mushroom plot data.
-
-		int [][] layoutArray = new int[4][4];
-		for ( int i = 0; i < 4; ++i )
-			for ( int j = 0; j < 4; ++j )
-				layoutArray[i][j] = MushroomPlot.mushroomType( layoutData[ i * 4 + j ] );
-
-		String [] forecastData = MushroomPlot.getForecastedPlot( true, layoutArray ).split( ";" );
-
-		// What you do is you update each mushroom button based on
-		// what is contained in each of the data fields.
-
-		for ( int i = 0; i < 4; ++i )
-		{
-			for ( int j = 0; j < 4; ++j )
-			{
-				currentButtons[i][j].setIcon( JComponentUtilities.getImage( currentData[ i * 4 + j ] ) );
-				layoutButtons[i][j].setIcon( JComponentUtilities.getImage( layoutData[ i * 4 + j ] ) );
-				forecastButtons[i][j].setIcon( JComponentUtilities.getImage( forecastData[ i * 4 + j ] ) );
-			}
-		}
-	}
-
 	private class MushroomButton extends JButton implements ActionListener
 	{
-		private int index;
-		private boolean canModify;
+		private int dayIndex;
+		private int squareIndex;
 
-		public MushroomButton( int index, boolean canModify )
+		public MushroomButton( int dayIndex, int squareIndex )
 		{
-			this.index = index;
-			this.canModify = canModify;
+			this.dayIndex = dayIndex;
+			this.squareIndex = squareIndex;
 
 			JComponentUtilities.setComponentSize( this, 30, 30 );
 
@@ -266,73 +161,43 @@ public class MushroomFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			if ( !canModify )
-				return;
+			planningData[ dayIndex ][ squareIndex ] = toggleMushroom( planningData[ dayIndex ][ squareIndex ] );
+			updateForecasts( dayIndex + 1 );
+		}
 
-			// No mushroom plot
-			if ( layoutData.length == 1 )
-				return;
+		public void updateImage()
+		{
+			String currentMushroom = planningData[ dayIndex ][ squareIndex ];
 
-			// Sprouts transform into dirt because all you can
-			// do is pick them.
+			if ( currentMushroom.equals( "__" ) )
+				setIcon( JComponentUtilities.getImage( "itemimages/dirt1.gif" ) );
+			else if ( currentMushroom.equals( currentMushroom.toLowerCase() ) )
+				setIcon( JComponentUtilities.getImage( "itemimages/mushsprout.gif" ) );
+			else
+				setIcon( JComponentUtilities.getImage( MushroomPlot.getMushroomImage( currentMushroom ) ) );
+		}
 
-			if ( layoutData[ index ].endsWith( "/mushsprout.gif" ) )
-			{
-				layoutData[ index ] = "itemimages/dirt1.gif";
-				refresh();
-				return;
-			}
+		private String toggleMushroom( String currentMushroom )
+		{
+			// Everything rotates based on what was there
+			// when you clicked on the image.
 
-			// Second generation mushrooms transform into dirt
-			// because all you can do is pick them.
+			if ( currentMushroom.equals( "__" ) )
+				return "kb";
 
-			if ( layoutData[ index ].endsWith( "/flatshroom.gif" ) || layoutData[ index ].endsWith( "/plaidroom.gif" ) || layoutData[ index ].endsWith( "/tallshroom.gif" ) )
-			{
-				layoutData[ index ] = "itemimages/dirt1.gif";
-				refresh();
-				return;
-			}
+			if ( currentMushroom.equals( "kb" ) )
+				return "kn";
+
+			if ( currentMushroom.equals( "kn" ) )
+				return "sp";
+
+			if ( currentMushroom.equals( "sp" ) )
+				return originalData[ dayIndex ][ squareIndex ];
 
 			// Third generation mushrooms transform into dirt
 			// because all you can do is pick them.
 
-			if ( layoutData[ index ].endsWith( "/fireshroom.gif" ) || layoutData[ index ].endsWith( "/iceshroom.gif" ) || layoutData[ index ].endsWith( "/stinkshroo.gif" ) )
-			{
-				layoutData[ index ] = "itemimages/dirt1.gif";
-				refresh();
-				return;
-			}
-
-			// Everything else rotates based on what was there
-			// when you clicked on the image.
-
-			if ( layoutData[ index ].endsWith( "/dirt1.gif" ) )
-			{
-				layoutData[ index ] = "itemimages/mushroom.gif";
-				refresh();
-				return;
-			}
-
-			if ( layoutData[ index ].endsWith( "/mushroom.gif" ) )
-			{
-				layoutData[ index ] = "itemimages/bmushroom.gif";
-				refresh();
-				return;
-			}
-
-			if ( layoutData[ index ].endsWith( "/bmushroom.gif" ) )
-			{
-				layoutData[ index ] = "itemimages/spooshroom.gif";
-				refresh();
-				return;
-			}
-
-			if ( layoutData[ index ].endsWith( "/spooshroom.gif" ) )
-			{
-				layoutData[ index ] = currentData[ index ];
-				refresh();
-				return;
-			}
+			return "__";
 		}
 	}
 }
