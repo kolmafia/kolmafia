@@ -715,6 +715,12 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "using" ) || command.equals( "namespace" ) )
 		{
+			// Validate the script first.
+
+			executeCommand( "validate", parameters );
+			if ( !KoLmafia.permitsContinue() )
+				return;
+
 			String namespace = StaticEntity.getProperty( "commandLineNamespace" );
 			if ( namespace.startsWith( parameters + "," ) || namespace.endsWith( "," + parameters ) || namespace.indexOf( "," + parameters + "," ) != -1 )
 				return;
@@ -1609,6 +1615,25 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 	}
 
+	private File findScriptFile( String filename )
+	{
+		File scriptFile = new File( "scripts/" + filename );
+		if ( !scriptFile.exists() )
+			scriptFile = new File( "scripts/" + filename + ".txt" );
+		if ( !scriptFile.exists() )
+			scriptFile = new File( "scripts/" + filename + ".ash" );
+		if ( !scriptFile.exists() )
+			scriptFile = new File( filename );
+		if ( !scriptFile.exists() )
+			scriptFile = new File( filename + ".txt" );
+		if ( !scriptFile.exists() )
+			scriptFile = new File( filename + ".ash" );
+		if ( !scriptFile.exists() )
+			return null;
+
+		return scriptFile;
+	}
+
 	/**
 	 * A special module used to handle the calling of a
 	 * script.
@@ -1639,20 +1664,9 @@ public class KoLmafiaCLI extends KoLmafia
 			// extension and be in the scripts directory...
 
 			int runCount = 1;
+			File scriptFile = findScriptFile( parameters );
 
-			File scriptFile = new File( "scripts/" + parameters );
-			if ( !scriptFile.exists() )
-				scriptFile = new File( "scripts/" + parameters + ".txt" );
-			if ( !scriptFile.exists() )
-				scriptFile = new File( "scripts/" + parameters + ".ash" );
-			if ( !scriptFile.exists() )
-				scriptFile = new File( parameters );
-			if ( !scriptFile.exists() )
-				scriptFile = new File( parameters + ".txt" );
-			if ( !scriptFile.exists() )
-				scriptFile = new File( parameters + ".ash" );
-
-			if ( !scriptFile.exists() )
+			if ( scriptFile == null )
 			{
 				boolean hasMultipleRuns = true;
 				String runCountString = parameters.split( " " )[0];
@@ -1663,29 +1677,28 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( hasMultipleRuns )
 				{
 					runCount = StaticEntity.parseInt( runCountString );
-					String scriptName = parameters.substring( parameters.indexOf( " " ) ).trim();
-
-					scriptFile = new File( "scripts/" + scriptName );
-
-					if ( !scriptFile.exists() )
-						scriptFile = new File( "scripts/" + scriptName + ".txt" );
-					if ( !scriptFile.exists() )
-						scriptFile = new File( "scripts/" + scriptName + ".ash" );
-					if ( !scriptFile.exists() )
-						scriptFile = new File( scriptName );
-					if ( !scriptFile.exists() )
-						scriptFile = new File( scriptName + ".txt" );
-					if ( !scriptFile.exists() )
-						scriptFile = new File( scriptName + ".ash" );
+					scriptFile = findScriptFile( parameters.substring( parameters.indexOf( " " ) ).trim() );
 				}
 			}
 
-			if ( !scriptFile.exists() )
+			if ( scriptFile == null )
 			{
 				// Maybe the definition of a custom command?
 				// Here you would attempt to invoke the advanced
 				// script handler to see what happens.
 
+				int spaceIndex = parameters.indexOf( " " );
+				if ( spaceIndex != -1 && arguments == null )
+				{
+					arguments = parseScriptArguments( parameters.substring( spaceIndex ).trim() );
+					parameters = parameters.substring( 0, spaceIndex );
+				}
+
+				scriptFile = findScriptFile( parameters );
+			}
+
+			if ( scriptFile == null )
+			{
 				advancedHandler.execute( null, parameters, arguments );
 				return;
 			}
@@ -1739,21 +1752,66 @@ public class KoLmafiaCLI extends KoLmafia
 	private String [] parseScriptArguments( String parameters )
 	{
 		int rparen = parameters.lastIndexOf( ")" );
-		if ( rparen == -1 )
-			return null;
-		parameters = parameters.substring( 0, rparen );
 
-		String [] result =  parameters.split( "," );
-		for ( int i = 0; i < result.length; ++i )
+		if ( rparen != -1 )
+			parameters = parameters.substring( 0, rparen ).trim();
+
+		if ( parameters.indexOf( "," ) != -1 )
 		{
-			String s = result[i].trim();
-			if ( s.charAt(0) == '"' && s.charAt( s.length() - 1 ) == '"' )
-				s = s.substring( 1, s.length() - 1 );
-			result[i] = s;
+			boolean isSingleParameter = parameters.startsWith( "\"" );
+			isSingleParameter &= parameters.indexOf( "\"", 1 ) == parameters.length() - 1;
+
+			if ( !isSingleParameter )
+				return parseScriptArguments( parameters, "," );
 		}
 
-		return result;
+		if ( rparen != -1 || parameters.indexOf( "\"" ) != -1 )
+			return new String [] { parameters };
+
+		return parseScriptArguments( parameters, " " );
 	}
+
+	private String [] parseScriptArguments( String parameters, String delimiter )
+	{
+		ArrayList resultList = new ArrayList();
+
+		int quoteIndex = parameters.indexOf( "\"" );
+		int delimiterIndex = parameters.indexOf( delimiter );
+
+		while ( !parameters.equals( "" ) )
+		{
+			if ( quoteIndex != -1 && quoteIndex < delimiterIndex )
+			{
+				int endQuoteIndex = parameters.indexOf( "\"", quoteIndex );
+				if ( endQuoteIndex == -1 )
+					endQuoteIndex = parameters.length() - 1;
+
+				resultList.add( parameters.substring( 1, endQuoteIndex ) );
+
+				delimiterIndex = parameters.indexOf( delimiter, endQuoteIndex );
+				parameters = delimiterIndex == -1 ? "" : parameters.substring( delimiterIndex + 1 ).trim();
+			}
+			else if ( delimiterIndex != -1 )
+			{
+				resultList.add( parameters.substring( 0, delimiterIndex ).trim() );
+				parameters = parameters.substring( delimiterIndex + 1 ).trim();
+			}
+			else
+			{
+				resultList.add( parameters );
+				parameters = "";
+			}
+
+			quoteIndex = parameters.indexOf( "\"" );
+			delimiterIndex = parameters.indexOf( delimiter );
+		}
+
+		String [] result = new String[ resultList.size() ];
+		resultList.toArray( result );
+		return result;
+
+	}
+
 
 	/**
 	 * Utility method to handle an if-statement.  You can now
