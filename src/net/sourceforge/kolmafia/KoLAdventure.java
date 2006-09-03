@@ -665,7 +665,19 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// If the test is successful, then it is safe to run the
 		// request (without spamming the server).
 
+		int previousAdventures = KoLCharacter.getAdventuresLeft();
 		request.run();
+
+		if ( previousAdventures == KoLCharacter.getAdventuresLeft() )
+		{
+			// Well, that was an interesting predicament.  If it
+			// had a choice adventure that didn't use adventures,
+			// then you re-run the request.
+
+			while ( request.redirectLocation != null && request.redirectLocation.equals( "choice.php" ) )
+				request.run();
+		}
+
 		client.runBetweenBattleChecks();
 		postValidate();
 	}
