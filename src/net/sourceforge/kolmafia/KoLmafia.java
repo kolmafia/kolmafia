@@ -91,6 +91,8 @@ public abstract class KoLmafia implements KoLConstants
 	protected static PrintStream mirrorStream = NullStream.INSTANCE;
 
 	private static boolean isEnabled = true;
+	private static boolean hadPendingState = false;
+
 	protected static LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", true, false );
 
 	private static final String [] OVERRIDE_DATA =
@@ -1337,6 +1339,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	private void executeRequest( Runnable request, int iterations )
 	{
+		hadPendingState = false;
 		boolean isCheckExempt = !(request instanceof KoLAdventure) || ((KoLAdventure)request).getRequest() instanceof CampgroundRequest ||
 			KoLCharacter.getInebriety() > 25;
 
@@ -1432,7 +1435,10 @@ public abstract class KoLmafia implements KoLConstants
 
 		currentIterationString = "";
 		if ( continuationState == PENDING_STATE )
+		{
+			hadPendingState = true;
 			forceContinue();
+		}
 
 		if ( !permitsContinue() )
 			return;
@@ -1764,6 +1770,10 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public abstract void showHTML( String text, String title );
+
+	public static final boolean hadPendingState()
+	{	return hadPendingState;
+	}
 
 	/**
 	 * Retrieves whether or not continuation of an adventure or request
