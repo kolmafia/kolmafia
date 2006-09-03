@@ -134,7 +134,7 @@ public class LocalRelayServer implements Runnable
 	{
 		try
 		{
-			serverSocket = new ServerSocket( port, 25, InetAddress.getByName( "127.0.0f.1" ) );
+			serverSocket = new ServerSocket( port, 25, InetAddress.getByName( "127.0.0.1" ) );
 			return true;
 		}
 		catch ( Exception e )
@@ -238,21 +238,23 @@ public class LocalRelayServer implements Runnable
 		protected void sendHeaders( PrintStream printStream, LocalRelayRequest request ) throws IOException
 		{
 			String header = null;
-			boolean hasPragmaHeader = false;
-			boolean hasCacheHeader = false;
+			boolean hasPragmaHeader = request.rawByteBuffer != null;
+			boolean hasCacheHeader = request.rawByteBuffer != null;
 			boolean hasConnectionHeader = false;
 
 			for ( int i = 0; null != ( header = request.getHeader( i ) ); ++i )
 			{
 				if ( header.startsWith( "Cache-Control" ) )
 				{
-					header = "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0";
+					header = hasCacheHeader ? "" : "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0";
 					hasCacheHeader = true;
 				}
 
 				if ( header.startsWith( "Pragma:" ) )
 				{
-					header = "Pragma: no-cache";
+					if ( request.rawByteBuffer != null )
+						header = hasPragmaHeader ? "" : "Pragma: no-cache";
+
 					hasPragmaHeader = true;
 				}
 
@@ -262,23 +264,18 @@ public class LocalRelayServer implements Runnable
 					hasConnectionHeader = true;
 				}
 
-				printStream.println( header );
+				if ( !header.equals( "" ) )
+					printStream.println( header );
 			}
 
 			if ( !hasCacheHeader )
-			{
 				printStream.println( "Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0" );
-			}
 
 			if ( !hasPragmaHeader )
-			{
 				printStream.println( "Pragma: no-cache" );
-			}
 
 			if ( !hasConnectionHeader )
-			{
 				printStream.println( "Connection: close" );
-			}
 		}
 
 		protected void performRelay()

@@ -2506,7 +2506,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Even after the wait, sometimes, the
 		// worker threads have not been filled.
 
-		StaticEntity.openSystemBrowser( "http://127.0.0f.1:" + LocalRelayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") );
+		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") );
 	}
 
 	public void launchSimulator()
@@ -2525,7 +2525,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Even after the wait, sometimes, the
 		// worker threads have not been filled.
 
-		StaticEntity.openSystemBrowser( "http://127.0.0f.1:" + LocalRelayServer.getPort() + "/KoLmafia/simulator/index.html" );
+		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/KoLmafia/simulator/index.html" );
 	}
 
 	public static final void declareWorldPeace()
