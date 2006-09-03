@@ -37,11 +37,9 @@ package net.sourceforge.kolmafia;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.URL;
 
 import java.util.List;
 import java.util.Date;
@@ -205,13 +203,11 @@ public class LocalRelayRequest extends KoLRequest
 			fullResponse = fullResponse.replaceFirst( "</tr>\\s*</table>\\s*</center>", selectBuffer.toString() );
 		}
 
-		// Though this might slow down loading of things a bit browser-side
-		// the first time around, it makes the mini-browser a lot more useful.
-
-		if ( StaticEntity.getBooleanProperty( "cacheRelayImages" ) )
-			RequestEditorKit.downloadImages( fullResponse );
-
 		fullResponse = RequestEditorKit.getFeatureRichHTML( formURLString.toString(), fullResponse );
+
+		// If the person is currently caching relay images,
+		// then it would be most beneficial to use local
+		// file access.
 
 		if ( StaticEntity.getBooleanProperty( "cacheRelayImages" ) )
 			fullResponse = fullResponse.replaceAll( "http://images\\.kingdomofloathing\\.com", "images" );
@@ -323,10 +319,11 @@ public class LocalRelayRequest extends KoLRequest
 		// The word "KoLmafia" prefixes all of the local
 		// images.  Therefore, make sure it's removed.
 
-		BufferedInputStream in = new BufferedInputStream( (new File( filename )).toURL().openConnection().getInputStream() );
+		BufferedInputStream in = new BufferedInputStream(
+			RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com" + filename.substring(6) ).openConnection().getInputStream() );
 
 		ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 1024 );
-		byte [] buffer = new byte[1024];
+		byte [] buffer = new byte[4096];
 
 		int offset;
 		while ((offset = in.read(buffer)) > 0)
@@ -436,16 +433,6 @@ public class LocalRelayRequest extends KoLRequest
 
 			pseudoResponse( "HTTP/1.1 200 OK", replyBuffer.toString() );
 		}
-	}
-
-	private List getAvailableAccessories()
-	{
-		List available = (List) KoLCharacter.getEquipmentLists()[ KoLCharacter.ACCESSORY1 ].clone();
-		if ( !available.contains( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) ) )
-			available.add( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ) );
-		if ( !available.contains( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) ) )
-			available.add( KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
-		return available;
 	}
 
 	private void replaceTag( StringBuffer buffer, String tag, int replaceWith )
