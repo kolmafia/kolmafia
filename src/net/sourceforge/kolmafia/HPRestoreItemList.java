@@ -67,7 +67,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 	public static JCheckBox [] getCheckboxes()
 	{
-		String hpRestoreSetting = StaticEntity.getProperty( "hpAutoRecoveryItems" );
+		String hpRestoreSetting = getProperty( "hpAutoRecoveryItems" );
 		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length ];
 
 		for ( int i = 0; i < CONFIGURES.length; ++i )
@@ -115,7 +115,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 
 			int hpShort = needed - KoLCharacter.getCurrentHP();
 			int belowMax = KoLCharacter.getMaximumHP() - KoLCharacter.getCurrentHP();
-			int numberToUse = (int) Math.ceil( (double) hpShort / (double) hpPerUse );
+			int numberToUse = (int) Math.ceil( (float) hpShort / (float) hpPerUse );
 
 			if ( ClassSkillsDatabase.contains( itemName ) )
 			{
@@ -145,9 +145,9 @@ public abstract class HPRestoreItemList extends StaticEntity
 				return;
 
 			if ( ClassSkillsDatabase.contains( itemName ) )
-				StaticEntity.getClient().makeRequest( new UseSkillRequest( client, itemName, "", numberToUse ) );
+				getClient().makeRequest( new UseSkillRequest( getClient(), itemName, "", numberToUse ) );
 			else
-				StaticEntity.getClient().makeRequest( new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) ) );
+				getClient().makeRequest( new ConsumeItemRequest( getClient(), itemUsed.getInstance( numberToUse ) ) );
 		}
 
 		public String toString()

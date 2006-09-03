@@ -77,7 +77,7 @@ public class NPCStoreDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
@@ -98,8 +98,8 @@ public class NPCStoreDatabase extends KoLDatabase
 
 		String classType = KoLCharacter.getClassType();
 		String storeID = (String) storeTable[0].get( itemIndex );
-		MallPurchaseRequest itemRequest = new MallPurchaseRequest( client, (String) storeTable[1].get(itemIndex), storeID,
-			StaticEntity.parseInt( (String) storeTable[2].get(itemIndex) ), StaticEntity.parseInt( (String) storeTable[3].get(itemIndex) ) );
+		MallPurchaseRequest itemRequest = new MallPurchaseRequest( getClient(), (String) storeTable[1].get(itemIndex), storeID,
+			parseInt( (String) storeTable[2].get(itemIndex) ), parseInt( (String) storeTable[3].get(itemIndex) ) );
 
 		if ( storeID.equals( "1" ) )
 		{
@@ -136,8 +136,8 @@ public class NPCStoreDatabase extends KoLDatabase
 				}
 				else
 				{
-					itemRequest = new MallPurchaseRequest( client, (String) storeTable[1].get(itemIndex), storeID,
-						StaticEntity.parseInt( (String) storeTable[2].get(itemIndex) ), StaticEntity.parseInt( (String) storeTable[3].get(itemIndex) ) );
+					itemRequest = new MallPurchaseRequest( getClient(), (String) storeTable[1].get(itemIndex), storeID,
+						parseInt( (String) storeTable[2].get(itemIndex) ), parseInt( (String) storeTable[3].get(itemIndex) ) );
 
 					itemRequest.setCanPurchase( KoLCharacter.inMuscleSign() );
 				}
@@ -189,6 +189,6 @@ public class NPCStoreDatabase extends KoLDatabase
 	public static final boolean contains( String itemName, boolean validate )
 	{
 		MallPurchaseRequest itemRequest = getPurchaseRequest( itemName );
-		return itemRequest == null ? false : validate ? getProperty( "autoSatisfyWithNPCs" ).equals( "true" ) && itemRequest.canPurchase() : true;
+		return itemRequest == null ? false : validate ? getBooleanProperty( "autoSatisfyWithNPCs" ) && itemRequest.canPurchase() : true;
 	}
 }

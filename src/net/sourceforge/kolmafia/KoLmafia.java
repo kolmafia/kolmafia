@@ -34,16 +34,12 @@
 
 package net.sourceforge.kolmafia;
 
-import java.net.URL;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 
 import java.awt.Component;
 import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
@@ -974,12 +970,12 @@ public abstract class KoLmafia implements KoLConstants
 		// First, check against the restore trigger to see if
 		// any restoration needs to take place.
 
-		double setting = StaticEntity.parseDouble( StaticEntity.getProperty( settingName ) );
+		float setting = StaticEntity.getFloatProperty( settingName );
 		if ( needed == 0 && setting < 0 )
 			return true;
 
 		if ( !BuffBotHome.isBuffBotActive() )
-			needed = Math.max( needed, (int) Math.max( setting * (double) maximum, (double) needed ) );
+			needed = Math.max( needed, (int) Math.max( setting * (float) maximum, (float) needed ) );
 
 		int last = -1;
 		int current = ((Number)currentMethod.invoke( null, empty )).intValue();
@@ -1004,12 +1000,12 @@ public abstract class KoLmafia implements KoLConstants
 		// far you need to go.
 
 		int threshold = initial == 0 ? needed : settingName.startsWith( "mp" ) ? current : needed - 1;
-		setting = StaticEntity.parseDouble( StaticEntity.getProperty( settingName + "Target" ) );
+		setting = StaticEntity.getFloatProperty( settingName + "Target" );
 
 		if ( needed == 0 && setting <= 0 )
 			return true;
 
-		needed = Math.max( (int) ( setting * (double) maximum ), needed );
+		needed = Math.max( (int) ( setting * (float) maximum ), needed );
 
 		// If it gets this far, then you should attempt to recover
 		// using the selected items.  This involves a few extra
@@ -1509,7 +1505,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static void validateFaucetQuest()
 	{
-		int lastAscension = StaticEntity.parseInt( StaticEntity.getProperty( "lastTavernAscension" ) );
+		int lastAscension = StaticEntity.getIntegerProperty( "lastTavernAscension" );
 		if ( lastAscension != KoLCharacter.getAscensions() )
 		{
 			StaticEntity.setProperty( "lastTavernSquare", "0" );
@@ -1924,7 +1920,7 @@ public abstract class KoLmafia implements KoLConstants
 				f.createNewFile();
 			}
 
-			macroStream = new PrintStream( new FileOutputStream( f, false ) );
+			macroStream = new LogStream( f );
 		}
 		catch ( IOException e )
 		{
@@ -2426,7 +2422,7 @@ public abstract class KoLmafia implements KoLConstants
 					output.delete();
 
 				String line;
-				PrintStream writer = new PrintStream( new FileOutputStream( output ) );
+				PrintStream writer = new LogStream( output );
 
 				while ( (line = reader.readLine()) != null )
 					writer.println( line );
@@ -2510,7 +2506,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Even after the wait, sometimes, the
 		// worker threads have not been filled.
 
-		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") );
+		StaticEntity.openSystemBrowser( "http://127.0.0f.1:" + LocalRelayServer.getPort() + (KoLRequest.isCompactMode ? "/main_c.html" : "/main.html") );
 	}
 
 	public void launchSimulator()
@@ -2529,7 +2525,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Even after the wait, sometimes, the
 		// worker threads have not been filled.
 
-		StaticEntity.openSystemBrowser( "http://127.0.0.1:" + LocalRelayServer.getPort() + "/KoLmafia/simulator/index.html" );
+		StaticEntity.openSystemBrowser( "http://127.0.0f.1:" + LocalRelayServer.getPort() + "/KoLmafia/simulator/index.html" );
 	}
 
 	public static final void declareWorldPeace()
@@ -2653,7 +2649,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void loadPreferredBrowser()
 	{
-		if ( StaticEntity.getProperty( "defaultToRelayBrowser" ).equals( "true" ) )
+		if ( StaticEntity.getBooleanProperty( "defaultToRelayBrowser" ) )
 			startRelayServer();
 		else
 			(new CreateFrameRunnable( RequestFrame.class )).run();

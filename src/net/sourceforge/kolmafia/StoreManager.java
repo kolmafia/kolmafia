@@ -175,15 +175,15 @@ public abstract class StoreManager extends StaticEntity
 
 			while ( priceMatcher.find() )
 			{
-				itemID = StaticEntity.parseInt( priceMatcher.group(4) );
+				itemID = parseInt( priceMatcher.group(4) );
 				if ( TradeableItemDatabase.getItemName( itemID ) == null )
 					TradeableItemDatabase.registerItem( itemID, priceMatcher.group(1) );
 
-				quantity = StaticEntity.parseInt( priceMatcher.group(2) );
+				quantity = parseInt( priceMatcher.group(2) );
 
-				price = StaticEntity.parseInt( priceMatcher.group(3) );
-				limit = StaticEntity.parseInt( priceMatcher.group(5) );
-				lowest = StaticEntity.parseInt( priceMatcher.group(6) );
+				price = parseInt( priceMatcher.group(3) );
+				limit = parseInt( priceMatcher.group(5) );
+				lowest = parseInt( priceMatcher.group(6) );
 
 				// Now that all the data has been retrieved, register
 				// the item that was discovered.
@@ -203,7 +203,7 @@ public abstract class StoreManager extends StaticEntity
 
 			while ( itemMatcher.find() )
 			{
-				itemID = StaticEntity.parseInt( itemMatcher.group(4) );
+				itemID = parseInt( itemMatcher.group(4) );
 				if ( TradeableItemDatabase.getItemName( itemID ) == null )
 				{
 					String itemName = itemMatcher.group(1);
@@ -219,15 +219,15 @@ public abstract class StoreManager extends StaticEntity
 				int count = 1;
 
 				if ( parsedItem.hasMoreTokens() )
-					count = StaticEntity.parseInt( parsedItem.nextToken() );
+					count = parseInt( parsedItem.nextToken() );
 
 				item = new AdventureResult( name, count, false );
-				price = StaticEntity.parseInt( itemMatcher.group(2) );
+				price = parseInt( itemMatcher.group(2) );
 
 				// In this case, the limit could appear as "unlimited",
 				// which equates to a limit of 0.
 
-				limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : StaticEntity.parseInt( itemMatcher.group(3) );
+				limit = itemMatcher.group(3).startsWith( "<" ) ? 0 : parseInt( itemMatcher.group(3) );
 
 				// Now that all the data has been retrieved, register
 				// the item that was discovered.
@@ -329,7 +329,7 @@ public abstract class StoreManager extends StaticEntity
 		// With the item name properly formatted, issue
 		// the search request.
 
-		(new SearchMallRequest( client, itemName, maximumResults, results, true )).run();
+		(new SearchMallRequest( getClient(), itemName, maximumResults, results, true )).run();
 		if ( !toString )
 		{
 			resultSummary.addAll( results );

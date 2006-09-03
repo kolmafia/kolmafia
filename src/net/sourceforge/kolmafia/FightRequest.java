@@ -102,7 +102,7 @@ public class FightRequest extends KoLRequest
 		// Now, to test if the user should run away from the
 		// battle - this is an HP test.
 
-		int haltTolerance = (int)( StaticEntity.parseDouble( getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
+		int haltTolerance = (int)( StaticEntity.getFloatProperty( "battleStop" ) * (float) KoLCharacter.getMaximumHP() );
 
 		if ( passwordHash == null )
 		{
@@ -110,7 +110,7 @@ public class FightRequest extends KoLRequest
 		}
 		else
 		{
-			action1 = CombatSettings.getShortCombatOptionName( getProperty( "battleAction" ) );
+			action1 = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
 			action2 = null;
 
 			for ( int i = 0; i < RARE_MONSTERS.length; ++i )
@@ -443,13 +443,13 @@ public class FightRequest extends KoLRequest
 		int skillID = ClassSkillsDatabase.getSkillID( action.substring( 6 ) );
 		int mpCost = ClassSkillsDatabase.getMPConsumptionByID( skillID );
 
-		double threshold = Double.parseDouble( StaticEntity.getProperty( "mpAutoRecovery" ) );
-		if ( threshold == 0.0 )
+		float threshold = StaticEntity.getFloatProperty( "mpAutoRecovery" );
+		if ( threshold == 0.0f )
 		{
-			double required = Math.min( (double) mpCost / (double) KoLCharacter.getMaximumMP(), 1.0 );
+			float required = Math.min( (float) mpCost / (float) KoLCharacter.getMaximumMP(), 1.0f );
 
 			if ( required != 1.0 )
-				required = Math.ceil( required * 10.0 ) / 10.0;
+				required = ((float) Math.ceil( required * 10.0f )) / 10.0f;
 
 			if ( threshold <= required )
 			{

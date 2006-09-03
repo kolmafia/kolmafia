@@ -43,7 +43,7 @@ import java.io.BufferedReader;
 
 /**
  * A static class which retrieves all the tradeable items available in
- * the Kingdom of Loathing and allows the client to do item look-ups.
+ * the Kingdom of Loathing and allows the getClient() to do item look-ups.
  * The item list being used is a parsed and resorted list found on
  * Ohayou's Kingdom of Loathing website.  In order to decrease server
  * load, this item list is stored within the JAR archive.
@@ -65,7 +65,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 	{
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
-		// examined and double-referenced: once in the name-lookup,
+		// examined and float-referenced: once in the name-lookup,
 		// and again in the ID lookup.
 
 		BufferedReader reader = getReader( "classskills.dat" );
@@ -99,7 +99,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
@@ -236,7 +236,7 @@ public class ClassSkillsDatabase extends KoLDatabase
 		Object [] keys = skillTypeByID.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
 			if ( isType( ((Integer)keys[i]).intValue(), type ) )
-				list.add( new UseSkillRequest( client, getSkillName( ((Integer)keys[i]).intValue() ), "", 1 ) );
+				list.add( new UseSkillRequest( getClient(), getSkillName( ((Integer)keys[i]).intValue() ), "", 1 ) );
 
 		return list;
 	}

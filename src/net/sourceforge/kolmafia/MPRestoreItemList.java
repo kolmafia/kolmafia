@@ -59,7 +59,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 
 	public static JCheckBox [] getCheckboxes()
 	{
-		String mpRestoreSetting = StaticEntity.getProperty( "mpAutoRecoveryItems" );
+		String mpRestoreSetting = getProperty( "mpAutoRecoveryItems" );
 		JCheckBox [] restoreCheckbox = new JCheckBox[ CONFIGURES.length ];
 
 		for ( int i = 0; i < CONFIGURES.length; ++i )
@@ -119,7 +119,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			int mpShort = needed - KoLCharacter.getCurrentMP();
 
 
-			int numberToUse = (int) Math.ceil( (double) mpShort / (double) mpPerUse );
+			int numberToUse = (int) Math.ceil( (float) mpShort / (float) mpPerUse );
 			int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
 
 			if ( !NPCStoreDatabase.contains( this.toString() ) )
@@ -128,7 +128,7 @@ public abstract class MPRestoreItemList extends StaticEntity
 			if ( numberToUse <= 0 )
 				return;
 
-			StaticEntity.getClient().makeRequest( new ConsumeItemRequest( client, itemUsed.getInstance( numberToUse ) ) );
+			getClient().makeRequest( new ConsumeItemRequest( getClient(), itemUsed.getInstance( numberToUse ) ) );
 		}
 
 		public String toString()

@@ -34,9 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
@@ -136,7 +134,7 @@ public class LocalRelayServer implements Runnable
 	{
 		try
 		{
-			serverSocket = new ServerSocket( port, 25, InetAddress.getByName( "127.0.0.1" ) );
+			serverSocket = new ServerSocket( port, 25, InetAddress.getByName( "127.0.0f.1" ) );
 			return true;
 		}
 		catch ( Exception e )
@@ -312,8 +310,8 @@ public class LocalRelayServer implements Runnable
 
 			try
 			{
-				reader = new BufferedReader( new InputStreamReader( new BufferedInputStream( socket.getInputStream() ) ) );
-				writer = new PrintStream( socket.getOutputStream() );
+				reader = KoLDatabase.getReader( socket.getInputStream() );
+				writer = new LogStream( socket.getOutputStream() );
 
 				if ( (line = reader.readLine()) == null )
 					return;

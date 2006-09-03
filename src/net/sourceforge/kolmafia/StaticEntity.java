@@ -45,7 +45,7 @@ public abstract class StaticEntity implements KoLConstants
 
 	private static final String [] EMPTY_STRING_ARRAY = new String[0];
 
-	protected static KoLmafia client;
+	private static KoLmafia client;
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
 
@@ -88,6 +88,18 @@ public abstract class StaticEntity implements KoLConstants
 
 	public static final String getProperty( String name )
 	{	return settings.getProperty( name );
+	}
+
+	public static final boolean getBooleanProperty( String name )
+	{	return getProperty( name ).equals( "true" );
+	}
+
+	public static final int getIntegerProperty( String name )
+	{	return parseInt( getProperty( name ) );
+	}
+
+	public static final float getFloatProperty( String name )
+	{	return parseFloat( getProperty( name ) );
 	}
 
 	public static void openSystemBrowser( String location )
@@ -269,12 +281,12 @@ public abstract class StaticEntity implements KoLConstants
 		return clean.equals( "" ) ? 0 : Integer.parseInt( clean );
 	}
 
-	public static final double parseDouble( String string )
+	public static final float parseFloat( String string )
 	{
 		if ( string == null )
-			return 0.0;
+			return 0.0f;
 
 		String clean = string.replaceAll( "[^\\-\\.0-9]", "" );
-		return clean.equals( "" ) ? 0.0 : Double.parseDouble( clean );
+		return clean.equals( "" ) ? 0.0f : Float.parseFloat( clean );
 	}
 }

@@ -143,9 +143,6 @@ public class AdventureRequest extends KoLRequest
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
-		if ( getProperty( "cloverProtectActive" ).equals( "true" ) )
-			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
-
 		if ( formSource.equals( "mountains.php" ) )
 		{
 			KoLRequest check = new KoLRequest( client, "mountains.php" );
@@ -159,9 +156,6 @@ public class AdventureRequest extends KoLRequest
 		}
 
 		super.run();
-
-		if ( getProperty( "cloverProtectActive" ).equals( "true" ) )
-			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
 	}
 
 	protected void processResults()

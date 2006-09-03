@@ -35,14 +35,12 @@
 package net.sourceforge.kolmafia;
 
 // utilities
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.Arrays;
 
 import net.java.dev.spellcast.utilities.UtilityConstants;
 
-public class VioletFog
+public class VioletFog implements UtilityConstants
 {
 	// The various locations within the violet fog
 
@@ -220,7 +218,7 @@ public class VioletFog
 	{
 		try
 		{
-			PrintStream stream = new PrintStream( new FileOutputStream( UtilityConstants.DATA_DIRECTORY + "VioletFogRoutingTable.html" ) );
+			PrintStream stream = new LogStream( DATA_DIRECTORY + "VioletFogRoutingTable.html" );
 			printRoutingTable( stream );
 			stream.close();
 		}
@@ -322,7 +320,7 @@ public class VioletFog
 		}
 
 		// Get the user specified goal
-		int goal = StaticEntity.parseInt( StaticEntity.getProperty( "violetFogGoal" ) );
+		int goal = StaticEntity.getIntegerProperty( "violetFogGoal" );
 
 		// If no goal, return "4".
 		// - If we are not at a "goal" location, this will exit the fog

@@ -99,13 +99,13 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 				String [] currentBuff = soldBuffs[i].split( ":" );
 				if ( currentBuff.length == 4 )
 				{
-					addBuff( ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( currentBuff[0] ) ), StaticEntity.parseInt( currentBuff[1] ),
-						StaticEntity.parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), false );
+					addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ),
+						parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), false );
 				}
 				else if ( currentBuff.length == 5 )
 				{
-					addBuff( ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( currentBuff[0] ) ), StaticEntity.parseInt( currentBuff[1] ),
-						StaticEntity.parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), currentBuff[4].equals( "true" ) );
+					addBuff( ClassSkillsDatabase.getSkillName( parseInt( currentBuff[0] ) ), parseInt( currentBuff[1] ),
+						parseInt( currentBuff[2] ), currentBuff[3].equals( "true" ), currentBuff[4].equals( "true" ) );
 				}
 			}
 		}
@@ -191,7 +191,6 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static void saveBuffs()
 	{
 		StringBuffer sellerSetting = new StringBuffer();
-		BuffBotCaster currentCast;
 
 		PrintStream document = null;
 
@@ -201,11 +200,11 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			if ( xmlfile.exists() )
 				xmlfile.delete();
 
-			document = new PrintStream( new FileOutputStream( xmlfile, false ) );
+			document = new LogStream( xmlfile );
 		}
 		catch ( Exception e )
 		{
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 
 		BuffBotCaster [] casters = new BuffBotCaster[ buffCostTable.size() ];
@@ -213,7 +212,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 		if ( document != null )
 		{
-			document.println( "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" );
+			document.println( "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" );
 			document.println( "<?xml-stylesheet type=\"text/xsl\" href=\"http://kolmafia.sourceforge.net/buffbot.xsl\"?>" );
 			document.println();
 
@@ -351,7 +350,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		BuffBotHome.setBuffBotActive( true );
 		KoLmafia.updateDisplay( "Buffbot started." );
 		BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Starting new session" );
-		messageDisposalSetting = StaticEntity.parseInt( getProperty( "buffBotMessageDisposal" ) );
+		messageDisposalSetting = parseInt( getProperty( "buffBotMessageDisposal" ) );
 
 		String whiteListString = getProperty( "whiteList" ).toLowerCase();
 		if ( whiteListString.indexOf( "$clan" ) != -1 )
@@ -360,11 +359,11 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		whiteListArray = whiteListString.split( "\\s*,\\s*" );
 		Arrays.sort( whiteListArray );
 
-		refundMessage = StaticEntity.getProperty( "invalidBuffMessage" );
-		thanksMessage = StaticEntity.getProperty( "thanksMessage" );
-		initialRestores = client.getRestoreCount();
+		refundMessage = getProperty( "invalidBuffMessage" );
+		thanksMessage = getProperty( "thanksMessage" );
+		initialRestores = getClient().getRestoreCount();
 
-		String restoreItems = StaticEntity.getProperty( "mpAutoRecoveryItems" );
+		String restoreItems = getProperty( "mpAutoRecoveryItems" );
 		boolean usingAdventures = restoreItems.indexOf( "rest" ) != -1 || restoreItems.indexOf( "relax" ) != -1;
 
 		// The outer loop goes until user cancels, or
@@ -375,7 +374,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// If you run out of adventures and/or restores, then
 			// check to see if you need to abort.
 
-			if ( client.getRestoreCount() == 0 )
+			if ( getClient().getRestoreCount() == 0 )
 			{
 				if ( !usingAdventures || KoLCharacter.getAdventuresLeft() == 0 )
 				{
@@ -408,7 +407,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 
 				BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "Message processing complete.  Buffbot is sleeping." );
 				if ( initialRestores > 0 )
-					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + client.getRestoreCount() + " mana restores remaining)" );
+					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + getClient().getRestoreCount() + " mana restores remaining)" );
 				else if ( usingAdventures )
 					BuffBotHome.timeStampedLogEntry( BuffBotHome.NOCOLOR, "(" + KoLCharacter.getAdventuresLeft() + " adventures remaining)" );
 
@@ -432,7 +431,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	public static void runOnce()
 	{
 		getMessages( "Inbox" ).clear();
-		(new MailboxRequest( client, "Inbox" )).run();
+		(new MailboxRequest( getClient(), "Inbox" )).run();
 
 		while ( !deleteList.isEmpty() || !saveList.isEmpty() )
 		{
@@ -463,7 +462,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static void queueOutgoingMessage( String recipient, String message, AdventureResult result )
 	{
 		if ( sendList.isEmpty() )
-			sendList.add( new GreenMessageRequest( client, recipient, message, result ) );
+			sendList.add( new GreenMessageRequest( getClient(), recipient, message, result ) );
 	}
 
 	/**
@@ -505,7 +504,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 			return success;
 		}
 
@@ -598,7 +597,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 		}
 
 		Matcher meatMatcher = Pattern.compile( MEAT_REGEX ).matcher( message.getMessageHTML() );
-		int meatSent = meatMatcher.find() ? StaticEntity.parseInt( meatMatcher.group(1) ) : 0;
+		int meatSent = meatMatcher.find() ? parseInt( meatMatcher.group(1) ) : 0;
 		List castList = (List) buffCostMap.get( new Integer( meatSent ) );
 
 		// If what is sent does not match anything in the buff table,
@@ -844,7 +843,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			BuffBotHome.update( BuffBotHome.BUFFCOLOR, "Casting " + buffName + ", " + castCount + " times on " +
 				target + " for " + price + " meat... " );
 
-			(new UseSkillRequest( client, buffName, target, castCount )).run();
+			(new UseSkillRequest( getClient(), buffName, target, castCount )).run();
 			KoLmafia.forceContinue();
 
 			if ( UseSkillRequest.lastUpdate.equals( "" ) )

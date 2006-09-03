@@ -242,7 +242,6 @@ public class BuffBotFrame extends KoLFrame
 		{
 			super( new Dimension( 120, 20 ),  new Dimension( 300, 20 ) );
 
-			JPanel panel = new JPanel( new BorderLayout() );
 			LockableListModel messageDisposalChoices = new LockableListModel();
 			messageDisposalChoices.add( "Auto-save non-requests" );
 			messageDisposalChoices.add( "Auto-delete non-requests" );
@@ -259,12 +258,12 @@ public class BuffBotFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
-			setProperty( "mpAutoRecoveryItems", getSettingString( mpRestoreCheckbox ) );
+			StaticEntity.setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
+			StaticEntity.setProperty( "mpAutoRecoveryItems", getSettingString( mpRestoreCheckbox ) );
 		}
 
 		public void actionCancelled()
-		{	messageDisposalSelect.setSelectedIndex( StaticEntity.parseInt( getProperty( "buffBotMessageDisposal" ) ) );
+		{	messageDisposalSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "buffBotMessageDisposal" ) );
 		}
 	}
 
@@ -324,16 +323,16 @@ public class BuffBotFrame extends KoLFrame
 
 		protected void actionConfirmed()
 		{
-			setProperty( "whiteList", whiteListEntry.getText() );
-			setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
-			setProperty( "thanksMessage", thanksMessage.getText() );
+			StaticEntity.setProperty( "whiteList", whiteListEntry.getText() );
+			StaticEntity.setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
+			StaticEntity.setProperty( "thanksMessage", thanksMessage.getText() );
 		}
 
 		protected void actionCancelled()
 		{
-			whiteListEntry.setText( getProperty( "whiteList" ) );
-			invalidPriceMessage.setText( getProperty( "invalidBuffMessage" ) );
-			thanksMessage.setText( getProperty( "thanksMessage" ) );
+			whiteListEntry.setText( StaticEntity.getProperty( "whiteList" ) );
+			invalidPriceMessage.setText( StaticEntity.getProperty( "invalidBuffMessage" ) );
+			thanksMessage.setText( StaticEntity.getProperty( "thanksMessage" ) );
 		}
 	}
 

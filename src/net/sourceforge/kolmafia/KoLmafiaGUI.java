@@ -102,7 +102,7 @@ public class KoLmafiaGUI extends KoLmafia
 			{
 				javax.swing.UIManager.setLookAndFeel( lookAndFeel );
 				javax.swing.JFrame.setDefaultLookAndFeelDecorated(
-					StaticEntity.getProperty( "desiredLookAndFeelTitle" ).equals( "true" ) );
+					StaticEntity.getBooleanProperty( "desiredLookAndFeelTitle" ) );
 			}
 			catch ( Exception e )
 			{
@@ -142,7 +142,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		if ( KoLRequest.passwordHash != null )
 		{
-			if ( StaticEntity.getProperty( "retrieveContacts" ).equals( "true" ) )
+			if ( StaticEntity.getBooleanProperty( "retrieveContacts" ) )
 			{
 				(new ContactListRequest( this )).run();
 				StaticEntity.setProperty( "retrieveContacts", String.valueOf( !contactList.isEmpty() ) );
@@ -288,7 +288,7 @@ public class KoLmafiaGUI extends KoLmafia
 					if ( StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
 						(new MicrobreweryRequest( StaticEntity.getClient() )).run();
 
-				if ( StaticEntity.getProperty( "showStashIngredients" ).equals( "true" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
+				if ( StaticEntity.getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 				{
 					if ( !ClanManager.isStashRetrieved() )
 						(new ClanStashRequest( StaticEntity.getClient() )).run();

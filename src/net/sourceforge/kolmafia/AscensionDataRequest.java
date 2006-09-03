@@ -44,8 +44,6 @@ import java.text.SimpleDateFormat;
 
 import java.io.File;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
 
 public class AscensionDataRequest extends KoLRequest implements Comparable
 {
@@ -149,7 +147,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 		try
 		{
-			BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( backupFile ) ) );
+			BufferedReader istream = KoLDatabase.getReader( backupFile );
 			StringBuffer ascensionBuffer = new StringBuffer();
 			String currentLine;
 
@@ -449,7 +447,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 
 			long todayDate = today.getTime();
 			long ascensionDate = timestamp.getTime();
-			double difference = todayDate - ascensionDate;
+			float difference = todayDate - ascensionDate;
 			int days = (int)(Math.round((difference/(1000*60*60*24))));
 			return days;
 		}

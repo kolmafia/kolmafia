@@ -483,7 +483,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			boolean hasMeatPaste = KoLCharacter.hasItem( PASTE, false );
 			if ( !hasMeatPaste )
 			{
-				hasMeatPaste = StaticEntity.getProperty( "lazyLoadInventory" ).equals( "false" ) &&
+				hasMeatPaste = !StaticEntity.getBooleanProperty( "lazyLoadInventory" ) &&
 					KoLCharacter.hasItem( PASTE, true );
 			}
 

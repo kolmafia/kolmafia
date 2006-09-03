@@ -137,10 +137,10 @@ public class LocalRelayRequest extends KoLRequest
 		if ( formURLString.indexOf( "lchat.php" ) != -1 )
 		{
 			fullResponse = fullResponse.replaceAll( "cycles\\+\\+", "count = 0" ).replaceAll(
-				"window.?location.?hostname", "\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
+				"window.?location.?hostname", "\"127.0.0f.1:" + LocalRelayServer.getPort() + "\"" );
 
 			fullResponse = fullResponse.replaceAll(
-				"</head>", "<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script></head>" );
+				"</head>", "<script language=\"Javascript\">base = \"http://127.0.0f.1:" +  LocalRelayServer.getPort() + "\";</script></head>" );
 
 			fullResponse = fullResponse.replaceAll( "onLoad='", "onLoad='setInterval( getNewMessages, 8000 ); " );
 		}
@@ -165,12 +165,12 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( formURLString.indexOf( "chatlaunch" ) != -1 )
 		{
-			if ( StaticEntity.getProperty( "relayAddsCommandLineLinks" ).equals( "true" ) )
+			if ( StaticEntity.getBooleanProperty( "relayAddsCommandLineLinks" ) )
 			{
 				fullResponse = fullResponse.replaceFirst( "<a href",
 					"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Loads in this frame to allow for manual adventuring.</p><center><a href");
 			}
-			if ( StaticEntity.getProperty( "relayAddsSimulatorLinks" ).equals( "true" ) )
+			if ( StaticEntity.getBooleanProperty( "relayAddsSimulatorLinks" ) )
 			{
 				fullResponse = fullResponse.replaceFirst( "<a href",
 					"<a target=_new href=\"KoLmafia/simulator/index.html\"><b>KoL Simulator</b></a></center><p>Ayvuir's Simulator of Loathing, as found on the forums.</p><center><a href");
@@ -186,7 +186,7 @@ public class LocalRelayRequest extends KoLRequest
 			selectBuffer.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><form name=\"gcli\">" );
 			selectBuffer.append( "<select name=\"scriptbar\">" );
 
-			String [] scriptList = getProperty( "scriptList" ).split( " \\| " );
+			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
 			for ( int i = 0; i < scriptList.length; ++i )
 			{
 				selectBuffer.append( "<option value=\"" );
@@ -208,12 +208,12 @@ public class LocalRelayRequest extends KoLRequest
 		// Though this might slow down loading of things a bit browser-side
 		// the first time around, it makes the mini-browser a lot more useful.
 
-		if ( StaticEntity.getProperty( "cacheRelayImages" ).equals( "true" ) )
+		if ( StaticEntity.getBooleanProperty( "cacheRelayImages" ) )
 			RequestEditorKit.downloadImages( fullResponse );
 
 		fullResponse = RequestEditorKit.getFeatureRichHTML( formURLString.toString(), fullResponse );
 
-		if ( StaticEntity.getProperty( "cacheRelayImages" ).equals( "true" ) )
+		if ( StaticEntity.getBooleanProperty( "cacheRelayImages" ) )
 			fullResponse = fullResponse.replaceAll( "http://images\\.kingdomofloathing\\.com", "images" );
 		else
 			fullResponse = fullResponse.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
@@ -242,7 +242,7 @@ public class LocalRelayRequest extends KoLRequest
 
 	protected void pseudoResponse( String status, String fullResponse )
 	{
-		this.fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
+		this.fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0f.1:" + LocalRelayServer.getPort() );
 		if ( fullResponse.length() == 0 )
 			this.fullResponse = " ";
 
@@ -255,13 +255,13 @@ public class LocalRelayRequest extends KoLRequest
 		String contentType = null;
 
 		if ( formURLString.endsWith( ".css" ) )
-			contentType = "text/css";
+			contentType = "text/css; charset=UTF-8";
 		else if ( formURLString.endsWith( ".js" ) )
-			contentType = "text/javascript";
+			contentType = "text/javascript; charset=UTF-8";
 		else if ( formURLString.endsWith( ".php" ) || formURLString.endsWith( ".htm" ) || formURLString.endsWith( ".html" ) )
-			contentType = "text/html";
+			contentType = "text/html; charset=UTF-8";
 		else if ( formURLString.endsWith( ".txt" ) )
-			contentType = "text/plain";
+			contentType = "text/plain; charset=UTF-8";
 		else if ( formURLString.endsWith( ".gif" ) )
 			contentType = "image/gif";
 		else if ( formURLString.endsWith( ".png" ) )
@@ -270,16 +270,7 @@ public class LocalRelayRequest extends KoLRequest
 			contentType = "image/jpeg";
 
 		if ( contentType != null )
-		{
-			if ( contentType.startsWith( "text/" ) )
-			{
-				String encoding = formConnection == null ? null : formConnection.getContentEncoding();
-				if ( encoding != null )
-					contentType += "; charset=" + encoding;
-			}
-
 			headers.add( "Content-Type: " + contentType );
-		}
 	}
 
 	private StringBuffer readContents( BufferedReader reader, String filename ) throws IOException
@@ -687,7 +678,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		try
 		{
-			PrintStream writer = new PrintStream( new FileOutputStream( "html/simulator/" + filename, true ) );
+			PrintStream writer = new LogStream( "html/simulator/" + filename );
 			writer.print( request.fullResponse );
 			writer.close();
 		}

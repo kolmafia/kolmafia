@@ -405,7 +405,7 @@ public abstract class MoodSettings implements KoLConstants
 	{
 		try
 		{
-			PrintStream writer = new PrintStream( new FileOutputStream( settingsFile ) );
+			PrintStream writer = new LogStream( settingsFile );
 
 			SortedListModel triggerList;
 			for ( int i = 0; i < availableMoods.size(); ++i )
@@ -455,7 +455,7 @@ public abstract class MoodSettings implements KoLConstants
 				return;
 			}
 
-			BufferedReader reader = new BufferedReader( new InputStreamReader( new FileInputStream( settingsFile ) ) );
+			BufferedReader reader = KoLDatabase.getReader( settingsFile );
 
 			String line;
 			String currentKey = "";

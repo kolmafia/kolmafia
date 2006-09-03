@@ -146,7 +146,7 @@ public class AreaCombatData implements KoLConstants
 			hitstat = KoLCharacter.getAdjustedMysticality() - ml;
 		else
 			hitstat = KoLCharacter.getAdjustedMuscle() - ml;
-		return hitPercent( hitstat, minHit ) > 0.0;
+		return hitPercent( hitstat, minHit ) > 0.0f;
 	}
 
 	public String toString()
@@ -172,24 +172,24 @@ public class AreaCombatData implements KoLConstants
 			hitstat = KoLCharacter.getAdjustedMuscle() - ml;
 		}
 
-		double minHitPercent = hitPercent( hitstat, minHit );
-		double maxHitPercent = hitPercent( hitstat, maxHit );
+		float minHitPercent = hitPercent( hitstat, minHit );
+		float maxHitPercent = hitPercent( hitstat, maxHit );
 		int minPerfectHit = perfectHit( hitstat, minHit );
 		int maxPerfectHit = perfectHit( hitstat, maxHit );
-		double minEvadePercent = hitPercent( moxie, minEvade );
-		double maxEvadePercent = hitPercent( moxie, maxEvade );
+		float minEvadePercent = hitPercent( moxie, minEvade );
+		float maxEvadePercent = hitPercent( moxie, maxEvade );
 		int minPerfectEvade = perfectHit( moxie, minEvade );
 		int maxPerfectEvade = perfectHit( moxie, maxEvade );
 
 		// statGain constants
 		FamiliarData familiar = KoLCharacter.getFamiliar();
-		double xpAdjustment = KoLCharacter.getFixedXPAdjustment();
+		float xpAdjustment = KoLCharacter.getFixedXPAdjustment();
 
 		// Area Combat percentage
-		double combatFactor = areaCombatPercent() / 100.0;
+		float combatFactor = areaCombatPercent() / 100.0f;
 
 		// Iterate once through monsters to calculate average statGain
-		double averageXP = 0.0;
+		float averageXP = 0.0f;
 
 		for ( int i = 0; i < monsters.size(); ++i )
 		{
@@ -200,7 +200,7 @@ public class AreaCombatData implements KoLConstants
 				continue;
 
 			MonsterDatabase.Monster monster = getMonster( i );
-			double weight = (double)weighting / (double)weights;
+			float weight = (float)weighting / (float)weights;
 			averageXP += weight * monster.getAdjustedXP( xpAdjustment, ml,  familiar );
 		}
 
@@ -215,7 +215,7 @@ public class AreaCombatData implements KoLConstants
 
 		if ( combats > 0 )
 		{
-			buffer.append( format( combatFactor * 100.0 ) + "%" );
+			buffer.append( format( combatFactor * 100.0f ) + "%" );
 			buffer.append( "<br><b>Average XP / Turn</b>: " + FLOAT_FORMAT.format( averageXP * combatFactor ) );
 		}
 		else if ( combats == 0 )
@@ -233,25 +233,25 @@ public class AreaCombatData implements KoLConstants
 		return buffer.toString();
 	}
 
-	private String format( double percentage )
+	private String format( float percentage )
 	{	return String.valueOf( (int) percentage );
 	}
 
-	private double areaCombatPercent()
+	private float areaCombatPercent()
 	{
 		// If we don't have the data, pretend it's all combat
 		if ( combats < 0 )
-			return 100.0;
+			return 100.0f;
 
 		// Some areas are inherently all combat or no combat
 		if ( combats == 0 || combats == 100 )
-			return (double)combats;
+			return (float)combats;
 
-		double pct = (double)combats + KoLCharacter.getCombatPercentAdjustment();
-		return Math.max( 0.0, Math.min( 100.0, pct ) );
+		float pct = (float)combats + KoLCharacter.getCombatPercentAdjustment();
+		return Math.max( 0.0f, Math.min( 100.0f, pct ) );
 	}
 
-	private String getRateString( double minPercent, int minMargin, double maxPercent, int maxMargin, String statName )
+	private String getRateString( float minPercent, int minMargin, float maxPercent, int maxMargin, String statName )
 	{
 		StringBuffer buffer = new StringBuffer();
 
@@ -277,7 +277,7 @@ public class AreaCombatData implements KoLConstants
 		return buffer.toString();
 	}
 
-	private String getRateString( double percent, int margin )
+	private String getRateString( float percent, int margin )
 	{
 		StringBuffer buffer = new StringBuffer();
 
@@ -290,20 +290,20 @@ public class AreaCombatData implements KoLConstants
 		return buffer.toString();
 	}
 
-	private String getMonsterString( MonsterDatabase.Monster monster, int moxie, int hitstat, int ml, int weighting, double combatFactor )
+	private String getMonsterString( MonsterDatabase.Monster monster, int moxie, int hitstat, int ml, int weighting, float combatFactor )
 	{
 		// moxie and hitstat already adjusted for monster level
 
 		int defense = monster.getDefense();
-		double hitPercent = hitPercent( hitstat, defense );
+		float hitPercent = hitPercent( hitstat, defense );
 		int perfectHit = perfectHit( hitstat, defense );
 
 		int attack = monster.getAttack();
-		double evadePercent = hitPercent( moxie, attack );
+		float evadePercent = hitPercent( moxie, attack );
 		int perfectEvade = perfectHit( moxie, attack );
 
 		int health = monster.getAdjustedHP( ml );
-		double statGain = monster.getXP();
+		float statGain = monster.getXP();
 
 		StringBuffer buffer = new StringBuffer();
 
@@ -320,7 +320,7 @@ public class AreaCombatData implements KoLConstants
 		else if ( weighting == 0 )
 			buffer.append( "one-time" );
 		else
-			buffer.append( format( 100.0 * combatFactor * (double)weighting / (double)weights ) + "%" );
+			buffer.append( format( 100.0f * combatFactor * (float)weighting / (float)weights ) + "%" );
                 buffer.append( ")<br> - Hit: <font color=" + elementColor( ed ) + ">" );
 		buffer.append( format( hitPercent ) );
 		buffer.append( "%</font>, Evade: <font color=" + elementColor( ea ) + ">" );
@@ -339,12 +339,10 @@ public class AreaCombatData implements KoLConstants
 		if ( minMeat == 0 && maxMeat == 0 )
 			return;
 
-		double modifier = ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0 ) / 100.0;
+		float modifier = ( KoLCharacter.getMeatDropPercentAdjustment() + 100.0f ) / 100.0f;
 		buffer.append( "<br> - Meat: " +
-			       format( (double)minMeat * modifier ) + "-" +
-			       format( (double)maxMeat * modifier ) + " (" +
-			       format( (double)( minMeat + maxMeat ) * modifier / 2.0 ) +
-			       " average)" );
+	       format( ((float)minMeat) * modifier ) + "-" + format( ((float)maxMeat) * modifier ) + " (" +
+	       format( (float)(minMeat + maxMeat) * modifier / 2.0f ) + " average)" );
 	}
 
 	private void appendItemList( StringBuffer buffer, List items )
@@ -352,13 +350,13 @@ public class AreaCombatData implements KoLConstants
 		if ( items.size() == 0 )
 			return;
 
-		double itemModifier = ( 100.0 + KoLCharacter.getItemDropPercentAdjustment() ) / 100.0;
+		float itemModifier = ( 100.0f + KoLCharacter.getItemDropPercentAdjustment() ) / 100.0f;
 
 		for ( int i = 0; i < items.size(); ++i )
 		{
 			buffer.append( "<br> - Drops " );
 			AdventureResult item = (AdventureResult)items.get(i);
-			buffer.append( item.getName() + " (" + format( Math.min( (double)item.getCount() * itemModifier, 100.0 ) ) + "%)" );
+			buffer.append( item.getName() + " (" + format( Math.min( (float)item.getCount() * itemModifier, 100.0f ) ) + "%)" );
 		}
 	}
 
@@ -378,14 +376,14 @@ public class AreaCombatData implements KoLConstants
 		return "#000000";
 	}
 
-	public static double hitPercent( int attack, int defense )
+	public static float hitPercent( int attack, int defense )
 	{
 		// ( (Attack - Defense) / 18 ) * 100 + 50 = Hit%
-		double percent = 100.0 * ( attack - defense ) / 18 + 50.0;
-		if ( percent < 0.0 )
-			return 0.0;
-		if ( percent > 100.0 )
-			return 100.0;
+		float percent = 100.0f * ( attack - defense ) / 18 + 50.0f;
+		if ( percent < 0.0f )
+			return 0.0f;
+		if ( percent > 100.0f )
+			return 100.0f;
 		return percent;
 	}
 

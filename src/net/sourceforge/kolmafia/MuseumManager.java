@@ -83,7 +83,7 @@ public class MuseumManager extends StaticEntity
 		((SortedListModel)shelves.get( destinationShelf )).addAll( movingList );
 
 		// Save the lists to the server and update the display
-		// on the client to reflect the change.
+		// on the getClient() to reflect the change.
 
 		save( MuseumManager.shelves );
 		KoLmafia.updateDisplay( "Display case updated." );
@@ -112,7 +112,7 @@ public class MuseumManager extends StaticEntity
 		{
 			if ( deleted[i] )
 			{
-				KoLRequest request = new KoLRequest( client, "managecollection.php" );
+				KoLRequest request = new KoLRequest( getClient(), "managecollection.php" );
 				request.addFormField( "action", "newshelf" );
 				request.addFormField( "pwd" );
 				request.addFormField( "shelfname", "Deleted Shelf " + i );
@@ -129,14 +129,14 @@ public class MuseumManager extends StaticEntity
 			shelforder.add( shelves.get( MuseumManager.headers.indexOf( headers[i] ) ) );
 
 		// Save the lists to the server and update the display
-		// on the client to reflect the change.
+		// on the getClient() to reflect the change.
 
 		save( shelforder );
 
 		// Redelete the previously deleted shelves so that the
 		// user isn't stuck with shelves they aren't going to use.
 
-		KoLRequest request = new KoLRequest( client, "managecollection.php" );
+		KoLRequest request = new KoLRequest( getClient(), "managecollection.php" );
 		request.addFormField( "action", "modifyshelves" );
 		request.addFormField( "pwd" );
 
@@ -148,7 +148,7 @@ public class MuseumManager extends StaticEntity
 		}
 
 		request.run();
-		(new MuseumRequest( client )).run();
+		(new MuseumRequest( getClient() )).run();
 		KoLmafia.updateDisplay( "Display case updated." );
 	}
 
@@ -181,7 +181,7 @@ public class MuseumManager extends StaticEntity
 		// Once the parallel arrays are properly initialized,
 		// send the update request to the server.
 
-		(new MuseumRequest( client, newItems, newShelves )).run();
+		(new MuseumRequest( getClient(), newItems, newShelves )).run();
 	}
 
 	public static void update( String data )
@@ -199,16 +199,16 @@ public class MuseumManager extends StaticEntity
 		{
 			selectedMatcher = selectedPattern.matcher( optionMatcher.group(3) );
 
-			itemID = StaticEntity.parseInt( optionMatcher.group(2) );
+			itemID = parseInt( optionMatcher.group(2) );
 
 			itemString = optionMatcher.group(1).split( "[\\(\\)]" );
 			if ( TradeableItemDatabase.getItemName( itemID ) == null )
 				TradeableItemDatabase.registerItem( itemID, itemString[0].trim() );
 
-			itemCount = itemString.length == 1 ? 1 : StaticEntity.parseInt( itemString[1] );
+			itemCount = itemString.length == 1 ? 1 : parseInt( itemString[1] );
 
 			registerItem( new AdventureResult( itemID, itemCount ),
-				selectedMatcher.find() ? StaticEntity.parseInt( selectedMatcher.group(1) ) : 0 );
+				selectedMatcher.find() ? parseInt( selectedMatcher.group(1) ) : 0 );
 		}
 	}
 
@@ -228,7 +228,7 @@ public class MuseumManager extends StaticEntity
 			Matcher shelfMatcher = Pattern.compile( "<option value=(\\d+).*?>(.*?)</option>" ).matcher( selectMatcher.group() );
 			while ( shelfMatcher.find() )
 			{
-				currentShelf = StaticEntity.parseInt( shelfMatcher.group(1) );
+				currentShelf = parseInt( shelfMatcher.group(1) );
 
 				for ( int i = headers.size(); i < currentShelf; ++i )
 					headers.add( "(Deleted Shelf)" );

@@ -180,8 +180,8 @@ public class ContactListFrame extends KoLFrame
 		{
 			JList list = (JList) e.getSource();
 
-			// The only event handled by the adapter is a double-click;
-			// when a double-click is detected, a new ChatFrame is created
+			// The only event handled by the adapter is a float-click;
+			// when a float-click is detected, a new ChatFrame is created
 			// for the specified player.
 
 			if ( e.getClickCount() == 2 )

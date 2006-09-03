@@ -46,13 +46,11 @@ import java.io.File;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 import java.util.Date;
 import java.util.Collections;
 import java.text.SimpleDateFormat;
-import javax.swing.JOptionPane;
 
 import edu.stanford.ejalbert.BrowserLauncher;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -129,7 +127,7 @@ public class ClanManager extends StaticEntity
 	{
 		if ( !ranksRetrieved )
 		{
-			(new RankListRequest( client )).run();
+			(new RankListRequest()).run();
 			ranksRetrieved = true;
 		}
 
@@ -138,8 +136,8 @@ public class ClanManager extends StaticEntity
 
 	private static class RankListRequest extends KoLRequest
 	{
-		public RankListRequest( KoLmafia client )
-		{	super( client, "clan_members.php" );
+		public RankListRequest()
+		{	super( getClient(), "clan_members.php" );
 		}
 
 		public void run()
@@ -166,7 +164,7 @@ public class ClanManager extends StaticEntity
 	{
 		if ( profileMap.isEmpty() )
 		{
-			ClanMembersRequest cmr = new ClanMembersRequest( client );
+			ClanMembersRequest cmr = new ClanMembersRequest( getClient() );
 			cmr.run();
 
 			clanID = cmr.getClanID();
@@ -223,27 +221,6 @@ public class ClanManager extends StaticEntity
 		if ( requestsNeeded == 0 )
 			return true;
 
-		StringBuffer message = new StringBuffer();
-		message.append( profileMap.size() );
-		message.append( " members are currently in your clan." );
-		message.append( LINE_BREAK );
-
-		// Server friendly requests take an additional 2 seconds per
-		// request.  Because the estimate is that the server takes
-		// 5 seconds per response, this effectively should double
-		// the amount of time estimated (because you delay twice).
-
-		message.append( "This process will take " );
-		message.append( ((int)(requestsNeeded / (KoLRequest.isServerFriendly ? 4 : 10)) + 1) );
-		message.append( " minutes to complete." );
-		message.append( LINE_BREAK );
-
-		message.append( "Are you sure you want to continue?" );
-		message.append( LINE_BREAK );
-
-		if ( JOptionPane.NO_OPTION == JOptionPane.showConfirmDialog( null, message.toString(), "Member list retrieved!", JOptionPane.YES_NO_OPTION ) )
-			return false;
-
 		// Now that it's known what the user wishes to continue,
 		// you begin initializing all the data.
 
@@ -281,7 +258,7 @@ public class ClanManager extends StaticEntity
 
 			try
 			{
-				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( profile ) ) );
+				BufferedReader istream = KoLDatabase.getReader( profile );
 				StringBuffer profileString = new StringBuffer();
 				String currentLine;
 
@@ -298,7 +275,7 @@ public class ClanManager extends StaticEntity
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e, "Failed to load cached profile" );
+				printStackTrace( e, "Failed to load cached profile" );
 				return;
 			}
 		}
@@ -307,7 +284,7 @@ public class ClanManager extends StaticEntity
 			// Otherwise, run the request and pull the data from the
 			// web server.
 
-			ProfileRequest request = new ProfileRequest( client, name );
+			ProfileRequest request = new ProfileRequest( getClient(), name );
 			request.initialize();
 			profileMap.put( name, request.responseText );
 
@@ -317,7 +294,7 @@ public class ClanManager extends StaticEntity
 			try
 			{
 				profile.getParentFile().mkdirs();
-				PrintStream ostream = new PrintStream( new FileOutputStream( profile, true ), true );
+				PrintStream ostream = new LogStream( profile );
 				ostream.println( request.responseText );
 				ostream.close();
 			}
@@ -326,7 +303,7 @@ public class ClanManager extends StaticEntity
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e, "Failed to load cached profile" );
+				printStackTrace( e, "Failed to load cached profile" );
 				return;
 			}
 
@@ -344,7 +321,7 @@ public class ClanManager extends StaticEntity
 
 			try
 			{
-				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( ascension ) ) );
+				BufferedReader istream = KoLDatabase.getReader( ascension );
 				StringBuffer ascensionString = new StringBuffer();
 				String currentLine;
 
@@ -361,7 +338,7 @@ public class ClanManager extends StaticEntity
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e, "Failed to load cached ascension history" );
+				printStackTrace( e, "Failed to load cached ascension history" );
 				return;
 			}
 		}
@@ -370,7 +347,7 @@ public class ClanManager extends StaticEntity
 			// Otherwise, run the request and pull the data from the
 			// web server.
 
-			AscensionDataRequest request = new AscensionDataRequest( client, name, KoLmafia.getPlayerID( name ) );
+			AscensionDataRequest request = new AscensionDataRequest( getClient(), name, KoLmafia.getPlayerID( name ) );
 			request.initialize();
 			ascensionMap.put( name, request.responseText );
 
@@ -380,7 +357,7 @@ public class ClanManager extends StaticEntity
 			try
 			{
 				ascension.getParentFile().mkdirs();
-				PrintStream ostream = new PrintStream( new FileOutputStream( ascension, true ), true );
+				PrintStream ostream = new LogStream( ascension );
 				ostream.println( request.responseText );
 				ostream.close();
 			}
@@ -389,7 +366,7 @@ public class ClanManager extends StaticEntity
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e, "Failed to load cached ascension history" );
+				printStackTrace( e, "Failed to load cached ascension history" );
 				return;
 			}
 
@@ -420,75 +397,41 @@ public class ClanManager extends StaticEntity
 	{
 		retrieveClanData();
 
-		// If the file already exists, a ClanSnapshotTable cannot be taken.
-		// Therefore, notify the user of this. :)
-
-		File standardFile;
-		File softcoreFile;
-		File hardcoreFile;
-		File sortingScript;
-
+		File standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
+		File softcoreFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
+		File hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
+		File sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
 
 		String header = getProperty( "clanRosterHeader" ).toString();
 
 		boolean generateSnapshot = !header.equals( "" ) && !header.equals( "<td>Ascensions</td>" );
 
-
-
-		if( mostAscensionsBoardSize == 0 && mainBoardSize == 0 && classBoardSize == 0 && maxAge == 0 && playerMoreThanOnce == false)
-		{
-			standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
-			softcoreFile = new File( SNAPSHOT_DIRECTORY + "softcore.htm" );
-			hardcoreFile = new File( SNAPSHOT_DIRECTORY + "hardcore.htm" );
-			sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
-
-			if (standardFile.exists() || softcoreFile.exists() || hardcoreFile.exists() )
-			{
-				JOptionPane.showMessageDialog( null, "You already created a snapshot this week." );
-				return;
-			}
-
-		}
-		else
-		{
-			standardFile = new File( SNAPSHOT_DIRECTORY + "standard.htm" );
-			if( playerMoreThanOnce)
-			{
-				softcoreFile = new File( SNAPSHOT_DIRECTORY + "s" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "-" + maxAge + "y.htm" );
-				hardcoreFile = new File( SNAPSHOT_DIRECTORY + "h" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "-" + maxAge + "y.htm" );
-			}
-			else
-			{
-				softcoreFile = new File( SNAPSHOT_DIRECTORY + "s" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "-" + maxAge + "n.htm" );
-				hardcoreFile = new File( SNAPSHOT_DIRECTORY + "h" + mostAscensionsBoardSize + "-" + mainBoardSize + "-" + classBoardSize + "-" + maxAge + "n.htm" );
-			}
-			sortingScript = new File( SNAPSHOT_DIRECTORY + "sorttable.js" );
-
-			if (softcoreFile.exists() || hardcoreFile.exists() )
-			{
-				JOptionPane.showMessageDialog( null, "You already created such a snapshot this week." );
-				return;
-			}
+		if ( mostAscensionsBoardSize == 0 && mainBoardSize == 0 && classBoardSize == 0 && maxAge == 0 && playerMoreThanOnce == false )
 			generateSnapshot = false;
 
-		}
+		KoLRequest.delay( 1000 );
+		standardFile.getParentFile().mkdirs();
 
-		// If initialization was unsuccessful, then there isn't
-		// enough data to create a clan ClanSnapshotTable.
+		if ( standardFile != null && standardFile.exists() )
+			standardFile.delete();
+		if ( softcoreFile != null && softcoreFile.exists() )
+			softcoreFile.delete();
+		if ( hardcoreFile != null && hardcoreFile.exists() )
+			hardcoreFile.delete();
 
 		boolean retrieveProfileData = header.indexOf( "<td>PVP</td>" ) != -1 || header.indexOf( "<td>Path</td>" ) != -1 || header.indexOf( "<td>Class</td>" ) != -1 ||
 			header.indexOf( "<td>Meat</td>" ) != -1 || header.indexOf( "<td>Food</td>" ) != -1 || header.indexOf( "<td>Last Login</td>" ) != -1;
 
 		boolean retrieveAscensionData = header.indexOf( "<td>Ascensions</td>" ) != -1;
 
+		// If initialization was unsuccessful, then there isn't
+		// enough data to create a clan ClanSnapshotTable.
+
 		if ( !retrieveMemberData( retrieveProfileData, retrieveAscensionData ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Initialization failed." );
 			return;
 		}
-		if( standardFile != null)
-			standardFile.getParentFile().mkdirs();
-
 
 		// Now, store the clan snapshot into the appropriate
 		// data folder.
@@ -501,13 +444,13 @@ public class ClanManager extends StaticEntity
 			{
 				KoLmafia.updateDisplay( "Storing clan snapshot..." );
 
-				ostream = new PrintStream( new FileOutputStream( standardFile, true ), true );
+				ostream = new LogStream( standardFile );
 				ostream.println( ClanSnapshotTable.getStandardData() );
 				ostream.close();
 
 				String line;
 				BufferedReader script = DataUtilities.getReader( "html", "sorttable.js" );
-				ostream = new PrintStream( new FileOutputStream( sortingScript, true ), true );
+				ostream = new LogStream( sortingScript );
 
 				while ( (line = script.readLine()) != null )
 					ostream.println( line );
@@ -519,11 +462,11 @@ public class ClanManager extends StaticEntity
 			{
 				KoLmafia.updateDisplay( "Storing ascension snapshot..." );
 
-				ostream = new PrintStream( new FileOutputStream( softcoreFile, true ), true );
+				ostream = new LogStream( softcoreFile );
 				ostream.println( AscensionSnapshotTable.getAscensionData( true, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 				ostream.close();
 
-				ostream = new PrintStream( new FileOutputStream( hardcoreFile, true ), true );
+				ostream = new LogStream( hardcoreFile );
 				ostream.println( AscensionSnapshotTable.getAscensionData( false, mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce ) );
 				ostream.close();
 			}
@@ -533,7 +476,7 @@ public class ClanManager extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Clan snapshot generation failed" );
+			printStackTrace( e, "Clan snapshot generation failed" );
 			return;
 		}
 
@@ -545,12 +488,12 @@ public class ClanManager extends StaticEntity
 			// file inside of the default browser after completion.
 
 			if ( generateSnapshot )
-				BrowserLauncher.openURL( standardFile.toURL().toString() );
+				BrowserLauncher.openURL( standardFile.getAbsolutePath() );
 
 			if ( retrieveAscensionData )
 			{
-				BrowserLauncher.openURL( softcoreFile.toURL().toString() );
-				BrowserLauncher.openURL( hardcoreFile.toURL().toString() );
+				BrowserLauncher.openURL( softcoreFile.getAbsolutePath() );
+				BrowserLauncher.openURL( hardcoreFile.getAbsolutePath() );
 			}
 		}
 		catch ( Exception e )
@@ -558,7 +501,7 @@ public class ClanManager extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Clan snapshot generation failed" );
+			printStackTrace( e, "Clan snapshot generation failed" );
 			return;
 		}
 
@@ -584,7 +527,7 @@ public class ClanManager extends StaticEntity
 			if ( file.exists() )
 			{
 				String currentMember = "";
-				BufferedReader istream = new BufferedReader( new InputStreamReader( new FileInputStream( file ) ) );
+				BufferedReader istream = KoLDatabase.getReader( file );
 				String line;
 
 				boolean startReading = false;
@@ -619,7 +562,7 @@ public class ClanManager extends StaticEntity
 			}
 
 			KoLmafia.updateDisplay( "Retrieving clan stash log..." );
-			(new StashLogRequest( client )).run();
+			(new StashLogRequest()).run();
 			KoLmafia.updateDisplay( "Stash log retrieved." );
 
 			file.getParentFile().mkdirs();
@@ -628,7 +571,7 @@ public class ClanManager extends StaticEntity
 			String [] members = new String[ stashMap.keySet().size() ];
 			stashMap.keySet().toArray( members );
 
-			PrintStream ostream = new PrintStream( new FileOutputStream( file, true ), true );
+			PrintStream ostream = new LogStream( file );
 			Object [] entries;
 
 			ostream.println( "<html><head>" );
@@ -676,7 +619,7 @@ public class ClanManager extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Error opening <" + file.getAbsolutePath() + "> for output" );
+			printStackTrace( e, "Error opening <" + file.getAbsolutePath() + "> for output" );
 		}
 	}
 
@@ -711,7 +654,7 @@ public class ClanManager extends StaticEntity
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e );
+				printStackTrace( e );
 				this.timestamp = new Date();
 			}
 
@@ -737,8 +680,8 @@ public class ClanManager extends StaticEntity
 
 	private static class StashLogRequest extends KoLRequest
 	{
-		public StashLogRequest( KoLmafia client )
-		{	super( client, "clan_log.php" );
+		public StashLogRequest()
+		{	super( getClient(), "clan_log.php" );
 		}
 
 		public void run()
@@ -801,7 +744,7 @@ public class ClanManager extends StaticEntity
 						stashMap.put( currentMember, new ArrayList() );
 
 					entryList = (List) stashMap.get( currentMember );
-					entryCount = StaticEntity.parseInt( entryMatcher.group(3) );
+					entryCount = parseInt( entryMatcher.group(3) );
 
 					lastItemID = TradeableItemDatabase.getItemID( entryMatcher.group(4) );
 					entryBuffer.append( (new AdventureResult( lastItemID, entryCount )).toString() );
@@ -818,7 +761,7 @@ public class ClanManager extends StaticEntity
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
 
-					StaticEntity.printStackTrace( e );
+					printStackTrace( e );
 				}
 			}
 
@@ -853,7 +796,7 @@ public class ClanManager extends StaticEntity
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
 
-					StaticEntity.printStackTrace( e );
+					printStackTrace( e );
 				}
 			}
 
@@ -891,7 +834,7 @@ public class ClanManager extends StaticEntity
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
 
-					StaticEntity.printStackTrace( e );
+					printStackTrace( e );
 				}
 			}
 

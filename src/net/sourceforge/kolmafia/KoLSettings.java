@@ -206,7 +206,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "autoSatisfyWithStash", "true" );
 		CLIENT_SETTINGS.put( "autoSaveChatLogs", "true" );
 		CLIENT_SETTINGS.put( "autoSetConditions", "false" );
-		CLIENT_SETTINGS.put( "battleStop", "0.0" );
+		CLIENT_SETTINGS.put( "battleStop", "0.0f" );
 		CLIENT_SETTINGS.put( "breakfastSoftcore", "Summon Snowcone,Summon Hilarious Objects,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "breakfastHardcore", "Summon Snowcone,Advanced Saucecrafting,Pastamastery,Advanced Cocktailcrafting" );
 		CLIENT_SETTINGS.put( "browserBookmarks", "" );
@@ -277,8 +277,8 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		PLAYER_SETTINGS.put( "lastBreakfast", "19691231" );
 		PLAYER_SETTINGS.put( "lastAdventure", "" );
 		PLAYER_SETTINGS.put( "lastMessageID", "" );
-		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0" );
-		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.0" );
+		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0f" );
+		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.0f" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryItems", "phonics down;knob goblin superseltzer;blatantly canadian;dyspepsi-cola;cloaca-cola;mountain stream soda;magical mystery juice;knob goblin seltzer;soda water" );
 		PLAYER_SETTINGS.put( "nextAdventure", "" );
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
@@ -391,8 +391,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			// in a sorted order.
 
 			ArrayList contents = new ArrayList();
-			BufferedReader reader = new BufferedReader( new InputStreamReader(
-				new FileInputStream( destination ) ) );
+			BufferedReader reader = KoLDatabase.getReader( destination );
 
 			String line;
 			while ( (line = reader.readLine()) != null )
@@ -405,7 +404,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			temporary.createNewFile();
 			temporary.deleteOnExit();
 
-			PrintStream writer = new PrintStream( new FileOutputStream( temporary ) );
+			PrintStream writer = new LogStream( temporary );
 			for ( int i = 0; i < contents.size(); ++i )
 				if ( !((String) contents.get(i)).startsWith( "saveState" ) || noExtensionName.equals( "" ) )
 					writer.println( (String) contents.get(i) );

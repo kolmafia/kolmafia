@@ -107,10 +107,10 @@ public interface KoLConstants extends UtilityConstants
 		"+#0;-#0", new DecimalFormatSymbols( Locale.US ) );
 
 	public static final DecimalFormat FLOAT_FORMAT = new DecimalFormat(
-		"#,##0.00", new DecimalFormatSymbols( Locale.US ) );
+		"#,##0.0f0", new DecimalFormatSymbols( Locale.US ) );
 
 	public static final DecimalFormat ROUNDED_MODIFIER_FORMAT = new DecimalFormat(
-		"+#0.00;-#0.00", new DecimalFormatSymbols( Locale.US ) );
+		"+#0.0f0;-#0.0f0", new DecimalFormatSymbols( Locale.US ) );
 
 	public static final SimpleDateFormat DATED_FILENAME_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
 

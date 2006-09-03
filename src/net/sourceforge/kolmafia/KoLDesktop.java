@@ -80,7 +80,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 
 		JToolBar toolbarPanel = null;
 
-		switch ( StaticEntity.parseInt( StaticEntity.getProperty( "toolbarPosition" ) ) )
+		switch ( StaticEntity.getIntegerProperty( "toolbarPosition" ) )
 		{
 			case 1:
 				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
@@ -103,15 +103,15 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			addMainToolbar( toolbarPanel );
 
 		tabs.addChangeListener( this );
-		String scriptButtons = StaticEntity.getProperty( "scriptButtonPosition" );
+		int scriptButtons = StaticEntity.getIntegerProperty( "scriptButtonPosition" );
 
-		if ( !scriptButtons.equals( "0" ) )
+		if ( scriptButtons != 0 )
 		{
-			String [] scriptList = getProperty( "scriptList" ).split( " \\| " );
+			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
 
 			JToolBar scriptBar = null;
 
-			if ( scriptButtons.equals( "1" ) )
+			if ( scriptButtons == 1 )
 			{
 				scriptBar = toolbarPanel;
 				scriptBar.addSeparator();
@@ -125,7 +125,7 @@ public class KoLDesktop extends KoLFrame implements ChangeListener
 			for ( int i = 0; i < scriptList.length; ++i )
 				scriptBar.add( new LoadScriptButton( i + 1, scriptList[i] ) );
 
-			if ( scriptButtons.equals( "2" ) )
+			if ( scriptButtons == 2 )
 			{
 				JPanel scriptBarHolder = new JPanel();
 				scriptBarHolder.add( scriptBar );

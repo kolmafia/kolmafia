@@ -41,6 +41,7 @@ import java.awt.Color;
 import java.io.File;
 import java.net.URL;
 import java.io.InputStream;
+import java.io.FileInputStream;
 import java.net.URLConnection;
 import java.io.FileInputStream;
 
@@ -76,6 +77,21 @@ public class DataUtilities implements UtilityConstants
 	{	return getReader( DATA_DIRECTORY, filename );
 	}
 
+	public static BufferedReader getReader( File file )
+	{
+		try
+		{
+			return file.exists() ? getReader( new FileInputStream( file ) ) : null;
+		}
+		catch ( Exception e )
+		{
+			// This shouldn't happen, since we did an exists check,
+			// but return null anyway.
+
+			return null;
+		}
+	}
+
 	/**
 	 * A public function used to retrieve the reader for a file.  Allows the
 	 * referencing of files contained within a JAR, inside of a class tree,
@@ -95,15 +111,9 @@ public class DataUtilities implements UtilityConstants
 			if ( filename.startsWith( "http://" ) )
 			{
 				URLConnection connection = (new URL( filename )).openConnection();
-
-				InputStream istream = connection.getInputStream();
-				String encoding = connection.getContentEncoding();
-
-				if ( encoding == null )
-					return new BufferedReader( new InputStreamReader( istream ) );
-				else
-					return new BufferedReader( new InputStreamReader( istream, encoding ) );
+				return getReader( connection.getInputStream(), connection.getContentEncoding() );
 			}
+
 		}
 		catch ( Exception e )
 		{
@@ -113,8 +123,34 @@ public class DataUtilities implements UtilityConstants
 			return null;
 		}
 
-		InputStream istream = getInputStream( directory, filename );
-		return istream == null ? null : new BufferedReader( new InputStreamReader( istream ) );
+		return getReader( getInputStream( directory, filename ) );
+	}
+
+	public static BufferedReader getReader( InputStream istream )
+	{	return getReader( istream, "UTF-8" );
+	}
+
+	public static BufferedReader getReader( InputStream istream, String encoding )
+	{
+		if ( istream == null )
+			return null;
+
+		InputStreamReader reader = null;
+
+
+		try
+		{
+			if ( encoding != null )
+				reader = new InputStreamReader( istream, encoding );
+			else
+				reader = new InputStreamReader( istream, "UTF-8" );
+		}
+		catch ( Exception e )
+		{
+			reader = new InputStreamReader( istream );
+		}
+
+		return new BufferedReader( reader );
 	}
 
 	/**
@@ -185,7 +221,6 @@ public class DataUtilities implements UtilityConstants
 		if ( c == null )
 			return "#000000";
 
-		int r = c.getRed(), g = c.getGreen(), b = c.getBlue();
 		StringBuffer hexString = new StringBuffer( 7 );
 		hexString.append( '#' );  int bitmask = (1 << 24) - 1;
 		hexString.append( toHexString( c.getRGB() & bitmask, 6 ) );

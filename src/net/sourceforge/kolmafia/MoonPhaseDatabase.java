@@ -69,7 +69,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
@@ -93,7 +93,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
@@ -704,7 +704,7 @@ public class MoonPhaseDatabase extends StaticEntity
 			// ecclesiastical full moon after the Spring Equinox
 			// (http://aa.usno.navy.mil/faq/docs/easter.html)
 
-			int y = StaticEntity.parseInt( currentYear );
+			int y = parseInt( currentYear );
 			int c = y / 100;
 			int n = y - 19 * ( y / 19 );
 			int k = ( c - 17 ) / 25;

@@ -34,6 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -43,8 +45,16 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class KoLDatabase extends StaticEntity
 {
-	protected static BufferedReader getReader( String file )
+	protected static BufferedReader getReader( String filename )
+	{	return DataUtilities.getReader( filename );
+	}
+
+	protected static BufferedReader getReader( File file )
 	{	return DataUtilities.getReader( file );
+	}
+
+	protected static BufferedReader getReader( InputStream istream )
+	{	return DataUtilities.getReader( istream );
 	}
 
 	protected static String [] readData( BufferedReader reader )
@@ -72,7 +82,7 @@ public class KoLDatabase extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 			return null;
 		}
 	}
@@ -265,8 +275,8 @@ public class KoLDatabase extends StaticEntity
 	 * Note that the list must consist entirely of Integer objects.
 	 */
 
-	public static final double calculateAverage( List values )
-	{	return (double)calculateTotal( values ) / (double)values.size();
+	public static final float calculateAverage( List values )
+	{	return (float)calculateTotal( values ) / (float)values.size();
 	}
 
 	/**

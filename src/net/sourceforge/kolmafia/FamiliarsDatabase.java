@@ -39,7 +39,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.BufferedReader;
 import javax.swing.ImageIcon;
@@ -78,7 +77,7 @@ public class FamiliarsDatabase extends KoLDatabase
 
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
-		// examined and double-referenced: once in the name-lookup,
+		// examined and float-referenced: once in the name-lookup,
 		// and again in the ID lookup.
 
 		BufferedReader reader = getReader( "familiars.dat" );
@@ -114,7 +113,7 @@ public class FamiliarsDatabase extends KoLDatabase
 					// This should not happen.  Therefore, print
 					// a stack trace for debug purposes.
 
-					StaticEntity.printStackTrace( e );
+					printStackTrace( e );
 				}
 			}
 		}
@@ -128,7 +127,7 @@ public class FamiliarsDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
@@ -319,7 +318,7 @@ public class FamiliarsDatabase extends KoLDatabase
 			if ( output.exists() )
 				output.delete();
 
-			PrintStream writer = new PrintStream( new FileOutputStream( output ) );
+			PrintStream writer = new LogStream( output );
 
 			writer.println( "# Original familiar arena stats from Vladjimir's arena data" );
 			writer.println( "# http://www.the-rye.dreamhosters.com/familiars/" );
@@ -356,7 +355,7 @@ public class FamiliarsDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Error in recording familiar data" );
+			printStackTrace( e, "Error in recording familiar data" );
 		}
 	}
 }

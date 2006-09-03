@@ -196,8 +196,8 @@ public class BuffBotDatabase extends KoLDatabase
 				if ( nameMatcher.find() && priceMatcher.find() && turnMatcher.find() )
 				{
 					String name = nameMatcher.group(1).trim();
-					int price = StaticEntity.parseInt( priceMatcher.group(1).trim() );
-					int turns = StaticEntity.parseInt( turnMatcher.group(1).trim() );
+					int price = parseInt( priceMatcher.group(1).trim() );
+					int turns = parseInt( turnMatcher.group(1).trim() );
 					boolean philanthropic = freeMatcher.find() ? freeMatcher.group(1).trim().equals( "true" ) : false;
 
 					LockableListModel tester = philanthropic ? freeBuffs : normalBuffs;
@@ -351,7 +351,7 @@ public class BuffBotDatabase extends KoLDatabase
 
 		public GreenMessageRequest toRequest()
 		{
-			return new GreenMessageRequest( StaticEntity.getClient(), botName, VERSION_NAME,
+			return new GreenMessageRequest( getClient(), botName, VERSION_NAME,
 				new AdventureResult( AdventureResult.MEAT, price ), false );
 		}
 

@@ -91,8 +91,8 @@ public class AdventureFrame extends KoLFrame
 		this.adventureSelect = new AdventureSelectPanel();
 
 		JPanel southPanel = new JPanel( new GridLayout( 1, 2, 5, 5 ) );
-		southPanel.add( getAdventureSummary( StaticEntity.parseInt( getProperty( "defaultDropdown1" ) ) ) );
-		southPanel.add( getAdventureSummary( StaticEntity.parseInt( getProperty( "defaultDropdown2" ) ) ) );
+		southPanel.add( getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown1" ) ) );
+		southPanel.add( getAdventureSummary( StaticEntity.getIntegerProperty( "defaultDropdown2" ) ) );
 
 		adventureContainer.add( adventureSelect, BorderLayout.NORTH );
 		adventureContainer.add( southPanel, BorderLayout.CENTER );
@@ -171,7 +171,7 @@ public class AdventureFrame extends KoLFrame
 		{
 			String index = String.valueOf( resultSelect.getSelectedIndex() );
 			resultCards.show( resultPanel, index );
-			setProperty( resultSelect == dropdown1 ? "defaultDropdown1" : "defaultDropdown2", index );
+			StaticEntity.setProperty( resultSelect == dropdown1 ? "defaultDropdown1" : "defaultDropdown2", index );
 
 		}
 	}
@@ -257,27 +257,24 @@ public class AdventureFrame extends KoLFrame
 			elements[3] = new VerifiableElement( "Objective(s): ", conditionField );
 
 			setContent( elements );
-			int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( getProperty( "battleAction" ) );
+			int actionIndex = KoLCharacter.getBattleSkillIDs().indexOf( StaticEntity.getProperty( "battleAction" ) );
 
 			if ( KoLCharacter.getBattleSkillIDs().size() > 0 )
 				actionSelect.setSelectedIndex( actionIndex );
 
 			actionSelect.addActionListener( new BattleActionListener() );
 			locationSelect.addActionListener( new ConditionChangeListener() );
-			locationSelect.setSelectedItem( AdventureDatabase.getAdventure( getProperty( "lastAdventure" ) ) );
+			locationSelect.setSelectedItem( AdventureDatabase.getAdventure( StaticEntity.getProperty( "lastAdventure" ) ) );
 		}
 
 		private class ConditionChangeListener implements ActionListener
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				if ( StaticEntity.getProperty( "autoSetConditions" ).equals( "false" ) )
+				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
 					return;
 
 				KoLAdventure location = (KoLAdventure) locationSelect.getSelectedItem();
-
-				System.out.println( location );
-				System.out.println( AdventureDatabase.getCondition( location ) );
 				conditionField.setText( AdventureDatabase.getCondition( location ) );
 			}
 		}
@@ -288,7 +285,7 @@ public class AdventureFrame extends KoLFrame
 			{
 				String battleAction = (String) KoLCharacter.getBattleSkillIDs().get( actionSelect.getSelectedIndex() );
 				if ( actionSelect.getSelectedIndex() != -1 )
-					setProperty( "battleAction", battleAction );
+					StaticEntity.setProperty( "battleAction", battleAction );
 			}
 		}
 
@@ -383,7 +380,7 @@ public class AdventureFrame extends KoLFrame
 				if ( countField.getText().equals( "" ) )
 					countField.setText( String.valueOf( KoLCharacter.getAdventuresLeft() ) );
 
-				if ( StaticEntity.getProperty( "autoSetConditions" ).equals( "false" ) )
+				if ( !StaticEntity.getBooleanProperty( "autoSetConditions" ) )
 					conditionField.setText( "" );
 			}
 
