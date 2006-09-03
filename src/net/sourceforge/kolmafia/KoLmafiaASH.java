@@ -1118,7 +1118,7 @@ public class KoLmafiaASH extends StaticEntity
 		if ( currentToken() == null )
 			throw new AdvancedScriptException( "Missing index token " + getLineAndFile() );
 
-		if ( arrays && integerToken() )
+		if ( arrays && readIntegerToken( currentToken() ) )
 		{
 			int size = parseInt( currentToken() );
 			readToken(); // integer
@@ -1159,17 +1159,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		throw new AdvancedScriptException( ", or ] expected " + getLineAndFile() );
 	}
-
-        private boolean integerToken()
-	{
-                for ( int i = 0; i < currentToken().length(); ++i )
-                {
-                        if ( !Character.isDigit( currentToken().charAt( i ) ) )
-                                return false;
-                }
-
-                return true;
-        }
 
 	private boolean parseIdentifier( String identifier )
 	{
