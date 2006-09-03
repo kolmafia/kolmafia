@@ -2537,11 +2537,7 @@ public class KoLmafiaASH extends StaticEntity
 					);
 
 		case TYPE_INT:
-			return JOptionPane.showInputDialog( "Please input a value for " + type + " " + name );
-
 		case TYPE_FLOAT:
-			return JOptionPane.showInputDialog( "Please input a value for " + type + " " + name );
-
 		case TYPE_STRING:
 		case TYPE_ITEM:
 		case TYPE_LOCATION:
