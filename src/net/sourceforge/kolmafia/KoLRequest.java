@@ -891,7 +891,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !isChatRequest )
 			{
 				KoLmafia.getDebugStream().println( "Connection timed out during post.  Retrying..." );
-				StaticEntity.printStackTrace( e );
+				e.printStackTrace( KoLmafia.getDebugStream() );
 			}
 
 			if ( this instanceof LoginRequest )

@@ -137,10 +137,10 @@ public class LocalRelayRequest extends KoLRequest
 		if ( formURLString.indexOf( "lchat.php" ) != -1 )
 		{
 			fullResponse = fullResponse.replaceAll( "cycles\\+\\+", "count = 0" ).replaceAll(
-				"window.?location.?hostname", "\"127.0.0f.1:" + LocalRelayServer.getPort() + "\"" );
+				"window.?location.?hostname", "\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
 
 			fullResponse = fullResponse.replaceAll(
-				"</head>", "<script language=\"Javascript\">base = \"http://127.0.0f.1:" +  LocalRelayServer.getPort() + "\";</script></head>" );
+				"</head>", "<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script></head>" );
 
 			fullResponse = fullResponse.replaceAll( "onLoad='", "onLoad='setInterval( getNewMessages, 8000 ); " );
 		}
@@ -242,7 +242,7 @@ public class LocalRelayRequest extends KoLRequest
 
 	protected void pseudoResponse( String status, String fullResponse )
 	{
-		this.fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0f.1:" + LocalRelayServer.getPort() );
+		this.fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
 		if ( fullResponse.length() == 0 )
 			this.fullResponse = " ";
 
