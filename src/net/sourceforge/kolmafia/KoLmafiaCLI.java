@@ -38,10 +38,8 @@ package net.sourceforge.kolmafia;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 // utility imports
@@ -79,7 +77,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private KoLmafiaCLI lastScript;
 
-	private static boolean isExecutingCheckOnlyCommand;
+	private static boolean isExecutingCheckOnlyCommand = false;
 	private static KoLmafiaASH advancedHandler = new KoLmafiaASH();
 	private static ConsoleReader CONSOLE = null;
 
@@ -115,8 +113,12 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( initialScript.length() == 0 || initialScript.indexOf( "TEST_ONLY" ) != -1 )
 		{
 			if ( initialScript.indexOf( "TEST_ONLY" ) == -1 )
+			{
 				DEFAULT_SHELL.attemptLogin();
-			DEFAULT_SHELL.listenForCommands();
+				DEFAULT_SHELL.listenForCommands();
+			}
+			else
+				DEFAULT_SHELL.executeLine( "test" );
 		}
 		else
 		{
@@ -711,9 +713,20 @@ public class KoLmafiaCLI extends KoLmafia
 		// login), so they should be handled before a test
 		// of login state needed for other commands.
 
-		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
+		if ( command.equals( "using" ) || command.equals( "namespace" ) )
 		{
-			executeScriptCommand( parameters );
+			StringBuffer namespace = new StringBuffer( StaticEntity.getProperty( "commandLineNamespace" ) );
+			if ( !namespace.toString().equals( "" ) )
+				namespace.append( "," );
+
+			namespace.append( parameters );
+			StaticEntity.setProperty( "commandLineNamespace", namespace.toString() );
+			return;
+		}
+
+		if ( command.equals( "verify" ) || command.equals( "validate" ) || command.equals( "using" ) || command.equals( "namespace" ) || command.equals( "call" ) || command.equals( "run" ) || command.startsWith( "exec" ) || command.equals( "load" ) || command.equals( "start" ) )
+		{
+			executeScriptCommand( command, parameters );
 			return;
 		}
 
@@ -1517,7 +1530,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
-		executeScriptCommand( previousLine );
+		executeScriptCommand( "call", previousLine );
 	}
 
 	public void showHTML( String text, String title )
@@ -1597,7 +1610,7 @@ public class KoLmafiaCLI extends KoLmafia
 	 * script.
 	 */
 
-	private void executeScriptCommand( String parameters )
+	private void executeScriptCommand( String command, String parameters )
 	{
 		String [] arguments = null;
 
@@ -1610,10 +1623,9 @@ public class KoLmafiaCLI extends KoLmafia
 				updateDisplay( ERROR_STATE, "Failed to parse arguments" );
 				return;
 			}
+
 			parameters = parameters.substring( 0, paren );
 		}
-
-		parameters = parameters.replaceAll( "\\\"", "" );
 
 		try
 		{
@@ -1638,31 +1650,30 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( !scriptFile.exists() )
 			{
+				boolean hasMultipleRuns = true;
 				String runCountString = parameters.split( " " )[0];
 
 				for ( int i = 0; i < runCountString.length(); ++i )
+					hasMultipleRuns &= Character.isDigit( runCountString.charAt(i) );
+
+				if ( hasMultipleRuns )
 				{
-					if ( !Character.isDigit( runCountString.charAt(i) ) )
-					{
-						updateDisplay( ERROR_STATE, "[" + parameters + "] does not match a valid script." );
-						return;
-					}
+					runCount = StaticEntity.parseInt( runCountString );
+					String scriptName = parameters.substring( parameters.indexOf( " " ) ).trim();
+
+					scriptFile = new File( "scripts/" + scriptName );
+
+					if ( !scriptFile.exists() )
+						scriptFile = new File( "scripts/" + scriptName + ".txt" );
+					if ( !scriptFile.exists() )
+						scriptFile = new File( "scripts/" + scriptName + ".ash" );
+					if ( !scriptFile.exists() )
+						scriptFile = new File( scriptName );
+					if ( !scriptFile.exists() )
+						scriptFile = new File( scriptName + ".txt" );
+					if ( !scriptFile.exists() )
+						scriptFile = new File( scriptName + ".ash" );
 				}
-
-				runCount = StaticEntity.parseInt( runCountString );
-				String scriptName = parameters.substring( parameters.indexOf( " " ) ).trim();
-
-				scriptFile = new File( "scripts/" + scriptName );
-				if ( !scriptFile.exists() )
-					scriptFile = new File( "scripts/" + scriptName + ".txt" );
-				if ( !scriptFile.exists() )
-					scriptFile = new File( "scripts/" + scriptName + ".ash" );
-				if ( !scriptFile.exists() )
-					scriptFile = new File( scriptName );
-				if ( !scriptFile.exists() )
-					scriptFile = new File( scriptName + ".txt" );
-				if ( !scriptFile.exists() )
-					scriptFile = new File( scriptName + ".ash" );
 			}
 
 			if ( !scriptFile.exists() )
@@ -1671,7 +1682,7 @@ public class KoLmafiaCLI extends KoLmafia
 				// Here you would attempt to invoke the advanced
 				// script handler to see what happens.
 
-				updateDisplay( ERROR_STATE, "Script file \"" + parameters + "\" could not be found." );
+				advancedHandler.execute( null, parameters, arguments );
 				return;
 			}
 
@@ -1680,15 +1691,21 @@ public class KoLmafiaCLI extends KoLmafia
 
 			if ( Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE ).matcher( scriptFile.getPath() ).find() )
 			{
-				if ( previousLine.startsWith( "validate" ) || previousLine.startsWith( "verify" ) )
+				// If there's an alternate namespace being
+				// used, then be sure to switch.
+
+				if ( command.equals( "validate" ) || command.equals( "verify" ) )
 				{
 					advancedHandler.validate( scriptFile );
-                                        printLine( "Script verification complete." );
+                    printLine( "Script verification complete." );
 					return;
 				}
 
+				// If there's an alternate namespace being
+				// used, then be sure to switch.
+
 				for ( int i = 0; i < runCount && permitsContinue(); ++i )
-					advancedHandler.execute( scriptFile, arguments );
+					advancedHandler.execute( scriptFile, "main", arguments );
 			}
 			else
 			{

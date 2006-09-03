@@ -180,7 +180,7 @@ public class LocalRelayRequest extends KoLRequest
 		// Check if you're viewing the top menu bar, and if so,
 		// edit in a drop-down select.
 
-		if ( formURLString.endsWith( "menu.php" ) )
+		if ( formURLString.endsWith( "menu.php" ) && StaticEntity.getBooleanProperty( "relayAddsScriptList" ) )
 		{
 			StringBuffer selectBuffer = new StringBuffer();
 			selectBuffer.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><form name=\"gcli\">" );
