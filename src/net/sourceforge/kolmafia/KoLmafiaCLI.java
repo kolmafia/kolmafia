@@ -715,11 +715,15 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "using" ) || command.equals( "namespace" ) )
 		{
-			StringBuffer namespace = new StringBuffer( StaticEntity.getProperty( "commandLineNamespace" ) );
-			if ( !namespace.toString().equals( "" ) )
-				namespace.append( "," );
+			String namespace = StaticEntity.getProperty( "commandLineNamespace" );
+			if ( namespace.startsWith( parameters + "," ) || namespace.endsWith( "," + parameters ) || namespace.indexOf( "," + parameters + "," ) != -1 )
+				return;
 
-			namespace.append( parameters );
+			if ( namespace.toString().equals( "" ) )
+				namespace = parameters;
+			else
+				namespace = namespace + "," + parameters;
+
 			StaticEntity.setProperty( "commandLineNamespace", namespace.toString() );
 			return;
 		}
