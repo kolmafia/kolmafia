@@ -34,7 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -110,7 +109,7 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static void deleteMessage( String boxname, KoLMailMessage message )
 	{
-		(new RequestThread( new MailboxRequest( client, boxname.equals( "PvP" ) ? "Inbox" : boxname, message, "delete" ) )).start();
+		(new RequestThread( new MailboxRequest( getClient(), boxname.equals( "PvP" ) ? "Inbox" : boxname, message, "delete" ) )).start();
 
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
 		int messageIndex = mailbox.indexOf( message );
@@ -125,7 +124,7 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( messages.length == 0 )
 			return;
 
-		(new MailboxRequest( client, boxname.equals( "PvP" ) ? "Inbox" : boxname, messages, "delete" )).run();
+		(new MailboxRequest( getClient(), boxname.equals( "PvP" ) ? "Inbox" : boxname, messages, "delete" )).run();
 
 		int messageIndex;
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( boxname );
@@ -141,7 +140,7 @@ public abstract class KoLMailManager extends StaticEntity
 
 	public static void saveMessage( KoLMailMessage message )
 	{
-		(new MailboxRequest( client, "Inbox", message, "save" )).run();
+		(new MailboxRequest( getClient(), "Inbox", message, "save" )).run();
 
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( "Inbox" );
 		int messageIndex = mailbox.indexOf( message );
@@ -156,7 +155,7 @@ public abstract class KoLMailManager extends StaticEntity
 		if ( messages.length == 0 )
 			return;
 
-		(new MailboxRequest( client, "Inbox", messages, "save" )).run();
+		(new MailboxRequest( getClient(), "Inbox", messages, "save" )).run();
 
 		int messageIndex;
 		SortedListModel mailbox = (SortedListModel) mailboxes.get( "Inbox" );

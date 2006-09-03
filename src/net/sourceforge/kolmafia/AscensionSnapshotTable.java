@@ -34,17 +34,12 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.regex.Pattern;
-import java.util.regex.Matcher;
-
-import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class AscensionSnapshotTable extends KoLDatabase
 {
@@ -100,7 +95,10 @@ public class AscensionSnapshotTable extends KoLDatabase
 		initializeAscensionData();
 		StringBuffer strbuf = new StringBuffer();
 
-		strbuf.append( "<html><head><title>" );
+		strbuf.append( "<html><head>" );
+		strbuf.append( "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" );
+
+		strbuf.append( "<title>" );
 
 		if ( isSoftcore )
 			strbuf.append( "Softcore" );
@@ -127,7 +125,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 		// number of this kind of ascension.
 
 		strbuf.append( "<tr><td align=center><h3>Avg: " );
-		strbuf.append( ((isSoftcore ? (double)softcoreAscensionList.size() : 0.0) + (double)hardcoreAscensionList.size()) / (double)ascensionMap.size() );
+		strbuf.append( ((isSoftcore ? (float)softcoreAscensionList.size() : 0.0f) + (float)hardcoreAscensionList.size()) / (float)ascensionMap.size() );
 		strbuf.append( "</h3></td></tr></table><br><br>" );
 		strbuf.append( LINE_BREAK );
 
@@ -271,7 +269,7 @@ public class AscensionSnapshotTable extends KoLDatabase
 
 		for ( int i = 0; i < fields.length && leaderList.size() < leaderListSize; ++i )
 			if ( !leaderList.contains( fields[i] ) || playerMoreThanOnce )
-				leaderList.add( fields[i] );	
+				leaderList.add( fields[i] );
 
 		// Now that the data has been retrieved, go ahead
 		// and print the table header data.

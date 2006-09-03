@@ -446,7 +446,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( parchment && !KoLCharacter.hasSkill( "CLEESH" ) )
 		{
 			executeCommand( "GNUSTO CLEESH" );
-			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, "CLEESH", "", 1 ) );
+			KoLCharacter.addAvailableSkill( new UseSkillRequest( getClient(), "CLEESH", "", 1 ) );
 			parchment = false;
 			scroll = false;
 		}
@@ -774,7 +774,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	private static String executeCommand( String command, boolean results )
 	{
-		KoLRequest request = new CommandRequest( client, command, results );
+		KoLRequest request = new CommandRequest( command, results );
 		request.run();
 
 		// Figure out where we are
@@ -788,9 +788,9 @@ public abstract class StrangeLeaflet extends StaticEntity
 	{
 		boolean results;
 
-		protected CommandRequest( KoLmafia client, String command, boolean results )
+		protected CommandRequest( String command, boolean results )
 		{
-			super( client, "leaflet.php", true );
+			super( getClient(), "leaflet.php", true );
 			addFormField( "pwd" );
 			addFormField( "command", command );
 			this.results = results;

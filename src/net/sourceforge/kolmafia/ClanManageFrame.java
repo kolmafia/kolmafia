@@ -621,7 +621,7 @@ public class ClanManageFrame extends KoLFrame
 				elements[i] = new VerifiableElement( options[i][1], JLabel.LEFT, optionBoxes[i] );
 
 			setContent( elements, false );
-			String tableHeaderSetting = getProperty( "clanRosterHeader" );
+			String tableHeaderSetting = StaticEntity.getProperty( "clanRosterHeader" );
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( options[i][0] ) != -1 );
 		}
@@ -637,7 +637,7 @@ public class ClanManageFrame extends KoLFrame
 				if ( optionBoxes[i].isSelected() )
 					tableHeaderSetting.append( options[i][0] );
 
-			setProperty( "clanRosterHeader", tableHeaderSetting.toString() + "<td>Ascensions</td>" );
+			StaticEntity.setProperty( "clanRosterHeader", tableHeaderSetting.toString() + "<td>Ascensions</td>" );
 
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.
@@ -687,14 +687,14 @@ public class ClanManageFrame extends KoLFrame
 			int maxAge = maxAgeField.getText().equals( "" ) ? Integer.MAX_VALUE : StaticEntity.parseInt( maxAgeField.getText() );
 			boolean playerMoreThanOnce = playerMoreThanOnceOption.isSelected();
 
-			String oldSetting = getProperty( "clanRosterHeader" );
-			setProperty( "clanRosterHeader", "<td>Ascensions</td>" );
+			String oldSetting = StaticEntity.getProperty( "clanRosterHeader" );
+			StaticEntity.setProperty( "clanRosterHeader", "<td>Ascensions</td>" );
 
 			// Now that you've got everything, go ahead and
 			// generate the snapshot.
 
 			ClanManager.takeSnapshot( mostAscensionsBoardSize, mainBoardSize, classBoardSize, maxAge, playerMoreThanOnce );
-			setProperty( "clanRosterHeader", oldSetting );
+			StaticEntity.setProperty( "clanRosterHeader", oldSetting );
 		}
 
 		protected void actionCancelled()

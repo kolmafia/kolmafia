@@ -247,7 +247,7 @@ public class BuffRequestFrame extends KoLFrame
 
 					int price = offerings[i].getPrice();
 					int [] turns = offerings[i].getTurns();
-					String tooltip = price + " meat (" + FLOAT_FORMAT.format( (double)turns[0] / (double)price ) + " turns/meat)";
+					String tooltip = price + " meat (" + FLOAT_FORMAT.format( (float)turns[0] / (float)price ) + " turns/meat)";
 					checkboxes[i].setToolTipText( tooltip );
 
 					if ( turns.length > 1 )

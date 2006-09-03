@@ -697,7 +697,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public CreateSettingCheckbox( String title, String setting, String tooltip )
 			{
-				super( title, getProperty( setting ).equals( "true" ) );
+				super( title, StaticEntity.getBooleanProperty( setting ) );
 
 				this.setting = setting;
 				setToolTipText( tooltip );
@@ -706,7 +706,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{
-				setProperty( setting, String.valueOf( isSelected() ) );
+				StaticEntity.setProperty( setting, String.valueOf( isSelected() ) );
 
 				if ( setting.equals( "showStashIngredients" ) && KoLCharacter.hasClan() && isSelected() &&
 					StaticEntity.getClient().shouldMakeConflictingRequest() && !ClanManager.isStashRetrieved() )

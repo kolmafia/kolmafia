@@ -87,7 +87,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	{
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
-		// examined and double-referenced: once in the name-lookup,
+		// examined and float-referenced: once in the name-lookup,
 		// and again in the ID lookup.
 
 		BufferedReader reader = getReader( "concoctions.dat" );
@@ -104,7 +104,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 					if ( itemID != -1 )
 					{
-						int mixingMethod = StaticEntity.parseInt( data[1] );
+						int mixingMethod = parseInt( data[1] );
 						Concoction concoction = new Concoction( item, mixingMethod );
 
 						for ( int i = 2; i < data.length; ++i )
@@ -126,7 +126,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e );
+				printStackTrace( e );
 			}
 		}
 
@@ -139,7 +139,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
@@ -259,8 +259,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 			String itemIDString = data.substring( 0, closeBracketIndex ).replaceAll( "[\\[\\]]", "" ).trim();
 			String quantityString = data.substring( closeBracketIndex + 1 ).trim();
 
-			return new AdventureResult( StaticEntity.parseInt( itemIDString ), quantityString.length() == 0 ? 1 :
-				StaticEntity.parseInt( quantityString.replaceAll( "[\\(\\)]", "" ) ) );
+			return new AdventureResult( parseInt( itemIDString ), quantityString.length() == 0 ? 1 :
+				parseInt( quantityString.replaceAll( "[\\(\\)]", "" ) ) );
 		}
 
 		// Otherwise, it's a standard ingredient - use
@@ -284,7 +284,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		List availableIngredients = new ArrayList();
 		availableIngredients.addAll( KoLCharacter.getInventory() );
 
-		if ( StaticEntity.getProperty( "showClosetIngredients" ).equals( "true" ) )
+		if ( getBooleanProperty( "showClosetIngredients" ) )
 		{
 			AdventureResult [] items = new AdventureResult[ KoLCharacter.getCloset().size() ];
 			KoLCharacter.getCloset().toArray( items );
@@ -293,7 +293,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 				AdventureResult.addResultToList( availableIngredients, items[i] );
 		}
 
-		if ( StaticEntity.getProperty( "showStashIngredients" ).equals( "true" ) && KoLCharacter.canInteract() )
+		if ( getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() )
 		{
 			AdventureResult [] items = new AdventureResult[ ClanManager.getStash().size() ];
 			ClanManager.getStash().toArray( items );
@@ -315,7 +315,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// is not needed.
 
 		cachePermitted( availableIngredients );
-		boolean infiniteNPCStoreItems = StaticEntity.getProperty( "assumeInfiniteNPCItems" ).equals( "true" );
+		boolean infiniteNPCStoreItems = getBooleanProperty( "assumeInfiniteNPCItems" );
 
 		// Next, do calculations on all mixing methods which cannot
 		// be created at this time.
@@ -400,14 +400,14 @@ public class ConcoctionsDatabase extends KoLDatabase
 			{
 				if ( concoctions.get(i).wasPossible() )
 				{
-					concoctionsList.remove( ItemCreationRequest.getInstance( client, i, 0, false ) );
+					concoctionsList.remove( ItemCreationRequest.getInstance( getClient(), i, 0, false ) );
 					concoctions.get(i).setPossible( false );
 				}
 			}
 			else
 			{
 				// We can make the concoction now
-				ItemCreationRequest currentCreation = ItemCreationRequest.getInstance( client, i, concoctions.get(i).creatable );
+				ItemCreationRequest currentCreation = ItemCreationRequest.getInstance( getClient(), i, concoctions.get(i).creatable );
 
 				if ( concoctions.get(i).wasPossible() )
 				{
@@ -446,7 +446,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 	/**
 	 * Utility method used to cache the current permissions on
-	 * item creation, based on the given client.
+	 * item creation.
 	 */
 
 	private static void cachePermitted( List availableIngredients )
@@ -536,7 +536,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Next, increment through all the box servant creation methods.
 		// This allows future appropriate calculation for cooking/drinking.
 
-		boolean noServantNeeded = getProperty( "createWithoutBoxServants" ).equals( "true" );
+		boolean noServantNeeded = getBooleanProperty( "createWithoutBoxServants" );
 
 		concoctions.get( CHEF ).calculate( availableIngredients );
 		concoctions.get( CLOCKWORK_CHEF ).calculate( availableIngredients );
@@ -632,7 +632,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// If the user did not wish to repair their boxes
 		// on explosion, then the box servant is not available
 
-		if ( getProperty( "autoRepairBoxes" ).equals( "false" ) )
+		if ( !getBooleanProperty( "autoRepairBoxes" ) )
 			return false;
 
 		// Otherwise, return whether or not the quantity possible for
@@ -661,7 +661,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		List availableIngredients = new ArrayList();
 		availableIngredients.addAll( KoLCharacter.getInventory() );
 
-		boolean showClosetDrivenCreations = getProperty( "showClosetDrivenCreations" ).equals( "true" );
+		boolean showClosetDrivenCreations = getBooleanProperty( "showClosetDrivenCreations" );
 
 		if ( showClosetDrivenCreations )
 		{

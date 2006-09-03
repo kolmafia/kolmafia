@@ -34,7 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
 import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
@@ -82,7 +81,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		// Next, retrieve a detailed copy of the clan
 		// roster to complete initialization.
 
-		request = new DetailRosterRequest( client );
+		request = new DetailRosterRequest();
 	}
 
 	public static Map getProfileMap()
@@ -149,7 +148,7 @@ public class ClanSnapshotTable extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 
 		KoLmafia.updateDisplay( "Rendering list (KoLmafia may temporary lock)..." );
@@ -177,11 +176,11 @@ public class ClanSnapshotTable extends KoLDatabase
 					break;
 
 				case LEVEL_FILTER:
-					compareValue = request.getPlayerLevel().intValue() - StaticEntity.parseInt( filter );
+					compareValue = request.getPlayerLevel().intValue() - parseInt( filter );
 					break;
 
 				case PVP_FILTER:
-					compareValue = request.getPvpRank().intValue() - StaticEntity.parseInt( filter );
+					compareValue = request.getPvpRank().intValue() - parseInt( filter );
 					break;
 
 				case CLASS_FILTER:
@@ -189,12 +188,12 @@ public class ClanSnapshotTable extends KoLDatabase
 					break;
 
 				case KARMA_FILTER:
-					compareValue = request.getKarma().intValue() - StaticEntity.parseInt( filter );
+					compareValue = request.getKarma().intValue() - parseInt( filter );
 					break;
 
 				case LOGIN_FILTER:
 
-					int daysIdle = StaticEntity.parseInt( filter );
+					int daysIdle = parseInt( filter );
 					long millisecondsIdle = 86400000L * daysIdle;
 					Date cutoffDate = new Date( System.currentTimeMillis() - millisecondsIdle );
 
@@ -207,7 +206,7 @@ public class ClanSnapshotTable extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 
 		return compareValue < 0 ? -1 : compareValue > 0 ? 1 : 0;
@@ -223,7 +222,10 @@ public class ClanSnapshotTable extends KoLDatabase
 
 		StringBuffer strbuf = new StringBuffer();
 
-		strbuf.append( "<html><head><title>Clan Snapshot for " );
+		strbuf.append( "<html><head>" );
+		strbuf.append( "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" );
+
+		strbuf.append( "<title>Clan Snapshot for " );
 		strbuf.append( ClanManager.getClanName() );
 		strbuf.append( " (" );
 		strbuf.append( new Date() );
@@ -469,7 +471,7 @@ public class ClanSnapshotTable extends KoLDatabase
 		strbuf.append( "<tr><td><a href=\"profiles/" );
 		strbuf.append( KoLmafia.getPlayerID( memberName ) );
 		strbuf.append( ".htm\">" );
-		strbuf.append( KoLmafia.getPlayerName( client.getPlayerID( memberName ) ) );
+		strbuf.append( KoLmafia.getPlayerName( KoLmafia.getPlayerID( memberName ) ) );
 		strbuf.append( "</a></td><td>" );
 		strbuf.append( KoLmafia.getPlayerID( memberName ) );
 
@@ -607,8 +609,8 @@ public class ClanSnapshotTable extends KoLDatabase
 
 	private static class DetailRosterRequest extends KoLRequest
 	{
-		public DetailRosterRequest( KoLmafia client )
-		{	super( client, "clan_detailedroster.php" );
+		public DetailRosterRequest()
+		{	super( getClient(), "clan_detailedroster.php" );
 		}
 
 		public void run()
@@ -622,7 +624,6 @@ public class ClanSnapshotTable extends KoLDatabase
 			String currentRow;
 			String currentName;
 			Matcher dataMatcher;
-			ProfileRequest request;
 
 			Pattern cellPattern = Pattern.compile( "<td.*?>(.*?)</td>" );
 

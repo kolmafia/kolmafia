@@ -87,7 +87,7 @@ public class StatusEffectDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 
 		reader = getReader( "modifiers.dat" );
@@ -104,7 +104,7 @@ public class StatusEffectDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
@@ -199,9 +199,9 @@ public class StatusEffectDatabase extends KoLDatabase
                 Pattern.compile( "Stench: ([+-]\\d+)" ),
 	};
 
-	private static final double [] NO_MODIFIERS = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+	private static final float [] NO_MODIFIERS = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 
-	public static final double [] getModifiers( String name )
+	public static final float [] getModifiers( String name )
 	{
 		if ( name == null )
 			return NO_MODIFIERS;
@@ -210,11 +210,11 @@ public class StatusEffectDatabase extends KoLDatabase
 		if ( modifier == null )
 			return NO_MODIFIERS;
 
-		double [] modifiers = new double[ MODIFIER_PATTERNS.length ];
+		float [] modifiers = new float[ MODIFIER_PATTERNS.length ];
 		for ( int i = 0; i < modifiers.length; ++i )
 		{
 			Matcher effectMatcher = MODIFIER_PATTERNS[ i ].matcher( modifier );
-			modifiers[i] = effectMatcher.find() ? Double.parseDouble( effectMatcher.group(1) ) : 0.0;
+			modifiers[i] = effectMatcher.find() ? Float.parseFloat( effectMatcher.group(1) ) : 0.0f;
 		}
 
 		return modifiers;

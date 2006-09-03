@@ -77,7 +77,7 @@ public class CakeArenaManager extends StaticEntity
 		{
 			if ( opponent.equals( opponentList.get(i).toString() ) )
 			{
-				(new ArenaThread( new CakeArenaRequest( client, ((ArenaOpponent)opponentList.get(i)).getID(), eventID ), repeatCount )).start();
+				(new ArenaThread( new CakeArenaRequest( getClient(), ((ArenaOpponent)opponentList.get(i)).getID(), eventID ), repeatCount )).start();
 				return;
 			}
 		}
@@ -99,7 +99,7 @@ public class CakeArenaManager extends StaticEntity
 			for ( int j = 1; KoLmafia.permitsContinue() && j <= repeatCount; ++j )
 			{
 				KoLmafia.updateDisplay( "Arena battle, round " + j + " in progress..." );
-				client.makeRequest( request );
+				getClient().makeRequest( request );
 
 				victoryMatcher = victoryPattern.matcher( request.responseText );
 				StringBuffer text = new StringBuffer();
@@ -128,7 +128,7 @@ public class CakeArenaManager extends StaticEntity
 	public synchronized static LockableListModel getOpponentList()
 	{
 		if ( opponentList.isEmpty() )
-			(new CakeArenaRequest( client )).run();
+			(new CakeArenaRequest( getClient() )).run();
 
 		return opponentList;
 	}

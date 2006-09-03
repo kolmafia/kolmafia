@@ -112,7 +112,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			add( new SearchResultsPanel(), BorderLayout.CENTER );
 
 			currentlyBuying = false;
-			countField.setText( getProperty( "defaultLimit" ).equals( "" ) ? "5" : getProperty( "defaultLimit" ) );
+			countField.setText( StaticEntity.getProperty( "defaultLimit" ) );
 		}
 
 		protected void actionConfirmed()
@@ -121,7 +121,7 @@ public class MallSearchFrame extends KoLPanelFrame
 			if ( searchCount == 5 || searchCount <= 0 )
 				countField.setText( "5" );
 
-			setProperty( "defaultLimit", countField.getText() );
+			StaticEntity.setProperty( "defaultLimit", countField.getText() );
 			searchMall( new SearchMallRequest( StaticEntity.getClient(), searchField.getText(), searchCount, results, false, forceSortingCheckBox.isSelected() ) );
 		}
 
@@ -168,6 +168,7 @@ public class MallSearchFrame extends KoLPanelFrame
 
 	public void searchMall( SearchMallRequest request )
 	{
+		results.clear();
 		request.setResults( results );
 		(new RequestThread( request )).start();
 	}

@@ -45,7 +45,7 @@ import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 /**
- * A special class which displays an item's description after you double
+ * A special class which displays an item's description after you float
  * click on the JList.
  */
 
@@ -66,7 +66,7 @@ public class ShowDescriptionList extends JList
 			{
 				int index = locationToIndex( e.getPoint() );
 				Object item = getModel().getElementAt( index );
-				
+
 				if ( item == null )
 					return;
 

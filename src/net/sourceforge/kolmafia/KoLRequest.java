@@ -189,14 +189,14 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			// Determine the login server that will be used.
-			int setting = StaticEntity.parseInt( StaticEntity.getProperty( "loginServer" ) );
+			int setting = StaticEntity.getIntegerProperty( "loginServer" );
 			int server = ( setting < 1 || setting > SERVER_COUNT ) ? RNG.nextInt( SERVER_COUNT ) : setting - 1;
 			setLoginServer( SERVERS[server][0] );
 
 			if ( proxySet.equals( "true" ) )
 			{
 				KoLmafia.updateDisplay( "Validating proxy settings..." );
-				int portNumber = StaticEntity.parseInt( StaticEntity.getProperty( "http.proxyPort" ) );
+				int portNumber = StaticEntity.getIntegerProperty( "http.proxyPort" );
 
 				Socket s = new Socket( StaticEntity.getProperty( "http.proxyHost" ), portNumber == 0 ? 80 : portNumber );
 	            BufferedWriter out = new BufferedWriter( new OutputStreamWriter( s.getOutputStream() ) );
@@ -544,14 +544,17 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
+		if ( !isConsumeRequest && !LoginRequest.isInstanceRunning() && StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+
 		if ( !usingValidConnection )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Unable to establish connection with proxy server." );
 			return;
 		}
 
-		isServerFriendly = StaticEntity.getProperty( "serverFriendly" ).equals( "true" ) ||
-			StaticEntity.getProperty( "showAllRequests" ).equals( "true" );
+		isServerFriendly = StaticEntity.getBooleanProperty( "serverFriendly" ) ||
+			StaticEntity.getBooleanProperty( "showAllRequests" );
 
 		needsRefresh = false;
 		processedResults = false;
@@ -585,11 +588,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
-				if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
-				{
-					client.processResult( new AdventureResult( "goat cheese", -6, false ) );
-				}
-				else if ( responseText.indexOf( "crossbow" ) != -1 || responseText.indexOf( "staff" ) != -1 || responseText.indexOf( "sword" ) != -1 )
+				if ( responseText.indexOf( "crossbow" ) != -1 || responseText.indexOf( "staff" ) != -1 || responseText.indexOf( "sword" ) != -1 )
 				{
 					if ( responseText.indexOf( "asbestos" ) != -1 )
 						client.processResult( new AdventureResult( "asbestos ore", -3, false ) );
@@ -597,6 +596,10 @@ public class KoLRequest implements Runnable, KoLConstants
 						client.processResult( new AdventureResult( "linoleum ore", -3, false ) );
 					else
 						client.processResult( new AdventureResult( "chrome ore", -3, false ) );
+				}
+				else if ( responseText.indexOf( "goat cheese pizza" ) != -1 )
+				{
+					client.processResult( new AdventureResult( "goat cheese", -6, false ) );
 				}
 			}
 		}
@@ -931,15 +934,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			// it will be stored here.
 
 			istream = formConnection.getInputStream();
-			String encoding = formConnection.getContentEncoding();
 
 			if ( StaticEntity.getProperty( "useNonBlockingReader" ).equals( "false" ) )
-			{
-				if ( encoding == null )
-					reader = new BufferedReader( new InputStreamReader( istream ) );
-				else
-					reader = new BufferedReader( new InputStreamReader( istream, encoding ) );
-			}
+				reader = KoLDatabase.getReader( istream );
 
 			responseCode = formConnection.getResponseCode();
 			redirectLocation = formConnection.getHeaderField( "Location" );
@@ -986,7 +983,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( this instanceof LocalRelayRequest && responseCode != 200 )
 		{
-			if ( redirectLocation.indexOf( "choice.php" ) != -1 || StaticEntity.getProperty( "makeBrowserDecisions" ).equals( "false" ) )
+			if ( redirectLocation.indexOf( "choice.php" ) != -1 || StaticEntity.getBooleanProperty( "makeBrowserDecisions" ) )
 				return true;
 		}
 
@@ -1007,7 +1004,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// notified that they should try again later.
 
 				KoLmafia.updateDisplay( ABORT_STATE, "Nightly maintenance." );
-				if ( !LoginRequest.isInstanceRunning() && StaticEntity.getProperty( "autoExecuteTimeIn" ).equals( "true" ) )
+				if ( !LoginRequest.isInstanceRunning() && StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
 				{
 					LoginRequest.executeTimeInRequest( true );
 					return sessionID == null;
@@ -1018,7 +1015,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			else if ( redirectLocation.indexOf( "login.php" ) != -1 )
 			{
 				KoLmafia.updateDisplay( ABORT_STATE, "Session timed out." );
-				if ( !LoginRequest.isInstanceRunning() && StaticEntity.getProperty( "autoExecuteTimeIn" ).equals( "true" ) )
+				if ( !LoginRequest.isInstanceRunning() && StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
 				{
 					LoginRequest.executeTimeInRequest( false );
 					return sessionID == null;
@@ -1277,14 +1274,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	return 0;
 	}
 
-	protected final void setProperty( String name, String value )
-	{	StaticEntity.setProperty( name, value );
-	}
-
-	protected final String getProperty( String name )
-	{	return StaticEntity.getProperty( name );
-	}
-
 	protected void processResults()
 	{
 		// If this is a lucky adventure, then remove a clover
@@ -1346,7 +1335,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		KoLRequest request = new KoLRequest( client, "choice.php" );
 		request.run();
 
-		if ( getClass() != KoLRequest.class || StaticEntity.getProperty( "makeBrowserDecisions" ).equals( "true" ) )
+		if ( getClass() != KoLRequest.class || StaticEntity.getBooleanProperty( "makeBrowserDecisions" ) )
 			handleChoiceResponse( request );
 
 		this.responseCode = request.responseCode;
@@ -1380,7 +1369,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		String choice = choiceMatcher.group(1);
 		String option = "choiceAdventure" + choice;
-		String decision = getProperty( option );
+		String decision = StaticEntity.getProperty( option );
 
 		// If this happens to be adventure 26 or 27,
 		// check against the player's conditions.
@@ -1529,7 +1518,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( existingFrames.isEmpty() )
 			return;
 
-		if ( !exceptional && StaticEntity.getProperty( "showAllRequests" ).equals( "false" ) )
+		if ( !exceptional && !StaticEntity.getBooleanProperty( "showAllRequests" ) )
 			return;
 
 		// Only show the request if the response code is
@@ -1642,8 +1631,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{
 		try
 		{
-			BufferedReader buf = new BufferedReader( new InputStreamReader(
-				new FileInputStream( new File( filename ) ) ) );
+			BufferedReader buf = KoLDatabase.getReader( filename );
 			String line;  StringBuffer response = new StringBuffer();
 
 			while ( (line = buf.readLine()) != null )

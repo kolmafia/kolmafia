@@ -302,7 +302,7 @@ public class GearChangeFrame extends KoLFrame
 		List items = new ArrayList();
 
 		// Search inventory for weapons
-                
+
 		for ( int i = 0; i < KoLCharacter.getInventory().size(); ++i )
 		{
 			String currentItem = ((AdventureResult)KoLCharacter.getInventory().get(i)).getName();
@@ -338,14 +338,14 @@ public class GearChangeFrame extends KoLFrame
 
 		// We can have weapons if we can dual wield and there is
 		// one-handed weapon in the main hand
-		boolean weapons = EquipmentDatabase.getHands( weapon ) == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
+		boolean weapons = EquipmentDatabase.getHands( weapon ) == 1 && KoLCharacter.hasSkill( "Float-Fisted Skull Smashing" );
 
 		// The type of weapon in the off hand - ranged or melee - must
 		// agree with the weapon in the main hand
 		boolean ranged = EquipmentDatabase.isRanged( weapon );
 
 		// Search inventory for suitable items
-		
+
 		for ( int i = 0; i < KoLCharacter.getInventory().size(); ++i )
 		{
 			String currentItem = ((AdventureResult)KoLCharacter.getInventory().get(i)).getName();

@@ -96,7 +96,7 @@ public class AdventureDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
@@ -365,13 +365,13 @@ public class AdventureDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
 	/**
 	 * Returns the complete list of adventures available to the character
-	 * based on the information provided by the given client.  Each element
+	 * based on the information provided by the given getClient().  Each element
 	 * in this list is a <code>KoLAdventure</code> object.
 	 */
 
@@ -425,7 +425,7 @@ public class AdventureDatabase extends KoLDatabase
 			adventureLookup.put( allAdventures[i].getRequest().getURLString(), allAdventures[i] );
 		}
 
-		if ( getProperty( "sortAdventures" ).equals( "true" ) )
+		if ( getBooleanProperty( "sortAdventures" ) )
 			adventures.sort();
 	}
 
@@ -477,7 +477,7 @@ public class AdventureDatabase extends KoLDatabase
 
 	private static KoLAdventure getAdventure( int tableIndex )
 	{
-		return new KoLAdventure( client,
+		return new KoLAdventure( getClient(),
 			adventureTable[0].get( tableIndex ), adventureTable[1].get( tableIndex ),
 			adventureTable[2].get( tableIndex ), adventureTable[3].get( tableIndex ),
 			adventureTable[4].get( tableIndex ), adventureTable[5].get( tableIndex ) );
@@ -557,7 +557,7 @@ public class AdventureDatabase extends KoLDatabase
 			// Next, attempt to create the item from existing
 			// ingredients (if possible).
 
-			ItemCreationRequest creator = ItemCreationRequest.getInstance( client, item.getItemID(), missingCount );
+			ItemCreationRequest creator = ItemCreationRequest.getInstance( getClient(), item.getItemID(), missingCount );
 			if ( creator != null )
 			{
 				if ( ConcoctionsDatabase.getMixingMethod( item.getItemID() ) == ItemCreationRequest.NOCREATE ||
@@ -574,11 +574,11 @@ public class AdventureDatabase extends KoLDatabase
 			// Next, hermit item retrieval is possible when
 			// you have worthless items.  Use this method next.
 
-			if ( client.hermitItems.contains( item.getName() ) )
+			if ( getClient().hermitItems.contains( item.getName() ) )
 			{
 				int worthlessItemCount = HermitRequest.getWorthlessItemCount();
 				if ( worthlessItemCount > 0 )
-					(new HermitRequest( client, item.getItemID(), Math.min( worthlessItemCount, missingCount ) )).run();
+					(new HermitRequest( getClient(), item.getItemID(), Math.min( worthlessItemCount, missingCount ) )).run();
 
 				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
 
@@ -601,8 +601,8 @@ public class AdventureDatabase extends KoLDatabase
 
 			int price = TradeableItemDatabase.getPriceByID( item.getItemID() );
 
-			boolean shouldUseMall = getProperty( "autoSatisfyWithMall" ).equals( "true" );
-			boolean shouldUseStash = getProperty( "autoSatisfyWithStash" ).equals( "true" );
+			boolean shouldUseMall = getBooleanProperty( "autoSatisfyWithMall" );
+			boolean shouldUseStash = getBooleanProperty( "autoSatisfyWithStash" );
 
 			boolean shouldPurchase = (price != 0 && price != -1) || item.getName().indexOf( "clover" ) != -1;
 			boolean canUseNPCStore = NPCStoreDatabase.contains( item.getName() );
@@ -617,7 +617,7 @@ public class AdventureDatabase extends KoLDatabase
 				if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 				{
 					if ( !ClanManager.isStashRetrieved() )
-						(new ClanStashRequest( client )).run();
+						(new ClanStashRequest( getClient() )).run();
 
 					missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
 					if ( missingCount <= 0 )
@@ -660,7 +660,7 @@ public class AdventureDatabase extends KoLDatabase
 			if ( shouldUseStash && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
 			{
 				if ( !ClanManager.isStashRetrieved() )
-					(new ClanStashRequest( client )).run();
+					(new ClanStashRequest( getClient() )).run();
 
 				missingCount = retrieveItem( "stash take", ClanManager.getStash(), item, missingCount );
 				if ( missingCount <= 0 )
@@ -680,7 +680,7 @@ public class AdventureDatabase extends KoLDatabase
 				return;
 
 			// If the item does not exist in sufficient quantities,
-			// then notify the client that there aren't enough items
+			// then notify the user that there aren't enough items
 			// available to continue and cancel the request.
 
 			KoLmafia.updateDisplay( ERROR_STATE, "You need " + missingCount + " more " + item.getName() + " to continue." );
@@ -690,7 +690,7 @@ public class AdventureDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
@@ -719,7 +719,7 @@ public class AdventureDatabase extends KoLDatabase
 		for ( int i = 0; i < CHOICE_MEAT_COST.length; ++i )
 			if ( choice.equals( CHOICE_MEAT_COST[i][0] ) &&
 			     decision.equals( CHOICE_MEAT_COST[i][1] ) )
-				return StaticEntity.parseInt( CHOICE_MEAT_COST[i][2] );
+				return parseInt( CHOICE_MEAT_COST[i][2] );
 		return 0;
 	}
 
@@ -750,7 +750,7 @@ public class AdventureDatabase extends KoLDatabase
 					continue;
 				}
 
-				int combats = StaticEntity.parseInt( data[1] );
+				int combats = parseInt( data[1] );
 				AreaCombatData combat = new AreaCombatData( combats );
 
 				for ( int i = 2; i < data.length; ++i )
@@ -769,7 +769,7 @@ public class AdventureDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 

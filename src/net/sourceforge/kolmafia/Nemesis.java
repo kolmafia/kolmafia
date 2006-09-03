@@ -55,16 +55,13 @@ public abstract class Nemesis extends StaticEntity
 
 		KoLRequest request;
 
-		// If the client has not yet been set, then there is no cave
-
-		if ( client == null )
-			return false;
+		// If the getClient() has not yet been set, then there is no cave
 
 		KoLmafia.updateDisplay( "Checking prerequisites..." );
 
 		// Make sure the player has been given the quest
 
-		request = new KoLRequest( client, "mountains.php", true );
+		request = new KoLRequest( getClient(), "mountains.php", true );
 		request.run();
 
 		if ( request.responseText.indexOf( "cave.php" ) == -1 )
@@ -85,7 +82,7 @@ public abstract class Nemesis extends StaticEntity
 
 		// See how far the player has gotten in this quest
 
-		KoLRequest request = new KoLRequest( client, "cave.php", true );
+		KoLRequest request = new KoLRequest( getClient(), "cave.php", true );
 		request.run();
 
 		if ( request.responseText == null )
@@ -154,7 +151,7 @@ public abstract class Nemesis extends StaticEntity
 		if ( region <= 8 )
 			requirements.add( ketchup );
 
-		if ( !client.checkRequirements( requirements ) )
+		if ( !getClient().checkRequirements( requirements ) )
 			return;
 
 		// Get current equipment
@@ -224,7 +221,7 @@ public abstract class Nemesis extends StaticEntity
 			}
 
 			// Visit the cave
-			request = new KoLRequest( client, "cave.php?action=" + action );
+			request = new KoLRequest( getClient(), "cave.php?action=" + action );
 			request.run();
 
 			if ( request.responseText != null && request.responseText.indexOf( "You must have at least one Adventure left to fight your nemesis." ) != -1 )
@@ -239,26 +236,26 @@ public abstract class Nemesis extends StaticEntity
 				case 5: // A Stone Door
 
 					// Use up cog & sprocket
-					client.processResult( COG.getNegation() );
-					client.processResult( SPROCKET.getNegation() );
+					getClient().processResult( COG.getNegation() );
+					getClient().processResult( SPROCKET.getNegation() );
 					break;
 
 				case 6: // Lavatory Troll 1
 
 					// Use up fairy gravy
-					client.processResult( GRAVY.getNegation() );
+					getClient().processResult( GRAVY.getNegation() );
 					break;
 
 				case 8: // Lavatory Troll 2
 
 					// Use up ketchup
-					client.processResult( ketchup.getNegation() );
+					getClient().processResult( ketchup.getNegation() );
 					break;
 			}
 		}
 
-		if ( client.getCurrentRequest() != null && client.getCurrentRequest().responseText != null &&
-			client.getCurrentRequest().responseText.indexOf( "WINWINWIN" ) == -1 )
+		if ( getClient().getCurrentRequest() != null && getClient().getCurrentRequest().responseText != null &&
+			getClient().getCurrentRequest().responseText.indexOf( "WINWINWIN" ) == -1 )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "KoLmafia was unable to defeat your nemesis." );
 			return;

@@ -163,8 +163,8 @@ public class SearchMallRequest extends KoLRequest
 		else if ( itemName.indexOf( "\u00e9" ) != -1 )
 			itemName = itemName.substring( 0, itemName.indexOf( "\u00e9" ) );
 
-		// All items with double quotes can be matched
-		// by searching on everything before the double
+		// All items with float quotes can be matched
+		// by searching on everything before the float
 
 		else if ( itemName.indexOf( "\"" ) > 0 )
 			itemName = itemName.substring( 0, itemName.indexOf( "\"" ) );
@@ -174,7 +174,7 @@ public class SearchMallRequest extends KoLRequest
 
 		// In all other cases, an exact match is only
 		// available if you enclose the item name in
-		// double quotes.
+		// float quotes.
 
 		return itemName;
 	}

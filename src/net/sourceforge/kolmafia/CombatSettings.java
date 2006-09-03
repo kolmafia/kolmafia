@@ -140,7 +140,7 @@ public abstract class CombatSettings implements UtilityConstants
 				return;
 			}
 
-			BufferedReader reader = new BufferedReader( new InputStreamReader( new FileInputStream( settingsFile ) ) );
+			BufferedReader reader = KoLDatabase.getReader( settingsFile );
 
 			String line;
 			CombatSettingNode currentList = root;
@@ -287,7 +287,7 @@ public abstract class CombatSettings implements UtilityConstants
 	{
 		try
 		{
-			PrintStream writer = new PrintStream( new FileOutputStream( destination ) );
+			PrintStream writer = new LogStream( destination );
 
 			CombatSettingNode combatOptions;
 			for ( int i = 0; i < keys.length; ++i )

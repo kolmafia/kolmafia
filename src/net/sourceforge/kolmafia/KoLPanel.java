@@ -282,7 +282,7 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 		public void actionPerformed( ActionEvent e )
 		{
 			JFileChooser chooser = new JFileChooser( SCRIPT_DIRECTORY.getAbsolutePath() );
-			int returnVal = chooser.showOpenDialog( null );
+			chooser.showOpenDialog( null );
 
 			if ( chooser.getSelectedFile() == null )
 				return;
@@ -299,13 +299,5 @@ public abstract class KoLPanel extends ActionVerifyPanel implements KoLConstants
 	{
 		if ( actionStatusLabel != null && !s.equals( "" ) )
 			actionStatusLabel.setStatusMessage( displayState, s );
-	}
-
-	protected final void setProperty( String name, String value )
-	{	StaticEntity.setProperty( name, value );
-	}
-
-	protected final String getProperty( String name )
-	{	return StaticEntity.getProperty( name );
 	}
 }

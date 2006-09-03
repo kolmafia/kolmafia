@@ -34,7 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.TreeMap;
@@ -108,7 +107,7 @@ public abstract class KoLMessenger extends StaticEntity
 		onlineContacts.clear();
 		instantMessageBuffers.clear();
 
-		int chattingStyle = StaticEntity.parseInt( getProperty( "chatStyle" ) );
+		int chattingStyle = parseInt( getProperty( "chatStyle" ) );
 
 		enableMonitor = chattingStyle == 4 || chattingStyle == 5;
 		channelsSeparate = chattingStyle == 0 || chattingStyle == 1 || chattingStyle == 4 || chattingStyle == 5;
@@ -165,7 +164,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		LimitedSizeChatBuffer.clearHighlights();
 
-		String [] highlights = StaticEntity.getProperty( "highlightList" ).replaceAll( "\n\n+", "\n" ).trim().split( "\n" );
+		String [] highlights = getProperty( "highlightList" ).replaceAll( "\n\n+", "\n" ).trim().split( "\n" );
 
 		if ( highlights.length > 1 )
 		{
@@ -190,11 +189,11 @@ public abstract class KoLMessenger extends StaticEntity
 	}
 
 	public static void checkFriends()
-	{	(new RequestThread( new ChatRequest( client, currentChannel, "/friends" ) )).start();
+	{	(new RequestThread( new ChatRequest( getClient(), currentChannel, "/friends" ) )).start();
 	}
 
 	public static void checkChannel()
-	{	(new RequestThread( new ChatRequest( client, updateChannel, "/who" ) )).start();
+	{	(new RequestThread( new ChatRequest( getClient(), updateChannel, "/who" ) )).start();
 	}
 
 	/**
@@ -290,7 +289,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		else if ( contact.startsWith( "/" ) && currentlyActive.contains( contact ) )
 		{
-			(new RequestThread( new ChatRequest( client, contact, "/listen " + contact.substring(1) ) )).start();
+			(new RequestThread( new ChatRequest( getClient(), contact, "/listen " + contact.substring(1) ) )).start();
 			currentlyActive.remove( contact );
 		}
 	}
@@ -315,7 +314,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		isRunning = false;
 
-		(new Thread( new ChatRequest( client, currentChannel, "/exit" ) )).start();
+		(new Thread( new ChatRequest( getClient(), currentChannel, "/exit" ) )).start();
 		removeChat( currentChannel );
 
 		currentChannel = "";
@@ -808,7 +807,7 @@ public abstract class KoLMessenger extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Error in channel " + channel,
+			printStackTrace( e, "Error in channel " + channel,
 				new String [] { "Channel: " + channel, "Buffer key: " + bufferKey,
 					"Message: " + message, "Rendered: " + displayHTML, "" } );
 		}
@@ -837,7 +836,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( lowercase.equals( KoLCharacter.getUsername().toLowerCase() ) )
 			return (String) colors.get( "chatcolorself" );
 
-		if ( client.getContactList().contains( channel ) )
+		if ( getClient().getContactList().contains( channel ) )
 			return (String) colors.get( "chatcolorcontacts" );
 
 		return (String) colors.get( "chatcolorothers" );
@@ -891,7 +890,7 @@ public abstract class KoLMessenger extends StaticEntity
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
@@ -966,11 +965,11 @@ public abstract class KoLMessenger extends StaticEntity
 
 		StringBuffer newSetting = new StringBuffer();
 
-		newSetting.append( StaticEntity.getProperty( "highlightList" ) );
+		newSetting.append( getProperty( "highlightList" ) );
 		newSetting.append( "\n" );
 		newSetting.append( LimitedSizeChatBuffer.addHighlight( highlight, color ) );
 
-		StaticEntity.setProperty( "highlightList", newSetting.toString().trim() );
+		setProperty( "highlightList", newSetting.toString().trim() );
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		for ( int i = 0; i < keys.length; ++i )
@@ -1014,7 +1013,7 @@ public abstract class KoLMessenger extends StaticEntity
 				String settingString = LimitedSizeChatBuffer.removeHighlight(i);
 				LimitedSizeChatBuffer.highlightBuffer.clearBuffer();
 
-				String oldSetting = StaticEntity.getProperty( "highlightList" );
+				String oldSetting = getProperty( "highlightList" );
 				int startIndex = oldSetting.indexOf( settingString );
 				int endIndex = startIndex + settingString.length();
 
@@ -1024,7 +1023,7 @@ public abstract class KoLMessenger extends StaticEntity
 				if ( endIndex < oldSetting.length() )
 					newSetting.append( oldSetting.substring( endIndex ) );
 
-				StaticEntity.setProperty( "highlightList", newSetting.toString().replaceAll( "\n\n+", "\n" ).trim() );
+				setProperty( "highlightList", newSetting.toString().replaceAll( "\n\n+", "\n" ).trim() );
 			}
 		}
 

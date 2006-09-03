@@ -174,7 +174,7 @@ public class RequestFrame extends KoLFrame
 			topMenu.add( Box.createHorizontalStrut( 20 ) );
 
 			scriptSelect = new JComboBox();
-			String [] scriptList = getProperty( "scriptList" ).split( " \\| " );
+			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
 			for ( int i = 0; i < scriptList.length; ++i )
 				scriptSelect.addItem( (i+1) + ": " + scriptList[i] );
 
@@ -384,10 +384,10 @@ public class RequestFrame extends KoLFrame
 				// New prevention mechanism: tell the requests that there
 				// will be no synchronization.
 
-				String original = getProperty( "showAllRequests" );
-				setProperty( "showAllRequests", "false" );
+				String original = StaticEntity.getProperty( "showAllRequests" );
+				StaticEntity.setProperty( "showAllRequests", "false" );
 				super.run();
-				setProperty( "showAllRequests", original );
+				StaticEntity.setProperty( "showAllRequests", original );
 			}
 		}
 

@@ -42,9 +42,6 @@ import javax.swing.DefaultListCellRenderer;
 
 import java.io.File;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.PrintStream;
 
 import java.util.List;
@@ -111,7 +108,7 @@ public class BuffBotHome extends StaticEntity
 	private static final File getFile( String extension )
 	{
 		String dayOfYear = DATED_FILENAME_FORMAT.format(new Date());
-		String characterName = client == null ? "" : KoLCharacter.getUsername();
+		String characterName = getClient() == null ? "" : KoLCharacter.getUsername();
 		String noExtensionName = characterName.replaceAll( "\\p{Punct}", "" ).replaceAll( " ", "_" ).toLowerCase();
 
 		return new File( "buffs/" + noExtensionName + "_" + dayOfYear + extension );
@@ -129,14 +126,14 @@ public class BuffBotHome extends StaticEntity
 		try
 		{
 			output.getParentFile().mkdirs();
-			return new PrintStream( new FileOutputStream( output, true ), true );
+			return new LogStream( output );
 		}
 		catch ( Exception e )
 		{
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Failed to open <" + output.getAbsolutePath() + "> for output" );
+			printStackTrace( e, "Failed to open <" + output.getAbsolutePath() + "> for output" );
 			return null;
 		}
 	}
@@ -156,7 +153,7 @@ public class BuffBotHome extends StaticEntity
 			try
 			{
 				String line;
-				BufferedReader recipientStream = new BufferedReader( new InputStreamReader( new FileInputStream( input ) ) );
+				BufferedReader recipientStream = KoLDatabase.getReader( input );
 
 				while ( (line = recipientStream.readLine()) != null )
 					pastRecipients.add( line );
@@ -168,7 +165,7 @@ public class BuffBotHome extends StaticEntity
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e );
+				printStackTrace( e );
 			}
 		}
 
@@ -232,7 +229,7 @@ public class BuffBotHome extends StaticEntity
 
 	public static void update( Color c, String entry )
 	{
-		if ( entry != null && client != null && hypertextLogStream != null )
+		if ( entry != null && hypertextLogStream != null )
 		{
 			messages.add( 0, new BuffMessage( c, entry ) );
 			hypertextLogStream.println( "<br><font color=" + DataUtilities.toHexString( c ) + ">" + entry + "</font>" );

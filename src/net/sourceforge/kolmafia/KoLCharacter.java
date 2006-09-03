@@ -262,19 +262,19 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int dodecapedeWeightAdjustment = 0;
 	private static int familiarItemWeightAdjustment = 0;
 	private static int manaCostModifier = 0;
-	private static double combatPercentAdjustment = 0.0;
-	private static double initiativeAdjustment = 0.0;
-	private static double fixedXPAdjustment = 0.0;
-	private static double meatDropPercentAdjustment = 0.0;
-	private static double itemDropPercentAdjustment = 0.0;
+	private static float combatPercentAdjustment = 0.0f;
+	private static float initiativeAdjustment = 0.0f;
+	private static float fixedXPAdjustment = 0.0f;
+	private static float meatDropPercentAdjustment = 0.0f;
+	private static float itemDropPercentAdjustment = 0.0f;
 	private static boolean rigatoniActive = false;
 	private static int damageAbsorption = 0;
 	private static int damageReduction = 0;
-	private static double coldResistance = 0;
-	private static double hotResistance = 0;
-	private static double sleazeResistance = 0;
-	private static double spookyResistance = 0;
-	private static double stenchResistance = 0;
+	private static float coldResistance = 0;
+	private static float hotResistance = 0;
+	private static float sleazeResistance = 0;
+	private static float spookyResistance = 0;
+	private static float stenchResistance = 0;
 
 	// Travel information
 
@@ -342,11 +342,11 @@ public abstract class KoLCharacter extends StaticEntity
 		dodecapedeWeightAdjustment = 0;
 		familiarItemWeightAdjustment = 0;
 		manaCostModifier = 0;
-		combatPercentAdjustment = 0.0;
-		initiativeAdjustment = 0.0;
-		fixedXPAdjustment = 0.0;
-		meatDropPercentAdjustment = 0.0;
-		itemDropPercentAdjustment = 0.0;
+		combatPercentAdjustment = 0.0f;
+		initiativeAdjustment = 0.0f;
+		fixedXPAdjustment = 0.0f;
+		meatDropPercentAdjustment = 0.0f;
+		itemDropPercentAdjustment = 0.0f;
 		rigatoniActive = false;
 		damageAbsorption = 0;
 		damageReduction = 0;
@@ -374,7 +374,7 @@ public abstract class KoLCharacter extends StaticEntity
 		activeEffects.clear();
 		usableSkills.clear();
 		availableSkills.clear();
-		client.resetBreakfastSummonings();
+		getClient().resetBreakfastSummonings();
 
 		isHardcore = false;
 		canInteract = true;
@@ -1018,7 +1018,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Combat Percent Adjustment
 	 */
 
-	public static double getCombatPercentAdjustment()
+	public static float getCombatPercentAdjustment()
 	{	return combatPercentAdjustment;
 	}
 
@@ -1029,7 +1029,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Initiative Adjustment
 	 */
 
-	public static double getInitiativeAdjustment()
+	public static float getInitiativeAdjustment()
 	{	return initiativeAdjustment;
 	}
 
@@ -1040,7 +1040,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Fixed XP Adjustment
 	 */
 
-	public static double getFixedXPAdjustment()
+	public static float getFixedXPAdjustment()
 	{	return fixedXPAdjustment;
 	}
 
@@ -1051,7 +1051,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Meat Drop Percent Adjustment
 	 */
 
-	public static double getMeatDropPercentAdjustment()
+	public static float getMeatDropPercentAdjustment()
 	{	return meatDropPercentAdjustment;
 	}
 
@@ -1062,7 +1062,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Item Drop Percent Adjustment
 	 */
 
-	public static double getItemDropPercentAdjustment()
+	public static float getItemDropPercentAdjustment()
 	{	return itemDropPercentAdjustment;
 	}
 
@@ -1265,7 +1265,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current  Resistance to specified element
 	 */
 
-	public static double getElementalResistance( int element )
+	public static float getElementalResistance( int element )
 	{
 		switch ( element )
 		{
@@ -1281,7 +1281,7 @@ public abstract class KoLCharacter extends StaticEntity
 			return stenchResistance;
 		}
 
-		return 0.0;
+		return 0.0f;
 	}
 
 	/**
@@ -1290,7 +1290,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Cold Resistance
 	 */
 
-	public static double getColdResistance()
+	public static float getColdResistance()
 	{	return coldResistance;
 	}
 
@@ -1300,7 +1300,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Hot Resistance
 	 */
 
-	public static double getHotResistance()
+	public static float getHotResistance()
 	{	return hotResistance;
 	}
 
@@ -1310,7 +1310,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Sleaze Resistance
 	 */
 
-	public static double getSleazeResistance()
+	public static float getSleazeResistance()
 	{	return sleazeResistance;
 	}
 
@@ -1320,7 +1320,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Spooky Resistance
 	 */
 
-	public static double getSpookyResistance()
+	public static float getSpookyResistance()
 	{	return spookyResistance;
 	}
 
@@ -1330,7 +1330,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	Total Current Stench Resistance
 	 */
 
-	public static double getStenchResistance()
+	public static float getStenchResistance()
 	{	return stenchResistance;
 	}
 
@@ -1422,7 +1422,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		boolean dual = ( filterID == ConsumeItemRequest.EQUIP_OFFHAND &&
 			weaponHandedness() == 1 && !rangedWeapon() &&
-			hasSkill( "Double-Fisted Skull Smashing" ) );
+			hasSkill( "Float-Fisted Skull Smashing" ) );
 
 		// If the character is currently dual wielding, only melee
 		// weapons are allowed in the main weapon slot
@@ -2007,7 +2007,7 @@ public abstract class KoLCharacter extends StaticEntity
 		KoLCharacter.battleSkillNames.add( "Normal: Attack with Weapon" );
 
 		if ( KoLCharacter.getClassType().startsWith( "Di" ) || KoLCharacter.getClassType().startsWith( "At" ) )
-			addAvailableSkill( new UseSkillRequest( StaticEntity.getClient(), "Moxious Maneuver", "", 1 ) );
+			addAvailableSkill( new UseSkillRequest( getClient(), "Moxious Maneuver", "", 1 ) );
 
 		// If the player has a dictionary, add it
 		// to the available skills list.
@@ -2040,17 +2040,17 @@ public abstract class KoLCharacter extends StaticEntity
 		// Superhuman Cocktailcrafting affects # of summons for
 		// Advanced Cocktailcrafting
 		if ( hasSkill( "Superhuman Cocktailcrafting" ) )
-			client.setBreakfastSummonings( KoLmafia.COCKTAILCRAFTING, 5 );
+			getClient().setBreakfastSummonings( KoLmafia.COCKTAILCRAFTING, 5 );
 
 		// Transcendental Noodlecraft affects # of summons for
 		// Pastamastery
 		if ( hasSkill( "Transcendental Noodlecraft" ) )
-			client.setBreakfastSummonings( KoLmafia.PASTAMASTERY, 5 );
+			getClient().setBreakfastSummonings( KoLmafia.PASTAMASTERY, 5 );
 
 		// The Way of Sauce affects # of summons for
 		// Advanced Saucecrafting
 		if ( hasSkill( "The Way of Sauce" ) )
-			client.setBreakfastSummonings( KoLmafia.SAUCECRAFTING, 5 );
+			getClient().setBreakfastSummonings( KoLmafia.SAUCECRAFTING, 5 );
 
 		// Add derived skills based on base skills
 		addDerivedSkills();
@@ -2068,7 +2068,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void addJoybuzzer()
 	{
-		UseSkillRequest handshake = new UseSkillRequest( StaticEntity.getClient(), "Shake Hands", "", 1 );
+		UseSkillRequest handshake = new UseSkillRequest( getClient(), "Shake Hands", "", 1 );
 
 		if ( getEquipment( OFFHAND ).startsWith( "joybuzzer" ) )
 		{
@@ -2172,11 +2172,11 @@ public abstract class KoLCharacter extends StaticEntity
 				// castable skills
 				if ( skill.getSkillName().equals( "Flavour of Magic" ) )
 				{
-					usableSkills.add( new UseSkillRequest( client, "Spirit of Cayenne", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( client, "Spirit of Peppermint", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( client, "Spirit of Garlic", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( client, "Spirit of Wormwood", "", 1 ) );
-					usableSkills.add( new UseSkillRequest( client, "Spirit of Bacon Grease", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( getClient(), "Spirit of Cayenne", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( getClient(), "Spirit of Peppermint", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( getClient(), "Spirit of Garlic", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( getClient(), "Spirit of Wormwood", "", 1 ) );
+					usableSkills.add( new UseSkillRequest( getClient(), "Spirit of Bacon Grease", "", 1 ) );
 				}
 				break;
 
@@ -2227,7 +2227,7 @@ public abstract class KoLCharacter extends StaticEntity
 			return;
 
 		// Add to lists
-		UseSkillRequest skill = new UseSkillRequest( client, name, "", 1 );
+		UseSkillRequest skill = new UseSkillRequest( getClient(), name, "", 1 );
 
 		combatSkills.add( skill );
 		battleSkillIDs.add( "skill " + name.toLowerCase() );
@@ -2409,7 +2409,7 @@ public abstract class KoLCharacter extends StaticEntity
 				return 0;
 			}
 
-			KoLRequest request = new KoLRequest( StaticEntity.getClient(), "guild.php?place=still" );
+			KoLRequest request = new KoLRequest( getClient(), "guild.php?place=still" );
 			request.run();
 
 			setStillsAvailable( request.responseText );
@@ -2424,7 +2424,7 @@ public abstract class KoLCharacter extends StaticEntity
 			"lack readout with (\\d+) bright green light" ).matcher( responseText );
 
 		if ( stillMatcher.find() )
-			stillsAvailable = StaticEntity.parseInt( stillMatcher.group(1) );
+			stillsAvailable = parseInt( stillMatcher.group(1) );
 		else
 			stillsAvailable = 0;
 	}
@@ -2725,7 +2725,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( shouldCreate )
 		{
-			ItemCreationRequest creation = ItemCreationRequest.getInstance( client, item.getItemID(), 1 );
+			ItemCreationRequest creation = ItemCreationRequest.getInstance( getClient(), item.getItemID(), 1 );
 			if ( creation == null )
 				return false;
 
@@ -2852,11 +2852,11 @@ public abstract class KoLCharacter extends StaticEntity
 		int newFamiliarItemWeightAdjustment = 0;
 		int newManaCostModifier = 0;
 
-		double newCombatPercentAdjustment = 0.0;
-		double newInitiativeAdjustment = 0.0;
-		double newFixedXPAdjustment = 0.0;
-		double newMeatDropPercentAdjustment = 0.0;
-		double newItemDropPercentAdjustment = 0.0;
+		float newCombatPercentAdjustment = 0.0f;
+		float newInitiativeAdjustment = 0.0f;
+		float newFixedXPAdjustment = 0.0f;
+		float newMeatDropPercentAdjustment = 0.0f;
+		float newItemDropPercentAdjustment = 0.0f;
 
 		boolean rigatoniSkill = false;
 		boolean hasStaff = false;
@@ -2864,11 +2864,11 @@ public abstract class KoLCharacter extends StaticEntity
 
 		int newDamageAbsorption = 0;
 		int newDamageReduction = 0;
-		double newColdResistance = 0;
-		double newHotResistance = 0;
-		double newSleazeResistance = 0;
-		double newSpookyResistance = 0;
-		double newStenchResistance = 0;
+		float newColdResistance = 0;
+		float newHotResistance = 0;
+		float newSleazeResistance = 0;
+		float newSpookyResistance = 0;
+		float newStenchResistance = 0;
 
 		int taoFactor = hasSkill( "Tao of the Terrapin" ) ? 2 : 1;
 
@@ -2884,7 +2884,7 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( item == null )
 				continue;
 
-			double [] modifiers = StatusEffectDatabase.getModifiers( item.getName() );
+			float [] modifiers = StatusEffectDatabase.getModifiers( item.getName() );
 
 			newMonsterLevelAdjustment += modifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ];
 			newFamiliarWeightAdjustment += modifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
@@ -3030,7 +3030,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		for ( int i = 0; i < effects.length; ++i )
 		{
-			double [] modifiers = StatusEffectDatabase.getModifiers( effects[i].getName() );
+			float [] modifiers = StatusEffectDatabase.getModifiers( effects[i].getName() );
 
 			newMonsterLevelAdjustment += modifiers[ StatusEffectDatabase.MONSTER_LEVEL_MODIFIER ];
 			newFamiliarWeightAdjustment += modifiers[ StatusEffectDatabase.FAMILIAR_WEIGHT_MODIFIER ];
@@ -3055,7 +3055,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// Now that we have calculated the familiar weight adjustment,
 		// look at familiar.
 
-		double modifier = (double)( currentFamiliar.getWeight() + newFamiliarWeightAdjustment + newFamiliarItemWeightAdjustment );
+		float modifier = (float)( currentFamiliar.getWeight() + newFamiliarWeightAdjustment + newFamiliarItemWeightAdjustment );
 		switch ( familiarID )
 		{
 			case BABY_GRAVY_FAIRY:

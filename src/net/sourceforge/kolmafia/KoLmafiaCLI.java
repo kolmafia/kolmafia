@@ -140,7 +140,7 @@ public class KoLmafiaCLI extends KoLmafia
 		try
 		{
 			if ( inputStream != System.in || System.getProperty( "os.name" ).startsWith( "Win" ) )
-				commandStream = new BufferedReader( new InputStreamReader( inputStream ) );
+				commandStream = KoLDatabase.getReader( inputStream );
 		}
 		catch ( Exception e )
 		{
@@ -347,7 +347,7 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
-		// Trim the line, replace all double spaces with
+		// Trim the line, replace all float spaces with
 		// single spaces and compare the result against
 		// commands which are no longer allowed.
 
@@ -423,64 +423,67 @@ public class KoLmafiaCLI extends KoLmafia
 		// Allow access to individual frames so you can
 		// do things in the GUI.
 
-		if ( command.startsWith( "chat" ) )
+		if ( parameters.equals( "" ) )
 		{
-			KoLmafiaGUI.constructFrame( "KoLMessenger" );
-			return;
-		}
+			if ( command.startsWith( "chat" ) )
+			{
+				KoLmafiaGUI.constructFrame( "KoLMessenger" );
+				return;
+			}
 
-		if ( command.startsWith( "mail" ) )
-		{
-			KoLmafiaGUI.constructFrame( "MailboxFrame" );
-			return;
-		}
+			if ( command.startsWith( "mail" ) )
+			{
+				KoLmafiaGUI.constructFrame( "MailboxFrame" );
+				return;
+			}
 
-		if ( command.startsWith( "event" ) )
-		{
-			KoLmafiaGUI.constructFrame( "EventsFrame" );
-			return;
-		}
+			if ( command.startsWith( "event" ) )
+			{
+				KoLmafiaGUI.constructFrame( "EventsFrame" );
+				return;
+			}
 
-		if ( command.startsWith( "compose" ) )
-		{
-			KoLmafiaGUI.constructFrame( "GreenMessageFrame" );
-			return;
-		}
+			if ( command.startsWith( "compose" ) )
+			{
+				KoLmafiaGUI.constructFrame( "GreenMessageFrame" );
+				return;
+			}
 
-		if ( command.startsWith( "gift" ) )
-		{
-			KoLmafiaGUI.constructFrame( "GiftMessageFrame" );
-			return;
-		}
+			if ( command.startsWith( "gift" ) )
+			{
+				KoLmafiaGUI.constructFrame( "GiftMessageFrame" );
+				return;
+			}
 
-		if ( command.startsWith( "option" ) )
-		{
-			KoLmafiaGUI.constructFrame( "OptionsFrame" );
-			return;
-		}
+			if ( command.startsWith( "option" ) )
+			{
+				KoLmafiaGUI.constructFrame( "OptionsFrame" );
+				return;
+			}
 
-		if ( command.startsWith( "item" ) )
-		{
-			KoLmafiaGUI.constructFrame( "ItemManageFrame" );
-			return;
-		}
+			if ( command.startsWith( "item" ) )
+			{
+				KoLmafiaGUI.constructFrame( "ItemManageFrame" );
+				return;
+			}
 
-		if ( command.startsWith( "clan" ) )
-		{
-			KoLmafiaGUI.constructFrame( "ClanManageFrame" );
-			return;
-		}
+			if ( command.startsWith( "clan" ) )
+			{
+				KoLmafiaGUI.constructFrame( "ClanManageFrame" );
+				return;
+			}
 
-		if ( command.startsWith( "gear" ) )
-		{
-			KoLmafiaGUI.constructFrame( "GearChangeFrame" );
-			return;
-		}
+			if ( command.startsWith( "gear" ) )
+			{
+				KoLmafiaGUI.constructFrame( "GearChangeFrame" );
+				return;
+			}
 
-		if ( command.startsWith( "pvp" ) )
-		{
-			KoLmafiaGUI.constructFrame( "FlowerHunterFrame" );
-			return;
+			if ( command.startsWith( "pvp" ) )
+			{
+				KoLmafiaGUI.constructFrame( "FlowerHunterFrame" );
+				return;
+			}
 		}
 
 		// Maybe the person is trying to load a raw URL
@@ -816,7 +819,7 @@ public class KoLmafiaCLI extends KoLmafia
 						outputFile.createNewFile();
 					}
 
-					mirrorStream = new PrintStream( new FileOutputStream( outputFile, true ), true );
+					mirrorStream = new LogStream( outputFile );
 				}
 				catch ( IOException e )
 				{
@@ -1418,13 +1421,13 @@ public class KoLmafiaCLI extends KoLmafia
 				StaticEntity.getClient().runBetweenBattleChecks();
 			else if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
 			{
-				double setting = StaticEntity.parseDouble( StaticEntity.getProperty( "hpAutoRecoveryTarget" ) );
-				StaticEntity.getClient().recoverHP( (int) (setting * (double) KoLCharacter.getMaximumHP()) );
+				float setting = StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" );
+				StaticEntity.getClient().recoverHP( (int) (setting * (float) KoLCharacter.getMaximumHP()) );
 			}
 			else if ( parameters.equalsIgnoreCase( "mp" ) || parameters.equalsIgnoreCase( "mana" ) )
 			{
-				double setting = StaticEntity.parseDouble( StaticEntity.getProperty( "mpAutoRecoveryTarget" ) );
-				StaticEntity.getClient().recoverMP( (int) (setting * (double) KoLCharacter.getMaximumMP()) );
+				float setting = StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" );
+				StaticEntity.getClient().recoverMP( (int) (setting * (float) KoLCharacter.getMaximumMP()) );
 			}
 
 			return;
@@ -1946,10 +1949,10 @@ public class KoLmafiaCLI extends KoLmafia
 			int value = StaticEntity.parseInt( right );
 
 			if ( left.equals( "health" ) )
-				return(int) ((double) value * (double)KoLCharacter.getMaximumHP() / 100.0);
+				return(int) ((float) value * (float)KoLCharacter.getMaximumHP() / 100.0f);
 
 			if ( left.equals( "mana" ) )
-				return (int) ((double) value * (double)KoLCharacter.getMaximumMP() / 100.0);
+				return (int) ((float) value * (float)KoLCharacter.getMaximumMP() / 100.0f);
 
 			return value;
 		}
@@ -2154,9 +2157,9 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( numberString.endsWith( "%" ) )
 				{
 					if ( conditionString.endsWith( "health" ) )
-						points = (int) ((double) points * (double)KoLCharacter.getMaximumHP() / 100.0);
+						points = (int) ((float) points * (float)KoLCharacter.getMaximumHP() / 100.0f);
 					else if ( conditionString.endsWith( "mana" ) )
-						points = (int) ((double) points * (double)KoLCharacter.getMaximumMP() / 100.0);
+						points = (int) ((float) points * (float)KoLCharacter.getMaximumMP() / 100.0f);
 				}
 
 				points -= conditionString.endsWith( "health" ) ? KoLCharacter.getCurrentHP() :
@@ -2584,7 +2587,7 @@ public class KoLmafiaCLI extends KoLmafia
 					outputFile.createNewFile();
 				}
 
-				desiredOutputStream = new PrintStream( new FileOutputStream( outputFile, true ), true );
+				desiredOutputStream = new LogStream( outputFile );
 			}
 			catch ( IOException e )
 			{
@@ -3270,7 +3273,7 @@ public class KoLmafiaCLI extends KoLmafia
 		ItemCreationRequest irequest = ItemCreationRequest.getInstance( StaticEntity.getClient(), firstMatch );
 		if ( irequest == null )
 		{
-			boolean needServant = StaticEntity.getProperty( "createWithoutBoxServants" ).equals( "false" );
+			boolean needServant = !StaticEntity.getBooleanProperty( "createWithoutBoxServants" );
 
 			switch ( ConcoctionsDatabase.getMixingMethod( firstMatch.getItemID() ) )
 			{
@@ -3349,7 +3352,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 		}
 
-		if ( previousLine.startsWith( "use" ) && StaticEntity.getProperty( "allowGenericUse" ).equals( "false" ) )
+		if ( previousLine.startsWith( "use" ) && !StaticEntity.getBooleanProperty( "allowGenericUse" ) )
 		{
 			switch ( TradeableItemDatabase.getConsumptionType( firstMatch.getItemID() ) )
 			{

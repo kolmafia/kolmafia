@@ -209,7 +209,7 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			boolean appearsInTab = KoLFrame.class.isAssignableFrom( creationType ) &&
 				tabSetting.indexOf( "," + searchString + "," ) != -1;
 
-			if ( creationType != LoginFrame.class && StaticEntity.getProperty( "guiUsesOneWindow" ).equals( "true" ) )
+			if ( creationType != LoginFrame.class && StaticEntity.getBooleanProperty( "guiUsesOneWindow" ) )
 			{
 				if ( !appearsInTab )
 					KoLDesktop.removeExtraTabs();

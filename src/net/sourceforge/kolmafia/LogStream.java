@@ -35,9 +35,10 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * An extension of {@link java.io.PrintStream} which handles the
@@ -56,7 +57,7 @@ public class LogStream extends PrintStream implements KoLConstants
 	 * @throws	FileNotFoundException	The file does not exist
 	 */
 
-	public LogStream( String fileName ) throws FileNotFoundException
+	public LogStream( String fileName ) throws IOException
 	{	this( new File( fileName ) );
 	}
 
@@ -69,20 +70,27 @@ public class LogStream extends PrintStream implements KoLConstants
 	 * @throws	FileNotFoundException	The file does not exist
 	 */
 
-	public LogStream( File file ) throws FileNotFoundException
+	public LogStream( File file ) throws IOException
 	{
-		super( new FileOutputStream( file, true ) );
+		this( new FileOutputStream( file, file.getName().endsWith( "log" ) || file.getName().endsWith( ".txt" ) ) );
 
-		println();
-		println();
-		println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-		println( "            Beginning New Logging Session (" + VERSION_NAME + ")" );
-		println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-		println( " Please note: do not post these logs in the KoLmafia thread.  If " );
-		println( " you would like us to look at the log, please instead email logs " );
-		println( " to holatuwol@hotmail.com using the subject \"KoLmafia Debug Log\" " );
-		println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-		println();
-		println();
+		if ( file.getName().endsWith( "log" ) || file.getParent().indexOf( "sessions" ) != -1 )
+		{
+			println();
+			println();
+			println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			println( "            Beginning New Logging Session (" + VERSION_NAME + ")" );
+			println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			println( " Please note: do not post these logs in the KoLmafia thread.  If " );
+			println( " you would like us to look at the log, please instead email logs " );
+			println( " to holatuwol@hotmail.com using the subject \"KoLmafia Debug Log\" " );
+			println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
+			println();
+			println();
+		}
+	}
+
+	public LogStream( OutputStream ostream ) throws IOException
+	{	super( ostream, true, "UTF-8" );
 	}
 }

@@ -67,7 +67,7 @@ public class EquipmentDatabase extends KoLDatabase
 
 				if ( itemID != -1 )
 				{
-					power.set( itemID, StaticEntity.parseInt( data[1] ) );
+					power.set( itemID, parseInt( data[1] ) );
 					requirement.set( itemID, data[2] );
 
 					int hval = 0;
@@ -75,7 +75,7 @@ public class EquipmentDatabase extends KoLDatabase
 					if ( data.length >= 4 )
 					{
 						String str = data[3];
-						hval = StaticEntity.parseInt( str.substring(0,1) );
+						hval = parseInt( str.substring(0,1) );
 						tval = str.substring( str.indexOf( " " ) + 1 );
 					}
 
@@ -94,7 +94,7 @@ public class EquipmentDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 
 		reader = getReader( "outfits.dat" );
@@ -104,7 +104,7 @@ public class EquipmentDatabase extends KoLDatabase
 		{
 			if ( data.length == 3 )
 			{
-				outfitID = StaticEntity.parseInt( data[0] );
+				outfitID = parseInt( data[0] );
 				outfits.set( outfitID, new SpecialOutfit( outfitID, data[1] ) );
 
 				String [] pieces = data[2].split( "\\s*,\\s*" );
@@ -132,13 +132,13 @@ public class EquipmentDatabase extends KoLDatabase
 			return false;
 
 		if ( requirement.get( itemID ).startsWith( "Mus:" ) )
-			return KoLCharacter.getBaseMuscle() >= StaticEntity.parseInt( requirement.get( itemID ).substring(5) );
+			return KoLCharacter.getBaseMuscle() >= parseInt( requirement.get( itemID ).substring(5) );
 
 		if ( requirement.get( itemID ).startsWith( "Mys:" ) )
-			return KoLCharacter.getBaseMysticality() >= StaticEntity.parseInt( requirement.get( itemID ).substring(5) );
+			return KoLCharacter.getBaseMysticality() >= parseInt( requirement.get( itemID ).substring(5) );
 
 		if ( requirement.get( itemID ).startsWith( "Mox:" ) )
-			return KoLCharacter.getBaseMoxie() >= StaticEntity.parseInt( requirement.get( itemID ).substring(5) );
+			return KoLCharacter.getBaseMoxie() >= parseInt( requirement.get( itemID ).substring(5) );
 
 		return true;
 	}

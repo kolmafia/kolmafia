@@ -588,7 +588,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		FightRequest.setAutoRecovery( StaticEntity.getProperty( "battleAction" ) );
 
 		String action = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
-		int haltTolerance = (int)( StaticEntity.parseDouble( StaticEntity.getProperty( "battleStop" ) ) * (double) KoLCharacter.getMaximumHP() );
+		int haltTolerance = (int)( StaticEntity.getFloatProperty( "battleStop" ) * (float) KoLCharacter.getMaximumHP() );
 
 		if ( ( action.equals( "item536" ) && FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) < 1 ) ||
 			 ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) < 1 ) )
@@ -623,7 +623,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		boolean allowStasis = StaticEntity.getProperty( "allowStasisTactics" ).equals( "true" );
+		boolean allowStasis = StaticEntity.getBooleanProperty( "allowStasisTactics" );
 
 		// Check for dictionaries as a battle strategy, if the
 		// person is not adventuring at the chasm.
@@ -674,7 +674,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	{
 		StaticEntity.setProperty( "lastAdventure", adventureName );
 
-		if ( StaticEntity.getProperty( "trackLocationChanges" ).equals( "true" ) )
+		if ( StaticEntity.getBooleanProperty( "trackLocationChanges" ) )
 		{
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 			adventureList.setSelectedItem( this );

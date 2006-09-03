@@ -63,7 +63,7 @@ public class TradeableItemDatabase extends KoLDatabase
 	{
 		// This begins by opening up the data file and preparing
 		// a buffered reader; once this is done, every line is
-		// examined and double-referenced: once in the name-lookup,
+		// examined and float-referenced: once in the name-lookup,
 		// and again in the ID lookup.
 
 		BufferedReader reader = getReader( "tradeitems.dat" );

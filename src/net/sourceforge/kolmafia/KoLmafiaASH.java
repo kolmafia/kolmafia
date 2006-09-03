@@ -41,7 +41,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.lang.IllegalArgumentException;
@@ -108,8 +107,6 @@ public class KoLmafiaASH extends StaticEntity
 	public static final int STATE_CONTINUE = 4;
 	public static final int STATE_EXIT = 5;
 
-	private static final String escapeString = "//";
-
 	private static final ScriptType VOID_TYPE = new ScriptType( "void", TYPE_VOID );
 	private static final ScriptType BOOLEAN_TYPE = new ScriptType( "boolean", TYPE_BOOLEAN );
 	private static final ScriptType INT_TYPE = new ScriptType( "int", TYPE_INT );
@@ -137,7 +134,7 @@ public class KoLmafiaASH extends StaticEntity
 	private static final ScriptValue FALSE_VALUE = new ScriptValue( false );
 	private static final ScriptValue ZERO_VALUE = new ScriptValue( 0 );
 	private static final ScriptValue ONE_VALUE = new ScriptValue( 1 );
-	private static final ScriptValue ZERO_FLOAT_VALUE = new ScriptValue( 0.0 );
+	private static final ScriptValue ZERO_FLOAT_VALUE = new ScriptValue( 0.0f );
 
 	// Initial values for uninitialized variables
 
@@ -196,11 +193,11 @@ public class KoLmafiaASH extends StaticEntity
 	}
 
 	private static ScriptValue parseIntValue( String name ) throws NumberFormatException
-	{	return new ScriptValue( StaticEntity.parseInt( name ) );
+	{	return new ScriptValue( parseInt( name ) );
 	}
 
 	private static ScriptValue parseFloatValue( String name ) throws NumberFormatException
-	{	return new ScriptValue( StaticEntity.parseDouble( name ) );
+	{	return new ScriptValue( parseFloat( name ) );
 	}
 
 	private static ScriptValue parseStringValue( String name )
@@ -245,7 +242,7 @@ public class KoLmafiaASH extends StaticEntity
 		// Since it is numeric, parse the integer value
 		// and store it inside of the contentInt.
 
-		itemID = StaticEntity.parseInt( name );
+		itemID = parseInt( name );
 		name = TradeableItemDatabase.getItemName( itemID );
 		return new ScriptValue( ITEM_TYPE, itemID, name );
 	}
@@ -547,7 +544,8 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		this.commandStream = new LineNumberReader( new InputStreamReader( new FileInputStream( scriptFile ) ) );
 		this.fileName = scriptFile.getPath();
-		this.imports.clear();
+
+		imports.clear();
 
 		this.line = getNextLine();
 		this.lineNumber = commandStream.getLineNumber();
@@ -1088,7 +1086,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		if ( arrays && integerToken() )
 		{
-			int size = StaticEntity.parseInt( currentToken() );
+			int size = parseInt( currentToken() );
 			readToken(); // integer
 			if ( currentToken() == null )
 				throw new AdvancedScriptException( "] expected " + getLineAndFile() );
@@ -1715,7 +1713,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !readIntegerToken( fraction ) )
 				throw new AdvancedScriptException( "Bad numeric value " + getLineAndFile() );
 			readToken();	// integer
-			return new ScriptValue( sign * StaticEntity.parseDouble( "0." + fraction ) );
+			return new ScriptValue( sign * parseFloat( "0." + fraction ) );
 		}
 
 		String integer = currentToken();
@@ -1728,12 +1726,12 @@ public class KoLmafiaASH extends StaticEntity
 			readToken();	// .
 			String fraction = currentToken();
 			if ( !readIntegerToken( fraction ) )
-				return new ScriptValue( sign * StaticEntity.parseDouble( integer ) );
+				return new ScriptValue( sign * parseFloat( integer ) );
 			readToken();	// fraction
-			return new ScriptValue( sign * StaticEntity.parseDouble( integer + "." + fraction ) );
+			return new ScriptValue( sign * parseFloat( integer + "." + fraction ) );
 		}
 
-		return new ScriptValue( sign * StaticEntity.parseInt( integer ) );
+		return new ScriptValue( sign * parseInt( integer ) );
 	}
 
 	private boolean readIntegerToken( String token )
@@ -2399,7 +2397,6 @@ public class KoLmafiaASH extends StaticEntity
 	{
 		ScriptFunction main;
 		ScriptValue result = null;
-		String resultString;
 
 		currentState = STATE_NORMAL;
 		resetTracing();
@@ -4003,14 +4000,14 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue museum_amount( ScriptVariable arg )
 		{
 			if ( KoLCharacter.getCollection().isEmpty() )
-				(new MuseumRequest( client )).run();
+				(new MuseumRequest( getClient() )).run();
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 			return new ScriptValue( item.getCount( KoLCharacter.getCollection() ) );
 		}
 
 		public ScriptValue shop_amount( ScriptVariable arg )
 		{
-			(new StoreManageRequest( client )).run();
+			(new StoreManageRequest( getClient() )).run();
 
 			LockableListModel list = StoreManager.getSoldItemList();
 			StoreManager.SoldItem item = new StoreManager.SoldItem( arg.intValue(), 0, 0, 0, 0 );
@@ -4031,7 +4028,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue refresh_stash()
 		{
-			(new ClanStashRequest( client )).run();
+			(new ClanStashRequest( getClient() )).run();
 			return continueValue();
 		}
 
@@ -4039,7 +4036,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			List stash = ClanManager.getStash();
 			if ( stash.size() == 0 )
-				(new ClanStashRequest( client )).run();
+				(new ClanStashRequest( getClient() )).run();
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
 			return new ScriptValue( item.getCount( stash ) );
 		}
@@ -4047,7 +4044,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue creatable_amount( ScriptVariable arg )
 		{
 			ConcoctionsDatabase.refreshConcoctions();
-			ItemCreationRequest item = ItemCreationRequest.getInstance( client, arg.intValue(), 0 );
+			ItemCreationRequest item = ItemCreationRequest.getInstance( getClient(), arg.intValue(), 0 );
 			return new ScriptValue( item == null ? 0 : item.getCount( ConcoctionsDatabase.getConcoctions() ) );
 		}
 
@@ -4336,11 +4333,11 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String itemName = item.toStringValue().toString();
 
-			if ( client.hunterItems.isEmpty() )
-				(new BountyHunterRequest( client )).run();
+			if ( getClient().hunterItems.isEmpty() )
+				(new BountyHunterRequest( getClient() )).run();
 
-			for ( int i = 0; i < client.hunterItems.size(); ++i )
-				if ( ((String)client.hunterItems.get(i)).equalsIgnoreCase( itemName ) )
+			for ( int i = 0; i < getClient().hunterItems.size(); ++i )
+				if ( ((String)getClient().hunterItems.get(i)).equalsIgnoreCase( itemName ) )
 					return TRUE_VALUE;
 
 			return FALSE_VALUE;
@@ -4540,10 +4537,12 @@ public class KoLmafiaASH extends StaticEntity
 			if ( location.indexOf( "send" ) != -1 || location.indexOf( "chat" ) != -1 || location.indexOf( "search" ) != -1 )
 				return STRING_INIT;
 
-			KoLRequest request = new KoLRequest( client, location, true );
+			boolean wasChoice = location.indexOf( "choice.php" ) != -1;
+
+			KoLRequest request = new KoLRequest( getClient(), location, true );
 			request.run();
 
-			if ( request.getURLString().indexOf( "choice.php" ) != -1 && StaticEntity.getProperty( "makeBrowserDecisions" ).equals( "false" ) )
+			if ( !wasChoice && request.getURLString().indexOf( "choice.php" ) != -1 && getBooleanProperty( "makeBrowserDecisions" ) )
 				request.handleChoiceResponse( request );
 
 			return new ScriptValue( request.fullResponse == null ? "" : request.fullResponse );
@@ -4599,7 +4598,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue tavern()
 		{
-			int result = client.locateTavernFaucet();
+			int result = getClient().locateTavernFaucet();
 			return new ScriptValue( KoLmafia.permitsContinue() ? result : -1 );
 		}
 
@@ -4651,7 +4650,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue get_property( ScriptVariable name )
-		{	return new ScriptValue( StaticEntity.getProperty( name.toStringValue().toString() ) );
+		{	return new ScriptValue( getProperty( name.toStringValue().toString() ) );
 		}
 
 		public ScriptValue set_property( ScriptVariable name, ScriptVariable value )
@@ -4721,7 +4720,7 @@ public class KoLmafiaASH extends StaticEntity
 					}
 				}
 
-				StaticEntity.printStackTrace( e, buffer.toString() );
+				printStackTrace( e, buffer.toString() );
 				return FALSE_VALUE;
 			}
 
@@ -4756,13 +4755,13 @@ public class KoLmafiaASH extends StaticEntity
 				if ( data.exists() )
 					data.delete();
 
-				writer = new PrintStream( new FileOutputStream( data, true ) );
+				writer = new LogStream( data );
 				map_variable.dump( writer, "", compact );
 				writer.close();
 			}
 			catch ( Exception e )
 			{
-				StaticEntity.printStackTrace( e );
+				printStackTrace( e );
 				return FALSE_VALUE;
 			}
 			finally
@@ -4785,14 +4784,14 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue restore_hp( ScriptVariable amount )
-		{	return new ScriptValue( StaticEntity.getClient().recoverHP( amount.intValue() ) );
+		{	return new ScriptValue( getClient().recoverHP( amount.intValue() ) );
 		}
 
 		public ScriptValue restore_mp( ScriptVariable amount )
 		{
 			int desiredMP = amount.intValue();
 			while ( !KoLmafia.refusesContinue() && desiredMP > KoLCharacter.getCurrentMP() )
-				StaticEntity.getClient().recoverMP( desiredMP );
+				getClient().recoverMP( desiredMP );
 			return continueValue();
 		}
 
@@ -4863,7 +4862,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( raw == 0 )
 				return ZERO_FLOAT_VALUE;
 			// 1 - 2^(-DA/350)
-			double percent = 100.0 * ( 1.0 - Math.pow( 2.0, -raw / 350.0 ) );
+			float percent = 100.0f * ( 1.0f - ((float)Math.pow( 2.0, -raw / 350.0f )) );
 			return new ScriptValue( percent );
 		}
 
@@ -4904,7 +4903,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue fixed_experience_bonus()
-                        {	return new ScriptValue( KoLCharacter.getFixedXPAdjustment() + (double)KoLCharacter.getMonsterLevelAdjustment() / 5.0 );
+		{	return new ScriptValue( KoLCharacter.getFixedXPAdjustment() + (float)KoLCharacter.getMonsterLevelAdjustment() / 5.0f );
 		}
 
 		public ScriptValue meat_drop_modifier()
@@ -5002,7 +5001,7 @@ public class KoLmafiaASH extends StaticEntity
 		{	return content.toStringValue();
 		}
 
-		public double floatValue()
+		public float floatValue()
 		{	return content.floatValue();
 		}
 
@@ -6627,7 +6626,7 @@ public class KoLmafiaASH extends StaticEntity
 		protected ScriptType type;
 
 		protected int contentInt = 0;
-		protected double contentFloat = 0.0;
+		protected float contentFloat = 0.0f;
 		protected String contentString = null;
 		protected Object content = null;
 
@@ -6653,7 +6652,7 @@ public class KoLmafiaASH extends StaticEntity
 			this.contentString = value;
 		}
 
-		public ScriptValue( double value )
+		public ScriptValue( float value )
 		{
 			this.type = FLOAT_TYPE;
 			this.contentFloat = value;
@@ -6691,7 +6690,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( type.equals( TYPE_FLOAT ) )
 				return this;
 			else
-				return new ScriptValue( (double) contentInt );
+				return new ScriptValue( (float) contentInt );
 		}
 
 		public ScriptValue toIntValue()
@@ -6746,7 +6745,7 @@ public class KoLmafiaASH extends StaticEntity
 			return contentInt;
 		}
 
-		public double floatValue()
+		public float floatValue()
 		{
 			return contentFloat;
 		}
@@ -7357,7 +7356,7 @@ public class KoLmafiaASH extends StaticEntity
 				if ( lhs.getType().equals( TYPE_INT ) )
 					return new ScriptValue( 0 - leftValue.intValue() );
 				if ( lhs.getType().equals( TYPE_FLOAT ) )
-					return new ScriptValue( 0.0 - leftValue.floatValue() );
+					return new ScriptValue( 0.0f - leftValue.floatValue() );
 				throw new RuntimeException( "Unary minus can only be applied to numbers" );
 			}
 
@@ -7433,7 +7432,7 @@ public class KoLmafiaASH extends StaticEntity
 
 			// Arithmetic operators
 			boolean isInt;
-			double lfloat = 0.0, rfloat = 0.0;
+			float lfloat = 0.0f, rfloat = 0.0f;
 			int lint = 0, rint = 0;
 
 			if ( lhs.getType().equals( TYPE_FLOAT ) || rhs.getType().equals( TYPE_FLOAT ) )
@@ -7474,7 +7473,7 @@ public class KoLmafiaASH extends StaticEntity
 			{
 				if ( isInt )
 					return new ScriptValue( (int) Math.pow( lint, rint ) );
-				return new ScriptValue( Math.pow( lfloat, rfloat ) );
+				return new ScriptValue( (float) Math.pow( lfloat, rfloat ) );
 			}
 
 			if ( operator.equals( "/" ) )

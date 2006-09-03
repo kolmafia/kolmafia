@@ -80,11 +80,11 @@ public class NullStream extends java.io.PrintStream
 	{
 	}
 
-	public void print( double d )
+	public void print( float d )
 	{
 	}
 
-	public void print( float f )
+	public void print( double f )
 	{
 	}
 
@@ -116,11 +116,11 @@ public class NullStream extends java.io.PrintStream
 	{
 	}
 
-	public void println( double x )
+	public void println( float x )
 	{
 	}
 
-	public void println( float x )
+	public void println( double x )
 	{
 	}
 

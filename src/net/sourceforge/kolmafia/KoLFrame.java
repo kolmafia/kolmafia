@@ -170,7 +170,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	{
 		JToolBar toolbarPanel = null;
 
-		switch ( StaticEntity.parseInt( StaticEntity.getProperty( "toolbarPosition" ) ) )
+		switch ( StaticEntity.getIntegerProperty( "toolbarPosition" ) )
 		{
 			case 1:
 				toolbarPanel = new JToolBar( "KoLmafia Toolbar" );
@@ -259,9 +259,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( refresher != null )
 			return;
 
-		boolean useTextOnly = StaticEntity.getProperty( "useTextHeavySidepane" ).equals( "true" );
-
-		refresher = new StatusRefresher( useTextOnly );
+		refresher = new StatusRefresher( StaticEntity.getBooleanProperty( "useTextHeavySidepane" ) );
 		refresher.run();
 
 		refreshListener = new KoLCharacterAdapter( refresher );
@@ -463,7 +461,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			mlLabel.setText( MODIFIER_FORMAT.format( ml ) );
 			combatLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getCombatPercentAdjustment() ) + "%" );
 			initLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getInitiativeAdjustment() ) + "%" );
-			xpLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getFixedXPAdjustment() + (double)ml / 5.0 ) );
+			xpLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getFixedXPAdjustment() + (float)ml / 5.0 ) );
 			meatDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getMeatDropPercentAdjustment() ) + "%" );
 			itemDropLabel.setText( ROUNDED_MODIFIER_FORMAT.format( KoLCharacter.getItemDropPercentAdjustment() ) + "%" );
 		}
@@ -1089,14 +1087,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				StaticEntity.openRequestFrame( location );
 			}
 		}
-	}
-
-	protected final void setProperty( String name, String value )
-	{	StaticEntity.setProperty( name, value );
-	}
-
-	protected final String getProperty( String name )
-	{	return StaticEntity.getProperty( name );
 	}
 
 	protected String getSettingString( JCheckBox [] restoreCheckbox )

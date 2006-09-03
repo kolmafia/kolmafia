@@ -98,7 +98,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{ "&uml;",	"\u00a8" }, // diaeresis = spacing diaeresis, U+00A8 ISOdia
 		{ "&copy;",	"\u00a9" }, // copyright sign, U+00A9 ISOnum
 		{ "&ordf;",	"\u00aa" }, // feminine ordinal indicator, U+00AA ISOnum
-		{ "&laquo;",	"\u00ab" }, // left-pointing double angle quotation mark = left pointing guillemet, U+00AB ISOnum
+		{ "&laquo;",	"\u00ab" }, // left-pointing float angle quotation mark = left pointing guillemet, U+00AB ISOnum
 		{ "&not;",	"\u00ac" }, // not sign, U+00AC ISOnum
 		{ "&shy;",	"\u00ad" }, // soft hyphen = discretionary hyphen, U+00AD ISOnum
 		{ "&reg;",	"\u00ae" }, // registered sign = registered trade mark sign, U+00AE ISOnum
@@ -114,7 +114,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{ "&cedil;",	"\u00b8" }, // cedilla = spacing cedilla, U+00B8 ISOdia
 		{ "&sup1;",	"\u00b9" }, // superscript one = superscript digit one, U+00B9 ISOnum
 		{ "&ordm;",	"\u00ba" }, // masculine ordinal indicator, U+00BA ISOnum
-		{ "&raquo;",	"\u00bb" }, // right-pointing double angle quotation mark = right pointing guillemet, U+00BB ISOnum
+		{ "&raquo;",	"\u00bb" }, // right-pointing float angle quotation mark = right pointing guillemet, U+00BB ISOnum
 		{ "&frac14;",	"\u00bc" }, // vulgar fraction one quarter = fraction one quarter, U+00BC ISOnum
 		{ "&frac12;",	"\u00bd" }, // vulgar fraction one half = fraction one half, U+00BD ISOnum
 		{ "&frac34;",	"\u00be" }, // vulgar fraction three quarters = fraction three quarters, U+00BE ISOnum
@@ -268,7 +268,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{ "&bull;",	"\u2022" }, // bullet = black small circle, U+2022 ISOpub
 		{ "&hellip;",	"\u2026" }, // horizontal ellipsis = three dot leader, U+2026 ISOpub
 		{ "&prime;",	"\u2032" }, // prime = minutes = feet, U+2032 ISOtech
-		{ "&Prime;",	"\u2033" }, // double prime = seconds = inches, U+2033 ISOtech
+		{ "&Prime;",	"\u2033" }, // float prime = seconds = inches, U+2033 ISOtech
 		{ "&oline;",	"\u203e" }, // overline = spacing overscore, U+203E NEW
 		{ "&frasl;",	"\u2044" }, // fraction slash, U+2044 NEW
 
@@ -288,12 +288,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{ "&darr;",	"\u2193" }, // downwards arrow, U+2193 ISOnum
 		{ "&harr;",	"\u2194" }, // left right arrow, U+2194 ISOamsa
 		{ "&crarr;",	"\u21b5" }, // downwards arrow with corner leftwards = carriage return, U+21B5 NEW
-		{ "&lArr;",	"\u21d0" }, // leftwards double arrow, U+21D0 ISOtech
-		{ "&uArr;",	"\u21d1" }, // upwards double arrow, U+21D1 ISOamsa
-		{ "&rArr;",	"\u21d2" }, // rightwards double arrow, U+21D2 ISOtech
+		{ "&lArr;",	"\u21d0" }, // leftwards float arrow, U+21D0 ISOtech
+		{ "&uArr;",	"\u21d1" }, // upwards float arrow, U+21D1 ISOamsa
+		{ "&rArr;",	"\u21d2" }, // rightwards float arrow, U+21D2 ISOtech
 
-		{ "&dArr;",	"\u21d3" }, // downwards double arrow, U+21D3 ISOamsa
-		{ "&hArr;",	"\u21d4" }, // left right double arrow, U+21D4 ISOamsa
+		{ "&dArr;",	"\u21d3" }, // downwards float arrow, U+21D3 ISOamsa
+		{ "&hArr;",	"\u21d4" }, // left right float arrow, U+21D4 ISOamsa
 
 		// Mathematical Operators
 
@@ -408,11 +408,11 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{ "&lsquo;",	"\u2018" }, // left single quotation mark, U+2018 ISOnum
 		{ "&rsquo;",	"\u2019" }, // right single quotation mark, U+2019 ISOnum
 		{ "&sbquo;",	"\u201a" }, // single low-9 quotation mark, U+201A NEW
-		{ "&ldquo;",	"\u201c" }, // left double quotation mark, U+201C ISOnum
-		{ "&rdquo;",	"\u201d" }, // right double quotation mark, U+201D ISOnum
-		{ "&bdquo;",	"\u201e" }, // double low-9 quotation mark, U+201E NEW
+		{ "&ldquo;",	"\u201c" }, // left float quotation mark, U+201C ISOnum
+		{ "&rdquo;",	"\u201d" }, // right float quotation mark, U+201D ISOnum
+		{ "&bdquo;",	"\u201e" }, // float low-9 quotation mark, U+201E NEW
 		{ "&dagger;",	"\u2020" }, // dagger, U+2020 ISOpub
-		{ "&Dagger;",	"\u2021" }, // double dagger, U+2021 ISOpub
+		{ "&Dagger;",	"\u2021" }, // float dagger, U+2021 ISOpub
 		{ "&permil;",	"\u2030" }, // per mille sign, U+2030 ISOtech
 		{ "&lsaquo;",	"\u2039" }, // single left-pointing angle quotation mark, U+2039 ISO proposed
 		{ "&rsaquo;",	"\u203a" }, // single right-pointing angle quotation mark, U+203A ISO proposed
@@ -848,13 +848,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// if there's an item present, and if so, modify
 		// it so that you get a use link.
 
-		if ( location.indexOf( "charpane.php" ) != -1 && StaticEntity.getProperty( "relayAddsShrugOffLinks" ).equals( "true" ) )
+		if ( location.indexOf( "charpane.php" ) != -1 && StaticEntity.getBooleanProperty( "relayAddsShrugOffLinks" ) )
 			text = addShrugOffLinks( text );
 
-		if ( StaticEntity.getProperty( "relayAddsUseLinks" ).equals( "true" ) )
+		if ( StaticEntity.getBooleanProperty( "relayAddsUseLinks" ) )
 			text = addUseLinks( text );
 
-		if ( StaticEntity.getProperty( "relayAddsPlinking" ).equals( "true" ) )
+		if ( StaticEntity.getBooleanProperty( "relayAddsPlinking" ) )
 			text = addPlinking( text );
 
 		text = addChoiceSpoilers( text );
@@ -1047,7 +1047,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		for ( int i = 1; i <= 25; ++i )
 		{
-			int squareType = StaticEntity.parseInt( StaticEntity.getProperty( "tavernSquare" + i ) );
+			int squareType = StaticEntity.getIntegerProperty( "tavernSquare" + i );
 
 			switch ( squareType )
 			{

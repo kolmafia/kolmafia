@@ -120,7 +120,7 @@ public class MonsterDatabase extends KoLDatabase
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e );
+			printStackTrace( e );
 		}
 	}
 
@@ -157,7 +157,7 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						health = StaticEntity.parseInt( value );
+						health = parseInt( value );
 						continue;
 					}
 				}
@@ -167,7 +167,7 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						attack = StaticEntity.parseInt( value );
+						attack = parseInt( value );
 						continue;
 					}
 				}
@@ -177,7 +177,7 @@ public class MonsterDatabase extends KoLDatabase
 					if ( tokens.hasMoreTokens() )
 					{
 						value = tokens.nextToken();
-						defense = StaticEntity.parseInt( value );
+						defense = parseInt( value );
 						continue;
 					}
 				}
@@ -233,12 +233,12 @@ public class MonsterDatabase extends KoLDatabase
 						int dash = value.indexOf( "-" );
 						if ( dash >= 0 )
 						{
-							minMeat = StaticEntity.parseInt( value.substring( 0, dash ) );
-							maxMeat = StaticEntity.parseInt( value.substring( dash + 1 ) );
+							minMeat = parseInt( value.substring( 0, dash ) );
+							maxMeat = parseInt( value.substring( dash + 1 ) );
 						}
 						else
 						{
-							minMeat = StaticEntity.parseInt( value );
+							minMeat = parseInt( value );
 							maxMeat = minMeat;
 						}
 						continue;
@@ -252,7 +252,7 @@ public class MonsterDatabase extends KoLDatabase
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e, s );
+				printStackTrace( e, s );
 			}
 
 			return null;
@@ -282,7 +282,7 @@ public class MonsterDatabase extends KoLDatabase
 		private int health;
 		private int attack;
 		private int defense;
-		private double statGain;
+		private float statGain;
 		private int attackElement;
 		private int defenseElement;
 		private int minMeat;
@@ -295,7 +295,7 @@ public class MonsterDatabase extends KoLDatabase
 			this.health = health;
 			this.attack = attack;
 			this.defense = defense;
-			this.statGain = (double)( attack + defense ) / 10.0 ;
+			this.statGain = ((float) (attack + defense)) / 10.0f ;
 			this.attackElement = attackElement;
 			this.defenseElement = defenseElement;
 			this.minMeat = minMeat;
@@ -347,32 +347,33 @@ public class MonsterDatabase extends KoLDatabase
 		{	items.add( item );
 		}
 
-		public double getXP()
-		{	return Math.max( 1.0, statGain );
+		public float getXP()
+		{	return Math.max( 1.0f, statGain );
 		}
 
-		public double getAdjustedXP( double modifier, int ml, FamiliarData familiar )
+		public float getAdjustedXP( float modifier, int ml, FamiliarData familiar )
 		{
 			// +1 ML adds +1 health, +1 Attack, +1 Defense
 			// Monster statGain = ( attack + defense ) / 10
-			double adjustedML = (double)( attack + ml + defense + ml ) / 2.0;
-			statGain =  adjustedML / 5.0;
+			float adjustedML = ((float) (attack + ml + defense + ml)) / 2.0f;
+			statGain =  adjustedML / 5.0f;
 			// Add constant statGain from items, effects, and familiars
 			statGain += modifier;
 			// Add variable statGain from familiars
 			statGain += sombreroXPAdjustment( adjustedML, familiar );
-			return Math.max( 1.0, statGain );
+			return Math.max( 1.0f, statGain );
 		}
 
 		private static final int SOMBRERO = 18;
-		private static final double sombreroFactor = 3.0 / 100.0;
+		private static final float sombreroFactor = 3.0f / 100.0f;
 
-		public static double sombreroXPAdjustment( double ml, FamiliarData familiar )
+		public static float sombreroXPAdjustment( float ml, FamiliarData familiar )
 		{
 			if ( familiar.getID() != SOMBRERO )
-				return 0.0;
+				return 0.0f;
+
 			// ( sqrt(ML) * weight * 3 ) / 100
-			return Math.sqrt( ml ) * (double)familiar.getModifiedWeight() * sombreroFactor;
+			return ((float) Math.sqrt( ml )) * (float)familiar.getModifiedWeight() * sombreroFactor;
 		}
 
 		public boolean willAlwaysMiss()
@@ -398,7 +399,7 @@ public class MonsterDatabase extends KoLDatabase
 			else
 				hitstat = KoLCharacter.getAdjustedMuscle() - ml;
 
-			return AreaCombatData.hitPercent( hitstat, defense ) <= 0.0;
+			return AreaCombatData.hitPercent( hitstat, defense ) <= 0.0f;
 		}
 	}
 }

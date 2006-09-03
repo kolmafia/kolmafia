@@ -34,8 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -147,7 +145,7 @@ public abstract class MushroomPlot extends StaticEntity
 	public static String getMushroomPlot( boolean isDataOnly )
 	{
 		// If for some reason, the plot was invalid, then
-		// the flag would have been set on the client.  In
+		// the flag would have been set on the getClient().  In
 		// this case, return a message.
 
 		if ( !initialize() )
@@ -169,7 +167,7 @@ public abstract class MushroomPlot extends StaticEntity
 	public static String getForecastedPlot( boolean isDataOnly, int [][] plot )
 	{
 		// If for some reason, the plot was invalid, then
-		// the flag would have been set on the client.  In
+		// the flag would have been set on the getClient().  In
 		// this case, return a message.
 
 		if ( !initialize() )
@@ -400,9 +398,9 @@ public abstract class MushroomPlot extends StaticEntity
 			return false;
 
 		// Pay for the spore.  At this point, it's guaranteed
-		// that the client allows you to continue.
+		// that the getClient() allows you to continue.
 
-		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - sporePrice ) );
+		getClient().processResult( new AdventureResult( AdventureResult.MEAT, 0 - sporePrice ) );
 		KoLmafia.updateDisplay( "Spore successfully planted." );
 		return true;
 	}
@@ -467,9 +465,6 @@ public abstract class MushroomPlot extends StaticEntity
 
 	private static boolean initialize()
 	{
-		if ( client == null )
-			return true;
-
 		// If you're not in a Muscle sign, no go.
 
 		if ( !KoLCharacter.inMuscleSign() )
@@ -506,7 +501,7 @@ public abstract class MushroomPlot extends StaticEntity
 	private static class MushroomPlotRequest extends KoLRequest
 	{
 		public MushroomPlotRequest()
-		{	super( MushroomPlot.client, "knoll_mushrooms.php", true );
+		{	super( getClient(), "knoll_mushrooms.php", true );
 		}
 
 		public MushroomPlotRequest( int square )

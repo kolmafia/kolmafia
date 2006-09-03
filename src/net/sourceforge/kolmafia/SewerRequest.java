@@ -103,7 +103,7 @@ public class SewerRequest extends KoLRequest
 			// items, so if you have fewer than three items, report
 			// an error.
 
-			int thirdItem = TradeableItemDatabase.getItemID( getProperty( "luckySewerAdventure" ) );
+			int thirdItem = TradeableItemDatabase.getItemID( StaticEntity.getProperty( "luckySewerAdventure" ) );
 
 			if ( thirdItem < 1 || (thirdItem > 12 && thirdItem != 43) )
 			{
