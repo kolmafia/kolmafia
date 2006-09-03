@@ -185,7 +185,7 @@ public class CommandDisplayFrame extends KoLFrame
 					return;
 				}
 
-				(new RequestThread( this )).start();
+				(new Thread( this )).start();
 			}
 
 			public void run()
@@ -195,6 +195,8 @@ public class CommandDisplayFrame extends KoLFrame
 					KoLmafia.forceContinue();
 					executeQueuedCommand();
 				}
+
+				KoLmafia.enableDisplay();
 			}
 
 			private void executeQueuedCommand()

@@ -519,8 +519,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 
 		// In valhalla, you can't make outfits and have no inventory.
-		int outfitIndex = responseText.indexOf( "Save as Custom Outfit" );
-		if ( outfitIndex == -1 )
+		if ( responseText.indexOf( "Save as Custom Outfit" ) == -1 )
 			return;
 
 		// Detect possible failure
@@ -538,35 +537,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 		}
 
-		String [] oldEquipment = new String[9];
-		int oldFakeHands = KoLCharacter.getFakeHands();
-
-		// Ensure that the inventory stays up-to-date by switching
-		// items around, as needed.
-
-		for ( int i = 0; i < 9; ++i )
-			oldEquipment[i] = KoLCharacter.getEquipment( i );
-
 		parseEquipment( this.responseText );
-		if ( !LoginRequest.isInstanceRunning() )
-		{
-			for ( int i = 0; i < 9; ++i )
-				switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
-
-			// Adjust inventory of fake hands
-			int newFakeHands = KoLCharacter.getFakeHands();
-			if ( oldFakeHands > newFakeHands )
-				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
-
-			KoLCharacter.refreshCalculatedLists();
-			CharpaneRequest.getInstance().run();
-		}
-
-		// Skip past equipped gear
-		parseQuestItems( responseText.substring( outfitIndex ) );
-
-		KoLCharacter.recalculateAdjustments( false );
-		KoLCharacter.updateStatus();
 
 		if ( requestType == EQUIPMENT )
 			KoLmafia.updateDisplay( "Equipment updated." );
@@ -576,7 +547,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			KoLmafia.updateDisplay( "Gear changed." );
 	}
 
-	private void switchItem( String oldItem, String newItem )
+	private static void switchItem( String oldItem, String newItem )
 	{
 		// Determine the item which is being switched
 		// in and out.
@@ -653,7 +624,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		}
 	}
 
-	private void parseQuestItems( String text )
+	private static void parseQuestItems( String text )
 	{
 		Matcher itemMatcher = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" ).matcher( text );
 		while ( itemMatcher.find() )
@@ -687,6 +658,15 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	public static void parseEquipment( String responseText )
 	{
+		String [] oldEquipment = new String[9];
+		int oldFakeHands = KoLCharacter.getFakeHands();
+
+		// Ensure that the inventory stays up-to-date by switching
+		// items around, as needed.
+
+		for ( int i = 0; i < 9; ++i )
+			oldEquipment[i] = KoLCharacter.getEquipment( i );
+
 		String [] equipment = new String[9];
 		for ( int i = 0; i < equipment.length; ++i )
 			equipment[i] = UNEQUIP;
@@ -801,6 +781,32 @@ public class EquipmentRequest extends PasswordHashRequest
 		KoLCharacter.setOutfits( outfits );
 		EquipmentDatabase.updateOutfits();
 		KoLCharacter.setFakeHands( fakeHands );
+
+		if ( !LoginRequest.isInstanceRunning() )
+		{
+			for ( int i = 0; i < 9; ++i )
+				switchItem( oldEquipment[i], KoLCharacter.getEquipment( i ) );
+
+			// Adjust inventory of fake hands
+			int newFakeHands = KoLCharacter.getFakeHands();
+			if ( oldFakeHands > newFakeHands )
+				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
+
+			KoLCharacter.refreshCalculatedLists();
+			CharpaneRequest.getInstance().run();
+		}
+
+		// Skip past equipped gear
+
+		parseQuestItems( responseText.substring( responseText.indexOf( "Save as Custom Outfit" ) ) );
+
+		// Refresh all the calculated lists based on what you
+		// now know about your equipment.
+
+		KoLCharacter.refreshCalculatedLists();
+		KoLCharacter.setAvailableSkills( KoLCharacter.getAvailableSkills() );
+		KoLCharacter.recalculateAdjustments( false );
+		KoLCharacter.updateStatus();
 	}
 
 	public static int slotNumber( String name )
