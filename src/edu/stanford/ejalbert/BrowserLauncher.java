@@ -1,8 +1,9 @@
 package edu.stanford.ejalbert;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -227,6 +228,7 @@ public class BrowserLauncher {
 	 * @return <code>true</code> if all intialization succeeded
 	 *			<code>false</code> if any portion of the initialization failed
 	 */
+
 	private static boolean loadClasses() {
 		switch (jvm) {
 			case MRJ_2_0:
@@ -521,59 +523,99 @@ public class BrowserLauncher {
 				// default browser -- if it is, invoke it manually in order to
 				// get a new window to open.
 
-				Process process = Runtime.getRuntime().exec(
-					new String [] { (String) browser, "/c", "assoc", ".html" } );
-
+		    	Process process = null;
 				boolean usingIE = false;
 
-				if ( jvm == WINDOWS_NT )
+				String executable = "";
+				String parameters = "";
+
+				if ( url.indexOf( ".txt" ) != -1 || url.indexOf( ".log" ) != -1 )
 				{
+					usingIE = false;
+					parameters = "";
+					executable = "notepad";
+				}
+				else if ( jvm == WINDOWS_NT )
+				{
+					process = Runtime.getRuntime().exec(
+						new String [] { (String) browser, "/c", "assoc", ".html" } );
+
+					try {
+						process.waitFor();
+						process.exitValue();
+					} catch (InterruptedException ie) {
+						throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
+					}
+
 					try
 					{
-						java.io.BufferedReader stream = new
-							java.io.BufferedReader( new java.io.InputStreamReader( process.getInputStream() ) );
+						// This avoids a memory leak on some versions of Java on Windows.
+						// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
 
+						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
 						usingIE = stream.readLine().indexOf( "htmlfile" ) != -1;
 					}
 					catch ( Exception e )
 					{
 						// If we can't determine the default browser, then assume
-						// that it's not Internet Explorer.
+						// that it's Internet Explorer, which is the default.
+					}
+				}
+				else
+				{
+					usingIE = true;
+
+					// Usually, if the person has installed Firefox and they are
+					// running on Windows 9x, then they probably want to use it
+					// for the reduced resource consumption.
+
+					File alternative = new File( "C:\\Program Files\\Mozilla Firefox\\firefox.exe" );
+					if ( alternative.exists() )
+					{
+						usingIE = false;
+						parameters = "new-tab";
+						executable = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
+					}
+
+					// Because the person who has modified the original BrowserLauncher
+					// likes Opera, that's the browser that will override Firefox if
+					// it happens to be installed.
+
+					alternative = new File( "C:\\Program Files\\Opera\\Opera.exe" );
+					if ( alternative.exists() )
+					{
+						usingIE = false;
+						parameters = "newpage";
+						executable = "C:\\Program Files\\Opera\\Opera.exe";
+					}
+
+					// If you're still using IE, then make sure you give the full path
+					// to Internet Explorer to ensure that a browser gets opened.
+
+					if ( usingIE )
+					{
+						parameters = "";
+						executable = "C:\\Program Files\\Internet Explorer\\iexplore.exe";
 					}
 				}
 
-				// This avoids a memory leak on some versions of Java on Windows.
-				// That's hinted at in <http://developer.java.sun.com/developer/qow/archive/68/>.
-
-				try {
-					process.waitFor();
-					process.exitValue();
-				} catch (InterruptedException ie) {
-					throw new IOException("InterruptedException while launching browser: " + ie.getMessage());
-				}
-
-				if ( jvm == WINDOWS_9x )
+				if ( jvm == WINDOWS_9x || executable.equals( "notepad" ) )
 				{
-					process = Runtime.getRuntime().exec(
-						new String[] { (String) browser, "", "explorer", url.startsWith( "http" ) ? "\"" + url + "\"" :
-							"/select,\"" + url + "\"" } );
-
+					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
+						executable, parameters, url } );
 				}
 				else if ( usingIE )
 				{
-					// Add quotes around the URL to allow ampersands and other special
-					// characters to work.
-
 					process = Runtime.getRuntime().exec(
-						new String[] { (String) browser, "/c", "explorer", "\"" + url + "\"" } );
+						new String[] { (String) browser, "/c", "explorer", url } );
 				}
-				else if ( jvm == WINDOWS_NT )
+				else
 				{
 					// Add quotes around the URL to allow ampersands and other special
 					// characters to work.
 
-					process = Runtime.getRuntime().exec(
-						new String[] { (String) browser, "/c", "start", "\"\"", '"' + url + '"' } );
+					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
+						"start", "\"\"", url } );
 				}
 
 				// This avoids a memory leak on some versions of Java on Windows.
@@ -601,9 +643,7 @@ public class BrowserLauncher {
 
 					try
 					{
-						java.io.BufferedReader stream = new
-							java.io.BufferedReader( new java.io.InputStreamReader( process.getInputStream() ) );
-
+						BufferedReader stream = new BufferedReader( new InputStreamReader( process.getInputStream() ) );
 						if ( stream.readLine().indexOf( " " ) == -1 )
 							browser = browsers[i];
 
