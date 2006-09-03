@@ -59,7 +59,6 @@ import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.BufferedInputStream;
@@ -433,7 +432,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
-	private static TreeMap images = new TreeMap();
 	private static final RequestViewFactory DEFAULT_FACTORY = new RequestViewFactory();
 
 	/**
@@ -473,7 +471,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			BufferedInputStream in = new BufferedInputStream( (new URL( remote )).openConnection().getInputStream() );
 
 			ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 1024 );
-			byte [] buffer = new byte[1024];
+			byte [] buffer = new byte[4096];
 
 			int offset;
 			while ((offset = in.read(buffer)) > 0)
@@ -516,9 +514,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static URL downloadImage( String filename )
 	{
-		if ( images.containsKey( filename ) )
-			return (URL) images.get( filename );
-
 		String localname = filename.replaceAll( "http://images.kingdomofloathing.com/", "" );
 		filename = filename.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
 
@@ -535,8 +530,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 		try
 		{
-			images.put( filename, localfile.toURL() );
-			return (URL) images.get( filename );
+			return localfile.toURL();
 		}
 		catch ( Exception e )
 		{
@@ -884,6 +878,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static String addUseLinks( String text )
 	{
+		if ( text.indexOf( "You acquire" ) == -1 )
+			return text;
+
 		StringBuffer linkedResponse = new StringBuffer();
 		Matcher useLinkMatcher = Pattern.compile( "You acquire(.*?)</td>" ).matcher( text );
 
