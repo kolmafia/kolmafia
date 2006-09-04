@@ -336,8 +336,11 @@ public class AdventureDatabase extends KoLDatabase
 
 	public static final boolean validateZone( String zoneName, String locationID )
 	{
+		if ( zoneName == null || locationID == null )
+			return true;
+
 		ArrayList validationRequests = (ArrayList) zoneValidations.get( zoneName );
-		if ( validationRequests.isEmpty() )
+		if ( validationRequests == null || validationRequests.isEmpty() )
 			return true;
 
 		boolean isValidZone = true;
