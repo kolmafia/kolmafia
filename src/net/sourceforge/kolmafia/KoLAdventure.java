@@ -280,23 +280,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		else if ( zone.equals( "McLarge" ) )
-		{
-			// Obviate following request by checking accomplishment:
-			// questlog.php?which=2
-			// "You have learned how to hunt Yetis from the L337
-			// Tr4pz0r."
-
-			// See if the trapper will give it to us
-
-			DEFAULT_SHELL.executeLine( "council" );
-			request = new KoLRequest( client, "trapper.php" );
-			request.run();
-
-			validate( true );
-			return;
-		}
-
 		// The Castle in the Clouds in the Sky is unlocked provided the
 		// character has either a S.O.C.K. or an intragalactic rowboat
 
@@ -435,7 +418,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// You can unlock pieces of the bat hole by using up to
 		// three different sonars.
 
-		if ( zone.equals( "BatHole" ) && visitedCouncil )
+		if ( zone.equals( "BatHole" ) && !visitedCouncil )
 		{
 			int sonarCount = SONAR.getCount( KoLCharacter.getInventory() );
 			if ( sonarCount == 0 )
@@ -443,6 +426,24 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 			DEFAULT_SHELL.executeLine( "use " + Math.min( 3, sonarCount ) + " sonar-in-a-biscuit" );
 			validate( true );
+			return;
+		}
+
+		if ( zone.equals( "McLarge" ) && !visitedCouncil )
+		{
+			// Obviate following request by checking accomplishment:
+			// questlog.php?which=2
+			// "You have learned how to hunt Yetis from the L337
+			// Tr4pz0r."
+
+			// See if the trapper will give it to us
+
+			DEFAULT_SHELL.executeLine( "council" );
+			request = new KoLRequest( client, "trapper.php" );
+			request.run();
+
+			validate( true );
+			return;
 		}
 
 		// Check to see if the Knob is unlocked; all areas are
