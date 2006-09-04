@@ -173,10 +173,10 @@ public abstract class MushroomPlot extends StaticEntity
 		{
 			for ( int col = 0; col < 4; ++col )
 			{
-				if ( plot[ row ][ col ].equals( "__" ) || plot[ row ][ col ].equals( ".." ) )
+				if ( plot[ row ][ col ].equals( "__" ) )
 				{
 					forecastPlot[ row ][ col ] = getForecastSquare( row, col, plot );
-					changeList[ row ][ col ] = !forecastPlot[ row ][ col ].equals( "__" ) && !forecastPlot[ row ][ col ].equals( ".." );
+					changeList[ row ][ col ] = !forecastPlot[ row ][ col ].equals( "__" );
 				}
 				else if ( plot[ row ][ col ].equals( plot[ row ][ col ].toLowerCase() ) )
 				{
@@ -201,10 +201,17 @@ public abstract class MushroomPlot extends StaticEntity
 			{
 				if ( changeList[ row ][ col ] )
 				{
-					if ( row != 0 )  forecastPlot[ row - 1 ][ col ] = "__";
-					if ( row != 3 )  forecastPlot[ row + 1 ][ col ] = "__";
-					if ( col != 0 )  forecastPlot[ row ][ col - 1 ] = "__";
-					if ( col != 3 )  forecastPlot[ row ][ col + 1 ] = "__";
+					if ( row != 0 && forecastPlot[ row - 1 ][ col ].equals( forecastPlot[ row - 1 ][ col ].toUpperCase() ) )
+						forecastPlot[ row - 1 ][ col ] = "__";
+
+					if ( row != 3 && forecastPlot[ row + 1 ][ col ].equals( forecastPlot[ row + 1 ][ col ].toUpperCase() ) )
+						forecastPlot[ row + 1 ][ col ] = "__";
+
+					if ( col != 0 && forecastPlot[ row ][ col - 1 ].equals( forecastPlot[ row ][ col - 1 ].toUpperCase() ) )
+						forecastPlot[ row ][ col - 1 ] = "__";
+
+					if ( col != 3 && forecastPlot[ row ][ col + 1 ].equals( forecastPlot[ row ][ col + 1 ].toUpperCase() ) )
+						forecastPlot[ row ][ col + 1 ] = "__";
 				}
 			}
 		}
