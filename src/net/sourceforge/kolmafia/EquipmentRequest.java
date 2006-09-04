@@ -376,19 +376,14 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( KoLCharacter.hasEquipped( changeItemName, equipmentSlot ) )
 				return;
 
-			AdventureDatabase.retrieveItem( new AdventureResult( changeItemName, 1, false ) );
-			if ( !KoLmafia.permitsContinue() )
-				return;
+			// If we are requesting another familiar's equipment,
+			// make it available.
 
-			// If we are changing familiar equipment, first we must
-			// remove the old one in the slot.
 			if ( equipmentSlot == KoLCharacter.FAMILIAR )
 			{
-				// If we are requesting another familiar's
-				// equipment, make it available.
-
 				AdventureResult result = new AdventureResult( itemID, 1 );
-				if ( !KoLCharacter.getInventory().contains( result ) )
+				if ( !KoLCharacter.getInventory().contains( result ) &&
+				     !KoLCharacter.getCloset().contains( result ))
 				{
 					// Find first familiar with item
 					FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
@@ -408,10 +403,17 @@ public class EquipmentRequest extends PasswordHashRequest
 						}
 					}
 				}
-
-				if ( !KoLCharacter.getEquipment( equipmentSlot ).equals( UNEQUIP ) )
-					(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
 			}
+
+			AdventureDatabase.retrieveItem( new AdventureResult( changeItemName, 1, false ) );
+			if ( !KoLmafia.permitsContinue() )
+				return;
+
+			// If we are changing familiar equipment, first we must
+			// remove the old one in the slot.
+
+			if ( equipmentSlot == KoLCharacter.FAMILIAR && !KoLCharacter.getEquipment( equipmentSlot ).equals( UNEQUIP ) )
+				(new EquipmentRequest( client, UNEQUIP, equipmentSlot )).run();
 		}
 
 		switch ( requestType )
