@@ -514,7 +514,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static URL downloadImage( String filename )
 	{
-		String localname = filename.replaceAll( "http://images.kingdomofloathing.com/", "" );
+		String localname = filename.substring( filename.indexOf( "/", 7 ) + 1 );
 		filename = filename.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
 
 		File localfile = new File( "images/" + localname );

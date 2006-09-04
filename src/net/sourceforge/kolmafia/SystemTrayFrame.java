@@ -63,6 +63,34 @@ public class SystemTrayFrame extends KoLDesktop implements Runnable
 				output.close();
 			}
 
+			// Now, make calls to SystemTrayIconManager in order
+			// to make use of the system tray.
+
+			downloadTrayIcon();
+			System.load( library.getAbsolutePath() );
+
+			SystemTrayFrame.manager = new SystemTrayIconManager( icon, VERSION_NAME + ": " + KoLCharacter.getUsername() );
+
+			JPopupMenu popup = new JPopupMenu();
+			KoLMenuBar menubar = new KoLMenuBar( popup );
+
+			manager.setLeftClickView( this );
+			manager.setRightClickView( popup );
+			manager.setVisible( true );
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+		}
+	}
+
+	public static void downloadTrayIcon()
+	{
+		try
+		{
 			// Next, load the icon which will be used by KoLmafia
 			// in the system tray.  For now, this will be the old
 			// icon used by KoLmelion.
@@ -82,20 +110,8 @@ public class SystemTrayFrame extends KoLDesktop implements Runnable
 				output.close();
 			}
 
-			// Now, make calls to SystemTrayIconManager in order
-			// to make use of the system tray.
-
-			System.load( library.getAbsolutePath() );
 			icon = SystemTrayIconManager.loadImage( trayicon.getAbsolutePath() );
 
-			SystemTrayFrame.manager = new SystemTrayIconManager( icon, VERSION_NAME + ": " + KoLCharacter.getUsername() );
-
-			JPopupMenu popup = new JPopupMenu();
-			KoLMenuBar menubar = new KoLMenuBar( popup );
-
-			manager.setLeftClickView( this );
-			manager.setRightClickView( popup );
-			manager.setVisible( true );
 		}
 		catch ( Exception e )
 		{
