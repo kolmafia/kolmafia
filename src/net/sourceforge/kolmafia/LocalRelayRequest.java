@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 
+import java.net.URL;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -264,6 +265,8 @@ public class LocalRelayRequest extends KoLRequest
 			contentType = "image/png";
 		else if ( formURLString.endsWith( ".jpg" ) || formURLString.endsWith( ".jpeg" ) )
 			contentType = "image/jpeg";
+		else if ( formURLString.endsWith( ".ico" ) )
+			contentType = "image/x-icon";
 
 		if ( contentType != null )
 			headers.add( "Content-Type: " + contentType );
@@ -319,10 +322,10 @@ public class LocalRelayRequest extends KoLRequest
 		// The word "KoLmafia" prefixes all of the local
 		// images.  Therefore, make sure it's removed.
 
-		BufferedInputStream in = new BufferedInputStream(
-			RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com" + filename.substring(6) ).openConnection().getInputStream() );
+		BufferedInputStream in = new BufferedInputStream( RequestEditorKit.downloadImage(
+			"http://images.kingdomofloathing.com" + filename.substring(6) ).openConnection().getInputStream() );
 
-		ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 1024 );
+		ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 4096 );
 		byte [] buffer = new byte[4096];
 
 		int offset;
@@ -631,7 +634,12 @@ public class LocalRelayRequest extends KoLRequest
 
 		try
 		{
-			if ( formURLString.endsWith( "submitCommand" ) )
+			if ( formURLString.endsWith( "favicon.ico" ) )
+			{
+				SystemTrayFrame.downloadTrayIcon();
+				sendLocalImage( "images/KoLmelionIcon.ico" );
+			}
+			else if ( formURLString.endsWith( "submitCommand" ) )
 				submitCommand();
 			else if ( formURLString.endsWith( "executeCommand" ) )
 				executeCommand();
