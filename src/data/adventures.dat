@@ -1,9 +1,9 @@
 00	0	0	campground.php	rest	Rest at Campsite
 00	0	0	campground.php	relax	Relax in Beanbag
 
-01	0	0	shore.php	1	Muscle Vacation
+01	0	0	shore.php	1	Muscle Vacation	ten-leaf clover
 01	0	0	shore.php	2	Mysticality Vacation
-01	0	0	shore.php	3	Moxie Vacation
+01	0	0	shore.php	3	Moxie Vacation	barbed-wire fence
 01	0	0	adventure.php	45	South of the Border
 
 02	0	0	sewer.php	0	Unlucky Sewer
@@ -26,14 +26,14 @@
 05	5	0	adventure.php	15	Spooky Forest	mosquito larva
 05	5	0	adventure.php	17	Hidden Temple
 05	5	0	adventure.php	25	Typical Tavern	2 beer lens
-05	20	0	adventure.php	73	8-Bit Realm
-05	36	0	adventure.php	100	Whitey's Grove
+05	20	0	adventure.php	73	8-Bit Realm	8 red pixel, 12 black pixel
+05	36	0	adventure.php	100	Whitey's Grove	white picket fence
 05	36	0	adventure.php	99	The Road to the White Citadel
 
 06	8	8	adventure.php	30	Bat Hole Entryway	Pine-Fresh air freshener
 06	8	8	adventure.php	31	Guano Junction	3 sonar-in-a-biscuit
 06	8	8	adventure.php	32	Batrat and Ratbat Burrow
-06	8	8	adventure.php	33	Beanbat Chamber
+06	8	8	adventure.php	33	Beanbat Chamber	enchanted bean
 06	8	8	adventure.php	34	The Boss Bat's Lair
 
 07	13	0	adventure.php	85	Battlefield (No Uniform)	outfit
@@ -49,7 +49,7 @@
 08	0	65	adventure.php	78	Palindome
 
 09	0	0	adventure.php	11	Outskirts of The Knob	chef's hat
-09	20	0	adventure.php	40	Knob Goblin Kitchens
+09	20	0	adventure.php	40	Knob Goblin Kitchens	disjunction, knob sausage, knob mushroom
 09	20	0	adventure.php	41	Knob Goblin Treasury	outfit
 09	20	0	adventure.php	42	Knob Goblin Harem	outfit, Knob Goblin perfume
 09	20	0	knob.php	0	The King's Chamber
@@ -90,15 +90,15 @@
 15	68	0	mountains.php	80	Bridge the Orc Chasm
 15	68	0	adventure.php	80	Valley Beyond Orc Chasm	2 334 scroll, 1 30669 scroll, 1 33398 scroll
 
-16	85	90	adventure.php	81	Penultimate Fantasy Airship	S.O.C.K.
+16	85	90	adventure.php	81	Penultimate Fantasy Airship	photoprotoneutron torpedo, S.O.C.K.
 16	85	95	adventure.php	82	Castle in the Clouds in the Sky	1 choiceadv
-16	85	100	adventure.php	83	Hole in the Sky
+16	85	100	adventure.php	83	Hole in the Sky	18 star, 14 line
 
 17	104	0	lair3.php	hedge	Sorceress' Hedge Maze	hedge maze puzzle
 17	104	0	lair6.php	5	Fight the Naughty Sorceress
 
 18	0	13	adventure.php	47	Bugbear Pens	annoying pitchfork
-18	0	40	adventure.php	48	Spooky Gravy Barrow
+18	0	40	adventure.php	48	Spooky Gravy Barrow	inexplicably glowing rock, small leather glove, spooky fairy gravy
 18	0	40	adventure.php	49	Post-Quest Bugbear Pens
 
 19	0	0	adventure.php	43	Outskirts of Camp
