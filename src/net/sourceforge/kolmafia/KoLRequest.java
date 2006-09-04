@@ -1464,13 +1464,15 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			if ( AdventureDatabase.CHOICE_ADVS[i][0][0].equals( option ) )
 			{
-				possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
+				if ( AdventureDatabase.CHOICE_ADVS[i].length > 3 )
+					possibleDecisions = AdventureDatabase.CHOICE_ADVS[i][3];
 				break;
 			}
 		}
 
-		// If it's not in the table (the castle wheel, for example)
-		// return the player's chose descision.
+		// If it's not in the table (the castle wheel, for example) or
+		// isn't an outfit completion choice, return the player's
+		// chosen decision.
 
 		if ( possibleDecisions == null )
 			return decision.equals( "0" ) ? "1" : decision;
