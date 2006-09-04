@@ -107,7 +107,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		else
 		{
 			this.request = new AdventureRequest( client, adventureName, formSource, adventureID );
-			this.shouldRunBetweenBattleChecks = !formSource.equals( "shore.php" );
+			this.shouldRunBetweenBattleChecks = !formSource.equals( "shore.php" ) && !zone.equals( "Casino" );
 		}
 
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
