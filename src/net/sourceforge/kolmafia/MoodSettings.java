@@ -393,7 +393,8 @@ public abstract class MoodSettings implements KoLConstants
 		for ( int i = 0; i < triggers.size(); ++i )
 			((MoodTrigger)triggers.get(i)).execute();
 
-		UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
+		if ( !hasChangedOutfit )
+			UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
 	}
 
 	/**

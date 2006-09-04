@@ -636,6 +636,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] " + getAdventureName() );
 		client.registerAdventure( this );
+
+		if ( request instanceof CampgroundRequest || request instanceof SewerRequest )
+			client.registerEncounter( getAdventureName() );
 	}
 
 	public static boolean recordToSession( String urlString )

@@ -296,7 +296,12 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// Check to make sure that the person is wearing the appropriate
 		// outfit for making the purchase.
 
-		boolean attireChanged = ensureProperAttire();
+		boolean attireChanged = false;
+		canPurchase &= KoLCharacter.getAvailableMeat() >= limit * price;
+
+		if ( canPurchase )
+			attireChanged = ensureProperAttire();
+
 		if ( !canPurchase )
 			return;
 
