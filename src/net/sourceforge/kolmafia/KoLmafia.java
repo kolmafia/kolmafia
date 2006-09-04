@@ -339,8 +339,6 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void initialize( String username, boolean getBreakfast, boolean isQuickLogin )
 	{
-		this.conditions.clear();
-
 		// Initialize the variables to their initial
 		// states to avoid null pointers getting thrown
 		// all over the place
@@ -355,6 +353,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		if ( !isQuickLogin )
 		{
+			this.conditions.clear();
 			KoLCharacter.reset( username );
 			KoLmafia.openSessionStream();
 		}

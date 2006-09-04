@@ -1438,6 +1438,13 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		if ( command.equals( "mpitems" ) )
+		{
+			int restores = getRestoreCount();
+			printLine( restores + " mana restores remaining." );
+			return;
+		}
+
 		if ( command.startsWith( "restore" ) || command.startsWith( "recover" ) || command.startsWith( "check" ) )
 		{
 			if ( parameters.equals( "" ) )
