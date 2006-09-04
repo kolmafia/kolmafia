@@ -44,7 +44,7 @@ import java.awt.event.FocusListener;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
-public class MutableComboBox extends JComboBox implements FocusListener
+public class MutableComboBox extends JComboBox
 {
 	protected String currentName;
 	protected String currentMatch;
@@ -56,34 +56,17 @@ public class MutableComboBox extends JComboBox implements FocusListener
 
 		this.model = model;
 		this.setEditable( true );
-		this.getEditor().getEditorComponent().addFocusListener( this );
-		this.getEditor().getEditorComponent().addKeyListener( new NameInputListener() );
+
+		NameInputListener listener = new NameInputListener();
+
+		this.addFocusListener( listener );
+		this.getEditor().getEditorComponent().addKeyListener( listener );
 	}
 
 	public void setSelectedItem( Object anObject )
 	{
 		super.setSelectedItem( anObject );
 		currentMatch = (String) anObject;
-	}
-
-	public void focusGained( FocusEvent e )
-	{
-		getEditor().selectAll();
-		findMatch( KeyEvent.VK_DELETE );
-	}
-
-	public void focusLost( FocusEvent e )
-	{
-		if ( currentName == null || currentName.trim().length() == 0 )
-			return;
-
-		if ( currentMatch == null && !model.contains( currentName ) )
-		{
-			model.add( currentName );
-			currentMatch = currentName;
-		}
-
-		setSelectedItem( currentMatch );
 	}
 
 	protected void findMatch( int keycode )
@@ -131,12 +114,34 @@ public class MutableComboBox extends JComboBox implements FocusListener
 		}
 	}
 
-	private class NameInputListener extends KeyAdapter
+	private class NameInputListener extends KeyAdapter implements FocusListener
 	{
 		public void keyReleased( KeyEvent e )
 		{
-			if ( e.getKeyChar() != KeyEvent.CHAR_UNDEFINED )
+			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+				focusLost( null );
+			else if ( e.getKeyChar() != KeyEvent.CHAR_UNDEFINED )
 				findMatch( e.getKeyCode() );
+		}
+
+		public final void focusGained( FocusEvent e )
+		{
+			getEditor().selectAll();
+			findMatch( KeyEvent.VK_DELETE );
+		}
+
+		public final void focusLost( FocusEvent e )
+		{
+			if ( currentName == null || currentName.trim().length() == 0 )
+				return;
+
+			if ( currentMatch == null && !model.contains( currentName ) )
+			{
+				model.add( currentName );
+				currentMatch = currentName;
+			}
+
+			setSelectedItem( currentMatch );
 		}
 	}
 }
