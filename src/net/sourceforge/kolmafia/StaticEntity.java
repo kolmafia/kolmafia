@@ -268,9 +268,12 @@ public abstract class StaticEntity implements KoLConstants
 					int minutes = i / 60;
 					actualMessage.append( minutes );
 					actualMessage.append( minutes == 1 ? " minute" : " minutes" );
-					actualMessage.append( ", " );
+
+					if ( i % 60 != 0 )
+						actualMessage.append( ", " );
 				}
-				else
+
+				if ( i % 60 != 0 )
 				{
 					actualMessage.append( i % 60 );
 					actualMessage.append( (i % 60) == 1 ? " second" : " seconds" );
