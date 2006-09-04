@@ -471,7 +471,7 @@ public abstract class KoLmafia implements KoLConstants
 		this.hermitItems.clear();
 		this.hermitItems.add( "banjo strings" );
 		this.hermitItems.add( "catsup" );
-		this.hermitItems.add( "digny planks" );
+		this.hermitItems.add( "dingy planks" );
 		this.hermitItems.add( "fortune cookie" );
 		this.hermitItems.add( "golden twig" );
 		this.hermitItems.add( "hot buttered roll" );

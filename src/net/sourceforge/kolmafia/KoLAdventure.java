@@ -358,7 +358,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				// advantage of item consumption automatically doing
 				// what's needed in grabbing the item.
 
-				(new ConsumeItemRequest( client, BEAN )).run();
+				DEFAULT_SHELL.executeLine( "council" );
+				DEFAULT_SHELL.executeLine( "use enchanted bean" );
 			}
 
 			request = new KoLRequest( client, "beanstalk.php" );
