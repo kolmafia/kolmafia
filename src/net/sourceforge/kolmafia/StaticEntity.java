@@ -206,21 +206,80 @@ public abstract class StaticEntity implements KoLConstants
 
 		for ( int i = seconds; i > 0 && KoLmafia.permitsContinue(); --i )
 		{
-			actualMessage.setLength( message.length() );
+			boolean shouldDisplay = false;
 
-			if ( i >= 60 )
+			// If it's the first count, then it should definitely be shown
+			// for the countdown.
+
+			if ( i == seconds )
+				shouldDisplay = true;
+
+			// If it's longer than 30 minutes, then only count down once
+			// every 10 minutes.
+
+			else if ( i >= 1800 )
+				shouldDisplay = i % 600 == 0;
+
+			// If it's longer than 10 minutes, then only count down once
+			// every 5 minutes.
+
+			else if ( i >= 600 )
+				shouldDisplay = i % 300 == 0;
+
+			// If it's longer than 5 minutes, then only count down once
+			// every two minutes.
+
+			else if ( i >= 300 )
+				shouldDisplay = i % 120 == 0;
+
+			// If it's longer than one minute, then only count down once
+			// every minute.
+
+			else if ( i >= 60 )
+				shouldDisplay = i % 60 == 0;
+
+			// If it's greater than 15 seconds, then only count down once
+			// every fifteen seconds.
+
+			else if ( i >= 15 )
+				shouldDisplay = i % 15 == 0;
+
+			// If it's greater than 5 seconds, then only count down once
+			// every five seconds.
+
+			else if ( i >= 5 )
+				shouldDisplay = i % 5 == 0;
+
+			// If it's less than five, then it should be updated once every
+			// second.  Joy.
+
+			else
+				shouldDisplay = true;
+
+			// Only display the message if it should be displayed based on
+			// the above checks.
+
+			if ( shouldDisplay )
 			{
-				int minutes = i / 60;
-				actualMessage.append( minutes );
-				actualMessage.append( minutes == 1 ? " minute" : " minutes" );
-				actualMessage.append( ", " );
+				actualMessage.setLength( message.length() );
+
+				if ( i >= 60 )
+				{
+					int minutes = i / 60;
+					actualMessage.append( minutes );
+					actualMessage.append( minutes == 1 ? " minute" : " minutes" );
+					actualMessage.append( ", " );
+				}
+				else
+				{
+					actualMessage.append( i % 60 );
+					actualMessage.append( (i % 60) == 1 ? " second" : " seconds" );
+					actualMessage.append( "..." );
+				}
+
+				KoLmafia.updateDisplay( actualMessage.toString() );
 			}
 
-			actualMessage.append( i % 60 );
-			actualMessage.append( (i % 60) == 1 ? " second" : " seconds" );
-			actualMessage.append( "..." );
-
-			KoLmafia.updateDisplay( actualMessage.toString() );
 			KoLRequest.delay( 1000 );
 		}
 
