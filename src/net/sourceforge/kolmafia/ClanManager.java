@@ -718,8 +718,8 @@ public class ClanManager extends StaticEntity
 		{
 			String handleType = parseAdditions ? STASH_ADD : STASH_TAKE;
 
-			String regex = parseAdditions ? TIME_REGEX + ": ([^<]*?) added ([\\d,]+) (.*?) to the Goodies Hoard" :
-				TIME_REGEX + ": ([^<]*?) took ([\\d,]+) (.*?) from the Goodies Hoard";
+			String regex = parseAdditions ? TIME_REGEX + ": ([^<]*?) added ([\\d,]+) (.*?)\\.<br>" :
+				TIME_REGEX + ": ([^<]*?) took ([\\d,]+) (.*?)\\.<br>";
 
 			String suffixDescription = parseAdditions ? "added to stash" : "taken from stash";
 
@@ -746,7 +746,7 @@ public class ClanManager extends StaticEntity
 					entryList = (List) stashMap.get( currentMember );
 					entryCount = parseInt( entryMatcher.group(3) );
 
-					lastItemID = TradeableItemDatabase.getItemID( entryMatcher.group(4) );
+					lastItemID = TradeableItemDatabase.getItemID( entryMatcher.group(4), entryCount );
 					entryBuffer.append( (new AdventureResult( lastItemID, entryCount )).toString() );
 
 					entryBuffer.append( " " );
