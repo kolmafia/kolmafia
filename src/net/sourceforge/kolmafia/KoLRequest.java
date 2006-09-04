@@ -673,6 +673,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void registerRequest()
 	{
+		if ( LoginRequest.isInstanceRunning() )
+			return;
+
 		String urlString = getURLString();
 
 		isEquipResult = urlString.indexOf( "which=2" ) != -1 && urlString.indexOf( "action=message" ) != -1;
@@ -681,15 +684,17 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( urlString.indexOf( "send" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.indexOf( "search" ) != -1 )
 			return;
 
-		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php " ) == -1 )
+		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php" ) == -1 )
 			return;
 
-		String commandForm = getCommandForm( 0 );
-
-		if ( !commandForm.equals( "" ) )
+		if ( !(this instanceof SewerRequest || this instanceof AdventureRequest || this instanceof CampgroundRequest) )
 		{
-			KoLmafia.getSessionStream().println( commandForm );
-			return;
+			String commandForm = getCommandForm( 0 );
+			if ( !commandForm.equals( "" ) )
+			{
+				KoLmafia.getSessionStream().println( commandForm );
+				return;
+			}
 		}
 
 		if ( urlString.indexOf( "adv=" ) != -1 )
