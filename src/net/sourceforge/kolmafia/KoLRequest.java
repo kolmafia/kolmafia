@@ -36,8 +36,6 @@ package net.sourceforge.kolmafia;
 
 import java.net.URL;
 import java.net.Socket;
-import java.io.File;
-import java.io.FileInputStream;
 import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.net.HttpURLConnection;
@@ -49,7 +47,6 @@ import java.io.InputStream;
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 
@@ -292,6 +289,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			formURLString = formURLString.substring(1);
 
 		constructURLString( formURLString );
+		isConsumeRequest = this instanceof ConsumeItemRequest;
 	}
 
 	protected void constructURLString( String newURLString )
@@ -544,8 +542,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( !isConsumeRequest && !LoginRequest.isInstanceRunning() && StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
-			DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+		if ( KoLmafia.refusesContinue() )
+			return;
 
 		if ( !usingValidConnection )
 		{
@@ -632,6 +630,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		client.setCurrentRequest( this );
 		registerRequest();
 
+		if ( !isConsumeRequest && !(this instanceof SewerRequest) && !LoginRequest.isInstanceRunning() && StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
+			if ( client.isLuckyCharacter() )
+				DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 
@@ -679,7 +681,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		String urlString = getURLString();
 
 		isEquipResult = urlString.indexOf( "which=2" ) != -1 && urlString.indexOf( "action=message" ) != -1;
-		isConsumeRequest = this instanceof ConsumeItemRequest;
 
 		if ( urlString.indexOf( "send" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.indexOf( "search" ) != -1 )
 			return;
