@@ -48,7 +48,10 @@ public class LoginRequest extends KoLRequest
 	private static String lastUsername;
 	private static String lastPassword;
 
-	private static boolean isRollover = false;
+	private static int STANDARD_WAIT = 75;
+	private static int ROLLOVER_WAIT = 1800;
+
+	private static int waitTime = STANDARD_WAIT;
 	private static boolean instanceRunning = false;
 
 	private String username;
@@ -104,20 +107,18 @@ public class LoginRequest extends KoLRequest
 		lastPassword = password;
 
 		KoLRequest.applySettings();
+
 		if ( executeLogin() )
 		{
 			KoLmafia.forceContinue();
 			while ( executeLogin() )
 			{
 				KoLmafia.forceContinue();
-				isRollover |= responseCode != 200 && redirectLocation != null &&
-					redirectLocation.indexOf( "maint.php" ) != -1;
-
-				StaticEntity.executeCountdown( "Next login attempt in ", isRollover ? 3600 : 75 );
+				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
+				waitTime = STANDARD_WAIT;
 			}
 		}
 
-		isRollover = false;
 		instanceRunning = false;
 	}
 
@@ -128,7 +129,7 @@ public class LoginRequest extends KoLRequest
 	public static void executeTimeInRequest( boolean isRollover )
 	{
 		sessionID = null;
-		LoginRequest.isRollover = isRollover;
+		waitTime = isRollover ? ROLLOVER_WAIT : STANDARD_WAIT;
 
 		LoginRequest loginAttempt = new LoginRequest( StaticEntity.getClient(), lastUsername, lastPassword, false, false, true );
 		loginAttempt.run();
@@ -154,7 +155,7 @@ public class LoginRequest extends KoLRequest
 			// Nightly maintenance, so KoLmafia should retry.
 			// Therefore, return true.
 
-			isRollover = true;
+			waitTime = ROLLOVER_WAIT;
 			return true;
 		}
 		else if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
@@ -193,6 +194,15 @@ public class LoginRequest extends KoLRequest
 			// Ooh, logged in too fast.  KoLmafia should recognize this and
 			// try again automatically in 75 seconds.
 
+			waitTime = STANDARD_WAIT;
+			return true;
+		}
+		else if ( responseText.indexOf( "Please wait fifteen minutes" ) != -1 )
+		{
+			// Ooh, logged in too fast.  KoLmafia should recognize this and
+			// try again automatically in 1000 seconds.
+
+			waitTime = 1000;
 			return true;
 		}
 		else if ( responseText.indexOf( "login.php" ) != -1 )
