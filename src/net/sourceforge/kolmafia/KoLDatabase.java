@@ -192,7 +192,7 @@ public class KoLDatabase extends StaticEntity
 
 				if ( searchIndex > -1 )
 				{
-					if ( previousIndex + 1 < searchIndex && Character.isLetterOrDigit( names[i].charAt( searchIndex - 1 ) ) )
+					if ( Character.isLetterOrDigit( substring.charAt(j) ) && previousIndex + 1 < searchIndex && Character.isLetterOrDigit( names[i].charAt( searchIndex - 1 ) ) )
 						searchIndex = -1;
 					else
 						++searchIndex;
