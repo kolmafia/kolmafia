@@ -62,6 +62,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private String zone, adventureID, formSource, adventureName;
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
+	private boolean shouldRunBetweenBattleChecks;
 
 	/**
 	 * Constructs a new <code>KoLAdventure</code> with the given
@@ -84,15 +85,30 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		this.adventureName = adventureName;
 
 		if ( formSource.equals( "sewer.php" ) )
+		{
 			this.request = new SewerRequest( client, false );
+			this.shouldRunBetweenBattleChecks = false;
+		}
 		else if ( formSource.equals( "luckysewer.php" ) )
+		{
 			this.request = new SewerRequest( client, true );
+			this.shouldRunBetweenBattleChecks = false;
+		}
 		else if ( formSource.equals( "campground.php" ) )
+		{
 			this.request = new CampgroundRequest( client, adventureID );
+			this.shouldRunBetweenBattleChecks = false;
+		}
 		else if ( formSource.equals( "clan_gym.php" ) )
+		{
 			this.request = new ClanGymRequest( client, StaticEntity.parseInt( adventureID ) );
+			this.shouldRunBetweenBattleChecks = false;
+		}
 		else
+		{
 			this.request = new AdventureRequest( client, adventureName, formSource, adventureID );
+			this.shouldRunBetweenBattleChecks = !formSource.equals( "shore.php" );
+		}
 
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
 	}
@@ -548,7 +564,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// This prevents other messages from overriding the actual
 		// error message.
 
-		client.runBetweenBattleChecks();
+		if ( shouldRunBetweenBattleChecks )
+			client.runBetweenBattleChecks();
+
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
@@ -624,7 +642,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				request.run();
 		}
 
-		client.runBetweenBattleChecks();
+		if ( shouldRunBetweenBattleChecks )
+			client.runBetweenBattleChecks();
+
 		postValidate();
 	}
 

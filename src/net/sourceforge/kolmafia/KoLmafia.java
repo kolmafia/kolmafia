@@ -1433,13 +1433,8 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		currentIterationString = "";
-		if ( continuationState == PENDING_STATE )
-		{
-			hadPendingState = true;
-			forceContinue();
-		}
 
-		if ( !permitsContinue() )
+		if ( !permitsContinue() && continuationState != PENDING_STATE )
 			return;
 
 		// If you've completed the requests, make sure to update
@@ -1455,6 +1450,12 @@ public abstract class KoLmafia implements KoLConstants
 
 		else if ( !(request instanceof UseSkillRequest || request instanceof LoginRequest || request instanceof LogoutRequest) )
 			updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
+
+		if ( continuationState == PENDING_STATE )
+		{
+			hadPendingState = true;
+			forceContinue();
+		}
 	}
 
 	/**
@@ -2478,33 +2479,30 @@ public abstract class KoLmafia implements KoLConstants
 		if ( recoveryActive || refusesContinue() )
 			return;
 
-		if ( !(getCurrentRequest() instanceof CampgroundRequest) )
-		{
-			recoveryActive = true;
+		recoveryActive = true;
 
-			// First, run the between battle script defined by the
-			// user, which may make it so that none of the built
-			// in behavior needs to run.
+		// First, run the between battle script defined by the
+		// user, which may make it so that none of the built
+		// in behavior needs to run.
 
-			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
+		String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 
-			if ( !scriptPath.equals( "" ) )
-				DEFAULT_SHELL.executeLine( scriptPath );
+		if ( !scriptPath.equals( "" ) )
+			DEFAULT_SHELL.executeLine( scriptPath );
 
-			// Now, run the built-in behavior to take care of
-			// any loose ends.
+		// Now, run the built-in behavior to take care of
+		// any loose ends.
 
-			String hat = KoLCharacter.getEquipment( KoLCharacter.HAT );
+		String hat = KoLCharacter.getEquipment( KoLCharacter.HAT );
 
-			MoodSettings.execute();
-			recoverHP();
-			recoverMP();
+		MoodSettings.execute();
+		recoverHP();
+		recoverMP();
 
-			if ( !KoLCharacter.getEquipment( KoLCharacter.HAT ).equals( hat ) )
-				SpecialOutfit.restoreCheckpoint();
+		if ( !KoLCharacter.getEquipment( KoLCharacter.HAT ).equals( hat ) )
+			SpecialOutfit.restoreCheckpoint();
 
-			recoveryActive = false;
-		}
+		recoveryActive = false;
 
 		if ( permitsContinue() )
 		{
