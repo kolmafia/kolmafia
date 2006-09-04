@@ -508,15 +508,18 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Validate the adventure before running it.
 		// If it's invalid, return and do nothing.
 
-		if ( !meetsGeneralRequirements() )
+		if ( StaticEntity.getBooleanProperty( "areaValidation" ) )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient stats for this location." );
-			return;
-		}
+			if ( !meetsGeneralRequirements() )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient stats for this location." );
+				return;
+			}
 
-		validate( false );
-		if ( !isValidAdventure )
-			return;
+			validate( false );
+			if ( !isValidAdventure )
+				return;
+		}
 
 		if ( getFormSource().equals( "shore.php" ) && KoLCharacter.getAvailableMeat() < 500 )
 		{

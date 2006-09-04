@@ -251,6 +251,7 @@ public class OptionsFrame extends KoLFrame
 			{ "showAllRequests", "Show requests synchronously in mini-browser" },
 			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
 			{ "sortAdventures", "Sort adventure list display by moxie evade rating" },
+			{ "areaValidation", "Enable stat checks before using adventures" },
 			{ "autoSetConditions", "Auto-set conditions field when selecting areas" },
 			{ "allowStasisTactics", "Allow stasis-type commands when using combat familiars" }
 		};
