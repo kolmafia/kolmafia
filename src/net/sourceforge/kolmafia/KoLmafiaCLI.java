@@ -1448,7 +1448,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.startsWith( "restore" ) || command.startsWith( "recover" ) || command.startsWith( "check" ) )
 		{
 			if ( parameters.equals( "" ) )
-				StaticEntity.getClient().runBetweenBattleChecks();
+				StaticEntity.getClient().runBetweenBattleChecks( false );
 			else if ( parameters.equalsIgnoreCase( "hp" ) || parameters.equalsIgnoreCase( "health" ) )
 			{
 				float setting = StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" );

@@ -564,8 +564,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// This prevents other messages from overriding the actual
 		// error message.
 
-		if ( shouldRunBetweenBattleChecks )
-			client.runBetweenBattleChecks();
+		client.runBetweenBattleChecks( !shouldRunBetweenBattleChecks );
 
 		if ( !KoLmafia.permitsContinue() )
 			return;
@@ -642,9 +641,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				request.run();
 		}
 
-		if ( shouldRunBetweenBattleChecks )
-			client.runBetweenBattleChecks();
-
+		client.runBetweenBattleChecks( !shouldRunBetweenBattleChecks );
 		postValidate();
 	}
 

@@ -2471,7 +2471,7 @@ public abstract class KoLmafia implements KoLConstants
 	{	return recoveryActive;
 	}
 
-	public void runBetweenBattleChecks()
+	public void runBetweenBattleChecks( boolean isDisplayUpdateOnly )
 	{
 		// Do not run between battle checks if you are in the middle
 		// of your checks or if you have aborted.
@@ -2479,30 +2479,33 @@ public abstract class KoLmafia implements KoLConstants
 		if ( recoveryActive || refusesContinue() )
 			return;
 
-		recoveryActive = true;
+		if ( !isDisplayUpdateOnly )
+		{
+			recoveryActive = true;
 
-		// First, run the between battle script defined by the
-		// user, which may make it so that none of the built
-		// in behavior needs to run.
+			// First, run the between battle script defined by the
+			// user, which may make it so that none of the built
+			// in behavior needs to run.
 
-		String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
+			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
 
-		if ( !scriptPath.equals( "" ) )
-			DEFAULT_SHELL.executeLine( scriptPath );
+			if ( !scriptPath.equals( "" ) )
+				DEFAULT_SHELL.executeLine( scriptPath );
 
-		// Now, run the built-in behavior to take care of
-		// any loose ends.
+			// Now, run the built-in behavior to take care of
+			// any loose ends.
 
-		String hat = KoLCharacter.getEquipment( KoLCharacter.HAT );
+			String hat = KoLCharacter.getEquipment( KoLCharacter.HAT );
 
-		MoodSettings.execute();
-		recoverHP();
-		recoverMP();
+			MoodSettings.execute();
+			recoverHP();
+			recoverMP();
 
-		if ( !KoLCharacter.getEquipment( KoLCharacter.HAT ).equals( hat ) )
-			SpecialOutfit.restoreCheckpoint();
+			if ( !KoLCharacter.getEquipment( KoLCharacter.HAT ).equals( hat ) )
+				SpecialOutfit.restoreCheckpoint();
 
-		recoveryActive = false;
+			recoveryActive = false;
+		}
 
 		if ( permitsContinue() )
 		{
