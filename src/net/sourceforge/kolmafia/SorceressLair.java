@@ -1063,7 +1063,7 @@ public abstract class SorceressLair extends StaticEntity
 			requiredItemID = fightGuardian( towerLevel );
 			CharpaneRequest.getInstance().run();
 
-			getClient().runBetweenBattleChecks();
+			getClient().runBetweenBattleChecks( false );
 
 			if ( requiredItemID != -1 )
 				return requiredItemID;
