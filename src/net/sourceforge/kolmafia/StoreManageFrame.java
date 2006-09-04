@@ -351,32 +351,42 @@ public class StoreManageFrame extends KoLPanelFrame
 		}
 	}
 
-	private class StoreRemovePanel extends ItemManagePanel implements Runnable
+	private class StoreRemovePanel extends ItemManagePanel
 	{
 		public StoreRemovePanel()
 		{
-			super( "Store's Inventory", "remove selected", "empty out store", StoreManager.getSortedSoldItemList() );
+			super( "Store's Inventory", "remove items", "autosell items", StoreManager.getSortedSoldItemList() );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 
 		public void actionConfirmed()
+		{	removeItems( false );
+		}
+
+		public void actionCancelled()
+		{	removeItems( true );
+		}
+
+		public void removeItems( boolean autoSellAfter )
 		{
 			Object [] items = elementList.getSelectedValues();
-			StoreManageRequest [] requests = new StoreManageRequest[ items.length + 1 ];
+			Runnable [] requests = new Runnable[ autoSellAfter ? items.length + 2 : items.length + 1 ];
 
 			for ( int i = 0; i < items.length; ++i )
 			 	requests[i] = new StoreManageRequest( StaticEntity.getClient(), ((StoreManager.SoldItem)items[i]).getItemID() );
 
 			requests[ items.length ] = new StoreManageRequest( StaticEntity.getClient() );
+
+			if ( autoSellAfter )
+			{
+				AdventureResult [] itemsToSell = new AdventureResult[ items.length ];
+				for ( int i = 0; i < items.length; ++i )
+					itemsToSell[i] = new AdventureResult( ((StoreManager.SoldItem)items[i]).getItemID(), ((StoreManager.SoldItem)items[i]).getQuantity() );
+
+				requests[ items.length + 1 ] = new AutoSellRequest( StaticEntity.getClient(), itemsToSell, AutoSellRequest.AUTOSELL );
+			}
+
 			(new RequestThread( requests )).start();
-		}
-
-		public void actionCancelled()
-		{	(new RequestThread( this )).start();
-		}
-
-		public void run()
-		{	StaticEntity.getClient().removeAllItemsFromStore();
 		}
 	}
 

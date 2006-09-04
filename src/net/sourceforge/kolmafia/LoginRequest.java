@@ -107,11 +107,12 @@ public class LoginRequest extends KoLRequest
 		lastPassword = password;
 
 		KoLRequest.applySettings();
+		KoLmafia.forceContinue();
 
-		if ( executeLogin() )
+		if ( KoLmafia.permitsContinue() && executeLogin() )
 		{
 			KoLmafia.forceContinue();
-			while ( executeLogin() )
+			while ( KoLmafia.permitsContinue() && executeLogin() )
 			{
 				KoLmafia.forceContinue();
 				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
