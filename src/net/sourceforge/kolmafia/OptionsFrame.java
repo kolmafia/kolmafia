@@ -197,12 +197,14 @@ public class OptionsFrame extends KoLFrame
 		{
 			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
 			{ "relayAddsScriptList", "Add quick scripts list to relay browser" },
+
 			{ "relayAddsCommandLineLinks", "Add gCLI tool links to chat launcher" },
 			{ "relayAddsSimulatorLinks", "Add Ayvuir's Simulator of Loathing link" },
+
 			{ "relayAddsPlinking", "Add plinking-friendly button to attack screen" },
 			{ "relayAddsShrugOffLinks", "Add shrug off links to effect duration in side pane" },
+
 			{ "makeBrowserDecisions", "Browser modules automatically make decisions" },
-			{ "cacheRelayImages", "Cache images seen in relay browser for mini browser" },
 			{ "trackLocationChanges", "Adventuring in browser changes selected adventure location" }
 		};
 
@@ -247,13 +249,15 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "allowGenericUse", "Have use be a generic consumption command" },
-			{ "showAllRequests", "Show requests synchronously in mini-browser" },
 			{ "defaultToRelayBrowser", "Browser shortcut button loads relay browser" },
-			{ "sortAdventures", "Sort adventure list display by moxie evade rating" },
+			{ "showAllRequests", "Show requests synchronously in mini-browser" },
+
 			{ "areaValidation", "Enable stat checks before using adventures" },
-			{ "autoSetConditions", "Auto-set conditions field when selecting areas" },
-			{ "allowStasisTactics", "Allow stasis-type commands when using combat familiars" }
+			{ "allowThiefShrugOff", "Allow shrug-off of buffs during mood changes" },
+
+			{ "autoSetConditions", "Autofill conditions field when selecting areas" },
+			{ "allowStasisTactics", "Allow stasis-type commands when using combat familiars" },
+			{ "sortAdventures", "Sort adventure list display by moxie evade rating" }
 		};
 
 		/**
@@ -301,7 +305,9 @@ public class OptionsFrame extends KoLFrame
 
 		private final String [][] options =
 		{
-			{ "autoCheckpoint", "Allow outfit checkpointing during NPC store purchases" },
+			{ "allowGenericUse", "Enable generic item usage in scripted \"use\"" },
+
+			{ "autoCheckpoint", "Enable outfit checkpointing during NPC purchases" },
 			{ "assumeInfiniteNPCItems", "Assume infinite NPC items for item creation" },
 
 			{ "createWithoutBoxServants", "Create without requiring a box servant" },

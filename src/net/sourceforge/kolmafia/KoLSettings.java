@@ -195,6 +195,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
 		CLIENT_SETTINGS.put( "allowStasisTactics", "false" );
+		CLIENT_SETTINGS.put( "allowThiefShrugOff", "true" );
 		CLIENT_SETTINGS.put( "alwaysGetBreakfast", "true" );
 		CLIENT_SETTINGS.put( "areaValidation", "true" );
 		CLIENT_SETTINGS.put( "assumeInfiniteNPCItems", "false" );
@@ -215,7 +216,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "chatStyle", "0" );
 		CLIENT_SETTINGS.put( "chosenTrip", "" );
 		CLIENT_SETTINGS.put( "clanRosterHeader", ClanSnapshotTable.getDefaultHeader() );
-		CLIENT_SETTINGS.put( "cloverProtectActive", "false" );
+		CLIENT_SETTINGS.put( "cloverProtectActive", "true" );
 		CLIENT_SETTINGS.put( "commandLineNamespace", "" );
 		CLIENT_SETTINGS.put( "createWithoutBoxServants", "false" );
 		CLIENT_SETTINGS.put( "defaultDropdown1", "0" );

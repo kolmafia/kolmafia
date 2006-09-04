@@ -113,7 +113,6 @@ public abstract class MoodSettings implements KoLConstants
 			MoodSettings.reset();
 
 		mood = mood == null || mood.trim().equals( "" ) ? "default" : mood.toLowerCase().trim();
-
 		ensureProperty( mood );
 
 		StaticEntity.setProperty( "currentMood", mood );
@@ -357,6 +356,8 @@ public abstract class MoodSettings implements KoLConstants
 		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
 		KoLCharacter.getEffects().toArray( effects );
 
+		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
+
 		ArrayList thiefBuffs = new ArrayList();
 		for ( int i = 0; i < effects.length; ++i )
 		{
@@ -373,25 +374,32 @@ public abstract class MoodSettings implements KoLConstants
 		for ( int i = 0; i < triggers.size(); ++i )
 		{
 			current = (MoodTrigger) triggers.get(i);
-			if ( current.isThiefTrigger() )
+			if ( current.isThiefTrigger() && !thiefBuffs.contains( current.effect ) )
 				thiefSkills.add( current.effect );
 		}
 
 		// If you have too many accordion thief buffs to execute
 		// your triggers, then shrug off your extra buffs.
 
-		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
-		thiefBuffs.removeAll( thiefSkills );
+		boolean allowThiefShrugOff = StaticEntity.getBooleanProperty( "allowThiefShrugOff" ) && availableMoods.size() > 2;
+		boolean shouldExecuteThiefSkills = allowThiefShrugOff || thiefBuffs.size() + thiefSkills.size() <= thiefTriggerLimit;
 
-		for ( int i = 0; i < thiefBuffs.size() && thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit; ++i )
-			if ( !thiefSkills.contains( thiefBuffs.get(i) ) )
-				DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.remove(i--)).getName() );
+		if ( allowThiefShrugOff && thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit )
+		{
+			for ( int i = 0; i < thiefBuffs.size() && thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit; ++i )
+				if ( !thiefSkills.contains( thiefBuffs.get(i) ) )
+					DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.remove(i--)).getName() );
+		}
 
 		// Now that everything is prepared, go ahead and execute
 		// the triggers which have been set.
 
 		for ( int i = 0; i < triggers.size(); ++i )
-			((MoodTrigger)triggers.get(i)).execute();
+		{
+			current = (MoodTrigger) triggers.get(i);
+			if ( !current.isThiefTrigger() || shouldExecuteThiefSkills )
+				current.execute();
+		}
 
 		if ( !hasChangedOutfit )
 			UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
