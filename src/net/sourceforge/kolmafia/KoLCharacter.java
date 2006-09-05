@@ -1415,19 +1415,12 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		List items = new ArrayList();
 
-		// If we are looking for off-hand items, the character is
-		// currently equipped with a one-handed melee weapon, and the
-		// character has the ability to dual-wield weapons, then also
-		// search for one-handed weapons.
+		// If the character is currently equipped with a one-handed
+		// weapon and the character has the ability to dual-wield
+		// weapons, then also allow one-handed weapons in the off-hand.
 
-		boolean dual = ( filterID == ConsumeItemRequest.EQUIP_OFFHAND &&
-			weaponHandedness() == 1 && !rangedWeapon() &&
-			hasSkill( "Float-Fisted Skull Smashing" ) );
-
-		// If the character is currently dual wielding, only melee
-		// weapons are allowed in the main weapon slot
-
-		boolean dualWielding = dualWielding();
+		boolean dual = ( weaponHandedness() == 1 && hasSkill( "Double-Fisted Skull Smashing" ) );
+		boolean ranged = rangedWeapon();
 
 		// If we are looking for familiar items, but we don't
 		// have a familiar, then no familiar items can actually
@@ -1445,11 +1438,14 @@ public abstract class KoLCharacter extends StaticEntity
 			int type = TradeableItemDatabase.getConsumptionType( currentItem );
 
 			// If we want off-hand items and we can dual wield,
-			// allow one-handed melee weapons
+			// allow one-handed weapons of same type
 
-			if ( filterID == ConsumeItemRequest.EQUIP_OFFHAND && dual && type == ConsumeItemRequest.EQUIP_WEAPON )
+			if ( filterID == ConsumeItemRequest.EQUIP_OFFHAND &&
+			     type == ConsumeItemRequest.EQUIP_WEAPON &&
+			     dual )
 			{
-				if ( !EquipmentDatabase.dualWieldable( currentItem ) )
+				if ( EquipmentDatabase.getHands( currentItem ) != 1 ||
+				     EquipmentDatabase.isRanged( currentItem ) != ranged )
 					continue;
 			}
 
@@ -1463,8 +1459,13 @@ public abstract class KoLCharacter extends StaticEntity
 			// Two-handed ranged weapons are also allowed since
 			// they will remove both weapons when equipped
 
-			else if ( filterID == ConsumeItemRequest.EQUIP_WEAPON && dualWielding && EquipmentDatabase.isRanged( currentItem ) && EquipmentDatabase.getHands( currentItem ) == 1 )
-				continue;
+			else if ( filterID == ConsumeItemRequest.EQUIP_WEAPON &&
+				  dual )
+			{
+				if ( EquipmentDatabase.getHands( currentItem ) == 1 &&
+				     EquipmentDatabase.isRanged( currentItem ) != ranged )
+					continue;
+			}
 
 			// If we are equipping familiar items, make sure
 			// current familiar can use this one

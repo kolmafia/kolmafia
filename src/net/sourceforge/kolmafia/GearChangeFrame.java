@@ -338,7 +338,7 @@ public class GearChangeFrame extends KoLFrame
 
 		// We can have weapons if we can dual wield and there is
 		// one-handed weapon in the main hand
-		boolean weapons = EquipmentDatabase.getHands( weapon ) == 1 && KoLCharacter.hasSkill( "Float-Fisted Skull Smashing" );
+		boolean weapons = EquipmentDatabase.getHands( weapon ) == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
 
 		// The type of weapon in the off hand - ranged or melee - must
 		// agree with the weapon in the main hand
