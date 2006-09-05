@@ -35,31 +35,17 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 
-// event listeners
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-
 // containers
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JComponent;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
 
 // other imports
-import java.util.List;
-import java.text.ParseException;
-
 import net.java.dev.spellcast.utilities.PanelList;
 import net.java.dev.spellcast.utilities.PanelListCell;
 import net.java.dev.spellcast.utilities.SortedListModel;
@@ -86,7 +72,7 @@ public class MuseumFrame extends KoLFrame
 
 	public MuseumFrame()
 	{
-		super( "Display Case" );
+		super( "Museum Display" );
 
 		(new RequestThread( new MuseumRequest( StaticEntity.getClient() ) )).start();
 

@@ -58,11 +58,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JScrollPane;
-import javax.swing.UIManager;
 
 // other imports
 import com.sun.java.forums.SpringUtilities;
-import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
@@ -405,10 +403,10 @@ public class LoginFrame extends KoLFrame
 			{ "Gear Changer", "GearChangeFrame" },
 
 			{ "Store Manager", "StoreManageFrame" },
-			{ "Display Case", "MuseumFrame" },
-			{ "Hagnk Storage", "HagnkStorageFrame" },
+			{ "Museum Display", "MuseumFrame" },
+			{ "Hagnk's Storage", "HagnkStorageFrame" },
 
-			{ "Meat Manager", "MeatManageFrame" },
+			{ "Hall of Legends", "MeatManageFrame" },
 			{ "Skill Casting", "SkillBuffFrame" },
 
 			{ "Buffbot Manager", "BuffBotFrame" },
@@ -424,7 +422,7 @@ public class LoginFrame extends KoLFrame
 
 			{ "Clan Management", "ClanManageFrame" },
 			{ "Farmer's Almanac", "CalendarFrame" },
-			{ "Encyclopedia", "ExamineItemsFrame" },
+			{ "Internal Database", "ExamineItemsFrame" },
 
 			{ "Coin Toss Game", "MoneyMakingGameFrame" },
 			{ "Preferences", "OptionsFrame" }

@@ -79,7 +79,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	protected ScriptMenu scriptMenu;
 	protected BookmarkMenu bookmarkMenu;
 
-	protected JMenuItem debugMenuItem = new ToggleDebugMenuItem();
 	protected JMenuItem macroMenuItem = new ToggleMacroMenuItem();
 	protected LockableListModel scripts = new LockableListModel();
 	protected static SortedListModel bookmarks = new SortedListModel( String.class );
@@ -136,10 +135,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		statusMenu.add( new DisplayFrameMenuItem( "Adventure", "AdventureFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Purchases", "MallSearchFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Graphical CLI", "CommandDisplayFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Preferences", "OptionsFrame" ) );
 
 		statusMenu.add( new JSeparator() );
 
-		statusMenu.add( new DisplayFrameMenuItem( "Preferences", "OptionsFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Mini-Browser", "RequestFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Relay Browser", "LocalRelayServer" ) );
 		statusMenu.add( new InvocationMenuItem( "KoL Simulator", StaticEntity.getClient(), "launchSimulator" ) );
@@ -149,12 +148,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		statusMenu.add( new DisplayFrameMenuItem( "Player Status", "CharsheetFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Item Manager", "ItemManageFrame" ) );
 		statusMenu.add( new DisplayFrameMenuItem( "Gear Changer", "GearChangeFrame" ) );
-
-		statusMenu.add( new JSeparator() );
-
-		statusMenu.add( new DisplayFrameMenuItem( "Store Manager", "StoreManageFrame" ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Display Case", "MuseumFrame" ) );
-		statusMenu.add( new DisplayFrameMenuItem( "Hagnk Storage", "HagnkStorageFrame" ) );
+		statusMenu.add( new DisplayFrameMenuItem( "Skill Casting", "SkillBuffFrame" ) );
 
 		// Add specialized tools.
 
@@ -163,21 +157,25 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		toolsMenu.add( new InvocationMenuItem( "Clear Results", StaticEntity.getClient(), "resetSession" ) );
 		toolsMenu.add( new StopEverythingItem() );
-		toolsMenu.add( new InvocationMenuItem( "Refresh All", StaticEntity.getClient(), "refreshSession" ) );
-		toolsMenu.add( new InvocationMenuItem( "Session Time-In", LoginRequest.class, "executeTimeInRequest" ) );
+		toolsMenu.add( new InvocationMenuItem( "Refresh Session", StaticEntity.getClient(), "refreshSession" ) );
 
 		toolsMenu.add( new JSeparator() );
 
-		toolsMenu.add( new DisplayFrameMenuItem( "Skill Casting", "SkillBuffFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Store Manager", "StoreManageFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Museum Display", "MuseumFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", "HagnkStorageFrame" ) );
+
+		toolsMenu.add( new JSeparator() );
+
 		toolsMenu.add( new DisplayFrameMenuItem( "Run a Buffbot", "BuffBotFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Purchase Buffs", "BuffRequestFrame" ) );
 
 		toolsMenu.add( new JSeparator() );
 
+		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", "MushroomFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Flower Hunter", "FlowerHunterFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", "FamiliarTrainingFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Coin Toss Game", "MoneyMakingGameFrame" ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", "MeatManageFrame" ) );
 
 		// Add the old-school people menu.
 
@@ -192,7 +190,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		peopleMenu.add( new JSeparator() );
 
 		peopleMenu.add( new DisplayFrameMenuItem( "Write a KoLmail", "GreenMessageFrame" ) );
-		peopleMenu.add( new DisplayFrameMenuItem( "Send Gift Package", "GiftMessageFrame" ) );
+		peopleMenu.add( new DisplayFrameMenuItem( "Send a Package", "GiftMessageFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Propose a Trade", "ProposeTradeFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "Pending Trades", "PendingTradesFrame" ) );
 
@@ -203,18 +201,19 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", StaticEntity.getClient(), "makeGalaktikRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Mind Control", StaticEntity.getClient(), "makeMindControlRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Pulverize", StaticEntity.getClient(), "makePulverizeRequest" ) );
+
+		travelMenu.add( new JSeparator() );
+
+		travelMenu.add( new DisplayFrameMenuItem( "Hall of Legends", "MeatManageFrame" ) );
+		travelMenu.add( new InvocationMenuItem( "Untinker Items", StaticEntity.getClient(), "makeUntinkerRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Pulverize Items", StaticEntity.getClient(), "makePulverizeRequest" ) );
 
 		travelMenu.add( new JSeparator() );
 
 		travelMenu.add( new InvocationMenuItem( "Loot the Hermit", StaticEntity.getClient(), "makeHermitRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Skin the Trapper", StaticEntity.getClient(), "makeTrapperRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Trading Hunters", StaticEntity.getClient(), "makeHunterRequest" ) );
-
-		travelMenu.add( new JSeparator() );
-
-		travelMenu.add( new InvocationMenuItem( "Untinker Items", StaticEntity.getClient(), "makeUntinkerRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Gourd Trading", StaticEntity.getClient(), "tradeGourdItems" ) );
+		travelMenu.add( new InvocationMenuItem( "Mug the Hunter", StaticEntity.getClient(), "makeHunterRequest" ) );
+		travelMenu.add( new InvocationMenuItem( "Trade for Gourds", StaticEntity.getClient(), "tradeGourdItems" ) );
 
 		// Add in automatic quest completion scripts.
 
@@ -222,7 +221,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		container.add( questsMenu );
 
 		questsMenu.add( new InvocationMenuItem( "Unlock Guild", StaticEntity.getClient(), "unlockGuildStore" ) );
-		questsMenu.add( new InvocationMenuItem( "Tavern Faucet", StaticEntity.getClient(), "locateTavernFaucet" ) );
+		questsMenu.add( new InvocationMenuItem( "Tavern Quest", StaticEntity.getClient(), "locateTavernFaucet" ) );
 
 		questsMenu.add( new JSeparator() );
 
@@ -241,25 +240,20 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		// Add script and bookmark menus, which use the
 		// listener-driven static lists.
 
-		bookmarkMenu = new BookmarkMenu();
-		container.add( bookmarkMenu );
-
-		scriptMenu = new ScriptMenu();
-		container.add( scriptMenu );
-
-		// Add in the toggles menu for whenever the menu bar is
-		// something that appears on top.
-
-		if ( container instanceof JMenuBar )
+		if ( !bookmarks.isEmpty() )
 		{
-			JMenu toggleMenu = new JMenu( "Toggles" );
-			container.add( toggleMenu );
-
-			toggleMenu.add( debugMenuItem );
-			toggleMenu.add( macroMenuItem );
+			bookmarkMenu = new BookmarkMenu();
+			container.add( bookmarkMenu );
 		}
 
-		container.add( new WindowMenu() );
+		if ( !scripts.isEmpty() )
+		{
+			scriptMenu = new ScriptMenu();
+			container.add( scriptMenu );
+		}
+
+		if ( StaticEntity.getBooleanProperty( "showWindowMenu" ) )
+			container.add( new WindowMenu() );
 
 		// Add help information for KoLmafia.  This includes
 		// the additional help-oriented stuffs.
@@ -267,19 +261,18 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		JMenu helperMenu = new JMenu( "Help" );
 		container.add( helperMenu );
 
-		helperMenu.add( new DisplayFrameMenuItem( "Legal Notices", "LicenseDisplay" ) );
+		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", "LicenseDisplay" ) );
+		helperMenu.add( new DisplayPageMenuItem( "Check for Updates", "https://sourceforge.net/project/showfiles.php?group_id=126572" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Donate to KoLmafia", "http://kolmafia.sourceforge.net/credits.html" ) );
 
 		helperMenu.add( new JSeparator() );
 
-		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", "CalendarFrame" ) );
-		helperMenu.add( new DisplayFrameMenuItem( "Mushroom Helper", "MushroomFrame" ) );
-		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", "ExamineItemsFrame" ) );
+		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Alamanac", "CalendarFrame" ) );
+		helperMenu.add( new DisplayFrameMenuItem( "Internal Database", "ExamineItemsFrame" ) );
 
 		helperMenu.add( new JSeparator() );
 
 		helperMenu.add( new DisplayPageMenuItem( "KoLmafia Thread", "http://forums.kingdomofloathing.com/viewtopic.php?t=19779" ) );
-		helperMenu.add( new DisplayPageMenuItem( "Sourceforge Page", "https://sourceforge.net/projects/kolmafia" ) );
 		helperMenu.add( new DisplayPageMenuItem( "End-User Manual", "http://kolmafia.sourceforge.net/manual.html" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Script Repository", "http://kolmafia.us/" ) );
 
@@ -584,37 +577,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		StaticEntity.setProperty( "browserBookmarks", bookmarkData.toString() );
 	}
 
-	private class ToggleDebugMenuItem extends JMenuItem implements ActionListener
-	{
-		public ToggleDebugMenuItem()
-		{
-			super( JComponentUtilities.getImage( "debug.gif" ) );
-			addActionListener( this );
-			setText( KoLmafia.getDebugStream() instanceof NullStream ? "Begin recording debug..." : "Stop recording debug" );
-		}
-
-		public void actionPerformed( ActionEvent e )
-		{
-			if ( KoLmafia.getDebugStream() instanceof NullStream )
-			{
-				KoLmafia.openDebugStream();
-				debugMenuItem.setText( "Stop recording debug" );
-			}
-			else
-			{
-				KoLmafia.closeDebugStream();
-				debugMenuItem.setText( "Begin recording debug..." );
-			}
-		}
-	}
-
 	private class ToggleMacroMenuItem extends JMenuItem implements ActionListener
 	{
 		public ToggleMacroMenuItem()
 		{
-			super( JComponentUtilities.getImage( "command.gif" ) );
 			addActionListener( this );
-			setText( KoLmafia.getMacroStream() instanceof NullStream ? "Begin recording script..." : "Stop recording script" );
+			setText( KoLmafia.getMacroStream() instanceof NullStream ? "Record script" : "Stop record" );
 		}
 
 		public void actionPerformed( ActionEvent e )
@@ -632,12 +600,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 				if ( returnVal == JFileChooser.APPROVE_OPTION )
 					KoLmafia.openMacroStream( filename );
 
-				macroMenuItem.setText( "Stop recording script" );
+				macroMenuItem.setText( "Stop record" );
 			}
 			else
 			{
 				KoLmafia.closeMacroStream();
-				macroMenuItem.setText( "Begin recording script..." );
+				macroMenuItem.setText( "Record script" );
 			}
 		}
 	}
@@ -975,10 +943,11 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[2];
+			JComponent [] headers = new JComponent[3];
 
 			headers[0] = new LoadScriptMenuItem();
-			headers[1] = new InvocationMenuItem( "Refresh menu", KoLMenuBar.this, "compileScripts" );
+			headers[1] = macroMenuItem;
+			headers[2] = new InvocationMenuItem( "Refresh menu", KoLMenuBar.this, "compileScripts" );
 
 			return headers;
 		}
