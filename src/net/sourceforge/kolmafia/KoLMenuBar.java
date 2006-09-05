@@ -175,12 +175,9 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		toolsMenu.add( new JSeparator() );
 
 		toolsMenu.add( new DisplayFrameMenuItem( "Flower Hunter", "FlowerHunterFrame" ) );
-		toolsMenu.add( new DisplayFrameMenuItem( "Mushroom Plot", "MushroomFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Familiar Trainer", "FamiliarTrainingFrame" ) );
-
-		toolsMenu.add( new JSeparator() );
-		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", "MeatManageFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Coin Toss Game", "MoneyMakingGameFrame" ) );
+		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", "MeatManageFrame" ) );
 
 		// Add the old-school people menu.
 
@@ -270,9 +267,13 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		JMenu helperMenu = new JMenu( "Help" );
 		container.add( helperMenu );
 
-		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", "LicenseDisplay" ) );
+		helperMenu.add( new DisplayFrameMenuItem( "Legal Notices", "LicenseDisplay" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Donate to KoLmafia", "http://kolmafia.sourceforge.net/credits.html" ) );
+
+		helperMenu.add( new JSeparator() );
+
 		helperMenu.add( new DisplayFrameMenuItem( "Farmer's Almanac", "CalendarFrame" ) );
+		helperMenu.add( new DisplayFrameMenuItem( "Mushroom Helper", "MushroomFrame" ) );
 		helperMenu.add( new DisplayFrameMenuItem( "KoL Encyclopedia", "ExamineItemsFrame" ) );
 
 		helperMenu.add( new JSeparator() );

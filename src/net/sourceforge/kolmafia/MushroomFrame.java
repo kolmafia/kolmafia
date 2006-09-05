@@ -61,7 +61,7 @@ public class MushroomFrame extends KoLFrame
 
 	public MushroomFrame()
 	{
-		super( "Mushroom Plot" );
+		super( "Mushroom Helper" );
 
 		headers = new JLabel[MAX_FORECAST];
 		planningData = new String[MAX_FORECAST][16];
@@ -98,22 +98,27 @@ public class MushroomFrame extends KoLFrame
 		// viewing purposes.  To be replaced with real functionality
 		// at a later date.
 
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.add( new InvocationButton( "Save Layouts", this, "saveLayouts" ) );
+		JPanel buttonPanel = new JPanel( new GridLayout( 2, 1, 12, 12 ) );
 
-		JPanel completePanel = new JPanel( new BorderLayout( 20, 20 ) );
-		completePanel.add( centerPanel, BorderLayout.CENTER );
-		completePanel.add( buttonPanel, BorderLayout.SOUTH );
+		// Now add the various action buttons.
+
+		buttonPanel.add( new InvocationButton( "Load Layout", this, "loadLayout" ) );
+		buttonPanel.add( new InvocationButton( "Save Layout", this, "saveLayout" ) );
+		centerPanel.add( buttonPanel );
 
 		framePanel.setLayout( new CardLayout( 40, 40 ) );
-		framePanel.add( completePanel, "" );
+		framePanel.add( centerPanel, "" );
 
 		updateForecasts( 1 );
 		setResizable( false );
 	}
 
-	public void saveLayouts()
-	{	MushroomPlot.saveLayouts( originalData, planningData );
+	public void loadLayout()
+	{
+	}
+
+	public void saveLayout()
+	{	MushroomPlot.saveLayout( "mushroom", originalData, planningData );
 	}
 
 	public void updateForecasts( int startDay )
