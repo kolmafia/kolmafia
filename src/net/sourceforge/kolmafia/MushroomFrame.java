@@ -155,11 +155,13 @@ public class MushroomFrame extends KoLFrame
 	private class MushroomButton extends JButton implements ActionListener
 	{
 		private int dayIndex;
+		private int loopIndex;
 		private int squareIndex;
 
 		public MushroomButton( int dayIndex, int squareIndex )
 		{
 			this.dayIndex = dayIndex;
+			this.loopIndex = 4;
 			this.squareIndex = squareIndex;
 
 			JComponentUtilities.setComponentSize( this, 30, 30 );
@@ -171,7 +173,7 @@ public class MushroomFrame extends KoLFrame
 
 		public void actionPerformed( ActionEvent e )
 		{
-			planningData[ dayIndex ][ squareIndex ] = toggleMushroom( planningData[ dayIndex ][ squareIndex ] );
+			planningData[ dayIndex ][ squareIndex ] = toggleMushroom();
 			updateForecasts( dayIndex + 1 );
 		}
 
@@ -187,25 +189,36 @@ public class MushroomFrame extends KoLFrame
 				setIcon( JComponentUtilities.getImage( MushroomPlot.getMushroomImage( currentMushroom ) ) );
 		}
 
-		private String toggleMushroom( String currentMushroom )
+		private String toggleMushroom()
 		{
 			// Everything rotates based on what was there
 			// when you clicked on the image.
 
-			if ( currentMushroom.equals( "__" ) )
-				return "kb";
+			loopIndex = (loopIndex + 1) % 5;
 
-			if ( currentMushroom.equals( "kb" ) )
-				return "kn";
+			switch ( loopIndex )
+			{
+				// If you loop around, then test to see if the
+				// old data was a blank.  If it was, then you
+				// have already displayed it, so move on to the
+				// next element in the cycle.  If not, return a
+				// blank, as that's the next element in the cycle.
 
-			if ( currentMushroom.equals( "kn" ) )
-				return "sp";
+				case 0:
 
-			if ( currentMushroom.equals( "sp" ) )
-				return originalData[ dayIndex ][ squareIndex ];
+					if ( originalData[ dayIndex ][ squareIndex ].equals( "__" ) )
+						loopIndex = 1;
+					else
+						return "__";
 
-			// Third generation mushrooms transform into dirt
-			// because all you can do is pick them.
+				// In all other cases, return the next element
+				// in the mushroom toggle cycle.
+
+				case 1:  return "kb";
+				case 2:  return "kn";
+				case 3:  return "sp";
+				case 4:  return originalData[ dayIndex ][ squareIndex ];
+			}
 
 			return "__";
 		}
