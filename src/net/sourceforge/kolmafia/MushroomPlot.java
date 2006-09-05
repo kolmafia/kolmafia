@@ -34,12 +34,15 @@
 
 package net.sourceforge.kolmafia;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public abstract class MushroomPlot extends StaticEntity
 {
+	public static final File PLOT_DIRECTORY = new File( "plots" );
+
 	// The player's mushroom plot
 	//
 	//  1  2  3  4
@@ -614,11 +617,14 @@ public abstract class MushroomPlot extends StaticEntity
 		LogStream htmlLayout = null;
 		LogStream plotScript = null;
 
+		if ( !PLOT_DIRECTORY.exists() )
+			PLOT_DIRECTORY.mkdirs();
+
 		try
 		{
-			textLayout = new LogStream( "plots/" + filename + ".txt" );
-			htmlLayout = new LogStream( "plots/" + filename + ".htm" );
-			plotScript = new LogStream( "plots/" + filename + ".ash" );
+			textLayout = new LogStream( PLOT_DIRECTORY + "/" + filename + ".txt" );
+			htmlLayout = new LogStream( PLOT_DIRECTORY + "/" + filename + ".htm" );
+			plotScript = new LogStream( PLOT_DIRECTORY + "/" + filename + ".ash" );
 		}
 		catch ( Exception e )
 		{
