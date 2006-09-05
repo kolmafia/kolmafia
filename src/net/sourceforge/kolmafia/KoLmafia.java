@@ -1833,7 +1833,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( !f.exists() )
 				f.createNewFile();
 
-			debugStream = new LogStream( f );
+			debugStream = new LogStream( f, true );
 		}
 		catch ( IOException e )
 		{
@@ -1881,7 +1881,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( !f.exists() )
 				f.createNewFile();
 
-			sessionStream = new LogStream( f );
+			sessionStream = new LogStream( f, true );
 		}
 		catch ( IOException e )
 		{
@@ -2471,7 +2471,7 @@ public abstract class KoLmafia implements KoLConstants
 	{	return recoveryActive;
 	}
 
-	public void runBetweenBattleChecks( boolean isDisplayUpdateOnly )
+	public void runBetweenBattleChecks( boolean avoidBuffs )
 	{
 		// Do not run between battle checks if you are in the middle
 		// of your checks or if you have aborted.
@@ -2479,33 +2479,33 @@ public abstract class KoLmafia implements KoLConstants
 		if ( recoveryActive || refusesContinue() )
 			return;
 
-		if ( !isDisplayUpdateOnly )
+		recoveryActive = true;
+
+		// First, run the between battle script defined by the
+		// user, which may make it so that none of the built
+		// in behavior needs to run.
+
+		String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
+
+		if ( !scriptPath.equals( "" ) )
+			DEFAULT_SHELL.executeLine( scriptPath );
+
+		if ( !avoidBuffs )
 		{
-			recoveryActive = true;
-
-			// First, run the between battle script defined by the
-			// user, which may make it so that none of the built
-			// in behavior needs to run.
-
-			String scriptPath = StaticEntity.getProperty( "betweenBattleScript" );
-
-			if ( !scriptPath.equals( "" ) )
-				DEFAULT_SHELL.executeLine( scriptPath );
-
 			// Now, run the built-in behavior to take care of
 			// any loose ends.
 
 			String hat = KoLCharacter.getEquipment( KoLCharacter.HAT );
-
 			MoodSettings.execute();
+
 			recoverHP();
 			recoverMP();
 
 			if ( !KoLCharacter.getEquipment( KoLCharacter.HAT ).equals( hat ) )
 				SpecialOutfit.restoreCheckpoint();
-
-			recoveryActive = false;
 		}
+
+		recoveryActive = false;
 
 		if ( permitsContinue() )
 		{

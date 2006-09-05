@@ -71,10 +71,15 @@ public class LogStream extends PrintStream implements KoLConstants
 	 */
 
 	public LogStream( File file ) throws IOException
-	{
-		this( new FileOutputStream( file, file.getName().endsWith( "log" ) || file.getName().endsWith( ".txt" ) ) );
+	{	this( file, false );
+	}
 
-		if ( file.getName().endsWith( "log" ) || file.getParent().indexOf( "sessions" ) != -1 )
+
+	public LogStream( File file, boolean append ) throws IOException
+	{
+		this( new FileOutputStream( file, append ) );
+
+		if ( file.getName().endsWith( "log" ) || file.getParent() != null && file.getParent().indexOf( "sessions" ) != -1 )
 		{
 			println();
 			println();
