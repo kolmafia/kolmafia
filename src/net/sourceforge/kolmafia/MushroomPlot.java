@@ -35,7 +35,6 @@
 package net.sourceforge.kolmafia;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -432,6 +431,12 @@ public abstract class MushroomPlot extends StaticEntity
 		return true;
 	}
 
+	public static void clearField()
+	{
+		for ( int i = 1; i <= 16; ++i )
+			pickMushroom( i, true );
+	}
+
 	/**
 	 * Picks all the mushrooms in all squares.  This is equivalent
 	 * to harvesting your mushroom crop, hence the name.
@@ -471,15 +476,15 @@ public abstract class MushroomPlot extends StaticEntity
 		int row = (square - 1) / 4;
 		int col = (square - 1) % 4;
 
-		if ( !actualPlot[ row ][ col ].equals( "__" ) )
+		boolean shouldPick = !actualPlot[ row ][ col ].equals( "__" );
+		shouldPick &= !actualPlot[ row ][ col ].equals( actualPlot[ row ][ col ].toLowerCase() ) || pickSpores;
+
+		if ( shouldPick )
 		{
-			if ( (!actualPlot[ row ][ col ].equals( ".." ) && !actualPlot[ row ][ col ].equals( actualPlot[ row ][ col ].toLowerCase() )) || pickSpores )
-			{
-				MushroomPlotRequest request = new MushroomPlotRequest( square );
-				KoLmafia.updateDisplay( "Picking square " + square + "..." );
-				request.run();
-				KoLmafia.updateDisplay( "Square picked." );
-			}
+			MushroomPlotRequest request = new MushroomPlotRequest( square );
+			KoLmafia.updateDisplay( "Picking square " + square + "..." );
+			request.run();
+			KoLmafia.updateDisplay( "Square picked." );
 		}
 
 		return KoLmafia.permitsContinue();
@@ -603,7 +608,7 @@ public abstract class MushroomPlot extends StaticEntity
 		return EMPTY;
 	}
 
-	public static void saveLayouts( String [][] originalData, String [][] planningData )
+	public static void saveLayout( String filename, String [][] originalData, String [][] planningData )
 	{
 		LogStream textLayout = null;
 		LogStream htmlLayout = null;
@@ -611,9 +616,9 @@ public abstract class MushroomPlot extends StaticEntity
 
 		try
 		{
-			textLayout = new LogStream( "mushroom.txt" );
-			htmlLayout = new LogStream( "mushroom.htm" );
-			plotScript = new LogStream( "scripts/mushroom.ash" );
+			textLayout = new LogStream( "plots/" + filename + ".txt" );
+			htmlLayout = new LogStream( "plots/" + filename + ".htm" );
+			plotScript = new LogStream( "plots/" + filename + ".ash" );
 		}
 		catch ( Exception e )
 		{
