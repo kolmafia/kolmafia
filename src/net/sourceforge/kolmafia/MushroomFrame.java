@@ -61,7 +61,7 @@ public class MushroomFrame extends KoLFrame
 
 	public MushroomFrame()
 	{
-		super( "Mushroom Helper" );
+		super( "Mushroom Plot" );
 
 		headers = new JLabel[MAX_FORECAST];
 		planningData = new String[MAX_FORECAST][16];

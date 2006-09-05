@@ -68,6 +68,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	private File settingsFile;
 	private String noExtensionName;
 
+
 	/**
 	 * Constructs a settings file for a character with the specified name.
 	 * Note that in the data file created, all spaces in the character name
@@ -256,6 +257,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "showAllRequests", "false" );
 		CLIENT_SETTINGS.put( "showClosetIngredients", "true" );
 		CLIENT_SETTINGS.put( "showStashIngredients", "false" );
+		CLIENT_SETTINGS.put( "showWindowMenu", "false" );
 		CLIENT_SETTINGS.put( "sortAdventures", "false" );
 		CLIENT_SETTINGS.put( "toolbarPosition", "1" );
 		CLIENT_SETTINGS.put( "trackLocationChanges", "false" );

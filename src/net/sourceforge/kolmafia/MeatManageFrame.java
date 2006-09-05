@@ -41,7 +41,6 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
 
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -55,19 +54,19 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MeatManageFrame extends KoLFrame
 {
-	private MeatStoragePanel meatStorage;
 	private HeroDonationPanel heroDonation;
+	private MeatStoragePanel meatStorage;
 
 	public MeatManageFrame()
 	{
 		super( "Meat Manager" );
 
-		meatStorage = new MeatStoragePanel();
 		heroDonation = new HeroDonationPanel();
+		meatStorage = new MeatStoragePanel();
 
 		JPanel container = new JPanel( new GridLayout( 2, 1 ) );
-		container.add( meatStorage );
 		container.add( heroDonation );
+		container.add( meatStorage );
 
 		framePanel.setLayout( new CardLayout( 10, 10 ) );
 		framePanel.add( container, "" );

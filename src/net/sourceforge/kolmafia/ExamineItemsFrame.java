@@ -35,23 +35,15 @@
 package net.sourceforge.kolmafia;
 
 // layout
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.CardLayout;
-import java.awt.BorderLayout;
 import javax.swing.DefaultListCellRenderer;
 
 // events
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 
 // containers
-import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JLabel;
 import java.awt.Component;
 import javax.swing.JList;
@@ -59,10 +51,8 @@ import javax.swing.JTabbedPane;
 
 // utilities
 import java.util.Map;
-import java.util.Collections;
 import java.util.Comparator;
 import net.java.dev.spellcast.utilities.LockableListModel;
-import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * A Frame to examine item descriptions
@@ -80,7 +70,7 @@ public class ExamineItemsFrame extends KoLFrame
 
 	public ExamineItemsFrame()
 	{
-		super( "Encyclopedia" );
+		super( "Internal Database" );
 		tabs = new JTabbedPane();
 
 		items = new ExamineItemsPanel( allItems );

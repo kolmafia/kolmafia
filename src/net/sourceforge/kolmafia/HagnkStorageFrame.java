@@ -60,7 +60,7 @@ public class HagnkStorageFrame extends KoLFrame
 
 	public HagnkStorageFrame()
 	{
-		super( "Hagnk Storage" );
+		super( "Hagnk's Storage" );
 		setPullsRemaining( pullsRemaining );
 
 		// Finally, add the actual content to the
