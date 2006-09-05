@@ -51,8 +51,9 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class MushroomFrame extends KoLFrame
 {
-	private static final int MAX_FORECAST = 11;
+	public static final int MAX_FORECAST = 11;
 
+	private final JLabel [] headers;
 	private final String [][] planningData;
 	private final String [][] originalData;
 
@@ -62,6 +63,7 @@ public class MushroomFrame extends KoLFrame
 	{
 		super( "Mushroom Plot" );
 
+		headers = new JLabel[MAX_FORECAST];
 		planningData = new String[MAX_FORECAST][16];
 		originalData = new String[MAX_FORECAST][16];
 
@@ -89,7 +91,7 @@ public class MushroomFrame extends KoLFrame
 				}
 			}
 
-			centerPanel.add( constructPanel( "Day " + (i+1), currentPlot ) );
+			centerPanel.add( constructPanel( i, currentPlot ) );
 		}
 
 		// Dummy buttons for the mushroom plot (just for layout
@@ -97,16 +99,21 @@ public class MushroomFrame extends KoLFrame
 		// at a later date.
 
 		JPanel buttonPanel = new JPanel();
-		centerPanel.add( buttonPanel );
+		buttonPanel.add( new InvocationButton( "Save Layouts", this, "saveLayouts" ) );
 
 		JPanel completePanel = new JPanel( new BorderLayout( 20, 20 ) );
 		completePanel.add( centerPanel, BorderLayout.CENTER );
+		completePanel.add( buttonPanel, BorderLayout.SOUTH );
 
 		framePanel.setLayout( new CardLayout( 40, 40 ) );
 		framePanel.add( completePanel, "" );
 
 		updateForecasts( 1 );
 		setResizable( false );
+	}
+
+	public void saveLayouts()
+	{	MushroomPlot.saveLayouts( originalData, planningData );
 	}
 
 	public void updateForecasts( int startDay )
@@ -132,11 +139,14 @@ public class MushroomFrame extends KoLFrame
 					planningButtons[i][j][k].updateImage();
 	}
 
-	public JPanel constructPanel( String label, Component c )
+	public JPanel constructPanel( int dayIndex, Component c )
 	{
 		JPanel panel = new JPanel( new BorderLayout() );
 		panel.setBorder( BorderFactory.createLineBorder( Color.black, 1 ) );
-		panel.add( new JLabel( label, JLabel.CENTER ), BorderLayout.NORTH );
+
+		headers[dayIndex] = new JLabel( "Day " + (dayIndex + 1), JLabel.CENTER );
+
+		panel.add( headers[dayIndex], BorderLayout.NORTH );
 		panel.add( c, BorderLayout.CENTER );
 
 		return panel;

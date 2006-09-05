@@ -842,7 +842,7 @@ public class KoLmafiaCLI extends KoLmafia
 						outputFile.createNewFile();
 					}
 
-					mirrorStream = new LogStream( outputFile );
+					mirrorStream = new LogStream( outputFile, true );
 				}
 				catch ( IOException e )
 				{

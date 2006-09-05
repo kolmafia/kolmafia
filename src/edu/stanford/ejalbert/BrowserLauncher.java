@@ -529,7 +529,7 @@ public class BrowserLauncher {
 				String executable = "";
 				String parameters = "";
 
-				if ( url.indexOf( ".txt" ) != -1 || url.indexOf( ".log" ) != -1 )
+				if ( url.indexOf( ".txt" ) != -1 || url.indexOf( ".log" ) != -1 || url.indexOf( ".ash" ) != -1 )
 				{
 					usingIE = false;
 					parameters = "";

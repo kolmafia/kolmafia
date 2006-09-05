@@ -34,6 +34,8 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -276,10 +278,10 @@ public abstract class MushroomPlot extends StaticEntity
 		// of the mushroom plot.  Shorthand and hypertext are
 		// the only two versions at the moment.
 
-		StringBuffer buffer = new StringBuffer();
+		StringBuffer plotBuffer = new StringBuffer();
 
 		if ( !isDataOnly )
-			buffer.append( LINE_BREAK );
+			plotBuffer.append( LINE_BREAK );
 
 		for ( int row = 0; row < 4; ++row )
 		{
@@ -293,30 +295,30 @@ public abstract class MushroomPlot extends StaticEntity
 				// the cell can be printed.
 
 				if ( !isDataOnly )
-					buffer.append( "  " );
+					plotBuffer.append( "  " );
 
 				String square = plot[ row ][ col ];
 
 				// Mushroom images are used in hypertext documents, while
 				// shorthand notation is used in non-hypertext documents.
 
-				buffer.append( square == null ? "__" : square );
+				plotBuffer.append( square == null ? "__" : square );
 
 				// Hypertext documents need to have their cells closed before
 				// another cell can be printed.
 
 				if ( isDataOnly )
-					buffer.append( ";" );
+					plotBuffer.append( ";" );
 			}
 
 			if ( !isDataOnly )
-				buffer.append( LINE_BREAK );
+				plotBuffer.append( LINE_BREAK );
 		}
 
 		// Now that the appropriate string has been constructed,
 		// return it to the calling method.
 
-		return buffer.toString();
+		return plotBuffer.toString();
 	}
 
 	/**
@@ -326,10 +328,10 @@ public abstract class MushroomPlot extends StaticEntity
 
 	public static String getMushroomImage( String mushroomType )
 	{
-		for ( int i = 0; i < MUSHROOMS.length; ++i )
+		for ( int i = 1; i < MUSHROOMS.length; ++i )
 		{
 			if ( mushroomType.equals( MUSHROOMS[i][2] ) )
-				return (String) MUSHROOMS[i][2];
+				return "itemimages/mushsprout.gif";
 			if ( mushroomType.equals( MUSHROOMS[i][3] ) )
 				return "itemimages/" + MUSHROOMS[i][1];
 		}
@@ -599,5 +601,235 @@ public abstract class MushroomPlot extends StaticEntity
 		}
 
 		return EMPTY;
+	}
+
+	public static void saveLayouts( String [][] originalData, String [][] planningData )
+	{
+		LogStream textLayout = null;
+		LogStream htmlLayout = null;
+		LogStream plotScript = null;
+
+		try
+		{
+			textLayout = new LogStream( "mushroom.txt" );
+			htmlLayout = new LogStream( "mushroom.htm" );
+			plotScript = new LogStream( "scripts/mushroom.ash" );
+		}
+		catch ( Exception e )
+		{
+			printStackTrace( e );
+			return;
+		}
+
+		// The HTML file needs a little bit of header information
+		// to make it proper HTML.
+
+		htmlLayout.println( "<html><body>" );
+
+		// Now that we know that data files can be written okay,
+		// begin writing layout data.
+
+		ArrayList days = new ArrayList();
+		boolean isTodayEmpty = false;
+
+		for ( int i = 0; i < MushroomFrame.MAX_FORECAST && !isTodayEmpty; ++i )
+		{
+			textLayout.println();
+			textLayout.println( "Day " + (i+1) + ":" );
+			textLayout.println();
+			textLayout.println( "Pick                Plant" );
+
+			htmlLayout.println( "<table border=0 cellpadding=0 cellspacing=0>" );
+			htmlLayout.println( "<tr><td colspan=9><b>Day " + (i+1) + ":" + "</b></td></tr>" );
+			htmlLayout.println( "<tr><td colspan=4>Pick</td><td width=50>&nbsp;</td><td colspan=4>Plant</td></tr>" );
+
+			// Compile all the commands which are needed for the
+			// planting script.
+
+			isTodayEmpty = true;
+			ArrayList commands = new ArrayList();
+
+			StringBuffer pickText = new StringBuffer();
+			StringBuffer pickHtml = new StringBuffer();
+			StringBuffer plantText = new StringBuffer();
+			StringBuffer plantHtml = new StringBuffer();
+
+			for ( int j = 0; j < 16; ++j )
+			{
+				if ( i == 0 )
+					commands.add( "pick " + (j+1) );
+
+				// If you've reached the end of a row, then you
+				// will need to add line breaks.
+
+				if ( j > 0 && j % 4 == 0 )
+				{
+					textLayout.print( pickText.toString() );
+					textLayout.print( "     " );
+					textLayout.println( plantText.toString() );
+
+					pickText.setLength( 0 );
+					plantText.setLength( 0 );
+
+					htmlLayout.println( "<tr>" );
+					htmlLayout.print( "\t" );  htmlLayout.println( pickHtml.toString() );
+					htmlLayout.print( "<td>&nbsp;</td>" );
+					htmlLayout.print( "\t" );  htmlLayout.println( plantHtml.toString() );
+					htmlLayout.print( "<td>&nbsp;</td>" );
+					htmlLayout.println( "</tr>" );
+
+					pickHtml.setLength( 0 );
+					plantHtml.setLength( 0 );
+				}
+
+				// If the data in the original is different from
+				// the planned, then script commands are needed.
+				// Also, the HTML and textual layouts will be a
+				// bit different pending on what happened.
+
+				boolean pickRequired = !originalData[i][j].equals( "__" ) &&
+					!originalData[i][j].equalsIgnoreCase( planningData[i][j] );
+
+				if ( pickRequired )
+				{
+					pickText.append( " ***" );
+					pickHtml.append( "<td style=\"border: 1px dashed blue\"><img src=\"http://images.kingdomofloathing.com/" );
+					pickHtml.append( getMushroomImage( originalData[i][j] ) );
+					pickHtml.append( "\"></td>" );
+
+					// Now, test to see if you planted something in its
+					// place.  This will loop forever.
+				}
+				else
+				{
+					pickText.append( " " + originalData[i][j] + " " );
+					pickHtml.append( "<td><img src=\"http://images.kingdomofloathing.com/" );
+					pickHtml.append( getMushroomImage( originalData[i][j] ) );
+					pickHtml.append( "\"></td>" );
+				}
+
+				// Spore additions are a little trickier than looking
+				// just at the difference.  Only certain spores can be
+				// planted, and only certain
+
+				boolean addedSpore = !originalData[i][j].equals( planningData[i][j] );
+
+				if ( addedSpore )
+				{
+					addedSpore = false;
+
+					if ( planningData[i][j].equals( "kb" ) )
+					{
+						commands.add( "plant " + (j+1) + " knob" );
+						addedSpore = true;
+					}
+					else if ( planningData[i][j].equals( "kn" ) )
+					{
+						commands.add( "plant " + (j+1) + " knoll" );
+						addedSpore = true;
+					}
+					else if ( planningData[i][j].equals( "sp" ) )
+					{
+						commands.add( "plant " + (j+1) + " spooky" );
+						addedSpore = true;
+					}
+				}
+
+				// Now that you know for sure whether or not a spore
+				// was added or a breeding result, update the text.
+
+				plantText.append( " " + planningData[i][j] );
+
+				if ( addedSpore )
+				{
+					plantText.append( "*" );
+					plantHtml.append( "<td style=\"border: 1px dashed red\"><img src=\"http://images.kingdomofloathing.com/" );
+					plantHtml.append( getMushroomImage( planningData[i][j].toUpperCase() ) );
+					plantHtml.append( "\"></td>" );
+				}
+				else
+				{
+					plantText.append( " " );
+					plantHtml.append( "<td><img src=\"http://images.kingdomofloathing.com/" );
+					plantHtml.append( getMushroomImage( planningData[i][j] ) );
+					plantHtml.append( "\"></td>" );
+				}
+
+				isTodayEmpty &= planningData[i][j].equals( "__" );
+			}
+
+			// Print any needed trailing whitespace into the layouts
+			// and add the list of commands to be processed later.
+
+			textLayout.println();
+			htmlLayout.println( "</table><br /><br />" );
+
+			if ( !isTodayEmpty )
+				days.add( commands );
+		}
+
+		// All data has been printed.  Add the closing tags to the
+		// HTML version and then close the streams.
+
+		try
+		{
+			textLayout.close();
+			htmlLayout.println( "</body></html>" );
+			htmlLayout.close();
+		}
+		catch ( Exception e )
+		{
+			printStackTrace( e );
+			return;
+		}
+
+		// Now that all of the commands have been compiled, generate
+		// the ASH script which will do the layout.
+
+		try
+		{
+			plotScript.println( "int main()" );
+			plotScript.println( "{" );
+			plotScript.println( "    if ( get_property( \"lastPlantingDate\" ) == today_to_string() )" );
+			plotScript.println( "        return 0;" );
+			plotScript.println();
+			plotScript.println( "    set_property( \"lastPlantingDate\", today_to_string() );" );
+			plotScript.println( "    int index = (string_to_int( get_property( \"lastPlantingDay\" ) ) + 1) % " + days.size() + ";" );
+			plotScript.println( "    set_property( \"lastPlantingDay\", index );" );
+
+			for ( int i = 0; i < days.size(); ++i )
+			{
+				ArrayList commands = (ArrayList) days.get(i);
+
+				if ( !commands.isEmpty() )
+				{
+					plotScript.println();
+					plotScript.println( "    if ( index == " + i + " )" );
+					plotScript.print( "        cli_execute( \"" );
+
+					for ( int j = 0; j < commands.size(); ++j )
+					{
+						if ( j != 0 )  plotScript.print( ";" );
+						plotScript.print( commands.get(j) );
+					}
+				}
+
+				plotScript.println( "\" );" );
+			}
+
+			plotScript.println( "}" );
+			plotScript.close();
+		}
+		catch ( Exception e )
+		{
+			printStackTrace( e );
+			return;
+		}
+
+		// Now that everything has been generated, open the HTML
+		// inside of a browser.
+
+		StaticEntity.openSystemBrowser( "mushroom.htm" );
+
 	}
 }
