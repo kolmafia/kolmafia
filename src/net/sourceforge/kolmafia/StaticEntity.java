@@ -277,9 +277,9 @@ public abstract class StaticEntity implements KoLConstants
 				{
 					actualMessage.append( i % 60 );
 					actualMessage.append( (i % 60) == 1 ? " second" : " seconds" );
-					actualMessage.append( "..." );
 				}
 
+				actualMessage.append( "..." );
 				KoLmafia.updateDisplay( actualMessage.toString() );
 			}
 
