@@ -199,6 +199,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( isValidAdventure )
 			return;
 
+		if ( getRequest().getURLString().indexOf( "adventure.php" ) == -1 )
+		{
+			isValidAdventure = true;
+			return;
+		}
+
 		if ( adventureName.indexOf( "In Disguise" ) != -1 || adventureName.indexOf( "Cloaca Uniform" ) != -1 || adventureName.indexOf( "Dyspepsi Uniform" ) != -1 )
 		{
 			int outfitID = EquipmentDatabase.getOutfitID( this );
