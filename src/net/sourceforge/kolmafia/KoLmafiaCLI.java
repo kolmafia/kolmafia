@@ -2492,6 +2492,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 	private void executeEquipCommand( String parameters )
 	{
+		parameters = parameters.toLowerCase();
+
 		if ( parameters.length() == 0 )
 		{
 			executePrintCommand( "equipment" );
@@ -2530,8 +2532,8 @@ public class KoLmafiaCLI extends KoLmafia
 			// If it's already equipped anywhere, give up
 			for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 			{
-				String name = KoLCharacter.getCurrentEquipmentName( i );
-				if ( name != null && name.toLowerCase().indexOf( parameters ) != -1 )
+				AdventureResult item = KoLCharacter.getEquipment( i );
+				if ( item != null && item.getName().toLowerCase().indexOf( parameters ) != -1 )
 					return;
 			}
 
@@ -2548,7 +2550,7 @@ public class KoLmafiaCLI extends KoLmafia
 		else
 		{
 			// See if desired item is already in selected slot
-			if ( KoLCharacter.getEquipment( slot ).indexOf( match.getName().toLowerCase() ) != -1 )
+			if ( KoLCharacter.getEquipment( slot ).equals( match ) )
 				return;
 		}
 
@@ -2561,7 +2563,7 @@ public class KoLmafiaCLI extends KoLmafia
 			int itemID = match.getItemID();
 			int desiredHands = EquipmentDatabase.getHands( itemID );
 			boolean desiredType = EquipmentDatabase.isRanged( itemID );
-			boolean currentType = EquipmentDatabase.isRanged( KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) );
+			boolean currentType = EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
 
             // If we are equipping a new weapon, a two-handed
             // weapon will unequip any pair of weapons. But a
@@ -2590,7 +2592,7 @@ public class KoLmafiaCLI extends KoLmafia
 		}
 
 		StaticEntity.getClient().makeRequest(
-			new EquipmentRequest( StaticEntity.getClient(), match.getName(), slot ) );
+			new EquipmentRequest( StaticEntity.getClient(), match, slot ) );
 	}
 
 	/**
@@ -2627,8 +2629,8 @@ public class KoLmafiaCLI extends KoLmafia
 
 		for ( int i = 0; i <= KoLCharacter.FAMILIAR; ++i )
 		{
-			String name = KoLCharacter.getCurrentEquipmentName( i );
-			if ( name != null && name.toLowerCase().indexOf( parameters ) != -1 )
+			AdventureResult item = KoLCharacter.getEquipment( i );
+			if ( item != null && item.getName().toLowerCase().indexOf( parameters ) != -1 )
 				StaticEntity.getClient().makeRequest( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, i ) );
 		}
 	}

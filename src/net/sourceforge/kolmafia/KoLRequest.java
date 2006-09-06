@@ -630,9 +630,11 @@ public class KoLRequest implements Runnable, KoLConstants
 		client.setCurrentRequest( this );
 		registerRequest();
 
-		if ( !isConsumeRequest && !(this instanceof SewerRequest) && !LoginRequest.isInstanceRunning() && StaticEntity.getBooleanProperty( "cloverProtectActive" ) )
-			if ( client.isLuckyCharacter() )
+		if ( !LoginRequest.isInstanceRunning() && !isConsumeRequest && !(this instanceof SewerRequest) && formURLString.indexOf( "lair2.php" ) == -1 )
+		{
+			if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) && client.isLuckyCharacter() )
 				DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
+		}
 
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.

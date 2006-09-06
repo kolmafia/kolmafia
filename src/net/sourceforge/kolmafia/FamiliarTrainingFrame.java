@@ -497,7 +497,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 							if ( KoLCharacter.hasItem( item, false ) )
 							{
 								(new FamiliarRequest( StaticEntity.getClient(), familiars[i] )).run();
-								(new EquipmentRequest( StaticEntity.getClient(), itemName, KoLCharacter.FAMILIAR )).run();
+								(new EquipmentRequest( StaticEntity.getClient(), item, KoLCharacter.FAMILIAR )).run();
 							}
 						}
 					}
@@ -1397,11 +1397,11 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 		private void checkCurrentEquipment()
 		{
-			checkCurrentEquipment( KoLCharacter.getCurrentEquipment( KoLCharacter.HAT ),
-				KoLCharacter.getCurrentEquipment( KoLCharacter.FAMILIAR ),
-				KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY1 ),
-				KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY2 ),
-				KoLCharacter.getCurrentEquipment( KoLCharacter.ACCESSORY3 ) );
+			checkCurrentEquipment( KoLCharacter.getEquipment( KoLCharacter.HAT ),
+				KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ),
+				KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ),
+				KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ),
+				KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ) );
 		}
 
 		private void checkCurrentEquipment( AdventureResult hat, AdventureResult item,
@@ -1787,7 +1787,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == leadNecklace && leadNecklaceOwner != null && leadNecklaceOwner != familiar )
 			{
 				results.append( "Stealing lead necklace from " + leadNecklaceOwner.getName() + " the " + leadNecklaceOwner.getRace() + "<br>" );
-				(new EquipmentRequest( StaticEntity.getClient(), "lead necklace", KoLCharacter.FAMILIAR )).run();
+				(new EquipmentRequest( StaticEntity.getClient(), LEAD_NECKLACE, KoLCharacter.FAMILIAR )).run();
 				leadNecklaceOwner = familiar;
 			}
 
@@ -1795,16 +1795,15 @@ public class FamiliarTrainingFrame extends KoLFrame
 			if ( next == ratHeadBalloon && ratHeadBalloonOwner != null && ratHeadBalloonOwner != familiar )
 			{
 				results.append( "Stealing rat head balloon from " + ratHeadBalloonOwner.getName() + " the " + ratHeadBalloonOwner.getRace() + "<br>" );
-				(new EquipmentRequest( StaticEntity.getClient(), "rat head balloon", KoLCharacter.FAMILIAR )).run();
+				(new EquipmentRequest( StaticEntity.getClient(), RAT_HEAD_BALLOON, KoLCharacter.FAMILIAR )).run();
 				ratHeadBalloonOwner = familiar;
 			}
 
 			// Finally, equip the new item
 			if ( next != null )
 			{
-				String name = next.getName();
-				results.append( "Putting on " + name + "<br>" );
-				(new EquipmentRequest( StaticEntity.getClient(), name, slot)).run();
+				results.append( "Putting on " + next.getName() + "...<br>" );
+				(new EquipmentRequest( StaticEntity.getClient(), next, slot)).run();
 				setItem( slot, next );
 			}
 		}

@@ -4411,7 +4411,7 @@ public class KoLmafiaASH extends StaticEntity
 		}
 
 		public ScriptValue current_equipment( ScriptVariable slot )
-		{	return makeItemValue( KoLCharacter.getCurrentEquipmentName( slot.intValue() ) );
+		{	return makeItemValue( KoLCharacter.getEquipment( slot.intValue() ).getName() );
 		}
 
 		public ScriptValue item_to_slot( ScriptVariable slot )

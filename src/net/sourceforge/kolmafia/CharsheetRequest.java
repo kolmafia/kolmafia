@@ -240,7 +240,7 @@ public class CharsheetRequest extends KoLRequest
 		// We can't get familiar equipment from this page,
 		// so don't reset it.
 
-		String [] equipment = new String[8];
+		AdventureResult [] equipment = new AdventureResult[8];
 		for ( int i = 0; i < 8; ++i )
 			equipment[i] = EquipmentRequest.UNEQUIP;
 
@@ -257,11 +257,11 @@ public class CharsheetRequest extends KoLRequest
 				switch ( TradeableItemDatabase.getConsumptionType( token ) )
 				{
 					case ConsumeItemRequest.EQUIP_HAT:
-						equipment[ KoLCharacter.HAT ] = token;
+						equipment[ KoLCharacter.HAT ] = new AdventureResult( token, 1, false );
 						break;
 
 					case ConsumeItemRequest.EQUIP_WEAPON:
-						equipment[ seenWeapon ? KoLCharacter.OFFHAND : KoLCharacter.WEAPON ] = token;
+						equipment[ seenWeapon ? KoLCharacter.OFFHAND : KoLCharacter.WEAPON ] = new AdventureResult( token, 1, false );
 						seenWeapon = true;
 						break;
 
@@ -269,25 +269,25 @@ public class CharsheetRequest extends KoLRequest
 						if ( token.equals( "fake hand" ) )
 							++fakeHands;
 						else
-							equipment[ KoLCharacter.OFFHAND ] = token;
+							equipment[ KoLCharacter.OFFHAND ] = new AdventureResult( token, 1, false );
 						break;
 
 					case ConsumeItemRequest.EQUIP_SHIRT:
-						equipment[ KoLCharacter.SHIRT ] = token;
+						equipment[ KoLCharacter.SHIRT ] = new AdventureResult( token, 1, false );
 						break;
 
 					case ConsumeItemRequest.EQUIP_PANTS:
-						equipment[ KoLCharacter.PANTS ] = token;
+						equipment[ KoLCharacter.PANTS ] = new AdventureResult( token, 1, false );
 						break;
 
 					case ConsumeItemRequest.EQUIP_ACCESSORY:
 
 						if ( equipment[ KoLCharacter.ACCESSORY1 ].equals( EquipmentRequest.UNEQUIP ) )
-							equipment[ KoLCharacter.ACCESSORY1 ] = token;
+							equipment[ KoLCharacter.ACCESSORY1 ] = new AdventureResult( token, 1, false );
 						else if ( equipment[ KoLCharacter.ACCESSORY2 ].equals( EquipmentRequest.UNEQUIP ) )
-							equipment[ KoLCharacter.ACCESSORY2 ] = token;
+							equipment[ KoLCharacter.ACCESSORY2 ] = new AdventureResult( token, 1, false );
 						else
-							equipment[ KoLCharacter.ACCESSORY3 ] = token;
+							equipment[ KoLCharacter.ACCESSORY3 ] = new AdventureResult( token, 1, false );
 				}
 			}
 		}

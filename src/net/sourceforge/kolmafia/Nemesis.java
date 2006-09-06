@@ -117,7 +117,7 @@ public abstract class Nemesis extends StaticEntity
 
 		if ( region <= 4 )
 		{
-			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).indexOf( "fly" ) == -1 )
+			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemID() != FLY_SWATTER.getItemID() )
 				requirements.add( FLY_SWATTER );
 		}
 
@@ -140,7 +140,7 @@ public abstract class Nemesis extends StaticEntity
 
 		if ( region <= 7 )
 		{
-			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).indexOf( "tongs" ) == -1 )
+			if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getItemID() != TONGS.getItemID() )
 				requirements.add( TONGS );
 		}
 
@@ -155,14 +155,14 @@ public abstract class Nemesis extends StaticEntity
 			return;
 
 		// Get current equipment
-		String initialWeapon = KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON );
-		String initialOffhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
+		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
+		AdventureResult initialOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 
 		if ( initialWeapon == null )
-			initialWeapon = "";
+			initialWeapon = EquipmentRequest.UNEQUIP;
 
 		if ( initialOffhand == null )
-			initialOffhand = "";
+			initialOffhand = EquipmentRequest.UNEQUIP;
 
 		// Pass the obstacles one at a time.
 

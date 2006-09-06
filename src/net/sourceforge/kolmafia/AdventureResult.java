@@ -708,8 +708,9 @@ public class AdventureResult implements Comparable, KoLConstants
 				return super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );;
 
 			AdventureResult ar = (AdventureResult) value;
+			int equipmentType = TradeableItemDatabase.getConsumptionType( ar.getName() );
 
-			switch ( TradeableItemDatabase.getConsumptionType( ar.getName() ) )
+			switch ( equipmentType )
 			{
 				case ConsumeItemRequest.EQUIP_WEAPON:
 					if ( !weapon )
@@ -752,7 +753,8 @@ public class AdventureResult implements Comparable, KoLConstants
 
 			int power = EquipmentDatabase.getPower( ar.getName() );
 
-			String stringForm = ar.getName() + " (+" + COMMA_FORMAT.format(power) + ")";
+			String stringForm = equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY ? ar.toString() :
+				ar.getName() + " (+" + COMMA_FORMAT.format(power) + ")";
 
 			JLabel defaultComponent = (JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			defaultComponent.setText( stringForm );
