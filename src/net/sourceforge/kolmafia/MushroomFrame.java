@@ -44,7 +44,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
@@ -115,10 +118,40 @@ public class MushroomFrame extends KoLFrame
 
 	public void loadLayout()
 	{
+		File [] layouts = (new File( "plots/")).listFiles();
+		ArrayList names = new ArrayList();
+
+		for ( int i = 0; i < layouts.length; ++i )
+		{
+			String name = layouts[i].getName();
+			if ( name.endsWith( ".txt" ) )
+			{
+				name = name.substring( 0, name.length() - 4 );
+				if ( !names.contains( name ) )
+					names.add( name );
+			}
+		}
+
+		if ( names.isEmpty() )
+			return;
+
+		String location = (String) JOptionPane.showInputDialog( null,
+			"Which mushroom plot?", "", JOptionPane.OK_OPTION, null, names.toArray(), null );
+
+		if ( location == null )
+			return;
+
+		MushroomPlot.loadLayout( location, originalData, planningData );
+		updateImages();
 	}
 
 	public void saveLayout()
-	{	MushroomPlot.saveLayout( "mushroom", originalData, planningData );
+	{
+		String location = JOptionPane.showInputDialog( "Name your mushroom plot!", "" );
+		if ( location == null )
+			return;
+
+		MushroomPlot.saveLayout( location, originalData, planningData );
 	}
 
 	public void updateForecasts( int startDay )
@@ -138,6 +171,11 @@ public class MushroomFrame extends KoLFrame
 			}
 		}
 
+		updateImages();
+	}
+
+	private void updateImages()
+	{
 		for ( int i = 0; i < MAX_FORECAST; ++i )
 			for ( int j = 0; j < 4; ++j )
 				for ( int k = 0; k < 4; ++k )

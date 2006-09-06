@@ -36,6 +36,7 @@ package net.sourceforge.kolmafia;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.io.BufferedReader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -611,6 +612,75 @@ public abstract class MushroomPlot extends StaticEntity
 		return EMPTY;
 	}
 
+	public static void loadLayout( String filename, String [][] originalData, String [][] planningData )
+	{
+		// The easiest file to parse that is already provided is
+		// the text file which was generated automatically.
+
+		BufferedReader reader = KoLDatabase.getReader( new File( "plots/" + filename + ".txt" ) );
+
+		try
+		{
+			String line = "";
+			int dayIndex = 0;
+
+			while ( line != null )
+			{
+				// Skip four lines from the mushroom plot,
+				// which only contain header information.
+
+				for ( int i = 0; i < 4 && line != null; ++i )
+					line = reader.readLine();
+
+				// Now, split the line into individual units
+				// based on whitespace.
+
+				if ( line != null )
+				{
+					for ( int i = 0; i < 4; ++i )
+					{
+						line = reader.readLine();
+
+						if ( line != null )
+						{
+							String [] pieces = line.trim().split( "\\s+" );
+							for ( int j = 0; j < 4; ++j )
+								originalData[ dayIndex ][ i * 4 + j ] = pieces[j];
+
+							for ( int j = 4; j < 8; ++j )
+								planningData[ dayIndex ][ i * 4 + j - 4 ] = pieces[j];
+						}
+					}
+
+					// Now that you've wrapped up a day, eat
+					// an empty line and continue on with the
+					// next iteration.
+
+					++dayIndex;
+					line = reader.readLine();
+				}
+			}
+		}
+		catch ( Exception e )
+		{
+			printStackTrace( e );
+			return;
+		}
+
+		// Make sure to close the reader after you're done reading
+		// all the data in the file.
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			printStackTrace( e );
+			return;
+		}
+	}
+
 	public static void saveLayout( String filename, String [][] originalData, String [][] planningData )
 	{
 		LogStream textLayout = null;
@@ -769,6 +839,25 @@ public abstract class MushroomPlot extends StaticEntity
 				isTodayEmpty &= planningData[i][j].equals( "__" );
 			}
 
+			// Print the data for the last row.
+
+			textLayout.print( pickText.toString() );
+			textLayout.print( "     " );
+			textLayout.println( plantText.toString() );
+
+			pickText.setLength( 0 );
+			plantText.setLength( 0 );
+
+			htmlLayout.println( "<tr>" );
+			htmlLayout.print( "\t" );  htmlLayout.println( pickHtml.toString() );
+			htmlLayout.print( "<td>&nbsp;</td>" );
+			htmlLayout.print( "\t" );  htmlLayout.println( plantHtml.toString() );
+			htmlLayout.print( "<td>&nbsp;</td>" );
+			htmlLayout.println( "</tr>" );
+
+			pickHtml.setLength( 0 );
+			plantHtml.setLength( 0 );
+
 			// Print any needed trailing whitespace into the layouts
 			// and add the list of commands to be processed later.
 
@@ -840,7 +929,7 @@ public abstract class MushroomPlot extends StaticEntity
 		// Now that everything has been generated, open the HTML
 		// inside of a browser.
 
-		StaticEntity.openSystemBrowser( "mushroom.htm" );
+		StaticEntity.openSystemBrowser( "plots/" + filename + ".htm" );
 
 	}
 }
