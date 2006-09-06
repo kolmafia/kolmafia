@@ -774,9 +774,15 @@ clockwork endoskeleton	12	clockwork claws	clockwork counterclockwise dome	clockw
 clockwork sheet	12	clockwork doohickey	cog	flange
 clockwork counterclockwise dome	12	clockwork doohickey	cog	sprocket
 clockwork sphere	12	clockwork counterclockwise dome	clockwork clockwise dome	clockwork key
+clockwork handle	12	clockwork doohickey	cog	spring
+clockwork rod	12	clockwork thingamajig	cog	sprocket
+clockwork shank	12	clockwork widget	spring	sprocket
 clockwork hat	12	clockwork clockwise dome	clockwork rings	clockwork key
 clockwork trench coat	12	clockwork spine	clockwork sheet	clockwork key
 clockwork pants	12	clockwork sheet	clockwork rings	clockwork key
+clockwork sword	12	clockwork handle	clockwork shank	clockwork key
+clockwork staff	12	clockwork handle	clockwork rod	clockwork key
+clockwork crossbow	12	clockwork rod	clockwork shank	clockwork key
 
 
 # Clockwork servant recipes.  These recipes are used to create clockwork
