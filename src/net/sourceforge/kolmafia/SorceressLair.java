@@ -79,6 +79,8 @@ public abstract class SorceressLair extends StaticEntity
 	private static final AdventureResult DIGITAL = new AdventureResult( 691, 1 );
 	private static final AdventureResult RICHARD = new AdventureResult( 665, 1 );
 	private static final AdventureResult SKELETON = new AdventureResult( 642, 1 );
+	private static final AdventureResult KEY_RING = new AdventureResult( 643, 1 );
+
 
 	private static final AdventureResult BORIS = new AdventureResult( 282, 1 );
 	private static final AdventureResult JARLSBERG = new AdventureResult( 283, 1 );
@@ -304,7 +306,7 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		requirements.add( pickOne( new AdventureResult [] { ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, STONE_BANJO, DISCO_BANJO } ) );
+		requirements.add( pickOne( new AdventureResult [] { STONE_BANJO, ACOUSTIC_GUITAR, HEAVY_METAL_GUITAR, DISCO_BANJO } ) );
 
 		AdventureResult percussion = pickOne( new AdventureResult [] { BONE_RATTLE, TAMBOURINE, BROKEN_SKULL } );
 		requirements.add( percussion );
@@ -466,6 +468,9 @@ public abstract class SorceressLair extends StaticEntity
 		// Really Evil Rhythms
 
 		List requirements = new ArrayList();
+
+		if ( !hasItem( SKELETON ) && hasItem( KEY_RING ) )
+			DEFAULT_SHELL.executeLine( "use skeleton key ring" );
 
 		AdventureDatabase.retrieveItem( SKELETON );
 		if ( !hasItem( SKELETON ) )
@@ -1024,7 +1029,7 @@ public abstract class SorceressLair extends StaticEntity
 			AdventureResult item = new AdventureResult( GUARDIAN_DATA[i][1], 1, false );
 			if ( !KoLCharacter.getInventory().contains( item ) )
 			{
-				if ( KoLCharacter.hasItem( item, true ) || NPCStoreDatabase.contains( GUARDIAN_DATA[i][1] ) )
+				if ( hasItem( item ) || NPCStoreDatabase.contains( GUARDIAN_DATA[i][1] ) )
 					AdventureDatabase.retrieveItem( item );
 			}
 		}
@@ -1418,7 +1423,7 @@ public abstract class SorceressLair extends StaticEntity
 
 			AdventureResult check = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
 
-			if ( KoLCharacter.hasItem( check, true ) )
+			if ( hasItem( check ) )
 				option = check;
 
 			if ( KoLCharacter.getMaximumHP() >= 126 )
@@ -1434,7 +1439,7 @@ public abstract class SorceressLair extends StaticEntity
 			// you do not have enough red pixel potions, you
 			// will definitely want to use a doc galaktik cure.
 
-			if ( !KoLCharacter.hasItem( option, true ) || KoLCharacter.canInteract() )
+			if ( !hasItem( option ) || KoLCharacter.canInteract() )
 			{
 				option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
 
@@ -1446,10 +1451,10 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
-		if ( option.getName().startsWith( "red" ) && !KoLCharacter.hasItem( option, true ) && KoLCharacter.isHardcore() )
+		if ( option.getName().startsWith( "red" ) && !hasItem( option ) && KoLCharacter.isHardcore() )
 		{
 			AdventureResult egg = new AdventureResult( "red plastic oyster egg", 3 );
-			if ( KoLCharacter.hasItem( egg, true ) )
+			if ( hasItem( egg ) )
 			{
 				option = egg;
 				neededHealth = maximumDamage * 3 - 50;
