@@ -643,7 +643,7 @@ public abstract class MushroomPlot extends StaticEntity
 
 						if ( line != null )
 						{
-							String [] pieces = line.trim().split( "\\s+" );
+							String [] pieces = line.trim().split( "[\\s\\*]+" );
 							for ( int j = 0; j < 4; ++j )
 								originalData[ dayIndex ][ i * 4 + j ] = pieces[j];
 
