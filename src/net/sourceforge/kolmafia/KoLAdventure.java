@@ -211,6 +211,12 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 				(new EquipmentRequest( client, EquipmentDatabase.getOutfit( outfitID ) )).run();
 			}
+
+			// If it's the pirate quest in disguise, make sure
+			// you visit the council beforehand.
+
+			if ( adventureName.indexOf( "Pirate" ) != -1 )
+				DEFAULT_SHELL.executeLine( "council" );
 		}
 
 		// If we're trying to take a trip, make sure it's the right one
