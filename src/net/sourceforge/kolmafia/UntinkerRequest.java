@@ -137,9 +137,6 @@ public class UntinkerRequest extends KoLRequest
 				// Make sure that paco has been visited, or else
 				// the knoll won't be available.
 
-				KoLRequest request = new KoLRequest( client, "guild.php?place=paco", true );
-				request.run();
-
 				DEFAULT_SHELL.executeLine( "adventure * degrassi" );
 				if ( !client.getConditions().isEmpty() )
 				{
