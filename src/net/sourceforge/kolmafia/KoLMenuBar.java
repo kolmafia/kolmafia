@@ -97,6 +97,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 	protected KoLMenuBar( JComponent container )
 	{
+		compileScripts();
 		compileBookmarks();
 		constructMenus( container == null ? this : container );
 	}
