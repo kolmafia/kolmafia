@@ -56,14 +56,14 @@ public class FamiliarData implements KoLConstants, Comparable
 	private String name, race, item;
 
 	public FamiliarData( int id )
-	{	this( id, "", 1, EquipmentRequest.UNEQUIP );
+	{	this( id, "", 1, EquipmentRequest.UNEQUIP.toString() );
 	}
 
 	public FamiliarData( int id, String name, int weight, String item )
 	{
 		this.id = id;
 		this.name = name;
-		this.race = id == -1 ? EquipmentRequest.UNEQUIP : FamiliarsDatabase.getFamiliarName( id );
+		this.race = id == -1 ? EquipmentRequest.UNEQUIP.toString() : FamiliarsDatabase.getFamiliarName( id );
 
 		this.weight = weight;
 		this.item = item;
@@ -84,7 +84,7 @@ public class FamiliarData implements KoLConstants, Comparable
 
 		String itemData = dataMatcher.group(6);
 
-		this.item = itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP :
+		this.item = itemData.indexOf( "<img" ) == -1 ? EquipmentRequest.UNEQUIP.toString() :
 			itemData.indexOf( "tamo.gif" ) != -1 ? "lucky Tam O'Shanter" :
 			itemData.indexOf( "omat.gif" ) != -1 ? "lucky Tam O'Shatner" :
 			itemData.indexOf( "maypole.gif" ) != -1 ? "miniature gravy-covered maypole" :
@@ -221,7 +221,7 @@ public class FamiliarData implements KoLConstants, Comparable
 	}
 
 	public String toString()
-	{	return id == -1 ? EquipmentRequest.UNEQUIP : race + " (" + getModifiedWeight() + " lbs)";
+	{	return id == -1 ? EquipmentRequest.UNEQUIP.toString() : race + " (" + getModifiedWeight() + " lbs)";
 	}
 
 	public boolean equals( Object o )

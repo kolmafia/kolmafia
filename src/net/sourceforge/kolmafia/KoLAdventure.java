@@ -619,7 +619,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		}
 
 		if ( action.equals( "skill thrust-smack" ) || action.equals( "skill lunging thrust-smack" ) &&
-			EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) ) )
+			EquipmentDatabase.isRanged( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Thrust smacks should use non-ranged weapons." );
 			return;
@@ -649,7 +649,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	{
 		StaticEntity.setProperty( "lastAdventure", adventureName );
 
-		if ( StaticEntity.getBooleanProperty( "trackLocationChanges" ) )
+		if ( StaticEntity.getBooleanProperty( "trackLocationChanges" ) && shouldRunBetweenBattleChecks )
 		{
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 			adventureList.setSelectedItem( this );

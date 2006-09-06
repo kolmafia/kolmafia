@@ -2495,7 +2495,7 @@ public abstract class KoLmafia implements KoLConstants
 			// Now, run the built-in behavior to take care of
 			// any loose ends.
 
-			String hat = KoLCharacter.getEquipment( KoLCharacter.HAT );
+			AdventureResult hat = KoLCharacter.getEquipment( KoLCharacter.HAT );
 			MoodSettings.execute();
 
 			recoverHP();

@@ -73,7 +73,7 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class GearChangeFrame extends KoLFrame
 {
-	private String [] pieces = new String[9];
+	private AdventureResult [] pieces = new AdventureResult[9];
 	private JButton outfitButton;
 
 	private EquipPanel equip;
@@ -99,6 +99,7 @@ public class GearChangeFrame extends KoLFrame
 				list = offhands;
 			else
 				list = lists[i];
+
 			equipment[i] = new ChangeComboBox( list );
 		}
 
@@ -160,18 +161,14 @@ public class GearChangeFrame extends KoLFrame
 
 			// If current offhand item is not compatible with new
 			// weapon, unequip it first.
-			String offhand = KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND );
-			if ( EquipmentDatabase.getHands( offhand ) == 1 )
+			AdventureResult offhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+			if ( EquipmentDatabase.getHands( offhand.getName() ) == 1 )
 			{
-				String weapon = pieces[ KoLCharacter.WEAPON ];
+				AdventureResult weapon = pieces[ KoLCharacter.WEAPON ];
 				if ( weapon != null )
 				{
-					weapon = KoLCharacter.getEquipmentName( weapon );
-					if ( EquipmentDatabase.getHands( weapon ) == 1 &&
-					     EquipmentDatabase.isRanged( weapon) != EquipmentDatabase.isRanged( offhand ) )
-					{
+					if ( EquipmentDatabase.getHands( weapon.getName() ) == 1 && EquipmentDatabase.isRanged( weapon.getName() ) != EquipmentDatabase.isRanged( offhand.getName() ) )
 						requestList.add( new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.UNEQUIP, KoLCharacter.OFFHAND ) );
-					}
 				}
 			}
 
@@ -210,7 +207,9 @@ public class GearChangeFrame extends KoLFrame
 	private class ChangeComboBox extends JComboBox
 	{
 		public ChangeComboBox( LockableListModel slot )
-		{	super( slot );
+		{
+			super( slot );
+			this.setRenderer( AdventureResult.getEquipmentCellRenderer( true, true, true, true, true, true, true ) );
 		}
 
 		public void firePopupMenuWillBecomeInvisible()
@@ -235,7 +234,7 @@ public class GearChangeFrame extends KoLFrame
 			for ( int i = 0; i < equipment.length; ++i )
 				if ( this == equipment[i] )
 				{
-					pieces[i] = (String) getSelectedItem();
+					pieces[i] = (AdventureResult) getSelectedItem();
 					if ( KoLCharacter.getEquipment(i).equals( pieces[i] ) )
 						pieces[i] = null;
 				}
@@ -248,16 +247,15 @@ public class GearChangeFrame extends KoLFrame
 	{
 		equipment[ KoLCharacter.SHIRT ].setEnabled( KoLCharacter.hasSkill( "Torso Awaregness" ) );
 
-		String weaponItem = pieces[ KoLCharacter.WEAPON ];
-		String currentWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
+		AdventureResult weaponItem = pieces[ KoLCharacter.WEAPON ];
+		AdventureResult currentWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
 		if ( weaponItem == null )
 			weaponItem = currentWeapon;
 
 		List weaponItems = validWeaponItems( currentWeapon );
 		updateEquipmentList( weapons, weaponItems, weaponItem );
 
-		String weapon = KoLCharacter.getEquipmentName( weaponItem );
-		int weaponHands = EquipmentDatabase.getHands( weapon );
+		int weaponHands = EquipmentDatabase.getHands( weaponItem.getName() );
 		if ( weaponHands > 1 )
 		{
 			// Equipping 2 or more handed weapon: nothing in off-hand
@@ -267,24 +265,23 @@ public class GearChangeFrame extends KoLFrame
 		}
 		else
 		{
-			String offhandItem = pieces[ KoLCharacter.OFFHAND ];
-			String currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+			AdventureResult offhandItem = pieces[ KoLCharacter.OFFHAND ];
+			AdventureResult currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
 			if ( offhandItem == null )
 				offhandItem = currentOffhand;
 
-			String offhand = KoLCharacter.getEquipmentName( offhandItem );
-			if ( EquipmentDatabase.getHands( offhand ) > 0 )
+			if ( EquipmentDatabase.getHands( offhandItem.getName() ) > 0 )
 			{
 				// Weapon in offhand. Must have compatible
 				// weapon in weapon hand
-				if ( weaponHands == 0 || EquipmentDatabase.isRanged( weapon ) != EquipmentDatabase.isRanged( offhand ) )
+				if ( weaponHands == 0 || EquipmentDatabase.isRanged( weaponItem.getName() ) != EquipmentDatabase.isRanged( offhandItem.getName() ) )
 				{
 					pieces[ KoLCharacter.OFFHAND ] = null;
 					offhandItem = EquipmentRequest.UNEQUIP;
 				}
 			}
 
-			List offhandItems = validOffhandItems( weapon, offhandItem );
+			List offhandItems = validOffhandItems( weaponItem, offhandItem );
 			updateEquipmentList( offhands, offhandItems, offhandItem );
 			equipment[ KoLCharacter.OFFHAND ].setEnabled( true );
 		}
@@ -297,7 +294,7 @@ public class GearChangeFrame extends KoLFrame
 		outfitButton.setEnabled( enableOutfits );
 	}
 
-	private static List validWeaponItems( String currentWeapon )
+	private static List validWeaponItems( AdventureResult currentWeapon )
 	{
 		List items = new ArrayList();
 
@@ -305,17 +302,17 @@ public class GearChangeFrame extends KoLFrame
 
 		for ( int i = 0; i < KoLCharacter.getInventory().size(); ++i )
 		{
-			String currentItem = ((AdventureResult)KoLCharacter.getInventory().get(i)).getName();
-			int type = TradeableItemDatabase.getConsumptionType( currentItem );
+			AdventureResult currentItem = (AdventureResult) KoLCharacter.getInventory().get(i);
+			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemID() );
 
 			if ( type != ConsumeItemRequest.EQUIP_WEAPON )
 				continue;
 
 			// Make sure we meet requirements
-			if ( !EquipmentDatabase.canEquip( currentItem ) )
+			if ( !EquipmentDatabase.canEquip( currentItem.getName() ) )
 				continue;
 
-			items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
+			items.add( currentItem );
 		}
 
 		// Add the current weapon
@@ -329,7 +326,7 @@ public class GearChangeFrame extends KoLFrame
 		return items;
 	}
 
-	private static List validOffhandItems( String weapon, String offhandItem )
+	private static List validOffhandItems( AdventureResult weapon, AdventureResult offhandItem )
 	{
 		List items = new ArrayList();
 
@@ -338,19 +335,19 @@ public class GearChangeFrame extends KoLFrame
 
 		// We can have weapons if we can dual wield and there is
 		// one-handed weapon in the main hand
-		boolean weapons = EquipmentDatabase.getHands( weapon ) == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
+		boolean weapons = EquipmentDatabase.getHands( weapon.getName() ) == 1 && KoLCharacter.hasSkill( "Double-Fisted Skull Smashing" );
 
 		// The type of weapon in the off hand - ranged or melee - must
 		// agree with the weapon in the main hand
-		boolean ranged = EquipmentDatabase.isRanged( weapon );
+		boolean ranged = EquipmentDatabase.isRanged( weapon.getName() );
 
 		// Search inventory for suitable items
 
 		for ( int i = 0; i < KoLCharacter.getInventory().size(); ++i )
 		{
-			String currentItem = ((AdventureResult)KoLCharacter.getInventory().get(i)).getName();
+			AdventureResult currentItem = ((AdventureResult)KoLCharacter.getInventory().get(i));
 			if ( validOffhandItem( currentItem, weapons, ranged ) )
-				items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
+				items.add( currentItem );
 		}
 
 		// Add the selected off-hand item
@@ -358,9 +355,8 @@ public class GearChangeFrame extends KoLFrame
 			items.add( offhandItem );
 
 		// Possibly add the current off-hand item
-		String currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
-		if ( !items.contains( currentOffhand ) &&
-		     validOffhandItem( KoLCharacter.getEquipmentName( currentOffhand ), weapons, ranged )  )
+		AdventureResult currentOffhand = KoLCharacter.getEquipment( KoLCharacter.OFFHAND );
+		if ( !items.contains( currentOffhand ) && validOffhandItem( currentOffhand, weapons, ranged )  )
 			items.add( currentOffhand );
 
 		// Add "(none)"
@@ -370,28 +366,28 @@ public class GearChangeFrame extends KoLFrame
 		return items;
 	}
 
-	private static boolean validOffhandItem( String currentItem, boolean weapons, boolean ranged )
+	private static boolean validOffhandItem( AdventureResult currentItem, boolean weapons, boolean ranged )
 	{
-		switch ( TradeableItemDatabase.getConsumptionType( currentItem ) )
+		switch ( TradeableItemDatabase.getConsumptionType( currentItem.getItemID() ) )
 		{
 		case ConsumeItemRequest.EQUIP_WEAPON:
 			if ( !weapons )
 				return false;
-			if ( EquipmentDatabase.getHands( currentItem ) != 1 )
+			if ( EquipmentDatabase.getHands( currentItem.getName() ) != 1 )
 				return false;
-			if ( ranged != EquipmentDatabase.isRanged( currentItem ) )
+			if ( ranged != EquipmentDatabase.isRanged( currentItem.getName() ) )
 				return false;
 			// Fall through
 		case ConsumeItemRequest.EQUIP_OFFHAND:
 			// Make sure we meet requirements
-			if ( EquipmentDatabase.canEquip( currentItem ) )
+			if ( EquipmentDatabase.canEquip( currentItem.getName() ) )
 				return true;
 			break;
 		}
 		return false;
 	}
 
-	private void updateEquipmentList( LockableListModel currentList, List newItems, String equippedItem )
+	private void updateEquipmentList( LockableListModel currentList, List newItems, AdventureResult equippedItem )
 	{
 		if ( currentList.equals( newItems ) )
 			return;
@@ -399,6 +395,6 @@ public class GearChangeFrame extends KoLFrame
 		currentList.clear();
 		currentList.addAll( newItems );
 		currentList.setSelectedItem( equippedItem );
-        }
+	}
 
 }

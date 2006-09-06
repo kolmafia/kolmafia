@@ -485,7 +485,7 @@ public class LocalRelayRequest extends KoLRequest
 		replaceTag( scriptBuffer, "/*familiar*/",  KoLCharacter.getFamiliar().getRace() );
 		replaceTag( scriptBuffer, "/*familiarWeight*/", KoLCharacter.getFamiliar().getWeight() );
 
-		String familiarEquipment = KoLCharacter.getCurrentEquipmentName( KoLCharacter.FAMILIAR );
+		String familiarEquipment = KoLCharacter.getEquipment( KoLCharacter.FAMILIAR ).getName();
 		if ( FamiliarData.itemWeightModifier( TradeableItemDatabase.getItemID( familiarEquipment ) ) == 5 )
 			replaceTag( scriptBuffer, "/*familiarEquip*/", "familiar-specific +5 lbs." );
 		else
@@ -493,17 +493,17 @@ public class LocalRelayRequest extends KoLRequest
 
 		// Change the player's equipment
 
-		replaceTag( scriptBuffer, "/*hat*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.HAT ) );
-		replaceTag( scriptBuffer, "/*weapon*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.WEAPON ) );
-		replaceTag( scriptBuffer, "/*offhand*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.OFFHAND ) );
-		replaceTag( scriptBuffer, "/*shirt*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.SHIRT ) );
-		replaceTag( scriptBuffer, "/*pants*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.PANTS ) );
+		replaceTag( scriptBuffer, "/*hat*/", KoLCharacter.getEquipment( KoLCharacter.HAT ).getName() );
+		replaceTag( scriptBuffer, "/*weapon*/", KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() );
+		replaceTag( scriptBuffer, "/*offhand*/", KoLCharacter.getEquipment( KoLCharacter.OFFHAND ).getName() );
+		replaceTag( scriptBuffer, "/*shirt*/", KoLCharacter.getEquipment( KoLCharacter.SHIRT ).getName() );
+		replaceTag( scriptBuffer, "/*pants*/", KoLCharacter.getEquipment( KoLCharacter.PANTS ).getName() );
 
 		// Change the player's accessories
 
-		replaceTag( scriptBuffer, "/*accessory1*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY1 ) );
-		replaceTag( scriptBuffer, "/*accessory2*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY2 ) );
-		replaceTag( scriptBuffer, "/*accessory3*/", KoLCharacter.getCurrentEquipmentName( KoLCharacter.ACCESSORY3 ) );
+		replaceTag( scriptBuffer, "/*accessory1*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY1 ).getName() );
+		replaceTag( scriptBuffer, "/*accessory2*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY2 ).getName() );
+		replaceTag( scriptBuffer, "/*accessory3*/", KoLCharacter.getEquipment( KoLCharacter.ACCESSORY3 ).getName() );
 
 		// Load up the player's current skillset to figure
 		// out what passive skills are available.

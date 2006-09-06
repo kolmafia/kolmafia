@@ -157,15 +157,11 @@ public class FlowerHunterFrame extends KoLFrame implements ListSelectionListener
 
 	private void updateRank()
 	{
-		int equipmentPower = 0;
+		int equipmentPower = EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.HAT ).getItemID() ) +
+			EquipmentDatabase.getPower( KoLCharacter.getEquipment( KoLCharacter.PANTS ).getItemID() );
 
-		Matcher powerMatcher = Pattern.compile( "\\+(\\d+)" ).matcher( KoLCharacter.getEquipment( KoLCharacter.HAT ) );
-		if ( powerMatcher.find() )
-			equipmentPower += StaticEntity.parseInt( powerMatcher.group(1) );
-
-		powerMatcher = Pattern.compile( "\\+(\\d+)" ).matcher( KoLCharacter.getEquipment( KoLCharacter.PANTS ) );
-		if ( powerMatcher.find() )
-			equipmentPower += StaticEntity.parseInt( powerMatcher.group(1) );
+		if ( KoLCharacter.hasSkill( "Tao of the Terrapin" ) )
+			equipmentPower <<= 1;
 
 		JLabel [] rankLabels = new JLabel[ this.rankLabels.size() ];
 		this.rankLabels.toArray( rankLabels );

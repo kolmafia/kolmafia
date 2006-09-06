@@ -175,6 +175,8 @@ public abstract class KoLCharacter extends StaticEntity
 		ACCORDION_THIEF.add( "Accordion Thief" );
 	}
 
+	private static final AdventureResult JOYBUZZER = new AdventureResult( 1525, 1 );
+
 	// Equipment constants
 
 	public static final int HAT = 0;
@@ -1076,42 +1078,29 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @param	equipment	All of the available equipment, stored in an array index by the constants
 	 */
 
-	public static void setEquipment( String [] equipment )
+	public static void setEquipment( AdventureResult [] equipment )
 	{
 		for ( int i = 0; i < KoLCharacter.equipment.size(); ++i )
 		{
 			if ( i == FAMILIAR )
 				continue;
 
-			if ( equipment[i] == null || equipment[i].equals( "none" ) || equipment[i].equals( EquipmentRequest.UNEQUIP ) )
+			if ( equipment[i] == null || equipment[i].equals( EquipmentRequest.UNEQUIP ) )
 			{
 				KoLCharacter.equipment.set( i, EquipmentRequest.UNEQUIP );
 				equipmentLists[i].setSelectedItem( EquipmentRequest.UNEQUIP );
 			}
 			else
 			{
-				if ( TradeableItemDatabase.getConsumptionType( equipment[i] ) == ConsumeItemRequest.EQUIP_ACCESSORY )
-					KoLCharacter.equipment.set( i, equipment[i] );
-				else
-					KoLCharacter.equipment.set( i, equipment[i] + " (+" + EquipmentDatabase.getPower( equipment[i] ) + ")" );
-
-				for ( int j = 0; j < equipmentLists[i].size(); ++j )
-				{
-					if ( equipmentLists[i].get(j).toString().startsWith( equipment[i] ) )
-					{
-						equipmentLists[i].setSelectedIndex(j);
-						break;
-					}
-				}
+				KoLCharacter.equipment.set( i, equipment[i] );
+				equipmentLists[i].setSelectedItem( equipment[i] );
 			}
 		}
 
 		addJoybuzzer();
 
 		if ( equipment.length > FAMILIAR && currentFamiliar != FamiliarData.NO_FAMILIAR )
-		{
-			currentFamiliar.setItem( equipment[FAMILIAR] );
-		}
+			currentFamiliar.setItem( equipment[FAMILIAR].getName() );
 
 		recalculateAdjustments( false );
 		updateStatus();
@@ -1134,8 +1123,8 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The name of the item equipped on the character's familiar, <code>none</code> if no such item exists
 	 */
 
-	public static String getFamiliarItem()
-	{	return currentFamiliar == null ? EquipmentRequest.UNEQUIP : currentFamiliar.getItem();
+	public static AdventureResult getFamiliarItem()
+	{	return currentFamiliar == null ? EquipmentRequest.UNEQUIP : new AdventureResult( currentFamiliar.getItem(), 1, false );
 	}
 
 	/**
@@ -1144,10 +1133,10 @@ public abstract class KoLCharacter extends StaticEntity
 	 * @return	The name of the equipment, <code>none</code> if no such item exists
 	 */
 
-	public static String getEquipment( int type )
+	public static AdventureResult getEquipment( int type )
 	{
 		if ( type >= HAT && type < FAMILIAR )
-			return (String) equipment.get( type );
+			return (AdventureResult) equipment.get( type );
 
 		if ( type == FAMILIAR )
 			return getFamiliarItem();
@@ -1164,59 +1153,12 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to retrieve the name of a piece of equipment
-	 * @param	type	the type of equipment
-	 * @return	String	name of the equipped item or null if none
-	 */
-
-	public static String getCurrentEquipmentName( int type )
-	{
-		if ( type == FAKEHAND )
-			return fakeHands > 0 ? "fake hand" : null;
-		return getEquipmentName( getEquipment( type ) );
-	}
-
-	/**
-	 * Accessor method to retrieve the name of a piece of equipment
-	 * @param	equipmentDescription	the description of equipment
-	 * @return	String	name of the equipped item or null if none
-	 */
-
-	public static String getEquipmentName( String equipmentDescription )
-	{
-		if ( equipmentDescription == null )
-			return null;
-
-		// If slot not currently equipped, return null
-		if ( equipmentDescription.equals( EquipmentRequest.UNEQUIP ))
-			return null;
-
-		// Strip off item power
-		int parenIndex = equipmentDescription.indexOf( " (" );
-		return parenIndex == -1 ? equipmentDescription : equipmentDescription.substring( 0, parenIndex );
-	}
-
-	/**
-	 * Accessor method to retrieve a piece of equipment
-	 * @param	type	the type of equipment
-	 * @return	AdventureResult for the equipment, <code>null</code> if no such item exists
-	 */
-
-	public static AdventureResult getCurrentEquipment( int type )
-	{
-		String name = getCurrentEquipmentName( type );
-		return ( name == null) ? null : new AdventureResult( name, 1, false );
-	}
-
-	/**
 	 * Accessor method to retrieve # of hands character's weapon uses
 	 * @return	int	number of hands needed
 	 */
 
 	public static int weaponHandedness()
-	{
-		String name = getCurrentEquipmentName( WEAPON );
-		return ( name == null) ? 0 : EquipmentDatabase.getHands( name );
+	{	return EquipmentDatabase.getHands( getEquipment( WEAPON ).getName() );
 	}
 
 	/**
@@ -1225,9 +1167,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static boolean rangedWeapon()
-	{
-		String name = getCurrentEquipmentName( WEAPON );
-		return name != null && EquipmentDatabase.isRanged( name );
+	{	return EquipmentDatabase.isRanged( getEquipment( WEAPON ).getName() );
 	}
 
 	/**
@@ -1340,9 +1280,7 @@ public abstract class KoLCharacter extends StaticEntity
 	 */
 
 	public static boolean dualWielding()
-	{
-		String name = getCurrentEquipmentName( OFFHAND );
-		return name != null && EquipmentDatabase.getHands( name ) == 1;
+	{	return EquipmentDatabase.getHands( getEquipment( OFFHAND ).getName() ) == 1;
 	}
 
 	/**
@@ -1365,7 +1303,7 @@ public abstract class KoLCharacter extends StaticEntity
 	{	updateEquipmentList( listIndex, getEquipment( listIndex ) );
 	}
 
-	public static void updateEquipmentList( int listIndex, String equippedItem )
+	public static void updateEquipmentList( int listIndex, AdventureResult equippedItem )
 	{
 		int consumeFilter = 0;
 		switch ( listIndex )
@@ -1400,18 +1338,18 @@ public abstract class KoLCharacter extends StaticEntity
 		updateEquipmentList( equipmentLists[ listIndex ], consumeFilter, equippedItem );
 	}
 
-	private static void updateEquipmentList( LockableListModel currentList, int consumeFilter, String equippedItem )
+	private static void updateEquipmentList( LockableListModel currentList, int consumeFilter, AdventureResult equippedItem )
 	{
 		List newItems = getFilteredItems( consumeFilter, equippedItem );
-		if ( currentList.equals( newItems ) )
-			return;
 
-		currentList.clear();
+		currentList.retainAll( newItems );
+		newItems.removeAll( currentList );
 		currentList.addAll( newItems );
+
 		currentList.setSelectedItem( equippedItem );
 	}
 
-	private static List getFilteredItems( int filterID, String equippedItem )
+	private static List getFilteredItems( int filterID, AdventureResult equippedItem )
 	{
 		List items = new ArrayList();
 
@@ -1440,12 +1378,9 @@ public abstract class KoLCharacter extends StaticEntity
 			// If we want off-hand items and we can dual wield,
 			// allow one-handed weapons of same type
 
-			if ( filterID == ConsumeItemRequest.EQUIP_OFFHAND &&
-			     type == ConsumeItemRequest.EQUIP_WEAPON &&
-			     dual )
+			if ( filterID == ConsumeItemRequest.EQUIP_OFFHAND && type == ConsumeItemRequest.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItem ) != 1 ||
-				     EquipmentDatabase.isRanged( currentItem ) != ranged )
+				if ( EquipmentDatabase.getHands( currentItem ) != 1 || EquipmentDatabase.isRanged( currentItem ) != ranged )
 					continue;
 			}
 
@@ -1459,11 +1394,9 @@ public abstract class KoLCharacter extends StaticEntity
 			// Two-handed ranged weapons are also allowed since
 			// they will remove both weapons when equipped
 
-			else if ( filterID == ConsumeItemRequest.EQUIP_WEAPON &&
-				  dual )
+			else if ( filterID == ConsumeItemRequest.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItem ) == 1 &&
-				     EquipmentDatabase.isRanged( currentItem ) != ranged )
+				if ( EquipmentDatabase.getHands( currentItem ) == 1 && EquipmentDatabase.isRanged( currentItem ) != ranged )
 					continue;
 			}
 
@@ -1482,10 +1415,12 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( !EquipmentDatabase.canEquip( currentItem ) )
 				continue;
 
-			if ( filterID != ConsumeItemRequest.EQUIP_ACCESSORY )
-				items.add( currentItem + " (+" + EquipmentDatabase.getPower( currentItem ) + ")" );
+			AdventureResult validItem = (AdventureResult) inventory.get(i);
+
+			if ( type == ConsumeItemRequest.EQUIP_ACCESSORY )
+				items.add( validItem.getInstance( getCount( validItem ) ) );
 			else
-				items.add( currentItem );
+				items.add( validItem );
 		}
 
 		// If we are looking at familiar items, include those which can
@@ -1498,18 +1433,40 @@ public abstract class KoLCharacter extends StaticEntity
 			{
 				FamiliarData familiar = (FamiliarData) familiars.get(i);
 				String item = familiar.getItem();
+
 				if ( item != null && !items.contains( item ) && currentFamiliar.canEquip( item ) )
-					items.add( item );
+					items.add( new AdventureResult( item, 1, false ) );
 			}
 		}
-
-		if ( !items.contains( equippedItem ) )
+		else if ( filterID == ConsumeItemRequest.EQUIP_ACCESSORY )
+		{
+			if ( !items.contains( KoLCharacter.getEquipment( ACCESSORY1 ) ) )
+				items.add( equippedItem.getInstance( getCount( KoLCharacter.getEquipment( ACCESSORY1 ) ) ) );
+			if ( !items.contains( KoLCharacter.getEquipment( ACCESSORY2 ) ) )
+				items.add( equippedItem.getInstance( getCount( KoLCharacter.getEquipment( ACCESSORY2 ) ) ) );
+			if ( !items.contains( KoLCharacter.getEquipment( ACCESSORY3 ) ) )
+				items.add( equippedItem.getInstance( getCount( KoLCharacter.getEquipment( ACCESSORY3 ) ) ) );
+		}
+		else if ( !items.contains( equippedItem ) )
 			items.add( equippedItem );
 
 		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
 			items.add( EquipmentRequest.UNEQUIP );
 
 		return items;
+	}
+
+	private static int getCount( AdventureResult accessory )
+	{
+		int available = accessory.getCount( KoLCharacter.getInventory() );
+		if ( KoLCharacter.getEquipment( ACCESSORY1 ).equals( accessory ) )
+			++available;
+		if ( KoLCharacter.getEquipment( ACCESSORY2 ).equals( accessory ) )
+			++available;
+		if ( KoLCharacter.getEquipment( ACCESSORY3 ).equals( accessory ) )
+			++available;
+
+		return available;
 	}
 
 	/**
@@ -2071,7 +2028,7 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		UseSkillRequest handshake = new UseSkillRequest( getClient(), "Shake Hands", "", 1 );
 
-		if ( getEquipment( OFFHAND ).startsWith( "joybuzzer" ) )
+		if ( getEquipment( OFFHAND ).getItemID() == JOYBUZZER.getItemID() )
 		{
 			if ( !KoLCharacter.battleSkillIDs.contains( "skill shake hands" ) )
 			{
@@ -2739,14 +2696,7 @@ public abstract class KoLCharacter extends StaticEntity
 	public static boolean hasEquipped( String itemName, int equipmentSlot )
 	{
 		itemName = KoLDatabase.getCanonicalName( itemName );
-		String itemInSlot = KoLDatabase.getCanonicalName( getEquipment( equipmentSlot ) );
-
-		if ( itemInSlot.equals( EquipmentRequest.UNEQUIP ) )
-			return false;
-
-		if ( itemInSlot.indexOf( "(" ) != -1 )
-			itemInSlot = itemInSlot.substring( 0, itemInSlot.indexOf( "(" ) ).trim();
-
+		String itemInSlot = KoLDatabase.getCanonicalName( getEquipment( equipmentSlot ).getName() );
 		return itemInSlot.equals( itemName );
 	}
 
@@ -2881,7 +2831,7 @@ public abstract class KoLCharacter extends StaticEntity
 		// Look at items
 		for ( int slot = HAT; slot <= FAMILIAR; ++slot )
 		{
-			AdventureResult item = getCurrentEquipment( slot );
+			AdventureResult item = getEquipment( slot );
 			if ( item == null )
 				continue;
 
