@@ -682,7 +682,7 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "login" ) )
 		{
 			(new LogoutRequest( StaticEntity.getClient() )).run();
-			KoLmafia.forceContinue();
+			forceContinue();
 
 			String password = StaticEntity.getClient().getSaveState( parameters );
 

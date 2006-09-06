@@ -651,7 +651,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( !isDelayExempt() && isServerFriendly )
 				delay();
 		}
-		while ( !prepareConnection() || !postClientData() || (!retrieveServerReply() && delay( 5000 )) );
+		while ( (!prepareConnection() || !postClientData() || (!retrieveServerReply() && delay( 5000 ))) && !KoLmafia.refusesContinue() );
 
 		if ( responseCode == 200 && responseText != null )
 		{

@@ -303,10 +303,9 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		if ( KoLCharacter.canInteract() )
 		{
-			DEFAULT_SHELL.executeLine( "buy " + ROCKNROLL_LEGEND.getName() );
+			DEFAULT_SHELL.executeLine( "acquire " + ROCKNROLL_LEGEND.getName() );
 			if ( KoLCharacter.hasItem( ROCKNROLL_LEGEND, false ) )
 				return ROCKNROLL_LEGEND;
-			KoLmafia.forceContinue();
 		}
 
 		// He must have at least a stolen accordion
