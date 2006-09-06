@@ -542,7 +542,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
-		if ( KoLmafia.refusesContinue() )
+		if ( !isDelayExempt() && KoLmafia.refusesContinue() )
 			return;
 
 		if ( !usingValidConnection )
@@ -647,13 +647,15 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( getURLString().endsWith( "lair6.php?place=6" ) )
 			KoLCharacter.setInteraction( KoLCharacter.getTotalTurnsUsed() >= 600 );
 
+		boolean isDelayExempt = isDelayExempt();
+
 		do
 		{
 			statusChanged = false;
-			if ( !isDelayExempt() && isServerFriendly )
+			if ( !isDelayExempt && isServerFriendly )
 				delay();
 		}
-		while ( (!prepareConnection() || !postClientData() || (!retrieveServerReply() && delay( 5000 ))) && !KoLmafia.refusesContinue() );
+		while ( (!prepareConnection() || !postClientData() || (!retrieveServerReply() && delay( 5000 ))) && (!KoLmafia.refusesContinue() || isDelayExempt) );
 
 		if ( responseCode == 200 && responseText != null )
 		{
