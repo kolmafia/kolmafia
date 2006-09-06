@@ -396,6 +396,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			KoLCharacter.armBeanstalk();
 			return;
 		}
+
 		else if ( adventureID.equals( "11" ) )
 		{
 			isValidAdventure = true;
@@ -414,9 +415,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// Attempt to unlock the Degrassi Knoll by visiting Paco.
 		// Though we can unlock the guild quest, sometimes people
 		// don't want to open up the guild store right now.  So,
-		// just keep trying until paco is unlocked.
+		// only keep trying until paco is unlocked.
 
-		if ( adventureID.equals( "10" ) )
+		if ( adventureID.equals( "10" ) || adventureID.equals( "100" ) )
 		{
 			client.unlockGuildStore( true );
 			if ( KoLmafia.permitsContinue() )
