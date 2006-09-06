@@ -63,7 +63,7 @@
 11	29	29	adventure.php	75	Dark Neck of the Woods	wussiness potion, ruby W, dodecagram
 11	29	29	adventure.php	76	Dark Heart of the Woods	box of birthday candles
 11	29	29	adventure.php	77	Dark Elbow of the Woods	eldritch butterknife
-00	29	29	friars.php	0	Friar Ceremony Location
+11	29	29	friars.php	0	Friar Ceremony Location
 05	29	29	adventure.php	79	Deep Fat Friar's Gate
 
 12	40	40	adventure.php	54	Defiled Nook
@@ -87,7 +87,7 @@
 
 15	0	0	adventure.php	91	Noob Cave
 15	0	0	adventure.php	92	The Dire Warren	level 2
-00	68	0	mountains.php	80	Bridge the Orc Chasm
+15	68	0	mountains.php	80	Bridge the Orc Chasm
 15	68	0	adventure.php	80	Valley Beyond Orc Chasm	2 334 scroll, 1 30669 scroll, 1 33398 scroll
 
 16	85	90	adventure.php	81	Penultimate Fantasy Airship	photoprotoneutron torpedo, S.O.C.K.

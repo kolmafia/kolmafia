@@ -356,7 +356,13 @@ public class AdventureDatabase extends KoLDatabase
 
 		KoLRequest request = new KoLRequest( getClient(), (String) validationRequests.get( validationRequests.size() - 1 ) );
 		request.run();
-		isValidZone &= request.responseText != null && request.responseText.indexOf( locationID ) != -1;
+
+		isValidZone &= request.responseText != null;
+		if ( isValidZone )
+		{
+			isValidZone &= request.responseText.indexOf( "snarfblat=" + locationID ) != -1 ||
+				request.responseText.indexOf( "adv=" + locationID ) != -1;
+		}
 
 		return isValidZone;
 	}
