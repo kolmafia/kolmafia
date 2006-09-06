@@ -287,7 +287,7 @@ public abstract class KoLmafia implements KoLConstants
 		commandBuffer.append( colorBuffer.toString() );
 
 		if ( !existingFrames.isEmpty() && message.indexOf( LINE_BREAK ) == -1 )
-			updateDisplayState( CONTINUE_STATE, message );
+			updateDisplayState( state != ERROR_STATE ? CONTINUE_STATE : ERROR_STATE, message );
 	}
 
 	private static synchronized final void updateDisplayState( int state, String message )

@@ -307,6 +307,32 @@ public abstract class MoodSettings implements KoLConstants
 				addTrigger( "lose_effect", effects[i].getName(), action );
 		}
 	}
+
+	/**
+	 * Deletes the current mood and sets the current mood
+	 * to apathetic.
+	 */
+
+	public static void deleteCurrentMood()
+	{
+		String currentMood = StaticEntity.getProperty( "currentMood" );
+
+		if ( currentMood.equals( "default" ) )
+		{
+			triggers.clear();
+			saveSettings();
+			return;
+		}
+
+		availableMoods.setSelectedItem( "apathetic" );
+		setMood( "apathetic" );
+
+		reference.remove( currentMood );
+		availableMoods.remove( currentMood );
+
+		saveSettings();
+	}
+
 	/**
 	 * Duplicates the current trigger list into a new list
 	 */
