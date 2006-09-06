@@ -3509,8 +3509,10 @@ public class KoLmafiaASH extends StaticEntity
 				if ( !KoLmafia.permitsContinue() )
 					currentState = STATE_EXIT;
 
-				trace( "[" + executionStateString( currentState ) + "] <- " + result.toQuotedString() );
+				if ( result == null )
+					result = VOID_VALUE;
 
+				trace( "[" + executionStateString( currentState ) + "] <- " + result.toQuotedString() );
 				switch ( currentState )
 				{
 					case STATE_RETURN:
@@ -3665,7 +3667,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			return null;
 		}
-        }
+	}
 
 	private class ScriptUserDefinedFunction extends ScriptFunction
 	{
@@ -5230,14 +5232,17 @@ public class KoLmafiaASH extends StaticEntity
 			if ( getSlice() )
 			{
 				ScriptValue result = slice.aref( index );
-				traceIndent();
-				trace( "AREF <- " + result.toQuotedString() );
-				traceUnindent();
+
 				if ( result == null )
 				{
 					result = slice.initialValue( index );
 					slice.aset( index, result );
 				}
+
+				traceIndent();
+				trace( "AREF <- " + result.toQuotedString() );
+				traceUnindent();
+
 				return result;
 			}
 
