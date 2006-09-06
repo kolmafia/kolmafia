@@ -361,7 +361,9 @@ public class AdventureDatabase extends KoLDatabase
 		if ( isValidZone )
 		{
 			isValidZone &= request.responseText.indexOf( "snarfblat=" + locationID ) != -1 ||
-				request.responseText.indexOf( "adv=" + locationID ) != -1;
+				request.responseText.indexOf( "adv=" + locationID ) != -1 ||
+				request.responseText.indexOf( "name=snarfblat value=" + locationID ) != -1 ||
+				request.responseText.indexOf( "name=adv value=" + locationID ) != -1;
 		}
 
 		return isValidZone;
