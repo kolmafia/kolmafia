@@ -1098,6 +1098,7 @@ public class OptionsFrame extends KoLFrame
 			elements[0] = new VerifiableElement( "Trigger On: ", typeSelect );
 			elements[1] = new VerifiableElement( "Check For: ", valueSelect );
 			elements[2] = new VerifiableElement( "Command: ", commandField );
+
 			setContent( elements );
 		}
 
@@ -1162,7 +1163,6 @@ public class OptionsFrame extends KoLFrame
 	private class MoodTriggerListPanel extends LabeledScrollPanel
 	{
 		private JComboBox moodSelect;
-		private CopyMoodButton moodCopy;
 
 		public MoodTriggerListPanel()
 		{
@@ -1170,11 +1170,18 @@ public class OptionsFrame extends KoLFrame
 			super( "", "new list", "remove", new JList( MoodSettings.getTriggers() ) );
 
 			moodSelect = new MoodComboBox();
-			moodCopy = new CopyMoodButton();
+
+			CopyMoodButton moodCopy = new CopyMoodButton();
+			InvocationButton moodRemove = new InvocationButton( "delete list", MoodSettings.class, "deleteCurrentMood" );
 
 			actualPanel.add( moodSelect, BorderLayout.NORTH );
 			moodList = (JList) scrollComponent;
-			buttonPanel.add(moodCopy, BorderLayout.SOUTH);
+
+			JPanel extraButtons = new JPanel( new BorderLayout( 2, 2 ) );
+			extraButtons.add( moodRemove, BorderLayout.NORTH );
+			extraButtons.add( moodCopy, BorderLayout.SOUTH );
+
+			buttonPanel.add( extraButtons, BorderLayout.SOUTH );
 		}
 
 		public void actionConfirmed()
@@ -1212,20 +1219,21 @@ public class OptionsFrame extends KoLFrame
 		{
 			public CopyMoodButton()
 			{
-				super ( "copy list" );
-				addActionListener(this);
+				super( "copy list" );
+				addActionListener( this );
 			}
-			public void actionPerformed (ActionEvent e)
+
+			public void actionPerformed( ActionEvent e )
 			{
-				String moodName = JOptionPane.showInputDialog("Make a copy of current mood list called:");
-				if (moodName == null)
+				String moodName = JOptionPane.showInputDialog( "Make a copy of current mood list called:" );
+				if ( moodName == null )
 					return;
 
-				if ( moodName.equals("default"))
+				if ( moodName.equals( "default" ) )
 					return;
 
-				MoodSettings.copyTriggers(moodName);
-				moodList.setModel(MoodSettings.setMood(moodName));
+				MoodSettings.copyTriggers( moodName );
+				moodList.setModel( MoodSettings.setMood( moodName ) );
 			}
 		}
 	}
