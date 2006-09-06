@@ -481,7 +481,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( visitedCouncil )
 		{
-			KoLmafia.updateDisplay( "This adventure is not yet unlocked." );
+			KoLmafia.updateDisplay( ABORT_STATE, "This adventure is not yet unlocked." );
 			return;
 		}
 
