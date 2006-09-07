@@ -710,51 +710,59 @@ public class AdventureResult implements Comparable, KoLConstants
 			AdventureResult ar = (AdventureResult) value;
 			int equipmentType = TradeableItemDatabase.getConsumptionType( ar.getName() );
 
-			switch ( equipmentType )
+			if ( !weapon || !offhand || !hat || !shirt || !pants || !accessory || !familiar )
 			{
-				case ConsumeItemRequest.EQUIP_WEAPON:
-					if ( !weapon )
-						return BLANK_LABEL;
-					break;
+				switch ( equipmentType )
+				{
+					case ConsumeItemRequest.EQUIP_WEAPON:
+						if ( !weapon )
+							return BLANK_LABEL;
+						break;
 
-				case ConsumeItemRequest.EQUIP_OFFHAND:
-					if ( !offhand )
-						return BLANK_LABEL;
-					break;
+					case ConsumeItemRequest.EQUIP_OFFHAND:
+						if ( !offhand )
+							return BLANK_LABEL;
+						break;
 
-				case ConsumeItemRequest.EQUIP_HAT:
-					if ( !hat )
-						return BLANK_LABEL;
-					break;
+					case ConsumeItemRequest.EQUIP_HAT:
+						if ( !hat )
+							return BLANK_LABEL;
+						break;
 
-				case ConsumeItemRequest.EQUIP_SHIRT:
-					if ( !shirt )
-						return BLANK_LABEL;
-					break;
+					case ConsumeItemRequest.EQUIP_SHIRT:
+						if ( !shirt )
+							return BLANK_LABEL;
+						break;
 
-				case ConsumeItemRequest.EQUIP_PANTS:
-					if ( !pants )
-						return BLANK_LABEL;
-					break;
+					case ConsumeItemRequest.EQUIP_PANTS:
+						if ( !pants )
+							return BLANK_LABEL;
+						break;
 
-				case ConsumeItemRequest.EQUIP_ACCESSORY:
-					if ( !accessory )
-						return BLANK_LABEL;
-					break;
+					case ConsumeItemRequest.EQUIP_ACCESSORY:
+						if ( !accessory )
+							return BLANK_LABEL;
+						break;
 
-				case ConsumeItemRequest.EQUIP_FAMILIAR:
-					if ( !familiar )
-						return BLANK_LABEL;
-					break;
+					case ConsumeItemRequest.EQUIP_FAMILIAR:
+						if ( !familiar )
+							return BLANK_LABEL;
+						break;
 
-				default:
-					return BLANK_LABEL;
+					default:
+						return BLANK_LABEL;
+				}
 			}
 
 			int power = EquipmentDatabase.getPower( ar.getName() );
+			String stringForm = null;
 
-			String stringForm = equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY ? ar.toString() :
-				ar.getName() + " (+" + COMMA_FORMAT.format(power) + ")";
+			if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
+				stringForm = ar.getName() + " (" + ar.getCount() + " max)";
+			else if ( equipmentType == ConsumeItemRequest.EQUIP_FAMILIAR || ar.equals( EquipmentRequest.UNEQUIP )
+				stringForm = ar.getName();
+			else
+				stringForm = ar.getName() + " (+" + COMMA_FORMAT.format(power) + ")";
 
 			JLabel defaultComponent = (JLabel) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 			defaultComponent.setText( stringForm );

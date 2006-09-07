@@ -80,7 +80,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	protected BookmarkMenu bookmarkMenu;
 
 	protected JMenuItem macroMenuItem = new ToggleMacroMenuItem();
-	protected LockableListModel scripts = new LockableListModel();
+	protected static LockableListModel scripts = new LockableListModel();
 	protected static SortedListModel bookmarks = new SortedListModel( String.class );
 
 	private static final String [] LICENSE_FILENAME = {
@@ -534,6 +534,9 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		scripts.clear();
 
 		// Get the list of files in the current directory
+		if ( !SCRIPT_DIRECTORY.exists() )
+			SCRIPT_DIRECTORY.mkdirs();
+
 		File [] scriptList = SCRIPT_DIRECTORY.listFiles( BACKUP_FILTER );
 
 		// Iterate through the files.  Do this in two
@@ -869,10 +872,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		public ScriptMenu()
 		{
 			super( "Scripts", scripts );
-
-			if ( !SCRIPT_DIRECTORY.exists() )
-				SCRIPT_DIRECTORY.mkdirs();
-
 			compileScripts();
 		}
 

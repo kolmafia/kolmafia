@@ -1352,6 +1352,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static List getFilteredItems( int filterID, AdventureResult equippedItem )
 	{
 		List items = new ArrayList();
+		items.add( EquipmentRequest.UNEQUIP );
 
 		// If the character is currently equipped with a one-handed
 		// weapon and the character has the ability to dual-wield
@@ -1365,22 +1366,20 @@ public abstract class KoLCharacter extends StaticEntity
 		// be equipped.  So, return the blank list now.
 
 		if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR && currentFamiliar == null )
-		{
-			items.add( EquipmentRequest.UNEQUIP );
 			return items;
-		}
 
 		for ( int i = 0; i < inventory.size(); ++i )
 		{
-			String currentItem = ((AdventureResult)inventory.get(i)).getName();
-			int type = TradeableItemDatabase.getConsumptionType( currentItem );
+			AdventureResult currentItem = (AdventureResult) inventory.get(i);
+			String currentItemName = currentItem.getName();
+			int type = TradeableItemDatabase.getConsumptionType( currentItemName );
 
 			// If we want off-hand items and we can dual wield,
 			// allow one-handed weapons of same type
 
 			if ( filterID == ConsumeItemRequest.EQUIP_OFFHAND && type == ConsumeItemRequest.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItem ) != 1 || EquipmentDatabase.isRanged( currentItem ) != ranged )
+				if ( EquipmentDatabase.getHands( currentItemName ) != 1 || EquipmentDatabase.isRanged( currentItemName ) != ranged )
 					continue;
 			}
 
@@ -1396,7 +1395,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 			else if ( filterID == ConsumeItemRequest.EQUIP_WEAPON && dual )
 			{
-				if ( EquipmentDatabase.getHands( currentItem ) == 1 && EquipmentDatabase.isRanged( currentItem ) != ranged )
+				if ( EquipmentDatabase.getHands( currentItemName ) == 1 && EquipmentDatabase.isRanged( currentItemName ) != ranged )
 					continue;
 			}
 
@@ -1405,22 +1404,20 @@ public abstract class KoLCharacter extends StaticEntity
 
 			if ( type == ConsumeItemRequest.EQUIP_FAMILIAR )
 			{
-				if ( currentFamiliar.canEquip( currentItem ) )
+				if ( currentFamiliar.canEquip( currentItemName ) )
 					items.add( currentItem );
 				continue;
 			}
 
 			// It's a regular item. Make sure we meet requirements
 
-			if ( !EquipmentDatabase.canEquip( currentItem ) )
+			if ( !EquipmentDatabase.canEquip( currentItemName ) )
 				continue;
 
-			AdventureResult validItem = (AdventureResult) inventory.get(i);
-
 			if ( type == ConsumeItemRequest.EQUIP_ACCESSORY )
-				items.add( validItem.getInstance( getCount( validItem ) ) );
+				items.add( currentItem.getInstance( getCount( currentItem ) ) );
 			else
-				items.add( validItem );
+				items.add( currentItem );
 		}
 
 		// If we are looking at familiar items, include those which can
@@ -1429,13 +1426,16 @@ public abstract class KoLCharacter extends StaticEntity
 
 		if ( filterID == ConsumeItemRequest.EQUIP_FAMILIAR )
 		{
-			for ( int i = 0; i < familiars.size(); ++i )
-			{
-				FamiliarData familiar = (FamiliarData) familiars.get(i);
-				String item = familiar.getItem();
+			FamiliarData [] familiarList = new FamiliarData[ familiars.size() ];
+			familiars.toArray( familiarList );
 
-				if ( item != null && !items.contains( item ) && currentFamiliar.canEquip( item ) )
-					items.add( new AdventureResult( item, 1, false ) );
+			for ( int i = 0; i < familiarList.length; ++i )
+			{
+				String itemName = familiarList[i].getItem();
+				AdventureResult item = new AdventureResult( itemName, 1, false );
+
+				if ( item != null && !items.contains( item ) && currentFamiliar.canEquip( itemName ) )
+					items.add( item );
 			}
 		}
 		else if ( filterID == ConsumeItemRequest.EQUIP_ACCESSORY )
@@ -1447,11 +1447,9 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( !items.contains( KoLCharacter.getEquipment( ACCESSORY3 ) ) )
 				items.add( equippedItem.getInstance( getCount( KoLCharacter.getEquipment( ACCESSORY3 ) ) ) );
 		}
-		else if ( !items.contains( equippedItem ) )
-			items.add( equippedItem );
 
-		if ( !items.contains( EquipmentRequest.UNEQUIP ) )
-			items.add( EquipmentRequest.UNEQUIP );
+		if ( !items.contains( equippedItem ) )
+			items.add( equippedItem );
 
 		return items;
 	}
