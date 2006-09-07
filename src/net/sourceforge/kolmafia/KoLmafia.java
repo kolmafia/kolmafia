@@ -2445,6 +2445,8 @@ public abstract class KoLmafia implements KoLConstants
 				if ( output.exists() )
 					output.delete();
 
+				output.createNewFile();
+
 				String line;
 				PrintStream writer = new LogStream( output );
 
@@ -2460,11 +2462,11 @@ public abstract class KoLmafia implements KoLConstants
 			// This should not happen.  Therefore, print
 			// a stack trace for debug purposes.
 
-			StaticEntity.printStackTrace( e, "Data file update failed" );
+			updateDisplay( ERROR_STATE, "Subversion service access failed.  Try again later." );
 			return;
 		}
 
-		updateDisplay( "Download completed.  Please restart to complete the update." );
+		updateDisplay( "Please restart KoLmafia to complete the update." );
 	}
 
 	public static boolean isRunningBetweenBattleChecks()
