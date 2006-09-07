@@ -564,7 +564,6 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "update" ) )
 		{
 			downloadAdventureOverride();
-			updateDisplay( "You will need to restart KoLmafia for the changes to take effect." );
 			return;
 		}
 
