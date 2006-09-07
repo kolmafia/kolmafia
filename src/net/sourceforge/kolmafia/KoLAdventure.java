@@ -313,10 +313,10 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		else if ( adventureID.equals( "82" ) )
 		{
-			if ( KoLCharacter.hasItem( ROWBOAT, true ) )
-				AdventureDatabase.retrieveItem( ROWBOAT );
-			else
+			if ( KoLCharacter.hasItem( SOCK, true ) )
 				AdventureDatabase.retrieveItem( SOCK );
+			else
+				AdventureDatabase.retrieveItem( ROWBOAT );
 
 			isValidAdventure = KoLmafia.permitsContinue();
 			return;
