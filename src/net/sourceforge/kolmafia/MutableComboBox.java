@@ -59,7 +59,7 @@ public class MutableComboBox extends JComboBox
 
 		NameInputListener listener = new NameInputListener();
 
-		this.addFocusListener( listener );
+		this.getEditor().getEditorComponent().addFocusListener( listener );
 		this.getEditor().getEditorComponent().addKeyListener( listener );
 	}
 
@@ -118,7 +118,7 @@ public class MutableComboBox extends JComboBox
 	{
 		public void keyReleased( KeyEvent e )
 		{
-			if ( e.getKeyCode() == KeyEvent.VK_ENTER )
+			if ( e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB )
 				focusLost( null );
 			else if ( e.getKeyChar() != KeyEvent.CHAR_UNDEFINED )
 				findMatch( e.getKeyCode() );
