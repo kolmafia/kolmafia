@@ -389,10 +389,8 @@ public class GearChangeFrame extends KoLFrame
 
 	private void updateEquipmentList( LockableListModel currentList, List newItems, AdventureResult equippedItem )
 	{
-		if ( currentList.equals( newItems ) )
-			return;
-
-		currentList.clear();
+		currentList.retainAll( newItems );
+		newItems.removeAll( currentList );
 		currentList.addAll( newItems );
 		currentList.setSelectedItem( equippedItem );
 	}
