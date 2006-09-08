@@ -235,6 +235,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( existingFrames.isEmpty() && StaticEntity.getClient() instanceof KoLmafiaGUI )
 		{
 			StaticEntity.closeSession();
+
+			if ( !StaticEntity.getProperty( "autoLogin" ).equals( "" ) )
+				System.exit(0);
+
 			(new CreateFrameRunnable( LoginFrame.class )).run();
 		}
 	}
