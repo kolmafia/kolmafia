@@ -647,7 +647,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 */
 
 	public static int getMixingMethod( int itemID )
-	{	return concoctions.get( itemID ).getMixingMethod();
+	{	return concoctions.get( itemID ) != null ? concoctions.get( itemID ).getMixingMethod() : ItemCreationRequest.NOCREATE;
 	}
 
 	/**

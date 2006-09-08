@@ -1000,7 +1000,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, check against the restore target to see how
 		// far you need to go.
 
-		int threshold = initial == 0 ? needed : settingName.startsWith( "mp" ) ? current : needed - 1;
+		int threshold = initial == 0 ? needed - 1 : settingName.startsWith( "mp" ) ? current : needed;
 		setting = StaticEntity.getFloatProperty( settingName + "Target" );
 
 		if ( needed == 0 && setting <= 0 )
@@ -1362,6 +1362,10 @@ public abstract class KoLmafia implements KoLConstants
 		boolean shouldEnableRefreshStatus = RequestFrame.isRefreshStatusEnabled();
 		RequestFrame.setRefreshStatusEnabled( false );
 
+		ItemCreationRequest [] creatables = new ItemCreationRequest[ conditions.size() ];
+		for ( int i = 0; i < conditions.size(); ++i )
+			creatables[i] = ItemCreationRequest.getInstance( this, (AdventureResult) conditions.get(i) );
+
 		while ( permitsContinue() && ++currentIteration <= iterations )
 		{
 			// Account for the possibility that you could have run
@@ -1371,6 +1375,21 @@ public abstract class KoLmafia implements KoLConstants
 			{
 				iterations = currentIteration;
 				break;
+			}
+
+			// See if you can create anything to satisfy your item
+			// conditions, but only do so if it's an adventure.
+
+			if ( request instanceof KoLAdventure )
+			{
+				for ( int i = 0; i < creatables.length; ++i )
+				{
+					if ( creatables[i] != null && creatables[i].getCount( ConcoctionsDatabase.getConcoctions() ) >= creatables[i].getQuantityNeeded() )
+					{
+						creatables[i].run();
+						creatables[i] = null;
+					}
+				}
 			}
 
 			// If the conditions existed and have been satisfied,
