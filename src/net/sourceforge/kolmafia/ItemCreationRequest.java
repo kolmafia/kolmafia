@@ -563,7 +563,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		boolean isCreatePermitted = StaticEntity.getBooleanProperty( "createWithoutBoxServants" );
 		boolean hasNoServantItem = KoLCharacter.getInventory().contains( noServantItem ) || KoLCharacter.getAvailableMeat() >= 1000;
 
-		if ( StaticEntity.getBooleanProperty( "autoRepairBoxes" ) )
+		if ( !StaticEntity.getBooleanProperty( "autoRepairBoxes" ) )
 		{
 			if ( !isCreatePermitted )
 				return false;
