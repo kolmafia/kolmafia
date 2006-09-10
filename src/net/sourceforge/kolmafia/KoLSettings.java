@@ -248,7 +248,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "relayAddsPlinking", "false" );
 		CLIENT_SETTINGS.put( "relayAddsScriptList", "true" );
 		CLIENT_SETTINGS.put( "relayAddsShrugOffLinks", "true" );
-		CLIENT_SETTINGS.put( "relayAddsSimulatorLinks", "true" );
+		CLIENT_SETTINGS.put( "relayAddsSimulatorLinks", "false" );
 		CLIENT_SETTINGS.put( "relayAddsUseLinks", "true" );
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );

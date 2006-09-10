@@ -212,7 +212,7 @@ public class LocalRelayRequest extends KoLRequest
 		if ( fullResponse.indexOf( "http://pics.communityofloathing.com" ) != -1 )
 		{
 			RequestEditorKit.downloadImages( fullResponse );
-			fullResponse = fullResponse.replaceAll( "http://pics\\.communityofloathing\\.com/albums", "images" );
+			fullResponse = fullResponse.replaceAll( "target=_blank href=\"http://pics\\.communityofloathing\\.com/albums", "href=\"images" );
 		}
 
 		// If the person is currently caching relay images,

@@ -409,6 +409,7 @@ public class RequestFrame extends KoLFrame
 			}
 
 			String location = request.getURLString();
+			location = location.substring( location.lastIndexOf( "/" ) + 1 );
 
 			locationField.setText( location );
 			locationIndex = shownHTML.size() - 1;

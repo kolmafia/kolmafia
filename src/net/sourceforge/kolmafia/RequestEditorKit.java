@@ -1351,13 +1351,13 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	protected static KoLRequest extractRequest( String location )
 	{
-		if ( location.startsWith( "images" ) )
+		if ( location.indexOf( "pics.communityofloathing.com" ) != -1 )
 		{
 			location = location.substring( location.indexOf( "/" ) );
 
 			KoLRequest request = new KoLRequest( StaticEntity.getClient(), location );
 			request.responseCode = 200;
-			request.responseText = "<html><img src=\"http://pics.communityofloathing.com/albums/" + location + "\"></html>";
+			request.responseText = "<html><img src=\"" + location + "\"></html>";
 			request.fullResponse = request.responseText;
 			return request;
 		}
