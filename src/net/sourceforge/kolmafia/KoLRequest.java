@@ -71,6 +71,12 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
+	// Set the maximum tolerated memory to 50 MB.
+	// If it exceeds this value, manually invoke
+	// the garbage collector.
+
+	private static final int MEMORY_LIMIT = 50000000;
+
 	protected static String sessionID = null;
 	protected static String passwordHash = null;
 
@@ -542,6 +548,14 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
+		// Manual garbage collection if memory limit exceeded.
+		// This is to ensure that KoLmafia doesn't start eating
+		// up all available memory.  This will slow runtime a
+		// little bit, but it should work out.
+
+		if ( Runtime.getRuntime().totalMemory() > MEMORY_LIMIT )
+			System.gc();
+
 		if ( !isDelayExempt() && KoLmafia.refusesContinue() )
 			return;
 
@@ -830,9 +844,12 @@ public class KoLRequest implements Runnable, KoLConstants
 			// attempt to connect again
 
 			if ( !isChatRequest )
+			{
 				KoLmafia.getDebugStream().println( "Error opening connection.  Retrying..." );
+				e.printStackTrace( KoLmafia.getDebugStream() );
+			}
 
-			if ( this instanceof LoginRequest)
+			if ( this instanceof LoginRequest )
 				chooseNewLoginServer();
 
 			return false;
