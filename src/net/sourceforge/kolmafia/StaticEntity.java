@@ -35,8 +35,13 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import net.java.dev.spellcast.utilities.DataUtilities;
 import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity implements KoLConstants
@@ -60,8 +65,7 @@ public abstract class StaticEntity implements KoLConstants
 	public static boolean usesSystemTray()
 	{
 		if ( usesSystemTray == 0 )
-			usesSystemTray = System.getProperty( "os.name" ).startsWith( "Windows" ) &&
-				StaticEntity.getProperty( "useSystemTrayIcon" ).equals( "true" ) ? 1 : 2;
+			usesSystemTray = System.getProperty( "os.name" ).startsWith( "Windows" ) && getBooleanProperty( "useSystemTrayIcon" ) ? 1 : 2;
 
 		return usesSystemTray == 1;
 	}
@@ -69,7 +73,7 @@ public abstract class StaticEntity implements KoLConstants
 	public static boolean usesRelayWindows()
 	{
 		if ( usesRelayWindows == 0 )
-			usesRelayWindows = StaticEntity.getProperty( "useRelayWindows" ).equals( "true" ) ? 1 : 2;
+			usesRelayWindows = getBooleanProperty( "useRelayWindows" ) ? 1 : 2;
 
 		return usesRelayWindows == 1;
 	}
@@ -350,5 +354,44 @@ public abstract class StaticEntity implements KoLConstants
 
 		String clean = string.replaceAll( "[^\\-\\.0-9]", "" );
 		return clean.equals( "" ) ? 0.0f : Float.parseFloat( clean );
+	}
+
+	public static final boolean loadLibrary( String filename )
+	{
+		try
+		{
+			// Next, load the icon which will be used by KoLmafia
+			// in the system tray.  For now, this will be the old
+			// icon used by KoLmelion.
+
+			File trayicon = new File( "images/" + filename );
+
+			if ( !trayicon.exists() )
+			{
+				trayicon.createNewFile();
+
+				InputStream input = DataUtilities.getInputStream( "", filename );
+				OutputStream output = new FileOutputStream( trayicon );
+
+				byte [] buffer = new byte[ 1024 ];
+				int bufferLength;
+				while ( (bufferLength = input.read( buffer )) != -1 )
+					output.write( buffer, 0, bufferLength );
+
+				input.close();
+				output.close();
+			}
+
+			return true;
+
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			StaticEntity.printStackTrace( e );
+			return false;
+		}
 	}
 }

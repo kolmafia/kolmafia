@@ -1,147 +1,113 @@
 package net.sourceforge.kolmafia;
 
-import javax.swing.JPopupMenu;
-
 import java.io.File;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.FileOutputStream;
+import javax.swing.ImageIcon;
 
-import com.gc.systray.SystemTrayIconManager;
-import net.java.dev.spellcast.utilities.DataUtilities;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
+import com.jeans.trayicon.WindowsTrayIcon;
+import com.jeans.trayicon.TrayIconPopup;
+import com.jeans.trayicon.TrayIconPopupSimpleItem;
 
-public class SystemTrayFrame extends KoLDesktop implements Runnable
+import net.java.dev.spellcast.utilities.JComponentUtilities;
+
+public abstract class SystemTrayFrame implements KoLConstants
 {
-	private static int icon;
-	private static SystemTrayIconManager manager = null;
+	private static WindowsTrayIcon icon = null;
 
-	private SystemTrayFrame()
+	public static void updateToolTip()
 	{
-	}
-
-	public void setVisible( boolean isVisible )
-	{
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
-		String interfaceSetting = StaticEntity.getProperty( "initialDesktop" );
-
-		for ( int i = 0; i < frames.length; ++i )
-			if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
-				frames[i].setVisible( isVisible );
-
-		if ( KoLDesktop.instanceExists() )
-			KoLDesktop.getInstance().setVisible( isVisible );
-	}
-
-	public static void updateTooltip()
-	{
-		if ( manager != null )
-			manager.update( icon, VERSION_NAME + ": " + KoLCharacter.getUsername() );
-	}
-
-	public void run()
-	{
-		try
+		if ( icon != null )
 		{
-			// First load the DesktopIndicator library to allow
-			// for system tray usage.
-
-			File library = new File( "data/DesktopIndicator.dll" );
-
-			if ( !library.exists() )
-			{
-				InputStream input = DataUtilities.getInputStream( "", "DesktopIndicator.dll" );
-				OutputStream output = new FileOutputStream( library );
-
-				byte [] buffer = new byte[ 1024 ];
-				int bufferLength;
-				while ( (bufferLength = input.read( buffer )) != -1 )
-					output.write( buffer, 0, bufferLength );
-
-				output.close();
-			}
-
-			// Now, make calls to SystemTrayIconManager in order
-			// to make use of the system tray.
-
-			downloadTrayIcon();
-			System.load( library.getAbsolutePath() );
-
-			SystemTrayFrame.manager = new SystemTrayIconManager( icon, VERSION_NAME + ": " + KoLCharacter.getUsername() );
-
-			JPopupMenu popup = new JPopupMenu();
-			KoLMenuBar menubar = new KoLMenuBar( popup );
-
-			manager.setLeftClickView( this );
-			manager.setRightClickView( popup );
-			manager.setVisible( true );
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
-	}
-
-	public static void downloadTrayIcon()
-	{
-		try
-		{
-			// Next, load the icon which will be used by KoLmafia
-			// in the system tray.  For now, this will be the old
-			// icon used by KoLmelion.
-
-			File trayicon = new File( "images/KoLmelionIcon.ico" );
-
-			if ( !trayicon.exists() )
-			{
-				java.io.InputStream input = DataUtilities.getInputStream( "", "KoLmelionIcon.ico" );
-				java.io.OutputStream output = new java.io.FileOutputStream( trayicon );
-
-				byte [] buffer = new byte[ 1024 ];
-				int bufferLength;
-				while ( (bufferLength = input.read( buffer )) != -1 )
-					output.write( buffer, 0, bufferLength );
-
-				output.close();
-			}
-
-			icon = SystemTrayIconManager.loadImage( trayicon.getAbsolutePath() );
-
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
+			icon.setVisible( true );
+			if ( KoLCharacter.getUsername().equals( "" ) )
+				icon.setToolTipText( VERSION_NAME );
+			else
+				icon.setToolTipText( VERSION_NAME + ": " + KoLCharacter.getUsername() );
 		}
 	}
 
 	public static void addTrayIcon()
 	{
-		if ( manager == null )
-			(new Thread( new SystemTrayFrame() )).start();
-		else
-			updateTooltip();
+		// Now, make calls to SystemTrayIconManager in order
+		// to make use of the system tray.
+
+		if ( !StaticEntity.loadLibrary( "TrayIcon12.dll" ) )
+		{
+			KoLmafia.updateDisplay( "Failed to load tray icon." );
+			return;
+		}
+
+		System.load( (new File( "images/TrayIcon12.dll" )).getAbsolutePath() );
+		WindowsTrayIcon.initTrayIcon( "KoLmafia" );
+
+		try
+		{
+			StaticEntity.loadLibrary( "TrayIcon12.gif" );
+			ImageIcon image = JComponentUtilities.getImage( "", "TrayIcon12.gif" );
+
+			icon = new WindowsTrayIcon( image.getImage(), 16, 16 );
+			icon.addMouseListener( new SetVisibleListener() );
+
+			TrayIconPopup popup = new TrayIconPopup();
+			popup.addMenuItem( new EndSessionPopupItem() );
+
+			icon.setPopup( popup );
+			updateToolTip();
+		}
+		catch ( Exception e )
+		{
+			StaticEntity.printStackTrace( e );
+			return;
+		}
 	}
 
 	public static void removeTrayIcon()
+	{	WindowsTrayIcon.cleanUp();
+	}
+
+	private static class SetVisibleListener extends MouseAdapter
 	{
-		if ( manager != null )
+		public void mousePressed( MouseEvent e )
 		{
+			if ( e.getClickCount() != 2 )
+				return;
+
 			KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
 			existingFrames.toArray( frames );
 
-			for ( int i = 0; i < frames.length; ++i )
-				frames[i].dispose();
+			String interfaceSetting = StaticEntity.getProperty( "initialDesktop" );
 
-			manager.setVisible( false );
-			manager = null;
+			for ( int i = 0; i < frames.length; ++i )
+				if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
+				{
+					frames[i].setVisible( true );
+					frames[i].setExtendedState( KoLFrame.NORMAL );
+				}
+
+			if ( KoLDesktop.instanceExists() )
+			{
+				KoLDesktop.getInstance().setVisible( true );
+				KoLDesktop.getInstance().setExtendedState( KoLFrame.NORMAL );
+			}
+		}
+	}
+
+	private static class EndSessionPopupItem extends TrayIconPopupSimpleItem implements ActionListener
+	{
+		public EndSessionPopupItem()
+		{
+			super( "End Session" );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			removeTrayIcon();
+			System.exit(0);
 		}
 	}
 }

@@ -92,14 +92,10 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		"Sun Graphics", "System Tray", "JLine Terminal" };
 
 	protected KoLMenuBar()
-	{	this( null );
-	}
-
-	protected KoLMenuBar( JComponent container )
 	{
 		compileScripts();
 		compileBookmarks();
-		constructMenus( container == null ? this : container );
+		constructMenus();
 	}
 
 	/**
@@ -123,12 +119,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	 * have equivalent menu items.
 	 */
 
-	protected void constructMenus( JComponent container )
+	protected void constructMenus()
 	{
 		// Add general features.
 
 		JMenu statusMenu = new JMenu( "General" );
-		container.add( statusMenu );
+		add( statusMenu );
 
 		// Add the refresh menu, which holds the ability to refresh
 		// everything in the session.
@@ -154,7 +150,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		// Add specialized tools.
 
 		JMenu toolsMenu = new JMenu( "Tools" );
-		container.add( toolsMenu );
+		add( toolsMenu );
 
 		toolsMenu.add( new InvocationMenuItem( "Clear Results", StaticEntity.getClient(), "resetSession" ) );
 		toolsMenu.add( new StopEverythingItem() );
@@ -181,7 +177,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		// Add the old-school people menu.
 
 		JMenu peopleMenu = new JMenu( "People" );
-		container.add( peopleMenu );
+		add( peopleMenu );
 
 		peopleMenu.add( new DisplayFrameMenuItem( "Read KoLmail", "MailboxFrame" ) );
 		peopleMenu.add( new DisplayFrameMenuItem( "KoLmafia Chat", "KoLMessenger" ) );
@@ -198,7 +194,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		// Add in common tasks menu
 
 		JMenu travelMenu = new JMenu( "Travel" );
-		container.add( travelMenu );
+		add( travelMenu );
 
 		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", StaticEntity.getClient(), "makeGalaktikRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Mind Control", StaticEntity.getClient(), "makeMindControlRequest" ) );
@@ -219,7 +215,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		// Add in automatic quest completion scripts.
 
 		JMenu questsMenu = new JMenu( "Quests" );
-		container.add( questsMenu );
+		add( questsMenu );
 
 		questsMenu.add( new InvocationMenuItem( "Unlock Guild", StaticEntity.getClient(), "unlockGuildStore" ) );
 		questsMenu.add( new InvocationMenuItem( "Tavern Quest", StaticEntity.getClient(), "locateTavernFaucet" ) );
@@ -244,23 +240,23 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		if ( !bookmarks.isEmpty() )
 		{
 			bookmarkMenu = new BookmarkMenu();
-			container.add( bookmarkMenu );
+			add( bookmarkMenu );
 		}
 
 		if ( !scripts.isEmpty() )
 		{
 			scriptMenu = new ScriptMenu();
-			container.add( scriptMenu );
+			add( scriptMenu );
 		}
 
 		if ( StaticEntity.getBooleanProperty( "showWindowMenu" ) )
-			container.add( new WindowMenu() );
+			add( new WindowMenu() );
 
 		// Add help information for KoLmafia.  This includes
 		// the additional help-oriented stuffs.
 
 		JMenu helperMenu = new JMenu( "Help" );
-		container.add( helperMenu );
+		add( helperMenu );
 
 		helperMenu.add( new DisplayFrameMenuItem( "Copyright Notice", "LicenseDisplay" ) );
 		helperMenu.add( new DisplayPageMenuItem( "Check for Updates", "https://sourceforge.net/project/showfiles.php?group_id=126572" ) );
@@ -282,9 +278,6 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		helperMenu.add( new DisplayPageMenuItem( "Subjunctive KoL", "http://www.subjunctive.net/kol/FrontPage.html" ) );
 		helperMenu.add( new DisplayPageMenuItem( "KoL Visual Wiki", "http://kol.coldfront.net/thekolwiki/index.php/Main_Page" ) );
 		helperMenu.add( new InvocationMenuItem( "Violet Fog Mapper", VioletFog.class, "showGemelliMap" ) );
-
-		if ( !(container instanceof JMenuBar) )
-			container.add( new InvocationMenuItem( "End Session", SystemTrayFrame.class, "removeTrayIcon" ) );
 	}
 
 	/**
