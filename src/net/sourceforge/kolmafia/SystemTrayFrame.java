@@ -86,10 +86,9 @@ public abstract class SystemTrayFrame implements KoLConstants
 
 		boolean anyFrameVisible = false;
 		for ( int i = 0; i < frames.length; ++i )
-			anyFrameVisible |= frames[i].isVisible() && frames[i].hasFocus();
+			anyFrameVisible |= frames[i].isVisible();
 
-		anyFrameVisible |= KoLDesktop.instanceExists() && KoLDesktop.getInstance().isVisible() &&
-			KoLDesktop.getInstance().hasFocus();
+		anyFrameVisible |= KoLDesktop.instanceExists() && KoLDesktop.getInstance().isVisible();
 
 		if ( anyFrameVisible )
 			return;

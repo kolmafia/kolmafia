@@ -161,7 +161,8 @@ public abstract class CombatSettings implements UtilityConstants
 				}
 				else if ( line.length() != 0 )
 				{
-					CombatActionNode node = null;
+					// If it looks like this is a KoLmafia-created settings file,
+					// then parse it accordingly.
 
 					if ( Character.isDigit( line.charAt(0) ) )
 					{
@@ -170,26 +171,28 @@ public abstract class CombatSettings implements UtilityConstants
 
 						if ( pieces.length == 2 && desiredIndex >= currentList.getChildCount() )
 						{
-							if ( currentList.getChildCount() > 0 )
-								node = (CombatActionNode) currentList.getLastChild();
-							else
-								node = new CombatActionNode( 1, "attack" );
+							String action = currentList.getChildCount() > 0 ?
+								((CombatActionNode) currentList.getLastChild()).action : "attack";
 
 							while ( currentList.getChildCount() < desiredIndex - 1 )
-								currentList.add( new CombatActionNode( currentList.getChildCount() + 1, node.action ) );
+								currentList.add( new CombatActionNode( currentList.getChildCount() + 1, action ) );
 
-							node = new CombatActionNode( desiredIndex, pieces[1] );
+							currentList.add( new CombatActionNode( desiredIndex, pieces[1] ) );
 						}
 					}
+
+					// Otherwise, handle it as though the person is using the old
+					// style format.
+
 					else
 					{
-						node = new CombatActionNode( currentList.getChildCount() + 1, line );
+						currentList.add( new CombatActionNode( currentList.getChildCount() + 1, line ) );
 					}
-
-					if ( node != null )
-						currentList.add( node );
 				}
 			}
+
+			if ( currentList != root && currentList.getChildCount() == 0 )
+				currentList.add( new CombatActionNode( 1, "attack" ) );
 
 			reader.close();
 			reader = null;
@@ -216,19 +219,19 @@ public abstract class CombatSettings implements UtilityConstants
 		}
 	}
 
-        public static String encounterKey(String line )
+	public static String encounterKey( String line )
 	{
-                String key = line.trim().toLowerCase();
+		String key = line.trim().toLowerCase();
 
-                if ( key.startsWith( "a " ) )
-                        key = key.substring( 2 );
-                else if ( key.startsWith( "an " ) )
-                        key = key.substring( 3 );
-                else if ( key.startsWith( "the " ) )
-                        key = key.substring( 4 );
+		if ( key.startsWith( "a " ) )
+			key = key.substring( 2 );
+		else if ( key.startsWith( "an " ) )
+			key = key.substring( 3 );
+		else if ( key.startsWith( "the " ) )
+			key = key.substring( 4 );
 
-                return key;
-        }
+		return key;
+    }
 
 	public synchronized static void setDefaultAction( String actionList )
 	{
@@ -302,8 +305,7 @@ public abstract class CombatSettings implements UtilityConstants
 					if ( action == null )
 					{
 						action = ((CombatActionNode)combatOptions.getChildAt(j)).getAction();
-						if ( !action.equals( "attack" ) )
-							writer.println( combatOptions.getChildAt(j) );
+						writer.println( combatOptions.getChildAt(j) );
 					}
 					else
 					{
