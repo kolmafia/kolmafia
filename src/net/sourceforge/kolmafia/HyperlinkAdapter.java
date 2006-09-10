@@ -39,7 +39,7 @@ import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.event.HyperlinkEvent;
 
-import java.io.IOException;
+import java.io.File;
 import java.net.URLEncoder;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
@@ -61,7 +61,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 			{
 				// Attempt to open the URL on the system's default
 				// browser (call StaticEntity wrapper method).
-				
+
 				StaticEntity.openSystemBrowser( location );
 			}
 			else if ( location.startsWith( "javascript:" ) && (location.indexOf( "submit()" ) == -1 || location.indexOf( "messageform" ) != -1) )
@@ -172,7 +172,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 					{
 						// This should not happen.  Therefore, print
 						// a stack trace for debug purposes.
-						
+
 						StaticEntity.printStackTrace( e1 );
 					}
 				}

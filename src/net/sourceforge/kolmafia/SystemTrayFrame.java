@@ -44,7 +44,8 @@ public abstract class SystemTrayFrame implements KoLConstants
 			icon.addMouseListener( new SetVisibleListener() );
 
 			TrayIconPopup popup = new TrayIconPopup();
-			popup.addMenuItem( new ShowInterfacePopupItem() );
+			popup.addMenuItem( new ShowCommandLinePopupItem() );
+			popup.addMenuItem( new ShowRelayBrowserPopupItem() );
 			popup.addMenuItem( new EndSessionPopupItem() );
 
 			icon.setPopup( popup );
@@ -87,6 +88,9 @@ public abstract class SystemTrayFrame implements KoLConstants
 		for ( int i = 0; i < frames.length; ++i )
 			anyFrameVisible |= frames[i].isVisible() && frames[i].hasFocus();
 
+		anyFrameVisible |= KoLDesktop.instanceExists() && KoLDesktop.getInstance().isVisible() &&
+			KoLDesktop.getInstance().hasFocus();
+
 		if ( anyFrameVisible )
 			return;
 
@@ -99,16 +103,6 @@ public abstract class SystemTrayFrame implements KoLConstants
 			// Just an error when alerting the user.  It's
 			// not important, so ignore the error for now.
 		}
-	}
-
-	private static void showMainWindow()
-	{
-		if ( KoLDesktop.instanceExists() )
-		{
-			KoLDesktop.getInstance().setVisible( true );
-			KoLDesktop.getInstance().setExtendedState( KoLFrame.NORMAL );
-		}
-
 	}
 
 	private static class SetVisibleListener extends MouseAdapter
@@ -132,22 +126,37 @@ public abstract class SystemTrayFrame implements KoLConstants
 				}
 			}
 
-			showMainWindow();
+			if ( KoLDesktop.instanceExists() )
+			{
+				KoLDesktop.getInstance().setVisible( true );
+				KoLDesktop.getInstance().setExtendedState( KoLFrame.NORMAL );
+			}
 		}
 	}
 
-	private static class ShowInterfacePopupItem extends TrayIconPopupSimpleItem implements ActionListener
+	private static class ShowCommandLinePopupItem extends TrayIconPopupSimpleItem implements ActionListener
 	{
-		public ShowInterfacePopupItem()
+		public ShowCommandLinePopupItem()
 		{
-			super( "Show Interface" );
+			super( "Graphical CLI" );
 			addActionListener( this );
 		}
 
 		public void actionPerformed( ActionEvent e )
+		{	KoLmafiaGUI.constructFrame( "CommandDisplayFrame" );
+		}
+	}
+
+	private static class ShowRelayBrowserPopupItem extends TrayIconPopupSimpleItem implements ActionListener
+	{
+		public ShowRelayBrowserPopupItem()
 		{
-			removeTrayIcon();
-			System.exit(0);
+			super( "Relay Browser" );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{	KoLmafiaGUI.constructFrame( "LocalRelayServer" );
 		}
 	}
 

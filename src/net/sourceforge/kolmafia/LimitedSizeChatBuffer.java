@@ -161,6 +161,13 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 		RequestEditorKit.downloadImages( message );
 
+		// In the event that there's a link to the player pics
+		// page, make it so the file links locally rather than
+		// remotely.
+
+		if ( message.indexOf( "http://pics.communityofloathing.com" ) != -1 )
+			message = message.replaceAll( "http://pics\\.communityofloathing\\.com/albums", "images" );
+
 		if ( previousFontSize != fontSize && fontSize < 0 )
 			fontSize = 0 - fontSize;
 
@@ -209,7 +216,6 @@ public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 
 		String colorString;
 		Pattern highlight, dehighlight;
-		Matcher matching;
 
 		String highlightMessage;
 

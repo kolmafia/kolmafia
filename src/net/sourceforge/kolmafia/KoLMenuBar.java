@@ -80,8 +80,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	protected BookmarkMenu bookmarkMenu;
 
 	protected JMenuItem macroMenuItem = new ToggleMacroMenuItem();
-	protected static LockableListModel scripts = new LockableListModel();
-	protected static SortedListModel bookmarks = new SortedListModel( String.class );
+	protected static final SortedListModel bookmarks = new SortedListModel( String.class );
 
 	private static final String [] LICENSE_FILENAME = {
 		"kolmafia-license.gif", "spellcast-license.gif", "browserlauncher-license.htm",

@@ -46,6 +46,7 @@ import java.io.File;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
 
+import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
@@ -96,9 +97,11 @@ public interface KoLConstants extends UtilityConstants
 		{ "Mysterious Island", "island.php" }
 	};
 
-	public static final Vector commandQueue = new Vector();
 	public static final LockableListModel existingFrames = new LockableListModel();
 	public static final LockableListModel existingPanels = new LockableListModel();
+
+	public static final Vector commandQueue = new Vector();
+	public static final LockableListModel scripts = new LockableListModel();
 
 	public static final DecimalFormat COMMA_FORMAT = new DecimalFormat(
 		"#,##0", new DecimalFormatSymbols( Locale.US ) );

@@ -188,6 +188,7 @@ public class KoLmafiaGUI extends KoLmafia
 			KoLDesktop.getInstance().initializeTabs();
 			KoLDesktop.getInstance().pack();
 			KoLDesktop.getInstance().setVisible( true );
+			KoLDesktop.getInstance().requestFocus();
 		}
 
 		// Figure out which user interface is being
@@ -202,7 +203,6 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 
 		enableDisplay();
-		SystemTrayFrame.showBalloon( "Login complete." );
 	}
 
 	public static void constructFrame( String frameName )

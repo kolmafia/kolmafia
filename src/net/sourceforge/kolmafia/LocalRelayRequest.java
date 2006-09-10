@@ -206,12 +206,25 @@ public class LocalRelayRequest extends KoLRequest
 
 		fullResponse = RequestEditorKit.getFeatureRichHTML( formURLString.toString(), fullResponse );
 
+		// Download and link to any Players of Loathing
+		// picture pages locally.
+
+		if ( fullResponse.indexOf( "http://pics.communityofloathing.com" ) != -1 )
+		{
+			RequestEditorKit.downloadImages( fullResponse );
+			fullResponse = fullResponse.replaceAll( "http://pics\\.communityofloathing\\.com/albums", "images" );
+		}
+
 		// If the person is currently caching relay images,
 		// then it would be most beneficial to use local
 		// file access.
 
-		if ( StaticEntity.getBooleanProperty( "cacheRelayImages" ) )
+		else if ( StaticEntity.getBooleanProperty( "cacheRelayImages" ) )
 			fullResponse = fullResponse.replaceAll( "http://images\\.kingdomofloathing\\.com", "images" );
+
+		// Otherwise, use the standard image server address
+		// just in case there is a DNS problem.
+
 		else
 			fullResponse = fullResponse.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
 	}

@@ -82,6 +82,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 // basic utilities
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Vector;
 
