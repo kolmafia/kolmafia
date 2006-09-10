@@ -172,6 +172,8 @@ public class LoginRequest extends KoLRequest
 				client.addSaveState( username, password );
 
 			sessionID = formConnection.getHeaderField( "Set-Cookie" );
+
+			KoLmafia.forceContinue();
 			client.initialize( username, this.getBreakfast, this.isQuickLogin );
 
 			return false;

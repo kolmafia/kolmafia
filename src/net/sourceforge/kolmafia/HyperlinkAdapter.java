@@ -57,7 +57,11 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 		{
 			String location = e.getDescription();
 
-			if ( location.startsWith( "http://" ) || location.startsWith( "https://" ) )
+			if ( location.indexOf( "pics.communityofloathing.com" ) != -1 )
+			{
+				handleInternalLink( location );
+			}
+			else if ( location.startsWith( "http://" ) || location.startsWith( "https://" ) )
 			{
 				// Attempt to open the URL on the system's default
 				// browser (call StaticEntity wrapper method).
