@@ -215,6 +215,12 @@ public class LocalRelayRequest extends KoLRequest
 			fullResponse = fullResponse.replaceAll( "target=_blank href=\"http://pics\\.communityofloathing\\.com/albums", "href=\"images" );
 		}
 
+		// Remove the default frame busting script so that
+		// we can detach user interface elements.
+
+		if ( fullResponse.indexOf( "frames.length == 0" ) != -1 )
+			fullResponse = fullResponse.replaceFirst( "frames.length == 0", "frames.length == -1" );
+
 		// If the person is currently caching relay images,
 		// then it would be most beneficial to use local
 		// file access.
