@@ -154,7 +154,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		// Reset all the titles on all existing frames.
 
-		SystemTrayFrame.updateTooltip();
+		SystemTrayFrame.updateToolTip();
 		KoLDesktop.updateTitle();
 
 		// Instantiate the appropriate instance of the

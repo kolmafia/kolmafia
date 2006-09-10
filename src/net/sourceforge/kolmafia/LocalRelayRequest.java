@@ -623,6 +623,12 @@ public class LocalRelayRequest extends KoLRequest
 
 	public void run()
 	{
+		if ( formURLString.endsWith( "missing.gif" ) || formURLString.endsWith( "robots.txt" ) )
+		{
+			sendNotFound();
+			return;
+		}
+
 		String graf = getFormField( "graf" );
 		if ( graf != null && graf.startsWith( "/run" ) )
 		{
@@ -636,8 +642,8 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			if ( formURLString.endsWith( "favicon.ico" ) )
 			{
-				SystemTrayFrame.downloadTrayIcon();
-				sendLocalImage( "images/KoLmelionIcon.ico" );
+				StaticEntity.loadLibrary( "KoLmelion.ico" );
+				sendLocalImage( "KoLmelion.ico" );
 			}
 			else if ( formURLString.endsWith( "submitCommand" ) )
 				submitCommand();

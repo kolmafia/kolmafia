@@ -78,6 +78,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 // basic utilities
@@ -141,6 +142,9 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 
 		if ( shouldAddFrame )
 			existingFrames.add( this );
+
+		if ( StaticEntity.usesSystemTray() )
+			addWindowListener( new MinimizeListener() );
 	}
 
 	public final void setTitle( String newTitle )
@@ -1438,5 +1442,12 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		}
 
 		return true;
+	}
+
+	private class MinimizeListener extends WindowAdapter
+	{
+		public void windowIconified( WindowEvent e )
+		{	setVisible( false );
+		}
 	}
 }
