@@ -50,6 +50,7 @@ import javax.swing.text.html.ImageView;
 import javax.swing.text.html.HTMLEditorKit;
 
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.util.Map;
 import java.util.TreeMap;
@@ -468,7 +469,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	{
 		try
 		{
-			BufferedInputStream in = new BufferedInputStream( (new URL( remote )).openConnection().getInputStream() );
+			URLConnection connection = (new URL( remote )).openConnection();
+			if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
+			{
+				Matcher idMatcher = Pattern.compile( "(\\d+)\\." ).matcher( local.getPath() );
+				if ( idMatcher.find() )
+					connection.setRequestProperty( "Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group(1)  );
+			}
+
+			BufferedInputStream in = new BufferedInputStream( connection.getInputStream() );
 
 			ByteArrayOutputStream outbytes = new ByteArrayOutputStream( 1024 );
 			byte [] buffer = new byte[4096];
@@ -505,6 +514,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		Matcher imageMatcher = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\">]+" ).matcher( text );
 		while ( imageMatcher.find() )
 			downloadImage( imageMatcher.group() );
+
+		imageMatcher = Pattern.compile( "http://pics\\.communityofloathing\\.com/[^\\s\">]+" ).matcher( text );
+		while ( imageMatcher.find() )
+			downloadImage( imageMatcher.group() );
 	}
 
 	/**
@@ -514,8 +527,12 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static URL downloadImage( String filename )
 	{
-		String localname = filename.substring( filename.indexOf( "/", 7 ) + 1 );
-		filename = filename.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
+		String localname = filename.substring( filename.indexOf( "/", "http://".length() ) + 1 );
+		if ( localname.startsWith( "albums/" ) )
+			localname = localname.substring( "albums/".length() );
+
+		if ( filename.indexOf( "images.kingdomofloathing.com" ) != -1 )
+			filename = filename.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
 
 		File localfile = new File( "images/" + localname );
 		localfile.getParentFile().mkdirs();
@@ -1334,6 +1351,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	protected static KoLRequest extractRequest( String location )
 	{
+		if ( location.startsWith( "images" ) )
+		{
+			location = location.substring( location.indexOf( "/" ) );
+
+			KoLRequest request = new KoLRequest( StaticEntity.getClient(), location );
+			request.responseCode = 200;
+			request.responseText = "<html><img src=\"http://pics.communityofloathing.com/albums/" + location + "\"></html>";
+			request.fullResponse = request.responseText;
+			return request;
+		}
+
 		String [] urlData = location.split( "\\?" );
 		String [] formData = urlData.length == 1 ? new String[0] : urlData[1].split( "&" );
 

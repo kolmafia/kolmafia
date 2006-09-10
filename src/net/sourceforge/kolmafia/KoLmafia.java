@@ -82,6 +82,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
+		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
 	}
 
 	protected static PrintStream sessionStream = NullStream.INSTANCE;
