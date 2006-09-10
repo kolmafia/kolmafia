@@ -3956,9 +3956,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		outputStream.println( wordWrappedLine.toString() );
 		mirrorStream.println( wordWrappedLine.toString() );
-
 		getDebugStream().println( wordWrappedLine.toString() );
-		sessionStream.println( wordWrappedLine.toString() );
 
 		StringBuffer colorBuffer = new StringBuffer();
 

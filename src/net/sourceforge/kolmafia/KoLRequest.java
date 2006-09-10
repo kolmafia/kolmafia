@@ -75,6 +75,8 @@ public class KoLRequest implements Runnable, KoLConstants
 	// If it exceeds this value, manually invoke
 	// the garbage collector.
 
+	private static int lastGarbageCollection = 0;
+	private static final int COLLECT_RATE = 5;
 	private static final int MEMORY_LIMIT = 50000000;
 
 	protected static String sessionID = null;
@@ -553,8 +555,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		// up all available memory.  This will slow runtime a
 		// little bit, but it should work out.
 
-		if ( Runtime.getRuntime().totalMemory() > MEMORY_LIMIT )
+		if ( !isDelayExempt() )
+			++lastGarbageCollection;
+
+		if ( Runtime.getRuntime().totalMemory() > MEMORY_LIMIT && lastGarbageCollection > COLLECT_RATE )
+		{
+			lastGarbageCollection = 0;
 			System.gc();
+		}
 
 		if ( !isDelayExempt() && KoLmafia.refusesContinue() )
 			return;
