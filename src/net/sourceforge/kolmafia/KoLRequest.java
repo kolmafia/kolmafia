@@ -77,7 +77,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	private static int lastGarbageCollection = 0;
 	private static final int COLLECT_RATE = 5;
-	private static final int MEMORY_LIMIT = 50000000;
+	private static final int MEMORY_LIMIT = 40000000;
 
 	protected static String sessionID = null;
 	protected static String passwordHash = null;
