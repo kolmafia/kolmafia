@@ -93,6 +93,7 @@ public class RequestThread extends Thread implements KoLConstants
 		}
 
 		KoLmafia.enableDisplay();
+		SystemTrayFrame.showBalloon( "Requests complete." );
 	}
 
 	protected void run( KoLRequest request, int repeatCount )

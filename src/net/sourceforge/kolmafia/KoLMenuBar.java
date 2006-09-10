@@ -971,7 +971,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		}
 
 		public void actionPerformed( ActionEvent e )
-		{	StaticEntity.getClient().declareWorldPeace();
+		{	KoLmafia.declareWorldPeace();
 		}
 	}
 }

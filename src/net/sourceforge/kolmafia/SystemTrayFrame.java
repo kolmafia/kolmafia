@@ -18,20 +18,11 @@ public abstract class SystemTrayFrame implements KoLConstants
 {
 	private static WindowsTrayIcon icon = null;
 
-	public static void updateToolTip()
-	{
-		if ( icon != null )
-		{
-			icon.setVisible( true );
-			if ( KoLCharacter.getUsername().equals( "" ) )
-				icon.setToolTipText( VERSION_NAME );
-			else
-				icon.setToolTipText( VERSION_NAME + ": " + KoLCharacter.getUsername() );
-		}
-	}
-
 	public static void addTrayIcon()
 	{
+		if ( icon != null )
+			return;
+
 		// Now, make calls to SystemTrayIconManager in order
 		// to make use of the system tray.
 
@@ -53,6 +44,7 @@ public abstract class SystemTrayFrame implements KoLConstants
 			icon.addMouseListener( new SetVisibleListener() );
 
 			TrayIconPopup popup = new TrayIconPopup();
+			popup.addMenuItem( new ShowInterfacePopupItem() );
 			popup.addMenuItem( new EndSessionPopupItem() );
 
 			icon.setPopup( popup );
@@ -66,7 +58,57 @@ public abstract class SystemTrayFrame implements KoLConstants
 	}
 
 	public static void removeTrayIcon()
-	{	WindowsTrayIcon.cleanUp();
+	{
+		WindowsTrayIcon.cleanUp();
+		System.exit(0);
+	}
+
+	public static void updateToolTip()
+	{
+		if ( icon == null )
+			return;
+
+		icon.setVisible( true );
+		if ( KoLCharacter.getUsername().equals( "" ) )
+			icon.setToolTipText( VERSION_NAME );
+		else
+			icon.setToolTipText( VERSION_NAME + ": " + KoLCharacter.getUsername() );
+	}
+
+	public static void showBalloon( String message )
+	{
+		if ( icon == null )
+			return;
+
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		boolean anyFrameVisible = false;
+		for ( int i = 0; i < frames.length; ++i )
+			anyFrameVisible |= frames[i].isVisible() && frames[i].hasFocus();
+
+		if ( anyFrameVisible )
+			return;
+
+		try
+		{
+			icon.showBalloon( message, VERSION_NAME, 0, WindowsTrayIcon.BALLOON_INFO );
+		}
+		catch ( Exception e )
+		{
+			// Just an error when alerting the user.  It's
+			// not important, so ignore the error for now.
+		}
+	}
+
+	private static void showMainWindow()
+	{
+		if ( KoLDesktop.instanceExists() )
+		{
+			KoLDesktop.getInstance().setVisible( true );
+			KoLDesktop.getInstance().setExtendedState( KoLFrame.NORMAL );
+		}
+
 	}
 
 	private static class SetVisibleListener extends MouseAdapter
@@ -82,17 +124,30 @@ public abstract class SystemTrayFrame implements KoLConstants
 			String interfaceSetting = StaticEntity.getProperty( "initialDesktop" );
 
 			for ( int i = 0; i < frames.length; ++i )
+			{
 				if ( interfaceSetting.indexOf( frames[i].getFrameName() ) == -1 )
 				{
 					frames[i].setVisible( true );
 					frames[i].setExtendedState( KoLFrame.NORMAL );
 				}
-
-			if ( KoLDesktop.instanceExists() )
-			{
-				KoLDesktop.getInstance().setVisible( true );
-				KoLDesktop.getInstance().setExtendedState( KoLFrame.NORMAL );
 			}
+
+			showMainWindow();
+		}
+	}
+
+	private static class ShowInterfacePopupItem extends TrayIconPopupSimpleItem implements ActionListener
+	{
+		public ShowInterfacePopupItem()
+		{
+			super( "Show Interface" );
+			addActionListener( this );
+		}
+
+		public void actionPerformed( ActionEvent e )
+		{
+			removeTrayIcon();
+			System.exit(0);
 		}
 	}
 
