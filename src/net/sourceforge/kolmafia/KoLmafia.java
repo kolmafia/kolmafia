@@ -1187,6 +1187,7 @@ public abstract class KoLmafia implements KoLConstants
 			String message = "You lose " + damageMatcher.group(1) + " hit points";
 
 			KoLmafiaCLI.printLine( message );
+			sessionStream.println( message );
 			parseResult( message );
 		}
 
@@ -1199,6 +1200,7 @@ public abstract class KoLmafia implements KoLConstants
 			String message = "You lose " + damageMatcher.group(1) + " hit points";
 
 			KoLmafiaCLI.printLine( message );
+			sessionStream.println( message );
 			parseResult( message );
 		}
 
@@ -1244,6 +1246,7 @@ public abstract class KoLmafia implements KoLConstants
 							itemName = "evil golden arch";
 
 						KoLmafiaCLI.printLine( acquisition + " " + item );
+						sessionStream.println( acquisition + " " + item );
 						parseItem( itemName + " (" + countString + ")" );
 					}
 				}
@@ -1252,6 +1255,7 @@ public abstract class KoLmafia implements KoLConstants
 					String effectName = parsedResults.nextToken();
 					lastToken = parsedResults.nextToken();
 
+					sessionStream.println( acquisition + " " + effectName + " " + lastToken );
 					KoLmafiaCLI.printLine( acquisition + " " + effectName + " " + lastToken );
 
 					if ( lastToken.indexOf( "duration" ) == -1 )
@@ -1276,6 +1280,7 @@ public abstract class KoLmafia implements KoLConstants
 					lastToken = lastToken.substring( 0, parenIndex );
 
 				KoLmafiaCLI.printLine( lastToken );
+				sessionStream.println( lastToken );
 
 				requiresRefresh |= parseResult( lastToken.trim() );
 			}
