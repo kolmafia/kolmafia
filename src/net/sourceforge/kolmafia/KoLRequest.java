@@ -1626,6 +1626,12 @@ public class KoLRequest implements Runnable, KoLConstants
 			// graphical CLI is also notified of events.
 
 			KoLmafiaCLI.printLine( event );
+
+			// Balloon messages for whenever the person does not have
+			// focus on KoLmafia.
+
+			if ( StaticEntity.usesSystemTray() )
+				SystemTrayFrame.showBalloon( event );
 		}
 
 		// If we're not a GUI and there are no GUI windows open

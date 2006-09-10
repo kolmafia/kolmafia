@@ -202,6 +202,7 @@ public class KoLmafiaGUI extends KoLmafia
 			}
 
 		enableDisplay();
+		SystemTrayFrame.showBalloon( "Login complete." );
 	}
 
 	public static void constructFrame( String frameName )
