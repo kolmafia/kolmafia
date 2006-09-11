@@ -100,7 +100,7 @@ public class StarChartRequest extends ItemCreationRequest
 		client.processResult( new AdventureResult( getItemID(), 1 ) );
 	}
 
-	public static boolean processRequest( KoLmafia client, String urlString )
+	public static boolean processRequest( String urlString )
 	{	return true;
 	}
 }

@@ -71,7 +71,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 		super.processResults();
 	}
 
-	public static boolean processRequest( KoLmafia client, String urlString )
+	public static boolean processRequest( String urlString )
 	{
 		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
 		if ( !itemMatcher.find() )

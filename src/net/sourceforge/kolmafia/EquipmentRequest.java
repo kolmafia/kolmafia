@@ -837,7 +837,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			"equip " + slotNames[ equipmentSlot ] + " " + changeItemName;
 	}
 
-	public static boolean processRequest( KoLmafia client, String urlString )
+	public static boolean processRequest( String urlString )
 	{
 		if ( urlString.indexOf( "inv_equip.php" ) == -1 )
 			return false;

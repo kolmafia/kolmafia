@@ -473,7 +473,7 @@ public class FightRequest extends KoLRequest
 	{	return responseText == null ? 0 : responseText.indexOf( "fight.php" ) == -1 ? 1 : 0;
 	}
 
-	public static boolean processRequest( KoLmafia client, String urlString )
+	public static boolean processRequest( String urlString )
 	{
 		if ( urlString.indexOf( "fight.php?" ) == -1 )
 			return false;
@@ -505,11 +505,11 @@ public class FightRequest extends KoLRequest
 		if ( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).equals( EquipmentRequest.UNEQUIP ) )
 		{
 			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with " +
-				"fear-inducing body language (+0)!" );
+				"fear-inducing body language!" );
 		}
 		else
 		{
-			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with their " +
+			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " attacks with a " +
 				KoLCharacter.getEquipment( KoLCharacter.WEAPON ) + "!" );
 		}
 
