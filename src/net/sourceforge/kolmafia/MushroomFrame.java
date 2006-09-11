@@ -118,7 +118,11 @@ public class MushroomFrame extends KoLFrame
 
 	public void loadLayout()
 	{
-		File [] layouts = (new File( "plots/")).listFiles();
+		File directory = new File( "plots/" );
+		if ( !directory.exists() )
+			return;
+
+		File [] layouts = directory.listFiles();
 		ArrayList names = new ArrayList();
 
 		for ( int i = 0; i < layouts.length; ++i )
