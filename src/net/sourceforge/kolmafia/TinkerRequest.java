@@ -76,7 +76,7 @@ public class TinkerRequest extends ItemCreationRequest
 		super.run();
 	}
 
-	public static boolean processRequest( KoLmafia client, String urlString )
+	public static boolean processRequest( String urlString )
 	{	return true;
 	}
 }

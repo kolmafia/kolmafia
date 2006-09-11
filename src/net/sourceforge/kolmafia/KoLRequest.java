@@ -709,7 +709,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		isEquipResult = urlString.indexOf( "which=2" ) != -1 && urlString.indexOf( "action=message" ) != -1;
 
-		if ( urlString.indexOf( "send" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.indexOf( "search" ) != -1 )
+		if ( urlString.indexOf( "send" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.indexOf( "search" ) != -1 || urlString.indexOf( "account" ) != -1 )
 			return;
 
 		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php" ) == -1 )
@@ -720,6 +720,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			String commandForm = getCommandForm( 0 );
 			if ( !commandForm.equals( "" ) )
 			{
+				KoLmafia.getSessionStream().println();
 				KoLmafia.getSessionStream().println( commandForm );
 				return;
 			}
@@ -733,13 +734,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( adventure != null )
 			adventure.recordToSession();
 		else if ( KoLAdventure.recordToSession( urlString ) );
-		else if ( FightRequest.processRequest( client, urlString ) );
-		else if ( FamiliarRequest.processRequest( client, urlString ) );
-		else if ( ConsumeItemRequest.processRequest( client, urlString ) )
+		else if ( FightRequest.processRequest( urlString ) );
+		else if ( FamiliarRequest.processRequest( urlString ) );
+		else if ( ConsumeItemRequest.processRequest( urlString ) )
 			isConsumeRequest = true;
-		else if ( this instanceof EquipmentRequest || EquipmentRequest.processRequest( client, urlString ) );
-		else if ( ItemCreationRequest.processRequest( client, urlString ) );
-		else if ( ItemStorageRequest.processRequest( client, urlString ) );
+		else if ( this instanceof EquipmentRequest || EquipmentRequest.processRequest( urlString ) );
+		else if ( ItemCreationRequest.processRequest( urlString ) );
+		else if ( ItemStorageRequest.processRequest( urlString ) );
+		else if ( UseSkillRequest.processRequest( urlString ) );
 		else if ( urlString.indexOf( "inventory" ) == -1 )
 			KoLmafia.getSessionStream().println( urlString );
 	}

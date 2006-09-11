@@ -371,7 +371,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		return commandString.toString();
 	}
 
-	public static boolean processRequest( KoLmafia client, String urlString )
+	public static boolean processRequest( String urlString )
 	{
 		if ( urlString.indexOf( "storage.php" ) == -1 || urlString.indexOf( "action=takeall" ) != -1 || urlString.indexOf( "action=takemeat" ) != -1 )
 			return false;
@@ -403,7 +403,7 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		KoLmafia.getSessionStream().println( "pull " + itemListBuffer.toString() );
 		for ( int i = 0; i < itemList.size(); ++i )
-			client.processResult( (AdventureResult) itemList.get(i) );
+			StaticEntity.getClient().processResult( (AdventureResult) itemList.get(i) );
 
 		return true;
 	}

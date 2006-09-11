@@ -103,7 +103,7 @@ public class FamiliarRequest extends KoLRequest
 		return familiarName == null ? "" : "familiar " + familiarName;
 	}
 
-	public static boolean processRequest( KoLmafia client, String urlString )
+	public static boolean processRequest( String urlString )
 	{
 		if ( urlString.indexOf( "familiar.php?" ) == -1 )
 			return false;

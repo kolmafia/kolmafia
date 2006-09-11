@@ -34,6 +34,7 @@
 
 package net.sourceforge.kolmafia;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 public class UseSkillRequest extends KoLRequest implements Comparable
 {
@@ -517,5 +518,24 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 	public String getCommandForm( int iterations )
 	{	return "cast " + buffCount + " " + skillName;
+	}
+
+	public static boolean processRequest( String urlString )
+	{
+		if ( urlString.indexOf( "skills.php" ) == -1 )
+			return false;
+
+		Matcher skillMatcher = Pattern.compile( "whichskill=(\\d+)" ).matcher( urlString );
+		if ( !skillMatcher.find() )
+			return false;
+
+		String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
+		Matcher countMatcher = Pattern.compile( "(bufftimes|quantity)=([\\d,]*)" ).matcher( urlString );
+
+		int count = countMatcher.find() || countMatcher.group(2).equals( "" ) ? 1 :
+			StaticEntity.parseInt( countMatcher.group(2) );
+
+		KoLmafia.getSessionStream().println( "cast " + count + " " + skillName );
+		return true;
 	}
 }

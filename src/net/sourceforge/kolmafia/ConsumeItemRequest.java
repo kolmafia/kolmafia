@@ -733,7 +733,7 @@ public class ConsumeItemRequest extends KoLRequest
 		return commandString.toString();
 	}
 
-	public static boolean processRequest( KoLmafia client, String urlString )
+	public static boolean processRequest( String urlString )
 	{
 		int consumptionType = NO_CONSUME;
 
@@ -770,7 +770,7 @@ public class ConsumeItemRequest extends KoLRequest
 			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "drink " : "use ";
 
 		KoLmafia.getSessionStream().println( useTypeAsString + itemUsed.getCount() + " " + itemUsed.getName() );
-		client.processResult( itemUsed.getNegation() );
+		StaticEntity.getClient().processResult( itemUsed.getNegation() );
 		return true;
 	}
 }

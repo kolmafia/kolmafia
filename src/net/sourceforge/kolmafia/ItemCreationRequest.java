@@ -761,21 +761,21 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		return 0;
 	}
 
-	public static boolean processRequest( KoLmafia client, String urlString )
+	public static boolean processRequest( String urlString )
 	{
 		// First, delegate subclasses, if it's a subclass request.
 
 		if ( urlString.indexOf( "starchart.php" ) != -1 )
-			return StarChartRequest.processRequest( client, urlString );
+			return StarChartRequest.processRequest( urlString );
 
 		if ( urlString.indexOf( "action=makepixel" ) != -1 )
-			return PixelRequest.processRequest( client, urlString );
+			return PixelRequest.processRequest( urlString );
 
 		if ( urlString.indexOf( "action=tinksomething" ) != -1 )
-			return TinkerRequest.processRequest( client, urlString );
+			return TinkerRequest.processRequest( urlString );
 
 		if ( urlString.indexOf( "action=makepaste" ) != -1 )
-			return CombineMeatRequest.processRequest( client, urlString );
+			return CombineMeatRequest.processRequest( urlString );
 
 		// Now that we know it's not a special subclass instance,
 		// all we do is parse out the ingredients which were used
@@ -853,7 +853,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			command.append( ' ' );
 			command.append( TradeableItemDatabase.getItemName( itemID ) );
 
-			client.processResult( new AdventureResult( itemID, 0 - quantity ) );
+			StaticEntity.getClient().processResult( new AdventureResult( itemID, 0 - quantity ) );
 			needsPlus = true;
 		}
 
