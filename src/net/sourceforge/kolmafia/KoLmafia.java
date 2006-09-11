@@ -1900,11 +1900,11 @@ public abstract class KoLmafia implements KoLConstants
 			File f = new File( "sessions/" + KoLCharacter.getUsername() + "_" +
 				DATED_FILENAME_FORMAT.format( new Date() ) + ".txt" );
 
-			if ( !f.getParentFile().exists() )
-				f.getParentFile().mkdirs();
-
 			if ( !f.exists() )
+			{
+				f.getParentFile().mkdirs();
 				f.createNewFile();
+			}
 
 			sessionStream = new LogStream( f, true );
 		}
