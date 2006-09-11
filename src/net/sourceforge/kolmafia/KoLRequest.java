@@ -1729,7 +1729,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	private class GarbageCollector extends Thread
 	{
 		public void run()
-		{	System.gc();
+		{
+			System.gc();
+			collector = null;
 		}
 	}
 }
