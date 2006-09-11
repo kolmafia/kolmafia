@@ -55,7 +55,7 @@ public class TrayIconPopupSimpleItem implements TrayIconPopupItem {
 	// Set item as default
 	protected boolean m_Default;
 	// Owner of this menu item
-	protected WindowsTrayIcon m_TrayIcon;	
+	protected WindowsTrayIcon m_TrayIcon;
 	// Action m_Listeners for menu item
 	private Vector m_Listeners;
 
@@ -68,7 +68,7 @@ public class TrayIconPopupSimpleItem implements TrayIconPopupItem {
 		m_Item = item;
 		m_Enabled = true;
 	}
-	
+
 /**
  * Return the name of this item
  */
@@ -99,7 +99,7 @@ public class TrayIconPopupSimpleItem implements TrayIconPopupItem {
 	public int getNbLevels() {
 		return 0;
 	}
-	
+
 /**
  * Enable/Disable item
  *
@@ -107,10 +107,10 @@ public class TrayIconPopupSimpleItem implements TrayIconPopupItem {
  */
 	public void setEnabled(boolean enable) {
 		m_Enabled = enable;
-		if (m_TrayIcon != null) 
+		if (m_TrayIcon != null)
 		    m_TrayIcon.modifyPopup(m_MenuId, WindowsTrayIcon.POPUP_MODE_ENABLE, m_Enabled);
-	}	
-	
+	}
+
 /**
  * Set item as default
  *
@@ -121,7 +121,7 @@ public class TrayIconPopupSimpleItem implements TrayIconPopupItem {
 		if (m_TrayIcon != null) {
 		    m_TrayIcon.modifyPopup(m_MenuId, WindowsTrayIcon.POPUP_MODE_DEFAULT, m_Default);
         }
-	}		
+	}
 
 /**
  * Callback when user selects menu item (find it by comparing menu id's)
@@ -132,8 +132,8 @@ public class TrayIconPopupSimpleItem implements TrayIconPopupItem {
 		boolean selected = menuId == m_MenuId;
 		if (selected && m_Listeners != null) {
 			ActionEvent evt = new ActionEvent(this,0,"");
-			for (Enumeration enum = m_Listeners.elements(); enum.hasMoreElements(); ) {
-				ActionListener listener = (ActionListener)enum.nextElement();
+			for (Enumeration elements = m_Listeners.elements(); elements.hasMoreElements(); ) {
+				ActionListener listener = (ActionListener)elements.nextElement();
 				listener.actionPerformed(evt);
 			}
 		}
@@ -151,6 +151,6 @@ public class TrayIconPopupSimpleItem implements TrayIconPopupItem {
 	    int extra = m_Enabled ? WindowsTrayIcon.POPUP_MODE_ENABLE : 0;
 	    if (m_Default) extra |= WindowsTrayIcon.POPUP_MODE_DEFAULT;
 		m_MenuId = trayicon.subPopup(id, level, m_Item, WindowsTrayIcon.POPUP_TYPE_ITEM, extra);
-        m_TrayIcon = trayicon;		
+        m_TrayIcon = trayicon;
 	}
 }
