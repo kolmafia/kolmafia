@@ -75,9 +75,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	// If it exceeds this value, manually invoke
 	// the garbage collector.
 
+	private static final int COLLECT_RATE = 20;
 	private static int lastGarbageCollection = 0;
-	private static final int COLLECT_RATE = 5;
-	private static final int MEMORY_LIMIT = 40000000;
+	private static GarbageCollector collector = null;
 
 	protected static String sessionID = null;
 	protected static String passwordHash = null;
@@ -555,13 +555,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		// up all available memory.  This will slow runtime a
 		// little bit, but it should work out.
 
-		if ( !isDelayExempt() )
-			++lastGarbageCollection;
-
-		if ( Runtime.getRuntime().totalMemory() > MEMORY_LIMIT && lastGarbageCollection > COLLECT_RATE )
+		if ( ++lastGarbageCollection > COLLECT_RATE )
 		{
 			lastGarbageCollection = 0;
-			System.gc();
+			if ( collector == null )
+			{
+				collector = new GarbageCollector();
+				collector.start();
+			}
 		}
 
 		if ( !isDelayExempt() && KoLmafia.refusesContinue() )
@@ -1720,6 +1721,13 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			Map.Entry entry = (Map.Entry)iterator.next();
 			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
+		}
+	}
+
+	private class GarbageCollector extends Thread
+	{
+		public void run()
+		{	System.gc();
 		}
 	}
 }

@@ -44,6 +44,7 @@ import java.util.Vector;
 
 public class LocalRelayServer implements Runnable
 {
+	private static long lastStatusMessage = 0;
 	private static Thread relayThread = null;
 	private static final LocalRelayServer INSTANCE = new LocalRelayServer();
 
@@ -177,8 +178,10 @@ public class LocalRelayServer implements Runnable
 	{
 		synchronized( statusMessages )
 		{
-			if ( !LoginRequest.isInstanceRunning() )
+			if ( isRunning() && !LoginRequest.isInstanceRunning() && lastStatusMessage - System.currentTimeMillis() < 30000 )
 				statusMessages.append( message );
+			else
+				statusMessages.setLength(0);
 		}
 	}
 
@@ -186,6 +189,8 @@ public class LocalRelayServer implements Runnable
 	{
 		synchronized ( statusMessages )
 		{
+			lastStatusMessage = System.currentTimeMillis();
+
 			String newMessages = statusMessages.toString();
 			statusMessages.setLength(0);
 			return newMessages;

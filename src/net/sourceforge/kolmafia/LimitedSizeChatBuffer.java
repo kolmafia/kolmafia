@@ -45,8 +45,8 @@ import net.java.dev.spellcast.utilities.ChatBuffer;
 
 public class LimitedSizeChatBuffer extends ChatBuffer implements KoLConstants
 {
-	private static final int RESIZE_SIZE = 24000;
-	private static final int MAXIMUM_SIZE = 30000;
+	private static final int RESIZE_SIZE = 12000;
+	private static final int MAXIMUM_SIZE = 16000;
 
 	protected static List colors;
 	protected static List highlights;
