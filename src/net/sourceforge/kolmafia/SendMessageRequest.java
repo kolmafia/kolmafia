@@ -173,26 +173,44 @@ public abstract class SendMessageRequest extends KoLRequest
 		{
 			if ( attachments.length > getCapacity() )
 			{
-				int currentBaseIndex = 0;
-				int remainingItems = attachments.length;
+				int index1 = 0;
+				Object [] nextAttachments = new Object[ getCapacity() ];
 
-				Object [] nextAttachments = null;
-
-				while ( remainingItems > 0 )
+				while ( index1 < attachments.length )
 				{
-					nextAttachments = new Object[ remainingItems < getCapacity() ? remainingItems : getCapacity() ];
+					int index2 = 0;
+					while ( index1 < attachments.length && index2 < nextAttachments.length )
+					{
+						AdventureResult item = (AdventureResult) attachments[index1];
+						int availableCount = item.getCount( source );
 
-					for ( int i = 0; i < nextAttachments.length; ++i )
-						nextAttachments[i] = attachments[ currentBaseIndex + i ];
+						boolean canTransfer = TradeableItemDatabase.isTradeable( item.getItemID() ) && availableCount > 0;
+						if ( canTransfer && item.getCount() > availableCount )
+							item = item.getInstance( availableCount );
 
-					// For each broken-up request, you create a new ItemStorage request
+						if ( canTransfer )
+							nextAttachments[ index2++ ] = item;
+
+						++index1;
+					}
+
+					// If the size is smaller than you want, then shrink the array down
+					// for the repeat attempt.
+
+					if ( index2 != nextAttachments.length )
+					{
+						Object [] nextSet = new Object[ index2 ];
+						for ( int i = 0; i < nextSet.length; ++i )
+							nextSet[i] = nextAttachments[i];
+
+						nextAttachments = nextSet;
+					}
+
+					// For each broken-up request, you create a new sending request
 					// which will create the appropriate data to post.
 
-					if ( !KoLmafia.refusesContinue() )
+					if ( !KoLmafia.refusesContinue() && nextAttachments.length > 0 )
 						repeat( nextAttachments );
-
-					currentBaseIndex += getCapacity();
-					remainingItems -= getCapacity();
 				}
 
 				// Since all the sub-requests were run, there's nothing left
@@ -274,5 +292,9 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		super.processResults();
 		KoLCharacter.refreshCalculatedLists();
+	}
+
+	protected boolean allowUntradeableTransfer()
+	{	return false;
 	}
 }
