@@ -4592,7 +4592,7 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue guardians()
 		{
-			int itemID = SorceressLair.fightTowerGuardians();
+			int itemID = SorceressLair.fightTowerGuardians( true );
 			return makeItemValue( itemID );
 		}
 
