@@ -311,8 +311,8 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		KoLmafia.updateDisplay( "Purchasing " + TradeableItemDatabase.getItemName( itemID ) + " (" + COMMA_FORMAT.format( limit ) + " @ " + COMMA_FORMAT.format( price ) + ")..." );
 		super.run();
 
-		if ( attireChanged && !KoLmafia.isRunningBetweenBattleChecks() )
-			SpecialOutfit.restoreCheckpoint();
+		if ( attireChanged )
+			SpecialOutfit.restoreCheckpoint( false );
 	}
 
 	public int compareTo( Object o )
@@ -359,7 +359,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		boolean checkpointing = StaticEntity.getBooleanProperty( "autoCheckpoint" );
 
 		if ( checkpointing )
-			SpecialOutfit.createCheckpoint();
+			SpecialOutfit.createCheckpoint( true );
 
 		(new EquipmentRequest( client, EquipmentDatabase.getOutfit( neededOutfit ) )).run();
 

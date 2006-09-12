@@ -274,7 +274,7 @@ public abstract class SorceressLair extends StaticEntity
 		if ( !checkPrerequisites( 1, 2 ) )
 			return;
 
-		SpecialOutfit.createCheckpoint();
+		SpecialOutfit.createCheckpoint( true );
 
 		// If you couldn't complete the gateway, then return
 		// from this method call.
@@ -335,7 +335,7 @@ public abstract class SorceressLair extends StaticEntity
 		requirements.addAll( retrieveScubaGear( false ) );
 
 		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
-		SpecialOutfit.restoreCheckpoint();
+		SpecialOutfit.restoreCheckpoint( true );
 
 		if ( !getClient().checkRequirements( requirements ) || KoLmafia.refusesContinue() )
 			return;
@@ -1351,11 +1351,11 @@ public abstract class SorceressLair extends StaticEntity
 
 		// If we unequipped a weapon, equip it again
 		if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) ) )
-			DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon );
+			DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon.getName() );
 
 		// If we unequipped an off-hand weapon, equip it again
 		if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
-			DEFAULT_SHELL.executeLine( "equip off-hand " + initialWeapon );
+			DEFAULT_SHELL.executeLine( "equip off-hand " + initialWeapon.getName() );
 	}
 
 	private static void fightShadow()

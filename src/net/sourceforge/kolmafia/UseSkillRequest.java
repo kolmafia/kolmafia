@@ -209,15 +209,15 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 		// If we unequipped a weapon, equip it again
 		if ( initialWeapon != null && !initialWeapon.equals( KoLCharacter.getEquipment( KoLCharacter.WEAPON ) ) )
-			DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon );
+			DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon.getName() );
 
 		// If we unequipped an off-hand weapon, equip it again
 		if ( initialOffhand != null && !initialOffhand.equals( KoLCharacter.getEquipment( KoLCharacter.OFFHAND ) ) )
-			DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand );
+			DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand.getName() );
 
 		// If we unequipped a hat, equip it again
 		if ( initialHat != null && !initialHat.equals( KoLCharacter.getEquipment( KoLCharacter.HAT ) ) )
-			DEFAULT_SHELL.executeLine( "equip hat " + initialHat );
+			DEFAULT_SHELL.executeLine( "equip hat " + initialHat.getName() );
 	}
 
 	private void useSkillLoop()

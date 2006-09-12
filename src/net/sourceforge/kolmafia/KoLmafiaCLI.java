@@ -1364,7 +1364,7 @@ public class KoLmafiaCLI extends KoLmafia
 			}
 			else if ( parameters.equalsIgnoreCase( "checkpoint" ) )
 			{
-				SpecialOutfit.restoreCheckpoint();
+				SpecialOutfit.restoreCheckpoint( false );
 				return;
 			}
 
@@ -1377,7 +1377,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "checkpoint" ) )
 		{
-			SpecialOutfit.createCheckpoint();
+			SpecialOutfit.createCheckpoint( false );
 			return;
 		}
 
@@ -3336,8 +3336,8 @@ public class KoLmafiaCLI extends KoLmafia
 			StaticEntity.getClient().makePurchases( results, resultArray, match.getCount() );
 		}
 
-		if ( revertToCheckpoint && !isRunningBetweenBattleChecks() )
-			SpecialOutfit.restoreCheckpoint();
+		if ( revertToCheckpoint )
+			SpecialOutfit.restoreCheckpoint( false );
 	}
 
 	/**
