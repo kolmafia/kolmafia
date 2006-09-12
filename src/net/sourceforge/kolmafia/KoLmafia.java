@@ -260,9 +260,6 @@ public abstract class KoLmafia implements KoLConstants
 		outputStream.println( message );
 		mirrorStream.println( message );
 
-		if ( state == ERROR_STATE )
-			sessionStream.println( message );
-
 		StringBuffer colorBuffer = new StringBuffer();
 
 		if ( message.indexOf( "<" ) != -1 && message.indexOf( "\n" ) != -1 )
@@ -1169,10 +1166,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( results.indexOf( "gains a pound" ) != -1 )
 		{
 			KoLCharacter.incrementFamilarWeight();
-
-			sessionStream.println();
 			sessionStream.println( "familiar " + KoLCharacter.getFamiliar() );
-			sessionStream.println();
 		}
 
 		String plainTextResult = results.replaceAll( "<.*?>", LINE_BREAK );
@@ -1225,6 +1219,7 @@ public abstract class KoLmafia implements KoLConstants
 					if ( lastToken.indexOf( "an item" ) != -1 )
 					{
 						KoLmafiaCLI.printLine( acquisition + " " + item );
+						sessionStream.println( acquisition + " " + item );
 						parseItem( item );
 					}
 					else

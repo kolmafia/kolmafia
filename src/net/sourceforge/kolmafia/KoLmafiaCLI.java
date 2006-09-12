@@ -2126,22 +2126,15 @@ public class KoLmafiaCLI extends KoLmafia
 				StaticEntity.getClient().useDisjunction = true;
 
 			if ( StaticEntity.getClient().useDisjunction )
-			{
 				updateDisplay( "All non-stat conditions will be ORed together." );
-				sessionStream.println( "All non-stat objectives will be ORed together." );
-			}
 			else
-			{
 				updateDisplay( "All non-stat conditions will be ANDed together." );
-				sessionStream.println( "All non-stat objectives will be ANDed together." );
-			}
 
 			return true;
 		}
 		else if ( option.equals( "add" ) )
 		{
 			String conditionString = parameters.substring( option.length() ).toLowerCase().trim();
-			sessionStream.println( "Objective: " + conditionString );
 
 			if ( conditionString.length() == 0 )
 				return true;

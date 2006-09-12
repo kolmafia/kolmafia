@@ -720,8 +720,8 @@ public class KoLRequest implements Runnable, KoLConstants
 			String commandForm = getCommandForm( 0 );
 			if ( !commandForm.equals( "" ) )
 			{
-				KoLmafia.getSessionStream().println();
 				KoLmafia.getSessionStream().println( commandForm );
+				KoLmafia.getSessionStream().println();
 				return;
 			}
 		}
@@ -744,6 +744,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		else if ( UseSkillRequest.processRequest( urlString ) );
 		else if ( urlString.indexOf( "inventory" ) == -1 )
 			KoLmafia.getSessionStream().println( urlString );
+
+		KoLmafia.getSessionStream().println();
 	}
 
 	private boolean shouldIgnoreResults()

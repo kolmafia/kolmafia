@@ -53,6 +53,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private static final AdventureResult SOCK = new AdventureResult( 609, 1 );
 	private static final AdventureResult ROWBOAT = new AdventureResult( 653, 1 );
 	private static final AdventureResult BEAN = new AdventureResult( 186, 1 );
+	private static final AdventureResult TRANSFUNCTIONER = new AdventureResult( 458, 1 );
+
 	private static final AdventureResult ASTRAL = new AdventureResult( "Half-Astral", 0 );
 	public static final AdventureResult BEATEN_UP = new AdventureResult( "Beaten Up", 1, true );
 
@@ -412,6 +414,34 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
+		// If the person has a continuum transfunctioner, then find
+		// some way of equipping it.  If they do not have one, then
+		// acquire one then try to equip it.  If the person has a two
+		// handed weapon, then report an error.
+
+		if ( adventureID.equals( "73" ) )
+		{
+			if ( !KoLCharacter.hasItem( TRANSFUNCTIONER, false ) )
+			{
+				request = new KoLRequest( client, "town_wrong.php?place=crackpot" );
+				request.run();
+				request = new KoLRequest( client, "town_wrong.php?action=crackyes1" );
+				request.run();
+				request = new KoLRequest( client, "town_wrong.php?action=crackyes2" );
+				request.run();
+			}
+
+			if ( EquipmentDatabase.getHands( KoLCharacter.getEquipment( KoLCharacter.WEAPON ).getName() ) > 1 )
+			{
+				KoLmafia.updateDisplay( ERROR_STATE, "You need to free up a hand." );
+				return;
+			}
+
+			DEFAULT_SHELL.executeLine( "equip " + TRANSFUNCTIONER.getName() );
+			isValidAdventure = true;
+			return;
+		}
+
 		// Attempt to unlock the Degrassi Knoll by visiting Paco.
 		// Though we can unlock the guild quest, sometimes people
 		// don't want to open up the guild store right now.  So,
@@ -668,7 +698,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			adventureList.setSelectedItem( this );
 		}
 
-		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "[" + (KoLCharacter.getTotalTurnsUsed() + 1) + "] " + getAdventureName() );
 		client.registerAdventure( this );
 
