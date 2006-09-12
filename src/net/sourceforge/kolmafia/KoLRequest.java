@@ -81,6 +81,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected static String sessionID = null;
 	protected static String passwordHash = null;
+	private static boolean wasLastRequestSimple = false;
 
 	protected static boolean usingValidConnection = true;
 	protected static boolean isRatQuest = false;
@@ -720,8 +721,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			String commandForm = getCommandForm( 0 );
 			if ( !commandForm.equals( "" ) )
 			{
-				KoLmafia.getSessionStream().println( commandForm );
+				wasLastRequestSimple = false;
 				KoLmafia.getSessionStream().println();
+				KoLmafia.getSessionStream().println( commandForm );
 				return;
 			}
 		}
@@ -732,20 +734,56 @@ public class KoLRequest implements Runnable, KoLConstants
 		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
 
 		if ( adventure != null )
+		{
+			wasLastRequestSimple = false;
+			KoLmafia.getSessionStream().println();
 			adventure.recordToSession();
-		else if ( KoLAdventure.recordToSession( urlString ) );
-		else if ( FightRequest.processRequest( urlString ) );
-		else if ( FamiliarRequest.processRequest( urlString ) );
+		}
+		else if ( KoLAdventure.recordToSession( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( FightRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( FamiliarRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
 		else if ( ConsumeItemRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
 			isConsumeRequest = true;
-		else if ( this instanceof EquipmentRequest || EquipmentRequest.processRequest( urlString ) );
-		else if ( ItemCreationRequest.processRequest( urlString ) );
-		else if ( ItemStorageRequest.processRequest( urlString ) );
-		else if ( UseSkillRequest.processRequest( urlString ) );
+		}
+		else if ( this instanceof EquipmentRequest || EquipmentRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( ItemCreationRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( ItemStorageRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( AutoSellRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
+		else if ( UseSkillRequest.processRequest( urlString ) )
+		{
+			wasLastRequestSimple = false;
+		}
 		else if ( urlString.indexOf( "inventory" ) == -1 )
-			KoLmafia.getSessionStream().println( urlString );
+		{
+			if ( !wasLastRequestSimple )
+				KoLmafia.getSessionStream().println();
 
-		KoLmafia.getSessionStream().println();
+			wasLastRequestSimple = true;
+			KoLmafia.getSessionStream().println( urlString );
+		}
 	}
 
 	private boolean shouldIgnoreResults()
@@ -1716,7 +1754,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void printRequestProperties()
 	{
-
 		Map requestProperties = formConnection.getRequestProperties();
 		KoLmafia.getDebugStream().println( requestProperties.size() + " request properties" );
 

@@ -877,9 +877,15 @@ public class EquipmentRequest extends PasswordHashRequest
 		String itemName = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
 
 		if ( urlString.indexOf( "dualwield" ) != -1 )
+		{
+			KoLmafia.getSessionStream().println();
 			KoLmafia.getSessionStream().println( "equip off-hand " + itemName );
+		}
 		else
+		{
+			KoLmafia.getSessionStream().println();
 			KoLmafia.getSessionStream().println( "equip " + itemName );
+		}
 
 		return true;
 	}

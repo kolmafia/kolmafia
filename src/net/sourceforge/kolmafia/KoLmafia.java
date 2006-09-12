@@ -1166,6 +1166,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( results.indexOf( "gains a pound" ) != -1 )
 		{
 			KoLCharacter.incrementFamilarWeight();
+
+			sessionStream.println();
 			sessionStream.println( "familiar " + KoLCharacter.getFamiliar() );
 		}
 

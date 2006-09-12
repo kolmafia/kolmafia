@@ -769,7 +769,9 @@ public class ConsumeItemRequest extends KoLRequest
 		String useTypeAsString = (consumptionType == ConsumeItemRequest.CONSUME_EAT) ? "eat " :
 			(consumptionType == ConsumeItemRequest.CONSUME_DRINK) ? "drink " : "use ";
 
+		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( useTypeAsString + itemUsed.getCount() + " " + itemUsed.getName() );
+
 		StaticEntity.getClient().processResult( itemUsed.getNegation() );
 		return true;
 	}
