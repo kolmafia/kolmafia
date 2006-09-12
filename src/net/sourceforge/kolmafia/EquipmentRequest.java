@@ -672,7 +672,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			 equipmentMatcher = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.HAT ] = new AdventureResult( equipmentMatcher.group(1), 1, false );
+				equipment[ KoLCharacter.HAT ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 				KoLmafia.getDebugStream().println( "Hat: " + equipment[ KoLCharacter.HAT ] );
 			}
 		}
@@ -682,7 +682,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = Pattern.compile( "Weapon:</td>.*?<b>(.*?)</b>.*unequip&type=weapon" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.WEAPON ] = new AdventureResult( equipmentMatcher.group(1), 1, false );
+				equipment[ KoLCharacter.WEAPON ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 				KoLmafia.getDebugStream().println( "Weapon: " + equipment[ KoLCharacter.WEAPON ] );
 			}
 		}
@@ -692,7 +692,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.OFFHAND ] = new AdventureResult( equipmentMatcher.group(1), 1, false );
+				equipment[ KoLCharacter.OFFHAND ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 				KoLmafia.getDebugStream().println( "Off-hand: " + equipment[ KoLCharacter.OFFHAND ] );
 			}
 		}
@@ -702,7 +702,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = Pattern.compile( "Shirt:</td>.*?<b>(.*?)</b>.*unequip&type=shirt" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.SHIRT ] = new AdventureResult( equipmentMatcher.group(1), 1, false );
+				equipment[ KoLCharacter.SHIRT ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 				KoLmafia.getDebugStream().println( "Shirt: " + equipment[ KoLCharacter.SHIRT ] );
 			}
 		}
@@ -712,7 +712,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = Pattern.compile( "Pants:</td>.*?<b>(.*?)</b>.*unequip&type=pants" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.PANTS ] = new AdventureResult( equipmentMatcher.group(1), 1, false );
+				equipment[ KoLCharacter.PANTS ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 				KoLmafia.getDebugStream().println( "Pants: " + equipment[ KoLCharacter.PANTS ] );
 			}
 		}
@@ -722,7 +722,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = Pattern.compile( "Accessory ?1?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc1\">" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.ACCESSORY1 ] = new AdventureResult( equipmentMatcher.group(1), 1, false );
+				equipment[ KoLCharacter.ACCESSORY1 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 				KoLmafia.getDebugStream().println( "Accessory 1: " + equipment[ KoLCharacter.ACCESSORY1 ] );
 			}
 		}
@@ -732,7 +732,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = Pattern.compile( "Accessory ?2?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc2\">" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.ACCESSORY2 ] = new AdventureResult( equipmentMatcher.group(1), 1, false );
+				equipment[ KoLCharacter.ACCESSORY2 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 				KoLmafia.getDebugStream().println( "Accessory 2: " + equipment[ KoLCharacter.ACCESSORY2 ] );
 			}
 		}
@@ -742,7 +742,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = Pattern.compile( "Accessory ?3?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc3\">" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.ACCESSORY3 ] = new AdventureResult( equipmentMatcher.group(1), 1, false );
+				equipment[ KoLCharacter.ACCESSORY3 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 				KoLmafia.getDebugStream().println( "Accessory 3: " + equipment[ KoLCharacter.ACCESSORY3 ] );
 			}
 
@@ -753,7 +753,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			equipmentMatcher = Pattern.compile( "Familiar:*</td>.*?<b>([^<]*?)</b>.*unequip&type=familiarequip" ).matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
-				equipment[ KoLCharacter.FAMILIAR ] = new AdventureResult( equipmentMatcher.group(1), 1, false );
+				equipment[ KoLCharacter.FAMILIAR ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
 				KoLmafia.getDebugStream().println( "Familiar: " + equipment[ KoLCharacter.FAMILIAR ] );
 			}
 		}
