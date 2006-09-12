@@ -246,7 +246,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		// Make sure that the message was actually sent -
 		// the person could have input an invalid player ID
 
-		if ( getSuccessMessage().equals( "" ) || responseText.indexOf( getSuccessMessage() ) != -1 )
+		if ( tallyItemTransfer() && (getSuccessMessage().equals( "" ) || responseText.indexOf( getSuccessMessage() ) != -1) )
 		{
 			// With that done, the client needs to be updated
 			// to note that the items were sent.
@@ -277,7 +277,7 @@ public abstract class SendMessageRequest extends KoLRequest
 					KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + meatAttachment );
 			}
 		}
-		else
+		else if ( tallyItemTransfer() )
 		{
 			if ( attachments.length > 0 )
 			{
@@ -296,5 +296,9 @@ public abstract class SendMessageRequest extends KoLRequest
 
 	protected boolean allowUntradeableTransfer()
 	{	return false;
+	}
+
+	protected boolean tallyItemTransfer()
+	{	return true;
 	}
 }
