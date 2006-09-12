@@ -358,4 +358,8 @@ public class AutoSellRequest extends SendMessageRequest
 	protected String getSuccessMessage()
 	{	return "";
 	}
+
+	protected boolean tallyItemTransfer()
+	{	return false;
+	}
 }
