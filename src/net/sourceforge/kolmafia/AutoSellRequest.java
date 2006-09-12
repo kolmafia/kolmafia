@@ -283,16 +283,7 @@ public class AutoSellRequest extends SendMessageRequest
 			}
 		}
 		else if ( KoLCharacter.getAutosellMode().equals( "detailed" ) )
-		{
-			// New autosell interface.
-
-			// "You sell your 2 disturbing fanfics to an organ
-			// grinder's monkey for 264 Meat."
-
-			Matcher matcher = Pattern.compile( "for ([\\d,]+) [Mm]eat" ).matcher( responseText );
-			if ( matcher.find() )
-				client.processResult( new AdventureResult( AdventureResult.MEAT, StaticEntity.parseInt( matcher.group(1) ) ) );
-		}
+			StaticEntity.externalUpdate( "sellstuff_ugly.php", responseText );
 
 		// Move out of inventory. Process meat gains, if old autosell
 		// interface.

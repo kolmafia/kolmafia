@@ -179,6 +179,18 @@ public abstract class StaticEntity implements KoLConstants
 		if ( location.indexOf( "charsheet.php" ) != -1 )
 			CharsheetRequest.parseStatus( responseText );
 
+		if ( location.startsWith( "sellstuff_ugly.php" ) )
+		{
+			// New autosell interface.
+
+			// "You sell your 2 disturbing fanfics to an organ
+			// grinder's monkey for 264 Meat."
+
+			Matcher matcher = Pattern.compile( "for ([\\d,]+) [Mm]eat" ).matcher( responseText );
+			if ( matcher.find() )
+				client.processResult( new AdventureResult( AdventureResult.MEAT, StaticEntity.parseInt( matcher.group(1) ) ) );
+		}
+
 		// See if the person learned a new skill from using a
 		// mini-browser frame.
 
