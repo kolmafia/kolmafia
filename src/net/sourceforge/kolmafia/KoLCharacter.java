@@ -2026,7 +2026,7 @@ public abstract class KoLCharacter extends StaticEntity
 	{
 		UseSkillRequest handshake = new UseSkillRequest( getClient(), "Shake Hands", "", 1 );
 
-		if ( getEquipment( OFFHAND ).getItemID() == JOYBUZZER.getItemID() )
+		if ( getEquipment( OFFHAND ) != null && getEquipment( OFFHAND ).getItemID() == JOYBUZZER.getItemID() )
 		{
 			if ( !KoLCharacter.battleSkillIDs.contains( "skill shake hands" ) )
 			{
