@@ -296,8 +296,72 @@ public class AutoSellRequest extends SendMessageRequest
 
 		// Move out of inventory. Process meat gains, if old autosell
 		// interface.
+
 		super.processResults();
 		KoLmafia.updateDisplay( "Items sold." );
+	}
+
+	public static boolean processRequest( String urlString )
+	{
+		Matcher itemMatcher = null;
+		int quantity = 1;
+
+		if ( urlString.startsWith( "sellstuff.php" ) )
+		{
+			Matcher quantityMatcher = Pattern.compile( "howmany=([\\d,]+)" ).matcher( urlString );
+			if ( quantityMatcher.find() )
+				quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+
+			if ( urlString.indexOf( "type=allbutone" ) != -1 )
+				quantity = -1;
+			else if ( urlString.indexOf( "type=all" ) != -1 )
+				quantity = 0;
+
+			itemMatcher = Pattern.compile( "whichitem%5B%5d=(\\d+)" ).matcher( urlString );
+		}
+		else if ( urlString.startsWith( "sellstuff_ugly.php" ) )
+		{
+			Matcher quantityMatcher = Pattern.compile( "howmany=([\\d,]+)" ).matcher( urlString );
+			if ( quantityMatcher.find() )
+				quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
+
+			if ( urlString.indexOf( "mode=1" ) != -1 )
+				quantity = 0;
+			else if ( urlString.indexOf( "mode=2" ) != -1 )
+				quantity = -1;
+
+			itemMatcher = Pattern.compile( "item(\\d+)" ).matcher( urlString );
+		}
+
+		if ( itemMatcher == null )
+			return false;
+
+		StringBuffer buffer = new StringBuffer();
+		while ( itemMatcher.find() )
+		{
+			buffer.append( buffer.length() == 0 ? "autosell " : ", " );
+			buffer.append( quantity == 0 ? "*" : String.valueOf( quantity ) );
+			buffer.append( " " );
+
+			AdventureResult item = new AdventureResult( StaticEntity.parseInt( itemMatcher.group(1) ), 1 );
+			int inventoryAmount = item.getCount( KoLCharacter.getInventory() );
+
+			if ( quantity < 1 )
+				quantity += inventoryAmount;
+			else
+				quantity = Math.min( quantity, inventoryAmount );
+
+			StaticEntity.getClient().processResult( item.getInstance( 0 - quantity ) );
+			buffer.append( item.getName() );
+		}
+
+		if ( buffer.length() != 0 )
+		{
+			KoLmafia.getSessionStream().println();
+			KoLmafia.getSessionStream().println( buffer.toString() );
+		}
+
+		return true;
 	}
 
 	protected String getSuccessMessage()

@@ -171,7 +171,7 @@ public class AdventureRequest extends KoLRequest
 
 		if ( adventureID.equals( "80" ) && responseText.indexOf( "You shouldn't be here." ) != -1 )
 		{
-			(new AdventureRequest( client, "Bridge the Orc Chasm", "mountains.php", "80" )).run();
+			DEFAULT_SHELL.executeLine( "adventure 1 Bridge the Orc Chasm" );
 			if ( KoLmafia.permitsContinue() )
 				this.run();
 

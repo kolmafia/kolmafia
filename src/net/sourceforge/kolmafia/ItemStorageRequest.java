@@ -401,6 +401,7 @@ public class ItemStorageRequest extends SendMessageRequest
 			itemListBuffer.append( TradeableItemDatabase.getItemName( itemID ) );
 		}
 
+		KoLmafia.getSessionStream().println();
 		KoLmafia.getSessionStream().println( "pull " + itemListBuffer.toString() );
 		for ( int i = 0; i < itemList.size(); ++i )
 			StaticEntity.getClient().processResult( (AdventureResult) itemList.get(i) );

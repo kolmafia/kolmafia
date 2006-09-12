@@ -110,6 +110,7 @@ public class FamiliarRequest extends KoLRequest
 
 		if ( urlString.indexOf( "action=putback" ) != -1 )
 		{
+			KoLmafia.getSessionStream().println();
 			KoLmafia.getSessionStream().println( "familiar none" );
 			return true;
 		}
@@ -122,6 +123,7 @@ public class FamiliarRequest extends KoLRequest
 
 			if ( index != -1 )
 			{
+				KoLmafia.getSessionStream().println();
 				KoLmafia.getSessionStream().println( "familiar " + KoLCharacter.getFamiliarList().get(index).toString() );
 				return true;
 			}
