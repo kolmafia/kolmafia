@@ -215,7 +215,12 @@ public class AdventureDatabase extends KoLDatabase
 		{ { "choiceAdventure25" }, { "Dungeon of Doom" },
 		  { "Buy a magic lamp", "Buy some sort of cloak", "Leave without buying anything" } },
 
-		// Choices 26 - 39 are unknown
+		// Choice 26 is A Three-Tined Fork
+		// Choice 27 is Footprints
+		// Choice 28 is A Pair of Craters
+		// Choice 29 is The Road Less Visible
+
+		// Choices 30 - 39 are unknown
 
 		// The Effervescent Fray
 		{ { "choiceAdventure40" }, { "Cola Wars 1" },
