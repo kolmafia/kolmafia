@@ -2519,14 +2519,12 @@ public abstract class KoLmafia implements KoLConstants
 			// Now, run the built-in behavior to take care of
 			// any loose ends.
 
-			AdventureResult hat = KoLCharacter.getEquipment( KoLCharacter.HAT );
 			MoodSettings.execute();
 
 			recoverHP();
 			recoverMP();
 
-			if ( !KoLCharacter.getEquipment( KoLCharacter.HAT ).equals( hat ) )
-				SpecialOutfit.restoreCheckpoint();
+			SpecialOutfit.restoreCheckpoint( true );
 		}
 
 		recoveryActive = false;

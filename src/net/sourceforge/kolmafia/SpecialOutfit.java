@@ -51,6 +51,8 @@ public class SpecialOutfit implements Comparable
 	private String outfitName;
 	private ArrayList pieces;
 
+	private static boolean hadImplicitChange = false;
+
 	public static SpecialOutfit CHECKPOINT = null;
 	public static final String NO_CHANGE = " - No Change - ";
 	public static final SpecialOutfit BIRTHDAY_SUIT = new SpecialOutfit();
@@ -137,8 +139,13 @@ public class SpecialOutfit implements Comparable
 	 * the player needs an outfit marked to revert to.
 	 */
 
-	public static void createCheckpoint()
-	{	(new EquipmentRequest( StaticEntity.getClient(), "KoLmafia Checkpoint" )).run();
+	public static void createCheckpoint( boolean isImplicitChange )
+	{
+		if ( hadImplicitChange )
+			return;
+
+		(new EquipmentRequest( StaticEntity.getClient(), "KoLmafia Checkpoint" )).run();
+		SpecialOutfit.hadImplicitChange = isImplicitChange;
 	}
 
 	/**
@@ -146,13 +153,18 @@ public class SpecialOutfit implements Comparable
 	 * the player needs to revert to their checkpointed outfit.
 	 */
 
-	public static void restoreCheckpoint()
+	public static void restoreCheckpoint( boolean isImplicitChange )
 	{
+		if ( isImplicitChange && !hadImplicitChange )
+			return;
+
 		if ( CHECKPOINT != null )
 		{
 			(new EquipmentRequest( StaticEntity.getClient(), CHECKPOINT )).run();
 			SpecialOutfit.deleteCheckpoint();
 		}
+
+		hadImplicitChange = false;
 	}
 
 	/**
@@ -168,6 +180,7 @@ public class SpecialOutfit implements Comparable
 				(0 - CHECKPOINT.getOutfitID()) + "=on" )).run();
 
 			CHECKPOINT = null;
+			hadImplicitChange = false;
 		}
 	}
 

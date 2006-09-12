@@ -210,10 +210,10 @@ public abstract class Nemesis extends StaticEntity
 				case 9: // Chamber of Epic Conflict
 
 					if ( initialWeapon != null )
-						DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon );
+						DEFAULT_SHELL.executeLine( "equip weapon " + initialWeapon.getName() );
 
 					if ( initialOffhand != null )
-						DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand );
+						DEFAULT_SHELL.executeLine( "equip off-hand " + initialOffhand.getName() );
 
 					action = "end";
 					KoLmafia.updateDisplay( "Fighting your nemesis..." );
