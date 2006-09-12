@@ -396,6 +396,7 @@ public class AdventureRequest extends KoLRequest
 			{
 				String encounter = encounterMatcher.group(1);
 				KoLmafiaCLI.printLine( "Encounter: " + encounter );
+				KoLmafia.getSessionStream().println( "Encounter: " + encounter );
 				StaticEntity.getClient().registerEncounter( encounter );
 				return encounter;
 			}
@@ -409,6 +410,7 @@ public class AdventureRequest extends KoLRequest
 			{
 				String encounter = encounterMatcher.group(1);
 				KoLmafiaCLI.printLine( "Encounter: " + encounter );
+				KoLmafia.getSessionStream().println( "Encounter: " + encounter );
 				StaticEntity.getClient().registerEncounter( encounter );
 				return encounter;
 			}
