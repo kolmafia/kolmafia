@@ -1463,7 +1463,7 @@ public abstract class KoLmafia implements KoLConstants
 		// the display.
 
 		if ( request instanceof KoLAdventure && !conditions.isEmpty() )
-			updateDisplay( "Conditions not satisfied after " + (currentIteration - 1) +
+			updateDisplay( PENDING_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
 				((currentIteration == 2) ? " request." : " requests.") );
 
 		else if ( initialConditions != 0 && conditions.isEmpty() )

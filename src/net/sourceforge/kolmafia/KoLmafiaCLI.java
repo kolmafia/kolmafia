@@ -1060,8 +1060,15 @@ public class KoLmafiaCLI extends KoLmafia
 				if ( !parameters.equals( "worthless item" ) )
 					itemCount = StaticEntity.parseInt( parameters.substring( 0, parameters.indexOf( " " ) ) );
 
+				ArrayList temporary = new ArrayList();
+				temporary.addAll( StaticEntity.getClient().getConditions() );
+
+				DEFAULT_SHELL.executeConditionsCommand( "clear" );
+
 				while ( KoLCharacter.getAdventuresLeft() > 0 && HermitRequest.getWorthlessItemCount() < itemCount && permitsContinue() )
 					executeLine( "adventure Unlucky Sewer" );
+
+				StaticEntity.getClient().getConditions().addAll( temporary );
 
 				if ( HermitRequest.getWorthlessItemCount() < itemCount )
 				{
