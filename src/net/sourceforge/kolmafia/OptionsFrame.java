@@ -537,7 +537,6 @@ public class OptionsFrame extends KoLFrame
 	{
 		private JComboBox [] optionSelects;
 
-		private JComboBox cloverProtectSelect;
 		private JComboBox castleWheelSelect;
 		private JComboBox spookyForestSelect;
 		private JComboBox tripTypeSelect;
@@ -562,11 +561,6 @@ public class OptionsFrame extends KoLFrame
 				for ( int j = 0; j < AdventureDatabase.CHOICE_ADVS[i][2].length; ++j )
 					optionSelects[i].addItem( AdventureDatabase.CHOICE_ADVS[i][2][j] );
 			}
-
-			cloverProtectSelect = new JComboBox();
-			cloverProtectSelect.addItem( "Always disassemble ten-leaf clovers" );
-			cloverProtectSelect.addItem( "Ignore ten-leaf clovers in browser" );
-			cloverProtectSelect.addItem( "Never disassemble ten-leaf clovers" );
 
 			castleWheelSelect = new JComboBox();
 			castleWheelSelect.addItem( "Turn to map quest position (via moxie)" );
@@ -595,18 +589,16 @@ public class OptionsFrame extends KoLFrame
 			for ( int i = 0; i < VioletFog.FogGoals.length; ++i )
 				violetFogSelect.addItem( VioletFog.FogGoals[i] );
 
-			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 7 ];
-			elements[0] = new VerifiableElement( "Clover Protect", cloverProtectSelect );
-			elements[1] = new VerifiableElement( "", new JLabel() );
-			elements[2] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
-			elements[3] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
-			elements[4] = new VerifiableElement( "Violet Fog 1", tripTypeSelect );
-			elements[5] = new VerifiableElement( "Violet Fog 2", violetFogSelect );
-			elements[6] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
+			VerifiableElement [] elements = new VerifiableElement[ optionSelects.length + 5 ];
+			elements[0] = new VerifiableElement( "Castle Wheel", castleWheelSelect );
+			elements[1] = new VerifiableElement( "Forest Corpses", spookyForestSelect );
+			elements[2] = new VerifiableElement( "Violet Fog 1", tripTypeSelect );
+			elements[3] = new VerifiableElement( "Violet Fog 2", violetFogSelect );
+			elements[4] = new VerifiableElement( "Lucky Sewer", optionSelects[0] );
 
-			elements[7] = new VerifiableElement( "", new JLabel() );
+			elements[5] = new VerifiableElement( "", new JLabel() );
 			for ( int i = 1; i < optionSelects.length; ++i )
-				elements[i+7] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i][1][0], optionSelects[i] );
+				elements[i+5] = new VerifiableElement( AdventureDatabase.CHOICE_ADVS[i][1][0], optionSelects[i] );
 
 			setContent( elements );
 			actionCancelled();
@@ -614,9 +606,6 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "cloverProtectActive1", String.valueOf( cloverProtectSelect.getSelectedIndex() != 2 ) );
-			StaticEntity.setProperty( "cloverProtectActive2", String.valueOf( cloverProtectSelect.getSelectedIndex() == 0 ) );
-
 			StaticEntity.setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
 			StaticEntity.setProperty( "choiceAdventure71", String.valueOf( tripTypeSelect.getSelectedIndex() + 1 ) );
 			StaticEntity.setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
@@ -740,15 +729,7 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			int cloverIndex = 0;
-			if ( StaticEntity.getBooleanProperty( "cloverProtectActive1" ) )
-				cloverIndex = 1;
-			if ( StaticEntity.getBooleanProperty( "cloverProtectActive2" ) )
-				cloverIndex = 2;
-
-			cloverProtectSelect.setSelectedIndex( cloverIndex );
 			violetFogSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "violetFogGoal" ) );
-
 			for ( int i = 1; i < optionSelects.length; ++i )
 				optionSelects[i].setSelectedIndex( StaticEntity.getIntegerProperty( AdventureDatabase.CHOICE_ADVS[i][0][0] ) );
 

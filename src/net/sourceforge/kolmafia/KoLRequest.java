@@ -654,12 +654,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		client.setCurrentRequest( this );
 		registerRequest();
 
-		if ( !LoginRequest.isInstanceRunning() && !isConsumeRequest && !(this instanceof SewerRequest) && formURLString.indexOf( "lair2.php" ) == -1 )
-		{
-			if ( StaticEntity.getBooleanProperty( "cloverProtectActive" ) && client.isLuckyCharacter() && !(this instanceof LocalRelayRequest) )
-				DEFAULT_SHELL.executeLine( "use * ten-leaf clover" );
-		}
-
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 
@@ -696,6 +690,14 @@ public class KoLRequest implements Runnable, KoLConstants
 				else if ( !shouldIgnoreResults() )
 					processResults();
 			}
+
+			if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
+			{
+				DEFAULT_SHELL.executeLine( "use 1 ten-leaf clover" );
+				if ( isDelayExempt() )
+					KoLmafia.enableDisplay();
+			}
+
 		}
 
 		client.setCurrentRequest( null );
