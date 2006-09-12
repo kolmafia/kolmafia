@@ -623,7 +623,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		while ( itemMatcher.find() )
 		{
 			String quantity = itemMatcher.group(4).trim();
-			String realName = itemMatcher.group(2);
+			String realName = itemMatcher.group(2).trim();
 
 			// We have encountered a brand new item, the person
 			// has no meat paste, and we're in trouble.  Do not
