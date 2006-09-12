@@ -408,4 +408,8 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		return true;
 	}
+
+	protected boolean allowUntradeableTransfer()
+	{	return true;
+	}
 }

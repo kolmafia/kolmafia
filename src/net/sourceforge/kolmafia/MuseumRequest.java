@@ -112,4 +112,8 @@ public class MuseumRequest extends SendMessageRequest
 		if ( !isManagement )
 			MuseumManager.update( responseText );
 	}
+
+	protected boolean allowUntradeableTransfer()
+	{	return true;
+	}
 }
