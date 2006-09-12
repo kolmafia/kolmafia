@@ -1462,8 +1462,8 @@ public abstract class KoLmafia implements KoLConstants
 		// If you've completed the requests, make sure to update
 		// the display.
 
-		if ( request instanceof KoLAdventure && !conditions.isEmpty() )
-			updateDisplay( PENDING_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
+		if ( !isRunningBetweenBattleChecks() && request instanceof KoLAdventure && !conditions.isEmpty() )
+			updateDisplay( ERROR_STATE, "Conditions not satisfied after " + (currentIteration - 1) +
 				((currentIteration == 2) ? " request." : " requests.") );
 
 		else if ( initialConditions != 0 && conditions.isEmpty() )
