@@ -166,6 +166,8 @@ public class AdventureRequest extends KoLRequest
 		if ( responseText.trim().length() == 0 )
 			return;
 
+		super.processResults();
+
 		// If you haven't unlocked the orc chasm yet,
 		// try doing so now.
 
@@ -375,8 +377,6 @@ public class AdventureRequest extends KoLRequest
 			KoLmafia.updateDisplay( ERROR_STATE, "You must wear a costume." );
 			return;
 		}
-
-		super.processResults();
 	}
 
 	public static String registerEncounter( KoLRequest request )

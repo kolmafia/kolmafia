@@ -855,6 +855,18 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static String getFeatureRichHTML( String location, String text )
 	{
+		// If you found a marmot clover, it would have
+		// automatically been disassembled.  Update
+		// the HTML to reflect this.
+
+		if ( text.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
+		{
+			text = text.replaceFirst( "ten-leaf clover</b>",
+				"ten-leaf clover</b></td></tr></table></center><p>You carefully pull the leaves off of your ten-leaf clover. It seems much less lucky now.<center><table><tr><td>" +
+				"<img src=\"http://images.kingdomofloathing.com/itemimages/disclover.gif\" class=hand onClick='descitem(328909735)'>" +
+				"</td><td valign=center class=effect>You acquire an item: <b>disassembled clover</b>" );
+		}
+
 		// Now, for a little fun HTML manipulation.  See
 		// if there's an item present, and if so, modify
 		// it so that you get a use link.
@@ -918,52 +930,55 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			String useType = null;
 			String useLocation = null;
 
-			switch ( TradeableItemDatabase.getConsumptionType( itemID ) )
+			if ( itemCount > 0 )
 			{
-				case ConsumeItemRequest.CONSUME_EAT:
-					useType = KoLCharacter.canEat() ? "eat" : null;
-					useLocation = "inv_eat.php?pwd=&which=1&whichitem=";
-					break;
+				switch ( TradeableItemDatabase.getConsumptionType( itemID ) )
+				{
+					case ConsumeItemRequest.CONSUME_EAT:
+						useType = KoLCharacter.canEat() ? "eat" : null;
+						useLocation = "inv_eat.php?pwd=&which=1&whichitem=";
+						break;
 
-				case ConsumeItemRequest.CONSUME_DRINK:
-					useType = KoLCharacter.canDrink() ? "drink" : null;
-					useLocation = "inv_booze.php?pwd=&which=1&whichitem=";
-					break;
+					case ConsumeItemRequest.CONSUME_DRINK:
+						useType = KoLCharacter.canDrink() ? "drink" : null;
+						useLocation = "inv_booze.php?pwd=&which=1&whichitem=";
+						break;
 
-				case ConsumeItemRequest.CONSUME_MULTIPLE:
-					useType = "use";
-					useLocation = itemCount != 1 ? "multiuse.php?passitem=" : "inv_use.php?pwd=&which=1&whichitem=";
-					break;
+					case ConsumeItemRequest.CONSUME_MULTIPLE:
+						useType = "use";
+						useLocation = itemCount != 1 ? "multiuse.php?passitem=" : "inv_use.php?pwd=&which=1&whichitem=";
+						break;
 
-				case ConsumeItemRequest.CONSUME_RESTORE:
-					useType = "skills";
-					useLocation = "skills.php";
-					break;
+					case ConsumeItemRequest.CONSUME_RESTORE:
+						useType = "skills";
+						useLocation = "skills.php";
+						break;
 
-				case ConsumeItemRequest.CONSUME_USE:
-					useType = "use";
-					useLocation = "inv_use.php?pwd=&which=3&whichitem=";
-					break;
+					case ConsumeItemRequest.CONSUME_USE:
+						useType = "use";
+						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+						break;
 
-				case ConsumeItemRequest.EQUIP_HAT:
-				case ConsumeItemRequest.EQUIP_PANTS:
-				case ConsumeItemRequest.EQUIP_SHIRT:
-					useType = "equip";
-					useLocation = "inv_equip.php?pwd=&which=2&action=equip&whichitem=";
-					break;
+					case ConsumeItemRequest.EQUIP_HAT:
+					case ConsumeItemRequest.EQUIP_PANTS:
+					case ConsumeItemRequest.EQUIP_SHIRT:
+						useType = "equip";
+						useLocation = "inv_equip.php?pwd=&which=2&action=equip&whichitem=";
+						break;
 
-				default:
+					default:
 
-					if ( itemID == SorceressLair.PUZZLE_PIECE.getItemID() )
-					{
-						useType = "maze";
-						useLocation = "hedgepuzzle.php";
-					}
-					else if ( itemID == SorceressLair.HEDGE_KEY.getItemID() )
-					{
-						useType = "maze";
-						useLocation = "hedgepuzzle.php";
-					}
+						if ( itemID == SorceressLair.PUZZLE_PIECE.getItemID() )
+						{
+							useType = "maze";
+							useLocation = "hedgepuzzle.php";
+						}
+						else if ( itemID == SorceressLair.HEDGE_KEY.getItemID() )
+						{
+							useType = "maze";
+							useLocation = "hedgepuzzle.php";
+						}
+				}
 			}
 
 			if ( useType != null && useLocation != null )
