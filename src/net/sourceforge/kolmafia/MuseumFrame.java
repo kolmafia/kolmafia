@@ -158,11 +158,11 @@ public class MuseumFrame extends KoLFrame
 				(new RequestThread( parameters )).start();
 			}
 
-			protected void actionConfirmed()
+			public void actionConfirmed()
 			{	move( true );
 			}
 
-			protected void actionCancelled()
+			public void actionCancelled()
 			{	move( false );
 			}
 		}
@@ -182,11 +182,11 @@ public class MuseumFrame extends KoLFrame
 				(new RequestThread( parameters )).start();
 			}
 
-			protected void actionConfirmed()
+			public void actionConfirmed()
 			{	move( true );
 			}
 
-			protected void actionCancelled()
+			public void actionCancelled()
 			{	move( false );
 			}
 		}

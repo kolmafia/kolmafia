@@ -74,6 +74,7 @@ import java.io.PrintStream;
 import java.io.FileOutputStream;
 
 import java.util.Arrays;
+import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 
@@ -107,16 +108,43 @@ public class OptionsFrame extends KoLFrame
 	private JPanel combatPanel;
 
 	private JList moodList;
-
 	private JComboBox battleStopSelect;
 	private JTextField betweenBattleScriptField;
 
 	private JComboBox hpAutoRecoverSelect, hpAutoRecoverTargetSelect;
 	private JCheckBox [] hpRestoreCheckbox;
-
 	private JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect;
 	private JCheckBox [] mpRestoreCheckbox;
 
+	private ActionPanel general, items, relay, areas, health, mana, combat, triggers, scripts, choices;
+
+	/**
+	 * Utility method which refreshes all the options, in the event
+	 * that any data is reset via scripts.
+	 */
+
+	public static void refreshDisplay()
+	{
+		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
+		existingFrames.toArray( frames );
+
+		for ( int i = 0; i < frames.length; ++i )
+		{
+			if ( frames[i] instanceof OptionsFrame )
+			{
+				((OptionsFrame) frames[i]).general.actionCancelled();
+				((OptionsFrame) frames[i]).items.actionCancelled();
+				((OptionsFrame) frames[i]).relay.actionCancelled();
+				((OptionsFrame) frames[i]).areas.actionCancelled();
+				((OptionsFrame) frames[i]).health.actionCancelled();
+				((OptionsFrame) frames[i]).mana.actionCancelled();
+				((OptionsFrame) frames[i]).combat.actionCancelled();
+				((OptionsFrame) frames[i]).triggers.actionCancelled();
+				((OptionsFrame) frames[i]).scripts.actionCancelled();
+				((OptionsFrame) frames[i]).choices.actionCancelled();
+			}
+		}
+	}
 
 	/**
 	 * Constructs a new <code>OptionsFrame</code> that will be
@@ -138,18 +166,18 @@ public class OptionsFrame extends KoLFrame
 		BoxLayout generalLayout = new BoxLayout( generalPanel, BoxLayout.Y_AXIS );
 		generalPanel.setLayout( generalLayout );
 
-		generalPanel.add( new GeneralOptionsPanel() );
-		generalPanel.add( new ItemOptionsPanel() );
-		generalPanel.add( new RelayOptionsPanel() );
-		generalPanel.add( new AreaOptionsPanel() );
+		generalPanel.add( general = new GeneralOptionsPanel() );
+		generalPanel.add( items = new ItemOptionsPanel() );
+		generalPanel.add( relay = new RelayOptionsPanel() );
+		generalPanel.add( areas = new AreaOptionsPanel() );
 
 		// Components of restoration
 
 		JPanel restorePanel = new JPanel();
 		restorePanel.setLayout( new BoxLayout( restorePanel, BoxLayout.Y_AXIS ) );
 
-		restorePanel.add( new HealthOptionsPanel() );
-		restorePanel.add( new ManaOptionsPanel() );
+		restorePanel.add( health = new HealthOptionsPanel() );
+		restorePanel.add( mana = new ManaOptionsPanel() );
 
 		// Components of custom combat
 
@@ -164,16 +192,16 @@ public class OptionsFrame extends KoLFrame
 
 		combatCards = new CardLayout();
 		combatPanel = new JPanel( combatCards );
-		combatPanel.add( "tree", new CustomCombatTreePanel() );
+		combatPanel.add( "tree", combat = new CustomCombatTreePanel() );
 		combatPanel.add( "editor", new CustomCombatPanel() );
 
 		JPanel moodPanel = new JPanel( new BorderLayout() );
 		moodPanel.add( new AddTriggerPanel(), BorderLayout.NORTH );
-		moodPanel.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
+		moodPanel.add( triggers = new MoodTriggerListPanel(), BorderLayout.CENTER );
 
 		addTab( "General", generalPanel );
-		tabs.addTab( "Scriptbar", new ScriptButtonPanel() );
-		addTab( "Choices", new ChoiceOptionsPanel() );
+		tabs.addTab( "Scriptbar", scripts = new ScriptButtonPanel() );
+		addTab( "Choices", choices = new ChoiceOptionsPanel() );
 		addTab( "Restores", restorePanel );
 		tabs.addTab( "Combats", combatPanel );
 		tabs.addTab( "Moods", moodPanel );
@@ -230,13 +258,13 @@ public class OptionsFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			for ( int i = 0; i < options.length; ++i )
 				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
@@ -283,7 +311,7 @@ public class OptionsFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			for ( int i = 0; i < options.length; ++i )
 				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
@@ -293,7 +321,7 @@ public class OptionsFrame extends KoLFrame
 			AdventureDatabase.refreshAdventureList();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
@@ -341,7 +369,7 @@ public class OptionsFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			for ( int i = 0; i < options.length; ++i )
 				StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
@@ -350,7 +378,7 @@ public class OptionsFrame extends KoLFrame
 			KoLCharacter.refreshCalculatedLists();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			for ( int i = 0; i < options.length; ++i )
 				optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
@@ -386,7 +414,7 @@ public class OptionsFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			StringBuffer areas = new StringBuffer();
 
@@ -406,7 +434,7 @@ public class OptionsFrame extends KoLFrame
 			AdventureDatabase.refreshAdventureList();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			String excluded = StaticEntity.getProperty( "zoneExcludeList" );
 			for ( int i = 0; i < zones.length; ++i )
@@ -536,8 +564,9 @@ public class OptionsFrame extends KoLFrame
 			}
 
 			cloverProtectSelect = new JComboBox();
-			cloverProtectSelect.addItem( "Disassemble ten-leaf clovers" );
-			cloverProtectSelect.addItem( "Leave ten-leaf clovers alone" );
+			cloverProtectSelect.addItem( "Always disassemble ten-leaf clovers" );
+			cloverProtectSelect.addItem( "Ignore ten-leaf clovers in browser" );
+			cloverProtectSelect.addItem( "Never disassemble ten-leaf clovers" );
 
 			castleWheelSelect = new JComboBox();
 			castleWheelSelect.addItem( "Turn to map quest position (via moxie)" );
@@ -583,9 +612,11 @@ public class OptionsFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "cloverProtectActive", String.valueOf( cloverProtectSelect.getSelectedIndex() == 0 ) );
+			StaticEntity.setProperty( "cloverProtectActive1", String.valueOf( cloverProtectSelect.getSelectedIndex() != 2 ) );
+			StaticEntity.setProperty( "cloverProtectActive2", String.valueOf( cloverProtectSelect.getSelectedIndex() == 0 ) );
+
 			StaticEntity.setProperty( "violetFogGoal", String.valueOf( violetFogSelect.getSelectedIndex() ) );
 			StaticEntity.setProperty( "choiceAdventure71", String.valueOf( tripTypeSelect.getSelectedIndex() + 1 ) );
 			StaticEntity.setProperty( "luckySewerAdventure", (String) optionSelects[0].getSelectedItem() );
@@ -707,9 +738,15 @@ public class OptionsFrame extends KoLFrame
 			}
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
-			cloverProtectSelect.setSelectedIndex( StaticEntity.getBooleanProperty( "cloverProtectActive" ) ? 0 : 1 );
+			int cloverIndex = 0;
+			if ( StaticEntity.getBooleanProperty( "cloverProtectActive1" ) )
+				cloverIndex = 1;
+			if ( StaticEntity.getBooleanProperty( "cloverProtectActive2" ) )
+				cloverIndex = 2;
+
+			cloverProtectSelect.setSelectedIndex( cloverIndex );
 			violetFogSelect.setSelectedIndex( StaticEntity.getIntegerProperty( "violetFogGoal" ) );
 
 			for ( int i = 1; i < optionSelects.length; ++i )
@@ -861,11 +898,11 @@ public class OptionsFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{	saveRestoreSettings();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			betweenBattleScriptField.setText( StaticEntity.getProperty( "betweenBattleScript" ) );
 			battleStopSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "battleStop" ) * 10) + 1 );
@@ -911,11 +948,11 @@ public class OptionsFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{	saveRestoreSettings();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			mpAutoRecoverSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "mpAutoRecovery" ) * 10) + 1 );
 			mpAutoRecoverTargetSelect.setSelectedIndex( (int)(StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" ) * 10) + 1 );
@@ -939,7 +976,7 @@ public class OptionsFrame extends KoLFrame
 			refreshCombatSettings();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			try
 			{
@@ -968,7 +1005,7 @@ public class OptionsFrame extends KoLFrame
 			combatCards.show( combatPanel, "tree" );
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{	StaticEntity.openSystemBrowser( "http://kolmafia.sourceforge.net/combat.html" );
 		}
 
@@ -1102,7 +1139,7 @@ public class OptionsFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{	MoodSettings.addTrigger( (String) typeSelect.getSelectedType(), (String) valueSelect.getSelectedItem(), commandField.getText() );
 		}
 

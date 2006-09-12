@@ -138,7 +138,7 @@ public class BuffBotFrame extends KoLFrame
 			confirmedButton.setEnabled( isEnabled );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			if ( BuffBotHome.isBuffBotActive() )
 				return;
@@ -152,7 +152,7 @@ public class BuffBotFrame extends KoLFrame
 			BuffBotManager.runBuffBot( Integer.MAX_VALUE );
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			BuffBotHome.setBuffBotActive( false );
 			BuffBotHome.updateStatus( "BuffBot stopped by user." );
@@ -198,7 +198,7 @@ public class BuffBotFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			BuffBotManager.addBuff( ((UseSkillRequest) skillSelect.getSelectedItem()).getSkillName(),
 				StaticEntity.parseInt( priceField.getText() ), StaticEntity.parseInt( countField.getText() ),
@@ -256,7 +256,7 @@ public class BuffBotFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "buffBotMessageDisposal", String.valueOf( messageDisposalSelect.getSelectedIndex() ) );
 			StaticEntity.setProperty( "mpAutoRecoveryItems", getSettingString( mpRestoreCheckbox ) );
@@ -321,14 +321,14 @@ public class BuffBotFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "whiteList", whiteListEntry.getText() );
 			StaticEntity.setProperty( "invalidBuffMessage", invalidPriceMessage.getText() );
 			StaticEntity.setProperty( "thanksMessage", thanksMessage.getText() );
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			whiteListEntry.setText( StaticEntity.getProperty( "whiteList" ) );
 			invalidPriceMessage.setText( StaticEntity.getProperty( "invalidBuffMessage" ) );

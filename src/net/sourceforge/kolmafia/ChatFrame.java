@@ -528,7 +528,7 @@ public class ChatFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "fontSize", (String) fontSizeSelect.getSelectedItem() );
 			LimitedSizeChatBuffer.setFontSize( StaticEntity.parseInt( (String) fontSizeSelect.getSelectedItem() ) );
@@ -541,7 +541,7 @@ public class ChatFrame extends KoLFrame
 			super.actionConfirmed();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			fontSizeSelect.setSelectedItem( StaticEntity.getProperty( "fontSize" ) );
 			LimitedSizeChatBuffer.setFontSize( StaticEntity.getIntegerProperty( "fontSize" ) );

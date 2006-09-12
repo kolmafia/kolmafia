@@ -275,8 +275,8 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 			buttonPanel.setEnabled( isEnabled );
 	}
 
-	protected abstract void actionConfirmed();
-	protected abstract void actionCancelled();
+	public abstract void actionConfirmed();
+	public abstract void actionCancelled();
 
 	public void focusGained( FocusEvent e )
 	{
@@ -366,7 +366,7 @@ public abstract class ActionVerifyPanel extends ActionPanel implements ActionLis
 		public JComponent getInputField()
 		{	return inputField;
 		}
-		
+
 		public boolean shouldResize()
 		{	return shouldResize;
 		}

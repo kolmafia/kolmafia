@@ -112,9 +112,6 @@ public abstract class LabeledScrollPanel extends ActionPanel implements KoLConst
 		existingPanels.add( new WeakReference( this ) );
 	}
 
-	protected abstract void actionConfirmed();
-	protected abstract void actionCancelled();
-
 	public void setEnabled( boolean isEnabled )
 	{
 		if ( scrollComponent == null || buttonPanel == null )

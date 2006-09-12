@@ -105,13 +105,13 @@ public class MeatManageFrame extends KoLFrame
 			setContent( elements, true, true );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			if ( heroField.getSelectedIndex() != -1 )
 				(new RequestThread( new HeroDonationRequest( StaticEntity.getClient(), heroField.getSelectedIndex() + 1, getValue( amountField ) ) )).start();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{	setStatusMessage( "The Frost poem you dialed is unavailable at this time." );
 		}
 	}
@@ -157,7 +157,7 @@ public class MeatManageFrame extends KoLFrame
 			closetField.setEnabled( false );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			int transferType = -1;
 			int fundTransferType = fundSource.getSelectedIndex();
@@ -210,7 +210,7 @@ public class MeatManageFrame extends KoLFrame
 			(new RequestThread( requests )).start();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{	KoLmafiaGUI.constructFrame( "MoneyMakingGameFrame" );
 		}
 
