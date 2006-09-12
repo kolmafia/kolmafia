@@ -645,6 +645,10 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( name.equals( "battleAction" ) && value.equals( "custom" ) )
 				printList( CombatSettings.getDefaultAction() );
 
+			OptionsFrame.refreshDisplay();
+			if ( name.equals( "buffBotCasting" ) )
+				BuffBotManager.reset();
+
 			return;
 		}
 		else if ( command.equals( "get" ) )

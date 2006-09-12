@@ -95,7 +95,7 @@ public abstract class LabeledKoLPanel extends KoLPanel
 			add( JComponentUtilities.createLabel( panelTitle, JLabel.CENTER, Color.black, Color.white ), BorderLayout.NORTH );
 	}
 
-	protected void actionCancelled()
+	public void actionCancelled()
 	{
 	}
 

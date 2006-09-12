@@ -110,7 +110,7 @@ public class ExamineItemsFrame extends KoLFrame
 			actionConfirmed();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			// Sort elements by name
 			list.sort( new EntryNameComparator() );

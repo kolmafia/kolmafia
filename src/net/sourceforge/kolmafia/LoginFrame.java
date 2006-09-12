@@ -237,7 +237,7 @@ public class LoginFrame extends KoLFrame
 			getBreakfastCheckBox.setEnabled( isEnabled );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "alwaysGetBreakfast", String.valueOf( getBreakfastCheckBox.isSelected() ) );
 			String username = ((String)(usernameField instanceof JComboBox ?
@@ -263,7 +263,7 @@ public class LoginFrame extends KoLFrame
 			(new Thread( new LoginRequest( StaticEntity.getClient(), username, password, savePasswordCheckBox.isSelected(), getBreakfastCheckBox.isSelected(), false ) )).start();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			KoLmafia.declareWorldPeace();
 			usernameField.requestFocus();
@@ -587,7 +587,7 @@ public class LoginFrame extends KoLFrame
 			container.add( new InterfaceCheckboxPanel(), BorderLayout.SOUTH );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			String lookAndFeel = (String) looks.getSelectedItem();
 			if ( lookAndFeel != null )
@@ -598,7 +598,7 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setProperty( "toolbarPosition", String.valueOf( toolbars.getSelectedIndex() ) );
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			looks.setSelectedItem( StaticEntity.getProperty( "desiredLookAndFeel" ) );
 			toolbars.setSelectedIndex( StaticEntity.getIntegerProperty( "toolbarPosition" ) );
@@ -630,7 +630,7 @@ public class LoginFrame extends KoLFrame
 				actionCancelled();
 			}
 
-			protected void actionConfirmed()
+			public void actionConfirmed()
 			{
 				for ( int i = 0; i < options.length; ++i )
 					StaticEntity.setProperty( options[i][0], String.valueOf( optionBoxes[i].isSelected() ) );
@@ -638,7 +638,7 @@ public class LoginFrame extends KoLFrame
 				super.actionConfirmed();
 			}
 
-			protected void actionCancelled()
+			public void actionCancelled()
 			{
 				for ( int i = 0; i < options.length; ++i )
 					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
@@ -719,7 +719,7 @@ public class LoginFrame extends KoLFrame
 				actionCancelled();
 			}
 
-			protected void actionConfirmed()
+			public void actionConfirmed()
 			{
 				super.actionConfirmed();
 
@@ -735,7 +735,7 @@ public class LoginFrame extends KoLFrame
 				proxyPassword.setEnabled( proxySet.isSelected() );
 			}
 
-			protected void actionCancelled()
+			public void actionCancelled()
 			{
 				for ( int i = 0; i < options.length; ++i )
 					optionBoxes[i].setSelected( StaticEntity.getBooleanProperty( options[i][0] ) );
@@ -778,7 +778,7 @@ public class LoginFrame extends KoLFrame
 			actionCancelled();
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			StaticEntity.setProperty( "proxySet", String.valueOf( proxyHost.getText().trim().length() > 0 ) );
 			StaticEntity.setProperty( "http.proxyHost", proxyHost.getText() );
@@ -787,7 +787,7 @@ public class LoginFrame extends KoLFrame
 			StaticEntity.setProperty( "http.proxyPassword", proxyPassword.getText() );
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			proxyHost.setText( StaticEntity.getProperty( "http.proxyHost" ) );
 			proxyPort.setText( StaticEntity.getProperty( "http.proxyPort" ) );

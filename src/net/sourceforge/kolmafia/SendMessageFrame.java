@@ -429,7 +429,7 @@ public abstract class SendMessageFrame extends KoLFrame
 				}
 			}
 
-			protected void actionConfirmed()
+			public void actionConfirmed()
 			{
 				Object [] items = elementList.getSelectedValues();
 
@@ -452,7 +452,7 @@ public abstract class SendMessageFrame extends KoLFrame
 				}
 			}
 
-			protected void actionCancelled()
+			public void actionCancelled()
 			{
 				Object [] items = newAttachments.getSelectedValues();
 

@@ -49,8 +49,8 @@ public abstract class ActionPanel extends JRootPane
 {
 	protected JButton confirmedButton, cancelledButton;
 
-	protected abstract void actionConfirmed();
-	protected abstract void actionCancelled();
+	public abstract void actionConfirmed();
+	public abstract void actionCancelled();
 
 	protected class VerifyButtonPanel extends JPanel
 	{

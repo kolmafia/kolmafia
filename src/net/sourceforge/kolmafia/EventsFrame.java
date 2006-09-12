@@ -54,13 +54,13 @@ public class EventsFrame extends KoLPanelFrame
 				new ShowDescriptionList( KoLCharacter.getEvents() ) );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			// Clear list of events
 			KoLCharacter.clearEvents();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			// Connect to main map to pick up new events
 			KoLmafia.updateDisplay( "Checking for new events..." );

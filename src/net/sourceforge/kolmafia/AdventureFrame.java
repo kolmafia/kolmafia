@@ -298,7 +298,7 @@ public class AdventureFrame extends KoLFrame
 			actionSelect.setEnabled( true );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			// Once the stubs are finished, this will notify the
 			// client to begin adventuring based on the values
@@ -391,7 +391,7 @@ public class AdventureFrame extends KoLFrame
 			(new RequestThread( request, requestCount )).start();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			KoLmafia.declareWorldPeace();
 			locationSelect.requestFocus();

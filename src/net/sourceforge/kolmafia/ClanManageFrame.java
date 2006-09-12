@@ -198,11 +198,11 @@ public class ClanManageFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{	(new RequestThread( (Runnable) buffField.getSelectedItem(), getValue( countField ) )).start();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			if ( isBuffing )
 				KoLmafia.updateDisplay( ERROR_STATE, "Purchase attempts cancelled." );
@@ -228,11 +228,11 @@ public class ClanManageFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{	(new RequestThread( (Runnable) enemyList.getSelectedItem() )).start();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{	(new RequestThread( new ClanListRequest( StaticEntity.getClient() ) )).start();
 		}
 	}
@@ -324,11 +324,11 @@ public class ClanManageFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{	(new RequestThread( new ClanStashRequest( StaticEntity.getClient(), getValue( amountField ) ) )).start();
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{	JOptionPane.showMessageDialog( null, "The Hermit beat you to it.  ARGH!" );
 		}
 	}
@@ -501,7 +501,7 @@ public class ClanManageFrame extends KoLFrame
 			setContent( elements, null, null, true, true );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{	(new RequestThread( new MemberSearcher() )).start();
 		}
 
@@ -514,7 +514,7 @@ public class ClanManageFrame extends KoLFrame
 			}
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{	(new RequestThread( new MemberChanger() )).start();
 		}
 
@@ -626,7 +626,7 @@ public class ClanManageFrame extends KoLFrame
 				optionBoxes[i].setSelected( tableHeaderSetting.indexOf( options[i][0] ) != -1 );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			// Apply all the settings before generating the
 			// needed clan ClanSnapshotTable.
@@ -645,7 +645,7 @@ public class ClanManageFrame extends KoLFrame
 			ClanManager.takeSnapshot( 0, 0, 0, 0, false );
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			ClanManager.saveStashLog();
 		}
@@ -679,7 +679,7 @@ public class ClanManageFrame extends KoLFrame
 			setContent( elements );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{
 			int mostAscensionsBoardSize = mostAscensionsBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : StaticEntity.parseInt( mostAscensionsBoardSizeField.getText() );
 			int mainBoardSize = mainBoardSizeField.getText().equals( "" ) ? Integer.MAX_VALUE : StaticEntity.parseInt( mainBoardSizeField.getText() );
@@ -697,7 +697,7 @@ public class ClanManageFrame extends KoLFrame
 			StaticEntity.setProperty( "clanRosterHeader", oldSetting );
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{
 			ClanManager.saveStashLog();
 		}

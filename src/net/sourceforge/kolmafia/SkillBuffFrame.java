@@ -99,11 +99,11 @@ public class SkillBuffFrame extends KoLFrame
 			targetSelect.setEnabled( isEnabled );
 		}
 
-		protected void actionConfirmed()
+		public void actionConfirmed()
 		{	buff( false );
 		}
 
-		protected void actionCancelled()
+		public void actionCancelled()
 		{	buff( true );
 		}
 
