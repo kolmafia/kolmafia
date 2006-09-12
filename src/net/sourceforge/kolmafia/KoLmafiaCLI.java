@@ -946,18 +946,9 @@ public class KoLmafiaCLI extends KoLmafia
 		// in the Sorceress's tower!  This is placed
 		// right after for consistency.
 
-		if ( command.equals( "tower" ) || command.equals( "guardians" ) )
+		if ( command.equals( "tower" ) || command.equals( "guardians" ) || command.equals( "chamber" ) )
 		{
-			SorceressLair.fightTowerGuardians();
-			return;
-		}
-
-		// Look!  It's the command to complete the Sorceress's
-		// Chamber! This is placed right after for consistency.
-
-		if ( command.equals( "chamber" ) )
-		{
-			SorceressLair.completeSorceressChamber();
+			SorceressLair.fightAllTowerGuardians();
 			return;
 		}
 

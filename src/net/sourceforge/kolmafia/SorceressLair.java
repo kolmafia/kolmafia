@@ -42,8 +42,6 @@ import javax.swing.JOptionPane;
 
 public abstract class SorceressLair extends StaticEntity
 {
-	private static boolean useCloverForSkeleton = true;
-
 	// Items for the entryway
 
 	private static final AdventureResult SUGAR = new AdventureResult( "Sugar Rush", 0 );
@@ -258,18 +256,14 @@ public abstract class SorceressLair extends StaticEntity
 	}
 
 	public static void completeCloveredEntryway()
-	{
-		useCloverForSkeleton = true;
-		completeEntryway();
+	{	completeEntryway( true );
 	}
 
 	public static void completeCloverlessEntryway()
-	{
-		useCloverForSkeleton = false;
-		completeEntryway();
+	{	completeEntryway( false );
 	}
 
-	public static void completeEntryway()
+	public static void completeEntryway( boolean useCloverForSkeleton )
 	{
 		if ( !checkPrerequisites( 1, 2 ) )
 			return;
@@ -329,7 +323,7 @@ public abstract class SorceressLair extends StaticEntity
 		// at the end, check to make sure you've completed
 		// all the needed requirements.
 
-		requirements.addAll( retrieveRhythm( false ) );
+		requirements.addAll( retrieveRhythm( false, useCloverForSkeleton ) );
 		requirements.addAll( retrieveStrumming( false ) );
 		requirements.addAll( retrieveSqueezings( false ) );
 		requirements.addAll( retrieveScubaGear( false ) );
@@ -462,7 +456,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 	}
 
-	private static List retrieveRhythm( boolean isCheckOnly )
+	private static List retrieveRhythm( boolean isCheckOnly, boolean useCloverForSkeleton )
 	{
 		// Skeleton key and a clover unless you already have the
 		// Really Evil Rhythms
@@ -1013,9 +1007,17 @@ public abstract class SorceressLair extends StaticEntity
 		return responseText;
 	}
 
-	public static int fightTowerGuardians()
+	public static int fightAllTowerGuardians()
+	{	return fightTowerGuardians( true );
+	}
+
+	public static int fightNonFamiliarGuardians()
+	{	return fightTowerGuardians( false );
+	}
+
+	public static int fightTowerGuardians( boolean fightFamiliarGuardians )
 	{
-		if ( !checkPrerequisites( 4, 5 ) )
+		if ( !checkPrerequisites( 4, 6 ) )
 			return 0;
 
 		// To avoid wasting turns, buy a can of hair spray before
@@ -1074,7 +1076,91 @@ public abstract class SorceressLair extends StaticEntity
 				return requiredItemID;
 		}
 
-		KoLmafia.updateDisplay( "Path to Sorceress's chamber cleared." );
+		// You must have at least 70 in all stats before you can enter
+		// the chamber.
+
+		if ( KoLCharacter.getBaseMuscle() < 70 || KoLCharacter.getBaseMysticality() < 70 || KoLCharacter.getBaseMoxie() < 70 )
+		{
+			KoLmafia.updateDisplay( ERROR_STATE, "You can't enter the chamber unless all base stats are 70 or higher." );
+			return -1;
+		}
+
+		// Figure out how far he's gotten into the Sorceress's Chamber
+		request = new KoLRequest( getClient(), "lair6.php", true );
+		request.run();
+
+		if ( request.responseText.indexOf( "ascend.php" ) != -1 )
+		{
+			KoLmafia.updateDisplay( "You've already beaten Her Naughtiness." );
+			return -1;
+		}
+
+		int n = -1;
+		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
+
+		Matcher placeMatcher = Pattern.compile( "lair6.php\\?place=(\\d+)" ).matcher( request.responseText );
+		if ( placeMatcher.find() )
+			n = parseInt( placeMatcher.group(1) );
+
+		if ( n < 0 )
+		{
+			KoLmafia.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
+			return -1;
+		}
+
+		if ( n == 0 )
+		{
+			// We know that all base stats are at least 70. But if
+			// we attained that goal this session without
+			// charpane.php having been invoked, KoL itself
+			// sometimes doesn't realize it and will complain
+			// "You're not tough enough to fight up here."
+
+			CharpaneRequest.getInstance().run();
+		}
+
+		for ( ; n < 5; ++n )
+		{
+			switch ( n )
+			{
+				case 0:
+					findDoorCode();
+					break;
+				case 1:
+					reflectEnergyBolt();
+					break;
+				case 2:
+					fightShadow();
+					break;
+				case 3:
+
+					if ( !fightFamiliarGuardians )
+					{
+						KoLmafia.updateDisplay( "Path to familiars cleared." );
+						return -1;
+					}
+
+					familiarBattle(3);
+					break;
+
+				case 4:
+
+					if ( !fightFamiliarGuardians )
+					{
+						KoLmafia.updateDisplay( "Path to familiars cleared." );
+						return -1;
+					}
+
+					familiarBattle(4);
+					break;
+			}
+
+			if ( !KoLmafia.permitsContinue() )
+				return -1;
+		}
+
+		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
+		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
 		return -1;
 	}
 
@@ -1143,87 +1229,6 @@ public abstract class SorceressLair extends StaticEntity
 
 		KoLmafia.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
 		return new AdventureResult( 666, 1 );
-	}
-
-	public static void completeSorceressChamber()
-	{
-		KoLRequest request;
-
-		// Make sure the player has ascended at least once
-
-		if ( !checkPrerequisites( 6, 6 ) )
-			return;
-
-		// You must have at least 70 in all stats before you can enter
-		// the chamber.
-
-		if ( KoLCharacter.getBaseMuscle() < 70 || KoLCharacter.getBaseMysticality() < 70 || KoLCharacter.getBaseMoxie() < 70 )
-		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You can't enter the chamber unless all base stats are 70 or higher." );
-			return;
-		}
-
-		// Figure out how far he's gotten into the Sorceress's Chamber
-		request = new KoLRequest( getClient(), "lair6.php", true );
-		request.run();
-
-		if ( request.responseText.indexOf( "ascend.php" ) != -1 )
-		{
-			KoLmafia.updateDisplay( "You've already beaten Her Naughtiness." );
-			return;
-		}
-
-		int n = -1;
-		Matcher placeMatcher = Pattern.compile( "lair6.php\\?place=(\\d+)" ).matcher( request.responseText );
-		if ( placeMatcher.find() )
-			n = parseInt( placeMatcher.group(1) );
-
-		if ( n < 0 )
-		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Server-side change detected.  Script aborted." );
-			return;
-		}
-
-		if ( n == 0 )
-		{
-			// We know that all base stats are at least 70. But if
-			// we attained that goal this session without
-			// charpane.php having been invoked, KoL itself
-			// sometimes doesn't realize it and will complain
-			// "You're not tough enough to fight up here."
-
-			CharpaneRequest.getInstance().run();
-		}
-
-		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
-
-		for ( ; n < 5; ++n )
-		{
-			switch ( n )
-			{
-				case 0:
-					findDoorCode();
-					break;
-				case 1:
-					reflectEnergyBolt();
-					break;
-				case 2:
-					fightShadow();
-					break;
-				case 3:
-					familiarBattle(3);
-					break;
-				case 4:
-					familiarBattle(4);
-					break;
-			}
-
-			if ( !KoLmafia.permitsContinue() )
-				return;
-		}
-
-		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
-		KoLmafia.updateDisplay( "Her Naughtiness awaits." );
 	}
 
 	private static void findDoorCode()
@@ -1473,14 +1478,10 @@ public abstract class SorceressLair extends StaticEntity
 			return;
 		}
 
-		// Health restore tries to restore above the given
-		// amount; therefore, restore just below it and the
-		// restore will attempt to round up.
-
-		getClient().recoverHP( neededHealth - 1 );
+		getClient().recoverHP( neededHealth );
 		if ( KoLCharacter.getCurrentHP() < neededHealth )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You must be healed to fight your shadow." );
+			KoLmafia.updateDisplay( ERROR_STATE, "You must have at least " + neededHealth + " HP to fight your shadow." );
 			return;
 		}
 
