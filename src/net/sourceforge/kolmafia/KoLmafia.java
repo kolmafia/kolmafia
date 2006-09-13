@@ -1475,8 +1475,13 @@ public abstract class KoLmafia implements KoLConstants
 
 		currentIterationString = "";
 
-		if ( !permitsContinue() && continuationState != PENDING_STATE )
-			return;
+		if ( !permitsContinue() )
+		{
+			if ( continuationState != PENDING_STATE )
+				return;
+			hadPendingState = true;
+			forceContinue();
+		}
 
 		// If you've completed the requests, make sure to update
 		// the display.
@@ -1491,12 +1496,6 @@ public abstract class KoLmafia implements KoLConstants
 
 		else if ( !(request instanceof UseSkillRequest || request instanceof LoginRequest || request instanceof LogoutRequest) )
 			updateDisplay( iterations > 1 ? "Requests completed." : "Request completed." );
-
-		if ( continuationState == PENDING_STATE )
-		{
-			hadPendingState = true;
-			forceContinue();
-		}
 	}
 
 	/**
@@ -1880,7 +1879,8 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( !f.exists() )
 			{
-				f.getParentFile().mkdirs();
+				if ( f.getParentFile() != null )
+					f.getParentFile().mkdirs();
 				f.createNewFile();
 			}
 
@@ -1925,8 +1925,22 @@ public abstract class KoLmafia implements KoLConstants
 	{	return sessionStream;
 	}
 
+	/**
+	 * Initializes the debug log stream.
+	 */
+
+	public static final void openDebugStream()
+	{	debugStream = openStream( "KoLmafia.log", debugStream, true );
+	}
+
 	public static final PrintStream getDebugStream()
 	{	return debugStream;
+	}
+
+	public static final void closeDebugStream()
+	{
+		debugStream.close();
+		debugStream = NullStream.INSTANCE;
 	}
 
 	/**

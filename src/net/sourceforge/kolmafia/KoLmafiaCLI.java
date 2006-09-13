@@ -806,14 +806,9 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "debug" ) )
 		{
 			if ( parameters.equals( "off" ) )
-			{
-				debugStream.close();
-				debugStream = NullStream.INSTANCE;
-			}
+				closeDebugStream();
 			else
-			{
-				debugStream = openStream( "KoLmafia.log", debugStream, true );
-			}
+				openDebugStream();
 
 			return;
 		}
