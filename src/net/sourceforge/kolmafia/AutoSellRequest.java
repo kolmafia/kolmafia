@@ -337,12 +337,14 @@ public class AutoSellRequest extends SendMessageRequest
 			AdventureResult item = new AdventureResult( StaticEntity.parseInt( itemMatcher.group(1) ), 1 );
 			int inventoryAmount = item.getCount( KoLCharacter.getInventory() );
 
-			if ( quantity < 1 )
-				quantity += inventoryAmount;
-			else
-				quantity = Math.min( quantity, inventoryAmount );
+			int sellQuantity = quantity;
 
-			StaticEntity.getClient().processResult( item.getInstance( 0 - quantity ) );
+			if ( sellQuantity < 1 )
+				sellQuantity += inventoryAmount;
+			else
+				sellQuantity = Math.min( quantity, inventoryAmount );
+
+			StaticEntity.getClient().processResult( item.getInstance( 0 - sellQuantity ) );
 			buffer.append( item.getName() );
 		}
 
