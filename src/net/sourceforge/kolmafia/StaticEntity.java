@@ -46,8 +46,7 @@ import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity implements KoLConstants
 {
-	private static KoLSettings settings = new KoLSettings( "" );
-
+	private static KoLSettings settings = null;
 	private static final String [] EMPTY_STRING_ARRAY = new String[0];
 
 	private static KoLmafia client;
@@ -78,6 +77,38 @@ public abstract class StaticEntity implements KoLConstants
 		return usesRelayWindows == 1;
 	}
 
+	public static void renameDataFiles( String oldExtension, String newPrefix )
+	{
+		// If you detect any files with the old filenames,
+		// convert them over automatically.
+
+		File directory = new File( DATA_DIRECTORY );
+		if ( directory.exists() )
+		{
+			File [] files = directory.listFiles();
+
+			String location;
+			File destination;
+
+			for ( int i = 0; i < files.length; ++i )
+			{
+				location = files[i].getAbsolutePath();
+				location = location.substring( location.lastIndexOf( File.separator ) + 1 );
+
+				if ( location.endsWith( oldExtension ) )
+				{
+					location = location.length() == 5 ? "GLOBAL" : location.substring( 1, location.length() - 4 ) + "." + newPrefix;
+					destination = new File( DATA_DIRECTORY + "settings/" + newPrefix + "_" + location + ".txt" );
+
+					if ( !destination.getParentFile().exists() )
+						destination.getParentFile().mkdirs();
+
+					files[i].renameTo( destination );
+				}
+			}
+		}
+	}
+
 	public static void closeSession()
 	{	(new Thread( new LogoutRequest( client ) )).start();
 	}
@@ -87,11 +118,19 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static final void setProperty( String name, String value )
-	{	settings.setProperty( name, value );
+	{
+		if ( settings == null )
+			reloadSettings();
+
+		settings.setProperty( name, value );
 	}
 
 	public static final String getProperty( String name )
-	{	return settings.getProperty( name );
+	{
+		if ( settings == null )
+			reloadSettings();
+
+		return settings.getProperty( name );
 	}
 
 	public static final boolean getBooleanProperty( String name )

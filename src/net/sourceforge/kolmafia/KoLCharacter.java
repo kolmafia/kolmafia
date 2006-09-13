@@ -442,11 +442,11 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	public static String baseUserName()
-	{	return baseUserName( username);
+	{	return baseUserName( username );
 	}
 
 	public static String baseUserName( String name )
-	{	return name.replaceAll( "\\/q", "" ).trim().replaceAll( " ", "_" ).toLowerCase();
+	{	return name == null || name.equals( "" ) ? "GLOBAL" : name.replaceAll( "\\/q", "" ).trim().replaceAll( " ", "_" ).toLowerCase();
 	}
 
 	/**

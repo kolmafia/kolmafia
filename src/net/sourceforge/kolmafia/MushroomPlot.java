@@ -35,6 +35,10 @@
 package net.sourceforge.kolmafia;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.util.regex.Matcher;
@@ -42,7 +46,7 @@ import java.util.regex.Pattern;
 
 public abstract class MushroomPlot extends StaticEntity
 {
-	public static final File PLOT_DIRECTORY = new File( "plots" );
+	public static final File PLOT_DIRECTORY = new File( DATA_DIRECTORY + "planting" );
 
 	// The player's mushroom plot
 	//
@@ -681,6 +685,29 @@ public abstract class MushroomPlot extends StaticEntity
 		}
 	}
 
+	private static void copyMushroomImage( String location )
+	{
+		File source = new File( "images/" + location );
+		File destination = new File( PLOT_DIRECTORY + "/" + location );
+
+		if ( !destination.getParentFile().exists() )
+			destination.getParentFile().mkdirs();
+
+		try
+		{
+			FileChannel sourceChannel = (new FileInputStream( source )).getChannel();
+			FileChannel destinationChannel = (new FileOutputStream( destination )).getChannel();
+
+			sourceChannel.transferTo( 0, sourceChannel.size(), destinationChannel );
+			sourceChannel.close();
+			destinationChannel.close();
+		}
+		catch ( Exception e )
+		{
+			// Copy failed.
+		}
+	}
+
 	public static void saveLayout( String filename, String [][] originalData, String [][] planningData )
 	{
 		LogStream textLayout = null;
@@ -711,6 +738,7 @@ public abstract class MushroomPlot extends StaticEntity
 		// begin writing layout data.
 
 		ArrayList days = new ArrayList();
+		String image = null;
 		boolean isTodayEmpty = false;
 
 		for ( int i = 0; i < MushroomFrame.MAX_FORECAST && !isTodayEmpty; ++i )
@@ -774,20 +802,19 @@ public abstract class MushroomPlot extends StaticEntity
 				if ( pickRequired )
 				{
 					pickText.append( " ***" );
-					pickHtml.append( "<td style=\"border: 1px dashed blue\"><img src=\"http://images.kingdomofloathing.com/" );
-					pickHtml.append( getMushroomImage( originalData[i][j] ) );
-					pickHtml.append( "\"></td>" );
-
-					// Now, test to see if you planted something in its
-					// place.  This will loop forever.
+					pickHtml.append( "<td style=\"border: 1px dashed blue\"><img src=\"" );
 				}
 				else
 				{
 					pickText.append( " " + originalData[i][j] + " " );
-					pickHtml.append( "<td><img src=\"http://images.kingdomofloathing.com/" );
-					pickHtml.append( getMushroomImage( originalData[i][j] ) );
-					pickHtml.append( "\"></td>" );
+					pickHtml.append( "<td><img src=\"" );
 				}
+
+				image = getMushroomImage( originalData[i][j] );
+				copyMushroomImage( image );
+
+				pickHtml.append( image );
+				pickHtml.append( "\"></td>" );
 
 				// Spore additions are a little trickier than looking
 				// just at the difference.  Only certain spores can be
@@ -824,15 +851,23 @@ public abstract class MushroomPlot extends StaticEntity
 				if ( addedSpore )
 				{
 					plantText.append( "*" );
-					plantHtml.append( "<td style=\"border: 1px dashed red\"><img src=\"http://images.kingdomofloathing.com/" );
-					plantHtml.append( getMushroomImage( planningData[i][j].toUpperCase() ) );
+					plantHtml.append( "<td style=\"border: 1px dashed red\"><img src=\"" );
+
+					image = getMushroomImage( planningData[i][j].toUpperCase() );
+					copyMushroomImage( image );
+					plantHtml.append( image );
+
 					plantHtml.append( "\"></td>" );
 				}
 				else
 				{
 					plantText.append( " " );
-					plantHtml.append( "<td><img src=\"http://images.kingdomofloathing.com/" );
-					plantHtml.append( getMushroomImage( planningData[i][j] ) );
+					plantHtml.append( "<td><img src=\"" );
+
+					image = getMushroomImage( planningData[i][j] );
+					copyMushroomImage( image );
+					plantHtml.append( image );
+
 					plantHtml.append( "\"></td>" );
 				}
 
@@ -929,7 +964,7 @@ public abstract class MushroomPlot extends StaticEntity
 		// Now that everything has been generated, open the HTML
 		// inside of a browser.
 
-		StaticEntity.openSystemBrowser( "plots/" + filename + ".htm" );
+		StaticEntity.openSystemBrowser( PLOT_DIRECTORY + "/" + filename + ".htm" );
 
 	}
 }

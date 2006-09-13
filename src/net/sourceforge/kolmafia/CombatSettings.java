@@ -52,6 +52,14 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
 
 public abstract class CombatSettings implements UtilityConstants
 {
+	static
+	{
+		// Renaming data files to make then easier to find for most
+		// people (so they aren't afraid to open them).
+
+		StaticEntity.renameDataFiles( "ccs", "combat" );
+	}
+
 	private static String [] keys;
 	private static File settingsFile;
 	private static String characterName = "";
@@ -63,7 +71,7 @@ public abstract class CombatSettings implements UtilityConstants
 	public synchronized static final void reset()
 	{
 		CombatSettings.characterName = KoLCharacter.getUsername();
-		CombatSettings.settingsFile = new File( DATA_DIRECTORY + settingsFileName() );
+		CombatSettings.settingsFile = new File( settingsFileName() );
 
 		root.removeAllChildren();
 		reference.clear();
@@ -73,7 +81,7 @@ public abstract class CombatSettings implements UtilityConstants
 	}
 
 	public synchronized static final String settingsFileName()
-	{	return "~" + KoLCharacter.baseUserName() + ".ccs";
+	{	return DATA_DIRECTORY + "settings/combat_" + KoLCharacter.baseUserName() + ".txt";
 	}
 
 	public synchronized static final TreeNode getRoot()
