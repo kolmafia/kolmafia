@@ -42,9 +42,9 @@
 07	53	0	adventure.php	59	Icy Peak of the Past
 
 08	0	10	adventure.php	18	Degrassi Knoll	1 gnollish toolbox, 1 tires
-08	15	0	adventure.php	20	Fun House
-08	18	0	adventure.php	21	Pre-Cyrpt Cemetary
-08	12	0	adventure.php	22	Fernswarthy's Tower
+08	15	0	adventure.php	20	Fun House	1 box, 1 acid-squirting flower
+08	18	0	adventure.php	21	Pre-Cyrpt Cemetary	1 smart skull
+08	12	0	adventure.php	22	Fernswarthy's Tower	1 disembodied brain
 08	40	0	adventure.php	58	Post-Cyrpt Cemetary
 08	0	65	adventure.php	78	Palindome
 
@@ -91,7 +91,7 @@
 15	68	0	adventure.php	80	Valley Beyond Orc Chasm	1 64735 scroll, 1 lowercase N
 
 16	85	90	adventure.php	81	Penultimate Fantasy Airship	1 metallic A, 1 photoprotoneutron torpedo, 1 S.O.C.K.
-16	85	95	adventure.php	82	Castle in the Clouds in the Sky	1 choiceadv, 1 heavy D
+16	85	95	adventure.php	82	Castle in the Clouds in the Sky	1 heavy D, 1 giant needle, 1 awful poetry journal, 1 furry fur
 16	85	100	adventure.php	83	Hole in the Sky	1 Richard's star key, 1 star hat
 
 17	104	0	lair3.php	hedge	Sorceress' Hedge Maze	3 hedge maze puzzle
