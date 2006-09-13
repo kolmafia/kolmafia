@@ -410,18 +410,11 @@ public abstract class MoodSettings implements KoLConstants
 		boolean allowThiefShrugOff = StaticEntity.getBooleanProperty( "allowThiefShrugOff" );
 		boolean shouldExecuteThiefSkills = allowThiefShrugOff || thiefBuffs.size() + thiefSkills.size() <= thiefTriggerLimit;
 
-		if ( thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit )
+		if ( allowThiefShrugOff && thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit )
 		{
 			for ( int i = 0; i < thiefBuffs.size() && thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit; ++i )
-			{
 				if ( !thiefSkills.contains( thiefBuffs.get(i) ) )
-				{
-					if ( allowThiefShrugOff )
-						DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.remove(i--)).getName() );
-					else
-						thiefBuffs.remove(i--);
-				}
-			}
+					DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.remove(i--)).getName() );
 		}
 
 		// Now that everything is prepared, go ahead and execute
