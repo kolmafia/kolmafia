@@ -4746,7 +4746,14 @@ public class KoLmafiaASH extends StaticEntity
 				if ( filename.startsWith( "http:" ) )
 					KoLmafia.updateDisplay( ABORT_STATE, "Could not locate remote file <" + filename + ">" );
 				else
-					KoLmafia.updateDisplay( ABORT_STATE, "Could not locate local file <scripts/" + filename + ">" );
+				{
+					DEFAULT_SHELL.printLine( "File not located: scripts/datamaps/" + filename );
+					DEFAULT_SHELL.printLine( "File not located: scripts/" + filename );
+					DEFAULT_SHELL.printLine( "File not located: data/" + filename );
+					DEFAULT_SHELL.printLine( "File not located: " + filename );
+
+					KoLmafia.updateDisplay( ABORT_STATE, "Could not locate local file <" + filename + ">" );
+				}
 			}
 
 			result.clear();
