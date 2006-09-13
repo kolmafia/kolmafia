@@ -231,6 +231,9 @@ public class MuseumFrame extends KoLFrame
 				null, "Moving to this shelf...", "Shelfishness!", JOptionPane.INFORMATION_MESSAGE, null,
 				headerArray, headerArray[0] );
 
+			if ( selectedValue == null )
+				return;
+
 			for ( int i = 0; i < headerArray.length; ++i )
 				if ( selectedValue.equals( headerArray[i] ) )
 					MuseumManager.move( elementList.getSelectedValues(), index, i );
