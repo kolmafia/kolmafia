@@ -81,6 +81,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	protected ScriptMenu scriptMenu;
 	protected BookmarkMenu bookmarkMenu;
 
+	protected JMenuItem debugMenuItem = new ToggleDebugMenuItem();
 	protected JMenuItem macroMenuItem = new ToggleMacroMenuItem();
 	protected static final SortedListModel bookmarks = new SortedListModel( String.class );
 
@@ -575,6 +576,29 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 		StaticEntity.setProperty( "browserBookmarks", bookmarkData.toString() );
 	}
 
+	private class ToggleDebugMenuItem extends JMenuItem implements ActionListener
+	{
+		public ToggleDebugMenuItem()
+		{
+			addActionListener( this );
+			setText( KoLmafia.getDebugStream() instanceof NullStream ? "Begin recording debug" : "Stop recording debug" );
+		}
+  
+		public void actionPerformed( ActionEvent e )
+		{
+			if ( KoLmafia.getDebugStream() instanceof NullStream )
+			{
+				KoLmafia.openDebugStream();
+				debugMenuItem.setText( "Stop recording debug" );
+			}
+			else
+			{
+				KoLmafia.closeDebugStream();
+				debugMenuItem.setText( "Begin recording debug" );
+			}
+		}
+	}
+
 	private class ToggleMacroMenuItem extends JMenuItem implements ActionListener
 	{
 		public ToggleMacroMenuItem()
@@ -937,11 +961,12 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		public JComponent [] getHeaders()
 		{
-			JComponent [] headers = new JComponent[3];
+			JComponent [] headers = new JComponent[4];
 
 			headers[0] = new LoadScriptMenuItem();
-			headers[1] = macroMenuItem;
-			headers[2] = new InvocationMenuItem( "Refresh menu", KoLMenuBar.this, "compileScripts" );
+			headers[1] = debugMenuItem;
+			headers[2] = macroMenuItem;
+			headers[3] = new InvocationMenuItem( "Refresh menu", KoLMenuBar.this, "compileScripts" );
 
 			return headers;
 		}
