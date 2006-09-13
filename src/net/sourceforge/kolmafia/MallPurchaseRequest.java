@@ -226,7 +226,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		if ( !existingFrames.isEmpty() )
 		{
 			buffer.append( "<html><nobr>" );
-			if ( !canPurchase )
+			if ( !canPurchase() )
 				buffer.append( "<font color=gray>" );
 		}
 
@@ -239,7 +239,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		{
 			buffer.append( COMMA_FORMAT.format( quantity ) );
 
-			if ( limit < quantity || !canPurchase )
+			if ( limit < quantity || !canPurchase() )
 			{
 				buffer.append( " limit " );
 				buffer.append( COMMA_FORMAT.format( limit ) );
@@ -253,7 +253,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		if ( !existingFrames.isEmpty() )
 		{
-			if ( !canPurchase )
+			if ( !canPurchase() )
 				buffer.append( "</font>" );
 
 			buffer.append( "</nobr></html>" );
@@ -267,7 +267,9 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 	}
 
 	public boolean canPurchase()
-	{	return canPurchase;
+	{
+		canPurchase &= KoLCharacter.getAvailableMeat() >= price;
+		return canPurchase;
 	}
 
 	/**
@@ -279,7 +281,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 	public void run()
 	{
-		if ( limit < 1 || !canPurchase || shopID == KoLCharacter.getUserID() )
+		if ( limit < 1 || !canPurchase() || shopID == KoLCharacter.getUserID() )
 			return;
 
 		addFormField( isNPCStore ? "howmany" : "quantity", String.valueOf( limit ) );
@@ -299,10 +301,10 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		boolean attireChanged = false;
 		canPurchase &= KoLCharacter.getAvailableMeat() >= limit * price;
 
-		if ( canPurchase )
+		if ( canPurchase() )
 			attireChanged = ensureProperAttire();
 
-		if ( !canPurchase )
+		if ( !canPurchase() )
 			return;
 
 		// Now that everything's ensured, go ahead and execute the

@@ -600,11 +600,12 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "echo" ) )
 		{
 			if ( parameters.equalsIgnoreCase( "timestamp" ) )
-				updateDisplay( CalendarFrame.TODAY_FORMATTER.format( new Date() ) );
+				parameters = CalendarFrame.TODAY_FORMATTER.format( new Date() );
 			else if ( parameters.equalsIgnoreCase( "kol-date" ) )
-				updateDisplay( MoonPhaseDatabase.getCalendarDayAsString( new Date() ) );
-			else
-				updateDisplay( parameters );
+				parameters = MoonPhaseDatabase.getCalendarDayAsString( new Date() );
+
+			updateDisplay( parameters );
+			echoStream.println( parameters );
 
 			return;
 		}
@@ -804,13 +805,14 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "debug" ) )
 		{
-			if ( parameters.equals( "on" ) )
-				openDebugStream();
-			else if ( parameters.equals( "off" ) )
-				closeDebugStream();
+			if ( parameters.equals( "off" ) )
+			{
+				debugStream.close();
+				debugStream = NullStream.INSTANCE;
+			}
 			else
 			{
-				updateDisplay( ERROR_STATE, parameters + " is not a valid option." );
+				debugStream = openStream( "KoLmafia.log", debugStream, true );
 			}
 
 			return;
@@ -827,34 +829,15 @@ public class KoLmafiaCLI extends KoLmafia
 				mirrorStream.close();
 				mirrorStream = NullStream.INSTANCE;
 
+				echoStream.close();
+				echoStream = NullStream.INSTANCE;
+
 				updateDisplay( "Mirror stream closed." );
 			}
 			else
 			{
-				File outputFile = new File( parameters );
-				outputFile = new File( outputFile.getAbsolutePath() );
-
-				// If the output file does not exist, create it first
-				// to avoid FileNotFoundExceptions being thrown.
-
-				try
-				{
-					if ( !outputFile.exists() )
-					{
-						outputFile.getParentFile().mkdirs();
-						outputFile.createNewFile();
-					}
-
-					mirrorStream = new LogStream( outputFile, true );
-				}
-				catch ( IOException e )
-				{
-					// This should not happen.  Therefore, print
-					// a stack trace for debug purposes.
-
-					StaticEntity.printStackTrace( e, "Error opening file <" + parameters + ">" );
-					return;
-				}
+				mirrorStream = openStream( parameters, mirrorStream, false );
+				echoStream = openStream( parameters + ".echo", echoStream, false );
 			}
 
 			return;
@@ -3966,7 +3949,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		outputStream.println( wordWrappedLine.toString() );
 		mirrorStream.println( wordWrappedLine.toString() );
-		getDebugStream().println( wordWrappedLine.toString() );
+		debugStream.println( wordWrappedLine.toString() );
 
 		StringBuffer colorBuffer = new StringBuffer();
 

@@ -317,9 +317,7 @@ public abstract class StaticEntity implements KoLConstants
 	public static final void printStackTrace( Throwable t, String message, String [] logAssistMessages )
 	{
 		boolean shouldOpenStream = KoLmafia.getDebugStream() instanceof NullStream;
-
-		if ( shouldOpenStream )
-			KoLmafia.openDebugStream();
+		KoLmafia.debugStream = KoLmafia.openStream( "KoLmafia.log", KoLmafia.getDebugStream(), true );
 
 		KoLmafia.updateDisplay( message + ".  Debug log printed." );
 		for ( int i = 0; i < logAssistMessages.length; ++i )
@@ -335,13 +333,14 @@ public abstract class StaticEntity implements KoLConstants
 		t.printStackTrace();
 
 		if ( client.getCurrentRequest() != null )
-			KoLmafia.getDebugStream().println( "" + client.getCurrentRequest().responseText );
+			KoLmafia.debugStream.println( "" + client.getCurrentRequest().responseText );
 
 		try
 		{
 			if ( shouldOpenStream )
 			{
-				KoLmafia.closeDebugStream();
+				KoLmafia.debugStream.close();
+				KoLmafia.debugStream = NullStream.INSTANCE;
 				BrowserLauncher.openURL( (new File( "KoLmafia.log" )).getAbsolutePath() );
 			}
 		}
