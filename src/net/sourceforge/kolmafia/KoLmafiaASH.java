@@ -4812,8 +4812,21 @@ public class KoLmafiaASH extends StaticEntity
 
 			try
 			{
-				File data = new File( filename.indexOf( File.separator ) != -1 || filename.indexOf( "/" ) != -1 ? filename :
-					"scripts/datamaps/" + filename );
+				File data = new File( "scripts/datamaps/" + filename );
+				if ( !data.exists() )
+					data = new File( filename );
+				if ( !data.exists() )
+					data = new File( "scripts/" + filename );
+				if ( !data.exists() )
+					data = new File( DATA_DIRECTORY + filename );
+				if ( !data.exists() )
+					data = new File( filename );
+
+				// If the file is not found, then go full circle again
+				// and write to scripts/datamaps.
+
+				if ( !data.exists() )
+					data = new File( "scripts/datamaps/" + filename );
 
 				if ( data.getParentFile() != null )
 					data.getParentFile().mkdirs();
