@@ -167,6 +167,35 @@ public abstract class KoLmafia implements KoLConstants
 				useGUI = true;
 		}
 
+		if ( saveStateNames.isEmpty() )
+		{
+			String [] currentNames = StaticEntity.getProperty( "saveState" ).split( "//" );
+			for ( int i = 0; i < currentNames.length; ++i )
+				saveStateNames.add( currentNames[i] );
+
+			// This line is added to clear out data from previous
+			// releases of KoLmafia - the extra disk access does
+			// affect performance, but not significantly.
+
+			storeSaveStates();
+		}
+
+		// Also clear out any outdated data files.  Include the
+		// adventure table, in case this is causing problems.
+
+		String version = StaticEntity.getProperty( "previousUpdateVersion" );
+
+		if ( version == null || !version.equals( VERSION_NAME ) )
+		{
+			StaticEntity.setProperty( "previousUpdateVersion", VERSION_NAME );
+			for ( int i = 0; i < OVERRIDE_DATA.length; ++i )
+			{
+				File outdated = new File( "data/" + OVERRIDE_DATA[i] );
+				if ( outdated.exists() )
+					outdated.delete();
+			}
+		}
+
 		if ( useGUI )
 			KoLmafiaGUI.main( args );
 		else
@@ -204,36 +233,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		this.useDisjunction = false;
 		StaticEntity.reloadSettings();
-
-		if ( saveStateNames.isEmpty() )
-		{
-			String [] currentNames = StaticEntity.getProperty( "saveState" ).split( "//" );
-			for ( int i = 0; i < currentNames.length; ++i )
-				saveStateNames.add( currentNames[i] );
-
-			// This line is added to clear out data from previous
-			// releases of KoLmafia - the extra disk access does
-			// affect performance, but not significantly.
-
-			storeSaveStates();
-		}
-
-		// Also clear out any outdated data files -- this
-		// includes everything except for the adventure table,
-		// since changing that actually does something.
-
-		String version = StaticEntity.getProperty( "previousUpdateVersion" );
-
-		if ( version == null || !version.equals( VERSION_NAME ) )
-		{
-			StaticEntity.setProperty( "previousUpdateVersion", VERSION_NAME );
-			for ( int i = 1; i < OVERRIDE_DATA.length; ++i )
-			{
-				File outdated = new File( "data/" + OVERRIDE_DATA[i] );
-				if ( outdated.exists() )
-					outdated.delete();
-			}
-		}
 	}
 
 	/**
@@ -2002,7 +2001,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * intends to be stored in the global file.
 	 */
 
-	public final void addSaveState( String username, String password )
+	public static final void addSaveState( String username, String password )
 	{
 		try
 		{
@@ -2047,7 +2046,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public void removeSaveState( String loginname )
+	public static void removeSaveState( String loginname )
 	{
 		if ( loginname == null )
 			return;
@@ -2061,7 +2060,7 @@ public abstract class KoLmafia implements KoLConstants
 			}
 	}
 
-	private final void storeSaveStates()
+	private static final void storeSaveStates()
 	{
 		StringBuffer saveStateBuffer = new StringBuffer();
 		String [] names = new String[ saveStateNames.size() ];
@@ -2104,7 +2103,7 @@ public abstract class KoLmafia implements KoLConstants
 	 * intends to be stored in the global file.
 	 */
 
-	public final String getSaveState( String loginname )
+	public static final String getSaveState( String loginname )
 	{
 		try
 		{
