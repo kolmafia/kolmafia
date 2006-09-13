@@ -1552,6 +1552,18 @@ public abstract class SorceressLair extends StaticEntity
 			}
 		}
 
+		// Make sure that the current familiar is at least twenty
+		// pounds, if it's one of the ones which can be used against
+		// the tower familiars; otherwise, it won't survive.
+
+		boolean isPotentialFamiliar = false;
+
+		for ( int i = 0; i < FAMILIAR_DATA.length; ++i )
+			if ( originalFamiliar.getRace().equals( FAMILIAR_DATA[i][1] ) )
+				isPotentialFamiliar = false;
+
+		boolean shouldFaceFamiliar = !isPotentialFamiliar || FamiliarTrainingFrame.buffFamiliar( 20 );
+
 		KoLmafia.updateDisplay( "Facing giant familiar..." );
 		KoLRequest request = new KoLRequest( getClient(), "lair6.php", true );
 		request.addFormField( "place", String.valueOf( n ) );
@@ -1586,7 +1598,6 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		// Switch to the required familiar
-
 		if ( originalFamiliar != familiar )
 			(new FamiliarRequest( getClient(), familiar )).run();
 
