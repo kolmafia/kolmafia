@@ -1552,11 +1552,11 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.equals( "location" ) )
 		{
 			int spaceIndex = parameters.indexOf( " " );
-			String id = parameters.substring( 0, spaceIndex );
-			String name = parameters.substring( spaceIndex ).trim();
 
-			AdventureDatabase.addAdventure( new String [] { "23", "0", "0", "adventure.php", id, name } );
-			AdventureDatabase.refreshAdventureList();
+			KoLAdventure adventure = new KoLAdventure( StaticEntity.getClient(), "Holiday", "0", "0",
+				"adventure.php", parameters.substring( 0, spaceIndex ), parameters.substring( spaceIndex ).trim() );
+
+			AdventureDatabase.addAdventure( adventure );
 			return;
 		}
 

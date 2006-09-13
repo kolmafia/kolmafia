@@ -49,8 +49,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 public class AdventureDatabase extends KoLDatabase
 {
 	private static LockableListModel adventures = new LockableListModel();
-	private static KoLAdventure [] allAdventures = new KoLAdventure[0];
-	private static String [] adventureNames = new String[0];
+	private static AdventureArray allAdventures = new AdventureArray();
 
 	public static final Map ZONE_NAMES = new TreeMap();
 	public static final Map ZONE_DESCRIPTIONS = new TreeMap();
@@ -71,45 +70,6 @@ public class AdventureDatabase extends KoLDatabase
 		AdventureDatabase.refreshAdventureTable();
 		AdventureDatabase.refreshCombatsTable();
 		AdventureDatabase.refreshAdventureList();
-	}
-
-	public static final void refreshZoneTable()
-	{
-		if ( !ZONE_NAMES.isEmpty() )
-			return;
-
-		BufferedReader reader = getReader( "zonelist.dat" );
-		String [] data;
-
-		while ( (data = readData( reader )) != null )
-		{
-			if ( data.length >= 3 )
-			{
-				ZONE_NAMES.put( data[0], data[1] );
-				ZONE_DESCRIPTIONS.put( data[0], data[2] );
-
-				if ( data.length > 3 )
-				{
-					ArrayList validationRequests = new ArrayList();
-					for ( int i = 3; i < data.length; ++i )
-						validationRequests.add( data[i] );
-
-					zoneValidations.put( data[1], validationRequests );
-				}
-			}
-		}
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			printStackTrace( e );
-		}
 	}
 
 	public static final String [][][] CHOICE_ADVS =
@@ -339,6 +299,172 @@ public class AdventureDatabase extends KoLDatabase
 		"Cobb's Knob lab key"
 	};
 
+	public static final void refreshZoneTable()
+	{
+		if ( !ZONE_NAMES.isEmpty() )
+			return;
+
+		BufferedReader reader = getReader( "zonelist.dat" );
+		String [] data;
+
+		while ( (data = readData( reader )) != null )
+		{
+			if ( data.length >= 3 )
+			{
+				ZONE_NAMES.put( data[0], data[1] );
+				ZONE_DESCRIPTIONS.put( data[0], data[2] );
+
+				if ( data.length > 3 )
+				{
+					ArrayList validationRequests = new ArrayList();
+					for ( int i = 3; i < data.length; ++i )
+						validationRequests.add( data[i] );
+
+					zoneValidations.put( data[1], validationRequests );
+				}
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			printStackTrace( e );
+		}
+	}
+
+	public static final void refreshAdventureTable()
+	{
+		BufferedReader reader = getReader( "adventures.dat" );
+
+		for ( int i = 0; i < 4; ++i )
+			adventureTable[i].clear();
+
+		String [] data;
+
+		while ( (data = readData( reader )) != null )
+		{
+			if ( data.length > 5 )
+			{
+				if ( data[1].indexOf( "send" ) != -1 )
+					continue;
+
+				String zone = (String) ZONE_NAMES.get( data[0] );
+
+				// Be defensive: user can supply a broken data file
+				if ( zone == null )
+				{
+					System.out.println( "Bad adventure zone: " + data[0] );
+					continue;
+				}
+
+				adventureTable[0].add( zone );
+				for ( int i = 1; i < 6; ++i )
+					adventureTable[i].add( data[i] );
+
+				if ( data.length == 7 )
+					conditionLookup.put( data[5], data[6] );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			printStackTrace( e );
+		}
+	}
+
+	public static final void refreshCombatsTable()
+	{
+		areaCombatData.clear();
+
+		BufferedReader reader = getReader( "combats.dat" );
+		String [] data;
+
+		String [] adventures = adventureTable[5].toArray();
+
+		while ( (data = readData( reader )) != null )
+		{
+			if ( data.length > 2 )
+			{
+				if ( !validateAdventureArea( data[0], adventures ) )
+				{
+					System.out.println( "Invalid adventure area: \"" + data[0] + "\"" );
+					continue;
+				}
+
+				int combats = parseInt( data[1] );
+				AreaCombatData combat = new AreaCombatData( combats );
+
+				for ( int i = 2; i < data.length; ++i )
+					combat.addMonster( data[i] );
+
+				areaCombatData.put( data[0], combat );
+			}
+		}
+
+		try
+		{
+			reader.close();
+		}
+		catch ( Exception e )
+		{
+			// This should not happen.  Therefore, print
+			// a stack trace for debug purposes.
+
+			printStackTrace( e );
+		}
+	}
+
+	public static void refreshAdventureList()
+	{
+		adventures.clear();
+		allAdventures.clear();
+		adventureLookup.clear();
+
+		String [] excludedZones = getProperty( "zoneExcludeList" ).split( "," );
+		if ( excludedZones.length == 1 && excludedZones[0].length() == 0 )
+			excludedZones[0] = "-";
+
+		for ( int i = 0; i < adventureTable[3].size(); ++i )
+			addAdventure( excludedZones, getAdventure(i) );
+
+		if ( getBooleanProperty( "sortAdventures" ) )
+			adventures.sort();
+	}
+
+	public static void addAdventure( KoLAdventure location )
+	{	addAdventure( null, location );
+	}
+
+	private static void addAdventure( String [] excludedZones, KoLAdventure location )
+	{
+		boolean shouldAdd = true;
+		String zoneName = location.getZone();
+
+		if ( excludedZones != null )
+			for ( int j = 0; j < excludedZones.length && shouldAdd; ++j )
+				if ( zoneName.equals( excludedZones[j] ) )
+					shouldAdd = false;
+
+		allAdventures.add( location );
+		adventureLookup.put( location.getRequest().getURLString(), location );
+
+		if ( shouldAdd )
+			adventures.add( location );
+	}
+
 	public static final boolean validateZone( String zoneName, String locationID )
 	{
 		if ( zoneName == null || locationID == null )
@@ -374,66 +500,37 @@ public class AdventureDatabase extends KoLDatabase
 		return isValidZone;
 	}
 
-	public static final void refreshAdventureTable()
-	{
-		BufferedReader reader = getReader( "adventures.dat" );
-
-		for ( int i = 0; i < 4; ++i )
-			adventureTable[i].clear();
-
-		String [] data;
-
-		while ( (data = readData( reader )) != null )
-			if ( data.length > 5 )
-				addAdventure( data );
-
-		try
-		{
-			reader.close();
-		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			printStackTrace( e );
-		}
-	}
-
-	public static void addAdventure( String [] data )
-	{
-		if ( data[1].indexOf( "send" ) != -1 )
-			return;
-
-		String zone = (String) ZONE_NAMES.get( data[0] );
-
-		// Be defensive: user can supply a broken data file
-		if ( zone == null )
-		{
-			System.out.println( "Bad adventure zone: " + data[0] );
-			return;
-		}
-
-		adventureTable[0].add( zone );
-		for ( int i = 1; i < 6; ++i )
-			adventureTable[i].add( data[i] );
-
-		if ( data.length == 7 )
-			conditionLookup.put( data[5], data[6] );
-	}
-
-	/**
-	 * Returns the complete list of adventures available to the character
-	 * based on the information provided by the given getClient().  Each element
-	 * in this list is a <code>KoLAdventure</code> object.
-	 */
-
 	public static final LockableListModel getAsLockableListModel()
 	{
 		if ( adventures.isEmpty() )
 			refreshAdventureList();
 
 		return adventures;
+	}
+
+	public static KoLAdventure getAdventureByURL( String adventureURL )
+	{
+		if ( adventureLookup.isEmpty() )
+			refreshAdventureList();
+
+		return (KoLAdventure) adventureLookup.get( adventureURL );
+	}
+
+	public static KoLAdventure getAdventure( String adventureName )
+	{
+		if ( adventureLookup.isEmpty() )
+			refreshAdventureList();
+
+		return allAdventures.find( adventureName );
+
+	}
+
+	private static KoLAdventure getAdventure( int tableIndex )
+	{
+		return new KoLAdventure( getClient(),
+			adventureTable[0].get( tableIndex ), adventureTable[1].get( tableIndex ),
+			adventureTable[2].get( tableIndex ), adventureTable[3].get( tableIndex ),
+			adventureTable[4].get( tableIndex ), adventureTable[5].get( tableIndex ) );
 	}
 
 	public static String getCondition( KoLAdventure location )
@@ -445,95 +542,60 @@ public class AdventureDatabase extends KoLDatabase
 		return condition == null ? "none" : condition;
 	}
 
-	public static void refreshAdventureList()
+	public static String ignoreChoiceOption( String choice )
 	{
-		String [] zones = getProperty( "zoneExcludeList" ).split( "," );
-		if ( zones.length == 1 && zones[0].length() == 0 )
-			zones[0] = "-";
-
-		boolean shouldAdd = true;
-		String zoneName;
-
-		adventures.clear();
-		adventureLookup.clear();
-
-		allAdventures = new KoLAdventure[ adventureTable[3].size() ];
-		adventureNames = new String[ allAdventures.length ];
-
-		for ( int i = 0; i < adventureTable[3].size(); ++i )
-		{
-			shouldAdd = true;
-			zoneName = (String) adventureTable[0].get(i);
-
-			for ( int j = 0; j < zones.length && shouldAdd; ++j )
-				if ( zoneName.equals( zones[j] ) )
-					shouldAdd = false;
-
-			allAdventures[i] = getAdventure(i);
-			adventureNames[i] = allAdventures[i].getAdventureName().toLowerCase();
-
-			if ( shouldAdd )
-				adventures.add( allAdventures[i] );
-
-			adventureLookup.put( allAdventures[i].getRequest().getURLString(), allAdventures[i] );
-		}
-
-		if ( getBooleanProperty( "sortAdventures" ) )
-			adventures.sort();
+		for ( int i = 0; i < IGNORABLE_CHOICES.length; ++i )
+			if ( choice.equals( IGNORABLE_CHOICES[i][0] ) )
+				return IGNORABLE_CHOICES[i][1];
+		return null;
 	}
 
-	public static KoLAdventure getAdventureByURL( String adventureURL )
+	public static boolean consumesAdventure( String choice, String decision )
 	{
-		if ( adventureLookup.isEmpty() )
-			refreshAdventureList();
+		// See if it's a free movement in the violet fog
+		if ( VioletFog.freeAdventure( choice, decision ) )
+			return false;
 
-		return (KoLAdventure) adventureLookup.get( adventureURL );
+		for ( int i = 0; i < IGNORABLE_CHOICES.length; ++i )
+			if ( choice.equals( IGNORABLE_CHOICES[i][0] ) )
+				return !decision.equals( IGNORABLE_CHOICES[i][1] );
+		return true;
 	}
 
-	/**
-	 * Returns the first adventure in the database which contains the given
-	 * substring in part of its name.
-	 */
-
-	public static KoLAdventure getAdventure( String adventureName )
+	public static int consumesMeat( String choice, String decision )
 	{
-		if ( adventureLookup.isEmpty() )
-			refreshAdventureList();
-
-		int adventureIndex = -1;
-
-		int length = -1;
-		int startIndex = -1;
-		int minimalLength = Integer.MAX_VALUE;
-		int minimalStartIndex = Integer.MAX_VALUE;
-
-		adventureName = adventureName.toLowerCase();
-
-		for ( int i = 0; i < adventureNames.length; ++i )
-		{
-			startIndex = adventureNames[i].indexOf( adventureName );
-			length = adventureNames[i].length();
-
-			if ( startIndex != -1 )
-			{
-				if ( startIndex < minimalStartIndex || (startIndex == minimalStartIndex && length < minimalLength) )
-				{
-					adventureIndex = i;
-					minimalLength = length;
-					minimalStartIndex = startIndex;
-				}
-			}
-		}
-
-		return adventureIndex == -1 ? null : allAdventures[ adventureIndex ];
+		for ( int i = 0; i < CHOICE_MEAT_COST.length; ++i )
+			if ( choice.equals( CHOICE_MEAT_COST[i][0] ) &&
+			     decision.equals( CHOICE_MEAT_COST[i][1] ) )
+				return parseInt( CHOICE_MEAT_COST[i][2] );
+		return 0;
 	}
 
-	private static KoLAdventure getAdventure( int tableIndex )
+	public static boolean freeAdventure( String text )
 	{
-		return new KoLAdventure( getClient(),
-			adventureTable[0].get( tableIndex ), adventureTable[1].get( tableIndex ),
-			adventureTable[2].get( tableIndex ), adventureTable[3].get( tableIndex ),
-			adventureTable[4].get( tableIndex ), adventureTable[5].get( tableIndex ) );
+		for ( int i = 0; i < FREE_ADVENTURES.length; ++i )
+			if ( text.indexOf( FREE_ADVENTURES[i] ) != -1 )
+				return true;
+		return false;
+	}
+
+	private static boolean validateAdventureArea( String area, String [] areas )
+	{
+		for ( int i = 0; i < areas.length; ++i )
+			if ( area.equals( areas[i] ) )
+			     return true;
+		return false;
+	}
+
+	public static AreaCombatData getAreaCombatData( String area )
+	{
+		// Strip out zone name if present
+		int index = area.indexOf( ":" );
+		if ( index != -1 )
+			area = area.substring( index + 2 );
+
+		// Get the combat data
+		return (AreaCombatData) areaCombatData.get( area );
 	}
 
 	/**
@@ -747,101 +809,64 @@ public class AdventureDatabase extends KoLDatabase
 		}
 	}
 
-	public static String ignoreChoiceOption( String choice )
+	private static class AdventureArray
 	{
-		for ( int i = 0; i < IGNORABLE_CHOICES.length; ++i )
-			if ( choice.equals( IGNORABLE_CHOICES[i][0] ) )
-				return IGNORABLE_CHOICES[i][1];
-		return null;
-	}
+		private ArrayList nameList = new ArrayList();
+		private ArrayList internalList = new ArrayList();
 
-	public static boolean consumesAdventure( String choice, String decision )
-	{
-		// See if it's a free movement in the violet fog
-		if ( VioletFog.freeAdventure( choice, decision ) )
-			return false;
-
-		for ( int i = 0; i < IGNORABLE_CHOICES.length; ++i )
-			if ( choice.equals( IGNORABLE_CHOICES[i][0] ) )
-				return !decision.equals( IGNORABLE_CHOICES[i][1] );
-		return true;
-	}
-
-	public static int consumesMeat( String choice, String decision )
-	{
-		for ( int i = 0; i < CHOICE_MEAT_COST.length; ++i )
-			if ( choice.equals( CHOICE_MEAT_COST[i][0] ) &&
-			     decision.equals( CHOICE_MEAT_COST[i][1] ) )
-				return parseInt( CHOICE_MEAT_COST[i][2] );
-		return 0;
-	}
-
-	public static boolean freeAdventure( String text )
-	{
-		for ( int i = 0; i < FREE_ADVENTURES.length; ++i )
-			if ( text.indexOf( FREE_ADVENTURES[i] ) != -1 )
-				return true;
-		return false;
-	}
-
-	public static final void refreshCombatsTable()
-	{
-		areaCombatData.clear();
-
-		BufferedReader reader = getReader( "combats.dat" );
-		String [] data;
-
-		String [] adventures = adventureTable[5].toArray();
-
-		while ( (data = readData( reader )) != null )
+		public KoLAdventure get( int index )
 		{
-			if ( data.length > 2 )
+			if ( index < 0 || index > internalList.size() )
+				return null;
+
+			return (KoLAdventure) internalList.get( index );
+		}
+
+		public void add( KoLAdventure value )
+		{
+			nameList.add( getCanonicalName( value.getAdventureName() ) );
+			internalList.add( value );
+		}
+
+		public KoLAdventure find( String adventureName )
+		{
+			int adventureIndex = -1;
+
+			int length = -1;
+			int startIndex = -1;
+			int minimalLength = Integer.MAX_VALUE;
+			int minimalStartIndex = Integer.MAX_VALUE;
+
+			adventureName = getCanonicalName( adventureName );
+
+			for ( int i = 0; i < size(); ++i )
 			{
-				if ( !validateAdventureArea( data[0], adventures ) )
+				startIndex = ((String)nameList.get(i)).indexOf( adventureName );
+				length = ((String)nameList.get(i)).length();
+
+				if ( startIndex != -1 )
 				{
-					System.out.println( "Invalid adventure area: \"" + data[0] + "\"" );
-					continue;
+					if ( startIndex < minimalStartIndex || (startIndex == minimalStartIndex && length < minimalLength) )
+					{
+						adventureIndex = i;
+						minimalLength = length;
+						minimalStartIndex = startIndex;
+					}
 				}
-
-				int combats = parseInt( data[1] );
-				AreaCombatData combat = new AreaCombatData( combats );
-
-				for ( int i = 2; i < data.length; ++i )
-					combat.addMonster( data[i] );
-
-				areaCombatData.put( data[0], combat );
 			}
+
+			return adventureIndex == -1 ? null : get( adventureIndex );
+
 		}
 
-		try
+		public void clear()
 		{
-			reader.close();
+			nameList.clear();
+			internalList.clear();
 		}
-		catch ( Exception e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
 
-			printStackTrace( e );
+		public int size()
+		{	return internalList.size();
 		}
-	}
-
-	private static boolean validateAdventureArea( String area, String [] areas )
-	{
-		for ( int i = 0; i < areas.length; ++i )
-			if ( area.equals( areas[i] ) )
-			     return true;
-		return false;
-	}
-
-	public static AreaCombatData getAreaCombatData( String area )
-	{
-		// Strip out zone name if present
-		int index = area.indexOf( ":" );
-		if ( index != -1 )
-			area = area.substring( index + 2 );
-
-		// Get the combat data
-		return (AreaCombatData) areaCombatData.get( area );
 	}
 }
