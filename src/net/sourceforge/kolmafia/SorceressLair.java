@@ -1118,7 +1118,7 @@ public abstract class SorceressLair extends StaticEntity
 			CharpaneRequest.getInstance().run();
 		}
 
-		for ( ; n < 5; ++n )
+		for ( ; n < 5 && KoLmafia.permitsContinue(); ++n )
 		{
 			switch ( n )
 			{
@@ -1453,7 +1453,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( neededHealth > KoLCharacter.getMaximumHP() )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
+			KoLmafia.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " maximum HP." );
 			return;
 		}
 
