@@ -1364,6 +1364,28 @@ public abstract class SorceressLair extends StaticEntity
 
 	private static void fightShadow()
 	{
+		// Make sure that auto-attack is deactivated for the
+		// shadow fight, otherwise it will fail.
+
+		String previousAutoAttack = "0";
+
+		KoLRequest request = new KoLRequest( getClient(), "account.php" );
+		request.run();
+
+		Matcher selectMatcher = Pattern.compile( "<select class=small name=whichattack>.*?</select>" ).matcher( request.responseText );
+		if ( selectMatcher.find() )
+		{
+			Matcher optionMatcher = Pattern.compile( "selected value=(\\d+)>" ).matcher( selectMatcher.group() );
+			if ( optionMatcher.find() )
+				previousAutoAttack = optionMatcher.group(1);
+		}
+
+		if ( !previousAutoAttack.equals( "0" ) )
+		{
+			request = new KoLRequest( getClient(), "account.php?action=autoattack&whichattack=0" );
+			request.run();
+		}
+
 		// You need at least 33 health for the shadow fight.
 		// Make this test now.
 
@@ -1478,16 +1500,22 @@ public abstract class SorceressLair extends StaticEntity
 		String oldAction = getProperty( "battleAction" );
 		setProperty( "battleAction", "item " + option.getName().toLowerCase() );
 
-		KoLRequest request = new KoLRequest( getClient(), "lair6.php" );
+		request = new KoLRequest( getClient(), "lair6.php" );
 		request.addFormField( "place", "2" );
 		request.run();
 
+		if ( request.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
+			KoLmafia.updateDisplay( ERROR_STATE, "You're out of adventures." );
+
+		// Reset all of the old battle action settings, including
+		// the original KoL-side auto-attack.
+
 		setProperty( "battleAction", oldAction );
 
-		if ( request.responseText.indexOf( "You don't have time to mess around up here." ) != -1 )
+		if ( !previousAutoAttack.equals( "0" ) )
 		{
-			KoLmafia.updateDisplay( ERROR_STATE, "You're out of adventures." );
-			return;
+			request = new KoLRequest( getClient(), "account.php?action=autoattack&whichattack=" + previousAutoAttack );
+			request.run();
 		}
 	}
 
