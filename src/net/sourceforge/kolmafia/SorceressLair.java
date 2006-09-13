@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import javax.swing.JOptionPane;
 
 public abstract class SorceressLair extends StaticEntity
 {
@@ -1375,108 +1374,95 @@ public abstract class SorceressLair extends StaticEntity
 		}
 
 		List requirements = new ArrayList();
-		AdventureResult option = new AdventureResult( "red pixel potion", 4 );
 
-		int maximumDamage = 22 + (int) Math.floor( KoLCharacter.getMaximumHP() / 5 ) + 3;
+		// Assume maximum damage taken and that the shadow's health
+		// is affected by monster level, even though its attack power
+		// remains fixed according to known formulas.  However, since
+		// all damage has been randomized, maybe the shadow's damage
+		// has also become random.  Assume +3 HP per attack.
 
-		// Suppose you have 126 HP, and assume maximum damage taken.
-		// We have the following results, assuming worst-case health
-		// restoration.  Calculate the leeway:
+		// In order to see what happens, we calculate the health needed
+		// to survive the shadow fight using red pixel potions.  We use
+		// worst-case scenario in all cases (minimum recovery, maximum
+		// damage, which may happen).
 
-		// Round 1: You lose 22 + 25 + 3 = 50 damage (76 health)
-		//  - You gain 25, leaving you with 101 health
-		// Round 2: You lose 22 + 25 + 3 = 50 damage (51 health)
-		//  - You gain 25, leaving you with 76 health
-		// Round 3: You lose 22 + 25 + 3 = 50 damage (26 health)
-		//  - You gain 25, leaving you with 51 health
-		// Round 4: You lose 22 + 25 + 3 = 50 damage (1 health)
+		int shadowHealth = 96 + KoLCharacter.getMonsterLevelAdjustment();
+		int maximumDamage = 22 + (int) Math.floor( KoLCharacter.getMaximumHP() / 5 ) + 6;
 
-		// It turns out that in the worst case, you'll be hit by the
-		// shadow for maximum damage four times and you will recover
-		// your health three times.
+		int combatRounds = (int) Math.ceil( shadowHealth / 25 );
+		AdventureResult option = new AdventureResult( "red pixel potion", combatRounds );
+		int neededHealth = (maximumDamage * combatRounds) - (25 * (combatRounds - 1));
 
-		int neededHealth = maximumDamage * 4 - 75;
+		// If the person has red plastic oyster eggs, then they are an
+		// alternative if the person can't survive.
 
-		if ( neededHealth > KoLCharacter.getCurrentHP() && KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
+		if ( neededHealth > KoLCharacter.getMaximumHP() )
 		{
-			// This is not quite true in the case of elixirs, though
-			// (assume you have 33 maximum HP):
-
-			// Round 1: You lose 22 + 7 + 3 = 32 damage (1 health)
-			//  - You gain 36, leaving you with 33 health
-			// Round 2: You lose 22 + 7 + 3 = 32 damage (1 health)
-			//  - You gain 36, leaving you with 33 health
-			// Round 3: You lose 22 + 7 + 3 = 32 damage (1 health)
-			//  - You gain 36, leaving you with 33 health
-
-			// In this case, you are hit a maximum of three times,
-			// and you will recover your health twice.
-
-			option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
-			neededHealth = maximumDamage * 3 - 72;
+			combatRounds = (int) Math.ceil( shadowHealth / 35 );
+			option = new AdventureResult( "red plastic oyster egg", combatRounds );
+			neededHealth = (maximumDamage * combatRounds) - (35 * (combatRounds - 1));
 		}
 
-		// Now, if you have greater than the amount of needed
-		// health from the get-go, choose whichever one is least
-		// expensive based on what you currently have.
+		// In the event that you have Ambidextrous Funkslinging, then
+		// always rely on it because it will automatically be used in
+		// the shadow fight.  We begin by looking at all the options.
 
-		if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) && option.getName().startsWith( "red" ) )
+		if ( KoLCharacter.hasSkill( "Ambidextrous Funkslinging" ) )
 		{
-			// Whether or not you have red pixel potions, if you
-			// already have enough elixirs or restorative balm,
-			// go ahead and default to them.
+			// First, we find out if restorative balm is an option for
+			// the shadow fight.
 
-			AdventureResult check = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
+			combatRounds = (int) Math.ceil( shadowHealth / 26 );
+			option = new AdventureResult( "Doc Galaktik's Restorative Balm", 2 * combatRounds );
+			neededHealth = (maximumDamage * combatRounds) - (26 * (combatRounds - 1));
 
-			if ( hasItem( check ) )
-				option = check;
+			// If restorative balm is not an option for the shadow fight,
+			// then try elixirs next.
 
-			if ( KoLCharacter.getMaximumHP() >= 126 )
+			if ( neededHealth > KoLCharacter.getMaximumHP() )
 			{
-				check = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
-				if ( check.getCount( KoLCharacter.getInventory() ) >= 8 )
-					option = check;
+				combatRounds = (int) Math.ceil( shadowHealth / 36 );
+				option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 2 * combatRounds );
+				neededHealth = (maximumDamage * combatRounds) - (36 * (combatRounds - 1));
 			}
 
-			// Even if you have enough red pixel potions, you
-			// may want to use cures if you're out of Ronin
-			// because they are more cost-effective.  Also, if
-			// you do not have enough red pixel potions, you
-			// will definitely want to use a doc galaktik cure.
+			// If elixirs are not possible, then maybe you can use two
+			// red pixel potions at once.
 
-			if ( !hasItem( option ) || KoLCharacter.canInteract() )
+			if ( neededHealth > KoLCharacter.getMaximumHP() )
 			{
-				option = new AdventureResult( "Doc Galaktik's Homeopathic Elixir", 6 );
-
-				// Always default to restorative balm if it will cost
-				// less to acquire it.
-
-				if ( KoLCharacter.getMaximumHP() >= 126 && option.getCount( KoLCharacter.getInventory() ) < 3 )
-					option = new AdventureResult( "Doc Galaktik's Restorative Balm", 8 );
+				combatRounds = (int) Math.ceil( shadowHealth / 50 );
+				option = new AdventureResult( "red pixel potion", 2 * combatRounds );
+				neededHealth = (maximumDamage * combatRounds) - (50 * (combatRounds - 1));
 			}
+
+			// If even that fails, then we assume that red plastic
+			// oyster eggs are needed for the fight.
+
+			if ( neededHealth > KoLCharacter.getMaximumHP() )
+			{
+				combatRounds = (int) Math.ceil( shadowHealth / 70 );
+				option = new AdventureResult( "red plastic oyster egg", combatRounds );
+				neededHealth = (maximumDamage * combatRounds) - (70 * (combatRounds - 1));
+			}
+
 		}
 
-		if ( option.getName().startsWith( "red" ) && !hasItem( option ) && KoLCharacter.isHardcore() )
-		{
-			AdventureResult egg = new AdventureResult( "red plastic oyster egg", 3 );
-			if ( hasItem( egg ) )
-			{
-				option = egg;
-				neededHealth = maximumDamage * 3 - 50;
-			}
-		}
+		// Make sure you can get enough health for the shadow
+		// fight.  If not, then abort.
 
-		requirements.add( option );
-		if ( !getClient().checkRequirements( requirements ) )
-			return;
-
-		// Make sure you can get enough health
-
-		if ( KoLCharacter.getMaximumHP() < neededHealth )
+		if ( neededHealth > KoLCharacter.getMaximumHP() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "The shadow fight is too dangerous with " + KoLCharacter.getMaximumHP() + " health." );
 			return;
 		}
+
+		// Now, we validate against the requirements by seeing
+		// if we have the item to use against the shadow.
+
+		requirements.add( option );
+		if ( !getClient().checkRequirements( requirements ) )
+			return;
 
 		getClient().recoverHP( neededHealth );
 		if ( KoLCharacter.getCurrentHP() < neededHealth )
@@ -1526,7 +1512,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( requiresHeal )
 		{
-			getClient().recoverHP( 50 );
+			getClient().recoverHP( 51 );
 
 			// Need more than 50 hit points.  Abort if this is
 			// not the case.
