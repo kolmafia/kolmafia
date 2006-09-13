@@ -124,6 +124,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	}
 
 	/**
+	 * Returns the name where this zone is found.
+	 */
+
+	public String getZone()
+	{	return zone;
+	}
+
+	/**
 	 * Returns the name of this adventure.
 	 */
 
