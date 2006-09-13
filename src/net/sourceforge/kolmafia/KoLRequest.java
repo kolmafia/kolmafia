@@ -106,9 +106,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		{ "www6.kingdomofloathing.com", "69.16.150.205" },
 		{ "www7.kingdomofloathing.com", "69.16.150.206" },
 		{ "www8.kingdomofloathing.com", "69.16.150.207" },
+		{ "dev.kingdomofloathing.com", "69.16.150.202" }
 	};
 
-	public static final int SERVER_COUNT = SERVERS.length;
+	public static final int SERVER_COUNT = 8;
 
 	private static String KOL_HOST = SERVERS[0][0];
 	private static String KOL_ROOT = "http://" + SERVERS[0][1] + "/";
@@ -195,9 +196,13 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			// Determine the login server that will be used.
-			int setting = StaticEntity.getIntegerProperty( "loginServer" );
-			int server = ( setting < 1 || setting > SERVER_COUNT ) ? RNG.nextInt( SERVER_COUNT ) : setting - 1;
-			setLoginServer( SERVERS[server][0] );
+			String server = StaticEntity.getProperty( "loginServerName" );
+			if ( server.equals( "random" ) )
+				server = SERVERS[ RNG.nextInt( SERVER_COUNT ) ][0];
+			else if ( server.indexOf( "." ) == -1 )
+				server = server + ".kingdomofloathing.com";
+
+			setLoginServer( server );
 
 			if ( proxySet.equals( "true" ) )
 			{
@@ -245,7 +250,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	private static void chooseNewLoginServer()
 	{
 		KoLmafia.updateDisplay( "Choosing new login server..." );
-		for ( int i = 0; i < SERVERS.length; ++i )
+		for ( int i = 0; i < SERVER_COUNT; ++i )
 			if ( SERVERS[i][0].equals( KOL_HOST ) )
 			{
 				int next = ( i + 1 ) % SERVERS.length;

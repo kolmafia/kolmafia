@@ -688,11 +688,19 @@ public class LoginFrame extends KoLFrame
 
 		public void actionConfirmed()
 		{
-			StaticEntity.setProperty( "loginServer", String.valueOf( servers.getSelectedIndex() ) );
+			int serverID = servers.getSelectedIndex();
+			if ( serverID == 0 )
+				StaticEntity.setProperty( "loginServerName", "random" );
+			else if ( serverID == 1 )
+				StaticEntity.setProperty( "loginServerName", "www.kingdomofloathing.com" );
+			else if ( serverID != -1 )
+				StaticEntity.setProperty( "loginServerName", "www" + serverID + ".kingdomofloathing.com" );
 		}
 
 		public void actionCancelled()
-		{	servers.setSelectedItem( StaticEntity.getProperty( "loginServer" ) );
+		{
+			StaticEntity.setProperty( "loginServerName", "random" );
+			servers.setSelectedIndex( 0 );
 		}
 
 		private class ConnectionCheckboxPanel extends OptionsPanel
