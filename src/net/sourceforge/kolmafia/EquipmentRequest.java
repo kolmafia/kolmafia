@@ -478,7 +478,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			KoLCharacter.refreshCalculatedLists();
 			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
 
-			boolean hasMeatPaste = KoLCharacter.hasItem( PASTE, false );
+			boolean hasMeatPaste = KoLCharacter.inMuscleSign() || KoLCharacter.hasItem( PASTE, false );
 			if ( !hasMeatPaste )
 			{
 				hasMeatPaste = !StaticEntity.getBooleanProperty( "lazyLoadInventory" ) &&
@@ -488,7 +488,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( hasMeatPaste )
 			{
 				AdventureDatabase.retrieveItem( PASTE );
-				KoLRequest combines = new KoLRequest( client, "combine.php" );
+				KoLRequest combines = new KoLRequest( client, KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
 				combines.run();
 
 				Matcher selectMatcher = Pattern.compile( "<select.*?</select>", Pattern.DOTALL ).matcher( combines.responseText );

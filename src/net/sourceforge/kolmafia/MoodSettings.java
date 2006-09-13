@@ -407,23 +407,38 @@ public abstract class MoodSettings implements KoLConstants
 		// If you have too many accordion thief buffs to execute
 		// your triggers, then shrug off your extra buffs.
 
-		boolean allowThiefShrugOff = StaticEntity.getBooleanProperty( "allowThiefShrugOff" ) && availableMoods.size() > 2;
+		boolean allowThiefShrugOff = StaticEntity.getBooleanProperty( "allowThiefShrugOff" );
 		boolean shouldExecuteThiefSkills = allowThiefShrugOff || thiefBuffs.size() + thiefSkills.size() <= thiefTriggerLimit;
 
-		if ( allowThiefShrugOff && thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit )
+		if ( thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit )
 		{
 			for ( int i = 0; i < thiefBuffs.size() && thiefBuffs.size() + thiefSkills.size() > thiefTriggerLimit; ++i )
+			{
 				if ( !thiefSkills.contains( thiefBuffs.get(i) ) )
-					DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.remove(i--)).getName() );
+				{
+					if ( allowThiefShrugOff )
+						DEFAULT_SHELL.executeLine( "uneffect " + ((AdventureResult)thiefBuffs.remove(i--)).getName() );
+					else
+						thiefBuffs.remove(i--);
+				}
+			}
 		}
 
 		// Now that everything is prepared, go ahead and execute
-		// the triggers which have been set.
+		// the triggers which have been set.  First, start out
+		// with any skill casting.
 
 		for ( int i = 0; i < triggers.size(); ++i )
 		{
 			current = (MoodTrigger) triggers.get(i);
-			if ( !current.isThiefTrigger() || shouldExecuteThiefSkills )
+			if ( current.skillID != -1 && (!current.isThiefTrigger() || shouldExecuteThiefSkills) )
+				current.execute();
+		}
+
+		for ( int i = 0; i < triggers.size(); ++i )
+		{
+			current = (MoodTrigger) triggers.get(i);
+			if ( current.skillID == -1 )
 				current.execute();
 		}
 
