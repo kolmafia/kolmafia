@@ -72,7 +72,9 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 	protected static final FilenameFilter BACKUP_FILTER = new FilenameFilter()
 	{
 		public boolean accept( File dir, String name )
-		{	return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" );
+		{
+			return !name.startsWith( "." ) && !name.endsWith( "~" ) && !name.endsWith( ".bak" ) && !name.endsWith( ".map" ) && !name.endsWith( ".dat" ) &&
+				name.indexOf( "datamaps" ) == -1 && dir.getPath().indexOf( "datamaps" ) == -1;
 		}
 	};
 

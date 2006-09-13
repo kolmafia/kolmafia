@@ -4720,10 +4720,34 @@ public class KoLmafiaASH extends StaticEntity
 			return readMap( filename, map_variable, compact );
 		}
 
-		private ScriptValue readMap(  String filename, ScriptCompositeValue result, boolean compact )
+		private ScriptValue readMap( String filename, ScriptCompositeValue result, boolean compact )
 		{
-			BufferedReader reader = DataUtilities.getReader( "", filename );
+			BufferedReader reader = null;
+
+			if ( filename.startsWith( "http" ) )
+			{
+				reader = DataUtilities.getReader( "", filename );
+			}
+			else
+			{
+				reader = DataUtilities.getReader( "scripts/datamaps", filename );
+				if ( reader == null )
+					reader = DataUtilities.getReader( "scripts", filename );
+				if ( reader == null )
+					reader = DataUtilities.getReader( DATA_DIRECTORY, filename );
+				if ( reader == null )
+					reader = DataUtilities.getReader( "", filename );
+			}
+
 			String [] data = null;
+
+			if ( reader == null )
+			{
+				if ( filename.startsWith( "http:" ) )
+					KoLmafia.updateDisplay( ABORT_STATE, "Could not locate remote file <" + filename + ">" );
+				else
+					KoLmafia.updateDisplay( ABORT_STATE, "Could not locate local file <scripts/" + filename + ">" );
+			}
 
 			result.clear();
 
@@ -4778,9 +4802,11 @@ public class KoLmafiaASH extends StaticEntity
 		private ScriptValue printMap( ScriptCompositeValue map_variable, String filename, boolean compact )
 		{
 			PrintStream writer = null;
+
 			try
 			{
-				File data = new File( filename );
+				File data = new File( filename.indexOf( File.separator ) != -1 || filename.indexOf( "/" ) != -1 ? filename :
+					"scripts/datamaps/" + filename );
 
 				if ( data.getParentFile() != null )
 					data.getParentFile().mkdirs();
