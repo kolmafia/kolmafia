@@ -74,7 +74,9 @@ public class DataUtilities implements UtilityConstants
 	 */
 
 	public static BufferedReader getReader( String filename )
-	{	return getReader( DATA_DIRECTORY, filename );
+	{
+		BufferedReader result = getReader( "", filename );
+		return result != null ? result : getReader( DATA_DIRECTORY, filename );
 	}
 
 	public static BufferedReader getReader( File file )

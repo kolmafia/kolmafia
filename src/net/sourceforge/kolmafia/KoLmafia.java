@@ -83,6 +83,10 @@ public abstract class KoLmafia implements KoLConstants
 		JEditorPane.registerEditorKitForContentType( "text/html", "net.sourceforge.kolmafia.RequestEditorKit" );
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
+
+		CombatSettings.reset();
+		MoodSettings.reset();
+		KoLSettings.reset();
 	}
 
 	protected static PrintStream sessionStream = NullStream.INSTANCE;
@@ -1902,7 +1906,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static final void openSessionStream()
 	{
-		sessionStream = openStream( "sessions/" + KoLCharacter.getUsername() + "_" +
+		sessionStream = openStream( DATA_DIRECTORY + "sessions/" + KoLCharacter.getUsername() + "_" +
 			DATED_FILENAME_FORMAT.format( new Date() ) + ".txt", sessionStream, false );
 	}
 

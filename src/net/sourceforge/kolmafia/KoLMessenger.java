@@ -903,7 +903,7 @@ public abstract class KoLMessenger extends StaticEntity
 	public static void initializeChatLogs()
 	{
 		Date currentTime = new Date();
-		CHATLOG_BASENAME = "chats/" + DATED_FILENAME_FORMAT.format( currentTime ) + "_";
+		CHATLOG_BASENAME = DATA_DIRECTORY + "chatlogs/" + DATED_FILENAME_FORMAT.format( currentTime ) + "_";
 
 		Object [] keys = instantMessageBuffers.keySet().toArray();
 		String filename, currentKey;

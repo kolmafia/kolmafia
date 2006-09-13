@@ -53,21 +53,24 @@ import net.java.dev.spellcast.utilities.UtilityConstants;
  * user settings of <code>KoLmafia</code>.  In order to maintain issues
  * involving compatibility (J2SE 1.4 does not support XML output directly),
  * all data is written using {@link java.util.Properties#store(OutputStream,String)}.
- * Files are named according  to the following convention: a tilde (<code>~</code>)
- * preceeds the name of the character whose settings this object represents,
- * with the 'kcs' extension (KoLmafia Character Settings).  All global settings
- * are stored in <code>~.kcs</code>.
  */
 
 public class KoLSettings extends Properties implements UtilityConstants, KoLConstants
 {
+	static
+	{
+		// Renaming data files to make then easier to find for most
+		// people (so they aren't afraid to open them).
+
+		StaticEntity.renameDataFiles( "kcs", "prefs" );
+	}
+
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
 	private static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
 
 	private File settingsFile;
 	private String noExtensionName;
-
 
 	/**
 	 * Constructs a settings file for a character with the specified name.
@@ -81,9 +84,13 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	public KoLSettings( String characterName )
 	{
 		this.noExtensionName = KoLCharacter.baseUserName( characterName );
-		this.settingsFile = new File( DATA_DIRECTORY + "~" + noExtensionName + ".kcs" );
+		this.settingsFile = new File( DATA_DIRECTORY + "settings/prefs_" + noExtensionName + ".txt" );
 		loadSettings( this.settingsFile );
 		ensureDefaults();
+	}
+
+	public static void reset()
+	{
 	}
 
 	public static boolean isGlobalProperty( String name )
@@ -389,7 +396,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			// actually printing them.
 
 			FileOutputStream ostream = new FileOutputStream( destination );
-			store( ostream, "KoLmafia Settings" );
+			store( ostream, VERSION_NAME );
 			ostream.close();
 
 			// Make sure that all of the settings are
@@ -405,14 +412,25 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			reader.close();
 			Collections.sort( contents );
 
-			File temporary = new File( DATA_DIRECTORY + "~" + noExtensionName + ".kcs.tmp" );
+			File temporary = new File( DATA_DIRECTORY + "output.tmp" );
 			temporary.createNewFile();
-			temporary.deleteOnExit();
+
+			boolean writingHeader = true;
 
 			PrintStream writer = new LogStream( temporary );
 			for ( int i = 0; i < contents.size(); ++i )
-				if ( !((String) contents.get(i)).startsWith( "saveState" ) || noExtensionName.equals( "" ) )
-					writer.println( (String) contents.get(i) );
+			{
+				line = (String) contents.get(i);
+
+				if ( writingHeader && !line.startsWith( "#" ) )
+				{
+					writingHeader = false;
+					writer.println();
+				}
+
+				if ( !line.startsWith( "saveState" ) || noExtensionName.equals( "" ) )
+					writer.println( line );
+			}
 
 			writer.close();
 			destination.delete();

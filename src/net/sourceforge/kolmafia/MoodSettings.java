@@ -59,6 +59,14 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class MoodSettings implements KoLConstants
 {
+	static
+	{
+		// Renaming data files to make then easier to find for most
+		// people (so they aren't afraid to open them).
+
+		StaticEntity.renameDataFiles( "kms", "moods" );
+	}
+
 	private static int thiefTriggerLimit = 3;
 	private static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
 
@@ -76,7 +84,7 @@ public abstract class MoodSettings implements KoLConstants
 	static { MoodSettings.reset(); }
 
 	public synchronized static final String settingsFileName()
-	{	return "~" + KoLCharacter.baseUserName() + ".kms";
+	{	return DATA_DIRECTORY + "settings/moods_" + KoLCharacter.baseUserName() + ".txt";
 	}
 
 	public synchronized static final void reset()
@@ -86,7 +94,7 @@ public abstract class MoodSettings implements KoLConstants
 		availableMoods.clear();
 
 		MoodSettings.characterName = KoLCharacter.getUsername();
-		MoodSettings.settingsFile = new File( DATA_DIRECTORY + settingsFileName() );
+		MoodSettings.settingsFile = new File( settingsFileName() );
 
 		loadSettings();
 		ensureProperty( "default" );
