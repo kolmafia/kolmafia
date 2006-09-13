@@ -109,6 +109,10 @@ public class MallSearchFrame extends KoLPanelFrame
 			elements[2] = new VerifiableElement( " ", checkBoxPanels, false );
 
 			setContent( elements );
+
+			int searchCount = StaticEntity.getIntegerProperty( "defaultLimit" );
+			countField.setText( searchCount <= 0 ? "5" : String.valueOf( searchCount ) );
+
 			add( new SearchResultsPanel(), BorderLayout.CENTER );
 
 			currentlyBuying = false;
@@ -117,11 +121,10 @@ public class MallSearchFrame extends KoLPanelFrame
 
 		public void actionConfirmed()
 		{
-			int searchCount = getValue( countField, 5 );
-			if ( searchCount == 5 || searchCount <= 0 )
-				countField.setText( "5" );
+			int searchCount = getValue( countField, 0 );
+			if ( searchCount > 0 )
+				StaticEntity.setProperty( "defaultLimit", String.valueOf( searchCount ) );
 
-			StaticEntity.setProperty( "defaultLimit", countField.getText() );
 			searchMall( new SearchMallRequest( StaticEntity.getClient(), searchField.getText(), searchCount, results, false, forceSortingCheckBox.isSelected() ) );
 		}
 
