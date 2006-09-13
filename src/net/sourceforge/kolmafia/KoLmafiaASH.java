@@ -2815,6 +2815,9 @@ public class KoLmafiaASH extends StaticEntity
 		result.addElement( new ScriptExistingFunction( "sell_item", BOOLEAN_TYPE, params ) );
 
 		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "echo", VOID_TYPE, params ) );
+
+		params = new ScriptType[] { STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "print", VOID_TYPE, params ) );
 
 		params = new ScriptType[] {};
@@ -4172,9 +4175,15 @@ public class KoLmafiaASH extends StaticEntity
 			return continueValue();
 		}
 
+		public ScriptValue echo( ScriptVariable string )
+		{
+			DEFAULT_SHELL.executeLine( "echo " + string.toStringValue().toString() );
+			return VOID_VALUE;
+		}
+
 		public ScriptValue print( ScriptVariable string )
 		{
-			KoLmafia.updateDisplay( string.toStringValue().toString() );
+			DEFAULT_SHELL.executeLine( "echo " + string.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 

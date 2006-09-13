@@ -90,6 +90,7 @@ public abstract class KoLmafia implements KoLConstants
 	protected static PrintStream debugStream = NullStream.INSTANCE;
 	protected static PrintStream outputStream = NullStream.INSTANCE;
 	protected static PrintStream mirrorStream = NullStream.INSTANCE;
+	protected static PrintStream echoStream = NullStream.INSTANCE;
 
 	private static boolean isEnabled = true;
 	private static boolean hadPendingState = false;
@@ -556,8 +557,23 @@ public abstract class KoLmafia implements KoLConstants
 		KoLRequest.sessionID = null;
 		KoLRequest.passwordHash = null;
 
-		closeDebugStream();
-		closeMacroStream();
+		sessionStream.close();
+		sessionStream = NullStream.INSTANCE;
+
+		macroStream.close();
+		macroStream = NullStream.INSTANCE;
+
+		debugStream.close();
+		debugStream = NullStream.INSTANCE;
+
+		outputStream.close();
+		outputStream = NullStream.INSTANCE;
+
+		mirrorStream.close();
+		mirrorStream = NullStream.INSTANCE;
+
+		echoStream.close();
+		echoStream = NullStream.INSTANCE;
 	}
 
 	/**
@@ -1831,30 +1847,40 @@ public abstract class KoLmafia implements KoLConstants
 	}
 
 	/**
-	 * Initializes a stream for logging debugging information.  This
-	 * method creates a <code>KoLmafia.log</code> file in the default
-	 * directory if one does not exist, or appends to the existing
-	 * log.  This method should only be invoked if the user wishes to
-	 * assist in beta testing because the output is VERY verbose.
+	 * Utility method which opens a stream to the given file
+	 * and closes the original stream, if needed.
 	 */
 
-	public static final void openDebugStream()
+	protected static final PrintStream openStream( String filename, PrintStream originalStream, boolean hasStaticLocation )
 	{
-		// First, ensure that a log stream has not already been
-		// initialized - this can be checked by observing what
-		// class the current log stream is.
-
-		if ( !(debugStream instanceof NullStream) )
-			return;
+		if ( !hasStaticLocation && KoLCharacter.getUsername().equals( "" ) )
+			return NullStream.INSTANCE;
 
 		try
 		{
-			File f = new File( "KoLmafia.log" );
+			// Before doing anything, be sure to close the
+			// original stream.
+
+			if ( !(originalStream instanceof NullStream) )
+			{
+				if ( hasStaticLocation )
+					return originalStream;
+
+				originalStream.close();
+			}
+
+			// Now, create the file and wrap a LogStream around
+			// it for output.
+
+			File f = new File( filename );
 
 			if ( !f.exists() )
+			{
+				f.getParentFile().mkdirs();
 				f.createNewFile();
+			}
 
-			debugStream = new LogStream( f, true );
+			return new LogStream( f );
 		}
 		catch ( IOException e )
 		{
@@ -1862,13 +1888,8 @@ public abstract class KoLmafia implements KoLConstants
 			// a stack trace for debug purposes.
 
 			StaticEntity.printStackTrace( e );
+			return NullStream.INSTANCE;
 		}
-	}
-
-	public static final void closeDebugStream()
-	{
-		debugStream.close();
-		debugStream = NullStream.INSTANCE;
 	}
 
 	/**
@@ -1881,36 +1902,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public static final void openSessionStream()
 	{
-		// First, ensure that a log stream has not already been
-		// initialized - this can be checked by observing what
-		// class the current log stream is.
-
-		if ( !(sessionStream instanceof NullStream) )
-			sessionStream.close();
-
-		if ( KoLCharacter.getUsername().equals( "" ) )
-			return;
-
-		try
-		{
-			File f = new File( "sessions/" + KoLCharacter.getUsername() + "_" +
-				DATED_FILENAME_FORMAT.format( new Date() ) + ".txt" );
-
-			if ( !f.exists() )
-			{
-				f.getParentFile().mkdirs();
-				f.createNewFile();
-			}
-
-			sessionStream = new LogStream( f, true );
-		}
-		catch ( IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
+		sessionStream = openStream( "sessions/" + KoLCharacter.getUsername() + "_" +
+			DATED_FILENAME_FORMAT.format( new Date() ) + ".txt", sessionStream, false );
 	}
 
 	public static final void closeSessionStream()
@@ -1928,52 +1921,17 @@ public abstract class KoLmafia implements KoLConstants
 	{	return sessionStream;
 	}
 
-	/**
-	 * Retrieves the stream currently used for logging debug output.
-	 * @return	The stream used for debug output
-	 */
-
 	public static final PrintStream getDebugStream()
 	{	return debugStream;
 	}
 
 	/**
-	 * Initializes the macro recording stream.  This will only
-	 * work if no macro streams are currently running.  If
-	 * a call is made while a macro stream exists, this method
-	 * does nothing.
-	 *
+	 * Initializes the macro recording stream.
 	 * @param	filename	The name of the file to be created
 	 */
 
 	public static final void openMacroStream( String filename )
-	{
-		// First, ensure that a macro stream has not already been
-		// initialized - this can be checked by observing what
-		// class the current macro stream is.
-
-		if ( !(macroStream instanceof NullStream) )
-			return;
-
-		try
-		{
-			File f = new File( filename );
-
-			if ( !f.exists() )
-			{
-				f.getParentFile().mkdirs();
-				f.createNewFile();
-			}
-
-			macroStream = new LogStream( f );
-		}
-		catch ( IOException e )
-		{
-			// This should not happen.  Therefore, print
-			// a stack trace for debug purposes.
-
-			StaticEntity.printStackTrace( e );
-		}
+	{	macroStream = openStream( filename, macroStream, false );
 	}
 
 	/**
