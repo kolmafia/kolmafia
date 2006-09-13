@@ -116,7 +116,7 @@ public class OptionsFrame extends KoLFrame
 	private JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect;
 	private JCheckBox [] mpRestoreCheckbox;
 
-	private ActionPanel general, items, relay, areas, health, mana, combat, triggers, scripts, choices;
+	private ActionPanel general, items, relay, areas, health, mana, combat, choices;
 
 	/**
 	 * Utility method which refreshes all the options, in the event
@@ -139,8 +139,6 @@ public class OptionsFrame extends KoLFrame
 				((OptionsFrame) frames[i]).health.actionCancelled();
 				((OptionsFrame) frames[i]).mana.actionCancelled();
 				((OptionsFrame) frames[i]).combat.actionCancelled();
-				((OptionsFrame) frames[i]).triggers.actionCancelled();
-				((OptionsFrame) frames[i]).scripts.actionCancelled();
 				((OptionsFrame) frames[i]).choices.actionCancelled();
 			}
 		}
@@ -197,10 +195,10 @@ public class OptionsFrame extends KoLFrame
 
 		JPanel moodPanel = new JPanel( new BorderLayout() );
 		moodPanel.add( new AddTriggerPanel(), BorderLayout.NORTH );
-		moodPanel.add( triggers = new MoodTriggerListPanel(), BorderLayout.CENTER );
+		moodPanel.add( new MoodTriggerListPanel(), BorderLayout.CENTER );
 
 		addTab( "General", generalPanel );
-		tabs.addTab( "Scriptbar", scripts = new ScriptButtonPanel() );
+		tabs.addTab( "Scriptbar", new ScriptButtonPanel() );
 		addTab( "Choices", choices = new ChoiceOptionsPanel() );
 		addTab( "Restores", restorePanel );
 		tabs.addTab( "Combats", combatPanel );

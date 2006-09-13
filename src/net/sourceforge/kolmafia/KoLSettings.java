@@ -238,7 +238,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "lastOperatingSystem", System.getProperty( "os.name" ) );
 		CLIENT_SETTINGS.put( "lastUsername", "" );
 		CLIENT_SETTINGS.put( "lazyLoadInventory", "true" );
-		CLIENT_SETTINGS.put( "loginServer", "0" );
+		CLIENT_SETTINGS.put( "loginServerName", "random" );
 		CLIENT_SETTINGS.put( "luckySewerAdventure", "stolen accordion" );
 		CLIENT_SETTINGS.put( "makeBrowserDecisions", "false" );
 		CLIENT_SETTINGS.put( "previousUpdateVersion", VERSION_NAME );

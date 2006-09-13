@@ -384,29 +384,8 @@ public class AdventureDatabase extends KoLDatabase
 		String [] data;
 
 		while ( (data = readData( reader )) != null )
-		{
 			if ( data.length > 5 )
-			{
-				if ( data[1].indexOf( "send" ) != -1 )
-					continue;
-
-				String zone = (String) ZONE_NAMES.get( data[0] );
-
-				// Be defensive: user can supply a broken data file
-				if ( zone == null )
-				{
-					System.out.println( "Bad adventure zone: " + data[0] );
-					continue;
-				}
-
-				adventureTable[0].add( zone );
-				for ( int i = 1; i < 6; ++i )
-					adventureTable[i].add( data[i] );
-
-				if ( data.length == 7 )
-					conditionLookup.put( data[5], data[6] );
-			}
-		}
+				addAdventure( data );
 
 		try
 		{
@@ -419,6 +398,28 @@ public class AdventureDatabase extends KoLDatabase
 
 			printStackTrace( e );
 		}
+	}
+
+	public static void addAdventure( String [] data )
+	{
+		if ( data[1].indexOf( "send" ) != -1 )
+			return;
+
+		String zone = (String) ZONE_NAMES.get( data[0] );
+
+		// Be defensive: user can supply a broken data file
+		if ( zone == null )
+		{
+			System.out.println( "Bad adventure zone: " + data[0] );
+			return;
+		}
+
+		adventureTable[0].add( zone );
+		for ( int i = 1; i < 6; ++i )
+			adventureTable[i].add( data[i] );
+
+		if ( data.length == 7 )
+			conditionLookup.put( data[5], data[6] );
 	}
 
 	/**

@@ -1545,6 +1545,21 @@ public class KoLmafiaCLI extends KoLmafia
 			return;
 		}
 
+		// If someone wants to add a new adventure on
+		// the fly, and it's a valid URL (ie: not a
+		// send or search URL), go right ahead.
+
+		if ( command.equals( "location" ) )
+		{
+			int spaceIndex = parameters.indexOf( " " );
+			String id = parameters.substring( 0, spaceIndex );
+			String name = parameters.substring( spaceIndex ).trim();
+
+			AdventureDatabase.addAdventure( new String [] { "23", "0", "0", "adventure.php", id, name } );
+			AdventureDatabase.refreshAdventureList();
+			return;
+		}
+
 		// If all else fails, then assume that the
 		// person was trying to call a script.
 
