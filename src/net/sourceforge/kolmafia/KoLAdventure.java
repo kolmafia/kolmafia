@@ -404,6 +404,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			request.run();
 
 			KoLCharacter.armBeanstalk();
+			isValidAdventure = true;
 			return;
 		}
 

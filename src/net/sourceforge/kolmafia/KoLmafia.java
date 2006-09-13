@@ -794,7 +794,7 @@ public abstract class KoLmafia implements KoLConstants
 
 				conditions.remove( conditionsIndex );
 			}
-			else
+			else if ( result.getCount() > 0 )
 			{
 				// Otherwise, this was a partial satisfaction
 				// of a condition.  Decrement the count by the

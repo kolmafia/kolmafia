@@ -631,6 +631,15 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 		}
 
+		// There are requests to the council which will also
+		// decrement your inventory.
+
+		if ( formURLString.indexOf( "council.php" ) != -1 )
+		{
+			if ( responseText.indexOf( "batskin belt" ) != -1 )
+				client.processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
+		}
+
 		// If this is an equipment request, then reprint the
 		// player's current equipment information.
 
