@@ -97,7 +97,7 @@ public abstract class StaticEntity implements KoLConstants
 
 				if ( location.endsWith( oldExtension ) )
 				{
-					location = location.length() == 5 ? "GLOBAL" : location.substring( 1, location.length() - 4 ) + "." + newPrefix;
+					location = location.length() == 5 ? "GLOBAL" : location.substring( 1, location.length() - 4 );
 					destination = new File( DATA_DIRECTORY + "settings/" + newPrefix + "_" + location + ".txt" );
 
 					if ( !destination.getParentFile().exists() )
