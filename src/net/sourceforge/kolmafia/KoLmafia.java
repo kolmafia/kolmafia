@@ -1004,11 +1004,11 @@ public abstract class KoLmafia implements KoLConstants
 		if ( BuffBotHome.isBuffBotActive() )
 		{
 			if ( current < needed )
-				needed = maximum - 1;
+				needed = maximum;
 		}
 		else if ( needed >= maximum )
 		{
-			needed = maximum - 1;
+			needed = maximum;
 		}
 
 		if ( needed > 0 && current >= needed )
@@ -1017,7 +1017,7 @@ public abstract class KoLmafia implements KoLConstants
 		// Next, check against the restore target to see how
 		// far you need to go.
 
-		int threshold = initial == 0 ? needed - 1 : settingName.startsWith( "mp" ) ? current : needed;
+		int threshold = initial == 0 ? needed - 1 : settingName.startsWith( "mp" ) ? current : needed - 1;
 		setting = StaticEntity.getFloatProperty( settingName + "Target" );
 
 		if ( needed == 0 && setting <= 0 )
@@ -1042,9 +1042,7 @@ public abstract class KoLmafia implements KoLConstants
 			currentTechniqueName = techniques[i].toString().toLowerCase();
 			if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
 			{
-				last = -1;
-
-				while ( (current <= threshold || checkBeatenUp) && last != current && !refusesContinue() )
+				do
 				{
 					last = current;
 					recoverOnce( techniques[i], currentTechniqueName, needed );
@@ -1055,10 +1053,9 @@ public abstract class KoLmafia implements KoLConstants
 					// as this indicates MP changes due to outfits.
 					// Simply break the loop and move onto cola or soda
 					// water as the next restore.
-
-					if ( techniques[i] == MPRestoreItemList.SELTZER )
-						break;
 				}
+				while ( techniques[i] != MPRestoreItemList.SELTZER &&
+					(current <= threshold || checkBeatenUp) && last != current && !refusesContinue() );
 			}
 		}
 
@@ -1324,6 +1321,14 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
+			// Before anything happens, make sure that you are in
+			// in a valid continuation state.
+
+			if ( refusesContinue() )
+				return;
+
+			forceContinue();
+
 			// Handle the gym, which is the only adventure type
 			// which needs to be specially handled.
 
