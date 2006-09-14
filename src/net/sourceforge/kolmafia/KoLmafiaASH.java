@@ -4578,6 +4578,7 @@ public class KoLmafiaASH extends StaticEntity
 			if ( !wasChoice && request.getURLString().indexOf( "choice.php" ) != -1 && getBooleanProperty( "makeBrowserDecisions" ) )
 				request.handleChoiceResponse( request );
 
+			StaticEntity.externalUpdate( location, request.responseText );
 			return new ScriptValue( request.fullResponse == null ? "" : request.fullResponse );
 		}
 
