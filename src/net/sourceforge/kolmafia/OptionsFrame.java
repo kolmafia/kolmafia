@@ -116,7 +116,7 @@ public class OptionsFrame extends KoLFrame
 	private JComboBox mpAutoRecoverSelect, mpAutoRecoverTargetSelect;
 	private JCheckBox [] mpRestoreCheckbox;
 
-	private ActionPanel general, items, relay, areas, health, mana, combat, choices;
+	private ActionPanel general, items, relay, areas, health, mana, choices;
 
 	/**
 	 * Utility method which refreshes all the options, in the event
@@ -138,7 +138,6 @@ public class OptionsFrame extends KoLFrame
 				((OptionsFrame) frames[i]).areas.actionCancelled();
 				((OptionsFrame) frames[i]).health.actionCancelled();
 				((OptionsFrame) frames[i]).mana.actionCancelled();
-				((OptionsFrame) frames[i]).combat.actionCancelled();
 				((OptionsFrame) frames[i]).choices.actionCancelled();
 			}
 		}
@@ -190,7 +189,7 @@ public class OptionsFrame extends KoLFrame
 
 		combatCards = new CardLayout();
 		combatPanel = new JPanel( combatCards );
-		combatPanel.add( "tree", combat = new CustomCombatTreePanel() );
+		combatPanel.add( "tree", new CustomCombatTreePanel() );
 		combatPanel.add( "editor", new CustomCombatPanel() );
 
 		JPanel moodPanel = new JPanel( new BorderLayout() );
@@ -1011,7 +1010,7 @@ public class OptionsFrame extends KoLFrame
 
 		public void actionCancelled()
 		{
-			JFileChooser chooser = new JFileChooser( (new File( "data" )).getAbsolutePath() );
+			JFileChooser chooser = new JFileChooser( (new File( "data/settings" )).getAbsolutePath() );
 			chooser.setFileFilter( CCS_FILTER );
 
 			int returnVal = chooser.showOpenDialog( null );
@@ -1033,11 +1032,11 @@ public class OptionsFrame extends KoLFrame
 		public boolean accept( File file )
 		{
 			String name = file.getName();
-			return !name.startsWith( "." ) && name.endsWith( ".ccs" );
+			return !name.startsWith( "." ) && name.startsWith( "combat_" );
 		}
 
 		public String getDescription()
-		{	return "Custom Combat Settings (*.ccs)";
+		{	return "Custom Combat Settings";
 		}
 	};
 
