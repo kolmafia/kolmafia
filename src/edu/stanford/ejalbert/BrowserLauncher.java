@@ -527,12 +527,10 @@ public class BrowserLauncher {
 				boolean usingIE = false;
 
 				String executable = "";
-				String parameters = "";
 
 				if ( url.indexOf( ".txt" ) != -1 || url.indexOf( ".log" ) != -1 || url.indexOf( ".ash" ) != -1 )
 				{
 					usingIE = false;
-					parameters = "";
 					executable = "notepad";
 				}
 				else if ( jvm == WINDOWS_NT )
@@ -573,7 +571,6 @@ public class BrowserLauncher {
 					if ( alternative.exists() )
 					{
 						usingIE = false;
-						parameters = "new-tab";
 						executable = "C:\\Program Files\\Mozilla Firefox\\firefox.exe";
 					}
 
@@ -585,7 +582,6 @@ public class BrowserLauncher {
 					if ( alternative.exists() )
 					{
 						usingIE = false;
-						parameters = "newpage";
 						executable = "C:\\Program Files\\Opera\\Opera.exe";
 					}
 
@@ -594,7 +590,7 @@ public class BrowserLauncher {
 
 					if ( usingIE )
 					{
-						parameters = "";
+						usingIE = true;
 						executable = "C:\\Program Files\\Internet Explorer\\iexplore.exe";
 					}
 				}
@@ -602,12 +598,12 @@ public class BrowserLauncher {
 				if ( jvm == WINDOWS_9x )
 				{
 					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
-						executable, parameters, url } );
+						executable, url } );
 				}
 				else if ( executable.equals( "notepad" ) )
 				{
 					process = Runtime.getRuntime().exec( new String[] { (String) browser, "/c",
-						"start", "\"\"", executable, parameters, url } );
+						"start", "\"\"", executable, url } );
 				}
 				else if ( usingIE )
 				{
