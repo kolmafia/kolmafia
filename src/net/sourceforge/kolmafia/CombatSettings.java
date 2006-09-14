@@ -62,7 +62,6 @@ public abstract class CombatSettings implements UtilityConstants
 
 	private static String [] keys;
 	private static File settingsFile;
-	private static String characterName = "";
 	private static TreeMap reference = new TreeMap();
 	private static CombatSettingNode root = new CombatSettingNode();
 
@@ -70,7 +69,6 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public synchronized static final void reset()
 	{
-		CombatSettings.characterName = KoLCharacter.getUsername();
 		CombatSettings.settingsFile = new File( settingsFileName() );
 
 		root.removeAllChildren();
@@ -85,11 +83,7 @@ public abstract class CombatSettings implements UtilityConstants
 	}
 
 	public synchronized static final TreeNode getRoot()
-	{
-		if ( !characterName.equals( KoLCharacter.getUsername() ) )
-			CombatSettings.reset();
-
-		return root;
+	{	return root;
 	}
 
 	public synchronized static void loadSettings( File source )
@@ -243,9 +237,6 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public synchronized static void setDefaultAction( String actionList )
 	{
-		if ( !characterName.equals( KoLCharacter.getUsername() ) )
-			CombatSettings.reset();
-
 		CombatSettingNode currentList = (CombatSettingNode) reference.get( "default" );
 		currentList.removeAllChildren();
 
@@ -256,9 +247,6 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public synchronized static List getDefaultAction()
 	{
-		if ( !characterName.equals( KoLCharacter.getUsername() ) )
-			CombatSettings.reset();
-
 		ArrayList nodeList = new ArrayList();
 		CombatSettingNode currentList = (CombatSettingNode) reference.get( "default" );
 		for ( int i = 0; i < currentList.getChildCount(); ++i )
@@ -298,6 +286,9 @@ public abstract class CombatSettings implements UtilityConstants
 	{
 		try
 		{
+			if ( !destination.exists() )
+				destination.createNewFile();
+
 			PrintStream writer = new LogStream( destination );
 
 			CombatSettingNode combatOptions;
@@ -342,9 +333,6 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public synchronized static String getSetting( String encounter, KoLAdventure location, int roundCount )
 	{
-		if ( !characterName.equals( KoLCharacter.getUsername() ) )
-			CombatSettings.reset();
-
 		// Allow for longer matches (closer to exact matches)
 		// by tracking the length of the match.
 

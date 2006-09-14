@@ -160,7 +160,7 @@ public class HagnkStorageFrame extends KoLFrame
 			}
 		}
 
-		protected Object [] getDesiredItems( String message )
+		protected AdventureResult [] getDesiredItems( String message )
 		{
 			// Ensure that the selection interval does not include
 			// anything that was filtered out by the checkboxes.

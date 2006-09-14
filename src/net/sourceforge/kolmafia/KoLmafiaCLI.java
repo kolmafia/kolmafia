@@ -1122,7 +1122,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "smash" ) || command.equals( "pulverize" ) )
 		{
-			makePulverizeRequest();
+			makePulverizeRequest( parameters );
 			return;
 		}
 
@@ -3627,17 +3627,8 @@ public class KoLmafiaCLI extends KoLmafia
 	 * Attempts to smash the specified item
 	 */
 
-	public void makePulverizeRequest()
+	public void makePulverizeRequest( String parameters )
 	{
-		if ( previousLine == null )
-			return;
-
-		if ( !previousLine.startsWith( "pulverize" ) || previousLine.indexOf( " " ) == -1 )
-			return;
-
-		String command = previousLine.split( " " )[0];
-		String parameters = previousLine.substring( command.length() ).trim();
-
 		AdventureResult item = getFirstMatchingItem( parameters );
 		if ( item == null )
 			return;

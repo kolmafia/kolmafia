@@ -159,7 +159,7 @@ public class ItemManageFrame extends KoLFrame
 				AdventureResult.getConsumableCellRenderer( KoLCharacter.canEat(), KoLCharacter.canDrink(), true ) );
 		}
 
-		protected Object [] getDesiredItems( String message )
+		protected AdventureResult [] getDesiredItems( String message )
 		{
 			filterSelection( filters[0].isSelected(),
 				 filters[1].isSelected(), filters[2].isSelected(), true, true );
@@ -268,7 +268,7 @@ public class ItemManageFrame extends KoLFrame
 				AdventureResult.getAutoSellCellRenderer( true, true, true, true, true ) );
 		}
 
-		protected Object [] getDesiredItems( String message )
+		protected AdventureResult [] getDesiredItems( String message )
 		{
 			filterSelection( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(), filters[4].isSelected() );
 			return super.getDesiredItems( message );
@@ -289,9 +289,9 @@ public class ItemManageFrame extends KoLFrame
 				this.elementList = elementList;
 			}
 
-			public Object [] initialSetup()
+			public AdventureResult [] initialSetup()
 			{
-				Object [] items = getDesiredItems( description );
+				AdventureResult [] items = getDesiredItems( description );
 				if (items == null )
 					return null;
 				this.requests = new Runnable[ !retrieveFromClosetFirst || description.equals( "Bagging" ) ? 1 : 2 ];
@@ -315,7 +315,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{
-				Object [] items = initialSetup();
+				AdventureResult [] items = initialSetup();
 				if ( items == null )
 					return;
 
@@ -354,7 +354,7 @@ public class ItemManageFrame extends KoLFrame
 						"Sell request nag screen!", JOptionPane.YES_NO_OPTION ) )
 							return;
 
-				Object [] items = initialSetup();
+				AdventureResult [] items = initialSetup();
 				if ( items == null )
 					return;
 
@@ -371,7 +371,7 @@ public class ItemManageFrame extends KoLFrame
 
 			public void actionPerformed( ActionEvent e )
 			{
-				Object [] items = initialSetup();
+				AdventureResult [] items = initialSetup();
 				if ( items == null )
 					return;
 
@@ -402,6 +402,32 @@ public class ItemManageFrame extends KoLFrame
 				initializeTransfer();
 			}
 		}
+
+		protected class PulverizeListener extends TransferListener
+		{
+			public PulverizeListener( boolean retrieveFromClosetFirst, ShowDescriptionList elementList )
+			{	super( "Smashing", retrieveFromClosetFirst, elementList );
+			}
+
+			public void actionPerformed( ActionEvent e )
+			{
+				AdventureResult [] items = initialSetup();
+				if ( items == null || items.length == 0 )
+					return;
+
+				requests = new Runnable[ items.length ];
+				for ( int i = 0; i < items.length; ++i )
+				{
+					boolean willSmash = TradeableItemDatabase.isTradeable( items[i].getItemID() ) ||
+						JOptionPane.YES_OPTION == JOptionPane.showConfirmDialog( null,
+							items[i].getName() + " is untradeable.  Are you sure?", "Smash request nag screen!", JOptionPane.YES_NO_OPTION );
+
+					requests[i] = willSmash ? new PulverizeRequest( StaticEntity.getClient(), items[i] ) : null;
+				}
+
+				initializeTransfer();
+			}
+		}
 	}
 
 	private class OutsideClosetPanel extends ClosetManagePanel
@@ -409,11 +435,12 @@ public class ItemManageFrame extends KoLFrame
 		public OutsideClosetPanel()
 		{
 			super( "Inside Inventory", KoLCharacter.getInventory() );
-			setButtons( new String [] { "closet", "sell", "mall", "museum", "clan", "refresh" },
+			setButtons( new String [] { "closet", "sell", "mall", "pulverize", "museum", "clan", "refresh" },
 				new ActionListener [] {
 					new PutInClosetListener( false, elementList ),
 					new AutoSellListener( false, AutoSellRequest.AUTOSELL, elementList ),
 					new AutoSellListener( false, AutoSellRequest.AUTOMALL, elementList ),
+					new PulverizeListener( false, elementList ),
 					new PutOnDisplayListener( false, elementList ),
 					new GiveToClanListener( false, elementList ),
 					new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
@@ -425,11 +452,12 @@ public class ItemManageFrame extends KoLFrame
 		public InsideClosetPanel()
 		{
 			super( "Inside Closet", KoLCharacter.getCloset() );
-			setButtons( new String [] { "backpack", "sell", "mall", "museum", "clan", "refresh" },
+			setButtons( new String [] { "backpack", "sell", "mall", "pulverize", "museum", "clan", "refresh" },
 				new ActionListener [] {
 					new PutInClosetListener( true, elementList ),
 					new AutoSellListener( true, AutoSellRequest.AUTOSELL, elementList ),
 					new AutoSellListener( true, AutoSellRequest.AUTOMALL, elementList ),
+					new PulverizeListener( true, elementList ),
 					new PutOnDisplayListener( true, elementList ),
 					new GiveToClanListener( true, elementList ),
 					new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );

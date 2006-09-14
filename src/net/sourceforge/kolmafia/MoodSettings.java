@@ -71,7 +71,6 @@ public abstract class MoodSettings implements KoLConstants
 	private static final AdventureResult PENDANT = new AdventureResult( 1235, 1 );
 
 	private static File settingsFile = null;
-	private static String characterName = "";
 	private static TreeMap reference = new TreeMap();
 
 	private static AdventureResult songWeapon = null;
@@ -93,20 +92,14 @@ public abstract class MoodSettings implements KoLConstants
 		triggers.clear();
 		availableMoods.clear();
 
-		MoodSettings.characterName = KoLCharacter.getUsername();
 		MoodSettings.settingsFile = new File( settingsFileName() );
-
 		loadSettings();
 		ensureProperty( "default" );
 		ensureProperty( "apathetic" );
 	}
 
 	public static SortedListModel getAvailableMoods()
-	{
-		if ( !characterName.equals( KoLCharacter.getUsername() ) )
-			MoodSettings.reset();
-
-		return availableMoods;
+	{	return availableMoods;
 	}
 
 	/**
@@ -117,9 +110,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static SortedListModel setMood( String mood )
 	{
-		if ( !characterName.equals( KoLCharacter.getUsername() ) )
-			MoodSettings.reset();
-
 		mood = mood == null || mood.trim().equals( "" ) ? "default" : mood.toLowerCase().trim();
 		ensureProperty( mood );
 
@@ -147,9 +137,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	private static void addTrigger( MoodTrigger node )
 	{
-		if ( !characterName.equals( KoLCharacter.getUsername() ) )
-			MoodSettings.reset();
-
 		if ( node == null )
 			return;
 
@@ -185,9 +172,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void removeTriggers( Object [] triggers )
 	{
-		if ( !characterName.equals( KoLCharacter.getUsername() ) )
-			MoodSettings.reset();
-
 		for ( int i = 0; i < triggers.length; ++i )
 		{
 			MoodSettings.triggers.remove( triggers[i] );
@@ -204,9 +188,6 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void autoFillTriggers()
 	{
-		if ( !characterName.equals( KoLCharacter.getUsername() ) )
-			MoodSettings.reset();
-
 		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
 			return;
 
@@ -381,10 +362,6 @@ public abstract class MoodSettings implements KoLConstants
 		AdventureResult initialHat = KoLCharacter.getEquipment( KoLCharacter.HAT );
 
 		hasChangedOutfit = false;
-
-		if ( !characterName.equals( KoLCharacter.getUsername() ) )
-			MoodSettings.reset();
-
 		MoodTrigger current = null;
 
 		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
