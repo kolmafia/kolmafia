@@ -571,9 +571,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 		}
 
-		if ( !isDelayExempt() && KoLmafia.refusesContinue() )
-			return;
-
 		if ( !usingValidConnection )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Unable to establish connection with proxy server." );
