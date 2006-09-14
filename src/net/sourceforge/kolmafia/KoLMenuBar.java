@@ -160,6 +160,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		toolsMenu.add( new JSeparator() );
 
+		toolsMenu.add( new DisplayFrameMenuItem( "Meat Manager", "MeatManageFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Store Manager", "StoreManageFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Museum Display", "MuseumFrame" ) );
 		toolsMenu.add( new DisplayFrameMenuItem( "Hagnk's Storage", "HagnkStorageFrame" ) );
@@ -200,12 +201,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 
 		travelMenu.add( new InvocationMenuItem( "Doc Galaktik", StaticEntity.getClient(), "makeGalaktikRequest" ) );
 		travelMenu.add( new InvocationMenuItem( "Mind Control", StaticEntity.getClient(), "makeMindControlRequest" ) );
-
-		travelMenu.add( new JSeparator() );
-
-		travelMenu.add( new DisplayFrameMenuItem( "Hall of Legends", "MeatManageFrame" ) );
 		travelMenu.add( new InvocationMenuItem( "Untinker Items", StaticEntity.getClient(), "makeUntinkerRequest" ) );
-		travelMenu.add( new InvocationMenuItem( "Pulverize Items", StaticEntity.getClient(), "makePulverizeRequest" ) );
 
 		travelMenu.add( new JSeparator() );
 
@@ -583,7 +579,7 @@ public class KoLMenuBar extends JMenuBar implements KoLConstants
 			addActionListener( this );
 			setText( KoLmafia.getDebugStream() instanceof NullStream ? "Begin recording debug" : "Stop recording debug" );
 		}
-  
+
 		public void actionPerformed( ActionEvent e )
 		{
 			if ( KoLmafia.getDebugStream() instanceof NullStream )

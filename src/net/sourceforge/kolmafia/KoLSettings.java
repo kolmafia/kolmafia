@@ -426,7 +426,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 					writer.println();
 				}
 
-				if ( !line.startsWith( "saveState" ) || noExtensionName.equals( "" ) )
+				if ( !line.startsWith( "saveState" ) || noExtensionName.equals( "GLOBAL" ) )
 					writer.println( line );
 			}
 

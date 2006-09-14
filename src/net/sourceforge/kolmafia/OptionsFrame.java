@@ -959,7 +959,11 @@ public class OptionsFrame extends KoLFrame
 		{
 			try
 			{
-				PrintStream writer = new LogStream( DATA_DIRECTORY + CombatSettings.settingsFileName() );
+				File location = new File( DATA_DIRECTORY + CombatSettings.settingsFileName() );
+				if ( !location.exists() )
+					CombatSettings.reset();
+
+				LogStream writer = new LogStream( location );
 				writer.println( ((JTextArea)scrollComponent).getText() );
 				writer.close();
 				writer = null;

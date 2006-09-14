@@ -357,7 +357,7 @@ public class ClanManageFrame extends KoLFrame
 				AdventureResult.getAutoSellCellRenderer( true, true, true, false, false ) );
 		}
 
-		protected Object [] getDesiredItems( String message )
+		protected AdventureResult [] getDesiredItems( String message )
 		{
 			filterSelection( filters[0].isSelected(),
 				 filters[1].isSelected(), filters[2].isSelected(), false, false );
@@ -423,7 +423,7 @@ public class ClanManageFrame extends KoLFrame
 				AdventureResult.getAutoSellCellRenderer( true, true, true, false, false ) );
 		}
 
-		protected Object [] getDesiredItems( String message )
+		protected AdventureResult [] getDesiredItems( String message )
 		{
 			filterSelection( filters[0].isSelected(),
 				 filters[1].isSelected(), filters[2].isSelected(), false, false );

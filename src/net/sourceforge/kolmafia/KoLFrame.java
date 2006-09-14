@@ -632,7 +632,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 				movers[i].setEnabled( isEnabled );
 		}
 
-		protected Object [] getDesiredItems( String message )
+		protected AdventureResult [] getDesiredItems( String message )
 		{
 			return KoLFrame.this.getDesiredItems( elementList, message,
 				movers[0].isSelected() ? TAKE_ALL : movers[1].isSelected() ? TAKE_ALL_BUT_ONE :
@@ -656,7 +656,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 	protected static final int TAKE_MULTIPLE = 3;
 	protected static final int TAKE_ONE = 4;
 
-	protected Object [] getDesiredItems( JList elementList, String message, int quantityType )
+	protected AdventureResult [] getDesiredItems( JList elementList, String message, int quantityType )
 	{
 		Object [] items = elementList.getSelectedValues();
 		if ( items.length == 0 )
@@ -706,21 +706,15 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			}
 		}
 
-		// If none of the array entries were nulled,
-		// then return the array as-is.
-
-		if ( neededSize == items.length )
-			return items;
-
 		// Otherwise, shrink the array which will be
 		// returned so that it removes any nulled values.
 
-		Object [] desiredItems = new Object[ neededSize ];
+		AdventureResult [] desiredItems = new AdventureResult[ neededSize ];
 		neededSize = 0;
 
 		for ( int i = 0; i < items.length; ++i )
 			if ( items[i] != null )
-				desiredItems[ neededSize++ ] = items[i];
+				desiredItems[ neededSize++ ] = (AdventureResult) items[i];
 
 		return desiredItems;
 	}
