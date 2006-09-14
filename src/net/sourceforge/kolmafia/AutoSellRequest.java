@@ -308,7 +308,7 @@ public class AutoSellRequest extends SendMessageRequest
 			else if ( urlString.indexOf( "type=all" ) != -1 )
 				quantity = 0;
 
-			itemMatcher = Pattern.compile( "whichitem%5B%5d=(\\d+)" ).matcher( urlString );
+			itemMatcher = Pattern.compile( "whichitem%5B%5D=(\\d+)" ).matcher( urlString );
 		}
 		else if ( urlString.startsWith( "sellstuff_ugly.php" ) )
 		{
