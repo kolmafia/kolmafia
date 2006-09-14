@@ -84,9 +84,9 @@ public abstract class KoLmafia implements KoLConstants
 		System.setProperty( "apple.laf.useScreenMenuBar", "true" );
 		System.setProperty( "http.referer", "www.kingdomofloathing.com" );
 
+		KoLSettings.reset();
 		CombatSettings.reset();
 		MoodSettings.reset();
-		KoLSettings.reset();
 	}
 
 	protected static PrintStream sessionStream = NullStream.INSTANCE;

@@ -67,7 +67,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	private static final TreeMap CLIENT_SETTINGS = new TreeMap();
 	private static final TreeMap PLAYER_SETTINGS = new TreeMap();
-	private static final KoLSettings GLOBAL_SETTINGS = new KoLSettings( "" );
+	private static KoLSettings GLOBAL_SETTINGS = null;
 
 	private File settingsFile;
 	private String noExtensionName;
@@ -91,6 +91,9 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	public static void reset()
 	{
+		initializeMaps();
+		GLOBAL_SETTINGS = new KoLSettings( "" );
+		GLOBAL_SETTINGS.ensureDefaults();
 	}
 
 	public static boolean isGlobalProperty( String name )
@@ -197,9 +200,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	{
 		// Do not initialize the maps more than once, as this
 		// would not serve any purpose.
-
-		if ( !CLIENT_SETTINGS.isEmpty() )
-			return;
 
 		CLIENT_SETTINGS.put( "allowGenericUse", "false" );
 		CLIENT_SETTINGS.put( "allowStasisTactics", "false" );
@@ -356,12 +356,10 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 
 	private synchronized void ensureDefaults()
 	{
-		initializeMaps();
-
 		// If this is the set of global settings, be sure
 		// to initialize the global settings.
 
-		if ( noExtensionName.equals( "" ) )
+		if ( noExtensionName.equals( "GLOBAL" ) )
 		{
 			Object [] keys = CLIENT_SETTINGS.keySet().toArray();
 			for ( int i = 0; i < keys.length; ++i )
