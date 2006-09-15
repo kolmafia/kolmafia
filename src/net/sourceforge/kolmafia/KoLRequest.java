@@ -71,11 +71,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
-	// Set the maximum tolerated memory to 50 MB.
-	// If it exceeds this value, manually invoke
-	// the garbage collector.
-
-	private static final int COLLECT_RATE = 20;
+	private static final int COLLECT_RATE = 100;
 	private static int lastGarbageCollection = 0;
 	private static GarbageCollector collector = null;
 
