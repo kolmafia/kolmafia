@@ -582,7 +582,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		{
 			if ( !meetsGeneralRequirements() )
 			{
-				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient stats for this location." );
+				KoLmafia.updateDisplay( ERROR_STATE, "Insufficient stats to adventure at " + adventureName + "." );
 				return;
 			}
 
