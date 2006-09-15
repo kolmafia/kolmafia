@@ -422,14 +422,18 @@ public abstract class StaticEntity implements KoLConstants
 			// in the system tray.  For now, this will be the old
 			// icon used by KoLmelion.
 
-			File trayicon = new File( "images/" + filename );
+			File library = new File( "images/" + filename );
 
-			if ( !trayicon.exists() )
+			if ( !library.exists() )
 			{
-				trayicon.createNewFile();
+				InputStream input = DataUtilities.getInputStream( "images", filename );
+				if ( input == null )
+					input = DataUtilities.getInputStream( "", filename );
+				if ( input == null )
+					return false;
 
-				InputStream input = DataUtilities.getInputStream( "", filename );
-				OutputStream output = new FileOutputStream( trayicon );
+				library.createNewFile();
+				OutputStream output = new FileOutputStream( library );
 
 				byte [] buffer = new byte[ 1024 ];
 				int bufferLength;

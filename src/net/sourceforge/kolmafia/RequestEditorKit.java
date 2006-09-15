@@ -51,6 +51,7 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.net.URLDecoder;
 import java.util.Map;
 import java.util.TreeMap;
@@ -63,6 +64,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.BufferedInputStream;
+import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 /**
  * An extension of a standard <code>HTMLEditorKit</code> which overrides the
@@ -537,13 +539,17 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		File localfile = new File( "images/" + localname );
 		localfile.getParentFile().mkdirs();
 
-		// If the file has already been downloaded, then there
-		// is nothing more to do - return from this method.
+		if ( !localfile.exists() || localfile.length() == 0 )
+		{
+			// If it's something contained inside of KoLmafia's JAR archive,
+			// then download that one instead, as it won't be present on the
+			// KoL image server.
 
-		boolean downloadRequired = !localfile.exists() || localfile.length() == 0;
-
-		if ( downloadRequired )
-			downloadFile( localfile, filename );
+			if ( JComponentUtilities.getImage( localname ) != null )
+				StaticEntity.loadLibrary( localname );
+			else
+				downloadFile( localfile, filename );
+		}
 
 		try
 		{
@@ -1118,6 +1124,61 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		int startingIndex = 0;
 		int lastAppendIndex = 0;
 
+		// First, locate your HP information inside of the response
+		// text and replace it with a restore HP link.
+
+		if ( KoLRequest.isCompactMode )
+		{
+			startingIndex = text.indexOf( "<td align=right>HP:", startingIndex );
+			startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
+			startingIndex = text.indexOf( ">", startingIndex ) + 1;
+		}
+		else
+		{
+			startingIndex = text.indexOf( "doc(\"hp\")", startingIndex );
+			startingIndex = text.indexOf( "<br>", startingIndex ) + 4;
+			startingIndex = text.indexOf( ">", startingIndex ) + 1;
+		}
+
+		responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+		lastAppendIndex = startingIndex;
+
+		responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=restore+hp\">" );
+		startingIndex = KoLRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
+		responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+		lastAppendIndex = startingIndex;
+
+		responseBuffer.append( "</a>" );
+
+		// Next, locate your MP information inside of the response
+		// text and replace it with a restore MP link.
+
+		if ( KoLRequest.isCompactMode )
+		{
+			startingIndex = text.indexOf( "<td align=right>MP:", startingIndex );
+			startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
+		}
+		else
+		{
+
+			startingIndex = text.indexOf( "doc(\"mp\")", startingIndex );
+			startingIndex = text.indexOf( "<br>", startingIndex ) + 4;
+			startingIndex = text.indexOf( ">", startingIndex ) + 1;
+		}
+
+		responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+		lastAppendIndex = startingIndex;
+
+		responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=restore+mp\">" );
+		startingIndex = KoLRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
+		responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+		lastAppendIndex = startingIndex;
+
+		responseBuffer.append( "</a>" );
+
+		// Finally, replace all of the shrug off links associated with
+		// this response text.
+
 		while ( startingIndex != -1 )
 		{
 			startingIndex = text.indexOf( "onClick='eff", lastAppendIndex + 1 );
@@ -1131,17 +1192,40 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					text.substring( startingIndex + 14, text.indexOf( "\"", startingIndex + 15 ) ) );
 
 				String effectName = StatusEffectDatabase.getEffectName( effectID );
+				int skillID = ClassSkillsDatabase.getSkillID( UneffectRequest.effectToSkill( effectName ) );
+				int skillType = ClassSkillsDatabase.getSkillType( skillID );
 
-				if ( effectName != null && ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillID( UneffectRequest.effectToSkill( effectName ) ) ) == ClassSkillsDatabase.BUFF )
+				if ( skillID != -1 && (skillType == ClassSkillsDatabase.SKILL || skillType == ClassSkillsDatabase.BUFF) )
 				{
-					responseBuffer.append( "<a href=\"charsheet.php?pwd&action=unbuff&whichbuff=" );
-					responseBuffer.append( effectID );
-					responseBuffer.append( "\" target=\"mainpane\">" );
+					if ( skillType == ClassSkillsDatabase.BUFF )
+					{
+						responseBuffer.append( "<a href=\"charsheet.php?pwd&action=unbuff&whichbuff=" );
+						responseBuffer.append( effectID );
+						responseBuffer.append( "\" target=\"mainpane\">" );
+					}
 
-					nextAppendIndex = text.indexOf( ")", lastAppendIndex );
-					responseBuffer.append( text.substring( lastAppendIndex, nextAppendIndex ) );
-					responseBuffer.append( "</a>" );
+					nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
+					responseBuffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
 					lastAppendIndex = nextAppendIndex;
+
+					if ( ClassSkillsDatabase.getSkillType( skillID ) == ClassSkillsDatabase.BUFF )
+						responseBuffer.append( "</a>" );
+
+					responseBuffer.append( ")&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
+
+					try
+					{
+						responseBuffer.append( URLEncoder.encode( "cast " + ClassSkillsDatabase.getSkillName( skillID ), "UTF-8" ) );
+					}
+					catch ( Exception e )
+					{
+						// Hm, something bad happened.  Instead of giving a real link,
+						// give a fake link instead.
+
+						responseBuffer.append( "win+game" );
+					}
+
+					responseBuffer.append( "\"><img src=\"/images/up.gif\" border=0></a>" );
 				}
 			}
 		}
