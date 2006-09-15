@@ -916,6 +916,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		while ( useLinkMatcher.find() )
 		{
 			String itemName = useLinkMatcher.group(1);
+			if ( itemName.indexOf( "<br>" ) != -1 )
+				itemName = itemName.substring( 0, itemName.indexOf( "<br>" ) );
+
 			int itemCount = itemName.indexOf( ":" ) != -1 ? 1 : 2;
 
 			if ( itemCount == 1 )
