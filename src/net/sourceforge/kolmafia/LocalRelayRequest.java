@@ -169,39 +169,6 @@ public class LocalRelayRequest extends KoLRequest
 				fullResponse = fullResponse.replaceFirst( "<a href",
 					"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Loads in this frame to allow for manual adventuring.</p><center><a href");
 			}
-			if ( StaticEntity.getBooleanProperty( "relayAddsSimulatorLinks" ) )
-			{
-				fullResponse = fullResponse.replaceFirst( "<a href",
-					"<a target=_new href=\"KoLmafia/simulator/index.html\"><b>KoL Simulator</b></a></center><p>Ayvuir's Simulator of Loathing, as found on the forums.</p><center><a href");
-			}
-		}
-
-		// Check if you're viewing the top menu bar, and if so,
-		// edit in a drop-down select.
-
-		if ( formURLString.endsWith( "menu.php" ) && StaticEntity.getBooleanProperty( "relayAddsScriptList" ) )
-		{
-			StringBuffer selectBuffer = new StringBuffer();
-			selectBuffer.append( "<td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><form name=\"gcli\">" );
-			selectBuffer.append( "<select name=\"scriptbar\">" );
-
-			String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
-			for ( int i = 0; i < scriptList.length; ++i )
-			{
-				selectBuffer.append( "<option value=\"" );
-				selectBuffer.append( scriptList[i] );
-				selectBuffer.append( "\">" );
-				selectBuffer.append( i + 1 );
-				selectBuffer.append( ": " );
-				selectBuffer.append( scriptList[i] );
-				selectBuffer.append( "</option>" );
-			}
-
-			selectBuffer.append( "</select></td><td>&nbsp;</td><td>" );
-			selectBuffer.append( "<input type=\"button\" class=\"button\" value=\"exec\" onClick=\"submitCommand();\">" );
-			selectBuffer.append( "</form></td></tr></table>" );
-
-			fullResponse = fullResponse.replaceFirst( "</tr>\\s*</table>\\s*</center>", selectBuffer.toString() );
 		}
 
 		fullResponse = RequestEditorKit.getFeatureRichHTML( formURLString.toString(), fullResponse );
@@ -266,29 +233,38 @@ public class LocalRelayRequest extends KoLRequest
 		headers.add( status );
 		headers.add( "Date: " + ( new Date() ) );
 		headers.add( "Server: " + VERSION_NAME );
-		headers.add( "Content-Length: " + (this.rawByteBuffer == null ? this.fullResponse.length() : this.rawByteBuffer.length) );
 
-		String contentType = null;
+		if ( status.indexOf( "302" ) != -1 )
+		{
+			headers.add( "Location: " + fullResponse );
+			this.fullResponse = "";
+		}
+		else
+		{
+			headers.add( "Content-Length: " + (this.rawByteBuffer == null ? this.fullResponse.length() : this.rawByteBuffer.length) );
 
-		if ( formURLString.endsWith( ".css" ) )
-			contentType = "text/css; charset=UTF-8";
-		else if ( formURLString.endsWith( ".js" ) )
-			contentType = "text/javascript; charset=UTF-8";
-		else if ( formURLString.endsWith( ".php" ) || formURLString.endsWith( ".htm" ) || formURLString.endsWith( ".html" ) )
-			contentType = "text/html; charset=UTF-8";
-		else if ( formURLString.endsWith( ".txt" ) )
-			contentType = "text/plain; charset=UTF-8";
-		else if ( formURLString.endsWith( ".gif" ) )
-			contentType = "image/gif";
-		else if ( formURLString.endsWith( ".png" ) )
-			contentType = "image/png";
-		else if ( formURLString.endsWith( ".jpg" ) || formURLString.endsWith( ".jpeg" ) )
-			contentType = "image/jpeg";
-		else if ( formURLString.endsWith( ".ico" ) )
-			contentType = "image/x-icon";
+			String contentType = null;
 
-		if ( contentType != null )
-			headers.add( "Content-Type: " + contentType );
+			if ( formURLString.endsWith( ".css" ) )
+				contentType = "text/css; charset=UTF-8";
+			else if ( formURLString.endsWith( ".js" ) )
+				contentType = "text/javascript; charset=UTF-8";
+			else if ( formURLString.endsWith( ".php" ) || formURLString.endsWith( ".htm" ) || formURLString.endsWith( ".html" ) )
+				contentType = "text/html; charset=UTF-8";
+			else if ( formURLString.endsWith( ".txt" ) )
+				contentType = "text/plain; charset=UTF-8";
+			else if ( formURLString.endsWith( ".gif" ) )
+				contentType = "image/gif";
+			else if ( formURLString.endsWith( ".png" ) )
+				contentType = "image/png";
+			else if ( formURLString.endsWith( ".jpg" ) || formURLString.endsWith( ".jpeg" ) )
+				contentType = "image/jpeg";
+			else if ( formURLString.endsWith( ".ico" ) )
+				contentType = "image/x-icon";
+
+			if ( contentType != null )
+				headers.add( "Content-Type: " + contentType );
+		}
 	}
 
 	private StringBuffer readContents( BufferedReader reader, String filename ) throws IOException
@@ -579,6 +555,12 @@ public class LocalRelayRequest extends KoLRequest
 		pseudoResponse( "HTTP/1.1 200 OK", "" );
 	}
 
+	protected void sideCommand()
+	{
+		DEFAULT_SHELL.executeLine( getFormField( "cmd" ) );
+		pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
+	}
+
 	private void runCommand( String command )
 	{
 		if ( command.equals( "abort" ) )
@@ -668,6 +650,8 @@ public class LocalRelayRequest extends KoLRequest
 				submitCommand();
 			else if ( formURLString.endsWith( "executeCommand" ) )
 				executeCommand();
+			else if ( formURLString.endsWith( "sideCommand" ) )
+				sideCommand();
 			else if ( formURLString.endsWith( "getNewMessages" ) )
 				pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
 			else if ( formURLString.indexOf( "images/" ) != -1 )

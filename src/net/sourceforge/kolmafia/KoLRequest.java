@@ -1044,7 +1044,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				// This should not happen.  Therefore, print
 				// a stack trace for debug purposes.
 
-				StaticEntity.printStackTrace( e, "Page <" + formURLString + "> not found." );
+				StaticEntity.printStackTrace( e, "Page <" + formURLString + "> not found" );
 
 				// In this case, it's like a false redirect, but to
 				// a page which no longer exists.  Pretend it's the
