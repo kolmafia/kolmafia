@@ -570,9 +570,6 @@ public abstract class KoLmafia implements KoLConstants
 		debugStream.close();
 		debugStream = NullStream.INSTANCE;
 
-		outputStream.close();
-		outputStream = NullStream.INSTANCE;
-
 		mirrorStream.close();
 		mirrorStream = NullStream.INSTANCE;
 
