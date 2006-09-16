@@ -1460,10 +1460,17 @@ public class KoLmafiaCLI extends KoLmafia
 		if ( command.startsWith( "mood" ) )
 		{
 			if ( parameters.equals( "clear" ) )
+			{
 				MoodSettings.removeTriggers( MoodSettings.getTriggers().toArray() );
+				return;
+			}
 			else if ( parameters.equals( "autofill" ) )
+			{
 				MoodSettings.autoFillTriggers();
-			else if ( !parameters.equals( "" ) && !parameters.equals( "execute" ) )
+				printList( MoodSettings.getTriggers() );
+				return;
+			}
+			else if ( !parameters.equals( "" ) && !parameters.startsWith( "exec" ) )
 				MoodSettings.setMood( parameters );
 
 			printList( MoodSettings.getTriggers() );
