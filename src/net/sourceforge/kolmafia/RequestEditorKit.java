@@ -1503,6 +1503,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	{
 		if ( location.indexOf( "pics.communityofloathing.com" ) != -1 )
 		{
+			downloadImage( location );
 			location = location.substring( location.indexOf( "/" ) );
 
 			KoLRequest request = new KoLRequest( StaticEntity.getClient(), location );
