@@ -954,7 +954,7 @@ public class OptionsFrame extends KoLFrame
 		{
 			try
 			{
-				File location = new File( DATA_DIRECTORY + CombatSettings.settingsFileName() );
+				File location = new File( CombatSettings.settingsFileName() );
 				if ( !location.exists() )
 					CombatSettings.reset();
 
