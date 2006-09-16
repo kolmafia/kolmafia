@@ -558,6 +558,7 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			KoLmafia.forceContinue();
 			DEFAULT_SHELL.executeLine( getFormField( "cmd" ) );
+			KoLmafia.enableDisplay();
 		}
 
 		pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
