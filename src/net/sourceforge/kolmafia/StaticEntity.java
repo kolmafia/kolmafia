@@ -125,6 +125,12 @@ public abstract class StaticEntity implements KoLConstants
 		settings.setProperty( name, value );
 	}
 
+	public static final void removeProperty( String name )
+	{
+		settings.remove( name );
+		settings.saveSettings();
+	}
+
 	public static final String getProperty( String name )
 	{
 		if ( settings == null )
