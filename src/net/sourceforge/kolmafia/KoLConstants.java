@@ -69,6 +69,7 @@ public interface KoLConstants extends UtilityConstants
 		{ "Inventory", "inventory.php?which=1" },
 		{ "Equipment", "inventory.php?which=2" },
 		{ "Misc Items", "inventory.php?which=3" },
+		{ "Auto Sell", "sellstuff.php" },
 		{ "Character", "charsheet.php" },
 		{ "Quest Log", "questlog.php" },
 		{ "Skills", "skills.php" },

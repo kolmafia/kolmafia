@@ -209,12 +209,7 @@ public abstract class MoodSettings implements KoLConstants
 
 			String effectName = UneffectRequest.skillToEffect( skills[i].getSkillName() );
 			if ( StatusEffectDatabase.contains( effectName ) )
-			{
-				if ( skills[i].getSkillID() % 1000 == 0 || skills[i].getSkillID() == 1015 )
-					addTrigger( "lose_effect", effectName, "cast 3 " + skills[i].getSkillName() );
-				else
-					addTrigger( "lose_effect", effectName, "cast " + skills[i].getSkillName() );
-			}
+				addTrigger( "lose_effect", effectName, getDefaultAction( "lose_effect", effectName ) );
 		}
 
 		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
@@ -226,11 +221,8 @@ public abstract class MoodSettings implements KoLConstants
 
 			for ( int i = 0; i < skillNames.length; ++i )
 			{
-				int skillID = ClassSkillsDatabase.getSkillID( skillNames[i] );
-				if ( skillID % 1000 == 0 || skillID == 1015 )
-					addTrigger( "lose_effect", UneffectRequest.skillToEffect( skillNames[i] ), "cast 3 " + skillNames[i] );
-				else
-					addTrigger( "lose_effect", UneffectRequest.skillToEffect( skillNames[i] ), "cast " + skillNames[i] );
+				String effectName = UneffectRequest.skillToEffect( skillNames[i] );
+				addTrigger( "lose_effect", effectName, getDefaultAction( "lose_effect", effectName ) );
 			}
 		}
 		else if ( !thiefSkills.isEmpty() )
@@ -270,17 +262,23 @@ public abstract class MoodSettings implements KoLConstants
 		}
 
 		if ( KoLCharacter.isHardcore() )
-			addTrigger( "lose_effect", "Butt-Rock Hair", "use 5 can of hair spray" );
+			addTrigger( "lose_effect", "Butt-Rock Hair", getDefaultAction( "lose_effect", "Butt-Rock Hair" ) );
+
+
+		// Muscle class characters are rather special when it comes
+		// to their default triggers.
+
+		if ( NPCStoreDatabase.contains( "cheap wind-up clock" ) )
+			addTrigger( "lose_effect", "Ticking Clock", getDefaultAction( "lose_effect", "Ticking Clock" ) );
+		if ( NPCStoreDatabase.contains( "blood of the wereseal" ) )
+			addTrigger( "lose_effect", "Temporary Lycanthropy", getDefaultAction( "lose_effect", "Temporary Lycanthropy" ) );
 
 		// Beaten-up removal, as a demo of how to handle beaten-up
 		// and poisoned statuses.
 
-		addTrigger( "gain_effect", "Poisoned", "use anti-anti-antidote" );
+		addTrigger( "gain_effect", "Poisoned", getDefaultAction( "gain_effect", "Poisoned" ) );
+		addTrigger( "gain_effect", "Beaten Up", getDefaultAction( "gain_effect", "Beaten Up" ) );
 
-		if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
-			addTrigger( "gain_effect", "Beaten Up", "cast Tongue of the Otter" );
-		else if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
-			addTrigger( "gain_effect", "Beaten Up", "cast Tongue of the Walrus" );
 
 		// If there's any effects the player currently has and there
 		// is a known way to re-acquire it (internally known, anyway),
@@ -531,58 +529,81 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static String getDefaultAction( String type, String name )
 	{
-		if ( type == null || name == null || !type.equals( "lose_effect" ) )
+		if ( type == null || name == null )
 			return "";
 
-		if ( name.equals( "Butt-Rock Hair" ) )
-			return "use 5 can of hair spray";
+		if ( type.equals( "unconditional" ) )
+		{
+		}
+		else if ( type.equals( "gain_effect" ) )
+		{
+			if ( name.equals( "Poisoned" ) )
+				return "use anti-anti-antidote";
 
-		if ( name.equals( "Ticking Clock" ) )
-			return "use 1 cheap wind-up clock";
+			if ( name.equals( "Beaten Up" ) )
+				return KoLCharacter.hasSkill( "Tongue of the Otter" ) ? "cast Tongue of the Otter" :
+					KoLCharacter.hasSkill( "Tongue of the Walrus" ) ? "cast Tongue of the Walrus" :
+					KoLCharacter.isHardcore() ? "adventure 3 unlucky sewer" : "uneffect beaten up";
+		}
+		else if ( type.equals( "lose_effect" ) )
+		{
+			if ( name.equals( "Butt-Rock Hair" ) )
+				return "use 5 can of hair spray";
 
-		if ( name.equals( "Temporary Lycanthropy" ) )
-			return "use 1 blood of the Wereseal";
+			if ( name.equals( "Ticking Clock" ) )
+				return "use 1 cheap wind-up clock";
 
-		// Tongues require snowcones
+			if ( name.equals( "Temporary Lycanthropy" ) )
+				return "use 1 blood of the Wereseal";
 
-		if ( name.endsWith( "Tongue" ) )
-			return "use 1 " + name.substring( 0, name.indexOf( " " ) ).toLowerCase() + " snowcone";
+			// Tongues require snowcones
 
-		// Cupcake effects require cupcakes
+			if ( name.endsWith( "Tongue" ) )
+				return "use 1 " + name.substring( 0, name.indexOf( " " ) ).toLowerCase() + " snowcone";
 
-		if ( name.equals( "Cupcake of Choice" ) )
-			return "use 1 blue-frosted astral cupcake";
-		if ( name.equals( "The Cupcake of Wrath" ) )
-			return "use 1 green-frosted astral cupcake";
-		if ( name.equals( "Shiny Happy Cupcake" ) )
-			return "use 1 orange-frosted astral cupcake";
-		if ( name.equals( "Your Cupcake Senses Are Tingling" ) )
-			return "use 1 pink-frosted astral cupcake";
-		if ( name.equals( "Tiny Bubbles in the Cupcake" ) )
-			return "use 1 purple-frosted astral cupcake";
+			// Cupcake effects require cupcakes
 
-		// Laboratory effects
+			if ( name.equals( "Cupcake of Choice" ) )
+				return "use 1 blue-frosted astral cupcake";
+			if ( name.equals( "The Cupcake of Wrath" ) )
+				return "use 1 green-frosted astral cupcake";
+			if ( name.equals( "Shiny Happy Cupcake" ) )
+				return "use 1 orange-frosted astral cupcake";
+			if ( name.equals( "Your Cupcake Senses Are Tingling" ) )
+				return "use 1 pink-frosted astral cupcake";
+			if ( name.equals( "Tiny Bubbles in the Cupcake" ) )
+				return "use 1 purple-frosted astral cupcake";
 
-		if ( name.equals( "Wasabi Sinuses" ) )
-			return "use 1 Knob Goblin nasal spray";
+			// Laboratory effects
 
-		if ( name.equals( "Peeled Eyeballs" ) )
-			return "use 1 Knob Goblin eyedrops";
+			if ( name.equals( "Wasabi Sinuses" ) )
+				return "use 1 Knob Goblin nasal spray";
 
-		if ( name.equals( "Sharp Weapon" ) )
-			return "use 1 Knob Goblin sharpening spray";
+			if ( name.equals( "Peeled Eyeballs" ) )
+				return "use 1 Knob Goblin eyedrops";
 
-		if ( name.equals( "Heavy Petting" ) )
-			return "use 1 Knob Goblin pet-buffing spray";
+			if ( name.equals( "Sharp Weapon" ) )
+				return "use 1 Knob Goblin sharpening spray";
 
-		if ( name.equals( "Big Veiny Brain" ) )
-			return "use 1 Knob Goblin learning pill";
+			if ( name.equals( "Heavy Petting" ) )
+				return "use 1 Knob Goblin pet-buffing spray";
 
-		// Finally, fall back on skills
+			if ( name.equals( "Big Veiny Brain" ) )
+				return "use 1 Knob Goblin learning pill";
 
-		String skillName = UneffectRequest.effectToSkill( name );
-		if ( KoLCharacter.hasSkill( skillName ) )
-			return ClassSkillsDatabase.getSkillID( skillName ) == 3 ? "" : "cast " + skillName;
+			// Finally, fall back on skills
+
+			String skillName = UneffectRequest.effectToSkill( name );
+			if ( KoLCharacter.hasSkill( skillName ) )
+			{
+				int skillID = ClassSkillsDatabase.getSkillID( skillName );
+
+				if ( skillID % 1000 == 0 || skillID == 1015 )
+					return "cast 3 " + skillName;
+				else if ( skillID != 3 )
+					return "cast " + skillName;
+			}
+		}
 
 		return "";
 	}
