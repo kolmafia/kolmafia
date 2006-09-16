@@ -73,7 +73,6 @@ public class SewerRequest extends KoLRequest
 
 	public void run()
 	{
-		AdventureDatabase.retrieveItem( GUM.getNegation() );
 		if ( !KoLmafia.permitsContinue() )
 			return;
 

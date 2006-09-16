@@ -516,10 +516,6 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		Matcher imageMatcher = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\">]+" ).matcher( text );
 		while ( imageMatcher.find() )
 			downloadImage( imageMatcher.group() );
-
-		imageMatcher = Pattern.compile( "http://pics\\.communityofloathing\\.com/[^\\s\">]+" ).matcher( text );
-		while ( imageMatcher.find() )
-			downloadImage( imageMatcher.group() );
 	}
 
 	/**

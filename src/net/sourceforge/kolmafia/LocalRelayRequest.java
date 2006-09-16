@@ -177,10 +177,7 @@ public class LocalRelayRequest extends KoLRequest
 		// picture pages locally.
 
 		if ( fullResponse.indexOf( "http://pics.communityofloathing.com" ) != -1 )
-		{
-			RequestEditorKit.downloadImages( fullResponse );
 			fullResponse = fullResponse.replaceAll( "target=_blank href=\"http://pics\\.communityofloathing\\.com/albums", "href=\"images" );
-		}
 
 		// Remove the default frame busting script so that
 		// we can detach user interface elements.
@@ -662,6 +659,13 @@ public class LocalRelayRequest extends KoLRequest
 				sideCommand();
 			else if ( formURLString.endsWith( "getNewMessages" ) )
 				pseudoResponse( "HTTP/1.1 200 OK", LocalRelayServer.getNewStatusMessages() );
+			else if ( formURLString.indexOf( "images/playerpics/" ) != -1 )
+			{
+				RequestEditorKit.downloadImage( "http://pics.communityofloathing.com/albums/" +
+					formURLString.substring( formURLString.indexOf( "playerpics" ) ) );
+
+				sendLocalImage( formURLString );
+			}
 			else if ( formURLString.indexOf( "images/" ) != -1 )
 				sendLocalImage( formURLString );
 			else
