@@ -961,7 +961,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 					case ConsumeItemRequest.CONSUME_USE:
 						useType = "use";
-						useLocation = "inv_use.php?pwd=&which=3&whichitem=";
+						useLocation = itemID == UneffectRequest.REMEDY.getItemID() ? "uneffect.php" :
+							"inv_use.php?pwd=&which=3&whichitem=";
+
 						break;
 
 					case ConsumeItemRequest.EQUIP_HAT:
@@ -1192,6 +1194,55 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		lastAppendIndex = startingIndex;
 
 		responseBuffer.append( "</a>" );
+
+		// Next, add in a mood-execute link, in the event that the person
+		// has a non-empty list of triggers.
+
+		if ( MoodSettings.getTriggers().isEmpty() )
+		{
+		}
+		else if ( KoLRequest.isCompactMode )
+		{
+			int effectIndex = text.indexOf( "<hr width=50%>", startingIndex );
+			if ( effectIndex != -1 )
+			{
+				effectIndex = text.indexOf( "<table", effectIndex );
+				startingIndex = effectIndex != -1 ? effectIndex : startingIndex;
+				responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+				lastAppendIndex = startingIndex;
+
+				responseBuffer.append( "[<a href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]<br><br>" );
+
+				if ( effectIndex == -1 )
+					responseBuffer.append( "<hr width=50%>" );
+			}
+		}
+		else
+		{
+			int effectIndex = text.indexOf( "Effects:</font></b>", startingIndex );
+			if ( effectIndex != -1 )
+			{
+				startingIndex = text.indexOf( "<br>", effectIndex );
+			}
+			else
+			{
+				startingIndex = text.lastIndexOf( "<table" );
+				if ( startingIndex < text.lastIndexOf( "target=mainpane" ) )
+					startingIndex = text.lastIndexOf( "</center>" );
+			}
+
+			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			lastAppendIndex = startingIndex;
+
+			if ( effectIndex == -1 )
+				responseBuffer.append( "<center><p><b><font size=2>Effects:</font></b>" );
+
+			responseBuffer.append( "<br><font size=2>[<a href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood execute</a>]</font>" );
+
+			if ( effectIndex == -1 )
+				responseBuffer.append( "<br></p></center>" );
+		}
+
 
 		// Finally, replace all of the shrug off links associated with
 		// this response text.
