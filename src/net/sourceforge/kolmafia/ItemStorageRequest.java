@@ -144,8 +144,8 @@ public class ItemStorageRequest extends SendMessageRequest
 	{	return 11;
 	}
 
-	protected void repeat( Object [] attachments )
-	{	(new ItemStorageRequest( client, moveType, attachments )).run();
+	protected SendMessageRequest getSubInstance( Object [] attachments )
+	{	return new ItemStorageRequest( client, moveType, attachments );
 	}
 
 	protected String getSuccessMessage()

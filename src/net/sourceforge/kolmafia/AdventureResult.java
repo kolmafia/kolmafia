@@ -758,7 +758,7 @@ public class AdventureResult implements Comparable, KoLConstants
 			String stringForm = null;
 
 			if ( equipmentType == ConsumeItemRequest.EQUIP_ACCESSORY )
-				stringForm = ar.getName() + " (" + ar.getCount() + " max)";
+				stringForm = ar.getName() + " (" + ar.getCount( KoLCharacter.getInventory() ) + " max)";
 			else if ( equipmentType == ConsumeItemRequest.EQUIP_FAMILIAR || ar.equals( EquipmentRequest.UNEQUIP ) )
 				stringForm = ar.getName();
 			else

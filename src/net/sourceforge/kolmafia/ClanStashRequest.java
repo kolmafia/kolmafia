@@ -127,8 +127,8 @@ public class ClanStashRequest extends SendMessageRequest
 	{	return moveType == STASH_TO_ITEMS ? 1 : 11;
 	}
 
-	protected void repeat( Object [] attachments )
-	{	(new ClanStashRequest( client, attachments, moveType )).run();
+	protected SendMessageRequest getSubInstance( Object [] attachments )
+	{	return new ClanStashRequest( client, attachments, moveType );
 	}
 
 	protected String getSuccessMessage()

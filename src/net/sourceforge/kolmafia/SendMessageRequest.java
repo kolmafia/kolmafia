@@ -33,6 +33,7 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -43,6 +44,7 @@ import java.util.ArrayList;
 
 public abstract class SendMessageRequest extends KoLRequest
 {
+	private boolean isSubInstance = false;
 	protected int meatAttachment;
 	protected Object [] attachments;
 	protected List source, destination;
@@ -155,8 +157,63 @@ public abstract class SendMessageRequest extends KoLRequest
 	}
 
 	protected abstract int getCapacity();
-	protected abstract void repeat( Object [] attachments );
+	protected abstract SendMessageRequest getSubInstance( Object [] attachments );
 	protected abstract String getSuccessMessage();
+
+	private void runSubInstances()
+	{
+		int capacity = getCapacity();
+		ArrayList subinstances = new ArrayList();
+
+		int index1 = 0, index2 = 0;
+
+		AdventureResult item = null;
+		int availableCount;
+
+		ArrayList nextAttachments = new ArrayList();
+		SendMessageRequest subinstance = null;
+
+		while ( index1 < attachments.length )
+		{
+			index2 = 0;
+			nextAttachments.clear();
+
+			while ( index1 < attachments.length && nextAttachments.size() < capacity )
+			{
+				item = (AdventureResult) attachments[index1++];
+				if ( !allowUntradeableTransfer() && !TradeableItemDatabase.isTradeable( item.getItemID() ) )
+					continue;
+
+				availableCount = item.getCount( source );
+				if ( availableCount > 0 )
+				{
+					if ( item.getCount() > availableCount )
+						item = item.getInstance( availableCount );
+
+					nextAttachments.add( item );
+				}
+			}
+
+			// For each broken-up request, you create a new sending request
+			// which will create the appropriate data to post.
+
+			if ( !KoLmafia.refusesContinue() && index2 > 0 )
+			{
+				subinstance = getSubInstance( nextAttachments.toArray() );
+				subinstance.isSubInstance = true;
+				subinstances.add( subinstance );
+			}
+		}
+
+		// Now that you've determined all the sub instances, run
+		// all of them.
+
+		SendMessageRequest [] requests = new SendMessageRequest[ subinstances.size() ];
+		subinstances.toArray( requests );
+
+		for ( int i = 0; i < requests.length; ++i )
+			requests[i].run();
+	}
 
 	/**
 	 * Runs the request.  Note that this does not report an error if it fails;
@@ -169,63 +226,23 @@ public abstract class SendMessageRequest extends KoLRequest
 		// placed in the closet - if there's too many,
 		// then you'll need to break up the request
 
+		int capacity = getCapacity();
+
 		if ( attachments != null && attachments.length != 0 )
 		{
-			if ( attachments.length > getCapacity() )
+			if ( !isSubInstance )
 			{
-				int index1 = 0;
-				Object [] nextAttachments = new Object[ getCapacity() ];
-
-				while ( index1 < attachments.length )
-				{
-					int index2 = 0;
-					while ( index1 < attachments.length && index2 < nextAttachments.length )
-					{
-						AdventureResult item = (AdventureResult) attachments[index1];
-						int availableCount = item.getCount( source );
-
-						boolean canTransfer = TradeableItemDatabase.isTradeable( item.getItemID() ) && availableCount > 0;
-						if ( canTransfer && item.getCount() > availableCount )
-							item = item.getInstance( availableCount );
-
-						if ( canTransfer )
-							nextAttachments[ index2++ ] = item;
-
-						++index1;
-					}
-
-					// If the size is smaller than you want, then shrink the array down
-					// for the repeat attempt.
-
-					if ( index2 != nextAttachments.length )
-					{
-						Object [] nextSet = new Object[ index2 ];
-						for ( int i = 0; i < nextSet.length; ++i )
-							nextSet[i] = nextAttachments[i];
-
-						nextAttachments = nextSet;
-					}
-
-					// For each broken-up request, you create a new sending request
-					// which will create the appropriate data to post.
-
-					if ( !KoLmafia.refusesContinue() && nextAttachments.length > 0 )
-						repeat( nextAttachments );
-				}
-
-				// Since all the sub-requests were run, there's nothing left
-				// to do - simply return from this method.
-
+				runSubInstances();
 				return;
 			}
 
-			if ( getCapacity() > 1 )
+			if ( capacity > 1 )
 			{
 				for ( int i = 1; i <= attachments.length; ++i )
 					if ( attachments[i-1] != null )
 						attachItem( (AdventureResult) attachments[i-1], i );
 			}
-			else if ( getCapacity() == 1 )
+			else if ( capacity == 1 )
 			{
 				if ( attachments[0] == null )
 					return;
