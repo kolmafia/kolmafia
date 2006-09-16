@@ -198,6 +198,8 @@ public abstract class KoLmafia implements KoLConstants
 				File outdated = new File( "data/" + OVERRIDE_DATA[i] );
 				if ( outdated.exists() )
 					outdated.delete();
+
+				deleteSimulator( new File( "html/simulator" ) );
 			}
 		}
 
@@ -219,6 +221,18 @@ public abstract class KoLmafia implements KoLConstants
 			if ( password != null && !password.equals( "" ) )
 				(new RequestThread( new LoginRequest( StaticEntity.getClient(), autoLogin, password ) )).start();
 		}
+	}
+
+	private static void deleteSimulator( File location )
+	{
+		if ( location.isDirectory() )
+		{
+			File [] files = location.listFiles();
+			for ( int i = 0; i < files.length; ++i )
+				deleteSimulator( files[i] );
+		}
+
+		location.delete();
 	}
 
 	/**
