@@ -1126,79 +1126,89 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// First, locate your HP information inside of the response
 		// text and replace it with a restore HP link.
 
-		if ( KoLRequest.isCompactMode )
+		float threshold = StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" ) * ((float) KoLCharacter.getMaximumHP());
+
+		if ( threshold > KoLCharacter.getCurrentHP() )
 		{
-			startingIndex = text.indexOf( "<td align=right>HP:", startingIndex );
-			startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
+			if ( KoLRequest.isCompactMode )
+			{
+				startingIndex = text.indexOf( "<td align=right>HP:", startingIndex );
+				startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
 
-			fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
-		}
-		else
-		{
-			startingIndex = text.indexOf( "doc(\"hp\")", startingIndex );
-			startingIndex = text.indexOf( "<br>", startingIndex ) + 4;
+				fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
+			}
+			else
+			{
+				startingIndex = text.indexOf( "doc(\"hp\")", startingIndex );
+				startingIndex = text.indexOf( "<br>", startingIndex ) + 4;
 
-			fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
-		}
+				fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
+			}
 
-		responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
-		lastAppendIndex = startingIndex;
+			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			lastAppendIndex = startingIndex;
 
-		startingIndex = text.indexOf( ">", startingIndex ) + 1;
-		lastAppendIndex = startingIndex;
+			startingIndex = text.indexOf( ">", startingIndex ) + 1;
+			lastAppendIndex = startingIndex;
 
-		startingIndex = text.indexOf( KoLRequest.isCompactMode ? "/" : "&", startingIndex );
+			startingIndex = text.indexOf( KoLRequest.isCompactMode ? "/" : "&", startingIndex );
 
-		if ( !KoLRequest.isCompactMode )
+			if ( !KoLRequest.isCompactMode )
+				responseBuffer.append( fontTag );
+
+			responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=restore+hp\" style=\"color:" );
+
+			Matcher colorMatcher = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" ).matcher( fontTag );
+			if ( colorMatcher.find() )
+				responseBuffer.append( colorMatcher.group(2) + "\">" );
+			else
+				responseBuffer.append( "black\"><b>" );
+
+			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			lastAppendIndex = startingIndex;
+
+			responseBuffer.append( "</a>" );
+			if ( !KoLRequest.isCompactMode )
+				responseBuffer.append( "</span>" );
+
 			responseBuffer.append( fontTag );
-
-		responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=restore+hp\" style=\"color:" );
-
-		Matcher colorMatcher = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" ).matcher( fontTag );
-		if ( colorMatcher.find() )
-			responseBuffer.append( colorMatcher.group(2) + "\">" );
-		else
-			responseBuffer.append( "black\">" );
-
-		responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
-		lastAppendIndex = startingIndex;
-
-		responseBuffer.append( "</a>" );
-		if ( !KoLRequest.isCompactMode )
-			responseBuffer.append( "</span>" );
-
-		responseBuffer.append( fontTag );
+		}
 
 		// Next, locate your MP information inside of the response
 		// text and replace it with a restore MP link.
 
-		if ( KoLRequest.isCompactMode )
+		threshold = StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" ) * ((float) KoLCharacter.getMaximumMP());
+
+		if ( threshold > KoLCharacter.getCurrentMP() )
 		{
-			startingIndex = text.indexOf( "<td align=right>MP:", startingIndex );
-			startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
+			if ( KoLRequest.isCompactMode )
+			{
+				startingIndex = text.indexOf( "<td align=right>MP:", startingIndex );
+				startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
+			}
+			else
+			{
+
+				startingIndex = text.indexOf( "doc(\"mp\")", startingIndex );
+				startingIndex = text.indexOf( "<br>", startingIndex ) + 4;
+				startingIndex = text.indexOf( ">", startingIndex ) + 1;
+			}
+
+			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			lastAppendIndex = startingIndex;
+
+			responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=restore+mp\">" );
+			startingIndex = KoLRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
+			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
+			lastAppendIndex = startingIndex;
+
+			responseBuffer.append( "</a>" );
 		}
-		else
-		{
-
-			startingIndex = text.indexOf( "doc(\"mp\")", startingIndex );
-			startingIndex = text.indexOf( "<br>", startingIndex ) + 4;
-			startingIndex = text.indexOf( ">", startingIndex ) + 1;
-		}
-
-		responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
-		lastAppendIndex = startingIndex;
-
-		responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=restore+mp\">" );
-		startingIndex = KoLRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
-		responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
-		lastAppendIndex = startingIndex;
-
-		responseBuffer.append( "</a>" );
 
 		// Next, add in a mood-execute link, in the event that the person
 		// has a non-empty list of triggers.
 
-		if ( MoodSettings.getTriggers().isEmpty() )
+		if ( !MoodSettings.willExecute() )
 		{
 		}
 		else if ( KoLRequest.isCompactMode )

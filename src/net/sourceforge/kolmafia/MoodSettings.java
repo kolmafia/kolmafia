@@ -352,7 +352,7 @@ public abstract class MoodSettings implements KoLConstants
 
 	public static void execute()
 	{
-		if ( KoLmafia.refusesContinue() )
+		if ( KoLmafia.refusesContinue() || !willExecute() )
 			return;
 
 		AdventureResult initialWeapon = KoLCharacter.getEquipment( KoLCharacter.WEAPON );
@@ -420,6 +420,21 @@ public abstract class MoodSettings implements KoLConstants
 
 		if ( !hasChangedOutfit )
 			UseSkillRequest.restoreEquipment( songWeapon, initialWeapon, initialOffhand, initialHat );
+	}
+
+	public static boolean willExecute()
+	{
+		if ( triggers.isEmpty() )
+			return false;
+
+		for ( int i = 0; i < triggers.size(); ++i )
+		{
+			MoodTrigger current = (MoodTrigger) triggers.get(i);
+			if ( !current.shouldExecute() )
+				return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -714,8 +729,22 @@ public abstract class MoodSettings implements KoLConstants
 
 		public void execute()
 		{
+			if ( shouldExecute() )
+			{
+				if ( skillID != -1 && songWeapon == null )
+					songWeapon = UseSkillRequest.optimizeEquipment( skillID );
+
+				if ( isThiefTrigger() && songWeapon == null )
+					return;
+
+				DEFAULT_SHELL.executeLine( action );
+			}
+		}
+
+		public boolean shouldExecute()
+		{
 			if ( KoLmafia.refusesContinue() )
-				return;
+				return false;
 
 			boolean shouldExecute = false;
 
@@ -735,16 +764,7 @@ public abstract class MoodSettings implements KoLConstants
 				shouldExecute &= !triggerName.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
 			}
 
-			if ( shouldExecute )
-			{
-				if ( skillID != -1 && songWeapon == null )
-					songWeapon = UseSkillRequest.optimizeEquipment( skillID );
-
-				if ( isThiefTrigger() && songWeapon == null )
-					return;
-
-				DEFAULT_SHELL.executeLine( action );
-			}
+			return shouldExecute;
 		}
 
 		public boolean isThiefTrigger()
