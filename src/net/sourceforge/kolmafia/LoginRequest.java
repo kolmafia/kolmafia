@@ -109,15 +109,26 @@ public class LoginRequest extends KoLRequest
 		KoLRequest.applySettings();
 		KoLmafia.forceContinue();
 
-		if ( KoLmafia.permitsContinue() && executeLogin() )
+		try
 		{
-			KoLmafia.forceContinue();
-			while ( KoLmafia.permitsContinue() && executeLogin() )
+			if ( KoLmafia.permitsContinue() && executeLogin() )
 			{
 				KoLmafia.forceContinue();
-				StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
-				waitTime = STANDARD_WAIT;
+				while ( KoLmafia.permitsContinue() && executeLogin() )
+				{
+					KoLmafia.forceContinue();
+					StaticEntity.executeCountdown( "Next login attempt in ", waitTime );
+					waitTime = STANDARD_WAIT;
+				}
 			}
+		}
+		catch ( Exception e )
+		{
+			// It's possible that all the login hangups are due
+			// to an exception in executeLogin().  Let's try to
+			// catch it.
+
+			StaticEntity.printStackTrace( e );
 		}
 
 		instanceRunning = false;
@@ -174,7 +185,8 @@ public class LoginRequest extends KoLRequest
 			sessionID = formConnection.getHeaderField( "Set-Cookie" );
 
 			KoLmafia.forceContinue();
-			client.initialize( username, this.getBreakfast, this.isQuickLogin );
+
+				client.initialize( username, this.getBreakfast, this.isQuickLogin );
 
 			return false;
 		}
