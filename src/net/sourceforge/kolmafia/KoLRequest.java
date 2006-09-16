@@ -552,6 +552,9 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public void run()
 	{
+		if ( formURLString.indexOf( "sewer.php" ) != -1 )
+			AdventureDatabase.retrieveItem( SewerRequest.GUM.getNegation() );
+
 		// Manual garbage collection if memory limit exceeded.
 		// This is to ensure that KoLmafia doesn't start eating
 		// up all available memory.  This will slow runtime a
