@@ -557,7 +557,12 @@ public class LocalRelayRequest extends KoLRequest
 
 	protected void sideCommand()
 	{
-		DEFAULT_SHELL.executeLine( getFormField( "cmd" ) );
+		synchronized ( DEFAULT_SHELL )
+		{
+			KoLmafia.forceContinue();
+			DEFAULT_SHELL.executeLine( getFormField( "cmd" ) );
+		}
+
 		pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
 	}
 
@@ -595,8 +600,11 @@ public class LocalRelayRequest extends KoLRequest
 
 				try
 				{
-					KoLmafia.forceContinue();
-					DEFAULT_SHELL.executeLine( command );
+					synchronized ( DEFAULT_SHELL )
+					{
+						KoLmafia.forceContinue();
+						DEFAULT_SHELL.executeLine( command );
+					}
 				}
 				catch ( Exception e )
 				{
