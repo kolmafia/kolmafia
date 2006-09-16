@@ -1120,6 +1120,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 	private static String addShrugOffLinks( String text )
 	{
 		StringBuffer responseBuffer = new StringBuffer();
+		String fontTag = "";
 
 		int startingIndex = 0;
 		int lastAppendIndex = 0;
@@ -1131,24 +1132,44 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			startingIndex = text.indexOf( "<td align=right>HP:", startingIndex );
 			startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
-			startingIndex = text.indexOf( ">", startingIndex ) + 1;
+
+			fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
 		}
 		else
 		{
 			startingIndex = text.indexOf( "doc(\"hp\")", startingIndex );
 			startingIndex = text.indexOf( "<br>", startingIndex ) + 4;
-			startingIndex = text.indexOf( ">", startingIndex ) + 1;
+
+			fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
 		}
 
 		responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
 		lastAppendIndex = startingIndex;
 
-		responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=restore+hp\">" );
-		startingIndex = KoLRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
+		startingIndex = text.indexOf( ">", startingIndex ) + 1;
+		lastAppendIndex = startingIndex;
+
+		startingIndex = text.indexOf( KoLRequest.isCompactMode ? "/" : "&", startingIndex );
+
+		if ( !KoLRequest.isCompactMode )
+			responseBuffer.append( fontTag );
+
+		responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=restore+hp\" style=\"color:" );
+
+		Matcher colorMatcher = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" ).matcher( fontTag );
+		if ( colorMatcher.find() )
+			responseBuffer.append( colorMatcher.group(2) + "\">" );
+		else
+			responseBuffer.append( "black\">" );
+
 		responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
 		lastAppendIndex = startingIndex;
 
 		responseBuffer.append( "</a>" );
+		if ( !KoLRequest.isCompactMode )
+			responseBuffer.append( "</span>" );
+
+		responseBuffer.append( fontTag );
 
 		// Next, locate your MP information inside of the response
 		// text and replace it with a restore MP link.
@@ -1192,30 +1213,57 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					text.substring( startingIndex + 14, text.indexOf( "\"", startingIndex + 15 ) ) );
 
 				String effectName = StatusEffectDatabase.getEffectName( effectID );
+
 				String upkeepAction = MoodSettings.getDefaultAction( "lose_effect", effectName );
+				String removeAction = MoodSettings.getDefaultAction( "gain_effect", effectName );
 
 				if ( upkeepAction.endsWith( "snowcone" ) || upkeepAction.endsWith( "mushroom" ) || upkeepAction.endsWith( "cupcake" ) )
 					upkeepAction = "";
 
-				int skillType = ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillID( UneffectRequest.effectToSkill( effectName ) ) );
+				String skillName = UneffectRequest.effectToSkill( effectName );
+				int skillType = ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillID( skillName ) );
+
+				// Add a removal link to the duration for buffs which can
+				// be removed.  This is either when the buff can be shrugged
+				// or the buff has a default removal method.
+
+				if ( skillType == ClassSkillsDatabase.BUFF )
+					removeAction = "uneffect " + skillName;
+
+				if ( !removeAction.equals( "" ) )
+				{
+					responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=" );
+
+					try
+					{
+						responseBuffer.append( URLEncoder.encode( removeAction, "UTF-8" ) );
+					}
+					catch ( Exception e )
+					{
+						// Hm, something bad happened.  Instead of giving a real link,
+						// give a fake link instead.
+
+						responseBuffer.append( "win+game" );
+					}
+
+					responseBuffer.append( "\">" );
+				}
+
+				nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
+				responseBuffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
+				lastAppendIndex = nextAppendIndex;
+
+				if ( skillType == ClassSkillsDatabase.BUFF || !removeAction.equals( "" ) )
+					responseBuffer.append( "</a>" );
+
+				responseBuffer.append( ")" );
+
+				// Add the up-arrow icon for buffs which can be maintained, based
+				// on information known to the mood maintenance module.
 
 				if ( !upkeepAction.equals( "" ) )
 				{
-					if ( skillType == ClassSkillsDatabase.BUFF )
-					{
-						responseBuffer.append( "<a href=\"charsheet.php?pwd&action=unbuff&whichbuff=" );
-						responseBuffer.append( effectID );
-						responseBuffer.append( "\" target=\"mainpane\">" );
-					}
-
-					nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
-					responseBuffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
-					lastAppendIndex = nextAppendIndex;
-
-					if ( skillType == ClassSkillsDatabase.BUFF )
-						responseBuffer.append( "</a>" );
-
-					responseBuffer.append( ")&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
+					responseBuffer.append( "&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
 
 					try
 					{
