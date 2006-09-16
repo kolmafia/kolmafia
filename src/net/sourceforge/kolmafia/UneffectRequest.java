@@ -42,6 +42,7 @@ public class UneffectRequest extends KoLRequest
 
 	public static AdventureResult REMEDY = new AdventureResult( "soft green echo eyedrop antidote", 1 );
 	public static AdventureResult TINY_HOUSE = new AdventureResult( "tiny house", 1 );
+	public static AdventureResult FOREST_TEARS = new AdventureResult( "forest tears", 1 );
 
 	/**
 	 * Constructs a new <code>UneffectRequest</code>.
@@ -148,7 +149,9 @@ public class UneffectRequest extends KoLRequest
 		if ( !isShruggable )
 		{
 			if ( KoLCharacter.canInteract() )
+			{
 				DEFAULT_SHELL.executeLine( "acquire " + REMEDY.getName() );
+			}
 			else if ( !KoLCharacter.getInventory().contains( REMEDY ) )
 			{
 				KoLmafia.updateDisplay( "You don't have any soft green fluffy martians." );
