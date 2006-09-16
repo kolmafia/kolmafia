@@ -1213,7 +1213,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 		else if ( KoLRequest.isCompactMode )
 		{
-			int effectIndex = text.indexOf( "<hr width=50%>", startingIndex );
+			int effectIndex = text.indexOf( "<hr", text.indexOf( "<hr", text.indexOf( "<hr" ) + 1 ) + 1 );
 			if ( effectIndex != -1 )
 			{
 				effectIndex = text.indexOf( "<table", effectIndex );
@@ -1223,7 +1223,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				responseBuffer.append( "[<a href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]<br><br>" );
 
-				if ( effectIndex == -1 )
+				if ( KoLCharacter.getEffects().isEmpty() )
 					responseBuffer.append( "<hr width=50%>" );
 			}
 		}
