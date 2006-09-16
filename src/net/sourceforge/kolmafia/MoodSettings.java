@@ -552,9 +552,21 @@ public abstract class MoodSettings implements KoLConstants
 				return "use anti-anti-antidote";
 
 			if ( name.equals( "Beaten Up" ) )
-				return KoLCharacter.hasSkill( "Tongue of the Otter" ) ? "cast Tongue of the Otter" :
-					KoLCharacter.hasSkill( "Tongue of the Walrus" ) ? "cast Tongue of the Walrus" :
-					KoLCharacter.isHardcore() || !KoLCharacter.canInteract() ? "use unguent; adventure 3 unlucky sewer" : "uneffect beaten up";
+			{
+				if ( KoLCharacter.hasSkill( "Tongue of the Otter" ) )
+					return "cast Tongue of the Otter";
+				if ( KoLCharacter.hasSkill( "Tongue of the Walrus" ) )
+					return "cast Tongue of the Walrus";
+				if ( KoLCharacter.hasItem( UneffectRequest.FOREST_TEARS, false ) )
+					return "use forest tears";
+				if ( KoLCharacter.hasItem( UneffectRequest.TINY_HOUSE, false ) )
+					return "use tiny house";
+				if ( KoLCharacter.hasItem( UneffectRequest.REMEDY, false ) || KoLCharacter.canInteract() )
+					return "uneffect beaten up";
+
+				return "use unguent; adventure 3 unlucky sewer";
+			}
+
 		}
 		else if ( type.equals( "lose_effect" ) )
 		{
