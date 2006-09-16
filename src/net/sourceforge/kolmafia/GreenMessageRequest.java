@@ -95,8 +95,8 @@ public class GreenMessageRequest extends SendMessageRequest
 	{	return 11;
 	}
 
-	protected void repeat( Object [] attachments )
-	{	(new GreenMessageRequest( client, recipient, message, attachments, 0 )).run();
+	protected SendMessageRequest getSubInstance( Object [] attachments )
+	{	return new GreenMessageRequest( client, recipient, message, attachments, 0 );
 	}
 
 	protected String getSuccessMessage()

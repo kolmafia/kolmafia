@@ -80,11 +80,13 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{	return 11;
 	}
 
-	protected void repeat( Object [] attachments )
+	protected SendMessageRequest getSubInstance( Object [] attachments )
 	{
 		// This request cannot be repeated.  Therefore, if the person attaches
 		// too much to the request, only handle the first 11 and do nothing
 		// if the repeat method is called.
+
+		return this;
 	}
 
 	protected String getSuccessMessage()

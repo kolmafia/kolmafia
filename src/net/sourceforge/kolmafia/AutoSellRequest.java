@@ -239,7 +239,7 @@ public class AutoSellRequest extends SendMessageRequest
 		return Integer.MAX_VALUE;
 	}
 
-	protected void repeat( Object [] attachments )
+	protected SendMessageRequest getSubInstance( Object [] attachments )
 	{
 		int [] prices = new int[ this.prices.length == 0 ? 0 : attachments.length ];
 		int [] limits = new int[ this.prices.length == 0 ? 0 : attachments.length ];
@@ -254,7 +254,7 @@ public class AutoSellRequest extends SendMessageRequest
 				}
 		}
 
-		(new AutoSellRequest( client, attachments, limits, prices, sellType )).run();
+		return new AutoSellRequest( client, attachments, limits, prices, sellType );
 	}
 
 	/**
@@ -359,6 +359,10 @@ public class AutoSellRequest extends SendMessageRequest
 
 	protected String getSuccessMessage()
 	{	return "";
+	}
+
+	protected boolean allowUntradeableTransfer()
+	{	return sellType == AUTOSELL;
 	}
 
 	protected boolean tallyItemTransfer()

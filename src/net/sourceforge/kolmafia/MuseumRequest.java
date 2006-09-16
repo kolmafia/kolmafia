@@ -86,8 +86,8 @@ public class MuseumRequest extends SendMessageRequest
 	{	return 11;
 	}
 
-	protected void repeat( Object [] attachments )
-	{	(new MuseumRequest( client, attachments, isDeposit )).run();
+	protected SendMessageRequest getSubInstance( Object [] attachments )
+	{	return new MuseumRequest( client, attachments, isDeposit );
 	}
 
 	protected String getSuccessMessage()
