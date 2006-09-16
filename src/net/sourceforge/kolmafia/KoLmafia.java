@@ -1984,10 +1984,6 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		try
 		{
-			if ( !saveStateNames.contains( username ) )
-				saveStateNames.add( username );
-
-			storeSaveStates();
 			String utfString = URLEncoder.encode( password, "UTF-8" );
 
 			StringBuffer encodedString = new StringBuffer();
@@ -2015,6 +2011,8 @@ public abstract class KoLmafia implements KoLConstants
 			}
 
 			StaticEntity.setProperty( "saveState." + username.toLowerCase(), (new BigInteger( encodedString.toString(), 36 )).toString( 10 ) );
+			saveStateNames.add( username );
+			storeSaveStates();
 		}
 		catch ( java.io.UnsupportedEncodingException e )
 		{
@@ -2030,13 +2028,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( loginname == null )
 			return;
 
-		for ( int i = 0; i < saveStateNames.size(); ++i )
-			if ( ((String)saveStateNames.get(i)).equalsIgnoreCase( loginname ) )
-			{
-				saveStateNames.remove( i );
-				storeSaveStates();
-				return;
-			}
+		saveStateNames.remove( loginname );
+		StaticEntity.removeProperty( "saveState." + loginname.toLowerCase() );
 	}
 
 	private static final void storeSaveStates()
@@ -2045,16 +2038,14 @@ public abstract class KoLmafia implements KoLConstants
 		String [] names = new String[ saveStateNames.size() ];
 		saveStateNames.toArray( names );
 
-		List lowerCaseNames = new ArrayList();
 		for ( int i = 0; i < names.length; ++i )
 		{
-			if ( lowerCaseNames.contains( names[i].toLowerCase() ) )
-			{
-				saveStateNames.remove( names[i] );
-				lowerCaseNames.remove( names[i].toLowerCase() );
-			}
+			if ( getSaveState( names[i] ) == null )
+				removeSaveState( names[i] );
 
-			lowerCaseNames.add( names[i].toLowerCase() );
+			for ( int j = 0; j < i; ++j )
+				if ( names[i].equalsIgnoreCase( names[j] ) )
+					saveStateNames.remove( names[i] );
 		}
 
 		if ( names.length != saveStateNames.size() )

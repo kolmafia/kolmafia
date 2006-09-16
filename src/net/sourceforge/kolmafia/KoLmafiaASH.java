@@ -3077,6 +3077,9 @@ public class KoLmafiaASH extends StaticEntity
 		params = new ScriptType[] { STRING_TYPE, STRING_TYPE };
 		result.addElement( new ScriptExistingFunction( "set_property", VOID_TYPE, params ) );
 
+		params = new ScriptType[] { STRING_TYPE };
+		result.addElement( new ScriptExistingFunction( "remove_property", VOID_TYPE, params ) );
+
 		params = new ScriptType[] { AGGREGATE_TYPE };
 		result.addElement( new ScriptExistingFunction( "count", INT_TYPE, params ) );
 
@@ -4693,6 +4696,15 @@ public class KoLmafiaASH extends StaticEntity
 			// related settings, use the shell.
 
 			DEFAULT_SHELL.executeLine( "set " + name.toStringValue().toString() + "=" + value.toStringValue().toString() );
+			return VOID_VALUE;
+		}
+
+		public ScriptValue remove_property( ScriptVariable name )
+		{
+			// In order to avoid code duplication for combat
+			// related settings, use the shell.
+
+			StaticEntity.removeProperty( name.toStringValue().toString() );
 			return VOID_VALUE;
 		}
 

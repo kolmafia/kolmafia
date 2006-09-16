@@ -145,7 +145,7 @@ public class LoginFrame extends KoLFrame
 	 * inside of the <code>LoginFrame</code>.
 	 */
 
-	private class LoginPanel extends KoLPanel implements ActionListener
+	private class LoginPanel extends KoLPanel
 	{
 		private JPasswordField passwordField;
 		private ScriptSelectPanel scriptField;
@@ -169,11 +169,10 @@ public class LoginFrame extends KoLFrame
 			scriptField = new ScriptSelectPanel( new JTextField() );
 
 			savePasswordCheckBox = new JCheckBox();
-			savePasswordCheckBox.addActionListener( this );
+			savePasswordCheckBox.addActionListener( new RemovePasswordListener() );
 
 			autoLoginCheckBox = new JCheckBox();
 			getBreakfastCheckBox = new JCheckBox();
-			getBreakfastCheckBox.addActionListener( this );
 
 			JPanel checkBoxPanels = new JPanel();
 			checkBoxPanels.add( Box.createHorizontalStrut( 16 ) );
@@ -269,10 +268,19 @@ public class LoginFrame extends KoLFrame
 			usernameField.requestFocus();
 		}
 
-		public void actionPerformed( ActionEvent e )
+		private class RemovePasswordListener implements ActionListener
 		{
-			if ( !savePasswordCheckBox.isSelected() && usernameField instanceof JComboBox )
-				StaticEntity.getClient().removeSaveState( (String) ((JComboBox)usernameField).getSelectedItem() );
+			public void actionPerformed( ActionEvent e )
+			{
+				if ( !savePasswordCheckBox.isSelected() && usernameField instanceof JComboBox )
+				{
+					String value = (String) ((JComboBox)usernameField).getSelectedItem();
+
+					KoLmafia.saveStateNames.remove( value );
+					KoLmafia.removeSaveState( value );
+					passwordField.setText( "" );
+				}
+			}
 		}
 
 		/**
@@ -325,6 +333,7 @@ public class LoginFrame extends KoLFrame
 				}
 
 				passwordField.setText( password );
+				savePasswordCheckBox.setSelected( true );
 
 				String loginScript = StaticEntity.getProperty( "loginScript." + currentMatch.toLowerCase() );
 				boolean breakfastSetting = StaticEntity.getBooleanProperty( "getBreakfast." + currentMatch.toLowerCase() );
