@@ -106,11 +106,11 @@ public class LoginRequest extends KoLRequest
 		lastUsername = username;
 		lastPassword = password;
 
-		KoLRequest.applySettings();
-		KoLmafia.forceContinue();
-
 		try
 		{
+			KoLRequest.applySettings();
+			KoLmafia.forceContinue();
+
 			if ( KoLmafia.permitsContinue() && executeLogin() )
 			{
 				KoLmafia.forceContinue();
@@ -181,12 +181,12 @@ public class LoginRequest extends KoLRequest
 
 			if ( this.savePassword )
 				client.addSaveState( username, password );
-
-			sessionID = formConnection.getHeaderField( "Set-Cookie" );
+			else
+				client.removeSaveState( username );
 
 			KoLmafia.forceContinue();
-
-				client.initialize( username, this.getBreakfast, this.isQuickLogin );
+			sessionID = formConnection.getHeaderField( "Set-Cookie" );
+			client.initialize( username, this.getBreakfast, this.isQuickLogin );
 
 			return false;
 		}
