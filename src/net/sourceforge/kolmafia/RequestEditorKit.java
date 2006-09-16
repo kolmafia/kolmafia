@@ -1192,10 +1192,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					text.substring( startingIndex + 14, text.indexOf( "\"", startingIndex + 15 ) ) );
 
 				String effectName = StatusEffectDatabase.getEffectName( effectID );
-				int skillID = ClassSkillsDatabase.getSkillID( UneffectRequest.effectToSkill( effectName ) );
-				int skillType = ClassSkillsDatabase.getSkillType( skillID );
+				String upkeepAction = MoodSettings.getDefaultAction( "lose_effect", effectName );
 
-				if ( skillID != -1 && (skillType == ClassSkillsDatabase.SKILL || skillType == ClassSkillsDatabase.BUFF) )
+				if ( upkeepAction.endsWith( "snowcone" ) || upkeepAction.endsWith( "mushroom" ) || upkeepAction.endsWith( "cupcake" ) )
+					upkeepAction = "";
+
+				int skillType = ClassSkillsDatabase.getSkillType( ClassSkillsDatabase.getSkillID( UneffectRequest.effectToSkill( effectName ) ) );
+
+				if ( !upkeepAction.equals( "" ) )
 				{
 					if ( skillType == ClassSkillsDatabase.BUFF )
 					{
@@ -1208,14 +1212,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					responseBuffer.append( text.substring( lastAppendIndex, nextAppendIndex - 1 ) );
 					lastAppendIndex = nextAppendIndex;
 
-					if ( ClassSkillsDatabase.getSkillType( skillID ) == ClassSkillsDatabase.BUFF )
+					if ( skillType == ClassSkillsDatabase.BUFF )
 						responseBuffer.append( "</a>" );
 
 					responseBuffer.append( ")&nbsp;<a href=\"/KoLmafia/sideCommand?cmd=" );
 
 					try
 					{
-						responseBuffer.append( URLEncoder.encode( "cast " + ClassSkillsDatabase.getSkillName( skillID ), "UTF-8" ) );
+						responseBuffer.append( URLEncoder.encode( upkeepAction, "UTF-8" ) );
 					}
 					catch ( Exception e )
 					{
