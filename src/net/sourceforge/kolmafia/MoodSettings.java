@@ -427,14 +427,15 @@ public abstract class MoodSettings implements KoLConstants
 		if ( triggers.isEmpty() )
 			return false;
 
+		boolean willExecute = false;
+
 		for ( int i = 0; i < triggers.size(); ++i )
 		{
 			MoodTrigger current = (MoodTrigger) triggers.get(i);
-			if ( !current.shouldExecute() )
-				return false;
+			willExecute |= current.shouldExecute();
 		}
 
-		return true;
+		return willExecute;
 	}
 
 	/**
