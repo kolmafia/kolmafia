@@ -532,6 +532,17 @@ public abstract class MoodSettings implements KoLConstants
 		if ( type == null || name == null )
 			return "";
 
+		// We can look at the triggers list to see if it matches
+		// your current mood.  That way, the "default action" is
+		// considered whatever your current mood says it is.
+
+		for ( int i = 0; i < triggers.size(); ++i )
+		{
+			MoodTrigger current = (MoodTrigger) triggers.get(i);
+			if ( current.triggerType.equals( type ) && current.triggerName.equals( name ) )
+				return current.action;
+		}
+
 		if ( type.equals( "unconditional" ) )
 		{
 		}
@@ -543,7 +554,7 @@ public abstract class MoodSettings implements KoLConstants
 			if ( name.equals( "Beaten Up" ) )
 				return KoLCharacter.hasSkill( "Tongue of the Otter" ) ? "cast Tongue of the Otter" :
 					KoLCharacter.hasSkill( "Tongue of the Walrus" ) ? "cast Tongue of the Walrus" :
-					KoLCharacter.isHardcore() ? "adventure 3 unlucky sewer" : "uneffect beaten up";
+					KoLCharacter.isHardcore() || !KoLCharacter.canInteract() ? "adventure 3 unlucky sewer" : "uneffect beaten up";
 		}
 		else if ( type.equals( "lose_effect" ) )
 		{
