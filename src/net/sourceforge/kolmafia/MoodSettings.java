@@ -554,7 +554,7 @@ public abstract class MoodSettings implements KoLConstants
 			if ( name.equals( "Beaten Up" ) )
 				return KoLCharacter.hasSkill( "Tongue of the Otter" ) ? "cast Tongue of the Otter" :
 					KoLCharacter.hasSkill( "Tongue of the Walrus" ) ? "cast Tongue of the Walrus" :
-					KoLCharacter.isHardcore() || !KoLCharacter.canInteract() ? "adventure 3 unlucky sewer" : "uneffect beaten up";
+					KoLCharacter.isHardcore() || !KoLCharacter.canInteract() ? "use unguent; adventure 3 unlucky sewer" : "uneffect beaten up";
 		}
 		else if ( type.equals( "lose_effect" ) )
 		{
