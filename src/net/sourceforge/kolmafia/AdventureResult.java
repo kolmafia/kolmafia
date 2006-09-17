@@ -107,7 +107,7 @@ public class AdventureResult implements Comparable, KoLConstants
 	 */
 
 	public AdventureResult( String name )
-	{	this( name, name.equals( SUBSTATS ) ? new int[3] : new int[1] );
+	{	this( name, name.equals( SUBSTATS ) || name.equals( FULLSTATS ) ? new int[3] : new int[1] );
 	}
 
 	/**
