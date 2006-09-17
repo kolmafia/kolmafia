@@ -34,9 +34,9 @@
 
 package net.sourceforge.kolmafia;
 
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import java.util.StringTokenizer;
 
 /**
  * An extension of a <code>KoLRequest</code> that handles generic adventures,
@@ -173,7 +173,13 @@ public class AdventureRequest extends KoLRequest
 
 		if ( adventureID.equals( "80" ) && responseText.indexOf( "You shouldn't be here." ) != -1 )
 		{
+			ArrayList temporary = new ArrayList();
+			temporary.addAll( conditions );
+			conditions.clear();
+
 			DEFAULT_SHELL.executeLine( "adventure 1 Bridge the Orc Chasm" );
+
+			conditions.addAll( temporary );
 			if ( KoLmafia.permitsContinue() )
 				this.run();
 
@@ -391,15 +397,21 @@ public class AdventureRequest extends KoLRequest
 
 		if ( urlString.equals( "fight.php" ) )
 		{
-			Matcher encounterMatcher = Pattern.compile( "<span id='monname'>([^:]*?)</span>" ).matcher( request.responseText );
-			if ( encounterMatcher.find() )
-			{
-				String encounter = encounterMatcher.group(1);
-				KoLmafiaCLI.printLine( "Encounter: " + encounter );
-				KoLmafia.getSessionStream().println( "Encounter: " + encounter );
-				StaticEntity.getClient().registerEncounter( encounter );
-				return encounter;
-			}
+			int spanIndex = request.responseText.indexOf( "monname" ) + 1;
+			spanIndex = request.responseText.indexOf( ">", spanIndex ) + 1;
+
+			if ( spanIndex == 0 )
+				return "";
+
+			int endSpanIndex = request.responseText.indexOf( "</span>", spanIndex );
+			if ( endSpanIndex == -1 )
+				return "";
+
+			String encounter = request.responseText.substring( spanIndex, endSpanIndex );
+			KoLmafiaCLI.printLine( "Encounter: " + encounter );
+			KoLmafia.getSessionStream().println( "Encounter: " + encounter );
+			StaticEntity.getClient().registerEncounter( encounter );
+			return encounter;
 		}
 		else
 		{
@@ -419,8 +431,6 @@ public class AdventureRequest extends KoLRequest
 			StaticEntity.getClient().registerEncounter( encounter );
 			return encounter;
 		}
-
-		return "";
 	}
 
 	private static boolean containsEncounter( String formSource, String responseText )

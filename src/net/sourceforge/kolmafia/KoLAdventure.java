@@ -374,16 +374,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				{
 					ArrayList temporary = new ArrayList();
 					temporary.addAll( conditions );
+					conditions.clear();
 
-					DEFAULT_SHELL.executeConditionsCommand( "clear" );
 					DEFAULT_SHELL.executeConditionsCommand( "add enchanted bean" );
 					DEFAULT_SHELL.executeLine( "adventure * beanbat" );
 
 					if ( !conditions.isEmpty() )
 					{
 						KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete enchanted bean quest." );
-						conditions.clear();
-						conditions.addAll( temporary );
 						return;
 					}
 
