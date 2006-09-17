@@ -224,6 +224,7 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// Determine which frame needs to be removed from
 		// the maintained list of frames.
 
+		super.dispose();
 		existingFrames.remove( this );
 		KoLDesktop.removeTab( this );
 
