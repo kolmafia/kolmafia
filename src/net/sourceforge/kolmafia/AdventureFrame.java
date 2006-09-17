@@ -111,22 +111,22 @@ public class AdventureFrame extends KoLFrame
 		JComboBox resultSelect = new JComboBox();
 
 		resultSelect.addItem( "Session Results" );
-		resultPanel.add( new AdventureResultsPanel( StaticEntity.getClient().getSessionTally() ), "0" );
+		resultPanel.add( new AdventureResultsPanel( tally ), "0" );
 
 		resultSelect.addItem( "Location Details" );
 		resultPanel.add( new SafetyField(), "1" );
 
 		resultSelect.addItem( "Conditions Left" );
-		resultPanel.add( new AdventureResultsPanel( StaticEntity.getClient().getConditions() ), "2" );
+		resultPanel.add( new AdventureResultsPanel( conditions ), "2" );
 
 		resultSelect.addItem( "Active Effects" );
-		resultPanel.add( new AdventureResultsPanel( KoLCharacter.getEffects() ), "3" );
+		resultPanel.add( new AdventureResultsPanel( activeEffects ), "3" );
 
 		resultSelect.addItem( "Visited Locations" );
-		resultPanel.add( new AdventureResultsPanel( StaticEntity.getClient().getAdventureList() ), "4" );
+		resultPanel.add( new AdventureResultsPanel( adventureList ), "4" );
 
 		resultSelect.addItem( "Encounter Listing" );
-		resultPanel.add( new AdventureResultsPanel( StaticEntity.getClient().getEncounterList() ), "5" );
+		resultPanel.add( new AdventureResultsPanel( encounterList ), "5" );
 
 		resultSelect.addActionListener( new ResultSelectListener( resultCards, resultPanel, resultSelect ) );
 
@@ -314,7 +314,7 @@ public class AdventureFrame extends KoLFrame
 			// If there are conditions in the condition field, be
 			// sure to process them.
 
-			String conditionList = conditionField.getText().trim();
+			String conditionList = conditionField.getText().trim().toLowerCase();
 			if ( conditionList.equalsIgnoreCase( "none" ) )
 				conditionList = "";
 
@@ -324,18 +324,18 @@ public class AdventureFrame extends KoLFrame
 
 				boolean verifyConditions = false;
 				boolean useDisjunction = false;
-				String [] conditions = conditionList.split( "\\s*,\\s*" );
+				String [] splitConditions = conditionList.split( "\\s*,\\s*" );
 
-				for ( int i = 0; i < conditions.length; ++i )
+				for ( int i = 0; i < splitConditions.length; ++i )
 				{
-					if ( conditions[i].equals( "check" ) )
+					if ( splitConditions[i].equals( "check" ) )
 					{
 						// Postpone verification of conditions
 						// until all other conditions added.
 
 						verifyConditions = true;
 					}
-					else if ( conditions[i].equals( "outfit" ) )
+					else if ( splitConditions[i].equals( "outfit" ) )
 					{
 						// Determine where you're adventuring and use
 						// that to determine which components make up
@@ -349,13 +349,13 @@ public class AdventureFrame extends KoLFrame
 
 						verifyConditions = true;
 					}
-					else if ( conditions[i].equals( "or" ) || conditions[i].equals( "and" ) || conditions[i].startsWith( "conjunction" ) || conditions[i].startsWith( "disjunction" ) )
+					else if ( splitConditions[i].equals( "or" ) || splitConditions[i].equals( "and" ) || splitConditions[i].startsWith( "conjunction" ) || splitConditions[i].startsWith( "disjunction" ) )
 					{
-						useDisjunction = conditions[i].equals( "or" ) || conditions[i].startsWith( "disjunction" );
+						useDisjunction = splitConditions[i].equals( "or" ) || splitConditions[i].startsWith( "disjunction" );
 					}
 					else
 					{
-						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + conditions[i] ) )
+						if ( !DEFAULT_SHELL.executeConditionsCommand( "add " + splitConditions[i] ) )
 						{
 							KoLmafia.enableDisplay();
 							return;
@@ -366,7 +366,7 @@ public class AdventureFrame extends KoLFrame
 				if ( verifyConditions )
 				{
 					DEFAULT_SHELL.executeConditionsCommand( "check" );
-					if ( StaticEntity.getClient().conditions.isEmpty() )
+					if ( conditions.isEmpty() )
 					{
 						KoLmafia.updateDisplay( "All conditions already satisfied." );
 						KoLmafia.enableDisplay();
@@ -374,7 +374,7 @@ public class AdventureFrame extends KoLFrame
 					}
 				}
 
-				if ( StaticEntity.getClient().conditions.size() > 1 )
+				if ( conditions.size() > 1 )
 					DEFAULT_SHELL.executeConditionsCommand( useDisjunction ? "mode disjunction" : "mode conjunction" );
 
 				if ( countField.getText().equals( "" ) )

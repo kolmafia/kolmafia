@@ -610,7 +610,7 @@ public class AdventureDatabase extends KoLDatabase
 		if ( retrieveCount > 0 )
 		{
 			DEFAULT_SHELL.executeLine( command + " " + retrieveCount + " " + item.getName() );
-			return item.getCount() - item.getCount( KoLCharacter.getInventory() );
+			return item.getCount() - item.getCount( inventory );
 		}
 
 		return missingCount;
@@ -640,7 +640,7 @@ public class AdventureDatabase extends KoLDatabase
 	{
 		try
 		{
-			int missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+			int missingCount = item.getCount() - item.getCount( inventory );
 
 			// If you already have enough of the given item, then
 			// return from this method.
@@ -655,7 +655,7 @@ public class AdventureDatabase extends KoLDatabase
 			if ( KoLCharacter.hasEquipped( item ) )
 			{
 				DEFAULT_SHELL.executeLine( "unequip " + item.getName() );
-				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+				missingCount = item.getCount() - item.getCount( inventory );
 			}
 
 			if ( missingCount <= 0 )
@@ -664,7 +664,7 @@ public class AdventureDatabase extends KoLDatabase
 			// First, attempt to pull the item from the closet.
 			// If this is successful, return from the method.
 
-			missingCount = retrieveItem( "closet take", KoLCharacter.getCloset(), item, missingCount );
+			missingCount = retrieveItem( "closet take", closet, item, missingCount );
 
 			if ( missingCount <= 0 )
 				return;
@@ -679,7 +679,7 @@ public class AdventureDatabase extends KoLDatabase
 					ConcoctionsDatabase.hasAnyIngredient( item.getItemID() ) )
 				{
 					retrieveItem( creator, missingCount );
-					missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+					missingCount = item.getCount() - item.getCount( inventory );
 
 					if ( missingCount <= 0 )
 						return;
@@ -689,13 +689,13 @@ public class AdventureDatabase extends KoLDatabase
 			// Next, hermit item retrieval is possible when
 			// you have worthless items.  Use this method next.
 
-			if ( getClient().hermitItems.contains( item.getName() ) )
+			if ( hermitItems.contains( item.getName() ) )
 			{
 				int worthlessItemCount = HermitRequest.getWorthlessItemCount();
 				if ( worthlessItemCount > 0 )
 					(new HermitRequest( getClient(), item.getItemID(), Math.min( worthlessItemCount, missingCount ) )).run();
 
-				missingCount = item.getCount() - item.getCount( KoLCharacter.getInventory() );
+				missingCount = item.getCount() - item.getCount( inventory );
 
 				if ( missingCount <= 0 )
 					return;
@@ -705,7 +705,7 @@ public class AdventureDatabase extends KoLDatabase
 			// if you are out of ronin.
 
 			if ( KoLCharacter.canInteract() )
-				missingCount = retrieveItem( "hagnk", KoLCharacter.getStorage(), item, missingCount );
+				missingCount = retrieveItem( "hagnk", storage, item, missingCount );
 
 			if ( missingCount <= 0 )
 				return;

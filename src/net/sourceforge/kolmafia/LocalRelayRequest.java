@@ -500,8 +500,8 @@ public class LocalRelayRequest extends KoLRequest
 		// Load up the player's current skillset to figure
 		// out what passive skills are available.
 
-		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getAvailableSkills().size() ];
-		KoLCharacter.getAvailableSkills().toArray( skills );
+		UseSkillRequest [] skills = new UseSkillRequest[ availableSkills.size() ];
+		availableSkills.toArray( skills );
 
 		StringBuffer passiveSkills = new StringBuffer();
 		for ( int i = 0; i < skills.length; ++i )
@@ -520,8 +520,8 @@ public class LocalRelayRequest extends KoLRequest
 		// Also load up the player's current active effects
 		// and fill them into the buffs area.
 
-		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
-		KoLCharacter.getEffects().toArray( effects );
+		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
+		activeEffects.toArray( effects );
 
 		String activeEffects = "";
 		for ( int i = 0; i < effects.length; ++i )
@@ -529,7 +529,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		replaceTag( scriptBuffer, "/*activeEffects*/", activeEffects );
 
-		if ( KoLCharacter.getInventory().contains( UseSkillRequest.ROCKNROLL_LEGEND ) )
+		if ( inventory.contains( UseSkillRequest.ROCKNROLL_LEGEND ) )
 			replaceTag( scriptBuffer, "/*rockAndRoll*/", "true" );
 		else
 			replaceTag( scriptBuffer, "/*rockAndRoll*/", "false" );

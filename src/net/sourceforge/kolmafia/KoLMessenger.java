@@ -794,7 +794,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			buffer.append( timestamp.toString() + "&nbsp;" + displayHTML + "<br>" );
 			if ( displayHTML.startsWith( "<font color=green>" ) )
-				KoLCharacter.getEvents().add( EVENT_TIMESTAMP.format( new Date() ) + " - " + displayHTML.replaceAll( "<.*?>", "" ) );
+				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + displayHTML.replaceAll( "<.*?>", "" ) );
 
 			// Check to make sure that in the time it took for
 			// everything to be processed, chat didn't get closed.
@@ -836,7 +836,7 @@ public abstract class KoLMessenger extends StaticEntity
 		if ( lowercase.equals( KoLCharacter.getUsername().toLowerCase() ) )
 			return (String) colors.get( "chatcolorself" );
 
-		if ( getClient().getContactList().contains( channel ) )
+		if ( contactList.contains( channel ) )
 			return (String) colors.get( "chatcolorcontacts" );
 
 		return (String) colors.get( "chatcolorothers" );

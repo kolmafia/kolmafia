@@ -130,7 +130,7 @@ public abstract class HPRestoreItemList extends StaticEntity
 				// In certain instances, you are able to buy more of
 				// the given item from NPC stores, or from the mall.
 
-				int numberAvailable = itemUsed.getCount( KoLCharacter.getInventory() );
+				int numberAvailable = itemUsed.getCount( inventory );
 
 				if ( this == HERBS )
 					numberAvailable = belowMax < 20 || !NPCStoreDatabase.contains( HERBS.toString() ) || KoLCharacter.spleenLimitReached() ? 0 : 1;

@@ -200,7 +200,7 @@ public class StoreManageFrame extends KoLPanelFrame
 
 			if ( model != StoreManager.getSoldItemList() )
 			{
-				sellingList = new JComboBox( KoLCharacter.getSellables() );
+				sellingList = new JComboBox( sellables );
 
 				Vector value = new Vector();
 				value.add( new AdventureResult( "- select an item -", 1, false ) );
@@ -325,7 +325,7 @@ public class StoreManageFrame extends KoLPanelFrame
 	{
 		public StoreAddPanel()
 		{
-			super( "On-Hand Inventory", "add selected", "end of run sale", KoLCharacter.getSellables() );
+			super( "On-Hand Inventory", "add selected", "end of run sale", sellables );
 			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer() );
 		}
 

@@ -80,7 +80,7 @@ public abstract class SendMessageRequest extends KoLRequest
 			this.attachments[0] = attachment;
 		}
 
-		this.source = KoLCharacter.getInventory();
+		this.source = inventory;
 		this.destination = new ArrayList();
 
 		this.whichField = "whichitem";
@@ -121,7 +121,7 @@ public abstract class SendMessageRequest extends KoLRequest
 				this.attachments[ currentSize++ ] = attachments[i];
 		}
 
-		this.source = KoLCharacter.getInventory();
+		this.source = inventory;
 		this.destination = new ArrayList();
 
 		this.whichField = "whichitem";
@@ -273,14 +273,14 @@ public abstract class SendMessageRequest extends KoLRequest
 				if ( attachments[i] == null )
 					continue;
 
-				if ( source == KoLCharacter.getInventory() )
+				if ( source == inventory )
 					client.processResult( ((AdventureResult)attachments[i]).getNegation() );
 				else
 					AdventureResult.addResultToList( source, ((AdventureResult)attachments[i]).getNegation() );
 
-				if ( source == KoLCharacter.getStorage() && destination == KoLCharacter.getInventory() && KoLCharacter.canInteract() )
+				if ( source == storage && destination == inventory && KoLCharacter.canInteract() )
 					KoLCharacter.processResult( (AdventureResult) attachments[i] );
-				else if ( destination == KoLCharacter.getInventory() )
+				else if ( destination == inventory )
 					client.processResult( (AdventureResult) attachments[i] );
 				else
 					AdventureResult.addResultToList( destination, (AdventureResult) attachments[i] );
@@ -288,7 +288,7 @@ public abstract class SendMessageRequest extends KoLRequest
 
 			if ( meatAttachment > 0 )
 			{
-				if ( source == KoLCharacter.getInventory() )
+				if ( source == inventory )
 					KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() - meatAttachment );
 				else
 					KoLCharacter.setAvailableMeat( KoLCharacter.getAvailableMeat() + meatAttachment );

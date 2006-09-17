@@ -66,13 +66,12 @@ public class MicrobreweryRequest extends KoLRequest
 			this.price = Integer.parseInt ( itemMatcher.group(2) );
 
 			// Get the menu the microbrewery offers today
-			List items = client.getMicrobreweryItems();
-			if ( items.isEmpty() )
+			if ( microbreweryItems.isEmpty() )
 				(new MicrobreweryRequest( client )).run();
 
 			// Find the item in the menu
 			for ( int i = 0; i < 3; i++ )
-				if ( ((String)items.get(i)).equals( name ) )
+				if ( ((String)microbreweryItems.get(i)).equals( name ) )
 				{
 					itemID = -1 - i;
 					break;
@@ -141,14 +140,9 @@ public class MicrobreweryRequest extends KoLRequest
 			return;
 		}
 
-		int lastMatchIndex = 0;
 		Matcher purchaseMatcher = Pattern.compile( "<td>([\\w-' ]*?\\(.*? Meat\\))</td>" ).matcher( responseText );
-
-		while ( purchaseMatcher.find( lastMatchIndex ) )
-		{
-			lastMatchIndex = purchaseMatcher.end();
-			client.getMicrobreweryItems().add( purchaseMatcher.group(1) );
-		}
+		while ( purchaseMatcher.find() )
+			microbreweryItems.add( purchaseMatcher.group(1) );
 
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}

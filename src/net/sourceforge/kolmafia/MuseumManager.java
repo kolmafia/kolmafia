@@ -49,7 +49,7 @@ public class MuseumManager extends StaticEntity
 
 	public static void reset()
 	{
-		KoLCharacter.getCollection().clear();
+		collection.clear();
 		headers.clear();
 		shelves.clear();
 	}
@@ -161,7 +161,7 @@ public class MuseumManager extends StaticEntity
 		// glitches server side, all items submit their state.
 		// Store the data in two parallel arrays.
 
-		int size = KoLCharacter.getCollection().size();
+		int size = collection.size();
 		int [] newShelves = new int[ size ];
 		AdventureResult [] newItems = new AdventureResult[ size ];
 
@@ -214,7 +214,7 @@ public class MuseumManager extends StaticEntity
 
 	private static void registerItem( AdventureResult item, int shelf )
 	{
-		KoLCharacter.getCollection().add( item );
+		collection.add( item );
 		((SortedListModel)shelves.get( shelf )).add( item );
 	}
 

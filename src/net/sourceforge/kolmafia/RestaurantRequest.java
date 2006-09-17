@@ -63,16 +63,15 @@ public class RestaurantRequest extends KoLRequest
 		if ( itemMatcher.find( 0 ) )
 		{
 			String itemName = itemMatcher.group(1);
-			this.price = Integer.parseInt ( itemMatcher.group(2) );
+			this.price = Integer.parseInt( itemMatcher.group(2) );
 
 			// Get the menu the restaurant offers today
-			List items = client.getRestaurantItems();
-			if ( items.isEmpty() )
+			if ( restaurantItems.isEmpty() )
 				(new RestaurantRequest( client )).run();
 
 			// Find the item in the menu
 			for ( int i = 0; i < 3; i++ )
-				if ( ((String)items.get(i)).equals( name ) )
+				if ( ((String)restaurantItems.get(i)).equals( name ) )
 				{
 					itemID = -1 - i;
 					break;
@@ -144,14 +143,9 @@ public class RestaurantRequest extends KoLRequest
 		int lastMatchIndex = 0;
 		Matcher purchaseMatcher = Pattern.compile( "<td>([\\w -]*?\\(.*? Meat\\))</td>" ).matcher( responseText );
 
-		List items = client.getRestaurantItems();
-
-		items.clear();
-		while ( purchaseMatcher.find( lastMatchIndex ) )
-		{
-			lastMatchIndex = purchaseMatcher.end();
-			items.add( purchaseMatcher.group(1) );
-		}
+		restaurantItems.clear();
+		while ( purchaseMatcher.find() )
+			restaurantItems.add( purchaseMatcher.group(1) );
 
 		KoLmafia.updateDisplay( "Menu retrieved." );
 	}

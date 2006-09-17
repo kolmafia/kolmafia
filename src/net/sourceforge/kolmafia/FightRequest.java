@@ -167,7 +167,7 @@ public class FightRequest extends KoLRequest
 		else if ( action1.startsWith( "item" ) )
 		{
 			int itemID = StaticEntity.parseInt( action1.substring( 4 ) );
-			int itemCount = (new AdventureResult( itemID, 1 )).getCount( KoLCharacter.getInventory() );
+			int itemCount = (new AdventureResult( itemID, 1 )).getCount( inventory );
 
 			if ( itemCount == 0 )
 			{

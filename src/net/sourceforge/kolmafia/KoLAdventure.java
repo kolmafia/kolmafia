@@ -239,7 +239,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( adventureID.equals( "96" ) || adventureID.equals( "97" ) || adventureID.equals( "98" ) )
 		{
 			// You must be Half-Astral to go on a trip
-			int astral = ASTRAL.getCount( ( KoLCharacter.getEffects() ) );
+			int astral = ASTRAL.getCount( ( activeEffects ) );
 			if ( astral == 0 )
 			{
 				DEFAULT_SHELL.executeLine( "use 1 astral mushroom" );
@@ -373,22 +373,22 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				if ( !KoLCharacter.hasItem( BEAN, false ) )
 				{
 					ArrayList temporary = new ArrayList();
-					temporary.addAll( client.getConditions() );
+					temporary.addAll( conditions );
 
 					DEFAULT_SHELL.executeConditionsCommand( "clear" );
 					DEFAULT_SHELL.executeConditionsCommand( "add enchanted bean" );
 					DEFAULT_SHELL.executeLine( "adventure * beanbat" );
 
-					if ( !client.getConditions().isEmpty() )
+					if ( !conditions.isEmpty() )
 					{
 						KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete enchanted bean quest." );
-						client.getConditions().clear();
-						client.getConditions().addAll( temporary );
+						conditions.clear();
+						conditions.addAll( temporary );
 						return;
 					}
 
-					client.getConditions().clear();
-					client.getConditions().addAll( temporary );
+					conditions.clear();
+					conditions.addAll( temporary );
 				}
 
 				// Now that you've retrieved the bean, ensure that
@@ -489,7 +489,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( zone.equals( "BatHole" ) && !visitedCouncil )
 		{
-			int sonarCount = SONAR.getCount( KoLCharacter.getInventory() );
+			int sonarCount = SONAR.getCount( inventory );
 			if ( sonarCount == 0 )
 				return;
 
@@ -534,7 +534,7 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		// half-astral
 		if ( adventureID.equals( "96" ) || adventureID.equals( "97" ) || adventureID.equals( "98" ) )
 		{
-			if ( ASTRAL.getCount( ( KoLCharacter.getEffects() ) ) == 0 )
+			if ( ASTRAL.getCount( ( activeEffects ) ) == 0 )
 				isValidAdventure = false;
 			return;
 		}
@@ -604,8 +604,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		String action = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
 		int haltTolerance = (int)( StaticEntity.getFloatProperty( "battleStop" ) * (float) KoLCharacter.getMaximumHP() );
 
-		if ( ( action.equals( "item536" ) && FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) < 1 ) ||
-			 ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) < 1 ) )
+		if ( ( action.equals( "item536" ) && FightRequest.DICTIONARY1.getCount( inventory ) < 1 ) ||
+			 ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( inventory ) < 1 ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
 			KoLCharacter.setNextAdventure( null );

@@ -300,9 +300,9 @@ public class GearChangeFrame extends KoLFrame
 
 		// Search inventory for weapons
 
-		for ( int i = 0; i < KoLCharacter.getInventory().size(); ++i )
+		for ( int i = 0; i < inventory.size(); ++i )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLCharacter.getInventory().get(i);
+			AdventureResult currentItem = (AdventureResult) inventory.get(i);
 			int type = TradeableItemDatabase.getConsumptionType( currentItem.getItemID() );
 
 			if ( type != ConsumeItemRequest.EQUIP_WEAPON )
@@ -343,9 +343,9 @@ public class GearChangeFrame extends KoLFrame
 
 		// Search inventory for suitable items
 
-		for ( int i = 0; i < KoLCharacter.getInventory().size(); ++i )
+		for ( int i = 0; i < inventory.size(); ++i )
 		{
-			AdventureResult currentItem = ((AdventureResult)KoLCharacter.getInventory().get(i));
+			AdventureResult currentItem = ((AdventureResult)inventory.get(i));
 			if ( validOffhandItem( currentItem, weapons, ranged ) )
 				items.add( currentItem );
 		}

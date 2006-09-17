@@ -76,9 +76,9 @@ public class SkillBuffFrame extends KoLFrame
 		{
 			super( "cast", "maxcast", new Dimension( 80, 20 ), new Dimension( 240, 20 ) );
 
-			skillSelect = new JComboBox( KoLCharacter.getUsableSkills() );
+			skillSelect = new JComboBox( usableSkills );
 			amountField = new JTextField();
-			targetSelect = new MutableComboBox( (SortedListModel) StaticEntity.getClient().getContactList().clone() );
+			targetSelect = new MutableComboBox( (SortedListModel) contactList.clone() );
 
 			VerifiableElement [] elements = new VerifiableElement[3];
 			elements[0] = new VerifiableElement( "Skill Name: ", skillSelect );
@@ -141,7 +141,7 @@ public class SkillBuffFrame extends KoLFrame
 	private class UneffectPanel extends ItemManagePanel
 	{
 		public UneffectPanel()
-		{	super( "Status Effects", "uneffect", "describe", KoLCharacter.getEffects() );
+		{	super( "Status Effects", "uneffect", "describe", activeEffects );
 		}
 
 		public void actionConfirmed()

@@ -669,7 +669,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( getURLString().endsWith( "lair6.php?place=5" ) )
 		{
-			KoLCharacter.getEffects().clear();
+			activeEffects.clear();
 			needsRefresh = true;
 		}
 		if ( getURLString().endsWith( "lair6.php?place=6" ) )
@@ -1389,9 +1389,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			// are beaten up in the middle of a battle.
 
 			if ( !formURLString.equals( "fight.php" ) || responseText.indexOf( "lair6.php" ) != -1 )
-				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
+				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 4 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
 			else if ( KoLCharacter.getFamiliar().getID() != 50 )
-				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( KoLCharacter.getEffects() ) ) );
+				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
 		}
 
 		needsRefresh &= !(this instanceof LocalRelayRequest);
@@ -1464,10 +1464,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		// If this happens to be adventure 26 or 27,
 		// check against the player's conditions.
 
-		if ( (choice.equals( "26" ) || choice.equals( "27" )) && !client.getConditions().isEmpty() )
+		if ( (choice.equals( "26" ) || choice.equals( "27" )) && !conditions.isEmpty() )
 		{
 			for ( int i = 0; i < 12; ++i )
-				if ( WOODS_ITEMS[i].getCount( client.getConditions() ) > 0 )
+				if ( WOODS_ITEMS[i].getCount( conditions ) > 0 )
 					decision = choice.equals( "26" ) ? String.valueOf( (i / 4) + 1 ) : String.valueOf( ((i % 4) / 2) + 1 );
 		}
 
@@ -1568,7 +1568,7 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( possibleDecisions[i] != null )
 			{
 				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
-				if ( client.getConditions().contains( item ) )
+				if ( conditions.contains( item ) )
 					return String.valueOf( i + 1 );
 			}
 		}
@@ -1641,9 +1641,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		// Remove the events from the response text
 		responseText = eventMatcher.replaceFirst( "" );
 
-		// Append the events to the character's list
-		LockableListModel eventList = KoLCharacter.getEvents();
-
 		for ( int i = 0; i < events.length; ++i )
 		{
 			String event = events[i];
@@ -1673,9 +1670,7 @@ public class KoLRequest implements Runnable, KoLConstants
 				needsRefresh = true;
 
 			// Add the event to the event list
-
-			if ( !KoLMessenger.isRunning() )
-				eventList.add( event );
+			eventHistory.add( event );
 
 			// Print everything to the default shell; this way, the
 			// graphical CLI is also notified of events.

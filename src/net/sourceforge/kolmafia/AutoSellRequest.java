@@ -181,7 +181,7 @@ public class AutoSellRequest extends SendMessageRequest
 		{
 			currentAttachment = (AdventureResult) attachments[i];
 
-			inventoryCount = currentAttachment.getCount( KoLCharacter.getInventory() );
+			inventoryCount = currentAttachment.getCount( inventory );
 			attachmentCount = currentAttachment.getCount();
 
 			if ( mode == 0 )
@@ -335,7 +335,7 @@ public class AutoSellRequest extends SendMessageRequest
 			buffer.append( " " );
 
 			AdventureResult item = new AdventureResult( StaticEntity.parseInt( itemMatcher.group(1) ), 1 );
-			int inventoryAmount = item.getCount( KoLCharacter.getInventory() );
+			int inventoryAmount = item.getCount( inventory );
 
 			int sellQuantity = quantity;
 

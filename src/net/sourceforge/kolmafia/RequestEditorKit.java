@@ -1060,7 +1060,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 					AdventureResult result = new AdventureResult( StaticEntity.parseInt( itemID ), 1 );
 
 					int available = KoLCharacter.hasEquipped( result ) ? 1 : 0;
-					available += result.getCount( KoLCharacter.getInventory() );
+					available += result.getCount( inventory );
 
 					newText.append( available );
 					newText.append( " in inventory" );
@@ -1223,7 +1223,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 				responseBuffer.append( "[<a href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]<br><br>" );
 
-				if ( KoLCharacter.getEffects().isEmpty() )
+				if ( activeEffects.isEmpty() )
 					responseBuffer.append( "<hr width=50%>" );
 			}
 		}

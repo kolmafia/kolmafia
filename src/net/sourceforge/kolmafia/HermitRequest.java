@@ -34,7 +34,6 @@
 
 package net.sourceforge.kolmafia;
 
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -144,17 +143,12 @@ public class HermitRequest extends KoLRequest
 			}
 
 			// Parse response and build list of items
-			List items = client.getHermitItems();
-			items.clear();
 
-			int index = 0;
+			hermitItems.clear();
 			Matcher matcher = Pattern.compile( "<tr><td.*?><input.*?value=(\\d*)>.*?<b>(.*?)</b></td></tr>" ).matcher( responseText );
 
-			while ( matcher.find( index ) )
-			{
-				index = matcher.end();
-				items.add( KoLDatabase.getDisplayName( matcher.group(2) ) );
-			}
+			while ( matcher.find() )
+				hermitItems.add( KoLDatabase.getDisplayName( matcher.group(2) ) );
 
 			return;
 		}
@@ -217,19 +211,17 @@ public class HermitRequest extends KoLRequest
 		if ( responseText.indexOf( "He looks confused for a moment." ) == -1 )
 			client.processResult( new AdventureResult( 42, 0 - quantity ) );
 
-		List inventory = KoLCharacter.getInventory();
-
 		// Subtract the worthless items in order of their priority;
 		// as far as we know, the priority is the item ID.
 
-		quantity -= subtractWorthlessItems( TRINKET, inventory, quantity );
-		quantity -= subtractWorthlessItems( GEWGAW, inventory, quantity );
-		subtractWorthlessItems( KNICK_KNACK, inventory, quantity );
+		quantity -= subtractWorthlessItems( TRINKET, quantity );
+		quantity -= subtractWorthlessItems( GEWGAW, quantity );
+		subtractWorthlessItems( KNICK_KNACK, quantity );
 
 		KoLmafia.updateDisplay( "Hermit successfully looted!" );
 	}
 
-	private int subtractWorthlessItems( AdventureResult item, List inventory, int total )
+	private int subtractWorthlessItems( AdventureResult item, int total )
 	{
 		int count = 0 - Math.min( total, item.getCount( inventory ) );
 		client.processResult( item.getInstance( count ) );
@@ -238,15 +230,15 @@ public class HermitRequest extends KoLRequest
 
 	public static final int getWorthlessItemCount()
 	{
-		return TRINKET.getCount( KoLCharacter.getInventory() ) +
-				GEWGAW.getCount( KoLCharacter.getInventory() ) + KNICK_KNACK.getCount( KoLCharacter.getInventory() );
+		return TRINKET.getCount( inventory ) +
+				GEWGAW.getCount( inventory ) + KNICK_KNACK.getCount( inventory );
 	}
 
 	public static final boolean isCloverDay()
 	{
-		if ( !StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" ) )
+		if ( !hermitItems.contains( "ten-leaf clover" ) )
 			(new HermitRequest( StaticEntity.getClient() )).run();
 
-		return StaticEntity.getClient().hermitItems.contains( "ten-leaf clover" );
+		return hermitItems.contains( "ten-leaf clover" );
 	}
 }

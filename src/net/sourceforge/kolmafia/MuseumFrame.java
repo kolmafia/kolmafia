@@ -140,7 +140,7 @@ public class MuseumFrame extends KoLFrame
 		private class OutsideDisplayPanel extends ItemManagePanel
 		{
 			public OutsideDisplayPanel()
-			{	super( "Inventory", "add all", "add some", KoLCharacter.getInventory() );
+			{	super( "Inventory", "add all", "add some", inventory );
 			}
 
 			private void move( boolean moveAll )
@@ -170,7 +170,7 @@ public class MuseumFrame extends KoLFrame
 		private class InsideDisplayPanel extends ItemManagePanel
 		{
 			public InsideDisplayPanel()
-			{	super( "Display Case", "take all", "take some", KoLCharacter.getCollection() );
+			{	super( "Display Case", "take all", "take some", collection );
 			}
 
 			private void move( boolean moveAll )

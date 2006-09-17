@@ -163,7 +163,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				DEFAULT_SHELL.executeLine( "unequip weapon" );
 		}
 
-		if ( ClassSkillsDatabase.isBuff( skillID ) && skillID > 1000 && KoLCharacter.getInventory().contains( WIZARD_HAT ) )
+		if ( ClassSkillsDatabase.isBuff( skillID ) && skillID > 1000 && inventory.contains( WIZARD_HAT ) )
 			DEFAULT_SHELL.executeLine( "equip jewel-eyed wizard hat" );
 
 		return songWeapon;
@@ -342,7 +342,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		AdventureDatabase.retrieveItem( cloverWeapon );
 
 		// Otherwise, unequip it
-		if ( cloverWeapon.getCount( KoLCharacter.getInventory() ) < 1 )
+		if ( cloverWeapon.getCount( inventory ) < 1 )
 			DEFAULT_SHELL.executeLine( "unequip weapon" );
 
 		// Turn it into a big rock
@@ -504,7 +504,7 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 
 			if ( skillID == OTTER_TONGUE || skillID == WALRUS_TONGUE )
 			{
-				KoLCharacter.getEffects().remove( KoLAdventure.BEATEN_UP );
+				activeEffects.remove( KoLAdventure.BEATEN_UP );
 				needsRefresh = true;
 			}
 

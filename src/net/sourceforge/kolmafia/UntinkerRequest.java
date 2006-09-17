@@ -129,25 +129,25 @@ public class UntinkerRequest extends KoLRequest
 				// untinkerer's quest automatically.
 
 				ArrayList temporary = new ArrayList();
-				temporary.addAll( client.getConditions() );
+				temporary.addAll( conditions );
 
-				client.getConditions().clear();
-				client.getConditions().add( SCREWDRIVER.getNegation() );
+				conditions.clear();
+				conditions.add( SCREWDRIVER.getNegation() );
 
 				// Make sure that paco has been visited, or else
 				// the knoll won't be available.
 
 				DEFAULT_SHELL.executeLine( "adventure * degrassi" );
-				if ( !client.getConditions().isEmpty() )
+				if ( !conditions.isEmpty() )
 				{
 					KoLmafia.updateDisplay( ERROR_STATE, "Unable to complete untinkerer's quest." );
-					client.getConditions().clear();
-					client.getConditions().addAll( temporary );
+					conditions.clear();
+					conditions.addAll( temporary );
 					return;
 				}
 
-				client.getConditions().clear();
-				client.getConditions().addAll( temporary );
+				conditions.clear();
+				conditions.addAll( temporary );
 			}
 
 			// You should now have a screwdriver in your inventory.
@@ -160,7 +160,7 @@ public class UntinkerRequest extends KoLRequest
 		// Visiting the untinker automatically deducts a
 		// screwdriver from the inventory.
 
-		if ( KoLCharacter.getInventory().contains( SCREWDRIVER ) )
+		if ( inventory.contains( SCREWDRIVER ) )
 			client.processResult( SCREWDRIVER );
 
 		KoLmafia.updateDisplay( "Untinkering " + TradeableItemDatabase.getItemName( itemID ) + "..." );

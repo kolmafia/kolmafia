@@ -1321,7 +1321,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			checkCurrentEquipment();
 
 			// Check available equipment
-			checkAvailableEquipment( KoLCharacter.getInventory() );
+			checkAvailableEquipment( inventory );
                 }
 
 		/*
@@ -1384,10 +1384,10 @@ public class FamiliarTrainingFrame extends KoLFrame
 			sympathyAvailable = KoLCharacter.hasAmphibianSympathy();
 			empathyAvailable = KoLCharacter.hasSkill( "Empathy of the Newt" );
 			leashAvailable = KoLCharacter.hasSkill( "Leash of Linguini" );
-			heavyPettingAvailable = KoLCharacter.getInventory().contains( BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
+			heavyPettingAvailable = inventory.contains( BUFFING_SPRAY ) || NPCStoreDatabase.contains( "Knob Goblin pet-buffing spray" );
 
 			// Look at effects to decide which ones are active;
-			LockableListModel active = KoLCharacter.getEffects();
+			LockableListModel active = activeEffects;
 			empathyActive = EMPATHY.getCount( active );
 			leashActive = LEASH.getCount( active );
 			greenTongueActive = GREEN_TONGUE.getCount( active );

@@ -47,7 +47,7 @@ public class ContactListRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		client.getContactList().clear();
+		contactList.clear();
 		Matcher listMatcher = LIST_PATTERN.matcher( responseText );
 		if ( listMatcher.find() )
 		{

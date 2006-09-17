@@ -191,8 +191,8 @@ public abstract class MoodSettings implements KoLConstants
 		if ( StaticEntity.getProperty( "currentMood" ).equals( "apathetic" ) )
 			return;
 
-		UseSkillRequest [] skills = new UseSkillRequest[ KoLCharacter.getAvailableSkills().size() ];
-		KoLCharacter.getAvailableSkills().toArray( skills );
+		UseSkillRequest [] skills = new UseSkillRequest[ availableSkills.size() ];
+		availableSkills.toArray( skills );
 
 		ArrayList thiefSkills = new ArrayList();
 
@@ -284,8 +284,8 @@ public abstract class MoodSettings implements KoLConstants
 		// is a known way to re-acquire it (internally known, anyway),
 		// make sure to add those as well.
 
-		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
-		KoLCharacter.getEffects().toArray( effects );
+		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
+		activeEffects.toArray( effects );
 
 		for ( int i = 0; i < effects.length; ++i )
 		{
@@ -362,8 +362,8 @@ public abstract class MoodSettings implements KoLConstants
 		hasChangedOutfit = false;
 		MoodTrigger current = null;
 
-		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
-		KoLCharacter.getEffects().toArray( effects );
+		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
+		activeEffects.toArray( effects );
 
 		thiefTriggerLimit = KoLCharacter.hasEquipped( PENDANT ) ? 4 : 3;
 
@@ -755,12 +755,12 @@ public abstract class MoodSettings implements KoLConstants
 			}
 			else if ( triggerType.equals( "gain_effect" ) )
 			{
-				shouldExecute = KoLCharacter.getEffects().contains( effect );
+				shouldExecute = activeEffects.contains( effect );
 			}
 			else if ( triggerType.equals( "lose_effect" ) )
 			{
 				shouldExecute = action.indexOf( "cupcake" ) != -1 || action.indexOf( "snowcone" ) != -1 ?
-					!KoLCharacter.getEffects().contains( effect ) : effect.getCount( KoLCharacter.getEffects() ) < 2;
+					!activeEffects.contains( effect ) : effect.getCount( activeEffects ) < 2;
 
 				shouldExecute &= !triggerName.equals( "Temporary Lycanthropy" ) || MoonPhaseDatabase.getMoonlight() > 4;
 			}

@@ -99,8 +99,6 @@ public abstract class KoLmafia implements KoLConstants
 	private static boolean isEnabled = true;
 	private static boolean hadPendingState = false;
 
-	protected static LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", true, false );
-
 	private static final String [] OVERRIDE_DATA =
 	{
 		"adventures.dat", "buffbots.dat", "classskills.dat", "combats.dat", "concoctions.dat",
@@ -123,38 +121,17 @@ public abstract class KoLmafia implements KoLConstants
 		{ "Advanced Cocktailcrafting", "3" }
 	};
 
-	protected static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
-	protected static final int [] trapperItemNumbers = { 394, 393, 395 };
-
 	private static boolean recoveryActive = false;
+	private static String currentIterationString = "";
+
 	protected static boolean isMakingRequest = false;
 	protected static KoLRequest currentRequest = null;
-	private static String currentIterationString = "";
 	protected static int continuationState = CONTINUE_STATE;
 
-	protected int [] initialStats = new int[3];
-	protected int [] fullStatGain = new int[3];
+	protected static int [] initialStats = new int[3];
+	protected static int [] fullStatGain = new int[3];
 
-	protected static SortedListModel saveStateNames = new SortedListModel();
-	protected List recentEffects = new ArrayList();
-
-	private static TreeMap seenPlayerIDs = new TreeMap();
-	private static TreeMap seenPlayerNames = new TreeMap();
-	protected SortedListModel contactList = new SortedListModel();
-
-	protected SortedListModel tally = new SortedListModel();
-	protected SortedListModel missingItems = new SortedListModel();
-	protected SortedListModel hermitItems = new SortedListModel();
-	protected SortedListModel hunterItems = new SortedListModel();
-
-	protected LockableListModel restaurantItems = new LockableListModel();
-	protected LockableListModel microbreweryItems = new LockableListModel();
-	protected LockableListModel galaktikCures = new LockableListModel();
-
-	protected boolean useDisjunction = false;
-	protected SortedListModel conditions = new SortedListModel();
-	protected LockableListModel adventureList = new LockableListModel();
-	protected SortedListModel encounterList = new SortedListModel();
+	protected static boolean useDisjunction = false;
 
 	/**
 	 * The main method.  Currently, it instantiates a single instance
@@ -171,6 +148,19 @@ public abstract class KoLmafia implements KoLConstants
 			if ( args[i].equals( "--GUI" ) )
 				useGUI = true;
 		}
+
+		hermitItems.add( "banjo strings" );
+		hermitItems.add( "catsup" );
+		hermitItems.add( "dingy planks" );
+		hermitItems.add( "fortune cookie" );
+		hermitItems.add( "golden twig" );
+		hermitItems.add( "hot buttered roll" );
+		hermitItems.add( "jaba\u00f1ero pepper" );
+		hermitItems.add( "ketchup" );
+		hermitItems.add( "sweet rims" );
+		hermitItems.add( "volleyball" );
+		hermitItems.add( "wooden figurine" );
+
 
 		if ( saveStateNames.isEmpty() )
 		{
@@ -243,7 +233,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public KoLmafia()
 	{
-		this.useDisjunction = false;
+		useDisjunction = false;
 		StaticEntity.reloadSettings();
 	}
 
@@ -352,20 +342,7 @@ public abstract class KoLmafia implements KoLConstants
 		// states to avoid null pointers getting thrown
 		// all over the place
 
-		if ( !permitsContinue() )
-		{
-			deinitialize();
-			return;
-		}
-
-		StaticEntity.setProperty( "lastUsername", username );
-
-		if ( !isQuickLogin )
-		{
-			this.conditions.clear();
-			KoLCharacter.reset( username );
-			KoLmafia.openSessionStream();
-		}
+		KoLmafia.forceContinue();
 
 		if ( isQuickLogin )
 		{
@@ -375,14 +352,15 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		StaticEntity.setProperty( "lastUsername", username );
+
+		KoLCharacter.reset( username );
+		KoLmafia.openSessionStream();
 		StaticEntity.reloadSettings();
 		AdventureDatabase.refreshAdventureTable();
 
-		recentEffects.clear();
-		KoLCharacter.getEffects().clear();
-
-		this.refreshSession();
-		this.resetSession();
+		refreshSession();
+		resetSession();
 
 		if ( refusesContinue() )
 		{
@@ -467,33 +445,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void refreshSession()
 	{
-		KoLCharacter.reset( KoLCharacter.getUsername() );
-
-		KoLmafiaCLI.reset();
-		KoLMailManager.reset();
 		MushroomPlot.reset();
-		StoreManager.reset();
-		CakeArenaManager.reset();
-		MuseumManager.reset();
-		ClanManager.reset();
-
-		this.hermitItems.clear();
-		this.hermitItems.add( "banjo strings" );
-		this.hermitItems.add( "catsup" );
-		this.hermitItems.add( "dingy planks" );
-		this.hermitItems.add( "fortune cookie" );
-		this.hermitItems.add( "golden twig" );
-		this.hermitItems.add( "hot buttered roll" );
-		this.hermitItems.add( "jaba\u00f1ero pepper" );
-		this.hermitItems.add( "ketchup" );
-		this.hermitItems.add( "sweet rims" );
-		this.hermitItems.add( "volleyball" );
-		this.hermitItems.add( "wooden figurine" );
-
-		this.hunterItems.clear();
-		this.restaurantItems.clear();
-		this.microbreweryItems.clear();
-		this.galaktikCures.clear();
 
 		// Get current moon phases
 
@@ -592,9 +544,9 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		tally.clear();
 
-		this.missingItems.clear();
-		this.encounterList.clear();
-		this.adventureList.clear();
+		missingItems.clear();
+		encounterList.clear();
+		adventureList.clear();
 
 		initialStats[0] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMuscle() );
 		initialStats[1] = KoLCharacter.calculateBasePoints( KoLCharacter.getTotalMysticality() );
@@ -742,7 +694,7 @@ public abstract class KoLmafia implements KoLConstants
 		if ( result.isStatusEffect() )
 		{
 			AdventureResult.addResultToList( recentEffects, result );
-			shouldRefresh |= !KoLCharacter.getEffects().containsAll( recentEffects );
+			shouldRefresh |= !activeEffects.containsAll( recentEffects );
 		}
 		else if ( resultName.equals( AdventureResult.ADV ) && result.getCount() < 0 )
 			AdventureResult.addResultToList( tally, result.getNegation() );
@@ -753,9 +705,9 @@ public abstract class KoLmafia implements KoLConstants
 				AdventureResult.addResultToList( tally, result );
 		}
 
-		int effectCount = KoLCharacter.getEffects().size();
+		int effectCount = activeEffects.size();
 		KoLCharacter.processResult( result );
-		shouldRefresh |= effectCount != KoLCharacter.getEffects().size();
+		shouldRefresh |= effectCount != activeEffects.size();
 
 		if ( !shouldTally )
 			return shouldRefresh;
@@ -836,15 +788,15 @@ public abstract class KoLmafia implements KoLConstants
 	 * if adventuring took place.
 	 */
 
-	public void applyEffects()
+	public static void applyEffects()
 	{
 		if ( recentEffects.isEmpty() )
 			return;
 
 		for ( int j = 0; j < recentEffects.size(); ++j )
-			AdventureResult.addResultToList( KoLCharacter.getEffects(), (AdventureResult) recentEffects.get(j) );
+			AdventureResult.addResultToList( activeEffects, (AdventureResult) recentEffects.get(j) );
 
-		KoLCharacter.getEffects().sort();
+		activeEffects.sort();
 		recentEffects.clear();
 		KoLCharacter.recalculateAdjustments( false );
 	}
@@ -898,63 +850,11 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public void registerContact( String playerName, String playerID )
+	public static void registerContact( String playerName, String playerID )
 	{
 		registerPlayer( playerName, playerID );
 		if ( !contactList.contains( playerName ) )
 			contactList.add( playerName );
-	}
-
-	/**
-	 * Returns the character's contact list.
-	 */
-
-	public SortedListModel getContactList()
-	{	return contactList;
-	}
-
-	/**
-	 * Returns the list of items which are available from the hermit today.
-	 */
-
-	public SortedListModel getHermitItems()
-	{	return hermitItems;
-	}
-
-	/**
-	 * Returns the list of items which are available from the
-	 * bounty hunter hunter today.
-	 */
-
-	public SortedListModel getBountyHunterItems()
-	{	return hunterItems;
-	}
-
-	/**
-	 * Returns the list of items which are available from
-	 * Chez Snootee today.
-	 */
-
-	public LockableListModel getRestaurantItems()
-	{	return restaurantItems;
-	}
-
-	/**
-	 * Returns the list of items which are available from the
-	 * Gnomish Micromicrobrewery today.
-	 */
-
-	public LockableListModel getMicrobreweryItems()
-	{	return microbreweryItems;
-	}
-
-	/**
-	 * Returns the list of cures which are currently available from
-	 * Doc Galaktik
-	 */
-
-	public LockableListModel getGalaktikCures()
-	{	return galaktikCures;
 	}
 
 	/**
@@ -964,7 +864,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public boolean isLuckyCharacter()
-	{	return KoLCharacter.getInventory().contains( SewerRequest.CLOVER );
+	{	return inventory.contains( SewerRequest.CLOVER );
 	}
 
 	/**
@@ -978,7 +878,7 @@ public abstract class KoLmafia implements KoLConstants
 			return false;
 
 		boolean checkBeatenUp = settingName.startsWith( "hp" ) &&
-			KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP );
+			activeEffects.contains( KoLAdventure.BEATEN_UP );
 
 		Object [] empty = new Object[0];
 		Method currentMethod, maximumMethod;
@@ -1051,7 +951,7 @@ public abstract class KoLmafia implements KoLConstants
 					last = current;
 					recoverOnce( techniques[i], currentTechniqueName, needed );
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
-					checkBeatenUp &= KoLCharacter.getEffects().contains( KoLAdventure.BEATEN_UP );
+					checkBeatenUp &= activeEffects.contains( KoLAdventure.BEATEN_UP );
 
 					// Do not allow seltzer to be used more than once,
 					// as this indicates MP changes due to outfits.
@@ -1133,7 +1033,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		for ( int i = 0; i < MPRestoreItemList.CONFIGURES.length; ++i )
 			if ( mpRestoreSetting.indexOf( MPRestoreItemList.CONFIGURES[i].toString().toLowerCase() ) != -1 )
-				restoreCount += MPRestoreItemList.CONFIGURES[i].getItem().getCount( KoLCharacter.getInventory() );
+				restoreCount += MPRestoreItemList.CONFIGURES[i].getItem().getCount( inventory );
 
 		return restoreCount;
 	}
@@ -1708,7 +1608,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		int neededCount = neededMatcher.find() ? StaticEntity.parseInt( neededMatcher.group(1) ) : 26;
 
-		while ( neededCount <= 25 && neededCount <= item.getCount( KoLCharacter.getInventory() ) )
+		while ( neededCount <= 25 && neededCount <= item.getCount( inventory ) )
 		{
 			updateDisplay( "Giving up " + neededCount + " " + item.getName() + "s..." );
 			request = new KoLRequest( this, "town_right.php?place=gourd&action=gourd", true );
@@ -2102,23 +2002,7 @@ public abstract class KoLmafia implements KoLConstants
 		}
 	}
 
-	public SortedListModel getSessionTally()
-	{	return tally;
-	}
-
-	public SortedListModel getConditions()
-	{	return conditions;
-	}
-
-	public LockableListModel getAdventureList()
-	{	return adventureList;
-	}
-
-	public LockableListModel getEncounterList()
-	{	return encounterList;
-	}
-
-	public boolean checkRequirements( List requirements )
+	public static boolean checkRequirements( List requirements )
 	{
 		AdventureResult [] requirementsArray = new AdventureResult[ requirements.size() ];
 		requirements.toArray( requirementsArray );
@@ -2140,7 +2024,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( requirementsArray[i].isItem() )
 			{
 				AdventureDatabase.retrieveItem( requirementsArray[i] );
-				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( KoLCharacter.getInventory() );
+				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( inventory );
 
 				if ( KoLCharacter.hasEquipped( requirementsArray[i] ) )
 					--missingCount;
@@ -2152,7 +2036,7 @@ public abstract class KoLmafia implements KoLConstants
 				// help people detect which effects they are
 				// missing (like in PVP).
 
-				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( KoLCharacter.getEffects() );
+				missingCount = requirementsArray[i].getCount() - requirementsArray[i].getCount( activeEffects );
 			}
 			else if ( requirementsArray[i].getName().equals( AdventureResult.MEAT ) )
 			{
@@ -2231,7 +2115,7 @@ public abstract class KoLmafia implements KoLConstants
 				// Keep track of how many of the item you had before
 				// you run the purchase request
 
-				int oldResultCount = result.getCount( KoLCharacter.getInventory() );
+				int oldResultCount = result.getCount( inventory );
 				int previousLimit = currentRequest.getLimit();
 
 				currentRequest.setLimit( Math.min( previousLimit, maxPurchases - purchaseCount ) );
@@ -2240,7 +2124,7 @@ public abstract class KoLmafia implements KoLConstants
 				// Calculate how many of the item you have now after
 				// you run the purchase request
 
-				int newResultCount = result.getCount( KoLCharacter.getInventory() );
+				int newResultCount = result.getCount( inventory );
 				purchaseCount += newResultCount - oldResultCount;
 
 				// Remove the purchase from the list!  Because you
@@ -2331,7 +2215,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		public RegisteredEncounter( String name )
 		{
-			this.name = name;
+			name = name;
 			encounterCount = 1;
 		}
 
@@ -2590,8 +2474,8 @@ public abstract class KoLmafia implements KoLConstants
 		// Find all tradeable items.  Tradeable items
 		// are marked by an autosell value of nonzero.
 
-		AdventureResult [] items = new AdventureResult[ KoLCharacter.getInventory().size() ];
-		KoLCharacter.getInventory().toArray( items );
+		AdventureResult [] items = new AdventureResult[ inventory.size() ];
+		inventory.toArray( items );
 
 		ArrayList autosell = new ArrayList();
 		ArrayList automall = new ArrayList();
