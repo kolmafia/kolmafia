@@ -108,15 +108,18 @@ public class KoLmafiaCLI extends KoLmafia
 		{
 		}
 
-		if ( initialScript.length() == 0 || initialScript.indexOf( "TEST_ONLY" ) != -1 )
+		if ( initialScript.indexOf( "NO_LOGIN" ) != -1 )
 		{
-			if ( initialScript.indexOf( "TEST_ONLY" ) == -1 )
-			{
-				DEFAULT_SHELL.attemptLogin();
-				DEFAULT_SHELL.listenForCommands();
-			}
-			else
-				DEFAULT_SHELL.executeLine( "test" );
+			DEFAULT_SHELL.listenForCommands();
+		}
+		else if ( initialScript.indexOf( "TEST_ONLY" ) != -1 )
+		{
+			DEFAULT_SHELL.executeLine( "test" );
+		}
+		else if ( initialScript.length() == 0 )
+		{
+			DEFAULT_SHELL.attemptLogin();
+			DEFAULT_SHELL.listenForCommands();
 		}
 		else
 		{

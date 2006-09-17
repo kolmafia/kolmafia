@@ -45,14 +45,14 @@ import java.util.ArrayList;
 
 public class NPCStoreDatabase extends KoLDatabase
 {
-	private static List [] storeTable = new ArrayList[5];
+	private static List [] storeTable = new ArrayList[4];
 	private static final AdventureResult RABBIT_FOOT = new AdventureResult( KoLCharacter.RABBIT_FOOT, 1 );
 
 	static
 	{
 		BufferedReader reader = getReader( "npcstores.dat" );
 
-		for ( int i = 0; i < 5; ++i )
+		for ( int i = 0; i < 4; ++i )
 			storeTable[i] = new ArrayList();
 
 		String [] data;
@@ -64,7 +64,7 @@ public class NPCStoreDatabase extends KoLDatabase
 				for ( int i = 0; i < 4; ++i )
 					storeTable[i].add( data[i] );
 
-				storeTable[4].add( Integer.valueOf( data[2] ) );
+				data[2] = getCanonicalName( data[2] );
 			}
 		}
 
@@ -83,8 +83,29 @@ public class NPCStoreDatabase extends KoLDatabase
 
 	public static final MallPurchaseRequest getPurchaseRequest( String itemName )
 	{
-		Integer itemID = new Integer( TradeableItemDatabase.getItemID( itemName ) );
-		int itemIndex = storeTable[4].indexOf( itemID );
+		String canonicalName = getCanonicalName( itemName );
+
+		int itemIndex = storeTable[2].indexOf( canonicalName );
+		if ( itemIndex == -1 )
+			return null;
+
+		String storeID = getStoreID( canonicalName );
+		if ( storeID == null )
+			return null;
+
+		MallPurchaseRequest itemRequest = new MallPurchaseRequest( getClient(), (String) storeTable[1].get(itemIndex), storeID,
+			TradeableItemDatabase.getItemID( (String) canonicalName ), parseInt( (String) storeTable[3].get(itemIndex) ) );
+
+		itemRequest.setCanPurchase( canPurchase( storeID ) );
+		return itemRequest;
+	}
+
+	private static final String getStoreID( String itemName )
+	{
+		if ( itemName == null )
+			return null;
+
+		int itemIndex = storeTable[2].indexOf( itemName );
 
 		// If the item is not present in the NPC store table, then
 		// the item is not available.
@@ -98,25 +119,35 @@ public class NPCStoreDatabase extends KoLDatabase
 
 		String classType = KoLCharacter.getClassType();
 		String storeID = (String) storeTable[0].get( itemIndex );
-		MallPurchaseRequest itemRequest = new MallPurchaseRequest( getClient(), (String) storeTable[1].get(itemIndex), storeID,
-			parseInt( (String) storeTable[2].get(itemIndex) ), parseInt( (String) storeTable[3].get(itemIndex) ) );
+
+		if ( storeID.equals( "b" ) && !EquipmentDatabase.hasOutfit( 1 ) )
+		{
+			itemIndex = storeTable[2].lastIndexOf( itemName );
+			storeID = (String) storeTable[0].get( itemIndex );
+		}
+
+		return storeID;
+	}
+
+	private static boolean canPurchase( String storeID )
+	{
+		if ( storeID == null )
+			return false;
+
+		// Check for whether or not the purchase can be made from a
+		// guild store.  Store #1 is moxie classes, store #2 is for
+		// mysticality classes, and store #3 is for muscle classes.
+
+		String classType = KoLCharacter.getClassType();
 
 		if ( storeID.equals( "1" ) )
-		{
-			itemRequest.setCanPurchase( classType.startsWith( "Di" ) || classType.startsWith( "Ac" ) );
-		}
+			return classType.startsWith( "Di" ) || classType.startsWith( "Ac" );
 
 		else if ( storeID.equals( "2" ) )
-		{
-			itemRequest.setCanPurchase( classType.startsWith( "Pa" ) || classType.startsWith( "Sa" ) ||
-				(classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) );
-		}
+			return classType.startsWith( "Pa" ) || classType.startsWith( "Sa" ) || (classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9);
 
 		else if ( storeID.equals( "3" ) )
-		{
-			itemRequest.setCanPurchase( classType.startsWith( "Se" ) || classType.startsWith( "Tu" ) ||
-				(classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9) );
-		}
+			return classType.startsWith( "Se" ) || classType.startsWith( "Tu" ) || (classType.startsWith( "Ac" ) && KoLCharacter.getLevel() >= 9);
 
 		// If the person is trying to get one of the items from the bugbear
 		// store, then the item is not available if they don't have the
@@ -124,62 +155,44 @@ public class NPCStoreDatabase extends KoLDatabase
 		// Degrassi knoll bakery, so fallback on that when possible.
 
 		else if ( storeID.equals( "b" ) )
-		{
-			if ( !EquipmentDatabase.hasOutfit( 1 ) )
-			{
-				itemIndex = storeTable[4].lastIndexOf( itemID );
-				storeID = (String) storeTable[0].get( itemIndex );
-
-				if ( storeID.equals( "b" ) )
-				{
-					itemRequest.setCanPurchase( false );
-				}
-				else
-				{
-					itemRequest = new MallPurchaseRequest( getClient(), (String) storeTable[1].get(itemIndex), storeID,
-						parseInt( (String) storeTable[2].get(itemIndex) ), parseInt( (String) storeTable[3].get(itemIndex) ) );
-
-					itemRequest.setCanPurchase( KoLCharacter.inMuscleSign() );
-				}
-			}
-		}
+			return EquipmentDatabase.hasOutfit( 1 );
 
 		// If the person is not in a muscle sign, then items from the
 		// Degrassi Knoll are not available.
 
 		else if ( (storeID.equals( "4" ) || storeID.equals( "5" )) )
-			itemRequest.setCanPurchase( KoLCharacter.inMuscleSign() );
+			return KoLCharacter.inMuscleSign();
 
 		// If the person is not in a mysticality sign, then items from the
 		// Canadia Jewelers are not available.
 
 		else if ( storeID.equals( "j" ) )
-			itemRequest.setCanPurchase( KoLCharacter.inMysticalitySign() );
+			return KoLCharacter.inMysticalitySign();
 
 		// If the person is trying to get the items from the laboratory,
 		// then the item is not available if they don't have the elite
 		// guard uniform, and not available if out of Ronin.
 
 		else if ( storeID.equals( "g" ) )
-			itemRequest.setCanPurchase( EquipmentDatabase.hasOutfit( 5 ) );
+			return EquipmentDatabase.hasOutfit( 5 );
 
 		// If the person is trying to get one of the items from the hippy
 		// store, then the item is not available if they don't have the
 		// hippy outfit.
 
 		else if ( storeID.equals( "h" ) )
-			itemRequest.setCanPurchase( EquipmentDatabase.hasOutfit( 2 ) );
+			return EquipmentDatabase.hasOutfit( 2 );
 
 		// Check for a lucky rabbit's foot when determining whether or not
 		// the person has access to the Citadel.
 
 		else if ( storeID.equals( "w" ) )
-			itemRequest.setCanPurchase( KoLCharacter.hasItem( RABBIT_FOOT, false ) );
+			return KoLCharacter.hasItem( RABBIT_FOOT, false );
 
 		// If it gets this far, then the item is definitely available
 		// for purchase from the NPC store.
 
-		return itemRequest;
+		return true;
 	}
 
 	public static final boolean contains( String itemName )
@@ -188,7 +201,7 @@ public class NPCStoreDatabase extends KoLDatabase
 
 	public static final boolean contains( String itemName, boolean validate )
 	{
-		MallPurchaseRequest itemRequest = getPurchaseRequest( itemName );
-		return itemRequest == null ? false : validate ? getBooleanProperty( "autoSatisfyWithNPCs" ) && itemRequest.canPurchase() : true;
+		String storeID = getStoreID( getCanonicalName( itemName ) );
+		return storeID != null && (!validate || canPurchase( storeID ));
 	}
 }
