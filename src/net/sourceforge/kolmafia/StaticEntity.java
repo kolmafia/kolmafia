@@ -113,20 +113,23 @@ public abstract class StaticEntity implements KoLConstants
 	{	(new Thread( new LogoutRequest( client ) )).start();
 	}
 
-	public static void reloadSettings()
-	{	settings = new KoLSettings( getProperty( lastUsername ) );
+	public static void reloadSettings( String username )
+	{	settings = new KoLSettings( username );
 	}
 
 	public static final void setProperty( String name, String value )
 	{
 		if ( settings == null )
-			reloadSettings();
+			return;
 
 		settings.setProperty( name, value );
 	}
 
 	public static final void removeProperty( String name )
 	{
+		if ( settings == null )
+			return;
+
 		settings.remove( name );
 		settings.saveSettings();
 	}
@@ -134,7 +137,7 @@ public abstract class StaticEntity implements KoLConstants
 	public static final String getProperty( String name )
 	{
 		if ( settings == null )
-			reloadSettings();
+			return "";
 
 		return settings.getProperty( name );
 	}

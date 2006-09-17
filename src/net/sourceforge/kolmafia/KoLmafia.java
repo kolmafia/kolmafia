@@ -161,6 +161,7 @@ public abstract class KoLmafia implements KoLConstants
 		hermitItems.add( "volleyball" );
 		hermitItems.add( "wooden figurine" );
 
+		StaticEntity.reloadSettings( "" );
 
 		if ( saveStateNames.isEmpty() )
 		{
@@ -232,9 +233,7 @@ public abstract class KoLmafia implements KoLConstants
 	 */
 
 	public KoLmafia()
-	{
-		useDisjunction = false;
-		StaticEntity.reloadSettings();
+	{	useDisjunction = false;
 	}
 
 	/**
@@ -353,8 +352,8 @@ public abstract class KoLmafia implements KoLConstants
 		}
 
 		StaticEntity.setProperty( "lastUsername", username );
+		StaticEntity.reloadSettings( username );
 
-		StaticEntity.reloadSettings();
 		KoLCharacter.reset( username );
 
 		KoLmafia.openSessionStream();
