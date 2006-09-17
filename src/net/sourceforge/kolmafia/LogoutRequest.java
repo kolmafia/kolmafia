@@ -59,19 +59,11 @@ public class LogoutRequest extends KoLRequest
 		// this ensures a forced reload of the frame which will
 		// keep the parameters fresh.
 
-		KoLCharacter.reset( "" );
 		KoLMessenger.dispose();
 		ConcoctionsDatabase.getConcoctions().clear();
 		BuffBotHome.setBuffBotActive( false );
 
 		StaticEntity.getClient().deinitialize();
-
-		KoLFrame [] frames = new KoLFrame[ existingFrames.size() ];
-		existingFrames.toArray( frames );
-
-		for ( int i = 0; i < frames.length; ++i )
-			if ( !(frames[i] instanceof LoginFrame) )
-				frames[i].dispose();
 
 		if ( KoLDesktop.instanceExists() )
 			KoLDesktop.getInstance().dispose();

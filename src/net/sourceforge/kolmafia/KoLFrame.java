@@ -221,8 +221,6 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		if ( isVisible() )
 			rememberPosition();
 
-		super.dispose();
-
 		// Determine which frame needs to be removed from
 		// the maintained list of frames.
 
@@ -237,13 +235,21 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 		// a login frame involves exiting, and ending the
 		// session for all other frames is calling main.
 
-		if ( existingFrames.isEmpty() && StaticEntity.getClient() instanceof KoLmafiaGUI )
-		{
-			StaticEntity.closeSession();
+		System.out.println( existingFrames.size() );
 
+		if ( existingFrames.isEmpty() && StaticEntity.getClient() instanceof KoLmafiaGUI )
+			(new RestartThread()).start();
+	}
+
+	private class RestartThread extends Thread
+	{
+		public void run()
+		{
 			if ( !StaticEntity.getProperty( "autoLogin" ).equals( "" ) )
 				System.exit(0);
 
+			KoLmafia.forceContinue();
+			(new LogoutRequest( StaticEntity.getClient() )).run();
 			(new CreateFrameRunnable( LoginFrame.class )).run();
 		}
 	}

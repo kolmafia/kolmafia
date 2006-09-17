@@ -677,9 +677,7 @@ public class KoLmafiaCLI extends KoLmafia
 
 		if ( command.equals( "login" ) )
 		{
-			(new LogoutRequest( StaticEntity.getClient() )).run();
 			forceContinue();
-
 			String password = StaticEntity.getClient().getSaveState( parameters );
 
 			if ( password != null )
@@ -696,13 +694,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// character has already logged in.
 
 		if ( command.equals( "exit" ) || command.equals( "quit" ) || command.equals( "logout" ) )
-		{
-			updateDisplay( "Logging out..." );
-			StaticEntity.closeSession();
-
-			updateDisplay( "Exiting KoLmafia..." );
 			System.exit(0);
-		}
 
 		// Next, handle any requests for script execution;
 		// these can be done at any time (including before
