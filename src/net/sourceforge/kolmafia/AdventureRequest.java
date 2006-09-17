@@ -408,6 +408,8 @@ public class AdventureRequest extends KoLRequest
 				return "";
 
 			String encounter = request.responseText.substring( spanIndex, endSpanIndex );
+			encounter = CombatSettings.encounterKey( encounter, false );
+
 			KoLmafiaCLI.printLine( "Encounter: " + encounter );
 			KoLmafia.getSessionStream().println( "Encounter: " + encounter );
 			StaticEntity.getClient().registerEncounter( encounter );

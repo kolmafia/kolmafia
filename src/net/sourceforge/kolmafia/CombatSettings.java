@@ -221,17 +221,31 @@ public abstract class CombatSettings implements UtilityConstants
 	}
 
 	public static String encounterKey( String line )
+	{	return encounterKey( line, true );
+	}
+
+	public static String encounterKey( String line, boolean changeCase )
 	{
-		String key = line.trim().toLowerCase();
+		line = line.trim();
+		String key = line.toLowerCase();
 
 		if ( key.startsWith( "a " ) )
+		{
 			key = key.substring( 2 );
+			line = line.substring( 2 );
+		}
 		else if ( key.startsWith( "an " ) )
+		{
 			key = key.substring( 3 );
+			line = line.substring( 3 );
+		}
 		else if ( key.startsWith( "the " ) )
+		{
 			key = key.substring( 4 );
+			line = line.substring( 4 );
+		}
 
-		return key;
+		return changeCase ? key : line;
     }
 
 	public synchronized static void setDefaultAction( String actionList )
