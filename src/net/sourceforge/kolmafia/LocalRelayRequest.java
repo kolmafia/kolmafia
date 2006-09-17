@@ -55,6 +55,7 @@ public class LocalRelayRequest extends KoLRequest
 	private static final Pattern MENU1_PATTERN = Pattern.compile( "<select name=\"loc\".*?</select>", Pattern.DOTALL );
 	private static final Pattern MENU2_PATTERN = Pattern.compile( "<select name=location.*?</select>", Pattern.DOTALL );
 	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img src=\"([^\"]*?)\"" );
+	private static final Pattern WHITESPACE_PATTERN = Pattern.compile( "['\\s-]" );
 
 	private static boolean isRunningCommand = false;
 
@@ -139,13 +140,18 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( formURLString.indexOf( "lchat.php" ) != -1 )
 		{
-			fullResponse = fullResponse.replaceAll( "cycles\\+\\+", "count = 0" ).replaceAll(
-				"window.?location.?hostname", "\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
+			fullResponse = StaticEntity.simpleStringReplace( fullResponse, "cycles++", "cycles = 0" );
+			fullResponse = StaticEntity.simpleStringReplace( fullResponse, "window.location.hostname", "\"127.0.0.1:" + LocalRelayServer.getPort() + "\"" );
 
-			fullResponse = fullResponse.replaceAll(
-				"</head>", "<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script></head>" );
+			int headIndex = fullResponse.indexOf( "</head>" );
+			int onLoadIndex = fullResponse.indexOf( "onLoad='" ) + 8;
 
-			fullResponse = fullResponse.replaceAll( "onLoad='", "onLoad='setInterval( getNewMessages, 8000 ); " );
+			if ( headIndex != -1 && onLoadIndex != 7 )
+			{
+				fullResponse = fullResponse.substring( 0, headIndex ) +
+					"<script language=\"Javascript\">base = \"http://127.0.0.1:" +  LocalRelayServer.getPort() + "\";</script>" +
+					fullResponse.substring( headIndex, onLoadIndex ) + "setInterval( getNewMessages, 8000 ); " + fullResponse.substring( onLoadIndex );
+			}
 		}
 
 		// Fix KoLmafia getting outdated by events happening
@@ -170,8 +176,13 @@ public class LocalRelayRequest extends KoLRequest
 		{
 			if ( StaticEntity.getBooleanProperty( "relayAddsCommandLineLinks" ) )
 			{
-				fullResponse = fullResponse.replaceFirst( "<a href",
-					"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Loads in this frame to allow for manual adventuring.</p><center><a href");
+				int linkTagIndex = fullResponse.indexOf( "<a href" );
+				if ( linkTagIndex != -1 )
+				{
+					fullResponse = fullResponse.substring( 0, linkTagIndex ) +
+						"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Execute scripting commands in your browser!</p><center>" +
+						fullResponse.substring( linkTagIndex );
+				}
 			}
 		}
 
@@ -180,27 +191,32 @@ public class LocalRelayRequest extends KoLRequest
 		// Download and link to any Players of Loathing
 		// picture pages locally.
 
-		if ( fullResponse.indexOf( "http://pics.communityofloathing.com" ) != -1 )
-			fullResponse = fullResponse.replaceAll( "target=_blank href=\"http://pics\\.communityofloathing\\.com/albums", "href=\"images" );
+		int playerPicsIndex = fullResponse.indexOf( "http://pics.communityofloathing.com" );
+		if ( playerPicsIndex != -1 )
+		{
+			int albumIndex = fullResponse.indexOf( "albums", playerPicsIndex ) + 6;
+			fullResponse = fullResponse.substring( 0, playerPicsIndex ) + "images" + fullResponse.substring( albumIndex );
+		}
 
 		// Remove the default frame busting script so that
 		// we can detach user interface elements.
 
-		if ( fullResponse.indexOf( "frames.length == 0" ) != -1 )
-			fullResponse = fullResponse.replaceFirst( "frames.length == 0", "frames.length == -1" );
+		int frameBustIndex = fullResponse.indexOf( "frames.length == 0" );
+		if ( frameBustIndex != -1 )
+			fullResponse = fullResponse.substring( 0, frameBustIndex ) + "frames.length == -1" + fullResponse.substring( frameBustIndex + 18 );
 
 		// If the person is currently caching relay images,
 		// then it would be most beneficial to use local
 		// file access.
 
-		else if ( StaticEntity.getBooleanProperty( "cacheRelayImages" ) )
-			fullResponse = fullResponse.replaceAll( "http://images\\.kingdomofloathing\\.com", "images" );
+		if ( StaticEntity.getBooleanProperty( "cacheRelayImages" ) )
+			fullResponse = StaticEntity.simpleStringReplace( fullResponse, "http://images.kingdomofloathing.com", "images" );
 
 		// Otherwise, use the standard image server address
 		// just in case there is a DNS problem.
 
 		else
-			fullResponse = fullResponse.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
+			fullResponse = StaticEntity.simpleStringReplace( fullResponse, "images.kingdomofloathing.com", IMAGE_SERVER );
 	}
 
 	public String getHeader( int index )
@@ -226,7 +242,7 @@ public class LocalRelayRequest extends KoLRequest
 
 	protected void pseudoResponse( String status, String fullResponse )
 	{
-		this.fullResponse = fullResponse.replaceAll( "<.?--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
+		this.fullResponse = StaticEntity.simpleStringReplace( fullResponse, "<!--MAFIA_HOST_PORT-->", "127.0.0.1:" + LocalRelayServer.getPort() );
 		if ( fullResponse.length() == 0 )
 			this.fullResponse = " ";
 
@@ -451,7 +467,7 @@ public class LocalRelayRequest extends KoLRequest
 		while ( lastIndex != -1 )
 		{
 			buffer.replace( lastIndex, lastIndex + tag.length(), replaceWith );
-			lastIndex = buffer.indexOf( tag );
+			lastIndex = buffer.indexOf( tag, lastIndex + replaceWith.length() );
 		}
 	}
 
@@ -515,7 +531,7 @@ public class LocalRelayRequest extends KoLRequest
 				continue;
 
 			passiveSkills.append( "\t" );
-			passiveSkills.append( skills[i].getSkillName().replaceAll( "[' -]", "" ).toLowerCase() );
+			passiveSkills.append( WHITESPACE_PATTERN.matcher( skills[i].getSkillName() ).replaceAll( "" ).toLowerCase() );
 			passiveSkills.append( "\t" );
 		}
 
@@ -529,7 +545,7 @@ public class LocalRelayRequest extends KoLRequest
 
 		String activeEffects = "";
 		for ( int i = 0; i < effects.length; ++i )
-			activeEffects += "\t" + UneffectRequest.effectToSkill( effects[i].getName() ).replaceAll( "[' -]", "" ).toLowerCase() + "\t";
+			activeEffects += "\t" + WHITESPACE_PATTERN.matcher( UneffectRequest.effectToSkill( effects[i].getName() ) ).replaceAll( "" ).toLowerCase() + "\t";
 
 		replaceTag( scriptBuffer, "/*activeEffects*/", activeEffects );
 
@@ -694,8 +710,7 @@ public class LocalRelayRequest extends KoLRequest
 		File directory = new File( "html/simulator/" );
 		directory.mkdirs();
 
-		request.fullResponse = request.fullResponse.replaceAll( "\"images/",
-			"\"http://sol.kolmafia.us/images/" );
+		request.fullResponse = StaticEntity.simpleStringReplace( request.fullResponse, "images/", "\"http://sol.kolmafia.us/images/" );
 
 		try
 		{

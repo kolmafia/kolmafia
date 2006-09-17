@@ -46,6 +46,10 @@ import edu.stanford.ejalbert.BrowserLauncher;
 
 public abstract class StaticEntity implements KoLConstants
 {
+	private static final Pattern NONDIGIT_PATTERN = Pattern.compile( "[^\\-0-9]" );
+	private static final Pattern NONFLOAT_PATTERN = Pattern.compile( "[^\\-\\.0-9]" );
+	private static final Pattern NEWSKILL_PATTERN = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" );
+
 	private static KoLSettings settings = null;
 	private static final String [] EMPTY_STRING_ARRAY = new String[0];
 
@@ -247,7 +251,7 @@ public abstract class StaticEntity implements KoLConstants
 		// See if the person learned a new skill from using a
 		// mini-browser frame.
 
-		Matcher learnedMatcher = Pattern.compile( "<td>You learn a new skill: <b>(.*?)</b>" ).matcher( responseText );
+		Matcher learnedMatcher = NEWSKILL_PATTERN.matcher( responseText );
 		if ( learnedMatcher.find() )
 		{
 			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1), "", 1 ) );
@@ -255,7 +259,7 @@ public abstract class StaticEntity implements KoLConstants
 			KoLCharacter.refreshCalculatedLists();
 		}
 
-		learnedMatcher = Pattern.compile( "emerge with a (.*?) of Steel" ).matcher( responseText );
+		learnedMatcher = AdventureRequest.STEEL_PATTERN.matcher( responseText );
 		if ( learnedMatcher.find() )
 			KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1) + " of Steel", "", 1 ) );
 
@@ -414,7 +418,7 @@ public abstract class StaticEntity implements KoLConstants
 		if ( string == null )
 			return 0;
 
-		String clean = string.replaceAll( "[^\\-0-9]", "" );
+		String clean = NONDIGIT_PATTERN.matcher( string ).replaceAll( "" );
 		return clean.equals( "" ) ? 0 : Integer.parseInt( clean );
 	}
 
@@ -423,7 +427,7 @@ public abstract class StaticEntity implements KoLConstants
 		if ( string == null )
 			return 0.0f;
 
-		String clean = string.replaceAll( "[^\\-\\.0-9]", "" );
+		String clean = NONFLOAT_PATTERN.matcher( string ).replaceAll( "" );
 		return clean.equals( "" ) ? 0.0f : Float.parseFloat( clean );
 	}
 
@@ -468,6 +472,30 @@ public abstract class StaticEntity implements KoLConstants
 			StaticEntity.printStackTrace( e );
 			return false;
 		}
+	}
+
+	public static final String simpleStringDelete( String originalString, String searchString )
+	{	return simpleStringReplace( originalString, searchString, "" );
+	}
+
+	public static final String simpleStringReplace( String originalString, String searchString, String replaceString )
+	{
+		// Using a regular expression, while faster, results
+		// in a lot of String allocation overhead.  So, use
+		// a statically-allocated StringBuffers.
+
+		int lastIndex = originalString.indexOf( searchString );
+		if ( lastIndex == -1 )
+			return originalString;
+
+		StringBuffer buffer = new StringBuffer( originalString );
+		while ( lastIndex != -1 )
+		{
+			buffer.replace( lastIndex, lastIndex + originalString.length(), replaceString );
+			lastIndex = buffer.indexOf( searchString, lastIndex + replaceString.length() );
+		}
+
+		return buffer.toString();
 	}
 
 	public static final void saveSettings()

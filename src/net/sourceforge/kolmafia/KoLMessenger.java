@@ -51,6 +51,19 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public abstract class KoLMessenger extends StaticEntity
 {
+	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
+	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img.*?>" );
+	private static final Pattern EXPAND_PATTERN = Pattern.compile( "(</?p>)+" );
+	private static final Pattern COLOR_PATTERN = Pattern.compile( "</?font.*?>" );
+	private static final Pattern ITALICS_PATTERN = Pattern.compile( "</?i>" );
+	private static final Pattern LINEBREAK_PATTERN = Pattern.compile( "</?br>", Pattern.CASE_INSENSITIVE );
+	private static final Pattern TABLE_PATTERN = Pattern.compile( "<table>.*?</table>" );
+	private static final Pattern ANYTAG_PATTERN = Pattern.compile( "<.*?>" );
+	private static final Pattern TABLECELL_PATTERN = Pattern.compile( "</?[tc].*?>" );
+	private static final Pattern PLAYERID_PATTERN = Pattern.compile( "showplayer\\.php\\?who\\=(\\d+)[\'\"][^>]*?>(.*?)</a>" );
+	private static final Pattern PARENTHESIS_PATTERN = Pattern.compile( " \\(.*?\\)" );
+	private static final Pattern MULTILINE_PATTERN = Pattern.compile( "\n+" );
+
 	private static final SimpleDateFormat EVENT_TIMESTAMP = new SimpleDateFormat( "MM/dd/yy hh:mm a", Locale.US );
 
 	private static final String DEFAULT_TIMESTAMP_COLOR = "#7695B4";
@@ -164,7 +177,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 		LimitedSizeChatBuffer.clearHighlights();
 
-		String [] highlights = getProperty( "highlightList" ).replaceAll( "\n\n+", "\n" ).trim().split( "\n" );
+		String [] highlights = getProperty( "highlightList" ).trim().split( "\n+" );
 
 		if ( highlights.length > 1 )
 		{
@@ -362,88 +375,56 @@ public abstract class KoLMessenger extends StaticEntity
 
 	private static final String getNormalizedContent( String originalContent )
 	{
-		String noImageContent = originalContent.replaceAll( "<img.*?>", "" );
-		String condensedContent = noImageContent.replaceAll( "(</?p>)+", "<br>" );
-		String noColorContent = condensedContent.replaceAll( "</?font.*?>", "" );
-		String noItalicsContent = noColorContent.replaceAll( "</?i>", "" );
-		String normalBreaksContent = noItalicsContent.replaceAll( "</?[Bb][Rr]>", "<br>" );
-		String normalBoldsContent = normalBreaksContent.replaceAll( "<br></b>", "</b><br>" );
-		String colonOrderedContent = normalBoldsContent.replaceAll( ":</b></a>", "</b></a>:" ).replaceAll( "</a>:</b>", "</a></b>:" );
-		String noCommentsContent = colonOrderedContent.replaceAll( "<!--.*?-->", "" );
+		String noImageContent = IMAGE_PATTERN.matcher( originalContent ).replaceAll( "" );
+		String condensedContent = EXPAND_PATTERN.matcher( noImageContent ).replaceAll( "<br>" );
+		String noColorContent = COLOR_PATTERN.matcher( condensedContent ).replaceAll( "" );
+		String noItalicsContent = ITALICS_PATTERN.matcher( noColorContent ).replaceAll( "" );
 
-		return noCommentsContent.replaceAll( "<table>.*?</table>", "" );
+		String normalBreaksContent = LINEBREAK_PATTERN.matcher( noItalicsContent ).replaceAll( "<br>" );
+		String normalBoldsContent = StaticEntity.simpleStringReplace( normalBreaksContent, "<br></b>", "</b><br>" );
+		String colonOrderedContent = StaticEntity.simpleStringReplace( normalBoldsContent, ":</b></a>", "</b></a>:" );
+		colonOrderedContent = StaticEntity.simpleStringReplace( colonOrderedContent, "</a>:</b>", "</a></b>:" );
+		String noCommentsContent = COMMENT_PATTERN.matcher( colonOrderedContent ).replaceAll( "" );
+
+		return TABLE_PATTERN.matcher( noCommentsContent ).replaceAll( "" );
 	}
 
 	private static void handleTableContent( String content )
 	{
-		Matcher tableMatcher = Pattern.compile( "<table>.*?</table>" ).matcher( content );
+		Matcher tableMatcher = TABLE_PATTERN.matcher( content );
 
 		while ( tableMatcher.find() )
 		{
 			String result = tableMatcher.group();
 
-			// Ignore the help information, which gets spit out whenever you
-			// type /? when looking for the contact list - on the other hand,
-			// you can opt to append the result to the window itself.  Also
-			// dodge the list that resulted from /who.
 
-			if ( Pattern.compile( "[^<]/" ).matcher( result ).find() )
+			String [] contactList = ANYTAG_PATTERN.matcher( result.substring( result.indexOf( ":" ) ) ).replaceAll( "" ).split( "\\s*,\\s*" );
+
+			for ( int i = 0; i < contactList.length; ++i )
 			{
-				result = result.replaceAll( "><", "" ).replaceAll( "<.*?>", "\n" ).trim();
-
-				// If the user has clicked into a menu, then there's a chance that
-				// the active frame will not be recognized - therefore, simply
-				// put the messages into the current channel instead.
-
-				LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
-				String [] helpdata = result.split( "\n" );
-				StringBuffer dataBuffer = new StringBuffer();
-
-				for ( int i = 0; i < helpdata.length; ++i )
-				{
-					dataBuffer.append( "<font color=orange>" );
-					if ( helpdata[i].startsWith( "/" ) )
-					{
-						dataBuffer.append( "</font><br><font color=orange><b>" );
-						dataBuffer.append( helpdata[i] );
-						dataBuffer.append( "</b>" );
-					}
-					else if ( !helpdata[i].endsWith( ":" ) )
-						dataBuffer.append( helpdata[i] );
-				}
-
-				dataBuffer.append( "</font><br><br>" );
-				currentChatBuffer.append( dataBuffer.toString() );
+				if ( contactList[i].indexOf( "(" ) != -1 )
+					contactList[i] = contactList[i].substring( 0, contactList[i].indexOf( "(" ) ).trim();
+				contactList[i] = contactList[i].toLowerCase();
 			}
-			else
-			{
-				String [] contactList = result.replaceAll( "><", "" ).replaceAll( "<.*?>", "" ).replaceAll( ":", "," ).split( "\\s*,\\s*" );
 
-				for ( int i = 1; i < contactList.length; ++i )
-				{
-					if ( contactList[i].indexOf( "(" ) != -1 )
-						contactList[i] = contactList[i].substring( 0, contactList[i].indexOf( "(" ) ).trim();
-					contactList[i] = contactList[i].toLowerCase();
-				}
+			updateContactList( contactList );
 
-				updateContactList( contactList );
-			}
 			if ( !getProperty( "usePopupContacts" ).equals( "1" ) )
 			{
 				LimitedSizeChatBuffer currentChatBuffer = getChatBuffer( updateChannel );
-				currentChatBuffer.append( content.replaceAll( "</?[tc].*?>", "" ).replaceFirst( "</b>", "</b><br>" ) );
+				currentChatBuffer.append( TABLECELL_PATTERN.matcher( content ).replaceAll( "" ) );
 			}
 		}
 	}
 
 	private static void handlePlayerData( String content )
 	{
-		Matcher playerMatcher = Pattern.compile( "showplayer\\.php\\?who\\=(\\d+)[\'\"][^>]*?>(.*?)</a>" ).matcher( content );
+		Matcher playerMatcher = PLAYERID_PATTERN.matcher( content );
 
 		String playerName, playerID;
 		while ( playerMatcher.find() )
 		{
-			playerName = playerMatcher.group(2).replaceAll( "<.*?>", "" ).replaceAll( " \\(.*?\\)", "" ).replaceAll( ":" , "" );
+			playerName = PARENTHESIS_PATTERN.matcher( ANYTAG_PATTERN.matcher( playerMatcher.group(2) ).replaceAll( "" ) ).replaceAll( "" );
 			playerID = playerMatcher.group(1);
 
 			// Handle the new player profile links -- in
@@ -469,7 +450,7 @@ public abstract class KoLMessenger extends StaticEntity
 			{
 				channel = channelMatcher.group(1);
 				if ( channel.indexOf( "<b" ) != -1 )
-					currentChannel = "/" + channel.replaceAll( "<.*?>", "" ).trim();
+					currentChannel = "/" + ANYTAG_PATTERN.matcher( channel ).replaceAll( "" ).trim();
 				else
 					channelList.add( channel );
 			}
@@ -481,7 +462,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			for ( int i = 0; i < channels.length; ++i )
 			{
-				channelKey = "/" + channels[i].replaceAll( "<.*?>", "" ).trim();
+				channelKey = "/" + ANYTAG_PATTERN.matcher( channels[i] ).replaceAll( "" ).trim();
 				openInstantMessage( getBufferKey( channelKey ) );
 			}
 
@@ -619,12 +600,15 @@ public abstract class KoLMessenger extends StaticEntity
 		{
 			int startIndex = message.indexOf( ":" ) + 2;
 
-			currentChannel = "/" + message.substring( startIndex ).replaceAll( "\\.", "" );
+			currentChannel = "/" + message.substring( startIndex );
+			if ( currentChannel.endsWith( "." ) )
+				currentChannel = currentChannel.substring( 0, currentChannel.length() - 1 );
+
 			processChatMessage( currentChannel, message );
 		}
 		else if ( message.indexOf( "(private)</b></a>:" ) != -1 )
 		{
-			String sender = message.substring( 0, message.indexOf( " (" ) ).replaceAll( "<.*?>", "" );
+			String sender = ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( " (" ) ) ).replaceAll( "" );
 			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerID( sender ) + "\"><b><font color=blue>" +
 				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
 			processChatMessage( sender, cleanHTML );
@@ -632,7 +616,7 @@ public abstract class KoLMessenger extends StaticEntity
 		else if ( message.startsWith( "<b>private to" ) )
 		{
 			String sender = KoLCharacter.getUsername();
-			String recipient = message.substring( 0, message.indexOf( ":" ) ).replaceAll( "<.*?>", "" ).substring( 11 );
+			String recipient = ANYTAG_PATTERN.matcher( message.substring( 0, message.indexOf( ":" ) ) ).replaceAll( "" ).substring( 11 );
 
 			String cleanHTML = "<a target=mainpane href=\"showplayer.php?who=" + KoLmafia.getPlayerID( sender ) + "\"><b><font color=red>" +
 				sender + "</font></b></a>" + message.substring( message.indexOf( ":" ) );
@@ -725,7 +709,7 @@ public abstract class KoLMessenger extends StaticEntity
 				// no special formatting needed.
 
 				Matcher nameMatcher = Pattern.compile( "<a.*?>(.*?)</a>" ).matcher( message );
-				String contactName = nameMatcher.find() ? nameMatcher.group(1).replaceAll( "<.*?>", "" ) : message;
+				String contactName = nameMatcher.find() ? ANYTAG_PATTERN.matcher( nameMatcher.group(1) ).replaceAll( "" ) : message;
 
 				if ( contactName.indexOf( "*" ) == -1 )
 					displayHTML = message.replaceFirst( contactName, "<font color=\"" + getColor( contactName ) + "\">" + contactName + "</font>" );
@@ -794,7 +778,7 @@ public abstract class KoLMessenger extends StaticEntity
 
 			buffer.append( timestamp.toString() + "&nbsp;" + displayHTML + "<br>" );
 			if ( displayHTML.startsWith( "<font color=green>" ) )
-				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + displayHTML.replaceAll( "<.*?>", "" ) );
+				eventHistory.add( EVENT_TIMESTAMP.format( new Date() ) + " - " + ANYTAG_PATTERN.matcher( displayHTML ).replaceAll( "" ) );
 
 			// Check to make sure that in the time it took for
 			// everything to be processed, chat didn't get closed.
@@ -1023,7 +1007,7 @@ public abstract class KoLMessenger extends StaticEntity
 				if ( endIndex < oldSetting.length() )
 					newSetting.append( oldSetting.substring( endIndex ) );
 
-				setProperty( "highlightList", newSetting.toString().replaceAll( "\n\n+", "\n" ).trim() );
+				setProperty( "highlightList", MULTILINE_PATTERN.matcher( newSetting.toString() ).replaceAll( "\n" ).trim() );
 			}
 		}
 
