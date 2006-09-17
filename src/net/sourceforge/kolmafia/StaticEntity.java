@@ -52,6 +52,7 @@ public abstract class StaticEntity implements KoLConstants
 	private static KoLmafia client;
 	private static int usesSystemTray = 0;
 	private static int usesRelayWindows = 0;
+	private static boolean showedDebugLog = false;
 
 	public static final void setClient( KoLmafia client )
 	{	StaticEntity.client = client;
@@ -397,11 +398,18 @@ public abstract class StaticEntity implements KoLConstants
 			{
 				KoLmafia.debugStream.close();
 				KoLmafia.debugStream = NullStream.INSTANCE;
-				BrowserLauncher.openURL( (new File( "KoLmafia.log" )).getAbsolutePath() );
+
+				if ( !showedDebugLog )
+				{
+					showedDebugLog = true;
+					BrowserLauncher.openURL( (new File( "KoLmafia.log" )).getAbsolutePath() );
+				}
 			}
 		}
 		catch ( Exception e )
 		{
+			// Okay, since you're in the middle of handling an exception
+			// and got a new one, just return from here.
 		}
 	}
 
