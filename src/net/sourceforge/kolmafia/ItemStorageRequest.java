@@ -41,6 +41,13 @@ import java.util.regex.Pattern;
 
 public class ItemStorageRequest extends SendMessageRequest
 {
+	private static final Pattern CLOSETMEAT_PATTERN = Pattern.compile( "<b>Your closet contains ([\\d,]+) meat\\.</b>" );
+	private static final Pattern PULLS_PATTERN = Pattern.compile( "(\\d+) more" );
+	private static final Pattern STORAGE_PATTERN = Pattern.compile( "name=\"whichitem1\".*?</select>", Pattern.DOTALL );
+	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option[^>]* value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" );
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem\\d*=(\\d*)" );
+	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany\\d*=(\\d*)" );
+
 	private int moveType;
 
 	public static final int EMPTY_STORAGE = -2;
@@ -245,7 +252,7 @@ public class ItemStorageRequest extends SendMessageRequest
 		int beforeMeatInCloset = KoLCharacter.getClosetMeat();
 		int afterMeatInCloset = 0;
 
-		Matcher meatInClosetMatcher = Pattern.compile( "<b>Your closet contains ([\\d,]+) meat\\.</b>" ).matcher( responseText );
+		Matcher meatInClosetMatcher = CLOSETMEAT_PATTERN.matcher( responseText );
 
 		if ( meatInClosetMatcher.find() )
 			afterMeatInCloset = StaticEntity.parseInt( meatInClosetMatcher.group(1) );
@@ -264,7 +271,7 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		if ( !existingFrames.isEmpty() )
 		{
-			storageMatcher = Pattern.compile( "(\\d+) more" ).matcher( responseText );
+			storageMatcher = PULLS_PATTERN.matcher( responseText );
 			if ( storageMatcher.find() )
 				HagnkStorageFrame.setPullsRemaining( StaticEntity.parseInt( storageMatcher.group(1) ) );
 			else if ( KoLCharacter.isHardcore() || !KoLCharacter.canInteract() )
@@ -281,12 +288,12 @@ public class ItemStorageRequest extends SendMessageRequest
 		// If there's nothing inside storage, return
 		// because there's nothing to parse.
 
-		storageMatcher = Pattern.compile( "name=\"whichitem1\".*?</select>", Pattern.DOTALL ).matcher( responseText );
+		storageMatcher = STORAGE_PATTERN.matcher( responseText );
 		if ( !storageMatcher.find() )
 			return;
 
 		int lastFindIndex = 0;
-		Matcher optionMatcher = Pattern.compile( "<option[^>]* value='([\\d]+)'>(.*?)\\(([\\d,]+)\\)" ).matcher( storageMatcher.group() );
+		Matcher optionMatcher = OPTION_PATTERN.matcher( storageMatcher.group() );
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = optionMatcher.end();
@@ -374,8 +381,8 @@ public class ItemStorageRequest extends SendMessageRequest
 		ArrayList itemList = new ArrayList();
 		StringBuffer itemListBuffer = new StringBuffer();
 
-		Matcher itemMatcher = Pattern.compile( "whichitem\\d*=(\\d*)" ).matcher( urlString );
-		Matcher quantityMatcher = Pattern.compile( "howmany\\d*=(\\d*)" ).matcher( urlString );
+		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
+		Matcher quantityMatcher = HOWMANY_PATTERN.matcher( urlString );
 
 		while ( itemMatcher.find() && quantityMatcher.find() )
 		{

@@ -38,6 +38,9 @@ import java.util.regex.Matcher;
 
 public class MailboxRequest extends KoLRequest
 {
+	private static final Pattern MULTIPAGE_PATTERN = Pattern.compile( "Messages: \\w*?, page \\d* \\(\\d* - (\\d*) of (\\d*)\\)</b>" );
+	private static final Pattern SINGLEPAGE_PATTERN = Pattern.compile( "Messages: \\w*?, page 1 \\((\\d*) messages\\)</b>" );
+
 	private String boxname;
 	private int beginIndex;
 	private String action;
@@ -102,7 +105,7 @@ public class MailboxRequest extends KoLRequest
 
 		try
 		{
-			Matcher matcher = Pattern.compile( "Messages: \\w*?, page \\d* \\(\\d* - (\\d*) of (\\d*)\\)</b>" ).matcher( responseText );
+			Matcher matcher = MULTIPAGE_PATTERN.matcher( responseText );
 
 			if ( matcher.find() )
 			{
@@ -111,7 +114,7 @@ public class MailboxRequest extends KoLRequest
 			}
 			else
 			{
-				matcher = Pattern.compile( "Messages: \\w*?, page 1 \\((\\d*) messages\\)</b>" ).matcher( responseText );
+				matcher = SINGLEPAGE_PATTERN.matcher( responseText );
 				if ( matcher.find() )
 				{
 					lastMessageID = StaticEntity.parseInt( matcher.group(1) );

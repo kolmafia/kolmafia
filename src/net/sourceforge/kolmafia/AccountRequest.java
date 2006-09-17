@@ -38,6 +38,10 @@ import java.util.regex.Matcher;
 
 public class AccountRequest extends PasswordHashRequest
 {
+	private static final Pattern AUTOSELL_PATTERN = Pattern.compile( "action=sellstuff\">Switch to (\\S*?) Autosale Mode</a>" );
+	private static final Pattern TIMEZONE_PATTERN = Pattern.compile( "<select name=timezone>.*?</select>", Pattern.DOTALL );
+	private static final Pattern SELECTED_PATTERN = Pattern.compile( "selected>(-?\\d*?)</option>" );
+
 	public AccountRequest( KoLmafia client )
 	{	super( client, "account.php" );
 	}
@@ -49,7 +53,7 @@ public class AccountRequest extends PasswordHashRequest
 		// Parse response text -- make sure you
 		// aren't accidentally parsing profiles.
 
-		Matcher matcher = Pattern.compile( "action=sellstuff\">Switch to (\\S*?) Autosale Mode</a>" ).matcher( responseText );
+		Matcher matcher = AUTOSELL_PATTERN.matcher( responseText );
 
 		if ( matcher.find() )
 		{
@@ -75,13 +79,11 @@ public class AccountRequest extends PasswordHashRequest
 		// Also parse out the player's current time
 		// zone in the process.
 
-		matcher = Pattern.compile( "<select name=timezone>.*?</select>", Pattern.DOTALL ).matcher( responseText );
+		matcher = TIMEZONE_PATTERN.matcher( responseText );
 
 		if ( matcher.find() )
 		{
-			int timeOffset = 0;
-			// 100, -200, +/- 0
-			matcher = Pattern.compile( "selected>(-?\\d*?)</option>" ).matcher( matcher.group() );
+			matcher = SELECTED_PATTERN.matcher( matcher.group() );
 			if ( matcher.find() )
 			{
 				// You now have the current integer offset
@@ -90,7 +92,7 @@ public class AccountRequest extends PasswordHashRequest
 				// synchronize timestamps with the server so
 				// that all kmail can be processed?
 
-				timeOffset = StaticEntity.parseInt( matcher.group(1) );
+				int timeOffset = StaticEntity.parseInt( matcher.group(1) );
 			}
 		}
 	}

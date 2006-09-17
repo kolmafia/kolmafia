@@ -44,6 +44,11 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MuseumManager extends StaticEntity
 {
+	private static final Pattern SELECTED_PATTERN = Pattern.compile( "(\\d+) selected>" );
+	private static final Pattern OPTION_PATTERN = Pattern.compile( "<td>([^<]*?)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<select name=whichshelf(\\d+)>(.*?)</select>" );
+	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select.*?</select>" );
+	private static final Pattern SHELF_PATTERN = Pattern.compile( "<option value=(\\d+).*?>(.*?)</option>" );
+
 	private static LockableListModel headers = new LockableListModel();
 	private static LockableListModel shelves = new LockableListModel();
 
@@ -187,17 +192,15 @@ public class MuseumManager extends StaticEntity
 	public static void update( String data )
 	{
 		updateShelves( data );
-
-		Pattern selectedPattern = Pattern.compile( "(\\d+) selected>" );
 		Matcher selectedMatcher;
 
 		int itemID, itemCount;
 		String [] itemString;
 
-		Matcher optionMatcher = Pattern.compile( "<td>([^<]*?)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>.*?<select name=whichshelf(\\d+)>(.*?)</select>" ).matcher( data );
+		Matcher optionMatcher = OPTION_PATTERN.matcher( data );
 		while ( optionMatcher.find() )
 		{
-			selectedMatcher = selectedPattern.matcher( optionMatcher.group(3) );
+			selectedMatcher = SELECTED_PATTERN.matcher( optionMatcher.group(3) );
 
 			itemID = parseInt( optionMatcher.group(2) );
 
@@ -221,11 +224,11 @@ public class MuseumManager extends StaticEntity
 	private static void updateShelves( String data )
 	{
 		reset();
-		Matcher selectMatcher = Pattern.compile( "<select.*?</select>" ).matcher( data );
+		Matcher selectMatcher = SELECT_PATTERN.matcher( data );
 		if ( selectMatcher.find() )
 		{
 			int currentShelf;
-			Matcher shelfMatcher = Pattern.compile( "<option value=(\\d+).*?>(.*?)</option>" ).matcher( selectMatcher.group() );
+			Matcher shelfMatcher = SHELF_PATTERN.matcher( selectMatcher.group() );
 			while ( shelfMatcher.find() )
 			{
 				currentShelf = parseInt( shelfMatcher.group(1) );

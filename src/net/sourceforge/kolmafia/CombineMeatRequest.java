@@ -73,11 +73,11 @@ public class CombineMeatRequest extends ItemCreationRequest
 
 	public static boolean processRequest( String urlString )
 	{
-		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
+		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
 			return false;
 
-		Matcher quantityMatcher = Pattern.compile( "quantity=(\\d+)" ).matcher( urlString );
+		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
 		int quantity = quantityMatcher.find() ? StaticEntity.parseInt( quantityMatcher.group(1) ) : 1;
 
 		KoLmafia.sessionStream.println( "Make " + quantity + " " +

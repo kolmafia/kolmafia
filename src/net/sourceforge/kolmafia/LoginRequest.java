@@ -45,6 +45,8 @@ import java.util.regex.Matcher;
 
 public class LoginRequest extends KoLRequest
 {
+	private static final Pattern REDIRECT_PATTERN = Pattern.compile( "http://(.*?)/login\\.php", Pattern.DOTALL );
+
 	private static String lastUsername;
 	private static String lastPassword;
 
@@ -196,7 +198,7 @@ public class LoginRequest extends KoLRequest
 			// the way it used to be, but enforce the redirect.  If this
 			// happens, then validate here.
 
-			Matcher matcher = Pattern.compile( "http://(.*?)/login\\.php", Pattern.DOTALL ).matcher( redirectLocation );
+			Matcher matcher = REDIRECT_PATTERN.matcher( redirectLocation );
 			if ( matcher.find() )
 			{
 				redirectLocation = matcher.group();
@@ -235,7 +237,7 @@ public class LoginRequest extends KoLRequest
 			//   </body>
 			// </html>Redirecting to www.
 
-			Matcher matcher = Pattern.compile( "http://(.*?)/login\\.php", Pattern.DOTALL ).matcher( responseText );
+			Matcher matcher = REDIRECT_PATTERN.matcher( responseText );
 			if ( matcher.find() )
 			{
 				redirectLocation = matcher.group();

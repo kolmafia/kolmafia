@@ -43,6 +43,9 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ClanStashRequest extends SendMessageRequest
 {
+	private static final Pattern LIST_PATTERN = Pattern.compile( "<form name=takegoodies.*?</select>" );
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "<option value=([\\d]+).*?>(.*?)( \\([\\d,]+\\))?( \\(-[\\d,]*\\))?</option>" );
+
 	private int moveType;
 
 	public static final int REFRESH_ONLY = 0;
@@ -211,7 +214,7 @@ public class ClanStashRequest extends SendMessageRequest
 		// Start with an empty list
 
 		SortedListModel stashContents = ClanManager.getStash();
-		Matcher stashMatcher = Pattern.compile( "<form name=takegoodies.*?</select>" ).matcher( responseText );
+		Matcher stashMatcher = LIST_PATTERN.matcher( responseText );
 
 		// If there's nothing inside the goodies hoard,
 		// return because there's nothing to parse
@@ -222,7 +225,7 @@ public class ClanStashRequest extends SendMessageRequest
 			return;
 		}
 
-		Matcher matcher = Pattern.compile( "<option value=([\\d]+).*?>(.*?)( \\([\\d,]+\\))?( \\(-[\\d,]*\\))?</option>" ).matcher( stashMatcher.group() );
+		Matcher matcher = ITEM_PATTERN.matcher( stashMatcher.group() );
 
 		int lastFindIndex = 0;
 		ArrayList intermediateList = new ArrayList();

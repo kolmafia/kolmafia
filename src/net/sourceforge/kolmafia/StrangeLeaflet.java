@@ -40,6 +40,7 @@ import javax.swing.JOptionPane;
 public abstract class StrangeLeaflet extends StaticEntity
 {
 	private static final AdventureResult LEAFLET = new AdventureResult( 520, 1 );
+	private static final Pattern FOREST_PATTERN = Pattern.compile( "Gaps in the dense, forbidding foliage lead (.*?)," );
 
 	// This script assumes that the leaflet can be in any state; the player
 	// can open the leaflet, move around, and manipulate objects in any way
@@ -286,7 +287,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 				break;
 
 			case FOREST:
-				Matcher matcher = Pattern.compile( "Gaps in the dense, forbidding foliage lead (.*?)," ).matcher( response );
+				Matcher matcher = FOREST_PATTERN.matcher( response );
 				if ( matcher.find() )
 					exit = matcher.group(1);
 				break;

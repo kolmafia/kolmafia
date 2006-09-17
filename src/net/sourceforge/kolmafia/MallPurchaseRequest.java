@@ -44,6 +44,8 @@ import java.util.regex.Matcher;
 
 public class MallPurchaseRequest extends KoLRequest implements Comparable
 {
+	private static final Pattern YIELD_PATTERN = Pattern.compile( "You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" );
+
 	// In order to prevent overflows from happening, make
 	// it so that the maximum quantity is 10 million
 
@@ -400,8 +402,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 
 		if ( responseText.indexOf( "This store doesn't" ) != -1 || responseText.indexOf( "failed to yield" ) != -1 )
 		{
-			Matcher itemChangedMatcher = Pattern.compile(
-				"<td valign=center><b>" + itemName + "</b> \\(([\\d,]+)\\) </td><td>([\\d,]+) Meat" ).matcher( result );
+			Matcher itemChangedMatcher = Pattern.compile( "<td valign=center><b>" + itemName + "</b> \\(([\\d,]+)\\) </td><td>([\\d,]+) Meat" ).matcher( result );
 
 			if ( itemChangedMatcher.find() )
 			{
@@ -443,8 +444,7 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 		// second request to the server containing the correct
 		// number of items to buy.
 
-		Matcher quantityMatcher = Pattern.compile(
-			"You may only buy ([\\d,]+) of this item per day from this store\\.You have already purchased ([\\d,]+)" ).matcher( result );
+		Matcher quantityMatcher = YIELD_PATTERN.matcher( result );
 
 		if ( quantityMatcher.find() )
 		{

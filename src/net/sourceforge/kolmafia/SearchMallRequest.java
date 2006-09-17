@@ -51,6 +51,16 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class SearchMallRequest extends KoLRequest
 {
+	private static final Pattern FAVORITES_PATTERN = Pattern.compile( "&action=unfave&whichstore=(\\d+)\">" );
+	private static final Pattern STOREID_PATTERN = Pattern.compile( "<b>(.*?) \\(<a.*?who=(\\d+)\"" );
+	private static final Pattern STORELIMIT_PATTERN = Pattern.compile( "Limit ([\\d,]+) /" );
+	private static final Pattern STOREPRICE_PATTERN = Pattern.compile( "radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>" );
+	private static final Pattern STOREDETAIL_PATTERN = Pattern.compile( "<tr>.*?</a>" );
+
+	private static final Pattern LISTQUANTITY_PATTERN = Pattern.compile( "\\([\\d,]+\\)" );
+	private static final Pattern LISTLIMIT_PATTERN = Pattern.compile( "([\\d,]+)\\&nbsp;\\/\\&nbsp;day" );
+	private static final Pattern LISTDETAIL_PATTERN = Pattern.compile( "whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\">(.*?)</a>" );
+
 	private List results;
 	private boolean retainAll;
 	private boolean sortAfter;
@@ -240,14 +250,13 @@ public class SearchMallRequest extends KoLRequest
 		// the NPC results as needed.
 
 		super.run();
-
 	}
 
 	private void searchStore()
 	{
 		if ( retainAll )
 		{
-			Matcher shopMatcher = Pattern.compile( "<b>(.*?) \\(<a.*?who=(\\d+)\"" ).matcher( responseText );
+			Matcher shopMatcher = STOREID_PATTERN.matcher( responseText );
 			shopMatcher.find();
 
 			int shopID = StaticEntity.parseInt( shopMatcher.group(2) );
@@ -258,10 +267,8 @@ public class SearchMallRequest extends KoLRequest
 
 			String shopName = RequestEditorKit.getUnicode( shopMatcher.group(1).replaceAll( "[ ]+;", ";" ) );
 
-			Pattern limitPattern = Pattern.compile( "Limit ([\\d,]+) /" );
-
 			int lastFindIndex = 0;
-			Matcher priceMatcher = Pattern.compile( "radio value=(\\d+).*?<b>(.*?)</b> \\(([\\d,]+)\\)(.*?)</td>" ).matcher( responseText );
+			Matcher priceMatcher = STOREPRICE_PATTERN.matcher( responseText );
 
 			while ( priceMatcher.find( lastFindIndex ) )
 			{
@@ -274,7 +281,7 @@ public class SearchMallRequest extends KoLRequest
 				int quantity = StaticEntity.parseInt( priceMatcher.group(3) );
 				int limit = quantity;
 
-				Matcher limitMatcher = limitPattern.matcher( priceMatcher.group(4) );
+				Matcher limitMatcher = STORELIMIT_PATTERN.matcher( priceMatcher.group(4) );
 				if ( limitMatcher.find() )
 					limit = StaticEntity.parseInt( limitMatcher.group(1) );
 
@@ -285,7 +292,7 @@ public class SearchMallRequest extends KoLRequest
 		else
 		{
 			SearchMallRequest individualStore;
-			Matcher storeMatcher = Pattern.compile( "&action=unfave&whichstore=(\\d+)\">" ).matcher( responseText );
+			Matcher storeMatcher = FAVORITES_PATTERN.matcher( responseText );
 
 			int lastFindIndex = 0;
 			while ( storeMatcher.find( lastFindIndex ) )
@@ -313,7 +320,7 @@ public class SearchMallRequest extends KoLRequest
 		int startIndex = responseText.indexOf( "Search Results:" );
 		String storeListResult = responseText.substring( startIndex < 0 ? 0 : startIndex );
 
-		Matcher linkMatcher = Pattern.compile( "<tr>.*?</a>" ).matcher( storeListResult );
+		Matcher linkMatcher = STOREDETAIL_PATTERN.matcher( storeListResult );
 		String linkText = null;
 
 		int previousItemID = -1;
@@ -321,7 +328,7 @@ public class SearchMallRequest extends KoLRequest
 		while ( linkMatcher.find() )
 		{
 			linkText = linkMatcher.group();
-			Matcher quantityMatcher = Pattern.compile( "\\([\\d,]+\\)" ).matcher( linkText );
+			Matcher quantityMatcher = LISTQUANTITY_PATTERN.matcher( linkText );
 			int quantity = 0;
 
 			if ( quantityMatcher.find() )
@@ -329,7 +336,7 @@ public class SearchMallRequest extends KoLRequest
 
 			int limit = quantity;
 
-			Matcher limitMatcher = Pattern.compile( "([\\d,]+)\\&nbsp;\\/\\&nbsp;day" ).matcher( linkText );
+			Matcher limitMatcher = LISTLIMIT_PATTERN.matcher( linkText );
 			if ( limitMatcher.find() )
 				limit = StaticEntity.parseInt( limitMatcher.group(1) );
 
@@ -337,7 +344,7 @@ public class SearchMallRequest extends KoLRequest
 			// and the item (which will be used later), and the price!
 			// which means you don't need to consult thenext token.
 
-			Matcher detailsMatcher = Pattern.compile( "whichstore=(\\d+)\\&searchitem=(\\d+)\\&searchprice=(\\d+)\">(.*?)</a>" ).matcher( linkText );
+			Matcher detailsMatcher = LISTDETAIL_PATTERN.matcher( linkText );
 			if ( !detailsMatcher.find() )
 				continue;
 

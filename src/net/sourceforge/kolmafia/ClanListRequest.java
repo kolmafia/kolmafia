@@ -40,6 +40,9 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class ClanListRequest extends KoLRequest
 {
+	private static final Pattern CLANID_PATTERN = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" );
+	private static final Pattern WAIT_PATTERN = Pattern.compile( "<br>Your clan can attack again in (.*?)<p>" );
+
 	private static SortedListModel enemyClans = new SortedListModel();
 
 	public ClanListRequest( KoLmafia client )
@@ -52,7 +55,7 @@ public class ClanListRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		Matcher clanMatcher = Pattern.compile( "name=whichclan value=(\\d+)></td><td><b>(.*?)</td><td>(.*?)</td>" ).matcher( responseText );
+		Matcher clanMatcher = CLANID_PATTERN.matcher( responseText );
 
 		while ( clanMatcher.find() )
 			enemyClans.add( new ClanAttackRequest( client, clanMatcher.group(1), clanMatcher.group(2), Integer.parseInt( clanMatcher.group(3) ) ) );
@@ -62,7 +65,7 @@ public class ClanListRequest extends KoLRequest
 			KoLRequest details = new KoLRequest( client, "clan_war.php" );
 			details.run();
 
-			Matcher nextMatcher = Pattern.compile( "<br>Your clan can attack again in (.*?)<p>" ).matcher( details.responseText );
+			Matcher nextMatcher = WAIT_PATTERN.matcher( details.responseText );
 			nextMatcher.find();
 
 			KoLmafia.updateDisplay( ERROR_STATE, "Your clan can attack again in " + nextMatcher.group(1) );

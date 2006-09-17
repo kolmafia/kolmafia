@@ -44,6 +44,7 @@ import java.util.regex.Matcher;
 
 public class ChatRequest extends KoLRequest
 {
+	private static final Pattern LASTSEEN_PATTERN = Pattern.compile( "<!--lastseen:(\\d+)-->" );
 	private static final int CHAT_DELAY = 8000;
 
 	private static String lastSeen = "";
@@ -148,7 +149,7 @@ public class ChatRequest extends KoLRequest
 			thread.start();
 		}
 
-		Matcher lastSeenMatcher = Pattern.compile( "<!--lastseen:(\\d+)-->" ).matcher( fullResponse );
+		Matcher lastSeenMatcher = LASTSEEN_PATTERN.matcher( fullResponse );
 		if ( lastSeenMatcher.find() )
 			lastSeen = lastSeenMatcher.group(1);
 

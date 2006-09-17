@@ -71,6 +71,12 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class KoLRequest implements Runnable, KoLConstants
 {
+	private static final Pattern SCRIPT_PATTERN = Pattern.compile( "<script.*?</script>", Pattern.DOTALL );
+	private static final Pattern STYLE_PATTERN = Pattern.compile( "<style.*?</style>", Pattern.DOTALL );
+	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
+	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
+	private static final Pattern EVENT_PATTERN = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
+
 	private static final int COLLECT_RATE = 100;
 	private static int lastGarbageCollection = 0;
 	private static GarbageCollector collector = null;
@@ -1205,9 +1211,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( responseText.lastIndexOf( "<" ) > responseText.lastIndexOf( ">" ) )
 				return false;
 
-			responseText = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
-			responseText = Pattern.compile( "<style.*?</style>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
-			responseText = Pattern.compile( "<!--.*?-->", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
+			responseText = SCRIPT_PATTERN.matcher( responseText ).replaceAll( "" );
+			responseText = STYLE_PATTERN.matcher( responseText ).replaceAll( "" );
+			responseText = COMMENT_PATTERN.matcher( responseText ).replaceAll( "" );
 
 			// Remove password hash before logging and strip out
 			// all new lines to make debug logs easier to read.
@@ -1454,7 +1460,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		client.processResult( new AdventureResult( AdventureResult.CHOICE, 1 ) );
 		String text = request.responseText;
 
-		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( text );
+		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
 		if ( !choiceMatcher.find() )
 		{
 			// choice.php did not offer us any choices. This would
@@ -1645,7 +1651,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// Capture the entire new events table in order to display the
 		// appropriate message.
 
-		Matcher eventMatcher = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" ).matcher( responseText );
+		Matcher eventMatcher = EVENT_PATTERN.matcher( responseText );
 		if ( !eventMatcher.find() )
 			return;
 

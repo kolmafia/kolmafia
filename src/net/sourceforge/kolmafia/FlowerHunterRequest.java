@@ -45,11 +45,13 @@ public class FlowerHunterRequest extends KoLRequest
 	private static final int PLAYER_SEARCH = 2;
 	private static final int CLAN_PROFILER = 3;
 
-	private static final Pattern TARGET_MATCH =
+	private static final Pattern TARGET_PATTERN =
 		Pattern.compile( "showplayer\\.php\\?who=(\\d+)\">(.*?)</a></b>  \\(PvP\\)(<br>\\(<a target=mainpane href=\"showclan\\.php\\?whichclan=\\d+\">(.*?)</a>)?.*?<td.*?><td.*?>(\\d+)</td><td.*?>(.*?)</td><td.*?>(\\d+)" );
 
-	private static final Pattern CLAN_MATCH =
+	private static final Pattern CLAN_PATTERN =
 		Pattern.compile( "showplayer\\.php\\?who=(\\d+)\">([^<]*?)</a></b>[^<]*?</td><td class=small>[^<]*?</td><td class=small>\\d+ \\(H\\)" );
+
+	private static final Pattern RANKING_PATTERN = Pattern.compile( "Your current PvP Ranking is (\\d+)" );
 
 	private int hunterType;
 	private List searchResults = new ArrayList();
@@ -120,7 +122,7 @@ public class FlowerHunterRequest extends KoLRequest
 	private void parseClan()
 	{
 		ProfileRequest currentPlayer;
-		Matcher playerMatcher = CLAN_MATCH.matcher( responseText );
+		Matcher playerMatcher = CLAN_PATTERN.matcher( responseText );
 
 		while ( playerMatcher.find() )
 		{
@@ -135,7 +137,7 @@ public class FlowerHunterRequest extends KoLRequest
 			return;
 
 		ProfileRequest currentPlayer;
-		Matcher playerMatcher = TARGET_MATCH.matcher( responseText );
+		Matcher playerMatcher = TARGET_PATTERN.matcher( responseText );
 
 		while ( playerMatcher.find() )
 		{
@@ -152,7 +154,7 @@ public class FlowerHunterRequest extends KoLRequest
 	{
 		// Reset the player's current PvP ranking
 
-		Matcher rankMatcher = Pattern.compile( "Your current PvP Ranking is (\\d+)" ).matcher( responseText );
+		Matcher rankMatcher = RANKING_PATTERN.matcher( responseText );
 		if ( rankMatcher.find() )
 			KoLCharacter.setPvpRank( StaticEntity.parseInt( rankMatcher.group(1) ) );
 

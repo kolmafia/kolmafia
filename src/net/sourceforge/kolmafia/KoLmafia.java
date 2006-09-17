@@ -133,6 +133,11 @@ public abstract class KoLmafia implements KoLConstants
 
 	protected static boolean useDisjunction = false;
 
+	private static final Pattern FUMBLE_PATTERN = Pattern.compile( "You drop .*? ([\\d,]+) damage" );
+	private static final Pattern STABBAT_PATTERN = Pattern.compile( " stabs you for ([\\d,]+) damage" );
+	private static final Pattern TAVERN_PATTERN = Pattern.compile( "where=(\\d+)" );
+	private static final Pattern GOURD_PATTERN = Pattern.compile( "Bring back (\\d+)" );
+
 	/**
 	 * The main method.  Currently, it instantiates a single instance
 	 * of the <code>KoLmafiaGUI</code>.
@@ -1091,20 +1096,25 @@ public abstract class KoLmafia implements KoLConstants
 		StringTokenizer parsedResults = new StringTokenizer( plainTextResult, LINE_BREAK );
 		String lastToken = null;
 
-		Matcher damageMatcher = Pattern.compile( "you for ([\\d,]+) damage" ).matcher( plainTextResult );
+		Matcher damageMatcher = null;
 		int lastDamageIndex = 0;
 
-		while ( damageMatcher.find( lastDamageIndex ) )
+		if ( KoLCharacter.isUsingStabBat() )
 		{
-			lastDamageIndex = damageMatcher.end();
-			String message = "You lose " + damageMatcher.group(1) + " hit points";
+			damageMatcher = STABBAT_PATTERN.matcher( plainTextResult );
 
-			KoLmafiaCLI.printLine( message );
-			sessionStream.println( message );
-			parseResult( message );
+			while ( damageMatcher.find( lastDamageIndex ) )
+			{
+				lastDamageIndex = damageMatcher.end();
+				String message = "You lose " + damageMatcher.group(1) + " hit points";
+
+				KoLmafiaCLI.printLine( message );
+				sessionStream.println( message );
+				parseResult( message );
+			}
 		}
 
-		damageMatcher = Pattern.compile( "You drop .*? ([\\d,]+) damage" ).matcher( plainTextResult );
+		damageMatcher = FUMBLE_PATTERN.matcher( plainTextResult );
 		lastDamageIndex = 0;
 
 		while ( damageMatcher.find( lastDamageIndex ) )
@@ -1476,7 +1486,7 @@ public abstract class KoLmafia implements KoLConstants
 			if ( urlString.indexOf( "charpane" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.equals( "rats.php" ) )
 				return;
 
-			Matcher squareMatcher = Pattern.compile( "where=(\\d+)" ).matcher( urlString );
+			Matcher squareMatcher = TAVERN_PATTERN.matcher( urlString );
 			if ( !squareMatcher.find() )
 				return;
 
@@ -1587,7 +1597,7 @@ public abstract class KoLmafia implements KoLConstants
 		// and then the number of the item needed.  Compare how many you need
 		// with how many you have.
 
-		Matcher neededMatcher = Pattern.compile( "Bring back (\\d+)" ).matcher( request.responseText );
+		Matcher neededMatcher = GOURD_PATTERN.matcher( request.responseText );
 		AdventureResult item;
 
 		switch ( KoLCharacter.getPrimeIndex() )

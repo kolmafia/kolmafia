@@ -69,6 +69,12 @@ public class ClanManager extends StaticEntity
 	private static final String CLAN_BOOT = "boot";
 
 	private static final String TIME_REGEX = "(\\d\\d/\\d\\d/\\d\\d, \\d\\d:\\d\\d[AP]M)";
+	private static final Pattern WAR_PATTERN = Pattern.compile( TIME_REGEX + ": ([^<]*?) launched an attack against (.*?)\\.<br>" );
+	private static final Pattern LOGENTRY_PATTERN = Pattern.compile( "\t<li class=\"(.*?)\">(.*?): (.*?)</li>" );
+
+	private static final Pattern RANK_PATTERN = Pattern.compile( "<select name=level.*?</select>" );
+	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option.*?>(.*?)</option>" );
+
 	private static final SimpleDateFormat STASH_FORMAT = new SimpleDateFormat( "MM/dd/yy, hh:mma", Locale.US );
 	private static final SimpleDateFormat DIRECTORY_FORMAT = new SimpleDateFormat( "yyyyMM_'w'W", Locale.US );
 
@@ -146,11 +152,11 @@ public class ClanManager extends StaticEntity
 			super.run();
 
 			rankList.clear();
-			Matcher ranklistMatcher = Pattern.compile( "<select name=level.*?</select>" ).matcher( responseText );
+			Matcher ranklistMatcher = RANK_PATTERN.matcher( responseText );
 
 			if ( ranklistMatcher.find() )
 			{
-				Matcher rankMatcher = Pattern.compile( "<option.*?>(.*?)</option>" ).matcher( ranklistMatcher.group() );
+				Matcher rankMatcher = OPTION_PATTERN.matcher( ranklistMatcher.group() );
 
 				while ( rankMatcher.find() )
 					rankList.add( rankMatcher.group(1).toLowerCase() );
@@ -640,7 +646,7 @@ public class ClanManager extends StaticEntity
 
 		public StashLogEntry( String stringform )
 		{
-			Matcher entryMatcher = Pattern.compile( "\t<li class=\"(.*?)\">(.*?): (.*?)</li>" ).matcher( stringform );
+			Matcher entryMatcher = LOGENTRY_PATTERN.matcher( stringform );
 			entryMatcher.find();
 
 			this.entryType = entryMatcher.group(1);
@@ -774,7 +780,7 @@ public class ClanManager extends StaticEntity
 			String currentMember;
 
 			StashLogEntry entry;
-			Matcher entryMatcher = Pattern.compile( TIME_REGEX + ": ([^<]*?) launched an attack against (.*?)\\.<br>" ).matcher( responseText );
+			Matcher entryMatcher = WAR_PATTERN.matcher( responseText );
 
 			while ( entryMatcher.find() )
 			{

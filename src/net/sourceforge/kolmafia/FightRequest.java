@@ -44,6 +44,10 @@ import java.util.regex.Matcher;
 
 public class FightRequest extends KoLRequest
 {
+	private static final Pattern SKILL_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
+	private static final Pattern ITEM1_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	private static final Pattern ITEM2_PATTERN = Pattern.compile( "whichitem2=(\\d+)" );
+
 	public static final AdventureResult DICTIONARY1 = new AdventureResult( 536, 1 );
 	public static final AdventureResult DICTIONARY2 = new AdventureResult( 1316, 1 );
 
@@ -478,7 +482,7 @@ public class FightRequest extends KoLRequest
 		if ( urlString.indexOf( "fight.php?" ) == -1 )
 			return false;
 
-		Matcher skillMatcher = Pattern.compile( "whichskill=(\\d+)" ).matcher( urlString );
+		Matcher skillMatcher = SKILL_PATTERN.matcher( urlString );
 		if ( skillMatcher.find() )
 		{
 			String skill = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
@@ -486,13 +490,13 @@ public class FightRequest extends KoLRequest
 			return true;
 		}
 
-		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
+		Matcher itemMatcher = ITEM1_PATTERN.matcher( urlString );
 		if ( itemMatcher.find() )
 		{
 			String item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );
 			KoLmafia.getSessionStream().println( KoLCharacter.getUsername() + " uses the " + item + "!" );
 
-			itemMatcher = Pattern.compile( "whichitem2=(\\d+)" ).matcher( urlString );
+			itemMatcher = ITEM2_PATTERN.matcher( urlString );
 			if ( itemMatcher.find() )
 			{
 				item = TradeableItemDatabase.getItemName( StaticEntity.parseInt( itemMatcher.group(1) ) );

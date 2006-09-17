@@ -46,6 +46,9 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ClanSnapshotTable extends KoLDatabase
 {
+	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>(.*?)</tr>" );
+	private static final Pattern CELL_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>" );
+
 	public static final int EXACT_MATCH = 0;
 	public static final int BELOW_MATCH = -1;
 	public static final int ABOVE_MATCH = 1;
@@ -618,14 +621,12 @@ public class ClanSnapshotTable extends KoLDatabase
 			KoLmafia.updateDisplay( "Retrieving detailed roster..." );
 			super.run();
 
-			Matcher rowMatcher = Pattern.compile( "<tr>(.*?)</tr>" ).matcher( responseText.substring( responseText.indexOf( "clan_detailedroster.php" ) ) );
+			Matcher rowMatcher = ROW_PATTERN.matcher( responseText.substring( responseText.indexOf( "clan_detailedroster.php" ) ) );
 			rowMatcher.find();
 
 			String currentRow;
 			String currentName;
 			Matcher dataMatcher;
-
-			Pattern cellPattern = Pattern.compile( "<td.*?>(.*?)</td>" );
 
 			int lastRowIndex = 0;
 			while ( rowMatcher.find( lastRowIndex ) )
@@ -635,7 +636,7 @@ public class ClanSnapshotTable extends KoLDatabase
 
 				if ( !currentRow.equals( "<td height=4></td>" ) )
 				{
-					dataMatcher = cellPattern.matcher( currentRow );
+					dataMatcher = CELL_PATTERN.matcher( currentRow );
 
 					// The name of the player occurs in the first
 					// field of the table.  Use this to index the

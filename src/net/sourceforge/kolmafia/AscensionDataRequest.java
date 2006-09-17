@@ -48,7 +48,9 @@ import java.io.BufferedReader;
 public class AscensionDataRequest extends KoLRequest implements Comparable
 {
 	private static boolean isSoftcoreComparator = true;
+
 	private static final SimpleDateFormat ASCEND_DATE_FORMAT = new SimpleDateFormat( "MM/dd/yy", Locale.US );
+	private static final Pattern FIELD_PATTERN = Pattern.compile( "</tr><td>.*?</tr>" );
 
 	private String playerName;
 	private String playerID;
@@ -178,7 +180,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 	private void refreshFields()
 	{
 		ascensionData.clear();
-		Matcher fieldMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( responseText );
+		Matcher fieldMatcher = FIELD_PATTERN.matcher( responseText );
 
 		StringBuffer ascensionBuffer = new StringBuffer();
 		ascensionBuffer.append( getBackupFileData() );
@@ -193,7 +195,7 @@ public class AscensionDataRequest extends KoLRequest implements Comparable
 			boolean newDataAvailable = true;
 			String [] columnsNew = null;
 
-			Matcher oldDataMatcher = Pattern.compile( "</tr><td>.*?</tr>" ).matcher( ascensionBuffer );
+			Matcher oldDataMatcher = FIELD_PATTERN.matcher( ascensionBuffer );
 			if ( !fieldMatcher.find( lastFindIndex ) )
 			{
 				newDataAvailable = false;

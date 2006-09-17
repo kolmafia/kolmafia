@@ -46,6 +46,8 @@ import java.util.regex.Pattern;
 
 public class MoonPhaseRequest extends KoLRequest
 {
+	private static final Pattern MOONS_PATTERN = Pattern.compile( "moon(.)[ab]?\\.gif.*moon(.)[ab]?\\.gif" );
+
 	/**
 	 * The phases of the moons can be retrieved from the top menu,
 	 * which varies based on whether or not the player is using
@@ -74,7 +76,7 @@ public class MoonPhaseRequest extends KoLRequest
 		if ( parseText.indexOf( "minimoon" ) != -1 )
 			parseText = parseText.replaceAll( "minimoon", "" );
 
-		Matcher moonMatcher = Pattern.compile( "moon(.)[ab]?\\.gif.*moon(.)[ab]?\\.gif" ).matcher( parseText );
+		Matcher moonMatcher = MOONS_PATTERN.matcher( parseText );
 		if ( moonMatcher.find() )
 			MoonPhaseDatabase.setMoonPhases( StaticEntity.parseInt( moonMatcher.group(1) ) - 1, StaticEntity.parseInt( moonMatcher.group(2) ) - 1 );
 

@@ -63,6 +63,11 @@ import jline.ConsoleReader;
 
 public class KoLmafiaCLI extends KoLmafia
 {
+	private static final Pattern HTMLTAG_PATTERN = Pattern.compile( "<.*?>", Pattern.DOTALL );
+	private static final Pattern ASHNAME_PATTERN = Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE );
+	private static final Pattern STATDAY_PATTERN = Pattern.compile( "(today|tomorrow) is (.*?) day" );
+	private static final Pattern MEAT_PATTERN = Pattern.compile( "[\\d,]+ meat" );
+
 	public static final int NOWHERE = 1;
 	public static final int CREATION = 2;
 
@@ -1551,7 +1556,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Replace HTML character entities with something
 		// which is more readily printable.
 
-		displayText = Pattern.compile( "<.*?>", Pattern.DOTALL ).matcher( displayText ).replaceAll( "" );
+		displayText = HTMLTAG_PATTERN.matcher( displayText ).replaceAll( "" );
 		displayText = displayText.replaceAll( "&nbsp;", " " ).replaceAll(
 			"&trade;", " [tm]" ).replaceAll( "&ntilde;", "n" ).replaceAll( "&quot;", "" );
 
@@ -1697,7 +1702,7 @@ public class KoLmafiaCLI extends KoLmafia
 			// Allow the ".ash" to appear anywhere in the filename
 			// in a case-insensitive manner.
 
-			if ( Pattern.compile( "\\.ash", Pattern.CASE_INSENSITIVE ).matcher( scriptFile.getPath() ).find() )
+			if ( ASHNAME_PATTERN.matcher( scriptFile.getPath() ).find() )
 			{
 				// If there's an alternate namespace being
 				// used, then be sure to switch.
@@ -1862,7 +1867,7 @@ public class KoLmafiaCLI extends KoLmafia
 		// Allow checking for moon signs for stat days
 		// only.  Allow test for today and tomorrow.
 
-		Matcher dayMatcher = Pattern.compile( "(today|tomorrow) is (.*?) day" ).matcher( parameters );
+		Matcher dayMatcher = STATDAY_PATTERN.matcher( parameters );
 		if ( dayMatcher.find() )
 		{
 			String statDayInformation = MoonPhaseDatabase.getMoonEffect().toLowerCase();
@@ -2124,7 +2129,7 @@ public class KoLmafiaCLI extends KoLmafia
 			if ( conditionString.length() == 0 )
 				return true;
 
-			Matcher meatMatcher = Pattern.compile( "[\\d,]+ meat" ).matcher( conditionString );
+			Matcher meatMatcher = MEAT_PATTERN.matcher( conditionString );
 			boolean isMeatCondition = meatMatcher.find() ? meatMatcher.group().length() == conditionString.length() : false;
 
 			if ( isMeatCondition )

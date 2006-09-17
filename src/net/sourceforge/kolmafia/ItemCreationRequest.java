@@ -47,6 +47,9 @@ import java.util.regex.Matcher;
 
 public class ItemCreationRequest extends KoLRequest implements Comparable
 {
+	protected static final Pattern ITEMID_PATTERN = Pattern.compile( "item\\d?=(\\d+)" );
+	protected static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+
 	public static final int MEAT_PASTE = 25;
 	public static final int MEAT_STACK = 88;
 	public static final int DENSE_STACK = 258;
@@ -778,8 +781,8 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		boolean isCreationURL = false;
 
 		StringBuffer command = new StringBuffer();
-		Matcher itemMatcher = Pattern.compile( "item\\d=(\\d+)" ).matcher( urlString );
-		Matcher quantityMatcher = Pattern.compile( "quantity=(\\d+)" ).matcher( urlString );
+		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
+		Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
 
 		if ( urlString.indexOf( "combine.php" ) != -1 )
 		{

@@ -39,6 +39,9 @@ import java.util.List;
 
 public class MicrobreweryRequest extends KoLRequest
 {
+	private static final Pattern COST_PATTERN = Pattern.compile( "(.*?) \\((\\d*) Meat\\)" );
+	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<td>([\\w -]*?\\(.*? Meat\\))</td>" );
+
 	private boolean isPurchase;
 	private int price;
 
@@ -57,7 +60,7 @@ public class MicrobreweryRequest extends KoLRequest
 		this.price = 0;
 
 		// Parse item name and price
-		Matcher itemMatcher = Pattern.compile( "(.*?) \\((\\d*) Meat\\)" ).matcher( name );
+		Matcher itemMatcher = COST_PATTERN.matcher( name );
 		int itemID = 0;
 
 		if ( itemMatcher.find( 0 ) )
@@ -140,7 +143,7 @@ public class MicrobreweryRequest extends KoLRequest
 			return;
 		}
 
-		Matcher purchaseMatcher = Pattern.compile( "<td>([\\w-' ]*?\\(.*? Meat\\))</td>" ).matcher( responseText );
+		Matcher purchaseMatcher = AVAILABLE_PATTERN.matcher( responseText );
 		while ( purchaseMatcher.find() )
 			microbreweryItems.add( purchaseMatcher.group(1) );
 

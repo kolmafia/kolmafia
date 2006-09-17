@@ -47,6 +47,10 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public abstract class StoreManager extends StaticEntity
 {
+	private static final Pattern LOGSPAN_PATTERN = Pattern.compile( "<span.*?</span>" );
+	private static final Pattern ADDER_PATTERN = Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" );
+	private static final Pattern PRICER_PATTERN = Pattern.compile( "<tr><td><b>(.*?)\\&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" );
+
 	private static final int RECENT_FIRST = 1;
 	private static final int OLDEST_FIRST = 2;
 	private static final int GROUP_BY_NAME = 3;
@@ -171,7 +175,7 @@ public abstract class StoreManager extends StaticEntity
 			// The item matcher here examines each row in the table
 			// displayed in the price management page.
 
-			Matcher priceMatcher = Pattern.compile( "<tr><td><b>(.*?)\\&nbsp;.*?<td>([\\d,]+)</td>.*?\"(\\d+)\" name=price(\\d+).*?value=\"(\\d+)\".*?<td>([\\d,]+)</td>" ).matcher( storeText );
+			Matcher priceMatcher = PRICER_PATTERN.matcher( storeText );
 
 			while ( priceMatcher.find() )
 			{
@@ -199,7 +203,7 @@ public abstract class StoreManager extends StaticEntity
 			// The item matcher here examines each row in the table
 			// displayed in the standard item-addition page.
 
-			Matcher itemMatcher = Pattern.compile( "<tr><td><img src.*?></td><td>(.*?)</td><td>([\\d,]+)</td><td>(.*?)</td><td.*?(\\d+)" ).matcher( storeText );
+			Matcher itemMatcher = ADDER_PATTERN.matcher( storeText );
 
 			while ( itemMatcher.find() )
 			{
@@ -260,7 +264,7 @@ public abstract class StoreManager extends StaticEntity
 	{
 		storeLog.clear();
 
-		Matcher logMatcher = Pattern.compile( "<span.*?</span>" ).matcher( logText );
+		Matcher logMatcher = LOGSPAN_PATTERN.matcher( logText );
 		if ( logMatcher.find() )
 		{
 			if ( logMatcher.group().indexOf( "<br>" ) == -1 )

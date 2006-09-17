@@ -38,6 +38,10 @@ import java.util.regex.Pattern;
 
 public class CakeArenaRequest extends KoLRequest
 {
+	private static final Pattern WINCOUNT_PATTERN = Pattern.compile( "You have won (\\d*) time" );
+	private static final Pattern OPPONENT_PATTERN = Pattern.compile(
+			"<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?<b>(.*?)</b> the (.*?)<br/?>(\\d*).*?</tr>" );
+
 	private boolean isCompetition;
 
 	public CakeArenaRequest( KoLmafia client )
@@ -104,16 +108,14 @@ public class CakeArenaRequest extends KoLRequest
 		// "You have won 722 times. Only 8 wins left until your next
 		// prize!"
 
-		Matcher winMatcher = Pattern.compile(
-			"You have won (\\d*) time" ).matcher( responseText );
+		Matcher winMatcher = WINCOUNT_PATTERN.matcher( responseText );
 
 		if ( winMatcher.find() )
 			KoLCharacter.setArenaWins( StaticEntity.parseInt( winMatcher.group(1) ) );
 
 		// Retrieve list of opponents
 		int lastMatchIndex = 0;
-		Matcher opponentMatcher = Pattern.compile(
-			"<tr><td valign=center><input type=radio .*? name=whichopp value=(\\d+)>.*?<b>(.*?)</b> the (.*?)<br/?>(\\d*).*?</tr>" ).matcher( responseText );
+		Matcher opponentMatcher = OPPONENT_PATTERN.matcher( responseText );
 
 		while ( opponentMatcher.find( lastMatchIndex ) )
 		{

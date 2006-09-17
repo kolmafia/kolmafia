@@ -51,6 +51,25 @@ import java.util.regex.Matcher;
 
 public abstract class HyperlinkAdapter implements HyperlinkListener
 {
+	private static final Pattern [] ACTION_PATTERNS = new Pattern[3];
+	private static final Pattern [] NAME_PATTERNS = new Pattern[3];
+	private static final Pattern [] VALUE_PATTERNS = new Pattern[3];
+
+	static
+	{
+		ACTION_PATTERNS[0] = Pattern.compile( "action=\"(.*?)\"" );
+		NAME_PATTERNS[0] = Pattern.compile( "name=\"(.*?)\"" );
+		VALUE_PATTERNS[0]  = Pattern.compile( "value=\"(.*?)\"" );
+
+		ACTION_PATTERNS[1] = Pattern.compile( "action=\'(.*?)\'" );
+		NAME_PATTERNS[1] = Pattern.compile( "name=\'(.*?)\'" );
+		VALUE_PATTERNS[1]  = Pattern.compile( "value=\'(.*?)\'" );
+
+		ACTION_PATTERNS[2] = Pattern.compile( "action=([^\\s]*?)" );
+		NAME_PATTERNS[2] = Pattern.compile( "name=([^\\s]*?)" );
+		VALUE_PATTERNS[2] = Pattern.compile( "value=([^\\s]*?)" );
+	}
+
 	public void hyperlinkUpdate( HyperlinkEvent e )
 	{
 		if ( e.getEventType() == HyperlinkEvent.EventType.ACTIVATED )
@@ -102,22 +121,6 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 
 				Matcher inputMatcher = Pattern.compile( "<input.*?>" ).matcher( locationText );
 
-				Pattern [] actionPatterns = new Pattern[3];
-				Pattern [] namePatterns = new Pattern[3];
-				Pattern [] valuePatterns = new Pattern[3];
-
-				actionPatterns[0] = Pattern.compile( "action=\"(.*?)\"" );
-				namePatterns[0] = Pattern.compile( "name=\"(.*?)\"" );
-				valuePatterns[0]  = Pattern.compile( "value=\"(.*?)\"" );
-
-				actionPatterns[1] = Pattern.compile( "action=\'(.*?)\'" );
-				namePatterns[1] = Pattern.compile( "name=\'(.*?)\'" );
-				valuePatterns[1]  = Pattern.compile( "value=\'(.*?)\'" );
-
-				actionPatterns[2] = Pattern.compile( "action=([^\\s]*?)" );
-				namePatterns[2] = Pattern.compile( "name=([^\\s]*?)" );
-				valuePatterns[2] = Pattern.compile( "value=([^\\s]*?)" );
-
 				String lastInput;
 				int patternIndex;
 				Matcher actionMatcher, nameMatcher, valueMatcher;
@@ -129,7 +132,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 				patternIndex = 0;
 				do
 				{
-					actionMatcher = actionPatterns[patternIndex].matcher( locationText );
+					actionMatcher = ACTION_PATTERNS[patternIndex].matcher( locationText );
 				}
 				while ( !actionMatcher.find() && ++patternIndex < 3 );
 
@@ -147,7 +150,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 					patternIndex = 0;
 					do
 					{
-						nameMatcher = namePatterns[patternIndex].matcher( lastInput );
+						nameMatcher = NAME_PATTERNS[patternIndex].matcher( lastInput );
 					}
 					while ( !nameMatcher.find() && ++patternIndex < 3 );
 
@@ -157,7 +160,7 @@ public abstract class HyperlinkAdapter implements HyperlinkListener
 					patternIndex = 0;
 					do
 					{
-						valueMatcher = valuePatterns[patternIndex].matcher( lastInput );
+						valueMatcher = VALUE_PATTERNS[patternIndex].matcher( lastInput );
 					}
 					while ( !valueMatcher.find() && ++patternIndex < 3 );
 

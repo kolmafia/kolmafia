@@ -39,6 +39,9 @@ import java.util.List;
 
 public class RestaurantRequest extends KoLRequest
 {
+	private static final Pattern COST_PATTERN = Pattern.compile( "(.*?) \\((\\d*) Meat\\)" );
+	private static final Pattern AVAILABLE_PATTERN = Pattern.compile( "<td>([\\w -]*?\\(.*? Meat\\))</td>" );
+
 	private boolean isPurchase;
 	private int price;
 
@@ -57,7 +60,7 @@ public class RestaurantRequest extends KoLRequest
 		this.price = 0;
 
 		// Parse item name and price
-		Matcher itemMatcher = Pattern.compile( "(.*?) \\((\\d*) Meat\\)" ).matcher( name );
+		Matcher itemMatcher = COST_PATTERN.matcher( name );
 		int itemID = 0;
 
 		if ( itemMatcher.find( 0 ) )
@@ -141,7 +144,7 @@ public class RestaurantRequest extends KoLRequest
 		}
 
 		int lastMatchIndex = 0;
-		Matcher purchaseMatcher = Pattern.compile( "<td>([\\w -]*?\\(.*? Meat\\))</td>" ).matcher( responseText );
+		Matcher purchaseMatcher = AVAILABLE_PATTERN.matcher( responseText );
 
 		restaurantItems.clear();
 		while ( purchaseMatcher.find() )

@@ -55,6 +55,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public abstract class KoLCharacter extends StaticEntity
 {
+	private static final Pattern STILLS_PATTERN = Pattern.compile( "lack readout with (\\d+) bright green light" );
+
 	private static List SEAL_CLUBBER = new ArrayList();
 	static
 	{
@@ -282,6 +284,7 @@ public abstract class KoLCharacter extends StaticEntity
 	private static SortedListModel familiars = new SortedListModel( FamiliarData.class );
 	private static FamiliarData currentFamiliar = FamiliarData.NO_FAMILIAR;
 
+	private static boolean isUsingStabBat = false;
 	private static int arenaWins = 0;
 	private static int stillsAvailable = 0;
 
@@ -375,6 +378,7 @@ public abstract class KoLCharacter extends StaticEntity
 		familiars.clear();
 		familiars.add( FamiliarData.NO_FAMILIAR );
 		arenaWins = 0;
+		isUsingStabBat = false;
 
 		stillsAvailable = -1;
 		beanstalkArmed = false;
@@ -2230,6 +2234,10 @@ public abstract class KoLCharacter extends StaticEntity
 	{	return currentFamiliar;
 	}
 
+	public static boolean isUsingStabBat()
+	{	return isUsingStabBat;
+	}
+
 	/**
 	 * Accessor method to get arena wins
 	 * @return	wins
@@ -2266,8 +2274,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void setStillsAvailable( String responseText )
 	{
-		Matcher stillMatcher = Pattern.compile(
-			"lack readout with (\\d+) bright green light" ).matcher( responseText );
+		Matcher stillMatcher = STILLS_PATTERN.matcher( responseText );
 
 		if ( stillMatcher.find() )
 			stillsAvailable = parseInt( stillMatcher.group(1) );
@@ -2323,6 +2330,8 @@ public abstract class KoLCharacter extends StaticEntity
 		familiars.setSelectedItem( currentFamiliar );
 		updateEquipmentList( equipmentLists[FAMILIAR], ConsumeItemRequest.EQUIP_FAMILIAR, getFamiliarItem() );
 		recalculateAdjustments( false );
+
+		isUsingStabBat = familiar.getRace().equals( "Stab Bat" );
 		updateStatus();
 	}
 

@@ -40,6 +40,9 @@ import java.util.regex.Matcher;
 
 public class ClanMembersRequest extends KoLRequest
 {
+	private static final Pattern CLANID_PATTERN = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" );
+	private static final Pattern MEMBER_PATTERN = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>.*?<td class=small>(\\d+).*?</td>" );
+
 	private String clanID;
 	private String clanName;
 	private boolean isLookup;
@@ -101,7 +104,7 @@ public class ClanMembersRequest extends KoLRequest
 			ProfileRequest clanIDLookup = new ProfileRequest( client, KoLCharacter.getUsername() );
 			clanIDLookup.run();
 
-			Matcher clanIDMatcher = Pattern.compile( "showclan\\.php\\?whichclan=(\\d+)\">(.*?)</a>" ).matcher( clanIDLookup.responseText );
+			Matcher clanIDMatcher = CLANID_PATTERN.matcher( clanIDLookup.responseText );
 			if ( !clanIDMatcher.find() )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "Your character does not belong to a clan." );
@@ -127,7 +130,7 @@ public class ClanMembersRequest extends KoLRequest
 		if ( isLookup )
 		{
 			int lastMatchIndex = 0;
-			Matcher memberMatcher = Pattern.compile( "<a class=nounder href=\"showplayer\\.php\\?who=(\\d+)\">(.*?)</a>.*?<td class=small>(\\d+).*?</td>" ).matcher( responseText );
+			Matcher memberMatcher = MEMBER_PATTERN.matcher( responseText );
 
 			while ( memberMatcher.find( lastMatchIndex ) )
 			{
