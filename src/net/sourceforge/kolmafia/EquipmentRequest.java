@@ -48,6 +48,28 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class EquipmentRequest extends PasswordHashRequest
 {
+	private static final Pattern CELL_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
+	private static final Pattern SELECT_PATTERN = Pattern.compile( "<select.*?</select>", Pattern.DOTALL );
+	private static final Pattern MEAT_PATTERN = Pattern.compile( "[\\d,]+ meat\\.</b>" );
+	private static final Pattern OUTSIDECLOSET_PATTERN = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL );
+	private static final Pattern INSIDECLOSET_PATTERN = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL );
+	private static final Pattern INVENTORYITEM_PATTERN = Pattern.compile( "<option value='?([\\d]+)'?>([^>]*?) \\(([\\d,]+)\\)</option>" );
+	private static final Pattern QUESTITEM_PATTERN = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" );
+	private static final Pattern HAT_PATTERN = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" );
+	private static final Pattern WEAPON_PATTERN = Pattern.compile( "Weapon:</td>.*?<b>(.*?)</b>.*unequip&type=weapon" );
+	private static final Pattern OFFHAND_PATTERN = Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" );
+	private static final Pattern SHIRT_PATTERN = Pattern.compile( "Shirt:</td>.*?<b>(.*?)</b>.*unequip&type=shirt" );
+	private static final Pattern PANTS_PATTERN = Pattern.compile( "Pants:</td>.*?<b>(.*?)</b>.*unequip&type=pants" );
+	private static final Pattern ACC1_PATTERN = Pattern.compile( "Accessory ?1?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc1\">" );
+	private static final Pattern ACC2_PATTERN = Pattern.compile( "Accessory ?2?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc2\">" );
+	private static final Pattern ACC3_PATTERN = Pattern.compile( "Accessory ?3?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc3\">" );
+	private static final Pattern FAMILIARITEM_PATTERN = Pattern.compile( "Familiar:*</td>.*?<b>([^<]*?)</b>.*unequip&type=familiarequip" );
+	private static final Pattern OUTFITLIST_PATTERN = Pattern.compile( "<select name=whichoutfit>.*?</select>" );
+
+	private static final Pattern OUTFIT_PATTERN = Pattern.compile( "whichoutfit=(\\d+)" );
+	private static final Pattern SLOT_PATTERN = Pattern.compile( "type=([a-z]+)" );
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+
 	public static final AdventureResult UNEQUIP = new AdventureResult( "(none)", 1, false );
 	private static final AdventureResult PASTE = new AdventureResult( ItemCreationRequest.MEAT_PASTE, 1 );
 
@@ -491,7 +513,7 @@ public class EquipmentRequest extends PasswordHashRequest
 				KoLRequest combines = new KoLRequest( client, KoLCharacter.inMuscleSign() ? "knoll.php?place=paster" : "combine.php" );
 				combines.run();
 
-				Matcher selectMatcher = Pattern.compile( "<select.*?</select>", Pattern.DOTALL ).matcher( combines.responseText );
+				Matcher selectMatcher = SELECT_PATTERN.matcher( combines.responseText );
 				if ( selectMatcher.find() )
 				{
 					inventory.clear();
@@ -523,7 +545,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Detect possible failure
 		if ( requestType == CHANGE_ITEM || requestType == CHANGE_OUTFIT )
 		{
-			Matcher resultMatcher = Pattern.compile( "<td>(.*?)</td>" ).matcher( responseText );
+			Matcher resultMatcher = CELL_PATTERN.matcher( responseText );
 			if ( resultMatcher.find() )
 			{
 				String result = resultMatcher.group(1).replaceAll( "</?b>", "" );
@@ -573,7 +595,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Try to find how much meat is in your character's closet -
 		// this way, the program's meat manager frame auto-updates
 
-		Matcher meatInClosetMatcher = Pattern.compile( "[\\d,]+ meat\\.</b>" ).matcher( responseText );
+		Matcher meatInClosetMatcher = MEAT_PATTERN.matcher( responseText );
 
 		if ( meatInClosetMatcher.find() )
 		{
@@ -581,14 +603,14 @@ public class EquipmentRequest extends PasswordHashRequest
 			KoLCharacter.setClosetMeat( StaticEntity.parseInt( meatInCloset ) );
 		}
 
-		Matcher inventoryMatcher = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL ).matcher( responseText );
+		Matcher inventoryMatcher = OUTSIDECLOSET_PATTERN.matcher( responseText );
 		if ( inventoryMatcher.find() )
 		{
 			inventory.clear();
 			parseCloset( inventoryMatcher.group(), inventory );
 		}
 
-		Matcher closetMatcher = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL ).matcher( responseText );
+		Matcher closetMatcher = INSIDECLOSET_PATTERN.matcher( responseText );
 		if ( closetMatcher.find() )
 		{
 			closet.clear();
@@ -599,7 +621,7 @@ public class EquipmentRequest extends PasswordHashRequest
 	private void parseCloset( String content, List resultList )
 	{
 		int lastFindIndex = 0;
-		Matcher optionMatcher = Pattern.compile( "<option value='?([\\d]+)'?>([^>]*?) \\(([\\d,]+)\\)</option>" ).matcher( content );
+		Matcher optionMatcher = INVENTORYITEM_PATTERN.matcher( content );
 		while ( optionMatcher.find( lastFindIndex ) )
 		{
 			lastFindIndex = optionMatcher.end();
@@ -617,7 +639,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	private static void parseQuestItems( String text )
 	{
-		Matcher itemMatcher = Pattern.compile( "<b>(<a.*?>)?([^<]+)(</a>)?</b>([^<]*?)<font size=1>" ).matcher( text );
+		Matcher itemMatcher = QUESTITEM_PATTERN.matcher( text );
 		while ( itemMatcher.find() )
 		{
 			String quantity = itemMatcher.group(4).trim();
@@ -667,7 +689,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=hat") != -1 )
 		{
-			 equipmentMatcher = Pattern.compile( "Hat:</td>.*?<b>(.*?)</b>.*unequip&type=hat" ).matcher( responseText );
+			 equipmentMatcher = HAT_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.HAT ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
@@ -677,7 +699,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=weapon") != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Weapon:</td>.*?<b>(.*?)</b>.*unequip&type=weapon" ).matcher( responseText );
+			equipmentMatcher = WEAPON_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.WEAPON ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
@@ -687,7 +709,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=offhand") != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Off-Hand:</td>.*?<b>([^<]*)</b> *(<font.*?/font>)?[^>]*unequip&type=offhand" ).matcher( responseText );
+			equipmentMatcher = OFFHAND_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.OFFHAND ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
@@ -697,7 +719,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=shirt") != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Shirt:</td>.*?<b>(.*?)</b>.*unequip&type=shirt" ).matcher( responseText );
+			equipmentMatcher = SHIRT_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.SHIRT ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
@@ -707,7 +729,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=pants") != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Pants:</td>.*?<b>(.*?)</b>.*unequip&type=pants" ).matcher( responseText );
+			equipmentMatcher = PANTS_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.PANTS ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
@@ -715,9 +737,9 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 		}
 
-		if ( responseText.indexOf( "unequip&type=acc1") != -1 )
+		if ( responseText.indexOf( "unequip&type=acc1" ) != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Accessory ?1?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc1\">" ).matcher( responseText );
+			equipmentMatcher = ACC1_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.ACCESSORY1 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
@@ -725,9 +747,9 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 		}
 
-		if ( responseText.indexOf( "unequip&type=acc2") != -1 )
+		if ( responseText.indexOf( "unequip&type=acc2" ) != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Accessory ?2?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc2\">" ).matcher( responseText );
+			equipmentMatcher = ACC2_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.ACCESSORY2 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
@@ -737,7 +759,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=acc3") != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Accessory ?3?:</td>.*?<b>([^<]*?)</b> *<a href=\"inv_equip.php\\?pwd=[^&]*&which=2&action=unequip&type=acc3\">" ).matcher( responseText );
+			equipmentMatcher = ACC3_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.ACCESSORY3 ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
@@ -748,7 +770,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( responseText.indexOf( "unequip&type=familiarequip") != -1 )
 		{
-			equipmentMatcher = Pattern.compile( "Familiar:*</td>.*?<b>([^<]*?)</b>.*unequip&type=familiarequip" ).matcher( responseText );
+			equipmentMatcher = FAMILIARITEM_PATTERN.matcher( responseText );
 			if ( equipmentMatcher.find() )
 			{
 				equipment[ KoLCharacter.FAMILIAR ] = new AdventureResult( equipmentMatcher.group(1).trim(), 1, false );
@@ -763,7 +785,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			index += 21;
 		}
 
-		Matcher outfitsMatcher = Pattern.compile( "<select name=whichoutfit>.*?</select>" ).matcher( responseText );
+		Matcher outfitsMatcher = OUTFITLIST_PATTERN.matcher( responseText );
 
 		LockableListModel outfits = outfitsMatcher.find() ?
 			SpecialOutfit.parseOutfits( outfitsMatcher.group() ) : null;
@@ -840,7 +862,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		if ( urlString.indexOf( "inv_equip.php" ) == -1 )
 			return false;
 
-		Matcher outfitMatcher = Pattern.compile( "whichoutfit=(\\d+)" ).matcher( urlString );
+		Matcher outfitMatcher = OUTFIT_PATTERN.matcher( urlString );
 		if ( outfitMatcher.find() )
 		{
 			int outfitID = StaticEntity.parseInt( outfitMatcher.group(1) );
@@ -858,7 +880,7 @@ public class EquipmentRequest extends PasswordHashRequest
 
 		if ( urlString.indexOf( "action=unequip" ) != -1 )
 		{
-			Matcher slotMatcher = Pattern.compile( "type=([a-z]+)" ).matcher( urlString );
+			Matcher slotMatcher = SLOT_PATTERN.matcher( urlString );
 			if ( slotMatcher.find() )
 			{
 				KoLmafia.getSessionStream().println( "unequip " + slotMatcher.group(1) );
@@ -868,7 +890,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			return false;
 		}
 
-		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
+		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
 			return false;
 

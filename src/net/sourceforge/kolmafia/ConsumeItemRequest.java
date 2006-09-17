@@ -38,6 +38,12 @@ import java.util.regex.Matcher;
 
 public class ConsumeItemRequest extends KoLRequest
 {
+	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr>.*?</tr>" );
+	private static final Pattern GIFT_PATTERN = Pattern.compile( "From: <b>(.*?)</b>" );
+	private static final Pattern INVENTORY_PATTERN = Pattern.compile( "</table><table.*?</body>" );
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "whichitem=(\\d+)" );
+	private static final Pattern QUANTITY_PATTERN = Pattern.compile( "quantity=(\\d+)" );
+
 	protected static String lastUpdate = "";
 
 	public static final int NO_CONSUME = 0;
@@ -373,7 +379,7 @@ public class ConsumeItemRequest extends KoLRequest
 			}
 
 			// Find out who sent it
-			Matcher matcher = Pattern.compile( "From: <b>(.*?)</b>" ).matcher( responseText );
+			Matcher matcher = GIFT_PATTERN.matcher( responseText );
 			String title = matcher.find() ? "Gift from " + matcher.group(1) : "Your gift";
 
 			// Pop up a window showing what was in the gift.
@@ -693,12 +699,12 @@ public class ConsumeItemRequest extends KoLRequest
 	private String trimInventoryText( String text )
 	{
 		// Get rid of first row of first table: the "Results" line
-		Matcher matcher = Pattern.compile( "<tr>.*?</tr>" ).matcher( text );
+		Matcher matcher = ROW_PATTERN.matcher( text );
 		if ( matcher.find() )
 			text = matcher.replaceFirst( "" );
 
 		// Get rid of inventory listing
-		matcher = Pattern.compile( "</table><table.*?</body>" ).matcher( text );
+		matcher = INVENTORY_PATTERN.matcher( text );
 		if ( matcher.find() )
 			text = matcher.replaceFirst( "</table></body>" );
 
@@ -753,7 +759,7 @@ public class ConsumeItemRequest extends KoLRequest
 			return false;
 
 		AdventureResult itemUsed = null;
-		Matcher itemMatcher = Pattern.compile( "whichitem=(\\d+)" ).matcher( urlString );
+		Matcher itemMatcher = ITEMID_PATTERN.matcher( urlString );
 		if ( !itemMatcher.find() )
 			return false;
 
@@ -761,7 +767,7 @@ public class ConsumeItemRequest extends KoLRequest
 
 		if ( urlString.indexOf( "multiuse.php" ) != -1 || urlString.indexOf( "skills.php" ) != -1 )
 		{
-			Matcher quantityMatcher = Pattern.compile( "quantity=(\\d+)" ).matcher( urlString );
+			Matcher quantityMatcher = QUANTITY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 				itemUsed = itemUsed.getInstance( StaticEntity.parseInt( quantityMatcher.group(1) ) );
 		}
