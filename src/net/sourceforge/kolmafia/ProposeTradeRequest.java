@@ -93,6 +93,10 @@ public class ProposeTradeRequest extends SendMessageRequest
 	{	return "";
 	}
 
+	protected final boolean allowUntradeableTransfer()
+	{	return false;
+	}
+
 	protected void processResults()
 	{	responseText = responseText.substring( 0, responseText.lastIndexOf( "<b>Propose" ) ).replaceAll( "[Mm]eat:", "Please respond with " );
 	}

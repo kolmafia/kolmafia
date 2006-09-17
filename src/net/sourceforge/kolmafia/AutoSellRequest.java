@@ -366,6 +366,6 @@ public class AutoSellRequest extends SendMessageRequest
 	}
 
 	protected boolean tallyItemTransfer()
-	{	return false;
+	{	return sellType == AUTOMALL;
 	}
 }

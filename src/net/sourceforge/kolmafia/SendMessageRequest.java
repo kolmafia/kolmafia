@@ -165,7 +165,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		int capacity = getCapacity();
 		ArrayList subinstances = new ArrayList();
 
-		int index1 = 0, index2 = 0;
+		int index1 = 0;
 
 		AdventureResult item = null;
 		int availableCount;
@@ -175,16 +175,17 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		while ( index1 < attachments.length )
 		{
-			index2 = 0;
 			nextAttachments.clear();
 
 			while ( index1 < attachments.length && nextAttachments.size() < capacity )
 			{
 				item = (AdventureResult) attachments[index1++];
+
 				if ( !allowUntradeableTransfer() && !TradeableItemDatabase.isTradeable( item.getItemID() ) )
 					continue;
 
 				availableCount = item.getCount( source );
+
 				if ( availableCount > 0 )
 				{
 					if ( item.getCount() > availableCount )
@@ -197,13 +198,16 @@ public abstract class SendMessageRequest extends KoLRequest
 			// For each broken-up request, you create a new sending request
 			// which will create the appropriate data to post.
 
-			if ( !KoLmafia.refusesContinue() && index2 > 0 )
+			if ( !KoLmafia.refusesContinue() && nextAttachments.size() > 0 )
 			{
 				subinstance = getSubInstance( nextAttachments.toArray() );
 				subinstance.isSubInstance = true;
 				subinstances.add( subinstance );
 			}
 		}
+
+		if ( subinstances.isEmpty() )
+			return;
 
 		// Now that you've determined all the sub instances, run
 		// all of them.
@@ -232,6 +236,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		{
 			if ( !isSubInstance )
 			{
+				System.out.println( "Running subinstance..." );
 				runSubInstances();
 				return;
 			}
@@ -312,7 +317,7 @@ public abstract class SendMessageRequest extends KoLRequest
 	}
 
 	protected boolean allowUntradeableTransfer()
-	{	return false;
+	{	return true;
 	}
 
 	protected boolean tallyItemTransfer()
