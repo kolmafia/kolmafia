@@ -56,7 +56,6 @@ import javax.swing.JScrollPane;
 // event listeners
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.SwingUtilities;
 import java.awt.event.KeyEvent;
 
 // utilities

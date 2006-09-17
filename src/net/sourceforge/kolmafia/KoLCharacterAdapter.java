@@ -33,7 +33,6 @@
  */
 
 package net.sourceforge.kolmafia;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 

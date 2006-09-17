@@ -92,6 +92,7 @@ public class ChatBuffer
 	protected static final int DISPLAY_CHANGE = 1;
 	protected static final int LOGFILE_CHANGE = 2;
 
+	private DisplayPaneUpdater updater = new DisplayPaneUpdater();
 	private static final Pattern TRIPLE_LINE_PATTERN = Pattern.compile( "<br>\\s*<br>\\s*(<br>\\s*)+" );
 
 	private String title;
@@ -253,27 +254,24 @@ public class ChatBuffer
 	{
 		if ( changeType != LOGFILE_CHANGE )
 		{
-			if ( displayPane != null )
-			{
-				DisplayPaneUpdater updater = new DisplayPaneUpdater( newContents );
+			displayBuffer.append( newContents );
+			normalizeBuffer();
 
+			if ( displayPane != null && !updater.setToRun )
+			{
 				try
 				{
+					updater.setToRun = true;
 					if ( SwingUtilities.isEventDispatchThread() )
 						updater.run();
 					else
-						SwingUtilities.invokeAndWait( updater );
+						SwingUtilities.invokeLater( updater );
 				}
 				catch ( Exception e )
 				{
 					e.printStackTrace();
 				}
 
-			}
-			else if ( newContents != null )
-			{
-				displayBuffer.append( newContents );
-				normalizeBuffer();
 			}
 		}
 
@@ -312,24 +310,16 @@ public class ChatBuffer
 
 	private class DisplayPaneUpdater implements Runnable
 	{
-		private String newContents;
-
-		public DisplayPaneUpdater( String newContents )
-		{	this.newContents = newContents;
-		}
+		private boolean setToRun = false;
 
 		public void run()
 		{
-			boolean scrollToTop = displayBuffer.length() == 0 || newContents == null;
-			if ( newContents != null )
-			{
-				displayBuffer.append( newContents );
-				normalizeBuffer();
-			}
-
+			boolean scrollToTop = displayBuffer.length() == 0;
 			displayPane.setText( header + "<style>" + BUFFER_STYLE + "</style></head><body>" + displayBuffer.toString() + "</body></html>" );
 			if ( scrollToTop )
 				displayPane.setCaretPosition( 0 );
+
+			setToRun = false;
 		}
 	}
 }

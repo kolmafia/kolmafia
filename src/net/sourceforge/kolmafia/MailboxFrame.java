@@ -47,7 +47,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JOptionPane;
 
 // event listeners
-import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
