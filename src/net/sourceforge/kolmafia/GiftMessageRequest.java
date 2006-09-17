@@ -120,7 +120,7 @@ public class GiftMessageRequest extends SendMessageRequest
 
 		if ( isFromStorage )
 		{
-			this.source = KoLCharacter.getStorage();
+			this.source = storage;
 			this.whichField = "hagnks_whichitem";
 			this.quantityField = "hagnks_howmany";
 		}
@@ -135,7 +135,7 @@ public class GiftMessageRequest extends SendMessageRequest
 	}
 
 	protected SendMessageRequest getSubInstance( Object [] attachments )
-	{	return new GiftMessageRequest( client, recipient, outsideMessage, insideMessage, wrappingType, attachments, 0, this.source == KoLCharacter.getStorage() );
+	{	return new GiftMessageRequest( client, recipient, outsideMessage, insideMessage, wrappingType, attachments, 0, this.source == storage );
 	}
 
 	protected String getSuccessMessage()

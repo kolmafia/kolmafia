@@ -152,7 +152,7 @@ public class UneffectRequest extends KoLRequest
 			{
 				DEFAULT_SHELL.executeLine( "acquire " + REMEDY.getName() );
 			}
-			else if ( !KoLCharacter.getInventory().contains( REMEDY ) )
+			else if ( !inventory.contains( REMEDY ) )
 			{
 				KoLmafia.updateDisplay( "You don't have any soft green fluffy martians." );
 				return;
@@ -170,7 +170,7 @@ public class UneffectRequest extends KoLRequest
 
 		if ( responseText != null && (isShruggable || responseText.indexOf( "Effect removed." ) != -1) )
 		{
-			KoLCharacter.getEffects().remove( effect );
+			activeEffects.remove( effect );
 
 
 			if ( isShruggable )

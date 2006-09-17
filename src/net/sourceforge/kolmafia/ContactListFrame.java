@@ -68,7 +68,7 @@ public class ContactListFrame extends KoLFrame
 	private JList contactsDisplay;
 
 	public ContactListFrame()
-	{	this( StaticEntity.getClient().getContactList() );
+	{	this( contactList );
 	}
 
 	public ContactListFrame( SortedListModel contacts )

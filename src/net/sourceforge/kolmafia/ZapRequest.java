@@ -57,13 +57,13 @@ public class ZapRequest extends KoLRequest
 
 	public void run()
 	{
-		if ( !KoLCharacter.getInventory().contains( wand ) )
+		if ( !inventory.contains( wand ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + wand.getName() + "." );
 			return;
 		}
 
-		if ( !KoLCharacter.getInventory().contains( item ) )
+		if ( !inventory.contains( item ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "You don't have a " + item.getName() + "." );
 			return;

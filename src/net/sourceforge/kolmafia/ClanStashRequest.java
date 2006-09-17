@@ -92,7 +92,7 @@ public class ClanStashRequest extends SendMessageRequest
 			addFormField( "action", "addgoodies" );
 			this.whichField = "item";
 			this.quantityField = "qty";
-			source = KoLCharacter.getInventory();
+			source = inventory;
 			destination = new ArrayList();
 		}
 		else

@@ -51,13 +51,13 @@ public class EventsFrame extends KoLPanelFrame
 		public EventsPanel()
 		{
 			super( "Recent Events", "clear", "check",
-				new ShowDescriptionList( KoLCharacter.getEvents() ) );
+				new ShowDescriptionList( eventHistory ) );
 		}
 
 		public void actionConfirmed()
 		{
 			// Clear list of events
-			KoLCharacter.clearEvents();
+			eventHistory.clear();
 		}
 
 		public void actionCancelled()

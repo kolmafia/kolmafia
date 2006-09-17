@@ -66,8 +66,8 @@ public class MuseumRequest extends SendMessageRequest
 		this.isManagement = true;
 		this.isDeposit = isDeposit;
 
-		this.source = isDeposit ? KoLCharacter.getInventory() : KoLCharacter.getCollection();
-		this.destination = isDeposit ? KoLCharacter.getCollection() : KoLCharacter.getInventory();
+		this.source = isDeposit ? inventory : collection;
+		this.destination = isDeposit ? collection : inventory;
 	}
 
 	public MuseumRequest( KoLmafia client, AdventureResult [] items, int [] shelves )

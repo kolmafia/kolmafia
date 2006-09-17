@@ -240,7 +240,7 @@ public abstract class SorceressLair extends StaticEntity
 	private static AdventureResult pickOne( AdventureResult [] itemOptions )
 	{
 		for ( int i = 0; i < itemOptions.length; ++i )
-			if ( KoLCharacter.getInventory().contains( itemOptions[i] ) )
+			if ( inventory.contains( itemOptions[i] ) )
 				return itemOptions[i];
 
 		for ( int i = 0; i < itemOptions.length; ++i )
@@ -403,13 +403,13 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
 		{
-			if ( !KoLCharacter.getEffects().contains( SUGAR ) )
+			if ( !activeEffects.contains( SUGAR ) )
 				AdventureDatabase.retrieveItem( candy );
 
-			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) )
+			if ( !activeEffects.contains( WUSSINESS ) )
 				AdventureDatabase.retrieveItem( WUSSY_POTION );
 
-			if ( !KoLCharacter.getEffects().contains( MIASMA ) )
+			if ( !activeEffects.contains( MIASMA ) )
 				AdventureDatabase.retrieveItem( BLACK_CANDLE );
 		}
 
@@ -421,13 +421,13 @@ public abstract class SorceressLair extends StaticEntity
 
 		if ( request.responseText.indexOf( "gatesdone" ) == -1 )
 		{
-			if ( !KoLCharacter.getEffects().contains( SUGAR ) )
+			if ( !activeEffects.contains( SUGAR ) )
 				(new ConsumeItemRequest( getClient(), candy )).run();
 
-			if ( !KoLCharacter.getEffects().contains( WUSSINESS ) )
+			if ( !activeEffects.contains( WUSSINESS ) )
 				(new ConsumeItemRequest( getClient(), WUSSY_POTION )).run();
 
-			if ( !KoLCharacter.getEffects().contains( MIASMA ) )
+			if ( !activeEffects.contains( MIASMA ) )
 				(new ConsumeItemRequest( getClient(), BLACK_CANDLE )).run();
 
 			KoLmafia.updateDisplay( "Crossing three door puzzle..." );
@@ -837,8 +837,8 @@ public abstract class SorceressLair extends StaticEntity
 		// Retrieve any puzzle pieces that might be sitting
 		// inside of the player's closet.
 
-		int closetCount = PUZZLE_PIECE.getCount( KoLCharacter.getCloset() );
-		int inventoryCount = PUZZLE_PIECE.getCount( KoLCharacter.getInventory() );
+		int closetCount = PUZZLE_PIECE.getCount( closet );
+		int inventoryCount = PUZZLE_PIECE.getCount( inventory );
 
 		if ( closetCount > 0 )
 			AdventureDatabase.retrieveItem( PUZZLE_PIECE.getInstance( inventoryCount + closetCount ) );
@@ -864,7 +864,7 @@ public abstract class SorceressLair extends StaticEntity
 		// First mission -- retrieve the key from the hedge
 		// maze puzzle.
 
-		if ( !KoLCharacter.getInventory().contains( HEDGE_KEY ) )
+		if ( !inventory.contains( HEDGE_KEY ) )
 		{
 			KoLmafia.updateDisplay( "Retrieving hedge key..." );
 			responseText = retrieveHedgeKey( responseText );
@@ -1028,7 +1028,7 @@ public abstract class SorceressLair extends StaticEntity
 		for ( int i = 0; i < GUARDIAN_DATA.length; ++i )
 		{
 			AdventureResult item = new AdventureResult( GUARDIAN_DATA[i][1], 1, false );
-			if ( !KoLCharacter.getInventory().contains( item ) )
+			if ( !inventory.contains( item ) )
 			{
 				if ( hasItem( item ) || NPCStoreDatabase.contains( GUARDIAN_DATA[i][1] ) )
 					AdventureDatabase.retrieveItem( item );
@@ -1194,7 +1194,7 @@ public abstract class SorceressLair extends StaticEntity
 
 		request = new KoLRequest( getClient(), "fight.php" );
 
-		if ( KoLCharacter.getInventory().contains( guardianItem ) )
+		if ( inventory.contains( guardianItem ) )
 		{
 			request.addFormField( "action", "useitem" );
 			request.addFormField( "whichitem", String.valueOf( guardianItem.getItemID() ) );
@@ -1212,7 +1212,7 @@ public abstract class SorceressLair extends StaticEntity
 		request.run();
 
 		AdventureDatabase.retrieveItem( guardianItem );
-		if ( guardianItem.getCount( KoLCharacter.getInventory() ) != 0 )
+		if ( guardianItem.getCount( inventory ) != 0 )
 			return fightGuardian( towerLevel );
 
 		return guardianItem.getItemID();

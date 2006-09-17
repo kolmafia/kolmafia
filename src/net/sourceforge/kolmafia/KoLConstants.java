@@ -46,24 +46,49 @@ import java.io.File;
 import javax.swing.JLabel;
 import java.awt.Toolkit;
 
+import java.util.TreeMap;
+import java.util.ArrayList;
+
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.java.dev.spellcast.utilities.UtilityConstants;
 import net.java.dev.spellcast.utilities.LockableListModel;
 
 public interface KoLConstants extends UtilityConstants
 {
-	public static final Random RNG = new Random();
-	public static final String LINE_BREAK = System.getProperty( "line.separator" );
-	public static final Class [] NOPARAMS = new Class[0];
-
-	public static final JLabel BLANK_LABEL = new JLabel();
-	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
+	// Version information for the current version of KoLmafia.
+	// Rendered in various locations and therefore made public.
 
 	public static final String VERSION_NAME = "KoLmafia v8.8";
 	public static final String VERSION_DATE = "Patched on September 7, 2006";
 
-	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
-	public static final File SCRIPT_DIRECTORY = new File( "scripts" );
+	// General constants used for calculations and formatting of
+	// strings, as well as for string parsing.
+
+	public static final Random RNG = new Random();
+	public static final String LINE_BREAK = System.getProperty( "line.separator" );
+
+	public static final DecimalFormat COMMA_FORMAT = new DecimalFormat( "#,##0", new DecimalFormatSymbols( Locale.US ) );
+	public static final DecimalFormat MODIFIER_FORMAT = new DecimalFormat( "+#0;-#0", new DecimalFormatSymbols( Locale.US ) );
+	public static final DecimalFormat FLOAT_FORMAT = new DecimalFormat( "#,##0.00", new DecimalFormatSymbols( Locale.US ) );
+	public static final DecimalFormat ROUNDED_MODIFIER_FORMAT = new DecimalFormat( "+#0.00;-#0.00", new DecimalFormatSymbols( Locale.US ) );
+	public static final SimpleDateFormat DATED_FILENAME_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
+
+	// Generic constants which indicate null values.  Used in
+	// order to preserve memory.
+
+	public static final Class [] NOPARAMS = new Class[0];
+	public static final JLabel BLANK_LABEL = new JLabel();
+
+	// Constants which are used in order to do things inside of
+	// the GUI.  Ensures that all GUI information can be accessed
+	// at any time.
+
+	public static final Toolkit TOOLKIT = Toolkit.getDefaultToolkit();
+	public static final LockableListModel existingFrames = new LockableListModel();
+	public static final LockableListModel existingPanels = new LockableListModel();
+
+	// Menus rendered in the relay browser and the KoLmafia mini-browser.
+	// Ensures that the two menus always contain the same information.
 
 	public static final String [][] FUNCTION_MENU = new String[][] {
 		{ "Inventory", "inventory.php?which=1" },
@@ -98,36 +123,32 @@ public interface KoLConstants extends UtilityConstants
 		{ "Mysterious Island", "island.php" }
 	};
 
-	public static final LockableListModel existingFrames = new LockableListModel();
-	public static final LockableListModel existingPanels = new LockableListModel();
+	// Scripting-related constants.  Used throughout KoLmafia in
+	// order to ensure proper handling of scripts.
 
 	public static final Vector commandQueue = new Vector();
 	public static final LockableListModel scripts = new LockableListModel();
+	public static final File SCRIPT_DIRECTORY = new File( "scripts" );
+	public static final KoLmafiaCLI DEFAULT_SHELL = new KoLmafiaCLI( System.in );
 
-	public static final DecimalFormat COMMA_FORMAT = new DecimalFormat(
-		"#,##0", new DecimalFormatSymbols( Locale.US ) );
-
-	public static final DecimalFormat MODIFIER_FORMAT = new DecimalFormat(
-		"+#0;-#0", new DecimalFormatSymbols( Locale.US ) );
-
-	public static final DecimalFormat FLOAT_FORMAT = new DecimalFormat(
-		"#,##0.00", new DecimalFormatSymbols( Locale.US ) );
-
-	public static final DecimalFormat ROUNDED_MODIFIER_FORMAT = new DecimalFormat(
-		"+#0.00;-#0.00", new DecimalFormatSymbols( Locale.US ) );
-
-	public static final SimpleDateFormat DATED_FILENAME_FORMAT = new SimpleDateFormat( "yyyyMMdd", Locale.US );
+	// Different states of KoLmafia.  Used in order to determine
+	// what is still permitted.
 
 	public static final int ENABLE_STATE   = 1;
 	public static final int ERROR_STATE    = 2;
 	public static final int ABORT_STATE    = 3;
-
 	public static final int PENDING_STATE  = 4;
 	public static final int CONTINUE_STATE = 5;
+
+	// Colors which are used to handle the various KoLmafia states.
+	// Used when changing the display.
 
 	public static final Color ERROR_COLOR = new Color( 255, 192, 192 );
 	public static final Color ENABLED_COLOR = new Color( 192, 255, 192 );
 	public static final Color DISABLED_COLOR = null;
+
+	// Constants which are useful, but not necessarily used very often.
+	// Includes win game text.
 
 	public static final String IMAGE_SERVER = "69.16.150.201";
 	public static final String [][] WIN_GAME_TEXT = new String [][]
@@ -178,4 +199,50 @@ public interface KoLConstants extends UtilityConstants
 			"You have died from KoLera."
 		}
 	};
+
+	// Variables which relate to a given session.  These are made
+	// global in order to ensure that any element of KoLmafia can
+	// access session-specific information.
+
+	public static final SortedListModel saveStateNames = new SortedListModel();
+
+	public static final SortedListModel inventory = new SortedListModel( AdventureResult.class );
+	public static final SortedListModel closet = new SortedListModel( AdventureResult.class );
+	public static final SortedListModel storage = new SortedListModel( AdventureResult.class );
+
+	public static final SortedListModel collection = new SortedListModel( AdventureResult.class );
+	public static final SortedListModel usables = new SortedListModel( AdventureResult.class );
+	public static final SortedListModel sellables = new SortedListModel( AdventureResult.class );
+
+	public static final SortedListModel usableSkills = new SortedListModel( UseSkillRequest.class );
+	public static final LockableListModel availableSkills = new LockableListModel();
+	public static final LockableListModel combatSkills = new LockableListModel();
+
+	public static final LockableListModel activeEffects = new LockableListModel();
+	public static final ArrayList recentEffects = new ArrayList();
+
+	public static final TreeMap seenPlayerIDs = new TreeMap();
+	public static final TreeMap seenPlayerNames = new TreeMap();
+	public static final SortedListModel contactList = new SortedListModel();
+
+	public static final SortedListModel tally = new SortedListModel();
+	public static final SortedListModel missingItems = new SortedListModel();
+
+	public static final SortedListModel hermitItems = new SortedListModel();
+	public static final SortedListModel hunterItems = new SortedListModel();
+	public static final String [] trapperItemNames = { "yak skin", "penguin skin", "hippopotamus skin" };
+	public static final int [] trapperItemNumbers = { 394, 393, 395 };
+
+	public static final LockableListModel restaurantItems = new LockableListModel();
+	public static final LockableListModel microbreweryItems = new LockableListModel();
+
+	public static final SortedListModel conditions = new SortedListModel();
+	public static final LockableListModel adventureList = new LockableListModel();
+	public static final SortedListModel encounterList = new SortedListModel();
+
+	// Locations where session information is displayed for the user.
+	// Include just the event history buffer and the command line buffer.
+
+	public static final LockableListModel eventHistory = new LockableListModel();
+	public static final LimitedSizeChatBuffer commandBuffer = new LimitedSizeChatBuffer( "KoLmafia: Graphical CLI", true, false );
 }

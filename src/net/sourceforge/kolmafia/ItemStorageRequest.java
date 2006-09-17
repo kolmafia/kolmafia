@@ -79,8 +79,8 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		if ( moveType == PULL_MEAT_FROM_STORAGE )
 		{
-			source = KoLCharacter.getStorage();
-			destination = KoLCharacter.getInventory();
+			source = storage;
+			destination = inventory;
 		}
 	}
 
@@ -108,18 +108,18 @@ public class ItemStorageRequest extends SendMessageRequest
 
 		if ( moveType == CLOSET_TO_INVENTORY )
 		{
-			source = KoLCharacter.getCloset();
-			destination = KoLCharacter.getInventory();
+			source = closet;
+			destination = inventory;
 		}
 		else if ( moveType == INVENTORY_TO_CLOSET )
 		{
-			source = KoLCharacter.getInventory();
-			destination = KoLCharacter.getCloset();
+			source = inventory;
+			destination = closet;
 		}
 		else if ( moveType == STORAGE_TO_INVENTORY )
 		{
-			source = KoLCharacter.getStorage();
-			destination = KoLCharacter.getInventory();
+			source = storage;
+			destination = inventory;
 		}
 	}
 
@@ -168,13 +168,8 @@ public class ItemStorageRequest extends SendMessageRequest
 		switch ( moveType )
 		{
 			case EMPTY_STORAGE:
-				while ( !KoLCharacter.getStorage().isEmpty() )
-				{
-					AdventureResult item = (AdventureResult) KoLCharacter.getStorage().remove(0);
-					AdventureResult.addResultToList( KoLCharacter.getInventory(), item );
-					AdventureResult.addResultToList( StaticEntity.getClient().getSessionTally(), item );
-
-				}
+				while ( !storage.isEmpty() )
+					client.processResult( (AdventureResult) storage.remove(0) );
 
 				break;
 
@@ -261,7 +256,7 @@ public class ItemStorageRequest extends SendMessageRequest
 
 	private void parseStorage()
 	{
-		List storageContents = KoLCharacter.getStorage();
+		List storageContents = storage;
 		Matcher storageMatcher = null;
 
 		// Compute the number of pulls remaining based
@@ -391,7 +386,7 @@ public class ItemStorageRequest extends SendMessageRequest
 			itemList.add (item);
 
 			if ( quantity == 0 )
-				quantity = item.getCount( KoLCharacter.getStorage() );
+				quantity = item.getCount( storage );
 
 			if ( itemListBuffer.length() > 0 )
 				itemListBuffer.append( ", " );

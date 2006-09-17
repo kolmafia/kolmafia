@@ -278,7 +278,7 @@ public class KoLmafiaGUI extends KoLmafia
 				// you retrieve information from the restaurant.
 
 				if ( KoLCharacter.canEat() && KoLCharacter.inMysticalitySign() )
-					if ( StaticEntity.getClient().getRestaurantItems().isEmpty() )
+					if ( restaurantItems.isEmpty() )
 						(new RestaurantRequest( StaticEntity.getClient() )).run();
 
 				// If the person is in a moxie sign and they have completed
@@ -286,7 +286,7 @@ public class KoLmafiaGUI extends KoLmafia
 				// microbrewery.
 
 				if ( KoLCharacter.canDrink() && KoLCharacter.inMoxieSign() )
-					if ( StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
+					if ( microbreweryItems.isEmpty() )
 						(new MicrobreweryRequest( StaticEntity.getClient() )).run();
 
 				if ( StaticEntity.getBooleanProperty( "showStashIngredients" ) && KoLCharacter.canInteract() && KoLCharacter.hasClan() )
@@ -313,7 +313,7 @@ public class KoLmafiaGUI extends KoLmafia
 		}
 		else if ( frameName.equals( "HagnkStorageFrame" ) )
 		{
-			if ( KoLCharacter.getStorage().isEmpty() && StaticEntity.getClient().shouldMakeConflictingRequest() )
+			if ( storage.isEmpty() && StaticEntity.getClient().shouldMakeConflictingRequest() )
 				(new ItemStorageRequest( StaticEntity.getClient() )).run();
 		}
 
@@ -354,7 +354,7 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		Object selectedValue = JOptionPane.showInputDialog(
 			null, "I want to remove this effect...", "It's Soft Green Martian Time!", JOptionPane.INFORMATION_MESSAGE, null,
-			KoLCharacter.getEffects().toArray(), KoLCharacter.getEffects().get(0) );
+			activeEffects.toArray(), activeEffects.get(0) );
 
 		if ( selectedValue == null )
 			return;
@@ -375,7 +375,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 		Object selectedValue = JOptionPane.showInputDialog(
 			null, "I want to zap this item...", "Zzzzzzzzzap!", JOptionPane.INFORMATION_MESSAGE, null,
-			KoLCharacter.getInventory().toArray(), KoLCharacter.getInventory().get(0) );
+			inventory.toArray(), inventory.get(0) );
 
 		if ( selectedValue == null )
 			return;
@@ -422,7 +422,7 @@ public class KoLmafiaGUI extends KoLmafia
 
 	public void makeTrapperRequest()
 	{
-		int furs = TrapperRequest.YETI_FUR.getCount( KoLCharacter.getInventory() );
+		int furs = TrapperRequest.YETI_FUR.getCount( inventory );
 
 		if ( furs == 0 )
 		{
@@ -477,7 +477,7 @@ public class KoLmafiaGUI extends KoLmafia
 			return;
 
 		AdventureResult selected = new AdventureResult( selectedValue, 0, false );
-		int available = selected.getCount( KoLCharacter.getInventory() );
+		int available = selected.getCount( inventory );
 
 		if ( available == 0 )
 		{
@@ -548,9 +548,9 @@ public class KoLmafiaGUI extends KoLmafia
 	{
 		List untinkerItems = new ArrayList();
 
-		for ( int i = 0; i < KoLCharacter.getInventory().size(); ++i )
+		for ( int i = 0; i < inventory.size(); ++i )
 		{
-			AdventureResult currentItem = (AdventureResult) KoLCharacter.getInventory().get(i);
+			AdventureResult currentItem = (AdventureResult) inventory.get(i);
 			int itemID = currentItem.getItemID();
 
 			// Ignore silly fairy gravy + meat from yesterday recipe

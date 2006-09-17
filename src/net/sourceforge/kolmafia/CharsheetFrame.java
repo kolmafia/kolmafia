@@ -97,7 +97,7 @@ public class CharsheetFrame extends KoLFrame
 		northPanel.add( createStatusPanel(), BorderLayout.CENTER );
 		northPanel.add( createImagePanel(), BorderLayout.WEST );
 
-		JScrollPane scroller = new JScrollPane( new JList( KoLCharacter.getEffects() ),
+		JScrollPane scroller = new JScrollPane( new JList( activeEffects ),
 			JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
 
 		JPanel entirePanel = new JPanel( new BorderLayout( 20, 20 ) );

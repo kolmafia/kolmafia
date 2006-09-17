@@ -115,7 +115,7 @@ public class HagnkStorageFrame extends KoLFrame
 
 		public HagnkStoragePanel( boolean isEquipment )
 		{
-			super( "Inside Storage", KoLCharacter.getStorage(), !isEquipment );
+			super( "Inside Storage", storage, !isEquipment );
 
 			setButtons( new String [] { "put in bag", "put in closet", "take it all" },
 				new ActionListener [] { new PullFromStorageListener( false ), new PullFromStorageListener( true ), new EmptyStorageListener() } );

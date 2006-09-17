@@ -60,7 +60,7 @@ public class BountyHunterRequest extends KoLRequest
 		this.isExchange = true;
 
 		itemTraded = new AdventureResult( itemID, 0 );
-		itemTraded = itemTraded.getInstance( itemTraded.getCount( KoLCharacter.getInventory() ) );
+		itemTraded = itemTraded.getInstance( itemTraded.getCount( inventory ) );
 	}
 
 	public void run()
@@ -87,13 +87,10 @@ public class BountyHunterRequest extends KoLRequest
 			return;
 		}
 
-		int lastMatchIndex = 0;
 		Matcher exchangeMatcher = Pattern.compile( "<b>([^<]*?)</b></td><td>" ).matcher( responseText );
 
-		while ( exchangeMatcher.find( lastMatchIndex ) )
-		{
-			lastMatchIndex = exchangeMatcher.end();
-			client.getBountyHunterItems().add( exchangeMatcher.group(1) );
-		}
+		hunterItems.clear();
+		while ( exchangeMatcher.find() )
+			hunterItems.add( exchangeMatcher.group(1) );
 	}
 }

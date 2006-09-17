@@ -342,7 +342,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( quantityNeeded >= 10 || KoLCharacter.hasItem( tool, false ) )
 			AdventureDatabase.retrieveItem( tool );
 
-		if ( tool.getCount( KoLCharacter.getInventory() ) > 0 )
+		if ( tool.getCount( inventory ) > 0 )
 		{
 			KoLmafia.updateDisplay( "Using " + tool.getName() + "..." );
 			(new ConsumeItemRequest( client, tool )).run();
@@ -418,7 +418,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 			KoLCharacter.setStillsAvailable( responseText );
 
 		AdventureResult createdItem = new AdventureResult( itemID, 0 );
-		int beforeQuantity = createdItem.getCount( KoLCharacter.getInventory() );
+		int beforeQuantity = createdItem.getCount( inventory );
 
 		super.processResults();
 
@@ -438,7 +438,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		// Figure out how many items were created
 
-		int createdQuantity = createdItem.getCount( KoLCharacter.getInventory() ) - beforeQuantity;
+		int createdQuantity = createdItem.getCount( inventory ) - beforeQuantity;
 
 		if ( createdQuantity > 0 )
 		{
@@ -557,7 +557,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		AdventureResult usedServant = null;
 		boolean isCreatePermitted = StaticEntity.getBooleanProperty( "createWithoutBoxServants" );
-		boolean hasNoServantItem = KoLCharacter.getInventory().contains( noServantItem ) || KoLCharacter.getAvailableMeat() >= 1000;
+		boolean hasNoServantItem = inventory.contains( noServantItem ) || KoLCharacter.getAvailableMeat() >= 1000;
 
 		if ( !StaticEntity.getBooleanProperty( "autoRepairBoxes" ) )
 		{

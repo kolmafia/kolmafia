@@ -78,7 +78,6 @@ public abstract class SendMessageFrame extends KoLFrame
 	protected JButton sendMessageButton;
 
 	protected ShowDescriptionList attachmentList;
-	protected LockableListModel inventory;
 	protected JTextField attachedMeat;
 	protected LockableListModel attachments;
 
@@ -90,9 +89,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	{
 		super( title );
 
-		inventory = KoLCharacter.getSellables();
 		usingStorage = false;
-
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout( new BoxLayout( mainPanel, BoxLayout.Y_AXIS ) );
 
@@ -162,7 +159,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	{
 		String [] entryHeaders = getEntryHeaders();
 
-		recipientEntry = new MutableComboBox( (SortedListModel) StaticEntity.getClient().getContactList().clone() );
+		recipientEntry = new MutableComboBox( (SortedListModel) contactList.clone() );
 		recipientEntry.setEditable( true );
 
 		JComponentUtilities.setComponentSize( recipientEntry, 300, 20 );
@@ -289,7 +286,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	{
 		Object [] parameters = new Object[3];
 		parameters[0] = inventory;
-		parameters[1] = this instanceof GiftMessageFrame ? KoLCharacter.getStorage() : null;
+		parameters[1] = this instanceof GiftMessageFrame ? storage : null;
 		parameters[2] = attachments;
 
 		(new CreateFrameRunnable( AttachmentFrame.class, parameters )).run();
@@ -325,7 +322,6 @@ public abstract class SendMessageFrame extends KoLFrame
 		sendMessageButton = null;
 
 		attachmentList = null;
-		inventory = null;
 		attachedMeat = null;
 		attachments = null;
 
@@ -346,7 +342,7 @@ public abstract class SendMessageFrame extends KoLFrame
 	public void refreshContactList()
 	{
 		(new ContactListRequest( StaticEntity.getClient() )).run();
-		recipientEntry.setModel( (SortedListModel) StaticEntity.getClient().getContactList().clone() );
+		recipientEntry.setModel( (SortedListModel) contactList.clone() );
 	}
 
 	/**

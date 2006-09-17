@@ -67,7 +67,7 @@ public class TrapperRequest extends KoLRequest
 	}
 
 	public TrapperRequest( KoLmafia client, int itemID )
-	{	this( client, itemID, YETI_FUR.getCount( KoLCharacter.getInventory() ) );
+	{	this( client, itemID, YETI_FUR.getCount( inventory ) );
 	}
 
 	/**

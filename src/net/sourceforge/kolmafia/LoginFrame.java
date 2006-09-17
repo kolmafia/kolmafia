@@ -276,7 +276,7 @@ public class LoginFrame extends KoLFrame
 				{
 					String value = (String) ((JComboBox)usernameField).getSelectedItem();
 
-					KoLmafia.saveStateNames.remove( value );
+					saveStateNames.remove( value );
 					KoLmafia.removeSaveState( value );
 					passwordField.setText( "" );
 				}
@@ -296,7 +296,7 @@ public class LoginFrame extends KoLFrame
 		private class LoginNameComboBox extends MutableComboBox
 		{
 			public LoginNameComboBox()
-			{	super( KoLmafia.saveStateNames );
+			{	super( saveStateNames );
 			}
 
 			public void setSelectedItem( Object anObject )

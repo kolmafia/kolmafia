@@ -222,20 +222,6 @@ public abstract class KoLCharacter extends StaticEntity
 			equipment.add( EquipmentRequest.UNEQUIP );
 	}
 
-	private static LockableListModel events = new LockableListModel();
-
-	private static SortedListModel inventory = new SortedListModel( AdventureResult.class );
-	private static SortedListModel closet = new SortedListModel( AdventureResult.class );
-	private static SortedListModel collection = new SortedListModel( AdventureResult.class );
-	private static SortedListModel storage = new SortedListModel( AdventureResult.class );
-	private static SortedListModel usables = new SortedListModel( AdventureResult.class );
-	private static SortedListModel sellables = new SortedListModel( AdventureResult.class );
-
-	private static LockableListModel activeEffects = new LockableListModel();
-	private static SortedListModel usableSkills = new SortedListModel( UseSkillRequest.class );
-	private static LockableListModel availableSkills = new LockableListModel();
-	private static LockableListModel combatSkills = new LockableListModel();
-
 	private static LockableListModel battleSkillIDs = new LockableListModel();
 	private static LockableListModel battleSkillNames = new LockableListModel();
 
@@ -366,14 +352,11 @@ public abstract class KoLCharacter extends StaticEntity
 		customOutfits.clear();
 		outfits.clear();
 
-		events.clear();
-
 		inventory.clear();
 		closet.clear();
 		storage.clear();
 		collection.clear();
 
-		activeEffects.clear();
 		usableSkills.clear();
 		availableSkills.clear();
 		getClient().resetBreakfastSummonings();
@@ -402,7 +385,6 @@ public abstract class KoLCharacter extends StaticEntity
 		ascensionSignType = NONE;
 
 		mindControlLevel = 0;
-
 		autosellMode = "";
 
 		// Initialize the equipment lists inside
@@ -419,9 +401,19 @@ public abstract class KoLCharacter extends StaticEntity
 		// Clear the violet fog path table and everything
 		// else that changes on the player.
 
+		conditions.clear();
+		eventHistory.clear();
+		recentEffects.clear();
+		activeEffects.clear();
+
 		VioletFog.reset();
 		CombatSettings.reset();
 		MoodSettings.reset();
+		KoLMailManager.reset();
+		StoreManager.reset();
+		CakeArenaManager.reset();
+		MuseumManager.reset();
+		ClanManager.reset();
 	}
 
 	public static KoLAdventure getNextAdventure()
@@ -1460,7 +1452,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	private static int getCount( AdventureResult accessory )
 	{
-		int available = accessory.getCount( KoLCharacter.getInventory() );
+		int available = accessory.getCount( inventory );
 		if ( KoLCharacter.getEquipment( ACCESSORY1 ).equals( accessory ) )
 			++available;
 		if ( KoLCharacter.getEquipment( ACCESSORY2 ).equals( accessory ) )
@@ -1493,84 +1485,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static LockableListModel getOutfits()
 	{	return outfits;
-	}
-
-	/**
-	 * Accessor method to retrieve a list of the items contained within the character's inventory.
-	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
-	 * and that any changes to the internal character inventory will be reflected in the returned
-	 * <code>SortedListModel</code>.
-	 *
-	 * @return	A <code>SortedListModel</code> of the items in the character's inventory
-	 */
-
-	public static SortedListModel getInventory()
-	{	return inventory;
-	}
-
-	/**
-	 * Accessor method to retrieve a list of the items contained within the character's closet.
-	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
-	 * and that any changes to the internal character closet will be reflected in the returned
-	 * <code>LockableListModel</code>.
-	 *
-	 * @return	A <code>SortedListModel</code> of the items in the character's closet
-	 */
-
-	public static SortedListModel getCloset()
-	{	return closet;
-	}
-
-	/**
-	 * Accessor method to retrieve a list of the items contained within the character's collection.
-	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
-	 * and that any changes to the internal character collection will be reflected in the returned
-	 * <code>LockableListModel</code>.
-	 *
-	 * @return	A <code>SortedListModel</code> of the items in the character's collection
-	 */
-
-	public static SortedListModel getCollection()
-	{	return collection;
-	}
-
-	/**
-	 * Accessor method to retrieve a list of the items contained within the character's storage.
-	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
-	 * and that any changes to the internal character collection will be reflected in the returned
-	 * <code>LockableListModel</code>.
-	 *
-	 * @return	A <code>SortedListModel</code> of the items in the character's collection
-	 */
-
-	public static SortedListModel getStorage()
-	{	return storage;
-	}
-
-	/**
-	 * Accessor method to retrieve all usable items contained within the character's inventory.
-	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
-	 * and that any changes to the internal character inventory will be reflected in the returned
-	 * <code>SortedListModel</code>.
-	 *
-	 * @return	A <code>SortedListModel</code> of the items in the character's inventory
-	 */
-
-	public static SortedListModel getUsables()
-	{	return usables;
-	}
-
-	/**
-	 * Accessor method to retrieve all sellable items contained within the character's inventory.
-	 * Note that each of the elements within this list is an <code>AdventureResult</code> object
-	 * and that any changes to the internal character inventory will be reflected in the returned
-	 * <code>SortedListModel</code>.
-	 *
-	 * @return	A <code>SortedListModel</code> of the items in the character's inventory
-	 */
-
-	public static SortedListModel getSellables()
-	{	return sellables;
 	}
 
 	/**
@@ -1933,15 +1847,6 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to add a listing of the current effects.
-	 * @return	A list of current effects
-	 */
-
-	public static LockableListModel getEffects()
-	{	return activeEffects;
-	}
-
-	/**
 	 * Accessor method to set the list of available skills.
 	 * @param	availableSkills	The list of the names of available skills
 	 */
@@ -2057,9 +1962,9 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static void addDictionary()
 	{
-		if ( FightRequest.DICTIONARY1.getCount( KoLCharacter.getInventory() ) >= 1 )
+		if ( FightRequest.DICTIONARY1.getCount( inventory ) >= 1 )
 			addDictionary( FightRequest.DICTIONARY1 );
-		else if ( FightRequest.DICTIONARY2.getCount( KoLCharacter.getInventory() ) >= 1 )
+		else if ( FightRequest.DICTIONARY2.getCount( inventory ) >= 1 )
 			addDictionary( FightRequest.DICTIONARY2 );
 	}
 
@@ -2215,24 +2120,6 @@ public abstract class KoLCharacter extends StaticEntity
 	}
 
 	/**
-	 * Accessor method to look up the list of combat skills.
-	 * @return	A list of UseSkillRequests of combat skills
-	 */
-
-	public static LockableListModel getCombatSkills()
-	{	return combatSkills;
-	}
-
-	/**
-	 * Accessor method to look up the list of usable skills.
-	 * @return	A list of UseSkillRequests of usable skills
-	 */
-
-	public static LockableListModel getUsableSkills()
-	{	return usableSkills;
-	}
-
-	/**
 	 * Accessor method to look up whether or not the character can
 	 * summon noodles.
 	 *
@@ -2329,10 +2216,6 @@ public abstract class KoLCharacter extends StaticEntity
 			if ( ((UseSkillRequest)list.get(i)).getSkillName().equalsIgnoreCase( skillName ) )
 				return true;
 		return false;
-	}
-
-	public static LockableListModel getAvailableSkills()
-	{	return availableSkills;
 	}
 
 	/**
@@ -2605,16 +2488,16 @@ public abstract class KoLCharacter extends StaticEntity
 			setAdventuresLeft( getAdventuresLeft() + result.getCount() );
 			if ( result.getCount() < 0 )
 			{
-				AdventureResult [] effectsArray = new AdventureResult[ getEffects().size() ];
-				getEffects().toArray( effectsArray );
+				AdventureResult [] effectsArray = new AdventureResult[ activeEffects.size() ];
+				activeEffects.toArray( effectsArray );
 
 				for ( int i = effectsArray.length - 1; i >= 0; --i )
 				{
 					AdventureResult effect = effectsArray[i];
 					if ( effect.getCount() <= 0 - result.getCount() )
-						getEffects().remove( i );
+						activeEffects.remove( i );
 					else
-						getEffects().set( i, effect.getInstance( effect.getCount() + result.getCount() ) );
+						activeEffects.set( i, effect.getInstance( effect.getCount() + result.getCount() ) );
 				}
 
 				setTotalTurnsUsed( getTotalTurnsUsed() - result.getCount() );
@@ -2658,7 +2541,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 	public static boolean hasItem( AdventureResult item, boolean shouldCreate )
 	{
-		int count = item.getCount( getInventory() ) + item.getCount( getCloset() );
+		int count = item.getCount( inventory ) + item.getCount( closet );
 		switch ( TradeableItemDatabase.getConsumptionType( item.getItemID() ) )
 		{
 			case ConsumeItemRequest.EQUIP_HAT:
@@ -2739,14 +2622,6 @@ public abstract class KoLCharacter extends StaticEntity
 
 		for ( int i = 0; i < listenerArray.length; ++i )
 			listenerArray[i].updateStatus();
-	}
-
-	public static LockableListModel getEvents()
-	{	return events;
-	}
-
-	public static void clearEvents()
-	{	events.clear();
 	}
 
 	// Effects that modify ML:
@@ -2978,8 +2853,8 @@ public abstract class KoLCharacter extends StaticEntity
 		// For the sake of easier maintenance, execute a lot of extra
 		// extra string comparisons when looking at status effects.
 
-		AdventureResult [] effects = new AdventureResult[ KoLCharacter.getEffects().size() ];
-		KoLCharacter.getEffects().toArray( effects );
+		AdventureResult [] effects = new AdventureResult[ activeEffects.size() ];
+		activeEffects.toArray( effects );
 
 		for ( int i = 0; i < effects.length; ++i )
 		{

@@ -382,8 +382,8 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( equipmentSlot == KoLCharacter.FAMILIAR )
 			{
 				AdventureResult result = new AdventureResult( itemID, 1 );
-				if ( !KoLCharacter.getInventory().contains( result ) &&
-				     !KoLCharacter.getCloset().contains( result ))
+				if ( !inventory.contains( result ) &&
+				     !closet.contains( result ))
 				{
 					// Find first familiar with item
 					FamiliarData [] familiars = new FamiliarData[ KoLCharacter.getFamiliarList().size() ];
@@ -494,8 +494,8 @@ public class EquipmentRequest extends PasswordHashRequest
 				Matcher selectMatcher = Pattern.compile( "<select.*?</select>", Pattern.DOTALL ).matcher( combines.responseText );
 				if ( selectMatcher.find() )
 				{
-					KoLCharacter.getInventory().clear();
-					parseCloset( selectMatcher.group(), KoLCharacter.getInventory() );
+					inventory.clear();
+					parseCloset( selectMatcher.group(), inventory );
 				}
 			}
 			else
@@ -505,7 +505,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			}
 
 			KoLCharacter.refreshCalculatedLists();
-			KoLCharacter.setAvailableSkills( KoLCharacter.getAvailableSkills() );
+			KoLCharacter.setAvailableSkills( availableSkills );
 			return;
 		}
 
@@ -562,7 +562,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			// excessive list updating.
 
 			if ( switchIn != -1 )
-				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( switchIn, -1 ) );
+				AdventureResult.addResultToList( inventory, new AdventureResult( switchIn, -1 ) );
 
             // Items will be found when we parse quest items
 		}
@@ -584,7 +584,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		Matcher inventoryMatcher = Pattern.compile( "<b>Put:.*?</select>", Pattern.DOTALL ).matcher( responseText );
 		if ( inventoryMatcher.find() )
 		{
-			List inventory = KoLCharacter.getInventory();
 			inventory.clear();
 			parseCloset( inventoryMatcher.group(), inventory );
 		}
@@ -592,7 +591,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		Matcher closetMatcher = Pattern.compile( "<b>Take:.*?</select>", Pattern.DOTALL ).matcher( responseText );
 		if ( closetMatcher.find() )
 		{
-			List closet = KoLCharacter.getCloset();
 			closet.clear();
 			parseCloset( closetMatcher.group(), closet );
 		}
@@ -636,7 +634,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			int itemID = TradeableItemDatabase.getItemID( realName );
 
 			AdventureResult item = new AdventureResult( itemID, quantityValue );
-			int inventoryCount = item.getCount( KoLCharacter.getInventory() );
+			int inventoryCount = item.getCount( inventory );
 
 			// Add the difference between your existing count
 			// and the original count.
@@ -644,7 +642,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( inventoryCount != quantityValue )
 			{
 				item = item.getInstance( quantityValue - inventoryCount );
-				AdventureResult.addResultToList( KoLCharacter.getInventory(), item );
+				AdventureResult.addResultToList( inventory, item );
 			}
 		}
 	}
@@ -783,7 +781,7 @@ public class EquipmentRequest extends PasswordHashRequest
 			// Adjust inventory of fake hands
 			int newFakeHands = KoLCharacter.getFakeHands();
 			if ( oldFakeHands > newFakeHands )
-				AdventureResult.addResultToList( KoLCharacter.getInventory(), new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
+				AdventureResult.addResultToList( inventory, new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
 
 			KoLCharacter.refreshCalculatedLists();
 			CharpaneRequest.getInstance().run();
@@ -797,7 +795,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// now know about your equipment.
 
 		KoLCharacter.refreshCalculatedLists();
-		KoLCharacter.setAvailableSkills( KoLCharacter.getAvailableSkills() );
+		KoLCharacter.setAvailableSkills( availableSkills );
 		KoLCharacter.recalculateAdjustments( false );
 		KoLCharacter.updateStatus();
 	}

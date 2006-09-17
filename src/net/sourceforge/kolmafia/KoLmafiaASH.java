@@ -3965,9 +3965,9 @@ public class KoLmafiaASH extends StaticEntity
 				return continueValue();
 
 			AdventureResult itemToBuy = new AdventureResult( item.intValue(), 1 );
-			int initialAmount = itemToBuy.getCount( KoLCharacter.getInventory() );
+			int initialAmount = itemToBuy.getCount( inventory );
 			DEFAULT_SHELL.executeLine( "buy " + count.intValue() + " " + item.toStringValue() );
-			return initialAmount + count.intValue() == itemToBuy.getCount( KoLCharacter.getInventory() ) ? TRUE_VALUE : FALSE_VALUE;
+			return initialAmount + count.intValue() == itemToBuy.getCount( inventory ) ? TRUE_VALUE : FALSE_VALUE;
 		}
 
 		public ScriptValue create( ScriptVariable count, ScriptVariable item )
@@ -4018,21 +4018,21 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue item_amount( ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( KoLCharacter.getInventory() ) );
+			return new ScriptValue( item.getCount( inventory ) );
 		}
 
 		public ScriptValue closet_amount( ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( KoLCharacter.getCloset() ) );
+			return new ScriptValue( item.getCount( closet ) );
 		}
 
 		public ScriptValue museum_amount( ScriptVariable arg )
 		{
-			if ( KoLCharacter.getCollection().isEmpty() )
+			if ( collection.isEmpty() )
 				(new MuseumRequest( getClient() )).run();
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( KoLCharacter.getCollection() ) );
+			return new ScriptValue( item.getCount( collection ) );
 		}
 
 		public ScriptValue shop_amount( ScriptVariable arg )
@@ -4053,7 +4053,7 @@ public class KoLmafiaASH extends StaticEntity
 		public ScriptValue storage_amount( ScriptVariable arg )
 		{
 			AdventureResult item = new AdventureResult( arg.intValue(), 0 );
-			return new ScriptValue( item.getCount( KoLCharacter.getStorage() ) );
+			return new ScriptValue( item.getCount( storage ) );
 		}
 
 		public ScriptValue refresh_stash()
@@ -4315,7 +4315,7 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			List potentialEffects = StatusEffectDatabase.getMatchingNames( arg.toStringValue().toString() );
 			AdventureResult effect = potentialEffects.isEmpty() ? null : new AdventureResult( (String) potentialEffects.get(0), 0, true );
-			return new ScriptValue( effect == null ? 0 : effect.getCount( KoLCharacter.getEffects() ) );
+			return new ScriptValue( effect == null ? 0 : effect.getCount( activeEffects ) );
 		}
 
 		public ScriptValue have_skill( ScriptVariable arg )
@@ -4369,11 +4369,11 @@ public class KoLmafiaASH extends StaticEntity
 		{
 			String itemName = item.toStringValue().toString();
 
-			if ( getClient().hunterItems.isEmpty() )
+			if ( hunterItems.isEmpty() )
 				(new BountyHunterRequest( getClient() )).run();
 
-			for ( int i = 0; i < getClient().hunterItems.size(); ++i )
-				if ( ((String)getClient().hunterItems.get(i)).equalsIgnoreCase( itemName ) )
+			for ( int i = 0; i < hunterItems.size(); ++i )
+				if ( ((String)hunterItems.get(i)).equalsIgnoreCase( itemName ) )
 					return TRUE_VALUE;
 
 			return FALSE_VALUE;

@@ -82,13 +82,11 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class ItemManageFrame extends KoLFrame
 {
-	private MultiButtonPanel bruteforcer, inventory, closet, consume, create, special;
+	private MultiButtonPanel bruteForcer, inventoryManager, closetManager, itemConsumer, itemCreator, npcOfferings;
 
 	/**
 	 * Constructs a new <code>ItemManageFrame</code> and inserts all
 	 * of the necessary panels into a tabular layout for accessibility.
-	 *
-	 * @param	StaticEntity.getClient()	The StaticEntity.getClient() to be notified in the event of error.
 	 */
 
 	public ItemManageFrame()
@@ -96,41 +94,41 @@ public class ItemManageFrame extends KoLFrame
 		super( "Item Manager" );
 
 		tabs = new JTabbedPane();
-		consume = new ConsumePanel();
-		bruteforcer = new InventPanel();
-		create = new CreateItemPanel();
-		inventory = new OutsideClosetPanel();
-		closet = new InsideClosetPanel();
-		special = null;
+		itemConsumer = new ConsumePanel();
+		bruteForcer = new InventPanel();
+		itemCreator = new CreateItemPanel();
+		inventoryManager = new OutsideClosetPanel();
+		closetManager = new InsideClosetPanel();
+		npcOfferings = null;
 
-		tabs.addTab( "Consume", consume );
+		tabs.addTab( "Consume", itemConsumer );
 
 		if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
 		{
 			// If the person is in a mysticality sign, make sure
 			// you retrieve information from the restaurant.
 
-			if ( !StaticEntity.getClient().getRestaurantItems().isEmpty() )
+			if ( KoLCharacter.inMysticalitySign() && !restaurantItems.isEmpty() )
 			{
-				special = new SpecialPanel( StaticEntity.getClient().getRestaurantItems() );
-				tabs.add( "Restaurant", special );
+				npcOfferings = new SpecialPanel( restaurantItems );
+				tabs.add( "Restaurant", npcOfferings );
 			}
 
 			// If the person is in a moxie sign and they have completed
 			// the beach quest, then retrieve information from the
 			// microbrewery.
 
-			if ( !StaticEntity.getClient().getMicrobreweryItems().isEmpty() )
+			if ( KoLCharacter.inMoxieSign() && !microbreweryItems.isEmpty() )
 			{
-				special = new SpecialPanel( StaticEntity.getClient().getMicrobreweryItems() );
-				tabs.add( "Microbrewery", special );
+				npcOfferings = new SpecialPanel( microbreweryItems );
+				tabs.add( "Microbrewery", npcOfferings );
 			}
 		}
 
-//		tabs.addTab( "Find Recipe", bruteforcer );
-		tabs.addTab( "Create", create );
-		tabs.addTab( "Inventory", inventory );
-		tabs.addTab( "Closet", closet );
+//		tabs.addTab( "Find Recipe", bruteForcer );
+		tabs.addTab( "Create", itemCreator );
+		tabs.addTab( "Inventory", inventoryManager );
+		tabs.addTab( "Closet", closetManager );
 
 		framePanel.add( tabs, BorderLayout.CENTER );
 	}
@@ -141,7 +139,7 @@ public class ItemManageFrame extends KoLFrame
 
 		public ConsumePanel()
 		{
-			super( "Usable Items", KoLCharacter.getUsables(), false );
+			super( "Usable Items", usables, false );
 
 			setButtons( new String [] { "use one", "use multiple", "refresh" },
 				new ActionListener [] { new ConsumeListener( false ), new ConsumeListener( true ),
@@ -238,7 +236,7 @@ public class ItemManageFrame extends KoLFrame
 				if ( consumptionCount == 0 )
 					return;
 
-				Runnable request = elementList.getModel() == StaticEntity.getClient().getRestaurantItems() ?
+				Runnable request = elementList.getModel() == restaurantItems ?
 					(KoLRequest) (new RestaurantRequest( StaticEntity.getClient(), item )) : (KoLRequest) (new MicrobreweryRequest( StaticEntity.getClient(), item ));
 
 				(new RequestThread( request, consumptionCount )).start();
@@ -434,7 +432,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public OutsideClosetPanel()
 		{
-			super( "Inside Inventory", KoLCharacter.getInventory() );
+			super( "Inside Inventory", inventory );
 			setButtons( new String [] { "closet", "sell", "mall", "pulverize", "museum", "clan", "refresh" },
 				new ActionListener [] {
 					new PutInClosetListener( false, elementList ),
@@ -451,7 +449,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public InsideClosetPanel()
 		{
-			super( "Inside Closet", KoLCharacter.getCloset() );
+			super( "Inside Closet", closet );
 			setButtons( new String [] { "backpack", "sell", "mall", "pulverize", "museum", "clan", "refresh" },
 				new ActionListener [] {
 					new PutInClosetListener( true, elementList ),
@@ -468,7 +466,7 @@ public class ItemManageFrame extends KoLFrame
 	{
 		public InventPanel()
 		{
-			super( "Invent an Item", KoLCharacter.getInventory(), false );
+			super( "Invent an Item", inventory, false );
 			elementList.setCellRenderer( AdventureResult.getConsumableCellRenderer( true, true, true ) );
 
 			setButtons( new String [] { "combine", "cook", "mix", "smith", "pliers", "tinker" },
@@ -698,7 +696,7 @@ public class ItemManageFrame extends KoLFrame
 			super( "Create an Item", ConcoctionsDatabase.getConcoctions(), false );
 
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			setButtons( new String [] { "create one", "create multiple", "refresh" },
+			setButtons( new String [] { "itemCreator one", "itemCreator multiple", "refresh" },
 				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 

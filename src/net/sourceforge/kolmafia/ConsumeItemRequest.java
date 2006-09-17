@@ -343,7 +343,7 @@ public class ConsumeItemRequest extends KoLRequest
 			return;
 		}
 
-		int originalEffectCount = KoLCharacter.getEffects().size();
+		int originalEffectCount = activeEffects.size();
 
 		// Perform item-specific processing
 		switch ( itemUsed.getItemID() )
@@ -450,16 +450,16 @@ public class ConsumeItemRequest extends KoLRequest
 			break;
 
 		case TEARS:
-			KoLCharacter.getEffects().remove( KoLAdventure.BEATEN_UP );
+			activeEffects.remove( KoLAdventure.BEATEN_UP );
 			break;
 
 		case ANTIDOTE:
-			KoLCharacter.getEffects().remove( POISON );
+			activeEffects.remove( POISON );
 			break;
 
 		case TINY_HOUSE:
 			// Tiny houses remove lots of different effects.
-			needsRefresh = !KoLCharacter.getEffects().isEmpty();
+			needsRefresh = !activeEffects.isEmpty();
 			break;
 
 		case RAFFLE_TICKET:
@@ -600,13 +600,13 @@ public class ConsumeItemRequest extends KoLRequest
 		case ROLLING_PIN:
 			// Rolling pins remove dough from your inventory
 			// They are not consumed by being used
-			client.processResult( DOUGH.getInstance( DOUGH.getCount( KoLCharacter.getInventory() ) ).getNegation() );
+			client.processResult( DOUGH.getInstance( DOUGH.getCount( inventory ) ).getNegation() );
 			return;
 
 		case UNROLLING_PIN:
 			// Unrolling pins remove flat dough from your inventory
 			// They are not consumed by being used
-			client.processResult( FLAT_DOUGH.getInstance( FLAT_DOUGH.getCount( KoLCharacter.getInventory() ) ).getNegation() );
+			client.processResult( FLAT_DOUGH.getInstance( FLAT_DOUGH.getCount( inventory ) ).getNegation() );
 			return;
 
 		case PLUS_SIGN:
@@ -681,7 +681,7 @@ public class ConsumeItemRequest extends KoLRequest
 		}
 
 		// We might have removed - or added - an effect
-		needsRefresh |= originalEffectCount != KoLCharacter.getEffects().size();
+		needsRefresh |= originalEffectCount != activeEffects.size();
 
 		// If we get here, we know that the item is consumed by being
 		// used. Do so.

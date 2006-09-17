@@ -282,12 +282,12 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static synchronized void refreshConcoctions()
 	{
 		List availableIngredients = new ArrayList();
-		availableIngredients.addAll( KoLCharacter.getInventory() );
+		availableIngredients.addAll( inventory );
 
 		if ( getBooleanProperty( "showClosetIngredients" ) )
 		{
-			AdventureResult [] items = new AdventureResult[ KoLCharacter.getCloset().size() ];
-			KoLCharacter.getCloset().toArray( items );
+			AdventureResult [] items = new AdventureResult[ closet.size() ];
+			closet.toArray( items );
 
 			for ( int i = 0; i < items.length; ++i )
 				AdventureResult.addResultToList( availableIngredients, items[i] );
@@ -478,7 +478,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Smithing of items is possible whenever the person
 		// has a hammer.
 
-		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = KoLCharacter.getInventory().contains( HAMMER ) &&
+		PERMIT_METHOD[ ItemCreationRequest.SMITH ] = inventory.contains( HAMMER ) &&
 			KoLCharacter.getAdventuresLeft() > 0;
 
 		// Advanced smithing is available whenever the person can
@@ -508,7 +508,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		// Jewelry making is possible as long as the person has the
 		// appropriate pliers.
 
-		PERMIT_METHOD[ ItemCreationRequest.JEWELRY ] = KoLCharacter.getInventory().contains( PLIERS ) &&
+		PERMIT_METHOD[ ItemCreationRequest.JEWELRY ] = inventory.contains( PLIERS ) &&
 			KoLCharacter.getAdventuresLeft() > 2;
 		ADVENTURE_USAGE[ ItemCreationRequest.JEWELRY ] = 3;
 
@@ -548,7 +548,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ ItemCreationRequest.COOK ] = isAvailable( CHEF, CLOCKWORK_CHEF );
 
-		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded && KoLCharacter.getInventory().contains( OVEN ) )
+		if ( !PERMIT_METHOD[ ItemCreationRequest.COOK ] && noServantNeeded && inventory.contains( OVEN ) )
 		{
 			PERMIT_METHOD[ ItemCreationRequest.COOK ] = KoLCharacter.getAdventuresLeft() > 0;
 			ADVENTURE_USAGE[ ItemCreationRequest.COOK ] = 1;
@@ -574,7 +574,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		PERMIT_METHOD[ ItemCreationRequest.MIX ] = isAvailable( BARTENDER, CLOCKWORK_BARTENDER );
 
-		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded && KoLCharacter.getInventory().contains( KIT ) )
+		if ( !PERMIT_METHOD[ ItemCreationRequest.MIX ] && noServantNeeded && inventory.contains( KIT ) )
 		{
 			PERMIT_METHOD[ ItemCreationRequest.MIX ] = KoLCharacter.getAdventuresLeft() > 0;
 			ADVENTURE_USAGE[ ItemCreationRequest.MIX ] = 1;
@@ -659,13 +659,13 @@ public class ConcoctionsDatabase extends KoLDatabase
 	public static AdventureResult [] getIngredients( int itemID )
 	{
 		List availableIngredients = new ArrayList();
-		availableIngredients.addAll( KoLCharacter.getInventory() );
+		availableIngredients.addAll( inventory );
 
 		boolean showClosetDrivenCreations = getBooleanProperty( "showClosetDrivenCreations" );
 
 		if ( showClosetDrivenCreations )
 		{
-			List closetList = (List) KoLCharacter.getCloset();
+			List closetList = (List) closet;
 			for ( int i = 0; i < closetList.size(); ++i )
 				AdventureResult.addResultToList( availableIngredients, (AdventureResult) closetList.get(i) );
 		}
@@ -694,8 +694,8 @@ public class ConcoctionsDatabase extends KoLDatabase
 
 		for ( int i = 0; i < ingredients.length; ++i )
 		{
-			hasOneIngredient |= KoLCharacter.getInventory().contains( ingredients[i] );
-			hasOneIngredient |= KoLCharacter.getCloset().contains( ingredients[i] );
+			hasOneIngredient |= inventory.contains( ingredients[i] );
+			hasOneIngredient |= closet.contains( ingredients[i] );
 			hasOneIngredient |= ingredients.length > 1 && hasAnyIngredient( ingredients[i].getItemID() );
 			hasOneIngredient |= NPCStoreDatabase.contains( TradeableItemDatabase.getItemName( itemID ) );
 		}

@@ -339,28 +339,28 @@ public class ClanManageFrame extends KoLFrame
 
 		public StoragePanel()
 		{
-			super( "", KoLCharacter.getInventory(), false );
+			super( "", inventory, false );
 
 			setButtons( new String [] { "stash one", "stash all", "stash all but one", "refresh" },
 				new ActionListener [] { new StorageListener( MOVE_ONE ), new StorageListener( MOVE_ALL ), new StorageListener( MOVE_ALL_BUT ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 
-			filters = new JCheckBox[3];
+			filters = new JCheckBox[5];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", true );
 			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", true );
 			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
+			filters[3] = new FilterCheckBox( filters, elementList, true, "Show no-sell", true );
+			filters[4] = new FilterCheckBox( filters, elementList, true, "Show no-trade", true );
 
 			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
 
-			elementList.setCellRenderer(
-				AdventureResult.getAutoSellCellRenderer( true, true, true, false, false ) );
+			elementList.setCellRenderer( AdventureResult.getAutoSellCellRenderer( true, true, true, true, true ) );
 		}
 
 		protected AdventureResult [] getDesiredItems( String message )
 		{
-			filterSelection( filters[0].isSelected(),
-				 filters[1].isSelected(), filters[2].isSelected(), false, false );
+			filterSelection( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(), filters[4].isSelected() );
 			return super.getDesiredItems( message );
 		}
 
@@ -411,22 +411,23 @@ public class ClanManageFrame extends KoLFrame
 				new ActionListener [] { new WithdrawListener( MOVE_ALL ), new WithdrawListener( MOVE_ALL_BUT ), new WithdrawListener( MOVE_MULTIPLE ),
 				new RequestButton( "Refresh Items", new ClanStashRequest( StaticEntity.getClient() ) ) } );
 
-			filters = new JCheckBox[3];
+			filters = new JCheckBox[5];
 			filters[0] = new FilterCheckBox( filters, elementList, "Show food", true );
 			filters[1] = new FilterCheckBox( filters, elementList, "Show drink", true );
 			filters[2] = new FilterCheckBox( filters, elementList, "Show others", true );
+			filters[3] = new FilterCheckBox( filters, elementList, true, "Show no-sell", true );
+			filters[4] = new FilterCheckBox( filters, elementList, true, "Show no-trade", true );
 
 			for ( int i = 0; i < filters.length; ++i )
 				optionPanel.add( filters[i] );
 
 			elementList.setCellRenderer(
-				AdventureResult.getAutoSellCellRenderer( true, true, true, false, false ) );
+				AdventureResult.getAutoSellCellRenderer( true, true, true, true, true ) );
 		}
 
 		protected AdventureResult [] getDesiredItems( String message )
 		{
-			filterSelection( filters[0].isSelected(),
-				 filters[1].isSelected(), filters[2].isSelected(), false, false );
+			filterSelection( filters[0].isSelected(), filters[1].isSelected(), filters[2].isSelected(), filters[3].isSelected(), filters[4].isSelected() );
 			return super.getDesiredItems( message );
 		}
 

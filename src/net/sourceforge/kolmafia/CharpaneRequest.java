@@ -216,7 +216,7 @@ public class CharpaneRequest extends KoLRequest
 		int searchIndex = 0;
 		int lastSearchIndex = 0;
 
-		StaticEntity.getClient().recentEffects.clear();
+		recentEffects.clear();
 		ArrayList visibleEffects = new ArrayList();
 
 		while ( searchIndex != -1 )
@@ -242,9 +242,9 @@ public class CharpaneRequest extends KoLRequest
 					{
 						int durationValue = StaticEntity.parseInt( duration );
 						AdventureResult effect = new AdventureResult( effectName, durationValue, true );
-						if ( effect.getCount( KoLCharacter.getEffects() ) != durationValue )
+						if ( effect.getCount( activeEffects ) != durationValue )
 						{
-							KoLCharacter.getEffects().remove( effect );
+							activeEffects.remove( effect );
 							StaticEntity.getClient().processResult( effect );
 						}
 
@@ -256,7 +256,7 @@ public class CharpaneRequest extends KoLRequest
 			}
 		}
 
-		StaticEntity.getClient().applyEffects();
-		KoLCharacter.getEffects().retainAll( visibleEffects );
+		KoLmafia.applyEffects();
+		activeEffects.retainAll( visibleEffects );
 	}
 }
