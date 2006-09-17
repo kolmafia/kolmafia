@@ -110,10 +110,6 @@ public abstract class StaticEntity implements KoLConstants
 		}
 	}
 
-	public static void closeSession()
-	{	(new Thread( new LogoutRequest( client ) )).start();
-	}
-
 	public static void reloadSettings( String username )
 	{	settings = new KoLSettings( username );
 	}
