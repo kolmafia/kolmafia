@@ -257,6 +257,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		CLIENT_SETTINGS.put( "relayAddsPlinking", "false" );
 		CLIENT_SETTINGS.put( "relayAddsShrugOffLinks", "true" );
 		CLIENT_SETTINGS.put( "relayAddsUseLinks", "true" );
+		CLIENT_SETTINGS.put( "relayAlwaysRunsChecks", "false" );
 		CLIENT_SETTINGS.put( "saveState", "" );
 		CLIENT_SETTINGS.put( "scriptButtonPosition", "0" );
 		CLIENT_SETTINGS.put( "scriptList", "restore hp | restore mp" );
@@ -293,7 +294,6 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		PLAYER_SETTINGS.put( "mpAutoRecovery", "0.0f" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryTarget", "0.0f" );
 		PLAYER_SETTINGS.put( "mpAutoRecoveryItems", "phonics down;knob goblin superseltzer;blatantly canadian;dyspepsi-cola;cloaca-cola;mountain stream soda;magical mystery juice;knob goblin seltzer;soda water" );
-		PLAYER_SETTINGS.put( "nextAdventure", "" );
 		PLAYER_SETTINGS.put( "retrieveContacts", "true" );
 		PLAYER_SETTINGS.put( "thanksMessage", "Thank you for the donation!" );
 		PLAYER_SETTINGS.put( "whiteList", "" );

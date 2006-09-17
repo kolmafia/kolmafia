@@ -680,9 +680,10 @@ public class ConsumeItemRequest extends KoLRequest
 			//
 			// "Whoo, man, lemme tell you, you don't need to be
 			// eating another one of those just now, okay?"
+
 			if ( responseText.indexOf( "whirling maelstrom" ) == -1 )
 				return;
-			StaticEntity.setProperty( "nextAdventure", "" );
+
 			break;
 		}
 

@@ -344,8 +344,10 @@ public abstract class CombatSettings implements UtilityConstants
 		}
 	}
 
-	public synchronized static String getSetting( String encounter, KoLAdventure location, int roundCount )
+	public synchronized static String getSetting( String encounter, int roundCount )
 	{
+		String location = StaticEntity.getProperty( "lastAdventure" ).toLowerCase();
+
 		// Allow for longer matches (closer to exact matches)
 		// by tracking the length of the match.
 
@@ -372,11 +374,9 @@ public abstract class CombatSettings implements UtilityConstants
 
 		if ( longestMatch == -1 && location != null )
 		{
-			String locationString = location.toString().toLowerCase();
-
 			for ( int i = 0; i < keys.length; ++i )
 			{
-				if ( locationString.indexOf( keys[i] ) != -1 )
+				if ( location.indexOf( keys[i] ) != -1 )
 				{
 					if ( keys[i].length() > longestMatchLength )
 					{
@@ -388,7 +388,7 @@ public abstract class CombatSettings implements UtilityConstants
 		}
 
 		if ( longestMatch == -1 )
-			return getSetting( "default", location, roundCount );
+			return getSetting( "default", roundCount );
 
 		// Otherwise, you have a tactic for this round against
 		// the given monster.  Return that tactic.

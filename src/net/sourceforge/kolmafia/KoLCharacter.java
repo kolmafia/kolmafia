@@ -306,7 +306,6 @@ public abstract class KoLCharacter extends StaticEntity
 	private static int mindControlLevel = 0;
 
 	private static String autosellMode = "";
-	private static KoLAdventure nextAdventure = null;
 
 	/**
 	 * Constructs a new <code>KoLCharacter</code> with the given name.
@@ -421,14 +420,6 @@ public abstract class KoLCharacter extends StaticEntity
 		MuseumManager.reset();
 		ClanManager.reset();
 		MushroomPlot.reset();
-	}
-
-	public static KoLAdventure getNextAdventure()
-	{	return nextAdventure;
-	}
-
-	public static void setNextAdventure( KoLAdventure next )
-	{	nextAdventure = next;
 	}
 
 	public static boolean isFallingDown()

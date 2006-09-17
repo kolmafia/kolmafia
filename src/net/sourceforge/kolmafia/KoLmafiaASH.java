@@ -4867,8 +4867,8 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue my_location()
 		{
-			return KoLCharacter.getNextAdventure() == null ?
-				parseLocationValue( "Rest" ) : parseLocationValue( KoLCharacter.getNextAdventure().getAdventureName() );
+			String location = getProperty( "lastAdventure" );
+			return location.equals( "" ) ? parseLocationValue( "Rest" ) : parseLocationValue( location );
 		}
 
 		public ScriptValue have_mushroom_plot()
