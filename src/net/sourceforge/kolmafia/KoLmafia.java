@@ -2168,11 +2168,16 @@ public abstract class KoLmafia implements KoLConstants
 	public void registerAdventure( KoLAdventure adventureLocation )
 	{
 		String adventureName = adventureLocation.getAdventureName();
+		if ( adventureName == null )
+		{
+			System.out.println( "Null adventure name." );
+			return;
+		}
+
 		RegisteredEncounter previousAdventure = (RegisteredEncounter) adventureList.lastElement();
 
 		if ( previousAdventure != null && previousAdventure.name.equals( adventureName ) )
 		{
-			// Manually set to force repainting in GUI
 			++previousAdventure.encounterCount;
 			adventureList.set( adventureList.size() - 1, previousAdventure );
 		}
@@ -2216,7 +2221,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		public RegisteredEncounter( String name )
 		{
-			name = name;
+			this.name = name;
 			encounterCount = 1;
 		}
 

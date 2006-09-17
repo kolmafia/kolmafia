@@ -403,17 +403,21 @@ public class AdventureRequest extends KoLRequest
 		}
 		else
 		{
-			Matcher encounterMatcher = Pattern.compile( request.responseText.indexOf( "<center><b>" ) != -1 ?
-				"<center><b>([^:]*?)</b>" : "<b>([^:]*?)</b>" ).matcher( request.responseText );
+			int boldIndex = request.responseText.indexOf( "Results:</b>" ) + 1;
+			boldIndex = request.responseText.indexOf( "<b>", boldIndex ) + 3;
 
-			if ( encounterMatcher.find() )
-			{
-				String encounter = encounterMatcher.group(1);
-				KoLmafiaCLI.printLine( "Encounter: " + encounter );
-				KoLmafia.getSessionStream().println( "Encounter: " + encounter );
-				StaticEntity.getClient().registerEncounter( encounter );
-				return encounter;
-			}
+			if ( boldIndex == 2 )
+				return "";
+
+			int endBoldIndex = request.responseText.indexOf( "</b>", boldIndex );
+			if ( endBoldIndex == -1 )
+				return "";
+
+			String encounter = request.responseText.substring( boldIndex, endBoldIndex );
+			KoLmafiaCLI.printLine( "Encounter: " + encounter );
+			KoLmafia.getSessionStream().println( "Encounter: " + encounter );
+			StaticEntity.getClient().registerEncounter( encounter );
+			return encounter;
 		}
 
 		return "";
