@@ -108,7 +108,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			{
 				if ( !SwingUtilities.isEventDispatchThread() )
 				{
-					SwingUtilities.invokeAndWait( this );
+					SwingUtilities.invokeLater( this );
 					return;
 				}
 			}
