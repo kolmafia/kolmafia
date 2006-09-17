@@ -236,7 +236,6 @@ public abstract class SendMessageRequest extends KoLRequest
 		{
 			if ( !isSubInstance )
 			{
-				System.out.println( "Running subinstance..." );
 				runSubInstances();
 				return;
 			}

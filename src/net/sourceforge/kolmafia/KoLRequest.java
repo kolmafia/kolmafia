@@ -1196,6 +1196,15 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 
 			responseText = replyBuffer.toString();
+
+			// Here, we have a danger of not getting a complete response from
+			// the KoL server due to a timeout.  If the response is incomplete,
+			// then try again.  We detect this by looking for a beginning tag
+			// that is never closed at the end of the document.
+
+			if ( responseText.lastIndexOf( "<" ) > responseText.lastIndexOf( ">" ) )
+				return false;
+
 			responseText = Pattern.compile( "<script.*?</script>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
 			responseText = Pattern.compile( "<style.*?</style>", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
 			responseText = Pattern.compile( "<!--.*?-->", Pattern.DOTALL ).matcher( responseText ).replaceAll( "" );
@@ -1561,7 +1570,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( possibleDecisions == null )
 			return decision.equals( "0" ) ? "1" : decision;
 
-		// Choose an item in the conditions first
+		// Choose an item in the conditions first, if it's available.
+		// This allows conditions to override existing choices.
 
 		for ( int i = 0; i < possibleDecisions.length; ++i )
 		{
@@ -1573,18 +1583,22 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 		}
 
-		// Choose an item the player does not have
+		// If no item is found in the conditions list, and the player
+		// has a non-ignore decision, go ahead and use it.
 
-		if ( decision.equals( "0" ) || decision.equals( "4" ) )
+		if ( !decision.equals( "0" ) && StaticEntity.parseInt( decision ) - 1 < possibleDecisions.length )
+			return decision;
+
+		// If they have chosen to ignore this adventure, then choose an
+		// item the player does not have
+
+		for ( int i = 0; i < possibleDecisions.length; ++i )
 		{
-			for ( int i = 0; i < possibleDecisions.length; ++i )
+			if ( possibleDecisions[i] != null )
 			{
-				if ( possibleDecisions[i] != null )
-				{
-					AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
-					if ( !KoLCharacter.hasItem( item, false ) )
-						return String.valueOf( i + 1 );
-				}
+				AdventureResult item = new AdventureResult( StaticEntity.parseInt( possibleDecisions[i] ), 1 );
+				if ( !KoLCharacter.hasItem( item, false ) )
+					return String.valueOf( i + 1 );
 			}
 		}
 
