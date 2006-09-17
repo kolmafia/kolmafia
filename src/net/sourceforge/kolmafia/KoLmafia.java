@@ -354,19 +354,14 @@ public abstract class KoLmafia implements KoLConstants
 
 		StaticEntity.setProperty( "lastUsername", username );
 
-		KoLCharacter.reset( username );
-		KoLmafia.openSessionStream();
 		StaticEntity.reloadSettings();
+		KoLCharacter.reset( username );
+
+		KoLmafia.openSessionStream();
 		AdventureDatabase.refreshAdventureTable();
 
 		refreshSession();
 		resetSession();
-
-		if ( refusesContinue() )
-		{
-			deinitialize();
-			return;
-		}
 
 		// If the password hash is non-null, then that means you
 		// might be mid-transition.
@@ -379,8 +374,8 @@ public abstract class KoLmafia implements KoLConstants
 		if ( getBreakfast )
 		{
 			String today = DATED_FILENAME_FORMAT.format( new Date() );
-			String lastBreakfast = StaticEntity.getProperty( "lastBreakfast." + username.toLowerCase() );
-			StaticEntity.setProperty( "lastBreakfast." + username.toLowerCase(), today );
+			String lastBreakfast = StaticEntity.getProperty( "lastBreakfast" );
+			StaticEntity.setProperty( "lastBreakfast", today );
 
 			if ( lastBreakfast == null || !lastBreakfast.equals( today ) )
 				getBreakfast( true );
@@ -445,10 +440,9 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void refreshSession()
 	{
-		MushroomPlot.reset();
-
 		// Get current moon phases
 
+		forceContinue();
 		(new MoonPhaseRequest( this )).run();
 		if ( refusesContinue() )
 			return;
@@ -456,20 +450,21 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve the character sheet first. It's necessary to do
 		// this before concoctions have a chance to get refreshed.
 
+		forceContinue();
 		(new CharsheetRequest( this )).run();
-
 		if ( refusesContinue() )
 			return;
 
 		// Retrieve the items which are available for consumption
 		// and item creation.
 
+		forceContinue();
 		(new EquipmentRequest( this, EquipmentRequest.CLOSET )).run();
 		if ( refusesContinue() )
 			return;
 
-		// If the password hash is non-null, then that means you
-		// might be mid-transition.
+		// If the password hash is non-null, but is not available,
+		// then that means you might be mid-transition.
 
 		if ( KoLRequest.passwordHash != null && KoLRequest.passwordHash.equals( "" ) )
 		{
@@ -481,7 +476,9 @@ public abstract class KoLmafia implements KoLConstants
 		// Retrieve the list of familiars which are available to
 		// the player, if they haven't opted to skip them.
 
+		forceContinue();
 		(new FamiliarRequest( this )).run();
+
 		if ( refusesContinue() )
 			return;
 
@@ -489,15 +486,20 @@ public abstract class KoLmafia implements KoLConstants
 		// cook, make drinks or make toast.
 
 		updateDisplay( "Retrieving campground data..." );
+
+		forceContinue();
 		(new CampgroundRequest( this )).run();
 		if ( refusesContinue() )
 			return;
 
+		forceContinue();
 		(new ItemStorageRequest( this )).run();
 		if ( refusesContinue() )
 			return;
 
+		forceContinue();
 		CharpaneRequest.getInstance().run();
+
 		updateDisplay( "Data refreshed." );
 
 		ConcoctionsDatabase.getConcoctions().clear();
@@ -542,7 +544,7 @@ public abstract class KoLmafia implements KoLConstants
 
 	public void resetSession()
 	{
-		tally.clear();
+		forceContinue();
 
 		missingItems.clear();
 		encounterList.clear();
@@ -556,10 +558,12 @@ public abstract class KoLmafia implements KoLConstants
 		fullStatGain[1] = 0;
 		fullStatGain[2] = 0;
 
+		tally.clear();
 		tally.add( new AdventureResult( AdventureResult.ADV ) );
-		processResult( new AdventureResult( AdventureResult.MEAT ) );
-		processResult( new AdventureResult( AdventureResult.SUBSTATS ) );
-		processResult( new AdventureResult( AdventureResult.DIVIDER ) );
+		tally.add( new AdventureResult( AdventureResult.MEAT ) );
+		tally.add( new AdventureResult( AdventureResult.SUBSTATS ) );
+		tally.add( new AdventureResult( AdventureResult.FULLSTATS ) );
+		tally.add( new AdventureResult( AdventureResult.DIVIDER ) );
 	}
 
 	/**
@@ -731,8 +735,6 @@ public abstract class KoLmafia implements KoLConstants
 
 			if ( tally.size() > 3 )
 				tally.set( 3, new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
-			else
-				tally.add( new AdventureResult( AdventureResult.FULLSTATS, fullStatGain ) );
 		}
 
 		// Process the adventure result through the conditions

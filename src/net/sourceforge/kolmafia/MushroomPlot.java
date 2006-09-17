@@ -112,12 +112,6 @@ public abstract class MushroomPlot extends StaticEntity
 		{ new Integer( GLOOMY ), "blackshroo.gif", "gl", "GL", new Integer( 10 ) },
 	};
 
-	static
-	{
-		for ( int i = 0; i < MUSHROOMS.length; ++i )
-			RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MUSHROOMS[i][1] );
-	}
-
 	public static final int [][] BREEDING =
 	{
 		// EMPTY,   KNOB,    KNOLL,   SPOOKY,  WARM,    COOL,    POINTY   FLAMING  FROZEN   STINKY   GLOOMY
