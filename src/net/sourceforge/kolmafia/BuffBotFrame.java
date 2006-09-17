@@ -65,7 +65,6 @@ import javax.swing.JSeparator;
 import java.util.Date;
 import java.util.Properties;
 import java.text.ParseException;
-import javax.swing.SwingUtilities;
 import javax.swing.ListSelectionModel;
 
 import net.java.dev.spellcast.utilities.ActionPanel;
