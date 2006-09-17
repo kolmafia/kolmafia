@@ -74,6 +74,13 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 
 public class FamiliarTrainingFrame extends KoLFrame
 {
+	private static final Pattern PRIZE_PATTERN = Pattern.compile( "You acquire an item: <b>(.*?)</b>" );
+
+	private static final Pattern CAGELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>(.*?\\1.*?\\.<p>)\\1 struggles for" );
+	private static final Pattern HUNTLOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>(.*?\\1.*?\\.<p>)\\1 finds" );
+	private static final Pattern COURSELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>(.*?\\1.*?\\.<p>)\\1 makes it through the obstacle course" );
+	private static final Pattern HIDELOST_PATTERN = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" );
+
 	private static ChatBuffer results = new ChatBuffer( "Arena Tracker" );
 	private static boolean stop = false;
 
@@ -1199,7 +1206,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private static int earnedXP( String response )
 	{
-		Matcher matcher = Pattern.compile( "gains (\\d+) experience" ).matcher( response );
+		Matcher matcher = CakeArenaManager.WIN_PATTERN.matcher( response );
 		return matcher.find() ? Integer.valueOf( matcher.group(1) ).intValue() : 0;
 	}
 
@@ -1218,28 +1225,28 @@ public class FamiliarTrainingFrame extends KoLFrame
 			// fighter.<p>Well, not really -- potatoes just suck at
 			// this event.<p>Tort struggles for 3 rounds, but is
 			// eventually knocked out.<p>Tort lost."
-			matcher = Pattern.compile( "You enter (.*?) against (.*?) in an Ultimate Cage Match.<p>(.*?\\1.*?\\.<p>)\\1 struggles for" ).matcher( response );
+			matcher = CAGELOST_PATTERN.matcher( response );
 			break;
 		case 2: // "You enter Trot against Vine Vidi Vici in a
 			// Scavenger Hunt.<p>Trot keeps getting distracted from
 			// the hunt and randomly ramming into things.<p>Trot
 			// finds 12 items from the list.<p>Vine Vidi Vici finds
 			// 17 items.<p>Trot lost."
-			matcher = Pattern.compile( "You enter (.*?) against (.*?) in a Scavenger Hunt.<p>(.*?\\1.*?\\.<p>)\\1 finds" ).matcher( response );
+			matcher = HUNTLOST_PATTERN.matcher( response );
 			break;
 		case 3: // "You enter Gort against Pork Soda in an Obstacle
 			// Course race.<p>Gort is too short to get over most of
 			// the obstacles.<p>Gort makes it through the obstacle
 			// course in 49 seconds.<p>Pork Soda takes 29
 			// seconds. <p>Gort lost."
-			matcher = Pattern.compile( "You enter (.*?) against (.*?) in an Obstacle Course race.<p>(.*?\\1.*?\\.<p>)\\1 makes it through the obstacle course" ).matcher( response );
+			matcher = COURSELOST_PATTERN.matcher( response );
 			break;
 		case 4: // "You enter Tot against Pork Soda in a game of Hide
 			// and Seek.<p>Tot buzzes incessantly, making it very
 			// difficult to remain concealed.<p>Tot manages to stay
 			// hidden for 28 seconds.<p>Pork Soda stays hidden for
 			// 53 seconds.<p>Tot lost."
-			matcher = Pattern.compile( "You enter (.*?) against (.*?) in a game of Hide and Seek.<p>(.*?\\1.*?\\.<p>)\\1 manages to stay hidden" ).matcher( response );
+			matcher = HIDELOST_PATTERN.matcher( response );
 			break;
 		default:
 			return false;
@@ -2056,7 +2063,7 @@ public class FamiliarTrainingFrame extends KoLFrame
 			statusMessage( CONTINUE_STATE, message );
 
 			// If a prize was won, report it
-			Matcher matcher = Pattern.compile( "You acquire an item: <b>(.*?)</b>" ).matcher( response );
+			Matcher matcher = PRIZE_PATTERN.matcher( response );
 			if ( matcher.find() )
 			{
 				String prize = matcher.group(1);

@@ -38,6 +38,9 @@ import java.util.regex.Matcher;
 
 public class UseSkillRequest extends KoLRequest implements Comparable
 {
+	private static final Pattern SKILLID_PATTERN = Pattern.compile( "whichskill=(\\d+)" );
+	private static final Pattern COUNT_PATTERN = Pattern.compile( "(bufftimes|quantity)=([\\d,]*)" );
+
 	private static final int OTTER_TONGUE = 1007;
 	private static final int WALRUS_TONGUE = 1010;
 	protected static String lastUpdate = "";
@@ -525,12 +528,12 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 		if ( urlString.indexOf( "skills.php" ) == -1 )
 			return false;
 
-		Matcher skillMatcher = Pattern.compile( "whichskill=(\\d+)" ).matcher( urlString );
+		Matcher skillMatcher = SKILLID_PATTERN.matcher( urlString );
 		if ( !skillMatcher.find() )
 			return false;
 
 		String skillName = ClassSkillsDatabase.getSkillName( StaticEntity.parseInt( skillMatcher.group(1) ) );
-		Matcher countMatcher = Pattern.compile( "(bufftimes|quantity)=([\\d,]*)" ).matcher( urlString );
+		Matcher countMatcher = COUNT_PATTERN.matcher( urlString );
 
 		int count = countMatcher.find() || countMatcher.group(2).equals( "" ) ? 1 :
 			StaticEntity.parseInt( countMatcher.group(2) );

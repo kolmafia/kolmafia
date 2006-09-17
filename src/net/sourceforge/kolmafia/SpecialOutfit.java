@@ -47,6 +47,8 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class SpecialOutfit implements Comparable
 {
+	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option value=(.*?)>(.*?)</option>" );
+
 	private int outfitID;
 	private String outfitName;
 	private ArrayList pieces;
@@ -193,8 +195,7 @@ public class SpecialOutfit implements Comparable
 
 	public static LockableListModel parseOutfits( String selectHTML )
 	{
-		Matcher singleOutfitMatcher = Pattern.compile(
-			"<option value=(.*?)>(.*?)</option>" ).matcher( selectHTML );
+		Matcher singleOutfitMatcher = OPTION_PATTERN.matcher( selectHTML );
 
 		int outfitID;
 		CHECKPOINT = null;

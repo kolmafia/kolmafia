@@ -41,6 +41,14 @@ import java.util.regex.Matcher;
 
 public abstract class SorceressLair extends StaticEntity
 {
+	// Patterns for repeated usage.
+
+	private static final Pattern MAP_PATTERN = Pattern.compile( "usemap=\"#(\\w+)\"" );
+	private static final Pattern LAIR6_PATTERN = Pattern.compile( "lair6.php\\?place=(\\d+)" );
+
+	private static final Pattern AUTOATTACK_PATTERN = Pattern.compile( "<select class=small name=whichattack>.*?</select>" );
+	private static final Pattern SELECTED_PATTERN = Pattern.compile( "selected value=(\\d+)>" );
+
 	// Items for the entryway
 
 	private static final AdventureResult SUGAR = new AdventureResult( "Sugar Rush", 0 );
@@ -199,7 +207,7 @@ public abstract class SorceressLair extends StaticEntity
 		request = new KoLRequest( getClient(), "lair.php", true );
 		request.run();
 
-		Matcher mapMatcher = Pattern.compile( "usemap=\"#(\\w+)\"" ).matcher( request.responseText );
+		Matcher mapMatcher = MAP_PATTERN.matcher( request.responseText );
 		if ( mapMatcher.find() )
 		{
 			String map = mapMatcher.group( 1 );
@@ -1097,7 +1105,7 @@ public abstract class SorceressLair extends StaticEntity
 		int n = -1;
 		FamiliarData originalFamiliar = KoLCharacter.getFamiliar();
 
-		Matcher placeMatcher = Pattern.compile( "lair6.php\\?place=(\\d+)" ).matcher( request.responseText );
+		Matcher placeMatcher = LAIR6_PATTERN.matcher( request.responseText );
 		if ( placeMatcher.find() )
 			n = parseInt( placeMatcher.group(1) );
 
@@ -1372,10 +1380,10 @@ public abstract class SorceressLair extends StaticEntity
 		KoLRequest request = new KoLRequest( getClient(), "account.php" );
 		request.run();
 
-		Matcher selectMatcher = Pattern.compile( "<select class=small name=whichattack>.*?</select>" ).matcher( request.responseText );
+		Matcher selectMatcher = AUTOATTACK_PATTERN.matcher( request.responseText );
 		if ( selectMatcher.find() )
 		{
-			Matcher optionMatcher = Pattern.compile( "selected value=(\\d+)>" ).matcher( selectMatcher.group() );
+			Matcher optionMatcher = SELECTED_PATTERN.matcher( selectMatcher.group() );
 			if ( optionMatcher.find() )
 				previousAutoAttack = optionMatcher.group(1);
 		}

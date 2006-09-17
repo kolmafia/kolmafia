@@ -38,6 +38,11 @@ import java.util.regex.Matcher;
 
 public class AutoSellRequest extends SendMessageRequest
 {
+	public static final Pattern AUTOSELL_PATTERN = Pattern.compile( "for ([\\d,]+) [Mm]eat" );
+	private static final Pattern HOWMANY_PATTERN = Pattern.compile( "howmany=([\\d,]+)" );
+	private static final Pattern WHICHITEM_PATTERN = Pattern.compile( "whichitem%5B%5D=(\\d+)" );
+	private static final Pattern ITEMID_PATTERN = Pattern.compile( "item(\\d+)" );
+
 	private int sellType;
 
 	private int [] prices;
@@ -299,7 +304,7 @@ public class AutoSellRequest extends SendMessageRequest
 
 		if ( urlString.startsWith( "sellstuff.php" ) )
 		{
-			Matcher quantityMatcher = Pattern.compile( "howmany=([\\d,]+)" ).matcher( urlString );
+			Matcher quantityMatcher = HOWMANY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 				quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
 
@@ -308,11 +313,11 @@ public class AutoSellRequest extends SendMessageRequest
 			else if ( urlString.indexOf( "type=all" ) != -1 )
 				quantity = 0;
 
-			itemMatcher = Pattern.compile( "whichitem%5B%5D=(\\d+)" ).matcher( urlString );
+			itemMatcher = WHICHITEM_PATTERN.matcher( urlString );
 		}
 		else if ( urlString.startsWith( "sellstuff_ugly.php" ) )
 		{
-			Matcher quantityMatcher = Pattern.compile( "howmany=([\\d,]+)" ).matcher( urlString );
+			Matcher quantityMatcher = HOWMANY_PATTERN.matcher( urlString );
 			if ( quantityMatcher.find() )
 				quantity = StaticEntity.parseInt( quantityMatcher.group(1) );
 
@@ -321,7 +326,7 @@ public class AutoSellRequest extends SendMessageRequest
 			else if ( urlString.indexOf( "mode=2" ) != -1 )
 				quantity = -1;
 
-			itemMatcher = Pattern.compile( "item(\\d+)" ).matcher( urlString );
+			itemMatcher = ITEMID_PATTERN.matcher( urlString );
 		}
 
 		if ( itemMatcher == null )

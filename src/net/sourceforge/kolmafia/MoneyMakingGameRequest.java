@@ -51,6 +51,14 @@ import net.java.dev.spellcast.utilities.SortedListModel;
 
 public class MoneyMakingGameRequest extends KoLRequest
 {
+	private static final Pattern ROW_PATTERN = Pattern.compile( "<tr.*?</b></td>" );
+	private static final Pattern CELL_PATTERN = Pattern.compile( "<td.*?</td>" );
+	private static final Pattern MADE_PATTERN = Pattern.compile( "<div id='made'>.*?</div>" );
+	private static final Pattern TAKEN_PATTERN = Pattern.compile( "<div id='taken'>.*?</div>" );
+
+	private static final Pattern AMOUNT_PATTERN = Pattern.compile( ">([\\d,]+) " );
+	private static final Pattern PLAYER_PATTERN = Pattern.compile( "who=(\\d+).*?<b>(.*?)</b>" );
+
 	private SortedListModel betSummary = new SortedListModel();
 	private static final SimpleDateFormat RESULT_FORMAT = new SimpleDateFormat( "MM/dd/yy hh:mma", Locale.US );
 
@@ -69,9 +77,9 @@ public class MoneyMakingGameRequest extends KoLRequest
 		ArrayList madeBets = new ArrayList();
 		ArrayList takenBets = new ArrayList();
 
-		Pattern singleBet = Pattern.compile( "<tr.*?</b></td>" );
+		Pattern singleBet = ROW_PATTERN;
 
-		Matcher madeMatcher = Pattern.compile( "<div id='made'>.*?</div>" ).matcher( responseText );
+		Matcher madeMatcher = MADE_PATTERN.matcher( responseText );
 		if ( madeMatcher.find() )
 		{
 			madeMatcher = singleBet.matcher( madeMatcher.group() );
@@ -82,7 +90,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 					madeBets.add( new MoneyMakingGameResult( madeMatcher.group(), true ) );
 		}
 
-		Matcher takenMatcher = Pattern.compile( "<div id='taken'>.*?</div>" ).matcher( responseText );
+		Matcher takenMatcher = TAKEN_PATTERN.matcher( responseText );
 		if ( takenMatcher.find() )
 		{
 			takenMatcher = singleBet.matcher( takenMatcher.group() );
@@ -158,7 +166,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 			this.isPlacedBet = isPlacedBet;
 			this.isPositive = resultText.indexOf( "color='green'>+" ) != -1;
 
-			Matcher results = Pattern.compile( "<td.*?</td>" ).matcher( resultText );
+			Matcher results = CELL_PATTERN.matcher( resultText );
 
 			// The first cell in the row is the timestamp
 			// for the result.
@@ -181,7 +189,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 
 			if ( results.find() )
 			{
-				Matcher amountMatcher = Pattern.compile( ">([\\d,]+) " ).matcher( results.group() );
+				Matcher amountMatcher = AMOUNT_PATTERN.matcher( results.group() );
 				if ( amountMatcher.find() )
 				{
 					betAmount = StaticEntity.parseInt( amountMatcher.group(1) );
@@ -194,7 +202,7 @@ public class MoneyMakingGameRequest extends KoLRequest
 
 			if ( results.find() )
 			{
-				Matcher playerMatcher = Pattern.compile( "who=(\\d+).*?<b>(.*?)</b>" ).matcher( results.group() );
+				Matcher playerMatcher = PLAYER_PATTERN.matcher( results.group() );
 				if ( playerMatcher.find() )
 				{
 					playerID = playerMatcher.group(1);

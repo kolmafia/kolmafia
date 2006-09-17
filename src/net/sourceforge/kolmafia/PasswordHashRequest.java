@@ -38,6 +38,8 @@ import java.util.regex.Matcher;
 
 public abstract class PasswordHashRequest extends KoLRequest
 {
+	private static final Pattern HASH_PATTERN = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\'](.*?)[\"\']" );
+
 	/**
 	 * Constructs a new <code>PasswordHashRequest</code>.
 	 * @param	client	The client where the hash will be stored
@@ -49,7 +51,7 @@ public abstract class PasswordHashRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		Matcher pwdmatch = Pattern.compile( "name=[\"\']?pwd[\"\']? value=[\"\'](.*?)[\"\']" ).matcher( responseText );
+		Matcher pwdmatch = HASH_PATTERN.matcher( responseText );
 		if ( pwdmatch.find() && pwdmatch.group(1).length() > 0 )
 			passwordHash = pwdmatch.group(1);
 	}

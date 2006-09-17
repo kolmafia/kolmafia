@@ -467,6 +467,14 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		}
 	}
 
+	private static final Pattern FILEID_PATTERN = Pattern.compile( "(\\d+)\\." );
+	private static final Pattern IMAGESERVER_PATTERN = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\">]+" );
+	private static final Pattern COLOR_PATTERN = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" );
+
+	private static final Pattern ACQUIRE_PATTERN = Pattern.compile( "You acquire(.*?)</td>" );
+	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
+	private static final Pattern OPTION_PATTERN = Pattern.compile( "<option.*?value=(.*?)>.*?\\((.*?)\\)</option>" );
+
 	private static void downloadFile( File local, String remote )
 	{
 		try
@@ -474,7 +482,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			URLConnection connection = (new URL( remote )).openConnection();
 			if ( remote.startsWith( "http://pics.communityofloathing.com" ) )
 			{
-				Matcher idMatcher = Pattern.compile( "(\\d+)\\." ).matcher( local.getPath() );
+				Matcher idMatcher = FILEID_PATTERN.matcher( local.getPath() );
 				if ( idMatcher.find() )
 					connection.setRequestProperty( "Referer", "http://www.kingdomofloathing.com/showplayer.php?who=" + idMatcher.group(1)  );
 			}
@@ -513,7 +521,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static void downloadImages( String text )
 	{
-		Matcher imageMatcher = Pattern.compile( "http://images\\.kingdomofloathing\\.com/[^\\s\">]+" ).matcher( text );
+		Matcher imageMatcher = IMAGESERVER_PATTERN.matcher( text );
 		while ( imageMatcher.find() )
 			downloadImage( imageMatcher.group() );
 	}
@@ -913,7 +921,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			return text;
 
 		StringBuffer linkedResponse = new StringBuffer();
-		Matcher useLinkMatcher = Pattern.compile( "You acquire(.*?)</td>" ).matcher( text );
+		Matcher useLinkMatcher = ACQUIRE_PATTERN.matcher( text );
 
 		while ( useLinkMatcher.find() )
 		{
@@ -1007,7 +1015,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	private static String addChoiceSpoilers( String text )
 	{
-		Matcher choiceMatcher = Pattern.compile( "whichchoice value=(\\d+)" ).matcher( text );
+		Matcher choiceMatcher = CHOICE_PATTERN.matcher( text );
 		if ( !choiceMatcher.find() )
 			return text;
 
@@ -1158,7 +1166,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 			responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=restore+hp\" style=\"color:" );
 
-			Matcher colorMatcher = Pattern.compile( "(color|class)=\"?\'?([^\"\'>]*)" ).matcher( fontTag );
+			Matcher colorMatcher = COLOR_PATTERN.matcher( fontTag );
 			if ( colorMatcher.find() )
 				responseBuffer.append( colorMatcher.group(2) + "\">" );
 			else
@@ -1350,7 +1358,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		{
 			ArrayList items = new ArrayList();
 			int selectedItem = -1;
-			Matcher itemMatcher = Pattern.compile( "<option.*?value=(.*?)>.*?\\((.*?)\\)</option>" ).matcher( selectMatcher.group() );
+			Matcher itemMatcher = OPTION_PATTERN.matcher( selectMatcher.group() );
 
 			while ( itemMatcher.find() )
 			{

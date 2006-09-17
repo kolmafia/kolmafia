@@ -57,6 +57,12 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class BuffBotDatabase extends KoLDatabase
 {
+	private static final Pattern BUFFDATA_PATTERN = Pattern.compile( "<buffdata>(.*?)</buffdata>", Pattern.DOTALL );
+	private static final Pattern NAME_PATTERN = Pattern.compile( "<name>(.*?)</name>", Pattern.DOTALL );
+	private static final Pattern PRICE_PATTERN = Pattern.compile( "<price>(.*?)</price>", Pattern.DOTALL );
+	private static final Pattern TURN_PATTERN = Pattern.compile( "<turns>(.*?)</turns>", Pattern.DOTALL );
+	private static final Pattern FREE_PATTERN = Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
+
 	private static boolean isInitialized = false;
 	private static TreeMap normalOfferings = new TreeMap();
 	private static TreeMap freeOfferings = new TreeMap();
@@ -173,12 +179,7 @@ public class BuffBotDatabase extends KoLDatabase
 			// expression matching and assume we have a properly-structured
 			// XML file -- which is assumed because of the XSLT.
 
-			Matcher nodeMatcher = Pattern.compile( "<buffdata>(.*?)</buffdata>", Pattern.DOTALL ).matcher( dataBuffer.toString() );
-			Pattern namePattern = Pattern.compile( "<name>(.*?)</name>", Pattern.DOTALL );
-			Pattern pricePattern = Pattern.compile( "<price>(.*?)</price>", Pattern.DOTALL );
-			Pattern turnPattern = Pattern.compile( "<turns>(.*?)</turns>", Pattern.DOTALL );
-			Pattern freePattern = Pattern.compile( "<philanthropic>(.*?)</philanthropic>", Pattern.DOTALL );
-
+			Matcher nodeMatcher = BUFFDATA_PATTERN.matcher( dataBuffer.toString() );
 			LockableListModel freeBuffs = new LockableListModel();
 			LockableListModel normalBuffs = new LockableListModel();
 
@@ -188,10 +189,10 @@ public class BuffBotDatabase extends KoLDatabase
 			{
 				String buffMatch = nodeMatcher.group(1);
 
-				nameMatcher = namePattern.matcher( buffMatch );
-				priceMatcher = pricePattern.matcher( buffMatch );
-				turnMatcher = turnPattern.matcher( buffMatch );
-				freeMatcher = freePattern.matcher( buffMatch );
+				nameMatcher = NAME_PATTERN.matcher( buffMatch );
+				priceMatcher = PRICE_PATTERN.matcher( buffMatch );
+				turnMatcher = TURN_PATTERN.matcher( buffMatch );
+				freeMatcher = FREE_PATTERN.matcher( buffMatch );
 
 				if ( nameMatcher.find() && priceMatcher.find() && turnMatcher.find() )
 				{

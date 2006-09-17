@@ -51,6 +51,8 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class ShowDescriptionList extends JList
 {
+	private static final Pattern PLAYERID_MATCHER = Pattern.compile( "\\(#(\\d+)\\)" );
+
 	public ShowDescriptionList( LockableListModel model )
 	{
 		super( model );
@@ -85,7 +87,7 @@ public class ShowDescriptionList extends JList
 				}
 				if ( item instanceof String )
 				{
-					Matcher playerMatcher = Pattern.compile( "\\(#(\\d+)\\)" ).matcher( (String) item );
+					Matcher playerMatcher = PLAYERID_MATCHER.matcher( (String) item );
 					if ( playerMatcher.find() )
 					{
 						Object [] parameters = new Object [] { "#" + playerMatcher.group(1) };

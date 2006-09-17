@@ -52,6 +52,10 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 
 public class LocalRelayRequest extends KoLRequest
 {
+	private static final Pattern MENU1_PATTERN = Pattern.compile( "<select name=\"loc\".*?</select>", Pattern.DOTALL );
+	private static final Pattern MENU2_PATTERN = Pattern.compile( "<select name=location.*?</select>", Pattern.DOTALL );
+	private static final Pattern IMAGE_PATTERN = Pattern.compile( "<img src=\"([^\"]*?)\"" );
+
 	private static boolean isRunningCommand = false;
 
 	protected List headers = new ArrayList();
@@ -94,7 +98,7 @@ public class LocalRelayRequest extends KoLRequest
 			functionMenu.append( "\">Donate</option>" );
 			functionMenu.append( "</select>" );
 
-			fullResponse = Pattern.compile( "<select name=\"loc\".*?</select>", Pattern.DOTALL ).matcher( fullResponse ).replaceFirst( functionMenu.toString() );
+			fullResponse = MENU1_PATTERN.matcher( fullResponse ).replaceFirst( functionMenu.toString() );
 
 			// Mafiatize the goto menu
 
@@ -128,7 +132,7 @@ public class LocalRelayRequest extends KoLRequest
 			}
 
 			gotoMenu.append( "</select>" );
-			fullResponse = Pattern.compile( "<select name=location.*?</select>", Pattern.DOTALL ).matcher( fullResponse ).replaceFirst( gotoMenu.toString() );
+			fullResponse = MENU2_PATTERN.matcher( fullResponse ).replaceFirst( gotoMenu.toString() );
 		}
 
 		// Fix chat javascript problems with relay system
@@ -282,7 +286,7 @@ public class LocalRelayRequest extends KoLRequest
 
 				StringBuffer lineBuffer = new StringBuffer();
 
-				Matcher imageMatcher = Pattern.compile( "<img src=\"([^\"]*?)\"" ).matcher( line );
+				Matcher imageMatcher = IMAGE_PATTERN.matcher( line );
 				while ( imageMatcher.find() )
 				{
 					String location = imageMatcher.group(1);

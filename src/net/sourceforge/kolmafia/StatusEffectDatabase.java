@@ -184,19 +184,19 @@ public class StatusEffectDatabase extends KoLDatabase
 
 	private static final Pattern [] MODIFIER_PATTERNS = new Pattern [] {
 		Pattern.compile( "Weight: ([+-]\\d+)" ),
-                Pattern.compile( "ML: ([+-]\\d+)" ),
-                Pattern.compile( "Combat: ([+-][\\d.]+)" ),
-                Pattern.compile( "Init: ([+-][\\d.]+)" ),
+		Pattern.compile( "ML: ([+-]\\d+)" ),
+		Pattern.compile( "Combat: ([+-][\\d.]+)" ),
+		Pattern.compile( "Init: ([+-][\\d.]+)" ),
 		Pattern.compile( "Exp: ([+-][\\d.]+)" ),
-                Pattern.compile( "Item: ([+-][\\d.]+)" ),
-                Pattern.compile( "Meat: ([+-][\\d.]+)" ),
-                Pattern.compile( "DA: ([+-]\\d+)" ),
-                Pattern.compile( "DR: (\\d+)" ),
-                Pattern.compile( "Cold: ([+-]\\d+)" ),
-                Pattern.compile( "Hot: ([+-]\\d+)" ),
-                Pattern.compile( "Sleaze: ([+-]\\d+)" ),
-                Pattern.compile( "Spooky: ([+-]\\d+)" ),
-                Pattern.compile( "Stench: ([+-]\\d+)" ),
+		Pattern.compile( "Item: ([+-][\\d.]+)" ),
+		Pattern.compile( "Meat: ([+-][\\d.]+)" ),
+		Pattern.compile( "DA: ([+-]\\d+)" ),
+		Pattern.compile( "DR: (\\d+)" ),
+		Pattern.compile( "Cold: ([+-]\\d+)" ),
+		Pattern.compile( "Hot: ([+-]\\d+)" ),
+		Pattern.compile( "Sleaze: ([+-]\\d+)" ),
+		Pattern.compile( "Spooky: ([+-]\\d+)" ),
+		Pattern.compile( "Stench: ([+-]\\d+)" ),
 	};
 
 	private static final float [] NO_MODIFIERS = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };

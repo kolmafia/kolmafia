@@ -73,7 +73,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	private static LockableListModel buffCostTable = new LockableListModel();
 	private static String [] whiteListArray = new String[0];
 
-	public static final String MEAT_REGEX = "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat";
+	public static final Pattern MEAT_PATTERN = Pattern.compile( "<img src=\"http://images.kingdomofloathing.com/itemimages/meat.gif\" height=30 width=30 alt=\"Meat\">You gain ([\\d,]+) Meat" );
 
 	/**
 	 * Resets the buffbot's internal variables and reloads the
@@ -554,7 +554,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 	 */
 
 	private static boolean containsDonation( KoLMailMessage message )
-	{    return message.getMessageHTML().replaceAll( MEAT_REGEX, "" ).indexOf( "width=30" ) != -1;
+	{    return message.getMessageHTML().indexOf( "width=30" ) != -1;
 	}
 
 	/**
@@ -594,7 +594,7 @@ public abstract class BuffBotManager extends KoLMailManager implements KoLConsta
 			return;
 		}
 
-		Matcher meatMatcher = Pattern.compile( MEAT_REGEX ).matcher( message.getMessageHTML() );
+		Matcher meatMatcher = MEAT_PATTERN.matcher( message.getMessageHTML() );
 		int meatSent = meatMatcher.find() ? parseInt( meatMatcher.group(1) ) : 0;
 		List castList = (List) buffCostMap.get( new Integer( meatSent ) );
 

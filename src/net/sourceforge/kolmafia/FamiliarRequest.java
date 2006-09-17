@@ -38,6 +38,7 @@ import java.util.regex.Matcher;
 
 public class FamiliarRequest extends KoLRequest
 {
+	private static final Pattern EQUIP_PATTERN = Pattern.compile( "newfam=(\\d+)" );
 	private FamiliarData changeTo;
 
 	public FamiliarRequest( KoLmafia client )
@@ -115,7 +116,7 @@ public class FamiliarRequest extends KoLRequest
 			return true;
 		}
 
-		Matcher familiarMatcher = Pattern.compile( "newfam=(\\d+)" ).matcher( urlString );
+		Matcher familiarMatcher = EQUIP_PATTERN.matcher( urlString );
 		if ( familiarMatcher.find() )
 		{
 			FamiliarData changeTo = new FamiliarData( StaticEntity.parseInt( familiarMatcher.group(1) ) );

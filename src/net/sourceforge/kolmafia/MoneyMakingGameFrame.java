@@ -46,6 +46,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class MoneyMakingGameFrame extends KoLFrame
 {
+	private static final Pattern BET_PATTERN = Pattern.compile( "<a href='bet.php'.*?>(.*?)</a>" );
 	private static final AdventureResult CASINO_PASS = new AdventureResult( 40, 1 );
 
 	public MoneyMakingGameFrame()
@@ -97,7 +98,7 @@ public class MoneyMakingGameFrame extends KoLFrame
 	public static String handleBetResult( String message )
 	{
 		// <a target=mainpane href='showplayer.php?who=721048'><a href='bet.php' target=mainpane class=nounder><b>Interesting Sam</b></a> took your 1,000 Meat bet, and you won, earning you 1,998 Meat.</a>
-		Matcher matcher = Pattern.compile( "<a href='bet.php'.*?>(.*?)</a>" ).matcher( message );
+		Matcher matcher = BET_PATTERN.matcher( message );
 
 		if ( matcher.find() )
 		{

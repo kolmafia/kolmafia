@@ -47,6 +47,8 @@ import java.util.regex.Matcher;
 
 public class AdventureRequest extends KoLRequest
 {
+	public static final Pattern STEEL_PATTERN = Pattern.compile( "emerge with a (.*?) of Steel" );
+
 	private String adventureName;
 	private String formSource;
 	private String adventureID;
@@ -335,7 +337,7 @@ public class AdventureRequest extends KoLRequest
 				client.processResult( CANDLES );
 				client.processResult( BUTTERKNIFE );
 
-				Matcher learnedMatcher = Pattern.compile( "emerge with a (.*?) of Steel" ).matcher( responseText );
+				Matcher learnedMatcher = STEEL_PATTERN.matcher( responseText );
 				if ( learnedMatcher.find() )
 					KoLCharacter.addAvailableSkill( new UseSkillRequest( client, learnedMatcher.group(1) + " of Steel", "", 1 ) );
 

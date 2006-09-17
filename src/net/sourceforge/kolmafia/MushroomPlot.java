@@ -47,6 +47,9 @@ import java.util.regex.Pattern;
 public abstract class MushroomPlot extends StaticEntity
 {
 	public static final File PLOT_DIRECTORY = new File( DATA_DIRECTORY + "planting" );
+	private static final Pattern PLOT_PATTERN = Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" );
+	private static final Pattern SQUARE_PATTERN = Pattern.compile( "<td>(.*?)</td>" );
+	private static final Pattern IMAGE_PATTERN = Pattern.compile( ".*/((.*)\\.gif)" );
 
 	// The player's mushroom plot
 	//
@@ -571,7 +574,7 @@ public abstract class MushroomPlot extends StaticEntity
 			for ( int col = 0; col < 4; ++col )
 				actualPlot[ row ][ col ] = "__";
 
-		Matcher plotMatcher = Pattern.compile( "<b>Your Mushroom Plot:</b><p><table>(<tr>.*?</tr><tr>.*></tr><tr>.*?</tr><tr>.*</tr>)</table>" ).matcher( text );
+		Matcher plotMatcher = PLOT_PATTERN.matcher( text );
 		ownsPlot = plotMatcher.find();
 
 		// If there is no plot data, then we can assume that
@@ -582,7 +585,7 @@ public abstract class MushroomPlot extends StaticEntity
 		if ( !ownsPlot )
 			return;
 
-		Matcher squareMatcher = Pattern.compile( "<td>(.*?)</td>" ).matcher( plotMatcher.group(1) );
+		Matcher squareMatcher = SQUARE_PATTERN.matcher( plotMatcher.group(1) );
 
 		for ( int row = 0; row < 4; ++row )
 			for ( int col = 0; col < 4 && squareMatcher.find(); ++col )
@@ -598,7 +601,7 @@ public abstract class MushroomPlot extends StaticEntity
 		// is done by checking the text in the square against
 		// the table of square values.
 
-		Matcher gifMatcher = Pattern.compile( ".*/((.*)\\.gif)" ).matcher( text );
+		Matcher gifMatcher = IMAGE_PATTERN.matcher( text );
 		if ( gifMatcher.find() )
 		{
 			String gif = gifMatcher.group(1);

@@ -239,7 +239,7 @@ public abstract class StaticEntity implements KoLConstants
 			// "You sell your 2 disturbing fanfics to an organ
 			// grinder's monkey for 264 Meat."
 
-			Matcher matcher = Pattern.compile( "for ([\\d,]+) [Mm]eat" ).matcher( responseText );
+			Matcher matcher = AutoSellRequest.AUTOSELL_PATTERN.matcher( responseText );
 			if ( matcher.find() )
 				client.processResult( new AdventureResult( AdventureResult.MEAT, StaticEntity.parseInt( matcher.group(1) ) ) );
 		}

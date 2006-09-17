@@ -43,6 +43,7 @@ import java.text.SimpleDateFormat;
 
 public class ProfileRequest extends KoLRequest
 {
+	private static final Pattern DATA_PATTERN = Pattern.compile( "<td.*?>(.*?)</td>" );
 	private static final SimpleDateFormat INPUT_FORMAT = new SimpleDateFormat( "MMMM d, yyyy", Locale.US );
 	private static final SimpleDateFormat OUTPUT_FORMAT = new SimpleDateFormat( "yyyy-MM-dd", Locale.US );
 
@@ -258,7 +259,7 @@ public class ProfileRequest extends KoLRequest
 		// Next, parse out all the data in the
 		// row of the detail roster table.
 
-		Matcher dataMatcher = Pattern.compile( "<td.*?>(.*?)</td>" ).matcher( rosterRow );
+		Matcher dataMatcher = DATA_PATTERN.matcher( rosterRow );
 
 		// The name of the player occurs in the first
 		// field of the table.  Because you already

@@ -38,6 +38,8 @@ import java.util.regex.Pattern;
 
 public class BountyHunterRequest extends KoLRequest
 {
+	private static final Pattern ITEM_PATTERN = Pattern.compile( "<b>([^<]*?)</b></td><td>" );
+
 	private int itemID;
 	private boolean isExchange;
 	private AdventureResult itemTraded;
@@ -87,7 +89,7 @@ public class BountyHunterRequest extends KoLRequest
 			return;
 		}
 
-		Matcher exchangeMatcher = Pattern.compile( "<b>([^<]*?)</b></td><td>" ).matcher( responseText );
+		Matcher exchangeMatcher = ITEM_PATTERN.matcher( responseText );
 
 		hunterItems.clear();
 		while ( exchangeMatcher.find() )

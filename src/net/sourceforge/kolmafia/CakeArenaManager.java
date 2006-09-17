@@ -40,6 +40,7 @@ import net.java.dev.spellcast.utilities.LockableListModel;
 
 public class CakeArenaManager extends StaticEntity
 {
+	public static final Pattern WIN_PATTERN = Pattern.compile( "is the winner, and gains (\\d+) experience" );
 	private static LockableListModel opponentList = new LockableListModel();
 
 	/**
@@ -90,7 +91,7 @@ public class CakeArenaManager extends StaticEntity
 			FamiliarTrainingFrame.getResults().clearBuffer();
 
 			Matcher victoryMatcher;
-			Pattern victoryPattern = Pattern.compile( "is the winner, and gains (\\d+) experience" );
+			Pattern victoryPattern = WIN_PATTERN;
 
 			for ( int j = 1; KoLmafia.permitsContinue() && j <= repeatCount; ++j )
 			{
