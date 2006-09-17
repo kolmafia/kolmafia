@@ -61,10 +61,9 @@ public class NPCStoreDatabase extends KoLDatabase
 		{
 			if ( data.length == 4 )
 			{
+				data[2] = getCanonicalName( data[2] );
 				for ( int i = 0; i < 4; ++i )
 					storeTable[i].add( data[i] );
-
-				data[2] = getCanonicalName( data[2] );
 			}
 		}
 
