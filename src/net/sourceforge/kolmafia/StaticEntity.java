@@ -491,7 +491,7 @@ public abstract class StaticEntity implements KoLConstants
 		StringBuffer buffer = new StringBuffer( originalString );
 		while ( lastIndex != -1 )
 		{
-			buffer.replace( lastIndex, lastIndex + originalString.length(), replaceString );
+			buffer.replace( lastIndex, lastIndex + searchString.length(), replaceString );
 			lastIndex = buffer.indexOf( searchString, lastIndex + replaceString.length() );
 		}
 

@@ -201,9 +201,7 @@ public class LocalRelayRequest extends KoLRequest
 		// Remove the default frame busting script so that
 		// we can detach user interface elements.
 
-		int frameBustIndex = fullResponse.indexOf( "frames.length == 0" );
-		if ( frameBustIndex != -1 )
-			fullResponse = fullResponse.substring( 0, frameBustIndex ) + "frames.length == -1" + fullResponse.substring( frameBustIndex + 18 );
+		fullResponse = StaticEntity.simpleStringReplace( fullResponse, "frames.length == 0", "frames.length == -1" );
 
 		// If the person is currently caching relay images,
 		// then it would be most beneficial to use local
