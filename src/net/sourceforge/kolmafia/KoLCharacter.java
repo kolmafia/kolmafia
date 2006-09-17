@@ -294,7 +294,7 @@ public abstract class KoLCharacter extends StaticEntity
 	// Ascension-related variables
 
 	private static boolean isHardcore = false;
-	private static boolean canInteract = true;
+	private static boolean canInteract = false;
 
 	private static int ascensions = 0;
 	private static String ascensionSign = "None";
@@ -362,7 +362,7 @@ public abstract class KoLCharacter extends StaticEntity
 		getClient().resetBreakfastSummonings();
 
 		isHardcore = false;
-		canInteract = true;
+		canInteract = false;
 		hasStore = false;
 		hasDisplayCase = false;
 		hasClan = false;
