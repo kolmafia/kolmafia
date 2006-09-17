@@ -174,6 +174,8 @@ public class LoginRequest extends KoLRequest
 		}
 		else if ( responseCode == 302 && redirectLocation.startsWith( "main" ) )
 		{
+			KoLmafia.updateDisplay( "Login successful.  Saving session ID..." );
+
 			if ( redirectLocation.equals( "main_c.html" ) )
 				KoLRequest.isCompactMode = true;
 
@@ -188,6 +190,8 @@ public class LoginRequest extends KoLRequest
 
 			KoLmafia.forceContinue();
 			sessionID = formConnection.getHeaderField( "Set-Cookie" );
+
+			KoLmafia.updateDisplay( "Initializing data for " + username + "..." );
 			client.initialize( username, this.getBreakfast, this.isQuickLogin );
 
 			return false;
