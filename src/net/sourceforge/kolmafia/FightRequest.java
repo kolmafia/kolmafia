@@ -132,7 +132,7 @@ public class FightRequest extends KoLRequest
 		}
 		else if ( action1.equals( "custom" ) )
 		{
-			action1 = CombatSettings.getSetting( encounterLookup, KoLCharacter.getNextAdventure(), roundCount - 2 );
+			action1 = CombatSettings.getSetting( encounterLookup, roundCount - 2 );
 		}
 
 		// Let the de-level action figure out what

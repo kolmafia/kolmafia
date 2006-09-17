@@ -64,7 +64,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private String zone, adventureID, formSource, adventureName;
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
-	private boolean shouldRunBetweenBattleChecks;
 
 	/**
 	 * Constructs a new <code>KoLAdventure</code> with the given
@@ -87,30 +86,15 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		this.adventureName = adventureName;
 
 		if ( formSource.equals( "sewer.php" ) )
-		{
 			this.request = new SewerRequest( client, false );
-			this.shouldRunBetweenBattleChecks = false;
-		}
 		else if ( formSource.equals( "luckysewer.php" ) )
-		{
 			this.request = new SewerRequest( client, true );
-			this.shouldRunBetweenBattleChecks = false;
-		}
 		else if ( formSource.equals( "campground.php" ) )
-		{
 			this.request = new CampgroundRequest( client, adventureID );
-			this.shouldRunBetweenBattleChecks = false;
-		}
 		else if ( formSource.equals( "clan_gym.php" ) )
-		{
 			this.request = new ClanGymRequest( client, StaticEntity.parseInt( adventureID ) );
-			this.shouldRunBetweenBattleChecks = false;
-		}
 		else
-		{
 			this.request = new AdventureRequest( client, adventureName, formSource, adventureID );
-			this.shouldRunBetweenBattleChecks = !formSource.equals( "shore.php" ) && !zone.equals( "Casino" );
-		}
 
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
 	}
@@ -595,8 +579,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
-		KoLCharacter.setNextAdventure( this );
-		StaticEntity.setProperty( "nextAdventure", adventureName );
 		FightRequest.setAutoRecovery( StaticEntity.getProperty( "battleAction" ) );
 
 		String action = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
@@ -606,15 +588,8 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			 ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( inventory ) < 1 ) )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Sorry, you don't have a dictionary." );
-			KoLCharacter.setNextAdventure( null );
 			return;
 		}
-
-		// If auto-recovery failed, return from the run attempt.
-		// This prevents other messages from overriding the actual
-		// error message.
-
-		client.runBetweenBattleChecks( !shouldRunBetweenBattleChecks );
 
 		if ( !KoLmafia.permitsContinue() )
 			return;
@@ -622,7 +597,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance && !(request instanceof CampgroundRequest) )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
-			KoLCharacter.setNextAdventure( null );
 			return;
 		}
 
@@ -632,7 +606,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		if ( KoLCharacter.getAdventuresLeft() == 0 || KoLCharacter.getAdventuresLeft() < request.getAdventuresUsed() )
 		{
 			KoLmafia.updateDisplay( ERROR_STATE, "Insufficient adventures to continue." );
-			KoLCharacter.setNextAdventure( null );
 			return;
 		}
 
@@ -651,7 +624,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			if ( !allowStasis || !KoLCharacter.getFamiliar().isCombatFamiliar() )
 			{
 				KoLmafia.updateDisplay( ERROR_STATE, "A dictionary would be useless there." );
-				KoLCharacter.setNextAdventure( null );
 				return;
 			}
 		}
@@ -691,15 +663,14 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 				request.run();
 		}
 
-		client.runBetweenBattleChecks( !shouldRunBetweenBattleChecks );
 		postValidate();
 	}
 
-	public void recordToSession()
+	public void recordToSession( boolean shouldAdjust )
 	{
 		StaticEntity.setProperty( "lastAdventure", adventureName );
 
-		if ( StaticEntity.getBooleanProperty( "trackLocationChanges" ) && shouldRunBetweenBattleChecks )
+		if ( StaticEntity.getBooleanProperty( "trackLocationChanges" ) && shouldAdjust )
 		{
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 			adventureList.setSelectedItem( this );

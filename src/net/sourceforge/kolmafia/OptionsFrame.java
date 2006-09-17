@@ -225,6 +225,7 @@ public class OptionsFrame extends KoLFrame
 			{ "relayAddsPlinking", "Add plinking-friendly button to attack screen" },
 			{ "relayAddsShrugOffLinks", "Add shrug off links to effect duration in side pane" },
 
+			{ "relayAlwaysRunsChecks", "Run between-battle scripts while in browser" },
 			{ "makeBrowserDecisions", "Browser modules automatically make decisions" },
 			{ "trackLocationChanges", "Adventuring in browser changes selected adventure location" }
 		};

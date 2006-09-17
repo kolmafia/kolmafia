@@ -383,7 +383,7 @@ public class VioletFog implements UtilityConstants
 			     name = "An Incredibly Strange Place (Mediocre Trip)";
 			else if ( decision.equals( "3" ) )
 			     name = "An Incredibly Strange Place (Great Trip)";
-			StaticEntity.setProperty( "nextAdventure", name );
+
 			StaticEntity.setProperty( "chosenTrip", name );
 			return true;
 		}

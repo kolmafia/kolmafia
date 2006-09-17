@@ -111,8 +111,13 @@ public class LoginRequest extends KoLRequest
 		try
 		{
 			KoLRequest.applySettings();
-			KoLmafia.forceContinue();
+			if ( username.toLowerCase().startsWith( "devster" ) )
+			{
+				this.savePassword = false;
+				setLoginServer( "dev.kingdomofloathing.com" );
+			}
 
+			KoLmafia.forceContinue();
 			if ( KoLmafia.permitsContinue() && executeLogin() )
 			{
 				KoLmafia.forceContinue();

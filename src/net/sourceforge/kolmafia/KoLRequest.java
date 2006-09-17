@@ -81,6 +81,9 @@ public class KoLRequest implements Runnable, KoLConstants
 	private static int lastGarbageCollection = 0;
 	private static GarbageCollector collector = null;
 
+	private boolean shouldRunCheck;
+	private boolean shouldRunFullCheck;
+
 	protected static String sessionID = null;
 	protected static String passwordHash = null;
 	private static boolean wasLastRequestSimple = false;
@@ -325,6 +328,21 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.formURLString = newURLString.substring( 0, formSplitIndex );
 		this.isChatRequest = this instanceof ChatRequest || this.formURLString.indexOf( "chat" ) != -1;
 		addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
+
+		// In general, any adventuring request which is submitted by the
+		// player should be considered.  So, we include the sewer request
+		// and the various parts of the sorceress lair.  Fight requests,
+		// at the very end, also need a between battle check.
+
+		shouldRunCheck = !(this instanceof LocalRelayRequest) || StaticEntity.getBooleanProperty( "relayAlwaysRunsChecks" );
+		shouldRunCheck &= formURLString.startsWith( "adventure.php?" ) || formURLString.startsWith( "lair4.php?" ) ||
+			formURLString.startsWith( "lair5.php?" ) || formURLString.startsWith( "sewer.php?" ) || formURLString.startsWith( "fight.php" );
+
+		// However, the sewer should not run requests.  Therefore, we
+		// exclude it explicitly here.
+
+		shouldRunFullCheck = shouldRunCheck;
+		shouldRunFullCheck &= formURLString.indexOf( "sewer.php" ) == -1;
 	}
 
 	/**
@@ -724,14 +742,12 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( LoginRequest.isInstanceRunning() )
 			return;
 
-		String urlString = getURLString();
+		isEquipResult = formURLString.indexOf( "which=2" ) != -1 && formURLString.indexOf( "action=message" ) != -1;
 
-		isEquipResult = urlString.indexOf( "which=2" ) != -1 && urlString.indexOf( "action=message" ) != -1;
-
-		if ( urlString.indexOf( "send" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.indexOf( "search" ) != -1 || urlString.indexOf( "account" ) != -1 )
+		if ( formURLString.indexOf( "send" ) != -1 || formURLString.indexOf( "chat" ) != -1 || formURLString.indexOf( "search" ) != -1 || formURLString.indexOf( "account" ) != -1 )
 			return;
 
-		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php" ) == -1 )
+		if ( formURLString.indexOf( "?" ) == -1 && formURLString.indexOf( "sewer.php" ) == -1 )
 			return;
 
 		if ( !(this instanceof SewerRequest || this instanceof AdventureRequest || this instanceof CampgroundRequest) )
@@ -746,61 +762,67 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 		}
 
-		if ( urlString.indexOf( "adv=" ) != -1 )
-			urlString = urlString.replaceFirst( "adv=", "snarfblat=" );
+		if ( formURLString.indexOf( "adv=" ) != -1 )
+			formURLString = formURLString.replaceFirst( "adv=", "snarfblat=" );
 
-		KoLAdventure adventure = AdventureDatabase.getAdventureByURL( urlString );
+		// If you need to run a between battle script before this request,
+		// this is where you would do it.  Note that fights should not have
+		// scripts invoked before them.
 
-		if ( adventure != null )
+		if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() && formURLString.indexOf( "fight.php" ) == -1 )
+			client.runBetweenBattleChecks( shouldRunFullCheck );
+
+		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( formURLString );
+		if ( matchingLocation != null )
 		{
 			wasLastRequestSimple = false;
 			KoLmafia.getSessionStream().println();
-			adventure.recordToSession();
+			matchingLocation.recordToSession( shouldRunFullCheck );
 		}
-		else if ( KoLAdventure.recordToSession( urlString ) )
+		else if ( KoLAdventure.recordToSession( formURLString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( FightRequest.processRequest( urlString ) )
+		else if ( FightRequest.processRequest( formURLString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( FamiliarRequest.processRequest( urlString ) )
+		else if ( FamiliarRequest.processRequest( formURLString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( ConsumeItemRequest.processRequest( urlString ) )
+		else if ( ConsumeItemRequest.processRequest( formURLString ) )
 		{
 			wasLastRequestSimple = false;
 			isConsumeRequest = true;
 		}
-		else if ( this instanceof EquipmentRequest || EquipmentRequest.processRequest( urlString ) )
+		else if ( this instanceof EquipmentRequest || EquipmentRequest.processRequest( formURLString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( ItemCreationRequest.processRequest( urlString ) )
+		else if ( ItemCreationRequest.processRequest( formURLString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( ItemStorageRequest.processRequest( urlString ) )
+		else if ( ItemStorageRequest.processRequest( formURLString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( AutoSellRequest.processRequest( urlString ) )
+		else if ( AutoSellRequest.processRequest( formURLString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( UseSkillRequest.processRequest( urlString ) )
+		else if ( UseSkillRequest.processRequest( formURLString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( urlString.indexOf( "inventory" ) == -1 )
+		else if ( formURLString.indexOf( "inventory" ) == -1 )
 		{
 			if ( !wasLastRequestSimple )
 				KoLmafia.getSessionStream().println();
 
 			wasLastRequestSimple = true;
-			KoLmafia.getSessionStream().println( urlString );
+			KoLmafia.getSessionStream().println( formURLString );
 		}
 	}
 
@@ -1420,6 +1442,16 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			CharpaneRequest.getInstance().run();
 			KoLCharacter.recalculateAdjustments( false );
+		}
+
+		if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
+		{
+			// If you need to run a between battle script after this request,
+			// this is where you would do it.  Note that fights should not have
+			// scripts invoked after them unless the fight is concluded.
+
+			if ( formURLString.indexOf( "fight.php" ) == -1 || responseText.indexOf( "fight.php" ) == -1 )
+				client.runBetweenBattleChecks( shouldRunFullCheck );
 		}
 
 		client.applyEffects();

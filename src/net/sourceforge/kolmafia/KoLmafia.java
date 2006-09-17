@@ -1386,21 +1386,17 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
-		if ( request instanceof KoLAdventure )
-			StaticEntity.setProperty( "nextAdventure", "" );
-
 		if ( shouldEnableRefreshStatus )
 		{
 			RequestFrame.setRefreshStatusEnabled( true );
 			RequestFrame.refreshStatus();
 		}
 
-		currentIterationString = "";
-
 		if ( !permitsContinue() )
 		{
 			if ( continuationState != PENDING_STATE )
 				return;
+
 			hadPendingState = true;
 			forceContinue();
 		}
