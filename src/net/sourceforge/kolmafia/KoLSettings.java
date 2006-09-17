@@ -138,7 +138,10 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	}
 
 	public synchronized void saveSettings()
-	{	storeSettings( settingsFile );
+	{
+		storeSettings( settingsFile );
+		if ( GLOBAL_SETTINGS != null && this != GLOBAL_SETTINGS )
+			GLOBAL_SETTINGS.saveSettings();
 	}
 
 	/**
@@ -384,7 +387,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	 * @param	destination	The file to which the settings will be stored.
 	 */
 
-	private synchronized void storeSettings( File destination )
+	private void storeSettings( File destination )
 	{
 		try
 		{
@@ -408,30 +411,15 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			reader.close();
 			Collections.sort( contents );
 
-			File temporary = new File( DATA_DIRECTORY + "output.tmp" );
-			temporary.createNewFile();
-
-			boolean writingHeader = true;
-
-			PrintStream writer = new LogStream( temporary );
+			PrintStream writer = new LogStream( destination );
 			for ( int i = 0; i < contents.size(); ++i )
 			{
 				line = (String) contents.get(i);
-
-				if ( writingHeader && !line.startsWith( "#" ) )
-				{
-					writingHeader = false;
-					writer.println();
-				}
-
 				if ( !line.startsWith( "saveState" ) || noExtensionName.equals( "GLOBAL" ) )
 					writer.println( line );
 			}
 
 			writer.close();
-			destination.delete();
-			temporary.renameTo( destination );
-
 			ostream = null;
 		}
 		catch ( IOException e )

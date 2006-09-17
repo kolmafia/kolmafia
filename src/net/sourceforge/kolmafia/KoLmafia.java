@@ -356,12 +356,14 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
+		KoLmafia.updateDisplay( "Refreshing player-specific settings..." );
 		StaticEntity.setProperty( "lastUsername", username );
 		StaticEntity.reloadSettings( username );
 
 		KoLCharacter.reset( username );
-
 		KoLmafia.openSessionStream();
+
+		KoLmafia.updateDisplay( "Loading internal adventure table..." );
 		AdventureDatabase.refreshAdventureTable();
 
 		refreshSession();
@@ -444,6 +446,8 @@ public abstract class KoLmafia implements KoLConstants
 
 	public final void refreshSession()
 	{
+		updateDisplay( "Refreshing session data..." );
+
 		// Get current moon phases
 
 		forceContinue();
@@ -504,7 +508,7 @@ public abstract class KoLmafia implements KoLConstants
 		forceContinue();
 		CharpaneRequest.getInstance().run();
 
-		updateDisplay( "Data refreshed." );
+		updateDisplay( "Session data refreshed." );
 
 		ConcoctionsDatabase.getConcoctions().clear();
 		KoLCharacter.recalculateAdjustments( false );
@@ -549,6 +553,7 @@ public abstract class KoLmafia implements KoLConstants
 	public void resetSession()
 	{
 		forceContinue();
+		updateDisplay( "Resetting session tallies..." );
 
 		missingItems.clear();
 		encounterList.clear();
@@ -568,6 +573,8 @@ public abstract class KoLmafia implements KoLConstants
 		tally.add( new AdventureResult( AdventureResult.SUBSTATS ) );
 		tally.add( new AdventureResult( AdventureResult.FULLSTATS ) );
 		tally.add( new AdventureResult( AdventureResult.DIVIDER ) );
+
+		updateDisplay( "Session tallies reset." );
 	}
 
 	/**
@@ -2547,11 +2554,6 @@ public abstract class KoLmafia implements KoLConstants
 		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
 		sessionStream.println( "           Beginning New Ascension           " );
 		sessionStream.println( "=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=" );
-		sessionStream.println();
-
-		DEFAULT_SHELL.executeLine( "skills" );
-
-		sessionStream.println();
 		sessionStream.println();
 
 		enableDisplay();

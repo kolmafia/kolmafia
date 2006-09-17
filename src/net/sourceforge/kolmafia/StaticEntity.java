@@ -469,4 +469,8 @@ public abstract class StaticEntity implements KoLConstants
 			return false;
 		}
 	}
+
+	public static final void saveSettings()
+	{	settings.saveSettings();
+	}
 }
