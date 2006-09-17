@@ -92,7 +92,8 @@ public abstract class MoodSettings implements KoLConstants
 		triggers.clear();
 		availableMoods.clear();
 
-		MoodSettings.settingsFile = new File( settingsFileName() );
+		settingsFile = new File( settingsFileName() );
+
 		loadSettings();
 		ensureProperty( "default" );
 		ensureProperty( "apathetic" );

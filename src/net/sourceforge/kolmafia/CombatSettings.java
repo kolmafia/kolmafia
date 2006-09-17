@@ -69,8 +69,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 	public synchronized static final void reset()
 	{
-		CombatSettings.settingsFile = new File( settingsFileName() );
-
+		settingsFile = new File( settingsFileName() );
 		root.removeAllChildren();
 		reference.clear();
 

@@ -398,22 +398,25 @@ public abstract class KoLCharacter extends StaticEntity
 
 		updateEquipmentLists();
 
-		// Clear the violet fog path table and everything
-		// else that changes on the player.
+		// Clear some of the standard lists so they don't
+		// carry over from player to player.
 
 		conditions.clear();
 		eventHistory.clear();
 		recentEffects.clear();
 		activeEffects.clear();
 
+		// Clear the violet fog path table and everything
+		// else that changes on the player.
+
 		VioletFog.reset();
 		CombatSettings.reset();
 		MoodSettings.reset();
 		KoLMailManager.reset();
 		StoreManager.reset();
-		CakeArenaManager.reset();
 		MuseumManager.reset();
 		ClanManager.reset();
+		MushroomPlot.reset();
 	}
 
 	public static KoLAdventure getNextAdventure()

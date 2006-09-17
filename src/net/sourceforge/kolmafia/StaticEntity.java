@@ -114,7 +114,7 @@ public abstract class StaticEntity implements KoLConstants
 	}
 
 	public static void reloadSettings()
-	{	settings = new KoLSettings( KoLCharacter.getUsername() );
+	{	settings = new KoLSettings( getProperty( lastUsername ) );
 	}
 
 	public static final void setProperty( String name, String value )

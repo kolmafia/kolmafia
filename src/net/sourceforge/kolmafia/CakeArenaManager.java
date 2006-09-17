@@ -42,10 +42,6 @@ public class CakeArenaManager extends StaticEntity
 {
 	private static LockableListModel opponentList = new LockableListModel();
 
-	public static void reset()
-	{	opponentList.clear();
-	}
-
 	/**
 	 * Registers an opponent inside of the arena manager.
 	 * This should be used to update any information that

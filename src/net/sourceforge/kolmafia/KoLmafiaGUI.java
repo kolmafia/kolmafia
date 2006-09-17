@@ -270,6 +270,11 @@ public class KoLmafiaGUI extends KoLmafia
 			if ( !ClanManager.isStashRetrieved() )
 				(new ClanStashRequest( StaticEntity.getClient() )).run();
 		}
+		else if ( frameName.equals( "MushroomFrame" ) )
+		{
+			for ( int i = 0; i < MushroomPlot.MUSHROOMS.length; ++i )
+				RequestEditorKit.downloadImage( "http://images.kingdomofloathing.com/itemimages/" + MushroomPlot.MUSHROOMS[i][1] );
+		}
 		else if ( frameName.equals( "ItemManageFrame" ) )
 		{
 			if ( StaticEntity.getClient().shouldMakeConflictingRequest() )
