@@ -878,9 +878,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( refusesContinue() )
 			return false;
 
-		boolean checkBeatenUp = settingName.startsWith( "hp" ) &&
-			activeEffects.contains( KoLAdventure.BEATEN_UP );
-
 		Object [] empty = new Object[0];
 		Method currentMethod, maximumMethod;
 
@@ -942,7 +939,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		String currentTechniqueName;
 
-		for ( int i = 0; i < techniques.length && (current <= threshold || checkBeatenUp); ++i )
+		for ( int i = 0; i < techniques.length && current <= threshold; ++i )
 		{
 			currentTechniqueName = techniques[i].toString().toLowerCase();
 			if ( restoreSetting.indexOf( currentTechniqueName ) != -1 )
@@ -952,15 +949,13 @@ public abstract class KoLmafia implements KoLConstants
 					last = current;
 					recoverOnce( techniques[i], currentTechniqueName, needed );
 					current = ((Number)currentMethod.invoke( null, empty )).intValue();
-					checkBeatenUp &= activeEffects.contains( KoLAdventure.BEATEN_UP );
 
 					// Do not allow seltzer to be used more than once,
 					// as this indicates MP changes due to outfits.
 					// Simply break the loop and move onto cola or soda
 					// water as the next restore.
 				}
-				while ( techniques[i] != MPRestoreItemList.SELTZER &&
-					(current <= threshold || checkBeatenUp) && last != current && !refusesContinue() );
+				while ( techniques[i] != MPRestoreItemList.SELTZER && current <= threshold && last != current && !refusesContinue() );
 			}
 		}
 
