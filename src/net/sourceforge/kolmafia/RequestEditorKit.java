@@ -1140,9 +1140,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// First, locate your HP information inside of the response
 		// text and replace it with a restore HP link.
 
-		float threshold = StaticEntity.getFloatProperty( "hpAutoRecovery" ) * ((float) KoLCharacter.getMaximumHP());
+		float threshold = StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" ) * ((float) KoLCharacter.getMaximumHP());
+		float dangerous = StaticEntity.getFloatProperty( "hpAutoRecovery" ) * ((float) KoLCharacter.getMaximumHP());
 
-		if ( threshold > KoLCharacter.getCurrentHP() )
+		if ( KoLCharacter.getCurrentHP() < threshold )
 		{
 			if ( KoLRequest.isCompactMode )
 			{
@@ -1150,6 +1151,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				startingIndex = text.indexOf( "<b>", startingIndex ) + 3;
 
 				fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
+				if ( KoLCharacter.getCurrentHP() < dangerous )
+					fontTag = "<font color=red>";
 			}
 			else
 			{
@@ -1157,6 +1160,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				startingIndex = text.indexOf( "<br>", startingIndex ) + 4;
 
 				fontTag = text.substring( startingIndex, text.indexOf( ">", startingIndex ) + 1 );
+				if ( KoLCharacter.getCurrentHP() < dangerous )
+					fontTag = "<span class=red>";
 			}
 
 			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
@@ -1192,8 +1197,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// text and replace it with a restore MP link.
 
 		threshold = StaticEntity.getFloatProperty( "mpAutoRecoveryTarget" ) * ((float) KoLCharacter.getMaximumMP());
+		dangerous = StaticEntity.getFloatProperty( "mpAutoRecovery" ) * ((float) KoLCharacter.getMaximumMP());
 
-		if ( threshold > KoLCharacter.getCurrentMP() )
+		if ( KoLCharacter.getCurrentMP() < threshold )
 		{
 			if ( KoLRequest.isCompactMode )
 			{
@@ -1211,7 +1217,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
-			responseBuffer.append( "<a title=\"Restore your MP\" href=\"/KoLmafia/sideCommand?cmd=restore+mp\">" );
+			responseBuffer.append( "<a style=\"color:" );
+			responseBuffer.append( KoLCharacter.getCurrentMP() < dangerous ? "red" : "black" );
+			responseBuffer.append( "\" title=\"Restore your MP\" href=\"/KoLmafia/sideCommand?cmd=restore+mp\">" );
 			startingIndex = KoLRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
 			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
@@ -1235,7 +1243,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
 				lastAppendIndex = startingIndex;
 
-				responseBuffer.append( "[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]<br><br>" );
+				responseBuffer.append( "[<a style=\"color:red\" title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]<br><br>" );
 
 				if ( activeEffects.isEmpty() )
 					responseBuffer.append( "<hr width=50%>" );
@@ -1261,7 +1269,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( effectIndex == -1 )
 				responseBuffer.append( "<center><p><b><font size=2>Effects:</font></b>" );
 
-			responseBuffer.append( "<br><font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood execute</a>]</font>" );
+			responseBuffer.append( "<br><font size=2>[<a style=\"color:red\" title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood execute</a>]</font>" );
 
 			if ( effectIndex == -1 )
 				responseBuffer.append( "<br></p></center>" );
