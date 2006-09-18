@@ -254,8 +254,11 @@ public class ChatBuffer
 	{
 		if ( changeType != LOGFILE_CHANGE )
 		{
-			displayBuffer.append( newContents );
-			normalizeBuffer();
+			if ( newContents != null )
+			{
+				displayBuffer.append( newContents );
+				normalizeBuffer();
+			}
 
 			if ( displayPane != null && !updater.setToRun )
 			{
