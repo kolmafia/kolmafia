@@ -197,7 +197,11 @@ public class LocalRelayServer implements Runnable
 		void setSocket( Socket socket )
 		{
 			this.socket = socket;
-			notify();
+
+			synchronized ( this )
+			{
+				notify();
+			}
 		}
 
 		public void run()
@@ -209,11 +213,14 @@ public class LocalRelayServer implements Runnable
 					// wait for a client
 					try
 					{
-						// Wait indefinitely for a client.  Exception
-						// handling is probably not the best way to
-						// handle this, but for now, it will do.
+						synchronized ( this )
+						{
+							// Wait indefinitely for a client.  Exception
+							// handling is probably not the best way to
+							// handle this, but for now, it will do.
 
-						wait();
+							wait();
+						}
 					}
 					catch ( InterruptedException e )
 					{
