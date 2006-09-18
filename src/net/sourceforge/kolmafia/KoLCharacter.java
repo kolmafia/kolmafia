@@ -2807,7 +2807,7 @@ public abstract class KoLCharacter extends StaticEntity
 			newDodecapedeWeightAdjustment += 5;
 		}
 
-		if ( hasSkill( "Cold Blooded Fearlessness" ) )
+		if ( hasSkill( "Cold-Blooded Fearlessness" ) )
 			newSpookyResistance += 20;
 
 		if ( hasSkill( "Diminished Gag Reflex" ) )
