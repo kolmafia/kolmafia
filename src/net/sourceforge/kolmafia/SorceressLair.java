@@ -330,10 +330,10 @@ public abstract class SorceressLair extends StaticEntity
 		// at the end, check to make sure you've completed
 		// all the needed requirements.
 
-		requirements.addAll( retrieveRhythm( false, useCloverForSkeleton ) );
-		requirements.addAll( retrieveStrumming( false ) );
-		requirements.addAll( retrieveSqueezings( false ) );
-		requirements.addAll( retrieveScubaGear( false ) );
+		requirements.addAll( retrieveRhythm( useCloverForSkeleton ) );
+		requirements.addAll( retrieveStrumming() );
+		requirements.addAll( retrieveSqueezings() );
+		requirements.addAll( retrieveScubaGear() );
 
 		DEFAULT_SHELL.executeLine( "familiar " + originalFamiliar.getRace() );
 		SpecialOutfit.restoreCheckpoint( true );
@@ -463,7 +463,7 @@ public abstract class SorceressLair extends StaticEntity
 		}
 	}
 
-	private static List retrieveRhythm( boolean isCheckOnly, boolean useCloverForSkeleton )
+	private static List retrieveRhythm( boolean useCloverForSkeleton )
 	{
 		// Skeleton key and a clover unless you already have the
 		// Really Evil Rhythms
@@ -534,7 +534,7 @@ public abstract class SorceressLair extends StaticEntity
 		return requirements;
 	}
 
-	private static List retrieveStrumming( boolean isCheckOnly )
+	private static List retrieveStrumming()
 	{
 		// Decide on which star weapon should be available for
 		// this whole process.
@@ -614,7 +614,7 @@ public abstract class SorceressLair extends StaticEntity
 				requirements.add( RICHARD );
 		}
 
-		if ( isCheckOnly || hasItem( STRUMMING ) || !requirements.isEmpty() )
+		if ( hasItem( STRUMMING ) || !requirements.isEmpty() )
 			return requirements;
 
 		// If you can't equip the appropriate weapon and buckler,
@@ -682,20 +682,20 @@ public abstract class SorceressLair extends StaticEntity
 		return requirements;
 	}
 
-	private static List retrieveSqueezings( boolean isCheckOnly )
+	private static List retrieveSqueezings()
 	{
 		// Digital key unless you already have the Squeezings of Woe
 
 		List requirements = new ArrayList();
 
-		if ( !hasItem( SQUEEZINGS ) && !hasItem( DIGITAL ) )
+		if ( !hasItem( SQUEEZINGS ) )
 		{
 			AdventureDatabase.retrieveItem( DIGITAL );
 			if ( !hasItem( DIGITAL ) )
 				requirements.add( DIGITAL );
 		}
 
-		if ( isCheckOnly || hasItem( SQUEEZINGS ) || !requirements.isEmpty() )
+		if ( hasItem( SQUEEZINGS ) || !requirements.isEmpty() )
 			return requirements;
 
 		// Now handle the form for the digital key to get
@@ -728,7 +728,7 @@ public abstract class SorceressLair extends StaticEntity
 		return requirements;
 	}
 
-	private static List retrieveScubaGear( boolean isCheckOnly )
+	private static List retrieveScubaGear()
 	{
 		List requirements = new ArrayList();
 		KoLRequest request = null;
