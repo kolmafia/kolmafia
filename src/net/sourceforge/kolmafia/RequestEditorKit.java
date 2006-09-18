@@ -1140,7 +1140,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 		// First, locate your HP information inside of the response
 		// text and replace it with a restore HP link.
 
-		float threshold = StaticEntity.getFloatProperty( "hpAutoRecoveryTarget" ) * ((float) KoLCharacter.getMaximumHP());
+		float threshold = StaticEntity.getFloatProperty( "hpAutoRecovery" ) * ((float) KoLCharacter.getMaximumHP());
 
 		if ( threshold > KoLCharacter.getCurrentHP() )
 		{
@@ -1170,7 +1170,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( !KoLRequest.isCompactMode )
 				responseBuffer.append( fontTag );
 
-			responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=restore+hp\" style=\"color:" );
+			responseBuffer.append( "<a title=\"Restore your HP\" href=\"/KoLmafia/sideCommand?cmd=restore+hp\" style=\"color:" );
 
 			Matcher colorMatcher = COLOR_PATTERN.matcher( fontTag );
 			if ( colorMatcher.find() )
@@ -1211,7 +1211,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
 
-			responseBuffer.append( "<a href=\"/KoLmafia/sideCommand?cmd=restore+mp\">" );
+			responseBuffer.append( "<a title=\"Restore your MP\" href=\"/KoLmafia/sideCommand?cmd=restore+mp\">" );
 			startingIndex = KoLRequest.isCompactMode ? text.indexOf( "/", startingIndex ) : text.indexOf( "&", startingIndex );
 			responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
 			lastAppendIndex = startingIndex;
@@ -1235,7 +1235,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				responseBuffer.append( text.substring( lastAppendIndex, startingIndex ) );
 				lastAppendIndex = startingIndex;
 
-				responseBuffer.append( "[<a href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]<br><br>" );
+				responseBuffer.append( "[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood exec</a>]<br><br>" );
 
 				if ( activeEffects.isEmpty() )
 					responseBuffer.append( "<hr width=50%>" );
@@ -1261,7 +1261,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			if ( effectIndex == -1 )
 				responseBuffer.append( "<center><p><b><font size=2>Effects:</font></b>" );
 
-			responseBuffer.append( "<br><font size=2>[<a href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood execute</a>]</font>" );
+			responseBuffer.append( "<br><font size=2>[<a title=\"I'm feeling moody\" href=\"/KoLmafia/sideCommand?cmd=mood+execute\">mood execute</a>]</font>" );
 
 			if ( effectIndex == -1 )
 				responseBuffer.append( "<br></p></center>" );
@@ -1298,8 +1298,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 				// be removed.  This is either when the buff can be shrugged
 				// or the buff has a default removal method.
 
-				if ( skillType == ClassSkillsDatabase.BUFF )
-					removeAction = "uneffect " + skillName;
+				if ( skillType == ClassSkillsDatabase.BUFF || KoLCharacter.hasItem( UneffectRequest.REMEDY, true ) )
+					removeAction = "uneffect " + effectName;
 
 				if ( !removeAction.equals( "" ) )
 				{
@@ -1317,7 +1317,15 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						responseBuffer.append( "win+game" );
 					}
 
-					responseBuffer.append( "\">" );
+					responseBuffer.append( "\" title=\"" );
+
+					if ( skillType == ClassSkillsDatabase.BUFF )
+						responseBuffer.append( "Shrug off the " );
+					else
+						responseBuffer.append( "Use a remedy to remove the " );
+
+					responseBuffer.append( effectName );
+					responseBuffer.append( " effect\">" );
 				}
 
 				nextAppendIndex = text.indexOf( ")", lastAppendIndex ) + 1;
@@ -1348,6 +1356,8 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 						responseBuffer.append( "win+game" );
 					}
 
+					responseBuffer.append( "\" title=\"Increase rounds of " );
+					responseBuffer.append( effectName );
 					responseBuffer.append( "\"><img src=\"/images/up.gif\" border=0></a>" );
 				}
 			}

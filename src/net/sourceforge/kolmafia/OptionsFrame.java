@@ -221,7 +221,7 @@ public class OptionsFrame extends KoLFrame
 		private final String [][] options =
 		{
 			{ "relayAddsUseLinks", "Add [use] links when acquiring items" },
-			{ "relayAddsCommandLineLinks", "Add gCLI tool links to chat launcher" },
+			{ "relayAddsQuickScripts", "Add quick script links to main browser" },
 			{ "relayAddsPlinking", "Add plinking-friendly button to attack screen" },
 			{ "relayAddsShrugOffLinks", "Add shrug off links to effect duration in side pane" },
 
