@@ -334,8 +334,6 @@ public class FightRequest extends KoLRequest
 			if ( KoLCharacter.getCurrentHP() == 0 )
 				KoLmafia.updateDisplay( ERROR_STATE, "You were defeated!" );
 		}
-
-		super.processResults();
 	}
 
 	public int getCombatRound()

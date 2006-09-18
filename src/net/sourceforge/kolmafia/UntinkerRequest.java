@@ -170,8 +170,6 @@ public class UntinkerRequest extends KoLRequest
 	}
 
 	protected void processResults()
-	{
-		client.processResult( new AdventureResult( itemID, -1 ) );
-		super.processResults();
+	{	client.processResult( new AdventureResult( itemID, -1 ) );
 	}
 }

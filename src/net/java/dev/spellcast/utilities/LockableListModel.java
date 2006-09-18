@@ -89,6 +89,7 @@ public class LockableListModel extends javax.swing.AbstractListModel
 		private int changeType;
 		private Object source;
 		private int index0, index1;
+		private boolean queued;
 
 		public FireListEventRunnable( int changeType, Object source, int index0, int index1 )
 		{
@@ -96,28 +97,15 @@ public class LockableListModel extends javax.swing.AbstractListModel
 			this.source = source;
 			this.index0 = index0;
 			this.index1 = index1;
+			this.queued = false;
 		}
 
 		public void run()
 		{
-			// If you are not in the Swing thread, then wait
-			// until you are in the Swing thread before making
-			// the object to avoid deadlocks.
-
-			try
+			if ( !queued )
 			{
-				if ( !SwingUtilities.isEventDispatchThread() )
-				{
-					SwingUtilities.invokeLater( this );
-					return;
-				}
-			}
-			catch ( Exception e )
-			{
-				// The only exception thrown is an interrupted
-				// exception, which means you should do nothing,
-				// because you're no longer in the Swing thread.
-
+				queued = true;
+				SwingUtilities.invokeLater( this );
 				return;
 			}
 

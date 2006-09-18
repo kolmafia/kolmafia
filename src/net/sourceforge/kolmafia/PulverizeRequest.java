@@ -112,6 +112,5 @@ public class PulverizeRequest extends KoLRequest
 		// Remove old item and notify the user of success.
 		client.processResult( item.getNegation() );
 		KoLmafia.updateDisplay( item + " smashed." );
-		super.processResults();
 	}
 }

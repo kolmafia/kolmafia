@@ -103,7 +103,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	private static final AdventureResult CLOCKWORK_BARTENDER = new AdventureResult( 1111, 1 );
 
 	private String name;
-	private int itemID, quantityNeeded, mixingMethod;
+	private int itemID, quantityNeeded, beforeQuantity, mixingMethod;
 
 	private static final AdventureResult DOUGH = new AdventureResult( 159, 1 );
 	private static final AdventureResult FLAT_DOUGH = new AdventureResult( 301, 1 );
@@ -292,6 +292,9 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		if ( !KoLmafia.permitsContinue() || quantityNeeded <= 0 )
 			return;
 
+		AdventureResult createdItem = new AdventureResult( itemID, 0 );
+		beforeQuantity = createdItem.getCount( inventory );
+
 		switch ( mixingMethod )
 		{
 			case SUBCLASS:
@@ -410,7 +413,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 		}
 
 		addFormField( "quantity", String.valueOf( quantityNeeded ) );
-
 		KoLmafia.updateDisplay( "Creating " + toString() + "..." );
 		super.run();
 	}
@@ -419,11 +421,6 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 	{
 		if ( mixingMethod == STILL_BOOZE || mixingMethod == STILL_MIXER )
 			KoLCharacter.setStillsAvailable( responseText );
-
-		AdventureResult createdItem = new AdventureResult( itemID, 0 );
-		int beforeQuantity = createdItem.getCount( inventory );
-
-		super.processResults();
 
 		// Check to make sure that the item creation did not fail.
 
@@ -441,6 +438,7 @@ public class ItemCreationRequest extends KoLRequest implements Comparable
 
 		// Figure out how many items were created
 
+		AdventureResult createdItem = new AdventureResult( itemID, 0 );
 		int createdQuantity = createdItem.getCount( inventory ) - beforeQuantity;
 
 		if ( createdQuantity > 0 )

@@ -510,8 +510,6 @@ public class UseSkillRequest extends KoLRequest implements Comparable
 				activeEffects.remove( KoLAdventure.BEATEN_UP );
 				needsRefresh = true;
 			}
-
-			super.processResults();
 		}
 	}
 

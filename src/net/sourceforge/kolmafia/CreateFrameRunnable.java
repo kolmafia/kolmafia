@@ -140,23 +140,6 @@ public class CreateFrameRunnable implements Runnable, KoLConstants
 			return;
 		}
 
-		// If you are in the Swing thread, then wait
-		// until you are no longer in the Swing thread
-		// so you are able to see debug messages.
-
-		if ( !SwingUtilities.isEventDispatchThread() )
-		{
-			SwingUtilities.invokeLater( this );
-
-			while ( this.creation == null )
-				KoLRequest.delay( 500 );
-
-			return;
-		}
-
-		// Now that you're guaranteed to be in the event
-		// dispatch thread, run the construction.
-
 		runConstruction();
 	}
 

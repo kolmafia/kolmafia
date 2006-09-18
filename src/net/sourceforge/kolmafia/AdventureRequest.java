@@ -168,8 +168,6 @@ public class AdventureRequest extends KoLRequest
 		if ( responseText == null || responseText.trim().length() == 0 )
 			return;
 
-		super.processResults();
-
 		// If you haven't unlocked the orc chasm yet,
 		// try doing so now.
 

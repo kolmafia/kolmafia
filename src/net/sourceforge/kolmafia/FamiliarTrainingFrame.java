@@ -2343,7 +2343,6 @@ public class FamiliarTrainingFrame extends KoLFrame
 
 	private static void debug( KoLmafia StaticEntity.getClient() )
 	{
-		LockableListModel inventory = new LockableListModel();
 		inventory.add( new AdventureResult( "lead necklace", 1 ) );
 		inventory.add( new AdventureResult( "tiny plastic angry goat", 1 ) );
 		inventory.add( new AdventureResult( "tiny plastic stab bat", 1 ) );

@@ -137,8 +137,6 @@ public class MicrobreweryRequest extends KoLRequest
 			}
 
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - price ) );
-			super.processResults();
-
 			KoLmafia.updateDisplay( "Drink purchased." );
 			return;
 		}

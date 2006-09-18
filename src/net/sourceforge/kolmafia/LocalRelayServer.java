@@ -199,8 +199,7 @@ public class LocalRelayServer implements Runnable
 			this.socket = socket;
 
 			synchronized ( this )
-			{
-				notify();
+			{	notify();
 			}
 		}
 
@@ -210,16 +209,14 @@ public class LocalRelayServer implements Runnable
 			{
 				if ( socket == null )
 				{
-					// wait for a client
+					// Wait indefinitely for a client.  Exception
+					// handling is probably not the best way to
+					// handle this, but for now, it will do.
+
 					try
 					{
 						synchronized ( this )
-						{
-							// Wait indefinitely for a client.  Exception
-							// handling is probably not the best way to
-							// handle this, but for now, it will do.
-
-							wait();
+						{	wait();
 						}
 					}
 					catch ( InterruptedException e )

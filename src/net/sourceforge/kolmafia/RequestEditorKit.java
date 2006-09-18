@@ -544,7 +544,7 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			filename = filename.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
 
 		File localfile = new File( "images/" + localname );
-		File parentfile = new File( "images" + localname.substring( 0, localname.lastIndexOf( "/" ) + 1 ) );
+		File parentfile = new File( "images/" + localname.substring( 0, localname.lastIndexOf( "/" ) + 1 ) );
 
 		if ( !parentfile.exists() )
 			parentfile.mkdirs();

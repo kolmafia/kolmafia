@@ -65,6 +65,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 	private KoLRequest request;
 	private AreaCombatData areaSummary;
 
+	private boolean shouldRunCheck;
+	private boolean shouldRunFullCheck;
+
 	/**
 	 * Constructs a new <code>KoLAdventure</code> with the given
 	 * specifications.
@@ -86,15 +89,35 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		this.adventureName = adventureName;
 
 		if ( formSource.equals( "sewer.php" ) )
+		{
+			shouldRunCheck = true;
+			shouldRunFullCheck = false;
 			this.request = new SewerRequest( client, false );
+		}
 		else if ( formSource.equals( "luckysewer.php" ) )
+		{
+			shouldRunCheck = true;
+			shouldRunFullCheck = false;
 			this.request = new SewerRequest( client, true );
+		}
 		else if ( formSource.equals( "campground.php" ) )
+		{
+			shouldRunCheck = false;
+			shouldRunFullCheck = false;
 			this.request = new CampgroundRequest( client, adventureID );
+		}
 		else if ( formSource.equals( "clan_gym.php" ) )
+		{
+			shouldRunCheck = false;
+			shouldRunFullCheck = false;
 			this.request = new ClanGymRequest( client, StaticEntity.parseInt( adventureID ) );
+		}
 		else
+		{
+			shouldRunCheck = true;
+			shouldRunFullCheck = true;
 			this.request = new AdventureRequest( client, adventureName, formSource, adventureID );
+		}
 
 		this.areaSummary = AdventureDatabase.getAreaCombatData( adventureName );
 	}
@@ -590,6 +613,9 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 			return;
 		}
 
+		if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
+			client.runBetweenBattleChecks( shouldRunFullCheck );
+
 		if ( !KoLmafia.permitsContinue() )
 			return;
 
@@ -646,6 +672,15 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		int previousAdventures = KoLCharacter.getAdventuresLeft();
 		request.run();
 
+		if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
+		{
+			// If you need to run a between battle script after this request,
+			// this is where you would do it.  Note that fights should not have
+			// scripts invoked after them unless the fight is concluded.
+
+			client.runBetweenBattleChecks( shouldRunFullCheck );
+		}
+
 		if ( previousAdventures == KoLCharacter.getAdventuresLeft() )
 		{
 			// Well, that was an interesting predicament.  If it
@@ -659,11 +694,11 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		postValidate();
 	}
 
-	public void recordToSession( boolean shouldAdjust )
+	public void recordToSession()
 	{
 		StaticEntity.setProperty( "lastAdventure", adventureName );
 
-		if ( StaticEntity.getBooleanProperty( "trackLocationChanges" ) && shouldAdjust )
+		if ( StaticEntity.getBooleanProperty( "trackLocationChanges" ) && shouldRunFullCheck )
 		{
 			LockableListModel adventureList = AdventureDatabase.getAsLockableListModel();
 			adventureList.setSelectedItem( this );

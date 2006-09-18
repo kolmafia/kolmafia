@@ -384,7 +384,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 		if ( !chest )
 		{
-			executeCommand( "open chest", true );
+			executeCommand( "open chest" );
 			DEFAULT_SHELL.executeLine( "use Frobozz Real-Estate Company Instant House (TM)" );
 		}
 	}
@@ -400,7 +400,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		// We can't tell if we've already done this. But, there's no
 		// harm in doing it twice.
 		executeCommand( "look behind chest" );
-		executeCommand( "look in hole", true );
+		executeCommand( "look in hole" );
 	}
 
 	// Returns true if should proceed, false if should stop now
@@ -428,7 +428,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( !invokeMagic )
 			return false;
 
-		parseMagic( executeCommand( magic, true ) );
+		parseMagic( executeCommand( magic ) );
 		return true;
 	}
 
@@ -437,11 +437,10 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( ring )
 			return;
 
-		KoLmafia.updateDisplay( "Stealing ring..." );
-
 		if ( location < BOTTOM )
 			goTo( BOTTOM );
 
+		KoLmafia.updateDisplay( "Finding the giant..." );
 		getScroll();
 
 		if ( parchment && !KoLCharacter.hasSkill( "CLEESH" ) )
@@ -457,7 +456,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 		if ( !giant )
 			executeCommand( "CLEESH giant" );
 
-		executeCommand( "take ring", true );
+		executeCommand( "take ring" );
 		ring = true;
 	}
 
@@ -625,6 +624,7 @@ public abstract class StrangeLeaflet extends StaticEntity
 						// Fall through
 					case FOREST:
 						// Stumble around until we get out
+						KoLmafia.updateDisplay( "Navigating the forest..." );
 						while ( exit != null )
 							executeCommand( exit );
 						break;
@@ -770,12 +770,8 @@ public abstract class StrangeLeaflet extends StaticEntity
 	}
 
 	private static String executeCommand( String command )
-	{	return executeCommand( command, false );
-        }
-
-	private static String executeCommand( String command, boolean results )
 	{
-		KoLRequest request = new CommandRequest( command, results );
+		KoLRequest request = new CommandRequest( command );
 		request.run();
 
 		// Figure out where we are
@@ -787,20 +783,11 @@ public abstract class StrangeLeaflet extends StaticEntity
 
 	private static class CommandRequest extends KoLRequest
 	{
-		boolean results;
-
-		protected CommandRequest( String command, boolean results )
+		protected CommandRequest( String command )
 		{
 			super( getClient(), "leaflet.php", true );
 			addFormField( "pwd" );
 			addFormField( "command", command );
-			this.results = results;
-		}
-
-		protected void processResults()
-		{
-			if ( results )
-				super.processResults();
 		}
 	}
 }

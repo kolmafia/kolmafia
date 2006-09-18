@@ -4073,7 +4073,6 @@ public class KoLmafiaASH extends StaticEntity
 
 		public ScriptValue creatable_amount( ScriptVariable arg )
 		{
-			ConcoctionsDatabase.refreshConcoctions();
 			ItemCreationRequest item = ItemCreationRequest.getInstance( getClient(), arg.intValue(), 0 );
 			return new ScriptValue( item == null ? 0 : item.getCount( ConcoctionsDatabase.getConcoctions() ) );
 		}

@@ -80,8 +80,6 @@ public class BountyHunterRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		super.processResults();
-
 		if ( isExchange )
 		{
 			client.processResult( itemTraded.getNegation() );

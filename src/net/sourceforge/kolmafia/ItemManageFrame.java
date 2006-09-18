@@ -696,7 +696,7 @@ public class ItemManageFrame extends KoLFrame
 			super( "Create an Item", ConcoctionsDatabase.getConcoctions(), false );
 
 			elementList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-			setButtons( new String [] { "itemCreator one", "itemCreator multiple", "refresh" },
+			setButtons( new String [] { "create one", "create multiple", "refresh" },
 				new ActionListener [] { new CreateListener( false ), new CreateListener( true ),
 				new RequestButton( "Refresh Items", new EquipmentRequest( StaticEntity.getClient(), EquipmentRequest.CLOSET ) ) } );
 

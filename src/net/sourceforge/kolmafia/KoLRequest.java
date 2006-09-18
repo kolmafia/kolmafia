@@ -58,8 +58,6 @@ import java.util.regex.Pattern;
 import java.util.Map;
 import java.util.Iterator;
 
-import net.java.dev.spellcast.utilities.LockableListModel;
-
 /**
  * Most aspects of Kingdom of Loathing are accomplished by submitting
  * forms and their accompanying data.  This abstract class is designed
@@ -76,13 +74,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	private static final Pattern COMMENT_PATTERN = Pattern.compile( "<!--.*?-->", Pattern.DOTALL );
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
-
-	private static final int COLLECT_RATE = 100;
-	private static int lastGarbageCollection = 0;
-	private static GarbageCollector collector = null;
-
-	private boolean shouldRunCheck;
-	private boolean shouldRunFullCheck;
 
 	protected static String sessionID = null;
 	protected static String passwordHash = null;
@@ -132,7 +123,6 @@ public class KoLRequest implements Runnable, KoLConstants
 	protected KoLmafia client;
 	protected boolean needsRefresh;
 	protected boolean statusChanged;
-	protected boolean processedResults;
 
 	private int readInputLength;
 	private int totalInputLength;
@@ -316,21 +306,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.data.clear();
 		if ( newURLString.startsWith( "/" ) )
 			newURLString = newURLString.substring(1);
-
-		// In general, any adventuring request which is submitted by the
-		// player should be considered.  So, we include the sewer request
-		// and the various parts of the sorceress lair.  Fight requests,
-		// at the very end, also need a between battle check.
-
-		shouldRunCheck = !(this instanceof LocalRelayRequest) || StaticEntity.getBooleanProperty( "relayAlwaysRunsChecks" );
-		shouldRunCheck &= newURLString.startsWith( "adventure.php" ) || newURLString.startsWith( "lair4.php" ) ||
-			newURLString.startsWith( "lair5.php" ) || newURLString.startsWith( "sewer.php" ) || newURLString.startsWith( "fight.php" );
-
-		// However, the sewer should not run requests.  Therefore, we
-		// exclude it explicitly here.
-
-		shouldRunFullCheck = shouldRunCheck;
-		shouldRunFullCheck &= !newURLString.startsWith( "sewer.php" );
 
 		int formSplitIndex = newURLString.indexOf( "?" );
 
@@ -579,21 +554,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( formURLString.indexOf( "sewer.php" ) != -1 )
 			AdventureDatabase.retrieveItem( SewerRequest.GUM.getNegation() );
 
-		// Manual garbage collection if memory limit exceeded.
-		// This is to ensure that KoLmafia doesn't start eating
-		// up all available memory.  This will slow runtime a
-		// little bit, but it should work out.
-
-		if ( ++lastGarbageCollection > COLLECT_RATE )
-		{
-			lastGarbageCollection = 0;
-			if ( collector == null )
-			{
-				collector = new GarbageCollector();
-				collector.start();
-			}
-		}
-
 		if ( !usingValidConnection )
 		{
 			KoLmafia.updateDisplay( ABORT_STATE, "Unable to establish connection with proxy server." );
@@ -604,9 +564,9 @@ public class KoLRequest implements Runnable, KoLConstants
 			StaticEntity.getBooleanProperty( "showAllRequests" );
 
 		needsRefresh = false;
-		processedResults = false;
+		String urlString = getURLString();
 
-		if ( getURLString().indexOf( "fight.php?action=plink" ) != -1 )
+		if ( urlString.indexOf( "fight.php?action=plink" ) != -1 )
 		{
 			String oldAction = StaticEntity.getProperty( "battleAction" );
 			StaticEntity.setProperty( "battleAction", "attack" );
@@ -616,7 +576,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			StaticEntity.setProperty( "battleAction", oldAction );
 
-			this.responseCode = request.responseCode;
 			this.responseText = request.responseText;
 			this.fullResponse = request.fullResponse;
 			this.formConnection = request.formConnection;
@@ -626,12 +585,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			execute();
 		}
 
-		processedResults = true;
-
 		// If this is the trapper page, make sure to check to
 		// see if there's any changes to your inventory.
 
-		if ( formURLString.indexOf( "trapper.php" ) != -1 )
+		if ( urlString.indexOf( "trapper.php" ) != -1 )
 		{
 			if ( responseText.indexOf( "You acquire" ) != -1 )
 			{
@@ -654,7 +611,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		// There are requests to the council which will also
 		// decrement your inventory.
 
-		if ( formURLString.indexOf( "council.php" ) != -1 )
+		if ( urlString.indexOf( "council.php" ) != -1 )
 		{
 			if ( responseText.indexOf( "batskin belt" ) != -1 )
 				client.processResult( new AdventureResult( "Boss Bat bandana", -1, false ) );
@@ -666,12 +623,14 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( isEquipResult )
 			DEFAULT_SHELL.executeLine( "equip" );
 
-		if ( getURLString().equals( "main.php?refreshtop=true&noobmessage=true" ) )
+		if ( urlString.equals( "main.php?refreshtop=true&noobmessage=true" ) )
 			client.handleAscension();
 	}
 
 	public void execute()
 	{
+		boolean isDelayExempt = isDelayExempt();
+
 		// If this is the rat quest, then go ahead and pre-set the data
 		// to reflect a fight sequence (mini-browser compatibility).
 
@@ -686,20 +645,21 @@ public class KoLRequest implements Runnable, KoLConstants
 		totalInputLength = 0;
 
 		registerRequest();
-		client.setCurrentRequest( this );
+		String urlString = getURLString();
+
+		if ( !isDelayExempt )
+			client.setCurrentRequest( this );
 
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
 
-		if ( getURLString().endsWith( "lair6.php?place=5" ) )
+		if ( urlString.endsWith( "lair6.php?place=5" ) )
 		{
 			activeEffects.clear();
 			needsRefresh = true;
 		}
-		if ( getURLString().endsWith( "lair6.php?place=6" ) )
+		if ( urlString.endsWith( "lair6.php?place=6" ) )
 			KoLCharacter.setInteraction( KoLCharacter.getTotalTurnsUsed() >= 600 );
-
-		boolean isDelayExempt = isDelayExempt();
 
 		do
 		{
@@ -711,18 +671,16 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		if ( responseCode == 200 && responseText != null )
 		{
-			if ( !isDelayExempt() && !(this instanceof SearchMallRequest) )
+			if ( !isDelayExempt() && formURLString.indexOf( "search" ) == -1 )
 				showInBrowser( false );
 
-			if ( !processedResults )
-			{
-				if ( !(this instanceof FightRequest) )
-					AdventureRequest.registerEncounter( this );
+			if ( !(this instanceof FightRequest) )
+				AdventureRequest.registerEncounter( this );
 
-				if ( getClass() != KoLRequest.class && !(this instanceof LocalRelayRequest) )
-					processResults();
-				else if ( !shouldIgnoreResults() )
-					processResults();
+			if ( !shouldIgnoreResults() )
+			{
+				parseResults();
+				processResults();
 			}
 
 			if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
@@ -731,7 +689,6 @@ public class KoLRequest implements Runnable, KoLConstants
 				if ( isDelayExempt() )
 					KoLmafia.enableDisplay();
 			}
-
 		}
 
 		client.setCurrentRequest( null );
@@ -739,20 +696,32 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void registerRequest()
 	{
+		// If this is part of the login sequence, then there is no need
+		// to register the request.
+
 		if ( LoginRequest.isInstanceRunning() )
 			return;
 
 		String urlString = getURLString();
-		isEquipResult = urlString.indexOf( "which=2" ) != -1 && urlString.indexOf( "action=message" ) != -1;
 
-		if ( urlString.indexOf( "send" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.indexOf( "search" ) != -1 || urlString.indexOf( "account" ) != -1 )
+		// Certain kinds of requests do not get processed.  These include
+		// pages without form data and player-interaction requests along
+		// with the side pane.  The sewer is an example of a page that should
+		// get logged without form data, though.
+
+		if ( urlString.indexOf( "send" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.indexOf( "search" ) != -1 )
 			return;
 
 		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php" ) == -1 )
 			return;
 
+		// In the event that this is an adventure, assume "snarfblat"
+		// instead of "adv" in order to determine the location.
+
 		if ( urlString.indexOf( "adv=" ) != -1 )
 			urlString = urlString.replaceFirst( "adv=", "snarfblat=" );
+
+		isEquipResult = urlString.indexOf( "which=2" ) != -1 && urlString.indexOf( "action=message" ) != -1;
 
 		// If you need to run a between battle script before this request,
 		// this is where you would do it.  Note that fights should not have
@@ -764,16 +733,10 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			wasLastRequestSimple = false;
 			KoLmafia.getSessionStream().println();
-			matchingLocation.recordToSession( shouldRunFullCheck );
-
-			if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
-				client.runBetweenBattleChecks( shouldRunFullCheck );
+			matchingLocation.recordToSession();
 		}
 		else if ( KoLAdventure.recordToSession( urlString ) )
 		{
-			if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
-				client.runBetweenBattleChecks( shouldRunFullCheck );
-
 			wasLastRequestSimple = false;
 		}
 		else if ( FightRequest.processRequest( urlString ) )
@@ -784,7 +747,7 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( ConsumeItemRequest.processRequest( urlString ) )
+		else if ( this instanceof ConsumeItemRequest || ConsumeItemRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			isConsumeRequest = true;
@@ -886,10 +849,10 @@ public class KoLRequest implements Runnable, KoLConstants
 			KoLmafia.getDebugStream().println( "Connecting to " + formURLString + "..." );
 
 		// Make sure that all variables are reset before you reopen
-		// the connection.  Invoke the garbage collector to minimize
-		// memory consumption.
+		// the connection.
 
 		formURL = null;
+		responseCode = 0;
 		responseText = null;
 		redirectLocation = null;
 		formConnection = null;
@@ -899,7 +862,7 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		try
 		{
-			this.formURL = formURLString.startsWith( "http:" ) ?
+			formURL = formURLString.startsWith( "http:" ) ?
 				new URL( formURLString ) : new URL( KOL_ROOT + formURLString );
 		}
 		catch ( MalformedURLException e )
@@ -915,9 +878,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			// For now, because there isn't HTTPS support, just open the
 			// connection and directly cast it into an HttpURLConnection
-
-			if ( !isChatRequest )
-				KoLmafia.getDebugStream().println( "Attempting to establish connection..." );
 
 			formConnection = (HttpURLConnection) formURL.openConnection();
 		}
@@ -938,9 +898,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 			return false;
 		}
-
-		if ( !isChatRequest )
-			KoLmafia.getDebugStream().println( "Connection established." );
 
 		formConnection.setDoInput( true );
 		formConnection.setDoOutput( !data.isEmpty() );
@@ -974,9 +931,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( data.isEmpty() )
 			return true;
 
-		if ( !isChatRequest )
-			KoLmafia.getDebugStream().println( "Posting form data..." );
-
 		try
 		{
 			String dataString = getDataString( true );
@@ -991,9 +945,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			ostream.flush();
 			ostream.close();
 			ostream = null;
-
-			if ( !isChatRequest )
-				KoLmafia.getDebugStream().println( "Posting data posted." );
 
 			return true;
 		}
@@ -1100,9 +1051,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		boolean shouldStop = true;
 
-		if ( !isChatRequest )
-			KoLmafia.getDebugStream().println( "Server response code: " + responseCode );
-
 		if ( responseCode >= 300 && responseCode <= 399 )
 		{
 			// Redirect codes are all the ones that occur between
@@ -1137,7 +1085,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			else if ( redirectLocation.indexOf( "choice.php" ) != -1 )
 			{
 				processChoiceAdventure();
-				processedResults = true;
 				shouldStop = true;
 			}
 			else if ( followRedirects )
@@ -1188,13 +1135,6 @@ public class KoLRequest implements Runnable, KoLConstants
 					responseText = null;
 					return true;
 				}
-
-				// The remaining lines form the rest of the content.  In order
-				// to make it easier for string parsing, the line breaks will
-				// ultimately be preserved.
-
-				if ( !isChatRequest )
-					KoLmafia.getDebugStream().println( "Reading page content..." );
 
 				// Line breaks bloat the log, but they are important
 				// inside <textarea> input fields.
@@ -1394,7 +1334,7 @@ public class KoLRequest implements Runnable, KoLConstants
 	{	return 0;
 	}
 
-	protected void processResults()
+	protected void parseResults()
 	{
 		// If this is a lucky adventure, then remove a clover
 		// from the player's inventory -- this will occur when
@@ -1437,18 +1377,12 @@ public class KoLRequest implements Runnable, KoLConstants
 			KoLCharacter.recalculateAdjustments( false );
 		}
 
-		if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
-		{
-			// If you need to run a between battle script after this request,
-			// this is where you would do it.  Note that fights should not have
-			// scripts invoked after them unless the fight is concluded.
-
-			if ( formURLString.indexOf( "fight.php" ) == -1 || responseText.indexOf( "fight.php" ) == -1 )
-				client.runBetweenBattleChecks( shouldRunFullCheck );
-		}
-
 		client.applyEffects();
-		KoLCharacter.updateStatus();
+		KoLCharacter.refreshCalculatedLists();
+	}
+
+	protected void processResults()
+	{
 	}
 
 	/**
@@ -1468,11 +1402,9 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( getClass() != KoLRequest.class || StaticEntity.getBooleanProperty( "makeBrowserDecisions" ) )
 			handleChoiceResponse( request );
 
-		this.responseCode = request.responseCode;
 		this.responseText = request.responseText;
 		this.fullResponse = request.fullResponse;
 		this.formConnection = request.formConnection;
-		this.processedResults = true;
 	}
 
 	/**
@@ -1814,15 +1746,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		{
 			Map.Entry entry = (Map.Entry)iterator.next();
 			KoLmafia.getDebugStream().println( "Field: " + entry.getKey() + " = " + entry.getValue() );
-		}
-	}
-
-	private class GarbageCollector extends Thread
-	{
-		public void run()
-		{
-			System.gc();
-			collector = null;
 		}
 	}
 }

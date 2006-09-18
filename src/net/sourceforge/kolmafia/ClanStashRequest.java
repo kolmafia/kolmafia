@@ -161,8 +161,6 @@ public class ClanStashRequest extends SendMessageRequest
 				parseStash();
 				break;
 		}
-
-		super.processResults();
 	}
 
 	private void parseStash()

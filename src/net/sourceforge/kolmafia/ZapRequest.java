@@ -91,6 +91,5 @@ public class ZapRequest extends KoLRequest
 		// Remove old item and notify the user of success.
 		client.processResult( item.getInstance( -1 ) );
 		KoLmafia.updateDisplay( item.getName() + " has been transformed." );
-		super.processResults();
 	}
 }

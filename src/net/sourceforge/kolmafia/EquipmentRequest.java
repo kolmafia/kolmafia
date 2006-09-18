@@ -487,19 +487,18 @@ public class EquipmentRequest extends PasswordHashRequest
 
 	protected void processResults()
 	{
+		super.processResults();
+
 		// Fetch updated equipment
 		if ( requestType == CLOSET )
 		{
 			parseCloset();
-			super.processResults();
 
 			// If the person has meat paste, or is able to create
 			// meat paste, then do so and then parse the combines
 			// page.  Otherwise, go to the equipment pages.
 
-			KoLCharacter.refreshCalculatedLists();
 			(new EquipmentRequest( client, EquipmentRequest.EQUIPMENT )).run();
-
 			boolean hasMeatPaste = KoLCharacter.inMuscleSign() || KoLCharacter.hasItem( PASTE, false );
 			if ( !hasMeatPaste )
 			{
@@ -526,7 +525,6 @@ public class EquipmentRequest extends PasswordHashRequest
 				(new EquipmentRequest( client, EquipmentRequest.CONSUMABLES )).run();
 			}
 
-			KoLCharacter.refreshCalculatedLists();
 			KoLCharacter.setAvailableSkills( availableSkills );
 			return;
 		}
@@ -534,7 +532,6 @@ public class EquipmentRequest extends PasswordHashRequest
 		if ( requestType == MISCELLANEOUS || requestType == CONSUMABLES )
 		{
 			parseQuestItems( responseText );
-			super.processResults();
 			return;
 		}
 
@@ -805,7 +802,6 @@ public class EquipmentRequest extends PasswordHashRequest
 			if ( oldFakeHands > newFakeHands )
 				AdventureResult.addResultToList( inventory, new AdventureResult( FAKE_HAND, newFakeHands - oldFakeHands ) );
 
-			KoLCharacter.refreshCalculatedLists();
 			CharpaneRequest.getInstance().run();
 		}
 
@@ -816,10 +812,7 @@ public class EquipmentRequest extends PasswordHashRequest
 		// Refresh all the calculated lists based on what you
 		// now know about your equipment.
 
-		KoLCharacter.refreshCalculatedLists();
 		KoLCharacter.setAvailableSkills( availableSkills );
-		KoLCharacter.recalculateAdjustments( false );
-		KoLCharacter.updateStatus();
 	}
 
 	public static int slotNumber( String name )

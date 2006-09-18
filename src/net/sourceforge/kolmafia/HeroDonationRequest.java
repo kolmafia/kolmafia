@@ -107,8 +107,6 @@ public class HeroDonationRequest extends KoLRequest
 		}
 
 		client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - amount ) );
-		super.processResults();
-
 		KoLmafia.updateDisplay( "Donation complete." );
 	}
 

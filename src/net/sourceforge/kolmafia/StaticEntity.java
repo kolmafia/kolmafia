@@ -248,6 +248,11 @@ public abstract class StaticEntity implements KoLConstants
 				client.processResult( new AdventureResult( AdventureResult.MEAT, StaticEntity.parseInt( matcher.group(1) ) ) );
 		}
 
+		// See if the request would have used up an item.
+
+		if ( location.indexOf( "inventory.php" ) != -1 && location.indexOf( "action=message" ) != -1 )
+			ConsumeItemRequest.parseConsumption( responseText );
+
 		// See if the person learned a new skill from using a
 		// mini-browser frame.
 

@@ -195,10 +195,6 @@ public class ItemStorageRequest extends SendMessageRequest
 				break;
 
 		}
-
-		super.processResults();
-		KoLCharacter.refreshCalculatedLists();
-		KoLCharacter.updateStatus();
 	}
 
 	private void handleMeat()
