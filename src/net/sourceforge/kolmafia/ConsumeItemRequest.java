@@ -286,7 +286,6 @@ public class ConsumeItemRequest extends KoLRequest
 					" (" + currentIteration + " of " + totalIterations + ")..." );
 		}
 
-		System.out.println( getURLString() );
 		super.run();
 
 		// Follow the redirection and get the message;
