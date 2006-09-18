@@ -474,10 +474,7 @@ public abstract class KoLmafia implements KoLConstants
 		// then that means you might be mid-transition.
 
 		if ( KoLRequest.passwordHash != null && KoLRequest.passwordHash.equals( "" ) )
-		{
-			ConcoctionsDatabase.getConcoctions().clear();
 			return;
-		}
 
 		// Retrieve the list of familiars which are available to
 		// the player, if they haven't opted to skip them.
