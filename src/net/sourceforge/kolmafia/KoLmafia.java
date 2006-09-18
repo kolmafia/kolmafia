@@ -1372,6 +1372,9 @@ public abstract class KoLmafia implements KoLConstants
 			}
 		}
 
+		if ( request instanceof KoLAdventure )
+			currentIterationString = "";
+
 		if ( shouldEnableRefreshStatus )
 		{
 			RequestFrame.setRefreshStatusEnabled( true );

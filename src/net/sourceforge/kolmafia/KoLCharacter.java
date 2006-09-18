@@ -1971,51 +1971,43 @@ public abstract class KoLCharacter extends StaticEntity
 		switch ( dictionary.getItemID() )
 		{
 			case 536:
-
+			{
 				// We have the first dictionary.
 
-				if ( dictionary.getCount() > 0 )
+				int index = battleSkillIDs.indexOf( "item dictionary" );
+
+				if ( dictionary.getCount() > 0 && index == -1 )
 				{
 					battleSkillIDs.add( 1, "item dictionary" );
 					battleSkillNames.add( 1, "Item: Use a Dictionary" );
-					return;
 				}
-				else if ( dictionary.getCount() == -1 )
+				else if ( dictionary.getCount() == -1 && index != -1 )
 				{
-					int index = battleSkillIDs.indexOf( "item dictionary" );
-					if ( index != -1 )
-					{
-						battleSkillIDs.remove( index );
-						battleSkillNames.remove( index );
-					}
+					battleSkillIDs.remove( index );
+					battleSkillNames.remove( index );
 				}
 
 				break;
-
+			}
 			case 1316:
-
+			{
 				// We have the second dictionary.
 
-				if ( dictionary.getCount() > 0 )
+				int index = battleSkillIDs.indexOf( "item facsimile dictionary" );
+
+				if ( dictionary.getCount() > 0 && index == -1 )
 				{
 					battleSkillIDs.add( 1, "item facsimile dictionary" );
 					battleSkillNames.add( 1, "Item: Use a Facsimile Dictionary" );
-					return;
 				}
-				else if ( dictionary.getCount() == -1 )
+				else if ( dictionary.getCount() == -1 && index != -1 )
 				{
-					int index = battleSkillIDs.indexOf( "item facsimile dictionary" );
-					if ( index != -1 )
-					{
-						battleSkillIDs.remove( index );
-						battleSkillNames.remove( index );
-					}
+					battleSkillIDs.remove( index );
+					battleSkillNames.remove( index );
 				}
 
 				break;
-
-			default:
-				return;
+			}
 		}
 	}
 

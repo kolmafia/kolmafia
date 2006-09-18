@@ -685,9 +685,25 @@ public class KoLRequest implements Runnable, KoLConstants
 			if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
 			{
 				DEFAULT_SHELL.executeLine( "use 1 ten-leaf clover" );
-				if ( isDelayExempt() )
+				if ( isDelayExempt() && !isChatRequest )
 					KoLmafia.enableDisplay();
 			}
+
+			needsRefresh &= !(this instanceof LocalRelayRequest);
+
+			if ( statusChanged && RequestFrame.willRefreshStatus() )
+			{
+				RequestFrame.refreshStatus();
+				KoLCharacter.recalculateAdjustments( false );
+			}
+			else if ( needsRefresh )
+			{
+				CharpaneRequest.getInstance().run();
+				KoLCharacter.recalculateAdjustments( false );
+			}
+
+			client.applyEffects();
+			KoLCharacter.refreshCalculatedLists();
 		}
 
 		client.setCurrentRequest( null );
@@ -1362,22 +1378,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			else if ( KoLCharacter.getFamiliar().getID() != 50 )
 				needsRefresh |= client.processResult( KoLAdventure.BEATEN_UP.getInstance( 3 - KoLAdventure.BEATEN_UP.getCount( activeEffects ) ) );
 		}
-
-		needsRefresh &= !(this instanceof LocalRelayRequest);
-
-		if ( statusChanged && RequestFrame.willRefreshStatus() )
-		{
-			RequestFrame.refreshStatus();
-			KoLCharacter.recalculateAdjustments( false );
-		}
-		else if ( needsRefresh )
-		{
-			CharpaneRequest.getInstance().run();
-			KoLCharacter.recalculateAdjustments( false );
-		}
-
-		client.applyEffects();
-		KoLCharacter.refreshCalculatedLists();
 	}
 
 	protected void processResults()
