@@ -82,11 +82,11 @@ public abstract class MoodSettings implements KoLConstants
 
 	static { MoodSettings.reset(); }
 
-	public synchronized static final String settingsFileName()
+	public static final String settingsFileName()
 	{	return DATA_DIRECTORY + "settings/moods_" + KoLCharacter.baseUserName() + ".txt";
 	}
 
-	public synchronized static final void reset()
+	public static final void reset()
 	{
 		reference.clear();
 		triggers.clear();
@@ -444,7 +444,7 @@ public abstract class MoodSettings implements KoLConstants
 	 * object to disk for later retrieval.
 	 */
 
-	public synchronized static void saveSettings()
+	public static void saveSettings()
 	{
 		try
 		{
@@ -482,7 +482,7 @@ public abstract class MoodSettings implements KoLConstants
 	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
-	public synchronized static void loadSettings()
+	public static void loadSettings()
 	{
 		try
 		{

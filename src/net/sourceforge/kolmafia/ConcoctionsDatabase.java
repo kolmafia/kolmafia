@@ -269,7 +269,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 		return AdventureResult.parseResult( data );
 	}
 
-	public static synchronized SortedListModel getConcoctions()
+	public static SortedListModel getConcoctions()
 	{	return concoctionsList;
 	}
 
@@ -279,7 +279,7 @@ public class ConcoctionsDatabase extends KoLDatabase
 	 * item creation.
 	 */
 
-	public static synchronized void refreshConcoctions()
+	public static void refreshConcoctions()
 	{
 		List availableIngredients = new ArrayList();
 		availableIngredients.addAll( inventory );

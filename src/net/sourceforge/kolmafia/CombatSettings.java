@@ -67,7 +67,7 @@ public abstract class CombatSettings implements UtilityConstants
 
 	static { CombatSettings.reset(); }
 
-	public synchronized static final void reset()
+	public static final void reset()
 	{
 		settingsFile = new File( settingsFileName() );
 		root.removeAllChildren();
@@ -77,15 +77,15 @@ public abstract class CombatSettings implements UtilityConstants
 		saveSettings();
 	}
 
-	public synchronized static final String settingsFileName()
+	public static final String settingsFileName()
 	{	return DATA_DIRECTORY + "settings/combat_" + KoLCharacter.baseUserName() + ".txt";
 	}
 
-	public synchronized static final TreeNode getRoot()
+	public static final TreeNode getRoot()
 	{	return root;
 	}
 
-	public synchronized static void loadSettings( File source )
+	public static void loadSettings( File source )
 	{
 		if ( source == null )
 			return;
@@ -108,7 +108,7 @@ public abstract class CombatSettings implements UtilityConstants
 	 * object to disk for later retrieval.
 	 */
 
-	public synchronized static void saveSettings()
+	public static void saveSettings()
 	{	storeSettings( settingsFile );
 	}
 
@@ -121,7 +121,7 @@ public abstract class CombatSettings implements UtilityConstants
 	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
-	private synchronized static void loadSettings()
+	private static void loadSettings()
 	{
 		try
 		{
@@ -248,7 +248,7 @@ public abstract class CombatSettings implements UtilityConstants
 		return changeCase ? key : line;
     }
 
-	public synchronized static void setDefaultAction( String actionList )
+	public static void setDefaultAction( String actionList )
 	{
 		CombatSettingNode currentList = (CombatSettingNode) reference.get( "default" );
 		currentList.removeAllChildren();
@@ -258,7 +258,7 @@ public abstract class CombatSettings implements UtilityConstants
 			currentList.add( new CombatActionNode( i + 1, rounds[i] ) );
 	}
 
-	public synchronized static List getDefaultAction()
+	public static List getDefaultAction()
 	{
 		ArrayList nodeList = new ArrayList();
 		CombatSettingNode currentList = (CombatSettingNode) reference.get( "default" );
@@ -273,7 +273,7 @@ public abstract class CombatSettings implements UtilityConstants
 	 * initializes it to the given value.
 	 */
 
-	private synchronized static void ensureProperty( String key, String defaultValue )
+	private static void ensureProperty( String key, String defaultValue )
 	{
 		if ( !reference.containsKey( key ) )
 		{
@@ -295,7 +295,7 @@ public abstract class CombatSettings implements UtilityConstants
 	 * @param	destination	The file to which the settings will be stored.
 	 */
 
-	private synchronized static void storeSettings( File destination )
+	private static void storeSettings( File destination )
 	{
 		try
 		{
@@ -344,7 +344,7 @@ public abstract class CombatSettings implements UtilityConstants
 		}
 	}
 
-	public synchronized static String getSetting( String encounter, int roundCount )
+	public static String getSetting( String encounter, int roundCount )
 	{
 		String location = StaticEntity.getProperty( "lastAdventure" ).toLowerCase();
 

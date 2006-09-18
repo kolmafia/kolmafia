@@ -122,7 +122,7 @@ public class CakeArenaManager extends StaticEntity
 	 * the cake-shaped arena.
 	 */
 
-	public synchronized static LockableListModel getOpponentList()
+	public static LockableListModel getOpponentList()
 	{
 		if ( opponentList.isEmpty() )
 			(new CakeArenaRequest( getClient() )).run();
