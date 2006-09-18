@@ -141,8 +141,6 @@ public class LoginRequest extends KoLRequest
 		{
 			return;
 		}
-
-		System.out.println( KOL_ROOT + getURLString() );
 	}
 
 	private static String digestPassword( String password, String challenge ) throws Exception
