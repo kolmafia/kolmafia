@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Date;
 import java.util.ArrayList;
 
+import java.net.URLEncoder;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 import net.java.dev.spellcast.utilities.DataUtilities;
@@ -174,15 +175,50 @@ public class LocalRelayRequest extends KoLRequest
 
 		if ( formURLString.indexOf( "chatlaunch" ) != -1 )
 		{
-			if ( StaticEntity.getBooleanProperty( "relayAddsCommandLineLinks" ) )
+			int linkTagIndex = fullResponse.indexOf( "<a href" );
+			if ( linkTagIndex != -1 )
 			{
-				int linkTagIndex = fullResponse.indexOf( "<a href" );
-				if ( linkTagIndex != -1 )
+				fullResponse = fullResponse.substring( 0, linkTagIndex ) +
+					"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Type KoLmafia scripting commands in your browser!</p><center>" +
+					fullResponse.substring( linkTagIndex );
+			}
+		}
+
+		if ( StaticEntity.getBooleanProperty( "relayAddsQuickScripts" ) && formURLString.indexOf( "menu" ) != -1 )
+		{
+			try
+			{
+				StringBuffer selectBuffer = new StringBuffer();
+
+				String [] scriptList = StaticEntity.getProperty( "scriptList" ).split( " \\| " );
+				for ( int i = 0; i < scriptList.length; ++i )
 				{
-					fullResponse = fullResponse.substring( 0, linkTagIndex ) +
-						"<a href=\"KoLmafia/cli.html\"><b>KoLmafia gCLI</b></a></center><p>Execute scripting commands in your browser!</p><center>" +
-						fullResponse.substring( linkTagIndex );
+					if ( scriptList[i].startsWith( "restore" ) || scriptList[i].equals( "mood execute" ) )
+						continue;
+
+					if ( selectBuffer.length() > 0 )
+						selectBuffer.append( "&nbsp;|&nbsp;" );
+
+					selectBuffer.append( "<a style=\"text-decoration:none\" target=\"charpane\" href=\"/KoLmafia/sideCommand?cmd=" );
+					selectBuffer.append( URLEncoder.encode( scriptList[i], "UTF-8" ) );
+					selectBuffer.append( "\" title=\"" );
+					selectBuffer.append( scriptList[i] );
+					selectBuffer.append( "\">" );
+					selectBuffer.append( i + 1 );
+					selectBuffer.append( "</a>" );
 				}
+
+				int lastRowIndex = fullResponse.lastIndexOf( "</tr>" );
+				if ( lastRowIndex != -1 )
+				{
+					fullResponse = fullResponse.substring( 0, lastRowIndex ) + "<td>&nbsp;&nbsp;</td><td align=right><font size=2>" +
+						selectBuffer.toString() + "</font></td>";
+				}
+			}
+			catch ( Exception e )
+			{
+				// Well, this is an odd error.  For now, ignore it
+				// since it means the system can't handle UTF-8.
 			}
 		}
 
@@ -195,7 +231,7 @@ public class LocalRelayRequest extends KoLRequest
 		if ( playerPicsIndex != -1 )
 		{
 			int albumIndex = fullResponse.indexOf( "albums", playerPicsIndex ) + 6;
-			fullResponse = fullResponse.substring( 0, playerPicsIndex ) + "images" + fullResponse.substring( albumIndex );
+			fullResponse = fullResponse.substring( 0, playerPicsIndex ) + "/images" + fullResponse.substring( albumIndex );
 		}
 
 		// Remove the default frame busting script so that
@@ -208,7 +244,7 @@ public class LocalRelayRequest extends KoLRequest
 		// file access.
 
 		if ( StaticEntity.getBooleanProperty( "cacheRelayImages" ) )
-			fullResponse = StaticEntity.simpleStringReplace( fullResponse, "http://images.kingdomofloathing.com", "images" );
+			fullResponse = StaticEntity.simpleStringReplace( fullResponse, "http://images.kingdomofloathing.com", "/images" );
 
 		// Otherwise, use the standard image server address
 		// just in case there is a DNS problem.
