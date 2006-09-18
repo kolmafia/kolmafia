@@ -664,8 +664,6 @@ public class AdventureDatabase extends KoLDatabase
 			// First, attempt to pull the item from the closet.
 			// If this is successful, return from the method.
 
-System.out.println( item + " vs. " + missingCount );
-
 			missingCount = retrieveItem( "closet take", closet, item, missingCount );
 
 			if ( missingCount <= 0 )
