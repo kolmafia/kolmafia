@@ -136,7 +136,6 @@ public class ChatRequest extends KoLRequest
 		}
 
 		responseText = null;
-		processedResults = false;
 
 		super.run();
 	}
