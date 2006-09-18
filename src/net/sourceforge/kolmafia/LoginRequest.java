@@ -118,14 +118,16 @@ public class LoginRequest extends KoLRequest
 
 		addFormField( "loggingin", "Yup." );
 		addFormField( "loginname", this.username + "/q" );
-		addFormField( "password", password );
 
 		// If the pattern is not found, then do not submit
 		// the challenge version.
 
 		Matcher challengeMatcher = CHALLENGE_PATTERN.matcher( responseText );
 		if ( !challengeMatcher.find() )
+		{
+			addFormField( "password", password );
 			return;
+		}
 
 		// We got this far, so that means we now have a
 		// challenge pattern.
@@ -139,6 +141,7 @@ public class LoginRequest extends KoLRequest
 		}
 		catch ( Exception e )
 		{
+			addFormField( "password", password );
 			return;
 		}
 	}
