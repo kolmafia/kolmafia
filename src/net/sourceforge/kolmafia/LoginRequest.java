@@ -267,7 +267,6 @@ public class LoginRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Sending login request..." );
 
 		super.run();
-System.out.println( ":" + responseText );
 
 		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
 		{
