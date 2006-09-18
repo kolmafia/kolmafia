@@ -313,6 +313,10 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void constructURLString( String newURLString )
 	{
+		this.data.clear();
+		if ( newURLString.startsWith( "/" ) )
+			newURLString = newURLString.substring(1);
+
 		// In general, any adventuring request which is submitted by the
 		// player should be considered.  So, we include the sewer request
 		// and the various parts of the sorceress lair.  Fight requests,
@@ -327,10 +331,6 @@ public class KoLRequest implements Runnable, KoLConstants
 
 		shouldRunFullCheck = shouldRunCheck;
 		shouldRunFullCheck &= !newURLString.startsWith( "sewer.php" );
-
-		this.data.clear();
-		if ( newURLString.startsWith( "/" ) )
-			newURLString = newURLString.substring(1);
 
 		int formSplitIndex = newURLString.indexOf( "?" );
 
@@ -765,8 +765,6 @@ public class KoLRequest implements Runnable, KoLConstants
 			wasLastRequestSimple = false;
 			KoLmafia.getSessionStream().println();
 			matchingLocation.recordToSession( shouldRunFullCheck );
-
-System.out.println( urlString + ": " + shouldRunCheck + ", " + shouldRunFullCheck + ", " + KoLmafia.isRunningBetweenBattleChecks() );
 
 			if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
 				client.runBetweenBattleChecks( shouldRunFullCheck );

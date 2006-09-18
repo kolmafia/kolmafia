@@ -363,9 +363,6 @@ public abstract class KoLmafia implements KoLConstants
 		KoLCharacter.reset( username );
 		KoLmafia.openSessionStream();
 
-		KoLmafia.updateDisplay( "Loading internal adventure table..." );
-		AdventureDatabase.refreshAdventureTable();
-
 		refreshSession();
 		resetSession();
 
@@ -386,6 +383,9 @@ public abstract class KoLmafia implements KoLConstants
 			if ( lastBreakfast == null || !lastBreakfast.equals( today ) )
 				getBreakfast( true );
 		}
+
+		// A breakfast script might include loading an adventure
+		// area, so now go ahead and load the adventure table.
 
 		String scriptSetting = StaticEntity.getProperty( "loginScript." + username.toLowerCase() );
 		if ( !scriptSetting.equals( "" ) )
@@ -2173,10 +2173,7 @@ public abstract class KoLmafia implements KoLConstants
 	{
 		String adventureName = adventureLocation.getAdventureName();
 		if ( adventureName == null )
-		{
-			System.out.println( "Null adventure name." );
 			return;
-		}
 
 		RegisteredEncounter previousAdventure = (RegisteredEncounter) adventureList.lastElement();
 
