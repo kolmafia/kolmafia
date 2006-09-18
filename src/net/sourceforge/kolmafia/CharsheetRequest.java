@@ -52,7 +52,7 @@ import java.util.StringTokenizer;
 public class CharsheetRequest extends KoLRequest
 {
 	private static final Pattern BASE_PATTERN = Pattern.compile( " \\(base: ([\\d,]+)\\)" );
-	private static final Pattern AVATAR_PATTERN = Pattern.compile( "http://images.kingdomofloathing.com/([^>]*?)\\.gif" );
+	private static final Pattern AVATAR_PATTERN = Pattern.compile( "http://(images.kingdomofloathing.com|" + IMAGE_SERVER + ")/([^>\'\"]+)", Pattern.DOTALL );
 
 	/**
 	 * Constructs a new <code>CharsheetRequest</code>.  The data
@@ -90,10 +90,12 @@ public class CharsheetRequest extends KoLRequest
 	{
 		// Set the character's avatar.
 		Matcher avatarMatcher = AVATAR_PATTERN.matcher( responseText );
-		avatarMatcher.find();
 
-		RequestEditorKit.downloadImage( avatarMatcher.group() );
-		KoLCharacter.setAvatar( avatarMatcher.group(1) + ".gif" );
+		if ( avatarMatcher.find() )
+		{
+			RequestEditorKit.downloadImage( avatarMatcher.group() );
+			KoLCharacter.setAvatar( avatarMatcher.group(2) );
+		}
 
 		// Strip all of the HTML from the server reply
 		// and then figure out what to do from there.

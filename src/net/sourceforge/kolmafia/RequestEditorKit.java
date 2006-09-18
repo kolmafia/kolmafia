@@ -533,6 +533,9 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 
 	public static URL downloadImage( String filename )
 	{
+		if ( filename == null || filename.equals( "" ) )
+			return null;
+
 		String localname = filename.substring( filename.indexOf( "/", "http://".length() ) + 1 );
 		if ( localname.startsWith( "albums/" ) )
 			localname = localname.substring( "albums/".length() );
@@ -541,7 +544,10 @@ public class RequestEditorKit extends HTMLEditorKit implements KoLConstants
 			filename = filename.replaceAll( "images\\.kingdomofloathing\\.com", IMAGE_SERVER );
 
 		File localfile = new File( "images/" + localname );
-		localfile.getParentFile().mkdirs();
+		File parentfile = new File( "images" + localname.substring( 0, localname.lastIndexOf( "/" ) + 1 ) );
+
+		if ( !parentfile.exists() )
+			parentfile.mkdirs();
 
 		if ( !localfile.exists() || localfile.length() == 0 )
 		{
