@@ -1359,15 +1359,11 @@ public abstract class KoLmafia implements KoLConstants
 				currentIterationString = "Request " + currentIteration + " of " + iterations + " (" + request.toString() + ") in progress...";
 			else if ( request instanceof KoLAdventure )
 				currentIterationString = "Visit to " + request.toString() + " in progress...";
-			else
-				currentIterationString = "";
 
 			if ( refusesContinue() )
 				return;
 
-			if ( !(request instanceof KoLAdventure) )
-				updateDisplay( currentIterationString );
-
+			updateDisplay( currentIterationString );
 			request.run();
 
 			// Decrement the counter to null out the increment
@@ -2362,7 +2358,7 @@ public abstract class KoLmafia implements KoLConstants
 	{	return recoveryActive;
 	}
 
-	public void runBetweenBattleChecks( boolean avoidBuffs )
+	public void runBetweenBattleChecks( boolean isFullCheck )
 	{
 		// Do not run between battle checks if you are in the middle
 		// of your checks or if you have aborted.
@@ -2381,26 +2377,24 @@ public abstract class KoLmafia implements KoLConstants
 		if ( !scriptPath.equals( "" ) )
 			DEFAULT_SHELL.executeLine( scriptPath );
 
-		if ( !avoidBuffs )
-		{
-			// Now, run the built-in behavior to take care of
-			// any loose ends.
+		// Now, run the built-in behavior to take care of
+		// any loose ends.
 
+		if ( isFullCheck )
 			MoodSettings.execute();
 
-			recoverHP();
-			recoverMP();
+		recoverHP();
+		recoverMP();
 
-			SpecialOutfit.restoreCheckpoint( true );
-		}
-
+		SpecialOutfit.restoreCheckpoint( true );
 		recoveryActive = false;
 
+		int haltTolerance = (int)( StaticEntity.getFloatProperty( "battleStop" ) * (float) KoLCharacter.getMaximumHP() );
+		if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance )
+			KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
+
 		if ( permitsContinue() )
-		{
 			updateDisplay( currentIterationString );
-			currentIterationString = "";
-		}
 	}
 
 	public void startRelayServer()
