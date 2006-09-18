@@ -88,7 +88,6 @@ public class CakeArenaRequest extends KoLRequest
 		if ( isCompetition )
 		{
 			client.processResult( new AdventureResult( AdventureResult.MEAT, -100 ) );
-			super.processResults();
 
 			// If the familiar won, increment win count
 

@@ -2426,6 +2426,7 @@ public abstract class KoLCharacter extends StaticEntity
 
 		KoLCharacter.updateEquipmentLists();
 		ConcoctionsDatabase.refreshConcoctions();
+		KoLCharacter.recalculateAdjustments( false );
 
 		sellables.retainAll( inventory );
 		usables.retainAll( inventory );
@@ -2452,6 +2453,8 @@ public abstract class KoLCharacter extends StaticEntity
 					sellables.set( sellables.indexOf( items[i] ), items[i] );
 			}
 		}
+
+		KoLCharacter.updateStatus();
 	}
 
 	/**
@@ -2473,19 +2476,13 @@ public abstract class KoLCharacter extends StaticEntity
 		String resultName = result.getName();
 
 		if ( result.isItem() )
-		{
 			AdventureResult.addResultToList( inventory, result );
-			refreshCalculatedLists();
-		}
 		else if ( resultName.equals( AdventureResult.HP ) )
 			setHP( getCurrentHP() + result.getCount(), getMaximumHP(), getBaseMaxHP() );
 		else if ( resultName.equals( AdventureResult.MP ) )
 			setMP( getCurrentMP() + result.getCount(), getMaximumMP(), getBaseMaxMP() );
 		else if ( resultName.equals( AdventureResult.MEAT ) )
-		{
 			setAvailableMeat( getAvailableMeat() + result.getCount() );
-			refreshCalculatedLists();
-		}
 		else if ( resultName.equals( AdventureResult.ADV ) )
 		{
 			setAdventuresLeft( getAdventuresLeft() + result.getCount() );

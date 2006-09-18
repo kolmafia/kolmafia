@@ -301,9 +301,6 @@ public abstract class SendMessageRequest extends KoLRequest
 				KoLmafia.updateDisplay( PENDING_STATE, "Transfer failed when attempting to send " + meatAttachment + " meat." );
 			}
 		}
-
-		super.processResults();
-		KoLCharacter.refreshCalculatedLists();
 	}
 
 	protected boolean allowUntradeableTransfer()

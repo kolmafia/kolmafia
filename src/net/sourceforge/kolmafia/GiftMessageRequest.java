@@ -157,9 +157,8 @@ public class GiftMessageRequest extends SendMessageRequest
 
 	protected void processResults()
 	{
+		super.processResults();
 		if ( responseText.indexOf( getSuccessMessage() ) != -1 && materialCost > 0 )
 			client.processResult( new AdventureResult( AdventureResult.MEAT, 0 - materialCost ) );
-
-		super.processResults();
 	}
 }

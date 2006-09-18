@@ -163,8 +163,6 @@ public class SewerRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		super.processResults();
-
 		if ( hasCost )
 		{
 			if ( client.isLuckyCharacter() )

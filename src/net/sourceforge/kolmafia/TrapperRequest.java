@@ -91,8 +91,7 @@ public class TrapperRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		KoLmafia.updateDisplay( "Trapper has been looted." );
 		client.processResult( YETI_FUR.getInstance( 0 - quantity ) );
-		super.processResults();
+		KoLmafia.updateDisplay( "Trapper has been looted." );
 	}
 }

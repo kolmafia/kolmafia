@@ -66,9 +66,7 @@ public class CombineMeatRequest extends ItemCreationRequest
 	}
 
 	protected void processResults()
-	{
-		client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * getQuantityNeeded() ) );
-		super.processResults();
+	{	client.processResult( new AdventureResult( AdventureResult.MEAT, costToMake * getQuantityNeeded() ) );
 	}
 
 	public static boolean processRequest( String urlString )

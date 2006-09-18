@@ -91,8 +91,6 @@ public class CampgroundRequest extends KoLRequest
 
 	protected void processResults()
 	{
-		super.processResults();
-
 		KoLCharacter.setChef( responseText.indexOf( "cook.php" ) != -1 );
 		KoLCharacter.setBartender( responseText.indexOf( "cocktail.php" ) != -1 );
 		KoLCharacter.setToaster( responseText.indexOf( "action=toast" ) != -1 );

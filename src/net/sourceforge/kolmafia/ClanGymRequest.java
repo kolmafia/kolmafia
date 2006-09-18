@@ -141,9 +141,7 @@ public class ClanGymRequest extends KoLRequest
 	}
 
 	protected void processResults()
-	{
-		super.processResults();
-		KoLmafia.updateDisplay( "Workout completed." );
+	{	KoLmafia.updateDisplay( "Workout completed." );
 	}
 
 	/**

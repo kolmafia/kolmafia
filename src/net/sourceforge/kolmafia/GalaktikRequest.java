@@ -104,7 +104,6 @@ public class GalaktikRequest extends KoLRequest
 			return;
 		}
 
-		super.processResults();
 		CharpaneRequest.getInstance().run();
 		KoLmafia.updateDisplay( "Cure purchased." );
 	}

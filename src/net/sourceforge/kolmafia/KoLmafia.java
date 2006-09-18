@@ -476,7 +476,6 @@ public abstract class KoLmafia implements KoLConstants
 		if ( KoLRequest.passwordHash != null && KoLRequest.passwordHash.equals( "" ) )
 		{
 			ConcoctionsDatabase.getConcoctions().clear();
-			KoLCharacter.refreshCalculatedLists();
 			return;
 		}
 
@@ -506,12 +505,7 @@ public abstract class KoLmafia implements KoLConstants
 
 		forceContinue();
 		CharpaneRequest.getInstance().run();
-
 		updateDisplay( "Session data refreshed." );
-
-		ConcoctionsDatabase.getConcoctions().clear();
-		KoLCharacter.recalculateAdjustments( false );
-		KoLCharacter.refreshCalculatedLists();
 	}
 
 	/**

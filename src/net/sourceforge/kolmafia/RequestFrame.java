@@ -313,10 +313,7 @@ public class RequestFrame extends KoLFrame
 				KoLmafia.getMacroStream().println( location );
 
 			DisplayRequestThread thread = new DisplayRequestThread( request );
-			if ( SwingUtilities.isEventDispatchThread() )
-				thread.start();
-			else
-				thread.run();
+			thread.start();
 		}
 		else
 			parent.refresh( request );

@@ -281,7 +281,6 @@ public class AutoSellRequest extends SendMessageRequest
 		// Move out of inventory. Process meat gains, if old autosell
 		// interface.
 
-		super.processResults();
 		KoLmafia.updateDisplay( "Items sold." );
 	}
 

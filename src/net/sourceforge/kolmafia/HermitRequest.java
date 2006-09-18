@@ -204,9 +204,6 @@ public class HermitRequest extends KoLRequest
 			return;
 		}
 
-		// Tally up the trade
-		super.processResults();
-
 		// "He looks confused for a moment.  &quot;I already took your
 		// Hermit Permit, right?&quot;" or "your Hermit Permits"
 
