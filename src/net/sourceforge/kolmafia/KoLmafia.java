@@ -356,7 +356,6 @@ public abstract class KoLmafia implements KoLConstants
 			return;
 		}
 
-		KoLmafia.updateDisplay( "Refreshing player-specific settings..." );
 		StaticEntity.setProperty( "lastUsername", username );
 		StaticEntity.reloadSettings( username );
 
