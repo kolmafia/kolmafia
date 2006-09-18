@@ -262,18 +262,6 @@ public class AutoSellRequest extends SendMessageRequest
 		return new AutoSellRequest( client, attachments, limits, prices, sellType );
 	}
 
-	/**
-	 * Executes the <code>AutoSellRequest</code>.  This will automatically
-	 * sell the item for its autosell value and update the client with
-	 * the needed information.
-	 */
-
-	public void run()
-	{
-		KoLmafia.updateDisplay( ( sellType == AUTOSELL ) ? "Autoselling items..." : "Placing items in the mall..." );
-		super.run();
-	}
-
 	protected void processResults()
 	{
 		if ( sellType == AUTOMALL )

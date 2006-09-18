@@ -138,44 +138,6 @@ public class ClanStashRequest extends SendMessageRequest
 	{	return moveType == STASH_TO_ITEMS ? "You acquire" : "to the Goodies Hoard";
 	}
 
-	/**
-	 * Executes the <code>ClanStashRequest</code>.
-	 */
-
-	public void run()
-	{
-		ClanManager.setStashRetrieved();
-
-		if ( !KoLCharacter.hasClan() )
-			return;
-
-		switch ( moveType )
-		{
-			case REFRESH_ONLY:
-				KoLmafia.updateDisplay( "Retrieving stash list..." );
-				break;
-
-			case MEAT_TO_STASH:
-				KoLmafia.updateDisplay( "Attempting clan donation..." );
-				break;
-
-			case STASH_TO_ITEMS:
-
-				if ( !KoLCharacter.canInteract() )
-				{
-					KoLmafia.updateDisplay( ERROR_STATE, "KoLmafia cannot access your clan stash at this time." );
-					return;
-				}
-
-			case ITEMS_TO_STASH:
-
-				KoLmafia.updateDisplay( "Moving items..." );
-				break;
-		}
-
-		super.run();
-	}
-
 	protected void processResults()
 	{
 		switch ( moveType )

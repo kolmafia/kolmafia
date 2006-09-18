@@ -47,7 +47,8 @@ public abstract class SendMessageRequest extends KoLRequest
 	private boolean isSubInstance = false;
 	protected int meatAttachment;
 	protected Object [] attachments;
-	protected List source, destination;
+	protected List source = inventory;
+	protected List destination = new ArrayList();
 	protected String whichField, quantityField;
 
 	protected SendMessageRequest( KoLmafia client, String formSource )
@@ -56,9 +57,6 @@ public abstract class SendMessageRequest extends KoLRequest
 
 		this.meatAttachment = 0;
 		this.attachments = new Object[0];
-
-		this.source = new ArrayList();
-		this.destination = new ArrayList();
 
 		this.whichField = "whichitem";
 		this.quantityField = "howmany";
@@ -79,9 +77,6 @@ public abstract class SendMessageRequest extends KoLRequest
 			this.attachments = new Object[1];
 			this.attachments[0] = attachment;
 		}
-
-		this.source = inventory;
-		this.destination = new ArrayList();
 
 		this.whichField = "whichitem";
 		this.quantityField = "howmany";
@@ -120,9 +115,6 @@ public abstract class SendMessageRequest extends KoLRequest
 			if ( !((AdventureResult)attachments[i]).getName().equals( AdventureResult.MEAT ) )
 				this.attachments[ currentSize++ ] = attachments[i];
 		}
-
-		this.source = inventory;
-		this.destination = new ArrayList();
 
 		this.whichField = "whichitem";
 		this.quantityField = "howmany";
@@ -177,7 +169,7 @@ public abstract class SendMessageRequest extends KoLRequest
 		{
 			nextAttachments.clear();
 
-			while ( index1 < attachments.length && nextAttachments.size() < capacity )
+			do
 			{
 				item = (AdventureResult) attachments[index1++];
 
@@ -194,6 +186,7 @@ public abstract class SendMessageRequest extends KoLRequest
 					nextAttachments.add( item );
 				}
 			}
+			while ( index1 < attachments.length && nextAttachments.size() < capacity );
 
 			// For each broken-up request, you create a new sending request
 			// which will create the appropriate data to post.
@@ -206,9 +199,6 @@ public abstract class SendMessageRequest extends KoLRequest
 			}
 		}
 
-		if ( subinstances.isEmpty() )
-			return;
-
 		// Now that you've determined all the sub instances, run
 		// all of them.
 
@@ -216,7 +206,10 @@ public abstract class SendMessageRequest extends KoLRequest
 		subinstances.toArray( requests );
 
 		for ( int i = 0; i < requests.length; ++i )
+		{
+			KoLmafia.updateDisplay( "Executing sub-request " + (i+1) + " of " + requests.length + "..." );
 			requests[i].run();
+		}
 	}
 
 	/**
@@ -224,16 +217,16 @@ public abstract class SendMessageRequest extends KoLRequest
 	 * it merely parses the results to see if any gains were made.
 	 */
 
-	public void run()
+	public final void run()
 	{
 		// First, check to see how many attachments are to be
 		// placed in the closet - if there's too many,
 		// then you'll need to break up the request
 
-		int capacity = getCapacity();
-
 		if ( attachments != null && attachments.length != 0 )
 		{
+			int capacity = getCapacity();
+
 			if ( !isSubInstance )
 			{
 				runSubInstances();
@@ -248,10 +241,8 @@ public abstract class SendMessageRequest extends KoLRequest
 			}
 			else if ( capacity == 1 )
 			{
-				if ( attachments[0] == null )
-					return;
-
-				attachItem( (AdventureResult) attachments[0], 0 );
+				if ( attachments[0] != null )
+					attachItem( (AdventureResult) attachments[0], 0 );
 			}
 		}
 

@@ -354,13 +354,13 @@ public abstract class SendMessageFrame extends KoLFrame
 	public static class AttachmentFrame extends KoLFrame
 	{
 		private ShowDescriptionList newAttachments;
-		private LockableListModel inventory, storage, attachments;
+		private LockableListModel available, storage, attachments;
 
-		public AttachmentFrame( LockableListModel inventory, LockableListModel storage, LockableListModel attachments )
+		public AttachmentFrame( LockableListModel available, LockableListModel storage, LockableListModel attachments )
 		{
 			super( "Attachments" );
 
-			this.inventory = (LockableListModel) inventory.clone();
+			this.available = (LockableListModel) available.clone();
 			this.storage = storage != null ? (LockableListModel) storage.clone() : null;
 
 			this.attachments = attachments;
@@ -388,7 +388,7 @@ public abstract class SendMessageFrame extends KoLFrame
 
 			private SourcePanel()
 			{
-				super( storage == null ? "Inside Inventory" : "", " > > > ", " < < < ", inventory );
+				super( storage == null ? "Inside Inventory" : "", " > > > ", " < < < ", available );
 
 				if ( storage != null )
 				{
@@ -402,7 +402,7 @@ public abstract class SendMessageFrame extends KoLFrame
 					actualPanel.add( sourceSelect, BorderLayout.NORTH );
 				}
 
-				source = usingStorage ? storage : inventory;
+				source = usingStorage ? storage : available;
 
 				// Remove items from our cloned list that are
 				// already on the attachments list
@@ -416,7 +416,7 @@ public abstract class SendMessageFrame extends KoLFrame
 				{
 					// Put back old attachments
 					LockableListModel oldSource = source;
-					source = sourceSelect.getSelectedIndex() == 1 ? storage : inventory;
+					source = sourceSelect.getSelectedIndex() == 1 ? storage : available;
 					usingStorage = (source == storage );
 					elementList.setModel( source );
 					if ( oldSource != source )
