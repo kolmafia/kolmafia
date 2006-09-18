@@ -116,8 +116,8 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	public static final int SERVER_COUNT = 8;
 
-	private static String KOL_HOST = SERVERS[0][0];
-	private static String KOL_ROOT = "http://" + SERVERS[0][1] + "/";
+	protected static String KOL_HOST = SERVERS[0][0];
+	protected static String KOL_ROOT = "http://" + SERVERS[0][1] + "/";
 
 	protected URL formURL;
 	protected boolean followRedirects;
