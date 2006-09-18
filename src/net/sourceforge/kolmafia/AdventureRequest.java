@@ -165,7 +165,7 @@ public class AdventureRequest extends KoLRequest
 		// Sometimes, there's no response from the server.
 		// In this case, skip and continue onto the next one.
 
-		if ( responseText.trim().length() == 0 )
+		if ( responseText == null || responseText.trim().length() == 0 )
 			return;
 
 		super.processResults();
@@ -389,6 +389,9 @@ public class AdventureRequest extends KoLRequest
 
 	public static String registerEncounter( KoLRequest request )
 	{
+		if ( request.responseText.indexOf( "campground.php" ) != -1 )
+			return "";
+
 		String urlString = request.getURLString();
 		if ( !(request instanceof AdventureRequest) && !containsEncounter( urlString, request.responseText ) )
 			return "";
@@ -439,6 +442,9 @@ public class AdventureRequest extends KoLRequest
 
 	private static boolean containsEncounter( String formSource, String responseText )
 	{
+		if ( responseText.indexOf( "campground.php" ) != -1 )
+			return false;
+
 		// The first round is unique in that there is no
 		// data fields.  Therefore, it will equal fight.php
 		// exactly every single time.

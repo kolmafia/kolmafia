@@ -313,6 +313,21 @@ public class KoLRequest implements Runnable, KoLConstants
 
 	protected void constructURLString( String newURLString )
 	{
+		// In general, any adventuring request which is submitted by the
+		// player should be considered.  So, we include the sewer request
+		// and the various parts of the sorceress lair.  Fight requests,
+		// at the very end, also need a between battle check.
+
+		shouldRunCheck = !(this instanceof LocalRelayRequest) || StaticEntity.getBooleanProperty( "relayAlwaysRunsChecks" );
+		shouldRunCheck &= newURLString.startsWith( "adventure.php" ) || newURLString.startsWith( "lair4.php" ) ||
+			newURLString.startsWith( "lair5.php" ) || newURLString.startsWith( "sewer.php" ) || newURLString.startsWith( "fight.php" );
+
+		// However, the sewer should not run requests.  Therefore, we
+		// exclude it explicitly here.
+
+		shouldRunFullCheck = shouldRunCheck;
+		shouldRunFullCheck &= !newURLString.startsWith( "sewer.php" );
+
 		this.data.clear();
 		if ( newURLString.startsWith( "/" ) )
 			newURLString = newURLString.substring(1);
@@ -328,21 +343,6 @@ public class KoLRequest implements Runnable, KoLConstants
 		this.formURLString = newURLString.substring( 0, formSplitIndex );
 		this.isChatRequest = this instanceof ChatRequest || this.formURLString.indexOf( "chat" ) != -1;
 		addEncodedFormFields( newURLString.substring( formSplitIndex + 1 ) );
-
-		// In general, any adventuring request which is submitted by the
-		// player should be considered.  So, we include the sewer request
-		// and the various parts of the sorceress lair.  Fight requests,
-		// at the very end, also need a between battle check.
-
-		shouldRunCheck = !(this instanceof LocalRelayRequest) || StaticEntity.getBooleanProperty( "relayAlwaysRunsChecks" );
-		shouldRunCheck &= formURLString.startsWith( "adventure.php?" ) || formURLString.startsWith( "lair4.php?" ) ||
-			formURLString.startsWith( "lair5.php?" ) || formURLString.startsWith( "sewer.php?" ) || formURLString.startsWith( "fight.php" );
-
-		// However, the sewer should not run requests.  Therefore, we
-		// exclude it explicitly here.
-
-		shouldRunFullCheck = shouldRunCheck;
-		shouldRunFullCheck &= formURLString.indexOf( "sewer.php" ) == -1;
 	}
 
 	/**
@@ -685,8 +685,8 @@ public class KoLRequest implements Runnable, KoLConstants
 		readInputLength = 0;
 		totalInputLength = 0;
 
-		client.setCurrentRequest( this );
 		registerRequest();
+		client.setCurrentRequest( this );
 
 		// If you're about to fight the Naughty Sorceress,
 		// clear your list of effects.
@@ -742,87 +742,82 @@ public class KoLRequest implements Runnable, KoLConstants
 		if ( LoginRequest.isInstanceRunning() )
 			return;
 
-		isEquipResult = formURLString.indexOf( "which=2" ) != -1 && formURLString.indexOf( "action=message" ) != -1;
+		String urlString = getURLString();
+		isEquipResult = urlString.indexOf( "which=2" ) != -1 && urlString.indexOf( "action=message" ) != -1;
 
-		if ( formURLString.indexOf( "send" ) != -1 || formURLString.indexOf( "chat" ) != -1 || formURLString.indexOf( "search" ) != -1 || formURLString.indexOf( "account" ) != -1 )
+		if ( urlString.indexOf( "send" ) != -1 || urlString.indexOf( "chat" ) != -1 || urlString.indexOf( "search" ) != -1 || urlString.indexOf( "account" ) != -1 )
 			return;
 
-		if ( formURLString.indexOf( "?" ) == -1 && formURLString.indexOf( "sewer.php" ) == -1 )
+		if ( urlString.indexOf( "?" ) == -1 && urlString.indexOf( "sewer.php" ) == -1 )
 			return;
 
-		if ( !(this instanceof SewerRequest || this instanceof AdventureRequest || this instanceof CampgroundRequest) )
-		{
-			String commandForm = getCommandForm( 0 );
-			if ( !commandForm.equals( "" ) )
-			{
-				wasLastRequestSimple = false;
-				KoLmafia.getSessionStream().println();
-				KoLmafia.getSessionStream().println( commandForm );
-				return;
-			}
-		}
-
-		if ( formURLString.indexOf( "adv=" ) != -1 )
-			formURLString = formURLString.replaceFirst( "adv=", "snarfblat=" );
+		if ( urlString.indexOf( "adv=" ) != -1 )
+			urlString = urlString.replaceFirst( "adv=", "snarfblat=" );
 
 		// If you need to run a between battle script before this request,
 		// this is where you would do it.  Note that fights should not have
 		// scripts invoked before them.
 
-		if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() && formURLString.indexOf( "fight.php" ) == -1 )
-			client.runBetweenBattleChecks( shouldRunFullCheck );
+		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( urlString );
 
-		KoLAdventure matchingLocation = AdventureDatabase.getAdventureByURL( formURLString );
 		if ( matchingLocation != null )
 		{
 			wasLastRequestSimple = false;
 			KoLmafia.getSessionStream().println();
 			matchingLocation.recordToSession( shouldRunFullCheck );
+
+System.out.println( urlString + ": " + shouldRunCheck + ", " + shouldRunFullCheck + ", " + KoLmafia.isRunningBetweenBattleChecks() );
+
+			if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
+				client.runBetweenBattleChecks( shouldRunFullCheck );
 		}
-		else if ( KoLAdventure.recordToSession( formURLString ) )
+		else if ( KoLAdventure.recordToSession( urlString ) )
+		{
+			if ( shouldRunCheck && !KoLmafia.isRunningBetweenBattleChecks() )
+				client.runBetweenBattleChecks( shouldRunFullCheck );
+
+			wasLastRequestSimple = false;
+		}
+		else if ( FightRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( FightRequest.processRequest( formURLString ) )
+		else if ( FamiliarRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( FamiliarRequest.processRequest( formURLString ) )
-		{
-			wasLastRequestSimple = false;
-		}
-		else if ( ConsumeItemRequest.processRequest( formURLString ) )
+		else if ( ConsumeItemRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 			isConsumeRequest = true;
 		}
-		else if ( this instanceof EquipmentRequest || EquipmentRequest.processRequest( formURLString ) )
+		else if ( this instanceof EquipmentRequest || EquipmentRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( ItemCreationRequest.processRequest( formURLString ) )
+		else if ( ItemCreationRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( ItemStorageRequest.processRequest( formURLString ) )
+		else if ( ItemStorageRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( AutoSellRequest.processRequest( formURLString ) )
+		else if ( AutoSellRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( UseSkillRequest.processRequest( formURLString ) )
+		else if ( UseSkillRequest.processRequest( urlString ) )
 		{
 			wasLastRequestSimple = false;
 		}
-		else if ( formURLString.indexOf( "inventory" ) == -1 )
+		else if ( urlString.indexOf( "inventory" ) == -1 )
 		{
 			if ( !wasLastRequestSimple )
 				KoLmafia.getSessionStream().println();
 
 			wasLastRequestSimple = true;
-			KoLmafia.getSessionStream().println( formURLString );
+			KoLmafia.getSessionStream().println( urlString );
 		}
 	}
 

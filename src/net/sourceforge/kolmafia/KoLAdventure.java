@@ -582,7 +582,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 		FightRequest.setAutoRecovery( StaticEntity.getProperty( "battleAction" ) );
 
 		String action = CombatSettings.getShortCombatOptionName( StaticEntity.getProperty( "battleAction" ) );
-		int haltTolerance = (int)( StaticEntity.getFloatProperty( "battleStop" ) * (float) KoLCharacter.getMaximumHP() );
 
 		if ( ( action.equals( "item536" ) && FightRequest.DICTIONARY1.getCount( inventory ) < 1 ) ||
 			 ( action.equals( "item1316" ) && FightRequest.DICTIONARY2.getCount( inventory ) < 1 ) )
@@ -593,12 +592,6 @@ public class KoLAdventure implements Runnable, KoLConstants, Comparable
 
 		if ( !KoLmafia.permitsContinue() )
 			return;
-
-		if ( haltTolerance >= 0 && KoLCharacter.getCurrentHP() <= haltTolerance && !(request instanceof CampgroundRequest) )
-		{
-			KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
-			return;
-		}
 
 		// Make sure there are enough adventures to run the request
 		// so that you don't spam the server unnecessarily.
