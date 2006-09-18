@@ -33,8 +33,12 @@
  */
 
 package net.sourceforge.kolmafia;
+
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+
+import java.math.BigInteger;
+import java.security.MessageDigest;
 
 /**
  * An extension of <code>KoLRequest</code> which handles logins.
@@ -46,6 +50,7 @@ import java.util.regex.Matcher;
 public class LoginRequest extends KoLRequest
 {
 	private static final Pattern REDIRECT_PATTERN = Pattern.compile( "http://(.*?)/login\\.php", Pattern.DOTALL );
+	private static final Pattern CHALLENGE_PATTERN = Pattern.compile( "<input type=hidden name=challenge value=\"([^\"]*?)\">" );
 
 	private static String lastUsername;
 	private static String lastPassword;
@@ -87,10 +92,109 @@ public class LoginRequest extends KoLRequest
 		this.savePassword = savePassword;
 		this.getBreakfast = getBreakfast;
 		this.isQuickLogin = isQuickLogin;
+	}
+
+	/**
+	 * Handles the challenge in order to send the password securely
+	 * via KoL.
+	 */
+
+	public void detectChallenge()
+	{
+		KoLmafia.updateDisplay( "Detecting challenge..." );
+
+		// Setup the login server in order to ensure that
+		// the initial try is randomized.  Or, in the case
+		// of a devster, the developer server.
+
+		KoLRequest.applySettings();
+		if ( username.toLowerCase().startsWith( "devster" ) )
+		{
+			this.savePassword = false;
+			setLoginServer( "dev.kingdomofloathing.com" );
+		}
+
+		super.run();
 
 		addFormField( "loggingin", "Yup." );
 		addFormField( "loginname", this.username + "/q" );
 		addFormField( "password", password );
+
+		// If the pattern is not found, then do not submit
+		// the challenge version.
+
+		Matcher challengeMatcher = CHALLENGE_PATTERN.matcher( responseText );
+		if ( !challengeMatcher.find() )
+			return;
+
+		// We got this far, so that means we now have a
+		// challenge pattern.
+
+		try
+		{
+			String challenge = challengeMatcher.group(1);
+			addFormField( "secure", "on" );
+			addFormField( "challenge", challenge );
+			addFormField( "response", digestPassword( this.password, challenge ) );
+		}
+		catch ( Exception e )
+		{
+			return;
+		}
+
+		System.out.println( KOL_ROOT + getURLString() );
+	}
+
+	private static String digestPassword( String password, String challenge ) throws Exception
+	{
+		// KoL now makes use of a HMAC-MD5 in order to preprocess the
+		// password so that we aren't submitting plaintext passwords
+		// all the time.  Here is the implementation.  Note that the
+		// password is processed two times.
+
+		MessageDigest digester = MessageDigest.getInstance( "MD5" );
+		byte [] key = getHexString( digester.digest( password.getBytes() ) ).getBytes();
+		digester.reset();
+
+		byte [] data = challenge.getBytes();
+
+		// Step 1, compute [ K ]
+		byte [] step1 = new byte[64];
+		for ( int i = 0; i < key.length; ++i )
+			step1[i] = key[i];
+
+		// Step 2, compute [ K XOR ipad ]
+		byte [] step2 = new byte[64];
+		for ( int i = 0; i < 64; ++i )
+			step2[i] = (byte) (step1[i] ^ 0x36);
+
+		// Step 3, compute [ H( K XOR ipad, text ) ]
+		digester.update( step2 );
+		digester.update( data );
+		byte [] step3 = digester.digest();
+		digester.reset();
+
+		// Step 4, compute [ K XOR opad ]
+		byte [] step4 = new byte[64];
+		for ( int i = 0; i < 64; ++i )
+			step4[i] = (byte) (step1[i] ^ 0x5c);
+
+		// Step 5, compute [ H( K XOR opad, H( K XOR ipad, text ) ) ]
+		digester.update( step4 );
+		digester.update( step3 );
+		byte [] step5 = digester.digest();
+		digester.reset();
+
+		return getHexString( step5 );
+	}
+
+	private static String getHexString( byte [] bytes )
+	{
+		byte [] output = new byte[ bytes.length + 1 ];
+		for ( int i = 0; i < bytes.length; ++i )
+			output[i+1] = bytes[i];
+
+		return (new BigInteger( output )).toString( 16 );
 	}
 
 	/**
@@ -110,12 +214,7 @@ public class LoginRequest extends KoLRequest
 
 		try
 		{
-			KoLRequest.applySettings();
-			if ( username.toLowerCase().startsWith( "devster" ) )
-			{
-				this.savePassword = false;
-				setLoginServer( "dev.kingdomofloathing.com" );
-			}
+			detectChallenge();
 
 			KoLmafia.forceContinue();
 			if ( KoLmafia.permitsContinue() && executeLogin() )
@@ -168,6 +267,7 @@ public class LoginRequest extends KoLRequest
 		KoLmafia.updateDisplay( "Sending login request..." );
 
 		super.run();
+System.out.println( ":" + responseText );
 
 		if ( responseCode == 302 && redirectLocation.equals( "maint.php" ) )
 		{
@@ -189,9 +289,9 @@ public class LoginRequest extends KoLRequest
 			// save the password, do so here.
 
 			if ( this.savePassword )
-				client.addSaveState( username, password );
+				KoLmafia.addSaveState( username, password );
 			else
-				client.removeSaveState( username );
+				KoLmafia.removeSaveState( username );
 
 			KoLmafia.forceContinue();
 			sessionID = formConnection.getHeaderField( "Set-Cookie" );
