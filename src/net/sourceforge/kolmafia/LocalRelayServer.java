@@ -79,7 +79,7 @@ public class LocalRelayServer implements Runnable
 	{	return listening;
 	}
 
-	public synchronized void run()
+	public void run()
 	{
 		port = 60080;
 		while ( port <= 60090 && !openServerSocket() )
@@ -146,55 +146,44 @@ public class LocalRelayServer implements Runnable
 
 	private void closeAgents()
 	{
-		synchronized ( agentThreads )
+		while ( !agentThreads.isEmpty() )
 		{
-			while ( !agentThreads.isEmpty() )
-			{
-				RelayAgent agent = (RelayAgent) agentThreads.elementAt( 0 );
-				agentThreads.removeElementAt( 0 );
-				agent.setSocket( null );
-			}
+			RelayAgent agent = (RelayAgent) agentThreads.elementAt( 0 );
+			agentThreads.removeElementAt( 0 );
+			agent.setSocket( null );
 		}
 	}
 
 	private void dispatchAgent( Socket socket )
 	{
 		RelayAgent agent = null;
-		synchronized ( agentThreads )
+
+		for ( int i = 0; i < agentThreads.size(); ++i )
 		{
-			for ( int i = 0; i < agentThreads.size(); ++i )
+			agent = (RelayAgent) agentThreads.elementAt(i);
+			if ( agent.isWaiting() )
 			{
-				agent = (RelayAgent) agentThreads.elementAt(i);
-				if ( agent.isWaiting() )
-				{
-					agent.setSocket( socket );
-					return;
-				}
+				agent.setSocket( socket );
+				return;
 			}
 		}
 	}
 
 	public static void addStatusMessage( String message )
 	{
-		synchronized( statusMessages )
-		{
-			if ( isRunning() && !LoginRequest.isInstanceRunning() && lastStatusMessage - System.currentTimeMillis() < 30000 )
-				statusMessages.append( message );
-			else
-				statusMessages.setLength(0);
-		}
+		if ( isRunning() && !LoginRequest.isInstanceRunning() && lastStatusMessage - System.currentTimeMillis() < 30000 )
+			statusMessages.append( message );
+		else
+			statusMessages.setLength(0);
 	}
 
 	public static String getNewStatusMessages()
 	{
-		synchronized ( statusMessages )
-		{
-			lastStatusMessage = System.currentTimeMillis();
+		lastStatusMessage = System.currentTimeMillis();
 
-			String newMessages = statusMessages.toString();
-			statusMessages.setLength(0);
-			return newMessages;
-		}
+		String newMessages = statusMessages.toString();
+		statusMessages.setLength(0);
+		return newMessages;
 	}
 
 	private class RelayAgent implements Runnable
@@ -205,13 +194,13 @@ public class LocalRelayServer implements Runnable
 		{	return socket == null;
 		}
 
-		synchronized void setSocket( Socket socket )
+		void setSocket( Socket socket )
 		{
 			this.socket = socket;
 			notify();
 		}
 
-		public synchronized void run()
+		public void run()
 		{
 			while ( true )
 			{

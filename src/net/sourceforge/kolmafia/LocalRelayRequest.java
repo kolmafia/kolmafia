@@ -157,7 +157,7 @@ public class LocalRelayRequest extends KoLRequest
 		// Fix KoLmafia getting outdated by events happening
 		// in the browser by using the sidepane.
 
-		else if ( formURLString.indexOf( "charpane.php") != -1 )
+		else if ( formURLString.indexOf( "charpane.php" ) != -1 )
 		{
 			if ( !isRunningCommand )
 				CharpaneRequest.processCharacterPane( responseText );
@@ -572,11 +572,17 @@ public class LocalRelayRequest extends KoLRequest
 
 	protected void sideCommand()
 	{
-		synchronized ( DEFAULT_SHELL )
+		KoLmafia.forceContinue();
+		if ( commandQueue.isEmpty() )
 		{
-			KoLmafia.forceContinue();
-			DEFAULT_SHELL.executeLine( getFormField( "cmd" ) );
-			KoLmafia.enableDisplay();
+			commandQueue.add( getFormField( "cmd" ) );
+			(new CommandRunnable()).run();
+		}
+		else
+		{
+			commandQueue.add( getFormField( "cmd" ) );
+			while ( !commandQueue.isEmpty() )
+				delay( 1000 );
 		}
 
 		pseudoResponse( "HTTP/1.1 302 Found", "/charpane.php" );
@@ -616,11 +622,8 @@ public class LocalRelayRequest extends KoLRequest
 
 				try
 				{
-					synchronized ( DEFAULT_SHELL )
-					{
-						KoLmafia.forceContinue();
-						DEFAULT_SHELL.executeLine( command );
-					}
+					KoLmafia.forceContinue();
+					DEFAULT_SHELL.executeLine( command );
 				}
 				catch ( Exception e )
 				{

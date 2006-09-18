@@ -47,7 +47,8 @@ import java.util.regex.Matcher;
 
 public class CharpaneRequest extends KoLRequest
 {
-	private boolean isRunning = false;
+	private static boolean isRunning = false;
+	private static boolean isProcessing = false;
 	private static CharpaneRequest instance = null;
 
 	private CharpaneRequest( KoLmafia client )
@@ -81,8 +82,13 @@ public class CharpaneRequest extends KoLRequest
 	{	processCharacterPane( this.responseText );
 	}
 
-	public static synchronized void processCharacterPane( String responseText )
+	public static void processCharacterPane( String responseText )
 	{
+		if ( isProcessing )
+			return;
+
+		isProcessing = true;
+
 		// By refreshing the KoLCharacter pane, you can
 		// determine whether or not you are in compact
 		// mode - be sure to refresh this value.
@@ -113,6 +119,7 @@ public class CharpaneRequest extends KoLRequest
 
 		refreshEffects( responseText );
 		KoLCharacter.updateStatus();
+		isProcessing = false;
 	}
 
 	private static void handleCompactMode( String responseText )

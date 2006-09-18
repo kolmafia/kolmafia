@@ -86,7 +86,7 @@ public class CharsheetRequest extends KoLRequest
 	{	parseStatus( responseText );
 	}
 
-	public static synchronized void parseStatus( String responseText )
+	public static void parseStatus( String responseText )
 	{
 		// Set the character's avatar.
 		Matcher avatarMatcher = AVATAR_PATTERN.matcher( responseText );

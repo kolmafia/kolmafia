@@ -1298,13 +1298,10 @@ public abstract class KoLFrame extends JFrame implements KoLConstants
 			this.types = types;
 			this.editable = editable;
 
-			synchronized ( list )
-			{
-				for ( int i = 0; i < list.size(); ++i )
-					insertRow( i, constructVector( list.get(i) ) );
+			for ( int i = 0; i < list.size(); ++i )
+				insertRow( i, constructVector( list.get(i) ) );
 
-				list.addListDataListener( this );
-			}
+			list.addListDataListener( this );
 		}
 
 		public String getColumnName( int index )

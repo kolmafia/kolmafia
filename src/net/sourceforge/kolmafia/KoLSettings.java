@@ -102,7 +102,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 			name.startsWith( "saveState" ) || name.startsWith( "loginScript" ) || name.startsWith( "getBreakfast" );
 	}
 
-	public synchronized String getProperty( String name )
+	public String getProperty( String name )
 	{
 		boolean isGlobalProperty = isGlobalProperty( name );
 
@@ -118,7 +118,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		return value == null ? "" : value;
 	}
 
-	public synchronized Object setProperty( String name, String value )
+	public Object setProperty( String name, String value )
 	{
 		boolean isGlobalProperty = isGlobalProperty( name );
 
@@ -137,7 +137,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		return oldValue;
 	}
 
-	public synchronized void saveSettings()
+	public void saveSettings()
 	{
 		storeSettings( settingsFile );
 		if ( GLOBAL_SETTINGS != null && this != GLOBAL_SETTINGS )
@@ -153,7 +153,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	 * @param	source	The file that contains (or will contain) the character data
 	 */
 
-	private synchronized void loadSettings( File source )
+	private void loadSettings( File source )
 	{
 		try
 		{
@@ -199,7 +199,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 		}
 	}
 
-	private static synchronized void initializeMaps()
+	private static void initializeMaps()
 	{
 		// Do not initialize the maps more than once, as this
 		// would not serve any purpose.
@@ -355,7 +355,7 @@ public class KoLSettings extends Properties implements UtilityConstants, KoLCons
 	 * key is loaded.
 	 */
 
-	private synchronized void ensureDefaults()
+	private void ensureDefaults()
 	{
 		// If this is the set of global settings, be sure
 		// to initialize the global settings.
