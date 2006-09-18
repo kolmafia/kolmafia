@@ -678,10 +678,9 @@ public class KoLRequest implements Runnable, KoLConstants
 				AdventureRequest.registerEncounter( this );
 
 			if ( !shouldIgnoreResults() )
-			{
 				parseResults();
-				processResults();
-			}
+
+			processResults();
 
 			if ( responseText.indexOf( "you look down and notice a ten-leaf clover" ) != -1 )
 			{
