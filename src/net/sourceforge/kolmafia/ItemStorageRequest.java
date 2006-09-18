@@ -201,45 +201,6 @@ public class ItemStorageRequest extends SendMessageRequest
 		KoLCharacter.updateStatus();
 	}
 
-	/**
-	 * Executes the <code>ItemStorageRequest</code>.
-	 */
-
-	public void run()
-	{
-		switch ( moveType )
-		{
-			case EMPTY_STORAGE:
-				KoLmafia.updateDisplay( "Emptying storage..." );
-				break;
-
-			case STORAGE_TO_INVENTORY:
-				KoLmafia.updateDisplay( "Moving items..." );
-				break;
-
-			case RETRIEVE_STORAGE:
-				KoLmafia.updateDisplay( "Retrieving storage contents..." );
-				break;
-
-			case INVENTORY_TO_CLOSET:
-			case CLOSET_TO_INVENTORY:
-				KoLmafia.updateDisplay( "Moving items..." );
-				break;
-
-			case CLOSET_YOUR_CLOVERS:
-				KoLmafia.updateDisplay( "Ladies and gentlemen of the Kingdom of Loathing. KoLmafia is closeting your clovers..." );
-				break;
-
-			case MEAT_TO_CLOSET:
-			case MEAT_TO_INVENTORY:
-			case PULL_MEAT_FROM_STORAGE:
-				KoLmafia.updateDisplay( "Executing transaction..." );
-				break;
-		}
-
-		super.run();
-	}
-
 	private void handleMeat()
 	{
 		if ( moveType == PULL_MEAT_FROM_STORAGE )

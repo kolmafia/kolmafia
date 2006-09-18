@@ -94,18 +94,6 @@ public class MuseumRequest extends SendMessageRequest
 	{	return "";
 	}
 
-	public void run()
-	{
-		if ( isManagement && isDeposit )
-			KoLmafia.updateDisplay( "Placing items inside display case..." );
-		else if ( isManagement )
-			KoLmafia.updateDisplay( "Moving items from display case..." );
-		else
-			KoLmafia.updateDisplay( "Updating collection..." );
-
-		super.run();
-	}
-
 	protected void processResults()
 	{
 		super.processResults();
