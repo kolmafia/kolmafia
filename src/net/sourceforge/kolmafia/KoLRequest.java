@@ -75,6 +75,8 @@ public class KoLRequest implements Runnable, KoLConstants
 	private static final Pattern CHOICE_PATTERN = Pattern.compile( "whichchoice value=(\\d+)" );
 	private static final Pattern EVENT_PATTERN = Pattern.compile( "<table width=.*?<table><tr><td>(.*?)</td></tr></table>.*?<td height=4></td></tr></table>" );
 
+	protected static final Pattern REDIRECT_PATTERN = Pattern.compile( "([^\\/]+)/login\\.php", Pattern.DOTALL );
+
 	protected static String sessionID = null;
 	protected static String passwordHash = null;
 	private static boolean wasLastRequestSimple = false;
@@ -1088,8 +1090,18 @@ public class KoLRequest implements Runnable, KoLConstants
 			}
 			else if ( redirectLocation.indexOf( "login.php" ) != -1 )
 			{
+				if ( LoginRequest.isInstanceRunning()  )
+				{
+					Matcher matcher = REDIRECT_PATTERN.matcher( redirectLocation );
+					if ( matcher.find() )
+					{
+						setLoginServer( matcher.group(1) );
+						return false;
+					}
+				}
+
 				KoLmafia.updateDisplay( ABORT_STATE, "Session timed out." );
-				if ( !LoginRequest.isInstanceRunning() && StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
+				if ( StaticEntity.getBooleanProperty( "autoExecuteTimeIn" ) )
 				{
 					LoginRequest.executeTimeInRequest( false );
 					return sessionID == null;
