@@ -470,7 +470,6 @@ public class MallPurchaseRequest extends KoLRequest implements Comparable
 			if ( responseText.indexOf( "acquire <b>" + COMMA_FORMAT.format( i ) ) != -1 )
 				quantityAcquired = i;
 
-		client.processResult( new AdventureResult( itemID, quantityAcquired ) );
 		client.processResult( new AdventureResult( AdventureResult.MEAT, -1 * price * quantityAcquired ) );
 
 		KoLCharacter.updateStatus();
