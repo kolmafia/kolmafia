@@ -662,6 +662,16 @@ public class MoonPhaseDatabase extends StaticEntity
 			}
 		}
 
+		// If today is a real life holiday that doesn't map to a KoL
+		// holiday, list it here.
+
+		if ( SPECIAL[ getCalendarDay( time ) ] != SP_HOLIDAY )
+		{
+			String holiday = getRealLifeOnlyHoliday( DATED_FILENAME_FORMAT.format( time ) );
+			if ( holiday != null )
+				predictionsList.add( holiday + ": today" );
+		}
+
 		String [] predictionsArray = new String[ predictionsList.size() ];
 		predictionsList.toArray( predictionsArray );
 		return predictionsArray;
@@ -757,29 +767,34 @@ public class MoonPhaseDatabase extends StaticEntity
 		// variables for holidays on the KoL JS Almanac
 		// (http://home.cinci.rr.com/jrsiebz/KoL/almanac.html)
 
-		if ( stringDate.endsWith( "0202" ) )
-			return "Groundhog Day";
-
 		if ( stringDate.endsWith( "0214" ) )
 			return "Valentine's Day";
 
 		if ( stringDate.endsWith( "0317" ) )
 			return "St. Sneaky Pete's Day";
 
-		if ( stringDate.endsWith( "0401" ) )
-			return "April Fool's Day";
-
 		if ( stringDate.equals( easter ) )
 			return "Oyster Egg Day";
-
-		if ( stringDate.endsWith( "0919" ) )
-			return "Talk Like a Pirate Day";
 
 		if ( stringDate.endsWith( "1031" ) )
 			return "Halloween";
 
 		if ( stringDate.endsWith( thanksgiving ) )
 			return "Feast of Boris";
+
+		return getRealLifeOnlyHoliday( stringDate );
+	}
+
+	public static String getRealLifeOnlyHoliday( String stringDate )
+	{
+		if ( stringDate.endsWith( "0202" ) )
+			return "Groundhog Day";
+
+		if ( stringDate.endsWith( "0401" ) )
+			return "April Fool's Day";
+
+		if ( stringDate.endsWith( "0919" ) )
+			return "Talk Like a Pirate Day";
 
 		if ( stringDate.endsWith( "1225" ) )
 			return "Crimbo";
