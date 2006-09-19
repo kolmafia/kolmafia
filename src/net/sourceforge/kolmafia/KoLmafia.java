@@ -1251,7 +1251,8 @@ public abstract class KoLmafia implements KoLConstants
 				}
 				else if ( adventure.getRequest() instanceof SewerRequest )
 				{
-					AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) );
+					if ( iterations < KoLCharacter.getAdventuresLeft() )
+						AdventureDatabase.retrieveItem( SewerRequest.GUM.getInstance( iterations ) );
 				}
 			}
 
@@ -2387,7 +2388,10 @@ public abstract class KoLmafia implements KoLConstants
 			KoLmafia.updateDisplay( ABORT_STATE, "Insufficient health to continue (auto-abort triggered)." );
 
 		if ( permitsContinue() )
+		{
 			updateDisplay( currentIterationString );
+			currentIterationString = "";
+		}
 	}
 
 	public void startRelayServer()
